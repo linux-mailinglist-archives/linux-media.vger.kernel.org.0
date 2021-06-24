@@ -2,93 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 678FE3B23D0
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 01:07:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30C333B2452
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 02:45:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230161AbhFWXJS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 19:09:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34918 "EHLO
+        id S229822AbhFXArc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 20:47:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229882AbhFWXJN (ORCPT
+        with ESMTP id S229758AbhFXArc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 19:09:13 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09DDEC061574
-        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 16:06:55 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dsl-hkibng32-54fb5d-176.dhcp.inet.fi [84.251.93.176])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id E38132025E;
-        Thu, 24 Jun 2021 02:06:45 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1624489606;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=SItRF4AQvZE4S9Y4n3JHJl8Oo2HpyCmycPOs/yrugrs=;
-        b=anaqdPflwfAB39MH2ES/aWFjkeOFuTX43DP5OaB6qaA0wB22L2VKw3bs3BiYzzqwXdrhVo
-        C+8dgXAZWWzKymPW3fi7RVqhvz+urVwQXSsWASNxRXyW+ujWnUFyP4pdwX4/JpeiCYA3gW
-        qNq5zaj0a0VEYp7BezhNemi9EndefuE=
-Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 3A6ED634C87;
-        Thu, 24 Jun 2021 02:06:32 +0300 (EEST)
-Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
-        by valkosipuli.localdomain with esmtp (Exim 4.92)
-        (envelope-from <sakari.ailus@iki.fi>)
-        id 1lwBxF-0000zc-CY; Thu, 24 Jun 2021 02:06:45 +0300
-Date:   Thu, 24 Jun 2021 02:06:45 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org
-Subject: Re: [PATCH -next] media: omap3isp: add missing unlock on error in
- isp_subdev_notifier_complete()
-Message-ID: <20210623230645.GI3@valkosipuli.retiisi.eu>
-References: <20210512092301.4124736-1-yangyingliang@huawei.com>
+        Wed, 23 Jun 2021 20:47:32 -0400
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C527C061756
+        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 17:45:13 -0700 (PDT)
+Received: by mail-qk1-x72d.google.com with SMTP id g4so10151938qkl.1
+        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 17:45:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=EFcFEiW34m53hHVRH/hYAOinlbr3mbVvwuYYaYtTuh8=;
+        b=G1KDqzwpGU22cmRZBgDHPWa87kbMIhmgX8Prq4EL0fmRPLBrFBeajfqHskFpu8RKTX
+         yPnWNNhZxtgtf1LNFARLTco5JxjiV2oulGE5y/6osdL4RwXiUVMTAG5ut6nrvgtCxcyW
+         WNdQQ1Be+uGC+xnXPFnIEB+CnxBIJjQavpHiEs+mnCS/UyCcFsHD23X3fg/71TBLMoTI
+         hf7TgXvMgDwaZel4MR99dGUXP8aAPP1F5KANaExTx3B1Gzybwmv9QfKVsJCcbxExhAHC
+         HBloe8ZRqPH9mLrrauCiklIS4IB5euV3NwN6tbG+Ga5k1mdv/+36MmqpccO7p5tm0V0m
+         ZRWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EFcFEiW34m53hHVRH/hYAOinlbr3mbVvwuYYaYtTuh8=;
+        b=YO5riPS7ba6XAnXCHRV/Z5xmsew7vh07jZV493jWPiD5cFOgcfqVn7jY3PaD9z0NQq
+         3Gi0QxOs7MGBXD1TYsfCgk/XynQJ84aIsxVqsaHLj+a9TgmPDB5GLie/4SBnqaMeOPUh
+         7DQ3WCw3VveEyjAH1EvsTqdHu7gvGH/rOG8/DeUVvT3PAiRKeqBnZhS1xiMjzpAUcMs0
+         QrVqAu4k0WpHHu0EMO/FFkjFE8rquLl3pKji0AWqXOYN7eIhL3CXH7cUU/DbxZv6chq6
+         ednJGTRC0bDJzqfN+53OPV8Oox1OZqn93DRZSugon3f1MeyFXR7xOYKAKIwpq6wi88f4
+         WniA==
+X-Gm-Message-State: AOAM532enjycTUe1QewriU1UrOP/iwGUPhWSiB39J1ucMb+oIx0rgDSy
+        uPJBFNocWu2Ei4qynFWRvC800g==
+X-Google-Smtp-Source: ABdhPJyllJgYeDzAla5FLLIkN9PiWxiijQsV7UXnwLjZeIyw9AzKaK9eZnxQ5B0p88Zubn0YY0PqUA==
+X-Received: by 2002:a37:b205:: with SMTP id b5mr3007100qkf.208.1624495512436;
+        Wed, 23 Jun 2021 17:45:12 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-47-55-113-94.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.113.94])
+        by smtp.gmail.com with ESMTPSA id n207sm1169771qka.101.2021.06.23.17.45.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jun 2021 17:45:11 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1lwDUV-00Bris-8h; Wed, 23 Jun 2021 21:45:11 -0300
+Date:   Wed, 23 Jun 2021 21:45:11 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Oded Gabbay <oded.gabbay@gmail.com>
+Cc:     Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Tomer Tayar <ttayar@habana.ai>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
+ FD for DMA-BUF
+Message-ID: <20210624004511.GA1096940@ziepe.ca>
+References: <20210622154027.GS1096940@ziepe.ca>
+ <09df4a03-d99c-3949-05b2-8b49c71a109e@amd.com>
+ <20210622160538.GT1096940@ziepe.ca>
+ <d600a638-9e55-6249-b574-0986cd5cea1e@gmail.com>
+ <20210623182435.GX1096940@ziepe.ca>
+ <CAFCwf111O0_YB_tixzEUmaKpGAHMNvMaOes2AfMD4x68Am4Yyg@mail.gmail.com>
+ <20210623185045.GY1096940@ziepe.ca>
+ <CAFCwf12tW_WawFfAfrC8bgVhTRnDA7DuM+0V8w3JsUZpA2j84w@mail.gmail.com>
+ <20210623193456.GZ1096940@ziepe.ca>
+ <CAFCwf13vM2T-eJUu42ht5jdXpRCF3UZh0Ow=vwN9QqZ=KNUBsQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210512092301.4124736-1-yangyingliang@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1624489606; a=rsa-sha256; cv=none;
-        b=kZR9CAlYl3f+UigA8iYtIK9ylAoTbnQVLj7OISDf+lSAqNmxgy0wshDeZRObZPoy4R9VyO
-        2K7+Camv032bOm7aGec5UHeXuferZE1hCKAiWPnErAOhrgprkOG5t4t9mUyeBkxerxCHLk
-        mA+BTakhT2JciFSwGKl+T8ksfnlV2MQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1624489606;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=SItRF4AQvZE4S9Y4n3JHJl8Oo2HpyCmycPOs/yrugrs=;
-        b=Li1xDqp/2H8nPQMIEkCG3V/by3l7u8rm4aw3aaNE2depkwaeEdZNZwDI4Zt+30ZcJuxkev
-        LAPoKq8aEROuuRPGNnpSF/N0MtXBAz4uqvnuD/wKsXjgymF5tDIapQrD9wSwaKB/4AGIec
-        nvTX4GlzI8zZC/bU09OS5CHoac1sW5w=
+In-Reply-To: <CAFCwf13vM2T-eJUu42ht5jdXpRCF3UZh0Ow=vwN9QqZ=KNUBsQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yang,
+On Wed, Jun 23, 2021 at 10:39:48PM +0300, Oded Gabbay wrote:
+> On Wed, Jun 23, 2021 at 10:34 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >
+> > On Wed, Jun 23, 2021 at 10:00:29PM +0300, Oded Gabbay wrote:
+> > > On Wed, Jun 23, 2021 at 9:50 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > > >
+> > > > On Wed, Jun 23, 2021 at 09:43:04PM +0300, Oded Gabbay wrote:
+> > > >
+> > > > > Can you please explain why it is so important to (allow) access them
+> > > > > through the CPU ?
+> > > >
+> > > > It is not so much important, as it reflects significant design choices
+> > > > that are already tightly baked into alot of our stacks.
+> > > >
+> > > > A SGL is CPU accessible by design - that is baked into this thing and
+> > > > places all over the place assume it. Even in RDMA we have
+> > > > RXE/SWI/HFI1/qib that might want to use the CPU side (grep for sg_page
+> > > > to see)
+> > > >
+> > > > So, the thing at the top of the stack - in this case the gaudi driver
+> > > > - simply can't assume what the rest of the stack is going to do and
+> > > > omit the CPU side. It breaks everything.
+> > > >
+> > > > Logan's patch series is the most fully developed way out of this
+> > > > predicament so far.
+> > >
+> > > I understand the argument and I agree that for the generic case, the
+> > > top of the stack can't assume anything.
+> > > Having said that, in this case the SGL is encapsulated inside a dma-buf object.
+> > >
+> > > Maybe its a stupid/over-simplified suggestion, but can't we add a
+> > > property to the dma-buf object,
+> > > that will be set by the exporter, which will "tell" the importer it
+> > > can't use any CPU fallback ? Only "real" p2p ?
+> >
+> > The block stack has been trying to do something like this.
+> >
+> > The flag doesn't solve the DMA API/IOMMU problems though.
+> hmm, I thought using dma_map_resource will solve the IOMMU issues,
+> no ?
 
-On Wed, May 12, 2021 at 05:23:01PM +0800, Yang Yingliang wrote:
-> Add the missing unlock before return from isp_subdev_notifier_complete()
-> in the error handling case.
-> 
-> Fixes: ba689d933361 ("media: omap3isp: Acquire graph mutex for graph traversal")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+dma_map_resource() will configure the IOMMU but it is not the correct
+API to use when building a SG list for DMA, that would be dma_map_sg
+or sgtable.
 
-Thanks for the patch. This is already fixed by another patch, accidentally
-left sitting in my tree... It'll be in the next pull request.
+So it works, but it is an API abuse to build things this way.
 
-<URL:https://patchwork.linuxtv.org/project/linux-media/patch/20210407143733.1608806-1-weiyongjun1@huawei.com/>
+> If I use dma_map_resource to set the addresses inside the SGL before I
+> export the dma-buf, and guarantee no one will use the SGL in the
+> dma-buf for any other purpose than device p2p, what else is needed ?
 
--- 
-Sakari Ailus
+You still have to check the p2p stuff to ensure that p2p is even
+possible
+
+And this approach is misusing all the APIs and has been NAK'd by
+Christoph, so up to Greg if he wants to take it or insist you work
+with Logan to get the proper generlized solution finished.
+
+Jason
