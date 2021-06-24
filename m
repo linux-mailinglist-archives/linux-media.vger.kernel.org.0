@@ -2,74 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C72893B26E6
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 07:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4970E3B277A
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 08:36:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbhFXFm1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Jun 2021 01:42:27 -0400
-Received: from verein.lst.de ([213.95.11.211]:53084 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229448AbhFXFm1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Jun 2021 01:42:27 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 5BF4867373; Thu, 24 Jun 2021 07:40:04 +0200 (CEST)
-Date:   Thu, 24 Jun 2021 07:40:03 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Oded Gabbay <oded.gabbay@gmail.com>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Tomer Tayar <ttayar@habana.ai>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to
- export FD for DMA-BUF
-Message-ID: <20210624054003.GB25165@lst.de>
-References: <20210622154027.GS1096940@ziepe.ca> <09df4a03-d99c-3949-05b2-8b49c71a109e@amd.com> <20210622160538.GT1096940@ziepe.ca> <d600a638-9e55-6249-b574-0986cd5cea1e@gmail.com> <20210623182435.GX1096940@ziepe.ca> <CAFCwf111O0_YB_tixzEUmaKpGAHMNvMaOes2AfMD4x68Am4Yyg@mail.gmail.com> <20210623185045.GY1096940@ziepe.ca> <CAFCwf12tW_WawFfAfrC8bgVhTRnDA7DuM+0V8w3JsUZpA2j84w@mail.gmail.com> <20210623193456.GZ1096940@ziepe.ca> <CAFCwf13vM2T-eJUu42ht5jdXpRCF3UZh0Ow=vwN9QqZ=KNUBsQ@mail.gmail.com>
+        id S231289AbhFXGiT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Jun 2021 02:38:19 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:53539 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231216AbhFXGiR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Jun 2021 02:38:17 -0400
+Received: from mail-wm1-f72.google.com ([209.85.128.72])
+        by youngberry.canonical.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <krzysztof.kozlowski@canonical.com>)
+        id 1lwIxx-0004lf-O8
+        for linux-media@vger.kernel.org; Thu, 24 Jun 2021 06:35:57 +0000
+Received: by mail-wm1-f72.google.com with SMTP id m6-20020a7bce060000b02901d2a0c361bfso2643007wmc.4
+        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 23:35:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=R0aLcGzQ8alnnx9N3rRdFLtO2M7ctE9WWithaXsLLWI=;
+        b=l3vcaIImvKoWVZES51EvNTbEnZm8TL07qiuxifkulRHGhiwgE54wPd1iUjI1j7rgPn
+         A3xbJqc+jxkTGtyQsaAmhb1E5Gvzlb3uHCQ6Sj9GbSSrHwl9VC5qdTE3rxx73hFeb2YI
+         FcsvPltkKGr0IYL5B7IqG2OxbKmkHRMCBzmG4g9G6kxs07CprqpFJSuiySsTurP+atXH
+         K3T32lo0WDVcKQ4+LwHhNxTR4nzbjhLMWK0OhZdabvboYiwRNAkYgA7xJFyd0ySvuc7x
+         HkHMcC2nDnU3xPGhQtd7RJPdT68LjtiDUAlCQQUv2xUurNCJijfw9QabQBBfnWNM6DVy
+         Xqyw==
+X-Gm-Message-State: AOAM532yLmmj1zu+Q5CzY9fewer9b9VKDUuPD5ZUY/1mOpiAdONgcwR+
+        076hgbL/KvNckNUfYoA/gdVjOCQLi8gcykBceUeIzohMNVlR2kwWVto1L6xNrcVmBrX5ogtszO5
+        RPa//yG9w+lTDzzr2J9VXlAPJUDr6CDGUhEjClX0o
+X-Received: by 2002:a1c:a597:: with SMTP id o145mr2277260wme.53.1624516557585;
+        Wed, 23 Jun 2021 23:35:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7R5Kid8X3SyYMWnamWceIwi3ZiQ7MY/ZL5RhUroHzBxtla7y73sqnE4+q/iG5Y5wgPNqwng==
+X-Received: by 2002:a1c:a597:: with SMTP id o145mr2277246wme.53.1624516557384;
+        Wed, 23 Jun 2021 23:35:57 -0700 (PDT)
+Received: from [192.168.1.115] (xdsl-188-155-177-222.adslplus.ch. [188.155.177.222])
+        by smtp.gmail.com with ESMTPSA id m184sm1893490wmm.26.2021.06.23.23.35.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Jun 2021 23:35:57 -0700 (PDT)
+Subject: Re: [PATCH] dt-bindings: Fix 'unevaluatedProperties' errors in DT
+ graph users
+To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20210623164344.2571043-1-robh@kernel.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Message-ID: <0fbde9aa-03c1-0343-3b6f-5a7945fd8df8@canonical.com>
+Date:   Thu, 24 Jun 2021 08:35:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFCwf13vM2T-eJUu42ht5jdXpRCF3UZh0Ow=vwN9QqZ=KNUBsQ@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20210623164344.2571043-1-robh@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 23, 2021 at 10:39:48PM +0300, Oded Gabbay wrote:
-> hmm, I thought using dma_map_resource will solve the IOMMU issues, no ?
-> We talked about it yesterday, and you said that it will "work"
-> (although I noticed a tone of reluctance when you said that).
+On 23/06/2021 18:43, Rob Herring wrote:
+> In testing out under development json-schema 2020-12 support, there's a
+> few issues with 'unevaluatedProperties' and the graph schema. If
+> 'graph.yaml#/properties/port' is used, then neither the port nor the
+> endpoint(s) can have additional properties. 'graph.yaml#/$defs/port-base'
+> needs to be used instead.
 > 
-> If I use dma_map_resource to set the addresses inside the SGL before I
-> export the dma-buf, and guarantee no one will use the SGL in the
-> dma-buf for any other purpose than device p2p, what else is needed ?
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: "Paul J. Murphy" <paul.j.murphy@intel.com>
+> Cc: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+> Cc: Krzysztof Kozlowski <krzk@kernel.org>
+> Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/display/bridge/lontium,lt8912b.yaml    | 3 ++-
+>  Documentation/devicetree/bindings/media/i2c/imx258.yaml        | 2 +-
+>  Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml   | 2 +-
+>  Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml   | 2 +-
+>  Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml   | 2 +-
+>  Documentation/devicetree/bindings/media/renesas,vin.yaml       | 3 ++-
+>  6 files changed, 8 insertions(+), 6 deletions(-)
+> 
 
-dma_map_resource works in the sense of that helps with mapping an
-arbitrary phys_addr_t for DMA.  It does not take various pitfalls of
-PCI P2P into account, such as the offset between the CPU physical
-address and the PCIe bus address, or the whole support of mapping between
-two devices behding a switch and not going through the limited root
-port support.
 
-Comparing dma_direct_map_resource/iommu_dma_map_resource with
-with pci_p2pdma_map_sg_attrs/__pci_p2pdma_map_sg should make that
-very clear.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 
-So if you want a non-page based mapping you need a "resource"-level
-version of pci_p2pdma_map_sg_attrs.  Which totall doable, and in fact
-mostly trivial.  But no one has even looked into providing one and just
-keeps arguing.
+
+Best regards,
+Krzysztof
