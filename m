@@ -2,70 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A83933B3042
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 15:40:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A89F73B3081
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 15:51:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231396AbhFXNmX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Jun 2021 09:42:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60754 "EHLO mail.kernel.org"
+        id S231488AbhFXNxa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Jun 2021 09:53:30 -0400
+Received: from ni.piap.pl ([195.187.100.5]:48610 "EHLO ni.piap.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229995AbhFXNmW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Jun 2021 09:42:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id B37C0613DC;
-        Thu, 24 Jun 2021 13:40:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624542003;
-        bh=8200jJar8YhGhKF5JuraOSmsv2NeCaSFWxQjEgXS1rs=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=jxbuHlMEVW7BI0PNQOJgwYPGhgUb+KC+g1Qd3Jv3101L7aXpRdQ1BU1ljR57QmpNB
-         ODiyD8bPvY/mVXE2b1QCQ5hyW7hvc3C5kqeIfisFqXJFhpX8jLhGYHfNmJvoWopvfv
-         UXo0ySMDPPbLl2KKVkHy/k74lzyZsEVc+q09a1HeN11dKRlYhhGxdtBzT1G4VhgY1l
-         bribe6PGj7aDgKve+mVAcjK04DwpXLrypKpWRZY2nrFQawB0vRrXx8TXhFZYjexuNl
-         QzNGzPrdaj8hICKEBY9N0MUodLiIbASddrCHLxgVk9K7/koMGL7AEGLD3CIxwbSy2r
-         yt2261FHdgQZA==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id A443E60978;
-        Thu, 24 Jun 2021 13:40:03 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        id S229878AbhFXNx1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Jun 2021 09:53:27 -0400
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ni.piap.pl (Postfix) with ESMTPSA id 43AFF4A007F;
+        Thu, 24 Jun 2021 15:51:07 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 43AFF4A007F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1624542667; bh=iZokXqKYXfRMHlzzc+3WHHQK5qezOQnwsWK0rYBbXYA=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=g7rd6tIHansD8tP7LG+4RPKWObdH+H/ofDKOoWXJzSl1mYWXnWnubLEepHVxXyce8
+         3Te9LYLUHulpPzOWEPEC8F7cNzVQFqefIjHALaEJNnUF0jftjpHkljAzMeWymy5cfK
+         DLhR7rBsOuEH89La42VAhKKdpXvJc2HtltZ4eyOE=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC v2] MEDIA: Driver for ON Semi AR0521 camera sensor
+References: <m3wnqm5eqo.fsf@t19.piap.pl>
+        <YNHQDNdpxcY8+IV2@pendragon.ideasonboard.com>
+        <20210624131048.1272f272@coco.lan>
+Sender: khalasa@piap.pl
+Date:   Thu, 24 Jun 2021 15:51:07 +0200
+In-Reply-To: <20210624131048.1272f272@coco.lan> (Mauro Carvalho Chehab's
+        message of "Thu, 24 Jun 2021 13:10:48 +0200")
+Message-ID: <m3sg174bhw.fsf@t19.piap.pl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] media: bpf: do not copy more entries than user space
- requested
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <162454200366.13710.10179869349829486025.git-patchwork-notify@kernel.org>
-Date:   Thu, 24 Jun 2021 13:40:03 +0000
-References: <20210623213754.632-1-sean@mess.org>
-In-Reply-To: <20210623213754.632-1-sean@mess.org>
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org, ast@kernel.org, daniel@iogearbox.net,
-        andrii@kernel.org, bpf@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 4
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, whitelist
+X-KLMS-AntiPhishing: not scanned, whitelist
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello:
+Hi Mauro,
 
-This patch was applied to bpf/bpf-next.git (refs/heads/master):
+Mauro Carvalho Chehab <mchehab@kernel.org> writes:
 
-On Wed, 23 Jun 2021 22:37:54 +0100 you wrote:
-> The syscall bpf(BPF_PROG_QUERY, &attr) should the prog_cnt field to see
-> how many entries user space provided and return ENOSPC if there are
-> more programs than that. Before this patch, this is not checked and
-> ENOSPC is never returned.
-> 
-> Note that one lirc device is limited to 64 bpf programs, and user space
-> I'm aware of -- ir-keytable -- always gives enough space for 64 entries
-> already. However, we should not copy program ids than are requested.
-> 
-> [...]
+> Media maintainers need a SoB in order to be able to review, as
+> driver review takes a lot of time and efforts from reviewers, and
+> the time they spend reviewing a driver prevents them to do their
+> (paid) work.
 
-Here is the summary with links:
-  - media: bpf: do not copy more entries than user space requested
-    https://git.kernel.org/bpf/bpf-next/c/647d446d66e4
+Then how do you propose we solve the problem?
 
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+For example, how about a declaration: that if somebody is working on
+a driver (in this case) and has actually presented a (possibly not yet
+mergeable) patch, then versions of this code from other people will not
+be accepted at the same time instead. Please note that I don't mean
+abandoned code, I mean a code which simply needs some work and thus
+a bit of time.
 
+Those other people can always apply their changes once the original code
+is accepted, right? And the changes may get a chance to be examined :-)
 
+Or is it too much?
+
+> That's said, on a very quick check, it sounds that this driver requires
+> some work. For instance, it is based on an v4l2_subdev_pad_config,
+> which was recently replaced upstream.
+
+Well, TBH drivers/media is a fast moving target... But it's something.
+I will obviously update this when I'm back from vacation.
+
+Thanks.
+--=20
+Krzysztof Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
