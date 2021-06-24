@@ -2,153 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30C333B2452
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 02:45:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 651F53B254F
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 05:15:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbhFXArc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 20:47:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56590 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229758AbhFXArc (ORCPT
+        id S229818AbhFXDSF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 23:18:05 -0400
+Received: from mx-lax3-1.ucr.edu ([169.235.156.35]:30022 "EHLO
+        mx-lax3-1.ucr.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229759AbhFXDSE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 20:47:32 -0400
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C527C061756
-        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 17:45:13 -0700 (PDT)
-Received: by mail-qk1-x72d.google.com with SMTP id g4so10151938qkl.1
-        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 17:45:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=EFcFEiW34m53hHVRH/hYAOinlbr3mbVvwuYYaYtTuh8=;
-        b=G1KDqzwpGU22cmRZBgDHPWa87kbMIhmgX8Prq4EL0fmRPLBrFBeajfqHskFpu8RKTX
-         yPnWNNhZxtgtf1LNFARLTco5JxjiV2oulGE5y/6osdL4RwXiUVMTAG5ut6nrvgtCxcyW
-         WNdQQ1Be+uGC+xnXPFnIEB+CnxBIJjQavpHiEs+mnCS/UyCcFsHD23X3fg/71TBLMoTI
-         hf7TgXvMgDwaZel4MR99dGUXP8aAPP1F5KANaExTx3B1Gzybwmv9QfKVsJCcbxExhAHC
-         HBloe8ZRqPH9mLrrauCiklIS4IB5euV3NwN6tbG+Ga5k1mdv/+36MmqpccO7p5tm0V0m
-         ZRWQ==
+        Wed, 23 Jun 2021 23:18:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
+  t=1624504546; x=1656040546;
+  h=from:to:cc:subject:date:message-id;
+  bh=SblKopDqFHSiwCfGDOMHISY6FX5IDGcC7lO8ql3WkLo=;
+  b=P5pXVZTNTkA1VwHnzNh4or0VHC5u2OhK3SP4jRcN8H0PrpZ+yt38qOEV
+   uSV3ULMoyzzr6b8tsrchJJrCEGXa2rOrnoD5QzJLAhJ4DHniPIAB3cBiD
+   ZNprVQa7t/tON1wQITlE2rl1bqFrWDof8Sh6nU2NNTuYqms2nrPoUQTAm
+   3XSkzyjfJhfPfe7QLC+f2p94a3NTkmgNgw/qUQlOLuMsTCSftYegaAgyb
+   xFsDBT5lXXT0N8WpGOrIjyxhrPIcHsG/776YawiR3UcMvVInJPPZU67f5
+   zJQCu13N07jyWewY9YUc57SgODxSL9ruH7/fKnRMyKfXRSQwbsYY98Zrd
+   g==;
+IronPort-SDR: H+vlGN629ID7s9Qa7COPP73KG0mQ9/zN+eBsXCggcufIrnfbhdPBuyGElzBusLVJbMFmK1qDhh
+ bDhNLqi5poYr1Mv7tAbQFZcdPJI6+PvHQq/MbQ6gbXiZvsBiR7X95UNmKLmswvoKwuYKGf7Qwm
+ RxFKENLrNV7M57Kd2qFCf+9db/SKdYl+KMcfYcarev33DG8hAZL4zqRbkl1TLET3Z4pPOI8zlL
+ Db1clJxn3FVTiqqnaszhOc9dOIj9gVb3B1t0OfOJwgf78o17UuJL4b1fNBUYCh5e84MR+tr9kW
+ l1s=
+X-IPAS-Result: =?us-ascii?q?A2FJBQAu+NNghsXSVdFagmCDeVUWjUyHMQEBBowZGH+Ge?=
+ =?us-ascii?q?YhlgXwCCQEBAQ0BAUEEAQGEUIJwAiU0CQ4CBAEBAQEDAgMBAQEBBQEBBgEBA?=
+ =?us-ascii?q?QEBAQUEAQECEAEBAQFshS9Ggjgpg2ULFhVSUEUBBQE1IjmCFgGCYSaaH4EGP?=
+ =?us-ascii?q?YwxM4EBiBoBCQ2BYgkBCIEoiHqFF4EZgRCEAnSHb4JQBIMbexODdgEBAZAQG?=
+ =?us-ascii?q?4MEAYw7m0YBBgKDBRyCfppuRIZUjiWQfromAgoHBhAjgTGCFU0lgWwKgUFQG?=
+ =?us-ascii?q?Q6NdQFCjjVBMjgCBgoBAQMJjCsB?=
+IronPort-PHdr: A9a23:O5P+QBWhj4vKrceaSIgIKE5LRUDV8KwEVTF92vMcY1JmTK2v8tzYM
+ VDF4r011RmVBNSdsK4YwLaJ+4nbGkU4qa6bt34DdJEeHzQksu4x2zIaPcieFEfgJ+TrZSFpV
+ O5LVVti4m3peRMNQJW2aFLduGC94iAPERvjKwV1Ov71GonPhMiryuy+4ZLebxhMiTanb75/I
+ xq7oQreu8QUnIBvNrs/xhzVr3VSZu9Y33loJVWdnxb94se/4ptu+DlOtvwi6sBNT7z0c7w3Q
+ rJEAjsmNXs15NDwuhnYUQSP/HocXX4InRdOHgPI8Qv1Xpb1siv9q+p9xCyXNtD4QLwoRTiv6
+ bpgRQT2gykbKTE27GDXitRxjK1FphKhuwd/yJPQbI2MKfZyYr/RcdYcSGpEX8ZRTDdBAoK6b
+ 4sAEuEPI/9WpJTzp1sPsxS+ARSjD/7rxjJGmnP62Ks33OM9HAzIwAAsAssCvGjJoN7oMKseT
+ OC4wKzOwD7ebf1ZxC395ZDIfB4/vP+CU7F+f83KxEUzCw/IlEmcpJb5Mz+J0OkGrmiV7/BnV
+ eKqk2MoqQBxozmvxscxjYnCm4UYy1DF9CV52ok1JMG0RFJ1bNO/DZtfqzuaO5FoTcw/XmFlo
+ SA3waAJtpCnZiYF0ognxwLBZPyddYiF+h3uWPiTLDl4mH5ofLKxiwiy/EWjxOPxSNe43lZLo
+ ydHj9TBt3IA2hjS58WGVPZw4kSs1SqT2w3R9+1JLl44m6rdJpU8wbAwjoIevVrfEiLygkn7j
+ 6+bel869uS19+jreKjqq5ueOoNslw3zM6AjltahDek2MgUCRXaX9Oam2LH940H0TrNHheAsn
+ KbDqpDVP8Ebq7a8Aw9Sz4ks9Q6yDyyj0NQEhXkHK09FeA6fg4jpJV7OJPf4AO+6g1u2kTdrw
+ +nKPqXvApnQN3TDnqrtcLJ/5kJGxwozytdf551QCr4fOv78RkjxtNnAAh84NQy73frnBc1j2
+ o8CXW+DGKyUPaPIvVOW++4jP/OAaJIRtTv/M/Ql4uThjX49mV8TZ6mp2p4XZWi4H/VnI0WWe
+ 3vsjssdHWoEpQc+UfDliEeYXTFNenmyQrow5isnB4K+EYfDWoetjaSF3Ce6GJ1We29HBkmJE
+ Xj2aoqEWu0DZTmMIs9ujDMET6KtS4w/2hG0sg/11b5nIvDT+i0CupKwnPZv4OiGpBAg9SFzR
+ 5CMwWGETjksxUsVTCVw0axi9x8ugmyf2LR11qQLXedY4OlEB0JnaPbh
+IronPort-HdrOrdr: A9a23:VQRTm6PXI4t6ysBcTsCjsMiBIKoaSvp037Dk7TEVdfU7SL3+qy
+ nDpoV56faLskd2ZJhIo7npU8m9qBvnlKKdirNhWYtKMjOW2ldA77sO0WIh+Vfd8uHFmdK1rZ
+ 0QCpSWweedY2RHsQ==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="5.83,295,1616482800"; 
+   d="scan'208";a="50373552"
+Received: from mail-pf1-f197.google.com ([209.85.210.197])
+  by smtp-lax3-1.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Jun 2021 20:15:46 -0700
+Received: by mail-pf1-f197.google.com with SMTP id j24-20020a62b6180000b0290303645fae06so3000237pff.22
+        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 20:15:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EFcFEiW34m53hHVRH/hYAOinlbr3mbVvwuYYaYtTuh8=;
-        b=YO5riPS7ba6XAnXCHRV/Z5xmsew7vh07jZV493jWPiD5cFOgcfqVn7jY3PaD9z0NQq
-         3Gi0QxOs7MGBXD1TYsfCgk/XynQJ84aIsxVqsaHLj+a9TgmPDB5GLie/4SBnqaMeOPUh
-         7DQ3WCw3VveEyjAH1EvsTqdHu7gvGH/rOG8/DeUVvT3PAiRKeqBnZhS1xiMjzpAUcMs0
-         QrVqAu4k0WpHHu0EMO/FFkjFE8rquLl3pKji0AWqXOYN7eIhL3CXH7cUU/DbxZv6chq6
-         ednJGTRC0bDJzqfN+53OPV8Oox1OZqn93DRZSugon3f1MeyFXR7xOYKAKIwpq6wi88f4
-         WniA==
-X-Gm-Message-State: AOAM532enjycTUe1QewriU1UrOP/iwGUPhWSiB39J1ucMb+oIx0rgDSy
-        uPJBFNocWu2Ei4qynFWRvC800g==
-X-Google-Smtp-Source: ABdhPJyllJgYeDzAla5FLLIkN9PiWxiijQsV7UXnwLjZeIyw9AzKaK9eZnxQ5B0p88Zubn0YY0PqUA==
-X-Received: by 2002:a37:b205:: with SMTP id b5mr3007100qkf.208.1624495512436;
-        Wed, 23 Jun 2021 17:45:12 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-47-55-113-94.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.113.94])
-        by smtp.gmail.com with ESMTPSA id n207sm1169771qka.101.2021.06.23.17.45.11
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=+IbvtWPOhTjlxqwR4MNXPf2er5NRjM2nXY4Wvi5w5Z8=;
+        b=bu+Jza0sX7FmcwdcjT+wEyy7ezF2NouP9TQFVYTkXLJuidNwcn1ZE1fY6osMXsfE8D
+         2DpSupNuH2+DBsyhGfU48jTWy1bTeIdSYw1qEbdYJ8oGV/ZbLvwsmXA/9t6LYe/q7itV
+         8ZTxZACrVlD5rmK7o8hQ5yVPhhWv2hpRbfhQYeJSo15zIx9brJMMaIyEAkUt2rW7A6J1
+         W7vySw8DzFoUP3kz/1nUQIJAJsCxPfuXPdl/93qVrqGSAJbaJjy3HLDN/jotme3VDX3r
+         ksEDNH0jAQRvRewgwScINTq0CtvnW0PbeqV3P5toK8xbqlkZHv1OvoA2I8grcOK0G+R+
+         rFFQ==
+X-Gm-Message-State: AOAM53253oTC1neyhiOgdrAUgITcJXeQmV6+PCh2YEkVyM24lpb5MDlS
+        qG1iDOx0iPa71CsqU5WGqe3iPByL7HT2NanvrehyXmXmcdeyiw5w0ljns7K9E37sEu4XeECKaw2
+        JhEMqwzVcmz1V2v+eyiqqg/IY
+X-Received: by 2002:a17:90b:1291:: with SMTP id fw17mr3008328pjb.105.1624504545080;
+        Wed, 23 Jun 2021 20:15:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy4C+kYv2hUl0KJDQVzoA3q03zbeF8vVcB+7UTZ0fKdC08nXOLdUMs3yBBA0ckjCw+LxUv8Zg==
+X-Received: by 2002:a17:90b:1291:: with SMTP id fw17mr3008313pjb.105.1624504544896;
+        Wed, 23 Jun 2021 20:15:44 -0700 (PDT)
+Received: from kq.cs.ucr.edu (kq.cs.ucr.edu. [169.235.27.223])
+        by smtp.googlemail.com with ESMTPSA id u7sm811917pjd.55.2021.06.23.20.15.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jun 2021 17:45:11 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1lwDUV-00Bris-8h; Wed, 23 Jun 2021 21:45:11 -0300
-Date:   Wed, 23 Jun 2021 21:45:11 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Oded Gabbay <oded.gabbay@gmail.com>
-Cc:     Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Tomer Tayar <ttayar@habana.ai>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
- FD for DMA-BUF
-Message-ID: <20210624004511.GA1096940@ziepe.ca>
-References: <20210622154027.GS1096940@ziepe.ca>
- <09df4a03-d99c-3949-05b2-8b49c71a109e@amd.com>
- <20210622160538.GT1096940@ziepe.ca>
- <d600a638-9e55-6249-b574-0986cd5cea1e@gmail.com>
- <20210623182435.GX1096940@ziepe.ca>
- <CAFCwf111O0_YB_tixzEUmaKpGAHMNvMaOes2AfMD4x68Am4Yyg@mail.gmail.com>
- <20210623185045.GY1096940@ziepe.ca>
- <CAFCwf12tW_WawFfAfrC8bgVhTRnDA7DuM+0V8w3JsUZpA2j84w@mail.gmail.com>
- <20210623193456.GZ1096940@ziepe.ca>
- <CAFCwf13vM2T-eJUu42ht5jdXpRCF3UZh0Ow=vwN9QqZ=KNUBsQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFCwf13vM2T-eJUu42ht5jdXpRCF3UZh0Ow=vwN9QqZ=KNUBsQ@mail.gmail.com>
+        Wed, 23 Jun 2021 20:15:44 -0700 (PDT)
+From:   Yizhuo <yzhai003@ucr.edu>
+Cc:     Yizhuo <yzhai003@ucr.edu>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juan Antonio Aldea-Armenteros <juant.aldea@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: atomisp: fix the uninitialized use and rename "retvalue"
+Date:   Thu, 24 Jun 2021 03:17:17 +0000
+Message-Id: <20210624031719.11157-1-yzhai003@ucr.edu>
+X-Mailer: git-send-email 2.17.1
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 23, 2021 at 10:39:48PM +0300, Oded Gabbay wrote:
-> On Wed, Jun 23, 2021 at 10:34 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Wed, Jun 23, 2021 at 10:00:29PM +0300, Oded Gabbay wrote:
-> > > On Wed, Jun 23, 2021 at 9:50 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > > >
-> > > > On Wed, Jun 23, 2021 at 09:43:04PM +0300, Oded Gabbay wrote:
-> > > >
-> > > > > Can you please explain why it is so important to (allow) access them
-> > > > > through the CPU ?
-> > > >
-> > > > It is not so much important, as it reflects significant design choices
-> > > > that are already tightly baked into alot of our stacks.
-> > > >
-> > > > A SGL is CPU accessible by design - that is baked into this thing and
-> > > > places all over the place assume it. Even in RDMA we have
-> > > > RXE/SWI/HFI1/qib that might want to use the CPU side (grep for sg_page
-> > > > to see)
-> > > >
-> > > > So, the thing at the top of the stack - in this case the gaudi driver
-> > > > - simply can't assume what the rest of the stack is going to do and
-> > > > omit the CPU side. It breaks everything.
-> > > >
-> > > > Logan's patch series is the most fully developed way out of this
-> > > > predicament so far.
-> > >
-> > > I understand the argument and I agree that for the generic case, the
-> > > top of the stack can't assume anything.
-> > > Having said that, in this case the SGL is encapsulated inside a dma-buf object.
-> > >
-> > > Maybe its a stupid/over-simplified suggestion, but can't we add a
-> > > property to the dma-buf object,
-> > > that will be set by the exporter, which will "tell" the importer it
-> > > can't use any CPU fallback ? Only "real" p2p ?
-> >
-> > The block stack has been trying to do something like this.
-> >
-> > The flag doesn't solve the DMA API/IOMMU problems though.
-> hmm, I thought using dma_map_resource will solve the IOMMU issues,
-> no ?
+Inside function mt9m114_detect(), variable "retvalue" could
+be uninitialized if mt9m114_read_reg() returns error, however, it
+is used in the later if statement, which is potentially unsafe.
 
-dma_map_resource() will configure the IOMMU but it is not the correct
-API to use when building a SG list for DMA, that would be dma_map_sg
-or sgtable.
+The local variable "retvalue" is renamed to "model" to avoid
+confusion.
 
-So it works, but it is an API abuse to build things this way.
+Signed-off-by: Yizhuo <yzhai003@ucr.edu>
+---
+ drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-> If I use dma_map_resource to set the addresses inside the SGL before I
-> export the dma-buf, and guarantee no one will use the SGL in the
-> dma-buf for any other purpose than device p2p, what else is needed ?
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+index f5de81132177..b02a8cd3dde7 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+@@ -1533,16 +1533,20 @@ static struct v4l2_ctrl_config mt9m114_controls[] = {
+ static int mt9m114_detect(struct mt9m114_device *dev, struct i2c_client *client)
+ {
+ 	struct i2c_adapter *adapter = client->adapter;
+-	u32 retvalue;
++	u32 model;
++	int ret;
+ 
+ 	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C)) {
+ 		dev_err(&client->dev, "%s: i2c error", __func__);
+ 		return -ENODEV;
+ 	}
+-	mt9m114_read_reg(client, MISENSOR_16BIT, (u32)MT9M114_PID, &retvalue);
+-	dev->real_model_id = retvalue;
++	ret = mt9m114_read_reg(client, MISENSOR_16BIT,
++			       (u32)MT9M114_PID, &model);
++	if (ret)
++		return ret;
++	dev->real_model_id = model;
+ 
+-	if (retvalue != MT9M114_MOD_ID) {
++	if (model != MT9M114_MOD_ID) {
+ 		dev_err(&client->dev, "%s: failed: client->addr = %x\n",
+ 			__func__, client->addr);
+ 		return -ENODEV;
+-- 
+2.17.1
 
-You still have to check the p2p stuff to ensure that p2p is even
-possible
-
-And this approach is misusing all the APIs and has been NAK'd by
-Christoph, so up to Greg if he wants to take it or insist you work
-with Logan to get the proper generlized solution finished.
-
-Jason
