@@ -2,98 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3D1D3B26A3
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 06:58:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2DF83B26B8
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 07:22:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbhFXFAT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Jun 2021 01:00:19 -0400
-Received: from ni.piap.pl ([195.187.100.5]:59546 "EHLO ni.piap.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229448AbhFXFAS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Jun 2021 01:00:18 -0400
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ni.piap.pl (Postfix) with ESMTPSA id CBC724A0053;
-        Thu, 24 Jun 2021 06:57:55 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl CBC724A0053
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
-        t=1624510675; bh=1+x2vyCs8rgYAY9/WSnCwIrmAShCjXegb413Mj6W5Cw=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=CoW8UcETb1paLYhduyr8kVucKF7ICfcneHVWcRorzic2HQNMplzE6D8RKMcFgrUYF
-         Cqfet2S2dzW5wXaYsqfylyrRcx2aIHS3v9vnSDNL+kmNTSBLabKO8h3yYYp1uEtkUt
-         o2lRz8PzhnLi1pu9lBLbOPbwR8S2Fk6qK2JtxG9s=
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [RFC v2] MEDIA: Driver for ON Semi AR0521 camera sensor
-References: <m3wnqm5eqo.fsf@t19.piap.pl>
-        <YNHQDNdpxcY8+IV2@pendragon.ideasonboard.com>
-        <m3r1gt5hzm.fsf@t19.piap.pl>
-        <YNK5FhAXSpI1oHJV@pendragon.ideasonboard.com>
-        <m3mtrh5evo.fsf@t19.piap.pl>
-        <YNM0cZFV7/LKKFBn@pendragon.ideasonboard.com>
-        <42958029-5625-5f4d-a075-2f59a74e0fb5@ideasonboard.com>
-Sender: khalasa@piap.pl
-Date:   Thu, 24 Jun 2021 06:57:55 +0200
-In-Reply-To: <42958029-5625-5f4d-a075-2f59a74e0fb5@ideasonboard.com> (Kieran
-        Bingham's message of "Wed, 23 Jun 2021 15:27:09 +0100")
-Message-ID: <m3bl7v6er0.fsf@t19.piap.pl>
+        id S230099AbhFXFYa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Jun 2021 01:24:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33060 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230091AbhFXFYa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Jun 2021 01:24:30 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C04F3C061574
+        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 22:22:10 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id a16so6059398ljq.3
+        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 22:22:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=MaHQNN1uIEh60sl3JhLhmfuVPnwJYmbKYFL30K/miDk=;
+        b=wOtDljlo77yLlHTV3c4ifq4N6M1CkZfITEE+y1gJxnDeLqmXDXBCsQjh1qeIoVp5r6
+         DMfcIznqcmidir7ypQZUUbUthjNMyoaBIRD2TYTf94AxPZWihdzfQ3iMl08ALRoWNQeV
+         uhBBIzFeEJ1KgDm8aPbvDGNIGG0WN4xEWdADMYknyQm5m6OImWY30B9kSnaaBIAx64Hz
+         0cSFEO/JWxqJNBmZkmBFu9Zbtq3fwp9AVCodhRnAn8cXnGtiLRKJhGOKTl+j9jpoPWc+
+         ne1/a91Y38gt0ejYDVHagntGC9X8X4TRvMuppD0Vxq9XW5AiRyAKr7EtZ6XxCxGXPVjO
+         pVXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=MaHQNN1uIEh60sl3JhLhmfuVPnwJYmbKYFL30K/miDk=;
+        b=L6hJZcikI6sMZ6vnFNPUnnCe6Ht/pmO5s6MWA7HUlf+BV1bqkstykKAIddGHOA5b3N
+         NusxSBmWT7XH3kmZKXHITo9/FrznM5HP1vzueX/XsMReSBzt5gaOPi1oB02UODKnJMKt
+         dsN5XdRG3zNtlEeq+thqThC8IDPiPdZBVvQNF7XxvOCyUIXmjGukKZodMDCzuH3FRAMQ
+         7UcNpqEpUZImC0R9TzAa+19izMyNWmw8Wv1bxIz5cigrg2TcqijORq+YYPYKpmtL9n/u
+         PTCx+0ElYllUftVbI9sV+zatxdOoOMiytlPDkrO3g7P1OHUwf3ZVIbWykvmux6Jsz+zy
+         9xww==
+X-Gm-Message-State: AOAM531Ijdb95sSrJbAGvj0PF5eq4PtqG+IitVJaSAQh8XtWCabd+GWq
+        2IUC88k75qlu7EZFktMVCX+c8g==
+X-Google-Smtp-Source: ABdhPJwmVL0tULXDq7rk+67cKWU4EGnFh7WlddH0h6017KWVQrSRtZ+CmWmT+bAHkV6jzD2hQNKkSQ==
+X-Received: by 2002:a2e:a78d:: with SMTP id c13mr2580898ljf.0.1624512129143;
+        Wed, 23 Jun 2021 22:22:09 -0700 (PDT)
+Received: from [192.168.88.254] ([85.249.44.185])
+        by smtp.gmail.com with ESMTPSA id w8sm106911lfp.209.2021.06.23.22.22.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Jun 2021 22:22:08 -0700 (PDT)
+Subject: Re: [PATCH 6/6] Documentation: v4l: Fix V4L2_CID_PIXEL_RATE
+ documentation
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+References: <20210622112200.13914-1-sakari.ailus@linux.intel.com>
+ <20210622112200.13914-7-sakari.ailus@linux.intel.com>
+From:   Andrey Konovalov <andrey.konovalov@linaro.org>
+Message-ID: <3018cfbb-8363-c952-4742-a0cf05eb0ac5@linaro.org>
+Date:   Thu, 24 Jun 2021 08:22:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-KLMS-Rule-ID: 4
-X-KLMS-Message-Action: skipped
-X-KLMS-AntiSpam-Status: not scanned, whitelist
-X-KLMS-AntiPhishing: not scanned, whitelist
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
+In-Reply-To: <20210622112200.13914-7-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran, and others,
+Hi Sakari,
 
-Kieran Bingham <kieran.bingham@ideasonboard.com> writes:
+Thank you for your patch!
 
->>> The work is not published under GPL.
->
-> This seems like an odd thing to say when your patch explicitly contains:
->
->> +++ b/drivers/media/i2c/ar0521.c
->> @@ -0,0 +1,1060 @@
->> +// SPDX-License-Identifier: GPL-2.0
+On 22.06.2021 14:22, Sakari Ailus wrote:
+> The V4L2_CID_PIXEL_RATE is nowadays used to tell pixel sampling rate in
+> the sub-device's pixel array, not the pixel rate over a link (for which it
+> also becomes unfit with the addition of multiplexed streams later on). Fix
+> this.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Such tags have meaning only in the kernel context, when signed-off etc.
-Alone, they aren't legal statements, especially when I explicitly state
-that it's not signed-off-by me yet. Nevertheless...
+Reviewed-by: Andrey Konovalov <andrey.konovalov@linaro.org>
 
-Obviously, this code was always meant to be GPLed and it seems really
-crazy to me that we even have to have such conversations - about
-a non issue, at least from my POV.
-
-The fact is that 6 years ago I wrote driver for a SDTV frame grabber -
-and another developer "took" the development from me, and published as
-his own. This wasn't probably illegal - after all my driver was covered
-by the GPL from the start. But was it really how we all want things to
-work in Linux? With such experience, is anybody surprised I want to
-avoid this history repeating itself?
-
-For other patches I don't care about such formalities, but this driver
-is a work paid by an external entity and it would be unfortunate to
-end up the same way as the tw686x driver.
-
-
-I stated multiple times I will sign this code off when it's accepted.
-Is it really a problem? Really?
-
-If so... perhaps there is some other way?
-
-I'd hate to think that the next time I'm to keep my code unpublished.
---=20
-Krzysztof Ha=C5=82asa
-
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+Thanks,
+Andrey
+> ---
+>   .../userspace-api/media/v4l/ext-ctrls-image-process.rst         | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> index 37dad2f4df8c..6d681af95624 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> @@ -38,7 +38,7 @@ Image Process Control IDs
+>       of this control is Hz.
+>   
+>   ``V4L2_CID_PIXEL_RATE (64-bit integer)``
+> -    Pixel rate in the source pads of the subdev. This control is
+> +    Pixel sampling rate in the device's pixel array. This control is
+>       read-only and its unit is pixels / second.
+>   
+>   ``V4L2_CID_TEST_PATTERN (menu)``
+> 
