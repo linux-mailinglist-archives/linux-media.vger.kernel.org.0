@@ -2,77 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9F9C3B2FE7
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 15:22:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77F8A3B2FEC
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 15:22:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231179AbhFXNYq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Jun 2021 09:24:46 -0400
-Received: from verein.lst.de ([213.95.11.211]:54550 "EHLO verein.lst.de"
+        id S231487AbhFXNZJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Jun 2021 09:25:09 -0400
+Received: from ni.piap.pl ([195.187.100.5]:45460 "EHLO ni.piap.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229881AbhFXNYq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Jun 2021 09:24:46 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 6FB1567373; Thu, 24 Jun 2021 15:22:23 +0200 (CEST)
-Date:   Thu, 24 Jun 2021 15:22:23 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Oded Gabbay <oded.gabbay@gmail.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Tomer Tayar <ttayar@habana.ai>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to
- export FD for DMA-BUF
-Message-ID: <20210624132223.GA22258@lst.de>
-References: <20210622160538.GT1096940@ziepe.ca> <d600a638-9e55-6249-b574-0986cd5cea1e@gmail.com> <20210623182435.GX1096940@ziepe.ca> <CAFCwf111O0_YB_tixzEUmaKpGAHMNvMaOes2AfMD4x68Am4Yyg@mail.gmail.com> <20210623185045.GY1096940@ziepe.ca> <CAFCwf12tW_WawFfAfrC8bgVhTRnDA7DuM+0V8w3JsUZpA2j84w@mail.gmail.com> <20210624053421.GA25165@lst.de> <9571ac7c-3a58-b013-b849-e26c3727e9b2@amd.com> <20210624081237.GA30289@lst.de> <899fe0ce-b6d7-c138-04b6-4b12405f8d93@amd.com>
+        id S229878AbhFXNZI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Jun 2021 09:25:08 -0400
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ni.piap.pl (Postfix) with ESMTPSA id 3C3E94A007F;
+        Thu, 24 Jun 2021 15:22:48 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 3C3E94A007F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1624540968; bh=UsDh/IJPYJff3yt6zKCVvTurJG0QrYahYd5eIUIqSMg=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=Y6jXQqfhM4XLXqiAmer0t2lvAx/3Tl5MBQjZAJ3LtRtv9jAGJ8/UW/kOPzMP2M876
+         aXttucDrQh7b26M2tKHBi1kccjPKzHcnyZxEOkmJz+cgQyrq3uLhp6O9TTKfErwPp8
+         Z5UBpS8CQQwBy/qGH85A33g/BHLuCbRSK/jh6GNs=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC v2] MEDIA: Driver for ON Semi AR0521 camera sensor
+References: <m3wnqm5eqo.fsf@t19.piap.pl>
+        <YNHQDNdpxcY8+IV2@pendragon.ideasonboard.com>
+        <m3r1gt5hzm.fsf@t19.piap.pl>
+        <YNK5FhAXSpI1oHJV@pendragon.ideasonboard.com>
+        <m3mtrh5evo.fsf@t19.piap.pl>
+        <YNM0cZFV7/LKKFBn@pendragon.ideasonboard.com>
+        <42958029-5625-5f4d-a075-2f59a74e0fb5@ideasonboard.com>
+        <m3bl7v6er0.fsf@t19.piap.pl>
+        <YNR2OkXL+wUaKuy4@pendragon.ideasonboard.com>
+        <YNR9CS/PfG7s1e71@kroah.com>
+Sender: khalasa@piap.pl
+Date:   Thu, 24 Jun 2021 15:22:48 +0200
+In-Reply-To: <YNR9CS/PfG7s1e71@kroah.com> (Greg KH's message of "Thu, 24 Jun
+        2021 14:39:37 +0200")
+Message-ID: <m3wnqj4ct3.fsf@t19.piap.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <899fe0ce-b6d7-c138-04b6-4b12405f8d93@amd.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 4
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, whitelist
+X-KLMS-AntiPhishing: not scanned, whitelist
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 24, 2021 at 11:52:47AM +0200, Christian König wrote:
-> I've already converted a bunch of the GPU drivers, but there are at least 6 
-> GPU still needing to be fixed and on top of that comes VA-API and a few 
-> others.
->
-> What are your plans for the DMA mapping subsystem?
+Hi Greg,
 
-Building a new API that allows batched DMA mapping without the scatterlist.
-The main input for my use case would be bio_vecs, but I plan to make it
-a little flexible, and the output would be a list of [dma_addr,len]
-tuples, with the API being flexible enough to just return a single
-[dma_addr,len] for the common IOMMU coalescing case.
+Greg KH <gregkh@linuxfoundation.org> writes:
 
->
->> Btw, one thing I noticed when looking over the dma-buf instances is that
->> there is a lot of duplicated code for creating a sg_table from pages,
->> and then mapping it.  It would be good if we could move toward common
->> helpers instead of duplicating that all over again.
->
-> Can you give an example?
+> +// SPDX-License-Identifier: GPL-2.0
 
-Take a look at the get_sg_table and put_sg_table helpers in udmabuf.
-Those would also be useful in armda, i915, tegra, gntdev-dmabuf, mbochs
-in one form or another.
+> Putting the above line on a file _IS_ a legal declaration that the file
+> is released under GPL-2.0.  It's pretty simple :)
 
-Similar for variants that use a contigous regions.
+Do you think putting this line anywhere, in any file, does it?
+That would be crazy.
+
+How about a book, e.g. describing a patch submission process (but not
+a copy of kernel's Documentation). The same?
+
+Also - in all countries? Most of them?
+
+Come on.
+
+Then why would we need the Signed-off-by?
+From my perspective, the SPDX-License-Identifier is only meaningful when
+the file is actually a part of the kernel, or if, at least, it's been
+presented for merge, with Signed-off-by etc.
+--=20
+Krzysztof Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
