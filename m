@@ -2,366 +2,384 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C01D33B36E4
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 21:23:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D62453B3818
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 22:45:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232897AbhFXTZ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Jun 2021 15:25:26 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:48102 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232905AbhFXTZS (ORCPT
+        id S229525AbhFXUsD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Jun 2021 16:48:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45854 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232284AbhFXUsC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Jun 2021 15:25:18 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 15OJMuJZ089523;
-        Thu, 24 Jun 2021 14:22:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1624562576;
-        bh=FdQX90GiXd3myju8xVM4U8B2Nc97WDDrUkPR3o8EX0k=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=yt/iY6qoz9OhyItEuuCINwZ1LVyVs8pgKFZF9Hn56wQ7u1rvDGWHn5RpPGjqcQ11h
-         4I//eOyMK6m96mMQAdHqQAj+AoERACXFjGeBSajV3L6u2yLBU91pUqdEXuiFhk7HJ4
-         uPeSTfjVG0laqrXrN3mYTrsIMFd/AnhNAUW3jYXI=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 15OJMuuZ086307
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 24 Jun 2021 14:22:56 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 24
- Jun 2021 14:22:55 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Thu, 24 Jun 2021 14:22:55 -0500
-Received: from pratyush-OptiPlex-790.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 15OJM14R120548;
-        Thu, 24 Jun 2021 14:22:52 -0500
-From:   Pratyush Yadav <p.yadav@ti.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Nikhil Devshatwar <nikhil.nd@ti.com>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
-Subject: [PATCH v3 11/11] media: dt-bindings: Convert Cadence CSI2RX binding to YAML
-Date:   Fri, 25 Jun 2021 00:52:00 +0530
-Message-ID: <20210624192200.22559-12-p.yadav@ti.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210624192200.22559-1-p.yadav@ti.com>
-References: <20210624192200.22559-1-p.yadav@ti.com>
+        Thu, 24 Jun 2021 16:48:02 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC020C061574
+        for <linux-media@vger.kernel.org>; Thu, 24 Jun 2021 13:45:42 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id u8-20020a7bcb080000b02901e44e9caa2aso4363178wmj.4
+        for <linux-media@vger.kernel.org>; Thu, 24 Jun 2021 13:45:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2wHE/fYmMxY6FXP/wVA8Ya/i+wIf9M9VbRR8Y3eo07s=;
+        b=eXjQUQFT3eFRAb5GnCMrl/A1WHS+QIHp6ikRkqNGpjCNoFvivJ3vKEbDnL/simxgsx
+         DQtkGxJuz2PP/xGWpDYGuXccVgK48nRijqnwNMyPNz/H1rC70T+45qvDHYIWuzfrUbFc
+         EkRYkKWOpOhrZYkjgI9QaS30ZgRe95AjBwgDw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2wHE/fYmMxY6FXP/wVA8Ya/i+wIf9M9VbRR8Y3eo07s=;
+        b=asJ4/LeVZVhTr0BicIPtTySywZE3RSEPNDjaP2aUkaAHSs6fUexV+ifiu+sIrqHybJ
+         H3EG0ejijvYdEKqw2um4jDE0pA9a2Y5hatAA+u6Ar6LKaqPEWHrPEVaV5Ynfg1mc9Xq7
+         EfGyx3VmkhC6cCUHmNogj8GnybfLqmjNRR0DGMAOC6RDyFj2FX/VAYs+PQHz+XLQ39zo
+         BeVfcyoOZZJ7DUfmxrW9ViN1uQWhtuPJeNy7qZ8ZTMJeAG4tgYnrOSg6s9lbIA+rZqpi
+         jkNKE9toyVEfHRTdh+4SvPECOuFqbxahmrp/1dMmQTiOhNeUAjWPWrLD2AiQrXhQ4VrR
+         iKkQ==
+X-Gm-Message-State: AOAM533O3uSw1Zd147r+smVfOq8UoRjh/FUHU/JitdVaSjfv+OrCbRBV
+        e6g3hHsx4HJ2YJiowFki5ZzY0Q==
+X-Google-Smtp-Source: ABdhPJzteO1y3/1bk09TQ+0WIlLPmn1+2uguMNM2IZTJzkofWSW2y0HEK91JTmvvFzZRDb12Lx5kIA==
+X-Received: by 2002:a05:600c:291:: with SMTP id 17mr6468737wmk.52.1624567541309;
+        Thu, 24 Jun 2021 13:45:41 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id u18sm3580678wmj.15.2021.06.24.13.45.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Jun 2021 13:45:40 -0700 (PDT)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Steven Price <steven.price@arm.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Qiang Yu <yuq825@gmail.com>, Rob Herring <robh@kernel.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Nick Terrell <terrelln@fb.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Paul Menzel <pmenzel@molgen.mpg.de>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Dave Airlie <airlied@redhat.com>,
+        Nirmoy Das <nirmoy.das@amd.com>,
+        Deepak R Varma <mh12gx2825@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Kevin Wang <kevin1.wang@amd.com>,
+        Chen Li <chenli@uniontech.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
+        Dennis Li <Dennis.Li@amd.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Sonny Jiang <sonny.jiang@amd.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Jack Zhang <Jack.Zhang1@amd.com>,
+        etnaviv@lists.freedesktop.org, lima@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Emma Anholt <emma@anholt.net>
+Subject: [PATCH] drm/sched: Split drm_sched_job_init
+Date:   Thu, 24 Jun 2021 22:45:35 +0200
+Message-Id: <20210624204535.614168-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0.rc2
+In-Reply-To: <20210624140025.438303-2-daniel.vetter@ffwll.ch>
+References: <20210624140025.438303-2-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the Cadence CSI2RX binding to use YAML schema.
+This is a very confusingly named function, because not just does it
+init an object, it arms it and provides a point of no return for
+pushing a job into the scheduler. It would be nice if that's a bit
+clearer in the interface.
 
-Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+But the real reason is that I want to push the dependency tracking
+helpers into the scheduler code, and that means drm_sched_job_init
+must be called a lot earlier, without arming the job.
 
+v2:
+- don't change .gitignore (Steven)
+- don't forget v3d (Emma)
+
+Acked-by: Steven Price <steven.price@arm.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: Qiang Yu <yuq825@gmail.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc: Steven Price <steven.price@arm.com>
+Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Adam Borowski <kilobyte@angband.pl>
+Cc: Nick Terrell <terrelln@fb.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: Sami Tolvanen <samitolvanen@google.com>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Nirmoy Das <nirmoy.das@amd.com>
+Cc: Deepak R Varma <mh12gx2825@gmail.com>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Kevin Wang <kevin1.wang@amd.com>
+Cc: Chen Li <chenli@uniontech.com>
+Cc: Luben Tuikov <luben.tuikov@amd.com>
+Cc: "Marek Olšák" <marek.olsak@amd.com>
+Cc: Dennis Li <Dennis.Li@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Cc: Sonny Jiang <sonny.jiang@amd.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Tian Tao <tiantao6@hisilicon.com>
+Cc: Jack Zhang <Jack.Zhang1@amd.com>
+Cc: etnaviv@lists.freedesktop.org
+Cc: lima@lists.freedesktop.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: Emma Anholt <emma@anholt.net>
 ---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c   |  2 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  2 ++
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c  |  2 ++
+ drivers/gpu/drm/lima/lima_sched.c        |  2 ++
+ drivers/gpu/drm/panfrost/panfrost_job.c  |  2 ++
+ drivers/gpu/drm/scheduler/sched_entity.c |  6 +++---
+ drivers/gpu/drm/scheduler/sched_fence.c  | 15 ++++++++++-----
+ drivers/gpu/drm/scheduler/sched_main.c   | 23 ++++++++++++++++++++++-
+ drivers/gpu/drm/v3d/v3d_gem.c            |  2 ++
+ include/drm/gpu_scheduler.h              |  6 +++++-
+ 10 files changed, 52 insertions(+), 10 deletions(-)
 
-Changes in v3:
-- Add compatible: contains: const: cdns,csi2rx to allow SoC specific
-  compatible.
-- Add more constraints for data-lanes property.
-
-Changes in v2:
-- New in v2.
-
- .../devicetree/bindings/media/cdns,csi2rx.txt | 100 -----------
- .../bindings/media/cdns,csi2rx.yaml           | 169 ++++++++++++++++++
- 2 files changed, 169 insertions(+), 100 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.txt
- create mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-
-diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.txt b/Documentation/devicetree/bindings/media/cdns,csi2rx.txt
-deleted file mode 100644
-index 6b02a0657ad9..000000000000
---- a/Documentation/devicetree/bindings/media/cdns,csi2rx.txt
-+++ /dev/null
-@@ -1,100 +0,0 @@
--Cadence MIPI-CSI2 RX controller
--===============================
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index c5386d13eb4a..a4ec092af9a7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -1226,6 +1226,8 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+ 	if (r)
+ 		goto error_unlock;
+ 
++	drm_sched_job_arm(&job->base);
++
+ 	/* No memory allocation is allowed while holding the notifier lock.
+ 	 * The lock is held until amdgpu_cs_submit is finished and fence is
+ 	 * added to BOs.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index d33e6d97cc89..5ddb955d2315 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -170,6 +170,8 @@ int amdgpu_job_submit(struct amdgpu_job *job, struct drm_sched_entity *entity,
+ 	if (r)
+ 		return r;
+ 
++	drm_sched_job_arm(&job->base);
++
+ 	*f = dma_fence_get(&job->base.s_fence->finished);
+ 	amdgpu_job_free_resources(job);
+ 	drm_sched_entity_push_job(&job->base, entity);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index 19826e504efc..af1671f01c7f 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -163,6 +163,8 @@ int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
+ 	if (ret)
+ 		goto out_unlock;
+ 
++	drm_sched_job_arm(&submit->sched_job);
++
+ 	submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
+ 	submit->out_fence_id = idr_alloc_cyclic(&submit->gpu->fence_idr,
+ 						submit->out_fence, 0,
+diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+index ecf3267334ff..bd1af1fd8c0f 100644
+--- a/drivers/gpu/drm/lima/lima_sched.c
++++ b/drivers/gpu/drm/lima/lima_sched.c
+@@ -129,6 +129,8 @@ int lima_sched_task_init(struct lima_sched_task *task,
+ 		return err;
+ 	}
+ 
++	drm_sched_job_arm(&task->base);
++
+ 	task->num_bos = num_bos;
+ 	task->vm = lima_vm_get(vm);
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index beb62c8fc851..1e950534b9b0 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -244,6 +244,8 @@ int panfrost_job_push(struct panfrost_job *job)
+ 		goto unlock;
+ 	}
+ 
++	drm_sched_job_arm(&job->base);
++
+ 	job->render_done_fence = dma_fence_get(&job->base.s_fence->finished);
+ 
+ 	ret = panfrost_acquire_object_fences(job->bos, job->bo_count,
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 79554aa4dbb1..f7347c284886 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -485,9 +485,9 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+  * @sched_job: job to submit
+  * @entity: scheduler entity
+  *
+- * Note: To guarantee that the order of insertion to queue matches
+- * the job's fence sequence number this function should be
+- * called with drm_sched_job_init under common lock.
++ * Note: To guarantee that the order of insertion to queue matches the job's
++ * fence sequence number this function should be called with drm_sched_job_arm()
++ * under common lock.
+  *
+  * Returns 0 for success, negative error code otherwise.
+  */
+diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+index 69de2c76731f..0ba810c198bd 100644
+--- a/drivers/gpu/drm/scheduler/sched_fence.c
++++ b/drivers/gpu/drm/scheduler/sched_fence.c
+@@ -152,11 +152,10 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
+ }
+ EXPORT_SYMBOL(to_drm_sched_fence);
+ 
+-struct drm_sched_fence *drm_sched_fence_create(struct drm_sched_entity *entity,
+-					       void *owner)
++struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
++					      void *owner)
+ {
+ 	struct drm_sched_fence *fence = NULL;
+-	unsigned seq;
+ 
+ 	fence = kmem_cache_zalloc(sched_fence_slab, GFP_KERNEL);
+ 	if (fence == NULL)
+@@ -166,13 +165,19 @@ struct drm_sched_fence *drm_sched_fence_create(struct drm_sched_entity *entity,
+ 	fence->sched = entity->rq->sched;
+ 	spin_lock_init(&fence->lock);
+ 
++	return fence;
++}
++
++void drm_sched_fence_init(struct drm_sched_fence *fence,
++			  struct drm_sched_entity *entity)
++{
++	unsigned seq;
++
+ 	seq = atomic_inc_return(&entity->fence_seq);
+ 	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
+ 		       &fence->lock, entity->fence_context, seq);
+ 	dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
+ 		       &fence->lock, entity->fence_context + 1, seq);
 -
--The Cadence MIPI-CSI2 RX controller is a CSI-2 bridge supporting up to 4 CSI
--lanes in input, and 4 different pixel streams in output.
--
--Required properties:
--  - compatible: must be set to "cdns,csi2rx" and an SoC-specific compatible
--  - reg: base address and size of the memory mapped region
--  - clocks: phandles to the clocks driving the controller
--  - clock-names: must contain:
--    * sys_clk: main clock
--    * p_clk: register bank clock
--    * pixel_if[0-3]_clk: pixel stream output clock, one for each stream
--                         implemented in hardware, between 0 and 3
--
--Optional properties:
--  - phys: phandle to the external D-PHY, phy-names must be provided
--  - phy-names: must contain "dphy", if the implementation uses an
--               external D-PHY
--
--Required subnodes:
--  - ports: A ports node with one port child node per device input and output
--           port, in accordance with the video interface bindings defined in
--           Documentation/devicetree/bindings/media/video-interfaces.txt. The
--           port nodes are numbered as follows:
--
--           Port Description
--           -----------------------------
--           0    CSI-2 input
--           1    Stream 0 output
--           2    Stream 1 output
--           3    Stream 2 output
--           4    Stream 3 output
--
--           The stream output port nodes are optional if they are not
--           connected to anything at the hardware level or implemented
--           in the design.Since there is only one endpoint per port,
--           the endpoints are not numbered.
--
--
--Example:
--
--csi2rx: csi-bridge@0d060000 {
--	compatible = "cdns,csi2rx";
--	reg = <0x0d060000 0x1000>;
--	clocks = <&byteclock>, <&byteclock>
--		 <&coreclock>, <&coreclock>,
--		 <&coreclock>, <&coreclock>;
--	clock-names = "sys_clk", "p_clk",
--		      "pixel_if0_clk", "pixel_if1_clk",
--		      "pixel_if2_clk", "pixel_if3_clk";
--
--	ports {
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		port@0 {
--			reg = <0>;
--
--			csi2rx_in_sensor: endpoint {
--				remote-endpoint = <&sensor_out_csi2rx>;
--				clock-lanes = <0>;
--				data-lanes = <1 2>;
--			};
--		};
--
--		port@1 {
--			reg = <1>;
--
--			csi2rx_out_grabber0: endpoint {
--				remote-endpoint = <&grabber0_in_csi2rx>;
--			};
--		};
--
--		port@2 {
--			reg = <2>;
--
--			csi2rx_out_grabber1: endpoint {
--				remote-endpoint = <&grabber1_in_csi2rx>;
--			};
--		};
--
--		port@3 {
--			reg = <3>;
--
--			csi2rx_out_grabber2: endpoint {
--				remote-endpoint = <&grabber2_in_csi2rx>;
--			};
--		};
--
--		port@4 {
--			reg = <4>;
--
--			csi2rx_out_grabber3: endpoint {
--				remote-endpoint = <&grabber3_in_csi2rx>;
--			};
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-new file mode 100644
-index 000000000000..8e42c9fdaaa3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-@@ -0,0 +1,169 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/cdns,csi2rx.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+-	return fence;
+ }
+ 
+ module_init(drm_sched_fence_slab_init);
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 61420a9c1021..70eefed17e06 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -48,9 +48,11 @@
+ #include <linux/wait.h>
+ #include <linux/sched.h>
+ #include <linux/completion.h>
++#include <linux/dma-resv.h>
+ #include <uapi/linux/sched/types.h>
+ 
+ #include <drm/drm_print.h>
++#include <drm/drm_gem.h>
+ #include <drm/gpu_scheduler.h>
+ #include <drm/spsc_queue.h>
+ 
+@@ -594,7 +596,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
+ 	job->sched = sched;
+ 	job->entity = entity;
+ 	job->s_priority = entity->rq - sched->sched_rq;
+-	job->s_fence = drm_sched_fence_create(entity, owner);
++	job->s_fence = drm_sched_fence_alloc(entity, owner);
+ 	if (!job->s_fence)
+ 		return -ENOMEM;
+ 	job->id = atomic64_inc_return(&sched->job_id_count);
+@@ -605,6 +607,25 @@ int drm_sched_job_init(struct drm_sched_job *job,
+ }
+ EXPORT_SYMBOL(drm_sched_job_init);
+ 
++/**
++ * drm_sched_job_arm - arm a scheduler job for execution
++ * @job: scheduler job to arm
++ *
++ * This arms a scheduler job for execution. Specifically it initializes the
++ * &drm_sched_job.s_fence of @job, so that it can be attached to struct dma_resv
++ * or other places that need to track the completion of this job.
++ *
++ * Refer to drm_sched_entity_push_job() documentation for locking
++ * considerations.
++ *
++ * This can only be called if drm_sched_job_init() succeeded.
++ */
++void drm_sched_job_arm(struct drm_sched_job *job)
++{
++	drm_sched_fence_init(job->s_fence, job->entity);
++}
++EXPORT_SYMBOL(drm_sched_job_arm);
 +
-+title: Cadence MIPI-CSI2 RX controller
+ /**
+  * drm_sched_job_cleanup - clean up scheduler job resources
+  *
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index 4eb354226972..5c3a99027ecd 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -475,6 +475,8 @@ v3d_push_job(struct v3d_file_priv *v3d_priv,
+ 	if (ret)
+ 		return ret;
+ 
++	drm_sched_job_arm(&job->base);
 +
-+description: |
-+  The Cadence MIPI-CSI2 RX controller is a CSI-2 bridge supporting up to 4 CSI
-+  lanes in input, and 4 different pixel streams in output.
+ 	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+ 
+ 	/* put by scheduler job completion */
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index d18af49fd009..80438d126c9d 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -313,6 +313,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched);
+ int drm_sched_job_init(struct drm_sched_job *job,
+ 		       struct drm_sched_entity *entity,
+ 		       void *owner);
++void drm_sched_job_arm(struct drm_sched_job *job);
+ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+ 				    struct drm_gpu_scheduler **sched_list,
+                                    unsigned int num_sched_list);
+@@ -352,8 +353,11 @@ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
+ 				   enum drm_sched_priority priority);
+ bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
+ 
+-struct drm_sched_fence *drm_sched_fence_create(
++struct drm_sched_fence *drm_sched_fence_alloc(
+ 	struct drm_sched_entity *s_entity, void *owner);
++void drm_sched_fence_init(struct drm_sched_fence *fence,
++			  struct drm_sched_entity *entity);
 +
-+maintainers:
-+  - Pratyush Yadav <p.yadav@ti.com>
-+
-+properties:
-+  compatible:
-+    contains:
-+      const: cdns,csi2rx
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 3
-+    maxItems: 6
-+
-+  clock-names:
-+    minItems: 3
-+    maxItems: 6
-+    items:
-+      - const: sys_clk # main clock
-+      - const: p_clk # register bank clock
-+      - const: pixel_if0_clk # pixel stream 0 output clock
-+      - const: pixel_if1_clk # pixel stream 1 output clock
-+      - const: pixel_if2_clk # pixel stream 2 output clock
-+      - const: pixel_if3_clk # pixel stream 3 output clock
-+
-+  phys:
-+    maxItems: 1
-+    description: phandle to the external D-PHY
-+
-+  phy-names:
-+    items:
-+      - const: dphy
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: CSI-2 input
-+
-+        properties:
-+          endpoint:
-+            $ref: video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              clock-lanes:
-+                maxItems: 1
-+
-+              data-lanes:
-+                $ref: /schemas/types.yaml#/definitions/uint32-array
-+                minItems: 1
-+                maxItems: 4
-+                uniqueItems: true
-+                items:
-+                  maximum: 4
-+
-+            required:
-+              - clock-lanes
-+              - data-lanes
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Stream 0 output
-+
-+      port@2:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Stream 1 output
-+
-+      port@3:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Stream 2 output
-+
-+      port@4:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Stream 3 output
-+
-+    required:
-+      - port@0
-+
-+
-+dependencies:
-+  phys: [ 'phy-names' ]
-+  phy-names: [ 'phys' ]
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    csi2rx: csi-bridge@d060000 {
-+      compatible = "cdns,csi2rx";
-+      reg = <0x0d060000 0x1000>;
-+      clocks = <&byteclock>, <&byteclock>,
-+        <&coreclock>, <&coreclock>,
-+        <&coreclock>, <&coreclock>;
-+      clock-names = "sys_clk", "p_clk",
-+              "pixel_if0_clk", "pixel_if1_clk",
-+              "pixel_if2_clk", "pixel_if3_clk";
-+      phys = <&dphy0>;
-+      phy-names = "dphy";
-+
-+      ports {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        port@0 {
-+          reg = <0>;
-+
-+          csi2rx_in_sensor: endpoint {
-+            remote-endpoint = <&sensor_out_csi2rx>;
-+            clock-lanes = <0>;
-+            data-lanes = <1 2>;
-+          };
-+        };
-+
-+        port@1 {
-+          reg = <1>;
-+
-+          csi2rx_out_grabber0: endpoint {
-+            remote-endpoint = <&grabber0_in_csi2rx>;
-+          };
-+        };
-+
-+        port@2 {
-+          reg = <2>;
-+
-+          csi2rx_out_grabber1: endpoint {
-+            remote-endpoint = <&grabber1_in_csi2rx>;
-+          };
-+        };
-+
-+        port@3 {
-+          reg = <3>;
-+
-+          csi2rx_out_grabber2: endpoint {
-+            remote-endpoint = <&grabber2_in_csi2rx>;
-+          };
-+        };
-+
-+        port@4 {
-+          reg = <4>;
-+
-+          csi2rx_out_grabber3: endpoint {
-+            remote-endpoint = <&grabber3_in_csi2rx>;
-+          };
-+        };
-+      };
-+    };
+ void drm_sched_fence_scheduled(struct drm_sched_fence *fence);
+ void drm_sched_fence_finished(struct drm_sched_fence *fence);
+ 
 -- 
-2.30.0
+2.32.0.rc2
 
