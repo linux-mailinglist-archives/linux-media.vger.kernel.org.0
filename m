@@ -2,267 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6C823B2ADF
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 11:00:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5437A3B2B00
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 11:03:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbhFXJCc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Jun 2021 05:02:32 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:56660 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229889AbhFXJCb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Jun 2021 05:02:31 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
-        (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id AE2BE1FD6B;
-        Thu, 24 Jun 2021 09:00:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1624525211; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=gb59PTGwPnqVr+gEmQvDXGouiV1yjYn7rlq1+gb5adI=;
-        b=l+ChCqAxzLXRh0JQgNjDYbc3nWPBhopZhHKPVP8QkV5dt6M/e9yD4OB9dT/mElYaHcfCG3
-        9rsJVMCGEJx28Tr7tc3OLIwGQqNGy5bng3H4TxvtXFqCKrkXT2m1ZadHoqQt6MRQ885oYZ
-        6nkwXPDJOFrx4Q4Z/BFbk4hBhmMKhJc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1624525211;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=gb59PTGwPnqVr+gEmQvDXGouiV1yjYn7rlq1+gb5adI=;
-        b=377p+/n4cDRsywuG+PEaejRHej2Ikn3GSrM/YLvLdKAVsX8DF4flFy2CcjqLkUzt90eJni
-        Zx3may8AqOx76hDA==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
-        by imap.suse.de (Postfix) with ESMTP id 6628411A97;
-        Thu, 24 Jun 2021 09:00:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1624525211; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=gb59PTGwPnqVr+gEmQvDXGouiV1yjYn7rlq1+gb5adI=;
-        b=l+ChCqAxzLXRh0JQgNjDYbc3nWPBhopZhHKPVP8QkV5dt6M/e9yD4OB9dT/mElYaHcfCG3
-        9rsJVMCGEJx28Tr7tc3OLIwGQqNGy5bng3H4TxvtXFqCKrkXT2m1ZadHoqQt6MRQ885oYZ
-        6nkwXPDJOFrx4Q4Z/BFbk4hBhmMKhJc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1624525211;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=gb59PTGwPnqVr+gEmQvDXGouiV1yjYn7rlq1+gb5adI=;
-        b=377p+/n4cDRsywuG+PEaejRHej2Ikn3GSrM/YLvLdKAVsX8DF4flFy2CcjqLkUzt90eJni
-        Zx3may8AqOx76hDA==
-Received: from director2.suse.de ([192.168.254.72])
-        by imap3-int with ESMTPSA
-        id n6//F5tJ1GDRMgAALh3uQQ
-        (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 09:00:11 +0000
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     inki.dae@samsung.com, jy0922.shim@samsung.com,
-        sw0312.kim@samsung.com, kyungmin.park@samsung.com,
-        airlied@linux.ie, daniel@ffwll.ch,
-        krzysztof.kozlowski@canonical.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com
-Cc:     dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/exynox: Implement mmap as GEM object function
-Date:   Thu, 24 Jun 2021 11:00:10 +0200
-Message-Id: <20210624090010.8086-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.32.0
+        id S231203AbhFXJGA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Jun 2021 05:06:00 -0400
+Received: from mga12.intel.com ([192.55.52.136]:33521 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231350AbhFXJF7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Jun 2021 05:05:59 -0400
+IronPort-SDR: /A05oRYfUCpMz5wIYMJEjN6F+NsGcKOm+FnWG7X+RJryyGLjxW4aVRMc+/8PgcnvGqFALDnrsk
+ 3WPXaKdfDjgA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="187118772"
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
+   d="scan'208";a="187118772"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 02:03:29 -0700
+IronPort-SDR: 9sgqSddcUApgXSDBIBuHa5IupkRdAekgMzrMhq0yI7+6jybo1JcX141ZHzVvlBihWe5kJR9YA2
+ cRl5j2wBkRgQ==
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
+   d="scan'208";a="406579431"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 02:03:26 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 9C8482036A;
+        Thu, 24 Jun 2021 12:03:24 +0300 (EEST)
+Date:   Thu, 24 Jun 2021 12:03:24 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Yizhuo <yzhai003@ucr.edu>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juan Antonio Aldea-Armenteros <juant.aldea@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: atomisp: fix the uninitialized use and rename
+ "retvalue"
+Message-ID: <20210624090324.GL3@paasikivi.fi.intel.com>
+References: <20210624031719.11157-1-yzhai003@ucr.edu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210624031719.11157-1-yzhai003@ucr.edu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Moving the driver-specific mmap code into a GEM object function allows
-for using DRM helpers for various mmap callbacks.
+On Thu, Jun 24, 2021 at 03:17:17AM +0000, Yizhuo wrote:
+> Inside function mt9m114_detect(), variable "retvalue" could
+> be uninitialized if mt9m114_read_reg() returns error, however, it
+> is used in the later if statement, which is potentially unsafe.
+> 
+> The local variable "retvalue" is renamed to "model" to avoid
+> confusion.
+> 
+> Signed-off-by: Yizhuo <yzhai003@ucr.edu>
+> ---
+>  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> index f5de81132177..b02a8cd3dde7 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> @@ -1533,16 +1533,20 @@ static struct v4l2_ctrl_config mt9m114_controls[] = {
+>  static int mt9m114_detect(struct mt9m114_device *dev, struct i2c_client *client)
+>  {
+>  	struct i2c_adapter *adapter = client->adapter;
+> -	u32 retvalue;
+> +	u32 model;
+> +	int ret;
+>  
+>  	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C)) {
+>  		dev_err(&client->dev, "%s: i2c error", __func__);
+>  		return -ENODEV;
+>  	}
+> -	mt9m114_read_reg(client, MISENSOR_16BIT, (u32)MT9M114_PID, &retvalue);
+> -	dev->real_model_id = retvalue;
+> +	ret = mt9m114_read_reg(client, MISENSOR_16BIT,
+> +			       (u32)MT9M114_PID, &model);
 
-The respective exynos functions are being removed. The file_operations
-structure exynos_drm_driver_fops is now being created by the helper macro
-DEFINE_DRM_GEM_FOPS().
+Thanks for the update.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/exynos/exynos_drm_drv.c   | 13 ++-----
- drivers/gpu/drm/exynos/exynos_drm_fbdev.c | 20 ++---------
- drivers/gpu/drm/exynos/exynos_drm_gem.c   | 43 +++++------------------
- drivers/gpu/drm/exynos/exynos_drm_gem.h   |  5 ---
- 4 files changed, 13 insertions(+), 68 deletions(-)
+The cast seems to be there still.
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-index e60257f1f24b..1d46751cad02 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-@@ -102,16 +102,7 @@ static const struct drm_ioctl_desc exynos_ioctls[] = {
- 			DRM_RENDER_ALLOW),
- };
- 
--static const struct file_operations exynos_drm_driver_fops = {
--	.owner		= THIS_MODULE,
--	.open		= drm_open,
--	.mmap		= exynos_drm_gem_mmap,
--	.poll		= drm_poll,
--	.read		= drm_read,
--	.unlocked_ioctl	= drm_ioctl,
--	.compat_ioctl = drm_compat_ioctl,
--	.release	= drm_release,
--};
-+DEFINE_DRM_GEM_FOPS(exynos_drm_driver_fops);
- 
- static const struct drm_driver exynos_drm_driver = {
- 	.driver_features	= DRIVER_MODESET | DRIVER_GEM
-@@ -124,7 +115,7 @@ static const struct drm_driver exynos_drm_driver = {
- 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
- 	.gem_prime_import	= exynos_drm_gem_prime_import,
- 	.gem_prime_import_sg_table	= exynos_drm_gem_prime_import_sg_table,
--	.gem_prime_mmap		= exynos_drm_gem_prime_mmap,
-+	.gem_prime_mmap		= drm_gem_prime_mmap,
- 	.ioctls			= exynos_ioctls,
- 	.num_ioctls		= ARRAY_SIZE(exynos_ioctls),
- 	.fops			= &exynos_drm_driver_fops,
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-index 5147f5929be7..02c97b9ca926 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-@@ -15,6 +15,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_prime.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/exynos_drm.h>
- 
-@@ -39,25 +40,8 @@ static int exynos_drm_fb_mmap(struct fb_info *info,
- 	struct drm_fb_helper *helper = info->par;
- 	struct exynos_drm_fbdev *exynos_fbd = to_exynos_fbdev(helper);
- 	struct exynos_drm_gem *exynos_gem = exynos_fbd->exynos_gem;
--	unsigned long vm_size;
--	int ret;
--
--	vma->vm_flags |= VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
--
--	vm_size = vma->vm_end - vma->vm_start;
--
--	if (vm_size > exynos_gem->size)
--		return -EINVAL;
- 
--	ret = dma_mmap_attrs(to_dma_dev(helper->dev), vma, exynos_gem->cookie,
--			     exynos_gem->dma_addr, exynos_gem->size,
--			     exynos_gem->dma_attrs);
--	if (ret < 0) {
--		DRM_DEV_ERROR(to_dma_dev(helper->dev), "failed to mmap.\n");
--		return ret;
--	}
--
--	return 0;
-+	return drm_gem_prime_mmap(&exynos_gem->base, vma);
- }
- 
- static const struct fb_ops exynos_drm_fb_ops = {
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm/exynos/exynos_drm_gem.c
-index 4396224227d1..c4b63902ee7a 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
-@@ -17,6 +17,8 @@
- #include "exynos_drm_drv.h"
- #include "exynos_drm_gem.h"
- 
-+static int exynos_drm_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
-+
- static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem, bool kvmap)
- {
- 	struct drm_device *dev = exynos_gem->base.dev;
-@@ -135,6 +137,7 @@ static const struct vm_operations_struct exynos_drm_gem_vm_ops = {
- static const struct drm_gem_object_funcs exynos_drm_gem_object_funcs = {
- 	.free = exynos_drm_gem_free_object,
- 	.get_sg_table = exynos_drm_gem_prime_get_sg_table,
-+	.mmap = exynos_drm_gem_mmap,
- 	.vm_ops = &exynos_drm_gem_vm_ops,
- };
- 
-@@ -354,12 +357,16 @@ int exynos_drm_gem_dumb_create(struct drm_file *file_priv,
- 	return 0;
- }
- 
--static int exynos_drm_gem_mmap_obj(struct drm_gem_object *obj,
--				   struct vm_area_struct *vma)
-+static int exynos_drm_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- {
- 	struct exynos_drm_gem *exynos_gem = to_exynos_gem(obj);
- 	int ret;
- 
-+	if (obj->import_attach)
-+		return dma_buf_mmap(obj->dma_buf, vma, 0);
-+
-+	vma->vm_flags |= VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
-+
- 	DRM_DEV_DEBUG_KMS(to_dma_dev(obj->dev), "flags = 0x%x\n",
- 			  exynos_gem->flags);
- 
-@@ -385,26 +392,6 @@ static int exynos_drm_gem_mmap_obj(struct drm_gem_object *obj,
- 	return ret;
- }
- 
--int exynos_drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
--{
--	struct drm_gem_object *obj;
--	int ret;
--
--	/* set vm_area_struct. */
--	ret = drm_gem_mmap(filp, vma);
--	if (ret < 0) {
--		DRM_ERROR("failed to mmap.\n");
--		return ret;
--	}
--
--	obj = vma->vm_private_data;
--
--	if (obj->import_attach)
--		return dma_buf_mmap(obj->dma_buf, vma, 0);
--
--	return exynos_drm_gem_mmap_obj(obj, vma);
--}
--
- /* low-level interface prime helpers */
- struct drm_gem_object *exynos_drm_gem_prime_import(struct drm_device *dev,
- 					    struct dma_buf *dma_buf)
-@@ -466,15 +453,3 @@ exynos_drm_gem_prime_import_sg_table(struct drm_device *dev,
- 	exynos_gem->sgt = sgt;
- 	return &exynos_gem->base;
- }
--
--int exynos_drm_gem_prime_mmap(struct drm_gem_object *obj,
--			      struct vm_area_struct *vma)
--{
--	int ret;
--
--	ret = drm_gem_mmap_obj(obj, obj->size, vma);
--	if (ret < 0)
--		return ret;
--
--	return exynos_drm_gem_mmap_obj(obj, vma);
--}
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.h b/drivers/gpu/drm/exynos/exynos_drm_gem.h
-index a23272fb96fb..79d7e1a87419 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_gem.h
-+++ b/drivers/gpu/drm/exynos/exynos_drm_gem.h
-@@ -96,9 +96,6 @@ int exynos_drm_gem_dumb_create(struct drm_file *file_priv,
- 			       struct drm_device *dev,
- 			       struct drm_mode_create_dumb *args);
- 
--/* set vm_flags and we can change the vm attribute to other one at here. */
--int exynos_drm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
--
- /* low-level interface prime helpers */
- struct drm_gem_object *exynos_drm_gem_prime_import(struct drm_device *dev,
- 					    struct dma_buf *dma_buf);
-@@ -107,7 +104,5 @@ struct drm_gem_object *
- exynos_drm_gem_prime_import_sg_table(struct drm_device *dev,
- 				     struct dma_buf_attachment *attach,
- 				     struct sg_table *sgt);
--int exynos_drm_gem_prime_mmap(struct drm_gem_object *obj,
--			      struct vm_area_struct *vma);
- 
- #endif
+> +	if (ret)
+> +		return ret;
+> +	dev->real_model_id = model;
+>  
+> -	if (retvalue != MT9M114_MOD_ID) {
+> +	if (model != MT9M114_MOD_ID) {
+>  		dev_err(&client->dev, "%s: failed: client->addr = %x\n",
+>  			__func__, client->addr);
+>  		return -ENODEV;
+
 -- 
-2.32.0
-
+Sakari Ailus
