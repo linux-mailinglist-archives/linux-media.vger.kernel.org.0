@@ -2,241 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C10D3B44E3
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 15:56:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC0B23B4544
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 16:11:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231484AbhFYN6c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Jun 2021 09:58:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49948 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229653AbhFYN62 (ORCPT
+        id S231552AbhFYOOQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Jun 2021 10:14:16 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:58370 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231501AbhFYOOQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Jun 2021 09:58:28 -0400
-Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B733C061766
-        for <linux-media@vger.kernel.org>; Fri, 25 Jun 2021 06:56:08 -0700 (PDT)
-Received: by mail-il1-x129.google.com with SMTP id g3so876852ilj.7
-        for <linux-media@vger.kernel.org>; Fri, 25 Jun 2021 06:56:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=81n+GTbzc4AbJWlslSC8YP9E9oQstMauU2nWKw3pJ48=;
-        b=C07lXPGcgLjNS5ptvUVl4aP6RXrfXrW/QrTdytAQHQ8nV0L6nBltmmnYnVpROwsfFc
-         tinKHD2qufaHNTg7fiRQFhNPl8NTFhdxWSAcjllSlxyLhvaFxueRyP+Ow34iRQug1Ymx
-         mrRPq11+rdnuXs0/y4mVuz9p7TMp8UiI4Ij6g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=81n+GTbzc4AbJWlslSC8YP9E9oQstMauU2nWKw3pJ48=;
-        b=TdiAqgwsUhRYtnpZRVIqN//fDdQ4F0HEskSrx0TOi7WpAyk1sg/cZEfBm4TKSlPfDP
-         mMU1Eztygc1dQ4ndDCaIF7dAV55RmOkQIUoiknl+XsVMaSsvwfxp3CGEd3sAtZuvY/Ep
-         7+RaVEJGN/03TqTtDYKFK9VW9FseUqFE6p6F/5XgRv61pAAz0F6TGk1JLhdVzXXf1bbD
-         1Wwo/c6GVQHOB4U1EEwgOwRN1QshszAggCc/JL9KKcM3ccUfw6SPBw4NQuqgZ6RtvH+T
-         Ptz/xXnsGtiibKiy00IeepPhOkgCvkYesxn7KXoLHZlVzWs8gqOKyNmiLmZL2t9KmrBn
-         vStg==
-X-Gm-Message-State: AOAM531w9w6Ue5o62WahGDU8Do8Uq4j4nwDV+fOX/xF2WGOZWceH1Kmo
-        EE3iyY5HrexM6ku+LkIObU9hAxHIU5VssA==
-X-Google-Smtp-Source: ABdhPJz9nXmdvYgSy7Tr6nIY/Gyo4HhgTVnqg7m1iLvC+/dlUYGa5eZSriXOaJ3Iysh1yqmk6KIHiQ==
-X-Received: by 2002:a92:b74d:: with SMTP id c13mr7506474ilm.90.1624629367309;
-        Fri, 25 Jun 2021 06:56:07 -0700 (PDT)
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com. [209.85.166.172])
-        by smtp.gmail.com with ESMTPSA id x11sm3311050ilc.40.2021.06.25.06.56.06
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Jun 2021 06:56:06 -0700 (PDT)
-Received: by mail-il1-f172.google.com with SMTP id q9so9765511ilj.3
-        for <linux-media@vger.kernel.org>; Fri, 25 Jun 2021 06:56:06 -0700 (PDT)
-X-Received: by 2002:a92:2a05:: with SMTP id r5mr7197734ile.69.1624629365800;
- Fri, 25 Jun 2021 06:56:05 -0700 (PDT)
+        Fri, 25 Jun 2021 10:14:16 -0400
+Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:42b6:51ca:7d52:50ad])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2DD131F4474C;
+        Fri, 25 Jun 2021 15:11:51 +0100 (BST)
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
+        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        festevam@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
+        andrzej.p@collabora.com, jc@kynesim.co.uk,
+        jernej.skrabec@gmail.com, nicolas@ndufresne.ca, cphealy@gmail.com
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v4 0/9]  Additional features for Hantro HEVC
+Date:   Fri, 25 Jun 2021 16:11:34 +0200
+Message-Id: <20210625141143.577998-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210618122923.385938-1-ribalda@chromium.org> <20210618122923.385938-22-ribalda@chromium.org>
- <CANiDSCvNvJ_xyuqgvvFv6aZGSm=H-9=SeV6wp5C_0-acm+wC=A@mail.gmail.com> <820809c2-a564-8a79-c279-7570c3bcc801@xs4all.nl>
-In-Reply-To: <820809c2-a564-8a79-c279-7570c3bcc801@xs4all.nl>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Fri, 25 Jun 2021 15:55:54 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvwQvDYKNqxAZjtAKY6CGNrnn21LMoNnsg7FrrDiooi-A@mail.gmail.com>
-Message-ID: <CANiDSCvwQvDYKNqxAZjtAKY6CGNrnn21LMoNnsg7FrrDiooi-A@mail.gmail.com>
-Subject: Re: [PATCH v10 21/21] media: uvcvideo: Return -EACCES to inactive controls
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, tfiga@chromium.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans
+version 4:
+ - Log file descriptor in trace point.
+ - Add documentation about how use the trace points in Hantro driver.
+ - Fix typos.
+ - Make sure that 10 bits output format (i.e. P010) is only enumerated
+   when encoded input stream is 10 bits.
+ - Create ops structure for variant to store their specific functions.
+ - Rename scaling ops to enumare_framesizes
 
-On Fri, 25 Jun 2021 at 13:07, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> On 25/06/2021 12:29, Ricardo Ribalda wrote:
-> > Hi Hans
-> >
-> > Did you have some hardware that did not work fine without this patch?
-> > Am I remembering correctly?
->
-> Yes, that's correct. It's one of my webcams, but I can't remember which one
-> it is. You probably want me to test this v10?
->
-> Regards,
+Run fluster on this version: the results are the same 70 over 147 streams OK.
+Test streams with embedded scaling list are now decoded and the output
+is correct for our eyes but the values of the pixels (y, u and V) are
+different from the values of the reference (decoded for FFMPEG) so the
+stream of still KO. When decoded with GStreamer or vendor stack the
+pixels values are the same but not matching with FFMPEG.
 
-That would be awesome. Thanks!
+Compressed help to increase the performance of the whole stack, it could
+be up to 50 fps (against 45 fps) on IMX8MQ.
+The impact of compressed frames is confirmed when using perf to monitor
+the number of memory accesses with or without compression feature.
+The following command
+perf stat -a -e imx8_ddr0/cycles/,imx8_ddr0/read-cycles/,imx8_ddr0/write-cycles/ gst-launch-1.0 filesrc location=Jockey_3840x2160_120fps_420_8bit_HEVC_RAW.hevc ! queue ! h265parse ! v4l2slh265dec ! fakesink
 
->
->         Hans
->
-> >
-> > Thanks!
-> >
-> > On Fri, 18 Jun 2021 at 14:29, Ricardo Ribalda <ribalda@chromium.org> wrote:
-> >>
-> >> If a control is inactive return -EACCES to let the userspace know that
-> >> the value will not be applied automatically when the control is active
-> >> again.
-> >>
-> >> Also make sure that query_v4l2_ctrl doesn't return an error.
-> >>
-> >> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> >> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> >> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> >> ---
-> >>  drivers/media/usb/uvc/uvc_ctrl.c | 73 +++++++++++++++++++++-----------
-> >>  1 file changed, 49 insertions(+), 24 deletions(-)
-> >>
-> >> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> >> index da44d5c0b9ad..4f80c06d3c43 100644
-> >> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> >> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> >> @@ -1104,13 +1104,36 @@ static const char *uvc_map_get_name(const struct uvc_control_mapping *map)
-> >>         return "Unknown Control";
-> >>  }
-> >>
-> >> +static bool uvc_ctrl_is_inactive(struct uvc_video_chain *chain,
-> >> +                                struct uvc_control *ctrl,
-> >> +                                struct uvc_control_mapping *mapping)
-> >> +{
-> >> +       struct uvc_control_mapping *master_map = NULL;
-> >> +       struct uvc_control *master_ctrl = NULL;
-> >> +       s32 val;
-> >> +       int ret;
-> >> +
-> >> +       if (!mapping->master_id)
-> >> +               return false;
-> >> +
-> >> +       __uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
-> >> +                          &master_ctrl, 0);
-> >> +
-> >> +       if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
-> >> +               return false;
-> >> +
-> >> +       ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-> >> +       if (ret < 0 || val == mapping->master_manual)
-> >> +               return false;
-> >> +
-> >> +       return true;
-> >> +}
-> >> +
-> >>  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
-> >>         struct uvc_control *ctrl,
-> >>         struct uvc_control_mapping *mapping,
-> >>         struct v4l2_queryctrl *v4l2_ctrl)
-> >>  {
-> >> -       struct uvc_control_mapping *master_map = NULL;
-> >> -       struct uvc_control *master_ctrl = NULL;
-> >>         const struct uvc_menu_info *menu;
-> >>         unsigned int i;
-> >>
-> >> @@ -1126,18 +1149,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
-> >>         if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
-> >>                 v4l2_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> >>
-> >> -       if (mapping->master_id)
-> >> -               __uvc_find_control(ctrl->entity, mapping->master_id,
-> >> -                                  &master_map, &master_ctrl, 0);
-> >> -       if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
-> >> -               s32 val;
-> >> -               int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-> >> -               if (ret < 0)
-> >> -                       return ret;
-> >> -
-> >> -               if (val != mapping->master_manual)
-> >> -                               v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
-> >> -       }
-> >> +       if (uvc_ctrl_is_inactive(chain, ctrl, mapping))
-> >> +               v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
-> >>
-> >>         if (!ctrl->cached) {
-> >>                 int ret = uvc_ctrl_populate_cache(chain, ctrl);
-> >> @@ -1660,25 +1673,37 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
-> >>         return 0;
-> >>  }
-> >>
-> >> -static int uvc_ctrl_find_ctrl_idx(struct uvc_entity *entity,
-> >> -                                 struct v4l2_ext_controls *ctrls,
-> >> -                                 struct uvc_control *uvc_control)
-> >> +static int uvc_ctrl_commit_error(struct uvc_video_chain *chain,
-> >> +                                struct uvc_entity *entity,
-> >> +                                struct v4l2_ext_controls *ctrls,
-> >> +                                struct uvc_control *err_control,
-> >> +                                int ret)
-> >>  {
-> >>         struct uvc_control_mapping *mapping;
-> >>         struct uvc_control *ctrl_found;
-> >>         unsigned int i;
-> >>
-> >> -       if (!entity)
-> >> -               return ctrls->count;
-> >> +       if (!entity) {
-> >> +               ctrls->error_idx = ctrls->count;
-> >> +               return ret;
-> >> +       }
-> >>
-> >>         for (i = 0; i < ctrls->count; i++) {
-> >>                 __uvc_find_control(entity, ctrls->controls[i].id, &mapping,
-> >>                                    &ctrl_found, 0);
-> >> -               if (uvc_control == ctrl_found)
-> >> -                       return i;
-> >> +               if (err_control == ctrl_found)
-> >> +                       break;
-> >>         }
-> >> +       ctrls->error_idx = i;
-> >> +
-> >> +       /* We could not find the control that failed. */
-> >> +       if (i == ctrls->count)
-> >> +               return ret;
-> >> +
-> >> +       if (uvc_ctrl_is_inactive(chain, err_control, mapping))
-> >> +               return -EACCES;
-> >>
-> >> -       return ctrls->count;
-> >> +       return ret;
-> >>  }
-> >>
-> >>  int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
-> >> @@ -1701,8 +1726,8 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
-> >>                 uvc_ctrl_send_events(handle, ctrls->controls, ctrls->count);
-> >>  done:
-> >>         if (ret < 0 && ctrls)
-> >> -               ctrls->error_idx = uvc_ctrl_find_ctrl_idx(entity, ctrls,
-> >> -                                                         err_ctrl);
-> >> +               ret = uvc_ctrl_commit_error(chain, entity, ctrls, err_ctrl,
-> >> +                                           ret);
-> >>         mutex_unlock(&chain->ctrl_mutex);
-> >>         return ret;
-> >>  }
-> >> --
-> >> 2.32.0.288.g62a8d224e6-goog
-> >>
-> >
-> >
->
+give us these results
+without compression feature:
+ Performance counter stats for 'system wide':
 
+       14965816743      imx8_ddr0/cycles/                                           
+         889197312      imx8_ddr0/read-cycles/                                      
+        1819348862      imx8_ddr0/write-cycles/                                     
+
+      18.707373001 seconds time elapsed
+
+with compression feature:
+Performance counter stats for 'system wide':
+
+       13750218243      imx8_ddr0/cycles/                                           
+         402428744      imx8_ddr0/read-cycles/                                      
+        1255676693      imx8_ddr0/write-cycles/                                     
+
+      17.188320061 seconds time elapsed
+
+As expected the number of read/write cycles are really lower when compression
+is used.
+Thanks to Chris for perf command line :-)
+
+version 3:
+ - Change trace file name to hantro_trace.h
+
+version 2:
+ - Fix structure name in ext-ctrls-codec.rst
+ - Define the value for compression storage size
+ - Add comments about registers usage
+ - Add documentation about P010 padding
+
+Basic HEVC support has been added to Hantro driver in this pull request:
+https://www.spinics.net/lists/linux-media/msg193744.html
+
+Thanks to that it is now possible to support more features for this driver.
+
+The first patch allow to log the hardware performance per macroblock.
+The second patch makes the driver use compressed reference frames to
+reduce memory bandwidth consumption.
+Patches 3 to 5 allow to decode and produce 10-bits P010 frames.
+Patch 6 make usage of G2 post processor to scale down the frames.
+Patches 7 and 8 add the support of HEVC scaling matrix by adding a new
+control.
+
+All these patches enhance the HEVC support for Hantro (G2) hardware.
+Unluckily they almost all touch the same pieces of code, where buffer
+size, offset and addresses are set, so they have to be in this order.
+They depend of the series pushed in this pull request:
+https://www.spinics.net/lists/linux-media/msg193744.html
+
+Benjamin
+
+ 
+Benjamin Gaignard (9):
+  media: hantro: Trace hevc hw cycles performance register
+  media: hantro: Add support of compressed reference buffers
+  media: hantro: hevc: Allow 10-bits encoded streams
+  media: Add P010 video format
+  media: hantro: hevc: Allow to produce 10-bit frames
+  media: hantro: create ops for variants
+  media: hantro: enumerate scaled output formats
+  media: hevc: Add scaling matrix control
+  media: hantro: Add scaling lists feature
+
+ Documentation/admin-guide/media/hantro.rst    |  14 ++
+ .../admin-guide/media/v4l-drivers.rst         |   1 +
+ .../media/v4l/ext-ctrls-codec.rst             |  45 +++++
+ .../media/v4l/pixfmt-yuv-planar.rst           |  78 +++++++-
+ .../media/v4l/vidioc-queryctrl.rst            |   6 +
+ drivers/media/v4l2-core/v4l2-common.c         |   1 +
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     |   6 +
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   4 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ drivers/staging/media/hantro/hantro.h         |  21 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  22 ++-
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 186 ++++++++++++++++--
+ drivers/staging/media/hantro/hantro_g2_regs.h |  12 ++
+ drivers/staging/media/hantro/hantro_hevc.c    |  69 ++++++-
+ drivers/staging/media/hantro/hantro_hw.h      |   8 +
+ drivers/staging/media/hantro/hantro_trace.h   |  41 ++++
+ drivers/staging/media/hantro/hantro_v4l2.c    |  41 +++-
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   |  22 ++-
+ .../staging/media/hantro/rockchip_vpu_hw.c    |  30 ++-
+ .../staging/media/hantro/sama5d4_vdec_hw.c    |   6 +-
+ include/media/hevc-ctrls.h                    |  11 ++
+ include/uapi/linux/videodev2.h                |   1 +
+ 22 files changed, 580 insertions(+), 46 deletions(-)
+ create mode 100644 Documentation/admin-guide/media/hantro.rst
+ create mode 100644 drivers/staging/media/hantro/hantro_trace.h
 
 -- 
-Ricardo Ribalda
+2.25.1
+
