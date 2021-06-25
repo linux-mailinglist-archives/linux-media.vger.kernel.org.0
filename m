@@ -2,214 +2,727 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67B9A3B422A
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 13:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07DE93B43A6
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 14:58:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbhFYLJZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Jun 2021 07:09:25 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:60985 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229470AbhFYLJY (ORCPT
+        id S230151AbhFYNAg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Jun 2021 09:00:36 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:42859 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229653AbhFYNAf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Jun 2021 07:09:24 -0400
+        Fri, 25 Jun 2021 09:00:35 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id wjfmlcvH01OYwwjfqlAhv4; Fri, 25 Jun 2021 13:07:02 +0200
+        id wlPOldR1U1OYwwlPRlAz9z; Fri, 25 Jun 2021 14:58:13 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1624619222; bh=Wu7Kje7VzpdR2S0epXC11xzEebwdVuaNFdRXexyySFA=;
+        t=1624625893; bh=zlJFsV3YoSxs508PHdiZ6DhSxtKZKBmgjdp6m7aVsXg=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=WpKaqTr4HPlqsSYLv2N9kGTqpanSX1e3roqsTbSLPEjMDwOnoe+5S9lPgzCjpll1R
-         YpFTxvG+n+/XJosWtmtlDIS3/9Z3/hmgWkNMI3o26wksBRAvpycIwNdttU3xgXs6MG
-         mObrKtqsCQ6j6UgsVt85DRzdqyZ6zdRGeYxDplewW6Y0sIQkntZLeAi6MLdtctpCUH
-         r4regiGzeB4NhbC2vJ9vIUwCekgMSaRW25/iOvjX6LQaQHUuDGuGUmL2O8dR722cza
-         3W5weC01VGJ2Vi+ldhwgopfXYjKBSPxR2VJSotlH8Kh4ySNM9+78xIgOeraiHivH0/
-         202RRbONvc6/g==
-Subject: Re: [PATCH v10 21/21] media: uvcvideo: Return -EACCES to inactive
- controls
-To:     Ricardo Ribalda <ribalda@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, tfiga@chromium.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        linux-kernel@vger.kernel.org
-References: <20210618122923.385938-1-ribalda@chromium.org>
- <20210618122923.385938-22-ribalda@chromium.org>
- <CANiDSCvNvJ_xyuqgvvFv6aZGSm=H-9=SeV6wp5C_0-acm+wC=A@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <820809c2-a564-8a79-c279-7570c3bcc801@xs4all.nl>
-Date:   Fri, 25 Jun 2021 13:06:58 +0200
+        b=DtUzx4fhIVw0Lh13nrpcOL+9F5xo3abopcX81b91v13D5xzrVl5UBNeIWPtbes8hU
+         imYuQnQw71gPSHpbkXFYjvDp4XPAIXdg4vnCoi+kmm+DGOb43ts0PJlEmt94V9vk5P
+         /JAaJ4js1HQMt/COTRllGB4Mj8L54QaZLHzEXxbQ6aHmcUHFmgoz3CLbHZm5bd7JGh
+         6s4lDARyuN4vyC6BrIDSG2aGj8oJSyETP5JjnerMcoyavV5uo8/3puCNq3vJSGGPL9
+         F8S4gpBdyY43hnoHcS3VPiJ7XntAkkbNONMClezHNUGi2/xnOhzEQCdgLJUcPsdYWh
+         GGNoJHhZIyU7A==
+Subject: Re: [PATCH v5 2/3] cec: expand One Touch Record tests
+To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     jaffe1@gmail.com
+References: <cover.1624578960.git.deborahbrouwer3563@gmail.com>
+ <2b5592160b49f271a234b16f91d50922b339679e.1624578960.git.deborahbrouwer3563@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <59f17434-f561-33cf-a595-5103a736a0d4@xs4all.nl>
+Date:   Fri, 25 Jun 2021 14:58:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <CANiDSCvNvJ_xyuqgvvFv6aZGSm=H-9=SeV6wp5C_0-acm+wC=A@mail.gmail.com>
+In-Reply-To: <2b5592160b49f271a234b16f91d50922b339679e.1624578960.git.deborahbrouwer3563@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfCV9eM1HLHCFNy6nG0ISnD3d2g0swA8KHsJESK5PNd5fEHaG+Kaw3ejofPb/I1PlDakte1xV52/7/sAhGzZISvBGNmbHh2RYWM9Lwj6HC13tWCSgHj0S
- i0UQOvvjDQQYdlSvKyjhDWDn/ts2umaDgKYA3AbkQNLUBVRiCHMAzlaLfV3piIdMZc1+LCbQfP6fRDrVVieqBc9a9oCL16bAC4l+bkW3YwPIOE4/nHmfvkcy
- WQuw0BiBkMPb2lAyhF7iqS08/s8Znyb0cWjbB8YsvhaI3JmkdziNkxttKtfHb3xQZaDWSGJk/Ok37MdJ/Qx+/Q4y9NM0sTXR70Uo1sYh4a6yGaPVAl/yyORf
- OURHnmJFqQReqJT1SBy6oyea829EiqzokTsNhHk8ITecycWbH+/yb0CueXOcmXj5QpiVwbw+5uE0XPY260imn/Zaj+ndoaLUDe1p7TV4BE+Vvqa1J8M=
+X-CMAE-Envelope: MS4xfFiX7y8zqU497CYG/+ZzzB1EacRrzW8po7znnU7Wt1I/ie2dHlfz3DPhgS5SrAOyIXb8efdw+yFmlcXc0JtLINM23HjB+miH0M7/PSKHUvIFERP/uzMw
+ GMbsFq0g/Bs2TYrBnWWIMfjqwbiSnCWOVOLOSgE2yXYaxPwrCdIIHdfnTGDZ7Ji0DN06i8i/TmQvpI+ll95MPPO/MPsCtt7SOo7+WsIHJU0x9OSLaQEZVI00
+ YzStC9iA6P2MFNf2XPp7u1QiRwI75k1fO70pbhI0yPo=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/06/2021 12:29, Ricardo Ribalda wrote:
-> Hi Hans
+On 25/06/2021 02:13, Deborah Brouwer wrote:
+> Expand the One Touch Record tests so that the follower and initiator know
+> their local and remote device types and respond accordingly. Send Record
+> TV Screen and check that Record On source replies are valid. Send Record
+> On source messages and check that Record Status replies are valid. Send
+> Record Off and check that the recording terminates.
 > 
-> Did you have some hardware that did not work fine without this patch?
-> Am I remembering correctly?
+> Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
+> ---
+>  utils/cec-compliance/cec-compliance.cpp |   1 +
+>  utils/cec-compliance/cec-compliance.h   |   1 +
+>  utils/cec-compliance/cec-test.cpp       | 321 +++++++++++++++++++++---
+>  utils/cec-follower/cec-follower.cpp     |   1 +
+>  utils/cec-follower/cec-follower.h       |   2 +
+>  utils/cec-follower/cec-processing.cpp   |   4 +-
+>  utils/cec-follower/cec-tuner.cpp        | 133 ++++++++--
+>  7 files changed, 417 insertions(+), 46 deletions(-)
+> 
+> diff --git a/utils/cec-compliance/cec-compliance.cpp b/utils/cec-compliance/cec-compliance.cpp
+> index c04904c2..d4b12298 100644
+> --- a/utils/cec-compliance/cec-compliance.cpp
+> +++ b/utils/cec-compliance/cec-compliance.cpp
+> @@ -1236,6 +1236,7 @@ int main(int argc, char **argv)
+>  	node.num_log_addrs = laddrs.num_log_addrs;
+>  	memcpy(node.log_addr, laddrs.log_addr, laddrs.num_log_addrs);
+>  	node.adap_la_mask = laddrs.log_addr_mask;
+> +	node.prim_devtype = laddrs.primary_device_type[0];
+>  
+>  	printf("Find remote devices:\n");
+>  	printf("\tPolling: %s\n", ok(poll_remote_devs(&node)));
+> diff --git a/utils/cec-compliance/cec-compliance.h b/utils/cec-compliance/cec-compliance.h
+> index 818181ab..41e2d63d 100644
+> --- a/utils/cec-compliance/cec-compliance.h
+> +++ b/utils/cec-compliance/cec-compliance.h
+> @@ -166,6 +166,7 @@ struct node {
+>  	struct remote remote[16];
+>  	__u16 phys_addr;
+>  	bool in_standby;
+> +	__u8 prim_devtype;
+>  };
+>  
+>  struct remote_subtest {
+> diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
+> index 40d8369d..f4d1bcc0 100644
+> --- a/utils/cec-compliance/cec-test.cpp
+> +++ b/utils/cec-compliance/cec-test.cpp
+> @@ -48,6 +48,70 @@ static int test_play_mode(struct node *node, unsigned me, unsigned la, __u8 play
+>  	return OK;
+>  }
+>  
+> +static int one_touch_rec_on_send(struct node *node, unsigned me, unsigned la,
+> +                                 const struct cec_op_record_src &rec_src, __u8 &rec_status)
+> +{
+> +	struct cec_msg msg;
+> +
+> +	cec_msg_init(&msg, me, la);
+> +	cec_msg_record_off(&msg, false);
+> +	fail_on_test(!transmit_timeout(node, &msg));
+> +
+> +	cec_msg_init(&msg, me, la);
+> +	cec_msg_record_on(&msg, true, &rec_src);
+> +	/* Allow 10s for reply because the spec says it may take several seconds to accurately respond. */
+> +	fail_on_test(!transmit_timeout(node, &msg, 10000));
+> +	fail_on_test(timed_out_or_abort(&msg));
+> +	cec_ops_record_status(&msg, &rec_status);
+> +
+> +	return OK;
+> +}
+> +
+> +static int one_touch_rec_on_send_invalid(struct node *node, unsigned me, unsigned la,
+> +                                         const struct cec_op_record_src &rec_src)
+> +{
+> +	struct cec_msg msg;
+> +
+> +	cec_msg_init(&msg, me, la);
+> +	cec_msg_record_on(&msg, true, &rec_src);
+> +	fail_on_test(!transmit_timeout(node, &msg));
+> +	fail_on_test(!cec_msg_status_is_abort(&msg));
+> +	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
+> +
+> +	return OK;
+> +}
+> +
+> +/*
+> + * Returns true if the Record Status is an error indicating that the
+> + * request to start recording has failed.
+> + */
+> +static bool rec_status_is_a_valid_error_status(__u8 rec_status)
+> +{
+> +	switch (rec_status) {
+> +	case CEC_OP_RECORD_STATUS_NO_DIG_SERVICE:
+> +	case CEC_OP_RECORD_STATUS_NO_ANA_SERVICE:
+> +	case CEC_OP_RECORD_STATUS_NO_SERVICE:
+> +	case CEC_OP_RECORD_STATUS_INVALID_EXT_PLUG:
+> +	case CEC_OP_RECORD_STATUS_INVALID_EXT_PHYS_ADDR:
+> +	case CEC_OP_RECORD_STATUS_UNSUP_CA:
+> +	case CEC_OP_RECORD_STATUS_NO_CA_ENTITLEMENTS:
+> +	case CEC_OP_RECORD_STATUS_CANT_COPY_SRC:
+> +	case CEC_OP_RECORD_STATUS_NO_MORE_COPIES:
+> +	case CEC_OP_RECORD_STATUS_NO_MEDIA:
+> +	case CEC_OP_RECORD_STATUS_PLAYING:
+> +	case CEC_OP_RECORD_STATUS_ALREADY_RECORDING:
+> +	case CEC_OP_RECORD_STATUS_MEDIA_PROT:
+> +	case CEC_OP_RECORD_STATUS_NO_SIGNAL:
+> +	case CEC_OP_RECORD_STATUS_MEDIA_PROBLEM:
+> +	case CEC_OP_RECORD_STATUS_NO_SPACE:
+> +	case CEC_OP_RECORD_STATUS_PARENTAL_LOCK:
+> +	case CEC_OP_RECORD_STATUS_OTHER:
+> +		return true;
+> +	default:
+> +		return false;
+> +	}
+> +}
+> +
+>  /* System Information */
+>  
+>  int system_info_polling(struct node *node, unsigned me, unsigned la, bool interactive)
+> @@ -1141,24 +1205,14 @@ static const vec_remote_subtests tuner_ctl_subtests{
+>  
+>  /* One Touch Record */
+>  
+> -/*
+> -  TODO: These are very rudimentary tests which should be expanded.
+> -
+> -  - The HDMI CEC 1.4b spec details that Standby shall not be acted upon while the
+> -    device is recording, but it should remember that it received Standby.
+> - */
+> -
+>  static int one_touch_rec_tv_screen(struct node *node, unsigned me, unsigned la, bool interactive)
+>  {
+> -	/*
+> -	  TODO:
+> -	  - Page 36 in HDMI CEC 1.4b spec lists additional behaviors that should be
+> -	    checked for.
+> -	  - The TV should ignore this message when received from other LA than Recording or
+> -	    Reserved.
+> -	 */
+>  	struct cec_msg msg;
+>  
+> +	cec_msg_init(&msg, me, la);
+> +	cec_msg_report_physical_addr(&msg, node->phys_addr, node->prim_devtype);
+> +	fail_on_test(!transmit_timeout(node, &msg));
 
-Yes, that's correct. It's one of my webcams, but I can't remember which one
-it is. You probably want me to test this v10?
+Why send this message? That comes out of nowhere. I missed this in the review of v4.
+AFAICT this shouldn't be needed at all.
+
+> +
+>  	cec_msg_init(&msg, me, la);
+>  	cec_msg_record_tv_screen(&msg, true);
+>  	fail_on_test(!transmit_timeout(node, &msg));
+> @@ -1172,45 +1226,237 @@ static int one_touch_rec_tv_screen(struct node *node, unsigned me, unsigned la,
+>  		return OK_REFUSED;
+>  	if (cec_msg_status_is_abort(&msg))
+>  		return OK_PRESUMED;
+> +	/* Follower should ignore this message if it is not sent by a recording device */
+> +	if (node->prim_devtype != CEC_OP_PRIM_DEVTYPE_RECORD) {
+> +		fail_on_test(!timed_out(&msg));
+> +		return OK;
+> +	}
+> +	fail_on_test(timed_out(&msg));
+>  
+> -	return 0;
+> +	struct cec_op_record_src rec_src = {};
+> +
+> +	cec_ops_record_on(&msg, &rec_src);
+> +
+> +	fail_on_test(rec_src.type < CEC_OP_RECORD_SRC_OWN ||
+> +	             rec_src.type > CEC_OP_RECORD_SRC_EXT_PHYS_ADDR);
+> +
+> +	if (rec_src.type == CEC_OP_RECORD_SRC_DIGITAL &&
+> +	    rec_src.digital.service_id_method == CEC_OP_SERVICE_ID_METHOD_BY_DIG_ID) {
+> +		switch (rec_src.digital.dig_bcast_system) {
+> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_GEN:
+> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_GEN:
+> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_GEN:
+> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_BS:
+> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_CS:
+> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_T:
+> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_CABLE:
+> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_SAT:
+> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_T:
+> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_C:
+> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_S:
+> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_S2:
+> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_T:
+> +			break;
+> +		default:
+> +			return fail("Invalid digital service broadcast system operand.\n");
+> +		}
+> +	}
+> +
+> +	if (rec_src.type == CEC_OP_RECORD_SRC_ANALOG) {
+> +		fail_on_test(rec_src.analog.ana_bcast_type > CEC_OP_ANA_BCAST_TYPE_TERRESTRIAL);
+> +		fail_on_test(rec_src.analog.bcast_system > CEC_OP_BCAST_SYSTEM_PAL_DK &&
+> +		             rec_src.analog.bcast_system != CEC_OP_BCAST_SYSTEM_OTHER);
+> +		fail_on_test(rec_src.analog.ana_freq == 0 || rec_src.analog.ana_freq == 0xffff);
+> +	}
+> +
+> +	if (rec_src.type == CEC_OP_RECORD_SRC_EXT_PLUG)
+> +		fail_on_test(rec_src.ext_plug.plug == 0);
+> +
+> +	return OK;
+>  }
+>  
+>  static int one_touch_rec_on(struct node *node, unsigned me, unsigned la, bool interactive)
+>  {
+> -	/*
+> -	  TODO: Page 36 in HDMI CEC 1.4b spec lists additional behaviors that should be
+> -	  checked for.
+> -	 */
+>  	struct cec_msg msg;
+>  	struct cec_op_record_src rec_src = {};
+>  
+>  	rec_src.type = CEC_OP_RECORD_SRC_OWN;
+>  	cec_msg_init(&msg, me, la);
+>  	cec_msg_record_on(&msg, true, &rec_src);
+> -	fail_on_test(!transmit_timeout(node, &msg));
+> +	/* Allow 10s for reply because the spec says it may take several seconds to accurately respond. */
+> +	fail_on_test(!transmit_timeout(node, &msg, 10000));
+>  	fail_on_test(timed_out(&msg));
+> -	fail_on_test(cec_has_record(1 << la) && unrecognized_op(&msg));
+> -	if (unrecognized_op(&msg))
+> +	if (unrecognized_op(&msg)) {
+> +		fail_on_test(node->remote[la].prim_type == CEC_OP_PRIM_DEVTYPE_RECORD);
+>  		return OK_NOT_SUPPORTED;
+> +	}
+>  	if (refused(&msg))
+>  		return OK_REFUSED;
+>  	if (cec_msg_status_is_abort(&msg))
+>  		return OK_PRESUMED;
+>  
+> -	return 0;
+> +	__u8 rec_status;
+> +
+> +	cec_ops_record_status(&msg, &rec_status);
+> +	if (rec_status != CEC_OP_RECORD_STATUS_CUR_SRC)
+> +		fail_on_test(!rec_status_is_a_valid_error_status(rec_status));
+> +
+> +	/* In the following tests, these digital services are taken from the cec-follower tuner emulation. */
+> +	memset(&rec_src, 0, sizeof(rec_src));
+> +	rec_src.type = CEC_OP_RECORD_SRC_DIGITAL;
+> +	rec_src.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_DIG_ID;
+> +	rec_src.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_BS;
+> +	rec_src.digital.arib.transport_id = 1032;
+> +	rec_src.digital.arib.service_id = 30203;
+> +	rec_src.digital.arib.orig_network_id = 1;
+> +	fail_on_test(one_touch_rec_on_send(node, me, la, rec_src, rec_status));
+> +	if (rec_status != CEC_OP_RECORD_STATUS_DIG_SERVICE)
+> +		fail_on_test(!rec_status_is_a_valid_error_status(rec_status));
+> +
+> +	memset(&rec_src, 0, sizeof(rec_src));
+> +	rec_src.type = CEC_OP_RECORD_SRC_DIGITAL;
+> +	rec_src.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_CHANNEL;
+> +	rec_src.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_T;
+> +	rec_src.digital.channel.channel_number_fmt = 2;
+> +	rec_src.digital.channel.major = 4;
+> +	rec_src.digital.channel.minor = 1;
+> +	fail_on_test(one_touch_rec_on_send(node, me, la, rec_src, rec_status));
+> +	if (rec_status != CEC_OP_RECORD_STATUS_DIG_SERVICE)
+> +		fail_on_test(!rec_status_is_a_valid_error_status(rec_status));
+> +
+> +	memset(&rec_src, 0, sizeof(rec_src));
+> +	rec_src.type = CEC_OP_RECORD_SRC_DIGITAL;
+> +	rec_src.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_DIG_ID;
+> +	rec_src.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_T;
+> +	rec_src.digital.dvb.transport_id = 1004;
+> +	rec_src.digital.dvb.service_id = 1040;
+> +	rec_src.digital.dvb.orig_network_id = 8945;
+> +	fail_on_test(one_touch_rec_on_send(node, me, la, rec_src, rec_status));
+> +	if (rec_status != CEC_OP_RECORD_STATUS_DIG_SERVICE)
+> +		fail_on_test(!rec_status_is_a_valid_error_status(rec_status));
+> +
+> +	/* In the following tests, these channels taken from the cec-follower tuner emulation. */
+> +	memset(&rec_src, 0, sizeof(rec_src));
+> +	rec_src.type = CEC_OP_RECORD_STATUS_ANA_SERVICE;
+> +	rec_src.analog.ana_bcast_type = CEC_OP_ANA_BCAST_TYPE_CABLE;
+> +	rec_src.analog.ana_freq = (471250 * 10) / 625;
+> +	rec_src.analog.bcast_system = CEC_OP_BCAST_SYSTEM_PAL_BG;
+> +	fail_on_test(one_touch_rec_on_send(node, me, la, rec_src, rec_status));
+> +	if (rec_status != CEC_OP_RECORD_STATUS_ANA_SERVICE)
+> +		fail_on_test(!rec_status_is_a_valid_error_status(rec_status));
+> +
+> +	memset(&rec_src, 0, sizeof(rec_src));
+> +	rec_src.type = CEC_OP_RECORD_STATUS_ANA_SERVICE;
+> +	rec_src.analog.ana_bcast_type = CEC_OP_ANA_BCAST_TYPE_SATELLITE;
+> +	rec_src.analog.ana_freq = (551250 * 10) / 625;
+> +	rec_src.analog.bcast_system = CEC_OP_BCAST_SYSTEM_SECAM_BG;
+> +	fail_on_test(one_touch_rec_on_send(node, me, la, rec_src, rec_status));
+> +	if (rec_status != CEC_OP_RECORD_STATUS_ANA_SERVICE)
+> +		fail_on_test(!rec_status_is_a_valid_error_status(rec_status));
+> +
+> +	memset(&rec_src, 0, sizeof(rec_src));
+> +	rec_src.type = CEC_OP_RECORD_STATUS_ANA_SERVICE;
+> +	rec_src.analog.ana_bcast_type = CEC_OP_ANA_BCAST_TYPE_TERRESTRIAL;
+> +	rec_src.analog.ana_freq = (185250 * 10) / 625;
+> +	rec_src.analog.bcast_system = CEC_OP_BCAST_SYSTEM_PAL_DK;
+> +	fail_on_test(one_touch_rec_on_send(node, me, la, rec_src, rec_status));
+> +	if (rec_status != CEC_OP_RECORD_STATUS_ANA_SERVICE)
+> +		fail_on_test(!rec_status_is_a_valid_error_status(rec_status));
+> +
+> +	memset(&rec_src, 0, sizeof(rec_src));
+> +	rec_src.type = CEC_OP_RECORD_SRC_EXT_PLUG;
+> +	rec_src.ext_plug.plug = 1;
+> +	fail_on_test(one_touch_rec_on_send(node, me, la, rec_src, rec_status));
+> +	if (rec_status != CEC_OP_RECORD_STATUS_EXT_INPUT)
+> +		fail_on_test(!rec_status_is_a_valid_error_status(rec_status));
+> +
+> +	memset(&rec_src, 0, sizeof(rec_src));
+> +	rec_src.type = CEC_OP_RECORD_SRC_EXT_PHYS_ADDR;
+> +	fail_on_test(one_touch_rec_on_send(node, me, la, rec_src, rec_status));
+> +	if (rec_status != CEC_OP_RECORD_STATUS_EXT_INPUT)
+> +		fail_on_test(!rec_status_is_a_valid_error_status(rec_status));
+> +
+> +	return OK;
+>  }
+>  
+> -static int one_touch_rec_off(struct node *node, unsigned me, unsigned la, bool interactive)
+> +static int one_touch_rec_on_invalid(struct node *node, unsigned me, unsigned la, bool interactive)
+>  {
+>  	struct cec_msg msg;
+>  
+>  	cec_msg_init(&msg, me, la);
+> -	cec_msg_record_off(&msg, false);
+> +	cec_msg_record_on_own(&msg);
+> +	msg.msg[2] = 0;  /* Invalid source operand */
+>  	fail_on_test(!transmit_timeout(node, &msg));
+> -	fail_on_test(cec_has_record(1 << la) && unrecognized_op(&msg));
+>  	if (unrecognized_op(&msg))
+>  		return OK_NOT_SUPPORTED;
+> +	fail_on_test(!cec_msg_status_is_abort(&msg));
+> +	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
+> +
+> +	cec_msg_init(&msg, me, la);
+> +	cec_msg_record_on_own(&msg);
+> +	msg.msg[2] = 6;  /* Invalid source operand */
+> +	fail_on_test(!transmit_timeout(node, &msg));
+> +	fail_on_test(!cec_msg_status_is_abort(&msg));
+> +	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
+> +
+> +	struct cec_op_record_src rec_src = {};
+> +
+> +	rec_src.type = CEC_OP_RECORD_SRC_DIGITAL;
+> +	rec_src.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_CHANNEL;
+> +	rec_src.digital.dig_bcast_system = 0x7f; /* Invalid digital service broadcast system operand */
+> +	rec_src.digital.channel.channel_number_fmt = 1;
+> +	rec_src.digital.channel.major = 0;
+> +	rec_src.digital.channel.minor = 30203;
+> +	fail_on_test(one_touch_rec_on_send_invalid(node, me, la, rec_src));
+> +
+> +	memset(&rec_src, 0, sizeof(rec_src));
+> +	rec_src.type = CEC_OP_RECORD_SRC_ANALOG;
+> +	rec_src.analog.ana_bcast_type = 0xff; /* Invalid analog broadcast type */
+> +	rec_src.analog.ana_freq = (519250 * 10) / 625;
+> +	rec_src.analog.bcast_system = CEC_OP_BCAST_SYSTEM_PAL_BG;
+> +	fail_on_test(one_touch_rec_on_send_invalid(node, me, la, rec_src));
+> +
+> +	memset(&rec_src, 0, sizeof(rec_src));
+> +	rec_src.type = CEC_OP_RECORD_SRC_ANALOG;
+> +	rec_src.analog.ana_bcast_type = CEC_OP_ANA_BCAST_TYPE_SATELLITE;
+> +	rec_src.analog.ana_freq = (703250 * 10) / 625;
+> +	rec_src.analog.bcast_system = 0xff; /* Invalid analog broadcast system */
+> +	fail_on_test(one_touch_rec_on_send_invalid(node, me, la, rec_src));
+> +
+> +	memset(&rec_src, 0, sizeof(rec_src));
+> +	rec_src.type = CEC_OP_RECORD_SRC_ANALOG;
+> +	rec_src.analog.ana_bcast_type = CEC_OP_ANA_BCAST_TYPE_TERRESTRIAL;
+> +	rec_src.analog.ana_freq = 0; /* Invalid frequency */
+> +	rec_src.analog.bcast_system = CEC_OP_BCAST_SYSTEM_NTSC_M;
+> +	fail_on_test(one_touch_rec_on_send_invalid(node, me, la, rec_src));
+> +
+> +	memset(&rec_src, 0, sizeof(rec_src));
+> +	rec_src.type = CEC_OP_RECORD_SRC_ANALOG;
+> +	rec_src.analog.ana_bcast_type = CEC_OP_ANA_BCAST_TYPE_CABLE;
+> +	rec_src.analog.ana_freq = 0xffff; /* Invalid frequency */
+> +	rec_src.analog.bcast_system = CEC_OP_BCAST_SYSTEM_SECAM_L;
+> +	fail_on_test(one_touch_rec_on_send_invalid(node, me, la, rec_src));
+> +
+> +	memset(&rec_src, 0, sizeof(rec_src));
+> +	rec_src.type = CEC_OP_RECORD_SRC_EXT_PLUG;
+> +	rec_src.ext_plug.plug = 0; /* Invalid plug */
+> +	fail_on_test(one_touch_rec_on_send_invalid(node, me, la, rec_src));
+> +
+> +	return OK;
+> +}
+> +
+> +static int one_touch_rec_off(struct node *node, unsigned me, unsigned la, bool interactive)
+> +{
+> +	struct cec_msg msg;
+> +
+> +	cec_msg_init(&msg, me, la);
+> +	cec_msg_record_off(&msg, true);
+> +	/* Allow 10s for reply because the spec says it may take several seconds to accurately respond. */
+> +	fail_on_test(!transmit_timeout(node, &msg, 10000));
+> +	if (unrecognized_op(&msg)) {
+> +		fail_on_test(node->remote[la].prim_type == CEC_OP_PRIM_DEVTYPE_RECORD);
+> +		return OK_NOT_SUPPORTED;
+> +	}
+>  	if (refused(&msg))
+>  		return OK_REFUSED;
+>  	if (cec_msg_status_is_abort(&msg))
+> @@ -1218,13 +1464,30 @@ static int one_touch_rec_off(struct node *node, unsigned me, unsigned la, bool i
+>  	if (timed_out(&msg))
+>  		return OK_PRESUMED;
+>  
+> -	return 0;
+> +	__u8 rec_status;
+> +
+> +	cec_ops_record_status(&msg, &rec_status);
+> +
+> +	fail_on_test(rec_status != CEC_OP_RECORD_STATUS_TERMINATED_OK &&
+> +	             rec_status != CEC_OP_RECORD_STATUS_ALREADY_TERM);
+> +
+> +	return OK;
+>  }
+>  
+>  static const vec_remote_subtests one_touch_rec_subtests{
+>  	{ "Record TV Screen", CEC_LOG_ADDR_MASK_TV, one_touch_rec_tv_screen },
+> -	{ "Record On", CEC_LOG_ADDR_MASK_RECORD, one_touch_rec_on },
+> -	{ "Record Off", CEC_LOG_ADDR_MASK_RECORD, one_touch_rec_off },
+> +	{
+> +		"Record On",
+> +		CEC_LOG_ADDR_MASK_RECORD | CEC_LOG_ADDR_MASK_BACKUP,
+> +		one_touch_rec_on,
+> +	},
+> +	{
+> +		"Record On Invalid Operand",
+> +		CEC_LOG_ADDR_MASK_RECORD | CEC_LOG_ADDR_MASK_BACKUP,
+> +		one_touch_rec_on_invalid,
+> +	},
+> +	{ "Record Off", CEC_LOG_ADDR_MASK_RECORD | CEC_LOG_ADDR_MASK_BACKUP, one_touch_rec_off },
+> +
+>  };
+>  
+>  /* Timer Programming */
+> diff --git a/utils/cec-follower/cec-follower.cpp b/utils/cec-follower/cec-follower.cpp
+> index ff47d698..482192e7 100644
+> --- a/utils/cec-follower/cec-follower.cpp
+> +++ b/utils/cec-follower/cec-follower.cpp
+> @@ -317,6 +317,7 @@ void state_init(struct node &node)
+>  	node.state.deck_report_changes_to = 0;
+>  	node.state.deck_state = CEC_OP_DECK_INFO_STOP;
+>  	node.state.deck_skip_start = 0;
+> +	node.state.one_touch_record_on = false;
+>  	tuner_dev_info_init(&node.state);
+>  	node.state.last_aud_rate_rx_ts = 0;
+>  }
+> diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
+> index 343ae998..3bcb2774 100644
+> --- a/utils/cec-follower/cec-follower.h
+> +++ b/utils/cec-follower/cec-follower.h
+> @@ -53,6 +53,7 @@ struct state {
+>  	__u8 deck_report_changes_to;
+>  	__u8 deck_state;
+>  	__u64 deck_skip_start;
+> +	bool one_touch_record_on;
+>  	time_t toggle_power_status;
+>  	__u64 last_aud_rate_rx_ts;
+>  };
+> @@ -62,6 +63,7 @@ struct node {
+>  	const char *device;
+>  	unsigned caps;
+>  	unsigned available_log_addrs;
+> +	__u8 remote_prim_devtype;
+>  	unsigned adap_la_mask;
+>  	unsigned remote_la_mask;
+>  	__u16 remote_phys_addr[15];
+> diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+> index b1c8f3d9..f985a841 100644
+> --- a/utils/cec-follower/cec-processing.cpp
+> +++ b/utils/cec-follower/cec-processing.cpp
+> @@ -396,8 +396,10 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me, __u8
+>  		__u8 prim_dev_type;
+>  
+>  		cec_ops_report_physical_addr(&msg, &phys_addr, &prim_dev_type);
+> -		if (from < 15)
+> +		if (from < 15) {
+>  			node->remote_phys_addr[from] = phys_addr;
+> +			node->remote_prim_devtype = prim_dev_type;
+
+This must be an array since each remote CEC device will have its own physical address
+(already an array) and primary device type.
+
+> +		}
+>  		return;
+>  	}
+>  
+> diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
+> index d1718986..0f40b7d7 100644
+> --- a/utils/cec-follower/cec-tuner.cpp
+> +++ b/utils/cec-follower/cec-tuner.cpp
+> @@ -482,6 +482,58 @@ static bool analog_set_tuner_dev_info(struct node *node, struct cec_msg *msg)
+>  	return false;
+>  }
+>  
+> +static bool digital_operand_invalid(const struct cec_op_record_src &rec_src)
+> +{
+> +	switch (rec_src.digital.dig_bcast_system) {
+> +	case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_GEN:
+> +	case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_GEN:
+> +	case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_GEN:
+> +	case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_BS:
+> +	case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_CS:
+> +	case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_T:
+> +	case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_CABLE:
+> +	case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_SAT:
+> +	case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_T:
+> +	case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_C:
+> +	case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_S:
+> +	case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_S2:
+> +	case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_T:
+> +		return false;
+> +	default:
+> +		return true;
+> +	}
+> +}
+> +
+> +static bool analog_operand_invalid(const cec_op_record_src &rec_src)
+> +{
+> +	if (rec_src.analog.ana_bcast_type > CEC_OP_ANA_BCAST_TYPE_TERRESTRIAL)
+> +		return true;
+> +
+> +	if (rec_src.analog.bcast_system > CEC_OP_BCAST_SYSTEM_PAL_DK &&
+> +	    rec_src.analog.bcast_system != CEC_OP_BCAST_SYSTEM_OTHER)
+> +		return true;
+> +
+> +	if (rec_src.analog.ana_freq == 0 || rec_src.analog.ana_freq == 0xffff)
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+> +static bool analog_channel_is_available(const cec_op_record_src &rec_src)
+> +{
+> +	__u8 bcast_type = rec_src.analog.ana_bcast_type;
+> +	unsigned freq = (rec_src.analog.ana_freq * 625) / 10;
+> +	__u8 bcast_system = rec_src.analog.bcast_system;
+> +
+> +	for (unsigned i = 0; i < NUM_ANALOG_FREQS; i++) {
+> +
+
+No need for this newline.
+
+> +		if (freq == analog_freqs_khz[bcast_type][bcast_system][i])
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+>  void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me, __u8 type)
+>  {
+>  	bool is_bcast = cec_msg_is_broadcast(&msg);
+> @@ -577,23 +629,16 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
+>  		return;
+>  	}
+>  
+> -		/*
+> -		  One Touch Record
+> -
+> -		  This is only a basic implementation.
+> -
+> -		  TODO:
+> -		  - If we are a TV, we should only send Record On if the
+> -		    remote end is a Recording device or Reserved. Otherwise ignore.
+> -
+> -		  - Device state should reflect whether we are recording, etc. In
+> -		    recording mode we should ignore Standby messages.
+> -		*/
+> +		/* One Touch Record */
+>  
+>  	case CEC_MSG_RECORD_TV_SCREEN: {
+>  		if (!node->has_rec_tv)
+>  			break;
+>  
+> +		/* Ignore if initiator is not a recording device */
+> +		if (node->remote_prim_devtype != CEC_OP_PRIM_DEVTYPE_RECORD)
+> +			return;
+
+This is a little bit of a problem in the follower: you don't know the remote primary devtype
+until you receive a CEC_MSG_REPORT_PHYSICAL_ADDR message.
+
+I think this is the only place where you use remote_prim_devtype. I think I would just
+check if the initiator is a recording device based on the logical address, and if not,
+then check remote_prim_devtype[la] as an additional check. This latter test might
+fail if we haven't seen a CEC_MSG_REPORT_PHYSICAL_ADDR from that initiator yet. But
+it is probably not worth the effort to fix this properly (that would entail asking
+for the physical address of all potential remote CEC devices).
+		
+
+> +
+>  		struct cec_op_record_src rec_src = {};
+>  
+>  		rec_src.type = CEC_OP_RECORD_SRC_OWN;
+> @@ -602,19 +647,75 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
+>  		transmit(node, &msg);
+>  		return;
+>  	}
+> -	case CEC_MSG_RECORD_ON:
+> -		if (!cec_has_record(1 << me))
+> +	case CEC_MSG_RECORD_ON: {
+> +		if (type != CEC_LOG_ADDR_TYPE_RECORD)
+> +			break;
+> +
+> +		__u8 rec_status;
+> +		bool feature_abort = false;
+> +		struct cec_op_record_src rec_src = {};
+> +
+> +		cec_ops_record_on(&msg, &rec_src);
+> +		switch (rec_src.type) {
+> +		case CEC_OP_RECORD_SRC_OWN:
+> +			rec_status = CEC_OP_RECORD_STATUS_CUR_SRC;
+> +			break;
+> +		case CEC_OP_RECORD_SRC_DIGITAL:
+> +			if (digital_operand_invalid(rec_src)) {
+> +				feature_abort = true;
+> +				break;
+> +			}
+> +			if (digital_get_service_idx(&rec_src.digital) >= 0)
+> +				rec_status = CEC_OP_RECORD_STATUS_DIG_SERVICE;
+> +			else
+> +				rec_status = CEC_OP_RECORD_STATUS_NO_DIG_SERVICE;
+> +			break;
+> +		case CEC_OP_RECORD_SRC_ANALOG:
+> +			if (analog_operand_invalid(rec_src)) {
+> +				feature_abort = true;
+> +				break;
+> +			}
+> +			if (analog_channel_is_available(rec_src))
+> +				rec_status = CEC_OP_RECORD_STATUS_ANA_SERVICE;
+> +			else
+> +				rec_status = CEC_OP_RECORD_STATUS_NO_ANA_SERVICE;
+> +			break;
+> +		case CEC_OP_RECORD_SRC_EXT_PLUG:
+> +			if (rec_src.ext_plug.plug == 0)
+> +				feature_abort = true;
+> +			/* Plug number range is 1-255 in spec, but a realistic range of connectors is 6. */
+> +			else if (rec_src.ext_plug.plug > 6)
+> +				rec_status = CEC_OP_RECORD_STATUS_INVALID_EXT_PLUG;
+> +			else
+> +				rec_status = CEC_OP_RECORD_STATUS_EXT_INPUT;
+> +			break;
+> +		case CEC_OP_RECORD_SRC_EXT_PHYS_ADDR:
+> +			rec_status = CEC_OP_RECORD_STATUS_INVALID_EXT_PHYS_ADDR;
+> +			break;
+> +		default:
+> +			feature_abort = true;
+>  			break;
+> +		}
+> +		if (feature_abort) {
+> +			reply_feature_abort(node, &msg, CEC_OP_ABORT_INVALID_OP);
+> +			return;
+> +		}
+> +		if (node->state.one_touch_record_on)
+> +			rec_status = CEC_OP_RECORD_STATUS_ALREADY_RECORDING;
+>  		cec_msg_set_reply_to(&msg, &msg);
+> -		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_CUR_SRC);
+> +		cec_msg_record_status(&msg, rec_status);
+>  		transmit(node, &msg);
+> +		node->state.one_touch_record_on = true;
+>  		return;
+> +	}
+>  	case CEC_MSG_RECORD_OFF:
+> -		if (!cec_has_record(1 << me))
+> +		if (type != CEC_LOG_ADDR_TYPE_RECORD)
+>  			break;
+> +
+>  		cec_msg_set_reply_to(&msg, &msg);
+>  		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_TERMINATED_OK);
+>  		transmit(node, &msg);
+> +		node->state.one_touch_record_on = false;
+>  		return;
+>  	case CEC_MSG_RECORD_STATUS:
+>  		return;
+> 
 
 Regards,
 
 	Hans
-
-> 
-> Thanks!
-> 
-> On Fri, 18 Jun 2021 at 14:29, Ricardo Ribalda <ribalda@chromium.org> wrote:
->>
->> If a control is inactive return -EACCES to let the userspace know that
->> the value will not be applied automatically when the control is active
->> again.
->>
->> Also make sure that query_v4l2_ctrl doesn't return an error.
->>
->> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->> ---
->>  drivers/media/usb/uvc/uvc_ctrl.c | 73 +++++++++++++++++++++-----------
->>  1 file changed, 49 insertions(+), 24 deletions(-)
->>
->> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
->> index da44d5c0b9ad..4f80c06d3c43 100644
->> --- a/drivers/media/usb/uvc/uvc_ctrl.c
->> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
->> @@ -1104,13 +1104,36 @@ static const char *uvc_map_get_name(const struct uvc_control_mapping *map)
->>         return "Unknown Control";
->>  }
->>
->> +static bool uvc_ctrl_is_inactive(struct uvc_video_chain *chain,
->> +                                struct uvc_control *ctrl,
->> +                                struct uvc_control_mapping *mapping)
->> +{
->> +       struct uvc_control_mapping *master_map = NULL;
->> +       struct uvc_control *master_ctrl = NULL;
->> +       s32 val;
->> +       int ret;
->> +
->> +       if (!mapping->master_id)
->> +               return false;
->> +
->> +       __uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
->> +                          &master_ctrl, 0);
->> +
->> +       if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
->> +               return false;
->> +
->> +       ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
->> +       if (ret < 0 || val == mapping->master_manual)
->> +               return false;
->> +
->> +       return true;
->> +}
->> +
->>  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->>         struct uvc_control *ctrl,
->>         struct uvc_control_mapping *mapping,
->>         struct v4l2_queryctrl *v4l2_ctrl)
->>  {
->> -       struct uvc_control_mapping *master_map = NULL;
->> -       struct uvc_control *master_ctrl = NULL;
->>         const struct uvc_menu_info *menu;
->>         unsigned int i;
->>
->> @@ -1126,18 +1149,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->>         if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
->>                 v4l2_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>
->> -       if (mapping->master_id)
->> -               __uvc_find_control(ctrl->entity, mapping->master_id,
->> -                                  &master_map, &master_ctrl, 0);
->> -       if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
->> -               s32 val;
->> -               int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
->> -               if (ret < 0)
->> -                       return ret;
->> -
->> -               if (val != mapping->master_manual)
->> -                               v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
->> -       }
->> +       if (uvc_ctrl_is_inactive(chain, ctrl, mapping))
->> +               v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
->>
->>         if (!ctrl->cached) {
->>                 int ret = uvc_ctrl_populate_cache(chain, ctrl);
->> @@ -1660,25 +1673,37 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
->>         return 0;
->>  }
->>
->> -static int uvc_ctrl_find_ctrl_idx(struct uvc_entity *entity,
->> -                                 struct v4l2_ext_controls *ctrls,
->> -                                 struct uvc_control *uvc_control)
->> +static int uvc_ctrl_commit_error(struct uvc_video_chain *chain,
->> +                                struct uvc_entity *entity,
->> +                                struct v4l2_ext_controls *ctrls,
->> +                                struct uvc_control *err_control,
->> +                                int ret)
->>  {
->>         struct uvc_control_mapping *mapping;
->>         struct uvc_control *ctrl_found;
->>         unsigned int i;
->>
->> -       if (!entity)
->> -               return ctrls->count;
->> +       if (!entity) {
->> +               ctrls->error_idx = ctrls->count;
->> +               return ret;
->> +       }
->>
->>         for (i = 0; i < ctrls->count; i++) {
->>                 __uvc_find_control(entity, ctrls->controls[i].id, &mapping,
->>                                    &ctrl_found, 0);
->> -               if (uvc_control == ctrl_found)
->> -                       return i;
->> +               if (err_control == ctrl_found)
->> +                       break;
->>         }
->> +       ctrls->error_idx = i;
->> +
->> +       /* We could not find the control that failed. */
->> +       if (i == ctrls->count)
->> +               return ret;
->> +
->> +       if (uvc_ctrl_is_inactive(chain, err_control, mapping))
->> +               return -EACCES;
->>
->> -       return ctrls->count;
->> +       return ret;
->>  }
->>
->>  int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
->> @@ -1701,8 +1726,8 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
->>                 uvc_ctrl_send_events(handle, ctrls->controls, ctrls->count);
->>  done:
->>         if (ret < 0 && ctrls)
->> -               ctrls->error_idx = uvc_ctrl_find_ctrl_idx(entity, ctrls,
->> -                                                         err_ctrl);
->> +               ret = uvc_ctrl_commit_error(chain, entity, ctrls, err_ctrl,
->> +                                           ret);
->>         mutex_unlock(&chain->ctrl_mutex);
->>         return ret;
->>  }
->> --
->> 2.32.0.288.g62a8d224e6-goog
->>
-> 
-> 
-
