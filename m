@@ -2,22 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC0B23B4544
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 16:11:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AD233B4546
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 16:12:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231552AbhFYOOQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Jun 2021 10:14:16 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:58370 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231501AbhFYOOQ (ORCPT
+        id S231701AbhFYOO3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Jun 2021 10:14:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53504 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231672AbhFYOO3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Jun 2021 10:14:16 -0400
+        Fri, 25 Jun 2021 10:14:29 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1861DC061766;
+        Fri, 25 Jun 2021 07:12:08 -0700 (PDT)
 Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:42b6:51ca:7d52:50ad])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2DD131F4474C;
-        Fri, 25 Jun 2021 15:11:51 +0100 (BST)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 557F71F4474E;
+        Fri, 25 Jun 2021 15:11:53 +0100 (BST)
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
         mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
@@ -30,130 +33,205 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v4 0/9]  Additional features for Hantro HEVC
-Date:   Fri, 25 Jun 2021 16:11:34 +0200
-Message-Id: <20210625141143.577998-1-benjamin.gaignard@collabora.com>
+Subject: [PATCH v4 1/9] media: hantro: Trace hevc hw cycles performance register
+Date:   Fri, 25 Jun 2021 16:11:35 +0200
+Message-Id: <20210625141143.577998-2-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210625141143.577998-1-benjamin.gaignard@collabora.com>
+References: <20210625141143.577998-1-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+After each hevc decoded frame trace the hardware performance.
+It provides the number of hw cycles spend per decoded macroblock.
+
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
 version 4:
  - Log file descriptor in trace point.
  - Add documentation about how use the trace points in Hantro driver.
- - Fix typos.
- - Make sure that 10 bits output format (i.e. P010) is only enumerated
-   when encoded input stream is 10 bits.
- - Create ops structure for variant to store their specific functions.
- - Rename scaling ops to enumare_framesizes
-
-Run fluster on this version: the results are the same 70 over 147 streams OK.
-Test streams with embedded scaling list are now decoded and the output
-is correct for our eyes but the values of the pixels (y, u and V) are
-different from the values of the reference (decoded for FFMPEG) so the
-stream of still KO. When decoded with GStreamer or vendor stack the
-pixels values are the same but not matching with FFMPEG.
-
-Compressed help to increase the performance of the whole stack, it could
-be up to 50 fps (against 45 fps) on IMX8MQ.
-The impact of compressed frames is confirmed when using perf to monitor
-the number of memory accesses with or without compression feature.
-The following command
-perf stat -a -e imx8_ddr0/cycles/,imx8_ddr0/read-cycles/,imx8_ddr0/write-cycles/ gst-launch-1.0 filesrc location=Jockey_3840x2160_120fps_420_8bit_HEVC_RAW.hevc ! queue ! h265parse ! v4l2slh265dec ! fakesink
-
-give us these results
-without compression feature:
- Performance counter stats for 'system wide':
-
-       14965816743      imx8_ddr0/cycles/                                           
-         889197312      imx8_ddr0/read-cycles/                                      
-        1819348862      imx8_ddr0/write-cycles/                                     
-
-      18.707373001 seconds time elapsed
-
-with compression feature:
-Performance counter stats for 'system wide':
-
-       13750218243      imx8_ddr0/cycles/                                           
-         402428744      imx8_ddr0/read-cycles/                                      
-        1255676693      imx8_ddr0/write-cycles/                                     
-
-      17.188320061 seconds time elapsed
-
-As expected the number of read/write cycles are really lower when compression
-is used.
-Thanks to Chris for perf command line :-)
 
 version 3:
  - Change trace file name to hantro_trace.h
 
-version 2:
- - Fix structure name in ext-ctrls-codec.rst
- - Define the value for compression storage size
- - Add comments about registers usage
- - Add documentation about P010 padding
-
-Basic HEVC support has been added to Hantro driver in this pull request:
-https://www.spinics.net/lists/linux-media/msg193744.html
-
-Thanks to that it is now possible to support more features for this driver.
-
-The first patch allow to log the hardware performance per macroblock.
-The second patch makes the driver use compressed reference frames to
-reduce memory bandwidth consumption.
-Patches 3 to 5 allow to decode and produce 10-bits P010 frames.
-Patch 6 make usage of G2 post processor to scale down the frames.
-Patches 7 and 8 add the support of HEVC scaling matrix by adding a new
-control.
-
-All these patches enhance the HEVC support for Hantro (G2) hardware.
-Unluckily they almost all touch the same pieces of code, where buffer
-size, offset and addresses are set, so they have to be in this order.
-They depend of the series pushed in this pull request:
-https://www.spinics.net/lists/linux-media/msg193744.html
-
-Benjamin
-
- 
-Benjamin Gaignard (9):
-  media: hantro: Trace hevc hw cycles performance register
-  media: hantro: Add support of compressed reference buffers
-  media: hantro: hevc: Allow 10-bits encoded streams
-  media: Add P010 video format
-  media: hantro: hevc: Allow to produce 10-bit frames
-  media: hantro: create ops for variants
-  media: hantro: enumerate scaled output formats
-  media: hevc: Add scaling matrix control
-  media: hantro: Add scaling lists feature
-
- Documentation/admin-guide/media/hantro.rst    |  14 ++
- .../admin-guide/media/v4l-drivers.rst         |   1 +
- .../media/v4l/ext-ctrls-codec.rst             |  45 +++++
- .../media/v4l/pixfmt-yuv-planar.rst           |  78 +++++++-
- .../media/v4l/vidioc-queryctrl.rst            |   6 +
- drivers/media/v4l2-core/v4l2-common.c         |   1 +
- drivers/media/v4l2-core/v4l2-ctrls-core.c     |   6 +
- drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   4 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
- drivers/staging/media/hantro/hantro.h         |  21 +-
- drivers/staging/media/hantro/hantro_drv.c     |  22 ++-
- .../staging/media/hantro/hantro_g2_hevc_dec.c | 186 ++++++++++++++++--
- drivers/staging/media/hantro/hantro_g2_regs.h |  12 ++
- drivers/staging/media/hantro/hantro_hevc.c    |  69 ++++++-
- drivers/staging/media/hantro/hantro_hw.h      |   8 +
- drivers/staging/media/hantro/hantro_trace.h   |  41 ++++
- drivers/staging/media/hantro/hantro_v4l2.c    |  41 +++-
- drivers/staging/media/hantro/imx8m_vpu_hw.c   |  22 ++-
- .../staging/media/hantro/rockchip_vpu_hw.c    |  30 ++-
- .../staging/media/hantro/sama5d4_vdec_hw.c    |   6 +-
- include/media/hevc-ctrls.h                    |  11 ++
- include/uapi/linux/videodev2.h                |   1 +
- 22 files changed, 580 insertions(+), 46 deletions(-)
+ Documentation/admin-guide/media/hantro.rst    | 14 +++++++
+ .../admin-guide/media/v4l-drivers.rst         |  1 +
+ drivers/staging/media/hantro/hantro_drv.c     |  3 ++
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 16 ++++++++
+ drivers/staging/media/hantro/hantro_g2_regs.h |  1 +
+ drivers/staging/media/hantro/hantro_hw.h      |  1 +
+ drivers/staging/media/hantro/hantro_trace.h   | 41 +++++++++++++++++++
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   |  1 +
+ 8 files changed, 78 insertions(+)
  create mode 100644 Documentation/admin-guide/media/hantro.rst
  create mode 100644 drivers/staging/media/hantro/hantro_trace.h
 
+diff --git a/Documentation/admin-guide/media/hantro.rst b/Documentation/admin-guide/media/hantro.rst
+new file mode 100644
+index 000000000000..6cb552a5dfcb
+--- /dev/null
++++ b/Documentation/admin-guide/media/hantro.rst
+@@ -0,0 +1,14 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=================
++The hantro driver
++=================
++
++Trace
++~~~~~
++
++You can trace the hardware decoding performances by using event tracing::
++
++    # echo hantro_hevc_perf >> /sys/kernel/debug/tracing/set_event
++
++That will keep a log of the number of hardware cycles spend per decoded macroblock
+diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
+index 9c7ebe2ca3bd..4f2f72a2b3b5 100644
+--- a/Documentation/admin-guide/media/v4l-drivers.rst
++++ b/Documentation/admin-guide/media/v4l-drivers.rst
+@@ -15,6 +15,7 @@ Video4Linux (V4L) driver-specific documentation
+ 	cx88
+ 	davinci-vpbe
+ 	fimc
++        hantro
+ 	imx
+ 	imx7
+ 	ipu3
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 31d8449ca1d2..61c0e9f0a05e 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -28,6 +28,9 @@
+ #include "hantro.h"
+ #include "hantro_hw.h"
+ 
++#define CREATE_TRACE_POINTS
++#include "hantro_trace.h"
++
+ #define DRIVER_NAME "hantro-vpu"
+ 
+ int hantro_debug;
+diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+index 340efb57fd18..fef16d1724da 100644
+--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
++++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+@@ -7,6 +7,7 @@
+ 
+ #include "hantro_hw.h"
+ #include "hantro_g2_regs.h"
++#include "hantro_trace.h"
+ 
+ #define HEVC_DEC_MODE	0xC
+ 
+@@ -22,6 +23,21 @@ static inline void hantro_write_addr(struct hantro_dev *vpu,
+ 	vdpu_write(vpu, addr & 0xffffffff, offset);
+ }
+ 
++void hantro_g2_hevc_dec_done(struct hantro_ctx *ctx)
++{
++	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
++	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
++	struct hantro_dev *vpu = ctx->dev;
++	u32 hw_cycles = 0;
++	u32 mbs = (sps->pic_width_in_luma_samples *
++		   sps->pic_height_in_luma_samples) >> 8;
++
++	if (mbs)
++		hw_cycles = vdpu_read(vpu, G2_HW_PERFORMANCE) / mbs;
++
++	trace_hantro_hevc_perf(ctx, hw_cycles);
++}
++
+ static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
+index bb22fa921914..17d84ec9c5c2 100644
+--- a/drivers/staging/media/hantro/hantro_g2_regs.h
++++ b/drivers/staging/media/hantro/hantro_g2_regs.h
+@@ -177,6 +177,7 @@
+ #define G2_REG_CONFIG_DEC_CLK_GATE_E		BIT(16)
+ #define G2_REG_CONFIG_DEC_CLK_GATE_IDLE_E	BIT(17)
+ 
++#define G2_HW_PERFORMANCE	(G2_SWREG(63))
+ #define G2_ADDR_DST		(G2_SWREG(65))
+ #define G2_REG_ADDR_REF(i)	(G2_SWREG(67)  + ((i) * 0x8))
+ #define G2_ADDR_DST_CHR		(G2_SWREG(99))
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 5dcf65805396..5a455dd28aa6 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -242,6 +242,7 @@ void hantro_h264_dec_exit(struct hantro_ctx *ctx);
+ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
+ void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
++void hantro_g2_hevc_dec_done(struct hantro_ctx *ctx);
+ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+ void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+diff --git a/drivers/staging/media/hantro/hantro_trace.h b/drivers/staging/media/hantro/hantro_trace.h
+new file mode 100644
+index 000000000000..fa8fec26fa3c
+--- /dev/null
++++ b/drivers/staging/media/hantro/hantro_trace.h
+@@ -0,0 +1,41 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#if !defined(__HANTRO_TRACE_H__) || defined(TRACE_HEADER_MULTI_READ)
++#define __HANTRO_TRACE_H__
++
++#include <linux/tracepoint.h>
++#include <media/videobuf2-v4l2.h>
++
++#include "hantro.h"
++
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM hantro
++#define TRACE_INCLUDE_FILE hantro_trace
++
++TRACE_EVENT(hantro_hevc_perf,
++	TP_PROTO(struct hantro_ctx *ctx, u32 hw_cycles),
++
++	TP_ARGS(ctx, hw_cycles),
++
++	TP_STRUCT__entry(
++		__field(int, minor)
++		__field(struct v4l2_fh *, fh)
++		__field(u32, hw_cycles)
++	),
++
++	TP_fast_assign(
++		__entry->minor = ctx->fh.vdev->minor;
++		__entry->fh = &ctx->fh;
++		__entry->hw_cycles = hw_cycles;
++	),
++
++	TP_printk("minor = %d, fh = %p, %8d cycles / mb",
++		  __entry->minor, __entry->fh, __entry->hw_cycles)
++);
++
++#endif /* __HANTRO_TRACE_H__ */
++
++#undef TRACE_INCLUDE_PATH
++#define TRACE_INCLUDE_PATH ../../drivers/staging/media/hantro
++
++/* This part must be outside protection */
++#include <trace/define_trace.h>
+diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+index c3e616fd4e85..ab6ac620f0d0 100644
+--- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
++++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+@@ -253,6 +253,7 @@ static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
+ 		.reset = imx8m_vpu_g2_reset,
+ 		.init = hantro_hevc_dec_init,
+ 		.exit = hantro_hevc_dec_exit,
++		.done = hantro_g2_hevc_dec_done,
+ 	},
+ };
+ 
 -- 
 2.25.1
 
