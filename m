@@ -2,160 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AB313B40F0
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 11:54:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 756743B41AE
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 12:30:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230072AbhFYJ4d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Jun 2021 05:56:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51796 "EHLO
+        id S231273AbhFYKcT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Jun 2021 06:32:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229902AbhFYJ4c (ORCPT
+        with ESMTP id S230379AbhFYKcS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Jun 2021 05:56:32 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EAE1C061574
-        for <linux-media@vger.kernel.org>; Fri, 25 Jun 2021 02:54:12 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id j184so18496185qkd.6
-        for <linux-media@vger.kernel.org>; Fri, 25 Jun 2021 02:54:12 -0700 (PDT)
+        Fri, 25 Jun 2021 06:32:18 -0400
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73376C061574
+        for <linux-media@vger.kernel.org>; Fri, 25 Jun 2021 03:29:58 -0700 (PDT)
+Received: by mail-il1-x12b.google.com with SMTP id v5so9276459ilo.5
+        for <linux-media@vger.kernel.org>; Fri, 25 Jun 2021 03:29:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=5ysOTdnWB+3PCxVRgIJekXfDDaWu9A++3czkxH4rPKQ=;
-        b=qhApkcmL8RA1knZoI1WXcQEBOKedcnK9s46D+i4D4othZbJ4zY6NkWC4g2QZs7AttZ
-         0ANmpfp06zP6l/LSXS/W+2Lx8CZd40+uv1F7/kPHCGc8FKNsS5Jh7SQnPp5lJMYuMmsH
-         65An5AarVssHqDizqgDqdIEL89sM1M1n0CSk0CaVTlxg9q3w0e0QTs096yTWjYspsip/
-         DJONJwUJpjYBvPt8wch4HvWA4ekqvoPlZ/92BdPqiHdflOU1W2SbZTA7TLMTF1hTK6Yf
-         Tx9en6VaiAlNLVatdqjHM3WqxMbqTVJ0GDeVidYZyOM45l5801Jyqb3Td+IAfxL+EwdI
-         KOPQ==
+        bh=8l+zzvIF6XiRoW9cSAlQ5A0vVNKEKZTujABMITdBz4c=;
+        b=fNyJoKzV7kOp3jDzZ+via62uRAgL1/8nX362jkWvMj4LrlrwHCRUog8+n0Ep8OTWDJ
+         7tKKs+8RfjRgoCRor1pqIgf3SPrdIZadaWoeqS2jasd0OvZXVDeu5jDuY1eOx3KjiwnA
+         eK/db2nOUBYf+XwrUBwtKsyWiN0JSbW703krw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5ysOTdnWB+3PCxVRgIJekXfDDaWu9A++3czkxH4rPKQ=;
-        b=HiqYlSEVUoqYFsDOiSYtbcXkYda8SSLfnMcPSUL5fA1rGl6q/iUq6iYSm2YNAO9vMd
-         ASUVbH2z6u14jPNPNqkN9g3NXYWA9+mvY+nEz+v4IQsbDQ91ZFKRr82zEiA53L7IFwGF
-         n9nNDm0vOFwIOHpe2xwflhHq4rJ43ryTbPsc7J3lmlF83vhPRSBHKNXSm4K50jXJQyMD
-         iFL5Yf0OUw94/0T2T132WW9bp9PK6Zg5n4Y3XnpmCMVnLHRbPnO9bNmHi6pUjYwKLgVR
-         iKQFN41VvQnUbitWOUc3v0/7KGWkP8hc0jNZYjvmwSzvAPuW+T4C7EKvPZjA45OEqNJz
-         D3dQ==
-X-Gm-Message-State: AOAM531TY9cZvhduNxg0usEwMIP5CZM0FiikcSGWEMnd0eVQHQpRStfY
-        Hz5aw0evoKjnM9HrmfBppdtWWUSlzvIRoLiFrswZqA==
-X-Google-Smtp-Source: ABdhPJyVl8ZdxXr8z7xkfs2ag+GwdcePtI6ZoyNQcCfAV2qdGq0di2N35Dj6mVVFN3tkT+fmPId/mr5nmtTetOlcWmI=
-X-Received: by 2002:a37:8081:: with SMTP id b123mr10671108qkd.231.1624614850950;
- Fri, 25 Jun 2021 02:54:10 -0700 (PDT)
+        bh=8l+zzvIF6XiRoW9cSAlQ5A0vVNKEKZTujABMITdBz4c=;
+        b=LlAogvW2rofrxYuLt9tLa0mNpKQaiBzrHhPJC/o0JlxQ1kuJ2aFAvZx+Mt53C4y0pz
+         b6TMQgYyoR2hKYGLhP55tlZb13Rl60TDzm8HL7HnLRFcUzuZWi/KrLhrAEneu68QEQM4
+         ysDGQQ5zcTx2hir8H6Qf/Ag8Ac6iw5ttDg7sreQeX7j+tU+zff6nZ6wWL06/xQCRUM1w
+         oAi77SBBkEC/yOSgxjX1rcbnp0Y9JDwMkIiHud5klBZvq8WRGrTzG/h8TNOSL5JdGggD
+         KkFiKS28BRY+qVP6Fq4N44R01SLzRnPmud3NmQTx6Loz1um+sl4iEsQ7nis8TCJBk/dW
+         aJZQ==
+X-Gm-Message-State: AOAM531/Xm8qnWU6g/41y+wMSmQezc6D4xwAEiKeEEcpcWkMchbmalY/
+        2+bo3dtPrVQXQleW9QD5E3CQnKs3PQVXdg==
+X-Google-Smtp-Source: ABdhPJxcYT2QLH/LXSoEHWFjb+8iIfIgVyRPfQoxMbaiBPAvJcik3hPHzZx+wwdbuAocZPzo0SeprA==
+X-Received: by 2002:a92:dd89:: with SMTP id g9mr7072749iln.209.1624616997614;
+        Fri, 25 Jun 2021 03:29:57 -0700 (PDT)
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com. [209.85.166.171])
+        by smtp.gmail.com with ESMTPSA id s8sm3295996ilj.51.2021.06.25.03.29.56
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Jun 2021 03:29:57 -0700 (PDT)
+Received: by mail-il1-f171.google.com with SMTP id s19so9282271ilj.1
+        for <linux-media@vger.kernel.org>; Fri, 25 Jun 2021 03:29:56 -0700 (PDT)
+X-Received: by 2002:a92:6d0b:: with SMTP id i11mr6974931ilc.160.1624616996319;
+ Fri, 25 Jun 2021 03:29:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <000000000000e61e2105c58fea48@google.com> <20210625085140.1735-1-hdanton@sina.com>
- <CACT4Y+YzgaZjLCOjvhcDC5YRjjF2OBp1XE-vS5+AZOmwmneg0Q@mail.gmail.com> <20210625094638.1791-1-hdanton@sina.com>
-In-Reply-To: <20210625094638.1791-1-hdanton@sina.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Fri, 25 Jun 2021 11:53:59 +0200
-Message-ID: <CACT4Y+amrcRo=1KuKHoN7L6JoCH0Bakt5dveZt7iZDhqpSu4nA@mail.gmail.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in v4l2_ioctl (2)
-To:     Hillf Danton <hdanton@sina.com>
-Cc:     syzbot <syzbot+19c5a4b75931e8d63aab@syzkaller.appspotmail.com>,
-        ezequiel@collabora.com, hverkuil-cisco@xs4all.nl,
-        lijian@yulong.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
+References: <20210618122923.385938-1-ribalda@chromium.org> <20210618122923.385938-22-ribalda@chromium.org>
+In-Reply-To: <20210618122923.385938-22-ribalda@chromium.org>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Fri, 25 Jun 2021 12:29:44 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvNvJ_xyuqgvvFv6aZGSm=H-9=SeV6wp5C_0-acm+wC=A@mail.gmail.com>
+Message-ID: <CANiDSCvNvJ_xyuqgvvFv6aZGSm=H-9=SeV6wp5C_0-acm+wC=A@mail.gmail.com>
+Subject: Re: [PATCH v10 21/21] media: uvcvideo: Return -EACCES to inactive controls
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, tfiga@chromium.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 25, 2021 at 11:46 AM Hillf Danton <hdanton@sina.com> wrote:
+Hi Hans
+
+Did you have some hardware that did not work fine without this patch?
+Am I remembering correctly?
+
+Thanks!
+
+On Fri, 18 Jun 2021 at 14:29, Ricardo Ribalda <ribalda@chromium.org> wrote:
 >
-> On Fri, 25 Jun 2021 11:08:57 +0200 Dmitry Vyukov wrote:
-> >On Fri, Jun 25, 2021 at 10:52 AM Hillf Danton wrote:
-> >>
-> >> Given the uaf in the ioctl path, open count is needed and should be
-> >> maintained by stk and is implemented in the diff below with mutex - it
-> >> is locked at file open time, released at file release time and aquired
-> >> at disconnect time.
-> >>
-> >> This can be a quick fix to the uaf, though, lights on why the video_get(vdev)
-> >> in v4l2_open() fails to prevent stk camera from going home too early are
-> >> welcome. Is it the fault on the driver side without an eye on open count?
-> >>
-> >> +++ x/drivers/media/usb/stkwebcam/stk-webcam.c
-> >> @@ -624,8 +624,10 @@ static int v4l_stk_open(struct file *fp)
-> >>                 dev->first_init = 0;
-> >>
-> >>         err = v4l2_fh_open(fp);
-> >> -       if (!err)
-> >> +       if (!err) {
-> >>                 usb_autopm_get_interface(dev->interface);
-> >> +               mutex_trylock(&dev->free_mutex);
-> >
-> >I haven't read all of it, but doing mutex_trylock w/o checking the
-> >return value looks very fishy. Can it ever be the right thing to
-> >do?... E.g. the next line we unconditionally do mutex_unlock, are we
-> >potentially unlocking a non-locked mutex?
+> If a control is inactive return -EACCES to let the userspace know that
+> the value will not be applied automatically when the control is active
+> again.
 >
-> I am having difficulty understanding your point until I see next line...
-
-Right, the next line unlocks a different mutex, so ignore the part
-about the next line.
-
-But I am still confused about the intention of trylock w/o using the
-return value. I fail to imagine any scenarios where it's the right
-thing to do.
-
-
-> we have the same habit in regard to replying mails that deliver fix out
-> of our boxes.
+> Also make sure that query_v4l2_ctrl doesn't return an error.
 >
-> What is your local time now? Wakeup without downing a pint of black tea?
-> Or still working in the late night?
-
-It's 11:53am, so I am properly caffeinated already :)
-
-> Thanks for taking a look at it.
+> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 73 +++++++++++++++++++++-----------
+>  1 file changed, 49 insertions(+), 24 deletions(-)
 >
-> Hillf
-> >
-> >
-> >> +       }
-> >>         mutex_unlock(&dev->lock);
-> >>         return err;
-> >>  }
-> >> @@ -633,6 +635,7 @@ static int v4l_stk_open(struct file *fp)
-> >>  static int v4l_stk_release(struct file *fp)
-> >>  {
-> >>         struct stk_camera *dev = video_drvdata(fp);
-> >> +       int rc;
-> >>
-> >>         mutex_lock(&dev->lock);
-> >>         if (dev->owner == fp) {
-> >> @@ -645,7 +648,9 @@ static int v4l_stk_release(struct file *
-> >>
-> >>         usb_autopm_put_interface(dev->interface);
-> >>         mutex_unlock(&dev->lock);
-> >> -       return v4l2_fh_release(fp);
-> >> +       rc = v4l2_fh_release(fp);
-> >> +       mutex_unlock(&dev->free_mutex);
-> >> +       return rc;
-> >>  }
-> >>
-> >>  static ssize_t stk_read(struct file *fp, char __user *buf,
-> >> @@ -1306,6 +1311,7 @@ static int stk_camera_probe(struct usb_i
-> >>
-> >>         spin_lock_init(&dev->spinlock);
-> >>         mutex_init(&dev->lock);
-> >> +       mutex_init(&dev->free_mutex);
-> >>         init_waitqueue_head(&dev->wait_frame);
-> >>         dev->first_init = 1; /* webcam LED management */
-> >>
-> >> @@ -1385,6 +1391,8 @@ static void stk_camera_disconnect(struct
-> >>         video_unregister_device(&dev->vdev);
-> >>         v4l2_ctrl_handler_free(&dev->hdl);
-> >>         v4l2_device_unregister(&dev->v4l2_dev);
-> >> +       mutex_lock(&dev->free_mutex);
-> >> +       mutex_unlock(&dev->free_mutex);
-> >>         kfree(dev);
-> >>  }
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index da44d5c0b9ad..4f80c06d3c43 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1104,13 +1104,36 @@ static const char *uvc_map_get_name(const struct uvc_control_mapping *map)
+>         return "Unknown Control";
+>  }
 >
+> +static bool uvc_ctrl_is_inactive(struct uvc_video_chain *chain,
+> +                                struct uvc_control *ctrl,
+> +                                struct uvc_control_mapping *mapping)
+> +{
+> +       struct uvc_control_mapping *master_map = NULL;
+> +       struct uvc_control *master_ctrl = NULL;
+> +       s32 val;
+> +       int ret;
+> +
+> +       if (!mapping->master_id)
+> +               return false;
+> +
+> +       __uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
+> +                          &master_ctrl, 0);
+> +
+> +       if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
+> +               return false;
+> +
+> +       ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> +       if (ret < 0 || val == mapping->master_manual)
+> +               return false;
+> +
+> +       return true;
+> +}
+> +
+>  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>         struct uvc_control *ctrl,
+>         struct uvc_control_mapping *mapping,
+>         struct v4l2_queryctrl *v4l2_ctrl)
+>  {
+> -       struct uvc_control_mapping *master_map = NULL;
+> -       struct uvc_control *master_ctrl = NULL;
+>         const struct uvc_menu_info *menu;
+>         unsigned int i;
+>
+> @@ -1126,18 +1149,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>         if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+>                 v4l2_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>
+> -       if (mapping->master_id)
+> -               __uvc_find_control(ctrl->entity, mapping->master_id,
+> -                                  &master_map, &master_ctrl, 0);
+> -       if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
+> -               s32 val;
+> -               int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> -               if (ret < 0)
+> -                       return ret;
+> -
+> -               if (val != mapping->master_manual)
+> -                               v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> -       }
+> +       if (uvc_ctrl_is_inactive(chain, ctrl, mapping))
+> +               v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+>
+>         if (!ctrl->cached) {
+>                 int ret = uvc_ctrl_populate_cache(chain, ctrl);
+> @@ -1660,25 +1673,37 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
+>         return 0;
+>  }
+>
+> -static int uvc_ctrl_find_ctrl_idx(struct uvc_entity *entity,
+> -                                 struct v4l2_ext_controls *ctrls,
+> -                                 struct uvc_control *uvc_control)
+> +static int uvc_ctrl_commit_error(struct uvc_video_chain *chain,
+> +                                struct uvc_entity *entity,
+> +                                struct v4l2_ext_controls *ctrls,
+> +                                struct uvc_control *err_control,
+> +                                int ret)
+>  {
+>         struct uvc_control_mapping *mapping;
+>         struct uvc_control *ctrl_found;
+>         unsigned int i;
+>
+> -       if (!entity)
+> -               return ctrls->count;
+> +       if (!entity) {
+> +               ctrls->error_idx = ctrls->count;
+> +               return ret;
+> +       }
+>
+>         for (i = 0; i < ctrls->count; i++) {
+>                 __uvc_find_control(entity, ctrls->controls[i].id, &mapping,
+>                                    &ctrl_found, 0);
+> -               if (uvc_control == ctrl_found)
+> -                       return i;
+> +               if (err_control == ctrl_found)
+> +                       break;
+>         }
+> +       ctrls->error_idx = i;
+> +
+> +       /* We could not find the control that failed. */
+> +       if (i == ctrls->count)
+> +               return ret;
+> +
+> +       if (uvc_ctrl_is_inactive(chain, err_control, mapping))
+> +               return -EACCES;
+>
+> -       return ctrls->count;
+> +       return ret;
+>  }
+>
+>  int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
+> @@ -1701,8 +1726,8 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
+>                 uvc_ctrl_send_events(handle, ctrls->controls, ctrls->count);
+>  done:
+>         if (ret < 0 && ctrls)
+> -               ctrls->error_idx = uvc_ctrl_find_ctrl_idx(entity, ctrls,
+> -                                                         err_ctrl);
+> +               ret = uvc_ctrl_commit_error(chain, entity, ctrls, err_ctrl,
+> +                                           ret);
+>         mutex_unlock(&chain->ctrl_mutex);
+>         return ret;
+>  }
 > --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/20210625094638.1791-1-hdanton%40sina.com.
+> 2.32.0.288.g62a8d224e6-goog
+>
+
+
+-- 
+Ricardo Ribalda
