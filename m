@@ -2,240 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DE8F3B4555
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 16:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D3F83B492F
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 21:18:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231772AbhFYOOs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Jun 2021 10:14:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53580 "EHLO
+        id S229796AbhFYTUj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Jun 2021 15:20:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231807AbhFYOOm (ORCPT
+        with ESMTP id S229531AbhFYTUj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Jun 2021 10:14:42 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BB01C0617A6;
-        Fri, 25 Jun 2021 07:12:21 -0700 (PDT)
-Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:42b6:51ca:7d52:50ad])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id BFCC21F4474C;
-        Fri, 25 Jun 2021 15:12:18 +0100 (BST)
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        festevam@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        andrzej.p@collabora.com, jc@kynesim.co.uk,
-        jernej.skrabec@gmail.com, nicolas@ndufresne.ca, cphealy@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v4 9/9] media: hantro: Add scaling lists feature
-Date:   Fri, 25 Jun 2021 16:11:43 +0200
-Message-Id: <20210625141143.577998-10-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210625141143.577998-1-benjamin.gaignard@collabora.com>
-References: <20210625141143.577998-1-benjamin.gaignard@collabora.com>
+        Fri, 25 Jun 2021 15:20:39 -0400
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F34C061766
+        for <linux-media@vger.kernel.org>; Fri, 25 Jun 2021 12:18:17 -0700 (PDT)
+Received: by mail-qt1-x82a.google.com with SMTP id g12so8309097qtb.2
+        for <linux-media@vger.kernel.org>; Fri, 25 Jun 2021 12:18:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=8+KjGlQXDp1DON4loL8+NNiLFcog4PhK3R6OgOdGdTI=;
+        b=wE9u87UEdrnhb7k9MI0rUCRn4ce3qpkqOIiCj8Y4WetGAi1hxWd9u9teRhilyoHer7
+         zPpfiWsLu7xz6Ut6xP96iyi4k+TNMdw7t6DIzkUs4WVHB7pJ/6hlKjxZzhenLibjrrQT
+         xU9ei8NNvhyYrHuA9PXfSmuKqLXs7PeuI1iAaV15W858V7FjP/Qses/LVcSwcmaehCs1
+         4D0bXjhu6SHXPFB+mLnELih13rdOHuBiTvbvxUFhtFd8HoAgu4NWbCNT0PhF05uylJ9u
+         yyUZ3XLlgVkiomxVzdkylr9Z/iW9/m6c+KVmBldK+dLrYH5BWLKS6pwQI6jU7xl10eOw
+         l44A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=8+KjGlQXDp1DON4loL8+NNiLFcog4PhK3R6OgOdGdTI=;
+        b=gcnSo862V4PsqcZAsvWyiZn5BrVMIIJbNbt+PzAQwHINpX4aZQQTWVAf+3yhfSXdUs
+         soUbiN0698N2Y2mNXIAMFio655aSi0vgfqxcGXlS3xwy6m7Lb9rgJbM5/HCIwe6KMt4w
+         fWZTs4cvWePdiOYuNam+iOKqtvZiclEMmnNlr0A+QHDN7m112PYPRzpGvy9aAGFhb2Xz
+         FRDKtrpP7+xf4eho9OW4O5x9CpGLsCPx1hF9Iv043MRaRZdq4soRsrQeCzMAlQeaF4aA
+         ssW3l1IBiOLskN/qmzDISkDvP3KT+A+g0179rJqAQLK0esIBLmbf/utw+KrLmeBQZKfR
+         HRJA==
+X-Gm-Message-State: AOAM532wyD1DQ3OslvQdR8yuIrD4/ip8MkeJtueHYEO9KhetC5KZJFeR
+        YqmqMj/71jXAVBIgBmzKvf1kKQ==
+X-Google-Smtp-Source: ABdhPJxEG0jYjwnY1ZlD7YyTkCNd5N6niMHGfTQPn4XxvEkkXLg8nIyzd5U3eq0qaui6Vv1twpNlug==
+X-Received: by 2002:a05:622a:11cd:: with SMTP id n13mr11010873qtk.233.1624648696968;
+        Fri, 25 Jun 2021 12:18:16 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id 202sm4030603qki.83.2021.06.25.12.18.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Jun 2021 12:18:16 -0700 (PDT)
+Message-ID: <0d5ce46a81ca02a9cf2a01175818846fba802194.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: uvc: limit max bandwidth for HDMI capture
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org
+Date:   Fri, 25 Jun 2021 15:18:15 -0400
+In-Reply-To: <20210622102948.47b86fbe@coco.lan>
+References: <b791d5874c83663505cbd4f74907ac38d00bb727.1612206534.git.mchehab+huawei@kernel.org>
+         <YNDY4iesZGF+7Cr0@pendragon.ideasonboard.com>
+         <20210622102948.47b86fbe@coco.lan>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the bitstream embedded scaling lists allow the driver to use
-them for decode the frames.
-The scaling lists are expected to be in raster scan order (i.e. not up
-right diagonal scan order)
-Allocate the memory needed to store lists.
+Le mardi 22 juin 2021 à 10:29 +0200, Mauro Carvalho Chehab a écrit :
+> Em Mon, 21 Jun 2021 21:22:26 +0300
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+> 
+> > Hi Mauro,
+> > 
+> > Thank you for the patch.
+> 
+> Thanks for reviewing it!
+> 
+> > 
+> > On Mon, Feb 01, 2021 at 08:08:59PM +0100, Mauro Carvalho Chehab wrote:
+> > > This device:
+> > >         534d:2109 MacroSilicon
+> > > 
+> > > Announces that it supports several frame intervals for
+> > > their resolutions for MJPEG compression:
+> > > 
+> > >         VideoStreaming Interface Descriptor:
+> > >         bLength                            46
+> > >         bDescriptorType                    36
+> > >         bDescriptorSubtype                  7 (FRAME_MJPEG)
+> > >         bFrameIndex                         1
+> > >         bmCapabilities                   0x00
+> > >           Still image unsupported
+> > >         wWidth                           1920
+> > >         wHeight                          1080
+> > >         dwMinBitRate                   768000
+> > >         dwMaxBitRate                196608000
+> > >         dwMaxVideoFrameBufferSize     4147200
+> > >         dwDefaultFrameInterval         166666
+> > >         bFrameIntervalType                  5
+> > >         dwFrameInterval( 0)            166666
+> > >         dwFrameInterval( 1)            333333
+> > >         dwFrameInterval( 2)            400000
+> > >         dwFrameInterval( 3)            500000
+> > >         dwFrameInterval( 4)           1000000
+> > > 
+> > > However, the highest frame interval (166666), which means 60 fps
+> > > is not supported. For such resolution, the maximum interval
+> > > is, instead 333333 (30 fps).  
+> > 
+> > What happens if you try to select it ?
+> 
+> Basically, URBs get lost: they cause apps like qv4l2 to crash
+> sometimes, with:
+> 
+> 	v4l-convert: libjpeg error: Corrupt JPEG data: premature end of data segment
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/staging/media/hantro/hantro_drv.c     |  8 +--
- .../staging/media/hantro/hantro_g2_hevc_dec.c | 52 +++++++++++++++++++
- drivers/staging/media/hantro/hantro_hevc.c    | 21 ++++++++
- drivers/staging/media/hantro/hantro_hw.h      |  3 ++
- 4 files changed, 81 insertions(+), 3 deletions(-)
+This is the emulated format handler that decodes jpeg behind application back
+that is broken. The converter should implement this in a nicer way. E.g. it
+could return ERROR buffer with payload = 0 in that case.
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 8ad074a464fe..5610b7821a54 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -267,9 +267,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
- 		    sps->bit_depth_luma_minus8 != 2)
- 			/* Only 8-bit or 10-bit is supported */
- 			return -EINVAL;
--		if (sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED)
--			/* No scaling support */
--			return -EINVAL;
- 	}
- 	return 0;
- }
-@@ -451,6 +448,11 @@ static const struct hantro_ctrl controls[] = {
- 		.cfg = {
- 			.id = V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS,
- 		},
-+	}, {
-+		.codec = HANTRO_HEVC_DECODER,
-+		.cfg = {
-+			.id = V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX,
-+		},
- 	}, {
- 		.codec = HANTRO_HEVC_DECODER,
- 		.cfg = {
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index 90de74aa6b13..f95135ad553c 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -608,6 +608,56 @@ static void set_buffers(struct hantro_ctx *ctx)
- 	hantro_write_addr(vpu, G2_TILE_BSD, ctx->hevc_dec.tile_bsd.dma);
- }
- 
-+static void prepare_scaling_list_buffer(struct hantro_ctx *ctx)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
-+	const struct v4l2_ctrl_hevc_scaling_matrix *sc = ctrls->scaling;
-+	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
-+	u8 *p = ((u8 *)ctx->hevc_dec.scaling_lists.cpu);
-+	unsigned int scaling_list_enabled;
-+	unsigned int i, j, k;
-+
-+	scaling_list_enabled = !!(sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED);
-+	hantro_reg_write(vpu, &g2_scaling_list_e, scaling_list_enabled);
-+
-+	if (!scaling_list_enabled)
-+		return;
-+
-+	for (i = 0; i < ARRAY_SIZE(sc->scaling_list_dc_coef_16x16); i++)
-+		*p++ = sc->scaling_list_dc_coef_16x16[i];
-+
-+	for (i = 0; i < ARRAY_SIZE(sc->scaling_list_dc_coef_32x32); i++)
-+		*p++ = sc->scaling_list_dc_coef_32x32[i];
-+
-+	/* 128-bit boundary */
-+	p += 8;
-+
-+	/* write scaling lists column by column */
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 4; j++)
-+			for (k = 0; k < 4; k++)
-+				*p++ = sc->scaling_list_4x4[i][4 * k + j];
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k++)
-+				*p++ = sc->scaling_list_8x8[i][8 * k + j];
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k++)
-+				*p++ = sc->scaling_list_16x16[i][8 * k + j];
-+
-+	for (i = 0; i < 2; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k++)
-+				*p++ = sc->scaling_list_32x32[i][8 * k + j];
-+
-+	hantro_write_addr(vpu, HEVC_SCALING_LIST, ctx->hevc_dec.scaling_lists.dma);
-+}
-+
- static void hantro_g2_check_idle(struct hantro_dev *vpu)
- {
- 	int i;
-@@ -668,6 +718,8 @@ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
- 	set_buffers(ctx);
- 	prepare_tile_info_buffer(ctx);
- 
-+	prepare_scaling_list_buffer(ctx);
-+
- 	hantro_end_prepare_run(ctx);
- 
- 	hantro_reg_write(vpu, &g2_mode, HEVC_DEC_MODE);
-diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-index 4e816ea73018..95f765d9ff4e 100644
---- a/drivers/staging/media/hantro/hantro_hevc.c
-+++ b/drivers/staging/media/hantro/hantro_hevc.c
-@@ -20,6 +20,8 @@
- /* tile border coefficients of filter */
- #define VERT_SAO_RAM_SIZE 48 /* bytes per pixel */
- 
-+#define SCALING_LIST_SIZE (16 * 64)
-+
- #define MAX_TILE_COLS 20
- #define MAX_TILE_ROWS 22
- 
-@@ -296,6 +298,11 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
- 	if (WARN_ON(!ctrls->decode_params))
- 		return -EINVAL;
- 
-+	ctrls->scaling =
-+		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX);
-+	if (WARN_ON(!ctrls->scaling))
-+		return -EINVAL;
-+
- 	ctrls->sps =
- 		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SPS);
- 	if (WARN_ON(!ctrls->sps))
-@@ -324,6 +331,12 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx)
- 				  hevc_dec->tile_sizes.dma);
- 	hevc_dec->tile_sizes.cpu = NULL;
- 
-+	if (hevc_dec->scaling_lists.cpu)
-+		dma_free_coherent(vpu->dev, hevc_dec->scaling_lists.size,
-+				  hevc_dec->scaling_lists.cpu,
-+				  hevc_dec->scaling_lists.dma);
-+	hevc_dec->scaling_lists.cpu = NULL;
-+
- 	if (hevc_dec->tile_filter.cpu)
- 		dma_free_coherent(vpu->dev, hevc_dec->tile_filter.size,
- 				  hevc_dec->tile_filter.cpu,
-@@ -367,6 +380,14 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx)
- 
- 	hevc_dec->tile_sizes.size = size;
- 
-+	hevc_dec->scaling_lists.cpu = dma_alloc_coherent(vpu->dev, SCALING_LIST_SIZE,
-+							 &hevc_dec->scaling_lists.dma,
-+							 GFP_KERNEL);
-+	if (!hevc_dec->scaling_lists.cpu)
-+		return -ENOMEM;
-+
-+	hevc_dec->scaling_lists.size = SCALING_LIST_SIZE;
-+
- 	hantro_hevc_ref_init(ctx);
- 
- 	return 0;
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index d8126f8178f5..1becc22af0f9 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -108,6 +108,7 @@ struct hantro_h264_dec_hw_ctx {
-  */
- struct hantro_hevc_dec_ctrls {
- 	const struct v4l2_ctrl_hevc_decode_params *decode_params;
-+	const struct v4l2_ctrl_hevc_scaling_matrix *scaling;
- 	const struct v4l2_ctrl_hevc_sps *sps;
- 	const struct v4l2_ctrl_hevc_pps *pps;
- 	u32 hevc_hdr_skip_length;
-@@ -120,6 +121,7 @@ struct hantro_hevc_dec_ctrls {
-  * @tile_sao:		Tile SAO buffer
-  * @tile_bsd:		Tile BSD control buffer
-  * @ref_bufs:		Internal reference buffers
-+ * @scaling_lists:	Scaling lists buffer
-  * @ref_bufs_poc:	Internal reference buffers picture order count
-  * @ref_bufs_used:	Bitfield of used reference buffers
-  * @ctrls:		V4L2 controls attached to a run
-@@ -131,6 +133,7 @@ struct hantro_hevc_dec_hw_ctx {
- 	struct hantro_aux_buf tile_sao;
- 	struct hantro_aux_buf tile_bsd;
- 	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
-+	struct hantro_aux_buf scaling_lists;
- 	int ref_bufs_poc[NUM_REF_PICTURES];
- 	u32 ref_bufs_used;
- 	struct hantro_hevc_dec_ctrls ctrls;
--- 
-2.25.1
+> 
+> The image keeps blinking, and part of the image is replaced by
+> white noise.
+> 
+> Clearly, it tries to send more data than the maximum available bandwidth
+> on this chipset.
+> 
+> 
+> Sent a v2 addressing the issues you pointed.
+> 
+> 
+> Thanks,
+> Mauro
+
 
