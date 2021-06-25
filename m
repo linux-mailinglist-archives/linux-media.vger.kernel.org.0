@@ -2,153 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86EC63B3B13
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 05:10:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B4F13B3B3F
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 05:39:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233086AbhFYDM5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Jun 2021 23:12:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46062 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233062AbhFYDM4 (ORCPT
+        id S233062AbhFYDlm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Jun 2021 23:41:42 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:42243 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232996AbhFYDlm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Jun 2021 23:12:56 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEDF8C061574
-        for <linux-media@vger.kernel.org>; Thu, 24 Jun 2021 20:10:35 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id m2so6422430pgk.7
-        for <linux-media@vger.kernel.org>; Thu, 24 Jun 2021 20:10:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=EHF4hXE1BofxiNAxyTu0OOal5JJOm5OszXgmCJK9iiA=;
-        b=f4nq0N9EujiAI6HzSt7qwQNFrzIXuOou3PVS9akh+S1P7E555UZxrGQXPU9uZ2fNic
-         BJbUrlVDNCCZByRe0KeNEkMol6uYdlYFRyuCR5tW1WVMTcXibXI6MlNQIsT1LgiRu72e
-         c4QLDt2mQjVTMN4grbZRyJM950p5BhOcdA2DQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EHF4hXE1BofxiNAxyTu0OOal5JJOm5OszXgmCJK9iiA=;
-        b=K5CCoG80Wqlb1C5kmIOsMKvo0JBd/QAqmdTSatAz+WklHjFSxcYbRwbXhAApavXpZV
-         myFY9C4gHrkbMh8QBv30e+idt/XVULckmIt1ADocHZXiplNKgN/+JRHQEcQLcTxU0Mm8
-         zN5yr7BTf+bUaWfjwqi1gvdCnqA1t/LUq7hAkoyn8B73C274kiit2ct1QFhsOmYRBOkR
-         z1lUiq6MQiqY9HH3c448AluQzNHifRffz4iDfXaM2N1SufWzlpq09MvojCHG1cV6s90q
-         HuOhk3K33H5yPi1kImjtqNQGxCOIGhYCOR5PZVjCS9NsWuJu6I3prroExfsZr1eckKoQ
-         NS/g==
-X-Gm-Message-State: AOAM531hb3VozD4h/lDouOWQsx+ZULFFEhvDSBP2sJygPKJ1BfXsyKEp
-        O6aNXKn+nDVi4bMiTGJjssl6OA==
-X-Google-Smtp-Source: ABdhPJyXehUV2SIhmH5Jr3Xh7AXmXjKpVWqO1MypdP0+F+Ezg1KAhPoQeVFlvjROnlIm4K4WIuKVNQ==
-X-Received: by 2002:a63:ef44:: with SMTP id c4mr7433314pgk.162.1624590635359;
-        Thu, 24 Jun 2021 20:10:35 -0700 (PDT)
-Received: from google.com ([2409:10:2e40:5100:86d5:e5c:bdd4:774f])
-        by smtp.gmail.com with ESMTPSA id o9sm4323763pfh.217.2021.06.24.20.10.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jun 2021 20:10:34 -0700 (PDT)
-Date:   Fri, 25 Jun 2021 12:10:30 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv2 8/8] videobuf2: handle non-contiguous DMA allocations
-Message-ID: <YNVJJhP69KPJ+DHv@google.com>
-References: <20210427131344.139443-1-senozhatsky@chromium.org>
- <20210427131344.139443-9-senozhatsky@chromium.org>
- <10a0903a-e295-5cba-683a-1eb89a0804ed@xs4all.nl>
- <YMsAIVs7G2hUDR2F@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YMsAIVs7G2hUDR2F@google.com>
+        Thu, 24 Jun 2021 23:41:42 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id wcgZl865osoUOwcgbl36pq; Fri, 25 Jun 2021 05:39:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1624592361; bh=xyb5UDbWYgNTkBi1LvZ92ZdMTNq/1OKhTyVzaYpHdnY=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=AOOPb75mUxg/7dLwe3HbWdVayjDXaduXqRrUzeXa9UOQ57t92NRHqmlbrh4WZJwZX
+         DnVe/RtzsfG1oQUp+gq4uTuT4FmZVNjV6MwPRSFHAJBFSUSihAaWSaYEbbfDaGUHtH
+         tFXCLKlztW8CznE1rRDMa4JipiOGUfUSFj+mdlXeqrbVUbKRaD8tSiDX2KgYU36Hrl
+         Yu1RuUc2vb7kI9a5sqq9ol4s/OCmaStsbbsgFf4XWxstLcY/EsEwQs5v9nMKNHEDhu
+         vjltuSq+hvbQbhUmhMf4T1/AMnTl2Ti4ynRxzgVtvK1yRgz/Ba7Pudb0tAF9qOTUWQ
+         0i3v2gDU+9gtQ==
+Message-ID: <d09400117564d99ad3ed5ce814243c2c@smtp-cloud8.xs4all.net>
+Date:   Fri, 25 Jun 2021 05:39:19 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfIXCzVDBtqHJAgQOpCzr+Gl3imcZiNaHk/ZieYGs7+0PJ7iIpyPul090MdMKw1p6jf6ussgOv5cmaIiaa7gXD0VktE6auSi7qpO2dNntim8Ei1aoaW7R
+ gCwIhMwcxFV/pI4CKRGFSGGusXO+QG4d1e6drjljmvFGqX9kSOjflzHQLXLvVtH5mpB6TCe4Kr1G4gMZg2o7gY9W+IWlJjw4IxwLzlCb0HM8/ZPeKTxnVS8X
+ IpOV4CwnPN5QzZzh33eFnQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On (21/06/17 16:56), Sergey Senozhatsky wrote:
-[..]
-> static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
-> {
->         struct vb2_dc_buf *buf = buf_priv;
-> 
->         if (buf->vaddr)
->                 return buf->vaddr;
-> 
->         if (buf->db_attach) {
->                 struct dma_buf_map map;
-> 
->                 if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
->                         buf->vaddr = map.vaddr;
-> 
->                 return buf->vaddr;
->         }
-> 
->         if (!buf->coherent_mem)
->                 buf->vaddr = dma_vmap_noncontiguous(buf->dev, buf->size,
->                                                     buf->dma_sgt);
->         return buf->vaddr;
-> }
-> 
-> And in vb2_dc_alloc functions set vaddr for !DMA_ATTR_NO_KERNEL_MAPPING
-> in both coherent and non-coherent. So that we probably can have less
-> branches when ->vaddr is NULL for one type of allocations, and is not
-> NULL for another.
-> 
-> static int vb2_dc_alloc_coherent(struct vb2_dc_buf *buf)
-> {
->         struct vb2_queue *q = buf->vb->vb2_queue;
-> 
->         buf->cookie = dma_alloc_attrs(buf->dev,
->                                       buf->size,
->                                       &buf->dma_addr,
->                                       GFP_KERNEL | q->gfp_flags,
->                                       buf->attrs);
->         if (!buf->cookie)
->                 return -ENOMEM;
-> 
->         if (q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING)
->                 return 0;
-> 
->         buf->vaddr = buf->cookie;
->         return 0;
-> }
-> 
-> static int vb2_dc_alloc_non_coherent(struct vb2_dc_buf *buf)
-> {
->         struct vb2_queue *q = buf->vb->vb2_queue;
-> 
->         buf->dma_sgt = dma_alloc_noncontiguous(buf->dev,
->                                                buf->size,
->                                                buf->dma_dir,
->                                                GFP_KERNEL | q->gfp_flags,
->                                                buf->attrs);
->         if (!buf->dma_sgt)
->                 return -ENOMEM;
-> 
->         if (q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING)
->                 return 0;
-> 
->         buf->vaddr = dma_vmap_noncontiguous(buf->dev, buf->size, buf->dma_sgt);
->         if (!buf->vaddr) {
->                 dma_free_noncontiguous(buf->dev, buf->size,
->                                        buf->dma_sgt, buf->dma_addr);
->                 return -ENOMEM;
->         }
->         return 0;
-> }
+Results of the daily build of media_tree:
 
-I guess this should address the case when
+date:			Fri Jun 25 05:00:11 CEST 2021
+media-tree git hash:	50e7a31d30e8221632675abed3be306382324ca2
+media_build git hash:	dc90f6c653a467465b5deb23d3310577f8ebf218
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7481-g7f50411af
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-"after allocating the buffer, the buffer is exported as a dma_buf and
-another device calls dma_buf_ops vb2_dc_dmabuf_ops_vmap, which in turn
-calls dma_buf_map_set_vaddr(map, buf->vaddr); with a NULL buf->vaddr"
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13-rc1-i686: OK
+linux-5.13-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-Because ->vaddr will not be NULL now after allocation for both coherent
-and non-coherent buffers (modulo DMA_ATTR_NO_KERNEL_MAPPING requests).
+Detailed results are available here:
 
-What do you think?
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
