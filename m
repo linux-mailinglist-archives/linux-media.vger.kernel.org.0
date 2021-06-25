@@ -2,80 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3FEC3B3CF4
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 08:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20DFD3B3E3F
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 10:08:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230003AbhFYHB6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Jun 2021 03:01:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56866 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229922AbhFYHB5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Jun 2021 03:01:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7B5D661400;
-        Fri, 25 Jun 2021 06:59:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1624604375;
-        bh=VKXj5JQQkxkDMTbPDvpRlNGDFjj0Beb4Z5ufAQkXQQI=;
+        id S230037AbhFYIKY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Jun 2021 04:10:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55700 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229748AbhFYIKX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 25 Jun 2021 04:10:23 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 806E7C061574;
+        Fri, 25 Jun 2021 01:08:03 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 5FC1BC6459; Fri, 25 Jun 2021 09:08:00 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1624608480; bh=amkY74lh1X/rDudc8tVavuYeXKhobyg9/z/WmVzcVBU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=zt6Xhe2YgP3mYsKF759VLR50hnx7/nKqYtI4PRBJR5wrvk3n03Y3SH8I2TwdLyitM
-         ElOMsdrsW3AtGsZq/TYljY1oeiACAc0g8tl5bqBhW5/3ASzlI9Uo9QCzSeWWoMUBrM
-         CBWIm3mv9EppDIcN63lPlk8HtmCSd3pP7+LYXf4Q=
-Date:   Fri, 25 Jun 2021 08:59:32 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC v2] MEDIA: Driver for ON Semi AR0521 camera sensor
-Message-ID: <YNV+1JSdyjWDYfwp@kroah.com>
-References: <m3mtrh5evo.fsf@t19.piap.pl>
- <YNM0cZFV7/LKKFBn@pendragon.ideasonboard.com>
- <42958029-5625-5f4d-a075-2f59a74e0fb5@ideasonboard.com>
- <m3bl7v6er0.fsf@t19.piap.pl>
- <YNR2OkXL+wUaKuy4@pendragon.ideasonboard.com>
- <YNR9CS/PfG7s1e71@kroah.com>
- <m3wnqj4ct3.fsf@t19.piap.pl>
- <YNSJzgJ5xu2j+U2p@pendragon.ideasonboard.com>
- <YNSZ4fbboJokxZSx@kroah.com>
- <m3h7hm4h14.fsf@t19.piap.pl>
+        b=gElQlNxn6t2aTCOvxeKkYTpnnyE4XJi2e/xw2WVp635+hsphQnGuPAm1/UVS98lu1
+         MzMBdj1kclVk7c3AA5Mni74nvkTB+PKv5WvD+s7dksIOH45cezSvDHpUdgrx7enRNE
+         IoLRItkZXuHSvDEiGVQO+BpaUmoc4YVIxEq+2WzBRZvsI/Kp0PvnPqEDJlx3kxq8Nq
+         LEuCKARnNM+HyLe+K564XDgeLzVPEyABV3x0qW/SDhJG0ffOMQh/hC6cqI3iLCmSZL
+         jZowJh52CreDufxz66OSCyh1g+VbgAYyOWBz52jUscuARS4hDSOKCayrFTBBfvbEVx
+         lf5tkPOEPFwQw==
+Date:   Fri, 25 Jun 2021 09:08:00 +0100
+From:   Sean Young <sean@mess.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Oliver Neukum <oneukum@suse.com>, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Rhees <support@usbuirt.com>
+Subject: Re: [PATCH v3 0/3] IR driver for USB-UIRT device
+Message-ID: <20210625080800.GA25403@gofer.mess.org>
+References: <20210511103219.GA13769@gofer.mess.org>
+ <YJ5cH1Z5MdZHE8HU@hovoldconsulting.com>
+ <20210515092226.GA31801@gofer.mess.org>
+ <YKI3vyOE8XmpNAuC@hovoldconsulting.com>
+ <20210517103522.GA4644@gofer.mess.org>
+ <YKZktqzkddh3amqX@hovoldconsulting.com>
+ <35840cdac1dcb2808e98ebb57afeba352624d15c.camel@suse.com>
+ <YNMyvCaZUIDOnSc9@hovoldconsulting.com>
+ <20210624091349.GA7476@gofer.mess.org>
+ <YNRTSLEHzFKU1KOa@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <m3h7hm4h14.fsf@t19.piap.pl>
+In-Reply-To: <YNRTSLEHzFKU1KOa@hovoldconsulting.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 25, 2021 at 08:03:51AM +0200, Krzysztof Hałasa wrote:
-> Greg KH <gregkh@linuxfoundation.org> writes:
+On Thu, Jun 24, 2021 at 11:41:28AM +0200, Johan Hovold wrote:
+> I'm not, again see above. I'm saying that we should not make one-off
+> copies of serial drivers if we can avoid it.
 > 
-> > I would not waste my time on code that does not have a signed-off-by on
-> > it, otherwise the developer is obviously saying they do not want to
-> > merge this as-is.
-> 
-> I would want it be be merged as-is, and would happily supply a SOB, but
-> nobody would merge it at this point. This isn't a problem, though.
-> 
-> > And I think we all have plenty of code from
-> > developers that actually want to have their patches merged.
-> 
-> Oh well. I want to have *MY* patch merged. That's exactly why I did what
-> I did. I did state that I will sign if off when I get positive response,
-> when the patch is ready to be merged. Isn't it clear?
+> In this case the limitations of lircd and the lack of hotplugging in
+> serdev may be a sufficient reason for making an exception. As we've
+> already discussed.
 
-Not clear at all, this is not how kernel development works.
+Great, thanks very much. I totally agree a serdev solution would be
+preferable.
 
-Developers submit changes they are comfortable with and wish to get
-merged, and reviewers review them and merge them if all is good.
+In that case, can have your Signed-off-by for the ftdi_sio.c change, or
+could this be merged through the usb tree please?
 
-Do not submit stuff that you do not feel comfortable with having merged
-as that just wastes reviewer's time.
+Thanks
 
-Are you helping to review code that developers submit but say they do
-not want to have merged?
-
-best of luck!
-
-greg k-h
+Sean
