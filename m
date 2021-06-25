@@ -2,107 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D5CF3B3C68
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 07:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DA3D3B3C6D
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 08:03:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233135AbhFYGBs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Jun 2021 02:01:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55040 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230097AbhFYGBr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Jun 2021 02:01:47 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECBECC061574;
-        Thu, 24 Jun 2021 22:59:27 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id h1so4189635plt.1;
-        Thu, 24 Jun 2021 22:59:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uCGH/FcGgZLZwVutQlRor27jtENZPQC1aKykMVpoemk=;
-        b=OEzVWHvUS6gW+qon/kkUu1yvA4imVktVgaU4D96/MpUVvA6Uss8Kvf00EtQRFxRlKG
-         fOBQrhJYOjmBXfV2yFT62LOs5Wqni/RSoW6FyFkGxd6EQZjFhoxJ0VilOzrwVNQRtrHB
-         FuEj7GqmGvt9hJD2GWSTAWl59BjVSyskP6pNEBp+wtIRXM66UL6EG0RHqdfFIcRg4xR6
-         YevCkWxrbji3ZTttLa7DatTjJvJwWaZ5s4AU/y5gIqflHGqYwKjlFMvDp5LB0XWeonnG
-         IcuS6bwV1iURPl8WBOdctFdsNAjRcDtM9Rwca2JVy5xrsmh1RS2uQx9CgSAfLsUfp3dK
-         Qd5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uCGH/FcGgZLZwVutQlRor27jtENZPQC1aKykMVpoemk=;
-        b=m+ioX0OaKQnVlx921Ddr2kf0GF0K08qw16pAGpIuYWJZD2Svo+y7IayF5MJNSFTJoT
-         zbL3m10PCF8EyKhXZ5zKw2TXWDaBbYGuzyC6oIunyxs2/NrRyeatwj+n7T0HqZe/NY7G
-         RFx64CxwfRrdXu916fSgtsDYv9P7CeD8ididiiRgpQEs/UOZV4HSnAPJT9VkZM8uvkhH
-         00j0Lj0wyosDtC0oaBj9PrQZW5iQVyUO2XuVcWr2GwB+y3xdInF42AY15uFhWbnR2KCY
-         UHdw3t5tBwn9raDRgnjBY/V/CakcOwb7uJgKqSnJ/d5c2SDB1netJPUuwZ28yRAQUpzi
-         lYCA==
-X-Gm-Message-State: AOAM531PQf1n6iIZkCzDKKdj40Z69qB5mbaJAio8ULRxUQbvQogFFUyT
-        3jf/RzHwStGaZDgtxCTVI/w=
-X-Google-Smtp-Source: ABdhPJy6Nte3fkvc6dkBlMIVdqVnXq/sd4XEW0wR5kI0TM+EOekgWURVRFLMhhWvyIbVVBZeAuhBiQ==
-X-Received: by 2002:a17:903:208a:b029:125:8b69:53a1 with SMTP id d10-20020a170903208ab02901258b6953a1mr7865880plc.17.1624600767361;
-        Thu, 24 Jun 2021 22:59:27 -0700 (PDT)
-Received: from localhost.localdomain ([45.135.186.130])
-        by smtp.gmail.com with ESMTPSA id m3sm4621649pfa.70.2021.06.24.22.59.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jun 2021 22:59:26 -0700 (PDT)
-From:   Dongliang Mu <mudongliangabcd@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dongliang Mu <mudongliangabcd@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: dvb-usb: fix uninit-value in vp702x_read_mac_addr
-Date:   Fri, 25 Jun 2021 13:59:04 +0800
-Message-Id: <20210625055908.467220-1-mudongliangabcd@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S230334AbhFYGGR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Jun 2021 02:06:17 -0400
+Received: from ni.piap.pl ([195.187.100.5]:48626 "EHLO ni.piap.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230097AbhFYGGQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 25 Jun 2021 02:06:16 -0400
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ni.piap.pl (Postfix) with ESMTPSA id 0D66B4A0019;
+        Fri, 25 Jun 2021 08:03:52 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 0D66B4A0019
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1624601032; bh=yur7LR1eBJJryku+5ZrACaN/dEMqRoxPyn3VT0ZjikA=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=PeRXMUtxKBH0JtEHjR0iKwHj8hJW4AYktB2z4fCFxzEpmRAH7IUkFZFR+iawU6NY5
+         B9UYsi1Yx2P38OYwlM4Ap984MpFVdlrihSn39F7MbdSk/bjb9iChxxMyh2RXqOOjVx
+         XnOkkFWSWbKBzIzRWalWDr+6waSN5Aww+mWOD1YM=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC v2] MEDIA: Driver for ON Semi AR0521 camera sensor
+References: <m3r1gt5hzm.fsf@t19.piap.pl>
+        <YNK5FhAXSpI1oHJV@pendragon.ideasonboard.com>
+        <m3mtrh5evo.fsf@t19.piap.pl>
+        <YNM0cZFV7/LKKFBn@pendragon.ideasonboard.com>
+        <42958029-5625-5f4d-a075-2f59a74e0fb5@ideasonboard.com>
+        <m3bl7v6er0.fsf@t19.piap.pl>
+        <YNR2OkXL+wUaKuy4@pendragon.ideasonboard.com>
+        <YNR9CS/PfG7s1e71@kroah.com> <m3wnqj4ct3.fsf@t19.piap.pl>
+        <YNSJzgJ5xu2j+U2p@pendragon.ideasonboard.com>
+        <YNSZ4fbboJokxZSx@kroah.com>
+Sender: khalasa@piap.pl
+Date:   Fri, 25 Jun 2021 08:03:51 +0200
+In-Reply-To: <YNSZ4fbboJokxZSx@kroah.com> (Greg KH's message of "Thu, 24 Jun
+        2021 16:42:41 +0200")
+Message-ID: <m3h7hm4h14.fsf@t19.piap.pl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 4
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, whitelist
+X-KLMS-AntiPhishing: not scanned, whitelist
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If vp702x_usb_in_op fails, the mac address is not initialized.
-And vp702x_read_mac_addr does not handle this failure, which leads to
-the uninit-value in dvb_usb_adapter_dvb_init.
+Greg KH <gregkh@linuxfoundation.org> writes:
 
-Fix this by handling the failure of vp702x_usb_in_op.
+> I would not waste my time on code that does not have a signed-off-by on
+> it, otherwise the developer is obviously saying they do not want to
+> merge this as-is.
 
-Fixes: 786baecfe78f ("[media] dvb-usb: move it to drivers/media/usb/dvb-usb")
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
----
- drivers/media/usb/dvb-usb/vp702x.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+I would want it be be merged as-is, and would happily supply a SOB, but
+nobody would merge it at this point. This isn't a problem, though.
 
-diff --git a/drivers/media/usb/dvb-usb/vp702x.c b/drivers/media/usb/dvb-usb/vp702x.c
-index bf54747e2e01..4aed6f807f25 100644
---- a/drivers/media/usb/dvb-usb/vp702x.c
-+++ b/drivers/media/usb/dvb-usb/vp702x.c
-@@ -291,16 +291,21 @@ static int vp702x_rc_query(struct dvb_usb_device *d, u32 *event, int *state)
- static int vp702x_read_mac_addr(struct dvb_usb_device *d,u8 mac[6])
- {
- 	u8 i, *buf;
-+	int ret;
- 	struct vp702x_device_state *st = d->priv;
- 
- 	mutex_lock(&st->buf_mutex);
- 	buf = st->buf;
--	for (i = 6; i < 12; i++)
--		vp702x_usb_in_op(d, READ_EEPROM_REQ, i, 1, &buf[i - 6], 1);
-+	for (i = 6; i < 12; i++) {
-+		ret = vp702x_usb_in_op(d, READ_EEPROM_REQ, i, 1,
-+				       &buf[i - 6], 1);
-+		if (ret < 0) goto err;
-+	}
- 
- 	memcpy(mac, buf, 6);
-+err:
- 	mutex_unlock(&st->buf_mutex);
--	return 0;
-+	return ret;
- }
- 
- static int vp702x_frontend_attach(struct dvb_usb_adapter *adap)
--- 
-2.25.1
+> And I think we all have plenty of code from
+> developers that actually want to have their patches merged.
 
+Oh well. I want to have *MY* patch merged. That's exactly why I did what
+I did. I did state that I will sign if off when I get positive response,
+when the patch is ready to be merged. Isn't it clear?
+
+I almost always sign off my patches. However, this is a specific
+situation. Few years ago I published a patch for the same subsystem.
+Obviously signed it off etc. It was exactly my SOB that caused it to be
+*NOT* merged. Not because it was really bad or something, but because
+another developer modified it and the modified patch was given priority.
+
+I didn't object to the modified driver, in fact. I only wanted it to go
+through the same process as all other patches, on top of my original
+code, to see if it had merit. Guess what.
+
+After all I was told that I had abandoned the code, but it was summer,
+I had vacations. I'm starting vacations in a couple of days as well,
+will 3 weeks of my absence mean abandonment again?
+drivers/media is a fast moving target, catching up will take some time
+as well. Abandonment?
+
+Should anyone be surprised that I don't want this story to repeat
+itself?
+
+Or, maybe, it's just me. Maybe such actions are good and welcome among
+Linux developers? Please answer.
+
+>> Why not? I can put such a text on a book (say, an e-book) as well.
+>
+> Where would that text be and what would it mean?
+
+Does it matter?
+It would be on something that is not a part of the kernel. That's the
+point - the SPDX tags may have a lot of meaning in the kernel, and none
+outside of it. I can write SPDX-* on a wall of my home and it doesn't
+mean it's now a public house.
+
+It was just said that drivers written specifically for Linux (but not
+derived from GPLed code) are automatically under GPL. They don't, for
+the same reason - the GPL can't define it's scope (nor it claims to);
+the author/owner has to do it. At least, it works like that in my
+country.
+
+>> > S-o-b is a DIFFERENT thing entirely.   Please go read the DCO for what
+>> > you are agreeing to there, it is a declaration for what you are doing.
+>>=20
+>> Well, that's my position.
+>
+> That's not what a signed-off-by means, please do not try to make it
+> something it is not.
+
+What do you mean?
+
+Chris.
+--=20
+Krzysztof Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
