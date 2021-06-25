@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B1443B454F
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 16:12:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27C9C3B4551
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jun 2021 16:12:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231775AbhFYOOl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Jun 2021 10:14:41 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:58524 "EHLO
+        id S231833AbhFYOOo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Jun 2021 10:14:44 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:58548 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231800AbhFYOOg (ORCPT
+        with ESMTP id S231831AbhFYOOi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Jun 2021 10:14:36 -0400
+        Fri, 25 Jun 2021 10:14:38 -0400
 Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:42b6:51ca:7d52:50ad])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 48C341F4475A;
-        Fri, 25 Jun 2021 15:12:13 +0100 (BST)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 243821F4474E;
+        Fri, 25 Jun 2021 15:12:15 +0100 (BST)
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
         mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
@@ -30,9 +30,9 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v4 6/9] media: hantro: create ops for variants
-Date:   Fri, 25 Jun 2021 16:11:40 +0200
-Message-Id: <20210625141143.577998-7-benjamin.gaignard@collabora.com>
+Subject: [PATCH v4 7/9] media: hantro: enumerate scaled output formats
+Date:   Fri, 25 Jun 2021 16:11:41 +0200
+Message-Id: <20210625141143.577998-8-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210625141143.577998-1-benjamin.gaignard@collabora.com>
 References: <20210625141143.577998-1-benjamin.gaignard@collabora.com>
@@ -42,246 +42,211 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move init() and runtime_resume() prototypes from struct hantro_variant
-to the new struct hantro_variant_ops.
-That will allow to add more variant dedicated operations in cleaner way.
+When enumerating the output formats take care of the hardware scaling
+capabilities.
+For a given input size G2 hardware block is capable of down scale the
+output by 2, 4 or 8 factor. When decoding 4K streams that to be could
+helpful to save memory bandwidth.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/staging/media/hantro/hantro.h         | 17 ++++++++---
- drivers/staging/media/hantro/hantro_drv.c     |  6 ++--
- drivers/staging/media/hantro/imx8m_vpu_hw.c   | 11 ++++---
- .../staging/media/hantro/rockchip_vpu_hw.c    | 30 +++++++++++++------
- .../staging/media/hantro/sama5d4_vdec_hw.c    |  6 +++-
- 5 files changed, 49 insertions(+), 21 deletions(-)
+version 4:
+ - rename ops scaling to enum_framesizes
+ 
+ drivers/staging/media/hantro/hantro.h         |  4 ++
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 46 ++++++++++++++++++-
+ drivers/staging/media/hantro/hantro_g2_regs.h |  6 +++
+ drivers/staging/media/hantro/hantro_hw.h      |  2 +
+ drivers/staging/media/hantro/hantro_v4l2.c    | 10 ++--
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   |  8 +++-
+ 6 files changed, 70 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-index 6a21d1e95b34..6b9a3a96d584 100644
+index 6b9a3a96d584..b12bcaa7233e 100644
 --- a/drivers/staging/media/hantro/hantro.h
 +++ b/drivers/staging/media/hantro/hantro.h
-@@ -49,6 +49,17 @@ struct hantro_irq {
- 	irqreturn_t (*handler)(int irq, void *priv);
- };
- 
-+/**
-+ * struct hantro_variant_ops - variant operations
-+ *
-+ * @init:			Initialize hardware.
-+ * @runtime_resume:		reenable hardware after power gating
-+ */
-+struct hantro_variant_ops {
-+	int (*init)(struct hantro_dev *vpu);
-+	int (*runtime_resume)(struct hantro_dev *vpu);
-+};
-+
- /**
-  * struct hantro_variant - information about VPU hardware variant
+@@ -54,10 +54,14 @@ struct hantro_irq {
   *
-@@ -62,8 +73,6 @@ struct hantro_irq {
-  * @num_postproc_fmts:		Number of post-processor formats.
-  * @codec:			Supported codecs
-  * @codec_ops:			Codec ops.
-- * @init:			Initialize hardware.
-- * @runtime_resume:		reenable hardware after power gating
-  * @irqs:			array of irq names and interrupt handlers
-  * @num_irqs:			number of irqs in the array
-  * @clk_names:			array of clock names
-@@ -71,6 +80,7 @@ struct hantro_irq {
-  * @reg_names:			array of register range names
-  * @num_regs:			number of register range names in the array
-  * @postproc_regs:		&struct hantro_postproc_regs pointer
-+ * @ops:			variant operations
+  * @init:			Initialize hardware.
+  * @runtime_resume:		reenable hardware after power gating
++ * @enum_framesizes:		Enumerate possible scaled output formats.
++ *				Returns zero if OK, a negative value in error cases.
++ *				Optional.
   */
- struct hantro_variant {
- 	unsigned int enc_offset;
-@@ -83,8 +93,6 @@ struct hantro_variant {
- 	unsigned int num_postproc_fmts;
- 	unsigned int codec;
- 	const struct hantro_codec_ops *codec_ops;
--	int (*init)(struct hantro_dev *vpu);
--	int (*runtime_resume)(struct hantro_dev *vpu);
- 	const struct hantro_irq *irqs;
- 	int num_irqs;
- 	const char * const *clk_names;
-@@ -92,6 +100,7 @@ struct hantro_variant {
- 	const char * const *reg_names;
- 	int num_regs;
- 	const struct hantro_postproc_regs *postproc_regs;
-+	struct hantro_variant_ops *ops;
+ struct hantro_variant_ops {
+ 	int (*init)(struct hantro_dev *vpu);
+ 	int (*runtime_resume)(struct hantro_dev *vpu);
++	int (*enum_framesizes)(struct hantro_ctx *ctx, struct v4l2_frmsizeenum *fsize);
  };
  
  /**
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 7121e6a6ca5b..8ad074a464fe 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -946,7 +946,7 @@ static int hantro_probe(struct platform_device *pdev)
- 		}
+diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+index 3b273f31e9ce..90de74aa6b13 100644
+--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
++++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+@@ -396,6 +396,17 @@ static void set_ref_pic_list(struct hantro_ctx *ctx)
+ 	}
+ }
+ 
++static int down_scale_factor(struct hantro_ctx *ctx)
++{
++	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
++	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
++
++	if (sps->pic_width_in_luma_samples == ctx->dst_fmt.width)
++		return 0;
++
++	return DIV_ROUND_CLOSEST(sps->pic_width_in_luma_samples, ctx->dst_fmt.width);
++}
++
+ static int set_ref(struct hantro_ctx *ctx)
+ {
+ 	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+@@ -409,6 +420,7 @@ static int set_ref(struct hantro_ctx *ctx)
+ 	size_t mv_offset = hantro_hevc_motion_vectors_offset(sps);
+ 	size_t compress_luma_offset = hantro_hevc_luma_compress_offset(sps);
+ 	size_t compress_chroma_offset = hantro_hevc_chroma_compress_offset(sps);
++	int down_scale = down_scale_factor(ctx);
+ 	u32 max_ref_frames;
+ 	u16 dpb_longterm_e;
+ 	static const struct hantro_reg cur_poc[] = {
+@@ -521,8 +533,18 @@ static int set_ref(struct hantro_ctx *ctx)
+ 	hantro_write_addr(vpu, G2_REG_CHR_REF(i), chroma_addr);
+ 	hantro_write_addr(vpu, G2_REG_DMV_REF(i++), mv_addr);
+ 
+-	hantro_write_addr(vpu, G2_ADDR_DST, luma_addr);
+-	hantro_write_addr(vpu, G2_ADDR_DST_CHR, chroma_addr);
++	if (down_scale) {
++		chroma_addr = luma_addr + (cr_offset >> down_scale);
++		hantro_reg_write(vpu, &g2_down_scale_e, 1);
++		hantro_reg_write(vpu, &g2_down_scale_y, down_scale >> 2);
++		hantro_reg_write(vpu, &g2_down_scale_x, down_scale >> 2);
++		hantro_write_addr(vpu, G2_DS_DST, luma_addr);
++		hantro_write_addr(vpu, G2_DS_DST_CHR, chroma_addr);
++	} else {
++		hantro_write_addr(vpu, G2_ADDR_DST, luma_addr);
++		hantro_write_addr(vpu, G2_ADDR_DST_CHR, chroma_addr);
++	}
++
+ 	hantro_write_addr(vpu, G2_ADDR_DST_MV, mv_addr);
+ 	hantro_write_addr(vpu, G2_COMP_ADDR_DST, compress_luma_addr);
+ 	hantro_write_addr(vpu, G2_COMP_CHR, compress_chroma_addr);
+@@ -603,6 +625,26 @@ static void hantro_g2_check_idle(struct hantro_dev *vpu)
+ 	}
+ }
+ 
++int hantro_g2_dec_enum_framesizes(struct hantro_ctx *ctx,
++				  struct v4l2_frmsizeenum *fsize)
++{
++	/**
++	 * G2 scaler can scale down by 0, 2, 4 or 8
++	 * use fsize->index has power of 2 diviser
++	 **/
++	if (fsize->index > 3)
++		return -EINVAL;
++
++	if (!ctx->src_fmt.width || !ctx->src_fmt.height)
++		return -EINVAL;
++
++	fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
++	fsize->discrete.width = ctx->src_fmt.width >> fsize->index;
++	fsize->discrete.height = ctx->src_fmt.height >> fsize->index;
++
++	return 0;
++}
++
+ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
+index 941e5482d27b..54f3d78ce46e 100644
+--- a/drivers/staging/media/hantro/hantro_g2_regs.h
++++ b/drivers/staging/media/hantro/hantro_g2_regs.h
+@@ -174,6 +174,10 @@
+ #define g2_buswidth		G2_DEC_REG(58, 8,  0x7)
+ #define g2_max_burst		G2_DEC_REG(58, 0,  0xff)
+ 
++#define g2_down_scale_e	G2_DEC_REG(184, 7, 0x1)
++#define g2_down_scale_y	G2_DEC_REG(184, 2, 0x3)
++#define g2_down_scale_x	G2_DEC_REG(184, 0, 0x3)
++
+ #define G2_REG_CONFIG				G2_SWREG(58)
+ #define G2_REG_CONFIG_DEC_CLK_GATE_E		BIT(16)
+ #define G2_REG_CONFIG_DEC_CLK_GATE_IDLE_E	BIT(17)
+@@ -193,6 +197,8 @@
+ #define G2_TILE_FILTER		(G2_SWREG(179))
+ #define G2_TILE_SAO		(G2_SWREG(181))
+ #define G2_TILE_BSD		(G2_SWREG(183))
++#define G2_DS_DST		(G2_SWREG(186))
++#define G2_DS_DST_CHR		(G2_SWREG(188))
+ #define G2_COMP_ADDR_DST	(G2_SWREG(190))
+ #define G2_COMP_ADDR_REF(i)	(G2_SWREG(192) + ((i) * 0x8))
+ #define G2_COMP_CHR		(G2_SWREG(224))
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 460e86efa7a4..d8126f8178f5 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -243,6 +243,8 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
+ void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+ void hantro_g2_hevc_dec_done(struct hantro_ctx *ctx);
++int hantro_g2_dec_enum_framesizes(struct hantro_ctx *ctx,
++				  struct v4l2_frmsizeenum *fsize);
+ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+ void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index d5fe808d858b..9e9caf08a5b6 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -118,7 +118,7 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
+ 	struct hantro_ctx *ctx = fh_to_ctx(priv);
+ 	const struct hantro_fmt *fmt;
+ 
+-	if (fsize->index != 0) {
++	if (fsize->index != 0 && !ctx->dev->variant->ops->enum_framesizes) {
+ 		vpu_debug(0, "invalid frame size index (expected 0, got %d)\n",
+ 			  fsize->index);
+ 		return -EINVAL;
+@@ -131,9 +131,13 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
+ 		return -EINVAL;
  	}
  
--	ret = vpu->variant->init(vpu);
-+	ret = vpu->variant->ops->init(vpu);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to init VPU hardware\n");
- 		return ret;
-@@ -1043,8 +1043,8 @@ static int hantro_runtime_resume(struct device *dev)
- {
- 	struct hantro_dev *vpu = dev_get_drvdata(dev);
+-	/* This only makes sense for coded formats */
+-	if (fmt->codec_mode == HANTRO_MODE_NONE)
++	/* For non-coded formats check if scaling is possible */
++	if (fmt->codec_mode == HANTRO_MODE_NONE) {
++		if (ctx->dev->variant->ops->enum_framesizes)
++			return ctx->dev->variant->ops->enum_framesizes(ctx, fsize);
++
+ 		return -EINVAL;
++	}
  
--	if (vpu->variant->runtime_resume)
--		return vpu->variant->runtime_resume(vpu);
-+	if (vpu->variant->ops->runtime_resume)
-+		return vpu->variant->ops->runtime_resume(vpu);
- 
- 	return 0;
- }
+ 	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
+ 	fsize->stepwise = fmt->frmsize;
 diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-index 65bcf46740d7..2e8cf32efb79 100644
+index 2e8cf32efb79..f40ee3590729 100644
 --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
 +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-@@ -275,6 +275,11 @@ static const struct hantro_irq imx8mq_g2_irqs[] = {
+@@ -280,6 +280,12 @@ static struct hantro_variant_ops imx8mq_vpu_variant_ops = {
+ 	.runtime_resume = imx8mq_runtime_resume,
+ };
  
- static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
- 
-+static struct hantro_variant_ops imx8mq_vpu_variant_ops = {
++static struct hantro_variant_ops imx8mq_vpu_g2_variant_ops = {
 +	.init = imx8mq_vpu_hw_init,
 +	.runtime_resume = imx8mq_runtime_resume,
++	.enum_framesizes = hantro_g2_dec_enum_framesizes,
 +};
 +
  const struct hantro_variant imx8mq_vpu_variant = {
  	.dec_fmts = imx8m_vpu_dec_fmts,
  	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_dec_fmts),
-@@ -284,12 +289,11 @@ const struct hantro_variant imx8mq_vpu_variant = {
- 	.codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER |
- 		 HANTRO_H264_DECODER,
- 	.codec_ops = imx8mq_vpu_codec_ops,
--	.init = imx8mq_vpu_hw_init,
--	.runtime_resume = imx8mq_runtime_resume,
- 	.irqs = imx8mq_irqs,
- 	.num_irqs = ARRAY_SIZE(imx8mq_irqs),
- 	.clk_names = imx8mq_clk_names,
- 	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
-+	.ops = &imx8mq_vpu_variant_ops,
- };
- 
- const struct hantro_variant imx8mq_vpu_g2_variant = {
-@@ -298,10 +302,9 @@ const struct hantro_variant imx8mq_vpu_g2_variant = {
- 	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_g2_dec_fmts),
- 	.codec = HANTRO_HEVC_DECODER,
- 	.codec_ops = imx8mq_vpu_g2_codec_ops,
--	.init = imx8mq_vpu_hw_init,
--	.runtime_resume = imx8mq_runtime_resume,
- 	.irqs = imx8mq_g2_irqs,
+@@ -306,5 +312,5 @@ const struct hantro_variant imx8mq_vpu_g2_variant = {
  	.num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
  	.clk_names = imx8mq_clk_names,
  	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
-+	.ops = &imx8mq_vpu_variant_ops,
- };
-diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-index 3ccc16413f42..8e86408d87bb 100644
---- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
-+++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-@@ -433,6 +433,10 @@ static const char * const rockchip_vpu_clk_names[] = {
- 	"aclk", "hclk"
- };
- 
-+static struct hantro_variant_ops rk3036_vpu_variant_ops = {
-+	.init = rk3036_vpu_hw_init,
-+};
-+
- const struct hantro_variant rk3036_vpu_variant = {
- 	.dec_offset = 0x400,
- 	.dec_fmts = rk3066_vpu_dec_fmts,
-@@ -445,9 +449,13 @@ const struct hantro_variant rk3036_vpu_variant = {
- 	.codec_ops = rk3036_vpu_codec_ops,
- 	.irqs = rockchip_vdpu1_irqs,
- 	.num_irqs = ARRAY_SIZE(rockchip_vdpu1_irqs),
--	.init = rk3036_vpu_hw_init,
- 	.clk_names = rockchip_vpu_clk_names,
--	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
-+	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names),
-+	.ops = &rk3036_vpu_variant_ops,
-+};
-+
-+static struct hantro_variant_ops rk3066_vpu_variant_ops = {
-+	.init = rk3066_vpu_hw_init,
- };
- 
- /*
-@@ -470,9 +478,13 @@ const struct hantro_variant rk3066_vpu_variant = {
- 	.codec_ops = rk3066_vpu_codec_ops,
- 	.irqs = rockchip_vpu1_irqs,
- 	.num_irqs = ARRAY_SIZE(rockchip_vpu1_irqs),
--	.init = rk3066_vpu_hw_init,
- 	.clk_names = rk3066_vpu_clk_names,
--	.num_clocks = ARRAY_SIZE(rk3066_vpu_clk_names)
-+	.num_clocks = ARRAY_SIZE(rk3066_vpu_clk_names),
-+	.ops = &rk3066_vpu_variant_ops,
-+};
-+
-+static struct hantro_variant_ops rk33xx_vpu_variant_ops = {
-+	.init = rockchip_vpu_hw_init,
- };
- 
- const struct hantro_variant rk3288_vpu_variant = {
-@@ -490,9 +502,9 @@ const struct hantro_variant rk3288_vpu_variant = {
- 	.codec_ops = rk3288_vpu_codec_ops,
- 	.irqs = rockchip_vpu1_irqs,
- 	.num_irqs = ARRAY_SIZE(rockchip_vpu1_irqs),
--	.init = rockchip_vpu_hw_init,
- 	.clk_names = rockchip_vpu_clk_names,
--	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
-+	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names),
-+	.ops = &rk33xx_vpu_variant_ops,
- };
- 
- const struct hantro_variant rk3328_vpu_variant = {
-@@ -503,9 +515,9 @@ const struct hantro_variant rk3328_vpu_variant = {
- 	.codec_ops = rk3399_vpu_codec_ops,
- 	.irqs = rockchip_vdpu2_irqs,
- 	.num_irqs = ARRAY_SIZE(rockchip_vdpu2_irqs),
--	.init = rockchip_vpu_hw_init,
- 	.clk_names = rockchip_vpu_clk_names,
- 	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names),
-+	.ops = &rk33xx_vpu_variant_ops,
- };
- 
- const struct hantro_variant rk3399_vpu_variant = {
-@@ -520,7 +532,7 @@ const struct hantro_variant rk3399_vpu_variant = {
- 	.codec_ops = rk3399_vpu_codec_ops,
- 	.irqs = rockchip_vpu2_irqs,
- 	.num_irqs = ARRAY_SIZE(rockchip_vpu2_irqs),
--	.init = rockchip_vpu_hw_init,
- 	.clk_names = rockchip_vpu_clk_names,
--	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
-+	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names),
-+	.ops = &rk33xx_vpu_variant_ops,
- };
-diff --git a/drivers/staging/media/hantro/sama5d4_vdec_hw.c b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
-index 58ae72c2b723..9f071a9cd08f 100644
---- a/drivers/staging/media/hantro/sama5d4_vdec_hw.c
-+++ b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
-@@ -100,6 +100,10 @@ static const struct hantro_irq sama5d4_irqs[] = {
- 
- static const char * const sama5d4_clk_names[] = { "vdec_clk" };
- 
-+static struct hantro_variant_ops sama5d4_vdec_variant_ops = {
-+	.init = sama5d4_hw_init,
-+};
-+
- const struct hantro_variant sama5d4_vdec_variant = {
- 	.dec_fmts = sama5d4_vdec_fmts,
- 	.num_dec_fmts = ARRAY_SIZE(sama5d4_vdec_fmts),
-@@ -109,9 +113,9 @@ const struct hantro_variant sama5d4_vdec_variant = {
- 	.codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER |
- 		 HANTRO_H264_DECODER,
- 	.codec_ops = sama5d4_vdec_codec_ops,
--	.init = sama5d4_hw_init,
- 	.irqs = sama5d4_irqs,
- 	.num_irqs = ARRAY_SIZE(sama5d4_irqs),
- 	.clk_names = sama5d4_clk_names,
- 	.num_clocks = ARRAY_SIZE(sama5d4_clk_names),
-+	.ops = &sama5d4_vdec_variant_ops,
+-	.ops = &imx8mq_vpu_variant_ops,
++	.ops = &imx8mq_vpu_g2_variant_ops,
  };
 -- 
 2.25.1
