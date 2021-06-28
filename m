@@ -2,157 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 121D53B57F2
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jun 2021 05:50:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFDB93B58BB
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jun 2021 07:47:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232062AbhF1DxA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Jun 2021 23:53:00 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:58849 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232018AbhF1DxA (ORCPT
+        id S232130AbhF1Ft2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Jun 2021 01:49:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60736 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232035AbhF1Ft1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Jun 2021 23:53:00 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id xiHzltMQ01OYwxiI5lFqSu; Mon, 28 Jun 2021 05:50:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1624852234; bh=j4FxpUujiF91U4xkPwkX/Btb6moYTjk2I1YNl2iD+kY=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=f8+QcH7aKjhyZcsCjpvkvbO6lCDva7xpQGhUdyiulYePBjIAGeS0IM+0GjJGilJOf
-         IOz3nh/idNbHhEVTuys+VIdBNb4WRcu7Nz1THMTGh6/gc4GnajToXi2HfFCnaCjV3K
-         qSuDOvtYHFuUX74xFzIGQOCg1uUMYZR3mqZAxPQBy+Go5g7jbNsEMfs5/ERk4UnBpc
-         OQ9QMUEmp7EvoIlxlfNfZ2auyHPO8VpvF/LDPKzl+KAlYvR4zhuwi/B3qTjQ8EC9+s
-         51QXH0ChPl+D94BG79rmtunJNr8itcYd9JYZWXo+42XfZ4vUnteQ0+foFKvMgAOk1Y
-         92nqJ1fVTKciA==
-Message-ID: <d5a5d743783f8748911666e7183d0b25@smtp-cloud9.xs4all.net>
-Date:   Mon, 28 Jun 2021 05:50:27 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfJ5cNI01h/FOj0BxgNvWXke9QnTiKA5woXbPDfE9fgrDOsvGNJ/3yPgVCeL/wrL9nY/d6U9FiB7Q9n722Ys5JzW9j0E9tYctixU3DwUmx4BSb06zrfqy
- GWdg5H0L5bPxqHNziPphlSLzL0Hjks3aUWjP1Q4mAxrX/ijvnb4nlQWj+e1P6RcX25LLNvUPAaUITNWVFWt03hDcEJetRDExUfDCos3mrY3YNylJQZerPixL
- NJ24Rolabh706dhnMEmGJA==
+        Mon, 28 Jun 2021 01:49:27 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F017CC061574
+        for <linux-media@vger.kernel.org>; Sun, 27 Jun 2021 22:47:01 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id y4so13183772pfi.9
+        for <linux-media@vger.kernel.org>; Sun, 27 Jun 2021 22:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=RMUZO1MZSVkGJAqSa1s4TnlYCqt3/jZnu3nahYWbu3g=;
+        b=k2CIjsvyYN5k9pNsMxEGqliv8058WhO0Knhi508nW+KT12KiU5Npmu8s2abqNlifaJ
+         aYX4PC3Em2m1Xme0o8nXVw1WrV++pYbEyLaHc0dnN8/o3c1ItOuo9ksyu6+kBbQcTBgG
+         94XiuCgobv8u+6gAB37fvpz5H9Uaz3ttJUcDI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=RMUZO1MZSVkGJAqSa1s4TnlYCqt3/jZnu3nahYWbu3g=;
+        b=nqFQZnw9rmn/uMQQq422MYiRxhtteYkPT4rTMdYfmeFVF4JYIN1PMlCsM3Cnhowtd/
+         J8p+8cBjUHDAzLQX/mG7x8sbLza+R4gMIzK9KJThRMggYpJpBvpuXLnC6P6f8ucMCSDW
+         tofFHNL6/snWuWyuQeiCPeLdWHkItrfjifRtQ5XgF8qrFqjbYh1dvE5HtH+oy9DLA9pA
+         vhxqOvrSAXjAEnY3vuIXqIonMgvxtKqKTluHVV0c1GwCHohjuCmVhMGQYRr6YbcqLiy5
+         Kld6QpI/qSxAPhXZcxSWE5gDzhtyYbKWeEzygIkYD5YTQp+UOjPHoNhBLDeBI06qi/5U
+         +BgA==
+X-Gm-Message-State: AOAM533mr9292IDR/ztEAJUHiGhkTwT0WQzOw3ZWuzjOkzlSNPgihxQl
+        rd9RRMDEGaPIayZ4oZJkq0YRrQ==
+X-Google-Smtp-Source: ABdhPJxNUJHxrcKn/WvX+q9OYjEK9tEppfzIrdIPVjkPLN6N75/xZ33e8l6lHWPULQKbAS7w0ATsLA==
+X-Received: by 2002:a63:903:: with SMTP id 3mr21641501pgj.147.1624859221605;
+        Sun, 27 Jun 2021 22:47:01 -0700 (PDT)
+Received: from chromium.org ([2401:fa00:8f:203:35c6:3ef6:5ed6:fee])
+        by smtp.gmail.com with ESMTPSA id p24sm13405793pfh.17.2021.06.27.22.46.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Jun 2021 22:47:01 -0700 (PDT)
+Date:   Mon, 28 Jun 2021 14:46:57 +0900
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org
+Subject: Re: [PATCH 0/2] rkisp1: Two small fixes
+Message-ID: <YNliUasfxV3XpTKb@chromium.org>
+References: <20210625082309.24944-1-dafna.hirschfeld@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210625082309.24944-1-dafna.hirschfeld@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Fri, Jun 25, 2021 at 11:23:07AM +0300, Dafna Hirschfeld wrote:
+> Two small fixes to rkisp1
+> 1. remove useless vaddr field
+> 2. set the dma address of the capture buffers only once in 'buf_init' callabck
+> instead of each time the buffer is queued
+> 
+> Dafna Hirschfeld (2):
+>   media: rkisp1: remove field 'vaddr' from 'rkisp1_buffer'
+>   media: rkisp1: cap: initialize dma buf address in 'buf_init' cb
+> 
+>  .../media/platform/rockchip/rkisp1/rkisp1-capture.c  | 12 +++++++++++-
+>  .../media/platform/rockchip/rkisp1/rkisp1-common.h   |  6 +-----
+>  .../media/platform/rockchip/rkisp1/rkisp1-params.c   |  3 +--
+>  .../media/platform/rockchip/rkisp1/rkisp1-stats.c    |  6 ++----
+>  4 files changed, 15 insertions(+), 12 deletions(-)
 
-Results of the daily build of media_tree:
+For both patches:
 
-date:			Mon Jun 28 05:00:09 CEST 2021
-media-tree git hash:	50e7a31d30e8221632675abed3be306382324ca2
-media_build git hash:	dc90f6c653a467465b5deb23d3310577f8ebf218
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7481-g7f50411af
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3c9670940d1ef61d871b48f289a2084b1adaae6f
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Reviewed-by; Tomasz Figa <tfiga@chromium.org>
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13-rc1-i686: OK
-linux-5.13-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 2
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Best regards,
+Tomasz
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
