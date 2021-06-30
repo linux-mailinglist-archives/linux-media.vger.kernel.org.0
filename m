@@ -2,238 +2,541 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5C8A3B7FF6
-	for <lists+linux-media@lfdr.de>; Wed, 30 Jun 2021 11:29:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 667183B80E7
+	for <lists+linux-media@lfdr.de>; Wed, 30 Jun 2021 12:39:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233754AbhF3Jbk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Jun 2021 05:31:40 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:44741 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233541AbhF3Jbk (ORCPT
+        id S234209AbhF3Kln (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Jun 2021 06:41:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59680 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229882AbhF3Klm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Jun 2021 05:31:40 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id yWWplqgYc48ZvyWWslDTcm; Wed, 30 Jun 2021 11:29:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1625045350; bh=AKAyIHr3MK3jwwj1nMpLbgfMI77qwZRJw1msxIfZPL0=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=G9nZam0+evMAAGsRO+hEMMfXCA4+4XowJvRy3X3pNAUnpSY6fkcMeTWjlKD6g8DDg
-         pSLB3vPwZ9tfjMmrHX/O8D4KDt28lZ3ei1+gfrt5lhWwlO3ivWvqOUMFQ7CUCfrnC1
-         cZsB1gGajuk2tpRp0/PdLWw7jl1YmShvRcznxTshqcEMs19lXzwb+czPSt1exg6jxr
-         7MMKemWL0pXHwlo9wFS2JvKRzX5OJnFNF9oY853luRovfh1vZA/jdOJhpl6mmUtpYh
-         fHPu7scl8sBSP2HDLFZPCB49N0HtFUONrEBYgrjl+VOD2tc1GZkosc3SY3h6vZ8cY9
-         0t5tjeVBbUcFA==
-Subject: Re: [PATCH v6 2/2] cec: add One Touch Record Standby tests
-To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     jaffe1@gmail.com
-References: <cover.1624989704.git.deborahbrouwer3563@gmail.com>
- <3f78259306e92966d6e9ace3f102c4050e18c46d.1624989704.git.deborahbrouwer3563@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d120a1dc-b24a-3ec3-67fc-6e3424fca811@xs4all.nl>
-Date:   Wed, 30 Jun 2021 11:29:07 +0200
+        Wed, 30 Jun 2021 06:41:42 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C159C061756;
+        Wed, 30 Jun 2021 03:39:13 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id e33so1834999pgm.3;
+        Wed, 30 Jun 2021 03:39:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=V8jwTpsTUaZt0njscvuAxfROwzp0IFoc0SCuX06d7TM=;
+        b=A4uaQ8Jweqt+IDD2UcFYCIjdvm9MAs2YcW//VbQIdieWCf6I8TyUQaDf9vo+BYrh00
+         hOJT67oN6MlpNhpFjZsDleZ2ponWegv7/QV5anC8YKQJhJg6dk0pMsofSlX4f1QnOEJi
+         ZiA9FD7GC6+R53lqaN0MfkZbF3CTp8+u+MOYBnaHxr20HNf2/IVW/shM4jBfGdg2peIy
+         R32+lFptQxk9aowaSTh5wYi+vs5HPmGVl7X9RZx0CEA5/THAcqfAlSod2Kz1lhV9daRy
+         cYYYRdYIrqIeVEB4I3z/MbZ0AqjStweU8dbWeyM0Ax6bxwjjUc2lPgl2vX95C9dVlZ2c
+         +sFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=V8jwTpsTUaZt0njscvuAxfROwzp0IFoc0SCuX06d7TM=;
+        b=NfLCBIBjFuBxszkVNFiY7MJhwhR/WrHTePlKyWq0qyZwmfs/S41GKnxCUep08g+Khn
+         yOFwssNO1M51JgnhPDiyPMMAoQJZEesP8Z07XTfkBnOgHb6W8aXJEV9ho6814849fIBI
+         tLgLXSj028yiwmBx9Qj5+I0QMLgNMjXEOIGAf0HMNTzpnEryrIX26IkT0mp77ArjLUMT
+         CKPfK653u1VjKMScnKCE+hPAohr9w/2qc7gVKGKhOfos5T7hYYdykSM6B73eccEt4V2R
+         8DdHcSM5qKAApAYgFWfAlWtleLkn9zN5uq62JHIYATe0AlGGHhAFAQwDc2/mOB4q8HIK
+         DGBg==
+X-Gm-Message-State: AOAM5306hU9cqejoVPzWfb6E0j1ASbinVhfOHpEfvDrWIAQ3JztcDZRk
+        8irnBp+eidI3mCn0W3ttu5o=
+X-Google-Smtp-Source: ABdhPJxcTo0OsttcS8bBHwiDruzeuUn5E74ttj0gp2t9Rno4jJ1J7WhiNNr5hEe6S5ee53Wp8NkwSw==
+X-Received: by 2002:a63:381:: with SMTP id 123mr32860371pgd.130.1625049552920;
+        Wed, 30 Jun 2021 03:39:12 -0700 (PDT)
+Received: from [192.168.1.237] ([118.200.190.93])
+        by smtp.gmail.com with ESMTPSA id z26sm17600858pfk.112.2021.06.30.03.39.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Jun 2021 03:39:12 -0700 (PDT)
+Subject: Re: [PATCH v5 3/3] drm: protect drm_master pointers in drm_lease.c
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Dave Airlie <airlied@linux.ie>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Emil Velikov <emil.l.velikov@gmail.com>
+References: <20210629033706.20537-1-desmondcheongzx@gmail.com>
+ <20210629033706.20537-4-desmondcheongzx@gmail.com>
+ <YNtFJhUw0U2s1TW0@phenom.ffwll.local>
+ <c71a4521-ed0e-7033-0301-3db116876a47@gmail.com>
+ <CAKMK7uF0drbOO6=06+c_NM2saLuCEmm-=KTMrcwg9LkTcW2qww@mail.gmail.com>
+From:   Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Message-ID: <524cdcd8-203d-837f-99dc-0c2b3ea3bda3@gmail.com>
+Date:   Wed, 30 Jun 2021 18:39:07 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <3f78259306e92966d6e9ace3f102c4050e18c46d.1624989704.git.deborahbrouwer3563@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAKMK7uF0drbOO6=06+c_NM2saLuCEmm-=KTMrcwg9LkTcW2qww@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfIRHyiD+EQ9MzUcNHIqOSzjY9b/tJ2duCU+a910gyc3TXAgUJaECAEJepmHAfOXqq1+g06dOWKDMFDy0Qrj1wFlyEbVsPFmbbajogcFH8wGXyJwIOkxg
- +pZvDvkNRqHkI+9sL+VCpGv5N6nm6Sm+zglsO8OWmfiq73JPoERRlP6iVx747BxEPOQYI+5AYAja7hji4X6HNTENAJhX2A5woWf4M0H4/u6VPRBjj34x0k9Y
- Qmqi7GwFDb7spi8FHsKoPk1Yn3s2ZI/2V8o/xTKgfRM=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/06/2021 20:21, Deborah Brouwer wrote:
-> Check that the recording device ignores a Standby message while it is
-> recording. When the recording is finished, check that the recording device
-> enters standby unless the recording device is the active source.
+On 30/6/21 4:02 pm, Daniel Vetter wrote:
+> On Wed, Jun 30, 2021 at 9:18 AM Desmond Cheong Zhi Xi
+> <desmondcheongzx@gmail.com> wrote:
+>>
+>> On 30/6/21 12:07 am, Daniel Vetter wrote:
+>>> On Tue, Jun 29, 2021 at 11:37:06AM +0800, Desmond Cheong Zhi Xi wrote:
+>>>> Currently, direct copies of drm_file->master pointers should be
+>>>> protected by drm_device.master_mutex when being dereferenced. This is
+>>>> because drm_file->master is not invariant for the lifetime of
+>>>> drm_file. If drm_file is not the creator of master, then
+>>>> drm_file->is_master is false, and a call to drm_setmaster_ioctl will
+>>>> invoke drm_new_set_master, which then allocates a new master for
+>>>> drm_file and puts the old master.
+>>>>
+>>>> Thus, without holding drm_device.master_mutex, the old value of
+>>>> drm_file->master could be freed while it is being used by another
+>>>> concurrent process.
+>>>>
+>>>> In drm_lease.c, there are multiple instances where drm_file->master is
+>>>> accessed and dereferenced while drm_device.master_mutex is not
+>>>> held. This makes drm_lease.c vulnerable to use-after-free bugs.
+>>>>
+>>>> We address this issue in 3 ways:
+>>>>
+>>>> 1. Clarify in the kerneldoc that drm_file->master is protected by
+>>>> drm_device.master_mutex.
+>>>>
+>>>> 2. Add a new drm_file_get_master() function that calls drm_master_get
+>>>> on drm_file->master while holding on to drm_device.master_mutex. Since
+>>>> drm_master_get increments the reference count of master, this
+>>>> prevents master from being freed until we unreference it with
+>>>> drm_master_put.
+>>>>
+>>>> 3. In each case where drm_file->master is directly accessed and
+>>>> eventually dereferenced in drm_lease.c, we wrap the access in a call
+>>>> to the new drm_file_get_master function, then unreference the master
+>>>> pointer once we are done using it.
+>>>>
+>>>> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+>>>
+>>> Series looks very nice, let's see what intel-gfx-ci says. You should get a
+>>> mail, but results are also here:
+>>>
+>>> https://patchwork.freedesktop.org/series/91969/#rev2
+>>>
+>>> One tiny comment below.
+>>>
+>>>> ---
+>>>>    drivers/gpu/drm/drm_auth.c  | 25 ++++++++++++
+>>>>    drivers/gpu/drm/drm_lease.c | 77 +++++++++++++++++++++++++++----------
+>>>>    include/drm/drm_auth.h      |  1 +
+>>>>    include/drm/drm_file.h      | 15 ++++++--
+>>>>    4 files changed, 95 insertions(+), 23 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+>>>> index ab1863c5a5a0..c36a0b72be26 100644
+>>>> --- a/drivers/gpu/drm/drm_auth.c
+>>>> +++ b/drivers/gpu/drm/drm_auth.c
+>>>> @@ -384,6 +384,31 @@ struct drm_master *drm_master_get(struct drm_master *master)
+>>>>    }
+>>>>    EXPORT_SYMBOL(drm_master_get);
+>>>>
+>>>> +/**
+>>>> + * drm_file_get_master - reference &drm_file.master of @file_priv
+>>>> + * @file_priv: DRM file private
+>>>> + *
+>>>> + * Increments the reference count of @file_priv's &drm_file.master and returns
+>>>> + * the &drm_file.master. If @file_priv has no &drm_file.master, returns NULL.
+>>>> + *
+>>>> + * Master pointers returned from this function should be unreferenced using
+>>>> + * drm_master_put().
+>>>> + */
+>>>> +struct drm_master *drm_file_get_master(struct drm_file *file_priv)
+>>>> +{
+>>>> +    struct drm_master *master = NULL;
+>>>> +
+>>>> +    mutex_lock(&file_priv->minor->dev->master_mutex);
+>>>> +    if (!file_priv->master)
+>>>> +            goto unlock;
+>>>> +    master = drm_master_get(file_priv->master);
+>>>> +
+>>>> +unlock:
+>>>> +    mutex_unlock(&file_priv->minor->dev->master_mutex);
+>>>> +    return master;
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_file_get_master);
+>>>> +
+>>>>    static void drm_master_destroy(struct kref *kref)
+>>>>    {
+>>>>       struct drm_master *master = container_of(kref, struct drm_master, refcount);
+>>>> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+>>>> index 00fb433bcef1..cdcc87fa9685 100644
+>>>> --- a/drivers/gpu/drm/drm_lease.c
+>>>> +++ b/drivers/gpu/drm/drm_lease.c
+>>>> @@ -106,10 +106,19 @@ static bool _drm_has_leased(struct drm_master *master, int id)
+>>>>     */
+>>>>    bool _drm_lease_held(struct drm_file *file_priv, int id)
+>>>>    {
+>>>> -    if (!file_priv || !file_priv->master)
+>>>> +    bool ret;
+>>>> +    struct drm_master *master;
+>>>> +
+>>>> +    if (!file_priv)
+>>>>               return true;
+>>>>
+>>>> -    return _drm_lease_held_master(file_priv->master, id);
+>>>> +    master = drm_file_get_master(file_priv);
+>>>> +    if (master == NULL)
+>>>> +            return true;
+>>>> +    ret = _drm_lease_held_master(master, id);
+>>>> +    drm_master_put(&master);
+>>>> +
+>>>> +    return ret;
+>>>>    }
+>>>>
+>>>>    /**
+>>>> @@ -128,13 +137,20 @@ bool drm_lease_held(struct drm_file *file_priv, int id)
+>>>>       struct drm_master *master;
+>>>>       bool ret;
+>>>>
+>>>> -    if (!file_priv || !file_priv->master || !file_priv->master->lessor)
+>>>> +    if (!file_priv)
+>>>>               return true;
+>>>>
+>>>> -    master = file_priv->master;
+>>>> +    master = drm_file_get_master(file_priv);
+>>>> +    if (master == NULL)
+>>>> +            return true;
+>>>> +    if (!master->lessor) {
+>>>> +            drm_master_put(&master);
+>>>> +            return true;
+>>>> +    }
+>>>>       mutex_lock(&master->dev->mode_config.idr_mutex);
+>>>>       ret = _drm_lease_held_master(master, id);
+>>>>       mutex_unlock(&master->dev->mode_config.idr_mutex);
+>>>> +    drm_master_put(&master);
+>>>>       return ret;
+>>>>    }
+>>>>
+>>>> @@ -154,10 +170,16 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
+>>>>       int count_in, count_out;
+>>>>       uint32_t crtcs_out = 0;
+>>>>
+>>>> -    if (!file_priv || !file_priv->master || !file_priv->master->lessor)
+>>>> +    if (!file_priv)
+>>>>               return crtcs_in;
+>>>>
+>>>> -    master = file_priv->master;
+>>>> +    master = drm_file_get_master(file_priv);
+>>>> +    if (master == NULL)
+>>>> +            return crtcs_in;
+>>>> +    if (!master->lessor) {
+>>>> +            drm_master_put(&master);
+>>>> +            return crtcs_in;
+>>>> +    }
+>>>>       dev = master->dev;
+>>>>
+>>>>       count_in = count_out = 0;
+>>>> @@ -176,6 +198,7 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
+>>>>               count_in++;
+>>>>       }
+>>>>       mutex_unlock(&master->dev->mode_config.idr_mutex);
+>>>> +    drm_master_put(&master);
+>>>>       return crtcs_out;
+>>>>    }
+>>>>
+>>>> @@ -489,7 +512,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>>>>       size_t object_count;
+>>>>       int ret = 0;
+>>>>       struct idr leases;
+>>>> -    struct drm_master *lessor = lessor_priv->master;
+>>>> +    struct drm_master *lessor;
+>>>>       struct drm_master *lessee = NULL;
+>>>>       struct file *lessee_file = NULL;
+>>>>       struct file *lessor_file = lessor_priv->filp;
+>>>> @@ -501,12 +524,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>>>>       if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>>>>               return -EOPNOTSUPP;
+>>>>
+>>>> -    /* Do not allow sub-leases */
+>>>> -    if (lessor->lessor) {
+>>>> -            DRM_DEBUG_LEASE("recursive leasing not allowed\n");
+>>>> -            return -EINVAL;
+>>>> -    }
+>>>> -
+>>>>       /* need some objects */
+>>>>       if (cl->object_count == 0) {
+>>>>               DRM_DEBUG_LEASE("no objects in lease\n");
+>>>> @@ -518,12 +535,22 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>>>>               return -EINVAL;
+>>>>       }
+>>>>
+>>>> +    lessor = drm_file_get_master(lessor_priv);
+>>>> +    /* Do not allow sub-leases */
+>>>> +    if (lessor->lessor) {
+>>>> +            DRM_DEBUG_LEASE("recursive leasing not allowed\n");
+>>>> +            ret = -EINVAL;
+>>>> +            goto out_lessor;
+>>>> +    }
+>>>> +
+>>>>       object_count = cl->object_count;
+>>>>
+>>>>       object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
+>>>>                       array_size(object_count, sizeof(__u32)));
+>>>> -    if (IS_ERR(object_ids))
+>>>> -            return PTR_ERR(object_ids);
+>>>> +    if (IS_ERR(object_ids)) {
+>>>> +            ret = PTR_ERR(object_ids);
+>>>> +            goto out_lessor;
+>>>> +    }
+>>>>
+>>>>       idr_init(&leases);
+>>>>
+>>>> @@ -534,14 +561,15 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>>>>       if (ret) {
+>>>>               DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
+>>>>               idr_destroy(&leases);
+>>>> -            return ret;
+>>>> +            goto out_lessor;
+>>>>       }
+>>>>
+>>>>       /* Allocate a file descriptor for the lease */
+>>>>       fd = get_unused_fd_flags(cl->flags & (O_CLOEXEC | O_NONBLOCK));
+>>>>       if (fd < 0) {
+>>>>               idr_destroy(&leases);
+>>>> -            return fd;
+>>>> +            ret = fd;
+>>>> +            goto out_lessor;
+>>>>       }
+>>>>
+>>>>       DRM_DEBUG_LEASE("Creating lease\n");
+>>>> @@ -577,6 +605,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>>>>       /* Hook up the fd */
+>>>>       fd_install(fd, lessee_file);
+>>>>
+>>>> +    drm_master_put(&lessor);
+>>>>       DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
+>>>>       return 0;
+>>>>
+>>>> @@ -586,6 +615,8 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>>>>    out_leases:
+>>>>       put_unused_fd(fd);
+>>>>
+>>>> +out_lessor:
+>>>> +    drm_master_put(&lessor);
+>>>>       DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
+>>>>       return ret;
+>>>>    }
+>>>> @@ -608,7 +639,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
+>>>>       struct drm_mode_list_lessees *arg = data;
+>>>>       __u32 __user *lessee_ids = (__u32 __user *) (uintptr_t) (arg->lessees_ptr);
+>>>>       __u32 count_lessees = arg->count_lessees;
+>>>> -    struct drm_master *lessor = lessor_priv->master, *lessee;
+>>>> +    struct drm_master *lessor, *lessee;
+>>>>       int count;
+>>>>       int ret = 0;
+>>>>
+>>>> @@ -619,6 +650,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
+>>>>       if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>>>>               return -EOPNOTSUPP;
+>>>>
+>>>> +    lessor = drm_file_get_master(lessor_priv);
+>>>>       DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
+>>>>
+>>>>       mutex_lock(&dev->mode_config.idr_mutex);
+>>>> @@ -642,6 +674,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
+>>>>               arg->count_lessees = count;
+>>>>
+>>>>       mutex_unlock(&dev->mode_config.idr_mutex);
+>>>> +    drm_master_put(&lessor);
+>>>>
+>>>>       return ret;
+>>>>    }
+>>>> @@ -661,7 +694,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
+>>>>       struct drm_mode_get_lease *arg = data;
+>>>>       __u32 __user *object_ids = (__u32 __user *) (uintptr_t) (arg->objects_ptr);
+>>>>       __u32 count_objects = arg->count_objects;
+>>>> -    struct drm_master *lessee = lessee_priv->master;
+>>>> +    struct drm_master *lessee;
+>>>>       struct idr *object_idr;
+>>>>       int count;
+>>>>       void *entry;
+>>>> @@ -675,6 +708,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
+>>>>       if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>>>>               return -EOPNOTSUPP;
+>>>>
+>>>> +    lessee = drm_file_get_master(lessee_priv);
+>>>>       DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
+>>>>
+>>>>       mutex_lock(&dev->mode_config.idr_mutex);
+>>>> @@ -702,6 +736,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
+>>>>               arg->count_objects = count;
+>>>>
+>>>>       mutex_unlock(&dev->mode_config.idr_mutex);
+>>>> +    drm_master_put(&lessee);
+>>>>
+>>>>       return ret;
+>>>>    }
+>>>> @@ -720,7 +755,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+>>>>                               void *data, struct drm_file *lessor_priv)
+>>>>    {
+>>>>       struct drm_mode_revoke_lease *arg = data;
+>>>> -    struct drm_master *lessor = lessor_priv->master;
+>>>> +    struct drm_master *lessor;
+>>>>       struct drm_master *lessee;
+>>>>       int ret = 0;
+>>>>
+>>>> @@ -730,6 +765,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+>>>>       if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>>>>               return -EOPNOTSUPP;
+>>>>
+>>>> +    lessor = drm_file_get_master(lessor_priv);
+>>>>       mutex_lock(&dev->mode_config.idr_mutex);
+>>>>
+>>>>       lessee = _drm_find_lessee(lessor, arg->lessee_id);
+>>>> @@ -750,6 +786,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+>>>>
+>>>>    fail:
+>>>>       mutex_unlock(&dev->mode_config.idr_mutex);
+>>>> +    drm_master_put(&lessor);
+>>>>
+>>>>       return ret;
+>>>>    }
+>>>> diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
+>>>> index 6bf8b2b78991..f99d3417f304 100644
+>>>> --- a/include/drm/drm_auth.h
+>>>> +++ b/include/drm/drm_auth.h
+>>>> @@ -107,6 +107,7 @@ struct drm_master {
+>>>>    };
+>>>>
+>>>>    struct drm_master *drm_master_get(struct drm_master *master);
+>>>> +struct drm_master *drm_file_get_master(struct drm_file *file_priv);
+>>>>    void drm_master_put(struct drm_master **master);
+>>>>    bool drm_is_current_master(struct drm_file *fpriv);
+>>>>
+>>>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+>>>> index b81b3bfb08c8..e9931fca4ab7 100644
+>>>> --- a/include/drm/drm_file.h
+>>>> +++ b/include/drm/drm_file.h
+>>>> @@ -226,9 +226,18 @@ struct drm_file {
+>>>>       /**
+>>>>        * @master:
+>>>>        *
+>>>> -     * Master this node is currently associated with. Only relevant if
+>>>> -     * drm_is_primary_client() returns true. Note that this only
+>>>> -     * matches &drm_device.master if the master is the currently active one.
+>>>> +     * Master this node is currently associated with. Protected by struct
+>>>> +     * &drm_device.master_mutex.
+>>>> +     *
+>>>> +     * Only relevant if drm_is_primary_client() returns true. Note that
+>>>> +     * this only matches &drm_device.master if the master is the currently
+>>>> +     * active one.
+>>>> +     *
+>>>> +     * When obtaining a copy of this pointer, it is recommended to either
+>>>
+>>> I found this a bit confusing, since I generally don't think of
+>>> dereferencing the pointer as "taking a copy". That's more for the entire
+>>> datastructure when you have a memcpy() call, or kmemdup() or something
+>>> like that. Also "it is recommended" is a bit weak if you get a
+>>> use-after-free if you dont :-)
+>>>
+>>> So instead "When dererencing this pointer either hold ... or use
+>>> drm_file_get_master() ...."
+>>>
+>>> Cheers, Daniel
+>>>
+>>>> +     * hold struct &drm_device.master_mutex for the duration of the
+>>>> +     * pointer's use, or to use drm_file_get_master() if struct
+>>>> +     * &drm_device.master_mutex is not currently held and there is no other
+>>>> +     * need to hold it. This prevents @master from being freed during use.
+>>>>        *
+>>>>        * See also @authentication and @is_master and the :ref:`section on
+>>>>        * primary nodes and authentication <drm_primary_node>`.
+>>>> --
+>>>> 2.25.1
+>>>>
+>>>
+>>
+>> Hi Daniel,
+>>
+>> Thanks for the suggestion, I'll clarify the kerneldoc accordingly.
+>>
+>> Regarding the results from intel-gfx-ci, it seems that the patch is
+>> inverting the lock hierarchy for
+>> &dev->master_mutex --> &dev->mode_config.idr_mutex
+>>
+>> Currently the dmesg warnings share a common call trace:
+>> drm_file_get_master+0x1b/0x70
+>> _drm_lease_held+0x21/0x70
+>> __drm_mode_object_find+0xd1/0xe0
+>>
+>> Looking at the functions that lock &dev->mode_config.idr_mutex, this
+>> should be the only instance of this lock order inversion.
+>>
+>> I'm thinking the call to _drm_lease_held can be moved outside of the
+>> &dev->mode_config.idr_mutex lock in __drm_mode_object. Any thoughts?
 > 
-> Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
-> ---
->  utils/cec-compliance/cec-test-power.cpp | 62 +++++++++++++++++++++++++
->  utils/cec-follower/cec-follower.cpp     |  1 +
->  utils/cec-follower/cec-follower.h       |  2 +
->  utils/cec-follower/cec-processing.cpp   | 14 +++++-
->  utils/cec-follower/cec-tuner.cpp        |  9 ++++
->  5 files changed, 87 insertions(+), 1 deletion(-)
+> Uh very annoying. One of the callers of this is the atomic ioctl,
+> where we're calling this while holding drm_modeset_lock. The nesting
+> hierarchy is, from outermost lock to innermost: dev->master_mutex ->
+> dev->mode_config.mutex -> drm_modeset_lock. So I think we'll again
+> have an inversion, just moved it a bit :-(
 > 
-> diff --git a/utils/cec-compliance/cec-test-power.cpp b/utils/cec-compliance/cec-test-power.cpp
-> index b675bfc4..f23d0414 100644
-> --- a/utils/cec-compliance/cec-test-power.cpp
-> +++ b/utils/cec-compliance/cec-test-power.cpp
-> @@ -677,6 +677,66 @@ static int standby_resume_wakeup_deck_play(struct node *node, unsigned me, unsig
->  	return standby_resume_wakeup_deck(node, me, la, interactive, CEC_OP_PLAY_MODE_PLAY_FWD);
->  }
->  
-> +static int standby_record(struct node *node, unsigned me, unsigned la, bool interactive, bool active_source)
-> +{
-> +	struct cec_msg msg;
-> +	__u8 rec_status;
-> +	unsigned unresponsive_time = 0;
-> +
-> +	cec_msg_init(&msg, me, la);
-> +	cec_msg_record_on_own(&msg);
-> +	msg.reply = CEC_MSG_RECORD_STATUS;
-> +	fail_on_test(!transmit_timeout(node, &msg, 10000));
-> +	if (timed_out_or_abort(&msg))
-> +		return OK_NOT_SUPPORTED;
-> +	cec_ops_record_status(&msg, &rec_status);
-> +	fail_on_test(rec_status != CEC_OP_RECORD_STATUS_CUR_SRC &&
-> +	             rec_status != CEC_OP_RECORD_STATUS_ALREADY_RECORDING);
-> +
-> +	cec_msg_init(&msg, me, la);
-> +	if (active_source)
-> +		cec_msg_active_source(&msg, node->remote[la].phys_addr);
-> +	else
-> +		cec_msg_active_source(&msg, me);
-> +	fail_on_test(!transmit_timeout(node, &msg));
-> +
-> +	cec_msg_init(&msg, me, la);
-> +	cec_msg_standby(&msg);
-> +	fail_on_test(!transmit_timeout(node, &msg));
-> +	/* Standby should not interrupt the recording. */
-> +	fail_on_test(!poll_stable_power_status(node, me, la, CEC_OP_POWER_STATUS_ON, unresponsive_time));
-> +
-> +	cec_msg_init(&msg, me, la);
-> +	cec_msg_record_off(&msg, false);
-> +	fail_on_test(!transmit_timeout(node, &msg));
-> +
-> +	/* When the recording stops, recorder should standby unless it is the active source. */
-> +	if (active_source) {
-> +		fail_on_test(!poll_stable_power_status(node, me, la, CEC_OP_POWER_STATUS_ON, unresponsive_time));
-> +	} else {
-> +		fail_on_test(!poll_stable_power_status(node, me, la, CEC_OP_POWER_STATUS_STANDBY, unresponsive_time));
-> +		fail_on_test(interactive && !question("Is the device in standby?"));
-> +		node->remote[la].in_standby = true;
-> +
-> +		int ret = standby_resume_wakeup(node, me, la, interactive);
-> +		if (ret)
-> +			return ret;
-> +		node->remote[la].in_standby = false;
-> +	}
-> +
-> +	return OK;
-> +}
-> +
-> +static int standby_record_active_source(struct node *node, unsigned me, unsigned la, bool interactive)
-> +{
-> +	return standby_record(node, me, la, interactive, true);
-> +}
-> +
-> +static int standby_record_inactive_source(struct node *node, unsigned me, unsigned la, bool interactive)
-> +{
-> +	return standby_record(node, me, la, interactive, false);
-> +}
-> +
->  const vec_remote_subtests standby_resume_subtests{
->  	{ "Standby", CEC_LOG_ADDR_MASK_ALL, standby_resume_standby },
->  	{ "Repeated Standby message does not wake up", CEC_LOG_ADDR_MASK_ALL, standby_resume_standby_toggle },
-> @@ -697,4 +757,6 @@ const vec_remote_subtests standby_resume_subtests{
->  	{ "Power State Transitions", CEC_LOG_ADDR_MASK_TV, power_state_transitions, false, true },
->  	{ "Deck Eject Standby Resume", CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD, standby_resume_wakeup_deck_eject },
->  	{ "Deck Play Standby Resume", CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD, standby_resume_wakeup_deck_play },
-> +	{ "Record Standby Active Source", CEC_LOG_ADDR_MASK_RECORD | CEC_LOG_ADDR_MASK_BACKUP, standby_record_active_source },
-> +	{ "Record Standby Inactive Source", CEC_LOG_ADDR_MASK_RECORD | CEC_LOG_ADDR_MASK_BACKUP, standby_record_inactive_source },
->  };
-> diff --git a/utils/cec-follower/cec-follower.cpp b/utils/cec-follower/cec-follower.cpp
-> index 482192e7..2816fb85 100644
-> --- a/utils/cec-follower/cec-follower.cpp
-> +++ b/utils/cec-follower/cec-follower.cpp
-> @@ -318,6 +318,7 @@ void state_init(struct node &node)
->  	node.state.deck_state = CEC_OP_DECK_INFO_STOP;
->  	node.state.deck_skip_start = 0;
->  	node.state.one_touch_record_on = false;
-> +	node.state.record_received_standby = false;
->  	tuner_dev_info_init(&node.state);
->  	node.state.last_aud_rate_rx_ts = 0;
->  }
-> diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
-> index 8dfbd39f..833dec5e 100644
-> --- a/utils/cec-follower/cec-follower.h
-> +++ b/utils/cec-follower/cec-follower.h
-> @@ -54,6 +54,7 @@ struct state {
->  	__u8 deck_state;
->  	__u64 deck_skip_start;
->  	bool one_touch_record_on;
-> +	bool record_received_standby;
->  	time_t toggle_power_status;
->  	__u64 last_aud_rate_rx_ts;
->  };
-> @@ -230,5 +231,6 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
->  void reply_feature_abort(struct node *node, struct cec_msg *msg,
->  			 __u8 reason = CEC_OP_ABORT_UNRECOGNIZED_OP);
->  void testProcessing(struct node *node, bool wallclock);
-> +bool enter_standby(struct node *node);
->  
->  #endif
-> diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-> index e1a71d6c..32375966 100644
-> --- a/utils/cec-follower/cec-processing.cpp
-> +++ b/utils/cec-follower/cec-processing.cpp
-> @@ -146,6 +146,9 @@ void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 reason)
->  
->  static bool exit_standby(struct node *node)
->  {
-> +	/* Cancel any standby request that was pending. */
-> +	node->state.record_received_standby = false;
-> +
->  	if (node->state.power_status == CEC_OP_POWER_STATUS_STANDBY ||
->  	    node->state.power_status == CEC_OP_POWER_STATUS_TO_STANDBY) {
->  		node->state.old_power_status = node->state.power_status;
-> @@ -157,14 +160,23 @@ static bool exit_standby(struct node *node)
->  	return false;
->  }
->  
-> -static bool enter_standby(struct node *node)
-> +bool enter_standby(struct node *node)
->  {
->  	if (node->state.power_status == CEC_OP_POWER_STATUS_ON ||
->  	    node->state.power_status == CEC_OP_POWER_STATUS_TO_ON) {
-> +		/*
-> +		 * Standby should not interrupt a recording in progress, but
-> +		 * remember to go to standby once the recording is finished.
-> +		 */
-> +		if (node->state.one_touch_record_on) {
-> +			node->state.record_received_standby = true;
-> +			return false;
-> +		}
->  		node->state.old_power_status = node->state.power_status;
->  		node->state.power_status = CEC_OP_POWER_STATUS_STANDBY;
->  		node->state.power_status_changed_time = time(nullptr);
->  		node->state.deck_skip_start = 0;
-> +		node->state.record_received_standby = false;
->  		dev_info("Changing state to standby\n");
->  		return true;
->  	}
-> diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
-> index 13cf6d20..e1d8b8fc 100644
-> --- a/utils/cec-follower/cec-tuner.cpp
-> +++ b/utils/cec-follower/cec-tuner.cpp
-> @@ -724,6 +724,15 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
->  		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_TERMINATED_OK);
->  		transmit(node, &msg);
->  		node->state.one_touch_record_on = false;
-> +		/*
-> +		 * If standby was received during recording, enter standby when the
-> +		 * recording is finished unless recording device is the active source.
-> +		 */
-> +		if (node->state.record_received_standby) {
-> +			if (node->phys_addr != node->state.active_source_pa)
-> +				enter_standby(node);
-> +			node->state.record_received_standby = false;
-> +		}
->  		return;
->  	case CEC_MSG_RECORD_STATUS:
->  		return;
+> But I'm also not 100% sure, so maybe type it up and see what happens?
+> Otherwise I think we need to figure out a solution for how we can
+> check leases without having to take the dev->master_mutex that
+> serializes a lot more things ... I think the fundamental problem we
+> have here is that dev->master_mutex serves 2 purposes: a) protecting
+> the pointers and just data consistency and b) synchronizing against
+> concurrent master changes where we think that's required. It's the
+> latter (through the fbdev emulation code) that causes all the
+> inversion problems, a) it's could easily nest very deeply in other
+> locks.
 > 
 
-Looks good! I'll wait for v7 before merging as I expect that to be the final version.
+Ah I see, that sounds thorny. Just from inspecting the code I can't find 
+the inversion, so I'll write up the v6 series for testing first.
 
-Regards,
+>> diff --git a/drivers/gpu/drm/drm_mode_object.c
+>> b/drivers/gpu/drm/drm_mode_object.c
+>> index b26588b52795..63d35f1f98dd 100644
+>> --- a/drivers/gpu/drm/drm_mode_object.c
+>> +++ b/drivers/gpu/drm/drm_mode_object.c
+>> @@ -146,16 +146,18 @@ struct drm_mode_object
+>> *__drm_mode_object_find(struct drm_device *dev,
+>>           if (obj && obj->id != id)
+>>                   obj = NULL;
+>>
+>> -       if (obj && drm_mode_object_lease_required(obj->type) &&
+>> -           !_drm_lease_held(file_priv, obj->id))
+>> -               obj = NULL;
+>> -
+>>           if (obj && obj->free_cb) {
+>>                   if (!kref_get_unless_zero(&obj->refcount))
+>>                           obj = NULL;
+>>           }
+>>           mutex_unlock(&dev->mode_config.idr_mutex);
+>>
+>> +       if (obj && drm_mode_object_lease_required(obj->type) &&
+>> +               !_drm_lease_held(file_priv, obj->id)) {
+>> +               drm_mode_object_put(obj);
+>> +               obj = NULL;
+>> +       }
+> 
+> Irrespective of all this I think this change here makes sense since in
+> untangels the master stuff from the lookup idr, and that's always
+> good. Maybe do this hunk as a separate patch, and I'll apply that as
+> prep work?
+> -Daniel
+> 
 
-	Hans
+Sounds good to me, I'll add the new patch to the series.
