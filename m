@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13B043B7B4C
+	by mail.lfdr.de (Postfix) with ESMTP id 9FAFB3B7B4D
 	for <lists+linux-media@lfdr.de>; Wed, 30 Jun 2021 03:34:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231350AbhF3BhF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Jun 2021 21:37:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51844 "EHLO
+        id S232135AbhF3BhG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Jun 2021 21:37:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232005AbhF3BhC (ORCPT
+        with ESMTP id S232042AbhF3BhD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Jun 2021 21:37:02 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6455EC061760
-        for <linux-media@vger.kernel.org>; Tue, 29 Jun 2021 18:34:33 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id d12so570766pgd.9
-        for <linux-media@vger.kernel.org>; Tue, 29 Jun 2021 18:34:33 -0700 (PDT)
+        Tue, 29 Jun 2021 21:37:03 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBD8CC061760
+        for <linux-media@vger.kernel.org>; Tue, 29 Jun 2021 18:34:34 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id b1so559637pls.5
+        for <linux-media@vger.kernel.org>; Tue, 29 Jun 2021 18:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=f7FvesnFZtEkQqc9Vhikn1W8hwZHSFqCkNBKNAcZa+k=;
-        b=UTRqcAonCOmEpLXYTxiIciOZgFW4bRHzMzBoD3+Gibvj2TTgv0sBO0MIt+YmnarrCe
-         pycct/KBpz4kBF+0zrZPzrwnex23iy8TOlVH1Spg81GdJVh8KeDpkpjxdNxnDeXuxtSZ
-         u8ws+zhm4OvLK7kDUtNlj1nT+tJEUKcyE1tUu/P0C86GHL0KHZQGx0nvoOH98C85c4fs
-         O5aYnoV/Hy/FARfg9HRydjLNAtTDoi9gmHGnE5UQx+4yW6rb93y+YXllGCt9T33kD4yP
-         qRlYDUwJniiMkOZnEVBHS7BB4sOroW6LY6pTcH57N54x+MQeIy4pATMnXrlilsDtpoe5
-         d3JA==
+        bh=7lwmLoDhSeUynyw9WpwUoeXd78SHIQUhC9+ggRtjsFY=;
+        b=HBlk9uLZFBTPmMPZXa1DY3yBqmvzmoLq9Ga/hS6DV3Y3+0uu6Cm9LR/zISXJR6fOeZ
+         2MV8mIa2ielnvbs7nQz61soPcBst2ko+p169WKQAV9uGEe4EwPZ9oOpXACSwlTTk3NFQ
+         O1vj4a+RurTq2Ka/FeTf/1mYe+EKjH3Jq+4//h3Wy3gMamx6gpGvk/jWd3dTZ/Ike12A
+         bGHPqmy85MbuzF4v5xM+psqE8xDBcv0VTT2gs6X/Y23lHNgsX92PZV+dt3XuZmZXFP/i
+         HqZ1uMOuBPYk+T8NWnglX/M0CeHZjgJEsocYYOa1vY6Fjat5gILcJ0r0gUdVM9GrsFB1
+         3ODA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=f7FvesnFZtEkQqc9Vhikn1W8hwZHSFqCkNBKNAcZa+k=;
-        b=Zy/BoqpBfIbVjYPCMCpMCT3te8JU6od6YvnlJkG1ymVg0J99bxxY6nvya8RiiQyjDP
-         vb0gLXtn+ub98QN0x3beOolo+auCqLJTHdZ+Th1ZjS2WS6tIwS6rk3D+wVKpGZv8St6f
-         eEy4Z1Qe+5JpTHo3Nt0GSuEheFHyTViPEg5Q64t0Ts+Ge9CPWmOYlYwo0M6ai9XGzJMO
-         9kN0nmkrFggWxtvNFJrmKrPYCzIT3DLhoykri6qlRpgD+aoIGyYacsvoA0JSB84gUhO7
-         O2qoAfWiqRwgDyB0AbXPMipEzBW78+oYHJG+NQ3rfljAV/dlqtLAdEXb4DcD2YuC/BTe
-         Vpjw==
-X-Gm-Message-State: AOAM530H03vmfFM7bWDfV21xc155bsYWVkqmgNb59AeO7zlAvdoifBfg
-        b+bFxyt82SBlA+gqIMuJ/RHhwQ==
-X-Google-Smtp-Source: ABdhPJwwJ6FImXAWETVvS8aVQkTszK7LdVQHHAgqehKcfaUi5GcmNfbDKZyWguSJ+Eqv6cg/qVN1Zg==
-X-Received: by 2002:a62:5547:0:b029:2ec:8f20:4e2 with SMTP id j68-20020a6255470000b02902ec8f2004e2mr33097276pfb.71.1625016872939;
-        Tue, 29 Jun 2021 18:34:32 -0700 (PDT)
+        bh=7lwmLoDhSeUynyw9WpwUoeXd78SHIQUhC9+ggRtjsFY=;
+        b=skhQNEd6mosLknzXs47QkqQqtWx25nWqT6OJX3cmEoluii6Mgii4OkpTw4mHYVIjJj
+         57Ea4toeyzDWJIQEQvZaZB/ByjdYpce3EJenb7i4verUXMgmOx3wEEKVwOId385crnii
+         XJGMdwWWIjM3d9YSLbuQmSkNizCYINg4lx5OhsdG+ETOgf307O9AdpP9CMTlM69a6+z5
+         PSG3WOcoOusZb39TptN9yfOEQcAAf5NN2YD3m0zfxXmUiiDYqYwdSoUb5gAcHYlbg6Ae
+         y1agIVGeYDgE+PQkIc5o+/CbLTDMZQet2sjl27zl0dnnGkFgnfksfw0b6cXzPfEAGrGP
+         9cQg==
+X-Gm-Message-State: AOAM530ToQQpJw15f2L1M/ThjlHZBrCDcNh4C4oyaO0GLdJPSrWoTxKB
+        bZkWX5D3Bm0tN1xJ2wWaMcEQIA==
+X-Google-Smtp-Source: ABdhPJxMWCmXP/0OjhKqFlMasVLKq7rLdoTzTd5HNImYqVgNkNOOmmOdq+gMPC9r1CKc6CFEJnq2fQ==
+X-Received: by 2002:a17:90a:5889:: with SMTP id j9mr36864843pji.234.1625016874317;
+        Tue, 29 Jun 2021 18:34:34 -0700 (PDT)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id g8sm20252901pja.14.2021.06.29.18.34.31
+        by smtp.gmail.com with ESMTPSA id g8sm20252901pja.14.2021.06.29.18.34.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Jun 2021 18:34:32 -0700 (PDT)
+        Tue, 29 Jun 2021 18:34:33 -0700 (PDT)
 From:   John Stultz <john.stultz@linaro.org>
 To:     lkml <linux-kernel@vger.kernel.org>
 Cc:     John Stultz <john.stultz@linaro.org>,
@@ -68,9 +68,9 @@ Cc:     John Stultz <john.stultz@linaro.org>,
         Simon Ser <contact@emersion.fr>,
         James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 2/5] drm: ttm_pool: Rework ttm_pool to use drm_page_pool
-Date:   Wed, 30 Jun 2021 01:34:18 +0000
-Message-Id: <20210630013421.735092-3-john.stultz@linaro.org>
+Subject: [PATCH v9 3/5] dma-buf: system_heap: Add drm pagepool support to system heap
+Date:   Wed, 30 Jun 2021 01:34:19 +0000
+Message-Id: <20210630013421.735092-4-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210630013421.735092-1-john.stultz@linaro.org>
 References: <20210630013421.735092-1-john.stultz@linaro.org>
@@ -81,32 +81,11 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch reworks the ttm_pool logic to utilize the recently
-added drm_page_pool code.
+Utilize the drm pagepool code to speed up allocation
+performance.
 
-This adds drm_page_pool structures to the ttm_pool_type
-structures, and then removes all the ttm_pool_type shrinker
-logic (as its handled in the drm_page_pool shrinker).
-
-NOTE: There is one mismatch in the interfaces I'm not totally
-happy with. The ttm_pool tracks all of its pooled pages across
-a number of different pools, and tries to keep this size under
-the specified page_pool_size value. With the drm_page_pool,
-there may other users, however there is still one global
-shrinker list of pools. So we can't easily reduce the ttm
-pool under the ttm specified size without potentially doing
-a lot of shrinking to other non-ttm pools. So either we can:
-  1) Try to split it so each user of drm_page_pools manages its
-     own pool shrinking.
-  2) Push the max value into the drm_page_pool, and have it
-     manage shrinking to fit under that global max. Then share
-     those size/max values out so the ttm_pool debug output
-     can have more context.
-
-I've taken the second path in this patch set, but wanted to call
-it out so folks could look closely.
-
-Thoughts would be greatly appreciated here!
+This is similar to the ION pagepool usage, but tries to
+utilize generic code instead of a custom implementation.
 
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Christian Koenig <christian.koenig@amd.com>
@@ -128,390 +107,117 @@ Cc: linux-media@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: John Stultz <john.stultz@linaro.org>
 ---
+v2:
+* Fix build issue caused by selecting PAGE_POOL w/o NET
+  as Reported-by: kernel test robot <lkp@intel.com>
+v3:
+* Simplify the page zeroing logic a bit by using kmap_atomic
+  instead of vmap as suggested by Daniel Mentz
+v5:
+* Shift away from networking page pool completely to
+  dmabuf page pool implementation
+v6:
+* Switch again to using the drm_page_pool code shared w/
+  ttm_pool
 v7:
-* Major refactoring to use drm_page_pools inside the
-  ttm_pool_type structure. This allows us to use container_of to
-  get the needed context to free a page. This also means less
-  code is changed overall.
+* Slight rework for drm_page_pool changes
 v8:
-* Reworked to use the new cleanly rewritten drm_page_pool logic
+* Rework to use the rewritten drm_page_pool logic
+* Drop explicit buffer zeroing, as the drm_page_pool handles that
 v9:
-* Renamed functions, and dropped duplicative order tracking, as
-  suggested by ChristianK
-* Use new *_(un)lock_shrinker() hooks to fix atomic calculations
-  for debugfs
+* Fix compiler warning Reported-by: kernel test robot <lkp@intel.com>
 ---
- drivers/gpu/drm/Kconfig        |   1 +
- drivers/gpu/drm/ttm/ttm_pool.c | 167 ++++++---------------------------
- include/drm/ttm/ttm_pool.h     |  14 +--
- 3 files changed, 33 insertions(+), 149 deletions(-)
+ drivers/dma-buf/heaps/Kconfig       |  1 +
+ drivers/dma-buf/heaps/system_heap.c | 26 +++++++++++++++++++++++---
+ 2 files changed, 24 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 52d9ba92b35e..6be5344c009c 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -183,6 +183,7 @@ config DRM_PAGE_POOL
- config DRM_TTM
- 	tristate
- 	depends on DRM && MMU
+diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+index a5eef06c4226..f19bf1f82bc2 100644
+--- a/drivers/dma-buf/heaps/Kconfig
++++ b/drivers/dma-buf/heaps/Kconfig
+@@ -1,6 +1,7 @@
+ config DMABUF_HEAPS_SYSTEM
+ 	bool "DMA-BUF System Heap"
+ 	depends on DMABUF_HEAPS
 +	select DRM_PAGE_POOL
  	help
- 	  GPU memory management subsystem for devices with multiple
- 	  GPU memory types. Will be enabled automatically if a device driver
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index cb38b1a17b09..7ae647bce551 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -40,6 +40,7 @@
- #include <asm/set_memory.h>
- #endif
+ 	  Choose this option to enable the system dmabuf heap. The system heap
+ 	  is backed by pages from the buddy allocator. If in doubt, say Y.
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index f57a39ddd063..85ceca2ed61d 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -21,6 +21,8 @@
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
  
 +#include <drm/page_pool.h>
- #include <drm/ttm/ttm_pool.h>
- #include <drm/ttm/ttm_bo_driver.h>
- #include <drm/ttm/ttm_tt.h>
-@@ -70,10 +71,6 @@ static struct ttm_pool_type global_uncached[MAX_ORDER];
- static struct ttm_pool_type global_dma32_write_combined[MAX_ORDER];
- static struct ttm_pool_type global_dma32_uncached[MAX_ORDER];
++
+ static struct dma_heap *sys_heap;
  
--static struct mutex shrinker_lock;
--static struct list_head shrinker_list;
--static struct shrinker mm_shrinker;
--
- /* Allocate pages of size 1 << order with the given gfp_flags */
- static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
- 					unsigned int order)
-@@ -158,6 +155,15 @@ static void ttm_pool_free_page(struct ttm_pool *pool, enum ttm_caching caching,
- 	kfree(dma);
+ struct system_heap_buffer {
+@@ -54,6 +56,7 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, MID_ORDER_GFP, LOW_ORDER_GFP};
+  */
+ static const unsigned int orders[] = {8, 4, 0};
+ #define NUM_ORDERS ARRAY_SIZE(orders)
++struct drm_page_pool pools[NUM_ORDERS];
+ 
+ static struct sg_table *dup_sg_table(struct sg_table *table)
+ {
+@@ -282,18 +285,27 @@ static void system_heap_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
+ 	dma_buf_map_clear(map);
  }
  
-+static void ttm_pool_free_callback(struct drm_page_pool *subpool,
-+				   struct page *p)
++static void system_heap_free_pages(struct drm_page_pool *pool, struct page *p)
 +{
-+	struct ttm_pool_type *pt;
-+
-+	pt = container_of(subpool, struct ttm_pool_type, subpool);
-+	return ttm_pool_free_page(pt->pool, pt->caching, subpool->order, p);
++	__free_pages(p, pool->order);
 +}
 +
- /* Apply a new caching to an array of pages */
- static int ttm_pool_apply_caching(struct page **first, struct page **last,
- 				  enum ttm_caching caching)
-@@ -219,66 +225,20 @@ static void ttm_pool_unmap(struct ttm_pool *pool, dma_addr_t dma_addr,
- 		       DMA_BIDIRECTIONAL);
- }
- 
--/* Give pages into a specific pool_type */
--static void ttm_pool_type_give(struct ttm_pool_type *pt, struct page *p)
--{
--	unsigned int i, num_pages = 1 << pt->order;
--
--	for (i = 0; i < num_pages; ++i) {
--		if (PageHighMem(p))
--			clear_highpage(p + i);
--		else
--			clear_page(page_address(p + i));
--	}
--
--	spin_lock(&pt->lock);
--	list_add(&p->lru, &pt->pages);
--	spin_unlock(&pt->lock);
--	atomic_long_add(1 << pt->order, &allocated_pages);
--}
--
--/* Take pages from a specific pool_type, return NULL when nothing available */
--static struct page *ttm_pool_type_take(struct ttm_pool_type *pt)
--{
--	struct page *p;
--
--	spin_lock(&pt->lock);
--	p = list_first_entry_or_null(&pt->pages, typeof(*p), lru);
--	if (p) {
--		atomic_long_sub(1 << pt->order, &allocated_pages);
--		list_del(&p->lru);
--	}
--	spin_unlock(&pt->lock);
--
--	return p;
--}
--
- /* Initialize and add a pool type to the global shrinker list */
- static void ttm_pool_type_init(struct ttm_pool_type *pt, struct ttm_pool *pool,
- 			       enum ttm_caching caching, unsigned int order)
+ static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
  {
- 	pt->pool = pool;
- 	pt->caching = caching;
--	pt->order = order;
--	spin_lock_init(&pt->lock);
--	INIT_LIST_HEAD(&pt->pages);
+ 	struct system_heap_buffer *buffer = dmabuf->priv;
+ 	struct sg_table *table;
+ 	struct scatterlist *sg;
+-	int i;
++	int i, j;
  
--	mutex_lock(&shrinker_lock);
--	list_add_tail(&pt->shrinker_list, &shrinker_list);
--	mutex_unlock(&shrinker_lock);
-+	drm_page_pool_init(&pt->subpool, order, ttm_pool_free_callback);
- }
+ 	table = &buffer->sg_table;
+ 	for_each_sg(table->sgl, sg, table->nents, i) {
+ 		struct page *page = sg_page(sg);
  
- /* Remove a pool_type from the global shrinker list and free all pages */
- static void ttm_pool_type_fini(struct ttm_pool_type *pt)
- {
--	struct page *p;
--
--	mutex_lock(&shrinker_lock);
--	list_del(&pt->shrinker_list);
--	mutex_unlock(&shrinker_lock);
--
--	while ((p = ttm_pool_type_take(pt)))
--		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
-+	drm_page_pool_fini(&pt->subpool);
- }
- 
- /* Return the pool_type to use for the given caching and order */
-@@ -309,30 +269,6 @@ static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
- 	return NULL;
- }
- 
--/* Free pages using the global shrinker list */
--static unsigned int ttm_pool_shrink(void)
--{
--	struct ttm_pool_type *pt;
--	unsigned int num_freed;
--	struct page *p;
--
--	mutex_lock(&shrinker_lock);
--	pt = list_first_entry(&shrinker_list, typeof(*pt), shrinker_list);
--
--	p = ttm_pool_type_take(pt);
--	if (p) {
--		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
--		num_freed = 1 << pt->order;
--	} else {
--		num_freed = 0;
--	}
--
--	list_move_tail(&pt->shrinker_list, &shrinker_list);
--	mutex_unlock(&shrinker_lock);
--
--	return num_freed;
--}
--
- /* Return the allocation order based for a page */
- static unsigned int ttm_pool_page_order(struct ttm_pool *pool, struct page *p)
- {
-@@ -389,7 +325,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
- 		struct ttm_pool_type *pt;
- 
- 		pt = ttm_pool_select_type(pool, tt->caching, order);
--		p = pt ? ttm_pool_type_take(pt) : NULL;
-+		p = pt ? drm_page_pool_remove(&pt->subpool) : NULL;
- 		if (p) {
- 			apply_caching = true;
- 		} else {
-@@ -471,16 +407,13 @@ void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
- 
- 		pt = ttm_pool_select_type(pool, tt->caching, order);
- 		if (pt)
--			ttm_pool_type_give(pt, tt->pages[i]);
-+			drm_page_pool_add(&pt->subpool, tt->pages[i]);
- 		else
- 			ttm_pool_free_page(pool, tt->caching, order,
- 					   tt->pages[i]);
- 
- 		i += num_pages;
+-		__free_pages(page, compound_order(page));
++		for (j = 0; j < NUM_ORDERS; j++) {
++			if (compound_order(page) == orders[j])
++				break;
++		}
++		drm_page_pool_add(&pools[j], page);
  	}
--
--	while (atomic_long_read(&allocated_pages) > page_pool_size)
--		ttm_pool_shrink();
- }
- EXPORT_SYMBOL(ttm_pool_free);
+ 	sg_free_table(table);
+ 	kfree(buffer);
+@@ -324,7 +336,9 @@ static struct page *alloc_largest_available(unsigned long size,
+ 		if (max_order < orders[i])
+ 			continue;
  
-@@ -532,44 +465,7 @@ void ttm_pool_fini(struct ttm_pool *pool)
- 	}
- }
- 
--/* As long as pages are available make sure to release at least one */
--static unsigned long ttm_pool_shrinker_scan(struct shrinker *shrink,
--					    struct shrink_control *sc)
--{
--	unsigned long num_freed = 0;
--
--	do
--		num_freed += ttm_pool_shrink();
--	while (!num_freed && atomic_long_read(&allocated_pages));
--
--	return num_freed;
--}
--
--/* Return the number of pages available or SHRINK_EMPTY if we have none */
--static unsigned long ttm_pool_shrinker_count(struct shrinker *shrink,
--					     struct shrink_control *sc)
--{
--	unsigned long num_pages = atomic_long_read(&allocated_pages);
--
--	return num_pages ? num_pages : SHRINK_EMPTY;
--}
--
- #ifdef CONFIG_DEBUG_FS
--/* Count the number of pages available in a pool_type */
--static unsigned int ttm_pool_type_count(struct ttm_pool_type *pt)
--{
--	unsigned int count = 0;
--	struct page *p;
--
--	spin_lock(&pt->lock);
--	/* Only used for debugfs, the overhead doesn't matter */
--	list_for_each_entry(p, &pt->pages, lru)
--		++count;
--	spin_unlock(&pt->lock);
--
--	return count;
--}
--
- /* Print a nice header for the order */
- static void ttm_pool_debugfs_header(struct seq_file *m)
+-		page = alloc_pages(order_flags[i], orders[i]);
++		page = drm_page_pool_remove(&pools[i]);
++		if (!page)
++			page = alloc_pages(order_flags[i], orders[i]);
+ 		if (!page)
+ 			continue;
+ 		return page;
+@@ -425,6 +439,12 @@ static const struct dma_heap_ops system_heap_ops = {
+ static int system_heap_create(void)
  {
-@@ -588,7 +484,8 @@ static void ttm_pool_debugfs_orders(struct ttm_pool_type *pt,
- 	unsigned int i;
+ 	struct dma_heap_export_info exp_info;
++	int i;
++
++	for (i = 0; i < NUM_ORDERS; i++) {
++		drm_page_pool_init(&pools[i], orders[i],
++				   system_heap_free_pages);
++	}
  
- 	for (i = 0; i < MAX_ORDER; ++i)
--		seq_printf(m, " %8u", ttm_pool_type_count(&pt[i]));
-+		seq_printf(m, " %8lu",
-+			   drm_page_pool_get_size(&pt[i].subpool));
- 	seq_puts(m, "\n");
- }
- 
-@@ -596,7 +493,10 @@ static void ttm_pool_debugfs_orders(struct ttm_pool_type *pt,
- static void ttm_pool_debugfs_footer(struct seq_file *m)
- {
- 	seq_printf(m, "\ntotal\t: %8lu of %8lu\n",
--		   atomic_long_read(&allocated_pages), page_pool_size);
-+		   atomic_long_read(&allocated_pages),
-+		   drm_page_pool_get_max());
-+	seq_printf(m, "(%8lu in non-ttm pools)\n", drm_page_pool_get_total() -
-+					atomic_long_read(&allocated_pages));
- }
- 
- /* Dump the information for the global pools */
-@@ -604,7 +504,7 @@ static int ttm_pool_debugfs_globals_show(struct seq_file *m, void *data)
- {
- 	ttm_pool_debugfs_header(m);
- 
--	mutex_lock(&shrinker_lock);
-+	dma_page_pool_lock_shrinker();
- 	seq_puts(m, "wc\t:");
- 	ttm_pool_debugfs_orders(global_write_combined, m);
- 	seq_puts(m, "uc\t:");
-@@ -613,7 +513,7 @@ static int ttm_pool_debugfs_globals_show(struct seq_file *m, void *data)
- 	ttm_pool_debugfs_orders(global_dma32_write_combined, m);
- 	seq_puts(m, "uc 32\t:");
- 	ttm_pool_debugfs_orders(global_dma32_uncached, m);
--	mutex_unlock(&shrinker_lock);
-+	dma_page_pool_unlock_shrinker();
- 
- 	ttm_pool_debugfs_footer(m);
- 
-@@ -640,7 +540,7 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m)
- 
- 	ttm_pool_debugfs_header(m);
- 
--	mutex_lock(&shrinker_lock);
-+	dma_page_pool_lock_shrinker();
- 	for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
- 		seq_puts(m, "DMA ");
- 		switch (i) {
-@@ -656,7 +556,7 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m)
- 		}
- 		ttm_pool_debugfs_orders(pool->caching[i].orders, m);
- 	}
--	mutex_unlock(&shrinker_lock);
-+	dma_page_pool_unlock_shrinker();
- 
- 	ttm_pool_debugfs_footer(m);
- 	return 0;
-@@ -666,13 +566,10 @@ EXPORT_SYMBOL(ttm_pool_debugfs);
- /* Test the shrinker functions and dump the result */
- static int ttm_pool_debugfs_shrink_show(struct seq_file *m, void *data)
- {
--	struct shrink_control sc = { .gfp_mask = GFP_NOFS };
--
- 	fs_reclaim_acquire(GFP_KERNEL);
--	seq_printf(m, "%lu/%lu\n", ttm_pool_shrinker_count(&mm_shrinker, &sc),
--		   ttm_pool_shrinker_scan(&mm_shrinker, &sc));
-+	seq_printf(m, "%lu/%lu\n", drm_page_pool_get_total(),
-+		   (unsigned long)drm_page_pool_shrink());
- 	fs_reclaim_release(GFP_KERNEL);
--
- 	return 0;
- }
- DEFINE_SHOW_ATTRIBUTE(ttm_pool_debugfs_shrink);
-@@ -693,8 +590,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
- 	if (!page_pool_size)
- 		page_pool_size = num_pages;
- 
--	mutex_init(&shrinker_lock);
--	INIT_LIST_HEAD(&shrinker_list);
-+	drm_page_pool_set_max(page_pool_size);
- 
- 	for (i = 0; i < MAX_ORDER; ++i) {
- 		ttm_pool_type_init(&global_write_combined[i], NULL,
-@@ -713,11 +609,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
- 	debugfs_create_file("page_pool_shrink", 0400, ttm_debugfs_root, NULL,
- 			    &ttm_pool_debugfs_shrink_fops);
- #endif
--
--	mm_shrinker.count_objects = ttm_pool_shrinker_count;
--	mm_shrinker.scan_objects = ttm_pool_shrinker_scan;
--	mm_shrinker.seeks = 1;
--	return register_shrinker(&mm_shrinker);
-+	return 0;
- }
- 
- /**
-@@ -736,7 +628,4 @@ void ttm_pool_mgr_fini(void)
- 		ttm_pool_type_fini(&global_dma32_write_combined[i]);
- 		ttm_pool_type_fini(&global_dma32_uncached[i]);
- 	}
--
--	unregister_shrinker(&mm_shrinker);
--	WARN_ON(!list_empty(&shrinker_list));
- }
-diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
-index 4321728bdd11..c854a81491da 100644
---- a/include/drm/ttm/ttm_pool.h
-+++ b/include/drm/ttm/ttm_pool.h
-@@ -30,6 +30,7 @@
- #include <linux/llist.h>
- #include <linux/spinlock.h>
- #include <drm/ttm/ttm_caching.h>
-+#include <drm/page_pool.h>
- 
- struct device;
- struct ttm_tt;
-@@ -39,22 +40,15 @@ struct ttm_operation_ctx;
- /**
-  * ttm_pool_type - Pool for a certain memory type
-  *
-- * @pool: the pool we belong to, might be NULL for the global ones
-- * @order: the allocation order our pages have
-+ * @pool: the ttm pool we belong to, might be NULL for the global ones
-  * @caching: the caching type our pages have
-- * @shrinker_list: our place on the global shrinker list
-- * @lock: protection of the page list
-- * @pages: the list of pages in the pool
-+ * @subpool: the dma_page_pool that we use to manage the pages
-  */
- struct ttm_pool_type {
- 	struct ttm_pool *pool;
--	unsigned int order;
- 	enum ttm_caching caching;
- 
--	struct list_head shrinker_list;
--
--	spinlock_t lock;
--	struct list_head pages;
-+	struct drm_page_pool subpool;
- };
- 
- /**
+ 	exp_info.name = "system";
+ 	exp_info.ops = &system_heap_ops;
 -- 
 2.25.1
 
