@@ -2,121 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C15BC3B7AE8
-	for <lists+linux-media@lfdr.de>; Wed, 30 Jun 2021 02:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D1A43B7B43
+	for <lists+linux-media@lfdr.de>; Wed, 30 Jun 2021 03:34:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235608AbhF3ASw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Jun 2021 20:18:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34898 "EHLO
+        id S231194AbhF3Bg6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Jun 2021 21:36:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233056AbhF3ASw (ORCPT
+        with ESMTP id S229792AbhF3Bg6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Jun 2021 20:18:52 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45D16C061760;
-        Tue, 29 Jun 2021 17:16:23 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id o17-20020a9d76510000b02903eabfc221a9so837069otl.0;
-        Tue, 29 Jun 2021 17:16:23 -0700 (PDT)
+        Tue, 29 Jun 2021 21:36:58 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8C83C061760
+        for <linux-media@vger.kernel.org>; Tue, 29 Jun 2021 18:34:30 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id w15so552024pgk.13
+        for <linux-media@vger.kernel.org>; Tue, 29 Jun 2021 18:34:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TeU+3+BSYIPpIeuTqgZDRxi1yeuqH6v4tOX7y63fgHw=;
-        b=XKDqX3TPtx+FM7XOGFT5ZxxIRnOGdcF7kmoOpeRxvJSLbMexAdV711roiibP4qR76q
-         KT76AWQgueP1tZo03SIm3YWwMpUcHfF3jKmNbrm+XwvnbzZDcmGbFiVFNkv6db1TtrGf
-         DGIgsilQzPkOKh0TKSnJ/MGueuZFhCQB0kSIwOb7CU2RSO+5GT8JMUvUWELpgGhRJYG9
-         zoc5Yq/PetkBCi9nvCuSFE/DIJWYVnn3GuAIuwPrXnWt/OeNTOE4Nyy9uMPdS1gSGmHA
-         5Kz2gJgQjVrKojgqR6WDet/Di5tgLLQqlXIJ5jyoS8fTZSk0PyD1Z5K52Gjezw/vmrK+
-         qiuA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FBEInOJoYqxwrlE52K6MZcC340XktufPlx9tQHJv3jk=;
+        b=fpOTxwV4zxW4Q0vXTnzAdyWRKSNOkJ6Yt5nUdEs8+fAMn3XqRToSnVNet0pTIFnaQR
+         cCMSSrzMa51N8/Ca9p8l+jqocYP7FxLde/JNiiOXRZpFjYvUZvmjGetBCLP3kAsvmSTu
+         vPYFOQyaPT9Nc9Ch2RPF7gKN/31atj/e33ZaTm42GJBlu+dsply2TCWz1h9jDasglrK2
+         lxd+aDaz4eznt1K2MTO1ZUdHwqjfof/Z0YadmFAefD1MZJ0VnjY/1G99vVC7naW8Orzn
+         AsBMrloc8ZhRKOkpgR1aURI0ECgbQu8TPF0eYWu1KJ4Sq+UEo+4orwgB5DI31WQzdTTg
+         N9xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TeU+3+BSYIPpIeuTqgZDRxi1yeuqH6v4tOX7y63fgHw=;
-        b=oslnvladO20tibh+lJmk4eOUXC2BKpC+Dvx4qWZ6fz+DjzJMkjraVyP4pUsr8AzY7C
-         f3mtz5Va3O77YHdCS8yMQMZsFThdO8S1+neCl3aJ47MQ5UoWavbva0Hg0ZEQQ/uWKVVi
-         zkmZPkTbeN2SjfJAJg5ssCgs+t1DhmjQ1i59Rgrn6BeAvvE1AUu83BImh8I+wW0zzxlZ
-         JCWZFoHvNr22ULK9syG7D3GOyXURMtvn0s7ZutKD8IEOFuqbAh6Gv2zJmSwxyeZ2txF/
-         NVjpGcsvhVRoJm/YQIn/3AkPFehN5m7yBJ1BgIM6tNjFeRI5CVfkGIOipK4ayKDEvCvo
-         0iOQ==
-X-Gm-Message-State: AOAM532iPpch0X75lbXT566BtZAUKrtYsaTTD/PgOYQKcgIjKRzSyK7b
-        bPEX8P4aivx/ZReKqZ3qUT2xAbC4zZntmR0pJ8k=
-X-Google-Smtp-Source: ABdhPJx34XXa9kHNh6uvHXEDImmKhDaL6BZO5KazFWN+0la39xePneKq3e4T3vbCD/IXdwpTxTXiC0j8xj4riZHpj8M=
-X-Received: by 2002:a9d:1b41:: with SMTP id l59mr6810295otl.8.1625012182689;
- Tue, 29 Jun 2021 17:16:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210629033706.20537-1-desmondcheongzx@gmail.com> <20210629033706.20537-4-desmondcheongzx@gmail.com>
-In-Reply-To: <20210629033706.20537-4-desmondcheongzx@gmail.com>
-From:   Emil Velikov <emil.l.velikov@gmail.com>
-Date:   Wed, 30 Jun 2021 01:16:10 +0100
-Message-ID: <CACvgo514T=PZCWwhNsYqCC504SJ+2WivcRtmHhDoKsWMSLFU4A@mail.gmail.com>
-Subject: Re: [PATCH v5 3/3] drm: protect drm_master pointers in drm_lease.c
-To:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Dave Airlie <airlied@linux.ie>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FBEInOJoYqxwrlE52K6MZcC340XktufPlx9tQHJv3jk=;
+        b=fEGNwq1BajPrJAK7lzdA21y5NV5rryQ8GCzG0I0TYpSCwZI09yicD/QsfzVpe86+mo
+         AK8L7ftW9GVgBwdh8WdONBNXNxF/bAKgq44/MDA59WPlmalf6D+H85Hcit3vQY0+MfxD
+         InAVOPhODNxKh8qWyTApwiiDex/UwOYojgdEYVhD6wCv/skwqeOJ5i3LU5UH3ZcEUvQK
+         BxWvP3TCZUwkJ/7SwmVMv3FarmnwKkvgpqmT47/AhhFPDCkC3kLIpJbEsosnQL+OQOuH
+         Nz6on1E6o+BwqugfrqIulfvDqGuKcZqvT+fK+1R6zbSwjgEhCkIuYXxfwIWukRuXU8fn
+         bvQA==
+X-Gm-Message-State: AOAM531sjSyk4qlMCHwMF43pFwmLSIC/7tlHSzLvVjsMsDDK9eolj20H
+        iPS3fLghKq8/OW7Df1VwzFpYow==
+X-Google-Smtp-Source: ABdhPJzSoY1EJeRDCOfTvywVVy/GFDhxptRl0SIl647lxALfT485QBgs8oQza+YKOuAOTR5gyn9Lag==
+X-Received: by 2002:a63:5966:: with SMTP id j38mr30913446pgm.451.1625016870033;
+        Tue, 29 Jun 2021 18:34:30 -0700 (PDT)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+        by smtp.gmail.com with ESMTPSA id g8sm20252901pja.14.2021.06.29.18.34.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Jun 2021 18:34:29 -0700 (PDT)
+From:   John Stultz <john.stultz@linaro.org>
+To:     lkml <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
         Daniel Vetter <daniel@ffwll.ch>,
+        Christian Koenig <christian.koenig@amd.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        skhan@linuxfoundation.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+        Liam Mark <lmark@codeaurora.org>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: [PATCH v9 0/5] Generic page pool & deferred freeing for system dmabuf hea
+Date:   Wed, 30 Jun 2021 01:34:16 +0000
+Message-Id: <20210630013421.735092-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Desmond,
+After an unfortunately long pause (covid work-schedule burnout),
+I wanted to revive and resubmit this series.
 
-Couple of small suggestions, with those the series is:
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+As before, the point of this series is trying to add both a page
+pool as well as deferred-freeingto the DMA-BUF system heap to
+improve allocation performance (so that it can match or beat the
+old ION system heaps performance).
 
-On Tue, 29 Jun 2021 at 04:38, Desmond Cheong Zhi Xi
-<desmondcheongzx@gmail.com> wrote:
+The combination of the page pool along with deferred freeing
+allows us to offload page-zeroing out of the allocation hot
+path. This was done originally with ION and this patch series
+allows the DMA-BUF system heap to match ION's system heap
+allocation performance in a simple microbenchmark [1] (ION
+re-added to the kernel for comparision, running on an x86 vm
+image):
 
-> @@ -128,13 +137,20 @@ bool drm_lease_held(struct drm_file *file_priv, int id)
->         struct drm_master *master;
->         bool ret;
->
-> -       if (!file_priv || !file_priv->master || !file_priv->master->lessor)
-> +       if (!file_priv)
->                 return true;
->
-> -       master = file_priv->master;
-> +       master = drm_file_get_master(file_priv);
-> +       if (master == NULL)
-> +               return true;
-> +       if (!master->lessor) {
-> +               drm_master_put(&master);
-> +               return true;
+./dmabuf-heap-bench -i 0 1 system
+Testing dmabuf system vs ion heaptype 0 (flags: 0x1)
+---------------------------------------------
+dmabuf heap: alloc 4096 bytes 5000 times in 79314244 ns          15862 ns/call
+ion heap:    alloc 4096 bytes 5000 times in 107390769 ns         21478 ns/call
+dmabuf heap: alloc 1048576 bytes 5000 times in 259083419 ns      51816 ns/call
+ion heap:    alloc 1048576 bytes 5000 times in 340497344 ns      68099 ns/call
+dmabuf heap: alloc 8388608 bytes 5000 times in 2603105563 ns     520621 ns/call
+ion heap:    alloc 8388608 bytes 5000 times in 3613592860 ns     722718 ns/call
+dmabuf heap: alloc 33554432 bytes 5000 times in 12212492979 ns   2442498 ns/call
+ion heap:    alloc 33554432 bytes 5000 times in 14584157792 ns   2916831 ns/call
 
-Let's add a "ret = true; goto unlock;" here, so we can have a single
-drm_master_put() in the function.
-Nearly all code paths touched by this patch already follow this approach.
 
-> @@ -154,10 +170,16 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
->         int count_in, count_out;
->         uint32_t crtcs_out = 0;
->
-> -       if (!file_priv || !file_priv->master || !file_priv->master->lessor)
-> +       if (!file_priv)
->                 return crtcs_in;
->
-> -       master = file_priv->master;
-> +       master = drm_file_get_master(file_priv);
-> +       if (master == NULL)
-> +               return crtcs_in;
-> +       if (!master->lessor) {
-> +               drm_master_put(&master);
-> +               return crtcs_in;
+Daniel didn't like earlier attempts to re-use the network
+page-pool code to achieve this, and suggested the ttm_pool be
+used instead, so this series pulls the page pool functionality
+out of the ttm_pool logic and creates a generic page pool
+that can be shared.
 
-Ditto
+New in v9:
+* Tried to address Christian König's feedback on the page pool
+  changes (Kerneldoc, static functions, locking issues, duplicative
+  order tracking)
+* Fix up Kconfig dependency issue as Reported-by:
+  kernel test robot <lkp@intel.com>
+* Fix compiler warning Reported-by:
+  kernel test robot <lkp@intel.com>
+
+I know Christian had some less specific feedback on the deferred free
+work that I'd like to revisit, but I wanted to restart the discussion
+with this new series, rather then trying to dregdge up and reply to
+a ~4mo old thread.
+
+Input would be greatly appreciated. Testing as well, as I don't
+have any development hardware that utilizes the ttm pool.
 
 Thanks
-Emil
+-john
+
+[1] https://android.googlesource.com/platform/system/memory/libdmabufheap/+/refs/heads/master/tests/dmabuf_heap_bench.c
+
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: Daniel Mentz <danielmentz@google.com>
+Cc: Ørjan Eide <orjan.eide@arm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Ezequiel Garcia <ezequiel@collabora.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: James Jones <jajones@nvidia.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+
+John Stultz (5):
+  drm: Add a sharable drm page-pool implementation
+  drm: ttm_pool: Rework ttm_pool to use drm_page_pool
+  dma-buf: system_heap: Add drm pagepool support to system heap
+  dma-buf: heaps: Add deferred-free-helper library code
+  dma-buf: system_heap: Add deferred freeing to the system heap
+
+ drivers/dma-buf/heaps/Kconfig                |   5 +
+ drivers/dma-buf/heaps/Makefile               |   1 +
+ drivers/dma-buf/heaps/deferred-free-helper.c | 138 +++++++++
+ drivers/dma-buf/heaps/deferred-free-helper.h |  55 ++++
+ drivers/dma-buf/heaps/system_heap.c          |  46 ++-
+ drivers/gpu/drm/Kconfig                      |   4 +
+ drivers/gpu/drm/Makefile                     |   2 +
+ drivers/gpu/drm/page_pool.c                  | 297 +++++++++++++++++++
+ drivers/gpu/drm/ttm/ttm_pool.c               | 167 ++---------
+ include/drm/page_pool.h                      |  68 +++++
+ include/drm/ttm/ttm_pool.h                   |  14 +-
+ 11 files changed, 643 insertions(+), 154 deletions(-)
+ create mode 100644 drivers/dma-buf/heaps/deferred-free-helper.c
+ create mode 100644 drivers/dma-buf/heaps/deferred-free-helper.h
+ create mode 100644 drivers/gpu/drm/page_pool.c
+ create mode 100644 include/drm/page_pool.h
+
+-- 
+2.25.1
+
