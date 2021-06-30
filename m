@@ -2,157 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7AF33B7C46
-	for <lists+linux-media@lfdr.de>; Wed, 30 Jun 2021 05:48:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0D053B7D78
+	for <lists+linux-media@lfdr.de>; Wed, 30 Jun 2021 08:37:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232977AbhF3Du5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Jun 2021 23:50:57 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:45255 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232373AbhF3Du4 (ORCPT
+        id S232301AbhF3Gj7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Jun 2021 02:39:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33514 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229933AbhF3Gj6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Jun 2021 23:50:56 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id yRD7loc0S48ZvyRD9lCWpQ; Wed, 30 Jun 2021 05:48:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1625024907; bh=sgbU4bCGI/Ki1h4Rp3Z9OHMSpS18nAg3gU76WwKL/KQ=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=SQX+klQ24nlLdjDKyolzpS0/dkSL2ZqeudNdUFxWWQbd0rLbpyFBosFrYiVxxlWLA
-         nsjW4AfuMXXsVXTlnUtrsvExskk17YjfSyLp2RbBQTaV6bpnehd3kGhvoQ7ExA2bNl
-         fOjFK93cf/wZoSxjTEbAbwerWNiO43/XkV15SrVajvBZE4YJoh9eJ0+d3IGVAvJtef
-         cJjASHDXF2iW2SFzLMR2WaDNwqJrNQoral8AOG/DbIcQMMZ8MkO3uvAio+sntY8EkQ
-         DOr9IADVNjB6xJqeipN9vC1hucDarCsOFqOn2YlWtsl78pa0nfBvj5HhyY9BuRd1vN
-         p6EAGIiPuWYeA==
-Message-ID: <8c5ea7f66c46fcc4ebc2f9562943a8e4@smtp-cloud8.xs4all.net>
-Date:   Wed, 30 Jun 2021 05:48:25 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfPq8TWuauHLo9mEBe46IOaVt1oJ8mOl7RmW+EsUw1Tjrlp+0D+NeayAJnd9nJfKBIIfgXOZxqhXb/3VBsIPe4Qhlq8/OYvoWO7RSG+hrBPsvFEx1f8fG
- BrTdZf5GoO/QsU8YdLqvZgKb5XekkNK4GfSDfG7iReDJ54h1fJY4qd1DLm361Z+SlIdXZluJYW0yp4jaqKiAZhoc5opp4wEPxYjw5KrleVcT9Cib0HIvUeNW
- l1VtSd2JsGyZJ8yRJXSGuQ==
+        Wed, 30 Jun 2021 02:39:58 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C73E6C061766;
+        Tue, 29 Jun 2021 23:37:29 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id y17so1233771pgf.12;
+        Tue, 29 Jun 2021 23:37:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=QIvNKpu6whR4KbUvMINCyHMH+hf3gIcrSC/Vwhdr3Lw=;
+        b=YNGt9ANUzqBZpiARnaJOzXbbBqylmMuYP/nI/dR8iVc9BR8fyloomrSEDAc7BHhB1t
+         3TGc7sm8bxGH/Kh9sl8FHkfQJSb9d3wZc8s8UirITisqGy/BMijpPFumavBt9BKtTU5t
+         KzteOijczl9A4g7/s10zsj2dYedhe1Fapf+4S2kq7X8GW4dWZ0TB6l4xKWnCaHJBb3yv
+         aCAHePk8renhA6LzrrWsTBRGjtv5j4O5a8Au8q3RkfIywGYHTOT0+daMkNfKzK0g8ow7
+         H32WH1O2xZUCj3wKo23i3lBi3mlxMgE9oEMsxMx30Gk6CRC9uoOiSUHvfb+/212Ng/q9
+         bXPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=QIvNKpu6whR4KbUvMINCyHMH+hf3gIcrSC/Vwhdr3Lw=;
+        b=XUcM7x70yCkNmJaB+EhyAAUMXCbxnPI4RKVVjOBN7jru8x1m4I7+xLn3XsmdrMdioL
+         907WagfbuVYNvcCvJqlf5lnAba4YQIeWYoO1Vr7dFspNXj7DgwbIyBu06gsQL8/cLYXx
+         f53EsNMi44FjwjE64ubppJ/GzzD37tvUICUTklhJd5VFLSVsPeDjitvBHVV6IWHkxvoO
+         DyEaJZ6ADUfU9KGgLFZplvhcgtIYntj+9Tem4wNrbeH1/M3maT/HbTnwaNqFzClwODlN
+         2AxKc06O20KSW5N0S+oxyQBh83lQUQJEtjVrDNyNOr9hUcMhyte44egMct5azyAkMEjw
+         oABg==
+X-Gm-Message-State: AOAM531gdZZ8usUa8e2sYOLus3PqWQ3bOJDb2JA292TaDWFZgRnJIRtP
+        Qtv7yovd/sds6xztGAwP1iE=
+X-Google-Smtp-Source: ABdhPJxv35ffdyTf2HuDhIhk6MMvfhVyiCMQtPK0P585CwMD0Mvofwueer0wUTiw7OflmgcVoXCMCQ==
+X-Received: by 2002:a63:2f05:: with SMTP id v5mr32113452pgv.449.1625035049301;
+        Tue, 29 Jun 2021 23:37:29 -0700 (PDT)
+Received: from [192.168.1.237] ([118.200.190.93])
+        by smtp.gmail.com with ESMTPSA id h24sm20304574pjv.27.2021.06.29.23.37.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Jun 2021 23:37:28 -0700 (PDT)
+Subject: Re: [PATCH v5 3/3] drm: protect drm_master pointers in drm_lease.c
+To:     Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Dave Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        skhan@linuxfoundation.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20210629033706.20537-1-desmondcheongzx@gmail.com>
+ <20210629033706.20537-4-desmondcheongzx@gmail.com>
+ <CACvgo514T=PZCWwhNsYqCC504SJ+2WivcRtmHhDoKsWMSLFU4A@mail.gmail.com>
+From:   Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Message-ID: <e2ca777f-f185-688a-5813-0ff2e5025f77@gmail.com>
+Date:   Wed, 30 Jun 2021 14:37:23 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <CACvgo514T=PZCWwhNsYqCC504SJ+2WivcRtmHhDoKsWMSLFU4A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 30/6/21 8:16 am, Emil Velikov wrote:
+> Hi Desmond,
+> 
+> Couple of small suggestions, with those the series is:
+> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+> 
+> On Tue, 29 Jun 2021 at 04:38, Desmond Cheong Zhi Xi
+> <desmondcheongzx@gmail.com> wrote:
+> 
+>> @@ -128,13 +137,20 @@ bool drm_lease_held(struct drm_file *file_priv, int id)
+>>          struct drm_master *master;
+>>          bool ret;
+>>
+>> -       if (!file_priv || !file_priv->master || !file_priv->master->lessor)
+>> +       if (!file_priv)
+>>                  return true;
+>>
+>> -       master = file_priv->master;
+>> +       master = drm_file_get_master(file_priv);
+>> +       if (master == NULL)
+>> +               return true;
+>> +       if (!master->lessor) {
+>> +               drm_master_put(&master);
+>> +               return true;
+> 
+> Let's add a "ret = true; goto unlock;" here, so we can have a single
+> drm_master_put() in the function.
+> Nearly all code paths touched by this patch already follow this approach.
+> 
+>> @@ -154,10 +170,16 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
+>>          int count_in, count_out;
+>>          uint32_t crtcs_out = 0;
+>>
+>> -       if (!file_priv || !file_priv->master || !file_priv->master->lessor)
+>> +       if (!file_priv)
+>>                  return crtcs_in;
+>>
+>> -       master = file_priv->master;
+>> +       master = drm_file_get_master(file_priv);
+>> +       if (master == NULL)
+>> +               return crtcs_in;
+>> +       if (!master->lessor) {
+>> +               drm_master_put(&master);
+>> +               return crtcs_in;
+> 
+> Ditto
+> 
+> Thanks
+> Emil
+> 
 
-Results of the daily build of media_tree:
+Sounds good to me, I'll revise these functions. Thanks for the review 
+and suggestions, Emil.
 
-date:			Wed Jun 30 05:00:12 CEST 2021
-media-tree git hash:	50e7a31d30e8221632675abed3be306382324ca2
-media_build git hash:	dc90f6c653a467465b5deb23d3310577f8ebf218
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7481-g7f50411af
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3c9670940d1ef61d871b48f289a2084b1adaae6f
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13-rc1-i686: OK
-linux-5.13-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 3
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Best wishes,
+Desmond
