@@ -2,250 +2,295 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3A263B8DE4
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jul 2021 08:52:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEFDB3B8E72
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jul 2021 09:56:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234484AbhGAGzN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Jul 2021 02:55:13 -0400
-Received: from mail-bn8nam11on2080.outbound.protection.outlook.com ([40.107.236.80]:18240
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234209AbhGAGzN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 1 Jul 2021 02:55:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fl/D3Jpg3eMEQi8+Dap5OlXtjkbxrhS5vkKA5F6ADBQ/tz9K3zfyfoAFUSAX95rD13VyyylOQtm8no1vuDv6Rsoe4ZR6q65Gm7g5ApioLzcx1dU8JMN6Sg00CQnu43tJAVnMhRuVwcD+TayAJpS1Kw134cVpM1SEZL9bZWplh40ZImEc6rmdZvRkze8+frMMOfKrNNlzNyn93cnbFPDwqr7EfTB8l0P5AvOZUNjJOSxGSR3oNtLd58uwmRuEmH0v1zxojQ8tk0jDdgQDww9VYg38Chn68qyrfq1i6aaER91H1tP9rT+P6092BwF2Ds6v+D1fc7JsEbNT42sGvg0DcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DOwqJ07QW+D4TQpqDCAhLYBooe3jT4j6HL1x2k/cMgw=;
- b=k4M5AOssJHM3D15lhE2/TsQXE6ghtiMGbv1wuR8nOBrVQkEr0qCdkewl+3BKJKx0AsimTkLhWZmzbv5lV3dFDi2jXc545oyMykXujG5V3RKdqCzJJ57FVtMRAnKqCsqsz9GxXyTG+8slT080bv5CHWE9mMh/mQuWv7WeOPCqykURWBBKqsj4m1gckKwiTALEOkjiMH00JvitdRBQGiMVH/5AEjmc6Xv8O6kLEljaTKseKfebp8pb4mtnrLGpSXzBkzMdnZBoeyeiXdlUssSRKq3CV56Q8yo8VBFENhnHDij41mo7aonA0VL/tvV4hYtscwV2+Kql27XlnWzcb23C9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DOwqJ07QW+D4TQpqDCAhLYBooe3jT4j6HL1x2k/cMgw=;
- b=UFasBp5IH8X2yaSiJkfLy+mEwuKbUFnbW8c28xEpdK1nujM55DrUlP/n4HAGH4JoY3mUJezzqwj8zpp5uZVHrG6IcpFRKYBeq+55LCRbrKyeDNiMlu0nrhP5ObbGtrtfvxFxqrof2fEWWl8KRL+xDHgO43coabjkHaUMiLQvww4=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=none action=none
- header.from=amd.com;
-Received: from BY5PR12MB3764.namprd12.prod.outlook.com (2603:10b6:a03:1ac::17)
- by BY5PR12MB4934.namprd12.prod.outlook.com (2603:10b6:a03:1db::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Thu, 1 Jul
- 2021 06:52:39 +0000
-Received: from BY5PR12MB3764.namprd12.prod.outlook.com
- ([fe80::6c58:1598:e768:d45e]) by BY5PR12MB3764.namprd12.prod.outlook.com
- ([fe80::6c58:1598:e768:d45e%7]) with mapi id 15.20.4264.026; Thu, 1 Jul 2021
- 06:52:39 +0000
-Subject: Re: [PATCH v9 1/5] drm: Add a sharable drm page-pool implementation
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     lkml <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        =?UTF-8?Q?=c3=98rjan_Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
+        id S235005AbhGAH7W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Jul 2021 03:59:22 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35840 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234576AbhGAH7W (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jul 2021 03:59:22 -0400
+Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 934C5268;
+        Thu,  1 Jul 2021 09:56:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1625126210;
+        bh=OUq9GBiPDtjNM+swD089evHPI06hAwe6Nt9Ejeorm30=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=YjRwa97Z3iLVpB+4HmRq0pA6EfqwdhKWIHaER8wTcRt9SIC3F1HZbdGVo8x46aZuq
+         M8PSU1CDj2KaWbW+BPJYi1kyehbJxWKhRp1Vb9Gxv7Q4A+3GpGLjf43Gh7CpDL1WzB
+         nUk3K5HTKIBh6+aHtg9duHm527JISCJv++hWQCyY=
+To:     Pratyush Yadav <p.yadav@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Nikhil Devshatwar <nikhil.nd@ti.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Arnd Bergmann <arnd@arndb.de>, Benoit Parrot <bparrot@ti.com>,
+        Bert Vermeulen <bert@biot.com>,
+        Dikshita Agarwal <dikshita@codeaurora.org>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
         Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-References: <20210630013421.735092-1-john.stultz@linaro.org>
- <20210630013421.735092-2-john.stultz@linaro.org>
- <ab35ed32-ead4-3dc4-550d-55f288810220@amd.com>
- <CALAqxLXWDKp3BZJdO3nVd9vSVV6B+bWnTy+oP6bzBB6H3Yf4eA@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <6a472a24-a40f-1160-70dd-5cb9e9ae85f1@amd.com>
-Date:   Thu, 1 Jul 2021 08:52:28 +0200
+        Fabio Estevam <festevam@gmail.com>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Helen Koike <helen.koike@collabora.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Martina Krasteva <martinax.krasteva@intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Qiushi Wu <wu000273@umn.edu>, Raag Jadav <raagjadav@gmail.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Zou Wei <zou_wei@huawei.com>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20210624192200.22559-1-p.yadav@ti.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v3 00/11] CSI2RX support on J721E
+Message-ID: <dd3b13ec-a883-5b22-47ce-d6e591b674aa@ideasonboard.com>
+Date:   Thu, 1 Jul 2021 10:56:44 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <CALAqxLXWDKp3BZJdO3nVd9vSVV6B+bWnTy+oP6bzBB6H3Yf4eA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:8c07:8ec5:3c97:d783]
-X-ClientProxiedBy: AM0PR02CA0209.eurprd02.prod.outlook.com
- (2603:10a6:20b:28f::16) To BY5PR12MB3764.namprd12.prod.outlook.com
- (2603:10b6:a03:1ac::17)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:8c07:8ec5:3c97:d783] (2a02:908:1252:fb60:8c07:8ec5:3c97:d783) by AM0PR02CA0209.eurprd02.prod.outlook.com (2603:10a6:20b:28f::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.21 via Frontend Transport; Thu, 1 Jul 2021 06:52:33 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4f35776e-27b2-4595-c26a-08d93c5cd025
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4934:
-X-Microsoft-Antispam-PRVS: <BY5PR12MB4934E7DD15ED7D41F40B445883009@BY5PR12MB4934.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OK5FK+ZCJ7XPdlEBdTcc1ur6KOPg/+BZlmkbURpXpDjZ5wFlYZEOkbVifovCUqQlODqPiMwJwK+EXsqvKH/VENMYPVITCj0LgfMyxieYKCtVARog1brp83wUHI1nKvR6ksLxCrg9LwPXW+SkGo+Hs/XMHuU5fLYe8MdjUjvmR/E+hlDUYRTMKYJQ0E9wFyDdcmkcyFMr0hUgLN1ruuxWrPXf49sAFTZy5LVh/91MvUACghi49n6Pti+tTTXraoamdva+5QMkT4OQqX0DIrW8WZ9/ZcnMin7wCgZ+SEb8Ih6H8noE3Kj56MNxO+dnEoPjitKoQ4EHXlepW+mFTLhH4sChV6xqkGlYzO4/6iMXKUXc7RP+ZbMWR/U0q6I5YPQyKm2l4/zdVQNaujNWe6OQXKj0ZVH720Ffq5MmwAeMYz51Nq9c2ObO5nDesdgX7lHbWKlsWamI7Ydgldt8tnwy4PPxZiPHD4cfkJ4wU7m7tvNyepUYzBXzVFqk+nCIByVZCP/Gu7ANzGl0RgCAaisrzm/1WpzrbkCd3X5EowxgBY5MXF4JHDYfXxFhMyg9TnlSCsF6Lb9CfSi6mMHBMCrN1FSsp77NHSsD0v8gq8HRQvWIgjNbA4cW3OV//P/BIrhfEV+FZSygW3D5A1zhX3L1+SqPiy5c8GSLZ/ZmCHTNSqdt8CY3HUUJLnYbilcUeDbG42h0K3oU6o29mgAtVCvdvvRPrRFrh5MCzt0kK4St2SiIkYSmYq413IZm35FZVpcI7HGWJ8MThZ3Dv4PO4yV8WA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB3764.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(376002)(366004)(346002)(396003)(136003)(86362001)(31686004)(83380400001)(8936002)(6486002)(186003)(2616005)(31696002)(4326008)(16526019)(5660300002)(66574015)(8676002)(36756003)(316002)(6666004)(54906003)(66476007)(6916009)(7416002)(38100700002)(66556008)(478600001)(2906002)(66946007)(53546011)(522954003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SEJWV1lHL0JEZ0hacml2VGFQRjM3RUp0eWNLdkRhRHdoeTdmTy84SnN5Slc1?=
- =?utf-8?B?WWRBT2ZBL29VQW5QVm9GTGt5UnVvdTB3T3crU0JMNHZMQmc4emdMNlpJY25U?=
- =?utf-8?B?bzlodWtMdU9aa1JWR3RxcUNvaEZFVVFOTy80YSsvbWhQOXk5b0pWWUJDaFEw?=
- =?utf-8?B?ZEQwdS9vTVVkREo1eEJvTVBUSlBoc0U3N1NKSGx6eWRMTTRFZHZUNXhnZ016?=
- =?utf-8?B?YXdIdXAxVm56RjNaM2RJM0ZwMTB5VjUyUUFlUEQ3b1c1ekVyL1BKQ25CU0lF?=
- =?utf-8?B?RlFKL3JWb3RpMTA1dWQ0ZFYrbUtHOUJpbktrN2l1L1B5ajJDTytwL2Z2VVBP?=
- =?utf-8?B?VFR2Z1B2UC9ReWxXQjBBRXhwTFQ0ZVAwQWdSN2llblkxNC8rR2ZKZnBneHl4?=
- =?utf-8?B?VEZrbldUMW5yUWsvMXE2d0Y0dUtMV25zaEpERXdGeVBRS2dOd0FBbk56QVRx?=
- =?utf-8?B?eUJUWFJ1djY4MjlBR0tDdDFROHMwNmdtNEhnWEZZbEhKRDRPWjhxWUVFa3VI?=
- =?utf-8?B?Q2MyL25TVUFQNGVzbSszQUlPazFsNXNMS1ZtR0lVSHRUUFc2aFJwelpuNU5B?=
- =?utf-8?B?eUZMcGZvcUlkZGJsc3NFeHNuVVRQRjhuMUxnVlM4djcyUnVDL3p4ZlBadDEz?=
- =?utf-8?B?cVU5NXRhdmRaV0Z2MTNsZmVjRWNnVEFRZjJmY0E0Zm81R0FQTHJBZlB4aEE2?=
- =?utf-8?B?enZKTDF1RWE2S1VLRmJoTTZIWHdvbkhrbmFubzl3NG5DRWEzRlFwQkY3UkVi?=
- =?utf-8?B?eEF0anhUejVxMXFRNmlIYW5MY2dwVk5IU2R6MjJWSHlYb2V4Y1FKa3oyUVB1?=
- =?utf-8?B?OG91cU53bDQrdE44TmF6TEVGbDNqR0FqZFhtY3AxUTUzdDJXMC9sRHdwZnlK?=
- =?utf-8?B?K2UzRCtkdkExUVdOZEpBclRhMmFmOGYwSWxKUytveFNRSzdwUEpNVHUwdzZw?=
- =?utf-8?B?VThobWF5aUczMW10ZkxLNWR6bWtoRGJCY1EwakhpN2xyc2c5ZmRHKytkME92?=
- =?utf-8?B?YjVLQnRSNE9YNVlDTUlHWDdkMTlwVlVtbU1lZXhPUnZud0pYVU9lOVhXSlVh?=
- =?utf-8?B?UmRwNlBrNUVTZ2xaYm5LRVR5K2ZKSWtKUzRqeUV2NVJyZ0pZQ0xxMmlvYzUr?=
- =?utf-8?B?Q1V1RmpRaUgzbEVZYjk1dkMxR2swc2RFY2J6UEFndVNWcW1jeEc0UitzRFdD?=
- =?utf-8?B?QnJmZzVZOUhBUXdOc0RDQVB4WjdZT0RTYzNpMzc3N2IwdDFXOVFPelJDNDU3?=
- =?utf-8?B?ZlMwWXUxRHI3NFdabkJyZU1ielNlUmVmYjRvRmpTanFoT2tCaTNPeGVFSWox?=
- =?utf-8?B?SDlyQkxkZE1CM1hlNGUrbUJLK0k4MlJqczFiL0dzNWM4dlpDNzcrN1RneWR1?=
- =?utf-8?B?UjNUaU1VM2xsMUxadDN5ZUNJOXk4WFJCNWNOZTJ3cE9vUWk0L05STU15TXg2?=
- =?utf-8?B?cnFhczhEMythNkhFd3gyMU40R2V5TTJGcXZuaTVvSFgzU2dqNkkwS0huU3NV?=
- =?utf-8?B?T3B3Rm1FYnpaVnhNeGhpY1ZTYng2VXNyRTRQUk9WSU5UdnJhcXFpcU1Gb0Iy?=
- =?utf-8?B?cXJZQ3FiUVdNeDV3VEx5K1hhZFlQcDRCVSs2MFhDTnZXQnVDUjVFZFFaeS9M?=
- =?utf-8?B?bk85ME5MUUZVVFN1S253VW1UZTdsY3B2K3VtVzQ0Z1hUMlpXOWpMVC92cGZr?=
- =?utf-8?B?SFF3SGZRc2xwZjdZN3lMUXY2ZTFnR1JBRG5IWUl1alM3SE40U1R4a2lHRlVN?=
- =?utf-8?B?bVArcGR6U0UrbTJSdHFCalRLZkYrU05hTjJhYTNzS0FSMDR1MFIzcUcrc3lk?=
- =?utf-8?B?eEo3ZVFDZU9ZcW1hZll5MU1hMUlsZlY4Wk9kcG5sdkIwem11VisvU1huN2JC?=
- =?utf-8?Q?8IEEVmBMl7oDx?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f35776e-27b2-4595-c26a-08d93c5cd025
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB3764.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2021 06:52:39.2689
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OSVIsVJ2HvM3bQe8tQ6lQU8GAQzPJySfWuEkq1Nw+zMehyVKmFv870AyLCyxwgU0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4934
+In-Reply-To: <20210624192200.22559-1-p.yadav@ti.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 01.07.21 um 00:24 schrieb John Stultz:
-> On Wed, Jun 30, 2021 at 2:10 AM Christian König
-> <christian.koenig@amd.com> wrote:
->> Am 30.06.21 um 03:34 schrieb John Stultz:
->>> +static unsigned long page_pool_size; /* max size of the pool */
->>> +
->>> +MODULE_PARM_DESC(page_pool_size, "Number of pages in the drm page pool");
->>> +module_param(page_pool_size, ulong, 0644);
->>> +
->>> +static atomic_long_t nr_managed_pages;
->>> +
->>> +static struct mutex shrinker_lock;
->>> +static struct list_head shrinker_list;
->>> +static struct shrinker mm_shrinker;
->>> +
->>> +/**
->>> + * drm_page_pool_set_max - Sets maximum size of all pools
->>> + *
->>> + * Sets the maximum number of pages allows in all pools.
->>> + * This can only be set once, and the first caller wins.
->>> + */
->>> +void drm_page_pool_set_max(unsigned long max)
->>> +{
->>> +     if (!page_pool_size)
->>> +             page_pool_size = max;
->>> +}
->>> +
->>> +/**
->>> + * drm_page_pool_get_max - Maximum size of all pools
->>> + *
->>> + * Return the maximum number of pages allows in all pools
->>> + */
->>> +unsigned long drm_page_pool_get_max(void)
->>> +{
->>> +     return page_pool_size;
->>> +}
->> Well in general I don't think it is a good idea to have getters/setters
->> for one line functionality, similar applies to locking/unlocking the
->> mutex below.
->>
->> Then in this specific case what those functions do is to aid
->> initializing the general pool manager and that in turn should absolutely
->> not be exposed.
->>
->> The TTM pool manager exposes this as function because initializing the
->> pool manager is done in one part of the module and calculating the
->> default value for the pages in another one. But that is not something I
->> would like to see here.
-> So, I guess I'm not quite clear on what you'd like to see...
->
-> Part of what I'm balancing here is the TTM subsystem normally sets a
-> global max size, whereas the old ION pool didn't have caps (instead
-> just relying on the shrinker when needed).
-> So I'm trying to come up with a solution that can serve both uses. So
-> I've got this drm_page_pool_set_max() function to optionally set the
-> maximum value, which is called in the TTM initialization path or set
-> the boot argument. But for systems that use the dmabuf system heap,
-> but don't use TTM, no global limit is enforced.
+Hi Pratyush,
 
-Yeah, exactly that's what I'm trying to prevent.
+On 24/06/2021 22:21, Pratyush Yadav wrote:
+> Hi,
+> 
+> This series adds support for CSI2 capture on J721E. It includes some
+> fixes to the Cadence CSI2RX driver, adds runtime PM support to OV5640
+> driver, and finally adds the TI CSI2RX wrapper driver.
+> 
+> This series used to include the DPHY and DMA engine patches as well, but
+> they have been split off to facilitate easier merging. Patch 3 is
+> build-dependent on the DPHY series [0].
+> 
+> The DMA engine patch [1] can go in any order since that is only a run
+> time dependency. Things probably won't work without it but it will still
+> build fine.
+> 
+> Tested on TI's J721E with OV5640 sensor.
 
-See if we have the same functionality used by different use cases we 
-should not have different behavior depending on what drivers are loaded.
+I applied these (csi-2 rx, phy, dma-engine) to linux-media/master, and added dts changes to add the csi2-rx. When sending the series, can you also push the branch you use for testing, as the posted patches do not include everything needed?
 
-Is it a problem if we restrict the ION pool to 50% of system memory as 
-well? If yes than I would rather drop the limit from TTM and only rely 
-on the shrinker there as well.
+Here are some notes from quick tests:
 
-> Your earlier suggestion to have it as an argument to the
-> drm_page_pool_shrinker_init() didn't make much sense to me, as then we
-> may have multiple subsystems trying to initialize the pool shrinker,
-> which doesn't seem ideal. So I'm not sure what would be preferred.
->
-> I guess we could have subsystems allocate their own pool managers with
-> their own shrinkers and per-manager-size-limits? But that also feels
-> like a fair increase in complexity, for I'm not sure how much benefit.
->
->>> +void drm_page_pool_add(struct drm_page_pool *pool, struct page *p)
->>> +{
->>> +     unsigned int i, num_pages = 1 << pool->order;
->>> +
->>> +     /* Make sure we won't grow larger then the max pool size */
->>> +     if (page_pool_size &&
->>> +            ((drm_page_pool_get_total()) + num_pages > page_pool_size)) {
->>> +             pool->free(pool, p);
->>> +             return;
->>> +     }
->> That is not a good idea. See how ttm_pool_free() does this.
->>
->> First the page is given back to the pool, then all pools are shrinked if
->> they are above the global limit.
-> Ok, initially my thought was it seemed like wasteful overhead to add
-> the page to the pool and then shrink the pool, so just freeing the
-> given page directly if the pool was full seemed more straightforward.
-> But on consideration here I do realize having most-recently-used hot
-> pages in the pool would be good for performance, so I'll switch that
-> back. Thanks for pointing this out!
+Capture works, but the fps is ~28.98. I would expect it to be closer to 30. Are the clocks configured correctly?
 
-The even bigger problem is that you then always drop pages from the 
-active pools.
+When I load the modules, I get:
 
-E.g. a pool which just allocated and then freed 2MiB during driver load 
-for some firmware upload will never see pressure if you do it this way.
+[  237.322258] platform 4504000.csi-bridge: Fixing up cyclic dependency with 9-003c
 
-So those 2MiB would never be recycled while they could be well used in 
-one of the active pools.
+I get a warning from DMA-API debug:
 
-Regards,
-Christian.
+[  298.774236] ------------[ cut here ]------------
+[  298.779109] DMA-API: ti-udma 31150000.dma-controller: mapping sg segment longer than device claims to support [len=1900544] [max=65536]
+[  298.791331] WARNING: CPU: 1 PID: 605 at kernel/dma/debug.c:1172 debug_dma_map_sg+0x304/0x390
+[  298.799764] Modules linked in: ov5640 j721e_csi2rx cdns_csi2rx cdns_dphy v4l2_fwnode v4l2_async tidss ti_tfp410 tc358767 display_connector cdns_mhdp8546 panel_simple
+  drm_kms_helper drm drm_panel_orientation_quirks cfbfillrect cfbimgblt cfbcopyarea phy_j721e_wiz phy_cadence_torrent
+[  298.824656] CPU: 1 PID: 605 Comm: cam-mplex.py Not tainted 5.13.0-rc4-00417-g3331992006e9 #3
+[  298.833079] Hardware name: Texas Instruments K3 J721E SoC (DT)
+[  298.838900] pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=--)
+[  298.844895] pc : debug_dma_map_sg+0x304/0x390
+[  298.849245] lr : debug_dma_map_sg+0x304/0x390
+[  298.853593] sp : ffff800014dcf730
+[  298.856899] x29: ffff800014dcf730 x28: ffff00080154a880 x27: ffffffffffffffff
+[  298.864032] x26: 0000000000000000 x25: 0000000000000002 x24: 0000000000000001
+[  298.871164] x23: ffff80001163abe0 x22: 0000000000000000 x21: 0000000000000001
+[  298.878295] x20: ffff000801fa3010 x19: ffff000807585300 x18: 0000000000000000
+[  298.885426] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000030
+[  298.892558] x14: 6e61687420726567 x13: 6e6f6c20746e656d x12: ffff800011a91578
+[  298.899689] x11: 00000000000c0000 x10: ffff8000116b18f8 x9 : ffff8000100eabe0
+[  298.906820] x8 : ffff8000116598f8 x7 : ffff8000116b18f8 x6 : 0000000000000001
+[  298.913951] x5 : 0000000000000001 x4 : 0000000000000001 x3 : ffff800011260000
+[  298.921082] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00080673b000
+[  298.928214] Call trace:
+[  298.930653]  debug_dma_map_sg+0x304/0x390
+[  298.934655]  dma_map_sg_attrs+0x70/0xb0
+[  298.938487]  drm_gem_map_dma_buf+0x6c/0xf0 [drm]
+[  298.943185]  __map_dma_buf+0x28/0x80
+[  298.946756]  dma_buf_map_attachment+0xe4/0x220
+[  298.951191]  vb2_dc_map_dmabuf+0x3c/0x150
+[  298.955194]  __prepare_dmabuf+0x1dc/0x514
+[  298.959197]  __buf_prepare+0x1a0/0x25c
+[  298.962938]  vb2_core_qbuf+0x3d4/0x72c
+[  298.966679]  vb2_qbuf+0x9c/0xf4
+[  298.969814]  vb2_ioctl_qbuf+0x68/0x7c
+[  298.973468]  v4l_qbuf+0x54/0x70
+[  298.976603]  __video_do_ioctl+0x194/0x400
+[  298.980603]  video_usercopy+0x374/0xa14
+[  298.984431]  video_ioctl2+0x24/0x4c
+[  298.987912]  v4l2_ioctl+0x4c/0x70
+[  298.991222]  __arm64_sys_ioctl+0xb4/0xfc
+[  298.995138]  invoke_syscall+0x50/0x120
+[  298.998885]  el0_svc_common.constprop.0+0x68/0x104
+[  299.003667]  do_el0_svc+0x30/0x9c
+[  299.006976]  el0_svc+0x2c/0x54
+[  299.010025]  el0_sync_handler+0x1a8/0x1ac
+[  299.014025]  el0_sync+0x198/0x1c0
+[  299.017333] irq event stamp: 98582
+[  299.020727] hardirqs last  enabled at (98581): [<ffff8000100ec2bc>] console_unlock+0x53c/0x6b4
+[  299.029325] hardirqs last disabled at (98582): [<ffff800010be4bd4>] el1_dbg+0x24/0xa0
+[  299.037144] softirqs last  enabled at (98568): [<ffff800010010ba0>] __do_softirq+0x500/0x6bc
+[  299.045565] softirqs last disabled at (98413): [<ffff80001005d504>] __irq_exit_rcu+0x1d4/0x1e0
+[  299.054164] ---[ end trace bfe019acb2a9a04f ]---
 
->
-> Thanks again so much for the review and feedback!
-> -john
+I get a warning from media graph walk:
+
+[  299.066357] WARNING: CPU: 1 PID: 605 at drivers/media/mc/mc-entity.c:343 media_graph_walk_next+0x268/0x2cc
+[  299.076005] Modules linked in: ov5640 j721e_csi2rx cdns_csi2rx cdns_dphy v4l2_fwnode v4l2_async tidss ti_tfp410 tc358767 display_connector cdns_mhdp8546 panel_simple
+  drm_kms_helper drm drm_panel_orientation_quirks cfbfillrect cfbimgblt cfbcopyarea phy_j721e_wiz phy_cadence_torrent
+[  299.100889] CPU: 1 PID: 605 Comm: cam-mplex.py Tainted: G        W         5.13.0-rc4-00417-g3331992006e9 #3
+[  299.110698] Hardware name: Texas Instruments K3 J721E SoC (DT)
+[  299.116518] pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=--)
+[  299.122513] pc : media_graph_walk_next+0x268/0x2cc
+[  299.127295] lr : media_graph_walk_next+0x264/0x2cc
+[  299.132076] sp : ffff800014dcfa40
+[  299.135382] x29: ffff800014dcfa40 x28: 0000000000000000 x27: 0000000040045612
+[  299.142514] x26: 0000000000000001 x25: ffff800010d890f0 x24: ffff0008055c8148
+[  299.149645] x23: ffff0008055c8148 x22: ffff80001182bc40 x21: ffff80001163e2e8
+[  299.156776] x20: ffff80001182bbd0 x19: ffff0008055c8cb8 x18: 0000000000000000
+[  299.163907] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000028
+[  299.171037] x14: 0000000000000002 x13: 0000000000007e6f x12: 0000000000000002
+[  299.178169] x11: 0000000000040464 x10: 00000000916d3a5c x9 : ffff8000093110c0
+[  299.185301] x8 : ffff000807583d88 x7 : 0000000000000000 x6 : ffff00080673b900
+[  299.192431] x5 : 000000000000000a x4 : ffff000807583d80 x3 : ffff800011260000
+[  299.199562] x2 : 00000000000000c0 x1 : 00000000000000c0 x0 : 0000000000000000
+[  299.206693] Call trace:
+[  299.209133]  media_graph_walk_next+0x268/0x2cc
+[  299.213568]  ti_csi2rx_start_streaming+0xe0/0x5c8 [j721e_csi2rx]
+[  299.219569]  vb2_start_streaming+0x70/0x160
+[  299.223745]  vb2_core_streamon+0x9c/0x1a0
+[  299.227745]  vb2_ioctl_streamon+0x68/0xbc
+[  299.231747]  v4l_streamon+0x30/0x40
+[  299.235230]  __video_do_ioctl+0x194/0x400
+[  299.239230]  video_usercopy+0x374/0xa14
+[  299.243058]  video_ioctl2+0x24/0x4c
+[  299.246539]  v4l2_ioctl+0x4c/0x70
+[  299.249847]  __arm64_sys_ioctl+0xb4/0xfc
+[  299.253764]  invoke_syscall+0x50/0x120
+[  299.257508]  el0_svc_common.constprop.0+0x68/0x104
+[  299.262291]  do_el0_svc+0x30/0x9c
+[  299.265599]  el0_svc+0x2c/0x54
+[  299.268648]  el0_sync_handler+0x1a8/0x1ac
+[  299.272647]  el0_sync+0x198/0x1c0
+[  299.275956] irq event stamp: 98754
+[  299.279349] hardirqs last  enabled at (98753): [<ffff800010bf216c>] _raw_spin_unlock_irqrestore+0x9c/0xc0
+[  299.288900] hardirqs last disabled at (98754): [<ffff800010be4bd4>] el1_dbg+0x24/0xa0
+[  299.296716] softirqs last  enabled at (98606): [<ffff800010010ba0>] __do_softirq+0x500/0x6bc
+[  299.305138] softirqs last disabled at (98585): [<ffff80001005d504>] __irq_exit_rcu+0x1d4/0x1e0
+
+Unloading the modules gives me:
+
+ERROR:   Unhandled External Abort received on 0x80000001 from S-EL1
+ERROR:   exception reason=0 syndrome=0xbf000000
+Unhandled Exception from EL1
+x0             = 0x0000000000000000
+x1             = 0xffff00080564c000
+x2             = 0xffff800014314000
+x3             = 0xffff800011260000
+x4             = 0x0000000000000001
+x5             = 0x0000000000000001
+x6             = 0x0000000000000001
+x7             = 0x0000000000000000
+x8             = 0xffff8000118870c0
+x9             = 0xffff800010bf2140
+x10            = 0x000000008260a2b7
+x11            = 0x00000000000c821c
+x12            = 0xffff800011a91578
+x13            = 0x0000000000008b8e
+x14            = 0x0000000000000006
+x15            = 0x0000000000000028
+x16            = 0x0000000000000000
+x17            = 0x0000000000000000
+x18            = 0x00000000fffffffb
+x19            = 0xffff00080634cc00
+x20            = 0x0000000000000000
+x21            = 0xffff0008051eed00
+x22            = 0xffff00080555f010
+x23            = 0xffff00080555f000
+x24            = 0xffff8000092e0058
+x25            = 0x0000000000000047
+x26            = 0xffff8000116d71d8
+x27            = 0xffff8000092e0350
+x28            = 0xffff8000092e0148
+x29            = 0xffff800014d2f850
+x30            = 0xffff8000092b0430
+scr_el3        = 0x000000000000073d
+sctlr_el3      = 0x0000000030cd183f
+cptr_el3       = 0x0000000000000000
+tcr_el3        = 0x0000000080803520
+daif           = 0x00000000000002c0
+mair_el3       = 0x00000000004404ff
+spsr_el3       = 0x0000000000000005
+elr_el3        = 0xffff8000092b0440
+ttbr0_el3      = 0x0000000070010b00
+esr_el3        = 0x00000000bf000000
+far_el3        = 0x0000000000000000
+spsr_el1       = 0x0000000060000005
+elr_el1        = 0xffff800010be5e10
+spsr_abt       = 0x0000000000000000
+spsr_und       = 0x0000000000000000
+spsr_irq       = 0x0000000000000000
+spsr_fiq       = 0x0000000000000000
+sctlr_el1      = 0x0000000034d4d91d
+actlr_el1      = 0x0000000000000000
+cpacr_el1      = 0x0000000000300000
+csselr_el1     = 0x0000000000000000
+sp_el1         = 0xffff800014d2f850
+esr_el1        = 0x0000000056000000
+ttbr0_el1      = 0x00000008826e4a00
+ttbr1_el1      = 0x076a000083180000
+mair_el1       = 0x000c0400bb44ffff
+amair_el1      = 0x0000000000000000
+tcr_el1        = 0x00000034f5d07590
+tpidr_el1      = 0xffff80086e790000
+tpidr_el0      = 0x0000ffff980d6920
+tpidrro_el0    = 0x0000000000000000
+par_el1        = 0x0000000000000000
+mpidr_el1      = 0x0000000080000001
+afsr0_el1      = 0x0000000000000000
+afsr1_el1      = 0x0000000000000000
+contextidr_el1 = 0x0000000000000000
+vbar_el1       = 0xffff800010011000
+cntp_ctl_el0   = 0x0000000000000005
+cntp_cval_el0  = 0x000000294b786efd
+cntv_ctl_el0   = 0x0000000000000000
+cntv_cval_el0  = 0x0000000000000000
+cntkctl_el1    = 0x00000000000000d6
+sp_el0         = 0x000000007000abd0
+isr_el1        = 0x0000000000000040
+dacr32_el2     = 0x0000000000000000
+ifsr32_el2     = 0x0000000000000000
+cpuectlr_el1   = 0x0000001b00000040
+cpumerrsr_el1  = 0x0000000000000000
+l2merrsr_el1   = 0x0000000000000000
+
+  Tomi
+
 
