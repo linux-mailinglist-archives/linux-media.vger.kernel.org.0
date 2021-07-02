@@ -2,94 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45B593BA110
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jul 2021 15:15:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB4D43BA127
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jul 2021 15:20:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232548AbhGBNSV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jul 2021 09:18:21 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53048 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231929AbhGBNST (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jul 2021 09:18:19 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B8354AB;
-        Fri,  2 Jul 2021 15:15:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1625231746;
-        bh=lPQJSYgt7FOS0ZkOS6nFwGRvOUGexo8giKIh+LYutSc=;
+        id S232183AbhGBNW4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jul 2021 09:22:56 -0400
+Received: from gofer.mess.org ([88.97.38.141]:34857 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231846AbhGBNW4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 2 Jul 2021 09:22:56 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 86588C6364; Fri,  2 Jul 2021 14:20:22 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1625232022; bh=g95uEA1yaeSESqHl1FTiYIxm3UxO84eqQh0OOlpnmu0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pHLzrIklM+D1u9072Zq6oG9RldGQojp2iOKsBao67u0bSDf33eZQ8EGZwjVrJAxyZ
-         IHflh82diE7LOOBMsucWscYMFwEps7iAjKnAZOd98e/a8u6r7DFA38LIJ0UQb7pzyU
-         DTLOLaJqp8Q3Vxwc2juwVUxHZVmL1+X3MzNS0JQ8=
-Date:   Fri, 2 Jul 2021 16:15:06 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Stefan Riedmueller <s.riedmueller@phytec.de>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/6] dt-bindings: media: mt9p031: Add missing required
- properties
-Message-ID: <YN8RWoy0xryBw3bL@pendragon.ideasonboard.com>
-References: <20210702095922.118614-1-s.riedmueller@phytec.de>
- <20210702095922.118614-4-s.riedmueller@phytec.de>
+        b=eI/H6w6ZsTFOUn4cgP+tdI7RDXaMrqgXWIZ6ZVOYswpmhqlXbHkVpGRBhY/7oMbZn
+         VFN7Z06/4DDqqkhdxwfnlWESUmfc61KCDmkOYFKv+BJQ5gpB0bzFpSzHTa2B5+yllv
+         l3fBSeZjb20+/ItwwurZhs6FGFbUjHrM+XApLDr35tby1ASqyDGfffrN7QBmrkO0On
+         I47IQDmvY9Lz66PKEd4bV1zpF3ALUlu3gDNwPAroBWH2tKtTwwwj5KyGo/AmjKvZpT
+         c0HR7qmbZG5l2JvcEoe+ujOXxqRKEI8Ip4YiHO+7b06+OD3s3O/B870Eww74JgOXWi
+         y6gBf7gv7+fhA==
+Date:   Fri, 2 Jul 2021 14:20:22 +0100
+From:   Sean Young <sean@mess.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Rhees <support@usbuirt.com>,
+        Oliver Neukum <oneukum@suse.com>
+Subject: Re: [PATCH v5 1/2] media: rc: new driver for USB-UIRT device
+Message-ID: <20210702132022.GC29760@gofer.mess.org>
+References: <cover.1624006513.git.sean@mess.org>
+ <710e8007bc7365be8f999bae3aafaa22c3b2f7d1.1624006513.git.sean@mess.org>
+ <YN7tihZHJERJAWzL@hovoldconsulting.com>
+ <YN8FVEIcxnznaz1F@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210702095922.118614-4-s.riedmueller@phytec.de>
+In-Reply-To: <YN8FVEIcxnznaz1F@hovoldconsulting.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stefan,
-
-Thank you for the patch.
-
-On Fri, Jul 02, 2021 at 11:59:19AM +0200, Stefan Riedmueller wrote:
-> Add missing required clocks and supply regulator properties for the
-> sensor input clock and vdd, vdd_io and vaa supply regulators.
-
-Can I volunteer you to convert these bindings to YAML first, and add the
-properties on top ? :-)
-
-> Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
-> ---
->  .../devicetree/bindings/media/i2c/mt9p031.txt        | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+On Fri, Jul 02, 2021 at 02:23:48PM +0200, Johan Hovold wrote:
+> On Fri, Jul 02, 2021 at 12:42:18PM +0200, Johan Hovold wrote:
+> > On Fri, Jun 18, 2021 at 11:18:46AM +0100, Sean Young wrote:
+> > > This device uses an ftdi usb serial port, so this driver has a tiny
+> > > amount of usb ftdi code. It would be preferable to connect this driver via
+> > > serdev or line-discipline, but unfortunately neither support
+> > > hotplugging yet.
+> > > 
+> > > See http://www.usbuirt.com/
+> > > 
+> > > Signed-off-by: Sean Young <sean@mess.org>
+> > > ---
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/mt9p031.txt b/Documentation/devicetree/bindings/media/i2c/mt9p031.txt
-> index cb60443ff78f..4437d0e3147d 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/mt9p031.txt
-> +++ b/Documentation/devicetree/bindings/media/i2c/mt9p031.txt
-> @@ -9,6 +9,12 @@ Required Properties:
->  	(a) "aptina,mt9p031" for mt9p031 sensor
->  	(b) "aptina,mt9p031m" for mt9p031m sensor
->  
-> +- clocks: Reference to the sensor input clock
-> +
-> +- vdd-supply: VDD supply regulator
-> +- vdd_io-supply: VDD_IO supply regulator
-> +- vaa-supply: VAA supply regulator
-> +
->  - input-clock-frequency: Input clock frequency.
->  
->  - pixel-clock-frequency: Pixel clock frequency.
-> @@ -29,6 +35,12 @@ Example:
->  			reg = <0x5d>;
->  			reset-gpios = <&gpio3 30 0>;
->  
-> +			clocks = <&sensor_clk>;
-> +
-> +			vdd-supply = <&reg_vdd>;
-> +			vdd_io-supply = <&reg_vdd_io>;
-> +			vaa-supply = <&reg_vaa>;
-> +
->  			port {
->  				mt9p031_1: endpoint {
->  					input-clock-frequency = <6000000>;
+> > > +struct uirt {
+> > > +	struct device *dev;
+> > > +	struct usb_device *usbdev;
+> > > +
+> > > +	struct rc_dev *rc;
+> > > +	struct urb *urb_in, *urb_out;
+> > > +
+> > > +	u8 *in;
+> > > +	u8 *out;
+> > > +	struct completion cmd_done;
+> > > +	u8 freq;
+> > > +	u8 high;
+> > > +	bool wideband;
+> > > +	u32 last_duration;
+> > > +
+> > > +	enum cmd_state cmd_state;
+> > > +	enum rx_state rx_state;
+> > > +
+> > > +	void *tx_buf;
+> > > +	u32 tx_len;
+> > > +
+> > > +	char phys[64];
+> > > +};
+> 
+> > > +static void uirt_response(struct uirt *uirt, u32 len)
+> > > +{
+> > > +	int offset = 2;
+> > > +	int i;
+> > > +
+> > > +	dev_dbg(uirt->dev, "state:%d data: %*phN\n", uirt->cmd_state, len, uirt->in);
+> > > +
+> > > +	// Do we have more IR to transmit and is Clear-To-Send set
+> > > +	if (uirt->cmd_state == CMD_STATE_STREAMING_TX && len >= 2 &&
+> > > +	    uirt->tx_len && uirt->in[0] & FTDI_RS0_CTS) {
+> > 
+> > Do you really need to handle this manually when you have hardware
+> > assisted flow control enabled?
+> > 
+> > > +		u32 len;
+> > > +		int err;
+> > > +
+> > > +		len = min_t(u32, uirt->tx_len, MAX_PACKET);
+> > > +
+> > > +		memcpy(uirt->out, uirt->tx_buf, len);
+> > > +		uirt->urb_out->transfer_buffer_length = len;
+> > > +
+> > > +		uirt->tx_len -= len;
+> > > +		uirt->tx_buf += len;
+> > > +
+> > > +		err = usb_submit_urb(uirt->urb_out, GFP_ATOMIC);
+> > > +		if (err != 0)
+> > > +			dev_warn(uirt->dev,
+> > > +				 "failed to submit out urb: %d\n", err);
+> 
+> Also, this looks entirely broken since you don't have any
+> synchronisation with uirt_command() below which may try to submit the
+> same URB in parallel.
 
--- 
-Regards,
+uirt_command() only gets called via lirc chardev ioctl/write ops; the lirc
+chardev code does locking for the drivers already. So, if someone does a
+write to /dev/lirc0 (which means transmit) the mutex is taken, no other
+writes/ioctls are allowed on /dev/lirc0; the uirt_tx() calls uirt_command()
+which waits for completion. During this period the code above can be
+executed, but not after the transmit succeeds or fails (when the lircdev
+chardev mutex is released, see:
 
-Laurent Pinchart
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/rc/lirc_dev.c#n337
+
+Having said all that this is not evident from code at all. A comment could
+really help.
+
+Thanks,
+
+Sean
