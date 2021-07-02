@@ -2,84 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3D843BA323
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jul 2021 18:15:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D5043BA378
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jul 2021 19:06:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229771AbhGBQSE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jul 2021 12:18:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37092 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbhGBQSE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jul 2021 12:18:04 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2672C061762;
-        Fri,  2 Jul 2021 09:15:31 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id t3so13951073edc.7;
-        Fri, 02 Jul 2021 09:15:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0CyPLvqK+Q8NHzNuZTr5kPFxjhrjFYWhZY35XEzbiOQ=;
-        b=IbAqmb9ygFZk9a887t8qEkrN+RXWoHARiWHkHfVhqOrfUeyc5C9KeLOPdVZrHk2SVx
-         gyxP3zCIzw+ztAO+vEn42sXTsh6h61gb5b76gPnChKNurlELilaYebJuqwgBUd1N5npb
-         2UOAW6deQdfsq5DuDPWNRO0bW7/tGuEgUQk6jiHYWTI4klcfT8Be9PutLc+GLf7l7FDI
-         T2zucV7K6m8be2MAb4KqkkBgSSDJcVB5ajBC5egeKZuo5JMTncsxWB/dC3ln5YsvylpT
-         Y+SpGsQ+urLTsoI0AALKG3blP6Ud+U0jjQj9NXor35I1PG53iU8rD86ifFVgQxkHD/6O
-         OiOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0CyPLvqK+Q8NHzNuZTr5kPFxjhrjFYWhZY35XEzbiOQ=;
-        b=L2qGVSn8IJSaVr4rHEzsELfK6uHK8TQP1gkuQkD/LQ3f7lVg+7KWDu6fBzBfVOb2KC
-         UtC1l4xFEoqgH7TbiL+i2pbcbmMxfYPvLkQSEPjDywqxAIY8gaKObjoqXmtQ/Eiup2TV
-         Mt7aDItjuRzZOEQqU+AQGtVCGRDW97qTqu600qwWgX30YzHd/KImRDHOK3U+xhgSY4PR
-         eYWSBiLouihQbQ3obTMOFdMTiovA01mpxaYsnl7t4Kn2BCQwAukfYQgF4HO7p8nTpf36
-         uswS+oaEtRrH+vUGIUjAjuTfxdUWQpYxJ1j2pjInxm+lXkRp7Km2auIyOga+NI7ZBBc+
-         9bRQ==
-X-Gm-Message-State: AOAM532i+fDLPbGySBNKwaFiJyBEa+HoQbegmEVRj+fFXltxcLhLZFAx
-        8/VvYTxo35uXz11g5EWN+gFPZ3xexEAbsQxHQ0w=
-X-Google-Smtp-Source: ABdhPJzTplJzJDgwT4b8/ikKLT8jsa9voYiaeLlsSCeJmsriCnofP+WlAfCEAN/jEj1wU+EwgK6wXThHemjJnDqwhik=
-X-Received: by 2002:aa7:d8d4:: with SMTP id k20mr266060eds.143.1625242530226;
- Fri, 02 Jul 2021 09:15:30 -0700 (PDT)
+        id S229958AbhGBRJN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jul 2021 13:09:13 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:33305 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229532AbhGBRJN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jul 2021 13:09:13 -0400
+Received: from mail-qk1-f175.google.com ([209.85.222.175]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.179]) with ESMTPSA (Nemesis)
+ id 1M27ep-1lwteB44XR-002Yxw for <linux-media@vger.kernel.org>; Fri, 02 Jul
+ 2021 19:06:39 +0200
+Received: by mail-qk1-f175.google.com with SMTP id q16so9980751qke.10
+        for <linux-media@vger.kernel.org>; Fri, 02 Jul 2021 10:06:38 -0700 (PDT)
+X-Gm-Message-State: AOAM5332rPjCPJSCX6F86WRr8+eyMw47KKoybBsGIGC1Ax+LZ6KFDsoH
+        hbk4Dv3RkRt33cVe8glE7lLgc6rKQdZcvy5JZPs=
+X-Google-Smtp-Source: ABdhPJyh3cV+Dz5wxeSuIgNnZumyk7CYE2p9GJSAm8sdzxpbg7kJrfFYdrfSGJXLu6Rc/+Ibmi3yfaGey/msg4afMJ8=
+X-Received: by 2002:a37:468b:: with SMTP id t133mr755030qka.189.1625245597855;
+ Fri, 02 Jul 2021 10:06:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210701215132.16317-1-viktor.prutyanov@phystech.edu>
- <20210701215132.16317-3-viktor.prutyanov@phystech.edu> <20210701224646.GA18540@gofer.mess.org>
-In-Reply-To: <20210701224646.GA18540@gofer.mess.org>
-From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date:   Fri, 2 Jul 2021 18:15:18 +0200
-Message-ID: <CAFBinCA+zud1THT6z2QsGCqXMT-3nqN_S4nR0FhaDGhcKzoe-Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: rc: introduce Meson IR blaster driver
-To:     Sean Young <sean@mess.org>
-Cc:     Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
-        mchehab@kernel.org, robh+dt@kernel.org, khilman@baylibre.com,
-        Neil Armstrong <narmstrong@baylibre.com>, jbrunet@baylibre.com,
-        linux-media <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, rockosov@gmail.com
+From:   Tony Houghton <h@realh.co.uk>
+Date:   Fri, 2 Jul 2021 18:06:26 +0100
+X-Gmail-Original-Message-ID: <CA+GXpVVR4LBUjMduNWs7pZAcwoTHmQUExJcvBtxsr0oeubRVLw@mail.gmail.com>
+Message-ID: <CA+GXpVVR4LBUjMduNWs7pZAcwoTHmQUExJcvBtxsr0oeubRVLw@mail.gmail.com>
+Subject: DVB reliability problems
+To:     linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:zK7kVf3Xo9eA+UoCru0l7Ev20NDp9C3kGemh3Q9EZ1TtN0PbBvX
+ YA6z2v1HbKtYUwImM3Voc1gXZ7mRycTlulPv1hIZrEqsDbSV0yPtfhOjnW2/Eraem/T+Bt1
+ T6TWlCn8d2ffledKU6vnV7jzvVu3kV+7k3ayi4XTXgtVmmP1RxnX7WnQSNRjJgeJUFKMCJ8
+ uWGT5gZ5z5I44jQvBEuOQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZkT/E8ngmqc=:N0FibO1CAQyV9ZD7pli28T
+ n83c0pfzTQakfwZJDPoNCh7VVfCNoxUI8C/VMaLYMohyScK9J4C2AugQ/MHKK1ax9IZQOBEu2
+ kzYjS51QiVLPCkrkWpS2h51WixiLcI6Ct/iUw1ucjs3P4Qre5Yr9LfOQjTKmeZ5HALORBGw1V
+ uzTrdZ5jO4AVRQDtrSMe4UvIYi4Z2ICllCbp7sGvipwAHfzru51hTgVzrwFSIsOlZ1XA8zG0y
+ SUp5Mm6V20KtS9dtBpmKERKnPUvs8gnU9wGe5ORPmEGAc1jORoZjzErLOvy7g8N6nGyzMVYkY
+ TWqhNH6yOIeW5VZQq9QvMz9goK4+NFGdWlPNfrl1tEVBl20Dz9dvpqOdroxYu/BcJBerxaGLH
+ qEqzF+fnrDGD1ComYHUwHlx+56DOTvzcITB7YMjsKCXx9twxw1hLOIBvbqO09xK7DIq5yxIqQ
+ sPTXgmIMdlb7YBXjZQ2+FrmjxwZoBBAAAm6LsrGdfFNqrBhmYZ74W5sy5/F+2bJHS5x+RBILW
+ pVG3jsyRsqThq++W2KOmfzswkjbr3tgi4AVJ3xLjkOSAcxW9cVn74FxGdr+okMO6xbRYY8oVz
+ yY4gAFVWWLCXYi9mnUPUGu0A4U3Wl6WjFLddu6X8zoayRmfWphOHJe+0rMpGyQjvJcNl8o09f
+ dt20FXf+d0xwpnK/9T7B29mWqJ+IWD+WemOL7ZU0CCEWtJwlr+7UASeRaEXQf/EkSIap7SeK5
+ 0Fd7IDw1L73PsCf7lqxKrLERb3dzE5qmS/TDmvN/1JxT7OiPsnXliXJj5iKv5S15l0vgRW3/B
+ mhDk1FcpgaYDEPQ6OsSRh2p+Hui+kOY5ZtLPHIxyjLFJWZ/Yb4BypZOJJBFsgnyXfvTjUiA
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sean,
+Hi,
 
-On Fri, Jul 2, 2021 at 12:46 AM Sean Young <sean@mess.org> wrote:
->
-> Hi Viktor,
->
-> Thank you for your driver. Is there a datasheet available for this hardware?
-The public S905X datasheet [0] (starting at page 515) and the public
-S905D3 datasheet [1] (starting at page 1105) document the registers.
-If Viktor has additional or better information then it would be great
-if he could share it with us.
+I've been having problems with my DVB receivers lately. I'm not sure
+whether the problem is in the receivers or their firmware, or Linux.
+Some symptoms point to the card, some point to Linux (because they
+should try to prevent the system from hanging even with bad hardware
+if the hardware is peripheral?). Perhaps the majority of USB DVB
+receivers are actually useless junk?
 
+I'm trying to develop a good DVB PVR, but if I can't fix these
+problems there's not much point in continuing. I hope someone can
+offer some suggestions on what's causing the problems and/or how I can
+diagnose them better, and hopefully get things fixed.
 
-Best regards,
-Martin
+Frequently one of them will stop working. The main symptom is that
+after tuning they fail to get a signal. If I don't "fix" it asap by
+power cycling the PC (reboot seems to be inadequate) the situation
+seems to escalate until the entire system hangs, either when trying to
+use the receiver or at shutdown.
 
+The problems seem to have developed or exacerbated mainly since I
+started using an Intel NUC as my PVR and therefore had to replace my
+DVBSky PCI-E DVB-S2 card with a USB TeVii S662 DVB-S2. After a while
+it started exhibiting the above symptoms with increasing frequency.
+When it got to daily problems I returned it under warranty and
+replaced it with a DVBSky S960 V2. IIRC it has the same Montage
+chipset as the TeVii; this seems to be the only chipset commonly
+available in USB DVB-S2 devices. At first, the change of device seemed
+to cure the issue, but that's started doing the same thing too.
 
-[0] https://dl.khadas.com/Hardware/VIM1/Datasheet/S905X_Datasheet%20V0.3%2020170314publicversion-Wesion.pdf
-[1] https://dl.khadas.com/Hardware/VIM3/Datasheet/S905D3_datasheet_0.2_Wesion.pdf
+Meanwhile I've also been using a DVB-T2 USB stick. At first I had a
+Pinnacle PCTV 290e. That worked quite well until it seemed to fail
+completely (not even detected by lsusb). I replaced it with a
+"Geniatech MyGica DVB-T2/T USB" which I think uses the si2168/si2157
+modules. This one's also unreliable.
+
+-- 
+TH
