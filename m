@@ -2,177 +2,365 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFBCC3BA197
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jul 2021 15:48:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C84C53BA1D7
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jul 2021 16:01:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232761AbhGBNvQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jul 2021 09:51:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32790 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232749AbhGBNvQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jul 2021 09:51:16 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09862C061764
-        for <linux-media@vger.kernel.org>; Fri,  2 Jul 2021 06:48:44 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id m18so12578260wrv.2
-        for <linux-media@vger.kernel.org>; Fri, 02 Jul 2021 06:48:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=dmdV5C0TPaZh38jwc22npxunHrSD6YlmILpaclb/0ko=;
-        b=MMaK4fWwJ0vbQk/VXI4ucI0gpZ5rMsazWB7JlYgn8qFz2g7U7vIaZoCdRMNNTmBQ+B
-         QG/HsfLU+K0cKJNZaN16m3SRn+5WQEmPVx97e1I0ZYsGKxi0o1gjjXkDimK7/vdY6XZ4
-         TxMKifvdwRulh4J8UjxgaWxj0irps6/o/rmbjojsBglcy5g9eGb8eQGp2J+yPuxCzGmK
-         2X8bx//QFTfi+eb50djSKk54h7N6+7O+rc9LxS8PZxJNAc8R0eLi8Y22ZJ4QgYcUdTk0
-         AkH9WyG5cA1ATdz5aAmf0/m5rnjQIx8DRZ05vQHPQeDZJvGExrcshvMhzdtym8nnumGk
-         hxMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=dmdV5C0TPaZh38jwc22npxunHrSD6YlmILpaclb/0ko=;
-        b=Rp3OSzv5k5+UwOz2wr8Nim5FWwamud935pNGk3R/u9qTU7Ok1ZzWXuOyZ49FpPSy9C
-         xDoLAojS1gXk+DZQqUjfC3ggDNcFXtYY3yDC+8nD5+LbAuRNVCZDK0V7cXFEkEwzz+Lt
-         W/6Fz96k6MzuXpEdVoqou2690wfKMi1Oe2CC9FyuqSnp/3ge7OzuexYGsAGl4/N8T2v7
-         LeJhR9Qf53CRgEEE5Wui1kt7621g6pG5jgiqDSkyLA91IM3c/qIAPXwgwUogQDtabwl3
-         YQdUHd1MtBdL1rbhRcFkLjTxcNav20va/IGKQnRRO5oQAm7v5ZSwlTxiIUtnNB+7Ni/4
-         /law==
-X-Gm-Message-State: AOAM533E0CklyvwD8W8616nNnWzUJomajvvZFUCV2LA6W3kkH0k+YWGd
-        nCOveGxWBlOrcgxUuP/Papjf/A==
-X-Google-Smtp-Source: ABdhPJwnfiPmpsT0TFwceB+yNPe62xHEvP1eccHb9f8GwnwPkFvep/IzIg4oQ9IT0EKqsY3+JcJqaA==
-X-Received: by 2002:adf:ef50:: with SMTP id c16mr5998912wrp.137.1625233721485;
-        Fri, 02 Jul 2021 06:48:41 -0700 (PDT)
-Received: from ?IPv6:2001:861:44c0:66c0:b194:a11e:9f1:225b? ([2001:861:44c0:66c0:b194:a11e:9f1:225b])
-        by smtp.gmail.com with ESMTPSA id s5sm3363652wrn.38.2021.07.02.06.48.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Jul 2021 06:48:40 -0700 (PDT)
-Subject: Re: [PATCH 1/2] media: rc: meson-irblaster: document device tree
- bindings
-To:     Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-Cc:     sean@mess.org, mchehab@kernel.org, robh+dt@kernel.org,
-        khilman@baylibre.com, jbrunet@baylibre.com,
-        linux-media <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, rockosov@gmail.com
-References: <20210701215132.16317-1-viktor.prutyanov@phystech.edu>
- <20210701215132.16317-2-viktor.prutyanov@phystech.edu>
- <CAFBinCBZXRrPakwvRLsbNbuYY6fcYysMs0+SPUmAhKpcYxrq0g@mail.gmail.com>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <cc677601-fb6b-970d-be8a-e68bea9727dd@baylibre.com>
-Date:   Fri, 2 Jul 2021 15:48:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S232978AbhGBODx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jul 2021 10:03:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52274 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232858AbhGBODw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 2 Jul 2021 10:03:52 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 99B3F6142B;
+        Fri,  2 Jul 2021 14:01:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1625234480;
+        bh=ZEixAfVb3KStUcKY4qBpDKkbdnvxQ4oSEnSidgX3KDI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lkBr3a8n6V/9G/8Dz3O0oP1UA+obRs8gHvzocZ15lOXErq4GY+gkqUb3d5nkoemKS
+         yYEYcryclHT9yW1rFvxskuGzJEygKHb4D4xmiU6xNVvyxUdHy2aBv6GiI8rIysJZXK
+         4Qk66JTcRqjAlZSelZPz3V2kTGVayhUjD5fHp5+AI092PbtX2aDhyojuASl4CjYPsT
+         mMaYvdqnZ2D4VrtwSn5QL7CB1pAGoQoYXJH6qZ0TaMochi/bT8wbddFOardXtEBfLP
+         MMYttAksXOjPaQ5NyZKiKdwzrtlt47X83ZM4lTtf5iDR1M6DyIALc3R9w6oA/xUvEA
+         EFB5LbMQvrVCQ==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1lzJjK-0006Z6-2A; Fri, 02 Jul 2021 16:01:18 +0200
+Date:   Fri, 2 Jul 2021 16:01:18 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Rhees <support@usbuirt.com>,
+        Oliver Neukum <oneukum@suse.com>
+Subject: Re: [PATCH v5 1/2] media: rc: new driver for USB-UIRT device
+Message-ID: <YN8cLhry5ULJUxt7@hovoldconsulting.com>
+References: <cover.1624006513.git.sean@mess.org>
+ <710e8007bc7365be8f999bae3aafaa22c3b2f7d1.1624006513.git.sean@mess.org>
+ <YN7tihZHJERJAWzL@hovoldconsulting.com>
+ <20210702131318.GB29760@gofer.mess.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFBinCBZXRrPakwvRLsbNbuYY6fcYysMs0+SPUmAhKpcYxrq0g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210702131318.GB29760@gofer.mess.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Fri, Jul 02, 2021 at 02:13:18PM +0100, Sean Young wrote:
+> On Fri, Jul 02, 2021 at 12:42:18PM +0200, Johan Hovold wrote:
+> > On Fri, Jun 18, 2021 at 11:18:46AM +0100, Sean Young wrote:
+> > > This device uses an ftdi usb serial port, so this driver has a tiny
+> > > amount of usb ftdi code. It would be preferable to connect this driver via
+> > > serdev or line-discipline, but unfortunately neither support
+> > > hotplugging yet.
+> > > 
+> > > See http://www.usbuirt.com/
+> > > 
+> > > Signed-off-by: Sean Young <sean@mess.org>
 
-On 02/07/2021 15:30, Martin Blumenstingl wrote:
-> Hi Viktor,
+> > > +// read IR in raw mode
+> > > +static void uirt_raw_mode(struct uirt *uirt, u32 offset, u32 len)
+> > > +{
+> > > +	uint i, duration;
+> > > +
+> > > +	for (i = offset; i < len; i++) {
+> > > +		switch (uirt->rx_state) {
+> > > +		case RX_STATE_INTERSPACE_HIGH:
+> > > +			uirt->rx_state = RX_STATE_INTERSPACE_LOW;
+> > > +			break;
+> > > +		case RX_STATE_INTERSPACE_LOW:
+> > > +			uirt->rx_state = RX_STATE_ON_HIGH;
+> > > +			break;
+> > > +		case RX_STATE_ON_HIGH:
+> > > +			duration = uirt->in[i];
+> > > +			if (duration == 0)
+> > > +				duration = 1;
+> > > +
+> > > +			ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > +				.duration = duration * UNIT_US,
+> > > +				.pulse = true,
+> > > +			}));
+> > > +
+> > > +			uirt->rx_state = RX_STATE_OFF_HIGH;
+> > > +			break;
+> > > +		case RX_STATE_OFF_HIGH:
+> > > +			if (uirt->in[i] == 0xff) {
+> > > +				ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > +					.duration = IR_TIMEOUT,
+> > > +					.timeout = true,
+> > > +				}));
+> > > +				uirt->rx_state = RX_STATE_INTERSPACE_HIGH;
+> > > +				break;
+> > > +			}
+> > > +
+> > > +			duration = uirt->in[i];
+> > > +			if (duration == 0)
+> > > +				duration = 1;
+> > > +
+> > > +			ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > +				.duration = duration * UNIT_US,
+> > > +				.pulse = false,
+> > > +			}));
+> > > +			uirt->rx_state = RX_STATE_ON_HIGH;
+> > > +			break;
+> > > +		default:
+> > > +			WARN(1, "unreachable state");
+> > 
+> > This should probably be dev_warn_ratelimited() or similar. Judging from
+> > a quick look a malicious device can end up triggering this.
 > 
-> On Thu, Jul 1, 2021 at 11:51 PM Viktor Prutyanov
-> <viktor.prutyanov@phystech.edu> wrote:
->>
->> This patch adds binding documentation for the IR transmitter
->> available in Amlogic Meson SoCs.
-> This is an interesting piece of hardware where I've always wondered if
-> there is any device out there which supports this functionality.It
-> turns out that there is
+> Well, the other states can reached only by enabling the wideband receiver
+> and then disabling it again, and then the driver state machine needs to
+> be broken too. Just belt and braces.
 
-You did beat me, I started a driver some time ago but failed to finish debugging it...
-https://github.com/superna9999/linux/tree/amlogic/v5.2%2Fir-blaster
+Still looks like you can end up here since uirt->wideband isn't updated
+until you get a reply from the device and the it's device input which
+drives the uirt->rx_state transitions.
 
+> > > +			uirt->rx_state = RX_STATE_INTERSPACE_HIGH;
+> > > +			break;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	ir_raw_event_handle(uirt->rc);
+> > > +}
+> > > +
+> > > +// Read IR in wideband mode. The byte stream is delivered in packets,
+> > > +// and the values which come in two bytes may straddle two packets
+> > > +static void uirt_wideband(struct uirt *uirt, u32 offset, u32 len)
+> > > +{
+> > > +	uint i, duration, carrier, pulses;
+> > > +
+> > > +	for (i = offset; i < len; i++) {
+> > > +		switch (uirt->rx_state) {
+> > > +		case RX_STATE_INTERSPACE_HIGH:
+> > > +			uirt->rx_state = RX_STATE_INTERSPACE_LOW;
+> > > +			break;
+> > > +		case RX_STATE_INTERSPACE_LOW:
+> > > +			uirt->rx_state = RX_STATE_ON_HIGH;
+> > > +			break;
+> > > +		case RX_STATE_ON_HIGH:
+> > > +			uirt->high = uirt->in[i];
+> > > +			uirt->rx_state = RX_STATE_ON_LOW;
+> > > +			break;
+> > > +		case RX_STATE_ON_LOW:
+> > > +			// duration is in 400ns units
+> > > +			duration = (uirt->high << 8) | uirt->in[i];
+> > > +			uirt->last_duration = duration;
+> > > +			// Convert to microseconds
+> > > +			duration = DIV_ROUND_CLOSEST(duration * 2, 5);
+> > > +			if (duration == 0)
+> > > +				duration = 1;
+> > > +			ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > +				.duration = duration,
+> > > +				.pulse = true,
+> > > +			}));
+> > > +			uirt->rx_state = RX_STATE_FREQ_HIGH;
+> > > +			break;
+> > > +		case RX_STATE_FREQ_HIGH:
+> > > +			if (uirt->in[i] & 0x80) {
+> > > +				uirt->high = uirt->in[i] & 0x7f;
+> > > +				uirt->rx_state = RX_STATE_FREQ_LOW;
+> > > +				break;
+> > > +			}
+> > > +
+> > > +			uirt->high = 0;
+> > > +			fallthrough;
+> > > +		case RX_STATE_FREQ_LOW:
+> > > +			pulses = (uirt->high << 8) | uirt->in[i];
+> > > +			if (pulses && uirt->last_duration) {
+> > > +				dev_dbg(uirt->dev, "carrier duration %u pulses %u",
+> > > +					uirt->last_duration, pulses);
+> > > +
+> > > +				// calculate the Hz of pulses in duration 400ns units
+> > > +				carrier = DIV_ROUND_CLOSEST_ULL(pulses * 10000000ull,
+> > > +								uirt->last_duration * 4);
+> > > +				ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > +					.carrier = carrier,
+> > > +					.carrier_report = true,
+> > > +				}));
+> > > +			}
+> > > +			uirt->rx_state = RX_STATE_OFF_HIGH;
+> > > +			break;
+> > > +		case RX_STATE_OFF_HIGH:
+> > > +			if (uirt->in[i] == 0xff) {
+> > > +				ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > +					.duration = IR_TIMEOUT,
+> > > +					.timeout = true,
+> > > +				}));
+> > > +				uirt->rx_state = RX_STATE_INTERSPACE_HIGH;
+> > > +			} else {
+> > > +				uirt->high = uirt->in[i];
+> > > +				uirt->rx_state = RX_STATE_OFF_LOW;
+> > > +			}
+> > > +			break;
+> > > +		case RX_STATE_OFF_LOW:
+> > > +			// Convert 400ns units to microseconds
+> > > +			duration = DIV_ROUND_CLOSEST(((uirt->high << 8) | uirt->in[i]) * 2, 5);
+> > > +			if (duration == 0)
+> > > +				duration = 1;
+> > > +			ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > +				.duration = duration,
+> > > +				.pulse = false,
+> > > +			}));
+> > > +			uirt->rx_state = RX_STATE_ON_HIGH;
+> > > +			break;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	ir_raw_event_handle(uirt->rc);
+> > > +}
+> > > +
+> > > +static void uirt_response(struct uirt *uirt, u32 len)
+> > > +{
+> > > +	int offset = 2;
+> > > +	int i;
+> > > +
+> > > +	dev_dbg(uirt->dev, "state:%d data: %*phN\n", uirt->cmd_state, len, uirt->in);
+> > > +
+> > > +	// Do we have more IR to transmit and is Clear-To-Send set
+> > > +	if (uirt->cmd_state == CMD_STATE_STREAMING_TX && len >= 2 &&
+> > > +	    uirt->tx_len && uirt->in[0] & FTDI_RS0_CTS) {
+> > 
+> > Do you really need to handle this manually when you have hardware
+> > assisted flow control enabled?
 > 
-> [...]
->> +description: |
->> +  Some Amlogic SoCs such as A311D and T950D4 have IR transmitter
->> +  (blaster) controller onboard. It is capable of sending IR signals
->> +  with arbitrary carrier frequency and duty cycle.
->> +
->> +properties:
->> +  compatible:
->> +    const: amlogic,meson-irblaster
-> if you feel like some registers or register values are specific to
-> A311D or T950D4 then please also add a SoC-specific compatible string
-> (for example: amlogic,meson-g12b-irblaster).
-> An example can be seen in
-> Documentation/devicetree/bindings/iio/adc/amlogic,meson-saradc.yaml
+> I had not considered this. I'll look into it.
+> 
+> > > +		u32 len;
+> > > +		int err;
+> > > +
+> > > +		len = min_t(u32, uirt->tx_len, MAX_PACKET);
+> > > +
+> > > +		memcpy(uirt->out, uirt->tx_buf, len);
+> > > +		uirt->urb_out->transfer_buffer_length = len;
+> > > +
+> > > +		uirt->tx_len -= len;
+> > > +		uirt->tx_buf += len;
+> > > +
+> > > +		err = usb_submit_urb(uirt->urb_out, GFP_ATOMIC);
+> > > +		if (err != 0)
+> > > +			dev_warn(uirt->dev,
+> > > +				 "failed to submit out urb: %d\n", err);
+> > > +	}
+> > > +
+> > > +	// if we only have two bytes, it just gives us the serial line status
+> > > +	if (len <= 2)
+> > > +		return;
+> > > +
+> > > +	// We have to assume that the response to a command is at the beginning
+> > > +	// of the packet. There is no way to distinguish IR data from command
+> > > +	// responses other than the position in the byte stream.
+> > > +	switch (uirt->cmd_state) {
+> > > +	case CMD_STATE_GETVERSION:
+> > > +		if (len >= 10) {
+> > > +			// check checksum
+> > > +			u8 checksum = 0;
+> > > +
+> > > +			for (i = 2; i < len; i++)
+> > > +				checksum += uirt->in[i];
+> > > +
+> > > +			if (checksum != 0) {
+> > > +				dev_err(uirt->dev, "checksum does not match: %*phN\n",
+> > > +					len, uirt->in);
+> > 
+> > Should this not be ratelimited too in case you get out of sync?
+> 
+> The get version command is only issued during probe, so this can only occur
+> once.
 
-AFAIK there is 2 versions of the IP, the "old" one we can find on Meson6, 8/8b, GXBB, GXL & GXM (and maybe AXG ?),
-and the one we find on the latest G12A, G12B & SM1.
+Sure, but you don't update the state in case this check fails so the
+following packets of IR data could all end up here until the command
+times out.
 
-The SEI510 and SEI610 boards we use for Yukawa android port do have the necessary HW for IR sending,
-so I'll eventually be able to test.
+> > > +				return;
+> > > +			}
+> > > +
+> > > +			dev_info(uirt->dev,
+> > > +				 "USB-UIRT firmware v%u.%u protocol v%u.%u %04u-%02u-%02u",
+> > 
+> > Missing '\n' and in a lot of other printks throughout.
+> 
+> Yes, good point. I'll fix this.
+> 
+> > > +				 uirt->in[2], uirt->in[3], uirt->in[4], uirt->in[5],
+> > > +				 uirt->in[8] + 2000, uirt->in[7], uirt->in[6]);
+> > > +
+> > > +			complete(&uirt->cmd_done);
+> > > +			uirt->cmd_state = CMD_STATE_IRDATA;
+> > > +			offset += 10;
+> > > +		}
+> > > +		break;
+> > > +	case CMD_STATE_DOTXRAW:
+> > > +	case CMD_STATE_STREAMING_TX:
+> > > +	case CMD_STATE_SETMODERAW:
+> > > +	case CMD_STATE_SETMODEWIDEBAND:
+> > > +		if (len >= 3) {
+> > > +			switch (uirt->in[2]) {
+> > > +			case 0x20:
+> > > +				// 0x20 transmitting is expected during streaming tx
+> > > +				if (uirt->cmd_state == CMD_STATE_STREAMING_TX)
+> > > +					return;
+> > > +
+> > > +				if (uirt->cmd_state == CMD_STATE_DOTXRAW)
+> > > +					complete(&uirt->cmd_done);
+> > > +				else
+> > > +					dev_err(uirt->dev, "device transmitting");
+> > 
+> > I think most of these printks need to be ratelimited or dev_dbg() since
+> > bad input input can trigger them.
+> 
+> All of these occur only as a response to an user space command, like transmit
+> or switching wideband/narrowband receiver. These command are not issued very
+> often, usually only in response to someone running ir-ctl(1) or so.
 
-So, as martin says you should add a "amlogic,g12a-ir-blaster" to be sure we support the older ir blaster version
-correctly with the right bindings.
+But a broken/malicious device, or if things just get out of sync, could
+end up triggering these messages repeatedly until the commands time out
+after five seconds, right?
 
-Neil
+> > Another missing newline, but please fix throughout.
+> 
+> Absolutely.
+> 
+> > > +				break;
+> > > +			case 0x21:
+> > > +				if (uirt->tx_len) {
+> > > +					dev_err(uirt->dev, "tx completed with %u left to send",
+> > > +						uirt->tx_len);
+> > > +				} else {
+> > > +					if (uirt->cmd_state == CMD_STATE_SETMODERAW)
+> > > +						uirt->wideband = false;
+> > > +					if (uirt->cmd_state == CMD_STATE_SETMODEWIDEBAND)
+> > > +						uirt->wideband = true;
+> > > +
+> > > +					complete(&uirt->cmd_done);
+> > > +				}
+> > > +				break;
+> > > +			case 0x80:
+> > > +				dev_err(uirt->dev, "checksum error");
+> > > +				break;
+> > > +			case 0x81:
+> > > +				dev_err(uirt->dev, "timeout");
+> > > +				break;
+> > > +			case 0x82:
+> > > +				dev_err(uirt->dev, "command error");
+> > > +				break;
+> > > +			default:
+> > > +				dev_err(uirt->dev, "unknown response");
+> > > +			}
+> > > +
+> > > +			uirt->cmd_state = CMD_STATE_IRDATA;
+> > > +			offset += 1;
+> > > +		}
+> > > +	default:
+> > > +		break;
+> > > +	}
+> > > +
+> > > +	if (uirt->wideband)
+> > > +		uirt_wideband(uirt, offset, len);
+> > > +	else
+> > > +		uirt_raw_mode(uirt, offset, len);
+> > > +}
 
-> 
-> [...]
->> +  clocks:
->> +    minItems: 1
->> +    maxItems: 2
->> +
->> +  clock-names:
->> +    minItems: 1
->> +    maxItems: 2
-> from my understanding there are two clock inputs to the hardware
-> dt-bindings should always describe the hardware, not what the driver
-> may (or may not) use.
-> based on that I think you should drop minItems (then minItems will
-> have the same value as maxItems)
-> 
-> [...]
->> +  mod-clock:
->> +    oneOf:
->> +      - const: sysclk
->> +      - const: xtal
-> Does this "mod-clock" depend on something external to the IR blaster hardware?
-> If not this should be handled inside the driver only.
-> 
-> From how I understand the register description in the datasheet
-> there's two clock inputs.
-> XTAL is internally divided further down with fixed dividers.
-> Then there's a configurable divider which is then used to generate the
-> IR signal.
-> If the sysclk (I assume that this is clk81 - or at least derived from
-> it) is "too fast" then the driver should just ignore that clock while
-> the dt-bindings should still describe it (see my comment above)
-> 
-> [...]
->> +    meson-irblaster@ff80014c {
-> node names should be generic, see for example
-> Documentation/devicetree/bindings/spi/amlogic,meson6-spifc.yaml
-> (spifc is the name Amlogic has given this IP, but since node names are
-> supposed to be generic we use spi@...)
-> 
-> However, I am not sure if an IR blaster would be described as
-> ir-blaster@... or simply ir@...
-> 
->> +      compatible = "amlogic,meson-irblaster";
->> +      reg = <0xff80014c 0x10>;
->> +      interrupts = <0 198 IRQ_TYPE_EDGE_RISING>;
->> +      clocks = <&clkc CLKID_CLK81 &xtal>;
-> [...]
->> +      clocks = <&clkc CLKID_CLK81 &xtal>;
-> while this works I think the recommended format is:
->     clocks = <&clkc CLKID_CLK81>, <&xtal>
-> 
-> 
-> Best regards,
-> Martin
-> 
+Johan
