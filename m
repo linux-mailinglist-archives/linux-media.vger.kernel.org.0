@@ -2,182 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E1783BA027
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jul 2021 14:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DD913BA04B
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jul 2021 14:23:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232055AbhGBMDO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jul 2021 08:03:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36692 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232026AbhGBMDO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jul 2021 08:03:14 -0400
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32960C061762;
-        Fri,  2 Jul 2021 05:00:41 -0700 (PDT)
-Received: by mail-oi1-x22a.google.com with SMTP id o6so11006207oic.9;
-        Fri, 02 Jul 2021 05:00:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YJ+EtDWQs+us5BNhruD1jgDhGjdRaOspQtCVuCEvz6w=;
-        b=HjTbAAxcGzjV6TBksscfbS39Y0D5cXtkVuCR9ZUNTYvK7MNOcQXOaW6LVxvxFcxiNa
-         259jkdIOYViNy6gVGSIDmEiAt0DLNGa66t+q01Oi7MYvCrIntzJ6mgd80d3Ww+oiAPQp
-         w9Df7ljvR+MRo4t6/YhXSeERV1yKgCzkyG4/PhNtUan/GFDZMHtlGveKMjyvTbhwKgsJ
-         FXlFT9mIe58Gqjus8GKGNWfJHpJQZ5AyVHHdNZnHVgkpuGZxwhHqnZ4A1FcaEaB5qSyl
-         DTBfAnG99kySz8EwXWQwrtXBk9PgfDMJNHmGz0OOCN9fexL5hTL4XGFhZC+Mj8XcajRi
-         152A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YJ+EtDWQs+us5BNhruD1jgDhGjdRaOspQtCVuCEvz6w=;
-        b=Wij14HJkoPkmDgsorD+AgNS53SJLaEK17ruAHXmJzH+2nd5owPdIQyUJuIKKhWNwxa
-         PuWm6m40c97++5P5Nt4D7Dh/l517t9WmgSdAHC8bNhK9bHrRejYCI9jAwe6/Vk18QNUF
-         EEviEsUWg6Y0ZxZRNbqFiufHge10hvAFVUZEf6Kb/jy5SpkAoMoBApykggXvFwAGHjDn
-         GqSzeqOluA//CnWMnPgPeY0gArrQ+xn9JLtZoqNQB97R3AqdschJfbg9DNk23PHWXKz+
-         pNcpiHZAgZidDsS0iRKNwRJ48pJsx3LBFnLehPudUcwoonhhRh5kIjzPzRO6L5N6gsDA
-         YGuw==
-X-Gm-Message-State: AOAM5315gmPHBbkKC97/BAcHLYleUJrBXH4GYxQMtVwWvD0l0026qHem
-        HXJirrxMl/0hPEQ7DE04n3MMpojRXtvkEY3b6Ig=
-X-Google-Smtp-Source: ABdhPJxaqD6iLUK7oN18ismHWnS+wN5LDYUpPu6kfPNxTL9+T0VoE/IqpdnTG+Nc8XgAtZvT3BpB6IhtsXLxXXkfxco=
-X-Received: by 2002:aca:a9d0:: with SMTP id s199mr3600343oie.47.1625227240500;
- Fri, 02 Jul 2021 05:00:40 -0700 (PDT)
+        id S232111AbhGBM0X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jul 2021 08:26:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59354 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232047AbhGBM0X (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 2 Jul 2021 08:26:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3C3AF61427;
+        Fri,  2 Jul 2021 12:23:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1625228631;
+        bh=vh3Z/WJsJn2qr/eDwTpVu1S+XhaBDn6vqQ0KQCgUrFk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=J5SN6badNCu+EBP80FCeJbrPNAg8Hb8XpWnEl7RIavaZlY93j1+tB4upOthqF3O48
+         j+xDHxl+KDNqLCA64/X7o25WbiPAjELMSOWivuanfVH7lnirzNu9NStya0wImFP9hv
+         +G0DVC45KFbeL1zAxEzXET2RwJwsRYmMPfbJ0WZvj+U+AHbwCApJNLlvU4DSd872LB
+         GR80HjpwV6kEqyClH9ASZ7Ag0/8tQcVoUErnfTkEHiCwbi9pOBgOanMtbEmTjyqbxF
+         q06I3pz3ohHgTfL2ZyUvzD9R/tKXXPeMa4PK5MEobV2Bh2ofQUuheW809bAt3MEabd
+         b9DBUpcOKkd3Q==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1lzICy-0003Tr-6r; Fri, 02 Jul 2021 14:23:48 +0200
+Date:   Fri, 2 Jul 2021 14:23:48 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Rhees <support@usbuirt.com>,
+        Oliver Neukum <oneukum@suse.com>
+Subject: Re: [PATCH v5 1/2] media: rc: new driver for USB-UIRT device
+Message-ID: <YN8FVEIcxnznaz1F@hovoldconsulting.com>
+References: <cover.1624006513.git.sean@mess.org>
+ <710e8007bc7365be8f999bae3aafaa22c3b2f7d1.1624006513.git.sean@mess.org>
+ <YN7tihZHJERJAWzL@hovoldconsulting.com>
 MIME-Version: 1.0
-References: <20210623073549.24170-1-moudy.ho@mediatek.com>
-In-Reply-To: <20210623073549.24170-1-moudy.ho@mediatek.com>
-From:   Enric Balletbo Serra <eballetbo@gmail.com>
-Date:   Fri, 2 Jul 2021 14:00:28 +0200
-Message-ID: <CAFqH_51+wQ=MxOKAfjA7nBspjcqfsRPy0oxg3iripuYJQ3HEmA@mail.gmail.com>
-Subject: Re: [RFC PATCH V0 01/10] media: mtk-mdp3: Add Mediatek MDP Driver
-To:     Moudy Ho <moudy.ho@mediatek.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org, drinkcat@chromium.org, acourbot@chromium.org,
-        pihsun@chromium.org, menghui.lin@mediatek.com,
-        sj.huang@mediatek.com, ben.lok@mediatek.com, randy.wu@mediatek.com,
-        srv_heupstream@mediatek.com, frederic.chen@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YN7tihZHJERJAWzL@hovoldconsulting.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mody Ho,
+On Fri, Jul 02, 2021 at 12:42:18PM +0200, Johan Hovold wrote:
+> On Fri, Jun 18, 2021 at 11:18:46AM +0100, Sean Young wrote:
+> > This device uses an ftdi usb serial port, so this driver has a tiny
+> > amount of usb ftdi code. It would be preferable to connect this driver via
+> > serdev or line-discipline, but unfortunately neither support
+> > hotplugging yet.
+> > 
+> > See http://www.usbuirt.com/
+> > 
+> > Signed-off-by: Sean Young <sean@mess.org>
+> > ---
 
-Thank you for your patch. Some comments below.
+> > +struct uirt {
+> > +	struct device *dev;
+> > +	struct usb_device *usbdev;
+> > +
+> > +	struct rc_dev *rc;
+> > +	struct urb *urb_in, *urb_out;
+> > +
+> > +	u8 *in;
+> > +	u8 *out;
+> > +	struct completion cmd_done;
+> > +	u8 freq;
+> > +	u8 high;
+> > +	bool wideband;
+> > +	u32 last_duration;
+> > +
+> > +	enum cmd_state cmd_state;
+> > +	enum rx_state rx_state;
+> > +
+> > +	void *tx_buf;
+> > +	u32 tx_len;
+> > +
+> > +	char phys[64];
+> > +};
 
-Missatge de Moudy Ho <moudy.ho@mediatek.com> del dia dc., 23 de juny
-2021 a les 9:36:
->
-> From: mtk18742 <moudy.ho@mediatek.com>
->
+> > +static void uirt_response(struct uirt *uirt, u32 len)
+> > +{
+> > +	int offset = 2;
+> > +	int i;
+> > +
+> > +	dev_dbg(uirt->dev, "state:%d data: %*phN\n", uirt->cmd_state, len, uirt->in);
+> > +
+> > +	// Do we have more IR to transmit and is Clear-To-Send set
+> > +	if (uirt->cmd_state == CMD_STATE_STREAMING_TX && len >= 2 &&
+> > +	    uirt->tx_len && uirt->in[0] & FTDI_RS0_CTS) {
+> 
+> Do you really need to handle this manually when you have hardware
+> assisted flow control enabled?
+> 
+> > +		u32 len;
+> > +		int err;
+> > +
+> > +		len = min_t(u32, uirt->tx_len, MAX_PACKET);
+> > +
+> > +		memcpy(uirt->out, uirt->tx_buf, len);
+> > +		uirt->urb_out->transfer_buffer_length = len;
+> > +
+> > +		uirt->tx_len -= len;
+> > +		uirt->tx_buf += len;
+> > +
+> > +		err = usb_submit_urb(uirt->urb_out, GFP_ATOMIC);
+> > +		if (err != 0)
+> > +			dev_warn(uirt->dev,
+> > +				 "failed to submit out urb: %d\n", err);
 
-Please fix your git configuration, I assume this should be something
-like Moudy Ho <moudy.ho@mediatek.com>. Note that the author and the
-Signed-off must match.
+Also, this looks entirely broken since you don't have any
+synchronisation with uirt_command() below which may try to submit the
+same URB in parallel.
 
-> Add MDP driver for MT8183
->
+> > +static int uirt_command(struct uirt *uirt, const u8 *cmd, u32 cmd_len,
+> > +			enum cmd_state state)
+> > +{
+> > +	int err;
+> > +
+> > +	init_completion(&uirt->cmd_done);
+> > +
+> > +	uirt->cmd_state = state;
+> > +
+> > +	memcpy(uirt->out, cmd, cmd_len);
+> > +	uirt->urb_out->transfer_buffer_length = cmd_len;
+> > +
+> > +	err = usb_submit_urb(uirt->urb_out, GFP_KERNEL);
+> > +	if (err != 0) {
+> > +		uirt->cmd_state = CMD_STATE_IRDATA;
+> > +		return err;
+> > +	}
+> > +
+> > +	if (!wait_for_completion_timeout(&uirt->cmd_done,
+> > +					 msecs_to_jiffies(USB_CTRL_SET_TIMEOUT))) {
+> > +		usb_kill_urb(uirt->urb_out);
+> > +		uirt->cmd_state = CMD_STATE_IRDATA;
+> > +		return -ETIMEDOUT;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> 
+> > +static int uirt_tx(struct rc_dev *rc, uint *txbuf, uint count)
+> > +{
+> > +	struct uirt *uirt = rc->priv;
+> > +	u8 *out;
+> > +	u32 i, dest, unit_raw, freq, len;
+> > +	int err;
+> > +
+> > +	// streaming tx does not work for short IR; use non-streaming
+> > +	// tx for short IR
+> > +	if (count <= 24)
+> > +		return uirt_short_tx(rc, txbuf, count);
+> > +
+> > +	out = kmalloc(count * 2 + 3, GFP_KERNEL);
+> > +	if (!out)
+> > +		return -ENOMEM;
+> > +
+> > +	out[0] = 0x25; // Streaming Transmit
+> > +	out[1] = 0xdb; // checksum over command (just the previous byte)
+> > +	out[2] = uirt->freq; // carrier frequency
+> > +
+> > +	dest = 3;
+> > +
+> > +	freq = uirt->freq & 0x7f;
+> > +
+> > +	for (i = 0; i < count; i++) {
+> > +		// width = (us / freq) * 2.5
+> > +		unit_raw = DIV_ROUND_CLOSEST(txbuf[i] * 5, freq * 2);
+> > +
+> > +		if (unit_raw == 0)
+> > +			unit_raw = 1;
+> > +		else if (unit_raw > 127)
+> > +			out[dest++] = (unit_raw >> 8) | 0x80;
+> > +
+> > +		out[dest++] = unit_raw;
+> > +	}
+> > +
+> > +	len = min_t(u32, dest, MAX_PACKET);
+> > +
+> > +	uirt->tx_buf = out + len;
+> > +	uirt->tx_len = dest - len;
+> > +
+> > +	err = uirt_command(uirt, out, len, CMD_STATE_STREAMING_TX);
+> > +	kfree(out);
+> 
+> This look fragile; are you sure nothing can access uirt_tx->buf (out)
+> after the command returns here? 
+> 
+> > +	if (err != 0)
+> > +		return err;
+> > +
+> > +	return count;
+> > +}
 
-In general please use a more verbose commit messages, you know what
-MDP means (I probably also know, but not everyone knows what MDP
-means) It is a good practice to when you introduce a new driver to
-explain well what is and for what is used.
-
-The first question that I have here is why current MDP driver (that
-supports other Mediatek chips like the MT8173) can't be extended to
-support MT8183. How different is this MDP driver and why can't share
-the code.
-
-This single patch is huge, and is unlikely that anyone spend time
-reviewing it just for that. I'd recommend to split it and introduce
-step-by-step, functionality by functionally. I also have the
-impression that you're just reimplementing things that are actually
-upstream or not taking advantage of what is already upstream. i.e the
-access to the mmsys registers. Please use current kernel
-drivers/interfaces API instead of reimplementing it.
-
-I'd strongly recommend to look at current Mediatek mdp driver and see
-if you can add support for MT8183 there, and if not, looks at it as
-reference.
-
-Best regards,
-  Enric
-
-
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
->  drivers/media/platform/Kconfig                |   17 +
->  drivers/media/platform/Makefile               |    2 +
->  drivers/media/platform/mtk-mdp3/Makefile      |    9 +
->  drivers/media/platform/mtk-mdp3/isp_reg.h     |   37 +
->  .../media/platform/mtk-mdp3/mdp-platform.h    |   58 +
->  .../media/platform/mtk-mdp3/mdp_reg_ccorr.h   |   75 +
->  .../media/platform/mtk-mdp3/mdp_reg_rdma.h    |  206 +++
->  drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h |  109 ++
->  .../media/platform/mtk-mdp3/mdp_reg_wdma.h    |  125 ++
->  .../media/platform/mtk-mdp3/mdp_reg_wrot.h    |  115 ++
->  .../media/platform/mtk-mdp3/mmsys_config.h    |  188 +++
->  drivers/media/platform/mtk-mdp3/mmsys_mutex.h |   35 +
->  .../media/platform/mtk-mdp3/mmsys_reg_base.h  |   38 +
->  drivers/media/platform/mtk-mdp3/mtk-img-ipi.h |  282 ++++
->  .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.c   |  521 +++++++
->  .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.h   |   54 +
->  .../media/platform/mtk-mdp3/mtk-mdp3-comp.c   | 1329 +++++++++++++++++
->  .../media/platform/mtk-mdp3/mtk-mdp3-comp.h   |  155 ++
->  .../media/platform/mtk-mdp3/mtk-mdp3-core.c   |  282 ++++
->  .../media/platform/mtk-mdp3/mtk-mdp3-core.h   |   86 ++
->  .../media/platform/mtk-mdp3/mtk-mdp3-debug.c  |  973 ++++++++++++
->  .../media/platform/mtk-mdp3/mtk-mdp3-debug.h  |   39 +
->  .../media/platform/mtk-mdp3/mtk-mdp3-m2m.c    |  804 ++++++++++
->  .../media/platform/mtk-mdp3/mtk-mdp3-m2m.h    |   42 +
->  .../media/platform/mtk-mdp3/mtk-mdp3-regs.c   |  748 ++++++++++
->  .../media/platform/mtk-mdp3/mtk-mdp3-regs.h   |  373 +++++
->  .../media/platform/mtk-mdp3/mtk-mdp3-vpu.c    |  313 ++++
->  .../media/platform/mtk-mdp3/mtk-mdp3-vpu.h    |   79 +
->  28 files changed, 7094 insertions(+)
->  create mode 100644 drivers/media/platform/mtk-mdp3/Makefile
->  create mode 100644 drivers/media/platform/mtk-mdp3/isp_reg.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mdp-platform.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_ccorr.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rdma.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wdma.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wrot.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mmsys_config.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mmsys_mutex.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mmsys_reg_base.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-img-ipi.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-debug.c
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-debug.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.h
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.c
->  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.h
-
- [snip]
-
-> --
-> 2.18.0
->
+Johan
