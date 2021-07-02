@@ -2,62 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 696473BA520
+	by mail.lfdr.de (Postfix) with ESMTP id 023D13BA51F
 	for <lists+linux-media@lfdr.de>; Fri,  2 Jul 2021 23:38:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230049AbhGBVlA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jul 2021 17:41:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51584 "EHLO
+        id S230053AbhGBVlD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jul 2021 17:41:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229648AbhGBVlA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jul 2021 17:41:00 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3264DC061764
-        for <linux-media@vger.kernel.org>; Fri,  2 Jul 2021 14:38:27 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id j34so7442285wms.5
-        for <linux-media@vger.kernel.org>; Fri, 02 Jul 2021 14:38:27 -0700 (PDT)
+        with ESMTP id S229648AbhGBVlD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jul 2021 17:41:03 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65CF7C061762
+        for <linux-media@vger.kernel.org>; Fri,  2 Jul 2021 14:38:30 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id b14-20020a1c1b0e0000b02901fc3a62af78so3371552wmb.3
+        for <linux-media@vger.kernel.org>; Fri, 02 Jul 2021 14:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hozsEhRROj8RJ3r7JOJ/pME0E5x/W4ewCNxMdjvTG5k=;
-        b=d1T0fh5gRiOULlteulsL9whi5svQrnr4oLsjQlcn+zRZoFaEKGLLRNCs7aagtOUGuM
-         0BjxsR/b0FhyA60Pooq/9REZHP+HeEuR6x1dr3fB3vcHgfkFzdygNwmenEric7vg0lwi
-         bcPq/tov0H5oX6qtlaRuvpZ7cHObhCxqKvIVQ=
+        bh=r5UDpKih+Cz0Ip0RsQYJf4LObnNANTrq8DTJd3TzsDY=;
+        b=cboccj9uK2nqIaGDjp7JjZjNm3xB97a/EjrI9FL0N30f2veooJDaN0dVKs9Zle+tkw
+         IHELqLyQ+qYnYSr1/jlCowrfQCVao0x0E59chfLBBqxgnXP494ZxeJGlaCExWfkPNGnY
+         NMRu7urjIGSchgBqEv+hyO7FQ4ZSu1/qnt9PY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hozsEhRROj8RJ3r7JOJ/pME0E5x/W4ewCNxMdjvTG5k=;
-        b=oUnj0tdwWrxv4RU0CkQnorAAt+nIQyFCtF3Z4DCn/mjNXnL5WCdn+lbHHNTqma0+9H
-         L995/QiJbmz0UtwsVOJB3nQr7fWi8eJC7dQZG7NQrZilfo4c9c3/MvXUBgv/6Z5XavcE
-         eSL7gc3fVGEdP6F+bKu3pXxKV5fyYsLIPLtbGHwwbItKVvgMNs0SvuZDoQdnvGtaVGtC
-         lH6A6OPVwtrYM1iFVw/PuvNFwogIMKj42tiyiUiZiQxlbSORFNhibkgJJeB44ymEtlUd
-         TuwtYg0/x18cy4YnKGjlmCxaAOPCrY1sVsyDdPA1gaREbX4pfhNqrN6mxfz5yDzpr88A
-         l3wQ==
-X-Gm-Message-State: AOAM5339FVJGpdZb7uSfscmBtUUAgE9XXnt/fI6xSpltA1kYoPzm7/9H
-        1KVMaKbO5SC2In/6J0n7FT9AMtnaPWkTaQ==
-X-Google-Smtp-Source: ABdhPJykBPD4Hvc8vEi7s/LiQKXT9WTLsAwftb1uQTM/wnoZ8PH0j+Fu0onfJVJU+oOoQWD8PMAETw==
-X-Received: by 2002:a1c:208a:: with SMTP id g132mr1854540wmg.140.1625261905858;
-        Fri, 02 Jul 2021 14:38:25 -0700 (PDT)
+        bh=r5UDpKih+Cz0Ip0RsQYJf4LObnNANTrq8DTJd3TzsDY=;
+        b=UUgw2KZ9Qekez64ol7t5AXpd+JhS9Um8jFUvINJRXoH4Vq3FWaqbxO/jfckV0TMU3f
+         HAZ7hZf8ifYsf9XcobNExEXYUw9PuRMQPDOICAALrK/bnGg0YTKl8vntYkt11dfF/MMW
+         mzzfbybjNYG0zjh18+m+8Scq/7alZqzabZsNgroSKHE6H0wWoIPE7FuTbUxn+GBdFCdl
+         VlX8SYI7MiHdadc5XYz6F8Qfe5ceTDdR2uXUrGCjhnUZx0ne5sr5wKvX3wu6+8YVtGkA
+         P4UAvH+otU/mFW+D0NbgD/wyGuj093fqHjJDl5VvDUd3XVA74ua11vGOCJK6MpJBrBQw
+         K+dQ==
+X-Gm-Message-State: AOAM532URwcyOXhbZKPu4G3cKPFCpxoTRPBHwwO3OXcJDEX0AxZMCvpA
+        ksYjYXY+zkish7HIgahgkt/82A==
+X-Google-Smtp-Source: ABdhPJxqVHbkBsJue9XqhmKx1HoLke8pCMRgf6iknh/A+rCrC0rFG4vwSxu5tAuee8bjh1mW1krKDQ==
+X-Received: by 2002:a7b:c042:: with SMTP id u2mr409618wmc.86.1625261909076;
+        Fri, 02 Jul 2021 14:38:29 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id n19sm4007222wms.4.2021.07.02.14.38.24
+        by smtp.gmail.com with ESMTPSA id n19sm4007222wms.4.2021.07.02.14.38.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Jul 2021 14:38:25 -0700 (PDT)
+        Fri, 02 Jul 2021 14:38:28 -0700 (PDT)
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
 To:     DRI Development <dri-devel@lists.freedesktop.org>
 Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Steven Price <steven.price@arm.com>,
         Daniel Vetter <daniel.vetter@intel.com>,
-        Rob Herring <robh@kernel.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v2 04/11] drm/panfrost: use scheduler dependency tracking
-Date:   Fri,  2 Jul 2021 23:38:08 +0200
-Message-Id: <20210702213815.2249499-5-daniel.vetter@ffwll.ch>
+        etnaviv@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v2 08/11] drm/etnaviv: Use scheduler dependency handling
+Date:   Fri,  2 Jul 2021 23:38:12 +0200
+Message-Id: <20210702213815.2249499-9-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0.rc2
 In-Reply-To: <20210702213815.2249499-1-daniel.vetter@ffwll.ch>
 References: <20210702213815.2249499-1-daniel.vetter@ffwll.ch>
@@ -68,212 +68,226 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Just deletes some code that's now more shared.
+We need to pull the drm_sched_job_init much earlier, but that's very
+minor surgery.
 
-Note that thanks to the split into drm_sched_job_init/arm we can now
-easily pull the _init() part from under the submission lock way ahead
-where we're adding the sync file in-fences as dependencies.
-
-v2: Correctly clean up the partially set up job, now that job_init()
-and job_arm() are apart (Emma).
-
-Reviewed-by: Steven Price <steven.price@arm.com> (v1)
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Cc: Steven Price <steven.price@arm.com>
-Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
 Cc: "Christian König" <christian.koenig@amd.com>
+Cc: etnaviv@lists.freedesktop.org
 Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 ---
- drivers/gpu/drm/panfrost/panfrost_drv.c | 16 ++++++++---
- drivers/gpu/drm/panfrost/panfrost_job.c | 37 +++----------------------
- drivers/gpu/drm/panfrost/panfrost_job.h |  5 +---
- 3 files changed, 17 insertions(+), 41 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  5 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 32 +++++-----
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c      | 61 +-------------------
+ drivers/gpu/drm/etnaviv/etnaviv_sched.h      |  3 +-
+ 4 files changed, 20 insertions(+), 81 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 1ffaef5ec5ff..9f53bea07d61 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -218,7 +218,7 @@ panfrost_copy_in_sync(struct drm_device *dev,
- 		if (ret)
- 			goto fail;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+index 98e60df882b6..63688e6e4580 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+@@ -80,9 +80,6 @@ struct etnaviv_gem_submit_bo {
+ 	u64 va;
+ 	struct etnaviv_gem_object *obj;
+ 	struct etnaviv_vram_mapping *mapping;
+-	struct dma_fence *excl;
+-	unsigned int nr_shared;
+-	struct dma_fence **shared;
+ };
  
--		ret = drm_gem_fence_array_add(&job->deps, fence);
-+		ret = drm_sched_job_await_fence(&job->base, fence);
+ /* Created per submit-ioctl, to track bo's and cmdstream bufs, etc,
+@@ -95,7 +92,7 @@ struct etnaviv_gem_submit {
+ 	struct etnaviv_file_private *ctx;
+ 	struct etnaviv_gpu *gpu;
+ 	struct etnaviv_iommu_context *mmu_context, *prev_mmu_context;
+-	struct dma_fence *out_fence, *in_fence;
++	struct dma_fence *out_fence;
+ 	int out_fence_id;
+ 	struct list_head node; /* GPU active submit list */
+ 	struct etnaviv_cmdbuf cmdbuf;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 4dd7d9d541c0..92478a50a580 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -188,16 +188,10 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
+ 		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
+ 			continue;
  
- 		if (ret)
- 			goto fail;
-@@ -236,7 +236,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
- 	struct drm_panfrost_submit *args = data;
- 	struct drm_syncobj *sync_out = NULL;
- 	struct panfrost_job *job;
--	int ret = 0;
-+	int ret = 0, slot;
- 
- 	if (!args->jc)
- 		return -EINVAL;
-@@ -258,14 +258,20 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
- 
- 	kref_init(&job->refcount);
- 
--	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
+-		if (bo->flags & ETNA_SUBMIT_BO_WRITE) {
+-			ret = dma_resv_get_fences(robj, &bo->excl,
+-						  &bo->nr_shared,
+-						  &bo->shared);
+-			if (ret)
+-				return ret;
+-		} else {
+-			bo->excl = dma_resv_get_excl_unlocked(robj);
+-		}
 -
- 	job->pfdev = pfdev;
- 	job->jc = args->jc;
- 	job->requirements = args->requirements;
- 	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
- 	job->file_priv = file->driver_priv;
- 
-+	slot = panfrost_job_get_slot(job);
-+
-+	ret = drm_sched_job_init(&job->base,
-+				 &job->file_priv->sched_entity[slot],
-+				 NULL);
-+	if (ret)
-+		goto fail_job_put;
-+
- 	ret = panfrost_copy_in_sync(dev, file, args, job);
- 	if (ret)
- 		goto fail_job;
-@@ -283,6 +289,8 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
- 		drm_syncobj_replace_fence(sync_out, job->render_done_fence);
- 
- fail_job:
-+	drm_sched_job_cleanup(&job->base);
-+fail_job_put:
- 	panfrost_job_put(job);
- fail_out_sync:
- 	if (sync_out)
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 4bc962763e1f..86c843d8822e 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -102,7 +102,7 @@ static struct dma_fence *panfrost_fence_create(struct panfrost_device *pfdev, in
- 	return &fence->base;
- }
- 
--static int panfrost_job_get_slot(struct panfrost_job *job)
-+int panfrost_job_get_slot(struct panfrost_job *job)
- {
- 	/* JS0: fragment jobs.
- 	 * JS1: vertex/tiler jobs
-@@ -242,13 +242,13 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
- 
- static int panfrost_acquire_object_fences(struct drm_gem_object **bos,
- 					  int bo_count,
--					  struct xarray *deps)
-+					  struct drm_sched_job *job)
- {
- 	int i, ret;
- 
- 	for (i = 0; i < bo_count; i++) {
- 		/* panfrost always uses write mode in its current uapi */
--		ret = drm_gem_fence_array_add_implicit(deps, bos[i], true);
-+		ret = drm_sched_job_await_implicit(job, bos[i], true);
- 		if (ret)
- 			return ret;
++		ret = drm_sched_job_await_implicit(&submit->sched_job, &bo->obj->base,
++						   bo->flags & ETNA_SUBMIT_BO_WRITE);
++		if (ret)
++			return ret;
  	}
-@@ -269,31 +269,21 @@ static void panfrost_attach_object_fences(struct drm_gem_object **bos,
- int panfrost_job_push(struct panfrost_job *job)
- {
- 	struct panfrost_device *pfdev = job->pfdev;
--	int slot = panfrost_job_get_slot(job);
--	struct drm_sched_entity *entity = &job->file_priv->sched_entity[slot];
- 	struct ww_acquire_ctx acquire_ctx;
- 	int ret = 0;
  
--
- 	ret = drm_gem_lock_reservations(job->bos, job->bo_count,
- 					    &acquire_ctx);
+ 	return ret;
+@@ -403,8 +397,6 @@ static void submit_cleanup(struct kref *kref)
+ 
+ 	wake_up_all(&submit->gpu->fence_event);
+ 
+-	if (submit->in_fence)
+-		dma_fence_put(submit->in_fence);
+ 	if (submit->out_fence) {
+ 		/* first remove from IDR, so fence can not be found anymore */
+ 		mutex_lock(&submit->gpu->fence_lock);
+@@ -537,6 +529,12 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	submit->exec_state = args->exec_state;
+ 	submit->flags = args->flags;
+ 
++	ret = drm_sched_job_init(&submit->sched_job,
++				 &ctx->sched_entity[args->pipe],
++				 submit->ctx);
++	if (ret)
++		goto err_submit_objects;
++
+ 	ret = submit_lookup_objects(submit, file, bos, args->nr_bos);
  	if (ret)
- 		return ret;
+ 		goto err_submit_objects;
+@@ -549,11 +547,15 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	}
  
- 	mutex_lock(&pfdev->sched_lock);
--
--	ret = drm_sched_job_init(&job->base, entity, NULL);
--	if (ret) {
--		mutex_unlock(&pfdev->sched_lock);
--		goto unlock;
--	}
--
- 	drm_sched_job_arm(&job->base);
+ 	if (args->flags & ETNA_SUBMIT_FENCE_FD_IN) {
+-		submit->in_fence = sync_file_get_fence(args->fence_fd);
+-		if (!submit->in_fence) {
++		struct dma_fence *in_fence = sync_file_get_fence(args->fence_fd);
++		if (!in_fence) {
+ 			ret = -EINVAL;
+ 			goto err_submit_objects;
+ 		}
++
++		ret = drm_sched_job_await_fence(&submit->sched_job, in_fence);
++		if (ret)
++			goto err_submit_objects;
+ 	}
  
- 	job->render_done_fence = dma_fence_get(&job->base.s_fence->finished);
+ 	ret = submit_pin_objects(submit);
+@@ -579,7 +581,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	if (ret)
+ 		goto err_submit_objects;
  
- 	ret = panfrost_acquire_object_fences(job->bos, job->bo_count,
--					     &job->deps);
-+					     &job->base);
- 	if (ret) {
- 		mutex_unlock(&pfdev->sched_lock);
- 		goto unlock;
-@@ -318,15 +308,8 @@ static void panfrost_job_cleanup(struct kref *ref)
- {
- 	struct panfrost_job *job = container_of(ref, struct panfrost_job,
- 						refcount);
+-	ret = etnaviv_sched_push_job(&ctx->sched_entity[args->pipe], submit);
++	ret = etnaviv_sched_push_job(submit);
+ 	if (ret)
+ 		goto err_submit_objects;
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index 180bb633d5c5..c98d67320be3 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -17,58 +17,6 @@ module_param_named(job_hang_limit, etnaviv_job_hang_limit, int , 0444);
+ static int etnaviv_hw_jobs_limit = 4;
+ module_param_named(hw_job_limit, etnaviv_hw_jobs_limit, int , 0444);
+ 
+-static struct dma_fence *
+-etnaviv_sched_dependency(struct drm_sched_job *sched_job,
+-			 struct drm_sched_entity *entity)
+-{
+-	struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
 -	struct dma_fence *fence;
--	unsigned long index;
- 	unsigned int i;
- 
--	xa_for_each(&job->deps, index, fence) {
+-	int i;
+-
+-	if (unlikely(submit->in_fence)) {
+-		fence = submit->in_fence;
+-		submit->in_fence = NULL;
+-
+-		if (!dma_fence_is_signaled(fence))
+-			return fence;
+-
 -		dma_fence_put(fence);
 -	}
--	xa_destroy(&job->deps);
 -
- 	dma_fence_put(job->done_fence);
- 	dma_fence_put(job->render_done_fence);
- 
-@@ -365,17 +348,6 @@ static void panfrost_job_free(struct drm_sched_job *sched_job)
- 	panfrost_job_put(job);
- }
- 
--static struct dma_fence *panfrost_job_dependency(struct drm_sched_job *sched_job,
--						 struct drm_sched_entity *s_entity)
--{
--	struct panfrost_job *job = to_panfrost_job(sched_job);
+-	for (i = 0; i < submit->nr_bos; i++) {
+-		struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
+-		int j;
 -
--	if (!xa_empty(&job->deps))
--		return xa_erase(&job->deps, job->last_dep++);
+-		if (bo->excl) {
+-			fence = bo->excl;
+-			bo->excl = NULL;
+-
+-			if (!dma_fence_is_signaled(fence))
+-				return fence;
+-
+-			dma_fence_put(fence);
+-		}
+-
+-		for (j = 0; j < bo->nr_shared; j++) {
+-			if (!bo->shared[j])
+-				continue;
+-
+-			fence = bo->shared[j];
+-			bo->shared[j] = NULL;
+-
+-			if (!dma_fence_is_signaled(fence))
+-				return fence;
+-
+-			dma_fence_put(fence);
+-		}
+-		kfree(bo->shared);
+-		bo->nr_shared = 0;
+-		bo->shared = NULL;
+-	}
 -
 -	return NULL;
 -}
 -
- static struct dma_fence *panfrost_job_run(struct drm_sched_job *sched_job)
+ static struct dma_fence *etnaviv_sched_run_job(struct drm_sched_job *sched_job)
  {
- 	struct panfrost_job *job = to_panfrost_job(sched_job);
-@@ -765,7 +737,6 @@ static void panfrost_reset_work(struct work_struct *work)
+ 	struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
+@@ -140,14 +88,12 @@ static void etnaviv_sched_free_job(struct drm_sched_job *sched_job)
  }
  
- static const struct drm_sched_backend_ops panfrost_sched_ops = {
--	.dependency = panfrost_job_dependency,
- 	.run_job = panfrost_job_run,
- 	.timedout_job = panfrost_job_timedout,
- 	.free_job = panfrost_job_free
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
-index 82306a03b57e..77e6d0e6f612 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.h
-@@ -19,10 +19,6 @@ struct panfrost_job {
- 	struct panfrost_device *pfdev;
- 	struct panfrost_file_priv *file_priv;
+ static const struct drm_sched_backend_ops etnaviv_sched_ops = {
+-	.dependency = etnaviv_sched_dependency,
+ 	.run_job = etnaviv_sched_run_job,
+ 	.timedout_job = etnaviv_sched_timedout_job,
+ 	.free_job = etnaviv_sched_free_job,
+ };
  
--	/* Contains both explicit and implicit fences */
--	struct xarray deps;
--	unsigned long last_dep;
+-int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
+-			   struct etnaviv_gem_submit *submit)
++int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit)
+ {
+ 	int ret = 0;
+ 
+@@ -158,11 +104,6 @@ int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
+ 	 */
+ 	mutex_lock(&submit->gpu->fence_lock);
+ 
+-	ret = drm_sched_job_init(&submit->sched_job, sched_entity,
+-				 submit->ctx);
+-	if (ret)
+-		goto out_unlock;
 -
- 	/* Fence to be signaled by IRQ handler when the job is complete. */
- 	struct dma_fence *done_fence;
+ 	drm_sched_job_arm(&submit->sched_job);
  
-@@ -42,6 +38,7 @@ int panfrost_job_init(struct panfrost_device *pfdev);
- void panfrost_job_fini(struct panfrost_device *pfdev);
- int panfrost_job_open(struct panfrost_file_priv *panfrost_priv);
- void panfrost_job_close(struct panfrost_file_priv *panfrost_priv);
-+int panfrost_job_get_slot(struct panfrost_job *job);
- int panfrost_job_push(struct panfrost_job *job);
- void panfrost_job_put(struct panfrost_job *job);
- void panfrost_job_enable_interrupts(struct panfrost_device *pfdev);
+ 	submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.h b/drivers/gpu/drm/etnaviv/etnaviv_sched.h
+index c0a6796e22c9..baebfa069afc 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.h
+@@ -18,7 +18,6 @@ struct etnaviv_gem_submit *to_etnaviv_submit(struct drm_sched_job *sched_job)
+ 
+ int etnaviv_sched_init(struct etnaviv_gpu *gpu);
+ void etnaviv_sched_fini(struct etnaviv_gpu *gpu);
+-int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
+-			   struct etnaviv_gem_submit *submit);
++int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit);
+ 
+ #endif /* __ETNAVIV_SCHED_H__ */
 -- 
 2.32.0.rc2
 
