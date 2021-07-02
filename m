@@ -2,54 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A5CD3BA1F7
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jul 2021 16:06:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90F1D3BA2CF
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jul 2021 17:34:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233059AbhGBOJN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jul 2021 10:09:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53336 "EHLO mail.kernel.org"
+        id S232026AbhGBPhD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jul 2021 11:37:03 -0400
+Received: from gofer.mess.org ([88.97.38.141]:49839 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232802AbhGBOJN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 2 Jul 2021 10:09:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D1FD61427;
-        Fri,  2 Jul 2021 14:06:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625234801;
-        bh=5Hdlb3+MTH841lHzZzZ079inMG1s0uR7k1ZqKN9Z+3E=;
+        id S231883AbhGBPhD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 2 Jul 2021 11:37:03 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 5610BC631A; Fri,  2 Jul 2021 16:34:29 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1625240069; bh=b2ejyOqyOJQivfxoC2w3cTnsf9ulBLDviTKk3g8qFwU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MefMqpmk6X4zAerZ8fEqYmdsuc4pWH8afZzej+gODOLBbJ5troJONTfenWYAhOs0/
-         H4Rwj6r5O+UoYRkb8UtsbkiZwg1uHOL2J1NHsTTdsFvR5qQlZv3C9Yyo1kOyQ0+TCL
-         kyze8iCl4j6H4tAY21gF4vBnjk71YGa/eBXsm68mVQgBnQjEEZbJh05QBLfLKbGFul
-         P4ZwwL9saDeRc6kLaS5BNYY0YOKFiDhhmaMXqDnYDlTnn9It7XsPuPLltC8n/snu5r
-         TEz4IPtYGJoTXOuh+et0cA6XzfAw9KnRe4JIgl0gXO9OjL0TclUFU9d7ZOZfphAUo7
-         kQvvoR2IQXKQA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1lzJoV-0006aB-JD; Fri, 02 Jul 2021 16:06:39 +0200
-Date:   Fri, 2 Jul 2021 16:06:39 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Sean Young <sean@mess.org>
+        b=mpHXg13dcCgPOeWGh42B2McGm2VrAKC6inlRm/+W66LlWXlDKjZOqaQ6BhO5J2jU1
+         /5UIJhFbMitwgHSrjBGOl2ERnQyfdgphvbEjzjZBygakXD4Hb1DW7DkH56wqZSEDlK
+         H4tpZCq9AQ3mvojrkdDpEI95mnmawAwE6txRi1YoPlKYDPqF7p2koSkuM5EM6XvQMy
+         mDmkykHnVejyhFr5Ghq3Sa9Sks/d7hLS0jtj/H4qsRkLlvwIkvFeqzFe3EhdK1XIXj
+         aNzZXB6/DkIpdfhyEloVb3iMkeVI07vtYOgJX31me/AN8yq3wK6BO4w9/w+OjwpJNr
+         iiHRsT4LTz0Pw==
+Date:   Fri, 2 Jul 2021 16:34:29 +0100
+From:   Sean Young <sean@mess.org>
+To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jon Rhees <support@usbuirt.com>,
         Oliver Neukum <oneukum@suse.com>
 Subject: Re: [PATCH v5 1/2] media: rc: new driver for USB-UIRT device
-Message-ID: <YN8db6Q/9np7C43h@hovoldconsulting.com>
+Message-ID: <20210702153429.GA31834@gofer.mess.org>
 References: <cover.1624006513.git.sean@mess.org>
  <710e8007bc7365be8f999bae3aafaa22c3b2f7d1.1624006513.git.sean@mess.org>
  <YN7tihZHJERJAWzL@hovoldconsulting.com>
- <YN8FVEIcxnznaz1F@hovoldconsulting.com>
- <20210702132022.GC29760@gofer.mess.org>
+ <20210702131318.GB29760@gofer.mess.org>
+ <YN8cLhry5ULJUxt7@hovoldconsulting.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210702132022.GC29760@gofer.mess.org>
+In-Reply-To: <YN8cLhry5ULJUxt7@hovoldconsulting.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 02, 2021 at 02:20:22PM +0100, Sean Young wrote:
-> On Fri, Jul 02, 2021 at 02:23:48PM +0200, Johan Hovold wrote:
+On Fri, Jul 02, 2021 at 04:01:18PM +0200, Johan Hovold wrote:
+> On Fri, Jul 02, 2021 at 02:13:18PM +0100, Sean Young wrote:
 > > On Fri, Jul 02, 2021 at 12:42:18PM +0200, Johan Hovold wrote:
 > > > On Fri, Jun 18, 2021 at 11:18:46AM +0100, Sean Young wrote:
 > > > > This device uses an ftdi usb serial port, so this driver has a tiny
@@ -60,32 +57,170 @@ On Fri, Jul 02, 2021 at 02:20:22PM +0100, Sean Young wrote:
 > > > > See http://www.usbuirt.com/
 > > > > 
 > > > > Signed-off-by: Sean Young <sean@mess.org>
-> > > > ---
+> 
+> > > > +// read IR in raw mode
+> > > > +static void uirt_raw_mode(struct uirt *uirt, u32 offset, u32 len)
+> > > > +{
+> > > > +	uint i, duration;
+> > > > +
+> > > > +	for (i = offset; i < len; i++) {
+> > > > +		switch (uirt->rx_state) {
+> > > > +		case RX_STATE_INTERSPACE_HIGH:
+> > > > +			uirt->rx_state = RX_STATE_INTERSPACE_LOW;
+> > > > +			break;
+> > > > +		case RX_STATE_INTERSPACE_LOW:
+> > > > +			uirt->rx_state = RX_STATE_ON_HIGH;
+> > > > +			break;
+> > > > +		case RX_STATE_ON_HIGH:
+> > > > +			duration = uirt->in[i];
+> > > > +			if (duration == 0)
+> > > > +				duration = 1;
+> > > > +
+> > > > +			ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > > +				.duration = duration * UNIT_US,
+> > > > +				.pulse = true,
+> > > > +			}));
+> > > > +
+> > > > +			uirt->rx_state = RX_STATE_OFF_HIGH;
+> > > > +			break;
+> > > > +		case RX_STATE_OFF_HIGH:
+> > > > +			if (uirt->in[i] == 0xff) {
+> > > > +				ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > > +					.duration = IR_TIMEOUT,
+> > > > +					.timeout = true,
+> > > > +				}));
+> > > > +				uirt->rx_state = RX_STATE_INTERSPACE_HIGH;
+> > > > +				break;
+> > > > +			}
+> > > > +
+> > > > +			duration = uirt->in[i];
+> > > > +			if (duration == 0)
+> > > > +				duration = 1;
+> > > > +
+> > > > +			ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > > +				.duration = duration * UNIT_US,
+> > > > +				.pulse = false,
+> > > > +			}));
+> > > > +			uirt->rx_state = RX_STATE_ON_HIGH;
+> > > > +			break;
+> > > > +		default:
+> > > > +			WARN(1, "unreachable state");
+> > > 
+> > > This should probably be dev_warn_ratelimited() or similar. Judging from
+> > > a quick look a malicious device can end up triggering this.
 > > 
-> > > > +struct uirt {
-> > > > +	struct device *dev;
-> > > > +	struct usb_device *usbdev;
+> > Well, the other states can reached only by enabling the wideband receiver
+> > and then disabling it again, and then the driver state machine needs to
+> > be broken too. Just belt and braces.
+> 
+> Still looks like you can end up here since uirt->wideband isn't updated
+> until you get a reply from the device and the it's device input which
+> drives the uirt->rx_state transitions.
+
+Right, there is a bug: when switching between wideband/narrowband, the
+rx_state should be set, once the device confirms that the switch has
+occurred.
+
+Where uirt->wideband is updated, the following line should be added:
+
+	uirt->rx_state = RX_STATE_INTERSPACE_HIGH;
+
+With that line added, the default case should be unreachable.
+
+> > > > +			uirt->rx_state = RX_STATE_INTERSPACE_HIGH;
+> > > > +			break;
+> > > > +		}
+> > > > +	}
 > > > > +
-> > > > +	struct rc_dev *rc;
-> > > > +	struct urb *urb_in, *urb_out;
+> > > > +	ir_raw_event_handle(uirt->rc);
+> > > > +}
 > > > > +
-> > > > +	u8 *in;
-> > > > +	u8 *out;
-> > > > +	struct completion cmd_done;
-> > > > +	u8 freq;
-> > > > +	u8 high;
-> > > > +	bool wideband;
-> > > > +	u32 last_duration;
+> > > > +// Read IR in wideband mode. The byte stream is delivered in packets,
+> > > > +// and the values which come in two bytes may straddle two packets
+> > > > +static void uirt_wideband(struct uirt *uirt, u32 offset, u32 len)
+> > > > +{
+> > > > +	uint i, duration, carrier, pulses;
 > > > > +
-> > > > +	enum cmd_state cmd_state;
-> > > > +	enum rx_state rx_state;
+> > > > +	for (i = offset; i < len; i++) {
+> > > > +		switch (uirt->rx_state) {
+> > > > +		case RX_STATE_INTERSPACE_HIGH:
+> > > > +			uirt->rx_state = RX_STATE_INTERSPACE_LOW;
+> > > > +			break;
+> > > > +		case RX_STATE_INTERSPACE_LOW:
+> > > > +			uirt->rx_state = RX_STATE_ON_HIGH;
+> > > > +			break;
+> > > > +		case RX_STATE_ON_HIGH:
+> > > > +			uirt->high = uirt->in[i];
+> > > > +			uirt->rx_state = RX_STATE_ON_LOW;
+> > > > +			break;
+> > > > +		case RX_STATE_ON_LOW:
+> > > > +			// duration is in 400ns units
+> > > > +			duration = (uirt->high << 8) | uirt->in[i];
+> > > > +			uirt->last_duration = duration;
+> > > > +			// Convert to microseconds
+> > > > +			duration = DIV_ROUND_CLOSEST(duration * 2, 5);
+> > > > +			if (duration == 0)
+> > > > +				duration = 1;
+> > > > +			ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > > +				.duration = duration,
+> > > > +				.pulse = true,
+> > > > +			}));
+> > > > +			uirt->rx_state = RX_STATE_FREQ_HIGH;
+> > > > +			break;
+> > > > +		case RX_STATE_FREQ_HIGH:
+> > > > +			if (uirt->in[i] & 0x80) {
+> > > > +				uirt->high = uirt->in[i] & 0x7f;
+> > > > +				uirt->rx_state = RX_STATE_FREQ_LOW;
+> > > > +				break;
+> > > > +			}
 > > > > +
-> > > > +	void *tx_buf;
-> > > > +	u32 tx_len;
+> > > > +			uirt->high = 0;
+> > > > +			fallthrough;
+> > > > +		case RX_STATE_FREQ_LOW:
+> > > > +			pulses = (uirt->high << 8) | uirt->in[i];
+> > > > +			if (pulses && uirt->last_duration) {
+> > > > +				dev_dbg(uirt->dev, "carrier duration %u pulses %u",
+> > > > +					uirt->last_duration, pulses);
 > > > > +
-> > > > +	char phys[64];
-> > > > +};
-> > 
+> > > > +				// calculate the Hz of pulses in duration 400ns units
+> > > > +				carrier = DIV_ROUND_CLOSEST_ULL(pulses * 10000000ull,
+> > > > +								uirt->last_duration * 4);
+> > > > +				ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > > +					.carrier = carrier,
+> > > > +					.carrier_report = true,
+> > > > +				}));
+> > > > +			}
+> > > > +			uirt->rx_state = RX_STATE_OFF_HIGH;
+> > > > +			break;
+> > > > +		case RX_STATE_OFF_HIGH:
+> > > > +			if (uirt->in[i] == 0xff) {
+> > > > +				ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > > +					.duration = IR_TIMEOUT,
+> > > > +					.timeout = true,
+> > > > +				}));
+> > > > +				uirt->rx_state = RX_STATE_INTERSPACE_HIGH;
+> > > > +			} else {
+> > > > +				uirt->high = uirt->in[i];
+> > > > +				uirt->rx_state = RX_STATE_OFF_LOW;
+> > > > +			}
+> > > > +			break;
+> > > > +		case RX_STATE_OFF_LOW:
+> > > > +			// Convert 400ns units to microseconds
+> > > > +			duration = DIV_ROUND_CLOSEST(((uirt->high << 8) | uirt->in[i]) * 2, 5);
+> > > > +			if (duration == 0)
+> > > > +				duration = 1;
+> > > > +			ir_raw_event_store(uirt->rc, &((struct ir_raw_event) {
+> > > > +				.duration = duration,
+> > > > +				.pulse = false,
+> > > > +			}));
+> > > > +			uirt->rx_state = RX_STATE_ON_HIGH;
+> > > > +			break;
+> > > > +		}
+> > > > +	}
+> > > > +
+> > > > +	ir_raw_event_handle(uirt->rc);
+> > > > +}
+> > > > +
 > > > > +static void uirt_response(struct uirt *uirt, u32 len)
 > > > > +{
 > > > > +	int offset = 2;
@@ -99,7 +234,9 @@ On Fri, Jul 02, 2021 at 02:20:22PM +0100, Sean Young wrote:
 > > > 
 > > > Do you really need to handle this manually when you have hardware
 > > > assisted flow control enabled?
-> > > 
+> > 
+> > I had not considered this. I'll look into it.
+> > 
 > > > > +		u32 len;
 > > > > +		int err;
 > > > > +
@@ -115,27 +252,134 @@ On Fri, Jul 02, 2021 at 02:20:22PM +0100, Sean Young wrote:
 > > > > +		if (err != 0)
 > > > > +			dev_warn(uirt->dev,
 > > > > +				 "failed to submit out urb: %d\n", err);
+> > > > +	}
+> > > > +
+> > > > +	// if we only have two bytes, it just gives us the serial line status
+> > > > +	if (len <= 2)
+> > > > +		return;
+> > > > +
+> > > > +	// We have to assume that the response to a command is at the beginning
+> > > > +	// of the packet. There is no way to distinguish IR data from command
+> > > > +	// responses other than the position in the byte stream.
+> > > > +	switch (uirt->cmd_state) {
+> > > > +	case CMD_STATE_GETVERSION:
+> > > > +		if (len >= 10) {
+> > > > +			// check checksum
+> > > > +			u8 checksum = 0;
+> > > > +
+> > > > +			for (i = 2; i < len; i++)
+> > > > +				checksum += uirt->in[i];
+> > > > +
+> > > > +			if (checksum != 0) {
+> > > > +				dev_err(uirt->dev, "checksum does not match: %*phN\n",
+> > > > +					len, uirt->in);
+> > > 
+> > > Should this not be ratelimited too in case you get out of sync?
 > > 
-> > Also, this looks entirely broken since you don't have any
-> > synchronisation with uirt_command() below which may try to submit the
-> > same URB in parallel.
+> > The get version command is only issued during probe, so this can only occur
+> > once.
 > 
-> uirt_command() only gets called via lirc chardev ioctl/write ops; the lirc
-> chardev code does locking for the drivers already. So, if someone does a
-> write to /dev/lirc0 (which means transmit) the mutex is taken, no other
-> writes/ioctls are allowed on /dev/lirc0; the uirt_tx() calls uirt_command()
-> which waits for completion. During this period the code above can be
-> executed, but not after the transmit succeeds or fails (when the lircdev
-> chardev mutex is released, see:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/rc/lirc_dev.c#n337
-> 
-> Having said all that this is not evident from code at all. A comment could
-> really help.
+> Sure, but you don't update the state in case this check fails so the
+> following packets of IR data could all end up here until the command
+> times out.
 
-My point is that uirt_command() may race with the bulk-in completion
-handler and uirt_response() which can end up submitting the out urb in
-parallel with uirt_command() and corrupting the tx state. There only
-needs to be one ioctl()/write() for this to happen.
+Right, that is true. There is an opportunity here of 5 seconds of errors;
+I'll make the right state change so this can only happen once.
 
-Johan
+> > > > +				return;
+> > > > +			}
+> > > > +
+> > > > +			dev_info(uirt->dev,
+> > > > +				 "USB-UIRT firmware v%u.%u protocol v%u.%u %04u-%02u-%02u",
+> > > 
+> > > Missing '\n' and in a lot of other printks throughout.
+> > 
+> > Yes, good point. I'll fix this.
+> > 
+> > > > +				 uirt->in[2], uirt->in[3], uirt->in[4], uirt->in[5],
+> > > > +				 uirt->in[8] + 2000, uirt->in[7], uirt->in[6]);
+> > > > +
+> > > > +			complete(&uirt->cmd_done);
+> > > > +			uirt->cmd_state = CMD_STATE_IRDATA;
+> > > > +			offset += 10;
+> > > > +		}
+> > > > +		break;
+> > > > +	case CMD_STATE_DOTXRAW:
+> > > > +	case CMD_STATE_STREAMING_TX:
+> > > > +	case CMD_STATE_SETMODERAW:
+> > > > +	case CMD_STATE_SETMODEWIDEBAND:
+> > > > +		if (len >= 3) {
+> > > > +			switch (uirt->in[2]) {
+> > > > +			case 0x20:
+> > > > +				// 0x20 transmitting is expected during streaming tx
+> > > > +				if (uirt->cmd_state == CMD_STATE_STREAMING_TX)
+> > > > +					return;
+> > > > +
+> > > > +				if (uirt->cmd_state == CMD_STATE_DOTXRAW)
+> > > > +					complete(&uirt->cmd_done);
+> > > > +				else
+> > > > +					dev_err(uirt->dev, "device transmitting");
+> > > 
+> > > I think most of these printks need to be ratelimited or dev_dbg() since
+> > > bad input input can trigger them.
+> > 
+> > All of these occur only as a response to an user space command, like transmit
+> > or switching wideband/narrowband receiver. These command are not issued very
+> > often, usually only in response to someone running ir-ctl(1) or so.
+> 
+> But a broken/malicious device, or if things just get out of sync, could
+> end up triggering these messages repeatedly until the commands time out
+> after five seconds, right?
+
+Yes, you could get up to 5 seconds of errors. I can make them ratelimited
+to avoid this problem.
+
+> > > Another missing newline, but please fix throughout.
+> > 
+> > Absolutely.
+> > 
+> > > > +				break;
+> > > > +			case 0x21:
+> > > > +				if (uirt->tx_len) {
+> > > > +					dev_err(uirt->dev, "tx completed with %u left to send",
+> > > > +						uirt->tx_len);
+> > > > +				} else {
+> > > > +					if (uirt->cmd_state == CMD_STATE_SETMODERAW)
+> > > > +						uirt->wideband = false;
+> > > > +					if (uirt->cmd_state == CMD_STATE_SETMODEWIDEBAND)
+> > > > +						uirt->wideband = true;
+> > > > +
+> > > > +					complete(&uirt->cmd_done);
+> > > > +				}
+> > > > +				break;
+> > > > +			case 0x80:
+> > > > +				dev_err(uirt->dev, "checksum error");
+> > > > +				break;
+> > > > +			case 0x81:
+> > > > +				dev_err(uirt->dev, "timeout");
+> > > > +				break;
+> > > > +			case 0x82:
+> > > > +				dev_err(uirt->dev, "command error");
+> > > > +				break;
+> > > > +			default:
+> > > > +				dev_err(uirt->dev, "unknown response");
+> > > > +			}
+> > > > +
+> > > > +			uirt->cmd_state = CMD_STATE_IRDATA;
+> > > > +			offset += 1;
+> > > > +		}
+> > > > +	default:
+> > > > +		break;
+> > > > +	}
+> > > > +
+> > > > +	if (uirt->wideband)
+> > > > +		uirt_wideband(uirt, offset, len);
+> > > > +	else
+> > > > +		uirt_raw_mode(uirt, offset, len);
+> > > > +}
+> 
+> Johan
+
+Thanks
+
+Sean
