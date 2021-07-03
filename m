@@ -2,51 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A047E3BA918
-	for <lists+linux-media@lfdr.de>; Sat,  3 Jul 2021 17:03:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C36583BA91D
+	for <lists+linux-media@lfdr.de>; Sat,  3 Jul 2021 17:04:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229814AbhGCPG3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Jul 2021 11:06:29 -0400
-Received: from gofer.mess.org ([88.97.38.141]:33707 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229562AbhGCPG3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 3 Jul 2021 11:06:29 -0400
+        id S229910AbhGCPGe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Jul 2021 11:06:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52494 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229865AbhGCPGc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Jul 2021 11:06:32 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBDE1C061764;
+        Sat,  3 Jul 2021 08:03:57 -0700 (PDT)
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 4149FC6402; Sat,  3 Jul 2021 16:03:54 +0100 (BST)
+        id 5D19FC63BB; Sat,  3 Jul 2021 16:03:54 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1625324634; bh=hJd5ylgGrVxJnoBdLDH8epTS9YbthWJpbnJroHza6ro=;
-        h=From:To:Subject:Date:From;
-        b=W5i19j56PDPrpjFWdse7x73difnYg0BiL2uZ2KDZ0I1wXLoPwve/NZMnAhLAtTjZV
-         NW8zIRuI9SgVMeQhyFto2jxNrEPDBZLjz57pCR7TevHE2hln41ZVU0wYMGX3KEDLPh
-         XgBCTe0N5Oe3bgQbYWc4LN0xOaP5+pxuxeJ0CIGh140cqeOryBHTnpQIjrm4kjWAxY
-         pBkF2Z5QqdgUbYZ+T9tqXPdvTGrHRWBQvRyRKmsuWD4RTkD9WvuaXO16rB94dmpn75
-         qqh3Ph5M6mYGJxoe824I3Qn5HTGKhOiy/au858u5luAAmlIQ0mBFAkWucEr/kcm07X
-         wBTlXRhTAZbSA==
+        t=1625324634; bh=nYJSqwT7wPEaON3HYmDIAmj4Y5R9jQI/E84Fxq3j/do=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=qurOP/ofL0swqR552iQ+Qo1lpxJxmREtEHrCeN5H1k4qOk5LkGviAzmPXzEmjJM2q
+         iVWd9dsUJWi1IvIHs8zNV0wkubYd5P6S1dnP1aiv9KE5xBGN2LfcMIK9MefvCEhPc5
+         jVi2eBuBChxTi1385+sU2kXUcGFAS4+ALt3eEjFkr9pEXrQZGgNg4F04WsNpOKu1Wq
+         odVohJTei2WhAY9VE3Ar+YS8uR2MiW2T3WaH5bKvNUz4NYJD5XMLLLpeVbqlT+logY
+         mkoVLc9ukNg12U5ydKVU9C5uuXM45EIgmRVabRLjlYgl0kXV8/6TKhjgxia6C44D3p
+         cgeq/Nc570RQQ==
 From:   Sean Young <sean@mess.org>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH 0/4] Various rc-loopback fixes
-Date:   Sat,  3 Jul 2021 16:03:50 +0100
-Message-Id: <cover.1625324530.git.sean@mess.org>
+Cc:     stable@vger.kernel.org
+Subject: [PATCH 1/4] media: rc-loopback: return set of valid emitters rather error
+Date:   Sat,  3 Jul 2021 16:03:51 +0100
+Message-Id: <3794b019b5ba41fcc2b1212c89b170129e1859c6.1625324530.git.sean@mess.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1625324530.git.sean@mess.org>
+References: <cover.1625324530.git.sean@mess.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sean Young (4):
-  media: rc-loopback: return set of valid emitters rather error
-  media: rc-loopback: use dev_dbg() rather than handrolled debug
-  media: rc-loopback: send carrier reports
-  media: rc: rename s_learning_mode() to s_wideband_receiver()
+The LIRC_SET_TRANSMITTER_MASK ioctl should return a list valid emitters
+if an invalid list was passed.
 
- drivers/media/rc/ene_ir.c      |  2 +-
- drivers/media/rc/lirc_dev.c    |  6 +--
- drivers/media/rc/mceusb.c      |  2 +-
- drivers/media/rc/rc-loopback.c | 78 +++++++++++++++++-----------------
- include/media/rc-core.h        |  4 +-
- 5 files changed, 46 insertions(+), 46 deletions(-)
+Cc: stable@vger.kernel.org
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/rc/rc-loopback.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/media/rc/rc-loopback.c b/drivers/media/rc/rc-loopback.c
+index 1ba3f96ffa7d..15212244f83c 100644
+--- a/drivers/media/rc/rc-loopback.c
++++ b/drivers/media/rc/rc-loopback.c
+@@ -42,7 +42,7 @@ static int loop_set_tx_mask(struct rc_dev *dev, u32 mask)
+ 
+ 	if ((mask & (RXMASK_REGULAR | RXMASK_LEARNING)) != mask) {
+ 		dprintk("invalid tx mask: %u\n", mask);
+-		return -EINVAL;
++		return RXMASK_REGULAR | RXMASK_LEARNING;
+ 	}
+ 
+ 	dprintk("setting tx mask: %u\n", mask);
 -- 
 2.31.1
 
