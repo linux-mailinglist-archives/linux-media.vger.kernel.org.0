@@ -2,35 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF0EC3BB274
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:14:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB4E23BB29B
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:14:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232339AbhGDXPg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Jul 2021 19:15:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50748 "EHLO mail.kernel.org"
+        id S234601AbhGDXP6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Jul 2021 19:15:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55624 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233983AbhGDXOt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 4 Jul 2021 19:14:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 62A9F613FB;
-        Sun,  4 Jul 2021 23:10:48 +0000 (UTC)
+        id S234012AbhGDXOu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 4 Jul 2021 19:14:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D421613F7;
+        Sun,  4 Jul 2021 23:10:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625440249;
-        bh=w65wNTosxvkJpMQt77u2qGKGhUFqRbRGDrcnbeQE4FU=;
+        s=k20201202; t=1625440256;
+        bh=q1PzI/JtSZ+DwqLJltd9URxv6AV7m9S86jih2iYUyKo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Gdtf3QYdx46yNYvdwHvcTOMmFEwS8BrsfDjqkWSQp83ESx3IkmOwXhfyV0LrPMO2J
-         ivmFvTOYeTQejFm2T3SU1EdOPIpshUmBXf9hKjgAC+zkdx5JlJMEJq2gTd2owKU7Jm
-         YOtjsiobTmhCI8+5+jxfmlaZEGq2YSWPeiiZOVeK2oMu/5vZ5bxUAfspyA4kD3px0b
-         ZBa6+ga5qK27C1e5p/vw++fAB571lB8lz49mwdjNS24JKzVr90GFq+p8F3nDCPzWm4
-         LrNgzvNPOslLGpP1IUJ4p6Flt0StRKxsaRcqg7ce0efyAOXtoGrGxlaYzviAz+IVQ9
-         i+Td+g8pgfHUQ==
+        b=SRP96hcW+BiG6HKXIsFTLtG9gOZANvr9MEoNj3hgCjFXGnOqMN7WkX0fI9dVS2aAP
+         zWhp1SYDxUXoTtibYyPIu2xzBajquDSAq5X9FXi2ziS8zBgpxNjxkNcDNJpl74mzXo
+         s9+PO9iZ31VaGYjKP++cmdO4DXyRjrb2426I1IBwnBW8EtF6zj06B36quhNki+8Ii7
+         EPpuDRQeZuYcBCsghLStYvcWrLFkzhkLC5d2+wCIEJWxrPjJNjzFCCv15bLu6yLn1J
+         LvzVZEX2GMeyV0OmPnvrWw1zQhoslNfRR/oSO97jtoUOr97dbb7oBufmmT81JcCmf2
+         BjuvSko/O5eAg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+Cc:     Pavel Skripkin <paskripkin@gmail.com>,
+        syzbot+d1e69c888f0d3866ead4@syzkaller.appspotmail.com,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 04/31] media: sti/bdisp: fix pm_runtime_get_sync() usage count
-Date:   Sun,  4 Jul 2021 19:10:16 -0400
-Message-Id: <20210704231043.1491209-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 10/31] media: cpia2: fix memory leak in cpia2_usb_probe
+Date:   Sun,  4 Jul 2021 19:10:22 -0400
+Message-Id: <20210704231043.1491209-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210704231043.1491209-1-sashal@kernel.org>
 References: <20210704231043.1491209-1-sashal@kernel.org>
@@ -42,65 +44,102 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From: Pavel Skripkin <paskripkin@gmail.com>
 
-[ Upstream commit c44eac5b72e23c31eefc0e10a71d9650036b8341 ]
+[ Upstream commit be8656e62e9e791837b606a027802b504a945c97 ]
 
-The pm_runtime_get_sync() internally increments the
-dev->power.usage_count without decrementing it, even on errors.
+syzbot reported leak in cpia2 usb driver. The problem was
+in invalid error handling.
 
-The bdisp_start_streaming() doesn't take it into account, which
-would unbalance PM usage counter at bdisp_stop_streaming().
+v4l2_device_register() is called in cpia2_init_camera_struct(), but
+all error cases after cpia2_init_camera_struct() did not call the
+v4l2_device_unregister()
 
-The logic at bdisp_probe() is correct, but the best is to use
-the same call along the driver.
-
-So, replace it by the new pm_runtime_resume_and_get(), introduced by:
-commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-in order to properly decrement the usage counter, avoiding
-a potential PM usage counter leak.
-
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Reported-by: syzbot+d1e69c888f0d3866ead4@syzkaller.appspotmail.com
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/sti/bdisp/bdisp-v4l2.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/media/usb/cpia2/cpia2.h      |  1 +
+ drivers/media/usb/cpia2/cpia2_core.c | 12 ++++++++++++
+ drivers/media/usb/cpia2/cpia2_usb.c  | 13 +++++++------
+ 3 files changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/sti/bdisp/bdisp-v4l2.c b/drivers/media/platform/sti/bdisp/bdisp-v4l2.c
-index 00f6e3f06dac..1fb04dc0f7d0 100644
---- a/drivers/media/platform/sti/bdisp/bdisp-v4l2.c
-+++ b/drivers/media/platform/sti/bdisp/bdisp-v4l2.c
-@@ -499,7 +499,7 @@ static int bdisp_start_streaming(struct vb2_queue *q, unsigned int count)
- {
- 	struct bdisp_ctx *ctx = q->drv_priv;
- 	struct vb2_v4l2_buffer *buf;
--	int ret = pm_runtime_get_sync(ctx->bdisp_dev->dev);
-+	int ret = pm_runtime_resume_and_get(ctx->bdisp_dev->dev);
+diff --git a/drivers/media/usb/cpia2/cpia2.h b/drivers/media/usb/cpia2/cpia2.h
+index ab238ac8bfc0..50c952250dc9 100644
+--- a/drivers/media/usb/cpia2/cpia2.h
++++ b/drivers/media/usb/cpia2/cpia2.h
+@@ -438,6 +438,7 @@ int cpia2_send_command(struct camera_data *cam, struct cpia2_command *cmd);
+ int cpia2_do_command(struct camera_data *cam,
+ 		     unsigned int command,
+ 		     unsigned char direction, unsigned char param);
++void cpia2_deinit_camera_struct(struct camera_data *cam, struct usb_interface *intf);
+ struct camera_data *cpia2_init_camera_struct(struct usb_interface *intf);
+ int cpia2_init_camera(struct camera_data *cam);
+ int cpia2_allocate_buffers(struct camera_data *cam);
+diff --git a/drivers/media/usb/cpia2/cpia2_core.c b/drivers/media/usb/cpia2/cpia2_core.c
+index 3dfbb545c0e3..42cce7e94101 100644
+--- a/drivers/media/usb/cpia2/cpia2_core.c
++++ b/drivers/media/usb/cpia2/cpia2_core.c
+@@ -2172,6 +2172,18 @@ static void reset_camera_struct(struct camera_data *cam)
+ 	cam->height = cam->params.roi.height;
+ }
  
++/******************************************************************************
++ *
++ *  cpia2_init_camera_struct
++ *
++ *  Deinitialize camera struct
++ *****************************************************************************/
++void cpia2_deinit_camera_struct(struct camera_data *cam, struct usb_interface *intf)
++{
++	v4l2_device_unregister(&cam->v4l2_dev);
++	kfree(cam);
++}
++
+ /******************************************************************************
+  *
+  *  cpia2_init_camera_struct
+diff --git a/drivers/media/usb/cpia2/cpia2_usb.c b/drivers/media/usb/cpia2/cpia2_usb.c
+index 4c191fcd3a7f..839217574069 100644
+--- a/drivers/media/usb/cpia2/cpia2_usb.c
++++ b/drivers/media/usb/cpia2/cpia2_usb.c
+@@ -853,15 +853,13 @@ static int cpia2_usb_probe(struct usb_interface *intf,
+ 	ret = set_alternate(cam, USBIF_CMDONLY);
  	if (ret < 0) {
- 		dev_err(ctx->bdisp_dev->dev, "failed to set runtime PM\n");
-@@ -1368,10 +1368,10 @@ static int bdisp_probe(struct platform_device *pdev)
- 
- 	/* Power management */
- 	pm_runtime_enable(dev);
--	ret = pm_runtime_get_sync(dev);
-+	ret = pm_runtime_resume_and_get(dev);
- 	if (ret < 0) {
- 		dev_err(dev, "failed to set PM\n");
--		goto err_pm;
-+		goto err_remove;
+ 		ERR("%s: usb_set_interface error (ret = %d)\n", __func__, ret);
+-		kfree(cam);
+-		return ret;
++		goto alt_err;
  	}
  
- 	/* Filters */
-@@ -1399,6 +1399,7 @@ static int bdisp_probe(struct platform_device *pdev)
- 	bdisp_hw_free_filters(bdisp->dev);
- err_pm:
- 	pm_runtime_put(dev);
-+err_remove:
- 	bdisp_debugfs_remove(bdisp);
- err_v4l2:
- 	v4l2_device_unregister(&bdisp->v4l2_dev);
+ 
+ 	if((ret = cpia2_init_camera(cam)) < 0) {
+ 		ERR("%s: failed to initialize cpia2 camera (ret = %d)\n", __func__, ret);
+-		kfree(cam);
+-		return ret;
++		goto alt_err;
+ 	}
+ 	LOG("  CPiA Version: %d.%02d (%d.%d)\n",
+ 	       cam->params.version.firmware_revision_hi,
+@@ -881,11 +879,14 @@ static int cpia2_usb_probe(struct usb_interface *intf,
+ 	ret = cpia2_register_camera(cam);
+ 	if (ret < 0) {
+ 		ERR("%s: Failed to register cpia2 camera (ret = %d)\n", __func__, ret);
+-		kfree(cam);
+-		return ret;
++		goto alt_err;
+ 	}
+ 
+ 	return 0;
++
++alt_err:
++	cpia2_deinit_camera_struct(cam, intf);
++	return ret;
+ }
+ 
+ /******************************************************************************
 -- 
 2.30.2
 
