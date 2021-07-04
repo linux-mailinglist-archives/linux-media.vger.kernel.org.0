@@ -2,42 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA0F43BB2FF
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:15:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14F733BB296
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:14:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232936AbhGDXQy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Jul 2021 19:16:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57108 "EHLO mail.kernel.org"
+        id S234586AbhGDXPx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Jul 2021 19:15:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56970 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234120AbhGDXOy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 4 Jul 2021 19:14:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A47FE619AC;
-        Sun,  4 Jul 2021 23:11:14 +0000 (UTC)
+        id S234144AbhGDXOz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 4 Jul 2021 19:14:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1EC8E61965;
+        Sun,  4 Jul 2021 23:11:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625440275;
-        bh=rLIR0S92aTlG9q/OkSLRKIJuW7+/bZqEm10UhBiwYL8=;
+        s=k20201202; t=1625440286;
+        bh=ZwCIXI+anUKvUjBFbZwfOKZagOMJbFXhrHhA7no+JHg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PsVS8KEYC6PnvvFYAqSbo6uIr2rYwZZ4KIJTFPSTRiMJ/cRry8pKeu7TgBOXPRmeL
-         SDu+/4hTD7uo0lgQrTwihfSxyfpJoa1glO7oKCiaOhBcEqRyRd8wO12Wnbri9pJ6FU
-         +dRJiizUK0/bJMfH1FMhxoyrJ3zZIohnWnxUv5aXR6I0e2VMZ1jVDH56rENT1pFNzi
-         oK0z5vHMV5GoxW/1lLj489GmMR48SI+E2PbtP8Pf75Ynt7QFPd7X3FPLVjw8ofOL/9
-         ByRCn5MdgCqiNddt7cLkJI9UGbGgpAiMBY98C3Ej5N+4HwRkZkCcgKiBeNUwBAeZzr
-         ohWiaJMt9srIw==
+        b=Svs6O3mjp4hMbEvi3wlA13QW1Gi4amLQNEsqGGCRdHiBn2JBTGeg8JA8aGiZqV9RI
+         BRxVplMPoUK9hIoMm4oMyLntND8aRFZnD6RsVJ3s9EyFg6MXRfPfeFAQY5vaX7PBRo
+         41ylio+C19zp4o3p1c2EvpBrkLpWEZtPqMjdgM+jRBNakjKUQBaBhuh/tKz4QvuU+J
+         Qh3RZBEdYz/ntgOYutnriYlKIyT+eNrAY61gl7F7wu95q08yEpyhyzUByhTMHNj4V/
+         P6iLmiVQ5kbdBemgidMiqAX+XpzEQRb4arz8OvlBvU9/6pMdeMwbYF0I9QNWUHPshP
+         Gbzh05nwEgTIg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 4.19 25/31] media: imx-csi: Skip first few frames from a BT.656 source
-Date:   Sun,  4 Jul 2021 19:10:37 -0400
-Message-Id: <20210704231043.1491209-25-sashal@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 02/25] media: sh_vou: fix pm_runtime_get_sync() usage count
+Date:   Sun,  4 Jul 2021 19:11:00 -0400
+Message-Id: <20210704231123.1491517-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210704231043.1491209-1-sashal@kernel.org>
-References: <20210704231043.1491209-1-sashal@kernel.org>
+In-Reply-To: <20210704231123.1491517-1-sashal@kernel.org>
+References: <20210704231123.1491517-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -46,61 +42,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Steve Longerbeam <slongerbeam@gmail.com>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-[ Upstream commit e198be37e52551bb863d07d2edc535d0932a3c4f ]
+[ Upstream commit 6e8b1526db164c9d4b9dacfb9bc48e365d7c4860 ]
 
-Some BT.656 sensors (e.g. ADV718x) transmit frames with unstable BT.656
-sync codes after initial power on. This confuses the imx CSI,resulting
-in vertical and/or horizontal sync issues. Skip the first 20 frames
-to avoid the unstable sync codes.
+The pm_runtime_get_sync() internally increments the
+dev->power.usage_count without decrementing it, even on errors.
+Replace it by the new pm_runtime_resume_and_get(), introduced by:
+commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+in order to properly decrement the usage counter, avoiding
+a potential PM usage counter leak.
 
-[fabio: fixed checkpatch warning and increased the frame skipping to 20]
+While here, check if the PM runtime error was caught at open time.
 
-Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
-Reviewed-by: Tim Harvey <tharvey@gateworks.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/imx/imx-media-csi.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/media/platform/sh_vou.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index 0f8fdc347091..c7df0ffb3510 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -730,9 +730,10 @@ static int csi_setup(struct csi_priv *priv)
- 
- static int csi_start(struct csi_priv *priv)
- {
--	struct v4l2_fract *output_fi;
-+	struct v4l2_fract *input_fi, *output_fi;
- 	int ret;
- 
-+	input_fi = &priv->frame_interval[CSI_SINK_PAD];
- 	output_fi = &priv->frame_interval[priv->active_output_pad];
- 
- 	/* start upstream */
-@@ -741,6 +742,17 @@ static int csi_start(struct csi_priv *priv)
- 	if (ret)
- 		return ret;
- 
-+	/* Skip first few frames from a BT.656 source */
-+	if (priv->upstream_ep.bus_type == V4L2_MBUS_BT656) {
-+		u32 delay_usec, bad_frames = 20;
-+
-+		delay_usec = DIV_ROUND_UP_ULL((u64)USEC_PER_SEC *
-+			input_fi->numerator * bad_frames,
-+			input_fi->denominator);
-+
-+		usleep_range(delay_usec, delay_usec + 1000);
-+	}
-+
- 	if (priv->dest == IPU_CSI_DEST_IDMAC) {
- 		ret = csi_idmac_start(priv);
- 		if (ret)
+diff --git a/drivers/media/platform/sh_vou.c b/drivers/media/platform/sh_vou.c
+index 871da2a2a91c..06381c88229f 100644
+--- a/drivers/media/platform/sh_vou.c
++++ b/drivers/media/platform/sh_vou.c
+@@ -1147,7 +1147,11 @@ static int sh_vou_open(struct file *file)
+ 	if (v4l2_fh_is_singular_file(file) &&
+ 	    vou_dev->status == SH_VOU_INITIALISING) {
+ 		/* First open */
+-		pm_runtime_get_sync(vou_dev->v4l2_dev.dev);
++		err = pm_runtime_resume_and_get(vou_dev->v4l2_dev.dev);
++		if (err < 0) {
++			v4l2_fh_release(file);
++			goto done_open;
++		}
+ 		err = sh_vou_hw_init(vou_dev);
+ 		if (err < 0) {
+ 			pm_runtime_put(vou_dev->v4l2_dev.dev);
 -- 
 2.30.2
 
