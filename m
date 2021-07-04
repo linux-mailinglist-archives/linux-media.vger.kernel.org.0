@@ -2,38 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBF6D3BB0E6
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B84B03BB218
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:13:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231441AbhGDXJr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Jul 2021 19:09:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48966 "EHLO mail.kernel.org"
+        id S230490AbhGDXNr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Jul 2021 19:13:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47684 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231425AbhGDXJN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 4 Jul 2021 19:09:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 04A76613FB;
-        Sun,  4 Jul 2021 23:06:35 +0000 (UTC)
+        id S231402AbhGDXJZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 4 Jul 2021 19:09:25 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 131966135A;
+        Sun,  4 Jul 2021 23:06:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625439996;
-        bh=ju547HHSoJneoZh4O62JWafGwz9NI9kYJ8MtTLOeHjg=;
+        s=k20201202; t=1625440009;
+        bh=EKY1OlRJO93TJiFmqfgVZB3HH1bgpwa6v7NyZcI16Qg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EBnLOw/AOFo8LB4E7Ed0NQAloCYDDm5XUbZBUy5xvWVjTft4r2aLN1hO0zIn7hJye
-         H0LPZVEgnC1Rn3ZACShEaRfD5Bzw+VEN8faj2OCBDBuMz/XU9rsovr0X7Zdl0eDlma
-         rCG7IsOnkQ7Dcg9L5HpVE2V1aDMpgPCkOTkDOMyA4TyQS51EZgVyQL9J38VfHUVK7S
-         PSFJYK/Wf8tfPN8GUtcPuC+aGweWry0mwonfBa1EzOliVZbWgdiD/KUkyqcqr3eLdr
-         FlRcYB6drLHqOAskBzlvH49tFlN9L5kJqfHw91/qtfd6YrR/9MwTcyiUQ+Bzs6Lwn/
-         CmXB478gDsmPw==
+        b=m+2gHHQwHyTnPUBbeX5qllj2590MOiDP740SDcgOfp5NEdFLDcTAN3BnX2jFTBn3e
+         XQX+dKiyYFLd9c0dUxcAtKtxjP0QIi0hewRKTciJvf1epOs5bLchQtzh4GpjrXvNm2
+         q18u2GK1x66c5odATVc9FW3w/FciP3YZ3aqD55RQVmdZ7ndX+6eRZoZCWWNSe+j+lT
+         brFKuUaRMacanH2FuV+13cOkJurSDhSEjdOLMwKXPmZ7DwrhT8lkXB9AEp0+TTFpjQ
+         6PNGx7LwmIT9A56lYZ+y3NwYJuaDSgGRBu5msrQAqwBXh20hjuQB9Vo5zPZ1ZOtSmb
+         h8MQQwARC5Xjw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 15/80] media: exynos-gsc: fix pm_runtime_get_sync() usage count
-Date:   Sun,  4 Jul 2021 19:05:11 -0400
-Message-Id: <20210704230616.1489200-15-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.12 24/80] media: sti: fix obj-$(config) targets
+Date:   Sun,  4 Jul 2021 19:05:20 -0400
+Message-Id: <20210704230616.1489200-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210704230616.1489200-1-sashal@kernel.org>
 References: <20210704230616.1489200-1-sashal@kernel.org>
@@ -47,42 +43,54 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-[ Upstream commit 59087b66ea6730c130c57d23bd9fd139b78c1ba5 ]
+[ Upstream commit 56c1f0876293888f686e31278d183d4af2cac3c3 ]
 
-The pm_runtime_get_sync() internally increments the
-dev->power.usage_count without decrementing it, even on errors.
-Replace it by the new pm_runtime_resume_and_get(), introduced by:
-commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-in order to properly decrement the usage counter, avoiding
-a potential PM usage counter leak.
+The right thing to do is to add a new object to the building
+system when a certain config option is selected, and *not*
+override them.
 
-As a bonus, as pm_runtime_get_sync() always return 0 on
-success, the logic can be simplified.
+So, fix obj-$(config) logic at sti makefiles, using "+=",
+instead of ":=".
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/exynos-gsc/gsc-m2m.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/media/platform/sti/bdisp/Makefile | 2 +-
+ drivers/media/platform/sti/delta/Makefile | 2 +-
+ drivers/media/platform/sti/hva/Makefile   | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/exynos-gsc/gsc-m2m.c b/drivers/media/platform/exynos-gsc/gsc-m2m.c
-index 27a3c92c73bc..f1cf847d1cc2 100644
---- a/drivers/media/platform/exynos-gsc/gsc-m2m.c
-+++ b/drivers/media/platform/exynos-gsc/gsc-m2m.c
-@@ -56,10 +56,8 @@ static void __gsc_m2m_job_abort(struct gsc_ctx *ctx)
- static int gsc_m2m_start_streaming(struct vb2_queue *q, unsigned int count)
- {
- 	struct gsc_ctx *ctx = q->drv_priv;
--	int ret;
+diff --git a/drivers/media/platform/sti/bdisp/Makefile b/drivers/media/platform/sti/bdisp/Makefile
+index caf7ccd193ea..39ade0a34723 100644
+--- a/drivers/media/platform/sti/bdisp/Makefile
++++ b/drivers/media/platform/sti/bdisp/Makefile
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-obj-$(CONFIG_VIDEO_STI_BDISP) := bdisp.o
++obj-$(CONFIG_VIDEO_STI_BDISP) += bdisp.o
  
--	ret = pm_runtime_get_sync(&ctx->gsc_dev->pdev->dev);
--	return ret > 0 ? 0 : ret;
-+	return pm_runtime_resume_and_get(&ctx->gsc_dev->pdev->dev);
- }
+ bdisp-objs := bdisp-v4l2.o bdisp-hw.o bdisp-debug.o
+diff --git a/drivers/media/platform/sti/delta/Makefile b/drivers/media/platform/sti/delta/Makefile
+index 92b37e216f00..32412fa4c632 100644
+--- a/drivers/media/platform/sti/delta/Makefile
++++ b/drivers/media/platform/sti/delta/Makefile
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-obj-$(CONFIG_VIDEO_STI_DELTA_DRIVER) := st-delta.o
++obj-$(CONFIG_VIDEO_STI_DELTA_DRIVER) += st-delta.o
+ st-delta-y := delta-v4l2.o delta-mem.o delta-ipc.o delta-debug.o
  
- static void __gsc_m2m_cleanup_queue(struct gsc_ctx *ctx)
+ # MJPEG support
+diff --git a/drivers/media/platform/sti/hva/Makefile b/drivers/media/platform/sti/hva/Makefile
+index 74b41ec52f97..b5a5478bdd01 100644
+--- a/drivers/media/platform/sti/hva/Makefile
++++ b/drivers/media/platform/sti/hva/Makefile
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-obj-$(CONFIG_VIDEO_STI_HVA) := st-hva.o
++obj-$(CONFIG_VIDEO_STI_HVA) += st-hva.o
+ st-hva-y := hva-v4l2.o hva-hw.o hva-mem.o hva-h264.o
+ st-hva-$(CONFIG_VIDEO_STI_HVA_DEBUGFS) += hva-debugfs.o
 -- 
 2.30.2
 
