@@ -2,38 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18B3F3BB2E9
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDF703BB2EC
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:15:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234523AbhGDXQm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Jul 2021 19:16:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50794 "EHLO mail.kernel.org"
+        id S232549AbhGDXQn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Jul 2021 19:16:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50660 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234306AbhGDXPA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S234303AbhGDXPA (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Sun, 4 Jul 2021 19:15:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1755761935;
-        Sun,  4 Jul 2021 23:12:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B2C436145D;
+        Sun,  4 Jul 2021 23:12:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625440325;
-        bh=58Vq3688CgukDNXvPYaL4YFvdDUDRZeZ1rBpdhjz3Vc=;
+        s=k20201202; t=1625440329;
+        bh=dHX1inVFLxX/mAZfDaFUbZKuIuq3XDpHsC/pHKJDIA0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tZTtWxK4PPwoW+RFlaJup1Or/qaEZaGPC8N7KZF9o42YU9dLw+E0yA+MZ8hgaExYP
-         srKQGGLcKGoMyt8JNHzllJ0raIQ2a8e/8UdDFOIjoDUnylAFSLOY96FajxerPRr+yV
-         UxxyWBqNb5lbSq/oIkyEeh5pLLoX6/MSG0t4GJCXiRO5op5U9hAWawPddfVXVKvezM
-         obndydysqrqITerAiMvdO6XweM9sXJQmurzf8BB6VKvdNY8l06YjT/Y9FIcWv833oz
-         sLQremkZbR6ISl1+mJgT6DloNOgvPNFHAn3WQzAYRF/Szi2P6k4W50OQOFXYfU3Ke3
-         9Zlnrs3pjPqFA==
+        b=DPxkQv4kBNCyYJeRGoV4pIYoAQfgxgOKAYAfv6NbsmEbn9yuCOCV0Suy5U8wQ2k7B
+         M4XLxTFyWVsmhQuf1YwvWU3K+sLjGAbTqTEATwuUJ19sxQIv5zHlm4dxTYUXuFJxlG
+         6L8ztPyCjQNuKuzOoWX1zxgZ91vpBR7oY2XvcXDB68/VV/7TDMr0CrcJDMW9cXXfjz
+         AbYUGqucOEjDGswCidIhRrQIElR3ouEo6AsvRCmkR6O1lBju3oagWxBNNmBVNCMsgB
+         p1HMf12mzUoeLuitYlZo5zjcqwCpZxmyq9qFyOq4WfvtO/2cc8dSh1/7HKYXvBqt3q
+         QTTvcaJcMSleA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Anirudh Rayabharam <mail@anirudhrb.com>,
-        syzbot+e74a998ca8f1df9cc332@syzkaller.appspotmail.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc:     Lv Yunlong <lyl2019@mail.ustc.edu.cn>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 07/20] media: pvrusb2: fix warning in pvr2_i2c_core_done
-Date:   Sun,  4 Jul 2021 19:11:42 -0400
-Message-Id: <20210704231155.1491795-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 10/20] media: v4l2-core: Avoid the dangling pointer in v4l2_fh_release
+Date:   Sun,  4 Jul 2021 19:11:45 -0400
+Message-Id: <20210704231155.1491795-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210704231155.1491795-1-sashal@kernel.org>
 References: <20210704231155.1491795-1-sashal@kernel.org>
@@ -45,58 +43,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Anirudh Rayabharam <mail@anirudhrb.com>
+From: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
 
-[ Upstream commit f8194e5e63fdcb349e8da9eef9e574d5b1d687cb ]
+[ Upstream commit 7dd0c9e547b6924e18712b6b51aa3cba1896ee2c ]
 
-syzbot has reported the following warning in pvr2_i2c_done:
+A use after free bug caused by the dangling pointer
+filp->privitate_data in v4l2_fh_release.
+See https://lore.kernel.org/patchwork/patch/1419058/.
 
-	sysfs group 'power' not found for kobject '1-0043'
+My patch sets the dangling pointer to NULL to provide
+robust.
 
-When the device is disconnected (pvr_hdw_disconnect), the i2c adapter is
-not unregistered along with the USB and v4l2 teardown. As part of the USB
-device disconnect, the sysfs files of the subdevices are also deleted.
-So, by the time pvr_i2c_core_done is called by pvr_context_destroy, the
-sysfs files have been deleted.
-
-To fix this, unregister the i2c adapter too in pvr_hdw_disconnect. Make
-the device deregistration code shared by calling pvr_hdw_disconnect from
-pvr2_hdw_destroy.
-
-Reported-by: syzbot+e74a998ca8f1df9cc332@syzkaller.appspotmail.com
-Tested-by: syzbot+e74a998ca8f1df9cc332@syzkaller.appspotmail.com
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+Signed-off-by: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/v4l2-core/v4l2-fh.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-index ff489645e070..0cb8dd585235 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-@@ -2722,9 +2722,8 @@ void pvr2_hdw_destroy(struct pvr2_hdw *hdw)
- 		pvr2_stream_destroy(hdw->vid_stream);
- 		hdw->vid_stream = NULL;
+diff --git a/drivers/media/v4l2-core/v4l2-fh.c b/drivers/media/v4l2-core/v4l2-fh.c
+index 0c5e69070586..d44b289205b4 100644
+--- a/drivers/media/v4l2-core/v4l2-fh.c
++++ b/drivers/media/v4l2-core/v4l2-fh.c
+@@ -109,6 +109,7 @@ int v4l2_fh_release(struct file *filp)
+ 		v4l2_fh_del(fh);
+ 		v4l2_fh_exit(fh);
+ 		kfree(fh);
++		filp->private_data = NULL;
  	}
--	pvr2_i2c_core_done(hdw);
- 	v4l2_device_unregister(&hdw->v4l2_dev);
--	pvr2_hdw_remove_usb_stuff(hdw);
-+	pvr2_hdw_disconnect(hdw);
- 	mutex_lock(&pvr2_unit_mtx);
- 	do {
- 		if ((hdw->unit_number >= 0) &&
-@@ -2751,6 +2750,7 @@ void pvr2_hdw_disconnect(struct pvr2_hdw *hdw)
- {
- 	pvr2_trace(PVR2_TRACE_INIT,"pvr2_hdw_disconnect(hdw=%p)",hdw);
- 	LOCK_TAKE(hdw->big_lock);
-+	pvr2_i2c_core_done(hdw);
- 	LOCK_TAKE(hdw->ctl_lock);
- 	pvr2_hdw_remove_usb_stuff(hdw);
- 	LOCK_GIVE(hdw->ctl_lock);
+ 	return 0;
+ }
 -- 
 2.30.2
 
