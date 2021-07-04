@@ -2,157 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02CBD3BAB08
-	for <lists+linux-media@lfdr.de>; Sun,  4 Jul 2021 05:48:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A4AF3BAD3C
+	for <lists+linux-media@lfdr.de>; Sun,  4 Jul 2021 15:58:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229725AbhGDDvZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Jul 2021 23:51:25 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:48449 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229639AbhGDDvY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 3 Jul 2021 23:51:24 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id zt7elJRK5hqx9zt7glDZcm; Sun, 04 Jul 2021 05:48:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1625370528; bh=Fxwh64BcpBwemS0DorPWSN/mWVZD2MNmZ/q7VSf0Qdg=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=vW+tB2lLU1FcouD7OS3athaTOnYSU1DwOitBc5AXtrz5RRrKpWQlrSbJZt4JkEDHE
-         b1XsV8BqMU3cSHLb2WIElbo+L7mkoalaynODuZ7AqPI60CnziNXsktFq000+YMPo0p
-         FnR14+WtyLLDhDzK40iPI4ekIbAFtgWHtnzri3o09fTPCDQ0xM2gYBlsSlu/6m4FCC
-         Ah8SLVi7EL2L0Ja4FefHE9YM3LBxxqcw4xtdC4dRvnH1FpP8Yuv94dgF+tY7k1tEjL
-         SeHcZY/fg31ZZg6b40ZEY+cr5mOGmNhs0xkBfVTfE8mRC5trOFT37+GbzXHD/qqd46
-         VFC1jnLv3Yn+A==
-Message-ID: <335bf3cd1a40467fdab039f9cd1f8173@smtp-cloud9.xs4all.net>
-Date:   Sun, 04 Jul 2021 05:48:46 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfIk1ACRT8IjZuQRuP1XiywBasAqzTB7lybaKqSfyH1SoF1TNe2KpCVxEW09dMF9vxdNhiUJKvXhOyN8P9xB1j12fqd8ZcVWE68oD9oB8Wy4NGDT5NQR6
- FCVEoELHyw94H9Dm4m48fyfOhRKvpZkVgIWkog1bBNwq3Ywvin0YaDtMSk0h0HU6Qr9UrBhjW4cBiLJNYkGa0EnZDcF+SHc/AYzd29j/ex+K8nutUSwd/WYk
- sHKaj27isbVCz3Xzn+78Iw==
+        id S229539AbhGDOAu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Jul 2021 10:00:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39184 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229492AbhGDOAt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Jul 2021 10:00:49 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13A95C061764
+        for <linux-media@vger.kernel.org>; Sun,  4 Jul 2021 06:58:13 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id w13so9597153wmc.3
+        for <linux-media@vger.kernel.org>; Sun, 04 Jul 2021 06:58:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nexus-software-ie.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=peVQlgAuI5gkYWsPGWsMpKMwMbGy8VbXwAvEnwV33sc=;
+        b=pZCtNNLKX0dyXJx268hpQEX4T7tBZeH/yhIJwK39iZ9biqlAuBd3rXsN/piETw20hq
+         883k8IncemeG5P4DQ3/O1ha2spPpj5vsIIt2hxsnQpitKhPVPMEWAp1NAM8UKz7Fzf0W
+         kTeYCxKWy9rbKNhvWy0jf0+Wr/B/TU9txw25dwRsSFFDGVxJFE5A0PiCsgfbnVqPFKau
+         /761rZVFnQ/KsRke+/Vd23fbg+JZiWYu8feMkftielg+hmgTvi8rvjmtq8ZK4HVmlYBg
+         YpkimxjJZBzBtYT/JLfB/QwE2d1PGjtE9tccnBgUrJANcBUwM3GMtKjouriPbAcIXytz
+         jl0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=peVQlgAuI5gkYWsPGWsMpKMwMbGy8VbXwAvEnwV33sc=;
+        b=A9zMEvoOTnRQM6db2U1nkwtntYgWg6Nf5enWVcVLME7nNxBkjcqg9HGBRarB+O48eA
+         iX5yUNqxMeXVNObWE4Dcz05Hd54C52arOYFNp9tkccPJvvjqyJj/oElFwB2w6Nn0KXuX
+         HYCkeqWJIdukdW0YYySeIca1bDiODrWM2bJIqTaOokXAg8EWnzYuEXVpumXXPRM+aHXD
+         YIfKTJO/sR0JpRfmpONBaaGxS3tC/tGviAxRfXOC/+ujKUr1dXuvuNy+EtOTW7yBszqt
+         DemzJxWMRRZm2SgOwE9C0wpFMnU1sHmncUaD4UUPXx08dk922BJXHhcxBcpdCGuxBvii
+         Y/FQ==
+X-Gm-Message-State: AOAM533vp/DSugTiKn0nJmPV8I89DgkxLTk+qYytn1Kd4ncFCohC+9zT
+        J1UKoIXXF0rKo7mZDfhY4nNJZQ==
+X-Google-Smtp-Source: ABdhPJwnhV14VXeXgp+GI7enKPTisXpz3vnGi/SpdWSsm3jJJvKc7G0FswrrqpLsf1d+yltwy5cDSQ==
+X-Received: by 2002:a7b:ce98:: with SMTP id q24mr7411278wmj.101.1625407091623;
+        Sun, 04 Jul 2021 06:58:11 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id t17sm9502969wrs.61.2021.07.04.06.58.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 Jul 2021 06:58:10 -0700 (PDT)
+Subject: Re: [V3] venus: helper: do not set constrained parameters for UBWC
+To:     Mansur Alisha Shaik <mansur@codeaurora.org>,
+        bryan.odonoghue@linaro.org, linux-media@vger.kernel.org,
+        stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, dikshita@codeaurora.org
+References: <1625202979-23232-1-git-send-email-mansur@codeaurora.org>
+From:   Bryan O'Donoghue <pure.logic@nexus-software.ie>
+Message-ID: <3c3051aa-c897-266e-9648-ca6be933fda0@nexus-software.ie>
+Date:   Sun, 4 Jul 2021 15:00:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <1625202979-23232-1-git-send-email-mansur@codeaurora.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 02/07/2021 06:16, Mansur Alisha Shaik wrote:
+> plane constraints firmware interface is to override the default
 
-Results of the daily build of media_tree:
+nitpick this should be "Plane constraints"
 
-date:			Sun Jul  4 05:00:12 CEST 2021
-media-tree git hash:	50e7a31d30e8221632675abed3be306382324ca2
-media_build git hash:	dc90f6c653a467465b5deb23d3310577f8ebf218
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7481-g7f50411af
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 328d8f6242d952437e8dfc96047fda207fad8deb
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+> alignment for a given color format. By default venus hardware has
+> alignments as 128x32, but NV12 was defined differently to meet
+> various usecases. Compressed NV12 has always been aligned as 128x32,
+> hence not needed to override the default alignment.
+> 
+> Fixes: bc28936bbba9 ("media: venus: helpers, hfi, vdec: Set actual plane constraints to FW")
+> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+> 
+> Changes in V3:
+> - Elaborated commit message as per comments by Bryan
+> - As per Bryan comment alligned fixes in single line.
+> ---
+>   drivers/media/platform/qcom/venus/helpers.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> index 1fe6d46..601ee3e 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -1137,8 +1137,12 @@ int venus_helper_set_format_constraints(struct venus_inst *inst)
+>   	if (!IS_V6(inst->core))
+>   		return 0;
+>   
+> +	if (inst->opb_fmt == HFI_COLOR_FORMAT_NV12_UBWC)
+> +		return 0;
+> +
+>   	pconstraint.buffer_type = HFI_BUFFER_OUTPUT2;
+>   	pconstraint.num_planes = 2;
+> +
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13-rc1-i686: OK
-linux-5.13-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 2
-virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+zap this newline, its not adding anything to your patch
 
-Detailed results are available here:
+>   	pconstraint.plane_format[0].stride_multiples = 128;
+>   	pconstraint.plane_format[0].max_stride = 8192;
+>   	pconstraint.plane_format[0].min_plane_buffer_height_multiple = 32;
+> 
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+then please add my
 
-Detailed regression test results are available here:
+"Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>"
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+---
+bod
