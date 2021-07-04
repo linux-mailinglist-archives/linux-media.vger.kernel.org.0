@@ -2,37 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF7AE3BB270
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30F753BB2CE
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:15:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232165AbhGDXPe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Jul 2021 19:15:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57074 "EHLO mail.kernel.org"
+        id S234158AbhGDXQ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Jul 2021 19:16:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50660 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233641AbhGDXOe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 4 Jul 2021 19:14:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 23DE861992;
-        Sun,  4 Jul 2021 23:10:14 +0000 (UTC)
+        id S233740AbhGDXOi (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 4 Jul 2021 19:14:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 699BA6194E;
+        Sun,  4 Jul 2021 23:10:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625440215;
-        bh=lJ3hh8R41P8DiijbBEOO6KYz41OVlnc6F8l5msauMoA=;
+        s=k20201202; t=1625440221;
+        bh=3er3/ZhZpIG+wIuMrxSwUwa2s/X04w9Ud+G1v3rj9Mw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XyJL9HwluwJ1xRwx6hmZpNvrAbXeVPj5KwuThPndX+xhdB4/ziChVRqMg5n9gSc6a
-         hvhMUBDqsJQ67soxW+ZxwnmKKdOV3UHVklOGrhOE2E7y9q0QXIVCkScv8YdAqgDxEc
-         fcQxx4cWj/VftEGnUF9oUo6A1O5k4X4mTyROkzkPqtBdJylcxev77UQ73W9UpqcNYM
-         gdABjfLNp6N18FyWU/wCQY76z6MFf2yk/tobcfeF/6kAuQS95pl+N2FyRkAZogcK/Y
-         5czX9md92ZLs2l4+qCsL288sTnXEOe/yj7kOZ8wO2UhKHzsq02tsmhUFy/DoU6ZG5K
-         8oEIZjk9dzgIA==
+        b=AY58TAr8i+i8F1ZUHDhK9ovBJbjov2dIUhk0lRvof5wb1UPvyFPAC7UT+/AZYWkco
+         GsAAXaz77eYimA3IGTqracpZMXPTcKyMsoKrFDoqYRb3lRTCg22G7DuzXcVcCp6A6v
+         gGIpIAsONom/KaO5FrMzA++KRSHLcbkafk6TaaqXbcdai6RIzcNJwrI6Mc6BHhBlDY
+         53Qrb12DhKoDgPt4hGlY5FwWGJd19WtGLYvEeIlD14wJuXiipWfkRf+YCa1L6E8/L/
+         vwp2GhzZjuSZaKthZtQtiQzgGo5jIM0GvpByW4J8z3rgZ/Nixd8df9UPCBsL3Elyy+
+         8qZE6AKjRzM3g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
-        syzbot+e1de8986786b3722050e@syzkaller.appspotmail.com,
-        Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 28/50] media: dvd_usb: memory leak in cinergyt2_fe_attach
-Date:   Sun,  4 Jul 2021 19:09:16 -0400
-Message-Id: <20210704230938.1490742-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 33/50] media: dvb_net: avoid speculation from net slot
+Date:   Sun,  4 Jul 2021 19:09:21 -0400
+Message-Id: <20210704230938.1490742-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210704230938.1490742-1-sashal@kernel.org>
 References: <20210704230938.1490742-1-sashal@kernel.org>
@@ -44,50 +41,87 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dongliang Mu <mudongliangabcd@gmail.com>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-[ Upstream commit 9ad1efee086e0e913914fa2b2173efb830bad68c ]
+[ Upstream commit abc0226df64dc137b48b911c1fe4319aec5891bb ]
 
-When the driver fails to talk with the hardware with dvb_usb_generic_rw,
-it will return an error to dvb_usb_adapter_frontend_init. However, the
-driver forgets to free the resource (e.g., struct cinergyt2_fe_state),
-which leads to a memory leak.
+The risk of especulation is actually almost-non-existing here,
+as there are very few users of TCP/IP using the DVB stack,
+as, this is mainly used with DVB-S/S2 cards, and only by people
+that receives TCP/IP from satellite connections, which limits
+a lot the number of users of such feature(*).
 
-Fix this by freeing struct cinergyt2_fe_state when dvb_usb_generic_rw
-fails in cinergyt2_frontend_attach.
+(*) In thesis, DVB-C cards could also benefit from it, but I'm
+yet to see a hardware that supports it.
 
-backtrace:
-  [<0000000056e17b1a>] kmalloc include/linux/slab.h:552 [inline]
-  [<0000000056e17b1a>] kzalloc include/linux/slab.h:682 [inline]
-  [<0000000056e17b1a>] cinergyt2_fe_attach+0x21/0x80 drivers/media/usb/dvb-usb/cinergyT2-fe.c:271
-  [<00000000ae0b1711>] cinergyt2_frontend_attach+0x21/0x70 drivers/media/usb/dvb-usb/cinergyT2-core.c:74
-  [<00000000d0254861>] dvb_usb_adapter_frontend_init+0x11b/0x1b0 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:290
-  [<0000000002e08ac6>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:84 [inline]
-  [<0000000002e08ac6>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
-  [<0000000002e08ac6>] dvb_usb_device_init.cold+0x4d0/0x6ae drivers/media/usb/dvb-usb/dvb-usb-init.c:287
+Yet, fixing it is trivial.
 
-Reported-by: syzbot+e1de8986786b3722050e@syzkaller.appspotmail.com
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
-Signed-off-by: Sean Young <sean@mess.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/dvb-usb/cinergyT2-core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/dvb-core/dvb_net.c | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/usb/dvb-usb/cinergyT2-core.c b/drivers/media/usb/dvb-usb/cinergyT2-core.c
-index 969a7ec71dff..4116ba5c45fc 100644
---- a/drivers/media/usb/dvb-usb/cinergyT2-core.c
-+++ b/drivers/media/usb/dvb-usb/cinergyT2-core.c
-@@ -78,6 +78,8 @@ static int cinergyt2_frontend_attach(struct dvb_usb_adapter *adap)
+diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
+index 630509ecee20..9fed06ba88ef 100644
+--- a/drivers/media/dvb-core/dvb_net.c
++++ b/drivers/media/dvb-core/dvb_net.c
+@@ -45,6 +45,7 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/netdevice.h>
++#include <linux/nospec.h>
+ #include <linux/etherdevice.h>
+ #include <linux/dvb/net.h>
+ #include <linux/uio.h>
+@@ -1462,14 +1463,20 @@ static int dvb_net_do_ioctl(struct file *file,
+ 		struct net_device *netdev;
+ 		struct dvb_net_priv *priv_data;
+ 		struct dvb_net_if *dvbnetif = parg;
++		int if_num = dvbnetif->if_num;
  
- 	ret = dvb_usb_generic_rw(d, st->data, 1, st->data, 3, 0);
- 	if (ret < 0) {
-+		if (adap->fe_adap[0].fe)
-+			adap->fe_adap[0].fe->ops.release(adap->fe_adap[0].fe);
- 		deb_rc("cinergyt2_power_ctrl() Failed to retrieve sleep state info\n");
- 	}
- 	mutex_unlock(&d->data_mutex);
+-		if (dvbnetif->if_num >= DVB_NET_DEVICES_MAX ||
+-		    !dvbnet->state[dvbnetif->if_num]) {
++		if (if_num >= DVB_NET_DEVICES_MAX) {
+ 			ret = -EINVAL;
+ 			goto ioctl_error;
+ 		}
++		if_num = array_index_nospec(if_num, DVB_NET_DEVICES_MAX);
+ 
+-		netdev = dvbnet->device[dvbnetif->if_num];
++		if (!dvbnet->state[if_num]) {
++			ret = -EINVAL;
++			goto ioctl_error;
++		}
++
++		netdev = dvbnet->device[if_num];
+ 
+ 		priv_data = netdev_priv(netdev);
+ 		dvbnetif->pid=priv_data->pid;
+@@ -1522,14 +1529,20 @@ static int dvb_net_do_ioctl(struct file *file,
+ 		struct net_device *netdev;
+ 		struct dvb_net_priv *priv_data;
+ 		struct __dvb_net_if_old *dvbnetif = parg;
++		int if_num = dvbnetif->if_num;
++
++		if (if_num >= DVB_NET_DEVICES_MAX) {
++			ret = -EINVAL;
++			goto ioctl_error;
++		}
++		if_num = array_index_nospec(if_num, DVB_NET_DEVICES_MAX);
+ 
+-		if (dvbnetif->if_num >= DVB_NET_DEVICES_MAX ||
+-		    !dvbnet->state[dvbnetif->if_num]) {
++		if (!dvbnet->state[if_num]) {
+ 			ret = -EINVAL;
+ 			goto ioctl_error;
+ 		}
+ 
+-		netdev = dvbnet->device[dvbnetif->if_num];
++		netdev = dvbnet->device[if_num];
+ 
+ 		priv_data = netdev_priv(netdev);
+ 		dvbnetif->pid=priv_data->pid;
 -- 
 2.30.2
 
