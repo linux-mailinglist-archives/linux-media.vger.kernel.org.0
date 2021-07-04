@@ -2,40 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 635323BB2B2
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:14:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 743AA3BB3C0
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:17:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231945AbhGDXQJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Jul 2021 19:16:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55624 "EHLO mail.kernel.org"
+        id S233603AbhGDXSx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Jul 2021 19:18:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56964 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233182AbhGDXOO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S233185AbhGDXOO (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Sun, 4 Jul 2021 19:14:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 876776141C;
-        Sun,  4 Jul 2021 23:09:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E184F61375;
+        Sun,  4 Jul 2021 23:09:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625440177;
-        bh=xX8VyNOodZXaJbZ6Zo8s39DpvovzD6FKkh4MDY9d7wE=;
+        s=k20201202; t=1625440181;
+        bh=ckir8RldbnMAvlDvA4IMDq+PDg7k94QnMDElRdgMxng=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tHGVAVeXwW5P+zIEQBmbi6NaNakJRk5ORKqu9HLH/R5qnr82rr7ywGo3PXQeMWvAQ
-         /FbAJBo5KC4yeyix/54m5f7GNBQS0zFiKrA9AafYvVf1R7PBd2oXyS+f/u+XUY+GFl
-         QTkfIkutV9YijutEfDclHd8hvJPmfG7U0+s9H0NNqSVrkGGkfO/S/TbHPRwgaA8gZs
-         w9NhMgJmKqJEsuYF5spKIjTb1YFx2lhxOhHZjOXgEZwoamLRsH9NWNQfRToSb3H8OS
-         KIbzEbc930xeBXR2S0xJ78/80GBiNSEXPSdRLyea+OeSwmpQkKPCv0CQS/ZQ+QyeKL
-         1eRlL6l2mYang==
+        b=Jb17Yx80vH7NhFXdzzw5bpewlYUPgwqZBrHrS3+DFHhxvPGGE8AozqBoXKm6szP5i
+         Q5TxE5uFwa6J6VMqTQVaP+T4zqGTHfKGtBi/aRV2qMI0MmijOF66TuoX3a/Bi8tQYN
+         7X0BqDlKQJXpxqJk33qJ/Xuw4CNA5w0WWtkq0+7sJx1knyne+2pHasBd/nP/gB/62U
+         GrB0zVYChLMmp+WoL8HtuYfeYjpMgkLorYqRC3Fndp3ktis/3aPiW+895Nznw2DNd8
+         B2oHStU3X6B/gsIvbQJtpSGbIJqrh+QXIo/UNpSnbQfYaSD92IoZcfY0PBw1Qr5Ad3
+         5yK95Ck9yQvdQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 70/70] media: Fix Media Controller API config checks
-Date:   Sun,  4 Jul 2021 19:08:03 -0400
-Message-Id: <20210704230804.1490078-70-sashal@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.4 02/50] media: mdk-mdp: fix pm_runtime_get_sync() usage count
+Date:   Sun,  4 Jul 2021 19:08:50 -0400
+Message-Id: <20210704230938.1490742-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210704230804.1490078-1-sashal@kernel.org>
-References: <20210704230804.1490078-1-sashal@kernel.org>
+In-Reply-To: <20210704230938.1490742-1-sashal@kernel.org>
+References: <20210704230938.1490742-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,86 +44,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shuah Khan <skhan@linuxfoundation.org>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-[ Upstream commit 50e7a31d30e8221632675abed3be306382324ca2 ]
+[ Upstream commit d07bb9702cf5f5ccf3fb661e6cab54bbc33cd23f ]
 
-Smatch static checker warns that "mdev" can be null:
+The pm_runtime_get_sync() internally increments the
+dev->power.usage_count without decrementing it, even on errors.
+Replace it by the new pm_runtime_resume_and_get(), introduced by:
+commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+in order to properly decrement the usage counter, avoiding
+a potential PM usage counter leak.
 
-sound/usb/media.c:287 snd_media_device_create()
-    warn: 'mdev' can also be NULL
+While here, fix the return contition of mtk_mdp_m2m_start_streaming(),
+as it doesn't make any sense to return 0 if the PM runtime failed
+to resume.
 
-If CONFIG_MEDIA_CONTROLLER is disabled, this file should not be included
-in the build.
-
-The below conditions in the sound/usb/Makefile are in place to ensure that
-media.c isn't included in the build.
-
-sound/usb/Makefile:
-snd-usb-audio-$(CONFIG_SND_USB_AUDIO_USE_MEDIA_CONTROLLER) += media.o
-
-select SND_USB_AUDIO_USE_MEDIA_CONTROLLER if MEDIA_CONTROLLER &&
-       (MEDIA_SUPPORT=y || MEDIA_SUPPORT=SND_USB_AUDIO)
-
-The following config check in include/media/media-dev-allocator.h is
-in place to enable the API only when CONFIG_MEDIA_CONTROLLER and
-CONFIG_USB are enabled.
-
- #if defined(CONFIG_MEDIA_CONTROLLER) && defined(CONFIG_USB)
-
-This check doesn't work as intended when CONFIG_USB=m. When CONFIG_USB=m,
-CONFIG_USB_MODULE is defined and CONFIG_USB is not. The above config check
-doesn't catch that CONFIG_USB is defined as a module and disables the API.
-This results in sound/usb enabling Media Controller specific ALSA driver
-code, while Media disables the Media Controller API.
-
-Fix the problem requires two changes:
-
-1. Change the check to use IS_ENABLED to detect when CONFIG_USB is enabled
-   as a module or static. Since CONFIG_MEDIA_CONTROLLER is a bool, leave
-   the check unchanged to be consistent with drivers/media/Makefile.
-
-2. Change the drivers/media/mc/Makefile to include mc-dev-allocator.o
-   in mc-objs when CONFIG_USB is enabled.
-
-Link: https://lore.kernel.org/alsa-devel/YLeAvT+R22FQ%2FEyw@mwanda/
-
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/mc/Makefile           | 2 +-
- include/media/media-dev-allocator.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/mc/Makefile b/drivers/media/mc/Makefile
-index 119037f0e686..2b7af42ba59c 100644
---- a/drivers/media/mc/Makefile
-+++ b/drivers/media/mc/Makefile
-@@ -3,7 +3,7 @@
- mc-objs	:= mc-device.o mc-devnode.o mc-entity.o \
- 	   mc-request.o
+diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+index 7c9e2d69e21a..34bc2949e1d6 100644
+--- a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
++++ b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+@@ -402,12 +402,12 @@ static int mtk_mdp_m2m_start_streaming(struct vb2_queue *q, unsigned int count)
+ 	struct mtk_mdp_ctx *ctx = q->drv_priv;
+ 	int ret;
  
--ifeq ($(CONFIG_USB),y)
-+ifneq ($(CONFIG_USB),)
- 	mc-objs += mc-dev-allocator.o
- endif
+-	ret = pm_runtime_get_sync(&ctx->mdp_dev->pdev->dev);
++	ret = pm_runtime_resume_and_get(&ctx->mdp_dev->pdev->dev);
+ 	if (ret < 0)
+-		mtk_mdp_dbg(1, "[%d] pm_runtime_get_sync failed:%d",
++		mtk_mdp_dbg(1, "[%d] pm_runtime_resume_and_get failed:%d",
+ 			    ctx->id, ret);
  
-diff --git a/include/media/media-dev-allocator.h b/include/media/media-dev-allocator.h
-index b35ea6062596..2ab54d426c64 100644
---- a/include/media/media-dev-allocator.h
-+++ b/include/media/media-dev-allocator.h
-@@ -19,7 +19,7 @@
+-	return 0;
++	return ret;
+ }
  
- struct usb_device;
- 
--#if defined(CONFIG_MEDIA_CONTROLLER) && defined(CONFIG_USB)
-+#if defined(CONFIG_MEDIA_CONTROLLER) && IS_ENABLED(CONFIG_USB)
- /**
-  * media_device_usb_allocate() - Allocate and return struct &media device
-  *
+ static void *mtk_mdp_m2m_buf_remove(struct mtk_mdp_ctx *ctx,
 -- 
 2.30.2
 
