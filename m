@@ -2,38 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DAD13BB1C3
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:11:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD2833BB179
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jul 2021 01:10:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231460AbhGDXNB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Jul 2021 19:13:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46816 "EHLO mail.kernel.org"
+        id S230160AbhGDXMG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Jul 2021 19:12:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49050 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231974AbhGDXJn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 4 Jul 2021 19:09:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7283661964;
-        Sun,  4 Jul 2021 23:06:57 +0000 (UTC)
+        id S231823AbhGDXJu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 4 Jul 2021 19:09:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 06FE06192E;
+        Sun,  4 Jul 2021 23:07:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625440018;
-        bh=blSUrCHVrYlhxAjHBXiA6vK7MC0HkdPG4e7MmiYgXOQ=;
+        s=k20201202; t=1625440027;
+        bh=kzLbysrn0WTVXqGNPCytiyLqvBomL/QjZ69Hv/nPQ3Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KxmiFbOjXQFneXxhrX8J4luaavZzbF7+lIrYmI+vwE5JJV6+1ERsQom8As7JsZxHA
-         D6bxPMkhcIybYG7sXWeSOefxWJx5eChC5/cdNKsFHArpl3ZUq9DpB8UtOF/2c+emZ7
-         u8eLbpryHFZ6AZIUNidjpLI9us5jfYwqdPn+7Ziu7zyewbjJn9062jvFAJUqIXyaHl
-         hFLeT859b1MkILsbovwkHDH/AQ28IEEYTL72saliUP1joVe3AhFZO+uTKMfeDq5ZyP
-         X8RcercOK9NpZsuGZqptWMSnOugajUwNq5qna1HxYGuUtrQpwP0T1KwZbk1xGUzzix
-         g9Gr0kIgja8pw==
+        b=QJaqS7b+L2ggG3h4WJFEHxCoVsEZbCMuH2xpty3/AjWzYn2TPW/k3S7KfEPFLJkIL
+         YHhdcbMpq6/l7eQWNUdMwdfXQRXEVOjzlRH4fjpRh1UkQA0zTTccmpc2bgQ7Wj6iM0
+         wCqt+K4lGY87cyqnGZsZn5f3yCfFFp7WIDxpGe/0xoN1MwFfY2xpC293/YXwHhQ8gN
+         ppmWgujgUS+hv1sfc7+aLhjG2ldUuSbB8VrAN5GoLBnXDh1PqqLpeBhkTr3QBgjVgT
+         Zd4CIea/qzorJcwQ/sPNihP3dedHEp/RRB4H/EknAYIHKya6dB7NXmkM/0sY7Qopdp
+         BBabTBsYbJ6hw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
+Cc:     Dillon Min <dillon.minfei@gmail.com>,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.12 30/80] media: imx: imx7_mipi_csis: Fix logging of only error event counters
-Date:   Sun,  4 Jul 2021 19:05:26 -0400
-Message-Id: <20210704230616.1489200-30-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.12 37/80] media: i2c: ov2659: Use clk_{prepare_enable,disable_unprepare}() to set xvclk on/off
+Date:   Sun,  4 Jul 2021 19:05:33 -0400
+Message-Id: <20210704230616.1489200-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210704230616.1489200-1-sashal@kernel.org>
 References: <20210704230616.1489200-1-sashal@kernel.org>
@@ -45,46 +44,103 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Dillon Min <dillon.minfei@gmail.com>
 
-[ Upstream commit d2fcc9c2de1191ea80366e3658711753738dd10a ]
+[ Upstream commit 24786ccd9c80fdb05494aa4d90fcb8f34295c193 ]
 
-The mipi_csis_events array ends with 6 non-error events, not 4. Update
-mipi_csis_log_counters() accordingly. While at it, log event counters in
-forward order, as there's no reason to log them backward.
+On some platform(imx6q), xvclk might not switch on in advance,
+also for power save purpose, xvclk should not be always on.
+so, add clk_prepare_enable(), clk_disable_unprepare() in driver
+side to set xvclk on/off at proper stage.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+Add following changes:
+- add 'struct clk *clk;' in 'struct ov2659 {}'
+- enable xvclk in ov2659_power_on()
+- disable xvclk in ov2659_power_off()
+
+Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
+Acked-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/imx/imx7-mipi-csis.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ov2659.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index a01a7364b4b9..b365790256e4 100644
---- a/drivers/staging/media/imx/imx7-mipi-csis.c
-+++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -597,13 +597,15 @@ static void mipi_csis_clear_counters(struct csi_state *state)
+diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
+index 42f64175a6df..fb78a1cedc03 100644
+--- a/drivers/media/i2c/ov2659.c
++++ b/drivers/media/i2c/ov2659.c
+@@ -204,6 +204,7 @@ struct ov2659 {
+ 	struct i2c_client *client;
+ 	struct v4l2_ctrl_handler ctrls;
+ 	struct v4l2_ctrl *link_frequency;
++	struct clk *clk;
+ 	const struct ov2659_framesize *frame_size;
+ 	struct sensor_register *format_ctrl_regs;
+ 	struct ov2659_pll_ctrl pll;
+@@ -1270,6 +1271,8 @@ static int ov2659_power_off(struct device *dev)
  
- static void mipi_csis_log_counters(struct csi_state *state, bool non_errors)
- {
--	int i = non_errors ? MIPI_CSIS_NUM_EVENTS : MIPI_CSIS_NUM_EVENTS - 4;
-+	unsigned int num_events = non_errors ? MIPI_CSIS_NUM_EVENTS
-+				: MIPI_CSIS_NUM_EVENTS - 6;
- 	struct device *dev = &state->pdev->dev;
- 	unsigned long flags;
-+	unsigned int i;
+ 	gpiod_set_value(ov2659->pwdn_gpio, 1);
  
- 	spin_lock_irqsave(&state->slock, flags);
++	clk_disable_unprepare(ov2659->clk);
++
+ 	return 0;
+ }
  
--	for (i--; i >= 0; i--) {
-+	for (i = 0; i < num_events; ++i) {
- 		if (state->events[i].counter > 0 || state->debug)
- 			dev_info(dev, "%s events: %d\n", state->events[i].name,
- 				 state->events[i].counter);
+@@ -1278,9 +1281,17 @@ static int ov2659_power_on(struct device *dev)
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+ 	struct ov2659 *ov2659 = to_ov2659(sd);
++	int ret;
+ 
+ 	dev_dbg(&client->dev, "%s:\n", __func__);
+ 
++	ret = clk_prepare_enable(ov2659->clk);
++	if (ret) {
++		dev_err(&client->dev, "%s: failed to enable clock\n",
++			__func__);
++		return ret;
++	}
++
+ 	gpiod_set_value(ov2659->pwdn_gpio, 0);
+ 
+ 	if (ov2659->resetb_gpio) {
+@@ -1425,7 +1436,6 @@ static int ov2659_probe(struct i2c_client *client)
+ 	const struct ov2659_platform_data *pdata = ov2659_get_pdata(client);
+ 	struct v4l2_subdev *sd;
+ 	struct ov2659 *ov2659;
+-	struct clk *clk;
+ 	int ret;
+ 
+ 	if (!pdata) {
+@@ -1440,11 +1450,11 @@ static int ov2659_probe(struct i2c_client *client)
+ 	ov2659->pdata = pdata;
+ 	ov2659->client = client;
+ 
+-	clk = devm_clk_get(&client->dev, "xvclk");
+-	if (IS_ERR(clk))
+-		return PTR_ERR(clk);
++	ov2659->clk = devm_clk_get(&client->dev, "xvclk");
++	if (IS_ERR(ov2659->clk))
++		return PTR_ERR(ov2659->clk);
+ 
+-	ov2659->xvclk_frequency = clk_get_rate(clk);
++	ov2659->xvclk_frequency = clk_get_rate(ov2659->clk);
+ 	if (ov2659->xvclk_frequency < 6000000 ||
+ 	    ov2659->xvclk_frequency > 27000000)
+ 		return -EINVAL;
+@@ -1506,7 +1516,9 @@ static int ov2659_probe(struct i2c_client *client)
+ 	ov2659->frame_size = &ov2659_framesizes[2];
+ 	ov2659->format_ctrl_regs = ov2659_formats[0].format_ctrl_regs;
+ 
+-	ov2659_power_on(&client->dev);
++	ret = ov2659_power_on(&client->dev);
++	if (ret < 0)
++		goto error;
+ 
+ 	ret = ov2659_detect(sd);
+ 	if (ret < 0)
 -- 
 2.30.2
 
