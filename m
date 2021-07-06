@@ -2,156 +2,406 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79F323BDF08
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 23:37:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 842973BDFD4
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jul 2021 01:47:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbhGFVkc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 17:40:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43092 "EHLO
+        id S229935AbhGFXuH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 19:50:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229894AbhGFVka (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 17:40:30 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DE21C061574;
-        Tue,  6 Jul 2021 14:37:51 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id h1-20020a17090a3d01b0290172d33bb8bcso2390238pjc.0;
-        Tue, 06 Jul 2021 14:37:51 -0700 (PDT)
+        with ESMTP id S229811AbhGFXuH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 19:50:07 -0400
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1521C061574
+        for <linux-media@vger.kernel.org>; Tue,  6 Jul 2021 16:47:26 -0700 (PDT)
+Received: by mail-yb1-xb2a.google.com with SMTP id b13so319401ybk.4
+        for <linux-media@vger.kernel.org>; Tue, 06 Jul 2021 16:47:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Ocbz7plpl2GsaeWZtT2xSwu/ECmgcGgX+U0mFWoVx8o=;
-        b=fjV4+ka8h0vH05QQfb5mosysrP9nHimBGyZMIaa5AG6oYKlZIJ9fBu1u8zdUGxqK0V
-         Um+d4Woup62vh1nDeTEMfYQu/z07c7tU/WMAtzd8zyjZ+D++/9qAcGD3Qi5HWfAEidnP
-         LVIhoqq3BcdDCaWawKEqjjS8yu6I4JR+nAEzkK0jeMXN28vBiyhs3oL9vVM3I/zG4bRq
-         0ch+fVpWTwIZJdpOA5MGN4Hsas/DzY0s55S8/73rafQT0BQHzaPtbSSjdX9FgBPH3Kng
-         zdOUu0zymj0lCUC9mcaI5h90C5jAW9R9slEqBMssceloFyAtObCoJPafpr9GaUMLPWWg
-         1jSA==
+        d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=TwUey6TjxNXmQXSd4B3Hqb84O2CpvgKuDFe7RXWzgjA=;
+        b=Rtz4OUxRhybUHwKHTI5zD7/FkhNktB+1b/XOG/RNbnqoTDWbxDIizs/bXvs2DTrsV9
+         iFIFOXNrlPdTdbNXA0BA4ugiy04xP6Dg14SNwAdTq5yBNzygg5A8wjXBL02a6flF+EzL
+         IOr6CfDQdfaadxYev5bspy/D69a1rt5e3TK01wdjvIY/WHVZq28wG9Uqjpl4BwjIMstx
+         Flz9ueLTbttKdi9qe2yZLcyAI6cYmwdowxBJnfjLt+cQo5tb7Qwfgn65kk7CVPoPlZOG
+         tCukbIq+9Yapi/JA2jqZz5RdiMaz8W8iftDTrqxYyUP03yeUR5B/fDASRaxe6jUXWIqF
+         Xedg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Ocbz7plpl2GsaeWZtT2xSwu/ECmgcGgX+U0mFWoVx8o=;
-        b=WK3yTWnvM5htSk/VSimnCQqje/FGFNelVEcwioYL2R7o83YW8eHgkZ6evNB3mBqPc0
-         b3GB1gLkWojJs9XG4BTClxxWXSVq9Gv09epEhdKJWYrb06H3nFuUuHgoZMgPD+WJybRF
-         3gZPab5P9vzwNlIIVEEo5Jl90VKSVHHxvBhjU3Pay3BEhOy6ShtVlTPAKjzUw+5LPvM3
-         g6Hpy3G6QibGd3AnFNfSCRKBRvetF31DDjQDeo8pnbGgCNJEzMmdhIwT1ify8AXwqciQ
-         XYOzvzRvY9jKXvHDc86y1R7eC14/aeggf/uWlHU2/VXBeEU0HO0uKcxPPx3BI1CBvsUI
-         0OtQ==
-X-Gm-Message-State: AOAM531T2RTDL3ySJyrUH9BdixZdoksL8kUK7Ivl7hx7XCT9buaF/thj
-        cTEAlptetL3RDzHa5EJYnN0=
-X-Google-Smtp-Source: ABdhPJyn2Hi8kaCYu+WokB25snaMIG+9Q6KwjeQoMDQJIrAIZd3JeXm641055Ca25Y6q1bD80UK2hA==
-X-Received: by 2002:a17:90a:3009:: with SMTP id g9mr2332932pjb.82.1625607470831;
-        Tue, 06 Jul 2021 14:37:50 -0700 (PDT)
-Received: from shinobu ([156.146.35.76])
-        by smtp.gmail.com with ESMTPSA id h14sm14343197pgv.47.2021.07.06.14.37.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jul 2021 14:37:49 -0700 (PDT)
-Date:   Wed, 7 Jul 2021 06:37:39 +0900
-From:   William Breathitt Gray <vilhelm.gray@gmail.com>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-acpi@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, linux-cxl@vger.kernel.org,
-        nvdimm@lists.linux.dev, dmaengine@vger.kernel.org,
-        linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
-        industrypack-devel@lists.sourceforge.net,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
-        linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
-        greybus-dev@lists.linaro.org, target-devel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
-        xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v2 4/4] bus: Make remove callback return void
-Message-ID: <YOTMp88HfFiy6+RM@shinobu>
-References: <20210706154803.1631813-1-u.kleine-koenig@pengutronix.de>
- <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=TwUey6TjxNXmQXSd4B3Hqb84O2CpvgKuDFe7RXWzgjA=;
+        b=WmnFuEixnmemfQuk1KQgsbIL72sZcsI6YVjCHnbgldfxw2AiCb+CCyyMiQIFhZ1Ymu
+         w2RRHagpLB3NLyKZo0KvpwfmZfzvDf+Mp2TtzNRiVr/d+M/3KrIMWLup8e6lWZI3zoYL
+         ceQjw4fW4LU7UPJthLjH3sjr4xjw5J6zttWPbnyqP3wUlUBq4mSIoKFttX8JKVMQ0e9Q
+         O8QFiU08Ihd8f3KpmDVgDN5h1pOnoAH4t+FOY+1pzZGYFdDQDpfMV+WWJLgVJNYDgpFA
+         3ssQZ95AxTOIsPmvVK3GWMJYTDq5DoAhAwdgrFJVu5D3Wt8ZGzq9ptQ9RyFJeww5WcKQ
+         we2w==
+X-Gm-Message-State: AOAM53101XgOeI4KoivvzgLjE6F+qBwrtSghNm4EF4FKKaj3WqAcrVmY
+        ARFFKVIOuD+JYjUbt7iE+23Jl7OLZ3FwJgMjEPNl3Q==
+X-Google-Smtp-Source: ABdhPJz0Qmr05kADkkAww6z4+81uzDkOOJDrx3TdP7O9MIu38x2sNjognuVFUzfj3MX5Vj9oTJI87ql1oiEpu1Rz8dM=
+X-Received: by 2002:a25:81c5:: with SMTP id n5mr28240878ybm.323.1625615245540;
+ Tue, 06 Jul 2021 16:47:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="VOubNWsj2sFIOkFX"
-Content-Disposition: inline
-In-Reply-To: <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
+References: <20210706101209.3034092-1-daniel.vetter@ffwll.ch> <20210706101209.3034092-8-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210706101209.3034092-8-daniel.vetter@ffwll.ch>
+From:   Jason Ekstrand <jason@jlekstrand.net>
+Date:   Tue, 6 Jul 2021 18:47:14 -0500
+Message-ID: <CAOFGe97RzY0-m-vwTEDSoTOPFvdgqgk-_NhzJ5mQEqhLUpCUUA@mail.gmail.com>
+Subject: Re: [PATCH 7/7] dma-resv: Give the docs a do-over
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---VOubNWsj2sFIOkFX
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jul 06, 2021 at 05:48:03PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> The driver core ignores the return value of this callback because there
-> is only little it can do when a device disappears.
->=20
-> This is the final bit of a long lasting cleanup quest where several
-> buses were converted to also return void from their remove callback.
-> Additionally some resource leaks were fixed that were caused by drivers
-> returning an error code in the expectation that the driver won't go
-> away.
->=20
-> With struct bus_type::remove returning void it's prevented that newly
-> implemented buses return an ignored error code and so don't anticipate
-> wrong expectations for driver authors.
->=20
-> Acked-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk> (For ARM, Am=
-ba and related parts)
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Chen-Yu Tsai <wens@csie.org> (for drivers/bus/sunxi-rsb.c)
-> Acked-by: Pali Roh=C3=A1r <pali@kernel.org>
-> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org> (for drivers/media)
-> Acked-by: Hans de Goede <hdegoede@redhat.com> (For drivers/platform)
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Acked-By: Vinod Koul <vkoul@kernel.org>
-> Acked-by: Juergen Gross <jgross@suse.com> (For Xen)
-> Acked-by: Lee Jones <lee.jones@linaro.org> (For drivers/mfd)
-> Acked-by: Johannes Thumshirn <jth@kernel.org> (For drivers/mcb)
-> Acked-by: Johan Hovold <johan@kernel.org>
-> Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org> (For drive=
-rs/slimbus)
-> Acked-by: Kirti Wankhede <kwankhede@nvidia.com> (For drivers/vfio)
-> Acked-by: Maximilian Luz <luzmaximilian@gmail.com>
-> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com> (For ulpi and=
- typec)
-> Acked-by: Samuel Iglesias Gons=C3=A1lvez <siglesias@igalia.com> (For ipac=
-k)
-> Reviewed-by: Tom Rix <trix@redhat.com> (For fpga)
-> Acked-by: Geoff Levand <geoff@infradead.org> (For ps3)
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+On Tue, Jul 6, 2021 at 5:12 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote=
+:
+>
+> Specifically document the new/clarified rules around how the shared
+> fences do not have any ordering requirements against the exclusive
+> fence.
+>
+> But also document all the things a bit better, given how central
+> struct dma_resv to dynamic buffer management the docs have been very
+> inadequat.
+>
+> - Lots more links to other pieces of the puzzle. Unfortunately
+>   ttm_buffer_object has no docs, so no links :-(
+>
+> - Explain/complain a bit about dma_resv_locking_ctx(). I still don't
+>   like that one, but fixing the ttm call chains is going to be
+>   horrible. Plus we want to plug in real slowpath locking when we do
+>   that anyway.
+>
+> - Main part of the patch is some actual docs for struct dma_resv.
+>
+> Overall I think we still have a lot of bad naming in this area (e.g.
+> dma_resv.fence is singular, but contains the multiple shared fences),
+> but I think that's more indicative of how the semantics and rules are
+> just not great.
+>
+> Another thing that's real awkard is how chaining exclusive fences
+> right now means direct dma_resv.exclusive_fence pointer access with an
+> rcu_assign_pointer. Not so great either.
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
 > ---
+>  drivers/dma-buf/dma-resv.c |  22 ++++++--
+>  include/linux/dma-resv.h   | 104 +++++++++++++++++++++++++++++++++++--
+>  2 files changed, 116 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index f26c71747d43..898f8d894bbd 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -48,6 +48,8 @@
+>   * write operations) or N shared fences (read operations).  The RCU
+>   * mechanism is used to protect read access to fences from locked
+>   * write-side updates.
+> + *
+> + * See struct dma_resv for more details.
+>   */
+>
+>  DEFINE_WD_CLASS(reservation_ww_class);
+> @@ -137,7 +139,11 @@ EXPORT_SYMBOL(dma_resv_fini);
+>   * @num_fences: number of fences we want to add
+>   *
+>   * Should be called before dma_resv_add_shared_fence().  Must
+> - * be called with obj->lock held.
+> + * be called with @obj locked through dma_resv_lock().
+> + *
+> + * Note that the preallocated slots need to be re-reserved if @obj is un=
+locked
+> + * at any time before callind dma_resv_add_shared_fence(). This is valid=
+ate when
 
->  drivers/base/isa.c                        | 4 +---
+validated
 
-Acked-by: William Breathitt Gray <vilhelm.gray@gmail.com>
+> + * CONFIG_DEBUG_MUTEXES is enabled.
+>   *
+>   * RETURNS
+>   * Zero for success, or -errno
+> @@ -234,8 +240,10 @@ EXPORT_SYMBOL(dma_resv_reset_shared_max);
+>   * @obj: the reservation object
+>   * @fence: the shared fence to add
+>   *
+> - * Add a fence to a shared slot, obj->lock must be held, and
+> + * Add a fence to a shared slot, @obj must be locked with dma_resv_lock(=
+), and
+>   * dma_resv_reserve_shared() has been called.
+> + *
+> + * See also &dma_resv.fence for a discussion of the semantics.
+>   */
+>  void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *f=
+ence)
+>  {
+> @@ -280,7 +288,9 @@ EXPORT_SYMBOL(dma_resv_add_shared_fence);
+>   * @obj: the reservation object
+>   * @fence: the shared fence to add
+>   *
+> - * Add a fence to the exclusive slot.  The obj->lock must be held.
+> + * Add a fence to the exclusive slot. @obj must be locked with dma_resv_=
+lock().
+> + * Note that this function replaces all fences attached to @obj, see als=
+o
+> + * &dma_resv.fence_excl for a discussion of the semantics.
+>   */
+>  void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fen=
+ce)
+>  {
+> @@ -609,9 +619,11 @@ static inline int dma_resv_test_signaled_single(stru=
+ct dma_fence *passed_fence)
+>   * fence
+>   *
+>   * Callers are not required to hold specific locks, but maybe hold
+> - * dma_resv_lock() already
+> + * dma_resv_lock() already.
+> + *
+>   * RETURNS
+> - * true if all fences signaled, else false
+> + *
+> + * True if all fences signaled, else false.
+>   */
+>  bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
+>  {
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index e1ca2080a1ff..c77fd54d033f 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -62,16 +62,90 @@ struct dma_resv_list {
+>
+>  /**
+>   * struct dma_resv - a reservation object manages fences for a buffer
+> - * @lock: update side lock
+> - * @seq: sequence count for managing RCU read-side synchronization
+> - * @fence_excl: the exclusive fence, if there is one currently
+> - * @fence: list of current shared fences
+> + *
+> + * There are multiple uses for this, with sometimes slightly different r=
+ules in
+> + * how the fence slots are used.
+> + *
+> + * One use is to synchronize cross-driver access to a struct dma_buf, ei=
+ther for
+> + * dynamic buffer management or just to handle implicit synchronization =
+between
+> + * different users of the buffer in userspace. See &dma_buf.resv for a m=
+ore
+> + * in-depth discussion.
+> + *
+> + * The other major use is to manage access and locking within a driver i=
+n a
+> + * buffer based memory manager. struct ttm_buffer_object is the canonica=
+l
+> + * example here, since this is were reservation objects originated from.=
+ But use
 
---VOubNWsj2sFIOkFX
-Content-Type: application/pgp-signature; name="signature.asc"
+s/were/where/
 
------BEGIN PGP SIGNATURE-----
+> + * in drivers is spreading and some drivers also manage struct
+> + * drm_gem_object with the same scheme.
+>   */
+>  struct dma_resv {
+> +       /**
+> +        * @lock:
+> +        *
+> +        * Update side lock. Don't use directly, instead use the wrapper
+> +        * functions like dma_resv_lock() and dma_resv_unlock().
+> +        *
+> +        * Drivers which use the reservation object to manage memory dyna=
+mically
+> +        * also use this lock to protect buffer object state like placeme=
+nt,
+> +        * allocation policies or throughout command submission.
+> +        */
+>         struct ww_mutex lock;
+> +
+> +       /**
+> +        * @seq:
+> +        *
+> +        * Sequence count for managing RCU read-side synchronization, all=
+ows
+> +        * read-only access to @fence_excl and @fence while ensuring we t=
+ake a
+> +        * consistent snapshot.
+> +        */
+>         seqcount_ww_mutex_t seq;
+>
+> +       /**
+> +        * @fence_excl:
+> +        *
+> +        * The exclusive fence, if there is one currently.
+> +        *
+> +        * There are two was to update this fence:
+> +        *
+> +        * - First by calling dma_resv_add_excl_fence(), which replaces a=
+ll
+> +        *   fences attached to the reservation object. To guarantee that=
+ no
+> +        *   fences are lost this new fence must signal only after all pr=
+evious
 
-iQIzBAABCgAdFiEEk5I4PDJ2w1cDf/bghvpINdm7VJIFAmDkzSMACgkQhvpINdm7
-VJLVFhAAyxEk2xOSRC1xhJSnjLQvNeb+KeTAJr+uaSAwwExERXcbGlIryhqCZSij
-fZRzkvgPIscNAegWidvmuhZlhkFJPwvPArfhB/pFIDvQ1xX0kCPH3T51Lncu35Tf
-vgluc4JhAW9+1UzoKZsv8RK4uY2ETRMBBeYs7epjqK2RhCvzG8rDMD+Dy49nxrYX
-eNdmcR+7EcK8RjLmb/YEfNXxcXdDW0KlU5ATAh+PKuAPKbOKpoKfKuYsOYS7VrGJ
-MAk5lC5J/bqbBWM4eqm+g5NbskWMr1N5WC60R7K3isMCoaEpnKNhSD3kvYIFe2Tf
-mWyIE2c7D+UWhzbp+Kq4+DHzBN4ajLBy0oMd28HrGOQmD+/chjjc1zTOK9uNBvKz
-xBRbxQl7OrAnKhUqcrgVpVL30EvTNajZIOZdwtGXhQCWW+MX747JE+H291VLg3gz
-a0p6IJ8TS+gOgGGvmNjVg6yHYuKv6XDbDfI7tc0dRJUOoVqfbkIHSvAQQzn0LIFn
-k/Ln4D8LDFj8X3fHbfz200+nzo9gwA5ZXhWXzvTKXhSEyBoc3+i+Ihn3bgYf6rI8
-j8LozqWaWpNxaLMBrLuy06ldAuzhnQ7wPw1JuGXDAY1vdMYVVRp1XcbjBSqybXMA
-weoaxx4Lwh05XikzxZpXDQBx5N+5V3sYRuqGrYs7H1ZUm0rT0I0=
-=yTaM
------END PGP SIGNATURE-----
+lost, this
 
---VOubNWsj2sFIOkFX--
+> +        *   fences, both shared and exclusive, have signalled. In some c=
+ases it
+> +        *   is convenient to achieve that by attaching a struct dma_fenc=
+e_array
+> +        *   with all the new and old fences.
+> +        *
+> +        * - Alternatively the fence can be set directly, which leaves th=
+e
+> +        *   shared fences unchanged. To guarantee that no fences are los=
+t this
+> +        *   new fence must signale only after the previous exclusive fen=
+ce has
+
+s/signale/signal/
+
+> +        *   singalled. Since the shared fences are staying intact, it is=
+ not
+> +        *   necessary to maintain any ordering against those. If semanti=
+cally
+> +        *   only a new access is added without actually treating the pre=
+vious
+> +        *   one as a dependency the exclusive fences can be strung toget=
+her
+> +        *   using struct dma_fence_chain.
+> +        *
+> +        * Note that actual semantics of what an exclusive or shared fenc=
+e mean
+> +        * is defined by the user, for reservation objects shared across =
+drivers
+> +        * see &dma_buf.resv.
+> +        */
+>         struct dma_fence __rcu *fence_excl;
+> +
+> +       /**
+> +        * @fence:
+> +        *
+> +        * List of current shared fences.
+> +        *
+> +        * There are no ordering constraints of shared fences against the
+> +        * exclusive fence slot. If a waiter needs to wait for all access=
+, it
+> +        * has to wait for both set of fences to signal.
+
+sets
+
+> +        *
+> +        * A new fence is added by calling dma_resv_add_shared_fence(). S=
+ince
+> +        * this often needs to be done past the point of no return in com=
+mand
+> +        * submission it cannot fail, and therefor sufficient slots need =
+to be
+
+therefore
+
+> +        * reserved by calling dma_resv_reserve_shared().
+> +        *
+> +        * Note that actual semantics of what an exclusive or shared fenc=
+e mean
+> +        * is defined by the user, for reservation objects shared across =
+drivers
+> +        * see &dma_buf.resv.
+> +        */
+>         struct dma_resv_list __rcu *fence;
+>  };
+>
+> @@ -98,6 +172,13 @@ static inline void dma_resv_reset_shared_max(struct d=
+ma_resv *obj) {}
+>   * undefined order, a #ww_acquire_ctx is passed to unwind if a cycle
+>   * is detected. See ww_mutex_lock() and ww_acquire_init(). A reservation
+>   * object may be locked by itself by passing NULL as @ctx.
+> + *
+> + * When a die situation is indicated by returning -EDEADLK all locks hel=
+d by
+> + * @ctx must be unlocked and then dma_resv_lock_slow() called on @obj.
+> + *
+> + * Unlocked by calling dma_resv_lock().
+
+unlock?
+
+> + *
+> + * See also dma_resv_lock_interruptible() for the interruptible variant.
+>   */
+>  static inline int dma_resv_lock(struct dma_resv *obj,
+>                                 struct ww_acquire_ctx *ctx)
+> @@ -119,6 +200,12 @@ static inline int dma_resv_lock(struct dma_resv *obj=
+,
+>   * undefined order, a #ww_acquire_ctx is passed to unwind if a cycle
+>   * is detected. See ww_mutex_lock() and ww_acquire_init(). A reservation
+>   * object may be locked by itself by passing NULL as @ctx.
+> + *
+> + * When a die situation is indicated by returning -EDEADLK all locks hel=
+d by
+> + * @ctx must be unlocked and then dma_resv_lock_slow_interruptible() cal=
+led on
+> + * @obj.
+> + *
+> + * Unlocked by calling dma_resv_lock().
+
+unlock?
+
+>   */
+>  static inline int dma_resv_lock_interruptible(struct dma_resv *obj,
+>                                               struct ww_acquire_ctx *ctx)
+> @@ -134,6 +221,8 @@ static inline int dma_resv_lock_interruptible(struct =
+dma_resv *obj,
+>   * Acquires the reservation object after a die case. This function
+>   * will sleep until the lock becomes available. See dma_resv_lock() as
+>   * well.
+> + *
+> + * See also dma_resv_lock_slow_interruptible() for the interruptible var=
+iant.
+>   */
+>  static inline void dma_resv_lock_slow(struct dma_resv *obj,
+>                                       struct ww_acquire_ctx *ctx)
+> @@ -167,7 +256,7 @@ static inline int dma_resv_lock_slow_interruptible(st=
+ruct dma_resv *obj,
+>   * if they overlap with a writer.
+>   *
+>   * Also note that since no context is provided, no deadlock protection i=
+s
+> - * possible.
+> + * possible, which is also not needed for a trylock.
+>   *
+>   * Returns true if the lock was acquired, false otherwise.
+>   */
+> @@ -193,6 +282,11 @@ static inline bool dma_resv_is_locked(struct dma_res=
+v *obj)
+>   *
+>   * Returns the context used to lock a reservation object or NULL if no c=
+ontext
+>   * was used or the object is not locked at all.
+> + *
+> + * WARNING: This interface is pretty horrible, but TTM needs it because =
+it
+> + * doesn't pass the struct ww_acquire_ctx around in some very long callc=
+hains.
+> + * Everyone else just uses it to check whether they're holding a reserva=
+tion or
+> + * not.
+>   */
+>  static inline struct ww_acquire_ctx *dma_resv_locking_ctx(struct dma_res=
+v *obj)
+>  {
+> --
+> 2.32.0
+>
