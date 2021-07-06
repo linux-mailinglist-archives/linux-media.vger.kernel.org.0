@@ -2,172 +2,230 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE0513BCA18
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 12:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D30553BCA34
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 12:37:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231448AbhGFKii (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 06:38:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34156 "EHLO
+        id S231402AbhGFKjl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 06:39:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231414AbhGFKig (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 06:38:36 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E024BC0613DE
-        for <linux-media@vger.kernel.org>; Tue,  6 Jul 2021 03:35:56 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id a8so13800531wrp.5
-        for <linux-media@vger.kernel.org>; Tue, 06 Jul 2021 03:35:56 -0700 (PDT)
+        with ESMTP id S231330AbhGFKjl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 06:39:41 -0400
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36C45C061760
+        for <linux-media@vger.kernel.org>; Tue,  6 Jul 2021 03:37:03 -0700 (PDT)
+Received: by mail-oi1-x22b.google.com with SMTP id s17so24100742oij.0
+        for <linux-media@vger.kernel.org>; Tue, 06 Jul 2021 03:37:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=6xuYHcNFKOKQBrKUFUDH+4OX/ZzxgolWWFVCDDtB2Y0=;
-        b=Yt+wwRbDrooYfJ07+RIOcvlbNAmDArbrvJ7r1S0Vf2cjg/rLU7fAYgPxXpkS/Es1c/
-         LcGWWFOVsEF/0XQJw8Ic4i6Dtc59Y/PIazeWXS81o/I5/ykvg7NDoqtNhU6ZQY0qgpts
-         hX13gyhgO6x+I73AAGb4ZN/+qaseZR6quq5U1fL8NFgVa2YoJXURs1gKcClPP7oowGFt
-         CUO7YRn27lhbGlEADkw/xBbGzLYaM6sE1cZhR+vatbGDVqfyXQOHsgSlmcoOTDifCPOm
-         ISHjTYrtj1Tj6vkK+FyowiPdLCC1ljyYKvKt5eTXHZu+z0mb6AF50iygoibOaTtpwXde
-         Om/w==
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SAa3xS01Ip/WPvwntU0vFLMJjul0CGOxjhmVkJHt/rw=;
+        b=RO7iacH4Ti46dB63sJGmihRm41QJsDCce6RQmPELZZwX88PmkhaUm6ORroBBGsrxJ5
+         JliO2V4qJ84GuHOn5P2qmo+8BgOvGkLh6zShltaLsTIGyv2AR8Qo4CA+azevq8heOmF0
+         5nQVM1kQfFFf11BNsFyJVSgOMslhlh08ECCKU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=6xuYHcNFKOKQBrKUFUDH+4OX/ZzxgolWWFVCDDtB2Y0=;
-        b=glYDNJcX9Mp+QH9YjnlYfS+xl+G5gGPAIrvAI0SmNk8kw8sD50k6cHQVkxRmwCiaaD
-         cqudTfwA9bETtFIZBBj0wOmnuv1lv3AbY2CXqdHknf9u0m6KlvG4HaqVO544aupKwt7p
-         q7J1+QZ0x1P80lthvhxvyMfaGpDIesnI6FfnlqH31h0llwcGXIU1WJIBdUefgrAnjioB
-         nRaigF9mBsjNUFa43ITRIDPrv+pR4020aEC2+lOvriS39I+dgezmCchg9Aqmh/FZGs0B
-         QGvhY2g14g0nxHf3la137gO6QNRYeuQmoiotPSuH3p6qWLvEUyydZZ1tjpv0UEmMGJqy
-         +ylQ==
-X-Gm-Message-State: AOAM5327qzKHr/2XBWJrY+6SiE6IlXm5OlNaizJECUX9M6ZVZ4XUEBzT
-        nE4ASjytoguHBnACWfJOgBm8fQ==
-X-Google-Smtp-Source: ABdhPJxx+Xr4AcuLpRSkCC4EtytSRujE0SZ0zcPphvKN4FEK+8OpQKjY5aHg/Lctw2KdmVZr98nK+A==
-X-Received: by 2002:a05:6000:12d0:: with SMTP id l16mr21397024wrx.189.1625567755049;
-        Tue, 06 Jul 2021 03:35:55 -0700 (PDT)
-Received: from dell ([109.180.115.218])
-        by smtp.gmail.com with ESMTPSA id l9sm16428319wrp.14.2021.07.06.03.35.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jul 2021 03:35:54 -0700 (PDT)
-Date:   Tue, 6 Jul 2021 11:35:52 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Geoff Levand <geoff@infradead.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-acpi@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, linux-cxl@vger.kernel.org,
-        nvdimm@lists.linux.dev, dmaengine@vger.kernel.org,
-        linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
-        industrypack-devel@lists.sourceforge.net,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
-        linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
-        greybus-dev@lists.linaro.org, target-devel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
-        xen-devel@lists.xenproject.org
-Subject: Re: [PATCH] bus: Make remove callback return void
-Message-ID: <YOQxRS8HLTYthWNn@dell>
-References: <20210706095037.1425211-1-u.kleine-koenig@pengutronix.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SAa3xS01Ip/WPvwntU0vFLMJjul0CGOxjhmVkJHt/rw=;
+        b=TBDsRbcn2qBTIS3kUMCbxMUPgFFVGzXrCl+IQ0LueXz5H7cL1nXkis5oycNax3mnJr
+         0kZ1H0nzNlvjFOn3sF8c3Nbf7ngd4nDscxweyDs/FHBT1ezQalQhbPg5zMg2nS1lA441
+         MDZIaRLfdjudFl8SmJrl4q7sug8EFTFqD7U267RqjHLg4pwGLt0xjiZ6B2xNhPXgXpUd
+         gOS7InxQvWLCwUHX3KHiQmqj9plZ4fAfGVRGw70H7zL8C97abvClU3OZcmZMD/4n7Hoq
+         w2HACHtFIFLGmZJVn39qCJNfwg87z42OnME6pbVcANxOss7EovVlBVzNnfTJDJkgjghL
+         W1JQ==
+X-Gm-Message-State: AOAM53076yMmV96u8yGTnl/JJkfB7WxJwv50aPHgEgxjkYRa4VUyJsft
+        G0FRRTBFMbX+OCH3/OV0qOTlv0cxPsTt5ziz22jkpw==
+X-Google-Smtp-Source: ABdhPJzFP5Rey6uDVNPkHZ8O/ksj87/Qzd55Tc8MLA8caEMjMvhc6V5amUJSzYIDylLYeLLouoJKTxv8ApB6Qo5anjA=
+X-Received: by 2002:aca:f491:: with SMTP id s139mr7925290oih.128.1625567822322;
+ Tue, 06 Jul 2021 03:37:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210706095037.1425211-1-u.kleine-koenig@pengutronix.de>
+References: <20210705130314.11519-1-ogabbay@kernel.org> <YOQXBWpo3whVjOyh@phenom.ffwll.local>
+ <CAFCwf10_rTYL2Fy6tCRVAUCf4-6_TtcWCv5gEEkGnQ0KxqMUBg@mail.gmail.com>
+In-Reply-To: <CAFCwf10_rTYL2Fy6tCRVAUCf4-6_TtcWCv5gEEkGnQ0KxqMUBg@mail.gmail.com>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Tue, 6 Jul 2021 12:36:51 +0200
+Message-ID: <CAKMK7uEAJZUHNLreBB839BZOfnTGNU4rCx-0k55+67Nbxtdx3A@mail.gmail.com>
+Subject: Re: [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
+To:     Oded Gabbay <oded.gabbay@gmail.com>
+Cc:     Oded Gabbay <ogabbay@kernel.org>,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Dave Airlie <airlied@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Christoph Hellwig <hch@lst.de>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 06 Jul 2021, Uwe Kleine-König wrote:
+On Tue, Jul 6, 2021 at 12:03 PM Oded Gabbay <oded.gabbay@gmail.com> wrote:
+>
+> On Tue, Jul 6, 2021 at 11:40 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Mon, Jul 05, 2021 at 04:03:12PM +0300, Oded Gabbay wrote:
+> > > Hi,
+> > > I'm sending v4 of this patch-set following the long email thread.
+> > > I want to thank Jason for reviewing v3 and pointing out the errors, saving
+> > > us time later to debug it :)
+> > >
+> > > I consulted with Christian on how to fix patch 2 (the implementation) and
+> > > at the end of the day I shamelessly copied the relevant content from
+> > > amdgpu_vram_mgr_alloc_sgt() and amdgpu_dma_buf_attach(), regarding the
+> > > usage of dma_map_resource() and pci_p2pdma_distance_many(), respectively.
+> > >
+> > > I also made a few improvements after looking at the relevant code in amdgpu.
+> > > The details are in the changelog of patch 2.
+> > >
+> > > I took the time to write an import code into the driver, allowing me to
+> > > check real P2P with two Gaudi devices, one as exporter and the other as
+> > > importer. I'm not going to include the import code in the product, it was
+> > > just for testing purposes (although I can share it if anyone wants).
+> > >
+> > > I run it on a bare-metal environment with IOMMU enabled, on a sky-lake CPU
+> > > with a white-listed PCIe bridge (to make the pci_p2pdma_distance_many happy).
+> > >
+> > > Greg, I hope this will be good enough for you to merge this code.
+> >
+> > So we're officially going to use dri-devel for technical details review
+> > and then Greg for merging so we don't have to deal with other merge
+> > criteria dri-devel folks have?
+> I'm glad to receive any help or review, regardless of the subsystem
+> the person giving that help belongs to.
+>
+> >
+> > I don't expect anything less by now, but it does make the original claim
+> > that drivers/misc will not step all over accelerators folks a complete
+> > farce under the totally-not-a-gpu banner.
+> >
+> > This essentially means that for any other accelerator stack that doesn't
+> > fit the dri-devel merge criteria, even if it's acting like a gpu and uses
+> > other gpu driver stuff, you can just send it to Greg and it's good to go.
+>
+> What's wrong with Greg ??? ;)
+>
+> On a more serious note, yes, I do think the dri-devel merge criteria
+> is very extreme, and effectively drives-out many AI accelerator
+> companies that want to contribute to the kernel but can't/won't open
+> their software IP and patents.
+>
+> I think the expectation from AI startups (who are 90% of the deep
+> learning field) to cooperate outside of company boundaries is not
+> realistic, especially on the user-side, where the real IP of the
+> company resides.
+>
+> Personally I don't think there is a real justification for that at
+> this point of time, but if it will make you (and other people here)
+> happy I really don't mind creating a non-gpu accelerator subsystem
+> that will contain all the totally-not-a-gpu accelerators, and will
+> have a more relaxed criteria for upstreaming. Something along an
+> "rdma-core" style library looks like the correct amount of user-level
+> open source that should be enough.
+>
+> The question is, what will happen later ? Will it be sufficient to
+> "allow" us to use dmabuf and maybe other gpu stuff in the future (e.g.
+> hmm) ?
+>
+> If the community and dri-devel maintainers (and you among them) will
+> assure me it is good enough, then I'll happily contribute my work and
+> personal time to organize this effort and implement it.
 
-> The driver core ignores the return value of this callback because there
-> is only little it can do when a device disappears.
-> 
-> This is the final bit of a long lasting cleanup quest where several
-> buses were converted to also return void from their remove callback.
-> Additionally some resource leaks were fixed that were caused by drivers
-> returning an error code in the expectation that the driver won't go
-> away.
-> 
-> With struct bus_type::remove returning void it's prevented that newly
-> implemented buses return an ignored error code and so don't anticipate
-> wrong expectations for driver authors.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
-> Hello,
-> 
-> this patch depends on "PCI: endpoint: Make struct pci_epf_driver::remove
-> return void" that is not yet applied, see
-> https://lore.kernel.org/r/20210223090757.57604-1-u.kleine-koenig@pengutronix.de.
-> 
-> I tested it using allmodconfig on amd64 and arm, but I wouldn't be
-> surprised if I still missed to convert a driver. So it would be great to
-> get this into next early after the merge window closes.
-> 
-> I send this mail to all people that get_maintainer.pl emits for this
-> patch. I wonder how many recipents will refuse this mail because of the
-> long Cc: list :-)
-> 
-> Best regards
-> Uwe
-> 
->  arch/arm/common/locomo.c                  | 3 +--
->  arch/arm/common/sa1111.c                  | 4 +---
->  arch/arm/mach-rpc/ecard.c                 | 4 +---
->  arch/mips/sgi-ip22/ip22-gio.c             | 3 +--
->  arch/parisc/kernel/drivers.c              | 5 ++---
->  arch/powerpc/platforms/ps3/system-bus.c   | 3 +--
->  arch/powerpc/platforms/pseries/ibmebus.c  | 3 +--
->  arch/powerpc/platforms/pseries/vio.c      | 3 +--
->  drivers/acpi/bus.c                        | 3 +--
->  drivers/amba/bus.c                        | 4 +---
->  drivers/base/auxiliary.c                  | 4 +---
->  drivers/base/isa.c                        | 4 +---
->  drivers/base/platform.c                   | 4 +---
->  drivers/bcma/main.c                       | 6 ++----
->  drivers/bus/sunxi-rsb.c                   | 4 +---
->  drivers/cxl/core.c                        | 3 +--
->  drivers/dax/bus.c                         | 4 +---
->  drivers/dma/idxd/sysfs.c                  | 4 +---
->  drivers/firewire/core-device.c            | 4 +---
->  drivers/firmware/arm_scmi/bus.c           | 4 +---
->  drivers/firmware/google/coreboot_table.c  | 4 +---
->  drivers/fpga/dfl.c                        | 4 +---
->  drivers/hid/hid-core.c                    | 4 +---
->  drivers/hid/intel-ish-hid/ishtp/bus.c     | 4 +---
->  drivers/hv/vmbus_drv.c                    | 5 +----
->  drivers/hwtracing/intel_th/core.c         | 4 +---
->  drivers/i2c/i2c-core-base.c               | 5 +----
->  drivers/i3c/master.c                      | 4 +---
->  drivers/input/gameport/gameport.c         | 3 +--
->  drivers/input/serio/serio.c               | 3 +--
->  drivers/ipack/ipack.c                     | 4 +---
->  drivers/macintosh/macio_asic.c            | 4 +---
->  drivers/mcb/mcb-core.c                    | 4 +---
->  drivers/media/pci/bt8xx/bttv-gpio.c       | 3 +--
->  drivers/memstick/core/memstick.c          | 3 +--
+I think dri-devel stance is pretty clear and well known: We want the
+userspace to be open, because that's where most of the driver stack
+is. Without an open driver stack there's no way to ever have anything
+cross-vendor.
 
->  drivers/mfd/mcp-core.c                    | 3 +--
+And that includes the compiler and anything else you need to drive the hardware.
 
-Acked-by: Lee Jones <lee.jones@linaro.org>
+Afaik linux cpu arch ports are also not accepted if there's no open
+gcc or llvm port around, because without that the overall stack just
+becomes useless.
+
+If that means AI companies don't want to open our their hw specs
+enough to allow that, so be it - all you get in that case is
+offloading the kernel side  of the stack for convenience, with zero
+long term prospects to ever make this into a cross vendor subsystem
+stack that does something useful. If the business case says you can't
+open up your hw enough for that, I really don't see the point in
+merging such a driver, it'll be an unmaintainable stack by anyone else
+who's not having access to those NDA covered specs and patents and
+everything.
+
+If the stack is actually cross vendor to begin with that's just bonus,
+but generally that doesn't happen voluntarily and needs a few years to
+decades to get there. So that's not really something we require.
+
+tldr; just a runtime isn't enough for dri-devel.
+
+Now Greg seems to be happy to merge kernel drivers that aren't useful
+with the open bits provided, so *shrug*.
+
+Cheers, Daniel
+
+PS: If requiring an actually useful open driver stack is somehow
+*extreme* I have no idea why we even bother with merging device
+drivers to upstream. Just make a stable driver api and done, vendors
+can then do whatever they feel like and protect their "valuable IP and
+patents" or whatever it is.
+
+> Thanks,
+> oded
+>
+> >
+> > There's quite a lot of these floating around actually (and many do have
+> > semi-open runtimes, like habanalabs have now too, just not open enough to
+> > be actually useful). It's going to be absolutely lovely having to explain
+> > to these companies in background chats why habanalabs gets away with their
+> > stack and they don't.
+> >
+> > Or maybe we should just merge them all and give up on the idea of having
+> > open cross-vendor driver stacks for these accelerators.
+> >
+> > Thanks, Daniel
+> >
+> > >
+> > > Thanks,
+> > > Oded
+> > >
+> > > Oded Gabbay (1):
+> > >   habanalabs: define uAPI to export FD for DMA-BUF
+> > >
+> > > Tomer Tayar (1):
+> > >   habanalabs: add support for dma-buf exporter
+> > >
+> > >  drivers/misc/habanalabs/Kconfig             |   1 +
+> > >  drivers/misc/habanalabs/common/habanalabs.h |  26 ++
+> > >  drivers/misc/habanalabs/common/memory.c     | 480 +++++++++++++++++++-
+> > >  drivers/misc/habanalabs/gaudi/gaudi.c       |   1 +
+> > >  drivers/misc/habanalabs/goya/goya.c         |   1 +
+> > >  include/uapi/misc/habanalabs.h              |  28 +-
+> > >  6 files changed, 532 insertions(+), 5 deletions(-)
+> > >
+> > > --
+> > > 2.25.1
+> > >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+
 
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
