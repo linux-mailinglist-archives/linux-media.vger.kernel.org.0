@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DF723BD66B
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 14:33:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A6443BD66C
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 14:34:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241079AbhGFMd0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 08:33:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42564 "EHLO mail.kernel.org"
+        id S237113AbhGFMd2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 08:33:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47546 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232235AbhGFLbz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 6 Jul 2021 07:31:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3E19961D09;
-        Tue,  6 Jul 2021 11:22:40 +0000 (UTC)
+        id S237091AbhGFLfy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 6 Jul 2021 07:35:54 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D8B361E9F;
+        Tue,  6 Jul 2021 11:25:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625570561;
-        bh=tDh2Cp3vkwg7dQBXk2Kji+t3Rds+JbYMkspX8Brzr7g=;
+        s=k20201202; t=1625570726;
+        bh=M6GNRjaiGoU075Gb/3SUC/E2uZ2SyiNzb2Ji1eBbKpc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HynczCAMlh1fAuXjmEE9EUVZU0KcCIw0LNq7ovRZn2VGyWIVWGnaCroE5nKWgTPcc
-         PkboI15L0jFuGBYugRGrrhQYdTvZQTbFL9hjm7TpWjXvVLDbXRFd78VBkX1/izE8vZ
-         kNQQw2Azimwu6jZyHkfiyJPOuQM+BedywGFkqVILYkRR8cpEtRGksYRS7rCdrpiuao
-         QPKN6vH/MG3uKCcB+4ng5IL0VXvgHyMoXt2Zyzczw4fi9woWMU+9edhc9VzPtJcdCh
-         mRgMrdE38KXoj8xXnnXFS2+8t9TXZ2AIfgtMPmRSHoUm5/1KoAdgqeoedWw2mqggZD
-         RM/mfR8UXb+dw==
+        b=ICQOGvK9lL9b8NK65n69Mwrb57nyGxfjp34Jh3PvYY2RjEWaNpNhmGokrRZcD4Y6H
+         w20PE7NF1ZoIo5BcguYQQggMfCv22nLinwlyCOESbGW+yAQtgDKER8idwnjlg+l1v8
+         xoB3tMhSqoT67ApE2a/ZFgSSMEF/Oso1X3sSXhFRp5NRtDGYi7lCbg/2UUwjY+g8r1
+         I5rJYcDBPtT182xes7Ns6C3FqkgIK1vSqXkBbS/5n+lHGwRAdMRzlIp3Dz7ESQDz3W
+         ykszEL7ChODElj6fxtybZrdXv0Hsufd/CKWhsnk7NhR+rO+rwgfq/HsWxOE30y3tko
+         UqG/72vb/jXdA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
@@ -30,12 +30,12 @@ Cc:     Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
         Sasha Levin <sashal@kernel.org>,
         dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
         linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.10 028/137] drm/sched: Avoid data corruptions
-Date:   Tue,  6 Jul 2021 07:20:14 -0400
-Message-Id: <20210706112203.2062605-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 18/74] drm/sched: Avoid data corruptions
+Date:   Tue,  6 Jul 2021 07:24:06 -0400
+Message-Id: <20210706112502.2064236-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210706112203.2062605-1-sashal@kernel.org>
-References: <20210706112203.2062605-1-sashal@kernel.org>
+In-Reply-To: <20210706112502.2064236-1-sashal@kernel.org>
+References: <20210706112502.2064236-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -61,10 +61,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 2006cc057f99..3f7f761df4cd 100644
+index 1a5153197fe9..57f9baad9e36 100644
 --- a/drivers/gpu/drm/scheduler/sched_entity.c
 +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -219,11 +219,16 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+@@ -235,11 +235,16 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
  static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
  {
  	struct drm_sched_job *job;
