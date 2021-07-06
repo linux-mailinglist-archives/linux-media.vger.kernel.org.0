@@ -2,189 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D2A13BDAEE
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 18:07:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2FD03BDB37
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 18:15:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229992AbhGFQKf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 12:10:35 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:37579 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229807AbhGFQKf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 12:10:35 -0400
+        id S229869AbhGFQSB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 12:18:01 -0400
+Received: from mslow1.mail.gandi.net ([217.70.178.240]:33047 "EHLO
+        mslow1.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229834AbhGFQSB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 12:18:01 -0400
+Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 9CCEECFD30;
+        Tue,  6 Jul 2021 16:08:43 +0000 (UTC)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 2657AE0004;
-        Tue,  6 Jul 2021 16:07:52 +0000 (UTC)
-Date:   Tue, 6 Jul 2021 18:08:42 +0200
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 77982FF808;
+        Tue,  6 Jul 2021 16:08:21 +0000 (UTC)
+Date:   Tue, 6 Jul 2021 18:09:10 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 01/11] rcar-vin: Refactor controls creation for video
- device
-Message-ID: <20210706160842.ruwejskmpbp6nyff@uno.localdomain>
+Subject: Re: [PATCH 02/11] rcar-vin: Fix error paths for rvin_mc_init()
+Message-ID: <20210706160910.akx66qshd4wl4h2h@uno.localdomain>
 References: <20210413180253.2575451-1-niklas.soderlund+renesas@ragnatech.se>
- <20210413180253.2575451-2-niklas.soderlund+renesas@ragnatech.se>
+ <20210413180253.2575451-3-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210413180253.2575451-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20210413180253.2575451-3-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi again,
+Hi Niklas,
 
-On Tue, Apr 13, 2021 at 08:02:43PM +0200, Niklas Söderlund wrote:
-> The controls for the video device are created in different code paths
-> depending on if the driver is using the media graph centric model (Gen3)
-> or the device centric model (Gen2 and earlier). This have lead to code
-> duplication that can be consolidated.
+On Tue, Apr 13, 2021 at 08:02:44PM +0200, Niklas Söderlund wrote:
+> The error paths of rvin_mc_init() do not clean up properly, fix this.
 >
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
->  drivers/media/platform/rcar-vin/rcar-core.c | 82 +++++++++++----------
->  1 file changed, 45 insertions(+), 37 deletions(-)
+>  drivers/media/platform/rcar-vin/rcar-core.c | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
 >
 > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> index cb3025992817d625..c798dc9409e4cdcd 100644
+> index c798dc9409e4cdcd..d4932f7b42647ee1 100644
 > --- a/drivers/media/platform/rcar-vin/rcar-core.c
 > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> @@ -405,6 +405,45 @@ static const struct v4l2_ctrl_ops rvin_ctrl_ops = {
->  	.s_ctrl = rvin_s_ctrl,
->  };
+> @@ -946,17 +946,23 @@ static int rvin_mc_init(struct rvin_dev *vin)
+>  	if (ret)
+>  		return ret;
 >
-> +static void rvin_free_controls(struct rvin_dev *vin)
-> +{
-> +	v4l2_ctrl_handler_free(&vin->ctrl_handler);
-> +	vin->vdev.ctrl_handler = NULL;
-> +}
-> +
-> +static int rvin_create_controls(struct rvin_dev *vin, struct v4l2_subdev *subdev)
-> +{
-> +	int ret;
-> +
-> +	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 16);
-
-Not a big deal, but 16 because we have to reserve space for the
-eventual subdevice controls ?
-
+> +	ret = rvin_create_controls(vin, NULL);
 > +	if (ret < 0)
 > +		return ret;
 > +
-> +	/* The VIN directly deals with alpha component. */
-> +	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
-> +			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
-> +
-> +	if (vin->ctrl_handler.error) {
-> +		ret = vin->ctrl_handler.error;
-> +		rvin_free_controls(vin);
-> +		return ret;
-> +	}
-> +
-> +	/* For the non-MC mode add controls from the subdevice. */
-> +	if (subdev) {
-> +		ret = v4l2_ctrl_add_handler(&vin->ctrl_handler,
-> +					    subdev->ctrl_handler, NULL, true);
-> +		if (ret < 0) {
-> +			rvin_free_controls(vin);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	vin->vdev.ctrl_handler = &vin->ctrl_handler;
-> +
-> +	return 0;
-> +}
-> +
->  /* -----------------------------------------------------------------------------
->   * Async notifier
->   */
-> @@ -490,28 +529,10 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
->  		return ret;
->
->  	/* Add the controls */
-> -	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 16);
-> +	ret = rvin_create_controls(vin, subdev);
->  	if (ret < 0)
->  		return ret;
->
-> -	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
-> -			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
-> -
-> -	if (vin->ctrl_handler.error) {
-> -		ret = vin->ctrl_handler.error;
-> -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
-> -		return ret;
-> -	}
-> -
-> -	ret = v4l2_ctrl_add_handler(&vin->ctrl_handler, subdev->ctrl_handler,
-> -				    NULL, true);
-> -	if (ret < 0) {
-> -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
-> -		return ret;
-> -	}
-> -
-> -	vin->vdev.ctrl_handler = &vin->ctrl_handler;
-> -
->  	vin->parallel.subdev = subdev;
->
->  	return 0;
-> @@ -522,10 +543,8 @@ static void rvin_parallel_subdevice_detach(struct rvin_dev *vin)
->  	rvin_v4l2_unregister(vin);
->  	vin->parallel.subdev = NULL;
->
-> -	if (!vin->info->use_mc) {
-> -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
-> -		vin->vdev.ctrl_handler = NULL;
-> -	}
-> +	if (!vin->info->use_mc)
-> +		rvin_free_controls(vin);
->  }
->
->  static int rvin_parallel_notify_complete(struct v4l2_async_notifier *notifier)
-> @@ -935,21 +954,10 @@ static int rvin_mc_init(struct rvin_dev *vin)
+>  	ret = rvin_group_get(vin);
 >  	if (ret)
->  		rvin_group_put(vin);
->
-> -	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 1);
-> +	ret = rvin_create_controls(vin, NULL);
->  	if (ret < 0)
->  		return ret;
->
-> -	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
-> -			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
-> -
-> -	if (vin->ctrl_handler.error) {
-> -		ret = vin->ctrl_handler.error;
-> -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
 > -		return ret;
-> -	}
-> -
-> -	vin->vdev.ctrl_handler = &vin->ctrl_handler;
-> -
+> +		goto err_controls;
+>
+>  	ret = rvin_mc_parse_of_graph(vin);
+>  	if (ret)
+> -		rvin_group_put(vin);
+> +		goto err_group;
+>
+> -	ret = rvin_create_controls(vin, NULL);
+> -	if (ret < 0)
+> -		return ret;
+> +	return 0;
+
+Empty line maybe ?
+
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+  j
+> +err_group:
+> +	rvin_group_put(vin);
+> +err_controls:
+> +	rvin_free_controls(vin);
+>
 >  	return ret;
 >  }
->
-> @@ -1446,7 +1454,7 @@ static int rcar_vin_probe(struct platform_device *pdev)
->  	return 0;
->
->  error_group_unregister:
-> -	v4l2_ctrl_handler_free(&vin->ctrl_handler);
-> +	rvin_free_controls(vin);
->
->  	if (vin->info->use_mc) {
->  		mutex_lock(&vin->group->lock);
-> @@ -1481,7 +1489,7 @@ static int rcar_vin_remove(struct platform_device *pdev)
->  		rvin_group_put(vin);
->  	}
->
-> -	v4l2_ctrl_handler_free(&vin->ctrl_handler);
-> +	rvin_free_controls(vin);
->
->  	rvin_dma_unregister(vin);
->
 > --
 > 2.31.1
 >
