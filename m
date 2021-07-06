@@ -2,548 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF5D83BDBC6
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 18:58:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D13973BDC09
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 19:16:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230239AbhGFRAb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 13:00:31 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:56645 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229873AbhGFRAb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 13:00:31 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 6CB0A240003;
-        Tue,  6 Jul 2021 16:57:50 +0000 (UTC)
-Date:   Tue, 6 Jul 2021 18:58:39 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 06/11] rcar-vin: Move group async notifier
-Message-ID: <20210706165839.3zf2b6ef6cnyfgl2@uno.localdomain>
-References: <20210413180253.2575451-1-niklas.soderlund+renesas@ragnatech.se>
- <20210413180253.2575451-7-niklas.soderlund+renesas@ragnatech.se>
+        id S230345AbhGFRSO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 13:18:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41152 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230141AbhGFRSO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 13:18:14 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A208FC061574;
+        Tue,  6 Jul 2021 10:15:34 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id a18so39524935lfs.10;
+        Tue, 06 Jul 2021 10:15:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=qWyF+hqgVMW9DD7yaM7VXmC8kVQUfGovOhuk5Dj2s3c=;
+        b=Lx4/yVrGvBMc4Mq1hdAiR5H9p8gE/Zszgye5kZRD9HJsj46DIYPNa+zeKoaRFIly4V
+         IGbjGzL7fqXQeOVOf5kZ9KShRym/UILbBDIk9QDjxLVcb9aowDDdg4koEW9g0tmKiXeh
+         7Y9GDQs6rBwNe2Pa0038UKI3FVQhxWRolQ+hobZkeGrc9thk8oCXyjzNdq6hgafOUskO
+         1mk+KKb+PIQyrhyRHai+eWgxg7JTrc8KH5Z6hexE/wYaKiaxAFBHpD3CbzHD11CXwjsP
+         uS5wKpxZba2e0HhLmupp8vf4iT6OTz89d+NaadJkzLsIBLV4Ajg5XWuATu4NPt2QYMMp
+         vc8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=qWyF+hqgVMW9DD7yaM7VXmC8kVQUfGovOhuk5Dj2s3c=;
+        b=jcm83ci9apW4PlM0tK07FxfTlK7ONI4OwVZzxAiszZmcUK//pW/etUkyTMwLx0B5/2
+         Gnbq7ROtRM6q9nJ9t92/fRb/ixpsOAjVyuIIfFjXpcx9oO6vvAdQzWVtu18fp4SFBNcV
+         ZUy5zqWMMOKyFSVLQrbS7LF6AP7A9Cb01H7a7N0ks1Cw6VWOYWJJSC9ylrSwBtyeR/W4
+         xMWGsb9asUt5zqT4swRASC4GnbJ0OLaZMTSls08WT995qUvShL7k4ojnDOYtWpCGxWpn
+         HaVVqoAGD7w+zVbNsy90SyoWs6yzTjTZu9zS04ADUuyHbfmtJZUMmn/7DDHPBw5i9giu
+         M50g==
+X-Gm-Message-State: AOAM531nuzkvGZu7WHWilG09p3tMWZcMIUizl18cOawyegeIFxsR01HA
+        E8bLb2lgJuQHo3w84s4mIPA=
+X-Google-Smtp-Source: ABdhPJwDf6LNLuwEmaLgbx6AO4W6ydGI43rRBUls+V+lciQz6PnaptwrL2lyrmDu0IfcuPVhZVJq5g==
+X-Received: by 2002:a19:f012:: with SMTP id p18mr1088775lfc.298.1625591732888;
+        Tue, 06 Jul 2021 10:15:32 -0700 (PDT)
+Received: from localhost.localdomain ([94.103.225.155])
+        by smtp.gmail.com with ESMTPSA id q187sm1769511ljb.15.2021.07.06.10.15.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jul 2021 10:15:32 -0700 (PDT)
+Date:   Tue, 6 Jul 2021 20:15:28 +0300
+From:   Pavel Skripkin <paskripkin@gmail.com>
+To:     hverkuil-cisco@xs4all.nl, mchehab@kernel.org, oneukum@suse.com,
+        gregkh@suse.de
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH 0/2] media: go7007: code improvment and bug fixes
+Message-ID: <20210706201528.4b110719@gmail.com>
+In-Reply-To: <cover.1624217907.git.paskripkin@gmail.com>
+References: <cover.1624217907.git.paskripkin@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210413180253.2575451-7-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+On Sun, 20 Jun 2021 22:44:33 +0300
+Pavel Skripkin <paskripkin@gmail.com> wrote:
 
-On Tue, Apr 13, 2021 at 08:02:48PM +0200, Niklas Söderlund wrote:
-> The VIN group notifier code is intertwined with the media graph layout
-> code for R-Car CSI-2 subdevices, this makes it hard to extend the group
-> to also support the R-Car ISP channel selector.
->
-> Before breaking the two concepts apart and extending it move the group
-> code to its final location. There is no functional change and all
-> functions are moved verbatim.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> In this patch series, I fixed memory leak reported by my
+> local syzkaller instance and increased go7007_alloc() execution
+> speed by removing reduntant zeroing members in kzalloc allocated
+> structure.
+> 
+> 
+> Pavel Skripkin (2):
+>   media: go7007: fix memory leak in go7007_usb_probe
+>   media: go7007: remove redundant initialization
+> 
+>  drivers/media/usb/go7007/go7007-driver.c | 26
+> ------------------------ drivers/media/usb/go7007/go7007-usb.c    |
+> 2 +- 2 files changed, 1 insertion(+), 27 deletions(-)
+> 
 
-Seems there are no functional changes indeed!
+Hi, media developers!
 
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Gentle ping :)
 
-Thanks
-  j
 
-> ---
->  drivers/media/platform/rcar-vin/rcar-core.c | 460 ++++++++++----------
->  1 file changed, 230 insertions(+), 230 deletions(-)
->
-> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> index cc980cad805c022c..d951f739b3a9a034 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> @@ -383,6 +383,176 @@ static void rvin_group_put(struct rvin_dev *vin)
->  	kref_put(&group->refcount, rvin_group_release);
->  }
->
-> +static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
-> +{
-> +	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
-> +	const struct rvin_group_route *route;
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	ret = media_device_register(&vin->group->mdev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = v4l2_device_register_subdev_nodes(&vin->v4l2_dev);
-> +	if (ret) {
-> +		vin_err(vin, "Failed to register subdev nodes\n");
-> +		return ret;
-> +	}
-> +
-> +	/* Register all video nodes for the group. */
-> +	for (i = 0; i < RCAR_VIN_NUM; i++) {
-> +		if (vin->group->vin[i] &&
-> +		    !video_is_registered(&vin->group->vin[i]->vdev)) {
-> +			ret = rvin_v4l2_register(vin->group->vin[i]);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +	}
-> +
-> +	/* Create all media device links between VINs and CSI-2's. */
-> +	mutex_lock(&vin->group->lock);
-> +	for (route = vin->info->routes; route->mask; route++) {
-> +		struct media_pad *source_pad, *sink_pad;
-> +		struct media_entity *source, *sink;
-> +		unsigned int source_idx;
-> +
-> +		/* Check that VIN is part of the group. */
-> +		if (!vin->group->vin[route->vin])
-> +			continue;
-> +
-> +		/* Check that VIN' master is part of the group. */
-> +		if (!vin->group->vin[rvin_group_id_to_master(route->vin)])
-> +			continue;
-> +
-> +		/* Check that CSI-2 is part of the group. */
-> +		if (!vin->group->remotes[route->csi].subdev)
-> +			continue;
-> +
-> +		source = &vin->group->remotes[route->csi].subdev->entity;
-> +		source_idx = rvin_group_csi_channel_to_pad(route->channel);
-> +		source_pad = &source->pads[source_idx];
-> +
-> +		sink = &vin->group->vin[route->vin]->vdev.entity;
-> +		sink_pad = &sink->pads[0];
-> +
-> +		/* Skip if link already exists. */
-> +		if (media_entity_find_link(source_pad, sink_pad))
-> +			continue;
-> +
-> +		ret = media_create_pad_link(source, source_idx, sink, 0, 0);
-> +		if (ret) {
-> +			vin_err(vin, "Error adding link from %s to %s\n",
-> +				source->name, sink->name);
-> +			break;
-> +		}
-> +	}
-> +	mutex_unlock(&vin->group->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
-> +				     struct v4l2_subdev *subdev,
-> +				     struct v4l2_async_subdev *asd)
-> +{
-> +	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < RCAR_VIN_NUM; i++)
-> +		if (vin->group->vin[i])
-> +			rvin_v4l2_unregister(vin->group->vin[i]);
-> +
-> +	mutex_lock(&vin->group->lock);
-> +
-> +	for (i = 0; i < RVIN_CSI_MAX; i++) {
-> +		if (vin->group->remotes[i].asd != asd)
-> +			continue;
-> +		vin->group->remotes[i].subdev = NULL;
-> +		vin_dbg(vin, "Unbind %s from slot %u\n", subdev->name, i);
-> +		break;
-> +	}
-> +
-> +	mutex_unlock(&vin->group->lock);
-> +
-> +	media_device_unregister(&vin->group->mdev);
-> +}
-> +
-> +static int rvin_group_notify_bound(struct v4l2_async_notifier *notifier,
-> +				   struct v4l2_subdev *subdev,
-> +				   struct v4l2_async_subdev *asd)
-> +{
-> +	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
-> +	unsigned int i;
-> +
-> +	mutex_lock(&vin->group->lock);
-> +
-> +	for (i = 0; i < RVIN_CSI_MAX; i++) {
-> +		if (vin->group->remotes[i].asd != asd)
-> +			continue;
-> +		vin->group->remotes[i].subdev = subdev;
-> +		vin_dbg(vin, "Bound %s to slot %u\n", subdev->name, i);
-> +		break;
-> +	}
-> +
-> +	mutex_unlock(&vin->group->lock);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_async_notifier_operations rvin_group_notify_ops = {
-> +	.bound = rvin_group_notify_bound,
-> +	.unbind = rvin_group_notify_unbind,
-> +	.complete = rvin_group_notify_complete,
-> +};
-> +
-> +static int rvin_mc_parse_of(struct rvin_dev *vin, unsigned int id)
-> +{
-> +	struct fwnode_handle *ep, *fwnode;
-> +	struct v4l2_fwnode_endpoint vep = {
-> +		.bus_type = V4L2_MBUS_CSI2_DPHY,
-> +	};
-> +	struct v4l2_async_subdev *asd;
-> +	int ret;
-> +
-> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 1, id, 0);
-> +	if (!ep)
-> +		return 0;
-> +
-> +	fwnode = fwnode_graph_get_remote_endpoint(ep);
-> +	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-> +	fwnode_handle_put(ep);
-> +	if (ret) {
-> +		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +
-> +	if (!of_device_is_available(to_of_node(fwnode))) {
-> +		vin_dbg(vin, "OF device %pOF disabled, ignoring\n",
-> +			to_of_node(fwnode));
-> +		ret = -ENOTCONN;
-> +		goto out;
-> +	}
-> +
-> +	asd = v4l2_async_notifier_add_fwnode_subdev(&vin->group->notifier,
-> +						    fwnode,
-> +						    struct v4l2_async_subdev);
-> +	if (IS_ERR(asd)) {
-> +		ret = PTR_ERR(asd);
-> +		goto out;
-> +	}
-> +
-> +	vin->group->remotes[vep.base.id].asd = asd;
-> +
-> +	vin_dbg(vin, "Add group OF device %pOF to slot %u\n",
-> +		to_of_node(fwnode), vep.base.id);
-> +out:
-> +	fwnode_handle_put(fwnode);
-> +
-> +	return ret;
-> +}
-> +
->  static void rvin_group_notifier_cleanup(struct rvin_dev *vin)
->  {
->  	mutex_lock(&vin->group->lock);
-> @@ -393,6 +563,65 @@ static void rvin_group_notifier_cleanup(struct rvin_dev *vin)
->  	mutex_unlock(&vin->group->lock);
->  }
->
-> +static int rvin_mc_parse_of_graph(struct rvin_dev *vin)
-> +{
-> +	unsigned int count = 0, vin_mask = 0;
-> +	unsigned int i, id;
-> +	int ret;
-> +
-> +	mutex_lock(&vin->group->lock);
-> +
-> +	/* If not all VIN's are registered don't register the notifier. */
-> +	for (i = 0; i < RCAR_VIN_NUM; i++) {
-> +		if (vin->group->vin[i]) {
-> +			count++;
-> +			vin_mask |= BIT(i);
-> +		}
-> +	}
-> +
-> +	if (vin->group->count != count) {
-> +		mutex_unlock(&vin->group->lock);
-> +		return 0;
-> +	}
-> +
-> +	mutex_unlock(&vin->group->lock);
-> +
-> +	v4l2_async_notifier_init(&vin->group->notifier);
-> +
-> +	/*
-> +	 * Have all VIN's look for CSI-2 subdevices. Some subdevices will
-> +	 * overlap but the parser function can handle it, so each subdevice
-> +	 * will only be registered once with the group notifier.
-> +	 */
-> +	for (i = 0; i < RCAR_VIN_NUM; i++) {
-> +		if (!(vin_mask & BIT(i)))
-> +			continue;
-> +
-> +		for (id = 0; id < RVIN_CSI_MAX; id++) {
-> +			if (vin->group->remotes[id].asd)
-> +				continue;
-> +
-> +			ret = rvin_mc_parse_of(vin->group->vin[i], id);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +	}
-> +
-> +	if (list_empty(&vin->group->notifier.asd_list))
-> +		return 0;
-> +
-> +	vin->group->notifier.ops = &rvin_group_notify_ops;
-> +	ret = v4l2_async_notifier_register(&vin->v4l2_dev,
-> +					   &vin->group->notifier);
-> +	if (ret < 0) {
-> +		vin_err(vin, "Notifier registration failed\n");
-> +		v4l2_async_notifier_cleanup(&vin->group->notifier);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  /* -----------------------------------------------------------------------------
->   * Controls
->   */
-> @@ -720,238 +949,9 @@ static int rvin_parallel_init(struct rvin_dev *vin)
->  }
->
->  /* -----------------------------------------------------------------------------
-> - * Group async notifier
-> + * CSI-2
->   */
->
-> -static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
-> -{
-> -	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
-> -	const struct rvin_group_route *route;
-> -	unsigned int i;
-> -	int ret;
-> -
-> -	ret = media_device_register(&vin->group->mdev);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret = v4l2_device_register_subdev_nodes(&vin->v4l2_dev);
-> -	if (ret) {
-> -		vin_err(vin, "Failed to register subdev nodes\n");
-> -		return ret;
-> -	}
-> -
-> -	/* Register all video nodes for the group. */
-> -	for (i = 0; i < RCAR_VIN_NUM; i++) {
-> -		if (vin->group->vin[i] &&
-> -		    !video_is_registered(&vin->group->vin[i]->vdev)) {
-> -			ret = rvin_v4l2_register(vin->group->vin[i]);
-> -			if (ret)
-> -				return ret;
-> -		}
-> -	}
-> -
-> -	/* Create all media device links between VINs and CSI-2's. */
-> -	mutex_lock(&vin->group->lock);
-> -	for (route = vin->info->routes; route->mask; route++) {
-> -		struct media_pad *source_pad, *sink_pad;
-> -		struct media_entity *source, *sink;
-> -		unsigned int source_idx;
-> -
-> -		/* Check that VIN is part of the group. */
-> -		if (!vin->group->vin[route->vin])
-> -			continue;
-> -
-> -		/* Check that VIN' master is part of the group. */
-> -		if (!vin->group->vin[rvin_group_id_to_master(route->vin)])
-> -			continue;
-> -
-> -		/* Check that CSI-2 is part of the group. */
-> -		if (!vin->group->remotes[route->csi].subdev)
-> -			continue;
-> -
-> -		source = &vin->group->remotes[route->csi].subdev->entity;
-> -		source_idx = rvin_group_csi_channel_to_pad(route->channel);
-> -		source_pad = &source->pads[source_idx];
-> -
-> -		sink = &vin->group->vin[route->vin]->vdev.entity;
-> -		sink_pad = &sink->pads[0];
-> -
-> -		/* Skip if link already exists. */
-> -		if (media_entity_find_link(source_pad, sink_pad))
-> -			continue;
-> -
-> -		ret = media_create_pad_link(source, source_idx, sink, 0, 0);
-> -		if (ret) {
-> -			vin_err(vin, "Error adding link from %s to %s\n",
-> -				source->name, sink->name);
-> -			break;
-> -		}
-> -	}
-> -	mutex_unlock(&vin->group->lock);
-> -
-> -	return ret;
-> -}
-> -
-> -static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
-> -				     struct v4l2_subdev *subdev,
-> -				     struct v4l2_async_subdev *asd)
-> -{
-> -	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
-> -	unsigned int i;
-> -
-> -	for (i = 0; i < RCAR_VIN_NUM; i++)
-> -		if (vin->group->vin[i])
-> -			rvin_v4l2_unregister(vin->group->vin[i]);
-> -
-> -	mutex_lock(&vin->group->lock);
-> -
-> -	for (i = 0; i < RVIN_CSI_MAX; i++) {
-> -		if (vin->group->remotes[i].asd != asd)
-> -			continue;
-> -		vin->group->remotes[i].subdev = NULL;
-> -		vin_dbg(vin, "Unbind %s from slot %u\n", subdev->name, i);
-> -		break;
-> -	}
-> -
-> -	mutex_unlock(&vin->group->lock);
-> -
-> -	media_device_unregister(&vin->group->mdev);
-> -}
-> -
-> -static int rvin_group_notify_bound(struct v4l2_async_notifier *notifier,
-> -				   struct v4l2_subdev *subdev,
-> -				   struct v4l2_async_subdev *asd)
-> -{
-> -	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
-> -	unsigned int i;
-> -
-> -	mutex_lock(&vin->group->lock);
-> -
-> -	for (i = 0; i < RVIN_CSI_MAX; i++) {
-> -		if (vin->group->remotes[i].asd != asd)
-> -			continue;
-> -		vin->group->remotes[i].subdev = subdev;
-> -		vin_dbg(vin, "Bound %s to slot %u\n", subdev->name, i);
-> -		break;
-> -	}
-> -
-> -	mutex_unlock(&vin->group->lock);
-> -
-> -	return 0;
-> -}
-> -
-> -static const struct v4l2_async_notifier_operations rvin_group_notify_ops = {
-> -	.bound = rvin_group_notify_bound,
-> -	.unbind = rvin_group_notify_unbind,
-> -	.complete = rvin_group_notify_complete,
-> -};
-> -
-> -static int rvin_mc_parse_of(struct rvin_dev *vin, unsigned int id)
-> -{
-> -	struct fwnode_handle *ep, *fwnode;
-> -	struct v4l2_fwnode_endpoint vep = {
-> -		.bus_type = V4L2_MBUS_CSI2_DPHY,
-> -	};
-> -	struct v4l2_async_subdev *asd;
-> -	int ret;
-> -
-> -	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 1, id, 0);
-> -	if (!ep)
-> -		return 0;
-> -
-> -	fwnode = fwnode_graph_get_remote_endpoint(ep);
-> -	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-> -	fwnode_handle_put(ep);
-> -	if (ret) {
-> -		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
-> -		ret = -EINVAL;
-> -		goto out;
-> -	}
-> -
-> -	if (!of_device_is_available(to_of_node(fwnode))) {
-> -		vin_dbg(vin, "OF device %pOF disabled, ignoring\n",
-> -			to_of_node(fwnode));
-> -		ret = -ENOTCONN;
-> -		goto out;
-> -	}
-> -
-> -	asd = v4l2_async_notifier_add_fwnode_subdev(&vin->group->notifier,
-> -						    fwnode,
-> -						    struct v4l2_async_subdev);
-> -	if (IS_ERR(asd)) {
-> -		ret = PTR_ERR(asd);
-> -		goto out;
-> -	}
-> -
-> -	vin->group->remotes[vep.base.id].asd = asd;
-> -
-> -	vin_dbg(vin, "Add group OF device %pOF to slot %u\n",
-> -		to_of_node(fwnode), vep.base.id);
-> -out:
-> -	fwnode_handle_put(fwnode);
-> -
-> -	return ret;
-> -}
-> -
-> -static int rvin_mc_parse_of_graph(struct rvin_dev *vin)
-> -{
-> -	unsigned int count = 0, vin_mask = 0;
-> -	unsigned int i, id;
-> -	int ret;
-> -
-> -	mutex_lock(&vin->group->lock);
-> -
-> -	/* If not all VIN's are registered don't register the notifier. */
-> -	for (i = 0; i < RCAR_VIN_NUM; i++) {
-> -		if (vin->group->vin[i]) {
-> -			count++;
-> -			vin_mask |= BIT(i);
-> -		}
-> -	}
-> -
-> -	if (vin->group->count != count) {
-> -		mutex_unlock(&vin->group->lock);
-> -		return 0;
-> -	}
-> -
-> -	mutex_unlock(&vin->group->lock);
-> -
-> -	v4l2_async_notifier_init(&vin->group->notifier);
-> -
-> -	/*
-> -	 * Have all VIN's look for CSI-2 subdevices. Some subdevices will
-> -	 * overlap but the parser function can handle it, so each subdevice
-> -	 * will only be registered once with the group notifier.
-> -	 */
-> -	for (i = 0; i < RCAR_VIN_NUM; i++) {
-> -		if (!(vin_mask & BIT(i)))
-> -			continue;
-> -
-> -		for (id = 0; id < RVIN_CSI_MAX; id++) {
-> -			if (vin->group->remotes[id].asd)
-> -				continue;
-> -
-> -			ret = rvin_mc_parse_of(vin->group->vin[i], id);
-> -			if (ret)
-> -				return ret;
-> -		}
-> -	}
-> -
-> -	if (list_empty(&vin->group->notifier.asd_list))
-> -		return 0;
-> -
-> -	vin->group->notifier.ops = &rvin_group_notify_ops;
-> -	ret = v4l2_async_notifier_register(&vin->v4l2_dev,
-> -					   &vin->group->notifier);
-> -	if (ret < 0) {
-> -		vin_err(vin, "Notifier registration failed\n");
-> -		v4l2_async_notifier_cleanup(&vin->group->notifier);
-> -		return ret;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->  static void rvin_csi2_cleanup(struct rvin_dev *vin)
->  {
->  	rvin_group_notifier_cleanup(vin);
-> --
-> 2.31.1
->
+
+With regards,
+Pavel Skripkin
