@@ -2,325 +2,317 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C6733BC92A
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 12:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 786BA3BC980
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 12:22:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231338AbhGFKPC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 06:15:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57058 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231301AbhGFKPC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 06:15:02 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36696C061574
-        for <linux-media@vger.kernel.org>; Tue,  6 Jul 2021 03:12:23 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id n9so8065591wrs.13
-        for <linux-media@vger.kernel.org>; Tue, 06 Jul 2021 03:12:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1lSRZ4P7ggIgdNFz6D4WaF8yqxGm3+JUhNvxHpUyQxw=;
-        b=VrKzPojpHAT+Dlp99W84NQiSzwI+IIerjeNVLBCH7GUFJaDde2u8qU/GaqfXfY+m+O
-         3oNwwllyfMZ+9Dgr8AJ6hL4U/JFxLmKiR6sLkuFP6LwyD4oPVmXOVdA8NOnoigwA2eMw
-         gKIY0ZEG51D6CQ6hKcn5p+w4BbPr3mDOp1C0A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1lSRZ4P7ggIgdNFz6D4WaF8yqxGm3+JUhNvxHpUyQxw=;
-        b=iHBtc1V7M7lfskauuOD9Rj73EeVyqtsM6q1seFN8hCX2NjMoc/rBp5GRzhIPtdMVEX
-         dnaEDUtJhzPGryFYKAh8LgmcbYqEhP2ueA+OO6xkm/CefTAvUW1Rqz2vUgEipBdi7a0Q
-         lf+l3zXqjHGlaARxARMeHtlEmPEsS2tK14l+wcD+YRsRs/kYPSFkSxEakcJhqHBgn2fz
-         AUkFMawB4gFF0CzptAu+g7B7tzNHBCFqxKTyLcrLBve+1gAjOey06ZZqiwSxm2MT21zc
-         UZ8A+noN7j1YViSomof5X1Fd/9llAhwOBcbrD+CyOPqmDGDmtz6kNOtKaEJMuGTpTmi1
-         xHzA==
-X-Gm-Message-State: AOAM532WRSfqo7ISqLhqaIrKCImHhY9KWhpu7P40pn1zNDhriKGXqgLe
-        halSrzYITrj4Y11PXxNLdNS5mg==
-X-Google-Smtp-Source: ABdhPJwKzoqROJvDlgnQYoMxQCRFOMdeGCAuxEjonVQRkgacAtQ0/yt6DkJAw0IdzX1LbW0bcGlI+A==
-X-Received: by 2002:adf:ef8b:: with SMTP id d11mr20742548wro.346.1625566341395;
-        Tue, 06 Jul 2021 03:12:21 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id u2sm9862739wmc.42.2021.07.06.03.12.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jul 2021 03:12:20 -0700 (PDT)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 7/7] dma-resv: Give the docs a do-over
-Date:   Tue,  6 Jul 2021 12:12:09 +0200
-Message-Id: <20210706101209.3034092-8-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210706101209.3034092-1-daniel.vetter@ffwll.ch>
-References: <20210706101209.3034092-1-daniel.vetter@ffwll.ch>
+        id S231327AbhGFKZM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 06:25:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51358 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231208AbhGFKZF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 6 Jul 2021 06:25:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 46675619A2;
+        Tue,  6 Jul 2021 10:22:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1625566946;
+        bh=CVw0hKyMav3rIRaqV9zNgy7mU4Mw36sPMSvkirDCWbw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Oy+mHp7honxzQyOE+wiK41kmp6JUhn55W2wKSp+Vbq/T3tSaJx6stV0fB6qfwxpuH
+         TZMucp2PpXSBWZZ8UuwZi0VErfdCkgx9V9lzMcIIVDbwZ6uoJBpnGqRW6TTGOLGPYG
+         UZlgH6BlJ1UcUXPyUgWEQPmEIm5h5aEhRvJ5dQI9JFByS/LCYVZRwDSup+oN35CuLQ
+         o6cRp/OvagxKTRqp1mZcWbXtiL+0BErueKp5LxgqFHu+8lCzy/LfC12ocG23wWxgEy
+         fwSWUWEZxeGd21itz7GPzm0iIksLONvOP0BBIC/IQaAHE+fWWwMn/rZdpJvXYfuX0L
+         B7JCQob2OHz4A==
+Date:   Tue, 6 Jul 2021 11:21:53 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Geoff Levand <geoff@infradead.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Alison Schofield <alison.schofield@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Wu Hao <hao.wu@intel.com>, Tom Rix <trix@redhat.com>,
+        Moritz Fischer <mdf@kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
+        Jens Taprogge <jens.taprogge@taprogge.org>,
+        Johannes Thumshirn <morbidrsa@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxim Levitsky <maximlevitsky@gmail.com>,
+        Alex Dubov <oakad@yahoo.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Alexandre Bounine <alex.bou9@gmail.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Thorsten Scherer <t.scherer@eckelmann.de>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, Michael Buesch <m@bues.ch>,
+        Sven Van Asbroeck <TheSven73@gmail.com>,
+        Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Martyn Welch <martyn@welchs.me.uk>,
+        Manohar Vanga <manohar.vanga@gmail.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Marc Zyngier <maz@kernel.org>,
+        Tyrel Datwyler <tyreld@linux.ibm.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Qinglang Miao <miaoqinglang@huawei.com>,
+        Alexey Kardashevskiy <aik@ozlabs.ru>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Joey Pabalan <jpabalanb@gmail.com>,
+        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Frank Li <lznuaa@gmail.com>,
+        Mike Christie <michael.christie@oracle.com>,
+        Bodo Stroesser <bostroesser@gmail.com>,
+        Hannes Reinecke <hare@suse.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        SeongJae Park <sjpark@amazon.de>,
+        Julien Grall <jgrall@amazon.com>,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-acpi@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, linux-cxl@vger.kernel.org,
+        nvdimm@lists.linux.dev, dmaengine@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
+        industrypack-devel@lists.sourceforge.net,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
+        linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
+        greybus-dev@lists.linaro.org, target-devel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH] bus: Make remove callback return void
+Message-ID: <20210706102153.GA4529@sirena.org.uk>
+Mail-Followup-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>, Geoff Levand <geoff@infradead.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Alison Schofield <alison.schofield@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>, Vinod Koul <vkoul@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Wu Hao <hao.wu@intel.com>, Tom Rix <trix@redhat.com>,
+        Moritz Fischer <mdf@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
+        Jens Taprogge <jens.taprogge@taprogge.org>,
+        Johannes Thumshirn <morbidrsa@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxim Levitsky <maximlevitsky@gmail.com>,
+        Alex Dubov <oakad@yahoo.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Alexandre Bounine <alex.bou9@gmail.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Thorsten Scherer <t.scherer@eckelmann.de>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Andy Gross <agross@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        Michael Buesch <m@bues.ch>, Sven Van Asbroeck <TheSven73@gmail.com>,
+        Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Rob Herring <robh@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Martyn Welch <martyn@welchs.me.uk>,
+        Manohar Vanga <manohar.vanga@gmail.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Tyrel Datwyler <tyreld@linux.ibm.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Qinglang Miao <miaoqinglang@huawei.com>,
+        Alexey Kardashevskiy <aik@ozlabs.ru>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Joey Pabalan <jpabalanb@gmail.com>,
+        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Frank Li <lznuaa@gmail.com>,
+        Mike Christie <michael.christie@oracle.com>,
+        Bodo Stroesser <bostroesser@gmail.com>,
+        Hannes Reinecke <hare@suse.de>, David Woodhouse <dwmw@amazon.co.uk>,
+        SeongJae Park <sjpark@amazon.de>, Julien Grall <jgrall@amazon.com>,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-acpi@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, linux-cxl@vger.kernel.org,
+        nvdimm@lists.linux.dev, dmaengine@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
+        industrypack-devel@lists.sourceforge.net,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
+        linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
+        greybus-dev@lists.linaro.org, target-devel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org
+References: <20210706095037.1425211-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="h31gzZEtNLTqOjlF"
+Content-Disposition: inline
+In-Reply-To: <20210706095037.1425211-1-u.kleine-koenig@pengutronix.de>
+X-Cookie: Some restrictions may apply.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Specifically document the new/clarified rules around how the shared
-fences do not have any ordering requirements against the exclusive
-fence.
 
-But also document all the things a bit better, given how central
-struct dma_resv to dynamic buffer management the docs have been very
-inadequat.
+--h31gzZEtNLTqOjlF
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-- Lots more links to other pieces of the puzzle. Unfortunately
-  ttm_buffer_object has no docs, so no links :-(
+On Tue, Jul 06, 2021 at 11:50:37AM +0200, Uwe Kleine-K=F6nig wrote:
+> The driver core ignores the return value of this callback because there
+> is only little it can do when a device disappears.
 
-- Explain/complain a bit about dma_resv_locking_ctx(). I still don't
-  like that one, but fixing the ttm call chains is going to be
-  horrible. Plus we want to plug in real slowpath locking when we do
-  that anyway.
+Acked-by: Mark Brown <broonie@kernel.org>
 
-- Main part of the patch is some actual docs for struct dma_resv.
+--h31gzZEtNLTqOjlF
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Overall I think we still have a lot of bad naming in this area (e.g.
-dma_resv.fence is singular, but contains the multiple shared fences),
-but I think that's more indicative of how the semantics and rules are
-just not great.
+-----BEGIN PGP SIGNATURE-----
 
-Another thing that's real awkard is how chaining exclusive fences
-right now means direct dma_resv.exclusive_fence pointer access with an
-rcu_assign_pointer. Not so great either.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmDkLsEACgkQJNaLcl1U
+h9DTPwf+KbK6BlKGymyR/lS6jHNFzqdjZJtNgnrGCAQPShECrFWEoT+hh+wbGftz
++dyPIG3olrPCj20bdTdirf0mN6fK5b1ws7Y51Pl5kFKWSF9anPqHvugsBWlktrLI
+ZQGpHaOaDBzTO9z+a88du417htx2DY8Y84yObqoGeFEMODdEwf+d7aWTAsAumvEd
+W3tqktVLL+RKuqiM2ppKuMZRdRGwtv8d+Mo44RUmPtQGuj5slIJU22Ew0Nrn/eyI
+xRq4Q2GeqkJQJWsXmJ+C6hMJvgdnisNu+4eaDrkhaY/V36HQFRMl+PUAdt0W1ayI
+ftXC4GrcHhpLlLwnb8FUQzYy+hMN1g==
+=PinY
+-----END PGP SIGNATURE-----
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/dma-buf/dma-resv.c |  22 ++++++--
- include/linux/dma-resv.h   | 104 +++++++++++++++++++++++++++++++++++--
- 2 files changed, 116 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index f26c71747d43..898f8d894bbd 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -48,6 +48,8 @@
-  * write operations) or N shared fences (read operations).  The RCU
-  * mechanism is used to protect read access to fences from locked
-  * write-side updates.
-+ *
-+ * See struct dma_resv for more details.
-  */
- 
- DEFINE_WD_CLASS(reservation_ww_class);
-@@ -137,7 +139,11 @@ EXPORT_SYMBOL(dma_resv_fini);
-  * @num_fences: number of fences we want to add
-  *
-  * Should be called before dma_resv_add_shared_fence().  Must
-- * be called with obj->lock held.
-+ * be called with @obj locked through dma_resv_lock().
-+ *
-+ * Note that the preallocated slots need to be re-reserved if @obj is unlocked
-+ * at any time before callind dma_resv_add_shared_fence(). This is validate when
-+ * CONFIG_DEBUG_MUTEXES is enabled.
-  *
-  * RETURNS
-  * Zero for success, or -errno
-@@ -234,8 +240,10 @@ EXPORT_SYMBOL(dma_resv_reset_shared_max);
-  * @obj: the reservation object
-  * @fence: the shared fence to add
-  *
-- * Add a fence to a shared slot, obj->lock must be held, and
-+ * Add a fence to a shared slot, @obj must be locked with dma_resv_lock(), and
-  * dma_resv_reserve_shared() has been called.
-+ *
-+ * See also &dma_resv.fence for a discussion of the semantics.
-  */
- void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
- {
-@@ -280,7 +288,9 @@ EXPORT_SYMBOL(dma_resv_add_shared_fence);
-  * @obj: the reservation object
-  * @fence: the shared fence to add
-  *
-- * Add a fence to the exclusive slot.  The obj->lock must be held.
-+ * Add a fence to the exclusive slot. @obj must be locked with dma_resv_lock().
-+ * Note that this function replaces all fences attached to @obj, see also
-+ * &dma_resv.fence_excl for a discussion of the semantics.
-  */
- void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
- {
-@@ -609,9 +619,11 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
-  * fence
-  *
-  * Callers are not required to hold specific locks, but maybe hold
-- * dma_resv_lock() already
-+ * dma_resv_lock() already.
-+ *
-  * RETURNS
-- * true if all fences signaled, else false
-+ *
-+ * True if all fences signaled, else false.
-  */
- bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
- {
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index e1ca2080a1ff..c77fd54d033f 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -62,16 +62,90 @@ struct dma_resv_list {
- 
- /**
-  * struct dma_resv - a reservation object manages fences for a buffer
-- * @lock: update side lock
-- * @seq: sequence count for managing RCU read-side synchronization
-- * @fence_excl: the exclusive fence, if there is one currently
-- * @fence: list of current shared fences
-+ *
-+ * There are multiple uses for this, with sometimes slightly different rules in
-+ * how the fence slots are used.
-+ *
-+ * One use is to synchronize cross-driver access to a struct dma_buf, either for
-+ * dynamic buffer management or just to handle implicit synchronization between
-+ * different users of the buffer in userspace. See &dma_buf.resv for a more
-+ * in-depth discussion.
-+ *
-+ * The other major use is to manage access and locking within a driver in a
-+ * buffer based memory manager. struct ttm_buffer_object is the canonical
-+ * example here, since this is were reservation objects originated from. But use
-+ * in drivers is spreading and some drivers also manage struct
-+ * drm_gem_object with the same scheme.
-  */
- struct dma_resv {
-+	/**
-+	 * @lock:
-+	 *
-+	 * Update side lock. Don't use directly, instead use the wrapper
-+	 * functions like dma_resv_lock() and dma_resv_unlock().
-+	 *
-+	 * Drivers which use the reservation object to manage memory dynamically
-+	 * also use this lock to protect buffer object state like placement,
-+	 * allocation policies or throughout command submission.
-+	 */
- 	struct ww_mutex lock;
-+
-+	/**
-+	 * @seq:
-+	 *
-+	 * Sequence count for managing RCU read-side synchronization, allows
-+	 * read-only access to @fence_excl and @fence while ensuring we take a
-+	 * consistent snapshot.
-+	 */
- 	seqcount_ww_mutex_t seq;
- 
-+	/**
-+	 * @fence_excl:
-+	 *
-+	 * The exclusive fence, if there is one currently.
-+	 *
-+	 * There are two was to update this fence:
-+	 *
-+	 * - First by calling dma_resv_add_excl_fence(), which replaces all
-+	 *   fences attached to the reservation object. To guarantee that no
-+	 *   fences are lost this new fence must signal only after all previous
-+	 *   fences, both shared and exclusive, have signalled. In some cases it
-+	 *   is convenient to achieve that by attaching a struct dma_fence_array
-+	 *   with all the new and old fences.
-+	 *
-+	 * - Alternatively the fence can be set directly, which leaves the
-+	 *   shared fences unchanged. To guarantee that no fences are lost this
-+	 *   new fence must signale only after the previous exclusive fence has
-+	 *   singalled. Since the shared fences are staying intact, it is not
-+	 *   necessary to maintain any ordering against those. If semantically
-+	 *   only a new access is added without actually treating the previous
-+	 *   one as a dependency the exclusive fences can be strung together
-+	 *   using struct dma_fence_chain.
-+	 *
-+	 * Note that actual semantics of what an exclusive or shared fence mean
-+	 * is defined by the user, for reservation objects shared across drivers
-+	 * see &dma_buf.resv.
-+	 */
- 	struct dma_fence __rcu *fence_excl;
-+
-+	/**
-+	 * @fence:
-+	 *
-+	 * List of current shared fences.
-+	 *
-+	 * There are no ordering constraints of shared fences against the
-+	 * exclusive fence slot. If a waiter needs to wait for all access, it
-+	 * has to wait for both set of fences to signal.
-+	 *
-+	 * A new fence is added by calling dma_resv_add_shared_fence(). Since
-+	 * this often needs to be done past the point of no return in command
-+	 * submission it cannot fail, and therefor sufficient slots need to be
-+	 * reserved by calling dma_resv_reserve_shared().
-+	 *
-+	 * Note that actual semantics of what an exclusive or shared fence mean
-+	 * is defined by the user, for reservation objects shared across drivers
-+	 * see &dma_buf.resv.
-+	 */
- 	struct dma_resv_list __rcu *fence;
- };
- 
-@@ -98,6 +172,13 @@ static inline void dma_resv_reset_shared_max(struct dma_resv *obj) {}
-  * undefined order, a #ww_acquire_ctx is passed to unwind if a cycle
-  * is detected. See ww_mutex_lock() and ww_acquire_init(). A reservation
-  * object may be locked by itself by passing NULL as @ctx.
-+ *
-+ * When a die situation is indicated by returning -EDEADLK all locks held by
-+ * @ctx must be unlocked and then dma_resv_lock_slow() called on @obj.
-+ *
-+ * Unlocked by calling dma_resv_lock().
-+ *
-+ * See also dma_resv_lock_interruptible() for the interruptible variant.
-  */
- static inline int dma_resv_lock(struct dma_resv *obj,
- 				struct ww_acquire_ctx *ctx)
-@@ -119,6 +200,12 @@ static inline int dma_resv_lock(struct dma_resv *obj,
-  * undefined order, a #ww_acquire_ctx is passed to unwind if a cycle
-  * is detected. See ww_mutex_lock() and ww_acquire_init(). A reservation
-  * object may be locked by itself by passing NULL as @ctx.
-+ *
-+ * When a die situation is indicated by returning -EDEADLK all locks held by
-+ * @ctx must be unlocked and then dma_resv_lock_slow_interruptible() called on
-+ * @obj.
-+ *
-+ * Unlocked by calling dma_resv_lock().
-  */
- static inline int dma_resv_lock_interruptible(struct dma_resv *obj,
- 					      struct ww_acquire_ctx *ctx)
-@@ -134,6 +221,8 @@ static inline int dma_resv_lock_interruptible(struct dma_resv *obj,
-  * Acquires the reservation object after a die case. This function
-  * will sleep until the lock becomes available. See dma_resv_lock() as
-  * well.
-+ *
-+ * See also dma_resv_lock_slow_interruptible() for the interruptible variant.
-  */
- static inline void dma_resv_lock_slow(struct dma_resv *obj,
- 				      struct ww_acquire_ctx *ctx)
-@@ -167,7 +256,7 @@ static inline int dma_resv_lock_slow_interruptible(struct dma_resv *obj,
-  * if they overlap with a writer.
-  *
-  * Also note that since no context is provided, no deadlock protection is
-- * possible.
-+ * possible, which is also not needed for a trylock.
-  *
-  * Returns true if the lock was acquired, false otherwise.
-  */
-@@ -193,6 +282,11 @@ static inline bool dma_resv_is_locked(struct dma_resv *obj)
-  *
-  * Returns the context used to lock a reservation object or NULL if no context
-  * was used or the object is not locked at all.
-+ *
-+ * WARNING: This interface is pretty horrible, but TTM needs it because it
-+ * doesn't pass the struct ww_acquire_ctx around in some very long callchains.
-+ * Everyone else just uses it to check whether they're holding a reservation or
-+ * not.
-  */
- static inline struct ww_acquire_ctx *dma_resv_locking_ctx(struct dma_resv *obj)
- {
--- 
-2.32.0
-
+--h31gzZEtNLTqOjlF--
