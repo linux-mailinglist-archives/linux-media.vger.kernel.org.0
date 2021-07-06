@@ -2,143 +2,252 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84CC93BDD36
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 20:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94BC43BDD42
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 20:33:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231309AbhGFSe3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 14:34:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58232 "EHLO
+        id S231422AbhGFSfE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 14:35:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229954AbhGFSe2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 14:34:28 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 938EEC061574
-        for <linux-media@vger.kernel.org>; Tue,  6 Jul 2021 11:31:48 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id 145so6307447pfv.0
-        for <linux-media@vger.kernel.org>; Tue, 06 Jul 2021 11:31:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xS4jmUfoYf+qsHEX1NkazSuwR3nlQAXkZMVvUw/VAUw=;
-        b=WvzI34BCNFC58UqM62eaC15I3Yl4gCH/I8Ta5Ki1kdgAdDX/cqsF343tDXX9SeXxjE
-         a8pdPzapSJ/sQt5ALbN0TSo27XMUHAhF+ez6o1TqVZ0w34FyFoB2xXLpSFnx+kAoI1Oa
-         /2QK4caLLF12JWPBYN7cBaevzABXzTT6p2tWO4RfsWJPrgJzAY9QsaEw4MwwoHGjZjND
-         H+aa1hpGfvT+9YIcsPNAoK1a9s92DpckoP2b2Wv7OA4c2l3ABp1equdZgsXeTEcw/jWG
-         mVVlxVe1jSXOTMYW+Th87k0OQhmUJk8cdCf+SRPXnXQsphxTzFJuGNNuThCnpUmmJqv3
-         6b6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xS4jmUfoYf+qsHEX1NkazSuwR3nlQAXkZMVvUw/VAUw=;
-        b=BGxPxh2S0PF5Sl+TZpqpzcuxyDrSsmBa/9uaEwBnJIi2E5W7JRm62gzk4LUxIJP2Ud
-         F2ielQpjGq+TGHnd5Yg23jpUaM9WOJbLE4jPVF6piWk622vTwVeNAJs2PiBKcoA6W9Z6
-         VKQsUIsH+hQzPYIl3x9Et1flyFhyng3y+h0ajf5KnlfxVim4tpZ3M3XV3WKuOdH+yZR+
-         9cdi62mo4R4iYD1Zc0ytuNwwlELroeBfIbJT2YwHBSIQAS4hutDwPSXV9Oi5wDksKWex
-         gkgU6atihtp75+tNIGFJVXVHRqkHBJ0uY1hPRvNbgwiXoD66nfJykUQhhVZkRPqf2hjz
-         23IA==
-X-Gm-Message-State: AOAM531hfNXL/yfX4uO33RsoQ7dEfrzGLAsf+fSafX4eGA6rgeud7ECQ
-        et/JAekNvbrYcpv7venDtFxAnA==
-X-Google-Smtp-Source: ABdhPJxCLr3QP1MrQQwgN3RYMUf8nARhv0A5jCkgz/6YUMgwNC9ne4TbUPIgRuDm3nikL4Z47miuFA==
-X-Received: by 2002:a63:5a59:: with SMTP id k25mr10017534pgm.423.1625596307999;
-        Tue, 06 Jul 2021 11:31:47 -0700 (PDT)
-Received: from ziepe.ca ([206.223.160.26])
-        by smtp.gmail.com with ESMTPSA id n33sm19327390pgm.55.2021.07.06.11.31.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jul 2021 11:31:47 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1m0prF-004Wdb-Bw; Tue, 06 Jul 2021 15:31:45 -0300
-Date:   Tue, 6 Jul 2021 15:31:45 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Oded Gabbay <oded.gabbay@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Dave Airlie <airlied@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
-Message-ID: <20210706183145.GT4604@ziepe.ca>
-References: <20210705130314.11519-1-ogabbay@kernel.org>
- <YOQXBWpo3whVjOyh@phenom.ffwll.local>
- <CAFCwf10_rTYL2Fy6tCRVAUCf4-6_TtcWCv5gEEkGnQ0KxqMUBg@mail.gmail.com>
- <CAKMK7uEAJZUHNLreBB839BZOfnTGNU4rCx-0k55+67Nbxtdx3A@mail.gmail.com>
- <20210706142357.GN4604@ziepe.ca>
- <CAKMK7uELNzwUe+hhVWRg=Pk5Wt_vOOX922H48Kd6dTyO2PeBbg@mail.gmail.com>
- <20210706152542.GP4604@ziepe.ca>
- <CAKMK7uH7Ar6+uAOU_Sj-mf89V9WCru+66CV5bO9h-WAAv7Mgdg@mail.gmail.com>
- <20210706162953.GQ4604@ziepe.ca>
- <CAKMK7uGXUgjyjch57J3UnC7SA3-4g87Ft7tLjj9fFkgyKkKdrg@mail.gmail.com>
+        with ESMTP id S231403AbhGFSfD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 14:35:03 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F069C061574
+        for <linux-media@vger.kernel.org>; Tue,  6 Jul 2021 11:32:24 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1m0prl-0007tU-Bf; Tue, 06 Jul 2021 20:32:17 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1m0prk-0001yr-79; Tue, 06 Jul 2021 20:32:16 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1m0prk-0004ND-2r; Tue, 06 Jul 2021 20:32:16 +0200
+Date:   Tue, 6 Jul 2021 20:32:15 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     nvdimm@lists.linux.dev, Alexey Kardashevskiy <aik@ozlabs.ru>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
+        Jens Taprogge <jens.taprogge@taprogge.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Mike Christie <michael.christie@oracle.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Maxim Levitsky <maximlevitsky@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org,
+        xen-devel@lists.xenproject.org,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        Julien Grall <jgrall@amazon.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Alex Elder <elder@kernel.org>, linux-parisc@vger.kernel.org,
+        Geoff Levand <geoff@infradead.org>, linux-fpga@vger.kernel.org,
+        linux-usb@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+        Thorsten Scherer <t.scherer@eckelmann.de>,
+        kernel@pengutronix.de, Jon Mason <jdmason@kudzu.us>,
+        linux-ntb@googlegroups.com, Wu Hao <hao.wu@intel.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Manohar Vanga <manohar.vanga@gmail.com>,
+        linux-wireless@vger.kernel.org,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        virtualization@lists.linux-foundation.org,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        target-devel@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        linux-i2c@vger.kernel.org,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Ira Weiny <ira.weiny@intel.com>, Helge Deller <deller@gmx.de>,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+        industrypack-devel@lists.sourceforge.net,
+        linux-mips@vger.kernel.org, Len Brown <lenb@kernel.org>,
+        alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+        Johan Hovold <johan@kernel.org>, greybus-dev@lists.linaro.org,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Johannes Thumshirn <morbidrsa@gmail.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Joey Pabalan <jpabalanb@gmail.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
+        Bodo Stroesser <bostroesser@gmail.com>,
+        Alison Schofield <alison.schofield@intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Tyrel Datwyler <tyreld@linux.ibm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Tom Rix <trix@redhat.com>, Jason Wang <jasowang@redhat.com>,
+        SeongJae Park <sjpark@amazon.de>, linux-hyperv@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, Frank Li <lznuaa@gmail.com>,
+        netdev@vger.kernel.org, Qinglang Miao <miaoqinglang@huawei.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        linux-staging@lists.linux.dev, Dexuan Cui <decui@microsoft.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Chen-Yu Tsai <wens@csie.org>, linux-input@vger.kernel.org,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Allen Hubbe <allenbh@gmail.com>, Alex Dubov <oakad@yahoo.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Moritz Fischer <mdf@kernel.org>, linux-cxl@vger.kernel.org,
+        Michael Buesch <m@bues.ch>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Martyn Welch <martyn@welchs.me.uk>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-mmc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Sven Van Asbroeck <TheSven73@gmail.com>, kvm@vger.kernel.org,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        linux-remoteproc@vger.kernel.org,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        linux-i3c@lists.infradead.org,
+        linux1394-devel@lists.sourceforge.net,
+        Lee Jones <lee.jones@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>, linux-scsi@vger.kernel.org,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andy Gross <agross@kernel.org>, linux-serial@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>,
+        Michael Jamet <michael.jamet@intel.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hannes Reinecke <hare@suse.de>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Juergen Gross <jgross@suse.com>, linuxppc-dev@lists.ozlabs.org,
+        Takashi Iwai <tiwai@suse.com>,
+        Alexandre Bounine <alex.bou9@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Marc Zyngier <maz@kernel.org>, dmaengine@vger.kernel.org,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Johannes Thumshirn <jth@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>
+Subject: Re: [PATCH v2 4/4] bus: Make remove callback return void
+Message-ID: <20210706183215.tcd7i4pwz2gxtxtb@pengutronix.de>
+References: <20210706154803.1631813-1-u.kleine-koenig@pengutronix.de>
+ <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="q2vlxiybuwkj6z7s"
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uGXUgjyjch57J3UnC7SA3-4g87Ft7tLjj9fFkgyKkKdrg@mail.gmail.com>
+In-Reply-To: <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 06, 2021 at 07:35:55PM +0200, Daniel Vetter wrote:
 
-> Yup. We dont care about any of the fancy pieces you build on top, nor
-> does the compiler need to be the optimizing one. Just something that's
-> good enough to drive the hw in some demons to see how it works and all
-> that. Generally that's also not that hard to reverse engineer, if
-> someone is bored enough, the real fancy stuff tends to be in how you
-> optimize the generated code. And make it fit into the higher levels
-> properly.
+--q2vlxiybuwkj6z7s
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Seems reasonable to me
+Hello,
 
-> And it's not just nvidia, it's pretty much everyone. Like a soc
-> company I don't want to know started collaborating with upstream and
-> the reverse-engineered mesa team on a kernel driver, seems to work
-> pretty well for current hardware. 
+v1 was acked by some more after I stopped looking in my mailbox while
+preparing v2:
 
-What I've seen is that this only works with customer demand. Companies
-need to hear from their customers that upstream is what is needed, and
-companies cannot properly hear that until they are at least already
-partially invested in the upstream process and have the right
-customers that are sophisticated enough to care.
+On Tue, Jul 06, 2021 at 05:48:03PM +0200, Uwe Kleine-K=F6nig wrote:
+> The driver core ignores the return value of this callback because there
+> is only little it can do when a device disappears.
+>=20
+> This is the final bit of a long lasting cleanup quest where several
+> buses were converted to also return void from their remove callback.
+> Additionally some resource leaks were fixed that were caused by drivers
+> returning an error code in the expectation that the driver won't go
+> away.
+>=20
+> With struct bus_type::remove returning void it's prevented that newly
+> implemented buses return an ignored error code and so don't anticipate
+> wrong expectations for driver authors.
+>=20
+> Acked-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk> (For ARM, Am=
+ba and related parts)
+> Acked-by: Mark Brown <broonie@kernel.org>
+> Acked-by: Chen-Yu Tsai <wens@csie.org> (for drivers/bus/sunxi-rsb.c)
+> Acked-by: Pali Roh=E1r <pali@kernel.org>
+> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org> (for drivers/media)
+> Acked-by: Hans de Goede <hdegoede@redhat.com> (For drivers/platform)
+> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Acked-By: Vinod Koul <vkoul@kernel.org>
+> Acked-by: Juergen Gross <jgross@suse.com> (For Xen)
+> Acked-by: Lee Jones <lee.jones@linaro.org> (For drivers/mfd)
+> Acked-by: Johannes Thumshirn <jth@kernel.org> (For drivers/mcb)
+> Acked-by: Johan Hovold <johan@kernel.org>
+> Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org> (For drive=
+rs/slimbus)
+> Acked-by: Kirti Wankhede <kwankhede@nvidia.com> (For drivers/vfio)
+> Acked-by: Maximilian Luz <luzmaximilian@gmail.com>
+> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com> (For ulpi and=
+ typec)
+> Acked-by: Samuel Iglesias Gons=E1lvez <siglesias@igalia.com> (For ipack)
+> Reviewed-by: Tom Rix <trix@redhat.com> (For fpga)
+> Acked-by: Geoff Levand <geoff@infradead.org> (For ps3)
 
-Embedded makes everything 10x worse because too many customers just
-don't care about upstream, you can hack your way through everything,
-and indulge in single generation thinking. Fork the whole kernel for 3
-years, EOL, no problem!
+Acked-by: Yehezkel Bernat <YehezkelShB@gmail.com> (For thunderbolt)
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+Acked-by: Alexander Shishkin <alexander.shishkin@linux.intel.com> (For inte=
+l_th)
+Acked-by: Dominik Brodowski <linux@dominikbrodowski.net> (For pcmcia)
 
-It is the enterprise world, particularly with an opinionated company
-like RH saying NO stuck in the middle that really seems to drive
-things toward upstream.
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-Yes, vendors can work around Red Hat's No (and NVIDIA GPU is such an
-example) but it is incredibly time consuming, expensive and becoming
-more and more difficult every year.
+Best regards
+Uwe
 
-The big point is this:
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-> But also nvidia is never going to sell you that as the officially
-> supported thing, unless your ask comes back with enormous amounts of
-> sold hardware.
+--q2vlxiybuwkj6z7s
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I think this is at the core of Linux's success in the enterprise
-world. Big customers who care demanding open source. Any vendor, even
-nvidia will want to meet customer demands.
+-----BEGIN PGP SIGNATURE-----
 
-IHMO upstream success is found by motivating the customer to demand
-and make it "easy" for the vendor to supply it.
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmDkoawACgkQwfwUeK3K
+7AkRFgf/Qj+Sw4DQa5XQzuIke1atkI5Z9SH6bby9lfgLCjU/9fFWokjZXUFUlHEd
+p6KCgzwG5JD4RoIVKyntr/S7rR3FlCH5aMtgDi4xzKWybmOwAdP5XCSzU6ois1Cd
+G76Gg954N8CBAyFE6c0p18Fu1R1fscGQQDIF6yrUJ6p9WbpckBTw8xuX/AOicKcu
+r9s0okuUVqJmb0eM1Io+LGgjIvSLaUPl2lFnllwI6ztli3Wwo3NhHhy0iFZN9q1n
+IAXVYkylaIeq6hoC+Fo0NN0/ZNZRsV+s2qlzlaQkj8zQmyYqfN369rEDpTajwdlU
+JoOxFMsceOjeYMAEfCEfUeEBRom3lw==
+=mbzo
+-----END PGP SIGNATURE-----
 
-Jason
+--q2vlxiybuwkj6z7s--
