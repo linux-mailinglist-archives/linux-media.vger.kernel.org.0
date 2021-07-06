@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 592C43BD0F1
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 13:35:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 128E43BD0F3
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 13:35:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237885AbhGFLhk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 07:37:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47552 "EHLO mail.kernel.org"
+        id S237895AbhGFLhm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 07:37:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47550 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236891AbhGFLfq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 6 Jul 2021 07:35:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CF14161C2D;
-        Tue,  6 Jul 2021 11:24:35 +0000 (UTC)
+        id S237242AbhGFLgC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 6 Jul 2021 07:36:02 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E7B861ED8;
+        Tue,  6 Jul 2021 11:26:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625570676;
-        bh=9oZV2sweLG7QNjxJq5lidgr3AufUJfafWyGDoLTwjao=;
+        s=k20201202; t=1625570784;
+        bh=5+gQWr/yUf/ad/b9w3djbtGAt44Gg7Xp0cfmZQse++Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XyDBs9lBqQZ6dkblreWhi2Np72nFLmCC9rOI7sboanAUZn3VqLFnmE9YYUBcYLqZj
-         v91AeUHkPdnTk/mjZFpS6kJNXHc+V8Pn0m6uMOx0ThSav7w/HtnMKuOtdYOgf/IK7y
-         TzS9e4x7qquqDl0blYUCCijnUcoVawOEDbRWxdmSj0qREy7+TyU89oi3t4gKp3dT8F
-         95m5EvO4Q2oasaNXve/Vf2qB0mqceg4quv5nKRD3nICp+73qhVcLHWZMFrlPqA2T/o
-         D+CFlc5LPb5eTfNE84jUjPDZXh1DxivZAZp+qii3dL/okNwpBplJNQrBzQD7ZuylhC
-         o6DFQBQ+t1HeA==
+        b=nV/i5M/vFzMohMGNJ3ycSjTlgtjpEkQAV22VTTKT+Ji6l9E9o+XmLT9QJ6RlKEyRK
+         zOqxXN06molmzF5YVA7HM+TPktN1PCPA5Ozh+n6m/Xaa+O7asimgqQOCdwBIoy/IEv
+         gmfh+Dk7jIn/cQ2GjOxF0YFnPaiwajaF21Qk2j3jNez0CCORi2wyecQGGWX2KmOVEp
+         7YDMgfumACHsq/S9heKoxcp8PdLBXKVknRTJW8EKRCiu7SqHhUmB8zaZF8a1AzPcDL
+         fX0geepjWR0ldHJDDvjplq8B6qmcsZQLxt8r9uxyvqsRVn49/5WTxmIH8r+KT8by0y
+         P0VDl1TXXjsvg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Sean Young <sean@mess.org>, Daniel Borkmann <daniel@iogearbox.net>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
         netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 118/137] media, bpf: Do not copy more entries than user space requested
-Date:   Tue,  6 Jul 2021 07:21:44 -0400
-Message-Id: <20210706112203.2062605-118-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 64/74] media, bpf: Do not copy more entries than user space requested
+Date:   Tue,  6 Jul 2021 07:24:52 -0400
+Message-Id: <20210706112502.2064236-64-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210706112203.2062605-1-sashal@kernel.org>
-References: <20210706112203.2062605-1-sashal@kernel.org>
+In-Reply-To: <20210706112502.2064236-1-sashal@kernel.org>
+References: <20210706112502.2064236-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -64,10 +64,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/rc/bpf-lirc.c b/drivers/media/rc/bpf-lirc.c
-index 3fe3edd80876..afae0afe3f81 100644
+index 0a0ce620e4a2..d5f839fdcde7 100644
 --- a/drivers/media/rc/bpf-lirc.c
 +++ b/drivers/media/rc/bpf-lirc.c
-@@ -326,7 +326,8 @@ int lirc_prog_query(const union bpf_attr *attr, union bpf_attr __user *uattr)
+@@ -329,7 +329,8 @@ int lirc_prog_query(const union bpf_attr *attr, union bpf_attr __user *uattr)
  	}
  
  	if (attr->query.prog_cnt != 0 && prog_ids && cnt)
