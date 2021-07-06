@@ -2,183 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B70D3BDED8
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 23:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79F323BDF08
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 23:37:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229919AbhGFVWT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 17:22:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39122 "EHLO
+        id S230087AbhGFVkc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 17:40:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229753AbhGFVWT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 17:22:19 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ACCBC061574
-        for <linux-media@vger.kernel.org>; Tue,  6 Jul 2021 14:19:39 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id a18so210860lfs.10
-        for <linux-media@vger.kernel.org>; Tue, 06 Jul 2021 14:19:39 -0700 (PDT)
+        with ESMTP id S229894AbhGFVka (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 17:40:30 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DE21C061574;
+        Tue,  6 Jul 2021 14:37:51 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id h1-20020a17090a3d01b0290172d33bb8bcso2390238pjc.0;
+        Tue, 06 Jul 2021 14:37:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=AEc+HkBX5y/VLGNpWlw7flwG5MZ8KnQgN0iK4yphSPk=;
-        b=YkEMQFzCa+UfeZVPkWbnkus+8zV97RkUZbzlImE1zbCLCGCm/gK7Xyyw5bV54Jv9hY
-         q1a56NXmM47fFTBGmT+PgF/npmXE0C+saZicZDUDurcBOfdGCc2YQLe2ie6nDd4JwbWX
-         42G4cWzfaY9QfnK7EFpNeEX+UUPBD/YJr9q48FV5Wps7heZ+mW7l5ZxY6AP2E3er96jp
-         hl578MWSebN59w2fPueB2OaR1iPTpwMqG3QZtr9KVMEYwx610N0vyXrLtCT65bCna8lS
-         G9o0j3IcutbW3LtGa5IPLjh9zgoTZiSRpNpS9RV/dwCRMPOVWAO8/bCcmErbdAwGn9k7
-         6AUQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Ocbz7plpl2GsaeWZtT2xSwu/ECmgcGgX+U0mFWoVx8o=;
+        b=fjV4+ka8h0vH05QQfb5mosysrP9nHimBGyZMIaa5AG6oYKlZIJ9fBu1u8zdUGxqK0V
+         Um+d4Woup62vh1nDeTEMfYQu/z07c7tU/WMAtzd8zyjZ+D++/9qAcGD3Qi5HWfAEidnP
+         LVIhoqq3BcdDCaWawKEqjjS8yu6I4JR+nAEzkK0jeMXN28vBiyhs3oL9vVM3I/zG4bRq
+         0ch+fVpWTwIZJdpOA5MGN4Hsas/DzY0s55S8/73rafQT0BQHzaPtbSSjdX9FgBPH3Kng
+         zdOUu0zymj0lCUC9mcaI5h90C5jAW9R9slEqBMssceloFyAtObCoJPafpr9GaUMLPWWg
+         1jSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=AEc+HkBX5y/VLGNpWlw7flwG5MZ8KnQgN0iK4yphSPk=;
-        b=ErtR8Mc1GTYQnCDbkExhXn8CgcI3AEs+vcYc0EPJnib2HyIHQRr7yBSmagx2x1eZIJ
-         PMqDv6YyOVPozL/K1ZUqUSfH+EwETF1JP1dudKAvz7Q4jXpoJOXJWNY/tjEdnlSXCmPa
-         uD0dFDj8OKBGzTbysmA3LbQbNsLnvX44ipAsXhmdp0+lJijlMyl9nG+5n5hEuJzCkXX1
-         DGwlk0kOpPHmr71TA5/Y4ROleeL4a+pzgUIhGl7FNdoBy2UPN5JJelF8Yjp9H7mThUo4
-         mwiiaBhavKBTIl07rC90+A0M6rhgRPx7mBV/K7NCcdLg7d7xBUdf5Kk3b4EEtKD+Tldc
-         S5LA==
-X-Gm-Message-State: AOAM530vNRU31T7/cEeBu9O64hbdqTZQ4zg4xejwKZnNgAJYpl/NJCER
-        Fp6pPjJb0IoOI5VJgltmDpXzLgboUmqyJ+zQhVVwfg==
-X-Google-Smtp-Source: ABdhPJzqKI0VbEXj+RPkaAPLp1iC1JjVqz3JmsedJBG5ANhc8bMitAim43so/ALoVtvEZJwJ8lOaqbY7Ew92vIL44Ds=
-X-Received: by 2002:a05:6512:2246:: with SMTP id i6mr7842791lfu.7.1625606377532;
- Tue, 06 Jul 2021 14:19:37 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Ocbz7plpl2GsaeWZtT2xSwu/ECmgcGgX+U0mFWoVx8o=;
+        b=WK3yTWnvM5htSk/VSimnCQqje/FGFNelVEcwioYL2R7o83YW8eHgkZ6evNB3mBqPc0
+         b3GB1gLkWojJs9XG4BTClxxWXSVq9Gv09epEhdKJWYrb06H3nFuUuHgoZMgPD+WJybRF
+         3gZPab5P9vzwNlIIVEEo5Jl90VKSVHHxvBhjU3Pay3BEhOy6ShtVlTPAKjzUw+5LPvM3
+         g6Hpy3G6QibGd3AnFNfSCRKBRvetF31DDjQDeo8pnbGgCNJEzMmdhIwT1ify8AXwqciQ
+         XYOzvzRvY9jKXvHDc86y1R7eC14/aeggf/uWlHU2/VXBeEU0HO0uKcxPPx3BI1CBvsUI
+         0OtQ==
+X-Gm-Message-State: AOAM531T2RTDL3ySJyrUH9BdixZdoksL8kUK7Ivl7hx7XCT9buaF/thj
+        cTEAlptetL3RDzHa5EJYnN0=
+X-Google-Smtp-Source: ABdhPJyn2Hi8kaCYu+WokB25snaMIG+9Q6KwjeQoMDQJIrAIZd3JeXm641055Ca25Y6q1bD80UK2hA==
+X-Received: by 2002:a17:90a:3009:: with SMTP id g9mr2332932pjb.82.1625607470831;
+        Tue, 06 Jul 2021 14:37:50 -0700 (PDT)
+Received: from shinobu ([156.146.35.76])
+        by smtp.gmail.com with ESMTPSA id h14sm14343197pgv.47.2021.07.06.14.37.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jul 2021 14:37:49 -0700 (PDT)
+Date:   Wed, 7 Jul 2021 06:37:39 +0900
+From:   William Breathitt Gray <vilhelm.gray@gmail.com>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-acpi@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, linux-cxl@vger.kernel.org,
+        nvdimm@lists.linux.dev, dmaengine@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
+        industrypack-devel@lists.sourceforge.net,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
+        linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
+        greybus-dev@lists.linaro.org, target-devel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v2 4/4] bus: Make remove callback return void
+Message-ID: <YOTMp88HfFiy6+RM@shinobu>
+References: <20210706154803.1631813-1-u.kleine-koenig@pengutronix.de>
+ <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-References: <20210630013421.735092-1-john.stultz@linaro.org>
- <20210630013421.735092-2-john.stultz@linaro.org> <ab35ed32-ead4-3dc4-550d-55f288810220@amd.com>
- <CALAqxLXWDKp3BZJdO3nVd9vSVV6B+bWnTy+oP6bzBB6H3Yf4eA@mail.gmail.com>
- <6a472a24-a40f-1160-70dd-5cb9e9ae85f1@amd.com> <CALAqxLXrCto31uie37Y4HjaD=2XyqkeR=HH5A6Z+drQtyYBKFg@mail.gmail.com>
- <CAKMK7uH+X8dvrD1=rpmozGvC5R88BOFL--_m9ezbgQjaSjGQ_w@mail.gmail.com>
-In-Reply-To: <CAKMK7uH+X8dvrD1=rpmozGvC5R88BOFL--_m9ezbgQjaSjGQ_w@mail.gmail.com>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Tue, 6 Jul 2021 14:19:27 -0700
-Message-ID: <CALAqxLVJw=0sEWxdsZ7j2QvHFDUtym3HSpkgqGdQJVayssMNeA@mail.gmail.com>
-Subject: Re: [PATCH v9 1/5] drm: Add a sharable drm page-pool implementation
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="VOubNWsj2sFIOkFX"
+Content-Disposition: inline
+In-Reply-To: <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 6, 2021 at 2:15 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Tue, Jul 6, 2021 at 11:04 PM John Stultz <john.stultz@linaro.org> wrot=
-e:
-> > On Wed, Jun 30, 2021 at 11:52 PM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> > >
-> > > Am 01.07.21 um 00:24 schrieb John Stultz:
-> > > > On Wed, Jun 30, 2021 at 2:10 AM Christian K=C3=B6nig
-> > > > <christian.koenig@amd.com> wrote:
-> > > >> Am 30.06.21 um 03:34 schrieb John Stultz:
-> > > >>> +static unsigned long page_pool_size; /* max size of the pool */
-> > > >>> +
-> > > >>> +MODULE_PARM_DESC(page_pool_size, "Number of pages in the drm pag=
-e pool");
-> > > >>> +module_param(page_pool_size, ulong, 0644);
-> > > >>> +
-> > > >>> +static atomic_long_t nr_managed_pages;
-> > > >>> +
-> > > >>> +static struct mutex shrinker_lock;
-> > > >>> +static struct list_head shrinker_list;
-> > > >>> +static struct shrinker mm_shrinker;
-> > > >>> +
-> > > >>> +/**
-> > > >>> + * drm_page_pool_set_max - Sets maximum size of all pools
-> > > >>> + *
-> > > >>> + * Sets the maximum number of pages allows in all pools.
-> > > >>> + * This can only be set once, and the first caller wins.
-> > > >>> + */
-> > > >>> +void drm_page_pool_set_max(unsigned long max)
-> > > >>> +{
-> > > >>> +     if (!page_pool_size)
-> > > >>> +             page_pool_size =3D max;
-> > > >>> +}
-> > > >>> +
-> > > >>> +/**
-> > > >>> + * drm_page_pool_get_max - Maximum size of all pools
-> > > >>> + *
-> > > >>> + * Return the maximum number of pages allows in all pools
-> > > >>> + */
-> > > >>> +unsigned long drm_page_pool_get_max(void)
-> > > >>> +{
-> > > >>> +     return page_pool_size;
-> > > >>> +}
-> > > >> Well in general I don't think it is a good idea to have getters/se=
-tters
-> > > >> for one line functionality, similar applies to locking/unlocking t=
-he
-> > > >> mutex below.
-> > > >>
-> > > >> Then in this specific case what those functions do is to aid
-> > > >> initializing the general pool manager and that in turn should abso=
-lutely
-> > > >> not be exposed.
-> > > >>
-> > > >> The TTM pool manager exposes this as function because initializing=
- the
-> > > >> pool manager is done in one part of the module and calculating the
-> > > >> default value for the pages in another one. But that is not someth=
-ing I
-> > > >> would like to see here.
-> > > > So, I guess I'm not quite clear on what you'd like to see...
-> > > >
-> > > > Part of what I'm balancing here is the TTM subsystem normally sets =
-a
-> > > > global max size, whereas the old ION pool didn't have caps (instead
-> > > > just relying on the shrinker when needed).
-> > > > So I'm trying to come up with a solution that can serve both uses. =
-So
-> > > > I've got this drm_page_pool_set_max() function to optionally set th=
-e
-> > > > maximum value, which is called in the TTM initialization path or se=
-t
-> > > > the boot argument. But for systems that use the dmabuf system heap,
-> > > > but don't use TTM, no global limit is enforced.
-> > >
-> > > Yeah, exactly that's what I'm trying to prevent.
-> > >
-> > > See if we have the same functionality used by different use cases we
-> > > should not have different behavior depending on what drivers are load=
-ed.
-> > >
-> > > Is it a problem if we restrict the ION pool to 50% of system memory a=
-s
-> > > well? If yes than I would rather drop the limit from TTM and only rel=
-y
-> > > on the shrinker there as well.
-> >
-> > Would having the default value as a config option (still overridable
-> > via boot argument) be an acceptable solution?
->
-> We're also trying to get ttm over to the shrinker model, and a first
-> cut of that even landed, but didn't really work out yet. So maybe just
-> aiming for the shrinker? I do agree this should be consistent across
-> the board, otherwise we're just sharing code but not actually sharing
-> functionality, which is a recipe for disaster because one side will
-> end up breaking the other side's use-case.
 
-Fair enough, maybe it would be best to remove the default limit, but
-leave the logic so it can still be set via the boot argument?
+--VOubNWsj2sFIOkFX
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks
--john
+On Tue, Jul 06, 2021 at 05:48:03PM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> The driver core ignores the return value of this callback because there
+> is only little it can do when a device disappears.
+>=20
+> This is the final bit of a long lasting cleanup quest where several
+> buses were converted to also return void from their remove callback.
+> Additionally some resource leaks were fixed that were caused by drivers
+> returning an error code in the expectation that the driver won't go
+> away.
+>=20
+> With struct bus_type::remove returning void it's prevented that newly
+> implemented buses return an ignored error code and so don't anticipate
+> wrong expectations for driver authors.
+>=20
+> Acked-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk> (For ARM, Am=
+ba and related parts)
+> Acked-by: Mark Brown <broonie@kernel.org>
+> Acked-by: Chen-Yu Tsai <wens@csie.org> (for drivers/bus/sunxi-rsb.c)
+> Acked-by: Pali Roh=C3=A1r <pali@kernel.org>
+> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org> (for drivers/media)
+> Acked-by: Hans de Goede <hdegoede@redhat.com> (For drivers/platform)
+> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Acked-By: Vinod Koul <vkoul@kernel.org>
+> Acked-by: Juergen Gross <jgross@suse.com> (For Xen)
+> Acked-by: Lee Jones <lee.jones@linaro.org> (For drivers/mfd)
+> Acked-by: Johannes Thumshirn <jth@kernel.org> (For drivers/mcb)
+> Acked-by: Johan Hovold <johan@kernel.org>
+> Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org> (For drive=
+rs/slimbus)
+> Acked-by: Kirti Wankhede <kwankhede@nvidia.com> (For drivers/vfio)
+> Acked-by: Maximilian Luz <luzmaximilian@gmail.com>
+> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com> (For ulpi and=
+ typec)
+> Acked-by: Samuel Iglesias Gons=C3=A1lvez <siglesias@igalia.com> (For ipac=
+k)
+> Reviewed-by: Tom Rix <trix@redhat.com> (For fpga)
+> Acked-by: Geoff Levand <geoff@infradead.org> (For ps3)
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> ---
+
+>  drivers/base/isa.c                        | 4 +---
+
+Acked-by: William Breathitt Gray <vilhelm.gray@gmail.com>
+
+--VOubNWsj2sFIOkFX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEk5I4PDJ2w1cDf/bghvpINdm7VJIFAmDkzSMACgkQhvpINdm7
+VJLVFhAAyxEk2xOSRC1xhJSnjLQvNeb+KeTAJr+uaSAwwExERXcbGlIryhqCZSij
+fZRzkvgPIscNAegWidvmuhZlhkFJPwvPArfhB/pFIDvQ1xX0kCPH3T51Lncu35Tf
+vgluc4JhAW9+1UzoKZsv8RK4uY2ETRMBBeYs7epjqK2RhCvzG8rDMD+Dy49nxrYX
+eNdmcR+7EcK8RjLmb/YEfNXxcXdDW0KlU5ATAh+PKuAPKbOKpoKfKuYsOYS7VrGJ
+MAk5lC5J/bqbBWM4eqm+g5NbskWMr1N5WC60R7K3isMCoaEpnKNhSD3kvYIFe2Tf
+mWyIE2c7D+UWhzbp+Kq4+DHzBN4ajLBy0oMd28HrGOQmD+/chjjc1zTOK9uNBvKz
+xBRbxQl7OrAnKhUqcrgVpVL30EvTNajZIOZdwtGXhQCWW+MX747JE+H291VLg3gz
+a0p6IJ8TS+gOgGGvmNjVg6yHYuKv6XDbDfI7tc0dRJUOoVqfbkIHSvAQQzn0LIFn
+k/Ln4D8LDFj8X3fHbfz200+nzo9gwA5ZXhWXzvTKXhSEyBoc3+i+Ihn3bgYf6rI8
+j8LozqWaWpNxaLMBrLuy06ldAuzhnQ7wPw1JuGXDAY1vdMYVVRp1XcbjBSqybXMA
+weoaxx4Lwh05XikzxZpXDQBx5N+5V3sYRuqGrYs7H1ZUm0rT0I0=
+=yTaM
+-----END PGP SIGNATURE-----
+
+--VOubNWsj2sFIOkFX--
