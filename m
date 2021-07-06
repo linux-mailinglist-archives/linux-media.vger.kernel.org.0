@@ -2,119 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44F283BD6D7
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 14:44:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A89073BD6E0
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 14:47:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239905AbhGFMrK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 08:47:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34178 "EHLO
+        id S240736AbhGFMsh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 08:48:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239153AbhGFMrE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 08:47:04 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8F07C09CE73
-        for <linux-media@vger.kernel.org>; Tue,  6 Jul 2021 05:23:46 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id i94so25872054wri.4
-        for <linux-media@vger.kernel.org>; Tue, 06 Jul 2021 05:23:46 -0700 (PDT)
+        with ESMTP id S240513AbhGFMse (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 08:48:34 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DCC4C0613B0;
+        Tue,  6 Jul 2021 05:35:05 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id nd37so33893081ejc.3;
+        Tue, 06 Jul 2021 05:35:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=uNyqHLQRNkYk8ghNPCyy058MytEY7ye/Hosx5rgh6L0=;
-        b=I861MRXnVEJLWhlPliO+jitKdknn/PB69GvRAM/Y4b8ranu/45I6eMeXTNi9dKuJ0j
-         WYk89i6CPtBnGLN6nluhfnivHJjMYYzeqUVC8YHPJKGLDAkmLUXMmITr5S5TPlVgR6z+
-         pWlut4ORszisRKb8vPQRzvBskW4VntzJL5DP8=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OEiRIcOa0itWUqzAw3qeKw5oQ3tEWPoDip0KTs3RlmY=;
+        b=AyyFuo3EgkjqhqVbuiE9I4vYSyRf7bF2WqICmUd96kNsLKNow7CcDP8kRuexKtMhiw
+         3lRN3GENrjQ3YYtbAfcDRPzUfFYYluX6SCN7fXPX1zPR6P/braBr6k+ooCikwY2LevRY
+         Up9pcXND0JQvwrqCaBtt/p+Ku98NkeD9eFrD+CwRwjfyTDAOUyXt9InBbBhBr8BOV7ac
+         6k+cFznxievWVMCQp3NZqB4Jud3DVTNmkwY2amFZNWqUSeapDFvkIIDpad95OUT5BUF6
+         JjLOCAZcXwGIguKKfXVjMG+Av71+ru1+44Ow4V7KLR7l32em9U24f2wMfYsyyKztY0/V
+         Sf+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=uNyqHLQRNkYk8ghNPCyy058MytEY7ye/Hosx5rgh6L0=;
-        b=FW1Vv5B7+6sbWZjZdUiL/26/yKxwJonCfJz8bxGM6xT9QwKVHMI9l28u+jKTMo9FVh
-         ozA1V9OXvDRRO+lI16ghwWFUXCMFYJEjnmHta6W7hR3hwukaJtNuggib1VDWCuiF4C02
-         Mmvo37BoZUHG4mYjXhqKP276t0nq6Nho4Q2GWXBiNO1zHR4QCY/6VnSems4b9SB4inG8
-         PTooxVZFqNIl/dgKB7HDE2CGZ5cpYZkGY1O7ugvaMxIC5xvV9SqZ3SfEEjwY6Y+APyRv
-         JuXXuOrc2nHOEI7J4CeTJ/Kqt2DY4NOxTXabJcMXFfuvPDjMQGoBkxBYDj7fbCSqH4Zf
-         LwFw==
-X-Gm-Message-State: AOAM533QkjYaPHWrLqrzByEH6rC75CkL+m5VoCsaBQfIuRN5Hg5KenZ5
-        XxWStVkGFeFpeR6/XEGx3+jiXw==
-X-Google-Smtp-Source: ABdhPJxolizhwmybAQ3VsffOuvUoyS5FTxRrVw3O2VuBLsJFS1lJdSAYSr7mbyMR8j36zn3HCunCMA==
-X-Received: by 2002:adf:a41e:: with SMTP id d30mr3249053wra.10.1625574225475;
-        Tue, 06 Jul 2021 05:23:45 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id 31sm18348673wrs.79.2021.07.06.05.23.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jul 2021 05:23:44 -0700 (PDT)
-Date:   Tue, 6 Jul 2021 14:23:42 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
-        gregkh@linuxfoundation.org, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, galpress@amazon.com, sleybo@amazon.com,
-        dri-devel@lists.freedesktop.org, jgg@ziepe.ca,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        dledford@redhat.com, airlied@gmail.com, alexander.deucher@amd.com,
-        leonro@nvidia.com, amd-gfx@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [Linaro-mm-sig] [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
-Message-ID: <YORLTmyoXDtoM9Ta@phenom.ffwll.local>
-Mail-Followup-To: Christoph Hellwig <hch@lst.de>,
-        Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
-        gregkh@linuxfoundation.org, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, galpress@amazon.com, sleybo@amazon.com,
-        dri-devel@lists.freedesktop.org, jgg@ziepe.ca,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        dledford@redhat.com, airlied@gmail.com, alexander.deucher@amd.com,
-        leonro@nvidia.com, amd-gfx@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-References: <20210705130314.11519-1-ogabbay@kernel.org>
- <YOQXBWpo3whVjOyh@phenom.ffwll.local>
- <20210706122110.GA18273@lst.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OEiRIcOa0itWUqzAw3qeKw5oQ3tEWPoDip0KTs3RlmY=;
+        b=YdBCGMbMn1jTGoJkJ8C0vxW0A9X1GjP9u5/LclmVYtw7Xikm3bxvU8vI1VrT3ygITi
+         k1TRmXdaPLuKYrnRNh4q7SxlVYGDHkYVE/hF+/arniTcCUl1rTo1Y/TpWlM4pVMDGq/N
+         +9TYMIxoOV/B0MeveMRf/J9nsESMpXeF0qv5QSYTZbKpGRIuxGSQ8IhiZrjaVDbO6YvN
+         wvkxizx7bZhrDXClE2ijztWI5RRW8oy4bG3o9XdSoDBQRdfxrhm4Eg4ETLbEfjgDd6wb
+         VwmooTAMVSODhgfVHYMvpvLW5l59ULCsJcIPW91K9JeUlLTEqEQMIjk37SwJJmVpawdY
+         140Q==
+X-Gm-Message-State: AOAM533RUPRtmIX+ePlxCyD0oRWgEgWND9fHTHDQWbi0ToZja3uOOxAy
+        OUFP1cebe1Fjj5YyO/m0D57686PGZCw+mJ7rOiE=
+X-Google-Smtp-Source: ABdhPJxFZwLjfGEhJQfYMHpB/nh9fsCWcfCXC7NKfMenP/hCD8yrI2BgNZfZaC2r43BhgloCIzfDlrUcDtPd13EGmmA=
+X-Received: by 2002:a17:906:4784:: with SMTP id cw4mr2582307ejc.160.1625574904064;
+ Tue, 06 Jul 2021 05:35:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210706122110.GA18273@lst.de>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+References: <20210706121505.641603-1-mudongliangabcd@gmail.com>
+In-Reply-To: <20210706121505.641603-1-mudongliangabcd@gmail.com>
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+Date:   Tue, 6 Jul 2021 20:34:37 +0800
+Message-ID: <CAD-N9QXDAjpm8A6TxoUeYRJu5YkU8S7hr05HdrvUrXc2SVHp0A@mail.gmail.com>
+Subject: Re: [PATCH] [media] em28xx-input: fix refcount bug in em28xx_usb_disconnect
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?Q?Frank_Sch=C3=A4fer?= <fschaefer.oss@googlemail.com>
+Cc:     linux-media@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 06, 2021 at 02:21:10PM +0200, Christoph Hellwig wrote:
-> On Tue, Jul 06, 2021 at 10:40:37AM +0200, Daniel Vetter wrote:
-> > > Greg, I hope this will be good enough for you to merge this code.
-> > 
-> > So we're officially going to use dri-devel for technical details review
-> > and then Greg for merging so we don't have to deal with other merge
-> > criteria dri-devel folks have?
-> > 
-> > I don't expect anything less by now, but it does make the original claim
-> > that drivers/misc will not step all over accelerators folks a complete
-> > farce under the totally-not-a-gpu banner.
-> > 
-> > This essentially means that for any other accelerator stack that doesn't
-> > fit the dri-devel merge criteria, even if it's acting like a gpu and uses
-> > other gpu driver stuff, you can just send it to Greg and it's good to go.
-> > 
-> > There's quite a lot of these floating around actually (and many do have
-> > semi-open runtimes, like habanalabs have now too, just not open enough to
-> > be actually useful). It's going to be absolutely lovely having to explain
-> > to these companies in background chats why habanalabs gets away with their
-> > stack and they don't.
-> 
-> FYI, I fully agree with Daniel here.  Habanlabs needs to open up their
-> runtime if they want to push any additional feature in the kernel.
-> The current situation is not sustainable.
+On Tue, Jul 6, 2021 at 8:15 PM Dongliang Mu <mudongliangabcd@gmail.com> wrote:
+>
+> If em28xx_ir_init fails, it would decrease the refcount of dev. However,
+> in the em28xx_ir_fini, when ir is NULL, it goes to ref_put and decrease
+> the refcount of dev. This will lead to a refcount bug.
+>
+> Fix this bug by returning 0 when ir is NULL in the em28xx_ir_fini. To
+> simplify the refcount issue, move the kref_get after the input
+> extension is successfully initialized and remove the kref_put in the
+> error handling code.
+>
+> refcount_t: underflow; use-after-free.
+> WARNING: CPU: 0 PID: 7 at lib/refcount.c:28 refcount_warn_saturate+0x18e/0x1a0 lib/refcount.c:28
+> Modules linked in:
+> CPU: 0 PID: 7 Comm: kworker/0:1 Not tainted 5.13.0 #3
+> Workqueue: usb_hub_wq hub_event
+> RIP: 0010:refcount_warn_saturate+0x18e/0x1a0 lib/refcount.c:28
+> Call Trace:
+>   kref_put.constprop.0+0x60/0x85 include/linux/kref.h:69
+>   em28xx_usb_disconnect.cold+0xd7/0xdc drivers/media/usb/em28xx/em28xx-cards.c:4150
+>   usb_unbind_interface+0xbf/0x3a0 drivers/usb/core/driver.c:458
+>   __device_release_driver drivers/base/dd.c:1201 [inline]
+>   device_release_driver_internal+0x22a/0x230 drivers/base/dd.c:1232
+>   bus_remove_device+0x108/0x160 drivers/base/bus.c:529
+>   device_del+0x1fe/0x510 drivers/base/core.c:3540
+>   usb_disable_device+0xd1/0x1d0 drivers/usb/core/message.c:1419
+>   usb_disconnect+0x109/0x330 drivers/usb/core/hub.c:2221
+>   hub_port_connect drivers/usb/core/hub.c:5151 [inline]
+>   hub_port_connect_change drivers/usb/core/hub.c:5440 [inline]
+>   port_event drivers/usb/core/hub.c:5586 [inline]
+>   hub_event+0xf81/0x1d40 drivers/usb/core/hub.c:5668
+>   process_one_work+0x2c9/0x610 kernel/workqueue.c:2276
+>   process_scheduled_works kernel/workqueue.c:2338 [inline]
+>   worker_thread+0x333/0x5b0 kernel/workqueue.c:2424
+>   kthread+0x188/0x1d0 kernel/kthread.c:319
+>   ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+>
+> Reported-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> Fixes: 47677e51e2a4 ("[media] em28xx: Only deallocate struct em28xx after finishing all extensions")
 
-Before anyone replies: The runtime is open, the compiler is still closed.
-This has become the new default for accel driver submissions, I think
-mostly because all the interesting bits for non-3d accelerators are in the
-accel ISA, and no longer in the runtime. So vendors are fairly happy to
-throw in the runtime as a freebie.
+After some more code review, I think the "Fixes" tag should be the fix:
 
-It's still incomplete, and it's still useless if you want to actually hack
-on the driver stack.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+ac5688637144 ("media: em28xx: Fix possible memory leak of em28xx struct")
+
+static struct em28xx_ops rc_ops = {
+        .id   = EM28XX_RC,
+        .name = "Em28xx Input Extension",
+        .init = em28xx_ir_init,
+        .fini = em28xx_ir_fini,
+}
+As init and fini are executed in pair, there is no need to decrease
+the refcount in the error handling code.
+
+In this patch, I remove the kref_put to prevent the refcount bug.
+
+> Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> ---
+>  drivers/media/usb/em28xx/em28xx-input.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/usb/em28xx/em28xx-input.c b/drivers/media/usb/em28xx/em28xx-input.c
+> index 59529cbf9cd0..f741be9583a8 100644
+> --- a/drivers/media/usb/em28xx/em28xx-input.c
+> +++ b/drivers/media/usb/em28xx/em28xx-input.c
+> @@ -708,7 +708,6 @@ static int em28xx_ir_init(struct em28xx *dev)
+>                 return 0;
+>         }
+>
+> -       kref_get(&dev->ref);
+>         INIT_DELAYED_WORK(&dev->buttons_query_work, em28xx_query_buttons);
+>
+>         if (dev->board.buttons)
+> @@ -833,6 +832,9 @@ static int em28xx_ir_init(struct em28xx *dev)
+>
+>         dev_info(&dev->intf->dev, "Input extension successfully initialized\n");
+>
+> +       /* Only increase refcount when this function is executed successfully */
+> +       kref_get(&dev->ref);
+> +
+>         return 0;
+>
+>  error:
+> @@ -842,7 +844,6 @@ static int em28xx_ir_init(struct em28xx *dev)
+>         kfree(ir);
+>  ref_put:
+>         em28xx_shutdown_buttons(dev);
+> -       kref_put(&dev->ref, em28xx_free_device);
+>         return err;
+>  }
+>
+> @@ -861,7 +862,7 @@ static int em28xx_ir_fini(struct em28xx *dev)
+>
+>         /* skip detach on non attached boards */
+>         if (!ir)
+> -               goto ref_put;
+> +               return 0;
+>
+>         rc_unregister_device(ir->rc);
+>
+> @@ -871,7 +872,6 @@ static int em28xx_ir_fini(struct em28xx *dev)
+>         kfree(ir);
+>         dev->ir = NULL;
+>
+> -ref_put:
+>         kref_put(&dev->ref, em28xx_free_device);
+>
+>         return 0;
+> --
+> 2.25.1
+>
