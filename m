@@ -2,185 +2,325 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AED0F3BC8F8
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 12:03:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C6733BC92A
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 12:12:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231245AbhGFKG2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 06:06:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55128 "EHLO
+        id S231338AbhGFKPC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 06:15:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231221AbhGFKG1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 06:06:27 -0400
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B704BC061574;
-        Tue,  6 Jul 2021 03:03:48 -0700 (PDT)
-Received: by mail-oi1-x22f.google.com with SMTP id t3so23949109oic.5;
-        Tue, 06 Jul 2021 03:03:48 -0700 (PDT)
+        with ESMTP id S231301AbhGFKPC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 06:15:02 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36696C061574
+        for <linux-media@vger.kernel.org>; Tue,  6 Jul 2021 03:12:23 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id n9so8065591wrs.13
+        for <linux-media@vger.kernel.org>; Tue, 06 Jul 2021 03:12:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2N5mg5wsB0KABxRgrRrxbIQeCbB+YJIprU67LIbfneo=;
-        b=dfFi3wnvc63SAvvRhbgEI87/6ooxwCvTJW1r7lIZKJNTzXyNVMWX7dQB++bkmTQwV2
-         H/IlTU1s/3+HM6Aoy3Y0X81/XCAVqe0b0Vg58mJp0ZILm4Z2CJ+puNb5ncxYzu/7LPp2
-         +8ke/ohSu7L+COLs3LR/JDOtcj6VgXyeBomPY+1P0mlUzoSLbhI1VXzqQe9K+c/sa9p/
-         Scpl+KbJ+/IfH4hBWnZqod7utqmP/Hq8XnsPIQ9kHmU2GSgiXRlFRRM7iDMdGgaAIDZ9
-         5GlUdEk9SEx4KsNZBhTmTYw6w8tHMS+/q4lIRlmCnZQB0O4UFWd2qMS3+p6dFf07h2e8
-         ERsg==
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=1lSRZ4P7ggIgdNFz6D4WaF8yqxGm3+JUhNvxHpUyQxw=;
+        b=VrKzPojpHAT+Dlp99W84NQiSzwI+IIerjeNVLBCH7GUFJaDde2u8qU/GaqfXfY+m+O
+         3oNwwllyfMZ+9Dgr8AJ6hL4U/JFxLmKiR6sLkuFP6LwyD4oPVmXOVdA8NOnoigwA2eMw
+         gKIY0ZEG51D6CQ6hKcn5p+w4BbPr3mDOp1C0A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2N5mg5wsB0KABxRgrRrxbIQeCbB+YJIprU67LIbfneo=;
-        b=awyUL1UXQirueh88w5quuo26rrv4vRwsY5/SDi0NZhluKsQe7Zz5qXKvmmzOGfmr3t
-         n5a4NjloC0HdtPTEBbjiah5Zh9+ZPxez+9TBfIOqLSGLWXThcGo9WBMDv/JDHlnuMefr
-         TdKgAZlg0y0ewZSgjy+e4ujEZI2VgySw07kgqRYS78mSvGm0Vn5KnLzIyWdJ92tKvTTj
-         3Mlq8autCFw1RgVvnJ9K9MyNliRdV/DRPwjW1kFOjEo9xzA4TegpsOYC6yNQBVzu7J8D
-         aqPZ5s2ImrcmJ+z63i5hd38EzS3Dvqsn9alUPwQtu6heWE2r0QU/3AlF9RRk8w9sUJAk
-         MlMA==
-X-Gm-Message-State: AOAM530DV+4PQt1NlLGlCzns+7s71s/V2I2O3e3tyzWLWvozt+0UHZwg
-        F9s3+Nu6i/pXk/uBDYmqJpsfyRYty26DooX5pTw=
-X-Google-Smtp-Source: ABdhPJxXg9vfgqi5VnITV/trPjGjJznTbHk8XvIhqVWfNLh12IDiUiljcMyFHQl4PX1KtOaIuT9dhledABPG7RICBhw=
-X-Received: by 2002:aca:3bc3:: with SMTP id i186mr2805715oia.102.1625565827920;
- Tue, 06 Jul 2021 03:03:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210705130314.11519-1-ogabbay@kernel.org> <YOQXBWpo3whVjOyh@phenom.ffwll.local>
-In-Reply-To: <YOQXBWpo3whVjOyh@phenom.ffwll.local>
-From:   Oded Gabbay <oded.gabbay@gmail.com>
-Date:   Tue, 6 Jul 2021 13:03:20 +0300
-Message-ID: <CAFCwf10_rTYL2Fy6tCRVAUCf4-6_TtcWCv5gEEkGnQ0KxqMUBg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
-To:     Oded Gabbay <ogabbay@kernel.org>,
-        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=1lSRZ4P7ggIgdNFz6D4WaF8yqxGm3+JUhNvxHpUyQxw=;
+        b=iHBtc1V7M7lfskauuOD9Rj73EeVyqtsM6q1seFN8hCX2NjMoc/rBp5GRzhIPtdMVEX
+         dnaEDUtJhzPGryFYKAh8LgmcbYqEhP2ueA+OO6xkm/CefTAvUW1Rqz2vUgEipBdi7a0Q
+         lf+l3zXqjHGlaARxARMeHtlEmPEsS2tK14l+wcD+YRsRs/kYPSFkSxEakcJhqHBgn2fz
+         AUkFMawB4gFF0CzptAu+g7B7tzNHBCFqxKTyLcrLBve+1gAjOey06ZZqiwSxm2MT21zc
+         UZ8A+noN7j1YViSomof5X1Fd/9llAhwOBcbrD+CyOPqmDGDmtz6kNOtKaEJMuGTpTmi1
+         xHzA==
+X-Gm-Message-State: AOAM532WRSfqo7ISqLhqaIrKCImHhY9KWhpu7P40pn1zNDhriKGXqgLe
+        halSrzYITrj4Y11PXxNLdNS5mg==
+X-Google-Smtp-Source: ABdhPJwKzoqROJvDlgnQYoMxQCRFOMdeGCAuxEjonVQRkgacAtQ0/yt6DkJAw0IdzX1LbW0bcGlI+A==
+X-Received: by 2002:adf:ef8b:: with SMTP id d11mr20742548wro.346.1625566341395;
+        Tue, 06 Jul 2021 03:12:21 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id u2sm9862739wmc.42.2021.07.06.03.12.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jul 2021 03:12:20 -0700 (PDT)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Daniel Vetter <daniel.vetter@intel.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Dave Airlie <airlied@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 7/7] dma-resv: Give the docs a do-over
+Date:   Tue,  6 Jul 2021 12:12:09 +0200
+Message-Id: <20210706101209.3034092-8-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210706101209.3034092-1-daniel.vetter@ffwll.ch>
+References: <20210706101209.3034092-1-daniel.vetter@ffwll.ch>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 6, 2021 at 11:40 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Mon, Jul 05, 2021 at 04:03:12PM +0300, Oded Gabbay wrote:
-> > Hi,
-> > I'm sending v4 of this patch-set following the long email thread.
-> > I want to thank Jason for reviewing v3 and pointing out the errors, saving
-> > us time later to debug it :)
-> >
-> > I consulted with Christian on how to fix patch 2 (the implementation) and
-> > at the end of the day I shamelessly copied the relevant content from
-> > amdgpu_vram_mgr_alloc_sgt() and amdgpu_dma_buf_attach(), regarding the
-> > usage of dma_map_resource() and pci_p2pdma_distance_many(), respectively.
-> >
-> > I also made a few improvements after looking at the relevant code in amdgpu.
-> > The details are in the changelog of patch 2.
-> >
-> > I took the time to write an import code into the driver, allowing me to
-> > check real P2P with two Gaudi devices, one as exporter and the other as
-> > importer. I'm not going to include the import code in the product, it was
-> > just for testing purposes (although I can share it if anyone wants).
-> >
-> > I run it on a bare-metal environment with IOMMU enabled, on a sky-lake CPU
-> > with a white-listed PCIe bridge (to make the pci_p2pdma_distance_many happy).
-> >
-> > Greg, I hope this will be good enough for you to merge this code.
->
-> So we're officially going to use dri-devel for technical details review
-> and then Greg for merging so we don't have to deal with other merge
-> criteria dri-devel folks have?
-I'm glad to receive any help or review, regardless of the subsystem
-the person giving that help belongs to.
+Specifically document the new/clarified rules around how the shared
+fences do not have any ordering requirements against the exclusive
+fence.
 
->
-> I don't expect anything less by now, but it does make the original claim
-> that drivers/misc will not step all over accelerators folks a complete
-> farce under the totally-not-a-gpu banner.
->
-> This essentially means that for any other accelerator stack that doesn't
-> fit the dri-devel merge criteria, even if it's acting like a gpu and uses
-> other gpu driver stuff, you can just send it to Greg and it's good to go.
+But also document all the things a bit better, given how central
+struct dma_resv to dynamic buffer management the docs have been very
+inadequat.
 
-What's wrong with Greg ??? ;)
+- Lots more links to other pieces of the puzzle. Unfortunately
+  ttm_buffer_object has no docs, so no links :-(
 
-On a more serious note, yes, I do think the dri-devel merge criteria
-is very extreme, and effectively drives-out many AI accelerator
-companies that want to contribute to the kernel but can't/won't open
-their software IP and patents.
+- Explain/complain a bit about dma_resv_locking_ctx(). I still don't
+  like that one, but fixing the ttm call chains is going to be
+  horrible. Plus we want to plug in real slowpath locking when we do
+  that anyway.
 
-I think the expectation from AI startups (who are 90% of the deep
-learning field) to cooperate outside of company boundaries is not
-realistic, especially on the user-side, where the real IP of the
-company resides.
+- Main part of the patch is some actual docs for struct dma_resv.
 
-Personally I don't think there is a real justification for that at
-this point of time, but if it will make you (and other people here)
-happy I really don't mind creating a non-gpu accelerator subsystem
-that will contain all the totally-not-a-gpu accelerators, and will
-have a more relaxed criteria for upstreaming. Something along an
-"rdma-core" style library looks like the correct amount of user-level
-open source that should be enough.
+Overall I think we still have a lot of bad naming in this area (e.g.
+dma_resv.fence is singular, but contains the multiple shared fences),
+but I think that's more indicative of how the semantics and rules are
+just not great.
 
-The question is, what will happen later ? Will it be sufficient to
-"allow" us to use dmabuf and maybe other gpu stuff in the future (e.g.
-hmm) ?
+Another thing that's real awkard is how chaining exclusive fences
+right now means direct dma_resv.exclusive_fence pointer access with an
+rcu_assign_pointer. Not so great either.
 
-If the community and dri-devel maintainers (and you among them) will
-assure me it is good enough, then I'll happily contribute my work and
-personal time to organize this effort and implement it.
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+---
+ drivers/dma-buf/dma-resv.c |  22 ++++++--
+ include/linux/dma-resv.h   | 104 +++++++++++++++++++++++++++++++++++--
+ 2 files changed, 116 insertions(+), 10 deletions(-)
 
-Thanks,
-oded
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index f26c71747d43..898f8d894bbd 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -48,6 +48,8 @@
+  * write operations) or N shared fences (read operations).  The RCU
+  * mechanism is used to protect read access to fences from locked
+  * write-side updates.
++ *
++ * See struct dma_resv for more details.
+  */
+ 
+ DEFINE_WD_CLASS(reservation_ww_class);
+@@ -137,7 +139,11 @@ EXPORT_SYMBOL(dma_resv_fini);
+  * @num_fences: number of fences we want to add
+  *
+  * Should be called before dma_resv_add_shared_fence().  Must
+- * be called with obj->lock held.
++ * be called with @obj locked through dma_resv_lock().
++ *
++ * Note that the preallocated slots need to be re-reserved if @obj is unlocked
++ * at any time before callind dma_resv_add_shared_fence(). This is validate when
++ * CONFIG_DEBUG_MUTEXES is enabled.
+  *
+  * RETURNS
+  * Zero for success, or -errno
+@@ -234,8 +240,10 @@ EXPORT_SYMBOL(dma_resv_reset_shared_max);
+  * @obj: the reservation object
+  * @fence: the shared fence to add
+  *
+- * Add a fence to a shared slot, obj->lock must be held, and
++ * Add a fence to a shared slot, @obj must be locked with dma_resv_lock(), and
+  * dma_resv_reserve_shared() has been called.
++ *
++ * See also &dma_resv.fence for a discussion of the semantics.
+  */
+ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
+ {
+@@ -280,7 +288,9 @@ EXPORT_SYMBOL(dma_resv_add_shared_fence);
+  * @obj: the reservation object
+  * @fence: the shared fence to add
+  *
+- * Add a fence to the exclusive slot.  The obj->lock must be held.
++ * Add a fence to the exclusive slot. @obj must be locked with dma_resv_lock().
++ * Note that this function replaces all fences attached to @obj, see also
++ * &dma_resv.fence_excl for a discussion of the semantics.
+  */
+ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+ {
+@@ -609,9 +619,11 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
+  * fence
+  *
+  * Callers are not required to hold specific locks, but maybe hold
+- * dma_resv_lock() already
++ * dma_resv_lock() already.
++ *
+  * RETURNS
+- * true if all fences signaled, else false
++ *
++ * True if all fences signaled, else false.
+  */
+ bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
+ {
+diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+index e1ca2080a1ff..c77fd54d033f 100644
+--- a/include/linux/dma-resv.h
++++ b/include/linux/dma-resv.h
+@@ -62,16 +62,90 @@ struct dma_resv_list {
+ 
+ /**
+  * struct dma_resv - a reservation object manages fences for a buffer
+- * @lock: update side lock
+- * @seq: sequence count for managing RCU read-side synchronization
+- * @fence_excl: the exclusive fence, if there is one currently
+- * @fence: list of current shared fences
++ *
++ * There are multiple uses for this, with sometimes slightly different rules in
++ * how the fence slots are used.
++ *
++ * One use is to synchronize cross-driver access to a struct dma_buf, either for
++ * dynamic buffer management or just to handle implicit synchronization between
++ * different users of the buffer in userspace. See &dma_buf.resv for a more
++ * in-depth discussion.
++ *
++ * The other major use is to manage access and locking within a driver in a
++ * buffer based memory manager. struct ttm_buffer_object is the canonical
++ * example here, since this is were reservation objects originated from. But use
++ * in drivers is spreading and some drivers also manage struct
++ * drm_gem_object with the same scheme.
+  */
+ struct dma_resv {
++	/**
++	 * @lock:
++	 *
++	 * Update side lock. Don't use directly, instead use the wrapper
++	 * functions like dma_resv_lock() and dma_resv_unlock().
++	 *
++	 * Drivers which use the reservation object to manage memory dynamically
++	 * also use this lock to protect buffer object state like placement,
++	 * allocation policies or throughout command submission.
++	 */
+ 	struct ww_mutex lock;
++
++	/**
++	 * @seq:
++	 *
++	 * Sequence count for managing RCU read-side synchronization, allows
++	 * read-only access to @fence_excl and @fence while ensuring we take a
++	 * consistent snapshot.
++	 */
+ 	seqcount_ww_mutex_t seq;
+ 
++	/**
++	 * @fence_excl:
++	 *
++	 * The exclusive fence, if there is one currently.
++	 *
++	 * There are two was to update this fence:
++	 *
++	 * - First by calling dma_resv_add_excl_fence(), which replaces all
++	 *   fences attached to the reservation object. To guarantee that no
++	 *   fences are lost this new fence must signal only after all previous
++	 *   fences, both shared and exclusive, have signalled. In some cases it
++	 *   is convenient to achieve that by attaching a struct dma_fence_array
++	 *   with all the new and old fences.
++	 *
++	 * - Alternatively the fence can be set directly, which leaves the
++	 *   shared fences unchanged. To guarantee that no fences are lost this
++	 *   new fence must signale only after the previous exclusive fence has
++	 *   singalled. Since the shared fences are staying intact, it is not
++	 *   necessary to maintain any ordering against those. If semantically
++	 *   only a new access is added without actually treating the previous
++	 *   one as a dependency the exclusive fences can be strung together
++	 *   using struct dma_fence_chain.
++	 *
++	 * Note that actual semantics of what an exclusive or shared fence mean
++	 * is defined by the user, for reservation objects shared across drivers
++	 * see &dma_buf.resv.
++	 */
+ 	struct dma_fence __rcu *fence_excl;
++
++	/**
++	 * @fence:
++	 *
++	 * List of current shared fences.
++	 *
++	 * There are no ordering constraints of shared fences against the
++	 * exclusive fence slot. If a waiter needs to wait for all access, it
++	 * has to wait for both set of fences to signal.
++	 *
++	 * A new fence is added by calling dma_resv_add_shared_fence(). Since
++	 * this often needs to be done past the point of no return in command
++	 * submission it cannot fail, and therefor sufficient slots need to be
++	 * reserved by calling dma_resv_reserve_shared().
++	 *
++	 * Note that actual semantics of what an exclusive or shared fence mean
++	 * is defined by the user, for reservation objects shared across drivers
++	 * see &dma_buf.resv.
++	 */
+ 	struct dma_resv_list __rcu *fence;
+ };
+ 
+@@ -98,6 +172,13 @@ static inline void dma_resv_reset_shared_max(struct dma_resv *obj) {}
+  * undefined order, a #ww_acquire_ctx is passed to unwind if a cycle
+  * is detected. See ww_mutex_lock() and ww_acquire_init(). A reservation
+  * object may be locked by itself by passing NULL as @ctx.
++ *
++ * When a die situation is indicated by returning -EDEADLK all locks held by
++ * @ctx must be unlocked and then dma_resv_lock_slow() called on @obj.
++ *
++ * Unlocked by calling dma_resv_lock().
++ *
++ * See also dma_resv_lock_interruptible() for the interruptible variant.
+  */
+ static inline int dma_resv_lock(struct dma_resv *obj,
+ 				struct ww_acquire_ctx *ctx)
+@@ -119,6 +200,12 @@ static inline int dma_resv_lock(struct dma_resv *obj,
+  * undefined order, a #ww_acquire_ctx is passed to unwind if a cycle
+  * is detected. See ww_mutex_lock() and ww_acquire_init(). A reservation
+  * object may be locked by itself by passing NULL as @ctx.
++ *
++ * When a die situation is indicated by returning -EDEADLK all locks held by
++ * @ctx must be unlocked and then dma_resv_lock_slow_interruptible() called on
++ * @obj.
++ *
++ * Unlocked by calling dma_resv_lock().
+  */
+ static inline int dma_resv_lock_interruptible(struct dma_resv *obj,
+ 					      struct ww_acquire_ctx *ctx)
+@@ -134,6 +221,8 @@ static inline int dma_resv_lock_interruptible(struct dma_resv *obj,
+  * Acquires the reservation object after a die case. This function
+  * will sleep until the lock becomes available. See dma_resv_lock() as
+  * well.
++ *
++ * See also dma_resv_lock_slow_interruptible() for the interruptible variant.
+  */
+ static inline void dma_resv_lock_slow(struct dma_resv *obj,
+ 				      struct ww_acquire_ctx *ctx)
+@@ -167,7 +256,7 @@ static inline int dma_resv_lock_slow_interruptible(struct dma_resv *obj,
+  * if they overlap with a writer.
+  *
+  * Also note that since no context is provided, no deadlock protection is
+- * possible.
++ * possible, which is also not needed for a trylock.
+  *
+  * Returns true if the lock was acquired, false otherwise.
+  */
+@@ -193,6 +282,11 @@ static inline bool dma_resv_is_locked(struct dma_resv *obj)
+  *
+  * Returns the context used to lock a reservation object or NULL if no context
+  * was used or the object is not locked at all.
++ *
++ * WARNING: This interface is pretty horrible, but TTM needs it because it
++ * doesn't pass the struct ww_acquire_ctx around in some very long callchains.
++ * Everyone else just uses it to check whether they're holding a reservation or
++ * not.
+  */
+ static inline struct ww_acquire_ctx *dma_resv_locking_ctx(struct dma_resv *obj)
+ {
+-- 
+2.32.0
 
->
-> There's quite a lot of these floating around actually (and many do have
-> semi-open runtimes, like habanalabs have now too, just not open enough to
-> be actually useful). It's going to be absolutely lovely having to explain
-> to these companies in background chats why habanalabs gets away with their
-> stack and they don't.
->
-> Or maybe we should just merge them all and give up on the idea of having
-> open cross-vendor driver stacks for these accelerators.
->
-> Thanks, Daniel
->
-> >
-> > Thanks,
-> > Oded
-> >
-> > Oded Gabbay (1):
-> >   habanalabs: define uAPI to export FD for DMA-BUF
-> >
-> > Tomer Tayar (1):
-> >   habanalabs: add support for dma-buf exporter
-> >
-> >  drivers/misc/habanalabs/Kconfig             |   1 +
-> >  drivers/misc/habanalabs/common/habanalabs.h |  26 ++
-> >  drivers/misc/habanalabs/common/memory.c     | 480 +++++++++++++++++++-
-> >  drivers/misc/habanalabs/gaudi/gaudi.c       |   1 +
-> >  drivers/misc/habanalabs/goya/goya.c         |   1 +
-> >  include/uapi/misc/habanalabs.h              |  28 +-
-> >  6 files changed, 532 insertions(+), 5 deletions(-)
-> >
-> > --
-> > 2.25.1
-> >
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
