@@ -2,237 +2,240 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E4E43BDB02
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 18:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89CBA3BDB3A
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 18:16:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230089AbhGFQM0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 12:12:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47644 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230029AbhGFQMW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 6 Jul 2021 12:12:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1625587783;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5risqcJR3SRZugYRxSjL/FvvM4+olXr1vxcAoe7tQ/0=;
-        b=XAaB19FIEEIwx+FpX2tpCXrF7xkUW8DeZX5QmdqklNaChRe0N2efKEFnwIPV3GgHm0/jsu
-        zWdHCEpocnC4aaKzk4IzVKWz3JjwC+rTzYlQnJdY4OixtlOSI6D5ekzWIMTUTmwozbHvMh
-        BnH5IXZc2LeBtzy4udPT4sqijYzUQgA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-wG174s7LNJSaKuUJtfBTMg-1; Tue, 06 Jul 2021 12:09:39 -0400
-X-MC-Unique: wG174s7LNJSaKuUJtfBTMg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96B165074C;
-        Tue,  6 Jul 2021 16:09:34 +0000 (UTC)
-Received: from localhost (ovpn-113-13.ams2.redhat.com [10.36.113.13])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A281B16D28;
-        Tue,  6 Jul 2021 16:09:18 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Geoff Levand <geoff@infradead.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        =?utf-8?Q?Rafa=C5=82_Mi=C5=82eck?= =?utf-8?Q?i?= 
-        <zajec5@gmail.com>, Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Alison Schofield <alison.schofield@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Wu Hao <hao.wu@intel.com>, Tom Rix <trix@redhat.com>,
-        Moritz Fischer <mdf@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
-        Jens Taprogge <jens.taprogge@taprogge.org>,
-        Johannes Thumshirn <morbidrsa@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxim Levitsky <maximlevitsky@gmail.com>,
-        Alex Dubov <oakad@yahoo.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Tomas Winkler <tomas.winkler@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84sk?= =?utf-8?Q?i?= 
-        <kw@linux.com>, Bjorn Helgaas <bhelgaas@google.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Alexandre Bounine <alex.bou9@gmail.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Thorsten Scherer <t.scherer@eckelmann.de>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>, Michael Buesch <m@bues.ch>,
-        Sven Van Asbroeck <TheSven73@gmail.com>,
-        Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Martyn Welch <martyn@welchs.me.uk>,
-        Manohar Vanga <manohar.vanga@gmail.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Marc Zyngier <maz@kernel.org>,
-        Tyrel Datwyler <tyreld@linux.ibm.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Qinglang Miao <miaoqinglang@huawei.com>,
-        Alexey Kardashevskiy <aik@ozlabs.ru>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Joey Pabalan <jpabalanb@gmail.com>,
-        Pali =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Frank Li <lznuaa@gmail.com>,
-        Mike Christie <michael.christie@oracle.com>,
-        Bodo Stroesser <bostroesser@gmail.com>,
-        Hannes Reinecke <hare@suse.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        SeongJae Park <sjpark@amazon.de>,
-        Julien Grall <jgrall@amazon.com>,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-acpi@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, linux-cxl@vger.kernel.org,
-        nvdimm@lists.linux.dev, dmaengine@vger.kernel.org,
-        linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
-        industrypack-devel@lists.sourceforge.net,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
-        linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
-        greybus-dev@lists.linaro.org, target-devel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
-        xen-devel@lists.xenproject.org,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Johannes Thumshirn <jth@kernel.org>
-Subject: Re: [PATCH v2 4/4] bus: Make remove callback return void
-In-Reply-To: <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
-Organization: Red Hat GmbH
-References: <20210706154803.1631813-1-u.kleine-koenig@pengutronix.de>
- <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date:   Tue, 06 Jul 2021 18:09:17 +0200
-Message-ID: <87r1gbfmqa.fsf@redhat.com>
+        id S229997AbhGFQSr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 12:18:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56278 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229823AbhGFQSr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 12:18:47 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BF0DC061574
+        for <linux-media@vger.kernel.org>; Tue,  6 Jul 2021 09:16:07 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id u18so8223442lff.9
+        for <linux-media@vger.kernel.org>; Tue, 06 Jul 2021 09:16:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=wyGLdLzfNkC0tdb93/0iRuzoUsgRVq8ctaAPP7qne8Q=;
+        b=ZrY0BXJR11lGH3Kv3k1kv+i4qVh29BHlqp0Pfe+lbjeIZmbx/kJuWCjP1FMXo1tjIT
+         epPDx0u8vXbsUvGQhrCYdre0tWfm+tVEUEPzwm6x/Tng/5rVG++rbGm7WA2RcwTo/yYL
+         8AGrGupICilHGqhAp3E6/9OL97M8+M/I9nhlrfUgtmZCdLeKOswrNOHb4m+kMl40zEkp
+         jrtPyer+NhzxU+jFeddAzd4HHbKWfYou0BD4S9BQUlEot38eqmPfcfEoI5YLB1ClnUQc
+         4hXFA0BUnmYdbCQxzpH4HXpRGTLbfYgTwYYPKznnuNAbH473H1ikngViN65X8zPNjPa2
+         jFuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=wyGLdLzfNkC0tdb93/0iRuzoUsgRVq8ctaAPP7qne8Q=;
+        b=Hlm3aNDKOXzcgvrHyD0M/a4sQSFrj4ffAKW+45NQg5B5ifgPPP8IuwSIWqbJv04nES
+         8dKR0srCcy+leLGz5alBWny6ESQkEA+GKhzX1K2BMJ8w/LTsbDOZjFu+7lQpWuStRt4f
+         c4c5ZkFfX1ukmSdv4zNZ+RKTqy1gjcvpuAos559nNfi65zOJz+4nZoiE0Xc8PRuCqobz
+         /1Z6A8eR22kTrwPFzK+OJD0VnNGQ86xsjjTRx577kCQ4x3ImT+66Ri/fYS8UlriPBhmZ
+         X+y/Zc53F0fmbqXoSG9dpVRxrCEooWxXmWt+v/tIkkdfuR0HJmgVRQxO2YiNL2RmsgjK
+         46Tw==
+X-Gm-Message-State: AOAM5300zV/IUYpks2GZjJBhdRs7Gxq4WgpKqRIC1HEDEZKpjNAtzl6X
+        1uMjRwE8p924f4E7H0tvVtx4Aw==
+X-Google-Smtp-Source: ABdhPJzKmWQ7FEAsXgizd/y74ZCtRuOaURk32Tay7aLUqpUQMqayeA/P/im5njlQgC3SYE3mui1Iuw==
+X-Received: by 2002:a05:6512:2343:: with SMTP id p3mr15170364lfu.83.1625588165666;
+        Tue, 06 Jul 2021 09:16:05 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id s17sm1107306ljg.28.2021.07.06.09.16.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jul 2021 09:16:04 -0700 (PDT)
+Date:   Tue, 6 Jul 2021 18:16:04 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 01/11] rcar-vin: Refactor controls creation for video
+ device
+Message-ID: <YOSBxLV86PX63AWm@oden.dyn.berto.se>
+References: <20210413180253.2575451-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210413180253.2575451-2-niklas.soderlund+renesas@ragnatech.se>
+ <20210706160401.xssshab7nkxroxnp@uno.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210706160401.xssshab7nkxroxnp@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 06 2021, Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>=
- wrote:
+Hi Jacopo,
 
-> The driver core ignores the return value of this callback because there
-> is only little it can do when a device disappears.
->
-> This is the final bit of a long lasting cleanup quest where several
-> buses were converted to also return void from their remove callback.
-> Additionally some resource leaks were fixed that were caused by drivers
-> returning an error code in the expectation that the driver won't go
-> away.
->
-> With struct bus_type::remove returning void it's prevented that newly
-> implemented buses return an ignored error code and so don't anticipate
-> wrong expectations for driver authors.
->
-> Acked-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk> (For ARM, Am=
-ba and related parts)
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Chen-Yu Tsai <wens@csie.org> (for drivers/bus/sunxi-rsb.c)
-> Acked-by: Pali Roh=C3=A1r <pali@kernel.org>
-> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org> (for drivers/media)
-> Acked-by: Hans de Goede <hdegoede@redhat.com> (For drivers/platform)
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Acked-By: Vinod Koul <vkoul@kernel.org>
-> Acked-by: Juergen Gross <jgross@suse.com> (For Xen)
-> Acked-by: Lee Jones <lee.jones@linaro.org> (For drivers/mfd)
-> Acked-by: Johannes Thumshirn <jth@kernel.org> (For drivers/mcb)
-> Acked-by: Johan Hovold <johan@kernel.org>
-> Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org> (For drive=
-rs/slimbus)
-> Acked-by: Kirti Wankhede <kwankhede@nvidia.com> (For drivers/vfio)
-> Acked-by: Maximilian Luz <luzmaximilian@gmail.com>
-> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com> (For ulpi and=
- typec)
-> Acked-by: Samuel Iglesias Gons=C3=A1lvez <siglesias@igalia.com> (For ipac=
-k)
-> Reviewed-by: Tom Rix <trix@redhat.com> (For fpga)
-> Acked-by: Geoff Levand <geoff@infradead.org> (For ps3)
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
->
->  drivers/s390/cio/ccwgroup.c               | 4 +---
->  drivers/s390/cio/css.c                    | 4 +---
->  drivers/s390/cio/device.c                 | 4 +---
->  drivers/s390/cio/scm.c                    | 4 +---
->  drivers/s390/crypto/ap_bus.c              | 4 +---
->  drivers/vfio/mdev/mdev_driver.c           | 4 +---
+On 2021-07-06 18:04:01 +0200, Jacopo Mondi wrote:
+> Hi Niklas,
+> 
+> On Tue, Apr 13, 2021 at 08:02:43PM +0200, Niklas Söderlund wrote:
+> > The controls for the video device are created in different code paths
+> > depending on if the driver is using the media graph centric model (Gen3)
+> > or the device centric model (Gen2 and earlier). This have lead to code
+> > duplication that can be consolidated.
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-core.c | 82 +++++++++++----------
+> >  1 file changed, 45 insertions(+), 37 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> > index cb3025992817d625..c798dc9409e4cdcd 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> > @@ -405,6 +405,45 @@ static const struct v4l2_ctrl_ops rvin_ctrl_ops = {
+> >  	.s_ctrl = rvin_s_ctrl,
+> >  };
+> >
+> > +static void rvin_free_controls(struct rvin_dev *vin)
+> > +{
+> > +	v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > +	vin->vdev.ctrl_handler = NULL;
+> > +}
+> > +
+> > +static int rvin_create_controls(struct rvin_dev *vin, struct v4l2_subdev *subdev)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 16);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	/* The VIN directly deals with alpha component. */
+> > +	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
+> > +			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
+> > +
+> > +	if (vin->ctrl_handler.error) {
+> > +		ret = vin->ctrl_handler.error;
+> > +		rvin_free_controls(vin);
+> > +		return ret;
+> > +	}
+> > +
+> > +	/* For the non-MC mode add controls from the subdevice. */
+> > +	if (subdev) {
+> > +		ret = v4l2_ctrl_add_handler(&vin->ctrl_handler,
+> > +					    subdev->ctrl_handler, NULL, true);
+> > +		if (ret < 0) {
+> > +			rvin_free_controls(vin);
+> > +			return ret;
+> > +		}
+> > +	}
+> > +
+> > +	vin->vdev.ctrl_handler = &vin->ctrl_handler;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  /* -----------------------------------------------------------------------------
+> >   * Async notifier
+> >   */
+> > @@ -490,28 +529,10 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
+> >  		return ret;
+> >
+> >  	/* Add the controls */
+> > -	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 16);
+> > +	ret = rvin_create_controls(vin, subdev);
+> >  	if (ret < 0)
+> >  		return ret;
+> >
+> > -	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
+> > -			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
+> > -
+> > -	if (vin->ctrl_handler.error) {
+> > -		ret = vin->ctrl_handler.error;
+> > -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > -		return ret;
+> > -	}
+> > -
+> > -	ret = v4l2_ctrl_add_handler(&vin->ctrl_handler, subdev->ctrl_handler,
+> > -				    NULL, true);
+> > -	if (ret < 0) {
+> > -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > -		return ret;
+> > -	}
+> > -
+> > -	vin->vdev.ctrl_handler = &vin->ctrl_handler;
+> > -
+> >  	vin->parallel.subdev = subdev;
+> >
+> >  	return 0;
+> > @@ -522,10 +543,8 @@ static void rvin_parallel_subdevice_detach(struct rvin_dev *vin)
+> >  	rvin_v4l2_unregister(vin);
+> >  	vin->parallel.subdev = NULL;
+> >
+> > -	if (!vin->info->use_mc) {
+> > -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > -		vin->vdev.ctrl_handler = NULL;
+> > -	}
+> > +	if (!vin->info->use_mc)
+> 
+> I know it was there already, but give that rvin_parallel_notify_unbind()
+> is only registered for parallel, can this happen ?
 
-For drivers/s390 and drivers/vfio:
+Yes, on Gen2 where we don't use a media-graph.
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> 
+> Apart this small nit:
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> 
+> Thanks
+>   j
+> 
+> > +		rvin_free_controls(vin);
+> >  }
+> >
+> >  static int rvin_parallel_notify_complete(struct v4l2_async_notifier *notifier)
+> > @@ -935,21 +954,10 @@ static int rvin_mc_init(struct rvin_dev *vin)
+> >  	if (ret)
+> >  		rvin_group_put(vin);
+> >
+> > -	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 1);
+> > +	ret = rvin_create_controls(vin, NULL);
+> >  	if (ret < 0)
+> >  		return ret;
+> >
+> > -	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
+> > -			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
+> > -
+> > -	if (vin->ctrl_handler.error) {
+> > -		ret = vin->ctrl_handler.error;
+> > -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > -		return ret;
+> > -	}
+> > -
+> > -	vin->vdev.ctrl_handler = &vin->ctrl_handler;
+> > -
+> >  	return ret;
+> >  }
+> >
+> > @@ -1446,7 +1454,7 @@ static int rcar_vin_probe(struct platform_device *pdev)
+> >  	return 0;
+> >
+> >  error_group_unregister:
+> > -	v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > +	rvin_free_controls(vin);
+> >
+> >  	if (vin->info->use_mc) {
+> >  		mutex_lock(&vin->group->lock);
+> > @@ -1481,7 +1489,7 @@ static int rcar_vin_remove(struct platform_device *pdev)
+> >  		rvin_group_put(vin);
+> >  	}
+> >
+> > -	v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > +	rvin_free_controls(vin);
+> >
+> >  	rvin_dma_unregister(vin);
+> >
+> > --
+> > 2.31.1
+> >
 
+-- 
+Regards,
+Niklas Söderlund
