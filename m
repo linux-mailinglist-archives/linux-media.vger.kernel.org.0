@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89CBA3BDB3A
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 18:16:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9386D3BDB40
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 18:18:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229997AbhGFQSr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 12:18:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56278 "EHLO
+        id S229958AbhGFQUj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 12:20:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229823AbhGFQSr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 12:18:47 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BF0DC061574
-        for <linux-media@vger.kernel.org>; Tue,  6 Jul 2021 09:16:07 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id u18so8223442lff.9
-        for <linux-media@vger.kernel.org>; Tue, 06 Jul 2021 09:16:07 -0700 (PDT)
+        with ESMTP id S229869AbhGFQUj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 12:20:39 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBAABC061574
+        for <linux-media@vger.kernel.org>; Tue,  6 Jul 2021 09:17:59 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id a18so39228449lfs.10
+        for <linux-media@vger.kernel.org>; Tue, 06 Jul 2021 09:17:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=wyGLdLzfNkC0tdb93/0iRuzoUsgRVq8ctaAPP7qne8Q=;
-        b=ZrY0BXJR11lGH3Kv3k1kv+i4qVh29BHlqp0Pfe+lbjeIZmbx/kJuWCjP1FMXo1tjIT
-         epPDx0u8vXbsUvGQhrCYdre0tWfm+tVEUEPzwm6x/Tng/5rVG++rbGm7WA2RcwTo/yYL
-         8AGrGupICilHGqhAp3E6/9OL97M8+M/I9nhlrfUgtmZCdLeKOswrNOHb4m+kMl40zEkp
-         jrtPyer+NhzxU+jFeddAzd4HHbKWfYou0BD4S9BQUlEot38eqmPfcfEoI5YLB1ClnUQc
-         4hXFA0BUnmYdbCQxzpH4HXpRGTLbfYgTwYYPKznnuNAbH473H1ikngViN65X8zPNjPa2
-         jFuA==
+        bh=1ODYYB2QtCfI4VTne1epa4291ax2k9Udt/QyHiMMPZs=;
+        b=gztLyweZ9FU1xl1/2wFgZEOmWl+qxgYAlMLk/UHlPIQqcSDOUWAQO0/csSC+KyKAhq
+         PS9a4X5qAat2k2YrFA+YGIwP9NdNnXqF5Eejamwi2ZGyg3XCRrBDQmrFlYJk7L8ZSKq0
+         3ikoLgDoQdjqtmwHAU/an0g9v+mfdyDaFHjYIu+pU/J0yG1r2mLuw8QkMGtVQO0xtLVN
+         okKDN/MkvPKeietgwTdXryt6W7gVnKOqMhRepBw06cLvLtnlZH+QNQQTxd0YLe9yHeIx
+         u3Dkh+868p/5CCSH8qKUZaixs7D23w59qn35y+qGCU2lNUb0AWOTGLlNgA13BuxXsMd4
+         3hfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=wyGLdLzfNkC0tdb93/0iRuzoUsgRVq8ctaAPP7qne8Q=;
-        b=Hlm3aNDKOXzcgvrHyD0M/a4sQSFrj4ffAKW+45NQg5B5ifgPPP8IuwSIWqbJv04nES
-         8dKR0srCcy+leLGz5alBWny6ESQkEA+GKhzX1K2BMJ8w/LTsbDOZjFu+7lQpWuStRt4f
-         c4c5ZkFfX1ukmSdv4zNZ+RKTqy1gjcvpuAos559nNfi65zOJz+4nZoiE0Xc8PRuCqobz
-         /1Z6A8eR22kTrwPFzK+OJD0VnNGQ86xsjjTRx577kCQ4x3ImT+66Ri/fYS8UlriPBhmZ
-         X+y/Zc53F0fmbqXoSG9dpVRxrCEooWxXmWt+v/tIkkdfuR0HJmgVRQxO2YiNL2RmsgjK
-         46Tw==
-X-Gm-Message-State: AOAM5300zV/IUYpks2GZjJBhdRs7Gxq4WgpKqRIC1HEDEZKpjNAtzl6X
-        1uMjRwE8p924f4E7H0tvVtx4Aw==
-X-Google-Smtp-Source: ABdhPJzKmWQ7FEAsXgizd/y74ZCtRuOaURk32Tay7aLUqpUQMqayeA/P/im5njlQgC3SYE3mui1Iuw==
-X-Received: by 2002:a05:6512:2343:: with SMTP id p3mr15170364lfu.83.1625588165666;
-        Tue, 06 Jul 2021 09:16:05 -0700 (PDT)
+        bh=1ODYYB2QtCfI4VTne1epa4291ax2k9Udt/QyHiMMPZs=;
+        b=WIEufFdjEkEG6TyWnrZb5sESHYiBx0yuDlNkf735bTFQCsDfY5Z+RPfl/PjT4gyhEz
+         M2Hdl+8FKlW5vGn2ay1uZDAFi/wbio1akK2bJRfm+XwrhT424F++sF4gporNOJ/3FUQG
+         CKIx5kMclPtBozp7ftFPL604foXKCkxE9c6YBh1l6XrSIOJyiLYnCgd/hHQ9jak+M2g3
+         fvyRwqwwBtca8Lu0EF0KEIeht9sgjbnanhWfVWy6tYWeDUw2ZUwQFDHciqvLUtJmHsJR
+         9dvCTNYvRkLpeoc8H42t04GzOQRSaMfu5YxogJDnzhxeMUlcPPmwGF3N7tbjiVFt9agt
+         5/kQ==
+X-Gm-Message-State: AOAM532/hQJEXZR/GxS2LDT6HGZ9EIrD8XYyIjhtraJooJSKwKQPyT1f
+        ORoJV/cmhy6nY35F4FPUaWj68g==
+X-Google-Smtp-Source: ABdhPJy5/ufvys2ah1U8F/IK+tJRKG4SPh1zlKGO0Kk81MoSBUpb1lA+7gb9ftylvKhMpXg55XomQw==
+X-Received: by 2002:ac2:4556:: with SMTP id j22mr7251084lfm.162.1625588278256;
+        Tue, 06 Jul 2021 09:17:58 -0700 (PDT)
 Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id s17sm1107306ljg.28.2021.07.06.09.16.04
+        by smtp.gmail.com with ESMTPSA id q15sm792397lfm.235.2021.07.06.09.17.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jul 2021 09:16:04 -0700 (PDT)
-Date:   Tue, 6 Jul 2021 18:16:04 +0200
+        Tue, 06 Jul 2021 09:17:57 -0700 (PDT)
+Date:   Tue, 6 Jul 2021 18:17:57 +0200
 From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 To:     Jacopo Mondi <jacopo@jmondi.org>
@@ -56,23 +56,23 @@ Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH 01/11] rcar-vin: Refactor controls creation for video
  device
-Message-ID: <YOSBxLV86PX63AWm@oden.dyn.berto.se>
+Message-ID: <YOSCNRbLfPqPSG03@oden.dyn.berto.se>
 References: <20210413180253.2575451-1-niklas.soderlund+renesas@ragnatech.se>
  <20210413180253.2575451-2-niklas.soderlund+renesas@ragnatech.se>
- <20210706160401.xssshab7nkxroxnp@uno.localdomain>
+ <20210706160842.ruwejskmpbp6nyff@uno.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210706160401.xssshab7nkxroxnp@uno.localdomain>
+In-Reply-To: <20210706160842.ruwejskmpbp6nyff@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hello :-)
 
-On 2021-07-06 18:04:01 +0200, Jacopo Mondi wrote:
-> Hi Niklas,
+On 2021-07-06 18:08:42 +0200, Jacopo Mondi wrote:
+> Hi again,
 > 
 > On Tue, Apr 13, 2021 at 08:02:43PM +0200, Niklas Söderlund wrote:
 > > The controls for the video device are created in different code paths
@@ -104,6 +104,15 @@ On 2021-07-06 18:04:01 +0200, Jacopo Mondi wrote:
 > > +	int ret;
 > > +
 > > +	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 16);
+> 
+> Not a big deal, but 16 because we have to reserve space for the
+> eventual subdevice controls ?
+
+Yes, again for Gen2 where the controls of the subdevice are exposed on 
+the video device. IIRC the number 16 comes from the soc-camera ancestor 
+for this driver.
+
+> 
 > > +	if (ret < 0)
 > > +		return ret;
 > > +
@@ -174,19 +183,6 @@ On 2021-07-06 18:04:01 +0200, Jacopo Mondi wrote:
 > > -		vin->vdev.ctrl_handler = NULL;
 > > -	}
 > > +	if (!vin->info->use_mc)
-> 
-> I know it was there already, but give that rvin_parallel_notify_unbind()
-> is only registered for parallel, can this happen ?
-
-Yes, on Gen2 where we don't use a media-graph.
-
-> 
-> Apart this small nit:
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> Thanks
->   j
-> 
 > > +		rvin_free_controls(vin);
 > >  }
 > >
