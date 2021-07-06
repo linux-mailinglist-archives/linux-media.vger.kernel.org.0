@@ -2,42 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6100C3BCBE7
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 13:15:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E86753BCF47
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 13:28:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232206AbhGFLRt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 07:17:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53294 "EHLO mail.kernel.org"
+        id S234070AbhGFL21 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 07:28:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54674 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232147AbhGFLRp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 6 Jul 2021 07:17:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A9F5561C28;
-        Tue,  6 Jul 2021 11:15:05 +0000 (UTC)
+        id S232968AbhGFLWT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 6 Jul 2021 07:22:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DEB3461CCF;
+        Tue,  6 Jul 2021 11:17:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625570106;
-        bh=cUqT5HGXumM4TBFcuqG8XVP4oJ3+IBDFlH7m3Z1t154=;
+        s=k20201202; t=1625570272;
+        bh=9oZV2sweLG7QNjxJq5lidgr3AufUJfafWyGDoLTwjao=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hwbyngXl1YJLoEsZ0eolRbLa5tMeWuxPkZywP8RFwD7IfEuVRt69yOfZvyCLYD7JB
-         aBMepA1/mKFtzQb0Mjj7cQ6vnkqFv1BIqLZKBN55lCtk2Gvs8PH61oGNW/f658wZOT
-         Q5ygrGm4qpUhu12VYRubxvjSeXrHyh1I4atQfFC1O7fj3ugUUUD290VtJPAoUBDznR
-         hBdUY6cpfo28cEJN9aTu2P/071foosx5RRw2QROrR56n3h80qvWdlBreGVWXtfJRzy
-         H4KN5aZSuyCq58s4yDVWD6sgboGbdKYcfs5YbhJPR0j9ByzreCGzJEvkZcUcr8AYPo
-         HuXymxGhaF99Q==
+        b=DQqPS8W+Jd7nHe7k1BuMziAnV5Ys9SxcLxb/1XmZIRqDEvUZvcLzlgUxaHTsggrux
+         DDOXUIuDWv0jrNIWhirDfFSfPo58HDfRytzceZylLy3F/gUnj9dafm5qNoZnMgQ5gb
+         2+pnrqscWtIZvHkZjhStySkhNLdEUTxlo1Fws4suCKuFXBDv6pQnVX/cKHqy929+dy
+         1osbaf6KPBoVKYm7VYzVzHNCbJRqWzxT65PHZKT9Ciax3Jrauqmlp/ZOEMNF0WqfkD
+         GEm0U81vwTE7MTt8Xv88WCnY3AnmJPJPiUKZT0zy+11YW9nNbquvTIoLCmxukCx5Hx
+         caM7U1jUdxJYg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.13 039/189] drm/sched: Avoid data corruptions
-Date:   Tue,  6 Jul 2021 07:11:39 -0400
-Message-Id: <20210706111409.2058071-39-sashal@kernel.org>
+Cc:     Sean Young <sean@mess.org>, Daniel Borkmann <daniel@iogearbox.net>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 166/189] media, bpf: Do not copy more entries than user space requested
+Date:   Tue,  6 Jul 2021 07:13:46 -0400
+Message-Id: <20210706111409.2058071-166-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706111409.2058071-1-sashal@kernel.org>
 References: <20210706111409.2058071-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -45,42 +42,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+From: Sean Young <sean@mess.org>
 
-[ Upstream commit 0b10ab80695d61422337ede6ff496552d8ace99d ]
+[ Upstream commit 647d446d66e493d23ca1047fa8492b0269674530 ]
 
-Wait for all dependencies of a job  to complete before
-killing it to avoid data corruptions.
+The syscall bpf(BPF_PROG_QUERY, &attr) should use the prog_cnt field to
+see how many entries user space provided and return ENOSPC if there are
+more programs than that. Before this patch, this is not checked and
+ENOSPC is never returned.
 
-Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210519141407.88444-1-andrey.grodzovsky@amd.com
+Note that one lirc device is limited to 64 bpf programs, and user space
+I'm aware of -- ir-keytable -- always gives enough space for 64 entries
+already. However, we should not copy program ids than are requested.
+
+Signed-off-by: Sean Young <sean@mess.org>
+Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
+Link: https://lore.kernel.org/bpf/20210623213754.632-1-sean@mess.org
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/media/rc/bpf-lirc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index cb58f692dad9..86a4209d8c77 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -222,11 +222,16 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
- static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
- {
- 	struct drm_sched_job *job;
-+	struct dma_fence *f;
- 	int r;
+diff --git a/drivers/media/rc/bpf-lirc.c b/drivers/media/rc/bpf-lirc.c
+index 3fe3edd80876..afae0afe3f81 100644
+--- a/drivers/media/rc/bpf-lirc.c
++++ b/drivers/media/rc/bpf-lirc.c
+@@ -326,7 +326,8 @@ int lirc_prog_query(const union bpf_attr *attr, union bpf_attr __user *uattr)
+ 	}
  
- 	while ((job = to_drm_sched_job(spsc_queue_pop(&entity->job_queue)))) {
- 		struct drm_sched_fence *s_fence = job->s_fence;
+ 	if (attr->query.prog_cnt != 0 && prog_ids && cnt)
+-		ret = bpf_prog_array_copy_to_user(progs, prog_ids, cnt);
++		ret = bpf_prog_array_copy_to_user(progs, prog_ids,
++						  attr->query.prog_cnt);
  
-+		/* Wait for all dependencies to avoid data corruptions */
-+		while ((f = job->sched->ops->dependency(job, entity)))
-+			dma_fence_wait(f, false);
-+
- 		drm_sched_fence_scheduled(s_fence);
- 		dma_fence_set_error(&s_fence->finished, -ESRCH);
- 
+ unlock:
+ 	mutex_unlock(&ir_raw_handler_lock);
 -- 
 2.30.2
 
