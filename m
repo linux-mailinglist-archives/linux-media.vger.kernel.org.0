@@ -2,175 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8B933BD6F8
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 14:47:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 441DC3BD704
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jul 2021 14:48:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237803AbhGFMsy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jul 2021 08:48:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34520 "EHLO
+        id S237888AbhGFMuq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jul 2021 08:50:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240791AbhGFMsl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 08:48:41 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60477C0225AA
-        for <linux-media@vger.kernel.org>; Tue,  6 Jul 2021 05:41:12 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id r9-20020a7bc0890000b02901f347b31d55so1617049wmh.2
-        for <linux-media@vger.kernel.org>; Tue, 06 Jul 2021 05:41:12 -0700 (PDT)
+        with ESMTP id S240971AbhGFMtQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jul 2021 08:49:16 -0400
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 177D8C0613DF;
+        Tue,  6 Jul 2021 05:46:17 -0700 (PDT)
+Received: by mail-ot1-x32d.google.com with SMTP id 59-20020a9d0ac10000b0290462f0ab0800so21381038otq.11;
+        Tue, 06 Jul 2021 05:46:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hRu/rrECnrx/6rDYLkqHGSqwS0EdaL46bywJDkHS8nI=;
-        b=A/Mi8xG/jIlYJ+6yfkfZ/NNXm7mu7DHNJaeqjA+dLchP0zt4JrHU9eIL3h+/nvEr79
-         T1rC+ILs46rmaj89/17s9Bg+OsODYSOuDRDNtkcF6rFcBoW3uKNU9YiyG2DL79HEwatj
-         7d4EVG1bqR3Dxi8vxrTYFK9aBpJIqLS1+Zi2HeiO1KXQOXJvx8P7gZm3I1ekA/rGBMn+
-         Rq8KoRCf9vd7rZk/4eWP5MBLWASDB77A1UsDSsoo7eeAnIfH6MV8UTStV1FvV9X4bb+J
-         nSHPdPYcWYbHd6lO57Bgi8cZuUSWvN5fk7B+JkXC7f+6W7u+rPkQ3pqYxNp0JKRPUKbK
-         Mmag==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=sCjXp3xF1YSalO2+qz5OYyZixLhy0ty98Vfkg+SLNfU=;
+        b=NebIVlImsk/VQNEBC9xhHI8KKnEPayGZn2ZyIMxFnPx0YDhqtNAWoIKAXIXd7A6yI1
+         Z/ZqdKIIzbjxYaq/e/KIf4Ty2v8ZKxhCT2fZu+d5f+oLC5pZRukodlHjEJ63d9cYEnZH
+         Z8FGRRxvPytz47HM1SRivXkHFZHPHo67ltwBZfLhKd4wvK1s2l09//DgjYPbQ2QzlM1w
+         UwYRJ80jYqhAcKo/vKem03qSyf3ye/3jPTBdjCxDdMDf4kgNIN0M8pNZTgQviynWgyra
+         a1HZFz50KvOSjqacuprw+IsW3+7YMHolQy0dGBV0wg4zyt0xWwtlY8NdkbeuXI9GWgZ1
+         H/8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hRu/rrECnrx/6rDYLkqHGSqwS0EdaL46bywJDkHS8nI=;
-        b=GREyNRwQeDFcNSywV6OfYmvjc0EtDU80cmAz5GWdv6aWgEwkF9eM+kfNaj0ywtYCGn
-         IXhrjLnIgFOMwqm1T9W3DEnlGxlxLeuFo1K9ovlHH3LPkH75zOzLS9/n42F1mhGxzrJd
-         xjHjTUzdkqav3RsZr3ECLIOnNPOtANBe8DRjhinLAXqwfPMfvUO1FMv+2Cdh0TMd2ACs
-         FzrOoNo2hn517zGdtju7M1NOsMj2bC3hnyDSeF8ms/7PVH2NVLQAgc3HXnv/dV7eBns9
-         ISGRkbh4Z/oFUbId5X5TaiVFonvR3+sXkFR0W7VWkZfZHG8JSszmATRyn8v+wXrQzaBJ
-         kBmA==
-X-Gm-Message-State: AOAM531wftP+m66nrKxK0vTjddKENEMiD7ZB+alRFo68sVooAbqKgIYx
-        tKsy2xYwESwByFZX70fZkMIDf4AWgv0NRQ==
-X-Google-Smtp-Source: ABdhPJykZRhTNi+DMbVdlg1f9P6ncOKxO5R4KfG+BCmqTv5c10YAQ66qYsZy3VvRGb57i2RhvlqoLw==
-X-Received: by 2002:a05:600c:2f17:: with SMTP id r23mr168794wmn.185.1625575270808;
-        Tue, 06 Jul 2021 05:41:10 -0700 (PDT)
-Received: from localhost.localdomain (hst-221-27.medicom.bg. [84.238.221.27])
-        by smtp.gmail.com with ESMTPSA id n18sm2585979wms.3.2021.07.06.05.41.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jul 2021 05:41:10 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-api@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v2 5/5] venus: Add a handling of QC10C compressed format
-Date:   Tue,  6 Jul 2021 15:40:34 +0300
-Message-Id: <20210706124034.773503-6-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210706124034.773503-1-stanimir.varbanov@linaro.org>
-References: <20210706124034.773503-1-stanimir.varbanov@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=sCjXp3xF1YSalO2+qz5OYyZixLhy0ty98Vfkg+SLNfU=;
+        b=LtPpDAhwfBkkWJhXJC6cR/kDi6r44ue1dqtbAjU1va1z/ocDAuG33z9T4FREvNlWI7
+         poDbWgSawr9Zc0i4IjyRD2UDPSxuiQ1S4Djr+cL5ERFg/l1+ZM1N/ixra9e0j03pnsWy
+         dAqji2sUnBZZ8iNWeJDwd8Q2Vf73e07z6kPMRj2DJicFzhVqWcYcUGyngi6ZlJIiOLmp
+         CXHWwbhW/D/NUyO/t0zSv5kJMh+RPCFylRy9qWMa6CC8nW5I8j9REf+4iPBKn4/DqdIO
+         mBcScR6+guOATPGh5JHoILIQ3stmkWFtmoac12vH328MnFrHe+nHOaaWaeq3m6XiS9XJ
+         JRKQ==
+X-Gm-Message-State: AOAM531RSg/ETyUKSuxXEFMzXql2GUyRDark+Iyh9gw8j1UK56lezUHB
+        D+KTHJV8pXswUKgayuToUx6bbJKfxPQckShyNto=
+X-Google-Smtp-Source: ABdhPJzKl+ncA9+SgwqYnKj9X6RvPNw8/DFp4We+uboCS13WvUQF4K4WE0yutJoNe8KTfvhc9SuTE16Alt3g9Wb5p6M=
+X-Received: by 2002:a05:6830:159a:: with SMTP id i26mr5598551otr.339.1625575576243;
+ Tue, 06 Jul 2021 05:46:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210705130314.11519-1-ogabbay@kernel.org> <YOQXBWpo3whVjOyh@phenom.ffwll.local>
+ <20210706122110.GA18273@lst.de> <YORLTmyoXDtoM9Ta@phenom.ffwll.local>
+In-Reply-To: <YORLTmyoXDtoM9Ta@phenom.ffwll.local>
+From:   Oded Gabbay <oded.gabbay@gmail.com>
+Date:   Tue, 6 Jul 2021 15:45:49 +0300
+Message-ID: <CAFCwf114KEH-kO6w+nmbqKKdaGuqy3iOpHJi=5ZWqT3cgDm4Cw@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
+To:     Christoph Hellwig <hch@lst.de>, Oded Gabbay <ogabbay@kernel.org>,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Dave Airlie <airlied@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This adds QC10C compressed pixel format in the Venus driver, and
-make it possible to discover from v4l2 clients.
+On Tue, Jul 6, 2021 at 3:23 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Tue, Jul 06, 2021 at 02:21:10PM +0200, Christoph Hellwig wrote:
+> > On Tue, Jul 06, 2021 at 10:40:37AM +0200, Daniel Vetter wrote:
+> > > > Greg, I hope this will be good enough for you to merge this code.
+> > >
+> > > So we're officially going to use dri-devel for technical details review
+> > > and then Greg for merging so we don't have to deal with other merge
+> > > criteria dri-devel folks have?
+> > >
+> > > I don't expect anything less by now, but it does make the original claim
+> > > that drivers/misc will not step all over accelerators folks a complete
+> > > farce under the totally-not-a-gpu banner.
+> > >
+> > > This essentially means that for any other accelerator stack that doesn't
+> > > fit the dri-devel merge criteria, even if it's acting like a gpu and uses
+> > > other gpu driver stuff, you can just send it to Greg and it's good to go.
+> > >
+> > > There's quite a lot of these floating around actually (and many do have
+> > > semi-open runtimes, like habanalabs have now too, just not open enough to
+> > > be actually useful). It's going to be absolutely lovely having to explain
+> > > to these companies in background chats why habanalabs gets away with their
+> > > stack and they don't.
+> >
+> > FYI, I fully agree with Daniel here.  Habanlabs needs to open up their
+> > runtime if they want to push any additional feature in the kernel.
+> > The current situation is not sustainable.
+Well, that's like, your opinion...
 
-Note: The QC10C format shouldn't be possible to discpver by the
-client if the decoded bitstream is not 10-bits.
+>
+> Before anyone replies: The runtime is open, the compiler is still closed.
+> This has become the new default for accel driver submissions, I think
+> mostly because all the interesting bits for non-3d accelerators are in the
+> accel ISA, and no longer in the runtime. So vendors are fairly happy to
+> throw in the runtime as a freebie.
+>
+> It's still incomplete, and it's still useless if you want to actually hack
+> on the driver stack.
+> -Daniel
+> --
+I don't understand what's not sustainable here.
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/helpers.c | 23 ++-------------------
- drivers/media/platform/qcom/venus/vdec.c    | 19 ++++++++++++++---
- 2 files changed, 18 insertions(+), 24 deletions(-)
+There is zero code inside the driver that communicates or interacts
+with our TPC code (TPC is the Tensor Processing Core).
+Even submitting works to the TPC is done via a generic queue
+interface. And that queue IP is common between all our engines
+(TPC/DMA/NIC). The driver provides all the specs of that queue IP,
+because the driver's code is handling that queue. But why is the TPC
+compiler code even relevant here ?
 
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index 49d720fd9a9d..b48bf52481ba 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -563,6 +563,8 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
- 		return HFI_COLOR_FORMAT_NV21;
- 	case V4L2_PIX_FMT_QC08C:
- 		return HFI_COLOR_FORMAT_NV12_UBWC;
-+	case V4L2_PIX_FMT_QC10C:
-+		return HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
- 	default:
- 		break;
- 	}
-@@ -1675,27 +1677,6 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 v4l2_fmt,
- 	if (!caps)
- 		return -EINVAL;
- 
--	if (inst->bit_depth == VIDC_BITDEPTH_10 &&
--	    inst->session_type == VIDC_SESSION_TYPE_DEC) {
--		found_ubwc =
--			find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
--					   HFI_COLOR_FORMAT_YUV420_TP10_UBWC);
--		found = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT2,
--					   HFI_COLOR_FORMAT_NV12);
--		if (found_ubwc && found) {
--			/*
--			 * Hard-code DPB buffers to be 10bit UBWC and decoder
--			 * output buffers in 8bit NV12 until V4L2 is able to
--			 * expose compressed/tiled formats to applications.
--			 */
--			*out_fmt = HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
--			*out2_fmt = HFI_COLOR_FORMAT_NV12;
--			return 0;
--		}
--
--		return -EINVAL;
--	}
--
- 	if (ubwc) {
- 		ubwc_fmt = fmt | HFI_COLOR_FORMAT_UBWC_BASE;
- 		found_ubwc = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 989a75dc5bf0..c4d5bde860d7 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -35,6 +35,10 @@ static const struct venus_format vdec_formats[] = {
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
- 	}, {
-+		.pixfmt = V4L2_PIX_FMT_QC10C,
-+		.num_planes = 1,
-+		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-+	},{
- 		.pixfmt = V4L2_PIX_FMT_NV12,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-@@ -114,6 +118,10 @@ find_format(struct venus_inst *inst, u32 pixfmt, u32 type)
- 	    !venus_helper_check_format(inst, fmt[i].pixfmt))
- 		return NULL;
- 
-+	if (V4L2_TYPE_IS_CAPTURE(type) && fmt[i].pixfmt == V4L2_PIX_FMT_QC10C &&
-+	    !(inst->bit_depth == VIDC_BITDEPTH_10))
-+		return NULL;
-+
- 	return &fmt[i];
- }
- 
-@@ -133,11 +141,16 @@ find_format_by_index(struct venus_inst *inst, unsigned int index, u32 type)
- 		if (fmt[i].type != type)
- 			continue;
- 
--		if (V4L2_TYPE_IS_OUTPUT(type))
-+		if (V4L2_TYPE_IS_OUTPUT(type)) {
- 			valid = venus_helper_check_codec(inst, fmt[i].pixfmt);
--		else if (V4L2_TYPE_IS_CAPTURE(type))
-+		} else if (V4L2_TYPE_IS_CAPTURE(type)) {
- 			valid = venus_helper_check_format(inst, fmt[i].pixfmt);
- 
-+			if (fmt[i].pixfmt == V4L2_PIX_FMT_QC10C &&
-+			    !(inst->bit_depth == VIDC_BITDEPTH_10))
-+				valid = false;
-+		}
-+
- 		if (k == index && valid)
- 			break;
- 		if (valid)
-@@ -1496,7 +1509,7 @@ static const struct hfi_inst_ops vdec_hfi_ops = {
- static void vdec_inst_init(struct venus_inst *inst)
- {
- 	inst->hfi_codec = HFI_VIDEO_CODEC_H264;
--	inst->fmt_out = &vdec_formats[7];
-+	inst->fmt_out = &vdec_formats[8];
- 	inst->fmt_cap = &vdec_formats[0];
- 	inst->width = frame_width_min(inst);
- 	inst->height = ALIGN(frame_height_min(inst), 32);
--- 
-2.25.1
+btw, you can today see our TPC code at
+https://github.com/HabanaAI/Habana_Custom_Kernel
+There is a link there to the TPC user guide and link to download the
+LLVM compiler.
 
+Oded
