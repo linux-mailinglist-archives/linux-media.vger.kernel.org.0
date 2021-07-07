@@ -2,408 +2,372 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C65EC3BE564
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jul 2021 11:13:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE53C3BE594
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jul 2021 11:26:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231313AbhGGJQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jul 2021 05:16:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54496 "EHLO
+        id S230484AbhGGJ3C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jul 2021 05:29:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231144AbhGGJQ3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jul 2021 05:16:29 -0400
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5019AC061574
-        for <linux-media@vger.kernel.org>; Wed,  7 Jul 2021 02:13:49 -0700 (PDT)
-Received: by mail-ot1-x332.google.com with SMTP id z18-20020a9d7a520000b02904b28bda1885so123607otm.7
-        for <linux-media@vger.kernel.org>; Wed, 07 Jul 2021 02:13:49 -0700 (PDT)
+        with ESMTP id S230474AbhGGJ26 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jul 2021 05:28:58 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9E8FC061574
+        for <linux-media@vger.kernel.org>; Wed,  7 Jul 2021 02:26:17 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id l18-20020a1ced120000b029014c1adff1edso3688809wmh.4
+        for <linux-media@vger.kernel.org>; Wed, 07 Jul 2021 02:26:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=G7im4bRGKzbQON7Fr2kf3d93cjiM61szoaUr+uecDvk=;
-        b=KXm0giKuVuNt2MJYMmvR9uQBnBQpKIEIWB80h3M8dfyPiaINrFSs02L/u2SfGjJBvF
-         SgqUUH8Hll2TULOn5UfXPr6a7JtqRu/K9+SH67MTVRduE/+9Vjdw3pJnD82L4DwlGCWb
-         LfhvSoAvfAwaXE8twyy03T3ePDdgKCukPpd8I=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=i6ateux68cwXZsdBc8zadsGGhxWMAXIKASP34LjTC4I=;
+        b=ZDYAGdXcYtKBYj5hoWHAvqP0cNkXhSYVNmcG1WaAn7/5zhLjD6casd36cF0ERO5WeY
+         xEzt9xwPuYeVDOBWyexciZCplsvGYGsmn7TTcbXn2dsYm3AIeDn5eZifZt9w84TUPVcn
+         yMRGHzdDlAhdk5KXylOEgiB216OuhaEat+j+aRgf0rmnGgm1X9yHoldQvDPSoFjDiw8s
+         NOV01+vzU3w/iifg+Kbc5+0+LzLWPdwwpEyLThBP/3s0ztWhmpbUXR9uhA+4Yh5jXwzd
+         ChPvmUNSk7MwUUYN/Snwk4xW4v/Q+XMlTHiUV0uXIOyBY0EI690r35l9BEkBQw3Juovd
+         PEnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=G7im4bRGKzbQON7Fr2kf3d93cjiM61szoaUr+uecDvk=;
-        b=NMbdsrpfa3IQVKE7iMSEgQNyaIx/a7gVcHUk1MmafiE7rKrD/bY3XuHj59LOCBUcrM
-         UxzQaUQ9nWKc8ao5gzgI2rL52x5bKKGLiVMTZvD+S/ctF1PivC8C/40mkUHySXGuzpmx
-         JN+CgsRxIqmLN5EvqQ2dxeN3Asp13W09Jam5mEFY965CuJ6XCNaKxa/xn2kj15buQTOM
-         WdEOjyv0PPmA0OlqlMjXkbvA62K54x2aemMN6T/dOrK++lzVGDBOQ6DG7fShxO7Cbvsy
-         xZkNg6RYNUKNQQ3vtbWLxcUHChsfzYYtOdXg5JCaM+eWjbI/b+Uo++ViqJ48enDrbLNN
-         lNEg==
-X-Gm-Message-State: AOAM5330mVLcAOEIeJ1HqCDyKukojIScZspFDPH2HHb5h70xtw7C6v1X
-        Ekpkk34PD9JUVnRie6rWZC2V/9Gu0ZeoOlEDmT3f+Q==
-X-Google-Smtp-Source: ABdhPJzFMNtDWqxinjRc1BO0D233nfdg62k2pXd+Z+F9X0n97hiaUlnpsX7t1iEyoZ3bQ/SJ+UbYxfzzqNRlDbX1HEQ=
-X-Received: by 2002:a05:6830:1f19:: with SMTP id u25mr15203294otg.303.1625649228643;
- Wed, 07 Jul 2021 02:13:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210706101209.3034092-1-daniel.vetter@ffwll.ch>
- <20210706101209.3034092-8-daniel.vetter@ffwll.ch> <280c31ae-0d9f-0548-11ea-5b25546741ae@gmail.com>
-In-Reply-To: <280c31ae-0d9f-0548-11ea-5b25546741ae@gmail.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed, 7 Jul 2021 11:13:37 +0200
-Message-ID: <CAKMK7uGADhd_2iPOXVogsNiizSkgbi2KcxNwZFwmyvD6dAVXNA@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 7/7] dma-resv: Give the docs a do-over
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=i6ateux68cwXZsdBc8zadsGGhxWMAXIKASP34LjTC4I=;
+        b=OFytJ+/tNuoa0MwVT8fcyCV8JVb7KspkYa4IqQBmQaEfhrMTpgu0GUdG1tZ8xIx17e
+         dKYDuoh7ogDSduS00BkQ95I5l1lZIEUJPsUhlpu9ZcyZkilEJsh8FJJ0ouI+qMGuTTkL
+         UahsgiVurZr0UJf0jURNXJKyFA9IVZ+7OqycvROZqWlF/ps/Nfq1vYFDeIr72yNEdOtR
+         JvEKOdWSvifKGF+c0tqMEX80aMrp2W34nCu4oN3PUg39MA6HPcdLA0m/nio78qcHvUqD
+         qWLnUR+wboVzJ4msDYjFgH0AKMeTRqH0nOqdnIGCMkJXFbNHg66aFnXKHoUi4EJs21Xm
+         lC2A==
+X-Gm-Message-State: AOAM531QVPMwK2F5jSuTu0anjWRUxWbrf1ov0MLCRWW3jgz7PB8bWZgv
+        6MPEUB6cBqVQcoExm+VYD1g=
+X-Google-Smtp-Source: ABdhPJy766y3TXDfJ0zZfeRf2ejXi+pLHGt6B99mdicjvF9LbhF8/XD23w3aPTBaVGMkgQlGnkYTlQ==
+X-Received: by 2002:a05:600c:19c9:: with SMTP id u9mr25185000wmq.124.1625649976364;
+        Wed, 07 Jul 2021 02:26:16 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:7671:3328:2129:96b5? ([2a02:908:1252:fb60:7671:3328:2129:96b5])
+        by smtp.gmail.com with ESMTPSA id x17sm4246968wru.6.2021.07.07.02.26.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jul 2021 02:26:15 -0700 (PDT)
+Subject: Re: [Linaro-mm-sig] [PATCH v2 02/11] drm/sched: Add dependency
+ tracking
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Jack Zhang <Jack.Zhang1@amd.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Steven Price <steven.price@arm.com>,
+        linaro-mm-sig@lists.linaro.org,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alex Deucher <alexander.deucher@amd.com>,
         Daniel Vetter <daniel.vetter@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        linux-media@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Nirmoy Das <nirmoy.aiemd@gmail.com>
+References: <20210702213815.2249499-1-daniel.vetter@ffwll.ch>
+ <20210702213815.2249499-3-daniel.vetter@ffwll.ch>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <f5d59915-af83-4076-c338-d4df68e7d8cd@gmail.com>
+Date:   Wed, 7 Jul 2021 11:26:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210702213815.2249499-3-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 7, 2021 at 10:06 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
+Am 02.07.21 um 23:38 schrieb Daniel Vetter:
+> Instead of just a callback we can just glue in the gem helpers that
+> panfrost, v3d and lima currently use. There's really not that many
+> ways to skin this cat.
 >
-> Am 06.07.21 um 12:12 schrieb Daniel Vetter:
-> > Specifically document the new/clarified rules around how the shared
-> > fences do not have any ordering requirements against the exclusive
-> > fence.
-> >
-> > But also document all the things a bit better, given how central
-> > struct dma_resv to dynamic buffer management the docs have been very
-> > inadequat.
-> >
-> > - Lots more links to other pieces of the puzzle. Unfortunately
-> >    ttm_buffer_object has no docs, so no links :-(
-> >
-> > - Explain/complain a bit about dma_resv_locking_ctx(). I still don't
-> >    like that one, but fixing the ttm call chains is going to be
-> >    horrible. Plus we want to plug in real slowpath locking when we do
-> >    that anyway.
-> >
-> > - Main part of the patch is some actual docs for struct dma_resv.
-> >
-> > Overall I think we still have a lot of bad naming in this area (e.g.
-> > dma_resv.fence is singular, but contains the multiple shared fences),
-> > but I think that's more indicative of how the semantics and rules are
-> > just not great.
-> >
-> > Another thing that's real awkard is how chaining exclusive fences
-> > right now means direct dma_resv.exclusive_fence pointer access with an
-> > rcu_assign_pointer. Not so great either.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > ---
-> >   drivers/dma-buf/dma-resv.c |  22 ++++++--
-> >   include/linux/dma-resv.h   | 104 +++++++++++++++++++++++++++++++++++-=
--
-> >   2 files changed, 116 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> > index f26c71747d43..898f8d894bbd 100644
-> > --- a/drivers/dma-buf/dma-resv.c
-> > +++ b/drivers/dma-buf/dma-resv.c
-> > @@ -48,6 +48,8 @@
-> >    * write operations) or N shared fences (read operations).  The RCU
-> >    * mechanism is used to protect read access to fences from locked
-> >    * write-side updates.
-> > + *
-> > + * See struct dma_resv for more details.
-> >    */
-> >
-> >   DEFINE_WD_CLASS(reservation_ww_class);
-> > @@ -137,7 +139,11 @@ EXPORT_SYMBOL(dma_resv_fini);
-> >    * @num_fences: number of fences we want to add
-> >    *
-> >    * Should be called before dma_resv_add_shared_fence().  Must
-> > - * be called with obj->lock held.
-> > + * be called with @obj locked through dma_resv_lock().
-> > + *
-> > + * Note that the preallocated slots need to be re-reserved if @obj is =
-unlocked
-> > + * at any time before callind dma_resv_add_shared_fence(). This is val=
-idate when
-> > + * CONFIG_DEBUG_MUTEXES is enabled.
-> >    *
-> >    * RETURNS
-> >    * Zero for success, or -errno
-> > @@ -234,8 +240,10 @@ EXPORT_SYMBOL(dma_resv_reset_shared_max);
-> >    * @obj: the reservation object
-> >    * @fence: the shared fence to add
-> >    *
-> > - * Add a fence to a shared slot, obj->lock must be held, and
-> > + * Add a fence to a shared slot, @obj must be locked with dma_resv_loc=
-k(), and
-> >    * dma_resv_reserve_shared() has been called.
-> > + *
-> > + * See also &dma_resv.fence for a discussion of the semantics.
-> >    */
-> >   void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence=
- *fence)
-> >   {
-> > @@ -280,7 +288,9 @@ EXPORT_SYMBOL(dma_resv_add_shared_fence);
-> >    * @obj: the reservation object
-> >    * @fence: the shared fence to add
-> >    *
-> > - * Add a fence to the exclusive slot.  The obj->lock must be held.
-> > + * Add a fence to the exclusive slot. @obj must be locked with dma_res=
-v_lock().
-> > + * Note that this function replaces all fences attached to @obj, see a=
-lso
-> > + * &dma_resv.fence_excl for a discussion of the semantics.
-> >    */
-> >   void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *=
-fence)
-> >   {
-> > @@ -609,9 +619,11 @@ static inline int dma_resv_test_signaled_single(st=
-ruct dma_fence *passed_fence)
-> >    * fence
-> >    *
-> >    * Callers are not required to hold specific locks, but maybe hold
-> > - * dma_resv_lock() already
-> > + * dma_resv_lock() already.
-> > + *
-> >    * RETURNS
-> > - * true if all fences signaled, else false
-> > + *
-> > + * True if all fences signaled, else false.
-> >    */
-> >   bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
-> >   {
-> > diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> > index e1ca2080a1ff..c77fd54d033f 100644
-> > --- a/include/linux/dma-resv.h
-> > +++ b/include/linux/dma-resv.h
-> > @@ -62,16 +62,90 @@ struct dma_resv_list {
-> >
-> >   /**
-> >    * struct dma_resv - a reservation object manages fences for a buffer
-> > - * @lock: update side lock
-> > - * @seq: sequence count for managing RCU read-side synchronization
-> > - * @fence_excl: the exclusive fence, if there is one currently
-> > - * @fence: list of current shared fences
-> > + *
-> > + * There are multiple uses for this, with sometimes slightly different=
- rules in
-> > + * how the fence slots are used.
-> > + *
-> > + * One use is to synchronize cross-driver access to a struct dma_buf, =
-either for
-> > + * dynamic buffer management or just to handle implicit synchronizatio=
-n between
-> > + * different users of the buffer in userspace. See &dma_buf.resv for a=
- more
-> > + * in-depth discussion.
-> > + *
-> > + * The other major use is to manage access and locking within a driver=
- in a
-> > + * buffer based memory manager. struct ttm_buffer_object is the canoni=
-cal
-> > + * example here, since this is were reservation objects originated fro=
-m. But use
-> > + * in drivers is spreading and some drivers also manage struct
-> > + * drm_gem_object with the same scheme.
+> On the naming bikeshed: The idea for using _await_ to denote adding
+> dependencies to a job comes from i915, where that's used quite
+> extensively all over the place, in lots of datastructures.
 >
-> I would still make that even harder, e.g. mentioning that you run into
-> use after free and the resulting memory corruption if you don't obey the
-> rules.
+> v2: Rebased.
+>
+> Reviewed-by: Steven Price <steven.price@arm.com> (v1)
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Nirmoy Das <nirmoy.aiemd@gmail.com>
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Luben Tuikov <luben.tuikov@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Jack Zhang <Jack.Zhang1@amd.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> ---
+>   drivers/gpu/drm/scheduler/sched_entity.c |  18 +++-
+>   drivers/gpu/drm/scheduler/sched_main.c   | 103 +++++++++++++++++++++++
+>   include/drm/gpu_scheduler.h              |  31 ++++++-
+>   3 files changed, 146 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index f7347c284886..b6f72fafd504 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -211,6 +211,19 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+>   	job->sched->ops->free_job(job);
+>   }
+>   
+> +static struct dma_fence *
+> +drm_sched_job_dependency(struct drm_sched_job *job,
+> +			 struct drm_sched_entity *entity)
+> +{
+> +	if (!xa_empty(&job->dependencies))
+> +		return xa_erase(&job->dependencies, job->last_dependency++);
+> +
+> +	if (job->sched->ops->dependency)
+> +		return job->sched->ops->dependency(job, entity);
+> +
+> +	return NULL;
+> +}
+> +
+>   /**
+>    * drm_sched_entity_kill_jobs - Make sure all remaining jobs are killed
+>    *
+> @@ -229,7 +242,7 @@ static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
+>   		struct drm_sched_fence *s_fence = job->s_fence;
+>   
+>   		/* Wait for all dependencies to avoid data corruptions */
+> -		while ((f = job->sched->ops->dependency(job, entity)))
+> +		while ((f = drm_sched_job_dependency(job, entity)))
+>   			dma_fence_wait(f, false);
+>   
+>   		drm_sched_fence_scheduled(s_fence);
+> @@ -419,7 +432,6 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>    */
+>   struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>   {
+> -	struct drm_gpu_scheduler *sched = entity->rq->sched;
+>   	struct drm_sched_job *sched_job;
+>   
+>   	sched_job = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
+> @@ -427,7 +439,7 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>   		return NULL;
+>   
+>   	while ((entity->dependency =
+> -			sched->ops->dependency(sched_job, entity))) {
+> +			drm_sched_job_dependency(sched_job, entity))) {
+>   		trace_drm_sched_job_wait_dep(sched_job, entity->dependency);
+>   
+>   		if (drm_sched_entity_add_dependency_cb(entity))
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 5e84e1500c32..12d533486518 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -605,6 +605,8 @@ int drm_sched_job_init(struct drm_sched_job *job,
+>   
+>   	INIT_LIST_HEAD(&job->list);
+>   
+> +	xa_init_flags(&job->dependencies, XA_FLAGS_ALLOC);
+> +
+>   	return 0;
+>   }
+>   EXPORT_SYMBOL(drm_sched_job_init);
+> @@ -628,6 +630,98 @@ void drm_sched_job_arm(struct drm_sched_job *job)
+>   }
+>   EXPORT_SYMBOL(drm_sched_job_arm);
+>   
+> +/**
+> + * drm_sched_job_await_fence - adds the fence as a job dependency
+> + * @job: scheduler job to add the dependencies to
+> + * @fence: the dma_fence to add to the list of dependencies.
+> + *
+> + * Note that @fence is consumed in both the success and error cases.
+> + *
+> + * Returns:
+> + * 0 on success, or an error on failing to expand the array.
+> + */
+> +int drm_sched_job_await_fence(struct drm_sched_job *job,
+> +			      struct dma_fence *fence)
 
-Hm I think that's best documented in dma_buf.resv kerneldoc, pointing
-at the rules here and explaining what can go wrong on the other driver
-if we just overwrite fences and breakt the DAG. I'll add something
-there.
--Daniel
+I'm still not very keen about the naming "await", can't we just call 
+this _add_dependency? and _remove_dependency() ?
 
->
-> Apart from that with the spelling stuff pointed out by others fixed the
-> patch is Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
-> Regards,
-> Christian.
->
-> >    */
-> >   struct dma_resv {
-> > +     /**
-> > +      * @lock:
-> > +      *
-> > +      * Update side lock. Don't use directly, instead use the wrapper
-> > +      * functions like dma_resv_lock() and dma_resv_unlock().
-> > +      *
-> > +      * Drivers which use the reservation object to manage memory dyna=
-mically
-> > +      * also use this lock to protect buffer object state like placeme=
-nt,
-> > +      * allocation policies or throughout command submission.
-> > +      */
-> >       struct ww_mutex lock;
-> > +
-> > +     /**
-> > +      * @seq:
-> > +      *
-> > +      * Sequence count for managing RCU read-side synchronization, all=
-ows
-> > +      * read-only access to @fence_excl and @fence while ensuring we t=
-ake a
-> > +      * consistent snapshot.
-> > +      */
-> >       seqcount_ww_mutex_t seq;
-> >
-> > +     /**
-> > +      * @fence_excl:
-> > +      *
-> > +      * The exclusive fence, if there is one currently.
-> > +      *
-> > +      * There are two was to update this fence:
-> > +      *
-> > +      * - First by calling dma_resv_add_excl_fence(), which replaces a=
-ll
-> > +      *   fences attached to the reservation object. To guarantee that=
- no
-> > +      *   fences are lost this new fence must signal only after all pr=
-evious
-> > +      *   fences, both shared and exclusive, have signalled. In some c=
-ases it
-> > +      *   is convenient to achieve that by attaching a struct dma_fenc=
-e_array
-> > +      *   with all the new and old fences.
-> > +      *
-> > +      * - Alternatively the fence can be set directly, which leaves th=
-e
-> > +      *   shared fences unchanged. To guarantee that no fences are los=
-t this
-> > +      *   new fence must signale only after the previous exclusive fen=
-ce has
-> > +      *   singalled. Since the shared fences are staying intact, it is=
- not
-> > +      *   necessary to maintain any ordering against those. If semanti=
-cally
-> > +      *   only a new access is added without actually treating the pre=
-vious
-> > +      *   one as a dependency the exclusive fences can be strung toget=
-her
-> > +      *   using struct dma_fence_chain.
-> > +      *
-> > +      * Note that actual semantics of what an exclusive or shared fenc=
-e mean
-> > +      * is defined by the user, for reservation objects shared across =
-drivers
-> > +      * see &dma_buf.resv.
-> > +      */
-> >       struct dma_fence __rcu *fence_excl;
-> > +
-> > +     /**
-> > +      * @fence:
-> > +      *
-> > +      * List of current shared fences.
-> > +      *
-> > +      * There are no ordering constraints of shared fences against the
-> > +      * exclusive fence slot. If a waiter needs to wait for all access=
-, it
-> > +      * has to wait for both set of fences to signal.
-> > +      *
-> > +      * A new fence is added by calling dma_resv_add_shared_fence(). S=
-ince
-> > +      * this often needs to be done past the point of no return in com=
-mand
-> > +      * submission it cannot fail, and therefor sufficient slots need =
-to be
-> > +      * reserved by calling dma_resv_reserve_shared().
-> > +      *
-> > +      * Note that actual semantics of what an exclusive or shared fenc=
-e mean
-> > +      * is defined by the user, for reservation objects shared across =
-drivers
-> > +      * see &dma_buf.resv.
-> > +      */
-> >       struct dma_resv_list __rcu *fence;
-> >   };
-> >
-> > @@ -98,6 +172,13 @@ static inline void dma_resv_reset_shared_max(struct=
- dma_resv *obj) {}
-> >    * undefined order, a #ww_acquire_ctx is passed to unwind if a cycle
-> >    * is detected. See ww_mutex_lock() and ww_acquire_init(). A reservat=
-ion
-> >    * object may be locked by itself by passing NULL as @ctx.
-> > + *
-> > + * When a die situation is indicated by returning -EDEADLK all locks h=
-eld by
-> > + * @ctx must be unlocked and then dma_resv_lock_slow() called on @obj.
-> > + *
-> > + * Unlocked by calling dma_resv_lock().
-> > + *
-> > + * See also dma_resv_lock_interruptible() for the interruptible varian=
-t.
-> >    */
-> >   static inline int dma_resv_lock(struct dma_resv *obj,
-> >                               struct ww_acquire_ctx *ctx)
-> > @@ -119,6 +200,12 @@ static inline int dma_resv_lock(struct dma_resv *o=
-bj,
-> >    * undefined order, a #ww_acquire_ctx is passed to unwind if a cycle
-> >    * is detected. See ww_mutex_lock() and ww_acquire_init(). A reservat=
-ion
-> >    * object may be locked by itself by passing NULL as @ctx.
-> > + *
-> > + * When a die situation is indicated by returning -EDEADLK all locks h=
-eld by
-> > + * @ctx must be unlocked and then dma_resv_lock_slow_interruptible() c=
-alled on
-> > + * @obj.
-> > + *
-> > + * Unlocked by calling dma_resv_lock().
-> >    */
-> >   static inline int dma_resv_lock_interruptible(struct dma_resv *obj,
-> >                                             struct ww_acquire_ctx *ctx)
-> > @@ -134,6 +221,8 @@ static inline int dma_resv_lock_interruptible(struc=
-t dma_resv *obj,
-> >    * Acquires the reservation object after a die case. This function
-> >    * will sleep until the lock becomes available. See dma_resv_lock() a=
-s
-> >    * well.
-> > + *
-> > + * See also dma_resv_lock_slow_interruptible() for the interruptible v=
-ariant.
-> >    */
-> >   static inline void dma_resv_lock_slow(struct dma_resv *obj,
-> >                                     struct ww_acquire_ctx *ctx)
-> > @@ -167,7 +256,7 @@ static inline int dma_resv_lock_slow_interruptible(=
-struct dma_resv *obj,
-> >    * if they overlap with a writer.
-> >    *
-> >    * Also note that since no context is provided, no deadlock protectio=
-n is
-> > - * possible.
-> > + * possible, which is also not needed for a trylock.
-> >    *
-> >    * Returns true if the lock was acquired, false otherwise.
-> >    */
-> > @@ -193,6 +282,11 @@ static inline bool dma_resv_is_locked(struct dma_r=
-esv *obj)
-> >    *
-> >    * Returns the context used to lock a reservation object or NULL if n=
-o context
-> >    * was used or the object is not locked at all.
-> > + *
-> > + * WARNING: This interface is pretty horrible, but TTM needs it becaus=
-e it
-> > + * doesn't pass the struct ww_acquire_ctx around in some very long cal=
-lchains.
-> > + * Everyone else just uses it to check whether they're holding a reser=
-vation or
-> > + * not.
-> >    */
-> >   static inline struct ww_acquire_ctx *dma_resv_locking_ctx(struct dma_=
-resv *obj)
-> >   {
->
+Christian.
 
+> +{
+> +	struct dma_fence *entry;
+> +	unsigned long index;
+> +	u32 id = 0;
+> +	int ret;
+> +
+> +	if (!fence)
+> +		return 0;
+> +
+> +	/* Deduplicate if we already depend on a fence from the same context.
+> +	 * This lets the size of the array of deps scale with the number of
+> +	 * engines involved, rather than the number of BOs.
+> +	 */
+> +	xa_for_each(&job->dependencies, index, entry) {
+> +		if (entry->context != fence->context)
+> +			continue;
+> +
+> +		if (dma_fence_is_later(fence, entry)) {
+> +			dma_fence_put(entry);
+> +			xa_store(&job->dependencies, index, fence, GFP_KERNEL);
+> +		} else {
+> +			dma_fence_put(fence);
+> +		}
+> +		return 0;
+> +	}
+> +
+> +	ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b, GFP_KERNEL);
+> +	if (ret != 0)
+> +		dma_fence_put(fence);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(drm_sched_job_await_fence);
+> +
+> +/**
+> + * drm_sched_job_await_implicit - adds implicit dependencies as job dependencies
+> + * @job: scheduler job to add the dependencies to
+> + * @obj: the gem object to add new dependencies from.
+> + * @write: whether the job might write the object (so we need to depend on
+> + * shared fences in the reservation object).
+> + *
+> + * This should be called after drm_gem_lock_reservations() on your array of
+> + * GEM objects used in the job but before updating the reservations with your
+> + * own fences.
+> + *
+> + * Returns:
+> + * 0 on success, or an error on failing to expand the array.
+> + */
+> +int drm_sched_job_await_implicit(struct drm_sched_job *job,
+> +				 struct drm_gem_object *obj,
+> +				 bool write)
+> +{
+> +	int ret;
+> +	struct dma_fence **fences;
+> +	unsigned int i, fence_count;
+> +
+> +	if (!write) {
+> +		struct dma_fence *fence = dma_resv_get_excl_unlocked(obj->resv);
+> +
+> +		return drm_sched_job_await_fence(job, fence);
+> +	}
+> +
+> +	ret = dma_resv_get_fences(obj->resv, NULL, &fence_count, &fences);
+> +	if (ret || !fence_count)
+> +		return ret;
+> +
+> +	for (i = 0; i < fence_count; i++) {
+> +		ret = drm_sched_job_await_fence(job, fences[i]);
+> +		if (ret)
+> +			break;
+> +	}
+> +
+> +	for (; i < fence_count; i++)
+> +		dma_fence_put(fences[i]);
+> +	kfree(fences);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(drm_sched_job_await_implicit);
+> +
+> +
+>   /**
+>    * drm_sched_job_cleanup - clean up scheduler job resources
+>    * @job: scheduler job to clean up
+> @@ -643,6 +737,9 @@ EXPORT_SYMBOL(drm_sched_job_arm);
+>    */
+>   void drm_sched_job_cleanup(struct drm_sched_job *job)
+>   {
+> +	struct dma_fence *fence;
+> +	unsigned long index;
+> +
+>   	if (!kref_read(&job->s_fence->finished.refcount)) {
+>   		/* drm_sched_job_arm() has been called */
+>   		dma_fence_put(&job->s_fence->finished);
+> @@ -652,6 +749,12 @@ void drm_sched_job_cleanup(struct drm_sched_job *job)
+>   	}
+>   
+>   	job->s_fence = NULL;
+> +
+> +	xa_for_each(&job->dependencies, index, fence) {
+> +		dma_fence_put(fence);
+> +	}
+> +	xa_destroy(&job->dependencies);
+> +
+>   }
+>   EXPORT_SYMBOL(drm_sched_job_cleanup);
+>   
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 83afc3aa8e2f..74fb321dbc44 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -27,9 +27,12 @@
+>   #include <drm/spsc_queue.h>
+>   #include <linux/dma-fence.h>
+>   #include <linux/completion.h>
+> +#include <linux/xarray.h>
+>   
+>   #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
+>   
+> +struct drm_gem_object;
+> +
+>   struct drm_gpu_scheduler;
+>   struct drm_sched_rq;
+>   
+> @@ -198,6 +201,16 @@ struct drm_sched_job {
+>   	enum drm_sched_priority		s_priority;
+>   	struct drm_sched_entity         *entity;
+>   	struct dma_fence_cb		cb;
+> +	/**
+> +	 * @dependencies:
+> +	 *
+> +	 * Contains the dependencies as struct dma_fence for this job, see
+> +	 * drm_sched_job_await_fence() and drm_sched_job_await_implicit().
+> +	 */
+> +	struct xarray			dependencies;
+> +
+> +	/** @last_dependency: tracks @dependencies as they signal */
+> +	unsigned long			last_dependency;
+>   };
+>   
+>   static inline bool drm_sched_invalidate_job(struct drm_sched_job *s_job,
+> @@ -220,9 +233,14 @@ enum drm_gpu_sched_stat {
+>    */
+>   struct drm_sched_backend_ops {
+>   	/**
+> -         * @dependency: Called when the scheduler is considering scheduling
+> -         * this job next, to get another struct dma_fence for this job to
+> -	 * block on.  Once it returns NULL, run_job() may be called.
+> +	 * @dependency:
+> +	 *
+> +	 * Called when the scheduler is considering scheduling this job next, to
+> +	 * get another struct dma_fence for this job to block on.  Once it
+> +	 * returns NULL, run_job() may be called.
+> +	 *
+> +	 * If a driver exclusively uses drm_sched_job_await_fence() and
+> +	 * drm_sched_job_await_implicit() this can be ommitted and left as NULL.
+>   	 */
+>   	struct dma_fence *(*dependency)(struct drm_sched_job *sched_job,
+>   					struct drm_sched_entity *s_entity);
+> @@ -349,6 +367,13 @@ int drm_sched_job_init(struct drm_sched_job *job,
+>   		       struct drm_sched_entity *entity,
+>   		       void *owner);
+>   void drm_sched_job_arm(struct drm_sched_job *job);
+> +int drm_sched_job_await_fence(struct drm_sched_job *job,
+> +			      struct dma_fence *fence);
+> +int drm_sched_job_await_implicit(struct drm_sched_job *job,
+> +				 struct drm_gem_object *obj,
+> +				 bool write);
+> +
+> +
+>   void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+>   				    struct drm_gpu_scheduler **sched_list,
+>                                      unsigned int num_sched_list);
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
