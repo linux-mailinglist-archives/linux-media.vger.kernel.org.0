@@ -2,169 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F1323BE96F
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jul 2021 16:10:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADB993BE97A
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jul 2021 16:13:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231639AbhGGONf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jul 2021 10:13:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36352 "EHLO
+        id S231724AbhGGOQX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jul 2021 10:16:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231472AbhGGONe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jul 2021 10:13:34 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03810C061574
-        for <linux-media@vger.kernel.org>; Wed,  7 Jul 2021 07:10:54 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id y40so3574530ede.4
-        for <linux-media@vger.kernel.org>; Wed, 07 Jul 2021 07:10:53 -0700 (PDT)
+        with ESMTP id S231748AbhGGOQW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jul 2021 10:16:22 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A986C061574
+        for <linux-media@vger.kernel.org>; Wed,  7 Jul 2021 07:13:41 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id p24so2905691ljj.1
+        for <linux-media@vger.kernel.org>; Wed, 07 Jul 2021 07:13:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UXjLA21RO8ZVTaiT53RWJR5NF6kfisIk0gt8MHSPKZA=;
-        b=ZtSemU85FBGU5ie+R0xDBAxp25KfkVHjo/1V7lmSgKUsRXDu+YUsUXN86AAoW0vkSq
-         SglE/WWJQ+dj2xBDYoPZUmTDhFD3EXtxXhHAtfMg52dRgi744WVlnNVOuTr82g4mROpP
-         Op11tc851OTswsrDu5ZzFgtShVClUgiiFdKuQ=
+        d=phystech-edu.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=g5y2U6uok/0so0eFkpqI39QSbZF7lC9EfSeNA/R2eiU=;
+        b=b69y5epbfVrMskok7SBd1fb6b+hS2UNHIjBQpCvisPd9gFak1ZIcM1t+CCpoHXjx48
+         AYqnzcVvvaYeOw5tbYaLmdMEmNJ9epDabUQTTJxMY6CkFbF4Af3SXV3nQ3XQ3QuPuOLx
+         wjW0pncMm8r57xkk0W14y2f/V4kfTptIqomWgvad66QefRyb5ZFIjfyCcgxnaP4tX4Jn
+         5oLRPogaJswJY0tBQ8mLfaxN4Tw4R00hZibCFs5IAd/Z4NrRVsc8I5Z5lxpYWMP+duiJ
+         qbDG0vkhPcmo8sl3NI2eEZx9L4H7bxYsVcCg6dLHzkGliujExF0U2bdlgRjhx/EKi+wc
+         Nc3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UXjLA21RO8ZVTaiT53RWJR5NF6kfisIk0gt8MHSPKZA=;
-        b=GtViyxc7hXLlA8I5jY/GSJIlMAG4PoO1SJcwSKenVHsTKF4H4aWV7ZtUOhwQEFp+r1
-         TFEtsiWt2yl2OMGdsA7eLLBft2LPfFsXFji4LMOKbm2f280WA26uK3i3Tf8Tttbu/T27
-         XyPQNQ5epGOJQdPGY2UeZ9fcoYOYwDDL+WXLrhC+mZBHm3XtA5daa0Au9DO8b3ZUc3hp
-         6GT6NbZh44HEqtFVA+dL53hKsFl920R1A4IENIdbLp5mVdHeQVcrJEGPj2SSHnEVbp8o
-         XXwsmWHYpkNScR2S6fmIGs7hN6w2vs82MjSV8kDuQQtLnc3K5kpZvzxa+WCsi2Qhtamu
-         7/5Q==
-X-Gm-Message-State: AOAM532lDv0Dvb+kSgx8jnmwJiWrrVeDyLb4kR14EfrR0XAlZAz8TXdP
-        K1K4wObVEAxbkIuwlVjJ98FJizTx6loFgw==
-X-Google-Smtp-Source: ABdhPJyzrdV/GQyV3m/X2IJiwtLU7+zRMkiXZDXMm5gXrIK5bBzp1NqegqLTAf1Jkua3TXOUVens9Q==
-X-Received: by 2002:a50:fc04:: with SMTP id i4mr18226898edr.285.1625667052187;
-        Wed, 07 Jul 2021 07:10:52 -0700 (PDT)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com. [209.85.221.48])
-        by smtp.gmail.com with ESMTPSA id a5sm3880091edj.20.2021.07.07.07.10.50
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jul 2021 07:10:51 -0700 (PDT)
-Received: by mail-wr1-f48.google.com with SMTP id i94so3242003wri.4
-        for <linux-media@vger.kernel.org>; Wed, 07 Jul 2021 07:10:50 -0700 (PDT)
-X-Received: by 2002:a5d:46cb:: with SMTP id g11mr10193300wrs.192.1625667050451;
- Wed, 07 Jul 2021 07:10:50 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=g5y2U6uok/0so0eFkpqI39QSbZF7lC9EfSeNA/R2eiU=;
+        b=unVRBuhE79sWEcW69zEn7z8Ej4ByREB39n8jGXZOt1lzWzn9+pjDnkFaZEhTZE4y/D
+         k3F4UtojR6VMaog+d4LGmJqH6yCE3Ti213M+HPdH1IzHke/MmlAeRFbZHZnzoqu+Kfbg
+         X8M6RB0VC+nrgedV6i38+spFYhWbDt6wDRBMfaGau2ZZTKWIOUEmRdtaNY46adZvU9tE
+         dkftIlvQsS8i0cctqnk1KLbAVnDPY4QTHxoWxnOXe1yPEjlLWihEqPf2+ldkB7g/f04E
+         MES/WuEUOnvn6n1GAbte4o7l5f9gXBVwCe4bYWfzF6o5WDU9OysGpx3U/7FBmBLcTkKI
+         PrZw==
+X-Gm-Message-State: AOAM530vow8zNcSXmpXHqXI9Fl9VSUPhMA9JzMwTMxHuIQHFQL5weM/z
+        bHd5LWoxsYwD9+rxBbCc7lIDpg==
+X-Google-Smtp-Source: ABdhPJwFZTZe2iloQ3VAroTCsguHeU1FjVUp8cYQVAbXI7WPISb1E0nxwT/5jQC8Z9Ebykwsatgwgw==
+X-Received: by 2002:a2e:6c10:: with SMTP id h16mr19473010ljc.234.1625667218555;
+        Wed, 07 Jul 2021 07:13:38 -0700 (PDT)
+Received: from 192.168.1.3 ([2a00:1370:810e:abfe:9c62:44e3:b0ab:76fd])
+        by smtp.gmail.com with ESMTPSA id a26sm205077ljq.120.2021.07.07.07.13.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jul 2021 07:13:37 -0700 (PDT)
+From:   Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+To:     sean@mess.org, mchehab@kernel.org, robh+dt@kernel.org,
+        khilman@baylibre.com, narmstrong@baylibre.com
+Cc:     jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, rockosov@gmail.com,
+        Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+Subject: [PATCH v2 0/2] media: rc: add support for Amlogic Meson IR blaster
+Date:   Wed,  7 Jul 2021 17:13:21 +0300
+Message-Id: <20210707141323.20757-1-viktor.prutyanov@phystech.edu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20210427131344.139443-1-senozhatsky@chromium.org>
- <20210427131344.139443-9-senozhatsky@chromium.org> <10a0903a-e295-5cba-683a-1eb89a0804ed@xs4all.nl>
- <YMsAIVs7G2hUDR2F@google.com> <YNVJJhP69KPJ+DHv@google.com>
- <CAAFQd5BB6JghdgGf9SjAWYuZFsZaAeU11rV1a1xrwws=w7j7_w@mail.gmail.com> <YOWsNa0Zaf9UuGWH@google.com>
-In-Reply-To: <YOWsNa0Zaf9UuGWH@google.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 7 Jul 2021 23:10:37 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DDpxXBb=eJpzLPOhGQAgtBKnn0aTo=3Vs-rf44cu8OQA@mail.gmail.com>
-Message-ID: <CAAFQd5DDpxXBb=eJpzLPOhGQAgtBKnn0aTo=3Vs-rf44cu8OQA@mail.gmail.com>
-Subject: Re: [PATCHv2 8/8] videobuf2: handle non-contiguous DMA allocations
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 7, 2021 at 10:29 PM Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
->
-> On (21/07/07 21:48), Tomasz Figa wrote:
-> > > [..]
-> > > > static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
-> > > > {
-> > > >         struct vb2_dc_buf *buf = buf_priv;
-> > > >
-> > > >         if (buf->vaddr)
-> > > >                 return buf->vaddr;
-> > > >
-> > > >         if (buf->db_attach) {
-> > > >                 struct dma_buf_map map;
-> > > >
-> > > >                 if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
-> > > >                         buf->vaddr = map.vaddr;
-> > > >
-> > > >                 return buf->vaddr;
-> > > >         }
-> > > >
-> > > >         if (!buf->coherent_mem)
-> > > >                 buf->vaddr = dma_vmap_noncontiguous(buf->dev, buf->size,
-> > > >                                                     buf->dma_sgt);
-> > > >         return buf->vaddr;
-> > > > }
-> > > >
-> > > > And in vb2_dc_alloc functions set vaddr for !DMA_ATTR_NO_KERNEL_MAPPING
-> > > > in both coherent and non-coherent. So that we probably can have less
-> > > > branches when ->vaddr is NULL for one type of allocations, and is not
-> > > > NULL for another.
-> >
-> > I'd prefer if it stayed as is. This opportunistic mapping as in the
-> > current revision is quite nice, because most of the drivers don't
-> > bother to set DMA_ATTR_NO_KERNEL_MAPPING even if they don't need the
-> > kernel mapping. Also, even if the driver itself doesn't need the
-> > kernel mapping, we can still create one on demand if the DMA-buf
-> > importer demands it from us.
->
-> [..]
->
-> > > > static int vb2_dc_alloc_coherent(struct vb2_dc_buf *buf)
-> > > > {
-> > > >         struct vb2_queue *q = buf->vb->vb2_queue;
-> > > >
-> > > >         buf->cookie = dma_alloc_attrs(buf->dev,
-> > > >                                       buf->size,
-> > > >                                       &buf->dma_addr,
-> > > >                                       GFP_KERNEL | q->gfp_flags,
-> > > >                                       buf->attrs);
-> > > >         if (!buf->cookie)
-> > > >                 return -ENOMEM;
-> > > >
-> > > >         if (q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING)
-> > > >                 return 0;
-> > > >
-> > > >         buf->vaddr = buf->cookie;
-> > > >         return 0;
-> > > > }
-> > > >
-> > > > static int vb2_dc_alloc_non_coherent(struct vb2_dc_buf *buf)
-> > > > {
-> > > >         struct vb2_queue *q = buf->vb->vb2_queue;
-> > > >
-> > > >         buf->dma_sgt = dma_alloc_noncontiguous(buf->dev,
-> > > >                                                buf->size,
-> > > >                                                buf->dma_dir,
-> > > >                                                GFP_KERNEL | q->gfp_flags,
-> > > >                                                buf->attrs);
-> > > >         if (!buf->dma_sgt)
-> > > >                 return -ENOMEM;
-> > > >
-> > > >         if (q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING)
-> > > >                 return 0;
-> > > >
-> > > >         buf->vaddr = dma_vmap_noncontiguous(buf->dev, buf->size, buf->dma_sgt);
-> > > >         if (!buf->vaddr) {
-> > > >                 dma_free_noncontiguous(buf->dev, buf->size,
-> > > >                                        buf->dma_sgt, buf->dma_addr);
-> > > >                 return -ENOMEM;
-> > > >         }
-> > > >         return 0;
-> > > > }
-> > >
-> > > I guess this should address the case when
-> > >
-> > > "after allocating the buffer, the buffer is exported as a dma_buf and
-> > > another device calls dma_buf_ops vb2_dc_dmabuf_ops_vmap, which in turn
-> > > calls dma_buf_map_set_vaddr(map, buf->vaddr); with a NULL buf->vaddr"
-> >
-> > Sorry, I fail to get what this is about. Where does this quote come from?
->
-> Bottom half of https://lore.kernel.org/lkml/10a0903a-e295-5cba-683a-1eb89a0804ed@xs4all.nl/
+Hi,
 
-I see, thanks for the pointer. Yes, vb2_dc_dmabuf_ops_vmap() needs to
-be changed so that it calls vb2_dc_vaddr() internally instead of
-relying on buf->vaddr directly.
+this is a driver for the IR transmitter (also called IR blaster)
+available in some Amlogic Meson SoCs.
+
+Viktor Prutyanov (2):
+  media: rc: meson-irblaster: document device tree bindings
+  media: rc: introduce Meson IR blaster driver
+
+ .../media/amlogic,meson-irblaster.yaml        |  62 +++
+ drivers/media/rc/Kconfig                      |  10 +
+ drivers/media/rc/Makefile                     |   1 +
+ drivers/media/rc/meson-irblaster.c            | 433 ++++++++++++++++++
+ 4 files changed, 506 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/amlogic,meson-irblaster.yaml
+ create mode 100644 drivers/media/rc/meson-irblaster.c
+
+-- 
+2.21.0
+
