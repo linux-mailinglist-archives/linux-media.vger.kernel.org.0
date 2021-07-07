@@ -2,31 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 226393BF127
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jul 2021 23:01:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E13AA3BF180
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jul 2021 23:44:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231515AbhGGVE0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jul 2021 17:04:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44096 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230178AbhGGVEZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jul 2021 17:04:25 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BBAEC061574;
-        Wed,  7 Jul 2021 14:01:44 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F41ACC;
-        Wed,  7 Jul 2021 23:01:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1625691701;
-        bh=lK0wy3hsQ1hszD22uK/s6pIIo/ArEb7Oz1D3HD4v1Co=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=V4kcEZ9DF663CeuPW1XUlsXvMwN7HHfdCkYSiyjC4C8vIeHm6w6AZSdpVO2DNWz9v
-         0wfcDpt2QFnuggTIkADY+avGMUZFgVMYVfN6e/D4IRvTt+qh4CVySsn1SBmQat4z3b
-         5BMFGH4Up2yni1COfoG8A+B2KPox8+pQisyfBkZc=
-Date:   Thu, 8 Jul 2021 00:00:57 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+        id S231195AbhGGVrC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jul 2021 17:47:02 -0400
+Received: from mga03.intel.com ([134.134.136.65]:6552 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229717AbhGGVrC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 7 Jul 2021 17:47:02 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="209432758"
+X-IronPort-AV: E=Sophos;i="5.84,221,1620716400"; 
+   d="scan'208";a="209432758"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2021 14:44:21 -0700
+X-IronPort-AV: E=Sophos;i="5.84,221,1620716400"; 
+   d="scan'208";a="423721813"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2021 14:44:17 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 2D1D5204C0;
+        Thu,  8 Jul 2021 00:44:15 +0300 (EEST)
+Date:   Thu, 8 Jul 2021 00:44:15 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Pratyush Yadav <p.yadav@ti.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Vignesh Raghavendra <vigneshr@ti.com>,
@@ -43,348 +42,90 @@ Cc:     Pratyush Yadav <p.yadav@ti.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
 Subject: Re: [PATCH v3 01/11] media: ov5640: Use runtime PM to control sensor
  power
-Message-ID: <YOYWCRg0P65U41Fg@pendragon.ideasonboard.com>
+Message-ID: <20210707214415.GY3@paasikivi.fi.intel.com>
 References: <20210624192200.22559-1-p.yadav@ti.com>
  <20210624192200.22559-2-p.yadav@ti.com>
  <20210707203718.GX3@paasikivi.fi.intel.com>
+ <YOYWCRg0P65U41Fg@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210707203718.GX3@paasikivi.fi.intel.com>
+In-Reply-To: <YOYWCRg0P65U41Fg@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Laurent,
 
-On Wed, Jul 07, 2021 at 11:37:18PM +0300, Sakari Ailus wrote:
-> On Fri, Jun 25, 2021 at 12:51:50AM +0530, Pratyush Yadav wrote:
-> > Calling s_power subdev callback is discouraged. Instead, the subdevs
-> > should use runtime PM to control its power. Use runtime PM callbacks to
-> > control sensor power. The pm counter is incremented when the stream is
-> > started and decremented when the stream is stopped.
-> > 
-> > Refactor s_stream() a bit to make this new control flow easier. Add a
-> > helper to choose whether mipi or dvp set_stream needs to be called. The
-> > logic flow is also changed to make it a bit clearer.
-> > 
-> > Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> > 
-> > ---
-> > 
-> > Changes in v3:
-> > - Clean up the logic in ov5640_s_stream() a bit.
-> > - Use pm_runtime_resume_and_get() instead of pm_runtime_get_sync().
-> > - Rename the label error_pm to disable_pm.
-> > 
-> > Changes in v2:
-> > - New in v2.
-> > 
-> >  drivers/media/i2c/Kconfig  |   2 +-
-> >  drivers/media/i2c/ov5640.c | 127 +++++++++++++++++++++++--------------
-> >  2 files changed, 79 insertions(+), 50 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > index 588f8eb95984..8f43a4d7bcc1 100644
-> > --- a/drivers/media/i2c/Kconfig
-> > +++ b/drivers/media/i2c/Kconfig
-> > @@ -929,7 +929,7 @@ config VIDEO_OV2740
-> >  
-> >  config VIDEO_OV5640
-> >  	tristate "OmniVision OV5640 sensor support"
-> > -	depends on OF
-> > +	depends on OF && PM
+On Thu, Jul 08, 2021 at 12:00:57AM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> Could you add support for runtime PM without requiring CONFIG_PM?
+> On Wed, Jul 07, 2021 at 11:37:18PM +0300, Sakari Ailus wrote:
+> > On Fri, Jun 25, 2021 at 12:51:50AM +0530, Pratyush Yadav wrote:
+> > > Calling s_power subdev callback is discouraged. Instead, the subdevs
+> > > should use runtime PM to control its power. Use runtime PM callbacks to
+> > > control sensor power. The pm counter is incremented when the stream is
+> > > started and decremented when the stream is stopped.
+> > > 
+> > > Refactor s_stream() a bit to make this new control flow easier. Add a
+> > > helper to choose whether mipi or dvp set_stream needs to be called. The
+> > > logic flow is also changed to make it a bit clearer.
+> > > 
+> > > Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+> > > 
+> > > ---
+> > > 
+> > > Changes in v3:
+> > > - Clean up the logic in ov5640_s_stream() a bit.
+> > > - Use pm_runtime_resume_and_get() instead of pm_runtime_get_sync().
+> > > - Rename the label error_pm to disable_pm.
+> > > 
+> > > Changes in v2:
+> > > - New in v2.
+> > > 
+> > >  drivers/media/i2c/Kconfig  |   2 +-
+> > >  drivers/media/i2c/ov5640.c | 127 +++++++++++++++++++++++--------------
+> > >  2 files changed, 79 insertions(+), 50 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > > index 588f8eb95984..8f43a4d7bcc1 100644
+> > > --- a/drivers/media/i2c/Kconfig
+> > > +++ b/drivers/media/i2c/Kconfig
+> > > @@ -929,7 +929,7 @@ config VIDEO_OV2740
+> > >  
+> > >  config VIDEO_OV5640
+> > >  	tristate "OmniVision OV5640 sensor support"
+> > > -	depends on OF
+> > > +	depends on OF && PM
+> > 
+> > Could you add support for runtime PM without requiring CONFIG_PM?
+> > 
+> > Essentially you'll need to power on the device in probe and power it off in
+> > probe, and make sure the runtime PM nop variant functions return the value
+> > you'd expect.
 > 
-> Essentially you'll need to power on the device in probe and power it off in
-> probe, and make sure the runtime PM nop variant functions return the value
-> you'd expect.
+> I've gone through that in several sensor drivers, and it really
+> increases the complexity to get it right, to a point where I'm not
+> comfortable asking someone to do the same (not to mention the very, very
 
-I've gone through that in several sensor drivers, and it really
-increases the complexity to get it right, to a point where I'm not
-comfortable asking someone to do the same (not to mention the very, very
-high chance that it won't be done correctly). What's the practical
-drawback in requiring CONFIG_PM ?
+I don't think it's very complicated, really. Looking at examples of other
+drivers (e.g. imx334) doing exactly the same helps as you don't need to
+check for individual functions.
 
-> The ov5640_check_chip_id() function also calls ov5640_set_power() directly.
-> That needs to be changed, too.
-> 
-> >  	depends on GPIOLIB && VIDEO_V4L2 && I2C
-> >  	select MEDIA_CONTROLLER
-> >  	select VIDEO_V4L2_SUBDEV_API
-> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > index f6e1e51e0375..2b7fd8631ad1 100644
-> > --- a/drivers/media/i2c/ov5640.c
-> > +++ b/drivers/media/i2c/ov5640.c
-> > @@ -15,6 +15,7 @@
-> >  #include <linux/init.h>
-> >  #include <linux/module.h>
-> >  #include <linux/of_device.h>
-> > +#include <linux/pm_runtime.h>
-> >  #include <linux/regulator/consumer.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/types.h>
-> > @@ -238,8 +239,6 @@ struct ov5640_dev {
-> >  	/* lock to protect all members below */
-> >  	struct mutex lock;
-> >  
-> > -	int power_count;
-> > -
-> >  	struct v4l2_mbus_framefmt fmt;
-> >  	bool pending_fmt_change;
-> >  
-> > @@ -1277,6 +1276,14 @@ static int ov5640_set_stream_mipi(struct ov5640_dev *sensor, bool on)
-> >  				on ? 0x00 : 0x0f);
-> >  }
-> >  
-> > +static int ov5640_set_stream(struct ov5640_dev *sensor, bool on)
-> > +{
-> > +	if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
-> > +		return ov5640_set_stream_mipi(sensor, on);
-> > +	else
-> > +		return ov5640_set_stream_dvp(sensor, on);
-> > +}
-> > +
-> >  static int ov5640_get_sysclk(struct ov5640_dev *sensor)
-> >  {
-> >  	 /* calculate sysclk */
-> > @@ -2155,37 +2162,6 @@ static int ov5640_set_power(struct ov5640_dev *sensor, bool on)
-> >  
-> >  /* --------------- Subdev Operations --------------- */
-> >  
-> > -static int ov5640_s_power(struct v4l2_subdev *sd, int on)
-> > -{
-> > -	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> > -	int ret = 0;
-> > -
-> > -	mutex_lock(&sensor->lock);
-> > -
-> > -	/*
-> > -	 * If the power count is modified from 0 to != 0 or from != 0 to 0,
-> > -	 * update the power state.
-> > -	 */
-> > -	if (sensor->power_count == !on) {
-> > -		ret = ov5640_set_power(sensor, !!on);
-> > -		if (ret)
-> > -			goto out;
-> > -	}
-> > -
-> > -	/* Update the power count. */
-> > -	sensor->power_count += on ? 1 : -1;
-> > -	WARN_ON(sensor->power_count < 0);
-> > -out:
-> > -	mutex_unlock(&sensor->lock);
-> > -
-> > -	if (on && !ret && sensor->power_count == 1) {
-> > -		/* restore controls */
-> > -		ret = v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
-> > -	}
-> > -
-> > -	return ret;
-> > -}
-> > -
-> >  static int ov5640_try_frame_interval(struct ov5640_dev *sensor,
-> >  				     struct v4l2_fract *fi,
-> >  				     u32 width, u32 height)
-> > @@ -2681,6 +2657,7 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
-> >  {
-> >  	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
-> >  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> > +	struct device *dev = &sensor->i2c_client->dev;
-> >  	int ret;
-> >  
-> >  	/* v4l2_ctrl_lock() locks our own mutex */
-> > @@ -2690,7 +2667,7 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
-> >  	 * not apply any controls to H/W at this time. Instead
-> >  	 * the controls will be restored right after power-up.
-> >  	 */
-> > -	if (sensor->power_count == 0)
-> > +	if (pm_runtime_suspended(dev))
-> 
-> The problem with this is that it does not prevent powering the device off
-> while you're here. Please use pm_runtime_get_if_active() instead (see other
-> drivers for examples).
-> 
-> >  		return 0;
-> >  
-> >  	switch (ctrl->id) {
-> > @@ -2939,39 +2916,57 @@ static int ov5640_enum_mbus_code(struct v4l2_subdev *sd,
-> >  static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
-> >  {
-> >  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> > +	struct device *dev = &sensor->i2c_client->dev;
-> >  	int ret = 0;
-> >  
-> >  	mutex_lock(&sensor->lock);
-> >  
-> > -	if (sensor->streaming == !enable) {
-> > -		if (enable && sensor->pending_mode_change) {
-> > +	if (sensor->streaming == enable) {
-> > +		mutex_unlock(&sensor->lock);
-> > +		return 0;
-> > +	}
-> > +
-> > +	if (enable) {
-> > +		ret = pm_runtime_resume_and_get(dev);
-> > +		if (ret < 0)
-> > +			goto err;
-> > +
-> > +		if (sensor->pending_mode_change) {
-> >  			ret = ov5640_set_mode(sensor);
-> >  			if (ret)
-> > -				goto out;
-> > +				goto put_pm;
-> >  		}
-> >  
-> > -		if (enable && sensor->pending_fmt_change) {
-> > +		if (sensor->pending_fmt_change) {
-> >  			ret = ov5640_set_framefmt(sensor, &sensor->fmt);
-> >  			if (ret)
-> > -				goto out;
-> > +				goto put_pm;
-> >  			sensor->pending_fmt_change = false;
-> >  		}
-> >  
-> > -		if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
-> > -			ret = ov5640_set_stream_mipi(sensor, enable);
-> > -		else
-> > -			ret = ov5640_set_stream_dvp(sensor, enable);
-> > +		ret = ov5640_set_stream(sensor, true);
-> > +		if (ret)
-> > +			goto put_pm;
-> > +	} else {
-> > +		ret = ov5640_set_stream(sensor, false);
-> > +		if (ret)
-> > +			goto err;
-> >  
-> > -		if (!ret)
-> > -			sensor->streaming = enable;
-> > +		pm_runtime_put(dev);
-> >  	}
-> > -out:
-> > +
-> > +	sensor->streaming = enable;
-> > +	mutex_unlock(&sensor->lock);
-> > +	return 0;
-> > +
-> > +put_pm:
-> > +	pm_runtime_put(dev);
-> > +err:
-> >  	mutex_unlock(&sensor->lock);
-> >  	return ret;
-> >  }
-> >  
-> >  static const struct v4l2_subdev_core_ops ov5640_core_ops = {
-> > -	.s_power = ov5640_s_power,
-> 
-> Nice!
-> 
-> >  	.log_status = v4l2_ctrl_subdev_log_status,
-> >  	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-> >  	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> > @@ -3037,6 +3032,29 @@ static int ov5640_check_chip_id(struct ov5640_dev *sensor)
-> >  	return ret;
-> >  }
-> >  
-> > +static int ov5640_suspend(struct device *dev)
-> > +{
-> > +	struct i2c_client *client = to_i2c_client(dev);
-> > +	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> > +	struct ov5640_dev *sensor = to_ov5640_dev(subdev);
-> > +
-> > +	return ov5640_set_power(sensor, false);
-> > +}
-> > +
-> > +static int ov5640_resume(struct device *dev)
-> > +{
-> > +	struct i2c_client *client = to_i2c_client(dev);
-> > +	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> > +	struct ov5640_dev *sensor = to_ov5640_dev(subdev);
-> > +	int ret = 0;
-> > +
-> > +	ret = ov5640_set_power(sensor, true);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return __v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
-> 
-> This should be done by the ov5640_set_power() function --- there's no
-> guarantee the sensor will be powered off after probe before someone tries
-> to use it.
-> 
-> In fact, it would be nicer to split ov5640_set_power() in two. There's
-> little need for the convoluted calling of power management functions in
-> this driver. (Almost all sensor drivers have one to power the sensor off
-> and another to power it on.)
-> 
-> > +}
-> > +
-> >  static int ov5640_probe(struct i2c_client *client)
-> >  {
-> >  	struct device *dev = &client->dev;
-> > @@ -3162,13 +3180,17 @@ static int ov5640_probe(struct i2c_client *client)
-> >  	if (ret)
-> >  		goto entity_cleanup;
-> >  
-> > +	pm_runtime_enable(dev);
-> > +	pm_runtime_set_suspended(dev);
-> 
-> You could also do this after registering the subdev below --- less error
-> handling that way.
-> 
-> See e.g. the imx355 driver for an example in what to do at the end of
-> probe. The idea is runtime PM is used to turn the sensor off if it's
-> enabled while the driver turns it on independently of runtime PM.
-> 
-> > +
-> >  	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
-> >  	if (ret)
-> > -		goto free_ctrls;
-> > +		goto pm_disable;
-> >  
-> >  	return 0;
-> >  
-> > -free_ctrls:
-> > +pm_disable:
-> > +	pm_runtime_disable(dev);
-> >  	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
-> >  entity_cleanup:
-> >  	media_entity_cleanup(&sensor->sd.entity);
-> > @@ -3178,17 +3200,23 @@ static int ov5640_probe(struct i2c_client *client)
-> >  
-> >  static int ov5640_remove(struct i2c_client *client)
-> >  {
-> > +	struct device *dev = &client->dev;
-> >  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> >  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> >  
-> >  	v4l2_async_unregister_subdev(&sensor->sd);
-> >  	media_entity_cleanup(&sensor->sd.entity);
-> > +	pm_runtime_disable(dev);
-> >  	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
-> >  	mutex_destroy(&sensor->lock);
-> >  
-> >  	return 0;
-> >  }
-> >  
-> > +static const struct dev_pm_ops ov5640_pm_ops = {
-> > +	SET_RUNTIME_PM_OPS(ov5640_suspend, ov5640_resume, NULL)
-> > +};
-> > +
-> >  static const struct i2c_device_id ov5640_id[] = {
-> >  	{"ov5640", 0},
-> >  	{},
-> > @@ -3205,6 +3233,7 @@ static struct i2c_driver ov5640_i2c_driver = {
-> >  	.driver = {
-> >  		.name  = "ov5640",
-> >  		.of_match_table	= ov5640_dt_ids,
-> > +		.pm = &ov5640_pm_ops,
-> >  	},
-> >  	.id_table = ov5640_id,
-> >  	.probe_new = ov5640_probe,
+The complexity of the power management in this driver is mostly because of
+evolutionary development done over time, it's an old driver.
+
+> high chance that it won't be done correctly). What's the practical
+> drawback in requiring CONFIG_PM ?
+
+Good question. CONFIG_PM is something you can disable (for a reason I can't
+think of though). Why should a driver depend on it when it could perfectly
+work without it as well?
+
+Although this might not amount to a practical drawback. :-)
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
