@@ -2,174 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 797E03BE849
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jul 2021 14:49:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B29B3BE86A
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jul 2021 14:54:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231744AbhGGMvp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jul 2021 08:51:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46208 "EHLO
+        id S231550AbhGGM51 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jul 2021 08:57:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231509AbhGGMvp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jul 2021 08:51:45 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B25C061574
-        for <linux-media@vger.kernel.org>; Wed,  7 Jul 2021 05:49:05 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id h2so3233780edt.3
-        for <linux-media@vger.kernel.org>; Wed, 07 Jul 2021 05:49:05 -0700 (PDT)
+        with ESMTP id S229757AbhGGM50 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jul 2021 08:57:26 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1939C06175F
+        for <linux-media@vger.kernel.org>; Wed,  7 Jul 2021 05:54:46 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id r29so3179564oiw.13
+        for <linux-media@vger.kernel.org>; Wed, 07 Jul 2021 05:54:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=ffwll.ch; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AWfBTNR+7qXXmfyz0hwbeeOHPZvd/rdFeAqJwOu0Eek=;
-        b=gs9Uh0+IX75An6xhR1AwTXnBIpGA7+nYA10/RA3Oo1dUIloN8ATCPG8c9UWDzpfMiC
-         U6Fg0rc+8NpCeuEEEE13vaZDW8zOJ3t2XDlSWjjtEuaJUxr/stPDOD89GYUDH8vSAIdZ
-         ETd6vo7YS49ihPdMHsyKty78mAKG4lQknRCkQ=
+         :cc:content-transfer-encoding;
+        bh=ZwucK/hcyFDLDJ5ulbYeHz4jdgbFEMTjqApCtmNqV+E=;
+        b=H6eMViN7cPvcwTKvKheJG9sJFRXo5t5JSta3Q1bmZUkcKlz8vytBXOCNkU/JqVul+d
+         VWFc0jOPzvxDOs8qb/ame/veAS9kfUmpd5auGGz/pmDHZ8QpQHUzgiUxkOX4oM1JFoyd
+         r7W1zE/iC95PtQdaLEgxF2Mm+Yb/KXz4c6Ing=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AWfBTNR+7qXXmfyz0hwbeeOHPZvd/rdFeAqJwOu0Eek=;
-        b=g4yus6En2YH6TPels9Ub24eIxd7n6nj/oRfn/M2LQ2+cV3GbM0Wk1PhylIUNSm4ijD
-         xioKwBxhI+s1+tMu7WBUTjOTMSwRbwaqM974k0XHhpvjGIs7WXAw+dToxryBvGibl4m3
-         jY+uZP7dF21cR7+9hz1TCf9rTRxg5Xep0aay+gtdMyCgAPFlQ1XRaxX1yYkCJbXSBw7y
-         48lJn+G/JaFc5tHdY/PhbJxdWcD6Y5WfoOK08yqMdHJSWZ/Sl70mTUEMAZvjTTWpKA50
-         93Y/X6M3hPqjOhspM+jhXu7hHLjGr/p5q9UR2SWQtrlOS7xNcw1WREcvpqceLYJPTpCF
-         0HPQ==
-X-Gm-Message-State: AOAM532ZZ8jY9zi1CDFQYJP+m9AI1mfzFpnLRksCKsX8eFQF/FNi4tpy
-        RTWkZbVbyor+P1oEiCkw1Ih6fyX0RnnMYA==
-X-Google-Smtp-Source: ABdhPJzFnEj9LPCypVPpDn1iiI18HuRiWZA+81G7zNhsi5Ua2mhgzIzhvCQyBheXOgfc2R4jdl+0dg==
-X-Received: by 2002:a05:6402:b06:: with SMTP id bm6mr27416850edb.388.1625662143270;
-        Wed, 07 Jul 2021 05:49:03 -0700 (PDT)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com. [209.85.221.54])
-        by smtp.gmail.com with ESMTPSA id g23sm6936703ejh.116.2021.07.07.05.49.02
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jul 2021 05:49:02 -0700 (PDT)
-Received: by mail-wr1-f54.google.com with SMTP id a8so2925899wrp.5
-        for <linux-media@vger.kernel.org>; Wed, 07 Jul 2021 05:49:02 -0700 (PDT)
-X-Received: by 2002:adf:c448:: with SMTP id a8mr7784112wrg.103.1625662141974;
- Wed, 07 Jul 2021 05:49:01 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ZwucK/hcyFDLDJ5ulbYeHz4jdgbFEMTjqApCtmNqV+E=;
+        b=ak7eaYjQox9YjjU7FC628AcA0ZXH9QxzRDWUkk3VkHSXIiAfqCiBdW1Kmrfkj6XfAQ
+         rpoh4Cok1pu4pHzFagFJDuCT1y8QkcqAfsKrSiYi0NAhyb9NCMhdraKwEKliLJQvPNcP
+         Sq7na4GlcX+QEuPtLCuRglHCFwAnmXoR62x3A0otvlxzDC81P9mmoPMsARKxEjO7FkQZ
+         zmf0f/XIZLuQqoTbtbdJ+W8zFzoQSQdbzMc7ObAmTGCKIXEf4ljUWirdX8gHLQ3WrVMs
+         C0IsDTwM+3QmmBD6xv7QbvAUAZjG7Q1hdS8RW3ZVw8RKODmzukoLmCM2Re4MR9U+yOYu
+         yCIg==
+X-Gm-Message-State: AOAM533Ai1ovmIRHOwgOels52Mirj1NtsqtbijV/fHVflAU9aBXAR0LD
+        fkBrFq740Bahtf1hLd4QfR7ucnILpWd793gYFRdyYw==
+X-Google-Smtp-Source: ABdhPJygqGkF27WMKuRCc+HJjxSUE80qhZpY36/0xSlWlXRYoPY3q/cIXPhcyfDPJ3DAKsV7rDaa38qZXXQaPcpAD/Y=
+X-Received: by 2002:aca:eb43:: with SMTP id j64mr4775645oih.101.1625662486066;
+ Wed, 07 Jul 2021 05:54:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210427131344.139443-1-senozhatsky@chromium.org>
- <20210427131344.139443-9-senozhatsky@chromium.org> <10a0903a-e295-5cba-683a-1eb89a0804ed@xs4all.nl>
- <YMsAIVs7G2hUDR2F@google.com> <YNVJJhP69KPJ+DHv@google.com>
-In-Reply-To: <YNVJJhP69KPJ+DHv@google.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 7 Jul 2021 21:48:49 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5BB6JghdgGf9SjAWYuZFsZaAeU11rV1a1xrwws=w7j7_w@mail.gmail.com>
-Message-ID: <CAAFQd5BB6JghdgGf9SjAWYuZFsZaAeU11rV1a1xrwws=w7j7_w@mail.gmail.com>
-Subject: Re: [PATCHv2 8/8] videobuf2: handle non-contiguous DMA allocations
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210705130314.11519-1-ogabbay@kernel.org> <YOQXBWpo3whVjOyh@phenom.ffwll.local>
+ <20210706122110.GA18273@lst.de> <YORLTmyoXDtoM9Ta@phenom.ffwll.local> <9af554b1-e4d8-4dd4-5a6a-830f3112941d@gmail.com>
+In-Reply-To: <9af554b1-e4d8-4dd4-5a6a-830f3112941d@gmail.com>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Wed, 7 Jul 2021 14:54:34 +0200
+Message-ID: <CAKMK7uG2LnceUqst7VeA7+zhyJJoY5FReuDPfJu67tuTv60WeQ@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc:     Christoph Hellwig <hch@lst.de>, Oded Gabbay <ogabbay@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Doug Ledford <dledford@redhat.com>,
+        "airlied@gmail.com" <airlied@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 25, 2021 at 12:10 PM Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
+On Wed, Jul 7, 2021 at 2:17 PM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+> Am 06.07.21 um 14:23 schrieb Daniel Vetter:
+> > On Tue, Jul 06, 2021 at 02:21:10PM +0200, Christoph Hellwig wrote:
+> >> On Tue, Jul 06, 2021 at 10:40:37AM +0200, Daniel Vetter wrote:
+> >>>> Greg, I hope this will be good enough for you to merge this code.
+> >>> So we're officially going to use dri-devel for technical details revi=
+ew
+> >>> and then Greg for merging so we don't have to deal with other merge
+> >>> criteria dri-devel folks have?
+> >>>
+> >>> I don't expect anything less by now, but it does make the original cl=
+aim
+> >>> that drivers/misc will not step all over accelerators folks a complet=
+e
+> >>> farce under the totally-not-a-gpu banner.
+> >>>
+> >>> This essentially means that for any other accelerator stack that does=
+n't
+> >>> fit the dri-devel merge criteria, even if it's acting like a gpu and =
+uses
+> >>> other gpu driver stuff, you can just send it to Greg and it's good to=
+ go.
+> >>>
+> >>> There's quite a lot of these floating around actually (and many do ha=
+ve
+> >>> semi-open runtimes, like habanalabs have now too, just not open enoug=
+h to
+> >>> be actually useful). It's going to be absolutely lovely having to exp=
+lain
+> >>> to these companies in background chats why habanalabs gets away with =
+their
+> >>> stack and they don't.
+> >> FYI, I fully agree with Daniel here.  Habanlabs needs to open up their
+> >> runtime if they want to push any additional feature in the kernel.
+> >> The current situation is not sustainable.
+> > Before anyone replies: The runtime is open, the compiler is still close=
+d.
+> > This has become the new default for accel driver submissions, I think
+> > mostly because all the interesting bits for non-3d accelerators are in =
+the
+> > accel ISA, and no longer in the runtime. So vendors are fairly happy to
+> > throw in the runtime as a freebie.
 >
-> Hi Hans,
+> Well a compiler and runtime makes things easier, but the real question
+> is if they are really required for upstreaming a kernel driver?
 >
-> On (21/06/17 16:56), Sergey Senozhatsky wrote:
-> [..]
-> > static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
-> > {
-> >         struct vb2_dc_buf *buf = buf_priv;
-> >
-> >         if (buf->vaddr)
-> >                 return buf->vaddr;
-> >
-> >         if (buf->db_attach) {
-> >                 struct dma_buf_map map;
-> >
-> >                 if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
-> >                         buf->vaddr = map.vaddr;
-> >
-> >                 return buf->vaddr;
-> >         }
-> >
-> >         if (!buf->coherent_mem)
-> >                 buf->vaddr = dma_vmap_noncontiguous(buf->dev, buf->size,
-> >                                                     buf->dma_sgt);
-> >         return buf->vaddr;
-> > }
-> >
-> > And in vb2_dc_alloc functions set vaddr for !DMA_ATTR_NO_KERNEL_MAPPING
-> > in both coherent and non-coherent. So that we probably can have less
-> > branches when ->vaddr is NULL for one type of allocations, and is not
-> > NULL for another.
+> I mean what we need is to be able to exercise the functionality. So
+> wouldn't (for example) an assembler be sufficient?
 
-I'd prefer if it stayed as is. This opportunistic mapping as in the
-current revision is quite nice, because most of the drivers don't
-bother to set DMA_ATTR_NO_KERNEL_MAPPING even if they don't need the
-kernel mapping. Also, even if the driver itself doesn't need the
-kernel mapping, we can still create one on demand if the DMA-buf
-importer demands it from us.
+So no one has tried this yet, but I think an assembler, or maybe even
+just the full PRM for the ISA is also good enough I think.
 
-> >
-> > static int vb2_dc_alloc_coherent(struct vb2_dc_buf *buf)
-> > {
-> >         struct vb2_queue *q = buf->vb->vb2_queue;
-> >
-> >         buf->cookie = dma_alloc_attrs(buf->dev,
-> >                                       buf->size,
-> >                                       &buf->dma_addr,
-> >                                       GFP_KERNEL | q->gfp_flags,
-> >                                       buf->attrs);
-> >         if (!buf->cookie)
-> >                 return -ENOMEM;
-> >
-> >         if (q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING)
-> >                 return 0;
-> >
-> >         buf->vaddr = buf->cookie;
-> >         return 0;
-> > }
-> >
-> > static int vb2_dc_alloc_non_coherent(struct vb2_dc_buf *buf)
-> > {
-> >         struct vb2_queue *q = buf->vb->vb2_queue;
-> >
-> >         buf->dma_sgt = dma_alloc_noncontiguous(buf->dev,
-> >                                                buf->size,
-> >                                                buf->dma_dir,
-> >                                                GFP_KERNEL | q->gfp_flags,
-> >                                                buf->attrs);
-> >         if (!buf->dma_sgt)
-> >                 return -ENOMEM;
-> >
-> >         if (q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING)
-> >                 return 0;
-> >
-> >         buf->vaddr = dma_vmap_noncontiguous(buf->dev, buf->size, buf->dma_sgt);
-> >         if (!buf->vaddr) {
-> >                 dma_free_noncontiguous(buf->dev, buf->size,
-> >                                        buf->dma_sgt, buf->dma_addr);
-> >                 return -ENOMEM;
-> >         }
-> >         return 0;
-> > }
+I guess in practice everyone just comes with the compiler for a few reasons=
+:
+- AMD and Intel are great and release full PRMs for the gpu, but
+preparing those takes a lot of time. Often that's done as part of
+bring up, to make sure everything is annotated properly, so that all
+the necessary bits are included, but none of the future stuff, or
+silicon bring-up pieces. So in reality you have the compiler before
+you have the isa docs.
+
+- reverse-engineered drivers also tend to have demo compilers before
+anything like full ISA docs show up :-) But also the docs tooling they
+have are great.
+
+- then there's the case of developing a driver with NDA'd docs. Again
+you'll have a compiler as the only real output, there's not going to
+be any docs or anything like that.
+
+> > It's still incomplete, and it's still useless if you want to actually h=
+ack
+> > on the driver stack.
 >
-> I guess this should address the case when
+> Yeah, when you want to hack on it in the sense of extending it then this
+> requirement is certainly true.
 >
-> "after allocating the buffer, the buffer is exported as a dma_buf and
-> another device calls dma_buf_ops vb2_dc_dmabuf_ops_vmap, which in turn
-> calls dma_buf_map_set_vaddr(map, buf->vaddr); with a NULL buf->vaddr"
-
-Sorry, I fail to get what this is about. Where does this quote come from?
-
+> But as far as I can see userspace don't need to be extendable to justify
+> a kernel driver. It just needs to have enough glue to thoughtfully
+> exercise the relevant kernel interfaces.
 >
-> Because ->vaddr will not be NULL now after allocation for both coherent
-> and non-coherent buffers (modulo DMA_ATTR_NO_KERNEL_MAPPING requests).
->
-> What do you think?
+> Applying that to GPUs I think what you need to be able to is to write
+> shaders, but that doesn't need to be in a higher language requiring a
+> compiler and runtime. Released opcodes and a low level assembler should
+> be sufficient.
 
-Hans, any feedback on this? Thanks.
+Yeah I think in theory ISA docs + assembler testcase or whatever is
+perfectly fine. In reality anyone who cares enough to do this properly
+gets to the demo quality compiler stage first, and so that's what we
+take for merging a new stack.
 
-Best regards,
-Tomasz
+I do disagree that we're only ever asking for this and not more, e.g.
+if you come with a new 3d accelator and it's not coming with a
+userspace driver as a mesa MR, you have to do some very serious
+explaining about wtf you're doing - mesa3d won, pretty much across the
+board, as a common project for both vulkan and opengl, and the
+justifications for reinventing wheels better be really good here. Also
+by the time you've written enough scaffolding to show it integrates in
+non-stupid ways into mesa, you practically have a demo-quality driver
+stack anyway.
+
+Similar on the display side of things, over the past year consensus
+for merge criteria have gone up quite a bit, e.g. there's a patch
+floating around to make that clearer:
+
+https://lore.kernel.org/dri-devel/20210706161244.1038592-1-maxime@cerno.tec=
+h/
+
+Of course this doesn't include anything grandfathered in (*cough*
+amdvlk *cough*), and also outside of 3d there's clearly no
+cross-vendor project that's established enough, media, compute, AI/NN
+stuff is all very badly fragmented. That's maybe lamentable, but like
+you said not really a reason to reject a kernel driver.
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
