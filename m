@@ -2,632 +2,2708 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22F8A3BF67A
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 09:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 039603BF6C6
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 10:10:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230414AbhGHH4I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 03:56:08 -0400
-Received: from mail-dm6nam11on2070.outbound.protection.outlook.com ([40.107.223.70]:19553
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229851AbhGHH4G (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Jul 2021 03:56:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jDYXaA5qAcedc/U32T7XG55JEI+hSKBwIZp7hTvBRhtIqm3bF9h4inc6enxblLxTb7U+CkFeUD4K1cgchQndsMgW+FQfrYoL1rhqzuyiZv/krFeDT6h8mD3W42Tf0iDiEQcLyOcoYSpAgjCqKjjEQBNsnYX2V58uCyIrUTPSbbZG/PDV0/V9Il0iyk1m4tJJReai8fWR/GIivIa/Q3H/YST0UZYS5ik+Rody5Q7NltJpAiVBn8m8h47BK75HZSLd+noXwuBdfyRQcH3M3dTa5txrFz9+H1hWzLp7tic7Ae0Krr0ZGifXErCHoTC45WerxHa0oddXRfNonLQDm3zixg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1hiikQgSPjcjtjL8L3ZFZjCvzioaY7tZWI3JoJlSgrg=;
- b=X2R7dzuW3myrhfvmbJcKJgGOfadkzHxp6wikkPv7OxtPCEQwz8c1AKleurKLd98SdKaJDyOgGrX2XjxFCPl18fEectBPf2O+px5WA2VBmnpqyzBBqYSCR7rzzw9gtkhogFYM+BvBzTkZgLh13WNTXwaF3Dyp6/bQbukkiAy2GuU1dSrEEs2tyjLzjveiPhk4ix9TS2XLmMq0CAw8WAIs8kMe2u3eRjzRifIxIVBTb7sJZLXrdh6eTbKcdUlt6ktX0CMST2gTl6fhfvfe6boGF8yIztf1blN3otteX1zQuF4cYkvH3nEDHInlFd+9Jo9lLuNg0bG4osr26z3WAcxDmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1hiikQgSPjcjtjL8L3ZFZjCvzioaY7tZWI3JoJlSgrg=;
- b=uj+OsPQJSfmCJcSnGDgmDg+em/y0mHiVzyPRWRzxP7Nz6KZpZhUO/glpwMFi4/RXlwDxVcXUK05In3kKHs9xMDdvcX8q5xFm4SaY42eKAdkT9BC+bocFG+dYp2CWOjzqOLNjg/G4MsRFlvrwHg612kHc1/l8H/P4OEyxfepD0g0=
-Authentication-Results: anholt.net; dkim=none (message not signed)
- header.d=none;anholt.net; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB4913.namprd12.prod.outlook.com (2603:10b6:208:1c7::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.19; Thu, 8 Jul
- 2021 07:53:09 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4308.022; Thu, 8 Jul 2021
- 07:53:09 +0000
-Subject: Re: [PATCH v2 01/11] drm/sched: Split drm_sched_job_init
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Steven Price <steven.price@arm.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Russell King <linux+etnaviv@armlinux.org.uk>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Qiang Yu <yuq825@gmail.com>, Rob Herring <robh@kernel.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        David Airlie <airlied@linux.ie>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Nick Terrell <terrelln@fb.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Paul Menzel <pmenzel@molgen.mpg.de>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Dave Airlie <airlied@redhat.com>,
-        Nirmoy Das <nirmoy.das@amd.com>,
-        Deepak R Varma <mh12gx2825@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Kevin Wang <kevin1.wang@amd.com>,
-        Chen Li <chenli@uniontech.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
-        Dennis Li <Dennis.Li@amd.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        Sonny Jiang <sonny.jiang@amd.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Jack Zhang <Jack.Zhang1@amd.com>,
-        The etnaviv authors <etnaviv@lists.freedesktop.org>,
-        lima@lists.freedesktop.org,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Emma Anholt <emma@anholt.net>
-References: <20210702213815.2249499-1-daniel.vetter@ffwll.ch>
- <20210702213815.2249499-2-daniel.vetter@ffwll.ch>
- <a5c5647e-e0ce-cc6d-c473-685679739051@amd.com>
- <CAKMK7uGTSe9FZCup=6D2G3MWGuxoUiV3Qjau-pQyaqOAX8OTug@mail.gmail.com>
- <8387b5f8-a5f6-fc2d-48e6-4bb0768ac642@amd.com>
- <CAKMK7uFu7V0QzsbMGPJPnMjXOB7FrKB_d+oDwkFMVaEvgy5EOQ@mail.gmail.com>
- <7933a995-0c95-9339-5385-a24681f6df3a@amd.com>
- <CAKMK7uE3bd2whKVBA4uWmzKBp7fjcVKexVFc=TB+ZRxdYT7VNg@mail.gmail.com>
- <b4824514-4ffd-a5f0-9bbc-d89cdd4e7b50@amd.com>
- <CAKMK7uF7E4G9D_W+YRV_ZrJLtUFXqWZfN78VdrVC=byMux78LQ@mail.gmail.com>
- <CAKMK7uEwFUq2KnSjk0YgdbKKvhh2ifsyURO0E5RzzhWzzMtovQ@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <4369ee92-7eba-3faa-4d9c-08901d3506aa@amd.com>
-Date:   Thu, 8 Jul 2021 09:53:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <CAKMK7uEwFUq2KnSjk0YgdbKKvhh2ifsyURO0E5RzzhWzzMtovQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR06CA0117.eurprd06.prod.outlook.com
- (2603:10a6:208:ab::22) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+        id S230489AbhGHINb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 04:13:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49126 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230486AbhGHINa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 04:13:30 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB313C061574
+        for <linux-media@vger.kernel.org>; Thu,  8 Jul 2021 01:10:48 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07819E7;
+        Thu,  8 Jul 2021 10:10:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1625731846;
+        bh=qgKtI/YupCTl+Zan9AMXjLXPqs98uLWHfWGVefJsFXs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CkvKamw9sI9duaDWJqy3UREJMTi0oigcVhmir0k7DSJbX+fE0ymKH0PnXo6L5CNQ7
+         al4D/Gq39uXuilfVD3I2XO5Zol/wx91ugHelXW/fVpcsnKAo6Rf82U5V3UekkYssU4
+         6T8xmgZiS8IrkGNwNedRGtG1Yq+Y91PlFKH69VEk=
+Date:   Thu, 8 Jul 2021 11:10:02 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        jian.xu.zheng@intel.com, rajmohan.mani@intel.com,
+        hyungwoo.yang@intel.com, Tomasz Figa <tfiga@google.com>
+Subject: Re: [PATCH v5 1/1] i2c: Add Omnivision OV5670 5M sensor support
+Message-ID: <YOay2tIJxpBzYKzW@pendragon.ideasonboard.com>
+References: <1497404348-16255-1-git-send-email-chiranjeevi.rapolu@intel.com>
+ <2b5e2ec73d2a5976a3c56dd35d90ca681f803ce0.1499996475.git.chiranjeevi.rapolu@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:bc19:c1e3:6307:7e3e] (2a02:908:1252:fb60:bc19:c1e3:6307:7e3e) by AM0PR06CA0117.eurprd06.prod.outlook.com (2603:10a6:208:ab::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.19 via Frontend Transport; Thu, 8 Jul 2021 07:53:03 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d34cb56c-1cb8-4bcb-0327-08d941e56d31
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4913:
-X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB4913D54E14549A59469B745383199@BL0PR12MB4913.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:792;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YutqUmP3VOOU9LdiUHd5WdJ7PNXMjVKonGM/hBsqCmSMsJ3l9ws7VjFPifE4vW777+UekO2TMUN5TviplZB8f200Vy+Ss4ZzVr7FII6IX4mh0MqnbGrPiJuABsUocmH0CkwuCVsp7FDTyKLcqH7dK2uqJMnLYo5rkpsIlVkjIhOinK1k2nFD1hLz0VNm022hcCT6VnjLlRHS0xoOBeCq5OKC5eoINZ8hJlNgtBIF6pqwjwUNPNn5ugt+ntJunGZt5ERc7REnh9TO7mL3Z7mrek1chumT4erGd0jujc1MSrP5mPTfq7z1qzkS7laXbfE6WWkcj2oSmw7m2L+fvLlv2CQCb1ux+H9kRIhpthCp4hGhoEJGTxuNlx1txFVe3Oy8sVjWBce5UoXaKMEa+2hPUoPX8HdFXILZq/0ZywspWH3l6/vAMzFPtgJa02tV9And43OrP8hnXOc427BfWD2bCSr5eUgshJeGA2/OHSpZDUI1zt3ReYgdsJkBczjZKXKnE4ZwmBJrl5YNkMFVb47HnPxz3cTzrulPjQsRqz7UZknlF0dKRW8znAuqh8as/k/Nrm9inXRNv/1ksvtjw4mumNzuJvUR1eDth1h+4saMMpLB2xDm1aJ79xeNsmcGg+PlFtmSUXdu97FWk6Zs0NaRCBkZZhf9dDz//75gSmEuNn6eJXN5s6s/Q+n1fUBY4yL2HzVVybzq/1Pp+Q7b/53HQP/Q9Flkt2SVoi0TgAL+dkjp0voa3T4HVgfVhbc1U6FGPWLI6w9x/bPNB3zfKkQwI8RscSzTu/659LieFalYI0aifmDMv3vNIYVIrh4sx2BM
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(376002)(39860400002)(396003)(366004)(316002)(966005)(54906003)(186003)(45080400002)(38100700002)(7406005)(6486002)(478600001)(7416002)(31696002)(66476007)(2616005)(66556008)(2906002)(66946007)(6916009)(5660300002)(8936002)(86362001)(53546011)(4326008)(30864003)(8676002)(31686004)(36756003)(66574015)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NEw5SjNwVXJhQ1AwZUozYittY3ppVzNCOGxPbys5SmZlb0NrMGhRbUpFU3Fx?=
- =?utf-8?B?SDVLV3ZycVVDMjlQWDIyd3RsRXhOa2doWnVZdVg3ajZwMEpQUFgrWFY0UDVN?=
- =?utf-8?B?czdnM3lMRWhlVk9POTlsTVNsWWlhVVdTTTNsS2hOTy9VaHRueHU4dE96d0x1?=
- =?utf-8?B?U1ROaGtBalpidStJM2FHeFNEOTI1Nm5vZTZYUjlrSDlVVlJ6QVZRZ1pINFp1?=
- =?utf-8?B?WXdQM2JHdUtmQUM2UEJJaGZXazI4MmlaVDltSFkzSFRaS3E2c0RDTjN0WDNJ?=
- =?utf-8?B?VEhYWFcvWlBxMWJlaGdXbEVmRTUyNXEvaHcxZ1ZCa2FaMUErUFVqTGtZcGF5?=
- =?utf-8?B?Qm1PSW1hNFU4eW11TVNEMkNMQ0ZBK3MrcGtMNDYzUGdJUUxSbWRvZGgwOElU?=
- =?utf-8?B?TDBGUW9MRGNpUXpReTRoUkt2VVY3NUUxUVI3RlRHa3RvMHlSQ1hwOVhpOXFD?=
- =?utf-8?B?U1lyTVpDZDI0dGU2eFRvbGlBK1NvRVYrUStNU3ZuTUpkVzB4clczUXZnQ3Zx?=
- =?utf-8?B?QWtwUTFPUmZIMmQ4RDN6TFpJVTFpd2lHYTBDb3NvaWRKdGdZNTR0d1NJcUNu?=
- =?utf-8?B?bzdnbXNncFFVR2Z0KzV6VmxTakJSVVlxWHErMVZMTWR2d0xVZEcxcVNxdVIz?=
- =?utf-8?B?eDlvN0VTM2JwK0gyaDdKSmxJQ3F2UWozUHR6VStRVWJyTVNYZEVuMG9MSk0v?=
- =?utf-8?B?OTZwVE12VXdHVFYwM0M1SFBkcDE5QjcyR2k4Zlp3RVF1Q2lsa0NNYzFpMnlK?=
- =?utf-8?B?K3djT2diRmhrU3huUTNCVFM2MHB2SU1FY1dEQ3ZwY2UrYldMSGFnMHNiY21v?=
- =?utf-8?B?VzFjc1Z0bCtZdW80WDdGMnhWYkh4QXJHbTQyTTdsR21SY2VET2ZYbVBpRWhu?=
- =?utf-8?B?d29tR2wySE5FaDNrbDhvNEtScDNJemE5aFZhcXJoSTlGNEcwbDkxUERnZW5w?=
- =?utf-8?B?UlYrN09ZRHBjcDExVzgwZno4bGNLWEk4WkszMFQwRU95WFRleW9JVW54OHRU?=
- =?utf-8?B?bE56ajRURnVudnU4dFRGUnJIWHFzaE9aOUtOZjhLOURHZmhBYXpqN3hLejNB?=
- =?utf-8?B?ZjJSYVNOYlRKR2FNREhVOXlCaFVoR2xmZTNqL2c0RUpRRmpYOHFJdkdTT0U3?=
- =?utf-8?B?ZmpnQ0lmUTNJbzZuUDdGS0NJcVJHbmVjVkt0SWN6V2pBWEE1cWpzRElVS0Na?=
- =?utf-8?B?cnRDWmp4ZnFJVy9tYmRsVS9MNS9vYSthc1NhSFhMemZjN2t6Q2N5alZwL1BU?=
- =?utf-8?B?dWpoaGg2R2tSZXRBWTBuTFQwY3NoSGhqWmFscnFpcW9TZCtDN1F6N0lsTlhS?=
- =?utf-8?B?L1BaR2VrdDhOUm5JRSsrWTJ3Z0lIY1VzMWxyU0kvZjVZTVc5dUhVU2F3OCti?=
- =?utf-8?B?bldEL1BQL25NcmoyMi9iYmdjdEhYcHNvekhWdHdrUXpuenRTb3hxQ2dFL2ZO?=
- =?utf-8?B?NkxEUTFJK2pHLzVTWlpORHdxOGdma0xZajRDcm9hUHhPMHFDRFNjblpFZUJy?=
- =?utf-8?B?TTB3T0VQMDM1N3lya3pTQVBiMzZlNFZKaXlBYitpck0wNEszcHl4c0I0RllZ?=
- =?utf-8?B?amxTUXZXeWd6dVdnbkNEaXRDVFlOdEhXdmpzcnEvNlBEMUczQjQ1T0ZnNVBS?=
- =?utf-8?B?eEhxR0o3bmtlZjIydkFEY3RMVnY4aERnSHBDN1ZVUWNwM0pEMGlpdlkrVEhx?=
- =?utf-8?B?YlI0NE5xemlsMDlGNXBJQjVrajcwMGR6NnlqMVE3SHdMTXcrZW5XYXRiVXhQ?=
- =?utf-8?B?SENZUGREWHRLbXhBUXJrL091QTEyVTkrTHJKN2NncWlBc3lhbU1NWlpGbUpY?=
- =?utf-8?B?MnRyc1EwM252aUZjb2hKaVJXNHhaWm96bGJqL3JlNVhiZlNaRzcrdnFqYzI4?=
- =?utf-8?Q?k7NgWbAczYxHV?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d34cb56c-1cb8-4bcb-0327-08d941e56d31
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2021 07:53:08.8778
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kmlW14k6bjczmioIsxZYdeKv+KID3cRK/frBHUmJcVRJXxLFnCRy7guYFfiFO6eM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4913
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2b5e2ec73d2a5976a3c56dd35d90ca681f803ce0.1499996475.git.chiranjeevi.rapolu@intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 08.07.21 um 09:19 schrieb Daniel Vetter:
-> On Thu, Jul 8, 2021 at 9:09 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->> On Thu, Jul 8, 2021 at 8:56 AM Christian König <christian.koenig@amd.com> wrote:
->>> Am 07.07.21 um 18:32 schrieb Daniel Vetter:
->>>> On Wed, Jul 7, 2021 at 2:58 PM Christian König <christian.koenig@amd.com> wrote:
->>>>> Am 07.07.21 um 14:13 schrieb Daniel Vetter:
->>>>>> On Wed, Jul 7, 2021 at 1:57 PM Christian König <christian.koenig@amd.com> wrote:
->>>>>>> Am 07.07.21 um 13:14 schrieb Daniel Vetter:
->>>>>>>> On Wed, Jul 7, 2021 at 11:30 AM Christian König
->>>>>>>> <christian.koenig@amd.com> wrote:
->>>>>>>>> Am 02.07.21 um 23:38 schrieb Daniel Vetter:
->>>>>>>>>> This is a very confusingly named function, because not just does it
->>>>>>>>>> init an object, it arms it and provides a point of no return for
->>>>>>>>>> pushing a job into the scheduler. It would be nice if that's a bit
->>>>>>>>>> clearer in the interface.
->>>>>>>>>>
->>>>>>>>>> But the real reason is that I want to push the dependency tracking
->>>>>>>>>> helpers into the scheduler code, and that means drm_sched_job_init
->>>>>>>>>> must be called a lot earlier, without arming the job.
->>>>>>>>>>
->>>>>>>>>> v2:
->>>>>>>>>> - don't change .gitignore (Steven)
->>>>>>>>>> - don't forget v3d (Emma)
->>>>>>>>>>
->>>>>>>>>> v3: Emma noticed that I leak the memory allocated in
->>>>>>>>>> drm_sched_job_init if we bail out before the point of no return in
->>>>>>>>>> subsequent driver patches. To be able to fix this change
->>>>>>>>>> drm_sched_job_cleanup() so it can handle being called both before and
->>>>>>>>>> after drm_sched_job_arm().
->>>>>>>>> Thinking more about this, I'm not sure if this really works.
->>>>>>>>>
->>>>>>>>> See drm_sched_job_init() was also calling drm_sched_entity_select_rq()
->>>>>>>>> to update the entity->rq association.
->>>>>>>>>
->>>>>>>>> And that can only be done later on when we arm the fence as well.
->>>>>>>> Hm yeah, but that's a bug in the existing code I think: We already
->>>>>>>> fail to clean up if we fail to allocate the fences. So I think the
->>>>>>>> right thing to do here is to split the checks into job_init, and do
->>>>>>>> the actual arming/rq selection in job_arm? I'm not entirely sure
->>>>>>>> what's all going on there, the first check looks a bit like trying to
->>>>>>>> schedule before the entity is set up, which is a driver bug and should
->>>>>>>> have a WARN_ON?
->>>>>>> No you misunderstood me, the problem is something else.
->>>>>>>
->>>>>>> You asked previously why the call to drm_sched_job_init() was so late in
->>>>>>> the CS.
->>>>>>>
->>>>>>> The reason for this was not alone the scheduler fence init, but also the
->>>>>>> call to drm_sched_entity_select_rq().
->>>>>> Ah ok, I think I can fix that. Needs a prep patch to first make
->>>>>> drm_sched_entity_select infallible, then should be easy to do.
->>>>>>
->>>>>>>> The 2nd check around last_scheduled I have honeslty no idea what it's
->>>>>>>> even trying to do.
->>>>>>> You mean that here?
->>>>>>>
->>>>>>>             fence = READ_ONCE(entity->last_scheduled);
->>>>>>>             if (fence && !dma_fence_is_signaled(fence))
->>>>>>>                     return;
->>>>>>>
->>>>>>> This makes sure that load balancing is not moving the entity to a
->>>>>>> different scheduler while there are still jobs running from this entity
->>>>>>> on the hardware,
->>>>>> Yeah after a nap that idea crossed my mind too. But now I have locking
->>>>>> questions, afaiui the scheduler thread updates this, without taking
->>>>>> any locks - entity dequeuing is lockless. And here we read the fence
->>>>>> and then seem to yolo check whether it's signalled? What's preventing
->>>>>> a use-after-free here? There's no rcu or anything going on here at
->>>>>> all, and it's outside of the spinlock section, which starts a bit
->>>>>> further down.
->>>>> The last_scheduled fence of an entity can only change when there are
->>>>> jobs on the entities queued, and we have just ruled that out in the
->>>>> check before.
->>>> There aren't any barriers, so the cpu could easily run the two checks
->>>> the other way round. I'll ponder this and figure out where exactly we
->>>> need docs for the constraint and/or barriers to make this work as
->>>> intended. As-is I'm not seeing how it does ...
->>> spsc_queue_count() provides the necessary barrier with the atomic_read().
->> atomic_t is fully unordered, except when it's a read-modify-write
-> Wasn't awake yet, I think the rule is read-modify-write and return
-> previous value gives you full barrier. So stuff like cmpxchg, but also
-> a few others. See atomic_t.txt under ODERING heading (yes that
-> maintainer refuses to accept .rst so I can't just link you to the
-> right section, it's silly). get/set and even RMW atomic ops that don't
-> return anything are all fully unordered.
+Hi Chiranjeevi,
 
-As far as I know that not completely correct. The rules around atomics i 
-once learned are:
+A bit of a late reply :-)
 
-1. Everything which modifies something is a write barrier.
-2. Everything which returns something is a read barrier.
+On Thu, Jul 13, 2017 at 06:51:27PM -0700, Chiranjeevi Rapolu wrote:
+> Provides single source pad with up to 2592x1944 pixels at 10-bit raw
+> bayer format over MIPI CSI2 two lanes at 840Mbps/lane.
+> The driver supports following features:
+> - up to  30fps at 5M pixels
+> - manual exposure
+> - digital/analog gain
+> - V-blank/H-blank
+> - test pattern
+> - media controller
+> - runtime pm
+> 
+> Signed-off-by: Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
+> ---
+>  drivers/media/i2c/Kconfig  |   12 +
+>  drivers/media/i2c/Makefile |    1 +
+>  drivers/media/i2c/ov5670.c | 2587 ++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 2600 insertions(+)
+>  create mode 100644 drivers/media/i2c/ov5670.c
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 121b3b5..e0f2411 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -593,6 +593,18 @@ config VIDEO_OV5647
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called ov5647.
+>  
+> +config VIDEO_OV5670
+> +	tristate "OmniVision OV5670 sensor support"
+> +	depends on I2C && VIDEO_V4L2
+> +	depends on MEDIA_CAMERA_SUPPORT
+> +	select V4L2_FWNODE
+> +	---help---
+> +	  This is a Video4Linux2 sensor-level driver for the OmniVision
+> +	  OV5670 camera.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called ov5670.
+> +
+>  config VIDEO_OV7640
+>  	tristate "OmniVision OV7640 sensor support"
+>  	depends on I2C && VIDEO_V4L2
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index 2c0868f..1fb3a1f 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -62,6 +62,7 @@ obj-$(CONFIG_VIDEO_OV2640) += ov2640.o
+>  obj-$(CONFIG_VIDEO_OV5640) += ov5640.o
+>  obj-$(CONFIG_VIDEO_OV5645) += ov5645.o
+>  obj-$(CONFIG_VIDEO_OV5647) += ov5647.o
+> +obj-$(CONFIG_VIDEO_OV5670) += ov5670.o
+>  obj-$(CONFIG_VIDEO_OV7640) += ov7640.o
+>  obj-$(CONFIG_VIDEO_OV7670) += ov7670.o
+>  obj-$(CONFIG_VIDEO_OV9650) += ov9650.o
+> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
+> new file mode 100644
+> index 0000000..909095a
+> --- /dev/null
+> +++ b/drivers/media/i2c/ov5670.c
+> @@ -0,0 +1,2587 @@
+> +/*
+> + * Copyright (c) 2017 Intel Corporation.
+> + *
+> + * This program is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU General Public License version
+> + * 2 as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+> + * GNU General Public License for more details.
+> + *
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/pm_runtime.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-device.h>
+> +
+> +#define OV5670_REG_CHIP_ID		0x300a
+> +#define OV5670_CHIP_ID			0x005670
+> +
+> +#define OV5670_REG_MODE_SELECT		0x0100
+> +#define OV5670_MODE_STANDBY		0x00
+> +#define OV5670_MODE_STREAMING		0x01
+> +
+> +#define OV5670_REG_SOFTWARE_RST		0x0103
+> +#define OV5670_SOFTWARE_RST		0x01
+> +
+> +/* vertical-timings from sensor */
+> +#define OV5670_REG_VTS			0x380e
+> +#define OV5670_VTS_30FPS		0x0808 /* default for 30 fps */
+> +#define OV5670_VTS_MAX			0xffff
+> +#define OV5670_VBLANK_MIN		56
+> +
+> +/* horizontal-timings from sensor */
+> +#define OV5670_REG_HTS			0x380c
+> +#define OV5670_DEF_PPL			3360	/* Default pixels per line */
+> +
+> +/* Exposure controls from sensor */
+> +#define OV5670_REG_EXPOSURE		0x3500
+> +#define	OV5670_EXPOSURE_MIN		4
+> +#define	OV5670_EXPOSURE_STEP		1
+> +
+> +/* Analog gain controls from sensor */
+> +#define OV5670_REG_ANALOG_GAIN		0x3508
+> +#define	ANALOG_GAIN_MIN			0
+> +#define	ANALOG_GAIN_MAX			8191
+> +#define	ANALOG_GAIN_STEP		1
+> +#define	ANALOG_GAIN_DEFAULT		128
+> +
+> +/* Digital gain controls from sensor */
+> +#define OV5670_REG_R_DGTL_GAIN		0x5032
+> +#define OV5670_REG_G_DGTL_GAIN		0x5034
+> +#define OV5670_REG_B_DGTL_GAIN		0x5036
+> +#define OV5670_DGTL_GAIN_MIN		0
+> +#define OV5670_DGTL_GAIN_MAX		4095
+> +#define OV5670_DGTL_GAIN_STEP		1
+> +#define OV5670_DGTL_GAIN_DEFAULT	1024
+> +
+> +/* Test Pattern Control */
+> +#define OV5670_REG_TEST_PATTERN		0x4303
+> +#define OV5670_TEST_PATTERN_ENABLE	BIT(3)
+> +#define OV5670_REG_TEST_PATTERN_CTRL	0x4320
+> +
+> +#define OV5670_REG_VALUE_08BIT		1
+> +#define OV5670_REG_VALUE_16BIT		2
+> +#define OV5670_REG_VALUE_24BIT		3
+> +
+> +/* Initial number of frames to skip to avoid possible garbage */
+> +#define OV5670_NUM_OF_SKIP_FRAMES	2
+> +
+> +struct ov5670_reg {
+> +	u16 address;
+> +	u8 val;
+> +};
+> +
+> +struct ov5670_reg_list {
+> +	u32 num_of_regs;
+> +	const struct ov5670_reg *regs;
+> +};
+> +
+> +struct ov5670_link_freq_config {
+> +	u32 pixel_rate;
+> +	const struct ov5670_reg_list reg_list;
+> +};
+> +
+> +struct ov5670_mode {
+> +	/* Frame width in pixels */
+> +	u32 width;
+> +
+> +	/* Frame height in pixels */
+> +	u32 height;
+> +
+> +	/* Vertical timining size */
+> +	u32 vts;
+> +
+> +	/* Link frequency needed for this resolution */
+> +	u32 link_freq_index;
+> +
+> +	/* Sensor register settings for this resolution */
+> +	const struct ov5670_reg_list reg_list;
+> +};
+> +
+> +static const struct ov5670_reg mipi_data_rate_840mbps[] = {
+> +	{0x0300, 0x04},
+> +	{0x0301, 0x00},
+> +	{0x0302, 0x84},
+> +	{0x0303, 0x00},
+> +	{0x0304, 0x03},
+> +	{0x0305, 0x01},
+> +	{0x0306, 0x01},
+> +	{0x030a, 0x00},
+> +	{0x030b, 0x00},
+> +	{0x030c, 0x00},
+> +	{0x030d, 0x26},
+> +	{0x030e, 0x00},
+> +	{0x030f, 0x06},
+> +	{0x0312, 0x01},
+> +	{0x3031, 0x0a},
+> +};
+> +
+> +static const struct ov5670_reg mode_2592x1944_regs[] = {
+> +	{0x3000, 0x00},
+> +	{0x3002, 0x21},
+> +	{0x3005, 0xf0},
+> +	{0x3007, 0x00},
+> +	{0x3015, 0x0f},
+> +	{0x3018, 0x32},
+> +	{0x301a, 0xf0},
+> +	{0x301b, 0xf0},
+> +	{0x301c, 0xf0},
+> +	{0x301d, 0xf0},
+> +	{0x301e, 0xf0},
+> +	{0x3030, 0x00},
+> +	{0x3031, 0x0a},
+> +	{0x303c, 0xff},
+> +	{0x303e, 0xff},
+> +	{0x3040, 0xf0},
+> +	{0x3041, 0x00},
+> +	{0x3042, 0xf0},
+> +	{0x3106, 0x11},
+> +	{0x3500, 0x00},
+> +	{0x3501, 0x80},
+> +	{0x3502, 0x00},
+> +	{0x3503, 0x04},
+> +	{0x3504, 0x03},
+> +	{0x3505, 0x83},
+> +	{0x3508, 0x04},
+> +	{0x3509, 0x00},
+> +	{0x350e, 0x04},
+> +	{0x350f, 0x00},
+> +	{0x3510, 0x00},
+> +	{0x3511, 0x02},
+> +	{0x3512, 0x00},
+> +	{0x3601, 0xc8},
+> +	{0x3610, 0x88},
+> +	{0x3612, 0x48},
+> +	{0x3614, 0x5b},
+> +	{0x3615, 0x96},
+> +	{0x3621, 0xd0},
+> +	{0x3622, 0x00},
+> +	{0x3623, 0x00},
+> +	{0x3633, 0x13},
+> +	{0x3634, 0x13},
+> +	{0x3635, 0x13},
+> +	{0x3636, 0x13},
+> +	{0x3645, 0x13},
+> +	{0x3646, 0x82},
+> +	{0x3650, 0x00},
+> +	{0x3652, 0xff},
+> +	{0x3655, 0x20},
+> +	{0x3656, 0xff},
+> +	{0x365a, 0xff},
+> +	{0x365e, 0xff},
+> +	{0x3668, 0x00},
+> +	{0x366a, 0x07},
+> +	{0x366e, 0x10},
+> +	{0x366d, 0x00},
+> +	{0x366f, 0x80},
+> +	{0x3700, 0x28},
+> +	{0x3701, 0x10},
+> +	{0x3702, 0x3a},
+> +	{0x3703, 0x19},
+> +	{0x3704, 0x10},
+> +	{0x3705, 0x00},
+> +	{0x3706, 0x66},
+> +	{0x3707, 0x08},
+> +	{0x3708, 0x34},
+> +	{0x3709, 0x40},
+> +	{0x370a, 0x01},
+> +	{0x370b, 0x1b},
+> +	{0x3714, 0x24},
+> +	{0x371a, 0x3e},
+> +	{0x3733, 0x00},
+> +	{0x3734, 0x00},
+> +	{0x373a, 0x05},
+> +	{0x373b, 0x06},
+> +	{0x373c, 0x0a},
+> +	{0x373f, 0xa0},
+> +	{0x3755, 0x00},
+> +	{0x3758, 0x00},
+> +	{0x375b, 0x0e},
+> +	{0x3766, 0x5f},
+> +	{0x3768, 0x00},
+> +	{0x3769, 0x22},
+> +	{0x3773, 0x08},
+> +	{0x3774, 0x1f},
+> +	{0x3776, 0x06},
+> +	{0x37a0, 0x88},
+> +	{0x37a1, 0x5c},
+> +	{0x37a7, 0x88},
+> +	{0x37a8, 0x70},
+> +	{0x37aa, 0x88},
+> +	{0x37ab, 0x48},
+> +	{0x37b3, 0x66},
+> +	{0x37c2, 0x04},
+> +	{0x37c5, 0x00},
+> +	{0x37c8, 0x00},
+> +	{0x3800, 0x00},
+> +	{0x3801, 0x0c},
+> +	{0x3802, 0x00},
+> +	{0x3803, 0x04},
+> +	{0x3804, 0x0a},
+> +	{0x3805, 0x33},
+> +	{0x3806, 0x07},
+> +	{0x3807, 0xa3},
+> +	{0x3808, 0x0a},
+> +	{0x3809, 0x20},
+> +	{0x380a, 0x07},
+> +	{0x380b, 0x98},
+> +	{0x380c, 0x06},
+> +	{0x380d, 0x90},
+> +	{0x380e, 0x08},
+> +	{0x380f, 0x08},
+> +	{0x3811, 0x04},
+> +	{0x3813, 0x02},
+> +	{0x3814, 0x01},
+> +	{0x3815, 0x01},
+> +	{0x3816, 0x00},
+> +	{0x3817, 0x00},
+> +	{0x3818, 0x00},
+> +	{0x3819, 0x00},
+> +	{0x3820, 0x84},
+> +	{0x3821, 0x46},
+> +	{0x3822, 0x48},
+> +	{0x3826, 0x00},
+> +	{0x3827, 0x08},
+> +	{0x382a, 0x01},
+> +	{0x382b, 0x01},
+> +	{0x3830, 0x08},
+> +	{0x3836, 0x02},
+> +	{0x3837, 0x00},
+> +	{0x3838, 0x10},
+> +	{0x3841, 0xff},
+> +	{0x3846, 0x48},
+> +	{0x3861, 0x00},
+> +	{0x3862, 0x04},
+> +	{0x3863, 0x06},
+> +	{0x3a11, 0x01},
+> +	{0x3a12, 0x78},
+> +	{0x3b00, 0x00},
+> +	{0x3b02, 0x00},
+> +	{0x3b03, 0x00},
+> +	{0x3b04, 0x00},
+> +	{0x3b05, 0x00},
+> +	{0x3c00, 0x89},
+> +	{0x3c01, 0xab},
+> +	{0x3c02, 0x01},
+> +	{0x3c03, 0x00},
+> +	{0x3c04, 0x00},
+> +	{0x3c05, 0x03},
+> +	{0x3c06, 0x00},
+> +	{0x3c07, 0x05},
+> +	{0x3c0c, 0x00},
+> +	{0x3c0d, 0x00},
+> +	{0x3c0e, 0x00},
+> +	{0x3c0f, 0x00},
+> +	{0x3c40, 0x00},
+> +	{0x3c41, 0xa3},
+> +	{0x3c43, 0x7d},
+> +	{0x3c45, 0xd7},
+> +	{0x3c47, 0xfc},
+> +	{0x3c50, 0x05},
+> +	{0x3c52, 0xaa},
+> +	{0x3c54, 0x71},
+> +	{0x3c56, 0x80},
+> +	{0x3d85, 0x17},
+> +	{0x3f03, 0x00},
+> +	{0x3f0a, 0x00},
+> +	{0x3f0b, 0x00},
+> +	{0x4001, 0x60},
+> +	{0x4009, 0x0d},
+> +	{0x4020, 0x00},
+> +	{0x4021, 0x00},
+> +	{0x4022, 0x00},
+> +	{0x4023, 0x00},
+> +	{0x4024, 0x00},
+> +	{0x4025, 0x00},
+> +	{0x4026, 0x00},
+> +	{0x4027, 0x00},
+> +	{0x4028, 0x00},
+> +	{0x4029, 0x00},
+> +	{0x402a, 0x00},
+> +	{0x402b, 0x00},
+> +	{0x402c, 0x00},
+> +	{0x402d, 0x00},
+> +	{0x402e, 0x00},
+> +	{0x402f, 0x00},
+> +	{0x4040, 0x00},
+> +	{0x4041, 0x03},
+> +	{0x4042, 0x00},
+> +	{0x4043, 0x7A},
+> +	{0x4044, 0x00},
+> +	{0x4045, 0x7A},
+> +	{0x4046, 0x00},
+> +	{0x4047, 0x7A},
+> +	{0x4048, 0x00},
+> +	{0x4049, 0x7A},
+> +	{0x4307, 0x30},
+> +	{0x4500, 0x58},
+> +	{0x4501, 0x04},
+> +	{0x4502, 0x40},
+> +	{0x4503, 0x10},
+> +	{0x4508, 0xaa},
+> +	{0x4509, 0xaa},
+> +	{0x450a, 0x00},
+> +	{0x450b, 0x00},
+> +	{0x4600, 0x01},
+> +	{0x4601, 0x03},
+> +	{0x4700, 0xa4},
+> +	{0x4800, 0x4c},
+> +	{0x4816, 0x53},
+> +	{0x481f, 0x40},
+> +	{0x4837, 0x13},
+> +	{0x5000, 0x56},
+> +	{0x5001, 0x01},
+> +	{0x5002, 0x28},
+> +	{0x5004, 0x0c},
+> +	{0x5006, 0x0c},
+> +	{0x5007, 0xe0},
+> +	{0x5008, 0x01},
+> +	{0x5009, 0xb0},
+> +	{0x5901, 0x00},
+> +	{0x5a01, 0x00},
+> +	{0x5a03, 0x00},
+> +	{0x5a04, 0x0c},
+> +	{0x5a05, 0xe0},
+> +	{0x5a06, 0x09},
+> +	{0x5a07, 0xb0},
+> +	{0x5a08, 0x06},
+> +	{0x5e00, 0x00},
+> +	{0x3734, 0x40},
+> +	{0x5b00, 0x01},
+> +	{0x5b01, 0x10},
+> +	{0x5b02, 0x01},
+> +	{0x5b03, 0xdb},
+> +	{0x3d8c, 0x71},
+> +	{0x3d8d, 0xea},
+> +	{0x4017, 0x08},
+> +	{0x3618, 0x2a},
+> +	{0x5780, 0x3e},
+> +	{0x5781, 0x0f},
+> +	{0x5782, 0x44},
+> +	{0x5783, 0x02},
+> +	{0x5784, 0x01},
+> +	{0x5785, 0x01},
+> +	{0x5786, 0x00},
+> +	{0x5787, 0x04},
+> +	{0x5788, 0x02},
+> +	{0x5789, 0x0f},
+> +	{0x578a, 0xfd},
+> +	{0x578b, 0xf5},
+> +	{0x578c, 0xf5},
+> +	{0x578d, 0x03},
+> +	{0x578e, 0x08},
+> +	{0x578f, 0x0c},
+> +	{0x5790, 0x08},
+> +	{0x5791, 0x06},
+> +	{0x5792, 0x00},
+> +	{0x5793, 0x52},
+> +	{0x5794, 0xa3},
+> +	{0x3503, 0x00}
+> +};
+> +
+> +static const struct ov5670_reg mode_1296x972_regs[] = {
+> +	{0x3000, 0x00},
+> +	{0x3002, 0x21},
+> +	{0x3005, 0xf0},
+> +	{0x3007, 0x00},
+> +	{0x3015, 0x0f},
+> +	{0x3018, 0x32},
+> +	{0x301a, 0xf0},
+> +	{0x301b, 0xf0},
+> +	{0x301c, 0xf0},
+> +	{0x301d, 0xf0},
+> +	{0x301e, 0xf0},
+> +	{0x3030, 0x00},
+> +	{0x3031, 0x0a},
+> +	{0x303c, 0xff},
+> +	{0x303e, 0xff},
+> +	{0x3040, 0xf0},
+> +	{0x3041, 0x00},
+> +	{0x3042, 0xf0},
+> +	{0x3106, 0x11},
+> +	{0x3500, 0x00},
+> +	{0x3501, 0x80},
+> +	{0x3502, 0x00},
+> +	{0x3503, 0x04},
+> +	{0x3504, 0x03},
+> +	{0x3505, 0x83},
+> +	{0x3508, 0x07},
+> +	{0x3509, 0x80},
+> +	{0x350e, 0x04},
+> +	{0x350f, 0x00},
+> +	{0x3510, 0x00},
+> +	{0x3511, 0x02},
+> +	{0x3512, 0x00},
+> +	{0x3601, 0xc8},
+> +	{0x3610, 0x88},
+> +	{0x3612, 0x48},
+> +	{0x3614, 0x5b},
+> +	{0x3615, 0x96},
+> +	{0x3621, 0xd0},
+> +	{0x3622, 0x00},
+> +	{0x3623, 0x00},
+> +	{0x3633, 0x13},
+> +	{0x3634, 0x13},
+> +	{0x3635, 0x13},
+> +	{0x3636, 0x13},
+> +	{0x3645, 0x13},
+> +	{0x3646, 0x82},
+> +	{0x3650, 0x00},
+> +	{0x3652, 0xff},
+> +	{0x3655, 0x20},
+> +	{0x3656, 0xff},
+> +	{0x365a, 0xff},
+> +	{0x365e, 0xff},
+> +	{0x3668, 0x00},
+> +	{0x366a, 0x07},
+> +	{0x366e, 0x08},
+> +	{0x366d, 0x00},
+> +	{0x366f, 0x80},
+> +	{0x3700, 0x28},
+> +	{0x3701, 0x10},
+> +	{0x3702, 0x3a},
+> +	{0x3703, 0x19},
+> +	{0x3704, 0x10},
+> +	{0x3705, 0x00},
+> +	{0x3706, 0x66},
+> +	{0x3707, 0x08},
+> +	{0x3708, 0x34},
+> +	{0x3709, 0x40},
+> +	{0x370a, 0x01},
+> +	{0x370b, 0x1b},
+> +	{0x3714, 0x24},
+> +	{0x371a, 0x3e},
+> +	{0x3733, 0x00},
+> +	{0x3734, 0x00},
+> +	{0x373a, 0x05},
+> +	{0x373b, 0x06},
+> +	{0x373c, 0x0a},
+> +	{0x373f, 0xa0},
+> +	{0x3755, 0x00},
+> +	{0x3758, 0x00},
+> +	{0x375b, 0x0e},
+> +	{0x3766, 0x5f},
+> +	{0x3768, 0x00},
+> +	{0x3769, 0x22},
+> +	{0x3773, 0x08},
+> +	{0x3774, 0x1f},
+> +	{0x3776, 0x06},
+> +	{0x37a0, 0x88},
+> +	{0x37a1, 0x5c},
+> +	{0x37a7, 0x88},
+> +	{0x37a8, 0x70},
+> +	{0x37aa, 0x88},
+> +	{0x37ab, 0x48},
+> +	{0x37b3, 0x66},
+> +	{0x37c2, 0x04},
+> +	{0x37c5, 0x00},
+> +	{0x37c8, 0x00},
+> +	{0x3800, 0x00},
+> +	{0x3801, 0x0c},
+> +	{0x3802, 0x00},
+> +	{0x3803, 0x04},
+> +	{0x3804, 0x0a},
+> +	{0x3805, 0x33},
+> +	{0x3806, 0x07},
+> +	{0x3807, 0xa3},
+> +	{0x3808, 0x05},
+> +	{0x3809, 0x10},
+> +	{0x380a, 0x03},
+> +	{0x380b, 0xcc},
+> +	{0x380c, 0x06},
+> +	{0x380d, 0x90},
+> +	{0x380e, 0x08},
+> +	{0x380f, 0x08},
+> +	{0x3811, 0x04},
+> +	{0x3813, 0x04},
+> +	{0x3814, 0x03},
+> +	{0x3815, 0x01},
+> +	{0x3816, 0x00},
+> +	{0x3817, 0x00},
+> +	{0x3818, 0x00},
+> +	{0x3819, 0x00},
+> +	{0x3820, 0x94},
+> +	{0x3821, 0x47},
+> +	{0x3822, 0x48},
+> +	{0x3826, 0x00},
+> +	{0x3827, 0x08},
+> +	{0x382a, 0x03},
+> +	{0x382b, 0x01},
+> +	{0x3830, 0x08},
+> +	{0x3836, 0x02},
+> +	{0x3837, 0x00},
+> +	{0x3838, 0x10},
+> +	{0x3841, 0xff},
+> +	{0x3846, 0x48},
+> +	{0x3861, 0x00},
+> +	{0x3862, 0x04},
+> +	{0x3863, 0x06},
+> +	{0x3a11, 0x01},
+> +	{0x3a12, 0x78},
+> +	{0x3b00, 0x00},
+> +	{0x3b02, 0x00},
+> +	{0x3b03, 0x00},
+> +	{0x3b04, 0x00},
+> +	{0x3b05, 0x00},
+> +	{0x3c00, 0x89},
+> +	{0x3c01, 0xab},
+> +	{0x3c02, 0x01},
+> +	{0x3c03, 0x00},
+> +	{0x3c04, 0x00},
+> +	{0x3c05, 0x03},
+> +	{0x3c06, 0x00},
+> +	{0x3c07, 0x05},
+> +	{0x3c0c, 0x00},
+> +	{0x3c0d, 0x00},
+> +	{0x3c0e, 0x00},
+> +	{0x3c0f, 0x00},
+> +	{0x3c40, 0x00},
+> +	{0x3c41, 0xa3},
+> +	{0x3c43, 0x7d},
+> +	{0x3c45, 0xd7},
+> +	{0x3c47, 0xfc},
+> +	{0x3c50, 0x05},
+> +	{0x3c52, 0xaa},
+> +	{0x3c54, 0x71},
+> +	{0x3c56, 0x80},
+> +	{0x3d85, 0x17},
+> +	{0x3f03, 0x00},
+> +	{0x3f0a, 0x00},
+> +	{0x3f0b, 0x00},
+> +	{0x4001, 0x60},
+> +	{0x4009, 0x05},
+> +	{0x4020, 0x00},
+> +	{0x4021, 0x00},
+> +	{0x4022, 0x00},
+> +	{0x4023, 0x00},
+> +	{0x4024, 0x00},
+> +	{0x4025, 0x00},
+> +	{0x4026, 0x00},
+> +	{0x4027, 0x00},
+> +	{0x4028, 0x00},
+> +	{0x4029, 0x00},
+> +	{0x402a, 0x00},
+> +	{0x402b, 0x00},
+> +	{0x402c, 0x00},
+> +	{0x402d, 0x00},
+> +	{0x402e, 0x00},
+> +	{0x402f, 0x00},
+> +	{0x4040, 0x00},
+> +	{0x4041, 0x03},
+> +	{0x4042, 0x00},
+> +	{0x4043, 0x7A},
+> +	{0x4044, 0x00},
+> +	{0x4045, 0x7A},
+> +	{0x4046, 0x00},
+> +	{0x4047, 0x7A},
+> +	{0x4048, 0x00},
+> +	{0x4049, 0x7A},
+> +	{0x4307, 0x30},
+> +	{0x4500, 0x58},
+> +	{0x4501, 0x04},
+> +	{0x4502, 0x48},
+> +	{0x4503, 0x10},
+> +	{0x4508, 0x55},
+> +	{0x4509, 0x55},
+> +	{0x450a, 0x00},
+> +	{0x450b, 0x00},
+> +	{0x4600, 0x00},
+> +	{0x4601, 0x81},
+> +	{0x4700, 0xa4},
+> +	{0x4800, 0x4c},
+> +	{0x4816, 0x53},
+> +	{0x481f, 0x40},
+> +	{0x4837, 0x13},
+> +	{0x5000, 0x56},
+> +	{0x5001, 0x01},
+> +	{0x5002, 0x28},
+> +	{0x5004, 0x0c},
+> +	{0x5006, 0x0c},
+> +	{0x5007, 0xe0},
+> +	{0x5008, 0x01},
+> +	{0x5009, 0xb0},
+> +	{0x5901, 0x00},
+> +	{0x5a01, 0x00},
+> +	{0x5a03, 0x00},
+> +	{0x5a04, 0x0c},
+> +	{0x5a05, 0xe0},
+> +	{0x5a06, 0x09},
+> +	{0x5a07, 0xb0},
+> +	{0x5a08, 0x06},
+> +	{0x5e00, 0x00},
+> +	{0x3734, 0x40},
+> +	{0x5b00, 0x01},
+> +	{0x5b01, 0x10},
+> +	{0x5b02, 0x01},
+> +	{0x5b03, 0xdb},
+> +	{0x3d8c, 0x71},
+> +	{0x3d8d, 0xea},
+> +	{0x4017, 0x10},
+> +	{0x3618, 0x2a},
+> +	{0x5780, 0x3e},
+> +	{0x5781, 0x0f},
+> +	{0x5782, 0x44},
+> +	{0x5783, 0x02},
+> +	{0x5784, 0x01},
+> +	{0x5785, 0x01},
+> +	{0x5786, 0x00},
+> +	{0x5787, 0x04},
+> +	{0x5788, 0x02},
+> +	{0x5789, 0x0f},
+> +	{0x578a, 0xfd},
+> +	{0x578b, 0xf5},
+> +	{0x578c, 0xf5},
+> +	{0x578d, 0x03},
+> +	{0x578e, 0x08},
+> +	{0x578f, 0x0c},
+> +	{0x5790, 0x08},
+> +	{0x5791, 0x04},
+> +	{0x5792, 0x00},
+> +	{0x5793, 0x52},
+> +	{0x5794, 0xa3},
+> +	{0x3503, 0x00}
+> +};
+> +
+> +static const struct ov5670_reg mode_648x486_regs[] = {
+> +	{0x3000, 0x00},
+> +	{0x3002, 0x21},
+> +	{0x3005, 0xf0},
+> +	{0x3007, 0x00},
+> +	{0x3015, 0x0f},
+> +	{0x3018, 0x32},
+> +	{0x301a, 0xf0},
+> +	{0x301b, 0xf0},
+> +	{0x301c, 0xf0},
+> +	{0x301d, 0xf0},
+> +	{0x301e, 0xf0},
+> +	{0x3030, 0x00},
+> +	{0x3031, 0x0a},
+> +	{0x303c, 0xff},
+> +	{0x303e, 0xff},
+> +	{0x3040, 0xf0},
+> +	{0x3041, 0x00},
+> +	{0x3042, 0xf0},
+> +	{0x3106, 0x11},
+> +	{0x3500, 0x00},
+> +	{0x3501, 0x80},
+> +	{0x3502, 0x00},
+> +	{0x3503, 0x04},
+> +	{0x3504, 0x03},
+> +	{0x3505, 0x83},
+> +	{0x3508, 0x04},
+> +	{0x3509, 0x00},
+> +	{0x350e, 0x04},
+> +	{0x350f, 0x00},
+> +	{0x3510, 0x00},
+> +	{0x3511, 0x02},
+> +	{0x3512, 0x00},
+> +	{0x3601, 0xc8},
+> +	{0x3610, 0x88},
+> +	{0x3612, 0x48},
+> +	{0x3614, 0x5b},
+> +	{0x3615, 0x96},
+> +	{0x3621, 0xd0},
+> +	{0x3622, 0x00},
+> +	{0x3623, 0x04},
+> +	{0x3633, 0x13},
+> +	{0x3634, 0x13},
+> +	{0x3635, 0x13},
+> +	{0x3636, 0x13},
+> +	{0x3645, 0x13},
+> +	{0x3646, 0x82},
+> +	{0x3650, 0x00},
+> +	{0x3652, 0xff},
+> +	{0x3655, 0x20},
+> +	{0x3656, 0xff},
+> +	{0x365a, 0xff},
+> +	{0x365e, 0xff},
+> +	{0x3668, 0x00},
+> +	{0x366a, 0x07},
+> +	{0x366e, 0x08},
+> +	{0x366d, 0x00},
+> +	{0x366f, 0x80},
+> +	{0x3700, 0x28},
+> +	{0x3701, 0x10},
+> +	{0x3702, 0x3a},
+> +	{0x3703, 0x19},
+> +	{0x3704, 0x10},
+> +	{0x3705, 0x00},
+> +	{0x3706, 0x66},
+> +	{0x3707, 0x08},
+> +	{0x3708, 0x34},
+> +	{0x3709, 0x40},
+> +	{0x370a, 0x01},
+> +	{0x370b, 0x1b},
+> +	{0x3714, 0x24},
+> +	{0x371a, 0x3e},
+> +	{0x3733, 0x00},
+> +	{0x3734, 0x00},
+> +	{0x373a, 0x05},
+> +	{0x373b, 0x06},
+> +	{0x373c, 0x0a},
+> +	{0x373f, 0xa0},
+> +	{0x3755, 0x00},
+> +	{0x3758, 0x00},
+> +	{0x375b, 0x0e},
+> +	{0x3766, 0x5f},
+> +	{0x3768, 0x00},
+> +	{0x3769, 0x22},
+> +	{0x3773, 0x08},
+> +	{0x3774, 0x1f},
+> +	{0x3776, 0x06},
+> +	{0x37a0, 0x88},
+> +	{0x37a1, 0x5c},
+> +	{0x37a7, 0x88},
+> +	{0x37a8, 0x70},
+> +	{0x37aa, 0x88},
+> +	{0x37ab, 0x48},
+> +	{0x37b3, 0x66},
+> +	{0x37c2, 0x04},
+> +	{0x37c5, 0x00},
+> +	{0x37c8, 0x00},
+> +	{0x3800, 0x00},
+> +	{0x3801, 0x0c},
+> +	{0x3802, 0x00},
+> +	{0x3803, 0x04},
+> +	{0x3804, 0x0a},
+> +	{0x3805, 0x33},
+> +	{0x3806, 0x07},
+> +	{0x3807, 0xa3},
+> +	{0x3808, 0x02},
+> +	{0x3809, 0x88},
+> +	{0x380a, 0x01},
+> +	{0x380b, 0xe6},
+> +	{0x380c, 0x06},
+> +	{0x380d, 0x90},
+> +	{0x380e, 0x08},
+> +	{0x380f, 0x08},
+> +	{0x3811, 0x04},
+> +	{0x3813, 0x02},
+> +	{0x3814, 0x07},
+> +	{0x3815, 0x01},
+> +	{0x3816, 0x00},
+> +	{0x3817, 0x00},
+> +	{0x3818, 0x00},
+> +	{0x3819, 0x00},
+> +	{0x3820, 0x94},
+> +	{0x3821, 0xc6},
+> +	{0x3822, 0x48},
+> +	{0x3826, 0x00},
+> +	{0x3827, 0x08},
+> +	{0x382a, 0x07},
+> +	{0x382b, 0x01},
+> +	{0x3830, 0x08},
+> +	{0x3836, 0x02},
+> +	{0x3837, 0x00},
+> +	{0x3838, 0x10},
+> +	{0x3841, 0xff},
+> +	{0x3846, 0x48},
+> +	{0x3861, 0x00},
+> +	{0x3862, 0x04},
+> +	{0x3863, 0x06},
+> +	{0x3a11, 0x01},
+> +	{0x3a12, 0x78},
+> +	{0x3b00, 0x00},
+> +	{0x3b02, 0x00},
+> +	{0x3b03, 0x00},
+> +	{0x3b04, 0x00},
+> +	{0x3b05, 0x00},
+> +	{0x3c00, 0x89},
+> +	{0x3c01, 0xab},
+> +	{0x3c02, 0x01},
+> +	{0x3c03, 0x00},
+> +	{0x3c04, 0x00},
+> +	{0x3c05, 0x03},
+> +	{0x3c06, 0x00},
+> +	{0x3c07, 0x05},
+> +	{0x3c0c, 0x00},
+> +	{0x3c0d, 0x00},
+> +	{0x3c0e, 0x00},
+> +	{0x3c0f, 0x00},
+> +	{0x3c40, 0x00},
+> +	{0x3c41, 0xa3},
+> +	{0x3c43, 0x7d},
+> +	{0x3c45, 0xd7},
+> +	{0x3c47, 0xfc},
+> +	{0x3c50, 0x05},
+> +	{0x3c52, 0xaa},
+> +	{0x3c54, 0x71},
+> +	{0x3c56, 0x80},
+> +	{0x3d85, 0x17},
+> +	{0x3f03, 0x00},
+> +	{0x3f0a, 0x00},
+> +	{0x3f0b, 0x00},
+> +	{0x4001, 0x60},
+> +	{0x4009, 0x05},
+> +	{0x4020, 0x00},
+> +	{0x4021, 0x00},
+> +	{0x4022, 0x00},
+> +	{0x4023, 0x00},
+> +	{0x4024, 0x00},
+> +	{0x4025, 0x00},
+> +	{0x4026, 0x00},
+> +	{0x4027, 0x00},
+> +	{0x4028, 0x00},
+> +	{0x4029, 0x00},
+> +	{0x402a, 0x00},
+> +	{0x402b, 0x00},
+> +	{0x402c, 0x00},
+> +	{0x402d, 0x00},
+> +	{0x402e, 0x00},
+> +	{0x402f, 0x00},
+> +	{0x4040, 0x00},
+> +	{0x4041, 0x03},
+> +	{0x4042, 0x00},
+> +	{0x4043, 0x7A},
+> +	{0x4044, 0x00},
+> +	{0x4045, 0x7A},
+> +	{0x4046, 0x00},
+> +	{0x4047, 0x7A},
+> +	{0x4048, 0x00},
+> +	{0x4049, 0x7A},
+> +	{0x4307, 0x30},
+> +	{0x4500, 0x58},
+> +	{0x4501, 0x04},
+> +	{0x4502, 0x40},
+> +	{0x4503, 0x10},
+> +	{0x4508, 0x55},
+> +	{0x4509, 0x55},
+> +	{0x450a, 0x02},
+> +	{0x450b, 0x00},
+> +	{0x4600, 0x00},
+> +	{0x4601, 0x40},
+> +	{0x4700, 0xa4},
+> +	{0x4800, 0x4c},
+> +	{0x4816, 0x53},
+> +	{0x481f, 0x40},
+> +	{0x4837, 0x13},
+> +	{0x5000, 0x56},
+> +	{0x5001, 0x01},
+> +	{0x5002, 0x28},
+> +	{0x5004, 0x0c},
+> +	{0x5006, 0x0c},
+> +	{0x5007, 0xe0},
+> +	{0x5008, 0x01},
+> +	{0x5009, 0xb0},
+> +	{0x5901, 0x00},
+> +	{0x5a01, 0x00},
+> +	{0x5a03, 0x00},
+> +	{0x5a04, 0x0c},
+> +	{0x5a05, 0xe0},
+> +	{0x5a06, 0x09},
+> +	{0x5a07, 0xb0},
+> +	{0x5a08, 0x06},
+> +	{0x5e00, 0x00},
+> +	{0x3734, 0x40},
+> +	{0x5b00, 0x01},
+> +	{0x5b01, 0x10},
+> +	{0x5b02, 0x01},
+> +	{0x5b03, 0xdb},
+> +	{0x3d8c, 0x71},
+> +	{0x3d8d, 0xea},
+> +	{0x4017, 0x10},
+> +	{0x3618, 0x2a},
+> +	{0x5780, 0x3e},
+> +	{0x5781, 0x0f},
+> +	{0x5782, 0x44},
+> +	{0x5783, 0x02},
+> +	{0x5784, 0x01},
+> +	{0x5785, 0x01},
+> +	{0x5786, 0x00},
+> +	{0x5787, 0x04},
+> +	{0x5788, 0x02},
+> +	{0x5789, 0x0f},
+> +	{0x578a, 0xfd},
+> +	{0x578b, 0xf5},
+> +	{0x578c, 0xf5},
+> +	{0x578d, 0x03},
+> +	{0x578e, 0x08},
+> +	{0x578f, 0x0c},
+> +	{0x5790, 0x08},
+> +	{0x5791, 0x06},
+> +	{0x5792, 0x00},
+> +	{0x5793, 0x52},
+> +	{0x5794, 0xa3},
+> +	{0x3503, 0x00}
+> +};
+> +
+> +static const struct ov5670_reg mode_2560x1440_regs[] = {
+> +	{0x3000, 0x00},
+> +	{0x3002, 0x21},
+> +	{0x3005, 0xf0},
+> +	{0x3007, 0x00},
+> +	{0x3015, 0x0f},
+> +	{0x3018, 0x32},
+> +	{0x301a, 0xf0},
+> +	{0x301b, 0xf0},
+> +	{0x301c, 0xf0},
+> +	{0x301d, 0xf0},
+> +	{0x301e, 0xf0},
+> +	{0x3030, 0x00},
+> +	{0x3031, 0x0a},
+> +	{0x303c, 0xff},
+> +	{0x303e, 0xff},
+> +	{0x3040, 0xf0},
+> +	{0x3041, 0x00},
+> +	{0x3042, 0xf0},
+> +	{0x3106, 0x11},
+> +	{0x3500, 0x00},
+> +	{0x3501, 0x80},
+> +	{0x3502, 0x00},
+> +	{0x3503, 0x04},
+> +	{0x3504, 0x03},
+> +	{0x3505, 0x83},
+> +	{0x3508, 0x04},
+> +	{0x3509, 0x00},
+> +	{0x350e, 0x04},
+> +	{0x350f, 0x00},
+> +	{0x3510, 0x00},
+> +	{0x3511, 0x02},
+> +	{0x3512, 0x00},
+> +	{0x3601, 0xc8},
+> +	{0x3610, 0x88},
+> +	{0x3612, 0x48},
+> +	{0x3614, 0x5b},
+> +	{0x3615, 0x96},
+> +	{0x3621, 0xd0},
+> +	{0x3622, 0x00},
+> +	{0x3623, 0x00},
+> +	{0x3633, 0x13},
+> +	{0x3634, 0x13},
+> +	{0x3635, 0x13},
+> +	{0x3636, 0x13},
+> +	{0x3645, 0x13},
+> +	{0x3646, 0x82},
+> +	{0x3650, 0x00},
+> +	{0x3652, 0xff},
+> +	{0x3655, 0x20},
+> +	{0x3656, 0xff},
+> +	{0x365a, 0xff},
+> +	{0x365e, 0xff},
+> +	{0x3668, 0x00},
+> +	{0x366a, 0x07},
+> +	{0x366e, 0x10},
+> +	{0x366d, 0x00},
+> +	{0x366f, 0x80},
+> +	{0x3700, 0x28},
+> +	{0x3701, 0x10},
+> +	{0x3702, 0x3a},
+> +	{0x3703, 0x19},
+> +	{0x3704, 0x10},
+> +	{0x3705, 0x00},
+> +	{0x3706, 0x66},
+> +	{0x3707, 0x08},
+> +	{0x3708, 0x34},
+> +	{0x3709, 0x40},
+> +	{0x370a, 0x01},
+> +	{0x370b, 0x1b},
+> +	{0x3714, 0x24},
+> +	{0x371a, 0x3e},
+> +	{0x3733, 0x00},
+> +	{0x3734, 0x00},
+> +	{0x373a, 0x05},
+> +	{0x373b, 0x06},
+> +	{0x373c, 0x0a},
+> +	{0x373f, 0xa0},
+> +	{0x3755, 0x00},
+> +	{0x3758, 0x00},
+> +	{0x375b, 0x0e},
+> +	{0x3766, 0x5f},
+> +	{0x3768, 0x00},
+> +	{0x3769, 0x22},
+> +	{0x3773, 0x08},
+> +	{0x3774, 0x1f},
+> +	{0x3776, 0x06},
+> +	{0x37a0, 0x88},
+> +	{0x37a1, 0x5c},
+> +	{0x37a7, 0x88},
+> +	{0x37a8, 0x70},
+> +	{0x37aa, 0x88},
+> +	{0x37ab, 0x48},
+> +	{0x37b3, 0x66},
+> +	{0x37c2, 0x04},
+> +	{0x37c5, 0x00},
+> +	{0x37c8, 0x00},
+> +	{0x3800, 0x00},
+> +	{0x3801, 0x0c},
+> +	{0x3802, 0x00},
+> +	{0x3803, 0x04},
+> +	{0x3804, 0x0a},
+> +	{0x3805, 0x33},
+> +	{0x3806, 0x07},
+> +	{0x3807, 0xa3},
+> +	{0x3808, 0x0a},
+> +	{0x3809, 0x00},
+> +	{0x380a, 0x05},
+> +	{0x380b, 0xa0},
+> +	{0x380c, 0x06},
+> +	{0x380d, 0x90},
+> +	{0x380e, 0x08},
+> +	{0x380f, 0x08},
+> +	{0x3811, 0x04},
+> +	{0x3813, 0x02},
+> +	{0x3814, 0x01},
+> +	{0x3815, 0x01},
+> +	{0x3816, 0x00},
+> +	{0x3817, 0x00},
+> +	{0x3818, 0x00},
+> +	{0x3819, 0x00},
+> +	{0x3820, 0x84},
+> +	{0x3821, 0x46},
+> +	{0x3822, 0x48},
+> +	{0x3826, 0x00},
+> +	{0x3827, 0x08},
+> +	{0x382a, 0x01},
+> +	{0x382b, 0x01},
+> +	{0x3830, 0x08},
+> +	{0x3836, 0x02},
+> +	{0x3837, 0x00},
+> +	{0x3838, 0x10},
+> +	{0x3841, 0xff},
+> +	{0x3846, 0x48},
+> +	{0x3861, 0x00},
+> +	{0x3862, 0x04},
+> +	{0x3863, 0x06},
+> +	{0x3a11, 0x01},
+> +	{0x3a12, 0x78},
+> +	{0x3b00, 0x00},
+> +	{0x3b02, 0x00},
+> +	{0x3b03, 0x00},
+> +	{0x3b04, 0x00},
+> +	{0x3b05, 0x00},
+> +	{0x3c00, 0x89},
+> +	{0x3c01, 0xab},
+> +	{0x3c02, 0x01},
+> +	{0x3c03, 0x00},
+> +	{0x3c04, 0x00},
+> +	{0x3c05, 0x03},
+> +	{0x3c06, 0x00},
+> +	{0x3c07, 0x05},
+> +	{0x3c0c, 0x00},
+> +	{0x3c0d, 0x00},
+> +	{0x3c0e, 0x00},
+> +	{0x3c0f, 0x00},
+> +	{0x3c40, 0x00},
+> +	{0x3c41, 0xa3},
+> +	{0x3c43, 0x7d},
+> +	{0x3c45, 0xd7},
+> +	{0x3c47, 0xfc},
+> +	{0x3c50, 0x05},
+> +	{0x3c52, 0xaa},
+> +	{0x3c54, 0x71},
+> +	{0x3c56, 0x80},
+> +	{0x3d85, 0x17},
+> +	{0x3f03, 0x00},
+> +	{0x3f0a, 0x00},
+> +	{0x3f0b, 0x00},
+> +	{0x4001, 0x60},
+> +	{0x4009, 0x0d},
+> +	{0x4020, 0x00},
+> +	{0x4021, 0x00},
+> +	{0x4022, 0x00},
+> +	{0x4023, 0x00},
+> +	{0x4024, 0x00},
+> +	{0x4025, 0x00},
+> +	{0x4026, 0x00},
+> +	{0x4027, 0x00},
+> +	{0x4028, 0x00},
+> +	{0x4029, 0x00},
+> +	{0x402a, 0x00},
+> +	{0x402b, 0x00},
+> +	{0x402c, 0x00},
+> +	{0x402d, 0x00},
+> +	{0x402e, 0x00},
+> +	{0x402f, 0x00},
+> +	{0x4040, 0x00},
+> +	{0x4041, 0x03},
+> +	{0x4042, 0x00},
+> +	{0x4043, 0x7A},
+> +	{0x4044, 0x00},
+> +	{0x4045, 0x7A},
+> +	{0x4046, 0x00},
+> +	{0x4047, 0x7A},
+> +	{0x4048, 0x00},
+> +	{0x4049, 0x7A},
+> +	{0x4307, 0x30},
+> +	{0x4500, 0x58},
+> +	{0x4501, 0x04},
+> +	{0x4502, 0x40},
+> +	{0x4503, 0x10},
+> +	{0x4508, 0xaa},
+> +	{0x4509, 0xaa},
+> +	{0x450a, 0x00},
+> +	{0x450b, 0x00},
+> +	{0x4600, 0x01},
+> +	{0x4601, 0x00},
+> +	{0x4700, 0xa4},
+> +	{0x4800, 0x4c},
+> +	{0x4816, 0x53},
+> +	{0x481f, 0x40},
+> +	{0x4837, 0x13},
+> +	{0x5000, 0x56},
+> +	{0x5001, 0x01},
+> +	{0x5002, 0x28},
+> +	{0x5004, 0x0c},
+> +	{0x5006, 0x0c},
+> +	{0x5007, 0xe0},
+> +	{0x5008, 0x01},
+> +	{0x5009, 0xb0},
+> +	{0x5901, 0x00},
+> +	{0x5a01, 0x00},
+> +	{0x5a03, 0x00},
+> +	{0x5a04, 0x0c},
+> +	{0x5a05, 0xe0},
+> +	{0x5a06, 0x09},
+> +	{0x5a07, 0xb0},
+> +	{0x5a08, 0x06},
+> +	{0x5e00, 0x00},
+> +	{0x3734, 0x40},
+> +	{0x5b00, 0x01},
+> +	{0x5b01, 0x10},
+> +	{0x5b02, 0x01},
+> +	{0x5b03, 0xdb},
+> +	{0x3d8c, 0x71},
+> +	{0x3d8d, 0xea},
+> +	{0x4017, 0x08},
+> +	{0x3618, 0x2a},
+> +	{0x5780, 0x3e},
+> +	{0x5781, 0x0f},
+> +	{0x5782, 0x44},
+> +	{0x5783, 0x02},
+> +	{0x5784, 0x01},
+> +	{0x5785, 0x01},
+> +	{0x5786, 0x00},
+> +	{0x5787, 0x04},
+> +	{0x5788, 0x02},
+> +	{0x5789, 0x0f},
+> +	{0x578a, 0xfd},
+> +	{0x578b, 0xf5},
+> +	{0x578c, 0xf5},
+> +	{0x578d, 0x03},
+> +	{0x578e, 0x08},
+> +	{0x578f, 0x0c},
+> +	{0x5790, 0x08},
+> +	{0x5791, 0x06},
+> +	{0x5792, 0x00},
+> +	{0x5793, 0x52},
+> +	{0x5794, 0xa3}
 
-And I know a whole bunch of use cases where this is relied upon in the 
-core kernel, so I'm pretty sure that's correct.
+This is the only mode that doesn't set 0x3503 to 0x00, and thus keep the
+exponential gain setting instead of using linear gain. The V4L2_CID_GAIN
+handling in the driver doesn't seem to take this into account. Is there
+a reason, or is this an oversight ?
 
-In this case the write barrier is the atomic_dec() in spsc_queue_pop() 
-and the read barrier is the aromic_read() in spsc_queue_count().
+> +};
+> +
+> +static const struct ov5670_reg mode_1280x720_regs[] = {
+> +	{0x3000, 0x00},
+> +	{0x3002, 0x21},
+> +	{0x3005, 0xf0},
+> +	{0x3007, 0x00},
+> +	{0x3015, 0x0f},
+> +	{0x3018, 0x32},
+> +	{0x301a, 0xf0},
+> +	{0x301b, 0xf0},
+> +	{0x301c, 0xf0},
+> +	{0x301d, 0xf0},
+> +	{0x301e, 0xf0},
+> +	{0x3030, 0x00},
+> +	{0x3031, 0x0a},
+> +	{0x303c, 0xff},
+> +	{0x303e, 0xff},
+> +	{0x3040, 0xf0},
+> +	{0x3041, 0x00},
+> +	{0x3042, 0xf0},
+> +	{0x3106, 0x11},
+> +	{0x3500, 0x00},
+> +	{0x3501, 0x80},
+> +	{0x3502, 0x00},
+> +	{0x3503, 0x04},
+> +	{0x3504, 0x03},
+> +	{0x3505, 0x83},
+> +	{0x3508, 0x04},
+> +	{0x3509, 0x00},
+> +	{0x350e, 0x04},
+> +	{0x350f, 0x00},
+> +	{0x3510, 0x00},
+> +	{0x3511, 0x02},
+> +	{0x3512, 0x00},
+> +	{0x3601, 0xc8},
+> +	{0x3610, 0x88},
+> +	{0x3612, 0x48},
+> +	{0x3614, 0x5b},
+> +	{0x3615, 0x96},
+> +	{0x3621, 0xd0},
+> +	{0x3622, 0x00},
+> +	{0x3623, 0x00},
+> +	{0x3633, 0x13},
+> +	{0x3634, 0x13},
+> +	{0x3635, 0x13},
+> +	{0x3636, 0x13},
+> +	{0x3645, 0x13},
+> +	{0x3646, 0x82},
+> +	{0x3650, 0x00},
+> +	{0x3652, 0xff},
+> +	{0x3655, 0x20},
+> +	{0x3656, 0xff},
+> +	{0x365a, 0xff},
+> +	{0x365e, 0xff},
+> +	{0x3668, 0x00},
+> +	{0x366a, 0x07},
+> +	{0x366e, 0x08},
+> +	{0x366d, 0x00},
+> +	{0x366f, 0x80},
+> +	{0x3700, 0x28},
+> +	{0x3701, 0x10},
+> +	{0x3702, 0x3a},
+> +	{0x3703, 0x19},
+> +	{0x3704, 0x10},
+> +	{0x3705, 0x00},
+> +	{0x3706, 0x66},
+> +	{0x3707, 0x08},
+> +	{0x3708, 0x34},
+> +	{0x3709, 0x40},
+> +	{0x370a, 0x01},
+> +	{0x370b, 0x1b},
+> +	{0x3714, 0x24},
+> +	{0x371a, 0x3e},
+> +	{0x3733, 0x00},
+> +	{0x3734, 0x00},
+> +	{0x373a, 0x05},
+> +	{0x373b, 0x06},
+> +	{0x373c, 0x0a},
+> +	{0x373f, 0xa0},
+> +	{0x3755, 0x00},
+> +	{0x3758, 0x00},
+> +	{0x375b, 0x0e},
+> +	{0x3766, 0x5f},
+> +	{0x3768, 0x00},
+> +	{0x3769, 0x22},
+> +	{0x3773, 0x08},
+> +	{0x3774, 0x1f},
+> +	{0x3776, 0x06},
+> +	{0x37a0, 0x88},
+> +	{0x37a1, 0x5c},
+> +	{0x37a7, 0x88},
+> +	{0x37a8, 0x70},
+> +	{0x37aa, 0x88},
+> +	{0x37ab, 0x48},
+> +	{0x37b3, 0x66},
+> +	{0x37c2, 0x04},
+> +	{0x37c5, 0x00},
+> +	{0x37c8, 0x00},
+> +	{0x3800, 0x00},
+> +	{0x3801, 0x0c},
+> +	{0x3802, 0x00},
+> +	{0x3803, 0x04},
+> +	{0x3804, 0x0a},
+> +	{0x3805, 0x33},
+> +	{0x3806, 0x07},
+> +	{0x3807, 0xa3},
+> +	{0x3808, 0x05},
+> +	{0x3809, 0x00},
+> +	{0x380a, 0x02},
+> +	{0x380b, 0xd0},
+> +	{0x380c, 0x06},
+> +	{0x380d, 0x90},
+> +	{0x380e, 0x08},
+> +	{0x380f, 0x08},
+> +	{0x3811, 0x04},
+> +	{0x3813, 0x02},
+> +	{0x3814, 0x03},
+> +	{0x3815, 0x01},
+> +	{0x3816, 0x00},
+> +	{0x3817, 0x00},
+> +	{0x3818, 0x00},
+> +	{0x3819, 0x00},
+> +	{0x3820, 0x94},
+> +	{0x3821, 0x47},
+> +	{0x3822, 0x48},
+> +	{0x3826, 0x00},
+> +	{0x3827, 0x08},
+> +	{0x382a, 0x03},
+> +	{0x382b, 0x01},
+> +	{0x3830, 0x08},
+> +	{0x3836, 0x02},
+> +	{0x3837, 0x00},
+> +	{0x3838, 0x10},
+> +	{0x3841, 0xff},
+> +	{0x3846, 0x48},
+> +	{0x3861, 0x00},
+> +	{0x3862, 0x04},
+> +	{0x3863, 0x06},
+> +	{0x3a11, 0x01},
+> +	{0x3a12, 0x78},
+> +	{0x3b00, 0x00},
+> +	{0x3b02, 0x00},
+> +	{0x3b03, 0x00},
+> +	{0x3b04, 0x00},
+> +	{0x3b05, 0x00},
+> +	{0x3c00, 0x89},
+> +	{0x3c01, 0xab},
+> +	{0x3c02, 0x01},
+> +	{0x3c03, 0x00},
+> +	{0x3c04, 0x00},
+> +	{0x3c05, 0x03},
+> +	{0x3c06, 0x00},
+> +	{0x3c07, 0x05},
+> +	{0x3c0c, 0x00},
+> +	{0x3c0d, 0x00},
+> +	{0x3c0e, 0x00},
+> +	{0x3c0f, 0x00},
+> +	{0x3c40, 0x00},
+> +	{0x3c41, 0xa3},
+> +	{0x3c43, 0x7d},
+> +	{0x3c45, 0xd7},
+> +	{0x3c47, 0xfc},
+> +	{0x3c50, 0x05},
+> +	{0x3c52, 0xaa},
+> +	{0x3c54, 0x71},
+> +	{0x3c56, 0x80},
+> +	{0x3d85, 0x17},
+> +	{0x3f03, 0x00},
+> +	{0x3f0a, 0x00},
+> +	{0x3f0b, 0x00},
+> +	{0x4001, 0x60},
+> +	{0x4009, 0x05},
+> +	{0x4020, 0x00},
+> +	{0x4021, 0x00},
+> +	{0x4022, 0x00},
+> +	{0x4023, 0x00},
+> +	{0x4024, 0x00},
+> +	{0x4025, 0x00},
+> +	{0x4026, 0x00},
+> +	{0x4027, 0x00},
+> +	{0x4028, 0x00},
+> +	{0x4029, 0x00},
+> +	{0x402a, 0x00},
+> +	{0x402b, 0x00},
+> +	{0x402c, 0x00},
+> +	{0x402d, 0x00},
+> +	{0x402e, 0x00},
+> +	{0x402f, 0x00},
+> +	{0x4040, 0x00},
+> +	{0x4041, 0x03},
+> +	{0x4042, 0x00},
+> +	{0x4043, 0x7A},
+> +	{0x4044, 0x00},
+> +	{0x4045, 0x7A},
+> +	{0x4046, 0x00},
+> +	{0x4047, 0x7A},
+> +	{0x4048, 0x00},
+> +	{0x4049, 0x7A},
+> +	{0x4307, 0x30},
+> +	{0x4500, 0x58},
+> +	{0x4501, 0x04},
+> +	{0x4502, 0x48},
+> +	{0x4503, 0x10},
+> +	{0x4508, 0x55},
+> +	{0x4509, 0x55},
+> +	{0x450a, 0x00},
+> +	{0x450b, 0x00},
+> +	{0x4600, 0x00},
+> +	{0x4601, 0x80},
+> +	{0x4700, 0xa4},
+> +	{0x4800, 0x4c},
+> +	{0x4816, 0x53},
+> +	{0x481f, 0x40},
+> +	{0x4837, 0x13},
+> +	{0x5000, 0x56},
+> +	{0x5001, 0x01},
+> +	{0x5002, 0x28},
+> +	{0x5004, 0x0c},
+> +	{0x5006, 0x0c},
+> +	{0x5007, 0xe0},
+> +	{0x5008, 0x01},
+> +	{0x5009, 0xb0},
+> +	{0x5901, 0x00},
+> +	{0x5a01, 0x00},
+> +	{0x5a03, 0x00},
+> +	{0x5a04, 0x0c},
+> +	{0x5a05, 0xe0},
+> +	{0x5a06, 0x09},
+> +	{0x5a07, 0xb0},
+> +	{0x5a08, 0x06},
+> +	{0x5e00, 0x00},
+> +	{0x3734, 0x40},
+> +	{0x5b00, 0x01},
+> +	{0x5b01, 0x10},
+> +	{0x5b02, 0x01},
+> +	{0x5b03, 0xdb},
+> +	{0x3d8c, 0x71},
+> +	{0x3d8d, 0xea},
+> +	{0x4017, 0x10},
+> +	{0x3618, 0x2a},
+> +	{0x5780, 0x3e},
+> +	{0x5781, 0x0f},
+> +	{0x5782, 0x44},
+> +	{0x5783, 0x02},
+> +	{0x5784, 0x01},
+> +	{0x5785, 0x01},
+> +	{0x5786, 0x00},
+> +	{0x5787, 0x04},
+> +	{0x5788, 0x02},
+> +	{0x5789, 0x0f},
+> +	{0x578a, 0xfd},
+> +	{0x578b, 0xf5},
+> +	{0x578c, 0xf5},
+> +	{0x578d, 0x03},
+> +	{0x578e, 0x08},
+> +	{0x578f, 0x0c},
+> +	{0x5790, 0x08},
+> +	{0x5791, 0x06},
+> +	{0x5792, 0x00},
+> +	{0x5793, 0x52},
+> +	{0x5794, 0xa3},
+> +	{0x3503, 0x00}
+> +};
+> +
+> +static const struct ov5670_reg mode_640x360_regs[] = {
+> +	{0x3000, 0x00},
+> +	{0x3002, 0x21},
+> +	{0x3005, 0xf0},
+> +	{0x3007, 0x00},
+> +	{0x3015, 0x0f},
+> +	{0x3018, 0x32},
+> +	{0x301a, 0xf0},
+> +	{0x301b, 0xf0},
+> +	{0x301c, 0xf0},
+> +	{0x301d, 0xf0},
+> +	{0x301e, 0xf0},
+> +	{0x3030, 0x00},
+> +	{0x3031, 0x0a},
+> +	{0x303c, 0xff},
+> +	{0x303e, 0xff},
+> +	{0x3040, 0xf0},
+> +	{0x3041, 0x00},
+> +	{0x3042, 0xf0},
+> +	{0x3106, 0x11},
+> +	{0x3500, 0x00},
+> +	{0x3501, 0x80},
+> +	{0x3502, 0x00},
+> +	{0x3503, 0x04},
+> +	{0x3504, 0x03},
+> +	{0x3505, 0x83},
+> +	{0x3508, 0x04},
+> +	{0x3509, 0x00},
+> +	{0x350e, 0x04},
+> +	{0x350f, 0x00},
+> +	{0x3510, 0x00},
+> +	{0x3511, 0x02},
+> +	{0x3512, 0x00},
+> +	{0x3601, 0xc8},
+> +	{0x3610, 0x88},
+> +	{0x3612, 0x48},
+> +	{0x3614, 0x5b},
+> +	{0x3615, 0x96},
+> +	{0x3621, 0xd0},
+> +	{0x3622, 0x00},
+> +	{0x3623, 0x04},
+> +	{0x3633, 0x13},
+> +	{0x3634, 0x13},
+> +	{0x3635, 0x13},
+> +	{0x3636, 0x13},
+> +	{0x3645, 0x13},
+> +	{0x3646, 0x82},
+> +	{0x3650, 0x00},
+> +	{0x3652, 0xff},
+> +	{0x3655, 0x20},
+> +	{0x3656, 0xff},
+> +	{0x365a, 0xff},
+> +	{0x365e, 0xff},
+> +	{0x3668, 0x00},
+> +	{0x366a, 0x07},
+> +	{0x366e, 0x08},
+> +	{0x366d, 0x00},
+> +	{0x366f, 0x80},
+> +	{0x3700, 0x28},
+> +	{0x3701, 0x10},
+> +	{0x3702, 0x3a},
+> +	{0x3703, 0x19},
+> +	{0x3704, 0x10},
+> +	{0x3705, 0x00},
+> +	{0x3706, 0x66},
+> +	{0x3707, 0x08},
+> +	{0x3708, 0x34},
+> +	{0x3709, 0x40},
+> +	{0x370a, 0x01},
+> +	{0x370b, 0x1b},
+> +	{0x3714, 0x24},
+> +	{0x371a, 0x3e},
+> +	{0x3733, 0x00},
+> +	{0x3734, 0x00},
+> +	{0x373a, 0x05},
+> +	{0x373b, 0x06},
+> +	{0x373c, 0x0a},
+> +	{0x373f, 0xa0},
+> +	{0x3755, 0x00},
+> +	{0x3758, 0x00},
+> +	{0x375b, 0x0e},
+> +	{0x3766, 0x5f},
+> +	{0x3768, 0x00},
+> +	{0x3769, 0x22},
+> +	{0x3773, 0x08},
+> +	{0x3774, 0x1f},
+> +	{0x3776, 0x06},
+> +	{0x37a0, 0x88},
+> +	{0x37a1, 0x5c},
+> +	{0x37a7, 0x88},
+> +	{0x37a8, 0x70},
+> +	{0x37aa, 0x88},
+> +	{0x37ab, 0x48},
+> +	{0x37b3, 0x66},
+> +	{0x37c2, 0x04},
+> +	{0x37c5, 0x00},
+> +	{0x37c8, 0x00},
+> +	{0x3800, 0x00},
+> +	{0x3801, 0x0c},
+> +	{0x3802, 0x00},
+> +	{0x3803, 0x04},
+> +	{0x3804, 0x0a},
+> +	{0x3805, 0x33},
+> +	{0x3806, 0x07},
+> +	{0x3807, 0xa3},
+> +	{0x3808, 0x02},
+> +	{0x3809, 0x80},
+> +	{0x380a, 0x01},
+> +	{0x380b, 0x68},
+> +	{0x380c, 0x06},
+> +	{0x380d, 0x90},
+> +	{0x380e, 0x08},
+> +	{0x380f, 0x08},
+> +	{0x3811, 0x04},
+> +	{0x3813, 0x02},
+> +	{0x3814, 0x07},
+> +	{0x3815, 0x01},
+> +	{0x3816, 0x00},
+> +	{0x3817, 0x00},
+> +	{0x3818, 0x00},
+> +	{0x3819, 0x00},
+> +	{0x3820, 0x94},
+> +	{0x3821, 0xc6},
+> +	{0x3822, 0x48},
+> +	{0x3826, 0x00},
+> +	{0x3827, 0x08},
+> +	{0x382a, 0x07},
+> +	{0x382b, 0x01},
+> +	{0x3830, 0x08},
+> +	{0x3836, 0x02},
+> +	{0x3837, 0x00},
+> +	{0x3838, 0x10},
+> +	{0x3841, 0xff},
+> +	{0x3846, 0x48},
+> +	{0x3861, 0x00},
+> +	{0x3862, 0x04},
+> +	{0x3863, 0x06},
+> +	{0x3a11, 0x01},
+> +	{0x3a12, 0x78},
+> +	{0x3b00, 0x00},
+> +	{0x3b02, 0x00},
+> +	{0x3b03, 0x00},
+> +	{0x3b04, 0x00},
+> +	{0x3b05, 0x00},
+> +	{0x3c00, 0x89},
+> +	{0x3c01, 0xab},
+> +	{0x3c02, 0x01},
+> +	{0x3c03, 0x00},
+> +	{0x3c04, 0x00},
+> +	{0x3c05, 0x03},
+> +	{0x3c06, 0x00},
+> +	{0x3c07, 0x05},
+> +	{0x3c0c, 0x00},
+> +	{0x3c0d, 0x00},
+> +	{0x3c0e, 0x00},
+> +	{0x3c0f, 0x00},
+> +	{0x3c40, 0x00},
+> +	{0x3c41, 0xa3},
+> +	{0x3c43, 0x7d},
+> +	{0x3c45, 0xd7},
+> +	{0x3c47, 0xfc},
+> +	{0x3c50, 0x05},
+> +	{0x3c52, 0xaa},
+> +	{0x3c54, 0x71},
+> +	{0x3c56, 0x80},
+> +	{0x3d85, 0x17},
+> +	{0x3f03, 0x00},
+> +	{0x3f0a, 0x00},
+> +	{0x3f0b, 0x00},
+> +	{0x4001, 0x60},
+> +	{0x4009, 0x05},
+> +	{0x4020, 0x00},
+> +	{0x4021, 0x00},
+> +	{0x4022, 0x00},
+> +	{0x4023, 0x00},
+> +	{0x4024, 0x00},
+> +	{0x4025, 0x00},
+> +	{0x4026, 0x00},
+> +	{0x4027, 0x00},
+> +	{0x4028, 0x00},
+> +	{0x4029, 0x00},
+> +	{0x402a, 0x00},
+> +	{0x402b, 0x00},
+> +	{0x402c, 0x00},
+> +	{0x402d, 0x00},
+> +	{0x402e, 0x00},
+> +	{0x402f, 0x00},
+> +	{0x4040, 0x00},
+> +	{0x4041, 0x03},
+> +	{0x4042, 0x00},
+> +	{0x4043, 0x7A},
+> +	{0x4044, 0x00},
+> +	{0x4045, 0x7A},
+> +	{0x4046, 0x00},
+> +	{0x4047, 0x7A},
+> +	{0x4048, 0x00},
+> +	{0x4049, 0x7A},
+> +	{0x4307, 0x30},
+> +	{0x4500, 0x58},
+> +	{0x4501, 0x04},
+> +	{0x4502, 0x40},
+> +	{0x4503, 0x10},
+> +	{0x4508, 0x55},
+> +	{0x4509, 0x55},
+> +	{0x450a, 0x02},
+> +	{0x450b, 0x00},
+> +	{0x4600, 0x00},
+> +	{0x4601, 0x40},
+> +	{0x4700, 0xa4},
+> +	{0x4800, 0x4c},
+> +	{0x4816, 0x53},
+> +	{0x481f, 0x40},
+> +	{0x4837, 0x13},
+> +	{0x5000, 0x56},
+> +	{0x5001, 0x01},
+> +	{0x5002, 0x28},
+> +	{0x5004, 0x0c},
+> +	{0x5006, 0x0c},
+> +	{0x5007, 0xe0},
+> +	{0x5008, 0x01},
+> +	{0x5009, 0xb0},
+> +	{0x5901, 0x00},
+> +	{0x5a01, 0x00},
+> +	{0x5a03, 0x00},
+> +	{0x5a04, 0x0c},
+> +	{0x5a05, 0xe0},
+> +	{0x5a06, 0x09},
+> +	{0x5a07, 0xb0},
+> +	{0x5a08, 0x06},
+> +	{0x5e00, 0x00},
+> +	{0x3734, 0x40},
+> +	{0x5b00, 0x01},
+> +	{0x5b01, 0x10},
+> +	{0x5b02, 0x01},
+> +	{0x5b03, 0xdb},
+> +	{0x3d8c, 0x71},
+> +	{0x3d8d, 0xea},
+> +	{0x4017, 0x10},
+> +	{0x3618, 0x2a},
+> +	{0x5780, 0x3e},
+> +	{0x5781, 0x0f},
+> +	{0x5782, 0x44},
+> +	{0x5783, 0x02},
+> +	{0x5784, 0x01},
+> +	{0x5785, 0x01},
+> +	{0x5786, 0x00},
+> +	{0x5787, 0x04},
+> +	{0x5788, 0x02},
+> +	{0x5789, 0x0f},
+> +	{0x578a, 0xfd},
+> +	{0x578b, 0xf5},
+> +	{0x578c, 0xf5},
+> +	{0x578d, 0x03},
+> +	{0x578e, 0x08},
+> +	{0x578f, 0x0c},
+> +	{0x5790, 0x08},
+> +	{0x5791, 0x06},
+> +	{0x5792, 0x00},
+> +	{0x5793, 0x52},
+> +	{0x5794, 0xa3},
+> +	{0x3503, 0x00}
+> +};
+> +
+> +static const char * const ov5670_test_pattern_menu[] = {
+> +	"Disabled",
+> +	"Vertical Color Bar Type 1",
+> +};
+> +
+> +/* Supported link frequencies */
+> +#define OV5670_LINK_FREQ_420MHZ		420000000
+> +#define OV5670_LINK_FREQ_420MHZ_INDEX	0
+> +static const struct ov5670_link_freq_config link_freq_configs[] = {
+> +	{
+> +		/* pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
+> +		.pixel_rate = (OV5670_LINK_FREQ_420MHZ * 2 * 2) / 10,
+> +		.reg_list = {
+> +			.num_of_regs = ARRAY_SIZE(mipi_data_rate_840mbps),
+> +			.regs = mipi_data_rate_840mbps,
+> +		}
+> +	}
+> +};
+> +
+> +static const s64 link_freq_menu_items[] = {
+> +	OV5670_LINK_FREQ_420MHZ
+> +};
+> +
+> +/*
+> + * OV5670 sensor supports following resolutions with full FOV:
+> + * 4:3  ==> {2592x1944, 1296x972, 648x486}
+> + * 16:9 ==> {2560x1440, 1280x720, 640x360}
+> + */
+> +static const struct ov5670_mode supported_modes[] = {
+> +	{
+> +		.width = 2592,
+> +		.height = 1944,
+> +		.vts = OV5670_VTS_30FPS,
+> +		.reg_list = {
+> +			.num_of_regs = ARRAY_SIZE(mode_2592x1944_regs),
+> +			.regs = mode_2592x1944_regs,
+> +		},
+> +		.link_freq_index = OV5670_LINK_FREQ_420MHZ_INDEX,
+> +	},
+> +	{
+> +		.width = 1296,
+> +		.height = 972,
+> +		.vts = OV5670_VTS_30FPS,
+> +		.reg_list = {
+> +			.num_of_regs = ARRAY_SIZE(mode_1296x972_regs),
+> +			.regs = mode_1296x972_regs,
+> +		},
+> +		.link_freq_index = OV5670_LINK_FREQ_420MHZ_INDEX,
+> +	},
+> +	{
+> +		.width = 648,
+> +		.height = 486,
+> +		.vts = OV5670_VTS_30FPS,
+> +		.reg_list = {
+> +			.num_of_regs = ARRAY_SIZE(mode_648x486_regs),
+> +			.regs = mode_648x486_regs,
+> +		},
+> +		.link_freq_index = OV5670_LINK_FREQ_420MHZ_INDEX,
+> +	},
+> +	{
+> +		.width = 2560,
+> +		.height = 1440,
+> +		.vts = OV5670_VTS_30FPS,
+> +		.reg_list = {
+> +			.num_of_regs = ARRAY_SIZE(mode_2560x1440_regs),
+> +			.regs = mode_2560x1440_regs,
+> +		},
+> +		.link_freq_index = OV5670_LINK_FREQ_420MHZ_INDEX,
+> +	},
+> +	{
+> +		.width = 1280,
+> +		.height = 720,
+> +		.vts = OV5670_VTS_30FPS,
+> +		.reg_list = {
+> +			.num_of_regs = ARRAY_SIZE(mode_1280x720_regs),
+> +			.regs = mode_1280x720_regs,
+> +		},
+> +		.link_freq_index = OV5670_LINK_FREQ_420MHZ_INDEX,
+> +	},
+> +	{
+> +		.width = 640,
+> +		.height = 360,
+> +		.vts = OV5670_VTS_30FPS,
+> +		.reg_list = {
+> +			.num_of_regs = ARRAY_SIZE(mode_640x360_regs),
+> +			.regs = mode_640x360_regs,
+> +		},
+> +		.link_freq_index = OV5670_LINK_FREQ_420MHZ_INDEX,
+> +	}
+> +};
+> +
+> +struct ov5670 {
+> +	struct v4l2_subdev sd;
+> +	struct media_pad pad;
+> +
+> +	struct v4l2_ctrl_handler ctrl_handler;
+> +	/* V4L2 Controls */
+> +	struct v4l2_ctrl *link_freq;
+> +	struct v4l2_ctrl *pixel_rate;
+> +	struct v4l2_ctrl *vblank;
+> +	struct v4l2_ctrl *hblank;
+> +	struct v4l2_ctrl *exposure;
+> +
+> +	/* Current mode */
+> +	const struct ov5670_mode *cur_mode;
+> +
+> +	/* To serialize asynchronus callbacks */
+> +	struct mutex mutex;
+> +
+> +	/* Streaming on/off */
+> +	bool streaming;
+> +};
+> +
+> +#define to_ov5670(_sd)	container_of(_sd, struct ov5670, sd)
+> +
+> +/* Read registers up to 4 at a time */
+> +static int ov5670_read_reg(struct ov5670 *ov5670, u16 reg, unsigned int len,
+> +			   u32 *val)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ov5670->sd);
+> +	struct i2c_msg msgs[2];
+> +	u8 *data_be_p;
+> +	u32 data_be = 0;
+> +	u16 reg_addr_be = cpu_to_be16(reg);
+> +	int ret;
+> +
+> +	if (len > 4)
+> +		return -EINVAL;
+> +
+> +	data_be_p = (u8 *)&data_be;
+> +	/* Write register address */
+> +	msgs[0].addr = client->addr;
+> +	msgs[0].flags = 0;
+> +	msgs[0].len = 2;
+> +	msgs[0].buf = (u8 *)&reg_addr_be;
+> +
+> +	/* Read data from register */
+> +	msgs[1].addr = client->addr;
+> +	msgs[1].flags = I2C_M_RD;
+> +	msgs[1].len = len;
+> +	msgs[1].buf = &data_be_p[4 - len];
+> +
+> +	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
+> +	if (ret != ARRAY_SIZE(msgs))
+> +		return -EIO;
+> +
+> +	*val = be32_to_cpu(data_be);
+> +
+> +	return 0;
+> +}
+> +
+> +/* Write registers up to 4 at a time */
+> +static int ov5670_write_reg(struct ov5670 *ov5670, u16 reg, unsigned int len,
+> +			    u32 val)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ov5670->sd);
+> +	int buf_i;
+> +	int val_i;
+> +	u8 buf[6];
+> +	u8 *val_p;
+> +
+> +	if (len > 4)
+> +		return -EINVAL;
+> +
+> +	buf[0] = reg >> 8;
+> +	buf[1] = reg & 0xff;
+> +
+> +	val = cpu_to_be32(val);
+> +	val_p = (u8 *)&val;
+> +	buf_i = 2;
+> +	val_i = 4 - len;
+> +
+> +	while (val_i < 4)
+> +		buf[buf_i++] = val_p[val_i++];
+> +
+> +	if (i2c_master_send(client, buf, len + 2) != len + 2)
+> +		return -EIO;
+> +
+> +	return 0;
+> +}
+> +
+> +/* Write a list of registers */
+> +static int ov5670_write_regs(struct ov5670 *ov5670,
+> +			     const struct ov5670_reg *regs, unsigned int len)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ov5670->sd);
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	for (i = 0; i < len; i++) {
+> +		ret = ov5670_write_reg(ov5670, regs[i].address, 1, regs[i].val);
+> +		if (ret) {
+> +			dev_err_ratelimited(
+> +				&client->dev,
+> +				"Failed to write reg 0x%4.4x. error = %d\n",
+> +				regs[i].address, ret);
+> +
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov5670_write_reg_list(struct ov5670 *ov5670,
+> +				 const struct ov5670_reg_list *r_list)
+> +{
+> +	return ov5670_write_regs(ov5670, r_list->regs, r_list->num_of_regs);
+> +}
+> +
+> +/* Open sub-device */
+> +static int ov5670_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> +{
+> +	struct ov5670 *ov5670 = to_ov5670(sd);
+> +	struct v4l2_mbus_framefmt *try_fmt =
+> +				v4l2_subdev_get_try_format(sd, fh->pad, 0);
+> +
+> +	mutex_lock(&ov5670->mutex);
+> +
+> +	/* Initialize try_fmt */
+> +	try_fmt->width = ov5670->cur_mode->width;
+> +	try_fmt->height = ov5670->cur_mode->height;
+> +	try_fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> +	try_fmt->field = V4L2_FIELD_NONE;
+> +
+> +	/* No crop or compose */
+> +	mutex_unlock(&ov5670->mutex);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov5670_update_digital_gain(struct ov5670 *ov5670, u32 d_gain)
+> +{
+> +	int ret;
+> +
+> +	ret = ov5670_write_reg(ov5670, OV5670_REG_R_DGTL_GAIN,
+> +			       OV5670_REG_VALUE_16BIT, d_gain);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ov5670_write_reg(ov5670, OV5670_REG_G_DGTL_GAIN,
+> +			       OV5670_REG_VALUE_16BIT, d_gain);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ov5670_write_reg(ov5670, OV5670_REG_B_DGTL_GAIN,
+> +				OV5670_REG_VALUE_16BIT, d_gain);
+> +}
+> +
+> +static int ov5670_enable_test_pattern(struct ov5670 *ov5670, u32 pattern)
+> +{
+> +	u32 val;
+> +	int ret;
+> +
+> +	/* Set the bayer order that we support */
+> +	ret = ov5670_write_reg(ov5670, OV5670_REG_TEST_PATTERN_CTRL,
+> +			       OV5670_REG_VALUE_08BIT, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ov5670_read_reg(ov5670, OV5670_REG_TEST_PATTERN,
+> +			      OV5670_REG_VALUE_08BIT, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (pattern)
+> +		val |= OV5670_TEST_PATTERN_ENABLE;
+> +	else
+> +		val &= ~OV5670_TEST_PATTERN_ENABLE;
+> +
+> +	return ov5670_write_reg(ov5670, OV5670_REG_TEST_PATTERN,
+> +				OV5670_REG_VALUE_08BIT, val);
+> +}
+> +
+> +/* Initialize control handlers */
+> +static int ov5670_set_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct ov5670 *ov5670 = container_of(ctrl->handler,
+> +					     struct ov5670, ctrl_handler);
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ov5670->sd);
+> +	s64 max;
+> +	int ret = 0;
+> +
+> +	/* Propagate change of current control to all related controls */
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_VBLANK:
+> +		/* Update max exposure while meeting expected vblanking */
+> +		max = ov5670->cur_mode->height + ctrl->val - 8;
+> +		__v4l2_ctrl_modify_range(ov5670->exposure,
+> +					 ov5670->exposure->minimum, max,
+> +					 ov5670->exposure->step, max);
+> +		break;
+> +	}
+> +
+> +	/* V4L2 controls values will be applied only when power is already up */
+> +	if (pm_runtime_get_if_in_use(&client->dev) <= 0)
+> +		return 0;
+> +
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_ANALOGUE_GAIN:
+> +		ret = ov5670_write_reg(ov5670, OV5670_REG_ANALOG_GAIN,
+> +				       OV5670_REG_VALUE_16BIT, ctrl->val);
+> +		break;
+> +	case V4L2_CID_DIGITAL_GAIN:
+> +		ret = ov5670_update_digital_gain(ov5670, ctrl->val);
+> +		break;
+> +	case V4L2_CID_EXPOSURE:
+> +		/* 4 least significant bits of expsoure are fractional part */
+> +		ret = ov5670_write_reg(ov5670, OV5670_REG_EXPOSURE,
+> +				       OV5670_REG_VALUE_24BIT, ctrl->val << 4);
+> +		break;
+> +	case V4L2_CID_VBLANK:
+> +		/* Update VTS that meets expected vertical blanking */
+> +		ret = ov5670_write_reg(ov5670, OV5670_REG_VTS,
+> +				       OV5670_REG_VALUE_16BIT,
+> +				       ov5670->cur_mode->height + ctrl->val);
+> +		break;
+> +	case V4L2_CID_HBLANK:
+> +		/* Update HTS that meets expected horizontal blanking */
+> +		ret = ov5670_write_reg(ov5670, OV5670_REG_HTS,
+> +				       OV5670_REG_VALUE_16BIT,
+> +				       (ov5670->cur_mode->width +
+> +					ctrl->val) / 2);
+> +		break;
+> +	case V4L2_CID_TEST_PATTERN:
+> +		ret = ov5670_enable_test_pattern(ov5670, ctrl->val);
+> +		break;
+> +	default:
+> +		dev_info(&client->dev, "%s Unhandled id:0x%x, val:0x%x\n",
+> +			 __func__, ctrl->id, ctrl->val);
+> +		break;
+> +	};
+> +
+> +	pm_runtime_put(&client->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops ov5670_ctrl_ops = {
+> +	.s_ctrl = ov5670_set_ctrl,
+> +};
+> +
+> +/* Initialize control handlers */
+> +static int ov5670_init_controls(struct ov5670 *ov5670)
+> +{
+> +	struct v4l2_ctrl_handler *ctrl_hdlr;
+> +	s64 vblank_max;
+> +	s64 vblank_def;
+> +	s64 exposure_max;
+> +	int ret;
+> +
+> +	ctrl_hdlr = &ov5670->ctrl_handler;
+> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ctrl_hdlr->lock = &ov5670->mutex;
+> +	ov5670->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
+> +						   &ov5670_ctrl_ops,
+> +						   V4L2_CID_LINK_FREQ,
+> +						   0, 0, link_freq_menu_items);
+> +	ov5670->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +
+> +	/* By default, V4L2_CID_PIXEL_RATE is read only */
+> +	ov5670->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov5670_ctrl_ops,
+> +					       V4L2_CID_PIXEL_RATE, 0,
+> +					       link_freq_configs[0].pixel_rate,
+> +					       1,
+> +					       link_freq_configs[0].pixel_rate);
+> +
+> +	vblank_max = OV5670_VTS_MAX - ov5670->cur_mode->height;
+> +	vblank_def = ov5670->cur_mode->vts - ov5670->cur_mode->height;
+> +	ov5670->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov5670_ctrl_ops,
+> +					   V4L2_CID_VBLANK, OV5670_VBLANK_MIN,
+> +					   vblank_max, 1, vblank_def);
+> +
+> +	ov5670->hblank = v4l2_ctrl_new_std(
+> +				ctrl_hdlr, &ov5670_ctrl_ops, V4L2_CID_HBLANK,
+> +				OV5670_DEF_PPL - ov5670->cur_mode->width,
+> +				OV5670_DEF_PPL - ov5670->cur_mode->width, 1,
+> +				OV5670_DEF_PPL - ov5670->cur_mode->width);
+> +
+> +	/* Get min, max, step, default from sensor */
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &ov5670_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
+> +			  ANALOG_GAIN_MIN, ANALOG_GAIN_MAX, ANALOG_GAIN_STEP,
+> +			  ANALOG_GAIN_DEFAULT);
+> +
+> +	/* Digital gain */
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &ov5670_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
+> +			  OV5670_DGTL_GAIN_MIN, OV5670_DGTL_GAIN_MAX,
+> +			  OV5670_DGTL_GAIN_STEP, OV5670_DGTL_GAIN_DEFAULT);
+> +
+> +	/* Get min, max, step, default from sensor */
+> +	exposure_max = ov5670->cur_mode->vts - 8;
+> +	ov5670->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ov5670_ctrl_ops,
+> +					     V4L2_CID_EXPOSURE,
+> +					     OV5670_EXPOSURE_MIN,
+> +					     exposure_max, OV5670_EXPOSURE_STEP,
+> +					     exposure_max);
+> +
+> +	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &ov5670_ctrl_ops,
+> +				     V4L2_CID_TEST_PATTERN,
+> +				     ARRAY_SIZE(ov5670_test_pattern_menu) - 1,
+> +				     0, 0, ov5670_test_pattern_menu);
+> +
+> +	if (ctrl_hdlr->error) {
+> +		ret = ctrl_hdlr->error;
+> +		goto error;
+> +	}
+> +
+> +	ov5670->sd.ctrl_handler = ctrl_hdlr;
+> +
+> +	return 0;
+> +
+> +error:
+> +	v4l2_ctrl_handler_free(ctrl_hdlr);
+> +
+> +	return ret;
+> +}
+> +
+> +static int ov5670_enum_mbus_code(struct v4l2_subdev *sd,
+> +				 struct v4l2_subdev_pad_config *cfg,
+> +				 struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	/* Only one bayer order GRBG is supported */
+> +	if (code->index > 0)
+> +		return -EINVAL;
+> +
+> +	code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov5670_enum_frame_size(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_pad_config *cfg,
+> +				  struct v4l2_subdev_frame_size_enum *fse)
+> +{
+> +	if (fse->index >= ARRAY_SIZE(supported_modes))
+> +		return -EINVAL;
+> +
+> +	if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
+> +		return -EINVAL;
+> +
+> +	fse->min_width = supported_modes[fse->index].width;
+> +	fse->max_width = fse->min_width;
+> +	fse->min_height = supported_modes[fse->index].height;
+> +	fse->max_height = fse->min_height;
+> +
+> +	return 0;
+> +}
+> +
+> +/* Calculate resolution distance */
+> +static int ov5670_get_reso_dist(const struct ov5670_mode *mode,
+> +				struct v4l2_mbus_framefmt *framefmt)
+> +{
+> +	return abs(mode->width - framefmt->width) +
+> +	       abs(mode->height - framefmt->height);
+> +}
+> +
+> +/* Find the closest supported resolution to the requested resolution */
+> +static const struct ov5670_mode *ov5670_find_best_fit(
+> +						struct ov5670 *ov5670,
+> +						struct v4l2_subdev_format *fmt)
+> +{
+> +	struct v4l2_mbus_framefmt *framefmt = &fmt->format;
+> +	int dist;
+> +	int cur_best_fit = 0;
+> +	int cur_best_fit_dist = -1;
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(supported_modes); i++) {
+> +		dist = ov5670_get_reso_dist(&supported_modes[i], framefmt);
+> +		if (cur_best_fit_dist == -1 || dist < cur_best_fit_dist) {
+> +			cur_best_fit_dist = dist;
+> +			cur_best_fit = i;
+> +		}
+> +	}
+> +
+> +	return &supported_modes[cur_best_fit];
+> +}
+> +
+> +static void ov5670_update_pad_format(const struct ov5670_mode *mode,
+> +				     struct v4l2_subdev_format *fmt)
+> +{
+> +	fmt->format.width = mode->width;
+> +	fmt->format.height = mode->height;
+> +	fmt->format.code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> +	fmt->format.field = V4L2_FIELD_NONE;
+> +}
+> +
+> +static int ov5670_do_get_pad_format(struct ov5670 *ov5670,
+> +				    struct v4l2_subdev_pad_config *cfg,
+> +				    struct v4l2_subdev_format *fmt)
+> +{
+> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+> +		fmt->format = *v4l2_subdev_get_try_format(&ov5670->sd, cfg,
+> +							  fmt->pad);
+> +	else
+> +		ov5670_update_pad_format(ov5670->cur_mode, fmt);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov5670_get_pad_format(struct v4l2_subdev *sd,
+> +				 struct v4l2_subdev_pad_config *cfg,
+> +				 struct v4l2_subdev_format *fmt)
+> +{
+> +	struct ov5670 *ov5670 = to_ov5670(sd);
+> +	int ret;
+> +
+> +	mutex_lock(&ov5670->mutex);
+> +	ret = ov5670_do_get_pad_format(ov5670, cfg, fmt);
+> +	mutex_unlock(&ov5670->mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static int ov5670_set_pad_format(struct v4l2_subdev *sd,
+> +				 struct v4l2_subdev_pad_config *cfg,
+> +				 struct v4l2_subdev_format *fmt)
+> +{
+> +	struct ov5670 *ov5670 = to_ov5670(sd);
+> +	const struct ov5670_mode *mode;
+> +	s32 vblank_def;
+> +	s32 h_blank;
+> +
+> +	mutex_lock(&ov5670->mutex);
+> +
+> +	fmt->format.code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> +
+> +	mode = ov5670_find_best_fit(ov5670, fmt);
+> +	ov5670_update_pad_format(mode, fmt);
+> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> +		*v4l2_subdev_get_try_format(sd, cfg, fmt->pad) = fmt->format;
+> +	} else {
+> +		ov5670->cur_mode = mode;
+> +		__v4l2_ctrl_s_ctrl(ov5670->link_freq, mode->link_freq_index);
+> +		__v4l2_ctrl_s_ctrl_int64(
+> +			ov5670->pixel_rate,
+> +			link_freq_configs[mode->link_freq_index].pixel_rate);
+> +		/* Update limits and set FPS to default */
+> +		vblank_def = ov5670->cur_mode->vts - ov5670->cur_mode->height;
+> +		__v4l2_ctrl_modify_range(
+> +			ov5670->vblank, OV5670_VBLANK_MIN,
+> +			OV5670_VTS_MAX - ov5670->cur_mode->height, 1,
+> +			vblank_def);
+> +		__v4l2_ctrl_s_ctrl(ov5670->vblank, vblank_def);
+> +		h_blank = OV5670_DEF_PPL - ov5670->cur_mode->width;
+> +		__v4l2_ctrl_modify_range(ov5670->hblank, h_blank, h_blank, 1,
+> +					 h_blank);
+> +	}
+> +
+> +	mutex_unlock(&ov5670->mutex);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov5670_get_skip_frames(struct v4l2_subdev *sd, u32 *frames)
+> +{
+> +	*frames = OV5670_NUM_OF_SKIP_FRAMES;
+> +
+> +	return 0;
+> +}
+> +
+> +/* Prepare streaming by writing default values and customized values */
+> +static int ov5670_start_streaming(struct ov5670 *ov5670)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ov5670->sd);
+> +	const struct ov5670_reg_list *reg_list;
+> +	int link_freq_index;
+> +	int ret;
+> +
+> +	/* Get out of from software reset */
+> +	ret = ov5670_write_reg(ov5670, OV5670_REG_SOFTWARE_RST,
+> +			       OV5670_REG_VALUE_08BIT, OV5670_SOFTWARE_RST);
+> +	if (ret) {
+> +		dev_err(&client->dev, "%s failed to set powerup registers\n",
+> +			__func__);
+> +		return ret;
+> +	}
+> +
+> +	/* Setup PLL */
+> +	link_freq_index = ov5670->cur_mode->link_freq_index;
+> +	reg_list = &link_freq_configs[link_freq_index].reg_list;
+> +	ret = ov5670_write_reg_list(ov5670, reg_list);
+> +	if (ret) {
+> +		dev_err(&client->dev, "%s failed to set plls\n", __func__);
+> +		return ret;
+> +	}
+> +
+> +	/* Apply default values of current mode */
+> +	reg_list = &ov5670->cur_mode->reg_list;
+> +	ret = ov5670_write_reg_list(ov5670, reg_list);
+> +	if (ret) {
+> +		dev_err(&client->dev, "%s failed to set mode\n", __func__);
+> +		return ret;
+> +	}
+> +
+> +	ret = __v4l2_ctrl_handler_setup(ov5670->sd.ctrl_handler);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Write stream on list */
+> +	ret = ov5670_write_reg(ov5670, OV5670_REG_MODE_SELECT,
+> +			       OV5670_REG_VALUE_08BIT, OV5670_MODE_STREAMING);
+> +	if (ret) {
+> +		dev_err(&client->dev, "%s failed to set stream\n", __func__);
+> +		return ret;
+> +	}
+> +
+> +	ov5670->streaming = true;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov5670_stop_streaming(struct ov5670 *ov5670)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ov5670->sd);
+> +	int ret;
+> +
+> +	ret = ov5670_write_reg(ov5670, OV5670_REG_MODE_SELECT,
+> +			       OV5670_REG_VALUE_08BIT, OV5670_MODE_STANDBY);
+> +	if (ret)
+> +		dev_err(&client->dev, "%s failed to set stream\n", __func__);
+> +
+> +	ov5670->streaming = false;
+> +
+> +	/* Return success even if it was an error, as there is nothing the
+> +	 * caller can do about it.
+> +	 */
+> +	return 0;
+> +}
+> +
+> +static int ov5670_set_stream(struct v4l2_subdev *sd, int enable)
+> +{
+> +	struct ov5670 *ov5670 = to_ov5670(sd);
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	int ret = 0;
+> +
+> +	mutex_lock(&ov5670->mutex);
+> +	if (ov5670->streaming == enable)
+> +		goto unlock_and_return;
+> +
+> +	if (enable) {
+> +		ret = pm_runtime_get_sync(&client->dev);
+> +		if (ret < 0) {
+> +			pm_runtime_put_noidle(&client->dev);
+> +			goto unlock_and_return;
+> +		}
+> +
+> +		ret = ov5670_start_streaming(ov5670);
+> +		if (ret)
+> +			goto error;
+> +	} else {
+> +		ret = ov5670_stop_streaming(ov5670);
+> +		pm_runtime_put(&client->dev);
+> +	}
+> +	goto unlock_and_return;
+> +
+> +error:
+> +	pm_runtime_put(&client->dev);
+> +
+> +unlock_and_return:
+> +	mutex_unlock(&ov5670->mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static int __maybe_unused ov5670_suspend(struct device *dev)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct ov5670 *ov5670 = to_ov5670(sd);
+> +
+> +	if (ov5670->streaming)
+> +		ov5670_stop_streaming(ov5670);
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused ov5670_resume(struct device *dev)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct ov5670 *ov5670 = to_ov5670(sd);
+> +	int ret;
+> +
+> +	if (ov5670->streaming) {
+> +		ret = ov5670_start_streaming(ov5670);
+> +		if (ret) {
+> +			ov5670_stop_streaming(ov5670);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/* Verify chip ID */
+> +static int ov5670_identify_module(struct ov5670 *ov5670)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ov5670->sd);
+> +	int ret;
+> +	u32 val;
+> +
+> +	ret = ov5670_read_reg(ov5670, OV5670_REG_CHIP_ID,
+> +			      OV5670_REG_VALUE_24BIT, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (val != OV5670_CHIP_ID) {
+> +		dev_err(&client->dev, "chip id mismatch: %x!=%x\n",
+> +			OV5670_CHIP_ID, val);
+> +		return -ENXIO;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_video_ops ov5670_video_ops = {
+> +	.s_stream = ov5670_set_stream,
+> +};
+> +
+> +static const struct v4l2_subdev_pad_ops ov5670_pad_ops = {
+> +	.enum_mbus_code = ov5670_enum_mbus_code,
+> +	.get_fmt = ov5670_get_pad_format,
+> +	.set_fmt = ov5670_set_pad_format,
+> +	.enum_frame_size = ov5670_enum_frame_size,
+> +};
+> +
+> +static const struct v4l2_subdev_sensor_ops ov5670_sensor_ops = {
+> +	.g_skip_frames = ov5670_get_skip_frames,
+> +};
+> +
+> +static const struct v4l2_subdev_ops ov5670_subdev_ops = {
+> +	.video = &ov5670_video_ops,
+> +	.pad = &ov5670_pad_ops,
+> +	.sensor = &ov5670_sensor_ops,
+> +};
+> +
+> +static const struct media_entity_operations ov5670_subdev_entity_ops = {
+> +	.link_validate = v4l2_subdev_link_validate,
+> +};
+> +
+> +static const struct v4l2_subdev_internal_ops ov5670_internal_ops = {
+> +	.open = ov5670_open,
+> +};
+> +
+> +static int ov5670_probe(struct i2c_client *client)
+> +{
+> +	struct ov5670 *ov5670;
+> +	const char *err_msg;
+> +	u32 input_clk = 0;
+> +	int ret;
+> +
+> +	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
+> +	if (input_clk != 19200000)
+> +		return -EINVAL;
+> +
+> +	ov5670 = devm_kzalloc(&client->dev, sizeof(*ov5670), GFP_KERNEL);
+> +	if (!ov5670) {
+> +		ret = -ENOMEM;
+> +		err_msg = "devm_kzalloc() error";
+> +		goto error_print;
+> +	}
+> +
+> +	/* Initialize subdev */
+> +	v4l2_i2c_subdev_init(&ov5670->sd, client, &ov5670_subdev_ops);
+> +
+> +	/* Check module identity */
+> +	ret = ov5670_identify_module(ov5670);
+> +	if (ret) {
+> +		err_msg = "ov5670_identify_module() error";
+> +		goto error_print;
+> +	}
+> +
+> +	mutex_init(&ov5670->mutex);
+> +
+> +	/* Set default mode to max resolution */
+> +	ov5670->cur_mode = &supported_modes[0];
+> +
+> +	ret = ov5670_init_controls(ov5670);
+> +	if (ret) {
+> +		err_msg = "ov5670_init_controls() error";
+> +		goto error_mutex_destroy;
+> +	}
+> +
+> +	ov5670->sd.internal_ops = &ov5670_internal_ops;
+> +	ov5670->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	ov5670->sd.entity.ops = &ov5670_subdev_entity_ops;
+> +	ov5670->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +
+> +	/* Source pad initialization */
+> +	ov5670->pad.flags = MEDIA_PAD_FL_SOURCE;
+> +	ret = media_entity_pads_init(&ov5670->sd.entity, 1, &ov5670->pad);
+> +	if (ret) {
+> +		err_msg = "media_entity_pads_init() error";
+> +		goto error_handler_free;
+> +	}
+> +
+> +	/* Async register for subdev */
+> +	ret = v4l2_async_register_subdev(&ov5670->sd);
+> +	if (ret < 0) {
+> +		err_msg = "v4l2_async_register_subdev() error";
+> +		goto error_entity_cleanup;
+> +	}
+> +
+> +	ov5670->streaming = false;
+> +
+> +	/*
+> +	 * Device is already turned on by i2c-core with ACPI domain PM.
+> +	 * Enable runtime PM and turn off the device.
+> +	 */
+> +	pm_runtime_get_noresume(&client->dev);
+> +	pm_runtime_set_active(&client->dev);
+> +	pm_runtime_enable(&client->dev);
+> +	pm_runtime_put(&client->dev);
+> +
+> +	return 0;
+> +
+> +error_entity_cleanup:
+> +	media_entity_cleanup(&ov5670->sd.entity);
+> +
+> +error_handler_free:
+> +	v4l2_ctrl_handler_free(ov5670->sd.ctrl_handler);
+> +
+> +error_mutex_destroy:
+> +	mutex_destroy(&ov5670->mutex);
+> +
+> +error_print:
+> +	dev_err(&client->dev, "%s: %s %d\n", __func__, err_msg, ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static int ov5670_remove(struct i2c_client *client)
+> +{
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct ov5670 *ov5670 = to_ov5670(sd);
+> +
+> +	v4l2_async_unregister_subdev(sd);
+> +	media_entity_cleanup(&sd->entity);
+> +	v4l2_ctrl_handler_free(sd->ctrl_handler);
+> +	mutex_destroy(&ov5670->mutex);
+> +
+> +	/*
+> +	 * Disable runtime PM but keep the device turned on.
+> +	 * i2c-core with ACPI domain PM will turn off the device.
+> +	 */
+> +	pm_runtime_get_sync(&client->dev);
+> +	pm_runtime_disable(&client->dev);
+> +	pm_runtime_set_suspended(&client->dev);
+> +	pm_runtime_put_noidle(&client->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops ov5670_pm_ops = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(ov5670_suspend, ov5670_resume)
+> +};
+> +
+> +#ifdef CONFIG_ACPI
+> +static const struct acpi_device_id ov5670_acpi_ids[] = {
+> +	{"INT3479"},
+> +	{ /* sentinel */ }
+> +};
+> +
+> +MODULE_DEVICE_TABLE(acpi, ov5670_acpi_ids);
+> +#endif
+> +
+> +static struct i2c_driver ov5670_i2c_driver = {
+> +	.driver = {
+> +		.name = "ov5670",
+> +		.pm = &ov5670_pm_ops,
+> +		.acpi_match_table = ACPI_PTR(ov5670_acpi_ids),
+> +	},
+> +	.probe_new = ov5670_probe,
+> +	.remove = ov5670_remove,
+> +};
+> +
+> +module_i2c_driver(ov5670_i2c_driver);
+> +
+> +MODULE_AUTHOR("Rapolu, Chiranjeevi <chiranjeevi.rapolu@intel.com>");
+> +MODULE_AUTHOR("Yang, Hyungwoo <hyungwoo.yang@intel.com>");
+> +MODULE_DESCRIPTION("Omnivision ov5670 sensor driver");
+> +MODULE_LICENSE("GPL v2");
+> -- 
+> 1.9.1
 
-The READ_ONCE() is actually not even necessary as far as I can see.
+-- 
+Regards,
 
-Christian.
-
-> -Daniel
->
->
->> atomic op, then it's a full barrier. So yeah you need more here. But
->> also since you only need a read barrier on one side, and a write
->> barrier on the other, you don't actually need a cpu barriers on x86.
->> And READ_ONCE gives you the compiler barrier on one side at least, I
->> haven't found it on the writer side yet.
->>
->>> But yes a comment would be really nice here. I had to think for a while
->>> why we don't need this as well.
->> I'm typing a patch, which after a night's sleep I realized has the
->> wrong barriers. And now I'm also typing some doc improvements for
->> drm_sched_entity and related functions.
->>
->>> Christian.
->>>
->>>> -Daniel
->>>>
->>>>> Christian.
->>>>>
->>>>>
->>>>>> -Daniel
->>>>>>
->>>>>>> Regards
->>>>>>> Christian.
->>>>>>>
->>>>>>>> -Daniel
->>>>>>>>
->>>>>>>>> Christian.
->>>>>>>>>
->>>>>>>>>> Also improve the kerneldoc for this.
->>>>>>>>>>
->>>>>>>>>> Acked-by: Steven Price <steven.price@arm.com> (v2)
->>>>>>>>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->>>>>>>>>> Cc: Lucas Stach <l.stach@pengutronix.de>
->>>>>>>>>> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
->>>>>>>>>> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
->>>>>>>>>> Cc: Qiang Yu <yuq825@gmail.com>
->>>>>>>>>> Cc: Rob Herring <robh@kernel.org>
->>>>>>>>>> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
->>>>>>>>>> Cc: Steven Price <steven.price@arm.com>
->>>>>>>>>> Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
->>>>>>>>>> Cc: David Airlie <airlied@linux.ie>
->>>>>>>>>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>>>>>>>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
->>>>>>>>>> Cc: "Christian König" <christian.koenig@amd.com>
->>>>>>>>>> Cc: Masahiro Yamada <masahiroy@kernel.org>
->>>>>>>>>> Cc: Kees Cook <keescook@chromium.org>
->>>>>>>>>> Cc: Adam Borowski <kilobyte@angband.pl>
->>>>>>>>>> Cc: Nick Terrell <terrelln@fb.com>
->>>>>>>>>> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->>>>>>>>>> Cc: Paul Menzel <pmenzel@molgen.mpg.de>
->>>>>>>>>> Cc: Sami Tolvanen <samitolvanen@google.com>
->>>>>>>>>> Cc: Viresh Kumar <viresh.kumar@linaro.org>
->>>>>>>>>> Cc: Alex Deucher <alexander.deucher@amd.com>
->>>>>>>>>> Cc: Dave Airlie <airlied@redhat.com>
->>>>>>>>>> Cc: Nirmoy Das <nirmoy.das@amd.com>
->>>>>>>>>> Cc: Deepak R Varma <mh12gx2825@gmail.com>
->>>>>>>>>> Cc: Lee Jones <lee.jones@linaro.org>
->>>>>>>>>> Cc: Kevin Wang <kevin1.wang@amd.com>
->>>>>>>>>> Cc: Chen Li <chenli@uniontech.com>
->>>>>>>>>> Cc: Luben Tuikov <luben.tuikov@amd.com>
->>>>>>>>>> Cc: "Marek Olšák" <marek.olsak@amd.com>
->>>>>>>>>> Cc: Dennis Li <Dennis.Li@amd.com>
->>>>>>>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>>>>>>>> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
->>>>>>>>>> Cc: Sonny Jiang <sonny.jiang@amd.com>
->>>>>>>>>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
->>>>>>>>>> Cc: Tian Tao <tiantao6@hisilicon.com>
->>>>>>>>>> Cc: Jack Zhang <Jack.Zhang1@amd.com>
->>>>>>>>>> Cc: etnaviv@lists.freedesktop.org
->>>>>>>>>> Cc: lima@lists.freedesktop.org
->>>>>>>>>> Cc: linux-media@vger.kernel.org
->>>>>>>>>> Cc: linaro-mm-sig@lists.linaro.org
->>>>>>>>>> Cc: Emma Anholt <emma@anholt.net>
->>>>>>>>>> ---
->>>>>>>>>>       drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c   |  2 ++
->>>>>>>>>>       drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  2 ++
->>>>>>>>>>       drivers/gpu/drm/etnaviv/etnaviv_sched.c  |  2 ++
->>>>>>>>>>       drivers/gpu/drm/lima/lima_sched.c        |  2 ++
->>>>>>>>>>       drivers/gpu/drm/panfrost/panfrost_job.c  |  2 ++
->>>>>>>>>>       drivers/gpu/drm/scheduler/sched_entity.c |  6 ++--
->>>>>>>>>>       drivers/gpu/drm/scheduler/sched_fence.c  | 17 +++++----
->>>>>>>>>>       drivers/gpu/drm/scheduler/sched_main.c   | 46 +++++++++++++++++++++---
->>>>>>>>>>       drivers/gpu/drm/v3d/v3d_gem.c            |  2 ++
->>>>>>>>>>       include/drm/gpu_scheduler.h              |  7 +++-
->>>>>>>>>>       10 files changed, 74 insertions(+), 14 deletions(-)
->>>>>>>>>>
->>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->>>>>>>>>> index c5386d13eb4a..a4ec092af9a7 100644
->>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->>>>>>>>>> @@ -1226,6 +1226,8 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
->>>>>>>>>>           if (r)
->>>>>>>>>>                   goto error_unlock;
->>>>>>>>>>
->>>>>>>>>> +     drm_sched_job_arm(&job->base);
->>>>>>>>>> +
->>>>>>>>>>           /* No memory allocation is allowed while holding the notifier lock.
->>>>>>>>>>            * The lock is held until amdgpu_cs_submit is finished and fence is
->>>>>>>>>>            * added to BOs.
->>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->>>>>>>>>> index d33e6d97cc89..5ddb955d2315 100644
->>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->>>>>>>>>> @@ -170,6 +170,8 @@ int amdgpu_job_submit(struct amdgpu_job *job, struct drm_sched_entity *entity,
->>>>>>>>>>           if (r)
->>>>>>>>>>                   return r;
->>>>>>>>>>
->>>>>>>>>> +     drm_sched_job_arm(&job->base);
->>>>>>>>>> +
->>>>>>>>>>           *f = dma_fence_get(&job->base.s_fence->finished);
->>>>>>>>>>           amdgpu_job_free_resources(job);
->>>>>>>>>>           drm_sched_entity_push_job(&job->base, entity);
->>>>>>>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->>>>>>>>>> index feb6da1b6ceb..05f412204118 100644
->>>>>>>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->>>>>>>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->>>>>>>>>> @@ -163,6 +163,8 @@ int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
->>>>>>>>>>           if (ret)
->>>>>>>>>>                   goto out_unlock;
->>>>>>>>>>
->>>>>>>>>> +     drm_sched_job_arm(&submit->sched_job);
->>>>>>>>>> +
->>>>>>>>>>           submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
->>>>>>>>>>           submit->out_fence_id = idr_alloc_cyclic(&submit->gpu->fence_idr,
->>>>>>>>>>                                                   submit->out_fence, 0,
->>>>>>>>>> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
->>>>>>>>>> index dba8329937a3..38f755580507 100644
->>>>>>>>>> --- a/drivers/gpu/drm/lima/lima_sched.c
->>>>>>>>>> +++ b/drivers/gpu/drm/lima/lima_sched.c
->>>>>>>>>> @@ -129,6 +129,8 @@ int lima_sched_task_init(struct lima_sched_task *task,
->>>>>>>>>>                   return err;
->>>>>>>>>>           }
->>>>>>>>>>
->>>>>>>>>> +     drm_sched_job_arm(&task->base);
->>>>>>>>>> +
->>>>>>>>>>           task->num_bos = num_bos;
->>>>>>>>>>           task->vm = lima_vm_get(vm);
->>>>>>>>>>
->>>>>>>>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
->>>>>>>>>> index 71a72fb50e6b..2992dc85325f 100644
->>>>>>>>>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->>>>>>>>>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->>>>>>>>>> @@ -288,6 +288,8 @@ int panfrost_job_push(struct panfrost_job *job)
->>>>>>>>>>                   goto unlock;
->>>>>>>>>>           }
->>>>>>>>>>
->>>>>>>>>> +     drm_sched_job_arm(&job->base);
->>>>>>>>>> +
->>>>>>>>>>           job->render_done_fence = dma_fence_get(&job->base.s_fence->finished);
->>>>>>>>>>
->>>>>>>>>>           ret = panfrost_acquire_object_fences(job->bos, job->bo_count,
->>>>>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>>>>>> index 79554aa4dbb1..f7347c284886 100644
->>>>>>>>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>>>>>> @@ -485,9 +485,9 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
->>>>>>>>>>        * @sched_job: job to submit
->>>>>>>>>>        * @entity: scheduler entity
->>>>>>>>>>        *
->>>>>>>>>> - * Note: To guarantee that the order of insertion to queue matches
->>>>>>>>>> - * the job's fence sequence number this function should be
->>>>>>>>>> - * called with drm_sched_job_init under common lock.
->>>>>>>>>> + * Note: To guarantee that the order of insertion to queue matches the job's
->>>>>>>>>> + * fence sequence number this function should be called with drm_sched_job_arm()
->>>>>>>>>> + * under common lock.
->>>>>>>>>>        *
->>>>>>>>>>        * Returns 0 for success, negative error code otherwise.
->>>>>>>>>>        */
->>>>>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->>>>>>>>>> index 69de2c76731f..c451ee9a30d7 100644
->>>>>>>>>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>>>>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>>>>>>>>> @@ -90,7 +90,7 @@ static const char *drm_sched_fence_get_timeline_name(struct dma_fence *f)
->>>>>>>>>>        *
->>>>>>>>>>        * Free up the fence memory after the RCU grace period.
->>>>>>>>>>        */
->>>>>>>>>> -static void drm_sched_fence_free(struct rcu_head *rcu)
->>>>>>>>>> +void drm_sched_fence_free(struct rcu_head *rcu)
->>>>>>>>>>       {
->>>>>>>>>>           struct dma_fence *f = container_of(rcu, struct dma_fence, rcu);
->>>>>>>>>>           struct drm_sched_fence *fence = to_drm_sched_fence(f);
->>>>>>>>>> @@ -152,11 +152,10 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
->>>>>>>>>>       }
->>>>>>>>>>       EXPORT_SYMBOL(to_drm_sched_fence);
->>>>>>>>>>
->>>>>>>>>> -struct drm_sched_fence *drm_sched_fence_create(struct drm_sched_entity *entity,
->>>>>>>>>> -                                            void *owner)
->>>>>>>>>> +struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
->>>>>>>>>> +                                           void *owner)
->>>>>>>>>>       {
->>>>>>>>>>           struct drm_sched_fence *fence = NULL;
->>>>>>>>>> -     unsigned seq;
->>>>>>>>>>
->>>>>>>>>>           fence = kmem_cache_zalloc(sched_fence_slab, GFP_KERNEL);
->>>>>>>>>>           if (fence == NULL)
->>>>>>>>>> @@ -166,13 +165,19 @@ struct drm_sched_fence *drm_sched_fence_create(struct drm_sched_entity *entity,
->>>>>>>>>>           fence->sched = entity->rq->sched;
->>>>>>>>>>           spin_lock_init(&fence->lock);
->>>>>>>>>>
->>>>>>>>>> +     return fence;
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +void drm_sched_fence_init(struct drm_sched_fence *fence,
->>>>>>>>>> +                       struct drm_sched_entity *entity)
->>>>>>>>>> +{
->>>>>>>>>> +     unsigned seq;
->>>>>>>>>> +
->>>>>>>>>>           seq = atomic_inc_return(&entity->fence_seq);
->>>>>>>>>>           dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
->>>>>>>>>>                          &fence->lock, entity->fence_context, seq);
->>>>>>>>>>           dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
->>>>>>>>>>                          &fence->lock, entity->fence_context + 1, seq);
->>>>>>>>>> -
->>>>>>>>>> -     return fence;
->>>>>>>>>>       }
->>>>>>>>>>
->>>>>>>>>>       module_init(drm_sched_fence_slab_init);
->>>>>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>>>>>>>>> index 33c414d55fab..5e84e1500c32 100644
->>>>>>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>>>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>>>>>>>> @@ -48,9 +48,11 @@
->>>>>>>>>>       #include <linux/wait.h>
->>>>>>>>>>       #include <linux/sched.h>
->>>>>>>>>>       #include <linux/completion.h>
->>>>>>>>>> +#include <linux/dma-resv.h>
->>>>>>>>>>       #include <uapi/linux/sched/types.h>
->>>>>>>>>>
->>>>>>>>>>       #include <drm/drm_print.h>
->>>>>>>>>> +#include <drm/drm_gem.h>
->>>>>>>>>>       #include <drm/gpu_scheduler.h>
->>>>>>>>>>       #include <drm/spsc_queue.h>
->>>>>>>>>>
->>>>>>>>>> @@ -569,7 +571,6 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs_ext);
->>>>>>>>>>
->>>>>>>>>>       /**
->>>>>>>>>>        * drm_sched_job_init - init a scheduler job
->>>>>>>>>> - *
->>>>>>>>>>        * @job: scheduler job to init
->>>>>>>>>>        * @entity: scheduler entity to use
->>>>>>>>>>        * @owner: job owner for debugging
->>>>>>>>>> @@ -577,6 +578,9 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs_ext);
->>>>>>>>>>        * Refer to drm_sched_entity_push_job() documentation
->>>>>>>>>>        * for locking considerations.
->>>>>>>>>>        *
->>>>>>>>>> + * Drivers must make sure drm_sched_job_cleanup() if this function returns
->>>>>>>>>> + * successfully, even when @job is aborted before drm_sched_job_arm() is called.
->>>>>>>>>> + *
->>>>>>>>>>        * Returns 0 for success, negative error code otherwise.
->>>>>>>>>>        */
->>>>>>>>>>       int drm_sched_job_init(struct drm_sched_job *job,
->>>>>>>>>> @@ -594,7 +598,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
->>>>>>>>>>           job->sched = sched;
->>>>>>>>>>           job->entity = entity;
->>>>>>>>>>           job->s_priority = entity->rq - sched->sched_rq;
->>>>>>>>>> -     job->s_fence = drm_sched_fence_create(entity, owner);
->>>>>>>>>> +     job->s_fence = drm_sched_fence_alloc(entity, owner);
->>>>>>>>>>           if (!job->s_fence)
->>>>>>>>>>                   return -ENOMEM;
->>>>>>>>>>           job->id = atomic64_inc_return(&sched->job_id_count);
->>>>>>>>>> @@ -606,13 +610,47 @@ int drm_sched_job_init(struct drm_sched_job *job,
->>>>>>>>>>       EXPORT_SYMBOL(drm_sched_job_init);
->>>>>>>>>>
->>>>>>>>>>       /**
->>>>>>>>>> - * drm_sched_job_cleanup - clean up scheduler job resources
->>>>>>>>>> + * drm_sched_job_arm - arm a scheduler job for execution
->>>>>>>>>> + * @job: scheduler job to arm
->>>>>>>>>> + *
->>>>>>>>>> + * This arms a scheduler job for execution. Specifically it initializes the
->>>>>>>>>> + * &drm_sched_job.s_fence of @job, so that it can be attached to struct dma_resv
->>>>>>>>>> + * or other places that need to track the completion of this job.
->>>>>>>>>> + *
->>>>>>>>>> + * Refer to drm_sched_entity_push_job() documentation for locking
->>>>>>>>>> + * considerations.
->>>>>>>>>>        *
->>>>>>>>>> + * This can only be called if drm_sched_job_init() succeeded.
->>>>>>>>>> + */
->>>>>>>>>> +void drm_sched_job_arm(struct drm_sched_job *job)
->>>>>>>>>> +{
->>>>>>>>>> +     drm_sched_fence_init(job->s_fence, job->entity);
->>>>>>>>>> +}
->>>>>>>>>> +EXPORT_SYMBOL(drm_sched_job_arm);
->>>>>>>>>> +
->>>>>>>>>> +/**
->>>>>>>>>> + * drm_sched_job_cleanup - clean up scheduler job resources
->>>>>>>>>>        * @job: scheduler job to clean up
->>>>>>>>>> + *
->>>>>>>>>> + * Cleans up the resources allocated with drm_sched_job_init().
->>>>>>>>>> + *
->>>>>>>>>> + * Drivers should call this from their error unwind code if @job is aborted
->>>>>>>>>> + * before drm_sched_job_arm() is called.
->>>>>>>>>> + *
->>>>>>>>>> + * After that point of no return @job is committed to be executed by the
->>>>>>>>>> + * scheduler, and this function should be called from the
->>>>>>>>>> + * &drm_sched_backend_ops.free_job callback.
->>>>>>>>>>        */
->>>>>>>>>>       void drm_sched_job_cleanup(struct drm_sched_job *job)
->>>>>>>>>>       {
->>>>>>>>>> -     dma_fence_put(&job->s_fence->finished);
->>>>>>>>>> +     if (!kref_read(&job->s_fence->finished.refcount)) {
->>>>>>>>>> +             /* drm_sched_job_arm() has been called */
->>>>>>>>>> +             dma_fence_put(&job->s_fence->finished);
->>>>>>>>>> +     } else {
->>>>>>>>>> +             /* aborted job before committing to run it */
->>>>>>>>>> +             drm_sched_fence_free(&job->s_fence->finished.rcu);
->>>>>>>>>> +     }
->>>>>>>>>> +
->>>>>>>>>>           job->s_fence = NULL;
->>>>>>>>>>       }
->>>>>>>>>>       EXPORT_SYMBOL(drm_sched_job_cleanup);
->>>>>>>>>> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
->>>>>>>>>> index 4eb354226972..5c3a99027ecd 100644
->>>>>>>>>> --- a/drivers/gpu/drm/v3d/v3d_gem.c
->>>>>>>>>> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
->>>>>>>>>> @@ -475,6 +475,8 @@ v3d_push_job(struct v3d_file_priv *v3d_priv,
->>>>>>>>>>           if (ret)
->>>>>>>>>>                   return ret;
->>>>>>>>>>
->>>>>>>>>> +     drm_sched_job_arm(&job->base);
->>>>>>>>>> +
->>>>>>>>>>           job->done_fence = dma_fence_get(&job->base.s_fence->finished);
->>>>>>>>>>
->>>>>>>>>>           /* put by scheduler job completion */
->>>>>>>>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->>>>>>>>>> index 88ae7f331bb1..83afc3aa8e2f 100644
->>>>>>>>>> --- a/include/drm/gpu_scheduler.h
->>>>>>>>>> +++ b/include/drm/gpu_scheduler.h
->>>>>>>>>> @@ -348,6 +348,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched);
->>>>>>>>>>       int drm_sched_job_init(struct drm_sched_job *job,
->>>>>>>>>>                          struct drm_sched_entity *entity,
->>>>>>>>>>                          void *owner);
->>>>>>>>>> +void drm_sched_job_arm(struct drm_sched_job *job);
->>>>>>>>>>       void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
->>>>>>>>>>                                       struct drm_gpu_scheduler **sched_list,
->>>>>>>>>>                                          unsigned int num_sched_list);
->>>>>>>>>> @@ -387,8 +388,12 @@ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
->>>>>>>>>>                                      enum drm_sched_priority priority);
->>>>>>>>>>       bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
->>>>>>>>>>
->>>>>>>>>> -struct drm_sched_fence *drm_sched_fence_create(
->>>>>>>>>> +struct drm_sched_fence *drm_sched_fence_alloc(
->>>>>>>>>>           struct drm_sched_entity *s_entity, void *owner);
->>>>>>>>>> +void drm_sched_fence_init(struct drm_sched_fence *fence,
->>>>>>>>>> +                       struct drm_sched_entity *entity);
->>>>>>>>>> +void drm_sched_fence_free(struct rcu_head *rcu);
->>>>>>>>>> +
->>>>>>>>>>       void drm_sched_fence_scheduled(struct drm_sched_fence *fence);
->>>>>>>>>>       void drm_sched_fence_finished(struct drm_sched_fence *fence);
->>>>>>>>>>
->>
->> --
->> Daniel Vetter
->> Software Engineer, Intel Corporation
->> https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fblog.ffwll.ch%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C1ac51fc78f9f4e2f08a808d941e0c013%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637613255881294371%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=PRGZl6tUAc7FrL39mu%2BBV2AfC02Mz9R2Neqs5TjdB6M%3D&amp;reserved=0
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fblog.ffwll.ch%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C1ac51fc78f9f4e2f08a808d941e0c013%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637613255881294371%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=PRGZl6tUAc7FrL39mu%2BBV2AfC02Mz9R2Neqs5TjdB6M%3D&amp;reserved=0
-
+Laurent Pinchart
