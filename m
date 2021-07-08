@@ -2,149 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CEC53BF70B
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 10:43:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55A5C3BF76A
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 11:19:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231362AbhGHIqN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 04:46:13 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49906 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231156AbhGHIqN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 04:46:13 -0400
-Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 574A6E7;
-        Thu,  8 Jul 2021 10:43:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1625733809;
-        bh=6IvbrqMxcjh3DQkYpu4PYqeYQ0WmbHNAr/A4z7dJgaY=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=o3CHoxkQAgl1tfEqTcVMpsAwQnPChF+FNEjOu5o3JLEBbhwB5pmvOotEeDgQCWMdb
-         RJTypBZkEWNQQzpM2+lL6YakbyTpxWvuCfP5mt3bwsabKBX9Pnvdm5Suo2sll+x0lu
-         XMExrSY7tURTyAK+xwocqEe4IpakjLXU1OzGTqIU=
-To:     Jacopo Mondi <jacopo@jmondi.org>, Pratyush Yadav <p.yadav@ti.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Nikhil Devshatwar <nikhil.nd@ti.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Arnd Bergmann <arnd@arndb.de>, Benoit Parrot <bparrot@ti.com>,
-        Bert Vermeulen <bert@biot.com>,
-        Dikshita Agarwal <dikshita@codeaurora.org>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Helen Koike <helen.koike@collabora.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Martina Krasteva <martinax.krasteva@intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Qiushi Wu <wu000273@umn.edu>, Raag Jadav <raagjadav@gmail.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        Zou Wei <zou_wei@huawei.com>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20210624192200.22559-1-p.yadav@ti.com>
- <dd3b13ec-a883-5b22-47ce-d6e591b674aa@ideasonboard.com>
- <20210707185636.xxu6n6p4gihrs37d@ti.com>
- <20210708081919.rlp5xv5f4jbx6uav@uno.localdomain>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v3 00/11] CSI2RX support on J721E
-Message-ID: <c7ff2f59-7975-adad-d9dd-d4084eecb65b@ideasonboard.com>
-Date:   Thu, 8 Jul 2021 11:43:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S231360AbhGHJWH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 05:22:07 -0400
+Received: from mickerik.phytec.de ([195.145.39.210]:46330 "EHLO
+        mickerik.phytec.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231321AbhGHJWF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 05:22:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
+        q=dns/txt; i=@phytec.de; t=1625735962; x=1628327962;
+        h=From:Sender:Reply-To:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=3PXh34z5hHskudF1buVvXccfk5Dp/8JaB8bjicQftPo=;
+        b=sNNO97DmzttzEerctp4x0u30gcQWvLpTzy8apnZL20CsKhLU7S21iuVx7l4Ei9ml
+        /QfgP8nrpizgMlKgs7c/qMWGmb5CjUagQC2uvITLbb4I105t/se+HlMBr08DE4sy
+        cDt63vhLV73laRHQ3KIdLMseYYPFsDblCgrFU36Vhwk=;
+X-AuditID: c39127d2-1e4f970000001daf-7b-60e6c31af88c
+Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
+        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 96.B7.07599.A13C6E06; Thu,  8 Jul 2021 11:19:22 +0200 (CEST)
+Received: from lws-riedmueller.phytec.de ([172.16.23.108])
+          by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+          with ESMTP id 2021070811192213-1113440 ;
+          Thu, 8 Jul 2021 11:19:22 +0200 
+From:   Stefan Riedmueller <s.riedmueller@phytec.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Stefan Riedmueller <s.riedmueller@phytec.de>
+Subject: [PATCH v4 0/6] media: mt9p031: Read back the real clock rate
+Date:   Thu, 8 Jul 2021 11:19:16 +0200
+Message-Id: <20210708091922.5508-1-s.riedmueller@phytec.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210708081919.rlp5xv5f4jbx6uav@uno.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
+ 08.07.2021 11:19:22,
+        Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
+ 08.07.2021 11:19:22
+X-TNEFEvaluated: 1
+Content-Transfer-Encoding: quoted-printable
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMLMWRmVeSWpSXmKPExsWyRoCBS1fq8LMEg7b74hbzj5xjteicuITd
+        4vKuOWwWPRu2slos2/SHyaJ17xF2i09bvjE5sHvM7pjJ6rFpVSebx7yTgR6fN8kFsERx2aSk
+        5mSWpRbp2yVwZUw8u5mx4CBfxcWNB5gaGGdxdzFyckgImEjs2jeFvYuRi0NIYBujxJXXM5kg
+        nGuMEsd7jrCAVLEJGEksmNYIlhARaGOU2HGkGcxhFtjCKPH5/n4gh4NDWMBV4vMkLpAGFgEV
+        iVmXZjOC2LwC1hI3379lhVgnLzHz0nd2iLigxMmZT1hA5kgIXGGU6P/YzA5RJCRxevFZZhCb
+        WUBbYtnC18wTGPlmIemZhSS1gJFpFaNQbmZydmpRZrZeQUZlSWqyXkrqJkZgQB6eqH5pB2Pf
+        HI9DjEwcjIcYJTiYlUR4jWY8SxDiTUmsrEotyo8vKs1JLT7EKM3BoiTOu4G3JExIID2xJDU7
+        NbUgtQgmy8TBKdXAqNv4WdC6qnLOFHF3j3PKGwz+VZ71VuesVLAXX3+58WpMpN3ivFurV+dv
+        3x+5IFBvpvALwx3rHevvWE6aG1yw9KVci9eFCqMuxtxjJ4X+Z9glZnP/9FwQ1Mzw8Whm90d5
+        Xem1e1pm3w3UuBfievzWpgUL46du9RSuf/2ddUPCk4dbLXZYriq6qMRSnJFoqMVcVJwIAG4K
+        Vkc2AgAA
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/07/2021 11:19, Jacopo Mondi wrote:
-> Hi Tomi, Pratyush,
-> 
-> On Thu, Jul 08, 2021 at 12:26:38AM +0530, Pratyush Yadav wrote:
->> Hi Tomi,
->>
->> Thanks for looking into the patches.
->>
->> On 01/07/21 10:56AM, Tomi Valkeinen wrote:
->>> Hi Pratyush,
->>>
->>> On 24/06/2021 22:21, Pratyush Yadav wrote:
->>>> Hi,
->>>>
->>>> This series adds support for CSI2 capture on J721E. It includes some
->>>> fixes to the Cadence CSI2RX driver, adds runtime PM support to OV5640
->>>> driver, and finally adds the TI CSI2RX wrapper driver.
->>>>
->>>> This series used to include the DPHY and DMA engine patches as well, but
->>>> they have been split off to facilitate easier merging. Patch 3 is
->>>> build-dependent on the DPHY series [0].
->>>>
->>>> The DMA engine patch [1] can go in any order since that is only a run
->>>> time dependency. Things probably won't work without it but it will still
->>>> build fine.
->>>>
->>>> Tested on TI's J721E with OV5640 sensor.
->>>
->>> I applied these (csi-2 rx, phy, dma-engine) to linux-media/master, and added dts changes to add the csi2-rx. When sending the series, can you also push the branch you use for testing, as the posted patches do not include everything needed?
->>
->> Please use https://github.com/prati0100/linux-next/ branch "capture"
->>
->> I will include the link in the cover letter from next version onwards.
->>
->>>
->>> Here are some notes from quick tests:
->>>
->>> Capture works, but the fps is ~28.98. I would expect it to be closer to 30. Are the clocks configured correctly?
->>
->> I see this as well. I figured this had something to do with the sensor.
-> 
-> Tomi you might remember your patch to change the h/vtot values which I
-> collected in a series which I never managed to bring to v1, as Hugues
-> reported it was broken for JPEG capture.
-> 
-> I'll leave it here just for reference, I admit I dropped the ball
-> rather quickly there:
-> https://patchwork.linuxtv.org/project/linux-media/cover/20201028225706.110078-1-jacopo+renesas@jmondi.org/
-> 
-> I wish I could re-test but seems I've lost the powering cable of the
-> device I used to test ov5640 :(
+Hi,
 
-Yes, I'm still using my hack patch when working with OV5640. With that 
-hack, on TI platforms with CAL IP, I get ~30fps. With this series on J7, 
-I get the above mentioned 28.98.
+Changes in v4:
+ - Add two missing BIT macro conversions
+ - Switch to dt-bindings yaml schema before applying changes
+ - Drop explicit pclk-sample property documentation patch since it is
+   documented in the referenced video-interface schema now. (I hope that
+   is correct)
 
-It's possible my hack patch is wrong, and CAL driver is buggy, but 
-together they make things right. I guess I should also try J7 without my 
-hack patch.
+Changes in v3:
+ - Dropped 1/5 media: mt9p031: Add support for 8 bit and 10 bit formats
+ - Dropped 3/5 media: mt9p031: Implement [gs]=5Fregister debug calls
+ - Added reviewed-by from Laurent Pinchart to
+   media: mt9p031: Read back the real clock rate
+ - Dropped unnecessary register reads in
+   media: mt9p031: Fix corrupted frame after restarting
+ - Changed sorting of register bits from MSB to LSB
+ - Added patch to switch to BIT macro
+ - Added two additional dt-bindings patches to add missing properties
+   documentation
 
-If I recall right, I tested your changes but I couldn't get them to work 
-on my HW.
+Christian Hemp (1):
+  media: mt9p031: Make pixel clock polarity configurable by DT
 
-I haven't worked on that since then, as I decided that debugging blind 
-is pointless. We need someone to analyze the signals to see what OV5640 
-is sending. Or some new understanding about the OV5640 HW.
+Dirk Bender (1):
+  media: mt9p031: Fix corrupted frame after restarting stream
 
-  Tomi
+Enrico Scholz (1):
+  media: mt9p031: Read back the real clock rate
+
+Stefan Riedmueller (3):
+  media: mt9p031: Use BIT macro
+  media: dt-bindings: mt9p031: Convert bindings to yaml
+  media: dt-bindings: mt9p031: Add missing required properties
+
+ .../bindings/media/i2c/aptina,mt9p031.yaml    | 97 +++++++++++++++++++
+ .../devicetree/bindings/media/i2c/mt9p031.txt | 40 --------
+ MAINTAINERS                                   |  1 +
+ drivers/media/i2c/Kconfig                     |  1 +
+ drivers/media/i2c/mt9p031.c                   | 80 +++++++++++----
+ include/media/i2c/mt9p031.h                   |  1 +
+ 6 files changed, 162 insertions(+), 58 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9p=
+031.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/mt9p031.txt
+
+--=20
+2.25.1
+
