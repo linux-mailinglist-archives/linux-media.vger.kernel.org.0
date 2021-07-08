@@ -2,134 +2,282 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91B1C3C14C5
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 15:58:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E47DE3C14D3
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 16:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231875AbhGHOAz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 10:00:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42160 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231485AbhGHOAz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 10:00:55 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98B44C061574;
-        Thu,  8 Jul 2021 06:58:13 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id bg14so9766502ejb.9;
-        Thu, 08 Jul 2021 06:58:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X4qt0wVH0QhfISGoZ2TdbwDYVS2o7e6p+1hm7yDFUI8=;
-        b=t46CYqZsKP1VChYxYyxWdTePbU+3tcjjPFIKITI/qu6a4WCXf0iwl+1ekVf97SwL0i
-         bQpg9XTHhoIbJhuUVAUY+XTa9+JmesO2SMxHXB5orSBPhanbViKyXKPGDM2kC9Jn8tKB
-         B7SQxrMO1jvQSmCnY9fY/Tfqa1+khEoKdPX0bncBV800FEVgO0SGjktc5raFwDHqgDVI
-         X2ltMV9oDPeX/KZUNkIoYMFOmkmcyNMkAznMSm0p4DdrtHSiMLXAMtdocg+e7Py53tjP
-         lMd1rEl77ICbR1o25+zBWT0uWIbCTzrzW0wnSJcBC1g+VNqY576e8kuhsIIOsk0V9EeG
-         OxQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X4qt0wVH0QhfISGoZ2TdbwDYVS2o7e6p+1hm7yDFUI8=;
-        b=EVKsyygjcaWLoXnS+Recja+08igOrUuw38XzgTQ4D6DM4iC7fzu7vLBKcyfOgIrdE6
-         o9IZ4yryDwOWX5S9VUH81BVoncaVw/ZP+5eOShicHpqj+JShIOqLkzEM0KnwyRElYt0E
-         fRY+HlCMuv5LOeoCiDPaKXDQzqBHl/TFmycZ7dy3Vq2MPv3ujQTy1dNtemZfP3+NxYkw
-         IG77Z08H4hhfN4AwM2Euf/uuYk5pAE7+ikIowrVyVQ1vnTPsY/XNJ1xkxYBzoiRJO4rL
-         YkSkYnUvAp6h8LBPTgAq0oJiZatQj2eWRsAOszvf5BpwsR8EEfHcpSlqkEHlkAOvla+C
-         6Tdw==
-X-Gm-Message-State: AOAM531Blu+vdXxAmA3il7GDLjKj5abFuhY4gAWqzMdj/tu0koXKjDD/
-        bxqY/q/TGh2eUtbwByaTQKANQ86D74+hcESYD2M=
-X-Google-Smtp-Source: ABdhPJyxZtWy9FPRhxKZ7dds12JrOUCU9TNACLcbn4HSSc+y8H5c1evbH9NBOvDONR49j19SZ9UjcQJjNICLbQBTFrw=
-X-Received: by 2002:a17:906:39c3:: with SMTP id i3mr30931439eje.527.1625752690494;
- Thu, 08 Jul 2021 06:58:10 -0700 (PDT)
+        id S231854AbhGHOFW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 10:05:22 -0400
+Received: from mga14.intel.com ([192.55.52.115]:53497 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231515AbhGHOFV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Jul 2021 10:05:21 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="209326210"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; 
+   d="scan'208";a="209326210"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2021 07:02:39 -0700
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; 
+   d="scan'208";a="564522640"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2021 07:02:37 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 34A7D20345;
+        Thu,  8 Jul 2021 17:02:35 +0300 (EEST)
+Date:   Thu, 8 Jul 2021 17:02:35 +0300
+From:   "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
+To:     Stefan =?iso-8859-1?Q?Riedm=FCller?= <S.Riedmueller@phytec.de>
+Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>
+Subject: Re: [PATCH v4 5/6] media: dt-bindings: mt9p031: Convert bindings to
+ yaml
+Message-ID: <20210708140235.GB3@paasikivi.fi.intel.com>
+References: <20210708091922.5508-1-s.riedmueller@phytec.de>
+ <20210708091922.5508-6-s.riedmueller@phytec.de>
+ <20210708112313.GA3@paasikivi.fi.intel.com>
+ <b588b43347afe377b6fda03c54855f97a421d89f.camel@phytec.de>
 MIME-Version: 1.0
-References: <20210707141323.20757-1-viktor.prutyanov@phystech.edu>
- <20210707141323.20757-2-viktor.prutyanov@phystech.edu> <CAFBinCDgQHA1vmunNBdER0BfiKt8XYZ+-VBs3c21+S3bYP7GZQ@mail.gmail.com>
- <20210708162051.13953369@192.168.1.3>
-In-Reply-To: <20210708162051.13953369@192.168.1.3>
-From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date:   Thu, 8 Jul 2021 15:57:59 +0200
-Message-ID: <CAFBinCDOcR5t=6m5X6LnuA+XT4v9nMQnDdD_moOqzf5ffWt+4A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] media: rc: meson-irblaster: document device tree bindings
-To:     Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-Cc:     sean@mess.org, mchehab@kernel.org, robh+dt@kernel.org,
-        khilman@baylibre.com, Neil Armstrong <narmstrong@baylibre.com>,
-        jbrunet@baylibre.com, linux-media <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, rockosov@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b588b43347afe377b6fda03c54855f97a421d89f.camel@phytec.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Viktor,
+Hi Stefan,
 
-On Thu, Jul 8, 2021 at 3:20 PM Viktor Prutyanov
-<viktor.prutyanov@phystech.edu> wrote:
-[...]
-> > > +  mod-clock:
+On Thu, Jul 08, 2021 at 01:34:17PM +0000, Stefan Riedmüller wrote:
+> Hi Sakari,
+> 
+> On Thu, 2021-07-08 at 14:23 +0300, Sakari Ailus wrote:
+> > Hi Stefan,
+> > 
+> > Thanks for the patch.
+> 
+> Thanks for your feedback!
+
+You're welcome!
+
+> 
+> > 
+> > On Thu, Jul 08, 2021 at 11:19:21AM +0200, Stefan Riedmueller wrote:
+> > > Convert mt9p031 sensor bindings to yaml schema. Also update the
+> > > MAINTAINERS entry.
+> > > 
+> > > Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
+> > > ---
+> > >  .../bindings/media/i2c/aptina,mt9p031.yaml    | 75 +++++++++++++++++++
+> > >  .../devicetree/bindings/media/i2c/mt9p031.txt | 40 ----------
+> > >  MAINTAINERS                                   |  1 +
+> > >  3 files changed, 76 insertions(+), 40 deletions(-)
+> > >  create mode 100644
+> > > Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
+> > >  delete mode 100644
+> > > Documentation/devicetree/bindings/media/i2c/mt9p031.txt
+> > > 
+> > > diff --git
+> > > a/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
+> > > b/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
+> > > new file mode 100644
+> > > index 000000000000..7de62e339895
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
+> > > @@ -0,0 +1,75 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/mt9p031.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Aptina 1/2.5-Inch 5Mp CMOS Digital Image Sensor
+> > > +
+> > > +maintainers:
+> > > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > +
+> > > +description: |
+> > > +  The Aptina MT9P031 is a 1/2.5-inch CMOS active pixel digital image
+> > > sensor
+> > > +  with an active array size of 2592H x 1944V. It is programmable through
+> > > a
+> > > +  simple two-wire serial interface.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - aptina,mt9p031
+> > > +      - aptina,mt9p031m
+> > > +
+> > > +  reg:
+> > > +    description: I2C device address
 > > > +    maxItems: 1
-> > in the change-log for this patch you mentioned that mod-clock is
-> > updated as well I think that mod-clock (as a whole property) should
-> > only be added if it's an external input to the IR blaster IP block
->
-> There are 2 clocks connected to blaster module, and mod-clock is just a
-> selector between them. Meson IR blaster driver should choose one of the
-> modulation clocks. If not through a property, then how to do it?
-It depends on what the requirement for this clock is
-I'll give you some examples as I am not sure about the inner workings
-of the IR blaster - in hope that you'll be able to make a conclusion
-for yourself.
+> > > +
+> > > +  reset-gpios:
+> > > +    maxItems: 1
+> > > +    description: Chip reset GPIO
+> > > +
+> > > +  port:
+> > > +    $ref: /schemas/graph.yaml#/properties/port
+> > 
+> > This should probably be:
+> > 
+> > 	$ref: /schemas/graph.yaml#/$defs/port-base
+> 
+> I actually was not sure which one of these to use because I found both in
+> existing bindings. Also /schemas/graph.yaml#/properties/port has a reference
+> to $defs/port-base. It would be nice if you or someone else could give me a
+> hint why /schemas/graph.yaml#/$defs/port-base would be the correct one here.
 
-drivers/net/ethernet/stmicro/stmmac/dwmac-meson8b.c:
-If Ethernet is configured into RGMII mode we need to configure a clock
-tree (which consists of a mux to select between two different input
-clocks, a fixed divider, a configurable divider and a gate).
-The output clock rate must be 125MHz (or on SoCs which don't support
-this directly then "as close as possible").
-In this driver the clocks (and their hierarchy) are modelled using the
-common clock framework so in the end we can conveniently use
-clk_set_rate(dwmac->rgmii_tx_clk, 125 * 1000 * 1000)
+I haven't dug into the details but:
 
-drivers/mmc/host/meson-mx-sdio.c:
-During initialization we need to inform the MMC subsystem of the
-minimum and maximum supported clocks - this is done in
-meson_mx_mmc_add_host().
-The actual clock rate in the end depends on the SD/MMC card and it's
-passed down to use from the MMC subsystem.
-We then use clk_set_rate() in meson_mx_mmc_set_ios() to set the clock
-rate closest to what has been requested by the MMC subsystem.
-The IP block for this controller does not contain a mux but a
-fixed-divider as well as a configurable divider - both are modelled
-using the common clock framework.
+<URL:https://lore.kernel.org/linux-media/20210623164344.2571043-1-robh@kernel.org/T/>
 
-Based on my understanding of the IR blaster description in the
-datasheet that IP uses:
-- fixed divider clock: xtal / 3
-- fixed divider clock or a fixed rate clock (it's hard to tell as all
-Amlogic boards I have use a 24MHz crystal): 1MHz (1uS)
-- fixed divider clock or a fixed rate clock (it's hard to tell as all
-Amlogic boards I have use a 24MHz crystal): 100kHz (10uS)
-- clk81
-- a mux to choose between the four above clocks
-- a configurable divider (SLOW_CLOCK_DIV)
-- possibly a gate clock (bit 0 of IR_BLASTER_CNTL0 called ENABLE)
+> 
+> > 
+> > > +    addittionalProeprties: false
+> > 
+> > Could you run
+> > 
+> > 	make dt_binding_check
+> > DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.y
+> > aml
+> > 
+> > please?
+> 
+> Sorry, I totally forgot about this. I'll do so before sending the next
+> version.
 
-If you only care about one specific clock setting (let's say the 1MHz/1uS).
-Then you can either hard-code the values and register initialization
-in the driver.
-The mod-clock property is not needed in this case.
+No worries.
 
-If the desired clock rate however changes (for example with the IR
-protocol) you can model the fixed dividers, fixed rate/divider clocks
-and mux using the common clock framework (similar to how it's done in
-dwmac-meson8b.c).
-Then you need to calculate the desired clock rate and finally use
-clk_set_rate(irb->clock, desired_clk_rate_hz);
-The mod-clock property is not needed in this case.
+> 
+> > 
+> > > +
+> > > +    properties:
+> > > +      endpoint:
+> > > +        $ref: /schemas/media/video-interfaces.yaml#
+> > > +        unevaluatedProperties: false
+> > > +
+> > > +        properties:
+> > > +          input-clock-frequency: true
+> > > +          pixel-clock-frequency: true
+> > 
+> > These two legacy properties were not in the endpoint previously.
+> 
+> That's right, but they are being parsed from the endpoint so I figured they
+> belong here. Should I mention this in the commit message?
 
+Please do. I missed the driver did this.
 
-Best regards,
-Martin
+Ideally the driver would use the common properties but it's old and
+unlikely to be used in new boards anyway I guess.
+
+> 
+> Thanks,
+> Stefan
+> 
+> > 
+> > > +
+> > > +        required:
+> > > +          - input-clock-frequency
+> > > +          - pixel-clock-frequency
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - port
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    i2c0 {
+> > > +        #address-cells = <1>;
+> > > +        #size-cells = <0>;
+> > > +
+> > > +        mt9p031@5d {
+> > > +            compatible = "aptina,mt9p031";
+> > > +            reg = <0x5d>;
+> > > +            reset-gpios = <&gpio_sensor 0 0>;
+> > > +
+> > > +            port {
+> > > +                mt9p031_1: endpoint {
+> > > +                    input-clock-frequency = <6000000>;
+> > > +                    pixel-clock-frequency = <96000000>;
+> > > +                };
+> > > +            };
+> > > +        }:
+> > > +    };
+> > > +
+> > > +...
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/mt9p031.txt
+> > > b/Documentation/devicetree/bindings/media/i2c/mt9p031.txt
+> > > deleted file mode 100644
+> > > index cb60443ff78f..000000000000
+> > > --- a/Documentation/devicetree/bindings/media/i2c/mt9p031.txt
+> > > +++ /dev/null
+> > > @@ -1,40 +0,0 @@
+> > > -* Aptina 1/2.5-Inch 5Mp CMOS Digital Image Sensor
+> > > -
+> > > -The Aptina MT9P031 is a 1/2.5-inch CMOS active pixel digital image sensor
+> > > with
+> > > -an active array size of 2592H x 1944V. It is programmable through a
+> > > simple
+> > > -two-wire serial interface.
+> > > -
+> > > -Required Properties:
+> > > -- compatible: value should be either one among the following
+> > > -	(a) "aptina,mt9p031" for mt9p031 sensor
+> > > -	(b) "aptina,mt9p031m" for mt9p031m sensor
+> > > -
+> > > -- input-clock-frequency: Input clock frequency.
+> > > -
+> > > -- pixel-clock-frequency: Pixel clock frequency.
+> > > -
+> > > -Optional Properties:
+> > > -- reset-gpios: Chip reset GPIO
+> > > -
+> > > -For further reading on port node refer to
+> > > -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > > -
+> > > -Example:
+> > > -
+> > > -	i2c0@1c22000 {
+> > > -		...
+> > > -		...
+> > > -		mt9p031@5d {
+> > > -			compatible = "aptina,mt9p031";
+> > > -			reg = <0x5d>;
+> > > -			reset-gpios = <&gpio3 30 0>;
+> > > -
+> > > -			port {
+> > > -				mt9p031_1: endpoint {
+> > > -					input-clock-frequency = <6000000>;
+> > > -					pixel-clock-frequency = <96000000>;
+> > > -				};
+> > > -			};
+> > > -		};
+> > > -		...
+> > > -	};
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index c7456776ace5..f2123226baae 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -12610,6 +12610,7 @@ M:	Laurent Pinchart <
+> > > laurent.pinchart@ideasonboard.com>
+> > >  L:	linux-media@vger.kernel.org
+> > >  S:	Maintained
+> > >  T:	git git://linuxtv.org/media_tree.git
+> > > +F:	Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
+> > >  F:	drivers/media/i2c/mt9p031.c
+> > >  F:	include/media/i2c/mt9p031.h
+> > >  
+
+-- 
+Regards,
+
+Sakari Ailus
