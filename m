@@ -2,89 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 314133BF7F0
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 12:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A8CC3BF834
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 12:14:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231450AbhGHKHu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 06:07:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46246 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231324AbhGHKHt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 06:07:49 -0400
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB75DC06175F
-        for <linux-media@vger.kernel.org>; Thu,  8 Jul 2021 03:05:07 -0700 (PDT)
-Received: by mail-io1-xd2f.google.com with SMTP id u7so7484644ion.3
-        for <linux-media@vger.kernel.org>; Thu, 08 Jul 2021 03:05:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=R4fhY/yLoZMmhCqnp0rYwJfbvJ3m+VsDi3PuO02Dh10=;
-        b=UYLH/VW8SI7ZogoX7fR4NWP4DRGl1d62SfimYKsYGCETDopjoL/y+RsptFQTSoByGW
-         q+sENfaHQCddz+goHWQTbvBYRlZpPNGTD+hwSbScS+9stYayGZQXolfj/woo+NmCRBFa
-         jGhhZ2GepPegJFGXuvZ83xSc31slF8PwiWyq/CFpd9Wkx+YE6ESZv0Bd/Zg2Bn1QN4L3
-         XlwQ5Gw1bepr7GNdQBbKm28jDLcSJf11PX8aOk5pdKA+hC4hLLRMYbVPpSJHXz2ar6DR
-         UDOSQX01Z+z/FHqmL6RR7vDsF7HIoczBZVtLjl/NWXDfF8VnYSiP+1906qUiWuzmA55S
-         3mlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=R4fhY/yLoZMmhCqnp0rYwJfbvJ3m+VsDi3PuO02Dh10=;
-        b=UacvIFhLpsCWW1JyjsMkKdHqPgw77kJ/ZaME4a+5K8IKQ3tBv2pLiLoDxI9iMS10ss
-         TgdjzaTvHRr3zXEArEgdbD5K4LWTxWrVcYi9e6rulE/cJ+6Ne4wh5lKG/zL0dcHTBEZE
-         6Qsd9lEJn9PTkjUpIPF/41KG4tGWN5gbZ+oqZ37OsfX6qpskC4pdSjTM7TB+Obd+Vnmc
-         tDTU3bKwDFZYnLjNRgsHAGHcmmPE7/rZSSLg4qy6FU6HE9rG2TQjxCUALJLyzieYGdQf
-         Q1xjxmyqd1eXAiofpvOARSMLfbrq0sYmM3un+0OeXzyvf3fBIfOeDo9ba7Jv52F9lIvy
-         fx1w==
-X-Gm-Message-State: AOAM5302osoIYlS2NAc3KamQ3rNX6kBhBIe0LFJJzYC5tyiVTQMZRDlh
-        0rodbnZMpaIEF3oifk3shgDPRmtNp0HXyAO7rU9Sfw==
-X-Google-Smtp-Source: ABdhPJxdKSoYDqcwBIX1WQ4+fbUqa84UqW8rvefJuvTTO1vwGh4lLoujDgkp/mZyijH1oUQhvQsnJcYa+CxvYJZElwI=
-X-Received: by 2002:a02:9402:: with SMTP id a2mr26130879jai.110.1625738705769;
- Thu, 08 Jul 2021 03:05:05 -0700 (PDT)
+        id S231470AbhGHKRN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 06:17:13 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:39538 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231332AbhGHKRN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 06:17:13 -0400
+X-UUID: b52e43e1cd4a44ea8bab0ad0d062c7cc-20210708
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=BdKf2p9ZqSn+V2IGWR+PNooNX2lJcGUJfQegrqEiVdM=;
+        b=b9KBXnQhFfVkALohUmv/2LnhbOt1iUi904ILwVtQ1tYHLOaWrXl1XYroC752ZyZqDtJex2kTKqACUwgbm3cX8vQjTL97yy4w4zDXL8YDUxLp+ybU6dYhlz1T18HznDFrejFTF7tLeIyBkuB8OEs6eyMkf03jlsC5iSjlHijj/DE=;
+X-UUID: b52e43e1cd4a44ea8bab0ad0d062c7cc-20210708
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <guangming.cao@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 290473540; Thu, 08 Jul 2021 18:14:25 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ MTKMBS33N2.mediatek.inc (172.27.4.76) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 8 Jul 2021 18:14:23 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ MTKCAS06.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 8 Jul 2021 18:14:22 +0800
+From:   <guangming.cao@mediatek.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+CC:     Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Guangming Cao <Guangming.Cao@mediatek.com>
+Subject: [PATCH] dma-heap: Let dma heap use dma_map_attrs to map & unmap iova
+Date:   Thu, 8 Jul 2021 18:14:21 +0800
+Message-ID: <20210708101421.9101-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20210707062157.21176-1-yunfei.dong@mediatek.com> <20210707062157.21176-5-yunfei.dong@mediatek.com>
-In-Reply-To: <20210707062157.21176-5-yunfei.dong@mediatek.com>
-From:   Tzung-Bi Shih <tzungbi@google.com>
-Date:   Thu, 8 Jul 2021 18:04:54 +0800
-Message-ID: <CA+Px+wWQREny2KSjDfgdnMvk8GKKqr+QvRdSR8YXc1i73wbJSQ@mail.gmail.com>
-Subject: Re: [PATCH v1, 04/14] dt-bindings: media: mtk-vcodec: Separate video
- encoder and decoder dt-bindings
-To:     Yunfei Dong <Yunfei.Dong@mediatek.com>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 879CEDBA69CA375324736404F3170BD4C1626A51C81092302B49131EC5ACEC612000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 7, 2021 at 2:22 PM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
->  .../media/mediatek-vcodec-decoder.txt         | 169 ++++++++++++++++++
->  .../media/mediatek-vcodec-encoder.txt         |  73 ++++++++
->  2 files changed, 242 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec-decoder.txt
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec-encoder.txt
-The patch is weird.  Its title says "separate" but the changes are all
-creating new content.
+RnJvbTogR3VhbmdtaW5nIENhbyA8R3VhbmdtaW5nLkNhb0BtZWRpYXRlay5jb20+DQoNCkZvciBk
+bWEtaGVhcCB1c2VycywgdGhleSBjYW4ndCBieXBhc3MgY2FjaGUgc3luYyB3aGVuIG1hcC91bm1h
+cCBpb3ZhDQp3aXRoIGRtYSBoZWFwLiBCdXQgdGhleSBjYW4gZG8gaXQgYnkgYWRkaW5nIERNQV9B
+VFRSX1NLSVBfQ1BVX1NZTkMNCmludG8gZG1hX2FsbG9jX2F0dHJzLg0KDQpUbyBrZWVwIGFsaWdu
+bWVudCwgYXQgZG1hX2hlYXAgc2lkZSwgYWxzbyB1c2UNCmRtYV9idWZfYXR0YWNobWVudC5kbWFf
+bWFwX2F0dHJzIHRvIGRvIGlvdmEgbWFwICYgdW5tYXAuDQoNClNpZ25lZC1vZmYtYnk6IEd1YW5n
+bWluZyBDYW8gPEd1YW5nbWluZy5DYW9AbWVkaWF0ZWsuY29tPg0KLS0tDQogZHJpdmVycy9kbWEt
+YnVmL2hlYXBzL2NtYV9oZWFwLmMgICAgfCA2ICsrKystLQ0KIGRyaXZlcnMvZG1hLWJ1Zi9oZWFw
+cy9zeXN0ZW1faGVhcC5jIHwgNiArKysrLS0NCiAyIGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9u
+cygrKSwgNCBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9oZWFw
+cy9jbWFfaGVhcC5jIGIvZHJpdmVycy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMNCmluZGV4IDBj
+MDViNzk4NzBmOS4uMmM5ZmViM2JmYzNlIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9kbWEtYnVmL2hl
+YXBzL2NtYV9oZWFwLmMNCisrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9jbWFfaGVhcC5jDQpA
+QCAtOTksOSArOTksMTAgQEAgc3RhdGljIHN0cnVjdCBzZ190YWJsZSAqY21hX2hlYXBfbWFwX2Rt
+YV9idWYoc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNobWUNCiB7DQogCXN0cnVjdCBk
+bWFfaGVhcF9hdHRhY2htZW50ICphID0gYXR0YWNobWVudC0+cHJpdjsNCiAJc3RydWN0IHNnX3Rh
+YmxlICp0YWJsZSA9ICZhLT50YWJsZTsNCisJaW50IGF0dHJzID0gYXR0YWNobWVudC0+ZG1hX21h
+cF9hdHRyczsNCiAJaW50IHJldDsNCiANCi0JcmV0ID0gZG1hX21hcF9zZ3RhYmxlKGF0dGFjaG1l
+bnQtPmRldiwgdGFibGUsIGRpcmVjdGlvbiwgMCk7DQorCXJldCA9IGRtYV9tYXBfc2d0YWJsZShh
+dHRhY2htZW50LT5kZXYsIHRhYmxlLCBkaXJlY3Rpb24sIGF0dHJzKTsNCiAJaWYgKHJldCkNCiAJ
+CXJldHVybiBFUlJfUFRSKC1FTk9NRU0pOw0KIAlhLT5tYXBwZWQgPSB0cnVlOw0KQEAgLTExMyw5
+ICsxMTQsMTAgQEAgc3RhdGljIHZvaWQgY21hX2hlYXBfdW5tYXBfZG1hX2J1ZihzdHJ1Y3QgZG1h
+X2J1Zl9hdHRhY2htZW50ICphdHRhY2htZW50LA0KIAkJCQkgICBlbnVtIGRtYV9kYXRhX2RpcmVj
+dGlvbiBkaXJlY3Rpb24pDQogew0KIAlzdHJ1Y3QgZG1hX2hlYXBfYXR0YWNobWVudCAqYSA9IGF0
+dGFjaG1lbnQtPnByaXY7DQorCWludCBhdHRycyA9IGF0dGFjaG1lbnQtPmRtYV9tYXBfYXR0cnM7
+DQogDQogCWEtPm1hcHBlZCA9IGZhbHNlOw0KLQlkbWFfdW5tYXBfc2d0YWJsZShhdHRhY2htZW50
+LT5kZXYsIHRhYmxlLCBkaXJlY3Rpb24sIDApOw0KKwlkbWFfdW5tYXBfc2d0YWJsZShhdHRhY2ht
+ZW50LT5kZXYsIHRhYmxlLCBkaXJlY3Rpb24sIGF0dHJzKTsNCiB9DQogDQogc3RhdGljIGludCBj
+bWFfaGVhcF9kbWFfYnVmX2JlZ2luX2NwdV9hY2Nlc3Moc3RydWN0IGRtYV9idWYgKmRtYWJ1ZiwN
+CmRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYyBiL2RyaXZl
+cnMvZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jDQppbmRleCAyM2E3ZTc0ZWY5NjYuLmZjN2Ix
+ZTAyOTg4ZSAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5j
+DQorKysgYi9kcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYw0KQEAgLTEzMCw5ICsx
+MzAsMTAgQEAgc3RhdGljIHN0cnVjdCBzZ190YWJsZSAqc3lzdGVtX2hlYXBfbWFwX2RtYV9idWYo
+c3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWMNCiB7DQogCXN0cnVjdCBkbWFfaGVhcF9h
+dHRhY2htZW50ICphID0gYXR0YWNobWVudC0+cHJpdjsNCiAJc3RydWN0IHNnX3RhYmxlICp0YWJs
+ZSA9IGEtPnRhYmxlOw0KKwlpbnQgYXR0cnMgPSBhdHRhY2htZW50LT5kbWFfbWFwX2F0dHJzOw0K
+IAlpbnQgcmV0Ow0KIA0KLQlyZXQgPSBkbWFfbWFwX3NndGFibGUoYXR0YWNobWVudC0+ZGV2LCB0
+YWJsZSwgZGlyZWN0aW9uLCAwKTsNCisJcmV0ID0gZG1hX21hcF9zZ3RhYmxlKGF0dGFjaG1lbnQt
+PmRldiwgdGFibGUsIGRpcmVjdGlvbiwgYXR0cnMpOw0KIAlpZiAocmV0KQ0KIAkJcmV0dXJuIEVS
+Ul9QVFIocmV0KTsNCiANCkBAIC0xNDUsOSArMTQ2LDEwIEBAIHN0YXRpYyB2b2lkIHN5c3RlbV9o
+ZWFwX3VubWFwX2RtYV9idWYoc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNobWVudCwN
+CiAJCQkJICAgICAgZW51bSBkbWFfZGF0YV9kaXJlY3Rpb24gZGlyZWN0aW9uKQ0KIHsNCiAJc3Ry
+dWN0IGRtYV9oZWFwX2F0dGFjaG1lbnQgKmEgPSBhdHRhY2htZW50LT5wcml2Ow0KKwlpbnQgYXR0
+cnMgPSBhdHRhY2htZW50LT5kbWFfbWFwX2F0dHJzOw0KIA0KIAlhLT5tYXBwZWQgPSBmYWxzZTsN
+Ci0JZG1hX3VubWFwX3NndGFibGUoYXR0YWNobWVudC0+ZGV2LCB0YWJsZSwgZGlyZWN0aW9uLCAw
+KTsNCisJZG1hX3VubWFwX3NndGFibGUoYXR0YWNobWVudC0+ZGV2LCB0YWJsZSwgZGlyZWN0aW9u
+LCBhdHRycyk7DQogfQ0KIA0KIHN0YXRpYyBpbnQgc3lzdGVtX2hlYXBfZG1hX2J1Zl9iZWdpbl9j
+cHVfYWNjZXNzKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsDQotLSANCjIuMTcuMQ0K
 
-Would expect the patch to remove content from some files (e.g.
-Documentation/devicetree/bindings/media/mediatek-vcodec.txt) and
-separate into 2 files.
-
-Also would expect the patch is a refactor which shouldn't introduce
-any new things.
