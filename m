@@ -2,343 +2,953 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C6B23BF9B5
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 14:05:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79BE23BFA55
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 14:35:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231415AbhGHMHz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 08:07:55 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:34094 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231397AbhGHMHy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 08:07:54 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 3F434220D5;
-        Thu,  8 Jul 2021 12:05:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1625745912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=x86zdx99+DRFmmWseHawCr5E5oFbq535MTLP5SjRHBw=;
-        b=aOgQKh/DqId+UqVMC3f2ZkBbFqcgdS/I9NBENHYbR19aQPxOYpDJyFzmW9nRhfaRacZs8N
-        /jgxpR7UYBkKD4nXwJgjUSJp+2WDV8Ew08/6/9qSLZvlRCPhTtI6ZNB8hTBX6z8RZ8j/hH
-        ivp4upuJgobjSWv4WUvCgooq3ZDK2D4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1625745912;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=x86zdx99+DRFmmWseHawCr5E5oFbq535MTLP5SjRHBw=;
-        b=vFCImedlM7kL85cnm18aqkMpdI/9G0jjdOrFgJr7h9SnkvS+QwSy2RXlP11gZC2AsmIt+1
-        tIl/RgmFKDzDjLDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EED7F13BDF;
-        Thu,  8 Jul 2021 12:05:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id y4hUOffp5mApUQAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 08 Jul 2021 12:05:11 +0000
-Subject: Re: [PATCH] drm/exynox: Implement mmap as GEM object function
-To:     inki.dae@samsung.com, jy0922.shim@samsung.com,
-        sw0312.kim@samsung.com, kyungmin.park@samsung.com,
-        airlied@linux.ie, daniel@ffwll.ch,
-        krzysztof.kozlowski@canonical.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com
-Cc:     dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-References: <20210624090010.8086-1-tzimmermann@suse.de>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <6ebaed9e-6f86-1e5f-aa33-1a0cb6e825dc@suse.de>
-Date:   Thu, 8 Jul 2021 14:05:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S231429AbhGHMiT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 08:38:19 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:37359 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230451AbhGHMiS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 08:38:18 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id E52FF10000D;
+        Thu,  8 Jul 2021 12:35:31 +0000 (UTC)
+Date:   Thu, 8 Jul 2021 14:36:20 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+Subject: Re: [PATCH v7 07/27] media: entity: Use pad as the starting point
+ for a pipeline
+Message-ID: <20210708123620.vltqnczhrsh3yl4s@uno.localdomain>
+References: <20210524104408.599645-1-tomi.valkeinen@ideasonboard.com>
+ <20210524104408.599645-8-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20210624090010.8086-1-tzimmermann@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="TmncTDefJnHiveBjRrAcgdm9jsyBHY7Pk"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210524104408.599645-8-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---TmncTDefJnHiveBjRrAcgdm9jsyBHY7Pk
-Content-Type: multipart/mixed; boundary="idlRb0oF7LIyIGwCLdx8rO7h1hDB3UjDj";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, airlied@linux.ie, daniel@ffwll.ch,
- krzysztof.kozlowski@canonical.com, sumit.semwal@linaro.org,
- christian.koenig@amd.com
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Message-ID: <6ebaed9e-6f86-1e5f-aa33-1a0cb6e825dc@suse.de>
-Subject: Re: [PATCH] drm/exynox: Implement mmap as GEM object function
-References: <20210624090010.8086-1-tzimmermann@suse.de>
-In-Reply-To: <20210624090010.8086-1-tzimmermann@suse.de>
+Hello Tomi,
+    A few minors and a question below
 
---idlRb0oF7LIyIGwCLdx8rO7h1hDB3UjDj
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-ping for review
-
-Am 24.06.21 um 11:00 schrieb Thomas Zimmermann:
-> Moving the driver-specific mmap code into a GEM object function allows
-> for using DRM helpers for various mmap callbacks.
->=20
-> The respective exynos functions are being removed. The file_operations
-> structure exynos_drm_driver_fops is now being created by the helper mac=
-ro
-> DEFINE_DRM_GEM_FOPS().
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Mon, May 24, 2021 at 01:43:48PM +0300, Tomi Valkeinen wrote:
+> From: Sakari Ailus <sakari.ailus@linux.intel.com>
+>
+> The pipeline has been moved from the entity to the pads; reflect this in
+> the media pipeline function API.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->   drivers/gpu/drm/exynos/exynos_drm_drv.c   | 13 ++-----
->   drivers/gpu/drm/exynos/exynos_drm_fbdev.c | 20 ++---------
->   drivers/gpu/drm/exynos/exynos_drm_gem.c   | 43 +++++-----------------=
--
->   drivers/gpu/drm/exynos/exynos_drm_gem.h   |  5 ---
->   4 files changed, 13 insertions(+), 68 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/=
-exynos/exynos_drm_drv.c
-> index e60257f1f24b..1d46751cad02 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> @@ -102,16 +102,7 @@ static const struct drm_ioctl_desc exynos_ioctls[]=
- =3D {
->   			DRM_RENDER_ALLOW),
->   };
->  =20
-> -static const struct file_operations exynos_drm_driver_fops =3D {
-> -	.owner		=3D THIS_MODULE,
-> -	.open		=3D drm_open,
-> -	.mmap		=3D exynos_drm_gem_mmap,
-> -	.poll		=3D drm_poll,
-> -	.read		=3D drm_read,
-> -	.unlocked_ioctl	=3D drm_ioctl,
-> -	.compat_ioctl =3D drm_compat_ioctl,
-> -	.release	=3D drm_release,
-> -};
-> +DEFINE_DRM_GEM_FOPS(exynos_drm_driver_fops);
->  =20
->   static const struct drm_driver exynos_drm_driver =3D {
->   	.driver_features	=3D DRIVER_MODESET | DRIVER_GEM
-> @@ -124,7 +115,7 @@ static const struct drm_driver exynos_drm_driver =3D=
- {
->   	.prime_fd_to_handle	=3D drm_gem_prime_fd_to_handle,
->   	.gem_prime_import	=3D exynos_drm_gem_prime_import,
->   	.gem_prime_import_sg_table	=3D exynos_drm_gem_prime_import_sg_table,=
+>  Documentation/driver-api/media/mc-core.rst    |  6 ++--
+>  drivers/media/mc/mc-entity.c                  | 24 ++++++-------
+>  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  6 ++--
+>  .../media/platform/exynos4-is/fimc-capture.c  |  8 ++---
+>  .../platform/exynos4-is/fimc-isp-video.c      |  8 ++---
+>  drivers/media/platform/exynos4-is/fimc-lite.c |  8 ++---
+>  drivers/media/platform/omap3isp/ispvideo.c    |  6 ++--
+>  .../media/platform/qcom/camss/camss-video.c   |  6 ++--
+>  drivers/media/platform/rcar-vin/rcar-dma.c    |  6 ++--
+>  .../platform/rockchip/rkisp1/rkisp1-capture.c |  6 ++--
+>  .../media/platform/s3c-camif/camif-capture.c  |  6 ++--
+>  drivers/media/platform/stm32/stm32-dcmi.c     |  6 ++--
+>  .../platform/sunxi/sun4i-csi/sun4i_dma.c      |  6 ++--
+>  .../platform/sunxi/sun6i-csi/sun6i_video.c    |  6 ++--
+>  drivers/media/platform/ti-vpe/cal-video.c     |  6 ++--
+>  drivers/media/platform/vsp1/vsp1_video.c      |  6 ++--
+>  drivers/media/platform/xilinx/xilinx-dma.c    |  6 ++--
+>  .../media/test-drivers/vimc/vimc-capture.c    |  6 ++--
+>  drivers/media/usb/au0828/au0828-core.c        |  8 ++---
+>  drivers/staging/media/imx/imx-media-utils.c   |  6 ++--
+>  drivers/staging/media/ipu3/ipu3-v4l2.c        |  6 ++--
+>  drivers/staging/media/omap4iss/iss_video.c    |  6 ++--
+>  drivers/staging/media/tegra-video/tegra210.c  |  6 ++--
+>  include/media/media-entity.h                  | 34 +++++++++----------
+>  24 files changed, 98 insertions(+), 100 deletions(-)
+>
+> diff --git a/Documentation/driver-api/media/mc-core.rst b/Documentation/driver-api/media/mc-core.rst
+> index 8a13640bed56..69a64279a61f 100644
+> --- a/Documentation/driver-api/media/mc-core.rst
+> +++ b/Documentation/driver-api/media/mc-core.rst
+> @@ -213,11 +213,11 @@ When starting streaming, drivers must notify all entities in the pipeline to
+>  prevent link states from being modified during streaming by calling
+>  :c:func:`media_pipeline_start()`.
+>
+> -The function will mark all entities connected to the given entity through
+> -enabled links, either directly or indirectly, as streaming.
+> +The function will mark all entities connected to the given pad through
 
-> -	.gem_prime_mmap		=3D exynos_drm_gem_prime_mmap,
-> +	.gem_prime_mmap		=3D drm_gem_prime_mmap,
->   	.ioctls			=3D exynos_ioctls,
->   	.num_ioctls		=3D ARRAY_SIZE(exynos_ioctls),
->   	.fops			=3D &exynos_drm_driver_fops,
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/dr=
-m/exynos/exynos_drm_fbdev.c
-> index 5147f5929be7..02c97b9ca926 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> @@ -15,6 +15,7 @@
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_fb_helper.h>
->   #include <drm/drm_fourcc.h>
-> +#include <drm/drm_prime.h>
->   #include <drm/drm_probe_helper.h>
->   #include <drm/exynos_drm.h>
->  =20
-> @@ -39,25 +40,8 @@ static int exynos_drm_fb_mmap(struct fb_info *info,
->   	struct drm_fb_helper *helper =3D info->par;
->   	struct exynos_drm_fbdev *exynos_fbd =3D to_exynos_fbdev(helper);
->   	struct exynos_drm_gem *exynos_gem =3D exynos_fbd->exynos_gem;
-> -	unsigned long vm_size;
-> -	int ret;
-> -
-> -	vma->vm_flags |=3D VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
-> -
-> -	vm_size =3D vma->vm_end - vma->vm_start;
-> -
-> -	if (vm_size > exynos_gem->size)
-> -		return -EINVAL;
->  =20
-> -	ret =3D dma_mmap_attrs(to_dma_dev(helper->dev), vma, exynos_gem->cook=
-ie,
-> -			     exynos_gem->dma_addr, exynos_gem->size,
-> -			     exynos_gem->dma_attrs);
-> -	if (ret < 0) {
-> -		DRM_DEV_ERROR(to_dma_dev(helper->dev), "failed to mmap.\n");
-> -		return ret;
-> -	}
-> -
-> -	return 0;
-> +	return drm_gem_prime_mmap(&exynos_gem->base, vma);
->   }
->  =20
->   static const struct fb_ops exynos_drm_fb_ops =3D {
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm/=
-exynos/exynos_drm_gem.c
-> index 4396224227d1..c4b63902ee7a 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
-> @@ -17,6 +17,8 @@
->   #include "exynos_drm_drv.h"
->   #include "exynos_drm_gem.h"
->  =20
-> +static int exynos_drm_gem_mmap(struct drm_gem_object *obj, struct vm_a=
-rea_struct *vma);
-> +
->   static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem, bo=
-ol kvmap)
->   {
->   	struct drm_device *dev =3D exynos_gem->base.dev;
-> @@ -135,6 +137,7 @@ static const struct vm_operations_struct exynos_drm=
-_gem_vm_ops =3D {
->   static const struct drm_gem_object_funcs exynos_drm_gem_object_funcs =
-=3D {
->   	.free =3D exynos_drm_gem_free_object,
->   	.get_sg_table =3D exynos_drm_gem_prime_get_sg_table,
-> +	.mmap =3D exynos_drm_gem_mmap,
->   	.vm_ops =3D &exynos_drm_gem_vm_ops,
->   };
->  =20
-> @@ -354,12 +357,16 @@ int exynos_drm_gem_dumb_create(struct drm_file *f=
-ile_priv,
->   	return 0;
->   }
->  =20
-> -static int exynos_drm_gem_mmap_obj(struct drm_gem_object *obj,
-> -				   struct vm_area_struct *vma)
-> +static int exynos_drm_gem_mmap(struct drm_gem_object *obj, struct vm_a=
-rea_struct *vma)
->   {
->   	struct exynos_drm_gem *exynos_gem =3D to_exynos_gem(obj);
->   	int ret;
->  =20
-> +	if (obj->import_attach)
-> +		return dma_buf_mmap(obj->dma_buf, vma, 0);
-> +
-> +	vma->vm_flags |=3D VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
-> +
->   	DRM_DEV_DEBUG_KMS(to_dma_dev(obj->dev), "flags =3D 0x%x\n",
->   			  exynos_gem->flags);
->  =20
-> @@ -385,26 +392,6 @@ static int exynos_drm_gem_mmap_obj(struct drm_gem_=
-object *obj,
->   	return ret;
->   }
->  =20
-> -int exynos_drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)=
+As the stream_count counter is now moved to the pads, should this be
 
-> -{
-> -	struct drm_gem_object *obj;
-> -	int ret;
-> -
-> -	/* set vm_area_struct. */
-> -	ret =3D drm_gem_mmap(filp, vma);
-> -	if (ret < 0) {
-> -		DRM_ERROR("failed to mmap.\n");
-> -		return ret;
-> -	}
-> -
-> -	obj =3D vma->vm_private_data;
-> -
-> -	if (obj->import_attach)
-> -		return dma_buf_mmap(obj->dma_buf, vma, 0);
-> -
-> -	return exynos_drm_gem_mmap_obj(obj, vma);
-> -}
-> -
->   /* low-level interface prime helpers */
->   struct drm_gem_object *exynos_drm_gem_prime_import(struct drm_device =
-*dev,
->   					    struct dma_buf *dma_buf)
-> @@ -466,15 +453,3 @@ exynos_drm_gem_prime_import_sg_table(struct drm_de=
-vice *dev,
->   	exynos_gem->sgt =3D sgt;
->   	return &exynos_gem->base;
->   }
-> -
-> -int exynos_drm_gem_prime_mmap(struct drm_gem_object *obj,
-> -			      struct vm_area_struct *vma)
-> -{
-> -	int ret;
-> -
-> -	ret =3D drm_gem_mmap_obj(obj, obj->size, vma);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	return exynos_drm_gem_mmap_obj(obj, vma);
-> -}
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.h b/drivers/gpu/drm/=
-exynos/exynos_drm_gem.h
-> index a23272fb96fb..79d7e1a87419 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_gem.h
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_gem.h
-> @@ -96,9 +96,6 @@ int exynos_drm_gem_dumb_create(struct drm_file *file_=
-priv,
->   			       struct drm_device *dev,
->   			       struct drm_mode_create_dumb *args);
->  =20
-> -/* set vm_flags and we can change the vm attribute to other one at her=
-e. */
-> -int exynos_drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)=
-;
-> -
->   /* low-level interface prime helpers */
->   struct drm_gem_object *exynos_drm_gem_prime_import(struct drm_device =
-*dev,
->   					    struct dma_buf *dma_buf);
-> @@ -107,7 +104,5 @@ struct drm_gem_object *
->   exynos_drm_gem_prime_import_sg_table(struct drm_device *dev,
->   				     struct dma_buf_attachment *attach,
->   				     struct sg_table *sgt);
-> -int exynos_drm_gem_prime_mmap(struct drm_gem_object *obj,
-> -			      struct vm_area_struct *vma);
->  =20
->   #endif
->=20
++The function will mark all the pads connected to the given pad through
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> +enabled routes and links, either directly or indirectly, as streaming.
+>
+>  The struct media_pipeline instance pointed to by
+> -the pipe argument will be stored in every entity in the pipeline.
+> +the pipe argument will be stored in every pad in the pipeline.
+>  Drivers should embed the struct media_pipeline
 
+Does this still apply ?
 
---idlRb0oF7LIyIGwCLdx8rO7h1hDB3UjDj--
+>  in higher-level pipeline structures and can then access the
+>  pipeline through the struct media_entity
 
---TmncTDefJnHiveBjRrAcgdm9jsyBHY7Pk
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+This sentence should probably be changed to
 
------BEGIN PGP SIGNATURE-----
+pipeline through the struct media_pad pipe field.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDm6fcFAwAAAAAACgkQlh/E3EQov+B8
-lw//cRmuoxBlOXmm0LKuC4HcrkTquQpHNmcYzoVsuE7/w4KPs2K/0HFoA8Tiac2GWdxoA+FX3Qut
-0UQ+J/bVDuiMLHkgDt38pno8mAaGnKYPZ0cNIPXrSSMFroW7usmM6OBVuGSh94XO+KyIocXPEsvt
-YsQiJ4+izOb9Ci+bIQsyoE5/IUobm6YrlQUaE5KQFXf9hZmaEm/VHO/MuPJjf66jQO/YWrGrHa51
-B1KeXgTtvIYAvQTLUAQj4mpwsfwHeuqNr+e24J3Cz5WnMiAPcnGxY/grfs1nX3NL944iehWr36l2
-/i1RZAkdJcE/3uv9lPCPV1LHYUW82lWZNLNS6BLSuX0wiYtJijuqi8iC8TxdUoGpA3t/YC9RNzfM
-YERf7IFKJ/RilXLPthpIV3oJ5ixtVIHxbvNGiz5e7o9U5/ZxRPNNctvayqc3plxnjzWEnGxFZ26z
-DQLCCYJ3KxqoEfexnHF3i4rVlnITqWqXiBOJo/LsyKfXqNMOIx4xPThzlSlj3CUy2SqMOwoVVkAW
-y+7pHt032T0HuTIZB/GoQc3H+FErW92hgVyYRPDlTWSb4DG+fuL4uUlHJmo9IBA54qs1YgC0c608
-l7NlpgOPrkL8qlNVRbX557hvpyPfaJya+4Vv/y6GDFEL4n6EVP9vPLN9FADEN0D/JtpAOeDhQ7f2
-LSU=
-=yOQP
------END PGP SIGNATURE-----
+> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> index ea1cf7f63ae8..e6451903359c 100644
+> --- a/drivers/media/mc/mc-entity.c
+> +++ b/drivers/media/mc/mc-entity.c
+> @@ -404,12 +404,11 @@ EXPORT_SYMBOL_GPL(media_entity_get_fwnode_pad);
+>   * Pipeline management
+>   */
+>
+> -__must_check int __media_pipeline_start(struct media_entity *entity,
+> +__must_check int __media_pipeline_start(struct media_pad *pad,
+>  					struct media_pipeline *pipe)
+>  {
+> -	struct media_device *mdev = entity->graph_obj.mdev;
+> +	struct media_device *mdev = pad->graph_obj.mdev;
+>  	struct media_graph *graph = &pipe->graph;
+> -	struct media_pad *pad = entity->pads;
+>  	struct media_pad *pad_err = pad;
+>  	struct media_link *link;
+>  	int ret;
+> @@ -542,24 +541,23 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+>  }
+>  EXPORT_SYMBOL_GPL(__media_pipeline_start);
+>
+> -__must_check int media_pipeline_start(struct media_entity *entity,
+> +__must_check int media_pipeline_start(struct media_pad *pad,
+>  				      struct media_pipeline *pipe)
 
---TmncTDefJnHiveBjRrAcgdm9jsyBHY7Pk--
+As it seems that even with the full series applied
+media_pipeline_start() is always called with entity->pads as its first
+argument, I wonder if it wouldn't be more linear for a driver to keep
+using entity and have this function here pass the entity's pads to
+__media_pipeline_start().
+
+Do we expect drivers to actually start the pipeline using a specific
+pad ?
+
+Thanks
+   j
+
+>  {
+> -	struct media_device *mdev = entity->graph_obj.mdev;
+> +	struct media_device *mdev = pad->graph_obj.mdev;
+>  	int ret;
+>
+>  	mutex_lock(&mdev->graph_mutex);
+> -	ret = __media_pipeline_start(entity, pipe);
+> +	ret = __media_pipeline_start(pad, pipe);
+>  	mutex_unlock(&mdev->graph_mutex);
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(media_pipeline_start);
+>
+> -void __media_pipeline_stop(struct media_entity *entity)
+> +void __media_pipeline_stop(struct media_pad *pad)
+>  {
+> -	struct media_pipeline *pipe = entity->pads->pipe;
+> +	struct media_pipeline *pipe = pad->pipe;
+>  	struct media_graph *graph = &pipe->graph;
+> -	struct media_pad *pad;
+>
+>  	/*
+>  	 * If the following check fails, the driver has performed an
+> @@ -568,7 +566,7 @@ void __media_pipeline_stop(struct media_entity *entity)
+>  	if (WARN_ON(!pipe))
+>  		return;
+>
+> -	media_graph_walk_start(graph, entity->pads);
+> +	media_graph_walk_start(graph, pad);
+>
+>  	while ((pad = media_graph_walk_next(graph))) {
+>  		struct media_entity *entity = pad->entity;
+> @@ -590,12 +588,12 @@ void __media_pipeline_stop(struct media_entity *entity)
+>  }
+>  EXPORT_SYMBOL_GPL(__media_pipeline_stop);
+>
+> -void media_pipeline_stop(struct media_entity *entity)
+> +void media_pipeline_stop(struct media_pad *pad)
+>  {
+> -	struct media_device *mdev = entity->graph_obj.mdev;
+> +	struct media_device *mdev = pad->graph_obj.mdev;
+>
+>  	mutex_lock(&mdev->graph_mutex);
+> -	__media_pipeline_stop(entity);
+> +	__media_pipeline_stop(pad);
+>  	mutex_unlock(&mdev->graph_mutex);
+>  }
+>  EXPORT_SYMBOL_GPL(media_pipeline_stop);
+> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+> index c2644efe4dbd..e0e1d8da70af 100644
+> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+> @@ -982,7 +982,7 @@ static int cio2_vb2_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  		return r;
+>  	}
+>
+> -	r = media_pipeline_start(&q->vdev.entity, &q->pipe);
+> +	r = media_pipeline_start(q->vdev.entity.pads, &q->pipe);
+>  	if (r)
+>  		goto fail_pipeline;
+>
+> @@ -1002,7 +1002,7 @@ static int cio2_vb2_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  fail_csi2_subdev:
+>  	cio2_hw_exit(cio2, q);
+>  fail_hw:
+> -	media_pipeline_stop(&q->vdev.entity);
+> +	media_pipeline_stop(q->vdev.entity.pads);
+>  fail_pipeline:
+>  	dev_dbg(&cio2->pci_dev->dev, "failed to start streaming (%d)\n", r);
+>  	cio2_vb2_return_all_buffers(q, VB2_BUF_STATE_QUEUED);
+> @@ -1023,7 +1023,7 @@ static void cio2_vb2_stop_streaming(struct vb2_queue *vq)
+>  	cio2_hw_exit(cio2, q);
+>  	synchronize_irq(cio2->pci_dev->irq);
+>  	cio2_vb2_return_all_buffers(q, VB2_BUF_STATE_ERROR);
+> -	media_pipeline_stop(&q->vdev.entity);
+> +	media_pipeline_stop(q->vdev.entity.pads);
+>  	pm_runtime_put(&cio2->pci_dev->dev);
+>  	cio2->streaming = false;
+>  }
+> diff --git a/drivers/media/platform/exynos4-is/fimc-capture.c b/drivers/media/platform/exynos4-is/fimc-capture.c
+> index 7ff4024003f4..eaac0ac4e406 100644
+> --- a/drivers/media/platform/exynos4-is/fimc-capture.c
+> +++ b/drivers/media/platform/exynos4-is/fimc-capture.c
+> @@ -524,7 +524,7 @@ static int fimc_capture_release(struct file *file)
+>  	mutex_lock(&fimc->lock);
+>
+>  	if (close && vc->streaming) {
+> -		media_pipeline_stop(&vc->ve.vdev.entity);
+> +		media_pipeline_stop(vc->ve.vdev.entity.pads);
+>  		vc->streaming = false;
+>  	}
+>
+> @@ -1184,7 +1184,7 @@ static int fimc_cap_streamon(struct file *file, void *priv,
+>  	if (fimc_capture_active(fimc))
+>  		return -EBUSY;
+>
+> -	ret = media_pipeline_start(entity, &vc->ve.pipe->mp);
+> +	ret = media_pipeline_start(entity->pads, &vc->ve.pipe->mp);
+>  	if (ret < 0)
+>  		return ret;
+>
+> @@ -1218,7 +1218,7 @@ static int fimc_cap_streamon(struct file *file, void *priv,
+>  	}
+>
+>  err_p_stop:
+> -	media_pipeline_stop(entity);
+> +	media_pipeline_stop(entity->pads);
+>  	return ret;
+>  }
+>
+> @@ -1234,7 +1234,7 @@ static int fimc_cap_streamoff(struct file *file, void *priv,
+>  		return ret;
+>
+>  	if (vc->streaming) {
+> -		media_pipeline_stop(&vc->ve.vdev.entity);
+> +		media_pipeline_stop(vc->ve.vdev.entity.pads);
+>  		vc->streaming = false;
+>  	}
+>
+> diff --git a/drivers/media/platform/exynos4-is/fimc-isp-video.c b/drivers/media/platform/exynos4-is/fimc-isp-video.c
+> index 8d9dc597deaa..ad8195e0b8f2 100644
+> --- a/drivers/media/platform/exynos4-is/fimc-isp-video.c
+> +++ b/drivers/media/platform/exynos4-is/fimc-isp-video.c
+> @@ -309,7 +309,7 @@ static int isp_video_release(struct file *file)
+>  	mutex_lock(&isp->video_lock);
+>
+>  	if (v4l2_fh_is_singular_file(file) && ivc->streaming) {
+> -		media_pipeline_stop(entity);
+> +		media_pipeline_stop(entity->pads);
+>  		ivc->streaming = 0;
+>  	}
+>
+> @@ -490,7 +490,7 @@ static int isp_video_streamon(struct file *file, void *priv,
+>  	struct media_entity *me = &ve->vdev.entity;
+>  	int ret;
+>
+> -	ret = media_pipeline_start(me, &ve->pipe->mp);
+> +	ret = media_pipeline_start(me->pads, &ve->pipe->mp);
+>  	if (ret < 0)
+>  		return ret;
+>
+> @@ -505,7 +505,7 @@ static int isp_video_streamon(struct file *file, void *priv,
+>  	isp->video_capture.streaming = 1;
+>  	return 0;
+>  p_stop:
+> -	media_pipeline_stop(me);
+> +	media_pipeline_stop(me->pads);
+>  	return ret;
+>  }
+>
+> @@ -520,7 +520,7 @@ static int isp_video_streamoff(struct file *file, void *priv,
+>  	if (ret < 0)
+>  		return ret;
+>
+> -	media_pipeline_stop(&video->ve.vdev.entity);
+> +	media_pipeline_stop(video->ve.vdev.entity.pads);
+>  	video->streaming = 0;
+>  	return 0;
+>  }
+> diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
+> index 67bfb1ad2ba2..a979600ff6e6 100644
+> --- a/drivers/media/platform/exynos4-is/fimc-lite.c
+> +++ b/drivers/media/platform/exynos4-is/fimc-lite.c
+> @@ -516,7 +516,7 @@ static int fimc_lite_release(struct file *file)
+>  	if (v4l2_fh_is_singular_file(file) &&
+>  	    atomic_read(&fimc->out_path) == FIMC_IO_DMA) {
+>  		if (fimc->streaming) {
+> -			media_pipeline_stop(entity);
+> +			media_pipeline_stop(entity->pads);
+>  			fimc->streaming = false;
+>  		}
+>  		fimc_lite_stop_capture(fimc, false);
+> @@ -822,7 +822,7 @@ static int fimc_lite_streamon(struct file *file, void *priv,
+>  	if (fimc_lite_active(fimc))
+>  		return -EBUSY;
+>
+> -	ret = media_pipeline_start(entity, &fimc->ve.pipe->mp);
+> +	ret = media_pipeline_start(entity->pads, &fimc->ve.pipe->mp);
+>  	if (ret < 0)
+>  		return ret;
+>
+> @@ -839,7 +839,7 @@ static int fimc_lite_streamon(struct file *file, void *priv,
+>  	}
+>
+>  err_p_stop:
+> -	media_pipeline_stop(entity);
+> +	media_pipeline_stop(entity->pads);
+>  	return 0;
+>  }
+>
+> @@ -853,7 +853,7 @@ static int fimc_lite_streamoff(struct file *file, void *priv,
+>  	if (ret < 0)
+>  		return ret;
+>
+> -	media_pipeline_stop(&fimc->ve.vdev.entity);
+> +	media_pipeline_stop(fimc->ve.vdev.entity.pads);
+>  	fimc->streaming = false;
+>  	return 0;
+>  }
+> diff --git a/drivers/media/platform/omap3isp/ispvideo.c b/drivers/media/platform/omap3isp/ispvideo.c
+> index a8438040c4aa..87334477f223 100644
+> --- a/drivers/media/platform/omap3isp/ispvideo.c
+> +++ b/drivers/media/platform/omap3isp/ispvideo.c
+> @@ -1105,7 +1105,7 @@ isp_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+>  	pipe->l3_ick = clk_get_rate(video->isp->clock[ISP_CLK_L3_ICK]);
+>  	pipe->max_rate = pipe->l3_ick;
+>
+> -	ret = media_pipeline_start(&video->video.entity, &pipe->pipe);
+> +	ret = media_pipeline_start(video->video.entity.pads, &pipe->pipe);
+>  	if (ret < 0)
+>  		goto err_pipeline_start;
+>
+> @@ -1162,7 +1162,7 @@ isp_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+>  	return 0;
+>
+>  err_check_format:
+> -	media_pipeline_stop(&video->video.entity);
+> +	media_pipeline_stop(video->video.entity.pads);
+>  err_pipeline_start:
+>  	/* TODO: Implement PM QoS */
+>  	/* The DMA queue must be emptied here, otherwise CCDC interrupts that
+> @@ -1229,7 +1229,7 @@ isp_video_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
+>  	video->error = false;
+>
+>  	/* TODO: Implement PM QoS */
+> -	media_pipeline_stop(&video->video.entity);
+> +	media_pipeline_stop(video->video.entity.pads);
+>
+>  	media_entity_enum_cleanup(&pipe->ent_enum);
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
+> index f282275af626..5cd494f17589 100644
+> --- a/drivers/media/platform/qcom/camss/camss-video.c
+> +++ b/drivers/media/platform/qcom/camss/camss-video.c
+> @@ -491,7 +491,7 @@ static int video_start_streaming(struct vb2_queue *q, unsigned int count)
+>  	struct v4l2_subdev *subdev;
+>  	int ret;
+>
+> -	ret = media_pipeline_start(&vdev->entity, &video->pipe);
+> +	ret = media_pipeline_start(vdev->entity.pads, &video->pipe);
+>  	if (ret < 0)
+>  		return ret;
+>
+> @@ -520,7 +520,7 @@ static int video_start_streaming(struct vb2_queue *q, unsigned int count)
+>  	return 0;
+>
+>  error:
+> -	media_pipeline_stop(&vdev->entity);
+> +	media_pipeline_stop(vdev->entity.pads);
+>
+>  	video->ops->flush_buffers(video, VB2_BUF_STATE_QUEUED);
+>
+> @@ -551,7 +551,7 @@ static void video_stop_streaming(struct vb2_queue *q)
+>  		v4l2_subdev_call(subdev, video, s_stream, 0);
+>  	}
+>
+> -	media_pipeline_stop(&vdev->entity);
+> +	media_pipeline_stop(vdev->entity.pads);
+>
+>  	video->ops->flush_buffers(video, VB2_BUF_STATE_ERROR);
+>  }
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index 7994262c9b63..2d930e53c1e2 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -1215,7 +1215,7 @@ static int rvin_set_stream(struct rvin_dev *vin, int on)
+>  	sd = media_entity_to_v4l2_subdev(pad->entity);
+>
+>  	if (!on) {
+> -		media_pipeline_stop(&vin->vdev.entity);
+> +		media_pipeline_stop(vin->vdev.entity.pads);
+>  		return v4l2_subdev_call(sd, video, s_stream, 0);
+>  	}
+>
+> @@ -1232,7 +1232,7 @@ static int rvin_set_stream(struct rvin_dev *vin, int on)
+>  	mdev = vin->vdev.entity.graph_obj.mdev;
+>  	mutex_lock(&mdev->graph_mutex);
+>  	pipe = sd->entity.pads->pipe ? sd->entity.pads->pipe : &vin->vdev.pipe;
+> -	ret = __media_pipeline_start(&vin->vdev.entity, pipe);
+> +	ret = __media_pipeline_start(vin->vdev.entity.pads, pipe);
+>  	mutex_unlock(&mdev->graph_mutex);
+>  	if (ret)
+>  		return ret;
+> @@ -1241,7 +1241,7 @@ static int rvin_set_stream(struct rvin_dev *vin, int on)
+>  	if (ret == -ENOIOCTLCMD)
+>  		ret = 0;
+>  	if (ret)
+> -		media_pipeline_stop(&vin->vdev.entity);
+> +		media_pipeline_stop(vin->vdev.entity.pads);
+>
+>  	return ret;
+>  }
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> index 5f6c9d1623e4..c2a11fcc9709 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> @@ -979,7 +979,7 @@ static void rkisp1_vb2_stop_streaming(struct vb2_queue *queue)
+>
+>  	rkisp1_dummy_buf_destroy(cap);
+>
+> -	media_pipeline_stop(&node->vdev.entity);
+> +	media_pipeline_stop(node->vdev.entity.pads);
+>
+>  	mutex_unlock(&cap->rkisp1->stream_lock);
+>  }
+> @@ -993,7 +993,7 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
+>
+>  	mutex_lock(&cap->rkisp1->stream_lock);
+>
+> -	ret = media_pipeline_start(entity, &cap->rkisp1->pipe);
+> +	ret = media_pipeline_start(entity->pads, &cap->rkisp1->pipe);
+>  	if (ret) {
+>  		dev_err(cap->rkisp1->dev, "start pipeline failed %d\n", ret);
+>  		goto err_ret_buffers;
+> @@ -1030,7 +1030,7 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
+>  err_destroy_dummy:
+>  	rkisp1_dummy_buf_destroy(cap);
+>  err_pipeline_stop:
+> -	media_pipeline_stop(entity);
+> +	media_pipeline_stop(entity->pads);
+>  err_ret_buffers:
+>  	rkisp1_return_all_buffers(cap, VB2_BUF_STATE_QUEUED);
+>  	mutex_unlock(&cap->rkisp1->stream_lock);
+> diff --git a/drivers/media/platform/s3c-camif/camif-capture.c b/drivers/media/platform/s3c-camif/camif-capture.c
+> index 3a8d0b05c117..77ad4d3d0d48 100644
+> --- a/drivers/media/platform/s3c-camif/camif-capture.c
+> +++ b/drivers/media/platform/s3c-camif/camif-capture.c
+> @@ -848,13 +848,13 @@ static int s3c_camif_streamon(struct file *file, void *priv,
+>  	if (s3c_vp_active(vp))
+>  		return 0;
+>
+> -	ret = media_pipeline_start(sensor, camif->m_pipeline);
+> +	ret = media_pipeline_start(sensor->pads, camif->m_pipeline);
+>  	if (ret < 0)
+>  		return ret;
+>
+>  	ret = camif_pipeline_validate(camif);
+>  	if (ret < 0) {
+> -		media_pipeline_stop(sensor);
+> +		media_pipeline_stop(sensor->pads);
+>  		return ret;
+>  	}
+>
+> @@ -878,7 +878,7 @@ static int s3c_camif_streamoff(struct file *file, void *priv,
+>
+>  	ret = vb2_streamoff(&vp->vb_queue, type);
+>  	if (ret == 0)
+> -		media_pipeline_stop(&camif->sensor.sd->entity);
+> +		media_pipeline_stop(camif->sensor.sd->entity.pads);
+>  	return ret;
+>  }
+>
+> diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
+> index 6f163e301eb1..14a86f3826b8 100644
+> --- a/drivers/media/platform/stm32/stm32-dcmi.c
+> +++ b/drivers/media/platform/stm32/stm32-dcmi.c
+> @@ -730,7 +730,7 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  		goto err_pm_put;
+>  	}
+>
+> -	ret = media_pipeline_start(&dcmi->vdev->entity, &dcmi->pipeline);
+> +	ret = media_pipeline_start(dcmi->vdev->entity.pads, &dcmi->pipeline);
+>  	if (ret < 0) {
+>  		dev_err(dcmi->dev, "%s: Failed to start streaming, media pipeline start error (%d)\n",
+>  			__func__, ret);
+> @@ -844,7 +844,7 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	dcmi_pipeline_stop(dcmi);
+>
+>  err_media_pipeline_stop:
+> -	media_pipeline_stop(&dcmi->vdev->entity);
+> +	media_pipeline_stop(dcmi->vdev->entity.pads);
+>
+>  err_pm_put:
+>  	pm_runtime_put(dcmi->dev);
+> @@ -870,7 +870,7 @@ static void dcmi_stop_streaming(struct vb2_queue *vq)
+>
+>  	dcmi_pipeline_stop(dcmi);
+>
+> -	media_pipeline_stop(&dcmi->vdev->entity);
+> +	media_pipeline_stop(dcmi->vdev->entity.pads);
+>
+>  	spin_lock_irq(&dcmi->irqlock);
+>
+> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+> index 2c39cd7f2862..be0defdf74f1 100644
+> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+> @@ -266,7 +266,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  		goto err_clear_dma_queue;
+>  	}
+>
+> -	ret = media_pipeline_start(&csi->vdev.entity, &csi->vdev.pipe);
+> +	ret = media_pipeline_start(csi->vdev.entity.pads, &csi->vdev.pipe);
+>  	if (ret < 0)
+>  		goto err_free_scratch_buffer;
+>
+> @@ -330,7 +330,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	sun4i_csi_capture_stop(csi);
+>
+>  err_disable_pipeline:
+> -	media_pipeline_stop(&csi->vdev.entity);
+> +	media_pipeline_stop(csi->vdev.entity.pads);
+>
+>  err_free_scratch_buffer:
+>  	dma_free_coherent(csi->dev, csi->scratch.size, csi->scratch.vaddr,
+> @@ -359,7 +359,7 @@ static void sun4i_csi_stop_streaming(struct vb2_queue *vq)
+>  	return_all_buffers(csi, VB2_BUF_STATE_ERROR);
+>  	spin_unlock_irqrestore(&csi->qlock, flags);
+>
+> -	media_pipeline_stop(&csi->vdev.entity);
+> +	media_pipeline_stop(csi->vdev.entity.pads);
+>
+>  	dma_free_coherent(csi->dev, csi->scratch.size, csi->scratch.vaddr,
+>  			  csi->scratch.paddr);
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+> index 3181d0781b61..537057a75eaa 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+> @@ -141,7 +141,7 @@ static int sun6i_video_start_streaming(struct vb2_queue *vq, unsigned int count)
+>
+>  	video->sequence = 0;
+>
+> -	ret = media_pipeline_start(&video->vdev.entity, &video->vdev.pipe);
+> +	ret = media_pipeline_start(video->vdev.entity.pads, &video->vdev.pipe);
+>  	if (ret < 0)
+>  		goto clear_dma_queue;
+>
+> @@ -207,7 +207,7 @@ static int sun6i_video_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  stop_csi_stream:
+>  	sun6i_csi_set_stream(video->csi, false);
+>  stop_media_pipeline:
+> -	media_pipeline_stop(&video->vdev.entity);
+> +	media_pipeline_stop(video->vdev.entity.pads);
+>  clear_dma_queue:
+>  	spin_lock_irqsave(&video->dma_queue_lock, flags);
+>  	list_for_each_entry(buf, &video->dma_queue, list)
+> @@ -231,7 +231,7 @@ static void sun6i_video_stop_streaming(struct vb2_queue *vq)
+>
+>  	sun6i_csi_set_stream(video->csi, false);
+>
+> -	media_pipeline_stop(&video->vdev.entity);
+> +	media_pipeline_stop(video->vdev.entity.pads);
+>
+>  	/* Release all active buffers */
+>  	spin_lock_irqsave(&video->dma_queue_lock, flags);
+> diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
+> index 7b7436a355ee..ca75b54311a8 100644
+> --- a/drivers/media/platform/ti-vpe/cal-video.c
+> +++ b/drivers/media/platform/ti-vpe/cal-video.c
+> @@ -675,7 +675,7 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	dma_addr_t addr;
+>  	int ret;
+>
+> -	ret = media_pipeline_start(&ctx->vdev.entity, &ctx->phy->pipe);
+> +	ret = media_pipeline_start(ctx->vdev.entity.pads, &ctx->phy->pipe);
+>  	if (ret < 0) {
+>  		ctx_err(ctx, "Failed to start media pipeline: %d\n", ret);
+>  		goto error_release_buffers;
+> @@ -719,7 +719,7 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	pm_runtime_put_sync(ctx->cal->dev);
+>
+>  error_pipeline:
+> -	media_pipeline_stop(&ctx->vdev.entity);
+> +	media_pipeline_stop(ctx->vdev.entity.pads);
+>  error_release_buffers:
+>  	cal_release_buffers(ctx, VB2_BUF_STATE_QUEUED);
+>
+> @@ -738,7 +738,7 @@ static void cal_stop_streaming(struct vb2_queue *vq)
+>
+>  	cal_release_buffers(ctx, VB2_BUF_STATE_ERROR);
+>
+> -	media_pipeline_stop(&ctx->vdev.entity);
+> +	media_pipeline_stop(ctx->vdev.entity.pads);
+>  }
+>
+>  static const struct vb2_ops cal_video_qops = {
+> diff --git a/drivers/media/platform/vsp1/vsp1_video.c b/drivers/media/platform/vsp1/vsp1_video.c
+> index f2c36f2fdf53..978f820b0f34 100644
+> --- a/drivers/media/platform/vsp1/vsp1_video.c
+> +++ b/drivers/media/platform/vsp1/vsp1_video.c
+> @@ -927,7 +927,7 @@ static void vsp1_video_stop_streaming(struct vb2_queue *vq)
+>  	}
+>  	mutex_unlock(&pipe->lock);
+>
+> -	media_pipeline_stop(&video->video.entity);
+> +	media_pipeline_stop(video->video.entity.pads);
+>  	vsp1_video_release_buffers(video);
+>  	vsp1_video_pipeline_put(pipe);
+>  }
+> @@ -1048,7 +1048,7 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+>  		return PTR_ERR(pipe);
+>  	}
+>
+> -	ret = __media_pipeline_start(&video->video.entity, &pipe->pipe);
+> +	ret = __media_pipeline_start(video->video.entity.pads, &pipe->pipe);
+>  	if (ret < 0) {
+>  		mutex_unlock(&mdev->graph_mutex);
+>  		goto err_pipe;
+> @@ -1072,7 +1072,7 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+>  	return 0;
+>
+>  err_stop:
+> -	media_pipeline_stop(&video->video.entity);
+> +	media_pipeline_stop(video->video.entity.pads);
+>  err_pipe:
+>  	vsp1_video_pipeline_put(pipe);
+>  	return ret;
+> diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
+> index 7fa0467dddde..07074eda5f70 100644
+> --- a/drivers/media/platform/xilinx/xilinx-dma.c
+> +++ b/drivers/media/platform/xilinx/xilinx-dma.c
+> @@ -406,7 +406,7 @@ static int xvip_dma_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	pipe = dma->video.entity.pads->pipe
+>  	     ? to_xvip_pipeline(&dma->video.entity) : &dma->pipe;
+>
+> -	ret = media_pipeline_start(&dma->video.entity, &pipe->pipe);
+> +	ret = media_pipeline_start(dma->video.entity.pads, &pipe->pipe);
+>  	if (ret < 0)
+>  		goto error;
+>
+> @@ -432,7 +432,7 @@ static int xvip_dma_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	return 0;
+>
+>  error_stop:
+> -	media_pipeline_stop(&dma->video.entity);
+> +	media_pipeline_stop(dma->video.entity.pads);
+>
+>  error:
+>  	/* Give back all queued buffers to videobuf2. */
+> @@ -460,7 +460,7 @@ static void xvip_dma_stop_streaming(struct vb2_queue *vq)
+>
+>  	/* Cleanup the pipeline and mark it as being stopped. */
+>  	xvip_pipeline_cleanup(pipe);
+> -	media_pipeline_stop(&dma->video.entity);
+> +	media_pipeline_stop(dma->video.entity.pads);
+>
+>  	/* Give back all queued buffers to videobuf2. */
+>  	spin_lock_irq(&dma->queued_lock);
+> diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
+> index 5e9fd902cd37..10724b0a868c 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-capture.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-capture.c
+> @@ -246,7 +246,7 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	vcap->sequence = 0;
+>
+>  	/* Start the media pipeline */
+> -	ret = media_pipeline_start(entity, &vcap->stream.pipe);
+> +	ret = media_pipeline_start(entity->pads, &vcap->stream.pipe);
+>  	if (ret) {
+>  		vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_QUEUED);
+>  		return ret;
+> @@ -254,7 +254,7 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
+>
+>  	ret = vimc_streamer_s_stream(&vcap->stream, &vcap->ved, 1);
+>  	if (ret) {
+> -		media_pipeline_stop(entity);
+> +		media_pipeline_stop(entity->pads);
+>  		vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_QUEUED);
+>  		return ret;
+>  	}
+> @@ -273,7 +273,7 @@ static void vimc_cap_stop_streaming(struct vb2_queue *vq)
+>  	vimc_streamer_s_stream(&vcap->stream, &vcap->ved, 0);
+>
+>  	/* Stop the media pipeline */
+> -	media_pipeline_stop(&vcap->vdev.entity);
+> +	media_pipeline_stop(vcap->vdev.entity.pads);
+>
+>  	/* Release all active buffers */
+>  	vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_ERROR);
+> diff --git a/drivers/media/usb/au0828/au0828-core.c b/drivers/media/usb/au0828/au0828-core.c
+> index a8a72d5fbd12..93dd7bb0ece0 100644
+> --- a/drivers/media/usb/au0828/au0828-core.c
+> +++ b/drivers/media/usb/au0828/au0828-core.c
+> @@ -410,7 +410,7 @@ static int au0828_enable_source(struct media_entity *entity,
+>  		goto end;
+>  	}
+>
+> -	ret = __media_pipeline_start(entity, pipe);
+> +	ret = __media_pipeline_start(entity->pads, pipe);
+>  	if (ret) {
+>  		pr_err("Start Pipeline: %s->%s Error %d\n",
+>  			source->name, entity->name, ret);
+> @@ -501,12 +501,12 @@ static void au0828_disable_source(struct media_entity *entity)
+>  				return;
+>
+>  			/* stop pipeline */
+> -			__media_pipeline_stop(dev->active_link_owner);
+> +			__media_pipeline_stop(dev->active_link_owner->pads);
+>  			pr_debug("Pipeline stop for %s\n",
+>  				dev->active_link_owner->name);
+>
+>  			ret = __media_pipeline_start(
+> -					dev->active_link_user,
+> +					dev->active_link_user->pads,
+>  					dev->active_link_user_pipe);
+>  			if (ret) {
+>  				pr_err("Start Pipeline: %s->%s %d\n",
+> @@ -532,7 +532,7 @@ static void au0828_disable_source(struct media_entity *entity)
+>  			return;
+>
+>  		/* stop pipeline */
+> -		__media_pipeline_stop(dev->active_link_owner);
+> +		__media_pipeline_stop(dev->active_link_owner->pads);
+>  		pr_debug("Pipeline stop for %s\n",
+>  			dev->active_link_owner->name);
+>
+> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+> index 535da4dda3c6..74218af45551 100644
+> --- a/drivers/staging/media/imx/imx-media-utils.c
+> +++ b/drivers/staging/media/imx/imx-media-utils.c
+> @@ -905,16 +905,16 @@ int imx_media_pipeline_set_stream(struct imx_media_dev *imxmd,
+>  	mutex_lock(&imxmd->md.graph_mutex);
+>
+>  	if (on) {
+> -		ret = __media_pipeline_start(entity, &imxmd->pipe);
+> +		ret = __media_pipeline_start(entity->pads, &imxmd->pipe);
+>  		if (ret)
+>  			goto out;
+>  		ret = v4l2_subdev_call(sd, video, s_stream, 1);
+>  		if (ret)
+> -			__media_pipeline_stop(entity);
+> +			__media_pipeline_stop(entity->pads);
+>  	} else {
+>  		v4l2_subdev_call(sd, video, s_stream, 0);
+>  		if (entity->pads->pipe)
+> -			__media_pipeline_stop(entity);
+> +			__media_pipeline_stop(entity->pads);
+>  	}
+>
+>  out:
+> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> index 38a240764509..db5867da3f11 100644
+> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> @@ -485,7 +485,7 @@ static int imgu_vb2_start_streaming(struct vb2_queue *vq, unsigned int count)
+>
+>  	pipe = node->pipe;
+>  	imgu_pipe = &imgu->imgu_pipe[pipe];
+> -	r = media_pipeline_start(&node->vdev.entity, &imgu_pipe->pipeline);
+> +	r = media_pipeline_start(node->vdev.entity.pads, &imgu_pipe->pipeline);
+>  	if (r < 0)
+>  		goto fail_return_bufs;
+>
+> @@ -510,7 +510,7 @@ static int imgu_vb2_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	return 0;
+>
+>  fail_stop_pipeline:
+> -	media_pipeline_stop(&node->vdev.entity);
+> +	media_pipeline_stop(node->vdev.entity.pads);
+>  fail_return_bufs:
+>  	imgu_return_all_buffers(imgu, node, VB2_BUF_STATE_QUEUED);
+>
+> @@ -550,7 +550,7 @@ static void imgu_vb2_stop_streaming(struct vb2_queue *vq)
+>  	imgu_return_all_buffers(imgu, node, VB2_BUF_STATE_ERROR);
+>  	mutex_unlock(&imgu->streaming_lock);
+>
+> -	media_pipeline_stop(&node->vdev.entity);
+> +	media_pipeline_stop(node->vdev.entity.pads);
+>  }
+>
+>  /******************** v4l2_ioctl_ops ********************/
+> diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
+> index b74f7891711d..20fac40581c6 100644
+> --- a/drivers/staging/media/omap4iss/iss_video.c
+> +++ b/drivers/staging/media/omap4iss/iss_video.c
+> @@ -889,7 +889,7 @@ iss_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+>  	if (video->iss->pdata->set_constraints)
+>  		video->iss->pdata->set_constraints(video->iss, true);
+>
+> -	ret = media_pipeline_start(pad->entity, &pipe->pipe);
+> +	ret = media_pipeline_start(pad, &pipe->pipe);
+>  	if (ret < 0)
+>  		goto err_media_pipeline_start;
+>
+> @@ -980,7 +980,7 @@ iss_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+>  err_omap4iss_set_stream:
+>  	vb2_streamoff(&vfh->queue, type);
+>  err_iss_video_check_format:
+> -	media_pipeline_stop(&video->video.entity);
+> +	media_pipeline_stop(video->video.entity.pads);
+>  err_media_pipeline_start:
+>  	if (video->iss->pdata->set_constraints)
+>  		video->iss->pdata->set_constraints(video->iss, false);
+> @@ -1034,7 +1034,7 @@ iss_video_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
+>
+>  	if (video->iss->pdata->set_constraints)
+>  		video->iss->pdata->set_constraints(video->iss, false);
+> -	media_pipeline_stop(&video->video.entity);
+> +	media_pipeline_stop(video->video.entity.pads);
+>
+>  done:
+>  	mutex_unlock(&video->stream_lock);
+> diff --git a/drivers/staging/media/tegra-video/tegra210.c b/drivers/staging/media/tegra-video/tegra210.c
+> index f10a041e3e6c..d2d7dd0e8624 100644
+> --- a/drivers/staging/media/tegra-video/tegra210.c
+> +++ b/drivers/staging/media/tegra-video/tegra210.c
+> @@ -547,7 +547,7 @@ static int tegra210_vi_start_streaming(struct vb2_queue *vq, u32 count)
+>  		       VI_INCR_SYNCPT_NO_STALL);
+>
+>  	/* start the pipeline */
+> -	ret = media_pipeline_start(&chan->video.entity, pipe);
+> +	ret = media_pipeline_start(chan->video.entity.pads, pipe);
+>  	if (ret < 0)
+>  		goto error_pipeline_start;
+>
+> @@ -595,7 +595,7 @@ static int tegra210_vi_start_streaming(struct vb2_queue *vq, u32 count)
+>  error_kthread_start:
+>  	tegra_channel_set_stream(chan, false);
+>  error_set_stream:
+> -	media_pipeline_stop(&chan->video.entity);
+> +	media_pipeline_stop(chan->video.entity.pads);
+>  error_pipeline_start:
+>  	tegra_channel_release_buffers(chan, VB2_BUF_STATE_QUEUED);
+>  	return ret;
+> @@ -617,7 +617,7 @@ static void tegra210_vi_stop_streaming(struct vb2_queue *vq)
+>
+>  	tegra_channel_release_buffers(chan, VB2_BUF_STATE_ERROR);
+>  	tegra_channel_set_stream(chan, false);
+> -	media_pipeline_stop(&chan->video.entity);
+> +	media_pipeline_stop(chan->video.entity.pads);
+>  }
+>
+>  /*
+> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> index c9d97c902d05..516d73a2941e 100644
+> --- a/include/media/media-entity.h
+> +++ b/include/media/media-entity.h
+> @@ -937,53 +937,53 @@ struct media_pad *media_graph_walk_next(struct media_graph *graph);
+>
+>  /**
+>   * media_pipeline_start - Mark a pipeline as streaming
+> - * @entity: Starting entity
+> - * @pipe: Media pipeline to be assigned to all entities in the pipeline.
+> + * @pad: Starting pad
+> + * @pipe: Media pipeline to be assigned to all pads in the pipeline.
+>   *
+> - * Mark all entities connected to a given entity through enabled links, either
+> - * directly or indirectly, as streaming. The given pipeline object is assigned
+> - * to every entity in the pipeline and stored in the media_entity pipe field.
+> + * Mark all pads connected to a given pad through enabled routes or links,
+> + * either directly or indirectly, as streaming. The given pipeline object is
+> + * assigned to every pad in the pipeline and stored in the media_pad pipe
+> + * field.
+>   *
+>   * Calls to this function can be nested, in which case the same number of
+>   * media_pipeline_stop() calls will be required to stop streaming. The
+>   * pipeline pointer must be identical for all nested calls to
+>   * media_pipeline_start().
+>   */
+> -__must_check int media_pipeline_start(struct media_entity *entity,
+> +__must_check int media_pipeline_start(struct media_pad *pad,
+>  				      struct media_pipeline *pipe);
+>  /**
+>   * __media_pipeline_start - Mark a pipeline as streaming
+>   *
+> - * @entity: Starting entity
+> - * @pipe: Media pipeline to be assigned to all entities in the pipeline.
+> + * @pad: Starting pad
+> + * @pipe: Media pipeline to be assigned to all pads in the pipeline.
+>   *
+>   * ..note:: This is the non-locking version of media_pipeline_start()
+>   */
+> -__must_check int __media_pipeline_start(struct media_entity *entity,
+> +__must_check int __media_pipeline_start(struct media_pad *pad,
+>  					struct media_pipeline *pipe);
+>
+>  /**
+>   * media_pipeline_stop - Mark a pipeline as not streaming
+> - * @entity: Starting entity
+> + * @pad: Starting pad
+>   *
+> - * Mark all entities connected to a given entity through enabled links, either
+> - * directly or indirectly, as not streaming. The media_entity pipe field is
+> - * reset to %NULL.
+> + * Mark all pads connected to a given pad through enabled routes or links,
+> + * either directly or indirectly, as not streaming.
+>   *
+>   * If multiple calls to media_pipeline_start() have been made, the same
+>   * number of calls to this function are required to mark the pipeline as not
+> - * streaming.
+> + * streaming and reset the media_pad pipe field to %NULL.
+>   */
+> -void media_pipeline_stop(struct media_entity *entity);
+> +void media_pipeline_stop(struct media_pad *pad);
+>
+>  /**
+>   * __media_pipeline_stop - Mark a pipeline as not streaming
+>   *
+> - * @entity: Starting entity
+> + * @pad: Starting pad
+>   *
+>   * .. note:: This is the non-locking version of media_pipeline_stop()
+>   */
+> -void __media_pipeline_stop(struct media_entity *entity);
+> +void __media_pipeline_stop(struct media_pad *pad);
+>
+>  /**
+>   * media_devnode_create() - creates and initializes a device node interface
+> --
+> 2.25.1
+>
