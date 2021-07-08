@@ -2,126 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DBDE3C14EC
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 16:14:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 952B93C1562
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 16:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231783AbhGHOQw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 10:16:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38308 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229592AbhGHOQw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Jul 2021 10:16:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1625753650;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=TntTIb+1S1FuwVReDa+/7xgwmFfelIwb8SEWxcwP4uk=;
-        b=Yl3owvWm/p+O2RvzIJfReQnCcjJ/GnyxMXicppkQtRSeBhC2ttMlUPACtsGnf4LE/U//UN
-        qEGPu33MdDIEpuLUhyNpLAH1GVljY4URyl6i1GrDZKSGoPseHK7+jX70rc2rNxhlu68Y3Q
-        a5QQKpApXA9nxabBC8Y5cANjXcJNNCk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-no09P7ZuMFGIzIP2Yguptw-1; Thu, 08 Jul 2021 10:14:08 -0400
-X-MC-Unique: no09P7ZuMFGIzIP2Yguptw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S231790AbhGHOpL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 10:45:11 -0400
+Received: from meesny.iki.fi ([195.140.195.201]:49864 "EHLO meesny.iki.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229738AbhGHOpK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Jul 2021 10:45:10 -0400
+Received: from hillosipuli.retiisi.eu (dbdx-ftd5cf51mv6xr7xy-3.rev.dnainternet.fi [IPv6:2001:14ba:8e7:f240:7911:3355:4753:76e6])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28B9E1084F54;
-        Thu,  8 Jul 2021 14:14:07 +0000 (UTC)
-Received: from x1.localdomain (ovpn-114-156.ams2.redhat.com [10.36.114.156])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EA9CC5D6D1;
-        Thu,  8 Jul 2021 14:14:05 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: [PATCH for 5.10.y] media: uvcvideo: Support devices that report an OT as an entity source
-Date:   Thu,  8 Jul 2021 16:14:04 +0200
-Message-Id: <20210708141404.14826-1-hdegoede@redhat.com>
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4FD2120076;
+        Thu,  8 Jul 2021 17:42:27 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1625755347;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=65IxwOJHhj1SDcZAxRPR3MD+lPtIExnpnKEzvBCh0VU=;
+        b=vMm2qs9MygzwNwC8q/dQ/KX0UmikFKHd6i6fDJ/BeIPZN7WLeJtLym5kS0Fy5lpEbi3ULD
+        +aYxOHOOX4mWHQukHJ+9EgyDj4Npeiv+CFTHwfUjEXoNI5pTLL6DsudLAVM3Mp4jSK0vyn
+        OLeSSGYoRK2I3k6z4lQ4/kY+WQKXBDg=
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B391E634C87;
+        Thu,  8 Jul 2021 17:41:47 +0300 (EEST)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
+        by valkosipuli.localdomain with esmtp (Exim 4.92)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1m1VEQ-000215-9U; Thu, 08 Jul 2021 17:42:26 +0300
+Date:   Thu, 8 Jul 2021 17:42:26 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 01/11] rcar-vin: Refactor controls creation for video
+ device
+Message-ID: <20210708144226.GC3@valkosipuli.retiisi.eu>
+References: <20210413180253.2575451-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210413180253.2575451-2-niklas.soderlund+renesas@ragnatech.se>
+ <20210706160401.xssshab7nkxroxnp@uno.localdomain>
+ <YOSBxLV86PX63AWm@oden.dyn.berto.se>
+ <20210706165803.jepqksw4slo3xkyc@uno.localdomain>
+ <20210708134040.GB3@valkosipuli.retiisi.eu>
+ <YOcGN3n7w0NAobdo@oden.dyn.berto.se>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <YOcGN3n7w0NAobdo@oden.dyn.berto.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1625755347;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=65IxwOJHhj1SDcZAxRPR3MD+lPtIExnpnKEzvBCh0VU=;
+        b=SnXRsb7aR6iRz7VC0hTnp3Tq4E4FCd4SfZqfwuza7xYhfvRx1zOvnrGITnmQVi34TqFxTP
+        c4FwCcwqyzxiqgPagBEMvuF7tFBhyku11ByzXcxhKFLsNzofGsz9gqPfrqfomYyr0UO3gE
+        vgnp6Z6Y5EtDg3ogdvSy8nhA44O81oM=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1625755347; a=rsa-sha256; cv=none;
+        b=xw0IV3qaPtrZuKFJvCE0Tf11OgDW0LzE1WO1mzAguFc18/9pkg6a2n9Qm3ZU0xCdJZPwJ1
+        pFr/U/rzOXodAu9QXqHkmFVFFVd9yhyFTkf/lcHvWS/9KcCgmdOFQ2CQDJbANKHkwzfOY0
+        O2oa7oUFnBe4NB+DabshzGtz8YAUHBA=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Thu, Jul 08, 2021 at 04:05:43PM +0200, Niklas Söderlund wrote:
+> Hi Sakari,
+> 
+> On 2021-07-08 16:40:40 +0300, Sakari Ailus wrote:
+> > Hi Niklas, Jacopo,
+> > 
+> > On Tue, Jul 06, 2021 at 06:58:03PM +0200, Jacopo Mondi wrote:
+> > > > > > @@ -522,10 +543,8 @@ static void rvin_parallel_subdevice_detach(struct rvin_dev *vin)
+> > > > > >  	rvin_v4l2_unregister(vin);
+> > > > > >  	vin->parallel.subdev = NULL;
+> > > > > >
+> > > > > > -	if (!vin->info->use_mc) {
+> > > > > > -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > > > > > -		vin->vdev.ctrl_handler = NULL;
+> > > > > > -	}
+> > > > > > +	if (!vin->info->use_mc)
+> > > > >
+> > > > > I know it was there already, but give that rvin_parallel_notify_unbind()
+> > > > > is only registered for parallel, can this happen ?
+> > > >
+> > > > Yes, on Gen2 where we don't use a media-graph.
+> > > >
+> > > 
+> > > Ah correct, for gen3 the controls are freed elsewhere, right!
+> > > 
+> > > Thanks for the clarification
+> > 
+> > I already had the set in my tree but I can throw it out if you'd prefer to
+> > send v2 instead. At least I noticed only minor matters in the comments.
+> 
+> There is one small issue in a cleanup path in 4/11 that should be fixed 
+> and it's always good to get the small things fixed. If I have a v2 out 
+> before end of day tomorrow could you refresh what you have in your tree?
 
-[ Upstream commit 4ca052b4ea621d0002a5e5feace51f60ad5e6b23 ]
+Certainly. There's no urgency --- we don't have even rc1 yet.
 
-Some devices reference an output terminal as the source of extension
-units. This is incorrect, as output terminals only have an input pin,
-and thus can't be connected to any entity in the forward direction. The
-resulting topology would cause issues when registering the media
-controller graph. To avoid this problem, connect the extension unit to
-the source of the output terminal instead.
-
-While at it, and while no device has been reported to be affected by
-this issue, also handle forward scans where two output terminals would
-be connected together, and skip the terminals found through such an
-invalid connection.
-
-Cc: stable@vger.kernel.org # v5.10
-Reported-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/media/usb/uvc/uvc_driver.c | 32 ++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 5ad528264135..282f3d2388cc 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -1588,6 +1588,31 @@ static int uvc_scan_chain_forward(struct uvc_video_chain *chain,
- 				return -EINVAL;
- 			}
- 
-+			/*
-+			 * Some devices reference an output terminal as the
-+			 * source of extension units. This is incorrect, as
-+			 * output terminals only have an input pin, and thus
-+			 * can't be connected to any entity in the forward
-+			 * direction. The resulting topology would cause issues
-+			 * when registering the media controller graph. To
-+			 * avoid this problem, connect the extension unit to
-+			 * the source of the output terminal instead.
-+			 */
-+			if (UVC_ENTITY_IS_OTERM(entity)) {
-+				struct uvc_entity *source;
-+
-+				source = uvc_entity_by_id(chain->dev,
-+							  entity->baSourceID[0]);
-+				if (!source) {
-+					uvc_trace(UVC_TRACE_DESCR,
-+						"Can't connect extension unit %u in chain\n",
-+						forward->id);
-+					break;
-+				}
-+
-+				forward->baSourceID[0] = source->id;
-+			}
-+
- 			list_add_tail(&forward->chain, &chain->entities);
- 			if (uvc_trace_param & UVC_TRACE_PROBE) {
- 				if (!found)
-@@ -1608,6 +1633,13 @@ static int uvc_scan_chain_forward(struct uvc_video_chain *chain,
- 				return -EINVAL;
- 			}
- 
-+			if (UVC_ENTITY_IS_OTERM(entity)) {
-+				uvc_trace(UVC_TRACE_DESCR,
-+					"Unsupported connection between output terminals %u and %u\n",
-+					entity->id, forward->id);
-+				break;
-+			}
-+
- 			list_add_tail(&forward->chain, &chain->entities);
- 			if (uvc_trace_param & UVC_TRACE_PROBE) {
- 				if (!found)
 -- 
-2.31.1
-
+Sakari Ailus
