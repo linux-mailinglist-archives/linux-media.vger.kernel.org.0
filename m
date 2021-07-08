@@ -2,570 +2,655 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B8083BF88C
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 12:47:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B4DB3BF897
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 12:54:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231517AbhGHKuQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 06:50:16 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:59485 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231493AbhGHKuP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 06:50:15 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id A08E51C0005;
-        Thu,  8 Jul 2021 10:47:30 +0000 (UTC)
-Date:   Thu, 8 Jul 2021 12:48:19 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: Re: [PATCH v7 03/27] media: entity: Walk the graph based on pads
-Message-ID: <20210708104819.l37h65l4zedxxq53@uno.localdomain>
-References: <20210524104408.599645-1-tomi.valkeinen@ideasonboard.com>
- <20210524104408.599645-4-tomi.valkeinen@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+        id S231557AbhGHK5H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 06:57:07 -0400
+Received: from mail-co1nam11on2074.outbound.protection.outlook.com ([40.107.220.74]:11674
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231493AbhGHK5H (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Jul 2021 06:57:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oB0rXkni4bO59hiH4iytfWIPS+VS6WQ7PH0rXiLNVfVgdq3K1KlNRbAOzwz9WFEG8ml6bcokWXH+Wr1MXhyQgqX7PwQ/XRQk0i9fVUGd4GJ4OIo0t3NQqIu+W+gilT2VE/+V+F42VrPN/7vwv89kbbbTLaFrPzK7R2ZDtabEiKPINsDaTxpfkjVUzb2jkjs8ii/Oa8I4eHK65YWTEx5tAMs0cT8OfM046hf/5KnE6wyVC5rKViaoj6o9ZCsCaDyO4tiE5cV5YR8Mh+n/Vfct6sVtuTefApOx6qkaFDPy10EDYeZBtFYvOZMovdmsCSLvWiM4rhowPU5s+/CIVCH1GA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jzTJSQJ5Kt91q7u1HpsybpnjsmVFL51eewZGS73zwyE=;
+ b=kXnWTxxqb3cuCYTIDFZziDvQucd26K7NuucuYZr/LzsP0e+Ym1toA3UKX/mVC/S79/KqYTKL3nArKKM+O2M6AlhpSxBl5yZNaS2T2wFLHkayvAiuFoM/hoT6ImX9ZOFSy4soSCPiPpULPyN1Q+wUuZMoXatg5o/g8Q1WXbcvVeTGp82/sNhZNEJpXcB5jisLO3sghAW5SiQ9HzvIqqWEeFK5xqgh3BoNHwqYLYW5tysrQcTGBs0WXaKf2B1UGfUO3MNisEjRtJeZTVEZOCtieh3ayu3lTipx760/j7tWNHeReFIrm8aRt929ZBruZS7JdHqdNSwET5wv25r2X+FT9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jzTJSQJ5Kt91q7u1HpsybpnjsmVFL51eewZGS73zwyE=;
+ b=WDKlCfGGTFOpF+RASE2Koyk2RyUksdNyaeT0jXKfZlME89QrO5HKJIe1Q/+UjC4S4URfGODPtit0bk0A1eN9gw6mPggQZQg6KUeixq3cRRVEsar3JCoRTnT0FVYkZJW14ULpoZzWVxqp7103bptPCTDCxEfI+ZEJ+uiEDHSeipc=
+Authentication-Results: anholt.net; dkim=none (message not signed)
+ header.d=none;anholt.net; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4320.namprd12.prod.outlook.com (2603:10b6:208:15f::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20; Thu, 8 Jul
+ 2021 10:54:19 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4308.022; Thu, 8 Jul 2021
+ 10:54:19 +0000
+Subject: Re: [PATCH v2 01/11] drm/sched: Split drm_sched_job_init
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Steven Price <steven.price@arm.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Qiang Yu <yuq825@gmail.com>, Rob Herring <robh@kernel.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        David Airlie <airlied@linux.ie>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Nick Terrell <terrelln@fb.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Paul Menzel <pmenzel@molgen.mpg.de>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Dave Airlie <airlied@redhat.com>,
+        Nirmoy Das <nirmoy.das@amd.com>,
+        Deepak R Varma <mh12gx2825@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Kevin Wang <kevin1.wang@amd.com>,
+        Chen Li <chenli@uniontech.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+        Dennis Li <Dennis.Li@amd.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Sonny Jiang <sonny.jiang@amd.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Jack Zhang <Jack.Zhang1@amd.com>,
+        The etnaviv authors <etnaviv@lists.freedesktop.org>,
+        lima@lists.freedesktop.org,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Emma Anholt <emma@anholt.net>
+References: <a5c5647e-e0ce-cc6d-c473-685679739051@amd.com>
+ <CAKMK7uGTSe9FZCup=6D2G3MWGuxoUiV3Qjau-pQyaqOAX8OTug@mail.gmail.com>
+ <8387b5f8-a5f6-fc2d-48e6-4bb0768ac642@amd.com>
+ <CAKMK7uFu7V0QzsbMGPJPnMjXOB7FrKB_d+oDwkFMVaEvgy5EOQ@mail.gmail.com>
+ <7933a995-0c95-9339-5385-a24681f6df3a@amd.com>
+ <CAKMK7uE3bd2whKVBA4uWmzKBp7fjcVKexVFc=TB+ZRxdYT7VNg@mail.gmail.com>
+ <b4824514-4ffd-a5f0-9bbc-d89cdd4e7b50@amd.com>
+ <CAKMK7uF7E4G9D_W+YRV_ZrJLtUFXqWZfN78VdrVC=byMux78LQ@mail.gmail.com>
+ <CAKMK7uEwFUq2KnSjk0YgdbKKvhh2ifsyURO0E5RzzhWzzMtovQ@mail.gmail.com>
+ <4369ee92-7eba-3faa-4d9c-08901d3506aa@amd.com>
+ <YObNNcSZL0CBXvQK@phenom.ffwll.local>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <700b6419-4d3c-9cc8-f8bd-0d7d134df546@amd.com>
+Date:   Thu, 8 Jul 2021 12:54:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <YObNNcSZL0CBXvQK@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210524104408.599645-4-tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+X-ClientProxiedBy: PR0P264CA0233.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:1e::29) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:bc19:c1e3:6307:7e3e] (2a02:908:1252:fb60:bc19:c1e3:6307:7e3e) by PR0P264CA0233.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1e::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20 via Frontend Transport; Thu, 8 Jul 2021 10:54:13 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bb656f5c-f480-4d88-e0fe-08d941febc09
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4320:
+X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4320521E6B13257F1D137E4D83199@MN2PR12MB4320.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:506;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6S/oqs/UxzvmgAmQ0w06F/zkHdiBWVN1L1SJHoX5p0Fir2wXqnEgBZcCZOTjaXL8wxbxoqbqFOSlZ1+bBuxYS9FvkXCV28Wo5jWNzBL1LRMAaJ56WaC8aN3DyGBtVFS8+QgNfJLGo8xMpBP6sjTV/ubPsPtJoRvenSoDMQCshr3avIuRkJW4orvu9qrvH7cCPBl2iSMkvPHGPJ57td+irEKGzsoITjR8xy/a0AVhV4mOlTcDxKjLCQUnfLDODF5q5GdLi1S3MUF3pohmCWvJyDhJRZnWQ6QukdnkS5cclBmHYAqHNu5oVVF4ywqQkykdjNxEuQoYGFS1uNZbZzZOBL9K+N7rEbI8+sT6/ooMcKY8DT8k/SxxfB35B/vR39te1QKdlgOiYiBCZGMBG7F2Mvj8hycLxytUTuLkJlIORDkusM3QNOiLnbZA2Rk90dYhZJi35FqwvPoaIgJjeVfVsFZlzu8VLiWPo1ZuzA9ZEOkidgXP6t2eC5MWqV/9O+EUsFJgt351bqeyFnzFjwyCPL6hCoKmYAyUMpeg2OZ1R/lFVPh8Oovjk1G7TBGxq6Sq1vNIVfzldFZeYUzPhcFKGoDW43PIVrUresaxj4Co+qTgumakx0kfanlSUwC1TMRyTjWMRCVq4H6Fzg4mb2VU9PA22fUIBvYCPjx+c9KZg4uFzJwm5XiqSmbZV/NyrepbhOk25w7JASCiL7aQxXZLBFSve5nZDLSw3gr/vgtxyBGvXVlTT/pakn7S7MM1TNIkw9Fj2lX+LO0BNAObI8JgIXs1NTgEWzcShE9+Vfa3uOoL86sirbiBlOzfn1pm0WoEA+ZwEXfsPwLZPh49Ya7hsQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(346002)(136003)(39850400004)(396003)(54906003)(31696002)(4326008)(66946007)(6666004)(6916009)(66476007)(8676002)(8936002)(7406005)(66556008)(5660300002)(66574015)(316002)(6486002)(31686004)(186003)(30864003)(86362001)(83380400001)(53546011)(966005)(38100700002)(478600001)(2906002)(45080400002)(7416002)(2616005)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?blE5OW5kdTJzaW1EcVFQK2FFZTFITHkyVDBPNzJrT1c3Zjd0T2RxL00yajAw?=
+ =?utf-8?B?T3djZnVndU9VcFh4VjVBZUNFN2lMTDNWRzlnVnpCZkYrdWIrYk9oanZiM1pD?=
+ =?utf-8?B?clV6dEVleVZzL1YySGc1d1QrTUl1UThQajUzYzRsMDAvNzg1UCsvdHpQOFg4?=
+ =?utf-8?B?eURDNlhIYWFmM09nUzlLSlRkNEF4N0ZyYVVWZkt1WnBCR0NYc3RraWphTzdC?=
+ =?utf-8?B?YVhRTHA4VDA0MUtKa0FZVU5aUUs0cHJZdm9SOHZHYWFLdzc3eEJ4WWlLSUNM?=
+ =?utf-8?B?Sm5BQy84cy8zbW56ckNUb2RJNWl0dzVRVTg2ZGhmWTZVbUs3eklIYWRJcEJN?=
+ =?utf-8?B?SXd4UWFRNXpxUjNWZ3Y5YUVTNzBhVkdiMGRtMHk4TmZVSURWTGtYZ204dXhk?=
+ =?utf-8?B?VDV3S0t1a28vWVNUNVQ3Q2NvVlRXbVNUc0kwWlFJekd6eTd3NDc3M1FsbVdh?=
+ =?utf-8?B?L1g1Z0RCT0xhOEpFSzZmM0U3aWNGVjNQMEJWTXN4SDRCVUU2T3NsdjR3alZM?=
+ =?utf-8?B?WmFXY3RzTFA5YTlSdkdZNnR3c0lKQ01BYkovNmpJR2Q2NjZKcVNrckZQMjND?=
+ =?utf-8?B?QzBOdXdJc2ZIb2sySzQ5YXVYYVpuZ0pQbE84cXIzQ3hhWGJFejRuTVZUcmtE?=
+ =?utf-8?B?akl3Z0kxWmFJN2FnUkx1RVBxQVdxUkdhNVRHUFY2Z1d1TFU5V1BZbUk0T0lF?=
+ =?utf-8?B?VjUrd3Bya2YwMitKYi8vb1Z4SWszYktGdTE4ZjlyVGVpdjZqSENxVWRQaUxm?=
+ =?utf-8?B?djFGa3hob3Y4NjEwVi96bklwNkV0NE9od3o1NFlDVFEzdW9Zbk1CTzNNVy8y?=
+ =?utf-8?B?RG1hNUZpZFN2d1l3cU8xdkFFd09hNVIrbVRQVC9WdFF1UmYxRzhIZzBNcHNE?=
+ =?utf-8?B?VE5TNVdpWVl3dzhGaDFFN1Zya1JvQk5Na2MwSGwrQmdPdDhmMUpsWXQzUmE4?=
+ =?utf-8?B?dkluY3JHR3NxMWhjVklaKzNpY2t2dlhON2lFNUVZRkdwZVJmSnNCQmpjT0Y3?=
+ =?utf-8?B?ZmQwMWlxR2VzRWpGQmlmL0lqWWFnbGdhTk5zNVkycmw2UmJ6YjFMUHAwenc2?=
+ =?utf-8?B?UlhNVFhuZUlBQ1ZjV2dkRVZudGROeXZ2ZWdpZzdjVC8wNHo1Y01Eb1QvQ0lv?=
+ =?utf-8?B?MXFsZ3VpNHZMLzkxSmhwTkk0b1ROM1E4UWtSRm1TSVVHd21Idk1XRzNXeTZZ?=
+ =?utf-8?B?QVVWU0NwTXVZNlZqeGl1QW5CNXlDUk5nZGdDZk41bTRtSUs3bzViWjhycVh4?=
+ =?utf-8?B?YkdESUt5Y0llTWhOclJIR2lNYnJreEhEdlBRc2JDSWEwQlpRdmVzTHZjMXVn?=
+ =?utf-8?B?Sy94bm42ZGFOUnUzRkZrQTB2VTRvdVUvUkFjaVIwZ0NTVlpjL2xSRjlzY0dE?=
+ =?utf-8?B?SG9XTlZFYWF5QkNUUzVVWWdzVit3cGRpOTBNOW52Y1VkTGo1SHB2Z2tSc3V5?=
+ =?utf-8?B?MGhnU2laYnJ6WWxtelc3MzlFNGk1bGZQcnVlK2hoS0ZDTzRJd0dkbVVTTmxv?=
+ =?utf-8?B?MXdYVXY3V1Mybm5hc1hTVFlUMlU2R0R2b0swdkYvWUM5Uk5LTVd3RHhPUXJr?=
+ =?utf-8?B?aEhTNHQvSDgySDlrSGlVRzVBRVdzZkJHN3lYWWVPK09CVnFvQ21rR2hYQm13?=
+ =?utf-8?B?Y2J6SGlTQXBkUFluTWIwMm1yM0o3ck1tR2o0c1I0Q3Z2aEsxeWJjdzBZMU5N?=
+ =?utf-8?B?ZTZaUHRVRlBhSWJLbXp2R0JUN1RmMTVvRG9YdlNJRlo3bjdyYUU4TlhaY3Zq?=
+ =?utf-8?B?Y3NlTmN2Q2hhZ0F5QkFNRThYaVNCc21CM0o4azBaTWQ1ODdNUWIyaC9CUG1R?=
+ =?utf-8?B?eUw1UGk5UVFpVmtLZThHaUJFek1PaFYxR3RPREFnR3hVaEsrMzNaWGN0eHUw?=
+ =?utf-8?Q?p5/4Miuh84P41?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb656f5c-f480-4d88-e0fe-08d941febc09
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2021 10:54:18.7595
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G/AeixzuWGWjHRP9AwZM/iISIOEXaibNVK4prlXBlicDE4JDIkr7m9T8CtrJNAdP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4320
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+Am 08.07.21 um 12:02 schrieb Daniel Vetter:
+> On Thu, Jul 08, 2021 at 09:53:00AM +0200, Christian König wrote:
+>> Am 08.07.21 um 09:19 schrieb Daniel Vetter:
+>>> On Thu, Jul 8, 2021 at 9:09 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>>>> On Thu, Jul 8, 2021 at 8:56 AM Christian König <christian.koenig@amd.com> wrote:
+>>>>> Am 07.07.21 um 18:32 schrieb Daniel Vetter:
+>>>>>> On Wed, Jul 7, 2021 at 2:58 PM Christian König <christian.koenig@amd.com> wrote:
+>>>>>>> Am 07.07.21 um 14:13 schrieb Daniel Vetter:
+>>>>>>>> On Wed, Jul 7, 2021 at 1:57 PM Christian König <christian.koenig@amd.com> wrote:
+>>>>>>>>> Am 07.07.21 um 13:14 schrieb Daniel Vetter:
+>>>>>>>>>> On Wed, Jul 7, 2021 at 11:30 AM Christian König
+>>>>>>>>>> <christian.koenig@amd.com> wrote:
+>>>>>>>>>>> Am 02.07.21 um 23:38 schrieb Daniel Vetter:
+>>>>>>>>>>>> This is a very confusingly named function, because not just does it
+>>>>>>>>>>>> init an object, it arms it and provides a point of no return for
+>>>>>>>>>>>> pushing a job into the scheduler. It would be nice if that's a bit
+>>>>>>>>>>>> clearer in the interface.
+>>>>>>>>>>>>
+>>>>>>>>>>>> But the real reason is that I want to push the dependency tracking
+>>>>>>>>>>>> helpers into the scheduler code, and that means drm_sched_job_init
+>>>>>>>>>>>> must be called a lot earlier, without arming the job.
+>>>>>>>>>>>>
+>>>>>>>>>>>> v2:
+>>>>>>>>>>>> - don't change .gitignore (Steven)
+>>>>>>>>>>>> - don't forget v3d (Emma)
+>>>>>>>>>>>>
+>>>>>>>>>>>> v3: Emma noticed that I leak the memory allocated in
+>>>>>>>>>>>> drm_sched_job_init if we bail out before the point of no return in
+>>>>>>>>>>>> subsequent driver patches. To be able to fix this change
+>>>>>>>>>>>> drm_sched_job_cleanup() so it can handle being called both before and
+>>>>>>>>>>>> after drm_sched_job_arm().
+>>>>>>>>>>> Thinking more about this, I'm not sure if this really works.
+>>>>>>>>>>>
+>>>>>>>>>>> See drm_sched_job_init() was also calling drm_sched_entity_select_rq()
+>>>>>>>>>>> to update the entity->rq association.
+>>>>>>>>>>>
+>>>>>>>>>>> And that can only be done later on when we arm the fence as well.
+>>>>>>>>>> Hm yeah, but that's a bug in the existing code I think: We already
+>>>>>>>>>> fail to clean up if we fail to allocate the fences. So I think the
+>>>>>>>>>> right thing to do here is to split the checks into job_init, and do
+>>>>>>>>>> the actual arming/rq selection in job_arm? I'm not entirely sure
+>>>>>>>>>> what's all going on there, the first check looks a bit like trying to
+>>>>>>>>>> schedule before the entity is set up, which is a driver bug and should
+>>>>>>>>>> have a WARN_ON?
+>>>>>>>>> No you misunderstood me, the problem is something else.
+>>>>>>>>>
+>>>>>>>>> You asked previously why the call to drm_sched_job_init() was so late in
+>>>>>>>>> the CS.
+>>>>>>>>>
+>>>>>>>>> The reason for this was not alone the scheduler fence init, but also the
+>>>>>>>>> call to drm_sched_entity_select_rq().
+>>>>>>>> Ah ok, I think I can fix that. Needs a prep patch to first make
+>>>>>>>> drm_sched_entity_select infallible, then should be easy to do.
+>>>>>>>>
+>>>>>>>>>> The 2nd check around last_scheduled I have honeslty no idea what it's
+>>>>>>>>>> even trying to do.
+>>>>>>>>> You mean that here?
+>>>>>>>>>
+>>>>>>>>>              fence = READ_ONCE(entity->last_scheduled);
+>>>>>>>>>              if (fence && !dma_fence_is_signaled(fence))
+>>>>>>>>>                      return;
+>>>>>>>>>
+>>>>>>>>> This makes sure that load balancing is not moving the entity to a
+>>>>>>>>> different scheduler while there are still jobs running from this entity
+>>>>>>>>> on the hardware,
+>>>>>>>> Yeah after a nap that idea crossed my mind too. But now I have locking
+>>>>>>>> questions, afaiui the scheduler thread updates this, without taking
+>>>>>>>> any locks - entity dequeuing is lockless. And here we read the fence
+>>>>>>>> and then seem to yolo check whether it's signalled? What's preventing
+>>>>>>>> a use-after-free here? There's no rcu or anything going on here at
+>>>>>>>> all, and it's outside of the spinlock section, which starts a bit
+>>>>>>>> further down.
+>>>>>>> The last_scheduled fence of an entity can only change when there are
+>>>>>>> jobs on the entities queued, and we have just ruled that out in the
+>>>>>>> check before.
+>>>>>> There aren't any barriers, so the cpu could easily run the two checks
+>>>>>> the other way round. I'll ponder this and figure out where exactly we
+>>>>>> need docs for the constraint and/or barriers to make this work as
+>>>>>> intended. As-is I'm not seeing how it does ...
+>>>>> spsc_queue_count() provides the necessary barrier with the atomic_read().
+>>>> atomic_t is fully unordered, except when it's a read-modify-write
+>>> Wasn't awake yet, I think the rule is read-modify-write and return
+>>> previous value gives you full barrier. So stuff like cmpxchg, but also
+>>> a few others. See atomic_t.txt under ODERING heading (yes that
+>>> maintainer refuses to accept .rst so I can't just link you to the
+>>> right section, it's silly). get/set and even RMW atomic ops that don't
+>>> return anything are all fully unordered.
+>> As far as I know that not completely correct. The rules around atomics i
+>> once learned are:
+>>
+>> 1. Everything which modifies something is a write barrier.
+>> 2. Everything which returns something is a read barrier.
+>>
+>> And I know a whole bunch of use cases where this is relied upon in the core
+>> kernel, so I'm pretty sure that's correct.
+> That's against what the doc says, and also it would mean stuff like
+> atomic_read_acquire or smp_mb__after/before_atomic is completely pointless.
+>
+> On x86 you're right, anywhere else where there's no total store ordering I
+> you're wrong.
 
-On Mon, May 24, 2021 at 01:43:44PM +0300, Tomi Valkeinen wrote:
-> From: Sakari Ailus <sakari.ailus@linux.intel.com>
->
-> Instead of iterating over graph entities during the walk, iterate the pads
-> through which the entity was first reached. This is required in order to
-> make the entity pipeline pad-based rather than entity based.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  Documentation/driver-api/media/mc-core.rst    |  7 ++-
->  drivers/media/mc/mc-entity.c                  | 51 +++++++++++--------
->  drivers/media/platform/exynos4-is/media-dev.c | 20 ++++----
->  drivers/media/platform/omap3isp/ispvideo.c    | 17 ++++---
->  drivers/media/platform/vsp1/vsp1_video.c      | 12 ++---
->  drivers/media/platform/xilinx/xilinx-dma.c    | 12 ++---
->  drivers/media/v4l2-core/v4l2-mc.c             | 24 ++++-----
->  drivers/staging/media/omap4iss/iss_video.c    | 36 ++++++-------
->  include/media/media-entity.h                  |  7 +--
->  9 files changed, 101 insertions(+), 85 deletions(-)
->
-> diff --git a/Documentation/driver-api/media/mc-core.rst b/Documentation/driver-api/media/mc-core.rst
-> index ba0aee982124..8a13640bed56 100644
-> --- a/Documentation/driver-api/media/mc-core.rst
-> +++ b/Documentation/driver-api/media/mc-core.rst
-> @@ -169,8 +169,11 @@ Drivers initiate a graph traversal by calling
->  The graph structure, provided by the caller, is initialized to start graph
->  traversal at the given pad in an entity.
->
-> -Drivers can then retrieve the next entity by calling
-> -:c:func:`media_graph_walk_next()`
-> +Drivers can then retrieve the next pad by calling
-> +:c:func:`media_graph_walk_next()`. Only the pad through which the entity
-> +is first reached is returned. If the caller is interested in knowing which
-> +further pads would be connected, the :c:func:`media_entity_has_route()`
+Good to know. I always thought that atomic_read_acquire() was just for 
+documentation purpose.
 
-Not a big deal either, but this will be introduced later too
 
-> +function can be used for that.
->
->  When the graph traversal is complete the function will return ``NULL``.
->
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index 0d58634b6fa8..32045671eaff 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -341,9 +341,9 @@ static void media_graph_walk_iter(struct media_graph *graph)
->  	lockdep_assert_held(&next->graph_obj.mdev->graph_mutex);
->  }
->
-> -struct media_entity *media_graph_walk_next(struct media_graph *graph)
-> +struct media_pad *media_graph_walk_next(struct media_graph *graph)
->  {
-> -	struct media_entity *entity;
-> +	struct media_pad *pad;
->
->  	if (stack_top(graph) == NULL)
->  		return NULL;
-> @@ -356,11 +356,11 @@ struct media_entity *media_graph_walk_next(struct media_graph *graph)
->  	while (link_top(graph) != &stack_top(graph)->entity->links)
->  		media_graph_walk_iter(graph);
->
-> -	entity = stack_pop(graph)->entity;
-> -	dev_dbg(entity->graph_obj.mdev->dev,
-> -		"walk: returning entity '%s'\n", entity->name);
-> +	pad = stack_pop(graph);
-> +	dev_dbg(pad->graph_obj.mdev->dev,
-> +		"walk: returning pad '%s':%u\n", pad->entity->name, pad->index);
->
-> -	return entity;
-> +	return pad;
->  }
->  EXPORT_SYMBOL_GPL(media_graph_walk_next);
->
-> @@ -408,7 +408,8 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
->  {
->  	struct media_device *mdev = entity->graph_obj.mdev;
->  	struct media_graph *graph = &pipe->graph;
-> -	struct media_entity *entity_err = entity;
-> +	struct media_pad *pad = entity->pads;
-> +	struct media_pad *pad_err = pad;
->  	struct media_link *link;
->  	int ret;
->
-> @@ -418,9 +419,11 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
->  			goto error_graph_walk_start;
->  	}
->
-> -	media_graph_walk_start(&pipe->graph, entity->pads);
-> +	media_graph_walk_start(&pipe->graph, pad);
-> +
-> +	while ((pad = media_graph_walk_next(graph))) {
-> +		struct media_entity *entity = pad->entity;
->
-> -	while ((entity = media_graph_walk_next(graph))) {
->  		DECLARE_BITMAP(active, MEDIA_ENTITY_MAX_PADS);
->  		DECLARE_BITMAP(has_no_links, MEDIA_ENTITY_MAX_PADS);
->
-> @@ -429,7 +432,7 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
->  		if (entity->pipe && entity->pipe != pipe) {
->  			pr_err("Pipe active for %s. Can't start for %s\n",
->  				entity->name,
-> -				entity_err->name);
-> +				pad_err->entity->name);
->  			ret = -EBUSY;
->  			goto error;
->  		}
-> @@ -447,26 +450,27 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
->  		bitmap_fill(has_no_links, entity->num_pads);
->
->  		list_for_each_entry(link, &entity->links, list) {
-> -			struct media_pad *pad = link->sink->entity == entity
-> -						? link->sink : link->source;
-> +			struct media_pad *other_pad =
-> +				link->sink->entity == entity ?
-> +				link->sink : link->source;
->
->  			/* Mark that a pad is connected by a link. */
-> -			bitmap_clear(has_no_links, pad->index, 1);
-> +			bitmap_clear(has_no_links, other_pad->index, 1);
->
->  			/*
->  			 * Pads that either do not need to connect or
->  			 * are connected through an enabled link are
->  			 * fine.
->  			 */
-> -			if (!(pad->flags & MEDIA_PAD_FL_MUST_CONNECT) ||
-> +			if (!(other_pad->flags & MEDIA_PAD_FL_MUST_CONNECT) ||
->  			    link->flags & MEDIA_LNK_FL_ENABLED)
-> -				bitmap_set(active, pad->index, 1);
-> +				bitmap_set(active, other_pad->index, 1);
->
->  			/*
->  			 * Link validation will only take place for
->  			 * sink ends of the link that are enabled.
->  			 */
-> -			if (link->sink != pad ||
-> +			if (link->sink != other_pad ||
->  			    !(link->flags & MEDIA_LNK_FL_ENABLED))
->  				continue;
->
-> @@ -502,9 +506,11 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
->  	 * Link validation on graph failed. We revert what we did and
->  	 * return the error.
->  	 */
-> -	media_graph_walk_start(graph, entity_err->pads);
-> +	media_graph_walk_start(graph, pad_err);
-> +
-> +	while ((pad_err = media_graph_walk_next(graph))) {
-> +		struct media_entity *entity_err = pad_err->entity;
->
-> -	while ((entity_err = media_graph_walk_next(graph))) {
->  		/* Sanity check for negative stream_count */
->  		if (!WARN_ON_ONCE(entity_err->stream_count <= 0)) {
->  			entity_err->stream_count--;
-> @@ -516,7 +522,7 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
->  		 * We haven't increased stream_count further than this
->  		 * so we quit here.
->  		 */
-> -		if (entity_err == entity)
-> +		if (pad_err == pad)
->  			break;
->  	}
->
-> @@ -543,8 +549,9 @@ EXPORT_SYMBOL_GPL(media_pipeline_start);
->
->  void __media_pipeline_stop(struct media_entity *entity)
->  {
-> -	struct media_graph *graph = &entity->pipe->graph;
->  	struct media_pipeline *pipe = entity->pipe;
-> +	struct media_graph *graph = &pipe->graph;
-> +	struct media_pad *pad;
->
->  	/*
->  	 * If the following check fails, the driver has performed an
-> @@ -555,7 +562,9 @@ void __media_pipeline_stop(struct media_entity *entity)
->
->  	media_graph_walk_start(graph, entity->pads);
->
-> -	while ((entity = media_graph_walk_next(graph))) {
-> +	while ((pad = media_graph_walk_next(graph))) {
-> +		struct media_entity *entity = pad->entity;
-> +
->  		/* Sanity check for negative stream_count */
->  		if (!WARN_ON_ONCE(entity->stream_count <= 0)) {
->  			entity->stream_count--;
-> diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
-> index 5aaecdf92c53..8938a6367703 100644
-> --- a/drivers/media/platform/exynos4-is/media-dev.c
-> +++ b/drivers/media/platform/exynos4-is/media-dev.c
-> @@ -1164,7 +1164,7 @@ static int __fimc_md_modify_pipeline(struct media_entity *entity, bool enable)
->  static int __fimc_md_modify_pipelines(struct media_entity *entity, bool enable,
->  				      struct media_graph *graph)
->  {
-> -	struct media_entity *entity_err = entity;
-> +	struct media_pad *pad, *pad_err = entity->pads;
->  	int ret;
->
->  	/*
-> @@ -1173,13 +1173,13 @@ static int __fimc_md_modify_pipelines(struct media_entity *entity, bool enable,
->  	 * through active links. This is needed as we cannot power on/off the
->  	 * subdevs in random order.
->  	 */
-> -	media_graph_walk_start(graph, entity->pads);
-> +	media_graph_walk_start(graph, pad_err);
->
-> -	while ((entity = media_graph_walk_next(graph))) {
-> -		if (!is_media_entity_v4l2_video_device(entity))
-> +	while ((pad = media_graph_walk_next(graph))) {
-> +		if (!is_media_entity_v4l2_video_device(pad->entity))
->  			continue;
->
-> -		ret  = __fimc_md_modify_pipeline(entity, enable);
-> +		ret  = __fimc_md_modify_pipeline(pad->entity, enable);
->
->  		if (ret < 0)
->  			goto err;
-> @@ -1188,15 +1188,15 @@ static int __fimc_md_modify_pipelines(struct media_entity *entity, bool enable,
->  	return 0;
->
->  err:
-> -	media_graph_walk_start(graph, entity_err->pads);
-> +	media_graph_walk_start(graph, pad_err);
->
-> -	while ((entity_err = media_graph_walk_next(graph))) {
-> -		if (!is_media_entity_v4l2_video_device(entity_err))
-> +	while ((pad_err = media_graph_walk_next(graph))) {
-> +		if (!is_media_entity_v4l2_video_device(pad_err->entity))
->  			continue;
->
-> -		__fimc_md_modify_pipeline(entity_err, !enable);
-> +		__fimc_md_modify_pipeline(pad_err->entity, !enable);
->
-> -		if (entity_err == entity)
-> +		if (pad_err == pad)
->  			break;
->  	}
->
-> diff --git a/drivers/media/platform/omap3isp/ispvideo.c b/drivers/media/platform/omap3isp/ispvideo.c
-> index 3c1485d59404..5c1cbb1a9003 100644
-> --- a/drivers/media/platform/omap3isp/ispvideo.c
-> +++ b/drivers/media/platform/omap3isp/ispvideo.c
-> @@ -222,8 +222,8 @@ static int isp_video_get_graph_data(struct isp_video *video,
->  				    struct isp_pipeline *pipe)
->  {
->  	struct media_graph graph;
-> -	struct media_entity *entity = &video->video.entity;
-> -	struct media_device *mdev = entity->graph_obj.mdev;
-> +	struct media_pad *pad = video->video.entity.pads;
-> +	struct media_device *mdev = video->video.entity.graph_obj.mdev;
->  	struct isp_video *far_end = NULL;
->  	int ret;
->
-> @@ -234,23 +234,24 @@ static int isp_video_get_graph_data(struct isp_video *video,
->  		return ret;
->  	}
->
-> -	media_graph_walk_start(&graph, entity->pads);
-> +	media_graph_walk_start(&graph, pad);
->
-> -	while ((entity = media_graph_walk_next(&graph))) {
-> +	while ((pad = media_graph_walk_next(&graph))) {
->  		struct isp_video *__video;
->
-> -		media_entity_enum_set(&pipe->ent_enum, entity);
-> +		media_entity_enum_set(&pipe->ent_enum, pad->entity);
->
->  		if (far_end != NULL)
->  			continue;
->
-> -		if (entity == &video->video.entity)
-> +		if (pad == video->video.entity.pads)
->  			continue;
->
-> -		if (!is_media_entity_v4l2_video_device(entity))
-> +		if (!is_media_entity_v4l2_video_device(pad->entity))
->  			continue;
->
-> -		__video = to_isp_video(media_entity_to_video_device(entity));
-> +		__video = to_isp_video(media_entity_to_video_device(
-> +					       pad->entity));
->  		if (__video->type != video->type)
->  			far_end = __video;
->  	}
-> diff --git a/drivers/media/platform/vsp1/vsp1_video.c b/drivers/media/platform/vsp1/vsp1_video.c
-> index 61e4fbaba7b7..f2c36f2fdf53 100644
-> --- a/drivers/media/platform/vsp1/vsp1_video.c
-> +++ b/drivers/media/platform/vsp1/vsp1_video.c
-> @@ -559,8 +559,8 @@ static int vsp1_video_pipeline_build(struct vsp1_pipeline *pipe,
->  				     struct vsp1_video *video)
->  {
->  	struct media_graph graph;
-> -	struct media_entity *entity = &video->video.entity;
-> -	struct media_device *mdev = entity->graph_obj.mdev;
-> +	struct media_pad *pad = video->video.entity.pads;
-> +	struct media_device *mdev = video->video.entity.graph_obj.mdev;
->  	unsigned int i;
->  	int ret;
->
-> @@ -569,17 +569,17 @@ static int vsp1_video_pipeline_build(struct vsp1_pipeline *pipe,
->  	if (ret)
->  		return ret;
->
-> -	media_graph_walk_start(&graph, entity->pads);
-> +	media_graph_walk_start(&graph, pad);
->
-> -	while ((entity = media_graph_walk_next(&graph))) {
-> +	while ((pad = media_graph_walk_next(&graph))) {
->  		struct v4l2_subdev *subdev;
->  		struct vsp1_rwpf *rwpf;
->  		struct vsp1_entity *e;
->
-> -		if (!is_media_entity_v4l2_subdev(entity))
-> +		if (!is_media_entity_v4l2_subdev(pad->entity))
->  			continue;
->
-> -		subdev = media_entity_to_v4l2_subdev(entity);
-> +		subdev = media_entity_to_v4l2_subdev(pad->entity);
->  		e = to_vsp1_entity(subdev);
->  		list_add_tail(&e->list_pipe, &pipe->entities);
->  		e->pipe = pipe;
-> diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
-> index d64c3bee8b95..8df3c43aecbe 100644
-> --- a/drivers/media/platform/xilinx/xilinx-dma.c
-> +++ b/drivers/media/platform/xilinx/xilinx-dma.c
-> @@ -175,8 +175,8 @@ static int xvip_pipeline_validate(struct xvip_pipeline *pipe,
->  				  struct xvip_dma *start)
->  {
->  	struct media_graph graph;
-> -	struct media_entity *entity = &start->video.entity;
-> -	struct media_device *mdev = entity->graph_obj.mdev;
-> +	struct media_pad *pad = start->video.entity.pads;
-> +	struct media_device *mdev = pad->entity->graph_obj.mdev;
->  	unsigned int num_inputs = 0;
->  	unsigned int num_outputs = 0;
->  	int ret;
-> @@ -190,15 +190,15 @@ static int xvip_pipeline_validate(struct xvip_pipeline *pipe,
->  		return ret;
->  	}
->
-> -	media_graph_walk_start(&graph, entity->pads);
-> +	media_graph_walk_start(&graph, pad);
->
-> -	while ((entity = media_graph_walk_next(&graph))) {
-> +	while ((pad = media_graph_walk_next(&graph))) {
->  		struct xvip_dma *dma;
->
-> -		if (entity->function != MEDIA_ENT_F_IO_V4L)
-> +		if (pad->entity->function != MEDIA_ENT_F_IO_V4L)
->  			continue;
->
-> -		dma = to_xvip_dma(media_entity_to_video_device(entity));
-> +		dma = to_xvip_dma(media_entity_to_video_device(pad->entity));
->
->  		if (dma->pad.flags & MEDIA_PAD_FL_SINK) {
->  			pipe->output = dma;
-> diff --git a/drivers/media/v4l2-core/v4l2-mc.c b/drivers/media/v4l2-core/v4l2-mc.c
-> index d215fe31b9a2..cbeb580c6754 100644
-> --- a/drivers/media/v4l2-core/v4l2-mc.c
-> +++ b/drivers/media/v4l2-core/v4l2-mc.c
-> @@ -434,13 +434,14 @@ EXPORT_SYMBOL_GPL(v4l2_create_fwnode_links);
->  static int pipeline_pm_use_count(struct media_entity *entity,
->  	struct media_graph *graph)
->  {
-> +	struct media_pad *pad;
->  	int use = 0;
->
->  	media_graph_walk_start(graph, entity->pads);
->
-> -	while ((entity = media_graph_walk_next(graph))) {
-> -		if (is_media_entity_v4l2_video_device(entity))
-> -			use += entity->use_count;
-> +	while ((pad = media_graph_walk_next(graph))) {
-> +		if (is_media_entity_v4l2_video_device(pad->entity))
-> +			use += pad->entity->use_count;
->  	}
->
->  	return use;
-> @@ -493,7 +494,7 @@ static int pipeline_pm_power_one(struct media_entity *entity, int change)
->  static int pipeline_pm_power(struct media_entity *entity, int change,
->  	struct media_graph *graph)
->  {
-> -	struct media_entity *first = entity;
-> +	struct media_pad *tmp_pad, *pad;
->  	int ret = 0;
->
->  	if (!change)
-> @@ -501,19 +502,18 @@ static int pipeline_pm_power(struct media_entity *entity, int change,
->
->  	media_graph_walk_start(graph, entity->pads);
->
-> -	while (!ret && (entity = media_graph_walk_next(graph)))
-> -		if (is_media_entity_v4l2_subdev(entity))
-> -			ret = pipeline_pm_power_one(entity, change);
-> +	while (!ret && (pad = media_graph_walk_next(graph)))
-> +		if (is_media_entity_v4l2_subdev(pad->entity))
-> +			ret = pipeline_pm_power_one(pad->entity, change);
->
->  	if (!ret)
->  		return ret;
->
-> -	media_graph_walk_start(graph, first->pads);
-> +	media_graph_walk_start(graph, entity->pads);
->
-> -	while ((first = media_graph_walk_next(graph))
-> -	       && first != entity)
-> -		if (is_media_entity_v4l2_subdev(first))
-> -			pipeline_pm_power_one(first, -change);
-> +	while ((tmp_pad = media_graph_walk_next(graph)) && tmp_pad != pad)
-> +		if (is_media_entity_v4l2_subdev(tmp_pad->entity))
-> +			pipeline_pm_power_one(tmp_pad->entity, -change);
->
->  	return ret;
->  }
-> diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
-> index 760cd0ab1feb..8c25ad73a81e 100644
-> --- a/drivers/staging/media/omap4iss/iss_video.c
-> +++ b/drivers/staging/media/omap4iss/iss_video.c
-> @@ -206,8 +206,8 @@ static struct iss_video *
->  iss_video_far_end(struct iss_video *video)
->  {
->  	struct media_graph graph;
-> -	struct media_entity *entity = &video->video.entity;
-> -	struct media_device *mdev = entity->graph_obj.mdev;
-> +	struct media_pad *pad = video->video.entity.pads;
-> +	struct media_device *mdev = video->video.entity.graph_obj.mdev;
->  	struct iss_video *far_end = NULL;
->
->  	mutex_lock(&mdev->graph_mutex);
-> @@ -217,16 +217,17 @@ iss_video_far_end(struct iss_video *video)
->  		return NULL;
->  	}
->
-> -	media_graph_walk_start(&graph, entity->pads);
-> +	media_graph_walk_start(&graph, pad);
->
-> -	while ((entity = media_graph_walk_next(&graph))) {
-> -		if (entity == &video->video.entity)
-> +	while ((pad = media_graph_walk_next(&graph))) {
-> +		if (pad->entity == &video->video.entity)
->  			continue;
->
-> -		if (!is_media_entity_v4l2_video_device(entity))
-> +		if (!is_media_entity_v4l2_video_device(pad->entity))
->  			continue;
->
-> -		far_end = to_iss_video(media_entity_to_video_device(entity));
-> +		far_end = to_iss_video(media_entity_to_video_device(
-> +						pad->entity));
->  		if (far_end->type != video->type)
->  			break;
->
-> @@ -853,8 +854,8 @@ iss_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
->  	struct iss_video_fh *vfh = to_iss_video_fh(fh);
->  	struct iss_video *video = video_drvdata(file);
->  	struct media_graph graph;
-> -	struct media_entity *entity = &video->video.entity;
-> -	struct media_device *mdev = entity->graph_obj.mdev;
-> +	struct media_pad *pad = video->video.entity.pads;
-> +	struct media_device *mdev = video->video.entity.graph_obj.mdev;
->  	enum iss_pipeline_state state;
->  	struct iss_pipeline *pipe;
->  	struct iss_video *far_end;
-> @@ -870,31 +871,32 @@ iss_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
->  	 * Start streaming on the pipeline. No link touching an entity in the
->  	 * pipeline can be activated or deactivated once streaming is started.
->  	 */
-> -	pipe = entity->pipe
-> -	     ? to_iss_pipeline(entity) : &video->pipe;
-> +	pipe = pad->entity->pipe
-> +	     ? to_iss_pipeline(pad->entity) : &video->pipe;
->  	pipe->external = NULL;
->  	pipe->external_rate = 0;
->  	pipe->external_bpp = 0;
->
-> -	ret = media_entity_enum_init(&pipe->ent_enum, entity->graph_obj.mdev);
-> +	ret = media_entity_enum_init(&pipe->ent_enum,
-> +				     pad->entity->graph_obj.mdev);
->  	if (ret)
->  		goto err_graph_walk_init;
->
-> -	ret = media_graph_walk_init(&graph, entity->graph_obj.mdev);
-> +	ret = media_graph_walk_init(&graph, pad->entity->graph_obj.mdev);
->  	if (ret)
->  		goto err_graph_walk_init;
->
->  	if (video->iss->pdata->set_constraints)
->  		video->iss->pdata->set_constraints(video->iss, true);
->
-> -	ret = media_pipeline_start(entity, &pipe->pipe);
-> +	ret = media_pipeline_start(pad->entity, &pipe->pipe);
->  	if (ret < 0)
->  		goto err_media_pipeline_start;
->
->  	mutex_lock(&mdev->graph_mutex);
-> -	media_graph_walk_start(&graph, entity->pads);
-> -	while ((entity = media_graph_walk_next(&graph)))
-> -		media_entity_enum_set(&pipe->ent_enum, entity);
-> +	media_graph_walk_start(&graph, pad);
-> +	while ((pad = media_graph_walk_next(&graph)))
-> +		media_entity_enum_set(&pipe->ent_enum, pad->entity);
->  	mutex_unlock(&mdev->graph_mutex);
->
->  	/*
-> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> index 5b55d6179e13..926fd201eae3 100644
-> --- a/include/media/media-entity.h
-> +++ b/include/media/media-entity.h
-> @@ -926,10 +926,11 @@ void media_graph_walk_start(struct media_graph *graph, struct media_pad *pad);
->   * The graph structure must have been previously initialized with a call to
->   * media_graph_walk_start().
->   *
-> - * Return: returns the next entity in the graph or %NULL if the whole graph
-> - * have been traversed.
-> + * Return: returns the next entity in the graph, identified by the pad through
-> + * which it has been reached. If the whole graph has been traversed, return
-> + * %NULL.
->   */
-> -struct media_entity *media_graph_walk_next(struct media_graph *graph);
-> +struct media_pad *media_graph_walk_next(struct media_graph *graph);
->
->  /**
->   * media_pipeline_start - Mark a pipeline as streaming
-> --
-> 2.25.1
->
+
+> If there's code that relies on this it needs to be fixed and properly
+> documented. I did go through the squeue code a bit, and might be better to
+> just replace this with a core data structure.
+
+Well the spsc was especially crafted for this use case and performed 
+quite a bit better then a double linked list.
+
+Or what core data structure do you have in mind?
+
+Christian.
+
+> -Daniel
+>
+>> In this case the write barrier is the atomic_dec() in spsc_queue_pop() and
+>> the read barrier is the aromic_read() in spsc_queue_count().
+>>
+>> The READ_ONCE() is actually not even necessary as far as I can see.
+>>
+>> Christian.
+>>
+>>> -Daniel
+>>>
+>>>
+>>>> atomic op, then it's a full barrier. So yeah you need more here. But
+>>>> also since you only need a read barrier on one side, and a write
+>>>> barrier on the other, you don't actually need a cpu barriers on x86.
+>>>> And READ_ONCE gives you the compiler barrier on one side at least, I
+>>>> haven't found it on the writer side yet.
+>>>>
+>>>>> But yes a comment would be really nice here. I had to think for a while
+>>>>> why we don't need this as well.
+>>>> I'm typing a patch, which after a night's sleep I realized has the
+>>>> wrong barriers. And now I'm also typing some doc improvements for
+>>>> drm_sched_entity and related functions.
+>>>>
+>>>>> Christian.
+>>>>>
+>>>>>> -Daniel
+>>>>>>
+>>>>>>> Christian.
+>>>>>>>
+>>>>>>>
+>>>>>>>> -Daniel
+>>>>>>>>
+>>>>>>>>> Regards
+>>>>>>>>> Christian.
+>>>>>>>>>
+>>>>>>>>>> -Daniel
+>>>>>>>>>>
+>>>>>>>>>>> Christian.
+>>>>>>>>>>>
+>>>>>>>>>>>> Also improve the kerneldoc for this.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Acked-by: Steven Price <steven.price@arm.com> (v2)
+>>>>>>>>>>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>>>>>>>>>>>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>>>>>>>>>>>> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+>>>>>>>>>>>> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+>>>>>>>>>>>> Cc: Qiang Yu <yuq825@gmail.com>
+>>>>>>>>>>>> Cc: Rob Herring <robh@kernel.org>
+>>>>>>>>>>>> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+>>>>>>>>>>>> Cc: Steven Price <steven.price@arm.com>
+>>>>>>>>>>>> Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+>>>>>>>>>>>> Cc: David Airlie <airlied@linux.ie>
+>>>>>>>>>>>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>>>>>>>>>>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>>>>>>>>>>>> Cc: "Christian König" <christian.koenig@amd.com>
+>>>>>>>>>>>> Cc: Masahiro Yamada <masahiroy@kernel.org>
+>>>>>>>>>>>> Cc: Kees Cook <keescook@chromium.org>
+>>>>>>>>>>>> Cc: Adam Borowski <kilobyte@angband.pl>
+>>>>>>>>>>>> Cc: Nick Terrell <terrelln@fb.com>
+>>>>>>>>>>>> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>>>>>>>>>>>> Cc: Paul Menzel <pmenzel@molgen.mpg.de>
+>>>>>>>>>>>> Cc: Sami Tolvanen <samitolvanen@google.com>
+>>>>>>>>>>>> Cc: Viresh Kumar <viresh.kumar@linaro.org>
+>>>>>>>>>>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>>>>>>>>>>>> Cc: Dave Airlie <airlied@redhat.com>
+>>>>>>>>>>>> Cc: Nirmoy Das <nirmoy.das@amd.com>
+>>>>>>>>>>>> Cc: Deepak R Varma <mh12gx2825@gmail.com>
+>>>>>>>>>>>> Cc: Lee Jones <lee.jones@linaro.org>
+>>>>>>>>>>>> Cc: Kevin Wang <kevin1.wang@amd.com>
+>>>>>>>>>>>> Cc: Chen Li <chenli@uniontech.com>
+>>>>>>>>>>>> Cc: Luben Tuikov <luben.tuikov@amd.com>
+>>>>>>>>>>>> Cc: "Marek Olšák" <marek.olsak@amd.com>
+>>>>>>>>>>>> Cc: Dennis Li <Dennis.Li@amd.com>
+>>>>>>>>>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>>>>>>>>>>> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>>>>>>>>>>>> Cc: Sonny Jiang <sonny.jiang@amd.com>
+>>>>>>>>>>>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+>>>>>>>>>>>> Cc: Tian Tao <tiantao6@hisilicon.com>
+>>>>>>>>>>>> Cc: Jack Zhang <Jack.Zhang1@amd.com>
+>>>>>>>>>>>> Cc: etnaviv@lists.freedesktop.org
+>>>>>>>>>>>> Cc: lima@lists.freedesktop.org
+>>>>>>>>>>>> Cc: linux-media@vger.kernel.org
+>>>>>>>>>>>> Cc: linaro-mm-sig@lists.linaro.org
+>>>>>>>>>>>> Cc: Emma Anholt <emma@anholt.net>
+>>>>>>>>>>>> ---
+>>>>>>>>>>>>        drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c   |  2 ++
+>>>>>>>>>>>>        drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  2 ++
+>>>>>>>>>>>>        drivers/gpu/drm/etnaviv/etnaviv_sched.c  |  2 ++
+>>>>>>>>>>>>        drivers/gpu/drm/lima/lima_sched.c        |  2 ++
+>>>>>>>>>>>>        drivers/gpu/drm/panfrost/panfrost_job.c  |  2 ++
+>>>>>>>>>>>>        drivers/gpu/drm/scheduler/sched_entity.c |  6 ++--
+>>>>>>>>>>>>        drivers/gpu/drm/scheduler/sched_fence.c  | 17 +++++----
+>>>>>>>>>>>>        drivers/gpu/drm/scheduler/sched_main.c   | 46 +++++++++++++++++++++---
+>>>>>>>>>>>>        drivers/gpu/drm/v3d/v3d_gem.c            |  2 ++
+>>>>>>>>>>>>        include/drm/gpu_scheduler.h              |  7 +++-
+>>>>>>>>>>>>        10 files changed, 74 insertions(+), 14 deletions(-)
+>>>>>>>>>>>>
+>>>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>>>>>>>>>>>> index c5386d13eb4a..a4ec092af9a7 100644
+>>>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>>>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>>>>>>>>>>>> @@ -1226,6 +1226,8 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+>>>>>>>>>>>>            if (r)
+>>>>>>>>>>>>                    goto error_unlock;
+>>>>>>>>>>>>
+>>>>>>>>>>>> +     drm_sched_job_arm(&job->base);
+>>>>>>>>>>>> +
+>>>>>>>>>>>>            /* No memory allocation is allowed while holding the notifier lock.
+>>>>>>>>>>>>             * The lock is held until amdgpu_cs_submit is finished and fence is
+>>>>>>>>>>>>             * added to BOs.
+>>>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>>>>>>>>>>> index d33e6d97cc89..5ddb955d2315 100644
+>>>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>>>>>>>>>>> @@ -170,6 +170,8 @@ int amdgpu_job_submit(struct amdgpu_job *job, struct drm_sched_entity *entity,
+>>>>>>>>>>>>            if (r)
+>>>>>>>>>>>>                    return r;
+>>>>>>>>>>>>
+>>>>>>>>>>>> +     drm_sched_job_arm(&job->base);
+>>>>>>>>>>>> +
+>>>>>>>>>>>>            *f = dma_fence_get(&job->base.s_fence->finished);
+>>>>>>>>>>>>            amdgpu_job_free_resources(job);
+>>>>>>>>>>>>            drm_sched_entity_push_job(&job->base, entity);
+>>>>>>>>>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>>>>>>>>>>> index feb6da1b6ceb..05f412204118 100644
+>>>>>>>>>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>>>>>>>>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>>>>>>>>>>> @@ -163,6 +163,8 @@ int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
+>>>>>>>>>>>>            if (ret)
+>>>>>>>>>>>>                    goto out_unlock;
+>>>>>>>>>>>>
+>>>>>>>>>>>> +     drm_sched_job_arm(&submit->sched_job);
+>>>>>>>>>>>> +
+>>>>>>>>>>>>            submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
+>>>>>>>>>>>>            submit->out_fence_id = idr_alloc_cyclic(&submit->gpu->fence_idr,
+>>>>>>>>>>>>                                                    submit->out_fence, 0,
+>>>>>>>>>>>> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+>>>>>>>>>>>> index dba8329937a3..38f755580507 100644
+>>>>>>>>>>>> --- a/drivers/gpu/drm/lima/lima_sched.c
+>>>>>>>>>>>> +++ b/drivers/gpu/drm/lima/lima_sched.c
+>>>>>>>>>>>> @@ -129,6 +129,8 @@ int lima_sched_task_init(struct lima_sched_task *task,
+>>>>>>>>>>>>                    return err;
+>>>>>>>>>>>>            }
+>>>>>>>>>>>>
+>>>>>>>>>>>> +     drm_sched_job_arm(&task->base);
+>>>>>>>>>>>> +
+>>>>>>>>>>>>            task->num_bos = num_bos;
+>>>>>>>>>>>>            task->vm = lima_vm_get(vm);
+>>>>>>>>>>>>
+>>>>>>>>>>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>>>>>>>>>>> index 71a72fb50e6b..2992dc85325f 100644
+>>>>>>>>>>>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>>>>>>>>>>>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>>>>>>>>>>> @@ -288,6 +288,8 @@ int panfrost_job_push(struct panfrost_job *job)
+>>>>>>>>>>>>                    goto unlock;
+>>>>>>>>>>>>            }
+>>>>>>>>>>>>
+>>>>>>>>>>>> +     drm_sched_job_arm(&job->base);
+>>>>>>>>>>>> +
+>>>>>>>>>>>>            job->render_done_fence = dma_fence_get(&job->base.s_fence->finished);
+>>>>>>>>>>>>
+>>>>>>>>>>>>            ret = panfrost_acquire_object_fences(job->bos, job->bo_count,
+>>>>>>>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>>>>>>>> index 79554aa4dbb1..f7347c284886 100644
+>>>>>>>>>>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>>>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>>>>>>>> @@ -485,9 +485,9 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+>>>>>>>>>>>>         * @sched_job: job to submit
+>>>>>>>>>>>>         * @entity: scheduler entity
+>>>>>>>>>>>>         *
+>>>>>>>>>>>> - * Note: To guarantee that the order of insertion to queue matches
+>>>>>>>>>>>> - * the job's fence sequence number this function should be
+>>>>>>>>>>>> - * called with drm_sched_job_init under common lock.
+>>>>>>>>>>>> + * Note: To guarantee that the order of insertion to queue matches the job's
+>>>>>>>>>>>> + * fence sequence number this function should be called with drm_sched_job_arm()
+>>>>>>>>>>>> + * under common lock.
+>>>>>>>>>>>>         *
+>>>>>>>>>>>>         * Returns 0 for success, negative error code otherwise.
+>>>>>>>>>>>>         */
+>>>>>>>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+>>>>>>>>>>>> index 69de2c76731f..c451ee9a30d7 100644
+>>>>>>>>>>>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
+>>>>>>>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+>>>>>>>>>>>> @@ -90,7 +90,7 @@ static const char *drm_sched_fence_get_timeline_name(struct dma_fence *f)
+>>>>>>>>>>>>         *
+>>>>>>>>>>>>         * Free up the fence memory after the RCU grace period.
+>>>>>>>>>>>>         */
+>>>>>>>>>>>> -static void drm_sched_fence_free(struct rcu_head *rcu)
+>>>>>>>>>>>> +void drm_sched_fence_free(struct rcu_head *rcu)
+>>>>>>>>>>>>        {
+>>>>>>>>>>>>            struct dma_fence *f = container_of(rcu, struct dma_fence, rcu);
+>>>>>>>>>>>>            struct drm_sched_fence *fence = to_drm_sched_fence(f);
+>>>>>>>>>>>> @@ -152,11 +152,10 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
+>>>>>>>>>>>>        }
+>>>>>>>>>>>>        EXPORT_SYMBOL(to_drm_sched_fence);
+>>>>>>>>>>>>
+>>>>>>>>>>>> -struct drm_sched_fence *drm_sched_fence_create(struct drm_sched_entity *entity,
+>>>>>>>>>>>> -                                            void *owner)
+>>>>>>>>>>>> +struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
+>>>>>>>>>>>> +                                           void *owner)
+>>>>>>>>>>>>        {
+>>>>>>>>>>>>            struct drm_sched_fence *fence = NULL;
+>>>>>>>>>>>> -     unsigned seq;
+>>>>>>>>>>>>
+>>>>>>>>>>>>            fence = kmem_cache_zalloc(sched_fence_slab, GFP_KERNEL);
+>>>>>>>>>>>>            if (fence == NULL)
+>>>>>>>>>>>> @@ -166,13 +165,19 @@ struct drm_sched_fence *drm_sched_fence_create(struct drm_sched_entity *entity,
+>>>>>>>>>>>>            fence->sched = entity->rq->sched;
+>>>>>>>>>>>>            spin_lock_init(&fence->lock);
+>>>>>>>>>>>>
+>>>>>>>>>>>> +     return fence;
+>>>>>>>>>>>> +}
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +void drm_sched_fence_init(struct drm_sched_fence *fence,
+>>>>>>>>>>>> +                       struct drm_sched_entity *entity)
+>>>>>>>>>>>> +{
+>>>>>>>>>>>> +     unsigned seq;
+>>>>>>>>>>>> +
+>>>>>>>>>>>>            seq = atomic_inc_return(&entity->fence_seq);
+>>>>>>>>>>>>            dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
+>>>>>>>>>>>>                           &fence->lock, entity->fence_context, seq);
+>>>>>>>>>>>>            dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
+>>>>>>>>>>>>                           &fence->lock, entity->fence_context + 1, seq);
+>>>>>>>>>>>> -
+>>>>>>>>>>>> -     return fence;
+>>>>>>>>>>>>        }
+>>>>>>>>>>>>
+>>>>>>>>>>>>        module_init(drm_sched_fence_slab_init);
+>>>>>>>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>>>>>>>> index 33c414d55fab..5e84e1500c32 100644
+>>>>>>>>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>>>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>>>>>>>> @@ -48,9 +48,11 @@
+>>>>>>>>>>>>        #include <linux/wait.h>
+>>>>>>>>>>>>        #include <linux/sched.h>
+>>>>>>>>>>>>        #include <linux/completion.h>
+>>>>>>>>>>>> +#include <linux/dma-resv.h>
+>>>>>>>>>>>>        #include <uapi/linux/sched/types.h>
+>>>>>>>>>>>>
+>>>>>>>>>>>>        #include <drm/drm_print.h>
+>>>>>>>>>>>> +#include <drm/drm_gem.h>
+>>>>>>>>>>>>        #include <drm/gpu_scheduler.h>
+>>>>>>>>>>>>        #include <drm/spsc_queue.h>
+>>>>>>>>>>>>
+>>>>>>>>>>>> @@ -569,7 +571,6 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs_ext);
+>>>>>>>>>>>>
+>>>>>>>>>>>>        /**
+>>>>>>>>>>>>         * drm_sched_job_init - init a scheduler job
+>>>>>>>>>>>> - *
+>>>>>>>>>>>>         * @job: scheduler job to init
+>>>>>>>>>>>>         * @entity: scheduler entity to use
+>>>>>>>>>>>>         * @owner: job owner for debugging
+>>>>>>>>>>>> @@ -577,6 +578,9 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs_ext);
+>>>>>>>>>>>>         * Refer to drm_sched_entity_push_job() documentation
+>>>>>>>>>>>>         * for locking considerations.
+>>>>>>>>>>>>         *
+>>>>>>>>>>>> + * Drivers must make sure drm_sched_job_cleanup() if this function returns
+>>>>>>>>>>>> + * successfully, even when @job is aborted before drm_sched_job_arm() is called.
+>>>>>>>>>>>> + *
+>>>>>>>>>>>>         * Returns 0 for success, negative error code otherwise.
+>>>>>>>>>>>>         */
+>>>>>>>>>>>>        int drm_sched_job_init(struct drm_sched_job *job,
+>>>>>>>>>>>> @@ -594,7 +598,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
+>>>>>>>>>>>>            job->sched = sched;
+>>>>>>>>>>>>            job->entity = entity;
+>>>>>>>>>>>>            job->s_priority = entity->rq - sched->sched_rq;
+>>>>>>>>>>>> -     job->s_fence = drm_sched_fence_create(entity, owner);
+>>>>>>>>>>>> +     job->s_fence = drm_sched_fence_alloc(entity, owner);
+>>>>>>>>>>>>            if (!job->s_fence)
+>>>>>>>>>>>>                    return -ENOMEM;
+>>>>>>>>>>>>            job->id = atomic64_inc_return(&sched->job_id_count);
+>>>>>>>>>>>> @@ -606,13 +610,47 @@ int drm_sched_job_init(struct drm_sched_job *job,
+>>>>>>>>>>>>        EXPORT_SYMBOL(drm_sched_job_init);
+>>>>>>>>>>>>
+>>>>>>>>>>>>        /**
+>>>>>>>>>>>> - * drm_sched_job_cleanup - clean up scheduler job resources
+>>>>>>>>>>>> + * drm_sched_job_arm - arm a scheduler job for execution
+>>>>>>>>>>>> + * @job: scheduler job to arm
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * This arms a scheduler job for execution. Specifically it initializes the
+>>>>>>>>>>>> + * &drm_sched_job.s_fence of @job, so that it can be attached to struct dma_resv
+>>>>>>>>>>>> + * or other places that need to track the completion of this job.
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * Refer to drm_sched_entity_push_job() documentation for locking
+>>>>>>>>>>>> + * considerations.
+>>>>>>>>>>>>         *
+>>>>>>>>>>>> + * This can only be called if drm_sched_job_init() succeeded.
+>>>>>>>>>>>> + */
+>>>>>>>>>>>> +void drm_sched_job_arm(struct drm_sched_job *job)
+>>>>>>>>>>>> +{
+>>>>>>>>>>>> +     drm_sched_fence_init(job->s_fence, job->entity);
+>>>>>>>>>>>> +}
+>>>>>>>>>>>> +EXPORT_SYMBOL(drm_sched_job_arm);
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +/**
+>>>>>>>>>>>> + * drm_sched_job_cleanup - clean up scheduler job resources
+>>>>>>>>>>>>         * @job: scheduler job to clean up
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * Cleans up the resources allocated with drm_sched_job_init().
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * Drivers should call this from their error unwind code if @job is aborted
+>>>>>>>>>>>> + * before drm_sched_job_arm() is called.
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * After that point of no return @job is committed to be executed by the
+>>>>>>>>>>>> + * scheduler, and this function should be called from the
+>>>>>>>>>>>> + * &drm_sched_backend_ops.free_job callback.
+>>>>>>>>>>>>         */
+>>>>>>>>>>>>        void drm_sched_job_cleanup(struct drm_sched_job *job)
+>>>>>>>>>>>>        {
+>>>>>>>>>>>> -     dma_fence_put(&job->s_fence->finished);
+>>>>>>>>>>>> +     if (!kref_read(&job->s_fence->finished.refcount)) {
+>>>>>>>>>>>> +             /* drm_sched_job_arm() has been called */
+>>>>>>>>>>>> +             dma_fence_put(&job->s_fence->finished);
+>>>>>>>>>>>> +     } else {
+>>>>>>>>>>>> +             /* aborted job before committing to run it */
+>>>>>>>>>>>> +             drm_sched_fence_free(&job->s_fence->finished.rcu);
+>>>>>>>>>>>> +     }
+>>>>>>>>>>>> +
+>>>>>>>>>>>>            job->s_fence = NULL;
+>>>>>>>>>>>>        }
+>>>>>>>>>>>>        EXPORT_SYMBOL(drm_sched_job_cleanup);
+>>>>>>>>>>>> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+>>>>>>>>>>>> index 4eb354226972..5c3a99027ecd 100644
+>>>>>>>>>>>> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+>>>>>>>>>>>> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+>>>>>>>>>>>> @@ -475,6 +475,8 @@ v3d_push_job(struct v3d_file_priv *v3d_priv,
+>>>>>>>>>>>>            if (ret)
+>>>>>>>>>>>>                    return ret;
+>>>>>>>>>>>>
+>>>>>>>>>>>> +     drm_sched_job_arm(&job->base);
+>>>>>>>>>>>> +
+>>>>>>>>>>>>            job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+>>>>>>>>>>>>
+>>>>>>>>>>>>            /* put by scheduler job completion */
+>>>>>>>>>>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>>>>>>>>>>>> index 88ae7f331bb1..83afc3aa8e2f 100644
+>>>>>>>>>>>> --- a/include/drm/gpu_scheduler.h
+>>>>>>>>>>>> +++ b/include/drm/gpu_scheduler.h
+>>>>>>>>>>>> @@ -348,6 +348,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched);
+>>>>>>>>>>>>        int drm_sched_job_init(struct drm_sched_job *job,
+>>>>>>>>>>>>                           struct drm_sched_entity *entity,
+>>>>>>>>>>>>                           void *owner);
+>>>>>>>>>>>> +void drm_sched_job_arm(struct drm_sched_job *job);
+>>>>>>>>>>>>        void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+>>>>>>>>>>>>                                        struct drm_gpu_scheduler **sched_list,
+>>>>>>>>>>>>                                           unsigned int num_sched_list);
+>>>>>>>>>>>> @@ -387,8 +388,12 @@ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
+>>>>>>>>>>>>                                       enum drm_sched_priority priority);
+>>>>>>>>>>>>        bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
+>>>>>>>>>>>>
+>>>>>>>>>>>> -struct drm_sched_fence *drm_sched_fence_create(
+>>>>>>>>>>>> +struct drm_sched_fence *drm_sched_fence_alloc(
+>>>>>>>>>>>>            struct drm_sched_entity *s_entity, void *owner);
+>>>>>>>>>>>> +void drm_sched_fence_init(struct drm_sched_fence *fence,
+>>>>>>>>>>>> +                       struct drm_sched_entity *entity);
+>>>>>>>>>>>> +void drm_sched_fence_free(struct rcu_head *rcu);
+>>>>>>>>>>>> +
+>>>>>>>>>>>>        void drm_sched_fence_scheduled(struct drm_sched_fence *fence);
+>>>>>>>>>>>>        void drm_sched_fence_finished(struct drm_sched_fence *fence);
+>>>>>>>>>>>>
+>>>> --
+>>>> Daniel Vetter
+>>>> Software Engineer, Intel Corporation
+>>>> https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fblog.ffwll.ch%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C7086790381b9415f60e708d941f78266%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637613353580226578%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=9GhYoGHD6TlcrW5dvT9Z%2BFukW%2F8%2BicK2t8180coEsJY%3D&amp;reserved=0
+>>>
+>>> --
+>>> Daniel Vetter
+>>> Software Engineer, Intel Corporation
+>>> https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fblog.ffwll.ch%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C7086790381b9415f60e708d941f78266%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637613353580236571%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=Yt%2FirDjTmtDUjQS1xlYg4x5mz82cHkNyLPkNNpO31ro%3D&amp;reserved=0
+
