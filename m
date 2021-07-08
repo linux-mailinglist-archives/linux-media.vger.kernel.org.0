@@ -2,116 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC9DE3C14DB
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 16:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DBDE3C14EC
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 16:14:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231823AbhGHOIe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 10:08:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43832 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231754AbhGHOIb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 10:08:31 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC082C06175F
-        for <linux-media@vger.kernel.org>; Thu,  8 Jul 2021 07:05:48 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id q18so15979872lfc.7
-        for <linux-media@vger.kernel.org>; Thu, 08 Jul 2021 07:05:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=+ufeDaT21nhfjyw9cGKcTF4DhPlIZOpHjYFDyar4c80=;
-        b=yd+yEGhyMUFdP96YEq6tUr2UKmT88Fqpc8AabAPB3Tm+U4NkT4AdV4KkYJAP0M692e
-         p9ESEGnndHj3aSYYH8dxioBLRrEm2E0FmKk/coZeHJmJDCi5rThZHOzOl9EJFfwwjjL5
-         fqp5hkacWXxdFTvTnCr2oU92Q/H2OZE6TWnmG26fB+u/89tRkeYyF4mr/S8B+B2p6fkT
-         pcfHAN5XiIJwKG55Mc1q0lG8n6hQtP4h2Or2WY0tTxgz0rKNUSJ3p8Tz1uFPNBEQIi5s
-         fxAKNuykLj8dPVrzU6C6Z2a2EG/CEVCg8ASY0IaZjK92jYfzyW/6YGECNM9S7nKi84xo
-         bpAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=+ufeDaT21nhfjyw9cGKcTF4DhPlIZOpHjYFDyar4c80=;
-        b=gtDEzL5qg9SuKnQu0Xu8bDK6dcRr0+YIK3rPtu4klE9fLY32i0Nz2AE97BX7kVFeV5
-         VJsnxDB5GL7BhgN6L/XaNQcPXquYpsHrbwwK93DpNfCEv4UvnJwkNP5VXf9nY/HedX4Y
-         XsRAXof8tK0jGKRDDojSaDcInRSPdEZvgaRAzr69NuCnKVI8XEl63UI/L9j0KRLJl96n
-         bIxEe3JUXQdH+Vi/9zg+6JEJYwGPAyZ3up03u6/MZqDU1Sl4rYdOffawlM6O+Odvyu9Z
-         H+35DrouKnQI0gI8nLvvioAyCIe+zwB+lvryAa8L8uNPljqJ3uMriqvcCfRFe3p26rJV
-         8hhw==
-X-Gm-Message-State: AOAM530h8agRtY0Ft0NizKRBOVWH+Zoi2Ts4st2kjk6w3AwEmXPK9N3F
-        AJp/oV2QjLboqNXcxCNkn9cHDD9rchV+jr9A
-X-Google-Smtp-Source: ABdhPJwbyic1KcHLfh4DDFokLyxNZWUWvGjQK5G7cLvltJuoB9pGf8NFVC/BUbICWI3eMgLak1Z3Ug==
-X-Received: by 2002:ac2:532e:: with SMTP id f14mr23553093lfh.103.1625753146590;
-        Thu, 08 Jul 2021 07:05:46 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id z13sm222403lfb.40.2021.07.08.07.05.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jul 2021 07:05:45 -0700 (PDT)
-Date:   Thu, 8 Jul 2021 16:05:43 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 01/11] rcar-vin: Refactor controls creation for video
- device
-Message-ID: <YOcGN3n7w0NAobdo@oden.dyn.berto.se>
-References: <20210413180253.2575451-1-niklas.soderlund+renesas@ragnatech.se>
- <20210413180253.2575451-2-niklas.soderlund+renesas@ragnatech.se>
- <20210706160401.xssshab7nkxroxnp@uno.localdomain>
- <YOSBxLV86PX63AWm@oden.dyn.berto.se>
- <20210706165803.jepqksw4slo3xkyc@uno.localdomain>
- <20210708134040.GB3@valkosipuli.retiisi.eu>
+        id S231783AbhGHOQw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 10:16:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38308 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229592AbhGHOQw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Jul 2021 10:16:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1625753650;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=TntTIb+1S1FuwVReDa+/7xgwmFfelIwb8SEWxcwP4uk=;
+        b=Yl3owvWm/p+O2RvzIJfReQnCcjJ/GnyxMXicppkQtRSeBhC2ttMlUPACtsGnf4LE/U//UN
+        qEGPu33MdDIEpuLUhyNpLAH1GVljY4URyl6i1GrDZKSGoPseHK7+jX70rc2rNxhlu68Y3Q
+        a5QQKpApXA9nxabBC8Y5cANjXcJNNCk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-no09P7ZuMFGIzIP2Yguptw-1; Thu, 08 Jul 2021 10:14:08 -0400
+X-MC-Unique: no09P7ZuMFGIzIP2Yguptw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28B9E1084F54;
+        Thu,  8 Jul 2021 14:14:07 +0000 (UTC)
+Received: from x1.localdomain (ovpn-114-156.ams2.redhat.com [10.36.114.156])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EA9CC5D6D1;
+        Thu,  8 Jul 2021 14:14:05 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: [PATCH for 5.10.y] media: uvcvideo: Support devices that report an OT as an entity source
+Date:   Thu,  8 Jul 2021 16:14:04 +0200
+Message-Id: <20210708141404.14826-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210708134040.GB3@valkosipuli.retiisi.eu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-On 2021-07-08 16:40:40 +0300, Sakari Ailus wrote:
-> Hi Niklas, Jacopo,
-> 
-> On Tue, Jul 06, 2021 at 06:58:03PM +0200, Jacopo Mondi wrote:
-> > > > > @@ -522,10 +543,8 @@ static void rvin_parallel_subdevice_detach(struct rvin_dev *vin)
-> > > > >  	rvin_v4l2_unregister(vin);
-> > > > >  	vin->parallel.subdev = NULL;
-> > > > >
-> > > > > -	if (!vin->info->use_mc) {
-> > > > > -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
-> > > > > -		vin->vdev.ctrl_handler = NULL;
-> > > > > -	}
-> > > > > +	if (!vin->info->use_mc)
-> > > >
-> > > > I know it was there already, but give that rvin_parallel_notify_unbind()
-> > > > is only registered for parallel, can this happen ?
-> > >
-> > > Yes, on Gen2 where we don't use a media-graph.
-> > >
-> > 
-> > Ah correct, for gen3 the controls are freed elsewhere, right!
-> > 
-> > Thanks for the clarification
-> 
-> I already had the set in my tree but I can throw it out if you'd prefer to
-> send v2 instead. At least I noticed only minor matters in the comments.
+[ Upstream commit 4ca052b4ea621d0002a5e5feace51f60ad5e6b23 ]
 
-There is one small issue in a cleanup path in 4/11 that should be fixed 
-and it's always good to get the small things fixed. If I have a v2 out 
-before end of day tomorrow could you refresh what you have in your tree?
+Some devices reference an output terminal as the source of extension
+units. This is incorrect, as output terminals only have an input pin,
+and thus can't be connected to any entity in the forward direction. The
+resulting topology would cause issues when registering the media
+controller graph. To avoid this problem, connect the extension unit to
+the source of the output terminal instead.
 
-> 
-> -- 
-> Regards,
-> 
-> Sakari Ailus
+While at it, and while no device has been reported to be affected by
+this issue, also handle forward scans where two output terminals would
+be connected together, and skip the terminals found through such an
+invalid connection.
 
+Cc: stable@vger.kernel.org # v5.10
+Reported-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 32 ++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 5ad528264135..282f3d2388cc 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -1588,6 +1588,31 @@ static int uvc_scan_chain_forward(struct uvc_video_chain *chain,
+ 				return -EINVAL;
+ 			}
+ 
++			/*
++			 * Some devices reference an output terminal as the
++			 * source of extension units. This is incorrect, as
++			 * output terminals only have an input pin, and thus
++			 * can't be connected to any entity in the forward
++			 * direction. The resulting topology would cause issues
++			 * when registering the media controller graph. To
++			 * avoid this problem, connect the extension unit to
++			 * the source of the output terminal instead.
++			 */
++			if (UVC_ENTITY_IS_OTERM(entity)) {
++				struct uvc_entity *source;
++
++				source = uvc_entity_by_id(chain->dev,
++							  entity->baSourceID[0]);
++				if (!source) {
++					uvc_trace(UVC_TRACE_DESCR,
++						"Can't connect extension unit %u in chain\n",
++						forward->id);
++					break;
++				}
++
++				forward->baSourceID[0] = source->id;
++			}
++
+ 			list_add_tail(&forward->chain, &chain->entities);
+ 			if (uvc_trace_param & UVC_TRACE_PROBE) {
+ 				if (!found)
+@@ -1608,6 +1633,13 @@ static int uvc_scan_chain_forward(struct uvc_video_chain *chain,
+ 				return -EINVAL;
+ 			}
+ 
++			if (UVC_ENTITY_IS_OTERM(entity)) {
++				uvc_trace(UVC_TRACE_DESCR,
++					"Unsupported connection between output terminals %u and %u\n",
++					entity->id, forward->id);
++				break;
++			}
++
+ 			list_add_tail(&forward->chain, &chain->entities);
+ 			if (uvc_trace_param & UVC_TRACE_PROBE) {
+ 				if (!found)
 -- 
-Regards,
-Niklas Söderlund
+2.31.1
+
