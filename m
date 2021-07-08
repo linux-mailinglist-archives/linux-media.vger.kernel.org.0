@@ -2,111 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 543333C1425
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 15:20:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 092083C1450
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 15:33:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231485AbhGHNXj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 09:23:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33856 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229901AbhGHNXj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 09:23:39 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 369CDC061574
-        for <linux-media@vger.kernel.org>; Thu,  8 Jul 2021 06:20:57 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id f30so15538523lfj.1
-        for <linux-media@vger.kernel.org>; Thu, 08 Jul 2021 06:20:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=phystech-edu.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :organization:mime-version:content-transfer-encoding;
-        bh=KE8NOJiJ0V+TtARi6NSHG/thecWx9xet0pqt8oRBjLs=;
-        b=TktgSi9h1vOl9BnxmPyh+CZu0cJ5B9oe+agvxvU4Fq8zgoBfhYhuuP+zHnNnwKYmMx
-         03rQceYgdIJKZBKtnZoGcGvpvpoGm20uXu0io0djHcgZr5Pr5BaOyv4oXv6Ya9TorfHC
-         ohIPjwXYVd2vDd8SxXQFnFJ+lugFSxwupif6IiDSarP5ECB7uRr941UjLX8IDjqSCS14
-         +f2ZTePeJRVYNSCFp/F1xnsO7P9yhrd1m3Zsetyu316Gv4JrdcSSpriryQ7s7QGogojE
-         vxdv5Xp7Vs7MdPGNl8R3L9I0X/lN2XACe8jIYU5DNSRFjyN+UxtsZLwWF/tzCOlz/kY0
-         3KYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=KE8NOJiJ0V+TtARi6NSHG/thecWx9xet0pqt8oRBjLs=;
-        b=hhtpUO5rw9oG6CgDFg7u5hgxoj35PeNdFOsEzmAqiEleYwQ/8MYRY4Pn6X13hqvjFX
-         UFtl7F4KeJkDUVwF7nsjokLAPpukz2s7dYuOvMAC127BZPkVC6B+0cySfFGarPJublX+
-         36OQejlQi5S4gzGXYXIBA0YMwwVImIpVF6cHln+2IVp7zDZEg+ygPXuJqLzbvq4Te9Z4
-         J/AxWrpTq9bD4Y45X8PGg/cm84RicvaOjk92/+8iRSU/OHJJHB4+CTXWcTOxW0NOuOW1
-         eHCjCcCSDrDpHhG5HSAyYbpkEuzbQD8U/Io1P423zRAlJ/gp7s2Bh3Af9yT+PmTKVOOU
-         al1A==
-X-Gm-Message-State: AOAM5332AdWJl2rQ4oke+cMqJs6hBm9RE2i/lF5Ic8G0zxiI9XTPACnn
-        IwhcqxWerDAes5uWo5aap5eExg==
-X-Google-Smtp-Source: ABdhPJy/KBaddQl0NdAnrXytzOMs65zvpx8CPI3qr2KR+DTHRjxfTu9ToD3HyKMytUcBg9uNx85Xyw==
-X-Received: by 2002:ac2:548a:: with SMTP id t10mr9720309lfk.247.1625750455529;
-        Thu, 08 Jul 2021 06:20:55 -0700 (PDT)
-Received: from 192.168.1.3 ([2a00:1370:810e:abfe:9c62:44e3:b0ab:76fd])
-        by smtp.gmail.com with ESMTPSA id n6sm197799lfi.2.2021.07.08.06.20.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jul 2021 06:20:55 -0700 (PDT)
-Date:   Thu, 8 Jul 2021 16:20:51 +0300
-From:   Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-To:     Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc:     sean@mess.org, mchehab@kernel.org, robh+dt@kernel.org,
-        khilman@baylibre.com, Neil Armstrong <narmstrong@baylibre.com>,
-        jbrunet@baylibre.com, linux-media <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, rockosov@gmail.com
-Subject: Re: [PATCH v2 1/2] media: rc: meson-irblaster: document device tree
- bindings
-Message-ID: <20210708162051.13953369@192.168.1.3>
-In-Reply-To: <CAFBinCDgQHA1vmunNBdER0BfiKt8XYZ+-VBs3c21+S3bYP7GZQ@mail.gmail.com>
-References: <20210707141323.20757-1-viktor.prutyanov@phystech.edu>
-        <20210707141323.20757-2-viktor.prutyanov@phystech.edu>
-        <CAFBinCDgQHA1vmunNBdER0BfiKt8XYZ+-VBs3c21+S3bYP7GZQ@mail.gmail.com>
-Organization: MIPT
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S231485AbhGHNgI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 09:36:08 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:41158 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229901AbhGHNgH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 09:36:07 -0400
+X-Greylist: delayed 569 seconds by postgrey-1.27 at vger.kernel.org; Thu, 08 Jul 2021 09:36:07 EDT
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 75D6A3C003F;
+        Thu,  8 Jul 2021 15:23:53 +0200 (CEST)
+Received: from vmlxhi-082.localdomain (10.72.92.227) by hi2exch02.adit-jv.com
+ (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Thu, 8 Jul
+ 2021 15:23:53 +0200
+From:   Dennis Rachui <drachui@de.adit-jv.com>
+To:     <niklas.soderlund@ragnatech.se>
+CC:     <drachui@de.adit-jv.com>, Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH] media: rcar-csi2: do not update format while streaming
+Date:   Thu, 8 Jul 2021 15:22:58 +0200
+Message-ID: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.72.92.227]
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+Verify that streaming is not active before setting the pad format.
 
-On Thu, 8 Jul 2021 15:09:30 +0200
-Martin Blumenstingl <martin.blumenstingl@googlemail.com> wrote:
+According to the VIDIOC documentation [1] changes to the active
+format of a media pad via the VIDIOC_SUBDEV_S_FMT ioctl are
+applied to the underlying hardware.
+In rcar-csi2 a format change only applies to hardware, when the
+pipeline is started. While the device is not in use, it is therefore
+okay to update the format.
 
-> Hi Viktor,
-> 
-> On Wed, Jul 7, 2021 at 4:13 PM Viktor Prutyanov
-> <viktor.prutyanov@phystech.edu> wrote:
-> >
-> > This patch adds binding documentation for the IR transmitter
-> > available in Amlogic Meson SoCs.
-> >
-> > Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> > ---
-> >  changes in v2:
-> >    - compatible = "amlogic,meson-g12a-irblaster" added
-> >    - clocks, clock-names and mod-clock updated  
-> thanks for updating this patch with my feedback!
-> 
-> [...]
-> > +  mod-clock:
-> > +    maxItems: 1  
-> in the change-log for this patch you mentioned that mod-clock is
-> updated as well I think that mod-clock (as a whole property) should
-> only be added if it's an external input to the IR blaster IP block
+However, when the pipeline is active, this leads to a format
+mismatch between driver and device.
+Other applications can query the format with
+VIDIOC_SUBDEV_G_FMT at any time and would be reported
+a format that does not fit the current stream.
 
-There are 2 clocks connected to blaster module, and mod-clock is just a
-selector between them. Meson IR blaster driver should choose one of the
-modulation clocks. If not through a property, then how to do it? 
+This commit prevents format update while streaming is active
+and returns -EBUSY to user space, as suggested by [1].
 
-> 
-> 
-> Best regards,
-> Martin
+[1] Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
 
-Best regards,
-Viktor
+Note: after creation of this commit, it was noticed that Steve
+Longerbeam has a very similar solution in his fork.
+
+Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+Cc: Steve Longerbeam <slongerbeam@gmail.com>
+Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
+---
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+index e28eff0..98152e1 100644
+--- a/drivers/media/platform/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+@@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+ {
+ 	struct rcar_csi2 *priv = sd_to_csi2(sd);
+ 	struct v4l2_mbus_framefmt *framefmt;
++	int ret = 0;
++
++	mutex_lock(&priv->lock);
+ 
+ 	if (!rcsi2_code_to_fmt(format->format.code))
+ 		format->format.code = rcar_csi2_formats[0].code;
+ 
+ 	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
++
++		/*
++		 * Do not apply changes to active format while streaming.
++		 *
++		 * Since video streams could be forwarded from sink pad to any
++		 * source pad (depending on CSI-2 channel routing), all
++		 * media pads are effected by this rule.
++		 */
++		if (priv->stream_count > 0) {
++			ret = -EBUSY;
++			goto out;
++		}
++
+ 		priv->mf = format->format;
+ 	} else {
+ 		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+ 		*framefmt = format->format;
+ 	}
+ 
+-	return 0;
++out:
++	mutex_unlock(&priv->lock);
++
++	return ret;
+ }
+ 
+ static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
+-- 
+2.7.4
+
