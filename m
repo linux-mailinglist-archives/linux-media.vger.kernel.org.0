@@ -2,222 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5F053BF8D7
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 13:23:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D5F83BF8EA
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 13:26:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231600AbhGHL0A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 07:26:00 -0400
-Received: from mga07.intel.com ([134.134.136.100]:50680 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231540AbhGHL0A (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Jul 2021 07:26:00 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="273326690"
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; 
-   d="scan'208";a="273326690"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2021 04:23:17 -0700
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; 
-   d="scan'208";a="428320822"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2021 04:23:15 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 33AA920188;
-        Thu,  8 Jul 2021 14:23:13 +0300 (EEST)
-Date:   Thu, 8 Jul 2021 14:23:13 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Stefan Riedmueller <s.riedmueller@phytec.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        id S231707AbhGHL2r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 07:28:47 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:33562 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231716AbhGHL2q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 07:28:46 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 168BP8eU062944;
+        Thu, 8 Jul 2021 06:25:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1625743508;
+        bh=Nm5PF+zi+CnvnEIK9X8Ur0GOfFhsnJVQA+rpwvJmIYY=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=jIxJh+vcs42ss6Wd2ahnU6QWgOMNC0HE+rt7Al24ndBsIdWFopCegdE5hsVUMniVN
+         cKGJkaykLzk440G7cEe0NmntGx3WJWxjoreP5xg9qPfGdIG9sqry4iMidVD6Dks6KJ
+         6u9SBEY91lAi8i14SOW7D1EDB7pY2w4bBz0CelJE=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 168BP8uC088808
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 8 Jul 2021 06:25:08 -0500
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 8 Jul
+ 2021 06:25:08 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Thu, 8 Jul 2021 06:25:08 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 168BP7CJ040075;
+        Thu, 8 Jul 2021 06:25:07 -0500
+Date:   Thu, 8 Jul 2021 16:55:06 +0530
+From:   Pratyush Yadav <p.yadav@ti.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC:     Jacopo Mondi <jacopo@jmondi.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 5/6] media: dt-bindings: mt9p031: Convert bindings to
- yaml
-Message-ID: <20210708112313.GA3@paasikivi.fi.intel.com>
-References: <20210708091922.5508-1-s.riedmueller@phytec.de>
- <20210708091922.5508-6-s.riedmueller@phytec.de>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Nikhil Devshatwar <nikhil.nd@ti.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Arnd Bergmann <arnd@arndb.de>, Benoit Parrot <bparrot@ti.com>,
+        Bert Vermeulen <bert@biot.com>,
+        Dikshita Agarwal <dikshita@codeaurora.org>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Helen Koike <helen.koike@collabora.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Martina Krasteva <martinax.krasteva@intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Qiushi Wu <wu000273@umn.edu>, Raag Jadav <raagjadav@gmail.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Zou Wei <zou_wei@huawei.com>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v3 00/11] CSI2RX support on J721E
+Message-ID: <20210708112504.optj6xzkljrpbwsg@ti.com>
+References: <20210624192200.22559-1-p.yadav@ti.com>
+ <dd3b13ec-a883-5b22-47ce-d6e591b674aa@ideasonboard.com>
+ <20210707185636.xxu6n6p4gihrs37d@ti.com>
+ <20210708081919.rlp5xv5f4jbx6uav@uno.localdomain>
+ <c7ff2f59-7975-adad-d9dd-d4084eecb65b@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20210708091922.5508-6-s.riedmueller@phytec.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <c7ff2f59-7975-adad-d9dd-d4084eecb65b@ideasonboard.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stefan,
-
-Thanks for the patch.
-
-On Thu, Jul 08, 2021 at 11:19:21AM +0200, Stefan Riedmueller wrote:
-> Convert mt9p031 sensor bindings to yaml schema. Also update the
-> MAINTAINERS entry.
+On 08/07/21 11:43AM, Tomi Valkeinen wrote:
+> On 08/07/2021 11:19, Jacopo Mondi wrote:
+> > Hi Tomi, Pratyush,
+> > 
+> > On Thu, Jul 08, 2021 at 12:26:38AM +0530, Pratyush Yadav wrote:
+> > > Hi Tomi,
+> > > 
+> > > Thanks for looking into the patches.
+> > > 
+> > > On 01/07/21 10:56AM, Tomi Valkeinen wrote:
+> > > > Hi Pratyush,
+> > > > 
+> > > > On 24/06/2021 22:21, Pratyush Yadav wrote:
+> > > > > Hi,
+> > > > > 
+> > > > > This series adds support for CSI2 capture on J721E. It includes some
+> > > > > fixes to the Cadence CSI2RX driver, adds runtime PM support to OV5640
+> > > > > driver, and finally adds the TI CSI2RX wrapper driver.
+> > > > > 
+> > > > > This series used to include the DPHY and DMA engine patches as well, but
+> > > > > they have been split off to facilitate easier merging. Patch 3 is
+> > > > > build-dependent on the DPHY series [0].
+> > > > > 
+> > > > > The DMA engine patch [1] can go in any order since that is only a run
+> > > > > time dependency. Things probably won't work without it but it will still
+> > > > > build fine.
+> > > > > 
+> > > > > Tested on TI's J721E with OV5640 sensor.
+> > > > 
+> > > > I applied these (csi-2 rx, phy, dma-engine) to linux-media/master, and added dts changes to add the csi2-rx. When sending the series, can you also push the branch you use for testing, as the posted patches do not include everything needed?
+> > > 
+> > > Please use https://github.com/prati0100/linux-next/ branch "capture"
+> > > 
+> > > I will include the link in the cover letter from next version onwards.
+> > > 
+> > > > 
+> > > > Here are some notes from quick tests:
+> > > > 
+> > > > Capture works, but the fps is ~28.98. I would expect it to be closer to 30. Are the clocks configured correctly?
+> > > 
+> > > I see this as well. I figured this had something to do with the sensor.
+> > 
+> > Tomi you might remember your patch to change the h/vtot values which I
+> > collected in a series which I never managed to bring to v1, as Hugues
+> > reported it was broken for JPEG capture.
+> > 
+> > I'll leave it here just for reference, I admit I dropped the ball
+> > rather quickly there:
+> > https://patchwork.linuxtv.org/project/linux-media/cover/20201028225706.110078-1-jacopo+renesas@jmondi.org/
+> > 
+> > I wish I could re-test but seems I've lost the powering cable of the
+> > device I used to test ov5640 :(
 > 
-> Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
-> ---
->  .../bindings/media/i2c/aptina,mt9p031.yaml    | 75 +++++++++++++++++++
->  .../devicetree/bindings/media/i2c/mt9p031.txt | 40 ----------
->  MAINTAINERS                                   |  1 +
->  3 files changed, 76 insertions(+), 40 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/mt9p031.txt
+> Yes, I'm still using my hack patch when working with OV5640. With that hack,
+> on TI platforms with CAL IP, I get ~30fps. With this series on J7, I get the
+> above mentioned 28.98.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml b/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
-> new file mode 100644
-> index 000000000000..7de62e339895
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
-> @@ -0,0 +1,75 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/mt9p031.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Aptina 1/2.5-Inch 5Mp CMOS Digital Image Sensor
-> +
-> +maintainers:
-> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +
-> +description: |
-> +  The Aptina MT9P031 is a 1/2.5-inch CMOS active pixel digital image sensor
-> +  with an active array size of 2592H x 1944V. It is programmable through a
-> +  simple two-wire serial interface.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aptina,mt9p031
-> +      - aptina,mt9p031m
-> +
-> +  reg:
-> +    description: I2C device address
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: Chip reset GPIO
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
+> It's possible my hack patch is wrong, and CAL driver is buggy, but together
+> they make things right. I guess I should also try J7 without my hack patch.
 
-This should probably be:
+I think this is a OV5640 related issue. On IMX219 I am seeing exactly 30 
+fps.
 
-	$ref: /schemas/graph.yaml#/$defs/port-base
-
-> +    addittionalProeprties: false
-
-
-Could you run
-
-	make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
-
-please?
-
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          input-clock-frequency: true
-> +          pixel-clock-frequency: true
-
-These two legacy properties were not in the endpoint previously.
-
-> +
-> +        required:
-> +          - input-clock-frequency
-> +          - pixel-clock-frequency
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        mt9p031@5d {
-> +            compatible = "aptina,mt9p031";
-> +            reg = <0x5d>;
-> +            reset-gpios = <&gpio_sensor 0 0>;
-> +
-> +            port {
-> +                mt9p031_1: endpoint {
-> +                    input-clock-frequency = <6000000>;
-> +                    pixel-clock-frequency = <96000000>;
-> +                };
-> +            };
-> +        }:
-> +    };
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/media/i2c/mt9p031.txt b/Documentation/devicetree/bindings/media/i2c/mt9p031.txt
-> deleted file mode 100644
-> index cb60443ff78f..000000000000
-> --- a/Documentation/devicetree/bindings/media/i2c/mt9p031.txt
-> +++ /dev/null
-> @@ -1,40 +0,0 @@
-> -* Aptina 1/2.5-Inch 5Mp CMOS Digital Image Sensor
-> -
-> -The Aptina MT9P031 is a 1/2.5-inch CMOS active pixel digital image sensor with
-> -an active array size of 2592H x 1944V. It is programmable through a simple
-> -two-wire serial interface.
-> -
-> -Required Properties:
-> -- compatible: value should be either one among the following
-> -	(a) "aptina,mt9p031" for mt9p031 sensor
-> -	(b) "aptina,mt9p031m" for mt9p031m sensor
-> -
-> -- input-clock-frequency: Input clock frequency.
-> -
-> -- pixel-clock-frequency: Pixel clock frequency.
-> -
-> -Optional Properties:
-> -- reset-gpios: Chip reset GPIO
-> -
-> -For further reading on port node refer to
-> -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> -
-> -Example:
-> -
-> -	i2c0@1c22000 {
-> -		...
-> -		...
-> -		mt9p031@5d {
-> -			compatible = "aptina,mt9p031";
-> -			reg = <0x5d>;
-> -			reset-gpios = <&gpio3 30 0>;
-> -
-> -			port {
-> -				mt9p031_1: endpoint {
-> -					input-clock-frequency = <6000000>;
-> -					pixel-clock-frequency = <96000000>;
-> -				};
-> -			};
-> -		};
-> -		...
-> -	};
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c7456776ace5..f2123226baae 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12610,6 +12610,7 @@ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
-> +F:	Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
->  F:	drivers/media/i2c/mt9p031.c
->  F:	include/media/i2c/mt9p031.h
->  
+> 
+> If I recall right, I tested your changes but I couldn't get them to work on
+> my HW.
+> 
+> I haven't worked on that since then, as I decided that debugging blind is
+> pointless. We need someone to analyze the signals to see what OV5640 is
+> sending. Or some new understanding about the OV5640 HW.
+> 
+>  Tomi
 
 -- 
-Kind regards,
-
-Sakari Ailus
+Regards,
+Pratyush Yadav
+Texas Instruments Inc.
