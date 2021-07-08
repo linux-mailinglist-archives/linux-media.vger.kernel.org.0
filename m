@@ -2,82 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C38843C1846
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 19:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F1D63C1849
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 19:38:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229842AbhGHRk4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 13:40:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35384 "EHLO
+        id S229846AbhGHRk7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 13:40:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229650AbhGHRk4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 13:40:56 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAF57C061574
-        for <linux-media@vger.kernel.org>; Thu,  8 Jul 2021 10:38:13 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id a13so8504665wrf.10
-        for <linux-media@vger.kernel.org>; Thu, 08 Jul 2021 10:38:13 -0700 (PDT)
+        with ESMTP id S229650AbhGHRk6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 13:40:58 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F891C061574
+        for <linux-media@vger.kernel.org>; Thu,  8 Jul 2021 10:38:16 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id k16-20020a05600c1c90b02901f4ed0fcfe7so4547357wms.5
+        for <linux-media@vger.kernel.org>; Thu, 08 Jul 2021 10:38:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1pvMr02hIHq2AEIJDWAC7sVPUBJ1dbEEa4aJ2D+xVCw=;
-        b=BMeONXb5sS1kIcrHUY6v/jOtLtXPvpzXsLrkqKS0rhufnuy0mCjpIHYEKQrIVgsSP7
-         EYz10n+o0MEqnFESxpTj95W4GZpvGXvrO1UYLYkRVuMdeGzd42nUjFbrcj9vdxPF7zwv
-         paVASeOml48hFOo0JLW6rd/1enG1JDhLqMp28=
+        bh=6CoSDQimINzuQMNmfQzI9m6jHRTl1DpQg1i8VsEPplE=;
+        b=comVH3WXZENRluWhsm3XZUuXprJE4MTtXErDzvdFDjEBmtKavAYOFvOHcxB/8zZFez
+         eJHyAnowlUdkk0kOKeEeEBC9y/TgUsglfEu+Ee3ynGoiOOYpxS/pdTUJsLKajwgYkTs4
+         wSRHXYvoduDpdFvmsOhVaSIEsY10qm1Nj1ewc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1pvMr02hIHq2AEIJDWAC7sVPUBJ1dbEEa4aJ2D+xVCw=;
-        b=SifKIBJyhvrkbfPsMm3RaByR0ydBfPvJVtuUbPJpKEhWNkM9y8GNC+xKwo4SRr78a5
-         CYcrASC3fWnOXLVQFOOtr9Hq/UD169i72JI7RF7BllCNt2ly+USJZBcmAGR1zqo7Sok1
-         YRKscKaqislMJKiL77zUUjRv4S0YFE6KGM3h0fC7Sedy50lrZhjPa57pS/9l8gwk8ErJ
-         XB30DjiTouwPQIVF/AFc4ooHs4x3C+mZiW3/gel43vx4n45pOrP9tcnyYvMWs21vgM/o
-         GfYHFAxWGdkDV46pAjcFCFYN2G5uOq8vZIUJp4q2EDpk4fsMOGkcnKr3kDjLTEYzYw0Q
-         2V8Q==
-X-Gm-Message-State: AOAM533dhYWWNKFay7HV6p0Z2jDWDuaX5k1srozuk/vd7D7iX6Ao4veq
-        XM827Qanz4UThEzMqHUzf4Kukw==
-X-Google-Smtp-Source: ABdhPJz41FriE+mWoHnECaVxKDRxy5Ks/qVFZhTl5/nxmEaG5dhrbcz7KjRV07gqng/d/uz/5fJB+g==
-X-Received: by 2002:a5d:6984:: with SMTP id g4mr5243376wru.381.1625765892433;
-        Thu, 08 Jul 2021 10:38:12 -0700 (PDT)
+        bh=6CoSDQimINzuQMNmfQzI9m6jHRTl1DpQg1i8VsEPplE=;
+        b=JaQLHHMFB0ESxLdc8DKd54+4kS35jqHiqNHLiWlbsFRtvLqNsUugAepOyMy1LDn7Yh
+         gwgDgrpliZ6EwBvLH8kXPOY2jJ4/eXX39OFuCUshSRZmNAELLylFwMJZfDjNRIUw9Lzr
+         zn2vSx0DNWTgg2CUzMArT4UMU3Gv8gk6vzmq5i+McvmmeWcZmS3vgj335anji+ea8EX2
+         GhR4YqjEj4bIJ4eQcogoQic803NlGky1eacBZI1erZDMb24QOFMAvFuohiGmXg5oA9g8
+         zaFqBEjcDhCizGx0iDD2BeIe8mBqz15iFQnGpRAotozKi9q2ZIFzvzvTshNQstHYGyhi
+         3DLQ==
+X-Gm-Message-State: AOAM531U/wwJeOxcXqDpyM9uWk83redGJfcVRHm57Sa1oJBQCYtaDYoI
+        sCh9fmvRQBN3ov9MUZKm9lXv/A==
+X-Google-Smtp-Source: ABdhPJwv0jDlnfeo5tFFisp8oveqQyoI80/d9UEL/yD24KMyoOwVZoarR14a8rUkgr0TqSzlDSMITQ==
+X-Received: by 2002:a7b:c099:: with SMTP id r25mr6465162wmh.127.1625765895034;
+        Thu, 08 Jul 2021 10:38:15 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id l4sm2521853wme.26.2021.07.08.10.38.10
+        by smtp.gmail.com with ESMTPSA id l4sm2521853wme.26.2021.07.08.10.38.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jul 2021 10:38:11 -0700 (PDT)
+        Thu, 08 Jul 2021 10:38:14 -0700 (PDT)
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
 To:     DRI Development <dri-devel@lists.freedesktop.org>
 Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
         Daniel Vetter <daniel.vetter@ffwll.ch>,
         Steven Price <steven.price@arm.com>,
         Daniel Vetter <daniel.vetter@intel.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Russell King <linux+etnaviv@armlinux.org.uk>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Qiang Yu <yuq825@gmail.com>, Rob Herring <robh@kernel.org>,
+        Rob Herring <robh@kernel.org>,
         Tomeu Vizoso <tomeu.vizoso@collabora.com>,
         Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Nirmoy Das <nirmoy.das@amd.com>,
-        Dave Airlie <airlied@redhat.com>,
-        Chen Li <chenli@uniontech.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Deepak R Varma <mh12gx2825@gmail.com>,
-        Kevin Wang <kevin1.wang@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        Dennis Li <Dennis.Li@amd.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        etnaviv@lists.freedesktop.org, lima@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v3 05/20] drm/sched: drop entity parameter from drm_sched_push_job
-Date:   Thu,  8 Jul 2021 19:37:39 +0200
-Message-Id: <20210708173754.3877540-6-daniel.vetter@ffwll.ch>
+Subject: [PATCH v3 07/20] drm/panfrost: use scheduler dependency tracking
+Date:   Thu,  8 Jul 2021 19:37:41 +0200
+Message-Id: <20210708173754.3877540-8-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210708173754.3877540-1-daniel.vetter@ffwll.ch>
 References: <20210708173754.3877540-1-daniel.vetter@ffwll.ch>
@@ -88,213 +69,212 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Originally a job was only bound to the queue when we pushed this, but
-now that's done in drm_sched_job_init, making that parameter entirely
-redundant.
+Just deletes some code that's now more shared.
 
-Remove it.
+Note that thanks to the split into drm_sched_job_init/arm we can now
+easily pull the _init() part from under the submission lock way ahead
+where we're adding the sync file in-fences as dependencies.
 
-The same applies to the context parameter in
-lima_sched_context_queue_task, simplify that too.
+v2: Correctly clean up the partially set up job, now that job_init()
+and job_arm() are apart (Emma).
 
 Reviewed-by: Steven Price <steven.price@arm.com> (v1)
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: Qiang Yu <yuq825@gmail.com>
 Cc: Rob Herring <robh@kernel.org>
 Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 Cc: Steven Price <steven.price@arm.com>
 Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Cc: Emma Anholt <emma@anholt.net>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
 Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Nirmoy Das <nirmoy.das@amd.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Chen Li <chenli@uniontech.com>
-Cc: Lee Jones <lee.jones@linaro.org>
-Cc: Deepak R Varma <mh12gx2825@gmail.com>
-Cc: Kevin Wang <kevin1.wang@amd.com>
-Cc: Luben Tuikov <luben.tuikov@amd.com>
-Cc: "Marek Olšák" <marek.olsak@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Cc: Dennis Li <Dennis.Li@amd.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: etnaviv@lists.freedesktop.org
-Cc: lima@lists.freedesktop.org
 Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c   | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  | 2 +-
- drivers/gpu/drm/etnaviv/etnaviv_sched.c  | 2 +-
- drivers/gpu/drm/lima/lima_gem.c          | 3 +--
- drivers/gpu/drm/lima/lima_sched.c        | 5 ++---
- drivers/gpu/drm/lima/lima_sched.h        | 3 +--
- drivers/gpu/drm/panfrost/panfrost_job.c  | 2 +-
- drivers/gpu/drm/scheduler/sched_entity.c | 6 ++----
- drivers/gpu/drm/v3d/v3d_gem.c            | 2 +-
- include/drm/gpu_scheduler.h              | 3 +--
- 10 files changed, 12 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 16 ++++++++---
+ drivers/gpu/drm/panfrost/panfrost_job.c | 37 +++----------------------
+ drivers/gpu/drm/panfrost/panfrost_job.h |  5 +---
+ 3 files changed, 17 insertions(+), 41 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index a4ec092af9a7..18f63567fb69 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -1267,7 +1267,7 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 1ffaef5ec5ff..9f53bea07d61 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -218,7 +218,7 @@ panfrost_copy_in_sync(struct drm_device *dev,
+ 		if (ret)
+ 			goto fail;
  
- 	trace_amdgpu_cs_ioctl(job);
- 	amdgpu_vm_bo_trace_cs(&fpriv->vm, &p->ticket);
--	drm_sched_entity_push_job(&job->base, entity);
-+	drm_sched_entity_push_job(&job->base);
+-		ret = drm_gem_fence_array_add(&job->deps, fence);
++		ret = drm_sched_job_await_fence(&job->base, fence);
  
- 	amdgpu_vm_move_to_lru_tail(p->adev, &fpriv->vm);
+ 		if (ret)
+ 			goto fail;
+@@ -236,7 +236,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+ 	struct drm_panfrost_submit *args = data;
+ 	struct drm_syncobj *sync_out = NULL;
+ 	struct panfrost_job *job;
+-	int ret = 0;
++	int ret = 0, slot;
  
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-index 5ddb955d2315..b8609cccc9c1 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-@@ -174,7 +174,7 @@ int amdgpu_job_submit(struct amdgpu_job *job, struct drm_sched_entity *entity,
+ 	if (!args->jc)
+ 		return -EINVAL;
+@@ -258,14 +258,20 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
  
- 	*f = dma_fence_get(&job->base.s_fence->finished);
- 	amdgpu_job_free_resources(job);
--	drm_sched_entity_push_job(&job->base, entity);
-+	drm_sched_entity_push_job(&job->base);
+ 	kref_init(&job->refcount);
  
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-index 05f412204118..180bb633d5c5 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-@@ -178,7 +178,7 @@ int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
- 	/* the scheduler holds on to the job now */
- 	kref_get(&submit->refcount);
+-	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
+-
+ 	job->pfdev = pfdev;
+ 	job->jc = args->jc;
+ 	job->requirements = args->requirements;
+ 	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
+ 	job->file_priv = file->driver_priv;
  
--	drm_sched_entity_push_job(&submit->sched_job, sched_entity);
-+	drm_sched_entity_push_job(&submit->sched_job);
++	slot = panfrost_job_get_slot(job);
++
++	ret = drm_sched_job_init(&job->base,
++				 &job->file_priv->sched_entity[slot],
++				 NULL);
++	if (ret)
++		goto fail_job_put;
++
+ 	ret = panfrost_copy_in_sync(dev, file, args, job);
+ 	if (ret)
+ 		goto fail_job;
+@@ -283,6 +289,8 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+ 		drm_syncobj_replace_fence(sync_out, job->render_done_fence);
  
- out_unlock:
- 	mutex_unlock(&submit->gpu->fence_lock);
-diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-index de62966243cd..c528f40981bb 100644
---- a/drivers/gpu/drm/lima/lima_gem.c
-+++ b/drivers/gpu/drm/lima/lima_gem.c
-@@ -359,8 +359,7 @@ int lima_gem_submit(struct drm_file *file, struct lima_submit *submit)
- 			goto err_out2;
- 	}
- 
--	fence = lima_sched_context_queue_task(
--		submit->ctx->context + submit->pipe, submit->task);
-+	fence = lima_sched_context_queue_task(submit->task);
- 
- 	for (i = 0; i < submit->nr_bos; i++) {
- 		if (submit->bos[i].flags & LIMA_SUBMIT_BO_WRITE)
-diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-index 38f755580507..e968b5a8f0b0 100644
---- a/drivers/gpu/drm/lima/lima_sched.c
-+++ b/drivers/gpu/drm/lima/lima_sched.c
-@@ -177,13 +177,12 @@ void lima_sched_context_fini(struct lima_sched_pipe *pipe,
- 	drm_sched_entity_fini(&context->base);
- }
- 
--struct dma_fence *lima_sched_context_queue_task(struct lima_sched_context *context,
--						struct lima_sched_task *task)
-+struct dma_fence *lima_sched_context_queue_task(struct lima_sched_task *task)
- {
- 	struct dma_fence *fence = dma_fence_get(&task->base.s_fence->finished);
- 
- 	trace_lima_task_submit(task);
--	drm_sched_entity_push_job(&task->base, &context->base);
-+	drm_sched_entity_push_job(&task->base);
- 	return fence;
- }
- 
-diff --git a/drivers/gpu/drm/lima/lima_sched.h b/drivers/gpu/drm/lima/lima_sched.h
-index 90f03c48ef4a..ac70006b0e26 100644
---- a/drivers/gpu/drm/lima/lima_sched.h
-+++ b/drivers/gpu/drm/lima/lima_sched.h
-@@ -98,8 +98,7 @@ int lima_sched_context_init(struct lima_sched_pipe *pipe,
- 			    atomic_t *guilty);
- void lima_sched_context_fini(struct lima_sched_pipe *pipe,
- 			     struct lima_sched_context *context);
--struct dma_fence *lima_sched_context_queue_task(struct lima_sched_context *context,
--						struct lima_sched_task *task);
-+struct dma_fence *lima_sched_context_queue_task(struct lima_sched_task *task);
- 
- int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name);
- void lima_sched_pipe_fini(struct lima_sched_pipe *pipe);
+ fail_job:
++	drm_sched_job_cleanup(&job->base);
++fail_job_put:
+ 	panfrost_job_put(job);
+ fail_out_sync:
+ 	if (sync_out)
 diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 2992dc85325f..4bc962763e1f 100644
+index 4bc962763e1f..86c843d8822e 100644
 --- a/drivers/gpu/drm/panfrost/panfrost_job.c
 +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -301,7 +301,7 @@ int panfrost_job_push(struct panfrost_job *job)
- 
- 	kref_get(&job->refcount); /* put by scheduler job completion */
- 
--	drm_sched_entity_push_job(&job->base, entity);
-+	drm_sched_entity_push_job(&job->base);
- 
- 	mutex_unlock(&pfdev->sched_lock);
- 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index c7e6d29c9a33..e2a6803910ce 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -516,9 +516,7 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
- 
- /**
-  * drm_sched_entity_push_job - Submit a job to the entity's job queue
-- *
-  * @sched_job: job to submit
-- * @entity: scheduler entity
-  *
-  * Note: To guarantee that the order of insertion to queue matches the job's
-  * fence sequence number this function should be called with drm_sched_job_arm()
-@@ -526,9 +524,9 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
-  *
-  * Returns 0 for success, negative error code otherwise.
-  */
--void drm_sched_entity_push_job(struct drm_sched_job *sched_job,
--			       struct drm_sched_entity *entity)
-+void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
- {
-+	struct drm_sched_entity *entity = sched_job->entity;
- 	bool first;
- 
- 	trace_drm_sched_job(sched_job, entity);
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 5c3a99027ecd..69ac20e11b09 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -482,7 +482,7 @@ v3d_push_job(struct v3d_file_priv *v3d_priv,
- 	/* put by scheduler job completion */
- 	kref_get(&job->refcount);
- 
--	drm_sched_entity_push_job(&job->base, &v3d_priv->sched_entity[queue]);
-+	drm_sched_entity_push_job(&job->base);
- 
- 	return 0;
+@@ -102,7 +102,7 @@ static struct dma_fence *panfrost_fence_create(struct panfrost_device *pfdev, in
+ 	return &fence->base;
  }
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 74fb321dbc44..2bb1869f2352 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -407,8 +407,7 @@ void drm_sched_entity_fini(struct drm_sched_entity *entity);
- void drm_sched_entity_destroy(struct drm_sched_entity *entity);
- void drm_sched_entity_select_rq(struct drm_sched_entity *entity);
- struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity);
--void drm_sched_entity_push_job(struct drm_sched_job *sched_job,
--			       struct drm_sched_entity *entity);
-+void drm_sched_entity_push_job(struct drm_sched_job *sched_job);
- void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
- 				   enum drm_sched_priority priority);
- bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
+ 
+-static int panfrost_job_get_slot(struct panfrost_job *job)
++int panfrost_job_get_slot(struct panfrost_job *job)
+ {
+ 	/* JS0: fragment jobs.
+ 	 * JS1: vertex/tiler jobs
+@@ -242,13 +242,13 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+ 
+ static int panfrost_acquire_object_fences(struct drm_gem_object **bos,
+ 					  int bo_count,
+-					  struct xarray *deps)
++					  struct drm_sched_job *job)
+ {
+ 	int i, ret;
+ 
+ 	for (i = 0; i < bo_count; i++) {
+ 		/* panfrost always uses write mode in its current uapi */
+-		ret = drm_gem_fence_array_add_implicit(deps, bos[i], true);
++		ret = drm_sched_job_await_implicit(job, bos[i], true);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -269,31 +269,21 @@ static void panfrost_attach_object_fences(struct drm_gem_object **bos,
+ int panfrost_job_push(struct panfrost_job *job)
+ {
+ 	struct panfrost_device *pfdev = job->pfdev;
+-	int slot = panfrost_job_get_slot(job);
+-	struct drm_sched_entity *entity = &job->file_priv->sched_entity[slot];
+ 	struct ww_acquire_ctx acquire_ctx;
+ 	int ret = 0;
+ 
+-
+ 	ret = drm_gem_lock_reservations(job->bos, job->bo_count,
+ 					    &acquire_ctx);
+ 	if (ret)
+ 		return ret;
+ 
+ 	mutex_lock(&pfdev->sched_lock);
+-
+-	ret = drm_sched_job_init(&job->base, entity, NULL);
+-	if (ret) {
+-		mutex_unlock(&pfdev->sched_lock);
+-		goto unlock;
+-	}
+-
+ 	drm_sched_job_arm(&job->base);
+ 
+ 	job->render_done_fence = dma_fence_get(&job->base.s_fence->finished);
+ 
+ 	ret = panfrost_acquire_object_fences(job->bos, job->bo_count,
+-					     &job->deps);
++					     &job->base);
+ 	if (ret) {
+ 		mutex_unlock(&pfdev->sched_lock);
+ 		goto unlock;
+@@ -318,15 +308,8 @@ static void panfrost_job_cleanup(struct kref *ref)
+ {
+ 	struct panfrost_job *job = container_of(ref, struct panfrost_job,
+ 						refcount);
+-	struct dma_fence *fence;
+-	unsigned long index;
+ 	unsigned int i;
+ 
+-	xa_for_each(&job->deps, index, fence) {
+-		dma_fence_put(fence);
+-	}
+-	xa_destroy(&job->deps);
+-
+ 	dma_fence_put(job->done_fence);
+ 	dma_fence_put(job->render_done_fence);
+ 
+@@ -365,17 +348,6 @@ static void panfrost_job_free(struct drm_sched_job *sched_job)
+ 	panfrost_job_put(job);
+ }
+ 
+-static struct dma_fence *panfrost_job_dependency(struct drm_sched_job *sched_job,
+-						 struct drm_sched_entity *s_entity)
+-{
+-	struct panfrost_job *job = to_panfrost_job(sched_job);
+-
+-	if (!xa_empty(&job->deps))
+-		return xa_erase(&job->deps, job->last_dep++);
+-
+-	return NULL;
+-}
+-
+ static struct dma_fence *panfrost_job_run(struct drm_sched_job *sched_job)
+ {
+ 	struct panfrost_job *job = to_panfrost_job(sched_job);
+@@ -765,7 +737,6 @@ static void panfrost_reset_work(struct work_struct *work)
+ }
+ 
+ static const struct drm_sched_backend_ops panfrost_sched_ops = {
+-	.dependency = panfrost_job_dependency,
+ 	.run_job = panfrost_job_run,
+ 	.timedout_job = panfrost_job_timedout,
+ 	.free_job = panfrost_job_free
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
+index 82306a03b57e..77e6d0e6f612 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.h
++++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+@@ -19,10 +19,6 @@ struct panfrost_job {
+ 	struct panfrost_device *pfdev;
+ 	struct panfrost_file_priv *file_priv;
+ 
+-	/* Contains both explicit and implicit fences */
+-	struct xarray deps;
+-	unsigned long last_dep;
+-
+ 	/* Fence to be signaled by IRQ handler when the job is complete. */
+ 	struct dma_fence *done_fence;
+ 
+@@ -42,6 +38,7 @@ int panfrost_job_init(struct panfrost_device *pfdev);
+ void panfrost_job_fini(struct panfrost_device *pfdev);
+ int panfrost_job_open(struct panfrost_file_priv *panfrost_priv);
+ void panfrost_job_close(struct panfrost_file_priv *panfrost_priv);
++int panfrost_job_get_slot(struct panfrost_job *job);
+ int panfrost_job_push(struct panfrost_job *job);
+ void panfrost_job_put(struct panfrost_job *job);
+ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev);
 -- 
 2.32.0
 
