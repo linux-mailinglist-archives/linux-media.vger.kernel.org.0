@@ -2,124 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47B9F3BF778
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 11:19:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 322CA3BF7D8
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jul 2021 11:57:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231453AbhGHJWR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 05:22:17 -0400
-Received: from mickerik.phytec.de ([195.145.39.210]:46340 "EHLO
-        mickerik.phytec.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231401AbhGHJWK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 05:22:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
-        q=dns/txt; i=@phytec.de; t=1625735963; x=1628327963;
-        h=From:Sender:Reply-To:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=iPCwYoZWJZV4vwThU3muuhgkMB2HBIf7o/b+oay4+PA=;
-        b=TM+Eac0WxmL5yRDrAB8CsT7WLbMVg/57l1cY0PI6PL6vIT/ICis8ttBhyGQrE4so
-        dfno+s5fYEKY+rGhnIylVTo4FvXmPzcdWwt1Go3TSO8tkkp2a9BgRzBW7hEHZMoE
-        z+c+7LW/uLyJdotJOCxc/55UWEbEmHAbc7fZvdT3v+0=;
-X-AuditID: c39127d2-1d8f870000001daf-8a-60e6c31bbd9e
-Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
-        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id AA.B7.07599.B13C6E06; Thu,  8 Jul 2021 11:19:23 +0200 (CEST)
-Received: from lws-riedmueller.phytec.de ([172.16.23.108])
-          by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-          with ESMTP id 2021070811192355-1113446 ;
-          Thu, 8 Jul 2021 11:19:23 +0200 
-From:   Stefan Riedmueller <s.riedmueller@phytec.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Stefan Riedmueller <s.riedmueller@phytec.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4 6/6] media: dt-bindings: mt9p031: Add missing required properties
-Date:   Thu, 8 Jul 2021 11:19:22 +0200
-Message-Id: <20210708091922.5508-7-s.riedmueller@phytec.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210708091922.5508-1-s.riedmueller@phytec.de>
-References: <20210708091922.5508-1-s.riedmueller@phytec.de>
+        id S231438AbhGHJ7l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 05:59:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44464 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231360AbhGHJ7k (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 05:59:40 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D4FC06175F
+        for <linux-media@vger.kernel.org>; Thu,  8 Jul 2021 02:56:59 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id p8so6787824wrr.1
+        for <linux-media@vger.kernel.org>; Thu, 08 Jul 2021 02:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RccvP9R4lUGcD44xAkhVggOj5bj+/uygz9cm0wyLvxY=;
+        b=yuhX2xMjchOaG/Dj7bCgBj2+5NLMoTElZv0di4pM9dSZAV5URM/WrRSdH3VB5OAo9Y
+         wKGoIC+AylKR1bwJHeiH2R2Akg+UdhMdt9tVPuR+t2E8He96nmO49KNkmj7Vwlkuy442
+         qWwsYarsdfdBq65zRzfsG3CalqboGgl3THbpSBRhcaz9iHxadWn/S2OFBY5pYKgjTV3j
+         i5GzUjjpZYAAjESDkikpLEU6V6hFcB1OZoxiaCVmMVXu89kzwlwjbamlCyyG27pii+XY
+         PezHqSYDlVwPvOChokoPRcji3DyFnt3xbUrjhI7ziTMP+q2j/rhdNSZJlFqHi1wNOEj6
+         yVYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RccvP9R4lUGcD44xAkhVggOj5bj+/uygz9cm0wyLvxY=;
+        b=kVOHoo+jh5jtmAlvF3AJFpc2UC1pfpr48z4jro0mCgKzOaAD3P1vTC4+jR38kANw+d
+         CYdAoqG41qPLcgJUODj3ZPh25M2YVKLfMeUwas87R7uUU4TpUcv3FbgGduviMm1f/xLy
+         6P/USX47g8q9anvw3UoQx5PUUuFpcG4gyitFZTcr+zd1U5imyMwzCTRYkZnU6vO1zkUz
+         u9PUk35i9NmF38Ixd3oQHekhPMVtileGzX+Z4VXbrHb/gDwvVgMMa7drVpzsCV3vZVZY
+         163m5K+ohe1HshTv2LdcaYFeLursZ4kLKLHBa8VmYsyEfWhjrJfJwv+JmzzydxDS4Efn
+         VDiw==
+X-Gm-Message-State: AOAM531lDOYaLCysHeLBNw+BCTLRjV5aRTKWQYj3MqKcWObedu7Ru10H
+        DGJai16ZR6C4vuU7eH4y+qPTBEdVquPRw5nM
+X-Google-Smtp-Source: ABdhPJzrURB31XIYI2GavF3TUaoiqk1rmifOg0cvqNhp6BVyQMTpULBZthlkQmY7qpeftrnnZ57QkA==
+X-Received: by 2002:adf:e841:: with SMTP id d1mr34974961wrn.62.1625738217682;
+        Thu, 08 Jul 2021 02:56:57 -0700 (PDT)
+Received: from bismarck.berto.se (p4fca2710.dip0.t-ipconnect.de. [79.202.39.16])
+        by smtp.googlemail.com with ESMTPSA id b7sm1624849wri.96.2021.07.08.02.56.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jul 2021 02:56:57 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] media: i2c: max9286: Remove unneeded mutex for get_fmt and set_fmt
+Date:   Thu,  8 Jul 2021 11:55:50 +0200
+Message-Id: <20210708095550.682465-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 08.07.2021 11:19:23,
-        Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 08.07.2021 11:19:23
-X-TNEFEvaluated: 1
-Content-Transfer-Encoding: quoted-printable
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNLMWRmVeSWpSXmKPExsWyRoCBS1f68LMEg9dPzS3mHznHatE5cQm7
-        xeVdc9gsejZsZbVYtukPk0Xr3iPsFp+2fGNyYPeY3TGT1WPTqk42j3knAz0+b5ILYInisklJ
-        zcksSy3St0vgyvjVtZCtoI+3YuK+g4wNjB84uxg5OSQETCRO/pjD2MXIxSEksI1RYsPvD1DO
-        NUaJBXNbWECq2ASMJBZMa2QCSYgItDFK7DjSDOYwC2xhlJh+eTkbSJWwQIhEz5s7TCA2i4CK
-        xJTlp9lBbF4Ba4nNG+eyQOyTl5h56TtQnIODU8BGoqs/BSQsBFRybNYtVohyQYmTM5+wgMyX
-        ELjCKDH/1zI2iF4hidOLzzKD2MwC2hLLFr5mnsAoMAtJzywkqQWMTKsYhXIzk7NTizKz9Qoy
-        KktSk/VSUjcxAgP48ET1SzsY++Z4HGJk4mA8xCjBwawkwms041mCEG9KYmVValF+fFFpTmrx
-        IUZpDhYlcd4NvCVhQgLpiSWp2ampBalFMFkmDk6pBkbhvefZmHbeNN5rzBh+qWAN++Pifcxe
-        OQkautPajKMkzbbGBzpwpP6b/kZhDntj5ZzK6JClLwWmvLqncd7FIzntXG32rDlhvd0bPm/g
-        P7BeX/Vcd6XEHtdjW6Z91dOTmGJ5J/N1o2vgyV1TXC8tZ7e032Tb9S+kI1wl8vgq7dVr3jx1
-        +nnB4qMSS3FGoqEWc1FxIgB1sv9WTgIAAA==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add missing required clocks and supply regulator properties for the
-sensor input clock and vdd, vdd=5Fio and vaa supply regulators.
+There is no need to protect 'cfg_fmt' in get_fmt() and set_fmt() as the
+core protects these callbacks. As this is the only usage of the mutex it
+can be removed.
 
-Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- .../bindings/media/i2c/aptina,mt9p031.yaml    | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ drivers/media/i2c/max9286.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yam=
-l b/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
-index 7de62e339895..09560d97a59d 100644
---- a/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
-@@ -24,6 +24,18 @@ properties:
-     description: I2C device address
-     maxItems: 1
-=20
-+  clocks:
-+    maxItems: 1
-+
-+  vdd-supply:
-+    description: Digital supply voltage, 1.8 V
-+
-+  vdd=5Fio-supply:
-+    description: I/O supply voltage, 1.8 or 2.8 V
-+
-+  vaa-supply:
-+    description: Analog supply voltage, 2.8 V
-+
-   reset-gpios:
-     maxItems: 1
-     description: Chip reset GPIO
-@@ -48,6 +60,10 @@ properties:
- required:
-   - compatible
-   - reg
-+  - clocks
-+  - vdd-supply
-+  - vdd=5Fio-supply
-+  - vaa-supply
-   - port
-=20
- additionalProperties: false
-@@ -63,6 +79,12 @@ examples:
-             reg =3D <0x5d>;
-             reset-gpios =3D <&gpio=5Fsensor 0 0>;
-=20
-+            clocks =3D <&sensor=5Fclk>;
-+
-+            vdd-supply =3D <&reg=5Fvdd>;
-+            vdd=5Fio-supply =3D <&reg=5Fvdd=5Fio>;
-+            vaa-supply =3D <&reg=5Fvaa>;
-+
-             port {
-                 mt9p031=5F1: endpoint {
-                     input-clock-frequency =3D <6000000>;
---=20
-2.25.1
+diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+index 1aa2c58fd38c5d2b..b1d11a50d6e53ecc 100644
+--- a/drivers/media/i2c/max9286.c
++++ b/drivers/media/i2c/max9286.c
+@@ -18,7 +18,6 @@
+ #include <linux/i2c.h>
+ #include <linux/i2c-mux.h>
+ #include <linux/module.h>
+-#include <linux/mutex.h>
+ #include <linux/of_graph.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
+@@ -173,9 +172,6 @@ struct max9286_priv {
+ 
+ 	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
+ 
+-	/* Protects controls and fmt structures */
+-	struct mutex mutex;
+-
+ 	unsigned int nsources;
+ 	unsigned int source_mask;
+ 	unsigned int route_mask;
+@@ -768,9 +764,7 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+ 	if (!cfg_fmt)
+ 		return -EINVAL;
+ 
+-	mutex_lock(&priv->mutex);
+ 	*cfg_fmt = format->format;
+-	mutex_unlock(&priv->mutex);
+ 
+ 	return 0;
+ }
+@@ -796,9 +790,7 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+ 	if (!cfg_fmt)
+ 		return -EINVAL;
+ 
+-	mutex_lock(&priv->mutex);
+ 	format->format = *cfg_fmt;
+-	mutex_unlock(&priv->mutex);
+ 
+ 	return 0;
+ }
+@@ -1259,8 +1251,6 @@ static int max9286_probe(struct i2c_client *client)
+ 	if (!priv)
+ 		return -ENOMEM;
+ 
+-	mutex_init(&priv->mutex);
+-
+ 	priv->client = client;
+ 	i2c_set_clientdata(client, priv);
+ 
+-- 
+2.32.0
 
