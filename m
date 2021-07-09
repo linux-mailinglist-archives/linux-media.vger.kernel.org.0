@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 825F93C1D74
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jul 2021 04:24:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D5FB3C1D76
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jul 2021 04:24:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230513AbhGIC1E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 22:27:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38618 "EHLO
+        id S231137AbhGIC1M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 22:27:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230262AbhGIC1E (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 22:27:04 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 706B8C061574
-        for <linux-media@vger.kernel.org>; Thu,  8 Jul 2021 19:24:21 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id oj11-20020a17090b4d8bb029017338c124dcso2526516pjb.0
-        for <linux-media@vger.kernel.org>; Thu, 08 Jul 2021 19:24:21 -0700 (PDT)
+        with ESMTP id S230412AbhGIC1L (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 22:27:11 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F431C06175F
+        for <linux-media@vger.kernel.org>; Thu,  8 Jul 2021 19:24:29 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id d9-20020a17090ae289b0290172f971883bso6780126pjz.1
+        for <linux-media@vger.kernel.org>; Thu, 08 Jul 2021 19:24:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hjFPIGSoMHpNul4BO6Tr5Qp0GpDDoCJp2zkjn1+wsBo=;
-        b=d2fxoZbBqqTMwaZNhJeriW1/TriG5cxrOGUtPBhbJhPVTo73SJDiSVtePPgW2j2RfU
-         tKdXTS6AArgd6yKsq7ORJnYD18TESJ55juDCbC9virBT30sX8Q2hgmOcUoVd02Y7dX0k
-         LY+sCfUTMAQPluSbYnecT9XAuSm0DuX0/vFOE=
+        bh=Yy3Oct9A9WErk0mmVC/ltaAK4Ui6hpVOSI3ft7mId8M=;
+        b=MBJjndII9RSzdAmXPewLWBwxTR4Ubq3cHz+sZN63Su+9L3sTjeGBr9dYcIpGF9vmpv
+         2ov47gob3vf2AmitKMc9GiGBKKmsIrLH3/BdHaMBSAFaGZ4QvSBeUKiaeQ813jwW6AhS
+         m4TtUXyIO1/XsLVBOqXZBxQTxozAKNJswsf04=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hjFPIGSoMHpNul4BO6Tr5Qp0GpDDoCJp2zkjn1+wsBo=;
-        b=lGFTZEX09cW1v2kAAnkAa5zpZLKuvpULWvDGDtcefyX0XVyyqE8DcP1hdmTw/82m4z
-         eXLnOmwV9P8+O0oYQ2cDjJBWbZvNKBd01ma3tzMDfhQYTPPeRTdjPK1fI0c15RmA1rcX
-         PPrxDC1hTrg0sE0l4NzrtR8DJMjbyE42fnTh2iCk2+UJeSYgXlYbFnmHnsJxRZb75Vhg
-         4m6tqW2erbmPBWM3UZz1NCsSzCx0zrjTPiDmbJe9NfJVPGOVoD5wzn84sNl9Y2k2qSz1
-         EIg1RJszaa+6ZV3HRwbluZDu66Nd90CjN29sY+/CcqxKXMz24sflr+SRJHySHDSxpohn
-         +N8w==
-X-Gm-Message-State: AOAM532hsETvhTiriNRF3SMCH/oTQ/JTZiaAzJvghttyTrnEwSXnLXbn
-        qajofGM9+rpuScIK0Sa0yuVMUw==
-X-Google-Smtp-Source: ABdhPJxSKXmREBIm5buYZ1ygEBxNpjj0P7/SBGNJWMnot7OoYHhTxW5aJEWjfqDHbRnPKzlHtknnlA==
-X-Received: by 2002:a17:90b:4a90:: with SMTP id lp16mr35011298pjb.137.1625797461011;
-        Thu, 08 Jul 2021 19:24:21 -0700 (PDT)
+        bh=Yy3Oct9A9WErk0mmVC/ltaAK4Ui6hpVOSI3ft7mId8M=;
+        b=YrudfhFF+ODu++yLkmZkRuHkO5QRt1zpjTltJQGsZPfAOcnHKacAyHKJfVN34zo+zg
+         faMfM8l6QGHTf0yeagUL1vn7AAjstMVDGf2PE2CrAUJ5cW+il0vqV3JcCDRPVtzbnK6Z
+         NuwD6XCMYf4gsJJmlil7JckqySx20EOYTJRCejispX2p+lSHT7qyS1GYS6EpoT5yj3qN
+         YcZQVRvyT+5IyDBNBTg31rRPyTCS9YFnRQVmOkMg9XN+z9ibjGRjUUotsB/il5dE6wUW
+         Y5S0K5EfMvRMYmsZnz3D25JJldaMPvjqhN8iJAswRvdry+UGDcMqrgxqCvgXQMAVkmuQ
+         LZXw==
+X-Gm-Message-State: AOAM532sNDWYSeLLr4cWaIPlVw9eeS+CMEA7yoDbVat9zQIDsbErJ8MQ
+        Zfm10n51epD2uUMEkC9FwXazkQ==
+X-Google-Smtp-Source: ABdhPJwrPoeT1worVig+mEWOrxVrOttPMio1WiqwFIggheuAML3w9AWKKeZYM9c66qmbAY7ZGocPHQ==
+X-Received: by 2002:a17:90a:5306:: with SMTP id x6mr34578229pjh.59.1625797468220;
+        Thu, 08 Jul 2021 19:24:28 -0700 (PDT)
 Received: from localhost ([2401:fa00:9:14:d956:2966:7910:2bd2])
-        by smtp.gmail.com with UTF8SMTPSA id m18sm170914pfd.42.2021.07.08.19.24.16
+        by smtp.gmail.com with UTF8SMTPSA id d19sm3742267pjx.57.2021.07.08.19.24.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jul 2021 19:24:20 -0700 (PDT)
+        Thu, 08 Jul 2021 19:24:27 -0700 (PDT)
 From:   Eizan Miyamoto <eizan@chromium.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     wenst@chromium.org, chunkuang.hu@kernel.org, yong.wu@mediatek.com,
@@ -55,9 +55,9 @@ Cc:     wenst@chromium.org, chunkuang.hu@kernel.org, yong.wu@mediatek.com,
         Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
         linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
         linux-mediatek@lists.infradead.org
-Subject: [PATCH v5 6/8] media: mtk-mdp: propagate errors better in pm_suspend/resume
-Date:   Fri,  9 Jul 2021 12:23:22 +1000
-Message-Id: <20210709122040.v5.6.If7d6a147afd8880940c42d7998e47ed3869e8805@changeid>
+Subject: [PATCH v5 7/8] media: mtk-mdp: use mdp-rdma0 alias to point to MDP master
+Date:   Fri,  9 Jul 2021 12:23:23 +1000
+Message-Id: <20210709122040.v5.7.I2049e180dca12e0d1b3178bfc7292dcf9e05ac28@changeid>
 X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
 In-Reply-To: <20210709022324.1607884-1-eizan@chromium.org>
 References: <20210709022324.1607884-1-eizan@chromium.org>
@@ -67,242 +67,125 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Up until this change, many errors were logged but ignored when powering
-on clocks and calling pm_runtime_get/put() inside mtk_mdp_core. This
-change tries to do a better job at propagating errors back to the power
-management framework.
+... Instead of depending on the presence of a mediatek,vpu property in
+the device node.
+
+That property was originally added to link to the vpu node so that the
+mtk_mdp_core driver could pass the right device to
+vpu_wdt_reg_handler(). However in a previous patch in this series,
+the driver has been modified to search the device tree for that node
+instead.
+
+That property was also used to indicate the primary MDP device, so that
+it can be passed to the V4L2 subsystem as well as register it to be
+used when setting up queues in the open() callback for the filesystem
+device node that is created. In this case, assuming that the primary
+MDP device is the one with a specific alias seems useable because the
+alternative is to add a property to the device tree which doesn't
+actually represent any facet of hardware (i.e., this being the primary
+MDP device is a software decision). In other words, this solution is
+equally as arbitrary, but at least it doesn't add a property to a
+device node where said property is unrelated to the hardware present.
 
 Signed-off-by: Eizan Miyamoto <eizan@chromium.org>
 ---
 
 (no changes since v1)
 
- drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 62 ++++++++++++++++---
- drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  6 +-
- drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 57 +++++++++++++----
- 3 files changed, 99 insertions(+), 26 deletions(-)
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 47 ++++++++++++++-----
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  6 +++
+ 2 files changed, 42 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-index 8a9267d0da1e..87e3f72ff02b 100644
+index 87e3f72ff02b..de2d425efdd1 100644
 --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
 +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-@@ -53,9 +53,9 @@ static const struct of_device_id mtk_mdp_comp_driver_dt_match[] = {
- };
- MODULE_DEVICE_TABLE(of, mtk_mdp_comp_driver_dt_match);
+@@ -151,22 +151,48 @@ void mtk_mdp_comp_clock_off(struct mtk_mdp_comp *comp)
+ 		mtk_smi_larb_put(comp->larb_dev);
+ }
  
--void mtk_mdp_comp_power_on(struct mtk_mdp_comp *comp)
-+int mtk_mdp_comp_power_on(struct mtk_mdp_comp *comp)
++/*
++ * The MDP master device node is identified by the device tree alias
++ * "mdp-rdma0".
++ */
++static int is_mdp_master(struct device *dev)
++{
++	struct device_node *aliases, *mdp_rdma0_node;
++	const char *mdp_rdma0_path;
++
++	if (!dev->of_node)
++		return 0;
++
++	aliases = of_find_node_by_path("/aliases");
++	if (!aliases) {
++		dev_err(dev, "no aliases found for mdp-rdma0");
++		return 0;
++	}
++
++	mdp_rdma0_path = of_get_property(aliases, "mdp-rdma0", NULL);
++	if (!mdp_rdma0_path) {
++		dev_err(dev, "get mdp-rdma0 property of /aliases failed");
++		return 0;
++	}
++
++	mdp_rdma0_node = of_find_node_by_path(mdp_rdma0_path);
++	if (!mdp_rdma0_node) {
++		dev_err(dev, "path resolution failed for %s", mdp_rdma0_path);
++		return 0;
++	}
++
++	return dev->of_node == mdp_rdma0_node;
++}
++
+ static int mtk_mdp_comp_bind(struct device *dev, struct device *master,
+ 			void *data)
  {
--	int err;
-+	int status, err;
+ 	struct mtk_mdp_comp *comp = dev_get_drvdata(dev);
+ 	struct mtk_mdp_dev *mdp = data;
+-	struct device_node *vpu_node;
  
- 	if (comp->larb_dev) {
- 		err = mtk_smi_larb_get(comp->larb_dev);
-@@ -65,34 +65,76 @@ void mtk_mdp_comp_power_on(struct mtk_mdp_comp *comp)
+ 	mtk_mdp_register_component(mdp, comp);
+ 
+-	/*
+-	 * If this component has a "mediatek-vpu" property, it is responsible for
+-	 * notifying the mdp master driver about it so it can be further initialized
+-	 * later.
+-	 */
+-	vpu_node = of_parse_phandle(dev->of_node, "mediatek,vpu", 0);
+-	if (vpu_node) {
++	if (is_mdp_master(dev)) {
+ 		int ret;
+ 
+ 		ret = v4l2_device_register(dev, &mdp->v4l2_dev);
+@@ -182,9 +208,8 @@ static int mtk_mdp_comp_bind(struct device *dev, struct device *master,
+ 		}
+ 
+ 		/*
+-		 * presence of the "mediatek,vpu" property in a device node
+-		 * indicates that it is the primary MDP rdma device and MDP DMA
+-		 * ops should be handled by its DMA callbacks.
++		 * MDP DMA ops will be handled by the DMA callbacks associated with this
++		 * device;
+ 		 */
+ 		mdp->rdma_dev = dev;
  	}
- 
- 	err = pm_runtime_get_sync(comp->dev);
--	if (err < 0)
-+	if (err < 0) {
- 		dev_err(comp->dev, "failed to runtime get, err %d.\n", err);
-+		return err;
-+	}
-+
-+	err = mtk_mdp_comp_clock_on(comp);
-+	if (err) {
-+		dev_err(comp->dev, "failed to turn on clock. err=%d", err);
-+		status = err;
-+		goto err_mtk_mdp_comp_clock_on;
-+	}
-+
-+	return err;
-+
-+err_mtk_mdp_comp_clock_on:
-+	err = pm_runtime_put_sync(comp->dev);
-+	if (err)
-+		dev_err(comp->dev, "failed to runtime put in cleanup. err=%d", err);
- 
--	mtk_mdp_comp_clock_on(comp);
-+	return status;
- }
- 
--void mtk_mdp_comp_power_off(struct mtk_mdp_comp *comp)
-+int mtk_mdp_comp_power_off(struct mtk_mdp_comp *comp)
- {
--	int err;
-+	int status, err;
- 
- 	mtk_mdp_comp_clock_off(comp);
- 
- 	err = pm_runtime_put_sync(comp->dev);
--	if (err < 0)
-+	if (err < 0) {
- 		dev_err(comp->dev, "failed to runtime put, err %d.\n", err);
-+		status = err;
-+		goto err_pm_runtime_put_sync;
-+	}
-+
-+	return 0;
-+
-+err_pm_runtime_put_sync:
-+	err = mtk_mdp_comp_clock_on(comp);
-+	if (err)
-+		dev_err(comp->dev, "failed to turn on clock in cleanup. err=%d", err);
-+
-+	return status;
- }
- 
--void mtk_mdp_comp_clock_on(struct mtk_mdp_comp *comp)
-+int mtk_mdp_comp_clock_on(struct mtk_mdp_comp *comp)
- {
--	int i, err;
-+	int i, err, status;
- 
- 	for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
- 		if (IS_ERR(comp->clk[i]))
- 			continue;
- 		err = clk_prepare_enable(comp->clk[i]);
--		if (err)
-+		if (err) {
-+			status = err;
- 			dev_err(comp->dev, "failed to enable clock, err %d. i:%d\n", err, i);
-+			goto err_clk_prepare_enable;
-+		}
-+	}
-+
-+	return 0;
-+
-+err_clk_prepare_enable:
-+	for (--i; i >= 0; i--) {
-+		if (IS_ERR(comp->clk[i]))
-+			continue;
-+		clk_disable_unprepare(comp->clk[i]);
- 	}
-+
-+	return status;
- }
- 
- void mtk_mdp_comp_clock_off(struct mtk_mdp_comp *comp)
-diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-index 15ef9539a5a7..5201c47f7baa 100644
---- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-+++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-@@ -23,10 +23,10 @@ struct mtk_mdp_comp {
- 
- int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device *dev);
- 
--void mtk_mdp_comp_power_on(struct mtk_mdp_comp *comp);
--void mtk_mdp_comp_power_off(struct mtk_mdp_comp *comp);
-+int mtk_mdp_comp_power_on(struct mtk_mdp_comp *comp);
-+int mtk_mdp_comp_power_off(struct mtk_mdp_comp *comp);
- 
--void mtk_mdp_comp_clock_on(struct mtk_mdp_comp *comp);
-+int mtk_mdp_comp_clock_on(struct mtk_mdp_comp *comp);
- void mtk_mdp_comp_clock_off(struct mtk_mdp_comp *comp);
- 
- extern struct platform_driver mtk_mdp_component_driver;
 diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-index 74ef37eb50bd..b45d588d2659 100644
+index b45d588d2659..e1fb39231248 100644
 --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
 +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-@@ -50,8 +50,9 @@ static const struct of_device_id mtk_mdp_of_ids[] = {
- };
- MODULE_DEVICE_TABLE(of, mtk_mdp_of_ids);
+@@ -158,6 +158,12 @@ static int mtk_mdp_master_bind(struct device *dev)
+ 		goto err_component_bind_all;
+ 	}
  
--static void mtk_mdp_clock_on(struct mtk_mdp_dev *mdp)
-+static int mtk_mdp_clock_on(struct mtk_mdp_dev *mdp)
- {
-+	int err, status;
- 	struct mtk_mdp_comp *comp_node;
- 
- 	/*
-@@ -59,18 +60,41 @@ static void mtk_mdp_clock_on(struct mtk_mdp_dev *mdp)
- 	 * on it through mtk_mdp_m2m_start_streaming, making it unnecessary to
- 	 * have mtk_mdp_comp_power_on called on it.
- 	 */
--	mtk_mdp_comp_clock_on(&mdp->comp_self);
-+	err = mtk_mdp_comp_clock_on(&mdp->comp_self);
-+	if (err)
-+		return err;
-+
-+	list_for_each_entry(comp_node, &mdp->comp_list, node) {
-+		err = mtk_mdp_comp_power_on(comp_node);
-+		if (err) {
-+			status = err;
-+			goto err_mtk_mdp_comp_power_on;
-+		}
-+	}
- 
--	list_for_each_entry(comp_node, &mdp->comp_list, node)
--		mtk_mdp_comp_power_on(comp_node);
-+	return 0;
-+
-+err_mtk_mdp_comp_power_on:
-+	list_for_each_entry_continue_reverse(comp_node, &mdp->comp_list, node) {
-+		err = mtk_mdp_comp_power_off(comp_node);
-+		if (err)
-+			dev_err(&mdp->pdev->dev, "failed to power off after error. err=%d", err);
-+	}
-+	return status;
- }
- 
--static void mtk_mdp_clock_off(struct mtk_mdp_dev *mdp)
-+static int mtk_mdp_clock_off(struct mtk_mdp_dev *mdp)
- {
-+	int status, err;
- 	struct mtk_mdp_comp *comp_node;
- 
--	list_for_each_entry(comp_node, &mdp->comp_list, node)
--		mtk_mdp_comp_power_off(comp_node);
-+	list_for_each_entry(comp_node, &mdp->comp_list, node) {
-+		err = mtk_mdp_comp_power_off(comp_node);
-+		if (err) {
-+			status = err;
-+			goto err_mtk_mdp_comp_power_off;
-+		}
-+	}
- 
- 	/*
- 	 * The master / rdma0 component will have pm_runtime_put called
-@@ -78,6 +102,17 @@ static void mtk_mdp_clock_off(struct mtk_mdp_dev *mdp)
- 	 * have mtk_mdp_comp_power_off called on it.
- 	 */
- 	mtk_mdp_comp_clock_off(&mdp->comp_self);
-+
-+	return 0;
-+
-+err_mtk_mdp_comp_power_off:
-+	list_for_each_entry_continue_reverse(comp_node, &mdp->comp_list, node) {
-+		err = mtk_mdp_comp_power_on(comp_node);
-+		if (err)
-+			dev_err(&mdp->pdev->dev, "failed to power on after error. err=%d", err);
++	if (mdp->rdma_dev == NULL) {
++		dev_err(dev, "Primary MDP device not found");
++		status = -ENODEV;
++		goto err_component_bind_all;
 +	}
 +
-+	return status;
- }
- 
- static void mtk_mdp_wdt_worker(struct work_struct *work)
-@@ -318,18 +353,14 @@ static int __maybe_unused mtk_mdp_pm_suspend(struct device *dev)
- {
- 	struct mtk_mdp_dev *mdp = dev_get_drvdata(dev);
- 
--	mtk_mdp_clock_off(mdp);
--
--	return 0;
-+	return mtk_mdp_clock_off(mdp);
- }
- 
- static int __maybe_unused mtk_mdp_pm_resume(struct device *dev)
- {
- 	struct mtk_mdp_dev *mdp = dev_get_drvdata(dev);
- 
--	mtk_mdp_clock_on(mdp);
--
--	return 0;
-+	return mtk_mdp_clock_on(mdp);
- }
- 
- static int __maybe_unused mtk_mdp_suspend(struct device *dev)
+ 	vpu_node = of_find_node_by_name(NULL, "vpu");
+ 	if (!vpu_node) {
+ 		dev_err(dev, "unable to find vpu node");
 -- 
 2.32.0.93.g670b81a890-goog
 
