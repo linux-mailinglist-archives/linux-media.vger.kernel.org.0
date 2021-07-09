@@ -2,157 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 376903C1DEA
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jul 2021 05:47:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92D903C1F70
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jul 2021 08:46:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231126AbhGIDuR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 23:50:17 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:59655 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230462AbhGIDuR (ORCPT
+        id S230418AbhGIGl5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jul 2021 02:41:57 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:46552 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230351AbhGIGlw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Jul 2021 23:50:17 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 1hUBmzK4ihqx91hUCmQqLA; Fri, 09 Jul 2021 05:47:32 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1625802452; bh=hfPUi2KKh2zY0W5KKeO7vjRGxMXlZJJO8z3BOmP4Fco=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=KoSgMVOLj/i07PaFVeqV7+gT1W52AhhGh4TDPN4A2HiMH6fC9U91+gqQNXr22ZOmd
-         snLi4J+yD7zXZT6YOJlmB9vKyeJtJeL7+IIIOidsxn9HAfLPKg4I7GvQdMvmJCZSs/
-         awLoD8mCyqdvY7+QIE3d480BGRlADS549dt2xPFfItnxjRNF0kCX7Dn7HdcjSCYkBi
-         NVVPEUVD0kE0AMgcsRdccyukLmY2yNVV+MzP9tAbEADpWBWVIpDzAarTPkyogxoeQe
-         A99/1Qr/kqheNjzgbm9h2/Sqtu2N7L7OTq181USsXh4OXUrQdlSzHM5m/+b1qX3CZF
-         Y84Y6hkUIPhxA==
-Message-ID: <c13419711326bf8959f71b656158b19d@smtp-cloud9.xs4all.net>
-Date:   Fri, 09 Jul 2021 05:47:31 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfPJkuTw/Eum/UkasQfapSux/lc1qYTfqvG0320CCNySUWClBotlAz5/Peso6pTxDFzoGFNJwRWm1oJuYR+zyFaePirjdnSKfYl3aYVwHd9ivoBJLzcK6
- Xsvlc1FmRhEz2fBZHdQ49FC1AXMSfWib+fHgC0+CKlSd7JxeLGOwA4G/r01MT6eITAcnrgm2o1VLOAYtE/MABvAYKSLDQzuO3uK7BI3sL7gWEEapCQr23Wt3
- 16j6Jh8NP2J+NUUGTimxvw==
+        Fri, 9 Jul 2021 02:41:52 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1696Ugnf008109;
+        Fri, 9 Jul 2021 06:38:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2020-01-29;
+ bh=vO8jfPldb40pnjAxiYQBbUa87S2Vueq33ToRp5mOcKk=;
+ b=Spxprx0vihQMWfCjYxAY6+DXeIIdBiRbHvx9wStF1nGVvmKx+fmn/QZyMIHboBkOKtZh
+ cGl5hVME6vCdQ9+F7vc87cg7bW4TvLsCIxKtJli36YfjDz/9Dxa6V0rABLHWnMCdaGkN
+ huhSW+QpRa6E8N42pk+zZJyTXGU2ZMnLLmrmxhpTnHEPUNwadM1i+t2xN1UyAFjMrX19
+ xMx4lhaZGaMmBPu3VAyBRHfZed9NQBvtJdD2vErVJvETUICe6yynEoWcE66J/JfyThaN
+ HyJdW5oDzTdDUUCuzh5KKX0S6r26UHPspKC/LYPP2lHGsobPf/fCWfAqQlW81qayHVwv 6g== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by mx0b-00069f02.pphosted.com with ESMTP id 39npbyjn4d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 09 Jul 2021 06:38:54 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1696UYJl139161;
+        Fri, 9 Jul 2021 06:38:54 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2175.outbound.protection.outlook.com [104.47.57.175])
+        by aserp3020.oracle.com with ESMTP id 39jfqf4p75-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 09 Jul 2021 06:38:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oEhjDsQBUDWNvU0npDr/9OMXGsNiOJWlpFhrpFYN8NEtvhVfLjdlobEKG0m6XDbHFtDlGxjP4fAPjHmgKgH4dXuylIFiR6podGja9K1Wpp+xMkc7zHie6HE2ukNm8jNMWzmIOFoi4DvzPshsURfdY0bO9/Kkv+Q6H95bfMBoreUVUtWJvZIRQoQX6urrIUcFtl+Yz4wYRXSUuq+1fFzc5GtCCyXMCcbvOIBBQgfLKI/j8X4JyS2sELZ+EgyBIFeexSqWl4nfNjWDPGNa8ico3AIvSZxCQxU9Gb7wjg16GQe400OetPG4yluMi5fvRTj6xMwlXhGDgEZntA0D0WTGsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vO8jfPldb40pnjAxiYQBbUa87S2Vueq33ToRp5mOcKk=;
+ b=ezu3kh91ubRMa2ZtMBoiRSXVnKyU5zmpkizDfwKdFXKxZf28izRd30syFtCKsrCBRlcFGVy/ML/VB9lnqyXMn3AC4KDXGthKFFR/nU2hlIQraT4wxKBtdZD0bpW2ZN8qZHXLiE1OD2YL0/e6rVNsRFxJQmp0SDsrtjFsjOVagpQ9PEFnxigXnYOQqgGNQ2daF5CG8Sy7DQjodDSFZ/paswrv+0cOJXaxCgKuAf6NYLmacAQ5Z7pARceV8q9LbcZVavrNK9ihLzOsZy+Nj0p8MjvHrM9spqzCIeOwnJ9zTdZuXZquFwNsvQkmZoXBpB8fpciUj5i552eE8iz06Vq9tg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vO8jfPldb40pnjAxiYQBbUa87S2Vueq33ToRp5mOcKk=;
+ b=JLrxJpmZAp3QSNcjaVl3Tolb3xc5cWbRDdlQO7vjUIP1XB3VdBJAqTf6d4Lo1veXKJnqMfVetwGnunZ8ATIY3SWPY9xTa95xh71eYk40dfOGqGFVnkArU7XV1a76mvJ667iUoFH1/8x7DhXy344JmqEjhaS1/FAPOEbBmnDgq/w=
+Authentication-Results: iotwrt.com; dkim=none (message not signed)
+ header.d=none;iotwrt.com; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO6PR10MB5411.namprd10.prod.outlook.com
+ (2603:10b6:5:35e::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.27; Fri, 9 Jul
+ 2021 06:38:52 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::3413:3c61:5067:ba73]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::3413:3c61:5067:ba73%5]) with mapi id 15.20.4287.033; Fri, 9 Jul 2021
+ 06:38:52 +0000
+Date:   Fri, 9 Jul 2021 09:38:29 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Jacob Chen <jacob-chen@iotwrt.com>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Dongliang Mu <mudongliangabcd@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hans Verkuil <hansverk@cisco.com>, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: rockchip/rga: fix a use after free in rga_probe()
+Message-ID: <YOfu5Zb2kpN/0Prn@mwanda>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-ClientProxiedBy: JN2P275CA0030.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::18)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mwanda (102.222.70.252) by JN2P275CA0030.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20 via Frontend Transport; Fri, 9 Jul 2021 06:38:44 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c2dbe30e-af3d-4929-d2fd-08d942a43702
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5411:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CO6PR10MB54113794E026AB7AD49BAC6F8E189@CO6PR10MB5411.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: C7NKzl2BJNUHOiaOTdrZEsqglYVedwHDPWe/X67m4GepgbvRdCTOYG76C8JVbcFdP1sukp7VgkaVhYsFur95o5n1hgog+OIfqeWhiDvmF2UqQiaKzgHhb3qFslkOv0tr+j/e0lwKFMxvvdki6Q9v7ff5h60LlT0ziFSnorxmbzXl+PQeGUJ2ylFTxxcjLlpzc9eu4AWXkXY3+q/lhwlMogpC6BqSIHx+5C8puPsywHsqo4pf5aXpm+HX8umZr3iWbQqnQVCOMbTUHIsGcw5vgr3m+ipSjrp7Zh/3rDpLNJVvUGGsLmDJFo6awsCwMdvOHDDgOkEwTKEJItgpHH1WdYfit+SCPToUgkeN7a3VJcdXNIpxB9QUNPT4+1Eb9+NV2SUb+GODiMIxpZTLM9cJ1cgs5/7nqmsip8nnZ3mibaaglae4Mvw1eQIeVYaXCYxnfr3NHVZuzl1YB9URO7wbQ4PNvxpvyt6geJlcnxE6Pfs88Tcbbynn6sQ5hPnv3ZNrColtsoMfkh4HFq8bSbSAS8HqgXnknUAF5MRpRDst3rBHsJD9mefsGdEIlMXuOduy40JR7aAbrFCcbe1ivebzbMfNPOrF2h8xc3TJWxrBJJ6iPqapFCRGk0lYmqbuewMcweQXzsdwusubJS5q2ouqW92rAeucCeghkDP52yHFnx5iJsd0MJdJWaul+NUs9jX7xm50NWUeCSMibVHpu+leQA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(396003)(346002)(366004)(136003)(376002)(6666004)(83380400001)(956004)(5660300002)(55016002)(44832011)(86362001)(7416002)(316002)(66946007)(52116002)(66556008)(9686003)(478600001)(66476007)(2906002)(33716001)(26005)(8936002)(6916009)(38350700002)(6496006)(38100700002)(186003)(9576002)(8676002)(54906003)(4326008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?C0MO/jpgA/8E23BItyS50649V6iBl/W7biryd23O+HJb+bjMNtAzZahK+gf+?=
+ =?us-ascii?Q?JoDgGfBEQrhyFl+m2hksuQA9AWNUGbP0k6aDyOyNlNsR0/V3mzp4q7J/kkCP?=
+ =?us-ascii?Q?2cWVX5VldaaPGW1mH9SBfvG4yDVLrfS9MQQ7ODkq/e+f7xame64ivQ0Q4pKa?=
+ =?us-ascii?Q?/hcxsBpA1kZJm2n+rBeModpaNQAnXL/VN6s4mQriLyZrG8MVVTI3BIPyFlCW?=
+ =?us-ascii?Q?Ra8aWoavb+L/V75f5Im5deVD+vw5tHrwiVmDQcJXbQxNKHbuYZ8+cByB5qXp?=
+ =?us-ascii?Q?LopsWRjSiyeFaw6B206XpPdE03qv+skenDgissTcOOowzHb7lvGp1zLj9jX+?=
+ =?us-ascii?Q?+h1y2Det/2RILPWvF+bTKJ2hiEe4kfRkaShj13Uxoykx5pfRjsKuWKMAt24z?=
+ =?us-ascii?Q?o7R0/fRH4CjYgW7qPZ0mToutztD37mtVBWhLghdTRGpedLaGymdoGyIKhKGG?=
+ =?us-ascii?Q?G3jKfhHPMeyuLQLJ1sjEBI9tXOx7MR8Kj33Dg7jAI3teNl75jtGLKBdL7Qgl?=
+ =?us-ascii?Q?XJkxh+l9dbOyvA/vpOlxpC+5kpUoh7ivJmZt4NiBBN50PL73on17y+OdqAr3?=
+ =?us-ascii?Q?s/s8Xi3bP/zpx4EakleapBbCV8UoMK7ZtWTENZapnvHxWlWLP9+QzGZZ3zuW?=
+ =?us-ascii?Q?KQR+3zmGoYSc+2IkA2Szhjh4abvL/pNQ4pKZCxPS54UKa5r/+C2zNsBIkHIF?=
+ =?us-ascii?Q?H44mFVsrU0qx66MPon6PUVm6rHZGUWxnozRBA6gn1L4WZ2xE5gVMXJlIlttD?=
+ =?us-ascii?Q?7DoR+LAFrw+BRpFL+nOn09a/l4/qY4fKfJTeOwhsP18z8rfXntHyGZjKCL1/?=
+ =?us-ascii?Q?7irYHfLpZkAqByanTYbylhjfdCjvQatJq75o/Jlk6QFqfZTTICxqksZ2W9rt?=
+ =?us-ascii?Q?aZ+LpOBVeiRd4rf2RPMV73//HnLgp6Gf2tkBgbGfYKuaiIA09IlI+H74SPF5?=
+ =?us-ascii?Q?nty1Egj/Ubi+hhF/M+AMp14tgHI8cZEJZwjEOl9cnw+NJdVgKe9Two1dAclZ?=
+ =?us-ascii?Q?q9ITIo+SQ1Xj7uRVVvMIr7u3+/C6i+2K4j1ucVK/LRhxdxgY6Gu5+F7mAlwP?=
+ =?us-ascii?Q?UPS5iWFVB8A4fRFniwWJlGf4VHHMj6ktcvxKyT3ZA6ESCWZA7O27I6p6Nk17?=
+ =?us-ascii?Q?cmW+C50cU09bsIbFDtX+mUADkvdlzRUQUF3m5Dhsi5f4djYgI8L3Zbor1zD2?=
+ =?us-ascii?Q?D4yMb8OmYMU7rYQ52RnKW9OCS6iPm9MLkqYGo7wbeFP5ULOCFLC49QwJCr2E?=
+ =?us-ascii?Q?e7V3OKNanhzTLc5oLJRae0TO8IUZNxTEC4IQnE4gUjCS5zjuKvjArmx681j2?=
+ =?us-ascii?Q?RQiEZOTROOmD6WiIK79PQfPu?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2dbe30e-af3d-4929-d2fd-08d942a43702
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2021 06:38:51.9194
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YRSmWKSZ9DL8PIW3PxgT4Qh/LU9Oo5/UGwI/juvrAp9AZGsVZvc5fRTCwqb7LSQf3Kkpimhsu2JbctqjiIi06359vzacoo01Nk3Uw/AYQTo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5411
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10039 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0 phishscore=0
+ mlxscore=0 bulkscore=0 malwarescore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2107090031
+X-Proofpoint-GUID: f0C4woq8qS9bvFqO4heU1otUb9BWvc4l
+X-Proofpoint-ORIG-GUID: f0C4woq8qS9bvFqO4heU1otUb9BWvc4l
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+The video_device_release() frees the "vfd" pointer so passing it to
+video_unregister_device() on the next line results in a use after free.
+Calling video_unregister_device() on a device that hasn't been
+registered is supposed to be a no-op so that can be removed.  The paths
+with to goto unreg_video_dev have a memory leak and should be updated to
+goto rel_vdev instead.
 
-Results of the daily build of media_tree:
+Fixes: f7e7b48e6d79 ("[media] rockchip/rga: v4l2 m2m support")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/media/platform/rockchip/rga/rga.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-date:			Fri Jul  9 05:00:13 CEST 2021
-media-tree git hash:	50e7a31d30e8221632675abed3be306382324ca2
-media_build git hash:	dc90f6c653a467465b5deb23d3310577f8ebf218
-v4l-utils git hash:	6ffc5248dede6285d76c5ec5680c316f68ff98ca
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7481-g7f50411af
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 328d8f6242d952437e8dfc96047fda207fad8deb
-host hardware:		x86_64
-host os:		5.10.0-7-amd64
+diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+index bf3fd71ec3af..37f7fd060c38 100644
+--- a/drivers/media/platform/rockchip/rga/rga.c
++++ b/drivers/media/platform/rockchip/rga/rga.c
+@@ -863,12 +863,12 @@ static int rga_probe(struct platform_device *pdev)
+ 	if (IS_ERR(rga->m2m_dev)) {
+ 		v4l2_err(&rga->v4l2_dev, "Failed to init mem2mem device\n");
+ 		ret = PTR_ERR(rga->m2m_dev);
+-		goto unreg_video_dev;
++		goto rel_vdev;
+ 	}
+ 
+ 	ret = pm_runtime_resume_and_get(rga->dev);
+ 	if (ret < 0)
+-		goto unreg_video_dev;
++		goto rel_vdev;
+ 
+ 	rga->version.major = (rga_read(rga, RGA_VERSION_INFO) >> 24) & 0xFF;
+ 	rga->version.minor = (rga_read(rga, RGA_VERSION_INFO) >> 20) & 0x0F;
+@@ -904,8 +904,6 @@ static int rga_probe(struct platform_device *pdev)
+ 
+ rel_vdev:
+ 	video_device_release(vfd);
+-unreg_video_dev:
+-	video_unregister_device(rga->vfd);
+ unreg_v4l2_dev:
+ 	v4l2_device_unregister(&rga->v4l2_dev);
+ err_put_clk:
+-- 
+2.30.2
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13-rc1-i686: OK
-linux-5.13-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 2
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
