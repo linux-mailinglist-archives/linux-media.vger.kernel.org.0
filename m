@@ -2,284 +2,363 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3CF23C2207
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jul 2021 12:02:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6D463C2220
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jul 2021 12:20:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232003AbhGIKEw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jul 2021 06:04:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55906 "EHLO
+        id S232075AbhGIKXk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jul 2021 06:23:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231864AbhGIKEw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jul 2021 06:04:52 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DF13C0613DD
-        for <linux-media@vger.kernel.org>; Fri,  9 Jul 2021 03:02:09 -0700 (PDT)
-Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 79D75E7;
-        Fri,  9 Jul 2021 12:02:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1625824927;
-        bh=wersdUzSrsLvAZG1Y9/8MyRHG01igX00+srSUSMitfU=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=sCzPWSEiv/XfhPASJOK77MF+rt1LHns9bSTqJVrg6Dv7afSnL00ZTLiCx2bFC5b6Y
-         s0H7ohEbHd/rly5jLKvkf12luTNMNz2UXkFq9aTkqVTWwudH2xfD8jnZI9R7RdJhTB
-         NDeK5txY3ZQgTaS8SL/+7GcfefHG9FukE5TMs+7A=
-Subject: Re: [PATCH v7 24/27] v4l: subdev: use streams in
- v4l2_subdev_link_validate()
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
+        with ESMTP id S232006AbhGIKXk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jul 2021 06:23:40 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A3E9C0613E5
+        for <linux-media@vger.kernel.org>; Fri,  9 Jul 2021 03:20:57 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id s18so9495638pgg.8
+        for <linux-media@vger.kernel.org>; Fri, 09 Jul 2021 03:20:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=FpZZVvO/nqb5+3oq9ec1RZs4zl93sjUHtLVOS9XVNco=;
+        b=Cufjm1yAewSQLxOhIhzNavEnMkLUr/zNSMm49SdFTfiNx9D8Ad8t5V1t/lHDiMnIS3
+         ETUwMaeD8Lg/KEml+jIXDcXtQSesgwZ1fXW2P1eAxOIJCT2gOCQo8m/f7B1es48S7SY6
+         T+00VIZrkFu9hlpED7veXs8sp6GOHjPy2inqU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=FpZZVvO/nqb5+3oq9ec1RZs4zl93sjUHtLVOS9XVNco=;
+        b=XNpmORnymds1egbOe+NvWmHqctzXnA6sO6ZwWzbVoXaVWWmybD+xHjGfMMq8lvbUeD
+         lnSNsZHgHkS3SnSrMJdfyVCBmiU3tKp7dEwQquRtXs3TlVYt4lQIW7MogDb8R8xY0d6r
+         IglPj/Lckw+gWYHV1VD3RrDDuH6QxjLpcJmebeGpEWfAos4dC2+cVbOwe6vehMsp7YGX
+         XItd6LoczI/o+Qqo54v70QJsBQYAsGH0Ut1Lgqe8q9KzsNJnHix5c+I9LH7PPLD3Cl8m
+         owacgHtN34dhjZmUcAJ4Qaod9ueOV5qD6ksbiFFq3Uso3BO7sr55eV/Dq6t16h7KKkIu
+         7IvA==
+X-Gm-Message-State: AOAM530FpL6X62ZF1oZb4KaT8ay4XOiGD+q97wna48/nEpSCIl1OUx5T
+        H2YGHFi8uWb0D7wFLnOAJaIakQ==
+X-Google-Smtp-Source: ABdhPJypdsIj3stZ4AltqJoQravT9m0ETdv//STN8vyZJIT3b7OfP6kVVwXBJDaDpwSjvzLxy/A4aQ==
+X-Received: by 2002:a05:6a00:14c4:b029:303:fd5e:3800 with SMTP id w4-20020a056a0014c4b0290303fd5e3800mr37177801pfu.41.1625826056815;
+        Fri, 09 Jul 2021 03:20:56 -0700 (PDT)
+Received: from chromium.org ([2401:fa00:8f:203:735b:c3cc:6957:ae6d])
+        by smtp.gmail.com with ESMTPSA id n2sm466041pgt.46.2021.07.09.03.20.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jul 2021 03:20:56 -0700 (PDT)
+Date:   Fri, 9 Jul 2021 19:20:52 +0900
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     "kyrie.wu" <kyrie.wu@mediatek.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-References: <20210524104408.599645-1-tomi.valkeinen@ideasonboard.com>
- <20210524104408.599645-25-tomi.valkeinen@ideasonboard.com>
- <cda0def4-6977-268a-ab7d-5fe2aa4f7fd0@ideasonboard.com>
- <YLwP/EASZaWdslGJ@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <46cc606f-0ecf-218e-f68f-62a1c9bd4f19@ideasonboard.com>
-Date:   Fri, 9 Jul 2021 13:02:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Rob Herring <robh+dt@kernel.org>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, xia.jiang@mediatek.com,
+        maoguang.meng@mediatek.com, srv_heupstream@mediatek.com
+Subject: Re: [PATCH v2,5/9] media: mtk-jpegenc: Generalize jpeg encode irq
+ interfaces
+Message-ID: <YOgjBMFDzkrTZ3yJ@chromium.org>
+References: <1625038079-25815-1-git-send-email-kyrie.wu@mediatek.com>
+ <1625038079-25815-6-git-send-email-kyrie.wu@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <YLwP/EASZaWdslGJ@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1625038079-25815-6-git-send-email-kyrie.wu@mediatek.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Wed, Jun 30, 2021 at 03:27:55PM +0800, kyrie.wu wrote:
+> Generalizes jpeg encode irq interfaces to support different hardware.
+> 
+> Signed-off-by: kyrie.wu <kyrie.wu@mediatek.com>
+> ---
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 124 +++++++++++++++++++++++-
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h |  24 ++++-
+>  2 files changed, 146 insertions(+), 2 deletions(-)
+> 
 
-On 06/06/2021 02:59, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Fri, May 28, 2021 at 02:34:55PM +0300, Tomi Valkeinen wrote:
->> On 24/05/2021 13:44, Tomi Valkeinen wrote:
->>> Update v4l2_subdev_link_validate() to use routing and streams for
->>> validation.
->>>
->>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>> ---
->>>    drivers/media/v4l2-core/v4l2-subdev.c | 184 +++++++++++++++++++++++---
->>>    1 file changed, 166 insertions(+), 18 deletions(-)
->>>
->>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->>> index da6ea9b14631..b30b456d8d99 100644
->>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->>> @@ -16,6 +16,7 @@
->>>    #include <linux/videodev2.h>
->>>    #include <linux/export.h>
->>>    #include <linux/version.h>
->>> +#include <linux/sort.h>
->>>    
->>>    #include <media/v4l2-ctrls.h>
->>>    #include <media/v4l2-device.h>
->>> @@ -894,6 +895,7 @@ EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate_default);
->>>    
->>>    static int
->>>    v4l2_subdev_link_validate_get_format(struct media_pad *pad,
->>> +				     u32 stream,
->>>    				     struct v4l2_subdev_format *fmt)
->>>    {
->>>    	if (is_media_entity_v4l2_subdev(pad->entity)) {
->>> @@ -902,6 +904,7 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
->>>    
->>>    		fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
->>>    		fmt->pad = pad->index;
->>> +		fmt->stream = stream;
->>>    		return v4l2_subdev_call(sd, pad, get_fmt, NULL, fmt);
->>>    	}
->>>    
->>> @@ -1012,31 +1015,176 @@ bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
->>>    }
->>>    EXPORT_SYMBOL_GPL(v4l2_subdev_has_route);
->>>    
->>> +static int cmp_u32(const void *a, const void *b)
->>> +{
->>> +	u32 a32 = *(u32 *)a;
->>> +	u32 b32 = *(u32 *)b;
->>> +
->>> +	return a32 > b32 ? 1 : (a32 < b32 ? -1 : 0);
->>> +}
->>> +
->>>    int v4l2_subdev_link_validate(struct media_link *link)
->>>    {
->>> -	struct v4l2_subdev *sink;
->>> -	struct v4l2_subdev_format sink_fmt, source_fmt;
->>> -	int rval;
->>> +	int ret;
->>> +	unsigned int i;
->>>    
-> 
-> No need for a blank line, and I'd move i and ret (in that order) after
-> the variables below.
-> 
->>> -	rval = v4l2_subdev_link_validate_get_format(
->>> -		link->source, &source_fmt);
->>> -	if (rval < 0)
->>> -		return 0;
->>> +	struct v4l2_subdev *source_subdev =
->>> +		media_entity_to_v4l2_subdev(link->source->entity);
->>> +	struct v4l2_subdev *sink_subdev =
->>> +		media_entity_to_v4l2_subdev(link->sink->entity);
->>> +	struct device *dev = sink_subdev->entity.graph_obj.mdev->dev;
->>>    
-> 
-> No need for a blank line here either.
-> 
->>> -	rval = v4l2_subdev_link_validate_get_format(
->>> -		link->sink, &sink_fmt);
->>> -	if (rval < 0)
->>> -		return 0;
->>> +	struct v4l2_subdev_krouting routing;
->>>    
-> 
-> Same.
-> 
->>> -	sink = media_entity_to_v4l2_subdev(link->sink->entity);
->>> +	static const u32 default_streams[] = { 0 };
-> 
-> I'd move this one at the top.
+This again doesn't look like a refactor, because there is only new code
+added.
 
-Ok (to all above).
+Also see my comments inline.
 
->>>    
->>> -	rval = v4l2_subdev_call(sink, pad, link_validate, link,
->>> -				&source_fmt, &sink_fmt);
->>> -	if (rval != -ENOIOCTLCMD)
->>> -		return rval;
->>> +	u32 num_source_streams = 0;
->>> +	const u32 *source_streams;
->>> +	u32 num_sink_streams = 0;
->>> +	const u32 *sink_streams;
->>> +
->>> +	dev_dbg(dev, "validating link \"%s\":%u -> \"%s\":%u\n",
->>> +		link->source->entity->name, link->source->index,
->>> +		link->sink->entity->name, link->sink->index);
->>> +
->>> +	/* Get source streams */
->>> +
->>> +	memset(&routing, 0, sizeof(routing));
->>> +
->>> +	ret = v4l2_subdev_get_routing(source_subdev, NULL, &routing);
->>> +
->>> +	if (ret && ret != -ENOIOCTLCMD)
->>> +		return ret;
->>> +
->>> +	if (ret == -ENOIOCTLCMD) {
->>> +		num_source_streams = 1;
->>> +		source_streams = default_streams;
->>> +	} else {
->>> +		u32 *streams;
->>> +
->>> +		streams = kmalloc_array(routing.num_routes, sizeof(u32),
->>> +					GFP_KERNEL);
->>> +
->>> +		for (i = 0; i < routing.num_routes; ++i) {
->>> +			struct v4l2_subdev_route *route = &routing.routes[i];
->>> +
->>> +			if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
->>> +				continue;
->>> +
->>> +			if (route->source_pad == link->source->index)
->>> +				streams[num_source_streams++] =
->>> +					route->source_stream;
->>> +		}
->>> +
->>> +		sort(streams, num_source_streams, sizeof(u32), &cmp_u32, NULL);
->>> +
->>> +		source_streams = streams;
->>> +
->>> +		v4l2_subdev_free_routing(&routing);
->>> +	}
+> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> index 7c053e3..062feab 100644
+> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> @@ -106,10 +106,40 @@ static struct mtk_jpeg_fmt mtk_jpeg_dec_formats[] = {
+>  #define MTK_JPEG_ENC_NUM_FORMATS ARRAY_SIZE(mtk_jpeg_enc_formats)
+>  #define MTK_JPEG_DEC_NUM_FORMATS ARRAY_SIZE(mtk_jpeg_dec_formats)
+>  
+> +/*
+> + * mtk_jpeg_enc_param:  General jpeg encoding parameters
+> + * @enc_w:		image width
+> + * @enc_h:		image height
+> + * @enable_exif:	EXIF enable for jpeg encode mode
+> + * @enc_quality:	destination image quality in encode mode
+> + * @enc_format:		input image format
+> + * @restart_interval:	JPEG restart interval for JPEG encoding
+> + * @img_stride:		jpeg encoder image stride
+> + * @mem_stride:		jpeg encoder memory stride
+> + * @total_encdu:	total 8x8 block number
+> + */
+> +struct mtk_jpeg_enc_param {
+> +	u32 enc_w;
+> +	u32 enc_h;
+> +	u32 enable_exif;
+> +	u32 enc_quality;
+> +	u32 enc_format;
+> +	u32 restart_interval;
+> +	u32 img_stride;
+> +	u32 mem_stride;
+
+What is the difference between these two strides?
+
+> +	u32 total_encdu;
+
+Is it really necessary to store this? Isn't it a trivial computation
+from width and height.
+
+> +};
+> +
+>  struct mtk_jpeg_src_buf {
+>  	struct vb2_v4l2_buffer b;
+>  	struct list_head list;
+> +	u32 frame_num;
+
+Isn't this equivalent to the sequence field inside vb2_v4l2_buffer?
+
+> +	u32 bs_size;
+> +	int flags;
+
+What are these 2? I don't see them used in the code added by this patch.
+Please add new fields in the same patch that adds the code using them.
+
+>  	struct mtk_jpeg_dec_param dec_param;
+> +
+> +	struct mtk_jpeg_enc_param enc_param;
+
+We can put these two into an union to reduce the size of the struct.
+
+> +	struct mtk_jpeg_ctx *curr_ctx;
+>  };
+>  
+>  static int debug;
+> @@ -1163,6 +1193,98 @@ static irqreturn_t mtk_jpeg_dec_irq(int irq, void *priv)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> +void mtk_jpeg_put_buf(struct mtk_jpeg_dev *jpeg)
+> +{
+> +	struct mtk_jpeg_ctx *ctx;
+> +	struct vb2_v4l2_buffer *dst_buffer;
+> +	struct list_head *temp_entry;
+> +	struct list_head *pos;
+> +	struct mtk_jpeg_src_buf *dst_done_buf, *tmp_dst_done_buf;
+
+Wait, is the buffer src or dst?
+
+> +	unsigned long flags;
+> +
+> +	ctx = jpeg->hw_param.curr_ctx;
+> +	if (!ctx) {
+> +		dev_err(jpeg->dev, "comp_jpeg ctx fail !!!\n");
+> +		return;
+> +	}
+> +
+> +	dst_buffer = jpeg->hw_param.dst_buffer;
+> +	if (!dst_buffer) {
+> +		dev_err(jpeg->dev, "comp_jpeg dst_buffer fail !!!\n");
+
+When can this happen?
+
+> +		return;
+> +	}
+> +
+> +	dst_done_buf = mtk_jpeg_vb2_to_srcbuf(&dst_buffer->vb2_buf);
+> +
+> +	spin_lock_irqsave(&ctx->done_queue_lock, flags);
+> +	list_add_tail(&dst_done_buf->list, &ctx->dst_done_queue);
+> +	while (!list_empty(&ctx->dst_done_queue) &&
+> +	       (pos != &ctx->dst_done_queue)) {
+> +		list_for_each_prev_safe(pos, temp_entry,
+> +					(&ctx->dst_done_queue)) {
+> +			tmp_dst_done_buf = list_entry(pos,
+> +						      struct mtk_jpeg_src_buf,
+> +						      list);
+> +			if (tmp_dst_done_buf->frame_num ==
+> +				ctx->last_done_frame_num) {
+> +				list_del(&tmp_dst_done_buf->list);
+> +				v4l2_m2m_buf_done(&tmp_dst_done_buf->b,
+> +						  VB2_BUF_STATE_DONE);
+> +				ctx->last_done_frame_num++;
+> +			}
+> +		}
+> +	}
+
+Do we need the outer while loop here?
+
+Also, is the prev variant of list_for_each needed here? Wouldn't
+list_for_each_entry_safe() be enough?
+
+> +	spin_unlock_irqrestore(&ctx->done_queue_lock, flags);
+> +}
+> +
+> +irqreturn_t mtk_jpegenc_hw_irq_handler(int irq, void *priv)
+> +{
+> +	struct mtk_jpeg_dev *jpeg = priv;
+> +	struct mtk_jpeg_ctx *ctx;
+> +	struct mtk_jpeg_dev *master_jpeg;
+> +	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+> +
+> +	enum vb2_buffer_state buf_state = VB2_BUF_STATE_ERROR;
+> +	u32 result_size;
+> +	u32 irq_status;
+> +
+> +	cancel_delayed_work(&jpeg->job_timeout_work);
+> +
+> +	src_buf = jpeg->hw_param.src_buffer;
+> +	dst_buf = jpeg->hw_param.dst_buffer;
+> +	ctx = jpeg->hw_param.curr_ctx;
+> +	master_jpeg = ctx->jpeg;
+> +	irq_status = readl(jpeg->reg_base[MTK_JPEGENC_HW0] + JPEG_ENC_INT_STS) &
+
+Why is this always HW0?
+
+> +		JPEG_ENC_INT_STATUS_MASK_ALLIRQ;
+> +	if (irq_status)
+> +		writel(0, jpeg->reg_base[MTK_JPEGENC_HW0] + JPEG_ENC_INT_STS);
+> +	if (!(irq_status & JPEG_ENC_INT_STATUS_DONE)) {
+> +		dev_err(jpeg->dev, "jpeg encode failed !!!\n");
+> +		goto irq_end;
+> +	}
+> +
+> +	result_size = mtk_jpeg_enc_get_file_size(jpeg->reg_base[0]);
+> +	vb2_set_plane_payload(&dst_buf->vb2_buf, 0, result_size);
+> +
+> +	buf_state = VB2_BUF_STATE_DONE;
+> +
+> +irq_end:
+> +	v4l2_m2m_buf_done(src_buf, buf_state);
+> +	mtk_jpeg_put_buf(jpeg);
+> +	pm_runtime_put(jpeg->pm.dev);
+> +	clk_disable_unprepare(jpeg->pm.venc_clk.clk_info->jpegenc_clk);
+
+Shouldn't this be the other way around? I.e. first clock and then
+runtime PM? Otherwise the power domain could be powered off while the
+clock is still running.
+
+> +	if (ctx->fh.m2m_ctx &&
+> +	    (!list_empty(&ctx->fh.m2m_ctx->out_q_ctx.rdy_queue) ||
+> +	    !list_empty(&ctx->fh.m2m_ctx->cap_q_ctx.rdy_queue))) {
+> +		queue_work(master_jpeg->workqueue, &ctx->jpeg_work);
+
+This patch is missing the initialization of jpeg_work, so I have no idea
+what the work actually does. Please reorganize your patches, so that it
+adds all the interdependent pieces together. (As is, the code wouldn't
+even compile if you checked out your tree to have the series up to this
+patch but not the next ones, but it's a requirement for patch submission
+to the kernel.)
+
+I suspect that there is no need for a workqueue in this driver, but
+let's see after you reorganize the patches.
+
+> +	}
+> +
+> +	jpeg->hw_state = MTK_JPEG_HW_IDLE;
+
+Do we need this hw_state?
+
+> +	wake_up(&master_jpeg->hw_wq);
+> +	atomic_inc(&jpeg->hw_rdy);
+
+Do we really need these? (Again, it's not used by any code in this
+patch.)
+
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static void mtk_jpeg_set_default_params(struct mtk_jpeg_ctx *ctx)
+>  {
+>  	struct mtk_jpeg_q_data *q = &ctx->out_q;
+> @@ -1352,7 +1474,7 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
+>  	INIT_DELAYED_WORK(&jpeg->job_timeout_work, mtk_jpeg_job_timeout_work);
+>  
+>  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	jpeg->reg_base = devm_ioremap_resource(&pdev->dev, res);
+> +	jpeg->reg_base[0] = devm_ioremap_resource(&pdev->dev, res);
+>  	if (IS_ERR(jpeg->reg_base)) {
+>  		ret = PTR_ERR(jpeg->reg_base);
+>  		return ret;
+> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
+> index 93ea71c..03ff060 100644
+> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
+> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
+> @@ -75,6 +75,17 @@ struct mtk_jpeg_variant {
+>  	u32 cap_q_default_fourcc;
+>  };
+>  
+> +struct mtk_jpeg_hw_param {
+
+Could perhaps mtk_jpeg_hw_job be a better name?
+
+> +	struct vb2_v4l2_buffer *src_buffer;
+> +	struct vb2_v4l2_buffer *dst_buffer;
+> +	struct mtk_jpeg_ctx *curr_ctx;
+> +};
+> +
+> +enum mtk_jpeg_hw_state {
+> +	MTK_JPEG_HW_IDLE = 0,
+> +	MTK_JPEG_HW_BUSY = 1,
+> +};
+
+Wouldn't "bool busy" be good enough? (In case we really need to track
+the busy state at all.)
+
+Best regards,
+Tomasz
+
+> +
+>  enum mtk_jpegenc_hw_id {
+>  	MTK_JPEGENC_HW0,
+>  	MTK_JPEGENC_HW1,
+> @@ -124,13 +135,18 @@ struct mtk_jpeg_dev {
+>  	struct v4l2_m2m_dev	*m2m_dev;
+>  	void			*alloc_ctx;
+>  	struct video_device	*vdev;
+> -	void __iomem		*reg_base;
+>  	struct device		*larb;
+>  	struct delayed_work job_timeout_work;
+>  	const struct mtk_jpeg_variant *variant;
+>  
+> +	void __iomem *reg_base[MTK_JPEGENC_HW_MAX];
+> +	int jpegenc_irq;
+>  	struct mtk_jpeg_dev *hw_dev[MTK_JPEGENC_HW_MAX];
+>  	struct mtk_jpegenc_pm pm;
+> +	enum mtk_jpeg_hw_state hw_state;
+> +	struct mtk_jpeg_hw_param hw_param;
+> +	wait_queue_head_t hw_wq;
+> +	atomic_t hw_rdy;
+>  };
+>  
+>  /**
+> @@ -189,6 +205,12 @@ struct mtk_jpeg_ctx {
+>  	u8 enc_quality;
+>  	u8 restart_interval;
+>  	struct v4l2_ctrl_handler ctrl_hdl;
+> +
+> +	struct list_head dst_done_queue;
+> +	spinlock_t done_queue_lock;	/* spinlock protecting done queue */
+> +	u32 total_frame_num;
+> +	u32 last_done_frame_num;
+> +	struct work_struct jpeg_work;
+>  };
+>  
+>  #endif /* _MTK_JPEG_CORE_H */
+> -- 
+> 2.6.4
 > 
-> Could this be moved to a separate function ? The code below is very
-> similar.
-
-Yes. It makes handling of the default_streams a bit more complex, but 
-it's still cleaner to have a separate func.
-
->>> +
->>> +	/* Get sink streams */
->>> +
->>> +	memset(&routing, 0, sizeof(routing));
->>> +
->>> +	ret = v4l2_subdev_get_routing(sink_subdev, NULL, &routing);
->>> +
->>> +	if (ret && ret != -ENOIOCTLCMD)
->>> +		return ret;
->>> +
->>> +	if (ret == -ENOIOCTLCMD) {
->>> +		num_sink_streams = 1;
->>> +		sink_streams = default_streams;
->>> +	} else {
->>> +		u32 *streams;
->>>    
->>> -	return v4l2_subdev_link_validate_default(
->>> -		sink, link, &source_fmt, &sink_fmt);
->>> +		streams = kmalloc_array(routing.num_routes, sizeof(u32),
->>> +					GFP_KERNEL);
->>> +
->>> +		for (i = 0; i < routing.num_routes; ++i) {
->>> +			struct v4l2_subdev_route *route = &routing.routes[i];
->>> +
->>> +			if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
->>> +				continue;
->>> +
->>> +			if (route->sink_pad == link->sink->index)
->>> +				streams[num_sink_streams++] =
->>> +					route->sink_stream;
->>> +		}
->>> +
->>> +		sort(streams, num_sink_streams, sizeof(u32), &cmp_u32, NULL);
-> 
-> Are you aware that there can be duplicate in the streams array, as a
-> given stream on a sink pad can be routed to multiple source pads ? I
-> think that will fail the sink and source streams match test below.
-
-Yes, I have fixed that issue.
-
->>> +
->>> +		sink_streams = streams;
->>> +
->>> +		v4l2_subdev_free_routing(&routing);
->>> +	}
->>> +
->>> +	if (num_source_streams != num_sink_streams) {
->>> +		dev_err(dev,
->>> +			"Sink and source stream count mismatch: %d vs %d\n",
->>> +			num_source_streams, num_sink_streams);
->>> +		return -EINVAL;
->>> +	}
->>> +
->>> +	/* Validate source and sink stream formats */
->>> +
->>> +	for (i = 0; i < num_source_streams; ++i) {
->>> +		struct v4l2_subdev_format sink_fmt, source_fmt;
->>> +		u32 stream;
->>> +		int ret;
->>> +
->>> +		if (source_streams[i] != sink_streams[i]) {
->>> +			dev_err(dev, "Sink and source streams do not match\n");
->>> +			return -EINVAL;
->>> +		}
-> 
-> What if the source subdev as a route enabled that produces a stream, and
-> the sink subdev has not corresponding enabled route ? Isn't this a valid
-> configuration ? For instance, when a CSI-2 sensor produces image data
-> and embedded data in two streams with different CSI-2 DT, the embedded
-> data doesn't have to be captured, it could be dropped in the CSI-2
-> receiver.
-
-Yes. Although in some cases the sink may not be able to drop the stream, 
-but I don't think we can know that here. So I've fixed this to allow 
-more source streams than sink streams.
-
-  Tomi
