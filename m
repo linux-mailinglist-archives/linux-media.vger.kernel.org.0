@@ -2,89 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4AD03C270F
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jul 2021 17:47:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3055B3C27DA
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jul 2021 18:58:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232449AbhGIPu3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jul 2021 11:50:29 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:60572 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232269AbhGIPu2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jul 2021 11:50:28 -0400
-X-UUID: 93cd3a901c1d4bc0a6581af0ce5b11b6-20210709
-X-UUID: 93cd3a901c1d4bc0a6581af0ce5b11b6-20210709
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
-        (envelope-from <yp.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 403364121; Fri, 09 Jul 2021 23:47:40 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 9 Jul 2021 23:47:39 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 9 Jul 2021 23:47:39 +0800
-From:   YP WU <yp.wu@mediatek.com>
-To:     <mchehab@kernel.org>
-CC:     <Jason-BF.Huang@mediatek.com>, <Lecopzer.Chen@mediatek.com>,
-        <francis.lee@mediatek.com>, <gustavoars@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <leo.hsiao@mediatek.com>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <yp.wu@mediatek.com>
-Subject: Re: How to use "DTV_FE_CAPABILITY" command for Frontend.h of Linux DVB
-Date:   Fri, 9 Jul 2021 23:47:39 +0800
-Message-ID: <20210709154739.30394-1-yp.wu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210623093312.6f9883a5@coco.lan>
-References: <20210623093312.6f9883a5@coco.lan>
+        id S229741AbhGIRAy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jul 2021 13:00:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37566 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229459AbhGIRAx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jul 2021 13:00:53 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AB38C0613E5
+        for <linux-media@vger.kernel.org>; Fri,  9 Jul 2021 09:58:09 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id f13so24361179lfh.6
+        for <linux-media@vger.kernel.org>; Fri, 09 Jul 2021 09:58:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=phystech-edu.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+rWdI3dgudUSXDDNvYaQxqKTPG0uXr+l1miDHJi7VFA=;
+        b=gb4bm6wdY+mgfF3fPkAX5c4NhVgQzXhYb2OB1RbNJheGqu/VHWI2t6cgM5/ytib2Ay
+         pTwsmTGu7cuTx21bTUuR9HwoFyPJBH4hISsTN2jyscRd7rPgrr5NedmXNnFDdvGm3NGK
+         z9TCV94jVdjA78qU3qAYir3LvhVHdnfE0k3YGcSH6MFNJAtnhIIEq19PYex2THB0qAy/
+         S4gDifECV5kA2y/oIMe+hJjp3iB+cZGW5RU7GjWIpV+jSjxBaUh53Uv7j/woOyezG+fB
+         R0v8KWic5b+jC8icrAyewD5Agh6vZgU1rYbPdutF+GZIZRQX8xWzQcP4qEvyZ3/Iu5GS
+         AZDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+rWdI3dgudUSXDDNvYaQxqKTPG0uXr+l1miDHJi7VFA=;
+        b=X37T7SOI0DU0tvHJ9qzhG7BxS5W6gSMfegy3VYIn/j12gc6JTDuOjgb7w2Lgmtyo+s
+         njyThaNgAXub82YcZPS+XrvmWevevzOfOASfhA7jFqUjUOgeeZJOC/dRYAPkSOqer/vb
+         tMZN/fjZM3naV+tozG2c3/n/RXr+yQtPqb99yokwb2NwdmPpK6Oq40T9bNgSaQwZSXeJ
+         m68zW1mllAcBKu5hg2dRLGsvlomXCEk0PSxrtpFltd0fKVRgTyEBObdy2osu6QWD/yKQ
+         hcTZc9PhfgBtu9gS+M4kDkv5iGfAwTTRTIgNuI+UKMwXwXP7seir52gir5GSO1Wf9uvP
+         7GQQ==
+X-Gm-Message-State: AOAM530SpdWwUzMPE3M97WW7Y5kTkWUjpunWOjkXXUQ4uxizpJvbM6gj
+        H2CiLQxMaB7bZdUK3dvx7TXK8Q==
+X-Google-Smtp-Source: ABdhPJznK93YSIMj0wPtxqtU7Ow09tlCGEe/IfTHANQTYCqmvrZJe3ddKiqQW6bX08aRbfTBMAU14g==
+X-Received: by 2002:a05:6512:3711:: with SMTP id z17mr6150488lfr.135.1625849887381;
+        Fri, 09 Jul 2021 09:58:07 -0700 (PDT)
+Received: from 192.168.1.3 ([2a00:1370:810e:abfe:9c62:44e3:b0ab:76fd])
+        by smtp.gmail.com with ESMTPSA id i130sm504107lfd.304.2021.07.09.09.58.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jul 2021 09:58:06 -0700 (PDT)
+From:   Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+To:     sean@mess.org, mchehab@kernel.org, robh+dt@kernel.org,
+        khilman@baylibre.com, narmstrong@baylibre.com
+Cc:     jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, rockosov@gmail.com,
+        Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+Subject: [PATCH v3 0/2] media: rc: add support for Amlogic Meson IR blaster
+Date:   Fri,  9 Jul 2021 19:57:51 +0300
+Message-Id: <20210709165753.29353-1-viktor.prutyanov@phystech.edu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
->From: YP WU <yp.wu@mediatek.com>
->>To: <mchehab@kernel.org>
->>Cc: <Jason-BF.Huang@mediatek.com>, <Lecopzer.Chen@mediatek.com>,
->>	<francis.lee@mediatek.com>, <gustavoars@kernel.org>,
->>	<hverkuil-cisco@xs4all.nl>, <leo.hsiao@mediatek.com>,
->>	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
->>	<yp.wu@mediatek.com>
->>Subject: Re: How to use "DTV_FE_CAPABILITY" command for Frontend.h of Linux DVB
->>Date: Fri, 2 Jul 2021 17:28:34 +0800
->>Message-ID: <20210702092834.11699-1-yp.wu@mediatek.com> (raw)
->>In-Reply-To: <20210623093312.6f9883a5@coco.lan>
->>
->>Hello, Mr.Mauro,
->><I need to understand more about the use case.
->>-> About use case, I describe below:
->>
->>	For our design of kernel, demod/tuner and LNB are registered to different frontend device nodes.
->>We want to implement property command to know if the frontend device node is LNB device or demod/tuner device.
->>If it is LNB device node, the value would return true
->>If it is demod/tuner device node, the value would return false.
->> 
->>Do you have better idea or suggestion for our usage?
->>Please let me know if your have better suggestion.
->>Very thank you for your help.
->>
->>BRs,
->>YP
+Hi,
 
-Hello, Mr.Mauro,
-	Frist of all, thanks for your reply.
-Based on previous discussion, we think we can create a new property command to achieve our goal.
-	A new property command "DTV_FE_LNB_CAPABILITY".
-We can use "FE_GET_PROPERTY" with case "DTV_FE_LNB_CAPABILITY" to get LNB capability.
-We also should add a new variable named "LNB_capability" in dtv_frontend_properties. Like below:
-	bool LNB_capability;
-If the device node is LNB, LNB_capability should set to TRUE.
-If the device node is demod/tuner, LNB_capability should set to FALSE.
+this is a driver for the IR transmitter (also called IR blaster)
+available in some Amlogic Meson SoCs.
 
-What's your opinion?
-If you have a better idea or suggestion, please let me know.
+Viktor Prutyanov (2):
+  media: rc: meson-irblaster: document device tree bindings
+  media: rc: introduce Meson IR blaster driver
 
-Very thank you.
+ .../media/amlogic,meson-irblaster.yaml        |  65 +++
+ drivers/media/rc/Kconfig                      |  10 +
+ drivers/media/rc/Makefile                     |   1 +
+ drivers/media/rc/meson-irblaster.c            | 400 ++++++++++++++++++
+ 4 files changed, 476 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/amlogic,meson-irblaster.yaml
+ create mode 100644 drivers/media/rc/meson-irblaster.c
 
-BRs,
-YP
+-- 
+2.21.0
+
