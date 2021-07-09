@@ -2,161 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A23523C25CB
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jul 2021 16:20:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8BAE3C25E2
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jul 2021 16:26:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232208AbhGIOX2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jul 2021 10:23:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58462 "EHLO
+        id S231976AbhGIO3N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jul 2021 10:29:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbhGIOX1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jul 2021 10:23:27 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4C04C0613DD
-        for <linux-media@vger.kernel.org>; Fri,  9 Jul 2021 07:20:43 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id a18so23527432lfs.10
-        for <linux-media@vger.kernel.org>; Fri, 09 Jul 2021 07:20:43 -0700 (PDT)
+        with ESMTP id S232259AbhGIO3N (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jul 2021 10:29:13 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89B23C0613DD
+        for <linux-media@vger.kernel.org>; Fri,  9 Jul 2021 07:26:29 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id d12so11792468wre.13
+        for <linux-media@vger.kernel.org>; Fri, 09 Jul 2021 07:26:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=XkgFIUp5iLs9nU5JEu6HehRGh39QNsQ3xKszMt50D9Q=;
-        b=nnvEugLL4kUaZI9GXDpIfcLy1E9zwjMePxX22SuHIBXzMGviHjvnuQxC+HsblD7A7s
-         Th1dvRbYWP4rcXx3evnioxr1liZAFO4EqfDjePeNBLen6ioa2Z1hr333yq8ZRCb8D/v7
-         c/E5JLRSbSZSF2FIOTw57704r2CGQSCPAMsT2SJqCrK8BZMFIm02r8G84BZbPvv8nI8I
-         0vMuSJT+yHHkrRSTvdSlOZmxcmnrzqZ+mj/JGk6yOORSOYijc5ld+Cwvkpr6/S0O15A2
-         wXP+zieaxvEO+P+WchQKKPnvOXYkgGM50JOGgoOLvsisDH1zkdsVS00TwQ2ssN/A5Lxr
-         qq7Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DbC5nJaoh+hWdWc67g+zjhO1RlIfhIErNWQTAaXY+Pk=;
+        b=CyUBP0y5kzTeCOA3wDLlYi/nrmG8nHNpxrQFRbRZodozeH85RnPwCUlkdA6OfmpwIa
+         LSNQt9WslBxxsUUG+r4kgdGFFvbIHaNjJQ/a3rzFPXZSxxFmhCMonlLz8ccoHJfgUjFJ
+         aJv7O6f+zbs7dLwldhzd1b8ISZSiM9Z5JW8crH3FRfXDZVQNMQITeLubkMDppX1txGUZ
+         gvR3C4ZL95W03g5h6SkBCSJp/3YGJ1yo8i6y+TZiasYBX/uHV9orp0FmMBD0l7mQN8JL
+         Sc/ZxM3m4zYNTZwVvjDu2StFzxK90rijwAFYzEcAxHPbDoufRncvHyPxMNMNpiG7+23Z
+         jKvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=XkgFIUp5iLs9nU5JEu6HehRGh39QNsQ3xKszMt50D9Q=;
-        b=fByo18ARxAVlUknrGI02HxVqBmvxZB4xRsyJUcdjH2CA7nVber7EPWtLgaZ3oQlqUa
-         toRy4ISMK/7PfpLLKWVay2PKDLIrdhouvbw1mU6rjiRgIsYYqg3XI0LH9RwOBr3JohTn
-         LulgyWv8r7zI+qw1ONFb70AEz8u8RQVdwMnnd0iZVRRU3KBOBWRPRI/Sy//lFSwxGIU4
-         nPu4MDa3bgGh+MH27i3RHhRcOF7g0G0Hh/32PmSGu/jObD9I4WoFiunaqXj0zRbaHX5P
-         VQehiKQsxO3piC6+uAqVC+hoNeSFxP/zXoLnzK/FTc9mtMDZDx8gdXw53bak4CQ7PPCR
-         iV7w==
-X-Gm-Message-State: AOAM532OoStSv/3Dx63d+hVGMqxX/YCtSZKsNp9Zv5w2s1Y6nqv+fNxq
-        +OQHXqhiJ4Auni9WGxhDuhBcRg==
-X-Google-Smtp-Source: ABdhPJwxjeI7so/CQeRaJZgPKVtDxnOFUhKAfFqZ2Q95ta5CH49HKObMP0+3hbSx4A3QQwqr+ZbVDw==
-X-Received: by 2002:ac2:41c5:: with SMTP id d5mr29096943lfi.56.1625840442217;
-        Fri, 09 Jul 2021 07:20:42 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id r11sm617640ljp.9.2021.07.09.07.20.41
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DbC5nJaoh+hWdWc67g+zjhO1RlIfhIErNWQTAaXY+Pk=;
+        b=eVJcvykHB9+kZQ7pUn/3ICkNmREuOmMGRvTsky0I4Jb1L01zAYx30XRY2zymf/FAeu
+         qI1rtZtL9hOWI2Zzzz4kWUp4nSRTMdTsflbJUHrUUsWa63UY3uQSlMip7AH8Ly8/NO6S
+         mrVojR4KsfbpCJ/9tr6UDM67+ftQl5LJDGWWKbsgabPRYnPxM92VqgQqRvjL647vvBR5
+         raZmafZJWJBgXgKSV+UyTPRpWnkwnIrRG/8Zxg8nZq35qq0Bs8JoY/TIMWGglDbx2cPA
+         /g3PHCnFVJGOsGEguUkq+UIkV1HWVX6G6VTAgCo/eC72LTauVwbuYnjOImUs3iNzJTOX
+         D9GQ==
+X-Gm-Message-State: AOAM532+6zFOOsSPEVZUBDLbb4t7wRHDDKCxHn4ukNidksempRExhEZY
+        EKuMW565AK46Gz6HMIF+yh0l0g==
+X-Google-Smtp-Source: ABdhPJxY+EC3lUAjIE9FkShh6ndNJWtH7/7l37Q57S3ImnBq2/uaJ2A3JO2VgWmWEFD+TccmYV2/nA==
+X-Received: by 2002:a5d:684f:: with SMTP id o15mr41131746wrw.134.1625840788138;
+        Fri, 09 Jul 2021 07:26:28 -0700 (PDT)
+Received: from bismarck.berto.se (p4fca2710.dip0.t-ipconnect.de. [79.202.39.16])
+        by smtp.googlemail.com with ESMTPSA id f82sm11034245wmf.25.2021.07.09.07.26.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jul 2021 07:20:41 -0700 (PDT)
-Date:   Fri, 9 Jul 2021 16:20:40 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Dennis Rachui <drachui@de.adit-jv.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
-Message-ID: <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
-References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
+        Fri, 09 Jul 2021 07:26:27 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 00/11] rcar-vin: Add r8a779a0 support
+Date:   Fri,  9 Jul 2021 16:25:49 +0200
+Message-Id: <20210709142600.651718-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dennis,
+Hello,
 
-Thanks for your patch.
+This series adds support for V3U (r8a779a0) to the R-Car VIN driver. The
+V3U SoC is different from other Renesas SoCs as a new IP block (the ISP
+channel selector) is added between the CSI-2 receiver and the VIN
+modules. This new ISP IP deals with CSI-2 channel filtering based on
+VC/DT which in turn makes the VIN drivers much simpler with regards to
+the media graph. But it also means the rcar-vin driver needs to support
+and generate both the generic Gen3 MC-graph and the specific V3U
+MC-graph.
 
-On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
-> Verify that streaming is not active before setting the pad format.
-> 
-> According to the VIDIOC documentation [1] changes to the active
-> format of a media pad via the VIDIOC_SUBDEV_S_FMT ioctl are
-> applied to the underlying hardware.
-> In rcar-csi2 a format change only applies to hardware, when the
-> pipeline is started. While the device is not in use, it is therefore
-> okay to update the format.
-> 
-> However, when the pipeline is active, this leads to a format
-> mismatch between driver and device.
-> Other applications can query the format with
-> VIDIOC_SUBDEV_G_FMT at any time and would be reported
-> a format that does not fit the current stream.
-> 
-> This commit prevents format update while streaming is active
-> and returns -EBUSY to user space, as suggested by [1].
-> 
-> [1] Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
+The rcar-vin driver intertwines the VIN group concept and the usage of
+the media graph into a single implementation. This needs to be broken
+apart before the new V3U support can be added. The first 01/11 - 10/11
+patches deals with this separation and its fallout. Fortunately patch
+11/11 after all that preparation work is quiet simple and straight
+forward when adding the V3U support.
 
-I like that this is addressed, but I wonder is this not something that 
-should be fixed in the V4L2 core and not in drivers?
+There is a large patch (10/11) in the series, reviewers please fear not
+it only moves blocks of code around verbatim.
 
-> 
-> Note: after creation of this commit, it was noticed that Steve
-> Longerbeam has a very similar solution in his fork.
-> 
-> Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
-> Cc: Steve Longerbeam <slongerbeam@gmail.com>
-> Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index e28eff0..98152e1 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
->  {
->  	struct rcar_csi2 *priv = sd_to_csi2(sd);
->  	struct v4l2_mbus_framefmt *framefmt;
-> +	int ret = 0;
-> +
-> +	mutex_lock(&priv->lock);
->  
->  	if (!rcsi2_code_to_fmt(format->format.code))
->  		format->format.code = rcar_csi2_formats[0].code;
->  
->  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> +
-> +		/*
-> +		 * Do not apply changes to active format while streaming.
-> +		 *
-> +		 * Since video streams could be forwarded from sink pad to any
-> +		 * source pad (depending on CSI-2 channel routing), all
-> +		 * media pads are effected by this rule.
-> +		 */
-> +		if (priv->stream_count > 0) {
-> +			ret = -EBUSY;
-> +			goto out;
-> +		}
-> +
->  		priv->mf = format->format;
->  	} else {
->  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
->  		*framefmt = format->format;
->  	}
->  
-> -	return 0;
-> +out:
-> +	mutex_unlock(&priv->lock);
-> +
-> +	return ret;
->  }
->  
->  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
-> -- 
-> 2.7.4
-> 
+While working on this series it have become even more apparent to me
+that the VIN group concept probably should be replaced with something
+like the Media Device Allocator API once it learns how to work with DT.
+This series separation of the two VIN concepts is a good first step for
+me to hope to find time to dig into that.
+
+Niklas SÃ¶derlund (11):
+  rcar-vin: Refactor controls creation for video device
+  rcar-vin: Fix error paths for rvin_mc_init()
+  rcar-vin: Improve async notifier cleanup paths
+  rcar-vin: Improve reuse of parallel notifier
+  rcar-vin: Rename array storing subdevice information
+  rcar-vin: Move group async notifier
+  rcar-vin: Extend group notifier DT parser to work with any port
+  rcar-vin: Create a callback to setup media links
+  rcar-vin: Specify media device ops at group creation time
+  rcar-vin: Move and rename CSI-2 link notifications
+  rcar-vin: Add r8a779a0 support
+
+ drivers/media/platform/rcar-vin/rcar-core.c | 960 +++++++++++---------
+ drivers/media/platform/rcar-vin/rcar-dma.c  |  20 +-
+ drivers/media/platform/rcar-vin/rcar-vin.h  |  24 +-
+ 3 files changed, 577 insertions(+), 427 deletions(-)
 
 -- 
-Regards,
-Niklas Söderlund
+2.32.0
+
