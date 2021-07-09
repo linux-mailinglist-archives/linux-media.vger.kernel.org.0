@@ -2,190 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D5FB3C1D76
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jul 2021 04:24:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 376903C1DEA
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jul 2021 05:47:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231137AbhGIC1M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jul 2021 22:27:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38654 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230412AbhGIC1L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jul 2021 22:27:11 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F431C06175F
-        for <linux-media@vger.kernel.org>; Thu,  8 Jul 2021 19:24:29 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id d9-20020a17090ae289b0290172f971883bso6780126pjz.1
-        for <linux-media@vger.kernel.org>; Thu, 08 Jul 2021 19:24:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Yy3Oct9A9WErk0mmVC/ltaAK4Ui6hpVOSI3ft7mId8M=;
-        b=MBJjndII9RSzdAmXPewLWBwxTR4Ubq3cHz+sZN63Su+9L3sTjeGBr9dYcIpGF9vmpv
-         2ov47gob3vf2AmitKMc9GiGBKKmsIrLH3/BdHaMBSAFaGZ4QvSBeUKiaeQ813jwW6AhS
-         m4TtUXyIO1/XsLVBOqXZBxQTxozAKNJswsf04=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Yy3Oct9A9WErk0mmVC/ltaAK4Ui6hpVOSI3ft7mId8M=;
-        b=YrudfhFF+ODu++yLkmZkRuHkO5QRt1zpjTltJQGsZPfAOcnHKacAyHKJfVN34zo+zg
-         faMfM8l6QGHTf0yeagUL1vn7AAjstMVDGf2PE2CrAUJ5cW+il0vqV3JcCDRPVtzbnK6Z
-         NuwD6XCMYf4gsJJmlil7JckqySx20EOYTJRCejispX2p+lSHT7qyS1GYS6EpoT5yj3qN
-         YcZQVRvyT+5IyDBNBTg31rRPyTCS9YFnRQVmOkMg9XN+z9ibjGRjUUotsB/il5dE6wUW
-         Y5S0K5EfMvRMYmsZnz3D25JJldaMPvjqhN8iJAswRvdry+UGDcMqrgxqCvgXQMAVkmuQ
-         LZXw==
-X-Gm-Message-State: AOAM532sNDWYSeLLr4cWaIPlVw9eeS+CMEA7yoDbVat9zQIDsbErJ8MQ
-        Zfm10n51epD2uUMEkC9FwXazkQ==
-X-Google-Smtp-Source: ABdhPJwrPoeT1worVig+mEWOrxVrOttPMio1WiqwFIggheuAML3w9AWKKeZYM9c66qmbAY7ZGocPHQ==
-X-Received: by 2002:a17:90a:5306:: with SMTP id x6mr34578229pjh.59.1625797468220;
-        Thu, 08 Jul 2021 19:24:28 -0700 (PDT)
-Received: from localhost ([2401:fa00:9:14:d956:2966:7910:2bd2])
-        by smtp.gmail.com with UTF8SMTPSA id d19sm3742267pjx.57.2021.07.08.19.24.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jul 2021 19:24:27 -0700 (PDT)
-From:   Eizan Miyamoto <eizan@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     wenst@chromium.org, chunkuang.hu@kernel.org, yong.wu@mediatek.com,
-        enric.balletbo@collabora.com, houlong.wei@mediatek.com,
-        Eizan Miyamoto <eizan@chromium.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH v5 7/8] media: mtk-mdp: use mdp-rdma0 alias to point to MDP master
-Date:   Fri,  9 Jul 2021 12:23:23 +1000
-Message-Id: <20210709122040.v5.7.I2049e180dca12e0d1b3178bfc7292dcf9e05ac28@changeid>
-X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
-In-Reply-To: <20210709022324.1607884-1-eizan@chromium.org>
-References: <20210709022324.1607884-1-eizan@chromium.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S231126AbhGIDuR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jul 2021 23:50:17 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:59655 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230462AbhGIDuR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Jul 2021 23:50:17 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 1hUBmzK4ihqx91hUCmQqLA; Fri, 09 Jul 2021 05:47:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1625802452; bh=hfPUi2KKh2zY0W5KKeO7vjRGxMXlZJJO8z3BOmP4Fco=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=KoSgMVOLj/i07PaFVeqV7+gT1W52AhhGh4TDPN4A2HiMH6fC9U91+gqQNXr22ZOmd
+         snLi4J+yD7zXZT6YOJlmB9vKyeJtJeL7+IIIOidsxn9HAfLPKg4I7GvQdMvmJCZSs/
+         awLoD8mCyqdvY7+QIE3d480BGRlADS549dt2xPFfItnxjRNF0kCX7Dn7HdcjSCYkBi
+         NVVPEUVD0kE0AMgcsRdccyukLmY2yNVV+MzP9tAbEADpWBWVIpDzAarTPkyogxoeQe
+         A99/1Qr/kqheNjzgbm9h2/Sqtu2N7L7OTq181USsXh4OXUrQdlSzHM5m/+b1qX3CZF
+         Y84Y6hkUIPhxA==
+Message-ID: <c13419711326bf8959f71b656158b19d@smtp-cloud9.xs4all.net>
+Date:   Fri, 09 Jul 2021 05:47:31 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfPJkuTw/Eum/UkasQfapSux/lc1qYTfqvG0320CCNySUWClBotlAz5/Peso6pTxDFzoGFNJwRWm1oJuYR+zyFaePirjdnSKfYl3aYVwHd9ivoBJLzcK6
+ Xsvlc1FmRhEz2fBZHdQ49FC1AXMSfWib+fHgC0+CKlSd7JxeLGOwA4G/r01MT6eITAcnrgm2o1VLOAYtE/MABvAYKSLDQzuO3uK7BI3sL7gWEEapCQr23Wt3
+ 16j6Jh8NP2J+NUUGTimxvw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-... Instead of depending on the presence of a mediatek,vpu property in
-the device node.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-That property was originally added to link to the vpu node so that the
-mtk_mdp_core driver could pass the right device to
-vpu_wdt_reg_handler(). However in a previous patch in this series,
-the driver has been modified to search the device tree for that node
-instead.
+Results of the daily build of media_tree:
 
-That property was also used to indicate the primary MDP device, so that
-it can be passed to the V4L2 subsystem as well as register it to be
-used when setting up queues in the open() callback for the filesystem
-device node that is created. In this case, assuming that the primary
-MDP device is the one with a specific alias seems useable because the
-alternative is to add a property to the device tree which doesn't
-actually represent any facet of hardware (i.e., this being the primary
-MDP device is a software decision). In other words, this solution is
-equally as arbitrary, but at least it doesn't add a property to a
-device node where said property is unrelated to the hardware present.
+date:			Fri Jul  9 05:00:13 CEST 2021
+media-tree git hash:	50e7a31d30e8221632675abed3be306382324ca2
+media_build git hash:	dc90f6c653a467465b5deb23d3310577f8ebf218
+v4l-utils git hash:	6ffc5248dede6285d76c5ec5680c316f68ff98ca
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7481-g7f50411af
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 328d8f6242d952437e8dfc96047fda207fad8deb
+host hardware:		x86_64
+host os:		5.10.0-7-amd64
 
-Signed-off-by: Eizan Miyamoto <eizan@chromium.org>
----
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13-rc1-i686: OK
+linux-5.13-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 2
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-(no changes since v1)
+Detailed results are available here:
 
- drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 47 ++++++++++++++-----
- drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  6 +++
- 2 files changed, 42 insertions(+), 11 deletions(-)
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
 
-diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-index 87e3f72ff02b..de2d425efdd1 100644
---- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-+++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-@@ -151,22 +151,48 @@ void mtk_mdp_comp_clock_off(struct mtk_mdp_comp *comp)
- 		mtk_smi_larb_put(comp->larb_dev);
- }
- 
-+/*
-+ * The MDP master device node is identified by the device tree alias
-+ * "mdp-rdma0".
-+ */
-+static int is_mdp_master(struct device *dev)
-+{
-+	struct device_node *aliases, *mdp_rdma0_node;
-+	const char *mdp_rdma0_path;
-+
-+	if (!dev->of_node)
-+		return 0;
-+
-+	aliases = of_find_node_by_path("/aliases");
-+	if (!aliases) {
-+		dev_err(dev, "no aliases found for mdp-rdma0");
-+		return 0;
-+	}
-+
-+	mdp_rdma0_path = of_get_property(aliases, "mdp-rdma0", NULL);
-+	if (!mdp_rdma0_path) {
-+		dev_err(dev, "get mdp-rdma0 property of /aliases failed");
-+		return 0;
-+	}
-+
-+	mdp_rdma0_node = of_find_node_by_path(mdp_rdma0_path);
-+	if (!mdp_rdma0_node) {
-+		dev_err(dev, "path resolution failed for %s", mdp_rdma0_path);
-+		return 0;
-+	}
-+
-+	return dev->of_node == mdp_rdma0_node;
-+}
-+
- static int mtk_mdp_comp_bind(struct device *dev, struct device *master,
- 			void *data)
- {
- 	struct mtk_mdp_comp *comp = dev_get_drvdata(dev);
- 	struct mtk_mdp_dev *mdp = data;
--	struct device_node *vpu_node;
- 
- 	mtk_mdp_register_component(mdp, comp);
- 
--	/*
--	 * If this component has a "mediatek-vpu" property, it is responsible for
--	 * notifying the mdp master driver about it so it can be further initialized
--	 * later.
--	 */
--	vpu_node = of_parse_phandle(dev->of_node, "mediatek,vpu", 0);
--	if (vpu_node) {
-+	if (is_mdp_master(dev)) {
- 		int ret;
- 
- 		ret = v4l2_device_register(dev, &mdp->v4l2_dev);
-@@ -182,9 +208,8 @@ static int mtk_mdp_comp_bind(struct device *dev, struct device *master,
- 		}
- 
- 		/*
--		 * presence of the "mediatek,vpu" property in a device node
--		 * indicates that it is the primary MDP rdma device and MDP DMA
--		 * ops should be handled by its DMA callbacks.
-+		 * MDP DMA ops will be handled by the DMA callbacks associated with this
-+		 * device;
- 		 */
- 		mdp->rdma_dev = dev;
- 	}
-diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-index b45d588d2659..e1fb39231248 100644
---- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-+++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-@@ -158,6 +158,12 @@ static int mtk_mdp_master_bind(struct device *dev)
- 		goto err_component_bind_all;
- 	}
- 
-+	if (mdp->rdma_dev == NULL) {
-+		dev_err(dev, "Primary MDP device not found");
-+		status = -ENODEV;
-+		goto err_component_bind_all;
-+	}
-+
- 	vpu_node = of_find_node_by_name(NULL, "vpu");
- 	if (!vpu_node) {
- 		dev_err(dev, "unable to find vpu node");
--- 
-2.32.0.93.g670b81a890-goog
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
