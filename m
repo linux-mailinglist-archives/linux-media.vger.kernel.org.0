@@ -2,547 +2,490 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBEE43C2B33
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jul 2021 00:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B36D3C32F3
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jul 2021 07:10:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231205AbhGIWOM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jul 2021 18:14:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51736 "EHLO
+        id S229803AbhGJFN1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Jul 2021 01:13:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbhGIWOM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jul 2021 18:14:12 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34938C0613DD;
-        Fri,  9 Jul 2021 15:11:28 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 083A6C6349; Fri,  9 Jul 2021 23:11:25 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1625868685; bh=VzoMJLTBOWaLkJ4ticoaaU1Qg0X6A0sEdFxheLOHvqI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Lat8P29IDFv2N3lbrv7Fbl3X3DvEWR25VKU8qFpRKAA0DsGgepO+9k7shv4Hil1wh
-         cyXcS25qlE0HzmFbDeCdyHexIFlMQEDAjlwVB9AKK8ONQVdX0WnfH9vsCwMuMOSQW9
-         OAeOrkhoku+nH0AVP7MEMWgubAHGUOcdInw8bZiwgHbJPmFTkn1r8DLmJeeq1uVE7r
-         Da2Kdt2f9cQ48LVBHrAjnh3idFOJxX4LCjXSnCZzdwpypUEJyjXI94kbvPDlKG3PoN
-         wxvfX4B/CDyetU+7PaKXltEugHmDT/NiEoVJYwJKC0vdl23nHaJ1jAHidI9qLcCgJF
-         7awov5yc1TPBw==
-Date:   Fri, 9 Jul 2021 23:11:24 +0100
-From:   Sean Young <sean@mess.org>
-To:     Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, khilman@baylibre.com,
-        narmstrong@baylibre.com, jbrunet@baylibre.com,
-        martin.blumenstingl@googlemail.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, rockosov@gmail.com
-Subject: Re: [PATCH v3 2/2] media: rc: introduce Meson IR blaster driver
-Message-ID: <20210709221124.GA22240@gofer.mess.org>
-References: <20210709165753.29353-1-viktor.prutyanov@phystech.edu>
- <20210709165753.29353-3-viktor.prutyanov@phystech.edu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210709165753.29353-3-viktor.prutyanov@phystech.edu>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        with ESMTP id S229567AbhGJFN1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 10 Jul 2021 01:13:27 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1469C0613DD
+        for <linux-media@vger.kernel.org>; Fri,  9 Jul 2021 22:10:42 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id o11-20020a056902110bb029055b266be219so14238575ybu.13
+        for <linux-media@vger.kernel.org>; Fri, 09 Jul 2021 22:10:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=6tW4U4W+M5Q9a7hEOvLNXBNqiO2VzjTmy/E0pzjtni8=;
+        b=izsa5rVePDMRnv9gXUgJM5JDfwEKUTFqTkWClk7ibQkEoVgCSi3grTzQ3hkxlKirBq
+         bZJwCOSvqc38fxkFlG6VcLsNfP49/E+6kcvpDpHxY/u3ON7tuV+BTczgroEsVVbzmfMT
+         wkRse6Dowc8JEluc0DeZFcRMFhYMkgpjzSHT4C/YTFSyO9RT9o9++dm82LsKpfnN/xub
+         JvTvEsjUnBkDIodCVnkCM/yanR172guDb5wDxy3XCpBGPOJ6P+1eMcehkQhreuMx8Ahj
+         ufLjuF+wvYwIDDr3+F9eaV47/Oa2/cCihY0qe4hK8HZC6620nLZK4DcpdXA69R4lriUS
+         XfJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=6tW4U4W+M5Q9a7hEOvLNXBNqiO2VzjTmy/E0pzjtni8=;
+        b=EqUIj1Sx6/kYmwGduEB3rHqAndPcNl0J75Ku7g06FQc84Rs4D6m4pnjegrWARiobwM
+         45Ae9348xLsNl2S9SwIT7MgwKnmUYKjrgevem4ZC7LwFWY+B/CRSrrNmZRz+IhYZcYcF
+         p36FnvitrdQ9CEH+dWXvlDt/BnaKiVOpWLSNij17+ilwM3uFh9Rw6O1/9S+Co7/CN3da
+         x0jCqPs9xupS9M4xtAeVp6yvaDdEwVJqBX85joaGy3DGcxOZuOOMWm0i6t920ZojYuch
+         U5b6k5nWo2dpEqqrjAcqJfoq/vah9ujOyKavydIcjEtWDLjYcH9NU9Ws197nZB3bOO72
+         IKTQ==
+X-Gm-Message-State: AOAM531eknXRPXbnxqojpS2avawOk7kfDhM5HvVN0gu5GKgeqIkaFbOr
+        jviV//WTd3BrPUQGJFg0BlPQbXhgniU=
+X-Google-Smtp-Source: ABdhPJyJrczkRmhH/qXGrgt/Sk2CsDUTJN9iO7OAgXi5y504LUYz/G0g6KzCyzyU24u66S2nQAnAjDPvxx8=
+X-Received: from hridya.mtv.corp.google.com ([2620:15c:211:200:6d15:d8fd:a01e:e439])
+ (user=hridya job=sendgmr) by 2002:a25:3b86:: with SMTP id i128mr51665265yba.363.1625893841864;
+ Fri, 09 Jul 2021 22:10:41 -0700 (PDT)
+Date:   Fri,  9 Jul 2021 22:10:24 -0700
+Message-Id: <20210710051027.42828-1-hridya@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
+Subject: [PATCH] dma-buf: Delete the DMA-BUF attachment sysfs statistics
+From:   Hridya Valsaraju <hridya@google.com>
+To:     daniel@ffwll.ch, Sumit Semwal <sumit.semwal@linaro.org>,
+        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Cc:     kernel-team@android.com, john.stultz@linaro.org, surenb@google.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Viktor,
+The DMA-BUF attachment statistics form a subset of the DMA-BUF
+sysfs statistics that recently merged to the drm-misc tree.
+Since there has been a reported a performance regression due to the
+overhead of sysfs directory creation/teardown during
+dma_buf_attach()/dma_buf_detach(), this patch deletes the DMA-BUF
+attachment statistics from sysfs.
 
-The driver look great! Thanks for making those changes. Just two minor
-comments.
+Fixes: bdb8d06dfefd (dmabuf: Add the capability to expose DMA-BUF stats
+in sysfs)
+Signed-off-by: Hridya Valsaraju <hridya@google.com>
+---
 
-On Fri, Jul 09, 2021 at 07:57:53PM +0300, Viktor Prutyanov wrote:
-> This patch adds the driver for Amlogic Meson IR blaster.
-> 
-> Some Amlogic SoCs such as A311D and T950D4 have IR transmitter
-> (blaster) controller onboard. It is capable of sending IR
-> signals with arbitrary carrier frequency and duty cycle.
-> 
-> The driver supports 3 modulation clock sources:
->  - sysclk
->  - xtal3 clock (xtal divided by 3)
->  - 1us clock
-> 
-> Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> ---
->  changes in v2:
->    - threaded IRQ removed, all stuff done in IRQ handler
->    - DIV_ROUND_CLOSEST_ULL replaced with DIV_ROUND_CLOSEST
->    - compatible changed to "amlogic,meson-g12a-irblaster"
->    - 'debug' parameter removed
->    - dprintk() replaced with dev_dbg()/dev_info()
->    - carrier frequency checked against 0
->    - device_name added
->  changes in v3:
->    - license header fixed
->    - 'max_fifo_level' parameter removed
->    - irq and clk_nr deleted from irblaster_dev struct
->    - some divisions replaced with DIV_ROUND_CLOSEST
->    - irb_send inlined
->    - fixed early completion in IRQ handler
->    - spin lock added before kfree
-> 
->  drivers/media/rc/Kconfig           |  10 +
->  drivers/media/rc/Makefile          |   1 +
->  drivers/media/rc/meson-irblaster.c | 400 +++++++++++++++++++++++++++++
->  3 files changed, 411 insertions(+)
->  create mode 100644 drivers/media/rc/meson-irblaster.c
-> 
-> diff --git a/drivers/media/rc/Kconfig b/drivers/media/rc/Kconfig
-> index d0a8326b75c2..6e60348e1bcf 100644
-> --- a/drivers/media/rc/Kconfig
-> +++ b/drivers/media/rc/Kconfig
-> @@ -246,6 +246,16 @@ config IR_MESON
->  	   To compile this driver as a module, choose M here: the
->  	   module will be called meson-ir.
->  
-> +config IR_MESON_IRBLASTER
-> +	tristate "Amlogic Meson IR blaster"
-> +	depends on ARCH_MESON || COMPILE_TEST
-> +	help
-> +	   Say Y if you want to use the IR blaster available on
-> +	   Amlogic Meson SoCs.
-> +
-> +	   To compile this driver as a module, choose M here: the
-> +	   module will be called meson-irblaster.
-> +
->  config IR_MTK
->  	tristate "Mediatek IR remote receiver"
->  	depends on ARCH_MEDIATEK || COMPILE_TEST
-> diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
-> index 692e9b6b203f..b108f2b0420c 100644
-> --- a/drivers/media/rc/Makefile
-> +++ b/drivers/media/rc/Makefile
-> @@ -28,6 +28,7 @@ obj-$(CONFIG_IR_ITE_CIR) += ite-cir.o
->  obj-$(CONFIG_IR_MCEUSB) += mceusb.o
->  obj-$(CONFIG_IR_FINTEK) += fintek-cir.o
->  obj-$(CONFIG_IR_MESON) += meson-ir.o
-> +obj-$(CONFIG_IR_MESON_IRBLASTER) += meson-irblaster.o
->  obj-$(CONFIG_IR_NUVOTON) += nuvoton-cir.o
->  obj-$(CONFIG_IR_ENE) += ene_ir.o
->  obj-$(CONFIG_IR_REDRAT3) += redrat3.o
-> diff --git a/drivers/media/rc/meson-irblaster.c b/drivers/media/rc/meson-irblaster.c
-> new file mode 100644
-> index 000000000000..758d9abf252e
-> --- /dev/null
-> +++ b/drivers/media/rc/meson-irblaster.c
-> @@ -0,0 +1,400 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/**
-> + * meson-irblaster.c - Amlogic Meson IR blaster driver
-> + *
-> + * Copyright (c) 2021, SberDevices. All Rights Reserved.
-> + *
-> + * Author: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/module.h>
-> +#include <linux/sched.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/of.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/of_irq.h>
-> +#include <linux/clk.h>
-> +#include <linux/slab.h>
-> +#include <media/rc-core.h>
-> +
-> +#define DEVICE_NAME	"Meson IR blaster"
-> +#define DRIVER_NAME	"meson-irblaster"
+Hello all,
 
-This driver uses the term "blaster" rather "transmitter" or "tx". Is
-there a good reason for this? None of the other IR transmitters use the
-term blaster; the rc core kapi also only talks about tx.
+One of our partners recently reported a perf regression in a driver
+which was being caused due to the overhead of setup/teardown of the
+sysfs attachment statistics in the dma_buf_attach()/dma_buf_detach()
+invocations. Since the driver's latency requirements were of the order
+of microseconds(~100us), the overhead was significant.
+Since this indicates that the solution might not work well for
+all DMA-BUF importers, I think the right thing to do might be to delete
+the same before it reaches upstream and becomes ABI :( I apologize for
+the inconvenience.
 
-"IR Blaster" seems like a marketing term for what is essentially a led
-switching on and off.
+This patch is based on the drm-misc-next branch. Please feel free to
+let me know if you would prefer that I send a full revert and new patch that
+adds the rest of the statistics.
 
-> +
-> +#define IRB_MOD_1US_CLK_RATE	1000000
-> +
-> +#define IRB_DEFAULT_CARRIER	38000
-> +#define IRB_DEFAULT_DUTY_CYCLE	50
-> +
-> +#define IRB_FIFO_LEN			128
-> +#define IRB_DEFAULT_MAX_FIFO_LEVEL	96
-> +
-> +#define IRB_ADDR0	0x0
-> +#define IRB_ADDR1	0x4
-> +#define IRB_ADDR2	0x8
-> +#define IRB_ADDR3	0xc
-> +
-> +#define IRB_MAX_DELAY	(1 << 10)
-> +#define IRB_DELAY_MASK	(IRB_MAX_DELAY - 1)
-> +
-> +/* IRCTRL_IR_BLASTER_ADDR0 */
-> +#define IRB_MOD_CLK(x)		((x) << 12)
-> +#define IRB_MOD_SYS_CLK		0
-> +#define IRB_MOD_XTAL3_CLK	1
-> +#define IRB_MOD_1US_CLK		2
-> +#define IRB_MOD_10US_CLK	3
-> +#define IRB_INIT_HIGH		BIT(2)
-> +#define IRB_ENABLE		BIT(0)
-> +
-> +/* IRCTRL_IR_BLASTER_ADDR2 */
-> +#define IRB_MOD_COUNT(lo, hi)	((((lo) - 1) << 16) | ((hi) - 1))
-> +
-> +/* IRCTRL_IR_BLASTER_ADDR2 */
-> +#define IRB_WRITE_FIFO	BIT(16)
-> +#define IRB_MOD_ENABLE	BIT(12)
-> +#define IRB_TB_1US	(0x0 << 10)
-> +#define IRB_TB_10US	(0x1 << 10)
-> +#define IRB_TB_100US	(0x2 << 10)
-> +#define IRB_TB_MOD_CLK	(0x3 << 10)
-> +
-> +/* IRCTRL_IR_BLASTER_ADDR3 */
-> +#define IRB_FIFO_THD_PENDING	BIT(16)
-> +#define IRB_FIFO_IRQ_ENABLE	BIT(8)
-> +
-> +struct irblaster_dev {
-> +	struct device *dev;
-> +	void __iomem *reg_base;
-> +	u32 *buf;
-> +	unsigned int buf_len;
-> +	unsigned int buf_head;
-> +	unsigned int carrier;
-> +	unsigned int duty_cycle;
-> +	spinlock_t lock;
-> +	struct completion completion;
-> +	unsigned int max_fifo_level;
-> +	unsigned long clk_rate;
-> +};
-> +
-> +static void irb_set_mod(struct irblaster_dev *irb)
-> +{
-> +	unsigned int cnt = DIV_ROUND_CLOSEST(irb->clk_rate, irb->carrier);
-> +	unsigned int pulse_cnt = DIV_ROUND_CLOSEST(cnt * irb->duty_cycle, 100);
-> +	unsigned int space_cnt = cnt - pulse_cnt;
-> +
-> +	dev_dbg(irb->dev, "F_mod = %uHz, T_mod = %luns, duty_cycle = %u%%\n",
-> +		irb->carrier, NSEC_PER_SEC / irb->clk_rate * cnt,
-> +		100 * pulse_cnt / cnt);
-> +
-> +	writel(IRB_MOD_COUNT(pulse_cnt, space_cnt),
-> +	       irb->reg_base + IRB_ADDR1);
-> +}
-> +
-> +static void irb_setup(struct irblaster_dev *irb, unsigned int clk_nr)
-> +{
-> +	unsigned int fifo_irq_threshold = IRB_FIFO_LEN - irb->max_fifo_level;
-> +
-> +	/*
-> +	 * Disable the blaster, set modulator clock tick and set initialize
-> +	 * output to be high. Set up carrier frequency and duty cycle. Then
-> +	 * unset initialize output. Enable FIFO interrupt, set FIFO interrupt
-> +	 * threshold. Finally, enable the blaster back.
-> +	 */
-> +	writel(~IRB_ENABLE & (IRB_MOD_CLK(clk_nr) | IRB_INIT_HIGH),
-> +	       irb->reg_base + IRB_ADDR0);
-> +	irb_set_mod(irb);
-> +	writel(readl(irb->reg_base + IRB_ADDR0) & ~IRB_INIT_HIGH,
-> +	       irb->reg_base + IRB_ADDR0);
-> +	writel(IRB_FIFO_IRQ_ENABLE | fifo_irq_threshold,
-> +	       irb->reg_base + IRB_ADDR3);
-> +	writel(readl(irb->reg_base + IRB_ADDR0) | IRB_ENABLE,
-> +	       irb->reg_base + IRB_ADDR0);
-> +}
-> +
-> +static u32 irb_prepare_pulse(struct irblaster_dev *irb, unsigned int time)
-> +{
-> +	unsigned int delay;
-> +	unsigned int tb = IRB_TB_MOD_CLK;
-> +	unsigned int tb_us = DIV_ROUND_CLOSEST(USEC_PER_SEC, irb->carrier);
-> +
-> +	delay = (DIV_ROUND_CLOSEST(time, tb_us) - 1) & IRB_DELAY_MASK;
-> +
-> +	return ((IRB_WRITE_FIFO | IRB_MOD_ENABLE) | tb | delay);
-> +}
-> +
-> +static u32 irb_prepare_space(struct irblaster_dev *irb, unsigned int time)
-> +{
-> +	unsigned int delay;
-> +	unsigned int tb = IRB_TB_100US;
-> +	unsigned int tb_us = 100;
-> +
-> +	if (time <= IRB_MAX_DELAY) {
-> +		tb = IRB_TB_1US;
-> +		tb_us = 1;
-> +	} else if (time <= 10 * IRB_MAX_DELAY) {
-> +		tb = IRB_TB_10US;
-> +		tb_us = 10;
-> +	} else if (time <= 100 * IRB_MAX_DELAY) {
-> +		tb = IRB_TB_100US;
-> +		tb_us = 100;
-> +	}
-> +
-> +	delay = (DIV_ROUND_CLOSEST(time, tb_us) - 1) & IRB_DELAY_MASK;
-> +
-> +	return ((IRB_WRITE_FIFO & ~IRB_MOD_ENABLE) | tb | delay);
-> +}
-> +
-> +static void irb_send_buffer(struct irblaster_dev *irb)
-> +{
-> +	unsigned int nr = 0;
-> +
-> +	while (irb->buf_head < irb->buf_len && nr < irb->max_fifo_level) {
-> +		writel(irb->buf[irb->buf_head], irb->reg_base + IRB_ADDR2);
-> +
-> +		irb->buf_head++;
-> +		nr++;
-> +	}
-> +}
-> +
-> +static bool irb_check_buf(struct irblaster_dev *irb,
-> +			  unsigned int *buf, unsigned int len)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < len; i++) {
-> +		unsigned int max_tb_us;
-> +		/*
-> +		 * Max space timebase is 100 us.
-> +		 * Pulse timebase equals to carrier period.
-> +		 */
-> +		if (i % 2 == 0)
-> +			max_tb_us = USEC_PER_SEC / irb->carrier;
-> +		else
-> +			max_tb_us = 100;
-> +
-> +		if (buf[i] >= max_tb_us * IRB_MAX_DELAY)
-> +			return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
-> +static void irb_fill_buf(struct irblaster_dev *irb, unsigned int *buf)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < irb->buf_len; i++) {
-> +		if (i % 2 == 0)
-> +			irb->buf[i] = irb_prepare_pulse(irb, buf[i]);
-> +		else
-> +			irb->buf[i] = irb_prepare_space(irb, buf[i]);
-> +	}
-> +}
-> +
-> +static irqreturn_t irb_irqhandler(int irq, void *data)
-> +{
-> +	unsigned long flags;
-> +	struct irblaster_dev *irb = data;
-> +
-> +	writel(readl(irb->reg_base + IRB_ADDR3) & ~IRB_FIFO_THD_PENDING,
-> +	       irb->reg_base + IRB_ADDR3);
-> +
-> +	spin_lock_irqsave(&irb->lock, flags);
-> +	if (irb->buf_head < irb->buf_len)
-> +		irb_send_buffer(irb);
-> +	else
-> +		complete(&irb->completion);
-> +	spin_unlock_irqrestore(&irb->lock, flags);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int irb_set_tx_carrier(struct rc_dev *rc, u32 carrier)
-> +{
-> +	struct irblaster_dev *irb = rc->priv;
-> +
-> +	if (carrier == 0)
-> +		return -EINVAL;
-> +
-> +	irb->carrier = carrier;
-> +	irb_set_mod(irb);
-> +
-> +	return 0;
-> +}
-> +
-> +static int irb_set_tx_duty_cycle(struct rc_dev *rc, u32 duty_cycle)
-> +{
-> +	struct irblaster_dev *irb = rc->priv;
-> +
-> +	irb->duty_cycle = duty_cycle;
-> +	irb_set_mod(irb);
-> +
-> +	return 0;
-> +}
-> +
-> +static int irb_tx_ir(struct rc_dev *rc, unsigned int *buf, unsigned int len)
-> +{
-> +	unsigned long flags;
-> +	struct irblaster_dev *irb = rc->priv;
-> +
-> +	if (!irb_check_buf(irb, buf, len))
-> +		return -EINVAL;
-> +
-> +	irb->buf = kmalloc_array(len, sizeof(u32), GFP_KERNEL);
+Regards,
+Hridya
 
-Right now the interrupt handler could still called, if the previous tx
-was interrupted early with a signal. This should also be in spinlock
-so we make sure we are not sending garbage.
+ .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  28 ----
+ drivers/dma-buf/dma-buf-sysfs-stats.c         | 140 +-----------------
+ drivers/dma-buf/dma-buf-sysfs-stats.h         |  27 ----
+ drivers/dma-buf/dma-buf.c                     |  16 --
+ include/linux/dma-buf.h                       |  17 ---
+ 5 files changed, 4 insertions(+), 224 deletions(-)
 
-> +	if (!irb->buf)
-> +		return -ENOMEM;
-> +
-> +	irb->buf_len = len;
-> +	irb->buf_head = 0;
-> +	irb_fill_buf(irb, buf);
-> +
-> +	reinit_completion(&irb->completion);
-> +
-> +	dev_dbg(irb->dev, "tx started, buffer length = %u\n", irb->buf_len);
-> +	spin_lock_irqsave(&irb->lock, flags);
-> +	irb_send_buffer(irb);
-> +	spin_unlock_irqrestore(&irb->lock, flags);
-> +	wait_for_completion_interruptible(&irb->completion);
-> +	dev_dbg(irb->dev, "tx completed\n");
+diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+index a243984ed420..5d3bc997dc64 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
++++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+@@ -22,31 +22,3 @@ KernelVersion:	v5.13
+ Contact:	Hridya Valsaraju <hridya@google.com>
+ Description:	This file is read-only and specifies the size of the DMA-BUF in
+ 		bytes.
+-
+-What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments
+-Date:		May 2021
+-KernelVersion:	v5.13
+-Contact:	Hridya Valsaraju <hridya@google.com>
+-Description:	This directory will contain subdirectories representing every
+-		attachment of the DMA-BUF.
+-
+-What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_uid>
+-Date:		May 2021
+-KernelVersion:	v5.13
+-Contact:	Hridya Valsaraju <hridya@google.com>
+-Description:	This directory will contain information on the attached device
+-		and the number of current distinct device mappings.
+-
+-What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_uid>/device
+-Date:		May 2021
+-KernelVersion:	v5.13
+-Contact:	Hridya Valsaraju <hridya@google.com>
+-Description:	This file is read-only and is a symlink to the attached device's
+-		sysfs entry.
+-
+-What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_uid>/map_counter
+-Date:		May 2021
+-KernelVersion:	v5.13
+-Contact:	Hridya Valsaraju <hridya@google.com>
+-Description:	This file is read-only and contains a map_counter indicating the
+-		number of distinct device mappings of the attachment.
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+index a2638e84199c..053baadcada9 100644
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.c
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+@@ -40,14 +40,11 @@
+  *
+  * * ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
+  * * ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
+- * * ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/device``
+- * * ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/map_counter``
+  *
+- * The information in the interface can also be used to derive per-exporter and
+- * per-device usage statistics. The data from the interface can be gathered
+- * on error conditions or other important events to provide a snapshot of
+- * DMA-BUF usage. It can also be collected periodically by telemetry to monitor
+- * various metrics.
++ * The information in the interface can also be used to derive per-exporter
++ * statistics. The data from the interface can be gathered on error conditions
++ * or other important events to provide a snapshot of DMA-BUF usage.
++ * It can also be collected periodically by telemetry to monitor various metrics.
+  *
+  * Detailed documentation about the interface is present in
+  * Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers.
+@@ -121,120 +118,6 @@ static struct kobj_type dma_buf_ktype = {
+ 	.default_groups = dma_buf_stats_default_groups,
+ };
+ 
+-#define to_dma_buf_attach_entry_from_kobj(x) container_of(x, struct dma_buf_attach_sysfs_entry, kobj)
+-
+-struct dma_buf_attach_stats_attribute {
+-	struct attribute attr;
+-	ssize_t (*show)(struct dma_buf_attach_sysfs_entry *sysfs_entry,
+-			struct dma_buf_attach_stats_attribute *attr, char *buf);
+-};
+-#define to_dma_buf_attach_stats_attr(x) container_of(x, struct dma_buf_attach_stats_attribute, attr)
+-
+-static ssize_t dma_buf_attach_stats_attribute_show(struct kobject *kobj,
+-						   struct attribute *attr,
+-						   char *buf)
+-{
+-	struct dma_buf_attach_stats_attribute *attribute;
+-	struct dma_buf_attach_sysfs_entry *sysfs_entry;
+-
+-	attribute = to_dma_buf_attach_stats_attr(attr);
+-	sysfs_entry = to_dma_buf_attach_entry_from_kobj(kobj);
+-
+-	if (!attribute->show)
+-		return -EIO;
+-
+-	return attribute->show(sysfs_entry, attribute, buf);
+-}
+-
+-static const struct sysfs_ops dma_buf_attach_stats_sysfs_ops = {
+-	.show = dma_buf_attach_stats_attribute_show,
+-};
+-
+-static ssize_t map_counter_show(struct dma_buf_attach_sysfs_entry *sysfs_entry,
+-				struct dma_buf_attach_stats_attribute *attr,
+-				char *buf)
+-{
+-	return sysfs_emit(buf, "%u\n", sysfs_entry->map_counter);
+-}
+-
+-static struct dma_buf_attach_stats_attribute map_counter_attribute =
+-	__ATTR_RO(map_counter);
+-
+-static struct attribute *dma_buf_attach_stats_default_attrs[] = {
+-	&map_counter_attribute.attr,
+-	NULL,
+-};
+-ATTRIBUTE_GROUPS(dma_buf_attach_stats_default);
+-
+-static void dma_buf_attach_sysfs_release(struct kobject *kobj)
+-{
+-	struct dma_buf_attach_sysfs_entry *sysfs_entry;
+-
+-	sysfs_entry = to_dma_buf_attach_entry_from_kobj(kobj);
+-	kfree(sysfs_entry);
+-}
+-
+-static struct kobj_type dma_buf_attach_ktype = {
+-	.sysfs_ops = &dma_buf_attach_stats_sysfs_ops,
+-	.release = dma_buf_attach_sysfs_release,
+-	.default_groups = dma_buf_attach_stats_default_groups,
+-};
+-
+-void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach)
+-{
+-	struct dma_buf_attach_sysfs_entry *sysfs_entry;
+-
+-	sysfs_entry = attach->sysfs_entry;
+-	if (!sysfs_entry)
+-		return;
+-
+-	sysfs_delete_link(&sysfs_entry->kobj, &attach->dev->kobj, "device");
+-
+-	kobject_del(&sysfs_entry->kobj);
+-	kobject_put(&sysfs_entry->kobj);
+-}
+-
+-int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
+-			       unsigned int uid)
+-{
+-	struct dma_buf_attach_sysfs_entry *sysfs_entry;
+-	int ret;
+-	struct dma_buf *dmabuf;
+-
+-	if (!attach)
+-		return -EINVAL;
+-
+-	dmabuf = attach->dmabuf;
+-
+-	sysfs_entry = kzalloc(sizeof(struct dma_buf_attach_sysfs_entry),
+-			      GFP_KERNEL);
+-	if (!sysfs_entry)
+-		return -ENOMEM;
+-
+-	sysfs_entry->kobj.kset = dmabuf->sysfs_entry->attach_stats_kset;
+-
+-	attach->sysfs_entry = sysfs_entry;
+-
+-	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_attach_ktype,
+-				   NULL, "%u", uid);
+-	if (ret)
+-		goto kobj_err;
+-
+-	ret = sysfs_create_link(&sysfs_entry->kobj, &attach->dev->kobj,
+-				"device");
+-	if (ret)
+-		goto link_err;
+-
+-	return 0;
+-
+-link_err:
+-	kobject_del(&sysfs_entry->kobj);
+-kobj_err:
+-	kobject_put(&sysfs_entry->kobj);
+-	attach->sysfs_entry = NULL;
+-
+-	return ret;
+-}
+ void dma_buf_stats_teardown(struct dma_buf *dmabuf)
+ {
+ 	struct dma_buf_sysfs_entry *sysfs_entry;
+@@ -243,7 +126,6 @@ void dma_buf_stats_teardown(struct dma_buf *dmabuf)
+ 	if (!sysfs_entry)
+ 		return;
+ 
+-	kset_unregister(sysfs_entry->attach_stats_kset);
+ 	kobject_del(&sysfs_entry->kobj);
+ 	kobject_put(&sysfs_entry->kobj);
+ }
+@@ -290,7 +172,6 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+ {
+ 	struct dma_buf_sysfs_entry *sysfs_entry;
+ 	int ret;
+-	struct kset *attach_stats_kset;
+ 
+ 	if (!dmabuf || !dmabuf->file)
+ 		return -EINVAL;
+@@ -315,21 +196,8 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+ 	if (ret)
+ 		goto err_sysfs_dmabuf;
+ 
+-	/* create the directory for attachment stats */
+-	attach_stats_kset = kset_create_and_add("attachments",
+-						&dmabuf_sysfs_no_uevent_ops,
+-						&sysfs_entry->kobj);
+-	if (!attach_stats_kset) {
+-		ret = -ENOMEM;
+-		goto err_sysfs_attach;
+-	}
+-
+-	sysfs_entry->attach_stats_kset = attach_stats_kset;
+-
+ 	return 0;
+ 
+-err_sysfs_attach:
+-	kobject_del(&sysfs_entry->kobj);
+ err_sysfs_dmabuf:
+ 	kobject_put(&sysfs_entry->kobj);
+ 	dmabuf->sysfs_entry = NULL;
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-buf-sysfs-stats.h
+index 5f4703249117..a49c6e2650cc 100644
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.h
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
+@@ -14,23 +14,8 @@ int dma_buf_init_sysfs_statistics(void);
+ void dma_buf_uninit_sysfs_statistics(void);
+ 
+ int dma_buf_stats_setup(struct dma_buf *dmabuf);
+-int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
+-			       unsigned int uid);
+-static inline void dma_buf_update_attachment_map_count(struct dma_buf_attachment *attach,
+-						       int delta)
+-{
+-	struct dma_buf_attach_sysfs_entry *entry = attach->sysfs_entry;
+ 
+-	entry->map_counter += delta;
+-}
+ void dma_buf_stats_teardown(struct dma_buf *dmabuf);
+-void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach);
+-static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *dmabuf)
+-{
+-	struct dma_buf_sysfs_entry *entry = dmabuf->sysfs_entry;
+-
+-	return entry->attachment_uid++;
+-}
+ #else
+ 
+ static inline int dma_buf_init_sysfs_statistics(void)
+@@ -44,19 +29,7 @@ static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
+ {
+ 	return 0;
+ }
+-static inline int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
+-					     unsigned int uid)
+-{
+-	return 0;
+-}
+ 
+ static inline void dma_buf_stats_teardown(struct dma_buf *dmabuf) {}
+-static inline void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach) {}
+-static inline void dma_buf_update_attachment_map_count(struct dma_buf_attachment *attach,
+-						       int delta) {}
+-static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *dmabuf)
+-{
+-	return 0;
+-}
+ #endif
+ #endif // _DMA_BUF_SYSFS_STATS_H
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 510b42771974..b1a6db71c656 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -738,7 +738,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+ {
+ 	struct dma_buf_attachment *attach;
+ 	int ret;
+-	unsigned int attach_uid;
+ 
+ 	if (WARN_ON(!dmabuf || !dev))
+ 		return ERR_PTR(-EINVAL);
+@@ -764,13 +763,8 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+ 	}
+ 	dma_resv_lock(dmabuf->resv, NULL);
+ 	list_add(&attach->node, &dmabuf->attachments);
+-	attach_uid = dma_buf_update_attach_uid(dmabuf);
+ 	dma_resv_unlock(dmabuf->resv);
+ 
+-	ret = dma_buf_attach_stats_setup(attach, attach_uid);
+-	if (ret)
+-		goto err_sysfs;
+-
+ 	/* When either the importer or the exporter can't handle dynamic
+ 	 * mappings we cache the mapping here to avoid issues with the
+ 	 * reservation object lock.
+@@ -797,7 +791,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+ 			dma_resv_unlock(attach->dmabuf->resv);
+ 		attach->sgt = sgt;
+ 		attach->dir = DMA_BIDIRECTIONAL;
+-		dma_buf_update_attachment_map_count(attach, 1 /* delta */);
+ 	}
+ 
+ 	return attach;
+@@ -814,7 +807,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+ 	if (dma_buf_is_dynamic(attach->dmabuf))
+ 		dma_resv_unlock(attach->dmabuf->resv);
+ 
+-err_sysfs:
+ 	dma_buf_detach(dmabuf, attach);
+ 	return ERR_PTR(ret);
+ }
+@@ -864,7 +856,6 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+ 			dma_resv_lock(attach->dmabuf->resv, NULL);
+ 
+ 		__unmap_dma_buf(attach, attach->sgt, attach->dir);
+-		dma_buf_update_attachment_map_count(attach, -1 /* delta */);
+ 
+ 		if (dma_buf_is_dynamic(attach->dmabuf)) {
+ 			dmabuf->ops->unpin(attach);
+@@ -878,7 +869,6 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+ 	if (dmabuf->ops->detach)
+ 		dmabuf->ops->detach(dmabuf, attach);
+ 
+-	dma_buf_attach_stats_teardown(attach);
+ 	kfree(attach);
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_detach);
+@@ -1020,10 +1010,6 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+ 		}
+ 	}
+ #endif /* CONFIG_DMA_API_DEBUG */
+-
+-	if (!IS_ERR(sg_table))
+-		dma_buf_update_attachment_map_count(attach, 1 /* delta */);
+-
+ 	return sg_table;
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_map_attachment);
+@@ -1061,8 +1047,6 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
+ 	if (dma_buf_is_dynamic(attach->dmabuf) &&
+ 	    !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
+ 		dma_buf_unpin(attach);
+-
+-	dma_buf_update_attachment_map_count(attach, -1 /* delta */);
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_unmap_attachment);
+ 
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index 2b814fde0d11..678b2006be78 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -444,15 +444,6 @@ struct dma_buf {
+ 	struct dma_buf_sysfs_entry {
+ 		struct kobject kobj;
+ 		struct dma_buf *dmabuf;
+-
+-		/**
+-		 * @sysfs_entry.attachment_uid:
+-		 *
+-		 * This is protected by the dma_resv_lock() on @resv and is
+-		 * incremented on each attach.
+-		 */
+-		unsigned int attachment_uid;
+-		struct kset *attach_stats_kset;
+ 	} *sysfs_entry;
+ #endif
+ };
+@@ -504,7 +495,6 @@ struct dma_buf_attach_ops {
+  * @importer_ops: importer operations for this attachment, if provided
+  * dma_buf_map/unmap_attachment() must be called with the dma_resv lock held.
+  * @importer_priv: importer specific attachment data.
+- * @sysfs_entry: For exposing information about this attachment in sysfs.
+  *
+  * This structure holds the attachment information between the dma_buf buffer
+  * and its user device(s). The list contains one attachment struct per device
+@@ -525,13 +515,6 @@ struct dma_buf_attachment {
+ 	const struct dma_buf_attach_ops *importer_ops;
+ 	void *importer_priv;
+ 	void *priv;
+-#ifdef CONFIG_DMABUF_SYSFS_STATS
+-	/* for sysfs stats */
+-	struct dma_buf_attach_sysfs_entry {
+-		struct kobject kobj;
+-		unsigned int map_counter;
+-	} *sysfs_entry;
+-#endif
+ };
+ 
+ /**
+-- 
+2.32.0.93.g670b81a890-goog
 
-Here the debug talks about tx, not blasting.
-
-> +
-> +	spin_lock_irqsave(&irb->lock, flags);
-> +	kfree(irb->buf);
-> +	irb->buf = NULL;
-> +	irb->buf_len = 0;
-> +	spin_unlock_irqrestore(&irb->lock, flags);
-> +
-> +	return len;
-> +}
-> +
-> +static int irb_mod_clock_probe(struct irblaster_dev *irb, unsigned int *clk_nr)
-> +{
-> +	struct device_node *np = irb->dev->of_node;
-> +	struct clk *clock;
-> +
-> +	if (!np)
-> +		return -ENODEV;
-> +
-> +	clock = devm_clk_get(irb->dev, "xtal");
-> +	if (IS_ERR(clock) || clk_prepare_enable(clock))
-> +		return -ENODEV;
-> +
-> +	*clk_nr = IRB_MOD_XTAL3_CLK;
-> +	irb->clk_rate = clk_get_rate(clock) / 3;
-> +
-> +	if (irb->clk_rate < IRB_MOD_1US_CLK_RATE) {
-> +		*clk_nr = IRB_MOD_1US_CLK;
-> +		irb->clk_rate = IRB_MOD_1US_CLK_RATE;
-> +	}
-> +
-> +	dev_info(irb->dev, "F_clk = %luHz\n", irb->clk_rate);
-> +
-> +	return 0;
-> +}
-> +
-> +static int __init irblaster_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct irblaster_dev *irb;
-> +	struct rc_dev *rc;
-> +	int irq;
-> +	unsigned int clk_nr;
-> +	int ret;
-> +
-> +	irb = devm_kzalloc(dev, sizeof(*irb), GFP_KERNEL);
-> +	if (!irb)
-> +		return -ENOMEM;
-> +
-> +	irb->reg_base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(irb->reg_base))
-> +		return PTR_ERR(irb->reg_base);
-> +
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0) {
-> +		dev_err(dev, "no irq resource found\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (of_property_read_u32(dev->of_node, "max-fifo-level",
-> +				   &irb->max_fifo_level))
-> +		irb->max_fifo_level = IRB_DEFAULT_MAX_FIFO_LEVEL;
-> +	else if (irb->max_fifo_level > IRB_FIFO_LEN)
-> +		irb->max_fifo_level = IRB_DEFAULT_MAX_FIFO_LEVEL;
-> +	dev_dbg(dev, "max FIFO level set to %u\n", irb->max_fifo_level);
-> +
-> +	irb->dev = dev;
-> +	irb->carrier = IRB_DEFAULT_CARRIER;
-> +	irb->duty_cycle = IRB_DEFAULT_DUTY_CYCLE;
-> +	init_completion(&irb->completion);
-> +	spin_lock_init(&irb->lock);
-> +
-> +	ret = irb_mod_clock_probe(irb, &clk_nr);
-> +	if (ret) {
-> +		dev_err(dev, "modulator clock setup failed\n");
-> +		return ret;
-> +	}
-> +	irb_setup(irb, clk_nr);
-> +
-> +	ret = devm_request_irq(dev, irq,
-> +			       irb_irqhandler,
-> +			       IRQF_TRIGGER_RISING,
-> +			       DRIVER_NAME, irb);
-> +	if (ret) {
-> +		dev_err(dev, "irq request failed\n");
-> +		return ret;
-> +	}
-> +
-> +	rc = rc_allocate_device(RC_DRIVER_IR_RAW_TX);
-> +	if (!rc)
-> +		return -ENOMEM;
-> +
-> +	rc->driver_name = DRIVER_NAME;
-> +	rc->device_name = DEVICE_NAME;
-> +	rc->priv = irb;
-> +
-> +	rc->tx_ir = irb_tx_ir;
-> +	rc->s_tx_carrier = irb_set_tx_carrier;
-> +	rc->s_tx_duty_cycle = irb_set_tx_duty_cycle;
-> +
-> +	ret = rc_register_device(rc);
-> +	if (ret < 0) {
-> +		dev_err(dev, "rc_dev registration failed\n");
-> +		rc_free_device(rc);
-> +		return ret;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, rc);
-> +
-> +	return 0;
-> +}
-> +
-> +static int irblaster_remove(struct platform_device *pdev)
-> +{
-> +	struct rc_dev *rc = platform_get_drvdata(pdev);
-> +
-> +	rc_unregister_device(rc);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id irblaster_dt_match[] = {
-> +	{
-> +		.compatible = "amlogic,meson-g12a-irblaster",
-> +	},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, irblaster_dt_match);
-> +
-> +static struct platform_driver irblaster_pd = {
-> +	.remove = irblaster_remove,
-> +	.driver = {
-> +		.name = DRIVER_NAME,
-> +		.owner  = THIS_MODULE,
-> +		.of_match_table = irblaster_dt_match,
-> +	},
-> +};
-> +
-> +module_platform_driver_probe(irblaster_pd, irblaster_probe);
-> +
-> +MODULE_DESCRIPTION("Meson IR blaster driver");
-> +MODULE_AUTHOR("Viktor Prutyanov <viktor.prutyanov@phystech.edu>");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.21.0
