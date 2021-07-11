@@ -2,140 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82F9B3C3729
-	for <lists+linux-media@lfdr.de>; Sun, 11 Jul 2021 00:43:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB8CE3C39AB
+	for <lists+linux-media@lfdr.de>; Sun, 11 Jul 2021 02:37:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229771AbhGJWqS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Jul 2021 18:46:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34132 "EHLO
+        id S231286AbhGKAk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Jul 2021 20:40:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbhGJWqS (ORCPT
+        with ESMTP id S230408AbhGKAk2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Jul 2021 18:46:18 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3030C0613DD;
-        Sat, 10 Jul 2021 15:43:32 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B14C4255;
-        Sun, 11 Jul 2021 00:43:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1625957010;
-        bh=Rv1bX3T7hsw9kcMhjL3G4sz+4wp/ROBxyj3X4cEoOtw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CSEFeDYcL+4aEwuzw0/71OSQCzR1QqZiV7nQLmCwt0JAPsF1iY/hK2ljAKY0Phy+J
-         mymjGdEf4LuNkj8n/rdseucA05dtsjzU0HhgEhj+qnVT23HzUQe4pNUEpwdIPyQqEN
-         WtwbDptwVl7XDAQmyJ0Aa2W2Apse0VqVVhT82M4g=
-Date:   Sun, 11 Jul 2021 01:42:44 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     Dennis Rachui <drachui@de.adit-jv.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
-Message-ID: <YOoiZM+oicZBD4o1@pendragon.ideasonboard.com>
-References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
- <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
+        Sat, 10 Jul 2021 20:40:28 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97AEAC0613DD
+        for <linux-media@vger.kernel.org>; Sat, 10 Jul 2021 17:37:41 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id v14so145620plg.9
+        for <linux-media@vger.kernel.org>; Sat, 10 Jul 2021 17:37:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1S82jB2glc6MuXCSx+F6qcMcinaDMIJFtHSSuuKoZrw=;
+        b=DyCR6QNCzeST6aFJs3AcbpWgpUe3OmQEJ4S8uC3MUsPl+1SkQtLEtlDsDrbEz5I9CX
+         ZksRRxLemJdB2lorzvQI9akz4ORiqoofd0953qpAIKnKPmtjS5QH6/3jwBIX/JBbaF7a
+         ih1LKFgVDmaXYhbDqMG+XEMuEsPrE2oGnFxyL9UUn3dIT8nUV261wyz1U3R1DNyVjxov
+         r0JRV3/1BludQQvKDADwAX4WdjDvWUkFWTXWdC06R2w4D7+k7A+u62iMtLhB4FZtGI8y
+         fTxCHNKdxJnxTc7Dold/ArL19tqLn9xpX2e6nZ8W1ptPm0XvFIj+J4SKymXYUk2Gz1gi
+         dC2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1S82jB2glc6MuXCSx+F6qcMcinaDMIJFtHSSuuKoZrw=;
+        b=W1U7rJkx0HufmEzeF8JqTc3iRf2xhCrJ0NlUX5d2CuDp8mDi1VK1rE7l+OpNwb6L+r
+         aOxMAbAVenunhooE9Lg4+r9q07rolbhzLbZmwFbiL28RgGUqNP/WEoJ2dEZyhl01UHcw
+         PgHdAvQhT2Y5sGqeTZQy1slCd36MbzG4ZLvkQjDxMD1/RT/90aPAtqNTZCFfGoNTDX9K
+         k3dOapjmIbpiDPAn4kaFvXHVqon3quLBxFleF0DnouaQckGk5csTPZz8bnJKB+N1QBNA
+         b6moERcdRL+UPBWhD2brgSb1KexL1fpeJ/0Yh9DwVi3Y/TS0VC0E9cOf+ukF9uyE4CRn
+         UXvA==
+X-Gm-Message-State: AOAM531nszSHr9+VlIoYtoqREGNKtLhh9gpKzZ0ZIXSN/Eec7d68Y0g2
+        1iYqV0fXdUjLNIAUrhJBqGNxdIYPwI650g==
+X-Google-Smtp-Source: ABdhPJy+L6HOclNxxBjmQAMBjF+en9xAOPWh5ShgcFon4nyDWHTTwSrmOKR/1F73GTr3lmsg8zpu4A==
+X-Received: by 2002:a17:90a:b110:: with SMTP id z16mr45574207pjq.170.1625963861106;
+        Sat, 10 Jul 2021 17:37:41 -0700 (PDT)
+Received: from dbcomp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
+        by smtp.gmail.com with ESMTPSA id j2sm10794130pfj.168.2021.07.10.17.37.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Jul 2021 17:37:40 -0700 (PDT)
+From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, jaffe1@gmail.com,
+        Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Subject: [PATCH v3 0/2] cec: Timer Programming
+Date:   Sat, 10 Jul 2021 17:37:34 -0700
+Message-Id: <cover.1625962440.git.deborahbrouwer3563@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+This is part of an Outreachy project to expand the testing of
+Timer Programming messages as handled by CEC adapters.
 
-On Fri, Jul 09, 2021 at 04:20:40PM +0200, Niklas Söderlund wrote:
-> On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
-> > Verify that streaming is not active before setting the pad format.
-> > 
-> > According to the VIDIOC documentation [1] changes to the active
-> > format of a media pad via the VIDIOC_SUBDEV_S_FMT ioctl are
-> > applied to the underlying hardware.
-> > In rcar-csi2 a format change only applies to hardware, when the
-> > pipeline is started. While the device is not in use, it is therefore
-> > okay to update the format.
-> > 
-> > However, when the pipeline is active, this leads to a format
-> > mismatch between driver and device.
-> > Other applications can query the format with
-> > VIDIOC_SUBDEV_G_FMT at any time and would be reported
-> > a format that does not fit the current stream.
-> > 
-> > This commit prevents format update while streaming is active
-> > and returns -EBUSY to user space, as suggested by [1].
-> > 
-> > [1] Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
-> 
-> I like that this is addressed, but I wonder is this not something that 
-> should be fixed in the V4L2 core and not in drivers?
+Changes since v2:
+	Patch 1/2: cec: expand Timer Programming tests
+	- use 3-character abbreviations for months
+	- in set_timer tests, simplify the method for finding "tomorrow"
+	- use fixed dates for timer_error tests
+	- use full leap-year algorithm
+	- add source type and recording sequence as ways to compare timers
+	- add source type and recording sequence to print_timers()
+	- replace timer field end_time with duration in seconds
+	- replace timer_duplicate function with std::set::find
+	- do not truncate overlapped timers, just set them with a warning
+	Patch 2/2: cec-follower: emulate programmed timer recordings
+	- new patch
 
-Some drivers may support format changes during streaming (that's allowed
-by the V4L2 API, I'm not sure if it's used anywhere though). While I'd
-favour not duplicating the same logic in different (and differently
-buggy) ways in drivers, I'm not sure how this could be implemented in a
-sane way in the V4L2 core in its current state.
+Changes since v1:
+	- rename functions for clarity
+	- set most test timers as a function of current time, not fixed times
+	- use time_t instead of struct tm to hold start/stop times
+	- use std::set instead of std::list to hold timers
+	- add repeat timers (recording sequence) emulation
 
-> > Note: after creation of this commit, it was noticed that Steve
-> > Longerbeam has a very similar solution in his fork.
-> > 
-> > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
-> > Cc: Steve Longerbeam <slongerbeam@gmail.com>
-> > Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
-> > ---
-> >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 ++++++++++++++++++++-
-> >  1 file changed, 20 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > index e28eff0..98152e1 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > @@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
-> >  {
-> >  	struct rcar_csi2 *priv = sd_to_csi2(sd);
-> >  	struct v4l2_mbus_framefmt *framefmt;
-> > +	int ret = 0;
-> > +
-> > +	mutex_lock(&priv->lock);
-> >  
-> >  	if (!rcsi2_code_to_fmt(format->format.code))
-> >  		format->format.code = rcar_csi2_formats[0].code;
-> >  
-> >  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > +
-> > +		/*
-> > +		 * Do not apply changes to active format while streaming.
-> > +		 *
-> > +		 * Since video streams could be forwarded from sink pad to any
-> > +		 * source pad (depending on CSI-2 channel routing), all
-> > +		 * media pads are effected by this rule.
-> > +		 */
-> > +		if (priv->stream_count > 0) {
-> > +			ret = -EBUSY;
-> > +			goto out;
-> > +		}
-> > +
-> >  		priv->mf = format->format;
-> >  	} else {
-> >  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
-> >  		*framefmt = format->format;
-> >  	}
-> >  
-> > -	return 0;
-> > +out:
-> > +	mutex_unlock(&priv->lock);
-> > +
-> > +	return ret;
-> >  }
-> >  
-> >  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
+Deborah Brouwer (2):
+  cec: expand Timer Programming tests
+  cec-follower: emulate programmed timer recordings
+
+ utils/cec-compliance/cec-compliance.cpp |   1 +
+ utils/cec-compliance/cec-compliance.h   |   1 +
+ utils/cec-compliance/cec-test.cpp       | 512 ++++++++++++++++++++----
+ utils/cec-follower/cec-follower.cpp     |  59 +++
+ utils/cec-follower/cec-follower.h       |  44 ++
+ utils/cec-follower/cec-processing.cpp   |  56 +++
+ utils/cec-follower/cec-tuner.cpp        | 245 +++++++++++-
+ 7 files changed, 824 insertions(+), 94 deletions(-)
 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
