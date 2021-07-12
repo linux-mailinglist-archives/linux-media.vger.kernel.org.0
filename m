@@ -2,71 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1938A3C64BE
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jul 2021 22:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3C043C64CD
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jul 2021 22:14:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234152AbhGLUJd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jul 2021 16:09:33 -0400
-Received: from mail-il1-f181.google.com ([209.85.166.181]:34666 "EHLO
-        mail-il1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231693AbhGLUJd (ORCPT
+        id S236730AbhGLUQ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jul 2021 16:16:27 -0400
+Received: from mail-il1-f170.google.com ([209.85.166.170]:43934 "EHLO
+        mail-il1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234060AbhGLUQ1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jul 2021 16:09:33 -0400
-Received: by mail-il1-f181.google.com with SMTP id e13so20894856ilc.1;
-        Mon, 12 Jul 2021 13:06:44 -0700 (PDT)
+        Mon, 12 Jul 2021 16:16:27 -0400
+Received: by mail-il1-f170.google.com with SMTP id w1so18856981ilg.10;
+        Mon, 12 Jul 2021 13:13:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=jNoeX8wO21WvMFCN8qLPmxb7NixIaEwIKhRa/jBZc4c=;
-        b=t22ceyA++Z/FsUHH9/iJdIR1za/qHX5YzspRZDjXD5EwvSD3UH85agFkXNRv1Y/wCd
-         uZPyHNC6+Oi+us+QHi2H6d06FPgBhdX8q4qfcYC3nGcHjmaFXgWSRCYDm5qGbnthB0KP
-         R8qkAD+2fmkitAv9qJ8M2rW9J+l65mwBoSpihbMeKIROVX5uDdbRHFaBLCn8GXG1crLj
-         fRZTvjhJiHzrfRYIzKfD7xfNTQtvrR48K5TFAaMBgncxLYpMoAxcI9G7XZiWLFbixF6E
-         ZVZrKBOrFj8OVpF4z4oa4c8q+T7YYWXOBwfAF1z8+qzKo1jrIFbeA8AXnp4wySiEaWVS
-         tGmA==
-X-Gm-Message-State: AOAM532tohKBPfnIWtBnJav6nRw2nVSO/mf9gDi5u1UtAWLtg4eL3Pcr
-        BheCrhZqtre9W4flRdbsYA==
-X-Google-Smtp-Source: ABdhPJy3Ws07cjAcuQgmhwGmkg9rBtZCWcMS3vUCjkNdSNq8fw2r4z5SkuCIBcSAUyqhaEvi8EoI1w==
-X-Received: by 2002:a92:660f:: with SMTP id a15mr427034ilc.182.1626120404334;
-        Mon, 12 Jul 2021 13:06:44 -0700 (PDT)
+        bh=J4BE9HfxaLZmCvwhgA1QvJulPQBGkW1jQI+e/oTW1Ho=;
+        b=Mk/VZqQvX6PmBHfwLfr+QU3Nvr3oeRKmiKf9EhtjLR8C5wHqA+O5JWs8PiLTtGF17X
+         K13YNaEuPqN7WqmWmeGdpnExKRqF2E7r/PN1bh2m9i1/v1W7TE91Nd7mw8Bm34VAMhFw
+         zWbHRhRWT9rIOGU3OBeYVQCL4BE09asbjyrTRmtmArIhX8D6TP5by+bN2BSkanWvRJo+
+         kYxmi1wtTHa+f99ERSDYyGumI0CbFCVpT2TefN0eypp6VbV0uBNUlKJmiUX02TfpfU/u
+         E7Qs6SoJ9WTWBnd/PLXCmNSAL5zY1WpgywGqf3YmQFhGhp7g8NuGR7RV0W1swswFKRja
+         G4iA==
+X-Gm-Message-State: AOAM530Aq1jHt+cJRGnhc5xYoPgCLuUNiekHM/Uf+TTOnTB0GSHfTC1d
+        q+tin7HBeR7ocjZSrXIP7w==
+X-Google-Smtp-Source: ABdhPJzJvSIq3juD8meJlVB+592itIP+P7qaJQlR7fMQnSh7K72wyxxHPKOD+Z2WC0QkyDA4uWbBtQ==
+X-Received: by 2002:a92:3302:: with SMTP id a2mr436832ilf.62.1626120817448;
+        Mon, 12 Jul 2021 13:13:37 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id g22sm8572430ion.10.2021.07.12.13.06.42
+        by smtp.gmail.com with ESMTPSA id p19sm8586263iob.7.2021.07.12.13.13.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jul 2021 13:06:43 -0700 (PDT)
-Received: (nullmailer pid 2400326 invoked by uid 1000);
-        Mon, 12 Jul 2021 20:06:42 -0000
-Date:   Mon, 12 Jul 2021 14:06:42 -0600
+        Mon, 12 Jul 2021 13:13:36 -0700 (PDT)
+Received: (nullmailer pid 2411363 invoked by uid 1000);
+        Mon, 12 Jul 2021 20:13:33 -0000
+Date:   Mon, 12 Jul 2021 14:13:33 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Heiko Stuebner <heiko@sntech.de>
-Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, ezequiel@collabora.com,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
-        hverkuil-cisco@xs4all.nl, helen.koike@collabora.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        Laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com
-Subject: Re: [PATCH v6 09/10] dt-bindings: media: rkisp1: document px30 isp
- compatible
-Message-ID: <20210712200642.GA2400244@robh.at.kernel.org>
-References: <20210618130238.4171196-1-heiko@sntech.de>
- <20210618130238.4171196-10-heiko@sntech.de>
+To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>
+Cc:     devicetree@vger.kernel.org, robert.chiras@nxp.com,
+        linux-arm-kernel@lists.infradead.org, daniel.baluta@nxp.com,
+        hverkuil-cisco@xs4all.nl, peng.fan@nxp.com, aisheng.dong@nxp.com,
+        linux-kernel@vger.kernel.org, linux-imx@nxp.com,
+        s.hauer@pengutronix.de, Mirela Rabulea <mirela.rabulea@nxp.com>,
+        laurentiu.palcu@nxp.com, guoniu.zhou@nxp.com,
+        paul.kocialkowski@bootlin.com, mchehab@kernel.org,
+        robh+dt@kernel.org, linux-media@vger.kernel.org,
+        shawnguo@kernel.org, kernel@pengutronix.de, ezequiel@collabora.com,
+        p.zabel@pengutronix.de
+Subject: Re: [PATCH v14 1/2] media: dt-bindings: imx-jpeg: Add compatible for
+ i.MX8QM JPEG codec
+Message-ID: <20210712201333.GA2411329@robh.at.kernel.org>
+References: <20210619143611.17280-1-mirela.rabulea@oss.nxp.com>
+ <20210619143611.17280-2-mirela.rabulea@oss.nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210618130238.4171196-10-heiko@sntech.de>
+In-Reply-To: <20210619143611.17280-2-mirela.rabulea@oss.nxp.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 18 Jun 2021 15:02:37 +0200, Heiko Stuebner wrote:
-> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+On Sat, 19 Jun 2021 17:36:10 +0300, Mirela Rabulea (OSS) wrote:
+> From: Mirela Rabulea <mirela.rabulea@nxp.com>
 > 
-> Add the compatible for the px30-variant of the rkisp
+> Add two more compatibles: "nxp,imx8qm-jpgdec" and " nxp,imx8qm-jpgenc".
+> Also update the compatible property to ensure mutually exclusive usage of
+> encoder and decoder compatibles.
+> Update examples.
 > 
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
 > ---
->  .../bindings/media/rockchip-isp1.yaml         | 67 ++++++++++++++++++-
->  1 file changed, 66 insertions(+), 1 deletion(-)
+> Changes in v14:
+>   Address feedback from Aisheng Dong, do not use anyOf
+> 
+>  .../bindings/media/nxp,imx8-jpeg.yaml         | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
