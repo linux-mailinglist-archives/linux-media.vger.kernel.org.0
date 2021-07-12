@@ -2,125 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2B753C59B2
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jul 2021 13:02:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C72303C59EA
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jul 2021 13:03:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357707AbhGLJHn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jul 2021 05:07:43 -0400
-Received: from mickerik.phytec.de ([195.145.39.210]:45270 "EHLO
-        mickerik.phytec.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382904AbhGLJCa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jul 2021 05:02:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
-        q=dns/txt; i=@phytec.de; t=1626080137; x=1628672137;
-        h=From:Sender:Reply-To:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=uC8cBQL1xFdGBkFPFEx8KFNhS1ChOLH8o8ZHun1kY00=;
-        b=bH8rxWtzV2H/DIIZ3MBOQc2kPIm60IM50J0Bm2EbE2gWRXG4XkmRsq5PJwlYohek
-        +n5es4yCod/CMyBGpPdAnfGIbkl56xI3ST6Z+Vc5VgGYD7rK2FxsjwIDQC6COx+J
-        MfT22lu6dLtwpalX/Ecz4qMbA5eOs1F3h340DUcZKOM=;
-X-AuditID: c39127d2-1e4f970000001daf-27-60ec03896928
-Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
-        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id ED.8D.07599.9830CE06; Mon, 12 Jul 2021 10:55:37 +0200 (CEST)
-Received: from lws-riedmueller.phytec.de ([172.16.23.108])
-          by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-          with ESMTP id 2021071210553709-1131636 ;
-          Mon, 12 Jul 2021 10:55:37 +0200 
-From:   Stefan Riedmueller <s.riedmueller@phytec.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Stefan Riedmueller <s.riedmueller@phytec.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 6/6] media: dt-bindings: mt9p031: Add missing required properties
-Date:   Mon, 12 Jul 2021 10:55:35 +0200
-Message-Id: <20210712085535.11907-7-s.riedmueller@phytec.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210712085535.11907-1-s.riedmueller@phytec.de>
-References: <20210712085535.11907-1-s.riedmueller@phytec.de>
+        id S1386807AbhGLJQM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jul 2021 05:16:12 -0400
+Received: from gusto.metanet.ch ([80.74.154.155]:54732 "EHLO gusto.metanet.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1358538AbhGLJOc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 12 Jul 2021 05:14:32 -0400
+X-Greylist: delayed 495 seconds by postgrey-1.27 at vger.kernel.org; Mon, 12 Jul 2021 05:14:32 EDT
+Received: from localhost (localhost [127.0.0.1]) by gusto.metanet.ch (Postfix) with ESMTPSA id 2710C4F01584;
+        Mon, 12 Jul 2021 11:03:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fabwu.ch; s=default;
+        t=1626080608; bh=YLupv0zdK0mk/xI2DxpqhaPpvsrzRskxasGu1huHXDM=;
+        h=From:To:Subject;
+        b=ndCcWIlEY3A4Z6GQFRzqpeFEtfQVrogNKF0AWQRW1f5sQSOigcgGAKUTw26IDKqQ5
+         AnJ4nyTYbqe29r5f1MqIjgmwRVpNqm37sf9O6UL8N8rRfpJbYbdRZmlsladmGbpaZP
+         cJLuYqdvCXKeWUKi6XzeTjAHrljHyCuvQrifzQgc=
+Authentication-Results: gusto.metanet.ch;
+        spf=pass (sender IP is 2001:67c:10ec:574f:8000::93) smtp.mailfrom=me@fabwu.ch smtp.helo=localhost
+Received-SPF: pass (gusto.metanet.ch: connection is authenticated)
+From:   =?UTF-8?q?Fabian=20W=C3=BCthrich?= <me@fabwu.ch>
+To:     linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Dan Scally <djrscally@gmail.com>,
+        =?UTF-8?q?Fabian=20W=C3=BCthrich?= <me@fabwu.ch>
+Subject: [PATCH v4] ipu3-cio2: Parse sensor orientation and rotation
+Date:   Mon, 12 Jul 2021 11:03:26 +0200
+Message-Id: <20210712090326.7064-1-me@fabwu.ch>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210414083022.25453-3-me@fabwu.ch>
+References: <20210414083022.25453-3-me@fabwu.ch>
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 12.07.2021 10:55:37,
-        Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 12.07.2021 10:55:37
-X-TNEFEvaluated: 1
-Content-Transfer-Encoding: quoted-printable
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNLMWRmVeSWpSXmKPExsWyRoCBS7eT+U2CwZ2r0hbzj5xjteicuITd
-        4vKuOWwWPRu2slos2/SHyaJ17xF2i09bvjE5sHvM7pjJ6rFpVSebx7yTgR6fN8kFsERx2aSk
-        5mSWpRbp2yVwZew8No2toI+3Yu+EgywNjB84uxg5OSQETCRef/7I1MXIxSEksI1RYur2HawQ
-        znVGibVLtjKBVLEJGEksmNYIViUi0MYoseNIM5jDLLCFUWL65eVsIFXCAiESc5eeYgGxWQRU
-        JV4vXcUMYvMK2EjsujmNBWKfvMTMS9/Zuxg5ODgFbCX2/LAECQsBlVyfv4EFolxQ4uTMJywg
-        8yUErgDNf3ibGaJXSOL04rNgNrOAtsSyha+ZJzAKzELSMwtJagEj0ypGodzM5OzUosxsvYKM
-        ypLUZL2U1E2MwAA+PFH90g7GvjkehxiZOBgPMUpwMCuJ8H7rfZUgxJuSWFmVWpQfX1Sak1p8
-        iFGag0VJnHcDb0mYkEB6YklqdmpqQWoRTJaJg1OqgTF43mvZc8sVlpQkeuwtfvDrxHub9RGv
-        Fp+d3PM24hrzx/55zIbzipc+nuy/yGfeScts58SUDQHJZfvjImWvya/YvJPH+amh0GqliL6f
-        T4z5eXKKD6/TmTZpncsn14aHno6b+mKvJZrd1jVWddNZ9v6UW8qCa56zOQxSpcpfWTgUBE/P
-        tUiwjVRiKc5INNRiLipOBAAeoPmeTgIAAA==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add missing required clocks and supply regulator properties for the
-sensor input clock and vdd, vdd=5Fio and vaa supply regulators.
+The sensor orientation is read from the _PLC ACPI buffer and converted to a v4l2
+format.
 
-Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
+The sensor rotation is read from the SSDB ACPI buffer and converted into
+degrees.
+
+Signed-off-by: Fabian Wüthrich <me@fabwu.ch>
+Reviewed-by: Daniel Scally <djrscally@gmail.com>
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- .../bindings/media/i2c/aptina,mt9p031.yaml    | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Changes in v2:
+  - Move ACPI PLD constants to ACPI headers
+  - Fix dev_properties size
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yam=
-l b/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
-index ad9a2db73d86..487a3facfcbc 100644
---- a/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
-@@ -24,6 +24,18 @@ properties:
-     description: I2C device address
-     maxItems: 1
-=20
-+  clocks:
-+    maxItems: 1
+Changes in v3:
+  - Split patch into patch for ipu3 and patch for ACPICA
+
+Changes in v4:
+  - same patch as v2 but no ACPICA changes are merged
+
+ drivers/media/pci/intel/ipu3/cio2-bridge.c | 60 ++++++++++++++++++++--
+ drivers/media/pci/intel/ipu3/cio2-bridge.h |  9 +++-
+ 2 files changed, 64 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+index 4657e99df033..f0f148222039 100644
+--- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
++++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+@@ -29,6 +29,7 @@ static const struct cio2_sensor_config cio2_supported_sensors[] = {
+ static const struct cio2_property_names prop_names = {
+ 	.clock_frequency = "clock-frequency",
+ 	.rotation = "rotation",
++	.orientation = "orientation",
+ 	.bus_type = "bus-type",
+ 	.data_lanes = "data-lanes",
+ 	.remote_endpoint = "remote-endpoint",
+@@ -72,11 +73,51 @@ static int cio2_bridge_read_acpi_buffer(struct acpi_device *adev, char *id,
+ 	return ret;
+ }
+ 
++static u32 cio2_bridge_parse_rotation(struct cio2_sensor *sensor)
++{
++	switch (sensor->ssdb.degree) {
++	case CIO2_SENSOR_ROTATION_NORMAL:
++		return 0;
++	case CIO2_SENSOR_ROTATION_INVERTED:
++		return 180;
++	default:
++		dev_warn(&sensor->adev->dev,
++			 "Unknown rotation %d. Assume 0 degree rotation\n",
++			 sensor->ssdb.degree);
++		return 0;
++	}
++}
 +
-+  vdd-supply:
-+    description: Digital supply voltage, 1.8 V
++static enum v4l2_fwnode_orientation cio2_bridge_parse_orientation(struct cio2_sensor *sensor)
++{
++	switch (sensor->pld->panel) {
++	case ACPI_PLD_PANEL_FRONT:
++		return V4L2_FWNODE_ORIENTATION_FRONT;
++	case ACPI_PLD_PANEL_BACK:
++		return V4L2_FWNODE_ORIENTATION_BACK;
++	case ACPI_PLD_PANEL_TOP:
++	case ACPI_PLD_PANEL_LEFT:
++	case ACPI_PLD_PANEL_RIGHT:
++	case ACPI_PLD_PANEL_UNKNOWN:
++		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
++	default:
++		dev_warn(&sensor->adev->dev, "Unknown _PLD panel value %d\n",
++			 sensor->pld->panel);
++		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
++	}
++}
 +
-+  vdd=5Fio-supply:
-+    description: I/O supply voltage, 1.8 or 2.8 V
+ static void cio2_bridge_create_fwnode_properties(
+ 	struct cio2_sensor *sensor,
+ 	struct cio2_bridge *bridge,
+ 	const struct cio2_sensor_config *cfg)
+ {
++	u32 rotation;
++	enum v4l2_fwnode_orientation orientation;
 +
-+  vaa-supply:
-+    description: Analog supply voltage, 2.8 V
++	rotation = cio2_bridge_parse_rotation(sensor);
++	orientation = cio2_bridge_parse_orientation(sensor);
 +
-   reset-gpios:
-     maxItems: 1
-     description: Chip reset GPIO
-@@ -48,6 +60,10 @@ properties:
- required:
-   - compatible
-   - reg
-+  - clocks
-+  - vdd-supply
-+  - vdd=5Fio-supply
-+  - vaa-supply
-   - port
-=20
- additionalProperties: false
-@@ -63,6 +79,12 @@ examples:
-             reg =3D <0x5d>;
-             reset-gpios =3D <&gpio=5Fsensor 0 0>;
-=20
-+            clocks =3D <&sensor=5Fclk>;
+ 	sensor->prop_names = prop_names;
+ 
+ 	sensor->local_ref[0] = SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_CIO2_ENDPOINT]);
+@@ -85,9 +126,12 @@ static void cio2_bridge_create_fwnode_properties(
+ 	sensor->dev_properties[0] = PROPERTY_ENTRY_U32(
+ 					sensor->prop_names.clock_frequency,
+ 					sensor->ssdb.mclkspeed);
+-	sensor->dev_properties[1] = PROPERTY_ENTRY_U8(
++	sensor->dev_properties[1] = PROPERTY_ENTRY_U32(
+ 					sensor->prop_names.rotation,
+-					sensor->ssdb.degree);
++					rotation);
++	sensor->dev_properties[2] = PROPERTY_ENTRY_U32(
++					sensor->prop_names.orientation,
++					orientation);
+ 
+ 	sensor->ep_properties[0] = PROPERTY_ENTRY_U32(
+ 					sensor->prop_names.bus_type,
+@@ -159,6 +203,7 @@ static void cio2_bridge_unregister_sensors(struct cio2_bridge *bridge)
+ 	for (i = 0; i < bridge->n_sensors; i++) {
+ 		sensor = &bridge->sensors[i];
+ 		software_node_unregister_nodes(sensor->swnodes);
++		ACPI_FREE(sensor->pld);
+ 		acpi_dev_put(sensor->adev);
+ 	}
+ }
+@@ -170,6 +215,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 	struct fwnode_handle *fwnode;
+ 	struct cio2_sensor *sensor;
+ 	struct acpi_device *adev;
++	acpi_status status;
+ 	int ret;
+ 
+ 	for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
+@@ -194,11 +240,15 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 		if (ret)
+ 			goto err_put_adev;
+ 
++		status = acpi_get_physical_device_location(adev->handle, &sensor->pld);
++		if (ACPI_FAILURE(status))
++			goto err_put_adev;
 +
-+            vdd-supply =3D <&reg=5Fvdd>;
-+            vdd=5Fio-supply =3D <&reg=5Fvdd=5Fio>;
-+            vaa-supply =3D <&reg=5Fvaa>;
+ 		if (sensor->ssdb.lanes > CIO2_MAX_LANES) {
+ 			dev_err(&adev->dev,
+ 				"Number of lanes in SSDB is invalid\n");
+ 			ret = -EINVAL;
+-			goto err_put_adev;
++			goto err_free_pld;
+ 		}
+ 
+ 		cio2_bridge_create_fwnode_properties(sensor, bridge, cfg);
+@@ -206,7 +256,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 
+ 		ret = software_node_register_nodes(sensor->swnodes);
+ 		if (ret)
+-			goto err_put_adev;
++			goto err_free_pld;
+ 
+ 		fwnode = software_node_fwnode(&sensor->swnodes[
+ 						      SWNODE_SENSOR_HID]);
+@@ -227,6 +277,8 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 
+ err_free_swnodes:
+ 	software_node_unregister_nodes(sensor->swnodes);
++err_free_pld:
++	ACPI_FREE(sensor->pld);
+ err_put_adev:
+ 	acpi_dev_put(sensor->adev);
+ 	return ret;
+diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.h b/drivers/media/pci/intel/ipu3/cio2-bridge.h
+index dd0ffcafa489..202c7d494f7a 100644
+--- a/drivers/media/pci/intel/ipu3/cio2-bridge.h
++++ b/drivers/media/pci/intel/ipu3/cio2-bridge.h
+@@ -12,6 +12,10 @@
+ #define CIO2_MAX_LANES				4
+ #define MAX_NUM_LINK_FREQS			3
+ 
++/* Values are educated guesses as we don't have a spec */
++#define CIO2_SENSOR_ROTATION_NORMAL		0
++#define CIO2_SENSOR_ROTATION_INVERTED		1
 +
-             port {
-                 mt9p031=5F1: endpoint {
-                     input-clock-frequency =3D <6000000>;
---=20
-2.25.1
+ #define CIO2_SENSOR_CONFIG(_HID, _NR, ...)	\
+ 	(const struct cio2_sensor_config) {	\
+ 		.hid = _HID,			\
+@@ -80,6 +84,7 @@ struct cio2_sensor_ssdb {
+ struct cio2_property_names {
+ 	char clock_frequency[16];
+ 	char rotation[9];
++	char orientation[12];
+ 	char bus_type[9];
+ 	char data_lanes[11];
+ 	char remote_endpoint[16];
+@@ -106,9 +111,11 @@ struct cio2_sensor {
+ 	struct cio2_node_names node_names;
+ 
+ 	struct cio2_sensor_ssdb ssdb;
++	struct acpi_pld_info *pld;
++
+ 	struct cio2_property_names prop_names;
+ 	struct property_entry ep_properties[5];
+-	struct property_entry dev_properties[3];
++	struct property_entry dev_properties[4];
+ 	struct property_entry cio2_properties[3];
+ 	struct software_node_ref_args local_ref[1];
+ 	struct software_node_ref_args remote_ref[1];
+-- 
+2.32.0
 
