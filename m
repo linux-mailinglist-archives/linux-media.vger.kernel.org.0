@@ -2,81 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3C043C64CD
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jul 2021 22:14:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1749F3C64D4
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jul 2021 22:17:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236730AbhGLUQ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jul 2021 16:16:27 -0400
-Received: from mail-il1-f170.google.com ([209.85.166.170]:43934 "EHLO
-        mail-il1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234060AbhGLUQ1 (ORCPT
+        id S233935AbhGLUUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jul 2021 16:20:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52938 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230284AbhGLUUj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jul 2021 16:16:27 -0400
-Received: by mail-il1-f170.google.com with SMTP id w1so18856981ilg.10;
-        Mon, 12 Jul 2021 13:13:37 -0700 (PDT)
+        Mon, 12 Jul 2021 16:20:39 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B27D8C0613DD
+        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 13:17:50 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id b26so13380140lfo.4
+        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 13:17:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=phystech-edu.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Rf/oy5V65atDUasHDpnT+GK9n0vIPf+l+Loy9PHEV2g=;
+        b=L/LG0kiF9dQI5UYt03bUxC7db1G5mmL+zYogzrm0PTQpzCqJ0uOzPzrA1yBTDlUnHz
+         Jpr5PYMzj0PHfeqWpQ5bNtX9glzqZC3nHSlYtIJSZjFZ+upR2lbNc0Bj5ptCvxj2E1MR
+         RqexC9iCpP/UJEGdtL3o4wmJq2nle9+4svKtHWS8yC5G73xziKtVBi4wnAHYH+12crAV
+         LgQJwndM1uaheql9aWc0jYm8tHQ4seYUoPFuRzTtQhLQzIO9dG6fGQt1zic/chZUihRj
+         cCOts+iZafOz/VsQM9OyodwsaqxNwtbnDrY3qb6zEkh1Vq2jZaLndzM7vOZjy+szgjkQ
+         /mLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=J4BE9HfxaLZmCvwhgA1QvJulPQBGkW1jQI+e/oTW1Ho=;
-        b=Mk/VZqQvX6PmBHfwLfr+QU3Nvr3oeRKmiKf9EhtjLR8C5wHqA+O5JWs8PiLTtGF17X
-         K13YNaEuPqN7WqmWmeGdpnExKRqF2E7r/PN1bh2m9i1/v1W7TE91Nd7mw8Bm34VAMhFw
-         zWbHRhRWT9rIOGU3OBeYVQCL4BE09asbjyrTRmtmArIhX8D6TP5by+bN2BSkanWvRJo+
-         kYxmi1wtTHa+f99ERSDYyGumI0CbFCVpT2TefN0eypp6VbV0uBNUlKJmiUX02TfpfU/u
-         E7Qs6SoJ9WTWBnd/PLXCmNSAL5zY1WpgywGqf3YmQFhGhp7g8NuGR7RV0W1swswFKRja
-         G4iA==
-X-Gm-Message-State: AOAM530Aq1jHt+cJRGnhc5xYoPgCLuUNiekHM/Uf+TTOnTB0GSHfTC1d
-        q+tin7HBeR7ocjZSrXIP7w==
-X-Google-Smtp-Source: ABdhPJzJvSIq3juD8meJlVB+592itIP+P7qaJQlR7fMQnSh7K72wyxxHPKOD+Z2WC0QkyDA4uWbBtQ==
-X-Received: by 2002:a92:3302:: with SMTP id a2mr436832ilf.62.1626120817448;
-        Mon, 12 Jul 2021 13:13:37 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id p19sm8586263iob.7.2021.07.12.13.13.34
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Rf/oy5V65atDUasHDpnT+GK9n0vIPf+l+Loy9PHEV2g=;
+        b=VDwRqAvNSvXF2+/jp1JYAP4WuQQF78+USx4018m5hW2vZ7y++JM5disuQWlqsq15oY
+         y10AOyMb8TQqpu+O92evcFj3EFdM3WTQLi5xTEmtTTB5ugeHAQqzN21sombPnF0S+8Ox
+         dZCGqq/hSHIPCGflFEzGGyBi39nIjWDxpa1ZeD1pEcIpghrk7weQzYhOCk13qGQGS8c3
+         ZngrAx8ffw8Ezg/jXq1lQ5/3j5W1CvOpiFjBz/ao+0sOT1qZgE++kKHZa5YwazJ5sbK7
+         Lul4Yiqt0INw4FPcsfoEzvhDQily1UnTa8hbVhhmSiKyPW32JQKeB3YHY9zYifdpM8p6
+         XfdQ==
+X-Gm-Message-State: AOAM533N9gPza7/kBVTlNCDMQ0iWiHpfFMtuy4fv+9bVDN5NzTKBHcdf
+        EAPzJJhB6u+r+XhaUu9SMJq1ig==
+X-Google-Smtp-Source: ABdhPJxCVPVINOvfBCrr5N+3NDAEy5lpwqjAIrHaYAzlV0oZuwGc8C5fQ5lsfWwgKXJsxv9hLu7lJg==
+X-Received: by 2002:ac2:5e67:: with SMTP id a7mr417425lfr.450.1626121068917;
+        Mon, 12 Jul 2021 13:17:48 -0700 (PDT)
+Received: from 192.168.1.3 ([2a00:1370:810e:abfe:9c62:44e3:b0ab:76fd])
+        by smtp.gmail.com with ESMTPSA id p16sm631455lfr.122.2021.07.12.13.17.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jul 2021 13:13:36 -0700 (PDT)
-Received: (nullmailer pid 2411363 invoked by uid 1000);
-        Mon, 12 Jul 2021 20:13:33 -0000
-Date:   Mon, 12 Jul 2021 14:13:33 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>
-Cc:     devicetree@vger.kernel.org, robert.chiras@nxp.com,
-        linux-arm-kernel@lists.infradead.org, daniel.baluta@nxp.com,
-        hverkuil-cisco@xs4all.nl, peng.fan@nxp.com, aisheng.dong@nxp.com,
-        linux-kernel@vger.kernel.org, linux-imx@nxp.com,
-        s.hauer@pengutronix.de, Mirela Rabulea <mirela.rabulea@nxp.com>,
-        laurentiu.palcu@nxp.com, guoniu.zhou@nxp.com,
-        paul.kocialkowski@bootlin.com, mchehab@kernel.org,
-        robh+dt@kernel.org, linux-media@vger.kernel.org,
-        shawnguo@kernel.org, kernel@pengutronix.de, ezequiel@collabora.com,
-        p.zabel@pengutronix.de
-Subject: Re: [PATCH v14 1/2] media: dt-bindings: imx-jpeg: Add compatible for
- i.MX8QM JPEG codec
-Message-ID: <20210712201333.GA2411329@robh.at.kernel.org>
-References: <20210619143611.17280-1-mirela.rabulea@oss.nxp.com>
- <20210619143611.17280-2-mirela.rabulea@oss.nxp.com>
+        Mon, 12 Jul 2021 13:17:48 -0700 (PDT)
+From:   Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+To:     sean@mess.org, mchehab@kernel.org, robh+dt@kernel.org,
+        khilman@baylibre.com, narmstrong@baylibre.com
+Cc:     jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, rockosov@gmail.com,
+        Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+Subject: [PATCH v4 0/2] media: rc: add support for Amlogic Meson IR blaster
+Date:   Mon, 12 Jul 2021 23:17:30 +0300
+Message-Id: <20210712201732.31808-1-viktor.prutyanov@phystech.edu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210619143611.17280-2-mirela.rabulea@oss.nxp.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 19 Jun 2021 17:36:10 +0300, Mirela Rabulea (OSS) wrote:
-> From: Mirela Rabulea <mirela.rabulea@nxp.com>
-> 
-> Add two more compatibles: "nxp,imx8qm-jpgdec" and " nxp,imx8qm-jpgenc".
-> Also update the compatible property to ensure mutually exclusive usage of
-> encoder and decoder compatibles.
-> Update examples.
-> 
-> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
-> ---
-> Changes in v14:
->   Address feedback from Aisheng Dong, do not use anyOf
-> 
->  .../bindings/media/nxp,imx8-jpeg.yaml         | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
-> 
+Hi,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+this is a driver for the IR transmitter (also called IR blaster)
+available in some Amlogic Meson SoCs.
+
+Viktor Prutyanov (2):
+  media: rc: meson-ir-tx: document device tree bindings
+  media: rc: introduce Meson IR TX driver
+
+ .../bindings/media/amlogic,meson-ir-tx.yaml   |  65 +++
+ drivers/media/rc/Kconfig                      |  10 +
+ drivers/media/rc/Makefile                     |   1 +
+ drivers/media/rc/meson-ir-tx.c                | 404 ++++++++++++++++++
+ 4 files changed, 480 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
+ create mode 100644 drivers/media/rc/meson-ir-tx.c
+
+-- 
+2.21.0
+
