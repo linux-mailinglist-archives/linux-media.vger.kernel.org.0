@@ -2,120 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB0EC3C5D21
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jul 2021 15:21:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB1633C5FF6
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jul 2021 17:59:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231351AbhGLNXz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jul 2021 09:23:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40718 "EHLO
+        id S235602AbhGLQCI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jul 2021 12:02:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230187AbhGLNXy (ORCPT
+        with ESMTP id S235280AbhGLQCI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jul 2021 09:23:54 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99ED4C0613DD
-        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 06:21:06 -0700 (PDT)
-Received: from [IPv6:2a02:810a:880:f54:e464:19d5:3655:dde7] (unknown [IPv6:2a02:810a:880:f54:e464:19d5:3655:dde7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 11CB21F423B6;
-        Mon, 12 Jul 2021 14:21:04 +0100 (BST)
-Subject: Re: [PATCH 2/2] media: rkisp1: cap: initialize dma buf address in
- 'buf_init' cb
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, helen.koike@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, tfiga@chromium.org
-References: <20210625082309.24944-1-dafna.hirschfeld@collabora.com>
- <20210625082309.24944-3-dafna.hirschfeld@collabora.com>
- <a3144cc37a11e43d984c71aa160079cab65cc335.camel@collabora.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <b627ea79-459e-f3af-ab22-3c486296ed23@collabora.com>
-Date:   Mon, 12 Jul 2021 15:21:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Mon, 12 Jul 2021 12:02:08 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 886B0C0613DD;
+        Mon, 12 Jul 2021 08:59:18 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id a18so25017804ljk.6;
+        Mon, 12 Jul 2021 08:59:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PX6KW4lc9x9K8noyu3cbkpq9sdGp+o7RACRY5BiJWvg=;
+        b=USRxGpd0bN6j42j6oUGoVfM1c914AgaLvvaZEUZ4ZuJybrgMMxwfRm9/l/TqozauF2
+         HauZyhVLLWpomYlq/s+7Kn8LG3fDNQo8shd42HiucU3lIQOlZxsP5hhtLGq69PNkmyH3
+         Q5iKIjOvxRbAHyAUTN1IVzYKQLnqCTOD5y4JWztxKNAk9d+DcUbFHwdM082IZMXZxdVv
+         Ch8Qt72/tkeB06ST3a4R0LwkAP+3HwmejbyXihCg7crkjVFsGklaA/lK5xjuT9Vzlguz
+         Ku3EnOpWOE5cWRbdhjkdjTSlnFKRPS+ETND3Ilb65B3nmosd1/5WC9xOtZnMQzpg537Y
+         Jy+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PX6KW4lc9x9K8noyu3cbkpq9sdGp+o7RACRY5BiJWvg=;
+        b=dk3khLQ2sgF8+zmRkno7vRh1JKBTrWDArHkFmyW7YehQKavrZA3tcraKtMfZJPQbIv
+         vnmr2JsP/AmLaT/b7hn0Cd3MUoan6tQz0BbBwHBFSasNBCfxpt9gpE1UHhh1b0AwTdsH
+         wVC7j690pHo6HD8kDMYxSEfnmY5bTaiXvELBQMYZZBdDlz+KvxwycSlEA6UfqcXOK5pe
+         a+ePxGX+U1XraFjETRsay/k1+Q0EInhyI4VM9VeLFPcIWrAns78r+uA1kifYg994qJoc
+         mbnbhMbWKWFZWeyuxDCazpJll+6d7IluayFvZFKtDvZ7FmU6Gh/LKZ8ITrvP/wbJ473Z
+         gNQQ==
+X-Gm-Message-State: AOAM532bgKFyFNjFf+96kA4M3VTz9m4PJtz83heMlcvj8Ku1b9bDdeEM
+        xclSsxINm6KSaMMeMjBKtEScs6IFpXH6hvGTQGY=
+X-Google-Smtp-Source: ABdhPJxqHuMuxIaJSYKfTfMrHTxSgiMEiI5llEbLRWD432mKylVoZJDXu3ZTOjqR+rFuVpGyYj3slnSLSVGKIY/ZuwA=
+X-Received: by 2002:a2e:9b90:: with SMTP id z16mr10727408lji.444.1626105556883;
+ Mon, 12 Jul 2021 08:59:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a3144cc37a11e43d984c71aa160079cab65cc335.camel@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210604212217.70518-1-festevam@gmail.com> <20210604212217.70518-2-festevam@gmail.com>
+ <CAJ+vNU35+U=pupo3bzKFnWuZgUKPe_C-0yGrcWnZH1R+PvbbWg@mail.gmail.com>
+In-Reply-To: <CAJ+vNU35+U=pupo3bzKFnWuZgUKPe_C-0yGrcWnZH1R+PvbbWg@mail.gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Mon, 12 Jul 2021 12:59:05 -0300
+Message-ID: <CAOMZO5CsBjW5RM0FESTeUSs6EONC+GV4VXVpLUxwnnRj1wYNog@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] media: i2c: adv7180: fix adv7280 BT.656-4 compatibility
+To:     Tim Harvey <tharvey@gateworks.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Matthew Michilot <matthew.michilot@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Rob Herring <robh+dt@kernel.org>,
+        Device Tree Mailing List <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Hi Hans,
 
-On 26.06.21 03:08, Ezequiel Garcia wrote:
-> Hi Dafna,
-> 
-> On Fri, 2021-06-25 at 11:23 +0300, Dafna Hirschfeld wrote:
->> Initializing the dma addresses of the capture buffers can
->> move to the 'buf_init' callback, since it is enough to do
->> it once for each buffer and not every time it is queued.
->>
-> 
-> Are you able to measure any impact with this change?
+On Thu, Jul 1, 2021 at 3:29 PM Tim Harvey <tharvey@gateworks.com> wrote:
 
-I didn't measure the impact, I just thought it is a more correct
-use of the API.
-You think it worth measuring the impact?
+> Fabio,
+>
+> Thanks for the submission. This does resolve NTSC capture on a
+> GW5410-G with an adv7280.
+>
+> Reviewed-by: Tim Harvey <tharvey@gateworks.com>
+> Tested-by: Tim Harvey <tharvey@gateworks.com>
+
+Do you think this series could be applied?
 
 Thanks,
-Dafna
 
-> 
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> ---
->>   .../media/platform/rockchip/rkisp1/rkisp1-capture.c  | 12 +++++++++++-
->>   1 file changed, 11 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> index 60cd2200e7ae..41988eb0ec0a 100644
->> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> @@ -750,7 +750,7 @@ static int rkisp1_vb2_queue_setup(struct vb2_queue *queue,
->>          return 0;
->>   }
->>   
->> -static void rkisp1_vb2_buf_queue(struct vb2_buffer *vb)
->> +static int rkisp1_vb2_buf_init(struct vb2_buffer *vb)
->>   {
->>          struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->>          struct rkisp1_buffer *ispbuf =
-> 
-> Since you are interested at these kind of cleanups, you can
-> do something like:
-> 
-> +enum rkisp1_plane {
-> +       RKISP1_PLANE_Y  = 0,
-> +       RKISP1_PLANE_CB = 1,
-> +       RKISP1_PLANE_CR = 2,
-> +       RKISP1_NUM_PLANES = 3
-> +};
-> +
->   /*
->    * struct rkisp1_buffer - A container for the vb2 buffers used by the video devices:
->    *                       params, stats, mainpath, selfpath
-> @@ -160,7 +167,7 @@ struct rkisp1_vdev_node {
->   struct rkisp1_buffer {
->          struct vb2_v4l2_buffer vb;
->          struct list_head queue;
-> -       u32 buff_addr[VIDEO_MAX_PLANES];
-> +       u32 buff_addr[RKISP1_NUM_PLANES];
->   };
-> 
-> And then you can get rid of the memset, and rely on
-> vb2_dma_contig_plane_dma_addr returning NULL.
-> 
-> @@ -759,8 +753,7 @@ static void rkisp1_vb2_buf_queue(struct vb2_buffer *vb)
->          const struct v4l2_pix_format_mplane *pixm = &cap->pix.fmt;
->          unsigned int i;
->   
-> -       memset(ispbuf->buff_addr, 0, sizeof(ispbuf->buff_addr));
-> -       for (i = 0; i < pixm->num_planes; i++)
-> +       for (i = 0; i < RKISP1_NUM_PLANES; i++)
->                  ispbuf->buff_addr[i] = vb2_dma_contig_plane_dma_addr(vb, i);
-> 
+Fabio Estevam
