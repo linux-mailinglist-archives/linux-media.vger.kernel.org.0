@@ -2,113 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1D283C6653
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jul 2021 00:21:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 113713C66D8
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jul 2021 01:17:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230229AbhGLWY2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jul 2021 18:24:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52362 "EHLO
+        id S231922AbhGLXT4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jul 2021 19:19:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229725AbhGLWY2 (ORCPT
+        with ESMTP id S230019AbhGLXT4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jul 2021 18:24:28 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCF64C0613DD;
-        Mon, 12 Jul 2021 15:21:39 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 520EA1F42053
-Message-ID: <043580ca84a9f3bf38ee633eda910a19781e9e76.camel@collabora.com>
-Subject: Re: [PATCH v4 8/9] media: hevc: Add scaling matrix control
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        hverkuil@xs4all.nl, p.zabel@pengutronix.de, mchehab@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        andrzej.p@collabora.com, jc@kynesim.co.uk,
-        jernej.skrabec@gmail.com, nicolas@ndufresne.ca, cphealy@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date:   Mon, 12 Jul 2021 19:21:25 -0300
-In-Reply-To: <20210625141143.577998-9-benjamin.gaignard@collabora.com>
-References: <20210625141143.577998-1-benjamin.gaignard@collabora.com>
-         <20210625141143.577998-9-benjamin.gaignard@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        Mon, 12 Jul 2021 19:19:56 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 659E1C0613DD
+        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 16:17:07 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id r132so31729294yba.5
+        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 16:17:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=qlUNdOXRp8Ky7BYdmnBHfx/7UGdGJPCyQ1Pu4Cj5CWU=;
+        b=memRPcJeVkjrKt3D5TolaUyga6ReIRbkRtBbUUihuQKXiularfrRUfi6wBB3JWorKp
+         4Nvq83HOO6sn8VqJBflMTnoC9BzOPxHi4vm+dK8C/nvv2/T4HL9c4m9q+N/bxYuFW/AG
+         l0ustM40Fhho9sM2gd8U7KR0vLAfNnFkyEFw3s/gJcJGQJ4Rt0uBsqpwuxRHpmG9wvQ8
+         7Xv1qv4syfvdWxLNyUw42tBv1VDm78Nb6R5aoce/fryenLzv81HAdEkK4BA5LT0lj9A4
+         aOCicX9fEFeaS8T+fR6dWzHxmNluRNO9SVi0jL245CmD5/xVDcXRNvBF/Y7VaGICghWT
+         x1jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=qlUNdOXRp8Ky7BYdmnBHfx/7UGdGJPCyQ1Pu4Cj5CWU=;
+        b=g+1fCQLoQnxLuqg/ivr6Bm3Ppv26cIY/0x2qEekZ5MRAlE/DP5WJ44iiowbWB+da8I
+         Uv/zKOMtP6wjzzqVyxE04w1954qtp8+EH3XzsyM7m15QzrhBXDd2mlKFg+tYmvWmnySl
+         1tiRyRsavctvq4sEQLW1ydPH2ZHV1LhaumdpihvH1IS3/9hNeK2qWrFxKFTqseiLu4R5
+         K2kJPqpnC8eFtKlHMPssvLWL5f9JdXJh7cYkxvIzi6+MLrVPvxGEXKtNBdBmUhuIczy2
+         mDxZ7Zk/4tedC6eu5PMwHDU7r+Lx70tl5c7wF6qd8Ame1o9PMoPzJgDF52/9TFYTjPkZ
+         wCxQ==
+X-Gm-Message-State: AOAM530jn7VO7sx9SP7AjlDsTsBoQ+Gi/m5RCwl3U0A3xanPlL0qlQZ5
+        ag/5P8+CTRg2Z12aEzF4opvP1+8+excXR2DA+tRIqU+OaGnOOw==
+X-Google-Smtp-Source: ABdhPJxX9796oozvGwBy6FXn9MlWiYkE4du51hwYzsO++UIjwHwF0F0/uWC68hbkmaMj2MjpeGQjLA28K23pL8vv+2U=
+X-Received: by 2002:a25:ad65:: with SMTP id l37mr1866953ybe.298.1626131826427;
+ Mon, 12 Jul 2021 16:17:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From:   Steven Zakulec <spzakulec@gmail.com>
+Date:   Mon, 12 Jul 2021 19:16:55 -0400
+Message-ID: <CAOraNAaoHE9Xgfs0FNoMyKLP4Qd=FdsxaViJSkyuxf0j2rK5GA@mail.gmail.com>
+Subject: How do you capture (raw) VBI on Linux?
+To:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+HI, I am writing to the Linux-media mailing list in hopes that someone
+can share how the /dev/vbi device can be captured from under Linux to
+disk so it can be processed back into captions.
 
-I believe the scaling matrix uAPI patch(es) and the support
-in Hantro G2 could be moved to its own series and maybe
-merged sooner than the rest (which may need more discussion).
+I've tried a long list of items (listed below), and the only success
+I've had under Linux is using old Hauppauge PVR (150 & 250) PCI cards,
+and extracting the embedded VBI data from those captures.
 
-Couple remarks below.
- 
-On Fri, 2021-06-25 at 16:11 +0200, Benjamin Gaignard wrote:
-> HEVC scaling lists are used for the scaling process for transform
-> coefficients.
-> V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED has to set when they are
-> encoded in the bitstream.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
-> Note: V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED is not change by this
-> patch. There is a thread about the naming/usage of this flag here:
-> https://lore.kernel.org/linux-arm-kernel/20210610154442.806107-8-benjamin.gaignard@collabora.com/
-> but that doesn't concern the scaling matrix control by itself.
-> 
+I can successfully display closed captions on my Hauppauge HVR-950q
+USB device with "zvbi-ntsc-cc -d /dev/vbi0 -c" as long as I start a
+capture first in one terminal, then run that command in a second
+terminal, so I know that card works.
 
-If I am reading the spec correctly, we have fields in
-SPS (scaling_list_enabled_flag, scaling_list_data_present_flag)
-and PPS (scaling_list_data_present_flag).
+With my Hauppauge HVR-950q, I've tried the following items:
+cat /dev/vbi (both before, during, and after a capture is started on the card
 
-We don't need all that, since all a driver needs to know
-is whether a scaling list is to be applied for the current frame.
-  
-Would you mind adding a patch moving the flag to the PPS?
+Trying to use ffmpeg to capture /dev/vbi - unclear if this is even
+supposed to work, and if so, what the proper commands are
 
-> version 2:
->  - Fix structure name in ext-ctrls-codec.rst
-> 
->  .../media/v4l/ext-ctrls-codec.rst             | 45 +++++++++++++++++++
->  .../media/v4l/vidioc-queryctrl.rst            |  6 +++
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     |  6 +++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 ++
->  include/media/hevc-ctrls.h                    | 11 +++++
->  5 files changed, 72 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index dc096a5562cd..3865acb9e0fd 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -3071,6 +3071,51 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->  
->      \normalsize
->  
-> +``V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX (struct)``
-> +    Specifies the HEVC scaling matrix parameters used for the scaling process
-> +    for transform coefficients.
-> +    These matrix and parameters are defined according to :ref:`hevc`.
-> +    They are described in section 7.4.5 "Scaling list data semantics" of
-> +    the specification.
-> +
+I've tried using zvbi to capture the captions- at best, I can get the
+text dumped to a file, but no timestamps, or raw/sliced VBI that I
+could convert using ccextractor into a subtitle file.
+I had thought one of the commands below should work based on the
+descriptions from --help.
+zvbi-ntsc-cc -d /dev/vbi0 -r -C vbi.bin
+zvbi-ntsc-cc -d /dev/vbi0 -r -R -C vbi.bin
 
-This needs some additional documentation about the order of the lists.
-See the docs that we've added for the scaling_list_{} fields in
-V4L2_CID_STATELESS_H264_SCALING_MATRIX.
+I've tried some of the test tools in the zvbi source code test folder,
+but it's not entirely clear if they work with NTSC closed captions.
 
-Thanks!
--- 
-Kindly,
-Ezequiel
+I'm on Kubuntu 20.04 with kernel 5.4.0-77-generic.
 
-
+If anyone knows an application/device combination (any Linux OS),
+please let me know- this seems totally possible, I just can't figure
+out how to make it happen.
+Thank you in advance for any insights or guidance you can provide here.
