@@ -2,236 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAB5C3C4D6A
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jul 2021 12:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 701893C50AB
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jul 2021 12:46:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243920AbhGLHNG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jul 2021 03:13:06 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:43981 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S241559AbhGLHHn (ORCPT
+        id S1344229AbhGLHeH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jul 2021 03:34:07 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:55226 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1346430AbhGLHau (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jul 2021 03:07:43 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 2pzWmJfXdhqx92pzXmWPOI; Mon, 12 Jul 2021 09:04:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1626073475; bh=yQqpXrVSdhAoUJWKa4M1quVKh5vDl6e/2UfRZJp6KPk=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=FiIpUu3YNiK9Slnk/9LDcbx1C+BpOGziAVt5qYOR41/4ZdAJIt3XhTaQ3mIrO+PtW
-         V5j5F7l7yl5t3lcfx7yxjvGIWGhqyN+MuHCZXFNvRHTsLCxtg/5eltVaP6LZxAR4hI
-         1FZg7hLB2knEFrlJ3N8Ahknr0S6Wm9RDs0gwK1dOLUffLbQYwmczK4sXCBhUvWXA9o
-         7EJA+QcwTM5HErpc5zG1YUQTbYFEom7BiHqteon6uRgSDVBHjUrVkZki2DsXXV+foH
-         idyEBpALKXuYO4nDr8nx+Z7ugxOyRX5bG+Bw1OGLzmLjftHxABgPx7d9KnBsMq85KQ
-         cEJolmjpYMsdA==
-Subject: Re: [PATCH v3 2/2] cec-follower: emulate programmed timer recordings
-To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     jaffe1@gmail.com
-References: <cover.1625962440.git.deborahbrouwer3563@gmail.com>
- <b940889da47bc1c636993d9c7a93892eb18fa252.1625962440.git.deborahbrouwer3563@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <8eb5344f-7540-4715-6567-db28ec53b05d@xs4all.nl>
-Date:   Mon, 12 Jul 2021 09:04:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Mon, 12 Jul 2021 03:30:50 -0400
+X-UUID: ad7cb11227124d7e999b49f5d9e630b8-20210712
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=RaHR82D17SfxYYxbMS4VegTIpCJoSq06AsIDCLpUfYU=;
+        b=HJVBmBfrR1ybFuWzNlz0CloXWENT2m2CUD410UaVGwjGERcmGetrtC2bLranNJrSoObX5cl9NXLpWnICndcybmpfygR3QmPX6Tgz31kTzFBFDqi99sMzvHIFd36Fx02B/Tbc/DonLAzzhlO+UQy5PgdXKDPV7GtR3ZAJmv/8Td4=;
+X-UUID: ad7cb11227124d7e999b49f5d9e630b8-20210712
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1845177520; Mon, 12 Jul 2021 15:27:58 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 12 Jul 2021 15:27:56 +0800
+Received: from [10.17.3.153] (10.17.3.153) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 12 Jul 2021 15:27:55 +0800
+Message-ID: <1626074875.7221.15.camel@mhfsdcap03>
+Subject: Re: [PATCH v1, 07/14] media: mtk-vcodec: Add msg queue feature for
+ lat and core architecture
+From:   mtk12024 <yunfei.dong@mediatek.com>
+To:     Tzung-Bi Shih <tzungbi@google.com>
+CC:     Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        "Tiffany Lin" <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Date:   Mon, 12 Jul 2021 15:27:55 +0800
+In-Reply-To: <CA+Px+wUjJwksVfU6N8VZ9WMw-F-DHu67XwvDvMoiMcUBKF=P6Q@mail.gmail.com>
+References: <20210707062157.21176-1-yunfei.dong@mediatek.com>
+         <20210707062157.21176-8-yunfei.dong@mediatek.com>
+         <CA+Px+wUjJwksVfU6N8VZ9WMw-F-DHu67XwvDvMoiMcUBKF=P6Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <b940889da47bc1c636993d9c7a93892eb18fa252.1625962440.git.deborahbrouwer3563@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfC8M3Yg28TLIt0dwffZAGD17jswXHdluVIHRsJdp+gICwJlYod+m/HTlsdI6nmRHv3aYz71I57rEb6+0BQ6w/AXKOaSKa5bubbcSZXDQoesO6LmLVc5v
- FsCx7ikcF3peMkchGBNLLDuWbKkz40Wq/edqVS3s6QV+uF9Lv8IuxZtjPhwAkoUvxFmY3+TMfFpYOMW/rz3M/hMCTm+pk9dUsTByJV6wwwcpLrNYTzDO2qQu
- /lD7LOoqXiB1enakLfGnol1zkEh20Ha0pV302tRoOt5skDMyksmHyyPoXayx/kkPvCAe4o+XgHEx00vCACJuVbGooMY6qyJhpHP8YopoX5UoqHc7G4OJaU6/
- lVVmSR6x
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/07/2021 02:37, Deborah Brouwer wrote:
-> Start and stop recording as timers are scheduled. Schedule future timers
-> if a completed timer has a recording sequence. Delete overlapped and
-> unfinished timers. Reduce available media space when a recording is
-> completed.
-> 
-> Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
-> ---
->  utils/cec-follower/cec-follower.cpp   |  5 +++
->  utils/cec-follower/cec-follower.h     |  1 +
->  utils/cec-follower/cec-processing.cpp | 56 +++++++++++++++++++++++++++
->  utils/cec-follower/cec-tuner.cpp      | 26 ++++++++++---
->  4 files changed, 83 insertions(+), 5 deletions(-)
-> 
-> diff --git a/utils/cec-follower/cec-follower.cpp b/utils/cec-follower/cec-follower.cpp
-> index b273b988..0adf6ce8 100644
-> --- a/utils/cec-follower/cec-follower.cpp
-> +++ b/utils/cec-follower/cec-follower.cpp
-> @@ -301,6 +301,10 @@ void print_timers(struct node *node)
->  {
->  	if (show_info) {
->  		printf("Timers Set:\n");
-> +		if (node->state.recording_controlled_by_timer)
-> +			printf("Deck is currently recording from the first timer.\n");
-> +		if (node->state.one_touch_record_on && !node->state.recording_controlled_by_timer)
-> +			printf("Deck is currently recording independent of timers.\n");
->  		for (auto &t : programmed_timers) {
->  			std::string start = ctime(&t.start_time);
->  			time_t end_time = t.start_time + t.duration;
-> @@ -373,6 +377,7 @@ void state_init(struct node &node)
->  	node.state.one_touch_record_on = false;
->  	node.state.record_received_standby = false;
->  	node.state.media_space_available = 36000; /* In MB; space for 10 hours @ 1MB/sec */
-> +	node.state.recording_controlled_by_timer = false;
->  	tuner_dev_info_init(&node.state);
->  	node.state.last_aud_rate_rx_ts = 0;
->  }
-> diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
-> index 69c96aa7..7b22368b 100644
-> --- a/utils/cec-follower/cec-follower.h
-> +++ b/utils/cec-follower/cec-follower.h
-> @@ -60,6 +60,7 @@ struct state {
->  	bool one_touch_record_on;
->  	bool record_received_standby;
->  	int media_space_available;
-> +	bool recording_controlled_by_timer;
->  	time_t toggle_power_status;
->  	__u64 last_aud_rate_rx_ts;
->  };
-> diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-> index 32375966..2987cb99 100644
-> --- a/utils/cec-follower/cec-processing.cpp
-> +++ b/utils/cec-follower/cec-processing.cpp
-> @@ -1164,6 +1164,62 @@ void testProcessing(struct node *node, bool wallclock)
->  			node->state.deck_skip_start = 0;
->  			update_deck_state(node, me, CEC_OP_DECK_INFO_PLAY);
->  		}
-> +
-> +		if (!programmed_timers.empty()) {
-> +			std::set<struct Timer>::iterator it = programmed_timers.begin();
-> +			/* Use the current minute because timers do not have second precision. */
-> +			time_t current_minute = time(nullptr) / 60;
-> +			time_t timer_start_minute = it->start_time / 60;
-> +			time_t timer_end_minute = (it->start_time + it->duration) / 60;
-> +
-> +			/* Start the timed recording only if the deck is not already recording. */
-> +			if (timer_start_minute == current_minute && !node->state.one_touch_record_on) {
-> +				node->state.one_touch_record_on = true;
-> +				node->state.recording_controlled_by_timer = true;
-> +				print_timers(node);
-> +			}
-> +
-> +			/* Delete an overlapped timer. Recording will be at best incomplete. */
-> +			if (timer_start_minute < current_minute &&
-> +			    (!node->state.recording_controlled_by_timer || !node->state.one_touch_record_on)) {
-> +				programmed_timers.erase(*it);
-> +				if (show_info)
-> +					printf("Deleted overlapped timer.\n");
-> +				print_timers(node);
-> +			}
-> +
-> +			/* Delete finished timers. */
-> +			if (timer_end_minute == current_minute && node->state.recording_controlled_by_timer) {
-> +				node->state.one_touch_record_on = false;
-> +				node->state.recording_controlled_by_timer = false;
-> +				node->state.media_space_available -= it->duration; /* 1 MB per second */
-> +				/*
-> +				 * TODO: We are only ever decreasing the amount of space available,
-> +				 * there is no heuristic that reclaims the space.
-> +				 */
-> +
-> +				if (it->recording_seq) {
-> +					struct tm last_start_time = *(localtime(&(it->start_time)));
-> +					int next_wday = (last_start_time.tm_wday + 1) % 7;
-> +					int days_to_move_ahead = 1;
-> +
-> +					while ((it->recording_seq & (1 << next_wday)) == 0) {
-> +						days_to_move_ahead++;
-> +						next_wday = (next_wday + 1) % 7;
-> +					}
-> +					struct Timer next_timer = {};
-> +					next_timer = *it;
-> +					last_start_time.tm_mday += days_to_move_ahead;
-> +					last_start_time.tm_isdst = -1;
-> +					next_timer.start_time = mktime(&last_start_time);
-> +					programmed_timers.insert(next_timer);
-> +				}
-> +				programmed_timers.erase(*it);
-> +				if (show_info)
-> +					printf("Deleted finished timer.\n");
-> +				print_timers(node);
-> +			}
-> +		}
->  	}
->  	mode = CEC_MODE_INITIATOR;
->  	doioctl(node, CEC_S_MODE, &mode);
-> diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
-> index 544cb662..37e2de24 100644
-> --- a/utils/cec-follower/cec-tuner.cpp
-> +++ b/utils/cec-follower/cec-tuner.cpp
-> @@ -864,6 +864,16 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
->  		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_TERMINATED_OK);
->  		transmit(node, &msg);
->  		node->state.one_touch_record_on = false;
-> +
-> +		/* Delete any currently active recording timer or it may restart itself in first minute. */
-> +		if (node->state.recording_controlled_by_timer) {
-> +			node->state.recording_controlled_by_timer = false;
-> +			std::set<struct Timer>::iterator it = programmed_timers.begin();
-> +			programmed_timers.erase(*it);
-
-I think you can just do:
-
-			programmed_timers.erase(programmed_timers.begin());
-
-> +			if (show_info)
-> +				printf("Deleted manually stopped timer.\n");
-> +			print_timers(node);
-> +		}
->  		/*
->  		 * If standby was received during recording, enter standby when the
->  		 * recording is finished unless recording device is the active source.
-> @@ -946,12 +956,18 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
->  			break;
->  
->  		__u8 timer_cleared_status = CEC_OP_TIMER_CLR_STAT_NO_MATCHING;
-> -		struct Timer timer = get_timer_from_message(msg);
->  
-> -		if (programmed_timers.find(timer) != programmed_timers.end()) {
-> -			timer_cleared_status = CEC_OP_TIMER_CLR_STAT_CLEARED;
-> -			programmed_timers.erase(timer);
-> -			print_timers(node);
-> +		if (node->state.one_touch_record_on && node->state.recording_controlled_by_timer) {
-> +			timer_cleared_status = CEC_OP_TIMER_CLR_STAT_RECORDING;
-> +			/* TODO: Allow other timers to be cleared while one timer is recording. */
-
-I don't understand this TODO.
-
-Can't you just do:
-
-		auto it = programmed_timers.find(timer);
-		if (it != programmed_timers.end()) {
-			if (node->state.one_touch_record_on && node->state.recording_controlled_by_timer &&
-			    it == programmed_timers.begin()) {
-				timer_cleared_status = CEC_OP_TIMER_CLR_STAT_RECORDING;
-				// Also stop the recording at this time, updating the state accordingly.
-			} else {
-				timer_cleared_status = CEC_OP_TIMER_CLR_STAT_CLEARED;
-			}
-			programmed_timers.erase(timer);
-			print_timers(node);
-		}
-
-> +		} else {
-> +			struct Timer timer = get_timer_from_message(msg);
-> +
-> +			if (programmed_timers.find(timer) != programmed_timers.end()) {
-> +				timer_cleared_status = CEC_OP_TIMER_CLR_STAT_CLEARED;
-> +				programmed_timers.erase(timer);
-> +				print_timers(node);
-> +			}
->  		}
->  		cec_msg_set_reply_to(&msg, &msg);
->  		cec_msg_timer_cleared_status(&msg, timer_cleared_status);
-> 
+SGkgVHp1bmctQmksDQoNClRoYW5rcyBmb3IgeW91ciBkZXRhaWwgZmVlZGJhY2suDQpJIGFkZCB0
+aGUgZGVzY3JpcHRpb24gYWNjb3JkaW5nIHRvIHlvdXIgZWFjaCBjb21tZW50cy4NCg0KT24gRnJp
+LCAyMDIxLTA3LTA5IGF0IDE3OjM5ICswODAwLCBUenVuZy1CaSBTaGloIHdyb3RlOg0KPiBPbiBX
+ZWQsIEp1bCA3LCAyMDIxIGF0IDI6MjIgUE0gWXVuZmVpIERvbmcgPHl1bmZlaS5kb25nQG1lZGlh
+dGVrLmNvbT4gd3JvdGU6DQo+ID4gQEAgLTQ2NCw2ICs0NjksMTEgQEAgc3RydWN0IG10a192Y29k
+ZWNfZW5jX3BkYXRhIHsNCj4gPiAgICogY29tcF9kZXY6IGNvbXBvbmVudCBoYXJkd2FyZSBkZXZp
+Y2UNCj4gPiAgICogY29tcG9uZW50X25vZGU6IGNvbXBvbmVudCBub2RlDQo+ID4gICAqIGNvbXBf
+aWR4OiBjb21wb25lbnQgaW5kZXgNCj4gPiArICoNCj4gPiArICogY29yZV9yZWFkOiBXYWl0IHF1
+ZXVlIHVzZWQgdG8gc2lnbmFsaXplIHdoZW4gY29yZSBnZXQgdXNlZnVsIGxhdCBidWZmZXINCj4g
+PiArICogY29yZV9xdWV1ZTogTGlzdCBvZiBWNEwyIGxhdF9idWYNCj4gVG8gYmUgbmVhdCwgcmVw
+bGFjZSAiV2FpdCIgdG8gIndhaXQiIGFuZCAiTGlzdCIgdG8gImxpc3QiLg0KV2lsbCBmaXguDQo+
+ID4gK2ludCB2ZGVjX21zZ19xdWV1ZV9pbml0KA0KPiA+ICsgICAgICAgc3RydWN0IG10a192Y29k
+ZWNfY3R4ICpjdHgsDQo+ID4gKyAgICAgICBzdHJ1Y3QgdmRlY19tc2dfcXVldWUgKm1zZ19xdWV1
+ZSwNCj4gPiArICAgICAgIGNvcmVfZGVjb2RlX2NiX3QgY29yZV9kZWNvZGUsDQo+ID4gKyAgICAg
+ICBpbnQgcHJpdmF0ZV9zaXplKQ0KPiA+ICt7DQo+ID4gKyAgICAgICBzdHJ1Y3QgdmRlY19sYXRf
+YnVmICpsYXRfYnVmOw0KPiA+ICsgICAgICAgaW50IGksIGVycjsNCj4gPiArDQo+ID4gKyAgICAg
+ICBpbml0X3dhaXRxdWV1ZV9oZWFkKCZtc2dfcXVldWUtPmxhdF9yZWFkKTsNCj4gPiArICAgICAg
+IElOSVRfTElTVF9IRUFEKCZtc2dfcXVldWUtPmxhdF9xdWV1ZSk7DQo+ID4gKyAgICAgICBzcGlu
+X2xvY2tfaW5pdCgmbXNnX3F1ZXVlLT5sYXRfbG9jayk7DQo+ID4gKyAgICAgICBtc2dfcXVldWUt
+Pm51bV9sYXQgPSAwOw0KPiA+ICsNCj4gPiArICAgICAgIG1zZ19xdWV1ZS0+d2RtYV9hZGRyLnNp
+emUgPSB2ZGVfbXNnX3F1ZXVlX2dldF90cmFuc19zaXplKA0KPiA+ICsgICAgICAgICAgICAgICBj
+dHgtPnBpY2luZm8uYnVmX3csIGN0eC0+cGljaW5mby5idWZfaCk7DQo+ID4gKw0KPiA+ICsgICAg
+ICAgZXJyID0gbXRrX3Zjb2RlY19tZW1fYWxsb2MoY3R4LCAmbXNnX3F1ZXVlLT53ZG1hX2FkZHIp
+Ow0KPiA+ICsgICAgICAgaWYgKGVycikgew0KPiA+ICsgICAgICAgICAgICAgICBtdGtfdjRsMl9l
+cnIoImZhaWxlZCB0byBhbGxvY2F0ZSB3ZG1hX2FkZHIgYnVmIik7DQo+ID4gKyAgICAgICAgICAg
+ICAgIHJldHVybiAtRU5PTUVNOw0KPiA+ICsgICAgICAgfQ0KPiA+ICsgICAgICAgbXNnX3F1ZXVl
+LT53ZG1hX3JwdHJfYWRkciA9IG1zZ19xdWV1ZS0+d2RtYV9hZGRyLmRtYV9hZGRyOw0KPiA+ICsg
+ICAgICAgbXNnX3F1ZXVlLT53ZG1hX3dwdHJfYWRkciA9IG1zZ19xdWV1ZS0+d2RtYV9hZGRyLmRt
+YV9hZGRyOw0KPiA+ICsNCj4gPiArICAgICAgIGZvciAoaSA9IDA7IGkgPCBOVU1fQlVGRkVSX0NP
+VU5UOyBpKyspIHsNCj4gPiArICAgICAgICAgICAgICAgbGF0X2J1ZiA9ICZtc2dfcXVldWUtPmxh
+dF9idWZbaV07DQo+ID4gKw0KPiA+ICsgICAgICAgICAgICAgICBsYXRfYnVmLT53ZG1hX2Vycl9h
+ZGRyLnNpemUgPSBWREVDX0VSUl9NQVBfU1pfQVZDOw0KPiA+ICsgICAgICAgICAgICAgICBlcnIg
+PSBtdGtfdmNvZGVjX21lbV9hbGxvYyhjdHgsICZsYXRfYnVmLT53ZG1hX2Vycl9hZGRyKTsNCj4g
+PiArICAgICAgICAgICAgICAgaWYgKGVycikgew0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
+IG10a192NGwyX2VycigiZmFpbGVkIHRvIGFsbG9jYXRlIHdkbWFfZXJyX2FkZHIgYnVmWyVkXSIs
+IGkpOw0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiAtRU5PTUVNOw0KPiA+ICsg
+ICAgICAgICAgICAgICB9DQo+ID4gKw0KPiA+ICsgICAgICAgICAgICAgICBsYXRfYnVmLT5zbGlj
+ZV9iY19hZGRyLnNpemUgPSBWREVDX0xBVF9TTElDRV9IRUFERVJfU1o7DQo+ID4gKyAgICAgICAg
+ICAgICAgIGVyciA9IG10a192Y29kZWNfbWVtX2FsbG9jKGN0eCwgJmxhdF9idWYtPnNsaWNlX2Jj
+X2FkZHIpOw0KPiA+ICsgICAgICAgICAgICAgICBpZiAoZXJyKSB7DQo+ID4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgbXRrX3Y0bDJfZXJyKCJmYWlsZWQgdG8gYWxsb2NhdGUgd2RtYV9hZGRyIGJ1
+ZlslZF0iLCBpKTsNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsN
+Cj4gPiArICAgICAgICAgICAgICAgfQ0KPiA+ICsNCj4gPiArICAgICAgICAgICAgICAgbGF0X2J1
+Zi0+cHJpdmF0ZV9kYXRhID0ga3phbGxvYyhwcml2YXRlX3NpemUsIEdGUF9LRVJORUwpOw0KPiA+
+ICsgICAgICAgICAgICAgICBpZiAoIWxhdF9idWYtPnByaXZhdGVfZGF0YSkgew0KPiA+ICsgICAg
+ICAgICAgICAgICAgICAgICAgIG10a192NGwyX2VycigiZmFpbGVkIHRvIGFsbG9jYXRlIHByaXZh
+dGVfZGF0YVslZF0iLCBpKTsNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gLUVO
+T01FTTsNCj4gPiArICAgICAgICAgICAgICAgfQ0KPiA+ICsNCj4gPiArICAgICAgICAgICAgICAg
+bGF0X2J1Zi0+Y3R4ID0gY3R4Ow0KPiA+ICsgICAgICAgICAgICAgICBsYXRfYnVmLT5jb3JlX2Rl
+Y29kZSA9IGNvcmVfZGVjb2RlOw0KPiA+ICsgICAgICAgICAgICAgICB2ZGVjX21zZ19xdWV1ZV9i
+dWZfdG9fbGF0KGxhdF9idWYpOw0KPiA+ICsgICAgICAgfQ0KPiBEb2Vzbid0IGl0IG5lZWQgdG8g
+Y2FsbCBtdGtfdmNvZGVjX21lbV9mcmVlKCkgYW5kIGtmcmVlKCkgZm9yIGFueSBmYWlsdXJlIHBh
+dGhzPw0KV2hlbiBhbGxvY2F0ZSBtZW1vcnkgZmFpbCwgd2lsbCBjYWxsIGRlaW5pdCBmdW5jdGlv
+biBhdXRvLCB0aGVuIGZyZWUgYWxsIGFsbG9jYXRlZCBtZW1vcnkuDQo+ID4gK3N0cnVjdCB2ZGVj
+X2xhdF9idWYgKnZkZWNfbXNnX3F1ZXVlX2dldF9jb3JlX2J1ZigNCj4gPiArICAgICAgIHN0cnVj
+dCBtdGtfdmNvZGVjX2RldiAqZGV2KQ0KPiA+ICt7DQo+ID4gKyAgICAgICBzdHJ1Y3QgdmRlY19s
+YXRfYnVmICpidWY7DQo+ID4gKyAgICAgICBpbnQgcmV0Ow0KPiA+ICsNCj4gPiArICAgICAgIHNw
+aW5fbG9jaygmZGV2LT5jb3JlX2xvY2spOw0KPiA+ICsgICAgICAgaWYgKGxpc3RfZW1wdHkoJmRl
+di0+Y29yZV9xdWV1ZSkpIHsNCj4gPiArICAgICAgICAgICAgICAgbXRrX3Y0bDJfZGVidWcoMywg
+ImNvcmUgcXVldWUgaXMgTlVMTCwgbnVtX2NvcmUgPSAlZCIsIGRldi0+bnVtX2NvcmUpOw0KPiA+
+ICsgICAgICAgICAgICAgICBzcGluX3VubG9jaygmZGV2LT5jb3JlX2xvY2spOw0KPiA+ICsgICAg
+ICAgICAgICAgICByZXQgPSB3YWl0X2V2ZW50X2ZyZWV6YWJsZShkZXYtPmNvcmVfcmVhZCwNCj4g
+PiArICAgICAgICAgICAgICAgICAgICAgICAhbGlzdF9lbXB0eSgmZGV2LT5jb3JlX3F1ZXVlKSk7
+DQo+ID4gKyAgICAgICAgICAgICAgIGlmIChyZXQpDQo+ID4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgcmV0dXJuIE5VTEw7DQo+IFNob3VsZCBiZSAhcmV0Pw0KQWNjb3JkaW5nIHRoZSBkZWZpbmlk
+dGlvbiwgd2hlbiBjb25kaXRpb24gaXMgdHJ1ZSwgcmV0dXJuIHZhbHVlIGlzIDAuDQojZGVmaW5l
+IHdhaXRfZXZlbnRfZnJlZXphYmxlKHdxX2hlYWQsIGNvbmRpdGlvbikJCQkJXA0KKHsJCQkJCQkJ
+CQkJXA0KCWludCBfX3JldCA9IDA7CQkJCQkJCQlcDQoJbWlnaHRfc2xlZXAoKTsJCQkJCQkJCVwN
+CglpZiAoIShjb25kaXRpb24pKQkJCQkJCQlcDQoJCV9fcmV0ID0gX193YWl0X2V2ZW50X2ZyZWV6
+YWJsZSh3cV9oZWFkLCBjb25kaXRpb24pOwkJXA0KCV9fcmV0OwkJCQkJCQkJCVwNCn0pIA0KPiA+
+ICt2b2lkIHZkZWNfbXNnX3F1ZXVlX2J1Zl90b19jb3JlKHN0cnVjdCBtdGtfdmNvZGVjX2RldiAq
+ZGV2LA0KPiA+ICsgICAgICAgc3RydWN0IHZkZWNfbGF0X2J1ZiAqYnVmKQ0KPiA+ICt7DQo+ID4g
+KyAgICAgICBzcGluX2xvY2soJmRldi0+Y29yZV9sb2NrKTsNCj4gPiArICAgICAgIGxpc3RfYWRk
+X3RhaWwoJmJ1Zi0+Y29yZV9saXN0LCAmZGV2LT5jb3JlX3F1ZXVlKTsNCj4gPiArICAgICAgIGRl
+di0+bnVtX2NvcmUrKzsNCj4gPiArICAgICAgIHdha2VfdXBfYWxsKCZkZXYtPmNvcmVfcmVhZCk7
+DQo+ID4gKyAgICAgICBtdGtfdjRsMl9kZWJ1ZygzLCAicXVldSBidWYgYWRkcjogKDB4JXApIiwg
+YnVmKTsNCj4gVHlwby4NCj4gDQo+ID4gK2Jvb2wgdmRlY19tc2dfcXVldWVfd2FpdF9sYXRfYnVm
+X2Z1bGwoc3RydWN0IHZkZWNfbXNnX3F1ZXVlICptc2dfcXVldWUpDQo+ID4gK3sNCj4gPiArICAg
+ICAgIGxvbmcgdGltZW91dF9qaWZmOw0KPiA+ICsgICAgICAgaW50IHJldCwgaTsNCj4gPiArDQo+
+ID4gKyAgICAgICBmb3IgKGkgPSAwOyBpIDwgTlVNX0JVRkZFUl9DT1VOVCArIDI7IGkrKykgew0K
+PiA+ICsgICAgICAgICAgICAgIHRpbWVvdXRfamlmZiA9IG1zZWNzX3RvX2ppZmZpZXMoMTAwMCk7
+DQo+ID4gKyAgICAgICAgICAgICAgcmV0ID0gd2FpdF9ldmVudF90aW1lb3V0KG1zZ19xdWV1ZS0+
+bGF0X3JlYWQsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgbXNnX3F1ZXVlLT5udW1fbGF0ID09
+IE5VTV9CVUZGRVJfQ09VTlQsIHRpbWVvdXRfamlmZik7DQo+ID4gKyAgICAgICAgICAgICAgaWYg
+KHJldCkgew0KPiA+ICsgICAgICAgICAgICAgICAgICAgICBtdGtfdjRsMl9kZWJ1ZygzLCAic3Vj
+Y2VzcyB0byBnZXQgbGF0IGJ1ZjogJWQiLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgbXNnX3F1ZXVlLT5udW1fbGF0KTsNCj4gPiArICAgICAgICAgICAgICAgICAgICAgcmV0dXJu
+IHRydWU7DQo+ID4gKyAgICAgICAgICAgICAgfQ0KPiA+ICsgICAgICAgfQ0KPiBXaHkgZG9lcyBp
+dCBuZWVkIHRoZSBsb29wPyAgaSBpcyB1bnVzZWQuDQpDb3JlIG1heWJlIGRlY29kZSB0aW1lb3V0
+LCBuZWVkIHRvIHdhaXQgYWxsIGNvcmUgYnVmZmVyIHByb2Nlc3MNCmNvbXBsZXRlbHkuDQo+ID4g
+K3ZvaWQgdmRlY19tc2dfcXVldWVfZGVpbml0KA0KPiA+ICsgICAgICAgc3RydWN0IG10a192Y29k
+ZWNfY3R4ICpjdHgsDQo+ID4gKyAgICAgICBzdHJ1Y3QgdmRlY19tc2dfcXVldWUgKm1zZ19xdWV1
+ZSkNCj4gPiArew0KPiA+ICsgICAgICAgc3RydWN0IHZkZWNfbGF0X2J1ZiAqbGF0X2J1ZjsNCj4g
+PiArICAgICAgIHN0cnVjdCBtdGtfdmNvZGVjX21lbSAqbWVtOw0KPiA+ICsgICAgICAgaW50IGk7
+DQo+ID4gKw0KPiA+ICsgICAgICAgbWVtID0gJm1zZ19xdWV1ZS0+d2RtYV9hZGRyOw0KPiA+ICsg
+ICAgICAgaWYgKG1lbS0+dmEpDQo+ID4gKyAgICAgICAgICAgICAgIG10a192Y29kZWNfbWVtX2Zy
+ZWUoY3R4LCBtZW0pOw0KPiA+ICsgICAgICAgZm9yIChpID0gMDsgaSA8IE5VTV9CVUZGRVJfQ09V
+TlQ7IGkrKykgew0KPiA+ICsgICAgICAgICAgICAgICBsYXRfYnVmID0gJm1zZ19xdWV1ZS0+bGF0
+X2J1ZltpXTsNCj4gPiArDQo+ID4gKyAgICAgICAgICAgICAgIG1lbSA9ICZsYXRfYnVmLT53ZG1h
+X2Vycl9hZGRyOw0KPiA+ICsgICAgICAgICAgICAgICBpZiAobWVtLT52YSkNCj4gPiArICAgICAg
+ICAgICAgICAgICAgICAgICBtdGtfdmNvZGVjX21lbV9mcmVlKGN0eCwgbWVtKTsNCj4gPiArDQo+
+ID4gKyAgICAgICAgICAgICAgIG1lbSA9ICZsYXRfYnVmLT5zbGljZV9iY19hZGRyOw0KPiA+ICsg
+ICAgICAgICAgICAgICBpZiAobWVtLT52YSkNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICBt
+dGtfdmNvZGVjX21lbV9mcmVlKGN0eCwgbWVtKTsNCj4gPiArDQo+ID4gKyAgICAgICAgICAgICAg
+IGlmIChsYXRfYnVmLT5wcml2YXRlX2RhdGEpDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
+a2ZyZWUobGF0X2J1Zi0+cHJpdmF0ZV9kYXRhKTsNCj4gPiArICAgICAgIH0NCj4gPiArDQo+ID4g
+KyAgICAgICBtc2dfcXVldWUtPmluaXRfZG9uZSA9IGZhbHNlOw0KPiBIYXZlIG5vIGlkZWEgd2hh
+dCBpbml0X2RvbmUgZG9lcyBpbiB0aGUgY29kZS4gIEl0IGlzIG5vdCBpbmNsdWRlZCBpbg0KPiBh
+bnkgYnJhbmNoIGNvbmRpdGlvbi4NCldoZW4gY2FsbCB2ZGVjX21zZ19xdWV1ZV9pbml0IHdpbGwg
+c2V0IHRoaXMgcGFyYW1ldGVyIHRvIHRydWUuDQo+ID4gKy8qKg0KPiA+ICsgKiB2ZGVjX21zZ19x
+dWV1ZV9pbml0IC0gaW5pdCBsYXQgYnVmZmVyIGluZm9ybWF0aW9uLg0KPiA+ICsgKiBAY3R4OiB2
+NGwyIGN0eA0KPiA+ICsgKiBAbXNnX3F1ZXVlOiB1c2VkIHRvIHN0b3JlIHRoZSBsYXQgYnVmZmVy
+IGluZm9ybWF0aW9uDQo+ID4gKyAqIEBjb3JlX2RlY29kZTogY29yZSBkZWNvZGUgY2FsbGJhY2sg
+Zm9yIGVhY2ggY29kZWMNCj4gPiArICogQHByaXZhdGVfc2l6ZTogdGhlIHByaXZhdGUgZGF0YSBz
+aXplIHVzZWQgdG8gc2hhcmUgd2l0aCBjb3JlDQo+ID4gKyAqLw0KPiA+ICtpbnQgdmRlY19tc2df
+cXVldWVfaW5pdCgNCj4gPiArICAgICAgIHN0cnVjdCBtdGtfdmNvZGVjX2N0eCAqY3R4LA0KPiA+
+ICsgICAgICAgc3RydWN0IHZkZWNfbXNnX3F1ZXVlICptc2dfcXVldWUsDQo+ID4gKyAgICAgICBj
+b3JlX2RlY29kZV9jYl90IGNvcmVfZGVjb2RlLA0KPiA+ICsgICAgICAgaW50IHByaXZhdGVfc2l6
+ZSk7DQo+IFdvdWxkIHByZWZlciB0byBoYXZlICptc2dfcXVldWUgYXMgdGhlIGZpcnN0IGFyZ3Vt
+ZW50IChhbHNvIGFwcGxpZXMgdG8NCj4gYWxsIG9wZXJhdG9ycyBvZiB2ZGVjX21zZ19xdWV1ZSku
+DQpDYW4gZml4Lg0KPiA+ICsvKioNCj4gPiArICogdmRlY19tc2dfcXVldWVfZ2V0X2NvcmVfYnVm
+IC0gZ2V0IHVzZWQgY29yZSBidWZmZXIgZm9yIGxhdCBkZWNvZGUuDQo+ID4gKyAqIEBkZXY6IG10
+ayB2Y29kZWMgZGV2aWNlDQo+ID4gKyAqLw0KPiA+ICtzdHJ1Y3QgdmRlY19sYXRfYnVmICp2ZGVj
+X21zZ19xdWV1ZV9nZXRfY29yZV9idWYoDQo+ID4gKyAgICAgICBzdHJ1Y3QgbXRrX3Zjb2RlY19k
+ZXYgKmRldik7DQo+IFRoaXMgaXMgd2VpcmQ6IHZkZWNfbXNnX3F1ZXVlJ3Mgb3BlcmF0b3IgYnV0
+IG1hbmlwdWxhdGluZyBtdGtfdmNvZGVjX2Rldj8NCnZkZWNfbXNnX3F1ZXVlIGlzIHVzZWQgdG8g
+c2hhcmUgbWVzc2FnZSBiZXR3ZWVuIGxhdCBhbmQgY29yZSwgZm9yIGVhY2gNCmluc3RhbmNlIGhh
+cyBpdHMgbGF0IG1zZyBxdWV1ZSBsaXN0LCBidXQgYWxsIGluc3RhbmNlIHNoYXJlIG9uZSBjb3Jl
+IG1zZw0KcXVldWUgbGlzdC4gV2hlbiB0cnkgdG8gZ2V0IGNvcmUgYnVmZmVyIG5lZWQgdG8gZ2V0
+IGl0IGZyb20gY29yZSBxdWV1ZQ0KbGlzdC4gVGhlbiBxdWV1ZSBpdCB0byBsYXQgcXVldWUgbGlz
+dCB3aGVuIGNvcmUgZGVjb2RlIGRvbmUuDQo+ID4gKw0KPiA+ICsvKioNCj4gPiArICogdmRlY19t
+c2dfcXVldWVfYnVmX3RvX2NvcmUgLSBxdWV1ZSBidWYgdG8gdGhlIGNvcmUgZm9yIGNvcmUgZGVj
+b2RlLg0KPiA+ICsgKiBAZGV2OiBtdGsgdmNvZGVjIGRldmljZQ0KPiA+ICsgKiBAYnVmOiBjdXJy
+ZW50IGxhdCBidWZmZXINCj4gPiArICovDQo+ID4gK3ZvaWQgdmRlY19tc2dfcXVldWVfYnVmX3Rv
+X2NvcmUoc3RydWN0IG10a192Y29kZWNfZGV2ICpkZXYsDQo+ID4gKyAgICAgICBzdHJ1Y3QgdmRl
+Y19sYXRfYnVmICpidWYpOw0KPiBBbHNvIHdlaXJkLg0KPiANCj4gPiArLyoqDQo+ID4gKyAqIHZk
+ZWNfbXNnX3F1ZXVlX2J1Zl90b19sYXQgLSBxdWV1ZSBidWYgdG8gbGF0IGZvciBsYXQgZGVjb2Rl
+Lg0KPiA+ICsgKiBAYnVmOiBjdXJyZW50IGxhdCBidWZmZXINCj4gPiArICovDQo+ID4gK3ZvaWQg
+dmRlY19tc2dfcXVldWVfYnVmX3RvX2xhdChzdHJ1Y3QgdmRlY19sYXRfYnVmICpidWYpOw0KPiBJ
+dCBzaG91bGQgYXQgbGVhc3QgYWNjZXB0IGEgc3RydWN0IHZkZWNfbXNnX3F1ZXVlIGFyZ3VtZW50
+IChvciB3aGljaA0KPiBtc2cgcXVldWUgc2hvdWxkIHRoZSBidWYgcHV0IGludG8/KS4NCkFsbCBi
+dWZmZXIgaXMgc3RydWN0IHZkZWNfbGF0X2J1ZiwgdXNlZCB0byBzaGFyZSBpbmZvIGJldHdlZW4g
+bGF0IGFuZCBjb3JlIHF1ZXVlIGxpc3QuDQo+ID4gKy8qKg0KPiA+ICsgKiB2ZGVjX21zZ19xdWV1
+ZV91cGRhdGVfdWJlX3JwdHIgLSB1c2VkIHRvIHVwZGF0YSB0aGUgdWJlIHJlYWQgcG9pbnQuDQo+
+IFR5cG8uDQo+IA0KPiA+ICsvKioNCj4gPiArICogdmRlY19tc2dfcXVldWVfdXBkYXRlX3ViZV93
+cHRyIC0gdXNlZCB0byB1cGRhdGEgdGhlIHViZSB3cml0ZSBwb2ludC4NCj4gVHlwby4NCj4gDQo+
+ID4gKy8qKg0KPiA+ICsgKiB2ZGVjX21zZ19xdWV1ZV9kZWluaXQgLSBkZWluaXQgbGF0IGJ1ZmZl
+ciBpbmZvcm1hdGlvbi4NCj4gPiArICogQGN0eDogdjRsMiBjdHgNCj4gPiArICogQG1zZ19xdWV1
+ZTogdXNlZCB0byBzdG9yZSB0aGUgbGF0IGJ1ZmZlciBpbmZvcm1hdGlvbg0KPiA+ICsgKi8NCj4g
+PiArdm9pZCB2ZGVjX21zZ19xdWV1ZV9kZWluaXQoDQo+ID4gKyAgICAgICBzdHJ1Y3QgbXRrX3Zj
+b2RlY19jdHggKmN0eCwNCj4gPiArICAgICAgIHN0cnVjdCB2ZGVjX21zZ19xdWV1ZSAqbXNnX3F1
+ZXVlKTsNCj4gV291bGQgcHJlZmVyIHRvIGhhdmUgKm1zZ19xdWV1ZSBhcyB0aGUgZmlyc3QgYXJn
+dW1lbnQuDQpZZXMsIGNhbiBmaXguDQo+IA0KPiBUaGUgcG9zaXRpb24gb2Ygc3RydWN0IHZkZWNf
+bXNnX3F1ZXVlIGlzIHdlaXJkLiAgSXQgbG9va3MgbGlrZSB0aGUgbXNnDQo+IHF1ZXVlIGlzIG9u
+bHkgZm9yIHN0cnVjdCB2ZGVjX2xhdF9idWYuICBJZiBzbywgd291bGQgdmRlY19tc2dfcXVldWUg
+YmUNCj4gYmV0dGVyIHRvIGNhbGwgdmRlY19sYXRfcXVldWUgb3Igc29tZXRoaW5nIHNpbWlsYXI/
+DQo+IA0KPiBJdCBzaG91bGRuJ3QgdG91Y2ggdGhlIGNvcmUgcXVldWUgaW4gbXRrX3Zjb2RlY19k
+ZXYgYW55d2F5LiAgSXMgaXQNCj4gcG9zc2libGUgdG8gZ2VuZXJhbGl6ZSB0aGUgcXVldWUtcmVs
+YXRlZCBjb2RlIGZvciBib3RoIGxhdCBhbmQgY29yZQ0KPiBxdWV1ZXM/DQpMYXQgcXVldWUgbGlz
+dCBpcyBzZXBhcmF0ZWx5IGZvciBlYWNoIGluc3RhbmNlLCBidXQgb25seSBoYXMgb25lIGNvcmUN
+CnF1ZXVlIGxpc3QuDQoNCg==
 
