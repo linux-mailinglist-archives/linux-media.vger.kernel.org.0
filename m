@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D15CB3C4329
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jul 2021 06:36:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC18D3C432D
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jul 2021 06:36:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231224AbhGLEiw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jul 2021 00:38:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59524 "EHLO
+        id S231495AbhGLEi4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jul 2021 00:38:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230391AbhGLEiu (ORCPT
+        with ESMTP id S230298AbhGLEi4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jul 2021 00:38:50 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF7DFC0613DD;
-        Sun, 11 Jul 2021 21:36:01 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id p9so9388102pjl.3;
-        Sun, 11 Jul 2021 21:36:01 -0700 (PDT)
+        Mon, 12 Jul 2021 00:38:56 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FFF9C0613DD;
+        Sun, 11 Jul 2021 21:36:07 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id o201so10154338pfd.1;
+        Sun, 11 Jul 2021 21:36:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Eqtuem0pDCqJ60ReBSt2sz2Ppq+kBwO0k3flKmvt0YI=;
-        b=gpVU+Nizwy5fV7c592OCz5zlkJDtckkKHt+t8+m6hBQ3v6VktI37EJhTyrTUCRWDDJ
-         b3plmZo9+FSFIt+Z+UUXPTDQ3ClQGN0xYSecEYW4uCTOTzZ38Vrj2Y1XpcH1mtoX09zX
-         o5jDp4tZqaIxD77sQOOi01uTTGC+DWpf6OaNU3aCMwS+g6tjB3LsJ4ICiA0aLdqR5P6e
-         WU91eDHeLOeBsm6wS+pqNydu/XtYdXjglcTrjvyxC6VZQasDQ2Ho0qe+FQJ1P8agROsb
-         CPMYKT4cEoedcN2dKSZSDbZsGYojW/RAwBbsH00eF81UuyITQRI5v7uOGBTVDawQj+8c
-         Y70A==
+        bh=CtdxbqSeV/2csKmNSvUS45gYT6/rPtvycxiemXQFqoE=;
+        b=RkEVvjOYkpwdKOPg3pFGyZ+MmtY9Q6jyGy9uT18j8G2Y0B21jpq+qci03i9JMuQ+iv
+         3z/kr1Pf/aVNk9F5G8cbnU8ty+vr9/Dd4WL1XF9A1LmI8s6cHN4pAS6JC1o38oeJF5ek
+         Eofy/TrzJ2b7IeTtAT7Ry1D9RINbF3rkJMgaHRIn5z/quGWmtgDA4WiBElGU2ZSXWb95
+         hZ6A+KULPqjOnqaADbeO1+cmK6skjVX4QzorBIolm1wJqxEgELwdZ1ZrS8h+RuhvSI4g
+         8bcmmqHqYyqjSrWhO4oBSFpXxHI4lW5yz/IM1saDLqFfDcDcNqDY9epj3nY6/nroIogX
+         +q1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Eqtuem0pDCqJ60ReBSt2sz2Ppq+kBwO0k3flKmvt0YI=;
-        b=NEIWyn1n69ipJipCXe8aTSfwTTWxnp/TH/k8W2eIMupD97TfkARlucizzv2rj7x/A/
-         wDvrxgeZqOTh6ylJESmfHRLwNUVNh9gZbH0rBuxQ2N24wmBwwzKdUkewoGmj1sp26COr
-         /C3rMBUXC1Y8bU1GCQ/1RhKJ+ulpoH3gD8yoIWutNNYbYt5HDittk9FyWJkdiaAYI+vB
-         Ww6zyVb0DhEnBAuDf/uCnE2cRQ6oTSYcA8iYKnhmDX+1lJgjwOG08cAU1IbhgnrSHcIk
-         KQQhKc1+if5OJSSilYULkF/hc6+aZymviyr+gz1UHgEfltv8rPTHzNuL5xYAX0WdQX5T
-         Kz/g==
-X-Gm-Message-State: AOAM5330m8/PchlsaKHA2/x40uhsDxZ6jxAXt2+O7Ka8+dr6Re51mX7v
-        GBGYXs3ja+dL8hhFoRD2fBk=
-X-Google-Smtp-Source: ABdhPJycCswKA9Nno/Iq/J/lSwP8BAVU6u7omTvZ3+UDJe82eUYASx3d6Wullh/KvRQpYfU0QCH8xg==
-X-Received: by 2002:a17:90a:2dce:: with SMTP id q14mr28029561pjm.42.1626064561464;
-        Sun, 11 Jul 2021 21:36:01 -0700 (PDT)
+        bh=CtdxbqSeV/2csKmNSvUS45gYT6/rPtvycxiemXQFqoE=;
+        b=NMgrJ3A6MXBomp/3xP/ZrFDss9iCAIFVFyqMYYihjb54IfwGdbP6IqV2Cj0s3gT4of
+         shT95qrC2WOgbZ9dtDdLzCVOZKolMAqr0McRmhSPQIWtTsLersMWa8NMYq66XMV5y0oc
+         n6jmXa2kQGQcO9FjgXtskL/2Nv8Cw60pzQh+Ww/KX6/Gf7lO7dcqG1/vcDmVcvTMo79E
+         gCfO0wbBUVwbnE7e/ZTdKk09ZE9K85Fi9uekn77ZtnGJmWCsHxazN+izXlywfg7xUCoo
+         siUQZRJPYygqWoLCRnmYSdbIb9FHOIkv0+5/SaWsXOXgpwaRL9spnlfqq1aaVrgCjRTN
+         I7ug==
+X-Gm-Message-State: AOAM533c3+z2H/er3B34NWWnSGHqJhDa2EayDFwp1GGUm60TjL5OFyoQ
+        JONd5tn+v9p5kP9sHfEMIkM=
+X-Google-Smtp-Source: ABdhPJz7q2t2Aox3iXnYKLt/9A+I+u5rTDJ6gGyg8eEi+vSuax0InwQFllAbLpOOEG/5WtqX4FbZPA==
+X-Received: by 2002:a63:de18:: with SMTP id f24mr45282752pgg.112.1626064567107;
+        Sun, 11 Jul 2021 21:36:07 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
-        by smtp.gmail.com with ESMTPSA id n3sm14242764pfn.216.2021.07.11.21.35.57
+        by smtp.gmail.com with ESMTPSA id n3sm14242764pfn.216.2021.07.11.21.36.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jul 2021 21:36:01 -0700 (PDT)
+        Sun, 11 Jul 2021 21:36:06 -0700 (PDT)
 From:   Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
         tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
@@ -58,10 +58,10 @@ Cc:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
         linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
         gregkh@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
-        emil.l.velikov@gmail.com
-Subject: [PATCH v8 2/5] drm: avoid blocking in drm_clients_info's rcu section
-Date:   Mon, 12 Jul 2021 12:35:05 +0800
-Message-Id: <20210712043508.11584-3-desmondcheongzx@gmail.com>
+        emil.l.velikov@gmail.com, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH v8 3/5] drm: add a locked version of drm_is_current_master
+Date:   Mon, 12 Jul 2021 12:35:06 +0800
+Message-Id: <20210712043508.11584-4-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210712043508.11584-1-desmondcheongzx@gmail.com>
 References: <20210712043508.11584-1-desmondcheongzx@gmail.com>
@@ -71,86 +71,116 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Inside drm_clients_info, the rcu_read_lock is held to lock
-pid_task()->comm. However, within this protected section, a call to
-drm_is_current_master is made, which involves a mutex lock in a future
-patch. However, this is illegal because the mutex lock might block
-while in the RCU read-side critical section.
+While checking the master status of the DRM file in
+drm_is_current_master(), the device's master mutex should be
+held. Without the mutex, the pointer fpriv->master may be freed
+concurrently by another process calling drm_setmaster_ioctl(). This
+could lead to use-after-free errors when the pointer is subsequently
+dereferenced in drm_lease_owner().
 
-Since drm_is_current_master isn't protected by rcu_read_lock, we avoid
-this by moving it out of the RCU critical section.
+The callers of drm_is_current_master() from drm_auth.c hold the
+device's master mutex, but external callers do not. Hence, we implement
+drm_is_current_master_locked() to be used within drm_auth.c, and
+modify drm_is_current_master() to grab the device's master mutex
+before checking the master status.
 
-The following report came from intel-gfx ci's
-igt@debugfs_test@read_all_entries testcase:
-
-=============================
-[ BUG: Invalid wait context ]
-5.13.0-CI-Patchwork_20515+ #1 Tainted: G        W
------------------------------
-debugfs_test/1101 is trying to lock:
-ffff888132d901a8 (&dev->master_mutex){+.+.}-{3:3}, at:
-drm_is_current_master+0x1e/0x50
-other info that might help us debug this:
-context-{4:4}
-3 locks held by debugfs_test/1101:
- #0: ffff88810fdffc90 (&p->lock){+.+.}-{3:3}, at:
- seq_read_iter+0x53/0x3b0
- #1: ffff888132d90240 (&dev->filelist_mutex){+.+.}-{3:3}, at:
- drm_clients_info+0x63/0x2a0
- #2: ffffffff82734220 (rcu_read_lock){....}-{1:2}, at:
- drm_clients_info+0x1b1/0x2a0
-stack backtrace:
-CPU: 8 PID: 1101 Comm: debugfs_test Tainted: G        W
-5.13.0-CI-Patchwork_20515+ #1
-Hardware name: Intel Corporation CometLake Client Platform/CometLake S
-UDIMM (ERB/CRB), BIOS CMLSFWR1.R00.1263.D00.1906260926 06/26/2019
-Call Trace:
- dump_stack+0x7f/0xad
- __lock_acquire.cold.78+0x2af/0x2ca
- lock_acquire+0xd3/0x300
- ? drm_is_current_master+0x1e/0x50
- ? __mutex_lock+0x76/0x970
- ? lockdep_hardirqs_on+0xbf/0x130
- __mutex_lock+0xab/0x970
- ? drm_is_current_master+0x1e/0x50
- ? drm_is_current_master+0x1e/0x50
- ? drm_is_current_master+0x1e/0x50
- drm_is_current_master+0x1e/0x50
- drm_clients_info+0x107/0x2a0
- seq_read_iter+0x178/0x3b0
- seq_read+0x104/0x150
- full_proxy_read+0x4e/0x80
- vfs_read+0xa5/0x1b0
- ksys_read+0x5a/0xd0
- do_syscall_64+0x39/0xb0
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-
+Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/gpu/drm/drm_debugfs.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_auth.c | 51 ++++++++++++++++++++++++--------------
+ 1 file changed, 32 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 3d7182001004..b0a826489488 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -91,6 +91,7 @@ static int drm_clients_info(struct seq_file *m, void *data)
- 	mutex_lock(&dev->filelist_mutex);
- 	list_for_each_entry_reverse(priv, &dev->filelist, lhead) {
- 		struct task_struct *task;
-+		bool is_current_master = drm_is_current_master(priv);
+diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+index f00e5abdbbf4..ab1863c5a5a0 100644
+--- a/drivers/gpu/drm/drm_auth.c
++++ b/drivers/gpu/drm/drm_auth.c
+@@ -61,6 +61,35 @@
+  * trusted clients.
+  */
  
- 		rcu_read_lock(); /* locks pid_task()->comm */
- 		task = pid_task(priv->pid, PIDTYPE_PID);
-@@ -99,7 +100,7 @@ static int drm_clients_info(struct seq_file *m, void *data)
- 			   task ? task->comm : "<unknown>",
- 			   pid_vnr(priv->pid),
- 			   priv->minor->index,
--			   drm_is_current_master(priv) ? 'y' : 'n',
-+			   is_current_master ? 'y' : 'n',
- 			   priv->authenticated ? 'y' : 'n',
- 			   from_kuid_munged(seq_user_ns(m), uid),
- 			   priv->magic);
++static bool drm_is_current_master_locked(struct drm_file *fpriv)
++{
++	lockdep_assert_held_once(&fpriv->minor->dev->master_mutex);
++
++	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
++}
++
++/**
++ * drm_is_current_master - checks whether @priv is the current master
++ * @fpriv: DRM file private
++ *
++ * Checks whether @fpriv is current master on its device. This decides whether a
++ * client is allowed to run DRM_MASTER IOCTLs.
++ *
++ * Most of the modern IOCTL which require DRM_MASTER are for kernel modesetting
++ * - the current master is assumed to own the non-shareable display hardware.
++ */
++bool drm_is_current_master(struct drm_file *fpriv)
++{
++	bool ret;
++
++	mutex_lock(&fpriv->minor->dev->master_mutex);
++	ret = drm_is_current_master_locked(fpriv);
++	mutex_unlock(&fpriv->minor->dev->master_mutex);
++
++	return ret;
++}
++EXPORT_SYMBOL(drm_is_current_master);
++
+ int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
+ {
+ 	struct drm_auth *auth = data;
+@@ -223,7 +252,7 @@ int drm_setmaster_ioctl(struct drm_device *dev, void *data,
+ 	if (ret)
+ 		goto out_unlock;
+ 
+-	if (drm_is_current_master(file_priv))
++	if (drm_is_current_master_locked(file_priv))
+ 		goto out_unlock;
+ 
+ 	if (dev->master) {
+@@ -272,7 +301,7 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
+ 	if (ret)
+ 		goto out_unlock;
+ 
+-	if (!drm_is_current_master(file_priv)) {
++	if (!drm_is_current_master_locked(file_priv)) {
+ 		ret = -EINVAL;
+ 		goto out_unlock;
+ 	}
+@@ -321,7 +350,7 @@ void drm_master_release(struct drm_file *file_priv)
+ 	if (file_priv->magic)
+ 		idr_remove(&file_priv->master->magic_map, file_priv->magic);
+ 
+-	if (!drm_is_current_master(file_priv))
++	if (!drm_is_current_master_locked(file_priv))
+ 		goto out;
+ 
+ 	drm_legacy_lock_master_cleanup(dev, master);
+@@ -342,22 +371,6 @@ void drm_master_release(struct drm_file *file_priv)
+ 	mutex_unlock(&dev->master_mutex);
+ }
+ 
+-/**
+- * drm_is_current_master - checks whether @priv is the current master
+- * @fpriv: DRM file private
+- *
+- * Checks whether @fpriv is current master on its device. This decides whether a
+- * client is allowed to run DRM_MASTER IOCTLs.
+- *
+- * Most of the modern IOCTL which require DRM_MASTER are for kernel modesetting
+- * - the current master is assumed to own the non-shareable display hardware.
+- */
+-bool drm_is_current_master(struct drm_file *fpriv)
+-{
+-	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
+-}
+-EXPORT_SYMBOL(drm_is_current_master);
+-
+ /**
+  * drm_master_get - reference a master pointer
+  * @master: &struct drm_master
 -- 
 2.25.1
 
