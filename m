@@ -2,161 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 363FB3C6954
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jul 2021 06:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 511D63C6A40
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jul 2021 08:09:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229470AbhGME2i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jul 2021 00:28:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47996 "EHLO
+        id S231922AbhGMGMX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jul 2021 02:12:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbhGME2h (ORCPT
+        with ESMTP id S229798AbhGMGMX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jul 2021 00:28:37 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE326C0613DD
-        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 21:25:47 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id ec55so6419031edb.1
-        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 21:25:47 -0700 (PDT)
+        Tue, 13 Jul 2021 02:12:23 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33958C0613DD
+        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 23:09:34 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id t9so20696964pgn.4
+        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 23:09:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pfhucnwFF5Xrj2Ob7yfsON3ft8Vs6AOquku40xqd+y0=;
-        b=mm7ZElbmoXg2ThOTMJJna1ATY9JO93efcFgBe9Okmm1ByIRnXJL94SUlLOHdiuUbLV
-         Vvmb9fPeqV2aKxqvX5Mjotey2H9YyqsQBu/nJAOQ3CEUgEdKLDtnVeGlvJP2YIsU6Uvl
-         p4qVT+KygPQzdWO4xSWeefY9+J2K8QMWo94k/l74p2zeLy1spt1fJbwqL5D1OzAVFDUN
-         mpyJUfX0FtwvDcVhCQM2HVanqRhQqmnFVlpij1kYiljckLxnBEkr4GKOtS9GB3yDCiHA
-         QW2eOlbLQuIR1eUek0BDFds1rsz5MYGt0TC8nC+9egpSf7Iqq4W9TX0LGxJONSYqxBFz
-         aNnw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sGhWTKpq6YhtUun/daZ0OUpIYJIrCUDczyHVvl1NbFo=;
+        b=VBvFSAI3guuzTDnAU+HSIxXiM0GdKzogCYCurpZPtoLuXN0q5ebT3GR1LRgN1feSM1
+         KSPO0nAgm6QHbWanCQgoT5hqFoI/J87L209Ju5FB+q5febmnUXKEL7kLu4iI9NBWbSuG
+         D1aCXBu3mZt+qwxRrse4gEthHIQAeIQnrG3uIVkTbmPyqqb0y+Lehsk7wru7L4s5//up
+         K3FTpsHK+hpnqWYGKWV5aZ/ogKliXTjckDKCdnHAsy6nqDwDwF2IGTSTPB6iJR2Hfe7v
+         YqVIjtY9UoTxLP+RjVCc/vkQhMFKDrExZnyhdT2qtQ9z9fHiSxPCHGW4HC5CK6CPzoEs
+         B60g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pfhucnwFF5Xrj2Ob7yfsON3ft8Vs6AOquku40xqd+y0=;
-        b=gekBTKPfuoc8KVjqu5NcrifhwpvyL/b+Zv0D2VDHFBGRa8WXW0hZ9or9oFTxIN+Omd
-         /y0sZqXwqiZ9nc6hwedc59KnA4NsXSx1unFPb3RWu3zbwRIHGsfZ/xKRKEQpqnZ1+PzR
-         QU7GXkMnm7UIc+MNocTvU0sYH7Bk7r1IP3OP6naWSgb6N4FTw3X2Tv8SIkwxPKKXXb1N
-         bE3GLEf1iBeOkXbPomL7hTnITOKGwcKxAp9E+9VxVdjqmS7LkQt1WRS7hYTUTN8yrcur
-         bb/d30cZWvWPlMu4tiXCIBtDBDg+W+VJCyz4+AN75r4tY6cICbgcpoHru/P/ckdkTDXS
-         XfBg==
-X-Gm-Message-State: AOAM5312GKBHH8KuVpCinMGjRIj2MygYAtKAIpB7lBo/pSko3s8nU09l
-        580j94sLilkKzHYGwRaW7/tFT8+J61k2910IoxY=
-X-Google-Smtp-Source: ABdhPJzhgL5tI0rJN/mvG7APxmotJpzeNsG3SHt1mI3P/2nQX7TKvMIeUtiG1hukHft2ObrLzwFgJj+gH4wveIcFwM0=
-X-Received: by 2002:aa7:dc01:: with SMTP id b1mr2844648edu.239.1626150346193;
- Mon, 12 Jul 2021 21:25:46 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sGhWTKpq6YhtUun/daZ0OUpIYJIrCUDczyHVvl1NbFo=;
+        b=W6LrE1pDw6ZG4RG7N1CDrQTmx3PDGt+54XCAz9/rmJbVS9OTW3jE94dhxI0WkvDJ2r
+         6hiNfOdz435rphOm3h8xcn/Mu6j5a2OA+buIW5h7ivTtS5xc1QbNSVfr7nlQZ3XOn8Mu
+         PfK/f6hcWkbLwDrXM/JvPn1oTkYPVrT28kjWxaw7dDT8QeD1IOP2k2fYCsDKtSNfTQXB
+         /7NXBGTcApe0AgkQgptcPfdeopWhrIJvdKtqiVvHoPVvOKyD6b3WmKdRiFVDBLn33WHl
+         kpEhCD5Y6wIbLFeUC45rxaJEgpitRo4ZAv7gEbwt5Es1HBOzEiRbXGGbErCeHlVnoats
+         euug==
+X-Gm-Message-State: AOAM530b4igjppp05LsAYiootwd7rSGpK6ueXeG4sXfgBfDFFfWsUMtD
+        OiNyKlYXYNQna8/QIzimob9N9TgcQzmuiQ==
+X-Google-Smtp-Source: ABdhPJzunxehrXoAiBQgyCeYHCG1S1fTscc9AHtiIuTsN16+HfopOj6f5scw0/+YR28IRh5PXCfw5g==
+X-Received: by 2002:a63:f91a:: with SMTP id h26mr2803372pgi.234.1626156573479;
+        Mon, 12 Jul 2021 23:09:33 -0700 (PDT)
+Received: from dbcomp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
+        by smtp.gmail.com with ESMTPSA id a13sm15878362pfl.92.2021.07.12.23.09.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jul 2021 23:09:33 -0700 (PDT)
+From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, jaffe1@gmail.com,
+        Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Subject: [PATCH v4 0/2] cec: expand Timer Programming tests
+Date:   Mon, 12 Jul 2021 23:09:18 -0700
+Message-Id: <cover.1626155911.git.deborahbrouwer3563@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CAOraNAaoHE9Xgfs0FNoMyKLP4Qd=FdsxaViJSkyuxf0j2rK5GA@mail.gmail.com>
- <CAOsVg8qHuia4nss+LxS+p1SLT2UvP9+pEErr=kU+4jvQ=n4tzA@mail.gmail.com> <CAOraNAYcx-3zz8JYS+dnD8A+ATfbSi_dCWay3Htaek_p7kTA8w@mail.gmail.com>
-In-Reply-To: <CAOraNAYcx-3zz8JYS+dnD8A+ATfbSi_dCWay3Htaek_p7kTA8w@mail.gmail.com>
-From:   Lucas <jaffa225man@gmail.com>
-Date:   Mon, 12 Jul 2021 23:25:35 -0500
-Message-ID: <CAOsVg8ruRSUAO8G6-yGGkN-dzd9ETV8tG=jgM8ntK042Y5hJFg@mail.gmail.com>
-Subject: Re: How do you capture (raw) VBI on Linux?
-To:     Steven Zakulec <spzakulec@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-You're quite welcome, and I'm so glad it works for you too!  I spent a
-lot of time, and documented every new lead, back then.  I doubt these
-three simple commands appear consolidated until now, so when I saw
-your question I felt I had to share my experience.
+This is part of an Outreachy project to expand the testing of
+Timer Programming messages as handled by CEC adapters.
 
-Good luck in the future!
+Changes since v3:
+	Patch 1/2: cec: expand Timer Programming tests
+	- revise error and overlap function names and return values
+	- use struct tm as a pointer
+	- increment year only when follower receives set time message
+	- clear timers in previous year/next year if any
+	- add helper functions to send and clear timers
+	- add logical address Backup to device that may pass tests
+	- add check for standby message received during recording
+	Patch 2/2: cec-follower: emulate programmed timer recordings
+	- add check for standby message received during recording
 
-On Mon, Jul 12, 2021 at 10:39 PM Steven Zakulec <spzakulec@gmail.com> wrote:
->
-> This worked exactly as you described- I had to install the libzvbi
-> devel headers, then a simple make of zvbi2raw let me use the program
-> with the exact command you provided.
->
-> Thank you so much for this!
-> I spent a ton of time searching and I just didn't have the right keywords.
->
-> On Mon, Jul 12, 2021 at 9:30 PM Lucas <jaffa225man@gmail.com> wrote:
-> >
-> > I pieced this together myself, from Internet searches, in 2013:
-> >
-> > Since (at that time at least) zvbi-ntsc-cc was ignoring null bytes the
-> > time codes ended up being "significantly off," according to my
-> > findings and those of the author of the program I've been using, I
-> > switched completely to using it: https://github.com/codeman38/zvbi2raw
-> >
-> > To use it to capture the raw VBI information, here's the command I use:
-> > zvbi2raw -d /dev/vbi0 > file.vbi
-> >
-> > Then, I convert it to a .srt file with ccextractor as you expected:
-> > ccextractor -in=raw ./file.vbi -o ./file.srt
-> >
-> > If you want to change the time offset in the .srt file, you can use a
-> > program from the libsubtitles-perl package in debian (I didn't find it
-> > in debian back then, so I compiled the source in its "subtitles-1.00"
-> > directory).  The program is subs, and here's how it can be used to
-> > subtract five minutes from every time in the .srt file (with -i, it
-> > edits in-place, but keeps a (.bak) backup file of the previous
-> > version, but I think repeating the command will lose your initial
-> > version):
-> > subs -i -b -5:00 file.srt
-> >
-> > It took me a lot longer to figure out than it probably will with this
-> > for you, but I didn't ask the mailing list. ;)
-> >
-> > I hope that helps,
-> >
-> >   Lucas
-> >
-> >
-> > On Mon, Jul 12, 2021 at 6:21 PM Steven Zakulec <spzakulec@gmail.com> wrote:
-> > >
-> > > HI, I am writing to the Linux-media mailing list in hopes that someone
-> > > can share how the /dev/vbi device can be captured from under Linux to
-> > > disk so it can be processed back into captions.
-> > >
-> > > I've tried a long list of items (listed below), and the only success
-> > > I've had under Linux is using old Hauppauge PVR (150 & 250) PCI cards,
-> > > and extracting the embedded VBI data from those captures.
-> > >
-> > > I can successfully display closed captions on my Hauppauge HVR-950q
-> > > USB device with "zvbi-ntsc-cc -d /dev/vbi0 -c" as long as I start a
-> > > capture first in one terminal, then run that command in a second
-> > > terminal, so I know that card works.
-> > >
-> > > With my Hauppauge HVR-950q, I've tried the following items:
-> > > cat /dev/vbi (both before, during, and after a capture is started on the card
-> > >
-> > > Trying to use ffmpeg to capture /dev/vbi - unclear if this is even
-> > > supposed to work, and if so, what the proper commands are
-> > >
-> > > I've tried using zvbi to capture the captions- at best, I can get the
-> > > text dumped to a file, but no timestamps, or raw/sliced VBI that I
-> > > could convert using ccextractor into a subtitle file.
-> > > I had thought one of the commands below should work based on the
-> > > descriptions from --help.
-> > > zvbi-ntsc-cc -d /dev/vbi0 -r -C vbi.bin
-> > > zvbi-ntsc-cc -d /dev/vbi0 -r -R -C vbi.bin
-> > >
-> > > I've tried some of the test tools in the zvbi source code test folder,
-> > > but it's not entirely clear if they work with NTSC closed captions.
-> > >
-> > > I'm on Kubuntu 20.04 with kernel 5.4.0-77-generic.
-> > >
-> > > If anyone knows an application/device combination (any Linux OS),
-> > > please let me know- this seems totally possible, I just can't figure
-> > > out how to make it happen.
-> > > Thank you in advance for any insights or guidance you can provide here.
-> >
-> >
-> >
-> > --
-> > Protect your digital freedom and privacy, eliminate DRM, learn more at
-> > http://www.defectivebydesign.org/what_is_drm
-> > On a related note, also see https://www.fsf.org/campaigns/surveillance
+Changes since v2:
+	Patch 1/2: cec: expand Timer Programming tests
+	- use 3-character abbreviations for months
+	- in set_timer tests, simplify the method for finding "tomorrow"
+	- use fixed dates for timer_error tests
+	- use full leap-year algorithm
+	- add source type and recording sequence as ways to compare timers
+	- add source type and recording sequence to print_timers()
+	- replace timer field end_time with duration in seconds
+	- replace timer_duplicate function with std::set::find
+	- do not truncate overlapped timers, just set them with a warning
+	Patch 2/2: cec-follower: emulate programmed timer recordings
+	- new patch
 
+Changes since v1:
+	- rename functions for clarity
+	- set most test timers as a function of current time, not fixed times
+	- use time_t instead of struct tm to hold start/stop times
+	- use std::set instead of std::list to hold timers
+	- add repeat timers (recording sequence) emulation
 
+Deborah Brouwer (2):
+  cec: expand Timer Programming tests
+  cec-follower: emulate programmed timer recordings
+
+ utils/cec-compliance/cec-compliance.cpp |   1 +
+ utils/cec-compliance/cec-compliance.h   |   1 +
+ utils/cec-compliance/cec-test.cpp       | 424 +++++++++++++++++++-----
+ utils/cec-follower/cec-follower.cpp     |  59 ++++
+ utils/cec-follower/cec-follower.h       |  44 +++
+ utils/cec-follower/cec-processing.cpp   |  65 ++++
+ utils/cec-follower/cec-tuner.cpp        | 295 +++++++++++++++--
+ 7 files changed, 788 insertions(+), 101 deletions(-)
 
 -- 
-Protect your digital freedom and privacy, eliminate DRM, learn more at
-http://www.defectivebydesign.org/what_is_drm
-On a related note, also see https://www.fsf.org/campaigns/surveillance
+2.25.1
+
