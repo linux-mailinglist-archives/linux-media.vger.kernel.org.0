@@ -2,529 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA74A3C6907
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jul 2021 06:07:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 363FB3C6954
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jul 2021 06:25:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229449AbhGMEKj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jul 2021 00:10:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44130 "EHLO
+        id S229470AbhGME2i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jul 2021 00:28:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbhGMEKj (ORCPT
+        with ESMTP id S229436AbhGME2h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jul 2021 00:10:39 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1012C0613DD
-        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 21:07:49 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id x84-20020a2531570000b029055d47682463so23892099ybx.5
-        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 21:07:49 -0700 (PDT)
+        Tue, 13 Jul 2021 00:28:37 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE326C0613DD
+        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 21:25:47 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id ec55so6419031edb.1
+        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 21:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=lsRQcYOnLNGeZNFv9ZqabeUiQqK2KSkzul/BCImYOGQ=;
-        b=gPSXuiokMiiFcRSzhrt4fHhIbGRoeQi7Eq4XA3gKVm2B6yAWrkdk1rCOxk5ky642fW
-         8EHwZOyTerEb18XV86OudV9UyVF5PNC3+cN/Owf5gp3iAAtyiQpPC5juqs2nfmbNcZNp
-         G9iSIfJn0IcLbJvo+qX+4b97x+ytRKUmB707yHZX0a4Ugkbu3BPyzJYBscBtOIlr+9PZ
-         4s9qPHYX8K2TTwoSRiEs7/l7fbu7mjOlJKvImJQMMIhMInUcVqAKkbHhqySlvBw1V/Aw
-         MnhDQH+dkssXHH6sEZFKpPcBmVs1Td2epMkxH7yfPTDg8blpTOoYfNx8z26aFc+hNMe5
-         iBHg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pfhucnwFF5Xrj2Ob7yfsON3ft8Vs6AOquku40xqd+y0=;
+        b=mm7ZElbmoXg2ThOTMJJna1ATY9JO93efcFgBe9Okmm1ByIRnXJL94SUlLOHdiuUbLV
+         Vvmb9fPeqV2aKxqvX5Mjotey2H9YyqsQBu/nJAOQ3CEUgEdKLDtnVeGlvJP2YIsU6Uvl
+         p4qVT+KygPQzdWO4xSWeefY9+J2K8QMWo94k/l74p2zeLy1spt1fJbwqL5D1OzAVFDUN
+         mpyJUfX0FtwvDcVhCQM2HVanqRhQqmnFVlpij1kYiljckLxnBEkr4GKOtS9GB3yDCiHA
+         QW2eOlbLQuIR1eUek0BDFds1rsz5MYGt0TC8nC+9egpSf7Iqq4W9TX0LGxJONSYqxBFz
+         aNnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=lsRQcYOnLNGeZNFv9ZqabeUiQqK2KSkzul/BCImYOGQ=;
-        b=B4XZW2yV4Vj6tnP+4GHpQai9xaiiBWQkJ/j5tBWVvYbzlDPvpfUck2DlS5uoQp3uBu
-         gQKT41bDRpeAg3YPyeHThKAnSq6/LLWtWVo7x3M4Coxypo4Mkqrk9Df4ZLoOEnAwjDjZ
-         SpywBWxZR7N1QYqU6zVR9RnB6esakNufKKJNPk/r+vQpgERiLXObQwUPSFSVbGbCuUOL
-         U9eDJ+y3ps9GvWf7b58pwLSW1sOlsbdMTkxVyqkfCngc676mLBjFPpdNvX2US0LJz1Gh
-         5ozb2PimDI3i3EYi0M5qpeYt0gvoyzvnTclEzZEaV0sJBs6jfpdShoneTBL07Nd9Ar/1
-         byWw==
-X-Gm-Message-State: AOAM532gCktrT5EOjy20AfR9itL1praAs6WSMcOtV3Uyldqn76KTpXuC
-        SKC94Vi2TdjazMUbCil/8hPzIALBB0s=
-X-Google-Smtp-Source: ABdhPJxZMjSGTD6Q9sj/OJwUJwZToli5AFricGI0zhixsoa2+/EbM8Q8aIAn6TH/hNqolerSh4FEQ1DfqVs=
-X-Received: from hridya.mtv.corp.google.com ([2620:15c:211:200:2156:3303:4d7a:cc35])
- (user=hridya job=sendgmr) by 2002:a5b:c0a:: with SMTP id f10mr3006444ybq.9.1626149269053;
- Mon, 12 Jul 2021 21:07:49 -0700 (PDT)
-Date:   Mon, 12 Jul 2021 21:07:38 -0700
-Message-Id: <20210713040742.2680135-1-hridya@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
-Subject: [PATCH v2] dma-buf: Delete the DMA-BUF attachment sysfs statistics
-From:   Hridya Valsaraju <hridya@google.com>
-To:     christian.koenig@amd.com, Sumit Semwal <sumit.semwal@linaro.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Cc:     kernel-team@android.com, john.stultz@linaro.org, surenb@google.com,
-        daniel@ffwll.ch
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pfhucnwFF5Xrj2Ob7yfsON3ft8Vs6AOquku40xqd+y0=;
+        b=gekBTKPfuoc8KVjqu5NcrifhwpvyL/b+Zv0D2VDHFBGRa8WXW0hZ9or9oFTxIN+Omd
+         /y0sZqXwqiZ9nc6hwedc59KnA4NsXSx1unFPb3RWu3zbwRIHGsfZ/xKRKEQpqnZ1+PzR
+         QU7GXkMnm7UIc+MNocTvU0sYH7Bk7r1IP3OP6naWSgb6N4FTw3X2Tv8SIkwxPKKXXb1N
+         bE3GLEf1iBeOkXbPomL7hTnITOKGwcKxAp9E+9VxVdjqmS7LkQt1WRS7hYTUTN8yrcur
+         bb/d30cZWvWPlMu4tiXCIBtDBDg+W+VJCyz4+AN75r4tY6cICbgcpoHru/P/ckdkTDXS
+         XfBg==
+X-Gm-Message-State: AOAM5312GKBHH8KuVpCinMGjRIj2MygYAtKAIpB7lBo/pSko3s8nU09l
+        580j94sLilkKzHYGwRaW7/tFT8+J61k2910IoxY=
+X-Google-Smtp-Source: ABdhPJzhgL5tI0rJN/mvG7APxmotJpzeNsG3SHt1mI3P/2nQX7TKvMIeUtiG1hukHft2ObrLzwFgJj+gH4wveIcFwM0=
+X-Received: by 2002:aa7:dc01:: with SMTP id b1mr2844648edu.239.1626150346193;
+ Mon, 12 Jul 2021 21:25:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAOraNAaoHE9Xgfs0FNoMyKLP4Qd=FdsxaViJSkyuxf0j2rK5GA@mail.gmail.com>
+ <CAOsVg8qHuia4nss+LxS+p1SLT2UvP9+pEErr=kU+4jvQ=n4tzA@mail.gmail.com> <CAOraNAYcx-3zz8JYS+dnD8A+ATfbSi_dCWay3Htaek_p7kTA8w@mail.gmail.com>
+In-Reply-To: <CAOraNAYcx-3zz8JYS+dnD8A+ATfbSi_dCWay3Htaek_p7kTA8w@mail.gmail.com>
+From:   Lucas <jaffa225man@gmail.com>
+Date:   Mon, 12 Jul 2021 23:25:35 -0500
+Message-ID: <CAOsVg8ruRSUAO8G6-yGGkN-dzd9ETV8tG=jgM8ntK042Y5hJFg@mail.gmail.com>
+Subject: Re: How do you capture (raw) VBI on Linux?
+To:     Steven Zakulec <spzakulec@gmail.com>
+Cc:     linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The DMA-BUF attachment statistics form a subset of the DMA-BUF
-sysfs statistics that recently merged to the drm-misc tree. They are not
-UABI yet since they have not merged to the upstream Linux kernel.
+You're quite welcome, and I'm so glad it works for you too!  I spent a
+lot of time, and documented every new lead, back then.  I doubt these
+three simple commands appear consolidated until now, so when I saw
+your question I felt I had to share my experience.
 
-Since there has been a reported a performance regression due to the
-overhead of sysfs directory creation/teardown during
-dma_buf_attach()/dma_buf_detach(), this patch deletes the DMA-BUF
-attachment statistics from sysfs.
+Good luck in the future!
 
-Fixes: bdb8d06dfefd (dmabuf: Add the capability to expose DMA-BUF stats
-in sysfs)
-Signed-off-by: Hridya Valsaraju <hridya@google.com>
-Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
+On Mon, Jul 12, 2021 at 10:39 PM Steven Zakulec <spzakulec@gmail.com> wrote:
+>
+> This worked exactly as you described- I had to install the libzvbi
+> devel headers, then a simple make of zvbi2raw let me use the program
+> with the exact command you provided.
+>
+> Thank you so much for this!
+> I spent a ton of time searching and I just didn't have the right keywords.
+>
+> On Mon, Jul 12, 2021 at 9:30 PM Lucas <jaffa225man@gmail.com> wrote:
+> >
+> > I pieced this together myself, from Internet searches, in 2013:
+> >
+> > Since (at that time at least) zvbi-ntsc-cc was ignoring null bytes the
+> > time codes ended up being "significantly off," according to my
+> > findings and those of the author of the program I've been using, I
+> > switched completely to using it: https://github.com/codeman38/zvbi2raw
+> >
+> > To use it to capture the raw VBI information, here's the command I use:
+> > zvbi2raw -d /dev/vbi0 > file.vbi
+> >
+> > Then, I convert it to a .srt file with ccextractor as you expected:
+> > ccextractor -in=raw ./file.vbi -o ./file.srt
+> >
+> > If you want to change the time offset in the .srt file, you can use a
+> > program from the libsubtitles-perl package in debian (I didn't find it
+> > in debian back then, so I compiled the source in its "subtitles-1.00"
+> > directory).  The program is subs, and here's how it can be used to
+> > subtract five minutes from every time in the .srt file (with -i, it
+> > edits in-place, but keeps a (.bak) backup file of the previous
+> > version, but I think repeating the command will lose your initial
+> > version):
+> > subs -i -b -5:00 file.srt
+> >
+> > It took me a lot longer to figure out than it probably will with this
+> > for you, but I didn't ask the mailing list. ;)
+> >
+> > I hope that helps,
+> >
+> >   Lucas
+> >
+> >
+> > On Mon, Jul 12, 2021 at 6:21 PM Steven Zakulec <spzakulec@gmail.com> wrote:
+> > >
+> > > HI, I am writing to the Linux-media mailing list in hopes that someone
+> > > can share how the /dev/vbi device can be captured from under Linux to
+> > > disk so it can be processed back into captions.
+> > >
+> > > I've tried a long list of items (listed below), and the only success
+> > > I've had under Linux is using old Hauppauge PVR (150 & 250) PCI cards,
+> > > and extracting the embedded VBI data from those captures.
+> > >
+> > > I can successfully display closed captions on my Hauppauge HVR-950q
+> > > USB device with "zvbi-ntsc-cc -d /dev/vbi0 -c" as long as I start a
+> > > capture first in one terminal, then run that command in a second
+> > > terminal, so I know that card works.
+> > >
+> > > With my Hauppauge HVR-950q, I've tried the following items:
+> > > cat /dev/vbi (both before, during, and after a capture is started on the card
+> > >
+> > > Trying to use ffmpeg to capture /dev/vbi - unclear if this is even
+> > > supposed to work, and if so, what the proper commands are
+> > >
+> > > I've tried using zvbi to capture the captions- at best, I can get the
+> > > text dumped to a file, but no timestamps, or raw/sliced VBI that I
+> > > could convert using ccextractor into a subtitle file.
+> > > I had thought one of the commands below should work based on the
+> > > descriptions from --help.
+> > > zvbi-ntsc-cc -d /dev/vbi0 -r -C vbi.bin
+> > > zvbi-ntsc-cc -d /dev/vbi0 -r -R -C vbi.bin
+> > >
+> > > I've tried some of the test tools in the zvbi source code test folder,
+> > > but it's not entirely clear if they work with NTSC closed captions.
+> > >
+> > > I'm on Kubuntu 20.04 with kernel 5.4.0-77-generic.
+> > >
+> > > If anyone knows an application/device combination (any Linux OS),
+> > > please let me know- this seems totally possible, I just can't figure
+> > > out how to make it happen.
+> > > Thank you in advance for any insights or guidance you can provide here.
+> >
+> >
+> >
+> > --
+> > Protect your digital freedom and privacy, eliminate DRM, learn more at
+> > http://www.defectivebydesign.org/what_is_drm
+> > On a related note, also see https://www.fsf.org/campaigns/surveillance
 
-Changes in v2:
-Updated commit message to clarify that the sysfs files being removed
-have not yet merged to upstream Linux and are hence not ABI.
 
-Hi Christian,
 
-I have updated the commit message as per your suggestion. Please do take
-another look when you get a chance.
-
-Thanks,
-Hridya
-
- .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  28 ----
- drivers/dma-buf/dma-buf-sysfs-stats.c         | 140 +-----------------
- drivers/dma-buf/dma-buf-sysfs-stats.h         |  27 ----
- drivers/dma-buf/dma-buf.c                     |  16 --
- include/linux/dma-buf.h                       |  17 ---
- 5 files changed, 4 insertions(+), 224 deletions(-)
-
-diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Docume=
-ntation/ABI/testing/sysfs-kernel-dmabuf-buffers
-index a243984ed420..5d3bc997dc64 100644
---- a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-+++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-@@ -22,31 +22,3 @@ KernelVersion:	v5.13
- Contact:	Hridya Valsaraju <hridya@google.com>
- Description:	This file is read-only and specifies the size of the DMA-BUF =
-in
- 		bytes.
--
--What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments
--Date:		May 2021
--KernelVersion:	v5.13
--Contact:	Hridya Valsaraju <hridya@google.com>
--Description:	This directory will contain subdirectories representing every
--		attachment of the DMA-BUF.
--
--What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_u=
-id>
--Date:		May 2021
--KernelVersion:	v5.13
--Contact:	Hridya Valsaraju <hridya@google.com>
--Description:	This directory will contain information on the attached devic=
-e
--		and the number of current distinct device mappings.
--
--What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_u=
-id>/device
--Date:		May 2021
--KernelVersion:	v5.13
--Contact:	Hridya Valsaraju <hridya@google.com>
--Description:	This file is read-only and is a symlink to the attached devic=
-e's
--		sysfs entry.
--
--What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_u=
-id>/map_counter
--Date:		May 2021
--KernelVersion:	v5.13
--Contact:	Hridya Valsaraju <hridya@google.com>
--Description:	This file is read-only and contains a map_counter indicating =
-the
--		number of distinct device mappings of the attachment.
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-bu=
-f-sysfs-stats.c
-index a2638e84199c..053baadcada9 100644
---- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-+++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-@@ -40,14 +40,11 @@
-  *
-  * * ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
-  * * ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
-- * * ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/=
-device``
-- * * ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/=
-map_counter``
-  *
-- * The information in the interface can also be used to derive per-exporte=
-r and
-- * per-device usage statistics. The data from the interface can be gathere=
-d
-- * on error conditions or other important events to provide a snapshot of
-- * DMA-BUF usage. It can also be collected periodically by telemetry to mo=
-nitor
-- * various metrics.
-+ * The information in the interface can also be used to derive per-exporte=
-r
-+ * statistics. The data from the interface can be gathered on error condit=
-ions
-+ * or other important events to provide a snapshot of DMA-BUF usage.
-+ * It can also be collected periodically by telemetry to monitor various m=
-etrics.
-  *
-  * Detailed documentation about the interface is present in
-  * Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers.
-@@ -121,120 +118,6 @@ static struct kobj_type dma_buf_ktype =3D {
- 	.default_groups =3D dma_buf_stats_default_groups,
- };
-=20
--#define to_dma_buf_attach_entry_from_kobj(x) container_of(x, struct dma_bu=
-f_attach_sysfs_entry, kobj)
--
--struct dma_buf_attach_stats_attribute {
--	struct attribute attr;
--	ssize_t (*show)(struct dma_buf_attach_sysfs_entry *sysfs_entry,
--			struct dma_buf_attach_stats_attribute *attr, char *buf);
--};
--#define to_dma_buf_attach_stats_attr(x) container_of(x, struct dma_buf_att=
-ach_stats_attribute, attr)
--
--static ssize_t dma_buf_attach_stats_attribute_show(struct kobject *kobj,
--						   struct attribute *attr,
--						   char *buf)
--{
--	struct dma_buf_attach_stats_attribute *attribute;
--	struct dma_buf_attach_sysfs_entry *sysfs_entry;
--
--	attribute =3D to_dma_buf_attach_stats_attr(attr);
--	sysfs_entry =3D to_dma_buf_attach_entry_from_kobj(kobj);
--
--	if (!attribute->show)
--		return -EIO;
--
--	return attribute->show(sysfs_entry, attribute, buf);
--}
--
--static const struct sysfs_ops dma_buf_attach_stats_sysfs_ops =3D {
--	.show =3D dma_buf_attach_stats_attribute_show,
--};
--
--static ssize_t map_counter_show(struct dma_buf_attach_sysfs_entry *sysfs_e=
-ntry,
--				struct dma_buf_attach_stats_attribute *attr,
--				char *buf)
--{
--	return sysfs_emit(buf, "%u\n", sysfs_entry->map_counter);
--}
--
--static struct dma_buf_attach_stats_attribute map_counter_attribute =3D
--	__ATTR_RO(map_counter);
--
--static struct attribute *dma_buf_attach_stats_default_attrs[] =3D {
--	&map_counter_attribute.attr,
--	NULL,
--};
--ATTRIBUTE_GROUPS(dma_buf_attach_stats_default);
--
--static void dma_buf_attach_sysfs_release(struct kobject *kobj)
--{
--	struct dma_buf_attach_sysfs_entry *sysfs_entry;
--
--	sysfs_entry =3D to_dma_buf_attach_entry_from_kobj(kobj);
--	kfree(sysfs_entry);
--}
--
--static struct kobj_type dma_buf_attach_ktype =3D {
--	.sysfs_ops =3D &dma_buf_attach_stats_sysfs_ops,
--	.release =3D dma_buf_attach_sysfs_release,
--	.default_groups =3D dma_buf_attach_stats_default_groups,
--};
--
--void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach)
--{
--	struct dma_buf_attach_sysfs_entry *sysfs_entry;
--
--	sysfs_entry =3D attach->sysfs_entry;
--	if (!sysfs_entry)
--		return;
--
--	sysfs_delete_link(&sysfs_entry->kobj, &attach->dev->kobj, "device");
--
--	kobject_del(&sysfs_entry->kobj);
--	kobject_put(&sysfs_entry->kobj);
--}
--
--int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
--			       unsigned int uid)
--{
--	struct dma_buf_attach_sysfs_entry *sysfs_entry;
--	int ret;
--	struct dma_buf *dmabuf;
--
--	if (!attach)
--		return -EINVAL;
--
--	dmabuf =3D attach->dmabuf;
--
--	sysfs_entry =3D kzalloc(sizeof(struct dma_buf_attach_sysfs_entry),
--			      GFP_KERNEL);
--	if (!sysfs_entry)
--		return -ENOMEM;
--
--	sysfs_entry->kobj.kset =3D dmabuf->sysfs_entry->attach_stats_kset;
--
--	attach->sysfs_entry =3D sysfs_entry;
--
--	ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_attach_ktype,
--				   NULL, "%u", uid);
--	if (ret)
--		goto kobj_err;
--
--	ret =3D sysfs_create_link(&sysfs_entry->kobj, &attach->dev->kobj,
--				"device");
--	if (ret)
--		goto link_err;
--
--	return 0;
--
--link_err:
--	kobject_del(&sysfs_entry->kobj);
--kobj_err:
--	kobject_put(&sysfs_entry->kobj);
--	attach->sysfs_entry =3D NULL;
--
--	return ret;
--}
- void dma_buf_stats_teardown(struct dma_buf *dmabuf)
- {
- 	struct dma_buf_sysfs_entry *sysfs_entry;
-@@ -243,7 +126,6 @@ void dma_buf_stats_teardown(struct dma_buf *dmabuf)
- 	if (!sysfs_entry)
- 		return;
-=20
--	kset_unregister(sysfs_entry->attach_stats_kset);
- 	kobject_del(&sysfs_entry->kobj);
- 	kobject_put(&sysfs_entry->kobj);
- }
-@@ -290,7 +172,6 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
- {
- 	struct dma_buf_sysfs_entry *sysfs_entry;
- 	int ret;
--	struct kset *attach_stats_kset;
-=20
- 	if (!dmabuf || !dmabuf->file)
- 		return -EINVAL;
-@@ -315,21 +196,8 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
- 	if (ret)
- 		goto err_sysfs_dmabuf;
-=20
--	/* create the directory for attachment stats */
--	attach_stats_kset =3D kset_create_and_add("attachments",
--						&dmabuf_sysfs_no_uevent_ops,
--						&sysfs_entry->kobj);
--	if (!attach_stats_kset) {
--		ret =3D -ENOMEM;
--		goto err_sysfs_attach;
--	}
--
--	sysfs_entry->attach_stats_kset =3D attach_stats_kset;
--
- 	return 0;
-=20
--err_sysfs_attach:
--	kobject_del(&sysfs_entry->kobj);
- err_sysfs_dmabuf:
- 	kobject_put(&sysfs_entry->kobj);
- 	dmabuf->sysfs_entry =3D NULL;
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-bu=
-f-sysfs-stats.h
-index 5f4703249117..a49c6e2650cc 100644
---- a/drivers/dma-buf/dma-buf-sysfs-stats.h
-+++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
-@@ -14,23 +14,8 @@ int dma_buf_init_sysfs_statistics(void);
- void dma_buf_uninit_sysfs_statistics(void);
-=20
- int dma_buf_stats_setup(struct dma_buf *dmabuf);
--int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
--			       unsigned int uid);
--static inline void dma_buf_update_attachment_map_count(struct dma_buf_atta=
-chment *attach,
--						       int delta)
--{
--	struct dma_buf_attach_sysfs_entry *entry =3D attach->sysfs_entry;
-=20
--	entry->map_counter +=3D delta;
--}
- void dma_buf_stats_teardown(struct dma_buf *dmabuf);
--void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach);
--static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *dmabu=
-f)
--{
--	struct dma_buf_sysfs_entry *entry =3D dmabuf->sysfs_entry;
--
--	return entry->attachment_uid++;
--}
- #else
-=20
- static inline int dma_buf_init_sysfs_statistics(void)
-@@ -44,19 +29,7 @@ static inline int dma_buf_stats_setup(struct dma_buf *dm=
-abuf)
- {
- 	return 0;
- }
--static inline int dma_buf_attach_stats_setup(struct dma_buf_attachment *at=
-tach,
--					     unsigned int uid)
--{
--	return 0;
--}
-=20
- static inline void dma_buf_stats_teardown(struct dma_buf *dmabuf) {}
--static inline void dma_buf_attach_stats_teardown(struct dma_buf_attachment=
- *attach) {}
--static inline void dma_buf_update_attachment_map_count(struct dma_buf_atta=
-chment *attach,
--						       int delta) {}
--static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *dmabu=
-f)
--{
--	return 0;
--}
- #endif
- #endif // _DMA_BUF_SYSFS_STATS_H
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 510b42771974..b1a6db71c656 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -738,7 +738,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct d=
-evice *dev,
- {
- 	struct dma_buf_attachment *attach;
- 	int ret;
--	unsigned int attach_uid;
-=20
- 	if (WARN_ON(!dmabuf || !dev))
- 		return ERR_PTR(-EINVAL);
-@@ -764,13 +763,8 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct =
-device *dev,
- 	}
- 	dma_resv_lock(dmabuf->resv, NULL);
- 	list_add(&attach->node, &dmabuf->attachments);
--	attach_uid =3D dma_buf_update_attach_uid(dmabuf);
- 	dma_resv_unlock(dmabuf->resv);
-=20
--	ret =3D dma_buf_attach_stats_setup(attach, attach_uid);
--	if (ret)
--		goto err_sysfs;
--
- 	/* When either the importer or the exporter can't handle dynamic
- 	 * mappings we cache the mapping here to avoid issues with the
- 	 * reservation object lock.
-@@ -797,7 +791,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct d=
-evice *dev,
- 			dma_resv_unlock(attach->dmabuf->resv);
- 		attach->sgt =3D sgt;
- 		attach->dir =3D DMA_BIDIRECTIONAL;
--		dma_buf_update_attachment_map_count(attach, 1 /* delta */);
- 	}
-=20
- 	return attach;
-@@ -814,7 +807,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct d=
-evice *dev,
- 	if (dma_buf_is_dynamic(attach->dmabuf))
- 		dma_resv_unlock(attach->dmabuf->resv);
-=20
--err_sysfs:
- 	dma_buf_detach(dmabuf, attach);
- 	return ERR_PTR(ret);
- }
-@@ -864,7 +856,6 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_=
-buf_attachment *attach)
- 			dma_resv_lock(attach->dmabuf->resv, NULL);
-=20
- 		__unmap_dma_buf(attach, attach->sgt, attach->dir);
--		dma_buf_update_attachment_map_count(attach, -1 /* delta */);
-=20
- 		if (dma_buf_is_dynamic(attach->dmabuf)) {
- 			dmabuf->ops->unpin(attach);
-@@ -878,7 +869,6 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_=
-buf_attachment *attach)
- 	if (dmabuf->ops->detach)
- 		dmabuf->ops->detach(dmabuf, attach);
-=20
--	dma_buf_attach_stats_teardown(attach);
- 	kfree(attach);
- }
- EXPORT_SYMBOL_GPL(dma_buf_detach);
-@@ -1020,10 +1010,6 @@ struct sg_table *dma_buf_map_attachment(struct dma_b=
-uf_attachment *attach,
- 		}
- 	}
- #endif /* CONFIG_DMA_API_DEBUG */
--
--	if (!IS_ERR(sg_table))
--		dma_buf_update_attachment_map_count(attach, 1 /* delta */);
--
- 	return sg_table;
- }
- EXPORT_SYMBOL_GPL(dma_buf_map_attachment);
-@@ -1061,8 +1047,6 @@ void dma_buf_unmap_attachment(struct dma_buf_attachme=
-nt *attach,
- 	if (dma_buf_is_dynamic(attach->dmabuf) &&
- 	    !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
- 		dma_buf_unpin(attach);
--
--	dma_buf_update_attachment_map_count(attach, -1 /* delta */);
- }
- EXPORT_SYMBOL_GPL(dma_buf_unmap_attachment);
-=20
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 2b814fde0d11..678b2006be78 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -444,15 +444,6 @@ struct dma_buf {
- 	struct dma_buf_sysfs_entry {
- 		struct kobject kobj;
- 		struct dma_buf *dmabuf;
--
--		/**
--		 * @sysfs_entry.attachment_uid:
--		 *
--		 * This is protected by the dma_resv_lock() on @resv and is
--		 * incremented on each attach.
--		 */
--		unsigned int attachment_uid;
--		struct kset *attach_stats_kset;
- 	} *sysfs_entry;
- #endif
- };
-@@ -504,7 +495,6 @@ struct dma_buf_attach_ops {
-  * @importer_ops: importer operations for this attachment, if provided
-  * dma_buf_map/unmap_attachment() must be called with the dma_resv lock he=
-ld.
-  * @importer_priv: importer specific attachment data.
-- * @sysfs_entry: For exposing information about this attachment in sysfs.
-  *
-  * This structure holds the attachment information between the dma_buf buf=
-fer
-  * and its user device(s). The list contains one attachment struct per dev=
-ice
-@@ -525,13 +515,6 @@ struct dma_buf_attachment {
- 	const struct dma_buf_attach_ops *importer_ops;
- 	void *importer_priv;
- 	void *priv;
--#ifdef CONFIG_DMABUF_SYSFS_STATS
--	/* for sysfs stats */
--	struct dma_buf_attach_sysfs_entry {
--		struct kobject kobj;
--		unsigned int map_counter;
--	} *sysfs_entry;
--#endif
- };
-=20
- /**
---=20
-2.32.0.93.g670b81a890-goog
-
+-- 
+Protect your digital freedom and privacy, eliminate DRM, learn more at
+http://www.defectivebydesign.org/what_is_drm
+On a related note, also see https://www.fsf.org/campaigns/surveillance
