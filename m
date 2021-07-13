@@ -2,158 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 287B33C68D4
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jul 2021 05:14:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C37F13C68EA
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jul 2021 05:39:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234098AbhGMDRi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jul 2021 23:17:38 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:47941 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231340AbhGMDRh (ORCPT
+        id S230122AbhGMDmL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jul 2021 23:42:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37982 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229571AbhGMDmK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jul 2021 23:17:37 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 38sgmQFuKhqx938shmYi5m; Tue, 13 Jul 2021 05:14:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1626146087; bh=c+XuE4/AtDSunurHBMQug4a2aMj5O4tiD3EXiPu8DIk=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=cORAJUDRDfBlf0ayg+noNZtqLjDDbTIF7MnZEsbZg4mkJQWl4e3DKH57y47CQ6f2/
-         KYbhj/wuFq/yJQMM/BwOeCsAF0WlVTp2XfYqOcpAcigL3L5m4rCBYVlP0LD/eP8NDG
-         q/QU5lHdGf82yrReoRLUc59f4AEQJTPxugbUJuYB4eopWvQtCOxXUXkpVveinOGZ6p
-         wRN1oBj+w+3YLptQDGeyTn4Sf4YU4RKZuRD7UlS+QZWBOQyN3LgyucxqXlC2q4u+8n
-         90BVn/pmUuB8+qOtRbSF4BnShT+pWDcDX79R6CljinkBYUepTZZI49TeKbR3gJILDH
-         CnNthV5ytR1fA==
-Message-ID: <3f044e01dc653849b72c6f2142b0b24a@smtp-cloud9.xs4all.net>
-Date:   Tue, 13 Jul 2021 05:14:46 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfH/IzjFq0VzamXFjtdQJsvfw6BwotzHZUbA0E9tElpnR/a6R4uLpxE2f+pVm5pMWdGynNp572HSa+aXS3RYt2IKYDxjpZK8aKQo6rg14yd/yte9yC//q
- l1swb02Jhgi04V1RNvvWTveRT/qDyGAoWdBDD9HL30KoL8GESwfaQLUOzLk/Dr4TVQyQa0OaKMFBSJgn173ASsXpRSADeed8s29Q6870R7hhLeAq7z2jAgXP
- ADPmE78eWJeMd6xr1HFm4w==
+        Mon, 12 Jul 2021 23:42:10 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C4AEC0613DD
+        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 20:39:21 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id r132so32540736yba.5
+        for <linux-media@vger.kernel.org>; Mon, 12 Jul 2021 20:39:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8SHhR+jRpjVf9VaJ4Q/uKFviy9BGEAn0UEBxCFsuAxA=;
+        b=Afz2A79WOQ1g+t6BpyPtos+HHOQmP1wvlLbsfw2u5RPtQKfLrR6SH4rrlUGXBTZ2E6
+         te2ftZJyvLxu09/i/quAH9Hf8zawuR130zrZFoXZFvgCfoH89gkaqtuPeKLEX4itJuA+
+         ioJQsUiXx2D7ylg7Qy6TWPXhCARvl1vG1OWn/qg5W9hM0Uh6tulOUmcRShPQjqMCDvK+
+         RGPrKbHHSkz3wPillVKMsp55NS0MuFyYZj0IvZWOirWvguQyzozFBnY528a71oVodW0O
+         hkd6Ewzt//tC6dFLd1uRv84pxTMqklTL90EcMIoyxapxjHBGvRpOxSVgfi+COaljfCdd
+         oufQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8SHhR+jRpjVf9VaJ4Q/uKFviy9BGEAn0UEBxCFsuAxA=;
+        b=D2kLqJWbLBR2BtIDWr78p0Am63sTV35atX49z4I0pPl5OHzfROjexqrjKEuSEf2oiC
+         LWHhEkO0SXSYcyWtHW4i+ZeX5kJLUxrqb5LVo71DduYsj0uWP7/w25iHsOd1LOfR3ldV
+         GdV6gFBlPvTZ3emmL/0MeGF2a/wejeskRxHBQpKA5eDjqOBlJ5ghytqRo5gzhObwmv/Z
+         KB4FGr/rnVRai0cE6LON7Zul3aIl8Mkc6fzxlrqb2lKn+I/hhGDHlGb3Dm1yZ3WlTDPh
+         mTIBTqRll0Gtg+jEVenW5MgZQOXd9IdfD3ULSimn8+d1zU3KGmEOFRkkqmnJNcfabcbR
+         Er5w==
+X-Gm-Message-State: AOAM5339Qm4TSGEShIJxvDc2x9a9wT9KIpnQ0Ih0PJrOPyAeR3wp42AP
+        IwyR+K6QhKVpXkV+6HJvY4F8/lBBhsgJOHz5+DU=
+X-Google-Smtp-Source: ABdhPJwTPDEzwT2WOYmR8CUSuBSTjc/YfJf2WYAIqGtc866t+rRP5QPvkP45VDqKzEKX/N1N9fsnC9KA/br3iVMtBFs=
+X-Received: by 2002:a25:888b:: with SMTP id d11mr3240122ybl.385.1626147560337;
+ Mon, 12 Jul 2021 20:39:20 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAOraNAaoHE9Xgfs0FNoMyKLP4Qd=FdsxaViJSkyuxf0j2rK5GA@mail.gmail.com>
+ <CAOsVg8qHuia4nss+LxS+p1SLT2UvP9+pEErr=kU+4jvQ=n4tzA@mail.gmail.com>
+In-Reply-To: <CAOsVg8qHuia4nss+LxS+p1SLT2UvP9+pEErr=kU+4jvQ=n4tzA@mail.gmail.com>
+From:   Steven Zakulec <spzakulec@gmail.com>
+Date:   Mon, 12 Jul 2021 23:39:08 -0400
+Message-ID: <CAOraNAYcx-3zz8JYS+dnD8A+ATfbSi_dCWay3Htaek_p7kTA8w@mail.gmail.com>
+Subject: Re: How do you capture (raw) VBI on Linux?
+To:     Lucas <jaffa225man@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+This worked exactly as you described- I had to install the libzvbi
+devel headers, then a simple make of zvbi2raw let me use the program
+with the exact command you provided.
 
-Results of the daily build of media_tree:
+Thank you so much for this!
+I spent a ton of time searching and I just didn't have the right keywords.
 
-date:			Tue Jul 13 05:00:25 CEST 2021
-media-tree git hash:	e73f0f0ee7541171d89f2e2491130c7771ba58d3
-media_build git hash:	dc90f6c653a467465b5deb23d3310577f8ebf218
-v4l-utils git hash:	6ffc5248dede6285d76c5ec5680c316f68ff98ca
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7481-g7f50411af
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 328d8f6242d952437e8dfc96047fda207fad8deb
-host hardware:		x86_64
-host os:		5.10.0-7-amd64
-
-linux-git-sh: WARNINGS
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: ERRORS
-linux-4.4.258-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.258-i686: ERRORS
-linux-4.9.258-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.222-i686: ERRORS
-linux-4.14.222-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.177-i686: ERRORS
-linux-4.19.177-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: ERRORS
-linux-5.1.21-x86_64: ERRORS
-linux-5.2.21-i686: ERRORS
-linux-5.2.21-x86_64: ERRORS
-linux-5.3.18-i686: ERRORS
-linux-5.3.18-x86_64: ERRORS
-linux-5.4.100-i686: ERRORS
-linux-5.4.100-x86_64: ERRORS
-linux-5.5.19-i686: ERRORS
-linux-5.5.19-x86_64: ERRORS
-linux-5.6.19-i686: ERRORS
-linux-5.6.19-x86_64: ERRORS
-linux-5.7.19-i686: ERRORS
-linux-5.7.19-x86_64: ERRORS
-linux-5.8.13-i686: ERRORS
-linux-5.8.13-x86_64: ERRORS
-linux-5.9.1-i686: ERRORS
-linux-5.9.1-x86_64: ERRORS
-linux-5.10.18-i686: ERRORS
-linux-5.10.18-x86_64: ERRORS
-linux-5.11.1-i686: ERRORS
-linux-5.11.1-x86_64: ERRORS
-linux-5.12.1-i686: ERRORS
-linux-5.12.1-x86_64: ERRORS
-linux-5.13.1-i686: ERRORS
-linux-5.13.1-x86_64: ERRORS
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: VM was not running
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+On Mon, Jul 12, 2021 at 9:30 PM Lucas <jaffa225man@gmail.com> wrote:
+>
+> I pieced this together myself, from Internet searches, in 2013:
+>
+> Since (at that time at least) zvbi-ntsc-cc was ignoring null bytes the
+> time codes ended up being "significantly off," according to my
+> findings and those of the author of the program I've been using, I
+> switched completely to using it: https://github.com/codeman38/zvbi2raw
+>
+> To use it to capture the raw VBI information, here's the command I use:
+> zvbi2raw -d /dev/vbi0 > file.vbi
+>
+> Then, I convert it to a .srt file with ccextractor as you expected:
+> ccextractor -in=raw ./file.vbi -o ./file.srt
+>
+> If you want to change the time offset in the .srt file, you can use a
+> program from the libsubtitles-perl package in debian (I didn't find it
+> in debian back then, so I compiled the source in its "subtitles-1.00"
+> directory).  The program is subs, and here's how it can be used to
+> subtract five minutes from every time in the .srt file (with -i, it
+> edits in-place, but keeps a (.bak) backup file of the previous
+> version, but I think repeating the command will lose your initial
+> version):
+> subs -i -b -5:00 file.srt
+>
+> It took me a lot longer to figure out than it probably will with this
+> for you, but I didn't ask the mailing list. ;)
+>
+> I hope that helps,
+>
+>   Lucas
+>
+>
+> On Mon, Jul 12, 2021 at 6:21 PM Steven Zakulec <spzakulec@gmail.com> wrote:
+> >
+> > HI, I am writing to the Linux-media mailing list in hopes that someone
+> > can share how the /dev/vbi device can be captured from under Linux to
+> > disk so it can be processed back into captions.
+> >
+> > I've tried a long list of items (listed below), and the only success
+> > I've had under Linux is using old Hauppauge PVR (150 & 250) PCI cards,
+> > and extracting the embedded VBI data from those captures.
+> >
+> > I can successfully display closed captions on my Hauppauge HVR-950q
+> > USB device with "zvbi-ntsc-cc -d /dev/vbi0 -c" as long as I start a
+> > capture first in one terminal, then run that command in a second
+> > terminal, so I know that card works.
+> >
+> > With my Hauppauge HVR-950q, I've tried the following items:
+> > cat /dev/vbi (both before, during, and after a capture is started on the card
+> >
+> > Trying to use ffmpeg to capture /dev/vbi - unclear if this is even
+> > supposed to work, and if so, what the proper commands are
+> >
+> > I've tried using zvbi to capture the captions- at best, I can get the
+> > text dumped to a file, but no timestamps, or raw/sliced VBI that I
+> > could convert using ccextractor into a subtitle file.
+> > I had thought one of the commands below should work based on the
+> > descriptions from --help.
+> > zvbi-ntsc-cc -d /dev/vbi0 -r -C vbi.bin
+> > zvbi-ntsc-cc -d /dev/vbi0 -r -R -C vbi.bin
+> >
+> > I've tried some of the test tools in the zvbi source code test folder,
+> > but it's not entirely clear if they work with NTSC closed captions.
+> >
+> > I'm on Kubuntu 20.04 with kernel 5.4.0-77-generic.
+> >
+> > If anyone knows an application/device combination (any Linux OS),
+> > please let me know- this seems totally possible, I just can't figure
+> > out how to make it happen.
+> > Thank you in advance for any insights or guidance you can provide here.
+>
+>
+>
+> --
+> Protect your digital freedom and privacy, eliminate DRM, learn more at
+> http://www.defectivebydesign.org/what_is_drm
+> On a related note, also see https://www.fsf.org/campaigns/surveillance
