@@ -2,159 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51C733C7D1C
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jul 2021 05:53:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2D953C7EA5
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jul 2021 08:42:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237725AbhGNDz4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jul 2021 23:55:56 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:49609 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237655AbhGNDz4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jul 2021 23:55:56 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 3VxGmdpnR48Zv3VxImwQhH; Wed, 14 Jul 2021 05:53:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1626234784; bh=pptQDfZbKyeDcbaiaPvYrzveVHow64TLAuCzZLWOgjI=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=q/N8F1WU1IVhBQTOn2GjIe/HXX7v26kOqzhIfuAo2nNqnzqYTwEO4V9Sc6b8nv1cz
-         rLmoiVh5lYxUIxQWNZTTmaX7c1EUaBx2AJnHQIwZqrphKWG7k8qMozX4M3rcZvDSln
-         EvZVNghNj74m9OVSSHA6bKVvVIg9KkVp0rfGEIpHjv/VNfEb+ncKVF5Uzh/hJQC4VI
-         zHJuF/W0LOOwfkIw7ASVYZfy5BKHil3LWoKth+tQ3RjPYQiSwHKb295KbDifCo+1Ps
-         Xjhcp+E3tAvgY5E9Tb/jaongZIqkfs/Goavk2pK4JhOE72SbE0erQBH3FJEfZIsywI
-         /2GWms4KfAu8w==
-Message-ID: <1b9aad0c5bfa829791445d8dc6a0ed4d@smtp-cloud8.xs4all.net>
-Date:   Wed, 14 Jul 2021 05:53:02 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfF3GsZpvA1OpTb1qcLkoJv19iuwLXs8LPzyl6aDaD+XHPBbq7w/5vj8NIt+m/Y6nJXgVxircHL1fw5/TS2FuXsnqfgdbe3XMI9Mjc5w8cp4pLBzNfApI
- YznVZ3/JU0cAjBR84LGfG2TukXTvXklc1KBKW9CcKI8njbLkZrv03pYNYcAtlMQ/XGwnVF36sksn+TFckXcIDiE2gy7QNFkLyPG0YxcsH0AHibl5AmxxYm+F
- eK969K/9S7rPXT6EZyfnNA==
+        id S238141AbhGNGp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jul 2021 02:45:28 -0400
+Received: from comms.puri.sm ([159.203.221.185]:53246 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237948AbhGNGp1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 14 Jul 2021 02:45:27 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 57553DFE0D;
+        Tue, 13 Jul 2021 23:42:04 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Xhixhc62P4ws; Tue, 13 Jul 2021 23:42:03 -0700 (PDT)
+Message-ID: <78072a196076789745b5481e26cfb45862e935ed.camel@puri.sm>
+Subject: Re: [PATCH v5 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
+ phy and controller
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     m.felsch@pengutronix.de, robh@kernel.org,
+        devicetree@vger.kernel.org, festevam@gmail.com,
+        kernel@pengutronix.de, kernel@puri.sm, krzk@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, mchehab@kernel.org,
+        phone-devel@vger.kernel.org, shawnguo@kernel.org,
+        slongerbeam@gmail.com
+Date:   Wed, 14 Jul 2021 08:41:58 +0200
+In-Reply-To: <YOy5uH6bSzRjO/f8@pendragon.ideasonboard.com>
+References: <20210618095753.114557-1-martin.kepplinger@puri.sm>
+         <20210618095753.114557-3-martin.kepplinger@puri.sm>
+         <YOy5uH6bSzRjO/f8@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Am Dienstag, dem 13.07.2021 um 00:52 +0300 schrieb Laurent Pinchart:
+> Hi Martin,
+> 
+> Thank you for the patch.
 
-Results of the daily build of media_tree:
+thank you for reviewing!
 
-date:			Wed Jul 14 05:00:11 CEST 2021
-media-tree git hash:	e73f0f0ee7541171d89f2e2491130c7771ba58d3
-media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
-v4l-utils git hash:	a4f2e3a6f306f0bef6664451b44d5a7a18b26803
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7481-g7f50411af
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d8ae6cae42acd2e6882babf2f159ff6c0f1e1792
-host hardware:		x86_64
-host os:		5.10.0-7-amd64
+> 
+> On Fri, Jun 18, 2021 at 11:57:52AM +0200, Martin Kepplinger wrote:
+> > Add a driver to support the i.MX8MQ MIPI CSI receiver. The hardware
+> > side
+> > is based on
+> >  
+> > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
+> > 
+> > It's built as part of VIDEO_IMX7_CSI because that's documented to
+> > support
+> > i.MX8M platforms. This driver adds i.MX8MQ support where currently
+> > only the
+> > i.MX8MM platform has been supported.
+> 
+> Overall this is really nice work. I have quite a few review comments,
+> but hopefully nothing that should be difficult to handle.
 
-linux-git-sh: WARNINGS
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 2
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+I think so too but right now I have one question:
 
-Detailed results are available here:
+> 
+> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > ---
+> >  drivers/staging/media/imx/Makefile           |   1 +
+> >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 963
+> > +++++++++++++++++++
+> >  2 files changed, 964 insertions(+)
+> >  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > 
+> > 
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
-Detailed regression test results are available here:
+> > +static int imx8mq_mipi_csi_pm_suspend(struct device *dev, bool
+> > runtime)
+> > +{
+> > +       struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> > +       struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> > +       int ret = 0;
+> > +
+> > +       mutex_lock(&state->lock);
+> > +
+> > +       if (state->state & ST_POWERED) {
+> > +               imx8mq_mipi_csi_stop_stream(state);
+> > +               imx8mq_mipi_csi_clk_disable(state);
+> > +               state->state &= ~ST_POWERED;
+> > +               if (!runtime)
+> > +                       state->state |= ST_SUSPENDED;
+> > +       }
+> > +
+> > +       mutex_unlock(&state->lock);
+> > +
+> > +       ret = icc_set_bw(state->icc_path, 0, 0);
+> > +       if (ret)
+> > +               dev_err(dev, "icc_set_bw failed with %d\n", ret);
+> > +
+> > +       return ret ? -EAGAIN : 0;
+> > +}
+> > +
+> > +static int imx8mq_mipi_csi_pm_resume(struct device *dev, bool
+> > runtime)
+> > +{
+> > +       struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> > +       struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> > +       int ret = 0;
+> > +
+> > +       ret = icc_set_bw(state->icc_path, 0, state->icc_path_bw);
+> > +       if (ret) {
+> > +               dev_err(dev, "icc_set_bw failed with %d\n", ret);
+> > +               return ret;
+> > +       }
+> > +
+> > +       mutex_lock(&state->lock);
+> > +
+> > +       if (!runtime && !(state->state & ST_SUSPENDED))
+> > +               goto unlock;
+> > +
+> > +       if (!(state->state & ST_POWERED)) {
+> > +               state->state |= ST_POWERED;
+> > +               ret = imx8mq_mipi_csi_clk_enable(state);
+> 
+> Enabling the clocks in the PM resume handler is correct, but they
+> should
+> also be disabled in the PM suspend handler.
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+imx8mq_mipi_csi_clk_disable() is called in suspend(). I don't know what
+you mean here.
 
-Full logs are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+again, thank you for reviewing,
 
-The Media Infrastructure API from this daily build is here:
+                                       martin
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+
