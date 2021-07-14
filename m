@@ -2,235 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 701843C7EEC
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jul 2021 09:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62CA73C7EFC
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jul 2021 09:12:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238248AbhGNHEl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jul 2021 03:04:41 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:57571 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238216AbhGNHEh (ORCPT
+        id S238176AbhGNHOv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jul 2021 03:14:51 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:58052 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S238129AbhGNHOv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jul 2021 03:04:37 -0400
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 14 Jul 2021 00:01:46 -0700
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 14 Jul 2021 00:01:45 -0700
-X-QCInternal: smtphost
-Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 14 Jul 2021 12:31:36 +0530
-Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
-        id DB10E21B6B; Wed, 14 Jul 2021 12:31:34 +0530 (IST)
-From:   Dikshita Agarwal <dikshita@codeaurora.org>
-To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH v3 7/7] media: venus: Set buffer to FW based on FW min count requirement.
-Date:   Wed, 14 Jul 2021 12:31:08 +0530
-Message-Id: <1626246068-21023-8-git-send-email-dikshita@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1626246068-21023-1-git-send-email-dikshita@codeaurora.org>
-References: <1626246068-21023-1-git-send-email-dikshita@codeaurora.org>
+        Wed, 14 Jul 2021 03:14:51 -0400
+X-UUID: 981c53e6deac4dc99d9518640f7c133a-20210714
+X-UUID: 981c53e6deac4dc99d9518640f7c133a-20210714
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+        (envelope-from <guangming.cao@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1385633967; Wed, 14 Jul 2021 15:11:57 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 14 Jul 2021 15:11:49 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Wed, 14 Jul 2021 15:11:49 +0800
+From:   <guangming.cao@mediatek.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>, <christian.koenig@amd.com>
+CC:     <wsd_upstream@mediatek.com>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Guangming Cao <Guangming.Cao@mediatek.com>
+Subject: [PATCH] dma-buf: add kernel count for dma_buf
+Date:   Wed, 14 Jul 2021 15:11:44 +0800
+Message-ID: <20210714071144.62126-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-- Get the min buffer count required by FW from source event change
-  and use the same value to decide actual buffer count and for
-  buffer size calculation.
-- Setup DPB and OPB buffers after session continue incase of
-  reconfig.
+From: Guangming Cao <Guangming.Cao@mediatek.com>
 
-Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+Add a refcount for kernel to prevent UAF(Use After Free) issue.
+
+We can assume a case like below:
+    1. kernel space alloc dma_buf(file count = 1)
+    2. kernel use dma_buf to get fd(file count = 1)
+    3. userspace use fd to do mapping (file count = 2)
+    4. kernel call dma_buf_put (file count = 1)
+    5. userpsace close buffer fd(file count = 0)
+    6. at this time, buffer is released, but va is valid!!
+       So we still can read/write buffer via mmap va,
+       it maybe cause memory leak, or kernel exception.
+       And also, if we use "ls -ll" to watch corresponding process
+           fd link info, it also will cause kernel exception.
+
+Another case:
+     Using dma_buf_fd to generate more than 1 fd, because
+     dma_buf_fd will not increase file count, thus, when close
+     the second fd, it maybe occurs error.
+
+Solution:
+    Add a kernel count for dma_buf, and make sure the file count
+        of dma_buf.file hold by kernel is 1.
+
+Notes: For this solution, kref couldn't work because kernel ref
+       maybe added from 0, but kref don't allow it.
+
+Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
 ---
- drivers/media/platform/qcom/venus/core.h             |  1 +
- drivers/media/platform/qcom/venus/helpers.c          | 11 ++++++++++-
- drivers/media/platform/qcom/venus/hfi_helper.h       |  9 +++++++++
- drivers/media/platform/qcom/venus/hfi_msgs.c         |  7 +++++++
- drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c |  6 ++++--
- drivers/media/platform/qcom/venus/vdec.c             | 20 +++++++++++++-------
- 6 files changed, 44 insertions(+), 10 deletions(-)
+ drivers/dma-buf/dma-buf.c | 23 +++++++++++++++++++----
+ include/linux/dma-buf.h   |  6 ++++--
+ 2 files changed, 23 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 1ff20d9..b2b023e 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -403,6 +403,7 @@ struct venus_inst {
- 	u32 width;
- 	u32 height;
- 	struct v4l2_rect crop;
-+	u32 fw_min_cnt;
- 	u32 out_width;
- 	u32 out_height;
- 	u32 colorspace;
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index ccf188a..ea82cdc 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -576,6 +576,7 @@ static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
- 	struct hfi_plat_buffers_params params;
- 	bool is_dec = inst->session_type == VIDC_SESSION_TYPE_DEC;
- 	struct venc_controls *enc_ctr = &inst->controls.enc;
-+	int ret = 0;
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 511fe0d217a0..04ee92aac8b9 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -62,6 +62,7 @@ static void dma_buf_release(struct dentry *dentry)
+ 	if (unlikely(!dmabuf))
+ 		return;
  
- 	hfi_plat = hfi_platform_get(version);
++	WARN_ON(atomic64_read(&dmabuf->kernel_ref));
+ 	BUG_ON(dmabuf->vmapping_counter);
  
-@@ -610,7 +611,15 @@ static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
- 		params.enc.is_tenbit = inst->bit_depth == VIDC_BITDEPTH_10;
+ 	/*
+@@ -555,6 +556,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 		goto err_module;
  	}
  
--	return hfi_plat->bufreq(&params, inst->session_type, buftype, req);
-+	if (buftype == HFI_BUFFER_OUTPUT || buftype == HFI_BUFFER_OUTPUT2 ||
-+	    buftype == HFI_BUFFER_INTERNAL_SCRATCH_1(version))
-+		req->count_min = inst->fw_min_cnt;
++	atomic64_set(&dmabuf->kernel_ref, 1);
+ 	dmabuf->priv = exp_info->priv;
+ 	dmabuf->ops = exp_info->ops;
+ 	dmabuf->size = exp_info->size;
+@@ -617,6 +619,9 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
+ 
+ 	fd_install(fd, dmabuf->file);
+ 
++	/* Add file cnt for each new fd */
++	get_file(dmabuf->file);
 +
-+	ret = hfi_plat->bufreq(&params, inst->session_type, buftype, req);
-+	if (buftype == HFI_BUFFER_OUTPUT || buftype == HFI_BUFFER_OUTPUT2)
-+		if (inst->fw_min_cnt != req->count_min)
-+			inst->fw_min_cnt = req->count_min;
-+	return ret;
+ 	return fd;
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_fd);
+@@ -626,12 +631,13 @@ EXPORT_SYMBOL_GPL(dma_buf_fd);
+  * @fd:	[in]	fd associated with the struct dma_buf to be returned
+  *
+  * On success, returns the struct dma_buf associated with an fd; uses
+- * file's refcounting done by fget to increase refcount. returns ERR_PTR
+- * otherwise.
++ * dmabuf's ref refcounting done by kref_get to increase refcount.
++ * Returns ERR_PTR otherwise.
+  */
+ struct dma_buf *dma_buf_get(int fd)
+ {
+ 	struct file *file;
++	struct dma_buf *dmabuf;
+ 
+ 	file = fget(fd);
+ 
+@@ -643,7 +649,12 @@ struct dma_buf *dma_buf_get(int fd)
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	return file->private_data;
++	dmabuf = file->private_data;
++	/* replace file count increase as ref increase for kernel user */
++	get_dma_buf(dmabuf);
++	fput(file);
++
++	return dmabuf;
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_get);
+ 
+@@ -662,7 +673,11 @@ void dma_buf_put(struct dma_buf *dmabuf)
+ 	if (WARN_ON(!dmabuf || !dmabuf->file))
+ 		return;
+ 
+-	fput(dmabuf->file);
++	if (WARN_ON(!atomic64_read(&dmabuf->kernel_ref)))
++		return;
++
++	if (!atomic64_dec_return(&dmabuf->kernel_ref))
++		fput(dmabuf->file);
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_put);
+ 
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index efdc56b9d95f..bc790cb028eb 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -308,6 +308,7 @@ struct dma_buf_ops {
+ struct dma_buf {
+ 	size_t size;
+ 	struct file *file;
++	atomic64_t kernel_ref;
+ 	struct list_head attachments;
+ 	const struct dma_buf_ops *ops;
+ 	struct mutex lock;
+@@ -436,7 +437,7 @@ struct dma_buf_export_info {
+ 					 .owner = THIS_MODULE }
+ 
+ /**
+- * get_dma_buf - convenience wrapper for get_file.
++ * get_dma_buf - increase a kernel ref of dma-buf
+  * @dmabuf:	[in]	pointer to dma_buf
+  *
+  * Increments the reference count on the dma-buf, needed in case of drivers
+@@ -446,7 +447,8 @@ struct dma_buf_export_info {
+  */
+ static inline void get_dma_buf(struct dma_buf *dmabuf)
+ {
+-	get_file(dmabuf->file);
++	if (atomic64_inc_return(&dmabuf->kernel_ref) == 1)
++		get_file(dmabuf->file);
  }
  
- int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
-diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-index 185c302..f2e8fad 100644
---- a/drivers/media/platform/qcom/venus/hfi_helper.h
-+++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-@@ -167,6 +167,7 @@
- #define HFI_PROPERTY_PARAM_VDEC_RECOVERY_POINT_SEI_EXTRADATA	0x120300c
- #define HFI_PROPERTY_PARAM_VDEC_THUMBNAIL_MODE			0x120300d
- #define HFI_PROPERTY_PARAM_VDEC_FRAME_ASSEMBLY			0x120300e
-+#define HFI_PROPERTY_PARAM_VDEC_DPB_COUNTS				0x120300e
- #define HFI_PROPERTY_PARAM_VDEC_VC1_FRAMEDISP_EXTRADATA		0x1203011
- #define HFI_PROPERTY_PARAM_VDEC_VC1_SEQDISP_EXTRADATA		0x1203012
- #define HFI_PROPERTY_PARAM_VDEC_TIMESTAMP_EXTRADATA		0x1203013
-@@ -906,6 +907,14 @@ struct hfi_extradata_input_crop {
- 	u32 height;
- };
- 
-+struct hfi_dpb_counts {
-+	u32 max_dpb_count;
-+	u32 max_ref_frames;
-+	u32 max_dec_buffering;
-+	u32 max_reorder_frames;
-+	u32 fw_min_cnt;
-+};
-+
- #define HFI_COLOR_FORMAT_MONOCHROME		0x01
- #define HFI_COLOR_FORMAT_NV12			0x02
- #define HFI_COLOR_FORMAT_NV21			0x03
-diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
-index a2d436d..ed005d6 100644
---- a/drivers/media/platform/qcom/venus/hfi_msgs.c
-+++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
-@@ -32,6 +32,7 @@ static void event_seq_changed(struct venus_core *core, struct venus_inst *inst,
- 	struct hfi_colour_space *colour_info;
- 	struct hfi_buffer_requirements *bufreq;
- 	struct hfi_extradata_input_crop *crop;
-+	struct hfi_dpb_counts *dpb_count;
- 	u8 *data_ptr;
- 	u32 ptype;
- 
-@@ -110,6 +111,12 @@ static void event_seq_changed(struct venus_core *core, struct venus_inst *inst,
- 			event.input_crop.height = crop->height;
- 			data_ptr += sizeof(*crop);
- 			break;
-+		case HFI_PROPERTY_PARAM_VDEC_DPB_COUNTS:
-+			data_ptr += sizeof(u32);
-+			dpb_count = (struct hfi_dpb_counts *)data_ptr;
-+			event.buf_count = dpb_count->fw_min_cnt;
-+			data_ptr += sizeof(*dpb_count);
-+			break;
- 		default:
- 			break;
- 		}
-diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-index 479178b..ea25c45 100644
---- a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-+++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-@@ -1164,7 +1164,7 @@ static int output_buffer_count(u32 session_type, u32 codec)
- 			output_min_count = 6;
- 			break;
- 		case V4L2_PIX_FMT_VP9:
--			output_min_count = 9;
-+			output_min_count = 11;
- 			break;
- 		case V4L2_PIX_FMT_H264:
- 		case V4L2_PIX_FMT_HEVC:
-@@ -1213,6 +1213,8 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
- 	}
- 
- 	out_min_count = output_buffer_count(VIDC_SESSION_TYPE_DEC, codec);
-+	/* Max of driver and FW count */
-+	out_min_count = max(out_min_count, bufreq->count_min);
- 
- 	bufreq->type = buftype;
- 	bufreq->region_size = 0;
-@@ -1237,7 +1239,7 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
- 	} else if (buftype == HFI_BUFFER_INTERNAL_SCRATCH(version)) {
- 		bufreq->size = dec_ops->scratch(width, height, is_interlaced);
- 	} else if (buftype == HFI_BUFFER_INTERNAL_SCRATCH_1(version)) {
--		bufreq->size = dec_ops->scratch1(width, height, out_min_count,
-+		bufreq->size = dec_ops->scratch1(width, height, VB2_MAX_FRAME,
- 						 is_secondary_output,
- 						 num_vpp_pipes);
- 	} else if (buftype == HFI_BUFFER_INTERNAL_PERSIST_1) {
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 892be8d..3e91d8c 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -988,23 +988,23 @@ static int vdec_start_capture(struct venus_inst *inst)
- 	if (ret)
- 		goto err;
- 
-+	venus_pm_load_scale(inst);
-+
-+	inst->next_buf_last = false;
-+
- 	ret = venus_helper_alloc_dpb_bufs(inst);
- 	if (ret)
- 		goto err;
- 
--	ret = venus_helper_queue_dpb_bufs(inst);
-+	ret = hfi_session_continue(inst);
- 	if (ret)
- 		goto free_dpb_bufs;
- 
--	ret = venus_helper_process_initial_cap_bufs(inst);
-+	ret = venus_helper_queue_dpb_bufs(inst);
- 	if (ret)
- 		goto free_dpb_bufs;
- 
--	venus_pm_load_scale(inst);
--
--	inst->next_buf_last = false;
--
--	ret = hfi_session_continue(inst);
-+	ret = venus_helper_process_initial_cap_bufs(inst);
- 	if (ret)
- 		goto free_dpb_bufs;
- 
-@@ -1411,6 +1411,11 @@ static void vdec_event_change(struct venus_inst *inst,
- 		inst->crop.height = ev_data->height;
- 	}
- 
-+	inst->fw_min_cnt = ev_data->buf_count;
-+	//overwriting this to 11 for vp9 due to fw bug
-+	if(inst->hfi_codec == HFI_VIDEO_CODEC_VP9)
-+		inst->fw_min_cnt = 11;
-+
- 	inst->out_width = ev_data->width;
- 	inst->out_height = ev_data->height;
- 
-@@ -1514,6 +1519,7 @@ static void vdec_inst_init(struct venus_inst *inst)
- 	inst->crop.top = 0;
- 	inst->crop.width = inst->width;
- 	inst->crop.height = inst->height;
-+	inst->fw_min_cnt = 8;
- 	inst->out_width = frame_width_min(inst);
- 	inst->out_height = frame_height_min(inst);
- 	inst->fps = 30;
+ /**
 -- 
-2.7.4
+2.17.1
 
