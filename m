@@ -2,166 +2,274 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6ABBA3C8A5D
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jul 2021 20:03:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 674123C8A75
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jul 2021 20:08:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230437AbhGNSGX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jul 2021 14:06:23 -0400
-Received: from mail-il1-f176.google.com ([209.85.166.176]:46602 "EHLO
-        mail-il1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229736AbhGNSGW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jul 2021 14:06:22 -0400
-Received: by mail-il1-f176.google.com with SMTP id y6so2457864ilj.13;
-        Wed, 14 Jul 2021 11:03:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LEmCBg2ZFVYuVXXstsnNim775J7TAUnbJ8EWRiqQFxY=;
-        b=Fc+/S3GvDIbNvIoCkrt4IEjG7YTkaPq0ykMV7RDUIxxE7yAqy9a4SifGD0q7TEWJ28
-         Bwoet2vxK31lETSocth6Wc7Y0qCtaWTSAZaJSOkU9zFY/4jlKV9SR5oy3iMVhkG8iomr
-         soDcsaUf+8p1E9j5XmW1mT7Ro5E7RWpT1wM3ZzbzlGgB5c2CD0kjgMyHMyWuXuETgN+4
-         RxrPFvGWQXl7QiPgD/OFn2JZ/YuXY30vp+yn25cHNELtD+07CDQvrZHO5jEjlLFsjnFT
-         94SLQ6rwVPDNVw44qlZMnGmRF8eHR8Asf3g+c6ovO6oOBI/yaxzBkZMRzdAJ7d2GKKKE
-         m8bg==
-X-Gm-Message-State: AOAM5309IRqB/YLBPS+HKVHKrn1jm0Bu59YQ+/mMST7QoDnI+FoWSgmc
-        gdLc+dyvDESzJ8fqxR1dYQ==
-X-Google-Smtp-Source: ABdhPJz7MmXKdIbOBmyWQDZX/3y7Sb1bdJ5UO61CJctO0JLTnoDf526DzkAy7KMARNtraPgVgId1CQ==
-X-Received: by 2002:a92:7009:: with SMTP id l9mr7533095ilc.24.1626285809628;
-        Wed, 14 Jul 2021 11:03:29 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id c19sm1583766ili.62.2021.07.14.11.03.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jul 2021 11:03:28 -0700 (PDT)
-Received: (nullmailer pid 2851154 invoked by uid 1000);
-        Wed, 14 Jul 2021 18:03:26 -0000
-Date:   Wed, 14 Jul 2021 12:03:26 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Yassine Oudjana <y.oudjana@protonmail.com>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        devicetree@vger.kernel.org, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: (No Subject)
-Message-ID: <20210714180326.GA2848788@robh.at.kernel.org>
-References: <p79aCzsVmgW6eKQZNSlglPvO40ulVy4id6jcm7aTk@cp7-web-044.plabs.ch>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <p79aCzsVmgW6eKQZNSlglPvO40ulVy4id6jcm7aTk@cp7-web-044.plabs.ch>
+        id S230091AbhGNSLM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jul 2021 14:11:12 -0400
+Received: from comms.puri.sm ([159.203.221.185]:55388 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229651AbhGNSLM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 14 Jul 2021 14:11:12 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 9AC38DFCFB;
+        Wed, 14 Jul 2021 11:07:50 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 4QRBzjwfMO9H; Wed, 14 Jul 2021 11:07:49 -0700 (PDT)
+Message-ID: <eae3abb65452a09f822088eab10b26a5d35273ea.camel@puri.sm>
+Subject: Re: [PATCH v6 1/3] dt-bindings: media: document the
+ nxp,imx8mq-mipi-csi2 receiver phy and controller
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     festevam@gmail.com, krzk@kernel.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de, kernel@puri.sm,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
+        mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
+        shawnguo@kernel.org, slongerbeam@gmail.com
+Date:   Wed, 14 Jul 2021 20:07:44 +0200
+In-Reply-To: <YO8kgHoV/PVlF3oV@pendragon.ideasonboard.com>
+References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
+         <20210714111931.324485-2-martin.kepplinger@puri.sm>
+         <YO8kgHoV/PVlF3oV@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 22, 2021 at 04:20:24PM +0000, Yassine Oudjana wrote:
-> Date: Tue, 22 Jun 2021 20:08:25 +0400
-> Subject: [PATCH] media: dt-bindings: media: venus: Add firmware-name
+Am Mittwoch, dem 14.07.2021 um 20:53 +0300 schrieb Laurent Pinchart:
+> Hi Martin,
 > 
-> Support for parsing the firmware-name property was added a while ago [1],
-> but the dt-bindings were never updated with the new property. This patch
-> adds it to all venus dt-bindings.
+> Thank you for the patch.
 > 
-> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
+> On Wed, Jul 14, 2021 at 01:19:29PM +0200, Martin Kepplinger wrote:
+> > The i.MX8MQ SoC integrates a different MIPI CSI receiver as the
+> > i.MX8MM so
+> > describe the DT bindings for it.
+> > 
+> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > ---
+> >  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 173
+> > ++++++++++++++++++
+> >  1 file changed, 173 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-
+> > mipi-csi2.yaml
+> > b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> > new file mode 100644
+> > index 000000000000..97222485f223
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-
+> > csi2.yaml
+> > @@ -0,0 +1,173 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: 
+> > http://devicetree.org/schemas/media/nxp,imx8mq-mipi-csi2.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: NXP i.MX8MQ MIPI CSI-2 receiver
+> > +
+> > +maintainers:
+> > +  - Martin Kepplinger <martin.kepplinger@puri.sm>
+> > +
+> > +description: |-
+> > +  This binding covers the CSI-2 RX PHY and host controller
+> > included in the
+> > +  NXP i.MX8MQ SoC. It handles the sensor/image input and process
+> > for all the
+> > +  input imaging devices.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - fsl,imx8mq-mipi-csi2
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: core is the RX Controller Core Clock input.
+> > This clock
+> > +                     must be exactly equal to or faster than the
+> > receive
+> > +                     byteclock from the RX DPHY.
+> > +      - description: esc is the Rx Escape Clock. This must be the
+> > same escape
+> > +                     clock that the RX DPHY receives.
+> > +      - description: ui is the pixel clock (phy_ref up to 333Mhz).
 > 
-> [1]: https://lore.kernel.org/linux-arm-msm/20210126084252.238078-1-stanimir.varbanov@linaro.org/
-> ---
->  .../devicetree/bindings/media/qcom,msm8916-venus.yaml        | 5 +++++
->  .../devicetree/bindings/media/qcom,msm8996-venus.yaml        | 5 +++++
->  .../devicetree/bindings/media/qcom,sc7180-venus.yaml         | 5 +++++
->  .../devicetree/bindings/media/qcom,sdm845-venus-v2.yaml      | 5 +++++
->  .../devicetree/bindings/media/qcom,sdm845-venus.yaml         | 5 +++++
->  5 files changed, 25 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml b/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
-> index 59ab16ad12f1..cb1b866d9c37 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
-> @@ -80,6 +80,11 @@ properties:
->      required:
->        - iommus
->  
-> +  firmware-name:
-> +    maxItems: 1
+> Where did you get the 333MHz limit from ? The information I've
+> received
+> indicate a limit of 125MHz for the UI clock (and 266 and 133 MHz for
+> the
+> core and esc clocks respectively).
 
-Not an array.
+The latest ref.manual revison has this corrected to 333Mhz. Look at the
+"changelog" they have in the RM, to find it quickly.
 
-Is there a specific pattern and/or default name you can specify?
+> 
+> With this addressed,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> > +                     See the reference manual for details.
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: core
+> > +      - const: esc
+> > +      - const: ui
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  resets:
+> > +    items:
+> > +      - description: CORE_RESET reset register bit definition
+> > +      - description: PHY_REF_RESET reset register bit definition
+> > +      - description: ESC_RESET reset register bit definition
+> > +
+> > +  fsl,mipi-phy-gpr:
+> > +    description: |
+> > +      The phandle to the imx8mq syscon iomux-gpr with the register
+> > +      for setting RX_ENABLE for the mipi receiver.
+> > +
+> > +      The format should be as follows:
+> > +      <gpr req_gpr>
+> > +      gpr is the phandle to general purpose register node.
+> > +      req_gpr is the gpr register offset of RX_ENABLE for the mipi
+> > phy.
+> > +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> > +    items:
+> > +      items:
+> > +        - description: The 'gpr' is the phandle to general purpose
+> > register node.
+> > +        - description: The 'req_gpr' is the gpr register offset
+> > containing
+> > +                       CSI2_1_RX_ENABLE or CSI2_2_RX_ENABLE
+> > respectively.
+> > +          maximum: 0xff
+> > +
+> > +  interconnects:
+> > +    maxItems: 1
+> > +
+> > +  interconnect-names:
+> > +    const: dram
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        unevaluatedProperties: false
+> > +        description:
+> > +          Input port node, single endpoint describing the CSI-2
+> > transmitter.
+> > +
+> > +        properties:
+> > +          endpoint:
+> > +            $ref: video-interfaces.yaml#
+> > +            unevaluatedProperties: false
+> > +
+> > +            properties:
+> > +              data-lanes:
+> > +                items:
+> > +                  minItems: 1
+> > +                  maxItems: 4
+> > +                  items:
+> > +                    - const: 1
+> > +                    - const: 2
+> > +                    - const: 3
+> > +                    - const: 4
+> > +
+> > +            required:
+> > +              - data-lanes
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description:
+> > +          Output port node
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - clock-names
+> > +  - power-domains
+> > +  - resets
+> > +  - fsl,mipi-phy-gpr
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/imx8mq-clock.h>
+> > +    #include <dt-bindings/interconnect/imx8mq.h>
+> > +
+> > +    csi@30a70000 {
+> > +        compatible = "fsl,imx8mq-mipi-csi2";
+> > +        reg = <0x30a70000 0x1000>;
+> > +        clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
+> > +                 <&clk IMX8MQ_CLK_CSI1_ESC>,
+> > +                 <&clk IMX8MQ_CLK_CSI1_PHY_REF>;
+> > +        clock-names = "core", "esc", "ui";
+> > +        assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
+> > +                          <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
+> > +                          <&clk IMX8MQ_CLK_CSI1_ESC>;
+> > +        assigned-clock-rates = <266000000>, <200000000>,
+> > <66000000>;
+> > +        assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
+> > +                                 <&clk IMX8MQ_SYS2_PLL_1000M>,
+> > +                                 <&clk IMX8MQ_SYS1_PLL_800M>;
+> > +        power-domains = <&pgc_mipi_csi1>;
+> > +        resets = <&src IMX8MQ_RESET_MIPI_CSI1_CORE_RESET>,
+> > +                 <&src IMX8MQ_RESET_MIPI_CSI1_PHY_REF_RESET>,
+> > +                 <&src IMX8MQ_RESET_MIPI_CSI1_ESC_RESET>;
+> > +        fsl,mipi-phy-gpr = <&iomuxc_gpr 0x88>;
+> > +        interconnects = <&noc IMX8MQ_ICM_CSI1 &noc
+> > IMX8MQ_ICS_DRAM>;
+> > +        interconnect-names = "dram";
+> > +
+> > +        ports {
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +
+> > +            port@0 {
+> > +                reg = <0>;
+> > +
+> > +                imx8mm_mipi_csi_in: endpoint {
+> > +                    remote-endpoint = <&imx477_out>;
+> > +                    data-lanes = <1 2 3 4>;
+> > +                };
+> > +            };
+> > +
+> > +            port@1 {
+> > +                reg = <1>;
+> > +
+> > +                imx8mm_mipi_csi_out: endpoint {
+> > +                    remote-endpoint = <&csi_in>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+> 
 
-> +    description: |
-> +      Relative firmware image path for venus.
-> +
->  required:
->    - compatible
->    - reg
-> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml b/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
-> index 199f45217b4a..b8809325138f 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
-> @@ -107,6 +107,11 @@ properties:
->      required:
->        - iommus
->  
-> +  firmware-name:
-> +    maxItems: 1
-> +    description: |
-> +      Relative firmware image path for venus.
-> +
->  required:
->    - compatible
->    - reg
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> index 04013e5dd044..ffd3e2850366 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> @@ -99,6 +99,11 @@ properties:
->      required:
->        - iommus
->  
-> +  firmware-name:
-> +    maxItems: 1
-> +    description: |
-> +      Relative firmware image path for venus.
-> +
->  required:
->    - compatible
->    - reg
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-> index 04b9af4db191..cd7a5e1374ce 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-> @@ -94,6 +94,11 @@ properties:
->      required:
->        - iommus
->  
-> +  firmware-name:
-> +    maxItems: 1
-> +    description: |
-> +      Relative firmware image path for venus.
-> +
->  required:
->    - compatible
->    - reg
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml
-> index 680f37726fdf..ae256238a637 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml
-> @@ -108,6 +108,11 @@ properties:
->      required:
->        - iommus
->  
-> +  firmware-name:
-> +    maxItems: 1
-> +    description: |
-> +      Relative firmware image path for venus.
-> +
->  required:
->    - compatible
->    - reg
-> -- 
-> 2.32.0
-> 
-> 
-> 
+
