@@ -2,90 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 178CE3C7CDE
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jul 2021 05:23:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51C733C7D1C
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jul 2021 05:53:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237751AbhGND0r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jul 2021 23:26:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51238 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237725AbhGND0q (ORCPT
+        id S237725AbhGNDz4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jul 2021 23:55:56 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:49609 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237655AbhGNDz4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jul 2021 23:26:46 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2B11C0613DD;
-        Tue, 13 Jul 2021 20:23:54 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id j9so774171pfc.5;
-        Tue, 13 Jul 2021 20:23:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VIzDtcMh9iUc8ZZOTxmi7csButnplyD6SuFzYXtDhe0=;
-        b=DYOrZlLEegG0jNCY6d+1VfRC9uPdBH5MIQ2yTEfwRK3YDWP8VHyijGGtI4q6lxZEZp
-         nFzFT+MsVZERIqdld4c0ho11fW6RpYdEcLvwMx2SWx26+iYomXrq423UMdKCryaPQPH/
-         YFag54LU5JYzeJveaBTonTSQm5EZ6AGsj2sqszr7GET31rQFjqnG3CCuy6bNKyXgSWUm
-         YufL9UgjOTHSVZRlcmmR94CW5iKHiutb2/iafbYnz9/iy/EhxaQsS5WVMpV9p2sRqmVo
-         k8fO0r6b7X3+SA1yvDxU4Ie84qVsd2pCpbUAnoMZTN7x1uBoc230B1rDO0alUR16O8Nb
-         P8ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VIzDtcMh9iUc8ZZOTxmi7csButnplyD6SuFzYXtDhe0=;
-        b=fxxeEjiJw4e3ucfsbOFq2qvVAR/IRHdkK2+UznJnIlqWkO+SbtSbo66gWRm31/CUhn
-         elRQPs+m1rBTsW0yuKDvs7rZiSP8wu9nLNbJipwYJrpmtojGtj5VA8jmKvthfU6JcP91
-         otgYVDLe6OFZz7XEgkcaEsExXu4lY7O4qmqlSTibb2RWuugbqbixY5/iNsloeahhoK5/
-         Nw081f7pvDUoong57z7fLqGZSXJe5ffrw9zILm9tKuIM1L8V+jzFQ7/Gd2cRIXfeGmxJ
-         BFPw1Cxtx4rIQ0hkgFZjrIlEKSXP59PuDKnFUXdu5f14wWBzi8P6/Jvk8x8hYqXw8vA9
-         QDAg==
-X-Gm-Message-State: AOAM533sDjOdKN2dtDNJUb+aHCqSOJCzHL+SLZa05KZjt+W2QwAs+fLu
-        puX0D20RClw2rIUawNrNEFc=
-X-Google-Smtp-Source: ABdhPJyd2fMlxHI5igKsBtpzFfPrx1Fq5dQlsbN45U/uRiaNNeJ6m+pwR9I9S/VANxeI2eJnerta7Q==
-X-Received: by 2002:a63:3186:: with SMTP id x128mr7210797pgx.379.1626233034514;
-        Tue, 13 Jul 2021 20:23:54 -0700 (PDT)
-Received: from localhost.localdomain ([154.16.166.218])
-        by smtp.gmail.com with ESMTPSA id z23sm4067181pjh.37.2021.07.13.20.23.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jul 2021 20:23:54 -0700 (PDT)
-From:   Dongliang Mu <mudongliangabcd@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dongliang Mu <mudongliangabcd@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: usb: fix memory leak in stk_camera_probe
-Date:   Wed, 14 Jul 2021 11:23:28 +0800
-Message-Id: <20210714032340.504836-1-mudongliangabcd@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Tue, 13 Jul 2021 23:55:56 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 3VxGmdpnR48Zv3VxImwQhH; Wed, 14 Jul 2021 05:53:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1626234784; bh=pptQDfZbKyeDcbaiaPvYrzveVHow64TLAuCzZLWOgjI=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=q/N8F1WU1IVhBQTOn2GjIe/HXX7v26kOqzhIfuAo2nNqnzqYTwEO4V9Sc6b8nv1cz
+         rLmoiVh5lYxUIxQWNZTTmaX7c1EUaBx2AJnHQIwZqrphKWG7k8qMozX4M3rcZvDSln
+         EvZVNghNj74m9OVSSHA6bKVvVIg9KkVp0rfGEIpHjv/VNfEb+ncKVF5Uzh/hJQC4VI
+         zHJuF/W0LOOwfkIw7ASVYZfy5BKHil3LWoKth+tQ3RjPYQiSwHKb295KbDifCo+1Ps
+         Xjhcp+E3tAvgY5E9Tb/jaongZIqkfs/Goavk2pK4JhOE72SbE0erQBH3FJEfZIsywI
+         /2GWms4KfAu8w==
+Message-ID: <1b9aad0c5bfa829791445d8dc6a0ed4d@smtp-cloud8.xs4all.net>
+Date:   Wed, 14 Jul 2021 05:53:02 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfF3GsZpvA1OpTb1qcLkoJv19iuwLXs8LPzyl6aDaD+XHPBbq7w/5vj8NIt+m/Y6nJXgVxircHL1fw5/TS2FuXsnqfgdbe3XMI9Mjc5w8cp4pLBzNfApI
+ YznVZ3/JU0cAjBR84LGfG2TukXTvXklc1KBKW9CcKI8njbLkZrv03pYNYcAtlMQ/XGwnVF36sksn+TFckXcIDiE2gy7QNFkLyPG0YxcsH0AHibl5AmxxYm+F
+ eK969K/9S7rPXT6EZyfnNA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-stk_camera_probe mistakenly execute usb_get_intf and increase the
-refcount of interface->dev.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Fix this by removing the execution of usb_get_intf.
+Results of the daily build of media_tree:
 
-Reported-by: Dongliang Mu <mudongliangabcd@gmail.com>
-Fixes: 0aa77f6c2954 ("[media] move the remaining USB drivers to drivers/media/usb")
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
----
- drivers/media/usb/stkwebcam/stk-webcam.c | 1 -
- 1 file changed, 1 deletion(-)
+date:			Wed Jul 14 05:00:11 CEST 2021
+media-tree git hash:	e73f0f0ee7541171d89f2e2491130c7771ba58d3
+media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
+v4l-utils git hash:	a4f2e3a6f306f0bef6664451b44d5a7a18b26803
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7481-g7f50411af
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d8ae6cae42acd2e6882babf2f159ff6c0f1e1792
+host hardware:		x86_64
+host os:		5.10.0-7-amd64
 
-diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c b/drivers/media/usb/stkwebcam/stk-webcam.c
-index a45d464427c4..5bd8e85b9452 100644
---- a/drivers/media/usb/stkwebcam/stk-webcam.c
-+++ b/drivers/media/usb/stkwebcam/stk-webcam.c
-@@ -1311,7 +1311,6 @@ static int stk_camera_probe(struct usb_interface *interface,
- 
- 	dev->udev = udev;
- 	dev->interface = interface;
--	usb_get_intf(interface);
- 
- 	if (hflip != -1)
- 		dev->vsettings.hflip = hflip;
--- 
-2.25.1
+linux-git-sh: WARNINGS
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13.1-i686: OK
+linux-5.13.1-x86_64: OK
+linux-5.14-rc1-i686: OK
+linux-5.14-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 2
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
