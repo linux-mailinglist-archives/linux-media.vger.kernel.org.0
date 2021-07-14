@@ -2,23 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3BB83C802A
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jul 2021 10:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24FAB3C8078
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jul 2021 10:44:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238527AbhGNIfT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jul 2021 04:35:19 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:49436 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238496AbhGNIfR (ORCPT
+        id S238653AbhGNIq7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jul 2021 04:46:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38016 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238582AbhGNIq6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jul 2021 04:35:17 -0400
+        Wed, 14 Jul 2021 04:46:58 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D886C06175F;
+        Wed, 14 Jul 2021 01:44:07 -0700 (PDT)
 Received: from [IPv6:2a02:810a:880:f54:e49e:3ed0:1a77:5623] (unknown [IPv6:2a02:810a:880:f54:e49e:3ed0:1a77:5623])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 70D611F42AB2;
-        Wed, 14 Jul 2021 09:32:11 +0100 (BST)
-Subject: Re: [PATCH v6 09/11] memory: mtk-smi: Get rid of mtk_smi_larb_get/put
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 42F781F42B41;
+        Wed, 14 Jul 2021 09:44:04 +0100 (BST)
+Subject: Re: [PATCH v6 06/11] drm/mediatek: Add pm runtime support for ovl and
+ rdma
 To:     Yong Wu <yong.wu@mediatek.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Joerg Roedel <joro@8bytes.org>,
@@ -44,16 +48,19 @@ Cc:     Evan Green <evgreen@chromium.org>,
         Xia Jiang <xia.jiang@mediatek.com>,
         Tiffany Lin <tiffany.lin@mediatek.com>,
         Hsin-Yi Wang <hsinyi@chromium.org>,
-        Eizan Miyamoto <eizan@chromium.org>, anthony.huang@mediatek.com
+        Eizan Miyamoto <eizan@chromium.org>,
+        anthony.huang@mediatek.com,
+        Yongqiang Niu <yongqiang.niu@mediatek.com>,
+        CK Hu <ck.hu@mediatek.com>
 References: <20210714025626.5528-1-yong.wu@mediatek.com>
- <20210714025626.5528-10-yong.wu@mediatek.com>
+ <20210714025626.5528-7-yong.wu@mediatek.com>
 From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <e6e6c16d-0415-12ad-e74d-d1faf5fb3aaf@collabora.com>
-Date:   Wed, 14 Jul 2021 10:32:09 +0200
+Message-ID: <61aa5aa9-5bd2-e99c-02ef-f5d13526eb43@collabora.com>
+Date:   Wed, 14 Jul 2021 10:44:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210714025626.5528-10-yong.wu@mediatek.com>
+In-Reply-To: <20210714025626.5528-7-yong.wu@mediatek.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -64,77 +71,141 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 On 14.07.21 04:56, Yong Wu wrote:
-> After adding device_link between the iommu consumer and smi-larb,
-> the pm_runtime_get(_sync) of smi-larb and smi-common will be called
-> automatically. we can get rid of mtk_smi_larb_get/put.
+> From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 > 
-> CC: Matthias Brugger <matthias.bgg@gmail.com>
+> Prepare for smi cleaning up "mediatek,larb".
+> 
+> Display use the dispsys device to call pm_rumtime_get_sync before.
+> This patch add pm_runtime_xx with ovl and rdma device whose nodes has
+> "iommus" property, then display could help pm_runtime_get for smi via
+> ovl or rdma device.
+> 
+> CC: CK Hu <ck.hu@mediatek.com>
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> Reviewed-by: Evan Green <evgreen@chromium.org>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Acked-by: Matthias Brugger <matthias.bgg@gmail.com>
-
-Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-
+> (Yong: Use pm_runtime_resume_and_get instead of pm_runtime_get_sync)
+> Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 > ---
->   drivers/memory/mtk-smi.c   | 14 --------------
->   include/soc/mediatek/smi.h | 20 --------------------
->   2 files changed, 34 deletions(-)
+>   drivers/gpu/drm/mediatek/mtk_disp_ovl.c  |  9 ++++++++-
+>   drivers/gpu/drm/mediatek/mtk_disp_rdma.c |  9 ++++++++-
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 12 +++++++++++-
+>   3 files changed, 27 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
-> index c5fb51f73b34..7c61c924e220 100644
-> --- a/drivers/memory/mtk-smi.c
-> +++ b/drivers/memory/mtk-smi.c
-> @@ -134,20 +134,6 @@ static void mtk_smi_clk_disable(const struct mtk_smi *smi)
->   	clk_disable_unprepare(smi->clk_apb);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> index fa9d79963cd3..ea5760f856ec 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> @@ -11,6 +11,7 @@
+>   #include <linux/of_device.h>
+>   #include <linux/of_irq.h>
+>   #include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+>   #include <linux/soc/mediatek/mtk-cmdq.h>
+>   
+>   #include "mtk_disp_drv.h"
+> @@ -414,15 +415,21 @@ static int mtk_disp_ovl_probe(struct platform_device *pdev)
+>   		return ret;
+>   	}
+>   
+> +	pm_runtime_enable(dev);
+> +
+>   	ret = component_add(dev, &mtk_disp_ovl_component_ops);
+> -	if (ret)
+> +	if (ret) {
+> +		pm_runtime_disable(dev);
+>   		dev_err(dev, "Failed to add component: %d\n", ret);
+> +	}
+>   
+>   	return ret;
 >   }
 >   
-> -int mtk_smi_larb_get(struct device *larbdev)
-> -{
-> -	int ret = pm_runtime_resume_and_get(larbdev);
-> -
-> -	return (ret < 0) ? ret : 0;
-> -}
-> -EXPORT_SYMBOL_GPL(mtk_smi_larb_get);
-> -
-> -void mtk_smi_larb_put(struct device *larbdev)
-> -{
-> -	pm_runtime_put_sync(larbdev);
-> -}
-> -EXPORT_SYMBOL_GPL(mtk_smi_larb_put);
-> -
->   static int
->   mtk_smi_larb_bind(struct device *dev, struct device *master, void *data)
+>   static int mtk_disp_ovl_remove(struct platform_device *pdev)
 >   {
-> diff --git a/include/soc/mediatek/smi.h b/include/soc/mediatek/smi.h
-> index 15e3397cec58..11f7d6b59642 100644
-> --- a/include/soc/mediatek/smi.h
-> +++ b/include/soc/mediatek/smi.h
-> @@ -19,26 +19,6 @@ struct mtk_smi_larb_iommu {
->   	unsigned char  bank[32];
->   };
+> +	pm_runtime_disable(&pdev->dev);
+> +
+>   	return 0;
+>   }
 >   
-> -/*
-> - * mtk_smi_larb_get: Enable the power domain and clocks for this local arbiter.
-> - *                   It also initialize some basic setting(like iommu).
-> - * mtk_smi_larb_put: Disable the power domain and clocks for this local arbiter.
-> - * Both should be called in non-atomic context.
-> - *
-> - * Returns 0 if successful, negative on failure.
-> - */
-> -int mtk_smi_larb_get(struct device *larbdev);
-> -void mtk_smi_larb_put(struct device *larbdev);
-> -
-> -#else
-> -
-> -static inline int mtk_smi_larb_get(struct device *larbdev)
-> -{
-> -	return 0;
-> -}
-> -
-> -static inline void mtk_smi_larb_put(struct device *larbdev) { }
-> -
->   #endif
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> index 705f28ceb4dd..0f31d1c8e37c 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> @@ -9,6 +9,7 @@
+>   #include <linux/of_device.h>
+>   #include <linux/of_irq.h>
+>   #include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+>   #include <linux/soc/mediatek/mtk-cmdq.h>
 >   
->   #endif
+>   #include "mtk_disp_drv.h"
+> @@ -327,9 +328,13 @@ static int mtk_disp_rdma_probe(struct platform_device *pdev)
+>   
+>   	platform_set_drvdata(pdev, priv);
+>   
+> +	pm_runtime_enable(dev);
+> +
+>   	ret = component_add(dev, &mtk_disp_rdma_component_ops);
+> -	if (ret)
+> +	if (ret) {
+> +		pm_runtime_disable(dev);
+>   		dev_err(dev, "Failed to add component: %d\n", ret);
+> +	}
+>   
+>   	return ret;
+>   }
+> @@ -338,6 +343,8 @@ static int mtk_disp_rdma_remove(struct platform_device *pdev)
+>   {
+>   	component_del(&pdev->dev, &mtk_disp_rdma_component_ops);
+>   
+> +	pm_runtime_disable(&pdev->dev);
+> +
+>   	return 0;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> index 474efb844249..08e3f352377d 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -557,9 +557,15 @@ static void mtk_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+>   		return;
+>   	}
+>   
+> +	ret = pm_runtime_resume_and_get(comp->dev);
+> +	if (ret < 0)
+> +		DRM_DEV_ERROR(comp->dev, "Failed to enable power domain: %d\n",
+> +			      ret);
+
+shouldn't the code return in case of failure here?
+
+Thanks,
+Dafna
+
+> +
+>   	ret = mtk_crtc_ddp_hw_init(mtk_crtc);
+>   	if (ret) {
+>   		mtk_smi_larb_put(comp->larb_dev);
+> +		pm_runtime_put(comp->dev);
+>   		return;
+>   	}
+>   
+> @@ -572,7 +578,7 @@ static void mtk_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+>   {
+>   	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
+>   	struct mtk_ddp_comp *comp = mtk_crtc->ddp_comp[0];
+> -	int i;
+> +	int i, ret;
+>   
+>   	DRM_DEBUG_DRIVER("%s %d\n", __func__, crtc->base.id);
+>   	if (!mtk_crtc->enabled)
+> @@ -596,6 +602,10 @@ static void mtk_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+>   	drm_crtc_vblank_off(crtc);
+>   	mtk_crtc_ddp_hw_fini(mtk_crtc);
+>   	mtk_smi_larb_put(comp->larb_dev);
+> +	ret = pm_runtime_put(comp->dev);
+> +	if (ret < 0)
+> +		DRM_DEV_ERROR(comp->dev, "Failed to disable power domain: %d\n",
+> +			      ret);
+>   
+>   	mtk_crtc->enabled = false;
+>   }
 > 
