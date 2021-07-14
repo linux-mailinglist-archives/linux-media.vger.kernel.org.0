@@ -2,147 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D0EF3C85F2
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jul 2021 16:19:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36CE63C861E
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jul 2021 16:27:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232362AbhGNOWQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jul 2021 10:22:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51898 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231543AbhGNOWP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jul 2021 10:22:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 25E64613D2;
-        Wed, 14 Jul 2021 14:19:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626272364;
-        bh=Z6upmCVFtsDIQuNaf3MDnsNQ47RpnTy+0pUzdx4gsOY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ISq87PJFGQ+QY8QX/hSqifenHkHQ64DouZ0oR5webTjVggnG4wUBDLPQM4GVYS1Ni
-         YoCjbclkDcKepZz97LfJvVaNegbbjUg6XFzZtZS5Qs/V11BSDOGDbBNkfqA5G11lPa
-         16H2wI8wkfff6STRN0YP0987cJuGKPPNLRQYPI3ElO88vCZ7Tu4GhT/UrFkEHm4yTr
-         cFwQjIE87XFbw5WBDu9bI7KYOg/7LczFBQ7RdOTo51stikoH/skGNkZFco5DjLxVNv
-         HEehnuDjFKSyCe3eUCrrPPKBoZjmovoMvKAW9Cbj5R3Zj8IHIsixWCVZCm4bKLVDcQ
-         i9MXobHZuqTAg==
-Received: by mail-ed1-f44.google.com with SMTP id t2so2946098edd.13;
-        Wed, 14 Jul 2021 07:19:24 -0700 (PDT)
-X-Gm-Message-State: AOAM532tV96ZeqRybE5E+VrEaZVrB8XsO4yPAK+ujXp6EuM/ArjnhSuj
-        4+amwNZWjlsNJADGnEIz7uZInGjvwsrpiplo0g==
-X-Google-Smtp-Source: ABdhPJznKXoJRvB40YWJoo+5QJLF5eujnJu6K23tda1AvQp+YMebU+bksEpUgf6yrVl8h9VjXWSjQlEug6nip9TThXY=
-X-Received: by 2002:a50:9345:: with SMTP id n5mr14184472eda.289.1626272362692;
- Wed, 14 Jul 2021 07:19:22 -0700 (PDT)
+        id S239472AbhGNOaK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jul 2021 10:30:10 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:35602 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231977AbhGNOaJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 14 Jul 2021 10:30:09 -0400
+Received: by mail-io1-f69.google.com with SMTP id n13-20020a5ed90d0000b02904f43c8bffc4so1342915iop.2
+        for <linux-media@vger.kernel.org>; Wed, 14 Jul 2021 07:27:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=nUJZTDOZuoAo74BmQ/Ot4FIzrfXIFCmoVdPip3kBnYU=;
+        b=hq/EALXc9hkosETqLIakib6ut1TWehO3roMnHP6TgGvIEjVZlmLX6PG8bxFp1cgAA3
+         tL+g77k9ze7syUwI35b+OJiBNZsRL09raZ9+3N5Babb57r08v5uHC1ThjFBpXY8M8hVD
+         xSPGlmnMXP5Q7OjmxeBmon2gR3HSxZiZpfCm8w3wrLCiEFA+jW/+i6MF7Zu7/SgEha/m
+         jBf9yyYz5gnOGlwAAZLX0u9z6BK8B6CitlaK408yeLnk0gUe+nCUVVv7zZXaUieBZrcA
+         G+om7HUABddUQYDtiQFOarLXJkQS4M8Jj0uCrHjGmTmwpPRVN9TUrLgfPckip3V4uMHc
+         gocg==
+X-Gm-Message-State: AOAM530FnEbHxzSZ0ypQtHiaBpkuR2QHjAkVjUjlMMO/2MmLXERH5HSA
+        DOVtmffy2h9UMAKhfHL1ZJneU1svA5oWx9RKaTBu8yb0sI5k
+X-Google-Smtp-Source: ABdhPJzU484Ek9khlpTDPupbwTcposSoBJ0clG/8ANZ5kNi+Png8s5hXuLk8xjia8g22dwCl0Ysy5Td4j+QPNK2KtrDQ9fSpoI9n
 MIME-Version: 1.0
-References: <20210712085535.11907-1-s.riedmueller@phytec.de>
- <20210712085535.11907-6-s.riedmueller@phytec.de> <20210714021904.GA1312716@robh.at.kernel.org>
- <99b0b3ad4eac3a5653e0e4630bf59fc63eef114d.camel@phytec.de>
-In-Reply-To: <99b0b3ad4eac3a5653e0e4630bf59fc63eef114d.camel@phytec.de>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 14 Jul 2021 08:19:10 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+xJsmae3cu1oVdiUPnUWPb+61UYzMYMq4FaQ1M9Su-sQ@mail.gmail.com>
-Message-ID: <CAL_Jsq+xJsmae3cu1oVdiUPnUWPb+61UYzMYMq4FaQ1M9Su-sQ@mail.gmail.com>
-Subject: Re: [PATCH v5 5/6] media: dt-bindings: mt9p031: Convert bindings to yaml
-To:     =?UTF-8?Q?Stefan_Riedm=C3=BCller?= <S.Riedmueller@phytec.de>
-Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+X-Received: by 2002:a05:6638:4109:: with SMTP id ay9mr9027786jab.81.1626272837952;
+ Wed, 14 Jul 2021 07:27:17 -0700 (PDT)
+Date:   Wed, 14 Jul 2021 07:27:17 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000d068cf05c716264c@google.com>
+Subject: [syzbot] KASAN: use-after-free Read in em28xx_close_extension
+From:   syzbot <syzbot+005037419ebdf14e1d87@syzkaller.appspotmail.com>
+To:     hverkuil-cisco@xs4all.nl, igormtorrente@gmail.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab+huawei@kernel.org, mchehab@kernel.org,
+        syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 14, 2021 at 4:01 AM Stefan Riedm=C3=BCller
-<S.Riedmueller@phytec.de> wrote:
->
-> Hi Rob,
->
-> On Tue, 2021-07-13 at 20:19 -0600, Rob Herring wrote:
-> > On Mon, Jul 12, 2021 at 10:55:34AM +0200, Stefan Riedmueller wrote:
-> > > Convert mt9p031 sensor bindings to yaml schema. Also update the
-> > > MAINTAINERS entry.
-> > >
-> > > Although input-clock-frequency and pixel-clock-frequency have not bee=
-n
-> > > definded as endpoint propierties in the textual bindings, the sensor
-> > > does parse them from the endpoint. Thus move these properties to the
-> > > endpoint in the new yaml bindings.
-> > >
-> > > Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
-> > > ---
-> > >  .../bindings/media/i2c/aptina,mt9p031.yaml    | 75 +++++++++++++++++=
-++
-> > >  .../devicetree/bindings/media/i2c/mt9p031.txt | 40 ----------
-> > >  MAINTAINERS                                   |  1 +
-> > >  3 files changed, 76 insertions(+), 40 deletions(-)
-> > >  create mode 100644
-> > > Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
-> > >  delete mode 100644
-> > > Documentation/devicetree/bindings/media/i2c/mt9p031.txt
-> > >
-> > > diff --git
-> > > a/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
-> > > b/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
-> > > new file mode 100644
-> > > index 000000000000..ad9a2db73d86
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
-> > > @@ -0,0 +1,75 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/i2c/aptina,mt9p031.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Aptina 1/2.5-Inch 5Mp CMOS Digital Image Sensor
-> > > +
-> > > +maintainers:
-> > > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > +
-> > > +description: |
-> > > +  The Aptina MT9P031 is a 1/2.5-inch CMOS active pixel digital image
-> > > sensor
-> > > +  with an active array size of 2592H x 1944V. It is programmable thr=
-ough
-> > > a
-> > > +  simple two-wire serial interface.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - aptina,mt9p031
-> > > +      - aptina,mt9p031m
-> > > +
-> > > +  reg:
-> > > +    description: I2C device address
-> > > +    maxItems: 1
-> > > +
-> > > +  reset-gpios:
-> > > +    maxItems: 1
-> > > +    description: Chip reset GPIO
-> > > +
-> > > +  port:
-> > > +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +    additionalProperties: false
-> > > +
-> > > +    properties:
-> > > +      endpoint:
-> > > +        $ref: /schemas/media/video-interfaces.yaml#
-> >
-> > Doesn't look like you use any properties from video-interfaces.yaml. Yo=
-u
-> > should just reference graph.yaml#/$defs/endpoint-base instead.
->
-> Thanks for your comment. It made me realize, that I have something wrong.=
- The
-> driver does use properties from the video interface as it parses the bus
-> configuration from the endpoint. But I thought these properties were
-> implicitly used by referencing the video-interfaces schema. Now I assume =
-that
-> I have to mention them here explicitly. Correct?
+Hello,
 
-Yes, because presumably you only support some subset of possible values.
+syzbot found the following issue on:
 
-Rob
+HEAD commit:    3dbdb38e Merge branch 'for-5.14' of git://git.kernel.org/p..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=158cf1e2300000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a1fcf15a09815757
+dashboard link: https://syzkaller.appspot.com/bug?extid=005037419ebdf14e1d87
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=169746b0300000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=157e89c4300000
+
+The issue was bisected to:
+
+commit ac5688637144644f06ed1f3c6d4dd8bb7db96020
+Author: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+Date:   Tue May 4 18:32:49 2021 +0000
+
+    media: em28xx: Fix possible memory leak of em28xx struct
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1742cffc300000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=14c2cffc300000
+console output: https://syzkaller.appspot.com/x/log.txt?x=10c2cffc300000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+005037419ebdf14e1d87@syzkaller.appspotmail.com
+Fixes: ac5688637144 ("media: em28xx: Fix possible memory leak of em28xx struct")
+
+usb 1-1: bad CDC descriptors
+usb 1-1: USB disconnect, device number 2
+em28xx 1-1:64.138: Disconnecting em28xx
+em28xx 1-1:64.138: Closing input extension
+em28xx 1-1:64.138: Freeing device
+==================================================================
+BUG: KASAN: use-after-free in __list_del_entry_valid+0xcc/0xf0 lib/list_debug.c:42
+Read of size 8 at addr ffff888021aa8258 by task kworker/1:2/3456
+
+CPU: 1 PID: 3456 Comm: kworker/1:2 Not tainted 5.13.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ __dump_stack lib/dump_stack.c:79 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:96
+ print_address_description.constprop.0.cold+0x6c/0x309 mm/kasan/report.c:233
+ __kasan_report mm/kasan/report.c:419 [inline]
+ kasan_report.cold+0x83/0xdf mm/kasan/report.c:436
+ __list_del_entry_valid+0xcc/0xf0 lib/list_debug.c:42
+ __list_del_entry include/linux/list.h:132 [inline]
+ list_del include/linux/list.h:146 [inline]
+ em28xx_close_extension+0x10b/0x2a0 drivers/media/usb/em28xx/em28xx-core.c:1146
+ em28xx_usb_disconnect.cold+0x14b/0x237 drivers/media/usb/em28xx/em28xx-cards.c:4140
+ usb_unbind_interface+0x1d8/0x8d0 drivers/usb/core/driver.c:458
+ __device_release_driver+0x3bd/0x6f0 drivers/base/dd.c:1181
+ device_release_driver_internal drivers/base/dd.c:1212 [inline]
+ device_release_driver+0x26/0x40 drivers/base/dd.c:1235
+ bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:533
+ device_del+0x502/0xd40 drivers/base/core.c:3512
+ usb_disable_device+0x35b/0x7b0 drivers/usb/core/message.c:1413
+ usb_disconnect.cold+0x27a/0x78e drivers/usb/core/hub.c:2221
+ hub_port_connect drivers/usb/core/hub.c:5129 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5418 [inline]
+ port_event drivers/usb/core/hub.c:5564 [inline]
+ hub_event+0x1c9c/0x4330 drivers/usb/core/hub.c:5646
+ process_one_work+0x98d/0x1630 kernel/workqueue.c:2276
+ process_scheduled_works kernel/workqueue.c:2338 [inline]
+ worker_thread+0x85c/0x11f0 kernel/workqueue.c:2424
+ kthread+0x3e5/0x4d0 kernel/kthread.c:319
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+
+The buggy address belongs to the page:
+page:ffffea000086aa00 refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x21aa8
+flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
+raw: 00fff00000000000 ffffea0000ac0d08 ffff8880b9d3b288 0000000000000000
+raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as freed
+page last allocated via order 2, migratetype Unmovable, gfp_mask 0x40dc0(GFP_KERNEL|__GFP_COMP|__GFP_ZERO), pid 3456, ts 70583523123, free_ts 71218691485
+ prep_new_page mm/page_alloc.c:2445 [inline]
+ get_page_from_freelist+0xa72/0x2f80 mm/page_alloc.c:4178
+ __alloc_pages+0x1b2/0x500 mm/page_alloc.c:5386
+ alloc_pages+0x18c/0x2a0 mm/mempolicy.c:2272
+ kmalloc_order+0x34/0xf0 mm/slab_common.c:945
+ kmalloc_order_trace+0x14/0x120 mm/slab_common.c:961
+ kmalloc_large include/linux/slab.h:520 [inline]
+ kmalloc include/linux/slab.h:584 [inline]
+ kzalloc include/linux/slab.h:721 [inline]
+ em28xx_usb_probe+0x1f7/0xd00 drivers/media/usb/em28xx/em28xx-cards.c:3855
+ usb_probe_interface+0x315/0x7f0 drivers/usb/core/driver.c:396
+ really_probe+0x291/0xf60 drivers/base/dd.c:576
+ driver_probe_device+0x298/0x410 drivers/base/dd.c:763
+ __device_attach_driver+0x203/0x2c0 drivers/base/dd.c:870
+ bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:431
+ __device_attach+0x228/0x4a0 drivers/base/dd.c:938
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+ device_add+0xbe0/0x2100 drivers/base/core.c:3324
+ usb_set_configuration+0x113f/0x1910 drivers/usb/core/message.c:2164
+ usb_generic_driver_probe+0xba/0x100 drivers/usb/core/generic.c:238
+page last free stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1355 [inline]
+ free_pcp_prepare+0x2c5/0x780 mm/page_alloc.c:1406
+ free_unref_page_prepare mm/page_alloc.c:3341 [inline]
+ free_unref_page+0x19/0x690 mm/page_alloc.c:3420
+ __refcount_sub_and_test include/linux/refcount.h:282 [inline]
+ __refcount_dec_and_test include/linux/refcount.h:315 [inline]
+ refcount_dec_and_test include/linux/refcount.h:333 [inline]
+ kref_put.constprop.0.isra.0+0x3d/0x7e include/linux/kref.h:64
+ em28xx_ir_fini.cold+0x7c/0x120 drivers/media/usb/em28xx/em28xx-input.c:875
+ em28xx_close_extension+0xc9/0x2a0 drivers/media/usb/em28xx/em28xx-core.c:1143
+ em28xx_usb_disconnect.cold+0x14b/0x237 drivers/media/usb/em28xx/em28xx-cards.c:4140
+ usb_unbind_interface+0x1d8/0x8d0 drivers/usb/core/driver.c:458
+ __device_release_driver+0x3bd/0x6f0 drivers/base/dd.c:1181
+ device_release_driver_internal drivers/base/dd.c:1212 [inline]
+ device_release_driver+0x26/0x40 drivers/base/dd.c:1235
+ bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:533
+ device_del+0x502/0xd40 drivers/base/core.c:3512
+ usb_disable_device+0x35b/0x7b0 drivers/usb/core/message.c:1413
+ usb_disconnect.cold+0x27a/0x78e drivers/usb/core/hub.c:2221
+ hub_port_connect drivers/usb/core/hub.c:5129 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5418 [inline]
+ port_event drivers/usb/core/hub.c:5564 [inline]
+ hub_event+0x1c9c/0x4330 drivers/usb/core/hub.c:5646
+ process_one_work+0x98d/0x1630 kernel/workqueue.c:2276
+ process_scheduled_works kernel/workqueue.c:2338 [inline]
+ worker_thread+0x85c/0x11f0 kernel/workqueue.c:2424
+
+Memory state around the buggy address:
+ ffff888021aa8100: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+ ffff888021aa8180: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+>ffff888021aa8200: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+                                                    ^
+ ffff888021aa8280: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+ ffff888021aa8300: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
