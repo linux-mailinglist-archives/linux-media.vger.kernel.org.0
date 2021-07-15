@@ -2,462 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9458E3C99B8
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 09:37:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E32B83C99FE
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 09:59:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240387AbhGOHk1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jul 2021 03:40:27 -0400
-Received: from comms.puri.sm ([159.203.221.185]:36506 "EHLO comms.puri.sm"
+        id S232111AbhGOICe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jul 2021 04:02:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40044 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229620AbhGOHkZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jul 2021 03:40:25 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 2DEF5DFAD4;
-        Thu, 15 Jul 2021 00:37:32 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 0Ympdg_EmsdR; Thu, 15 Jul 2021 00:37:29 -0700 (PDT)
-Message-ID: <ce71a71a358247eca3b72ddcddd703206c90f284.camel@puri.sm>
-Subject: Re: [PATCH v6 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
- phy and controller
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     festevam@gmail.com, krzk@kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, kernel@puri.sm,
-        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
-        mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
-        shawnguo@kernel.org, slongerbeam@gmail.com
-Date:   Thu, 15 Jul 2021 09:37:24 +0200
-In-Reply-To: <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
-References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
-         <20210714111931.324485-3-martin.kepplinger@puri.sm>
-         <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
-Content-Transfer-Encoding: 8bit
+        id S230076AbhGOICc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 15 Jul 2021 04:02:32 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E6ABE60FF1;
+        Thu, 15 Jul 2021 07:59:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1626335979;
+        bh=F2d6pZDd/k4RQziKFXVrRyT3ygLkgNvuOwnd7LZQ97Y=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=qbeMC2ldZNTuY7ea55yX6ICVCrfKrCSnkWKQWmoz/sT4hNY/clOzGxQgQUSlEsFku
+         5zKcCRAUIJWMzMO5ExQjfZ1L5Hog/8lyLrGyjYU6Y0zEY3mJ13pLBVj/aR1IKr1zIR
+         H1Fllu/ee1MQHTXNkrOgixMBlyzGnKDDtVTILH2rg7HG3t489wCqD3sctYVFvyQSCv
+         OBfcI7g36X1MfAFuhBbq7i13gAhGcyr09fv7KC9ju4g0+duNJ4ecbZyCnvOJ+KxvdY
+         hMgtAVIz+VG66CHnaD3FVaHJUAFdP31QiBruouAahdvkVnrSE1sCS+mrciF9pZAEs7
+         wmVl1msBublaA==
+Date:   Thu, 15 Jul 2021 09:59:33 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     YP WU <yp.wu@mediatek.com>
+Cc:     <Jason-BF.Huang@mediatek.com>, <Lecopzer.Chen@mediatek.com>,
+        <francis.lee@mediatek.com>, <gustavoars@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <leo.hsiao@mediatek.com>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
+Subject: Re: How to use "DTV_FE_CAPABILITY" command for Frontend.h of Linux
+ DVB
+Message-ID: <20210715095933.63dbcd31@coco.lan>
+In-Reply-To: <20210709154739.30394-1-yp.wu@mediatek.com>
+References: <20210623093312.6f9883a5@coco.lan>
+        <20210709154739.30394-1-yp.wu@mediatek.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Mittwoch, dem 14.07.2021 um 21:24 +0300 schrieb Laurent Pinchart:
-> Hi Martin,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Jul 14, 2021 at 01:19:30PM +0200, Martin Kepplinger wrote:
-> > Add a driver to support the i.MX8MQ MIPI CSI receiver. The hardware
-> > side
-> > is based on
-> > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
-> > 
-> > It's built as part of VIDEO_IMX7_CSI because that's documented to
-> > support
-> > i.MX8M platforms. This driver adds i.MX8MQ support where currently
-> > only the
-> > i.MX8MM platform has been supported.
-> > 
-> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > ---
-> >  drivers/staging/media/imx/Makefile           |   1 +
-> >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 949
-> > +++++++++++++++++++
-> >  2 files changed, 950 insertions(+)
-> >  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > 
-> > diff --git a/drivers/staging/media/imx/Makefile
-> > b/drivers/staging/media/imx/Makefile
-> > index 6ac33275cc97..19c2fc54d424 100644
-> > --- a/drivers/staging/media/imx/Makefile
-> > +++ b/drivers/staging/media/imx/Makefile
-> > @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
-> >  
-> >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
-> >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
-> > +obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
-> > diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > new file mode 100644
-> > index 000000000000..949b3ef7a20a
-> > --- /dev/null
-> > +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > @@ -0,0 +1,949 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Freescale i.MX8MQ SoC series MIPI-CSI2 receiver driver
-> 
-> Maybe they should be called NXP these days :-)
-> 
-> > + *
-> > + * Copyright (C) 2021 Purism SPC
-> > + */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/errno.h>
-> > +#include <linux/interconnect.h>
-> > +#include <linux/interrupt.h>
-> > +#include <linux/io.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/mfd/syscon.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mutex.h>
-> > +#include <linux/of.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm_runtime.h>
-> > +#include <linux/regmap.h>
-> > +#include <linux/regulator/consumer.h>
-> > +#include <linux/reset.h>
-> > +#include <linux/spinlock.h>
-> > +
-> > +#include <media/v4l2-common.h>
-> > +#include <media/v4l2-device.h>
-> > +#include <media/v4l2-fwnode.h>
-> > +#include <media/v4l2-mc.h>
-> > +#include <media/v4l2-subdev.h>
-> > +
-> > +#define MIPI_CSI2_DRIVER_NAME                  "imx8mq-mipi-csi2"
-> > +#define
-> > MIPI_CSI2_SUBDEV_NAME                  MIPI_CSI2_DRIVER_NAME
-> > +
-> > +#define MIPI_CSI2_PAD_SINK                     0
-> > +#define MIPI_CSI2_PAD_SOURCE                   1
-> > +#define MIPI_CSI2_PADS_NUM                     2
-> > +
-> > +#define MIPI_CSI2_DEF_PIX_WIDTH                        640
-> > +#define MIPI_CSI2_DEF_PIX_HEIGHT               480
-> > +
-> > +/* Register map definition */
-> > +
-> > +/* i.MX8MQ CSI-2 controller CSR */
-> > +#define CSI2RX_CFG_NUM_LANES                   0x100
-> > +#define CSI2RX_CFG_DISABLE_DATA_LANES          0x104
-> > +#define CSI2RX_BIT_ERR                         0x108
-> > +#define CSI2RX_IRQ_STATUS                      0x10c
-> > +#define CSI2RX_IRQ_MASK                                0x110
-> > +#define CSI2RX_IRQ_MASK_ALL                    0x1ff
-> > +#define CSI2RX_IRQ_MASK_ULPS_STATUS_CHANGE     0x8
-> > +#define CSI2RX_ULPS_STATUS                     0x114
-> > +#define CSI2RX_PPI_ERRSOT_HS                   0x118
-> > +#define CSI2RX_PPI_ERRSOTSYNC_HS               0x11c
-> > +#define CSI2RX_PPI_ERRESC                      0x120
-> > +#define CSI2RX_PPI_ERRSYNCESC                  0x124
-> > +#define CSI2RX_PPI_ERRCONTROL                  0x128
-> > +#define CSI2RX_CFG_DISABLE_PAYLOAD_0           0x12c
-> > +#define CSI2RX_CFG_VID_P_FIFO_SEND_LEVEL       0x188
-> > +#define CSI2RX_CFG_DISABLE_PAYLOAD_1           0x130
-> > +
-> > +enum {
-> > +       ST_POWERED      = 1,
-> > +       ST_STREAMING    = 2,
-> > +       ST_SUSPENDED    = 4,
-> > +};
-> > +
-> > +static const char * const imx8mq_mipi_csi_clk_id[] = {
-> > +       "core",
-> > +       "esc",
-> > +       "ui",
-> > +};
-> > +
-> > +#define CSI2_NUM_CLKS  ARRAY_SIZE(imx8mq_mipi_csi_clk_id)
-> > +
-> > +#define        GPR_CSI2_1_RX_ENABLE            BIT(13)
-> > +#define        GPR_CSI2_1_VID_INTFC_ENB        BIT(12)
-> > +#define        GPR_CSI2_1_HSEL                 BIT(10)
-> > +#define        GPR_CSI2_1_CONT_CLK_MODE        BIT(8)
-> > +#define        GPR_CSI2_1_S_PRG_RXHS_SETTLE(x) (((x) & 0x3f) << 2)
-> > +
-> > +/*
-> > + * The send level configures the number of entries that must
-> > accumulate in
-> > + * the Pixel FIFO before the data will be transferred to the video
-> > output.
-> > + * See 
-> > https://community.nxp.com/t5/i-MX-Processors/IMX8M-MIPI-CSI-Host-Controller-send-level/m-p/864005/highlight/true#M131704
-> > + */
-> > +#define CSI2RX_SEND_LEVEL                      64
-> > +
-> > +struct csi_state {
-> > +       struct device *dev;
-> > +       void __iomem *regs;
-> > +       struct clk_bulk_data clks[CSI2_NUM_CLKS];
-> > +       struct reset_control *rst;
-> > +       struct regulator *mipi_phy_regulator;
-> > +
-> > +       struct v4l2_subdev sd;
-> > +       struct media_pad pads[MIPI_CSI2_PADS_NUM];
-> > +       struct v4l2_async_notifier notifier;
-> > +       struct v4l2_subdev *src_sd;
-> > +
-> > +       struct v4l2_fwnode_bus_mipi_csi2 bus;
-> > +
-> > +       struct mutex lock; /* Protect csi2_fmt, format_mbus, state,
-> > hs_settle*/
-> 
-> Missing space before */
-> 
-> > +       const struct csi2_pix_format *csi2_fmt;
-> > +       struct v4l2_mbus_framefmt format_mbus[MIPI_CSI2_PADS_NUM];
-> > +       u32 state;
-> > +       u32 hs_settle;
-> > +
-> > +       struct regmap *phy_gpr;
-> > +       u8 phy_gpr_reg;
-> > +
-> > +       struct icc_path                 *icc_path;
-> > +       s32                             icc_path_bw;
-> > +};
-> > +
-> > +/* ---------------------------------------------------------------
-> > --------------
-> > + * Format helpers
-> > + */
-> > +
-> > +struct csi2_pix_format {
-> > +       u32 code;
-> > +       u8 width;
-> > +};
-> > +
-> > +static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
-> > +       /* RAW (Bayer and greyscale) formats. */
-> > +       {
-> > +               .code = MEDIA_BUS_FMT_SBGGR8_1X8,
-> > +               .width = 8,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGBRG8_1X8,
-> > +               .width = 8,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGRBG8_1X8,
-> > +               .width = 8,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SRGGB8_1X8,
-> > +               .width = 8,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_Y8_1X8,
-> > +               .width = 8,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SBGGR10_1X10,
-> > +               .width = 10,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGBRG10_1X10,
-> > +               .width = 10,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGRBG10_1X10,
-> > +               .width = 10,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SRGGB10_1X10,
-> > +               .width = 10,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_Y10_1X10,
-> > +               .width = 10,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SBGGR12_1X12,
-> > +               .width = 12,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGBRG12_1X12,
-> > +               .width = 12,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGRBG12_1X12,
-> > +               .width = 12,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SRGGB12_1X12,
-> > +               .width = 12,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_Y12_1X12,
-> > +               .width = 12,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SBGGR14_1X14,
-> > +               .width = 14,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGBRG14_1X14,
-> > +               .width = 14,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGRBG14_1X14,
-> > +               .width = 14,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SRGGB14_1X14,
-> > +               .width = 14,
-> > +       }, {
-> > +       /* YUV formats */
-> > +               .code = MEDIA_BUS_FMT_YUYV8_2X8,
-> > +               .width = 16,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_YUYV8_1X16,
-> > +               .width = 16,
-> > +       }
-> > +};
-> > +
-> > +static const struct csi2_pix_format *find_csi2_format(u32 code)
-> > +{
-> > +       unsigned int i;
-> > +
-> > +       for (i = 0; i < ARRAY_SIZE(imx8mq_mipi_csi_formats); i++)
-> > +               if (code == imx8mq_mipi_csi_formats[i].code)
-> > +                       return &imx8mq_mipi_csi_formats[i];
-> > +       return NULL;
-> > +}
-> > +
-> > +/* ---------------------------------------------------------------
-> > --------------
-> > + * Hardware configuration
-> > + */
-> > +
-> > +static inline void imx8mq_mipi_csi_write(struct csi_state *state,
-> > u32 reg, u32 val)
-> > +{
-> > +       writel(val, state->regs + reg);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_sw_reset(struct csi_state *state)
-> > +{
-> > +       int ret;
-> > +
-> > +       ret = reset_control_assert(state->rst);
-> 
-> That's peculiar, is there no need to deassert reset ?
-> 
-> > +       if (ret < 0) {
-> > +               dev_err(state->dev, "Failed to assert resets:
-> > %d\n", ret);
-> > +               return ret;
-> > +       }
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static void imx8mq_mipi_csi_system_enable(struct csi_state *state,
-> > int on)
-> > +{
-> > +       if (!on) {
-> > +               imx8mq_mipi_csi_write(state,
-> > CSI2RX_CFG_DISABLE_DATA_LANES, 0xf);
-> > +               return;
-> > +       }
-> > +
-> > +       regmap_update_bits(state->phy_gpr,
-> > +                          state->phy_gpr_reg,
-> > +                          0x3fff,
-> > +                          GPR_CSI2_1_RX_ENABLE |
-> > +                          GPR_CSI2_1_VID_INTFC_ENB |
-> > +                          GPR_CSI2_1_HSEL |
-> > +                          GPR_CSI2_1_CONT_CLK_MODE |
-> > +                          GPR_CSI2_1_S_PRG_RXHS_SETTLE(state-
-> > >hs_settle));
-> > +}
-> > +
-> > +static void imx8mq_mipi_csi_set_params(struct csi_state *state)
-> > +{
-> > +       int lanes = state->bus.num_data_lanes;
-> > +
-> > +       imx8mq_mipi_csi_write(state, CSI2RX_CFG_NUM_LANES, lanes -
-> > 1);
-> > +       imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES,
-> > +                             (0xf << lanes) & 0xf);
-> > +       imx8mq_mipi_csi_write(state, CSI2RX_IRQ_MASK,
-> > CSI2RX_IRQ_MASK_ALL);
-> > +       imx8mq_mipi_csi_write(state, 0x180, 1);
-> > +       /* vid_vc */
-> > +       imx8mq_mipi_csi_write(state, 0x184, 1);
-> > +       imx8mq_mipi_csi_write(state, 0x188, CSI2RX_SEND_LEVEL);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_clk_enable(struct csi_state *state)
-> > +{
-> > +       return clk_bulk_prepare_enable(CSI2_NUM_CLKS, state->clks);
-> > +}
-> > +
-> > +static void imx8mq_mipi_csi_clk_disable(struct csi_state *state)
-> > +{
-> > +       clk_bulk_disable_unprepare(CSI2_NUM_CLKS, state->clks);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_clk_get(struct csi_state *state)
-> > +{
-> > +       unsigned int i;
-> > +
-> > +       for (i = 0; i < CSI2_NUM_CLKS; i++)
-> > +               state->clks[i].id = imx8mq_mipi_csi_clk_id[i];
-> > +
-> > +       return devm_clk_bulk_get(state->dev, CSI2_NUM_CLKS, state-
-> > >clks);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state)
-> > +{
-> > +       u32 width = state->format_mbus[MIPI_CSI2_PAD_SINK].width;
-> > +       u32 height = state->format_mbus[MIPI_CSI2_PAD_SINK].height;
-> > +       s64 link_freq;
-> > +       u32 lane_rate;
-> > +
-> > +       /* Calculate the line rate from the pixel rate. */
-> > +       link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
-> > +                                      state->csi2_fmt->width,
-> > +                                      state->bus.num_data_lanes *
-> > 2);
-> > +       if (link_freq < 0) {
-> > +               dev_err(state->dev, "Unable to obtain link
-> > frequency: %d\n",
-> > +                       (int)link_freq);
-> > +               return link_freq;
-> > +       }
-> > +
-> > +       lane_rate = link_freq * 2;
-> > +       if (lane_rate < 80000000 || lane_rate > 1500000000) {
-> > +               dev_dbg(state->dev, "Out-of-bound lane rate %u\n",
-> > lane_rate);
-> > +               return -EINVAL;
-> > +       }
-> > +
-> > +       /* 
-> > https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
-> >  */
-> > +       if (lane_rate < 250000000)
-> > +               state->hs_settle = 0xb;
-> > +       else if (lane_rate < 500000000)
-> > +               state->hs_settle = 0x8;
-> > +       else
-> > +               state->hs_settle = 0x6;
-> 
-> We could possibly compute this value based on the formula from the
-> table
-> in that page, but maybe that's overkill ? If you want to give it a
-> try,
-> it would be along those lines.
-> 
->         /*
->          * The D-PHY specification requires Ths-settle to be in the
-> range
->          * 85ns + 6*UI to 140ns + 10*UI, with the unit interval UI
-> being half
->          * the clock period.
->          *
->          * The Ths-settle value is expressed in the hardware as a
-> multiple of
->          * the Esc clock period:
->          *
->          * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of RxClkInEsc
->          *
->          * Due to the one cycle inaccuracy introduced by rounding,
-> the
->          * documentation recommends picking a value away from the
-> boundaries.
->          * Let's pick the average.
->          */
->         esc_clk_rate = clk_get_rate(...);
-> 
->         min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
->         max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
->         ths_settle = (min_ths_settle + max_ths_settle) / 2;
-> 
->         state->hs_settle = ths_settle * esc_clk_rate / 1000000000 -
-> 1;
-> 
+Em Fri, 9 Jul 2021 23:47:39 +0800
+YP WU <yp.wu@mediatek.com> escreveu:
 
-I experimented a bit but would like to leave this as a task for later
-if that's ok. it's correct and simple now. also, using clks[i].clk
-based on the name string would feel better to submit seperately later.
-
+> >From: YP WU <yp.wu@mediatek.com>  
+> >>To: <mchehab@kernel.org>
+> >>Cc: <Jason-BF.Huang@mediatek.com>, <Lecopzer.Chen@mediatek.com>,
+> >>	<francis.lee@mediatek.com>, <gustavoars@kernel.org>,
+> >>	<hverkuil-cisco@xs4all.nl>, <leo.hsiao@mediatek.com>,
+> >>	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+> >>	<yp.wu@mediatek.com>
+> >>Subject: Re: How to use "DTV_FE_CAPABILITY" command for Frontend.h of Linux DVB
+> >>Date: Fri, 2 Jul 2021 17:28:34 +0800
+> >>Message-ID: <20210702092834.11699-1-yp.wu@mediatek.com> (raw)
+> >>In-Reply-To: <20210623093312.6f9883a5@coco.lan>
+> >>
+> >>Hello, Mr.Mauro,
+> >><I need to understand more about the use case.  
+> >>-> About use case, I describe below:  
+> >>
+> >>	For our design of kernel, demod/tuner and LNB are registered to different frontend device nodes.
+> >>We want to implement property command to know if the frontend device node is LNB device or demod/tuner device.
+> >>If it is LNB device node, the value would return true
+> >>If it is demod/tuner device node, the value would return false.
+> >> 
+> >>Do you have better idea or suggestion for our usage?
+> >>Please let me know if your have better suggestion.
+> >>Very thank you for your help.
+> >>
+> >>BRs,
+> >>YP  
 > 
+> Hello, Mr.Mauro,
+> 	Frist of all, thanks for your reply.
+> Based on previous discussion, we think we can create a new property command to achieve our goal.
+> 	A new property command "DTV_FE_LNB_CAPABILITY".
+> We can use "FE_GET_PROPERTY" with case "DTV_FE_LNB_CAPABILITY" to get LNB capability.
+> We also should add a new variable named "LNB_capability" in dtv_frontend_properties. Like below:
+> 	bool LNB_capability;
+> If the device node is LNB, LNB_capability should set to TRUE.
+> If the device node is demod/tuner, LNB_capability should set to FALSE.
+> 
+> What's your opinion?
+> If you have a better idea or suggestion, please let me know.
 
+It sounds that there are some misunderstanding here, specially when you
+mention a "LNB device node".
+
+See this picture:
+	https://linuxtv.org/downloads/v4l-dvb-apis-new/_images/typical_media_device.svg
+
+The way the DVB API maps the hardware is that the frontend groups:
+
+	- tuner;
+	- demod;
+	- Satellite Equipment Control (SEC).
+
+While not explicitly there, LNB is part of the frontend (it is part of 
+the SEC, for satellite systems like DVB-S/S2). some tuners may
+also have LNBs before them.
+
+So, there's no separate device node for it. Everything is controlled
+via the /dev/dvb/frontend* device nodes.
+
+So, it is not clear yet why are you considering to have a separate
+devnode for the LNB.
+
+Thanks,
+Mauro
