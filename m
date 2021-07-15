@@ -2,156 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E0723C9478
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 01:23:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B79DF3C9693
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 05:44:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237585AbhGNXZ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jul 2021 19:25:59 -0400
-Received: from mail-io1-f45.google.com ([209.85.166.45]:34589 "EHLO
-        mail-io1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229782AbhGNXZ7 (ORCPT
+        id S232328AbhGODrP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jul 2021 23:47:15 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:37023 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230121AbhGODrO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jul 2021 19:25:59 -0400
-Received: by mail-io1-f45.google.com with SMTP id g22so4251340iom.1;
-        Wed, 14 Jul 2021 16:23:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ToZ6NY20pj8+1z2HLFxJgFpOq59/gnhKty7JQKi5xcg=;
-        b=dgcUZJIRGzUB1nRAqhLsaJl6tC0geliNkf7rZ58UZMZR8eCrGN6MxuELT3r9CyAn6Z
-         EG6B/zIs4nE1dWlTQc2DheO2GqCdLGPhEFSBgytccR2MDahlWbIwF5DtNTbcVMcIATW1
-         170+yNoD2IMyinn0WFDzzHndrUt1a+DsZf/65c7QhzcnUdlSEHPpwpSCOHKd4VNWdtx3
-         wL+JY/hmh/3Hx9JJqUSIlkoWT2dgXIWaBUgWa35Om7kPshW278xOmDR7dhM96n732EAN
-         p+PDNPuSbk3J4XFtl2BP2EIQdrOr+WVmg8LbcqD0M+OrzK+3CQ50KXQz/4BNRK28L25G
-         FEsg==
-X-Gm-Message-State: AOAM532+RfatINyAUWal/Os7wjSDRjfeV057P1iqd3nc1H9qHrkPbAfR
-        dP7YDrq0qcCvMPzXo71pRw==
-X-Google-Smtp-Source: ABdhPJxfw9SHxbrbwickx7w/F5na0i6rWNyFm1PDKfzfrJ/f/+TLM8pzZ5E1dknUASd44A4KH9STUw==
-X-Received: by 2002:a05:6602:134f:: with SMTP id i15mr421616iov.143.1626304986652;
-        Wed, 14 Jul 2021 16:23:06 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id f7sm2125738ilk.64.2021.07.14.16.23.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jul 2021 16:23:05 -0700 (PDT)
-Received: (nullmailer pid 3734548 invoked by uid 1000);
-        Wed, 14 Jul 2021 23:23:03 -0000
-Date:   Wed, 14 Jul 2021 17:23:03 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-Cc:     sean@mess.org, mchehab@kernel.org, khilman@baylibre.com,
-        narmstrong@baylibre.com, jbrunet@baylibre.com,
-        martin.blumenstingl@googlemail.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, rockosov@gmail.com
-Subject: Re: [PATCH v3 1/2] media: rc: meson-irblaster: document device tree
- bindings
-Message-ID: <20210714232303.GA3730974@robh.at.kernel.org>
-References: <20210709165753.29353-1-viktor.prutyanov@phystech.edu>
- <20210709165753.29353-2-viktor.prutyanov@phystech.edu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210709165753.29353-2-viktor.prutyanov@phystech.edu>
+        Wed, 14 Jul 2021 23:47:14 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 3sIMmlSFV48Zv3sINmzwxP; Thu, 15 Jul 2021 05:44:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1626320660; bh=eGKH+L6RPIL1Vh/r5dILK/z10kVMxNWvpI6UO9NUVuo=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=TadcLDGBBbytwQ/COfxvuY0A1hu2ax6QdvdE7DnBoTnDtFWM3swc57/EJVe4mhstg
+         lYwdpvF7uEsTqUcGxqu0UFaUFROlki/0B/uMHL6sLlr+GFlEv4wxOwLxQ7lfiTSM7r
+         B2nf8KQU7lSoCyTRRwaD9a1dFMJ7gWZHq0cBcZ2OqhFss/yB20TMdNlbaelLC6c+Wx
+         rJnCTrAq8hW5Glxyyi/BZ35REUinw4sHf6vLX8dCYnw1Mel+tpq5cVx3QD8VU5qhLt
+         1SEswVVIwg/AkqvM5nYZ97rwDGbmA38d+J+3ZCwzPF9TJlbLbdvRyc0f+GQ2KsaNW0
+         4ex1zGMS1zmoQ==
+Message-ID: <a28e5f094fd2c5bfc08a541c9fbaadc2@smtp-cloud8.xs4all.net>
+Date:   Thu, 15 Jul 2021 05:44:18 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfDDxCdu/olQiwzGNCei/WN9Iz649NAsFBvYFaND+i4tqsRXY62hFxZ+b87Q4GBif0rk3ukXE7TXmv+wtKsM5nFSAR2z6+gKB7rpHpfHh6kV6KJxi/Saa
+ qQW9Pcrk20pFk36Q3xRDCk/CL0Z7pUf/gICdfP2P+StFn9sKdaoihMKHOF9xn+nNUZrrAn1MHxVpJ8r/MvKOc2dtZjN20+vMvUuoab3zqvKMRthA5hzWAANo
+ Yg2nR5PjQHQLyewVM39qMA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 09, 2021 at 07:57:52PM +0300, Viktor Prutyanov wrote:
-> This patch adds binding documentation for the IR transmitter
-> available in Amlogic Meson SoCs.
-> 
-> Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> ---
->  changes in v2:
->    - compatible = "amlogic,meson-g12a-irblaster" added
->    - clocks, clock-names and mod-clock updated
->  changes in v3:
->    - mod-clock removed
->    - max-fifo-level added
-> 
->  .../media/amlogic,meson-irblaster.yaml        | 65 +++++++++++++++++++
->  1 file changed, 65 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/amlogic,meson-irblaster.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/amlogic,meson-irblaster.yaml b/Documentation/devicetree/bindings/media/amlogic,meson-irblaster.yaml
-> new file mode 100644
-> index 000000000000..1e10aa0d3a94
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/amlogic,meson-irblaster.yaml
-> @@ -0,0 +1,65 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/media/amlogic,meson-irblaster.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Amlogic Meson IR blaster
-> +
-> +maintainers:
-> +  - Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> +
-> +description: |
-> +  Some Amlogic SoCs such as A311D and T950D4 have IR transmitter
-> +  (blaster) controller onboard. It is capable of sending IR signals
-> +  with arbitrary carrier frequency and duty cycle.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: amlogic,meson-irblaster
-> +      - items:
-> +          - const: amlogic,meson-g12a-irblaster
-> +          - const: amlogic,meson-irblaster
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: sysclk
-> +      - const: xtal
-> +
-> +  max-fifo-level:
-> +    maxItems: 1
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-An array?
+Results of the daily build of media_tree:
 
-Needs a vendor prefix, type reference and constraints on allowed values.
+date:			Thu Jul 15 05:00:11 CEST 2021
+media-tree git hash:	e73f0f0ee7541171d89f2e2491130c7771ba58d3
+media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
+v4l-utils git hash:	a4f2e3a6f306f0bef6664451b44d5a7a18b26803
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7481-g7f50411af
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d8ae6cae42acd2e6882babf2f159ff6c0f1e1792
+host hardware:		x86_64
+host os:		5.13.1-marune
 
-> +    description:
-> +      Maximum IR blaster FIFO fill level
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/clock/g12a-clkc.h>
-> +
-> +    irblaster@ff80014c {
-> +      compatible = "amlogic,meson-g12a-irblaster", "amlogic,meson-irblaster";
-> +      reg = <0xff80014c 0x10>;
-> +      interrupts = <0 198 IRQ_TYPE_EDGE_RISING>;
-> +      clocks = <&clkc CLKID_CLK81>, <&xtal>;
-> +      clock-names = "sysclk", "xtal";
-> +    };
-> -- 
-> 2.21.0
-> 
-> 
+linux-git-sh: WARNINGS
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: 
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13.1-i686: OK
+linux-5.13.1-x86_64: OK
+linux-5.14-rc1-i686: OK
+linux-5.14-rc1-x86_64: OK
+apps: ERRORS
+spec-git: OK
+virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 0
+virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
