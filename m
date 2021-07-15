@@ -2,572 +2,352 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4EB43CAEAE
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 23:40:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 347EF3CAEBB
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 23:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231144AbhGOVnC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jul 2021 17:43:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41262 "EHLO
+        id S229776AbhGOVu7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jul 2021 17:50:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229794AbhGOVnB (ORCPT
+        with ESMTP id S229597AbhGOVu5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jul 2021 17:43:01 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072DCC06175F;
-        Thu, 15 Jul 2021 14:40:06 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id E7673C636F; Thu, 15 Jul 2021 22:40:01 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1626385201; bh=1+P22yDwNxO2Oh3npG/ppO+m05M0l3P33SwHM3TBI6M=;
+        Thu, 15 Jul 2021 17:50:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF7EC06175F;
+        Thu, 15 Jul 2021 14:48:03 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE6E1340;
+        Thu, 15 Jul 2021 23:48:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1626385680;
+        bh=3f7mh8euXbSQN6HcGF3I1ESl67jUlkhy/OhQpoacxLo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qeuCsSaXBEHIStg0DFIs1kEG3DCMtFsQQIuv7pMzx71esNoSExplwUYrirSkf/d7k
-         5FDzlB55VqxXi9VCHEhS3ESlkC5A1CRQbmPuUZNs0npqg5PBlLt7IPsnHzpchVLn6f
-         LcETSDZ/BRuqWW5eQC/f3Vjw0UZnAeessgLuwCHNXxMpAzctpUmd1LWhTEMcB1asIf
-         zuH3aaqn984CAtR6Dq9meAS9rQ+BcO/K2Tc4bjWbcAIay21w2O7lFAU92eFTdrdiwg
-         0kvXWZEDOCF+CS/n05F46eb2OgjWLqaLhfn4JFAi9lz5ywAmVOg6dCtyazn/lnxUH/
-         fGN/9R/+X1q8Q==
-Date:   Thu, 15 Jul 2021 22:40:01 +0100
-From:   Sean Young <sean@mess.org>
-To:     Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, khilman@baylibre.com,
-        narmstrong@baylibre.com, jbrunet@baylibre.com,
-        martin.blumenstingl@googlemail.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, rockosov@gmail.com
-Subject: Re: [PATCH v5 2/2] media: rc: introduce Meson IR TX driver
-Message-ID: <20210715214001.GA25809@gofer.mess.org>
-References: <20210714212706.24945-1-viktor.prutyanov@phystech.edu>
- <20210714212706.24945-3-viktor.prutyanov@phystech.edu>
+        b=EYcJl6FJhUAjs53UwnNFKnVlzYZhlfyuszTwoajZ6WCBfAqyEWb/VYhvID6A/4Ant
+         ixTqCiKSisrfqc1BNBbpxWGSzVzhSNECiU9jQ+2ubkei9YwQXE1ZDBl3KrdBXjB2zb
+         7fUQqlsnr8kSYXK3IVasqoAmri9JxhGSNB6H8Acs=
+Date:   Fri, 16 Jul 2021 00:47:59 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     festevam@gmail.com, krzk@kernel.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de, kernel@puri.sm,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
+        mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
+        shawnguo@kernel.org, slongerbeam@gmail.com
+Subject: Re: [PATCH v6 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
+ phy and controller
+Message-ID: <YPCtDwgTMdFgejhi@pendragon.ideasonboard.com>
+References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
+ <20210714111931.324485-3-martin.kepplinger@puri.sm>
+ <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
+ <33f9ab8ea253c01d3311346bc871d7f62213215f.camel@puri.sm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210714212706.24945-3-viktor.prutyanov@phystech.edu>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <33f9ab8ea253c01d3311346bc871d7f62213215f.camel@puri.sm>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 15, 2021 at 12:27:06AM +0300, Viktor Prutyanov wrote:
-> This patch adds the driver for Amlogic Meson IR transmitter.
+Hi Martin,
+
+On Thu, Jul 15, 2021 at 08:49:51AM +0200, Martin Kepplinger wrote:
+> Am Mittwoch, dem 14.07.2021 um 21:24 +0300 schrieb Laurent Pinchart:
+> > Hi Martin,
+> > 
+> > Thank you for the patch.
 > 
-> Some Amlogic SoCs such as A311D and T950D4 have IR transmitter
-> (also called blaster) controller onboard. It is capable of sending
-> IR signals with arbitrary carrier frequency and duty cycle.
+> thank you for reviewing.
 > 
-> The driver supports 2 modulation clock sources:
->  - xtal3 clock (xtal divided by 3)
->  - 1us clock
+> > On Wed, Jul 14, 2021 at 01:19:30PM +0200, Martin Kepplinger wrote:
+> > > Add a driver to support the i.MX8MQ MIPI CSI receiver. The hardware
+> > > side
+> > > is based on
+> > >  
+> > > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
+> > > 
+> > > It's built as part of VIDEO_IMX7_CSI because that's documented to
+> > > support
+> > > i.MX8M platforms. This driver adds i.MX8MQ support where currently
+> > > only the
+> > > i.MX8MM platform has been supported.
+> > > 
+> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > > ---
+> > >  drivers/staging/media/imx/Makefile           |   1 +
+> > >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 949
+> > > +++++++++++++++++++
+> > >  2 files changed, 950 insertions(+)
+> > >  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > > 
+> > > diff --git a/drivers/staging/media/imx/Makefile
+> > > b/drivers/staging/media/imx/Makefile
+> > > index 6ac33275cc97..19c2fc54d424 100644
+> > > --- a/drivers/staging/media/imx/Makefile
+> > > +++ b/drivers/staging/media/imx/Makefile
+> > > @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
+> > >  
+> > >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
+> > >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
+> > > +obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
+> > > diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > > b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > > new file mode 100644
+> > > index 000000000000..949b3ef7a20a
+> > > --- /dev/null
+> > > +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > > @@ -0,0 +1,949 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * Freescale i.MX8MQ SoC series MIPI-CSI2 receiver driver
+> > 
+> > Maybe they should be called NXP these days :-)
+> > 
+> > > + *
+> > > + * Copyright (C) 2021 Purism SPC
+> > > + */
+> > > +
+> > > +#include <linux/clk.h>
+> > > +#include <linux/delay.h>
+> > > +#include <linux/errno.h>
+> > > +#include <linux/interconnect.h>
+> > > +#include <linux/interrupt.h>
+> > > +#include <linux/io.h>
+> > > +#include <linux/kernel.h>
+> > > +#include <linux/mfd/syscon.h>
+> > > +#include <linux/module.h>
+> > > +#include <linux/mutex.h>
+> > > +#include <linux/of.h>
+> > > +#include <linux/of_device.h>
+> > > +#include <linux/platform_device.h>
+> > > +#include <linux/pm_runtime.h>
+> > > +#include <linux/regmap.h>
+> > > +#include <linux/regulator/consumer.h>
+> > > +#include <linux/reset.h>
+> > > +#include <linux/spinlock.h>
+> > > +
+> > > +#include <media/v4l2-common.h>
+> > > +#include <media/v4l2-device.h>
+> > > +#include <media/v4l2-fwnode.h>
+> > > +#include <media/v4l2-mc.h>
+> > > +#include <media/v4l2-subdev.h>
+> > > +
+> > > +#define MIPI_CSI2_DRIVER_NAME                  "imx8mq-mipi-csi2"
+> > > +#define
+> > > MIPI_CSI2_SUBDEV_NAME                  MIPI_CSI2_DRIVER_NAME
+> > > +
+> > > +#define MIPI_CSI2_PAD_SINK                     0
+> > > +#define MIPI_CSI2_PAD_SOURCE                   1
+> > > +#define MIPI_CSI2_PADS_NUM                     2
+> > > +
+> > > +#define MIPI_CSI2_DEF_PIX_WIDTH                        640
+> > > +#define MIPI_CSI2_DEF_PIX_HEIGHT               480
+> > > +
+> > > +/* Register map definition */
+> > > +
+> > > +/* i.MX8MQ CSI-2 controller CSR */
+> > > +#define CSI2RX_CFG_NUM_LANES                   0x100
+> > > +#define CSI2RX_CFG_DISABLE_DATA_LANES          0x104
+> > > +#define CSI2RX_BIT_ERR                         0x108
+> > > +#define CSI2RX_IRQ_STATUS                      0x10c
+> > > +#define CSI2RX_IRQ_MASK                                0x110
+> > > +#define CSI2RX_IRQ_MASK_ALL                    0x1ff
+> > > +#define CSI2RX_IRQ_MASK_ULPS_STATUS_CHANGE     0x8
+> > > +#define CSI2RX_ULPS_STATUS                     0x114
+> > > +#define CSI2RX_PPI_ERRSOT_HS                   0x118
+> > > +#define CSI2RX_PPI_ERRSOTSYNC_HS               0x11c
+> > > +#define CSI2RX_PPI_ERRESC                      0x120
+> > > +#define CSI2RX_PPI_ERRSYNCESC                  0x124
+> > > +#define CSI2RX_PPI_ERRCONTROL                  0x128
+> > > +#define CSI2RX_CFG_DISABLE_PAYLOAD_0           0x12c
+> > > +#define CSI2RX_CFG_VID_P_FIFO_SEND_LEVEL       0x188
+> > > +#define CSI2RX_CFG_DISABLE_PAYLOAD_1           0x130
+> > > +
+> > > +enum {
+> > > +       ST_POWERED      = 1,
+> > > +       ST_STREAMING    = 2,
+> > > +       ST_SUSPENDED    = 4,
+> > > +};
+> > > +
+> > > +static const char * const imx8mq_mipi_csi_clk_id[] = {
+> > > +       "core",
+> > > +       "esc",
+> > > +       "ui",
+> > > +};
+> > > +
+> > > +#define CSI2_NUM_CLKS  ARRAY_SIZE(imx8mq_mipi_csi_clk_id)
+> > > +
+> > > +#define        GPR_CSI2_1_RX_ENABLE            BIT(13)
+> > > +#define        GPR_CSI2_1_VID_INTFC_ENB        BIT(12)
+> > > +#define        GPR_CSI2_1_HSEL                 BIT(10)
+> > > +#define        GPR_CSI2_1_CONT_CLK_MODE        BIT(8)
+> > > +#define        GPR_CSI2_1_S_PRG_RXHS_SETTLE(x) (((x) & 0x3f) << 2)
+> > > +
+> > > +/*
+> > > + * The send level configures the number of entries that must
+> > > accumulate in
+> > > + * the Pixel FIFO before the data will be transferred to the video
+> > > output.
+> > > + * See  
+> > > https://community.nxp.com/t5/i-MX-Processors/IMX8M-MIPI-CSI-Host-Controller-send-level/m-p/864005/highlight/true#M131704
+> > > + */
+> > > +#define CSI2RX_SEND_LEVEL                      64
+> > > +
+> > > +struct csi_state {
+> > > +       struct device *dev;
+> > > +       void __iomem *regs;
+> > > +       struct clk_bulk_data clks[CSI2_NUM_CLKS];
+> > > +       struct reset_control *rst;
+> > > +       struct regulator *mipi_phy_regulator;
+> > > +
+> > > +       struct v4l2_subdev sd;
+> > > +       struct media_pad pads[MIPI_CSI2_PADS_NUM];
+> > > +       struct v4l2_async_notifier notifier;
+> > > +       struct v4l2_subdev *src_sd;
+> > > +
+> > > +       struct v4l2_fwnode_bus_mipi_csi2 bus;
+> > > +
+> > > +       struct mutex lock; /* Protect csi2_fmt, format_mbus, state,
+> > > hs_settle*/
+> > 
+> > Missing space before */
+> > 
+> > > +       const struct csi2_pix_format *csi2_fmt;
+> > > +       struct v4l2_mbus_framefmt format_mbus[MIPI_CSI2_PADS_NUM];
+> > > +       u32 state;
+> > > +       u32 hs_settle;
+> > > +
+> > > +       struct regmap *phy_gpr;
+> > > +       u8 phy_gpr_reg;
+> > > +
+> > > +       struct icc_path                 *icc_path;
+> > > +       s32                             icc_path_bw;
+> > > +};
+> > > +
+> > > +/* ---------------------------------------------------------------
+> > > --------------
+> > > + * Format helpers
+> > > + */
+> > > +
+> > > +struct csi2_pix_format {
+> > > +       u32 code;
+> > > +       u8 width;
+> > > +};
+> > > +
+> > > +static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
+> > > +       /* RAW (Bayer and greyscale) formats. */
+> > > +       {
+> > > +               .code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> > > +               .width = 8,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGBRG8_1X8,
+> > > +               .width = 8,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGRBG8_1X8,
+> > > +               .width = 8,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SRGGB8_1X8,
+> > > +               .width = 8,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_Y8_1X8,
+> > > +               .width = 8,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SBGGR10_1X10,
+> > > +               .width = 10,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGBRG10_1X10,
+> > > +               .width = 10,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGRBG10_1X10,
+> > > +               .width = 10,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SRGGB10_1X10,
+> > > +               .width = 10,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_Y10_1X10,
+> > > +               .width = 10,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SBGGR12_1X12,
+> > > +               .width = 12,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGBRG12_1X12,
+> > > +               .width = 12,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGRBG12_1X12,
+> > > +               .width = 12,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SRGGB12_1X12,
+> > > +               .width = 12,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_Y12_1X12,
+> > > +               .width = 12,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SBGGR14_1X14,
+> > > +               .width = 14,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGBRG14_1X14,
+> > > +               .width = 14,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGRBG14_1X14,
+> > > +               .width = 14,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SRGGB14_1X14,
+> > > +               .width = 14,
+> > > +       }, {
+> > > +       /* YUV formats */
+> > > +               .code = MEDIA_BUS_FMT_YUYV8_2X8,
+> > > +               .width = 16,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_YUYV8_1X16,
+> > > +               .width = 16,
+> > > +       }
+> > > +};
+> > > +
+> > > +static const struct csi2_pix_format *find_csi2_format(u32 code)
+> > > +{
+> > > +       unsigned int i;
+> > > +
+> > > +       for (i = 0; i < ARRAY_SIZE(imx8mq_mipi_csi_formats); i++)
+> > > +               if (code == imx8mq_mipi_csi_formats[i].code)
+> > > +                       return &imx8mq_mipi_csi_formats[i];
+> > > +       return NULL;
+> > > +}
+> > > +
+> > > +/* ---------------------------------------------------------------
+> > > --------------
+> > > + * Hardware configuration
+> > > + */
+> > > +
+> > > +static inline void imx8mq_mipi_csi_write(struct csi_state *state,
+> > > u32 reg, u32 val)
+> > > +{
+> > > +       writel(val, state->regs + reg);
+> > > +}
+> > > +
+> > > +static int imx8mq_mipi_csi_sw_reset(struct csi_state *state)
+> > > +{
+> > > +       int ret;
+> > > +
+> > > +       ret = reset_control_assert(state->rst);
+> > 
+> > That's peculiar, is there no need to deassert reset ?
 > 
-> Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> ---
->  changes in v2:
->    - threaded IRQ removed, all stuff done in IRQ handler
->    - DIV_ROUND_CLOSEST_ULL replaced with DIV_ROUND_CLOSEST
->    - compatible changed to "amlogic,meson-g12a-irblaster"
->    - 'debug' parameter removed
->    - dprintk() replaced with dev_dbg()/dev_info()
->    - carrier frequency checked against 0
->    - device_name added
->  changes in v3:
->    - license header fixed
->    - 'max_fifo_level' parameter removed
->    - irq and clk_nr deleted from irblaster_dev struct
->    - some divisions replaced with DIV_ROUND_CLOSEST
->    - irb_send inlined
->    - fixed early completion in IRQ handler
->    - spin lock added before kfree
->  changes in v4:
->    - irblaster -> ir-tx renaming
->    - spin lock added before buffer allocation
->  changes in v5:
->    - spinlocks rework made in meson_irtx_transmit
->    - max_fifo_level replaced with fifo_threshold (max_fifo_level +
->      fifo_threshold == IRB_FIFO_LEN == 128)
->    - max-fifo-level -> amlogic,fifo-threshold
-> 
->  drivers/media/rc/Kconfig       |  10 +
->  drivers/media/rc/Makefile      |   1 +
->  drivers/media/rc/meson-ir-tx.c | 410 +++++++++++++++++++++++++++++++++
->  3 files changed, 421 insertions(+)
->  create mode 100644 drivers/media/rc/meson-ir-tx.c
-> 
-> diff --git a/drivers/media/rc/Kconfig b/drivers/media/rc/Kconfig
-> index d0a8326b75c2..fd5a7a058714 100644
-> --- a/drivers/media/rc/Kconfig
-> +++ b/drivers/media/rc/Kconfig
-> @@ -246,6 +246,16 @@ config IR_MESON
->  	   To compile this driver as a module, choose M here: the
->  	   module will be called meson-ir.
->  
-> +config IR_MESON_TX
-> +	tristate "Amlogic Meson IR TX"
-> +	depends on ARCH_MESON || COMPILE_TEST
-> +	help
-> +	   Say Y if you want to use the IR transmitter available on
-> +	   Amlogic Meson SoCs.
-> +
-> +	   To compile this driver as a module, choose M here: the
-> +	   module will be called meson-ir-tx.
-> +
->  config IR_MTK
->  	tristate "Mediatek IR remote receiver"
->  	depends on ARCH_MEDIATEK || COMPILE_TEST
-> diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
-> index 692e9b6b203f..0db51fad27d6 100644
-> --- a/drivers/media/rc/Makefile
-> +++ b/drivers/media/rc/Makefile
-> @@ -28,6 +28,7 @@ obj-$(CONFIG_IR_ITE_CIR) += ite-cir.o
->  obj-$(CONFIG_IR_MCEUSB) += mceusb.o
->  obj-$(CONFIG_IR_FINTEK) += fintek-cir.o
->  obj-$(CONFIG_IR_MESON) += meson-ir.o
-> +obj-$(CONFIG_IR_MESON_TX) += meson-ir-tx.o
->  obj-$(CONFIG_IR_NUVOTON) += nuvoton-cir.o
->  obj-$(CONFIG_IR_ENE) += ene_ir.o
->  obj-$(CONFIG_IR_REDRAT3) += redrat3.o
-> diff --git a/drivers/media/rc/meson-ir-tx.c b/drivers/media/rc/meson-ir-tx.c
-> new file mode 100644
-> index 000000000000..1730af93e43d
-> --- /dev/null
-> +++ b/drivers/media/rc/meson-ir-tx.c
-> @@ -0,0 +1,410 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/**
-> + * meson-ir-tx.c - Amlogic Meson IR TX driver
-> + *
-> + * Copyright (c) 2021, SberDevices. All Rights Reserved.
-> + *
-> + * Author: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/module.h>
-> +#include <linux/sched.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/of.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/of_irq.h>
-> +#include <linux/clk.h>
-> +#include <linux/slab.h>
-> +#include <media/rc-core.h>
-> +
-> +#define DEVICE_NAME	"Meson IR TX"
-> +#define DRIVER_NAME	"meson-ir-tx"
-> +
-> +#define MIRTX_DEFAULT_CARRIER		38000
-> +#define MIRTX_DEFAULT_DUTY_CYCLE	50
-> +#define MIRTX_DEFAULT_FIFO_THD		32
-> +
-> +#define IRB_MOD_1US_CLK_RATE	1000000
-> +
-> +#define IRB_FIFO_LEN	128
-> +
-> +#define IRB_ADDR0	0x0
-> +#define IRB_ADDR1	0x4
-> +#define IRB_ADDR2	0x8
-> +#define IRB_ADDR3	0xc
-> +
-> +#define IRB_MAX_DELAY	(1 << 10)
-> +#define IRB_DELAY_MASK	(IRB_MAX_DELAY - 1)
-> +
-> +/* IRCTRL_IR_BLASTER_ADDR0 */
-> +#define IRB_MOD_CLK(x)		((x) << 12)
-> +#define IRB_MOD_SYS_CLK		0
-> +#define IRB_MOD_XTAL3_CLK	1
-> +#define IRB_MOD_1US_CLK		2
-> +#define IRB_MOD_10US_CLK	3
-> +#define IRB_INIT_HIGH		BIT(2)
-> +#define IRB_ENABLE		BIT(0)
-> +
-> +/* IRCTRL_IR_BLASTER_ADDR2 */
-> +#define IRB_MOD_COUNT(lo, hi)	((((lo) - 1) << 16) | ((hi) - 1))
-> +
-> +/* IRCTRL_IR_BLASTER_ADDR2 */
-> +#define IRB_WRITE_FIFO	BIT(16)
-> +#define IRB_MOD_ENABLE	BIT(12)
-> +#define IRB_TB_1US	(0x0 << 10)
-> +#define IRB_TB_10US	(0x1 << 10)
-> +#define IRB_TB_100US	(0x2 << 10)
-> +#define IRB_TB_MOD_CLK	(0x3 << 10)
-> +
-> +/* IRCTRL_IR_BLASTER_ADDR3 */
-> +#define IRB_FIFO_THD_PENDING	BIT(16)
-> +#define IRB_FIFO_IRQ_ENABLE	BIT(8)
-> +
-> +struct meson_irtx {
-> +	struct device *dev;
-> +	void __iomem *reg_base;
-> +	u32 *buf;
-> +	unsigned int buf_len;
-> +	unsigned int buf_head;
-> +	unsigned int carrier;
-> +	unsigned int duty_cycle;
-> +	spinlock_t lock;
-> +	struct completion completion;
-> +	unsigned int fifo_threshold;
-> +	unsigned long clk_rate;
-> +};
-> +
-> +static void meson_irtx_set_mod(struct meson_irtx *ir)
-> +{
-> +	unsigned int cnt = DIV_ROUND_CLOSEST(ir->clk_rate, ir->carrier);
-> +	unsigned int pulse_cnt = DIV_ROUND_CLOSEST(cnt * ir->duty_cycle, 100);
-> +	unsigned int space_cnt = cnt - pulse_cnt;
-> +
-> +	dev_dbg(ir->dev, "F_mod = %uHz, T_mod = %luns, duty_cycle = %u%%\n",
-> +		ir->carrier, NSEC_PER_SEC / ir->clk_rate * cnt,
-> +		100 * pulse_cnt / cnt);
-> +
-> +	writel(IRB_MOD_COUNT(pulse_cnt, space_cnt),
-> +	       ir->reg_base + IRB_ADDR1);
-> +}
-> +
-> +static void meson_irtx_setup(struct meson_irtx *ir, unsigned int clk_nr)
-> +{
-> +	/*
-> +	 * Disable the TX, set modulator clock tick and set initialize
-> +	 * output to be high. Set up carrier frequency and duty cycle. Then
-> +	 * unset initialize output. Enable FIFO interrupt, set FIFO interrupt
-> +	 * threshold. Finally, enable the transmitter back.
-> +	 */
-> +	writel(~IRB_ENABLE & (IRB_MOD_CLK(clk_nr) | IRB_INIT_HIGH),
-> +	       ir->reg_base + IRB_ADDR0);
-> +	meson_irtx_set_mod(ir);
-> +	writel(readl(ir->reg_base + IRB_ADDR0) & ~IRB_INIT_HIGH,
-> +	       ir->reg_base + IRB_ADDR0);
-> +	writel(IRB_FIFO_IRQ_ENABLE | ir->fifo_threshold,
-> +	       ir->reg_base + IRB_ADDR3);
-> +	writel(readl(ir->reg_base + IRB_ADDR0) | IRB_ENABLE,
-> +	       ir->reg_base + IRB_ADDR0);
-> +}
-> +
-> +static u32 meson_irtx_prepare_pulse(struct meson_irtx *ir, unsigned int time)
-> +{
-> +	unsigned int delay;
-> +	unsigned int tb = IRB_TB_MOD_CLK;
-> +	unsigned int tb_us = DIV_ROUND_CLOSEST(USEC_PER_SEC, ir->carrier);
-> +
-> +	delay = (DIV_ROUND_CLOSEST(time, tb_us) - 1) & IRB_DELAY_MASK;
-> +
-> +	return ((IRB_WRITE_FIFO | IRB_MOD_ENABLE) | tb | delay);
-> +}
-> +
-> +static u32 meson_irtx_prepare_space(struct meson_irtx *ir, unsigned int time)
-> +{
-> +	unsigned int delay;
-> +	unsigned int tb = IRB_TB_100US;
-> +	unsigned int tb_us = 100;
-> +
-> +	if (time <= IRB_MAX_DELAY) {
-> +		tb = IRB_TB_1US;
-> +		tb_us = 1;
-> +	} else if (time <= 10 * IRB_MAX_DELAY) {
-> +		tb = IRB_TB_10US;
-> +		tb_us = 10;
-> +	} else if (time <= 100 * IRB_MAX_DELAY) {
-> +		tb = IRB_TB_100US;
-> +		tb_us = 100;
-> +	}
-> +
-> +	delay = (DIV_ROUND_CLOSEST(time, tb_us) - 1) & IRB_DELAY_MASK;
-> +
-> +	return ((IRB_WRITE_FIFO & ~IRB_MOD_ENABLE) | tb | delay);
-> +}
-> +
-> +static void meson_irtx_send_buffer(struct meson_irtx *ir)
-> +{
-> +	unsigned int nr = 0;
-> +	unsigned int max_fifo_level = IRB_FIFO_LEN - ir->fifo_threshold;
-> +
-> +	while (ir->buf_head < ir->buf_len && nr < max_fifo_level) {
-> +		writel(ir->buf[ir->buf_head], ir->reg_base + IRB_ADDR2);
-> +
-> +		ir->buf_head++;
-> +		nr++;
-> +	}
-> +}
-> +
-> +static bool meson_irtx_check_buf(struct meson_irtx *ir,
-> +			  unsigned int *buf, unsigned int len)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < len; i++) {
-> +		unsigned int max_tb_us;
-> +		/*
-> +		 * Max space timebase is 100 us.
-> +		 * Pulse timebase equals to carrier period.
-> +		 */
-> +		if (i % 2 == 0)
-> +			max_tb_us = USEC_PER_SEC / ir->carrier;
-> +		else
-> +			max_tb_us = 100;
-> +
-> +		if (buf[i] >= max_tb_us * IRB_MAX_DELAY)
-> +			return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
-> +static void meson_irtx_fill_buf(struct meson_irtx *ir, u32 *dst_buf,
-> +				unsigned int *src_buf, unsigned int len)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < len; i++) {
-> +		if (i % 2 == 0)
-> +			dst_buf[i] = meson_irtx_prepare_pulse(ir, src_buf[i]);
-> +		else
-> +			dst_buf[i] = meson_irtx_prepare_space(ir, src_buf[i]);
-> +	}
-> +}
-> +
-> +static irqreturn_t meson_irtx_irqhandler(int irq, void *data)
-> +{
-> +	unsigned long flags;
-> +	struct meson_irtx *ir = data;
-> +
-> +	writel(readl(ir->reg_base + IRB_ADDR3) & ~IRB_FIFO_THD_PENDING,
-> +	       ir->reg_base + IRB_ADDR3);
-> +
-> +	spin_lock_irqsave(&ir->lock, flags);
-> +	if (ir->buf_head < ir->buf_len)
-> +		meson_irtx_send_buffer(ir);
-> +	else
-> +		complete(&ir->completion);
-> +	spin_unlock_irqrestore(&ir->lock, flags);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int meson_irtx_set_carrier(struct rc_dev *rc, u32 carrier)
-> +{
-> +	struct meson_irtx *ir = rc->priv;
-> +
-> +	if (carrier == 0)
-> +		return -EINVAL;
-> +
-> +	ir->carrier = carrier;
-> +	meson_irtx_set_mod(ir);
-> +
-> +	return 0;
-> +}
-> +
-> +static int meson_irtx_set_duty_cycle(struct rc_dev *rc, u32 duty_cycle)
-> +{
-> +	struct meson_irtx *ir = rc->priv;
-> +
-> +	ir->duty_cycle = duty_cycle;
-> +	meson_irtx_set_mod(ir);
-> +
-> +	return 0;
-> +}
-> +
-> +static void meson_irtx_update_buf(struct meson_irtx *ir, u32 *buf,
-> +				  unsigned int len, unsigned int head)
-> +{
-> +	ir->buf = buf;
-> +	ir->buf_len = len;
-> +	ir->buf_head = head;
-> +}
-> +
-> +static int meson_irtx_transmit(struct rc_dev *rc, unsigned int *buf,
-> +			       unsigned int len)
-> +{
-> +	unsigned long flags;
-> +	struct meson_irtx *ir = rc->priv;
-> +	u32 *tx_buf;
-> +	int ret;
-> +
-> +	if (!meson_irtx_check_buf(ir, buf, len))
-> +		return -EINVAL;
-> +
-> +	tx_buf = kmalloc_array(len, sizeof(u32), GFP_KERNEL);
-> +	if (!tx_buf)
-> +		return -ENOMEM;
-> +
-> +	meson_irtx_fill_buf(ir, tx_buf, buf, len);
-> +	dev_dbg(ir->dev, "TX buffer filled, length = %u\n", len);
-> +
-> +	spin_lock_irqsave(&ir->lock, flags);
-> +	meson_irtx_update_buf(ir, tx_buf, len, 0);
-> +	reinit_completion(&ir->completion);
-> +	meson_irtx_send_buffer(ir);
-> +	spin_unlock_irqrestore(&ir->lock, flags);
-> +
-> +	ret = wait_for_completion_interruptible(&ir->completion);
-> +	dev_dbg(ir->dev, "TX %s\n", ret ? "interrupted" : "completed");
+> I tried different things here that would look more intuitive, but in
+> the end only this worked, which is directly taken from
+> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0#n105
+> (actual register value read from DT) that results in exactly the same
+> register bits set like this assertation.
 
-Here two things can happen. One is, the process received a signal (e.g. ^C).
-The other is that the hardware didn't issue any interrupts due some
-problem somewhere. In the latter case, we only escape this
-wait_for_completion_interruptable() when the user gets fed up and presses ^C
-or something like that.
+It's very likely that these are self-clearing reset bits.
 
-> +
-> +	spin_lock_irqsave(&ir->lock, flags);
-> +	kfree(ir->buf);
-> +	meson_irtx_update_buf(ir, NULL, 0, 0);
-> +	spin_unlock_irqrestore(&ir->lock, flags);
+I would have adviced using reset_control_assert(), but it looks like the
+reset controller driver doesn't support that operation. Could you add a
+comment here to explain what's going on, maybe with a note to tell that
+the reset-imx7 driver should implement the .reset() operation ?
 
-Now it is possible that the buffer gets cleared before that IR was sent,
-if the signal was received early enough. This means not all the Tx was
-completed.
+-- 
+Regards,
 
-> +
-> +	return len;
-
-Yet, we always return success.
-
-In case no interrupts were generated we should return an error in a timely
-manner, so the wait_for_completion() needs the timeout. You can use the
-fact that the IR is never longer IR_MAX_DURATION (half a second currently).
-Not sure what the returned error should be, maybe -ETIMEDOUT?
-
-The problem with the interruptable wait is that a process can receive a
-signal at any time, and now when this happens your IR gets truncated. I
-don't think this is what you want.
-
-Thanks
-
-Sean
-
-> +}
-> +
-> +static int meson_irtx_mod_clock_probe(struct meson_irtx *ir,
-> +				      unsigned int *clk_nr)
-> +{
-> +	struct device_node *np = ir->dev->of_node;
-> +	struct clk *clock;
-> +
-> +	if (!np)
-> +		return -ENODEV;
-> +
-> +	clock = devm_clk_get(ir->dev, "xtal");
-> +	if (IS_ERR(clock) || clk_prepare_enable(clock))
-> +		return -ENODEV;
-> +
-> +	*clk_nr = IRB_MOD_XTAL3_CLK;
-> +	ir->clk_rate = clk_get_rate(clock) / 3;
-> +
-> +	if (ir->clk_rate < IRB_MOD_1US_CLK_RATE) {
-> +		*clk_nr = IRB_MOD_1US_CLK;
-> +		ir->clk_rate = IRB_MOD_1US_CLK_RATE;
-> +	}
-> +
-> +	dev_info(ir->dev, "F_clk = %luHz\n", ir->clk_rate);
-> +
-> +	return 0;
-> +}
-> +
-> +static int __init meson_irtx_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct meson_irtx *ir;
-> +	struct rc_dev *rc;
-> +	int irq;
-> +	unsigned int clk_nr;
-> +	int ret;
-> +
-> +	ir = devm_kzalloc(dev, sizeof(*ir), GFP_KERNEL);
-> +	if (!ir)
-> +		return -ENOMEM;
-> +
-> +	ir->reg_base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(ir->reg_base))
-> +		return PTR_ERR(ir->reg_base);
-> +
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0) {
-> +		dev_err(dev, "no irq resource found\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (of_property_read_u32(dev->of_node, "amlogic,fifo-threshold",
-> +				 &ir->fifo_threshold))
-> +		ir->fifo_threshold = MIRTX_DEFAULT_FIFO_THD;
-> +	else if (ir->fifo_threshold >= IRB_FIFO_LEN)
-> +		ir->fifo_threshold = MIRTX_DEFAULT_FIFO_THD;
-> +	dev_dbg(dev, "FIFO threshold set to %u\n", ir->fifo_threshold);
-> +
-> +	ir->dev = dev;
-> +	ir->carrier = MIRTX_DEFAULT_CARRIER;
-> +	ir->duty_cycle = MIRTX_DEFAULT_DUTY_CYCLE;
-> +	init_completion(&ir->completion);
-> +	spin_lock_init(&ir->lock);
-> +
-> +	ret = meson_irtx_mod_clock_probe(ir, &clk_nr);
-> +	if (ret) {
-> +		dev_err(dev, "modulator clock setup failed\n");
-> +		return ret;
-> +	}
-> +	meson_irtx_setup(ir, clk_nr);
-> +
-> +	ret = devm_request_irq(dev, irq,
-> +			       meson_irtx_irqhandler,
-> +			       IRQF_TRIGGER_RISING,
-> +			       DRIVER_NAME, ir);
-> +	if (ret) {
-> +		dev_err(dev, "irq request failed\n");
-> +		return ret;
-> +	}
-> +
-> +	rc = rc_allocate_device(RC_DRIVER_IR_RAW_TX);
-> +	if (!rc)
-> +		return -ENOMEM;
-> +
-> +	rc->driver_name = DRIVER_NAME;
-> +	rc->device_name = DEVICE_NAME;
-> +	rc->priv = ir;
-> +
-> +	rc->tx_ir = meson_irtx_transmit;
-> +	rc->s_tx_carrier = meson_irtx_set_carrier;
-> +	rc->s_tx_duty_cycle = meson_irtx_set_duty_cycle;
-> +
-> +	ret = rc_register_device(rc);
-> +	if (ret < 0) {
-> +		dev_err(dev, "rc_dev registration failed\n");
-> +		rc_free_device(rc);
-> +		return ret;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, rc);
-> +
-> +	return 0;
-> +}
-> +
-> +static int meson_irtx_remove(struct platform_device *pdev)
-> +{
-> +	struct rc_dev *rc = platform_get_drvdata(pdev);
-> +
-> +	rc_unregister_device(rc);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id meson_irtx_dt_match[] = {
-> +	{
-> +		.compatible = "amlogic,meson-g12a-ir-tx",
-> +	},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, meson_irtx_dt_match);
-> +
-> +static struct platform_driver meson_irtx_pd = {
-> +	.remove = meson_irtx_remove,
-> +	.driver = {
-> +		.name = DRIVER_NAME,
-> +		.owner  = THIS_MODULE,
-> +		.of_match_table = meson_irtx_dt_match,
-> +	},
-> +};
-> +
-> +module_platform_driver_probe(meson_irtx_pd, meson_irtx_probe);
-> +
-> +MODULE_DESCRIPTION("Meson IR TX driver");
-> +MODULE_AUTHOR("Viktor Prutyanov <viktor.prutyanov@phystech.edu>");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.21.0
+Laurent Pinchart
