@@ -2,121 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E22DF3C9D77
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 13:07:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9940B3C9DE2
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 13:39:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241748AbhGOLKB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jul 2021 07:10:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34800 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241744AbhGOLKB (ORCPT
+        id S231296AbhGOLmu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jul 2021 07:42:50 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:47546 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230343AbhGOLmu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jul 2021 07:10:01 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66CC9C06175F
-        for <linux-media@vger.kernel.org>; Thu, 15 Jul 2021 04:07:08 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id k4so7200877wrc.8
-        for <linux-media@vger.kernel.org>; Thu, 15 Jul 2021 04:07:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=jdYwECk9furkh7KTSGCqufIb1FYGTuZUpaNXiuZiY34=;
-        b=kiHiErv9a3uauPXHpRI8CSrnoJdVyXl1oedxILs0eaAn0EpMPztBinOM08zsmzNpIm
-         lo+w4jaz1ywCEGo6M88nrJtK+neap6d8xwmtxbelLX3qHVRKUwNgBBv4xfDuTpHPjjPV
-         aG/KPw+tmx0C0GLIUosSKkzhx211f+mK9ZEi390ZjhooPPGKY1xdE9RQQaOL6U8Ut/f0
-         3EBG/M28s5IyD+Puh2gTZQX3JBONLXJc6jYGVRs40a/HPxXM2q3qwIx/yvpSnR7vMeyK
-         WSWnfTXyjyXRXk1lDV7Q8WIYYnZdeaxxIWZjVxi4XYUbdRrZ9j4O/AZvu8ZnbHczaVkN
-         HP8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=jdYwECk9furkh7KTSGCqufIb1FYGTuZUpaNXiuZiY34=;
-        b=ckI0ircP7NQWS+vNcdutgEE5dl5mLLiYlqaEGBot/V2Sv6vbmq6/pqvY2CsxJkhGzX
-         lnWqnBZbaToZEj/tRiZOmVp0+bmoseKTOajFrUw8IbIMHoOaCKJVZ0loxn7XL+M6Npcx
-         4jrbYJWKcUVoMG2Nc0qb1yX4cG5Q6liu28JcZYtcb2u1OG0k/xTUd0YkexZ6fYlDnePP
-         kYpTdRG2X3HGhgxHsybXjUkRaF0/AFI/UucWh1C20jCWpVxmXneZVTwt6lupFovPy4NA
-         JMLnDgFdbK2nPiOslKmnQ8PQZz1uVOPa/E8Se6GYdVT8CUY+SQwGC3CzDUfjYff6nkMg
-         ydcQ==
-X-Gm-Message-State: AOAM533866nOHZJjex8L8219H8RMFxeEb3clL/vxW+sd8SaljZuB5rBh
-        0e77lOUg8OQxnRdX/gNOzZgklQ==
-X-Google-Smtp-Source: ABdhPJwPOnYA05PxM9Ze6qn2v3mYFlXBEvHSAoHc82BK2drzF1umfX5qFL53y4rzX8C8pSyZxQ1OgQ==
-X-Received: by 2002:a5d:68c2:: with SMTP id p2mr4614409wrw.27.1626347226995;
-        Thu, 15 Jul 2021 04:07:06 -0700 (PDT)
-Received: from google.com ([109.180.115.218])
-        by smtp.gmail.com with ESMTPSA id z11sm5969559wru.65.2021.07.15.04.07.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jul 2021 04:07:06 -0700 (PDT)
-Date:   Thu, 15 Jul 2021 12:07:04 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Alex Bee <knaerzche@gmail.com>
-Cc:     Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
+        Thu, 15 Jul 2021 07:42:50 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED8D6340;
+        Thu, 15 Jul 2021 13:39:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1626349196;
+        bh=wBAewmusucblP5NodrsdXM3hRJXGzt/TXfbaQVW+vBk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BUBeAG07O7iPqoaQeqox+Y1uMLSaF/VV/o6dJ/cJ+Jszo7B8w7J4YGZx+ClsDSwu/
+         OFA+7haZ9MYam4AigQTrW9cPqs+pEdDuh0egIjt+G3uA6+rLM6S4prjG0qtJutBU0o
+         D5dGjz/0YysRlibPPApvid950mgNHkVS+Eaw932Q=
+Date:   Thu, 15 Jul 2021 14:39:54 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Dennis Rachui <drachui@de.adit-jv.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/12] dt-bindings: mfd: syscon: add Rockchip
- RK3036/RK3228 qos compatibles
-Message-ID: <YPAW2FglO/4Lhs+i@google.com>
-References: <20210525152225.154302-1-knaerzche@gmail.com>
- <20210527154455.358869-2-knaerzche@gmail.com>
- <20210601154651.GE2159518@dell>
- <3527273.z0yIoBN5P9@diego>
- <78b492b8-55c4-dfbd-cda6-f78c4b8557b0@gmail.com>
+Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
+Message-ID: <YPAeirL/qtmNYx99@pendragon.ideasonboard.com>
+References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
+ <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
+ <YOoiZM+oicZBD4o1@pendragon.ideasonboard.com>
+ <YO1f+SOTBS44/Wf0@oden.dyn.berto.se>
+ <YO8vs4V/lhVA8mY9@pendragon.ideasonboard.com>
+ <YPAUoQ8KmmAE3fWD@oden.dyn.berto.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <78b492b8-55c4-dfbd-cda6-f78c4b8557b0@gmail.com>
+In-Reply-To: <YPAUoQ8KmmAE3fWD@oden.dyn.berto.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 15 Jul 2021, Alex Bee wrote:
+Hi Niklas,
 
-> Hi Lee, Heiko,
-> 
-> Am 11.07.21 um 13:55 schrieb Heiko Stübner:
-> > Hi Lee,
-> > 
-> > Am Dienstag, 1. Juni 2021, 17:46:51 CEST schrieb Lee Jones:
-> > > On Thu, 27 May 2021, Alex Bee wrote:
+On Thu, Jul 15, 2021 at 12:57:37PM +0200, Niklas Söderlund wrote:
+> On 2021-07-14 21:40:51 +0300, Laurent Pinchart wrote:
+> > On Tue, Jul 13, 2021 at 11:42:17AM +0200, Niklas Söderlund wrote:
+> > > On 2021-07-11 01:42:44 +0300, Laurent Pinchart wrote:
+> > > > On Fri, Jul 09, 2021 at 04:20:40PM +0200, Niklas Söderlund wrote:
+> > > > > On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
+> > > > > > Verify that streaming is not active before setting the pad format.
+> > > > > > 
+> > > > > > According to the VIDIOC documentation [1] changes to the active
+> > > > > > format of a media pad via the VIDIOC_SUBDEV_S_FMT ioctl are
+> > > > > > applied to the underlying hardware.
+> > > > > > In rcar-csi2 a format change only applies to hardware, when the
+> > > > > > pipeline is started. While the device is not in use, it is therefore
+> > > > > > okay to update the format.
+> > > > > > 
+> > > > > > However, when the pipeline is active, this leads to a format
+> > > > > > mismatch between driver and device.
+> > > > > > Other applications can query the format with
+> > > > > > VIDIOC_SUBDEV_G_FMT at any time and would be reported
+> > > > > > a format that does not fit the current stream.
+> > > > > > 
+> > > > > > This commit prevents format update while streaming is active
+> > > > > > and returns -EBUSY to user space, as suggested by [1].
+> > > > > > 
+> > > > > > [1] Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
+> > > > > 
+> > > > > I like that this is addressed, but I wonder is this not something that 
+> > > > > should be fixed in the V4L2 core and not in drivers?
+> > > > 
+> > > > Some drivers may support format changes during streaming (that's allowed
+> > > > by the V4L2 API, I'm not sure if it's used anywhere though). While I'd
+> > > > favour not duplicating the same logic in different (and differently
+> > > > buggy) ways in drivers, I'm not sure how this could be implemented in a
+> > > > sane way in the V4L2 core in its current state.
 > > > 
-> > > > Document Rockchip RK3036/RK3228 qos compatibles
-> > > > 
-> > > > Signed-off-by: Alex Bee <knaerzche@gmail.com>
-> > > > Reviewed-by: Heiko Stuebner <heiko@sntech.de>
-> > > > ---
-> > > > 
-> > > >   Changes in v2:
-> > > >   - collect Reviewed tag
-> > > > 
-> > > >   Documentation/devicetree/bindings/mfd/syscon.yaml | 2 ++
-> > > >   1 file changed, 2 insertions(+)
-> > > Applied, thanks.
-> > not sure if I'm missing something, but this patch wasn't part of your 5.14?
-> > And I also don't see it in your for-mfd-next branch. Did it get lost somewhere?
-
-Hmm... looks like it was dropped some how.  Apologies for that.
-
-> I can't find this patch in neihter the mentioned trees nor in 5.14-rc1.
+> > > I understand it's possible from some devices to support to format 
+> > > changes during streaming, but as you point out it's the exception and 
+> > > not the rule, if used at all.
+> > > 
+> > > So my point is if we start to enforce this in drivers we are headed down 
+> > > a road where this will be messier to clean up. Would it not make more 
+> > > sens to default the V4L2 core to disallow format changes while streaming 
+> > > and add a new flag to V4L2_SUBDEV_CAP_ to signal that the subdevice 
+> > > supports format changes while streaming?
+> > > 
+> > > We already have V4L2_SUBDEV_CAP_RO_SUBDEV to signal that a subdevice 
+> > > only supports read-only operations so I think it would not be too hard 
+> > > to move this functionality into the core?
+> > 
+> > Yes, that's something we could try. The subdev core will then need to
+> > track the streaming state, which may require wrapping the .s_stream()
+> > call. Locking should then also likely be handled by the core. Probably
+> > nothing impossible, but quite a bit of work. Any volunteer ? :-)
 > 
-> Lee, could you queue it for rc2, please?
+> We already track the stream count in struct media_entity and it's 
+> incremented/decremented under the media device lock by 
+> media_pipeline_start() and media_pipeline_stop(). So I don't think it's 
+> such a hard feature to add.
+> 
+> The large task IMHO is to figure out if we have any subdevice in tree 
+> that allows format changes while streaming and that would need to set 
+> this new V4L2_SUBDEV_CAP_ flag.
 
-Unfortunately, that's not how it works.
+Many subdevs allow format changes during streaming. The question is
+whether any of them do so knowingly, or if they're all buggy :-) I'd be
+surprised if there were more than a couple of drivers that actually
+support this correctly.
 
-Only bug fixes are allowed for inclusion into the rcs.
-
-I'll re-queue for v5.15 though.
+> > > > > > Note: after creation of this commit, it was noticed that Steve
+> > > > > > Longerbeam has a very similar solution in his fork.
+> > > > > > 
+> > > > > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+> > > > > > Cc: Steve Longerbeam <slongerbeam@gmail.com>
+> > > > > > Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
+> > > > > > ---
+> > > > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 ++++++++++++++++++++-
+> > > > > >  1 file changed, 20 insertions(+), 1 deletion(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > > index e28eff0..98152e1 100644
+> > > > > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > > @@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+> > > > > >  {
+> > > > > >  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> > > > > >  	struct v4l2_mbus_framefmt *framefmt;
+> > > > > > +	int ret = 0;
+> > > > > > +
+> > > > > > +	mutex_lock(&priv->lock);
+> > > > > >  
+> > > > > >  	if (!rcsi2_code_to_fmt(format->format.code))
+> > > > > >  		format->format.code = rcar_csi2_formats[0].code;
+> > > > > >  
+> > > > > >  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > > > > > +
+> > > > > > +		/*
+> > > > > > +		 * Do not apply changes to active format while streaming.
+> > > > > > +		 *
+> > > > > > +		 * Since video streams could be forwarded from sink pad to any
+> > > > > > +		 * source pad (depending on CSI-2 channel routing), all
+> > > > > > +		 * media pads are effected by this rule.
+> > > > > > +		 */
+> > > > > > +		if (priv->stream_count > 0) {
+> > > > > > +			ret = -EBUSY;
+> > > > > > +			goto out;
+> > > > > > +		}
+> > > > > > +
+> > > > > >  		priv->mf = format->format;
+> > > > > >  	} else {
+> > > > > >  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> > > > > >  		*framefmt = format->format;
+> > > > > >  	}
+> > > > > >  
+> > > > > > -	return 0;
+> > > > > > +out:
+> > > > > > +	mutex_unlock(&priv->lock);
+> > > > > > +
+> > > > > > +	return ret;
+> > > > > >  }
+> > > > > >  
+> > > > > >  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
 
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Regards,
+
+Laurent Pinchart
