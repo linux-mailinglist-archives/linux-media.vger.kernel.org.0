@@ -2,111 +2,332 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC41C3C98C1
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 08:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0E5F3C98F3
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 08:50:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233350AbhGOG1I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jul 2021 02:27:08 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:16163 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231149AbhGOG1H (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jul 2021 02:27:07 -0400
-X-UUID: 0a5205d548114b71bf449392ac64c6d6-20210715
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=FdJEfNIhRevGn/F/LNRstNPMVmwpSKWT+XSRG+RptUo=;
-        b=XwcGYvS5eBEW2tM7yKQuXk4RNV6DmpPFDWGENSlPuFnEwQSJXNoRyAOCwMMeYXtRYceq1lpEl36aLbSJSBpnvnuru//JIBbV0w3pt04fCU3tTl5FdEgEkWfDHVNhEtI7E0bEIe2vTgoOK97xYsA1o1YhDZiXATIDr8zLsEFJvy8=;
-X-UUID: 0a5205d548114b71bf449392ac64c6d6-20210715
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <guangming.cao@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 149916070; Thu, 15 Jul 2021 14:24:11 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- MTKMBS33N2.mediatek.inc (172.27.4.76) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 15 Jul 2021 14:24:08 +0800
-Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Thu, 15 Jul 2021 14:24:07 +0800
-From:   <guangming.cao@mediatek.com>
-To:     <guangming.cao@mediatek.com>
-CC:     <Brian.Starkey@arm.com>, <benjamin.gaignard@linaro.org>,
-        <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
-        <john.stultz@linaro.org>, <labbott@redhat.com>,
-        <linaro-mm-sig@lists.linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <lmark@codeaurora.org>,
-        <matthias.bgg@gmail.com>, <sumit.semwal@linaro.org>,
-        Guangming Cao <Guangming.Cao@mediatek.com>
-Subject: [PATCH] dma-heap: Let dma heap use dma_map_attrs to map & unmap iova
-Date:   Thu, 15 Jul 2021 14:24:05 +0800
-Message-ID: <20210715062405.98932-1-guangming.cao@mediatek.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210708101421.9101-1-guangming.cao@mediatek.com>
-References: <20210708101421.9101-1-guangming.cao@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: D20BB1BADB131EDFEA63427CEE31F7C3446A8B841868204EDF379FDAF8A9A92E2000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+        id S237507AbhGOGwy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jul 2021 02:52:54 -0400
+Received: from comms.puri.sm ([159.203.221.185]:34364 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231530AbhGOGwx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 15 Jul 2021 02:52:53 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id DFDE6DFE44;
+        Wed, 14 Jul 2021 23:50:00 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id EVlryjTOvjER; Wed, 14 Jul 2021 23:49:56 -0700 (PDT)
+Message-ID: <33f9ab8ea253c01d3311346bc871d7f62213215f.camel@puri.sm>
+Subject: Re: [PATCH v6 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
+ phy and controller
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     festevam@gmail.com, krzk@kernel.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de, kernel@puri.sm,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
+        mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
+        shawnguo@kernel.org, slongerbeam@gmail.com
+Date:   Thu, 15 Jul 2021 08:49:51 +0200
+In-Reply-To: <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
+References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
+         <20210714111931.324485-3-martin.kepplinger@puri.sm>
+         <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RnJvbTogR3VhbmdtaW5nIENhbyA8R3VhbmdtaW5nLkNhb0BtZWRpYXRlay5jb20+DQoNCk9uIFRo
-dSwgMjAyMS0wNy0wOCBhdCAxODoxNCArMDgwMCwgZ3VhbmdtaW5nLmNhb0BtZWRpYXRlay5jb20g
-d3JvdGU6DQoNCkhpIFN1bWl0LCBDaHJpc3RpYW4sIE1hdHRoaWFzLA0KDQpnZW50bGUgcGluZyBm
-b3IgdGhpcyBwYXRjaCA6KQ0KDQpCUnMhDQpHdWFuZ21pbmcNCg0KPiBGcm9tOiBHdWFuZ21pbmcg
-Q2FvIDxHdWFuZ21pbmcuQ2FvQG1lZGlhdGVrLmNvbT4NCj4gDQo+IEZvciBkbWEtaGVhcCB1c2Vy
-cywgdGhleSBjYW4ndCBieXBhc3MgY2FjaGUgc3luYyB3aGVuIG1hcC91bm1hcCBpb3ZhDQo+IHdp
-dGggZG1hIGhlYXAuIEJ1dCB0aGV5IGNhbiBkbyBpdCBieSBhZGRpbmcgRE1BX0FUVFJfU0tJUF9D
-UFVfU1lOQw0KPiBpbnRvIGRtYV9hbGxvY19hdHRycy4NCj4gDQo+IFRvIGtlZXAgYWxpZ25tZW50
-LCBhdCBkbWFfaGVhcCBzaWRlLCBhbHNvIHVzZQ0KPiBkbWFfYnVmX2F0dGFjaG1lbnQuZG1hX21h
-cF9hdHRycyB0byBkbyBpb3ZhIG1hcCAmIHVubWFwLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogR3Vh
-bmdtaW5nIENhbyA8R3VhbmdtaW5nLkNhb0BtZWRpYXRlay5jb20+DQo+IC0tLQ0KPiAgZHJpdmVy
-cy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMgICAgfCA2ICsrKystLQ0KPiAgZHJpdmVycy9kbWEt
-YnVmL2hlYXBzL3N5c3RlbV9oZWFwLmMgfCA2ICsrKystLQ0KPiAgMiBmaWxlcyBjaGFuZ2VkLCA4
-IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMgYi9kcml2ZXJzL2RtYS0NCj4gYnVmL2hlYXBzL2Nt
-YV9oZWFwLmMNCj4gaW5kZXggMGMwNWI3OTg3MGY5Li4yYzlmZWIzYmZjM2UgMTAwNjQ0DQo+IC0t
-LSBhL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9jbWFfaGVhcC5jDQo+ICsrKyBiL2RyaXZlcnMvZG1h
-LWJ1Zi9oZWFwcy9jbWFfaGVhcC5jDQo+IEBAIC05OSw5ICs5OSwxMCBAQCBzdGF0aWMgc3RydWN0
-IHNnX3RhYmxlDQo+ICpjbWFfaGVhcF9tYXBfZG1hX2J1ZihzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2ht
-ZW50ICphdHRhY2htZQ0KPiAgew0KPiAgCXN0cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50ICphID0g
-YXR0YWNobWVudC0+cHJpdjsNCj4gIAlzdHJ1Y3Qgc2dfdGFibGUgKnRhYmxlID0gJmEtPnRhYmxl
-Ow0KPiArCWludCBhdHRycyA9IGF0dGFjaG1lbnQtPmRtYV9tYXBfYXR0cnM7DQo+ICAJaW50IHJl
-dDsNCj4gIA0KPiAtCXJldCA9IGRtYV9tYXBfc2d0YWJsZShhdHRhY2htZW50LT5kZXYsIHRhYmxl
-LCBkaXJlY3Rpb24sIDApOw0KPiArCXJldCA9IGRtYV9tYXBfc2d0YWJsZShhdHRhY2htZW50LT5k
-ZXYsIHRhYmxlLCBkaXJlY3Rpb24sDQo+IGF0dHJzKTsNCj4gIAlpZiAocmV0KQ0KPiAgCQlyZXR1
-cm4gRVJSX1BUUigtRU5PTUVNKTsNCj4gIAlhLT5tYXBwZWQgPSB0cnVlOw0KPiBAQCAtMTEzLDkg
-KzExNCwxMCBAQCBzdGF0aWMgdm9pZCBjbWFfaGVhcF91bm1hcF9kbWFfYnVmKHN0cnVjdA0KPiBk
-bWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaG1lbnQsDQo+ICAJCQkJICAgZW51bSBkbWFfZGF0YV9k
-aXJlY3Rpb24gZGlyZWN0aW9uKQ0KPiAgew0KPiAgCXN0cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50
-ICphID0gYXR0YWNobWVudC0+cHJpdjsNCj4gKwlpbnQgYXR0cnMgPSBhdHRhY2htZW50LT5kbWFf
-bWFwX2F0dHJzOw0KPiAgDQo+ICAJYS0+bWFwcGVkID0gZmFsc2U7DQo+IC0JZG1hX3VubWFwX3Nn
-dGFibGUoYXR0YWNobWVudC0+ZGV2LCB0YWJsZSwgZGlyZWN0aW9uLCAwKTsNCj4gKwlkbWFfdW5t
-YXBfc2d0YWJsZShhdHRhY2htZW50LT5kZXYsIHRhYmxlLCBkaXJlY3Rpb24sIGF0dHJzKTsNCj4g
-IH0NCj4gIA0KPiAgc3RhdGljIGludCBjbWFfaGVhcF9kbWFfYnVmX2JlZ2luX2NwdV9hY2Nlc3Mo
-c3RydWN0IGRtYV9idWYgKmRtYWJ1ZiwNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9o
-ZWFwcy9zeXN0ZW1faGVhcC5jIGIvZHJpdmVycy9kbWEtDQo+IGJ1Zi9oZWFwcy9zeXN0ZW1faGVh
-cC5jDQo+IGluZGV4IDIzYTdlNzRlZjk2Ni4uZmM3YjFlMDI5ODhlIDEwMDY0NA0KPiAtLS0gYS9k
-cml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYw0KPiArKysgYi9kcml2ZXJzL2RtYS1i
-dWYvaGVhcHMvc3lzdGVtX2hlYXAuYw0KPiBAQCAtMTMwLDkgKzEzMCwxMCBAQCBzdGF0aWMgc3Ry
-dWN0IHNnX3RhYmxlDQo+ICpzeXN0ZW1faGVhcF9tYXBfZG1hX2J1ZihzdHJ1Y3QgZG1hX2J1Zl9h
-dHRhY2htZW50ICphdHRhYw0KPiAgew0KPiAgCXN0cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50ICph
-ID0gYXR0YWNobWVudC0+cHJpdjsNCj4gIAlzdHJ1Y3Qgc2dfdGFibGUgKnRhYmxlID0gYS0+dGFi
-bGU7DQo+ICsJaW50IGF0dHJzID0gYXR0YWNobWVudC0+ZG1hX21hcF9hdHRyczsNCj4gIAlpbnQg
-cmV0Ow0KPiAgDQo+IC0JcmV0ID0gZG1hX21hcF9zZ3RhYmxlKGF0dGFjaG1lbnQtPmRldiwgdGFi
-bGUsIGRpcmVjdGlvbiwgMCk7DQo+ICsJcmV0ID0gZG1hX21hcF9zZ3RhYmxlKGF0dGFjaG1lbnQt
-PmRldiwgdGFibGUsIGRpcmVjdGlvbiwNCj4gYXR0cnMpOw0KPiAgCWlmIChyZXQpDQo+ICAJCXJl
-dHVybiBFUlJfUFRSKHJldCk7DQo+ICANCj4gQEAgLTE0NSw5ICsxNDYsMTAgQEAgc3RhdGljIHZv
-aWQgc3lzdGVtX2hlYXBfdW5tYXBfZG1hX2J1ZihzdHJ1Y3QNCj4gZG1hX2J1Zl9hdHRhY2htZW50
-ICphdHRhY2htZW50LA0KPiAgCQkJCSAgICAgIGVudW0gZG1hX2RhdGFfZGlyZWN0aW9uDQo+IGRp
-cmVjdGlvbikNCj4gIHsNCj4gIAlzdHJ1Y3QgZG1hX2hlYXBfYXR0YWNobWVudCAqYSA9IGF0dGFj
-aG1lbnQtPnByaXY7DQo+ICsJaW50IGF0dHJzID0gYXR0YWNobWVudC0+ZG1hX21hcF9hdHRyczsN
-Cj4gIA0KPiAgCWEtPm1hcHBlZCA9IGZhbHNlOw0KPiAtCWRtYV91bm1hcF9zZ3RhYmxlKGF0dGFj
-aG1lbnQtPmRldiwgdGFibGUsIGRpcmVjdGlvbiwgMCk7DQo+ICsJZG1hX3VubWFwX3NndGFibGUo
-YXR0YWNobWVudC0+ZGV2LCB0YWJsZSwgZGlyZWN0aW9uLCBhdHRycyk7DQo+ICB9DQo+ICANCj4g
-IHN0YXRpYyBpbnQgc3lzdGVtX2hlYXBfZG1hX2J1Zl9iZWdpbl9jcHVfYWNjZXNzKHN0cnVjdCBk
-bWFfYnVmDQo+ICpkbWFidWYsDQo+IC0tIA0KPiAyLjE3LjENCj4g
+Am Mittwoch, dem 14.07.2021 um 21:24 +0300 schrieb Laurent Pinchart:
+> Hi Martin,
+> 
+> Thank you for the patch.
+
+thank you for reviewing.
+
+> 
+> On Wed, Jul 14, 2021 at 01:19:30PM +0200, Martin Kepplinger wrote:
+> > Add a driver to support the i.MX8MQ MIPI CSI receiver. The hardware
+> > side
+> > is based on
+> >  
+> > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
+> > 
+> > It's built as part of VIDEO_IMX7_CSI because that's documented to
+> > support
+> > i.MX8M platforms. This driver adds i.MX8MQ support where currently
+> > only the
+> > i.MX8MM platform has been supported.
+> > 
+> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > ---
+> >  drivers/staging/media/imx/Makefile           |   1 +
+> >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 949
+> > +++++++++++++++++++
+> >  2 files changed, 950 insertions(+)
+> >  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > 
+> > diff --git a/drivers/staging/media/imx/Makefile
+> > b/drivers/staging/media/imx/Makefile
+> > index 6ac33275cc97..19c2fc54d424 100644
+> > --- a/drivers/staging/media/imx/Makefile
+> > +++ b/drivers/staging/media/imx/Makefile
+> > @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
+> >  
+> >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
+> >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
+> > +obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
+> > diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > new file mode 100644
+> > index 000000000000..949b3ef7a20a
+> > --- /dev/null
+> > +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > @@ -0,0 +1,949 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Freescale i.MX8MQ SoC series MIPI-CSI2 receiver driver
+> 
+> Maybe they should be called NXP these days :-)
+> 
+> > + *
+> > + * Copyright (C) 2021 Purism SPC
+> > + */
+> > +
+> > +#include <linux/clk.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/errno.h>
+> > +#include <linux/interconnect.h>
+> > +#include <linux/interrupt.h>
+> > +#include <linux/io.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/mfd/syscon.h>
+> > +#include <linux/module.h>
+> > +#include <linux/mutex.h>
+> > +#include <linux/of.h>
+> > +#include <linux/of_device.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/pm_runtime.h>
+> > +#include <linux/regmap.h>
+> > +#include <linux/regulator/consumer.h>
+> > +#include <linux/reset.h>
+> > +#include <linux/spinlock.h>
+> > +
+> > +#include <media/v4l2-common.h>
+> > +#include <media/v4l2-device.h>
+> > +#include <media/v4l2-fwnode.h>
+> > +#include <media/v4l2-mc.h>
+> > +#include <media/v4l2-subdev.h>
+> > +
+> > +#define MIPI_CSI2_DRIVER_NAME                  "imx8mq-mipi-csi2"
+> > +#define
+> > MIPI_CSI2_SUBDEV_NAME                  MIPI_CSI2_DRIVER_NAME
+> > +
+> > +#define MIPI_CSI2_PAD_SINK                     0
+> > +#define MIPI_CSI2_PAD_SOURCE                   1
+> > +#define MIPI_CSI2_PADS_NUM                     2
+> > +
+> > +#define MIPI_CSI2_DEF_PIX_WIDTH                        640
+> > +#define MIPI_CSI2_DEF_PIX_HEIGHT               480
+> > +
+> > +/* Register map definition */
+> > +
+> > +/* i.MX8MQ CSI-2 controller CSR */
+> > +#define CSI2RX_CFG_NUM_LANES                   0x100
+> > +#define CSI2RX_CFG_DISABLE_DATA_LANES          0x104
+> > +#define CSI2RX_BIT_ERR                         0x108
+> > +#define CSI2RX_IRQ_STATUS                      0x10c
+> > +#define CSI2RX_IRQ_MASK                                0x110
+> > +#define CSI2RX_IRQ_MASK_ALL                    0x1ff
+> > +#define CSI2RX_IRQ_MASK_ULPS_STATUS_CHANGE     0x8
+> > +#define CSI2RX_ULPS_STATUS                     0x114
+> > +#define CSI2RX_PPI_ERRSOT_HS                   0x118
+> > +#define CSI2RX_PPI_ERRSOTSYNC_HS               0x11c
+> > +#define CSI2RX_PPI_ERRESC                      0x120
+> > +#define CSI2RX_PPI_ERRSYNCESC                  0x124
+> > +#define CSI2RX_PPI_ERRCONTROL                  0x128
+> > +#define CSI2RX_CFG_DISABLE_PAYLOAD_0           0x12c
+> > +#define CSI2RX_CFG_VID_P_FIFO_SEND_LEVEL       0x188
+> > +#define CSI2RX_CFG_DISABLE_PAYLOAD_1           0x130
+> > +
+> > +enum {
+> > +       ST_POWERED      = 1,
+> > +       ST_STREAMING    = 2,
+> > +       ST_SUSPENDED    = 4,
+> > +};
+> > +
+> > +static const char * const imx8mq_mipi_csi_clk_id[] = {
+> > +       "core",
+> > +       "esc",
+> > +       "ui",
+> > +};
+> > +
+> > +#define CSI2_NUM_CLKS  ARRAY_SIZE(imx8mq_mipi_csi_clk_id)
+> > +
+> > +#define        GPR_CSI2_1_RX_ENABLE            BIT(13)
+> > +#define        GPR_CSI2_1_VID_INTFC_ENB        BIT(12)
+> > +#define        GPR_CSI2_1_HSEL                 BIT(10)
+> > +#define        GPR_CSI2_1_CONT_CLK_MODE        BIT(8)
+> > +#define        GPR_CSI2_1_S_PRG_RXHS_SETTLE(x) (((x) & 0x3f) << 2)
+> > +
+> > +/*
+> > + * The send level configures the number of entries that must
+> > accumulate in
+> > + * the Pixel FIFO before the data will be transferred to the video
+> > output.
+> > + * See  
+> > https://community.nxp.com/t5/i-MX-Processors/IMX8M-MIPI-CSI-Host-Controller-send-level/m-p/864005/highlight/true#M131704
+> > + */
+> > +#define CSI2RX_SEND_LEVEL                      64
+> > +
+> > +struct csi_state {
+> > +       struct device *dev;
+> > +       void __iomem *regs;
+> > +       struct clk_bulk_data clks[CSI2_NUM_CLKS];
+> > +       struct reset_control *rst;
+> > +       struct regulator *mipi_phy_regulator;
+> > +
+> > +       struct v4l2_subdev sd;
+> > +       struct media_pad pads[MIPI_CSI2_PADS_NUM];
+> > +       struct v4l2_async_notifier notifier;
+> > +       struct v4l2_subdev *src_sd;
+> > +
+> > +       struct v4l2_fwnode_bus_mipi_csi2 bus;
+> > +
+> > +       struct mutex lock; /* Protect csi2_fmt, format_mbus, state,
+> > hs_settle*/
+> 
+> Missing space before */
+> 
+> > +       const struct csi2_pix_format *csi2_fmt;
+> > +       struct v4l2_mbus_framefmt format_mbus[MIPI_CSI2_PADS_NUM];
+> > +       u32 state;
+> > +       u32 hs_settle;
+> > +
+> > +       struct regmap *phy_gpr;
+> > +       u8 phy_gpr_reg;
+> > +
+> > +       struct icc_path                 *icc_path;
+> > +       s32                             icc_path_bw;
+> > +};
+> > +
+> > +/* ---------------------------------------------------------------
+> > --------------
+> > + * Format helpers
+> > + */
+> > +
+> > +struct csi2_pix_format {
+> > +       u32 code;
+> > +       u8 width;
+> > +};
+> > +
+> > +static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
+> > +       /* RAW (Bayer and greyscale) formats. */
+> > +       {
+> > +               .code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> > +               .width = 8,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SGBRG8_1X8,
+> > +               .width = 8,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SGRBG8_1X8,
+> > +               .width = 8,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SRGGB8_1X8,
+> > +               .width = 8,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_Y8_1X8,
+> > +               .width = 8,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SBGGR10_1X10,
+> > +               .width = 10,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SGBRG10_1X10,
+> > +               .width = 10,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SGRBG10_1X10,
+> > +               .width = 10,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SRGGB10_1X10,
+> > +               .width = 10,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_Y10_1X10,
+> > +               .width = 10,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SBGGR12_1X12,
+> > +               .width = 12,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SGBRG12_1X12,
+> > +               .width = 12,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SGRBG12_1X12,
+> > +               .width = 12,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SRGGB12_1X12,
+> > +               .width = 12,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_Y12_1X12,
+> > +               .width = 12,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SBGGR14_1X14,
+> > +               .width = 14,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SGBRG14_1X14,
+> > +               .width = 14,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SGRBG14_1X14,
+> > +               .width = 14,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_SRGGB14_1X14,
+> > +               .width = 14,
+> > +       }, {
+> > +       /* YUV formats */
+> > +               .code = MEDIA_BUS_FMT_YUYV8_2X8,
+> > +               .width = 16,
+> > +       }, {
+> > +               .code = MEDIA_BUS_FMT_YUYV8_1X16,
+> > +               .width = 16,
+> > +       }
+> > +};
+> > +
+> > +static const struct csi2_pix_format *find_csi2_format(u32 code)
+> > +{
+> > +       unsigned int i;
+> > +
+> > +       for (i = 0; i < ARRAY_SIZE(imx8mq_mipi_csi_formats); i++)
+> > +               if (code == imx8mq_mipi_csi_formats[i].code)
+> > +                       return &imx8mq_mipi_csi_formats[i];
+> > +       return NULL;
+> > +}
+> > +
+> > +/* ---------------------------------------------------------------
+> > --------------
+> > + * Hardware configuration
+> > + */
+> > +
+> > +static inline void imx8mq_mipi_csi_write(struct csi_state *state,
+> > u32 reg, u32 val)
+> > +{
+> > +       writel(val, state->regs + reg);
+> > +}
+> > +
+> > +static int imx8mq_mipi_csi_sw_reset(struct csi_state *state)
+> > +{
+> > +       int ret;
+> > +
+> > +       ret = reset_control_assert(state->rst);
+> 
+> That's peculiar, is there no need to deassert reset ?
+
+I tried different things here that would look more intuitive, but in
+the end only this worked, which is directly taken from
+https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0#n105
+(actual register value read from DT) that results in exactly the same
+register bits set like this assertation.
+
+
+
 
