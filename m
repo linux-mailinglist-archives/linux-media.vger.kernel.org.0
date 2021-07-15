@@ -2,240 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 195EC3CA135
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 17:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0858D3CA3E6
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 19:23:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238250AbhGOPPi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jul 2021 11:15:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34610 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238230AbhGOPPg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jul 2021 11:15:36 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EDC0C06175F;
-        Thu, 15 Jul 2021 08:12:43 -0700 (PDT)
-Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:674e:7061:b49f:bcc0])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6FAB31F43A00;
-        Thu, 15 Jul 2021 16:12:39 +0100 (BST)
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        festevam@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        andrzej.p@collabora.com, jc@kynesim.co.uk,
-        jernej.skrabec@gmail.com, nicolas@ndufresne.ca, cphealy@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v1 2/2] media: hantro: Add scaling lists feature
-Date:   Thu, 15 Jul 2021 17:12:23 +0200
-Message-Id: <20210715151223.656453-3-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210715151223.656453-1-benjamin.gaignard@collabora.com>
-References: <20210715151223.656453-1-benjamin.gaignard@collabora.com>
+        id S233495AbhGOR0b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jul 2021 13:26:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53656 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229786AbhGOR0b (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 15 Jul 2021 13:26:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CCBE3613C3;
+        Thu, 15 Jul 2021 17:23:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1626369818;
+        bh=OGUJau3scHdd64RSx5cFSqUwQcJpiG2djIeuei8VZG8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=OdPNYAcFfgbsuPxqoZtCZvpLrCWmmtm+h5G/QUcmG0WayfrHgisLKB6+a3IohCqN9
+         kQc7+VLwXw7leCgLPAi8tZlm1GM0OROs7iRU7SaIJVOlhMlwjBTFDDtUMYnvyQOy29
+         raqTKd266KLvoDMSb/t2A/iuIXEZk7WZqZ8HmdFyi6gWHUz5Ne3PhyK3x5YgoHsLj/
+         RvnZBWQDX9FspIEqy8YdwLUtynF4je2ZjCiPTEdTTAcNOvG0GZiKhukBJoUnLMjSY1
+         zWIao0UUb3EMU5VarklADbrjKbVdxu4xnL378DY3Kf9uqchs0dk/ki8TA79hjDU31t
+         iXqapcLUNqFsQ==
+Date:   Thu, 15 Jul 2021 12:23:36 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Dongdong Liu <liudongdong3@huawei.com>
+Cc:     hch@infradead.org, kw@linux.com, linux-pci@vger.kernel.org,
+        rajur@chelsio.com, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org, netdev@vger.kernel.org,
+        Logan Gunthorpe <logang@deltatee.com>
+Subject: Re: [PATCH V5 4/6] PCI: Enable 10-Bit tag support for PCIe Endpoint
+ devices
+Message-ID: <20210715172336.GA1972959@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1624271242-111890-5-git-send-email-liudongdong3@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the bitstream embedded scaling lists allow the driver to use
-them for decode the frames.
-The scaling lists are expected to be in raster scan order (i.e. not up
-right diagonal scan order)
-Allocate the memory needed to store lists.
+[+cc Logan]
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/staging/media/hantro/hantro_drv.c     |  8 +--
- .../staging/media/hantro/hantro_g2_hevc_dec.c | 52 +++++++++++++++++++
- drivers/staging/media/hantro/hantro_hevc.c    | 21 ++++++++
- drivers/staging/media/hantro/hantro_hw.h      |  3 ++
- 4 files changed, 81 insertions(+), 3 deletions(-)
+On Mon, Jun 21, 2021 at 06:27:20PM +0800, Dongdong Liu wrote:
+> 10-Bit Tag capability, introduced in PCIe-4.0 increases the total Tag
+> field size from 8 bits to 10 bits.
+> 
+> For platforms where the RC supports 10-Bit Tag Completer capability,
+> it is highly recommended for platform firmware or operating software
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 8ad074a464fe..5610b7821a54 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -267,9 +267,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
- 		    sps->bit_depth_luma_minus8 != 2)
- 			/* Only 8-bit or 10-bit is supported */
- 			return -EINVAL;
--		if (sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED)
--			/* No scaling support */
--			return -EINVAL;
- 	}
- 	return 0;
- }
-@@ -451,6 +448,11 @@ static const struct hantro_ctrl controls[] = {
- 		.cfg = {
- 			.id = V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS,
- 		},
-+	}, {
-+		.codec = HANTRO_HEVC_DECODER,
-+		.cfg = {
-+			.id = V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX,
-+		},
- 	}, {
- 		.codec = HANTRO_HEVC_DECODER,
- 		.cfg = {
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index 90de74aa6b13..f95135ad553c 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -608,6 +608,56 @@ static void set_buffers(struct hantro_ctx *ctx)
- 	hantro_write_addr(vpu, G2_TILE_BSD, ctx->hevc_dec.tile_bsd.dma);
- }
- 
-+static void prepare_scaling_list_buffer(struct hantro_ctx *ctx)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
-+	const struct v4l2_ctrl_hevc_scaling_matrix *sc = ctrls->scaling;
-+	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
-+	u8 *p = ((u8 *)ctx->hevc_dec.scaling_lists.cpu);
-+	unsigned int scaling_list_enabled;
-+	unsigned int i, j, k;
-+
-+	scaling_list_enabled = !!(sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED);
-+	hantro_reg_write(vpu, &g2_scaling_list_e, scaling_list_enabled);
-+
-+	if (!scaling_list_enabled)
-+		return;
-+
-+	for (i = 0; i < ARRAY_SIZE(sc->scaling_list_dc_coef_16x16); i++)
-+		*p++ = sc->scaling_list_dc_coef_16x16[i];
-+
-+	for (i = 0; i < ARRAY_SIZE(sc->scaling_list_dc_coef_32x32); i++)
-+		*p++ = sc->scaling_list_dc_coef_32x32[i];
-+
-+	/* 128-bit boundary */
-+	p += 8;
-+
-+	/* write scaling lists column by column */
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 4; j++)
-+			for (k = 0; k < 4; k++)
-+				*p++ = sc->scaling_list_4x4[i][4 * k + j];
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k++)
-+				*p++ = sc->scaling_list_8x8[i][8 * k + j];
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k++)
-+				*p++ = sc->scaling_list_16x16[i][8 * k + j];
-+
-+	for (i = 0; i < 2; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k++)
-+				*p++ = sc->scaling_list_32x32[i][8 * k + j];
-+
-+	hantro_write_addr(vpu, HEVC_SCALING_LIST, ctx->hevc_dec.scaling_lists.dma);
-+}
-+
- static void hantro_g2_check_idle(struct hantro_dev *vpu)
- {
- 	int i;
-@@ -668,6 +718,8 @@ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
- 	set_buffers(ctx);
- 	prepare_tile_info_buffer(ctx);
- 
-+	prepare_scaling_list_buffer(ctx);
-+
- 	hantro_end_prepare_run(ctx);
- 
- 	hantro_reg_write(vpu, &g2_mode, HEVC_DEC_MODE);
-diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-index 4e816ea73018..95f765d9ff4e 100644
---- a/drivers/staging/media/hantro/hantro_hevc.c
-+++ b/drivers/staging/media/hantro/hantro_hevc.c
-@@ -20,6 +20,8 @@
- /* tile border coefficients of filter */
- #define VERT_SAO_RAM_SIZE 48 /* bytes per pixel */
- 
-+#define SCALING_LIST_SIZE (16 * 64)
-+
- #define MAX_TILE_COLS 20
- #define MAX_TILE_ROWS 22
- 
-@@ -296,6 +298,11 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
- 	if (WARN_ON(!ctrls->decode_params))
- 		return -EINVAL;
- 
-+	ctrls->scaling =
-+		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX);
-+	if (WARN_ON(!ctrls->scaling))
-+		return -EINVAL;
-+
- 	ctrls->sps =
- 		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SPS);
- 	if (WARN_ON(!ctrls->sps))
-@@ -324,6 +331,12 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx)
- 				  hevc_dec->tile_sizes.dma);
- 	hevc_dec->tile_sizes.cpu = NULL;
- 
-+	if (hevc_dec->scaling_lists.cpu)
-+		dma_free_coherent(vpu->dev, hevc_dec->scaling_lists.size,
-+				  hevc_dec->scaling_lists.cpu,
-+				  hevc_dec->scaling_lists.dma);
-+	hevc_dec->scaling_lists.cpu = NULL;
-+
- 	if (hevc_dec->tile_filter.cpu)
- 		dma_free_coherent(vpu->dev, hevc_dec->tile_filter.size,
- 				  hevc_dec->tile_filter.cpu,
-@@ -367,6 +380,14 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx)
- 
- 	hevc_dec->tile_sizes.size = size;
- 
-+	hevc_dec->scaling_lists.cpu = dma_alloc_coherent(vpu->dev, SCALING_LIST_SIZE,
-+							 &hevc_dec->scaling_lists.dma,
-+							 GFP_KERNEL);
-+	if (!hevc_dec->scaling_lists.cpu)
-+		return -ENOMEM;
-+
-+	hevc_dec->scaling_lists.size = SCALING_LIST_SIZE;
-+
- 	hantro_hevc_ref_init(ctx);
- 
- 	return 0;
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index d8126f8178f5..1becc22af0f9 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -108,6 +108,7 @@ struct hantro_h264_dec_hw_ctx {
-  */
- struct hantro_hevc_dec_ctrls {
- 	const struct v4l2_ctrl_hevc_decode_params *decode_params;
-+	const struct v4l2_ctrl_hevc_scaling_matrix *scaling;
- 	const struct v4l2_ctrl_hevc_sps *sps;
- 	const struct v4l2_ctrl_hevc_pps *pps;
- 	u32 hevc_hdr_skip_length;
-@@ -120,6 +121,7 @@ struct hantro_hevc_dec_ctrls {
-  * @tile_sao:		Tile SAO buffer
-  * @tile_bsd:		Tile BSD control buffer
-  * @ref_bufs:		Internal reference buffers
-+ * @scaling_lists:	Scaling lists buffer
-  * @ref_bufs_poc:	Internal reference buffers picture order count
-  * @ref_bufs_used:	Bitfield of used reference buffers
-  * @ctrls:		V4L2 controls attached to a run
-@@ -131,6 +133,7 @@ struct hantro_hevc_dec_hw_ctx {
- 	struct hantro_aux_buf tile_sao;
- 	struct hantro_aux_buf tile_bsd;
- 	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
-+	struct hantro_aux_buf scaling_lists;
- 	int ref_bufs_poc[NUM_REF_PICTURES];
- 	u32 ref_bufs_used;
- 	struct hantro_hevc_dec_ctrls ctrls;
--- 
-2.25.1
+Recommended by whom?  If the spec recommends it, we should provide the
+citation.
 
+> that configures PCIe hierarchies to Set the 10-Bit Tag Requester Enable
+> bit automatically in Endpoints with 10-Bit Tag Requester capability. This
+> enables the important class of 10-Bit Tag capable adapters that send
+> Memory Read Requests only to host memory.
+
+What is the implication for P2PDMA?  What happens if we enable 10-bit
+tags for device A, and A generates Mem Read Requests to device B,
+which does not support 10-bit tags?
+
+> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/pci/probe.c | 33 +++++++++++++++++++++++++++++++++
+>  include/linux/pci.h |  2 ++
+>  2 files changed, 35 insertions(+)
+> 
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index 0208865..33241fb 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -2048,6 +2048,38 @@ int pci_configure_extended_tags(struct pci_dev *dev, void *ign)
+>  	return 0;
+>  }
+>  
+> +static void pci_configure_10bit_tags(struct pci_dev *dev)
+> +{
+> +	struct pci_dev *bridge;
+> +
+> +	if (!(dev->pcie_devcap2 & PCI_EXP_DEVCAP2_10BIT_TAG_COMP))
+> +		return;
+> +
+> +	if (pci_pcie_type(dev) == PCI_EXP_TYPE_ROOT_PORT) {
+> +		dev->ext_10bit_tag = 1;
+> +		return;
+> +	}
+> +
+> +	bridge = pci_upstream_bridge(dev);
+> +	if (bridge && bridge->ext_10bit_tag)
+> +		dev->ext_10bit_tag = 1;
+> +
+> +	/*
+> +	 * 10-Bit Tag Requester Enable in Device Control 2 Register is RsvdP
+> +	 * for VF.
+> +	 */
+> +	if (dev->is_virtfn)
+> +		return;
+> +
+> +	if (pci_pcie_type(dev) == PCI_EXP_TYPE_ENDPOINT &&
+> +	    dev->ext_10bit_tag == 1 &&
+> +	    (dev->pcie_devcap2 & PCI_EXP_DEVCAP2_10BIT_TAG_REQ)) {
+> +		pci_dbg(dev, "enabling 10-Bit Tag Requester\n");
+> +		pcie_capability_set_word(dev, PCI_EXP_DEVCTL2,
+> +					PCI_EXP_DEVCTL2_10BIT_TAG_REQ_EN);
+> +	}
+> +}
+> +
+>  /**
+>   * pcie_relaxed_ordering_enabled - Probe for PCIe relaxed ordering enable
+>   * @dev: PCI device to query
+> @@ -2184,6 +2216,7 @@ static void pci_configure_device(struct pci_dev *dev)
+>  {
+>  	pci_configure_mps(dev);
+>  	pci_configure_extended_tags(dev, NULL);
+> +	pci_configure_10bit_tags(dev);
+
+I think 10-bit tag support should be integrated with extended (8-bit)
+tag support instead of having two separate functions.
+
+If we have "no_ext_tags" set because some device doesn't support 8-bit
+tags correctly, we probably shouldn't try to enable 10-bit tags
+either.
+
+>  	pci_configure_relaxed_ordering(dev);
+>  	pci_configure_ltr(dev);
+>  	pci_configure_eetlp_prefix(dev);
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index de1fc24..445d102 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -393,6 +393,8 @@ struct pci_dev {
+>  #endif
+>  	unsigned int	eetlp_prefix_path:1;	/* End-to-End TLP Prefix */
+>  
+> +	unsigned int	ext_10bit_tag:1; /* 10-Bit Tag Completer Supported
+> +					    from root to here */
+>  	pci_channel_state_t error_state;	/* Current connectivity state */
+>  	struct device	dev;			/* Generic device interface */
+>  
+> -- 
+> 2.7.4
+> 
