@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 386133C9BAB
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 11:26:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 774AA3C9BB1
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 11:27:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241044AbhGOJ2e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jul 2021 05:28:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39654 "EHLO
+        id S241077AbhGOJ2h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jul 2021 05:28:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241041AbhGOJ2b (ORCPT
+        with ESMTP id S236202AbhGOJ2g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jul 2021 05:28:31 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47318C061762;
-        Thu, 15 Jul 2021 02:25:38 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id x21-20020a17090aa395b029016e25313bfcso3641249pjp.2;
-        Thu, 15 Jul 2021 02:25:38 -0700 (PDT)
+        Thu, 15 Jul 2021 05:28:36 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5ECC06175F;
+        Thu, 15 Jul 2021 02:25:42 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id 37so5509113pgq.0;
+        Thu, 15 Jul 2021 02:25:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=/WxDN386m/02gF4IltuUVKKXTkTakJEWTUA4LPWTxX0=;
-        b=aw4ENVWZQ1zX0VvMNM8DIFs06jP6E2MUjh9j4QMKqeZlUbZ3n5wFLj22beW4CBOIW9
-         6wbvUVXLtg+1v7Bi7fw8B+YhPKRFm/3obCUjKOzCjhM5Am90MfChfk7NclX4nhXBIQ3S
-         VINKW2kpgpn4dJ+6GqNByZyXIwGwr6luGqQ/KjCzBJ7OPbAck20qUuE8yoHOmrxEi7tl
-         piGUUT5LY1XAEV7eaHZu73tJT+hWrl+l1dAfh9olyrt6xasy4NK3yiHRRIYY/WWhLQ3L
-         2WUW9eIbXsw54KLTYuAYCn5WhLAoBBgOq3jiyF/UXEAkHEPJaBHLo/txOFaaFBQQbkHU
-         WC0g==
+        bh=hAPQ7MKC9CHG6U3K/a3TvqmDvmez6ZMEcoHbCxgEOYg=;
+        b=P9aP8xXebYqM5eL86zMabjl81y3vJ5Hf8Luzlw1sM4prphVoBHQ9J9LwBfmc5AQErm
+         47bmfMcZOjqOq/0MdKJNowvyRKiMC8xJIp4vRSKe0mwuUZMLVXTFQmPIM2FQe0XLYwX2
+         92w989aQ7EKAE4KMzOfqnNjfwEguT1TqWfZTGlcdkrIJWTmzDyXInGxxp7ING0Bt4K03
+         NEdc1m1cerCbX6cl5dTXsf+cFnoqUkPG4RW6bHnxH4KgkE/qJ18VdwtIFi5Qgr9RACty
+         zFOPUpYpyDUU+HhfSiJvD5yBhMx9LQeduRlujeKIZQ4m/sdHE2WVOzrEIZL2MwoEBKdj
+         z4RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=/WxDN386m/02gF4IltuUVKKXTkTakJEWTUA4LPWTxX0=;
-        b=LPOdeJzYR88JiTyHhTDf6u0JFQUYxIBSu5cwqJdKZoAXlpzlqGD1ZJtPv7SmKDrlzV
-         Ll0UkdXLQjoFDWqZD0tq5zcZQ3yZZvyFan7YFQgWY0hvvAaC7FBB9HzMECLQ5vjsnMAD
-         BLCjK3AxFtPrElFVY0VMCNxTQwMwdJaXojrwTqsT8X9SBEALTvMxnTiyPXWc1YcSZ01u
-         R8W2Cyqdc2z1PeIq9UwiCdtyLXWVlvm4bk3aUT69R1XI67fhIs8yr3vjVOKYwlsuKQVu
-         OiUA2+sPLS5ebTf6KKgJ/KZe75gxbzb+hRn7y3OLjERDULKQ/PCTYqSPYWNEyqGO5koF
-         QonQ==
-X-Gm-Message-State: AOAM532xmB8lG5Ljpr6fhUsogvGvHF3IqU0/ZeqDKhiLWvQiPIvb2cfn
-        UNFTzA/mFNqTgIU8TCl6FUA=
-X-Google-Smtp-Source: ABdhPJzGHmcpLCFnW1tT+X1on+iZik+M4VSuDgwoUBt1NqomIQwJJCgeRxU0xl56bWUfRLSsk7elWg==
-X-Received: by 2002:a17:90a:5306:: with SMTP id x6mr3383252pjh.59.1626341137920;
-        Thu, 15 Jul 2021 02:25:37 -0700 (PDT)
+        bh=hAPQ7MKC9CHG6U3K/a3TvqmDvmez6ZMEcoHbCxgEOYg=;
+        b=IDq3njBF2QUlrjop5zPi49k8jHJbeQ46s+vtbwbqJK12ZrWSyANPp5PGgBir/g4gqB
+         LnLUcSXbQhuScSKQTa/BDxacwyWgMRbREIOwpzcN1t07LcaebsvPpE4ZOZp8Yxuyj7Nl
+         +VfVAPBAT6yfjQ4ZBYLt5upWuWZrCfulJN95VovcbanrlO/prsEZCCEbfXZ8CkBp29jJ
+         uLkmB19MLuDBPk3SbwJKA4bbPVmsjFnBoDnvm963EjBHoFKBIlEX6eokyisodWHbfU/H
+         K3ev+5r570utkt6J6ZExFUH9+fNY8i12QFjVShBQ27d9KuKq0Q6aJaH22tPDSygJZutz
+         XJnw==
+X-Gm-Message-State: AOAM533MeroCpg6PGfTiLER3sK7EBJqQCi7LWsZTSkltnFsoVE36dDPA
+        ZBJiPoiZJnkXS9IvAySAzNA=
+X-Google-Smtp-Source: ABdhPJxfZg3HBz3NZSalF2W5+UNgrMbPPOljW0yieY3sK5IsSH20lECUe4fiRAka40yA/dec/ZTydg==
+X-Received: by 2002:a63:5117:: with SMTP id f23mr3612640pgb.200.1626341142320;
+        Thu, 15 Jul 2021 02:25:42 -0700 (PDT)
 Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
-        by smtp.gmail.com with ESMTPSA id 11sm6662503pge.7.2021.07.15.02.25.33
+        by smtp.gmail.com with ESMTPSA id 11sm6662503pge.7.2021.07.15.02.25.38
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 15 Jul 2021 02:25:37 -0700 (PDT)
+        Thu, 15 Jul 2021 02:25:42 -0700 (PDT)
 From:   dillon.minfei@gmail.com
 To:     mchehab@kernel.org, mchehab+huawei@kernel.org,
         hverkuil-cisco@xs4all.nl, ezequiel@collabora.com, gnurou@gmail.com,
@@ -58,9 +58,9 @@ Cc:     patrice.chotard@foss.st.com, hugues.fruchet@foss.st.com,
         linux-stm32@st-md-mailman.stormreply.com,
         linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org, Dillon Min <dillon.minfei@gmail.com>
-Subject: [PATCH v2 4/9] ARM: dts: stm32: Enable DMA2D support on STM32F429 MCU
-Date:   Thu, 15 Jul 2021 17:24:23 +0800
-Message-Id: <1626341068-20253-15-git-send-email-dillon.minfei@gmail.com>
+Subject: [PATCH v2 5/9] ARM: dts: stm32: Enable DMA2D on STM32F469-DISCO board
+Date:   Thu, 15 Jul 2021 17:24:24 +0800
+Message-Id: <1626341068-20253-16-git-send-email-dillon.minfei@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1626341068-20253-1-git-send-email-dillon.minfei@gmail.com>
 References: <1626341068-20253-1-git-send-email-dillon.minfei@gmail.com>
@@ -70,36 +70,30 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dillon Min <dillon.minfei@gmail.com>
 
-Enable DMA2D on STM32F429 MCU.
+Enable DMA2D on STM32F469-DISCO board.
 
 Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
 ---
 v2: no change
 
- arch/arm/boot/dts/stm32f429.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ arch/arm/boot/dts/stm32f469-disco.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/arm/boot/dts/stm32f429.dtsi b/arch/arm/boot/dts/stm32f429.dtsi
-index 8748d5850298..a06437f2210d 100644
---- a/arch/arm/boot/dts/stm32f429.dtsi
-+++ b/arch/arm/boot/dts/stm32f429.dtsi
-@@ -791,6 +791,16 @@
- 			status = "disabled";
- 		};
+diff --git a/arch/arm/boot/dts/stm32f469-disco.dts b/arch/arm/boot/dts/stm32f469-disco.dts
+index 8c982ae79f43..da2f80e73f43 100644
+--- a/arch/arm/boot/dts/stm32f469-disco.dts
++++ b/arch/arm/boot/dts/stm32f469-disco.dts
+@@ -132,6 +132,10 @@
+ 	clock-frequency = <8000000>;
+ };
  
-+		dma2d: dma2d@4002b000 {
-+			compatible = "st,stm32-dma2d";
-+			reg = <0x4002b000 0xc00>;
-+			interrupts = <90>;
-+			resets = <&rcc STM32F4_AHB1_RESET(DMA2D)>;
-+			clocks = <&rcc 0 STM32F4_AHB1_CLOCK(DMA2D)>;
-+			clock-names = "dma2d";
-+			status = "disabled";
-+		};
++&dma2d {
++	status = "okay";
++};
 +
- 		rng: rng@50060800 {
- 			compatible = "st,stm32-rng";
- 			reg = <0x50060800 0x400>;
+ &dsi {
+ 	#address-cells = <1>;
+ 	#size-cells = <0>;
 -- 
 2.7.4
 
