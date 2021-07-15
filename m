@@ -2,178 +2,266 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9940B3C9DE2
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 13:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FF3B3C9EBF
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 14:36:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231296AbhGOLmu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jul 2021 07:42:50 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47546 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230343AbhGOLmu (ORCPT
+        id S229946AbhGOMjQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jul 2021 08:39:16 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:6793 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229635AbhGOMjQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jul 2021 07:42:50 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED8D6340;
-        Thu, 15 Jul 2021 13:39:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1626349196;
-        bh=wBAewmusucblP5NodrsdXM3hRJXGzt/TXfbaQVW+vBk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BUBeAG07O7iPqoaQeqox+Y1uMLSaF/VV/o6dJ/cJ+Jszo7B8w7J4YGZx+ClsDSwu/
-         OFA+7haZ9MYam4AigQTrW9cPqs+pEdDuh0egIjt+G3uA6+rLM6S4prjG0qtJutBU0o
-         D5dGjz/0YysRlibPPApvid950mgNHkVS+Eaw932Q=
-Date:   Thu, 15 Jul 2021 14:39:54 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     Dennis Rachui <drachui@de.adit-jv.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
-Message-ID: <YPAeirL/qtmNYx99@pendragon.ideasonboard.com>
-References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
- <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
- <YOoiZM+oicZBD4o1@pendragon.ideasonboard.com>
- <YO1f+SOTBS44/Wf0@oden.dyn.berto.se>
- <YO8vs4V/lhVA8mY9@pendragon.ideasonboard.com>
- <YPAUoQ8KmmAE3fWD@oden.dyn.berto.se>
+        Thu, 15 Jul 2021 08:39:16 -0400
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 15 Jul 2021 05:36:22 -0700
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 15 Jul 2021 05:36:20 -0700
+X-QCInternal: smtphost
+Received: from c-mansur-linux.qualcomm.com ([10.204.90.208])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 15 Jul 2021 18:05:58 +0530
+Received: by c-mansur-linux.qualcomm.com (Postfix, from userid 461723)
+        id 4D61322696; Thu, 15 Jul 2021 18:05:57 +0530 (IST)
+From:   Mansur Alisha Shaik <mansur@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, dikshita@codeaurora.org,
+        Mansur Alisha Shaik <mansur@codeaurora.org>
+Subject: [V2] venus: vdec: decoded picture buffer handling during reconfig sequence
+Date:   Thu, 15 Jul 2021 18:05:55 +0530
+Message-Id: <20210715123555.26763-1-mansur@codeaurora.org>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YPAUoQ8KmmAE3fWD@oden.dyn.berto.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+In existing implementation, driver is freeing and un-mapping all the
+decoded picture buffers(DPB) as part of dynamic resolution change(DRC)
+handling. As a result, when firmware try to access the DPB buffer, from
+previous sequence, SMMU context fault is seen due to the buffer being
+already unmapped.
 
-On Thu, Jul 15, 2021 at 12:57:37PM +0200, Niklas Söderlund wrote:
-> On 2021-07-14 21:40:51 +0300, Laurent Pinchart wrote:
-> > On Tue, Jul 13, 2021 at 11:42:17AM +0200, Niklas Söderlund wrote:
-> > > On 2021-07-11 01:42:44 +0300, Laurent Pinchart wrote:
-> > > > On Fri, Jul 09, 2021 at 04:20:40PM +0200, Niklas Söderlund wrote:
-> > > > > On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
-> > > > > > Verify that streaming is not active before setting the pad format.
-> > > > > > 
-> > > > > > According to the VIDIOC documentation [1] changes to the active
-> > > > > > format of a media pad via the VIDIOC_SUBDEV_S_FMT ioctl are
-> > > > > > applied to the underlying hardware.
-> > > > > > In rcar-csi2 a format change only applies to hardware, when the
-> > > > > > pipeline is started. While the device is not in use, it is therefore
-> > > > > > okay to update the format.
-> > > > > > 
-> > > > > > However, when the pipeline is active, this leads to a format
-> > > > > > mismatch between driver and device.
-> > > > > > Other applications can query the format with
-> > > > > > VIDIOC_SUBDEV_G_FMT at any time and would be reported
-> > > > > > a format that does not fit the current stream.
-> > > > > > 
-> > > > > > This commit prevents format update while streaming is active
-> > > > > > and returns -EBUSY to user space, as suggested by [1].
-> > > > > > 
-> > > > > > [1] Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
-> > > > > 
-> > > > > I like that this is addressed, but I wonder is this not something that 
-> > > > > should be fixed in the V4L2 core and not in drivers?
-> > > > 
-> > > > Some drivers may support format changes during streaming (that's allowed
-> > > > by the V4L2 API, I'm not sure if it's used anywhere though). While I'd
-> > > > favour not duplicating the same logic in different (and differently
-> > > > buggy) ways in drivers, I'm not sure how this could be implemented in a
-> > > > sane way in the V4L2 core in its current state.
-> > > 
-> > > I understand it's possible from some devices to support to format 
-> > > changes during streaming, but as you point out it's the exception and 
-> > > not the rule, if used at all.
-> > > 
-> > > So my point is if we start to enforce this in drivers we are headed down 
-> > > a road where this will be messier to clean up. Would it not make more 
-> > > sens to default the V4L2 core to disallow format changes while streaming 
-> > > and add a new flag to V4L2_SUBDEV_CAP_ to signal that the subdevice 
-> > > supports format changes while streaming?
-> > > 
-> > > We already have V4L2_SUBDEV_CAP_RO_SUBDEV to signal that a subdevice 
-> > > only supports read-only operations so I think it would not be too hard 
-> > > to move this functionality into the core?
-> > 
-> > Yes, that's something we could try. The subdev core will then need to
-> > track the streaming state, which may require wrapping the .s_stream()
-> > call. Locking should then also likely be handled by the core. Probably
-> > nothing impossible, but quite a bit of work. Any volunteer ? :-)
-> 
-> We already track the stream count in struct media_entity and it's 
-> incremented/decremented under the media device lock by 
-> media_pipeline_start() and media_pipeline_stop(). So I don't think it's 
-> such a hard feature to add.
-> 
-> The large task IMHO is to figure out if we have any subdevice in tree 
-> that allows format changes while streaming and that would need to set 
-> this new V4L2_SUBDEV_CAP_ flag.
+With this change, driver defines ownership of each DPB buffer. If a buffer
+is owned by firmware, driver would skip from un-mapping the same.
 
-Many subdevs allow format changes during streaming. The question is
-whether any of them do so knowingly, or if they're all buggy :-) I'd be
-surprised if there were more than a couple of drivers that actually
-support this correctly.
+Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
 
-> > > > > > Note: after creation of this commit, it was noticed that Steve
-> > > > > > Longerbeam has a very similar solution in his fork.
-> > > > > > 
-> > > > > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
-> > > > > > Cc: Steve Longerbeam <slongerbeam@gmail.com>
-> > > > > > Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
-> > > > > > ---
-> > > > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 ++++++++++++++++++++-
-> > > > > >  1 file changed, 20 insertions(+), 1 deletion(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > > > > index e28eff0..98152e1 100644
-> > > > > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > > > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > > > > @@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
-> > > > > >  {
-> > > > > >  	struct rcar_csi2 *priv = sd_to_csi2(sd);
-> > > > > >  	struct v4l2_mbus_framefmt *framefmt;
-> > > > > > +	int ret = 0;
-> > > > > > +
-> > > > > > +	mutex_lock(&priv->lock);
-> > > > > >  
-> > > > > >  	if (!rcsi2_code_to_fmt(format->format.code))
-> > > > > >  		format->format.code = rcar_csi2_formats[0].code;
-> > > > > >  
-> > > > > >  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > > > > > +
-> > > > > > +		/*
-> > > > > > +		 * Do not apply changes to active format while streaming.
-> > > > > > +		 *
-> > > > > > +		 * Since video streams could be forwarded from sink pad to any
-> > > > > > +		 * source pad (depending on CSI-2 channel routing), all
-> > > > > > +		 * media pads are effected by this rule.
-> > > > > > +		 */
-> > > > > > +		if (priv->stream_count > 0) {
-> > > > > > +			ret = -EBUSY;
-> > > > > > +			goto out;
-> > > > > > +		}
-> > > > > > +
-> > > > > >  		priv->mf = format->format;
-> > > > > >  	} else {
-> > > > > >  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
-> > > > > >  		*framefmt = format->format;
-> > > > > >  	}
-> > > > > >  
-> > > > > > -	return 0;
-> > > > > > +out:
-> > > > > > +	mutex_unlock(&priv->lock);
-> > > > > > +
-> > > > > > +	return ret;
-> > > > > >  }
-> > > > > >  
-> > > > > >  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
+Changes in V2:
+- Fixed proto type warnings reported by kernel test robot
+---
+ drivers/media/platform/qcom/venus/core.h    |  3 ++
+ drivers/media/platform/qcom/venus/helpers.c | 38 ++++++++++++++++-----
+ drivers/media/platform/qcom/venus/helpers.h | 18 ++++++++++
+ drivers/media/platform/qcom/venus/vdec.c    | 25 +++++++++++++-
+ 4 files changed, 74 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 8df2d497d706..7ecbf9ed1acb 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -450,6 +450,7 @@ struct venus_inst {
+ 	bool next_buf_last;
+ 	bool drain_active;
+ 	enum venus_inst_modes flags;
++	u32 dpb_out_tag[VB2_MAX_FRAME];
+ };
+ 
+ #define IS_V1(core)	((core)->res->hfi_version == HFI_VERSION_1XX)
+@@ -484,4 +485,6 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
+ 	return NULL;
+ }
+ 
++void dpb_out_tag_init(struct venus_inst *inst);
++
+ #endif
+diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+index 1fe6d463dc99..4d308be712d7 100644
+--- a/drivers/media/platform/qcom/venus/helpers.c
++++ b/drivers/media/platform/qcom/venus/helpers.c
+@@ -21,14 +21,6 @@
+ #define NUM_MBS_720P	(((1280 + 15) >> 4) * ((720 + 15) >> 4))
+ #define NUM_MBS_4K	(((4096 + 15) >> 4) * ((2304 + 15) >> 4))
+ 
+-struct intbuf {
+-	struct list_head list;
+-	u32 type;
+-	size_t size;
+-	void *va;
+-	dma_addr_t da;
+-	unsigned long attrs;
+-};
+ 
+ bool venus_helper_check_codec(struct venus_inst *inst, u32 v4l2_pixfmt)
+ {
+@@ -95,9 +87,16 @@ int venus_helper_queue_dpb_bufs(struct venus_inst *inst)
+ 		fdata.device_addr = buf->da;
+ 		fdata.buffer_type = buf->type;
+ 
++		if (buf->owned_by == FIRMWARE)
++			continue;
++
++		fdata.clnt_data = buf->dpb_out_tag;
++
+ 		ret = hfi_session_process_buf(inst, &fdata);
+ 		if (ret)
+ 			goto fail;
++
++		buf->owned_by = FIRMWARE;
+ 	}
+ 
+ fail:
+@@ -110,18 +109,37 @@ int venus_helper_free_dpb_bufs(struct venus_inst *inst)
+ 	struct intbuf *buf, *n;
+ 
+ 	list_for_each_entry_safe(buf, n, &inst->dpbbufs, list) {
++		if (buf->owned_by == FIRMWARE)
++			continue;
++
++		inst->dpb_out_tag[buf->dpb_out_tag - VB2_MAX_FRAME] = 0;
++
+ 		list_del_init(&buf->list);
+ 		dma_free_attrs(inst->core->dev, buf->size, buf->va, buf->da,
+ 			       buf->attrs);
+ 		kfree(buf);
+ 	}
+ 
+-	INIT_LIST_HEAD(&inst->dpbbufs);
+ 
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(venus_helper_free_dpb_bufs);
+ 
++int venus_helper_get_free_dpb_tag(struct venus_inst *inst)
++{
++	u32 i;
++
++	for (i = 0; i < VB2_MAX_FRAME; i++) {
++		if (inst->dpb_out_tag[i] == 0) {
++			inst->dpb_out_tag[i] = i + VB2_MAX_FRAME;
++			return inst->dpb_out_tag[i];
++		}
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(venus_helper_get_free_dpb_tag);
++
+ int venus_helper_alloc_dpb_bufs(struct venus_inst *inst)
+ {
+ 	struct venus_core *core = inst->core;
+@@ -171,6 +189,8 @@ int venus_helper_alloc_dpb_bufs(struct venus_inst *inst)
+ 			ret = -ENOMEM;
+ 			goto fail;
+ 		}
++		buf->owned_by = DRIVER;
++		buf->dpb_out_tag = venus_helper_get_free_dpb_tag(inst);
+ 
+ 		list_add_tail(&buf->list, &inst->dpbbufs);
+ 	}
+diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
+index e6269b4be3af..ea87a552c3ca 100644
+--- a/drivers/media/platform/qcom/venus/helpers.h
++++ b/drivers/media/platform/qcom/venus/helpers.h
+@@ -8,6 +8,22 @@
+ 
+ #include <media/videobuf2-v4l2.h>
+ 
++enum dpb_buf_owner {
++	DRIVER,
++	FIRMWARE,
++};
++
++struct intbuf {
++	struct list_head list;
++	u32 type;
++	size_t size;
++	void *va;
++	dma_addr_t da;
++	unsigned long attrs;
++	enum dpb_buf_owner owned_by;
++	u32 dpb_out_tag;
++};
++
+ struct venus_inst;
+ struct venus_core;
+ 
+@@ -66,4 +82,6 @@ int venus_helper_get_profile_level(struct venus_inst *inst, u32 *profile, u32 *l
+ int venus_helper_set_profile_level(struct venus_inst *inst, u32 profile, u32 level);
+ int venus_helper_set_stride(struct venus_inst *inst, unsigned int aligned_width,
+ 			    unsigned int aligned_height);
++int venus_helper_get_free_dpb_tag(struct venus_inst *inst);
++
+ #endif
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index 198e47eb63f4..ba46085301ee 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -1297,6 +1297,7 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
+ 	struct vb2_v4l2_buffer *vbuf;
+ 	struct vb2_buffer *vb;
+ 	unsigned int type;
++	struct intbuf *dpb_buf;
+ 
+ 	vdec_pm_touch(inst);
+ 
+@@ -1306,8 +1307,18 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
+ 		type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+ 
+ 	vbuf = venus_helper_find_buf(inst, type, tag);
+-	if (!vbuf)
++	if (!vbuf) {
++		if (type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
++		    buf_type == HFI_BUFFER_OUTPUT) {
++			list_for_each_entry(dpb_buf, &inst->dpbbufs, list) {
++				if (dpb_buf->dpb_out_tag == tag) {
++					dpb_buf->owned_by = DRIVER;
++					break;
++				}
++			}
++		}
+ 		return;
++	}
+ 
+ 	vbuf->flags = flags;
+ 	vbuf->field = V4L2_FIELD_NONE;
+@@ -1542,6 +1553,14 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+ 	return vb2_queue_init(dst_vq);
+ }
+ 
++void dpb_out_tag_init(struct venus_inst *inst)
++{
++	u32 i;
++
++	for (i = 0; i < VB2_MAX_FRAME; i++)
++		inst->dpb_out_tag[i] = 0;
++}
++
+ static int vdec_open(struct file *file)
+ {
+ 	struct venus_core *core = video_drvdata(file);
+@@ -1580,6 +1599,8 @@ static int vdec_open(struct file *file)
+ 
+ 	vdec_inst_init(inst);
+ 
++	dpb_out_tag_init(inst);
++
+ 	/*
+ 	 * create m2m device for every instance, the m2m context scheduling
+ 	 * is made by firmware side so we do not need to care about.
+@@ -1622,6 +1643,8 @@ static int vdec_close(struct file *file)
+ 
+ 	vdec_pm_get(inst);
+ 
++	venus_helper_free_dpb_bufs(inst);
++	INIT_LIST_HEAD(&inst->dpbbufs);
+ 	v4l2_m2m_ctx_release(inst->m2m_ctx);
+ 	v4l2_m2m_release(inst->m2m_dev);
+ 	vdec_ctrl_deinit(inst);
+
+base-commit: c1a6d08348fc729e59776fe22878d4ce8fb97cde
 -- 
-Regards,
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
+of Code Aurora Forum, hosted by The Linux Foundation
 
-Laurent Pinchart
