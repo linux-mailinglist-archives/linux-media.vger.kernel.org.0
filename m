@@ -2,159 +2,389 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B79DF3C9693
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 05:44:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64DCE3C98A5
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 08:06:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232328AbhGODrP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jul 2021 23:47:15 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:37023 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230121AbhGODrO (ORCPT
+        id S239832AbhGOGJJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jul 2021 02:09:09 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:43716 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230495AbhGOGJJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jul 2021 23:47:14 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 3sIMmlSFV48Zv3sINmzwxP; Thu, 15 Jul 2021 05:44:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1626320660; bh=eGKH+L6RPIL1Vh/r5dILK/z10kVMxNWvpI6UO9NUVuo=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=TadcLDGBBbytwQ/COfxvuY0A1hu2ax6QdvdE7DnBoTnDtFWM3swc57/EJVe4mhstg
-         lYwdpvF7uEsTqUcGxqu0UFaUFROlki/0B/uMHL6sLlr+GFlEv4wxOwLxQ7lfiTSM7r
-         B2nf8KQU7lSoCyTRRwaD9a1dFMJ7gWZHq0cBcZ2OqhFss/yB20TMdNlbaelLC6c+Wx
-         rJnCTrAq8hW5Glxyyi/BZ35REUinw4sHf6vLX8dCYnw1Mel+tpq5cVx3QD8VU5qhLt
-         1SEswVVIwg/AkqvM5nYZ97rwDGbmA38d+J+3ZCwzPF9TJlbLbdvRyc0f+GQ2KsaNW0
-         4ex1zGMS1zmoQ==
-Message-ID: <a28e5f094fd2c5bfc08a541c9fbaadc2@smtp-cloud8.xs4all.net>
-Date:   Thu, 15 Jul 2021 05:44:18 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfDDxCdu/olQiwzGNCei/WN9Iz649NAsFBvYFaND+i4tqsRXY62hFxZ+b87Q4GBif0rk3ukXE7TXmv+wtKsM5nFSAR2z6+gKB7rpHpfHh6kV6KJxi/Saa
- qQW9Pcrk20pFk36Q3xRDCk/CL0Z7pUf/gICdfP2P+StFn9sKdaoihMKHOF9xn+nNUZrrAn1MHxVpJ8r/MvKOc2dtZjN20+vMvUuoab3zqvKMRthA5hzWAANo
- Yg2nR5PjQHQLyewVM39qMA==
+        Thu, 15 Jul 2021 02:09:09 -0400
+X-UUID: 40aeff00ac31441ca8e334c1ffb4b277-20210715
+X-UUID: 40aeff00ac31441ca8e334c1ffb4b277-20210715
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+        (envelope-from <guangming.cao@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 11811868; Thu, 15 Jul 2021 14:06:13 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 15 Jul 2021 14:06:11 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas07.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 15 Jul 2021 14:06:11 +0800
+From:   <guangming.cao@mediatek.com>
+To:     <christian.koenig@amd.com>
+CC:     <caoguangming34@gmail.com>, <dri-devel@lists.freedesktop.org>,
+        <guangming.cao@mediatek.com>, <linaro-mm-sig@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <sumit.semwal@linaro.org>,
+        <wsd_upstream@mediatek.com>
+Subject: Re: [PATCH] dma-buf: add kernel count for dma_buf
+Date:   Thu, 15 Jul 2021 14:06:07 +0800
+Message-ID: <20210715060607.98339-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <424d5f2e-2ad5-cc33-5615-7d4a235af3dc@amd.com>
+References: <424d5f2e-2ad5-cc33-5615-7d4a235af3dc@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: Guangming.Cao <guangming.cao@mediatek.com>
 
-Results of the daily build of media_tree:
+On Wed, 2021-07-14 at 14:28 +0200, Christian König wrote:
+> Am 14.07.21 um 14:03 schrieb guangming.cao@mediatek.com:
+> > From: Guangming.Cao <guangming.cao@mediatek.com>
+> > 
+> > On Wed, 2021-07-14 at 12:43 +0200, Christian K鰊ig wrote:
+> > > Am 14.07.21 um 11:44 schrieb guangming.cao@mediatek.com:
+> > > > From: Guangming Cao <Guangming.Cao@mediatek.com>
+> > > > 
+> > > > On Wed, 2021-07-14 at 10:46 +0200, Christian K鰊ig wrote:
+> > > > > Am 14.07.21 um 09:11 schrieb guangming.cao@mediatek.com:
+> > > > > > From: Guangming Cao <Guangming.Cao@mediatek.com>
+> > > > > > 
+> > > > > > Add a refcount for kernel to prevent UAF(Use After Free)
+> > > > > > issue.
+> > > > > 
+> > > > > Well NAK on so many levels.
+> > > > > 
+> > > > > > We can assume a case like below:
+> > > > > >        1. kernel space alloc dma_buf(file count = 1)
+> > > > > >        2. kernel use dma_buf to get fd(file count = 1)
+> > > > > >        3. userspace use fd to do mapping (file count = 2)
+> > > > > 
+> > > > > Creating an userspace mapping increases the reference count
+> > > > > for
+> > > > > the
+> > > > > underlying file object.
+> > > > > 
+> > > > > See the implementation of mmap_region():
+> > > > > ...
+> > > > >                    vma->vm_file = get_file(file);
+> > > > >                    error = call_mmap(file, vma);
+> > > > > ...
+> > > > > 
+> > > > > What can happen is the the underlying exporter redirects the
+> > > > > mmap
+> > > > > to
+> > > > > a
+> > > > > different file, e.g. TTM or GEM drivers do that all the time.
+> > > > > 
+> > > > > But this is fine since then the VA mapping is independent of
+> > > > > the
+> > > > > DMA-
+> > > > > buf.
+> > > > > 
+> > > > > >        4. kernel call dma_buf_put (file count = 1)
+> > > > > >        5. userpsace close buffer fd(file count = 0)
+> > > > > >        6. at this time, buffer is released, but va is
+> > > > > > valid!!
+> > > > > >           So we still can read/write buffer via mmap va,
+> > > > > >           it maybe cause memory leak, or kernel exception.
+> > > > > >           And also, if we use "ls -ll" to watch
+> > > > > > corresponding
+> > > > > > process
+> > > > > >               fd link info, it also will cause kernel
+> > > > > > exception.
+> > > > > > 
+> > > > > > Another case:
+> > > > > >         Using dma_buf_fd to generate more than 1 fd,
+> > > > > > because
+> > > > > >         dma_buf_fd will not increase file count, thus, when
+> > > > > > close
+> > > > > >         the second fd, it maybe occurs error.
+> > > > > 
+> > > > > Each opened fd will increase the reference count so this is
+> > > > > certainly
+> > > > > not correct what you describe here.
+> > > > > 
+> > > > > Regards,
+> > > > > Christian.
+> > > > > 
+> > > > 
+> > > > Yes, mmap will increase file count by calling get_file, so
+> > > > step[2]
+> > > > ->
+> > > > step[3], file count increase 1.
+> > > > 
+> > > > But, dma_buf_fd() will not increase file count.
+> > > > function "dma_buf_fd(struct dma_buf *dmabuf, int flags)" just
+> > > > get
+> > > > an
+> > > > unused fd, via call "get_unused_fd_flags(flags)", and call
+> > > > "fd_install(fd, dmabuf->file)", it will let associated "struct
+> > > > file*"
+> > > > in task's fdt->fd[fd] points to this dma_buf.file, not increase
+> > > > the
+> > > > file count of dma_buf.file.
+> > > > I think this is confusing, I can get more than 1 fds via
+> > > > dma_buf_fd,
+> > > > but they don't need to close it because they don't increase
+> > > > file
+> > > > count.
+> > > > 
+> > > > However, dma_buf_put() can decrease file count at kernel side
+> > > > directly.
+> > > > If somebody write a ko to put file count of dma_buf.file many
+> > > > times, it
+> > > > will cause buffer freed earlier than except. At last on
+> > > > Android, I
+> > > > think this is a little bit dangerous.
+> > > 
+> > > dma_buf_fd() takes the dma_buf pointer and converts it into a fd.
+> > > So
+> > > the
+> > > reference is consumed.
+> > > 
+> > > That's why users of this interface make sure to get a separate
+> > > reference, see drm_gem_prime_handle_to_fd() for example:
+> > > 
+> > > ...
+> > > out_have_handle:
+> > >       ret = dma_buf_fd(dmabuf, flags);
+> > >       /*
+> > >        * We must _not_ remove the buffer from the handle cache
+> > > since
+> > > the
+> > > newly
+> > >        * created dma buf is already linked in the global obj-
+> > > >dma_buf
+> > > pointer,
+> > >        * and that is invariant as long as a userspace gem handle
+> > > exists.
+> > >        * Closing the handle will clean out the cache anyway, so
+> > > we
+> > > don't
+> > > leak.
+> > >        */
+> > >       if (ret < 0) {
+> > >           goto fail_put_dmabuf;
+> > >       } else {
+> > >           *prime_fd = ret;
+> > >           ret = 0;
+> > >       }
+> > > 
+> > >       goto out;
+> > > 
+> > > fail_put_dmabuf:
+> > >       dma_buf_put(dmabuf);
+> > > out:
+> > > ...
+> > > 
+> > > You could submit a patch to improve the documentation and
+> > > explicitly
+> > > note on dma_buf_fd() that the reference is consumed, but all of
+> > > this
+> > > is
+> > > working perfectly fine.
+> > > 
+> > > Regards,
+> > > Christian.
+> > > 
+> > 
+> > Thanks for your reply!
+> > 
+> > Yes, drm works fine because it fully understand what dma-buf api
+> > will
+> > do. Improve the documentation is really good idea to prevent this
+> > case.
+> > 
+> > But, what I can't understand is, for kernel api exported to
+> > corresponding users, we don't need to ensure all api is safe?
+> 
+> Well the API is perfectly safe, it is just not what you are
+> expecting.
+> 
+> > And for general cases, dma-buf framework also need to prevent this
+> > case, isn't it, it will make dma-buf framework more strong?
+> 
+> What we could do is to move getting the reference into that function
+> if 
+> all users of that function does that anyway.
+> 
+> This would then be more defensive because new users of dma_buf_fd() 
+> can't forget to grab a reference.
+> 
+> But this needs a complete audit of the kernel with all of the users
+> of 
+> dma_buf_fd().
+> 
+> Regards,
+> Christian.
+> 
+Thanks for your patient explanation! Now I think I get what you said.
+dmabuf framework works fine, no risk, and reference should grab by users.
 
-date:			Thu Jul 15 05:00:11 CEST 2021
-media-tree git hash:	e73f0f0ee7541171d89f2e2491130c7771ba58d3
-media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
-v4l-utils git hash:	a4f2e3a6f306f0bef6664451b44d5a7a18b26803
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7481-g7f50411af
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d8ae6cae42acd2e6882babf2f159ff6c0f1e1792
-host hardware:		x86_64
-host os:		5.13.1-marune
+This discussion can be terminated now.
+Thanks Christian!
 
-linux-git-sh: WARNINGS
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: 
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: ERRORS
-spec-git: OK
-virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 0
-virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+BRs!
+Guangming.
+> > 
+> > 
+> > BRs!
+> > Guangming
+> > > > > > Solution:
+> > > > > >        Add a kernel count for dma_buf, and make sure the
+> > > > > > file
+> > > > > > count
+> > > > > >            of dma_buf.file hold by kernel is 1.
+> > > > > > 
+> > > > > > Notes: For this solution, kref couldn't work because kernel
+> > > > > > ref
+> > > > > >           maybe added from 0, but kref don't allow it.
+> > > > > > 
+> > > > > > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+> > > > > > ---
+> > > > > >     drivers/dma-buf/dma-buf.c | 23 +++++++++++++++++++----
+> > > > > >     include/linux/dma-buf.h   |  6 ++++--
+> > > > > >     2 files changed, 23 insertions(+), 6 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-
+> > > > > > buf/dma-
+> > > > > > buf.c
+> > > > > > index 511fe0d217a0..04ee92aac8b9 100644
+> > > > > > --- a/drivers/dma-buf/dma-buf.c
+> > > > > > +++ b/drivers/dma-buf/dma-buf.c
+> > > > > > @@ -62,6 +62,7 @@ static void dma_buf_release(struct dentry
+> > > > > > *dentry)
+> > > > > >       if (unlikely(!dmabuf))
+> > > > > >               return;
+> > > > > >     
+> > > > > > +   WARN_ON(atomic64_read(&dmabuf->kernel_ref));
+> > > > > >       BUG_ON(dmabuf->vmapping_counter);
+> > > > > >     
+> > > > > >       /*
+> > > > > > @@ -555,6 +556,7 @@ struct dma_buf *dma_buf_export(const
+> > > > > > struct
+> > > > > > dma_buf_export_info *exp_info)
+> > > > > >               goto err_module;
+> > > > > >       }
+> > > > > >     
+> > > > > > +   atomic64_set(&dmabuf->kernel_ref, 1);
+> > > > > >       dmabuf->priv = exp_info->priv;
+> > > > > >       dmabuf->ops = exp_info->ops;
+> > > > > >       dmabuf->size = exp_info->size;
+> > > > > > @@ -617,6 +619,9 @@ int dma_buf_fd(struct dma_buf *dmabuf,
+> > > > > > int
+> > > > > > flags)
+> > > > > >     
+> > > > > >       fd_install(fd, dmabuf->file);
+> > > > > >     
+> > > > > > +   /* Add file cnt for each new fd */
+> > > > > > +   get_file(dmabuf->file);
+> > > > > > +
+> > > > > >       return fd;
+> > > > > >     }
+> > > > > >     EXPORT_SYMBOL_GPL(dma_buf_fd);
+> > > > > > @@ -626,12 +631,13 @@ EXPORT_SYMBOL_GPL(dma_buf_fd);
+> > > > > >      * @fd:   [in]    fd associated with the struct dma_buf
+> > > > > > to
+> > > > > > be
+> > > > > > returned
+> > > > > >      *
+> > > > > >      * On success, returns the struct dma_buf associated
+> > > > > > with an
+> > > > > > fd;
+> > > > > > uses
+> > > > > > - * file's refcounting done by fget to increase refcount.
+> > > > > > returns
+> > > > > > ERR_PTR
+> > > > > > - * otherwise.
+> > > > > > + * dmabuf's ref refcounting done by kref_get to increase
+> > > > > > refcount.
+> > > > > > + * Returns ERR_PTR otherwise.
+> > > > > >      */
+> > > > > >     struct dma_buf *dma_buf_get(int fd)
+> > > > > >     {
+> > > > > >       struct file *file;
+> > > > > > +   struct dma_buf *dmabuf;
+> > > > > >     
+> > > > > >       file = fget(fd);
+> > > > > >     
+> > > > > > @@ -643,7 +649,12 @@ struct dma_buf *dma_buf_get(int fd)
+> > > > > >               return ERR_PTR(-EINVAL);
+> > > > > >       }
+> > > > > >     
+> > > > > > -   return file->private_data;
+> > > > > > +   dmabuf = file->private_data;
+> > > > > > +   /* replace file count increase as ref increase for
+> > > > > > kernel
+> > > > > > user
+> > > > > > */
+> > > > > > +   get_dma_buf(dmabuf);
+> > > > > > +   fput(file);
+> > > > > > +
+> > > > > > +   return dmabuf;
+> > > > > >     }
+> > > > > >     EXPORT_SYMBOL_GPL(dma_buf_get);
+> > > > > >     
+> > > > > > @@ -662,7 +673,11 @@ void dma_buf_put(struct dma_buf
+> > > > > > *dmabuf)
+> > > > > >       if (WARN_ON(!dmabuf || !dmabuf->file))
+> > > > > >               return;
+> > > > > >     
+> > > > > > -   fput(dmabuf->file);
+> > > > > > +   if (WARN_ON(!atomic64_read(&dmabuf->kernel_ref)))
+> > > > > > +           return;
+> > > > > > +
+> > > > > > +   if (!atomic64_dec_return(&dmabuf->kernel_ref))
+> > > > > > +           fput(dmabuf->file);
+> > > > > >     }
+> > > > > >     EXPORT_SYMBOL_GPL(dma_buf_put);
+> > > > > >     
+> > > > > > diff --git a/include/linux/dma-buf.h b/include/linux/dma-
+> > > > > > buf.h
+> > > > > > index efdc56b9d95f..bc790cb028eb 100644
+> > > > > > --- a/include/linux/dma-buf.h
+> > > > > > +++ b/include/linux/dma-buf.h
+> > > > > > @@ -308,6 +308,7 @@ struct dma_buf_ops {
+> > > > > >     struct dma_buf {
+> > > > > >       size_t size;
+> > > > > >       struct file *file;
+> > > > > > +   atomic64_t kernel_ref;
+> > > > > >       struct list_head attachments;
+> > > > > >       const struct dma_buf_ops *ops;
+> > > > > >       struct mutex lock;
+> > > > > > @@ -436,7 +437,7 @@ struct dma_buf_export_info {
+> > > > > >                                        .owner = THIS_MODULE
+> > > > > > }
+> > > > > >     
+> > > > > >     /**
+> > > > > > - * get_dma_buf - convenience wrapper for get_file.
+> > > > > > + * get_dma_buf - increase a kernel ref of dma-buf
+> > > > > >      * @dmabuf:       [in]    pointer to dma_buf
+> > > > > >      *
+> > > > > >      * Increments the reference count on the dma-buf,
+> > > > > > needed in
+> > > > > > case
+> > > > > > of drivers
+> > > > > > @@ -446,7 +447,8 @@ struct dma_buf_export_info {
+> > > > > >      */
+> > > > > >     static inline void get_dma_buf(struct dma_buf *dmabuf)
+> > > > > >     {
+> > > > > > -   get_file(dmabuf->file);
+> > > > > > +   if (atomic64_inc_return(&dmabuf->kernel_ref) == 1)
+> > > > > > +           get_file(dmabuf->file);
+> > > > > >     }
+> > > > > >     
+> > > > > >     /**
+> 
+> 
