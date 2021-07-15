@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0E5F3C98F3
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 08:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9458E3C99B8
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jul 2021 09:37:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237507AbhGOGwy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jul 2021 02:52:54 -0400
-Received: from comms.puri.sm ([159.203.221.185]:34364 "EHLO comms.puri.sm"
+        id S240387AbhGOHk1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jul 2021 03:40:27 -0400
+Received: from comms.puri.sm ([159.203.221.185]:36506 "EHLO comms.puri.sm"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231530AbhGOGwx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jul 2021 02:52:53 -0400
+        id S229620AbhGOHkZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 15 Jul 2021 03:40:25 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id DFDE6DFE44;
-        Wed, 14 Jul 2021 23:50:00 -0700 (PDT)
+        by comms.puri.sm (Postfix) with ESMTP id 2DEF5DFAD4;
+        Thu, 15 Jul 2021 00:37:32 -0700 (PDT)
 Received: from comms.puri.sm ([127.0.0.1])
         by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id EVlryjTOvjER; Wed, 14 Jul 2021 23:49:56 -0700 (PDT)
-Message-ID: <33f9ab8ea253c01d3311346bc871d7f62213215f.camel@puri.sm>
+        with ESMTP id 0Ympdg_EmsdR; Thu, 15 Jul 2021 00:37:29 -0700 (PDT)
+Message-ID: <ce71a71a358247eca3b72ddcddd703206c90f284.camel@puri.sm>
 Subject: Re: [PATCH v6 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
  phy and controller
 From:   Martin Kepplinger <martin.kepplinger@puri.sm>
@@ -29,7 +29,7 @@ Cc:     festevam@gmail.com, krzk@kernel.org, devicetree@vger.kernel.org,
         linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
         mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
         shawnguo@kernel.org, slongerbeam@gmail.com
-Date:   Thu, 15 Jul 2021 08:49:51 +0200
+Date:   Thu, 15 Jul 2021 09:37:24 +0200
 In-Reply-To: <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
 References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
          <20210714111931.324485-3-martin.kepplinger@puri.sm>
@@ -45,15 +45,11 @@ Am Mittwoch, dem 14.07.2021 um 21:24 +0300 schrieb Laurent Pinchart:
 > Hi Martin,
 > 
 > Thank you for the patch.
-
-thank you for reviewing.
-
 > 
 > On Wed, Jul 14, 2021 at 01:19:30PM +0200, Martin Kepplinger wrote:
 > > Add a driver to support the i.MX8MQ MIPI CSI receiver. The hardware
 > > side
 > > is based on
-> >  
 > > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
 > > 
 > > It's built as part of VIDEO_IMX7_CSI because that's documented to
@@ -178,7 +174,7 @@ thank you for reviewing.
 > > accumulate in
 > > + * the Pixel FIFO before the data will be transferred to the video
 > > output.
-> > + * See  
+> > + * See 
 > > https://community.nxp.com/t5/i-MX-Processors/IMX8M-MIPI-CSI-Host-Controller-send-level/m-p/864005/highlight/true#M131704
 > > + */
 > > +#define CSI2RX_SEND_LEVEL                      64
@@ -321,13 +317,147 @@ thank you for reviewing.
 > > +       ret = reset_control_assert(state->rst);
 > 
 > That's peculiar, is there no need to deassert reset ?
+> 
+> > +       if (ret < 0) {
+> > +               dev_err(state->dev, "Failed to assert resets:
+> > %d\n", ret);
+> > +               return ret;
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static void imx8mq_mipi_csi_system_enable(struct csi_state *state,
+> > int on)
+> > +{
+> > +       if (!on) {
+> > +               imx8mq_mipi_csi_write(state,
+> > CSI2RX_CFG_DISABLE_DATA_LANES, 0xf);
+> > +               return;
+> > +       }
+> > +
+> > +       regmap_update_bits(state->phy_gpr,
+> > +                          state->phy_gpr_reg,
+> > +                          0x3fff,
+> > +                          GPR_CSI2_1_RX_ENABLE |
+> > +                          GPR_CSI2_1_VID_INTFC_ENB |
+> > +                          GPR_CSI2_1_HSEL |
+> > +                          GPR_CSI2_1_CONT_CLK_MODE |
+> > +                          GPR_CSI2_1_S_PRG_RXHS_SETTLE(state-
+> > >hs_settle));
+> > +}
+> > +
+> > +static void imx8mq_mipi_csi_set_params(struct csi_state *state)
+> > +{
+> > +       int lanes = state->bus.num_data_lanes;
+> > +
+> > +       imx8mq_mipi_csi_write(state, CSI2RX_CFG_NUM_LANES, lanes -
+> > 1);
+> > +       imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES,
+> > +                             (0xf << lanes) & 0xf);
+> > +       imx8mq_mipi_csi_write(state, CSI2RX_IRQ_MASK,
+> > CSI2RX_IRQ_MASK_ALL);
+> > +       imx8mq_mipi_csi_write(state, 0x180, 1);
+> > +       /* vid_vc */
+> > +       imx8mq_mipi_csi_write(state, 0x184, 1);
+> > +       imx8mq_mipi_csi_write(state, 0x188, CSI2RX_SEND_LEVEL);
+> > +}
+> > +
+> > +static int imx8mq_mipi_csi_clk_enable(struct csi_state *state)
+> > +{
+> > +       return clk_bulk_prepare_enable(CSI2_NUM_CLKS, state->clks);
+> > +}
+> > +
+> > +static void imx8mq_mipi_csi_clk_disable(struct csi_state *state)
+> > +{
+> > +       clk_bulk_disable_unprepare(CSI2_NUM_CLKS, state->clks);
+> > +}
+> > +
+> > +static int imx8mq_mipi_csi_clk_get(struct csi_state *state)
+> > +{
+> > +       unsigned int i;
+> > +
+> > +       for (i = 0; i < CSI2_NUM_CLKS; i++)
+> > +               state->clks[i].id = imx8mq_mipi_csi_clk_id[i];
+> > +
+> > +       return devm_clk_bulk_get(state->dev, CSI2_NUM_CLKS, state-
+> > >clks);
+> > +}
+> > +
+> > +static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state)
+> > +{
+> > +       u32 width = state->format_mbus[MIPI_CSI2_PAD_SINK].width;
+> > +       u32 height = state->format_mbus[MIPI_CSI2_PAD_SINK].height;
+> > +       s64 link_freq;
+> > +       u32 lane_rate;
+> > +
+> > +       /* Calculate the line rate from the pixel rate. */
+> > +       link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
+> > +                                      state->csi2_fmt->width,
+> > +                                      state->bus.num_data_lanes *
+> > 2);
+> > +       if (link_freq < 0) {
+> > +               dev_err(state->dev, "Unable to obtain link
+> > frequency: %d\n",
+> > +                       (int)link_freq);
+> > +               return link_freq;
+> > +       }
+> > +
+> > +       lane_rate = link_freq * 2;
+> > +       if (lane_rate < 80000000 || lane_rate > 1500000000) {
+> > +               dev_dbg(state->dev, "Out-of-bound lane rate %u\n",
+> > lane_rate);
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +       /* 
+> > https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
+> >  */
+> > +       if (lane_rate < 250000000)
+> > +               state->hs_settle = 0xb;
+> > +       else if (lane_rate < 500000000)
+> > +               state->hs_settle = 0x8;
+> > +       else
+> > +               state->hs_settle = 0x6;
+> 
+> We could possibly compute this value based on the formula from the
+> table
+> in that page, but maybe that's overkill ? If you want to give it a
+> try,
+> it would be along those lines.
+> 
+>         /*
+>          * The D-PHY specification requires Ths-settle to be in the
+> range
+>          * 85ns + 6*UI to 140ns + 10*UI, with the unit interval UI
+> being half
+>          * the clock period.
+>          *
+>          * The Ths-settle value is expressed in the hardware as a
+> multiple of
+>          * the Esc clock period:
+>          *
+>          * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of RxClkInEsc
+>          *
+>          * Due to the one cycle inaccuracy introduced by rounding,
+> the
+>          * documentation recommends picking a value away from the
+> boundaries.
+>          * Let's pick the average.
+>          */
+>         esc_clk_rate = clk_get_rate(...);
+> 
+>         min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
+>         max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
+>         ths_settle = (min_ths_settle + max_ths_settle) / 2;
+> 
+>         state->hs_settle = ths_settle * esc_clk_rate / 1000000000 -
+> 1;
+> 
 
-I tried different things here that would look more intuitive, but in
-the end only this worked, which is directly taken from
-https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0#n105
-(actual register value read from DT) that results in exactly the same
-register bits set like this assertation.
+I experimented a bit but would like to leave this as a task for later
+if that's ok. it's correct and simple now. also, using clks[i].clk
+based on the name string would feel better to submit seperately later.
 
-
-
+> 
 
