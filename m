@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 008693CB8FF
+	by mail.lfdr.de (Postfix) with ESMTP id 972C03CB901
 	for <lists+linux-media@lfdr.de>; Fri, 16 Jul 2021 16:45:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240359AbhGPOsN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jul 2021 10:48:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45938 "EHLO
+        id S240471AbhGPOsO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jul 2021 10:48:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240361AbhGPOsM (ORCPT
+        with ESMTP id S240393AbhGPOsN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jul 2021 10:48:12 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C17C061760
-        for <linux-media@vger.kernel.org>; Fri, 16 Jul 2021 07:45:16 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id h9so14397633ljm.5
-        for <linux-media@vger.kernel.org>; Fri, 16 Jul 2021 07:45:16 -0700 (PDT)
+        Fri, 16 Jul 2021 10:48:13 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550A9C061760
+        for <linux-media@vger.kernel.org>; Fri, 16 Jul 2021 07:45:18 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id g8so10570972lfh.8
+        for <linux-media@vger.kernel.org>; Fri, 16 Jul 2021 07:45:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=phystech-edu.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VewEt9Sal2E694kwqU/1zQiu0e9L1vNSWqLI289mobQ=;
-        b=GkNk0fsCcdTMKo5D6LBy/xNq2Wnz9hXULvjrUWYo2Dw4dB7jE1SqZzZEGKsaAfLpaO
-         5WiLZmeFr1kLQ/lhl+GwIJZ7UG8sUT1Py+w6Bxf8mM1CfKNGYXcCX9iPqyHpdpk57uf/
-         YirL+S4f9IR6w6c+Dr2DSVrDz7Kz6ywObNMiVN13FXO/iZoXsa8Ay8pnQKigio+HEUKq
-         5hYq4kr8jR/k7jrdGfWBaHjK2XdazjwwhHK5rRjG4Umz5iULOuKIkeB6wkD9+zj2+KC9
-         dMmU9CaciDfGxQcVXjjtj05DmIq4QJMANVKhpjKbQZQtIyTLoB6QE6XYM1IdfieBcSVb
-         qmQA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9qKQaa38uUzAtrRHZySBZsZbRwdj+bL+F1vWrPsxptw=;
+        b=e7wyoU+Vz9DmsTYrM0+Gy2+cBjc+cllwFWfFVYo6DPLlObgy3aS4e+zD3W9lTdhfIl
+         kbPxR8yV63XRbj79LNsYOiMdxLSb/FiKM9TGObfT9XtbF/Fm2prOA+jvwuJijkIfS3UX
+         eLhjaofXbfpDlTE/jAYHoaDIn33R+fvfUSCXsDIt8pxceyIe0dW03yHmtxFU63DPcq7e
+         E2ZfB5WBsSe+LRFGarXqYCJikp3t9dtO1I3ENfBDs+o/uR3KmJGxoOu5OrmB1wyc8MU6
+         VQWbWD9CyF+wUn0p4sJ5paa/rYmCNOq/EF6ThINEctKXV75kpgMD/HJjFRvI6WfEOtar
+         I8zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VewEt9Sal2E694kwqU/1zQiu0e9L1vNSWqLI289mobQ=;
-        b=I+3+723tjWjVPh3JFjpPjcQEbHVf0zq6olISQQyCUJk6HejT/iBNw1pt3tOGRk+6gS
-         l1NH0SuiuWoLxWsUcqBGhUX20tgDWSmW1hy9qKF00hEHSVU4WbRVC/iIRKePCe6whJcT
-         P1PVHJx7UT3WjMA9BLGzHxKSUEpQ+pjeb2ckeN+hpNaofrVC3a9Abu3voLafYuiz4CA6
-         LKDi428H5Q1I2VZ3tK9jZfABtaUaTe7YRnzmUv6ifj8I4j4tLPA92TpuBVSNY862dJs4
-         Yj5hXPxvw0hKXQAHgIdwx/6sQSc4NANwXD1oXBdZc7UaROp2RcbxQkgP7jLhEfBSaaW0
-         qfmA==
-X-Gm-Message-State: AOAM533w182Ruz/1RB9l4TXMDm1rZuLX6HnEk0TWR9l/4gZ1R+wyCe7L
-        3Ct2C8pqOYXzS7juSVoOWFXa7A==
-X-Google-Smtp-Source: ABdhPJwy/jnKpQb7gQ4wl9610QlKRrHy9FWD9SWd1F4D+5MmjA+SijzOnrs5gXqreZh/gl6SLs9Mmg==
-X-Received: by 2002:a2e:8887:: with SMTP id k7mr9194849lji.226.1626446715159;
-        Fri, 16 Jul 2021 07:45:15 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9qKQaa38uUzAtrRHZySBZsZbRwdj+bL+F1vWrPsxptw=;
+        b=rD5IWjjOHYfGO0vfVWGPhM8prlCTZS0bw/k2BlJpjr7F21Lqj3L6eYyJDqUA6OW9rs
+         jkkp4GffvLYyLKkWZBGydk77tKYy5UUHXSVpvc+qmiN97JAI9Ok1uYsch+vzkysL1YMK
+         Y7oqJRKlCa4/rq5wCMc+akTj7gU9nqZTNL/tCU/vbWo7JTdEUnZb6v5IdcH1lnmoZliz
+         HlrjTXYqILxycvJH2O5bD9W1CmQ6UUoFzNdiOU/89GOglaBpLO0sYBUGkoTLVyx/xz1/
+         4kcmWkdI6TARb1G/33ZdAuHYJjL9HDcbdydHopwuazln1bVVtqtnJQs9rpZZwn7wC2rn
+         bpJA==
+X-Gm-Message-State: AOAM533KWigcU7fmY2dspgVrigQu4SDAzXJrnI489HM4lCZanwjDQl+j
+        QG2pqONQWDuR5WLK3TvqvB8N4A==
+X-Google-Smtp-Source: ABdhPJyrCzxQ65uTe+AJVSo8LBWBHOGGzKLt6AjQBslEjjFHVe3Wkq66P/4yUZT3tgvwoyZp0DrJZw==
+X-Received: by 2002:a19:791b:: with SMTP id u27mr8027385lfc.101.1626446716670;
+        Fri, 16 Jul 2021 07:45:16 -0700 (PDT)
 Received: from 192.168.1.3 ([2a00:1370:810e:abfe:9c62:44e3:b0ab:76fd])
-        by smtp.gmail.com with ESMTPSA id b6sm992327ljf.59.2021.07.16.07.45.13
+        by smtp.gmail.com with ESMTPSA id b6sm992327ljf.59.2021.07.16.07.45.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jul 2021 07:45:14 -0700 (PDT)
+        Fri, 16 Jul 2021 07:45:16 -0700 (PDT)
 From:   Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 To:     sean@mess.org, mchehab@kernel.org, robh+dt@kernel.org,
         khilman@baylibre.com, narmstrong@baylibre.com
@@ -56,33 +56,114 @@ Cc:     jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-amlogic@lists.infradead.org, rockosov@gmail.com,
         Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-Subject: [PATCH v6 0/2] media: rc: add support for Amlogic Meson IR blaster
-Date:   Fri, 16 Jul 2021 17:45:06 +0300
-Message-Id: <20210716144508.6058-1-viktor.prutyanov@phystech.edu>
+Subject: [PATCH v6 1/2] media: rc: meson-ir-tx: document device tree bindings
+Date:   Fri, 16 Jul 2021 17:45:07 +0300
+Message-Id: <20210716144508.6058-2-viktor.prutyanov@phystech.edu>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20210716144508.6058-1-viktor.prutyanov@phystech.edu>
+References: <20210716144508.6058-1-viktor.prutyanov@phystech.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+This patch adds binding documentation for the IR transmitter
+available in Amlogic Meson SoCs.
 
-this is a driver for the IR transmitter (also called IR blaster)
-available in some Amlogic Meson SoCs.
+Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+---
+ changes in v2:
+   - compatible = "amlogic,meson-g12a-irblaster" added
+   - clocks, clock-names and mod-clock updated
+ changes in v3:
+   - mod-clock removed
+   - max-fifo-level added
+ changes in v4:
+   - irblaster -> ir-tx renaming
+ changes in v5:
+   - max-fifo-level -> amlogic,fifo-threshold (fifo-threshold
+     == 128 - max-fifo-level)
+   - amlogic,fifo-threshold becomes uint32 in range [0; 127]
+ no changes in v6
 
-Viktor Prutyanov (2):
-  media: rc: meson-ir-tx: document device tree bindings
-  media: rc: introduce Meson IR TX driver
-
- .../bindings/media/amlogic,meson-ir-tx.yaml   |  67 +++
- drivers/media/rc/Kconfig                      |  10 +
- drivers/media/rc/Makefile                     |   1 +
- drivers/media/rc/meson-ir-tx.c                | 415 ++++++++++++++++++
- 4 files changed, 493 insertions(+)
+ .../bindings/media/amlogic,meson-ir-tx.yaml   | 67 +++++++++++++++++++
+ 1 file changed, 67 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
- create mode 100644 drivers/media/rc/meson-ir-tx.c
 
+diff --git a/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml b/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
+new file mode 100644
+index 000000000000..88655413495d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
+@@ -0,0 +1,67 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/media/amlogic,meson-ir-tx.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Amlogic Meson IR transmitter
++
++maintainers:
++  - Viktor Prutyanov <viktor.prutyanov@phystech.edu>
++
++description: |
++  Some Amlogic SoCs such as A311D and T950D4 have IR transmitter
++  (also called blaster) controller onboard. It is capable of
++  sending IR signals with arbitrary carrier frequency and duty cycle.
++
++properties:
++  compatible:
++    oneOf:
++      - const: amlogic,meson-ir-tx
++      - items:
++          - const: amlogic,meson-g12a-ir-tx
++          - const: amlogic,meson-ir-tx
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 2
++
++  clock-names:
++    items:
++      - const: sysclk
++      - const: xtal
++
++  amlogic,fifo-threshold:
++    description: TX FIFO threshold
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 127
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/g12a-clkc.h>
++
++    ir@ff80014c {
++      compatible = "amlogic,meson-g12a-ir-tx", "amlogic,meson-ir-tx";
++      reg = <0xff80014c 0x10>;
++      interrupts = <0 198 IRQ_TYPE_EDGE_RISING>;
++      clocks = <&clkc CLKID_CLK81>, <&xtal>;
++      clock-names = "sysclk", "xtal";
++      amlogic,fifo-threshold = <32>;
++    };
 -- 
 2.21.0
 
