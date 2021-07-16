@@ -2,108 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4AB53CB89D
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jul 2021 16:17:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 008693CB8FF
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jul 2021 16:45:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239894AbhGPOUJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jul 2021 10:20:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53906 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232808AbhGPOUI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jul 2021 10:20:08 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 908C3613F8;
-        Fri, 16 Jul 2021 14:17:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626445033;
-        bh=roBf1Wt7hwRbg8jZMq/FXbJlPyIY+1hOlDEHXSRw5Ek=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=aR9bhms2VTxbePnfsjB++kQWjWAYAKFRbk1bDPhWMMyPgUyrVA2d35rEjxNwrNl7X
-         ctJT/PSAbI1madzLW6dEl8SyFDiFq4jcYKlL8tDxJrK6bOA/r8FS9DFQdr/g40zeGQ
-         oz1PtxnOzuc/3ibvR/VawPJ7wzqMGzhn1G5hTgHoYFoYrFTYdwik0uGBfRD19nQh/g
-         bqYrmuTV3HfDCzpJL7HEAo6ftVZe7UjJ8BI5Ppm9A4+nUJBFahUloSVsJiKL6glbt7
-         yd8KVLsoeayeMuG55sTyNNmzjp7rK8umIMc5WkZFjeq0Ek0H7FDNep3N8jrG4TlioW
-         WlzJl/q4L6GoQ==
-Date:   Fri, 16 Jul 2021 09:17:12 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Dongdong Liu <liudongdong3@huawei.com>
-Cc:     hch@infradead.org, kw@linux.com, linux-pci@vger.kernel.org,
-        rajur@chelsio.com, hverkuil-cisco@xs4all.nl,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [PATCH V5 4/6] PCI: Enable 10-Bit tag support for PCIe Endpoint
- devices
-Message-ID: <20210716141712.GA2096096@bjorn-Precision-5520>
+        id S240359AbhGPOsN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jul 2021 10:48:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45938 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240361AbhGPOsM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Jul 2021 10:48:12 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C17C061760
+        for <linux-media@vger.kernel.org>; Fri, 16 Jul 2021 07:45:16 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id h9so14397633ljm.5
+        for <linux-media@vger.kernel.org>; Fri, 16 Jul 2021 07:45:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=phystech-edu.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VewEt9Sal2E694kwqU/1zQiu0e9L1vNSWqLI289mobQ=;
+        b=GkNk0fsCcdTMKo5D6LBy/xNq2Wnz9hXULvjrUWYo2Dw4dB7jE1SqZzZEGKsaAfLpaO
+         5WiLZmeFr1kLQ/lhl+GwIJZ7UG8sUT1Py+w6Bxf8mM1CfKNGYXcCX9iPqyHpdpk57uf/
+         YirL+S4f9IR6w6c+Dr2DSVrDz7Kz6ywObNMiVN13FXO/iZoXsa8Ay8pnQKigio+HEUKq
+         5hYq4kr8jR/k7jrdGfWBaHjK2XdazjwwhHK5rRjG4Umz5iULOuKIkeB6wkD9+zj2+KC9
+         dMmU9CaciDfGxQcVXjjtj05DmIq4QJMANVKhpjKbQZQtIyTLoB6QE6XYM1IdfieBcSVb
+         qmQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VewEt9Sal2E694kwqU/1zQiu0e9L1vNSWqLI289mobQ=;
+        b=I+3+723tjWjVPh3JFjpPjcQEbHVf0zq6olISQQyCUJk6HejT/iBNw1pt3tOGRk+6gS
+         l1NH0SuiuWoLxWsUcqBGhUX20tgDWSmW1hy9qKF00hEHSVU4WbRVC/iIRKePCe6whJcT
+         P1PVHJx7UT3WjMA9BLGzHxKSUEpQ+pjeb2ckeN+hpNaofrVC3a9Abu3voLafYuiz4CA6
+         LKDi428H5Q1I2VZ3tK9jZfABtaUaTe7YRnzmUv6ifj8I4j4tLPA92TpuBVSNY862dJs4
+         Yj5hXPxvw0hKXQAHgIdwx/6sQSc4NANwXD1oXBdZc7UaROp2RcbxQkgP7jLhEfBSaaW0
+         qfmA==
+X-Gm-Message-State: AOAM533w182Ruz/1RB9l4TXMDm1rZuLX6HnEk0TWR9l/4gZ1R+wyCe7L
+        3Ct2C8pqOYXzS7juSVoOWFXa7A==
+X-Google-Smtp-Source: ABdhPJwy/jnKpQb7gQ4wl9610QlKRrHy9FWD9SWd1F4D+5MmjA+SijzOnrs5gXqreZh/gl6SLs9Mmg==
+X-Received: by 2002:a2e:8887:: with SMTP id k7mr9194849lji.226.1626446715159;
+        Fri, 16 Jul 2021 07:45:15 -0700 (PDT)
+Received: from 192.168.1.3 ([2a00:1370:810e:abfe:9c62:44e3:b0ab:76fd])
+        by smtp.gmail.com with ESMTPSA id b6sm992327ljf.59.2021.07.16.07.45.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Jul 2021 07:45:14 -0700 (PDT)
+From:   Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+To:     sean@mess.org, mchehab@kernel.org, robh+dt@kernel.org,
+        khilman@baylibre.com, narmstrong@baylibre.com
+Cc:     jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, rockosov@gmail.com,
+        Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+Subject: [PATCH v6 0/2] media: rc: add support for Amlogic Meson IR blaster
+Date:   Fri, 16 Jul 2021 17:45:06 +0300
+Message-Id: <20210716144508.6058-1-viktor.prutyanov@phystech.edu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <db506d81-3cb9-4cdc-fb4a-f2d28587b9b2@huawei.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 16, 2021 at 07:12:16PM +0800, Dongdong Liu wrote:
-> Hi Bjorn
-> 
-> Many thanks for your review.
-> 
-> On 2021/7/16 1:23, Bjorn Helgaas wrote:
-> > [+cc Logan]
-> > 
-> > On Mon, Jun 21, 2021 at 06:27:20PM +0800, Dongdong Liu wrote:
-> > > 10-Bit Tag capability, introduced in PCIe-4.0 increases the total Tag
-> > > field size from 8 bits to 10 bits.
-> > > 
-> > > For platforms where the RC supports 10-Bit Tag Completer capability,
-> > > it is highly recommended for platform firmware or operating software
-> > 
-> > Recommended by whom?  If the spec recommends it, we should provide the
-> > citation.
->
-> PCIe spec 5.0 r1.0 section 2.2.6.2 IMPLEMENTATION NOTE says that.
-> Will fix.
+Hi,
 
-Thanks, that will be helpful.
+this is a driver for the IR transmitter (also called IR blaster)
+available in some Amlogic Meson SoCs.
 
-> > > that configures PCIe hierarchies to Set the 10-Bit Tag Requester Enable
-> > > bit automatically in Endpoints with 10-Bit Tag Requester capability. This
-> > > enables the important class of 10-Bit Tag capable adapters that send
-> > > Memory Read Requests only to host memory.
-> > 
-> > What is the implication for P2PDMA?  What happens if we enable 10-bit
-> > tags for device A, and A generates Mem Read Requests to device B,
-> > which does not support 10-bit tags?
->
-> PCIe spec 5.0 r1.0 section 2.2.6.2 says
-> If an Endpoint supports sending Requests to other Endpoints (as opposed to
-> host memory), the Endpoint must not send 10-Bit Tag Requests to another
-> given Endpoint unless an implementation-specific mechanism determines that
-> the Endpoint supports 10-Bit Tag Completer capability. Not sending 10-Bit
-> Tag Requests to other Endpoints at all
-> may be acceptable for some implementations. More sophisticated mechanisms
-> are outside the scope of this specification.
-> 
-> Not sending 10-Bit Tag Requests to other Endpoints at all seems simple.
-> Add kernel parameter pci=pcie_bus_peer2peer when boot kernel with P2PDMA,
-> then do not config 10-BIT Tag.
-> 
-> if (pcie_bus_config != PCIE_BUS_PEER2PEER)
-> 	pci_configure_10bit_tags(dev);
+Viktor Prutyanov (2):
+  media: rc: meson-ir-tx: document device tree bindings
+  media: rc: introduce Meson IR TX driver
 
-Seems like a reasonable start.  I wish this were more dynamic and we
-didn't have to rely on a kernel parameter to make P2PDMA safe, but
-that seems to be the current situation.
+ .../bindings/media/amlogic,meson-ir-tx.yaml   |  67 +++
+ drivers/media/rc/Kconfig                      |  10 +
+ drivers/media/rc/Makefile                     |   1 +
+ drivers/media/rc/meson-ir-tx.c                | 415 ++++++++++++++++++
+ 4 files changed, 493 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
+ create mode 100644 drivers/media/rc/meson-ir-tx.c
 
-Does the same consideration apply to enabling Extended Tags (8-bit
-tags)?  I would guess so, but sec 2.2.6.2 says "Receivers/Completers
-must handle 8-bit Tag values correctly regardless of the setting of
-their Extended Tag Field Enable bit" so there's some subtlety there
-with regard to what "Extended Tag Field Supported" means.
+-- 
+2.21.0
 
-I don't know why the "Extended Tag Field Supported" bit exists if all
-receivers are required to support 8-bit tags.
-
-If we need a similar change to pci_configure_extended_tags() to check
-pcie_bus_config, that should be a separate patch because it would be a
-bug fix independent of 10-bit tag support.
-
-Bjorn
