@@ -2,188 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71CE03CB4B4
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jul 2021 10:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 661313CB542
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jul 2021 11:30:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238509AbhGPIus (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jul 2021 04:50:48 -0400
-Received: from comms.puri.sm ([159.203.221.185]:45452 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229895AbhGPIur (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jul 2021 04:50:47 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id E961DDFBFB;
-        Fri, 16 Jul 2021 01:47:22 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id yUenwAsEOUc3; Fri, 16 Jul 2021 01:47:21 -0700 (PDT)
-Message-ID: <e88d99abbdcbd6a1b2c27849f08721e79f237adc.camel@puri.sm>
-Subject: Re: [PATCH v6 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
- phy and controller
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     festevam@gmail.com, krzk@kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, kernel@puri.sm,
-        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
-        mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
-        shawnguo@kernel.org, slongerbeam@gmail.com
-Date:   Fri, 16 Jul 2021 10:47:14 +0200
-In-Reply-To: <YPCuFA+utjudv11H@pendragon.ideasonboard.com>
-References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
-         <20210714111931.324485-3-martin.kepplinger@puri.sm>
-         <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
-         <ce71a71a358247eca3b72ddcddd703206c90f284.camel@puri.sm>
-         <YPCuFA+utjudv11H@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
-Content-Transfer-Encoding: 8bit
+        id S232767AbhGPJbI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jul 2021 05:31:08 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:52552 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231354AbhGPJbH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Jul 2021 05:31:07 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 42CFE1FE8B;
+        Fri, 16 Jul 2021 09:28:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1626427692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Cp3iI/FeTKVTMDdHAVYBfn6oSpeqLceHGqZglsJJ2Sg=;
+        b=YxxObQMPmvyp94uaMpucyTdBcXWFv+7SmJSO9vUHpubHkcSmXSaR410WmH6c8C3jcTkZQS
+        GPUimwpfzumOFnBSKj7u4bITbYBupBCmk8AGVtaDx1K1XlmDS/8GHaVgfnEkhYECdILQmQ
+        T664SnftDK61kxF6Sze0ksq//3PXoUs=
+Received: from suse.cz (unknown [10.100.224.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 9713EA3BB0;
+        Fri, 16 Jul 2021 09:28:11 +0000 (UTC)
+Date:   Fri, 16 Jul 2021 11:28:11 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Luo Likang <luolikang@nsfocus.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        Yang Yanchao <yangyanchao6@huawei.com>
+Subject: Re: [PATCH v2] media: firewire: firedtv-avc: fix a buffer overflow
+ in avc_ca_pmt()
+Message-ID: <YPFRK1doifLSwnV3@alley>
+References: <YHaulytonFcW+lyZ@mwanda>
+ <20210607152348.GX1955@kadam>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210607152348.GX1955@kadam>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Freitag, dem 16.07.2021 um 00:52 +0300 schrieb Laurent Pinchart:
-> Hi Martin,
+On Mon 2021-06-07 18:23:48, Dan Carpenter wrote:
+> The bounds checking in avc_ca_pmt() is not strict enough.  It should
+> be checking "read_pos + 4" because it's reading 5 bytes.  If the
+> "es_info_length" is non-zero then it reads a 6th byte so there needs to
+> be an additional check for that.
 > 
-> On Thu, Jul 15, 2021 at 09:37:24AM +0200, Martin Kepplinger wrote:
-> > Am Mittwoch, dem 14.07.2021 um 21:24 +0300 schrieb Laurent
-> > Pinchart:
-> > > On Wed, Jul 14, 2021 at 01:19:30PM +0200, Martin Kepplinger
-> > > wrote:
-> > > > Add a driver to support the i.MX8MQ MIPI CSI receiver. The
-> > > > hardware side
-> > > > is based on
-> > > > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
-> > > > 
-> > > > It's built as part of VIDEO_IMX7_CSI because that's documented
-> > > > to support
-> > > > i.MX8M platforms. This driver adds i.MX8MQ support where
-> > > > currently only the
-> > > > i.MX8MM platform has been supported.
-> > > > 
-> > > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > > ---
-> > > >  drivers/staging/media/imx/Makefile           |   1 +
-> > > >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 949
-> > > > +++++++++++++++++++
-> > > >  2 files changed, 950 insertions(+)
-> > > >  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-
-> > > > csi2.c
-> > > > 
-> > > > diff --git a/drivers/staging/media/imx/Makefile
-> > > > b/drivers/staging/media/imx/Makefile
-> > > > index 6ac33275cc97..19c2fc54d424 100644
-> > > > --- a/drivers/staging/media/imx/Makefile
-> > > > +++ b/drivers/staging/media/imx/Makefile
-> > > > @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-
-> > > > csi2.o
+> I also added checks for the "write_pos".  I don't think these are
+> required because "read_pos" and "write_pos" are tied together so
+> checking one ought to be enough.  But they make the code easier to
+> understand for me.  The check on write_pos is:
 > 
-> [snip]
+> 	if (write_pos + 4 >= sizeof(c->operand) - 4) {
 > 
-> > > > +static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state
-> > > > *state)
-> > > > +{
-> > > > +       u32 width = state-
-> > > > >format_mbus[MIPI_CSI2_PAD_SINK].width;
-> > > > +       u32 height = state-
-> > > > >format_mbus[MIPI_CSI2_PAD_SINK].height;
-> > > > +       s64 link_freq;
-> > > > +       u32 lane_rate;
-> > > > +
-> > > > +       /* Calculate the line rate from the pixel rate. */
-> > > > +       link_freq = v4l2_get_link_freq(state->src_sd-
-> > > > >ctrl_handler,
-> > > > +                                      state->csi2_fmt->width,
-> > > > +                                      state-
-> > > > >bus.num_data_lanes * 2);
-> > > > +       if (link_freq < 0) {
-> > > > +               dev_err(state->dev, "Unable to obtain link
-> > > > frequency: %d\n",
-> > > > +                       (int)link_freq);
-> > > > +               return link_freq;
-> > > > +       }
-> > > > +
-> > > > +       lane_rate = link_freq * 2;
-> > > > +       if (lane_rate < 80000000 || lane_rate > 1500000000) {
-> > > > +               dev_dbg(state->dev, "Out-of-bound lane rate
-> > > > %u\n", lane_rate);
-> > > > +               return -EINVAL;
-> > > > +       }
-> > > > +
-> > > > +       /*
-> > > > https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
-> > > >  */
-> > > > +       if (lane_rate < 250000000)
-> > > > +               state->hs_settle = 0xb;
-> > > > +       else if (lane_rate < 500000000)
-> > > > +               state->hs_settle = 0x8;
-> > > > +       else
-> > > > +               state->hs_settle = 0x6;
-> > > 
-> > > We could possibly compute this value based on the formula from
-> > > the table
-> > > in that page, but maybe that's overkill ? If you want to give it
-> > > a try,
-> > > it would be along those lines.
-> > > 
-> > >         /*
-> > >          * The D-PHY specification requires Ths-settle to be in
-> > > the range
-> > >          * 85ns + 6*UI to 140ns + 10*UI, with the unit interval
-> > > UI being half
-> > >          * the clock period.
-> > >          *
-> > >          * The Ths-settle value is expressed in the hardware as a
-> > > multiple of
-> > >          * the Esc clock period:
-> > >          *
-> > >          * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of
-> > > RxClkInEsc
-> > >          *
-> > >          * Due to the one cycle inaccuracy introduced by
-> > > rounding, the
-> > >          * documentation recommends picking a value away from the
-> > > boundaries.
-> > >          * Let's pick the average.
-> > >          */
-> > >         esc_clk_rate = clk_get_rate(...);
-> > > 
-> > >         min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
-> > >         max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
-> > >         ths_settle = (min_ths_settle + max_ths_settle) / 2;
-> > > 
-> > >         state->hs_settle = ths_settle * esc_clk_rate / 1000000000
-> > > - 1;
-> > 
-> > I experimented a bit but would like to leave this as a task for
-> > later
-> > if that's ok. it's correct and simple now. also, using clks[i].clk
-> > based on the name string would feel better to submit seperately
-> > later.
+> The first "+ 4" is because we're writing 5 bytes and the last " - 4"
+> is to leave space for the CRC.
 > 
-> That's OK with me, but I may then submit a patch on top fairly soon
-> :-)
-> Have you been able to test if this code works on your device ? The
-> main
-> reason why I think it's better is that it doesn't hardcode a specific
-> escape clock frequency assumption, so it should be able to
-> accommodate a
-> wider range of use cases. If we change it later, there's always a
-> risk
-> of regressions, while if we do this from the start, we'll figure out
-> quickly if it doesn't work in some cases.
+> The other problem is that "length" can be invalid.  It comes from
+> "data_length" in fdtv_ca_pmt().
 > 
+> Cc: stable@vger.kernel.org
+> Reported-by: Luo Likang <luolikang@nsfocus.com>
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-taking your code basically as-is doesn't yet work, but it helps a bit.
-tbh I don't even know how to correctly read that table / calculation:
-what is the exact relation of the calculated Ths_settle time inverval
-to the hs_settle register bits?
+I do not see this fix in 5.14-rc1. Has it been solved another
+way in the end, please?
 
-if the 2 of us can't quickly figure it out I can ask NXP via that
-community forum issue and I created
-https://source.puri.sm/Librem5/linux-next/-/issues/340 so I won't
-forget about it.
-
-thanks!
-
+Best Regards,
+Petr
