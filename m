@@ -2,159 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EA533CB134
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jul 2021 05:44:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8674A3CB25C
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jul 2021 08:20:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233763AbhGPDrY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jul 2021 23:47:24 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:35753 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231230AbhGPDrY (ORCPT
+        id S234622AbhGPGW6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jul 2021 02:22:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43164 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234429AbhGPGW5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jul 2021 23:47:24 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 4Em3m6qMJvmXa4Em4mc0Ej; Fri, 16 Jul 2021 05:44:28 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1626407068; bh=Wiq+ieVZ1Wrjgz+HBi0FC5XwKT/ouJ51j/Guqm9owAo=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=anv04nYivw96IrFbMOCRbv2HU+K/BL28zHphvT3yuOqn7cEzTj1r/UoBs2edqgNXK
-         JxJLHFkH2Yz4WFwDfKIuSWZC73yBytOmi80oNAMl/7tdHJkTwrmhauPhlK/igw78cS
-         QhmaQ0Ew03gXYgLAA6YhKZiRksDwzEPk+HMN7oYqVPHknmwrtxE524YyX2ZErWlIzj
-         L6lfJ+6rlDxPwT8rabjCQBpBZ9aIAOx/vx6HLvEPjhI5tnu2bCYtJB8+h4+pOuTLJN
-         i1a8C/DESYPbWcke4zF9fijycxVZ1UMEs8+GwRqquhnPYliVFAUIMHnAAUT3fOUqdC
-         OSauL+jSIG0pQ==
-Message-ID: <566cb8704879086f4bf2cae2723624e4@smtp-cloud8.xs4all.net>
-Date:   Fri, 16 Jul 2021 05:44:27 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfIvx8AEDXpk7YK2+XP0Gb1Vi6+0EED8lqKEmXwqj6rn20GNwTUVzTDo5P/Zt2yts/zlnCbY7VEoVDTWkrE55wp/uCkzLM111HC1TtGSBC8dFnRBbgo2w
- 5VmvcdaBLWNKUAa2GugN3cNCJnCXTt5OFIr7PJTyYioj14PxsUPX1F2fMRu8Mw4trYcbC8L1MbcISQDbBzXiMbKQvYK/Vbj9WOEF46oY3Kc+ld+SCh430u7V
- JgbuOnKnVV5GoBABzzPNWg==
+        Fri, 16 Jul 2021 02:22:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D2AC06175F
+        for <linux-media@vger.kernel.org>; Thu, 15 Jul 2021 23:20:03 -0700 (PDT)
+Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4E2F3F0;
+        Fri, 16 Jul 2021 08:20:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1626416401;
+        bh=tVmu9a54j1KhICrif7OW1FH5ZABxEZRFxy22R0MiQJY=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=T63dmsfSAnK2b3yzF0DWF0IbVD+WkjrkfutgExYFkQ/GZ2gYPVlh7BowNjClIXmNL
+         vUWJhxvNcoEXUv+Tm2ekiztYMZHQBgSZjmqqbM9a+oZ5LdqcxxWYmuSehFd4CWDxCc
+         90OaG2tei2Jlv7z5icgkgw0VOOBdr7WlVC6rCU1c=
+Subject: Re: [PATCH v7 06/27] media: entity: Move the pipeline from entity to
+ pads
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+References: <20210524104408.599645-1-tomi.valkeinen@ideasonboard.com>
+ <20210524104408.599645-7-tomi.valkeinen@ideasonboard.com>
+ <20210708131136.zidlok5lqq5ihgvv@uno.localdomain>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Message-ID: <b1aaea56-fdb7-a07e-b2c7-a02358fffca8@ideasonboard.com>
+Date:   Fri, 16 Jul 2021 09:19:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210708131136.zidlok5lqq5ihgvv@uno.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 08/07/2021 16:11, Jacopo Mondi wrote:
+> Hello again,
+> 
+> On Mon, May 24, 2021 at 01:43:47PM +0300, Tomi Valkeinen wrote:
+>> From: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>
+>> This moves the pipe and stream_count fields from struct media_entity to
+>> struct media_pad. Effectively streams become pad-specific rather than
+>> being entity specific, allowing several independent streams to traverse a
+>> single entity and an entity to be part of several streams.
+>>
+>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>>
+>> - Update documentation to use 'pads'
+>> - Use the media pad iterator in media_entity.c
+>> - Update rcar-dma.c to use the new per-pad stream count
+>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>
+>> - Fix cleanup in the error path of __media_pipeline_start()
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> ---
+>>   drivers/media/mc/mc-entity.c                  | 68 +++++++++++--------
+>>   drivers/media/platform/exynos4-is/fimc-isp.c  |  2 +-
+>>   drivers/media/platform/exynos4-is/fimc-lite.c |  2 +-
+>>   drivers/media/platform/omap3isp/isp.c         |  2 +-
+>>   drivers/media/platform/omap3isp/ispvideo.c    |  2 +-
+>>   drivers/media/platform/omap3isp/ispvideo.h    |  2 +-
+>>   drivers/media/platform/rcar-vin/rcar-core.c   | 16 +++--
+>>   drivers/media/platform/rcar-vin/rcar-dma.c    |  2 +-
+>>   drivers/media/platform/xilinx/xilinx-dma.c    |  2 +-
+>>   drivers/media/platform/xilinx/xilinx-dma.h    |  2 +-
+>>   drivers/staging/media/imx/imx-media-utils.c   |  2 +-
+>>   drivers/staging/media/omap4iss/iss.c          |  2 +-
+>>   drivers/staging/media/omap4iss/iss_video.c    |  2 +-
+>>   drivers/staging/media/omap4iss/iss_video.h    |  2 +-
+>>   include/media/media-entity.h                  | 21 +++---
+>>   15 files changed, 73 insertions(+), 56 deletions(-)
+>>
+>> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+>> index 40ae9b6bac47..ea1cf7f63ae8 100644
+>> --- a/drivers/media/mc/mc-entity.c
+>> +++ b/drivers/media/mc/mc-entity.c
+>> @@ -424,24 +424,28 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+>>
+>>   	while ((pad = media_graph_walk_next(graph))) {
+>>   		struct media_entity *entity = pad->entity;
+>> +		bool skip_validation = pad->pipe != NULL;
+>> +		struct media_pad *iter;
+>>
+>>   		DECLARE_BITMAP(active, MEDIA_ENTITY_MAX_PADS);
+>>   		DECLARE_BITMAP(has_no_links, MEDIA_ENTITY_MAX_PADS);
+>>
+>> -		entity->stream_count++;
+>> -
+>> -		if (entity->pipe && entity->pipe != pipe) {
+>> -			pr_err("Pipe active for %s. Can't start for %s\n",
+>> -				entity->name,
+>> -				pad_err->entity->name);
+>> -			ret = -EBUSY;
+>> -			goto error;
+>> +		media_entity_for_each_pad(entity, iter) {
+>> +			if (iter->pipe && iter->pipe != pipe) {
+>> +				pr_err("Pipe active for %s. Can't start for %s\n",
+>> +				       entity->name, iter->entity->name);
+>> +				ret = -EBUSY;
+>> +			} else {
+>> +				iter->pipe = pipe;
+>> +			}
+>> +			iter->stream_count++;
+>>   		}
+>>
+>> -		entity->pipe = pipe;
+>> +		if (ret)
+> 
+> ret is not initialized when declared and there is a code path that
+> could lead here without assigning it. I would initialize it to 0 when
+> declaring it, or even re-assign it to 0 at the beginning of this while
+> loop.
 
-Results of the daily build of media_tree:
+Good catch! I'll fix that.
 
-date:			Fri Jul 16 05:00:14 CEST 2021
-media-tree git hash:	e73f0f0ee7541171d89f2e2491130c7771ba58d3
-media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
-v4l-utils git hash:	a4f2e3a6f306f0bef6664451b44d5a7a18b26803
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7481-g7f50411af
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d8ae6cae42acd2e6882babf2f159ff6c0f1e1792
-host hardware:		x86_64
-host os:		5.13.1-marune
-
-linux-git-sh: WARNINGS
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: ERRORS
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+  Tomi
