@@ -2,58 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C04F13CB942
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jul 2021 17:02:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E49723CB968
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jul 2021 17:07:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237088AbhGPPFm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jul 2021 11:05:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49990 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232861AbhGPPFl (ORCPT
+        id S240693AbhGPPKB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jul 2021 11:10:01 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:48378 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240468AbhGPPKA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jul 2021 11:05:41 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 176FFC061762
-        for <linux-media@vger.kernel.org>; Fri, 16 Jul 2021 08:02:46 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id g22so4586380lfu.0
-        for <linux-media@vger.kernel.org>; Fri, 16 Jul 2021 08:02:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=r+ugyUfc2QgnZo/+O3yrIrvQ0wPbe047sgVVtbVvgzA=;
-        b=yAh1f+2j2njOIaCfZcH7GMspqWkXGUa7iajPhVPwtkSpiEzXI1fL/k1QfxEMZk4Ncv
-         7NRGJF5T2dLyU1Z0MPpaRJpGNgoMsVKmxBrYIlWRki9cNMRL2MH1iVPoOp1mAUCo7DSZ
-         6ToSjtpcYcdstH2tuSfLhR+8mc090wtLQ3uvLpe3idA8z9yfBWLuWMjTxbR9qFXVdOUd
-         q+sKHEjnBl80NdLH6rqAVDnJGluWdhvgeRk1su02tQLWmi5feqg18LVy4SH7aNUncNEI
-         GKrp9fGMrjQzJNIb/ueRA8wxFSmdHYzrIb021kEQoHP+L9IfI2p+VQ5zQgOBhJhppJ5D
-         gdxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=r+ugyUfc2QgnZo/+O3yrIrvQ0wPbe047sgVVtbVvgzA=;
-        b=SpP6n8QND0BvmVzlNm3n8uA7+NSAZBVtBATKusA9XSJ8PhmhZcK1r+i7o4y/87Q4Dw
-         CGGqpXzBO+IHO3k3jtqEtcxkNf0pfx0psN6mVhrxz/Qodf045QlD/WL2BsUAQXeLphhp
-         F/WO7wrXuHN9F8k9fYbVHZKRKgFQGHpdtfcyXLTsxjzbb+At2FFmAYglFTdTarVynxws
-         Zrezmx/rIMZ9vZZ5D6+Kmbn901p5GsnJLAdq75GuCQlY4e9M/6xCCGyw9QjMoUj9rlej
-         EUPLR9dPHuopjZC9MLFEzf5j7R1QO6LiU6X4dRGLJXaRwVRnlADa+Ne/6f30RHq+wyc6
-         j/NA==
-X-Gm-Message-State: AOAM533csnxM8tEVoJ65Q+/2RG1cDcmzadZo9oMepRUHVOsZJbNJ1ese
-        glyXMSScSCpUPqTM5Xg7GTKTng==
-X-Google-Smtp-Source: ABdhPJz+/pc6/Y1brI3USB1i8gOJPKmDIxr6mV4OVHd7n/Ie7iKK3W+i603HFoG/g7AfFhPpyVQNFg==
-X-Received: by 2002:ac2:5684:: with SMTP id 4mr7995184lfr.386.1626447763155;
-        Fri, 16 Jul 2021 08:02:43 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id y8sm667140lfe.226.2021.07.16.08.02.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jul 2021 08:02:42 -0700 (PDT)
-Date:   Fri, 16 Jul 2021 17:02:41 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
+        Fri, 16 Jul 2021 11:10:00 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D5AEA3F0;
+        Fri, 16 Jul 2021 17:07:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1626448024;
+        bh=q6/4EKGBbkeghNfrc4ihOYsWk1AdSe654MqNSqL0QqE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NZmYYMpJ8AHJm+nIe7PrpyyYTeTMcRGQH/eSdfLFK1BRJV7zGB0A5vg9THrV6trnh
+         tmStm1vG6Mu7Z9eeG3cp5nFMedWi9WEdN+938CVJHKNe/6B+P+1mHi6R3iDMwH3z3Q
+         lZ1/7LqhGgdWjT7/52zBP7rLT5zCW3iOmqfXQFNQ=
+Date:   Fri, 16 Jul 2021 18:07:01 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Dennis Rachui <drachui@de.adit-jv.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Steve Longerbeam <slongerbeam@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Maxime Ripard <mripard@kernel.org>,
@@ -61,7 +33,7 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
-Message-ID: <YPGfkcdnwqgozVEu@oden.dyn.berto.se>
+Message-ID: <YPGgldecdIHMjCuq@pendragon.ideasonboard.com>
 References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
  <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
  <YOoiZM+oicZBD4o1@pendragon.ideasonboard.com>
@@ -71,7 +43,7 @@ References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
  <YPAeirL/qtmNYx99@pendragon.ideasonboard.com>
  <20210716140921.GB109328@vmlxhi-082.adit-jv.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <20210716140921.GB109328@vmlxhi-082.adit-jv.com>
@@ -81,14 +53,12 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Dennis,
 
-On 2021-07-16 16:09:21 +0200, Dennis Rachui wrote:
-> Hi Laurent,
-> 
-> > On Thu, Jul 15, 2021 at 12:57:37PM +0200, Niklas Söderlund wrote:
+On Fri, Jul 16, 2021 at 04:09:21PM +0200, Dennis Rachui wrote:
+> > On Thu, Jul 15, 2021 at 12:57:37PM +0200, Niklas SÃ¶derlund wrote:
 > > > On 2021-07-14 21:40:51 +0300, Laurent Pinchart wrote:
-> > > > On Tue, Jul 13, 2021 at 11:42:17AM +0200, Niklas Söderlund wrote:
+> > > > On Tue, Jul 13, 2021 at 11:42:17AM +0200, Niklas SÃ¶derlund wrote:
 > > > > > On 2021-07-11 01:42:44 +0300, Laurent Pinchart wrote:
-> > > > > > On Fri, Jul 09, 2021 at 04:20:40PM +0200, Niklas Söderlund wrote:
+> > > > > > On Fri, Jul 09, 2021 at 04:20:40PM +0200, Niklas SÃ¶derlund wrote:
 > > > > > > > On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
 > > > > > > > > Verify that streaming is not active before setting the pad format.
 > > > > > > > > 
@@ -151,7 +121,10 @@ On 2021-07-16 16:09:21 +0200, Dennis Rachui wrote:
 > > > that allows format changes while streaming and that would need to set 
 > > > this new V4L2_SUBDEV_CAP_ flag.
 > >
-> > Many subdevs allow format changes during streaming. The question is whether any of them do so knowingly, or if they're all buggy :-) I'd be surprised if there > were more than a couple of drivers that actually support this correctly.
+> > Many subdevs allow format changes during streaming. The question is
+> > whether any of them do so knowingly, or if they're all buggy :-) I'd
+> > be surprised if there > were more than a couple of drivers that
+> > actually support this correctly.
 > 
 > From my perspective, the current stream_count from struct media_entity
 > would not be sufficient. References should be counted per struct media_pad.
@@ -160,28 +133,19 @@ On 2021-07-16 16:09:21 +0200, Dennis Rachui wrote:
 > E.g. in rcar-csi2 this could effect a source pad connected to currently
 > unused VIN device.
 
-I understand your reasoning, but with the current V4L2 design is this 
-really a concern? As s_stream() is not pad/stream aware it acts more or 
-less as a big start / stop button.
+We're working on moving the information to pads, see "[PATCH v7 06/27]
+media: entity: Move the pipeline from entity to pads"
+(https://lore.kernel.org/linux-media/20210524104408.599645-7-tomi.valkeinen@ideasonboard.com/).
+Does this address your concern ?
 
-When starting all enabled media links formats needs to be evaluated 
-(something we can't do yet with multiplexed streams..) and all 
-subdivides that are part of the media graph are started. We can not 
-enable or disable any media links while the pipeline is streaming so I'm 
-not sure configuring the format of pads not part of the active capture 
-is such a big concern, am I missing something?
-
-> 
 > > > > > > > > Note: after creation of this commit, it was noticed that 
 > > > > > > > > Steve Longerbeam has a very similar solution in his fork.
 > > > > > > > > 
-> > > > > > > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car 
-> > > > > > > > MIPI CSI-2 receiver driver")
+> > > > > > > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
 > > > > > > > > Cc: Steve Longerbeam <slongerbeam@gmail.com>
 > > > > > > > > Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
 > > > > > > > > ---
-> > > > > > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 
-> > > > > > > > ++++++++++++++++++++-
+> > > > > > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 ++++++++++++++++++++-
 > > > > > > > >  1 file changed, 20 insertions(+), 1 deletion(-)
 > > > > > > > > 
 > > > > > > > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c 
@@ -228,14 +192,8 @@ is such a big concern, am I missing something?
 > > > > > > > >  }
 > > > > > > > >  
 > > > > > > > >  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
-> 
-> --
-> 
-> Regards,
-> 
-> Dennis Rachui
-> 
 
 -- 
 Regards,
-Niklas Söderlund
+
+Laurent Pinchart
