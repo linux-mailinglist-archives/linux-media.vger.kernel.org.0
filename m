@@ -2,572 +2,240 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEE1E3CB904
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jul 2021 16:45:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C04F13CB942
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jul 2021 17:02:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240492AbhGPOsR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jul 2021 10:48:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45964 "EHLO
+        id S237088AbhGPPFm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jul 2021 11:05:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240478AbhGPOsP (ORCPT
+        with ESMTP id S232861AbhGPPFl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jul 2021 10:48:15 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD37DC061760
-        for <linux-media@vger.kernel.org>; Fri, 16 Jul 2021 07:45:19 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id s18so14376028ljg.7
-        for <linux-media@vger.kernel.org>; Fri, 16 Jul 2021 07:45:19 -0700 (PDT)
+        Fri, 16 Jul 2021 11:05:41 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 176FFC061762
+        for <linux-media@vger.kernel.org>; Fri, 16 Jul 2021 08:02:46 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id g22so4586380lfu.0
+        for <linux-media@vger.kernel.org>; Fri, 16 Jul 2021 08:02:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=phystech-edu.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=cUtSnhZS3ik5JgJikajK1LT97nsYspf5+hArlZ2uX/Y=;
-        b=Fku8198fakdNPJrojnkueS4pyIgeYATwUBzZZLwRpSXIjngDOQQKH8ypwq1oG+T+cx
-         WZpYEun18QKcehI9s78btAo//nEqO/N9i7ThW5DiJp/gf+J5jthqzw5CmPdWXY9ZvuXU
-         wTX9l1OVJgM22FuYSeYhZbpR5VUrbtDTvY9jLQgEeto5kBnx2VAYcJgwW47yYV3kfG9q
-         TaX0t5i6qe9nAMNaRtGaftsCMMgj/hWz21O/aBsX3El132P9IimwmbC+TIoUA+tSQLcn
-         t1XvGqGmO0Ze4xlIMJaZZ+kYes9qwGRIazNm0+0hQU5hFlqNkACZU9++O4k1wSZQFJkZ
-         seKg==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=r+ugyUfc2QgnZo/+O3yrIrvQ0wPbe047sgVVtbVvgzA=;
+        b=yAh1f+2j2njOIaCfZcH7GMspqWkXGUa7iajPhVPwtkSpiEzXI1fL/k1QfxEMZk4Ncv
+         7NRGJF5T2dLyU1Z0MPpaRJpGNgoMsVKmxBrYIlWRki9cNMRL2MH1iVPoOp1mAUCo7DSZ
+         6ToSjtpcYcdstH2tuSfLhR+8mc090wtLQ3uvLpe3idA8z9yfBWLuWMjTxbR9qFXVdOUd
+         q+sKHEjnBl80NdLH6rqAVDnJGluWdhvgeRk1su02tQLWmi5feqg18LVy4SH7aNUncNEI
+         GKrp9fGMrjQzJNIb/ueRA8wxFSmdHYzrIb021kEQoHP+L9IfI2p+VQ5zQgOBhJhppJ5D
+         gdxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=cUtSnhZS3ik5JgJikajK1LT97nsYspf5+hArlZ2uX/Y=;
-        b=TUhGOFWHBAtFxJV7aiJzzNcc5tbIp9XDH2oTr2oQ9Najpbu0pFcQAbGK4kho5R75SN
-         vtK+hXum4pS4+cMoIaQbQbbXsDW8UBfRnSy/9B4X0gg8DCwg+udT3wvicLpPXChP8SJa
-         b9jxPjEkyqzA8CU2Vnib6iS5T+joMIrJMOSmNFJZLpPpAnEVlqqiY/4gzJi6xhAcZRal
-         zKCo3aXMXkYN9F00QvN7jXRp/HdYaAiBPM3y/aj5IHaytOJp7ZiLCT93RZQpIUdoMqeP
-         DyafZxg4BFUzBjjla32YBYl/kTCXpA5skSyMg2I0mv8OMhCebmHsi5yyX0LrQ9/w9tyS
-         ljkg==
-X-Gm-Message-State: AOAM531HoZz/Yqlv+PZ77O0IfCox+3TAnv1AHipT7Xn85dYrh/VFzLmD
-        /crTCa1NtvwdFVUHM3s7dT+csQ==
-X-Google-Smtp-Source: ABdhPJwlmV7LVOBa0HVVwW56Jszvy5nSRDp33jg3/i31XAnucNmZsEYeIws41yaqfL3kZ1eAeMN79Q==
-X-Received: by 2002:a2e:b81b:: with SMTP id u27mr9449337ljo.345.1626446718111;
-        Fri, 16 Jul 2021 07:45:18 -0700 (PDT)
-Received: from 192.168.1.3 ([2a00:1370:810e:abfe:9c62:44e3:b0ab:76fd])
-        by smtp.gmail.com with ESMTPSA id b6sm992327ljf.59.2021.07.16.07.45.16
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=r+ugyUfc2QgnZo/+O3yrIrvQ0wPbe047sgVVtbVvgzA=;
+        b=SpP6n8QND0BvmVzlNm3n8uA7+NSAZBVtBATKusA9XSJ8PhmhZcK1r+i7o4y/87Q4Dw
+         CGGqpXzBO+IHO3k3jtqEtcxkNf0pfx0psN6mVhrxz/Qodf045QlD/WL2BsUAQXeLphhp
+         F/WO7wrXuHN9F8k9fYbVHZKRKgFQGHpdtfcyXLTsxjzbb+At2FFmAYglFTdTarVynxws
+         Zrezmx/rIMZ9vZZ5D6+Kmbn901p5GsnJLAdq75GuCQlY4e9M/6xCCGyw9QjMoUj9rlej
+         EUPLR9dPHuopjZC9MLFEzf5j7R1QO6LiU6X4dRGLJXaRwVRnlADa+Ne/6f30RHq+wyc6
+         j/NA==
+X-Gm-Message-State: AOAM533csnxM8tEVoJ65Q+/2RG1cDcmzadZo9oMepRUHVOsZJbNJ1ese
+        glyXMSScSCpUPqTM5Xg7GTKTng==
+X-Google-Smtp-Source: ABdhPJz+/pc6/Y1brI3USB1i8gOJPKmDIxr6mV4OVHd7n/Ie7iKK3W+i603HFoG/g7AfFhPpyVQNFg==
+X-Received: by 2002:ac2:5684:: with SMTP id 4mr7995184lfr.386.1626447763155;
+        Fri, 16 Jul 2021 08:02:43 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id y8sm667140lfe.226.2021.07.16.08.02.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jul 2021 07:45:17 -0700 (PDT)
-From:   Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-To:     sean@mess.org, mchehab@kernel.org, robh+dt@kernel.org,
-        khilman@baylibre.com, narmstrong@baylibre.com
-Cc:     jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, rockosov@gmail.com,
-        Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-Subject: [PATCH v6 2/2] media: rc: introduce Meson IR TX driver
-Date:   Fri, 16 Jul 2021 17:45:08 +0300
-Message-Id: <20210716144508.6058-3-viktor.prutyanov@phystech.edu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20210716144508.6058-1-viktor.prutyanov@phystech.edu>
-References: <20210716144508.6058-1-viktor.prutyanov@phystech.edu>
+        Fri, 16 Jul 2021 08:02:42 -0700 (PDT)
+Date:   Fri, 16 Jul 2021 17:02:41 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Dennis Rachui <drachui@de.adit-jv.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
+Message-ID: <YPGfkcdnwqgozVEu@oden.dyn.berto.se>
+References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
+ <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
+ <YOoiZM+oicZBD4o1@pendragon.ideasonboard.com>
+ <YO1f+SOTBS44/Wf0@oden.dyn.berto.se>
+ <YO8vs4V/lhVA8mY9@pendragon.ideasonboard.com>
+ <YPAUoQ8KmmAE3fWD@oden.dyn.berto.se>
+ <YPAeirL/qtmNYx99@pendragon.ideasonboard.com>
+ <20210716140921.GB109328@vmlxhi-082.adit-jv.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210716140921.GB109328@vmlxhi-082.adit-jv.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch adds the driver for Amlogic Meson IR transmitter.
+Hi Dennis,
 
-Some Amlogic SoCs such as A311D and T950D4 have IR transmitter
-(also called blaster) controller onboard. It is capable of sending
-IR signals with arbitrary carrier frequency and duty cycle.
+On 2021-07-16 16:09:21 +0200, Dennis Rachui wrote:
+> Hi Laurent,
+> 
+> > On Thu, Jul 15, 2021 at 12:57:37PM +0200, Niklas Söderlund wrote:
+> > > On 2021-07-14 21:40:51 +0300, Laurent Pinchart wrote:
+> > > > On Tue, Jul 13, 2021 at 11:42:17AM +0200, Niklas Söderlund wrote:
+> > > > > On 2021-07-11 01:42:44 +0300, Laurent Pinchart wrote:
+> > > > > > On Fri, Jul 09, 2021 at 04:20:40PM +0200, Niklas Söderlund wrote:
+> > > > > > > On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
+> > > > > > > > Verify that streaming is not active before setting the pad format.
+> > > > > > > > 
+> > > > > > > > According to the VIDIOC documentation [1] changes to the 
+> > > > > > > > active format of a media pad via the VIDIOC_SUBDEV_S_FMT 
+> > > > > > > > ioctl are applied to the underlying hardware.
+> > > > > > > > In rcar-csi2 a format change only applies to hardware, when 
+> > > > > > > > the pipeline is started. While the device is not in use, it 
+> > > > > > > > is therefore okay to update the format.
+> > > > > > > > 
+> > > > > > > > However, when the pipeline is active, this leads to a format 
+> > > > > > > > mismatch between driver and device.
+> > > > > > > > Other applications can query the format with 
+> > > > > > > > VIDIOC_SUBDEV_G_FMT at any time and would be reported a 
+> > > > > > > > format that does not fit the current stream.
+> > > > > > > > 
+> > > > > > > > This commit prevents format update while streaming is active 
+> > > > > > > > and returns -EBUSY to user space, as suggested by [1].
+> > > > > > > > 
+> > > > > > > > [1] 
+> > > > > > > > Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rs
+> > > > > > > > t
+> > > > > > > 
+> > > > > > > I like that this is addressed, but I wonder is this not 
+> > > > > > > something that should be fixed in the V4L2 core and not in drivers?
+> > > > > > 
+> > > > > > Some drivers may support format changes during streaming (that's 
+> > > > > > allowed by the V4L2 API, I'm not sure if it's used anywhere 
+> > > > > > though). While I'd favour not duplicating the same logic in 
+> > > > > > different (and differently
+> > > > > > buggy) ways in drivers, I'm not sure how this could be 
+> > > > > > implemented in a sane way in the V4L2 core in its current state.
+> > > > > 
+> > > > > I understand it's possible from some devices to support to format 
+> > > > > changes during streaming, but as you point out it's the exception 
+> > > > > and not the rule, if used at all.
+> > > > > 
+> > > > > So my point is if we start to enforce this in drivers we are 
+> > > > > headed down a road where this will be messier to clean up. Would 
+> > > > > it not make more sens to default the V4L2 core to disallow format 
+> > > > > changes while streaming and add a new flag to V4L2_SUBDEV_CAP_ to 
+> > > > > signal that the subdevice supports format changes while streaming?
+> > > > > 
+> > > > > We already have V4L2_SUBDEV_CAP_RO_SUBDEV to signal that a 
+> > > > > subdevice only supports read-only operations so I think it would 
+> > > > > not be too hard to move this functionality into the core?
+> > > > 
+> > > > Yes, that's something we could try. The subdev core will then need 
+> > > > to track the streaming state, which may require wrapping the 
+> > > > .s_stream() call. Locking should then also likely be handled by the 
+> > > > core. Probably nothing impossible, but quite a bit of work. Any 
+> > > > volunteer ? :-)
+> > > 
+> > > We already track the stream count in struct media_entity and it's 
+> > > incremented/decremented under the media device lock by
+> > > media_pipeline_start() and media_pipeline_stop(). So I don't think 
+> > > it's such a hard feature to add.
+> > > 
+> > > The large task IMHO is to figure out if we have any subdevice in tree 
+> > > that allows format changes while streaming and that would need to set 
+> > > this new V4L2_SUBDEV_CAP_ flag.
+> >
+> > Many subdevs allow format changes during streaming. The question is whether any of them do so knowingly, or if they're all buggy :-) I'd be surprised if there > were more than a couple of drivers that actually support this correctly.
+> 
+> From my perspective, the current stream_count from struct media_entity
+> would not be sufficient. References should be counted per struct media_pad.
+> Otherwise, devices that allow multiple parallel streams would block user
+> space from updating media-pads that are not part of an active media-pipeline.
+> E.g. in rcar-csi2 this could effect a source pad connected to currently
+> unused VIN device.
 
-The driver supports 2 modulation clock sources:
- - xtal3 clock (xtal divided by 3)
- - 1us clock
+I understand your reasoning, but with the current V4L2 design is this 
+really a concern? As s_stream() is not pad/stream aware it acts more or 
+less as a big start / stop button.
 
-Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
----
- changes in v2:
-   - threaded IRQ removed, all stuff done in IRQ handler
-   - DIV_ROUND_CLOSEST_ULL replaced with DIV_ROUND_CLOSEST
-   - compatible changed to "amlogic,meson-g12a-irblaster"
-   - 'debug' parameter removed
-   - dprintk() replaced with dev_dbg()/dev_info()
-   - carrier frequency checked against 0
-   - device_name added
- changes in v3:
-   - license header fixed
-   - 'max_fifo_level' parameter removed
-   - irq and clk_nr deleted from irblaster_dev struct
-   - some divisions replaced with DIV_ROUND_CLOSEST
-   - irb_send inlined
-   - fixed early completion in IRQ handler
-   - spin lock added before kfree
- changes in v4:
-   - irblaster -> ir-tx renaming
-   - spin lock added before buffer allocation
- changes in v5:
-   - spinlocks rework made in meson_irtx_transmit
-   - max_fifo_level replaced with fifo_threshold (max_fifo_level +
-     fifo_threshold == IRB_FIFO_LEN == 128)
-   - max-fifo-level -> amlogic,fifo-threshold
- changes in v6:
-   - interruptible wait replaced with uninterruptible with timeout
-   - completion done check added to IRQ handler
+When starting all enabled media links formats needs to be evaluated 
+(something we can't do yet with multiplexed streams..) and all 
+subdivides that are part of the media graph are started. We can not 
+enable or disable any media links while the pipeline is streaming so I'm 
+not sure configuring the format of pads not part of the active capture 
+is such a big concern, am I missing something?
 
- drivers/media/rc/Kconfig       |  10 +
- drivers/media/rc/Makefile      |   1 +
- drivers/media/rc/meson-ir-tx.c | 415 +++++++++++++++++++++++++++++++++
- 3 files changed, 426 insertions(+)
- create mode 100644 drivers/media/rc/meson-ir-tx.c
+> 
+> > > > > > > > Note: after creation of this commit, it was noticed that 
+> > > > > > > > Steve Longerbeam has a very similar solution in his fork.
+> > > > > > > > 
+> > > > > > > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car 
+> > > > > > > > MIPI CSI-2 receiver driver")
+> > > > > > > > Cc: Steve Longerbeam <slongerbeam@gmail.com>
+> > > > > > > > Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
+> > > > > > > > ---
+> > > > > > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 
+> > > > > > > > ++++++++++++++++++++-
+> > > > > > > >  1 file changed, 20 insertions(+), 1 deletion(-)
+> > > > > > > > 
+> > > > > > > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c 
+> > > > > > > > b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > > > > index e28eff0..98152e1 100644
+> > > > > > > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > > > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > > > > @@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct 
+> > > > > > > > v4l2_subdev *sd,  {
+> > > > > > > >  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> > > > > > > >  	struct v4l2_mbus_framefmt *framefmt;
+> > > > > > > > +	int ret = 0;
+> > > > > > > > +
+> > > > > > > > +	mutex_lock(&priv->lock);
+> > > > > > > >  
+> > > > > > > >  	if (!rcsi2_code_to_fmt(format->format.code))
+> > > > > > > >  		format->format.code = rcar_csi2_formats[0].code;
+> > > > > > > >  
+> > > > > > > >  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > > > > > > > +
+> > > > > > > > +		/*
+> > > > > > > > +		 * Do not apply changes to active format while streaming.
+> > > > > > > > +		 *
+> > > > > > > > +		 * Since video streams could be forwarded from sink pad to any
+> > > > > > > > +		 * source pad (depending on CSI-2 channel routing), all
+> > > > > > > > +		 * media pads are effected by this rule.
+> > > > > > > > +		 */
+> > > > > > > > +		if (priv->stream_count > 0) {
+> > > > > > > > +			ret = -EBUSY;
+> > > > > > > > +			goto out;
+> > > > > > > > +		}
+> > > > > > > > +
+> > > > > > > >  		priv->mf = format->format;
+> > > > > > > >  	} else {
+> > > > > > > >  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> > > > > > > >  		*framefmt = format->format;
+> > > > > > > >  	}
+> > > > > > > >  
+> > > > > > > > -	return 0;
+> > > > > > > > +out:
+> > > > > > > > +	mutex_unlock(&priv->lock);
+> > > > > > > > +
+> > > > > > > > +	return ret;
+> > > > > > > >  }
+> > > > > > > >  
+> > > > > > > >  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
+> 
+> --
+> 
+> Regards,
+> 
+> Dennis Rachui
+> 
 
-diff --git a/drivers/media/rc/Kconfig b/drivers/media/rc/Kconfig
-index d0a8326b75c2..fd5a7a058714 100644
---- a/drivers/media/rc/Kconfig
-+++ b/drivers/media/rc/Kconfig
-@@ -246,6 +246,16 @@ config IR_MESON
- 	   To compile this driver as a module, choose M here: the
- 	   module will be called meson-ir.
- 
-+config IR_MESON_TX
-+	tristate "Amlogic Meson IR TX"
-+	depends on ARCH_MESON || COMPILE_TEST
-+	help
-+	   Say Y if you want to use the IR transmitter available on
-+	   Amlogic Meson SoCs.
-+
-+	   To compile this driver as a module, choose M here: the
-+	   module will be called meson-ir-tx.
-+
- config IR_MTK
- 	tristate "Mediatek IR remote receiver"
- 	depends on ARCH_MEDIATEK || COMPILE_TEST
-diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
-index 692e9b6b203f..0db51fad27d6 100644
---- a/drivers/media/rc/Makefile
-+++ b/drivers/media/rc/Makefile
-@@ -28,6 +28,7 @@ obj-$(CONFIG_IR_ITE_CIR) += ite-cir.o
- obj-$(CONFIG_IR_MCEUSB) += mceusb.o
- obj-$(CONFIG_IR_FINTEK) += fintek-cir.o
- obj-$(CONFIG_IR_MESON) += meson-ir.o
-+obj-$(CONFIG_IR_MESON_TX) += meson-ir-tx.o
- obj-$(CONFIG_IR_NUVOTON) += nuvoton-cir.o
- obj-$(CONFIG_IR_ENE) += ene_ir.o
- obj-$(CONFIG_IR_REDRAT3) += redrat3.o
-diff --git a/drivers/media/rc/meson-ir-tx.c b/drivers/media/rc/meson-ir-tx.c
-new file mode 100644
-index 000000000000..77e276e3dbe8
---- /dev/null
-+++ b/drivers/media/rc/meson-ir-tx.c
-@@ -0,0 +1,415 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/**
-+ * meson-ir-tx.c - Amlogic Meson IR TX driver
-+ *
-+ * Copyright (c) 2021, SberDevices. All Rights Reserved.
-+ *
-+ * Author: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/module.h>
-+#include <linux/sched.h>
-+#include <linux/platform_device.h>
-+#include <linux/of.h>
-+#include <linux/interrupt.h>
-+#include <linux/spinlock.h>
-+#include <linux/of_irq.h>
-+#include <linux/clk.h>
-+#include <linux/slab.h>
-+#include <media/rc-core.h>
-+
-+#define DEVICE_NAME	"Meson IR TX"
-+#define DRIVER_NAME	"meson-ir-tx"
-+
-+#define MIRTX_DEFAULT_CARRIER		38000
-+#define MIRTX_DEFAULT_DUTY_CYCLE	50
-+#define MIRTX_DEFAULT_FIFO_THD		32
-+#define MIRTX_TIMEOUT_US		(IR_MAX_DURATION / NSEC_PER_USEC)
-+
-+#define IRB_MOD_1US_CLK_RATE	1000000
-+
-+#define IRB_FIFO_LEN	128
-+
-+#define IRB_ADDR0	0x0
-+#define IRB_ADDR1	0x4
-+#define IRB_ADDR2	0x8
-+#define IRB_ADDR3	0xc
-+
-+#define IRB_MAX_DELAY	(1 << 10)
-+#define IRB_DELAY_MASK	(IRB_MAX_DELAY - 1)
-+
-+/* IRCTRL_IR_BLASTER_ADDR0 */
-+#define IRB_MOD_CLK(x)		((x) << 12)
-+#define IRB_MOD_SYS_CLK		0
-+#define IRB_MOD_XTAL3_CLK	1
-+#define IRB_MOD_1US_CLK		2
-+#define IRB_MOD_10US_CLK	3
-+#define IRB_INIT_HIGH		BIT(2)
-+#define IRB_ENABLE		BIT(0)
-+
-+/* IRCTRL_IR_BLASTER_ADDR2 */
-+#define IRB_MOD_COUNT(lo, hi)	((((lo) - 1) << 16) | ((hi) - 1))
-+
-+/* IRCTRL_IR_BLASTER_ADDR2 */
-+#define IRB_WRITE_FIFO	BIT(16)
-+#define IRB_MOD_ENABLE	BIT(12)
-+#define IRB_TB_1US	(0x0 << 10)
-+#define IRB_TB_10US	(0x1 << 10)
-+#define IRB_TB_100US	(0x2 << 10)
-+#define IRB_TB_MOD_CLK	(0x3 << 10)
-+
-+/* IRCTRL_IR_BLASTER_ADDR3 */
-+#define IRB_FIFO_THD_PENDING	BIT(16)
-+#define IRB_FIFO_IRQ_ENABLE	BIT(8)
-+
-+struct meson_irtx {
-+	struct device *dev;
-+	void __iomem *reg_base;
-+	u32 *buf;
-+	unsigned int buf_len;
-+	unsigned int buf_head;
-+	unsigned int carrier;
-+	unsigned int duty_cycle;
-+	spinlock_t lock;
-+	struct completion completion;
-+	unsigned int fifo_threshold;
-+	unsigned long clk_rate;
-+};
-+
-+static void meson_irtx_set_mod(struct meson_irtx *ir)
-+{
-+	unsigned int cnt = DIV_ROUND_CLOSEST(ir->clk_rate, ir->carrier);
-+	unsigned int pulse_cnt = DIV_ROUND_CLOSEST(cnt * ir->duty_cycle, 100);
-+	unsigned int space_cnt = cnt - pulse_cnt;
-+
-+	dev_dbg(ir->dev, "F_mod = %uHz, T_mod = %luns, duty_cycle = %u%%\n",
-+		ir->carrier, NSEC_PER_SEC / ir->clk_rate * cnt,
-+		100 * pulse_cnt / cnt);
-+
-+	writel(IRB_MOD_COUNT(pulse_cnt, space_cnt),
-+	       ir->reg_base + IRB_ADDR1);
-+}
-+
-+static void meson_irtx_setup(struct meson_irtx *ir, unsigned int clk_nr)
-+{
-+	/*
-+	 * Disable the TX, set modulator clock tick and set initialize
-+	 * output to be high. Set up carrier frequency and duty cycle. Then
-+	 * unset initialize output. Enable FIFO interrupt, set FIFO interrupt
-+	 * threshold. Finally, enable the transmitter back.
-+	 */
-+	writel(~IRB_ENABLE & (IRB_MOD_CLK(clk_nr) | IRB_INIT_HIGH),
-+	       ir->reg_base + IRB_ADDR0);
-+	meson_irtx_set_mod(ir);
-+	writel(readl(ir->reg_base + IRB_ADDR0) & ~IRB_INIT_HIGH,
-+	       ir->reg_base + IRB_ADDR0);
-+	writel(IRB_FIFO_IRQ_ENABLE | ir->fifo_threshold,
-+	       ir->reg_base + IRB_ADDR3);
-+	writel(readl(ir->reg_base + IRB_ADDR0) | IRB_ENABLE,
-+	       ir->reg_base + IRB_ADDR0);
-+}
-+
-+static u32 meson_irtx_prepare_pulse(struct meson_irtx *ir, unsigned int time)
-+{
-+	unsigned int delay;
-+	unsigned int tb = IRB_TB_MOD_CLK;
-+	unsigned int tb_us = DIV_ROUND_CLOSEST(USEC_PER_SEC, ir->carrier);
-+
-+	delay = (DIV_ROUND_CLOSEST(time, tb_us) - 1) & IRB_DELAY_MASK;
-+
-+	return ((IRB_WRITE_FIFO | IRB_MOD_ENABLE) | tb | delay);
-+}
-+
-+static u32 meson_irtx_prepare_space(struct meson_irtx *ir, unsigned int time)
-+{
-+	unsigned int delay;
-+	unsigned int tb = IRB_TB_100US;
-+	unsigned int tb_us = 100;
-+
-+	if (time <= IRB_MAX_DELAY) {
-+		tb = IRB_TB_1US;
-+		tb_us = 1;
-+	} else if (time <= 10 * IRB_MAX_DELAY) {
-+		tb = IRB_TB_10US;
-+		tb_us = 10;
-+	} else if (time <= 100 * IRB_MAX_DELAY) {
-+		tb = IRB_TB_100US;
-+		tb_us = 100;
-+	}
-+
-+	delay = (DIV_ROUND_CLOSEST(time, tb_us) - 1) & IRB_DELAY_MASK;
-+
-+	return ((IRB_WRITE_FIFO & ~IRB_MOD_ENABLE) | tb | delay);
-+}
-+
-+static void meson_irtx_send_buffer(struct meson_irtx *ir)
-+{
-+	unsigned int nr = 0;
-+	unsigned int max_fifo_level = IRB_FIFO_LEN - ir->fifo_threshold;
-+
-+	while (ir->buf_head < ir->buf_len && nr < max_fifo_level) {
-+		writel(ir->buf[ir->buf_head], ir->reg_base + IRB_ADDR2);
-+
-+		ir->buf_head++;
-+		nr++;
-+	}
-+}
-+
-+static bool meson_irtx_check_buf(struct meson_irtx *ir,
-+			  unsigned int *buf, unsigned int len)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < len; i++) {
-+		unsigned int max_tb_us;
-+		/*
-+		 * Max space timebase is 100 us.
-+		 * Pulse timebase equals to carrier period.
-+		 */
-+		if (i % 2 == 0)
-+			max_tb_us = USEC_PER_SEC / ir->carrier;
-+		else
-+			max_tb_us = 100;
-+
-+		if (buf[i] >= max_tb_us * IRB_MAX_DELAY)
-+			return false;
-+	}
-+
-+	return true;
-+}
-+
-+static void meson_irtx_fill_buf(struct meson_irtx *ir, u32 *dst_buf,
-+				unsigned int *src_buf, unsigned int len)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < len; i++) {
-+		if (i % 2 == 0)
-+			dst_buf[i] = meson_irtx_prepare_pulse(ir, src_buf[i]);
-+		else
-+			dst_buf[i] = meson_irtx_prepare_space(ir, src_buf[i]);
-+	}
-+}
-+
-+static irqreturn_t meson_irtx_irqhandler(int irq, void *data)
-+{
-+	unsigned long flags;
-+	struct meson_irtx *ir = data;
-+
-+	writel(readl(ir->reg_base + IRB_ADDR3) & ~IRB_FIFO_THD_PENDING,
-+	       ir->reg_base + IRB_ADDR3);
-+
-+	if (completion_done(&ir->completion))
-+		return IRQ_HANDLED;
-+
-+	spin_lock_irqsave(&ir->lock, flags);
-+	if (ir->buf_head < ir->buf_len)
-+		meson_irtx_send_buffer(ir);
-+	else
-+		complete(&ir->completion);
-+	spin_unlock_irqrestore(&ir->lock, flags);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int meson_irtx_set_carrier(struct rc_dev *rc, u32 carrier)
-+{
-+	struct meson_irtx *ir = rc->priv;
-+
-+	if (carrier == 0)
-+		return -EINVAL;
-+
-+	ir->carrier = carrier;
-+	meson_irtx_set_mod(ir);
-+
-+	return 0;
-+}
-+
-+static int meson_irtx_set_duty_cycle(struct rc_dev *rc, u32 duty_cycle)
-+{
-+	struct meson_irtx *ir = rc->priv;
-+
-+	ir->duty_cycle = duty_cycle;
-+	meson_irtx_set_mod(ir);
-+
-+	return 0;
-+}
-+
-+static void meson_irtx_update_buf(struct meson_irtx *ir, u32 *buf,
-+				  unsigned int len, unsigned int head)
-+{
-+	ir->buf = buf;
-+	ir->buf_len = len;
-+	ir->buf_head = head;
-+}
-+
-+static int meson_irtx_transmit(struct rc_dev *rc, unsigned int *buf,
-+			       unsigned int len)
-+{
-+	unsigned long flags;
-+	struct meson_irtx *ir = rc->priv;
-+	u32 *tx_buf;
-+	int ret = len;
-+
-+	if (!meson_irtx_check_buf(ir, buf, len))
-+		return -EINVAL;
-+
-+	tx_buf = kmalloc_array(len, sizeof(u32), GFP_KERNEL);
-+	if (!tx_buf)
-+		return -ENOMEM;
-+
-+	meson_irtx_fill_buf(ir, tx_buf, buf, len);
-+	dev_dbg(ir->dev, "TX buffer filled, length = %u\n", len);
-+
-+	spin_lock_irqsave(&ir->lock, flags);
-+	meson_irtx_update_buf(ir, tx_buf, len, 0);
-+	reinit_completion(&ir->completion);
-+	meson_irtx_send_buffer(ir);
-+	spin_unlock_irqrestore(&ir->lock, flags);
-+
-+	if (!wait_for_completion_timeout(&ir->completion,
-+					 usecs_to_jiffies(MIRTX_TIMEOUT_US)))
-+		ret = -ETIMEDOUT;
-+
-+	spin_lock_irqsave(&ir->lock, flags);
-+	kfree(ir->buf);
-+	meson_irtx_update_buf(ir, NULL, 0, 0);
-+	spin_unlock_irqrestore(&ir->lock, flags);
-+
-+	return ret;
-+}
-+
-+static int meson_irtx_mod_clock_probe(struct meson_irtx *ir,
-+				      unsigned int *clk_nr)
-+{
-+	struct device_node *np = ir->dev->of_node;
-+	struct clk *clock;
-+
-+	if (!np)
-+		return -ENODEV;
-+
-+	clock = devm_clk_get(ir->dev, "xtal");
-+	if (IS_ERR(clock) || clk_prepare_enable(clock))
-+		return -ENODEV;
-+
-+	*clk_nr = IRB_MOD_XTAL3_CLK;
-+	ir->clk_rate = clk_get_rate(clock) / 3;
-+
-+	if (ir->clk_rate < IRB_MOD_1US_CLK_RATE) {
-+		*clk_nr = IRB_MOD_1US_CLK;
-+		ir->clk_rate = IRB_MOD_1US_CLK_RATE;
-+	}
-+
-+	dev_info(ir->dev, "F_clk = %luHz\n", ir->clk_rate);
-+
-+	return 0;
-+}
-+
-+static int __init meson_irtx_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct meson_irtx *ir;
-+	struct rc_dev *rc;
-+	int irq;
-+	unsigned int clk_nr;
-+	int ret;
-+
-+	ir = devm_kzalloc(dev, sizeof(*ir), GFP_KERNEL);
-+	if (!ir)
-+		return -ENOMEM;
-+
-+	ir->reg_base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(ir->reg_base))
-+		return PTR_ERR(ir->reg_base);
-+
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0) {
-+		dev_err(dev, "no irq resource found\n");
-+		return -ENODEV;
-+	}
-+
-+	if (of_property_read_u32(dev->of_node, "amlogic,fifo-threshold",
-+				 &ir->fifo_threshold))
-+		ir->fifo_threshold = MIRTX_DEFAULT_FIFO_THD;
-+	else if (ir->fifo_threshold >= IRB_FIFO_LEN)
-+		ir->fifo_threshold = MIRTX_DEFAULT_FIFO_THD;
-+	dev_dbg(dev, "FIFO threshold set to %u\n", ir->fifo_threshold);
-+
-+	ir->dev = dev;
-+	ir->carrier = MIRTX_DEFAULT_CARRIER;
-+	ir->duty_cycle = MIRTX_DEFAULT_DUTY_CYCLE;
-+	init_completion(&ir->completion);
-+	spin_lock_init(&ir->lock);
-+
-+	ret = meson_irtx_mod_clock_probe(ir, &clk_nr);
-+	if (ret) {
-+		dev_err(dev, "modulator clock setup failed\n");
-+		return ret;
-+	}
-+	meson_irtx_setup(ir, clk_nr);
-+
-+	ret = devm_request_irq(dev, irq,
-+			       meson_irtx_irqhandler,
-+			       IRQF_TRIGGER_RISING,
-+			       DRIVER_NAME, ir);
-+	if (ret) {
-+		dev_err(dev, "irq request failed\n");
-+		return ret;
-+	}
-+
-+	rc = rc_allocate_device(RC_DRIVER_IR_RAW_TX);
-+	if (!rc)
-+		return -ENOMEM;
-+
-+	rc->driver_name = DRIVER_NAME;
-+	rc->device_name = DEVICE_NAME;
-+	rc->priv = ir;
-+
-+	rc->tx_ir = meson_irtx_transmit;
-+	rc->s_tx_carrier = meson_irtx_set_carrier;
-+	rc->s_tx_duty_cycle = meson_irtx_set_duty_cycle;
-+
-+	ret = rc_register_device(rc);
-+	if (ret < 0) {
-+		dev_err(dev, "rc_dev registration failed\n");
-+		rc_free_device(rc);
-+		return ret;
-+	}
-+
-+	platform_set_drvdata(pdev, rc);
-+
-+	return 0;
-+}
-+
-+static int meson_irtx_remove(struct platform_device *pdev)
-+{
-+	struct rc_dev *rc = platform_get_drvdata(pdev);
-+
-+	rc_unregister_device(rc);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id meson_irtx_dt_match[] = {
-+	{
-+		.compatible = "amlogic,meson-g12a-ir-tx",
-+	},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, meson_irtx_dt_match);
-+
-+static struct platform_driver meson_irtx_pd = {
-+	.remove = meson_irtx_remove,
-+	.driver = {
-+		.name = DRIVER_NAME,
-+		.owner  = THIS_MODULE,
-+		.of_match_table = meson_irtx_dt_match,
-+	},
-+};
-+
-+module_platform_driver_probe(meson_irtx_pd, meson_irtx_probe);
-+
-+MODULE_DESCRIPTION("Meson IR TX driver");
-+MODULE_AUTHOR("Viktor Prutyanov <viktor.prutyanov@phystech.edu>");
-+MODULE_LICENSE("GPL");
 -- 
-2.21.0
-
+Regards,
+Niklas Söderlund
