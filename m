@@ -2,105 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D898A3CBC42
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jul 2021 21:17:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B9673CBC65
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jul 2021 21:23:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231715AbhGPTUi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jul 2021 15:20:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57504 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229534AbhGPTUi (ORCPT
+        id S232261AbhGPT0b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jul 2021 15:26:31 -0400
+Received: from mail-io1-f44.google.com ([209.85.166.44]:45615 "EHLO
+        mail-io1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230256AbhGPT0a (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jul 2021 15:20:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626463062;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Dh9TP4UQfqmrs3ZL1M5afaofaGCDHoww5GnNH6A6qVI=;
-        b=aHFLzUI4zoaxgzLbdaj35agvtSSuNAqhfLWHPx/WGOvZFeifBiVUNyVThwtasJVLeuToY9
-        3bgEAriXkz7UHNG2LvGxP8ycKSMgZNa0+F+UcrkIyCTWt9s/KNPVqwa6Nk4m39fpXIb8U9
-        o2rpuF1Kyehn+U75e1qo+eoVbVLaRb4=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-hLWwPiIGNtaJdNvRaMDRQg-1; Fri, 16 Jul 2021 15:17:41 -0400
-X-MC-Unique: hLWwPiIGNtaJdNvRaMDRQg-1
-Received: by mail-qv1-f70.google.com with SMTP id u8-20020a0562141c08b02902e82df307f0so7400228qvc.4
-        for <linux-media@vger.kernel.org>; Fri, 16 Jul 2021 12:17:41 -0700 (PDT)
+        Fri, 16 Jul 2021 15:26:30 -0400
+Received: by mail-io1-f44.google.com with SMTP id z17so5250178iog.12;
+        Fri, 16 Jul 2021 12:23:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Dh9TP4UQfqmrs3ZL1M5afaofaGCDHoww5GnNH6A6qVI=;
-        b=kZpCwYi3pHZ6bNPx5O3im+Zh6JRjHFyo3k9l2rt2J6aK3I8Xp+kCeLfrUOzbhUTl4S
-         JrY6VmARRBWoD/7mjhZAwUC9uXrpwNPN2U7854+N0HkGjkVWvJPmfPO8Gy1KAxwpGJ3+
-         JJNQP94oONoJzAnjymSN9/ADEY9pqrIITx7fBgDR2IPOsJbMqivSjfZud3VC5du3KJ5C
-         bZzCwRXJFkPFn+TdoXLKJ7MazZuRL3Sl93qnrvOlgi0nkblgqVNW1H0FzxBBXuqkid+4
-         2NIbNH4FmFvq4MJOb9GySV4OnEIYnO2U67pV9zl8f8I5H4g4bodIYMxolX8OB3IeQH2Z
-         Sq4A==
-X-Gm-Message-State: AOAM533qAHYywW+8IcIZFZLcvZnIzyGuGKfpcDRNF7A2jTKX+S+nEtXp
-        DFAaPDKcSkhOxZBXUl361aGLtNg6zOJ77oFT1ILhI86KYDJ6v20JO+H+Sdt/G7GRFST8hHDHPky
-        6w/NavL3D4bbzvkwaSLIi11s=
-X-Received: by 2002:a05:620a:38f:: with SMTP id q15mr11493406qkm.116.1626463060842;
-        Fri, 16 Jul 2021 12:17:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxojxgjssz6s5hi5XBH2Se8WN32bm3yv16fSMX286naPzmFZ35jHl0F2qL6jCa2aHw6/EBhXA==
-X-Received: by 2002:a05:620a:38f:: with SMTP id q15mr11493386qkm.116.1626463060658;
-        Fri, 16 Jul 2021 12:17:40 -0700 (PDT)
-Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id i123sm2659785qkf.60.2021.07.16.12.17.39
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=OTm0XNX7QR5VUzRmbpcpXSsIdm4bg2gxSberXyeMlDY=;
+        b=JgiS+lWD8MI9RwLtSua/9EiCOVEFOKur65z1au7nUizNy0KrHuOYijdW0bF5cjZH4W
+         q5uQ0cn1cSajfrCa5Od2xobM1TBf5LS/4etT1ErpLb+MoIXujci0WFiwh6SKCsCZMtvn
+         ljO6YqXRmz6CJ8sFH2BYm3I3gEe2eKG3IbJRnwHTg9kSFum81GwUVp5ir4V1MP/9uVfg
+         H6JRSkselxhzOA+ZmHGZzx++bRw0hMgDopkTMMeE1hAbhh/Y70Q5sAORAgVcxQ5orYiY
+         kJgJE2tlVGNFyxByWF5sU8cdidcZfUbRRQkZhbH1Gd8DuqLJuiEVHnVW1EaI0fnwvc3S
+         odfQ==
+X-Gm-Message-State: AOAM530IaG1K5TTdDC4HedsY4j9+7Gtl8A0IB0PCumd482F31KSGm/5P
+        edSMBSBgZ+w0FLNyQhshBsYVTJhwtg==
+X-Google-Smtp-Source: ABdhPJwlbfmHUlKyAdFI2WF99x6bo3uSrZtFXktEDmiy470ONdrguyOumSHkDJY8EfGv1U5BVF/SGw==
+X-Received: by 2002:a05:6602:26d2:: with SMTP id g18mr8485399ioo.194.1626463415034;
+        Fri, 16 Jul 2021 12:23:35 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id u13sm5433182iot.29.2021.07.16.12.23.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jul 2021 12:17:40 -0700 (PDT)
-From:   trix@redhat.com
-To:     bparrot@ti.com, mchehab@kernel.org,
-        tomi.valkeinen@ideasonboard.com, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH] media: ti-vpe: cal: fix indexing of cal->ctx[] in cal_probe()
-Date:   Fri, 16 Jul 2021 12:17:33 -0700
-Message-Id: <20210716191733.2976039-1-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
+        Fri, 16 Jul 2021 12:23:34 -0700 (PDT)
+Received: (nullmailer pid 3836563 invoked by uid 1000);
+        Fri, 16 Jul 2021 19:23:31 -0000
+Date:   Fri, 16 Jul 2021 13:23:31 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Stefan Riedmueller <s.riedmueller@phytec.de>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 5/6] media: dt-bindings: mt9p031: Convert bindings to
+ yaml
+Message-ID: <20210716192331.GA3831920@robh.at.kernel.org>
+References: <20210714133849.1041619-1-s.riedmueller@phytec.de>
+ <20210714133849.1041619-6-s.riedmueller@phytec.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210714133849.1041619-6-s.riedmueller@phytec.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+On Wed, Jul 14, 2021 at 03:38:48PM +0200, Stefan Riedmueller wrote:
+> Convert mt9p031 sensor bindings to yaml schema. Also update the
+> MAINTAINERS entry.
+> 
+> Although input-clock-frequency and pixel-clock-frequency have not been
+> definded as endpoint propierties in the textual bindings, the sensor
+> does parse them from the endpoint. Thus move these properties to the
+> endpoint in the new yaml bindings.
+> 
+> Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
+> ---
+>  .../bindings/media/i2c/aptina,mt9p031.yaml    | 92 +++++++++++++++++++
+>  .../devicetree/bindings/media/i2c/mt9p031.txt | 40 --------
+>  MAINTAINERS                                   |  1 +
+>  3 files changed, 93 insertions(+), 40 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/mt9p031.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml b/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
+> new file mode 100644
+> index 000000000000..1531ecd1ed95
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
+> @@ -0,0 +1,92 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/aptina,mt9p031.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Aptina 1/2.5-Inch 5Mp CMOS Digital Image Sensor
+> +
+> +maintainers:
+> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +
+> +description: |
+> +  The Aptina MT9P031 is a 1/2.5-inch CMOS active pixel digital image sensor
+> +  with an active array size of 2592H x 1944V. It is programmable through a
+> +  simple two-wire serial interface.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - aptina,mt9p031
+> +      - aptina,mt9p031m
+> +
+> +  reg:
+> +    description: I2C device address
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: Chip reset GPIO
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          input-clock-frequency:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            minimum: 6000000
+> +            maximum: 96000000
+> +            description: Input clock frequency
+> +
+> +          pixel-clock-frequency:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            maximum: 96000000
+> +            description: Target pixel clock frequency
+> +
+> +          bus-type:
+> +            const: 5
+> +
+> +          bus-width:
+> +            const: 12
 
-cal->ctx[i] is allocated with this loop
-	for (i = 0; i < cal->data->num_csi2_phy; ++i) {
-and accessed in the error handler and else where with this loop
-	for (i = 0; i < cal->num_contexts; i++)
-Because the first loop contains a continue statement
-before cal->num_contexts is incremented, using i as the
-indexer will leave gaps in the cal->ctx[].
+If there's only 1 possible setting for both of these, why do they need 
+to be in DT?
 
-So use cal->num_contexts as the indexer.
-
-Fixes: 75e7e58bfac1 ("media: ti-vpe: cal: support 8 DMA contexts")
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/media/platform/ti-vpe/cal.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 05bdc6d126d82..8e469d518a742 100644
---- a/drivers/media/platform/ti-vpe/cal.c
-+++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -1148,9 +1148,9 @@ static int cal_probe(struct platform_device *pdev)
- 		if (!cal->phy[i]->source_node)
- 			continue;
- 
--		cal->ctx[i] = cal_ctx_create(cal, i);
--		if (!cal->ctx[i]) {
--			cal_err(cal, "Failed to create context %u\n", i);
-+		cal->ctx[cal->num_contexts] = cal_ctx_create(cal, i);
-+		if (!cal->ctx[cal->num_contexts]) {
-+			cal_err(cal, "Failed to create context %u\n", cal->num_contexts);
- 			ret = -ENODEV;
- 			goto error_context;
- 		}
--- 
-2.26.3
-
+Rob
