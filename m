@@ -2,241 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EB5D3CC1E0
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jul 2021 10:13:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FB3E3CC210
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jul 2021 10:51:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233192AbhGQIQe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 17 Jul 2021 04:16:34 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:48014 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232978AbhGQIPx (ORCPT
+        id S231862AbhGQIxj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Jul 2021 04:53:39 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:11437 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231812AbhGQIxj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 17 Jul 2021 04:15:53 -0400
-X-UUID: 2ff21dc463dc40a9bd5b540c3d9a16db-20210717
-X-UUID: 2ff21dc463dc40a9bd5b540c3d9a16db-20210717
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1303694011; Sat, 17 Jul 2021 16:12:55 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 17 Jul 2021 16:12:53 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 17 Jul 2021 16:12:52 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v2, 14/14] media: mtk-vcodec: Use codec type to separate different hardware
-Date:   Sat, 17 Jul 2021 16:12:33 +0800
-Message-ID: <20210717081233.7809-15-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210717081233.7809-1-yunfei.dong@mediatek.com>
-References: <20210717081233.7809-1-yunfei.dong@mediatek.com>
+        Sat, 17 Jul 2021 04:53:39 -0400
+Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GRhYz48GGzcdyy;
+        Sat, 17 Jul 2021 16:47:19 +0800 (CST)
+Received: from [10.67.103.235] (10.67.103.235) by
+ dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Sat, 17 Jul 2021 16:50:38 +0800
+Subject: Re: [PATCH V5 4/6] PCI: Enable 10-Bit tag support for PCIe Endpoint
+ devices
+To:     Bjorn Helgaas <helgaas@kernel.org>
+References: <20210716141712.GA2096096@bjorn-Precision-5520>
+CC:     <hch@infradead.org>, <kw@linux.com>, <linux-pci@vger.kernel.org>,
+        <rajur@chelsio.com>, <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>,
+        Logan Gunthorpe <logang@deltatee.com>, <okaya@kernel.org>
+From:   Dongdong Liu <liudongdong3@huawei.com>
+Message-ID: <0f223592-16ff-626b-94ef-3e89a51d1971@huawei.com>
+Date:   Sat, 17 Jul 2021 16:50:38 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+In-Reply-To: <20210716141712.GA2096096@bjorn-Precision-5520>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.103.235]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggeme758-chm.china.huawei.com (10.3.19.104)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are just one core thread, in order to separeate different
-hardware, using codec type to separeate it in scp driver.
+[+cc Sinan]
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
-v2: no changes
----
- .../media/platform/mtk-vcodec/vdec_ipi_msg.h  | 12 ++++---
- .../media/platform/mtk-vcodec/vdec_vpu_if.c   | 34 ++++++++++++++++---
- .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  4 +++
- 3 files changed, 41 insertions(+), 9 deletions(-)
+On 2021/7/16 22:17, Bjorn Helgaas wrote:
+> On Fri, Jul 16, 2021 at 07:12:16PM +0800, Dongdong Liu wrote:
+>> Hi Bjorn
+>>
+>> Many thanks for your review.
+>>
+>> On 2021/7/16 1:23, Bjorn Helgaas wrote:
+>>> [+cc Logan]
+>>>
+>>> On Mon, Jun 21, 2021 at 06:27:20PM +0800, Dongdong Liu wrote:
+>>>> 10-Bit Tag capability, introduced in PCIe-4.0 increases the total Tag
+>>>> field size from 8 bits to 10 bits.
+>>>>
+>>>> For platforms where the RC supports 10-Bit Tag Completer capability,
+>>>> it is highly recommended for platform firmware or operating software
+>>>
+>>> Recommended by whom?  If the spec recommends it, we should provide the
+>>> citation.
+>>
+>> PCIe spec 5.0 r1.0 section 2.2.6.2 IMPLEMENTATION NOTE says that.
+>> Will fix.
+>
+> Thanks, that will be helpful.
+>
+>>>> that configures PCIe hierarchies to Set the 10-Bit Tag Requester Enable
+>>>> bit automatically in Endpoints with 10-Bit Tag Requester capability. This
+>>>> enables the important class of 10-Bit Tag capable adapters that send
+>>>> Memory Read Requests only to host memory.
+>>>
+>>> What is the implication for P2PDMA?  What happens if we enable 10-bit
+>>> tags for device A, and A generates Mem Read Requests to device B,
+>>> which does not support 10-bit tags?
+>>
+>> PCIe spec 5.0 r1.0 section 2.2.6.2 says
+>> If an Endpoint supports sending Requests to other Endpoints (as opposed to
+>> host memory), the Endpoint must not send 10-Bit Tag Requests to another
+>> given Endpoint unless an implementation-specific mechanism determines that
+>> the Endpoint supports 10-Bit Tag Completer capability. Not sending 10-Bit
+>> Tag Requests to other Endpoints at all
+>> may be acceptable for some implementations. More sophisticated mechanisms
+>> are outside the scope of this specification.
+>>
+>> Not sending 10-Bit Tag Requests to other Endpoints at all seems simple.
+>> Add kernel parameter pci=pcie_bus_peer2peer when boot kernel with P2PDMA,
+>> then do not config 10-BIT Tag.
+>>
+>> if (pcie_bus_config != PCIE_BUS_PEER2PEER)
+>> 	pci_configure_10bit_tags(dev);
+>
+> Seems like a reasonable start.  I wish this were more dynamic and we
+> didn't have to rely on a kernel parameter to make P2PDMA safe, but
+> that seems to be the current situation.
+>
+> Does the same consideration apply to enabling Extended Tags (8-bit
+> tags)?  I would guess so, but sec 2.2.6.2 says "Receivers/Completers
+> must handle 8-bit Tag values correctly regardless of the setting of
+> their Extended Tag Field Enable bit" so there's some subtlety there
+> with regard to what "Extended Tag Field Supported" means.
+>
+> I don't know why the "Extended Tag Field Supported" bit exists if all
+> receivers are required to support 8-bit tags.
 
-diff --git a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
-index 9d8079c4f976..c488f0c40190 100644
---- a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
-+++ b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
-@@ -35,6 +35,8 @@ enum vdec_ipi_msgid {
-  * @msg_id	: vdec_ipi_msgid
-  * @vpu_inst_addr : VPU decoder instance address. Used if ABI version < 2.
-  * @inst_id     : instance ID. Used if the ABI version >= 2.
-+ * @codec_type	: Codec fourcc
-+ * @reserved	: reserved param
-  */
- struct vdec_ap_ipi_cmd {
- 	uint32_t msg_id;
-@@ -42,6 +44,8 @@ struct vdec_ap_ipi_cmd {
- 		uint32_t vpu_inst_addr;
- 		uint32_t inst_id;
- 	};
-+	uint32_t codec_type;
-+	uint32_t reserved;
- };
- 
- /**
-@@ -59,12 +63,12 @@ struct vdec_vpu_ipi_ack {
- /**
-  * struct vdec_ap_ipi_init - for AP_IPIMSG_DEC_INIT
-  * @msg_id	: AP_IPIMSG_DEC_INIT
-- * @reserved	: Reserved field
-+ * @codec_type	: Codec fourcc
-  * @ap_inst_addr	: AP video decoder instance address
-  */
- struct vdec_ap_ipi_init {
- 	uint32_t msg_id;
--	uint32_t reserved;
-+	uint32_t codec_type;
- 	uint64_t ap_inst_addr;
- };
- 
-@@ -77,7 +81,7 @@ struct vdec_ap_ipi_init {
-  *	H264 decoder [0]:buf_sz [1]:nal_start
-  *	VP8 decoder  [0]:width/height
-  *	VP9 decoder  [0]:profile, [1][2] width/height
-- * @reserved	: Reserved field
-+ * @codec_type	: Codec fourcc
-  */
- struct vdec_ap_ipi_dec_start {
- 	uint32_t msg_id;
-@@ -86,7 +90,7 @@ struct vdec_ap_ipi_dec_start {
- 		uint32_t inst_id;
- 	};
- 	uint32_t data[3];
--	uint32_t reserved;
-+	uint32_t codec_type;
- };
- 
- /**
-diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
-index bfd8e87dceff..c84fac52fe26 100644
---- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
-+++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
-@@ -100,18 +100,29 @@ static void vpu_dec_ipi_handler(void *data, unsigned int len, void *priv)
- 
- static int vcodec_vpu_send_msg(struct vdec_vpu_inst *vpu, void *msg, int len)
- {
--	int err;
-+	int err, id, msgid;
- 
--	mtk_vcodec_debug(vpu, "id=%X", *(uint32_t *)msg);
-+	msgid = *(uint32_t *)msg;
-+	mtk_vcodec_debug(vpu, "id=%X", msgid);
- 
- 	vpu->failure = 0;
- 	vpu->signaled = 0;
- 
--	err = mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, vpu->id, msg,
-+	if (vpu->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_LAT_SINGLE_CORE) {
-+		if (msgid == AP_IPIMSG_DEC_CORE ||
-+			msgid == AP_IPIMSG_DEC_CORE_END)
-+			id = vpu->core_id;
-+		else
-+			id = vpu->id;
-+	} else {
-+		id = vpu->id;
-+	}
-+
-+	err = mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, id, msg,
- 				     len, 2000);
- 	if (err) {
- 		mtk_vcodec_err(vpu, "send fail vpu_id=%d msg_id=%X status=%d",
--			       vpu->id, *(uint32_t *)msg, err);
-+			       id, msgid, err);
- 		return err;
- 	}
- 
-@@ -131,6 +142,7 @@ static int vcodec_send_ap_ipi(struct vdec_vpu_inst *vpu, unsigned int msg_id)
- 		msg.vpu_inst_addr = vpu->inst_addr;
- 	else
- 		msg.inst_id = vpu->inst_id;
-+	msg.codec_type = vpu->codec_type;
- 
- 	err = vcodec_vpu_send_msg(vpu, &msg, sizeof(msg));
- 	mtk_vcodec_debug(vpu, "- id=%X ret=%d", msg_id, err);
-@@ -149,14 +161,25 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
- 
- 	err = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler, vpu->id,
- 					 vpu->handler, "vdec", NULL);
--	if (err != 0) {
-+	if (err) {
- 		mtk_vcodec_err(vpu, "vpu_ipi_register fail status=%d", err);
- 		return err;
- 	}
- 
-+	if (vpu->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_LAT_SINGLE_CORE) {
-+		err = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler,
-+					 vpu->core_id, vpu->handler,
-+					 "vdec", NULL);
-+		if (err) {
-+			mtk_vcodec_err(vpu, "vpu_ipi_register core fail status=%d", err);
-+			return err;
-+		}
-+	}
-+
- 	memset(&msg, 0, sizeof(msg));
- 	msg.msg_id = AP_IPIMSG_DEC_INIT;
- 	msg.ap_inst_addr = (unsigned long)vpu;
-+	msg.codec_type = vpu->codec_type;
- 
- 	mtk_vcodec_debug(vpu, "vdec_inst=%p", vpu);
- 
-@@ -187,6 +210,7 @@ int vpu_dec_start(struct vdec_vpu_inst *vpu, uint32_t *data, unsigned int len)
- 
- 	for (i = 0; i < len; i++)
- 		msg.data[i] = data[i];
-+	msg.codec_type = vpu->codec_type;
- 
- 	err = vcodec_vpu_send_msg(vpu, (void *)&msg, sizeof(msg));
- 	mtk_vcodec_debug(vpu, "- ret=%d", err);
-diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
-index ae24b75d1649..802660770a87 100644
---- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
-+++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
-@@ -14,6 +14,7 @@ struct mtk_vcodec_ctx;
- /**
-  * struct vdec_vpu_inst - VPU instance for video codec
-  * @id          : ipi msg id for each decoder
-+ * @core_id     : core id used to separate different hardware
-  * @vsi         : driver structure allocated by VPU side and shared to AP side
-  *                for control and info share
-  * @failure     : VPU execution result status, 0: success, others: fail
-@@ -26,9 +27,11 @@ struct mtk_vcodec_ctx;
-  * @dev		: platform device of VPU
-  * @wq          : wait queue to wait VPU message ack
-  * @handler     : ipi handler for each decoder
-+ * @codec_type     : used codec type to separate different codecs
-  */
- struct vdec_vpu_inst {
- 	int id;
-+	int core_id;
- 	void *vsi;
- 	int32_t failure;
- 	uint32_t inst_addr;
-@@ -38,6 +41,7 @@ struct vdec_vpu_inst {
- 	struct mtk_vcodec_ctx *ctx;
- 	wait_queue_head_t wq;
- 	mtk_vcodec_ipi_handler handler;
-+	unsigned int codec_type;
- };
- 
- /**
--- 
-2.25.1
+The comment in the [PATCH] PCI: enable extended tags support for PCIe 
+endpoints 
+(https://patchwork.kernel.org/project/linux-arm-msm/patch/1474769434-5756-1-git-send-email-okaya@codeaurora.org/)
+says "All PCIe completers are required to support 8 bit tags.
+Generation of 8 bit tags is optional. That's why, there is a supported 
+and an enable/disable bit."
 
+So the completers can handle 8-bit Tag values correctly also regardless 
+of "Extended Tag Field Supported" ?  seems not very clearly, but current 
+code implement follow this.
+
+>
+> If we need a similar change to pci_configure_extended_tags() to check
+> pcie_bus_config, that should be a separate patch because it would be a
+> bug fix independent of 10-bit tag support.
+>
+Seems no need if All PCIe completers are required to support 8 bit tags.
+
+Thanks,
+Dongdong
+> Bjorn
+> .
+>
