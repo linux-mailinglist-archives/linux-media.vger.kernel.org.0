@@ -2,159 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 436EB3CC0DF
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jul 2021 05:44:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79EDB3CC1C8
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jul 2021 10:12:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232031AbhGQDrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jul 2021 23:47:07 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:51863 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229982AbhGQDrH (ORCPT
+        id S232470AbhGQIPm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Jul 2021 04:15:42 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:47714 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231834AbhGQIPi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jul 2021 23:47:07 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 4bFJmD3kavmXa4bFKmel1q; Sat, 17 Jul 2021 05:44:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1626493450; bh=cjMUpKavU5Mcr3R0blQ7vRHb9ZHSei2hGzrND30SqRo=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=RGgh+uAjs3md3N67azszOk67UnqOkaFxGbZVP4S5X9uQofh9kyCb19iecA3d8BqAW
-         6I4+sZtTpB943L+iShyzgYl5Xg7arx5dsdjab8NWP9PNkAWDYFrMTA7kWBb6KHPLpi
-         t9wN8CXSTIsRMBwjWDQ9pRG+az9h5g4L52smYBnfFSFj4VU6C8PZwgelyxFHlRcXLb
-         GLD+/wpDpwTcg1CfObiMUGBvQrDQ7cGvOrTgDX3jmq95oPFZ/nrJTaeaZR3b94J3FM
-         AO211IXP3Wd0Cuu4jSC7Vb4/fljzaszgGMuS/Dsn6tvfo39W3STv0CnJUHhdp2Ljwn
-         cG5IqwrJykxrg==
-Message-ID: <9361e378b4cfb2932f95cfcd305b9728@smtp-cloud8.xs4all.net>
-Date:   Sat, 17 Jul 2021 05:44:09 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfND3KP1ykDLD9Lx7W0jN2AgsiC/D9CzouF/howXFtbik/46Z5W6reEMZlVe5U43PGvTD8x8Z+1pSr3/z9anEOAOJ8nOV4xWd5GTy9kIk47mNYct/0uEi
- AsmiFf7T5QUV6tAszKnt+mP0dDT0ftDdlRoyleXnF7ef0AtvhUAtLNYGQ+g/hrGhk1kZflWZSx5Mde5snstcIOCCA0xHo7P8wbIPNjJYbLfwey5FoU6pz0si
- h1m0RAqb2f7KHV4hb0ORcw==
+        Sat, 17 Jul 2021 04:15:38 -0400
+X-UUID: 366eae413d1645d0b1352f05f2ad0da6-20210717
+X-UUID: 366eae413d1645d0b1352f05f2ad0da6-20210717
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1078899613; Sat, 17 Jul 2021 16:12:37 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 17 Jul 2021 16:12:36 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 17 Jul 2021 16:12:35 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v2, 00/14] Using component framework to support multi hardware decode
+Date:   Sat, 17 Jul 2021 16:12:19 +0800
+Message-ID: <20210717081233.7809-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+This series adds support for multi hardware decode into mtk-vcodec, by first
+adding component framework to manage each hardware information: interrupt,
+clock, register bases and power. Secondly add core thread to deal with core
+hardware message, at the same time, add msg queue for different hardware
+share messages. Lastly, the architecture of different specs are not the same,
+using specs type to separate them.
 
-Results of the daily build of media_tree:
+This series has been tested with both MT8183 and MT8173. Decoding was working
+for both chips.
 
-date:			Sat Jul 17 05:00:15 CEST 2021
-media-tree git hash:	e73f0f0ee7541171d89f2e2491130c7771ba58d3
-media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
-v4l-utils git hash:	a4f2e3a6f306f0bef6664451b44d5a7a18b26803
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7481-g7f50411af
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d8ae6cae42acd2e6882babf2f159ff6c0f1e1792
-host hardware:		x86_64
-host os:		5.13.1-marune
+Patches 1,2 rewrite get register bases and power on/off interface.
 
-linux-git-sh: WARNINGS
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: ERRORS
-spec-git: OK
-virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 0
-virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Patch 3-5 add component framework to support multi hardware.
 
-Detailed results are available here:
+Patches 6-14 add interfaces to support core hardware.
+----
+This patch dependents on "media: mtk-vcodec: support for MT8183 decoder"[1].
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+Multi hardware decode is based on stateless decoder, MT8183 is the first
+time to add stateless decoder. Otherwise it will cause conflict.
+Please also accept this patch together with [1].
 
-Detailed regression test results are available here:
+[1]https://lore.kernel.org/patchwork/project/lkml/list/?series=507084
+----
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+Changes compared with v1:
+- Fix many comments for patch 3/14
+- Remove unnecessary code for patch 4/14
+- Using enum mtk_vdec_hw_count instead of magic numbers for patch 6/14
+- Reconstructed get/put lat buffer for lat and core hardware for patch 7/14
+- Using yaml format to instead of txt file for patch 12/14
 
-Full logs are available here:
+Yunfei Dong (14):
+  media: mtk-vcodec: Get numbers of register bases from DT
+  media: mtk-vcodec: Refactor vcodec pm interface
+  media: mtk-vcodec: Use component framework to manage each hardware
+    information
+  dt-bindings: media: mtk-vcodec: Separate video encoder and decoder
+    dt-bindings
+  media: mtk-vcodec: Use pure single core for MT8183
+  media: mtk-vcodec: Add irq interface for core hardware
+  media: mtk-vcodec: Add msg queue feature for lat and core architecture
+  media: mtk-vcodec: Generalize power and clock on/off interfaces
+  media: mtk-vcodec: Add new interface to lock different hardware
+  media: mtk-vcodec: Add core thread
+  media: mtk-vcodec: Support 34bits dma address for vdec
+  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8192
+  media: mtk-vcodec: Add core dec and dec end ipi msg
+  media: mtk-vcodec: Use codec type to separate different hardware
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+ .../media/mediatek-vcodec-comp-decoder.yaml   | 150 +++++++++
+ ...vcodec.txt => mediatek-vcodec-decoder.txt} |  62 +---
+ .../media/mediatek-vcodec-encoder.txt         |  73 +++++
+ drivers/media/platform/mtk-vcodec/Makefile    |   2 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.h      |   1 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 297 +++++++++++++++---
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 194 ++++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  50 +++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  98 ++++--
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  13 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   1 +
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |   1 +
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  72 ++++-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |   1 -
+ .../platform/mtk-vcodec/mtk_vcodec_intr.c     |  32 +-
+ .../platform/mtk-vcodec/mtk_vcodec_intr.h     |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_util.c     |  87 ++++-
+ .../platform/mtk-vcodec/mtk_vcodec_util.h     |   8 +-
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |  21 +-
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  16 +-
+ .../platform/mtk-vcodec/vdec_msg_queue.c      | 286 +++++++++++++++++
+ .../platform/mtk-vcodec/vdec_msg_queue.h      | 143 +++++++++
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  46 ++-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  22 ++
+ 25 files changed, 1516 insertions(+), 168 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec-comp-decoder.yaml
+ rename Documentation/devicetree/bindings/media/{mediatek-vcodec.txt => mediatek-vcodec-decoder.txt} (56%)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec-encoder.txt
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
 
-The Media Infrastructure API from this daily build is here:
+-- 
+2.25.1
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
