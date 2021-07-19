@@ -2,22 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38B5D3CEFC2
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 01:27:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54BA03CEFC0
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 01:27:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240008AbhGSWjC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jul 2021 18:39:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60100 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387512AbhGSUNh (ORCPT
+        id S244726AbhGSWi6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 18:38:58 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44764 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1387513AbhGSUNh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 19 Jul 2021 16:13:37 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46F28C061762;
-        Mon, 19 Jul 2021 13:51:36 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 356831F42DDD
+        with ESMTPSA id EA1481F42DEA
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-rockchip@lists.infradead.org
@@ -31,9 +28,9 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         Jonas Karlman <jonas@kwiboo.se>,
         Kever Yang <kever.yang@rock-chips.com>,
         Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com
-Subject: [PATCH v3 03/10] media: hantro: Avoid redundant hantro_get_{dst,src}_buf() calls
-Date:   Mon, 19 Jul 2021 17:52:35 -0300
-Message-Id: <20210719205242.18807-4-ezequiel@collabora.com>
+Subject: [PATCH v3 04/10] media: hantro: h264: Move DPB valid and long-term bitmaps
+Date:   Mon, 19 Jul 2021 17:52:36 -0300
+Message-Id: <20210719205242.18807-5-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210719205242.18807-1-ezequiel@collabora.com>
 References: <20210719205242.18807-1-ezequiel@collabora.com>
@@ -43,204 +40,106 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Getting the next src/dst buffer is relatively expensive
-so avoid doing it multiple times.
+In order to reuse these bitmaps, move this process to
+struct hantro_h264_dec_hw_ctx. This will be used by
+the Rockchip VDPU2 H.264 driver.
 
+This idea was originally proposed by Jonas Karlman
+in "[RFC 08/12] media: hantro: Fix H264 decoding of field encoded content"
+which was posted a while ago.
+
+Link: https://lore.kernel.org/linux-media/HE1PR06MB4011EA39133818A85768B91FACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com/
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Tested-by: Alex Bee <knaerzche@gmail.com>
 ---
- .../staging/media/hantro/hantro_g1_h264_dec.c | 17 ++++++++---------
- .../staging/media/hantro/hantro_g1_vp8_dec.c  | 18 +++++++++---------
- .../media/hantro/rockchip_vpu2_hw_vp8_dec.c   | 19 +++++++++----------
- 3 files changed, 26 insertions(+), 28 deletions(-)
+ .../staging/media/hantro/hantro_g1_h264_dec.c   | 17 ++---------------
+ drivers/staging/media/hantro/hantro_h264.c      | 13 +++++++++++++
+ drivers/staging/media/hantro/hantro_hw.h        |  4 ++++
+ 3 files changed, 19 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-index 5c792b7bcb79..2aa37baad0c3 100644
+index 2aa37baad0c3..6faacfc44c7c 100644
 --- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
 +++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-@@ -19,13 +19,12 @@
- #include "hantro_hw.h"
- #include "hantro_v4l2.h"
+@@ -129,25 +129,12 @@ static void set_ref(struct hantro_ctx *ctx)
+ 	struct v4l2_h264_dpb_entry *dpb = ctx->h264_dec.dpb;
+ 	const u8 *b0_reflist, *b1_reflist, *p_reflist;
+ 	struct hantro_dev *vpu = ctx->dev;
+-	u32 dpb_longterm = 0;
+-	u32 dpb_valid = 0;
+ 	int reg_num;
+ 	u32 reg;
+ 	int i;
  
--static void set_params(struct hantro_ctx *ctx)
-+static void set_params(struct hantro_ctx *ctx, struct vb2_v4l2_buffer *src_buf)
- {
- 	const struct hantro_h264_dec_ctrls *ctrls = &ctx->h264_dec.ctrls;
+-	/*
+-	 * Set up bit maps of valid and long term DPBs.
+-	 * NOTE: The bits are reversed, i.e. MSb is DPB 0.
+-	 */
+-	for (i = 0; i < HANTRO_H264_DPB_SIZE; ++i) {
+-		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
+-			dpb_valid |= BIT(HANTRO_H264_DPB_SIZE - 1 - i);
+-
+-		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
+-			dpb_longterm |= BIT(HANTRO_H264_DPB_SIZE - 1 - i);
+-	}
+-	vdpu_write_relaxed(vpu, dpb_valid << 16, G1_REG_VALID_REF);
+-	vdpu_write_relaxed(vpu, dpb_longterm << 16, G1_REG_LT_REF);
++	vdpu_write_relaxed(vpu, ctx->h264_dec.dpb_valid, G1_REG_VALID_REF);
++	vdpu_write_relaxed(vpu, ctx->h264_dec.dpb_longterm, G1_REG_LT_REF);
+ 
+ 	/*
+ 	 * Set up reference frame picture numbers.
+diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
+index ed6eaf11d96f..6d72136760e7 100644
+--- a/drivers/staging/media/hantro/hantro_h264.c
++++ b/drivers/staging/media/hantro/hantro_h264.c
+@@ -229,12 +229,25 @@ static void prepare_table(struct hantro_ctx *ctx)
  	const struct v4l2_ctrl_h264_decode_params *dec_param = ctrls->decode;
- 	const struct v4l2_ctrl_h264_sps *sps = ctrls->sps;
- 	const struct v4l2_ctrl_h264_pps *pps = ctrls->pps;
--	struct vb2_v4l2_buffer *src_buf = hantro_get_src_buf(ctx);
- 	struct hantro_dev *vpu = ctx->dev;
- 	u32 reg;
+ 	struct hantro_h264_dec_priv_tbl *tbl = ctx->h264_dec.priv.cpu;
+ 	const struct v4l2_h264_dpb_entry *dpb = ctx->h264_dec.dpb;
++	u32 dpb_longterm = 0;
++	u32 dpb_valid = 0;
+ 	int i;
  
-@@ -226,22 +225,20 @@ static void set_ref(struct hantro_ctx *ctx)
+ 	for (i = 0; i < HANTRO_H264_DPB_SIZE; ++i) {
+ 		tbl->poc[i * 2] = dpb[i].top_field_order_cnt;
+ 		tbl->poc[i * 2 + 1] = dpb[i].bottom_field_order_cnt;
++
++		/*
++		 * Set up bit maps of valid and long term DPBs.
++		 * NOTE: The bits are reversed, i.e. MSb is DPB 0.
++		 */
++		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
++			dpb_valid |= BIT(HANTRO_H264_DPB_SIZE - 1 - i);
++		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
++			dpb_longterm |= BIT(HANTRO_H264_DPB_SIZE - 1 - i);
  	}
- }
++	ctx->h264_dec.dpb_valid = dpb_valid << 16;
++	ctx->h264_dec.dpb_longterm = dpb_longterm << 16;
  
--static void set_buffers(struct hantro_ctx *ctx)
-+static void set_buffers(struct hantro_ctx *ctx, struct vb2_v4l2_buffer *src_buf)
- {
- 	const struct hantro_h264_dec_ctrls *ctrls = &ctx->h264_dec.ctrls;
--	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-+	struct vb2_v4l2_buffer *dst_buf;
- 	struct hantro_dev *vpu = ctx->dev;
- 	dma_addr_t src_dma, dst_dma;
- 	size_t offset = 0;
+ 	tbl->poc[32] = dec_param->top_field_order_cnt;
+ 	tbl->poc[33] = dec_param->bottom_field_order_cnt;
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 5dcf65805396..ce678fedaad6 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -89,12 +89,16 @@ struct hantro_h264_dec_reflists {
+  * @dpb:	DPB
+  * @reflists:	P/B0/B1 reflists
+  * @ctrls:	V4L2 controls attached to a run
++ * @dpb_longterm: DPB long-term
++ * @dpb_valid:	  DPB valid
+  */
+ struct hantro_h264_dec_hw_ctx {
+ 	struct hantro_aux_buf priv;
+ 	struct v4l2_h264_dpb_entry dpb[HANTRO_H264_DPB_SIZE];
+ 	struct hantro_h264_dec_reflists reflists;
+ 	struct hantro_h264_dec_ctrls ctrls;
++	u32 dpb_longterm;
++	u32 dpb_valid;
+ };
  
--	src_buf = hantro_get_src_buf(ctx);
--	dst_buf = hantro_get_dst_buf(ctx);
--
- 	/* Source (stream) buffer. */
- 	src_dma = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
- 	vdpu_write_relaxed(vpu, src_dma, G1_REG_ADDR_STR);
- 
- 	/* Destination (decoded frame) buffer. */
-+	dst_buf = hantro_get_dst_buf(ctx);
- 	dst_dma = hantro_get_dec_buf_addr(ctx, &dst_buf->vb2_buf);
- 	/* Adjust dma addr to start at second line for bottom field */
- 	if (ctrls->decode->flags & V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD)
-@@ -276,6 +273,7 @@ static void set_buffers(struct hantro_ctx *ctx)
- int hantro_g1_h264_dec_run(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
-+	struct vb2_v4l2_buffer *src_buf;
- 	int ret;
- 
- 	/* Prepare the H264 decoder context. */
-@@ -284,9 +282,10 @@ int hantro_g1_h264_dec_run(struct hantro_ctx *ctx)
- 		return ret;
- 
- 	/* Configure hardware registers. */
--	set_params(ctx);
-+	src_buf = hantro_get_src_buf(ctx);
-+	set_params(ctx, src_buf);
- 	set_ref(ctx);
--	set_buffers(ctx);
-+	set_buffers(ctx, src_buf);
- 
- 	hantro_end_prepare_run(ctx);
- 
-diff --git a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
-index 2afd5996d75f..6180b23e7d94 100644
---- a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
-@@ -367,13 +367,12 @@ static void cfg_tap(struct hantro_ctx *ctx,
- }
- 
- static void cfg_ref(struct hantro_ctx *ctx,
--		    const struct v4l2_ctrl_vp8_frame *hdr)
-+		    const struct v4l2_ctrl_vp8_frame *hdr,
-+		    struct vb2_v4l2_buffer *vb2_dst)
- {
- 	struct hantro_dev *vpu = ctx->dev;
--	struct vb2_v4l2_buffer *vb2_dst;
- 	dma_addr_t ref;
- 
--	vb2_dst = hantro_get_dst_buf(ctx);
- 
- 	ref = hantro_get_ref(ctx, hdr->last_frame_ts);
- 	if (!ref) {
-@@ -405,16 +404,14 @@ static void cfg_ref(struct hantro_ctx *ctx,
- }
- 
- static void cfg_buffers(struct hantro_ctx *ctx,
--			const struct v4l2_ctrl_vp8_frame *hdr)
-+			const struct v4l2_ctrl_vp8_frame *hdr,
-+			struct vb2_v4l2_buffer *vb2_dst)
- {
- 	const struct v4l2_vp8_segment *seg = &hdr->segment;
- 	struct hantro_dev *vpu = ctx->dev;
--	struct vb2_v4l2_buffer *vb2_dst;
- 	dma_addr_t dst_dma;
- 	u32 reg;
- 
--	vb2_dst = hantro_get_dst_buf(ctx);
--
- 	/* Set probability table buffer address */
- 	vdpu_write_relaxed(vpu, ctx->vp8_dec.prob_tbl.dma,
- 			   G1_REG_ADDR_QTABLE);
-@@ -436,6 +433,7 @@ int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
- {
- 	const struct v4l2_ctrl_vp8_frame *hdr;
- 	struct hantro_dev *vpu = ctx->dev;
-+	struct vb2_v4l2_buffer *vb2_dst;
- 	size_t height = ctx->dst_fmt.height;
- 	size_t width = ctx->dst_fmt.width;
- 	u32 mb_width, mb_height;
-@@ -499,8 +497,10 @@ int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
- 	cfg_qp(ctx, hdr);
- 	cfg_parts(ctx, hdr);
- 	cfg_tap(ctx, hdr);
--	cfg_ref(ctx, hdr);
--	cfg_buffers(ctx, hdr);
-+
-+	vb2_dst = hantro_get_dst_buf(ctx);
-+	cfg_ref(ctx, hdr, vb2_dst);
-+	cfg_buffers(ctx, hdr, vb2_dst);
- 
- 	hantro_end_prepare_run(ctx);
- 
-diff --git a/drivers/staging/media/hantro/rockchip_vpu2_hw_vp8_dec.c b/drivers/staging/media/hantro/rockchip_vpu2_hw_vp8_dec.c
-index 704607511b57..d079075448c9 100644
---- a/drivers/staging/media/hantro/rockchip_vpu2_hw_vp8_dec.c
-+++ b/drivers/staging/media/hantro/rockchip_vpu2_hw_vp8_dec.c
-@@ -444,14 +444,12 @@ static void cfg_tap(struct hantro_ctx *ctx,
- }
- 
- static void cfg_ref(struct hantro_ctx *ctx,
--		    const struct v4l2_ctrl_vp8_frame *hdr)
-+		    const struct v4l2_ctrl_vp8_frame *hdr,
-+		    struct vb2_v4l2_buffer *vb2_dst)
- {
- 	struct hantro_dev *vpu = ctx->dev;
--	struct vb2_v4l2_buffer *vb2_dst;
- 	dma_addr_t ref;
- 
--	vb2_dst = hantro_get_dst_buf(ctx);
--
- 	ref = hantro_get_ref(ctx, hdr->last_frame_ts);
- 	if (!ref) {
- 		vpu_debug(0, "failed to find last frame ts=%llu\n",
-@@ -482,16 +480,14 @@ static void cfg_ref(struct hantro_ctx *ctx,
- }
- 
- static void cfg_buffers(struct hantro_ctx *ctx,
--			const struct v4l2_ctrl_vp8_frame *hdr)
-+			const struct v4l2_ctrl_vp8_frame *hdr,
-+			struct vb2_v4l2_buffer *vb2_dst)
- {
- 	const struct v4l2_vp8_segment *seg = &hdr->segment;
- 	struct hantro_dev *vpu = ctx->dev;
--	struct vb2_v4l2_buffer *vb2_dst;
- 	dma_addr_t dst_dma;
- 	u32 reg;
- 
--	vb2_dst = hantro_get_dst_buf(ctx);
--
- 	/* Set probability table buffer address */
- 	vdpu_write_relaxed(vpu, ctx->vp8_dec.prob_tbl.dma,
- 			   VDPU_REG_ADDR_QTABLE);
-@@ -514,6 +510,7 @@ int rockchip_vpu2_vp8_dec_run(struct hantro_ctx *ctx)
- {
- 	const struct v4l2_ctrl_vp8_frame *hdr;
- 	struct hantro_dev *vpu = ctx->dev;
-+	struct vb2_v4l2_buffer *vb2_dst;
- 	size_t height = ctx->dst_fmt.height;
- 	size_t width = ctx->dst_fmt.width;
- 	u32 mb_width, mb_height;
-@@ -590,8 +587,10 @@ int rockchip_vpu2_vp8_dec_run(struct hantro_ctx *ctx)
- 	cfg_qp(ctx, hdr);
- 	cfg_parts(ctx, hdr);
- 	cfg_tap(ctx, hdr);
--	cfg_ref(ctx, hdr);
--	cfg_buffers(ctx, hdr);
-+
-+	vb2_dst = hantro_get_dst_buf(ctx);
-+	cfg_ref(ctx, hdr, vb2_dst);
-+	cfg_buffers(ctx, hdr, vb2_dst);
- 
- 	hantro_end_prepare_run(ctx);
- 
+ /**
 -- 
 2.32.0
 
