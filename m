@@ -2,137 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1FB93CD40B
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 13:43:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3838D3CD45D
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 14:09:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236314AbhGSLCy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jul 2021 07:02:54 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35938 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232156AbhGSLCx (ORCPT
+        id S236715AbhGSL3P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 07:29:15 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:48363 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236505AbhGSL3O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jul 2021 07:02:53 -0400
-Received: from [IPv6:2a02:810a:880:f54:121:b44d:bc4b:65bc] (unknown [IPv6:2a02:810a:880:f54:121:b44d:bc4b:65bc])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 46FA31F41A99;
-        Mon, 19 Jul 2021 12:43:30 +0100 (BST)
-Subject: Re: [PATCH v4 00/15] media: mtk-vcodec: support for MT8183 decoder
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Collabora Kernel ML <kernel@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Eizan Miyamoto <eizan@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>
-References: <20210427111526.1772293-1-acourbot@chromium.org>
- <976d420c-b4fc-bc23-c398-9b3a7ab4ffc9@collabora.com>
- <CAPBb6MVcnei2OLFYG-2YyqZrY8JvA-CJN6SUv=vGRmOZ2Af47g@mail.gmail.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <dc3e6d05-39cd-9124-a452-1a72348c33ea@collabora.com>
-Date:   Mon, 19 Jul 2021 13:43:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Mon, 19 Jul 2021 07:29:14 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 404BC10000A;
+        Mon, 19 Jul 2021 12:09:51 +0000 (UTC)
+Date:   Mon, 19 Jul 2021 14:10:39 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: max9286: Remove unneeded mutex for get_fmt
+ and set_fmt
+Message-ID: <20210719121039.gj6nc26nyk3lnmw3@uno.localdomain>
+References: <20210708095550.682465-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-In-Reply-To: <CAPBb6MVcnei2OLFYG-2YyqZrY8JvA-CJN6SUv=vGRmOZ2Af47g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210708095550.682465-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Niklas,
 
+On Thu, Jul 08, 2021 at 11:55:50AM +0200, Niklas Söderlund wrote:
+> There is no need to protect 'cfg_fmt' in get_fmt() and set_fmt() as the
+> core protects these callbacks. As this is the only usage of the mutex it
+> can be removed.
 
-On 13.05.21 10:21, Alexandre Courbot wrote:
-> Hi Dafna,
-> 
-> On Thu, Apr 29, 2021 at 9:07 PM Dafna Hirschfeld
-> <dafna.hirschfeld@collabora.com> wrote:
->>
->> Hi,
->>
->> On 27.04.21 13:15, Alexandre Courbot wrote:
->>> This series adds support for the stateless API into mtk-vcodec, by first
->>> separating the stateful ops into their own source file, and introducing
->>> a new set of ops suitable for stateless decoding. As such, support for
->>> stateful decoders should remain completely unaffected.
->>>
->>> This series has been tested with both MT8183 and MT8173. Decoding was
->>> working for both chips, and in the case of MT8173 no regression has been
->>> noticed.
->>
->> I am trying to test the decoder with this patchset using v4l2-ctl on mt8173.
->>
->> I am trying to decode an h264 file into V4L2_PIX_FMT_MT21C format.
->> I am not able to do it. It seems that the driver expects each buffer to start
->> with a nal starting code, and the v4l2-ctl command just read the files into
->> buffers without any parsing.
->>
->> Can you share the command and the files you used for testing?
-> 
-> I have been using the Chromium test suite (aka
-> video_decode_accelerator_tests). I had doubts after reading your email
-> but I tested the series again using this tool and confirmed it was
-> working.
+You know, I tried chasing where the vdev->lock used to protect the
+subdev's ioctl is set for mex9286 and I wasn't able to find it.
 
-Hi, I have a chromeos userspace that I compiled. I use it to test the codec drivers on latest 5.14.
-Could you share the exact command you use for your tests?
+Please validate my understanding:
 
-I used the command:
-tast -verbose run -build=false 10.42.0.175 video.DecodeAccel*h264*
+- The lock used by the core to protect the set/get format subdev ioctl
+  is the one in subdev_do_ioctl_lock()
 
-With that commands, all the tests that ends with 'VD' fail , the other tests pass.
+  static long subdev_do_ioctl_lock(struct file *file, unsigned int cmd, void *arg)
+  {
+          struct video_device *vdev = video_devdata(file);
+          struct mutex *lock = vdev->lock;
 
-The docs in [1] says that the command video_decode_accelerator_tests  does not require the "full Chrome browser stack",
-does that mean that it can be compiled and run on userspace other than chromeos?
-I could not find the instructions of how to compile and install that command. Could you instruct me to it?
+- the max9286 video subdevice node is registered (on R-Car) by
+  __v4l2_device_register_subdev_nodes() called by the root notifier
+  complete() callback
 
-The mt8173 doc [2] says that the supported video decoders are "H.264,  H.265 / HEVC,  MPEG-1/2/4"
-But running 'v4l2-ctl --list-formats-out -d0' shows:
+- The video_device created by __v4l2_device_register_subdev_nodes()
+  doesn't initialize any lock
 
-ioctl: VIDIOC_ENUM_FMT
-     Type: Video Output Multiplanar
+What am I missing ?
 
-     [0]: 'H264' (H.264, compressed)
-     [1]: 'VP80' (VP8, compressed)
-     [2]: 'VP90' (VP9, compressed)
+Thanks
+   j
 
-So the source code shows support for vp8, vp9 which is not stated in the official doc.
-Do you know the explanation for that difference? Do you know if elm device should support vp8, vp9?
-
-[1] https://chromium.googlesource.com/chromium/src/+/HEAD/docs/media/gpu/video_decoder_test_usage.md
-
-[2] https://www.mediatek.com/products/tablets/mt8173
-
-Thanks,
-Dafna
-
-> 
-> Unfortunately this test is not easy to build, but maybe if you have a
-> Chromium environment ready you can run it. mtk-vcodec does expect the
-> input buffers to be split by NAL units (as per the spec [1] IIUC), so
-> that would explain why v4l2-ctl failed (I assume that it also fails
-> without this series?).
-> 
-> Maybe ffmpeg can also be used to exercice this driver with properly
-> split NAL units, but I am not familiar with its use with V4L2. I'm
-> also not sure it would be happy about the MT21C format that the driver
-> outputs, or that it could pick the MDP to convert it to something
-> readable...
-> 
-> Cheers,
-> Alex.
-> 
-> [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/pixfmt-compressed.html#compressed-formats
-> 
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/i2c/max9286.c | 10 ----------
+>  1 file changed, 10 deletions(-)
+>
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 1aa2c58fd38c5d2b..b1d11a50d6e53ecc 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -18,7 +18,6 @@
+>  #include <linux/i2c.h>
+>  #include <linux/i2c-mux.h>
+>  #include <linux/module.h>
+> -#include <linux/mutex.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/slab.h>
+> @@ -173,9 +172,6 @@ struct max9286_priv {
+>
+>  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
+>
+> -	/* Protects controls and fmt structures */
+> -	struct mutex mutex;
+> -
+>  	unsigned int nsources;
+>  	unsigned int source_mask;
+>  	unsigned int route_mask;
+> @@ -768,9 +764,7 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+>  	if (!cfg_fmt)
+>  		return -EINVAL;
+>
+> -	mutex_lock(&priv->mutex);
+>  	*cfg_fmt = format->format;
+> -	mutex_unlock(&priv->mutex);
+>
+>  	return 0;
+>  }
+> @@ -796,9 +790,7 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+>  	if (!cfg_fmt)
+>  		return -EINVAL;
+>
+> -	mutex_lock(&priv->mutex);
+>  	format->format = *cfg_fmt;
+> -	mutex_unlock(&priv->mutex);
+>
+>  	return 0;
+>  }
+> @@ -1259,8 +1251,6 @@ static int max9286_probe(struct i2c_client *client)
+>  	if (!priv)
+>  		return -ENOMEM;
+>
+> -	mutex_init(&priv->mutex);
+> -
+>  	priv->client = client;
+>  	i2c_set_clientdata(client, priv);
+>
+> --
+> 2.32.0
+>
