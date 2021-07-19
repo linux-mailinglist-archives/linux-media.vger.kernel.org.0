@@ -2,284 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 358EF3CD0D7
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 11:31:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3CAF3CD158
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 12:00:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235752AbhGSIuB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jul 2021 04:50:01 -0400
-Received: from ni.piap.pl ([195.187.100.5]:57502 "EHLO ni.piap.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235404AbhGSIuA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jul 2021 04:50:00 -0400
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-        by ni.piap.pl (Postfix) with ESMTPSA id 13121C3F2A56;
-        Mon, 19 Jul 2021 11:30:36 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 13121C3F2A56
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
-        t=1626687036; bh=tYejPLr4cQaX0JJwAOgMRLk4zY9ZXBp4p9ccof3zDUI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=LLbe+hkNHZHxTUN75mkf1KDYS4zHk9Nh57JY5Elg/rBUqyecQLW0CrsVNTNRimHZV
-         dp0WQttZjPM0YgOGjlf4ABSRQoVW19EiMXqsAbRlqutY0/yselavYk4yRbH2zXDTZi
-         kbi9x6XrcokuFVTksmmKdl9gyg7JpbWVN87J5K5k=
-From:   Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Tim Harvey <tharvey@gateworks.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH REPOST] TDA1997x: replace video detection routine
-Date:   Mon, 19 Jul 2021 11:30:35 +0200
-Message-ID: <m3k0lmejlw.fsf@t19.piap.pl>
+        id S236011AbhGSJRI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 05:17:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235976AbhGSJRH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 19 Jul 2021 05:17:07 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDE5AC061574;
+        Mon, 19 Jul 2021 02:01:30 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id ee25so23121753edb.5;
+        Mon, 19 Jul 2021 02:57:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HdF1IGrepbpbXkB6goOKIeEiWTBGRqEN4WUlOYeDmXg=;
+        b=VVqVvb/5juZtwbzkAbWA2/xYJ/jmwlUZ4HiIxDQ9IFXBWClcPzgUWPTE6wJZjut6jr
+         Dpwk59uuktgLZ0FVRDMbf4xUGWqNusdJLUl/MlvMTHVcHuQSJsPzNQTk58gfpKe58YzO
+         6yTMF6m3cWps4eF5Dg4n4iMK/fMyocqYEv5kZ/DshMTmLXk1+i9fRPkY3114xMLHWVoH
+         dHjOdv837LU5GTKFyxYjbMnhBHKiBa43BQtCV58Cv1pSH0YktU+pCXfblDY5pyuNLtp9
+         Xumr21nLrZQg/pEc/sBiHSfQQOl0ScswgjWfwkDXihYvsk7/BbOy7PVPTy1lZSAzTkmI
+         dxTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HdF1IGrepbpbXkB6goOKIeEiWTBGRqEN4WUlOYeDmXg=;
+        b=gdz3W8Z6PwoWwAYnuOOliDyu4i0OE/+5p/kZE5Mar8iF1LuknIq8MFTSOv2eNsW9eq
+         FrcsHAa0PxhuYrOlCWPfnkAK1u91kUJy0PjpBuSJKBNoHEARiRF3g/m77PMGX/r5DWWX
+         5HI2WjKcA3M2WjYhUCa+543+dGXA8SmXwEfdhuk2fscR7AINXGphz/d8L7y3On9Bff8v
+         cHw9YuNY0iDa8itEG49jyuOtBek9iOpPHevU9WeQCt+xYpTXChgLbsucNcRKzZjy1OFy
+         Tg1IzlK5jNqwvzwKNZrxITYnuZK4UehQSqHEOoEqBqE1J+k44bbU2y4cFYRKPap/dD9N
+         zQfQ==
+X-Gm-Message-State: AOAM531smhS0IahLav74tBYdt3mgC/BRzoMi1/+CNGVsT9P8scOu/wjm
+        wM0RXqRuSDdz5UR1Fo1vMW8eJdFaQZOt0uxy4a4=
+X-Google-Smtp-Source: ABdhPJzHSAodPxDo2KolXme/Kve5r34JFRvxTw04wFE1zzdOx5nJjiGcwSWH9gAXLi7ZRM2KU+FVzpP2GM0UjPcUA1k=
+X-Received: by 2002:a05:6402:4c5:: with SMTP id n5mr33078183edw.322.1626688664982;
+ Mon, 19 Jul 2021 02:57:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-KLMS-Rule-ID: 1
-X-KLMS-Message-Action: clean
-X-KLMS-AntiSpam-Lua-Profiles: 165074 [Jul 19 2021]
-X-KLMS-AntiSpam-Version: 5.9.20.0
-X-KLMS-AntiSpam-Envelope-From: khalasa@piap.pl
-X-KLMS-AntiSpam-Rate: 0
-X-KLMS-AntiSpam-Status: not_detected
-X-KLMS-AntiSpam-Method: none
-X-KLMS-AntiSpam-Auth: dkim=pass header.d=piap.pl
-X-KLMS-AntiSpam-Info: LuaCore: 448 448 71fb1b37213ce9a885768d4012c46ac449c77b17, {Tracking_from_exist}, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;piap.pl:7.1.1;t19.piap.pl:7.1.1
-X-MS-Exchange-Organization-SCL: -1
-X-KLMS-AntiSpam-Interceptor-Info: scan successful
-X-KLMS-AntiPhishing: Clean, bases: 2021/07/19 08:27:00
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2021/07/19 04:09:00 #16925305
-X-KLMS-AntiVirus-Status: Clean, skipped
+References: <20210707093409.1445747-1-mudongliangabcd@gmail.com>
+ <20210713084853.GA6572@gofer.mess.org> <CAD-N9QVao4jFEPNrFm5=_qS6brXQuJYfXkSo6YqECgUZtVhW3w@mail.gmail.com>
+In-Reply-To: <CAD-N9QVao4jFEPNrFm5=_qS6brXQuJYfXkSo6YqECgUZtVhW3w@mail.gmail.com>
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+Date:   Mon, 19 Jul 2021 17:57:18 +0800
+Message-ID: <CAD-N9QUVDPeJqZPA7WEYHS5rKojTP1ae_vDJ1bK0=-+Aqppebg@mail.gmail.com>
+Subject: Re: [PATCH v2] [media] em28xx-input: fix refcount bug in em28xx_usb_disconnect
+To:     Sean Young <sean@mess.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The TDA1997x (HDMI receiver) driver currently uses a specific video
-format detection scheme. The frame (or field in interlaced mode), line
-and HSync pulse durations are compared to those of known, standard video
-modes. If a match is found, the mode is assumed to be detected,
-otherwise -ERANGE is returned (then possibly ignored). This means that:
-- another mode with similar timings will be detected incorrectly
-  (e.g. 2x faster clock and lines twice as long)
-- non-standard modes will not work.
+This can also fix another crash report - KASAN: use-after-free Read in
+em28xx_close_extension [1]. It should be duplicated bug reports with
+the memory leak.
 
-I propose to replace this scheme with a direct read of geometry
-registers. This way all modes recognized by the chip will be supported.
+[1] https://syzkaller.appspot.com/bug?id=a09553fd4df4c4a3824dc37a4040bf80d2600a50
 
-How does this change look like from the user's perspective?
 
-v4l2-ctl -d $(media-ctl -e "tda19971 2-0048") --query-dv-timings
-
-Original code - known mode:           Patched:
-Active width: 1152                    Active width: 1152
-Active height: 864		      Active height: 864
-Total width: 1600		      Total width: 1600
-Total height: 900		      Total height: 900
-Frame format: progressive	      Frame format: progressive
-Polarities: +vsync +hsync	      Polarities: -vsync -hsync
-Pixelclock: 108000000 Hz (75.00 FPS)  Pixelclock: 107998200 Hz (75.00 FPS)
-Horizontal frontporch: 64	      Horizontal frontporch: 64
-Horizontal sync: 128		      Horizontal sync: 128
-Horizontal backporch: 256	      Horizontal backporch: 256
-Vertical frontporch: 1		      Vertical frontporch: 1
-Vertical sync: 3		      Vertical sync: 3
-Vertical backporch: 32		      Vertical backporch: 32
-Standards: DMT			      Standards:
-Flags:				      Flags:
-
-Original code - "unknown" mode:       Patched:
-Active width: 0                       Active width: 1400
-Active height: 0		      Active height: 1050
-Total width: 0			      Total width: 1560
-Total height: 0			      Total height: 1080
-Frame format: progressive	      Frame format: progressive
-Polarities: -vsync -hsync	      Polarities: -vsync -hsync
-Pixelclock: 0 Hz		      Pixelclock: 79998593 Hz (47.48 FPS)
-Horizontal frontporch: 0	      Horizontal frontporch: 48
-Horizontal sync: 0		      Horizontal sync: 32
-Horizontal backporch: 0		      Horizontal backporch: 80
-Vertical frontporch: 0		      Vertical frontporch: 3
-Vertical sync: 0		      Vertical sync: 4
-Vertical backporch: 0		      Vertical backporch: 23
-Standards:			      Standards:
-Flags:				      Flags:
-
-In the kernel logs - original code:
-Signal Timings: 360006/399/31
-Detected format: 1152x864p75.00 (1600x900)
-
-Signal Timings: 568630/525/9
-no resolution match for timings: 568630/525/9
-
-Patched:
-Signal Timings: 360006/399/31
-Geometry: 1600 1152 64 128 256   900 864 1 0 3 32 0
-Detected format: 1152x864p74.99 (1600x900)
-
-Signal Timings: 568646/525/9
-Geometry: 1560 1400 48 32 80   1080 1050 3 0 4 23 0
-Detected format: 1400x1050p47.48 (1560x1080)
-
-Note the differences. The original code uses values in
-v4l2_dv_timings_presets[], while with the patch it reads the data from
-the chip. Thus 108000000 Hz changes into (this time) 107998200 Hz.
-
-Also, the flags. This is HDMI receiver, so I don't exactly think H and V
-sync signals have any polarity (they are symbols embedded in the HDMI
-stream).
-I don't know if the "VESA Discrete Monitor Timings" (DMT) flag makes any
-difference.
-
-The code assumes the V sync signal has the same duration for both
-fields. While this may be not necessarily true, I can't see any way to
-get the "other" V sync width. This is most probably harmless.
-
-I have checked the register values in interlaced mode, but currently
-can't test such a setup (I only have remote access to a device working
-in interlaced mode). Perhaps this will change in time.
-
-All tests have been performed on Gateworks' Ventana GW54xx board, with
-a TDA19971 chip.
-
-Signed-off-by: Krzysztof Ha=C5=82asa <khalasa@piap.pl>
----
-... also testing UTF-8 path :-)
-
-Krzysztof "Chris" Ha=C5=82asa
-
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
-
---- a/drivers/media/i2c/tda1997x.c
-+++ b/drivers/media/i2c/tda1997x.c
-@@ -1092,66 +1094,71 @@ tda1997x_detect_std(struct tda1997x_state *state,
- 		    struct v4l2_dv_timings *timings)
- {
- 	struct v4l2_subdev *sd =3D &state->sd;
--	u32 vper;
--	u16 hper;
--	u16 hsper;
--	int i;
-=20
- 	/*
- 	 * Read the FMT registers
--	 *   REG_V_PER: Period of a frame (or two fields) in MCLK(27MHz) cycles
--	 *   REG_H_PER: Period of a line in MCLK(27MHz) cycles
--	 *   REG_HS_WIDTH: Period of horiz sync pulse in MCLK(27MHz) cycles
-+	 *   REG_V_PER: Period of a frame (or field) in MCLK (27MHz) cycles
-+	 *   REG_H_PER: Period of a line in MCLK (27MHz) cycles
-+	 *   REG_HS_WIDTH: Period of horiz sync pulse in MCLK (27MHz) cycles
- 	 */
--	vper =3D io_read24(sd, REG_V_PER) & MASK_VPER;
--	hper =3D io_read16(sd, REG_H_PER) & MASK_HPER;
--	hsper =3D io_read16(sd, REG_HS_WIDTH) & MASK_HSWIDTH;
-+	u32 vper =3D io_read24(sd, REG_V_PER) & MASK_VPER;
-+	u16 hper =3D io_read16(sd, REG_H_PER) & MASK_HPER;
-+	u16 hswidth =3D io_read16(sd, REG_HS_WIDTH);
-+	u16 hsper =3D hswidth & MASK_HSWIDTH;
-+	u16 htot, hact, hfront, hsync, hback;
-+	u16 vtot, vact, vfront1, vfront2, vsync, vback1, vback2;
-+
- 	v4l2_dbg(1, debug, sd, "Signal Timings: %u/%u/%u\n", vper, hper, hsper);
- 	if (!vper || !hper || !hsper)
- 		return -ENOLINK;
-=20
--	for (i =3D 0; v4l2_dv_timings_presets[i].bt.width; i++) {
--		const struct v4l2_bt_timings *bt;
--		u32 lines, width, _hper, _hsper;
--		u32 vmin, vmax, hmin, hmax, hsmin, hsmax;
--		bool vmatch, hmatch, hsmatch;
--
--		bt =3D &v4l2_dv_timings_presets[i].bt;
--		width =3D V4L2_DV_BT_FRAME_WIDTH(bt);
--		lines =3D V4L2_DV_BT_FRAME_HEIGHT(bt);
--		_hper =3D (u32)bt->pixelclock / width;
--		if (bt->interlaced)
--			lines /=3D 2;
--		/* vper +/- 0.7% */
--		vmin =3D ((27000000 / 1000) * 993) / _hper * lines;
--		vmax =3D ((27000000 / 1000) * 1007) / _hper * lines;
--		/* hper +/- 1.0% */
--		hmin =3D ((27000000 / 100) * 99) / _hper;
--		hmax =3D ((27000000 / 100) * 101) / _hper;
--		/* hsper +/- 2 (take care to avoid 32bit overflow) */
--		_hsper =3D 27000 * bt->hsync / ((u32)bt->pixelclock/1000);
--		hsmin =3D _hsper - 2;
--		hsmax =3D _hsper + 2;
--
--		/* vmatch matches the framerate */
--		vmatch =3D ((vper <=3D vmax) && (vper >=3D vmin)) ? 1 : 0;
--		/* hmatch matches the width */
--		hmatch =3D ((hper <=3D hmax) && (hper >=3D hmin)) ? 1 : 0;
--		/* hsmatch matches the hswidth */
--		hsmatch =3D ((hsper <=3D hsmax) && (hsper >=3D hsmin)) ? 1 : 0;
--		if (hmatch && vmatch && hsmatch) {
--			v4l2_print_dv_timings(sd->name, "Detected format: ",
--					      &v4l2_dv_timings_presets[i],
--					      false);
--			if (timings)
--				*timings =3D v4l2_dv_timings_presets[i];
--			return 0;
--		}
-+	htot =3D io_read16(sd, REG_FMT_H_TOT);
-+	hact =3D io_read16(sd, REG_FMT_H_ACT);
-+	hfront =3D io_read16(sd, REG_FMT_H_FRONT);
-+	hsync =3D io_read16(sd, REG_FMT_H_SYNC);
-+	hback =3D io_read16(sd, REG_FMT_H_BACK);
-+
-+	vtot =3D io_read16(sd, REG_FMT_V_TOT);
-+	vact =3D io_read16(sd, REG_FMT_V_ACT);
-+	vfront1 =3D io_read(sd, REG_FMT_V_FRONT_F1);
-+	vfront2 =3D io_read(sd, REG_FMT_V_FRONT_F2);
-+	vsync =3D io_read(sd, REG_FMT_V_SYNC);
-+	vback1 =3D io_read(sd, REG_FMT_V_BACK_F1);
-+	vback2 =3D io_read(sd, REG_FMT_V_BACK_F2);
-+
-+	v4l2_dbg(1, debug, sd, "Geometry: %u %u %u %u %u   %u %u %u %u %u %u %u\n=
-",
-+		 htot, hact, hfront, hsync, hback,
-+		 vtot, vact, vfront1, vfront2, vsync, vback1, vback2);
-+
-+	if (!timings)
-+		return 0;
-+
-+	timings->type =3D V4L2_DV_BT_656_1120;
-+	timings->bt.width =3D hact;
-+	timings->bt.hfrontporch =3D hfront;
-+	timings->bt.hsync =3D hsync;
-+	timings->bt.hbackporch =3D hback;
-+	timings->bt.height =3D vact;
-+	timings->bt.vfrontporch =3D vfront1;
-+	timings->bt.vsync =3D vsync;
-+	timings->bt.vbackporch =3D vback1;
-+	timings->bt.interlaced =3D hswidth & MASK_HSWIDTH_INTERLACED ?
-+		V4L2_DV_INTERLACED : V4L2_DV_PROGRESSIVE;
-+
-+	timings->bt.pixelclock =3D (u64)htot * vtot * 27000000;
-+	if (timings->bt.interlaced =3D=3D V4L2_DV_INTERLACED) {
-+		timings->bt.il_vfrontporch =3D vfront2;
-+		timings->bt.il_vsync =3D timings->bt.vsync;
-+		timings->bt.il_vbackporch =3D vback2;
-+		do_div(timings->bt.pixelclock, vper * 2 /* full frame */);
-+	} else {
-+		timings->bt.il_vfrontporch =3D 0;
-+		timings->bt.il_vsync =3D 0;
-+		timings->bt.il_vbackporch =3D 0;
-+		do_div(timings->bt.pixelclock, vper);
- 	}
--
--	v4l_err(state->client, "no resolution match for timings: %d/%d/%d\n",
--		vper, hper, hsper);
--	return -ERANGE;
-+	v4l2_print_dv_timings(sd->name, "Detected format: ", timings, false);
-+	return 0;
- }
-=20
- /* some sort of errata workaround for chip revision 0 (N1) */
---- a/drivers/media/i2c/tda1997x_regs.h
-+++ b/drivers/media/i2c/tda1997x_regs.h
-@@ -120,6 +120,7 @@
- #define MASK_VHREF		0x3fff
- #define MASK_HPER		0x0fff
- #define MASK_HSWIDTH		0x03ff
-+#define MASK_HSWIDTH_INTERLACED	0x8000
-=20
- /* HPD Detection */
- #define DETECT_UTIL		BIT(7)	/* utility of HDMI level */
+On Tue, Jul 13, 2021 at 5:49 PM Dongliang Mu <mudongliangabcd@gmail.com> wrote:
+>
+> On Tue, Jul 13, 2021 at 4:48 PM Sean Young <sean@mess.org> wrote:
+> >
+> > On Wed, Jul 07, 2021 at 05:34:09PM +0800, Dongliang Mu wrote:
+> > > If em28xx_ir_init fails, it would decrease the refcount of dev. However,
+> > > in the em28xx_ir_fini, when ir is NULL, it goes to ref_put and decrease
+> > > the refcount of dev. This will lead to a refcount bug.
+> > >
+> > > Fix this bug by removing the kref_put in the error handling code
+> > > of em28xx_ir_init.
+> > >
+> > > refcount_t: underflow; use-after-free.
+> > > WARNING: CPU: 0 PID: 7 at lib/refcount.c:28 refcount_warn_saturate+0x18e/0x1a0 lib/refcount.c:28
+> > > Modules linked in:
+> > > CPU: 0 PID: 7 Comm: kworker/0:1 Not tainted 5.13.0 #3
+> > > Workqueue: usb_hub_wq hub_event
+> > > RIP: 0010:refcount_warn_saturate+0x18e/0x1a0 lib/refcount.c:28
+> > > Call Trace:
+> > >   kref_put.constprop.0+0x60/0x85 include/linux/kref.h:69
+> > >   em28xx_usb_disconnect.cold+0xd7/0xdc drivers/media/usb/em28xx/em28xx-cards.c:4150
+> > >   usb_unbind_interface+0xbf/0x3a0 drivers/usb/core/driver.c:458
+> > >   __device_release_driver drivers/base/dd.c:1201 [inline]
+> > >   device_release_driver_internal+0x22a/0x230 drivers/base/dd.c:1232
+> > >   bus_remove_device+0x108/0x160 drivers/base/bus.c:529
+> > >   device_del+0x1fe/0x510 drivers/base/core.c:3540
+> > >   usb_disable_device+0xd1/0x1d0 drivers/usb/core/message.c:1419
+> > >   usb_disconnect+0x109/0x330 drivers/usb/core/hub.c:2221
+> > >   hub_port_connect drivers/usb/core/hub.c:5151 [inline]
+> > >   hub_port_connect_change drivers/usb/core/hub.c:5440 [inline]
+> > >   port_event drivers/usb/core/hub.c:5586 [inline]
+> > >   hub_event+0xf81/0x1d40 drivers/usb/core/hub.c:5668
+> > >   process_one_work+0x2c9/0x610 kernel/workqueue.c:2276
+> > >   process_scheduled_works kernel/workqueue.c:2338 [inline]
+> > >   worker_thread+0x333/0x5b0 kernel/workqueue.c:2424
+> > >   kthread+0x188/0x1d0 kernel/kthread.c:319
+> > >   ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+> > >
+> > > Reported-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> > > Fixes: ac5688637144 ("media: em28xx: Fix possible memory leak of em28xx struct")
+> > > Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> > > ---
+> > > v1->v2: move kref_get to the original position
+> > >  drivers/media/usb/em28xx/em28xx-input.c | 1 -
+> > >  1 file changed, 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/usb/em28xx/em28xx-input.c b/drivers/media/usb/em28xx/em28xx-input.c
+> > > index 59529cbf9cd0..0b6d77c3bec8 100644
+> > > --- a/drivers/media/usb/em28xx/em28xx-input.c
+> > > +++ b/drivers/media/usb/em28xx/em28xx-input.c
+> > > @@ -842,7 +842,6 @@ static int em28xx_ir_init(struct em28xx *dev)
+> > >       kfree(ir);
+> > >  ref_put:
+> > >       em28xx_shutdown_buttons(dev);
+> > > -     kref_put(&dev->ref, em28xx_free_device);
+> > >       return err;
+> > >  }
+> >
+> > Ideally we want an init function to not have any side effects if it returns
+> > an error (or to do undo those side effects). With this change, the as long
+> > as is_audio_only is not set, we always do a kref_get(), even in the error
+> > case. As long as is_audio_only is not set, fini always does a kref_put().
+> >
+> > Now this works but it's not really very readable code, and it requires that
+> > the fini is called even if init returns an error.
+> >
+> > If an init function returns an error, it should undo any side effects like
+> > allocations or reference counts. So the best way to handle this to only
+> > do a kref_get() in the happy path of em28xx_ir_init().
+>
+> Hi Sean,
+>
+> In the v1 version, I moved kref_get from the beginning to the ending.
+> Do you mean this change?
+>
+> @@ -708,7 +708,6 @@ static int em28xx_ir_init(struct em28xx *dev)
+>   return 0;
+>   }
+>
+> - kref_get(&dev->ref);
+>   INIT_DELAYED_WORK(&dev->buttons_query_work, em28xx_query_buttons);
+>
+>   if (dev->board.buttons)
+> @@ -833,6 +832,9 @@ static int em28xx_ir_init(struct em28xx *dev)
+>
+>   dev_info(&dev->intf->dev, "Input extension successfully initialized\n");
+>
+> + /* Only increase refcount when this function is executed successfully */
+> + kref_get(&dev->ref);
+> +
+>   return 0;
+>
+> Another reason not to move kref_get is that Paval comments on my patch:
+>
+> > kref_get() should be before this call to not trigger UAF in em28xx_query_buttons()
+>
+> So I think it's safe to call kref_get at the beginning.
+>
+> >
+> >
+> > Thanks
+> >
+> > Sean
