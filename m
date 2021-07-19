@@ -2,98 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AAB683CCD4B
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 07:19:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7F573CCDAD
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 07:53:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229906AbhGSFWu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jul 2021 01:22:50 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:52856 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229512AbhGSFWu (ORCPT
+        id S234474AbhGSFz5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 01:55:57 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:52153 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233750AbhGSFz5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jul 2021 01:22:50 -0400
-X-UUID: 55cc68f87f38451c8374012eec6793c7-20210719
-X-UUID: 55cc68f87f38451c8374012eec6793c7-20210719
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
-        (envelope-from <guangming.cao@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 485152648; Mon, 19 Jul 2021 13:19:47 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 19 Jul 2021 13:19:46 +0800
-Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas07.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Mon, 19 Jul 2021 13:19:46 +0800
-From:   <guangming.cao@mediatek.com>
-To:     Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-CC:     <wsd_upstream@mediatek.com>,
-        Guangming Cao <Guangming.Cao@mediatek.com>
-Subject: [PATCH] dma_buf: remove dmabuf sysfs teardown before release/detach
-Date:   Mon, 19 Jul 2021 13:19:44 +0800
-Message-ID: <20210719051944.40871-1-guangming.cao@mediatek.com>
-X-Mailer: git-send-email 2.17.1
+        Mon, 19 Jul 2021 01:55:57 -0400
+Received: (Authenticated sender: vrzh@vrzh.net)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 35BCF240006;
+        Mon, 19 Jul 2021 05:52:54 +0000 (UTC)
+From:   Martiros Shakhzadyan <vrzh@vrzh.net>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, Martiros Shakhzadyan <vrzh@vrzh.net>
+Subject: [PATCH] media: atomisp: i2c: Remove a superfluous else clause in atomisp-mt9m114.c
+Date:   Mon, 19 Jul 2021 01:52:16 -0400
+Message-Id: <20210719055216.28508-1-vrzh@vrzh.net>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Guangming Cao <Guangming.Cao@mediatek.com>
+Remove a superfluous clause in mt9m114_s_power()
 
-Dmabuf sysfs stat is used for dmabuf info track.
-but these file maybe still use after buffer release/detach,
-should clear it before buffer release/detach.
-
-Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+Signed-off-by: Martiros Shakhzadyan <vrzh@vrzh.net>
 ---
- drivers/dma-buf/dma-buf.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 510b42771974..9fa4620bd4bb 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -76,12 +76,12 @@ static void dma_buf_release(struct dentry *dentry)
- 	 */
- 	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+index 11196180a206..a80f1550618b 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+@@ -570,14 +570,13 @@ static int power_down(struct v4l2_subdev *sd)
  
-+	dma_buf_stats_teardown(dmabuf);
- 	dmabuf->ops->release(dmabuf);
+ static int mt9m114_s_power(struct v4l2_subdev *sd, int power)
+ {
+-	if (power == 0) {
++	if (power == 0)
+ 		return power_down(sd);
+-	} else {
+-		if (power_up(sd))
+-			return -EINVAL;
  
- 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
- 		dma_resv_fini(dmabuf->resv);
- 
--	dma_buf_stats_teardown(dmabuf);
- 	module_put(dmabuf->owner);
- 	kfree(dmabuf->name);
- 	kfree(dmabuf);
-@@ -875,10 +875,11 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
- 	dma_resv_lock(dmabuf->resv, NULL);
- 	list_del(&attach->node);
- 	dma_resv_unlock(dmabuf->resv);
+-		return mt9m114_init_common(sd);
+-	}
++	if (power_up(sd))
++		return -EINVAL;
 +
-+	dma_buf_attach_stats_teardown(attach);
- 	if (dmabuf->ops->detach)
- 		dmabuf->ops->detach(dmabuf, attach);
- 
--	dma_buf_attach_stats_teardown(attach);
- 	kfree(attach);
++	return mt9m114_init_common(sd);
  }
- EXPORT_SYMBOL_GPL(dma_buf_detach);
+ 
+ /*
 -- 
-2.17.1
+2.32.0
 
