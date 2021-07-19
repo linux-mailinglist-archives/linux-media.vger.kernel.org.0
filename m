@@ -2,75 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0A9C3CE827
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 19:27:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 370A83CED32
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 22:29:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352851AbhGSQiN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jul 2021 12:38:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35306 "EHLO
+        id S1351580AbhGSRsv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 13:48:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351189AbhGSQg4 (ORCPT
+        with ESMTP id S1382153AbhGSRjG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jul 2021 12:36:56 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78286C05BD26;
-        Mon, 19 Jul 2021 09:51:31 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id o4so15043600pgs.6;
-        Mon, 19 Jul 2021 10:11:37 -0700 (PDT)
+        Mon, 19 Jul 2021 13:39:06 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BF52C0A888C
+        for <linux-media@vger.kernel.org>; Mon, 19 Jul 2021 10:57:37 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id hr1so30258511ejc.1
+        for <linux-media@vger.kernel.org>; Mon, 19 Jul 2021 11:12:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=yoa729tPsnyOV1Y+/5ZmtExrLCgEeGDbIFxlft1dfP8=;
-        b=QsPrkgoQZMDKYcBF+idNxxDG9xBLy7hZCC0MamSxk/W+9pPssNZAD8LPNhy3wwrDPT
-         jlXoAFghpUhqFhujWoH5ZlyrnZqHrrW65Ob7O+p81QUnpj4wfJLaXKbBH39HThZrBonD
-         W0bEBhUZichBFp55juMbk77DalmBW0eku7VBgGJKMO2Xkh3IvXEm1B+3mgwIEeHH4D/E
-         V8O9DWC4cvwzkDwzgADKoRYA4YYcSVkh+/yMBjHqGjCEqvf/QWy+bTYkess9wxlgFSwx
-         f3WC1BMjjUkhNVsAnfnhoiW0HleLEhuLNqignYnr9DJxCUB/20LSbeA8QKT+VlZ2ZMSp
-         KwfQ==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=pICNrXYIFCTZo4hHb2+VSGWZ1y2w7ZvMLxdA+tnr+jw=;
+        b=emeB6eo48jhnKYi8X/PCjyOLx6J52ZwX3u+zYXOA38LP9CAeeU7zRnZRU+60KQNDZu
+         ETOdX0YGVKa/S2Sa5BW/O5bezbEluSd9xRvgAVk6Vr7srQMVQwqGClL34lOX247mOja8
+         p3HiYecGpPfXDMs0EnBCrK8McNhzsqMtrC58nOx/Idc92HrKu0MsOIbsN7BcuOpvN6P4
+         UbCpDyBoetxu/EFd6wb56F2HrvA6pHVp/k1JuyQ2aF81YNyOyppsp0fkn8/bgR9SLKO3
+         yfuucTcO5S/G8ou5TBoNr/i4Tc6dU5fhDIdyohfNhIkts7p8tqbHC+Xjllq98zhhoIAy
+         ZJDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=yoa729tPsnyOV1Y+/5ZmtExrLCgEeGDbIFxlft1dfP8=;
-        b=tMeLyDsfFBf5Lw/vbaFfQ+vFI9qQqDJQbpqmx/L/AaRkH2wi7jiL/cFAHKmwICKTFL
-         miZGwUNvn20jIOrn+LVAHCH9/lOlo6BGfHxOUFIbzUEi/+hRuc/XVbXQZ69SdzopdDev
-         N+9A5hkCfxK5wtFe2HKe60tLCcASEizcs91gAiKkGDHKAHl1UZnjWJDU8EZcxLSyq/j4
-         mGB4OfaA1nBGJNJmRZBrYa5y+E+7n1AofieKYm097UsIQtIg4UoeDFJOgPp+46avH7QD
-         YpJj9aqCm1wGJwTtwKykC9DGxZ38qKSbfG5slGOK95VFFB8uB+p+q7bMQyYlm6gmGe/e
-         JQdg==
-X-Gm-Message-State: AOAM533rit3t9QB6Vp3vi6dixYLSRpp6fliaGLrLLbmywq/K1iExLRCX
-        iX+53LR7/n79hFjrKN/6SC4=
-X-Google-Smtp-Source: ABdhPJwtbRKJMGkmz7/uzgxegd8blnKQmJYwOJ7nwsf7kaEYmZx/UjM+NrdIcC3aysN4zSUwtmksvg==
-X-Received: by 2002:a65:44ca:: with SMTP id g10mr25982370pgs.246.1626714697347;
-        Mon, 19 Jul 2021 10:11:37 -0700 (PDT)
-Received: from ojas ([122.161.50.29])
-        by smtp.gmail.com with ESMTPSA id g5sm440882pfj.212.2021.07.19.10.11.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jul 2021 10:11:37 -0700 (PDT)
-Date:   Mon, 19 Jul 2021 22:41:25 +0530
-From:   Ojaswin Mujoo <ojaswin98@gmail.com>
-To:     mchehab@kernel.org
-Cc:     sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Requesting suggestions getting started with staging/media/atomisp
- driver
-Message-ID: <20210719170844.GA73837@ojas>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=pICNrXYIFCTZo4hHb2+VSGWZ1y2w7ZvMLxdA+tnr+jw=;
+        b=tYsOkow1g3g5GKzPyTW55iMWxHfBjaVYKH9+vTtM24/bOVy2MCcwRB/64QDQXV+Yfw
+         HJz/6SpaW9il2F17tHAHSjwG7y0gRMtJAeg5fe9+K5UCk0j6VQTAGgKP4tADa7WbwW8F
+         WGOgINUfGEsVS1LVGrx/9kv9rbvrYm378CayIi3NvCKKZ84TdHe36JhLdLxeJvctX7rF
+         wQoG7mhTWYQAEnKfyZ5WR7Gd2jfu7ptEYT4Msl0Iivs0B1kUO+XPMs4T+tzdDgEqYDck
+         CttSHz0vDklTcPEVCJfBoR/Law/pgu5CsNnU4P5LdhS4NPOTYmvECvvsesfH+GCh52+d
+         VnpA==
+X-Gm-Message-State: AOAM532x7kzpH0jvLjhOiIJwMD5l6rEX355kJOIQZu6O507yGH0g1Spt
+        qrVt+Cs1UNiMqQNLGZHG6GyNK6OxWf2G7T5sE20=
+X-Google-Smtp-Source: ABdhPJxK8qvf5lVlHyPImHdR2C84eTt0Sx3l5VG8t7qyqJ9XJcFYXmL6p+fD3l0ySDxUmqnkJmx9nh3BmbtdmIgcSn8=
+X-Received: by 2002:a17:906:1fd2:: with SMTP id e18mr28327516ejt.313.1626718356822;
+ Mon, 19 Jul 2021 11:12:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Received: by 2002:a17:906:7284:0:0:0:0 with HTTP; Mon, 19 Jul 2021 11:12:35
+ -0700 (PDT)
+Reply-To: veroniquebigots001@gmail.com
+From:   Veronique Bigots <laetitiamaura001@gmail.com>
+Date:   Tue, 20 Jul 2021 02:12:35 +0800
+Message-ID: <CAL9ZrvAQfVawy+Wdt-om-_WH4dKmjJhL2-EZX0vTFqZjQwU_hw@mail.gmail.com>
+Subject: Hola
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi everyone,
+Buenos dias
 
-I was going through the TODO for atomisp driver to look for a task I
-could pick up. I'm relatively new here and task 3 looked decent to get
-started with (convert PMIC to pm_runtime*). However, checking the recent
-commits, it seems like there is some ongoing work on it. 
+Mi nombre es Bigots V=C3=A9ronique viuda de 52 a=C3=B1os
+Actualmente en Londres en Inglaterra para el an=C3=A1lisis de mi salud porq=
+ue
+Sufre de
+C=C3=A1ncer de garganta en fase terminal. Te estoy contactando ahora mismo
+porque me gustar=C3=ADa hacer una donaci=C3=B3n para las almas sensibles. E=
+n efecto,
+Soy economista sin hijos y me gustar=C3=ADa donar uno.
+suma 353.500 euros y joyas preciosas a un
+persona que har=C3=A1 un buen uso de ella.
+Comun=C3=ADquese con mi abogado para los tr=C3=A1mites
+para recibir los fondos aqu=C3=AD est=C3=A1 su direcci=C3=B3n de correo ele=
+ctr=C3=B3nico:
+maitre.robertdurand@gmail.com
 
-Hence, just reaching out to confirm the same and for some suggestions on
-a good first task I could work on?  Thank you in advance! 
-
-Regards,
-Ojaswin
+Atentamente
