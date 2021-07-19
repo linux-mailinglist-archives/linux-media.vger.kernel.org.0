@@ -2,200 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D2063CD82A
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 17:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 146773CE647
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 18:45:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242493AbhGSOVA convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 19 Jul 2021 10:21:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59964 "EHLO
+        id S241688AbhGSQD3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 12:03:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242586AbhGSOUB (ORCPT
+        with ESMTP id S1352591AbhGSQBr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jul 2021 10:20:01 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1D6C061794
-        for <linux-media@vger.kernel.org>; Mon, 19 Jul 2021 07:28:10 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1m5Ujl-00078m-49; Mon, 19 Jul 2021 16:59:17 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1m5Ujk-0007Er-Rz; Mon, 19 Jul 2021 16:59:16 +0200
-Message-ID: <e134ee8dc40aa1acbce2fb86779cd1dab82357c1.camel@pengutronix.de>
-Subject: Re: Problem with coda h264 decoder and different color formats
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Andrej Picej <andrej.picej@norik.com>, linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org
-Date:   Mon, 19 Jul 2021 16:59:16 +0200
-In-Reply-To: <e07c752e-4029-6640-d462-811c82dd5109@norik.com>
-References: <e07c752e-4029-6640-d462-811c82dd5109@norik.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        Mon, 19 Jul 2021 12:01:47 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00259C0A8884;
+        Mon, 19 Jul 2021 08:58:22 -0700 (PDT)
+Received: from [IPv6:2a02:810a:880:f54:121:b44d:bc4b:65bc] (unknown [IPv6:2a02:810a:880:f54:121:b44d:bc4b:65bc])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9E1B01F42D19;
+        Mon, 19 Jul 2021 17:22:32 +0100 (BST)
+Subject: Re: [PATCH v6 12/14] media: mtk-vcodec: vdec: add media device if
+ using stateless api
+To:     Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Tzung-Bi Shih <tzungbi@google.com>,
+        Collabora Kernel ML <kernel@collabora.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>
+References: <20210705053258.1614177-1-acourbot@chromium.org>
+ <20210705053258.1614177-13-acourbot@chromium.org>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <a0a8b9a1-df9e-0e30-9ce6-36759f707e27@collabora.com>
+Date:   Mon, 19 Jul 2021 18:22:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20210705053258.1614177-13-acourbot@chromium.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andrej,
 
-thank you for the report!
 
-On Fri, 2021-07-16 at 11:07 +0200, Andrej Picej wrote:
-> Hi all,
+On 05.07.21 07:32, Alexandre Courbot wrote:
+> From: Yunfei Dong <yunfei.dong@mediatek.com>
 > 
-> I hope I'm sending this to the right list. If not please redirect me to 
-> the right one.
+> The stateless API requires a media device for issuing requests. Add one
+> if we are being instantiated as a stateless decoder.
 > 
-> We have a problem with CODA960 codec (at least that's what I think:)) 
-> for i.MX6, and I need a little bit of help in pinpointing and solving it.
-> We are using it to decode a h264 video. Decoder supports 4 color formats:
-> - NV12,
-> - I420 (YU12),
-> - YV12 and
-> - YUY2.
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> [acourbot: refactor, cleanup and split]
+> Co-developed-by: Alexandre Courbot <acourbot@chromium.org>
+> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
+> ---
+>   drivers/media/platform/Kconfig                |  2 +
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 38 +++++++++++++++++++
+>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  2 +
+>   3 files changed, 42 insertions(+)
 > 
-> Everything works ok if we use gstreamer pipeline with NV12 or YUY2 
-> decoder, but when we use I420 or YV12 format it fails.
-> It seams that the video is being played, but only green screen is being 
-> displayed.
->
-> Gstreamer pipeline:
-> > gst-launch-1.0 filesrc location=video_1920x960_h264_24fps.mkv ! \
-> > matroskademux ! \
-> > h264parse ! \
-> > v4l2h264dec ! \
-> > video/x-raw,format="YUY2" ! \
-> > videoconvert ! \
-> > videoscale ! \
-> > queue ! \
-> > kmssink connector-id=57 sync=false can-scale=false force-modesetting=false
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index ae1468aa1b4e..aa277a19e275 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -315,6 +315,8 @@ config VIDEO_MEDIATEK_VCODEC
+>   	select VIDEO_MEDIATEK_VCODEC_VPU if VIDEO_MEDIATEK_VPU
+>   	select VIDEO_MEDIATEK_VCODEC_SCP if MTK_SCP
+>   	select V4L2_H264
+> +	select MEDIA_CONTROLLER
+> +	select MEDIA_CONTROLLER_REQUEST_API
+>   	help
+>   	  Mediatek video codec driver provides HW capability to
+>   	  encode and decode in a range of video formats on MT8173
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> index 1460951f302c..c8a84fa11e4a 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> @@ -14,6 +14,7 @@
+>   #include <media/v4l2-event.h>
+>   #include <media/v4l2-mem2mem.h>
+>   #include <media/videobuf2-dma-contig.h>
+> +#include <media/v4l2-device.h>
+>   
+>   #include "mtk_vcodec_drv.h"
+>   #include "mtk_vcodec_dec.h"
+> @@ -316,6 +317,30 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>   		goto err_event_workq;
+>   	}
+>   
+> +	if (dev->vdec_pdata->uses_stateless_api) {
+> +		dev->mdev_dec.dev = &pdev->dev;
+> +		strscpy(dev->mdev_dec.model, MTK_VCODEC_DEC_NAME,
+> +			sizeof(dev->mdev_dec.model));
+> +
+> +		media_device_init(&dev->mdev_dec);
+> +		dev->mdev_dec.ops = &mtk_vcodec_media_ops;
+> +		dev->v4l2_dev.mdev = &dev->mdev_dec;
+> +
+> +		ret = v4l2_m2m_register_media_controller(dev->m2m_dev_dec, dev->vfd_dec,
+> +							 MEDIA_ENT_F_PROC_VIDEO_DECODER);
+> +		if (ret) {
+> +			mtk_v4l2_err("Failed to register media controller");
+> +			goto err_reg_cont;
+> +		}
+> +
+> +		ret = media_device_register(&dev->mdev_dec);
+> +		if (ret) {
+> +			mtk_v4l2_err("Failed to register media device");
+> +			goto err_media_reg;
+> +		}
+> +
+> +		mtk_v4l2_debug(0, "media registered as /dev/media%d", vfd_dec->num);
+
+the media's node minor is not vfd_dec->num
+
+> +	}
+>   	ret = video_register_device(vfd_dec, VFL_TYPE_VIDEO, 0);
+>   	if (ret) {
+>   		mtk_v4l2_err("Failed to register video device");
+> @@ -328,6 +353,12 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>   	return 0;
+>   
+>   err_dec_reg:
+> +	if (dev->vdec_pdata->uses_stateless_api)
+> +		media_device_unregister(&dev->mdev_dec);
+> +err_media_reg:
+> +	if (dev->vdec_pdata->uses_stateless_api)
+> +		v4l2_m2m_unregister_media_controller(dev->m2m_dev_dec);
+> +err_reg_cont:
+>   	destroy_workqueue(dev->decode_workqueue);
+>   err_event_workq:
+>   	v4l2_m2m_release(dev->m2m_dev_dec);
+> @@ -360,6 +391,13 @@ static int mtk_vcodec_dec_remove(struct platform_device *pdev)
+>   
+>   	flush_workqueue(dev->decode_workqueue);
+>   	destroy_workqueue(dev->decode_workqueue);
+> +
+> +	if (media_devnode_is_registered(dev->mdev_dec.devnode)) {
+> +		media_device_unregister(&dev->mdev_dec);
+> +		v4l2_m2m_unregister_media_controller(dev->m2m_dev_dec);
+> +		media_device_cleanup(&dev->mdev_dec);
+> +	}
+> +
+>   	if (dev->m2m_dev_dec)
+>   		v4l2_m2m_release(dev->m2m_dev_dec);
+>   
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> index 8fb333a99a40..d4f840a7bbcb 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> @@ -389,6 +389,7 @@ struct mtk_vcodec_enc_pdata {
+>    * struct mtk_vcodec_dev - driver data
+>    * @v4l2_dev: V4L2 device to register video devices for.
+>    * @vfd_dec: Video device for decoder
+> + * @mdev_dec: Media device for decoder
+>    * @vfd_enc: Video device for encoder.
+>    *
+>    * @m2m_dev_dec: m2m device for decoder
+> @@ -426,6 +427,7 @@ struct mtk_vcodec_enc_pdata {
+>   struct mtk_vcodec_dev {
+
+This structs has a lot of duplicated fields for enc/dec
+Since the device represents either a decoder or an encoder,
+I think all those dupliactes can be removed, so for example
+instead of having both 'dec_irq' and 'enc_irq' we can have just 'irq'
+
+Thanks,
+Dafna
+
+>   	struct v4l2_device v4l2_dev;
+>   	struct video_device *vfd_dec;
+> +	struct media_device mdev_dec;
+>   	struct video_device *vfd_enc;
+>   
+>   	struct v4l2_m2m_dev *m2m_dev_dec;
 > 
-> If we change format to I420 or YV12 the screen goes green.
-> 
-> The problem is seen on kernel 5.10.50, but the same pipeline works with 
-> 4.19.100 kernel and driver (gstreamer version 1.18.4).
-
-Can you confirm this works with 4.19.100 with exactly the same coda
-firmware that shows the broken behavior on 5.10.50?
-
-> You might be 
-> wandering why we don't use gst pipeline with working formats. The reason 
-> for this is that we use Qt with its media player which uses gstreamers 
-> playbin plugin which always selects I420 format (resulting in green 
-> screen). For now we found a dummy workaround, which is removing 
-> non-working formats from supported codec formats (dst_formats). This 
-> works, but we would like to get to the bottom of this.
-
-An alternative workaround would be to patch GStreamer to prefer the NV12
-format over I420 [1].
-
-[1] https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/merge_requests/857
-
-> I have already enabled debug options in coda driver but I can't see 
-> anything wrong with it. At least logs from working formats and non 
-> working formats doesn't differ in anything specific (other than selected 
-> format of course):
-> 
-> LOG for I420 (YU12)
-> > [ 1125.250709] coda 2040000.vpu: 0: open instance (254d2371)
-> > [ 1125.250743] coda 2040000.vpu: genpd_runtime_resume()
-> > [ 1125.252142] coda 2040000.vpu: 0: s_ctrl: id = 0x980914, name = "Horizontal Flip", val = 0
-> > [ 1125.252155] coda 2040000.vpu: 0: s_ctrl: id = 0x980915, name = "Vertical Flip", val = 0
-> > [ 1125.252961] coda 2040000.vpu: 0: release instance (254d2371)
-> > [ 1125.252998] coda 2040000.vpu: genpd_runtime_suspend()
-> > [ 1125.253125] coda 2040000.vpu: 0: open instance (254d2371)
-> > [ 1125.253145] coda 2040000.vpu: genpd_runtime_resume()
-> > [ 1125.254526] coda 2040000.vpu: 0: s_ctrl: id = 0x980914, name = "Horizontal Flip", val = 0
-> > [ 1125.254538] coda 2040000.vpu: 0: s_ctrl: id = 0x980915, name = "Vertical Flip", val = 0
-> > [ 1125.254545] coda 2040000.vpu: 0: s_ctrl: id = 0x9909cf, name = "Video Bitrate", val = 0
-> > [ 1125.254553] coda 2040000.vpu: 0: s_ctrl: id = 0x9909cb, name = "Video GOP Size", val = 16
-> > [ 1125.254562] coda 2040000.vpu: 0: s_ctrl: id = 0x990a5e, name = "H264 I-Frame QP Value", val = 25
-> > [ 1125.254569] coda 2040000.vpu: 0: s_ctrl: id = 0x990a5f, name = "H264 P-Frame QP Value", val = 25
-> > [ 1125.254576] coda 2040000.vpu: 0: s_ctrl: id = 0x990a62, name = "H264 Maximum QP Value", val = 51
-> > [ 1125.254583] coda 2040000.vpu: 0: s_ctrl: id = 0x990a68, name = "H264 Loop Filter Alpha Offset", val = 0
-> > [ 1125.254591] coda 2040000.vpu: 0: s_ctrl: id = 0x990a69, name = "H264 Loop Filter Beta Offset", val = 0
-> > [ 1125.254599] coda 2040000.vpu: 0: s_ctrl: id = 0x990a6a, name = "H264 Loop Filter Mode", val = 0 ("Enabled")
-> > [ 1125.254606] coda 2040000.vpu: 0: s_ctrl: id = 0x990a7f, name = "H264 Constrained Intra Pred", val = 0
-> > [ 1125.254613] coda 2040000.vpu: 0: s_ctrl: id = 0x9909d7, name = "Frame Level Rate Control Enable", val = 1
-> > [ 1125.254621] coda 2040000.vpu: 0: s_ctrl: id = 0x9909da, name = "H264 MB Level Rate Control", val = 1
-> > [ 1125.254627] coda 2040000.vpu: 0: s_ctrl: id = 0x990a80, name = "H264 Chroma QP Index Offset", val = 0
-> > [ 1125.254635] coda 2040000.vpu: 0: s_ctrl: id = 0x990a6b, name = "H264 Profile", val = 0 ("Baseline")
-> > [ 1125.254643] coda 2040000.vpu: 0: s_ctrl: id = 0x990a67, name = "H264 Level", val = 11 ("4")
-> > [ 1125.254649] coda 2040000.vpu: 0: s_ctrl: id = 0x990a90, name = "MPEG4 I-Frame QP Value", val = 2
-> > [ 1125.254656] coda 2040000.vpu: 0: s_ctrl: id = 0x990a91, name = "MPEG4 P-Frame QP Value", val = 2
-> > [ 1125.254663] coda 2040000.vpu: 0: s_ctrl: id = 0x990a96, name = "MPEG4 Profile", val = 0 ("Simple")
-> > [ 1125.254670] coda 2040000.vpu: 0: s_ctrl: id = 0x990a95, name = "MPEG4 Level", val = 7 ("5")
-> > [ 1125.254678] coda 2040000.vpu: 0: s_ctrl: id = 0x9909dd, name = "Slice Partitioning Method", val = 0 ("Single")
-> > [ 1125.254686] coda 2040000.vpu: 0: s_ctrl: id = 0x9909dc, name = "Number of MBs in a Slice", val = 1
-> > [ 1125.254693] coda 2040000.vpu: 0: s_ctrl: id = 0x9909db, name = "Maximum Bytes in a Slice", val = 500
-> > [ 1125.254700] coda 2040000.vpu: 0: s_ctrl: id = 0x9909d8, name = "Sequence Header Mode", val = 1 ("Joined With 1st Frame")
-> > [ 1125.254707] coda 2040000.vpu: 0: s_ctrl: id = 0x9909d6, name = "Number of Intra Refresh MBs", val = 0
-> > [ 1125.254716] coda 2040000.vpu: 0: s_ctrl: id = 0x9909e1, name = "Initial Delay for VBV Control", val = 0
-> > [ 1125.254722] coda 2040000.vpu: 0: s_ctrl: id = 0x9909de, name = "VBV Buffer Size", val = 0
-> > [ 1125.255954] coda 2040000.vpu: 0: release instance (254d2371)
-> > [ 1125.256092] coda 2040000.vpu: genpd_runtime_suspend()
-> > [ 1125.256210] coda 2040000.vpu: 0: open instance (254d2371)
-> > [ 1125.256234] coda 2040000.vpu: genpd_runtime_resume()
-> > [ 1125.257564] coda 2040000.vpu: 0: s_ctrl: id = 0x980914, name = "Horizontal Flip", val = 0
-> > [ 1125.257574] coda 2040000.vpu: 0: s_ctrl: id = 0x980915, name = "Vertical Flip", val = 0
-> > [ 1125.258590] coda 2040000.vpu: 0: release instance (254d2371)
-> > [ 1125.258686] coda 2040000.vpu: genpd_runtime_suspend()
-> > [ 1125.258792] coda 2040000.vpu: 0: open instance (254d2371)
-> > [ 1125.258812] coda 2040000.vpu: genpd_runtime_resume()
-> > [ 1125.260118] coda 2040000.vpu: 0: s_ctrl: id = 0x980914, name = "Horizontal Flip", val = 0
-> > [ 1125.260127] coda 2040000.vpu: 0: s_ctrl: id = 0x980915, name = "Vertical Flip", val = 0
-> > [ 1125.260136] coda 2040000.vpu: 0: s_ctrl: id = 0x9d0903, name = "Compression Quality", val = 50
-> > [ 1125.260145] coda 2040000.vpu: 0: s_ctrl: id = 0x9d0902, name = "Restart Interval", val = 0
-> > [ 1125.260901] coda 2040000.vpu: 0: release instance (254d2371)
-> > [ 1125.260936] coda 2040000.vpu: genpd_runtime_suspend()
-> > [ 1125.424576] coda 2040000.vpu: 0: open instance (254d2371)
-> > [ 1125.424608] coda 2040000.vpu: genpd_runtime_resume()
-> > [ 1125.426076] coda 2040000.vpu: 0: s_ctrl: id = 0x980914, name = "Horizontal Flip", val = 0
-> > [ 1125.426090] coda 2040000.vpu: 0: s_ctrl: id = 0x980915, name = "Vertical Flip", val = 0
-> > [ 1125.469178] coda 2040000.vpu: 0: Setting vid-out format, wxh: 1920x960, fmt: H264 L
-> > [ 1125.469198] coda 2040000.vpu: 0: Setting vid-cap format, wxh: 1920x960, fmt: NV12 T
-> > [ 1125.472390] coda 2040000.vpu: 0: get 2 buffer(s) of size 2097152 each.
-> > [ 1125.527767] coda 2040000.vpu: 0: Parsed H264 profile: Main
-> > [ 1125.527786] coda 2040000.vpu: 0: s_ctrl: id = 0x990a6b, name = "H264 Profile", val = 2 ("Main")
-> > [ 1125.527795] coda 2040000.vpu: 0: Parsed H264 level: 4
-> > [ 1125.527804] coda 2040000.vpu: 0: s_ctrl: id = 0x990a67, name = "H264 Level", val = 11 ("4")
-> > [ 1125.527813] coda 2040000.vpu: 0: start streaming vid-out
-> > [ 1125.527919] coda 2040000.vpu: 0: Video Data Order Adapter: Enabled
-> > [ 1125.528150] coda 2040000.vpu: 0: start decoding: 1920x960           <<<<<<<<<<<<<<<<<<<<<<<<<
-> > [ 1125.528159] coda 2040000.vpu: 0: Parsed H264 profile: Main
-> > [ 1125.528167] coda 2040000.vpu: 0: Parsed H264 level: 4
-> > [ 1125.533700] coda 2040000.vpu: 0: Setting vid-cap format, wxh: 1920x960, fmt: YU12 L
-> > [ 1125.548872] coda 2040000.vpu: 0: get 3 buffer(s) of size 2764800 each.
-> > [ 1125.594757] coda 2040000.vpu: 0: start streaming vid-cap
-[...]
-> END LOG
-> 
-> If you want I can attach some more debug logs. Please fill free to ask, 
-> I just didn't want to paste a bunch of log files which wouldn't have any 
-> meaning.
-> There might be something wrong in other drivers but I'm really not sure 
-> how to pinpoint that.
-> 
-> Do you maybe have some suggestions what the source of this problem might be?
-
-I think the culprit is commit 497e6b8559a6 ("media: coda: add sequence
-initialization work"), which moves some initialization earlier before
-userspace selects the final capture format.
-During __coda_decoder_seq_init() (which prints the "start decoding:
-1920x960" line above), the ctx->frame_mem_ctrl is set for the default
-NV12/tiled output format. This is never corrected when streaming
-actually starts.
-
-Could you check if this patch [1] helps?
-
-[1] https://lore.kernel.org/linux-media/20210719145708.10643-1-p.zabel@pengutronix.de/T/#u
-
-regards
-Philipp
