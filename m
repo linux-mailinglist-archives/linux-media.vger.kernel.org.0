@@ -2,143 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D4AF3CCE3A
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 09:07:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 340743CCEBD
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 09:47:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234724AbhGSHJq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jul 2021 03:09:46 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60836 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234441AbhGSHJo (ORCPT
+        id S234905AbhGSHt4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 03:49:56 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:40148 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S233759AbhGSHtz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jul 2021 03:09:44 -0400
-Received: from [IPv6:2a02:810a:880:f54:121:b44d:bc4b:65bc] (unknown [IPv6:2a02:810a:880:f54:121:b44d:bc4b:65bc])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E4B571F422EC;
-        Mon, 19 Jul 2021 08:06:43 +0100 (BST)
-Subject: Re: [PATCH v2, 01/14] media: mtk-vcodec: Get numbers of register
- bases from DT
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mon, 19 Jul 2021 03:49:55 -0400
+X-UUID: 3a42733cb4ad473f98bebb6ef44fb039-20210719
+X-UUID: 3a42733cb4ad473f98bebb6ef44fb039-20210719
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1223271936; Mon, 19 Jul 2021 15:46:53 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 19 Jul 2021 15:46:52 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 19 Jul 2021 15:46:52 +0800
+From:   Moudy Ho <moudy.ho@mediatek.com>
+To:     <moudy.ho@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        Collabora Kernel ML <kernel@collabora.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>
-References: <20210717081233.7809-1-yunfei.dong@mediatek.com>
- <20210717081233.7809-2-yunfei.dong@mediatek.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <77ec9eec-0b93-102c-4e6e-a1a491d0ae7a@collabora.com>
-Date:   Mon, 19 Jul 2021 09:06:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <tfiga@chromium.org>,
+        <drinkcat@chromium.org>, <acourbot@chromium.org>,
+        <pihsun@chromium.org>, <menghui.lin@mediatek.com>,
+        <sj.huang@mediatek.com>, <ben.lok@mediatek.com>,
+        <randy.wu@mediatek.com>, <srv_heupstream@mediatek.com>
+Subject: [PATCH v5 0/3] media: mediatek: support mdp3 on mt8183 platform
+Date:   Mon, 19 Jul 2021 15:46:37 +0800
+Message-ID: <20210719074640.25058-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <20210717081233.7809-2-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Changes since v4:
+- Rebase on v5.13-rc1.
+- Remove the CMDQ flush flow to match the CMDQ API change.
+- Integrate four of MDP's direct-link subcomponents into MDP controller node
+  from syscon node to avoid illegal clock usage.
+- Rewrite dt-binding in a JSON compatible subset of YAML
+- Fix a bit of macro argument precedence.
 
+Changes since v3:
+- Rebase on v5.9-rc1.
+- modify code for review comment from Rob Herring, cancel multiple nodes using
+  same register base situation.
+- control IOMMU port through pm runtime get/put to DMA components' device.
+- SCP(VPU) driver revision.
+- stop queuing jobs(remove flush_workqueue()) after mdp_m2m_release().
+- add computation of plane address with data_offset.
+- fix scale ratio check issue.
+- add default v4l2_format setting.
 
-On 17.07.21 10:12, Yunfei Dong wrote:
-> Different platform may has different numbers of register bases. Gets the
-> numbers of register bases from DT (sizeof(u32) * 4 bytes for each).
-> 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
-> v2: no changes
-> ---
->   .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 38 ++++++++++++++-----
->   1 file changed, 29 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> index 55ae198dbcf9..d3f34cd04759 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> @@ -78,6 +78,31 @@ static irqreturn_t mtk_vcodec_dec_irq_handler(int irq, void *priv)
->   	return IRQ_HANDLED;
->   }
->   
-> +static int mtk_vcodec_get_reg_bases(struct mtk_vcodec_dev *dev)
-> +{
-> +	struct platform_device *pdev = dev->plat_dev;
-> +	int reg_num, i, ret = 0;
-> +
-> +	/* Sizeof(u32) * 4 bytes for each register base. */
-> +	reg_num = of_property_count_elems_of_size(pdev->dev.of_node, "reg",
-> +		sizeof(u32) * 4);
+Changes since v2:
+- modify code for review comment from Tomasz Figa & Alexandre Courbot
+- review comment from Rob Herring will offer code revision in v4, due to
+  it's related to device node modification, will need to modify code
+  architecture
 
-'reg_num' can also be negative if the 'of_..' function fails. So this case should
-also be checked
+Changes since v1:
+- modify code for CMDQ v3 API support
+- EC ipi cmd migration
+- fix compliance test fail item (m2m cmd with -f)
+due to there is two problem in runing all format(-f) cmd:
+1. out of memory before test complete
+        Due to capture buffer mmap (refcount + 1) after reqbuf but seems
+        no corresponding munmap called before device close.
+        There are total 12XX items(formats) in format test and each format
+        alloc 8 capture/output buffers.
+2. unceasingly captureBufs() (randomly)
+        Seems the break statement didn't catch the count == 0 situation:
+        In v4l2-test-buffers.cpp, function: captureBufs()
+                        ...
+                        count--;
+                        if (!node->is_m2m && !count)
+                                break;
+        Log is as attachment
 
-> +	if (!reg_num || reg_num > NUM_MAX_VDEC_REG_BASE) {
-> +		dev_err(&pdev->dev, "Invalid register property size: %d\n", reg_num);
-> +		return -EINVAL;
-> +	}
-> +
-> +	for (i = 0; i < reg_num; i++) {
-> +		dev->reg_base[i] = devm_platform_ioremap_resource(pdev, i);
-> +		if (IS_ERR((__force void *)dev->reg_base[i])) {
-> +			ret = PTR_ERR((__force void *)dev->reg_base[i]);
-> +			break;
+I will paste the test result with problem part in another e-mail
 
-you can replace this two lines with "return PTR_ERR((__force void *)dev->reg_base[i]);"
+Hi,
 
-thanks,
-Dafna
+This is the first version of RFC patch for Media Data Path 3 (MDP3),
+MDP3 is used for scaling and color format conversion.
+support using GCE to write register in critical time limitation.
+support V4L2 m2m device control.
 
-> +		}
-> +		mtk_v4l2_debug(2, "reg[%d] base=%p", i, dev->reg_base[i]);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->   static int fops_vcodec_open(struct file *file)
->   {
->   	struct mtk_vcodec_dev *dev = video_drvdata(file);
-> @@ -206,7 +231,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->   	struct resource *res;
->   	phandle rproc_phandle;
->   	enum mtk_vcodec_fw_type fw_type;
-> -	int i, ret;
-> +	int ret;
->   
->   	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
->   	if (!dev)
-> @@ -238,14 +263,9 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->   		goto err_dec_pm;
->   	}
->   
-> -	for (i = 0; i < NUM_MAX_VDEC_REG_BASE; i++) {
-> -		dev->reg_base[i] = devm_platform_ioremap_resource(pdev, i);
-> -		if (IS_ERR((__force void *)dev->reg_base[i])) {
-> -			ret = PTR_ERR((__force void *)dev->reg_base[i]);
-> -			goto err_res;
-> -		}
-> -		mtk_v4l2_debug(2, "reg[%d] base=%p", i, dev->reg_base[i]);
-> -	}
-> +	ret = mtk_vcodec_get_reg_bases(dev);
-> +	if (ret)
-> +		goto err_res;
->   
->   	res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
->   	if (res == NULL) {
-> 
+Moudy Ho (3):
+  dt-binding: mt8183: Add Mediatek MDP3 dt-bindings
+  dts: arm64: mt8183: Add Mediatek MDP3 nodes
+  media: platform: mtk-mdp3: Add Mediatek MDP3 driver
+
+ .../bindings/media/mediatek-mdp3.yaml         |  274 ++++
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  114 ++
+ drivers/media/platform/Kconfig                |   19 +
+ drivers/media/platform/Makefile               |    2 +
+ drivers/media/platform/mtk-mdp3/Makefile      |    7 +
+ drivers/media/platform/mtk-mdp3/isp_reg.h     |   37 +
+ .../media/platform/mtk-mdp3/mdp-platform.h    |   58 +
+ .../media/platform/mtk-mdp3/mdp_reg_ccorr.h   |   75 +
+ .../media/platform/mtk-mdp3/mdp_reg_rdma.h    |  206 +++
+ drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h |  109 ++
+ .../media/platform/mtk-mdp3/mdp_reg_wdma.h    |  125 ++
+ .../media/platform/mtk-mdp3/mdp_reg_wrot.h    |  115 ++
+ .../media/platform/mtk-mdp3/mmsys_config.h    |  188 +++
+ drivers/media/platform/mtk-mdp3/mmsys_mutex.h |   35 +
+ .../media/platform/mtk-mdp3/mmsys_reg_base.h  |   38 +
+ drivers/media/platform/mtk-mdp3/mtk-img-ipi.h |  282 ++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.c   |  524 ++++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.h   |   52 +
+ .../media/platform/mtk-mdp3/mtk-mdp3-comp.c   | 1439 +++++++++++++++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-comp.h   |  157 ++
+ .../media/platform/mtk-mdp3/mtk-mdp3-core.c   |  261 +++
+ .../media/platform/mtk-mdp3/mtk-mdp3-core.h   |   86 +
+ .../media/platform/mtk-mdp3/mtk-mdp3-m2m.c    |  797 +++++++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-m2m.h    |   42 +
+ .../media/platform/mtk-mdp3/mtk-mdp3-regs.c   |  746 +++++++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-regs.h   |  373 +++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-vpu.c    |  313 ++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-vpu.h    |   79 +
+ 28 files changed, 6553 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek-mdp3.yaml
+ create mode 100644 drivers/media/platform/mtk-mdp3/Makefile
+ create mode 100644 drivers/media/platform/mtk-mdp3/isp_reg.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mdp-platform.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_ccorr.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rdma.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wdma.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wrot.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mmsys_config.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mmsys_mutex.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mmsys_reg_base.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-img-ipi.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.c
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.h
+
+-- 
+2.18.0
+
