@@ -2,356 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF86A3CD67A
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 16:21:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04A363CD667
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 16:17:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231940AbhGSNkx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jul 2021 09:40:53 -0400
-Received: from comms.puri.sm ([159.203.221.185]:33810 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231618AbhGSNkw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jul 2021 09:40:52 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 0E464E11CF;
-        Mon, 19 Jul 2021 07:21:02 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 2iXWxQlS4ZX2; Mon, 19 Jul 2021 07:21:00 -0700 (PDT)
-Message-ID: <d3959a6b79ddfd84198350f5caf1708572af8700.camel@puri.sm>
-Subject: Re: [PATCH v6 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
- phy and controller
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     festevam@gmail.com, krzk@kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, kernel@puri.sm,
-        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
-        mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
-        shawnguo@kernel.org, slongerbeam@gmail.com
-Date:   Mon, 19 Jul 2021 16:20:52 +0200
-In-Reply-To: <afea234be0fd5e8a3ee2cac128169bbf796d5412.camel@puri.sm>
-References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
-         <20210714111931.324485-3-martin.kepplinger@puri.sm>
-         <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
-         <ce71a71a358247eca3b72ddcddd703206c90f284.camel@puri.sm>
-         <YPCuFA+utjudv11H@pendragon.ideasonboard.com>
-         <e88d99abbdcbd6a1b2c27849f08721e79f237adc.camel@puri.sm>
-         <YPFjwvjSCuvC1915@pendragon.ideasonboard.com>
-         <afea234be0fd5e8a3ee2cac128169bbf796d5412.camel@puri.sm>
+        id S239590AbhGSNgh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 09:36:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49446 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239393AbhGSNgg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 19 Jul 2021 09:36:36 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C03B4C061574;
+        Mon, 19 Jul 2021 06:42:37 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id l17-20020a05600c1d11b029021f84fcaf75so12975128wms.1;
+        Mon, 19 Jul 2021 07:17:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=YxOE06iQfRI1CKUDbw3hGIS+VF1Rl+wYqbGsSCljupo=;
+        b=OBWA7ulibxt21SOpQyH/zVYF2pcgZthfkZb9IplbXvKgG0VcXJh8EeSyOlzKNTeJGQ
+         B5JmneMtLahn0ECNMrmmGF72WH4uf9uQ5XEtytSURVxOgaT7KUm96gRWL8h4fs3V2zpL
+         qTzb2BEnzqQbgfReCpE6F1T3kOLPAdfc619qlzBY6JOmUhCO2yivQOTD982zNvZVxFOU
+         dolpjs/JEAuAJpflASUHTYRn58qSTCeCMTDnkCccqx14a9knnUZoh6+LsrSq0GqY0X9o
+         Eo8KLruVrE0J7S+dXxr1lrFTdpaHIXTQXWJxmguCZ9Off5ZlPx/zBC11zRi/eZG36F4e
+         fUew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=YxOE06iQfRI1CKUDbw3hGIS+VF1Rl+wYqbGsSCljupo=;
+        b=qBXy0+1BYrRWvhyloTw4v5p2l3WPqfaTTvDHtRiIlHi9e/DkzbYCAAgad9hpQDsVM3
+         JWGv09qMftiYrHrDLII2BgZtySRN+d2t/BBrrOt0yFuY9mK33RlmUgcLOjALkDbO1JHB
+         d0wfHKiiqRpF0KPqUFPNz4jvYi0aUzMAbp09qdTsT8ITvpA/Fg0YTnCjY+JElTy+fhmZ
+         OQ9o0xpkh3zjDhGrHVlD/ajPBb2VWdjgMfNiqkiESsYRSgQ6KwzeeUzKaX7L8mKwGOhR
+         anvAtbAWziPycKtOeQbcYKMnJaTzdu6aS9N7gezWNhUOvTIVdzhwEPfEeV3KYbFECo1I
+         uG3g==
+X-Gm-Message-State: AOAM530DKuQw14ZfVtz6U3jb1QOmBGVhjs8wBnU8QZmG/TLL2k6KqRGj
+        aeUPbC/dyfaA2vbsLaq5IOds2aWaQ18oQra1DSA=
+X-Google-Smtp-Source: ABdhPJxrSDp2zTG19VBXBLjwH7pcVPq3rHmT2XxCL0Xq8iJo5bPZiCVWZLD5AWEcNySNNzptwxQwRJ96/qe0jx7mjhA=
+X-Received: by 2002:a1c:7c05:: with SMTP id x5mr32878432wmc.123.1626704234434;
+ Mon, 19 Jul 2021 07:17:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210717202924.987514-1-robdclark@gmail.com> <582b8869-f370-3803-60a8-df31088f8088@gmail.com>
+In-Reply-To: <582b8869-f370-3803-60a8-df31088f8088@gmail.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Mon, 19 Jul 2021 07:21:22 -0700
+Message-ID: <CAF6AEGuaxh5FRb6h3aVkUYG7cFCpT6Lb+uuk2R8bmu3hxHs4Aw@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 00/11] drm/msm: drm scheduler conversion
+ and cleanups
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        Rob Clark <robdclark@chromium.org>,
+        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Jonathan Marek <jonathan@marek.ca>,
+        Emma Anholt <emma@anholt.net>, Bernard Zhao <bernard@vivo.com>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <linux-arm-msm@vger.kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Akhil P Oommen <akhilpo@codeaurora.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Zhenzhong Duan <zhenzhong.duan@gmail.com>,
+        "Kristian H. Kristensen" <hoegsberg@google.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
+        Dave Airlie <airlied@redhat.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        freedreno <freedreno@lists.freedesktop.org>,
+        Sharat Masetty <smasetty@codeaurora.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Montag, dem 19.07.2021 um 12:46 +0200 schrieb Martin Kepplinger:
-> Am Freitag, dem 16.07.2021 um 13:47 +0300 schrieb Laurent Pinchart:
-> > Hi Martin,
-> > 
-> > On Fri, Jul 16, 2021 at 10:47:14AM +0200, Martin Kepplinger wrote:
-> > > Am Freitag, dem 16.07.2021 um 00:52 +0300 schrieb Laurent
-> > > Pinchart:
-> > > > On Thu, Jul 15, 2021 at 09:37:24AM +0200, Martin Kepplinger
-> > > > wrote:
-> > > > > Am Mittwoch, dem 14.07.2021 um 21:24 +0300 schrieb Laurent
-> > > > > Pinchart:
-> > > > > > On Wed, Jul 14, 2021 at 01:19:30PM +0200, Martin Kepplinger
-> > > > > > wrote:
-> > > > > > > Add a driver to support the i.MX8MQ MIPI CSI receiver.
-> > > > > > > The
-> > > > > > > hardware side
-> > > > > > > is based on
-> > > > > > > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
-> > > > > > > 
-> > > > > > > It's built as part of VIDEO_IMX7_CSI because that's
-> > > > > > > documented to support
-> > > > > > > i.MX8M platforms. This driver adds i.MX8MQ support where
-> > > > > > > currently only the
-> > > > > > > i.MX8MM platform has been supported.
-> > > > > > > 
-> > > > > > > Signed-off-by: Martin Kepplinger
-> > > > > > > <martin.kepplinger@puri.sm>
-> > > > > > > ---
-> > > > > > >  drivers/staging/media/imx/Makefile           |   1 +
-> > > > > > >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 949
-> > > > > > > +++++++++++++++++++
-> > > > > > >  2 files changed, 950 insertions(+)
-> > > > > > >  create mode 100644 drivers/staging/media/imx/imx8mq-
-> > > > > > > mipi-
-> > > > > > > csi2.c
-> > > > > > > 
-> > > > > > > diff --git a/drivers/staging/media/imx/Makefile
-> > > > > > > b/drivers/staging/media/imx/Makefile
-> > > > > > > index 6ac33275cc97..19c2fc54d424 100644
-> > > > > > > --- a/drivers/staging/media/imx/Makefile
-> > > > > > > +++ b/drivers/staging/media/imx/Makefile
-> > > > > > > @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-
-> > > > > > > mipi-
-> > > > > > > csi2.o
-> > > > 
-> > > > [snip]
-> > > > 
-> > > > > > > +static int imx8mq_mipi_csi_calc_hs_settle(struct
-> > > > > > > csi_state
-> > > > > > > *state)
-> > > > > > > +{
-> > > > > > > +       u32 width = state-
-> > > > > > > > format_mbus[MIPI_CSI2_PAD_SINK].width;
-> > > > > > > +       u32 height = state-
-> > > > > > > > format_mbus[MIPI_CSI2_PAD_SINK].height;
-> > > > > > > +       s64 link_freq;
-> > > > > > > +       u32 lane_rate;
-> > > > > > > +
-> > > > > > > +       /* Calculate the line rate from the pixel rate.
-> > > > > > > */
-> > > > > > > +       link_freq = v4l2_get_link_freq(state->src_sd-
-> > > > > > > > ctrl_handler,
-> > > > > > > +                                      state->csi2_fmt-
-> > > > > > > > width,
-> > > > > > > +                                      state-
-> > > > > > > > bus.num_data_lanes * 2);
-> > > > > > > +       if (link_freq < 0) {
-> > > > > > > +               dev_err(state->dev, "Unable to obtain
-> > > > > > > link
-> > > > > > > frequency: %d\n",
-> > > > > > > +                       (int)link_freq);
-> > > > > > > +               return link_freq;
-> > > > > > > +       }
-> > > > > > > +
-> > > > > > > +       lane_rate = link_freq * 2;
-> > > > > > > +       if (lane_rate < 80000000 || lane_rate >
-> > > > > > > 1500000000)
-> > > > > > > {
-> > > > > > > +               dev_dbg(state->dev, "Out-of-bound lane
-> > > > > > > rate
-> > > > > > > %u\n", lane_rate);
-> > > > > > > +               return -EINVAL;
-> > > > > > > +       }
-> > > > > > > +
-> > > > > > > +       /*
-> > > > > > > https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
-> > > > > > >  */
-> > > > > > > +       if (lane_rate < 250000000)
-> > > > > > > +               state->hs_settle = 0xb;
-> > > > > > > +       else if (lane_rate < 500000000)
-> > > > > > > +               state->hs_settle = 0x8;
-> > > > > > > +       else
-> > > > > > > +               state->hs_settle = 0x6;
-> > > > > > 
-> > > > > > We could possibly compute this value based on the formula
-> > > > > > from the table
-> > > > > > in that page, but maybe that's overkill ? If you want to
-> > > > > > give
-> > > > > > it a try,
-> > > > > > it would be along those lines.
-> > > > > > 
-> > > > > >         /*
-> > > > > >          * The D-PHY specification requires Ths-settle to
-> > > > > > be
-> > > > > > in the range
-> > > > > >          * 85ns + 6*UI to 140ns + 10*UI, with the unit
-> > > > > > interval UI being half
-> > > > > >          * the clock period.
-> > > > > >          *
-> > > > > >          * The Ths-settle value is expressed in the
-> > > > > > hardware
-> > > > > > as a multiple of
-> > > > > >          * the Esc clock period:
-> > > > > >          *
-> > > > > >          * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of
-> > > > > > RxClkInEsc
-> > > > > >          *
-> > > > > >          * Due to the one cycle inaccuracy introduced by
-> > > > > > rounding, the
-> > > > > >          * documentation recommends picking a value away
-> > > > > > from
-> > > > > > the boundaries.
-> > > > > >          * Let's pick the average.
-> > > > > >          */
-> > > > > >         esc_clk_rate = clk_get_rate(...);
-> > > > > > 
-> > > > > >         min_ths_settle = 85 + 6 * 1000000 / (lane_rate /
-> > > > > > 1000);
-> > > > > >         max_ths_settle = 140 + 10 * 1000000 / (lane_rate /
-> > > > > > 1000);
-> > > > > >         ths_settle = (min_ths_settle + max_ths_settle) / 2;
-> > > > > > 
-> > > > > >         state->hs_settle = ths_settle * esc_clk_rate /
-> > > > > > 1000000000 - 1;
-> > > > > 
-> > > > > I experimented a bit but would like to leave this as a task
-> > > > > for
-> > > > > later
-> > > > > if that's ok. it's correct and simple now. also, using
-> > > > > clks[i].clk
-> > > > > based on the name string would feel better to submit
-> > > > > seperately
-> > > > > later.
-> > > > 
-> > > > That's OK with me, but I may then submit a patch on top fairly
-> > > > soon :-)
-> > > > Have you been able to test if this code works on your device ?
-> > > > The main
-> > > > reason why I think it's better is that it doesn't hardcode a
-> > > > specific
-> > > > escape clock frequency assumption, so it should be able to
-> > > > accommodate a
-> > > > wider range of use cases. If we change it later, there's always
-> > > > a
-> > > > risk
-> > > > of regressions, while if we do this from the start, we'll
-> > > > figure
-> > > > out
-> > > > quickly if it doesn't work in some cases.
-> > > 
-> > > taking your code basically as-is doesn't yet work, but it helps a
-> > > bit.
-> > 
-> > Thanks for testing.
-> > 
-> > > tbh I don't even know how to correctly read that table /
-> > > calculation:
-> > > what is the exact relation of the calculated Ths_settle time
-> > > inverval
-> > > to the hs_settle register bits?
-> > 
-> > The PRG_RXHS_SETTLE field stores a number of timer ticks to cover
-> > the
-> > Ths-settle internal. The D-PHY arms the timer when it detects the
-> > transition to LP-00, and ignores transitions on the lane until the
-> > timer
-> > expires. The timer is clocked by the escape clock.
-> > 
-> > What hs_settle value do you currently use, and what value does my
-> > code
-> > produce ?
-> > 
-> > > if the 2 of us can't quickly figure it out I can ask NXP via that
-> > > community forum issue and I created
-> > > https://source.puri.sm/Librem5/linux-next/-/issues/340 so I won't
-> > > forget about it.
-> > 
-> 
-> hi Laurent,
-> 
-> the below patch for hs_settle works (and calculates either the same
-> or
-> +/- 1 for the hs_settle value, compared to the table), but getting
-> the
-> esc clock looks really scary how I do it: how would you do that?
-> 
-> 
-> @@ -284,6 +285,9 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct
-> csi_state *state)
->  {
->         s64 link_freq;
->         u32 lane_rate;
-> +       u32 esc_clk_rate = 0;
-> +       u32 i, min_ths_settle, max_ths_settle, ths_settle_ns,
-> esc_clk_period_ns;
-> +       char *p;
->  
->         /* Calculate the line rate from the pixel rate. */
->         link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
-> @@ -302,20 +306,44 @@ static int
-> imx8mq_mipi_csi_calc_hs_settle(struct
-> csi_state *state)
->         }
->  
->         /*
-> -        * The following table is the source for this:
-> -        *
-> https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
-> -        * but it would be even better to calculate the value for any
-> -        * given datarate.
-> +        * The D-PHY specification requires Ths-settle to be in the
-> range
-> +        * 85ns + 6*UI to 140ns + 10*UI, with the unit interval UI
-> being half
-> +        * the clock period.
-> +        *
-> +        * The Ths-settle value is expressed in the hardware as a
-> multiple of
-> +        * the Esc clock period:
-> +        *
-> +        * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of RxClkInEsc
-> +        *
-> +        * Due to the one cycle inaccuracy introduced by rounding,
-> the
-> +        * documentation recommends picking a value away from the
-> boundaries.
-> +        * Let's pick the average.
->          */
-> -       if (lane_rate < 250000000)
-> -               state->hs_settle = 0xb;
-> -       else if (lane_rate < 500000000)
-> -               state->hs_settle = 0x8;
-> -       else
-> -               state->hs_settle = 0x6;
-> -
-> -       dev_dbg(state->dev, "start stream: lane rate %u hs_settle
-> %u\n",
-> -               lane_rate, state->hs_settle);
-> +       for (i = 0; i < CSI2_NUM_CLKS; i++) {
-> +               p = (char *)__clk_get_name(state->clks[i].clk);
-> +               /* we're getting csi1_esc here */
-> +               if (strlen(p) > 7)
-> +                       p += 5;
-> +
-> +               dev_dbg(state->dev, "comparing: %s to esc\n", p);
-> +               if (!strcmp(p, "esc"))
-> +                       esc_clk_rate = clk_get_rate(state-
-> > clks[i].clk);
-> +       }
-> +
-> +       if (!esc_clk_rate)
-> +               dev_err(state->dev, "Could not get esc clock
-> rate\n");
-> +
-> +       dev_dbg(state->dev, "esc clk rate: %u\n", esc_clk_rate);
-> +       esc_clk_period_ns = 1000000000 / esc_clk_rate;
-> +
-> +       min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
-> +       max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
-> +       ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
-> +
-> +       state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
-> +
-> +       dev_dbg(state->dev, "lane rate %u Ths_settle %u hs_settle
-> %u\n",
-> +               lane_rate, ths_settle_ns, state->hs_settle);
->  
->         return 0;
-> 
+On Mon, Jul 19, 2021 at 1:40 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Am 17.07.21 um 22:29 schrieb Rob Clark:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Conversion to gpu_scheduler, and bonus removal of
+> > drm_gem_object_put_locked()
+>
+> Oh yes please!
+>
+> If I'm not completely mistaken that was the last puzzle piece missing to
+> unify TTMs and GEMs refcount of objects.
+>
+> Only problem is that I only see patch 7 and 9 in my inbox. Where is the
+> rest?
 
-the below code works too and looks better to me. Other drivers do it
-similarly when looking for a clock:
+Hmm, looks like it should have all gotten to dri-devel:
 
+  https://lists.freedesktop.org/archives/dri-devel/2021-July/315573.html
 
-	for (i = 0; i < CSI2_NUM_CLKS; i++) {
-		p = (char *)__clk_get_name(state->clks[i].clk);
+or if you prefer patchwork:
 
-		dev_dbg(state->dev, "looking for esc clock: %s\n", p);
+  https://patchwork.freedesktop.org/series/92680/
 
-		if (!strcmp(p, "esc") || !strcmp(p, "csi1_esc") ||
-		    !strcmp(p, "csi2_esc"))
-			esc_clk_rate = clk_get_rate(state-
->clks[i].clk);
-	}
+BR,
+-R
 
-	if (!esc_clk_rate) {
-		dev_err(state->dev, "Could not find esc clock.\n");
-		return -EINVAL;
-	}
-
-	dev_dbg(state->dev, "esc clk rate: %u\n", esc_clk_rate);
-	esc_clk_period_ns = 1000000000 / esc_clk_rate;
-
-	min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
-	max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
-	ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
-
-	state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
-
+> Thanks,
+> Christian.
+>
+> >
+> > Rob Clark (11):
+> >    drm/msm: Docs and misc cleanup
+> >    drm/msm: Small submitqueue creation cleanup
+> >    drm/msm: drop drm_gem_object_put_locked()
+> >    drm: Drop drm_gem_object_put_locked()
+> >    drm/msm/submit: Simplify out-fence-fd handling
+> >    drm/msm: Consolidate submit bo state
+> >    drm/msm: Track "seqno" fences by idr
+> >    drm/msm: Return ERR_PTR() from submit_create()
+> >    drm/msm: Conversion to drm scheduler
+> >    drm/msm: Drop struct_mutex in submit path
+> >    drm/msm: Utilize gpu scheduler priorities
+> >
+> >   drivers/gpu/drm/drm_gem.c                   |  22 --
+> >   drivers/gpu/drm/msm/Kconfig                 |   1 +
+> >   drivers/gpu/drm/msm/adreno/a5xx_debugfs.c   |   4 +-
+> >   drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |   6 +-
+> >   drivers/gpu/drm/msm/adreno/a5xx_power.c     |   2 +-
+> >   drivers/gpu/drm/msm/adreno/a5xx_preempt.c   |   7 +-
+> >   drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  12 +-
+> >   drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |   2 +-
+> >   drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |   4 +-
+> >   drivers/gpu/drm/msm/adreno/adreno_gpu.c     |   6 +-
+> >   drivers/gpu/drm/msm/msm_drv.c               |  30 +-
+> >   drivers/gpu/drm/msm/msm_fence.c             |  39 ---
+> >   drivers/gpu/drm/msm/msm_fence.h             |   2 -
+> >   drivers/gpu/drm/msm/msm_gem.c               |  91 +-----
+> >   drivers/gpu/drm/msm/msm_gem.h               |  37 ++-
+> >   drivers/gpu/drm/msm/msm_gem_submit.c        | 300 ++++++++++++-------=
+-
+> >   drivers/gpu/drm/msm/msm_gpu.c               |  50 +---
+> >   drivers/gpu/drm/msm/msm_gpu.h               |  41 ++-
+> >   drivers/gpu/drm/msm/msm_ringbuffer.c        |  70 ++++-
+> >   drivers/gpu/drm/msm/msm_ringbuffer.h        |  12 +
+> >   drivers/gpu/drm/msm/msm_submitqueue.c       |  49 +++-
+> >   include/drm/drm_gem.h                       |   2 -
+> >   include/uapi/drm/msm_drm.h                  |  10 +-
+> >   23 files changed, 440 insertions(+), 359 deletions(-)
+> >
+>
