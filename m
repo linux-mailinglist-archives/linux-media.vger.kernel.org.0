@@ -2,156 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04A363CD667
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 16:17:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 256173CD6AB
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 16:37:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239590AbhGSNgh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jul 2021 09:36:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49446 "EHLO
+        id S240772AbhGSN44 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 09:56:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239393AbhGSNgg (ORCPT
+        with ESMTP id S232531AbhGSN4z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jul 2021 09:36:36 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C03B4C061574;
-        Mon, 19 Jul 2021 06:42:37 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id l17-20020a05600c1d11b029021f84fcaf75so12975128wms.1;
-        Mon, 19 Jul 2021 07:17:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=YxOE06iQfRI1CKUDbw3hGIS+VF1Rl+wYqbGsSCljupo=;
-        b=OBWA7ulibxt21SOpQyH/zVYF2pcgZthfkZb9IplbXvKgG0VcXJh8EeSyOlzKNTeJGQ
-         B5JmneMtLahn0ECNMrmmGF72WH4uf9uQ5XEtytSURVxOgaT7KUm96gRWL8h4fs3V2zpL
-         qTzb2BEnzqQbgfReCpE6F1T3kOLPAdfc619qlzBY6JOmUhCO2yivQOTD982zNvZVxFOU
-         dolpjs/JEAuAJpflASUHTYRn58qSTCeCMTDnkCccqx14a9knnUZoh6+LsrSq0GqY0X9o
-         Eo8KLruVrE0J7S+dXxr1lrFTdpaHIXTQXWJxmguCZ9Off5ZlPx/zBC11zRi/eZG36F4e
-         fUew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=YxOE06iQfRI1CKUDbw3hGIS+VF1Rl+wYqbGsSCljupo=;
-        b=qBXy0+1BYrRWvhyloTw4v5p2l3WPqfaTTvDHtRiIlHi9e/DkzbYCAAgad9hpQDsVM3
-         JWGv09qMftiYrHrDLII2BgZtySRN+d2t/BBrrOt0yFuY9mK33RlmUgcLOjALkDbO1JHB
-         d0wfHKiiqRpF0KPqUFPNz4jvYi0aUzMAbp09qdTsT8ITvpA/Fg0YTnCjY+JElTy+fhmZ
-         OQ9o0xpkh3zjDhGrHVlD/ajPBb2VWdjgMfNiqkiESsYRSgQ6KwzeeUzKaX7L8mKwGOhR
-         anvAtbAWziPycKtOeQbcYKMnJaTzdu6aS9N7gezWNhUOvTIVdzhwEPfEeV3KYbFECo1I
-         uG3g==
-X-Gm-Message-State: AOAM530DKuQw14ZfVtz6U3jb1QOmBGVhjs8wBnU8QZmG/TLL2k6KqRGj
-        aeUPbC/dyfaA2vbsLaq5IOds2aWaQ18oQra1DSA=
-X-Google-Smtp-Source: ABdhPJxrSDp2zTG19VBXBLjwH7pcVPq3rHmT2XxCL0Xq8iJo5bPZiCVWZLD5AWEcNySNNzptwxQwRJ96/qe0jx7mjhA=
-X-Received: by 2002:a1c:7c05:: with SMTP id x5mr32878432wmc.123.1626704234434;
- Mon, 19 Jul 2021 07:17:14 -0700 (PDT)
+        Mon, 19 Jul 2021 09:56:55 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C038C061574;
+        Mon, 19 Jul 2021 07:04:39 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 23FB51F4088A
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Alex Bee <knaerzche@gmail.com>, maccraft123mc@gmail.com,
+        Chris Healy <cphealy@gmail.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Rob Herring <robh+dt@kernel.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Kever Yang <kever.yang@rock-chips.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com
+Subject: [PATCH RESEND v2 00/10] hantro: Enable H.264 VDPU2
+Date:   Mon, 19 Jul 2021 11:37:01 -0300
+Message-Id: <20210719143711.55749-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210717202924.987514-1-robdclark@gmail.com> <582b8869-f370-3803-60a8-df31088f8088@gmail.com>
-In-Reply-To: <582b8869-f370-3803-60a8-df31088f8088@gmail.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Mon, 19 Jul 2021 07:21:22 -0700
-Message-ID: <CAF6AEGuaxh5FRb6h3aVkUYG7cFCpT6Lb+uuk2R8bmu3hxHs4Aw@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 00/11] drm/msm: drm scheduler conversion
- and cleanups
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        Rob Clark <robdclark@chromium.org>,
-        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Jonathan Marek <jonathan@marek.ca>,
-        Emma Anholt <emma@anholt.net>, Bernard Zhao <bernard@vivo.com>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <linux-arm-msm@vger.kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Akhil P Oommen <akhilpo@codeaurora.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Zhenzhong Duan <zhenzhong.duan@gmail.com>,
-        "Kristian H. Kristensen" <hoegsberg@google.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@somainline.org>,
-        Dave Airlie <airlied@redhat.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        Sharat Masetty <smasetty@codeaurora.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 19, 2021 at 1:40 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 17.07.21 um 22:29 schrieb Rob Clark:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Conversion to gpu_scheduler, and bonus removal of
-> > drm_gem_object_put_locked()
->
-> Oh yes please!
->
-> If I'm not completely mistaken that was the last puzzle piece missing to
-> unify TTMs and GEMs refcount of objects.
->
-> Only problem is that I only see patch 7 and 9 in my inbox. Where is the
-> rest?
+This series adds support for H.264 decoding on the PX30, RK3328
+and RK3326 platforms, enabling the VDPU2 core. This core is available
+on other SoCs as well, such as RK3568/RK3566.
 
-Hmm, looks like it should have all gotten to dri-devel:
+Patches 1, 2 and 3 are just low-hanging fruit that was on my backlog.
 
-  https://lists.freedesktop.org/archives/dri-devel/2021-July/315573.html
+Patches 4 and 5 add some helpers to avoid duplicating some processes
+between Hantro G1 and VDPU2. Patches 6 and 7 enable the VDPU2 H.264.
+The implementation is based on a patch from Jonas Karlman [1], which
+I forwarded ported to mainline.
 
-or if you prefer patchwork:
+Finally, patches 8 to 10  add support for the VPU on Rockchip PX30 SoCs.
+These patches are based on patches submitted by Paul Kocialkowski [2],
+which I ported and adjusted a bit.
 
-  https://patchwork.freedesktop.org/series/92680/
+I'd like to thank Jonas and Paul for the good work, and Alex Bee
+for the additional testing.
 
-BR,
--R
+Tested on i.MX8MQ EVK and RK3326 Odroid Advance Go, the latter
+is able to decode a 1080p sample at ~100fps nicely.
 
-> Thanks,
-> Christian.
->
-> >
-> > Rob Clark (11):
-> >    drm/msm: Docs and misc cleanup
-> >    drm/msm: Small submitqueue creation cleanup
-> >    drm/msm: drop drm_gem_object_put_locked()
-> >    drm: Drop drm_gem_object_put_locked()
-> >    drm/msm/submit: Simplify out-fence-fd handling
-> >    drm/msm: Consolidate submit bo state
-> >    drm/msm: Track "seqno" fences by idr
-> >    drm/msm: Return ERR_PTR() from submit_create()
-> >    drm/msm: Conversion to drm scheduler
-> >    drm/msm: Drop struct_mutex in submit path
-> >    drm/msm: Utilize gpu scheduler priorities
-> >
-> >   drivers/gpu/drm/drm_gem.c                   |  22 --
-> >   drivers/gpu/drm/msm/Kconfig                 |   1 +
-> >   drivers/gpu/drm/msm/adreno/a5xx_debugfs.c   |   4 +-
-> >   drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |   6 +-
-> >   drivers/gpu/drm/msm/adreno/a5xx_power.c     |   2 +-
-> >   drivers/gpu/drm/msm/adreno/a5xx_preempt.c   |   7 +-
-> >   drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  12 +-
-> >   drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |   2 +-
-> >   drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |   4 +-
-> >   drivers/gpu/drm/msm/adreno/adreno_gpu.c     |   6 +-
-> >   drivers/gpu/drm/msm/msm_drv.c               |  30 +-
-> >   drivers/gpu/drm/msm/msm_fence.c             |  39 ---
-> >   drivers/gpu/drm/msm/msm_fence.h             |   2 -
-> >   drivers/gpu/drm/msm/msm_gem.c               |  91 +-----
-> >   drivers/gpu/drm/msm/msm_gem.h               |  37 ++-
-> >   drivers/gpu/drm/msm/msm_gem_submit.c        | 300 ++++++++++++-------=
--
-> >   drivers/gpu/drm/msm/msm_gpu.c               |  50 +---
-> >   drivers/gpu/drm/msm/msm_gpu.h               |  41 ++-
-> >   drivers/gpu/drm/msm/msm_ringbuffer.c        |  70 ++++-
-> >   drivers/gpu/drm/msm/msm_ringbuffer.h        |  12 +
-> >   drivers/gpu/drm/msm/msm_submitqueue.c       |  49 +++-
-> >   include/drm/drm_gem.h                       |   2 -
-> >   include/uapi/drm/msm_drm.h                  |  10 +-
-> >   23 files changed, 440 insertions(+), 359 deletions(-)
-> >
->
+Fluster conformance testing is looking good as well, and producing
+expected results:
+
+RK3326:
+  Ran 135 tests in 480.067s
+  FAILED (failures=9, errors=54)
+
+i.MX8MQ:
+  Ran 135 tests in 337.491s
+  FAILED (failures=9, errors=54)
+
+[1] https://lore.kernel.org/linux-media/HE1PR06MB40119DE07D38060F531D1070ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com/
+[2] https://lore.kernel.org/patchwork/cover/1361795/
+
+Ezequiel Garcia (6):
+  hantro: vp8: Move noisy WARN_ON to vpu_debug
+  hantro: Make struct hantro_variant.init() optional
+  media: hantro: Avoid redundant hantro_get_{dst,src}_buf() calls
+  media: hantro: h264: Move DPB valid and long-term bitmaps
+  media: hantro: h264: Move reference picture number to a helper
+  media: hantro: Enable H.264 on Rockchip VDPU2
+
+Jonas Karlman (1):
+  media: hantro: Add H.264 support for Rockchip VDPU2
+
+Paul Kocialkowski (3):
+  media: hantro: Add support for the Rockchip PX30
+  dt-bindings: media: rockchip-vpu: Add PX30 compatible
+  arm64: dts: rockchip: Add VPU support for the PX30
+
+ .../bindings/media/rockchip-vpu.yaml          |   4 +-
+ arch/arm64/boot/dts/rockchip/px30.dtsi        |  23 +
+ drivers/staging/media/hantro/Makefile         |   1 +
+ drivers/staging/media/hantro/hantro.h         |   4 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  11 +-
+ .../staging/media/hantro/hantro_g1_h264_dec.c |  48 +-
+ .../staging/media/hantro/hantro_g1_vp8_dec.c  |  31 +-
+ drivers/staging/media/hantro/hantro_h264.c    |  24 +
+ drivers/staging/media/hantro/hantro_hw.h      |   8 +
+ .../media/hantro/rockchip_vpu2_hw_h264_dec.c  | 491 ++++++++++++++++++
+ .../media/hantro/rockchip_vpu2_hw_vp8_dec.c   |  32 +-
+ .../staging/media/hantro/rockchip_vpu_hw.c    |  43 +-
+ .../staging/media/hantro/sama5d4_vdec_hw.c    |   6 -
+ 13 files changed, 651 insertions(+), 75 deletions(-)
+ create mode 100644 drivers/staging/media/hantro/rockchip_vpu2_hw_h264_dec.c
+
+-- 
+2.32.0
+
