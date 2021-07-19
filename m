@@ -2,172 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1C9E3CD70A
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 16:45:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1E6C3CD77E
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 16:58:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241159AbhGSOEn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jul 2021 10:04:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56472 "EHLO
+        id S241314AbhGSOQ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 10:16:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232531AbhGSOEn (ORCPT
+        with ESMTP id S241695AbhGSOQx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jul 2021 10:04:43 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F14BC061767;
-        Mon, 19 Jul 2021 07:13:03 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id m2so22404830wrq.2;
-        Mon, 19 Jul 2021 07:45:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=ykw/8dUHmnvkhINGvE8DPlnGL5xj3qE/zc/xyCib+XM=;
-        b=SCi09qBfRsa6nQj+k++1X6MUBUMhFCCmGupgMlA1pY0h500TA//+5zd+4FQTiwtTXs
-         yegWW0fbNaq3YrunNd5aWz0mYz2wlru6TK1+Xw1l+AsvXrkPt4xkNPFajNDjiUlEdVH6
-         WfX0i4sVcP7BxDlNDf1n4PdljrV9XQsWhmTsWqotyR+pVnfq8poduGgIwOw2F/T5+Xwt
-         B4J3aaqm/sIrkFLVksQ/ORJJMq/VdUNbVwAfN6AHJDDv7nyYiL2WbT013CM3T9/QWOqj
-         9vPL2u5rPdxnev/vWHdd3I53p1HW8G7BETkiC/mBxUI561XqRXnFtwxTWbw5DasagA6s
-         dKPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=ykw/8dUHmnvkhINGvE8DPlnGL5xj3qE/zc/xyCib+XM=;
-        b=LaZqmfgLKX6EAseUYt2lCK6i+Itadlr56WkjWjdRVy95xENZQ2H2odffdJojM16y0P
-         wK9E/VEgWiMeF5GX3A0GhNauU9Tci8kwabzCjHbVWhDwnMvopBiqKZYV6dumGbirObrc
-         uMz8YuxdVCww/M40Hz5MXrkBsJw9vHahKoH+5BmiwY5z1x2CqfpdsRTrL4fZlhzK0Uek
-         5ofdzr1CzQYqSJP+bxwOsWZNIE6avCA6L3kt7PdgCIUKhe88YTV8Q5qPaKwJW3lFDRmc
-         lLWd/G6ATX1luHDagxb5qFVYS4ke3ukQehzpuw0bD7lk0sVCLXAPoXQsNXu7oYXem2te
-         DKPg==
-X-Gm-Message-State: AOAM531T0T4T0H8h7BevknyaaW9EZDVGnKcXNXEXSspcsqQXMnNwEr7b
-        y1aunLNCH+8c39IQ3wMoCSu1j1E7jB4=
-X-Google-Smtp-Source: ABdhPJw4VG+Asie5OmOLbz/r9ip58LFhR1Ew5dwhf0A4LT62rXD/aYyyFlGCmR2Y8mPS3dfxIwk2mw==
-X-Received: by 2002:a5d:598f:: with SMTP id n15mr12127271wri.133.1626705919576;
-        Mon, 19 Jul 2021 07:45:19 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:d448:2444:fe38:1227? ([2a02:908:1252:fb60:d448:2444:fe38:1227])
-        by smtp.gmail.com with ESMTPSA id o14sm19795559wmq.31.2021.07.19.07.45.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jul 2021 07:45:19 -0700 (PDT)
-Subject: Re: [Linaro-mm-sig] [PATCH 00/11] drm/msm: drm scheduler conversion
- and cleanups
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        Rob Clark <robdclark@chromium.org>,
-        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Jonathan Marek <jonathan@marek.ca>,
-        Emma Anholt <emma@anholt.net>, Bernard Zhao <bernard@vivo.com>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <linux-arm-msm@vger.kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Akhil P Oommen <akhilpo@codeaurora.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Zhenzhong Duan <zhenzhong.duan@gmail.com>,
-        "Kristian H. Kristensen" <hoegsberg@google.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@somainline.org>,
-        Dave Airlie <airlied@redhat.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        Sharat Masetty <smasetty@codeaurora.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-References: <20210717202924.987514-1-robdclark@gmail.com>
- <582b8869-f370-3803-60a8-df31088f8088@gmail.com>
- <CAF6AEGuaxh5FRb6h3aVkUYG7cFCpT6Lb+uuk2R8bmu3hxHs4Aw@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <6dc4ad02-2f75-7907-59d8-66fd30c490ca@gmail.com>
-Date:   Mon, 19 Jul 2021 16:45:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Mon, 19 Jul 2021 10:16:53 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CC72C061574
+        for <linux-media@vger.kernel.org>; Mon, 19 Jul 2021 07:26:16 -0700 (PDT)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1m5Ui3-0006xD-NR; Mon, 19 Jul 2021 16:57:31 +0200
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     Andrej Picej <andrej.picej@norik.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH] media: coda: fix frame_mem_ctrl for YUV420 and YVU420 formats
+Date:   Mon, 19 Jul 2021 16:57:08 +0200
+Message-Id: <20210719145708.10643-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <CAF6AEGuaxh5FRb6h3aVkUYG7cFCpT6Lb+uuk2R8bmu3hxHs4Aw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 19.07.21 um 16:21 schrieb Rob Clark:
-> On Mon, Jul 19, 2021 at 1:40 AM Christian König
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->> Am 17.07.21 um 22:29 schrieb Rob Clark:
->>> From: Rob Clark <robdclark@chromium.org>
->>>
->>> Conversion to gpu_scheduler, and bonus removal of
->>> drm_gem_object_put_locked()
->> Oh yes please!
->>
->> If I'm not completely mistaken that was the last puzzle piece missing to
->> unify TTMs and GEMs refcount of objects.
->>
->> Only problem is that I only see patch 7 and 9 in my inbox. Where is the
->> rest?
-> Hmm, looks like it should have all gotten to dri-devel:
->
->    https://lists.freedesktop.org/archives/dri-devel/2021-July/315573.html
+The frame memory control register value is currently determined
+before userspace selects the final capture format and never corrected.
+Update ctx->frame_mem_ctrl in __coda_start_decoding() to fix decoding
+into YUV420 or YVU420 capture buffers.
 
-Well I've got two mail accounts (AMD, GMail) and neither of them sees 
-the full set. So most likely not a problem on my side.
+Reported-by: Andrej Picej <andrej.picej@norik.com>
+Fixes: 497e6b8559a6 ("media: coda: add sequence initialization work")
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ drivers/media/platform/coda/coda-bit.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-Anyway the whole set is Acked-by: Christian König 
-<christian.koenig@amd.com>.
-
-Regards,
-Christian.
-
->
-> or if you prefer patchwork:
->
->    https://patchwork.freedesktop.org/series/92680/
->
-> BR,
-> -R
->
->> Thanks,
->> Christian.
->>
->>> Rob Clark (11):
->>>     drm/msm: Docs and misc cleanup
->>>     drm/msm: Small submitqueue creation cleanup
->>>     drm/msm: drop drm_gem_object_put_locked()
->>>     drm: Drop drm_gem_object_put_locked()
->>>     drm/msm/submit: Simplify out-fence-fd handling
->>>     drm/msm: Consolidate submit bo state
->>>     drm/msm: Track "seqno" fences by idr
->>>     drm/msm: Return ERR_PTR() from submit_create()
->>>     drm/msm: Conversion to drm scheduler
->>>     drm/msm: Drop struct_mutex in submit path
->>>     drm/msm: Utilize gpu scheduler priorities
->>>
->>>    drivers/gpu/drm/drm_gem.c                   |  22 --
->>>    drivers/gpu/drm/msm/Kconfig                 |   1 +
->>>    drivers/gpu/drm/msm/adreno/a5xx_debugfs.c   |   4 +-
->>>    drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |   6 +-
->>>    drivers/gpu/drm/msm/adreno/a5xx_power.c     |   2 +-
->>>    drivers/gpu/drm/msm/adreno/a5xx_preempt.c   |   7 +-
->>>    drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  12 +-
->>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |   2 +-
->>>    drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |   4 +-
->>>    drivers/gpu/drm/msm/adreno/adreno_gpu.c     |   6 +-
->>>    drivers/gpu/drm/msm/msm_drv.c               |  30 +-
->>>    drivers/gpu/drm/msm/msm_fence.c             |  39 ---
->>>    drivers/gpu/drm/msm/msm_fence.h             |   2 -
->>>    drivers/gpu/drm/msm/msm_gem.c               |  91 +-----
->>>    drivers/gpu/drm/msm/msm_gem.h               |  37 ++-
->>>    drivers/gpu/drm/msm/msm_gem_submit.c        | 300 ++++++++++++--------
->>>    drivers/gpu/drm/msm/msm_gpu.c               |  50 +---
->>>    drivers/gpu/drm/msm/msm_gpu.h               |  41 ++-
->>>    drivers/gpu/drm/msm/msm_ringbuffer.c        |  70 ++++-
->>>    drivers/gpu/drm/msm/msm_ringbuffer.h        |  12 +
->>>    drivers/gpu/drm/msm/msm_submitqueue.c       |  49 +++-
->>>    include/drm/drm_gem.h                       |   2 -
->>>    include/uapi/drm/msm_drm.h                  |  10 +-
->>>    23 files changed, 440 insertions(+), 359 deletions(-)
->>>
+diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
+index 2f42808c43a4..c484c008ab02 100644
+--- a/drivers/media/platform/coda/coda-bit.c
++++ b/drivers/media/platform/coda/coda-bit.c
+@@ -2053,17 +2053,25 @@ static int __coda_start_decoding(struct coda_ctx *ctx)
+ 	u32 src_fourcc, dst_fourcc;
+ 	int ret;
+ 
++	q_data_src = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT);
++	q_data_dst = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
++	src_fourcc = q_data_src->fourcc;
++	dst_fourcc = q_data_dst->fourcc;
++
+ 	if (!ctx->initialized) {
+ 		ret = __coda_decoder_seq_init(ctx);
+ 		if (ret < 0)
+ 			return ret;
++	} else {
++		ctx->frame_mem_ctrl &= ~(CODA_FRAME_CHROMA_INTERLEAVE | (0x3 << 9) |
++					 CODA9_FRAME_TILED2LINEAR);
++		if (dst_fourcc == V4L2_PIX_FMT_NV12 || dst_fourcc == V4L2_PIX_FMT_YUYV)
++			ctx->frame_mem_ctrl |= CODA_FRAME_CHROMA_INTERLEAVE;
++		if (ctx->tiled_map_type == GDI_TILED_FRAME_MB_RASTER_MAP)
++			ctx->frame_mem_ctrl |= (0x3 << 9) |
++				((ctx->use_vdoa) ? 0 : CODA9_FRAME_TILED2LINEAR);
+ 	}
+ 
+-	q_data_src = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+-	q_data_dst = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+-	src_fourcc = q_data_src->fourcc;
+-	dst_fourcc = q_data_dst->fourcc;
+-
+ 	coda_write(dev, ctx->parabuf.paddr, CODA_REG_BIT_PARA_BUF_ADDR);
+ 
+ 	ret = coda_alloc_framebuffers(ctx, q_data_dst, src_fourcc);
+-- 
+2.30.2
 
