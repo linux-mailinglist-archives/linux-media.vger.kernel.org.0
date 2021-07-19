@@ -2,231 +2,356 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EE7E3CD61F
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 15:53:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF86A3CD67A
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 16:21:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240988AbhGSNMr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jul 2021 09:12:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42964 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240693AbhGSNKV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jul 2021 09:10:21 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F00B3C061762
-        for <linux-media@vger.kernel.org>; Mon, 19 Jul 2021 06:13:45 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id f30so30342371lfj.1
-        for <linux-media@vger.kernel.org>; Mon, 19 Jul 2021 06:50:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=zf+WSmXTCjVZqpUE8MeU/OdeERPZCVgPkWOf9dRsI0Q=;
-        b=x5NVWerdCP31z/OdQpUFdokrYLda8sAehGAY0j+cl1eu2pSPaCLFLkStL96qilEetR
-         9jhiDxo0jePWdMklYXnwLSBm9VDoUoLful0YKmSZDE3HV0GgfABlV9LjpEjPFKO37ATC
-         aHPRXluUKfoQ5vb0PtF3yb4CMQTnmgcZFRw7zZFADTfQbCDo6a+5+FVO40VFcP+CIYUt
-         4xf5/BPDlPUyNRu40YsOtWb7/dPtJKtl1sqlqf8AsUuiMoxbzpMg4mUtNlN/0gEEI4TS
-         +wn95gxVfgPJiy6QRFP64x7ntN+zIgIR/MQw0HHYbl07oVGtVFTQg3ptBdW4NqyeDG/t
-         bwpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=zf+WSmXTCjVZqpUE8MeU/OdeERPZCVgPkWOf9dRsI0Q=;
-        b=XdbdYUOJbX1zBmyjF3e94nh1k1pflWYfK3I3+/1CD7cKWrNGXOx5QBSwEf9sS+lK6j
-         LjD+PgXUO08D1scSouoRVhJicg8d+U5GY4LS1TRmaaxsnYq+OGe6iIrNZzs3MbMvaoeR
-         l3rF0Mriya9+McVJx9wv2gaQBDtHmCOEmBOUfcjnfvPyfCHa90zBjmFn6iLu7VjyzNbn
-         NwOrGNRj47gj6DbIepF/YJK4yAK99rA2xiItl03v44HVJbCP829KPMF2cwBPEMeHhck8
-         RnY/9Aj0O1lKjat97wooL4ZzRRm2Fh2aAdLf7iiYFp6OCO+1MRls15bU3tXcewMmfcz/
-         nXBw==
-X-Gm-Message-State: AOAM5338yqWDKTL0CjAWBhicd4/7Tvefc3nOOSbK5ajZpiO5g8SxeZn8
-        NMfjMSOgAXJFLhTfxo/RnADWOA==
-X-Google-Smtp-Source: ABdhPJydMLPdU9JUIpdHmL160Zwcw+rwVzNzO5/wJNPri6U/ou4qisSDLwrs+uVwsvFbEUS+S3qynw==
-X-Received: by 2002:a05:6512:3053:: with SMTP id b19mr18697977lfb.167.1626702635506;
-        Mon, 19 Jul 2021 06:50:35 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id f25sm1654606ljo.126.2021.07.19.06.50.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jul 2021 06:50:34 -0700 (PDT)
-Date:   Mon, 19 Jul 2021 15:50:34 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
+        id S231940AbhGSNkx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 09:40:53 -0400
+Received: from comms.puri.sm ([159.203.221.185]:33810 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231618AbhGSNkw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 19 Jul 2021 09:40:52 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 0E464E11CF;
+        Mon, 19 Jul 2021 07:21:02 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 2iXWxQlS4ZX2; Mon, 19 Jul 2021 07:21:00 -0700 (PDT)
+Message-ID: <d3959a6b79ddfd84198350f5caf1708572af8700.camel@puri.sm>
+Subject: Re: [PATCH v6 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
+ phy and controller
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: max9286: Remove unneeded mutex for get_fmt
- and set_fmt
-Message-ID: <YPWDKicqozwRW1MF@oden.dyn.berto.se>
-References: <20210708095550.682465-1-niklas.soderlund+renesas@ragnatech.se>
- <20210719121039.gj6nc26nyk3lnmw3@uno.localdomain>
- <YPVvfEd/HH6cpO1Q@oden.dyn.berto.se>
- <YPV7AfCLUqRaIp+c@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Cc:     festevam@gmail.com, krzk@kernel.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de, kernel@puri.sm,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
+        mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
+        shawnguo@kernel.org, slongerbeam@gmail.com
+Date:   Mon, 19 Jul 2021 16:20:52 +0200
+In-Reply-To: <afea234be0fd5e8a3ee2cac128169bbf796d5412.camel@puri.sm>
+References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
+         <20210714111931.324485-3-martin.kepplinger@puri.sm>
+         <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
+         <ce71a71a358247eca3b72ddcddd703206c90f284.camel@puri.sm>
+         <YPCuFA+utjudv11H@pendragon.ideasonboard.com>
+         <e88d99abbdcbd6a1b2c27849f08721e79f237adc.camel@puri.sm>
+         <YPFjwvjSCuvC1915@pendragon.ideasonboard.com>
+         <afea234be0fd5e8a3ee2cac128169bbf796d5412.camel@puri.sm>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YPV7AfCLUqRaIp+c@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-On 2021-07-19 16:15:45 +0300, Laurent Pinchart wrote:
-> Hi Niklas,
-> 
-> On Mon, Jul 19, 2021 at 02:26:36PM +0200, Niklas S�derlund wrote:
-> > On 2021-07-19 14:10:39 +0200, Jacopo Mondi wrote:
-> > > On Thu, Jul 08, 2021 at 11:55:50AM +0200, Niklas S�derlund wrote:
-> > > > There is no need to protect 'cfg_fmt' in get_fmt() and set_fmt() as the
-> > > > core protects these callbacks. As this is the only usage of the mutex it
-> > > > can be removed.
-> > > 
-> > > You know, I tried chasing where the vdev->lock used to protect the
-> > > subdev's ioctl is set for mex9286 and I wasn't able to find it.
-> > > 
-> > > Please validate my understanding:
-> > > 
-> > > - The lock used by the core to protect the set/get format subdev ioctl
-> > >   is the one in subdev_do_ioctl_lock()
-> > > 
-> > >   static long subdev_do_ioctl_lock(struct file *file, unsigned int cmd, void *arg)
-> > >   {
-> > >           struct video_device *vdev = video_devdata(file);
-> > >           struct mutex *lock = vdev->lock;
-> 
-> Let's also note that subdev operations can also be called directly
-> within the kernel, in video node-centric setups for instance. There are
-> little changes the max9286 driver would be used in such a setup, but the
-> .get_fmt() operation can be called during pipeline validation too.
-> That's why subdev drivers are supposed to use locks internally.
-
-This is a good point which disregarding of the ioctl lock issue pointed 
-out by Jacopo makes this patch bad.
-
-> 
-> > > - the max9286 video subdevice node is registered (on R-Car) by
-> > >   __v4l2_device_register_subdev_nodes() called by the root notifier
-> > >   complete() callback
-> > > 
-> > > - The video_device created by __v4l2_device_register_subdev_nodes()
-> > >   doesn't initialize any lock
-> > > 
-> > > What am I missing ?
+Am Montag, dem 19.07.2021 um 12:46 +0200 schrieb Martin Kepplinger:
+> Am Freitag, dem 16.07.2021 um 13:47 +0300 schrieb Laurent Pinchart:
+> > Hi Martin,
 > > 
-> > One of the fun idiosyncrasies of V4L2 :-)
+> > On Fri, Jul 16, 2021 at 10:47:14AM +0200, Martin Kepplinger wrote:
+> > > Am Freitag, dem 16.07.2021 um 00:52 +0300 schrieb Laurent
+> > > Pinchart:
+> > > > On Thu, Jul 15, 2021 at 09:37:24AM +0200, Martin Kepplinger
+> > > > wrote:
+> > > > > Am Mittwoch, dem 14.07.2021 um 21:24 +0300 schrieb Laurent
+> > > > > Pinchart:
+> > > > > > On Wed, Jul 14, 2021 at 01:19:30PM +0200, Martin Kepplinger
+> > > > > > wrote:
+> > > > > > > Add a driver to support the i.MX8MQ MIPI CSI receiver.
+> > > > > > > The
+> > > > > > > hardware side
+> > > > > > > is based on
+> > > > > > > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
+> > > > > > > 
+> > > > > > > It's built as part of VIDEO_IMX7_CSI because that's
+> > > > > > > documented to support
+> > > > > > > i.MX8M platforms. This driver adds i.MX8MQ support where
+> > > > > > > currently only the
+> > > > > > > i.MX8MM platform has been supported.
+> > > > > > > 
+> > > > > > > Signed-off-by: Martin Kepplinger
+> > > > > > > <martin.kepplinger@puri.sm>
+> > > > > > > ---
+> > > > > > >  drivers/staging/media/imx/Makefile           |   1 +
+> > > > > > >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 949
+> > > > > > > +++++++++++++++++++
+> > > > > > >  2 files changed, 950 insertions(+)
+> > > > > > >  create mode 100644 drivers/staging/media/imx/imx8mq-
+> > > > > > > mipi-
+> > > > > > > csi2.c
+> > > > > > > 
+> > > > > > > diff --git a/drivers/staging/media/imx/Makefile
+> > > > > > > b/drivers/staging/media/imx/Makefile
+> > > > > > > index 6ac33275cc97..19c2fc54d424 100644
+> > > > > > > --- a/drivers/staging/media/imx/Makefile
+> > > > > > > +++ b/drivers/staging/media/imx/Makefile
+> > > > > > > @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-
+> > > > > > > mipi-
+> > > > > > > csi2.o
+> > > > 
+> > > > [snip]
+> > > > 
+> > > > > > > +static int imx8mq_mipi_csi_calc_hs_settle(struct
+> > > > > > > csi_state
+> > > > > > > *state)
+> > > > > > > +{
+> > > > > > > +       u32 width = state-
+> > > > > > > > format_mbus[MIPI_CSI2_PAD_SINK].width;
+> > > > > > > +       u32 height = state-
+> > > > > > > > format_mbus[MIPI_CSI2_PAD_SINK].height;
+> > > > > > > +       s64 link_freq;
+> > > > > > > +       u32 lane_rate;
+> > > > > > > +
+> > > > > > > +       /* Calculate the line rate from the pixel rate.
+> > > > > > > */
+> > > > > > > +       link_freq = v4l2_get_link_freq(state->src_sd-
+> > > > > > > > ctrl_handler,
+> > > > > > > +                                      state->csi2_fmt-
+> > > > > > > > width,
+> > > > > > > +                                      state-
+> > > > > > > > bus.num_data_lanes * 2);
+> > > > > > > +       if (link_freq < 0) {
+> > > > > > > +               dev_err(state->dev, "Unable to obtain
+> > > > > > > link
+> > > > > > > frequency: %d\n",
+> > > > > > > +                       (int)link_freq);
+> > > > > > > +               return link_freq;
+> > > > > > > +       }
+> > > > > > > +
+> > > > > > > +       lane_rate = link_freq * 2;
+> > > > > > > +       if (lane_rate < 80000000 || lane_rate >
+> > > > > > > 1500000000)
+> > > > > > > {
+> > > > > > > +               dev_dbg(state->dev, "Out-of-bound lane
+> > > > > > > rate
+> > > > > > > %u\n", lane_rate);
+> > > > > > > +               return -EINVAL;
+> > > > > > > +       }
+> > > > > > > +
+> > > > > > > +       /*
+> > > > > > > https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
+> > > > > > >  */
+> > > > > > > +       if (lane_rate < 250000000)
+> > > > > > > +               state->hs_settle = 0xb;
+> > > > > > > +       else if (lane_rate < 500000000)
+> > > > > > > +               state->hs_settle = 0x8;
+> > > > > > > +       else
+> > > > > > > +               state->hs_settle = 0x6;
+> > > > > > 
+> > > > > > We could possibly compute this value based on the formula
+> > > > > > from the table
+> > > > > > in that page, but maybe that's overkill ? If you want to
+> > > > > > give
+> > > > > > it a try,
+> > > > > > it would be along those lines.
+> > > > > > 
+> > > > > >         /*
+> > > > > >          * The D-PHY specification requires Ths-settle to
+> > > > > > be
+> > > > > > in the range
+> > > > > >          * 85ns + 6*UI to 140ns + 10*UI, with the unit
+> > > > > > interval UI being half
+> > > > > >          * the clock period.
+> > > > > >          *
+> > > > > >          * The Ths-settle value is expressed in the
+> > > > > > hardware
+> > > > > > as a multiple of
+> > > > > >          * the Esc clock period:
+> > > > > >          *
+> > > > > >          * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of
+> > > > > > RxClkInEsc
+> > > > > >          *
+> > > > > >          * Due to the one cycle inaccuracy introduced by
+> > > > > > rounding, the
+> > > > > >          * documentation recommends picking a value away
+> > > > > > from
+> > > > > > the boundaries.
+> > > > > >          * Let's pick the average.
+> > > > > >          */
+> > > > > >         esc_clk_rate = clk_get_rate(...);
+> > > > > > 
+> > > > > >         min_ths_settle = 85 + 6 * 1000000 / (lane_rate /
+> > > > > > 1000);
+> > > > > >         max_ths_settle = 140 + 10 * 1000000 / (lane_rate /
+> > > > > > 1000);
+> > > > > >         ths_settle = (min_ths_settle + max_ths_settle) / 2;
+> > > > > > 
+> > > > > >         state->hs_settle = ths_settle * esc_clk_rate /
+> > > > > > 1000000000 - 1;
+> > > > > 
+> > > > > I experimented a bit but would like to leave this as a task
+> > > > > for
+> > > > > later
+> > > > > if that's ok. it's correct and simple now. also, using
+> > > > > clks[i].clk
+> > > > > based on the name string would feel better to submit
+> > > > > seperately
+> > > > > later.
+> > > > 
+> > > > That's OK with me, but I may then submit a patch on top fairly
+> > > > soon :-)
+> > > > Have you been able to test if this code works on your device ?
+> > > > The main
+> > > > reason why I think it's better is that it doesn't hardcode a
+> > > > specific
+> > > > escape clock frequency assumption, so it should be able to
+> > > > accommodate a
+> > > > wider range of use cases. If we change it later, there's always
+> > > > a
+> > > > risk
+> > > > of regressions, while if we do this from the start, we'll
+> > > > figure
+> > > > out
+> > > > quickly if it doesn't work in some cases.
+> > > 
+> > > taking your code basically as-is doesn't yet work, but it helps a
+> > > bit.
 > > 
-> > The lock comes from and are initialized by the video device used to 
-> > register the V4L2 async notifier. Every subdevice created is bound to a 
-> > vdev this way, and for example this is the vdev that events get routed 
-> > to.
+> > Thanks for testing.
+> > 
+> > > tbh I don't even know how to correctly read that table /
+> > > calculation:
+> > > what is the exact relation of the calculated Ths_settle time
+> > > inverval
+> > > to the hs_settle register bits?
+> > 
+> > The PRG_RXHS_SETTLE field stores a number of timer ticks to cover
+> > the
+> > Ths-settle internal. The D-PHY arms the timer when it detects the
+> > transition to LP-00, and ignores transitions on the lane until the
+> > timer
+> > expires. The timer is clocked by the escape clock.
+> > 
+> > What hs_settle value do you currently use, and what value does my
+> > code
+> > produce ?
+> > 
+> > > if the 2 of us can't quickly figure it out I can ask NXP via that
+> > > community forum issue and I created
+> > > https://source.puri.sm/Librem5/linux-next/-/issues/340 so I won't
+> > > forget about it.
+> > 
 > 
-> That doesn't seem right to me, could you point to the corresponding code
-
-I was wrong it's the v4l2_device and not the vdev that is used for 
-events. When an sd generates an event with the call chain,
-
-v4l2_subdev_notify_event(priv->sd, ..)
-    v4l2_subdev_notify(priv->sd)
-        priv->sd->v4l2_dev->notify()
-
-
-And v4l2_dev is the one passed to v4l2_async_notifier_register() and set 
-in the async logic by
-
-v4l2_async_register_subdev() OR v4l2_async_notifier_try_all_subdevs()
-    v4l2_async_match_notify()
-        v4l2_device_register_subdev()
-            sd->v4l2_dev = v4l2_dev
-
-
-> ?
+> hi Laurent,
 > 
-> > I assume this dates back pre the media-graph where every subdevice could 
-> > be associated with a single vdev at probe time. With the media graph 
-> > this makes little sens and IMHO should really be reworked. I tried once 
-> > but it turned out to be a lot of work that I did not have time for at 
-> > the time.
+> the below patch for hs_settle works (and calculates either the same
+> or
+> +/- 1 for the hs_settle value, compared to the table), but getting
+> the
+> esc clock looks really scary how I do it: how would you do that?
 > 
-> The video_device above is the one corresponding to the V4L2 subdev
-> device node (when the MC API was developed, I attempted to split the
-> device node handling out of video_device, to avoid embedding a full
-> video_device in v4l2_subdev, but that was rejected).
+> 
+> @@ -284,6 +285,9 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct
+> csi_state *state)
+>  {
+>         s64 link_freq;
+>         u32 lane_rate;
+> +       u32 esc_clk_rate = 0;
+> +       u32 i, min_ths_settle, max_ths_settle, ths_settle_ns,
+> esc_clk_period_ns;
+> +       char *p;
+>  
+>         /* Calculate the line rate from the pixel rate. */
+>         link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
+> @@ -302,20 +306,44 @@ static int
+> imx8mq_mipi_csi_calc_hs_settle(struct
+> csi_state *state)
+>         }
+>  
+>         /*
+> -        * The following table is the source for this:
+> -        *
+> https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
+> -        * but it would be even better to calculate the value for any
+> -        * given datarate.
+> +        * The D-PHY specification requires Ths-settle to be in the
+> range
+> +        * 85ns + 6*UI to 140ns + 10*UI, with the unit interval UI
+> being half
+> +        * the clock period.
+> +        *
+> +        * The Ths-settle value is expressed in the hardware as a
+> multiple of
+> +        * the Esc clock period:
+> +        *
+> +        * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of RxClkInEsc
+> +        *
+> +        * Due to the one cycle inaccuracy introduced by rounding,
+> the
+> +        * documentation recommends picking a value away from the
+> boundaries.
+> +        * Let's pick the average.
+>          */
+> -       if (lane_rate < 250000000)
+> -               state->hs_settle = 0xb;
+> -       else if (lane_rate < 500000000)
+> -               state->hs_settle = 0x8;
+> -       else
+> -               state->hs_settle = 0x6;
+> -
+> -       dev_dbg(state->dev, "start stream: lane rate %u hs_settle
+> %u\n",
+> -               lane_rate, state->hs_settle);
+> +       for (i = 0; i < CSI2_NUM_CLKS; i++) {
+> +               p = (char *)__clk_get_name(state->clks[i].clk);
+> +               /* we're getting csi1_esc here */
+> +               if (strlen(p) > 7)
+> +                       p += 5;
+> +
+> +               dev_dbg(state->dev, "comparing: %s to esc\n", p);
+> +               if (!strcmp(p, "esc"))
+> +                       esc_clk_rate = clk_get_rate(state-
+> > clks[i].clk);
+> +       }
+> +
+> +       if (!esc_clk_rate)
+> +               dev_err(state->dev, "Could not get esc clock
+> rate\n");
+> +
+> +       dev_dbg(state->dev, "esc clk rate: %u\n", esc_clk_rate);
+> +       esc_clk_period_ns = 1000000000 / esc_clk_rate;
+> +
+> +       min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
+> +       max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
+> +       ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
+> +
+> +       state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
+> +
+> +       dev_dbg(state->dev, "lane rate %u Ths_settle %u hs_settle
+> %u\n",
+> +               lane_rate, ths_settle_ns, state->hs_settle);
+>  
+>         return 0;
+> 
 
-I'm sorry that got rejected. If you had gotten your way I wound not have 
-made the mistake and looked the fool by mixing between vdev and v4l2_dev 
-in this mail :-)
+the below code works too and looks better to me. Other drivers do it
+similarly when looking for a clock:
 
-> 
-> > > > Signed-off-by: Niklas S�derlund <niklas.soderlund+renesas@ragnatech.se>
-> > > > ---
-> > > >  drivers/media/i2c/max9286.c | 10 ----------
-> > > >  1 file changed, 10 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > > > index 1aa2c58fd38c5d2b..b1d11a50d6e53ecc 100644
-> > > > --- a/drivers/media/i2c/max9286.c
-> > > > +++ b/drivers/media/i2c/max9286.c
-> > > > @@ -18,7 +18,6 @@
-> > > >  #include <linux/i2c.h>
-> > > >  #include <linux/i2c-mux.h>
-> > > >  #include <linux/module.h>
-> > > > -#include <linux/mutex.h>
-> > > >  #include <linux/of_graph.h>
-> > > >  #include <linux/regulator/consumer.h>
-> > > >  #include <linux/slab.h>
-> > > > @@ -173,9 +172,6 @@ struct max9286_priv {
-> > > >
-> > > >  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
-> > > >
-> > > > -	/* Protects controls and fmt structures */
-> > > > -	struct mutex mutex;
-> > > > -
-> > > >  	unsigned int nsources;
-> > > >  	unsigned int source_mask;
-> > > >  	unsigned int route_mask;
-> > > > @@ -768,9 +764,7 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
-> > > >  	if (!cfg_fmt)
-> > > >  		return -EINVAL;
-> > > >
-> > > > -	mutex_lock(&priv->mutex);
-> > > >  	*cfg_fmt = format->format;
-> > > > -	mutex_unlock(&priv->mutex);
-> 
-> On a side note, the usual practice is to use the same lock to prevent
-> the active format from being changed during streaming.
-> 
-> > > >
-> > > >  	return 0;
-> > > >  }
-> > > > @@ -796,9 +790,7 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
-> > > >  	if (!cfg_fmt)
-> > > >  		return -EINVAL;
-> > > >
-> > > > -	mutex_lock(&priv->mutex);
-> > > >  	format->format = *cfg_fmt;
-> > > > -	mutex_unlock(&priv->mutex);
-> > > >
-> > > >  	return 0;
-> > > >  }
-> > > > @@ -1259,8 +1251,6 @@ static int max9286_probe(struct i2c_client *client)
-> > > >  	if (!priv)
-> > > >  		return -ENOMEM;
-> > > >
-> > > > -	mutex_init(&priv->mutex);
-> > > > -
-> > > >  	priv->client = client;
-> > > >  	i2c_set_clientdata(client, priv);
-> > > >
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
 
--- 
-Regards,
-Niklas S�derlund
+	for (i = 0; i < CSI2_NUM_CLKS; i++) {
+		p = (char *)__clk_get_name(state->clks[i].clk);
+
+		dev_dbg(state->dev, "looking for esc clock: %s\n", p);
+
+		if (!strcmp(p, "esc") || !strcmp(p, "csi1_esc") ||
+		    !strcmp(p, "csi2_esc"))
+			esc_clk_rate = clk_get_rate(state-
+>clks[i].clk);
+	}
+
+	if (!esc_clk_rate) {
+		dev_err(state->dev, "Could not find esc clock.\n");
+		return -EINVAL;
+	}
+
+	dev_dbg(state->dev, "esc clk rate: %u\n", esc_clk_rate);
+	esc_clk_period_ns = 1000000000 / esc_clk_rate;
+
+	min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
+	max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
+	ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
+
+	state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
+
