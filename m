@@ -2,38 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDDA83CCAC9
-	for <lists+linux-media@lfdr.de>; Sun, 18 Jul 2021 23:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAB683CCD4B
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 07:19:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230225AbhGRVUS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sun, 18 Jul 2021 17:20:18 -0400
-Received: from hera.pmlf.ba.gov.br ([201.65.244.136]:49911 "EHLO
-        hera.pmlf.ba.gov.br" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229697AbhGRVUS (ORCPT
+        id S229906AbhGSFWu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 01:22:50 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:52856 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229512AbhGSFWu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 18 Jul 2021 17:20:18 -0400
-X-Greylist: delayed 7637 seconds by postgrey-1.27 at vger.kernel.org; Sun, 18 Jul 2021 17:20:17 EDT
-Received: by hera.pmlf.ba.gov.br (Postfix, from userid 1114)
-        id 0C65D7B823; Sun, 18 Jul 2021 15:36:32 -0300 (BRT)
-X-Spam-Checker-Version: SpamAssassin 3.1.9 (2007-02-13) on PERSEU
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.2 required=2.0 tests=BAYES_00,MSGID_FROM_MTA_ID,
-        NO_REAL_NAME autolearn=no version=3.1.9
-Received: from [23.175.48.210] (unknown [23.175.48.210])
-        by hera.pmlf.ba.gov.br (Postfix) with ESMTP id A9AA0754C8;
-        Sun, 18 Jul 2021 12:43:20 -0300 (BRT)
-Content-Type: text/plain; charset="iso-8859-1"
+        Mon, 19 Jul 2021 01:22:50 -0400
+X-UUID: 55cc68f87f38451c8374012eec6793c7-20210719
+X-UUID: 55cc68f87f38451c8374012eec6793c7-20210719
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+        (envelope-from <guangming.cao@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 485152648; Mon, 19 Jul 2021 13:19:47 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 19 Jul 2021 13:19:46 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas07.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Mon, 19 Jul 2021 13:19:46 +0800
+From:   <guangming.cao@mediatek.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+CC:     <wsd_upstream@mediatek.com>,
+        Guangming Cao <Guangming.Cao@mediatek.com>
+Subject: [PATCH] dma_buf: remove dmabuf sysfs teardown before release/detach
+Date:   Mon, 19 Jul 2021 13:19:44 +0800
+Message-ID: <20210719051944.40871-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Dear Beloved        
-To:     Recipients <controladoria@gov.br>
-From:   "Jose" <controladoria@gov.br>
-Date:   Sun, 18 Jul 2021 06:53:34 -0700
-Reply-To: jossewailims@gmail.com
-Message-Id: <20210718154320.A9AA0754C8@hera.pmlf.ba.gov.br>
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I would like to work with you to carry out a promise I made to God by willing all that have the charity. God Bless You, God Bless You
+From: Guangming Cao <Guangming.Cao@mediatek.com>
+
+Dmabuf sysfs stat is used for dmabuf info track.
+but these file maybe still use after buffer release/detach,
+should clear it before buffer release/detach.
+
+Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+---
+ drivers/dma-buf/dma-buf.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 510b42771974..9fa4620bd4bb 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -76,12 +76,12 @@ static void dma_buf_release(struct dentry *dentry)
+ 	 */
+ 	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
+ 
++	dma_buf_stats_teardown(dmabuf);
+ 	dmabuf->ops->release(dmabuf);
+ 
+ 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+ 		dma_resv_fini(dmabuf->resv);
+ 
+-	dma_buf_stats_teardown(dmabuf);
+ 	module_put(dmabuf->owner);
+ 	kfree(dmabuf->name);
+ 	kfree(dmabuf);
+@@ -875,10 +875,11 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+ 	dma_resv_lock(dmabuf->resv, NULL);
+ 	list_del(&attach->node);
+ 	dma_resv_unlock(dmabuf->resv);
++
++	dma_buf_attach_stats_teardown(attach);
+ 	if (dmabuf->ops->detach)
+ 		dmabuf->ops->detach(dmabuf, attach);
+ 
+-	dma_buf_attach_stats_teardown(attach);
+ 	kfree(attach);
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_detach);
+-- 
+2.17.1
+
