@@ -2,301 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E00443CD2A8
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 12:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 093263CD2CE
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jul 2021 12:59:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236577AbhGSKGT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jul 2021 06:06:19 -0400
-Received: from comms.puri.sm ([159.203.221.185]:51808 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235471AbhGSKGS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jul 2021 06:06:18 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 4D3EDE122E;
-        Mon, 19 Jul 2021 03:46:28 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id TgGk5378cSYs; Mon, 19 Jul 2021 03:46:26 -0700 (PDT)
-Message-ID: <afea234be0fd5e8a3ee2cac128169bbf796d5412.camel@puri.sm>
-Subject: Re: [PATCH v6 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
- phy and controller
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     festevam@gmail.com, krzk@kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, kernel@puri.sm,
-        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
-        mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
-        shawnguo@kernel.org, slongerbeam@gmail.com
-Date:   Mon, 19 Jul 2021 12:46:19 +0200
-In-Reply-To: <YPFjwvjSCuvC1915@pendragon.ideasonboard.com>
-References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
-         <20210714111931.324485-3-martin.kepplinger@puri.sm>
-         <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
-         <ce71a71a358247eca3b72ddcddd703206c90f284.camel@puri.sm>
-         <YPCuFA+utjudv11H@pendragon.ideasonboard.com>
-         <e88d99abbdcbd6a1b2c27849f08721e79f237adc.camel@puri.sm>
-         <YPFjwvjSCuvC1915@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        id S236300AbhGSKMs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 06:12:48 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:56102 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235621AbhGSKMs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 19 Jul 2021 06:12:48 -0400
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 6E0EE3C0034;
+        Mon, 19 Jul 2021 12:53:26 +0200 (CEST)
+Received: from vmlxhi-082.adit-jv.com (10.72.92.165) by hi2exch02.adit-jv.com
+ (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Mon, 19 Jul
+ 2021 12:53:26 +0200
+Date:   Mon, 19 Jul 2021 12:53:11 +0200
+From:   Dennis Rachui <drachui@de.adit-jv.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
+Message-ID: <20210719105311.GA19719@vmlxhi-082.adit-jv.com>
+References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
+ <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
+ <YOoiZM+oicZBD4o1@pendragon.ideasonboard.com>
+ <YO1f+SOTBS44/Wf0@oden.dyn.berto.se>
+ <YO8vs4V/lhVA8mY9@pendragon.ideasonboard.com>
+ <YPAUoQ8KmmAE3fWD@oden.dyn.berto.se>
+ <YPAeirL/qtmNYx99@pendragon.ideasonboard.com>
+ <20210716140921.GB109328@vmlxhi-082.adit-jv.com>
+ <YPGfkcdnwqgozVEu@oden.dyn.berto.se>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YPGfkcdnwqgozVEu@oden.dyn.berto.se>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.92.165]
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Freitag, dem 16.07.2021 um 13:47 +0300 schrieb Laurent Pinchart:
-> Hi Martin,
-> 
-> On Fri, Jul 16, 2021 at 10:47:14AM +0200, Martin Kepplinger wrote:
-> > Am Freitag, dem 16.07.2021 um 00:52 +0300 schrieb Laurent Pinchart:
-> > > On Thu, Jul 15, 2021 at 09:37:24AM +0200, Martin Kepplinger
-> > > wrote:
-> > > > Am Mittwoch, dem 14.07.2021 um 21:24 +0300 schrieb Laurent
-> > > > Pinchart:
-> > > > > On Wed, Jul 14, 2021 at 01:19:30PM +0200, Martin Kepplinger
-> > > > > wrote:
-> > > > > > Add a driver to support the i.MX8MQ MIPI CSI receiver. The
-> > > > > > hardware side
-> > > > > > is based on
-> > > > > > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
+Hi Niklas,
+
+> On Fri, Jul 16, 2021 17:02:41 +0200, Niklas Söderlund wrote:
+> > On 2021-07-16 16:09:21 +0200, Dennis Rachui wrote:
+> > > On Thu, Jul 15, 2021 at 12:57:37PM +0200, Niklas Söderlund wrote:
+> > > > On 2021-07-14 21:40:51 +0300, Laurent Pinchart wrote:
+> > > > > On Tue, Jul 13, 2021 at 11:42:17AM +0200, Niklas Söderlund wrote:
+> > > > > > On 2021-07-11 01:42:44 +0300, Laurent Pinchart wrote:
+> > > > > > > On Fri, Jul 09, 2021 at 04:20:40PM +0200, Niklas Söderlund wrote:
+> > > > > > > > On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
+> > > > > > > > > Verify that streaming is not active before setting the pad format.
+> > > > > > > > > 
+> > > > > > > > > According to the VIDIOC documentation [1] changes to the 
+> > > > > > > > > active format of a media pad via the VIDIOC_SUBDEV_S_FMT 
+> > > > > > > > > ioctl are applied to the underlying hardware.
+> > > > > > > > > In rcar-csi2 a format change only applies to hardware, when 
+> > > > > > > > > the pipeline is started. While the device is not in use, it 
+> > > > > > > > > is therefore okay to update the format.
+> > > > > > > > > 
+> > > > > > > > > However, when the pipeline is active, this leads to a format 
+> > > > > > > > > mismatch between driver and device.
+> > > > > > > > > Other applications can query the format with 
+> > > > > > > > > VIDIOC_SUBDEV_G_FMT at any time and would be reported a 
+> > > > > > > > > format that does not fit the current stream.
+> > > > > > > > > 
+> > > > > > > > > This commit prevents format update while streaming is active 
+> > > > > > > > > and returns -EBUSY to user space, as suggested by [1].
+> > > > > > > > > 
+> > > > > > > > > [1] 
+> > > > > > > > > Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rs
+> > > > > > > > > t
+> > > > > > > > 
+> > > > > > > > I like that this is addressed, but I wonder is this not 
+> > > > > > > > something that should be fixed in the V4L2 core and not in drivers?
+> > > > > > > 
+> > > > > > > Some drivers may support format changes during streaming (that's 
+> > > > > > > allowed by the V4L2 API, I'm not sure if it's used anywhere 
+> > > > > > > though). While I'd favour not duplicating the same logic in 
+> > > > > > > different (and differently
+> > > > > > > buggy) ways in drivers, I'm not sure how this could be 
+> > > > > > > implemented in a sane way in the V4L2 core in its current state.
 > > > > > > 
-> > > > > > It's built as part of VIDEO_IMX7_CSI because that's
-> > > > > > documented to support
-> > > > > > i.MX8M platforms. This driver adds i.MX8MQ support where
-> > > > > > currently only the
-> > > > > > i.MX8MM platform has been supported.
+> > > > > > I understand it's possible from some devices to support to format 
+> > > > > > changes during streaming, but as you point out it's the exception 
+> > > > > > and not the rule, if used at all.
 > > > > > > 
-> > > > > > Signed-off-by: Martin Kepplinger
-> > > > > > <martin.kepplinger@puri.sm>
-> > > > > > ---
-> > > > > >  drivers/staging/media/imx/Makefile           |   1 +
-> > > > > >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 949
-> > > > > > +++++++++++++++++++
-> > > > > >  2 files changed, 950 insertions(+)
-> > > > > >  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-
-> > > > > > csi2.c
+> > > > > > So my point is if we start to enforce this in drivers we are 
+> > > > > > headed down a road where this will be messier to clean up. Would 
+> > > > > > it not make more sens to default the V4L2 core to disallow format 
+> > > > > > changes while streaming and add a new flag to V4L2_SUBDEV_CAP_ to 
+> > > > > > signal that the subdevice supports format changes while streaming?
 > > > > > > 
-> > > > > > diff --git a/drivers/staging/media/imx/Makefile
-> > > > > > b/drivers/staging/media/imx/Makefile
-> > > > > > index 6ac33275cc97..19c2fc54d424 100644
-> > > > > > --- a/drivers/staging/media/imx/Makefile
-> > > > > > +++ b/drivers/staging/media/imx/Makefile
-> > > > > > @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-
-> > > > > > csi2.o
-> > > 
-> > > [snip]
-> > > 
-> > > > > > +static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state
-> > > > > > *state)
-> > > > > > +{
-> > > > > > +       u32 width = state-
-> > > > > > >format_mbus[MIPI_CSI2_PAD_SINK].width;
-> > > > > > +       u32 height = state-
-> > > > > > >format_mbus[MIPI_CSI2_PAD_SINK].height;
-> > > > > > +       s64 link_freq;
-> > > > > > +       u32 lane_rate;
-> > > > > > +
-> > > > > > +       /* Calculate the line rate from the pixel rate. */
-> > > > > > +       link_freq = v4l2_get_link_freq(state->src_sd-
-> > > > > > >ctrl_handler,
-> > > > > > +                                      state->csi2_fmt-
-> > > > > > >width,
-> > > > > > +                                      state-
-> > > > > > >bus.num_data_lanes * 2);
-> > > > > > +       if (link_freq < 0) {
-> > > > > > +               dev_err(state->dev, "Unable to obtain link
-> > > > > > frequency: %d\n",
-> > > > > > +                       (int)link_freq);
-> > > > > > +               return link_freq;
-> > > > > > +       }
-> > > > > > +
-> > > > > > +       lane_rate = link_freq * 2;
-> > > > > > +       if (lane_rate < 80000000 || lane_rate > 1500000000)
-> > > > > > {
-> > > > > > +               dev_dbg(state->dev, "Out-of-bound lane rate
-> > > > > > %u\n", lane_rate);
-> > > > > > +               return -EINVAL;
-> > > > > > +       }
-> > > > > > +
-> > > > > > +       /*
-> > > > > > https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
-> > > > > >  */
-> > > > > > +       if (lane_rate < 250000000)
-> > > > > > +               state->hs_settle = 0xb;
-> > > > > > +       else if (lane_rate < 500000000)
-> > > > > > +               state->hs_settle = 0x8;
-> > > > > > +       else
-> > > > > > +               state->hs_settle = 0x6;
+> > > > > > We already have V4L2_SUBDEV_CAP_RO_SUBDEV to signal that a 
+> > > > > > subdevice only supports read-only operations so I think it would 
+> > > > > > not be too hard to move this functionality into the core?
 > > > > > 
-> > > > > We could possibly compute this value based on the formula
-> > > > > from the table
-> > > > > in that page, but maybe that's overkill ? If you want to give
-> > > > > it a try,
-> > > > > it would be along those lines.
-> > > > > 
-> > > > >         /*
-> > > > >          * The D-PHY specification requires Ths-settle to be
-> > > > > in the range
-> > > > >          * 85ns + 6*UI to 140ns + 10*UI, with the unit
-> > > > > interval UI being half
-> > > > >          * the clock period.
-> > > > >          *
-> > > > >          * The Ths-settle value is expressed in the hardware
-> > > > > as a multiple of
-> > > > >          * the Esc clock period:
-> > > > >          *
-> > > > >          * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of
-> > > > > RxClkInEsc
-> > > > >          *
-> > > > >          * Due to the one cycle inaccuracy introduced by
-> > > > > rounding, the
-> > > > >          * documentation recommends picking a value away from
-> > > > > the boundaries.
-> > > > >          * Let's pick the average.
-> > > > >          */
-> > > > >         esc_clk_rate = clk_get_rate(...);
-> > > > > 
-> > > > >         min_ths_settle = 85 + 6 * 1000000 / (lane_rate /
-> > > > > 1000);
-> > > > >         max_ths_settle = 140 + 10 * 1000000 / (lane_rate /
-> > > > > 1000);
-> > > > >         ths_settle = (min_ths_settle + max_ths_settle) / 2;
-> > > > > 
-> > > > >         state->hs_settle = ths_settle * esc_clk_rate /
-> > > > > 1000000000 - 1;
+> > > > > Yes, that's something we could try. The subdev core will then need 
+> > > > > to track the streaming state, which may require wrapping the 
+> > > > > .s_stream() call. Locking should then also likely be handled by the 
+> > > > > core. Probably nothing impossible, but quite a bit of work. Any 
+> > > > > volunteer ? :-)
 > > > > 
-> > > > I experimented a bit but would like to leave this as a task for
-> > > > later
-> > > > if that's ok. it's correct and simple now. also, using
-> > > > clks[i].clk
-> > > > based on the name string would feel better to submit seperately
-> > > > later.
-> > > 
-> > > That's OK with me, but I may then submit a patch on top fairly
-> > > soon :-)
-> > > Have you been able to test if this code works on your device ?
-> > > The main
-> > > reason why I think it's better is that it doesn't hardcode a
-> > > specific
-> > > escape clock frequency assumption, so it should be able to
-> > > accommodate a
-> > > wider range of use cases. If we change it later, there's always a
-> > > risk
-> > > of regressions, while if we do this from the start, we'll figure
-> > > out
-> > > quickly if it doesn't work in some cases.
+> > > > We already track the stream count in struct media_entity and it's 
+> > > > incremented/decremented under the media device lock by
+> > > > media_pipeline_start() and media_pipeline_stop(). So I don't think 
+> > > > it's such a hard feature to add.
+> > > > 
+> > > > The large task IMHO is to figure out if we have any subdevice in tree 
+> > > > that allows format changes while streaming and that would need to set 
+> > > > this new V4L2_SUBDEV_CAP_ flag.
+> > >
+> > > Many subdevs allow format changes during streaming. The question is whether any of them do so knowingly, or if they're all buggy :-) I'd be surprised if there
+> > > were more than a couple of drivers that actually support this correctly.
 > > 
-> > taking your code basically as-is doesn't yet work, but it helps a
-> > bit.
-> 
-> Thanks for testing.
-> 
-> > tbh I don't even know how to correctly read that table /
-> > calculation:
-> > what is the exact relation of the calculated Ths_settle time
-> > inverval
-> > to the hs_settle register bits?
-> 
-> The PRG_RXHS_SETTLE field stores a number of timer ticks to cover the
-> Ths-settle internal. The D-PHY arms the timer when it detects the
-> transition to LP-00, and ignores transitions on the lane until the
-> timer
-> expires. The timer is clocked by the escape clock.
-> 
-> What hs_settle value do you currently use, and what value does my
-> code
-> produce ?
-> 
-> > if the 2 of us can't quickly figure it out I can ask NXP via that
-> > community forum issue and I created
-> > https://source.puri.sm/Librem5/linux-next/-/issues/340 so I won't
-> > forget about it.
-> 
+> > From my perspective, the current stream_count from struct media_entity
+> > would not be sufficient. References should be counted per struct media_pad.
+> > Otherwise, devices that allow multiple parallel streams would block user
+> > space from updating media-pads that are not part of an active media-pipeline.
+> > E.g. in rcar-csi2 this could effect a source pad connected to currently
+> > unused VIN device.
+>
+> I understand your reasoning, but with the current V4L2 design is this 
+> really a concern? As s_stream() is not pad/stream aware it acts more or 
+> less as a big start / stop button.
+>
+> When starting all enabled media links formats needs to be evaluated 
+> (something we can't do yet with multiplexed streams..) and all 
+> subdivides that are part of the media graph are started. We can not 
+> enable or disable any media links while the pipeline is streaming so I'm 
+> not sure configuring the format of pads not part of the active capture 
+> is such a big concern, am I missing something?
 
-hi Laurent,
+I missed the fact that media links can not be enabled / disabled while
+the pipeline is streaming. So I agree that preventing format updates while
+the entity is busy is no big concern. Userspace applications should be aware
+of this just as they must be aware that link enable / disable only works
+while the pipeline is not running.
 
-the below patch for hs_settle works (and calculates either the same or
-+/- 1 for the hs_settle value, compared to the table), but getting the
-esc clock looks really scary how I do it: how would you do that?
+> 
+> > > > > > > > > Note: after creation of this commit, it was noticed that 
+> > > > > > > > > Steve Longerbeam has a very similar solution in his fork.
+> > > > > > > > > 
+> > > > > > > > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car 
+> > > > > > > > > MIPI CSI-2 receiver driver")
+> > > > > > > > > Cc: Steve Longerbeam <slongerbeam@gmail.com>
+> > > > > > > > > Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
+> > > > > > > > > ---
+> > > > > > > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 
+> > > > > > > > > ++++++++++++++++++++-
+> > > > > > > > >  1 file changed, 20 insertions(+), 1 deletion(-)
+> > > > > > > > > 
+> > > > > > > > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c 
+> > > > > > > > > b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > > > > > index e28eff0..98152e1 100644
+> > > > > > > > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > > > > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > > > > > @@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct 
+> > > > > > > > > v4l2_subdev *sd,  {
+> > > > > > > > >  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> > > > > > > > >  	struct v4l2_mbus_framefmt *framefmt;
+> > > > > > > > > +	int ret = 0;
+> > > > > > > > > +
+> > > > > > > > > +	mutex_lock(&priv->lock);
+> > > > > > > > >  
+> > > > > > > > >  	if (!rcsi2_code_to_fmt(format->format.code))
+> > > > > > > > >  		format->format.code = rcar_csi2_formats[0].code;
+> > > > > > > > >  
+> > > > > > > > >  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > > > > > > > > +
+> > > > > > > > > +		/*
+> > > > > > > > > +		 * Do not apply changes to active format while streaming.
+> > > > > > > > > +		 *
+> > > > > > > > > +		 * Since video streams could be forwarded from sink pad to any
+> > > > > > > > > +		 * source pad (depending on CSI-2 channel routing), all
+> > > > > > > > > +		 * media pads are effected by this rule.
+> > > > > > > > > +		 */
+> > > > > > > > > +		if (priv->stream_count > 0) {
+> > > > > > > > > +			ret = -EBUSY;
+> > > > > > > > > +			goto out;
+> > > > > > > > > +		}
+> > > > > > > > > +
+> > > > > > > > >  		priv->mf = format->format;
+> > > > > > > > >  	} else {
+> > > > > > > > >  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> > > > > > > > >  		*framefmt = format->format;
+> > > > > > > > >  	}
+> > > > > > > > >  
+> > > > > > > > > -	return 0;
+> > > > > > > > > +out:
+> > > > > > > > > +	mutex_unlock(&priv->lock);
+> > > > > > > > > +
+> > > > > > > > > +	return ret;
+> > > > > > > > >  }
+> > > > > > > > >  
+> > > > > > > > >  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
 
-
-@@ -284,6 +285,9 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct
-csi_state *state)
- {
- 	s64 link_freq;
- 	u32 lane_rate;
-+	u32 esc_clk_rate = 0;
-+	u32 i, min_ths_settle, max_ths_settle, ths_settle_ns,
-esc_clk_period_ns;
-+	char *p;
- 
- 	/* Calculate the line rate from the pixel rate. */
- 	link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
-@@ -302,20 +306,44 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct
-csi_state *state)
- 	}
- 
- 	/*
--	 * The following table is the source for this:
--	 *
-https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
--	 * but it would be even better to calculate the value for any
--	 * given datarate.
-+	 * The D-PHY specification requires Ths-settle to be in the
-range
-+	 * 85ns + 6*UI to 140ns + 10*UI, with the unit interval UI
-being half
-+	 * the clock period.
-+	 *
-+	 * The Ths-settle value is expressed in the hardware as a
-multiple of
-+	 * the Esc clock period:
-+	 *
-+	 * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of RxClkInEsc
-+	 *
-+	 * Due to the one cycle inaccuracy introduced by rounding, the
-+	 * documentation recommends picking a value away from the
-boundaries.
-+	 * Let's pick the average.
- 	 */
--	if (lane_rate < 250000000)
--		state->hs_settle = 0xb;
--	else if (lane_rate < 500000000)
--		state->hs_settle = 0x8;
--	else
--		state->hs_settle = 0x6;
--
--	dev_dbg(state->dev, "start stream: lane rate %u hs_settle
-%u\n",
--		lane_rate, state->hs_settle);
-+	for (i = 0; i < CSI2_NUM_CLKS; i++) {
-+		p = (char *)__clk_get_name(state->clks[i].clk);
-+		/* we're getting csi1_esc here */
-+		if (strlen(p) > 7)
-+			p += 5;
-+
-+		dev_dbg(state->dev, "comparing: %s to esc\n", p);
-+		if (!strcmp(p, "esc"))
-+			esc_clk_rate = clk_get_rate(state-
->clks[i].clk);
-+	}
-+
-+	if (!esc_clk_rate)
-+		dev_err(state->dev, "Could not get esc clock rate\n");
-+
-+	dev_dbg(state->dev, "esc clk rate: %u\n", esc_clk_rate);
-+	esc_clk_period_ns = 1000000000 / esc_clk_rate;
-+
-+	min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
-+	max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
-+	ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
-+
-+	state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
-+
-+	dev_dbg(state->dev, "lane rate %u Ths_settle %u hs_settle
-%u\n",
-+		lane_rate, ths_settle_ns, state->hs_settle);
- 
- 	return 0;
-
+--
+Regards,
+Dennis Rachui
