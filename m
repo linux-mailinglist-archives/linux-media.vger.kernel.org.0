@@ -2,117 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB7DB3CFABB
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 15:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77D233CFBB5
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 16:13:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237513AbhGTMz1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Jul 2021 08:55:27 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:50127 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238754AbhGTMxx (ORCPT
+        id S238754AbhGTNcD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jul 2021 09:32:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37820 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239228AbhGTN1J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Jul 2021 08:53:53 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 5pt8mteLlhqx95pt9mvx7A; Tue, 20 Jul 2021 15:34:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1626788063; bh=YOrF5DuKarVC9ccCGbtJ4rYEmt3UEP22Rt+TIz0vSRI=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=kO9C6A+m4/mQGdsYR6mie8FTScXELrF5wEyEV1LLC8OPqoGIgdQScG23KoBQDBEN7
-         z+PXPmP7d5/m3VWgB5d+I3l81X6bgDGPrNRMJZJqFG0VlVOLOBeV+aw/pDFCh+RbCy
-         d+hSkjaz75ulTHy1p8XLJ5qINrD/1awiKbWT5Tu/6V1Gf+wTEUwjt5b82FTUtGWoMP
-         xiBoeVR9Hkpz1ExCGKnm/i6blyGoPpeNA3bqlZ+6SI5aw/d1dPPQlqvsYBIh1Glb+f
-         ioSrkq5GPmwLHRw9Y/srG9bOG3aVRVpignfHUa9PUHxIf8GK6eIbJthPCvtMRKDL9d
-         oGFLhAH4w3y1w==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Fabio Estevam <festevam@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.15] Various fixes
-Message-ID: <4d9b08ca-ec5e-b75f-514c-950d2c2abd64@xs4all.nl>
-Date:   Tue, 20 Jul 2021 15:34:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Tue, 20 Jul 2021 09:27:09 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D07FBC0613DE
+        for <linux-media@vger.kernel.org>; Tue, 20 Jul 2021 07:07:29 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id u8-20020a7bcb080000b02901e44e9caa2aso2128293wmj.4
+        for <linux-media@vger.kernel.org>; Tue, 20 Jul 2021 07:07:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=NhiaQkSCHPQx+ne2ETdlu6yODY4PxPdrO6TLTCHDEvo=;
+        b=AbV7T8HvSTYfx7yF5o/wHZ6AbP9cbbnHR6simTxT5F2QgalLEh3Zv7zaCsj+iLKyB+
+         Pj86CpN7A4sNSRwvVjPdfaX8QWev0o9Y3SuETieOM3yAYO1hPR17h/6YHdLKCBfpYqOq
+         0xanI2HXzwfifg0mxPZDCYmHVwhR3CiSIXtXU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=NhiaQkSCHPQx+ne2ETdlu6yODY4PxPdrO6TLTCHDEvo=;
+        b=ArbABgxXqAEnCWvv2fhBqedZBZRzbNxaJD2S5rUzSS331k30d1gqt5cOt860zcPtpx
+         LQKiFPGsiD07Jnt6tJZYIgIB2dktRYctTZ1YEQfKEjBoyKTQjT8Jqvf/Y5liPuDAo/jd
+         DS5dm5lLYVB2xqc8sC+GoouyP1vZnMf1xlWgaBDgctutws6LLdVj8KZ5P9VpUiibDe2v
+         HtUFRHEEZPbMhTFb+4ih3phYUQdi56nf9v0BSHpBg6zOS0E1utL9Itgf9ikxDmI+FVgk
+         C1TsVsSVjDzeaUVr+fTeku+jMK9+JGaUWdkS5Vgi5YG7ShhdTIn3WXtfrWfEqJQTQP+m
+         ltug==
+X-Gm-Message-State: AOAM5306PQMcsxE2l6OiCEXncICDhxxVKH0kkAb33SZvAjoLvGVYN43j
+        WW+THw//79/mNa15J5mGH/qUyg==
+X-Google-Smtp-Source: ABdhPJympAVWx+89WOJs70xZyzGidYkvS7+zE+nPVH5Jqu38ByIK/jJxawzGearAHIs1mQR4Vm9qng==
+X-Received: by 2002:a05:600c:20b:: with SMTP id 11mr39063501wmi.112.1626790048280;
+        Tue, 20 Jul 2021 07:07:28 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id s17sm24408502wrv.2.2021.07.20.07.07.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jul 2021 07:07:26 -0700 (PDT)
+Date:   Tue, 20 Jul 2021 16:07:24 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>,
+        freedreno@lists.freedesktop.org,
+        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Jonathan Marek <jonathan@marek.ca>,
+        Emma Anholt <emma@anholt.net>, Bernard Zhao <bernard@vivo.com>,
+        Sharat Masetty <smasetty@codeaurora.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Akhil P Oommen <akhilpo@codeaurora.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Zhenzhong Duan <zhenzhong.duan@gmail.com>,
+        "Kristian H. Kristensen" <hoegsberg@google.com>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <linux-arm-msm@vger.kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Dave Airlie <airlied@redhat.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [Linaro-mm-sig] [PATCH 00/11] drm/msm: drm scheduler conversion
+ and cleanups
+Message-ID: <YPbYnLBin9N4weiC@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Jonathan Marek <jonathan@marek.ca>, Emma Anholt <emma@anholt.net>,
+        Bernard Zhao <bernard@vivo.com>,
+        Sharat Masetty <smasetty@codeaurora.org>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Akhil P Oommen <akhilpo@codeaurora.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+        Zhenzhong Duan <zhenzhong.duan@gmail.com>,
+        "Kristian H. Kristensen" <hoegsberg@google.com>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Lee Jones <lee.jones@linaro.org>, Dave Airlie <airlied@redhat.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+References: <20210717202924.987514-1-robdclark@gmail.com>
+ <582b8869-f370-3803-60a8-df31088f8088@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKpcBRQv+rpN+BhXfjCfQdmHaOeAj17KepJJNiOHOcUoliDQF/dujuGPewtU9rRomWYSRuplvopFW0TOVt3cljwW6opQczDWO5kyjmsClpBpUDLaH2uW
- hJOXapDBo9smF7HP5gnZcYJB09BD2KkidrlgH5RvkrGbcRKom9L/JOIjWCEPjl7uNykmfgHhAix2umu1N9inIsIIgOQo3al/SIs9m/yhiAdbnshjmrMZnFr7
- zRbeV1J8Qxr3Xpc3lfNv2ETbxSG8kyLBDnpv53kqcRJVTOMvjV8RFFzGQ73Qup8PSrDILaz6uNdHxS1ZpM0azDGy9QPbdKKy/A02k3lJYY4=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <582b8869-f370-3803-60a8-df31088f8088@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 379e205dab9d7f9761984728e7d6f5f8305cc424:
+On Mon, Jul 19, 2021 at 10:40:57AM +0200, Christian König wrote:
+> Am 17.07.21 um 22:29 schrieb Rob Clark:
+> > From: Rob Clark <robdclark@chromium.org>
+> > 
+> > Conversion to gpu_scheduler, and bonus removal of
+> > drm_gem_object_put_locked()
+> 
+> Oh yes please!
+> 
+> If I'm not completely mistaken that was the last puzzle piece missing to
+> unify TTMs and GEMs refcount of objects.
 
-  media: usb: dvb-usb-v2: af9035: let subdrv autoselect enable si2168 and si2157 (2021-07-12 14:28:49 +0200)
+Why does drm/msm, a driver not using ttm at all, block ttm refactorings?
+We can just check whether the TTM using driver is potentially using locked
+final unref and have a special version of
+drm_gem_object_put_guaranteed_unlocked or whatever the bikeshed will look
+like, which doesn't have the migth_lock.
 
-are available in the Git repository at:
+Anyway, deed is done now :-)
+-Daniel
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.15a
+> 
+> Only problem is that I only see patch 7 and 9 in my inbox. Where is the
+> rest?
+> 
+> Thanks,
+> Christian.
+> 
+> > 
+> > Rob Clark (11):
+> >    drm/msm: Docs and misc cleanup
+> >    drm/msm: Small submitqueue creation cleanup
+> >    drm/msm: drop drm_gem_object_put_locked()
+> >    drm: Drop drm_gem_object_put_locked()
+> >    drm/msm/submit: Simplify out-fence-fd handling
+> >    drm/msm: Consolidate submit bo state
+> >    drm/msm: Track "seqno" fences by idr
+> >    drm/msm: Return ERR_PTR() from submit_create()
+> >    drm/msm: Conversion to drm scheduler
+> >    drm/msm: Drop struct_mutex in submit path
+> >    drm/msm: Utilize gpu scheduler priorities
+> > 
+> >   drivers/gpu/drm/drm_gem.c                   |  22 --
+> >   drivers/gpu/drm/msm/Kconfig                 |   1 +
+> >   drivers/gpu/drm/msm/adreno/a5xx_debugfs.c   |   4 +-
+> >   drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |   6 +-
+> >   drivers/gpu/drm/msm/adreno/a5xx_power.c     |   2 +-
+> >   drivers/gpu/drm/msm/adreno/a5xx_preempt.c   |   7 +-
+> >   drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  12 +-
+> >   drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |   2 +-
+> >   drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |   4 +-
+> >   drivers/gpu/drm/msm/adreno/adreno_gpu.c     |   6 +-
+> >   drivers/gpu/drm/msm/msm_drv.c               |  30 +-
+> >   drivers/gpu/drm/msm/msm_fence.c             |  39 ---
+> >   drivers/gpu/drm/msm/msm_fence.h             |   2 -
+> >   drivers/gpu/drm/msm/msm_gem.c               |  91 +-----
+> >   drivers/gpu/drm/msm/msm_gem.h               |  37 ++-
+> >   drivers/gpu/drm/msm/msm_gem_submit.c        | 300 ++++++++++++--------
+> >   drivers/gpu/drm/msm/msm_gpu.c               |  50 +---
+> >   drivers/gpu/drm/msm/msm_gpu.h               |  41 ++-
+> >   drivers/gpu/drm/msm/msm_ringbuffer.c        |  70 ++++-
+> >   drivers/gpu/drm/msm/msm_ringbuffer.h        |  12 +
+> >   drivers/gpu/drm/msm/msm_submitqueue.c       |  49 +++-
+> >   include/drm/drm_gem.h                       |   2 -
+> >   include/uapi/drm/msm_drm.h                  |  10 +-
+> >   23 files changed, 440 insertions(+), 359 deletions(-)
+> > 
+> 
 
-for you to fetch changes up to 8e8ee611c5aa4e1ddb6efd1395f1dd16e13eca98:
-
-  media: coda: fix frame_mem_ctrl for YUV420 and YVU420 formats (2021-07-20 15:17:45 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Dafna Hirschfeld (3):
-      media: mtk-jpeg: fix setting plane paylod
-      media: rkisp1: remove field 'vaddr' from 'rkisp1_buffer'
-      media: rkisp1: cap: initialize dma buf address in 'buf_init' cb
-
-Dan Carpenter (2):
-      media: v4l2-subdev: fix some NULL vs IS_ERR() checks
-      media: rockchip/rga: fix error handling in probe
-
-Evgeny Novikov (1):
-      media: platform: stm32: unprepare clocks at handling errors in probe
-
-Fabio Estevam (3):
-      dt-bindings: adv7180: Introduce the 'reset-gpios' property
-      media: i2c: adv7180: Print the chip ID on probe
-      dt-bindings: adv7180: Introduce 'adv,force-bt656-4' property
-
-Frieder Schrempf (1):
-      media: adv7180: Add optional reset GPIO
-
-Hans Verkuil (1):
-      media/cec-core.rst: update adap_enable doc
-
-Matthew Michilot (1):
-      media: i2c: adv7180: fix adv7280 BT.656-4 compatibility
-
-Pavel Skripkin (3):
-      media: go7007: fix memory leak in go7007_usb_probe
-      media: go7007: remove redundant initialization
-      media: stkwebcam: fix memory leak in stk_camera_probe
-
-Philipp Zabel (1):
-      media: coda: fix frame_mem_ctrl for YUV420 and YVU420 formats
-
-Tom Rix (1):
-      media: ti-vpe: cal: fix indexing of cal->ctx[] in cal_probe()
-
- Documentation/devicetree/bindings/media/i2c/adv7180.yaml |  8 ++++++
- Documentation/driver-api/media/cec-core.rst              |  9 ++++---
- drivers/media/cec/platform/stm32/stm32-cec.c             | 26 +++++++++++++------
- drivers/media/i2c/adv7180.c                              | 66 ++++++++++++++++++++++++++++++++++++++++++-----
- drivers/media/platform/coda/coda-bit.c                   | 18 +++++++++----
- drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c          | 20 +++++++-------
- drivers/media/platform/rcar-vin/rcar-v4l2.c              |  4 +--
- drivers/media/platform/rockchip/rga/rga.c                | 27 +++++++++++++++----
- drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c  | 12 ++++++++-
- drivers/media/platform/rockchip/rkisp1/rkisp1-common.h   |  6 +----
- drivers/media/platform/rockchip/rkisp1/rkisp1-params.c   |  3 +--
- drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c    |  6 ++---
- drivers/media/platform/ti-vpe/cal.c                      |  6 ++---
- drivers/media/platform/vsp1/vsp1_entity.c                |  4 +--
- drivers/media/usb/go7007/go7007-driver.c                 | 26 -------------------
- drivers/media/usb/go7007/go7007-usb.c                    |  2 +-
- drivers/media/usb/stkwebcam/stk-webcam.c                 |  6 +++--
- drivers/staging/media/tegra-video/vi.c                   |  4 +--
- 18 files changed, 167 insertions(+), 86 deletions(-)
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
