@@ -2,271 +2,564 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26F8F3D04AB
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jul 2021 00:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0CAA3D05E9
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jul 2021 01:56:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231166AbhGTVvj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Jul 2021 17:51:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38820 "EHLO
+        id S231163AbhGTXPV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jul 2021 19:15:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229886AbhGTVvc (ORCPT
+        with ESMTP id S232326AbhGTXNz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Jul 2021 17:51:32 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A7FCC061574;
-        Tue, 20 Jul 2021 15:32:08 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id n1so49094wri.10;
-        Tue, 20 Jul 2021 15:32:08 -0700 (PDT)
+        Tue, 20 Jul 2021 19:13:55 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D03C8C061766
+        for <linux-media@vger.kernel.org>; Tue, 20 Jul 2021 16:54:31 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id t186so897667ybf.2
+        for <linux-media@vger.kernel.org>; Tue, 20 Jul 2021 16:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=AUq62xTOdEE9yZyZ9SmyAw/53N8FF+p9iTgcqqLGQAc=;
-        b=Xjb45xC/ATHW+Ja5+SAtaovYI7YvU3BVBREZpvHqi2Yr36Ug5CxT2Jh9jHTQ+rO4Wk
-         a1dEGmIcFSKewgblnu3ieGcW5eAdwzbnQEyK5YiC5xoDqz9Y2kQTOFpYSEKDj39l9oHb
-         qsxvHJI/jTpQ1do86Tv8jXattuEFUhdgiLT7Zuaodl9GhsCb/rlxyTLnC4t6AItH06D4
-         Cv6/rUqLqW7oUYjUoNPccMLs+AqQwXB/FBK3SPaymFuYwEWimmJ/0001IEd277kUFi1W
-         derIw/mOzJQhUQhR/TNjaRsNAK+DxgHfEAmqtfIPWjlk4Pfj7fh9g+shZ2+cfPL1McEG
-         aa9A==
+        bh=mpOBZ2loMzbLGQNWUyaTanHMAQHwDu8FYmp579NAO18=;
+        b=srmi4YCCuQTx885EfAdWLazIg4qubxUFWfv66dr7W23WvwD+n8BKdz+DMZpn0d+xhI
+         hFI8c3TlTe1I2e+Pp1B2a+EXumNXz3C583iI1PoWpjtv5TQwwutOFFVEm8FgbQyQ2BnF
+         ZQIz5KsptvmbKhGlHUpShaoABGqSrXTVLV+0qS1S/5Zb2j1xyNsG3wwVPfhdUzqD4+5c
+         ts7FNKPxwkE2jpBavnsaWIu/TjdrFF3JyiovWha+yL9jD1O8WO5935sgT89Q/Rc4MFn+
+         Enaa/VemUrxJ/jwf3QFhno4xdcQROCh90vllg65J4VEwFuqkcom1RNARe7SjyGtraqTQ
+         sH+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=AUq62xTOdEE9yZyZ9SmyAw/53N8FF+p9iTgcqqLGQAc=;
-        b=YnZE5Ln1K+AgRPMDczZVE2oRhNw9qXRpm4n34KXC2tk6mSJ4BAgDXB2v3l3uHVTUpI
-         Uxv/COtB5qe2aHM5cf4wKFjEEnnMlAg+3YaQUSoDqWkVlIYwvBBPxHNpgkGElZrnBmfx
-         7Pujycg5yRe189HVZZUC3SAJWgfSCuiu8XH8IwX00MIj0CdTOFsMQWaj4TS0LVdYsleC
-         A4C6rM2GnIV27XAqyan4iy7rcqdoBoQoPG4U6IilPs2dDWXEm0bchNCytGL5C+mdeVrV
-         ur2khKHV8RNIc5HrzYXhY+wj9eMihqFcBK5YYe0RR2pgEwQNA4nk7PyuQql9/ExZ7BN0
-         1n7Q==
-X-Gm-Message-State: AOAM5303aV+mVnYZx1fJRXu1jfCxYj06NH6r/fF6NGa/698YmqBYzwb+
-        SCxzjYzAqtKbNBKHxR+1p1rNpp0LMSHPKrrzjeE=
-X-Google-Smtp-Source: ABdhPJxRCaU0mgbRBKXCUtmzHce0yeXRyivNRpNTgJgdzNX98VwZiuLceogME2jUho6sOGR5XAEUBw+FRtjqHARE+DE=
-X-Received: by 2002:a5d:4e43:: with SMTP id r3mr38668459wrt.132.1626820326738;
- Tue, 20 Jul 2021 15:32:06 -0700 (PDT)
+        bh=mpOBZ2loMzbLGQNWUyaTanHMAQHwDu8FYmp579NAO18=;
+        b=HWjTpgcrQcwn6PuonW9FUzU4UsLdhS3XKp1eqMEQ88WsqO1zkWkLs0hmSi0x3yW+wl
+         pq9Z+1FpaTZf9JMzi5LW7sUCyC3fCsitBDsBxCnMDLlSm26hV04J7pLaSqq1tm/zxNJJ
+         gRuLa9rcX26uo7UTk3k1oLligzCn0qBdX8PfOmG8eBVME7DILibeIvrMdI4JmtSjgQVE
+         TGcMESGf/KQd7V04TVCWFXnGLKJxvNsDIrdTPH9TW0bU9y4moBYM0t5TeP9J2W/u61Sk
+         S3kwNlHZY8OLPQxNA28CVlU1pIibbZ35jPzpth4uUOiHxH8jrz7Wgjqe9VDrAuUzvpQL
+         j4Xw==
+X-Gm-Message-State: AOAM531Y5QwiRsJLg+fp1C8+bq8liDhDc74u6rKVHgyf2c1LCzfy0Hd+
+        Fz3uWIgUHItaZijWKKZgZpL5lZdTFEtu4tVoDu5t1A==
+X-Google-Smtp-Source: ABdhPJxOWb6ZQpxv+aZoyl1rsqq9QC86iJo9s7RtNVh/K3pnv37JFZd+NhXLfaSVT4m3pzGetsJttnOaTeWb0mGa+RY=
+X-Received: by 2002:a25:bb91:: with SMTP id y17mr40882450ybg.177.1626825270766;
+ Tue, 20 Jul 2021 16:54:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210720150716.1213775-1-robdclark@gmail.com> <60ffb6f3-e932-d9af-3b90-81adf0c15250@gmail.com>
- <CAF6AEGtOW3EjZWo36ij8U1om=gAqvg8CSkJJq2GkyHFGWUH4kQ@mail.gmail.com> <CAKMK7uF1=Y6_9znGoWG8GrteXBBRmyW8C3bFE+eJQqOj0A1buA@mail.gmail.com>
-In-Reply-To: <CAKMK7uF1=Y6_9znGoWG8GrteXBBRmyW8C3bFE+eJQqOj0A1buA@mail.gmail.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Tue, 20 Jul 2021 15:36:14 -0700
-Message-ID: <CAF6AEGsOVPdMkXwU9C+nDfQpPThveJ2A0jbXi43RRkkJKtnz3w@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH] drm/msm: Add fence->wait() op
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Rob Clark <robdclark@chromium.org>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <linux-arm-msm@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Sean Paul <sean@poorly.run>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
+References: <20210713040742.2680135-1-hridya@google.com> <35bf2a85-f699-7179-402e-c39ddf0d9106@amd.com>
+In-Reply-To: <35bf2a85-f699-7179-402e-c39ddf0d9106@amd.com>
+From:   Hridya Valsaraju <hridya@google.com>
+Date:   Tue, 20 Jul 2021 16:53:54 -0700
+Message-ID: <CA+wgaPMHA+8+LxfGNL+q4=XrdXqfu4TXoWLX7e28z9Z7kPsf-w@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: Delete the DMA-BUF attachment sysfs statistics
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        kernel-team@android.com, john.stultz@linaro.org, surenb@google.com,
+        daniel@ffwll.ch
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 20, 2021 at 1:55 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+On Tue, Jul 20, 2021 at 2:11 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> On Tue, Jul 20, 2021 at 8:26 PM Rob Clark <robdclark@gmail.com> wrote:
+> Am 13.07.21 um 06:07 schrieb Hridya Valsaraju:
+> > The DMA-BUF attachment statistics form a subset of the DMA-BUF
+> > sysfs statistics that recently merged to the drm-misc tree. They are no=
+t
+> > UABI yet since they have not merged to the upstream Linux kernel.
 > >
-> > On Tue, Jul 20, 2021 at 11:03 AM Christian K=C3=B6nig
-> > <ckoenig.leichtzumerken@gmail.com> wrote:
-> > >
-> > > Hi Rob,
-> > >
-> > > Am 20.07.21 um 17:07 schrieb Rob Clark:
-> > > > From: Rob Clark <robdclark@chromium.org>
-> > > >
-> > > > Somehow we had neither ->wait() nor dma_fence_signal() calls, and n=
-o
-> > > > one noticed.  Oops.
-> > >
-> > >
-> > > I'm not sure if that is a good idea.
-> > >
-> > > The dma_fence->wait() callback is pretty much deprecated and should n=
-ot
-> > > be used any more.
-> > >
-> > > What exactly do you need that for?
+> > Since there has been a reported a performance regression due to the
+> > overhead of sysfs directory creation/teardown during
+> > dma_buf_attach()/dma_buf_detach(), this patch deletes the DMA-BUF
+> > attachment statistics from sysfs.
 > >
-> > Well, the alternative is to track the set of fences which have
-> > signalling enabled, and then figure out which ones to signal, which
-> > seems like a lot more work, vs just re-purposing the wait
-> > implementation we already have for non-dma_fence cases ;-)
+> > Fixes: bdb8d06dfefd (dmabuf: Add the capability to expose DMA-BUF stats
+> > in sysfs)
+> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > ---
 > >
-> > Why is the ->wait() callback (pretty much) deprecated?
+> > Changes in v2:
+> > Updated commit message to clarify that the sysfs files being removed
+> > have not yet merged to upstream Linux and are hence not ABI.
+> >
+> > Hi Christian,
+> >
+> > I have updated the commit message as per your suggestion. Please do tak=
+e
+> > another look when you get a chance.
 >
-> Because if you need it that means for your driver dma_fence_add_cb is
-> broken, which means a _lot_ of things don't work. Like dma_buf poll
-> (compositors have patches to start using that), and I think
-> drm/scheduler also becomes rather unhappy.
+> I've just pushed that one to drm-misc-next. Sorry for the delay.
 
-I'm starting to page back in how this works.. fence cb's aren't broken
-(which is also why dma_fence_wait() was not completely broken),
-because in retire_submits() we call
-dma_fence_is_signaled(submit->hw_fence).
+No worries at all, thank you Christian.
 
-But the reason that the custom wait function cleans up a tiny bit of
-jank is that the wait_queue_head_t gets signaled earlier, before we
-start iterating the submits and doing all that retire_submit() stuff
-(unpin/unref bo's, etc).  I suppose I could just split things up to
-call dma_fence_signal() earlier, and *then* do the retire_submits()
-stuff.
+Regards,
+Hridya
 
-BR,
--R
-
-> It essentially exists only for old drivers where ->enable_signalling
-> is unreliable and we paper over that with a retry loop in ->wait and
-> pray no one notices that it's too butchered. The proper fix is to have
-> a driver thread to guarantee that ->enable_signalling works reliable,
-> so you don't need a ->wait.
 >
-> Can you type up a kerneldoc patch for dma_fence_ops->wait to hammer
-> this in please?
-> -Daniel
+> Regards,
+> Christian.
 >
 > >
-> > BR,
-> > -R
+> > Thanks,
+> > Hridya
 > >
-> > > Regards,
-> > > Christian.
-> > >
-> > > >
-> > > > Note that this removes the !timeout case, which has not been used i=
-n
-> > > > a long time.
-> > >
-> > >
-> > > >
-> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > ---
-> > > >   drivers/gpu/drm/msm/msm_fence.c | 59 +++++++++++++++++++---------=
------
-> > > >   1 file changed, 34 insertions(+), 25 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/=
-msm_fence.c
-> > > > index cd59a5918038..8ee96b90ded6 100644
-> > > > --- a/drivers/gpu/drm/msm/msm_fence.c
-> > > > +++ b/drivers/gpu/drm/msm/msm_fence.c
-> > > > @@ -38,11 +38,10 @@ static inline bool fence_completed(struct msm_f=
-ence_context *fctx, uint32_t fenc
-> > > >       return (int32_t)(fctx->completed_fence - fence) >=3D 0;
-> > > >   }
-> > > >
-> > > > -/* legacy path for WAIT_FENCE ioctl: */
-> > > > -int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
-> > > > -             ktime_t *timeout, bool interruptible)
-> > > > +static signed long wait_fence(struct msm_fence_context *fctx, uint=
-32_t fence,
-> > > > +             signed long remaining_jiffies, bool interruptible)
-> > > >   {
-> > > > -     int ret;
-> > > > +     signed long ret;
-> > > >
-> > > >       if (fence > fctx->last_fence) {
-> > > >               DRM_ERROR_RATELIMITED("%s: waiting on invalid fence: =
-%u (of %u)\n",
-> > > > @@ -50,33 +49,34 @@ int msm_wait_fence(struct msm_fence_context *fc=
-tx, uint32_t fence,
-> > > >               return -EINVAL;
-> > > >       }
-> > > >
-> > > > -     if (!timeout) {
-> > > > -             /* no-wait: */
-> > > > -             ret =3D fence_completed(fctx, fence) ? 0 : -EBUSY;
-> > > > +     if (interruptible) {
-> > > > +             ret =3D wait_event_interruptible_timeout(fctx->event,
-> > > > +                     fence_completed(fctx, fence),
-> > > > +                     remaining_jiffies);
-> > > >       } else {
-> > > > -             unsigned long remaining_jiffies =3D timeout_to_jiffie=
-s(timeout);
-> > > > -
-> > > > -             if (interruptible)
-> > > > -                     ret =3D wait_event_interruptible_timeout(fctx=
-->event,
-> > > > -                             fence_completed(fctx, fence),
-> > > > -                             remaining_jiffies);
-> > > > -             else
-> > > > -                     ret =3D wait_event_timeout(fctx->event,
-> > > > -                             fence_completed(fctx, fence),
-> > > > -                             remaining_jiffies);
-> > > > -
-> > > > -             if (ret =3D=3D 0) {
-> > > > -                     DBG("timeout waiting for fence: %u (completed=
-: %u)",
-> > > > -                                     fence, fctx->completed_fence)=
-;
-> > > > -                     ret =3D -ETIMEDOUT;
-> > > > -             } else if (ret !=3D -ERESTARTSYS) {
-> > > > -                     ret =3D 0;
-> > > > -             }
-> > > > +             ret =3D wait_event_timeout(fctx->event,
-> > > > +                     fence_completed(fctx, fence),
-> > > > +                     remaining_jiffies);
-> > > > +     }
-> > > > +
-> > > > +     if (ret =3D=3D 0) {
-> > > > +             DBG("timeout waiting for fence: %u (completed: %u)",
-> > > > +                             fence, fctx->completed_fence);
-> > > > +             ret =3D -ETIMEDOUT;
-> > > > +     } else if (ret !=3D -ERESTARTSYS) {
-> > > > +             ret =3D 0;
-> > > >       }
-> > > >
-> > > >       return ret;
-> > > >   }
-> > > >
-> > > > +/* legacy path for WAIT_FENCE ioctl: */
-> > > > +int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
-> > > > +             ktime_t *timeout, bool interruptible)
-> > > > +{
-> > > > +     return wait_fence(fctx, fence, timeout_to_jiffies(timeout), i=
-nterruptible);
-> > > > +}
-> > > > +
-> > > >   /* called from workqueue */
-> > > >   void msm_update_fence(struct msm_fence_context *fctx, uint32_t fe=
-nce)
-> > > >   {
-> > > > @@ -114,10 +114,19 @@ static bool msm_fence_signaled(struct dma_fen=
-ce *fence)
-> > > >       return fence_completed(f->fctx, f->base.seqno);
-> > > >   }
-> > > >
-> > > > +static signed long msm_fence_wait(struct dma_fence *fence, bool in=
+> >   .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  28 ----
+> >   drivers/dma-buf/dma-buf-sysfs-stats.c         | 140 +----------------=
+-
+> >   drivers/dma-buf/dma-buf-sysfs-stats.h         |  27 ----
+> >   drivers/dma-buf/dma-buf.c                     |  16 --
+> >   include/linux/dma-buf.h                       |  17 ---
+> >   5 files changed, 4 insertions(+), 224 deletions(-)
+> >
+> > diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Do=
+cumentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+> > index a243984ed420..5d3bc997dc64 100644
+> > --- a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+> > +++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+> > @@ -22,31 +22,3 @@ KernelVersion:     v5.13
+> >   Contact:    Hridya Valsaraju <hridya@google.com>
+> >   Description:        This file is read-only and specifies the size of =
+the DMA-BUF in
+> >               bytes.
+> > -
+> > -What:                /sys/kernel/dmabuf/buffers/<inode_number>/attachm=
+ents
+> > -Date:                May 2021
+> > -KernelVersion:       v5.13
+> > -Contact:     Hridya Valsaraju <hridya@google.com>
+> > -Description: This directory will contain subdirectories representing e=
+very
+> > -             attachment of the DMA-BUF.
+> > -
+> > -What:                /sys/kernel/dmabuf/buffers/<inode_number>/attachm=
+ents/<attachment_uid>
+> > -Date:                May 2021
+> > -KernelVersion:       v5.13
+> > -Contact:     Hridya Valsaraju <hridya@google.com>
+> > -Description: This directory will contain information on the attached d=
+evice
+> > -             and the number of current distinct device mappings.
+> > -
+> > -What:                /sys/kernel/dmabuf/buffers/<inode_number>/attachm=
+ents/<attachment_uid>/device
+> > -Date:                May 2021
+> > -KernelVersion:       v5.13
+> > -Contact:     Hridya Valsaraju <hridya@google.com>
+> > -Description: This file is read-only and is a symlink to the attached d=
+evice's
+> > -             sysfs entry.
+> > -
+> > -What:                /sys/kernel/dmabuf/buffers/<inode_number>/attachm=
+ents/<attachment_uid>/map_counter
+> > -Date:                May 2021
+> > -KernelVersion:       v5.13
+> > -Contact:     Hridya Valsaraju <hridya@google.com>
+> > -Description: This file is read-only and contains a map_counter indicat=
+ing the
+> > -             number of distinct device mappings of the attachment.
+> > diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dm=
+a-buf-sysfs-stats.c
+> > index a2638e84199c..053baadcada9 100644
+> > --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > @@ -40,14 +40,11 @@
+> >    *
+> >    * * ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
+> >    * * ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
+> > - * * ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_u=
+id>/device``
+> > - * * ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_u=
+id>/map_counter``
+> >    *
+> > - * The information in the interface can also be used to derive per-exp=
+orter and
+> > - * per-device usage statistics. The data from the interface can be gat=
+hered
+> > - * on error conditions or other important events to provide a snapshot=
+ of
+> > - * DMA-BUF usage. It can also be collected periodically by telemetry t=
+o monitor
+> > - * various metrics.
+> > + * The information in the interface can also be used to derive per-exp=
+orter
+> > + * statistics. The data from the interface can be gathered on error co=
+nditions
+> > + * or other important events to provide a snapshot of DMA-BUF usage.
+> > + * It can also be collected periodically by telemetry to monitor vario=
+us metrics.
+> >    *
+> >    * Detailed documentation about the interface is present in
+> >    * Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers.
+> > @@ -121,120 +118,6 @@ static struct kobj_type dma_buf_ktype =3D {
+> >       .default_groups =3D dma_buf_stats_default_groups,
+> >   };
+> >
+> > -#define to_dma_buf_attach_entry_from_kobj(x) container_of(x, struct dm=
+a_buf_attach_sysfs_entry, kobj)
+> > -
+> > -struct dma_buf_attach_stats_attribute {
+> > -     struct attribute attr;
+> > -     ssize_t (*show)(struct dma_buf_attach_sysfs_entry *sysfs_entry,
+> > -                     struct dma_buf_attach_stats_attribute *attr, char=
+ *buf);
+> > -};
+> > -#define to_dma_buf_attach_stats_attr(x) container_of(x, struct dma_buf=
+_attach_stats_attribute, attr)
+> > -
+> > -static ssize_t dma_buf_attach_stats_attribute_show(struct kobject *kob=
+j,
+> > -                                                struct attribute *attr=
+,
+> > -                                                char *buf)
+> > -{
+> > -     struct dma_buf_attach_stats_attribute *attribute;
+> > -     struct dma_buf_attach_sysfs_entry *sysfs_entry;
+> > -
+> > -     attribute =3D to_dma_buf_attach_stats_attr(attr);
+> > -     sysfs_entry =3D to_dma_buf_attach_entry_from_kobj(kobj);
+> > -
+> > -     if (!attribute->show)
+> > -             return -EIO;
+> > -
+> > -     return attribute->show(sysfs_entry, attribute, buf);
+> > -}
+> > -
+> > -static const struct sysfs_ops dma_buf_attach_stats_sysfs_ops =3D {
+> > -     .show =3D dma_buf_attach_stats_attribute_show,
+> > -};
+> > -
+> > -static ssize_t map_counter_show(struct dma_buf_attach_sysfs_entry *sys=
+fs_entry,
+> > -                             struct dma_buf_attach_stats_attribute *at=
 tr,
-> > > > +             signed long timeout)
-> > > > +{
-> > > > +     struct msm_fence *f =3D to_msm_fence(fence);
-> > > > +
-> > > > +     return wait_fence(f->fctx, fence->seqno, timeout, intr);
-> > > > +}
-> > > > +
-> > > >   static const struct dma_fence_ops msm_fence_ops =3D {
-> > > >       .get_driver_name =3D msm_fence_get_driver_name,
-> > > >       .get_timeline_name =3D msm_fence_get_timeline_name,
-> > > >       .signaled =3D msm_fence_signaled,
-> > > > +     .wait =3D msm_fence_wait,
-> > > >   };
-> > > >
-> > > >   struct dma_fence *
-> > >
+> > -                             char *buf)
+> > -{
+> > -     return sysfs_emit(buf, "%u\n", sysfs_entry->map_counter);
+> > -}
+> > -
+> > -static struct dma_buf_attach_stats_attribute map_counter_attribute =3D
+> > -     __ATTR_RO(map_counter);
+> > -
+> > -static struct attribute *dma_buf_attach_stats_default_attrs[] =3D {
+> > -     &map_counter_attribute.attr,
+> > -     NULL,
+> > -};
+> > -ATTRIBUTE_GROUPS(dma_buf_attach_stats_default);
+> > -
+> > -static void dma_buf_attach_sysfs_release(struct kobject *kobj)
+> > -{
+> > -     struct dma_buf_attach_sysfs_entry *sysfs_entry;
+> > -
+> > -     sysfs_entry =3D to_dma_buf_attach_entry_from_kobj(kobj);
+> > -     kfree(sysfs_entry);
+> > -}
+> > -
+> > -static struct kobj_type dma_buf_attach_ktype =3D {
+> > -     .sysfs_ops =3D &dma_buf_attach_stats_sysfs_ops,
+> > -     .release =3D dma_buf_attach_sysfs_release,
+> > -     .default_groups =3D dma_buf_attach_stats_default_groups,
+> > -};
+> > -
+> > -void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach)
+> > -{
+> > -     struct dma_buf_attach_sysfs_entry *sysfs_entry;
+> > -
+> > -     sysfs_entry =3D attach->sysfs_entry;
+> > -     if (!sysfs_entry)
+> > -             return;
+> > -
+> > -     sysfs_delete_link(&sysfs_entry->kobj, &attach->dev->kobj, "device=
+");
+> > -
+> > -     kobject_del(&sysfs_entry->kobj);
+> > -     kobject_put(&sysfs_entry->kobj);
+> > -}
+> > -
+> > -int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
+> > -                            unsigned int uid)
+> > -{
+> > -     struct dma_buf_attach_sysfs_entry *sysfs_entry;
+> > -     int ret;
+> > -     struct dma_buf *dmabuf;
+> > -
+> > -     if (!attach)
+> > -             return -EINVAL;
+> > -
+> > -     dmabuf =3D attach->dmabuf;
+> > -
+> > -     sysfs_entry =3D kzalloc(sizeof(struct dma_buf_attach_sysfs_entry)=
+,
+> > -                           GFP_KERNEL);
+> > -     if (!sysfs_entry)
+> > -             return -ENOMEM;
+> > -
+> > -     sysfs_entry->kobj.kset =3D dmabuf->sysfs_entry->attach_stats_kset=
+;
+> > -
+> > -     attach->sysfs_entry =3D sysfs_entry;
+> > -
+> > -     ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_attach_=
+ktype,
+> > -                                NULL, "%u", uid);
+> > -     if (ret)
+> > -             goto kobj_err;
+> > -
+> > -     ret =3D sysfs_create_link(&sysfs_entry->kobj, &attach->dev->kobj,
+> > -                             "device");
+> > -     if (ret)
+> > -             goto link_err;
+> > -
+> > -     return 0;
+> > -
+> > -link_err:
+> > -     kobject_del(&sysfs_entry->kobj);
+> > -kobj_err:
+> > -     kobject_put(&sysfs_entry->kobj);
+> > -     attach->sysfs_entry =3D NULL;
+> > -
+> > -     return ret;
+> > -}
+> >   void dma_buf_stats_teardown(struct dma_buf *dmabuf)
+> >   {
+> >       struct dma_buf_sysfs_entry *sysfs_entry;
+> > @@ -243,7 +126,6 @@ void dma_buf_stats_teardown(struct dma_buf *dmabuf)
+> >       if (!sysfs_entry)
+> >               return;
+> >
+> > -     kset_unregister(sysfs_entry->attach_stats_kset);
+> >       kobject_del(&sysfs_entry->kobj);
+> >       kobject_put(&sysfs_entry->kobj);
+> >   }
+> > @@ -290,7 +172,6 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+> >   {
+> >       struct dma_buf_sysfs_entry *sysfs_entry;
+> >       int ret;
+> > -     struct kset *attach_stats_kset;
+> >
+> >       if (!dmabuf || !dmabuf->file)
+> >               return -EINVAL;
+> > @@ -315,21 +196,8 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+> >       if (ret)
+> >               goto err_sysfs_dmabuf;
+> >
+> > -     /* create the directory for attachment stats */
+> > -     attach_stats_kset =3D kset_create_and_add("attachments",
+> > -                                             &dmabuf_sysfs_no_uevent_o=
+ps,
+> > -                                             &sysfs_entry->kobj);
+> > -     if (!attach_stats_kset) {
+> > -             ret =3D -ENOMEM;
+> > -             goto err_sysfs_attach;
+> > -     }
+> > -
+> > -     sysfs_entry->attach_stats_kset =3D attach_stats_kset;
+> > -
+> >       return 0;
+> >
+> > -err_sysfs_attach:
+> > -     kobject_del(&sysfs_entry->kobj);
+> >   err_sysfs_dmabuf:
+> >       kobject_put(&sysfs_entry->kobj);
+> >       dmabuf->sysfs_entry =3D NULL;
+> > diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dm=
+a-buf-sysfs-stats.h
+> > index 5f4703249117..a49c6e2650cc 100644
+> > --- a/drivers/dma-buf/dma-buf-sysfs-stats.h
+> > +++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
+> > @@ -14,23 +14,8 @@ int dma_buf_init_sysfs_statistics(void);
+> >   void dma_buf_uninit_sysfs_statistics(void);
+> >
+> >   int dma_buf_stats_setup(struct dma_buf *dmabuf);
+> > -int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
+> > -                            unsigned int uid);
+> > -static inline void dma_buf_update_attachment_map_count(struct dma_buf_=
+attachment *attach,
+> > -                                                    int delta)
+> > -{
+> > -     struct dma_buf_attach_sysfs_entry *entry =3D attach->sysfs_entry;
+> >
+> > -     entry->map_counter +=3D delta;
+> > -}
+> >   void dma_buf_stats_teardown(struct dma_buf *dmabuf);
+> > -void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach);
+> > -static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *d=
+mabuf)
+> > -{
+> > -     struct dma_buf_sysfs_entry *entry =3D dmabuf->sysfs_entry;
+> > -
+> > -     return entry->attachment_uid++;
+> > -}
+> >   #else
+> >
+> >   static inline int dma_buf_init_sysfs_statistics(void)
+> > @@ -44,19 +29,7 @@ static inline int dma_buf_stats_setup(struct dma_buf=
+ *dmabuf)
+> >   {
+> >       return 0;
+> >   }
+> > -static inline int dma_buf_attach_stats_setup(struct dma_buf_attachment=
+ *attach,
+> > -                                          unsigned int uid)
+> > -{
+> > -     return 0;
+> > -}
+> >
+> >   static inline void dma_buf_stats_teardown(struct dma_buf *dmabuf) {}
+> > -static inline void dma_buf_attach_stats_teardown(struct dma_buf_attach=
+ment *attach) {}
+> > -static inline void dma_buf_update_attachment_map_count(struct dma_buf_=
+attachment *attach,
+> > -                                                    int delta) {}
+> > -static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *d=
+mabuf)
+> > -{
+> > -     return 0;
+> > -}
+> >   #endif
+> >   #endif // _DMA_BUF_SYSFS_STATS_H
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 510b42771974..b1a6db71c656 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -738,7 +738,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, stru=
+ct device *dev,
+> >   {
+> >       struct dma_buf_attachment *attach;
+> >       int ret;
+> > -     unsigned int attach_uid;
+> >
+> >       if (WARN_ON(!dmabuf || !dev))
+> >               return ERR_PTR(-EINVAL);
+> > @@ -764,13 +763,8 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, str=
+uct device *dev,
+> >       }
+> >       dma_resv_lock(dmabuf->resv, NULL);
+> >       list_add(&attach->node, &dmabuf->attachments);
+> > -     attach_uid =3D dma_buf_update_attach_uid(dmabuf);
+> >       dma_resv_unlock(dmabuf->resv);
+> >
+> > -     ret =3D dma_buf_attach_stats_setup(attach, attach_uid);
+> > -     if (ret)
+> > -             goto err_sysfs;
+> > -
+> >       /* When either the importer or the exporter can't handle dynamic
+> >        * mappings we cache the mapping here to avoid issues with the
+> >        * reservation object lock.
+> > @@ -797,7 +791,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, stru=
+ct device *dev,
+> >                       dma_resv_unlock(attach->dmabuf->resv);
+> >               attach->sgt =3D sgt;
+> >               attach->dir =3D DMA_BIDIRECTIONAL;
+> > -             dma_buf_update_attachment_map_count(attach, 1 /* delta */=
+);
+> >       }
+> >
+> >       return attach;
+> > @@ -814,7 +807,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, stru=
+ct device *dev,
+> >       if (dma_buf_is_dynamic(attach->dmabuf))
+> >               dma_resv_unlock(attach->dmabuf->resv);
+> >
+> > -err_sysfs:
+> >       dma_buf_detach(dmabuf, attach);
+> >       return ERR_PTR(ret);
+> >   }
+> > @@ -864,7 +856,6 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct =
+dma_buf_attachment *attach)
+> >                       dma_resv_lock(attach->dmabuf->resv, NULL);
+> >
+> >               __unmap_dma_buf(attach, attach->sgt, attach->dir);
+> > -             dma_buf_update_attachment_map_count(attach, -1 /* delta *=
+/);
+> >
+> >               if (dma_buf_is_dynamic(attach->dmabuf)) {
+> >                       dmabuf->ops->unpin(attach);
+> > @@ -878,7 +869,6 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct =
+dma_buf_attachment *attach)
+> >       if (dmabuf->ops->detach)
+> >               dmabuf->ops->detach(dmabuf, attach);
+> >
+> > -     dma_buf_attach_stats_teardown(attach);
+> >       kfree(attach);
+> >   }
+> >   EXPORT_SYMBOL_GPL(dma_buf_detach);
+> > @@ -1020,10 +1010,6 @@ struct sg_table *dma_buf_map_attachment(struct d=
+ma_buf_attachment *attach,
+> >               }
+> >       }
+> >   #endif /* CONFIG_DMA_API_DEBUG */
+> > -
+> > -     if (!IS_ERR(sg_table))
+> > -             dma_buf_update_attachment_map_count(attach, 1 /* delta */=
+);
+> > -
+> >       return sg_table;
+> >   }
+> >   EXPORT_SYMBOL_GPL(dma_buf_map_attachment);
+> > @@ -1061,8 +1047,6 @@ void dma_buf_unmap_attachment(struct dma_buf_atta=
+chment *attach,
+> >       if (dma_buf_is_dynamic(attach->dmabuf) &&
+> >           !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
+> >               dma_buf_unpin(attach);
+> > -
+> > -     dma_buf_update_attachment_map_count(attach, -1 /* delta */);
+> >   }
+> >   EXPORT_SYMBOL_GPL(dma_buf_unmap_attachment);
+> >
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index 2b814fde0d11..678b2006be78 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -444,15 +444,6 @@ struct dma_buf {
+> >       struct dma_buf_sysfs_entry {
+> >               struct kobject kobj;
+> >               struct dma_buf *dmabuf;
+> > -
+> > -             /**
+> > -              * @sysfs_entry.attachment_uid:
+> > -              *
+> > -              * This is protected by the dma_resv_lock() on @resv and =
+is
+> > -              * incremented on each attach.
+> > -              */
+> > -             unsigned int attachment_uid;
+> > -             struct kset *attach_stats_kset;
+> >       } *sysfs_entry;
+> >   #endif
+> >   };
+> > @@ -504,7 +495,6 @@ struct dma_buf_attach_ops {
+> >    * @importer_ops: importer operations for this attachment, if provide=
+d
+> >    * dma_buf_map/unmap_attachment() must be called with the dma_resv lo=
+ck held.
+> >    * @importer_priv: importer specific attachment data.
+> > - * @sysfs_entry: For exposing information about this attachment in sys=
+fs.
+> >    *
+> >    * This structure holds the attachment information between the dma_bu=
+f buffer
+> >    * and its user device(s). The list contains one attachment struct pe=
+r device
+> > @@ -525,13 +515,6 @@ struct dma_buf_attachment {
+> >       const struct dma_buf_attach_ops *importer_ops;
+> >       void *importer_priv;
+> >       void *priv;
+> > -#ifdef CONFIG_DMABUF_SYSFS_STATS
+> > -     /* for sysfs stats */
+> > -     struct dma_buf_attach_sysfs_entry {
+> > -             struct kobject kobj;
+> > -             unsigned int map_counter;
+> > -     } *sysfs_entry;
+> > -#endif
+> >   };
+> >
+> >   /**
 >
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
