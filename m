@@ -2,184 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 601663CFD3E
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 17:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66A543CFEF7
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 18:13:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239736AbhGTOeZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Jul 2021 10:34:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50428 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240273AbhGTOYt (ORCPT
+        id S231515AbhGTPcs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jul 2021 11:32:48 -0400
+Received: from smtp-relay-canonical-0.canonical.com ([185.125.188.120]:39970
+        "EHLO smtp-relay-canonical-0.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238592AbhGTP1X (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Jul 2021 10:24:49 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CD45C061794;
-        Tue, 20 Jul 2021 08:03:09 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id v14so11548788plg.9;
-        Tue, 20 Jul 2021 08:03:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YjsQqg/cyLrvH6AHlxUB+OYVHKKVa13wNGyeIOclLuU=;
-        b=Bwya6iL1RBmmeGnDLmxE++cJ04phd36pitzI5Fg/6+79njD2oyBhzaQONWmikFuB3v
-         sWOWXVU3XANaWQj6Mi6PD79h7wIzAVu1HT5fHWRFBtYKzK/VsiyBK8irALWIFOIiPfxe
-         SumHHYYFE/6VlsrVL32MklAzmYQxlvTV8x+UX/RKxN55gzSmbxS8xlL4D7T69pZKCxbR
-         3hYVNceHlNyb9ju3HO0FaWK5vUkOa2sK4hDRDzVTPA6C74H9YQRSKcZpzQ6vKkwD7Vc1
-         wKRMpVzAniHaoAw89XEZFEc1YserHm/AzRtW2TvB5ztJbmXl6LqeWx5XcSyxPYcY6teZ
-         VvQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YjsQqg/cyLrvH6AHlxUB+OYVHKKVa13wNGyeIOclLuU=;
-        b=Kkw3/vWGJwy0H/qFNM4WtuMvBvSrY19P4zmkaJL3aD4XW32nh+Sl9IgvPxgruRxBCs
-         7Jxv20YBxxIqBFQI1fImR6buDrkLk5XVH2mhW3Jetu8e7MJi8vjUiyANHTky4fa4B6yz
-         LQY+BC3XXxauCQxXrQwYsdwmxkx8qK5nGqUmtwVc7C7fcFEDw8X9BKkfHC1oAAJNk6XY
-         Ee9ExCb/xya0U7gtfOjeeQ6jnKenBFYObgTOHsrFQEv/SolA2MrCLm2rFWplhApZeV6g
-         fCHT+gC8X9I1WcqvmOSWazZmXqHZxYiIoe2cIqpa6gP2Z38v+HOHEMmP/HnM9YgdZANK
-         C5qg==
-X-Gm-Message-State: AOAM532GkekWl9I7KYK5+JHs4t7Nv6wEiKpQmrWGpbTfPs+xsJRg6uah
-        gjG6Az5xBM3zl4m8f8saPlA=
-X-Google-Smtp-Source: ABdhPJwocdDotiRQoMrd8AmM4D5t8eT0K3LGBIo2EKCjfzv73zaEHoy2PrNocwn0na8156wCs4B80g==
-X-Received: by 2002:a17:903:2309:b029:12a:965b:333 with SMTP id d9-20020a1709032309b029012a965b0333mr23822909plh.31.1626793388619;
-        Tue, 20 Jul 2021 08:03:08 -0700 (PDT)
-Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
-        by smtp.gmail.com with ESMTPSA id k19sm20330779pji.32.2021.07.20.08.03.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jul 2021 08:03:06 -0700 (PDT)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     Rob Clark <robdclark@chromium.org>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
-        freedreno@lists.freedesktop.org (open list:DRM DRIVER FOR MSM ADRENO
-        GPU), linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK)
-Subject: [PATCH] drm/msm: Add fence->wait() op
-Date:   Tue, 20 Jul 2021 08:07:15 -0700
-Message-Id: <20210720150716.1213775-1-robdclark@gmail.com>
+        Tue, 20 Jul 2021 11:27:23 -0400
+Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 65E4C405FC;
+        Tue, 20 Jul 2021 16:07:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1626797280;
+        bh=BamL6ieKcOJ11og7wi6bzdOGpaM7S+jvOc9FCtOg8M8=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
+        b=NyfLiqebzsym5tHDre5MuWTGGfK9ZUZ2cmBcjhN2wcgbuiCv5eUZFfLq+eZHn2L/i
+         ZVl8gZeIr2MoF+Q77zTFpILtEQK8awIOFz5H6wVC7IL9mHlzlENMYDGwsfP4TdkWvB
+         tvGOVz1p/h+pazRcJWxCugaWoCEVzn10CUqkAt0YXzh/rcx6FDXoZaXBN6yWDXuqrH
+         x5anBAj6g/FSJVTS6lXGYqK5P0CHjNMQbqeAM9fk67gONo2Vdc4do2r6DlwQq8ur4T
+         qlpR42+NfoCprnEceF7nkjKqFc5S0m/WETkDZCre9+cNn3Iwf/RYFV0s81HU427CcS
+         C9ngs5Hlxrz1g==
+From:   Colin King <colin.king@canonical.com>
+To:     Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Sean Young <sean@mess.org>, linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH][next] media: cxd2880-spi: Fix a null pointer dereference on error handling path
+Date:   Tue, 20 Jul 2021 17:07:49 +0100
+Message-Id: <20210720160749.73928-1-colin.king@canonical.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+From: Colin Ian King <colin.king@canonical.com>
 
-Somehow we had neither ->wait() nor dma_fence_signal() calls, and no
-one noticed.  Oops.
+Currently the null pointer check on dvb_spi->vcc_supply is inverted and
+this leads to only null values of the dvb_spi->vcc_supply being passed
+to the call of regulator_disable causing null pointer dereferences.
+Fix this by only calling regulator_disable if dvb_spi->vcc_supply is
+not null.
 
-Note that this removes the !timeout case, which has not been used in
-a long time.
-
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Addresses-Coverity: ("Dereference after null check")
+Fixes: dcb014582101 ("media: cxd2880-spi: Fix an error handling path")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
 ---
- drivers/gpu/drm/msm/msm_fence.c | 59 +++++++++++++++++++--------------
- 1 file changed, 34 insertions(+), 25 deletions(-)
+ drivers/media/spi/cxd2880-spi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
-index cd59a5918038..8ee96b90ded6 100644
---- a/drivers/gpu/drm/msm/msm_fence.c
-+++ b/drivers/gpu/drm/msm/msm_fence.c
-@@ -38,11 +38,10 @@ static inline bool fence_completed(struct msm_fence_context *fctx, uint32_t fenc
- 	return (int32_t)(fctx->completed_fence - fence) >= 0;
- }
- 
--/* legacy path for WAIT_FENCE ioctl: */
--int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
--		ktime_t *timeout, bool interruptible)
-+static signed long wait_fence(struct msm_fence_context *fctx, uint32_t fence,
-+		signed long remaining_jiffies, bool interruptible)
- {
--	int ret;
-+	signed long ret;
- 
- 	if (fence > fctx->last_fence) {
- 		DRM_ERROR_RATELIMITED("%s: waiting on invalid fence: %u (of %u)\n",
-@@ -50,33 +49,34 @@ int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
- 		return -EINVAL;
- 	}
- 
--	if (!timeout) {
--		/* no-wait: */
--		ret = fence_completed(fctx, fence) ? 0 : -EBUSY;
-+	if (interruptible) {
-+		ret = wait_event_interruptible_timeout(fctx->event,
-+			fence_completed(fctx, fence),
-+			remaining_jiffies);
- 	} else {
--		unsigned long remaining_jiffies = timeout_to_jiffies(timeout);
--
--		if (interruptible)
--			ret = wait_event_interruptible_timeout(fctx->event,
--				fence_completed(fctx, fence),
--				remaining_jiffies);
--		else
--			ret = wait_event_timeout(fctx->event,
--				fence_completed(fctx, fence),
--				remaining_jiffies);
--
--		if (ret == 0) {
--			DBG("timeout waiting for fence: %u (completed: %u)",
--					fence, fctx->completed_fence);
--			ret = -ETIMEDOUT;
--		} else if (ret != -ERESTARTSYS) {
--			ret = 0;
--		}
-+		ret = wait_event_timeout(fctx->event,
-+			fence_completed(fctx, fence),
-+			remaining_jiffies);
-+	}
-+
-+	if (ret == 0) {
-+		DBG("timeout waiting for fence: %u (completed: %u)",
-+				fence, fctx->completed_fence);
-+		ret = -ETIMEDOUT;
-+	} else if (ret != -ERESTARTSYS) {
-+		ret = 0;
- 	}
- 
- 	return ret;
- }
- 
-+/* legacy path for WAIT_FENCE ioctl: */
-+int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
-+		ktime_t *timeout, bool interruptible)
-+{
-+	return wait_fence(fctx, fence, timeout_to_jiffies(timeout), interruptible);
-+}
-+
- /* called from workqueue */
- void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)
- {
-@@ -114,10 +114,19 @@ static bool msm_fence_signaled(struct dma_fence *fence)
- 	return fence_completed(f->fctx, f->base.seqno);
- }
- 
-+static signed long msm_fence_wait(struct dma_fence *fence, bool intr,
-+		signed long timeout)
-+{
-+	struct msm_fence *f = to_msm_fence(fence);
-+
-+	return wait_fence(f->fctx, fence->seqno, timeout, intr);
-+}
-+
- static const struct dma_fence_ops msm_fence_ops = {
- 	.get_driver_name = msm_fence_get_driver_name,
- 	.get_timeline_name = msm_fence_get_timeline_name,
- 	.signaled = msm_fence_signaled,
-+	.wait = msm_fence_wait,
- };
- 
- struct dma_fence *
+diff --git a/drivers/media/spi/cxd2880-spi.c b/drivers/media/spi/cxd2880-spi.c
+index b91a1e845b97..506f52c1af10 100644
+--- a/drivers/media/spi/cxd2880-spi.c
++++ b/drivers/media/spi/cxd2880-spi.c
+@@ -618,7 +618,7 @@ cxd2880_spi_probe(struct spi_device *spi)
+ fail_attach:
+ 	dvb_unregister_adapter(&dvb_spi->adapter);
+ fail_adapter:
+-	if (!dvb_spi->vcc_supply)
++	if (dvb_spi->vcc_supply)
+ 		regulator_disable(dvb_spi->vcc_supply);
+ fail_regulator:
+ 	kfree(dvb_spi);
 -- 
 2.31.1
 
