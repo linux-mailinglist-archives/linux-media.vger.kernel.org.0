@@ -2,159 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70B903CF2D8
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 05:47:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DEB13CF48F
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 08:33:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348013AbhGTDEt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jul 2021 23:04:49 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:34273 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1347512AbhGTDEQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jul 2021 23:04:16 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 5ggemZzznvmXa5ggfmnqkg; Tue, 20 Jul 2021 05:44:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1626752693; bh=f6GwqUveoRAZT/YRUSknCabSZFP3TwGZflZ0S9dbJXA=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Gj9Jsg0EpMP6vc8E+q8mMFeK/Gk4R1LCTe0yB7ajmg5AWmadLL2a8VDcDGo1yERNv
-         CI2GqUe5y4mxMwpGNEDnKMqTLPYVZecFdYFoPoHG5iWp7lz/XCs4rost/K4ULkSXMj
-         SBwMeSEtS2QQ5iKdk1xCgRC/ZY7EciyItFdtMhbyf0CwKAwWMGgV5boaLk/2ItnmCR
-         U4AUJl7+CZinuVZ+JaHVDi8TRjgEYMUoheSsK1NxMbrGsP2DnKp/F8D6zlB1bXneHq
-         KXE/GGrD3OkamXPmMxEEXwfPkTjjkZGI64k/vLYpMyJFlAfaDohcEvy0hUIbk5HD9S
-         1eABhMrhtY5Qg==
-Message-ID: <4925d76d637f8d2c809ce2e03fe5dfd4@smtp-cloud8.xs4all.net>
-Date:   Tue, 20 Jul 2021 05:44:52 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfGvbrLHFrdOjrRV7dqxvn+bqdIdgCHWfE5xwWkz3Zi5KghryiTVCZng55cIZTuM7DCv+2U0Ef7dQE3sKCzfS2YsYsvFWcltXRaBwaIaHFPrHzF1kPrHI
- moZYcFa8RQY2MPeg8FpdiM9PaVleiO09a/ry5HJgak3D3uRzZKogqICrik+uGBhvtlEKkqC4W8kmTveq8UqnNlbSRSh61Lo1rHE4raoBCAmYo4/Ye5JotxBf
- Qxozr6V2zk4VKGERSdrc5g==
+        id S242027AbhGTFxK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jul 2021 01:53:10 -0400
+Received: from cpanel.siel.si ([46.19.9.99]:41466 "EHLO cpanel.siel.si"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235574AbhGTFxH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Jul 2021 01:53:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com;
+        s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:
+        Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=Kz7tffSGOWg80z7MjGUT2zUun0b92FP6KnOiD2Dl8OA=; b=Xs+3pOY1k7++Nb9aq6StmJ8ftL
+        DP87EX2BpeG70zwVYh7zQ4FqnjIunvy3Pqpn3o6IljjzeBqfiuYIBZz8f/jYl+CC8qsou0+bIcmVL
+        fx6sGUOn2z/HFNa3aldx6TK4Mh3JFgNPAOAeCfj7l4YqnLsr/SVGld9ftLRQ5dAEfZlCWNz3c393j
+        ocBza+S09FAtuSoSt3BfPQ0NWgm33MJUO2y9VFmqftWpWKheXZaWMp7jOiZnFSRwda3JSyNTjc2Cp
+        ZOs/uJd2J/bpykuV1DynFfwQFiVd+lMlPFtdsjqbZbOWjzWecPAw9kzlHONGGD+SBlkpahMA6Or4Z
+        3VQWo7nQ==;
+Received: from [89.212.21.243] (port=47086 helo=[192.168.69.215])
+        by cpanel.siel.si with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.94.2)
+        (envelope-from <andrej.picej@norik.com>)
+        id 1m5jJt-00FSCC-Pp; Tue, 20 Jul 2021 08:33:41 +0200
+Subject: Re: Problem with coda h264 decoder and different color formats
+To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org
+References: <e07c752e-4029-6640-d462-811c82dd5109@norik.com>
+ <e134ee8dc40aa1acbce2fb86779cd1dab82357c1.camel@pengutronix.de>
+From:   Andrej Picej <andrej.picej@norik.com>
+Message-ID: <f3f40e49-ba55-a6fe-5530-06a1fefe6295@norik.com>
+Date:   Tue, 20 Jul 2021 08:33:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <e134ee8dc40aa1acbce2fb86779cd1dab82357c1.camel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel.siel.si
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - norik.com
+X-Get-Message-Sender-Via: cpanel.siel.si: authenticated_id: andrej.picej@norik.com
+X-Authenticated-Sender: cpanel.siel.si: andrej.picej@norik.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Philipp,
 
-Results of the daily build of media_tree:
+thanks for your answer.
 
-date:			Tue Jul 20 05:00:11 CEST 2021
-media-tree git hash:	e73f0f0ee7541171d89f2e2491130c7771ba58d3
-media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
-v4l-utils git hash:	a4f2e3a6f306f0bef6664451b44d5a7a18b26803
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7481-g7f50411af
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d8ae6cae42acd2e6882babf2f159ff6c0f1e1792
-host hardware:		x86_64
-host os:		5.13.1-marune
+> Can you confirm this works with 4.19.100 with exactly the same coda
+> firmware that shows the broken behavior on 5.10.50?
 
-linux-git-sh: WARNINGS
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 1
-virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Yes, exactly the same coda firmware (3.1.1) with 4.19.100 and 5.10.50:> 
+[   10.461672] coda 2040000.vpu: Firmware version: 3.1.1
 
-Detailed results are available here:
+> 
+> I think the culprit is commit 497e6b8559a6 ("media: coda: add sequence
+> initialization work"), which moves some initialization earlier before
+> userspace selects the final capture format.
+> During __coda_decoder_seq_init() (which prints the "start decoding:
+> 1920x960" line above), the ctx->frame_mem_ctrl is set for the default
+> NV12/tiled output format. This is never corrected when streaming
+> actually starts.
+> 
+> Could you check if this patch [1] helps?
+> 
+> [1] https://lore.kernel.org/linux-media/20210719145708.10643-1-p.zabel@pengutronix.de/T/#u
+> 
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+Yes, this patch solves the problem. I can now successfully play videos 
+with all supported decoder color formats (NV12, I420, YV12 and YUY2). 
+This also works in Qt app.
 
-Detailed regression test results are available here:
+I can't thank you enough for your fast response. Thank you so much.
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Best regards,
+Andrej
