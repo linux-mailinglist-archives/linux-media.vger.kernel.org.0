@@ -2,95 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 780D73CFD3B
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 17:16:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 601663CFD3E
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 17:17:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239531AbhGTOeG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Jul 2021 10:34:06 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:60932 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238492AbhGTOLe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Jul 2021 10:11:34 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1m5r6J-00FYn4-Cv; Tue, 20 Jul 2021 14:52:03 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1m5rB0-0004yW-1T; Tue, 20 Jul 2021 14:56:54 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.15] hantro: Enable H.264 VDPU2 (#75899)
-Date:   Tue, 20 Jul 2021 14:56:53 +0000
-Message-Id: <20210720145653.19083-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <798d0a55-f280-eb0b-dcbb-6ae179c8b705@xs4all.nl>
-References: 
+        id S239736AbhGTOeZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jul 2021 10:34:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50428 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240273AbhGTOYt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Jul 2021 10:24:49 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CD45C061794;
+        Tue, 20 Jul 2021 08:03:09 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id v14so11548788plg.9;
+        Tue, 20 Jul 2021 08:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YjsQqg/cyLrvH6AHlxUB+OYVHKKVa13wNGyeIOclLuU=;
+        b=Bwya6iL1RBmmeGnDLmxE++cJ04phd36pitzI5Fg/6+79njD2oyBhzaQONWmikFuB3v
+         sWOWXVU3XANaWQj6Mi6PD79h7wIzAVu1HT5fHWRFBtYKzK/VsiyBK8irALWIFOIiPfxe
+         SumHHYYFE/6VlsrVL32MklAzmYQxlvTV8x+UX/RKxN55gzSmbxS8xlL4D7T69pZKCxbR
+         3hYVNceHlNyb9ju3HO0FaWK5vUkOa2sK4hDRDzVTPA6C74H9YQRSKcZpzQ6vKkwD7Vc1
+         wKRMpVzAniHaoAw89XEZFEc1YserHm/AzRtW2TvB5ztJbmXl6LqeWx5XcSyxPYcY6teZ
+         VvQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YjsQqg/cyLrvH6AHlxUB+OYVHKKVa13wNGyeIOclLuU=;
+        b=Kkw3/vWGJwy0H/qFNM4WtuMvBvSrY19P4zmkaJL3aD4XW32nh+Sl9IgvPxgruRxBCs
+         7Jxv20YBxxIqBFQI1fImR6buDrkLk5XVH2mhW3Jetu8e7MJi8vjUiyANHTky4fa4B6yz
+         LQY+BC3XXxauCQxXrQwYsdwmxkx8qK5nGqUmtwVc7C7fcFEDw8X9BKkfHC1oAAJNk6XY
+         Ee9ExCb/xya0U7gtfOjeeQ6jnKenBFYObgTOHsrFQEv/SolA2MrCLm2rFWplhApZeV6g
+         fCHT+gC8X9I1WcqvmOSWazZmXqHZxYiIoe2cIqpa6gP2Z38v+HOHEMmP/HnM9YgdZANK
+         C5qg==
+X-Gm-Message-State: AOAM532GkekWl9I7KYK5+JHs4t7Nv6wEiKpQmrWGpbTfPs+xsJRg6uah
+        gjG6Az5xBM3zl4m8f8saPlA=
+X-Google-Smtp-Source: ABdhPJwocdDotiRQoMrd8AmM4D5t8eT0K3LGBIo2EKCjfzv73zaEHoy2PrNocwn0na8156wCs4B80g==
+X-Received: by 2002:a17:903:2309:b029:12a:965b:333 with SMTP id d9-20020a1709032309b029012a965b0333mr23822909plh.31.1626793388619;
+        Tue, 20 Jul 2021 08:03:08 -0700 (PDT)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+        by smtp.gmail.com with ESMTPSA id k19sm20330779pji.32.2021.07.20.08.03.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jul 2021 08:03:06 -0700 (PDT)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     Rob Clark <robdclark@chromium.org>,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
+        freedreno@lists.freedesktop.org (open list:DRM DRIVER FOR MSM ADRENO
+        GPU), linux-kernel@vger.kernel.org (open list),
+        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
+        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+        FRAMEWORK)
+Subject: [PATCH] drm/msm: Add fence->wait() op
+Date:   Tue, 20 Jul 2021 08:07:15 -0700
+Message-Id: <20210720150716.1213775-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+From: Rob Clark <robdclark@chromium.org>
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/798d0a55-f280-eb0b-dcbb-6ae179c8b705@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/125586/
-Build time: 00:19:01
-Link: https://lore.kernel.org/linux-media/798d0a55-f280-eb0b-dcbb-6ae179c8b705@xs4all.nl
+Somehow we had neither ->wait() nor dma_fence_signal() calls, and no
+one noticed.  Oops.
 
-gpg: Signature made Tue 20 Jul 2021 02:21:05 PM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+Note that this removes the !timeout case, which has not been used in
+a long time.
 
-Summary: got 3/9 patches with issues, being 1 at build time
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_fence.c | 59 +++++++++++++++++++--------------
+ 1 file changed, 34 insertions(+), 25 deletions(-)
 
-Error/warnings:
-
-patches/0001-hantro-vp8-Move-noisy-WARN_ON-to-vpu_debug.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-
-    allyesconfig: return code #0:
-	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0006-media-hantro-Add-H.264-support-for-Rockchip-VDPU2.patch:
-
-   checkpatch.pl:
-	$ cat patches/0006-media-hantro-Add-H.264-support-for-Rockchip-VDPU2.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:45: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:291: WARNING: line length of 103 exceeds 100 columns
-	-:320: WARNING: line length of 106 exceeds 100 columns
-Traceback (most recent call last):
-	  File "scripts/spdxcheck.py", line 10, in <module>
-	    import git
-	ModuleNotFoundError: No module named 'git'
-
-patches/0008-media-hantro-Add-support-for-the-Rockchip-PX30.patch:
-
-   checkpatch.pl:
-	$ cat patches/0008-media-hantro-Add-support-for-the-Rockchip-PX30.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:26: WARNING: DT compatible string "rockchip,px30-vpu" appears un-documented -- check ./Documentation/devicetree/bindings/
+diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
+index cd59a5918038..8ee96b90ded6 100644
+--- a/drivers/gpu/drm/msm/msm_fence.c
++++ b/drivers/gpu/drm/msm/msm_fence.c
+@@ -38,11 +38,10 @@ static inline bool fence_completed(struct msm_fence_context *fctx, uint32_t fenc
+ 	return (int32_t)(fctx->completed_fence - fence) >= 0;
+ }
+ 
+-/* legacy path for WAIT_FENCE ioctl: */
+-int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
+-		ktime_t *timeout, bool interruptible)
++static signed long wait_fence(struct msm_fence_context *fctx, uint32_t fence,
++		signed long remaining_jiffies, bool interruptible)
+ {
+-	int ret;
++	signed long ret;
+ 
+ 	if (fence > fctx->last_fence) {
+ 		DRM_ERROR_RATELIMITED("%s: waiting on invalid fence: %u (of %u)\n",
+@@ -50,33 +49,34 @@ int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!timeout) {
+-		/* no-wait: */
+-		ret = fence_completed(fctx, fence) ? 0 : -EBUSY;
++	if (interruptible) {
++		ret = wait_event_interruptible_timeout(fctx->event,
++			fence_completed(fctx, fence),
++			remaining_jiffies);
+ 	} else {
+-		unsigned long remaining_jiffies = timeout_to_jiffies(timeout);
+-
+-		if (interruptible)
+-			ret = wait_event_interruptible_timeout(fctx->event,
+-				fence_completed(fctx, fence),
+-				remaining_jiffies);
+-		else
+-			ret = wait_event_timeout(fctx->event,
+-				fence_completed(fctx, fence),
+-				remaining_jiffies);
+-
+-		if (ret == 0) {
+-			DBG("timeout waiting for fence: %u (completed: %u)",
+-					fence, fctx->completed_fence);
+-			ret = -ETIMEDOUT;
+-		} else if (ret != -ERESTARTSYS) {
+-			ret = 0;
+-		}
++		ret = wait_event_timeout(fctx->event,
++			fence_completed(fctx, fence),
++			remaining_jiffies);
++	}
++
++	if (ret == 0) {
++		DBG("timeout waiting for fence: %u (completed: %u)",
++				fence, fctx->completed_fence);
++		ret = -ETIMEDOUT;
++	} else if (ret != -ERESTARTSYS) {
++		ret = 0;
+ 	}
+ 
+ 	return ret;
+ }
+ 
++/* legacy path for WAIT_FENCE ioctl: */
++int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
++		ktime_t *timeout, bool interruptible)
++{
++	return wait_fence(fctx, fence, timeout_to_jiffies(timeout), interruptible);
++}
++
+ /* called from workqueue */
+ void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)
+ {
+@@ -114,10 +114,19 @@ static bool msm_fence_signaled(struct dma_fence *fence)
+ 	return fence_completed(f->fctx, f->base.seqno);
+ }
+ 
++static signed long msm_fence_wait(struct dma_fence *fence, bool intr,
++		signed long timeout)
++{
++	struct msm_fence *f = to_msm_fence(fence);
++
++	return wait_fence(f->fctx, fence->seqno, timeout, intr);
++}
++
+ static const struct dma_fence_ops msm_fence_ops = {
+ 	.get_driver_name = msm_fence_get_driver_name,
+ 	.get_timeline_name = msm_fence_get_timeline_name,
+ 	.signaled = msm_fence_signaled,
++	.wait = msm_fence_wait,
+ };
+ 
+ struct dma_fence *
+-- 
+2.31.1
 
