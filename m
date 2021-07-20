@@ -2,142 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9372B3CF1DE
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 04:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70B903CF2D8
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 05:47:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241907AbhGTB0t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jul 2021 21:26:49 -0400
-Received: from mail-am6eur05on2085.outbound.protection.outlook.com ([40.107.22.85]:45921
-        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S243803AbhGTBFK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jul 2021 21:05:10 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EEC1RI8cPnC53D523XZsn3dEEbM/oEEMr8FSV2JjY87uombLRSmbuypUrtysvJbRlsDnJbdrLspzFbxwSl/CKlj+M95/om4J3pd8UmPn1uoF8Vp94cOGCG9f/XGmdCR5zS+6Kl1ZA+KstlhRXRi6xSVAO60TdiJBRZhmwLtMcYWCc9CCogpjtnOAhhctIAtScIccMX5wk8sEYcn/J4kdBg3uauCeDirnMsrPrWxuLr55mJS3vKYj6POfRenKlqjFhe/iW2CDcXJ6n0NOQ4m2UXKzfn7rPBtIOEMByk/CFSL8sdvCYqO6hWiDnaQX+4hdGpJZSfOPWyLKBjChQzktWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A2AFHzhh3/QpoqVOQXiVzYQ8CMWbBK+s8NXbBzE9l0g=;
- b=MDoFTlxo5bMVuAKhg1Cr3BpAMAPyiR3uOFkIfuHcMWkX+0GVNeIr2OVN6rGkeQhm6WeHgEB61pajPoYbfh2DjyrkTAfFolDs7onRx6Uf2maBDwaGr4I7fpq5vmZASgdltAglo8FHeSN96YMn3pXXJHfstQ0pNnAYXmR/YxDV18P7NgHUj6+ZRycrXmFay5Naf9ZrdHwG7GF04v9EmopNRK7+sZH7PWWmMwC3WEfXri7XR0UbCznwFECPt6LfzXxuDTXnhurQx5mfLnBbSlmg/dL4ylvLvHTyL9hxz80CEtLsqENw17w4DMrpqfnIKARWD9DkjRC8vUUj9pNTW/50dw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A2AFHzhh3/QpoqVOQXiVzYQ8CMWbBK+s8NXbBzE9l0g=;
- b=hJAwccYd+rAsuurLYKHZz2ysIMPZkI1OtsFziue2usWEVlffsJkmagPBp4aRiP0FGQdCCH+UGjSpFqSqVCL3R4SWg1D0VUc1lxZsvX+gkrQiUR4lA5Ggu0B1eqja0WhoV7T6Zq9WhPlgN+NINQeQlY7muYodSee7TQye9TQz1EE=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by AM6PR0402MB3813.eurprd04.prod.outlook.com (2603:10a6:209:21::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Tue, 20 Jul
- 2021 01:44:51 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::81e3:1e06:83ee:5db8]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::81e3:1e06:83ee:5db8%3]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
- 01:44:51 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
-        s.hauer@pengutronix.de
-Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v4 13/13] MAINTAINERS: add NXP IMX8Q VPU CODEC V4L2 driver entry
-Date:   Tue, 20 Jul 2021 09:43:32 +0800
-Message-Id: <6598acda00c93a60af83189eeceb3fdd0cc58d46.1626743758.git.ming.qian@nxp.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <cover.1626743758.git.ming.qian@nxp.com>
-References: <cover.1626743758.git.ming.qian@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR06CA0232.apcprd06.prod.outlook.com
- (2603:1096:4:ac::16) To AM6PR04MB6341.eurprd04.prod.outlook.com
- (2603:10a6:20b:d8::14)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from lsv11149.swis.cn-sha01.nxp.com (119.31.174.70) by SG2PR06CA0232.apcprd06.prod.outlook.com (2603:1096:4:ac::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend Transport; Tue, 20 Jul 2021 01:44:47 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 75d14a3b-c86a-44ee-f999-08d94b1ff754
-X-MS-TrafficTypeDiagnostic: AM6PR0402MB3813:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR0402MB3813CCBE1F0B086951F5729EE7E29@AM6PR0402MB3813.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1079;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JRYHv+y1u9UrkAOflT8llSnM+0u02n03goJ3UQ9zL/RbN5O1mPmz4cSRPI318F4s/BjoTrLVWj+JVLQ4x/irwsd6QTpjAgnulJKdYHkslcWIcGcNpPoO5+8TavNQWfByjEfRHD2JkxJK0OY2+/kLDKLCBo9bk69p6fQGehazf77YJeuwl6ufVjr/aZjsaSwSDu6Yl0if1IlLrIf+DlgAunxyPzocTBIziKmcDnclzXUUUYj8OEvVbQDnEZgiQefxgUHhExhg3YeesDHaVsfaTKE5UQyc0VHRFD3PBpQ1QGaEAYTALjySphnWpgvNs5ud1TYl0jKQvtTYmd2yh5OonYnrYMUOtRVnKxFj9ovbKhpzz/uLWSVtZqO607YS6btRJas8lTlM6S84BSR97tNnHhTB0fmU/wuHc2guI1+GJmA/twKzgTn2ASotfmev2aWLVJpCcmuq4J2YT3PB3taNihNBhD/pSk7eYgSTgcZrkgc7L8cSpEZ7XfjU5F80oHSKBgjTMAyrfkB5HOLN7IMOI3Y1ugurMR/UBGazb7qN3JxOJZqEijp9Ubtd+3fa+2F97U+WoCntzpBTYhCrqgYebKwwE2UwWhs5c/lUu0i3NIe1KZH5352Aco+I/as3ZfBJnO70PGA8wyzsN9Ou8/KqKQD0cQsDDrDTBg+mXuyOyoN+0HbyM255YbdbxzFDglnShh2OwKyAxMgHzGGq33hv6k7D4TG3ssaaGpb7mc4nPPM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(36756003)(4744005)(316002)(8676002)(7416002)(4326008)(86362001)(6666004)(186003)(66476007)(66946007)(66556008)(38100700002)(26005)(38350700002)(6486002)(508600001)(44832011)(5660300002)(956004)(2906002)(2616005)(8936002)(7696005)(52116002)(32563001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8zEWUiR/5Jc3x9NRVDJnMGH+NDRyPT2YYbvKUtM5nxhpcZuWCioOYjjmjgJ6?=
- =?us-ascii?Q?U3s6mHLYDOITS4O98f7jqwjFcWMb/DGelswXieeZj0lZXqmh5sND9I0IPKKs?=
- =?us-ascii?Q?sesebyQIA2E1fWvfVXS6hmeKNW6mX4peYF5VgE9u5qSXGiGQvGBhl2pvO+V1?=
- =?us-ascii?Q?iWlOR7rjxzqeWp2nDNdLfCtqt4FWpTxWiN8WH9kyhed4MW2oql3uyB9VtJ/k?=
- =?us-ascii?Q?6JU86Eulf4Mz2eLx/9soCSdRq6xmE0pmxv74q4I0ACFHWcmFRnJTtdAJepmq?=
- =?us-ascii?Q?Z5b2SPoKve4Nfa27aPZx/5yVabxrkcOhxIbTSn265KjuDq5Sv4asuhKySyzV?=
- =?us-ascii?Q?D2dqWJJ1Msh4Qw8qZQnlXQoSVjGCrz9DiwNKpQ6F+JSlVko0AfYlrqhp1xBa?=
- =?us-ascii?Q?IyKi6hi8yinaAXp62ta82i5e0vZCpeyu7DRINGTLXFynp0K6B7OOcrQjtxLC?=
- =?us-ascii?Q?+1GCVP/Ym/kIUzubT+34e/tOERR09GoIEpQpzr0WGZnFz1NdYq/PHGXV14m/?=
- =?us-ascii?Q?EZMlbS+E5L4nv30up7eH5RvbIyofc6/ScCSt3PdUjslMVRD3eyffpeFSyQwz?=
- =?us-ascii?Q?N3R4hQijtrS2h+2E4DSfRxfQJMmHqjRHPitWdLmElpMxWTSljTY7FPNDzP0o?=
- =?us-ascii?Q?WKtZFf3Qmg1fTlx6/RLghg9AUpmV1v5FXvt8A4q5Yw59WCdAZZ1zxdYkH70V?=
- =?us-ascii?Q?WOPjpAqnlHyiZX3mHqCy9Wgmo8dZ0rNKHIcdzAQYIsGjUu8ifzz838bhQxcz?=
- =?us-ascii?Q?KkHSgQ3QJQKneoj4WHge5+QQrI0NlCdA8OApRk3EMXWeL2gjMnWpDBUCePqh?=
- =?us-ascii?Q?hsxpNCP6d8zo0td0qhWMi9SqlIFQtInAFxOvpYVpmu9f05VJ9QQZih/pyx0z?=
- =?us-ascii?Q?r0k7RjslISpzMIfUr76qqwEfSTRGPdqle2vVYwoJnql1Gi1eGFinJoDp3ggi?=
- =?us-ascii?Q?UwFOPnf9nBsOJXxHKPELMglS7yFvalZVmwsbcHYKx70G1RWf91jUZ8c5vCtk?=
- =?us-ascii?Q?Z7ryVFx0fvKVCTqgZ3VS7FFEbHJcQjW7W81FvIeLbT/PvyJUy8aeQOnj2hXa?=
- =?us-ascii?Q?BxlidmhKn1xw5pnAGHPSZA8U3hlf2/5DvUOHoJVC1isThPtPkXvXGXQ35uSy?=
- =?us-ascii?Q?MtG9zFO0zdELpz1fecKVvgdeAlWu2izTnT5/ur1Z5Q41Qe9BU1wBtzCgZVdd?=
- =?us-ascii?Q?+WHbJKsw9kWMNi788y8fbMUOW6ywbI0/jhEhZn8fK3Y7Pr+VpISRTeInpO+u?=
- =?us-ascii?Q?+HZ91Yuts8+r2hmDu5PuxYVHpbC/v5RFbFBudz/1CVg4bGIRSndJF5OS7RNw?=
- =?us-ascii?Q?Rb4/X9tpCmHX2llMEkT+7DJU?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75d14a3b-c86a-44ee-f999-08d94b1ff754
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 01:44:51.8294
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QVkMbELyJSSTnDQhOEH9sQQi6WIaWwYx2UKeiO4R71R0NYYo0mlkLG13jxzBksllmajHQ8TZuicPRIaHJBnYQQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR0402MB3813
+        id S1348013AbhGTDEt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jul 2021 23:04:49 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:34273 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1347512AbhGTDEQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 19 Jul 2021 23:04:16 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 5ggemZzznvmXa5ggfmnqkg; Tue, 20 Jul 2021 05:44:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1626752693; bh=f6GwqUveoRAZT/YRUSknCabSZFP3TwGZflZ0S9dbJXA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=Gj9Jsg0EpMP6vc8E+q8mMFeK/Gk4R1LCTe0yB7ajmg5AWmadLL2a8VDcDGo1yERNv
+         CI2GqUe5y4mxMwpGNEDnKMqTLPYVZecFdYFoPoHG5iWp7lz/XCs4rost/K4ULkSXMj
+         SBwMeSEtS2QQ5iKdk1xCgRC/ZY7EciyItFdtMhbyf0CwKAwWMGgV5boaLk/2ItnmCR
+         U4AUJl7+CZinuVZ+JaHVDi8TRjgEYMUoheSsK1NxMbrGsP2DnKp/F8D6zlB1bXneHq
+         KXE/GGrD3OkamXPmMxEEXwfPkTjjkZGI64k/vLYpMyJFlAfaDohcEvy0hUIbk5HD9S
+         1eABhMrhtY5Qg==
+Message-ID: <4925d76d637f8d2c809ce2e03fe5dfd4@smtp-cloud8.xs4all.net>
+Date:   Tue, 20 Jul 2021 05:44:52 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfGvbrLHFrdOjrRV7dqxvn+bqdIdgCHWfE5xwWkz3Zi5KghryiTVCZng55cIZTuM7DCv+2U0Ef7dQE3sKCzfS2YsYsvFWcltXRaBwaIaHFPrHzF1kPrHI
+ moZYcFa8RQY2MPeg8FpdiM9PaVleiO09a/ry5HJgak3D3uRzZKogqICrik+uGBhvtlEKkqC4W8kmTveq8UqnNlbSRSh61Lo1rHE4raoBCAmYo4/Ye5JotxBf
+ Qxozr6V2zk4VKGERSdrc5g==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add NXP IMX8Q VPU CODEC v4l2 driver entry
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
-Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
-Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
----
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Results of the daily build of media_tree:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0f59b0412953..b88f6e650fab 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12600,6 +12600,16 @@ L:	linux-nfc@lists.01.org (moderated for non-subscribers)
- S:	Supported
- F:	drivers/nfc/nxp-nci
- 
-+NXP IMX8Q VPU CODEC V4L2 DRIVER
-+M:	Ming Qian <ming.qian@nxp.com>
-+M:	Shijie Qin <shijie.qin@nxp.com>
-+M:	Zhou Peng <eagle.zhou@nxp.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/media/nxp,imx8q-vpu.yaml
-+F:	drivers/media/platform/imx/vpu-8q
-+F:	include/uapi/linux/imx_vpu.h
-+
- OBJAGG
- M:	Jiri Pirko <jiri@nvidia.com>
- L:	netdev@vger.kernel.org
--- 
-2.32.0
+date:			Tue Jul 20 05:00:11 CEST 2021
+media-tree git hash:	e73f0f0ee7541171d89f2e2491130c7771ba58d3
+media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
+v4l-utils git hash:	a4f2e3a6f306f0bef6664451b44d5a7a18b26803
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7481-g7f50411af
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d8ae6cae42acd2e6882babf2f159ff6c0f1e1792
+host hardware:		x86_64
+host os:		5.13.1-marune
 
+linux-git-sh: WARNINGS
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13.1-i686: OK
+linux-5.13.1-x86_64: OK
+linux-5.14-rc1-i686: OK
+linux-5.14-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 1
+virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
