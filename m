@@ -2,114 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E0873CF9A9
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 14:34:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB7DB3CFABB
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 15:36:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238119AbhGTLxb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Jul 2021 07:53:31 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:44225 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237862AbhGTLxZ (ORCPT
+        id S237513AbhGTMz1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jul 2021 08:55:27 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:50127 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238754AbhGTMxx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Jul 2021 07:53:25 -0400
+        Tue, 20 Jul 2021 08:53:53 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id 5owamtGFUhqx95owbmvnD5; Tue, 20 Jul 2021 14:33:55 +0200
+        id 5pt8mteLlhqx95pt9mvx7A; Tue, 20 Jul 2021 15:34:23 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1626784435; bh=SgVs08xYrU8M4EGDyVeDdbrqJ8SP9V6wFirHCrmdvWk=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1626788063; bh=YOrF5DuKarVC9ccCGbtJ4rYEmt3UEP22Rt+TIz0vSRI=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=j30/Z68GcwkfvDIwKIcHD5UZBtjxUBp0URCumfhfHzfYH3AG5MBQcXHSi4JHq6ygN
-         eWA0U/Uu6DjAsKNajekPkLUr+UylB29/u3Kd9mst0zRE7qK7xBCJOpxXMwmFb3cxmM
-         o+y4P+Ubghsu1TYyFs6NdiWMGlzCzgTb+f+gQy6jhrer/m6VV7zKO21asbPyXttFRe
-         KoW8gUUTl2o0WzESLARGmQyDe/SucQrwnlTdDbp+JJKd1uuqKlcstsTJySFCYmNjm6
-         Qeo/UJyX8WRZKEGaEgiTUB2YxQM3NIwQE3Cs/6Mr2bwFEsZkHzxYxp3IMQwl+nwZdV
-         U8V0X0T4+TRlw==
-Subject: Re: [PATCH] media: mtk-vpu: Ensure alignment of 8 for DTCM buffer
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     kernel@collabora.com, dafna3@gmail.com, mchehab@kernel.org,
-        tfiga@chromium.org, enric.balletbo@collabora.com,
-        minghsiu.tsai@mediatek.com, houlong.wei@mediatek.com,
-        andrew-ct.chen@mediatek.com, tiffany.lin@mediatek.com,
-        matthias.bgg@gmail.com, acourbot@chromium.org, hsinyi@chromium.org,
-        eizan@chromium.org
-References: <20210714134850.402-1-dafna.hirschfeld@collabora.com>
+        b=kO9C6A+m4/mQGdsYR6mie8FTScXELrF5wEyEV1LLC8OPqoGIgdQScG23KoBQDBEN7
+         z+PXPmP7d5/m3VWgB5d+I3l81X6bgDGPrNRMJZJqFG0VlVOLOBeV+aw/pDFCh+RbCy
+         d+hSkjaz75ulTHy1p8XLJ5qINrD/1awiKbWT5Tu/6V1Gf+wTEUwjt5b82FTUtGWoMP
+         xiBoeVR9Hkpz1ExCGKnm/i6blyGoPpeNA3bqlZ+6SI5aw/d1dPPQlqvsYBIh1Glb+f
+         ioSrkq5GPmwLHRw9Y/srG9bOG3aVRVpignfHUa9PUHxIf8GK6eIbJthPCvtMRKDL9d
+         oGFLhAH4w3y1w==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Fabio Estevam <festevam@gmail.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <119da2d7-9e7b-10e0-a948-877b494dbeac@xs4all.nl>
-Date:   Tue, 20 Jul 2021 14:33:52 +0200
+Subject: [GIT PULL FOR v5.15] Various fixes
+Message-ID: <4d9b08ca-ec5e-b75f-514c-950d2c2abd64@xs4all.nl>
+Date:   Tue, 20 Jul 2021 15:34:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210714134850.402-1-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfLM2pz3o+9rE3y62LVO6TGFlEtP4S7gknqM2eaFM5q6vjbkp8Sqi2EyWzp+kbLGnnL+G9psB7Hzo5UMpOsA7EH9YE73dm6nkY4pgsZICrF1ZMlYaCy5u
- Wh65vqdKsnNNU5pJD5WT91CiOg0KaaCjruu+V6E95UkQ3Fi2DjfVIwe49shErDgYN14PPdGTx2jfvkLayIsnjUpMjnb+6Vpt7i6DfmC10c1aKeHnp4DIHrjp
- Xo6M2gHdT8ZbnHVLn0M+KeHAFAlxR11hEklhzNvIRfNKAb0tsNpzP0AaDoOrdJ4wwFgvCGzCrVTovnSI1AJY04S9n9gZ+4cq2ToavVNdUdJl/KyIhnjMdxYU
- Z2kyqGq+K+9OZbaPB2MChUuSLJYPAb6mXlQfqvNqFyb0YAco3f+7+yD4K7rF6xc5jfuLXKqLrhbEpoMdkyG+XfD4cKtOFtScbQZ53mIwo/MAfBTliYdOoJCz
- FejzeFD5JRHRFfdfFJpnEjZgdasUAyi/3VP3W5r8BSmqnzNJjOl0wY0MRn00KbxGFjWnGYikIWCBLI+vtR1zOcGlDS6BDXpI2upRnsaNWLkp+h00pky+TQYH
- HUw9OWJgd7YYl2xar0m6oXuw2OhvwyqaHcQ/CRO7k/uuz+B9B5XxpBLy5HgEcgTiG8D4iYxt+rf9/eR+xXB+6oXilTzzzIM5CstLCLry3gEskonXELf4E5l4
- vhVCH7qLgBqVFFSeOp1rtAL+kXzxvBh+mnC23It/7m6MyOLcOQmeMz54kmh2paT35QXIN+Hj7agzqeC9QqViNNGLxGoeDeirLKHdGA6J5YtzgcDH7prFSTMt
- Ka9M07tjtCN+hr+oEKgYPsuVdZ744qP7gMLcmHUhWG1X8MCOFx5nw0MwvcXvXw==
+X-CMAE-Envelope: MS4xfKpcBRQv+rpN+BhXfjCfQdmHaOeAj17KepJJNiOHOcUoliDQF/dujuGPewtU9rRomWYSRuplvopFW0TOVt3cljwW6opQczDWO5kyjmsClpBpUDLaH2uW
+ hJOXapDBo9smF7HP5gnZcYJB09BD2KkidrlgH5RvkrGbcRKom9L/JOIjWCEPjl7uNykmfgHhAix2umu1N9inIsIIgOQo3al/SIs9m/yhiAdbnshjmrMZnFr7
+ zRbeV1J8Qxr3Xpc3lfNv2ETbxSG8kyLBDnpv53kqcRJVTOMvjV8RFFzGQ73Qup8PSrDILaz6uNdHxS1ZpM0azDGy9QPbdKKy/A02k3lJYY4=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/07/2021 15:48, Dafna Hirschfeld wrote:
-> From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> 
-> When running memcpy_toio:
-> memcpy_toio(send_obj->share_buf, buf, len);
-> it was found that errors appear if len is not a multiple of 8:
-> 
-> [58.350841] mtk-mdp 14001000.rdma: processing failed: -22
-> 
-> This patch ensure copy of a multile of 8 size by calling
-> round_up(len, 8) when copying
-> 
-> Fixes: e6599adfad30 ("media: mtk-vpu: avoid unaligned access to DTCM buffer.")
-> Reported-by: Alexandre Courbot <acourbot@chromium.org>
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/media/platform/mtk-vpu/mtk_vpu.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.c b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-> index ec290dde59cf..b464d8192119 100644
-> --- a/drivers/media/platform/mtk-vpu/mtk_vpu.c
-> +++ b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-> @@ -316,6 +316,7 @@ int vpu_ipi_send(struct platform_device *pdev,
->  {
->  	struct mtk_vpu *vpu = platform_get_drvdata(pdev);
->  	struct share_obj __iomem *send_obj = vpu->send_buf;
-> +	unsigned char data[SHARE_BUF_SIZE];
->  	unsigned long timeout;
->  	int ret = 0;
->  
-> @@ -349,7 +350,9 @@ int vpu_ipi_send(struct platform_device *pdev,
->  		}
->  	} while (vpu_cfg_readl(vpu, HOST_TO_VPU));
->  
-> -	memcpy_toio(send_obj->share_buf, buf, len);
-> +	memset(data, 0, sizeof(data));
+The following changes since commit 379e205dab9d7f9761984728e7d6f5f8305cc424:
 
-Hmm, how about:
+  media: usb: dvb-usb-v2: af9035: let subdrv autoselect enable si2168 and si2157 (2021-07-12 14:28:49 +0200)
 
-	memset(data + len, 0, sizeof(data) - len);
+are available in the Git repository at:
 
-> +	memcpy(data, buf, len);
-> +	memcpy_toio(send_obj->share_buf, data, round_up(len, 8));
->  	writel(len, &send_obj->len);
->  	writel(id, &send_obj->id);
->  
-> 
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.15a
 
-Also note Enric's reply.
+for you to fetch changes up to 8e8ee611c5aa4e1ddb6efd1395f1dd16e13eca98:
 
-Regards,
+  media: coda: fix frame_mem_ctrl for YUV420 and YVU420 formats (2021-07-20 15:17:45 +0200)
 
-	Hans
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Dafna Hirschfeld (3):
+      media: mtk-jpeg: fix setting plane paylod
+      media: rkisp1: remove field 'vaddr' from 'rkisp1_buffer'
+      media: rkisp1: cap: initialize dma buf address in 'buf_init' cb
+
+Dan Carpenter (2):
+      media: v4l2-subdev: fix some NULL vs IS_ERR() checks
+      media: rockchip/rga: fix error handling in probe
+
+Evgeny Novikov (1):
+      media: platform: stm32: unprepare clocks at handling errors in probe
+
+Fabio Estevam (3):
+      dt-bindings: adv7180: Introduce the 'reset-gpios' property
+      media: i2c: adv7180: Print the chip ID on probe
+      dt-bindings: adv7180: Introduce 'adv,force-bt656-4' property
+
+Frieder Schrempf (1):
+      media: adv7180: Add optional reset GPIO
+
+Hans Verkuil (1):
+      media/cec-core.rst: update adap_enable doc
+
+Matthew Michilot (1):
+      media: i2c: adv7180: fix adv7280 BT.656-4 compatibility
+
+Pavel Skripkin (3):
+      media: go7007: fix memory leak in go7007_usb_probe
+      media: go7007: remove redundant initialization
+      media: stkwebcam: fix memory leak in stk_camera_probe
+
+Philipp Zabel (1):
+      media: coda: fix frame_mem_ctrl for YUV420 and YVU420 formats
+
+Tom Rix (1):
+      media: ti-vpe: cal: fix indexing of cal->ctx[] in cal_probe()
+
+ Documentation/devicetree/bindings/media/i2c/adv7180.yaml |  8 ++++++
+ Documentation/driver-api/media/cec-core.rst              |  9 ++++---
+ drivers/media/cec/platform/stm32/stm32-cec.c             | 26 +++++++++++++------
+ drivers/media/i2c/adv7180.c                              | 66 ++++++++++++++++++++++++++++++++++++++++++-----
+ drivers/media/platform/coda/coda-bit.c                   | 18 +++++++++----
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c          | 20 +++++++-------
+ drivers/media/platform/rcar-vin/rcar-v4l2.c              |  4 +--
+ drivers/media/platform/rockchip/rga/rga.c                | 27 +++++++++++++++----
+ drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c  | 12 ++++++++-
+ drivers/media/platform/rockchip/rkisp1/rkisp1-common.h   |  6 +----
+ drivers/media/platform/rockchip/rkisp1/rkisp1-params.c   |  3 +--
+ drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c    |  6 ++---
+ drivers/media/platform/ti-vpe/cal.c                      |  6 ++---
+ drivers/media/platform/vsp1/vsp1_entity.c                |  4 +--
+ drivers/media/usb/go7007/go7007-driver.c                 | 26 -------------------
+ drivers/media/usb/go7007/go7007-usb.c                    |  2 +-
+ drivers/media/usb/stkwebcam/stk-webcam.c                 |  6 +++--
+ drivers/staging/media/tegra-video/vi.c                   |  4 +--
+ 18 files changed, 167 insertions(+), 86 deletions(-)
