@@ -2,90 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1C743CFC36
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 16:27:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7936C3CFC8C
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jul 2021 16:42:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239158AbhGTNqf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Jul 2021 09:46:35 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:54747 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237311AbhGTNmJ (ORCPT
+        id S240212AbhGTOAz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jul 2021 10:00:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41410 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239313AbhGTNqE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Jul 2021 09:42:09 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 5qdlmtzDKhqx95qdmmw5gp; Tue, 20 Jul 2021 16:22:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1626790954; bh=gooSehcV/G1N2sCvy86vdx5YbaBRJv8icBQ7eStfDOw=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=DQ3zgYZDQYX2z3iZxDhUG6tySN2tgvnM7et6cGAkEbL25h1v8pIXv6zQ++Wh24swi
-         1x2CdoS21eCM5DHD5okzvSOmxGb8TKRUGzGSzjUfn+6DtgRxdcMDXR5K7VLMGrtK4l
-         Luz+62gfHcShjrGPYJOQ9g3VKt9TA1JKjqFCMp9a4pJix7sitPRiqMekutiY8h/nj0
-         9rt2Nqjhlfm1lzPxtkUbfqTS9ABUAiVHVER1d0ZX5jx7QS7KPucw9fEMyorM8OeTk8
-         Oc3Su78ncr8wKWnJMh+iGO7KXvNJTsmsGYwrMHppy/YSbZdUBHiElUXh42FqIcyFcM
-         rJMoQld3LNGGA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.15] hantro: Enable H.264 VDPU2
-Message-ID: <798d0a55-f280-eb0b-dcbb-6ae179c8b705@xs4all.nl>
-Date:   Tue, 20 Jul 2021 16:22:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Tue, 20 Jul 2021 09:46:04 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9322EC0613B6
+        for <linux-media@vger.kernel.org>; Tue, 20 Jul 2021 07:24:08 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id a13so26187057wrf.10
+        for <linux-media@vger.kernel.org>; Tue, 20 Jul 2021 07:24:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=SFxqvandCjDRl0fUYEBNMfLKMtMBK/moBSvmGeLpe8A=;
+        b=EDIWfob19WX9iUQJe1J5IXSmMhr8mlTZCU8guENY5JLlCWZ9hE8lw0Sh7rBstRSgOU
+         /oxpS26rh8sbRuu6q5YmVHA7rd91a+uJgJZENH2FbZywAmR05gQQR01e6rwjkGwZO+4F
+         aw1+W1Bwbpd+ggmfvL7ILmlGMfyqzbhgavun4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=SFxqvandCjDRl0fUYEBNMfLKMtMBK/moBSvmGeLpe8A=;
+        b=HiGn6g4E75dBp7bHe0US4GBcBTeWqeo1R9Li5JEHE6NyW6zCnuJQzBiT7iKGcOS+RO
+         hLvyOfGJvUPDfr10ympNTUvmsPErMt0e17q7TWeqqaEGdIsY0XcxZLxpBnlGOji3rz5Z
+         JpcsVqdeAEG28Xzln1HT9l+BMVZFQxUwJPL6sYs7KPIo383NWVU4wADM8GjQvmx1DXvw
+         4zeQ63S56gknNRg9353L0EsEvTipcwMvd9NDMcBYMxu6PRXOQMwS5NlB7a0bc3iu4LxL
+         FUqblJXArX10Ep9rKp42mLlTFRm6vN9M1F1cmFkaT+ItITH6HBFroFjdWoaoETTbWK8y
+         6yFA==
+X-Gm-Message-State: AOAM5310ZTPXsT6xg36bbwpd0tWEGCFDsFnqxrfs1bJC2EYVwGfBPu49
+        3SvZUaO95T+/d8rxAyPkKJWn+A==
+X-Google-Smtp-Source: ABdhPJyTvrKheJwNGUheDAAcCGTY+qv3s7J8bwr7G61A1ywBBEj71bQ7C/3g+gWu5XPyZIRFsUasCQ==
+X-Received: by 2002:a5d:63ca:: with SMTP id c10mr36112316wrw.163.1626791047204;
+        Tue, 20 Jul 2021 07:24:07 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id p9sm12391582wrj.54.2021.07.20.07.24.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jul 2021 07:24:06 -0700 (PDT)
+Date:   Tue, 20 Jul 2021 16:24:04 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>,
+        freedreno@lists.freedesktop.org,
+        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Jonathan Marek <jonathan@marek.ca>,
+        Emma Anholt <emma@anholt.net>, Bernard Zhao <bernard@vivo.com>,
+        Sharat Masetty <smasetty@codeaurora.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Akhil P Oommen <akhilpo@codeaurora.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Zhenzhong Duan <zhenzhong.duan@gmail.com>,
+        "Kristian H. Kristensen" <hoegsberg@google.com>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <linux-arm-msm@vger.kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Dave Airlie <airlied@redhat.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [Linaro-mm-sig] [PATCH 00/11] drm/msm: drm scheduler conversion
+ and cleanups
+Message-ID: <YPbchJy4PIwZnhGE@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Jonathan Marek <jonathan@marek.ca>, Emma Anholt <emma@anholt.net>,
+        Bernard Zhao <bernard@vivo.com>,
+        Sharat Masetty <smasetty@codeaurora.org>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Akhil P Oommen <akhilpo@codeaurora.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+        Zhenzhong Duan <zhenzhong.duan@gmail.com>,
+        "Kristian H. Kristensen" <hoegsberg@google.com>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Lee Jones <lee.jones@linaro.org>, Dave Airlie <airlied@redhat.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+References: <20210717202924.987514-1-robdclark@gmail.com>
+ <582b8869-f370-3803-60a8-df31088f8088@gmail.com>
+ <YPbYnLBin9N4weiC@phenom.ffwll.local>
+ <bbc4f7fc-9d51-695e-2bb7-62558d7523e2@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMpamEp0KX9O2sHr6xOJ1ZMQngetpJ8UQR5G0aCuTltI6Wcd7J6RHNJyXG/JnbhSXfqjuuTFuAHbysPtlurEaKvTeFuLPXeQ7iZqguHvA2rO8ARVxApp
- AALw/086n+7j36zyHbWExrf5zVpoZf30Eh31a/Vvu+AlZyk/T1vljoC1fQD7Mc6h3O2hnDHuVtNZ0CdBgjMIZIx4M7GvHcIwJutjnI6aS9MgT67upRfzcEIZ
- qx517lfQVLgmufvy6BsQ6LybE9idFtuw+xXfk2gDNPjygw1TLDytzrU0Bsc2eNU93Czr1jbyb1AjTOMkLtobxUNP4F2gD8oArurLaXziTho=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bbc4f7fc-9d51-695e-2bb7-62558d7523e2@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 379e205dab9d7f9761984728e7d6f5f8305cc424:
+On Tue, Jul 20, 2021 at 04:16:56PM +0200, Christian König wrote:
+> Am 20.07.21 um 16:07 schrieb Daniel Vetter:
+> > On Mon, Jul 19, 2021 at 10:40:57AM +0200, Christian König wrote:
+> > > Am 17.07.21 um 22:29 schrieb Rob Clark:
+> > > > From: Rob Clark <robdclark@chromium.org>
+> > > > 
+> > > > Conversion to gpu_scheduler, and bonus removal of
+> > > > drm_gem_object_put_locked()
+> > > Oh yes please!
+> > > 
+> > > If I'm not completely mistaken that was the last puzzle piece missing to
+> > > unify TTMs and GEMs refcount of objects.
+> > Why does drm/msm, a driver not using ttm at all, block ttm refactorings?
+> > We can just check whether the TTM using driver is potentially using locked
+> > final unref and have a special version of
+> > drm_gem_object_put_guaranteed_unlocked or whatever the bikeshed will look
+> > like, which doesn't have the migth_lock.
+> 
+> Because we now don't have any unrealistic lock inversion between
+> dev->struct_mutex and obj->resv lockdep can complain any more.
 
-  media: usb: dvb-usb-v2: af9035: let subdrv autoselect enable si2168 and si2157 (2021-07-12 14:28:49 +0200)
+Yeah I know, but we didn't have that since a while ago if you're limiting
+the audit to ttm using drivers. Which are the only ones that matter for
+this, the only thing that caused issues was object_put still being
+dev->struct_mutex infested for backwards compat. But even that changed a
+while ago I think.
+-Daniel
 
-are available in the Git repository at:
+> 
+> Cheers,
+> Christian.
+> 
+> > 
+> > Anyway, deed is done now :-)
+> > -Daniel
+> > 
+> > > Only problem is that I only see patch 7 and 9 in my inbox. Where is the
+> > > rest?
+> > > 
+> > > Thanks,
+> > > Christian.
+> > > 
+> > > > Rob Clark (11):
+> > > >     drm/msm: Docs and misc cleanup
+> > > >     drm/msm: Small submitqueue creation cleanup
+> > > >     drm/msm: drop drm_gem_object_put_locked()
+> > > >     drm: Drop drm_gem_object_put_locked()
+> > > >     drm/msm/submit: Simplify out-fence-fd handling
+> > > >     drm/msm: Consolidate submit bo state
+> > > >     drm/msm: Track "seqno" fences by idr
+> > > >     drm/msm: Return ERR_PTR() from submit_create()
+> > > >     drm/msm: Conversion to drm scheduler
+> > > >     drm/msm: Drop struct_mutex in submit path
+> > > >     drm/msm: Utilize gpu scheduler priorities
+> > > > 
+> > > >    drivers/gpu/drm/drm_gem.c                   |  22 --
+> > > >    drivers/gpu/drm/msm/Kconfig                 |   1 +
+> > > >    drivers/gpu/drm/msm/adreno/a5xx_debugfs.c   |   4 +-
+> > > >    drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |   6 +-
+> > > >    drivers/gpu/drm/msm/adreno/a5xx_power.c     |   2 +-
+> > > >    drivers/gpu/drm/msm/adreno/a5xx_preempt.c   |   7 +-
+> > > >    drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  12 +-
+> > > >    drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |   2 +-
+> > > >    drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |   4 +-
+> > > >    drivers/gpu/drm/msm/adreno/adreno_gpu.c     |   6 +-
+> > > >    drivers/gpu/drm/msm/msm_drv.c               |  30 +-
+> > > >    drivers/gpu/drm/msm/msm_fence.c             |  39 ---
+> > > >    drivers/gpu/drm/msm/msm_fence.h             |   2 -
+> > > >    drivers/gpu/drm/msm/msm_gem.c               |  91 +-----
+> > > >    drivers/gpu/drm/msm/msm_gem.h               |  37 ++-
+> > > >    drivers/gpu/drm/msm/msm_gem_submit.c        | 300 ++++++++++++--------
+> > > >    drivers/gpu/drm/msm/msm_gpu.c               |  50 +---
+> > > >    drivers/gpu/drm/msm/msm_gpu.h               |  41 ++-
+> > > >    drivers/gpu/drm/msm/msm_ringbuffer.c        |  70 ++++-
+> > > >    drivers/gpu/drm/msm/msm_ringbuffer.h        |  12 +
+> > > >    drivers/gpu/drm/msm/msm_submitqueue.c       |  49 +++-
+> > > >    include/drm/drm_gem.h                       |   2 -
+> > > >    include/uapi/drm/msm_drm.h                  |  10 +-
+> > > >    23 files changed, 440 insertions(+), 359 deletions(-)
+> > > > 
+> 
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.15b
-
-for you to fetch changes up to 6dea6a701a6fada2e3571eef117f2d84e3e1e8fa:
-
-  dt-bindings: media: rockchip-vpu: Add PX30 compatible (2021-07-20 15:35:15 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Ezequiel Garcia (6):
-      hantro: vp8: Move noisy WARN_ON to vpu_debug
-      hantro: Make struct hantro_variant.init() optional
-      media: hantro: Avoid redundant hantro_get_{dst,src}_buf() calls
-      media: hantro: h264: Move DPB valid and long-term bitmaps
-      media: hantro: h264: Move reference picture number to a helper
-      media: hantro: Enable H.264 on Rockchip VDPU2
-
-Jonas Karlman (1):
-      media: hantro: Add H.264 support for Rockchip VDPU2
-
-Paul Kocialkowski (2):
-      media: hantro: Add support for the Rockchip PX30
-      dt-bindings: media: rockchip-vpu: Add PX30 compatible
-
- Documentation/devicetree/bindings/media/rockchip-vpu.yaml |   1 +
- drivers/staging/media/hantro/Makefile                     |   1 +
- drivers/staging/media/hantro/hantro.h                     |   4 +-
- drivers/staging/media/hantro/hantro_drv.c                 |  11 +-
- drivers/staging/media/hantro/hantro_g1_h264_dec.c         |  48 ++---
- drivers/staging/media/hantro/hantro_g1_vp8_dec.c          |  31 +--
- drivers/staging/media/hantro/hantro_h264.c                |  24 +++
- drivers/staging/media/hantro/hantro_hw.h                  |   8 +
- drivers/staging/media/hantro/rockchip_vpu2_hw_h264_dec.c  | 491 +++++++++++++++++++++++++++++++++++++++++++++
- drivers/staging/media/hantro/rockchip_vpu2_hw_vp8_dec.c   |  32 +--
- drivers/staging/media/hantro/rockchip_vpu_hw.c            |  43 +++-
- drivers/staging/media/hantro/sama5d4_vdec_hw.c            |   6 -
- 12 files changed, 626 insertions(+), 74 deletions(-)
- create mode 100644 drivers/staging/media/hantro/rockchip_vpu2_hw_h264_dec.c
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
