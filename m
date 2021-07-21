@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26DDB3D09C6
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jul 2021 09:34:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61FE13D09FC
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jul 2021 09:48:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235045AbhGUGx3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Jul 2021 02:53:29 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:59223 "EHLO
+        id S235273AbhGUHHA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Jul 2021 03:07:00 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:50445 "EHLO
         lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234872AbhGUGxT (ORCPT
+        by vger.kernel.org with ESMTP id S235098AbhGUHGz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Jul 2021 02:53:19 -0400
+        Wed, 21 Jul 2021 03:06:55 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id 66jcmzt4Khqx966jdmy7QZ; Wed, 21 Jul 2021 09:33:41 +0200
+        id 66womzz0Zhqx966wpmyABU; Wed, 21 Jul 2021 09:47:19 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1626852821; bh=ucbpvae1pXFmaRBUhGVrpqFNllv/IZQjwYL6zDrf9UM=;
+        t=1626853639; bh=wcwqyp83aWiiVP/xgme05L0RFGFqcaoQ6hpPeBMax3Y=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=N7LY0sPR9fr3pyGR8WYiG3Llu76u/bcafYaaFIkoRS6Yb73S5xjYLqf4Ey3sRUTz1
-         H4xXvanYMYhV459SDGxMqrVOR4f+dLUWFh4EEg6wxToH5ZpIAIDfrYs691zyzeMeg/
-         /mE0GFqI+23yGV/8QogS7fhc+O40pfcVLR/TcXCnoIgOe3aRXdeegK051Cccn8zb5j
-         Va2tmnlo6cQ3/OwB4tV+t1rWUcCyFnXb4V46jSoQt67Fz5fW3UEXecpqhX9LD5kgNs
-         ZlW1vnVOvXCplLgD2d7pCep6pnPUpAAwVjzEI/bblxc6MviFoNTY0hnF+2gHErxHW/
-         vD812cWN2MGxw==
-Subject: Re: [PATCH v4 00/13] imx8q video decoder/encoder driver
+        b=r1hIVuQG+1usCGrtnEnXWAbLjY9dUy+u/YwGes4RJDUDvvHWwQXrYOJi1pfEvg5P2
+         GqhlFZ1F61FI/xUjr8lWVTpxZZor+nMyDh0bzviOyMvypyQt+sGh9xmCn9gwNk8waX
+         ZMY4jAIz9WAwKR9fKraj3vwielQ+kAdqmicQeV5a9hGuhVnEH21lL0iGzSmcx8+7to
+         ncjFLPzug3LGNxMOpaPtzMkZO//Dv4M0888Ewff4PUOZz+bL6bxd0obkQUM3xC0kga
+         F0Iqf1FEUO7j/w+LPCqNcZzXXpIAhsQIlbaEIAVs1XxLM4DXeqPgCm+ufiTxG0xIIi
+         rlhSObuSHuYlA==
+Subject: Re: [PATCH v4 03/13] media: imx: imx8q: add imx8q vpu device driver
 To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
         shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de
 Cc:     kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
@@ -33,378 +33,220 @@ Cc:     kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <cover.1626743758.git.ming.qian@nxp.com>
+ <b5280a27895da7b2128a8b856b70a39b9ceb3188.1626743758.git.ming.qian@nxp.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <66908d2b-d553-d982-3609-e0c6d0f7960c@xs4all.nl>
-Date:   Wed, 21 Jul 2021 09:33:40 +0200
+Message-ID: <23da6982-8cc8-0f58-1289-e98f0944034b@xs4all.nl>
+Date:   Wed, 21 Jul 2021 09:47:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1626743758.git.ming.qian@nxp.com>
+In-Reply-To: <b5280a27895da7b2128a8b856b70a39b9ceb3188.1626743758.git.ming.qian@nxp.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJCIIdBxkRDIADwn8PH6ssdx6zsPJbb5rQi7eDbjhkLMFdtUm+QlhyFEKsRD0Tu3pbbSP0LLvu48aLrYetmln75NxKoKXHmwg8Y/+/LW09byytwOPAB4
- CGGKcLMwgcpbOUP3nIOK9wTFkReUsCG7NR79X5NTRF68CqNPg+ArfHSfjtTsnuURIktAh6Zrcmp0vLjimCaiKv51kdssDv+ubLXO/t7rJcmKKsh2qbmk8dP6
- tvRSyJphg6WVkOv7Y0v/0/InebfzDo+CGaSyJ3kL2MbdK7Ajfs66WQxoMlPr9B7XzNy8xS2iTYRzILVcEOY2Xe2gKu1tEy8FdiWlfHO5J1rWe6KefYhXPwYg
- sFneqz5OI/pGlkXx41VCmk+OyMC7dUS7xMNX6PofdrzO3sMM0e+qfY2VQlQLhxsHE4CfsEobFRIPPu9pxXLQ2D3k2kB9eKtN2wL9EtGKGv/a+YuWlHgHkevQ
- 1+yf4VJrE3vynDeknUTRe2WDMD2h8vBi9cqzI1V6LacoA0riqzxG60NU+7qZ950pHD0YYo/zvks+6NrCY9FPywO+B6UDSY0pjMg9MNMUszVoXMo5zGKwh8PE
- MGmOnsajznkCod0ucDlXqx1X6z4D2dJm9+2fUYGhA8TXMmg+34KWFnvQ9q5FlONGdrQqtvPMzINCJeo7fMqfKKjDNnei087qJYTP2YxRNvOBDOWP6jTHOvM2
- MfncpOuxfWc=
+X-CMAE-Envelope: MS4xfKNmbNgBJOmCees3JU1xCvBFHo0tpwIgQH1Q+ZcoZ8bow2y/EmC1igVXeMd0LDsKUYfZ/z11dvOh8jIinxbjR5gXuFYI6H0BKAklc5z79HBzp5+kZWDc
+ oMX/Rhl4tfSuOEXZWbAniqF7Enk/Q1ior1r2Xc5cmrS8uWyb7IMVAPbIxlj69veQJnuELnCNxtoOjFH9nFncsOQ59KCbPtmw7vzmfMuG5prFa/UyzmZ/pB9z
+ cgL2tBWceyeU21DChKiZQTl+1Jmzc45Hie/51/h382YYsXWmSexEd7c0DyWlFJoKUgovTiL2RLwd67r0Vnf2pRxq60qKhrWVajiuo7vogecdtJDTUQNS3n0t
+ Ioh0OBpiNdymu0zdEZm04aL3ESX/CiJpkN/fdcZNiFCxT+Mfth3IOEMrmKcsDGjX9EPa4mv8Lq0frXIQtT02+3osaPE5f4rdHMjwamyJ4xPRTMvoAIGvh7QP
+ IfdI4Z2NaS6r1BhyZDN0WAHZwC5dDmsJp6WNgkb2M/6Nxm5b8/AqScmdgwKWowz4HRsaHAa0JwXzWaObwsN6kMMMCRv07wtml1qRsMKskU9y+fyIzVjJpdQT
+ 7u8jq2zhdETkaz9Mxyz8wUU7MS2iksh3zqdJhai16hWEEnGie4VqQ4RR3sL2Kphyjrp3WunlctB6D4h/JfshWK3ZGFDqCZ2HgHzZKW8N5cxQnxhVcYNFtMhc
+ uhmdB7fPynk=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ming Qian,
-
-Thank you for working on this.
-
-Some high-level comments:
-
-First of all, it looks like this series is based on a nxp-kernel. I noticed
-references to e.g. V4L2_COLORSPACE_GENERIC_FILM which doesn't exist in the
-mainline kernel. The patch series really should be based on the mainline
-kernel, or (preferred) the linux-media kernel (https://git.linuxtv.org/media_tree.git/,
-master branch).
-
 On 20/07/2021 03:43, Ming Qian wrote:
-> Hi all,
+> IMX8Q SoCs feature a powerful video processing unit able to decode many
+> foramts and encode H.264.
 > 
-> This patch series adds support for
-> the imx8q video encoder and decoder
-> via the VPU block present in imx8q platforms.
-> Currently, support for IMX8QXP and IMX8QM is included.
+> The vpu IP is amphion malone decoder and windsor encoder.
+> This Driver is for this IP that is based on the v4l2 mem2mem framework.
 > 
-> It features decoding for the following formats:
-> - H.264
-> - HEVC
-> - MPEG4
-> - MPEG2
-> - MJPEG
-> - VC1
-> - VP8
-> - AVS
+> Supported SoCs are: IMX8QXP, IMX8QM
 > 
-> It features encoding for the following formats:
-> - H.264
-> 
-> The driver creates a separate device node for
-> the encoder and decoder.
-> 
-> Changelog:
-> 
-> v4:
-> - redefine the memory-region in devicetree bindings documentation
-> - use v4l2's mechanism to implement synchronize queuing ioctl
-> - remove the unnecessary mutex ioctl_sync
-> - don't notify source change event if the parameters are same as previously established
-> - add flag V4L2_FMT_FLAG_DYN_RESOLUTION to decoder's capture format
-> 
-> v3:
-> - don't make vpu device node a simple-bus
-> - trigger probing vpu core in the driver
-> - remove unnecessary vpu core index property
-> 
-> v2:
-> - fix dt bindings build error
-> - split driver patch into several parts to avoid exceeding bytes limit
-> 
-> Compliance
-> ==========
-> # v4l2-compliance -d /dev/video0
-> v4l2-compliance SHA: not available
-> , 64 bits, 64-bit time_t
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
+> Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
 
-Always compile v4l2-compliance from the git repo (https://git.linuxtv.org/v4l-utils.git/).
-Otherwise I cannot tell whether it is a recent version or if it is old. Since there is no
-SHA I'm going with old.
+<snip>
 
-> 
-> Compliance test for vpu B0 device /dev/video0:
-> 
-> Driver Info:
-> 	Driver name      : vpu B0
-> 	Card type        : imx vpu decoder
-> 	Bus info         : platform: imx8q-vpu
-> 	Driver version   : 5.10.35
-> 	Capabilities     : 0x84204000
-> 		Video Memory-to-Memory Multiplanar
-> 		Streaming
-> 		Extended Pix Format
-> 		Device Capabilities
-> 	Device Caps      : 0x04204000
-> 		Video Memory-to-Memory Multiplanar
-> 		Streaming
-> 		Extended Pix Format
+> diff --git a/include/uapi/linux/imx_vpu.h b/include/uapi/linux/imx_vpu.h
+> new file mode 100644
+> index 000000000000..330082d1c13f
+> --- /dev/null
+> +++ b/include/uapi/linux/imx_vpu.h
+> @@ -0,0 +1,120 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +/*
+> + * Copyright 2018-2020 NXP
 
-Hmm, v4l2-compliance should have detected a stateful decoder here.
+2020 -> 2021
 
-> 
-> Required ioctls:
-> 	test VIDIOC_QUERYCAP: OK
-> 
-> Allow for multiple opens:
-> 	test second /dev/video0 open: OK
-> 	test VIDIOC_QUERYCAP: OK
-> 	test VIDIOC_G/S_PRIORITY: OK
-> 	test for unlimited opens: OK
-> 
-> 	test invalid ioctls: OK
-> Debug ioctls:
-> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
-> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
-> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
-> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-> 	test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
-> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-> 	test VIDIOC_QUERYCTRL: OK
-> 	test VIDIOC_G/S_CTRL: OK
-> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> 	Standard Controls: 3 Private Controls: 2
-> 
-> Format ioctls:
-> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> 	test VIDIOC_G/S_PARM: OK (Not Supported)
-> 	test VIDIOC_G_FBUF: OK (Not Supported)
-> 	test VIDIOC_G_FMT: OK
-> 	test VIDIOC_TRY_FMT: OK
-> 	test VIDIOC_S_FMT: OK
-> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> 	test Cropping: OK
-> 	test Composing: OK
-> 	test Scaling: OK
-> 
-> Codec ioctls:
-> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> 	test VIDIOC_(TRY_)DECODER_CMD: OK
-> 
-> Buffer ioctls:
-> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-> 	test VIDIOC_EXPBUF: OK
-> 	test Requests: OK (Not Supported)
-> 
-> Total for vpu b0 device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 0
-> 
-> # v4l2-compliance -d /dev/video1
-> v4l2-compliance SHA: not available
-> , 64 bits, 64-bit time_t
-> 
-> Compliance test for imx vpu encoder device /dev/video1:
-> 
-> Driver Info:
-> 	Driver name      : imx vpu encoder
-> 	Card type        : imx vpu encoder
-> 	Bus info         : platform: imx8q-vpu
-> 	Driver version   : 5.10.35
-> 	Capabilities     : 0x84204000
-> 		Video Memory-to-Memory Multiplanar
-> 		Streaming
-> 		Extended Pix Format
-> 		Device Capabilities
-> 	Device Caps      : 0x04204000
-> 		Video Memory-to-Memory Multiplanar
-> 		Streaming
-> 		Extended Pix Format
-> 	Detected Stateful Encoder
+> + */
+> +
+> +/*
+> + * The code contained herein is licensed under the GNU General Public
+> + * License. You may obtain a copy of the GNU General Public License
+> + * Version 2 or later at the following locations:
+> + *
+> + * http://www.opensource.org/licenses/gpl-license.html
+> + * http://www.gnu.org/copyleft/gpl.html
+> + */
 
-Here it properly detects a stateful encoder.
+Drop this copyright comment block. The SPDX tag is sufficient. This should be
+removed in all files, just stick to the SPDX tag.
+
+> +#ifndef _UAPI__LINUX_IMX_VPU_H
+> +#define _UAPI__LINUX_IMX_VPU_H
+> +
+> +#include <linux/videodev2.h>
+> +#include <linux/v4l2-controls.h>
+> +
+> +/*imx v4l2 controls & extension controls*/
+> +
+> +//ctrls & extension ctrls definitions
+> +#define V4L2_CID_NON_FRAME		(V4L2_CID_USER_IMX_BASE)
+
+Don't use IMX_BASE, that's for the staging/media/imx driver.
+
+Add a new base for this driver to v4l2-controls.h.
+
+> +#define V4L2_CID_DIS_REORDER		(V4L2_CID_USER_IMX_BASE + 1)
+> +#define V4L2_CID_ROI_COUNT		(V4L2_CID_USER_IMX_BASE + 2)
+> +#define V4L2_CID_ROI			(V4L2_CID_USER_IMX_BASE + 3)
+> +#define V4L2_CID_IPCM_COUNT		(V4L2_CID_USER_IMX_BASE + 4)
+> +#define V4L2_CID_IPCM			(V4L2_CID_USER_IMX_BASE + 5)
+> +#define V4L2_CID_HDR10META		(V4L2_CID_USER_IMX_BASE + 6)
+> +#define V4L2_CID_SECUREMODE		(V4L2_CID_USER_IMX_BASE + 7)
+> +#define V4L2_CID_SC_ENABLE		(V4L2_CID_USER_IMX_BASE + 8)
+
+These all need to be documented in this header. Also make sure that all these
+structs are identical for 32 and 64 bit compilers (the pahole utility is
+very useful to test that), and that there are no holes in the structs.
+
+> +
+> +#define V4L2_MAX_ROI_REGIONS		8
+> +struct v4l2_enc_roi_param {
+> +	struct v4l2_rect rect;
+> +	__u32 enable;
+> +	__s32 qp_delta;
+> +	__u32 reserved[2];
+> +};
+
+Of interest might be this series adding support for dynamic array controls:
+
+https://patchwork.linuxtv.org/project/linux-media/cover/20210610113615.785359-1-hverkuil-cisco@xs4all.nl/
+
+It is very likely to be merged in the near future since it is needed for stateless
+HEVC decoders.
+
+> +
+> +struct v4l2_enc_roi_params {
+> +	__u32 num_roi_regions;
+> +	struct v4l2_enc_roi_param roi_params[V4L2_MAX_ROI_REGIONS];
+> +	__u32 config_store;
+
+That can be dropped, it appears to refer to the old and never merged config store API.
+Eventually the Request API was merged in the kernel, and that's what should be used.
+
+> +	__u32 reserved[2];
+> +};
+> +
+> +#define V4L2_MAX_IPCM_REGIONS		2
+> +struct v4l2_enc_ipcm_param {
+> +	struct v4l2_rect rect;
+> +	__u32 enable;
+> +	__u32 reserved[2];
+> +};
+> +struct v4l2_enc_ipcm_params {
+> +	__u32 num_ipcm_regions;
+> +	struct v4l2_enc_ipcm_param ipcm_params[V4L2_MAX_IPCM_REGIONS];
+> +	__u32 config_store;
+> +	__u32 reserved[2];
+> +};
+> +
+> +struct v4l2_hdr10_meta {
+> +	__u32 hasHdr10Meta;
+> +	__u32 redPrimary[2];
+> +	__u32 greenPrimary[2];
+> +	__u32 bluePrimary[2];
+> +	__u32 whitePoint[2];
+> +	__u32 maxMasteringLuminance;
+> +	__u32 minMasteringLuminance;
+> +	__u32 maxContentLightLevel;
+> +	__u32 maxFrameAverageLightLevel;
+> +};
+
+This is probably covered by the new colorimetry controls:
+
+https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/ext-ctrls-colorimetry.html
+
+> +
+> +/*imx v4l2 command*/
+> +#define V4L2_DEC_CMD_IMX_BASE		(0x08000000)
+> +#define V4L2_DEC_CMD_RESET		(V4L2_DEC_CMD_IMX_BASE + 1)
+
+Needs to be documented, looks dubious.
+
+> +
+> +/*imx v4l2 event*/
+> +//error happened in dec/enc
+> +#define V4L2_EVENT_CODEC_ERROR		(V4L2_EVENT_PRIVATE_START + 1)
+> +//frame loss in dec/enc
+> +#define V4L2_EVENT_SKIP			(V4L2_EVENT_PRIVATE_START + 2)
+> +//crop area change in dec, not reso change
+> +#define V4L2_EVENT_CROPCHANGE		(V4L2_EVENT_PRIVATE_START + 3)
+> +//some options can't be handled by codec, so might be ignored or updated. But codec could go on.
+> +#define V4L2_EVENT_INVALID_OPTION	(V4L2_EVENT_PRIVATE_START + 4)
+
+Documentation. I'm not sure we want it this way, or perhaps some should become standard
+events.
+
+> +
+> +/*imx v4l2 warning msg, attached with event V4L2_EVENT_INVALID_OPTION*/
+> +enum {
+> +	UNKONW_WARNING = -1,		//not known warning type
+> +	RIOREGION_NOTALLOW,		//(part of)roi region can not work with media setting and be ignored by enc
+> +	IPCMREGION_NOTALLOW,		//(part of)ipcm region can not work with media setting and be ignored by enc
+> +	LEVEL_UPDATED,			//current level cant't work with media setting and be updated by enc
+> +};
+> +
+> +/*  Flags for 'flags' field */
+> +/* Buffer only contains codec config data, eg. sps and pps*/
+> +#define V4L2_BUF_FLAG_CODECCONFIG	0x00200000
+> +
+> +/* imx v4l2 formats */
+> +/*raw formats*/
+> +#define V4L2_PIX_FMT_BGR565		v4l2_fourcc('B', 'G', 'R', 'P') /* 16  BGR-5-6-5 */
+> +#define V4L2_PIX_FMT_NV12X		v4l2_fourcc('N', 'V', 'X', '2') /* Y/CbCr 4:2:0 for 10bit */
+> +#define V4L2_PIX_FMT_DTRC		v4l2_fourcc('D', 'T', 'R', 'C') /* 8bit tile output, uncompressed */
+> +#define V4L2_PIX_FMT_P010		v4l2_fourcc('P', '0', '1', '0')	/* ms p010, data stored in upper 10 bits of 16 */
+> +#define V4L2_PIX_FMT_TILEX		v4l2_fourcc('D', 'T', 'R', 'X') /* 10 bit tile output, uncompressed */
+> +#define V4L2_PIX_FMT_RFC		v4l2_fourcc('R', 'F', 'C', '0') /* 8bit tile output, with rfc*/
+> +#define V4L2_PIX_FMT_RFCX		v4l2_fourcc('R', 'F', 'C', 'X') /* 10 bit tile output, with rfc */
+> +#define V4L2_PIX_FMT_411SP		v4l2_fourcc('4', '1', 'S', 'P') /* YUV 411 Semi planar */
+> +#define V4L2_PIX_FMT_NT8		v4l2_fourcc('N', 'A', '1', '2') /* NXP Tiled NV12 Format*/
+> +#define V4L2_PIX_FMT_NT10		v4l2_fourcc('N', 'T', '1', '2') /* NXP Tiled 10 bit Format*/
+> +
+> +/*codec format*/
+> +#define V4L2_PIX_FMT_AV1		v4l2_fourcc('A', 'V', '1', '0')	/* av1 */
+> +#define V4L2_PIX_FMT_RV			v4l2_fourcc('R', 'V', '0', '0')	/* rv  */
+> +#define V4L2_PIX_FMT_AVS		v4l2_fourcc('A', 'V', 'S', '0')	/* avs */
+> +#define V4L2_PIX_FMT_VP6		v4l2_fourcc('V', 'P', '6', '0') /* vp6 */
+> +#define V4L2_PIX_FMT_SPK		v4l2_fourcc('S', 'P', 'K', '0') /* spk */
+
+All these formats need to be added to videodev2.h and documented.
+
+I would suggest that you only keep what you really need for an initial submission of the
+driver, and add these new API features later. Extending the uAPI is always much
+more time consuming, so if possible you want to postpone that.
 
 Regards,
 
 	Hans
 
-> 
-> Required ioctls:
-> 	test VIDIOC_QUERYCAP: OK
-> 
-> Allow for multiple opens:
-> 	test second /dev/video1 open: OK
-> 	test VIDIOC_QUERYCAP: OK
-> 	test VIDIOC_G/S_PRIORITY: OK
-> 	test for unlimited opens: OK
-> 
-> 	test invalid ioctls: OK
-> Debug ioctls:
-> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
-> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
-> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
-> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-> 	test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
-> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-> 	test VIDIOC_QUERYCTRL: OK
-> 	test VIDIOC_G/S_CTRL: OK
-> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> 	Standard Controls: 20 Private Controls: 0
-> 
-> Format ioctls:
-> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> 	test VIDIOC_G/S_PARM: OK
-> 	test VIDIOC_G_FBUF: OK (Not Supported)
-> 	test VIDIOC_G_FMT: OK
-> 	test VIDIOC_TRY_FMT: OK
-> 	test VIDIOC_S_FMT: OK
-> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> 	test Cropping: OK
-> 	test Composing: OK (Not Supported)
-> 	test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
-> 	test VIDIOC_(TRY_)ENCODER_CMD: OK
-> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> 	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
-> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-> 	test VIDIOC_EXPBUF: OK
-> 	test Requests: OK (Not Supported)
-> 
-> Total for imx vpu encoder device /dev/video1: 45, Succeeded: 45, Failed: 0, Warnings: 0
-> 
-> Ming Qian (13):
->   dt-bindings: media: imx8q: add imx video codec bindings
->   media: v4l: add some definition of v4l2
->     colorspace/xfer_func/ycbcr_encoding
->   media: imx: imx8q: add imx8q vpu device driver
->   media: imx: imx8q: add vpu core driver
->   media: imx: imx8q: implement vpu core communication based on mailbox
->   media: imx: imx8q: add vpu v4l2 m2m support
->   media: imx: imx8q: add v4l2 m2m vpu encoder stateful driver
->   media: imx: imx8q: add v4l2 m2m vpu decoder stateful driver
->   media: imx: imx8q: implement windsor encoder rpc interface
->   media: imx: imx8q: implement malone decoder rpc interface
->   ARM64: dts: freescale: imx8q: add imx vpu codec entries
->   firmware: imx: scu-pd: imx8q: add vpu mu resources
->   MAINTAINERS: add NXP IMX8Q VPU CODEC V4L2 driver entry
-> 
->  .../bindings/media/nxp,imx8q-vpu.yaml         |  178 ++
->  MAINTAINERS                                   |   10 +
->  .../arm64/boot/dts/freescale/imx8-ss-vpu.dtsi |   72 +
->  arch/arm64/boot/dts/freescale/imx8qxp-mek.dts |   17 +
->  arch/arm64/boot/dts/freescale/imx8qxp.dtsi    |   26 +
->  drivers/firmware/imx/scu-pd.c                 |    4 +
->  drivers/media/platform/Kconfig                |    2 +
->  drivers/media/platform/Makefile               |    2 +
->  drivers/media/platform/imx/Kconfig            |   19 +
->  drivers/media/platform/imx/Makefile           |    1 +
->  drivers/media/platform/imx/vpu-8q/Makefile    |   23 +
->  drivers/media/platform/imx/vpu-8q/vdec.c      | 1817 +++++++++++++++++
->  drivers/media/platform/imx/vpu-8q/venc.c      | 1395 +++++++++++++
->  drivers/media/platform/imx/vpu-8q/vpu.h       |  343 ++++
->  drivers/media/platform/imx/vpu-8q/vpu_cmds.c  |  446 ++++
->  drivers/media/platform/imx/vpu-8q/vpu_cmds.h  |   34 +
->  drivers/media/platform/imx/vpu-8q/vpu_codec.h |   77 +
->  drivers/media/platform/imx/vpu-8q/vpu_color.c |  201 ++
->  drivers/media/platform/imx/vpu-8q/vpu_core.c  |  919 +++++++++
->  drivers/media/platform/imx/vpu-8q/vpu_core.h  |   25 +
->  drivers/media/platform/imx/vpu-8q/vpu_dbg.c   |  505 +++++
->  drivers/media/platform/imx/vpu-8q/vpu_defs.h  |  194 ++
->  .../media/platform/imx/vpu-8q/vpu_dev_imx8q.c |   82 +
->  drivers/media/platform/imx/vpu-8q/vpu_drv.c   |  225 ++
->  .../media/platform/imx/vpu-8q/vpu_helpers.c   |  405 ++++
->  .../media/platform/imx/vpu-8q/vpu_helpers.h   |   80 +
->  drivers/media/platform/imx/vpu-8q/vpu_imx8q.c |  227 ++
->  drivers/media/platform/imx/vpu-8q/vpu_imx8q.h |  125 ++
->  drivers/media/platform/imx/vpu-8q/vpu_log.h   |   53 +
->  .../media/platform/imx/vpu-8q/vpu_malone.c    | 1744 ++++++++++++++++
->  .../media/platform/imx/vpu-8q/vpu_malone.h    |   51 +
->  drivers/media/platform/imx/vpu-8q/vpu_mbox.c  |  135 ++
->  drivers/media/platform/imx/vpu-8q/vpu_mbox.h  |   25 +
->  drivers/media/platform/imx/vpu-8q/vpu_msgs.c  |  420 ++++
->  drivers/media/platform/imx/vpu-8q/vpu_msgs.h  |   23 +
->  drivers/media/platform/imx/vpu-8q/vpu_rpc.c   |  266 +++
->  drivers/media/platform/imx/vpu-8q/vpu_rpc.h   |  472 +++++
->  drivers/media/platform/imx/vpu-8q/vpu_v4l2.c  |  662 ++++++
->  drivers/media/platform/imx/vpu-8q/vpu_v4l2.h  |   53 +
->  .../media/platform/imx/vpu-8q/vpu_windsor.c   | 1253 ++++++++++++
->  .../media/platform/imx/vpu-8q/vpu_windsor.h   |   48 +
->  include/linux/imx_vpu.h                       |   19 +
->  include/uapi/linux/imx_vpu.h                  |  120 ++
->  include/uapi/linux/videodev2.h                |   30 +
->  44 files changed, 12828 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8q-vpu.yaml
->  create mode 100644 arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
->  create mode 100644 drivers/media/platform/imx/Kconfig
->  create mode 100644 drivers/media/platform/imx/Makefile
->  create mode 100644 drivers/media/platform/imx/vpu-8q/Makefile
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vdec.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/venc.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu.h
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_cmds.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_cmds.h
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_codec.h
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_color.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_core.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_core.h
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_dbg.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_defs.h
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_dev_imx8q.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_drv.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_helpers.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_helpers.h
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_imx8q.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_imx8q.h
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_log.h
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_malone.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_malone.h
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_mbox.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_mbox.h
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_msgs.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_msgs.h
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_rpc.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_rpc.h
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_v4l2.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_v4l2.h
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_windsor.c
->  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_windsor.h
->  create mode 100644 include/linux/imx_vpu.h
->  create mode 100644 include/uapi/linux/imx_vpu.h
+> +
+> +/*codec formats*/
+> +#endif	//#ifndef _UAPI__LINUX_IMX_VPU_H
 > 
 
