@@ -2,159 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D03E3D0D5B
+	by mail.lfdr.de (Postfix) with ESMTP id 956903D0D5C
 	for <lists+linux-media@lfdr.de>; Wed, 21 Jul 2021 13:24:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237824AbhGUKkh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Jul 2021 06:40:37 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:57447 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238670AbhGUJ3B (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Jul 2021 05:29:01 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 69AOm0z7khqx969APmyaYO; Wed, 21 Jul 2021 12:09:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1626862170; bh=P3eSTRr/wwYYDeWXMLnHYx2UOIc+mSdyH5PzEnuByEY=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=OkOaoVs/4g8kNSUCw37Tt0XZFmJc1NSd9ubjTJ8iC4J/H3ekTo27b+cpq6u1RoQYF
-         BxVssIEpzTCW8a/Jg0GJn7v/Rfe7ZCfO1OYz6CbqTZXkms5id4YnBKGpZ1WIzGcnxU
-         /Artg1iefLlXNQA1H7VB6YtNnDwfRlS1C6vz1S4sMxjBGIUGpUhdX8I8T6qtnhfKgU
-         22RdGUYMo+avZrRxfyr9uwPI1hGHulKqhgWbOl0323vyNmU9FxxnsOK42sLc+kL2TH
-         qMd+km0BUZ+xf2TJ0J9qfMlPHiDf4geAc0ls/LSxNJd9yBfNnM/K51gwxbviFQ9d1o
-         iBnpoHyvKVShA==
-Subject: Re: [PATCH v4 02/13] media: v4l: add some definition of v4l2
- colorspace/xfer_func/ycbcr_encoding
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de
-Cc:     kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        aisheng.dong@nxp.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <cover.1626743758.git.ming.qian@nxp.com>
- <d63b34381eec0ae47bf39dd2b88d2bc8994c269d.1626743758.git.ming.qian@nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <449dc223-d248-8771-2f5a-46c6bbac401d@xs4all.nl>
-Date:   Wed, 21 Jul 2021 12:09:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S238236AbhGUKkk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Jul 2021 06:40:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47472 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238695AbhGUJ3J (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Jul 2021 05:29:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0BAC960FE7;
+        Wed, 21 Jul 2021 10:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1626862185;
+        bh=AkCAzoeKK4dm3J0IYr3eqKdLUog3VqnY+aXSEhth1R0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=c1tD+1+8N7ya+U+R4FoCk5r1AY0+njsEQDtKrpnu5fKg2Nsyw8ad0RAbDRa8LMlYN
+         kIGK/SB0S4EC/Bt9LoElGD8+QX12QgKfoR1683w3NYrmezl45haNH7nWDa/e7NVumf
+         ZIzS+wQ0FwO2WzFS4jJEXOjj+Re557OYzd+zf9Xc=
+Date:   Wed, 21 Jul 2021 12:09:41 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     kernel@pengutronix.de,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Alexandre Bounine <alex.bou9@gmail.com>,
+        Alex Dubov <oakad@yahoo.com>, Alex Elder <elder@kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Alison Schofield <alison.schofield@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Andy Gross <agross@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Bodo Stroesser <bostroesser@gmail.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Dexuan Cui <decui@microsoft.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Eric Farman <farman@linux.ibm.com>,
+        Finn Thain <fthain@linux-m68k.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Frank Li <lznuaa@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Geoff Levand <geoff@infradead.org>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Hannes Reinecke <hare@suse.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Ira Weiny <ira.weiny@intel.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jason Wang <jasowang@redhat.com>,
+        Jens Taprogge <jens.taprogge@taprogge.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Joey Pabalan <jpabalanb@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Johannes Thumshirn <morbidrsa@gmail.com>,
+        Jon Mason <jdmason@kudzu.us>, Juergen Gross <jgross@suse.com>,
+        Julien Grall <jgrall@amazon.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Manohar Vanga <manohar.vanga@gmail.com>,
+        Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Martyn Welch <martyn@welchs.me.uk>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Maxim Levitsky <maximlevitsky@gmail.com>,
+        Michael Buesch <m@bues.ch>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Jamet <michael.jamet@intel.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mike Christie <michael.christie@oracle.com>,
+        Moritz Fischer <mdf@kernel.org>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+        Rich Felker <dalias@libc.org>,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Samuel Holland <samuel@sholland.org>,
+        Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
+        SeongJae Park <sjpark@amazon.de>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Sven Van Asbroeck <TheSven73@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thorsten Scherer <t.scherer@eckelmann.de>,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        Tom Rix <trix@redhat.com>,
+        Tyrel Datwyler <tyreld@linux.ibm.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Wolfram Sang <wsa@kernel.org>, Wu Hao <hao.wu@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        YueHaibing <yuehaibing@huawei.com>,
+        Yufen Yu <yuyufen@huawei.com>, alsa-devel@alsa-project.org,
+        dmaengine@vger.kernel.org, greybus-dev@lists.linaro.org,
+        industrypack-devel@lists.sourceforge.net, kvm@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-cxl@vger.kernel.org,
+        linux-fpga@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-ntb@googlegroups.com, linux-parisc@vger.kernel.org,
+        linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, nvdimm@lists.linux.dev,
+        platform-driver-x86@vger.kernel.org, sparclinux@vger.kernel.org,
+        target-devel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v4 0/5] bus: Make remove callback return void
+Message-ID: <YPfyZen4Y0uDKqDT@kroah.com>
+References: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <d63b34381eec0ae47bf39dd2b88d2bc8994c269d.1626743758.git.ming.qian@nxp.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfPV0SKw09O60/fU+QSqBVSheTtwmeqte4y+S0hj61q1Dxc5peWOif0typ/U0Hu+/OFSUlfd96wjKqttELUA2rAFV5d+IFLtA+GN3S6OZ8MGSZJtlZojs
- xnlulVR5YyjgMn8aoYJRs5ltgBEcvoBWEqisGTr6s68B2/zuBF6j8IjWXfoLGlOdx4vP1Yi1FSQljNx7ZypPb8+Zm4O07UcOqRAkN6tHv4R7c5UBULyj1Zk+
- fXxqMZzRxuUaLMeRA97Todjr8uhpkzBvbzaHKZvpHlt1Z+rl/3uCJ2pg4dep4lSJfC+74whEJXsnxPAU/zwEEcE+h+PzziC4xNHTj+xZiJM24mdKgwP7TfAp
- AU1NpUcRiiOAv5GX77DhbixopUqtdAzPokRpdloqjv8vKtNUEQtQSbyqN5iH34PGqPrvMHJ9qniyDfgbiZ45eUrYCtiC7EoLUElT6usTAeAmzBp7OJFADDEQ
- nvSSwkIs6DhuhlWxoOTBJ5lsEIsJC4PYC/eMXPcOPudpfXUhiI4okPUKSnqdDECbuSmLipN/p5v7jNd9VxAVZMZRWPeGHbxzmyDAUBGiRiZkyC+LaG6g0a2e
- bGh0+3NtoXEGFlq6kIXyh6sdYmteTXYhFA8PgQ3/sAwkFmYTpKZ6c1zb8zvGd24aECIj2XcTIWF78vSLXqa97PjntEkCgrfwougtm/Kg1PAXWUr58m5iXtJ3
- 8f4WJZM3hPw=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/07/2021 03:43, Ming Qian wrote:
-> Some definition of colorspace/xfer_func/ycbcr_encoding
-> are defined in ISO, but missed in V4L2,
-> so add some definition according VPU driver's requirement
+On Tue, Jul 13, 2021 at 09:35:17PM +0200, Uwe Kleine-König wrote:
+> Hello,
 > 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
-> Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
-> ---
->  include/uapi/linux/videodev2.h | 30 ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
+> this is v4 of the final patch set for my effort to make struct
+> bus_type::remove return void.
 > 
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 534eaa4d39bc..545f2c329bc9 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -247,6 +247,12 @@ enum v4l2_colorspace {
->  
->  	/* DCI-P3 colorspace, used by cinema projectors */
->  	V4L2_COLORSPACE_DCI_P3        = 12,
-> +
-> +	/* Generic film (colour filters using Illuminant C) */
-> +	V4L2_COLORSPACE_GENERIC_FILM  = 13,
-> +
-> +	/* SMPTE ST 428-1 */
-> +	V4L2_COLORSPACE_ST428         = 14,
->  };
->  
->  /*
-> @@ -276,6 +282,20 @@ enum v4l2_xfer_func {
->  	 * V4L2_COLORSPACE_RAW: V4L2_XFER_FUNC_NONE
->  	 *
->  	 * V4L2_COLORSPACE_DCI_P3: V4L2_XFER_FUNC_DCI_P3
-> +	 *
-> +	 * V4L2_XFER_FUNC_LINEAR: Linear transfer characteristics
-
-This exists already: V4L2_XFER_FUNC_NONE
-
-> +	 *
-> +	 * V4L2_XFER_FUNC_GAMMA22: Assumed display gamma 2.2
-> +	 *
-> +	 * V4L2_XFER_FUNC_GAMMA28: Assumed display gamma 2.8
-> +	 *
-> +	 * V4L2_XFER_FUNC_HLG: STD-B67, Rec. ITU-R BT.2100-2 hybrid-log-gamma
-> +	 *
-> +	 * V4L2_XFER_FUNC_XVYCC: IEC 61966-2-4
-
-This exists already, it is signaled through V4L2_YCBCR_ENC_XV709 and
-V4L2_YCBCR_ENC_XV601. It's not actually a different transfer function,
-it's the YCbCr encoding that's different (the transfer function is still
-V4L2_XFER_FUNC_709).
-
-> +	 *
-> +	 * V4L2_XFER_FUNC_BT1361: Rec. ITU-R BT.1361-0 extended colour gamut
-> +	 *
-> +	 * V4L2_XFER_FUNC_ST428: SMPTE ST 428-1
->  	 */
->  	V4L2_XFER_FUNC_DEFAULT     = 0,
->  	V4L2_XFER_FUNC_709         = 1,
-> @@ -285,6 +305,13 @@ enum v4l2_xfer_func {
->  	V4L2_XFER_FUNC_NONE        = 5,
->  	V4L2_XFER_FUNC_DCI_P3      = 6,
->  	V4L2_XFER_FUNC_SMPTE2084   = 7,
-> +	V4L2_XFER_FUNC_LINEAR      = 8,
-> +	V4L2_XFER_FUNC_GAMMA22     = 9,
-> +	V4L2_XFER_FUNC_GAMMA28     = 10,
-> +	V4L2_XFER_FUNC_HLG         = 11,
-> +	V4L2_XFER_FUNC_XVYCC       = 12,
-> +	V4L2_XFER_FUNC_BT1361      = 13,
-
-This appears to be a variant of xvYCC, it should probably be a YCBCR_ENC variant
-since the transfer function defined in bt.1361 is REC709.
-
-> +	V4L2_XFER_FUNC_ST428       = 14,
-
-Not sure what this one is about.
-
->  };
->  
->  /*
-> @@ -345,6 +372,9 @@ enum v4l2_ycbcr_encoding {
->  
->  	/* SMPTE 240M -- Obsolete HDTV */
->  	V4L2_YCBCR_ENC_SMPTE240M      = 8,
-> +
-> +	/* KR=0.30, KB=0.11 or equivalent */
-> +	V4L2_YCBCR_ENC_BT470_6M       = 9,
->  };
->  
->  /*
+> The first four patches contain cleanups that make some of these
+> callbacks (more obviously) always return 0. They are acked by the
+> respective maintainers. Bjorn Helgaas explicitly asked to include the
+> pci patch (#1) into this series, so Greg taking this is fine. I assume
+> the s390 people are fine with Greg taking patches #2 to #4, too, they
+> didn't explicitly said so though.
 > 
+> The last patch actually changes the prototype and so touches quite some
+> drivers and has the potential to conflict with future developments, so I
+> consider it beneficial to put these patches into next soon. I expect
+> that it will be Greg who takes the complete series, he already confirmed
+> via irc (for v2) to look into this series.
+> 
+> The only change compared to v3 is in the fourth patch where I modified a
+> few more drivers to fix build failures. Some of them were found by build
+> bots (thanks!), some of them I found myself using a regular expression
+> search. The newly modified files are:
+> 
+>  arch/sparc/kernel/vio.c
+>  drivers/nubus/bus.c
+>  drivers/sh/superhyway/superhyway.c
+>  drivers/vlynq/vlynq.c
+>  drivers/zorro/zorro-driver.c
+>  sound/ac97/bus.c
+> 
+> Best regards
+> Uwe
 
-I'm not opposed to this, but it has to be documented in
-Documentation/userspace-api/media/v4l/colorspaces-details.rst.
+Now queued up.  I can go make a git tag that people can pull from after
+0-day is finished testing this to verify all is good, if others need it.
 
-I would recommend for an initial submission to only add those new colorimetries
-that are actually needed, and others can be added later. uAPI additions take a
-lot of time, esp. getting the documentation correct.
+thanks,
 
-Regards,
-
-	Hans
+greg k-h
