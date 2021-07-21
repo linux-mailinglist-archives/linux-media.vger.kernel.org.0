@@ -2,323 +2,461 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03BC63D0B20
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jul 2021 11:20:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14A513D0C2D
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jul 2021 12:13:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236423AbhGUITE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Jul 2021 04:19:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36414 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237458AbhGUIOZ (ORCPT
+        id S237205AbhGUJTr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Jul 2021 05:19:47 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:42341 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237655AbhGUI6l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Jul 2021 04:14:25 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E40BC061574
-        for <linux-media@vger.kernel.org>; Wed, 21 Jul 2021 01:54:57 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id d2so1354981wrn.0
-        for <linux-media@vger.kernel.org>; Wed, 21 Jul 2021 01:54:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=STmv1ZJBg4gYStBqLUUrSRjgB24KVzvnk4PwaEwxfLI=;
-        b=qFbArx372SoWusZtJpim5Pp1ezwyVzwrK75Ox+vjGqefP+toJrsNpcUXa7c9E2fQMY
-         ePEYhJKzpPmzq39dozs55yC21LaoUyslHDNMSPBEJamGg6nhbKdw9SI0IYBC3ldbo5Eh
-         VQJyzA7cpP7lHsDIQ8Ggv+MujlpQujHTmdDU2Hdf6jTuyrvsUmctb/eJ65XBm8KQd2h2
-         +ZPWWKgEvqRm3ers8VcUU0xJSGj7RDofWpMbBh+HYBbZ5SshTfK9GzvCGlkR5Ev9awf2
-         s6tIY3LNIlGoFmELnXISV6bu+rDzrk3xCeX4Y1dv3vFR/VcNK4bqLDqoQ+cWSFmTW3sX
-         N7vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=STmv1ZJBg4gYStBqLUUrSRjgB24KVzvnk4PwaEwxfLI=;
-        b=TP7ZEdnHFGoZSZJidxr9OfY6n5uPoWrKoARxqR2LeDMY3wdxhlCRCgnCXZXSlGpUDB
-         53hDoVWLz1r004sc8dx2uTua2bCJNfeu+OyT4sMI3JeEkLmD1nIGOxBBsqjD8kVWVe1r
-         zV1gut5SGP4tyKBnv9VzuG2O+cf9lwnzeRE9520xD8QUIO5If0+zE93EJm2Unr3q1ky2
-         8kUCe6v24K+d22k3qxukfvX1dqMQEOz6Qq+4jRoVUcF8haJOdFQgDIafl9Hpkw0WBOO5
-         liSGFqcdeYF5zBpQS+1WccIicJcTb6y+EJPI4bgDGjMBtlU/qrGOQiJDJAny1hdy+n0U
-         ufrg==
-X-Gm-Message-State: AOAM530TeLKeeD80IamygGh9G+VNSchqpUF/C2D6yo7tKRIRGj3d/h4r
-        bTaegNJkI37lWS0k3HNUQJEfHzb2n0ng5Q==
-X-Google-Smtp-Source: ABdhPJzf4hDZSFB+fewqwv5oeYUTpkuopT/tcgUy+hhMJJGmBawA35+h0nliGfeYP1f1vmbg9htQRQ==
-X-Received: by 2002:a5d:4a4c:: with SMTP id v12mr40803394wrs.256.1626857696179;
-        Wed, 21 Jul 2021 01:54:56 -0700 (PDT)
-Received: from bismarck.berto.se (p4fca2710.dip0.t-ipconnect.de. [79.202.39.16])
-        by smtp.googlemail.com with ESMTPSA id x9sm26614577wrm.82.2021.07.21.01.54.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jul 2021 01:54:55 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
-Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: [PATCH v2.1 11/11] rcar-vin: Add r8a779a0 support
-Date:   Wed, 21 Jul 2021 10:53:57 +0200
-Message-Id: <20210721085357.4181098-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <3b15cc12-2c3c-c622-fcbb-3aed583f09d1@xs4all.nl>
-References: <3b15cc12-2c3c-c622-fcbb-3aed583f09d1@xs4all.nl>
+        Wed, 21 Jul 2021 04:58:41 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 68gVm0leUhqx968gXmyUsr; Wed, 21 Jul 2021 11:38:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1626860317; bh=hzjKfB2pNKDbXyVGmdxbyvpva2AdUcTazrG+AjnpdFE=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=vHk7UrYE9FJzusHyejKaseKdkiKovgCP1XDSI7d1273s8r78bzMZZEaAvmorIdgcE
+         JRTH8ur639k44GQjIOvwI7FH76N63847KcT/f99EBhkVbvnxH9ii54PnGRsO1N3sTA
+         XLovAc97TjWrOhKnjHQUZKaG6zh1z7VU651HhYAqZY58KBv7/AzuxC/AtsyBZKI/8m
+         Ccuy7H6YN6kJipiz8E6KaTX3CyzoJga7oSCWSHsrJmeBcJGCDYr4S0XzBlYUvDAL2C
+         F6iwnA/Kfhk++6TbipQTe6jz/4myfmld5DK4dGNwB7JyfmVbeYfZYLJfeEIZMK3PP9
+         Vst6IxpD7Xeug==
+Subject: Re: [EXT] Re: [PATCH v4 00/13] imx8q video decoder/encoder driver
+To:     Ming Qian <ming.qian@nxp.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
+Cc:     "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+References: <cover.1626743758.git.ming.qian@nxp.com>
+ <66908d2b-d553-d982-3609-e0c6d0f7960c@xs4all.nl>
+ <AM6PR04MB634150E6B5663100069824D5E7E39@AM6PR04MB6341.eurprd04.prod.outlook.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <27bcc9d2-c0ba-46cd-36c3-95e13fe6a0a9@xs4all.nl>
+Date:   Wed, 21 Jul 2021 11:38:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <AM6PR04MB634150E6B5663100069824D5E7E39@AM6PR04MB6341.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfKKWx4w0JpKpbhmjqDpfWZejAHP2GugvRvr40AZEuMJasYxxgqoTj17MzOPOcxJsFJTow4CV08wzZOq2HibvMJ9aZfWB3fOBKiWw0R2tZtK9PysM9T8n
+ GHPFoBa5YHjGyoko7QTBp0OYfdnYwp2ADKLlZLH7Fd8FKmA63kNZzS4W01iqYy2AoFh+MEL0Pzsr/zo6ZfbK5+4blTrXAn+AVoVbZMEJLqE9l9UV7QHw+w4r
+ STeegDGRqcwCNJSOo146HWwoCEBr7zvmn99T23tBz/MQ8etgNg9HiUKH7dMx8o8h5+EbxwH2Hk8aNtgEpArje7DVv3dcfnIi7kXPYcU/kMGs5OqZhQbYfBZr
+ 6mv4RgcxIbmlkmWI1mbUSJoVHa41N30hINYnjagmzpuo8pxR3aXS6RkrLm7FYONRnXBw2EtBz4bBxR87G16BxOO/cDEXrHgGIEDARvZSdIXqWMvyOZiF2gX9
+ /hvd/mCUzke9CJpptqV8O3bVfvMN7tcSvOiL4mDqyU8spEgUaPL66QfVn/2XHUc/XtP2NwZVScWg1HEZCkwXt8JgcLp4SJgfbglMmNUAJqim8cllD3scXCJ+
+ OPKmfy8Kln9+k+ExMpyx9O6XYJuI4x/YMsonP6zKdRydqFuUG1XxQkHHpX9TUbNVChB7b3yfpd/IIs1+61ZGt8Ti+jNQ8Hl7x8bGOB9U4nRKqxJrpOPamkJg
+ 5oIP6UZ2jyw=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for the R-Car V3U (r8a779a0) to the driver. The V3U has the
-VIN modules connected to a ISP instead of directly to the R-Car CSI-2
-receivers. The reason being that the ISP performs channel selection
-based on CSI-2 VC/DT pairs and routes the video data to different VIN
-modules. In other SoC versions this filtering is done by the VIN modules
-themself.
+On 21/07/2021 10:53, Ming Qian wrote:
+>> Hi Ming Qian,
+>>
+>> Thank you for working on this.
+>>
+>> Some high-level comments:
+>>
+>> First of all, it looks like this series is based on a nxp-kernel. I noticed references
+>> to e.g. V4L2_COLORSPACE_GENERIC_FILM which doesn't exist in the mainline
+>> kernel. The patch series really should be based on the mainline kernel, or
+>> (preferred) the linux-media kernel
+>> (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.linu
+>> xtv.org%2Fmedia_tree.git%2F&amp;data=04%7C01%7Cming.qian%40nxp.com
+>> %7C3b39b6df4e6746d5e5c308d94c19dd55%7C686ea1d3bc2b4c6fa92cd99c
+>> 5c301635%7C0%7C1%7C637624496237171229%7CUnknown%7CTWFpbGZs
+>> b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0
+>> %3D%7C2000&amp;sdata=FlBIfE5%2BT3vsO7urAeeic%2FslWCQIR0VhuUuhx8Z
+>> Xizk%3D&amp;reserved=0,
+>> master branch).
+> 
+> Hi Hans,
+>    The patches are indeed based on linux-media kernel, and the V4L2_COLORSPACE_GENERIC_FILM is added in the patch "media: v4l: add some definition of v4l2 colorspace/xfer_func/ycbcr_encoding", which is the second patch of these series.
 
-While the media graph is very different from other SoCs the only
-difference in operating the VIN modules is that the VC/DT filtering
-should be skipped as that is performed by the ISP.
+My mistake, for some reason I totally overlooked that patch. Weird.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
-* Changes since v1
-- Allow the link_setup() return an error.
-- Fix spelling in commit message.
+Regards,
 
-* Changes since v2
-- Add documentation for the use_isp struct member.
----
- drivers/media/platform/rcar-vin/rcar-core.c | 106 +++++++++++++++++++-
- drivers/media/platform/rcar-vin/rcar-dma.c  |  20 ++--
- drivers/media/platform/rcar-vin/rcar-vin.h  |  16 ++-
- 3 files changed, 129 insertions(+), 13 deletions(-)
+	Hans
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-index 0653e1ce144860fe..690e3f7e5a1c68ca 100644
---- a/drivers/media/platform/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/rcar-vin/rcar-core.c
-@@ -1007,6 +1007,91 @@ static int rvin_csi2_init(struct rvin_dev *vin)
- 	return ret;
- }
- 
-+/* -----------------------------------------------------------------------------
-+ * ISP
-+ */
-+
-+static int rvin_isp_setup_links(struct rvin_dev *vin)
-+{
-+	unsigned int i;
-+	int ret = -EINVAL;
-+
-+	/* Create all media device links between VINs and ISP's. */
-+	mutex_lock(&vin->group->lock);
-+	for (i = 0; i < RCAR_VIN_NUM; i++) {
-+		struct media_pad *source_pad, *sink_pad;
-+		struct media_entity *source, *sink;
-+		unsigned int source_slot = i / 8;
-+		unsigned int source_idx = i % 8 + 1;
-+
-+		if (!vin->group->vin[i])
-+			continue;
-+
-+		/* Check that ISP is part of the group. */
-+		if (!vin->group->remotes[source_slot].subdev)
-+			continue;
-+
-+		source = &vin->group->remotes[source_slot].subdev->entity;
-+		source_pad = &source->pads[source_idx];
-+
-+		sink = &vin->group->vin[i]->vdev.entity;
-+		sink_pad = &sink->pads[0];
-+
-+		/* Skip if link already exists. */
-+		if (media_entity_find_link(source_pad, sink_pad))
-+			continue;
-+
-+		ret = media_create_pad_link(source, source_idx, sink, 0,
-+					    MEDIA_LNK_FL_ENABLED |
-+					    MEDIA_LNK_FL_IMMUTABLE);
-+		if (ret) {
-+			vin_err(vin, "Error adding link from %s to %s\n",
-+				source->name, sink->name);
-+			break;
-+		}
-+	}
-+	mutex_unlock(&vin->group->lock);
-+
-+	return ret;
-+}
-+
-+static void rvin_isp_cleanup(struct rvin_dev *vin)
-+{
-+	rvin_group_notifier_cleanup(vin);
-+	rvin_group_put(vin);
-+	rvin_free_controls(vin);
-+}
-+
-+static int rvin_isp_init(struct rvin_dev *vin)
-+{
-+	int ret;
-+
-+	vin->pad.flags = MEDIA_PAD_FL_SINK;
-+	ret = media_entity_pads_init(&vin->vdev.entity, 1, &vin->pad);
-+	if (ret)
-+		return ret;
-+
-+	ret = rvin_create_controls(vin, NULL);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = rvin_group_get(vin, rvin_isp_setup_links, NULL);
-+	if (ret)
-+		goto err_controls;
-+
-+	ret = rvin_group_notifier_init(vin, 2, RVIN_ISP_MAX);
-+	if (ret)
-+		goto err_group;
-+
-+	return 0;
-+err_group:
-+	rvin_group_put(vin);
-+err_controls:
-+	rvin_free_controls(vin);
-+
-+	return ret;
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Suspend / Resume
-  */
-@@ -1379,6 +1464,15 @@ static const struct rvin_info rcar_info_r8a77995 = {
- 	.routes = rcar_info_r8a77995_routes,
- };
- 
-+static const struct rvin_info rcar_info_r8a779a0 = {
-+	.model = RCAR_GEN3,
-+	.use_mc = true,
-+	.use_isp = true,
-+	.nv12 = true,
-+	.max_width = 4096,
-+	.max_height = 4096,
-+};
-+
- static const struct of_device_id rvin_of_id_table[] = {
- 	{
- 		.compatible = "renesas,vin-r8a774a1",
-@@ -1440,6 +1534,10 @@ static const struct of_device_id rvin_of_id_table[] = {
- 		.compatible = "renesas,vin-r8a77995",
- 		.data = &rcar_info_r8a77995,
- 	},
-+	{
-+		.compatible = "renesas,vin-r8a779a0",
-+		.data = &rcar_info_r8a779a0,
-+	},
- 	{ /* Sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, rvin_of_id_table);
-@@ -1488,7 +1586,9 @@ static int rcar_vin_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, vin);
- 
--	if (vin->info->use_mc)
-+	if (vin->info->use_isp)
-+		ret = rvin_isp_init(vin);
-+	else if (vin->info->use_mc)
- 		ret = rvin_csi2_init(vin);
- 	else
- 		ret = rvin_parallel_init(vin);
-@@ -1512,7 +1612,9 @@ static int rcar_vin_remove(struct platform_device *pdev)
- 
- 	rvin_v4l2_unregister(vin);
- 
--	if (vin->info->use_mc)
-+	if (vin->info->use_isp)
-+		rvin_isp_cleanup(vin);
-+	else if (vin->info->use_mc)
- 		rvin_csi2_cleanup(vin);
- 	else
- 		rvin_parallel_cleanup(vin);
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index f5f722ab1d4e8461..58718e52ae541a87 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -783,16 +783,18 @@ static int rvin_setup(struct rvin_dev *vin)
- 	/* Always update on field change */
- 	vnmc |= VNMC_VUP;
- 
--	/* If input and output use the same colorspace, use bypass mode */
--	if (input_is_yuv == output_is_yuv)
--		vnmc |= VNMC_BPS;
-+	if (!vin->info->use_isp) {
-+		/* If input and output use the same colorspace, use bypass mode */
-+		if (input_is_yuv == output_is_yuv)
-+			vnmc |= VNMC_BPS;
- 
--	if (vin->info->model == RCAR_GEN3) {
--		/* Select between CSI-2 and parallel input */
--		if (vin->is_csi)
--			vnmc &= ~VNMC_DPINE;
--		else
--			vnmc |= VNMC_DPINE;
-+		if (vin->info->model == RCAR_GEN3) {
-+			/* Select between CSI-2 and parallel input */
-+			if (vin->is_csi)
-+				vnmc &= ~VNMC_DPINE;
-+			else
-+				vnmc |= VNMC_DPINE;
-+		}
- 	}
- 
- 	/* Progressive or interlaced mode */
-diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-index 49c148c40ea52b79..6c06320174a2ed96 100644
---- a/drivers/media/platform/rcar-vin/rcar-vin.h
-+++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-@@ -29,7 +29,7 @@
- #define HW_BUFFER_MASK 0x7f
- 
- /* Max number on VIN instances that can be in a system */
--#define RCAR_VIN_NUM 8
-+#define RCAR_VIN_NUM 32
- 
- struct rvin_group;
- 
-@@ -48,7 +48,17 @@ enum rvin_csi_id {
- 	RVIN_CSI_MAX,
- };
- 
--#define RVIN_REMOTES_MAX RVIN_CSI_MAX
-+enum rvin_isp_id {
-+	RVIN_ISP0,
-+	RVIN_ISP1,
-+	RVIN_ISP2,
-+	RVIN_ISP4,
-+	RVIN_ISP_MAX,
-+};
-+
-+#define RVIN_REMOTES_MAX \
-+	(((unsigned int)RVIN_CSI_MAX) > ((unsigned int)RVIN_ISP_MAX) ? \
-+	 RVIN_CSI_MAX : RVIN_ISP_MAX)
- 
- /**
-  * enum rvin_dma_state - DMA states
-@@ -149,6 +159,7 @@ struct rvin_group_route {
-  * struct rvin_info - Information about the particular VIN implementation
-  * @model:		VIN model
-  * @use_mc:		use media controller instead of controlling subdevice
-+ * @use_isp:		the VIN is connected to the ISP and not to the CSI-2
-  * @nv12:		support outputing NV12 pixel format
-  * @max_width:		max input width the VIN supports
-  * @max_height:		max input height the VIN supports
-@@ -158,6 +169,7 @@ struct rvin_group_route {
- struct rvin_info {
- 	enum model_id model;
- 	bool use_mc;
-+	bool use_isp;
- 	bool nv12;
- 
- 	unsigned int max_width;
--- 
-2.32.0
+> 
+>>
+>> On 20/07/2021 03:43, Ming Qian wrote:
+>>> Hi all,
+>>>
+>>> This patch series adds support for
+>>> the imx8q video encoder and decoder
+>>> via the VPU block present in imx8q platforms.
+>>> Currently, support for IMX8QXP and IMX8QM is included.
+>>>
+>>> It features decoding for the following formats:
+>>> - H.264
+>>> - HEVC
+>>> - MPEG4
+>>> - MPEG2
+>>> - MJPEG
+>>> - VC1
+>>> - VP8
+>>> - AVS
+>>>
+>>> It features encoding for the following formats:
+>>> - H.264
+>>>
+>>> The driver creates a separate device node for the encoder and decoder.
+>>>
+>>> Changelog:
+>>>
+>>> v4:
+>>> - redefine the memory-region in devicetree bindings documentation
+>>> - use v4l2's mechanism to implement synchronize queuing ioctl
+>>> - remove the unnecessary mutex ioctl_sync
+>>> - don't notify source change event if the parameters are same as
+>>> previously established
+>>> - add flag V4L2_FMT_FLAG_DYN_RESOLUTION to decoder's capture format
+>>>
+>>> v3:
+>>> - don't make vpu device node a simple-bus
+>>> - trigger probing vpu core in the driver
+>>> - remove unnecessary vpu core index property
+>>>
+>>> v2:
+>>> - fix dt bindings build error
+>>> - split driver patch into several parts to avoid exceeding bytes limit
+>>>
+>>> Compliance
+>>> ==========
+>>> # v4l2-compliance -d /dev/video0
+>>> v4l2-compliance SHA: not available
+>>> , 64 bits, 64-bit time_t
+>>
+>> Always compile v4l2-compliance from the git repo
+>> (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.linu
+>> xtv.org%2Fv4l-utils.git%2F&amp;data=04%7C01%7Cming.qian%40nxp.com%7
+>> C3b39b6df4e6746d5e5c308d94c19dd55%7C686ea1d3bc2b4c6fa92cd99c5c3
+>> 01635%7C0%7C1%7C637624496237171229%7CUnknown%7CTWFpbGZsb3d
+>> 8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3
+>> D%7C2000&amp;sdata=%2FWh5ObGzfWN%2B2z4J9qhuM7bpA%2Fd6iaZbJw
+>> QhMI%2FdzFI%3D&amp;reserved=0).
+>> Otherwise I cannot tell whether it is a recent version or if it is old. Since there is
+>> no SHA I'm going with old.
+>>
+> 
+> OK, I'll use the latest v4l2-compliance to test it again.
+> 
+>>>
+>>> Compliance test for vpu B0 device /dev/video0:
+>>>
+>>> Driver Info:
+>>>       Driver name      : vpu B0
+>>>       Card type        : imx vpu decoder
+>>>       Bus info         : platform: imx8q-vpu
+>>>       Driver version   : 5.10.35
+>>>       Capabilities     : 0x84204000
+>>>               Video Memory-to-Memory Multiplanar
+>>>               Streaming
+>>>               Extended Pix Format
+>>>               Device Capabilities
+>>>       Device Caps      : 0x04204000
+>>>               Video Memory-to-Memory Multiplanar
+>>>               Streaming
+>>>               Extended Pix Format
+>>
+>> Hmm, v4l2-compliance should have detected a stateful decoder here.
+> 
+> OK, I'll use the latest v4l2-compliance to test it again.
+> 
+>>
+>>>
+>>> Required ioctls:
+>>>       test VIDIOC_QUERYCAP: OK
+>>>
+>>> Allow for multiple opens:
+>>>       test second /dev/video0 open: OK
+>>>       test VIDIOC_QUERYCAP: OK
+>>>       test VIDIOC_G/S_PRIORITY: OK
+>>>       test for unlimited opens: OK
+>>>
+>>>       test invalid ioctls: OK
+>>> Debug ioctls:
+>>>       test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>>>       test VIDIOC_LOG_STATUS: OK (Not Supported)
+>>>
+>>> Input ioctls:
+>>>       test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>>>       test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>       test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>>>       test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>>>       test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>>>       test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>>>       Inputs: 0 Audio Inputs: 0 Tuners: 0
+>>>
+>>> Output ioctls:
+>>>       test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>>>       test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>       test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>>>       test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>>>       test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>>>       Outputs: 0 Audio Outputs: 0 Modulators: 0
+>>>
+>>> Input/Output configuration ioctls:
+>>>       test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>>>       test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>>>       test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>>>       test VIDIOC_G/S_EDID: OK (Not Supported)
+>>>
+>>> Control ioctls:
+>>>       test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>>>       test VIDIOC_QUERYCTRL: OK
+>>>       test VIDIOC_G/S_CTRL: OK
+>>>       test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>>>       test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>>>       test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>>>       Standard Controls: 3 Private Controls: 2
+>>>
+>>> Format ioctls:
+>>>       test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>>>       test VIDIOC_G/S_PARM: OK (Not Supported)
+>>>       test VIDIOC_G_FBUF: OK (Not Supported)
+>>>       test VIDIOC_G_FMT: OK
+>>>       test VIDIOC_TRY_FMT: OK
+>>>       test VIDIOC_S_FMT: OK
+>>>       test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>>>       test Cropping: OK
+>>>       test Composing: OK
+>>>       test Scaling: OK
+>>>
+>>> Codec ioctls:
+>>>       test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>>>       test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>>>       test VIDIOC_(TRY_)DECODER_CMD: OK
+>>>
+>>> Buffer ioctls:
+>>>       test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>>>       test VIDIOC_EXPBUF: OK
+>>>       test Requests: OK (Not Supported)
+>>>
+>>> Total for vpu b0 device /dev/video0: 45, Succeeded: 45, Failed: 0,
+>>> Warnings: 0
+>>>
+>>> # v4l2-compliance -d /dev/video1
+>>> v4l2-compliance SHA: not available
+>>> , 64 bits, 64-bit time_t
+>>>
+>>> Compliance test for imx vpu encoder device /dev/video1:
+>>>
+>>> Driver Info:
+>>>       Driver name      : imx vpu encoder
+>>>       Card type        : imx vpu encoder
+>>>       Bus info         : platform: imx8q-vpu
+>>>       Driver version   : 5.10.35
+>>>       Capabilities     : 0x84204000
+>>>               Video Memory-to-Memory Multiplanar
+>>>               Streaming
+>>>               Extended Pix Format
+>>>               Device Capabilities
+>>>       Device Caps      : 0x04204000
+>>>               Video Memory-to-Memory Multiplanar
+>>>               Streaming
+>>>               Extended Pix Format
+>>>       Detected Stateful Encoder
+>>
+>> Here it properly detects a stateful encoder.
+>>
+>> Regards,
+>>
+>>         Hans
+>>
+> 
+> OK, I'll use the latest v4l2-compliance to test it again.
+> 
+>>>
+>>> Required ioctls:
+>>>       test VIDIOC_QUERYCAP: OK
+>>>
+>>> Allow for multiple opens:
+>>>       test second /dev/video1 open: OK
+>>>       test VIDIOC_QUERYCAP: OK
+>>>       test VIDIOC_G/S_PRIORITY: OK
+>>>       test for unlimited opens: OK
+>>>
+>>>       test invalid ioctls: OK
+>>> Debug ioctls:
+>>>       test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>>>       test VIDIOC_LOG_STATUS: OK (Not Supported)
+>>>
+>>> Input ioctls:
+>>>       test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>>>       test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>       test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>>>       test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>>>       test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>>>       test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>>>       Inputs: 0 Audio Inputs: 0 Tuners: 0
+>>>
+>>> Output ioctls:
+>>>       test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>>>       test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>       test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>>>       test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>>>       test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>>>       Outputs: 0 Audio Outputs: 0 Modulators: 0
+>>>
+>>> Input/Output configuration ioctls:
+>>>       test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>>>       test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>>>       test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>>>       test VIDIOC_G/S_EDID: OK (Not Supported)
+>>>
+>>> Control ioctls:
+>>>       test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>>>       test VIDIOC_QUERYCTRL: OK
+>>>       test VIDIOC_G/S_CTRL: OK
+>>>       test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>>>       test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>>>       test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>>>       Standard Controls: 20 Private Controls: 0
+>>>
+>>> Format ioctls:
+>>>       test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>>>       test VIDIOC_G/S_PARM: OK
+>>>       test VIDIOC_G_FBUF: OK (Not Supported)
+>>>       test VIDIOC_G_FMT: OK
+>>>       test VIDIOC_TRY_FMT: OK
+>>>       test VIDIOC_S_FMT: OK
+>>>       test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>>>       test Cropping: OK
+>>>       test Composing: OK (Not Supported)
+>>>       test Scaling: OK (Not Supported)
+>>>
+>>> Codec ioctls:
+>>>       test VIDIOC_(TRY_)ENCODER_CMD: OK
+>>>       test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>>>       test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+>>>
+>>> Buffer ioctls:
+>>>       test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>>>       test VIDIOC_EXPBUF: OK
+>>>       test Requests: OK (Not Supported)
+>>>
+>>> Total for imx vpu encoder device /dev/video1: 45, Succeeded: 45,
+>>> Failed: 0, Warnings: 0
+>>>
+>>> Ming Qian (13):
+>>>   dt-bindings: media: imx8q: add imx video codec bindings
+>>>   media: v4l: add some definition of v4l2
+>>>     colorspace/xfer_func/ycbcr_encoding
+>>>   media: imx: imx8q: add imx8q vpu device driver
+>>>   media: imx: imx8q: add vpu core driver
+>>>   media: imx: imx8q: implement vpu core communication based on
+>> mailbox
+>>>   media: imx: imx8q: add vpu v4l2 m2m support
+>>>   media: imx: imx8q: add v4l2 m2m vpu encoder stateful driver
+>>>   media: imx: imx8q: add v4l2 m2m vpu decoder stateful driver
+>>>   media: imx: imx8q: implement windsor encoder rpc interface
+>>>   media: imx: imx8q: implement malone decoder rpc interface
+>>>   ARM64: dts: freescale: imx8q: add imx vpu codec entries
+>>>   firmware: imx: scu-pd: imx8q: add vpu mu resources
+>>>   MAINTAINERS: add NXP IMX8Q VPU CODEC V4L2 driver entry
+>>>
+>>>  .../bindings/media/nxp,imx8q-vpu.yaml         |  178 ++
+>>>  MAINTAINERS                                   |   10 +
+>>>  .../arm64/boot/dts/freescale/imx8-ss-vpu.dtsi |   72 +
+>>>  arch/arm64/boot/dts/freescale/imx8qxp-mek.dts |   17 +
+>>>  arch/arm64/boot/dts/freescale/imx8qxp.dtsi    |   26 +
+>>>  drivers/firmware/imx/scu-pd.c                 |    4 +
+>>>  drivers/media/platform/Kconfig                |    2 +
+>>>  drivers/media/platform/Makefile               |    2 +
+>>>  drivers/media/platform/imx/Kconfig            |   19 +
+>>>  drivers/media/platform/imx/Makefile           |    1 +
+>>>  drivers/media/platform/imx/vpu-8q/Makefile    |   23 +
+>>>  drivers/media/platform/imx/vpu-8q/vdec.c      | 1817
+>> +++++++++++++++++
+>>>  drivers/media/platform/imx/vpu-8q/venc.c      | 1395 +++++++++++++
+>>>  drivers/media/platform/imx/vpu-8q/vpu.h       |  343 ++++
+>>>  drivers/media/platform/imx/vpu-8q/vpu_cmds.c  |  446 ++++
+>>>  drivers/media/platform/imx/vpu-8q/vpu_cmds.h  |   34 +
+>>>  drivers/media/platform/imx/vpu-8q/vpu_codec.h |   77 +
+>>>  drivers/media/platform/imx/vpu-8q/vpu_color.c |  201 ++
+>>> drivers/media/platform/imx/vpu-8q/vpu_core.c  |  919 +++++++++
+>>>  drivers/media/platform/imx/vpu-8q/vpu_core.h  |   25 +
+>>>  drivers/media/platform/imx/vpu-8q/vpu_dbg.c   |  505 +++++
+>>>  drivers/media/platform/imx/vpu-8q/vpu_defs.h  |  194 ++
+>>>  .../media/platform/imx/vpu-8q/vpu_dev_imx8q.c |   82 +
+>>>  drivers/media/platform/imx/vpu-8q/vpu_drv.c   |  225 ++
+>>>  .../media/platform/imx/vpu-8q/vpu_helpers.c   |  405 ++++
+>>>  .../media/platform/imx/vpu-8q/vpu_helpers.h   |   80 +
+>>>  drivers/media/platform/imx/vpu-8q/vpu_imx8q.c |  227 ++
+>>> drivers/media/platform/imx/vpu-8q/vpu_imx8q.h |  125 ++
+>>>  drivers/media/platform/imx/vpu-8q/vpu_log.h   |   53 +
+>>>  .../media/platform/imx/vpu-8q/vpu_malone.c    | 1744
+>> ++++++++++++++++
+>>>  .../media/platform/imx/vpu-8q/vpu_malone.h    |   51 +
+>>>  drivers/media/platform/imx/vpu-8q/vpu_mbox.c  |  135 ++
+>>>  drivers/media/platform/imx/vpu-8q/vpu_mbox.h  |   25 +
+>>>  drivers/media/platform/imx/vpu-8q/vpu_msgs.c  |  420 ++++
+>>>  drivers/media/platform/imx/vpu-8q/vpu_msgs.h  |   23 +
+>>>  drivers/media/platform/imx/vpu-8q/vpu_rpc.c   |  266 +++
+>>>  drivers/media/platform/imx/vpu-8q/vpu_rpc.h   |  472 +++++
+>>>  drivers/media/platform/imx/vpu-8q/vpu_v4l2.c  |  662 ++++++
+>>>  drivers/media/platform/imx/vpu-8q/vpu_v4l2.h  |   53 +
+>>>  .../media/platform/imx/vpu-8q/vpu_windsor.c   | 1253 ++++++++++++
+>>>  .../media/platform/imx/vpu-8q/vpu_windsor.h   |   48 +
+>>>  include/linux/imx_vpu.h                       |   19 +
+>>>  include/uapi/linux/imx_vpu.h                  |  120 ++
+>>>  include/uapi/linux/videodev2.h                |   30 +
+>>>  44 files changed, 12828 insertions(+)  create mode 100644
+>>> Documentation/devicetree/bindings/media/nxp,imx8q-vpu.yaml
+>>>  create mode 100644 arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
+>>>  create mode 100644 drivers/media/platform/imx/Kconfig
+>>>  create mode 100644 drivers/media/platform/imx/Makefile
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/Makefile
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vdec.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/venc.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu.h
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_cmds.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_cmds.h
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_codec.h
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_color.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_core.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_core.h
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_dbg.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_defs.h
+>>>  create mode 100644
+>> drivers/media/platform/imx/vpu-8q/vpu_dev_imx8q.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_drv.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_helpers.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_helpers.h
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_imx8q.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_imx8q.h
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_log.h
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_malone.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_malone.h
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_mbox.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_mbox.h
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_msgs.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_msgs.h
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_rpc.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_rpc.h
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_v4l2.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_v4l2.h
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_windsor.c
+>>>  create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_windsor.h
+>>>  create mode 100644 include/linux/imx_vpu.h  create mode 100644
+>>> include/uapi/linux/imx_vpu.h
+>>>
+> 
 
