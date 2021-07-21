@@ -2,153 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66AAA3D0C31
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jul 2021 12:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFA443D0D59
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jul 2021 13:24:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237063AbhGUJUI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Jul 2021 05:20:08 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:35490 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S236891AbhGUJDH (ORCPT
+        id S237734AbhGUKk1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Jul 2021 06:40:27 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:60687 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238575AbhGUJ05 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Jul 2021 05:03:07 -0400
-X-UUID: 82db7ebf1ab742f789ea29cbd51c6732-20210721
-X-UUID: 82db7ebf1ab742f789ea29cbd51c6732-20210721
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
-        (envelope-from <guangming.cao@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1811651001; Wed, 21 Jul 2021 17:43:17 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 21 Jul 2021 17:43:15 +0800
-Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas07.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Wed, 21 Jul 2021 17:43:15 +0800
-From:   <guangming.cao@mediatek.com>
-To:     <Brian.Starkey@arm.com>, <benjamin.gaignard@linaro.org>,
-        <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
-        <john.stultz@linaro.org>, <labbott@redhat.com>,
-        <linaro-mm-sig@lists.linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <lmark@codeaurora.org>,
-        <matthias.bgg@gmail.com>, <sumit.semwal@linaro.org>
-CC:     <wsd_upstream@mediatek.com>,
-        Guangming Cao <Guangming.Cao@mediatek.com>
-Subject: [PATCH] dma-heap: Let dma heap use dma_map_attrs to map & unmap iova
-Date:   Wed, 21 Jul 2021 17:43:14 +0800
-Message-ID: <20210721094314.117413-1-guangming.cao@mediatek.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210715062405.98932-1-guangming.cao@mediatek.com>
-References: <20210715062405.98932-1-guangming.cao@mediatek.com>
+        Wed, 21 Jul 2021 05:26:57 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 695Wm0wvJhqx9695XmyZfw; Wed, 21 Jul 2021 12:04:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1626861867; bh=cgcEhCAjE00nZtbq0nX2QC7407e9zYa5j31u1zfddl8=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=trXRXAwSrkq9vZzkf/sRTpostu2ppufQUcwhw27zCy7sXvIHDIzDItA5rDDAngUYN
+         dAnfdvSK3+NZZ1CQ2Ka2fm21uzHMc1XD8Yu+Yr1iel0JjcXZH0CSwYzL9CNh0iuRYV
+         +Lk1k9uF0+rbLOhMAlQfp0ih0F1t4r93BV17IdXS0bw4/Y3PbkW0PuT2ZMpwCOVz+m
+         zxqi16csKaHHUIaRebzX/zaXB/x0aS29QrUKd1oeZWoFQbb5jiKidjmFKpwcV4QkkB
+         Cyr5y6FwN0eLdV9x9f3jOfmw5AO76nR9rC/tt5Akvrx+xcIyY9Ai7rMcjwgm8zrI40
+         cg6gqWqR1buow==
+Subject: Re: [PATCH REPOST] TDA1997x: replace video detection routine
+To:     =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>
+Cc:     Tim Harvey <tharvey@gateworks.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
+References: <m3k0lmejlw.fsf@t19.piap.pl>
+ <68bd6e41-4c32-240f-aa83-fd2b96929d45@xs4all.nl> <m3a6mgdrsa.fsf@t19.piap.pl>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <99ca51b7-804e-1a53-765c-013093d38598@xs4all.nl>
+Date:   Wed, 21 Jul 2021 12:04:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+In-Reply-To: <m3a6mgdrsa.fsf@t19.piap.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfNBusYnDP7cnZxsLH0s+/xhSc9LlzxKu8cBWfd/JBo2N5PllXF0Oe6WJObD//OjjMk7sLRZJhCnXool61ekCnBJsEEt3EwLeeI75Sjx2uhoo8l7EFtK4
+ U43JdaZFIbC75bF9Rw0VluWp3UmSIgV+1I58To7K33uVoZgM7fe13ISIo7AMJMorne5Ko6tGGgg5qfqKGcvNZUd1ApFQ4nPhJKX1yL0usneZH1Nf4BiHhq2m
+ UNar3Yzp88mCeMJxoP5JEvWR9ZYmxJsUxfVlQphWAD8gRIH2Iyfqt2jR94WkO7zC+8rOhwEzCge8UheJfQeNvt46P4KasOwD+2d396bTaG4JXxYKNAictewm
+ o2nrxu3res6nk90+XaqR6bHfPiYQnFt+AbHd8oukYatc35eOroY5950yfvgmJPVTPllws4i1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Guangming Cao <Guangming.Cao@mediatek.com>
+On 21/07/2021 09:56, Krzysztof Hałasa wrote:
+> Hi Hans,
+> 
+> Hans Verkuil <hverkuil@xs4all.nl> writes:
+> 
+>>> --- a/drivers/media/i2c/tda1997x.c
+>>> +++ b/drivers/media/i2c/tda1997x.c
+>>> @@ -1092,66 +1094,71 @@ tda1997x_detect_std(struct tda1997x_state *state,
+>>>  		    struct v4l2_dv_timings *timings)
+> 
+> ...
+> 
+>>> +	if (!timings)
+>>> +		return 0;
+>>
+>> This check isn't necessary, timings is never NULL.
+> 
+> Well, the tda1997x_irq_sus() does this:
+> 
+> 	if (debug)
+> 		tda1997x_detect_std(state, NULL);
 
-On Thu, 2021-07-15 at 14:24 +0800, guangming.cao@mediatek.com wrote:
-> From: Guangming Cao <Guangming.Cao@mediatek.com>
-> 
-> On Thu, 2021-07-08 at 18:14 +0800, guangming.cao@mediatek.com wrote:
-> 
-> Hi Sumit, Christian, Matthias,
-> 
-> gentle ping for this patch :)
+Ah, I missed that. Then you can keep that check.
 
-move receviers to '--to' list.
-gentle ping for this patch  :)
+Regards,
+
+	Hans
 
 > 
-> BRs!
-> Guangming
+> Perhaps there is a better way, but I think I will leave it for now.
+> Also there is the issue of ignoring tda1997x_detect_std() return value,
+> but I can now see it's only a case in tda1997x_query_dv_timings(), easy
+> to fix.
 > 
-> > From: Guangming Cao <Guangming.Cao@mediatek.com>
-> > 
-> > For dma-heap users, they can't bypass cache sync when map/unmap
-> > iova
-> > with dma heap. But they can do it by adding DMA_ATTR_SKIP_CPU_SYNC
-> > into dma_alloc_attrs.
-> > 
-> > To keep alignment, at dma_heap side, also use
-> > dma_buf_attachment.dma_map_attrs to do iova map & unmap.
-> > 
-> > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
-> > ---
-> >  drivers/dma-buf/heaps/cma_heap.c    | 6 ++++--
-> >  drivers/dma-buf/heaps/system_heap.c | 6 ++++--
-> >  2 files changed, 8 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-
-> > buf/heaps/cma_heap.c
-> > index 0c05b79870f9..2c9feb3bfc3e 100644
-> > --- a/drivers/dma-buf/heaps/cma_heap.c
-> > +++ b/drivers/dma-buf/heaps/cma_heap.c
-> > @@ -99,9 +99,10 @@ static struct sg_table
-> > *cma_heap_map_dma_buf(struct dma_buf_attachment *attachme
-> >  {
-> >  	struct dma_heap_attachment *a = attachment->priv;
-> >  	struct sg_table *table = &a->table;
-> > +	int attrs = attachment->dma_map_attrs;
-> >  	int ret;
-> >  
-> > -	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-> > +	ret = dma_map_sgtable(attachment->dev, table, direction,
-> > attrs);
-> >  	if (ret)
-> >  		return ERR_PTR(-ENOMEM);
-> >  	a->mapped = true;
-> > @@ -113,9 +114,10 @@ static void cma_heap_unmap_dma_buf(struct
-> > dma_buf_attachment *attachment,
-> >  				   enum dma_data_direction direction)
-> >  {
-> >  	struct dma_heap_attachment *a = attachment->priv;
-> > +	int attrs = attachment->dma_map_attrs;
-> >  
-> >  	a->mapped = false;
-> > -	dma_unmap_sgtable(attachment->dev, table, direction, 0);
-> > +	dma_unmap_sgtable(attachment->dev, table, direction, attrs);
-> >  }
-> >  
-> >  static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf
-> > *dmabuf,
-> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-
-> > buf/heaps/system_heap.c
-> > index 23a7e74ef966..fc7b1e02988e 100644
-> > --- a/drivers/dma-buf/heaps/system_heap.c
-> > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > @@ -130,9 +130,10 @@ static struct sg_table
-> > *system_heap_map_dma_buf(struct dma_buf_attachment *attac
-> >  {
-> >  	struct dma_heap_attachment *a = attachment->priv;
-> >  	struct sg_table *table = a->table;
-> > +	int attrs = attachment->dma_map_attrs;
-> >  	int ret;
-> >  
-> > -	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-> > +	ret = dma_map_sgtable(attachment->dev, table, direction,
-> > attrs);
-> >  	if (ret)
-> >  		return ERR_PTR(ret);
-> >  
-> > @@ -145,9 +146,10 @@ static void system_heap_unmap_dma_buf(struct
-> > dma_buf_attachment *attachment,
-> >  				      enum dma_data_direction
-> > direction)
-> >  {
-> >  	struct dma_heap_attachment *a = attachment->priv;
-> > +	int attrs = attachment->dma_map_attrs;
-> >  
-> >  	a->mapped = false;
-> > -	dma_unmap_sgtable(attachment->dev, table, direction, 0);
-> > +	dma_unmap_sgtable(attachment->dev, table, direction, attrs);
-> >  }
-> >  
-> >  static int system_heap_dma_buf_begin_cpu_access(struct dma_buf
-> > *dmabuf,
-> > -- 
-> > 2.17.1
-> > 
+> Will post an update shortly.
+> 
+> Thanks for your comments,
+> 
+
