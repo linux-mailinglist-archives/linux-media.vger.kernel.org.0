@@ -2,107 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1B843D1E6D
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jul 2021 08:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BB6C3D1F08
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jul 2021 09:31:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230091AbhGVGDC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Jul 2021 02:03:02 -0400
-Received: from ni.piap.pl ([195.187.100.5]:60940 "EHLO ni.piap.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229573AbhGVGDA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Jul 2021 02:03:00 -0400
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-        by ni.piap.pl (Postfix) with ESMTPSA id B9440C3F3ECE;
-        Thu, 22 Jul 2021 08:43:33 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl B9440C3F3ECE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
-        t=1626936213; bh=QBdm2p+QSeNLdiseFpUuaUBT1xNKHEtEcSWQ/raiArw=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=Pyxf+rDpFZqwQ0ptJGNqkE2Mk1syPOIjwIiaYezFnqNr9Q0HtB62zxo2kkOOqPioL
-         l7vkvRUDLvgQ+qnzBJvuo7j92w1t92+ZAWp34YeauqY43nRvnqJz+J7kWHdYBEd1Up
-         fuM0v6im1MBco3V+E0d1jFmmY9ShdYMpq1MnHWLc=
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH REPOST] TDA1997x: replace video detection routine
-References: <m3k0lmejlw.fsf@t19.piap.pl>
-        <68bd6e41-4c32-240f-aa83-fd2b96929d45@xs4all.nl>
-        <m3mtqedfsg.fsf@t19.piap.pl>
-Sender: khalasa@piap.pl
-Date:   Thu, 22 Jul 2021 08:43:33 +0200
-In-Reply-To: <m3mtqedfsg.fsf@t19.piap.pl> ("Krzysztof =?utf-8?Q?Ha=C5=82as?=
- =?utf-8?Q?a=22's?= message of
-        "Thu, 22 Jul 2021 08:27:27 +0200")
-Message-ID: <m3im12df1m.fsf@t19.piap.pl>
+        id S230365AbhGVGvI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Jul 2021 02:51:08 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:48891 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230298AbhGVGvI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 22 Jul 2021 02:51:08 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 6TBFm8Bl7W9Qy6TBGmluFB; Thu, 22 Jul 2021 09:31:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1626939102; bh=FmlGXm0i40zK5+eat4ws3Pj731erlwHcm6fkw6fSv0s=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=SWw6rS0mKLH9Lpz/PkdUJ/R9hZ0EnL0L+np87RfFN1Xst458wyOF2MEEI85GMLy3A
+         GUAZrl7z9IvWQ9OjK/1P1QI7L2TEI4sWhjK6QBUbS2KFsCbisQ+CD1fsuyTqYEtZl5
+         fcW1hjc78tJFNNqDtZHuKVyF18PMbrkeNqFS22/GMr8RjZRYSHmGkwnZSNm0VD5vuL
+         /rO8uKGqjxkH4Gw5SWn47ndKqB3YzU0WoAbyA/u3jPv2WM7b3RCIcctcleCkBKd4dD
+         35zfANY6UrAmVPzb9UtmkqbsTew3TLD+dcfYPrlK2TAuCXGxf52TOTY9MBT6GOTAEn
+         d8QOHn+d8X8pA==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.15] v2: Various fixes
+Message-ID: <1a6fe05c-9391-3888-445c-5b5bf66ee62e@xs4all.nl>
+Date:   Thu, 22 Jul 2021 09:31:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-KLMS-Rule-ID: 1
-X-KLMS-Message-Action: clean
-X-KLMS-AntiSpam-Lua-Profiles: 165168 [Jul 22 2021]
-X-KLMS-AntiSpam-Version: 5.9.20.0
-X-KLMS-AntiSpam-Envelope-From: khalasa@piap.pl
-X-KLMS-AntiSpam-Rate: 0
-X-KLMS-AntiSpam-Status: not_detected
-X-KLMS-AntiSpam-Method: none
-X-KLMS-AntiSpam-Auth: dkim=pass header.d=piap.pl
-X-KLMS-AntiSpam-Info: LuaCore: 449 449 5db59deca4a4f5e6ea34a93b13bc730e229092f4, {Tracking_Text_ENG_RU_Has_Extended_Latin_Letters, eng}, {Tracking_marketers, three}, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;t19.piap.pl:7.1.1;piap.pl:7.1.1
-X-MS-Exchange-Organization-SCL: -1
-X-KLMS-AntiSpam-Interceptor-Info: scan successful
-X-KLMS-AntiPhishing: Clean, bases: 2021/07/22 06:10:00
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2021/07/22 02:59:00 #16939391
-X-KLMS-AntiVirus-Status: Clean, skipped
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfCSXvrWSRpI4vvzDjCkExnmxBZYsoQKSnUCbsUfIX+clMyO7YGIOTn+upKbWhUQexvMZQfStyYAd5CwphRElO9UBOvuLtNsloZtz1D5e5FTHxgZzusUB
+ IifV1YCGVMaozZGNXCWxplyyLX8t31/co8XWr5Qogaqt6dAf4jVgMdUA6tIIvJEejZiIcFzuubvNGGjDNLGOBHuOKxklAxyugIuxENOxcDbxmhGf6lSMnvDZ
+ B0jP5SQiOnT2xdLq3LuSGx+/tNSNqp+0VhOm+o1VthMyp9xQcc0TLkgV2NIkLO2S
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Also, I have spotted an interesting loop condition in
-drivers/media/v4l2-core/v4l2-dv-timings.c (dated 2013,
-d1c65ad6a44b0ff79d2f0bf726fa6fd9248991f4).
-It obviously works (unless the table grows to 600+ entries), but I guess
-I should make it "standard", shouldn't I?
+This time with my SoB.
 
-The first case is pretty normal:
-@@ -159,10 +161,10 @@ int v4l2_enum_dv_timings_cap(struct v4l2_enum_dv_timi=
-ngs *t,
-     u32 i, idx;
-=20
-     memset(t->reserved, 0, sizeof(t->reserved));
--    for (i =3D idx =3D 0; i < ARRAY_SIZE(timings); i++) {
--        if (v4l2_dv_valid_timings(timings + i, cap) &&
-+    for (i =3D idx =3D 0; v4l2_dv_timings_presets[i].bt.width; i++) {
-+        if (v4l2_dv_valid_timings(v4l2_dv_timings_presets + i, cap) &&
-             idx++ =3D=3D t->index) {
--            t->timings =3D timings[i];
-+            t->timings =3D v4l2_dv_timings_presets[i];
-             return 0;
-         }
-     }
+Regards,
 
-This is the interesting part:
-@@ -179,10 +181,10 @@ bool v4l2_find_dv_timings_cap(struct v4l2_dv_timings =
-*t,
-     if (!v4l2_dv_valid_timings(t, cap))
-         return false;
-=20
--    for (i =3D 0; i < ARRAY_SIZE(timings); i++) {
--        if (v4l2_dv_valid_timings(timings + i, cap) &&
--            v4l2_match_dv_timings(t, timings + i, pclock_delta)) {
--            *t =3D timings[i];
-+    for (i =3D 0; i < v4l2_dv_timings_presets[i].bt.width; i++) {
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+        if (v4l2_dv_valid_timings(v4l2_dv_timings_presets + i, cap) &&
-+            v4l2_match_dv_timings(t, v4l2_dv_timings_presets + i, pclock_d=
-elta)) {
-+            *t =3D v4l2_dv_timings_presets[i];
-             return true;
-         }
-     }
+	Hans
 
---=20
-Krzysztof "Chris" Ha=C5=82asa
+The following changes since commit 379e205dab9d7f9761984728e7d6f5f8305cc424:
 
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+  media: usb: dvb-usb-v2: af9035: let subdrv autoselect enable si2168 and si2157 (2021-07-12 14:28:49 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.15a
+
+for you to fetch changes up to 3331f577374fa948b1ac6876105b94e26bc8f524:
+
+  media: coda: fix frame_mem_ctrl for YUV420 and YVU420 formats (2021-07-22 09:29:27 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Dafna Hirschfeld (3):
+      media: mtk-jpeg: fix setting plane paylod
+      media: rkisp1: remove field 'vaddr' from 'rkisp1_buffer'
+      media: rkisp1: cap: initialize dma buf address in 'buf_init' cb
+
+Dan Carpenter (2):
+      media: v4l2-subdev: fix some NULL vs IS_ERR() checks
+      media: rockchip/rga: fix error handling in probe
+
+Evgeny Novikov (1):
+      media: platform: stm32: unprepare clocks at handling errors in probe
+
+Fabio Estevam (3):
+      dt-bindings: adv7180: Introduce the 'reset-gpios' property
+      media: i2c: adv7180: Print the chip ID on probe
+      dt-bindings: adv7180: Introduce 'adv,force-bt656-4' property
+
+Frieder Schrempf (1):
+      media: adv7180: Add optional reset GPIO
+
+Hans Verkuil (1):
+      media/cec-core.rst: update adap_enable doc
+
+Matthew Michilot (1):
+      media: i2c: adv7180: fix adv7280 BT.656-4 compatibility
+
+Pavel Skripkin (3):
+      media: go7007: fix memory leak in go7007_usb_probe
+      media: go7007: remove redundant initialization
+      media: stkwebcam: fix memory leak in stk_camera_probe
+
+Philipp Zabel (1):
+      media: coda: fix frame_mem_ctrl for YUV420 and YVU420 formats
+
+Tom Rix (1):
+      media: ti-vpe: cal: fix indexing of cal->ctx[] in cal_probe()
+
+ Documentation/devicetree/bindings/media/i2c/adv7180.yaml |  8 ++++++
+ Documentation/driver-api/media/cec-core.rst              |  9 ++++---
+ drivers/media/cec/platform/stm32/stm32-cec.c             | 26 +++++++++++++------
+ drivers/media/i2c/adv7180.c                              | 66 ++++++++++++++++++++++++++++++++++++++++++-----
+ drivers/media/platform/coda/coda-bit.c                   | 18 +++++++++----
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c          | 20 +++++++-------
+ drivers/media/platform/rcar-vin/rcar-v4l2.c              |  4 +--
+ drivers/media/platform/rockchip/rga/rga.c                | 27 +++++++++++++++----
+ drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c  | 12 ++++++++-
+ drivers/media/platform/rockchip/rkisp1/rkisp1-common.h   |  6 +----
+ drivers/media/platform/rockchip/rkisp1/rkisp1-params.c   |  3 +--
+ drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c    |  6 ++---
+ drivers/media/platform/ti-vpe/cal.c                      |  6 ++---
+ drivers/media/platform/vsp1/vsp1_entity.c                |  4 +--
+ drivers/media/usb/go7007/go7007-driver.c                 | 26 -------------------
+ drivers/media/usb/go7007/go7007-usb.c                    |  2 +-
+ drivers/media/usb/stkwebcam/stk-webcam.c                 |  6 +++--
+ drivers/staging/media/tegra-video/vi.c                   |  4 +--
+ 18 files changed, 167 insertions(+), 86 deletions(-)
