@@ -2,89 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFD4D3D3A41
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 14:30:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B9803D3A44
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 14:33:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234814AbhGWLtq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Jul 2021 07:49:46 -0400
-Received: from mail-ej1-f44.google.com ([209.85.218.44]:37854 "EHLO
-        mail-ej1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234896AbhGWLtZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Jul 2021 07:49:25 -0400
-Received: by mail-ej1-f44.google.com with SMTP id nb11so3461302ejc.4
-        for <linux-media@vger.kernel.org>; Fri, 23 Jul 2021 05:29:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=40HDoNrg7c/qfx3DsP+OtTChWRBlH+y4nzbI7cSuhxY=;
-        b=pIDBsApoooTrU58+AFA/81S9RLLz2VP3z954fk/iFB3HN9MFDAcv4ENqon7jzvaek4
-         1PWoDI33PA88v+TqKAJFxowUtNHeLsloXXjcbD9L7nLfkQmTr29jB9J1w4O3OSVw9aTM
-         m3n608Bfnwd7LTXA1WGtErGTcEspONMSH4an6V6A2n2TbI7rZtlwcOaqScuKA1qRd4IY
-         /VpsMeVurNeUIYwp78Oj0OQ5Vmt2GAUKKhTfX2GC070WnfEebDQ7e6FADtGne3vBGDrc
-         wzoNX3SjvO4VE+QklmBV3jYsiSFhskthp4vafT7pUtBL1//J4tZqEkYPr5dHBzcabs/I
-         IT2w==
-X-Gm-Message-State: AOAM531VDCbY9CFdGt/b4bGJcxEdaabSNDdKus6Q9ogxoRE/30Jx5JK2
-        xPWcLtKND7K2lX4N0csfJdY=
-X-Google-Smtp-Source: ABdhPJyDhurE/O32sB8wcEwbc7RgPGs8tKxGazrD4yXCnThcM099ZyNAe+da65n0w8z7Os5o4OkKWA==
-X-Received: by 2002:a17:906:34ca:: with SMTP id h10mr4539616ejb.41.1627043396467;
-        Fri, 23 Jul 2021 05:29:56 -0700 (PDT)
-Received: from [192.168.8.102] ([86.32.47.9])
-        by smtp.googlemail.com with ESMTPSA id lu1sm10593596ejb.89.2021.07.23.05.29.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Jul 2021 05:29:55 -0700 (PDT)
-Subject: Re: [libcamera-devel] [PATCH 2/2] media: imx258: Limit the max
- analogue gain to 480
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Umang Jain <umang.jain@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Bingbu Cao <bingbu.cao@intel.com>
-References: <20210723112233.1361319-1-umang.jain@ideasonboard.com>
- <20210723112233.1361319-3-umang.jain@ideasonboard.com>
- <YPqrp7BKNhzKN8xa@pendragon.ideasonboard.com>
- <YPqtZl6deaxQGYhZ@pendragon.ideasonboard.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Message-ID: <eed29a18-968f-723c-15ac-45cded8dafcd@kernel.org>
-Date:   Fri, 23 Jul 2021 14:29:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <YPqtZl6deaxQGYhZ@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S234805AbhGWLwU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jul 2021 07:52:20 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:55002 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234864AbhGWLvo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 23 Jul 2021 07:51:44 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1627043504; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=wysabhsQt0sSAqX5dRirGa+wnwar64nTD29qqOFcFoM=; b=csfJkIUsTKOy8c5zs/g/4SVJgDOK+7dR4/N2Kpz2xWTzNmRcJMeH8aM3MwY4fj4Tb6w/cLdp
+ 2/VlRkJKgawYoEaT/qWatR/CVymM8TuPKAptfoENp+L3Ivd5mFFqHyzWdO0lQ8miWndSAii+
+ tQM2BzgNQQ/+6VndrvUdy2aA1lE=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 60fab697b653fbdadd2df866 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 23 Jul 2021 12:31:19
+ GMT
+Sender: charante=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 8FC5FC433D3; Fri, 23 Jul 2021 12:31:18 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from hu-charante-hyd.qualcomm.com (unknown [202.46.22.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: charante)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 5A739C433F1;
+        Fri, 23 Jul 2021 12:31:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5A739C433F1
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=charante@codeaurora.org
+From:   Charan Teja Reddy <charante@codeaurora.org>
+To:     sumit.semwal@linaro.org, christian.koenig@amd.com
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        vinmenon@codeaurora.org,
+        Charan Teja Reddy <charante@codeaurora.org>
+Subject: [PATCH] dma-buf: WARN on dmabuf release with pending attachments
+Date:   Fri, 23 Jul 2021 18:01:08 +0530
+Message-Id: <1627043468-16381-1-git-send-email-charante@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/07/2021 13:52, Laurent Pinchart wrote:
-> On Fri, Jul 23, 2021 at 02:44:40PM +0300, Laurent Pinchart wrote:
->> Hi Umang,
->>
->> Thank you for the patch.
->>
->> CC'ing Sakari. For future kernel patches, you can use the
->> ./scripts/get_maintainer.pl script in the kernel sources to get a list
->> of appropriate recipients. The list should be taken with a grain of salt
->> though, it has a tendency to return too many recipients. For this
->> particular patch, for instance, it also recommends Mauro and LKML.
->> Whether to CC the subsystem maintainer on every patch depends on the
->> subsystem (it's more common for small ones than big ones) and on the
->> maintainer's preferences. LKML is a catch-all mailing list with very
->> high traffic, and when more appropriate venues exist for patches, I
->> usually recommend skipping LKML.
-> 
-> And expanding the CC list further to include Dave (for his contribution
-> to the discussion), and Krzysztof and Bingbu (for their contributions to
-> the driver, as reported by git log).
-> 
+It is expected from the clients to follow the below steps on an imported
+dmabuf fd:
+a) dmabuf = dma_buf_get(fd) // Get the dmabuf from fd
+b) dma_buf_attach(dmabuf); // Clients attach to the dmabuf
+   o Here the kernel does some slab allocations, say for
+dma_buf_attachment and may be some other slab allocation in the
+dmabuf->ops->attach().
+c) Client may need to do dma_buf_map_attachment().
+d) Accordingly dma_buf_unmap_attachment() should be called.
+e) dma_buf_detach () // Clients detach to the dmabuf.
+   o Here the slab allocations made in b) are freed.
+f) dma_buf_put(dmabuf) // Can free the dmabuf if it is the last
+reference.
 
-I don't work with this sensor anymore and I don't have it. I trust the
-change is reasonable, but I did not check it in documentation.
+Now say an erroneous client failed at step c) above thus it directly
+called dma_buf_put(), step f) above. Considering that it may be the last
+reference to the dmabuf, buffer will be freed with pending attachments
+left to the dmabuf which can show up as the 'memory leak'. This should
+at least be reported as the WARN().
 
-Best regards,
-Krzysztof
+Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+---
+ drivers/dma-buf/dma-buf.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 511fe0d..733c8b1 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -79,6 +79,7 @@ static void dma_buf_release(struct dentry *dentry)
+ 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+ 		dma_resv_fini(dmabuf->resv);
+ 
++	WARN_ON(!list_empty(&dmabuf->attachments));
+ 	module_put(dmabuf->owner);
+ 	kfree(dmabuf->name);
+ 	kfree(dmabuf);
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
+member of the Code Aurora Forum, hosted by The Linux Foundation
+
