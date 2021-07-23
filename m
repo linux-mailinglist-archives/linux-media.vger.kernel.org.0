@@ -2,20 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 030673D359F
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 09:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F14D3D35B0
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 09:49:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233890AbhGWHES (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Jul 2021 03:04:18 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:63565 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229816AbhGWHES (ORCPT
+        id S233890AbhGWHIm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jul 2021 03:08:42 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:60759 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233470AbhGWHIm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Jul 2021 03:04:18 -0400
+        Fri, 23 Jul 2021 03:08:42 -0400
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 4532C40005;
-        Fri, 23 Jul 2021 07:44:48 +0000 (UTC)
-Date:   Fri, 23 Jul 2021 09:44:47 +0200
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id CB6EE1BF205;
+        Fri, 23 Jul 2021 07:49:12 +0000 (UTC)
+Date:   Fri, 23 Jul 2021 09:49:12 +0200
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     Daniel Scally <djrscally@gmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -31,58 +31,70 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Tianshu Qiu <tian.shu.qiu@intel.com>,
         Colin Ian King <colin.king@canonical.com>,
         laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH 02/13] media: i2c: Fix incorrect value in comment
-Message-ID: <YPpzb5pqpSycAlxN@aptenodytes>
+Subject: Re: [PATCH 03/13] media: i2c: Defer probe if not endpoint found
+Message-ID: <YPp0eCIawk2TGQ6Z@aptenodytes>
 References: <20210722203407.3588046-1-djrscally@gmail.com>
- <20210722203407.3588046-3-djrscally@gmail.com>
+ <20210722203407.3588046-4-djrscally@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="R/Y2PH++JXhbPuq9"
+        protocol="application/pgp-signature"; boundary="slgiAgGpNAwPPDiS"
 Content-Disposition: inline
-In-Reply-To: <20210722203407.3588046-3-djrscally@gmail.com>
+In-Reply-To: <20210722203407.3588046-4-djrscally@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---R/Y2PH++JXhbPuq9
+--slgiAgGpNAwPPDiS
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Daniel,
 
 On Thu 22 Jul 21, 21:33, Daniel Scally wrote:
-> The PLL configuration defined here sets 72MHz (which is correct), not
-> 80MHz. Correct the comment.
+> The ov8865 driver is one of those that can be connected to a CIO2
+> device by the cio2-bridge code. This means that the absence of an
+> endpoint for this device is not necessarily fatal, as one might be
+> built by the cio2-bridge when it probes. Return -EPROBE_DEFER if no
+> endpoint is found rather than a fatal error.
 
-This is:
+Is this an error that you have actually seen in practice?
 
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+My understanding is that this function should return the handle to the *loc=
+al*
+fwnode graph endpoint, which relates to the static device-tree description
+and should be unrelated to another driver probing.
 
-Thanks,
+So as far as I can see, this should not be needed (but correct me if I'm wr=
+ong).
+
+Cheers,
 
 Paul
-=20
+
 > Signed-off-by: Daniel Scally <djrscally@gmail.com>
 > ---
->  drivers/media/i2c/ov8865.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/media/i2c/ov8865.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 >=20
 > diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-> index fe60cda3dea7..2ef146e7e7ef 100644
+> index 2ef146e7e7ef..66182142c28b 100644
 > --- a/drivers/media/i2c/ov8865.c
 > +++ b/drivers/media/i2c/ov8865.c
-> @@ -713,7 +713,7 @@ static const struct ov8865_pll2_config ov8865_pll2_co=
-nfig_native =3D {
->  /*
->   * EXTCLK =3D 24 MHz
->   * DAC_CLK =3D 360 MHz
-> - * SCLK =3D 80 MHz
-> + * SCLK =3D 72 MHz
->   */
+> @@ -2796,10 +2796,8 @@ static int ov8865_probe(struct i2c_client *client)
+>  	/* Graph Endpoint */
 > =20
->  static const struct ov8865_pll2_config ov8865_pll2_config_binning =3D {
+>  	handle =3D fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
+> -	if (!handle) {
+> -		dev_err(dev, "unable to find endpoint node\n");
+> -		return -EINVAL;
+> -	}
+> +	if (!handle)
+> +		return -EPROBE_DEFER;
+> =20
+>  	sensor->endpoint.bus_type =3D V4L2_MBUS_CSI2_DPHY;
+> =20
 > --=20
 > 2.25.1
 >=20
@@ -92,19 +104,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---R/Y2PH++JXhbPuq9
+--slgiAgGpNAwPPDiS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmD6c28ACgkQ3cLmz3+f
-v9GemQf/eS5FxzlwerdEt7CM/aYMaFHYwTUXIjaOp7zz/vDqMdy/g8b7KncfZ9bi
-PiEGMHVLobC0WhtTBBbggmj7mUMyLWu2xZ+3lzqQwqt4oHsMf35tcAc8WYSvz7H0
-D0eR7z9CBcSLAiXS/hX2jAMF03pY2MMgPvxbYQu21C9zSPiB+/7PCIwCscdwIRkC
-gS6CXXFu7Wq2QnmnfXJWpBkW4QubgpaRShC13O2I91R7WXk5G3rNUJxXCpnFyD/b
-S46VtsdwUhQjOzHdFjGZT4h1AHcubGltz/bb+0u+YlLhGcAX9/PAEVf0JpDguHpW
-g9a5pszIIl1vnnjoHCOfq8xOKLXyGQ==
-=yawe
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmD6dHMACgkQ3cLmz3+f
+v9G1Jgf9GNDyXph0+194du9GMYzYfiE9uT6e9UZGa+J8ExQNITtcudiCoYVdJYYz
+/yql25CDVUtWdR2S8pt/bdwTtIX7hiAmeAMn/66fL+TGXf/FWwSevt29wg9xGhto
+4j6VhX0YLIBmdfItPtajAYjC0YyCk6Ifkib/yOClgzwTTBXdRymHE8jTw8++sOfb
+FxN+7OtFLN+g4u/re5CYe3FDH347Q05eBBssILwaAfnsuxbSGLVq3EclGxHqmMf6
+92j2vCSe9euuGjbeNTrC05rGKJEos3bcmdCnAMby8Fs+N4s2CuAs+Hq9OKs89/L1
+e1Qp6Bdm7m08m7dCE4MvNAoCQ8e6wg==
+=IGHw
 -----END PGP SIGNATURE-----
 
---R/Y2PH++JXhbPuq9--
+--slgiAgGpNAwPPDiS--
