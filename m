@@ -2,76 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DA0D3D395D
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 13:22:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE8163D398B
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 13:33:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234175AbhGWKmQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Jul 2021 06:42:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48886 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232657AbhGWKmP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Jul 2021 06:42:15 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F895C061575
-        for <linux-media@vger.kernel.org>; Fri, 23 Jul 2021 04:22:49 -0700 (PDT)
-Received: from perceval.ideasonboard.com (unknown [103.251.226.103])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 433C056B;
-        Fri, 23 Jul 2021 13:22:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1627039368;
-        bh=CC5F2wiPZj5TjrGGlK+tG8+gcD3f2SeeVIW/I7P3EAs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=g4ioskTVdaAACAtzmm2tIo74/tcSijJQrUgypfgEyr40hpCoOdTA3HrmIcyU0mQIp
-         QLH6GMdFWXKBL08KV32A6hz7t7R3eZqNi6Wn+2OpuBVuTUSv/vYQSdKy6u0hy2ja5i
-         +XvOHvg2kOvjKp3t0loGVE1+ttlk5x/Jk9rcBVZI=
-From:   Umang Jain <umang.jain@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     libcamera-devel@lists.libcamera.org,
-        Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH 2/2] media: imx258: Limit the max analogue gain to 480
-Date:   Fri, 23 Jul 2021 16:52:33 +0530
-Message-Id: <20210723112233.1361319-3-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210723112233.1361319-1-umang.jain@ideasonboard.com>
-References: <20210723112233.1361319-1-umang.jain@ideasonboard.com>
+        id S234472AbhGWKw1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jul 2021 06:52:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36954 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234255AbhGWKw1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 23 Jul 2021 06:52:27 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D9F8E608FE;
+        Fri, 23 Jul 2021 11:32:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627039980;
+        bh=E12Fd6tOLIFaPm0JI7r7SizcNQfxlTR9E3+Kw2yKqlo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ffd9dTE9bW+IqGdXzw4oAaC3o2Tmzmp2Djhlph+vr15VQgZeCFyAOW6lBaC4OJfMp
+         aq/Y9YjO79OjzJgMzA4S7MJUSP+LeABQZvGeOIiGTAsjRoqos8NWsaxo1a0XpJjzql
+         0hlxZ41tqIjX5a7EC8uMlZmvSWe6FzVmsGmtsa2DqGqYNsPAmlOpGPgo+3C21GE3zp
+         wTBJre4ZjwHIbTao930P8JF3kDxrZfVG+hSxj1B8hKb8QTZeYzQy6jpTZDCk4nMZ+9
+         3a6bQ0A4sdRCgq0JO1CNJAH9iJssPdugMN0EKjhisiOfVY+8746XXW/H3TrYGvYYIX
+         Kobd5U/hrqhPQ==
+Date:   Fri, 23 Jul 2021 14:32:56 +0300
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Dongdong Liu <liudongdong3@huawei.com>
+Cc:     helgaas@kernel.org, hch@infradead.org, kw@linux.com,
+        logang@deltatee.com, linux-pci@vger.kernel.org, rajur@chelsio.com,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH V6 7/8] PCI: Add "pci=disable_10bit_tag=" parameter for
+ peer-to-peer support
+Message-ID: <YPqo6M0AKWLupvNU@unreal>
+References: <1627038402-114183-1-git-send-email-liudongdong3@huawei.com>
+ <1627038402-114183-8-git-send-email-liudongdong3@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1627038402-114183-8-git-send-email-liudongdong3@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The range for analog gain mentioned in the datasheet is [0, 480].
-The real gain formula mentioned in the datasheet is:
+On Fri, Jul 23, 2021 at 07:06:41PM +0800, Dongdong Liu wrote:
+> PCIe spec 5.0 r1.0 section 2.2.6.2 says that if an Endpoint supports
+> sending Requests to other Endpoints (as opposed to host memory), the
+> Endpoint must not send 10-Bit Tag Requests to another given Endpoint
+> unless an implementation-specific mechanism determines that the Endpoint
+> supports 10-Bit Tag Completer capability. Add "pci=disable_10bit_tag="
+> parameter to disable 10-Bit Tag Requester if the peer device does not
+> support the 10-Bit Tag Completer. This will make P2P traffic safe.
+> 
+> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  7 ++++
+>  drivers/pci/pci.c                               | 56 +++++++++++++++++++++++++
+>  drivers/pci/pci.h                               |  1 +
+>  drivers/pci/pcie/portdrv_pci.c                  | 13 +++---
+>  drivers/pci/probe.c                             |  9 ++--
+>  5 files changed, 78 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index bdb2200..c2c4585 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -4019,6 +4019,13 @@
+>  				bridges without forcing it upstream. Note:
+>  				this removes isolation between devices and
+>  				may put more devices in an IOMMU group.
+> +		disable_10bit_tag=<pci_dev>[; ...]
+> +				  Specify one or more PCI devices (in the format
+> +				  specified above) separated by semicolons.
+> +				  Disable 10-Bit Tag Requester if the peer
+> +				  device does not support the 10-Bit Tag
+> +				  Completer.This will make P2P traffic safe.
 
-	Gain = 512 / (512 – X)
+I can't imagine more awkward user experience than such kernel parameter.
 
-Hence, values larger than 511 clearly makes no sense. The gain
-register field is also documented to be of 9-bits in the datasheet.
+As a user, I will need to boot the system, hope for the best that system
+works, write down all PCI device numbers, guess which one doesn't work
+properly, update grub with new command line argument and reboot the
+system. Any HW change and this dance should be repeated.
 
-Certainly, it is enough to infer that, the kernel driver currently
-advertises an arbitrary analog gain max. Fix it by rectifying the
-value as per the data sheet i.e. 480.
-
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
----
- drivers/media/i2c/imx258.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-index 4e695096e5d0..81cdf37216ca 100644
---- a/drivers/media/i2c/imx258.c
-+++ b/drivers/media/i2c/imx258.c
-@@ -47,7 +47,7 @@
- /* Analog gain control */
- #define IMX258_REG_ANALOG_GAIN		0x0204
- #define IMX258_ANA_GAIN_MIN		0
--#define IMX258_ANA_GAIN_MAX		0x1fff
-+#define IMX258_ANA_GAIN_MAX		480
- #define IMX258_ANA_GAIN_STEP		1
- #define IMX258_ANA_GAIN_DEFAULT		0x0
- 
--- 
-2.31.1
-
+Thanks
