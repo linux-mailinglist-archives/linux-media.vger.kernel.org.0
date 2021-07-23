@@ -2,93 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 949473D3564
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 09:36:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 030673D359F
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 09:45:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233224AbhGWGza (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Jul 2021 02:55:30 -0400
-Received: from gloria.sntech.de ([185.11.138.130]:43476 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233205AbhGWGz3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Jul 2021 02:55:29 -0400
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=phil.lan)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1m6pfZ-0003dj-Ex; Fri, 23 Jul 2021 09:32:29 +0200
-From:   Heiko Stuebner <heiko@sntech.de>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     ezequiel@collabora.com, dafna.hirschfeld@collabora.com,
-        helen.koike@collabora.com, Laurent.pinchart@ideasonboard.com,
-        linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-        heiko@sntech.de, robh+dt@kernel.org, devicetree@vger.kernel.org,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Subject: [PATCH v7 10/10] media: rockchip: rkisp1: add support for px30 isp version
-Date:   Fri, 23 Jul 2021 09:32:21 +0200
-Message-Id: <20210723073221.1276358-11-heiko@sntech.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210723073221.1276358-1-heiko@sntech.de>
-References: <20210723073221.1276358-1-heiko@sntech.de>
+        id S233890AbhGWHES (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jul 2021 03:04:18 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:63565 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229816AbhGWHES (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 23 Jul 2021 03:04:18 -0400
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 4532C40005;
+        Fri, 23 Jul 2021 07:44:48 +0000 (UTC)
+Date:   Fri, 23 Jul 2021 09:44:47 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH 02/13] media: i2c: Fix incorrect value in comment
+Message-ID: <YPpzb5pqpSycAlxN@aptenodytes>
+References: <20210722203407.3588046-1-djrscally@gmail.com>
+ <20210722203407.3588046-3-djrscally@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="R/Y2PH++JXhbPuq9"
+Content-Disposition: inline
+In-Reply-To: <20210722203407.3588046-3-djrscally@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 
-The px30 uses a V12 isp block so add compatible and matchdata
-for it.
+--R/Y2PH++JXhbPuq9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- .../platform/rockchip/rkisp1/rkisp1-dev.c     | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
+Hi,
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-index 290e9bc4c060..23ca49289feb 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-@@ -405,6 +405,27 @@ static irqreturn_t rkisp1_isr(int irq, void *ctx)
- 	return IRQ_HANDLED;
- }
- 
-+static const char * const px30_isp_clks[] = {
-+	"isp",
-+	"aclk",
-+	"hclk",
-+	"pclk",
-+};
-+
-+static const struct rkisp1_isr_data px30_isp_isrs[] = {
-+	{ "isp", rkisp1_isp_isr },
-+	{ "mi", rkisp1_capture_isr },
-+	{ "mipi", rkisp1_mipi_isr },
-+};
-+
-+static const struct rkisp1_match_data px30_isp_match_data = {
-+	.clks = px30_isp_clks,
-+	.clk_size = ARRAY_SIZE(px30_isp_clks),
-+	.isrs = px30_isp_isrs,
-+	.isr_size = ARRAY_SIZE(px30_isp_isrs),
-+	.isp_ver = RKISP1_V12,
-+};
-+
- static const char * const rk3399_isp_clks[] = {
- 	"isp",
- 	"aclk",
-@@ -424,6 +445,10 @@ static const struct rkisp1_match_data rk3399_isp_match_data = {
- };
- 
- static const struct of_device_id rkisp1_of_match[] = {
-+	{
-+		.compatible = "rockchip,px30-cif-isp",
-+		.data = &px30_isp_match_data,
-+	},
- 	{
- 		.compatible = "rockchip,rk3399-cif-isp",
- 		.data = &rk3399_isp_match_data,
--- 
-2.29.2
+On Thu 22 Jul 21, 21:33, Daniel Scally wrote:
+> The PLL configuration defined here sets 72MHz (which is correct), not
+> 80MHz. Correct the comment.
 
+This is:
+
+Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Thanks,
+
+Paul
+=20
+> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+> ---
+>  drivers/media/i2c/ov8865.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+> index fe60cda3dea7..2ef146e7e7ef 100644
+> --- a/drivers/media/i2c/ov8865.c
+> +++ b/drivers/media/i2c/ov8865.c
+> @@ -713,7 +713,7 @@ static const struct ov8865_pll2_config ov8865_pll2_co=
+nfig_native =3D {
+>  /*
+>   * EXTCLK =3D 24 MHz
+>   * DAC_CLK =3D 360 MHz
+> - * SCLK =3D 80 MHz
+> + * SCLK =3D 72 MHz
+>   */
+> =20
+>  static const struct ov8865_pll2_config ov8865_pll2_config_binning =3D {
+> --=20
+> 2.25.1
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--R/Y2PH++JXhbPuq9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmD6c28ACgkQ3cLmz3+f
+v9GemQf/eS5FxzlwerdEt7CM/aYMaFHYwTUXIjaOp7zz/vDqMdy/g8b7KncfZ9bi
+PiEGMHVLobC0WhtTBBbggmj7mUMyLWu2xZ+3lzqQwqt4oHsMf35tcAc8WYSvz7H0
+D0eR7z9CBcSLAiXS/hX2jAMF03pY2MMgPvxbYQu21C9zSPiB+/7PCIwCscdwIRkC
+gS6CXXFu7Wq2QnmnfXJWpBkW4QubgpaRShC13O2I91R7WXk5G3rNUJxXCpnFyD/b
+S46VtsdwUhQjOzHdFjGZT4h1AHcubGltz/bb+0u+YlLhGcAX9/PAEVf0JpDguHpW
+g9a5pszIIl1vnnjoHCOfq8xOKLXyGQ==
+=yawe
+-----END PGP SIGNATURE-----
+
+--R/Y2PH++JXhbPuq9--
