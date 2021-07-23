@@ -2,93 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E43D3D385D
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 12:12:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 810C63D388F
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 12:23:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230238AbhGWJbb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Jul 2021 05:31:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60892 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229946AbhGWJbb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Jul 2021 05:31:31 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6CB9C061575;
-        Fri, 23 Jul 2021 03:12:03 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id z26so1140261edr.0;
-        Fri, 23 Jul 2021 03:12:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lq6dxgIqN0xaQXANjs2LAfU4P3/YylmyKp58xBdTWlM=;
-        b=op4xvQbJ03bPymE1+ptO+ymqU8x+zTfVlt4X87zKKci3oNuHr22EJBI3+ZyI6YjhO1
-         qitKiNdHuXKYsDqPYa6gU+zArHwnuJUI30Vj3sEhYHYicjEoyzqZ2xfBQmCyy6tOfan0
-         FLdRxnyYek5/VMT2KXSvLo/uGdb12qnqqMUKvKKduerWX4ToplE5/Z3nWMnHhzcucJSA
-         EuA3iLe1Usf/N7qschGf117jTJLWfezejsVcIiI3KawXApWVZmKz+BXAp4kwfhKSRBg8
-         jR3BBsp82dhgJlL58DVAd/TstmxcGMZrG/Zwl3HZzYeuIiuYNMB1Uci2+580n2GdzhcW
-         OK4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lq6dxgIqN0xaQXANjs2LAfU4P3/YylmyKp58xBdTWlM=;
-        b=LwM2UzAPYySu+BBCpc+THi+UhhOD9GX52WprMvH5DZ2B8D/75zqNiMQ0fu0wtMb6s1
-         8T5XJMUQ4CyJbM+EtSI7Zub18PIDF1eUE5phkc+hrt/RuB5ttiNpsj1QNdKnn1NW35fI
-         Tcdvxy7dE/htwKJeyfpC5/vrD3T+6Bz7gtUZqH49DLJIk6wY4i3t/kHQDKVmmotN7ckq
-         b5PgAsDZ0FzTONPEaw14Db/j+I9RwLRZEt3aMle0YO++UpGJMEVWFT0DrM4M+WrramLS
-         uvDGUECwv9tpLXxAKFQ0QpR2PW+6YCQ7KN84cHz4JwC8M3fV8wrgPfGW4rvDCg2AEB+A
-         90HA==
-X-Gm-Message-State: AOAM533fW22AAA2G6pz/Vnf152ltfALHDvNKyqLk1kpKHy6CRLQGwDoo
-        GdX7Zv4ayLSMFFQTQYKbpLp5NVi1l16DmXpz8+k=
-X-Google-Smtp-Source: ABdhPJxcI09jK+c6tll+K883wEHfou6PUNg0ft7BHr4kM23p0vLOke5QrVQX8E/HXM8O+sJ7d+JHAs1cksoKe4hURsk=
-X-Received: by 2002:a05:6402:1c10:: with SMTP id ck16mr4560349edb.339.1627035122444;
- Fri, 23 Jul 2021 03:12:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210714032340.504836-1-mudongliangabcd@gmail.com>
-In-Reply-To: <20210714032340.504836-1-mudongliangabcd@gmail.com>
-From:   Dongliang Mu <mudongliangabcd@gmail.com>
-Date:   Fri, 23 Jul 2021 18:11:36 +0800
-Message-ID: <CAD-N9QXWHeNvR06wyg3Pym8xUb27TsuFKKKG=tZ0-x5ZGCr-Hw@mail.gmail.com>
-Subject: Re: [PATCH] media: usb: fix memory leak in stk_camera_probe
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dongliang Mu <mudongliangabcd@gmail.com>
-Cc:     linux-media@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S231688AbhGWJnW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jul 2021 05:43:22 -0400
+Received: from comms.puri.sm ([159.203.221.185]:34922 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230238AbhGWJnV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 23 Jul 2021 05:43:21 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 28BBDDFDE5;
+        Fri, 23 Jul 2021 03:23:55 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id oK8xjK8x_jat; Fri, 23 Jul 2021 03:23:54 -0700 (PDT)
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     laurent.pinchart@ideasonboard.com, shawnguo@kernel.org
+Cc:     devicetree@vger.kernel.org, festevam@gmail.com,
+        kernel@pengutronix.de, kernel@puri.sm, krzk@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
+        mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
+        slongerbeam@gmail.com,
+        Martin Kepplinger <martin.kepplinger@puri.sm>
+Subject: [PATCH v8 0/3] media: imx: add support for imx8mq MIPI RX
+Date:   Fri, 23 Jul 2021 12:12:14 +0200
+Message-Id: <20210723101217.1954805-1-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 14, 2021 at 11:23 AM Dongliang Mu <mudongliangabcd@gmail.com> wrote:
->
-> stk_camera_probe mistakenly execute usb_get_intf and increase the
-> refcount of interface->dev.
->
-> Fix this by removing the execution of usb_get_intf.
+hi,
 
-Any idea about this patch?
+This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
 
->
-> Reported-by: Dongliang Mu <mudongliangabcd@gmail.com>
-> Fixes: 0aa77f6c2954 ("[media] move the remaining USB drivers to drivers/media/usb")
-> Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
-> ---
->  drivers/media/usb/stkwebcam/stk-webcam.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c b/drivers/media/usb/stkwebcam/stk-webcam.c
-> index a45d464427c4..5bd8e85b9452 100644
-> --- a/drivers/media/usb/stkwebcam/stk-webcam.c
-> +++ b/drivers/media/usb/stkwebcam/stk-webcam.c
-> @@ -1311,7 +1311,6 @@ static int stk_camera_probe(struct usb_interface *interface,
->
->         dev->udev = udev;
->         dev->interface = interface;
-> -       usb_get_intf(interface);
->
->         if (hflip != -1)
->                 dev->vsettings.hflip = hflip;
-> --
-> 2.25.1
->
+It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
+I test it using libcamera. Thanks to Laurent who helped a lot. I'm happy for
+any feedback,
+
+                           martin
+
+revision history
+----------------
+v8: (thank you Laurent)
+* calculate hs_settle for any clk rate and mode
+* add reviewed-by tag
+
+v7: (thank you Laurent and Rob)
+* fix the binding example (include the reset driver)
+* use pm_runtime_resume_and_get()
+* fix some logic in init_cfg()
+* add some useful code comments and fix minor bits found by Laurent in v6
+https://lore.kernel.org/linux-media/20210716102244.581182-1-martin.kepplinger@puri.sm/T/#t
+
+v6: (thank you Laurent and Rob)
+* add reviewed-by tag to binding
+* statically allocate clk_bulk_data
+* fix how the hs_settle value is applied
+* remove s_power calls
+* remove the link_setup() callback implementation and make the link immutable
+* more cleanups according to Laurents' review from v5
+https://lore.kernel.org/linux-media/20210714111931.324485-1-martin.kepplinger@puri.sm/
+
+v5: (thank you Laurent)
+* fix reset usage by using the already supported reset controller driver
+* remove clko2 (totally unrelated clock / had been included by accident)
+* rename pxl clock to ui
+https://lore.kernel.org/linux-media/20210618095753.114557-1-martin.kepplinger@puri.sm/
+
+v4: (thank you Rob and Marco)
+* create fsl,mipi-phy-gpr custom dt property instead of confusing "phy"
+* add imx8mq-specific compatibile to imx8mq.dtsi for future use
+https://lore.kernel.org/linux-media/20210614121522.2944593-1-martin.kepplinger@puri.sm/
+
+v3: (thank you, Rob and Laurent)
+among minor other things according to v2 review, changes include:
+* better describe the clocks
+* rename DT property "phy-reset" to "reset" and "phy-gpr" to "phy"
+https://lore.kernel.org/linux-media/20210608104128.1616028-1-martin.kepplinger@puri.sm/T/#t
+
+v2: (thank you, Dan and Guido)
+among fixes according to v1 reviews, changes include:
+* remove status property from dt-bindings example
+* define a few bits in order to have less magic values
+* use "imx8mq_mipi_csi_" as local function prefix
+* read DT properties only during probe()
+* remove dead code (log_status)
+* add imx8mq_mipi_csi_release_icc()
+* fix imx8mq_mipi_csi_init_icc()
+https://lore.kernel.org/linux-media/20210531112326.90094-1-martin.kepplinger@puri.sm/
+
+v1:
+https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
+
+Martin Kepplinger (3):
+  dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
+    controller
+  media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
+  arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+
+ .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 174 ++++
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 104 ++
+ drivers/staging/media/imx/Makefile            |   1 +
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 979 ++++++++++++++++++
+ 4 files changed, 1258 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+ create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+
+-- 
+2.30.2
+
