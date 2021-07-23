@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 810C63D388F
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 12:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D80F43D3891
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 12:24:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231688AbhGWJnW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Jul 2021 05:43:22 -0400
-Received: from comms.puri.sm ([159.203.221.185]:34922 "EHLO comms.puri.sm"
+        id S231835AbhGWJn0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jul 2021 05:43:26 -0400
+Received: from comms.puri.sm ([159.203.221.185]:34956 "EHLO comms.puri.sm"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230238AbhGWJnV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Jul 2021 05:43:21 -0400
+        id S230238AbhGWJnZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 23 Jul 2021 05:43:25 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 28BBDDFDE5;
-        Fri, 23 Jul 2021 03:23:55 -0700 (PDT)
+        by comms.puri.sm (Postfix) with ESMTP id A1B84DFDFF;
+        Fri, 23 Jul 2021 03:23:59 -0700 (PDT)
 Received: from comms.puri.sm ([127.0.0.1])
         by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id oK8xjK8x_jat; Fri, 23 Jul 2021 03:23:54 -0700 (PDT)
+        with ESMTP id 0TP26GkGgSik; Fri, 23 Jul 2021 03:23:58 -0700 (PDT)
 From:   Martin Kepplinger <martin.kepplinger@puri.sm>
 To:     laurent.pinchart@ideasonboard.com, shawnguo@kernel.org
 Cc:     devicetree@vger.kernel.org, festevam@gmail.com,
@@ -27,91 +27,207 @@ Cc:     devicetree@vger.kernel.org, festevam@gmail.com,
         mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
         slongerbeam@gmail.com,
         Martin Kepplinger <martin.kepplinger@puri.sm>
-Subject: [PATCH v8 0/3] media: imx: add support for imx8mq MIPI RX
-Date:   Fri, 23 Jul 2021 12:12:14 +0200
-Message-Id: <20210723101217.1954805-1-martin.kepplinger@puri.sm>
+Subject: [PATCH v8 1/3] dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and controller
+Date:   Fri, 23 Jul 2021 12:12:15 +0200
+Message-Id: <20210723101217.1954805-2-martin.kepplinger@puri.sm>
+In-Reply-To: <20210723101217.1954805-1-martin.kepplinger@puri.sm>
+References: <20210723101217.1954805-1-martin.kepplinger@puri.sm>
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-hi,
+The i.MX8MQ SoC integrates a different MIPI CSI receiver as the i.MX8MM so
+describe the DT bindings for it.
 
-This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
-
-It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
-I test it using libcamera. Thanks to Laurent who helped a lot. I'm happy for
-any feedback,
-
-                           martin
-
-revision history
-----------------
-v8: (thank you Laurent)
-* calculate hs_settle for any clk rate and mode
-* add reviewed-by tag
-
-v7: (thank you Laurent and Rob)
-* fix the binding example (include the reset driver)
-* use pm_runtime_resume_and_get()
-* fix some logic in init_cfg()
-* add some useful code comments and fix minor bits found by Laurent in v6
-https://lore.kernel.org/linux-media/20210716102244.581182-1-martin.kepplinger@puri.sm/T/#t
-
-v6: (thank you Laurent and Rob)
-* add reviewed-by tag to binding
-* statically allocate clk_bulk_data
-* fix how the hs_settle value is applied
-* remove s_power calls
-* remove the link_setup() callback implementation and make the link immutable
-* more cleanups according to Laurents' review from v5
-https://lore.kernel.org/linux-media/20210714111931.324485-1-martin.kepplinger@puri.sm/
-
-v5: (thank you Laurent)
-* fix reset usage by using the already supported reset controller driver
-* remove clko2 (totally unrelated clock / had been included by accident)
-* rename pxl clock to ui
-https://lore.kernel.org/linux-media/20210618095753.114557-1-martin.kepplinger@puri.sm/
-
-v4: (thank you Rob and Marco)
-* create fsl,mipi-phy-gpr custom dt property instead of confusing "phy"
-* add imx8mq-specific compatibile to imx8mq.dtsi for future use
-https://lore.kernel.org/linux-media/20210614121522.2944593-1-martin.kepplinger@puri.sm/
-
-v3: (thank you, Rob and Laurent)
-among minor other things according to v2 review, changes include:
-* better describe the clocks
-* rename DT property "phy-reset" to "reset" and "phy-gpr" to "phy"
-https://lore.kernel.org/linux-media/20210608104128.1616028-1-martin.kepplinger@puri.sm/T/#t
-
-v2: (thank you, Dan and Guido)
-among fixes according to v1 reviews, changes include:
-* remove status property from dt-bindings example
-* define a few bits in order to have less magic values
-* use "imx8mq_mipi_csi_" as local function prefix
-* read DT properties only during probe()
-* remove dead code (log_status)
-* add imx8mq_mipi_csi_release_icc()
-* fix imx8mq_mipi_csi_init_icc()
-https://lore.kernel.org/linux-media/20210531112326.90094-1-martin.kepplinger@puri.sm/
-
-v1:
-https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
-
-Martin Kepplinger (3):
-  dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
-    controller
-  media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
-  arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
-
- .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 174 ++++
- arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 104 ++
- drivers/staging/media/imx/Makefile            |   1 +
- drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 979 ++++++++++++++++++
- 4 files changed, 1258 insertions(+)
+Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 174 ++++++++++++++++++
+ 1 file changed, 174 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
- create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
 
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+new file mode 100644
+index 000000000000..9c04fa85ee5c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+@@ -0,0 +1,174 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/nxp,imx8mq-mipi-csi2.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NXP i.MX8MQ MIPI CSI-2 receiver
++
++maintainers:
++  - Martin Kepplinger <martin.kepplinger@puri.sm>
++
++description: |-
++  This binding covers the CSI-2 RX PHY and host controller included in the
++  NXP i.MX8MQ SoC. It handles the sensor/image input and process for all the
++  input imaging devices.
++
++properties:
++  compatible:
++    enum:
++      - fsl,imx8mq-mipi-csi2
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: core is the RX Controller Core Clock input. This clock
++                     must be exactly equal to or faster than the receive
++                     byteclock from the RX DPHY.
++      - description: esc is the Rx Escape Clock. This must be the same escape
++                     clock that the RX DPHY receives.
++      - description: ui is the pixel clock (phy_ref up to 333Mhz).
++                     See the reference manual for details.
++
++  clock-names:
++    items:
++      - const: core
++      - const: esc
++      - const: ui
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    items:
++      - description: CORE_RESET reset register bit definition
++      - description: PHY_REF_RESET reset register bit definition
++      - description: ESC_RESET reset register bit definition
++
++  fsl,mipi-phy-gpr:
++    description: |
++      The phandle to the imx8mq syscon iomux-gpr with the register
++      for setting RX_ENABLE for the mipi receiver.
++
++      The format should be as follows:
++      <gpr req_gpr>
++      gpr is the phandle to general purpose register node.
++      req_gpr is the gpr register offset of RX_ENABLE for the mipi phy.
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    items:
++      items:
++        - description: The 'gpr' is the phandle to general purpose register node.
++        - description: The 'req_gpr' is the gpr register offset containing
++                       CSI2_1_RX_ENABLE or CSI2_2_RX_ENABLE respectively.
++          maximum: 0xff
++
++  interconnects:
++    maxItems: 1
++
++  interconnect-names:
++    const: dram
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          Input port node, single endpoint describing the CSI-2 transmitter.
++
++        properties:
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes:
++                items:
++                  minItems: 1
++                  maxItems: 4
++                  items:
++                    - const: 1
++                    - const: 2
++                    - const: 3
++                    - const: 4
++
++            required:
++              - data-lanes
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Output port node
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - power-domains
++  - resets
++  - fsl,mipi-phy-gpr
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx8mq-clock.h>
++    #include <dt-bindings/interconnect/imx8mq.h>
++    #include <dt-bindings/reset/imx8mq-reset.h>
++
++    csi@30a70000 {
++        compatible = "fsl,imx8mq-mipi-csi2";
++        reg = <0x30a70000 0x1000>;
++        clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
++                 <&clk IMX8MQ_CLK_CSI1_ESC>,
++                 <&clk IMX8MQ_CLK_CSI1_PHY_REF>;
++        clock-names = "core", "esc", "ui";
++        assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
++                          <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
++                          <&clk IMX8MQ_CLK_CSI1_ESC>;
++        assigned-clock-rates = <266000000>, <200000000>, <66000000>;
++        assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
++                                 <&clk IMX8MQ_SYS2_PLL_1000M>,
++                                 <&clk IMX8MQ_SYS1_PLL_800M>;
++        power-domains = <&pgc_mipi_csi1>;
++        resets = <&src IMX8MQ_RESET_MIPI_CSI1_CORE_RESET>,
++                 <&src IMX8MQ_RESET_MIPI_CSI1_PHY_REF_RESET>,
++                 <&src IMX8MQ_RESET_MIPI_CSI1_ESC_RESET>;
++        fsl,mipi-phy-gpr = <&iomuxc_gpr 0x88>;
++        interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
++        interconnect-names = "dram";
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++
++                imx8mm_mipi_csi_in: endpoint {
++                    remote-endpoint = <&imx477_out>;
++                    data-lanes = <1 2 3 4>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++
++                imx8mm_mipi_csi_out: endpoint {
++                    remote-endpoint = <&csi_in>;
++                };
++            };
++        };
++    };
++
++...
 -- 
 2.30.2
 
