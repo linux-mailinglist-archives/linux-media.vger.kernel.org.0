@@ -2,377 +2,1099 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C30C83D4352
-	for <lists+linux-media@lfdr.de>; Sat, 24 Jul 2021 01:13:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E50E3D4355
+	for <lists+linux-media@lfdr.de>; Sat, 24 Jul 2021 01:14:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233134AbhGWWdP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Jul 2021 18:33:15 -0400
-Received: from mail-io1-f46.google.com ([209.85.166.46]:42906 "EHLO
-        mail-io1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231954AbhGWWdO (ORCPT
+        id S233220AbhGWWdp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jul 2021 18:33:45 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:59132 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231954AbhGWWdk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Jul 2021 18:33:14 -0400
-Received: by mail-io1-f46.google.com with SMTP id h1so4383680iol.9;
-        Fri, 23 Jul 2021 16:13:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ZB00Ds6KoI5x1WT5XNdgK15EVg0jEG6uuHyKMdGNqQo=;
-        b=KKy1tCSzxkHdlbWGAwMI5LVn6XPQ5k6y8927WgXzlWngW+PZcur7NhyD7UK0sPmk7c
-         Z6hx3tkc7A639V+pWE4SSBYVsXxzS13GA4G8CVJCCFLv33ASXsaEbbRFVwsFYkJ0AUxo
-         ABM6oJDqNaPSt+S4PyD0Wou0CgaB4pAAf0WvfAs1CfrzZrBdXkTcP6aohC4KpUCHMckd
-         KgItNrd0XOaioxWH1cMelEh4N9q3uh3IvJVgZ4e+yGPJ1rj3UYpC9RW1Sml1C8r9OHcY
-         te9p18R3KooL82AfbOIeUmU7SulCdBsIir/h7PAMBqaI+CBxflbdypm4uGRlS2DDRob9
-         vLPw==
-X-Gm-Message-State: AOAM5334a2T+Irs2jyuDqndO6glqlz+S/vF1M8JCkkAityXBHVo85BPb
-        W11asS+OMR7bImZ35cPDBQ==
-X-Google-Smtp-Source: ABdhPJwpOJQwg2W6oneYH/cmi1cz+nE8ciUCHDeXvjP+egp/W9YCayfPoS3lAFKDKaSvEtYtgKg94A==
-X-Received: by 2002:a02:c491:: with SMTP id t17mr6045273jam.56.1627082026261;
-        Fri, 23 Jul 2021 16:13:46 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id l5sm18750954ion.44.2021.07.23.16.13.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jul 2021 16:13:45 -0700 (PDT)
-Received: (nullmailer pid 2785859 invoked by uid 1000);
-        Fri, 23 Jul 2021 23:13:43 -0000
-Date:   Fri, 23 Jul 2021 17:13:43 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Moudy Ho <moudy.ho@mediatek.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org, drinkcat@chromium.org, acourbot@chromium.org,
-        pihsun@chromium.org, menghui.lin@mediatek.com,
-        sj.huang@mediatek.com, ben.lok@mediatek.com, randy.wu@mediatek.com,
-        srv_heupstream@mediatek.com
-Subject: Re: [PATCH v5 1/3] dt-binding: mt8183: Add Mediatek MDP3 dt-bindings
-Message-ID: <20210723231343.GA2773035@robh.at.kernel.org>
-References: <20210719074640.25058-1-moudy.ho@mediatek.com>
- <20210719074640.25058-2-moudy.ho@mediatek.com>
+        Fri, 23 Jul 2021 18:33:40 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 498E03F;
+        Sat, 24 Jul 2021 01:14:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1627082051;
+        bh=ItdJvvCirNHdgXgRTlJfJsTxC6Aqq+MZxDXrWC9UQN4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nBsLZsmTI7tJYvClyAMqxD0sz8fAFPfpi0D0bs0B80y9J2d8U2hPeYUoXL0ca8UIZ
+         eAyr7Fb71taY2AwJr0wueJ7FCAsVY51GGWm3x7ocIVCuCr9uxCXHk4kB5iPwJ8hKqA
+         eA5DOcheDo+Q4+/B605bXTkBw7nu5UXKdSPL4ihQ=
+Date:   Sat, 24 Jul 2021 02:14:08 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     shawnguo@kernel.org, devicetree@vger.kernel.org,
+        festevam@gmail.com, kernel@pengutronix.de, kernel@puri.sm,
+        krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-imx@nxp.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        m.felsch@pengutronix.de, mchehab@kernel.org,
+        phone-devel@vger.kernel.org, robh@kernel.org, slongerbeam@gmail.com
+Subject: Re: [PATCH v8 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
+ phy and controller
+Message-ID: <YPtNQG8/+O+OfoU6@pendragon.ideasonboard.com>
+References: <20210723101217.1954805-1-martin.kepplinger@puri.sm>
+ <20210723101217.1954805-3-martin.kepplinger@puri.sm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210719074640.25058-2-moudy.ho@mediatek.com>
+In-Reply-To: <20210723101217.1954805-3-martin.kepplinger@puri.sm>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 19, 2021 at 03:46:38PM +0800, Moudy Ho wrote:
-> This patch adds DT binding document for Media Data Path 3 (MDP3)
-> a unit in multimedia system used for scaling and color format convert.
+Hi Martin,
+
+Thank you for the patch.
+
+On Fri, Jul 23, 2021 at 12:12:16PM +0200, Martin Kepplinger wrote:
+> Add a driver to support the i.MX8MQ MIPI CSI receiver. The hardware side
+> is based on
+> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
 > 
-> Signed-off-by: Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
-> Signed-off-by: daoyuan huang <daoyuan.huang@mediatek.com>
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> It's built as part of VIDEO_IMX7_CSI because that's documented to support
+> i.MX8M platforms. This driver adds i.MX8MQ support where currently only the
+> i.MX8MM platform has been supported.
+> 
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  .../bindings/media/mediatek-mdp3.yaml         | 274 ++++++++++++++++++
->  1 file changed, 274 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek-mdp3.yaml
+>  drivers/staging/media/imx/Makefile           |   1 +
+>  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 979 +++++++++++++++++++
+>  2 files changed, 980 insertions(+)
+>  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
 > 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek-mdp3.yaml b/Documentation/devicetree/bindings/media/mediatek-mdp3.yaml
+> diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
+> index 6ac33275cc97..19c2fc54d424 100644
+> --- a/drivers/staging/media/imx/Makefile
+> +++ b/drivers/staging/media/imx/Makefile
+> @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
+>  
+>  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
+>  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
+> +obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
+> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
 > new file mode 100644
-> index 000000000000..e3e10f0544ba
+> index 000000000000..7468ed856d41
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek-mdp3.yaml
-> @@ -0,0 +1,274 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> @@ -0,0 +1,979 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * NXP i.MX8MQ SoC series MIPI-CSI2 receiver driver
+> + *
+> + * Copyright (C) 2021 Purism SPC
+> + */
 > +
-> +title: Mediatek Media Data Path 3 Device Tree Bindings
+> +#include <linux/clk.h>
+> +#include <linux/clk-provider.h>
+> +#include <linux/delay.h>
+> +#include <linux/errno.h>
+> +#include <linux/interconnect.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mfd/syscon.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/of.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/reset.h>
+> +#include <linux/spinlock.h>
 > +
-> +maintainers:
-> +  - Daoyuan Huang <daoyuan.huang@mediatek.com>
-> +  - Moudy Ho <moudy.ho@mediatek.com>
+> +#include <media/v4l2-common.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-fwnode.h>
+> +#include <media/v4l2-mc.h>
+> +#include <media/v4l2-subdev.h>
 > +
-> +description: |
-> +  Media Data Path 3 (MDP3) is used for scaling and color space conversion.
+> +#define MIPI_CSI2_DRIVER_NAME			"imx8mq-mipi-csi2"
+> +#define MIPI_CSI2_SUBDEV_NAME			MIPI_CSI2_DRIVER_NAME
 > +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +        - enum:
-> +          # controller node
-> +          - mediatek,mt8183-mdp3
-> +        - enum:
-> +          - mediatek,mt8183-mdp3-rdma
+> +#define MIPI_CSI2_PAD_SINK			0
+> +#define MIPI_CSI2_PAD_SOURCE			1
+> +#define MIPI_CSI2_PADS_NUM			2
 > +
-> +      - items:
-> +        - enum:
-> +          # read DMA
-> +          - mediatek,mt8183-mdp3-rdma
-> +          # frame resizer
-> +          - mediatek,mt8183-mdp3-rsz
-> +          # write DMA
-> +          - mediatek,mt8183-mdp3-wdma
-> +          # write DMA with frame rotation
-> +          - mediatek,mt8183-mdp3-wrot
-> +          # color correction with 3X3 matrix
-> +          - mediatek,mt8183-mdp3-ccorr
+> +#define MIPI_CSI2_DEF_PIX_WIDTH			640
+> +#define MIPI_CSI2_DEF_PIX_HEIGHT		480
+> +
+> +/* Register map definition */
+> +
+> +/* i.MX8MQ CSI-2 controller CSR */
+> +#define CSI2RX_CFG_NUM_LANES			0x100
+> +#define CSI2RX_CFG_DISABLE_DATA_LANES		0x104
+> +#define CSI2RX_BIT_ERR				0x108
+> +#define CSI2RX_IRQ_STATUS			0x10c
+> +#define CSI2RX_IRQ_MASK				0x110
+> +#define CSI2RX_IRQ_MASK_ALL			0x1ff
+> +#define CSI2RX_IRQ_MASK_ULPS_STATUS_CHANGE	0x8
+> +#define CSI2RX_ULPS_STATUS			0x114
+> +#define CSI2RX_PPI_ERRSOT_HS			0x118
+> +#define CSI2RX_PPI_ERRSOTSYNC_HS		0x11c
+> +#define CSI2RX_PPI_ERRESC			0x120
+> +#define CSI2RX_PPI_ERRSYNCESC			0x124
+> +#define CSI2RX_PPI_ERRCONTROL			0x128
+> +#define CSI2RX_CFG_DISABLE_PAYLOAD_0		0x12c
+> +#define CSI2RX_CFG_VID_P_FIFO_SEND_LEVEL	0x188
+> +#define CSI2RX_CFG_DISABLE_PAYLOAD_1		0x130
+> +
+> +enum {
+> +	ST_POWERED	= 1,
+> +	ST_STREAMING	= 2,
+> +	ST_SUSPENDED	= 4,
+> +};
+> +
+> +static const char * const imx8mq_mipi_csi_clk_id[] = {
+> +	"core",
+> +	"esc",
+> +	"ui",
+> +};
+> +
+> +#define CSI2_NUM_CLKS	ARRAY_SIZE(imx8mq_mipi_csi_clk_id)
+> +
+> +#define	GPR_CSI2_1_RX_ENABLE		BIT(13)
+> +#define	GPR_CSI2_1_VID_INTFC_ENB	BIT(12)
+> +#define	GPR_CSI2_1_HSEL			BIT(10)
+> +#define	GPR_CSI2_1_CONT_CLK_MODE	BIT(8)
+> +#define	GPR_CSI2_1_S_PRG_RXHS_SETTLE(x)	(((x) & 0x3f) << 2)
+> +
+> +/*
+> + * The send level configures the number of entries that must accumulate in
+> + * the Pixel FIFO before the data will be transferred to the video output.
+> + * See https://community.nxp.com/t5/i-MX-Processors/IMX8M-MIPI-CSI-Host-Controller-send-level/m-p/864005/highlight/true#M131704
+> + */
+> +#define CSI2RX_SEND_LEVEL			64
+> +
+> +struct csi_state {
+> +	struct device *dev;
+> +	void __iomem *regs;
+> +	struct clk_bulk_data clks[CSI2_NUM_CLKS];
+> +	struct reset_control *rst;
+> +	struct regulator *mipi_phy_regulator;
+> +
+> +	struct v4l2_subdev sd;
+> +	struct media_pad pads[MIPI_CSI2_PADS_NUM];
+> +	struct v4l2_async_notifier notifier;
+> +	struct v4l2_subdev *src_sd;
+> +
+> +	struct v4l2_fwnode_bus_mipi_csi2 bus;
+> +
+> +	struct mutex lock; /* Protect csi2_fmt, format_mbus, state, hs_settle */
+> +	const struct csi2_pix_format *csi2_fmt;
+> +	struct v4l2_mbus_framefmt format_mbus[MIPI_CSI2_PADS_NUM];
+> +	u32 state;
+> +	u32 hs_settle;
+> +
+> +	struct regmap *phy_gpr;
+> +	u8 phy_gpr_reg;
+> +
+> +	struct icc_path			*icc_path;
+> +	s32				icc_path_bw;
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Format helpers
+> + */
+> +
+> +struct csi2_pix_format {
+> +	u32 code;
+> +	u8 width;
+> +};
+> +
+> +static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
+> +	/* RAW (Bayer and greyscale) formats. */
+> +	{
+> +		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> +		.width = 8,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
+> +		.width = 8,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
+> +		.width = 8,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
+> +		.width = 8,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_Y8_1X8,
+> +		.width = 8,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
+> +		.width = 10,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SGBRG10_1X10,
+> +		.width = 10,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
+> +		.width = 10,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
+> +		.width = 10,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_Y10_1X10,
+> +		.width = 10,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SBGGR12_1X12,
+> +		.width = 12,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SGBRG12_1X12,
+> +		.width = 12,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
+> +		.width = 12,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
+> +		.width = 12,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_Y12_1X12,
+> +		.width = 12,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SBGGR14_1X14,
+> +		.width = 14,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SGBRG14_1X14,
+> +		.width = 14,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SGRBG14_1X14,
+> +		.width = 14,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SRGGB14_1X14,
+> +		.width = 14,
+> +	}, {
+> +	/* YUV formats */
+> +		.code = MEDIA_BUS_FMT_YUYV8_2X8,
+> +		.width = 16,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_YUYV8_1X16,
+> +		.width = 16,
+> +	}
+> +};
+> +
+> +static const struct csi2_pix_format *find_csi2_format(u32 code)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(imx8mq_mipi_csi_formats); i++)
+> +		if (code == imx8mq_mipi_csi_formats[i].code)
+> +			return &imx8mq_mipi_csi_formats[i];
+> +	return NULL;
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Hardware configuration
+> + */
+> +
+> +static inline void imx8mq_mipi_csi_write(struct csi_state *state, u32 reg, u32 val)
+> +{
+> +	writel(val, state->regs + reg);
+> +}
+> +
+> +static int imx8mq_mipi_csi_sw_reset(struct csi_state *state)
+> +{
+> +	int ret;
+> +
+> +	/*
+> +	 * these are most likely self-clearing reset bits. to make it
+> +	 * more clear, the reset-imx7 driver should implement the
+> +	 * .reset() operation.
+> +	 */
+> +	ret = reset_control_assert(state->rst);
+> +	if (ret < 0) {
+> +		dev_err(state->dev, "Failed to assert resets: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void imx8mq_mipi_csi_system_enable(struct csi_state *state, int on)
+> +{
+> +	if (!on) {
+> +		imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES, 0xf);
+> +		return;
+> +	}
+> +
+> +	regmap_update_bits(state->phy_gpr,
+> +			   state->phy_gpr_reg,
+> +			   0x3fff,
+> +			   GPR_CSI2_1_RX_ENABLE |
+> +			   GPR_CSI2_1_VID_INTFC_ENB |
+> +			   GPR_CSI2_1_HSEL |
+> +			   GPR_CSI2_1_CONT_CLK_MODE |
+> +			   GPR_CSI2_1_S_PRG_RXHS_SETTLE(state->hs_settle));
+> +}
+> +
+> +static void imx8mq_mipi_csi_set_params(struct csi_state *state)
+> +{
+> +	int lanes = state->bus.num_data_lanes;
+> +
+> +	imx8mq_mipi_csi_write(state, CSI2RX_CFG_NUM_LANES, lanes - 1);
+> +	imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES,
+> +			      (0xf << lanes) & 0xf);
+> +	imx8mq_mipi_csi_write(state, CSI2RX_IRQ_MASK, CSI2RX_IRQ_MASK_ALL);
+> +	imx8mq_mipi_csi_write(state, 0x180, 1);
+> +	/* vid_vc */
+> +	imx8mq_mipi_csi_write(state, 0x184, 1);
+> +	imx8mq_mipi_csi_write(state, 0x188, CSI2RX_SEND_LEVEL);
+> +}
+> +
+> +static int imx8mq_mipi_csi_clk_enable(struct csi_state *state)
+> +{
+> +	return clk_bulk_prepare_enable(CSI2_NUM_CLKS, state->clks);
+> +}
+> +
+> +static void imx8mq_mipi_csi_clk_disable(struct csi_state *state)
+> +{
+> +	clk_bulk_disable_unprepare(CSI2_NUM_CLKS, state->clks);
+> +}
+> +
+> +static int imx8mq_mipi_csi_clk_get(struct csi_state *state)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < CSI2_NUM_CLKS; i++)
+> +		state->clks[i].id = imx8mq_mipi_csi_clk_id[i];
+> +
+> +	return devm_clk_bulk_get(state->dev, CSI2_NUM_CLKS, state->clks);
+> +}
+> +
+> +static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state)
+> +{
+> +	s64 link_freq;
+> +	u32 lane_rate;
+> +	u32 esc_clk_rate = 0;
 
-These are all different h/w blocks, right? I think they should be 
-separate schema files. 
+This should be an unsigned long.
 
+> +	u32 i, min_ths_settle, max_ths_settle, ths_settle_ns, esc_clk_period_ns;
+> +	char *p;
+> +
+> +	/* Calculate the line rate from the pixel rate. */
+> +	link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
+> +				       state->csi2_fmt->width,
+> +				       state->bus.num_data_lanes * 2);
+> +	if (link_freq < 0) {
+> +		dev_err(state->dev, "Unable to obtain link frequency: %d\n",
+> +			(int)link_freq);
+> +		return link_freq;
+> +	}
+> +
+> +	lane_rate = link_freq * 2;
+> +	if (lane_rate < 80000000 || lane_rate > 1500000000) {
+> +		dev_dbg(state->dev, "Out-of-bound lane rate %u\n", lane_rate);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/*
+> +	 * The D-PHY specification requires Ths-settle to be in the range
+> +	 * 85ns + 6*UI to 140ns + 10*UI, with the unit interval UI being half
+> +	 * the clock period.
+> +	 *
+> +	 * The Ths-settle value is expressed in the hardware as a multiple of
+> +	 * the Esc clock period:
+> +	 *
+> +	 * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of RxClkInEsc
+> +	 *
+> +	 * Due to the one cycle inaccuracy introduced by rounding, the
+> +	 * documentation recommends picking a value away from the boundaries.
+> +	 * Let's pick the average.
+> +	 */
+> +	for (i = 0; i < CSI2_NUM_CLKS; i++) {
+> +		p = (char *)__clk_get_name(state->clks[i].clk);
+> +
+> +		dev_dbg(state->dev, "looking for esc clock: %s\n", p);
+> +
+> +		if (!strcmp(p, "esc") || !strcmp(p, "csi1_esc") ||
+> +		    !strcmp(p, "csi2_esc"))
+> +			esc_clk_rate = clk_get_rate(state->clks[i].clk);
 
-> +
-> +  mediatek,scp:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    maxItems: 1
-> +    description: |
-> +      The node of system control processor (SCP), using
-> +      the remoteproc & rpmsg framework.
-> +      $ref: /schemas/remoteproc/mtk,scp.yaml
-> +
-> +  mediatek,mdp3-id:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maxItems: 1
-> +    description: |
-> +      HW index to distinguish same functionality modules.
+The clocks are ordered in the state->clks array as in the
+imx8mq_mipi_csi_clk_id array, so you can simply index the array instead
+of checking the name. To avoid the risk of mismatch, you could write
 
-We generally don't do indices in DT, so explain why this is needed or 
-come up with another way (and aliases is not it).
+enum imx8mq_mipi_csi_clk {
+	CSI2_CLK_CORE,
+	CSI2_CLK_ESC,
+	CSI2_CLK_UI,
+	CSI2_NUM_CLKS,
+};
 
-> +
-> +  mdp3-comps:
-> +    $ref: /schemas/types.yaml#/definitions/string-array
-> +    description: |
-> +      Subcomponent, the number aligns with
-> +      mdp_sub_comp_dt_ids[] in mtk-mdp3-comp.c.
-> +
-> +  mdp3-comp-ids:
-> +    maxItems: 1
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description: |
-> +      Index of the modules, the number list in
-> +      mdp_comp_matches[] in mtk-mdp3-comp.c.
+static const char * const imx8mq_mipi_csi_clk_id[CSI2_NUM_CLKS] = {
+	[CSI2_CLK_CORE] = "core",
+	[CSI2_CLK_ESC] = "esc",
+	[CSI2_CLK_UI] = "ui",
+};
 
-Bindings describe h/w. Why is this referring to some driver file?
+and use 
 
+	esc_clk_rate = clk_get_rate(state->clks[CSI2_CLK_ESC].clk);
+
+here. No need to initialize esc_clk_rate to 0 above.
+
+> +	}
 > +
-> +  reg:
-> +    description: |
-> +      Physical base address and length of the function block
-> +      register space, the number aligns with the component
-> +      and its own subcomponent.
+> +	if (!esc_clk_rate) {
+> +		dev_err(state->dev, "Could not find esc clock.\n");
+
+This would become "Could not get esc clock rate".
+
+> +		return -EINVAL;
+> +	}
 > +
-> +  mediatek,gce-client-reg:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    description: |
-> +      sub-system id corresponding to the global command engine (GCE)
-> +      register address.
-> +      $ref: /schemas/mailbox/mtk-gce.txt
+> +	dev_dbg(state->dev, "esc clk rate: %u\n", esc_clk_rate);
+
+%lu
+
+> +	esc_clk_period_ns = 1000000000 / esc_clk_rate;
 > +
-> +  power-domains:
-> +    maxItems: 1
+> +	min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
+> +	max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
+> +	ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
 > +
-> +  clocks:
-> +    minItems: 1
-> +    maxItems: 6
+> +	state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
 > +
-> +  iommus:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: |
-> +      Should point to the respective IOMMU block with master
-> +      port as argument.
-> +      $ref: /schemas/iommu/mediatek,iommu.yaml
+> +	dev_dbg(state->dev, "lane rate %u Ths_settle %u hs_settle %u\n",
+> +		lane_rate, ths_settle_ns, state->hs_settle);
 > +
-> +  mediatek,mmsys:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    maxItems: 1
-> +    description: |
-> +      The node of mux(multiplexer) controller for HW connections.
+> +	return 0;
+> +}
 > +
-> +  mediatek,mm-mutex:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    maxItems: 1
-> +    description: |
-> +      The node of sof(start of frame) signal controller.
+> +static int imx8mq_mipi_csi_start_stream(struct csi_state *state)
+> +{
+> +	int ret;
 > +
-> +  mediatek,mailbox-gce:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: |
-> +      The node of global command engine (GCE), used to read/write
-> +      registers with critical time limitation.
-> +      $ref: /schemas/mailbox/mtk-gce.txt
+> +	ret = imx8mq_mipi_csi_sw_reset(state);
+> +	if (ret)
+> +		return ret;
 > +
-> +  mboxes:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    description: |
-> +      $ref: /schemas/mailbox/mailbox.txt
+> +	imx8mq_mipi_csi_set_params(state);
+> +	ret = imx8mq_mipi_csi_calc_hs_settle(state);
+> +	if (ret)
+> +		return ret;
 > +
-> +  gce-subsys:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    description: |
-> +      sub-system id corresponding to the global command engine (GCE)
-> +      register address.
-> +      $ref: /schemas/mailbox/mtk-gce.txt
+> +	imx8mq_mipi_csi_system_enable(state, true);
 > +
-> +  mediatek,gce-events:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description: |
-> +      In use event IDs list, all IDs are defined in
-> +      'dt-bindings/gce/mt8183-gce.h'.
-> +      $ref: /schemas/mailbox/mtk-gce.txt
+> +	return 0;
+> +}
 > +
-> +if:
-> +  properties:
-> +    compatible:
-> +      items:
-> +        - enum:
-> +          - mediatek,mt8183-mdp3
-> +        - enum:
-> +          - mediatek,mt8183-mdp3-rdma
+> +static void imx8mq_mipi_csi_stop_stream(struct csi_state *state)
+> +{
+> +	imx8mq_mipi_csi_system_enable(state, false);
+> +}
 > +
-> +then:
-> +  required:
-> +    - mediatek,scp
-> +    - mediatek,mmsys
-> +    - mediatek,mm-mutex
-> +    - mediatek,gce-events
-> +    - mediatek,mailbox-gce
-> +    - mboxes
-> +    - gce-subsys
+> +/* -----------------------------------------------------------------------------
+> + * V4L2 subdev operations
+> + */
 > +
-> +required:
-> +  - compatible
-> +  - mediatek,mdp3-id
-> +  - reg
-> +  - clocks
-> +  - mediatek,gce-client-reg
+> +static struct csi_state *mipi_sd_to_csi2_state(struct v4l2_subdev *sdev)
+> +{
+> +	return container_of(sdev, struct csi_state, sd);
+> +}
 > +
-> +additionalProperties: false
+> +static int imx8mq_mipi_csi_s_stream(struct v4l2_subdev *sd, int enable)
+> +{
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	int ret = 0;
 > +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/mt8183-clk.h>
-> +    #include <dt-bindings/gce/mt8183-gce.h>
-> +    #include <dt-bindings/power/mt8183-power.h>
-> +    #include <dt-bindings/memory/mt8183-larb-port.h>
+> +	imx8mq_mipi_csi_write(state, CSI2RX_IRQ_MASK,
+> +			      CSI2RX_IRQ_MASK_ULPS_STATUS_CHANGE);
 > +
-> +    mdp3_rdma0: mdp3_rdma0@14001000 {
-> +      compatible = "mediatek,mt8183-mdp3",
-> +                   "mediatek,mt8183-mdp3-rdma";
-> +      mediatek,scp = <&scp>;
-> +      mediatek,mdp3-id = <0>;
-> +      mdp3-comps = "mediatek,mt8183-mdp3-dl", "mediatek,mt8183-mdp3-dl1",
-> +                   "mediatek,mt8183-mdp3-imgi", "mediatek,mt8183-mdp3-exto";
-> +      mdp3-comp-ids = <0 1 0 1>;
-> +      reg = <0x14001000 0x1000>,
-> +            <0x14000000 0x1000>,
-> +            <0x15020000 0x1000>;
-> +      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x1000 0x1000>,
-> +                                <&gce SUBSYS_1400XXXX 0 0x1000>,
-> +                                <&gce SUBSYS_1502XXXX 0 0x1000>;
-> +      power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
-> +      clocks = <&mmsys CLK_MM_MDP_RDMA0>,
-> +               <&mmsys CLK_MM_MDP_RSZ1>,
-> +               <&mmsys CLK_MM_MDP_DL_TXCK>,
-> +               <&mmsys CLK_MM_MDP_DL_RX>,
-> +               <&mmsys CLK_MM_IPU_DL_TXCK>,
-> +               <&mmsys CLK_MM_IPU_DL_RX>;
-> +      iommus = <&iommu>;
-> +      mediatek,mmsys = <&mmsys>;
-> +      mediatek,mm-mutex = <&mutex>;
-> +      mediatek,mailbox-gce = <&gce>;
-> +      mboxes = <&gce 20 CMDQ_THR_PRIO_LOWEST 0>,
-> +               <&gce 21 CMDQ_THR_PRIO_LOWEST 0>,
-> +               <&gce 22 CMDQ_THR_PRIO_LOWEST 0>,
-> +               <&gce 23 CMDQ_THR_PRIO_LOWEST 0>;
-> +      gce-subsys = <&gce 0x14000000 SUBSYS_1400XXXX>,
-> +                   <&gce 0x14010000 SUBSYS_1401XXXX>,
-> +                   <&gce 0x14020000 SUBSYS_1402XXXX>,
-> +                   <&gce 0x15020000 SUBSYS_1502XXXX>;
-> +      mediatek,gce-events = <CMDQ_EVENT_MDP_RDMA0_SOF>,
-> +                            <CMDQ_EVENT_MDP_RDMA0_EOF>,
-> +                            <CMDQ_EVENT_MDP_RSZ0_SOF>,
-> +                            <CMDQ_EVENT_MDP_RSZ1_SOF>,
-> +                            <CMDQ_EVENT_MDP_TDSHP_SOF>,
-> +                            <CMDQ_EVENT_MDP_WROT0_SOF>,
-> +                            <CMDQ_EVENT_MDP_WROT0_EOF>,
-> +                            <CMDQ_EVENT_MDP_WDMA0_SOF>,
-> +                            <CMDQ_EVENT_MDP_WDMA0_EOF>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_0>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_1>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_2>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_3>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_4>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_5>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_6>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_7>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_8>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_9>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_10>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_11>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_12>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_13>,
-> +                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_14>,
-> +                            <CMDQ_EVENT_WPE_A_DONE>,
-> +                            <CMDQ_EVENT_SPE_B_DONE>;
-> +    };
+> +	if (enable) {
+> +		ret = pm_runtime_resume_and_get(state->dev);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
 > +
-> +    mdp3_rsz0: mdp3_rsz0@14003000 {
-> +      compatible = "mediatek,mt8183-mdp3-rsz";
-> +      mediatek,mdp3-id = <0>;
-> +      reg = <0x14003000 0x1000>;
-> +      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x3000 0x1000>;
-> +      clocks = <&mmsys CLK_MM_MDP_RSZ0>;
-> +    };
+> +	mutex_lock(&state->lock);
 > +
-> +    mdp3_rsz1: mdp3_rsz1@14004000 {
-> +      compatible = "mediatek,mt8183-mdp3-rsz";
-> +      mediatek,mdp3-id = <1>;
-> +      reg = <0x14004000 0x1000>;
-> +      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x4000 0x1000>;
-> +      clocks = <&mmsys CLK_MM_MDP_RSZ1>;
-> +    };
+> +	if (enable) {
+> +		if (state->state & ST_SUSPENDED) {
+> +			ret = -EBUSY;
+> +			goto unlock;
+> +		}
 > +
-> +    mdp3_wrot0: mdp3_wrot0@14005000 {
-> +      compatible = "mediatek,mt8183-mdp3-wrot";
-> +      mediatek,mdp3-id = <0>;
-> +      mdp3-comps = "mediatek,mt8183-mdp3-path";
-> +      mdp3-comp-ids = <0>;
-> +      reg = <0x14005000 0x1000>;
-> +      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x5000 0x1000>;
-> +      power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
-> +      clocks = <&mmsys CLK_MM_MDP_WROT0>;
-> +      iommus = <&iommu>;
-> +    };
+> +		ret = imx8mq_mipi_csi_start_stream(state);
+> +		if (ret < 0)
+> +			goto unlock;
 > +
-> +    mdp3_wdma: mdp3_wdma@14006000 {
-> +      compatible = "mediatek,mt8183-mdp3-wdma";
-> +      mediatek,mdp3-id = <0>;
-> +      mdp3-comps = "mediatek,mt8183-mdp3-path";
-> +      mdp3-comp-ids = <1>;
-> +      reg = <0x14006000 0x1000>;
-> +      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x6000 0x1000>;
-> +      power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
-> +      clocks = <&mmsys CLK_MM_MDP_WDMA0>;
-> +      iommus = <&iommu>;
-> +    };
+> +		ret = v4l2_subdev_call(state->src_sd, video, s_stream, 1);
+> +		if (ret < 0)
+> +			goto unlock;
 > +
-> +    mdp3_ccorr: mdp3_ccorr@1401c000 {
-> +      compatible = "mediatek,mt8183-mdp3-ccorr";
-> +      mediatek,mdp3-id = <0>;
-> +      reg = <0x1401c000 0x1000>;
-> +      mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0xc000 0x1000>;
-> +      clocks = <&mmsys CLK_MM_MDP_CCORR>;
-> +    };
+> +		state->state |= ST_STREAMING;
+> +	} else {
+> +		v4l2_subdev_call(state->src_sd, video, s_stream, 0);
+> +		imx8mq_mipi_csi_stop_stream(state);
+> +		state->state &= ~ST_STREAMING;
+> +	}
 > +
-> -- 
-> 2.18.0
-> 
-> 
+> +unlock:
+> +	mutex_unlock(&state->lock);
+> +
+> +	if (!enable || ret < 0)
+> +		pm_runtime_put(state->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static struct v4l2_mbus_framefmt *
+> +imx8mq_mipi_csi_get_format(struct csi_state *state,
+> +			   struct v4l2_subdev_state *sd_state,
+> +			   enum v4l2_subdev_format_whence which,
+> +			   unsigned int pad)
+> +{
+> +	if (which == V4L2_SUBDEV_FORMAT_TRY)
+> +		return v4l2_subdev_get_try_format(&state->sd, sd_state, pad);
+> +
+> +	return &state->format_mbus[pad];
+> +}
+> +
+> +static int imx8mq_mipi_csi_init_cfg(struct v4l2_subdev *sd,
+> +				    struct v4l2_subdev_state *sd_state)
+> +{
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	struct v4l2_mbus_framefmt *fmt_sink;
+> +	struct v4l2_mbus_framefmt *fmt_source;
+> +	enum v4l2_subdev_format_whence which;
+> +
+> +	which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
+> +	fmt_sink = imx8mq_mipi_csi_get_format(state, sd_state, which,
+> +					      MIPI_CSI2_PAD_SINK);
+> +
+> +	fmt_sink->code = MEDIA_BUS_FMT_SGBRG10_1X10;
+> +	fmt_sink->width = MIPI_CSI2_DEF_PIX_WIDTH;
+> +	fmt_sink->height = MIPI_CSI2_DEF_PIX_HEIGHT;
+> +	fmt_sink->field = V4L2_FIELD_NONE;
+> +
+> +	fmt_sink->colorspace = V4L2_COLORSPACE_RAW;
+> +	fmt_sink->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt_sink->colorspace);
+> +	fmt_sink->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt_sink->colorspace);
+> +	fmt_sink->quantization =
+> +		V4L2_MAP_QUANTIZATION_DEFAULT(false, fmt_sink->colorspace,
+> +					      fmt_sink->ycbcr_enc);
+> +
+> +	fmt_source = imx8mq_mipi_csi_get_format(state, sd_state, which,
+> +						MIPI_CSI2_PAD_SOURCE);
+> +	*fmt_source = *fmt_sink;
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx8mq_mipi_csi_get_fmt(struct v4l2_subdev *sd,
+> +				   struct v4l2_subdev_state *sd_state,
+> +				   struct v4l2_subdev_format *sdformat)
+> +{
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	struct v4l2_mbus_framefmt *fmt;
+> +
+> +	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
+> +					 sdformat->pad);
+> +
+> +	mutex_lock(&state->lock);
+> +
+> +	sdformat->format = *fmt;
+> +
+> +	mutex_unlock(&state->lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx8mq_mipi_csi_enum_mbus_code(struct v4l2_subdev *sd,
+> +					  struct v4l2_subdev_state *sd_state,
+> +					  struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +
+> +	/*
+> +	 * We can't transcode in any way, the source format is identical
+> +	 * to the sink format.
+> +	 */
+> +	if (code->pad == MIPI_CSI2_PAD_SOURCE) {
+> +		struct v4l2_mbus_framefmt *fmt;
+> +
+> +		if (code->index > 0)
+> +			return -EINVAL;
+> +
+> +		fmt = imx8mq_mipi_csi_get_format(state, sd_state, code->which,
+> +						 code->pad);
+> +		code->code = fmt->code;
+> +		return 0;
+> +	}
+> +
+> +	if (code->pad != MIPI_CSI2_PAD_SINK)
+> +		return -EINVAL;
+> +
+> +	if (code->index >= ARRAY_SIZE(imx8mq_mipi_csi_formats))
+> +		return -EINVAL;
+> +
+> +	code->code = imx8mq_mipi_csi_formats[code->index].code;
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
+> +				   struct v4l2_subdev_state *sd_state,
+> +				   struct v4l2_subdev_format *sdformat)
+> +{
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	struct csi2_pix_format const *csi2_fmt;
+> +	struct v4l2_mbus_framefmt *fmt;
+> +
+> +	/*
+> +	 * The device can't transcode in any way, the source format can't be
+> +	 * modified.
+> +	 */
+> +	if (sdformat->pad == MIPI_CSI2_PAD_SOURCE)
+> +		return imx8mq_mipi_csi_get_fmt(sd, sd_state, sdformat);
+> +
+> +	if (sdformat->pad != MIPI_CSI2_PAD_SINK)
+> +		return -EINVAL;
+> +
+> +	csi2_fmt = find_csi2_format(sdformat->format.code);
+> +	if (!csi2_fmt)
+> +		csi2_fmt = &imx8mq_mipi_csi_formats[0];
+> +
+> +	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
+> +					 sdformat->pad);
+> +
+> +	mutex_lock(&state->lock);
+> +
+> +	fmt->code = csi2_fmt->code;
+> +	fmt->width = sdformat->format.width;
+> +	fmt->height = sdformat->format.height;
+> +
+> +	sdformat->format = *fmt;
+> +
+> +	/* Propagate the format from sink to source. */
+> +	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
+> +					 MIPI_CSI2_PAD_SOURCE);
+> +	*fmt = sdformat->format;
+> +
+> +	/* Store the CSI2 format descriptor for active formats. */
+> +	if (sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> +		state->csi2_fmt = csi2_fmt;
+> +
+> +	mutex_unlock(&state->lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_video_ops imx8mq_mipi_csi_video_ops = {
+> +	.s_stream	= imx8mq_mipi_csi_s_stream,
+> +};
+> +
+> +static const struct v4l2_subdev_pad_ops imx8mq_mipi_csi_pad_ops = {
+> +	.init_cfg		= imx8mq_mipi_csi_init_cfg,
+> +	.enum_mbus_code		= imx8mq_mipi_csi_enum_mbus_code,
+> +	.get_fmt		= imx8mq_mipi_csi_get_fmt,
+> +	.set_fmt		= imx8mq_mipi_csi_set_fmt,
+> +};
+> +
+> +static const struct v4l2_subdev_ops imx8mq_mipi_csi_subdev_ops = {
+> +	.video	= &imx8mq_mipi_csi_video_ops,
+> +	.pad	= &imx8mq_mipi_csi_pad_ops,
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Media entity operations
+> + */
+> +
+> +static const struct media_entity_operations imx8mq_mipi_csi_entity_ops = {
+> +	.link_validate	= v4l2_subdev_link_validate,
+> +	.get_fwnode_pad = v4l2_subdev_get_fwnode_pad_1_to_1,
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Async subdev notifier
+> + */
+> +
+> +static struct csi_state *
+> +mipi_notifier_to_csi2_state(struct v4l2_async_notifier *n)
+> +{
+> +	return container_of(n, struct csi_state, notifier);
+> +}
+> +
+> +static int imx8mq_mipi_csi_notify_bound(struct v4l2_async_notifier *notifier,
+> +					struct v4l2_subdev *sd,
+> +					struct v4l2_async_subdev *asd)
+> +{
+> +	struct csi_state *state = mipi_notifier_to_csi2_state(notifier);
+> +	struct media_pad *sink = &state->sd.entity.pads[MIPI_CSI2_PAD_SINK];
+> +
+> +	state->src_sd = sd;
+> +
+> +	return v4l2_create_fwnode_links_to_pad(sd, sink, MEDIA_LNK_FL_ENABLED |
+> +					       MEDIA_LNK_FL_IMMUTABLE);
+> +}
+> +
+> +static const struct v4l2_async_notifier_operations imx8mq_mipi_csi_notify_ops = {
+> +	.bound = imx8mq_mipi_csi_notify_bound,
+> +};
+> +
+> +static int imx8mq_mipi_csi_async_register(struct csi_state *state)
+> +{
+> +	struct v4l2_fwnode_endpoint vep = {
+> +		.bus_type = V4L2_MBUS_CSI2_DPHY,
+> +	};
+> +	struct v4l2_async_subdev *asd;
+> +	struct fwnode_handle *ep;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	v4l2_async_notifier_init(&state->notifier);
+> +
+> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(state->dev), 0, 0,
+> +					     FWNODE_GRAPH_ENDPOINT_NEXT);
+> +	if (!ep)
+> +		return -ENOTCONN;
+> +
+> +	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> +	if (ret)
+> +		goto err_parse;
+> +
+> +	for (i = 0; i < vep.bus.mipi_csi2.num_data_lanes; ++i) {
+> +		if (vep.bus.mipi_csi2.data_lanes[i] != i + 1) {
+> +			dev_err(state->dev,
+> +				"data lanes reordering is not supported");
+> +			ret = -EINVAL;
+> +			goto err_parse;
+> +		}
+> +	}
+> +
+> +	state->bus = vep.bus.mipi_csi2;
+> +
+> +	dev_dbg(state->dev, "data lanes: %d flags: 0x%08x\n",
+> +		state->bus.num_data_lanes,
+> +		state->bus.flags);
+> +
+> +	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&state->notifier,
+> +							   ep, struct v4l2_async_subdev);
+> +	if (IS_ERR(asd)) {
+> +		ret = PTR_ERR(asd);
+> +		goto err_parse;
+> +	}
+> +
+> +	fwnode_handle_put(ep);
+> +
+> +	state->notifier.ops = &imx8mq_mipi_csi_notify_ops;
+> +
+> +	ret = v4l2_async_subdev_notifier_register(&state->sd, &state->notifier);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return v4l2_async_register_subdev(&state->sd);
+> +
+> +err_parse:
+> +	fwnode_handle_put(ep);
+> +
+> +	return ret;
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Suspend/resume
+> + */
+> +
+> +static int imx8mq_mipi_csi_pm_suspend(struct device *dev, bool runtime)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	int ret = 0;
+> +
+> +	mutex_lock(&state->lock);
+> +
+> +	if (state->state & ST_POWERED) {
+> +		imx8mq_mipi_csi_stop_stream(state);
+> +		imx8mq_mipi_csi_clk_disable(state);
+> +		state->state &= ~ST_POWERED;
+> +		if (!runtime)
+> +			state->state |= ST_SUSPENDED;
+> +	}
+> +
+> +	mutex_unlock(&state->lock);
+> +
+> +	ret = icc_set_bw(state->icc_path, 0, 0);
+> +	if (ret)
+> +		dev_err(dev, "icc_set_bw failed with %d\n", ret);
+> +
+> +	return ret ? -EAGAIN : 0;
+> +}
+> +
+> +static int imx8mq_mipi_csi_pm_resume(struct device *dev, bool runtime)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	int ret = 0;
+> +
+> +	ret = icc_set_bw(state->icc_path, 0, state->icc_path_bw);
+> +	if (ret) {
+> +		dev_err(dev, "icc_set_bw failed with %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	mutex_lock(&state->lock);
+> +
+> +	if (!runtime && !(state->state & ST_SUSPENDED))
+> +		goto unlock;
+> +
+> +	if (!(state->state & ST_POWERED)) {
+> +		state->state |= ST_POWERED;
+> +		ret = imx8mq_mipi_csi_clk_enable(state);
+> +	}
+> +	if (state->state & ST_STREAMING) {
+> +		ret = imx8mq_mipi_csi_start_stream(state);
+> +		if (ret)
+> +			goto unlock;
+> +	}
+> +
+> +	state->state &= ~ST_SUSPENDED;
+> +
+> +unlock:
+> +	mutex_unlock(&state->lock);
+> +
+> +	return ret ? -EAGAIN : 0;
+> +}
+> +
+> +static int __maybe_unused imx8mq_mipi_csi_suspend(struct device *dev)
+> +{
+> +	return imx8mq_mipi_csi_pm_suspend(dev, false);
+> +}
+> +
+> +static int __maybe_unused imx8mq_mipi_csi_resume(struct device *dev)
+> +{
+> +	return imx8mq_mipi_csi_pm_resume(dev, false);
+> +}
+> +
+> +static int __maybe_unused imx8mq_mipi_csi_runtime_suspend(struct device *dev)
+> +{
+> +	return imx8mq_mipi_csi_pm_suspend(dev, true);
+> +}
+> +
+> +static int __maybe_unused imx8mq_mipi_csi_runtime_resume(struct device *dev)
+> +{
+> +	return imx8mq_mipi_csi_pm_resume(dev, true);
+> +}
+> +
+> +static const struct dev_pm_ops imx8mq_mipi_csi_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(imx8mq_mipi_csi_runtime_suspend,
+> +			   imx8mq_mipi_csi_runtime_resume,
+> +			   NULL)
+> +	SET_SYSTEM_SLEEP_PM_OPS(imx8mq_mipi_csi_suspend, imx8mq_mipi_csi_resume)
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Probe/remove & platform driver
+> + */
+> +
+> +static int imx8mq_mipi_csi_subdev_init(struct csi_state *state)
+> +{
+> +	struct v4l2_subdev *sd = &state->sd;
+> +
+> +	v4l2_subdev_init(sd, &imx8mq_mipi_csi_subdev_ops);
+> +	sd->owner = THIS_MODULE;
+> +	snprintf(sd->name, sizeof(sd->name), "%s %s",
+> +		 MIPI_CSI2_SUBDEV_NAME, dev_name(state->dev));
+> +
+> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +
+> +	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> +	sd->entity.ops = &imx8mq_mipi_csi_entity_ops;
+> +
+> +	sd->dev = state->dev;
+> +
+> +	state->csi2_fmt = &imx8mq_mipi_csi_formats[0];
+> +	imx8mq_mipi_csi_init_cfg(sd, NULL);
+> +
+> +	state->pads[MIPI_CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK
+> +					 | MEDIA_PAD_FL_MUST_CONNECT;
+> +	state->pads[MIPI_CSI2_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE
+> +					   | MEDIA_PAD_FL_MUST_CONNECT;
+> +	return media_entity_pads_init(&sd->entity, MIPI_CSI2_PADS_NUM,
+> +				      state->pads);
+> +}
+> +
+> +static void imx8mq_mipi_csi_release_icc(struct platform_device *pdev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(&pdev->dev);
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +
+> +	icc_put(state->icc_path);
+> +}
+> +
+> +static int imx8mq_mipi_csi_init_icc(struct platform_device *pdev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(&pdev->dev);
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +
+> +	/* Optional interconnect request */
+> +	state->icc_path = of_icc_get(&pdev->dev, "dram");
+> +	if (IS_ERR_OR_NULL(state->icc_path))
+> +		return PTR_ERR_OR_ZERO(state->icc_path);
+> +
+> +	state->icc_path_bw = MBps_to_icc(700);
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx8mq_mipi_csi_parse_dt(struct csi_state *state)
+> +{
+> +	struct device *dev = state->dev;
+> +	struct device_node *np = state->dev->of_node;
+> +	struct device_node *node;
+> +	phandle ph;
+> +	u32 out_val[2];
+> +	int ret = 0;
+> +
+> +	state->rst = devm_reset_control_array_get_exclusive(dev);
+> +	if (IS_ERR(state->rst)) {
+> +		dev_err(dev, "Failed to get reset: %pe\n", state->rst);
+> +		return PTR_ERR(state->rst);
+> +	}
+> +
+> +	ret = of_property_read_u32_array(np, "fsl,mipi-phy-gpr", out_val,
+> +					 ARRAY_SIZE(out_val));
+> +	if (ret) {
+> +		dev_err(dev, "no fsl,mipi-phy-gpr property found: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ph = *out_val;
+> +
+> +	node = of_find_node_by_phandle(ph);
+> +	if (!node) {
+> +		dev_err(dev, "Error finding node by phandle\n");
+> +		return -ENODEV;
+> +	}
+> +	state->phy_gpr = syscon_node_to_regmap(node);
+> +	of_node_put(node);
+> +	if (IS_ERR(state->phy_gpr)) {
+> +		dev_err(dev, "failed to get gpr regmap: %pe\n", state->phy_gpr);
+> +		return PTR_ERR(state->phy_gpr);
+> +	}
+> +
+> +	state->phy_gpr_reg = out_val[1];
+> +	dev_dbg(dev, "phy gpr register set to 0x%x\n", state->phy_gpr_reg);
+> +
+> +	return ret;
+> +}
+> +
+> +static int imx8mq_mipi_csi_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct csi_state *state;
+> +	int ret;
+> +
+> +	state = devm_kzalloc(dev, sizeof(*state), GFP_KERNEL);
+> +	if (!state)
+> +		return -ENOMEM;
+> +
+> +	state->dev = dev;
+> +
+> +	ret = imx8mq_mipi_csi_parse_dt(state);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to parse device tree: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	/* Acquire resources. */
+> +	state->regs = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(state->regs))
+> +		return PTR_ERR(state->regs);
+> +
+> +	ret = imx8mq_mipi_csi_clk_get(state);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	platform_set_drvdata(pdev, &state->sd);
+> +
+> +	mutex_init(&state->lock);
+> +
+> +	ret = imx8mq_mipi_csi_subdev_init(state);
+> +	if (ret < 0)
+> +		goto mutex;
+> +
+> +	ret = imx8mq_mipi_csi_init_icc(pdev);
+> +	if (ret)
+> +		goto mutex;
+> +
+> +	/* Enable runtime PM. */
+> +	pm_runtime_enable(dev);
+> +	if (!pm_runtime_enabled(dev)) {
+> +		ret = imx8mq_mipi_csi_pm_resume(dev, true);
+> +		if (ret < 0)
+> +			goto icc;
+> +	}
+> +
+> +	ret = imx8mq_mipi_csi_async_register(state);
+> +	if (ret < 0)
+> +		goto cleanup;
+> +
+> +	return 0;
+> +
+> +cleanup:
+> +	pm_runtime_disable(&pdev->dev);
+> +	imx8mq_mipi_csi_pm_suspend(&pdev->dev, true);
+> +
+> +	media_entity_cleanup(&state->sd.entity);
+> +	v4l2_async_notifier_unregister(&state->notifier);
+> +	v4l2_async_notifier_cleanup(&state->notifier);
+> +	v4l2_async_unregister_subdev(&state->sd);
+> +icc:
+> +	imx8mq_mipi_csi_release_icc(pdev);
+> +mutex:
+> +	mutex_destroy(&state->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int imx8mq_mipi_csi_remove(struct platform_device *pdev)
+> +{
+> +	struct v4l2_subdev *sd = platform_get_drvdata(pdev);
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +
+> +	v4l2_async_notifier_unregister(&state->notifier);
+> +	v4l2_async_notifier_cleanup(&state->notifier);
+> +	v4l2_async_unregister_subdev(&state->sd);
+> +
+> +	pm_runtime_disable(&pdev->dev);
+> +	imx8mq_mipi_csi_pm_suspend(&pdev->dev, true);
+> +	media_entity_cleanup(&state->sd.entity);
+> +	mutex_destroy(&state->lock);
+> +	pm_runtime_set_suspended(&pdev->dev);
+> +	imx8mq_mipi_csi_release_icc(pdev);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id imx8mq_mipi_csi_of_match[] = {
+> +	{ .compatible = "fsl,imx8mq-mipi-csi2", },
+> +	{ /* sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(of, imx8mq_mipi_csi_of_match);
+> +
+> +static struct platform_driver imx8mq_mipi_csi_driver = {
+> +	.probe		= imx8mq_mipi_csi_probe,
+> +	.remove		= imx8mq_mipi_csi_remove,
+> +	.driver		= {
+> +		.of_match_table = imx8mq_mipi_csi_of_match,
+> +		.name		= MIPI_CSI2_DRIVER_NAME,
+> +		.pm		= &imx8mq_mipi_csi_pm_ops,
+> +	},
+> +};
+> +
+> +module_platform_driver(imx8mq_mipi_csi_driver);
+> +
+> +MODULE_DESCRIPTION("i.MX8MQ MIPI CSI-2 receiver driver");
+> +MODULE_AUTHOR("Martin Kepplinger <martin.kepplinger@puri.sm>");
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_ALIAS("platform:imx8mq-mipi-csi2");
+
+-- 
+Regards,
+
+Laurent Pinchart
