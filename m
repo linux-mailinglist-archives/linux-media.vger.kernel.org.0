@@ -2,108 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FD7F3D39C2
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 13:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DD433D39D8
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 13:57:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234353AbhGWLLh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Jul 2021 07:11:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55658 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234218AbhGWLLg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Jul 2021 07:11:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BB3BC061575
-        for <linux-media@vger.kernel.org>; Fri, 23 Jul 2021 04:52:10 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C59C13F2;
-        Fri, 23 Jul 2021 13:52:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1627041129;
-        bh=NSabhji7YvZjuH+LZ+iegX7uKb156EqOfIsXeL8vn04=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=puMm8H8HNJKOS42l8y9hyERfvzIembmYI5kudvY8jkXcKDOQs7qeVEqsPUC2mUH4L
-         wdIM+DCnCLMqKSKEDYXv+fumqflpmtfVTWJp1zcNvazVdnpMDe5R5NpaOd27hVF7K8
-         8a4C6kNBPRd11R6SJEmi2jbK5rL0jIgs3K54XUZ0=
-Date:   Fri, 23 Jul 2021 14:52:06 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>
-Subject: Re: [libcamera-devel] [PATCH 2/2] media: imx258: Limit the max
- analogue gain to 480
-Message-ID: <YPqtZl6deaxQGYhZ@pendragon.ideasonboard.com>
-References: <20210723112233.1361319-1-umang.jain@ideasonboard.com>
- <20210723112233.1361319-3-umang.jain@ideasonboard.com>
- <YPqrp7BKNhzKN8xa@pendragon.ideasonboard.com>
+        id S234695AbhGWLQj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jul 2021 07:16:39 -0400
+Received: from ni.piap.pl ([195.187.100.5]:35942 "EHLO ni.piap.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234451AbhGWLQg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 23 Jul 2021 07:16:36 -0400
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        by ni.piap.pl (Postfix) with ESMTPSA id 7AE0CC369544;
+        Fri, 23 Jul 2021 13:57:06 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 7AE0CC369544
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1627041426; bh=vuAgIbn22S6VoWGus1J/IkA7Gg1Mflh/eOqFu0Jq2jw=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=FRTLrB5o3jmt0cVDDTY9OmYIAsp/mc8oi/aLBlithBkkpDvhk2pkdxwWM+BHMk8hl
+         bYq1i3NNxMb1TCNFDxY9eoCKDAHv5qIMVOoSMvZ0BnFDm1Ki5c04fnq7gVzP/wLF4q
+         Ck600txfPGD7w1QLUrEDoqaep/iMNwTglE7FCwuw=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Tim Harvey <tharvey@gateworks.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH REPOST] TDA1997x: replace video detection routine
+References: <m3k0lmejlw.fsf@t19.piap.pl>
+        <68bd6e41-4c32-240f-aa83-fd2b96929d45@xs4all.nl>
+        <m3mtqedfsg.fsf@t19.piap.pl>
+        <798b2128-24a6-1a62-f98c-f228134e8d5c@xs4all.nl>
+Sender: khalasa@piap.pl
+Date:   Fri, 23 Jul 2021 13:57:06 +0200
+In-Reply-To: <798b2128-24a6-1a62-f98c-f228134e8d5c@xs4all.nl> (Hans Verkuil's
+        message of "Fri, 23 Jul 2021 10:49:01 +0200")
+Message-ID: <m3eebpckfh.fsf@t19.piap.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YPqrp7BKNhzKN8xa@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 1
+X-KLMS-Message-Action: clean
+X-KLMS-AntiSpam-Lua-Profiles: 165191 [Jul 23 2021]
+X-KLMS-AntiSpam-Version: 5.9.20.0
+X-KLMS-AntiSpam-Envelope-From: khalasa@piap.pl
+X-KLMS-AntiSpam-Rate: 0
+X-KLMS-AntiSpam-Status: not_detected
+X-KLMS-AntiSpam-Method: none
+X-KLMS-AntiSpam-Auth: dkim=pass header.d=piap.pl
+X-KLMS-AntiSpam-Info: LuaCore: 449 449 5db59deca4a4f5e6ea34a93b13bc730e229092f4, {Tracking_Text_ENG_RU_Has_Extended_Latin_Letters, eng}, {Tracking_marketers, three}, {Tracking_from_domain_doesnt_match_to}, t19.piap.pl:7.1.1;127.0.0.199:7.1.2;piap.pl:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-MS-Exchange-Organization-SCL: -1
+X-KLMS-AntiSpam-Interceptor-Info: scan successful
+X-KLMS-AntiPhishing: Clean, bases: 2021/07/23 10:01:00
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2021/07/23 07:07:00 #16947255
+X-KLMS-AntiVirus-Status: Clean, skipped
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 23, 2021 at 02:44:40PM +0300, Laurent Pinchart wrote:
-> Hi Umang,
-> 
-> Thank you for the patch.
-> 
-> CC'ing Sakari. For future kernel patches, you can use the
-> ./scripts/get_maintainer.pl script in the kernel sources to get a list
-> of appropriate recipients. The list should be taken with a grain of salt
-> though, it has a tendency to return too many recipients. For this
-> particular patch, for instance, it also recommends Mauro and LKML.
-> Whether to CC the subsystem maintainer on every patch depends on the
-> subsystem (it's more common for small ones than big ones) and on the
-> maintainer's preferences. LKML is a catch-all mailing list with very
-> high traffic, and when more appropriate venues exist for patches, I
-> usually recommend skipping LKML.
+Hi Hans,
 
-And expanding the CC list further to include Dave (for his contribution
-to the discussion), and Krzysztof and Bingbu (for their contributions to
-the driver, as reported by git log).
+Hans Verkuil <hverkuil@xs4all.nl> writes:
 
-> On Fri, Jul 23, 2021 at 04:52:33PM +0530, Umang Jain wrote:
-> > The range for analog gain mentioned in the datasheet is [0, 480].
-> > The real gain formula mentioned in the datasheet is:
-> > 
-> > 	Gain = 512 / (512 – X)
-> > 
-> > Hence, values larger than 511 clearly makes no sense. The gain
-> > register field is also documented to be of 9-bits in the datasheet.
-> > 
-> > Certainly, it is enough to infer that, the kernel driver currently
-> > advertises an arbitrary analog gain max. Fix it by rectifying the
-> > value as per the data sheet i.e. 480.
-> > 
-> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> > ---
-> >  drivers/media/i2c/imx258.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> > index 4e695096e5d0..81cdf37216ca 100644
-> > --- a/drivers/media/i2c/imx258.c
-> > +++ b/drivers/media/i2c/imx258.c
-> > @@ -47,7 +47,7 @@
-> >  /* Analog gain control */
-> >  #define IMX258_REG_ANALOG_GAIN		0x0204
-> >  #define IMX258_ANA_GAIN_MIN		0
-> > -#define IMX258_ANA_GAIN_MAX		0x1fff
-> > +#define IMX258_ANA_GAIN_MAX		480
-> >  #define IMX258_ANA_GAIN_STEP		1
-> >  #define IMX258_ANA_GAIN_DEFAULT		0x0
-> >  
+> The tda1997x doesn't have any method of obtaining the sync polarities?
+>
+> HSync and VSync are, as you say, using in-band signaling, but the 'polari=
+ty'
+> still matters when it comes to detecting timings. All HDMI receivers I ha=
+ve
+> ever seen have a register that reports the polarities. I find it *very* h=
+ard
+> to imagine that this device doesn't support that.
 
--- 
-Regards,
+I didn't know that HDMI serializers send the logical levels of those
+lines, I thought some frame/field/line start/end codes are sent instead.
+I will have to have a closer look at this chip, then.
 
-Laurent Pinchart
+> Do you have a datasheet for this device?
+
+No, there is only the current driver and also the old one (in Gateworks'
+Freescale/NXP kernel). Tim may have something perhaps under NDA, maaybe.
+
+I will see if I can find these bits in the registers.
+
+Thanks.
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
