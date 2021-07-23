@@ -2,75 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEACF3D388C
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 12:22:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86A0D3D38F0
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jul 2021 12:55:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231637AbhGWJl2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Jul 2021 05:41:28 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:35238 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231620AbhGWJl2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Jul 2021 05:41:28 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1m6sJc-001w3i-NB; Fri, 23 Jul 2021 10:22:00 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1m6sOH-0001cz-NC; Fri, 23 Jul 2021 10:26:50 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT FIXES FOR v5.14] rtl28xxu: fix regression (#75957)
-Date:   Fri, 23 Jul 2021 10:26:47 +0000
-Message-Id: <20210723102648.6216-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210723095659.GA19002@gofer.mess.org>
-References: 
+        id S231660AbhGWKOU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jul 2021 06:14:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42498 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231519AbhGWKOT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 23 Jul 2021 06:14:19 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2174DC061575
+        for <linux-media@vger.kernel.org>; Fri, 23 Jul 2021 03:54:52 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id z8-20020a1c4c080000b029022d4c6cfc37so3233398wmf.5
+        for <linux-media@vger.kernel.org>; Fri, 23 Jul 2021 03:54:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=vhtfZNVwDvwiKPZG1oIn+/06cK03zQNftFw1xpjY+wI=;
+        b=i4RPaMDHqSfirHseEonxx1AQucItIPhoCOrbQJOtbJZa6x8BlVVqrpi4dYUvqOU9Og
+         Vwdsbo7ZrjqRyQ48C5wvAwvttuJTdM8EIDGmHIzZusB2fktBGuS9K41twet4uqnTm8cx
+         +NQJiKkPtJ61Q2bYYtDGuoFL2VuARj0xU68iK1JaVDd/klpwzcuIVxf1mkzti8QxpjmB
+         nElEwtB1u0yPLXX96Rz5s4sQiXAQORzH9+6wLCnExZDY+XRl45EcsGS8EymtIEsoQieC
+         CrEBEDBn1ieTEgbhz3TonxuYcYL1IDwfX8EHJ+Mw8ZD11aliwlxtdfPKGDb3taU0wZ59
+         qVSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=vhtfZNVwDvwiKPZG1oIn+/06cK03zQNftFw1xpjY+wI=;
+        b=qErb5psudzrbJX3jWcp9ZhVewhr3NYCTMRWVhdvy+W2PTC9kGu2fIz94gxwzpic9zi
+         tX20MODZvR+2+8CIOYi5paWjfYfDmUJO11FLjOxQoyR3BJn6bHeipvI/xJDGMcdwF0tC
+         l4l4Ol0YTvgvWNfiAoVZfOUOut1G9g58wibXv3kdH8DxgxKNiyiHNkyynLLSXO6ArW/q
+         dhz4ZDV+AEFme+MU2JkT8WvtP8M+0XijPRFqx3ubaLmo8Ihd4RkC1aiHstcP1mAwL7SV
+         +x0v94a0kf+Z0iA4KCaizLoscOwVvKB7ldoG84n0OUicaLVfjL/yAMXY0k11TMAG+NzL
+         01xw==
+X-Gm-Message-State: AOAM533pIwlKqSQfqJ/ANCcRPBCLK14TbDpt/tGm1QsnBCia9VfcprYs
+        gRx6+NU1Pau6r/HjYzE84bslV26dJlKsOH4+Gzk=
+X-Google-Smtp-Source: ABdhPJyXm5tqfadjg8uNnSZhhcwk8dXzcbg5ST/Jm4uPWvM/jwlxT9sBzjZFUkrNEQU7zCgxJmIJ6oqem5Yhz/vC0R8=
+X-Received: by 2002:a05:600c:4841:: with SMTP id j1mr3893193wmo.88.1627037690187;
+ Fri, 23 Jul 2021 03:54:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a1c:5455:0:0:0:0:0 with HTTP; Fri, 23 Jul 2021 03:54:49
+ -0700 (PDT)
+Reply-To: veroniquebigots001@gmail.com
+From:   Veronique Bigots <sabrina.buhatini009@gmail.com>
+Date:   Fri, 23 Jul 2021 18:54:49 +0800
+Message-ID: <CAAjpWVFPqH_Gnfdf-k-nA5Em+4SHh+n07mS2b713jzk16_L1Jw@mail.gmail.com>
+Subject: BONJOUR
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Bonjour
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210723095659.GA19002@gofer.mess.org/
-Build log: https://builder.linuxtv.org/job/patchwork/126386/
-Build time: 00:16:02
-Link: https://lore.kernel.org/linux-media/20210723095659.GA19002@gofer.mess.org
+Je me nomme Bigots V=C3=A9ronique veuve =C3=A2g=C3=A9e de 52 ans
+Actuellement =C3=A0 Londres en Angleterre pour l'analyse de ma sant=C3=A9 c=
+ar je
+Souffre du
+Cancer de la gorge en phase terminal. Je vous contacte en ce moment
+car je voudrais faire un don =C3=A0 l'endroit des =C3=A2mes sensibles. En e=
+ffet,
+je suis =C3=A9conomiste sans enfant et je souhaiterais faire un don d'une
+somme 353.500 euros  et des bijoux pr=C3=A9cieux  =C3=A0 une
+personne qui en fera bon usage.
+Je vous prie de prendre contact avec mon avocat pour les formalit=C3=A9s
+pour recevoir les fonds voici son adresse mail :
+maitre.robertdurand@gmail.com
 
-gpg: Signature made Fri 23 Jul 2021 09:47:21 AM UTC
-gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
-gpg:                issuer "sean@mess.org"
-gpg: Good signature from "Sean Young <sean@mess.org>" [full]
-
-Summary: got 1/2 patches with issues, being 1 at build time
-
-Error/warnings:
-
-patches/0001-Revert-media-rtl28xxu-fix-zero-length-control-reques.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-
-    allyesconfig: return code #0:
-	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1969 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
+cordialement
