@@ -2,136 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D064F3D472D
-	for <lists+linux-media@lfdr.de>; Sat, 24 Jul 2021 12:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F6DD3D4772
+	for <lists+linux-media@lfdr.de>; Sat, 24 Jul 2021 13:38:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235376AbhGXJzj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Jul 2021 05:55:39 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:15066 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235253AbhGXJzj (ORCPT
+        id S234196AbhGXK5s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Jul 2021 06:57:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34828 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234149AbhGXK5q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Jul 2021 05:55:39 -0400
-Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.57])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GX2ZM2ZkrzZrsp;
-        Sat, 24 Jul 2021 18:32:43 +0800 (CST)
-Received: from [10.67.103.235] (10.67.103.235) by
- dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Sat, 24 Jul 2021 18:36:08 +0800
-Subject: Re: [PATCH V6 8/8] PCI/P2PDMA: Add a 10-bit tag check in P2PDMA
-To:     Logan Gunthorpe <logang@deltatee.com>, <helgaas@kernel.org>,
-        <hch@infradead.org>, <kw@linux.com>, <linux-pci@vger.kernel.org>,
-        <rajur@chelsio.com>, <hverkuil-cisco@xs4all.nl>
-References: <1627038402-114183-1-git-send-email-liudongdong3@huawei.com>
- <1627038402-114183-9-git-send-email-liudongdong3@huawei.com>
- <24bc5deb-1fa3-8e81-2d9d-18836dc3aec9@deltatee.com>
-CC:     <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
-From:   Dongdong Liu <liudongdong3@huawei.com>
-Message-ID: <5d05dcaa-db5c-3cb0-e2a7-6ac87786dbd2@huawei.com>
-Date:   Sat, 24 Jul 2021 18:36:08 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        Sat, 24 Jul 2021 06:57:46 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13E40C061575
+        for <linux-media@vger.kernel.org>; Sat, 24 Jul 2021 04:38:18 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id h2so6521440lfu.4
+        for <linux-media@vger.kernel.org>; Sat, 24 Jul 2021 04:38:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=Mozi9talEt/mI/l6KvxWbDISyLan2Xy8GUlPURIr5DU=;
+        b=bzGNlQHo61rVd/gLXpMPAY40EE9IhMTQYCownElOZKpsKX3pl53UKNy7vNKQDnCt+y
+         +LGCo+7WQSxCjvffYzaZDj3B/U2rEuG2lS3PtOf4zoYr1pzXhJl7EyUPAYvwceuTBEfD
+         fHLbUvu0orLSAPJqFG1fcZkbS7wculDFXfB9QGiV7zy7Gzx1X2DmQQ8NfcQNt9Gi6aL/
+         ChML8oHbaM2wpc7LYq1Nti44G2cKfA1fIbIsWMQUHX5OjhxR/+JiDgSUJUqz/gJSEesV
+         lHLNz0r8c2zGeFhajaETab6q7wSc10MsNwt9ZAeN2giOWm6nmeZ+Clxuqo5h5EI9qMtf
+         ThKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=Mozi9talEt/mI/l6KvxWbDISyLan2Xy8GUlPURIr5DU=;
+        b=VtNyUaez6DQbFRf9UDpVZVJtrJcgz0w+Ho1gWpJvD6NDTn1PryIcUKM55HFtCBWcI5
+         5DNZ9TsDrS/1tOQwCBLw/IJFPgQZ/lNaNTv+ZsBXjYa6+lrFOHcouVAAea/Dn5zjt6sR
+         X2aOqn11JUwF4/cPcH1gnJD8DiZ8LGuwEOku7H6KSjjFtFwdy2pWagnpmyGya+ZNp1X4
+         v/44lYRZcZIdvzmHsjQaZXCNRDBov4Gemuuo2bWTpq2NVzeaiN/Ucyc00sDMGlryACbS
+         6j9QotGpa0EtRyhItdXVllih7CjbtGF3ox4mN5M28jB18KS3k/ucTdFoFahCwFAUamhv
+         JG9A==
+X-Gm-Message-State: AOAM531opuG9KLqFlp3EoVmRRFPgT1yCORd0hzYAqp+yJLGgfBmIFgeA
+        Dqzk+KgLp1p73V6Tzhe0oNrzXXH014S9UmmCu2Y=
+X-Google-Smtp-Source: ABdhPJyYIhnoZc0iB+JQ45X/LIIiGWFq/Ua5cJbLFGdeLG4N7EOjHhmuT4ZJ2LcjnToZwmC9MfVfGGSbyJ+tmnXWMbI=
+X-Received: by 2002:ac2:4ed2:: with SMTP id p18mr6251486lfr.661.1627126696484;
+ Sat, 24 Jul 2021 04:38:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <24bc5deb-1fa3-8e81-2d9d-18836dc3aec9@deltatee.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.103.235]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggeme758-chm.china.huawei.com (10.3.19.104)
-X-CFilter-Loop: Reflected
+Received: by 2002:a2e:b613:0:0:0:0:0 with HTTP; Sat, 24 Jul 2021 04:38:16
+ -0700 (PDT)
+Reply-To: georgemike7031@gmail.com
+From:   george mike <barristerlevi@gmail.com>
+Date:   Sat, 24 Jul 2021 13:38:16 +0200
+Message-ID: <CAEJ6Chd8iWng12qGXfiraX7gFQx0dmkDuLXiNtprnq1+Nqm+5g@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Logan
-Many thanks for your review.
-On 2021/7/24 0:25, Logan Gunthorpe wrote:
->
->
->
-> On 2021-07-23 5:06 a.m., Dongdong Liu wrote:
->> Add a 10-Bit Tag check in the P2PDMA code to ensure that a device with
->> 10-Bit Tag Requester doesn't interact with a device that does not
->> support 10-BIT tag Completer. Before that happens, the kernel should
->> emit a warning saying to enable a ”pci=disable_10bit_tag=“ kernel
->> parameter.
->>
->> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
->> ---
->>  drivers/pci/p2pdma.c | 38 ++++++++++++++++++++++++++++++++++++++
->>  1 file changed, 38 insertions(+)
->>
->> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
->> index 50cdde3..bd93840 100644
->> --- a/drivers/pci/p2pdma.c
->> +++ b/drivers/pci/p2pdma.c
->> @@ -19,6 +19,7 @@
->>  #include <linux/random.h>
->>  #include <linux/seq_buf.h>
->>  #include <linux/xarray.h>
->> +#include "pci.h"
->>
->>  enum pci_p2pdma_map_type {
->>  	PCI_P2PDMA_MAP_UNKNOWN = 0,
->> @@ -541,6 +542,39 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
->>  	return map_type;
->>  }
->>
->> +
->> +static bool check_10bit_tags_vaild(struct pci_dev *a, struct pci_dev *b,
->> +				   bool verbose)
->> +{
->> +	bool req;
->> +	bool comp;
->> +	u16 ctl2;
->> +
->> +	if (a->is_virtfn) {
->> +#ifdef CONFIG_PCI_IOV
->> +		req = !!(a->physfn->sriov->ctrl &
->> +			 PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN);
->> +#endif
->> +	} else {
->> +		pcie_capability_read_word(a, PCI_EXP_DEVCTL2, &ctl2);
->> +		req = !!(ctl2 & PCI_EXP_DEVCTL2_10BIT_TAG_REQ_EN);
->> +	}
->> +
->> +	comp = !!(b->pcie_devcap2 & PCI_EXP_DEVCAP2_10BIT_TAG_COMP);
->> +	if (req && (!comp)) {
->> +		if (verbose) {
->> +			pci_warn(a, "cannot be used for peer-to-peer DMA as 10-Bit Tag Requester enable is set in device (%s), but peer device (%s) does not support the 10-Bit Tag Completer\n",
->> +				 pci_name(a), pci_name(b));
->> +
->> +			pci_warn(a, "to disable 10-Bit Tag Requester for this device, add the kernel parameter: pci=disable_10bit_tag=%s\n",
->> +				 pci_name(a));
->> +		}
->> +		return false;
->> +	}
->> +
->> +	return true;
->> +}
->> +
->>  /**
->>   * pci_p2pdma_distance_many - Determine the cumulative distance between
->>   *	a p2pdma provider and the clients in use.
->> @@ -579,6 +613,10 @@ int pci_p2pdma_distance_many(struct pci_dev *provider, struct device **clients,
->>  			return -1;
->>  		}
->>
->> +		if (!check_10bit_tags_vaild(pci_client, provider, verbose) ||
->> +		    !check_10bit_tags_vaild(provider, pci_client, verbose))
->> +			not_supported = true;
->> +
->
-> This check needs to be done in calc_map_type_and_dist(). The mapping
-> type needs to be correctly stored in the xarray cache as other functions
-> rely on the cached value (and upcoming work will be calling
-> calc_map_type_and_dist() without pci_p2pdma_distance_many()).
->
-Will fix.
+Hallo
 
-Thanks,
-Dongdong
-> Logan
-> .
->
+Mein Name ist George Mike, ich bin von Beruf Rechtsanwalt. Ich m=C3=B6chte
+dir anbieten
+der n=C3=A4chste Angeh=C3=B6rige meines Klienten. Sie erben die Summe von (=
+8,5
+Millionen US-Dollar)
+Dollar, die mein Mandant vor seinem Tod auf der Bank hinterlie=C3=9F.
+
+Mein Mandant ist ein B=C3=BCrger Ihres Landes, der mit seiner Frau bei
+einem Autounfall gestorben ist
+und einziger Sohn. Ich habe Anspruch auf 50% des Gesamtfonds, w=C3=A4hrend
+50% dies tun werden
+sein f=C3=BCr dich.
+Bitte kontaktieren Sie meine private E-Mail hier f=C3=BCr weitere
+Details:georgemike7031@gmail.com
+
+Vielen Dank im Voraus,
+Herr George Mike,
