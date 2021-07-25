@@ -2,159 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 512533D4B3B
-	for <lists+linux-media@lfdr.de>; Sun, 25 Jul 2021 05:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55B0C3D4C6E
+	for <lists+linux-media@lfdr.de>; Sun, 25 Jul 2021 08:40:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229831AbhGYDEF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Jul 2021 23:04:05 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:44653 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229665AbhGYDEE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Jul 2021 23:04:04 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 7V44mCXyq4Jsb7V46mTw8k; Sun, 25 Jul 2021 05:44:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1627184674; bh=g0GzBWNlO05rsrOVPOiww4JwwNWk1nNWD0PBF9OqwNk=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=YxUYf4aG+p5jhnYxhBhJXOIrE6IPteCZ+pafc7stxz+xW5/5fcStkzHIBkWorp4Xj
-         y06uHR3J53tvYQ1evzW93auSSAeYtF0bkA+ZGsLIGq+apBPSslyr8kK2eeQIOVie/I
-         KPTeVwf4OOOOW/pCZw1qVHdDWbRQMInQDhEBvNjGqCxSpWB7rdB4jceMohJhZ6kEP4
-         eOpWQbECn2ljQ/jrPZL8Rk12we9kp+y4yOiY0raYr/jAv0u7qcJY9I2YnOO9P/tdKg
-         UyYbGW0Am+p35Be8AHXSCfyJGkIhwMwfmRB2pmbctO+eabGicxSwBihDQqQJXekho2
-         ESfwdDSoph5Mg==
-Message-ID: <83b3e58ae576fb873ab6bd72be58b52a@smtp-cloud9.xs4all.net>
-Date:   Sun, 25 Jul 2021 05:44:32 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfEwEzMB4FT26AGIpx1xr01TuQp9aQOjbhUPOvOZP5fBrT0be0XJyEvxI3By1xjtSsw+/XQxYAiTK31Gx92xdLdpHA1U6AK9YpP/8QW7ZIwjT707dHXcp
- znXNlFKvOYkNaL40T+CCnEXeafxNCLVvrU3w4u/fBhwT5F1VoYypO7lto7ouqd0sJdRgQ82RZBTIVNOv2zTeiKxMRgHk8cpnJSxxmJUVmvHArSw72hKd0TXn
- yMfB8duDuy1VyltwS/ZjhA==
+        id S230298AbhGYF71 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Jul 2021 01:59:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44870 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229460AbhGYF70 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 25 Jul 2021 01:59:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0338860F26;
+        Sun, 25 Jul 2021 06:39:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627195197;
+        bh=N4Dbqhu4Ia9k/4TthHh5Es4Nq6D+VIxU8smJ2eoEAUM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=l3Ex1puXfIt1tSo/Q6IG0C9csxgo3ON2RdU7kcTcXELD07qSk96MIDB86afAMMjMR
+         6j2qUDX0KlMTBdKbov2v0yT4/+F5STT4mqeJA7We2+ZgD7I7pGc17kflWdjGTQNaEj
+         Tw2DnD0C8D+I4+KjdsUvRtpsavxZKWRoUsU/lWyLXISIHQKAZnmfEgFbY4GnFbqblm
+         jmr3wrZmLBhJR9HrkiGLeXsnAvOGPnI3RL9OeYZQAaZwOa7iLjcStk3sKlD4Mpd3k6
+         ZDstlTZkWMHAoDh824DpMl6/l7y06AHbq7thtpShFkTzvhmz7bMMsxWL7QUGrTCK+2
+         hu/wr8h23Koew==
+Date:   Sun, 25 Jul 2021 09:39:53 +0300
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Logan Gunthorpe <logang@deltatee.com>
+Cc:     Dongdong Liu <liudongdong3@huawei.com>, helgaas@kernel.org,
+        hch@infradead.org, kw@linux.com, linux-pci@vger.kernel.org,
+        rajur@chelsio.com, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH V6 7/8] PCI: Add "pci=disable_10bit_tag=" parameter for
+ peer-to-peer support
+Message-ID: <YP0HOf7kE1aOkqjV@unreal>
+References: <1627038402-114183-1-git-send-email-liudongdong3@huawei.com>
+ <1627038402-114183-8-git-send-email-liudongdong3@huawei.com>
+ <YPqo6M0AKWLupvNU@unreal>
+ <a8a8ffee-67e8-c899-3d04-1e28fb72560a@deltatee.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a8a8ffee-67e8-c899-3d04-1e28fb72560a@deltatee.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Fri, Jul 23, 2021 at 10:20:50AM -0600, Logan Gunthorpe wrote:
+> 
+> 
+> 
+> On 2021-07-23 5:32 a.m., Leon Romanovsky wrote:
+> > On Fri, Jul 23, 2021 at 07:06:41PM +0800, Dongdong Liu wrote:
+> >> PCIe spec 5.0 r1.0 section 2.2.6.2 says that if an Endpoint supports
+> >> sending Requests to other Endpoints (as opposed to host memory), the
+> >> Endpoint must not send 10-Bit Tag Requests to another given Endpoint
+> >> unless an implementation-specific mechanism determines that the Endpoint
+> >> supports 10-Bit Tag Completer capability. Add "pci=disable_10bit_tag="
+> >> parameter to disable 10-Bit Tag Requester if the peer device does not
+> >> support the 10-Bit Tag Completer. This will make P2P traffic safe.
+> >>
+> >> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
+> >> ---
+> >>  Documentation/admin-guide/kernel-parameters.txt |  7 ++++
+> >>  drivers/pci/pci.c                               | 56 +++++++++++++++++++++++++
+> >>  drivers/pci/pci.h                               |  1 +
+> >>  drivers/pci/pcie/portdrv_pci.c                  | 13 +++---
+> >>  drivers/pci/probe.c                             |  9 ++--
+> >>  5 files changed, 78 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> >> index bdb2200..c2c4585 100644
+> >> --- a/Documentation/admin-guide/kernel-parameters.txt
+> >> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> >> @@ -4019,6 +4019,13 @@
+> >>  				bridges without forcing it upstream. Note:
+> >>  				this removes isolation between devices and
+> >>  				may put more devices in an IOMMU group.
+> >> +		disable_10bit_tag=<pci_dev>[; ...]
+> >> +				  Specify one or more PCI devices (in the format
+> >> +				  specified above) separated by semicolons.
+> >> +				  Disable 10-Bit Tag Requester if the peer
+> >> +				  device does not support the 10-Bit Tag
+> >> +				  Completer.This will make P2P traffic safe.
+> > 
+> > I can't imagine more awkward user experience than such kernel parameter.
+> > 
+> > As a user, I will need to boot the system, hope for the best that system
+> > works, write down all PCI device numbers, guess which one doesn't work
+> > properly, update grub with new command line argument and reboot the
+> > system. Any HW change and this dance should be repeated.
+> 
+> There are already two such PCI parameters with this pattern and they are
+> not that awkward. pci_dev may be specified with either vendor/device IDS
+> or with a path of BDFs (which protects against renumbering).
 
-Results of the daily build of media_tree:
+Unfortunately, in the real world, BDF is not so stable. It changes with
+addition of new hardware, BIOS upgrades and even broken servers.
 
-date:			Sun Jul 25 05:00:12 CEST 2021
-media-tree git hash:	e73f0f0ee7541171d89f2e2491130c7771ba58d3
-media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
-v4l-utils git hash:	a4f2e3a6f306f0bef6664451b44d5a7a18b26803
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7505-gb2467b103
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3611fbd512aa20477d5a0ae9bc2f01b1d3cea05e
-host hardware:		x86_64
-host os:		5.13.1-marune
+Vendor/device IDs doesn't work if you have multiple devices of same
+vendor in the system.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: 
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+> 
+> This flag is only useful in P2PDMA traffic, and if the user attempts
+> such a transfer, it prints a warning (see the next patch) with the exact
+> parameter that needs to be added to the command line.
 
-Detailed results are available here:
+Dongdong citied PCI spec and it was very clear - don't enable this
+feature unless you clearly know that it is safe to enable. This is
+completely opposite to the proposal here - always enable and disable
+if something is printed to the dmesg.
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+> 
+> This has worked well for disable_acs_redir and was used for
+> resource_alignment before that for quite some time. So save a better
+> suggestion I think this is more than acceptable.
 
-Detailed regression test results are available here:
+I don't know about other parameters and their history, but we are not in
+90s anymore and addition of modules parameters (for the PCI it is kernel
+cmdline arguments) are better to be changed to some configuration tool/sysfs.
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+Even FW upgrade with such kernel parameter can be problematic.
 
-Full logs are available here:
+Thanks
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> 
+> Logan
