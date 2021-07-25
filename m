@@ -2,69 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB6843D4DD9
-	for <lists+linux-media@lfdr.de>; Sun, 25 Jul 2021 15:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55F5C3D4E09
+	for <lists+linux-media@lfdr.de>; Sun, 25 Jul 2021 16:14:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230479AbhGYNNI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Jul 2021 09:13:08 -0400
-Received: from gofer.mess.org ([88.97.38.141]:37875 "EHLO gofer.mess.org"
+        id S230421AbhGYNdq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Jul 2021 09:33:46 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:35624 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230029AbhGYNNH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Jul 2021 09:13:07 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 9C5C2C65B2; Sun, 25 Jul 2021 14:53:36 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1627221216; bh=Gp35vmGiH1qWmIjT1jJ865eEq3waal1Avt0f/YHLHME=;
-        h=Date:From:To:Cc:Subject:From;
-        b=mkEF0aPsgs4dm2x8IONiIYUq7LH5hAdcGNZcTXOUF7aUuljr2/PTQuSBN8+hADsFj
-         ihY+8tH7at++mZsu2paDcDToWkc4sjulySQhXR9YRzx+8dPNp4t7F7NEgP42QIR2PW
-         UuiWhU66EK2i+VLmPgaBfsxmPH40bwKDUBGDTxiwcNWCVkzw44srRgKZYc+5OcNg25
-         DHlhg2QJmPSjqJK8Q1b2sFSGxCmmxh3CeSt4lNgjmmBs7j8tP5vmy3syTjh22Xnxgq
-         8fJMCIUC+MAdi55/WR6F1hU0wmlnb+tHaQvJj4lsztauXAhrC8pgaxH9tbcLZ4SwGx
-         UdI0+p0fvo7WA==
-Date:   Sun, 25 Jul 2021 14:53:36 +0100
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Cc:     Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
-        Dongliang Mu <mudongliangabcd@gmail.com>
-Subject: [GIT PULL FOR v5.15] New driver meson-ir-tx
-Message-ID: <20210725135336.GB9696@gofer.mess.org>
+        id S230029AbhGYNdp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 25 Jul 2021 09:33:45 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1m7etT-004oB5-5u; Sun, 25 Jul 2021 14:14:15 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1m7eyA-0001pG-JP; Sun, 25 Jul 2021 14:19:06 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.15] New driver meson-ir-tx (#75976)
+Date:   Sun, 25 Jul 2021 14:19:06 +0000
+Message-Id: <20210725141906.6976-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210725135336.GB9696@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit c3cdc019a6bf03c4bf06fe8252db96eb6e4a3b5f:
+From: builder@linuxtv.org
 
-  media: atomisp: pci: reposition braces as per coding style (2021-07-23 09:04:03 +0200)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210725135336.GB9696@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/127006/
+Build time: 00:15:47
+Link: https://lore.kernel.org/linux-media/20210725135336.GB9696@gofer.mess.org
 
-are available in the Git repository at:
+gpg: Signature made Sun 25 Jul 2021 01:50:03 PM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.15b
+Summary: got 2/3 patches with issues, being 2 at build time
 
-for you to fetch changes up to 97f2154ad1d1f5ca2770a0b3724eb817195e70b1:
+Error/warnings:
 
-  em28xx-input: fix refcount bug in em28xx_usb_disconnect (2021-07-25 14:43:25 +0100)
+patches/0001-media-rc-meson-ir-tx-document-device-tree-bindings.patch:
 
-----------------------------------------------------------------
-v5.15b
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
 
-----------------------------------------------------------------
-Dongliang Mu (1):
-      em28xx-input: fix refcount bug in em28xx_usb_disconnect
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1969 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-Viktor Prutyanov (2):
-      media: rc: meson-ir-tx: document device tree bindings
-      media: rc: introduce Meson IR TX driver
+   checkpatch.pl:
+	$ cat patches/0001-media-rc-meson-ir-tx-document-device-tree-bindings.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:19: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+Traceback (most recent call last):
+	  File "scripts/spdxcheck.py", line 10, in <module>
+	    import git
+	ModuleNotFoundError: No module named 'git'
 
- .../bindings/media/amlogic,meson-ir-tx.yaml        |  60 +++
- drivers/media/rc/Kconfig                           |  10 +
- drivers/media/rc/Makefile                          |   1 +
- drivers/media/rc/meson-ir-tx.c                     | 407 +++++++++++++++++++++
- drivers/media/usb/em28xx/em28xx-input.c            |   1 -
- 5 files changed, 478 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
- create mode 100644 drivers/media/rc/meson-ir-tx.c
+patches/0002-media-rc-introduce-Meson-IR-TX-driver.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+
+   checkpatch.pl:
+	$ cat patches/0002-media-rc-introduce-Meson-IR-TX-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:59: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:101: CHECK: Prefer using the BIT macro
+Traceback (most recent call last):
+	  File "scripts/spdxcheck.py", line 10, in <module>
+	    import git
+	ModuleNotFoundError: No module named 'git'
+
