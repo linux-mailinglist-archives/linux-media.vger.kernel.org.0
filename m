@@ -2,101 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DA3A3D5A56
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jul 2021 15:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93FC53D5AC1
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jul 2021 15:52:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233692AbhGZMtF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Jul 2021 08:49:05 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:52099 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233194AbhGZMtE (ORCPT
+        id S233774AbhGZNLv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Jul 2021 09:11:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48890 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233408AbhGZNLu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Jul 2021 08:49:04 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 80fhmvzPsXTlc80fjmKQRB; Mon, 26 Jul 2021 15:29:31 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1627306171; bh=h/Xw2UcbRVWSLNqmSQVbzgcQMICMQ0w2HVQpEQVBjAY=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=cYaKQNDEX01W7/+fQMK2vZTZH5z05iICOUSGekcUSBYXVToc6zP2PFmnYMZGev6NS
-         LFMIatTiS+JuieCvr/shtPDIVQh1tHMQj4iSGg7UGCO+UF7NhT48MpVyQ8DWvnE8Uv
-         4PmAVAmwOhOHBnWr7RGyTkm8hSCL/twtBOGcxCtIRKR2MD9Wf1ul5oWje5wFd8+jIU
-         MRtG2sKpV7VpKrbBH1tsLldYiVbnAFv2n9Hd1cHO0DtMnoYrsLDweZ1y3bKKpaDDyX
-         kkly90msqkX4keZYqvh6ykGZ6YbbOpJvXPUYon64sAaULmBfcwVU/Pmif5oH9NjmTk
-         yyXz1BIlvPDMg==
-Subject: Re: [GIT PULL FOR v5.15] rcar-vim/isp: add r8a779a0 support
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <a10d5622-62f2-57aa-6031-e937470dd83b@xs4all.nl>
-Message-ID: <10c22c19-62f4-9d29-e3af-331fefbcd3f1@xs4all.nl>
-Date:   Mon, 26 Jul 2021 15:29:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Mon, 26 Jul 2021 09:11:50 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 192E9C061757;
+        Mon, 26 Jul 2021 06:52:18 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id n6so11343546ljp.9;
+        Mon, 26 Jul 2021 06:52:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=u3yZjuwUYmFcj+6Lzpik5pE/VnLNID8nRjGcYV42Zv4=;
+        b=kg5ebUo+4Ep1AocFIUUTgABBesqEyVRNTA8EOHJJ/bg3ZPnK4JY/DYsAZepbW1XUcz
+         8QmLAX6sBykjR/OPt5O7idj+D68/GYwyhyINopOjZIvFD8yyGqKug4uCA3CTnIeE5XQ/
+         2STH5HrFNGXmQO419fs00Gc6tmuLF//XuOvdGO7ArgSxXC3CoCZjvs9UmpkYhFVl9/oN
+         VgI/IQNXjCJMRVVjLN5MBpxklWS5IpSYM4n+jTjRU3IYb9nm+4ZeggvHl1ZIuASHYt0D
+         Ene0+Sn1HWqZnzBrcMaWuHnG+DYgpSw1H1Kfx+m7zcBEBXluydkHWOwUnS/b3Hf5g4uV
+         j8gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=u3yZjuwUYmFcj+6Lzpik5pE/VnLNID8nRjGcYV42Zv4=;
+        b=jocATIlhPKvHvDJfjw0mY6RurEAuPkqeg2MoJ2O7EzTt7d9x1dmDH1gBfLyhCjFE4Q
+         uOSm6r02hb/xL2e0DWjQ1KTapIn6mXToYf9Sh+eFbqUy6XfTWlqLGn5Orzu/QpH3yxMJ
+         T8mthtPO7WxLZjAanb7MWOjBwLsGuiXQ7A9gYKHVS8ZrP2tzKUAvwp+jmFL+k4ihmGuM
+         MyFap7+BG/mhRtKkm7ALHzFB5Hc5bpRvvUTgp2uh5ZxELZMtK7RGR51soUdZRD6NGVFj
+         O7/HY4RWByRt6MRixlKnFSZFp1dq7rSD+X1Se7wHF/u0idur1o87/WnBaWNhR3QYkrj6
+         ADtg==
+X-Gm-Message-State: AOAM533JM1iDxMDiLMjNZkPLSPBvaN5ruHljzYOyV8TJi2sb8/Fl+Wu5
+        7MKH60dj6ces8zCGuQ2lNkDb7GiiulM1c4cmIKU=
+X-Google-Smtp-Source: ABdhPJy5s7J3iDzOjoVyljiW6YVCQEcgc0cZBAGfJkBUA3jE3nPG4A65mSA+PUuTtkMvOXQKidbh5w==
+X-Received: by 2002:a2e:9b84:: with SMTP id z4mr12486719lji.360.1627307536471;
+        Mon, 26 Jul 2021 06:52:16 -0700 (PDT)
+Received: from fedora.. ([185.55.106.126])
+        by smtp.gmail.com with ESMTPSA id p16sm7011lfs.83.2021.07.26.06.52.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jul 2021 06:52:15 -0700 (PDT)
+From:   =?UTF-8?q?Martin=20D=C3=B8rum?= <martid0311@gmail.com>
+To:     sakari.ailus@linux.intel.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?q?Martin=20D=C3=B8rum?= <martid0311@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
+        (V4L/DVB)), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] media: i2c: ov5645: Fix horizontal flip
+Date:   Mon, 26 Jul 2021 15:50:06 +0200
+Message-Id: <20210726135009.140168-1-martid0311@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <a10d5622-62f2-57aa-6031-e937470dd83b@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfFC3xirWnDjIYzv/zsTqx58ywLtxYYElrd1lUCXohW3pyOIJ3sraxTPw067Diveg+tu07tI9Rm6hEH3Ypmi7tAFUMM0D1u57xxMqgZCAgnIJMh3jaTNW
- 09oy9Qoei4v8IPdLPOoJJGBVYErE7LXfJ1T8L85D8DWBTJ19rtJC9gYu7BAtI423W45R8dnW3xQVLGqe2J1LfzXUz3yrZSNLHZLowtfeByK7W2UGLEUUm42D
- oCLUBQoBC3KUn0QqKg4EiXbI0PJxu7Ya3SiMyNlob1ZrqhOEduCWEMCfGU47tRwrGSPqYt5MNjdrjLeAm5v1lCBRBsduiOEE7HQ/5zsrAjx66BEn/ipxcaz+
- rCCRuAH1ogPIwnb25W/ZobOiyOxR6AQNaaujvtpZsijfOGwaMlA=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This PR has been dropped as requested by Sakari since it conflicts with a pending
-PR with async notifier renames.
+The ov5645 driver currently handles horizontal flipping by setting the
+"sensor mirror" bit (bit 1) in the TIMING_TC_REG21 register. This
+just reverses the sensor data readout for each row, which works for the
+brightness (Y) bytes, but it ends up reversing the color (U and V)
+bytes.
 
-Sakari will pick up the rebased patches.
+This fix adds the "ISP mirror" bit (bit 2) in the same register.
+The datasheet I have isn't very detailed, but it seems like "ISP mirror"
+makes the image sensor processor flip the color byte pairs (so UV -> VU),
+so reversing data readout in combination with "ISP mirror" gives us a
+horizontally flipped image with correct colors.
 
-Regards,
+Signed-off-by: Martin Dørum <martid0311@gmail.com>
+---
+ drivers/media/i2c/ov5645.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	Hans
-
-On 22/07/2021 10:11, Hans Verkuil wrote:
-> The following changes since commit 379e205dab9d7f9761984728e7d6f5f8305cc424:
-> 
->   media: usb: dvb-usb-v2: af9035: let subdrv autoselect enable si2168 and si2157 (2021-07-12 14:28:49 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.15c
-> 
-> for you to fetch changes up to 325f8c6441a46b549fce94b494c860bc730f4847:
-> 
->   media: rcar-isp: Add Renesas R-Car Image Signal Processor driver (2021-07-22 10:00:30 +0200)
-> 
-> ----------------------------------------------------------------
-> Tag branch
-> 
-> ----------------------------------------------------------------
-> Niklas Söderlund (12):
->       rcar-vin: Refactor controls creation for video device
->       rcar-vin: Fix error paths for rvin_mc_init()
->       rcar-vin: Improve async notifier cleanup paths
->       rcar-vin: Improve reuse of parallel notifier
->       rcar-vin: Rename array storing subdevice information
->       rcar-vin: Move group async notifier
->       rcar-vin: Extend group notifier DT parser to work with any port
->       rcar-vin: Create a callback to setup media links
->       rcar-vin: Specify media device ops at group creation time
->       rcar-vin: Move and rename CSI-2 link notifications
->       rcar-vin: Add r8a779a0 support
->       media: rcar-isp: Add Renesas R-Car Image Signal Processor driver
-> 
->  MAINTAINERS                                 |    1 +
->  drivers/media/platform/Kconfig              |   16 +
->  drivers/media/platform/Makefile             |    1 +
->  drivers/media/platform/rcar-isp.c           |  505 ++++++++++++++++++++++++++++
->  drivers/media/platform/rcar-vin/rcar-core.c | 1059 +++++++++++++++++++++++++++++++++-------------------------
->  drivers/media/platform/rcar-vin/rcar-dma.c  |   22 +-
->  drivers/media/platform/rcar-vin/rcar-vin.h  |   25 +-
->  7 files changed, 1151 insertions(+), 478 deletions(-)
->  create mode 100644 drivers/media/platform/rcar-isp.c
-> 
+diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+index 368fa21e675e..c40bcb4b5484 100644
+--- a/drivers/media/i2c/ov5645.c
++++ b/drivers/media/i2c/ov5645.c
+@@ -52,7 +52,7 @@
+ #define		OV5645_SENSOR_VFLIP		BIT(1)
+ #define		OV5645_ISP_VFLIP		BIT(2)
+ #define OV5645_TIMING_TC_REG21		0x3821
+-#define		OV5645_SENSOR_MIRROR		BIT(1)
++#define		OV5645_SENSOR_MIRROR		(BIT(1) | BIT(2))
+ #define OV5645_MIPI_CTRL00		0x4800
+ #define OV5645_PRE_ISP_TEST_SETTING_1	0x503d
+ #define		OV5645_TEST_PATTERN_MASK	0x3
+-- 
+2.31.1
 
