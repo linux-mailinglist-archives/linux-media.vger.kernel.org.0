@@ -2,115 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 903033D60E5
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jul 2021 18:12:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 206843D668D
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jul 2021 20:13:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237291AbhGZPZh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Jul 2021 11:25:37 -0400
-Received: from lahtoruutu.iki.fi ([185.185.170.37]:45278 "EHLO
-        lahtoruutu.iki.fi" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238310AbhGZPZT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Jul 2021 11:25:19 -0400
-Received: from hillosipuli.retiisi.eu (dbd1vftgng281pd4yskly-3.rev.dnainternet.fi [IPv6:2001:14ba:8eb:1240:ab2d:b956:f00:7a12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 9D2371B0009A;
-        Mon, 26 Jul 2021 19:05:46 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1627315546;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=X6uAcRoKgp16X+DSs3GaN2VBrn1/8cfpWVI9R/7BdOo=;
-        b=axmm8thYCXHB/axNWS4d9PnOgrRmTkW0klvRR4qv61xDbc9Nr4nGRbHZcTAmR/nLbGgrVl
-        GB3uYNeKpZi1udKIiaMI3qa/BtvFmxsEvX6AzVPLmcqhMZEqi3mjSyiw4gxPPSV6MCU/C5
-        SHnm7+tI2qxTpZLPH9nF9l4v+aJb9qaIHggRt+KaMBkDatKYKNAn2yR9vxaeQRxj3Tr92j
-        emI5Sz5tcOLiazIhYi80aHeeF5IErv/TO/Sb9B6nY4CcyCBVsrMNeGaGDk/1WmSzpjRL/g
-        /NJOmnp+kAkf27A3h3Vfv1v5RJtFMQfssNp5umJFqoez6vnFMTGNNSK/vfiTSQ==
-Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 2BEF0634C87;
-        Mon, 26 Jul 2021 19:05:10 +0300 (EEST)
-Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
-        by valkosipuli.localdomain with esmtp (Exim 4.92)
-        (envelope-from <sakari.ailus@iki.fi>)
-        id 1m836j-000187-04; Mon, 26 Jul 2021 19:05:33 +0300
-Date:   Mon, 26 Jul 2021 19:05:32 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        id S232597AbhGZRcs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Jul 2021 13:32:48 -0400
+Received: from mga12.intel.com ([192.55.52.136]:60968 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232927AbhGZRcr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Jul 2021 13:32:47 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="191886567"
+X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; 
+   d="scan'208";a="191886567"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2021 11:13:14 -0700
+X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; 
+   d="scan'208";a="436924856"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2021 11:13:10 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 3689C20138;
+        Mon, 26 Jul 2021 21:13:07 +0300 (EEST)
+Date:   Mon, 26 Jul 2021 21:13:07 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v2.1 11/11] rcar-vin: Add r8a779a0 support
-Message-ID: <20210726160532.GE3@valkosipuli.retiisi.eu>
-References: <3b15cc12-2c3c-c622-fcbb-3aed583f09d1@xs4all.nl>
- <20210721085357.4181098-1-niklas.soderlund+renesas@ragnatech.se>
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>
+Subject: Re: [PATCH v7 08/27] media: entity: Add has_route entity operation
+Message-ID: <20210726181307.GF3@paasikivi.fi.intel.com>
+References: <20210524104408.599645-1-tomi.valkeinen@ideasonboard.com>
+ <20210524104408.599645-9-tomi.valkeinen@ideasonboard.com>
+ <20210708124310.ievjt7effrkc6g6d@uno.localdomain>
+ <20210711152626.GC3@paasikivi.fi.intel.com>
+ <20210712074220.wwpullv252hdwpnv@uno.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210721085357.4181098-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20210712074220.wwpullv252hdwpnv@uno.localdomain>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1627315546;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=X6uAcRoKgp16X+DSs3GaN2VBrn1/8cfpWVI9R/7BdOo=;
-        b=UCD4htETDkG/yYjJPMnRZKrjJs1+0JOnZadhJf2SpbZjWPx1oY1bhIQpkJPSgNqq4tYF3s
-        Rxiu5jKBCeg3IBwCr3G3CkM00bC7JjKMXAcZ5GtdSjc70tYT5MSAxJs+6agzYpqDTkvLNZ
-        MTd0+uJ8FLoD5oFEzENsvIiiMxzxd1boXsTtHDxlNe4lGpyKTB5o82o/o6rkDt/U3FToIh
-        GLEr0yYV4KMKMMlCoINWEmf+XjGqrcw34A1296gZEksCtDJAdTIN1/Zroraxdbq0SXMWwZ
-        qaKypD7ze2vyv5y3ruhzumKe3sIE3sIh/3b91Dd3b5AQJ/m3CTZlGPVZbbPY0Q==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1627315546; a=rsa-sha256;
-        cv=none;
-        b=pP8jtMlYUo5C2WqCLXB9m8kaCX/PANfvpRP/OM3uY3FmJs31fiChFKeaw6OtNtt95B8V6y
-        VefE2zUXVRnLuqFDW2c8wsgENrBjza3h1q6bKjnccHUv14J6GNKFTp0gjwPcwjUNS5jjf9
-        QzhhlNXtWhP9PH95fBgoMzRChMfCbBgdpbuITdmnlvRPxRL/5A0pJ5QcDGEvXyUyQ15VaZ
-        FdcKJrwU0yLOsI8NjTH0jVFmBJNrHW3VXTpaguyIHkUBxbA8WFmYFdSCS7JGJ4QAcLYQCx
-        JNJhI0SRIqLH2XET2pfyvf2azszeddB73LeOupub5vsP4OFV2xzEXpn/67+qRw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 21, 2021 at 10:53:57AM +0200, Niklas Söderlund wrote:
-> Add support for the R-Car V3U (r8a779a0) to the driver. The V3U has the
-> VIN modules connected to a ISP instead of directly to the R-Car CSI-2
-> receivers. The reason being that the ISP performs channel selection
-> based on CSI-2 VC/DT pairs and routes the video data to different VIN
-> modules. In other SoC versions this filtering is done by the VIN modules
-> themself.
+On Mon, Jul 12, 2021 at 09:42:20AM +0200, Jacopo Mondi wrote:
+> Hi Sakari,
 > 
-> While the media graph is very different from other SoCs the only
-> difference in operating the VIN modules is that the VC/DT filtering
-> should be skipped as that is performed by the ISP.
+> On Sun, Jul 11, 2021 at 06:26:26PM +0300, Sakari Ailus wrote:
+> > On Thu, Jul 08, 2021 at 02:43:10PM +0200, Jacopo Mondi wrote:
+> > > Hi Tomi,
+> > >    a small note
+> > >
+> > > On Mon, May 24, 2021 at 01:43:49PM +0300, Tomi Valkeinen wrote:
+> > > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > >
+> > > > The optional operation can be used by entities to report whether two
+> > > > pads are internally connected.
+> > > >
+> > > > While at there, fix a Sphinx compiler warning in a comment block a few
+> > > > lines above.
+> > > >
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > Signed-off-by: Michal Simek <michal.simek@xilinx.com>
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > > ---
+> > > >  include/media/media-entity.h | 7 +++++++
+> > > >  1 file changed, 7 insertions(+)
+> > > >
+> > > > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> > > > index 516d73a2941e..ad4020b2df65 100644
+> > > > --- a/include/media/media-entity.h
+> > > > +++ b/include/media/media-entity.h
+> > > > @@ -187,6 +187,7 @@ enum media_pad_signal_type {
+> > > >   * @flags:	Pad flags, as defined in
+> > > >   *		:ref:`include/uapi/linux/media.h <media_header>`
+> > > >   *		(seek for ``MEDIA_PAD_FL_*``)
+> > > > + *
+> > > >   * .. note::
+> > > >   *
+> > > >   *    @stream_count reference count must never be negative, but is a signed
+> > > > @@ -214,6 +215,10 @@ struct media_pad {
+> > > >   * @link_validate:	Return whether a link is valid from the entity point of
+> > > >   *			view. The media_pipeline_start() function
+> > > >   *			validates all links by calling this operation. Optional.
+> > > > + * @has_route:		Return whether a route exists inside the entity between
+> > > > + *			two given pads. Pads are passed to the operation ordered
+> > > > + *			by index. Optional: If the operation isn't implemented
+> > >
+> > > According to the next patch, this doesn't seem to be 'Optional:' :)
+> >
+> > How? Few drivers will implement this in the end, and that's been taken into
+> > account in code AFAIU.
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> What I meant is that it's not optional that all pads are considered
+> connected if the op is not implemented. Or maybe this should have read
+> as "Implementing the operation is optional" ?
 
-Hi Niklas,
-
-I discussed the set and the PRs with Hans. This conflicted with my other
-pull request with async notifier rename patch and a bunch of other stuff. I
-noticed I needed to change something else in the set (for ti-vpe changes)
-so I thought I can change this for rcar-vin, too.
-
-It's here:
-
-<URL:https://lore.kernel.org/linux-media/20210726154828.19693-1-sakari.ailus@linux.intel.com/>
-
-I intend to send that in a pull request tomorrow.
+Fine for me. I don't think the old text was bad either though.
 
 -- 
 Sakari Ailus
