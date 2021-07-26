@@ -2,88 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D60033D511B
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jul 2021 03:40:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A66F3D5140
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jul 2021 04:22:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231336AbhGZA7v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Jul 2021 20:59:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52756 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230152AbhGZA7u (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Jul 2021 20:59:50 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BE55C061757
-        for <linux-media@vger.kernel.org>; Sun, 25 Jul 2021 18:40:20 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id k1so9636281plt.12
-        for <linux-media@vger.kernel.org>; Sun, 25 Jul 2021 18:40:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=RKIKuAaTQlG88etJbUulWv2ZbXxRWG1nGC16MCIPM3w=;
-        b=ms8/Jx8P90hOP/FP0L/OO2bILCSysQRSgk6BGqpUNEiyo29FUL08Zmxb3aiqDWglEL
-         hKTWizKDgEI1HdGyb08vp4/EARp+ppjmp8AZro4tp1sv8U2ztEgFcNL0pbp8bO9KbwHt
-         oX4XW2q4v89JVM+RtkxmP8nmccjwirG2A0nG8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=RKIKuAaTQlG88etJbUulWv2ZbXxRWG1nGC16MCIPM3w=;
-        b=GmGzPeBlz4glpblm23sMwbNzqO/ZhPSjywF17Mbzw+i62CT6N5pv8brrv1oxBWuiRZ
-         Gl0jfklRyyu+FCxkOY/fLDVhhIaSfcAyuVErkeQH8lJBHIoTw7+38vU5akRzf6KpXGtm
-         WXlIwIZWDZZqKe8phT40h21DGXfz14iiUn5aK6qxi7BoxlF5WhDLl0aNtOFNDant+KUb
-         4Oi5iFCLbhc4NKOoHnTK307MHNjvj1Ek+koETGY+gGk/6mrdN2NB59SHlRFIylcUuij1
-         fCVsRw1Q1FehdwPiMd1lu3yU7BlwUWiaJ3b48vhLAxvA03NoyOcFjF+KwljmkIXsAjNj
-         YY7A==
-X-Gm-Message-State: AOAM532uCIJKauALQGZgCXMyravRMvcrWlzs4LhMuGed2H5Ln8yS+gqT
-        VENJJweFPKuzhljtCR3k1u9z3w==
-X-Google-Smtp-Source: ABdhPJyVZ7XxDxNbUh3apH7bz124wc1cFBxqH5WbFeR33S8SV+IY9fRu6qvDNB1w6A+5XSDWqVOpdA==
-X-Received: by 2002:a05:6a00:9a3:b029:355:d45b:ad9a with SMTP id u35-20020a056a0009a3b0290355d45bad9amr15829812pfg.73.1627263619760;
-        Sun, 25 Jul 2021 18:40:19 -0700 (PDT)
-Received: from google.com ([2409:10:2e40:5100:967a:60e8:38b7:1227])
-        by smtp.gmail.com with ESMTPSA id v15sm25235523pff.105.2021.07.25.18.40.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Jul 2021 18:40:19 -0700 (PDT)
-Date:   Mon, 26 Jul 2021 10:40:14 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Collabora Kernel ML <kernel@collabora.com>
-Subject: Re: [PATCHv3 7/8] videobuf2: handle V4L2_MEMORY_FLAG_NON_COHERENT
- flag
-Message-ID: <YP4Sfo0PjLokYi3B@google.com>
-References: <20210709092027.1050834-1-senozhatsky@chromium.org>
- <20210709092027.1050834-8-senozhatsky@chromium.org>
- <0c89ef1e-8abb-8749-bbce-c7e5a2e2f304@collabora.com>
+        id S231446AbhGZBlz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Jul 2021 21:41:55 -0400
+Received: from mga09.intel.com ([134.134.136.24]:52277 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230272AbhGZBlx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 25 Jul 2021 21:41:53 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="212141715"
+X-IronPort-AV: E=Sophos;i="5.84,269,1620716400"; 
+   d="scan'208";a="212141715"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2021 19:22:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,269,1620716400"; 
+   d="scan'208";a="436588592"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.202]) ([10.238.232.202])
+  by fmsmga007.fm.intel.com with ESMTP; 25 Jul 2021 19:22:20 -0700
+Subject: Re: [PATCH 1/2] media: imx258: Rectify mismatch of VTS value
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Umang Jain <umang.jain@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bingbu Cao <bingbu.cao@intel.com>
+References: <20210723112233.1361319-1-umang.jain@ideasonboard.com>
+ <20210723112233.1361319-2-umang.jain@ideasonboard.com>
+ <YPqtC0KITMbB2I4F@pendragon.ideasonboard.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <e543e0fe-3a2c-f3c9-9543-24e576cb32e8@linux.intel.com>
+Date:   Mon, 26 Jul 2021 10:20:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0c89ef1e-8abb-8749-bbce-c7e5a2e2f304@collabora.com>
+In-Reply-To: <YPqtC0KITMbB2I4F@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (21/07/22 19:33), Dafna Hirschfeld wrote:
-[..]
-> >   int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
-> >   {
-> >   	int ret = vb2_verify_memory_type(q, req->memory, req->type);
-> > +	u32 flags = req->flags;
-> >   	fill_buf_caps(q, &req->capabilities);
-> > -	return ret ? ret : vb2_core_reqbufs(q, req->memory, 0, &req->count);
-> > +	validate_memory_flags(q, req->memory, &flags);
-> > +	req->flags = flags;
-> 
-> you can do instead
-> 
-> validate_memory_flags(q, req->memory, &req->flags);
+Umang and Laurent,
 
-->flags are u32 for create-bufs and u8 for reqi-bufs. So `*flags = <value>`
-can write to ->reserved[] for req-bufs (if the value is huge enough).
+I just checked the spec, 0xc98 should be the initial value not for 4208x3118, the patch
+looks good to me though I am not working on that anymore.
+
+Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+
+On 7/23/21 7:50 PM, Laurent Pinchart wrote:
+> Hi Umang,
+> 
+> Thank you for the patch.
+> 
+> (Expanding the CC list)
+> 
+> On Fri, Jul 23, 2021 at 04:52:32PM +0530, Umang Jain wrote:
+>> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>
+>> The frame_length_lines (0x0340) registers are hard-coded as follows:
+>>
+>> - 4208x3118
+>>   frame_length_lines = 0x0c50
+>>
+>> - 2104x1560
+>>   frame_length_lines = 0x0638
+>>
+>> - 1048x780
+>>   frame_length_lines = 0x034c
+>>
+>> The driver exposes the V4L2_CID_VBLANK control in read-only mode and
+>> sets its value to vts_def - height, where vts_def is a mode-dependent
+>> value coming from the supported_modes array. It is set using one of
+>> the following macros defined in the driver:
+>>
+>>   #define IMX258_VTS_30FPS                0x0c98
+>>   #define IMX258_VTS_30FPS_2K             0x0638
+>>   #define IMX258_VTS_30FPS_VGA            0x034c
+>>
+>> There's a clear mismatch in the value for the full resolution mode i.e.
+>> IMX258_VTS_30FPS. Fix it by rectifying the macro with the value set for
+>> the frame_length_lines register as stated above.
+>>
+>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+>> ---
+>>  drivers/media/i2c/imx258.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+>> index 7ab9e5f9f267..4e695096e5d0 100644
+>> --- a/drivers/media/i2c/imx258.c
+>> +++ b/drivers/media/i2c/imx258.c
+>> @@ -23,7 +23,7 @@
+>>  #define IMX258_CHIP_ID			0x0258
+>>  
+>>  /* V_TIMING internal */
+>> -#define IMX258_VTS_30FPS		0x0c98
+>> +#define IMX258_VTS_30FPS		0x0c50
+>>  #define IMX258_VTS_30FPS_2K		0x0638
+>>  #define IMX258_VTS_30FPS_VGA		0x034c
+>>  #define IMX258_VTS_MAX			0xffff
+> 
+
+-- 
+Best regards,
+Bingbu Cao
