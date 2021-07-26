@@ -2,92 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C9DC3D5225
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jul 2021 06:05:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D720F3D522C
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jul 2021 06:06:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231489AbhGZDYj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Jul 2021 23:24:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56600 "EHLO
+        id S231694AbhGZDZf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Jul 2021 23:25:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231207AbhGZDYj (ORCPT
+        with ESMTP id S231640AbhGZDZe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Jul 2021 23:24:39 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 495C0C061760
-        for <linux-media@vger.kernel.org>; Sun, 25 Jul 2021 21:05:08 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id da26so8823050edb.1
-        for <linux-media@vger.kernel.org>; Sun, 25 Jul 2021 21:05:08 -0700 (PDT)
+        Sun, 25 Jul 2021 23:25:34 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47C25C061757
+        for <linux-media@vger.kernel.org>; Sun, 25 Jul 2021 21:06:03 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id e14so10089652plh.8
+        for <linux-media@vger.kernel.org>; Sun, 25 Jul 2021 21:06:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IIvcSyU1E65bR7w1DDg8slGET/s8Q+m7sc5AZf8NFiE=;
-        b=hMUCP2c9a3KgKSQMGqbSls3L6icE6DQGge9ygXLIKD6TRuRMyExvyHjwxw0zKcC9T8
-         nIRCN687oSlbROKVwvlrRTnF5QE4Zqpr3ZHO7ugRFTWJW6BlSRMOnpyLdS61LYBkYHnM
-         N2/1CvH+wigM0xKkoQBTL0QsgmHN+4GbsEGNk=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xiWitXT290UcByDjy4CV0WmRGLnUtUIPDLLBbCJ8IDc=;
+        b=fUs5u9A2a5DivlQK6Sg0JrGLgJXIPYe7pwxwekbQfczrOF7C0jTUI5nUklETv0tNu6
+         s/9XO2ZgJPne3GLw52Jt8SKdnjFuSu5J2oH8fdnurwdaDQhs/RCRNSv4p5+4h5IVvzDs
+         9qu7clubgpT93TMnvfLV00Z4mqHgSOhzsimDA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IIvcSyU1E65bR7w1DDg8slGET/s8Q+m7sc5AZf8NFiE=;
-        b=ok2C8zbFP0MxSiyHczdBggEPbSJx/rC0XlJVw5Vo75hNFjhPoL3WmMR5m3n3ey9h8g
-         Y7eBzb8drZTlfhIYDKvAjed8KqvhGnY6NCXNb8RQrRxT2EjbnSN6DT06yjHNWVO98isZ
-         l89eEaNyxghvZI5pHAUAluTxZGpy2ArG7OV0bxesdGqisc2uSDP2/p7dog0C1Wk0Wc4+
-         hgh8P+sbn2PcyDXPjVhlDuW/P014bcrUcG0jABoDUCFX2iiBTh7h67wlVsOoOTaWcSOC
-         6TREsE0yJ8Nv2i2ZYKi30S9SXPBajr9mRrb4/3BZkRDzzuFHJViKnbi8AupyoUIunSIg
-         eDDA==
-X-Gm-Message-State: AOAM530gBeJOak6MfcpdraK8UBf9TwTbgELa6glZpBVSxjl3rNHwEux3
-        EEFKKF4NNvEocNGdtA6S7L5bnL+nc0tcoQ==
-X-Google-Smtp-Source: ABdhPJy1Wg2wmNd/Khzk6AaFQG+0pIHdvgu2QbP3DMuTy5XhVbUNCv+A/UDpQqLecnhxDG7yfuiSvQ==
-X-Received: by 2002:a05:6402:452:: with SMTP id p18mr18820901edw.34.1627272306513;
-        Sun, 25 Jul 2021 21:05:06 -0700 (PDT)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com. [209.85.221.54])
-        by smtp.gmail.com with ESMTPSA id w10sm13793130ejb.85.2021.07.25.21.05.05
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Jul 2021 21:05:05 -0700 (PDT)
-Received: by mail-wr1-f54.google.com with SMTP id b9so8567163wrx.12
-        for <linux-media@vger.kernel.org>; Sun, 25 Jul 2021 21:05:05 -0700 (PDT)
-X-Received: by 2002:a5d:46cb:: with SMTP id g11mr16953638wrs.192.1627272305067;
- Sun, 25 Jul 2021 21:05:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210709092027.1050834-1-senozhatsky@chromium.org>
- <20210709092027.1050834-9-senozhatsky@chromium.org> <3c80786a-7422-3736-7261-8605260eb99f@collabora.com>
- <YP4zHRh+jHJGbNHz@google.com>
-In-Reply-To: <YP4zHRh+jHJGbNHz@google.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 26 Jul 2021 13:04:53 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5D6hSoLJaBMdV-fpzn43Y6qRULR4ckejrJp_89Qpe6Xnw@mail.gmail.com>
-Message-ID: <CAAFQd5D6hSoLJaBMdV-fpzn43Y6qRULR4ckejrJp_89Qpe6Xnw@mail.gmail.com>
-Subject: Re: [PATCHv3 8/8] videobuf2: handle non-contiguous DMA allocations
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xiWitXT290UcByDjy4CV0WmRGLnUtUIPDLLBbCJ8IDc=;
+        b=FxNwIdEXmHMO4RoyMoyChYJR+129LkxPRexVgOG3gSbjHFsq2ysArCtKq48DosugOw
+         VDa8Fl81ka2D7wK9Ewm4IiebjbmkX9u+yalFSOSMAQnY5U6Jav89DJAJ4GhX4+rOom/Q
+         w6Qxbn1Q93WzBbA12p7EGzvhicLl+xDqRv1IHNkwk1VmJeuUF4m/Imm6ylAfUAOTVmkp
+         BYADUun+SqFbQvuVqwLdquJuWJ2jpwLopm4j4vI8HU4GSXaqjnz3wNAj00LFouLcYqgU
+         A7bOq3GuaQwI4HR/fati5IWMpDwW2aX2MwSdp/Uu4VCqPjScgClC1Cb4sBxLkmA5tt8I
+         wrxQ==
+X-Gm-Message-State: AOAM533d8DCszAru/bKKCzJ0BkzuwVEN+V6Fyi4KJmSMZfu+MiNe2YSh
+        yf0YyKRysBZiZulwhNrAj1mOuQ==
+X-Google-Smtp-Source: ABdhPJxPpkDCVPhmtEpwxjcoHVvEIwaGFP4/ubAgNHcqzQYT+OQ4R0Q0rmcmuOVO4cs1HYPlIHNkiw==
+X-Received: by 2002:a63:1621:: with SMTP id w33mr16182815pgl.291.1627272362829;
+        Sun, 25 Jul 2021 21:06:02 -0700 (PDT)
+Received: from google.com ([2409:10:2e40:5100:d699:4331:827:4150])
+        by smtp.gmail.com with ESMTPSA id r18sm2448184pgk.54.2021.07.25.21.05.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Jul 2021 21:06:02 -0700 (PDT)
+Date:   Mon, 26 Jul 2021 13:05:57 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Ricardo Ribalda <ribalda@chromium.org>,
         Christoph Hellwig <hch@lst.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Collabora Kernel ML <kernel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+        Collabora Kernel ML <kernel@collabora.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCHv3 7/8] videobuf2: handle V4L2_MEMORY_FLAG_NON_COHERENT
+ flag
+Message-ID: <YP40paMcGjlfofi8@google.com>
+References: <20210709092027.1050834-1-senozhatsky@chromium.org>
+ <20210709092027.1050834-8-senozhatsky@chromium.org>
+ <0c89ef1e-8abb-8749-bbce-c7e5a2e2f304@collabora.com>
+ <YP4Sfo0PjLokYi3B@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YP4Sfo0PjLokYi3B@google.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 26, 2021 at 12:59 PM Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
->
-> On (21/07/22 19:26), Dafna Hirschfeld wrote:
-> > Also, the 'cookie' cb returns buf->dma_addr which is not initialized for
-> > the noncontiguous api. So it is not clear how drivers should use the new api.
-> > Many drivers call vb2_dma_contig_plane_dma_addr which returns the cookie.
->
-> Hmm, that's a good find. Is ->dma_addr the same as what we have in
-> sgt.sgl->dma_address for non-contig?
+On (21/07/26 10:40), Sergey Senozhatsky wrote:
+> On (21/07/22 19:33), Dafna Hirschfeld wrote:
+> [..]
+> > >   int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
+> > >   {
+> > >   	int ret = vb2_verify_memory_type(q, req->memory, req->type);
+> > > +	u32 flags = req->flags;
+> > >   	fill_buf_caps(q, &req->capabilities);
+> > > -	return ret ? ret : vb2_core_reqbufs(q, req->memory, 0, &req->count);
+> > > +	validate_memory_flags(q, req->memory, &flags);
+> > > +	req->flags = flags;
+> > 
+> > you can do instead
+> > 
+> > validate_memory_flags(q, req->memory, &req->flags);
+> 
+> ->flags are u32 for create-bufs and u8 for reqi-bufs. So `*flags = <value>`
+> can write to ->reserved[] for req-bufs (if the value is huge enough).
 
-Yes. As per [1]:
-
-"The return sg_table is guaranteed to have 1 single DMA mapped segment
-as indicated by sgt->nents, but it might have multiple CPU side
-segments as indicated by sgt->orig_nents."
-
-[1] https://www.kernel.org/doc/html/latest/core-api/dma-api.html#part-ii-non-coherent-dma-allocations
+I guess ->flags can become u8 for both create-bufs and req-bufs.
+We had ->flags in both structs as u32, but then decided to leave
+some reserved[] space in req-bufs and switched to u8 there.
