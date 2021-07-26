@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79A0E3D5910
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jul 2021 14:01:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A94953D591B
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jul 2021 14:04:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233780AbhGZLVA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Jul 2021 07:21:00 -0400
-Received: from mga09.intel.com ([134.134.136.24]:63587 "EHLO mga09.intel.com"
+        id S233864AbhGZLXO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Jul 2021 07:23:14 -0400
+Received: from mga12.intel.com ([192.55.52.136]:28217 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233903AbhGZLU6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Jul 2021 07:20:58 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="212210527"
+        id S233633AbhGZLXO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Jul 2021 07:23:14 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="191808515"
 X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; 
-   d="scan'208";a="212210527"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2021 05:01:26 -0700
+   d="scan'208";a="191808515"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2021 05:03:40 -0700
 X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; 
-   d="scan'208";a="463916102"
+   d="scan'208";a="504873085"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2021 05:01:23 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2021 05:03:37 -0700
 Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 7FF4B205CF;
-        Mon, 26 Jul 2021 15:01:21 +0300 (EEST)
-Date:   Mon, 26 Jul 2021 15:01:21 +0300
+        by paasikivi.fi.intel.com (Postfix) with SMTP id D6E4D205CF;
+        Mon, 26 Jul 2021 15:03:35 +0300 (EEST)
+Date:   Mon, 26 Jul 2021 15:03:35 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -36,7 +36,7 @@ Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Jens Axboe <axboe@kernel.dk>
 Subject: Re: [PATCH v1 1/1] media: ipu3-cio2: Drop reference on error path in
  cio2_bridge_connect_sensor()
-Message-ID: <20210726120121.GD3@paasikivi.fi.intel.com>
+Message-ID: <20210726120335.GE3@paasikivi.fi.intel.com>
 References: <20210726084055.54887-1-andriy.shevchenko@linux.intel.com>
  <20210726114433.GB3@paasikivi.fi.intel.com>
  <CAHp75VfodVoyDkO4iEGcHw0TWm2g-QbjwXqoCpCr_fj_BXT9jw@mail.gmail.com>
@@ -67,7 +67,8 @@ On Mon, Jul 26, 2021 at 02:55:51PM +0300, Andy Shevchenko wrote:
 > 
 > Are we reading the same version? Or am I missing something?
 
-I'm looking at the one in media-tree master.
+Ah. I noticed the adev assignment was removed (and added later) by the
+other patch. Yeah, agreed; this one's needed.
 
 -- 
 Sakari Ailus
