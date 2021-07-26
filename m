@@ -2,112 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 206843D668D
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jul 2021 20:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2BB33D6966
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 00:21:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232597AbhGZRcs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Jul 2021 13:32:48 -0400
-Received: from mga12.intel.com ([192.55.52.136]:60968 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232927AbhGZRcr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Jul 2021 13:32:47 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="191886567"
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; 
-   d="scan'208";a="191886567"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2021 11:13:14 -0700
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; 
-   d="scan'208";a="436924856"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2021 11:13:10 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 3689C20138;
-        Mon, 26 Jul 2021 21:13:07 +0300 (EEST)
-Date:   Mon, 26 Jul 2021 21:13:07 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>
-Subject: Re: [PATCH v7 08/27] media: entity: Add has_route entity operation
-Message-ID: <20210726181307.GF3@paasikivi.fi.intel.com>
-References: <20210524104408.599645-1-tomi.valkeinen@ideasonboard.com>
- <20210524104408.599645-9-tomi.valkeinen@ideasonboard.com>
- <20210708124310.ievjt7effrkc6g6d@uno.localdomain>
- <20210711152626.GC3@paasikivi.fi.intel.com>
- <20210712074220.wwpullv252hdwpnv@uno.localdomain>
+        id S233546AbhGZVlG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Jul 2021 17:41:06 -0400
+Received: from mail-io1-f49.google.com ([209.85.166.49]:39624 "EHLO
+        mail-io1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231978AbhGZVlE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Jul 2021 17:41:04 -0400
+Received: by mail-io1-f49.google.com with SMTP id j21so13798326ioo.6;
+        Mon, 26 Jul 2021 15:21:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mv6erYWaZJR9dk5x4Gfa5MHHYyiQEZ5IAKk/24C/zJg=;
+        b=a/OhC2L7N6RlkIWWRFDU6SYn0uTBuN4YQZZLE5OBpIXKbFTF4YPmYqIveJIF13+D9W
+         KilBvOYn9O9tlOXYAV60nm0lQP22MjKZ7ryD5o9smr9m3VUml6zTLwrxMCLdN5kAiBiE
+         HuUiCjmDRAICH6l2zwYcLtyxwXdzwusI/WPOrD2IgoB14CgyIeN0INMH9PcBIO1YZkx3
+         EDSH+/BfpZbulaqZrYc+wfy/CHMpYG0/6BxwFZf1+ERSIFqFJAHoADwljB3efGKq9HUc
+         fDqpwILunKnueoqOqZgKy3gVu8yKGpI5nMxY1r32tZmuqKEsBg4kUglOBzpfAQ/dQLfo
+         XOuw==
+X-Gm-Message-State: AOAM531WQm/eeO3gAtJXnGR30wm8uF8ZRULwEKXO+I3sD4ZebcuFZTEp
+        CLEWI2fyanX2V2d53brmow==
+X-Google-Smtp-Source: ABdhPJwxrp8upfs2mo/1MgMfEJ0vL1b6dEOhoaWvwBBrrcWDiSW1AKf+zKQ3J8zFOVN7ibXIhwvnkw==
+X-Received: by 2002:a02:a797:: with SMTP id e23mr18647088jaj.121.1627338091257;
+        Mon, 26 Jul 2021 15:21:31 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id z18sm545175ilh.55.2021.07.26.15.21.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jul 2021 15:21:30 -0700 (PDT)
+Received: (nullmailer pid 977034 invoked by uid 1000);
+        Mon, 26 Jul 2021 22:21:29 -0000
+Date:   Mon, 26 Jul 2021 16:21:29 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Stefan Riedmueller <s.riedmueller@phytec.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v7 5/6] media: dt-bindings: mt9p031: Convert bindings to
+ yaml
+Message-ID: <20210726222129.GA977000@robh.at.kernel.org>
+References: <20210726073518.2167398-1-s.riedmueller@phytec.de>
+ <20210726073518.2167398-6-s.riedmueller@phytec.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210712074220.wwpullv252hdwpnv@uno.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210726073518.2167398-6-s.riedmueller@phytec.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 12, 2021 at 09:42:20AM +0200, Jacopo Mondi wrote:
-> Hi Sakari,
+On Mon, 26 Jul 2021 09:35:17 +0200, Stefan Riedmueller wrote:
+> Convert mt9p031 sensor bindings to yaml schema. Also update the
+> MAINTAINERS entry.
 > 
-> On Sun, Jul 11, 2021 at 06:26:26PM +0300, Sakari Ailus wrote:
-> > On Thu, Jul 08, 2021 at 02:43:10PM +0200, Jacopo Mondi wrote:
-> > > Hi Tomi,
-> > >    a small note
-> > >
-> > > On Mon, May 24, 2021 at 01:43:49PM +0300, Tomi Valkeinen wrote:
-> > > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > >
-> > > > The optional operation can be used by entities to report whether two
-> > > > pads are internally connected.
-> > > >
-> > > > While at there, fix a Sphinx compiler warning in a comment block a few
-> > > > lines above.
-> > > >
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > Signed-off-by: Michal Simek <michal.simek@xilinx.com>
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > > > ---
-> > > >  include/media/media-entity.h | 7 +++++++
-> > > >  1 file changed, 7 insertions(+)
-> > > >
-> > > > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> > > > index 516d73a2941e..ad4020b2df65 100644
-> > > > --- a/include/media/media-entity.h
-> > > > +++ b/include/media/media-entity.h
-> > > > @@ -187,6 +187,7 @@ enum media_pad_signal_type {
-> > > >   * @flags:	Pad flags, as defined in
-> > > >   *		:ref:`include/uapi/linux/media.h <media_header>`
-> > > >   *		(seek for ``MEDIA_PAD_FL_*``)
-> > > > + *
-> > > >   * .. note::
-> > > >   *
-> > > >   *    @stream_count reference count must never be negative, but is a signed
-> > > > @@ -214,6 +215,10 @@ struct media_pad {
-> > > >   * @link_validate:	Return whether a link is valid from the entity point of
-> > > >   *			view. The media_pipeline_start() function
-> > > >   *			validates all links by calling this operation. Optional.
-> > > > + * @has_route:		Return whether a route exists inside the entity between
-> > > > + *			two given pads. Pads are passed to the operation ordered
-> > > > + *			by index. Optional: If the operation isn't implemented
-> > >
-> > > According to the next patch, this doesn't seem to be 'Optional:' :)
-> >
-> > How? Few drivers will implement this in the end, and that's been taken into
-> > account in code AFAIU.
+> Although input-clock-frequency and pixel-clock-frequency have not been
+> definded as endpoint propierties in the textual bindings, the sensor
+> does parse them from the endpoint. Thus move these properties to the
+> endpoint in the new yaml bindings.
 > 
-> What I meant is that it's not optional that all pads are considered
-> connected if the op is not implemented. Or maybe this should have read
-> as "Implementing the operation is optional" ?
+> Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
+> ---
+>  .../bindings/media/i2c/aptina,mt9p031.yaml    | 86 +++++++++++++++++++
+>  .../devicetree/bindings/media/i2c/mt9p031.txt | 40 ---------
+>  MAINTAINERS                                   |  1 +
+>  3 files changed, 87 insertions(+), 40 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9p031.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/mt9p031.txt
+> 
 
-Fine for me. I don't think the old text was bad either though.
-
--- 
-Sakari Ailus
+Reviewed-by: Rob Herring <robh@kernel.org>
