@@ -2,61 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 220483D50E5
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jul 2021 03:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D60033D511B
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jul 2021 03:40:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231285AbhGZArI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Jul 2021 20:47:08 -0400
-Received: from mta01.cne.gob.ve ([201.130.83.71]:36704 "EHLO mta01.cne.gob.ve"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230152AbhGZArH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Jul 2021 20:47:07 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mta01.cne.gob.ve (Postfix) with ESMTP id E8C73E9AA3E;
-        Sun, 25 Jul 2021 16:38:40 -0400 (-04)
-Received: from mta01.cne.gob.ve ([127.0.0.1])
-        by localhost (mta01.cne.gob.ve [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id q2LzFO5-tR3F; Sun, 25 Jul 2021 16:38:40 -0400 (-04)
-Received: from localhost (localhost [127.0.0.1])
-        by mta01.cne.gob.ve (Postfix) with ESMTP id D1FB7ECC144;
-        Sun, 25 Jul 2021 16:28:10 -0400 (-04)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mta01.cne.gob.ve D1FB7ECC144
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cne.gob.ve;
-        s=cnemailcorp; t=1627244890;
-        bh=vKCGNy7XAh3lONWrfQueXCMYb2sDxVWWB8MXCvnhj34=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=1nLVPJ8Lp4WpL5ADUvtKSLuPeZljJKg+EvOqR/GHuo4x/lKAaAryKix1sK6FfVg7c
-         48bk6o4Zd9HcvJIXf5fNBf+du9bQRhaI9XA9NzeFdrErfzwzJa/foBtVBWoWvKTF87
-         dyS8nTg9vJ4jHYzdxaPOvkIhvrLFwjWfhXMq0dy3SxwyvS4e+IowzFSlZPUwgWVXPO
-         T8auVfuLTDLrSxs+5PcHFlIZB0YDOpYUSUaOxG9TdO0buigHbIomAfOGGVAfjNtG8X
-         xkJGJU48ctXpmyd99hjOoMtiRRtnjmy7E4ZGvdfw0mzJkhaf5+7svCqFETKjWJcHuQ
-         dtXqWj7JQtCAQ==
-X-Virus-Scanned: amavisd-new at cne.gob.ve
-Received: from mta01.cne.gob.ve ([127.0.0.1])
-        by localhost (mta01.cne.gob.ve [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id CGSzr8z4ZIIM; Sun, 25 Jul 2021 16:28:10 -0400 (-04)
-Received: from [172.20.10.3] (unknown [129.205.113.210])
-        by mta01.cne.gob.ve (Postfix) with ESMTPSA id 381DEE9AEEE;
-        Sun, 25 Jul 2021 16:15:20 -0400 (-04)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S231336AbhGZA7v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Jul 2021 20:59:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230152AbhGZA7u (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 25 Jul 2021 20:59:50 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BE55C061757
+        for <linux-media@vger.kernel.org>; Sun, 25 Jul 2021 18:40:20 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id k1so9636281plt.12
+        for <linux-media@vger.kernel.org>; Sun, 25 Jul 2021 18:40:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=RKIKuAaTQlG88etJbUulWv2ZbXxRWG1nGC16MCIPM3w=;
+        b=ms8/Jx8P90hOP/FP0L/OO2bILCSysQRSgk6BGqpUNEiyo29FUL08Zmxb3aiqDWglEL
+         hKTWizKDgEI1HdGyb08vp4/EARp+ppjmp8AZro4tp1sv8U2ztEgFcNL0pbp8bO9KbwHt
+         oX4XW2q4v89JVM+RtkxmP8nmccjwirG2A0nG8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=RKIKuAaTQlG88etJbUulWv2ZbXxRWG1nGC16MCIPM3w=;
+        b=GmGzPeBlz4glpblm23sMwbNzqO/ZhPSjywF17Mbzw+i62CT6N5pv8brrv1oxBWuiRZ
+         Gl0jfklRyyu+FCxkOY/fLDVhhIaSfcAyuVErkeQH8lJBHIoTw7+38vU5akRzf6KpXGtm
+         WXlIwIZWDZZqKe8phT40h21DGXfz14iiUn5aK6qxi7BoxlF5WhDLl0aNtOFNDant+KUb
+         4Oi5iFCLbhc4NKOoHnTK307MHNjvj1Ek+koETGY+gGk/6mrdN2NB59SHlRFIylcUuij1
+         fCVsRw1Q1FehdwPiMd1lu3yU7BlwUWiaJ3b48vhLAxvA03NoyOcFjF+KwljmkIXsAjNj
+         YY7A==
+X-Gm-Message-State: AOAM532uCIJKauALQGZgCXMyravRMvcrWlzs4LhMuGed2H5Ln8yS+gqT
+        VENJJweFPKuzhljtCR3k1u9z3w==
+X-Google-Smtp-Source: ABdhPJyVZ7XxDxNbUh3apH7bz124wc1cFBxqH5WbFeR33S8SV+IY9fRu6qvDNB1w6A+5XSDWqVOpdA==
+X-Received: by 2002:a05:6a00:9a3:b029:355:d45b:ad9a with SMTP id u35-20020a056a0009a3b0290355d45bad9amr15829812pfg.73.1627263619760;
+        Sun, 25 Jul 2021 18:40:19 -0700 (PDT)
+Received: from google.com ([2409:10:2e40:5100:967a:60e8:38b7:1227])
+        by smtp.gmail.com with ESMTPSA id v15sm25235523pff.105.2021.07.25.18.40.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Jul 2021 18:40:19 -0700 (PDT)
+Date:   Mon, 26 Jul 2021 10:40:14 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Collabora Kernel ML <kernel@collabora.com>
+Subject: Re: [PATCHv3 7/8] videobuf2: handle V4L2_MEMORY_FLAG_NON_COHERENT
+ flag
+Message-ID: <YP4Sfo0PjLokYi3B@google.com>
+References: <20210709092027.1050834-1-senozhatsky@chromium.org>
+ <20210709092027.1050834-8-senozhatsky@chromium.org>
+ <0c89ef1e-8abb-8749-bbce-c7e5a2e2f304@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: spende
-To:     Recipients <ycanizalez@cne.gob.ve>
-From:   ycanizalez@cne.gob.ve
-Date:   Sun, 25 Jul 2021 21:02:35 +0100
-Reply-To: tomcrist760@gmail.com
-Message-Id: <20210725201521.381DEE9AEEE@mta01.cne.gob.ve>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0c89ef1e-8abb-8749-bbce-c7e5a2e2f304@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Bin Herr Tom Crist. Ich spende einen Zuschuss von 10.500.000 USD
+On (21/07/22 19:33), Dafna Hirschfeld wrote:
+[..]
+> >   int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
+> >   {
+> >   	int ret = vb2_verify_memory_type(q, req->memory, req->type);
+> > +	u32 flags = req->flags;
+> >   	fill_buf_caps(q, &req->capabilities);
+> > -	return ret ? ret : vb2_core_reqbufs(q, req->memory, 0, &req->count);
+> > +	validate_memory_flags(q, req->memory, &flags);
+> > +	req->flags = flags;
+> 
+> you can do instead
+> 
+> validate_memory_flags(q, req->memory, &req->flags);
 
-an dich.Kontaktiere mich (tomcrist760@gmail.com) f=FCr
-
-weitere Details.
-
-Danke und Gottes Segen.
-Tom Crist
+->flags are u32 for create-bufs and u8 for reqi-bufs. So `*flags = <value>`
+can write to ->reserved[] for req-bufs (if the value is huge enough).
