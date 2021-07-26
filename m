@@ -2,200 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 702933D69BA
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 00:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A461E3D6A3A
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 01:34:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233605AbhGZWFK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Jul 2021 18:05:10 -0400
-Received: from mail-io1-f54.google.com ([209.85.166.54]:34412 "EHLO
-        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231502AbhGZWFK (ORCPT
+        id S233707AbhGZWyT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Jul 2021 18:54:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42598 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233380AbhGZWyS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Jul 2021 18:05:10 -0400
-Received: by mail-io1-f54.google.com with SMTP id y200so13932506iof.1;
-        Mon, 26 Jul 2021 15:45:37 -0700 (PDT)
+        Mon, 26 Jul 2021 18:54:18 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FC5CC061757;
+        Mon, 26 Jul 2021 16:34:45 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id k4-20020a17090a5144b02901731c776526so1347152pjm.4;
+        Mon, 26 Jul 2021 16:34:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oJHcf2A+v4Xg1Z8UjOIkujJQfUCL6EomQD60/Cu1nbQ=;
+        b=gyFbRvsBvc3GB64q5FVHckiBc7Bagj0Tn576aP7P1xv3GzUUQkBWJlEisCbs9U1dPd
+         Tk9UniFqVFVZWkkYVe1Q1ZOH/y1b0ES64cKz3YE9cpvrUvfXin7PGX5SgM/fSQmgbPjk
+         IHkil3GlN09mZixx++iR0YhCsRfzIPUMLFQCMFak/xuSx+i9Wlv4yBlf/FsDIzTJQRFr
+         IWRf/VAat9oNJUSf+dFtyQmcsNSIvOeN51hisgAPe/GHMdkIr6qjXRXcB4eg+5segHnv
+         PsndZ2Np2QQf2USln8vIOGRHB9j7rj5TsrwX+/cjAu2Pbo8lWTKf/n3p4hHL0MYG7FFd
+         vzbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=JJi5/NipfYexXfhOBVu2EGHhfRXUbMtu0cckqDFhtN0=;
-        b=G0OR7GZS1UP7KQl+h+kHf1CCu33AqXTr1mSAdrqACOzz8sC/WP0yFEC+VXB3FNNVD2
-         JKOASIhgjIsy6rd1fGTNYML97Y38IA7WUjD64w3vA5nuA7L6lYITB1GtSxN+WUNpXrsm
-         NP+StMrxKSN72zCkOKSkyz3gPL60xUJg1RKG1xf/Pq5Oh44b5XKdMMiu8ksDjScBUxBA
-         ab+VKNh4x83EK7921Nmgon69mFYnmzACSHE2aeaGzjpHcewc0WDUb/03fjrGXMUgJzDv
-         gSonFBwMgjj55iG0gmtHBXizJJosPqze2x+TCRcCtkIUmxxTQar4DR5zC41zvWjt6y4j
-         8bBQ==
-X-Gm-Message-State: AOAM531Lrt+vn2VpqlDI03evSblmw/ypLPVGTlLV5g7mpf5NtBfGBf/5
-        hUWo8JJT1akDs28cJuI/Aw==
-X-Google-Smtp-Source: ABdhPJy39IzTna8jPg2pqRO6jCjYdkoweHSDDyHg9mHz2ShVWHZRTv0XHk5Mnj1YeSPt0pgM8FWR8A==
-X-Received: by 2002:a6b:3e8b:: with SMTP id l133mr16345712ioa.137.1627339537187;
-        Mon, 26 Jul 2021 15:45:37 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id z13sm767248iop.18.2021.07.26.15.45.35
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oJHcf2A+v4Xg1Z8UjOIkujJQfUCL6EomQD60/Cu1nbQ=;
+        b=cNvhE2cqsg80k5UuLdK/laf2MK47yFoytkjtA0E82u9JibELi8J+wf4WI9w1tGcMnw
+         rtLLBh3H1v891hxlN+P9J+hc/iTPsjPtoyIoiMxoIwQ090N7xcACT/EHkpqkXxSBDRz5
+         35ZXV9AzxsnhDtkpKFc2q6JB/1IURlbge4PiEY6PCp267tXIkZV2aGezWLvn6hTQz3Sy
+         YzqLaP8xKguGQYmmdSXgiC9mVycRd6Bm9puJi6Ag22A17J15byXqWGjOShxETin6pXrW
+         ET4L0boUOblGMca4Xe46j4K3BXwasZ9XTMvp3iau7j9Ru4BB4zrzHaQ1fp4+8CAd+C5N
+         vFOw==
+X-Gm-Message-State: AOAM533HhpSYsEAWbZB7ja5ugUMl/lce0flrHoRoMAx+SGQldi/HI7Ne
+        zn8p9VXNou73jMYInhVeaL4=
+X-Google-Smtp-Source: ABdhPJwO0Aa1CWuY70s13U0aOFFS10F4rpeB45ZWiWi99YiT1whKcfqq/2IVyEdw1gBu5ZuBadW9yQ==
+X-Received: by 2002:a63:b953:: with SMTP id v19mr20385890pgo.40.1627342484886;
+        Mon, 26 Jul 2021 16:34:44 -0700 (PDT)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+        by smtp.gmail.com with ESMTPSA id k11sm1000201pgg.25.2021.07.26.16.34.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jul 2021 15:45:36 -0700 (PDT)
-Received: (nullmailer pid 1014418 invoked by uid 1000);
-        Mon, 26 Jul 2021 22:45:34 -0000
-Date:   Mon, 26 Jul 2021 16:45:34 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-Cc:     devicetree@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [RFC v3] dt-binding: media: document ON Semi AR0521 sensor
- bindings
-Message-ID: <20210726224534.GB1009398@robh.at.kernel.org>
-References: <m37dhkdrat.fsf@t19.piap.pl>
+        Mon, 26 Jul 2021 16:34:43 -0700 (PDT)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Matthew Brost <matthew.brost@intel.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Jack Zhang <Jack.Zhang1@amd.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+        FRAMEWORK), linux-kernel@vger.kernel.org (open list),
+        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Roy Sun <Roy.Sun@amd.com>, Tian Tao <tiantao6@hisilicon.com>
+Subject: [RFC 0/4] dma-fence: Deadline awareness
+Date:   Mon, 26 Jul 2021 16:38:47 -0700
+Message-Id: <20210726233854.2453899-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <m37dhkdrat.fsf@t19.piap.pl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 21, 2021 at 10:06:34AM +0200, Krzysztof Hałasa wrote:
-> This file documents DT bindings for the AR0521 camera sensor driver.
-> 
-> Signed-off-by: Krzysztof Hałasa <khalasa@piap.pl>
-> ---
-> Changes from v2:
-> - changed "xclk" to "extclk"
-> - power regulator names etc.
-> - video output port properties
-> - cosmetics
-> - UTF-8 experiments :-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,ar0521.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,ar0521.yaml
-> new file mode 100644
-> index 000000000000..785bae61bb5e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/onnn,ar0521.yaml
-> @@ -0,0 +1,108 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/onnn,ar0521.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ON Semiconductor AR0521 MIPI CSI-2 sensor
-> +
-> +maintainers:
-> +  - Krzysztof Hałasa <khalasa@piap.pl>
-> +
-> +description: |-
-> +  The AR0521 is a raw CMOS image sensor with MIPI CSI-2 and
-> +  I2C-compatible control interface.
-> +
-> +properties:
-> +  compatible:
-> +    const: onnn,ar0521
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: extclk
-> +
-> +  vaa-supply:
-> +    description:
-> +      Definition of the regulator used as analog (2.7 V) voltage supply.
-> +
-> +  vdd-supply:
-> +    description:
-> +      Definition of the regulator used as digital core (1.2 V) voltage supply.
-> +
-> +  vdd_io-supply:
-> +    description:
-> +      Definition of the regulator used as digital I/O (1.8 V) voltage supply.
-> +
-> +  reset-gpios:
-> +    description: reset GPIO, usually active low
-> +    maxItems: 1
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
+From: Rob Clark <robdclark@chromium.org>
 
-$ref: /schemas/graph.yaml#/$defs/port-base
-unevaluatedProperties: false
+Based on discussion from a previous series[1] to add a "boost" mechanism
+when, for example, vblank deadlines are missed.  Instead of a boost
+callback, this approach adds a way to set a deadline on the fence, by
+which the waiter would like to see the fence signalled.
 
+I've not yet had a chance to re-work the drm/msm part of this, but
+wanted to send this out as an RFC in case I don't have a chance to
+finish the drm/msm part this week.
 
-> +    description: |
-> +      Video output port.
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
+Original description:
 
-           unevaluatedProperties: false
+In some cases, like double-buffered rendering, missing vblanks can
+trick the GPU into running at a lower frequence, when really we
+want to be running at a higher frequency to not miss the vblanks
+in the first place.
 
-> +
-> +        properties:
-> +          data-lanes:
-> +            anyOf:
-> +              - items:
-> +                  - const: 1
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - vaa-supply
-> +  - vdd-supply
-> +  - vdd_io-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/clock/imx6qdl-clock.h>
-> +
-> +    i2c {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            ar0521: camera-sensor@36 {
-> +                    compatible = "onnn,ar0521";
-> +                    reg = <0x36>;
-> +                    pinctrl-names = "default";
-> +                    pinctrl-0 = <&pinctrl_mipi_camera>;
-> +                    clocks = <&clks IMX6QDL_CLK_CKO>;
-> +                    clock-names = "extclk";
-> +                    reset-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
-> +                    vaa-supply = <&reg_2p7v>;
-> +                    vdd-supply = <&reg_1p2v>;
-> +                    vdd_io-supply = <&reg_1p8v>;
-> +
-> +                    port {
-> +                           mipi_camera_to_mipi_csi2: endpoint {
-> +                                    remote-endpoint = <&mipi_csi2_in>;
-> +                                    data-lanes = <1 2 3 4>;
-> +                            };
-> +                    };
-> +            };
-> +    };
-> 
-> -- 
-> Krzysztof "Chris" Hałasa
-> 
-> Sieć Badawcza Łukasiewicz
-> Przemysłowy Instytut Automatyki i Pomiarów PIAP
-> Al. Jerozolimskie 202, 02-486 Warszawa
-> 
+This is partially inspired by a trick i915 does, but implemented
+via dma-fence for a couple of reasons:
+
+1) To continue to be able to use the atomic helpers
+2) To support cases where display and gpu are different drivers
+
+[1] https://patchwork.freedesktop.org/series/90331/
+
+Rob Clark (4):
+  dma-fence: Add deadline awareness
+  drm/vblank: Add helper to get next vblank time
+  drm/atomic-helper: Set fence deadline for vblank
+  drm/scheduler: Add fence deadline support
+
+ drivers/dma-buf/dma-fence.c             | 39 +++++++++++++++++++++++++
+ drivers/gpu/drm/drm_atomic_helper.c     | 36 +++++++++++++++++++++++
+ drivers/gpu/drm/drm_vblank.c            | 31 ++++++++++++++++++++
+ drivers/gpu/drm/scheduler/sched_fence.c | 10 +++++++
+ drivers/gpu/drm/scheduler/sched_main.c  |  3 ++
+ include/drm/drm_vblank.h                |  1 +
+ include/linux/dma-fence.h               | 17 +++++++++++
+ 7 files changed, 137 insertions(+)
+
+-- 
+2.31.1
+
