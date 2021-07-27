@@ -2,202 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C90D3D7010
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 09:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 333B03D708A
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 09:46:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235656AbhG0HLx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jul 2021 03:11:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60976 "EHLO
+        id S235837AbhG0HqR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jul 2021 03:46:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235409AbhG0HLw (ORCPT
+        with ESMTP id S235675AbhG0HqQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jul 2021 03:11:52 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07AD9C061757;
-        Tue, 27 Jul 2021 00:11:53 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id f14-20020a05600c154eb02902519e4abe10so1075766wmg.4;
-        Tue, 27 Jul 2021 00:11:52 -0700 (PDT)
+        Tue, 27 Jul 2021 03:46:16 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20DC2C061757
+        for <linux-media@vger.kernel.org>; Tue, 27 Jul 2021 00:46:16 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id z2so20210770lft.1
+        for <linux-media@vger.kernel.org>; Tue, 27 Jul 2021 00:46:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=sxFcXJToDZMWgKe9LXihsrB1La88hBN0XlIyclx9/f4=;
-        b=lEwkbL1rJM3F+mDQtqOuqfdOKPbBUOy0nmusGJjX0L5q1YZx4htOz5BKUJfkjr0piO
-         CY09atvv4CfAk0NzHPj9jUDGJOSCtbJNnxqJyC9tbWfiHqlBNYMUDNKX4KIwZmFJOaW2
-         qTTlAUaE1yMSabskDSytArp1jmYkizKRsVZueOY/3G1p+GghiUTGbmouLXY6zHnunsjO
-         s8FT3oi0Wfiqo6Fs1W3THmkyZDlTpxmz3ZOe+atFKCudwAcB3tqM4PSwO7pPnYwXq1cs
-         SGGOjMe1KVNTvXj+XsJ84gOdHT/ZsmBvWMr7VgLf9oOjAoQGWQ6XqOvNoAOxblkgd10m
-         dxBw==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=KfCDgIimmujgmwup6cGCcNH0e7Hg9J1Xzvh1WHXXQOQ=;
+        b=VYJLmO34wz7IWES3EsUCIEzauaeK8p7Gx2MH7HRsKCs3VJZ2BnuRHkVqTKRbJA5TKg
+         h+4s4y5iWhf48xRKMHokBfCW5L2EsEUwTVPFgh/F0yjjc8d26H0435W/AvuRbU9Wowmv
+         cFdgMns7UHu0it4BkqgpewULEIC6zgeym8QKtIs6KMKIiic1b9lsVZ84QOvW4KFu7d9H
+         QQnzOrg0bpRlUCZ4OcNNHXRV4tiMNC5CGfrVciMKdJDyPIXQjfIY0RaqCInIl6S7fjNS
+         YFvmSzo2mOPLvD82XqZlwTnqdVsOE0SWx6bz6xIVl08HUesb6nqb1WUASJcSg7usj8mK
+         sNJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=sxFcXJToDZMWgKe9LXihsrB1La88hBN0XlIyclx9/f4=;
-        b=Chj/xoHuYvn+lRZa98PMaOuqXCToiQ6S25bIy5RosUviLZHnCttSep1dfhNm39Z55B
-         6oWH2qZVqXX8heCon6mmstYbOurdlv8Qb+s/qn4tvoZ04JmCQDZRAkmGxNbytHGy6eY/
-         wahtajjEXMu82nJoGj3Wkz5CDozQ4q160aI4nVIbUbnsOCWMtUSQrGzHcvt87iHJMUJ8
-         COEwdJ75p62CwPkEvTw/lTPGTk7FZJLuOhvdGzoc52r3odsMPFE1i3VCoEVq7b7F+vaw
-         1JuyG+hraZppKwv0jfomhJeEtplScdDN4cwMAbe3d4CTyc/hFLskQIxeTLiLBYgL2pOK
-         pgAA==
-X-Gm-Message-State: AOAM532eMzu4j7/EVXkzSo1t36TuBP5bxoO/ckraz86ku3uTRp5/nuUW
-        WNOQgKQPI86JowI+6ioq41olzUXOqsA=
-X-Google-Smtp-Source: ABdhPJz/MgnHtkxYirTPDve81q42RkzbN1vyC5mjRajaoM6gwdEzfJ2NEGQCc32h6XQNzHYHd+Rkxg==
-X-Received: by 2002:a7b:c108:: with SMTP id w8mr20709070wmi.99.1627369911654;
-        Tue, 27 Jul 2021 00:11:51 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:ae22:6310:9a31:9877? ([2a02:908:1252:fb60:ae22:6310:9a31:9877])
-        by smtp.gmail.com with ESMTPSA id m9sm881309wrz.75.2021.07.27.00.11.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Jul 2021 00:11:51 -0700 (PDT)
-Subject: Re: [RFC 1/4] dma-fence: Add deadline awareness
-To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20210726233854.2453899-1-robdclark@gmail.com>
- <20210726233854.2453899-2-robdclark@gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <50b181fe-6605-b7ac-36a6-8bcda2930e6f@gmail.com>
-Date:   Tue, 27 Jul 2021 09:11:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=KfCDgIimmujgmwup6cGCcNH0e7Hg9J1Xzvh1WHXXQOQ=;
+        b=H5ZczI0pqga4mAlhnQ1MYzKZ9O6AwEjdMIoXfkrFJlNx8MI1Rhyxoi01GZfmmIPFXM
+         nnwoBOU39f9dkbqwDJeRaqRKCL+9oDYyELGUCOSE9vUbOtMPpaoZw9/U9izo7BbvXmBx
+         4XEaJOXGq10caDEG3i0lns5ti+AE+2PjYMpCso+V9Ap6I1S5pX8Vy2ka814U26abbsdh
+         uOjXAAv4z+3H8aXbBBGYoAeF8XV/5BB0Oulj1Wwl8ZQ6wQ56fimAgwuUALgCbwdOUbzh
+         8MaqI2rVuc7nNvCg19s1weoVQWH6/8NwnUy6+DlzY4GLyWtNuzNViBzRJkwGFDLfQ/Bo
+         Bvww==
+X-Gm-Message-State: AOAM5301fSVEXYGFUEknMcDOkSpJJPuE1q53xjg8Fh8hB4j28N/+SJrb
+        xyTwJkOIS6hyjtDf+MR57E2sMA==
+X-Google-Smtp-Source: ABdhPJwaP9lorJKPUP5nF8YCzif70ALCdnN/uFtmGPZfXCrMjbfwgnv4OIIBZUrMCRn0/MLwY/E+iA==
+X-Received: by 2002:ac2:4888:: with SMTP id x8mr15382864lfc.19.1627371974010;
+        Tue, 27 Jul 2021 00:46:14 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id 8sm215654lfq.178.2021.07.27.00.46.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jul 2021 00:46:13 -0700 (PDT)
+Date:   Tue, 27 Jul 2021 09:46:12 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH v2.1 11/11] rcar-vin: Add r8a779a0 support
+Message-ID: <YP+5xIKq+hOVLOOy@oden.dyn.berto.se>
+References: <3b15cc12-2c3c-c622-fcbb-3aed583f09d1@xs4all.nl>
+ <20210721085357.4181098-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210726160532.GE3@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-In-Reply-To: <20210726233854.2453899-2-robdclark@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210726160532.GE3@valkosipuli.retiisi.eu>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 27.07.21 um 01:38 schrieb Rob Clark:
-> From: Rob Clark <robdclark@chromium.org>
->
-> Add a way to hint to the fence signaler of an upcoming deadline, such as
-> vblank, which the fence waiter would prefer not to miss.  This is to aid
-> the fence signaler in making power management decisions, like boosting
-> frequency as the deadline approaches and awareness of missing deadlines
-> so that can be factored in to the frequency scaling.
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   drivers/dma-buf/dma-fence.c | 39 +++++++++++++++++++++++++++++++++++++
->   include/linux/dma-fence.h   | 17 ++++++++++++++++
->   2 files changed, 56 insertions(+)
->
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index ce0f5eff575d..2e0d25ab457e 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -910,6 +910,45 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
->   }
->   EXPORT_SYMBOL(dma_fence_wait_any_timeout);
->   
-> +
-> +/**
-> + * dma_fence_set_deadline - set desired fence-wait deadline
-> + * @fence:    the fence that is to be waited on
-> + * @deadline: the time by which the waiter hopes for the fence to be
-> + *            signaled
-> + *
-> + * Inform the fence signaler of an upcoming deadline, such as vblank, by
-> + * which point the waiter would prefer the fence to be signaled by.  This
-> + * is intended to give feedback to the fence signaler to aid in power
-> + * management decisions, such as boosting GPU frequency if a periodic
-> + * vblank deadline is approaching.
-> + */
-> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-> +{
-> +	unsigned long flags;
-> +
-> +	if (dma_fence_is_signaled(fence))
-> +		return;
-> +
-> +	spin_lock_irqsave(fence->lock, flags);
-> +
-> +	/* If we already have an earlier deadline, keep it: */
-> +	if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags) &&
-> +	    ktime_before(fence->deadline, deadline)) {
-> +		spin_unlock_irqrestore(fence->lock, flags);
-> +		return;
-> +	}
-> +
-> +	fence->deadline = deadline;
-> +	set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags);
-> +
-> +	spin_unlock_irqrestore(fence->lock, flags);
-> +
-> +	if (fence->ops->set_deadline)
-> +		fence->ops->set_deadline(fence, deadline);
-> +}
-> +EXPORT_SYMBOL(dma_fence_set_deadline);
-> +
->   /**
->    * dma_fence_init - Initialize a custom fence.
->    * @fence: the fence to initialize
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 6ffb4b2c6371..4e6cfe4e6fbc 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -88,6 +88,7 @@ struct dma_fence {
->   		/* @timestamp replaced by @rcu on dma_fence_release() */
->   		struct rcu_head rcu;
->   	};
-> +	ktime_t deadline;
+Hi Sakari,
 
-Mhm, adding the flag sounds ok to me but I'm a bit hesitating adding the 
-deadline as extra field here.
+On 2021-07-26 19:05:32 +0300, Sakari Ailus wrote:
+> On Wed, Jul 21, 2021 at 10:53:57AM +0200, Niklas Söderlund wrote:
+> > Add support for the R-Car V3U (r8a779a0) to the driver. The V3U has the
+> > VIN modules connected to a ISP instead of directly to the R-Car CSI-2
+> > receivers. The reason being that the ISP performs channel selection
+> > based on CSI-2 VC/DT pairs and routes the video data to different VIN
+> > modules. In other SoC versions this filtering is done by the VIN modules
+> > themself.
+> > 
+> > While the media graph is very different from other SoCs the only
+> > difference in operating the VIN modules is that the VC/DT filtering
+> > should be skipped as that is performed by the ISP.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> 
+> Hi Niklas,
+> 
+> I discussed the set and the PRs with Hans. This conflicted with my other
+> pull request with async notifier rename patch and a bunch of other stuff. I
+> noticed I needed to change something else in the set (for ti-vpe changes)
+> so I thought I can change this for rcar-vin, too.
 
-We tuned the dma_fence structure intentionally so that it is only 64 bytes.
+Thanks for sorting this out! Looking forward to have the notifier rename 
+merged.
 
+> 
+> It's here:
+> 
+> <URL:https://lore.kernel.org/linux-media/20210726154828.19693-1-sakari.ailus@linux.intel.com/>
+> 
+> I intend to send that in a pull request tomorrow.
+
+Looks good, thanks!
+
+> 
+> -- 
+> Sakari Ailus
+
+-- 
 Regards,
-Christian.
-
->   	u64 context;
->   	u64 seqno;
->   	unsigned long flags;
-> @@ -99,6 +100,7 @@ enum dma_fence_flag_bits {
->   	DMA_FENCE_FLAG_SIGNALED_BIT,
->   	DMA_FENCE_FLAG_TIMESTAMP_BIT,
->   	DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-> +	DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
->   	DMA_FENCE_FLAG_USER_BITS, /* must always be last member */
->   };
->   
-> @@ -261,6 +263,19 @@ struct dma_fence_ops {
->   	 */
->   	void (*timeline_value_str)(struct dma_fence *fence,
->   				   char *str, int size);
-> +
-> +	/**
-> +	 * @set_deadline:
-> +	 *
-> +	 * Callback to allow a fence waiter to inform the fence signaler of an
-> +	 * upcoming deadline, such as vblank, by which point the waiter would
-> +	 * prefer the fence to be signaled by.  This is intended to give feedback
-> +	 * to the fence signaler to aid in power management decisions, such as
-> +	 * boosting GPU frequency.
-> +	 *
-> +	 * This callback is optional.
-> +	 */
-> +	void (*set_deadline)(struct dma_fence *fence, ktime_t deadline);
->   };
->   
->   void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
-> @@ -586,6 +601,8 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
->   	return ret < 0 ? ret : 0;
->   }
->   
-> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
-> +
->   struct dma_fence *dma_fence_get_stub(void);
->   struct dma_fence *dma_fence_allocate_private_stub(void);
->   u64 dma_fence_context_alloc(unsigned num);
-
+Niklas Söderlund
