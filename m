@@ -2,143 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47C293D7D0D
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 20:04:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85D133D7D5B
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 20:26:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbhG0SEE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jul 2021 14:04:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42284 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231319AbhG0SEE (ORCPT
+        id S229826AbhG0S0l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jul 2021 14:26:41 -0400
+Received: from mail-il1-f182.google.com ([209.85.166.182]:44756 "EHLO
+        mail-il1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229453AbhG0S0k (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jul 2021 14:04:04 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 947C0C061760
-        for <linux-media@vger.kernel.org>; Tue, 27 Jul 2021 11:04:02 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id y12so8447582edo.6
-        for <linux-media@vger.kernel.org>; Tue, 27 Jul 2021 11:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=GafHAUNL+sjy6ExfCuaS6GjWzGJjdmYtQPnrrCad7po=;
-        b=zacsEf/gWmzsXeehztjZnAoEle5BSIO0okfN91EJ/wjaatGdrk6jZ5Ec6LYkCaZhGZ
-         1BVrfglwyuL/oIdTpFkYASBgm8YmEdy6hrkV9JDCpOXvcLKEnR3lVkMNrdL8QomzGWOT
-         Bqbkx1dphhm+Unpsk6ymc3zBH0DPN4n3jb7UpHrCuFTSUQXuyHsRho/6bKxOHANT+ugZ
-         F+WwVEf+Xq8iUSOIV3CgUcow9G5smWAlZS3ziJ9nuXSxNlIQU6/dw3kJKSADATTl7JOE
-         aq6ZsQBDVb/+wx4eHmMCN61j/MPiwzzPSjSpkp8Teu1vTcPtfVNCkwwUw+MIhhzPP6uO
-         yGeA==
+        Tue, 27 Jul 2021 14:26:40 -0400
+Received: by mail-il1-f182.google.com with SMTP id o7so162911ilh.11;
+        Tue, 27 Jul 2021 11:26:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=GafHAUNL+sjy6ExfCuaS6GjWzGJjdmYtQPnrrCad7po=;
-        b=Ue96swxiolhP8gjXm2ow5+a6WC+4a6VOYi0eIZw42klvrLtOD/8h8f+EOHVcHZc5ep
-         bBt+JJdLOrm/OkE1Mte3R8V38P0lOG9q9Ugk+e0VJTsAF0tsjrKUWhO9LjUqR7iUm4gf
-         wCT5fMczNc5MUaktWtD3rzoUgMldHptDe4NkIzlfp+4SVMH5Gq5jSFjfoo7XBxpOlgjc
-         aC/dIerFQd+NAOl6QLXCcwdDUx4lReAwPxNY8JxX04018MDr1QcE6x/xoLrNgf0WlOO0
-         BknSysKxAg9LD6PWSs09rfIXE3F2YNTIbRHPNcYVju+RI9K8D31H5nXedaMzPY8OUfRo
-         SjyQ==
-X-Gm-Message-State: AOAM532TX5rRVdyUiwWXHp+D5VPvkjcy0CUdhuMRIuxxXVO3ZbX1AndV
-        qKyXWdRY8chyoYiJt9tCBJ9bk8VUH4gA20U5zb5ZBA==
-X-Google-Smtp-Source: ABdhPJxlsaf+LhkKyXiphpI8rxtv9bJzrwO4Djg7iTwhTv3ZHLpWpdIv0Ni5sdiOjfj6Rs/g2y1b5OeTIUl85bmETMw=
-X-Received: by 2002:a05:6402:17d3:: with SMTP id s19mr29021761edy.49.1627409041203;
- Tue, 27 Jul 2021 11:04:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1627353315.git.ming.qian@nxp.com> <ee482c18fdaae121e3c9495d07b0f3eb1661e36e.1627353315.git.ming.qian@nxp.com>
- <e88f70b1438d4e5b5313aacccb1f369cabe513bc.camel@ndufresne.ca>
-In-Reply-To: <e88f70b1438d4e5b5313aacccb1f369cabe513bc.camel@ndufresne.ca>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Tue, 27 Jul 2021 15:03:49 -0300
-Message-ID: <CAAEAJfBTPFp4YX-yy6==w15OdKEj=Qy-epUEsdqqWsQ1DWJNrA@mail.gmail.com>
-Subject: Re: [PATCH v5 02/14] media:Add nt8 and nt10 video format.
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Ming Qian <ming.qian@nxp.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=3DEZXygmMlbze51t61j0f6IluPe9JhL1JPPs4o0+k/c=;
+        b=JUhzvjk4VfvedQWDbz86cKmdII61TH7wO6Qy/WMmvd6haqYLlzhpeaXbLiCika6MhH
+         WdvvalGiFp7Y7gKKMygJ9qTasdtPmYCzna66aBvOL3ZmjDGJ9ssgtTgnx3l8Wtm8NyWN
+         k+5wVcvWj/6FXK0Cu9UWoq1hVUogeOwNzhAkXQE84MBUJTvTiaNdcGAyCbKzvcYxbexj
+         hesIJ+7kce+rpCnk7i1q2UzeDbk8diPMeB0VDirQBUr0QqFTMs3ybGzlpKq5c0jG7p/E
+         5+X7eeLwJ3YFww0cCcoadiMLegVEouDFX1tafgnZlPkOOKL+ePY5T6+28ko8/uDMkpNc
+         fOGw==
+X-Gm-Message-State: AOAM533/iVgLDzhrHbhgUQ9Fs+MOJUEkdpdotMGnIF3NJg4o4fj4Ly46
+        cVNraidb5M3UbwiAA0XD6A==
+X-Google-Smtp-Source: ABdhPJwfRr8AvkY38MhYpDZWVP8j2iQzXoN0b+J+lJpwI2+Gqkmx9sagb5uvIKdLN+TXbdBGUM5t2Q==
+X-Received: by 2002:a92:7d08:: with SMTP id y8mr17500252ilc.111.1627410399986;
+        Tue, 27 Jul 2021 11:26:39 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id i11sm2301722ilb.15.2021.07.27.11.26.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jul 2021 11:26:39 -0700 (PDT)
+Received: (nullmailer pid 3210651 invoked by uid 1000);
+        Tue, 27 Jul 2021 18:26:35 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     linux-kernel@vger.kernel.org, Hsin-Yi Wang <hsinyi@chromium.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        linux-media@vger.kernel.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@google.com>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>, aisheng.dong@nxp.com,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Alexandre Courbot <acourbot@chromium.org>,
+        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com
+In-Reply-To: <20210727101051.24418-14-yunfei.dong@mediatek.com>
+References: <20210727101051.24418-1-yunfei.dong@mediatek.com> <20210727101051.24418-14-yunfei.dong@mediatek.com>
+Subject: Re: [PATCH v3, 13/15] dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8192
+Date:   Tue, 27 Jul 2021 12:26:35 -0600
+Message-Id: <1627410395.860934.3210650.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 27 Jul 2021 at 14:58, Nicolas Dufresne <nicolas@ndufresne.ca> wrote=
-:
->
-> Le mardi 27 juillet 2021 =C3=A0 11:20 +0800, Ming Qian a =C3=A9crit :
-> > NT8 is 8-bit tiled nv12 format used by amphion decoder.
-> > NT10 is 10-bit tiled format used by amphion decoder.
-> > The tile size is 8x128
-> >
-> > Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> > Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
-> > Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
-> > ---
-> >  .../userspace-api/media/v4l/pixfmt-reserved.rst   | 15 +++++++++++++++
-> >  drivers/media/v4l2-core/v4l2-ioctl.c              |  2 ++
-> >  include/uapi/linux/videodev2.h                    |  2 ++
-> >  3 files changed, 19 insertions(+)
-> >
-> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst =
-b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> > index c9231e18859b..2deae49210a7 100644
-> > --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> > @@ -256,3 +256,18 @@ please make a proposal on the linux-media mailing =
-list.
-> >       of tiles, resulting in 32-aligned resolutions for the luminance p=
-lane
-> >       and 16-aligned resolutions for the chrominance plane (with 2x2
-> >       subsampling).
-> > +    * .. _V4L2-PIX-FMT-NT8:
-> > +
-> > +      - ``V4L2_PIX_FMT_NT8``
-> > +      - 'NA12'
-> > +      - Two-planar NV12-based format used by the video engine found on=
- Amphion decoder,
-> > +    with 8x128 tiles for the luminance plane and chrominance plane.
-> > +    The number of bytes in one luminance or chrominance row must be di=
-visible by 256.
-> > +    * .. _V4L2-PIX-FMT-NT10:
->
-> There is a large spread of "vendor specific" format that aren't really sp=
-ecific,
-> or complex enough to be worth being marked as vendor format. As per my re=
-ading
-> of this description, this is linearly layout 8x128 tiled format, with no
-> compression or anything (well unless you forgot to mention). As a side ef=
-fect,
-> we should give that format an explicit name (NT8 is cryptic). What about
-> V4L2_PIX_FMT_NV12_8L128, my colleague is about to send a proposal in that
-> direction. That would be NV12 with plane tiled 8x128 bytes and layout lin=
-early,
-> row by row, left to right. We already have cryptic formats like SUNXI, HM=
-12 that
-> are literally just that, simple tiling, and we endup having to use obscur=
-e
-> vendor name whenever other HW uses the same.
->
-> (this comment extends to the other formats here)
->
+On Tue, 27 Jul 2021 18:10:49 +0800, Yunfei Dong wrote:
+> Adds decoder dt-bindings for mt8192.
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+> v3: Fix yaml check fail.
+> ---
+>  .../media/mediatek,vcodec-comp-decoder.yaml   | 154 ++++++++++++++++++
+>  1 file changed, 154 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
+> 
 
-Here's the proposal Nicolas is talking about:
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-https://lore.kernel.org/linux-media/20210727145745.25203-1-ezequiel@collabo=
-ra.com/T/#t
+yamllint warnings/errors:
 
-V4L2_PIX_FMT_NV12_8L128 makes sense, please also add support for this
-format in GStreamer. I think that makes it easier to confirm the
-layout of the format.
+dtschema/dtc warnings/errors:
+make[1]: *** Deleting file 'Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.example.dts'
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-extract-example", line 45, in <module>
+    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
+    return constructor.get_single_data()
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 122, in get_single_data
+    return self.construct_document(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 132, in construct_document
+    for _dummy in generator:
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 722, in construct_yaml_map
+    value = self.construct_mapping(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 446, in construct_mapping
+    return BaseConstructor.construct_mapping(self, node, deep=deep)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 264, in construct_mapping
+    if self.check_mapping_key(node, key_node, mapping, key, value):
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 295, in check_mapping_key
+    raise DuplicateKeyError(*args)
+ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
+  in "<unicode string>", line 19, column 5
+found duplicate key "items" with value "[]" (original value: "[]")
+  in "<unicode string>", line 21, column 5
 
-Thanks!
-Ezequiel
+To suppress this check see:
+    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
+
+Duplicate keys will become an error in future releases, and are errors
+by default when using the new API.
+
+make[1]: *** [Documentation/devicetree/bindings/Makefile:20: Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.example.dts] Error 1
+make[1]: *** Waiting for unfinished jobs....
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-doc-validate", line 67, in <module>
+    ret = check_doc(f)
+  File "/usr/local/bin/dt-doc-validate", line 25, in check_doc
+    testtree = dtschema.load(filename, line_number=line_number)
+  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 623, in load
+    return yaml.load(f.read())
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
+    return constructor.get_single_data()
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 122, in get_single_data
+    return self.construct_document(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 132, in construct_document
+    for _dummy in generator:
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 722, in construct_yaml_map
+    value = self.construct_mapping(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 446, in construct_mapping
+    return BaseConstructor.construct_mapping(self, node, deep=deep)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 264, in construct_mapping
+    if self.check_mapping_key(node, key_node, mapping, key, value):
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 295, in check_mapping_key
+    raise DuplicateKeyError(*args)
+ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
+  in "<unicode string>", line 19, column 5
+found duplicate key "items" with value "[]" (original value: "[]")
+  in "<unicode string>", line 21, column 5
+
+To suppress this check see:
+    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
+
+Duplicate keys will become an error in future releases, and are errors
+by default when using the new API.
+
+make[1]: *** Deleting file 'Documentation/devicetree/bindings/processed-schema-examples.json'
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-mk-schema", line 38, in <module>
+    schemas = dtschema.process_schemas(args.schemas, core_schema=(not args.useronly))
+  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 585, in process_schemas
+    sch = process_schema(os.path.abspath(filename))
+  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 558, in process_schema
+    schema = load_schema(filename)
+  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 125, in load_schema
+    return do_load(os.path.join(schema_basedir, schema))
+  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 111, in do_load
+    return yaml.load(f.read())
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
+    return constructor.get_single_data()
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 122, in get_single_data
+    return self.construct_document(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 132, in construct_document
+    for _dummy in generator:
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 722, in construct_yaml_map
+    value = self.construct_mapping(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 446, in construct_mapping
+    return BaseConstructor.construct_mapping(self, node, deep=deep)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 264, in construct_mapping
+    if self.check_mapping_key(node, key_node, mapping, key, value):
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 295, in check_mapping_key
+    raise DuplicateKeyError(*args)
+ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
+  in "<unicode string>", line 19, column 5
+found duplicate key "items" with value "[]" (original value: "[]")
+  in "<unicode string>", line 21, column 5
+
+To suppress this check see:
+    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
+
+Duplicate keys will become an error in future releases, and are errors
+by default when using the new API.
+
+make[1]: *** [Documentation/devicetree/bindings/Makefile:62: Documentation/devicetree/bindings/processed-schema-examples.json] Error 1
+make: *** [Makefile:1418: dt_binding_check] Error 2
+\ndoc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1510417
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
