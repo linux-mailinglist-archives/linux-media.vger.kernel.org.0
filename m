@@ -2,132 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A29F3D6A60
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 01:51:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B0993D6B61
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 03:00:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233999AbhGZXLa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Jul 2021 19:11:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46522 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233380AbhGZXL3 (ORCPT
+        id S233990AbhG0AUV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Jul 2021 20:20:21 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52056 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229524AbhG0AUV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Jul 2021 19:11:29 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76636C061757;
-        Mon, 26 Jul 2021 16:51:56 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id l4so13008588wrs.4;
-        Mon, 26 Jul 2021 16:51:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tUIoigUs94bMHsltrSbpLlzLTuAd1wjaaiV0ZjEm+Bw=;
-        b=j58O9/6iZBkX0FFFlPgMkDK17SR61mX0DAyRiuYxpvuZFTHbcm/MTFGcdmaNwJibhb
-         uTBhqmJYjJWGv3MyOqx4xGwogGAmoI+UZVtAMpFcK+OEYendJwBziq0Rns+3kkBW+O8a
-         3fJfm/C9J5jTTrEmg7CJEPy11Aum7gesrmioD5HoVl+4eD4eTMyYZc47HKhJ3Uw+eosu
-         BmEcneHHIdMBgGcBFYCW+ZgCUWOHNPGJYJo0tXoR4hy4Rw1pYz5ckBE+OcWVH3jbNzEg
-         RWvyOS8MC+EsozfKlizD4TvLFlcl49EUSDdLZf2FM4jYQbglxMxoTmu1AA7WHGTuix5c
-         5QLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tUIoigUs94bMHsltrSbpLlzLTuAd1wjaaiV0ZjEm+Bw=;
-        b=ugagOSk6xMDcDFVsJV776nPuYwvKfOHJtXKYB1u/Vw+mBSn9H9eFFjRlnnKVBFuiUR
-         udA6O2c4udiDhP3vVf0c0X51IaGrz7uL160qpswXHe5j/2Y8ssj30kn4vGqHnu9pW9oc
-         FASSKazAteGB8EDTJJL2B9IQia+fj/50NC9WNUi+jmT02qU6jgxQFB9My2HViqtTaksl
-         R+hQlops8bSuUT9Msks2aZP9Fz3072EqARmlTL1x5iSPGYRNZ6aXBje8Se/28lHVRF+M
-         A0hWEaxkKezzMdSHHlNzWy35pnZPGQleTUYPkOdzZHsZMcplQW2TsjWZw96CKoBbO0RV
-         jIrg==
-X-Gm-Message-State: AOAM531CCpq6TzGQ/dRCJXJbhGQbnbMvGhPCJsy6APmLd9DGMp+AyOE4
-        9FUqaGqPn4udaOt1oFVPOufEAijY9rnGud90f8w=
-X-Google-Smtp-Source: ABdhPJwXAzbNGuHdLOISfs3BtoWByAYqTqS3hd9v8tdZ2marIa37ZhMgm41g7p2rWzPxRDI2ZgF9Ns/85zSqMuv0bRc=
-X-Received: by 2002:a5d:4348:: with SMTP id u8mr18590399wrr.28.1627343515010;
- Mon, 26 Jul 2021 16:51:55 -0700 (PDT)
+        Mon, 26 Jul 2021 20:20:21 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B0B7EE;
+        Tue, 27 Jul 2021 03:00:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1627347647;
+        bh=h6ed/QhzBLfd0GPoqqSOV/hXs491XnYeRSbJ5MoZhok=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XmvdmbvKT4T0Gl2GLgXHoQjqYzORw4Uo7rvmWDfK/PuFVaIquNHJXNRxSiKXAaK33
+         QQA82sQ0J6AzYYbW4UtBiEhZlOsIX9q9P93SbuLQuXKyJEqkUecvdQL2mHp4N+DMqR
+         CTDj9Za/Wy99D6HUhG0YOBAkpaLfwrrgLNzDEeVQ=
+Date:   Tue, 27 Jul 2021 04:00:42 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     shawnguo@kernel.org, devicetree@vger.kernel.org,
+        festevam@gmail.com, kernel@pengutronix.de, kernel@puri.sm,
+        krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-imx@nxp.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        m.felsch@pengutronix.de, mchehab@kernel.org,
+        phone-devel@vger.kernel.org, robh@kernel.org, slongerbeam@gmail.com
+Subject: Re: [PATCH v9 0/3] media: imx: add support for imx8mq MIPI RX
+Message-ID: <YP9aujiWH2Q/ghHK@pendragon.ideasonboard.com>
+References: <20210726082117.2423597-1-martin.kepplinger@puri.sm>
 MIME-Version: 1.0
-References: <20210726233854.2453899-1-robdclark@gmail.com>
-In-Reply-To: <20210726233854.2453899-1-robdclark@gmail.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Mon, 26 Jul 2021 16:51:43 -0700
-Message-ID: <CAF6AEGtm4NdQfqo6wGFBM-EBzW9E8twpDuS7GTXf2iHiHZYL1g@mail.gmail.com>
-Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
-To:     dri-devel <dri-devel@lists.freedesktop.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Matthew Brost <matthew.brost@intel.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Jack Zhang <Jack.Zhang1@amd.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Luben Tuikov <luben.tuikov@amd.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Roy Sun <Roy.Sun@amd.com>, Tian Tao <tiantao6@hisilicon.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210726082117.2423597-1-martin.kepplinger@puri.sm>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 26, 2021 at 4:34 PM Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Based on discussion from a previous series[1] to add a "boost" mechanism
-> when, for example, vblank deadlines are missed.  Instead of a boost
-> callback, this approach adds a way to set a deadline on the fence, by
-> which the waiter would like to see the fence signalled.
->
-> I've not yet had a chance to re-work the drm/msm part of this, but
-> wanted to send this out as an RFC in case I don't have a chance to
-> finish the drm/msm part this week.
+Hi Martin,
 
-Fwiw, what I'm thinking for the drm/msm part is a timer set to expire
-a bit (couple ms?) before the deadline, which boosts if the timer
-expires before the fence is signaled.
+On Mon, Jul 26, 2021 at 10:21:14AM +0200, Martin Kepplinger wrote:
+> hi,
+> 
+> This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
+> 
+> It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
+> I test it using libcamera. Thanks to Laurent who helped a lot. I'm happy for
+> any feedback,
 
-Assuming this is roughly in line with what other drivers would do,
-possibly there is some room to build this timer into dma-fence itself?
+No more feedback from me :-) I'll take patches 1/3 and 2/3 in my tree
+and send a pull request.
 
-BR,
--R
+Shawn, could you please review 3/3 ?
 
->
-> Original description:
->
-> In some cases, like double-buffered rendering, missing vblanks can
-> trick the GPU into running at a lower frequence, when really we
-> want to be running at a higher frequency to not miss the vblanks
-> in the first place.
->
-> This is partially inspired by a trick i915 does, but implemented
-> via dma-fence for a couple of reasons:
->
-> 1) To continue to be able to use the atomic helpers
-> 2) To support cases where display and gpu are different drivers
->
-> [1] https://patchwork.freedesktop.org/series/90331/
->
-> Rob Clark (4):
->   dma-fence: Add deadline awareness
->   drm/vblank: Add helper to get next vblank time
->   drm/atomic-helper: Set fence deadline for vblank
->   drm/scheduler: Add fence deadline support
->
->  drivers/dma-buf/dma-fence.c             | 39 +++++++++++++++++++++++++
->  drivers/gpu/drm/drm_atomic_helper.c     | 36 +++++++++++++++++++++++
->  drivers/gpu/drm/drm_vblank.c            | 31 ++++++++++++++++++++
->  drivers/gpu/drm/scheduler/sched_fence.c | 10 +++++++
->  drivers/gpu/drm/scheduler/sched_main.c  |  3 ++
->  include/drm/drm_vblank.h                |  1 +
->  include/linux/dma-fence.h               | 17 +++++++++++
->  7 files changed, 137 insertions(+)
->
-> --
-> 2.31.1
->
+> revision history
+> ----------------
+> v9: (thank you Laurent)
+> * improve getting the esc clock rate for hs_settle
+> 
+> v8: (thank you Laurent)
+> * calculate hs_settle for any clk rate and mode
+> * add reviewed-by tag
+> https://lore.kernel.org/linux-media/20210723101217.1954805-1-martin.kepplinger@puri.sm/T/
+> 
+> v7: (thank you Laurent and Rob)
+> * fix the binding example (include the reset driver)
+> * use pm_runtime_resume_and_get()
+> * fix some logic in init_cfg()
+> * add some useful code comments and fix minor bits found by Laurent in v6
+> https://lore.kernel.org/linux-media/20210716102244.581182-1-martin.kepplinger@puri.sm/T/#t
+> 
+> v6: (thank you Laurent and Rob)
+> * add reviewed-by tag to binding
+> * statically allocate clk_bulk_data
+> * fix how the hs_settle value is applied
+> * remove s_power calls
+> * remove the link_setup() callback implementation and make the link immutable
+> * more cleanups according to Laurents' review from v5
+> https://lore.kernel.org/linux-media/20210714111931.324485-1-martin.kepplinger@puri.sm/
+> 
+> v5: (thank you Laurent)
+> * fix reset usage by using the already supported reset controller driver
+> * remove clko2 (totally unrelated clock / had been included by accident)
+> * rename pxl clock to ui
+> https://lore.kernel.org/linux-media/20210618095753.114557-1-martin.kepplinger@puri.sm/
+> 
+> v4: (thank you Rob and Marco)
+> * create fsl,mipi-phy-gpr custom dt property instead of confusing "phy"
+> * add imx8mq-specific compatibile to imx8mq.dtsi for future use
+> https://lore.kernel.org/linux-media/20210614121522.2944593-1-martin.kepplinger@puri.sm/
+> 
+> v3: (thank you, Rob and Laurent)
+> among minor other things according to v2 review, changes include:
+> * better describe the clocks
+> * rename DT property "phy-reset" to "reset" and "phy-gpr" to "phy"
+> https://lore.kernel.org/linux-media/20210608104128.1616028-1-martin.kepplinger@puri.sm/T/#t
+> 
+> v2: (thank you, Dan and Guido)
+> among fixes according to v1 reviews, changes include:
+> * remove status property from dt-bindings example
+> * define a few bits in order to have less magic values
+> * use "imx8mq_mipi_csi_" as local function prefix
+> * read DT properties only during probe()
+> * remove dead code (log_status)
+> * add imx8mq_mipi_csi_release_icc()
+> * fix imx8mq_mipi_csi_init_icc()
+> https://lore.kernel.org/linux-media/20210531112326.90094-1-martin.kepplinger@puri.sm/
+> 
+> v1:
+> https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
+> 
+> 
+> Martin Kepplinger (3):
+>   dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
+>     controller
+>   media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
+>   arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+> 
+>  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 174 ++++
+>  arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 104 ++
+>  drivers/staging/media/imx/Makefile            |   1 +
+>  drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 976 ++++++++++++++++++
+>  4 files changed, 1255 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+>  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+
+-- 
+Regards,
+
+Laurent Pinchart
