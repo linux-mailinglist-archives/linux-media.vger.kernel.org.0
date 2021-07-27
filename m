@@ -2,184 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA9C33D797C
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 17:13:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DC0D3D7990
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 17:19:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236817AbhG0PNl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jul 2021 11:13:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58700 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232643AbhG0PNl (ORCPT
+        id S232633AbhG0PTd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jul 2021 11:19:33 -0400
+Received: from mail.netline.ch ([148.251.143.180]:38575 "EHLO
+        netline-mail3.netline.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232600AbhG0PTd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jul 2021 11:13:41 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 071DDC061757;
-        Tue, 27 Jul 2021 08:13:41 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id e19so22557857ejs.9;
-        Tue, 27 Jul 2021 08:13:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UCFwMIpBzowoo2IqUOmSvylGJxh1OmGjndAtWm1Zyqs=;
-        b=JWdoxtBg2jFIavbWi8CQkEIsfhxKJ6xG95oNZxhxMK0vI0P/QJGn/0Pc2swhHHLppN
-         YjOLOTrj41vh9X80VywrNfNmsvABAtBxTFz0q+PK58ylgl2ATvxm5At67rEpNYUqg6q8
-         5UgRF5ViceiMFFYHfy+ZjBOxF0pxL/qw2+ASd+o8Gy2XdYeHROj7GP40Dykj5Jx8RKij
-         P6hQb3z7IGQP6AnPPQ9qrs2vQzkxLyarxk/RQQn4Z6nmVqcg0kndA+CNr+z7INWVYF6o
-         4KlqEupfpia+oNeC/SASMhmsfwWEBm0VDit7hlba4m5PAO9bIShf6z53M2Qp+wRdoRoJ
-         41NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UCFwMIpBzowoo2IqUOmSvylGJxh1OmGjndAtWm1Zyqs=;
-        b=Tw87/qKPQxyZWWlsT32w1Jze7JBVojvGoTAePvXQQ0ao+zURLO3MF2hklxGA+HVEeC
-         PAqH90/Y5vswPYdl/pqOquGhI+5cdqhWqPPfyJrRs2JKTo1bH8Q1PzjIouZ3CAPB/v1N
-         qT9vOhZbaK1Fz5UjS+wl9tiVheDfZmWc1HdgSAcYVRTiqcI4D8t2PBiQBBEWzrnP/52Q
-         jdp7199hVrZIOHGxhVJ1smpGc1uoK+oAcZjGb5f9w0SPHLDIC6hRc7ej9qyA6Pf5S1GJ
-         ovtfgAWyVN00LZFmJZ/fJi8oJhVeU7JY6aZ1Z73ZerBy+ZWIXLjMsr6730RPMPTm28iU
-         uQNg==
-X-Gm-Message-State: AOAM532FFQ7Rz9OwdswWpmgXS0wS3dDem/zODP/I9p2Si6iJFAe4Clr0
-        lPyQRAXcd1v2oMcaP0ESFZWaSQ1WY4S2sz4uFAw=
-X-Google-Smtp-Source: ABdhPJy/v+3pFZzUvS3qCMqO4AMrId4I1a54DhViIom5UDpFys9gBhx5Jhw7ofqz4M10GIFN+i38YtdhJuEDdE0pxr8=
-X-Received: by 2002:a17:906:9b1:: with SMTP id q17mr21950049eje.546.1627398819578;
- Tue, 27 Jul 2021 08:13:39 -0700 (PDT)
+        Tue, 27 Jul 2021 11:19:33 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by netline-mail3.netline.ch (Postfix) with ESMTP id 6C5C220201D;
+        Tue, 27 Jul 2021 17:19:31 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+        by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id BF3nS1YJscyH; Tue, 27 Jul 2021 17:19:31 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch [85.2.99.24])
+        by netline-mail3.netline.ch (Postfix) with ESMTPA id 4135A20201A;
+        Tue, 27 Jul 2021 17:19:30 +0200 (CEST)
+Received: from localhost ([::1])
+        by thor with esmtp (Exim 4.94.2)
+        (envelope-from <michel@daenzer.net>)
+        id 1m8Orh-000qpp-E5; Tue, 27 Jul 2021 17:19:29 +0200
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     Matthew Brost <matthew.brost@intel.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Jack Zhang <Jack.Zhang1@amd.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+References: <20210726233854.2453899-1-robdclark@gmail.com>
+ <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
+ <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
+From:   =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
+Message-ID: <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
+Date:   Tue, 27 Jul 2021 17:19:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <000000000000d068cf05c716264c@google.com> <20210727100151.2051-1-hdanton@sina.com>
- <20210727141455.GM1931@kadam>
-In-Reply-To: <20210727141455.GM1931@kadam>
-From:   Dongliang Mu <mudongliangabcd@gmail.com>
-Date:   Tue, 27 Jul 2021 23:13:13 +0800
-Message-ID: <CAD-N9QUz_7pxAFda9QYjhJf6tGLYvHr7hF_qZ3DmtP=J_yqWAg@mail.gmail.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in em28xx_close_extension
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Hillf Danton <hdanton@sina.com>,
-        syzbot <syzbot+005037419ebdf14e1d87@syzkaller.appspotmail.com>,
-        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 27, 2021 at 10:15 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Tue, Jul 27, 2021 at 06:01:51PM +0800, Hillf Danton wrote:
-> > Along the probe path,
-> >
-> > em28xx_usb_probe
-> >   dev = kzalloc(sizeof(*dev), GFP_KERNEL);
-> >   retval = em28xx_init_dev(dev, udev, intf, nr);
-> >     em28xx_init_extension(dev);
-> >       em28xx_ir_init(struct em28xx *dev)
-> >         kref_get(&dev->ref);
-> >
-> >   kref_init(&dev->ref);
->
+On 2021-07-27 5:12 p.m., Rob Clark wrote:
+> On Tue, Jul 27, 2021 at 7:50 AM Michel Dänzer <michel@daenzer.net> wrote:
+>>
+>> On 2021-07-27 1:38 a.m., Rob Clark wrote:
+>>> From: Rob Clark <robdclark@chromium.org>
+>>>
+>>> Based on discussion from a previous series[1] to add a "boost" mechanism
+>>> when, for example, vblank deadlines are missed.  Instead of a boost
+>>> callback, this approach adds a way to set a deadline on the fence, by
+>>> which the waiter would like to see the fence signalled.
+>>>
+>>> I've not yet had a chance to re-work the drm/msm part of this, but
+>>> wanted to send this out as an RFC in case I don't have a chance to
+>>> finish the drm/msm part this week.
+>>>
+>>> Original description:
+>>>
+>>> In some cases, like double-buffered rendering, missing vblanks can
+>>> trick the GPU into running at a lower frequence, when really we
+>>> want to be running at a higher frequency to not miss the vblanks
+>>> in the first place.
+>>>
+>>> This is partially inspired by a trick i915 does, but implemented
+>>> via dma-fence for a couple of reasons:
+>>>
+>>> 1) To continue to be able to use the atomic helpers
+>>> 2) To support cases where display and gpu are different drivers
+>>>
+>>> [1] https://patchwork.freedesktop.org/series/90331/
+>>
+>> Unfortunately, none of these approaches will have the full intended effect once Wayland compositors start waiting for client buffers to become idle before using them for an output frame (to prevent output frames from getting delayed by client work). See https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880 (shameless plug :) for a proof of concept of this for mutter. The boost will only affect the compositor's own GPU work, not the client work (which means no effect at all for fullscreen apps where the compositor can scan out the client buffers directly).
+>>
+> 
+> I guess you mean "no effect at all *except* for fullscreen..."?
 
-Hi Dan,
+I meant what I wrote: The compositor will wait for the next buffer to become idle, so there's no boost from this mechanism for the client drawing to that buffer. And since the compositor does no drawing of its own in this case, there's no boost from that either.
 
-I have developed a patch [1] to fix this crash. Would you like to help
-me double-check if it correctly fixes the underlying bug?
 
-[1] [PATCH v2] [media] em28xx-input: fix refcount bug in
-em28xx_usb_disconnect  https://lkml.org/lkml/2021/7/19/263
+> I'd perhaps recommend that wayland compositors, in cases where only a
+> single layer is changing, not try to be clever and just push the
+> update down to the kernel.
 
-> Good detective work.
->
-> I've created a Smatch check to try find these.  It uses the fact that
-> Smatch creates a bunch of fake assignments to set all the struct members
-> of "dev" to zero.  Then it uses the modification hook to find the
-> kref_init().  Those are sort of new uses for those hooks so that's quite
-> fun.
->
-> I'll test it out overnight and see how it works.
->
-> drivers/media/usb/em28xx/em28xx-cards.c:4086 em28xx_usb_probe() warn: kref has already been modifed (see line 3979)
->
-> regards,
-> dan carpenter
->
-> #include "smatch.h"
-> #include "smatch_slist.h"
-> #include "smatch_extra.h"
->
-> static int my_id;
->
-> STATE(fresh);
->
-> static int get_line(struct sm_state *sm)
-> {
->         struct sm_state *tmp;
->         int line = 0;
->
->         FOR_EACH_PTR(sm->possible, tmp) {
->                 if (tmp->state == &undefined &&
->                     tmp->line > line)
->                         line = tmp->line;
->         } END_FOR_EACH_PTR(tmp);
->
->         if (!line)
->                 return sm->line;
->         return line;
-> }
->
-> static void match_modify(struct sm_state *sm, struct expression *mod_expr)
-> {
->         if (sm->state != &fresh &&
->             mod_expr &&
->             mod_expr->type == EXPR_CALL &&
->             sym_name_is("kref_init", mod_expr->fn))
->                 sm_warning("kref has already been modifed (see line %d)", get_line(sm));
->
->         set_state(my_id, sm->name, sm->sym, &undefined);
-> }
->
-> static bool is_alloc(struct expression *expr)
-> {
->         static struct expression *ignore, *alloc_expr;
->         struct expression *right;
->
->         if (!expr || expr->type != EXPR_ASSIGNMENT || expr->op != '=')
->                 return false;
->         if (expr == ignore)
->                 return false;
->         if (expr == alloc_expr)
->                 return true;
->         right = strip_expr(expr->right);
->         if (right->type == EXPR_CALL &&
->             (sym_name_is("kzalloc", right->fn) ||
->              sym_name_is("kmalloc", right->fn))) {
->                 alloc_expr = expr;
->                 return true;
->         }
->         ignore = expr;
->         return false;
-> }
->
-> static void match_assign(struct expression *expr)
-> {
->         char *name;
->
->         if (!is_alloc(get_faked_expression()))
->                 return;
->         name = expr_to_str(expr->left);
->         if (name && strstr(name, "refcount.refs.counter"))
->                 set_state_expr(my_id, expr->left, &fresh);
->         free_string(name);
-> }
->
-> void check_kref_init_too_late(int id)
-> {
->         my_id = id;
->
->         add_hook(&match_assign, ASSIGNMENT_HOOK_AFTER);
->         add_modification_hook(my_id, &match_modify);
-> }
->
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/20210727141455.GM1931%40kadam.
+Even just for the fullscreen direct scanout case, that would require some kind of atomic KMS API extension to allow queuing multiple page flips for the same CRTC.
+
+For other cases, this would also require a mechanism to cancel a pending atomic commit, for when another surface update comes in before the compositor's deadline, which affects the previously single updating surface as well.
+
+
+-- 
+Earthling Michel Dänzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
