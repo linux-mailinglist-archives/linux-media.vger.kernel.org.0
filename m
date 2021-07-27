@@ -2,90 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA7583D7559
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 14:53:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A73413D755A
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 14:53:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232110AbhG0MxT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jul 2021 08:53:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53772 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231840AbhG0MxT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jul 2021 08:53:19 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B85EC061757
-        for <linux-media@vger.kernel.org>; Tue, 27 Jul 2021 05:53:19 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6DF53EE;
-        Tue, 27 Jul 2021 14:53:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1627390397;
-        bh=B9kJIqXI9ElhvHQoNmIBvrpGLT27g5TGGKvy5gQNTSQ=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=DACAQyhSdHzaZ7tMhhiGQvkfiAmTFjcgN72Pbzo+sdE3lA8CpgNpB43A7QkYocemd
-         Y3N/dWrMQFZFj5n1ZxaAzf8G1Ydb3a2nKTpBbQrIgcOkly1PLLQcD/rRZcsgQG/8LT
-         JNKMhoMd+A6EPeuXPcr75pg8Kl1z1xz+RS8eKzIA=
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        id S236320AbhG0Mx0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jul 2021 08:53:26 -0400
+Received: from mga06.intel.com ([134.134.136.31]:37225 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232125AbhG0MxZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Jul 2021 08:53:25 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="273515263"
+X-IronPort-AV: E=Sophos;i="5.84,273,1620716400"; 
+   d="scan'208";a="273515263"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2021 05:53:25 -0700
+X-IronPort-AV: E=Sophos;i="5.84,273,1620716400"; 
+   d="scan'208";a="634400839"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2021 05:53:23 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id BA66420726;
+        Tue, 27 Jul 2021 15:53:21 +0300 (EEST)
+Date:   Tue, 27 Jul 2021 15:53:21 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Andrey Konovalov <andrey.konovalov@linaro.org>,
         Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v3 3/6] v4l: async: Rename async nf functions, clean up
+ long lines
+Message-ID: <20210727125321.GI3@paasikivi.fi.intel.com>
 References: <20210624084046.13136-1-sakari.ailus@linux.intel.com>
- <20210624084046.13136-6-sakari.ailus@linux.intel.com>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v3 5/6] media: rcar-vin: Remove explicit device
- availability check
-Message-ID: <d9c77476-8a80-9799-7cbf-a01f33fc4b67@ideasonboard.com>
-Date:   Tue, 27 Jul 2021 13:53:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <20210624084046.13136-4-sakari.ailus@linux.intel.com>
+ <4b50c5cd-52de-f1f4-1b23-424b06c9c9b7@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20210624084046.13136-6-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4b50c5cd-52de-f1f4-1b23-424b06c9c9b7@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/06/2021 09:40, Sakari Ailus wrote:
-> From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+On Tue, Jul 27, 2021 at 01:41:26PM +0100, Kieran Bingham wrote:
+> Hi Sakari,
 > 
-> The fwnode is retrieved using fwnode_graph_get_endpoint_by_id() without
-> the FWNODE_GRAPH_DEVICE_DISABLED flag set. So there is no need to
-> explicitly check if the fwnode is available as it always will be when
-> the check is performed, remove it.
-
-Interestingly I don't see any users of FWNODE_GRAPH_DEVICE_DISABLED ...
-I guess it's just there in case someone does one day need it.
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  drivers/media/platform/rcar-vin/rcar-core.c | 7 -------
->  1 file changed, 7 deletions(-)
+> On 24/06/2021 09:40, Sakari Ailus wrote:
+> > Rename V4L2 async notifier functions, replacing "notifier" with "nf" and
+> > removing "_subdev" at the end of the function names adding subdevs as you
+> > can only add subdevs to a notifier. Also wrap and otherwise clean up long
+> > lines.
 > 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> index 3b7052ff7117..a24aeda37e74 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> @@ -834,13 +834,6 @@ static int rvin_mc_parse_of(struct rvin_dev *vin, unsigned int id)
->  		goto out;
->  	}
->  
-> -	if (!of_device_is_available(to_of_node(fwnode))) {
-> -		vin_dbg(vin, "OF device %pOF disabled, ignoring\n",
-> -			to_of_node(fwnode));
-> -		ret = -ENOTCONN;
-> -		goto out;
-> -	}
-> -
->  	asd = v4l2_async_nf_add_fwnode(&vin->group->notifier, fwnode,
->  				       struct v4l2_async_subdev);
->  	if (IS_ERR(asd)) {
+> Removing _subdev sounds reasonable, I have a slight distaste on the 'nf'
+> shorthand, as it's not very clear. I don't instantly associate the 'nf'
+> as a 'notifier' and started looking for an acronmym definition ...
 > 
+> 
+> But taste shouldn't necessarily block that, and it does shorten lines on
+> some ... really long function names ...
+> 
+> 
+> I see below one local variable is 'ntf' and that 't' helps bring in a
+> bit of context vs nf ... but I don't think that's particilarly worth
+> changing this series.
+> 
+> I can't spot anything else, so
+> 
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+Thanks.
+
+"Nf" always comes with "async_" before it, so I don't think it should
+really leave much room for interpretation. The more letters you add the
+less is the effect of the rename, the main reason for which was to shorten
+the names.
+
+-- 
+Sakari Ailus
