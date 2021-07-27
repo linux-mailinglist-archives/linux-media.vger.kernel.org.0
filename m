@@ -2,134 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B0993D6B61
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 03:00:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9DC63D6B6B
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 03:08:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233990AbhG0AUV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Jul 2021 20:20:21 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52056 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbhG0AUV (ORCPT
+        id S231426AbhG0A1n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Jul 2021 20:27:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35588 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229528AbhG0A1m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Jul 2021 20:20:21 -0400
+        Mon, 26 Jul 2021 20:27:42 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC46C061757;
+        Mon, 26 Jul 2021 18:08:10 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B0B7EE;
-        Tue, 27 Jul 2021 03:00:47 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5EFD8EE;
+        Tue, 27 Jul 2021 03:08:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1627347647;
-        bh=h6ed/QhzBLfd0GPoqqSOV/hXs491XnYeRSbJ5MoZhok=;
+        s=mail; t=1627348087;
+        bh=5Lly4Cu2+2FiLgIA04EEEdGsFnMktcIC4M6zAWMrIU0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XmvdmbvKT4T0Gl2GLgXHoQjqYzORw4Uo7rvmWDfK/PuFVaIquNHJXNRxSiKXAaK33
-         QQA82sQ0J6AzYYbW4UtBiEhZlOsIX9q9P93SbuLQuXKyJEqkUecvdQL2mHp4N+DMqR
-         CTDj9Za/Wy99D6HUhG0YOBAkpaLfwrrgLNzDEeVQ=
-Date:   Tue, 27 Jul 2021 04:00:42 +0300
+        b=rF7yoPygIYI/BWdroD9vJ9M2KuTa+lQxAX2umF9VFY7m+V1JRJHi/ggAbqWHumx6d
+         f6/VkT2quoeS7LsRgRB06sRYTWpM9ItybC8fYaeztBSX/gvm7ouvPySPwAqLKiB6GK
+         aN28/KJQ/KmHl4PxRy/f1oy9DRggw3Ewr6298Drc=
+Date:   Tue, 27 Jul 2021 04:08:02 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     shawnguo@kernel.org, devicetree@vger.kernel.org,
-        festevam@gmail.com, kernel@pengutronix.de, kernel@puri.sm,
-        krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-imx@nxp.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        m.felsch@pengutronix.de, mchehab@kernel.org,
-        phone-devel@vger.kernel.org, robh@kernel.org, slongerbeam@gmail.com
-Subject: Re: [PATCH v9 0/3] media: imx: add support for imx8mq MIPI RX
-Message-ID: <YP9aujiWH2Q/ghHK@pendragon.ideasonboard.com>
-References: <20210726082117.2423597-1-martin.kepplinger@puri.sm>
+To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+Cc:     devicetree@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [RFC v3] dt-binding: media: document ON Semi AR0521 sensor
+ bindings
+Message-ID: <YP9ccgd7WNpHuLgG@pendragon.ideasonboard.com>
+References: <m37dhkdrat.fsf@t19.piap.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210726082117.2423597-1-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <m37dhkdrat.fsf@t19.piap.pl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+Hi Krzysztof,
 
-On Mon, Jul 26, 2021 at 10:21:14AM +0200, Martin Kepplinger wrote:
-> hi,
-> 
-> This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
-> 
-> It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
-> I test it using libcamera. Thanks to Laurent who helped a lot. I'm happy for
-> any feedback,
+(CC'ing Sakari Ailus)
 
-No more feedback from me :-) I'll take patches 1/3 and 2/3 in my tree
-and send a pull request.
+Thank you for the patch.
 
-Shawn, could you please review 3/3 ?
+On Wed, Jul 21, 2021 at 10:06:34AM +0200, Krzysztof Hałasa wrote:
+> This file documents DT bindings for the AR0521 camera sensor driver.
+> 
+> Signed-off-by: Krzysztof Hałasa <khalasa@piap.pl>
+> ---
+> Changes from v2:
+> - changed "xclk" to "extclk"
+> - power regulator names etc.
+> - video output port properties
+> - cosmetics
+> - UTF-8 experiments :-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,ar0521.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,ar0521.yaml
+> new file mode 100644
+> index 000000000000..785bae61bb5e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/onnn,ar0521.yaml
+> @@ -0,0 +1,108 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/onnn,ar0521.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ON Semiconductor AR0521 MIPI CSI-2 sensor
+> +
+> +maintainers:
+> +  - Krzysztof Hałasa <khalasa@piap.pl>
+> +
+> +description: |-
+> +  The AR0521 is a raw CMOS image sensor with MIPI CSI-2 and
+> +  I2C-compatible control interface.
+> +
+> +properties:
+> +  compatible:
+> +    const: onnn,ar0521
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: extclk
+> +
+> +  vaa-supply:
+> +    description:
+> +      Definition of the regulator used as analog (2.7 V) voltage supply.
+> +
+> +  vdd-supply:
+> +    description:
+> +      Definition of the regulator used as digital core (1.2 V) voltage supply.
+> +
+> +  vdd_io-supply:
+> +    description:
+> +      Definition of the regulator used as digital I/O (1.8 V) voltage supply.
+> +
+> +  reset-gpios:
+> +    description: reset GPIO, usually active low
+> +    maxItems: 1
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    description: |
+> +      Video output port.
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +
+> +        properties:
+> +          data-lanes:
+> +            anyOf:
+> +              - items:
+> +                  - const: 1
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +                  - const: 3
+> +                  - const: 4
 
-> revision history
-> ----------------
-> v9: (thank you Laurent)
-> * improve getting the esc clock rate for hs_settle
+As the sensor also supports an HiSPi output, I would add the bus-type
+property:
+
+          data-lanes:
+	    const: 4
+
+Sakari, what do you think ? This way we won't have to rely on an
+implicit default when (and if) the kernel gets support for HiSPi.
+
+With or without this change, and with Rob's comments addressed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thank you for not giving up :-)
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - vaa-supply
+> +  - vdd-supply
+> +  - vdd_io-supply
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/clock/imx6qdl-clock.h>
+> +
+> +    i2c {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            ar0521: camera-sensor@36 {
+> +                    compatible = "onnn,ar0521";
+> +                    reg = <0x36>;
+> +                    pinctrl-names = "default";
+> +                    pinctrl-0 = <&pinctrl_mipi_camera>;
+> +                    clocks = <&clks IMX6QDL_CLK_CKO>;
+> +                    clock-names = "extclk";
+> +                    reset-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
+> +                    vaa-supply = <&reg_2p7v>;
+> +                    vdd-supply = <&reg_1p2v>;
+> +                    vdd_io-supply = <&reg_1p8v>;
+> +
+> +                    port {
+> +                           mipi_camera_to_mipi_csi2: endpoint {
+> +                                    remote-endpoint = <&mipi_csi2_in>;
+> +                                    data-lanes = <1 2 3 4>;
+> +                            };
+> +                    };
+> +            };
+> +    };
 > 
-> v8: (thank you Laurent)
-> * calculate hs_settle for any clk rate and mode
-> * add reviewed-by tag
-> https://lore.kernel.org/linux-media/20210723101217.1954805-1-martin.kepplinger@puri.sm/T/
-> 
-> v7: (thank you Laurent and Rob)
-> * fix the binding example (include the reset driver)
-> * use pm_runtime_resume_and_get()
-> * fix some logic in init_cfg()
-> * add some useful code comments and fix minor bits found by Laurent in v6
-> https://lore.kernel.org/linux-media/20210716102244.581182-1-martin.kepplinger@puri.sm/T/#t
-> 
-> v6: (thank you Laurent and Rob)
-> * add reviewed-by tag to binding
-> * statically allocate clk_bulk_data
-> * fix how the hs_settle value is applied
-> * remove s_power calls
-> * remove the link_setup() callback implementation and make the link immutable
-> * more cleanups according to Laurents' review from v5
-> https://lore.kernel.org/linux-media/20210714111931.324485-1-martin.kepplinger@puri.sm/
-> 
-> v5: (thank you Laurent)
-> * fix reset usage by using the already supported reset controller driver
-> * remove clko2 (totally unrelated clock / had been included by accident)
-> * rename pxl clock to ui
-> https://lore.kernel.org/linux-media/20210618095753.114557-1-martin.kepplinger@puri.sm/
-> 
-> v4: (thank you Rob and Marco)
-> * create fsl,mipi-phy-gpr custom dt property instead of confusing "phy"
-> * add imx8mq-specific compatibile to imx8mq.dtsi for future use
-> https://lore.kernel.org/linux-media/20210614121522.2944593-1-martin.kepplinger@puri.sm/
-> 
-> v3: (thank you, Rob and Laurent)
-> among minor other things according to v2 review, changes include:
-> * better describe the clocks
-> * rename DT property "phy-reset" to "reset" and "phy-gpr" to "phy"
-> https://lore.kernel.org/linux-media/20210608104128.1616028-1-martin.kepplinger@puri.sm/T/#t
-> 
-> v2: (thank you, Dan and Guido)
-> among fixes according to v1 reviews, changes include:
-> * remove status property from dt-bindings example
-> * define a few bits in order to have less magic values
-> * use "imx8mq_mipi_csi_" as local function prefix
-> * read DT properties only during probe()
-> * remove dead code (log_status)
-> * add imx8mq_mipi_csi_release_icc()
-> * fix imx8mq_mipi_csi_init_icc()
-> https://lore.kernel.org/linux-media/20210531112326.90094-1-martin.kepplinger@puri.sm/
-> 
-> v1:
-> https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
-> 
-> 
-> Martin Kepplinger (3):
->   dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
->     controller
->   media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
->   arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
-> 
->  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 174 ++++
->  arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 104 ++
->  drivers/staging/media/imx/Makefile            |   1 +
->  drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 976 ++++++++++++++++++
->  4 files changed, 1255 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
->  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
 
 -- 
 Regards,
