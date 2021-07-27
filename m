@@ -2,172 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFD873D77B7
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 16:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66A4B3D784A
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 16:15:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236537AbhG0OAl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jul 2021 10:00:41 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:7069 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230500AbhG0OAi (ORCPT
+        id S232437AbhG0OPY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jul 2021 10:15:24 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:42918 "EHLO
+        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232136AbhG0OPX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jul 2021 10:00:38 -0400
-Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GYyw04w68zYdMH;
-        Tue, 27 Jul 2021 21:54:40 +0800 (CST)
-Received: from [10.67.103.235] (10.67.103.235) by
- dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Tue, 27 Jul 2021 22:00:35 +0800
-Subject: Re: [PATCH V6 7/8] PCI: Add "pci=disable_10bit_tag=" parameter for
- peer-to-peer support
-To:     Logan Gunthorpe <logang@deltatee.com>,
-        Leon Romanovsky <leon@kernel.org>
-References: <1627038402-114183-1-git-send-email-liudongdong3@huawei.com>
- <1627038402-114183-8-git-send-email-liudongdong3@huawei.com>
- <YPqo6M0AKWLupvNU@unreal> <a8a8ffee-67e8-c899-3d04-1e28fb72560a@deltatee.com>
- <YP0HOf7kE1aOkqjV@unreal> <bc9b7b00-40eb-7d4e-f3b3-1d4174f10be5@deltatee.com>
-CC:     <helgaas@kernel.org>, <hch@infradead.org>, <kw@linux.com>,
-        <linux-pci@vger.kernel.org>, <rajur@chelsio.com>,
-        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
-        <netdev@vger.kernel.org>
-From:   Dongdong Liu <liudongdong3@huawei.com>
-Message-ID: <12c7f276-6869-a432-a138-4fce88da87e3@huawei.com>
-Date:   Tue, 27 Jul 2021 22:00:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        Tue, 27 Jul 2021 10:15:23 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16RECIPI023444;
+        Tue, 27 Jul 2021 14:15:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=Ie/nr4+GoWy9PI3ltbgQ5GfgaF5KEhNOphtZNWP6ViI=;
+ b=S19AnXpmYMB2swXRaMeNWvCoK7hf3uaTKrvhtfyDZPdDR2vELhW34tTVK/vp9GGbrN2Q
+ PRfMrGy75IwuocgKIueRhIffrOT6nMVlMBY9Beg7huMKtqJVqkX14idxw0+9Gbm8S5eo
+ Akp/1JvRBVwu7O+tnFjRar1kEIG322Ko/Su/NVS2wt4feVMN+TZDBFSB7IaECgh14vl+
+ gduoJBdWljpAXySws4niP9fCJnM7ubzf3aVSBTYBTee5x2Wm9LPVsSksgN0IZdb9zdDF
+ 5soYscw8axfGwKdRBKjQavx66dfuG2034o8RiaAw1LZVkXdT2VLg4Ytfa0bOntSWCZzm sw== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=Ie/nr4+GoWy9PI3ltbgQ5GfgaF5KEhNOphtZNWP6ViI=;
+ b=o0/ftFJ4VyN0fNi3bEwYeToysmjwCLuK1aQ+sOdklTnbGvg9yow8U9bnieS7DGRLp9wA
+ Mjyql8KTOL72GBTiWY/AegliA79sa8jYQdzQq/qaaDibs1mTs79vbGRiJKghxLmPFGok
+ ufGyhoWq6soSAaRVek9Gv9yL+ez8wK3ZnP8AjELCtcsYUF9iFzkFg7Fgo5AiPfJ43PTT
+ 8IDZPGdGaK1H+E0aBaxzUd5VVx8JzqOYCIvFsdo62mSI/TmjhEPDKjouALRJpraEb7yk
+ 7dlx/yyRA854nIVoAedhvBJGvsHW+b/w2KRnWC5PSWbz8KeOAZTKiYEdJottmaSlFIEl 3w== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3a23589wv5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 27 Jul 2021 14:15:16 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16REBg7d112260;
+        Tue, 27 Jul 2021 14:15:14 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2042.outbound.protection.outlook.com [104.47.57.42])
+        by aserp3030.oracle.com with ESMTP id 3a234ag7s0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 27 Jul 2021 14:15:14 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YW/INpsVFz8ECpRZpm7jZikH8ylRKAaEeosb9/hr2adb3LSK/tvjl4/GdKVsm4xRQDcLC+XWLEiwA87yOwDCmIsATo4U6RqAvW3YdxovHBw/IOnrHZBWqnNqWSq8Ge82POmzK+D505DIoWos7sAI37mv0/Mqf8IGrKQMwwMucvRjsp2ly8M53BmGw4fqDYcq8BicLXJfo2brwO7iyuDKk86NnrcKbUofwySMaxQQ8gpQ12jdVnnhgiiBIMeWE+5lzJj0hcaX5ALxRW2aVu+Pw5cJnkn5Sovjl04CoX1R2atxObCH696Apd6T22xmM16wbKMSLpJWcjUyvNYp0Uwx3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ie/nr4+GoWy9PI3ltbgQ5GfgaF5KEhNOphtZNWP6ViI=;
+ b=UZHtFKW+fkboaFUPbqSWC5RR+jlOabuNdsuRH0H7e2MrcUn9styGMLsrpHAsvyi9wM/4dup35MdHnK2wmF6VxwOjanMdkS7cqHszCyGlfqGYac1FfrmIg6VsZKvpsTs+bNSLpG9GYVmXfqQT8KZNCWdsZBUixh9Xh+CPdDXwDXQ9qXym2YsNA42YFTd4adXsyLfEgy3kPaKdAX+zIok6PxZ6moHJkh4zkZl0PKzVpw/EESDBgq+2LmEc0Fp50BwAbkYnfDtKCbiSMIV0yVI9K8twGA2uaoklo/YpuykgwhzQCbimUQKhm6bPtEb/sOBlKwFHpjtYpDk2Znr8wwF9IA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ie/nr4+GoWy9PI3ltbgQ5GfgaF5KEhNOphtZNWP6ViI=;
+ b=ANHcetCaZJJmvWIEaobLehCdbskuYpgvJe5VkavRPorvm61J30cv4lIj3O+nLF73IImpwpmaXHaVJGoNkRG2lziGBEU6ypilhEkW4kQIoHHEXADxPYH+WPuwdD0SOdIqenUuUm6mXvbiYZ7rdRpnc70M4QxbRLrG37tqIsf1h3g=
+Authentication-Results: sina.com; dkim=none (message not signed)
+ header.d=none;sina.com; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1821.namprd10.prod.outlook.com
+ (2603:10b6:300:107::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18; Tue, 27 Jul
+ 2021 14:15:13 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4352.031; Tue, 27 Jul 2021
+ 14:15:12 +0000
+Date:   Tue, 27 Jul 2021 17:14:55 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Hillf Danton <hdanton@sina.com>
+Cc:     syzbot <syzbot+005037419ebdf14e1d87@syzkaller.appspotmail.com>,
+        igormtorrente@gmail.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] KASAN: use-after-free Read in em28xx_close_extension
+Message-ID: <20210727141455.GM1931@kadam>
+References: <000000000000d068cf05c716264c@google.com>
+ <20210727100151.2051-1-hdanton@sina.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210727100151.2051-1-hdanton@sina.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0029.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::17)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-In-Reply-To: <bc9b7b00-40eb-7d4e-f3b3-1d4174f10be5@deltatee.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.235]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggeme758-chm.china.huawei.com (10.3.19.104)
-X-CFilter-Loop: Reflected
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kadam (102.222.70.252) by JNXP275CA0029.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.25 via Frontend Transport; Tue, 27 Jul 2021 14:15:07 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1bfaae0a-9e07-4082-6a9e-08d95108f2de
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1821:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR10MB18217017EB6E2AD983B62BB18EE99@MWHPR10MB1821.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1091;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1y/bRyq2qZpR+sVuDTgKmfZNW74ws1dSDz9/HDGtddX1QJEAZof6NdAYAjL08gOqgpcO8KudHZLe/3h2Tt+Q7qm5dKAbLg8iobzMaFK1tObmhkeWLbelGzBVS3Fyz7/LKrESzkX83DGYXSEQGfXdjeDtswG4xCOI6H2ERZ2KlDPPDbypgBcb761fZ/e/ZJ1AT33NuvqeFCvl5zsOg9G5FBNe5oUKcKJzvCtwbh2dGgRt4suMfV4jt8nZYeNFd9fbszBgbBysHTLAA+TAhjg/t8imr3ANBtm6eRulGkzuyr2yhU6kZKHVFE8NRW/ROERP40/0BQAJqVwHKmFu0f2KoG2nUtRT2wqy1MS+FY3yWW5Ofcr4hqrvdX+guLgS9QBhp+kjBExjF3loh34WOPTkgG3whwGDIFxa+ZDu03BVL8Pmkh1t+VZFdJFyiw9cpcC6iMrCXqZbavVS0W4Ulqgtyz91ql5/71fUWz5+IeYHzCiCuRrsogd8uZjwuvzNk3C32H6/BvLq8KiZxzX6ACXfsSRqXke4seZYX97aXGiExe5tPk+/9UrnB1E62kZOuQavEliiVdoR6pSmV6dJx0/sU77SGSmrU+q/IK2P0BtWMOPDiWPMl1sqgJQIJz7tEpLqjFNaQLWkfzMwu8EFFuOrIqhC8Cpjy8/zvme3opLHILNgPLrfOZPy5WKF0be0m8DTgJV8XBRAvrFWNgJ5j/2Sjg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(396003)(346002)(39860400002)(376002)(136003)(2906002)(86362001)(9686003)(1076003)(55016002)(4326008)(8936002)(8676002)(478600001)(5660300002)(52116002)(6496006)(26005)(956004)(6666004)(33716001)(66946007)(38100700002)(33656002)(38350700002)(316002)(6916009)(83380400001)(186003)(66556008)(66476007)(44832011)(9576002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?w5aktA1pQfY64NGboZ+GJD1uWbokBPr1S78oxBPase5Oof2BZvbyubaHA1xg?=
+ =?us-ascii?Q?Q1+iABYqbWPLMpa1vxbugv/+9SKYNu/nQmPQsnyZa7hcGeNoQ5XCNRR+kGJG?=
+ =?us-ascii?Q?uk7sTEqoUYKbx7HItsEEHdlUOEy+O9SOyCt56BLLc0IK5p0d3iK9f78qZVtW?=
+ =?us-ascii?Q?L6C6Aht1XRFoQwwDLh75HjjWFRo1W4gp0GAYYE828+4I1CFpYEh5O2FQ3Tl2?=
+ =?us-ascii?Q?nxhGONKnAI66LiNU0LZFK1B5H844IKxzvXRCuJPagAUCbEhYMWTcgA97X4vj?=
+ =?us-ascii?Q?kgpMMpyaqqUiwd8m+TaxXey99vZljUrBNwbSr0FqflJDMSnTfdNrTJhWvQvA?=
+ =?us-ascii?Q?rqT10tzefsAyZMhFLjbgglsGe1Yvb352yvDyHBWgiMIqsbxYewEFWo0mxPS8?=
+ =?us-ascii?Q?1eKS7zboaiG5ruie1aQbWwak+RIynFwPS2LOe48ejUgMYK7MSQE/xt/pQ+3/?=
+ =?us-ascii?Q?4Yj/1WypY+Qcc2DawyscLGpY3KNR1aTP3f5sMtTTvI3+yd5PaKpBjRqXGTd3?=
+ =?us-ascii?Q?6TR8KbuhVqs2mbjq2FBR2LnKHXVNotj3ugqcv0EDO6VyHHfS+r+LPiYi+gvE?=
+ =?us-ascii?Q?/Mdamq9WI0PlofA6+WriPls1rp9suCWiaFyOWSKPABIwQ4V96ECowoEGtfcA?=
+ =?us-ascii?Q?u4YorDgIDw8VKlH95NuaNYC83NZ2xF2blurt8UuhEXhHgOukQKBkeVKA/kFL?=
+ =?us-ascii?Q?+/f8TcU/Pq2J49OanW5rw0d654l54LzsU9uZF+c5x3WdtawZRCJilT1ruMRd?=
+ =?us-ascii?Q?pc3ihE3qhpQsz7shed6cnOKQh5ZCC7T3C07L35WZjervN1IzZfdUAOmDzEgw?=
+ =?us-ascii?Q?C7zNzgamrtMX4Glzw9VskMpFv1AtHENKtqdtv6VL3VxwCOiovMegXPx4yTvh?=
+ =?us-ascii?Q?PeLvnYmXMJUNEZ3i45DDsUA9wFw+brfyitLqbReWdb0QmOGhCJOEPjMQ6ZRg?=
+ =?us-ascii?Q?4or3DIqKyD51dJc37GVlL2CAhJavB/UVzV+VOy8AkoT1Y9zELDB+EhP57QX9?=
+ =?us-ascii?Q?Hejj8uaaALNpKqEl44FC+RUj/l0sTOWmW+hqwUNONtU74rn+nmyFACm4nT8x?=
+ =?us-ascii?Q?AOjPOonb8j+RJe5VFKVLTx41eSFyrbJ/MfeRYn19VDgPeYIQMiym+BknWrGX?=
+ =?us-ascii?Q?cQwFoR5yz/fH3Js3FYRLmX47RTEQVsgwqNUDIB+10aoxV+cQSa5GBRw7r6Ny?=
+ =?us-ascii?Q?rIoOaJEohctJ3q0Z3L5NTE6WPT7EcSb9UEAun+ShUyZGOKz1jYpcXrw5VcXD?=
+ =?us-ascii?Q?8sdbxlEYSHsEQtEN60cSdqkv1PvKOj5T6O9Qal+AlGVKvwdQK05998JrnYWh?=
+ =?us-ascii?Q?axSKklpuv4KrSKLxPyPEjcz3?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bfaae0a-9e07-4082-6a9e-08d95108f2de
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2021 14:15:12.8185
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: An0j5FrSUfSKVs5EYLEOaMZXCovejS2igP+zg4BTNKSXKDrepV4voaKmx57CIS4RkAL4/yrFbUFCOeKOmHHljyE50yUooevbEnjxwC2w0l8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1821
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10057 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0
+ suspectscore=0 mlxlogscore=999 bulkscore=0 spamscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2107270085
+X-Proofpoint-GUID: dM8XJhSpNi3iX5cDF6Dd0P8G_eC3kIaz
+X-Proofpoint-ORIG-GUID: dM8XJhSpNi3iX5cDF6Dd0P8G_eC3kIaz
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue, Jul 27, 2021 at 06:01:51PM +0800, Hillf Danton wrote:
+> Along the probe path,
+> 
+> em28xx_usb_probe
+>   dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+>   retval = em28xx_init_dev(dev, udev, intf, nr);
+>     em28xx_init_extension(dev);
+>       em28xx_ir_init(struct em28xx *dev)
+>         kref_get(&dev->ref);
+> 
+>   kref_init(&dev->ref);
 
+Good detective work.
 
-On 2021/7/26 23:48, Logan Gunthorpe wrote:
->
->
-> On 2021-07-25 12:39 a.m., Leon Romanovsky wrote:
->> On Fri, Jul 23, 2021 at 10:20:50AM -0600, Logan Gunthorpe wrote:
->>>
->>>
->>>
->>> On 2021-07-23 5:32 a.m., Leon Romanovsky wrote:
->>>> On Fri, Jul 23, 2021 at 07:06:41PM +0800, Dongdong Liu wrote:
->>>>> PCIe spec 5.0 r1.0 section 2.2.6.2 says that if an Endpoint supports
->>>>> sending Requests to other Endpoints (as opposed to host memory), the
->>>>> Endpoint must not send 10-Bit Tag Requests to another given Endpoint
->>>>> unless an implementation-specific mechanism determines that the Endpoint
->>>>> supports 10-Bit Tag Completer capability. Add "pci=disable_10bit_tag="
->>>>> parameter to disable 10-Bit Tag Requester if the peer device does not
->>>>> support the 10-Bit Tag Completer. This will make P2P traffic safe.
->>>>>
->>>>> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
->>>>> ---
->>>>>  Documentation/admin-guide/kernel-parameters.txt |  7 ++++
->>>>>  drivers/pci/pci.c                               | 56 +++++++++++++++++++++++++
->>>>>  drivers/pci/pci.h                               |  1 +
->>>>>  drivers/pci/pcie/portdrv_pci.c                  | 13 +++---
->>>>>  drivers/pci/probe.c                             |  9 ++--
->>>>>  5 files changed, 78 insertions(+), 8 deletions(-)
->>>>>
->>>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->>>>> index bdb2200..c2c4585 100644
->>>>> --- a/Documentation/admin-guide/kernel-parameters.txt
->>>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
->>>>> @@ -4019,6 +4019,13 @@
->>>>>  				bridges without forcing it upstream. Note:
->>>>>  				this removes isolation between devices and
->>>>>  				may put more devices in an IOMMU group.
->>>>> +		disable_10bit_tag=<pci_dev>[; ...]
->>>>> +				  Specify one or more PCI devices (in the format
->>>>> +				  specified above) separated by semicolons.
->>>>> +				  Disable 10-Bit Tag Requester if the peer
->>>>> +				  device does not support the 10-Bit Tag
->>>>> +				  Completer.This will make P2P traffic safe.
->>>>
->>>> I can't imagine more awkward user experience than such kernel parameter.
->>>>
->>>> As a user, I will need to boot the system, hope for the best that system
->>>> works, write down all PCI device numbers, guess which one doesn't work
->>>> properly, update grub with new command line argument and reboot the
->>>> system. Any HW change and this dance should be repeated.
->>>
->>> There are already two such PCI parameters with this pattern and they are
->>> not that awkward. pci_dev may be specified with either vendor/device IDS
->>> or with a path of BDFs (which protects against renumbering).
->>
->> Unfortunately, in the real world, BDF is not so stable. It changes with
->> addition of new hardware, BIOS upgrades and even broken servers.
->
-> That's why it supports using a *path* of BDFs which tends not to catch
-> the wrong device if the topology changes.
->
->> Vendor/device IDs doesn't work if you have multiple devices of same
->> vendor in the system.
->
-> Yes, but it's fine for some use cases. That's why there's a range of
-> options.
->
->>>
->>> This flag is only useful in P2PDMA traffic, and if the user attempts
->>> such a transfer, it prints a warning (see the next patch) with the exact
->>> parameter that needs to be added to the command line.
->>
->> Dongdong citied PCI spec and it was very clear - don't enable this
->> feature unless you clearly know that it is safe to enable. This is
->> completely opposite to the proposal here - always enable and disable
->> if something is printed to the dmesg.
->
-> Quoting from patch 4:
->
-> "For platforms where the RC supports 10-Bit Tag Completer capability,
-> it is highly recommended for platform firmware or operating software
-> that configures PCIe hierarchies to Set the 10-Bit Tag Requester Enable
-> bit automatically in Endpoints with 10-Bit Tag Requester capability.
-> This enables the important class of 10-Bit Tag capable adapters that
-> send Memory Read Requests only to host memory."
->
-> Notice the last sentence. It's saying that devices who only talk to host
-> memory should have 10-bit tags enabled. In the kernel we call devices
-> that talk to things besides host memory "P2PDMA". So the spec is saying
-> not to enable 10bit tags for devices participating in P2PDMA. The kernel
-> needs a way to allow users to do that. The kernel parameter only stops
-> the feature from being enabled for a specific device, and the only
-> use-case is P2PDMA which is not that common and requires the user to be
-> aware of their topology. So I really don't think this is that big a problem.
->
->>>
->>> This has worked well for disable_acs_redir and was used for
->>> resource_alignment before that for quite some time. So save a better
->>> suggestion I think this is more than acceptable.
->>
->> I don't know about other parameters and their history, but we are not in
->> 90s anymore and addition of modules parameters (for the PCI it is kernel
->> cmdline arguments) are better to be changed to some configuration tool/sysfs.
->
-> The problem was that the ACS bits had to be set before the kernel
-> enumerated the devices. The IOMMU code simply was not able to support
-> dynamic adjustments to its groups. I assume changing 10bit tags
-> dynamically is similarly tricky -- but if it's not then, yes a sysfs
-> interface in addition to the kernel parameter would be a good idea.
-PCIe spec 5.0 section 7.5.3.16 Device Control 2 Register
-10-Bit Tag Requester Enable says that
-If software changes the value of this bit while the Function
-has outstanding Non-Posted Requests, the result is undefined.
+I've created a Smatch check to try find these.  It uses the fact that
+Smatch creates a bunch of fake assignments to set all the struct members
+of "dev" to zero.  Then it uses the modification hook to find the
+kref_init().  Those are sort of new uses for those hooks so that's quite
+fun.
 
-So 10-Bit Tag Requester Enable should be set before probe the device 
-driver.
+I'll test it out overnight and see how it works.
 
-Thanks,
-Dongdong
->
-> Logan
-> .
->
+drivers/media/usb/em28xx/em28xx-cards.c:4086 em28xx_usb_probe() warn: kref has already been modifed (see line 3979)
+
+regards,
+dan carpenter
+
+#include "smatch.h"
+#include "smatch_slist.h"
+#include "smatch_extra.h"
+
+static int my_id;
+
+STATE(fresh);
+
+static int get_line(struct sm_state *sm)
+{
+	struct sm_state *tmp;
+	int line = 0;
+
+	FOR_EACH_PTR(sm->possible, tmp) {
+		if (tmp->state == &undefined &&
+		    tmp->line > line)
+			line = tmp->line;
+	} END_FOR_EACH_PTR(tmp);
+
+	if (!line)
+		return sm->line;
+	return line;
+}
+
+static void match_modify(struct sm_state *sm, struct expression *mod_expr)
+{
+	if (sm->state != &fresh &&
+	    mod_expr &&
+	    mod_expr->type == EXPR_CALL &&
+	    sym_name_is("kref_init", mod_expr->fn))
+		sm_warning("kref has already been modifed (see line %d)", get_line(sm));
+
+	set_state(my_id, sm->name, sm->sym, &undefined);
+}
+
+static bool is_alloc(struct expression *expr)
+{
+	static struct expression *ignore, *alloc_expr;
+	struct expression *right;
+
+	if (!expr || expr->type != EXPR_ASSIGNMENT || expr->op != '=')
+		return false;
+	if (expr == ignore)
+		return false;
+	if (expr == alloc_expr)
+		return true;
+	right = strip_expr(expr->right);
+	if (right->type == EXPR_CALL &&
+	    (sym_name_is("kzalloc", right->fn) ||
+	     sym_name_is("kmalloc", right->fn))) {
+		alloc_expr = expr;
+		return true;
+	}
+	ignore = expr;
+	return false;
+}
+
+static void match_assign(struct expression *expr)
+{
+	char *name;
+
+	if (!is_alloc(get_faked_expression()))
+		return;
+	name = expr_to_str(expr->left);
+	if (name && strstr(name, "refcount.refs.counter"))
+		set_state_expr(my_id, expr->left, &fresh);
+	free_string(name);
+}
+
+void check_kref_init_too_late(int id)
+{
+	my_id = id;
+
+	add_hook(&match_assign, ASSIGNMENT_HOOK_AFTER);
+	add_modification_hook(my_id, &match_modify);
+}
