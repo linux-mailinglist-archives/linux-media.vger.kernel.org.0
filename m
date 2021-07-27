@@ -2,157 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 289513D79DE
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 17:35:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AA8B3D7A05
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 17:41:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236661AbhG0PfA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jul 2021 11:35:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34902 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237051AbhG0PdK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jul 2021 11:33:10 -0400
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26AA8C061765
-        for <linux-media@vger.kernel.org>; Tue, 27 Jul 2021 08:33:04 -0700 (PDT)
-Received: by mail-il1-x133.google.com with SMTP id z3so12396574ile.12
-        for <linux-media@vger.kernel.org>; Tue, 27 Jul 2021 08:33:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=2XSUgUmh1XmhyeIYFwsZM0972t6Q/ERgdKcfAvWCsXo=;
-        b=WoBVP+ShhYBW3XIRtEoFeKDAxYRg7LAooItgUc/qCO5rbpT8S1SGveANY6QZow8HVV
-         1+hIz1ESdPIESI7nrWboMNbTJ5mQMsx82jvKEW9JV8YQll6kJkdxKFKzVgHskt4HiTj0
-         Ge3yAY65ZpFqupTShyti2NRxkrPatOLXsbYy4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=2XSUgUmh1XmhyeIYFwsZM0972t6Q/ERgdKcfAvWCsXo=;
-        b=CZZxCdpOe6C6ZYUQDAW1Wq+QLCTEEXCWr3z/1ya9Zayt9qo6XRcXZ42BRIgmCI2CD/
-         sftP5U/uw/JdC6S63hYQiU+ScxeLuBR2yTzphG1+2fPK7RcQDxqCLLVVT59VTaeyDzA9
-         jeqxeku4Psigr0zx2DA1HaKfXVp6u+FFKenZJpxaKHlqVY1dbNAvDCkJWD5Bo2VvZ7yE
-         sSJQiNVLulwalYoSlOAQ0lh5J5sGG8w6I+fV3pagkUR2D8rdcey5rFC39vYb2y3wTTuN
-         fGLnsqAnxgPd44T5RKXfhCy8vymkyapGa0eQihh731eaTNj0zeR+DWLtx/rpDuzM3Ig3
-         dH+A==
-X-Gm-Message-State: AOAM532mu5k7PB8xQkvBySUFYrE9OgxP6Z9WLLo2oWdvijmcI5ypsG15
-        ePKvHCdyfQv2FHC36hdmcRdTgNIZv8c38OM5XECS6A==
-X-Google-Smtp-Source: ABdhPJyp0rjZXaaLN68ns6YbN2+CaZ3yGgUttI6artx6AYKOdKEPRd2tdFT3EnbvCIWSuwrhGLn45TPUXvRSHT8R1Gk=
-X-Received: by 2002:a92:6f0a:: with SMTP id k10mr16658190ilc.105.1627399983576;
- Tue, 27 Jul 2021 08:33:03 -0700 (PDT)
+        id S232641AbhG0Pla (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jul 2021 11:41:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50940 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229506AbhG0Pl3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Jul 2021 11:41:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A40661B53;
+        Tue, 27 Jul 2021 15:41:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627400488;
+        bh=9JFngbViX27YFCZbm+3u4TkuQ+lxMmT7wrLTRSbVfHQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KA8wvbfUDkMNypag39fC4om9HEtRcuWrRr94Xm3bgb0pqOf8QpdVMwG0KoLKYlp2o
+         9OmqmxOcB/Sgqe9k6RIXILy/e4rA0X2ztI4NV9Rib+0nTxG1vftMi8+Pu8SeKVxDkf
+         C37JigWIjWBtrJ/1tROUygs6SxgG3RVqeBfYPpVxTF9np8Azt8XWrPJb5tqu5/3+lh
+         PVzdPAvAbK/1RgAK3ocOLH+JZ420Ox/970F0WnQ6jvTvNlCp99SvvmjHC6nuQZB7fg
+         lthn1QKJyXXcInhxiXo5AyIqUWx0T+CSMvYcYIh6NoZvI+sK+NoZkdWHz75T6MxUEy
+         PenXsAE72LsiQ==
+Date:   Tue, 27 Jul 2021 18:41:24 +0300
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Dongdong Liu <liudongdong3@huawei.com>
+Cc:     Logan Gunthorpe <logang@deltatee.com>, helgaas@kernel.org,
+        hch@infradead.org, kw@linux.com, linux-pci@vger.kernel.org,
+        rajur@chelsio.com, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH V6 7/8] PCI: Add "pci=disable_10bit_tag=" parameter for
+ peer-to-peer support
+Message-ID: <YQApJBcXV+ZoU9Nd@unreal>
+References: <1627038402-114183-1-git-send-email-liudongdong3@huawei.com>
+ <1627038402-114183-8-git-send-email-liudongdong3@huawei.com>
+ <YPqo6M0AKWLupvNU@unreal>
+ <a8a8ffee-67e8-c899-3d04-1e28fb72560a@deltatee.com>
+ <YP0HOf7kE1aOkqjV@unreal>
+ <bc9b7b00-40eb-7d4e-f3b3-1d4174f10be5@deltatee.com>
+ <YP/oXP7ZZ1D5kd+A@unreal>
+ <a0dd96a4-3d39-54d4-1995-7f57dc68fa60@huawei.com>
 MIME-Version: 1.0
-References: <20210726233854.2453899-1-robdclark@gmail.com> <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
- <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com> <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
-In-Reply-To: <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
-From:   Rob Clark <robdclark@chromium.org>
-Date:   Tue, 27 Jul 2021 08:37:13 -0700
-Message-ID: <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
-Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
-To:     =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
-Cc:     Rob Clark <robdclark@gmail.com>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Jack Zhang <Jack.Zhang1@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a0dd96a4-3d39-54d4-1995-7f57dc68fa60@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 27, 2021 at 8:19 AM Michel D=C3=A4nzer <michel@daenzer.net> wro=
-te:
->
-> On 2021-07-27 5:12 p.m., Rob Clark wrote:
-> > On Tue, Jul 27, 2021 at 7:50 AM Michel D=C3=A4nzer <michel@daenzer.net>=
- wrote:
-> >>
-> >> On 2021-07-27 1:38 a.m., Rob Clark wrote:
-> >>> From: Rob Clark <robdclark@chromium.org>
-> >>>
-> >>> Based on discussion from a previous series[1] to add a "boost" mechan=
-ism
-> >>> when, for example, vblank deadlines are missed.  Instead of a boost
-> >>> callback, this approach adds a way to set a deadline on the fence, by
-> >>> which the waiter would like to see the fence signalled.
-> >>>
-> >>> I've not yet had a chance to re-work the drm/msm part of this, but
-> >>> wanted to send this out as an RFC in case I don't have a chance to
-> >>> finish the drm/msm part this week.
-> >>>
-> >>> Original description:
-> >>>
-> >>> In some cases, like double-buffered rendering, missing vblanks can
-> >>> trick the GPU into running at a lower frequence, when really we
-> >>> want to be running at a higher frequency to not miss the vblanks
-> >>> in the first place.
-> >>>
-> >>> This is partially inspired by a trick i915 does, but implemented
-> >>> via dma-fence for a couple of reasons:
-> >>>
-> >>> 1) To continue to be able to use the atomic helpers
-> >>> 2) To support cases where display and gpu are different drivers
-> >>>
-> >>> [1] https://patchwork.freedesktop.org/series/90331/
-> >>
-> >> Unfortunately, none of these approaches will have the full intended ef=
-fect once Wayland compositors start waiting for client buffers to become id=
-le before using them for an output frame (to prevent output frames from get=
-ting delayed by client work). See https://gitlab.gnome.org/GNOME/mutter/-/m=
-erge_requests/1880 (shameless plug :) for a proof of concept of this for mu=
-tter. The boost will only affect the compositor's own GPU work, not the cli=
-ent work (which means no effect at all for fullscreen apps where the compos=
-itor can scan out the client buffers directly).
-> >>
-> >
-> > I guess you mean "no effect at all *except* for fullscreen..."?
->
-> I meant what I wrote: The compositor will wait for the next buffer to bec=
-ome idle, so there's no boost from this mechanism for the client drawing to=
- that buffer. And since the compositor does no drawing of its own in this c=
-ase, there's no boost from that either.
->
->
-> > I'd perhaps recommend that wayland compositors, in cases where only a
-> > single layer is changing, not try to be clever and just push the
-> > update down to the kernel.
->
-> Even just for the fullscreen direct scanout case, that would require some=
- kind of atomic KMS API extension to allow queuing multiple page flips for =
-the same CRTC.
->
-> For other cases, this would also require a mechanism to cancel a pending =
-atomic commit, for when another surface update comes in before the composit=
-or's deadline, which affects the previously single updating surface as well=
-.
->
+On Tue, Jul 27, 2021 at 10:30:40PM +0800, Dongdong Liu wrote:
+> 
+> 
+> On 2021/7/27 19:05, Leon Romanovsky wrote:
+> > On Mon, Jul 26, 2021 at 09:48:57AM -0600, Logan Gunthorpe wrote:
+> > > 
+> > > 
+> > > On 2021-07-25 12:39 a.m., Leon Romanovsky wrote:
+> > > > On Fri, Jul 23, 2021 at 10:20:50AM -0600, Logan Gunthorpe wrote:
+> > > > > 
+> > > > > 
+> > > > > 
+> > > > > On 2021-07-23 5:32 a.m., Leon Romanovsky wrote:
+> > > > > > On Fri, Jul 23, 2021 at 07:06:41PM +0800, Dongdong Liu wrote:
+> > > > > > > PCIe spec 5.0 r1.0 section 2.2.6.2 says that if an Endpoint supports
+> > > > > > > sending Requests to other Endpoints (as opposed to host memory), the
+> > > > > > > Endpoint must not send 10-Bit Tag Requests to another given Endpoint
+> > > > > > > unless an implementation-specific mechanism determines that the Endpoint
+> > > > > > > supports 10-Bit Tag Completer capability. Add "pci=disable_10bit_tag="
+> > > > > > > parameter to disable 10-Bit Tag Requester if the peer device does not
+> > > > > > > support the 10-Bit Tag Completer. This will make P2P traffic safe.
+> > > > > > > 
+> > > > > > > Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
+> > > > > > > ---
+> > > > > > >  Documentation/admin-guide/kernel-parameters.txt |  7 ++++
+> > > > > > >  drivers/pci/pci.c                               | 56 +++++++++++++++++++++++++
+> > > > > > >  drivers/pci/pci.h                               |  1 +
+> > > > > > >  drivers/pci/pcie/portdrv_pci.c                  | 13 +++---
+> > > > > > >  drivers/pci/probe.c                             |  9 ++--
+> > > > > > >  5 files changed, 78 insertions(+), 8 deletions(-)
+> > > > > > > 
+> > > > > > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > > > > > > index bdb2200..c2c4585 100644
+> > > > > > > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > > > > > > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > > > > > > @@ -4019,6 +4019,13 @@
+> > > > > > >  				bridges without forcing it upstream. Note:
+> > > > > > >  				this removes isolation between devices and
+> > > > > > >  				may put more devices in an IOMMU group.
+> > > > > > > +		disable_10bit_tag=<pci_dev>[; ...]
+> > > > > > > +				  Specify one or more PCI devices (in the format
+> > > > > > > +				  specified above) separated by semicolons.
+> > > > > > > +				  Disable 10-Bit Tag Requester if the peer
+> > > > > > > +				  device does not support the 10-Bit Tag
+> > > > > > > +				  Completer.This will make P2P traffic safe.
+> > > > > > 
+> > > > > > I can't imagine more awkward user experience than such kernel parameter.
+> > > > > > 
+> > > > > > As a user, I will need to boot the system, hope for the best that system
+> > > > > > works, write down all PCI device numbers, guess which one doesn't work
+> > > > > > properly, update grub with new command line argument and reboot the
+> > > > > > system. Any HW change and this dance should be repeated.
+> > > > > 
+> > > > > There are already two such PCI parameters with this pattern and they are
+> > > > > not that awkward. pci_dev may be specified with either vendor/device IDS
+> > > > > or with a path of BDFs (which protects against renumbering).
+> > > > 
+> > > > Unfortunately, in the real world, BDF is not so stable. It changes with
+> > > > addition of new hardware, BIOS upgrades and even broken servers.
+> > > 
+> > > That's why it supports using a *path* of BDFs which tends not to catch
+> > > the wrong device if the topology changes.
+> > > 
+> > > > Vendor/device IDs doesn't work if you have multiple devices of same
+> > > > vendor in the system.
+> > > 
+> > > Yes, but it's fine for some use cases. That's why there's a range of
+> > > options.
+> > 
+> > The thing is that you are adding PCI parameter that is applicable to everyone.
+> > 
+> > We probably see different usage models for this feature. In my world, users
+> > have thousands of servers that runs 24x7, with VMs on top, some of them perform
+> > FW upgrades without stopping anything. The idea that you can reboot such server
+> > any time, simply doesn't exist.
+> > 
+> > So if I need to enable/disable this feature for one of the VFs, I will be stuck.
+> > 
+> > > 
+> > > > > 
+> > > > > This flag is only useful in P2PDMA traffic, and if the user attempts
+> > > > > such a transfer, it prints a warning (see the next patch) with the exact
+> > > > > parameter that needs to be added to the command line.
+> > > > 
+> > > > Dongdong citied PCI spec and it was very clear - don't enable this
+> > > > feature unless you clearly know that it is safe to enable. This is
+> > > > completely opposite to the proposal here - always enable and disable
+> > > > if something is printed to the dmesg.
+> > > 
+> > > Quoting from patch 4:
+> > > 
+> > > "For platforms where the RC supports 10-Bit Tag Completer capability,
+> > > it is highly recommended for platform firmware or operating software
+> > > that configures PCIe hierarchies to Set the 10-Bit Tag Requester Enable
+> > > bit automatically in Endpoints with 10-Bit Tag Requester capability.
+> > > This enables the important class of 10-Bit Tag capable adapters that
+> > > send Memory Read Requests only to host memory."
+> > > 
+> > > Notice the last sentence. It's saying that devices who only talk to host
+> > > memory should have 10-bit tags enabled. In the kernel we call devices
+> > > that talk to things besides host memory "P2PDMA". So the spec is saying
+> > > not to enable 10bit tags for devices participating in P2PDMA. The kernel
+> > > needs a way to allow users to do that. The kernel parameter only stops
+> > > the feature from being enabled for a specific device, and the only
+> > > use-case is P2PDMA which is not that common and requires the user to be
+> > > aware of their topology. So I really don't think this is that big a problem.
+> > 
+> > I'm not question the feature and the need of configuration. My concern
+> > is just *how* this feature is configured.
+> > 
+> > > 
+> > > > > 
+> > > > > This has worked well for disable_acs_redir and was used for
+> > > > > resource_alignment before that for quite some time. So save a better
+> > > > > suggestion I think this is more than acceptable.
+> > > > 
+> > > > I don't know about other parameters and their history, but we are not in
+> > > > 90s anymore and addition of modules parameters (for the PCI it is kernel
+> > > > cmdline arguments) are better to be changed to some configuration tool/sysfs.
+> > > 
+> > > The problem was that the ACS bits had to be set before the kernel
+> > > enumerated the devices. The IOMMU code simply was not able to support
+> > > dynamic adjustments to its groups. I assume changing 10bit tags
+> > > dynamically is similarly tricky -- but if it's not then, yes a sysfs
+> > > interface in addition to the kernel parameter would be a good idea.
+> > 
+> > I think that it is doable with combination of drivers_autoprobe disable
+> > and some sysfs knob to enable/disable this feature before driver bind.
+> > 
+> > It should be very similar to that we did for the dynamic MSI-X, see
+> > /sys/bus/pci/devices/.../sriov_vf_msix_count
+> 
+> Many thanks for your suggestion.
+> 
+> Seems a sysfs could be work ok,  but need to make sure 10-Bit Tag Requester
+> to be set before binding the device driver as
+> PCIe spec 5.0 section 7.5.3.16 Device Control 2 Register
+> 10-Bit Tag Requester Enable says that
+> If software changes the value of this bit while the Function
+> has outstanding Non-Posted Requests, the result is undefined.
 
-Well, in the end, there is more than one compositor out there.. and if
-some wayland compositors are going this route, they can also implement
-the same mechanism in userspace using the sysfs that devfreq exports.
+This is where drivers_autoprobe will help.
 
-But it sounds simpler to me for the compositor to have a sort of "game
-mode" for fullscreen games.. I'm less worried about UI interactive
-workloads, boosting the GPU freq upon sudden activity after a period
-of inactivity seems to work reasonably well there.
+Thanks
 
-BR,
--R
 
->
-> --
-> Earthling Michel D=C3=A4nzer               |               https://redhat=
-.com
-> Libre software enthusiast             |             Mesa and X developer
+> 
+> Thanks,
+> Dongdong
+> > 
+> > Thanks
+> > 
+> > > 
+> > > Logan
+> > .
+> > 
