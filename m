@@ -2,131 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 494553D7960
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 17:08:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA9C33D797C
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 17:13:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236978AbhG0PIk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jul 2021 11:08:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57494 "EHLO
+        id S236817AbhG0PNl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jul 2021 11:13:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232634AbhG0PIj (ORCPT
+        with ESMTP id S232643AbhG0PNl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jul 2021 11:08:39 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63F9FC061760;
-        Tue, 27 Jul 2021 08:08:38 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id a80-20020a1c98530000b0290245467f26a4so2598348wme.0;
-        Tue, 27 Jul 2021 08:08:38 -0700 (PDT)
+        Tue, 27 Jul 2021 11:13:41 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 071DDC061757;
+        Tue, 27 Jul 2021 08:13:41 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id e19so22557857ejs.9;
+        Tue, 27 Jul 2021 08:13:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=jcrbQyHbij430xaq02MbLiHj13M2J5t4Q3rA2r97S1M=;
-        b=ePJAi2hbsieHla1MODd/uh8GFZVMnIlRscK3zkhUSDAUseRyYpSPaurjOwZmuhWBGO
-         MVLE9fUHyMXt38vPDmeRkKhaXHcbOsKJPWXRAhyKmcE03F+3VylPtx87Fs6hlKFBwsGN
-         ZQldGQHrQfR/QhlHKTR5J98f6um8tBLzTrOq26kC6v9/unY0IJjLyZRvx1fMOKwTo1c8
-         kGQ75QJ9sHCE6+Pj6M0aPcLcaGILjjJlrWOOSluledtAN51fWnsi/3b9Y/GjSwiJleRa
-         HFM9TAo5gLzMOIlXlRNOcdfTUoK+7JCdlv/FgSV4wHP0m5WcUD205WybKF592XZppJh+
-         eIRQ==
+         :cc;
+        bh=UCFwMIpBzowoo2IqUOmSvylGJxh1OmGjndAtWm1Zyqs=;
+        b=JWdoxtBg2jFIavbWi8CQkEIsfhxKJ6xG95oNZxhxMK0vI0P/QJGn/0Pc2swhHHLppN
+         YjOLOTrj41vh9X80VywrNfNmsvABAtBxTFz0q+PK58ylgl2ATvxm5At67rEpNYUqg6q8
+         5UgRF5ViceiMFFYHfy+ZjBOxF0pxL/qw2+ASd+o8Gy2XdYeHROj7GP40Dykj5Jx8RKij
+         P6hQb3z7IGQP6AnPPQ9qrs2vQzkxLyarxk/RQQn4Z6nmVqcg0kndA+CNr+z7INWVYF6o
+         4KlqEupfpia+oNeC/SASMhmsfwWEBm0VDit7hlba4m5PAO9bIShf6z53M2Qp+wRdoRoJ
+         41NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=jcrbQyHbij430xaq02MbLiHj13M2J5t4Q3rA2r97S1M=;
-        b=hzOZOGrYUL0QLVrBKy4i17fw+kuYMbVGb/5F5BhjcQa2A29xMRylZjrMjYoMjKQOJl
-         f038yYZkJQxake8D7RA9el87/WmegqLGl69CNE/SQAIh0HEX5lumH8w7PSjaDwofhZR7
-         nL80ZJaLMFQRu1Xu4kNult14ieDcEdlLMrVk/NkxMu8Pqjkef+8J8Ku1HUvI9i3vGXod
-         NgikdAfxuJE/KqXJbSdjMFXoB9R4C8ULX7qDV4tpmaahGFFKytErSnJ8ezUpOOWn5beb
-         NHBYlT3y0b2WmJSNN5tMb92omGU21ZCbaIz8omG+5fSUWYKibfXf4B1ggEFXu845uwtR
-         IRLw==
-X-Gm-Message-State: AOAM532Pe8uGORWJJgeWN/ibTeCy7Yja1359qLauFz+Z3rygpRbITfxg
-        1yzXthVUKzqEVmUndBMTK62ErKdyXev/iDGLfeE=
-X-Google-Smtp-Source: ABdhPJyQHd8UqT9Ia3PL8c7l+eagsABe2zXZgvxuJGgX3d4FyLbIEBs//Pnd3H0g36dbX41lxRF0XyssNj+CA1b4ir4=
-X-Received: by 2002:a7b:cc8b:: with SMTP id p11mr4622066wma.164.1627398516915;
- Tue, 27 Jul 2021 08:08:36 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=UCFwMIpBzowoo2IqUOmSvylGJxh1OmGjndAtWm1Zyqs=;
+        b=Tw87/qKPQxyZWWlsT32w1Jze7JBVojvGoTAePvXQQ0ao+zURLO3MF2hklxGA+HVEeC
+         PAqH90/Y5vswPYdl/pqOquGhI+5cdqhWqPPfyJrRs2JKTo1bH8Q1PzjIouZ3CAPB/v1N
+         qT9vOhZbaK1Fz5UjS+wl9tiVheDfZmWc1HdgSAcYVRTiqcI4D8t2PBiQBBEWzrnP/52Q
+         jdp7199hVrZIOHGxhVJ1smpGc1uoK+oAcZjGb5f9w0SPHLDIC6hRc7ej9qyA6Pf5S1GJ
+         ovtfgAWyVN00LZFmJZ/fJi8oJhVeU7JY6aZ1Z73ZerBy+ZWIXLjMsr6730RPMPTm28iU
+         uQNg==
+X-Gm-Message-State: AOAM532FFQ7Rz9OwdswWpmgXS0wS3dDem/zODP/I9p2Si6iJFAe4Clr0
+        lPyQRAXcd1v2oMcaP0ESFZWaSQ1WY4S2sz4uFAw=
+X-Google-Smtp-Source: ABdhPJy/v+3pFZzUvS3qCMqO4AMrId4I1a54DhViIom5UDpFys9gBhx5Jhw7ofqz4M10GIFN+i38YtdhJuEDdE0pxr8=
+X-Received: by 2002:a17:906:9b1:: with SMTP id q17mr21950049eje.546.1627398819578;
+ Tue, 27 Jul 2021 08:13:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210726233854.2453899-1-robdclark@gmail.com> <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
-In-Reply-To: <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Tue, 27 Jul 2021 08:12:45 -0700
-Message-ID: <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
-Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
-To:     =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
-Cc:     Matthew Brost <matthew.brost@intel.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Jack Zhang <Jack.Zhang1@amd.com>, Roy Sun <Roy.Sun@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
+References: <000000000000d068cf05c716264c@google.com> <20210727100151.2051-1-hdanton@sina.com>
+ <20210727141455.GM1931@kadam>
+In-Reply-To: <20210727141455.GM1931@kadam>
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+Date:   Tue, 27 Jul 2021 23:13:13 +0800
+Message-ID: <CAD-N9QUz_7pxAFda9QYjhJf6tGLYvHr7hF_qZ3DmtP=J_yqWAg@mail.gmail.com>
+Subject: Re: [syzbot] KASAN: use-after-free Read in em28xx_close_extension
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Hillf Danton <hdanton@sina.com>,
+        syzbot <syzbot+005037419ebdf14e1d87@syzkaller.appspotmail.com>,
+        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 27, 2021 at 7:50 AM Michel D=C3=A4nzer <michel@daenzer.net> wro=
-te:
+On Tue, Jul 27, 2021 at 10:15 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
 >
-> On 2021-07-27 1:38 a.m., Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
+> On Tue, Jul 27, 2021 at 06:01:51PM +0800, Hillf Danton wrote:
+> > Along the probe path,
 > >
-> > Based on discussion from a previous series[1] to add a "boost" mechanis=
-m
-> > when, for example, vblank deadlines are missed.  Instead of a boost
-> > callback, this approach adds a way to set a deadline on the fence, by
-> > which the waiter would like to see the fence signalled.
+> > em28xx_usb_probe
+> >   dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+> >   retval = em28xx_init_dev(dev, udev, intf, nr);
+> >     em28xx_init_extension(dev);
+> >       em28xx_ir_init(struct em28xx *dev)
+> >         kref_get(&dev->ref);
 > >
-> > I've not yet had a chance to re-work the drm/msm part of this, but
-> > wanted to send this out as an RFC in case I don't have a chance to
-> > finish the drm/msm part this week.
-> >
-> > Original description:
-> >
-> > In some cases, like double-buffered rendering, missing vblanks can
-> > trick the GPU into running at a lower frequence, when really we
-> > want to be running at a higher frequency to not miss the vblanks
-> > in the first place.
-> >
-> > This is partially inspired by a trick i915 does, but implemented
-> > via dma-fence for a couple of reasons:
-> >
-> > 1) To continue to be able to use the atomic helpers
-> > 2) To support cases where display and gpu are different drivers
-> >
-> > [1] https://patchwork.freedesktop.org/series/90331/
->
-> Unfortunately, none of these approaches will have the full intended effec=
-t once Wayland compositors start waiting for client buffers to become idle =
-before using them for an output frame (to prevent output frames from gettin=
-g delayed by client work). See https://gitlab.gnome.org/GNOME/mutter/-/merg=
-e_requests/1880 (shameless plug :) for a proof of concept of this for mutte=
-r. The boost will only affect the compositor's own GPU work, not the client=
- work (which means no effect at all for fullscreen apps where the composito=
-r can scan out the client buffers directly).
+> >   kref_init(&dev->ref);
 >
 
-I guess you mean "no effect at all *except* for fullscreen..."?  Games
-are usually running fullscreen, it is a case I care about a lot ;-)
+Hi Dan,
 
-I'd perhaps recommend that wayland compositors, in cases where only a
-single layer is changing, not try to be clever and just push the
-update down to the kernel.
+I have developed a patch [1] to fix this crash. Would you like to help
+me double-check if it correctly fixes the underlying bug?
 
-BR,
--R
+[1] [PATCH v2] [media] em28xx-input: fix refcount bug in
+em28xx_usb_disconnect  https://lkml.org/lkml/2021/7/19/263
 
+> Good detective work.
+>
+> I've created a Smatch check to try find these.  It uses the fact that
+> Smatch creates a bunch of fake assignments to set all the struct members
+> of "dev" to zero.  Then it uses the modification hook to find the
+> kref_init().  Those are sort of new uses for those hooks so that's quite
+> fun.
+>
+> I'll test it out overnight and see how it works.
+>
+> drivers/media/usb/em28xx/em28xx-cards.c:4086 em28xx_usb_probe() warn: kref has already been modifed (see line 3979)
+>
+> regards,
+> dan carpenter
+>
+> #include "smatch.h"
+> #include "smatch_slist.h"
+> #include "smatch_extra.h"
+>
+> static int my_id;
+>
+> STATE(fresh);
+>
+> static int get_line(struct sm_state *sm)
+> {
+>         struct sm_state *tmp;
+>         int line = 0;
+>
+>         FOR_EACH_PTR(sm->possible, tmp) {
+>                 if (tmp->state == &undefined &&
+>                     tmp->line > line)
+>                         line = tmp->line;
+>         } END_FOR_EACH_PTR(tmp);
+>
+>         if (!line)
+>                 return sm->line;
+>         return line;
+> }
+>
+> static void match_modify(struct sm_state *sm, struct expression *mod_expr)
+> {
+>         if (sm->state != &fresh &&
+>             mod_expr &&
+>             mod_expr->type == EXPR_CALL &&
+>             sym_name_is("kref_init", mod_expr->fn))
+>                 sm_warning("kref has already been modifed (see line %d)", get_line(sm));
+>
+>         set_state(my_id, sm->name, sm->sym, &undefined);
+> }
+>
+> static bool is_alloc(struct expression *expr)
+> {
+>         static struct expression *ignore, *alloc_expr;
+>         struct expression *right;
+>
+>         if (!expr || expr->type != EXPR_ASSIGNMENT || expr->op != '=')
+>                 return false;
+>         if (expr == ignore)
+>                 return false;
+>         if (expr == alloc_expr)
+>                 return true;
+>         right = strip_expr(expr->right);
+>         if (right->type == EXPR_CALL &&
+>             (sym_name_is("kzalloc", right->fn) ||
+>              sym_name_is("kmalloc", right->fn))) {
+>                 alloc_expr = expr;
+>                 return true;
+>         }
+>         ignore = expr;
+>         return false;
+> }
+>
+> static void match_assign(struct expression *expr)
+> {
+>         char *name;
+>
+>         if (!is_alloc(get_faked_expression()))
+>                 return;
+>         name = expr_to_str(expr->left);
+>         if (name && strstr(name, "refcount.refs.counter"))
+>                 set_state_expr(my_id, expr->left, &fresh);
+>         free_string(name);
+> }
+>
+> void check_kref_init_too_late(int id)
+> {
+>         my_id = id;
+>
+>         add_hook(&match_assign, ASSIGNMENT_HOOK_AFTER);
+>         add_modification_hook(my_id, &match_modify);
+> }
 >
 > --
-> Earthling Michel D=C3=A4nzer               |               https://redhat=
-.com
-> Libre software enthusiast             |             Mesa and X developer
+> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/20210727141455.GM1931%40kadam.
