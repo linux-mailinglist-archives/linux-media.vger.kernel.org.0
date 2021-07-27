@@ -2,210 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 197BE3D732D
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 12:27:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6BE83D7361
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jul 2021 12:36:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236313AbhG0K0I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jul 2021 06:26:08 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:48460 "EHLO www.linuxtv.org"
+        id S236243AbhG0KgZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jul 2021 06:36:25 -0400
+Received: from ni.piap.pl ([195.187.100.5]:39858 "EHLO ni.piap.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236309AbhG0K0H (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jul 2021 06:26:07 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1m8KHm-007P9S-GY; Tue, 27 Jul 2021 10:26:06 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1m8KMV-0008Gl-9g; Tue, 27 Jul 2021 10:30:59 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL v2 for 5.15] Camera sensor, async and documentation patches (#76035)
-Date:   Tue, 27 Jul 2021 10:30:59 +0000
-Message-Id: <20210727103059.31746-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210727091551.GF3@valkosipuli.retiisi.eu>
-References: 
+        id S236104AbhG0KgY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Jul 2021 06:36:24 -0400
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        by ni.piap.pl (Postfix) with ESMTPSA id 537ADC369558;
+        Tue, 27 Jul 2021 12:36:20 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 537ADC369558
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1627382180; bh=xrp6HjZNt5fuhmpqSLgJecqDApFe/ZteKo0bn4DP8tc=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=bsCQIAo9ER90npjCybE3VUTe4pLXOPqObwMTF2c0nnG+dWRahkpPsdvsxVOrCxWbQ
+         9rvb0nLrpbONdQ5A3hs8N4XW/ET4wsVjuZD8GwoT58+mgPLixgYcpXQp24UuaObKUR
+         CUS6wmSntxcJu2pONUggyC91mO/m52Yo3/1NLbvE=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     devicetree@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [RFC v3] dt-binding: media: document ON Semi AR0521 sensor
+ bindings
+References: <m37dhkdrat.fsf@t19.piap.pl>
+        <YP9ccgd7WNpHuLgG@pendragon.ideasonboard.com>
+Sender: khalasa@piap.pl
+Date:   Tue, 27 Jul 2021 12:36:20 +0200
+In-Reply-To: <YP9ccgd7WNpHuLgG@pendragon.ideasonboard.com> (Laurent Pinchart's
+        message of "Tue, 27 Jul 2021 04:08:02 +0300")
+Message-ID: <m3o8aoavrv.fsf@t19.piap.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 1
+X-KLMS-Message-Action: clean
+X-KLMS-AntiSpam-Lua-Profiles: 165267 [Jul 27 2021]
+X-KLMS-AntiSpam-Version: 5.9.20.0
+X-KLMS-AntiSpam-Envelope-From: khalasa@piap.pl
+X-KLMS-AntiSpam-Rate: 0
+X-KLMS-AntiSpam-Status: not_detected
+X-KLMS-AntiSpam-Method: none
+X-KLMS-AntiSpam-Auth: dkim=pass header.d=piap.pl
+X-KLMS-AntiSpam-Info: LuaCore: 449 449 5db59deca4a4f5e6ea34a93b13bc730e229092f4, {Tracking_Text_ENG_RU_Has_Extended_Latin_Letters, eng}, {Tracking_marketers, three}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;t19.piap.pl:7.1.1;127.0.0.199:7.1.2;piap.pl:7.1.1
+X-MS-Exchange-Organization-SCL: -1
+X-KLMS-AntiSpam-Interceptor-Info: scan successful
+X-KLMS-AntiPhishing: Clean, bases: 2021/07/27 08:44:00
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2021/07/27 08:46:00 #16963359
+X-KLMS-AntiVirus-Status: Clean, skipped
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Laurent,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210727091551.GF3@valkosipuli.retiisi.eu/
-Build log: https://builder.linuxtv.org/job/patchwork/127520/
-Build time: 00:02:11
-Link: https://lore.kernel.org/linux-media/20210727091551.GF3@valkosipuli.retiisi.eu
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> writes:
 
-gpg: Signature made Mon 26 Jul 2021 07:38:57 PM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Can't check signature: No public key
+>> +        properties:
+>> +          data-lanes:
+>> +            anyOf:
+>> +              - items:
+>> +                  - const: 1
+>> +              - items:
+>> +                  - const: 1
+>> +                  - const: 2
+>> +              - items:
+>> +                  - const: 1
+>> +                  - const: 2
+>> +                  - const: 3
+>> +                  - const: 4
+>
+> As the sensor also supports an HiSPi output, I would add the bus-type
+> property:
+>
+>           data-lanes:
+> 	    const: 4
 
-Summary: got 11/43 patches with issues, being 5 at build time
+Is there any example of this? I'm not sure how should it it look like.
+Something like the following?
 
-Error/warnings:
+        properties:
+         data-lanes:
+            anyOf:
+              - items:
+                  - const: 1
+              - items:
+                  - const: 1
+                  - const: 2
+              - items:
+                  - const: 1
+                  - const: 2
+                  - const: 3
+                  - const: 4
+          bus-type:
+            data-lanes:
+              const: 4
 
-patches/0001-media-v4l2-subdev-Fix-documentation-of-the-subdev_no.patch:
+And... HiSPi would need additional code in the driver. And preferably
+some testing. I think I'd prefer to have DT and the driver staying in
+some sort of sync. Also, I'm uncertain about the syntax and the meaning
+of such, apparently redundant, construct. Nor about its relation to
+HiSPi. An example would be welcome.
+--=20
+Krzysztof "Chris" Ha=C5=82asa
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-
-    allyesconfig: return code #0:
-	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0003-media-i2c-Add-imx335-camera-sensor-driver.patch:
-
-   checkpatch.pl:
-	$ cat patches/0003-media-i2c-Add-imx335-camera-sensor-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:227: CHECK: struct mutex definition without comment
-Traceback (most recent call last):
-	  File "scripts/spdxcheck.py", line 10, in <module>
-	    import git
-	ModuleNotFoundError: No module named 'git'
-
-patches/0005-media-i2c-Add-imx412-camera-sensor-driver.patch:
-
-   checkpatch.pl:
-	$ cat patches/0005-media-i2c-Add-imx412-camera-sensor-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:231: CHECK: struct mutex definition without comment
-Traceback (most recent call last):
-	  File "scripts/spdxcheck.py", line 10, in <module>
-	    import git
-	ModuleNotFoundError: No module named 'git'
-
-patches/0007-media-i2c-Add-ov9282-camera-sensor-driver.patch:
-
-   checkpatch.pl:
-	$ cat patches/0007-media-i2c-Add-ov9282-camera-sensor-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:226: CHECK: struct mutex definition without comment
-Traceback (most recent call last):
-	  File "scripts/spdxcheck.py", line 10, in <module>
-	    import git
-	ModuleNotFoundError: No module named 'git'
-
-patches/0019-rcar-vin-Move-and-rename-CSI-2-link-notifications.patch:
-
-   checkpatch.pl:
-	$ cat patches/0019-rcar-vin-Move-and-rename-CSI-2-link-notifications.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:340: CHECK: Lines should not end with a '('
-
-patches/0027-Documentation-media-Improve-camera-sensor-documentat.patch:
-
-   checkpatch.pl:
-	$ cat patches/0027-Documentation-media-Improve-camera-sensor-documentat.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:156: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-Traceback (most recent call last):
-	  File "scripts/spdxcheck.py", line 10, in <module>
-	    import git
-	ModuleNotFoundError: No module named 'git'
-
-patches/0028-Documentation-media-Fix-v4l2-async-kerneldoc-syntax.patch:
-
-    allyesconfig: return code #0:
-	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0029-v4l-async-Rename-async-nf-functions-clean-up-long-li.patch:
-
-    allyesconfig: return code #0:
-	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1971 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/rcar-vin/rcar-core.c:1617:1: warning: label ‘error_dma_unregister’ defined but not used [-Wunused-label]
-	../drivers/media/platform/rcar-vin/rcar-core.c:1604:1: warning: label ‘error_group_unregister’ defined but not used [-Wunused-label]
-	../drivers/media/platform/rcar-vin/rcar-core.c:../drivers/media/platform/rcar-vin/rcar-core.c:1604:1: warning: unused label 'error_group_unregister'
-	../drivers/media/platform/rcar-vin/rcar-core.c:../drivers/media/platform/rcar-vin/rcar-core.c:1617:1: warning: unused label 'error_dma_unregister'
-	SPARSE:../drivers/media/platform/rcar-vin/rcar-core.c ../drivers/media/platform/rcar-vin/rcar-core.c:1604:1:  warning: unused label 'error_group_unregister'
-	SPARSE:../drivers/media/platform/rcar-vin/rcar-core.c ../drivers/media/platform/rcar-vin/rcar-core.c:1617:1:  warning: unused label 'error_dma_unregister'
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-    allmodconfig: return code #0:
-	../drivers/media/platform/rcar-vin/rcar-core.c:1617:1: warning: label ‘error_dma_unregister’ defined but not used [-Wunused-label]
-	../drivers/media/platform/rcar-vin/rcar-core.c:1604:1: warning: label ‘error_group_unregister’ defined but not used [-Wunused-label]
-
-patches/0030-media-rcar-vin-Remove-explicit-device-availability-c.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/rcar-vin/rcar-core.c:1610:1: warning: label ‘error_dma_unregister’ defined but not used [-Wunused-label]
-	../drivers/media/platform/rcar-vin/rcar-core.c:1597:1: warning: label ‘error_group_unregister’ defined but not used [-Wunused-label]
-	../drivers/media/platform/rcar-vin/rcar-core.c:../drivers/media/platform/rcar-vin/rcar-core.c:1597:1: warning: unused label 'error_group_unregister'
-	../drivers/media/platform/rcar-vin/rcar-core.c:../drivers/media/platform/rcar-vin/rcar-core.c:1610:1: warning: unused label 'error_dma_unregister'
-	SPARSE:../drivers/media/platform/rcar-vin/rcar-core.c ../drivers/media/platform/rcar-vin/rcar-core.c:1597:1:  warning: unused label 'error_group_unregister'
-	SPARSE:../drivers/media/platform/rcar-vin/rcar-core.c ../drivers/media/platform/rcar-vin/rcar-core.c:1610:1:  warning: unused label 'error_dma_unregister'
-
-    allmodconfig: return code #0:
-	../drivers/media/platform/rcar-vin/rcar-core.c:1610:1: warning: label ‘error_dma_unregister’ defined but not used [-Wunused-label]
-	../drivers/media/platform/rcar-vin/rcar-core.c:1597:1: warning: label ‘error_group_unregister’ defined but not used [-Wunused-label]
-
-patches/0031-media-v4l2-fwnode-Simplify-v4l2_async_nf_parse_fwnod.patch:
-
-   checkpatch.pl:
-	$ cat patches/0031-media-v4l2-fwnode-Simplify-v4l2_async_nf_parse_fwnod.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:16: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0035-v4l-subdev-Add-pre_streamon-and-post_streamoff-callb.patch:
-
-    allyesconfig: return code #0:
-	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/platform/rcar-vin/rcar-core.c:1610:1: warning: label ‘error_dma_unregister’ defined but not used [-Wunused-label]
-	../drivers/media/platform/rcar-vin/rcar-core.c:1597:1: warning: label ‘error_group_unregister’ defined but not used [-Wunused-label]
-	../drivers/media/platform/rcar-vin/rcar-core.c:../drivers/media/platform/rcar-vin/rcar-core.c:1597:1: warning: unused label 'error_group_unregister'
-	../drivers/media/platform/rcar-vin/rcar-core.c:../drivers/media/platform/rcar-vin/rcar-core.c:1610:1: warning: unused label 'error_dma_unregister'
-	SPARSE:../drivers/media/platform/rcar-vin/rcar-core.c ../drivers/media/platform/rcar-vin/rcar-core.c:1597:1:  warning: unused label 'error_group_unregister'
-	SPARSE:../drivers/media/platform/rcar-vin/rcar-core.c ../drivers/media/platform/rcar-vin/rcar-core.c:1610:1:  warning: unused label 'error_dma_unregister'
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-    allmodconfig: return code #0:
-	../drivers/media/platform/rcar-vin/rcar-core.c:1610:1: warning: label ‘error_dma_unregister’ defined but not used [-Wunused-label]
-	../drivers/media/platform/rcar-vin/rcar-core.c:1597:1: warning: label ‘error_group_unregister’ defined but not used [-Wunused-label]
-
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
