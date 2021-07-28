@@ -2,135 +2,343 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0039C3D8B7A
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 12:12:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E2E43D8CA3
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 13:22:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235906AbhG1KMu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jul 2021 06:12:50 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:53427 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232114AbhG1KMu (ORCPT
+        id S234744AbhG1LWa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jul 2021 07:22:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52112 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234639AbhG1LW0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jul 2021 06:12:50 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 8gYQmHG4gXTlc8gYRmT2WA; Wed, 28 Jul 2021 12:12:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1627467168; bh=RHZJByB5leL9DQabKAKLwVitrU78TIsOgRxa6Y6vloI=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=IAaaBb/WNIyEoE/mE6TsMQMKcrniLCVMeZT55NqarfZREXbz7K6B4OZ3DGhfAdaae
-         /SkEof1EdxoMMleiknZl7yg92tTUlFI95mPTGVbgCjLXHpvzAcf5F1M7G4WYMANwnI
-         XtaoR2cmYGK5gepvzPaHjIhjn9kybOc2gJPho/k+lgrPxDlgcOr5QOs5vq7ckEoZRl
-         o7JXL6ifHoyDuHsR0Zr3MRBzroPNDvz1lLRceTAD4VcLHruAzF0dhRwfXoy7eIELI2
-         s9H4eVS4incibIFZdw6VXV6/q/3DjIAmMMqAUuNpup41R7Ru9bXZK08XGaF/0WTAZ0
-         FynCb7f29cOCA==
-Subject: Re: [PATCH v5 2/3] media: v4l2-ctrls: Add intra-refresh period
- control
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        nicolas.dufresne@collabora.com
-References: <20210622113958.809173-1-stanimir.varbanov@linaro.org>
- <20210622113958.809173-3-stanimir.varbanov@linaro.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <0429d350-0000-6f47-9d04-47ee3bbb26d7@xs4all.nl>
-Date:   Wed, 28 Jul 2021 12:12:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Wed, 28 Jul 2021 07:22:26 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00FC9C061760
+        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 04:22:24 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id q17-20020a17090a2e11b02901757deaf2c8so3799640pjd.0
+        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 04:22:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1D2l4hNhHsS2iormCyA3EgfKp4hZF3DC2mQohMFaQrw=;
+        b=mRWCtO3QfbgUfq1l3wAePMNB/g+xsC+QJ6CrIDSnWa5k4kHNMhcrRg0jZ0PTZUAv73
+         vtBwXxUYgNwibNP1kEQWPuzl4W5+KatrRxBBUIkKcUlnB6EPJfdtRdHLiafEUQe8cDiy
+         YnUoVclJMbGMFiNag+YigMOJuz4Zl8PB/PHbq4MDg54brZYAdWKAM7Xz4uSrhlPnCwR5
+         WkCsMXPB00MzBAGSYZ+1m7bVEgJMfxsi7h8kPwyaPNVlBbbHQJ63eguYlqv8yyLEqXcc
+         yWsAp95MfBrUsq5yTf4L605iUolelboXl8aj2s5LuOHAEkra+9svFwKa6kbfR34gxiIX
+         cZig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1D2l4hNhHsS2iormCyA3EgfKp4hZF3DC2mQohMFaQrw=;
+        b=H+TE079JcMGmr3qYiOilsy9NBibBda0bDHF1ydYea7F+dio/13/7SFxhHc15CvURKs
+         +ghNgSXLVrdRtunBwowTg4PWmScMGMSxixq5tjoVIx93bVxjOC7cfgx41nGP8MmbbbpP
+         Bu7R1OwBrMNy6CSAkSvif/Sbji0lxmMHXk2MpMmGVcFUe+76spbLXngc5BcKVNyKkyGi
+         COLs532UrqYgAbf/SA6L3Rps3wKhnEV1BWELbhvEQy60mAfw2Ara4VahKBYU5TiPtqOP
+         +DtI5LdkSOFvCb0gsB3DqvWFfTPX33JWfaObl1YWTNILfID9488Ka49yyKN4DWc+3ViL
+         Cf6Q==
+X-Gm-Message-State: AOAM5336mfVbohpkautbQISh+G06jR4LY3AjIepIRSpScOHoE/nEl0mv
+        qM3/JlngMlO5iwfFNi2ZEBc638Cd+spvKihf/tlOsg==
+X-Google-Smtp-Source: ABdhPJxRTQH8bd2Jy7w5i3uoVa+5yBl6+Cvkkf47mQcZ7rm/SCosKY77pYTlkrX7FoD/GLCQR0gUe7K0QuCrb6lhMRA=
+X-Received: by 2002:a17:90a:604b:: with SMTP id h11mr23151924pjm.220.1627471343428;
+ Wed, 28 Jul 2021 04:22:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210622113958.809173-3-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfNgoEdcOHTk8ieMLWZ3w1SMpoJikaRitewNHm5eDR0BycQIF8A8TOIru2mxQM+4HAbQ2e9YGSHXdQtVQcPW6X+i/VHghs0B5Blm4p1J7U2jPxQmCbu56
- Tgg523qLxkKisuDFWvZWkWfuCjq/f1pLQ4AMRenMi8Gdo+e15UbPlzdiPThwPH4bplF9ENY00O0YWDg9DpAUMWFXwZVHTCwj3Rz3NvA6OdB1uJeTlwMBven3
- K5+04rAjYPhgsZh1vr7PkJABA3UP443HdWYSw3MlyiZuVlX3U04douoUvNOTteEaZ0zQBj/mSgkzcvn05E/tqbktGUcckzLfmpp2/cjqClnt4xsNAAXOU9iZ
- UIfcRPuXZ/hjrV5R79t8DE+3gu/kRouMohr+VjryB4MwFZDpvSTo6Q/Tv0DnhbhuxAP7u9eM3WgLLvHLidBu1L1oxy9YMSS1wVpJEpG5aLg9nAr/wtecUjXp
- 9vYMAu4YQl+yDttJyeKmP6Q6axhbxw6YAVEqcw==
+References: <20210705081724.168523-1-hsinyi@chromium.org>
+In-Reply-To: <20210705081724.168523-1-hsinyi@chromium.org>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Wed, 28 Jul 2021 13:22:12 +0200
+Message-ID: <CAG3jFyuT09KOG9Xn-wbrr2DSOB=jSRvBVj96Vx4ja0PQWPKh6g@mail.gmail.com>
+Subject: Re: [PATCH] media: ov8856: Set default mbus format but allow caller
+ to alter
+To:     Hsin-Yi Wang <hsinyi@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22/06/2021 13:39, Stanimir Varbanov wrote:
-> Add a control to set intra-refresh period.
-> 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Hey Hsin-Yi,
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Thanks for looking into this.
 
-Thanks!
-
-	Hans
-
+On Mon, 5 Jul 2021 at 10:17, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+>
+> Setting the value of V_WIN_OFF (0x3818) from 0x02 to 0x01 to use GRBG
+> format still results in wrong color output if data is tuned in BGGR mode
+> before.
+>
+> Set default mbus format for the supported modes, but allow the caller of
+> set(get)_fmt to change the bayer format between BGGR and GRBG.
+>
+> Set the default mbus format for 3264x2448 (and 1632x1224) to BGGR as the
+> data sheet states the value of this reg should be 0x02 by default.
+>
+> If new modes are added in the future, they can add the
+> mipi_data_mbus_{format} settings into bayer_offset_configs to adjust their
+> offset regs.
+>
+> Fixes: 2984b0ddd557 ("media: ov8856: Configure sensor for GRBG Bayer for all modes")
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 > ---
->  .../userspace-api/media/v4l/ext-ctrls-codec.rst | 17 ++++++++++++++++-
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c       |  2 ++
->  include/uapi/linux/v4l2-controls.h              |  1 +
->  3 files changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index addf44b99dfa..64c76a3a1205 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -1175,9 +1175,24 @@ enum v4l2_mpeg_video_h264_entropy_mode -
->      macroblocks refreshed every frame. Each frame a successive set of
->      macroblocks is refreshed until the cycle completes and starts from
->      the top of the frame. Setting this control to zero means that
-> -    macroblocks will not be refreshed.
-> +    macroblocks will not be refreshed.  Note that this control will not
-> +    take effect when ``V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD`` control
-> +    is set to non zero value.
->      Applicable to H264, H263 and MPEG4 encoder.
->  
-> +``V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD (integer)``
-> +    Intra macroblock refresh period. This sets the period to refresh
-> +    the whole frame. In other words, this defines the number of frames
-> +    for which the whole frame will be intra-refreshed.  An example:
-> +    setting period to 1 means that the whole frame will be refreshed,
-> +    setting period to 2 means that the half of macroblocks will be
-> +    intra-refreshed on frameX and the other half of macroblocks
-> +    will be refreshed in frameX + 1 and so on. Setting the period to
-> +    zero means no period is specified.
-> +    Note that if the client sets this control to non zero value the
-> +    ``V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB`` control shall be
-> +    ignored. Applicable to H264 and HEVC encoders.
+>  drivers/media/i2c/ov8856.c | 83 +++++++++++++++++++++++++++++++++-----
+>  1 file changed, 72 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
+> index 88e19f30d3762..5aac76cca6801 100644
+> --- a/drivers/media/i2c/ov8856.c
+> +++ b/drivers/media/i2c/ov8856.c
+> @@ -107,6 +107,11 @@ static const char * const ov8856_supply_names[] = {
+>         "dvdd",         /* Digital core power */
+>  };
+>
+> +enum {
+> +       OV8856_MEDIA_BUS_FMT_SBGGR10_1X10,
+> +       OV8856_MEDIA_BUS_FMT_SGRBG10_1X10,
+> +};
 > +
->  ``V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE (boolean)``
->      Frame level rate control enable. If this control is disabled then
->      the quantization parameter for each frame type is constant and set
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index b6344bbf1e00..421300e13a41 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -833,6 +833,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE:	return "Decoder Slice Interface";
->  	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:	return "MPEG4 Loop Filter Enable";
->  	case V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB:	return "Number of Intra Refresh MBs";
-> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD:		return "Intra Refresh Period";
->  	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:		return "Frame Level Rate Control Enable";
->  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:			return "H264 MB Level Rate Control";
->  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:			return "Sequence Header Mode";
-> @@ -1258,6 +1259,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE:
->  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:
->  	case V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY:
-> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD:
->  		*type = V4L2_CTRL_TYPE_INTEGER;
->  		break;
->  	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index fdf97a6d7d18..5532b5f68493 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -435,6 +435,7 @@ enum v4l2_mpeg_video_multi_slice_mode {
->  #define V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX		(V4L2_CID_CODEC_BASE+233)
->  #define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES		(V4L2_CID_CODEC_BASE+234)
->  #define V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR		(V4L2_CID_CODEC_BASE+235)
-> +#define V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD	(V4L2_CID_CODEC_BASE+236)
->  
->  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
->  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
-> 
+>  struct ov8856_reg {
+>         u16 address;
+>         u8 val;
+> @@ -145,6 +150,9 @@ struct ov8856_mode {
+>
+>         /* Number of data lanes */
+>         u8 data_lanes;
+> +
+> +       /* Default MEDIA_BUS_FMT for this mode */
+> +       u32 default_mbus_index;
+>  };
+>
+>  struct ov8856_mipi_data_rates {
+> @@ -1055,7 +1063,7 @@ static const struct ov8856_reg lane_4_mode_3264x2448[] = {
+>                 {0x3810, 0x00},
+>                 {0x3811, 0x04},
+>                 {0x3812, 0x00},
+> -               {0x3813, 0x01},
+> +               {0x3813, 0x02},
+>                 {0x3814, 0x01},
+>                 {0x3815, 0x01},
+>                 {0x3816, 0x00},
+> @@ -1259,7 +1267,7 @@ static const struct ov8856_reg lane_4_mode_1632x1224[] = {
+>                 {0x3810, 0x00},
+>                 {0x3811, 0x02},
+>                 {0x3812, 0x00},
+> -               {0x3813, 0x01},
+> +               {0x3813, 0x02},
+>                 {0x3814, 0x03},
+>                 {0x3815, 0x01},
+>                 {0x3816, 0x00},
+> @@ -1372,6 +1380,19 @@ static const struct ov8856_reg lane_4_mode_1632x1224[] = {
+>                 {0x5e10, 0xfc}
+>  };
+>
+> +static const struct ov8856_reg mipi_data_mbus_sbggr10_1x10[] = {
+> +       {0x3813, 0x02},
+> +};
+> +
+> +static const struct ov8856_reg mipi_data_mbus_sgrbg10_1x10[] = {
+> +       {0x3813, 0x01},
+> +};
+> +
+> +static const u32 ov8856_mbus_codes[] = {
+> +       MEDIA_BUS_FMT_SBGGR10_1X10,
+> +       MEDIA_BUS_FMT_SGRBG10_1X10
+> +};
+> +
+>  static const char * const ov8856_test_pattern_menu[] = {
+>         "Disabled",
+>         "Standard Color Bar",
+> @@ -1380,6 +1401,17 @@ static const char * const ov8856_test_pattern_menu[] = {
+>         "Bottom-Top Darker Color Bar"
+>  };
+>
+> +static const struct ov8856_reg_list bayer_offset_configs[] = {
+> +       [OV8856_MEDIA_BUS_FMT_SBGGR10_1X10] = {
+> +               .num_of_regs = ARRAY_SIZE(mipi_data_mbus_sbggr10_1x10),
+> +               .regs = mipi_data_mbus_sbggr10_1x10,
+> +       },
+> +       [OV8856_MEDIA_BUS_FMT_SGRBG10_1X10] = {
+> +               .num_of_regs = ARRAY_SIZE(mipi_data_mbus_sgrbg10_1x10),
+> +               .regs = mipi_data_mbus_sgrbg10_1x10,
+> +       }
+> +};
+> +
+>  struct ov8856 {
+>         struct v4l2_subdev sd;
+>         struct media_pad pad;
+> @@ -1399,6 +1431,9 @@ struct ov8856 {
+>         /* Current mode */
+>         const struct ov8856_mode *cur_mode;
+>
+> +       /* Application specified mbus format */
+> +       u32 cur_mbus_index;
+> +
+>         /* To serialize asynchronus callbacks */
+>         struct mutex mutex;
+>
+> @@ -1450,6 +1485,7 @@ static const struct ov8856_lane_cfg lane_cfg_2 = {
+>                 },
+>                 .link_freq_index = 0,
+>                 .data_lanes = 2,
+> +               .default_mbus_index = OV8856_MEDIA_BUS_FMT_SGRBG10_1X10,
+>         },
+>         {
+>                 .width = 1640,
+> @@ -1464,6 +1500,7 @@ static const struct ov8856_lane_cfg lane_cfg_2 = {
+>                 },
+>                 .link_freq_index = 1,
+>                 .data_lanes = 2,
+> +               .default_mbus_index = OV8856_MEDIA_BUS_FMT_SGRBG10_1X10,
+>         }}
+>  };
+>
+> @@ -1499,6 +1536,7 @@ static const struct ov8856_lane_cfg lane_cfg_4 = {
+>                         },
+>                         .link_freq_index = 0,
+>                         .data_lanes = 4,
+> +                       .default_mbus_index = OV8856_MEDIA_BUS_FMT_SGRBG10_1X10,
+>                 },
+>                 {
+>                         .width = 1640,
+> @@ -1513,6 +1551,7 @@ static const struct ov8856_lane_cfg lane_cfg_4 = {
+>                         },
+>                         .link_freq_index = 1,
+>                         .data_lanes = 4,
+> +                       .default_mbus_index = OV8856_MEDIA_BUS_FMT_SGRBG10_1X10,
+>                 },
+>                 {
+>                         .width = 3264,
+> @@ -1527,6 +1566,7 @@ static const struct ov8856_lane_cfg lane_cfg_4 = {
+>                         },
+>                         .link_freq_index = 0,
+>                         .data_lanes = 4,
+> +                       .default_mbus_index = OV8856_MEDIA_BUS_FMT_SBGGR10_1X10,
+>                 },
+>                 {
+>                         .width = 1632,
+> @@ -1541,6 +1581,7 @@ static const struct ov8856_lane_cfg lane_cfg_4 = {
+>                         },
+>                         .link_freq_index = 1,
+>                         .data_lanes = 4,
+> +                       .default_mbus_index = OV8856_MEDIA_BUS_FMT_SBGGR10_1X10,
+>                 }}
+>  };
+>
+> @@ -1904,12 +1945,21 @@ static int ov8856_init_controls(struct ov8856 *ov8856)
+>         return 0;
+>  }
+>
+> -static void ov8856_update_pad_format(const struct ov8856_mode *mode,
+> +static void ov8856_update_pad_format(struct ov8856 *ov8856,
+> +                                    const struct ov8856_mode *mode,
+>                                      struct v4l2_mbus_framefmt *fmt)
+>  {
+> +       int index;
+> +
+>         fmt->width = mode->width;
+>         fmt->height = mode->height;
+> -       fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> +       for (index = 0; index < ARRAY_SIZE(ov8856_mbus_codes); ++index)
+> +               if (ov8856_mbus_codes[index] == fmt->code)
+> +                       break;
+> +       if (index == ARRAY_SIZE(ov8856_mbus_codes))
+> +               index = mode->default_mbus_index;
+> +       fmt->code = ov8856_mbus_codes[index];
+> +       ov8856->cur_mbus_index = index;
+>         fmt->field = V4L2_FIELD_NONE;
+>  }
+>
+> @@ -1935,6 +1985,13 @@ static int ov8856_start_streaming(struct ov8856 *ov8856)
+>                 return ret;
+>         }
+>
+> +       reg_list = &bayer_offset_configs[ov8856->cur_mbus_index];
+> +       ret = ov8856_write_reg_list(ov8856, reg_list);
+> +       if (ret) {
+> +               dev_err(&client->dev, "failed to set mbus format");
+> +               return ret;
+> +       }
+> +
+>         ret = __v4l2_ctrl_handler_setup(ov8856->sd.ctrl_handler);
+>         if (ret)
+>                 return ret;
+> @@ -2096,7 +2153,7 @@ static int ov8856_set_format(struct v4l2_subdev *sd,
+>                                       fmt->format.height);
+>
+>         mutex_lock(&ov8856->mutex);
+> -       ov8856_update_pad_format(mode, &fmt->format);
+> +       ov8856_update_pad_format(ov8856, mode, &fmt->format);
+>         if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+>                 *v4l2_subdev_get_try_format(sd, sd_state, fmt->pad) = fmt->format;
+>         } else {
+> @@ -2140,7 +2197,7 @@ static int ov8856_get_format(struct v4l2_subdev *sd,
+>                                                           sd_state,
+>                                                           fmt->pad);
+>         else
+> -               ov8856_update_pad_format(ov8856->cur_mode, &fmt->format);
+> +               ov8856_update_pad_format(ov8856, ov8856->cur_mode, &fmt->format);
+>
+>         mutex_unlock(&ov8856->mutex);
+>
+> @@ -2151,11 +2208,10 @@ static int ov8856_enum_mbus_code(struct v4l2_subdev *sd,
+>                                  struct v4l2_subdev_state *sd_state,
+>                                  struct v4l2_subdev_mbus_code_enum *code)
+>  {
+> -       /* Only one bayer order GRBG is supported */
+> -       if (code->index > 0)
+> +       if (code->index >= ARRAY_SIZE(ov8856_mbus_codes))
+>                 return -EINVAL;
+>
+> -       code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> +       code->code = ov8856_mbus_codes[code->index];
+>
+>         return 0;
+>  }
+> @@ -2165,11 +2221,15 @@ static int ov8856_enum_frame_size(struct v4l2_subdev *sd,
+>                                   struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>         struct ov8856 *ov8856 = to_ov8856(sd);
+> +       int index;
+>
+>         if (fse->index >= ov8856->modes_size)
+>                 return -EINVAL;
+>
+> -       if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
+> +       for (index = 0; index < ARRAY_SIZE(ov8856_mbus_codes); ++index)
+> +               if (fse->code == ov8856_mbus_codes[index])
+> +                       break;
+> +       if (index == ARRAY_SIZE(ov8856_mbus_codes))
+>                 return -EINVAL;
+>
+>         fse->min_width = ov8856->priv_lane->supported_modes[fse->index].width;
+> @@ -2185,7 +2245,7 @@ static int ov8856_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+>         struct ov8856 *ov8856 = to_ov8856(sd);
+>
+>         mutex_lock(&ov8856->mutex);
+> -       ov8856_update_pad_format(&ov8856->priv_lane->supported_modes[0],
+> +       ov8856_update_pad_format(ov8856, &ov8856->priv_lane->supported_modes[0],
+>                                  v4l2_subdev_get_try_format(sd, fh->state, 0));
+>         mutex_unlock(&ov8856->mutex);
+>
+> @@ -2425,6 +2485,7 @@ static int ov8856_probe(struct i2c_client *client)
+>
+>         mutex_init(&ov8856->mutex);
+>         ov8856->cur_mode = &ov8856->priv_lane->supported_modes[0];
+> +       ov8856->cur_mbus_index = ov8856->cur_mode->default_mbus_index;
+>         ret = ov8856_init_controls(ov8856);
+>         if (ret) {
+>                 dev_err(&client->dev, "failed to init controls: %d", ret);
+> --
+> 2.32.0.93.g670b81a890-goog
+>
 
+Looks good to me.
+
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
