@@ -2,169 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9D693D8A61
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 11:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFCBA3D8A7A
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 11:19:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235492AbhG1JNm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jul 2021 05:13:42 -0400
-Received: from comms.puri.sm ([159.203.221.185]:37454 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235455AbhG1JNk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jul 2021 05:13:40 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 2A024E10B2;
-        Wed, 28 Jul 2021 02:13:09 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id CsczDMohEXS2; Wed, 28 Jul 2021 02:13:08 -0700 (PDT)
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
-        shawnguo@kernel.org
-Cc:     devicetree@vger.kernel.org, festevam@gmail.com,
-        kernel@pengutronix.de, kernel@puri.sm, krzk@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
-        mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
-        slongerbeam@gmail.com,
-        Martin Kepplinger <martin.kepplinger@puri.sm>
-Subject: [PATCH v10 3/3] arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
-Date:   Wed, 28 Jul 2021 11:12:45 +0200
-Message-Id: <20210728091245.231043-4-martin.kepplinger@puri.sm>
-In-Reply-To: <20210728091245.231043-1-martin.kepplinger@puri.sm>
-References: <20210728091245.231043-1-martin.kepplinger@puri.sm>
-Content-Transfer-Encoding: 8bit
+        id S231465AbhG1JTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jul 2021 05:19:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231282AbhG1JTl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Jul 2021 05:19:41 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAC98C061757
+        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 02:19:39 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id o5-20020a1c4d050000b02901fc3a62af78so3774314wmh.3
+        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 02:19:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:content-transfer-encoding:date:message-id:cc:subject
+         :from:to:references:in-reply-to;
+        bh=buJqm/dCB73ItqK6pgbJFqFbtKIP0sK2wyz9Qt55G2U=;
+        b=CYowGiXH++aRbh5n2sJqiOK9ORUNz+figoQedVHYRrA0gxktIndlJSibKJKU1XPoo4
+         MoGqlN1bsh0K21dil81zewscjqxvcumUsN0hJJvyvOxORSNi8XTQn/aJt0iM1SSIInim
+         Edmqj8RoSehm2fWO204226OGZz5cEfW2Lf22L7WajJrsfT1T4H/spJ/5Ll12RfMF1oCr
+         qAkNZmwF55MCFkkK+rqutnaaj+9GEChxhQRcus/bYr2HIeyjN77fz99mEfFtHFfAKxRh
+         LfqWIUxMnNC5KICnHDpi2tIwg4Z6xx+GRENX7nHkii8m0Tngl6UtfiLLwe+Pm378AWUg
+         xO7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding:date
+         :message-id:cc:subject:from:to:references:in-reply-to;
+        bh=buJqm/dCB73ItqK6pgbJFqFbtKIP0sK2wyz9Qt55G2U=;
+        b=WCu557DrZ0xRs5V3MEKHIi3bFgJt0Z8wJg8MUUSqNIOGSdtxUkkCnvotcA9GfYEPQd
+         c4sdX4aaqw9KY4YigV128VdYH6xA8pr1TUu5LRbf8HadmJG/d0g7XndYdxS6hEmL844v
+         xfHoPlofpFcYqztU68tZuvjoyt+m9VklQw0woX8oAXgipC460vvcd6QsdqGymQ+1PvPv
+         +2sb9hTuAiKhMghEiG3k+UAJLNdFBy7VsD5uaXHFIdz/UbKIzKdmhOBqWc75Z9SW6KUv
+         vkbkZDNfBzh6FKJCmuUxUsWgrzTWsXTOKSn7nI8l78Od0s2xwr/Sx7GDMfnk+GG8Szkn
+         1vPQ==
+X-Gm-Message-State: AOAM530FEhChNo9Z1vq+/9sf/fGQjDVfmnpMf//t3bwCUoeo7H54/lUY
+        jwja3xs2mdjMtbhQnKKw8VU=
+X-Google-Smtp-Source: ABdhPJzOowzK6QiWrDHb70+RW4c53qcwb91lQqBN56Sb66ca4yo67Hppt64IOnt63iygh3m1xLl/qA==
+X-Received: by 2002:a05:600c:204a:: with SMTP id p10mr26308981wmg.136.1627463978304;
+        Wed, 28 Jul 2021 02:19:38 -0700 (PDT)
+Received: from localhost (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id y24sm5179881wmo.12.2021.07.28.02.19.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jul 2021 02:19:37 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Wed, 28 Jul 2021 10:19:36 +0100
+Message-Id: <CD4NTXN3E6YR.2T29V4FEH13PB@arch-thunder>
+Cc:     "Steve Longerbeam" <slongerbeam@gmail.com>,
+        "Philipp Zabel" <p.zabel@pengutronix.de>,
+        "Fabio Estevam" <festevam@gmail.com>,
+        "Marek Vasut" <marek.vasut@gmail.com>, <kernel@pengutronix.de>,
+        <linux-imx@nxp.com>
+Subject: Re: [PATCH] media: imx: imx7-media-csi: Fix buffer return upon
+ stream start failure
+From:   "Rui Miguel Silva" <rmfrfs@gmail.com>
+To:     "Martin Kepplinger" <martin.kepplinger@puri.sm>,
+        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>
+References: <20210519005834.8690-1-laurent.pinchart@ideasonboard.com>
+ <09087c452885b0da779258b4962a349dbde1aec7.camel@puri.sm>
+In-Reply-To: <09087c452885b0da779258b4962a349dbde1aec7.camel@puri.sm>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Describe the 2 available CSI interfaces on the i.MX8MQ with the MIPI-CSI2
-receiver (new driver) and the CSI Bridge that provides the user buffers
-(existing driver).
+Hi Martin,
+On Wed Jul 28, 2021 at 9:50 AM WEST, Martin Kepplinger wrote:
 
-An image sensor is to be connected to the MIPIs' second port, to be described
-in board files.
+> Am Mittwoch, dem 19.05.2021 um 03:58 +0300 schrieb Laurent Pinchart:
+> > When the stream fails to start, the first two buffers in the queue
+> > have
+> > been moved to the active_vb2_buf array and are returned to vb2 by
+> > imx7_csi_dma_unsetup_vb2_buf(). The function is called with the
+> > buffer
+> > state set to VB2_BUF_STATE_ERROR unconditionally, which is correct
+> > when
+> > stopping the stream, but not when the start operation fails. In that
+> > case, the state should be set to VB2_BUF_STATE_QUEUED. Fix it.
+> >=20
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > =C2=A0drivers/staging/media/imx/imx7-media-csi.c | 15 +++++++++------
 
-Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
----
- arch/arm64/boot/dts/freescale/imx8mq.dtsi | 104 ++++++++++++++++++++++
- 1 file changed, 104 insertions(+)
+<snip>
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-index 91df9c5350ae..e026a39bddce 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-@@ -1099,6 +1099,110 @@ uart4: serial@30a60000 {
- 				status = "disabled";
- 			};
- 
-+			mipi_csi1: csi@30a70000 {
-+				compatible = "fsl,imx8mq-mipi-csi2";
-+				reg = <0x30a70000 0x1000>;
-+				clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-+				   <&clk IMX8MQ_CLK_CSI1_ESC>,
-+				   <&clk IMX8MQ_CLK_CSI1_PHY_REF>;
-+				clock-names = "core", "esc", "ui";
-+				assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-+				    <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-+				    <&clk IMX8MQ_CLK_CSI1_ESC>;
-+				assigned-clock-rates = <266000000>, <333000000>, <66000000>;
-+				assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-+					<&clk IMX8MQ_SYS2_PLL_1000M>,
-+					<&clk IMX8MQ_SYS1_PLL_800M>;
-+				power-domains = <&pgc_mipi_csi1>;
-+				resets = <&src IMX8MQ_RESET_MIPI_CSI1_CORE_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI1_PHY_REF_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI1_ESC_RESET>;
-+				fsl,mipi-phy-gpr = <&iomuxc_gpr 0x88>;
-+				interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
-+				interconnect-names = "dram";
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+
-+						csi1_mipi_ep: endpoint {
-+							remote-endpoint = <&csi1_ep>;
-+						};
-+					};
-+				};
-+			};
-+
-+			csi1: csi@30a90000 {
-+				compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
-+				reg = <0x30a90000 0x10000>;
-+				interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&clk IMX8MQ_CLK_CSI1_ROOT>;
-+				clock-names = "mclk";
-+				status = "disabled";
-+
-+				port {
-+					csi1_ep: endpoint {
-+						remote-endpoint = <&csi1_mipi_ep>;
-+					};
-+				};
-+			};
-+
-+			mipi_csi2: csi@30b60000 {
-+				compatible = "fsl,imx8mq-mipi-csi2";
-+				reg = <0x30b60000 0x1000>;
-+				clocks = <&clk IMX8MQ_CLK_CSI2_CORE>,
-+				   <&clk IMX8MQ_CLK_CSI2_ESC>,
-+				   <&clk IMX8MQ_CLK_CSI2_PHY_REF>;
-+				clock-names = "core", "esc", "ui";
-+				assigned-clocks = <&clk IMX8MQ_CLK_CSI2_CORE>,
-+				    <&clk IMX8MQ_CLK_CSI2_PHY_REF>,
-+				    <&clk IMX8MQ_CLK_CSI2_ESC>;
-+				assigned-clock-rates = <266000000>, <333000000>, <66000000>;
-+				assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-+					<&clk IMX8MQ_SYS2_PLL_1000M>,
-+					<&clk IMX8MQ_SYS1_PLL_800M>;
-+				power-domains = <&pgc_mipi_csi2>;
-+				resets = <&src IMX8MQ_RESET_MIPI_CSI2_CORE_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI2_PHY_REF_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI2_ESC_RESET>;
-+				fsl,mipi-phy-gpr = <&iomuxc_gpr 0xa4>;
-+				interconnects = <&noc IMX8MQ_ICM_CSI2 &noc IMX8MQ_ICS_DRAM>;
-+				interconnect-names = "dram";
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+
-+						csi2_mipi_ep: endpoint {
-+							remote-endpoint = <&csi2_ep>;
-+						};
-+					};
-+				};
-+			};
-+
-+			csi2: csi@30b80000 {
-+				compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
-+				reg = <0x30b80000 0x10000>;
-+				interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&clk IMX8MQ_CLK_CSI2_ROOT>;
-+				clock-names = "mclk";
-+				status = "disabled";
-+
-+				port {
-+					csi2_ep: endpoint {
-+						remote-endpoint = <&csi2_mipi_ep>;
-+					};
-+				};
-+			};
-+
- 			mu: mailbox@30aa0000 {
- 				compatible = "fsl,imx8mq-mu", "fsl,imx6sx-mu";
- 				reg = <0x30aa0000 0x10000>;
--- 
-2.30.2
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0imx7_csi_deinit(csi, VB2_BUF_STATE_ERROR);
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+> > =C2=A0
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0csi->is_streaming =3D !=
+!enable;
+>
+>
+> This patch has not yet been accepted. Any specific reason? I need it.
+
+Good question, I gave my reviewed in May [0], maybe got lost in the
+merge process somewhere. Mauro?
+
+[0]: https://lore.kernel.org/linux-media/CBHA8BLTAJM1.1DIYC729ZMAYY@arch-th=
+under/
+
+------
+Cheers,
+     Rui
+
+>
+> Tested-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+>
+> thank you very much
+
+
 
