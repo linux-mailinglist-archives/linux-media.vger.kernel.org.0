@@ -2,109 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FE5B3D8B47
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 11:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B14E63D8B63
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 12:06:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235764AbhG1J7F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jul 2021 05:59:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32872 "EHLO
+        id S232165AbhG1KGf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jul 2021 06:06:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235729AbhG1J7F (ORCPT
+        with ESMTP id S231907AbhG1KGf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jul 2021 05:59:05 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E122C061760
-        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 02:59:03 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id c16so1740095wrp.13
-        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 02:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MvgxeqS+HaNEMobeFZP5WA95GeptTcq9rnLkrwhIlVM=;
-        b=PM6QlPgsr8IposamgI4WB5COeh/xDcr9ATMbDA2Dd4wRs5KSwHmbalTJllsKMJqM+0
-         GDtVquL4G0DduiUTM6rh2DnnFr74LbinaXDuvc8SQEpTi04iXI9d3sgTZKmfngdUo/jv
-         iPKqNea0aMKJq3ZOu0o9sWtT+9Y5QnRrWD+fNjBFea1IdXYXi26ZusvymOmzKFdPaUUf
-         Gw+c311o8ZrV5KyBC7eMm/rBsvkGmo/DMqIW8UGT4JSh3u0IO16huU6UUGAPYxE5BiCi
-         y2oIn5YLRqvYUtRBFx07ouCdrDNNV8XYOJB99SauDS4MfBTlB61waYP4BT59aQJyYqdR
-         niyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=MvgxeqS+HaNEMobeFZP5WA95GeptTcq9rnLkrwhIlVM=;
-        b=kNLZ2EaPk56x28M0EubSG02D+8LfICU42GfzpTHQC5FNBZo/685P5aSlwEAVdeiIgn
-         G0COWYKKoI4jFeanCNhVNrv+Sxp/QllwC2rL9lJCqjeiOok7MQaS6GcM2cCyUQn5+AQb
-         04XuRd60gWiFFqEW10oe6+/xltn8Cd/AvcuppjntdKF1WZF+oFkQCunyeLQB1XSEX1ZW
-         qgHuAIw3llpSDmXMdHchR/2lwuc8g+Tk199tutXnyCBeIRf3um0VhY63iBmuaENgrh0X
-         wnrCUB762ZCyKL0e4S/OY7DDBtxLJ5GhSd13TGp/W7qIL5z8mqZyat6fLpUDExjyoHMr
-         c0Rw==
-X-Gm-Message-State: AOAM532KbiG6gcTIi+UGFP/RSb7H5kF/IFHeGxnA3DbrmafBT/1mAERR
-        216BRtTYNyMC7q0aWfn+Y8oaAg==
-X-Google-Smtp-Source: ABdhPJzw9wZ661UYODGhQsJBzpN0GOzYVIRHpR9IMyHfWkN/3VFO+RS3Knf9UGECNY7xg56NRMZ1Fg==
-X-Received: by 2002:a05:6000:189:: with SMTP id p9mr1300213wrx.137.1627466341898;
-        Wed, 28 Jul 2021 02:59:01 -0700 (PDT)
-Received: from [10.10.6.131] ([109.120.209.55])
-        by smtp.googlemail.com with ESMTPSA id 19sm5605207wmj.2.2021.07.28.02.59.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Jul 2021 02:59:01 -0700 (PDT)
-Subject: Re: [PATCH v2 0/5] Qualcomm custom compressed pixfmt
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-api@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20210706124034.773503-1-stanimir.varbanov@linaro.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <1e07d249-fd55-6c23-c36f-e10fbdeeaca7@linaro.org>
-Date:   Wed, 28 Jul 2021 12:59:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210706124034.773503-1-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Wed, 28 Jul 2021 06:06:35 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07E88C061757
+        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 03:06:33 -0700 (PDT)
+Received: from guri.fritz.box (unknown [IPv6:2a02:810a:880:f54:2423:b21a:aa05:1a51])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id BBFAC1F435D4;
+        Wed, 28 Jul 2021 11:06:31 +0100 (BST)
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, mchehab@kernel.org,
+        tfiga@chromium.org, enric.balletbo@collabora.com,
+        acourbot@chromium.org, hsinyi@chromium.org, eizan@chromium.org
+Subject: [PATCH 0/3] media: v4l2-ctl: Add support to VIDIOC_DQEVENT_TIME32 on non x86_64 arch
+Date:   Wed, 28 Jul 2021 12:06:21 +0200
+Message-Id: <20210728100624.16129-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Currently, if the ioctl VIDIOC_DQEVENT_TIME32 is called on e.g. Arm-64
+the function 'v4l2_compat_translate_cmd' doesn't have a 'translation'
+for the cmd and so 'cmd' is returned as is. This later cause
+a failure '-ENOTTY' in __video_do_ioctl.
+This patchset fix it by defining VIDIOC_DQEVENT32_TIME32 to be
+VIDIOC_DQEVENT_TIME32 for non x86-64 arch and translate it
+to VIDIOC_DQEVENT.
 
-Gentle ping.
+I tested the patchset with vicodec on x86_64 with both v4l2-ctl v4l2-ctl-32
+and I tested it on arm64 with v4l2-ctl compiled to 32 bits, - chromeos userspace on mt8173 device.
 
-On 7/6/21 3:40 PM, Stanimir Varbanov wrote:
-> Hello,
-> 
-> Changes since v1:
->  * rename QC8C to QC08C
->  * rewrite the documentation part
->  * handle correctly QC10C compressed format in the driver
->  * correct compressed 10-bit formats for Venus v4 and v6
-> 
-> Regards,
-> Stan
-> 
-> v1: https://patchwork.linuxtv.org/project/linux-media/list/?series=5331
-> 
-> Stanimir Varbanov (5):
->   v4l: Add Qualcomm custom compressed pixel formats
->   venus: helpers: Add helper to check supported pixel formats
->   venus: Add a handling of QC08C compressed format
->   venus: hfi_platform: Correct supported compressed format
->   venus: Add a handling of QC10C compressed format
-> 
->  .../media/v4l/pixfmt-reserved.rst             | 18 +++++++
->  drivers/media/platform/qcom/venus/helpers.c   | 48 +++++++++++--------
->  drivers/media/platform/qcom/venus/helpers.h   |  1 +
->  .../platform/qcom/venus/hfi_platform_v4.c     |  4 +-
->  .../platform/qcom/venus/hfi_platform_v6.c     |  4 +-
->  drivers/media/platform/qcom/venus/vdec.c      | 31 ++++++++++--
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
->  include/uapi/linux/videodev2.h                |  2 +
->  8 files changed, 82 insertions(+), 28 deletions(-)
-> 
+The command I used:
+$ modprobe vicdec
+$ v4l2-ctl -d7 --stream-mmap --stream-out-mmap --stream-from jelly_700-1000-YU12.fwht
+
+Witout that patchset the command holds:
+$ v4l2-ctl -d7 --stream-mmap --stream-out-mmap --stream-from jelly_700-1000-YU12.fwht
+>>>>
+
+This patchset also fixes a failing test video.DecodeAccelVD.h264 from the 'tast' tests on mtk-vcodec:
+
+tast -verbose run -build=false 10.42.0.175 video.DecodeAccelVD.h264
+
+Dafna Hirschfeld (3):
+  media: v4l2-core: move the code that copies v4l2_event_time32 to a
+    function
+  media: v4l2-core: combine code chunks under macro condition together
+  media: v4l2-ctl: Add support to VIDIOC_DQEVENT_TIME32 on non x86_64
+    arch
+
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 51 ++++++++++---------
+ drivers/media/v4l2-core/v4l2-ioctl.c          | 41 +++++++++------
+ include/media/v4l2-ioctl.h                    |  9 ++++
+ 3 files changed, 61 insertions(+), 40 deletions(-)
 
 -- 
-regards,
-Stan
+2.17.1
+
