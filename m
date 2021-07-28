@@ -2,76 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD8E13D8614
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 05:28:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4889C3D862E
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 05:45:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233567AbhG1D2A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jul 2021 23:28:00 -0400
-Received: from smtprelay0203.hostedemail.com ([216.40.44.203]:45788 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S233481AbhG1D16 (ORCPT
+        id S233500AbhG1DpG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jul 2021 23:45:06 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:50717 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233437AbhG1DpF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jul 2021 23:27:58 -0400
-Received: from omf13.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 62999181D6044;
-        Wed, 28 Jul 2021 03:27:56 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf13.hostedemail.com (Postfix) with ESMTPA id AFAA31124F6;
-        Wed, 28 Jul 2021 03:27:53 +0000 (UTC)
-Message-ID: <9cdabb360fccefd516af3395cc0e485b8786e16b.camel@perches.com>
-Subject: Re: [PATCH v5 14/14] MAINTAINERS: add NXP IMX8Q VPU CODEC V4L2
- driver entry
-From:   Joe Perches <joe@perches.com>
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de
-Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Date:   Tue, 27 Jul 2021 20:27:52 -0700
-In-Reply-To: <6b6a77088f2bfc7ed6ca7418ee0c029fcac8ce96.1627353315.git.ming.qian@nxp.com>
-References: <cover.1627353315.git.ming.qian@nxp.com>
-         <6b6a77088f2bfc7ed6ca7418ee0c029fcac8ce96.1627353315.git.ming.qian@nxp.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.0-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.59
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: AFAA31124F6
-X-Stat-Signature: foj4j8ssn934grob4hyesgiacfxjwirp
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18laeUvp1+hAzihRHMHUdeghjhXbsHTJ3I=
-X-HE-Tag: 1627442873-934484
+        Tue, 27 Jul 2021 23:45:05 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 8aVBme4NS4Jsb8aVDmZwlt; Wed, 28 Jul 2021 05:45:03 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1627443903; bh=UPv5t5dyz0eo4Fs+D2K4kqoGTgG8Oa2hWg0Zl/wBPNA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=WSUidUn13GZYHpCtz0rGXo9E4zjDJjglmusG6QsFOuimx6l5xUK3UbVQraoGxvUK9
+         5Ma4kVuY0uE7cUNp4WYsuCMKwNmBgVdNXfSQDILdKx5hJcqIWx3lXYsxuo9jIdMpAU
+         CxpESZozwUn0BzYPd4ewu+m3QIdF3pBHkov+KBDkU3vP0yP71d3J1nvZ1fB+iLu/0n
+         uhPKJg4Zclr3aq2kW/JpRAn9HOQxVJ2Qmc70ynm/3Vxqi1dVQcqeSiIzqtDf3UV8sb
+         L6EIFncxwRbkbm5WIW2LWRP1KppDaVBykqMM/KhDaJYNTMXT26QQL5z06mAlli+3Gl
+         0c6IRA7Af69vA==
+Message-ID: <7b88138d674b20135f07292df8779ac8@smtp-cloud9.xs4all.net>
+Date:   Wed, 28 Jul 2021 05:45:01 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfLfWNZ1gXoBnJe3WavzvdNbDnsJI8G7jA4koiLLt6xC6GHzP611ixh6UhUo0zYboMSvzx9C3rOUrb1/pfJpXvQkAShwF6NVP+dUzj/s/ykxWIAxtGBiA
+ nXKwryI1CpCKlHvtG3OWBhicHbsJOgr3uFf4xK3xMwFuUSyuNzYQV4bYJMXG5AhIF9H+QBBcadVnnUaiz334J6D6o3cEog2cAEAVzzT23QWEi4Zk01JcVkVO
+ ZV+owa4ji38A1Vi+9Ap9CQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2021-07-27 at 11:20 +0800, Ming Qian wrote:
-> Add NXP IMX8Q VPU CODEC v4l2 driver entry
-[]
-> diff --git a/MAINTAINERS b/MAINTAINERS
-[]
-> @@ -12600,6 +12600,16 @@ L:	linux-nfc@lists.01.org (moderated for non-subscribers)
->  S:	Supported
->  F:	drivers/nfc/nxp-nci
->  
-> +NXP IMX8Q VPU CODEC V4L2 DRIVER
-> +M:	Ming Qian <ming.qian@nxp.com>
-> +M:	Shijie Qin <shijie.qin@nxp.com>
-> +M:	Zhou Peng <eagle.zhou@nxp.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/media/nxp,imx8q-vpu.yaml
-> +F:	drivers/media/platform/imx/vpu-8q
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Should have a trailing /
+Results of the daily build of media_tree:
 
-F:	drivers/media/platform/imx/vpu-8q/
+date:			Wed Jul 28 05:00:11 CEST 2021
+media-tree git hash:	e73f0f0ee7541171d89f2e2491130c7771ba58d3
+media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
+v4l-utils git hash:	a4f2e3a6f306f0bef6664451b44d5a7a18b26803
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7505-gb2467b103
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
+host hardware:		x86_64
+host os:		5.13.1-marune
 
-> +F:	include/uapi/linux/imx_vpu.h
-> +
->  OBJAGG
->  M:	Jiri Pirko <jiri@nvidia.com>
->  L:	netdev@vger.kernel.org
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13.1-i686: OK
+linux-5.13.1-x86_64: OK
+linux-5.14-rc1-i686: OK
+linux-5.14-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 0
+virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
