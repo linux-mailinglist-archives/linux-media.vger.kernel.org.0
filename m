@@ -2,343 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E2E43D8CA3
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 13:22:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C5083D8CBF
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 13:29:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234744AbhG1LWa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jul 2021 07:22:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52112 "EHLO
+        id S234517AbhG1L3G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jul 2021 07:29:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234639AbhG1LW0 (ORCPT
+        with ESMTP id S232786AbhG1L3F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jul 2021 07:22:26 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00FC9C061760
-        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 04:22:24 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id q17-20020a17090a2e11b02901757deaf2c8so3799640pjd.0
-        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 04:22:23 -0700 (PDT)
+        Wed, 28 Jul 2021 07:29:05 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63CD2C061757
+        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 04:29:03 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id e2so2080658wrq.6
+        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 04:29:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1D2l4hNhHsS2iormCyA3EgfKp4hZF3DC2mQohMFaQrw=;
-        b=mRWCtO3QfbgUfq1l3wAePMNB/g+xsC+QJ6CrIDSnWa5k4kHNMhcrRg0jZ0PTZUAv73
-         vtBwXxUYgNwibNP1kEQWPuzl4W5+KatrRxBBUIkKcUlnB6EPJfdtRdHLiafEUQe8cDiy
-         YnUoVclJMbGMFiNag+YigMOJuz4Zl8PB/PHbq4MDg54brZYAdWKAM7Xz4uSrhlPnCwR5
-         WkCsMXPB00MzBAGSYZ+1m7bVEgJMfxsi7h8kPwyaPNVlBbbHQJ63eguYlqv8yyLEqXcc
-         yWsAp95MfBrUsq5yTf4L605iUolelboXl8aj2s5LuOHAEkra+9svFwKa6kbfR34gxiIX
-         cZig==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=VI1b/7Zio0QbTHVDmC7OIx9Iv7sUZ3kXOO83Nnb1/lI=;
+        b=MOA/VOEXpidjw9AYaF3IXPbM6aik0n/2pDu3qGV734GI/MKZej41DpACQshSitpBHp
+         LQ3YHoaO3xcBZzpcsNjShILGXUpmKS5ZgVAmgwqvbopYjCV6Oe7kqDCKvQGMz1GhH8FV
+         iSxZcRNrR7p1TZ5rVO3i3rez8Tf1bgPKxGIL7d8oWchGGL320KpKfOsAda6x+TjTz5O4
+         4bCPnPYjchzaaC50jNDk1qaP8p8alaDlxruTYCJqyH5+MzTNO6GiD6mTiiIIejBu2nm4
+         +Vr4pubkhVWp5DZvj/DSgx8P3RUgT6oeNuzxq4zWxIwzW6zjdND1aBxfxo7GqdOlIOLr
+         7nyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1D2l4hNhHsS2iormCyA3EgfKp4hZF3DC2mQohMFaQrw=;
-        b=H+TE079JcMGmr3qYiOilsy9NBibBda0bDHF1ydYea7F+dio/13/7SFxhHc15CvURKs
-         +ghNgSXLVrdRtunBwowTg4PWmScMGMSxixq5tjoVIx93bVxjOC7cfgx41nGP8MmbbbpP
-         Bu7R1OwBrMNy6CSAkSvif/Sbji0lxmMHXk2MpMmGVcFUe+76spbLXngc5BcKVNyKkyGi
-         COLs532UrqYgAbf/SA6L3Rps3wKhnEV1BWELbhvEQy60mAfw2Ara4VahKBYU5TiPtqOP
-         +DtI5LdkSOFvCb0gsB3DqvWFfTPX33JWfaObl1YWTNILfID9488Ka49yyKN4DWc+3ViL
-         Cf6Q==
-X-Gm-Message-State: AOAM5336mfVbohpkautbQISh+G06jR4LY3AjIepIRSpScOHoE/nEl0mv
-        qM3/JlngMlO5iwfFNi2ZEBc638Cd+spvKihf/tlOsg==
-X-Google-Smtp-Source: ABdhPJxRTQH8bd2Jy7w5i3uoVa+5yBl6+Cvkkf47mQcZ7rm/SCosKY77pYTlkrX7FoD/GLCQR0gUe7K0QuCrb6lhMRA=
-X-Received: by 2002:a17:90a:604b:: with SMTP id h11mr23151924pjm.220.1627471343428;
- Wed, 28 Jul 2021 04:22:23 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=VI1b/7Zio0QbTHVDmC7OIx9Iv7sUZ3kXOO83Nnb1/lI=;
+        b=AFi8GBGRWZYXFACTxfv7vBAq7VfMX2P2822DW/atOZ9ip1VWmgjohCleOtUFxMDZw0
+         /0g94Y5qccI+2xafr8gqHTlnYJaUO/mCi4pOsZwfyRFSaruq4DcFgzyAzxQFfmNkvhvo
+         19cB/DZOTW4cxbOZ22dSTA/UPuKL7V7ldAs9B7Wd7xTU5ORdALFdEEegFWu4NOohjTMu
+         qU4263rhWu3yN3+pWzyDRXHwn82hbufIZPonwSD7W2UTpBj462gJN2FQ22ZlyaqGPMa0
+         dNcLMai1mmWB2D4typD0usQVrfE+SVxd4nCqXonNRvFV3y+loTKF0a5OFWg1XE88ojH5
+         jtXA==
+X-Gm-Message-State: AOAM532LAwFuBU3I1+xGEw06S9lknp5kiG2cZXzhamyUxSZAh66lakRq
+        U+Gnge2eAGK0kpMqoQTElic=
+X-Google-Smtp-Source: ABdhPJwO3jBbz+R3AJiHF0WQfeY+oF3uwMVgNB4ghF4GPoF75Jaw2yWir3ze6NE+b9AvVpMjJ+cXcg==
+X-Received: by 2002:a5d:61c8:: with SMTP id q8mr18198915wrv.151.1627471741909;
+        Wed, 28 Jul 2021 04:29:01 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:6a5d:b580:2891:cbac? ([2a02:908:1252:fb60:6a5d:b580:2891:cbac])
+        by smtp.gmail.com with ESMTPSA id l2sm4888332wru.67.2021.07.28.04.29.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Jul 2021 04:29:01 -0700 (PDT)
+Subject: Re: [Linaro-mm-sig] [PATCH v4 03/18] drm/sched: Add dependency
+ tracking
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Lucas Stach <l.stach@pengutronix.de>
+Cc:     Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Jack Zhang <Jack.Zhang1@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Steven Price <steven.price@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Nirmoy Das <nirmoy.aiemd@gmail.com>
+References: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
+ <20210712175352.802687-4-daniel.vetter@ffwll.ch>
+ <CAKMK7uG8bMuDP=7-z9nZ38WgMdbeUk96eNx3buTCiaKatYOJxw@mail.gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <2bcfba05-b7d5-1bd9-d74a-b9aac1147e20@gmail.com>
+Date:   Wed, 28 Jul 2021 13:28:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210705081724.168523-1-hsinyi@chromium.org>
-In-Reply-To: <20210705081724.168523-1-hsinyi@chromium.org>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Wed, 28 Jul 2021 13:22:12 +0200
-Message-ID: <CAG3jFyuT09KOG9Xn-wbrr2DSOB=jSRvBVj96Vx4ja0PQWPKh6g@mail.gmail.com>
-Subject: Re: [PATCH] media: ov8856: Set default mbus format but allow caller
- to alter
-To:     Hsin-Yi Wang <hsinyi@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAKMK7uG8bMuDP=7-z9nZ38WgMdbeUk96eNx3buTCiaKatYOJxw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Hsin-Yi,
+Am 27.07.21 um 13:09 schrieb Daniel Vetter:
+> Adding a few more people to this bikeshed.
+>
+> On Mon, Jul 12, 2021 at 10:02 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+>> @@ -349,6 +367,13 @@ int drm_sched_job_init(struct drm_sched_job *job,
+>>                         struct drm_sched_entity *entity,
+>>                         void *owner);
+>>   void drm_sched_job_arm(struct drm_sched_job *job);
+>> +int drm_sched_job_await_fence(struct drm_sched_job *job,
+>> +                             struct dma_fence *fence);
+>> +int drm_sched_job_await_implicit(struct drm_sched_job *job,
+>> +                                struct drm_gem_object *obj,
+>> +                                bool write);
+>> +
+>> +
+> I'm still waiting on the paint delivery for these two functions so I
+> can finish this shed.
 
-Thanks for looking into this.
+Well I wouldn't call that bike shedding, good names are important.
 
-On Mon, 5 Jul 2021 at 10:17, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+Just imaging we would have called the exclusive-fence write-fence instead.
+
+What speaks against calling them add_dependency() and 
+_add_implicit_depencencies() ?
+
+Regards,
+Christian.
+
 >
-> Setting the value of V_WIN_OFF (0x3818) from 0x02 to 0x01 to use GRBG
-> format still results in wrong color output if data is tuned in BGGR mode
-> before.
+> Thanks, Daniel
 >
-> Set default mbus format for the supported modes, but allow the caller of
-> set(get)_fmt to change the bayer format between BGGR and GRBG.
->
-> Set the default mbus format for 3264x2448 (and 1632x1224) to BGGR as the
-> data sheet states the value of this reg should be 0x02 by default.
->
-> If new modes are added in the future, they can add the
-> mipi_data_mbus_{format} settings into bayer_offset_configs to adjust their
-> offset regs.
->
-> Fixes: 2984b0ddd557 ("media: ov8856: Configure sensor for GRBG Bayer for all modes")
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
->  drivers/media/i2c/ov8856.c | 83 +++++++++++++++++++++++++++++++++-----
->  1 file changed, 72 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-> index 88e19f30d3762..5aac76cca6801 100644
-> --- a/drivers/media/i2c/ov8856.c
-> +++ b/drivers/media/i2c/ov8856.c
-> @@ -107,6 +107,11 @@ static const char * const ov8856_supply_names[] = {
->         "dvdd",         /* Digital core power */
->  };
->
-> +enum {
-> +       OV8856_MEDIA_BUS_FMT_SBGGR10_1X10,
-> +       OV8856_MEDIA_BUS_FMT_SGRBG10_1X10,
-> +};
-> +
->  struct ov8856_reg {
->         u16 address;
->         u8 val;
-> @@ -145,6 +150,9 @@ struct ov8856_mode {
->
->         /* Number of data lanes */
->         u8 data_lanes;
-> +
-> +       /* Default MEDIA_BUS_FMT for this mode */
-> +       u32 default_mbus_index;
->  };
->
->  struct ov8856_mipi_data_rates {
-> @@ -1055,7 +1063,7 @@ static const struct ov8856_reg lane_4_mode_3264x2448[] = {
->                 {0x3810, 0x00},
->                 {0x3811, 0x04},
->                 {0x3812, 0x00},
-> -               {0x3813, 0x01},
-> +               {0x3813, 0x02},
->                 {0x3814, 0x01},
->                 {0x3815, 0x01},
->                 {0x3816, 0x00},
-> @@ -1259,7 +1267,7 @@ static const struct ov8856_reg lane_4_mode_1632x1224[] = {
->                 {0x3810, 0x00},
->                 {0x3811, 0x02},
->                 {0x3812, 0x00},
-> -               {0x3813, 0x01},
-> +               {0x3813, 0x02},
->                 {0x3814, 0x03},
->                 {0x3815, 0x01},
->                 {0x3816, 0x00},
-> @@ -1372,6 +1380,19 @@ static const struct ov8856_reg lane_4_mode_1632x1224[] = {
->                 {0x5e10, 0xfc}
->  };
->
-> +static const struct ov8856_reg mipi_data_mbus_sbggr10_1x10[] = {
-> +       {0x3813, 0x02},
-> +};
-> +
-> +static const struct ov8856_reg mipi_data_mbus_sgrbg10_1x10[] = {
-> +       {0x3813, 0x01},
-> +};
-> +
-> +static const u32 ov8856_mbus_codes[] = {
-> +       MEDIA_BUS_FMT_SBGGR10_1X10,
-> +       MEDIA_BUS_FMT_SGRBG10_1X10
-> +};
-> +
->  static const char * const ov8856_test_pattern_menu[] = {
->         "Disabled",
->         "Standard Color Bar",
-> @@ -1380,6 +1401,17 @@ static const char * const ov8856_test_pattern_menu[] = {
->         "Bottom-Top Darker Color Bar"
->  };
->
-> +static const struct ov8856_reg_list bayer_offset_configs[] = {
-> +       [OV8856_MEDIA_BUS_FMT_SBGGR10_1X10] = {
-> +               .num_of_regs = ARRAY_SIZE(mipi_data_mbus_sbggr10_1x10),
-> +               .regs = mipi_data_mbus_sbggr10_1x10,
-> +       },
-> +       [OV8856_MEDIA_BUS_FMT_SGRBG10_1X10] = {
-> +               .num_of_regs = ARRAY_SIZE(mipi_data_mbus_sgrbg10_1x10),
-> +               .regs = mipi_data_mbus_sgrbg10_1x10,
-> +       }
-> +};
-> +
->  struct ov8856 {
->         struct v4l2_subdev sd;
->         struct media_pad pad;
-> @@ -1399,6 +1431,9 @@ struct ov8856 {
->         /* Current mode */
->         const struct ov8856_mode *cur_mode;
->
-> +       /* Application specified mbus format */
-> +       u32 cur_mbus_index;
-> +
->         /* To serialize asynchronus callbacks */
->         struct mutex mutex;
->
-> @@ -1450,6 +1485,7 @@ static const struct ov8856_lane_cfg lane_cfg_2 = {
->                 },
->                 .link_freq_index = 0,
->                 .data_lanes = 2,
-> +               .default_mbus_index = OV8856_MEDIA_BUS_FMT_SGRBG10_1X10,
->         },
->         {
->                 .width = 1640,
-> @@ -1464,6 +1500,7 @@ static const struct ov8856_lane_cfg lane_cfg_2 = {
->                 },
->                 .link_freq_index = 1,
->                 .data_lanes = 2,
-> +               .default_mbus_index = OV8856_MEDIA_BUS_FMT_SGRBG10_1X10,
->         }}
->  };
->
-> @@ -1499,6 +1536,7 @@ static const struct ov8856_lane_cfg lane_cfg_4 = {
->                         },
->                         .link_freq_index = 0,
->                         .data_lanes = 4,
-> +                       .default_mbus_index = OV8856_MEDIA_BUS_FMT_SGRBG10_1X10,
->                 },
->                 {
->                         .width = 1640,
-> @@ -1513,6 +1551,7 @@ static const struct ov8856_lane_cfg lane_cfg_4 = {
->                         },
->                         .link_freq_index = 1,
->                         .data_lanes = 4,
-> +                       .default_mbus_index = OV8856_MEDIA_BUS_FMT_SGRBG10_1X10,
->                 },
->                 {
->                         .width = 3264,
-> @@ -1527,6 +1566,7 @@ static const struct ov8856_lane_cfg lane_cfg_4 = {
->                         },
->                         .link_freq_index = 0,
->                         .data_lanes = 4,
-> +                       .default_mbus_index = OV8856_MEDIA_BUS_FMT_SBGGR10_1X10,
->                 },
->                 {
->                         .width = 1632,
-> @@ -1541,6 +1581,7 @@ static const struct ov8856_lane_cfg lane_cfg_4 = {
->                         },
->                         .link_freq_index = 1,
->                         .data_lanes = 4,
-> +                       .default_mbus_index = OV8856_MEDIA_BUS_FMT_SBGGR10_1X10,
->                 }}
->  };
->
-> @@ -1904,12 +1945,21 @@ static int ov8856_init_controls(struct ov8856 *ov8856)
->         return 0;
->  }
->
-> -static void ov8856_update_pad_format(const struct ov8856_mode *mode,
-> +static void ov8856_update_pad_format(struct ov8856 *ov8856,
-> +                                    const struct ov8856_mode *mode,
->                                      struct v4l2_mbus_framefmt *fmt)
->  {
-> +       int index;
-> +
->         fmt->width = mode->width;
->         fmt->height = mode->height;
-> -       fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-> +       for (index = 0; index < ARRAY_SIZE(ov8856_mbus_codes); ++index)
-> +               if (ov8856_mbus_codes[index] == fmt->code)
-> +                       break;
-> +       if (index == ARRAY_SIZE(ov8856_mbus_codes))
-> +               index = mode->default_mbus_index;
-> +       fmt->code = ov8856_mbus_codes[index];
-> +       ov8856->cur_mbus_index = index;
->         fmt->field = V4L2_FIELD_NONE;
->  }
->
-> @@ -1935,6 +1985,13 @@ static int ov8856_start_streaming(struct ov8856 *ov8856)
->                 return ret;
->         }
->
-> +       reg_list = &bayer_offset_configs[ov8856->cur_mbus_index];
-> +       ret = ov8856_write_reg_list(ov8856, reg_list);
-> +       if (ret) {
-> +               dev_err(&client->dev, "failed to set mbus format");
-> +               return ret;
-> +       }
-> +
->         ret = __v4l2_ctrl_handler_setup(ov8856->sd.ctrl_handler);
->         if (ret)
->                 return ret;
-> @@ -2096,7 +2153,7 @@ static int ov8856_set_format(struct v4l2_subdev *sd,
->                                       fmt->format.height);
->
->         mutex_lock(&ov8856->mutex);
-> -       ov8856_update_pad_format(mode, &fmt->format);
-> +       ov8856_update_pad_format(ov8856, mode, &fmt->format);
->         if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
->                 *v4l2_subdev_get_try_format(sd, sd_state, fmt->pad) = fmt->format;
->         } else {
-> @@ -2140,7 +2197,7 @@ static int ov8856_get_format(struct v4l2_subdev *sd,
->                                                           sd_state,
->                                                           fmt->pad);
->         else
-> -               ov8856_update_pad_format(ov8856->cur_mode, &fmt->format);
-> +               ov8856_update_pad_format(ov8856, ov8856->cur_mode, &fmt->format);
->
->         mutex_unlock(&ov8856->mutex);
->
-> @@ -2151,11 +2208,10 @@ static int ov8856_enum_mbus_code(struct v4l2_subdev *sd,
->                                  struct v4l2_subdev_state *sd_state,
->                                  struct v4l2_subdev_mbus_code_enum *code)
->  {
-> -       /* Only one bayer order GRBG is supported */
-> -       if (code->index > 0)
-> +       if (code->index >= ARRAY_SIZE(ov8856_mbus_codes))
->                 return -EINVAL;
->
-> -       code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-> +       code->code = ov8856_mbus_codes[code->index];
->
->         return 0;
->  }
-> @@ -2165,11 +2221,15 @@ static int ov8856_enum_frame_size(struct v4l2_subdev *sd,
->                                   struct v4l2_subdev_frame_size_enum *fse)
->  {
->         struct ov8856 *ov8856 = to_ov8856(sd);
-> +       int index;
->
->         if (fse->index >= ov8856->modes_size)
->                 return -EINVAL;
->
-> -       if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
-> +       for (index = 0; index < ARRAY_SIZE(ov8856_mbus_codes); ++index)
-> +               if (fse->code == ov8856_mbus_codes[index])
-> +                       break;
-> +       if (index == ARRAY_SIZE(ov8856_mbus_codes))
->                 return -EINVAL;
->
->         fse->min_width = ov8856->priv_lane->supported_modes[fse->index].width;
-> @@ -2185,7 +2245,7 @@ static int ov8856_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
->         struct ov8856 *ov8856 = to_ov8856(sd);
->
->         mutex_lock(&ov8856->mutex);
-> -       ov8856_update_pad_format(&ov8856->priv_lane->supported_modes[0],
-> +       ov8856_update_pad_format(ov8856, &ov8856->priv_lane->supported_modes[0],
->                                  v4l2_subdev_get_try_format(sd, fh->state, 0));
->         mutex_unlock(&ov8856->mutex);
->
-> @@ -2425,6 +2485,7 @@ static int ov8856_probe(struct i2c_client *client)
->
->         mutex_init(&ov8856->mutex);
->         ov8856->cur_mode = &ov8856->priv_lane->supported_modes[0];
-> +       ov8856->cur_mbus_index = ov8856->cur_mode->default_mbus_index;
->         ret = ov8856_init_controls(ov8856);
->         if (ret) {
->                 dev_err(&client->dev, "failed to init controls: %d", ret);
-> --
-> 2.32.0.93.g670b81a890-goog
+>>   void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+>>                                      struct drm_gpu_scheduler **sched_list,
+>>                                      unsigned int num_sched_list);
+>> --
+>> 2.32.0
+>>
 >
 
-Looks good to me.
-
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
