@@ -2,83 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9498C3D8ECC
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 15:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1A0B3D8ECD
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 15:18:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235942AbhG1NRg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jul 2021 09:17:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50408 "EHLO
+        id S235260AbhG1NSn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jul 2021 09:18:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234771AbhG1NRg (ORCPT
+        with ESMTP id S234771AbhG1NSn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jul 2021 09:17:36 -0400
+        Wed, 28 Jul 2021 09:18:43 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBDF2C061757
-        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 06:17:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B66BAC061757
+        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 06:18:41 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 737F43F
-        for <linux-media@vger.kernel.org>; Wed, 28 Jul 2021 15:17:30 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3641D3F;
+        Wed, 28 Jul 2021 15:18:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1627478250;
-        bh=4AnwR2q/5XOhLQ/qGDlV9vxI3zd7sWaLwEr1WJO/J3o=;
-        h=Date:From:To:Subject:From;
-        b=RHIUDxjI14f6d24DWsMl1Wn0k3I2gC9+KRmNluiDKbwGE486h8td+DchjSxBoGCTE
-         /YFsErQwMRI0GD9QNSwk6ea8PwvY90cnQ+sQFefzEbX61pUSjbzgIFFKvZk2zphcfm
-         vN4jN+UMO1LehYhhs1/V/wFsNQdqSiBdhCF6KEy4=
-Date:   Wed, 28 Jul 2021 16:17:24 +0300
+        s=mail; t=1627478320;
+        bh=GwfvPbffeEFA1GNHNdiFSa9Gx9MqIo3jVY76syuYezA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bD7RiNYiSJEYiEyDwhK2si8F0/qMjO/1L6BeHU1tBdp+dyYwAVM7ztJHk4gkZ9Fon
+         FlPzBdvcTIouHlyrBvlHm1xyhsxkkWp2nOrfMMi8rlDwEtlHvZKup3xBGMiTPQ62MY
+         fzSMfswUbMKsic6NPVtkNc7Iz4124pX0tfcuUC3M=
+Date:   Wed, 28 Jul 2021 16:18:34 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.15] i.MX8 improvements
-Message-ID: <YQFY5FS8v3Y3KkEA@pendragon.ideasonboard.com>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>
+Cc:     Martin Kepplinger <martin.kepplinger@puri.sm>,
+        linux-media@vger.kernel.org,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>, kernel@pengutronix.de,
+        linux-imx@nxp.com
+Subject: Re: [PATCH] media: imx: imx7-media-csi: Fix buffer return upon
+ stream start failure
+Message-ID: <YQFZKtF/JUm0ay+9@pendragon.ideasonboard.com>
+References: <20210519005834.8690-1-laurent.pinchart@ideasonboard.com>
+ <09087c452885b0da779258b4962a349dbde1aec7.camel@puri.sm>
+ <CD4NTXN3E6YR.2T29V4FEH13PB@arch-thunder>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CD4NTXN3E6YR.2T29V4FEH13PB@arch-thunder>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hello,
 
-The following changes since commit e73f0f0ee7541171d89f2e2491130c7771ba58d3:
+On Wed, Jul 28, 2021 at 10:19:36AM +0100, Rui Miguel Silva wrote:
+> On Wed Jul 28, 2021 at 9:50 AM WEST, Martin Kepplinger wrote:
+> > Am Mittwoch, dem 19.05.2021 um 03:58 +0300 schrieb Laurent Pinchart:
+> > > When the stream fails to start, the first two buffers in the queue
+> > > have
+> > > been moved to the active_vb2_buf array and are returned to vb2 by
+> > > imx7_csi_dma_unsetup_vb2_buf(). The function is called with the
+> > > buffer
+> > > state set to VB2_BUF_STATE_ERROR unconditionally, which is correct
+> > > when
+> > > stopping the stream, but not when the start operation fails. In that
+> > > case, the state should be set to VB2_BUF_STATE_QUEUED. Fix it.
+> > > 
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > ---
+> > >  drivers/staging/media/imx/imx7-media-csi.c | 15 +++++++++------
+> 
+> <snip>
+> 
+> > > +               imx7_csi_deinit(csi, VB2_BUF_STATE_ERROR);
+> > >         }
+> > >  
+> > >         csi->is_streaming = !!enable;
+> >
+> >
+> > This patch has not yet been accepted. Any specific reason? I need it.
+> 
+> Good question, I gave my reviewed in May [0], maybe got lost in the
+> merge process somewhere. Mauro?
 
-  Linux 5.14-rc1 (2021-07-11 15:07:40 -0700)
+I've just sent a pull request with all the pending i.MX8 patches,
+including Martin's i.MX8MQ CSI-2 receiver driver.
 
-are available in the Git repository at:
+https://lore.kernel.org/linux-media/YQFY5FS8v3Y3KkEA@pendragon.ideasonboard.com/T/#u
 
-  git://linuxtv.org/pinchartl/media.git tags/imx-20210728
-
-for you to fetch changes up to bd767a962ee67b92c180c9d18f48e462d98e1746:
-
-  media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller (2021-07-28 16:09:45 +0300)
-
-----------------------------------------------------------------
-- i.MX8MM support in the imx7-media-csi driver
-- i.MX8MQ CSI-2 receiver driver
-- Miscellaneous imx7-mipi-csis fix
-
-----------------------------------------------------------------
-Laurent Pinchart (4):
-      dt-bindings: media: nxp,imx7-csi: Add i.MX8MM support
-      media: imx: imx7-media-csi: Set TWO_8BIT_SENSOR for >= 10-bit formats
-      media: imx: imx7-media-csi: Don't set PIXEL_BIT in CSICR1
-      media: imx: imx7-media-csi: Fix buffer return upon stream start failure
-
-Martin Kepplinger (2):
-      dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and controller
-      media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
-
-Tom Rix (1):
-      media: imx: imx7_mipi_csis: convert some switch cases to the default
-
- .../devicetree/bindings/media/nxp,imx7-csi.yaml    |  12 +-
- .../bindings/media/nxp,imx8mq-mipi-csi2.yaml       | 174 ++++
- drivers/staging/media/imx/Makefile                 |   1 +
- drivers/staging/media/imx/imx7-media-csi.c         |  36 +-
- drivers/staging/media/imx/imx7-mipi-csis.c         |   6 +-
- drivers/staging/media/imx/imx8mq-mipi-csi2.c       | 991 +++++++++++++++++++++
- 6 files changed, 1190 insertions(+), 30 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
- create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> [0]: https://lore.kernel.org/linux-media/CBHA8BLTAJM1.1DIYC729ZMAYY@arch-thunder/
+> 
+> >
+> > Tested-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> >
+> > thank you very much
 
 -- 
 Regards,
