@@ -2,122 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 025F13D8A16
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 10:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B74B63D8A5E
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 11:13:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234365AbhG1IzA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jul 2021 04:55:00 -0400
-Received: from comms.puri.sm ([159.203.221.185]:36396 "EHLO comms.puri.sm"
+        id S235476AbhG1JNk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jul 2021 05:13:40 -0400
+Received: from comms.puri.sm ([159.203.221.185]:37418 "EHLO comms.puri.sm"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229574AbhG1Iy7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jul 2021 04:54:59 -0400
+        id S235471AbhG1JNc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Jul 2021 05:13:32 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 6C214E048D;
-        Wed, 28 Jul 2021 01:54:28 -0700 (PDT)
+        by comms.puri.sm (Postfix) with ESMTP id 41581E0E7D;
+        Wed, 28 Jul 2021 02:13:01 -0700 (PDT)
 Received: from comms.puri.sm ([127.0.0.1])
         by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id jK_RTihMX_Ee; Wed, 28 Jul 2021 01:54:27 -0700 (PDT)
-Message-ID: <6461ee38c77b94c0c8853d814da6ae6ae4e684f6.camel@puri.sm>
-Subject: Re: [RFC PATCH 2/3] media: imx: imx7-media-csi: Set TWO_8BIT_SENSOR
- for >= 10-bit formats
+        with ESMTP id zuZBgGbAAueh; Wed, 28 Jul 2021 02:12:56 -0700 (PDT)
 From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>, kernel@pengutronix.de,
-        Fabio Estevam <festevam@gmail.com>, linux-imx@nxp.com,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Marek Vasut <marex@denx.de>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Date:   Wed, 28 Jul 2021 10:54:23 +0200
-In-Reply-To: <20210516024216.4576-3-laurent.pinchart@ideasonboard.com>
-References: <20210516024216.4576-1-laurent.pinchart@ideasonboard.com>
-         <20210516024216.4576-3-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+To:     laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
+        shawnguo@kernel.org
+Cc:     devicetree@vger.kernel.org, festevam@gmail.com,
+        kernel@pengutronix.de, kernel@puri.sm, krzk@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
+        mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
+        slongerbeam@gmail.com,
+        Martin Kepplinger <martin.kepplinger@puri.sm>
+Subject: [PATCH v10 0/3] media: imx: add support for imx8mq MIPI RX
+Date:   Wed, 28 Jul 2021 11:12:42 +0200
+Message-Id: <20210728091245.231043-1-martin.kepplinger@puri.sm>
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Sonntag, dem 16.05.2021 um 05:42 +0300 schrieb Laurent Pinchart:
-> Sample code from NXP, as well as experiments on i.MX8MM with RAW10
-> capture with an OV5640 sensor connected over CSI-2, showed that the
-> TWO_8BIT_SENSOR field of the CSICR3 register needs to be set for
-> formats
-> larger than 8 bits. Do so, even if the reference manual doesn't
-> clearly
-> describe the effect of the field.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/staging/media/imx/imx7-media-csi.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c
-> b/drivers/staging/media/imx/imx7-media-csi.c
-> index f85a2f5f1413..256b9aa978f0 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -422,6 +422,7 @@ static void imx7_csi_configure(struct imx7_csi
-> *csi)
->         int width = out_pix->width;
->         u32 stride = 0;
->         u32 cr1, cr18;
-> +       u32 cr3 = 0;
->  
->         cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
->  
-> @@ -464,6 +465,7 @@ static void imx7_csi_configure(struct imx7_csi
-> *csi)
->                 case MEDIA_BUS_FMT_SGBRG10_1X10:
->                 case MEDIA_BUS_FMT_SGRBG10_1X10:
->                 case MEDIA_BUS_FMT_SRGGB10_1X10:
-> +                       cr3 |= BIT_TWO_8BIT_SENSOR;
->                         cr18 |= BIT_MIPI_DATA_FORMAT_RAW10;
->                         break;
->                 case MEDIA_BUS_FMT_Y12_1X12:
-> @@ -471,6 +473,7 @@ static void imx7_csi_configure(struct imx7_csi
-> *csi)
->                 case MEDIA_BUS_FMT_SGBRG12_1X12:
->                 case MEDIA_BUS_FMT_SGRBG12_1X12:
->                 case MEDIA_BUS_FMT_SRGGB12_1X12:
-> +                       cr3 |= BIT_TWO_8BIT_SENSOR;
->                         cr18 |= BIT_MIPI_DATA_FORMAT_RAW12;
->                         break;
->                 case MEDIA_BUS_FMT_Y14_1X14:
-> @@ -478,6 +481,7 @@ static void imx7_csi_configure(struct imx7_csi
-> *csi)
->                 case MEDIA_BUS_FMT_SGBRG14_1X14:
->                 case MEDIA_BUS_FMT_SGRBG14_1X14:
->                 case MEDIA_BUS_FMT_SRGGB14_1X14:
-> +                       cr3 |= BIT_TWO_8BIT_SENSOR;
->                         cr18 |= BIT_MIPI_DATA_FORMAT_RAW14;
->                         break;
->                 /*
-> @@ -510,7 +514,7 @@ static void imx7_csi_configure(struct imx7_csi
-> *csi)
->  
->         imx7_csi_reg_write(csi, cr1, CSI_CSICR1);
->         imx7_csi_reg_write(csi, BIT_DMA_BURST_TYPE_RFF_INCR16,
-> CSI_CSICR2);
-> -       imx7_csi_reg_write(csi, BIT_FRMCNT_RST, CSI_CSICR3);
-> +       imx7_csi_reg_write(csi, BIT_FRMCNT_RST | cr3, CSI_CSICR3);
->         imx7_csi_reg_write(csi, cr18, CSI_CSICR18);
->  
->         imx7_csi_reg_write(csi, (width * out_pix->height) >> 2,
-> CSI_CSIRXCNT);
+hi,
 
-this patch series looks good to me - I need it for the driver to run on
-imx8mq.
+This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
 
-Reviewed-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
+I test it using libcamera. Thanks to Laurent who helped a lot. I'm happy for
+any feedback,
 
-Could you either rebase and resend as non-RFC or queue them up more
-directly?
+                           martin
 
-thank you,
+revision history
+----------------
+v10: (thank you Dafna)
+* improve send_level documentation.
+* add some comments to 0x180 and 0x184
+* after re-reading I could eliminate the unneeded setting of 0x184 (ignored
+  by setting 0x180 to 1).
 
-                     martin
+v9: (thank you Laurent)
+* improve getting the esc clock rate for hs_settle
+https://lore.kernel.org/linux-media/20210726082117.2423597-1-martin.kepplinger@puri.sm/
+
+v8: (thank you Laurent)
+* calculate hs_settle for any clk rate and mode
+* add reviewed-by tag
+https://lore.kernel.org/linux-media/20210723101217.1954805-1-martin.kepplinger@puri.sm/T/
+
+v7: (thank you Laurent and Rob)
+* fix the binding example (include the reset driver)
+* use pm_runtime_resume_and_get()
+* fix some logic in init_cfg()
+* add some useful code comments and fix minor bits found by Laurent in v6
+https://lore.kernel.org/linux-media/20210716102244.581182-1-martin.kepplinger@puri.sm/T/#t
+
+v6: (thank you Laurent and Rob)
+* add reviewed-by tag to binding
+* statically allocate clk_bulk_data
+* fix how the hs_settle value is applied
+* remove s_power calls
+* remove the link_setup() callback implementation and make the link immutable
+* more cleanups according to Laurents' review from v5
+https://lore.kernel.org/linux-media/20210714111931.324485-1-martin.kepplinger@puri.sm/
+
+v5: (thank you Laurent)
+* fix reset usage by using the already supported reset controller driver
+* remove clko2 (totally unrelated clock / had been included by accident)
+* rename pxl clock to ui
+https://lore.kernel.org/linux-media/20210618095753.114557-1-martin.kepplinger@puri.sm/
+
+v4: (thank you Rob and Marco)
+* create fsl,mipi-phy-gpr custom dt property instead of confusing "phy"
+* add imx8mq-specific compatibile to imx8mq.dtsi for future use
+https://lore.kernel.org/linux-media/20210614121522.2944593-1-martin.kepplinger@puri.sm/
+
+v3: (thank you, Rob and Laurent)
+among minor other things according to v2 review, changes include:
+* better describe the clocks
+* rename DT property "phy-reset" to "reset" and "phy-gpr" to "phy"
+https://lore.kernel.org/linux-media/20210608104128.1616028-1-martin.kepplinger@puri.sm/T/#t
+
+v2: (thank you, Dan and Guido)
+among fixes according to v1 reviews, changes include:
+* remove status property from dt-bindings example
+* define a few bits in order to have less magic values
+* use "imx8mq_mipi_csi_" as local function prefix
+* read DT properties only during probe()
+* remove dead code (log_status)
+* add imx8mq_mipi_csi_release_icc()
+* fix imx8mq_mipi_csi_init_icc()
+https://lore.kernel.org/linux-media/20210531112326.90094-1-martin.kepplinger@puri.sm/
+
+v1:
+https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
+
+
+Martin Kepplinger (3):
+  dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
+    controller
+  media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
+  arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+
+ .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 174 +++
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 104 ++
+ drivers/staging/media/imx/Makefile            |   1 +
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 991 ++++++++++++++++++
+ 4 files changed, 1270 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+ create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+
+-- 
+2.30.2
 
