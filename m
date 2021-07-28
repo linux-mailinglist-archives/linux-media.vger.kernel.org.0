@@ -2,205 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59A553D8E26
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 14:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4C9D3D8E94
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 15:08:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235797AbhG1Mq6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jul 2021 08:46:58 -0400
-Received: from mail-dm6nam12on2050.outbound.protection.outlook.com ([40.107.243.50]:27360
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235130AbhG1Mq5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jul 2021 08:46:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YDnDS+yBL5kRdK/RZLHjsgNxUKFZCs2lkAuzy3blvY8jftiK5VzHWnyFDh+d7uH2OE4E8GuZH6ZwzeVfzsDjDSySZkx4JZjzzfr9tu40PM8qwGaMgWNFx9Wwfm+C/Hubi9nqi8nQtkLo6v1kEDzOFJo+MJ3SDDoSy6hvSNsdBHyIyMoFb/soIM5zg2+WMhq1q1HiUgfE81xko6fYIn/qcVUYwtQN9T8NEixvwwNhimvfd7sZ/Xhb+VYQrl68eiXsZWPlJujsUCeIyA9iTH7n9+MzN6MWPCtNns310BACWkrSyNDNvitWJ7q5ncRtwu1cPBVhs2k91OZy/FwOrUaCjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P/NSoeV6hkdfuCsow+3eOTUHO1sx0tz8x3rfr+lpKZ0=;
- b=dA0z1mW2Kma1yopiMsVbnjjmJnLOG7WQVbX03tIB3HW9LNHbMFZCtDS87oK1SHkJPDM3LLJncPNIruaw9zxrC0clL1yCFGA2Suj91ArRWDzCsAe9nPCEz173GKPcIfZ5ZDMWBOkB7zptK4qMm1GEnwqlBnbkcDlcyWNdZFb8JtzorO3y6XWOdlQrwFjxfqdJSbnemNgLKdeIuN4SDnkTLoCM/UuOnixun9r5noxOh5w05yus2X1jVoMqfU5ObHnAFKm9LSLSPZfBdomzYsaPIH8/QG2YoLgNq2EaMwm6xpKOXVXLjC0QSKMb+AEr8FfNgOpaywgJ0sCI5tZGok4f9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P/NSoeV6hkdfuCsow+3eOTUHO1sx0tz8x3rfr+lpKZ0=;
- b=sUAFSd5fXcS94bSRO7E9nebRshbXhR1IHiz7agGuDkOhhd3Nt71xcBpubNTbYYhGzURg0JeZaiFV/9baHQMq4NDwuEGQ8gBNfkaprpYbw5JC+a4N/QmWGCGLU2+k+7JcCE70yHLZOE5haCElQQhM0s1c0N+0OkPuDhOdXtKppXc=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4566.namprd12.prod.outlook.com (2603:10b6:208:26a::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.28; Wed, 28 Jul
- 2021 12:46:54 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4352.031; Wed, 28 Jul 2021
- 12:46:53 +0000
-Subject: Re: [Linaro-mm-sig] [PATCH v4 03/18] drm/sched: Add dependency
- tracking
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        id S236383AbhG1NIr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jul 2021 09:08:47 -0400
+Received: from mail.netline.ch ([148.251.143.180]:33254 "EHLO
+        netline-mail3.netline.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236364AbhG1NIZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Jul 2021 09:08:25 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by netline-mail3.netline.ch (Postfix) with ESMTP id 7C50320201B;
+        Wed, 28 Jul 2021 15:08:21 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+        by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id 4BGu1Zb87bub; Wed, 28 Jul 2021 15:08:20 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch [85.2.99.24])
+        by netline-mail3.netline.ch (Postfix) with ESMTPA id 2F6EF20201A;
+        Wed, 28 Jul 2021 15:08:20 +0200 (CEST)
+Received: from [::1]
+        by thor with esmtp (Exim 4.94.2)
+        (envelope-from <michel@daenzer.net>)
+        id 1m8jIJ-000xp8-5z; Wed, 28 Jul 2021 15:08:19 +0200
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        Rob Clark <robdclark@chromium.org>
+Cc:     Matthew Brost <matthew.brost@intel.com>,
         Jack Zhang <Jack.Zhang1@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
         "moderated list:DMA BUFFER SHARING FRAMEWORK" 
         <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
         Alex Deucher <alexander.deucher@amd.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Steven Price <steven.price@arm.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
         Lee Jones <lee.jones@linaro.org>,
-        Nirmoy Das <nirmoy.aiemd@gmail.com>
-References: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
- <20210712175352.802687-4-daniel.vetter@ffwll.ch>
- <CAKMK7uG8bMuDP=7-z9nZ38WgMdbeUk96eNx3buTCiaKatYOJxw@mail.gmail.com>
- <2bcfba05-b7d5-1bd9-d74a-b9aac1147e20@gmail.com>
- <CAKMK7uE7GBZYih=KZm5t7-_0P8i7M0tA2KgSOgJsm+-HUE+HzA@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <d29f1a30-01d0-6cce-1acd-75bdfcc6045c@amd.com>
-Date:   Wed, 28 Jul 2021 14:46:46 +0200
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+References: <20210726233854.2453899-1-robdclark@gmail.com>
+ <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
+ <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
+ <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
+ <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
+ <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
+From:   =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
+Message-ID: <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
+Date:   Wed, 28 Jul 2021 15:08:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <CAKMK7uE7GBZYih=KZm5t7-_0P8i7M0tA2KgSOgJsm+-HUE+HzA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: PR2PR09CA0009.eurprd09.prod.outlook.com
- (2603:10a6:101:16::21) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:af99:e30a:2b7e:eda8] (2a02:908:1252:fb60:af99:e30a:2b7e:eda8) by PR2PR09CA0009.eurprd09.prod.outlook.com (2603:10a6:101:16::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18 via Frontend Transport; Wed, 28 Jul 2021 12:46:50 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 17772132-feba-484d-e4a5-08d951c5c6b3
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4566:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4566730C8BF95261A1B5D9BF83EA9@MN2PR12MB4566.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VxV3C7e1PzJyHfItJoqkLw1tnf3zJe0brozA5GsOfvklIhP3mHem77Izr58WrLcQ6k3XHBl9LaopGkZQD3CVvBP9wrm+fVValrt1cUDCan8YTcTSxm1BlLnFPjsKXL0IKerdAivDP2RO/2G8cWXlHP9J+RbD0SC/GCOg4uI3X6Q7EdDOMTZFONrteMVKGsfcJhOXF5vfpBYVBXfy+JoXK45O45n0y0pWH9TZJiZgr50UTnpYBIVEI129DimT4AoZP/fx9KWtl2Bz87zWdpGhDNULyIp8bWvev9qcATLqdtVpPj23l/Z4c3P2NdnpwloE4FkSq4fXinhEgwp/5pMSGDIgAZ4uXdMQx8qnAQ3FMi/GUeb1EK/ucjAZ1FXvPfjwE3o6fLi0BdPUlWNRAK8aIiaVrlekGjIApeGG3xjj2xVQbRx+p/Zj74BNTdUvImgleIldR4eGK5exPXd/y6r9jAdLEMEvXOzB8raUrPZwbYY+cf5bKMJUg+qStZwdjMlqexuEnN5H2abiIKLBU0/uQ9sDlIFvieGrCOQT3DiVUuRO29homzEgqeLzE0do256XQcwCPRFHuu4rGs1TH4EmZWWB5NbqW3MqeTk2WuKHT13wR7zKVk9tVE72vmS9VGE9De9Rz2Ib8HEDSoIzuxjmqBZlLA+zmhHQEOitgsx7t54rR6GYYKz9ugPvtTAR6Qft1QK1cHLBm43MZDE8FkpBkyLzFdZ6dFnNB8G5fb+8QDA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(39860400002)(136003)(396003)(376002)(66946007)(86362001)(110136005)(6486002)(7416002)(2616005)(478600001)(6666004)(66574015)(2906002)(54906003)(186003)(66476007)(38100700002)(31696002)(316002)(31686004)(8676002)(66556008)(8936002)(4326008)(53546011)(36756003)(5660300002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TDJtcGlscVNnNDRIcW1CUndGZ3JuT0tObXhiWWxZUVozRXNiVG5GNUhQVUt1?=
- =?utf-8?B?aG1oZEFURWE3QTRBRUx0VkFiVFhzY2JXTk8yUVdpT0NsVm9VZ1NxUnNCN1g4?=
- =?utf-8?B?T3h3WGlnUldDcWlOSkhDYlFVak93RmNlTk5jdDhRbzZnL1pVMVczQ0F0d1l5?=
- =?utf-8?B?VGUzYkc1cEFwdVl0b3lXOWUxNnpjandRc3M1WTFVTkFvbnNLMHBiQmNlczNB?=
- =?utf-8?B?YjVpampvRGgzdjJrbEdWSkFPVnhXaktGTkhtRHNBckpBMVZkZXdYZ3lDbm5w?=
- =?utf-8?B?UFJlSGp6N25YYnltNDFLdFpZeVQ3S1dJdkdJTENnZnVEOVV0RFBCc3hHanlN?=
- =?utf-8?B?THZCd3JFRmw1TnhnWEdZVmE5U3RrN1FsblJWQ3VQMmxTWk1aajdVck0wdHd1?=
- =?utf-8?B?blZkbmgyclBXeXVaQ3pkK2RaYisrTzhoemQ5S29YVEc4a292bVQ3S0p1NW1O?=
- =?utf-8?B?ejBPSDgyOXdnRjBBckc2RjhDWnVnS2daMkZXM0ZqVC8zQU00YkRycTNCN2th?=
- =?utf-8?B?YjlFdHpLNk9MMnNrT0FrTy9JdmRJNU9HZ2FZZnBYTW9OTUMyVDB5TG01OXZN?=
- =?utf-8?B?T0lIa1FVNmRQZG9YbDgrcHR3a003VHc2OUd1TVlyMFFWakMxTzdFUTRaTGkr?=
- =?utf-8?B?RXpHbjl4eDdnWEcrQ0tpcTY0NjAyckc4TDN4QnlwM3NVcnZFME9EcGxYWlJW?=
- =?utf-8?B?Wng4M295c1czSVlJcXdXMkloNjFZVENZWWFlYy84d2lyVWJiNm03bFZicTVT?=
- =?utf-8?B?Y1dueC9hd0N5ZG42M292dTNHeXZoWWd1d01DV1RNcXpoOUVhTThoVS8vNmhQ?=
- =?utf-8?B?alVnT0w2KzE3TmMxdzUyZzJYZ2xYa2haK0lFZkVFSjZteFUyRUhFbWt1RldE?=
- =?utf-8?B?dzA3OXZvOTRJNnl1OUtCekV3Y1pYeUdnblcvSWlUN2dld25vTEc2bXdpcW83?=
- =?utf-8?B?OXo3RnNWL2JVS0RpTGx3eGxqVTBuREJEcXlJSnhQd1U0R3RuU1czV3pyRmYx?=
- =?utf-8?B?dUk3c0oyWDZ4akRINncxZmdObVFJOXl4Rm5nZlcvWGlvRitESnRvY3FyNWJE?=
- =?utf-8?B?MzRNd3JhUTBhM3pLMUU3MDR6K2gybzc4dEJ6Mkh5QW1WR1dPTXVKZFVMVzlW?=
- =?utf-8?B?UlNBZTlTOVBMOW1tMTVMK2xyUlVIa0d6cXQ1MnlsOXY5clZ2QVFBLzB4OTVj?=
- =?utf-8?B?L2Z4MWprSkhhanJuSmFJblBveDZhQnlBRy8rSFpFV2FaYWFxODBLMEdocUo4?=
- =?utf-8?B?eVovbVNQaU9vUVNzWFkrQmNjYllGajV4Y1lqRUoyR2Q5Qm1tOXlyM24vcjlO?=
- =?utf-8?B?T0w4MXJYbTNrQ1UrSmgxZkoxYTVrN2lKODdUekkwcEFXTHFobnQ2blZtbER3?=
- =?utf-8?B?cktxeCtRRVpvY2pkVitubXB2RTF3WC9ydUg4QysyS2VDNDBsQUlqMnNmb1pC?=
- =?utf-8?B?Wng0WkU5RnN3QkxiRTNlbVVQZnk2RjF6dVcxWkNCbEtXRDRnWmkzNlhhRlVt?=
- =?utf-8?B?bU9rcnJqcm10N0Y2MExZZ2I1M2NNTEhZdWpqL0dKZzRxRVdoWUh4SC90REN4?=
- =?utf-8?B?NXQrZU54VFJqbGhQY1d0eWJ1Mjd4WGlYZ2VRWHNSRzliVXZldGgxa3NjMmVT?=
- =?utf-8?B?MjJzZzh3WEVUWmJJK3NRWEVZY0x1cU9mbkh3dFRxV28zQVIyWml2UGl6Q0dW?=
- =?utf-8?B?QkVSZ2M3L01vU3pKVmxyYWErRW9TeTQxMXhQY1Q1YWpLL0trSFRQaEpHYVc0?=
- =?utf-8?B?b0d1cXN5aEtTU1hqVGxWS3ExWU0wcmR6MXpSMDR2VDZWMW5CeFoyU0MyMFhW?=
- =?utf-8?B?NjZwM2xoYWxuaG5Ma3RXTEdQdjQ4NldHUDVMS1hsaFNMaEpxTGdtRUlPQ0JH?=
- =?utf-8?Q?N6LEwPffesXFC?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17772132-feba-484d-e4a5-08d951c5c6b3
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2021 12:46:53.5770
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mmxn5IJmdAtrVZ9hwgPLZ3LcxsjOVMSfdj5rLDZH9bWIVrNVY+CTMSdpBxOLJ26u
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4566
+In-Reply-To: <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 28.07.21 um 14:09 schrieb Daniel Vetter:
-> On Wed, Jul 28, 2021 at 1:29 PM Christian König
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->> Am 27.07.21 um 13:09 schrieb Daniel Vetter:
->>> Adding a few more people to this bikeshed.
+On 2021-07-28 1:36 p.m., Christian König wrote:
+> Am 27.07.21 um 17:37 schrieb Rob Clark:
+>> On Tue, Jul 27, 2021 at 8:19 AM Michel Dänzer <michel@daenzer.net> wrote:
+>>> On 2021-07-27 5:12 p.m., Rob Clark wrote:
+>>>> On Tue, Jul 27, 2021 at 7:50 AM Michel Dänzer <michel@daenzer.net> wrote:
+>>>>> On 2021-07-27 1:38 a.m., Rob Clark wrote:
+>>>>>> From: Rob Clark <robdclark@chromium.org>
+>>>>>>
+>>>>>> Based on discussion from a previous series[1] to add a "boost" mechanism
+>>>>>> when, for example, vblank deadlines are missed.  Instead of a boost
+>>>>>> callback, this approach adds a way to set a deadline on the fence, by
+>>>>>> which the waiter would like to see the fence signalled.
+>>>>>>
+>>>>>> I've not yet had a chance to re-work the drm/msm part of this, but
+>>>>>> wanted to send this out as an RFC in case I don't have a chance to
+>>>>>> finish the drm/msm part this week.
+>>>>>>
+>>>>>> Original description:
+>>>>>>
+>>>>>> In some cases, like double-buffered rendering, missing vblanks can
+>>>>>> trick the GPU into running at a lower frequence, when really we
+>>>>>> want to be running at a higher frequency to not miss the vblanks
+>>>>>> in the first place.
+>>>>>>
+>>>>>> This is partially inspired by a trick i915 does, but implemented
+>>>>>> via dma-fence for a couple of reasons:
+>>>>>>
+>>>>>> 1) To continue to be able to use the atomic helpers
+>>>>>> 2) To support cases where display and gpu are different drivers
+>>>>>>
+>>>>>> [1] https://patchwork.freedesktop.org/series/90331/
+>>>>> Unfortunately, none of these approaches will have the full intended effect once Wayland compositors start waiting for client buffers to become idle before using them for an output frame (to prevent output frames from getting delayed by client work). See https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880 (shameless plug :) for a proof of concept of this for mutter. The boost will only affect the compositor's own GPU work, not the client work (which means no effect at all for fullscreen apps where the compositor can scan out the client buffers directly).
+>>>>>
+>>>> I guess you mean "no effect at all *except* for fullscreen..."?
+>>> I meant what I wrote: The compositor will wait for the next buffer to become idle, so there's no boost from this mechanism for the client drawing to that buffer. And since the compositor does no drawing of its own in this case, there's no boost from that either.
 >>>
->>> On Mon, Jul 12, 2021 at 10:02 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 >>>
->>>> @@ -349,6 +367,13 @@ int drm_sched_job_init(struct drm_sched_job *job,
->>>>                          struct drm_sched_entity *entity,
->>>>                          void *owner);
->>>>    void drm_sched_job_arm(struct drm_sched_job *job);
->>>> +int drm_sched_job_await_fence(struct drm_sched_job *job,
->>>> +                             struct dma_fence *fence);
->>>> +int drm_sched_job_await_implicit(struct drm_sched_job *job,
->>>> +                                struct drm_gem_object *obj,
->>>> +                                bool write);
->>>> +
->>>> +
->>> I'm still waiting on the paint delivery for these two functions so I
->>> can finish this shed.
->> Well I wouldn't call that bike shedding, good names are important.
+>>>> I'd perhaps recommend that wayland compositors, in cases where only a
+>>>> single layer is changing, not try to be clever and just push the
+>>>> update down to the kernel.
+>>> Even just for the fullscreen direct scanout case, that would require some kind of atomic KMS API extension to allow queuing multiple page flips for the same CRTC.
+>>>
+>>> For other cases, this would also require a mechanism to cancel a pending atomic commit, for when another surface update comes in before the compositor's deadline, which affects the previously single updating surface as well.
+>>>
+>> Well, in the end, there is more than one compositor out there.. and if
+>> some wayland compositors are going this route, they can also implement
+>> the same mechanism in userspace using the sysfs that devfreq exports.
 >>
->> Just imaging we would have called the exclusive-fence write-fence instead.
-> Sure naming matters, but at least to my English understanding there's
-> not a semantic different between telling something to await for
-> something else (i.e. add a dependency) or to tell something to add a
-> dependency (i.e. await that thing later on before you start doing your
-> own thing).
+>> But it sounds simpler to me for the compositor to have a sort of "game
+>> mode" for fullscreen games.. I'm less worried about UI interactive
+>> workloads, boosting the GPU freq upon sudden activity after a period
+>> of inactivity seems to work reasonably well there.
+> 
+> At least AMD hardware is already capable of flipping frames on GPU events like finishing rendering (or uploading etc).
+> 
+> By waiting in userspace on the CPU before send the frame to the hardware you are completely killing of such features.
+> 
+> For composing use cases that makes sense, but certainly not for full screen applications as far as I can see.
 
-To be honest I had to google what await means when you first mentioned 
-it because I didn't had that in my English vocabulary.
+Even for fullscreen, the current KMS API only allows queuing a single page flip per CRTC, with no way to cancel or otherwise modify it. Therefore, a Wayland compositor has to set a deadline for the next refresh cycle, and when the deadline passes, it has to select the best buffer available for the fullscreen surface. To make sure the flip will not miss the next refresh cycle, the compositor has to pick an idle buffer. If it picks a non-idle buffer, and the pending rendering does not finish in time for vertical blank, the flip will be delayed by at least one refresh cycle, which results in visible stuttering.
 
-(But I have to note that my English education is basically non-existent. 
-I speak German and a good bunch of Dutch and just interfere most of the 
-words).
+(Until the deadline passes, the Wayland compositor can't even know if a previously fullscreen surface will still be fullscreen for the next refresh cycle)
 
-Regards,
-Christian.
 
-> Exclusive vs write fence otoh is a pretty big difference in what it means.
->
-> But also if there's consensus that I'm wrong then I'm happy to pick
-> the more preferred of the two options I deem equivalent.
->
->> What speaks against calling them add_dependency() and
->> _add_implicit_depencencies() ?
-> Nothing. I just like another ack on this before I rename it all. Also
-> I wasnt sure what you'd want to name the implicit dependency thing.
->
-> Lucas, Boris, Melissa, any acks here?
-> -Daniel
->
->> Regards,
->> Christian.
->>
->>> Thanks, Daniel
->>>
->>>>    void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
->>>>                                       struct drm_gpu_scheduler **sched_list,
->>>>                                       unsigned int num_sched_list);
->>>> --
->>>> 2.32.0
->>>>
->
-
+-- 
+Earthling Michel Dänzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
