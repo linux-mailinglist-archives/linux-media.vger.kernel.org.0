@@ -2,1084 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99E523D8774
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 07:51:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F10B43D878A
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jul 2021 07:56:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233537AbhG1Fvt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jul 2021 01:51:49 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47786 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233234AbhG1Fvs (ORCPT
+        id S233082AbhG1F4Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jul 2021 01:56:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33258 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229814AbhG1F4Y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jul 2021 01:51:48 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF873EE;
-        Wed, 28 Jul 2021 07:51:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1627451506;
-        bh=ZB+MfWCEyRrx4Ei2O+bpHnYURN9YC+OnavdTKNrfe9Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=a+1gQGL7nOQjvNAV73IED0h+StcuezPlSWcTLY1Ej5EZ16beRIu+1ezg9QTdt3KJL
-         jALGHaOtufNvgJQ6lnfe3xbrJQLcnU2+gyYiZdqeWxP7BgRO1E4FVxMuru0YemTwnw
-         n1bX0IKhA66XDq5Z2PNO17UPST7m3eyAPR3Y3wKY=
-Date:   Wed, 28 Jul 2021 08:51:39 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Martin Kepplinger <martin.kepplinger@puri.sm>, shawnguo@kernel.org,
-        devicetree@vger.kernel.org, festevam@gmail.com,
-        kernel@pengutronix.de, kernel@puri.sm, krzk@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
-        mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
-        slongerbeam@gmail.com
-Subject: Re: [PATCH v9 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
- phy and controller
-Message-ID: <YQDwa1gUPy3eCSo7@pendragon.ideasonboard.com>
-References: <20210726082117.2423597-1-martin.kepplinger@puri.sm>
- <20210726082117.2423597-3-martin.kepplinger@puri.sm>
- <489914ac-230f-2fc0-4b10-ae158ab6a95c@collabora.com>
+        Wed, 28 Jul 2021 01:56:24 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFB5AC061757
+        for <linux-media@vger.kernel.org>; Tue, 27 Jul 2021 22:56:23 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id d1so1400150pll.1
+        for <linux-media@vger.kernel.org>; Tue, 27 Jul 2021 22:56:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O21zihxmpOcIK6NnZmFGw9/SqbXTvLfSebxLWewdefA=;
+        b=iKr2fOMnnfWpvJiiHu+3G55aWXIsLnbo68FII2gUrMM3TzkGaaibllmtmoCt5H9Ex0
+         N7kUBAjQjRe1IBCjmuON1puPIwkuO0xnX4UO5MrY1SDghLgKs7IsB45c5Jq9t+leGOV/
+         EpGPbDzP+x+OQL/TJjZURQjzHQcOR5HHb1US4zYQqY3k7FF3lyzhHaxPWzypoMJn6cK7
+         6GfpNeJxKQ7GURtoFJLTm0G4WXohcVVwAIBOEkEtTiyLgsWWpAW3mjM0NqRUHCKor+Dk
+         86nvKtRVi59KH99meI8u5CdUBSoAQCowCKWjJ+E11wGFeTRBrcZ4VWHnBlyr3HPMGxbH
+         ZKNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O21zihxmpOcIK6NnZmFGw9/SqbXTvLfSebxLWewdefA=;
+        b=BuzFOq3lgfDJ8DgY52AXGDNWr54mmcV9ZETkGqUfcijcFK5VCW/zJe8o5dRErnWJvS
+         wOTeS2/8BL3wuldW5QIJkTiLGGfkRL7E+Bv/VbR/MODBkq3eGusHJPCk/WcldiPkTdZr
+         FFcUuznfn66Xf2cY0Wao1N00blhXx9YqoAE3uPqTx55vPfE24ufkc6GWg2SgF3if5aPv
+         MaKymP/wFGZc9aJrJ0ARYQbZIyT6FHP4LBY6FD0vuP7ds7Lcl0sIJb9FG7oXmzH+7Qyp
+         q8jOjOHsX5kti5SZEm0R6pnDwQc4rld2Kp9jDPGXwYFVTpjQYOW6k0cc4DoXzt4xVPK9
+         u7SQ==
+X-Gm-Message-State: AOAM530XmrcCm7vHFgG0sArMlcrnLqc3ggIhMKPEb4bmLwu0wFdBPfbI
+        yyXZyKkCdkB4AFYIsPm8tamyXI1YvqxgWQ==
+X-Google-Smtp-Source: ABdhPJzotfgu83hJkj0rIDZLf3SbCW3Kayxtk8TM/7CD9sNFP1ISdzyDq70FMlfQykK62omMApS8oA==
+X-Received: by 2002:a17:90a:86:: with SMTP id a6mr7771394pja.133.1627451783192;
+        Tue, 27 Jul 2021 22:56:23 -0700 (PDT)
+Received: from dbcomp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
+        by smtp.gmail.com with ESMTPSA id s7sm5617237pfk.12.2021.07.27.22.56.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jul 2021 22:56:22 -0700 (PDT)
+From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, jaffe1@gmail.com,
+        Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Subject: [PATCH] media: cec-pin: rename timer overrun variables
+Date:   Tue, 27 Jul 2021 22:56:16 -0700
+Message-Id: <20210728055616.10613-1-deborahbrouwer3563@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <489914ac-230f-2fc0-4b10-ae158ab6a95c@collabora.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+The cec pin timer overruns are measured in microseconds, but the variable
+names include the millisecond symbol "ms". To avoid confusion, replace
+"ms" with "us" in the variable names and printed status message.
 
-On Wed, Jul 28, 2021 at 07:02:57AM +0200, Dafna Hirschfeld wrote:
-> On 26.07.21 10:21, Martin Kepplinger wrote:
-> > Add a driver to support the i.MX8MQ MIPI CSI receiver. The hardware side
-> > is based on
-> > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
-> > 
-> > It's built as part of VIDEO_IMX7_CSI because that's documented to support
-> > i.MX8M platforms. This driver adds i.MX8MQ support where currently only the
-> > i.MX8MM platform has been supported.
-> > 
-> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >   drivers/staging/media/imx/Makefile           |   1 +
-> >   drivers/staging/media/imx/imx8mq-mipi-csi2.c | 976 +++++++++++++++++++
-> >   2 files changed, 977 insertions(+)
-> >   create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > 
-> > diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
-> > index 6ac33275cc97..19c2fc54d424 100644
-> > --- a/drivers/staging/media/imx/Makefile
-> > +++ b/drivers/staging/media/imx/Makefile
-> > @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
-> >   
-> >   obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
-> >   obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
-> > +obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
-> > diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > new file mode 100644
-> > index 000000000000..c4f4fe0c533b
-> > --- /dev/null
-> > +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > @@ -0,0 +1,976 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * NXP i.MX8MQ SoC series MIPI-CSI2 receiver driver
-> > + *
-> > + * Copyright (C) 2021 Purism SPC
-> > + */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/clk-provider.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/errno.h>
-> > +#include <linux/interconnect.h>
-> > +#include <linux/interrupt.h>
-> > +#include <linux/io.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/mfd/syscon.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mutex.h>
-> > +#include <linux/of.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm_runtime.h>
-> > +#include <linux/regmap.h>
-> > +#include <linux/regulator/consumer.h>
-> > +#include <linux/reset.h>
-> > +#include <linux/spinlock.h>
-> > +
-> > +#include <media/v4l2-common.h>
-> > +#include <media/v4l2-device.h>
-> > +#include <media/v4l2-fwnode.h>
-> > +#include <media/v4l2-mc.h>
-> > +#include <media/v4l2-subdev.h>
-> > +
-> > +#define MIPI_CSI2_DRIVER_NAME			"imx8mq-mipi-csi2"
-> > +#define MIPI_CSI2_SUBDEV_NAME			MIPI_CSI2_DRIVER_NAME
-> > +
-> > +#define MIPI_CSI2_PAD_SINK			0
-> > +#define MIPI_CSI2_PAD_SOURCE			1
-> > +#define MIPI_CSI2_PADS_NUM			2
-> > +
-> > +#define MIPI_CSI2_DEF_PIX_WIDTH			640
-> > +#define MIPI_CSI2_DEF_PIX_HEIGHT		480
-> > +
-> > +/* Register map definition */
-> > +
-> > +/* i.MX8MQ CSI-2 controller CSR */
-> > +#define CSI2RX_CFG_NUM_LANES			0x100
-> > +#define CSI2RX_CFG_DISABLE_DATA_LANES		0x104
-> > +#define CSI2RX_BIT_ERR				0x108
-> > +#define CSI2RX_IRQ_STATUS			0x10c
-> > +#define CSI2RX_IRQ_MASK				0x110
-> > +#define CSI2RX_IRQ_MASK_ALL			0x1ff
-> > +#define CSI2RX_IRQ_MASK_ULPS_STATUS_CHANGE	0x8
-> > +#define CSI2RX_ULPS_STATUS			0x114
-> > +#define CSI2RX_PPI_ERRSOT_HS			0x118
-> > +#define CSI2RX_PPI_ERRSOTSYNC_HS		0x11c
-> > +#define CSI2RX_PPI_ERRESC			0x120
-> > +#define CSI2RX_PPI_ERRSYNCESC			0x124
-> > +#define CSI2RX_PPI_ERRCONTROL			0x128
-> > +#define CSI2RX_CFG_DISABLE_PAYLOAD_0		0x12c
-> > +#define CSI2RX_CFG_VID_P_FIFO_SEND_LEVEL	0x188
-> > +#define CSI2RX_CFG_DISABLE_PAYLOAD_1		0x130
-> > +
-> > +enum {
-> > +	ST_POWERED	= 1,
-> > +	ST_STREAMING	= 2,
-> > +	ST_SUSPENDED	= 4,
-> > +};
-> > +
-> > +enum imx8mq_mipi_csi_clk {
-> > +	CSI2_CLK_CORE,
-> > +	CSI2_CLK_ESC,
-> > +	CSI2_CLK_UI,
-> > +	CSI2_NUM_CLKS,
-> > +};
-> > +
-> > +static const char * const imx8mq_mipi_csi_clk_id[CSI2_NUM_CLKS] = {
-> > +	[CSI2_CLK_CORE] = "core",
-> > +	[CSI2_CLK_ESC] = "esc",
-> > +	[CSI2_CLK_UI] = "ui",
-> > +};
-> > +
-> > +#define CSI2_NUM_CLKS	ARRAY_SIZE(imx8mq_mipi_csi_clk_id)
-> > +
-> > +#define	GPR_CSI2_1_RX_ENABLE		BIT(13)
-> > +#define	GPR_CSI2_1_VID_INTFC_ENB	BIT(12)
-> > +#define	GPR_CSI2_1_HSEL			BIT(10)
-> > +#define	GPR_CSI2_1_CONT_CLK_MODE	BIT(8)
-> > +#define	GPR_CSI2_1_S_PRG_RXHS_SETTLE(x)	(((x) & 0x3f) << 2)
-> > +
-> > +/*
-> > + * The send level configures the number of entries that must accumulate in
-> > + * the Pixel FIFO before the data will be transferred to the video output.
-> > + * See https://community.nxp.com/t5/i-MX-Processors/IMX8M-MIPI-CSI-Host-Controller-send-level/m-p/864005/highlight/true#M131704
-> 
-> If there is more important information in that link you think is valuable,
-> better to write it here in case the link get broken.
+Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
+---
+ drivers/media/cec/core/cec-pin-priv.h |  4 ++--
+ drivers/media/cec/core/cec-pin.c      | 20 ++++++++++----------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-Good idea. That link also has information about registers 0x180 and
-0x184, which should be captured in the form of comments in
-imx8mq_mipi_csi_set_params().
-
-> > + */
-> > +#define CSI2RX_SEND_LEVEL			64
-> > +
-> > +struct csi_state {
-> > +	struct device *dev;
-> > +	void __iomem *regs;
-> > +	struct clk_bulk_data clks[CSI2_NUM_CLKS];
-> > +	struct reset_control *rst;
-> > +	struct regulator *mipi_phy_regulator;
-> > +
-> > +	struct v4l2_subdev sd;
-> > +	struct media_pad pads[MIPI_CSI2_PADS_NUM];
-> > +	struct v4l2_async_notifier notifier;
-> > +	struct v4l2_subdev *src_sd;
-> > +
-> > +	struct v4l2_fwnode_bus_mipi_csi2 bus;
-> > +
-> > +	struct mutex lock; /* Protect csi2_fmt, format_mbus, state, hs_settle */
-> > +	const struct csi2_pix_format *csi2_fmt;
-> > +	struct v4l2_mbus_framefmt format_mbus[MIPI_CSI2_PADS_NUM];
-> > +	u32 state;
-> > +	u32 hs_settle;
-> > +
-> > +	struct regmap *phy_gpr;
-> > +	u8 phy_gpr_reg;
-> > +
-> > +	struct icc_path			*icc_path;
-> > +	s32				icc_path_bw;
-> > +};
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * Format helpers
-> > + */
-> > +
-> > +struct csi2_pix_format {
-> > +	u32 code;
-> > +	u8 width;
-> > +};
-> > +
-> > +static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
-> > +	/* RAW (Bayer and greyscale) formats. */
-> > +	{
-> > +		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
-> > +		.width = 8,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
-> > +		.width = 8,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
-> > +		.width = 8,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
-> > +		.width = 8,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_Y8_1X8,
-> > +		.width = 8,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
-> > +		.width = 10,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SGBRG10_1X10,
-> > +		.width = 10,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
-> > +		.width = 10,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
-> > +		.width = 10,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_Y10_1X10,
-> > +		.width = 10,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SBGGR12_1X12,
-> > +		.width = 12,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SGBRG12_1X12,
-> > +		.width = 12,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
-> > +		.width = 12,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
-> > +		.width = 12,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_Y12_1X12,
-> > +		.width = 12,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SBGGR14_1X14,
-> > +		.width = 14,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SGBRG14_1X14,
-> > +		.width = 14,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SGRBG14_1X14,
-> > +		.width = 14,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_SRGGB14_1X14,
-> > +		.width = 14,
-> > +	}, {
-> > +	/* YUV formats */
-> > +		.code = MEDIA_BUS_FMT_YUYV8_2X8,
-> > +		.width = 16,
-> > +	}, {
-> > +		.code = MEDIA_BUS_FMT_YUYV8_1X16,
-> > +		.width = 16,
-> > +	}
-> > +};
-> > +
-> > +static const struct csi2_pix_format *find_csi2_format(u32 code)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(imx8mq_mipi_csi_formats); i++)
-> > +		if (code == imx8mq_mipi_csi_formats[i].code)
-> > +			return &imx8mq_mipi_csi_formats[i];
-> > +	return NULL;
-> > +}
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * Hardware configuration
-> > + */
-> > +
-> > +static inline void imx8mq_mipi_csi_write(struct csi_state *state, u32 reg, u32 val)
-> > +{
-> > +	writel(val, state->regs + reg);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_sw_reset(struct csi_state *state)
-> > +{
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * these are most likely self-clearing reset bits. to make it
-> > +	 * more clear, the reset-imx7 driver should implement the
-> > +	 * .reset() operation.
-> > +	 */
-> > +	ret = reset_control_assert(state->rst);
-> > +	if (ret < 0) {
-> > +		dev_err(state->dev, "Failed to assert resets: %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void imx8mq_mipi_csi_system_enable(struct csi_state *state, int on)
-> > +{
-> > +	if (!on) {
-> > +		imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES, 0xf);
-> > +		return;
-> > +	}
-> > +
-> > +	regmap_update_bits(state->phy_gpr,
-> > +			   state->phy_gpr_reg,
-> > +			   0x3fff,
-> > +			   GPR_CSI2_1_RX_ENABLE |
-> > +			   GPR_CSI2_1_VID_INTFC_ENB |
-> > +			   GPR_CSI2_1_HSEL |
-> > +			   GPR_CSI2_1_CONT_CLK_MODE |
-> > +			   GPR_CSI2_1_S_PRG_RXHS_SETTLE(state->hs_settle));
-> > +}
-> > +
-> > +static void imx8mq_mipi_csi_set_params(struct csi_state *state)
-> > +{
-> > +	int lanes = state->bus.num_data_lanes;
-> > +
-> > +	imx8mq_mipi_csi_write(state, CSI2RX_CFG_NUM_LANES, lanes - 1);
-> > +	imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES,
-> > +			      (0xf << lanes) & 0xf);
-> > +	imx8mq_mipi_csi_write(state, CSI2RX_IRQ_MASK, CSI2RX_IRQ_MASK_ALL);
-> > +	imx8mq_mipi_csi_write(state, 0x180, 1);
-> > +	/* vid_vc */
-> > +	imx8mq_mipi_csi_write(state, 0x184, 1);
-> > +	imx8mq_mipi_csi_write(state, 0x188, CSI2RX_SEND_LEVEL);
-> 
-> I see CSI2RX_CFG_VID_P_FIFO_SEND_LEVEL is 0x188 so better use the macro.
-
-Good point, I missed that.
-
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_clk_enable(struct csi_state *state)
-> > +{
-> > +	return clk_bulk_prepare_enable(CSI2_NUM_CLKS, state->clks);
-> > +}
-> > +
-> > +static void imx8mq_mipi_csi_clk_disable(struct csi_state *state)
-> > +{
-> > +	clk_bulk_disable_unprepare(CSI2_NUM_CLKS, state->clks);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_clk_get(struct csi_state *state)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < CSI2_NUM_CLKS; i++)
-> > +		state->clks[i].id = imx8mq_mipi_csi_clk_id[i];
-> > +
-> > +	return devm_clk_bulk_get(state->dev, CSI2_NUM_CLKS, state->clks);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state)
-> > +{
-> > +	s64 link_freq;
-> > +	u32 lane_rate;
-> > +	unsigned long esc_clk_rate;
-> > +	u32 min_ths_settle, max_ths_settle, ths_settle_ns, esc_clk_period_ns;
-> > +
-> > +	/* Calculate the line rate from the pixel rate. */
-> > +	link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
-> > +				       state->csi2_fmt->width,
-> > +				       state->bus.num_data_lanes * 2);
-> > +	if (link_freq < 0) {
-> > +		dev_err(state->dev, "Unable to obtain link frequency: %d\n",
-> > +			(int)link_freq);
-> > +		return link_freq;
-> > +	}
-> > +
-> > +	lane_rate = link_freq * 2;
-> > +	if (lane_rate < 80000000 || lane_rate > 1500000000) {
-> > +		dev_dbg(state->dev, "Out-of-bound lane rate %u\n", lane_rate);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	/*
-> > +	 * The D-PHY specification requires Ths-settle to be in the range
-> > +	 * 85ns + 6*UI to 140ns + 10*UI, with the unit interval UI being half
-> > +	 * the clock period.
-> > +	 *
-> > +	 * The Ths-settle value is expressed in the hardware as a multiple of
-> > +	 * the Esc clock period:
-> > +	 *
-> > +	 * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of RxClkInEsc
-> > +	 *
-> > +	 * Due to the one cycle inaccuracy introduced by rounding, the
-> > +	 * documentation recommends picking a value away from the boundaries.
-> > +	 * Let's pick the average.
-> > +	 */
-> > +	esc_clk_rate = clk_get_rate(state->clks[CSI2_CLK_ESC].clk);
-> > +	if (!esc_clk_rate) {
-> > +		dev_err(state->dev, "Could not get esc clock rate.\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	dev_dbg(state->dev, "esc clk rate: %lu\n", esc_clk_rate);
-> > +	esc_clk_period_ns = 1000000000 / esc_clk_rate;
-> > +
-> > +	min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
-> > +	max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
-> > +	ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
-> > +
-> > +	state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
-> > +
-> > +	dev_dbg(state->dev, "lane rate %u Ths_settle %u hs_settle %u\n",
-> > +		lane_rate, ths_settle_ns, state->hs_settle);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_start_stream(struct csi_state *state)
-> > +{
-> > +	int ret;
-> > +
-> > +	ret = imx8mq_mipi_csi_sw_reset(state);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	imx8mq_mipi_csi_set_params(state);
-> > +	ret = imx8mq_mipi_csi_calc_hs_settle(state);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	imx8mq_mipi_csi_system_enable(state, true);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void imx8mq_mipi_csi_stop_stream(struct csi_state *state)
-> > +{
-> > +	imx8mq_mipi_csi_system_enable(state, false);
-> > +}
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * V4L2 subdev operations
-> > + */
-> > +
-> > +static struct csi_state *mipi_sd_to_csi2_state(struct v4l2_subdev *sdev)
-> > +{
-> > +	return container_of(sdev, struct csi_state, sd);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_s_stream(struct v4l2_subdev *sd, int enable)
-> > +{
-> > +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > +	int ret = 0;
-> > +
-> > +	imx8mq_mipi_csi_write(state, CSI2RX_IRQ_MASK,
-> > +			      CSI2RX_IRQ_MASK_ULPS_STATUS_CHANGE);
-> > +
-> > +	if (enable) {
-> > +		ret = pm_runtime_resume_and_get(state->dev);
-> > +		if (ret < 0)
-> > +			return ret;
-> > +	}
-> > +
-> > +	mutex_lock(&state->lock);
-> > +
-> > +	if (enable) {
-> > +		if (state->state & ST_SUSPENDED) {
-> > +			ret = -EBUSY;
-> > +			goto unlock;
-> > +		}
-> > +
-> > +		ret = imx8mq_mipi_csi_start_stream(state);
-> > +		if (ret < 0)
-> > +			goto unlock;
-> > +
-> > +		ret = v4l2_subdev_call(state->src_sd, video, s_stream, 1);
-> 
-> can we be sure that src_sd is not null?
-
-I think so, as the sink pad has the MUST_CONNECT flag set, so if no
-subdev is bound, the pipeline won't validate and .s_stream() won't be
-called.
-
-> > +		if (ret < 0)
-> > +			goto unlock;
-> > +
-> > +		state->state |= ST_STREAMING;
-> > +	} else {
-> > +		v4l2_subdev_call(state->src_sd, video, s_stream, 0);
-> > +		imx8mq_mipi_csi_stop_stream(state);
-> > +		state->state &= ~ST_STREAMING;
-> > +	}
-> > +
-> > +unlock:
-> > +	mutex_unlock(&state->lock);
-> > +
-> > +	if (!enable || ret < 0)
-> > +		pm_runtime_put(state->dev);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static struct v4l2_mbus_framefmt *
-> > +imx8mq_mipi_csi_get_format(struct csi_state *state,
-> > +			   struct v4l2_subdev_state *sd_state,
-> > +			   enum v4l2_subdev_format_whence which,
-> > +			   unsigned int pad)
-> > +{
-> > +	if (which == V4L2_SUBDEV_FORMAT_TRY)
-> > +		return v4l2_subdev_get_try_format(&state->sd, sd_state, pad);
-> > +
-> > +	return &state->format_mbus[pad];
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_init_cfg(struct v4l2_subdev *sd,
-> > +				    struct v4l2_subdev_state *sd_state)
-> > +{
-> > +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > +	struct v4l2_mbus_framefmt *fmt_sink;
-> > +	struct v4l2_mbus_framefmt *fmt_source;
-> > +	enum v4l2_subdev_format_whence which;
-> > +
-> > +	which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
-> > +	fmt_sink = imx8mq_mipi_csi_get_format(state, sd_state, which,
-> > +					      MIPI_CSI2_PAD_SINK);
-> > +
-> > +	fmt_sink->code = MEDIA_BUS_FMT_SGBRG10_1X10;
-> > +	fmt_sink->width = MIPI_CSI2_DEF_PIX_WIDTH;
-> > +	fmt_sink->height = MIPI_CSI2_DEF_PIX_HEIGHT;
-> > +	fmt_sink->field = V4L2_FIELD_NONE;
-> > +
-> > +	fmt_sink->colorspace = V4L2_COLORSPACE_RAW;
-> > +	fmt_sink->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt_sink->colorspace);
-> > +	fmt_sink->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt_sink->colorspace);
-> > +	fmt_sink->quantization =
-> > +		V4L2_MAP_QUANTIZATION_DEFAULT(false, fmt_sink->colorspace,
-> > +					      fmt_sink->ycbcr_enc);
-> > +
-> > +	fmt_source = imx8mq_mipi_csi_get_format(state, sd_state, which,
-> > +						MIPI_CSI2_PAD_SOURCE);
-> > +	*fmt_source = *fmt_sink;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_get_fmt(struct v4l2_subdev *sd,
-> > +				   struct v4l2_subdev_state *sd_state,
-> > +				   struct v4l2_subdev_format *sdformat)
-> > +{
-> > +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > +	struct v4l2_mbus_framefmt *fmt;
-> > +
-> > +	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
-> > +					 sdformat->pad);
-> > +
-> > +	mutex_lock(&state->lock);
-> > +
-> > +	sdformat->format = *fmt;
-> > +
-> > +	mutex_unlock(&state->lock);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_enum_mbus_code(struct v4l2_subdev *sd,
-> > +					  struct v4l2_subdev_state *sd_state,
-> > +					  struct v4l2_subdev_mbus_code_enum *code)
-> > +{
-> > +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > +
-> > +	/*
-> > +	 * We can't transcode in any way, the source format is identical
-> > +	 * to the sink format.
-> > +	 */
-> > +	if (code->pad == MIPI_CSI2_PAD_SOURCE) {
-> > +		struct v4l2_mbus_framefmt *fmt;
-> > +
-> > +		if (code->index > 0)
-> > +			return -EINVAL;
-> > +
-> > +		fmt = imx8mq_mipi_csi_get_format(state, sd_state, code->which,
-> > +						 code->pad);
-> > +		code->code = fmt->code;
-> > +		return 0;
-> > +	}
-> > +
-> > +	if (code->pad != MIPI_CSI2_PAD_SINK)
-> > +		return -EINVAL;
-> > +
-> > +	if (code->index >= ARRAY_SIZE(imx8mq_mipi_csi_formats))
-> > +		return -EINVAL;
-> > +
-> > +	code->code = imx8mq_mipi_csi_formats[code->index].code;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
-> > +				   struct v4l2_subdev_state *sd_state,
-> > +				   struct v4l2_subdev_format *sdformat)
-> > +{
-> > +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > +	struct csi2_pix_format const *csi2_fmt;
-> > +	struct v4l2_mbus_framefmt *fmt;
-> > +
-> > +	/*
-> > +	 * The device can't transcode in any way, the source format can't be
-> > +	 * modified.
-> > +	 */
-> > +	if (sdformat->pad == MIPI_CSI2_PAD_SOURCE)
-> > +		return imx8mq_mipi_csi_get_fmt(sd, sd_state, sdformat);
-> > +
-> > +	if (sdformat->pad != MIPI_CSI2_PAD_SINK)
-> > +		return -EINVAL;
-> > +
-> > +	csi2_fmt = find_csi2_format(sdformat->format.code);
-> > +	if (!csi2_fmt)
-> > +		csi2_fmt = &imx8mq_mipi_csi_formats[0];
-> > +
-> > +	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
-> > +					 sdformat->pad);
-> > +
-> > +	mutex_lock(&state->lock);
-> > +
-> > +	fmt->code = csi2_fmt->code;
-> > +	fmt->width = sdformat->format.width;
-> > +	fmt->height = sdformat->format.height;
-> > +
-> > +	sdformat->format = *fmt;
-> > +
-> > +	/* Propagate the format from sink to source. */
-> > +	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
-> > +					 MIPI_CSI2_PAD_SOURCE);
-> > +	*fmt = sdformat->format;
-> > +
-> > +	/* Store the CSI2 format descriptor for active formats. */
-> > +	if (sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> > +		state->csi2_fmt = csi2_fmt;
-> > +
-> > +	mutex_unlock(&state->lock);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct v4l2_subdev_video_ops imx8mq_mipi_csi_video_ops = {
-> > +	.s_stream	= imx8mq_mipi_csi_s_stream,
-> > +};
-> > +
-> > +static const struct v4l2_subdev_pad_ops imx8mq_mipi_csi_pad_ops = {
-> > +	.init_cfg		= imx8mq_mipi_csi_init_cfg,
-> > +	.enum_mbus_code		= imx8mq_mipi_csi_enum_mbus_code,
-> > +	.get_fmt		= imx8mq_mipi_csi_get_fmt,
-> > +	.set_fmt		= imx8mq_mipi_csi_set_fmt,
-> > +};
-> > +
-> > +static const struct v4l2_subdev_ops imx8mq_mipi_csi_subdev_ops = {
-> > +	.video	= &imx8mq_mipi_csi_video_ops,
-> > +	.pad	= &imx8mq_mipi_csi_pad_ops,
-> > +};
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * Media entity operations
-> > + */
-> > +
-> > +static const struct media_entity_operations imx8mq_mipi_csi_entity_ops = {
-> > +	.link_validate	= v4l2_subdev_link_validate,
-> > +	.get_fwnode_pad = v4l2_subdev_get_fwnode_pad_1_to_1,
-> > +};
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * Async subdev notifier
-> > + */
-> > +
-> > +static struct csi_state *
-> > +mipi_notifier_to_csi2_state(struct v4l2_async_notifier *n)
-> > +{
-> > +	return container_of(n, struct csi_state, notifier);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_notify_bound(struct v4l2_async_notifier *notifier,
-> > +					struct v4l2_subdev *sd,
-> > +					struct v4l2_async_subdev *asd)
-> > +{
-> > +	struct csi_state *state = mipi_notifier_to_csi2_state(notifier);
-> > +	struct media_pad *sink = &state->sd.entity.pads[MIPI_CSI2_PAD_SINK];
-> > +
-> > +	state->src_sd = sd;
-> > +
-> > +	return v4l2_create_fwnode_links_to_pad(sd, sink, MEDIA_LNK_FL_ENABLED |
-> > +					       MEDIA_LNK_FL_IMMUTABLE);
-> > +}
-> > +
-> > +static const struct v4l2_async_notifier_operations imx8mq_mipi_csi_notify_ops = {
-> > +	.bound = imx8mq_mipi_csi_notify_bound,
-> > +};
-> > +
-> > +static int imx8mq_mipi_csi_async_register(struct csi_state *state)
-> > +{
-> > +	struct v4l2_fwnode_endpoint vep = {
-> > +		.bus_type = V4L2_MBUS_CSI2_DPHY,
-> > +	};
-> > +	struct v4l2_async_subdev *asd;
-> > +	struct fwnode_handle *ep;
-> > +	unsigned int i;
-> > +	int ret;
-> > +
-> > +	v4l2_async_notifier_init(&state->notifier);
-> > +
-> > +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(state->dev), 0, 0,
-> > +					     FWNODE_GRAPH_ENDPOINT_NEXT);
-> > +	if (!ep)
-> > +		return -ENOTCONN;
-> > +
-> > +	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-> > +	if (ret)
-> > +		goto err_parse;
-> > +
-> > +	for (i = 0; i < vep.bus.mipi_csi2.num_data_lanes; ++i) {
-> > +		if (vep.bus.mipi_csi2.data_lanes[i] != i + 1) {
-> > +			dev_err(state->dev,
-> > +				"data lanes reordering is not supported");
-> > +			ret = -EINVAL;
-> > +			goto err_parse;
-> > +		}
-> > +	}
-> > +
-> > +	state->bus = vep.bus.mipi_csi2;
-> > +
-> > +	dev_dbg(state->dev, "data lanes: %d flags: 0x%08x\n",
-> > +		state->bus.num_data_lanes,
-> > +		state->bus.flags);
-> > +
-> > +	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&state->notifier,
-> > +							   ep, struct v4l2_async_subdev);
-> > +	if (IS_ERR(asd)) {
-> > +		ret = PTR_ERR(asd);
-> > +		goto err_parse;
-> > +	}
-> > +
-> > +	fwnode_handle_put(ep);
-> > +
-> > +	state->notifier.ops = &imx8mq_mipi_csi_notify_ops;
-> > +
-> > +	ret = v4l2_async_subdev_notifier_register(&state->sd, &state->notifier);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return v4l2_async_register_subdev(&state->sd);
-> > +
-> > +err_parse:
-> > +	fwnode_handle_put(ep);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * Suspend/resume
-> > + */
-> > +
-> > +static int imx8mq_mipi_csi_pm_suspend(struct device *dev, bool runtime)
-> > +{
-> > +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > +	int ret = 0;
-> > +
-> > +	mutex_lock(&state->lock);
-> > +
-> > +	if (state->state & ST_POWERED) {
-> > +		imx8mq_mipi_csi_stop_stream(state);
-> > +		imx8mq_mipi_csi_clk_disable(state);
-> > +		state->state &= ~ST_POWERED;
-> > +		if (!runtime)
-> > +			state->state |= ST_SUSPENDED;
-> > +	}
-> > +
-> > +	mutex_unlock(&state->lock);
-> > +
-> > +	ret = icc_set_bw(state->icc_path, 0, 0);
-> > +	if (ret)
-> > +		dev_err(dev, "icc_set_bw failed with %d\n", ret);
-> > +
-> > +	return ret ? -EAGAIN : 0;
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_pm_resume(struct device *dev, bool runtime)
-> > +{
-> > +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > +	int ret = 0;
-> > +
-> > +	ret = icc_set_bw(state->icc_path, 0, state->icc_path_bw);
-> > +	if (ret) {
-> > +		dev_err(dev, "icc_set_bw failed with %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	mutex_lock(&state->lock);
-> > +
-> > +	if (!runtime && !(state->state & ST_SUSPENDED))
-> > +		goto unlock;
-> > +
-> > +	if (!(state->state & ST_POWERED)) {
-> > +		state->state |= ST_POWERED;
-> > +		ret = imx8mq_mipi_csi_clk_enable(state);
-> > +	}
-> > +	if (state->state & ST_STREAMING) {
-> > +		ret = imx8mq_mipi_csi_start_stream(state);
-> > +		if (ret)
-> > +			goto unlock;
-> > +	}
-> > +
-> > +	state->state &= ~ST_SUSPENDED;
-> > +
-> > +unlock:
-> > +	mutex_unlock(&state->lock);
-> > +
-> > +	return ret ? -EAGAIN : 0;
-> > +}
-> > +
-> > +static int __maybe_unused imx8mq_mipi_csi_suspend(struct device *dev)
-> > +{
-> > +	return imx8mq_mipi_csi_pm_suspend(dev, false);
-> > +}
-> > +
-> > +static int __maybe_unused imx8mq_mipi_csi_resume(struct device *dev)
-> > +{
-> > +	return imx8mq_mipi_csi_pm_resume(dev, false);
-> > +}
-> > +
-> > +static int __maybe_unused imx8mq_mipi_csi_runtime_suspend(struct device *dev)
-> > +{
-> > +	return imx8mq_mipi_csi_pm_suspend(dev, true);
-> > +}
-> > +
-> > +static int __maybe_unused imx8mq_mipi_csi_runtime_resume(struct device *dev)
-> > +{
-> > +	return imx8mq_mipi_csi_pm_resume(dev, true);
-> > +}
-> > +
-> > +static const struct dev_pm_ops imx8mq_mipi_csi_pm_ops = {
-> > +	SET_RUNTIME_PM_OPS(imx8mq_mipi_csi_runtime_suspend,
-> > +			   imx8mq_mipi_csi_runtime_resume,
-> > +			   NULL)
-> > +	SET_SYSTEM_SLEEP_PM_OPS(imx8mq_mipi_csi_suspend, imx8mq_mipi_csi_resume)
-> > +};
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * Probe/remove & platform driver
-> > + */
-> > +
-> > +static int imx8mq_mipi_csi_subdev_init(struct csi_state *state)
-> > +{
-> > +	struct v4l2_subdev *sd = &state->sd;
-> > +
-> > +	v4l2_subdev_init(sd, &imx8mq_mipi_csi_subdev_ops);
-> > +	sd->owner = THIS_MODULE;
-> > +	snprintf(sd->name, sizeof(sd->name), "%s %s",
-> > +		 MIPI_CSI2_SUBDEV_NAME, dev_name(state->dev));
-> > +
-> > +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > +
-> > +	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> > +	sd->entity.ops = &imx8mq_mipi_csi_entity_ops;
-> > +
-> > +	sd->dev = state->dev;
-> > +
-> > +	state->csi2_fmt = &imx8mq_mipi_csi_formats[0];
-> > +	imx8mq_mipi_csi_init_cfg(sd, NULL);
-> > +
-> > +	state->pads[MIPI_CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK
-> > +					 | MEDIA_PAD_FL_MUST_CONNECT;
-> > +	state->pads[MIPI_CSI2_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE
-> > +					   | MEDIA_PAD_FL_MUST_CONNECT;
-> > +	return media_entity_pads_init(&sd->entity, MIPI_CSI2_PADS_NUM,
-> > +				      state->pads);
-> > +}
-> > +
-> > +static void imx8mq_mipi_csi_release_icc(struct platform_device *pdev)
-> > +{
-> > +	struct v4l2_subdev *sd = dev_get_drvdata(&pdev->dev);
-> > +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > +
-> > +	icc_put(state->icc_path);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_init_icc(struct platform_device *pdev)
-> > +{
-> > +	struct v4l2_subdev *sd = dev_get_drvdata(&pdev->dev);
-> > +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > +
-> > +	/* Optional interconnect request */
-> > +	state->icc_path = of_icc_get(&pdev->dev, "dram");
-> > +	if (IS_ERR_OR_NULL(state->icc_path))
-> > +		return PTR_ERR_OR_ZERO(state->icc_path);
-> > +
-> > +	state->icc_path_bw = MBps_to_icc(700);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_parse_dt(struct csi_state *state)
-> > +{
-> > +	struct device *dev = state->dev;
-> > +	struct device_node *np = state->dev->of_node;
-> > +	struct device_node *node;
-> > +	phandle ph;
-> > +	u32 out_val[2];
-> > +	int ret = 0;
-> > +
-> > +	state->rst = devm_reset_control_array_get_exclusive(dev);
-> > +	if (IS_ERR(state->rst)) {
-> > +		dev_err(dev, "Failed to get reset: %pe\n", state->rst);
-> > +		return PTR_ERR(state->rst);
-> > +	}
-> > +
-> > +	ret = of_property_read_u32_array(np, "fsl,mipi-phy-gpr", out_val,
-> > +					 ARRAY_SIZE(out_val));
-> > +	if (ret) {
-> > +		dev_err(dev, "no fsl,mipi-phy-gpr property found: %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	ph = *out_val;
-> > +
-> > +	node = of_find_node_by_phandle(ph);
-> > +	if (!node) {
-> > +		dev_err(dev, "Error finding node by phandle\n");
-> > +		return -ENODEV;
-> > +	}
-> > +	state->phy_gpr = syscon_node_to_regmap(node);
-> > +	of_node_put(node);
-> > +	if (IS_ERR(state->phy_gpr)) {
-> > +		dev_err(dev, "failed to get gpr regmap: %pe\n", state->phy_gpr);
-> > +		return PTR_ERR(state->phy_gpr);
-> > +	}
-> > +
-> > +	state->phy_gpr_reg = out_val[1];
-> > +	dev_dbg(dev, "phy gpr register set to 0x%x\n", state->phy_gpr_reg);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_probe(struct platform_device *pdev)
-> > +{
-> > +	struct device *dev = &pdev->dev;
-> > +	struct csi_state *state;
-> > +	int ret;
-> > +
-> > +	state = devm_kzalloc(dev, sizeof(*state), GFP_KERNEL);
-> > +	if (!state)
-> > +		return -ENOMEM;
-> > +
-> > +	state->dev = dev;
-> > +
-> > +	ret = imx8mq_mipi_csi_parse_dt(state);
-> > +	if (ret < 0) {
-> > +		dev_err(dev, "Failed to parse device tree: %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	/* Acquire resources. */
-> > +	state->regs = devm_platform_ioremap_resource(pdev, 0);
-> > +	if (IS_ERR(state->regs))
-> > +		return PTR_ERR(state->regs);
-> > +
-> > +	ret = imx8mq_mipi_csi_clk_get(state);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	platform_set_drvdata(pdev, &state->sd);
-> > +
-> > +	mutex_init(&state->lock);
-> > +
-> > +	ret = imx8mq_mipi_csi_subdev_init(state);
-> > +	if (ret < 0)
-> > +		goto mutex;
-> > +
-> > +	ret = imx8mq_mipi_csi_init_icc(pdev);
-> > +	if (ret)
-> > +		goto mutex;
-> > +
-> > +	/* Enable runtime PM. */
-> > +	pm_runtime_enable(dev);
-> > +	if (!pm_runtime_enabled(dev)) {
-> > +		ret = imx8mq_mipi_csi_pm_resume(dev, true);
-> > +		if (ret < 0)
-> > +			goto icc;
-> > +	}
-> > +
-> > +	ret = imx8mq_mipi_csi_async_register(state);
-> > +	if (ret < 0)
-> > +		goto cleanup;
-> > +
-> > +	return 0;
-> > +
-> > +cleanup:
-> > +	pm_runtime_disable(&pdev->dev);
-> > +	imx8mq_mipi_csi_pm_suspend(&pdev->dev, true);
-> > +
-> > +	media_entity_cleanup(&state->sd.entity);
-> > +	v4l2_async_notifier_unregister(&state->notifier);
-> > +	v4l2_async_notifier_cleanup(&state->notifier);
-> > +	v4l2_async_unregister_subdev(&state->sd);
-> > +icc:
-> > +	imx8mq_mipi_csi_release_icc(pdev);
-> > +mutex:
-> > +	mutex_destroy(&state->lock);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_remove(struct platform_device *pdev)
-> > +{
-> > +	struct v4l2_subdev *sd = platform_get_drvdata(pdev);
-> > +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > +
-> > +	v4l2_async_notifier_unregister(&state->notifier);
-> > +	v4l2_async_notifier_cleanup(&state->notifier);
-> > +	v4l2_async_unregister_subdev(&state->sd);
-> > +
-> > +	pm_runtime_disable(&pdev->dev);
-> > +	imx8mq_mipi_csi_pm_suspend(&pdev->dev, true);
-> > +	media_entity_cleanup(&state->sd.entity);
-> > +	mutex_destroy(&state->lock);
-> > +	pm_runtime_set_suspended(&pdev->dev);
-> > +	imx8mq_mipi_csi_release_icc(pdev);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct of_device_id imx8mq_mipi_csi_of_match[] = {
-> > +	{ .compatible = "fsl,imx8mq-mipi-csi2", },
-> > +	{ /* sentinel */ },
-> > +};
-> > +MODULE_DEVICE_TABLE(of, imx8mq_mipi_csi_of_match);
-> > +
-> > +static struct platform_driver imx8mq_mipi_csi_driver = {
-> > +	.probe		= imx8mq_mipi_csi_probe,
-> > +	.remove		= imx8mq_mipi_csi_remove,
-> > +	.driver		= {
-> > +		.of_match_table = imx8mq_mipi_csi_of_match,
-> > +		.name		= MIPI_CSI2_DRIVER_NAME,
-> > +		.pm		= &imx8mq_mipi_csi_pm_ops,
-> > +	},
-> > +};
-> > +
-> > +module_platform_driver(imx8mq_mipi_csi_driver);
-> > +
-> > +MODULE_DESCRIPTION("i.MX8MQ MIPI CSI-2 receiver driver");
-> > +MODULE_AUTHOR("Martin Kepplinger <martin.kepplinger@puri.sm>");
-> > +MODULE_LICENSE("GPL v2");
-> > +MODULE_ALIAS("platform:imx8mq-mipi-csi2");
-
+diff --git a/drivers/media/cec/core/cec-pin-priv.h b/drivers/media/cec/core/cec-pin-priv.h
+index f423db8855d9..fb101f15865c 100644
+--- a/drivers/media/cec/core/cec-pin-priv.h
++++ b/drivers/media/cec/core/cec-pin-priv.h
+@@ -209,8 +209,8 @@ struct cec_pin {
+ 	u32				work_pin_events_dropped_cnt;
+ 	ktime_t				timer_ts;
+ 	u32				timer_cnt;
+-	u32				timer_100ms_overruns;
+-	u32				timer_300ms_overruns;
++	u32				timer_100us_overruns;
++	u32				timer_300us_overruns;
+ 	u32				timer_max_overrun;
+ 	u32				timer_sum_overrun;
+ 
+diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
+index f006bd8eec63..8c613aa649c6 100644
+--- a/drivers/media/cec/core/cec-pin.c
++++ b/drivers/media/cec/core/cec-pin.c
+@@ -854,9 +854,9 @@ static enum hrtimer_restart cec_pin_timer(struct hrtimer *timer)
+ 		if (delta > 100 && pin->state != CEC_ST_IDLE) {
+ 			/* Keep track of timer overruns */
+ 			pin->timer_sum_overrun += delta;
+-			pin->timer_100ms_overruns++;
++			pin->timer_100us_overruns++;
+ 			if (delta > 300)
+-				pin->timer_300ms_overruns++;
++				pin->timer_300us_overruns++;
+ 			if (delta > pin->timer_max_overrun)
+ 				pin->timer_max_overrun = delta;
+ 		}
+@@ -1207,15 +1207,15 @@ static void cec_pin_adap_status(struct cec_adapter *adap,
+ 	seq_printf(file, "cec pin events dropped: %u\n",
+ 		   pin->work_pin_events_dropped_cnt);
+ 	seq_printf(file, "irq failed: %d\n", pin->enable_irq_failed);
+-	if (pin->timer_100ms_overruns) {
+-		seq_printf(file, "timer overruns > 100ms: %u of %u\n",
+-			   pin->timer_100ms_overruns, pin->timer_cnt);
+-		seq_printf(file, "timer overruns > 300ms: %u of %u\n",
+-			   pin->timer_300ms_overruns, pin->timer_cnt);
++	if (pin->timer_100us_overruns) {
++		seq_printf(file, "timer overruns > 100us: %u of %u\n",
++			   pin->timer_100us_overruns, pin->timer_cnt);
++		seq_printf(file, "timer overruns > 300us: %u of %u\n",
++			   pin->timer_300us_overruns, pin->timer_cnt);
+ 		seq_printf(file, "max timer overrun: %u usecs\n",
+ 			   pin->timer_max_overrun);
+ 		seq_printf(file, "avg timer overrun: %u usecs\n",
+-			   pin->timer_sum_overrun / pin->timer_100ms_overruns);
++			   pin->timer_sum_overrun / pin->timer_100us_overruns);
+ 	}
+ 	if (pin->rx_start_bit_low_too_short_cnt)
+ 		seq_printf(file,
+@@ -1245,8 +1245,8 @@ static void cec_pin_adap_status(struct cec_adapter *adap,
+ 	seq_printf(file, "tx detected low drive: %u\n", pin->tx_low_drive_cnt);
+ 	pin->work_pin_events_dropped_cnt = 0;
+ 	pin->timer_cnt = 0;
+-	pin->timer_100ms_overruns = 0;
+-	pin->timer_300ms_overruns = 0;
++	pin->timer_100us_overruns = 0;
++	pin->timer_300us_overruns = 0;
+ 	pin->timer_max_overrun = 0;
+ 	pin->timer_sum_overrun = 0;
+ 	pin->rx_start_bit_low_too_short_cnt = 0;
 -- 
-Regards,
+2.20.1
 
-Laurent Pinchart
