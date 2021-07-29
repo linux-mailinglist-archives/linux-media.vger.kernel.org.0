@@ -2,90 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AAA33DA1C2
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 13:08:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A62803DA1EC
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 13:16:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236244AbhG2LIF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 07:08:05 -0400
-Received: from ni.piap.pl ([195.187.100.5]:58946 "EHLO ni.piap.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232135AbhG2LIE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 07:08:04 -0400
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-        by ni.piap.pl (Postfix) with ESMTPSA id A7FFCC369544;
-        Thu, 29 Jul 2021 13:07:57 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl A7FFCC369544
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
-        t=1627556877; bh=X7gZQ2nKkMDKLvWi02KX4C5ud6ugo22cktC2Z8oZa8E=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=aJ/hSYI4e/nvTJSHJmdnHzPwN4VQ0QeZBbgauPgLKLmO3h0yowmulL/bHkuYS6tPP
-         Zn7cPYvWr/PQZK6KLjuXiZCm/No0fCNrSeVlSbYR34xTzZQThvOKo/u8ZzT9Mc4q7+
-         UQD/Vt2RB8r35iftonBVYbW43weTQZmnuLxkbxcw=
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Tim Harvey <tharvey@gateworks.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] TDA1997x: fix tda1997x_remove()
-References: <m35ywxcq1l.fsf@t19.piap.pl>
-        <a1f99432-f11e-fd4d-4956-ae2864f08a2a@xs4all.nl>
-Sender: khalasa@piap.pl
-Date:   Thu, 29 Jul 2021 13:07:57 +0200
-In-Reply-To: <a1f99432-f11e-fd4d-4956-ae2864f08a2a@xs4all.nl> (Hans Verkuil's
-        message of "Thu, 29 Jul 2021 11:55:47 +0200")
-Message-ID: <m335rxbcoi.fsf@t19.piap.pl>
+        id S236577AbhG2LQi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 07:16:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42494 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236312AbhG2LQg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Jul 2021 07:16:36 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 547A0C061765;
+        Thu, 29 Jul 2021 04:16:33 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: gtucker)
+        with ESMTPSA id EFFE71F43E00
+From:   Guillaume Tucker <guillaume.tucker@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+Subject: [PATCH] media: vivid: drop CONFIG_FB dependency
+Date:   Thu, 29 Jul 2021 12:16:15 +0100
+Message-Id: <bf74a4670438864ca2e6bde47121554490350729.1627557341.git.guillaume.tucker@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-KLMS-Rule-ID: 1
-X-KLMS-Message-Action: clean
-X-KLMS-AntiSpam-Lua-Profiles: 165310 [Jul 29 2021]
-X-KLMS-AntiSpam-Version: 5.9.20.0
-X-KLMS-AntiSpam-Envelope-From: khalasa@piap.pl
-X-KLMS-AntiSpam-Rate: 0
-X-KLMS-AntiSpam-Status: not_detected
-X-KLMS-AntiSpam-Method: none
-X-KLMS-AntiSpam-Auth: dkim=pass header.d=piap.pl
-X-KLMS-AntiSpam-Info: LuaCore: 449 449 5db59deca4a4f5e6ea34a93b13bc730e229092f4, {Tracking_arrow_text}, {Tracking_Text_ENG_RU_Has_Extended_Latin_Letters, eng}, {Tracking_marketers, three}, {Tracking_from_domain_doesnt_match_to}, t19.piap.pl:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;piap.pl:7.1.1
-X-MS-Exchange-Organization-SCL: -1
-X-KLMS-AntiSpam-Interceptor-Info: scan successful
-X-KLMS-AntiPhishing: Clean, bases: 2021/07/29 10:23:00
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2021/07/29 07:19:00 #16977611
-X-KLMS-AntiVirus-Status: Clean, skipped
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hans,
+Drop the vivid dependency on CONFIG_FB by compiling out parts of the
+code that make use of the framebuffer API when not enabled.  This is
+particularly useful as CONFIG_FB is not selected any more by
+DRM_FBDEV_EMULATION.
 
-Hans Verkuil <hverkuil@xs4all.nl> writes:
+Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Guillaume Tucker <guillaume.tucker@collabora.com>
+---
+ drivers/media/test-drivers/vivid/Kconfig       | 5 +----
+ drivers/media/test-drivers/vivid/Makefile      | 5 ++++-
+ drivers/media/test-drivers/vivid/vivid-core.c  | 7 +++++++
+ drivers/media/test-drivers/vivid/vivid-ctrls.c | 4 ++++
+ 4 files changed, 16 insertions(+), 5 deletions(-)
 
->> +++ b/drivers/media/i2c/tda1997x.c
->> @@ -2771,6 +2771,7 @@ static int tda1997x_probe(struct i2c_client *clien=
-t,
->>  		goto err_free_media;
->>  	}
->>=20=20
->> +	i2c_set_clientdata(client, sd);
->>  	return 0;
->>=20=20
->>  err_free_media:
->>=20
->
-> Actually, v4l2_i2c_subdev_init() sets this, and v4l2_i2c_subdev_init() *i=
-s* called.
-> Does it really crash in tda1997x_remove() without this patch?
+diff --git a/drivers/media/test-drivers/vivid/Kconfig b/drivers/media/test-drivers/vivid/Kconfig
+index c3abde2986b2..06ad350f1903 100644
+--- a/drivers/media/test-drivers/vivid/Kconfig
++++ b/drivers/media/test-drivers/vivid/Kconfig
+@@ -1,13 +1,10 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config VIDEO_VIVID
+ 	tristate "Virtual Video Test Driver"
+-	depends on VIDEO_DEV && VIDEO_V4L2 && !SPARC32 && !SPARC64 && FB
++	depends on VIDEO_DEV && VIDEO_V4L2 && !SPARC32 && !SPARC64
+ 	depends on HAS_DMA
+ 	select FONT_SUPPORT
+ 	select FONT_8x16
+-	select FB_CFB_FILLRECT
+-	select FB_CFB_COPYAREA
+-	select FB_CFB_IMAGEBLIT
+ 	select VIDEOBUF2_VMALLOC
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select VIDEO_V4L2_TPG
+diff --git a/drivers/media/test-drivers/vivid/Makefile b/drivers/media/test-drivers/vivid/Makefile
+index b12ad0152a3e..a9e4bc8dc599 100644
+--- a/drivers/media/test-drivers/vivid/Makefile
++++ b/drivers/media/test-drivers/vivid/Makefile
+@@ -3,10 +3,13 @@ vivid-objs := vivid-core.o vivid-ctrls.o vivid-vid-common.o vivid-vbi-gen.o \
+ 		vivid-vid-cap.o vivid-vid-out.o vivid-kthread-cap.o vivid-kthread-out.o \
+ 		vivid-radio-rx.o vivid-radio-tx.o vivid-radio-common.o \
+ 		vivid-rds-gen.o vivid-sdr-cap.o vivid-vbi-cap.o vivid-vbi-out.o \
+-		vivid-osd.o vivid-meta-cap.o vivid-meta-out.o \
++		vivid-meta-cap.o vivid-meta-out.o \
+ 		vivid-kthread-touch.o vivid-touch-cap.o
+ ifeq ($(CONFIG_VIDEO_VIVID_CEC),y)
+   vivid-objs += vivid-cec.o
+ endif
++ifeq ($(CONFIG_FB),y)
++  vivid-objs += vivid-osd.o
++endif
+ 
+ obj-$(CONFIG_VIDEO_VIVID) += vivid.o
+diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+index d2bd2653cf54..71f3b9af4ffc 100644
+--- a/drivers/media/test-drivers/vivid/vivid-core.c
++++ b/drivers/media/test-drivers/vivid/vivid-core.c
+@@ -1021,9 +1021,11 @@ static int vivid_detect_feature_set(struct vivid_dev *dev, int inst,
+ 	/* do we have a modulator? */
+ 	*has_modulator = dev->has_radio_tx;
+ 
++#if IS_ENABLED(CONFIG_FB)
+ 	if (dev->has_vid_cap)
+ 		/* do we have a framebuffer for overlay testing? */
+ 		dev->has_fb = node_type & 0x10000;
++#endif
+ 
+ 	/* can we do crop/compose/scaling while capturing? */
+ 	if (no_error_inj && *ccs_cap == -1)
+@@ -1355,6 +1357,7 @@ static int vivid_create_queues(struct vivid_dev *dev)
+ 			return ret;
+ 	}
+ 
++#if IS_ENABLED(CONFIG_FB)
+ 	if (dev->has_fb) {
+ 		/* Create framebuffer for testing capture/output overlay */
+ 		ret = vivid_fb_init(dev);
+@@ -1363,6 +1366,8 @@ static int vivid_create_queues(struct vivid_dev *dev)
+ 		v4l2_info(&dev->v4l2_dev, "Framebuffer device registered as fb%d\n",
+ 			  dev->fb_info.node);
+ 	}
++#endif
++
+ 	return 0;
+ }
+ 
+@@ -2069,12 +2074,14 @@ static int vivid_remove(struct platform_device *pdev)
+ 				video_device_node_name(&dev->radio_tx_dev));
+ 			video_unregister_device(&dev->radio_tx_dev);
+ 		}
++#if IS_ENABLED(CONFIG_FB)
+ 		if (dev->has_fb) {
+ 			v4l2_info(&dev->v4l2_dev, "unregistering fb%d\n",
+ 				dev->fb_info.node);
+ 			unregister_framebuffer(&dev->fb_info);
+ 			vivid_fb_release_buffers(dev);
+ 		}
++#endif
+ 		if (dev->has_meta_cap) {
+ 			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
+ 				  video_device_node_name(&dev->meta_cap_dev));
+diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+index 8dc50fe22972..081470a1d88a 100644
+--- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
++++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+@@ -305,6 +305,7 @@ static const struct v4l2_ctrl_config vivid_ctrl_ro_int32 = {
+ 
+ /* Framebuffer Controls */
+ 
++#if IS_ENABLED(CONFIG_FB)
+ static int vivid_fb_s_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct vivid_dev *dev = container_of(ctrl->handler,
+@@ -328,6 +329,7 @@ static const struct v4l2_ctrl_config vivid_ctrl_clear_fb = {
+ 	.name = "Clear Framebuffer",
+ 	.type = V4L2_CTRL_TYPE_BUTTON,
+ };
++#endif /* IS_ENABLED(CONFIG_FB) */
+ 
+ 
+ /* Video User Controls */
+@@ -1761,8 +1763,10 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+ 	    (dev->has_vbi_cap && dev->has_vbi_out))
+ 		v4l2_ctrl_new_custom(hdl_loop_cap, &vivid_ctrl_loop_video, NULL);
+ 
++#if IS_ENABLED(CONFIG_FB)
+ 	if (dev->has_fb)
+ 		v4l2_ctrl_new_custom(hdl_fb, &vivid_ctrl_clear_fb, NULL);
++#endif
+ 
+ 	if (dev->has_radio_rx) {
+ 		v4l2_ctrl_new_custom(hdl_radio_rx, &vivid_ctrl_radio_hw_seek_mode, NULL);
+-- 
+2.20.1
 
-Yes, the pointer was once invalid (IIRC), and in other cases NULL.
-
-> If so, then I suspect something else is going on.
-
-I'll investigate further, then.
-
-Thanks,
---=20
-Krzysztof "Chris" Ha=C5=82asa
-
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
