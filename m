@@ -2,130 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA6743DA114
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 12:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01C943DA120
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 12:35:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235633AbhG2Kcb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 06:32:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35100 "EHLO mail.kernel.org"
+        id S232054AbhG2Kfr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 06:35:47 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:50910 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235309AbhG2Kc1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 06:32:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9F256601FF;
-        Thu, 29 Jul 2021 10:32:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1627554744;
-        bh=evqS+jYgdy4AaHR+PlFUIfPANh3VC9qSJLUKVyCQu2E=;
-        h=Date:From:To:Subject:References:In-Reply-To:From;
-        b=QtB01bi7tcSTf3qCn/mJiicVJt5X2UEAyOotNQTpfXgGcIwP1UHR9r9GfHd0IDrJh
-         bXvzB/vLtOmLnuInGz2KruvBWSWRdRyT8vwbKuKmwy24gihB8GHp3aqeg4qi1F53Gl
-         kiIpApj/SIs1sisgDYqhm9AYx0qXIb53qdnWPQ1s=
-Date:   Thu, 29 Jul 2021 12:32:21 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Luo Likang <luolikang@nsfocus.com>, security@kernel.org,
-        linux-distros@vs.openwall.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux1394-devel@lists.sourceforge.net
-Subject: Re: [PATCH] media: firewire: firedtv-avc: fix a buffer overflow in
- avc_ca_pmt()
-Message-ID: <YQKDtRtAC5F7W+bg@kroah.com>
-References: <000001d73031$d5304480$7f90cd80$@nsfocus.com>
- <YHaulytonFcW+lyZ@mwanda>
+        id S233273AbhG2Kfo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Jul 2021 06:35:44 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1m93O8-009yOn-In; Thu, 29 Jul 2021 10:35:40 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1m93Ss-0002Fi-CG; Thu, 29 Jul 2021 10:40:34 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.15] Various fixes (#76084)
+Date:   Thu, 29 Jul 2021 10:40:34 +0000
+Message-Id: <20210729104034.8617-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <361dcfeb-8264-6e7a-dda4-7a942f7cb722@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YHaulytonFcW+lyZ@mwanda>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 11:57:59AM +0300, Dan Carpenter wrote:
-> The bounds checking in avc_ca_pmt() is not strict enough.  It should
-> be checking "read_pos + 4" because it's reading 5 bytes.  If the
-> "es_info_length" is non-zero then it reads a 6th byte so there needs to
-> be an additional check for that.
-> 
-> I also added checks for the "write_pos".  I don't think these are
-> required because "read_pos" and "write_pos" are tied together so
-> checking one ought to be enough.  But they make the code easier to
-> understand for me.
-> 
-> The other problem is that "length" can be invalid.  It comes from
-> "data_length" in fdtv_ca_pmt().
-> 
-> Cc: stable@vger.kernel.org
-> Reported-by: Luo Likang <luolikang@nsfocus.com>
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
-> This hardware isn't super common so there is no embargo.  Resending
-> through normal lists.
-> 
-> Oh, another thing is the data_length calculation in fdtv_ca_pmt() seems
-> very suspicous.  Reading more than 4 bytes in the loop will lead to
-> shift wrapping.
-> 
->  drivers/media/firewire/firedtv-avc.c | 14 +++++++++++---
->  drivers/media/firewire/firedtv-ci.c  |  2 ++
->  2 files changed, 13 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/firewire/firedtv-avc.c b/drivers/media/firewire/firedtv-avc.c
-> index 2bf9467b917d..71991f8638e6 100644
-> --- a/drivers/media/firewire/firedtv-avc.c
-> +++ b/drivers/media/firewire/firedtv-avc.c
-> @@ -1165,7 +1165,11 @@ int avc_ca_pmt(struct firedtv *fdtv, char *msg, int length)
->  		read_pos += program_info_length;
->  		write_pos += program_info_length;
->  	}
-> -	while (read_pos < length) {
-> +	while (read_pos + 4 < length) {
-> +		if (write_pos + 4 >= sizeof(c->operand) - 4) {
-> +			ret = -EINVAL;
-> +			goto out;
-> +		}
->  		c->operand[write_pos++] = msg[read_pos++];
->  		c->operand[write_pos++] = msg[read_pos++];
->  		c->operand[write_pos++] = msg[read_pos++];
-> @@ -1177,13 +1181,17 @@ int avc_ca_pmt(struct firedtv *fdtv, char *msg, int length)
->  		c->operand[write_pos++] = es_info_length >> 8;
->  		c->operand[write_pos++] = es_info_length & 0xff;
->  		if (es_info_length > 0) {
-> +			if (read_pos >= length) {
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
->  			pmt_cmd_id = msg[read_pos++];
->  			if (pmt_cmd_id != 1 && pmt_cmd_id != 4)
->  				dev_err(fdtv->device, "invalid pmt_cmd_id %d at stream level\n",
->  					pmt_cmd_id);
->  
-> -			if (es_info_length > sizeof(c->operand) - 4 -
-> -					     write_pos) {
-> +			if (es_info_length > sizeof(c->operand) - 4 - write_pos ||
-> +			    es_info_length > length - read_pos) {
->  				ret = -EINVAL;
->  				goto out;
->  			}
-> diff --git a/drivers/media/firewire/firedtv-ci.c b/drivers/media/firewire/firedtv-ci.c
-> index 9363d005e2b6..2d6992ac5dd6 100644
-> --- a/drivers/media/firewire/firedtv-ci.c
-> +++ b/drivers/media/firewire/firedtv-ci.c
-> @@ -134,6 +134,8 @@ static int fdtv_ca_pmt(struct firedtv *fdtv, void *arg)
->  	} else {
->  		data_length = msg->msg[3];
->  	}
-> +	if (data_length > sizeof(msg->msg) - 4)
-> +		return -EINVAL;
->  
->  	return avc_ca_pmt(fdtv, &msg->msg[data_pos], data_length);
->  }
-> -- 
-> 2.30.2
-> 
+From: builder@linuxtv.org
 
-This patch seems to have gotten lost.  Any change of it getting applied?
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/361dcfeb-8264-6e7a-dda4-7a942f7cb722@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/128089/
+Build time: 00:17:14
+Link: https://lore.kernel.org/linux-media/361dcfeb-8264-6e7a-dda4-7a942f7cb722@xs4all.nl
 
-thanks,
+gpg: Signature made Thu 29 Jul 2021 10:10:02 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-greg k-h
+Summary: got 2/6 patches with issues, being 1 at build time
+
+Error/warnings:
+
+patches/0001-v4l2-dv-timings.c-fix-wrong-condition-in-two-for-loo.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0002-Fix-cosmetic-error-in-TDA1997x-driver.patch:
+
+   checkpatch.pl:
+	$ cat patches/0002-Fix-cosmetic-error-in-TDA1997x-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:26: WARNING: Unnecessary ftrace-like logging - prefer using ftrace
+
