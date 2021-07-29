@@ -2,949 +2,2989 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADDEC3DA2B0
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 13:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB74D3DA2F1
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 14:17:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234176AbhG2L7m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 07:59:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52950 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234610AbhG2L7l (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 07:59:41 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3ECFC061765
-        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 04:59:38 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id o20so8057433oiw.12
-        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 04:59:38 -0700 (PDT)
+        id S236602AbhG2MRa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 08:17:30 -0400
+Received: from mail-dm6nam12on2065.outbound.protection.outlook.com ([40.107.243.65]:18005
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S236285AbhG2MR2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Jul 2021 08:17:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bm6rrjMfop1BU0o33BjIovVr5Ln8rnSyN2T0V6nD+zbWPuliYtHCQ27PBKtW6V524Vrs9k4kF3dCSiW+2xdY7XCUSLadXGThNfRgcTLnUVa56rBvgwracmJyvtWc8Q9oWeswoF5NP2ZGgnRCQyDNtnl7xlQaToHX0AZ4k9I+wzrM+FwPIVSEIpzAt2osDvUnJAykNgCC7UsxqmPo+m7iMCs+flbGGsbSykAYQ6In9OZTI5J9AiWJBjpNbhiq6u995IWzPYOrbK34znTVTNUtWW+2BmCK36yY2iP+FeqW7ufSLND955R1uTFugto1fCGCEAuCD+zlnBl/Vd1+GvMM+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SWSOlV/u20RDoODkozqJW+NDlgXl3kPCTxMIKkwPy1A=;
+ b=hg0Yib4NGiQSuCojIpb8m03CYGJYi1KKDKBRmZoA/dP/aDgBYFw3nsEHBfV4LDCzGlI47Qdk17ujBfokp5WY3iQEftI7peLi1/+0rnnGrKZpwD8+PmLiPCXEU8OqE0v5kYvH66vVa88pj80v5lleXD5mJxccy7or9nz8IpX31N54he3r+LS6t3N6yEpO63wT++dRfZ8bZFZMexwiP/in5GiBlpIyih89RaxKBKnPeODQg9gHWClcAMSnu96Ob0Btb0EHTpSsxcjB0tIWXSl9qvQM1AedStr6vrB1xU2rdyVF/LB/JC9MOYBMqG3adeak76BrarbD1VQ+PdRerzaszw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=kkIi3DpfInE77cCla9kZBbsLiz5F8Cfc2KINMNPPH74=;
-        b=cf+ox2OMYbBFpdbnpS6Q14G1OJd7DzB9pensqbCkW7Go/DYfNq157BIh2sjDausg/Z
-         RFPoswFry35e/8mwoMlSfxiwkDnaAm0Ydaie7V+ujSrMftOgYhZSX9cT25DlJHhD/OKD
-         1HGbePNQQJo6z65VNhN48QRS0xBdh/OLptkl4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=kkIi3DpfInE77cCla9kZBbsLiz5F8Cfc2KINMNPPH74=;
-        b=Dbem+u3dws6z1q/YWTmQfRtfXhhniFg5QeNGY4ayCzl8EcYgJv/Ou/OTLRe2/y6ucO
-         LhemrlxugROFQLQEPtX9Y1M68CzCsgws+2yWXESuKFOQ3ldzfXPzLk2nCAjap/I27YBs
-         OLhSjpA+RQ1mlKo14IJRdrH88PjWJm605QfIYMqRc+E36AmafbgBYyc9MOz1SawoaPeJ
-         WCxaXajHtSCsjCSjhtKc+dgP1ZL1W+AApd0xez1XenA+jt6ivRwZarh3HBvF0y4hfHhw
-         zgcGHVewaqZ8SbDjAgFFEvXU947dnz0G9VyQkpbKSJcvB4OaErSW4ZM2p0nxpQgp0YNg
-         Tg3g==
-X-Gm-Message-State: AOAM533FUrOMZ0I7ovAi3mD2vW/97N6/UoIOK2NhMlRtLuYNPklcKSdU
-        7ImblqaRIJMgoreRURPO1Gl3tOumgCzLGUtmoANYaMTuJXI=
-X-Google-Smtp-Source: ABdhPJyyLsJOkfcguB+P20669DI7SrA2V6pL5fw0v2ieiaP1YTdCXE95fEfdkRNe9mZAfklvAiUVijWByJheIxeyJFQ=
-X-Received: by 2002:aca:d4cf:: with SMTP id l198mr9227193oig.14.1627559977970;
- Thu, 29 Jul 2021 04:59:37 -0700 (PDT)
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SWSOlV/u20RDoODkozqJW+NDlgXl3kPCTxMIKkwPy1A=;
+ b=kq/tdrT//60umM6hj1Ff1gRZRJR3bQMwktEdMQaDgwWh3ru0Ph1NaWv+Tl37lLbG8ZU4XXRBpG78JY6JtqNksfLqoNRsnB8/oVwqqn+S8quDRsKQh0P4dCoo5TSc4lxvUo5VqvQhoNngRf5c0Ye0nyxIHAbsrM/V/jJfaq/M7QI=
+Received: from SA0PR11CA0110.namprd11.prod.outlook.com (2603:10b6:806:d1::25)
+ by BYAPR02MB5991.namprd02.prod.outlook.com (2603:10b6:a03:118::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.29; Thu, 29 Jul
+ 2021 12:17:19 +0000
+Received: from SN1NAM02FT0049.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:806:d1:cafe::9b) by SA0PR11CA0110.outlook.office365.com
+ (2603:10b6:806:d1::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18 via Frontend
+ Transport; Thu, 29 Jul 2021 12:17:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ SN1NAM02FT0049.mail.protection.outlook.com (10.97.5.28) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4373.18 via Frontend Transport; Thu, 29 Jul 2021 12:17:19 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 29 Jul 2021 05:17:14 -0700
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.2 via Frontend Transport; Thu, 29 Jul 2021 05:17:14 -0700
+Envelope-to: linux-media@vger.kernel.org,
+ sakari.ailus@iki.fi,
+ laurent.pinchart@ideasonboard.com,
+ stefan.hladnik@gmail.com,
+ frebaudo@witekio.com
+Received: from [10.140.9.1] (port=36814 helo=xhdamamidal40.xilinx.com)
+        by smtp.xilinx.com with esmtp (Exim 4.90)
+        (envelope-from <anil.mamidala@xilinx.com>)
+        id 1m94yP-0001dt-0q; Thu, 29 Jul 2021 05:17:14 -0700
+From:   Anil Kumar Mamidala <anil.mamidala@xilinx.com>
+To:     <linux-media@vger.kernel.org>
+CC:     <sakari.ailus@iki.fi>, <naveenku@xilinx.com>,
+        Anil Kumar Mamidala <anil.mamidala@xilinx.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Stefan Hladnik <stefan.hladnik@gmail.com>,
+        Florian Rebaudo <frebaudo@witekio.com>
+Subject: [PATCH v2 1/2] media: i2c: Add ON Semiconductor AP1302 ISP driver
+Date:   Thu, 29 Jul 2021 17:41:31 +0530
+Message-ID: <1627560692-21675-1-git-send-email-anil.mamidala@xilinx.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20210729070330.41443-1-christian.koenig@amd.com>
- <20210729070330.41443-3-christian.koenig@amd.com> <YQJXi2JNZdH5DaR2@phenom.ffwll.local>
- <800b0278-922e-e7d8-450d-59721bb68585@gmail.com> <CAKMK7uHzbXY3vsGtwMaqzJNuXPffgOz8xuWDfgDPqsW7ijMnJw@mail.gmail.com>
- <14321470-0c5a-c8df-44b7-0873b6a44166@gmail.com>
-In-Reply-To: <14321470-0c5a-c8df-44b7-0873b6a44166@gmail.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Thu, 29 Jul 2021 13:59:26 +0200
-Message-ID: <CAKMK7uH5nJxrN30t_GkxgH2eKXYJO3uN8pod20R0bJeEoSsNiQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] dma-buf: nuke SW_SYNC debugfs files
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 808f27e8-22cf-4988-4bc8-08d9528acfa0
+X-MS-TrafficTypeDiagnostic: BYAPR02MB5991:
+X-Microsoft-Antispam-PRVS: <BYAPR02MB5991982B68F5AEE99C2E096CB7EB9@BYAPR02MB5991.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:83;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pnIC/zc5goiDD9cqvjyQ5UGBp0ionlUq/u68d/wX0r4wHBlG1lEWK3bGXcJ72W7xxN2PiUI43lhA53slSs8+vutvjVS9Kbfp02dnKp4rlpZl8t+glmIslgnvSH5LqGap6CeMvRxX12Nk4zFoeL4eNNpHCVydmTVDmLY1b9ZvHT0zzAX0mLTTEkuTlgsjvGPABmUacR6FvY4dGeumJcTCreNxQb8Mv0vHIA4kgwFQkJJ7mP3qmEmJRGj6gNHddsJaQh5TwlOHVIKXb6C0a2FoyxROUMLhxTRR09s3Ve2r1fMdyfUnDQyk/yrwdusHhEkDgISuvKu+1gEi1clAI9BFxfRCDek6fR1xDZUfJ0bsckjnW/78N1eeyvnfS2jVsnRC73zIpcaQ3QgvCPZ17ykcRK4DgyJJiXH57J3r/yrW1FAEIvLVc5G50CqyG+YlmfZZyAjm3Nex4BJIiIiR+6vjqUkKjzZ2mlBad0RF//0Uoc/3l8uv0qPECS8MNRs02IbFgPtmnS8Ps466aHiHVMQa87NBmYPDDZQ9hit5o3af8uEhjGRnLKa7TGFu8Yf4G/HMhEfBHIOXOz5IkmlZK3ykzmY1pCtWEln6489xYmRBqVWPlCYsdZBz4VCqLPefe/Cx6OtHk7X9uypzcwINHKFPaxUsjumpCyJhToNzvwjhVaA7C+RfFtu74Lrh+CqzqREdHfflZEkDxU062kbtL7ApP5lZXddm/dn8WyAr/E3QjwE=
+X-Forefront-Antispam-Report: CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch02.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(39860400002)(396003)(376002)(346002)(136003)(36840700001)(46966006)(6916009)(186003)(316002)(70586007)(478600001)(2616005)(26005)(9786002)(70206006)(2906002)(6666004)(426003)(7696005)(82310400003)(7636003)(30864003)(8936002)(356005)(5660300002)(4326008)(36906005)(47076005)(82740400003)(36860700001)(54906003)(83380400001)(336012)(8676002)(36756003)(102446001)(579004)(559001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2021 12:17:19.1169
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 808f27e8-22cf-4988-4bc8-08d9528acfa0
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0049.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5991
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 29, 2021 at 12:21 PM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
-> Am 29.07.21 um 11:03 schrieb Daniel Vetter:
-> > On Thu, Jul 29, 2021 at 10:38 AM Christian K=C3=B6nig
-> > <ckoenig.leichtzumerken@gmail.com> wrote:
-> >> Am 29.07.21 um 09:23 schrieb Daniel Vetter:
-> >>> On Thu, Jul 29, 2021 at 09:03:30AM +0200, Christian K=C3=B6nig wrote:
-> >>>> As we now knew controlling dma_fence synchronization from userspace =
-is
-> >>>> extremely dangerous and can not only deadlock drivers but trivially =
-also the
-> >>>> whole kernel memory management.
-> >>>>
-> >>>> Entirely remove this option. We now have in kernel unit tests to exe=
-rcise the
-> >>>> dma_fence framework and it's containers.
-> >>>>
-> >>>> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >>> There's also igts for this, and Android heavily uses this. So I'm not=
- sure
-> >>> we can just nuke it.
-> >> I feared that you would say that.
-> >>
-> >>> I guess what we could do is maybe just taint the kernel if it's ever =
-used?
-> >> What should we use then? TAINT_SOFTLOCKUP or TAINT_CRAP? :)
-> > I think the cleanest solution would be to install a 10s timer on each
-> > sw fence, and TAINT_SOFTLOOKUP if it fails to signal. That's similar
-> > to what we do with vgem, except vgem then just steps in with a
-> > dma_fence_signal() instead of tainting the kernel.
->
-> Well vgem is only for testing as far as I know.
+The AP1302 is a standalone ISP for ON Semiconductor sensors.
+AP1302 ISP supports single and dual sensor inputs. The driver
+code supports AR1335, AR0144 and AR0330 sensors with single and
+dual mode by loading the corresponding firmware.
 
-I think CrOS is using it to shovel buffers around between process, as
-a convenient allocator for sw rendering dma-buf. But they don't use
-the dma-fence part afaik.
+Signed-off-by: Anil Kumar Mamidala <anil.mamidala@xilinx.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Stefan Hladnik <stefan.hladnik@gmail.com>
+Signed-off-by: Florian Rebaudo <frebaudo@witekio.com>
+---
+ MAINTAINERS                |    9 +
+ drivers/media/i2c/Kconfig  |   14 +
+ drivers/media/i2c/Makefile |    1 +
+ drivers/media/i2c/ap1302.c | 2802 ++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 2826 insertions(+)
+ create mode 100644 drivers/media/i2c/ap1302.c
 
-We can't taint in vgem fences though because our CI reboots on any
-taint (or lockdep splat) and a few others, so that would make it
-useless for testing. Maybe we should have the fence part of vgem
-behind a separate Kconfig?
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 19135a9..f6a0061 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1232,6 +1232,15 @@ L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
+ S:	Maintained
+ F:	sound/aoa/
+ 
++AP1302 ON SEMICONDUCTOR CAMERA ISP
++M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++M:	Anil Kumar Mamidala <anil.mamidala@xilinx.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml
++F:	drivers/media/i2c/ap1302.c
++
+ APEX EMBEDDED SYSTEMS STX104 IIO DRIVER
+ M:	William Breathitt Gray <vilhelm.gray@gmail.com>
+ L:	linux-iio@vger.kernel.org
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 588f8eb..4192455 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -629,6 +629,20 @@ config VIDEO_UPD64083
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called upd64083.
++
++config VIDEO_AP1302
++	tristate "ON Semiconductor AP1302 ISP"
++	depends on I2C && VIDEO_V4L2
++	select VIDEO_V4L2_SUBDEV_API
++	select V4L2_FWNODE
++
++	help
++	  This is a Video4Linux2 sensor-level driver for the ON Semiconductor
++	  AP1302 ISP.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called ap1302.
++
+ endmenu
+ 
+ menu "Audio/Video compression chips"
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index 1168fa6..e7efd01 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -64,6 +64,7 @@ obj-$(CONFIG_VIDEO_VP27SMPX) += vp27smpx.o
+ obj-$(CONFIG_VIDEO_SONY_BTF_MPX) += sony-btf-mpx.o
+ obj-$(CONFIG_VIDEO_UPD64031A) += upd64031a.o
+ obj-$(CONFIG_VIDEO_UPD64083) += upd64083.o
++obj-$(CONFIG_VIDEO_AP1302) += ap1302.o
+ obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
+ obj-$(CONFIG_VIDEO_OV2640) += ov2640.o
+ obj-$(CONFIG_VIDEO_OV2680) += ov2680.o
+diff --git a/drivers/media/i2c/ap1302.c b/drivers/media/i2c/ap1302.c
+new file mode 100644
+index 0000000..606003f
+--- /dev/null
++++ b/drivers/media/i2c/ap1302.c
+@@ -0,0 +1,2802 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Driver for the AP1302 external camera ISP from ON Semiconductor
++ *
++ * Copyright (C) 2021, Witekio, Inc.
++ * Copyright (C) 2021, Xilinx, Inc.
++ * Copyright (C) 2021, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++ */
++
++#include <linux/clk.h>
++#include <linux/debugfs.h>
++#include <linux/delay.h>
++#include <linux/firmware.h>
++#include <linux/gpio.h>
++#include <linux/i2c.h>
++#include <linux/kernel.h>
++#include <linux/media.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/regmap.h>
++#include <linux/regulator/consumer.h>
++
++#include <media/media-entity.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-fwnode.h>
++
++#define DRIVER_NAME "ap1302"
++
++#define AP1302_FW_WINDOW_SIZE			0x2000
++#define AP1302_FW_WINDOW_OFFSET			0x8000
++
++#define AP1302_MIN_WIDTH			24U
++#define AP1302_MIN_HEIGHT			16U
++#define AP1302_MAX_WIDTH			4224U
++#define AP1302_MAX_HEIGHT			4092U
++
++#define AP1302_REG_16BIT(n)			((2 << 24) | (n))
++#define AP1302_REG_32BIT(n)			((4 << 24) | (n))
++#define AP1302_REG_SIZE(n)			((n) >> 24)
++#define AP1302_REG_ADDR(n)			((n) & 0x0000ffff)
++#define AP1302_REG_PAGE(n)			((n) & 0x00ff0000)
++#define AP1302_REG_PAGE_MASK			0x00ff0000
++
++/* Info Registers */
++#define AP1302_CHIP_VERSION			AP1302_REG_16BIT(0x0000)
++#define AP1302_CHIP_ID				0x0265
++#define AP1302_FRAME_CNT			AP1302_REG_16BIT(0x0002)
++#define AP1302_ERROR				AP1302_REG_16BIT(0x0006)
++#define AP1302_ERR_FILE				AP1302_REG_32BIT(0x0008)
++#define AP1302_ERR_LINE				AP1302_REG_16BIT(0x000c)
++#define AP1302_SIPM_ERR_0			AP1302_REG_16BIT(0x0014)
++#define AP1302_SIPM_ERR_1			AP1302_REG_16BIT(0x0016)
++#define AP1302_CHIP_REV				AP1302_REG_16BIT(0x0050)
++#define AP1302_CON_BUF(n)			AP1302_REG_16BIT(0x0a2c + (n))
++#define AP1302_CON_BUF_SIZE			512
++
++/* Control Registers */
++#define AP1302_DZ_TGT_FCT			AP1302_REG_16BIT(0x1010)
++#define AP1302_SFX_MODE				AP1302_REG_16BIT(0x1016)
++#define AP1302_SFX_MODE_SFX_NORMAL		(0U << 0)
++#define AP1302_SFX_MODE_SFX_ALIEN		(1U << 0)
++#define AP1302_SFX_MODE_SFX_ANTIQUE		(2U << 0)
++#define AP1302_SFX_MODE_SFX_BW			(3U << 0)
++#define AP1302_SFX_MODE_SFX_EMBOSS		(4U << 0)
++#define AP1302_SFX_MODE_SFX_EMBOSS_COLORED	(5U << 0)
++#define AP1302_SFX_MODE_SFX_GRAYSCALE		(6U << 0)
++#define AP1302_SFX_MODE_SFX_NEGATIVE		(7U << 0)
++#define AP1302_SFX_MODE_SFX_BLUISH		(8U << 0)
++#define AP1302_SFX_MODE_SFX_GREENISH		(9U << 0)
++#define AP1302_SFX_MODE_SFX_REDISH		(10U << 0)
++#define AP1302_SFX_MODE_SFX_POSTERIZE1		(11U << 0)
++#define AP1302_SFX_MODE_SFX_POSTERIZE2		(12U << 0)
++#define AP1302_SFX_MODE_SFX_SEPIA1		(13U << 0)
++#define AP1302_SFX_MODE_SFX_SEPIA2		(14U << 0)
++#define AP1302_SFX_MODE_SFX_SKETCH		(15U << 0)
++#define AP1302_SFX_MODE_SFX_SOLARIZE		(16U << 0)
++#define AP1302_SFX_MODE_SFX_FOGGY		(17U << 0)
++#define AP1302_BUBBLE_OUT_FMT			AP1302_REG_16BIT(0x1164)
++#define AP1302_BUBBLE_OUT_FMT_FT_YUV		(3U << 4)
++#define AP1302_BUBBLE_OUT_FMT_FT_RGB		(4U << 4)
++#define AP1302_BUBBLE_OUT_FMT_FT_YUV_JFIF	(5U << 4)
++#define AP1302_BUBBLE_OUT_FMT_FST_RGB_888	(0U << 0)
++#define AP1302_BUBBLE_OUT_FMT_FST_RGB_565	(1U << 0)
++#define AP1302_BUBBLE_OUT_FMT_FST_RGB_555M	(2U << 0)
++#define AP1302_BUBBLE_OUT_FMT_FST_RGB_555L	(3U << 0)
++#define AP1302_BUBBLE_OUT_FMT_FST_YUV_422	(0U << 0)
++#define AP1302_BUBBLE_OUT_FMT_FST_YUV_420	(1U << 0)
++#define AP1302_BUBBLE_OUT_FMT_FST_YUV_400	(2U << 0)
++#define AP1302_ATOMIC				AP1302_REG_16BIT(0x1184)
++#define AP1302_ATOMIC_MODE			BIT(2)
++#define AP1302_ATOMIC_FINISH			BIT(1)
++#define AP1302_ATOMIC_RECORD			BIT(0)
++
++/*
++ * Preview Context Registers (preview_*). AP1302 supports 3 "contexts"
++ * (Preview, Snapshot, Video). These can be programmed for different size,
++ * format, FPS, etc. There is no functional difference between the contexts,
++ * so the only potential benefit of using them is reduced number of register
++ * writes when switching output modes (if your concern is atomicity, see
++ * "atomic" register).
++ * So there's virtually no benefit in using contexts for this driver and it
++ * would significantly increase complexity. Let's use preview context only.
++ */
++#define AP1302_PREVIEW_WIDTH			AP1302_REG_16BIT(0x2000)
++#define AP1302_PREVIEW_HEIGHT			AP1302_REG_16BIT(0x2002)
++#define AP1302_PREVIEW_ROI_X0			AP1302_REG_16BIT(0x2004)
++#define AP1302_PREVIEW_ROI_Y0			AP1302_REG_16BIT(0x2006)
++#define AP1302_PREVIEW_ROI_X1			AP1302_REG_16BIT(0x2008)
++#define AP1302_PREVIEW_ROI_Y1			AP1302_REG_16BIT(0x200a)
++#define AP1302_PREVIEW_OUT_FMT			AP1302_REG_16BIT(0x2012)
++#define AP1302_PREVIEW_OUT_FMT_IPIPE_BYPASS	BIT(13)
++#define AP1302_PREVIEW_OUT_FMT_SS		BIT(12)
++#define AP1302_PREVIEW_OUT_FMT_FAKE_EN		BIT(11)
++#define AP1302_PREVIEW_OUT_FMT_ST_EN		BIT(10)
++#define AP1302_PREVIEW_OUT_FMT_IIS_NONE		(0U << 8)
++#define AP1302_PREVIEW_OUT_FMT_IIS_POST_VIEW	(1U << 8)
++#define AP1302_PREVIEW_OUT_FMT_IIS_VIDEO	(2U << 8)
++#define AP1302_PREVIEW_OUT_FMT_IIS_BUBBLE	(3U << 8)
++#define AP1302_PREVIEW_OUT_FMT_FT_JPEG_422	(0U << 4)
++#define AP1302_PREVIEW_OUT_FMT_FT_JPEG_420	(1U << 4)
++#define AP1302_PREVIEW_OUT_FMT_FT_YUV		(3U << 4)
++#define AP1302_PREVIEW_OUT_FMT_FT_RGB		(4U << 4)
++#define AP1302_PREVIEW_OUT_FMT_FT_YUV_JFIF	(5U << 4)
++#define AP1302_PREVIEW_OUT_FMT_FT_RAW8		(8U << 4)
++#define AP1302_PREVIEW_OUT_FMT_FT_RAW10		(9U << 4)
++#define AP1302_PREVIEW_OUT_FMT_FT_RAW12		(10U << 4)
++#define AP1302_PREVIEW_OUT_FMT_FT_RAW16		(11U << 4)
++#define AP1302_PREVIEW_OUT_FMT_FT_DNG8		(12U << 4)
++#define AP1302_PREVIEW_OUT_FMT_FT_DNG10		(13U << 4)
++#define AP1302_PREVIEW_OUT_FMT_FT_DNG12		(14U << 4)
++#define AP1302_PREVIEW_OUT_FMT_FT_DNG16		(15U << 4)
++#define AP1302_PREVIEW_OUT_FMT_FST_JPEG_ROTATE	BIT(2)
++#define AP1302_PREVIEW_OUT_FMT_FST_JPEG_SCAN	(0U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_JPEG_JFIF	(1U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_JPEG_EXIF	(2U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RGB_888	(0U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RGB_565	(1U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RGB_555M	(2U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RGB_555L	(3U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_YUV_422	(0U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_YUV_420	(1U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_YUV_400	(2U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RAW_SENSOR	(0U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RAW_CAPTURE	(1U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RAW_CP	(2U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RAW_BPC	(3U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RAW_IHDR	(4U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RAW_PP	(5U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RAW_DENSH	(6U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RAW_PM	(7U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RAW_GC	(8U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RAW_CURVE	(9U << 0)
++#define AP1302_PREVIEW_OUT_FMT_FST_RAW_CCONV	(10U << 0)
++#define AP1302_PREVIEW_S1_SENSOR_MODE		AP1302_REG_16BIT(0x202e)
++#define AP1302_PREVIEW_HINF_CTRL		AP1302_REG_16BIT(0x2030)
++#define AP1302_PREVIEW_HINF_CTRL_BT656_LE	BIT(15)
++#define AP1302_PREVIEW_HINF_CTRL_BT656_16BIT	BIT(14)
++#define AP1302_PREVIEW_HINF_CTRL_MUX_DELAY(n)	((n) << 8)
++#define AP1302_PREVIEW_HINF_CTRL_LV_POL		BIT(7)
++#define AP1302_PREVIEW_HINF_CTRL_FV_POL		BIT(6)
++#define AP1302_PREVIEW_HINF_CTRL_MIPI_CONT_CLK	BIT(5)
++#define AP1302_PREVIEW_HINF_CTRL_SPOOF		BIT(4)
++#define AP1302_PREVIEW_HINF_CTRL_MIPI_MODE	BIT(3)
++#define AP1302_PREVIEW_HINF_CTRL_MIPI_LANES(n)	((n) << 0)
++
++/* IQ Registers */
++#define AP1302_AE_CTRL			AP1302_REG_16BIT(0x5002)
++#define AP1302_AE_CTRL_STATS_SEL		BIT(11)
++#define AP1302_AE_CTRL_IMM				BIT(10)
++#define AP1302_AE_CTRL_ROUND_ISO		BIT(9)
++#define AP1302_AE_CTRL_UROI_FACE		BIT(7)
++#define AP1302_AE_CTRL_UROI_LOCK		BIT(6)
++#define AP1302_AE_CTRL_UROI_BOUND		BIT(5)
++#define AP1302_AE_CTRL_IMM1				BIT(4)
++#define AP1302_AE_CTRL_MANUAL_EXP_TIME_GAIN	(0U << 0)
++#define AP1302_AE_CTRL_MANUAL_BV_EXP_TIME	(1U << 0)
++#define AP1302_AE_CTRL_MANUAL_BV_GAIN		(2U << 0)
++#define AP1302_AE_CTRL_MANUAL_BV_ISO		(3U << 0)
++#define AP1302_AE_CTRL_AUTO_BV_EXP_TIME		(9U << 0)
++#define AP1302_AE_CTRL_AUTO_BV_GAIN			(10U << 0)
++#define AP1302_AE_CTRL_AUTO_BV_ISO			(11U << 0)
++#define AP1302_AE_CTRL_FULL_AUTO			(12U << 0)
++#define AP1302_AE_CTRL_MODE_MASK		0x000f
++#define AP1302_AE_MANUAL_GAIN		AP1302_REG_16BIT(0x5006)
++#define AP1302_AE_BV_OFF			AP1302_REG_16BIT(0x5014)
++#define AP1302_AE_MET				AP1302_REG_16BIT(0x503E)
++#define AP1302_AWB_CTRL				AP1302_REG_16BIT(0x5100)
++#define AP1302_AWB_CTRL_RECALC			BIT(13)
++#define AP1302_AWB_CTRL_POSTGAIN		BIT(12)
++#define AP1302_AWB_CTRL_UNGAIN			BIT(11)
++#define AP1302_AWB_CTRL_CLIP			BIT(10)
++#define AP1302_AWB_CTRL_SKY			BIT(9)
++#define AP1302_AWB_CTRL_FLASH			BIT(8)
++#define AP1302_AWB_CTRL_FACE_OFF		(0U << 6)
++#define AP1302_AWB_CTRL_FACE_IGNORE		(1U << 6)
++#define AP1302_AWB_CTRL_FACE_CONSTRAINED	(2U << 6)
++#define AP1302_AWB_CTRL_FACE_ONLY		(3U << 6)
++#define AP1302_AWB_CTRL_IMM			BIT(5)
++#define AP1302_AWB_CTRL_IMM1			BIT(4)
++#define AP1302_AWB_CTRL_MODE_OFF		(0U << 0)
++#define AP1302_AWB_CTRL_MODE_HORIZON		(1U << 0)
++#define AP1302_AWB_CTRL_MODE_A			(2U << 0)
++#define AP1302_AWB_CTRL_MODE_CWF		(3U << 0)
++#define AP1302_AWB_CTRL_MODE_D50		(4U << 0)
++#define AP1302_AWB_CTRL_MODE_D65		(5U << 0)
++#define AP1302_AWB_CTRL_MODE_D75		(6U << 0)
++#define AP1302_AWB_CTRL_MODE_MANUAL		(7U << 0)
++#define AP1302_AWB_CTRL_MODE_MEASURE		(8U << 0)
++#define AP1302_AWB_CTRL_MODE_AUTO		(15U << 0)
++#define AP1302_AWB_CTRL_MODE_MASK		0x000f
++#define AP1302_FLICK_CTRL			AP1302_REG_16BIT(0x5440)
++#define AP1302_FLICK_CTRL_FREQ(n)		((n) << 8)
++#define AP1302_FLICK_CTRL_ETC_IHDR_UP		BIT(6)
++#define AP1302_FLICK_CTRL_ETC_DIS		BIT(5)
++#define AP1302_FLICK_CTRL_FRC_OVERRIDE_MAX_ET	BIT(4)
++#define AP1302_FLICK_CTRL_FRC_OVERRIDE_UPPER_ET	BIT(3)
++#define AP1302_FLICK_CTRL_FRC_EN		BIT(2)
++#define AP1302_FLICK_CTRL_MODE_DISABLED		(0U << 0)
++#define AP1302_FLICK_CTRL_MODE_MANUAL		(1U << 0)
++#define AP1302_FLICK_CTRL_MODE_AUTO		(2U << 0)
++#define AP1302_SCENE_CTRL			AP1302_REG_16BIT(0x5454)
++#define AP1302_SCENE_CTRL_MODE_NORMAL		(0U << 0)
++#define AP1302_SCENE_CTRL_MODE_PORTRAIT		(1U << 0)
++#define AP1302_SCENE_CTRL_MODE_LANDSCAPE	(2U << 0)
++#define AP1302_SCENE_CTRL_MODE_SPORT		(3U << 0)
++#define AP1302_SCENE_CTRL_MODE_CLOSE_UP		(4U << 0)
++#define AP1302_SCENE_CTRL_MODE_NIGHT		(5U << 0)
++#define AP1302_SCENE_CTRL_MODE_TWILIGHT		(6U << 0)
++#define AP1302_SCENE_CTRL_MODE_BACKLIGHT	(7U << 0)
++#define AP1302_SCENE_CTRL_MODE_HIGH_SENSITIVE	(8U << 0)
++#define AP1302_SCENE_CTRL_MODE_NIGHT_PORTRAIT	(9U << 0)
++#define AP1302_SCENE_CTRL_MODE_BEACH		(10U << 0)
++#define AP1302_SCENE_CTRL_MODE_DOCUMENT		(11U << 0)
++#define AP1302_SCENE_CTRL_MODE_PARTY		(12U << 0)
++#define AP1302_SCENE_CTRL_MODE_FIREWORKS	(13U << 0)
++#define AP1302_SCENE_CTRL_MODE_SUNSET		(14U << 0)
++#define AP1302_SCENE_CTRL_MODE_AUTO		(0xffU << 0)
++
++/* System Registers */
++#define AP1302_BOOTDATA_STAGE			AP1302_REG_16BIT(0x6002)
++#define AP1302_WARNING(n)			AP1302_REG_16BIT(0x6004 + (n) * 2)
++#define AP1302_SENSOR_SELECT			AP1302_REG_16BIT(0x600c)
++#define AP1302_SENSOR_SELECT_TP_MODE(n)		((n) << 8)
++#define AP1302_SENSOR_SELECT_PATTERN_ON		BIT(7)
++#define AP1302_SENSOR_SELECT_MODE_3D_ON		BIT(6)
++#define AP1302_SENSOR_SELECT_CLOCK		BIT(5)
++#define AP1302_SENSOR_SELECT_SINF_MIPI		BIT(4)
++#define AP1302_SENSOR_SELECT_YUV		BIT(2)
++#define AP1302_SENSOR_SELECT_SENSOR_TP		(0U << 0)
++#define AP1302_SENSOR_SELECT_SENSOR(n)		(((n) + 1) << 0)
++#define AP1302_SYS_START			AP1302_REG_16BIT(0x601a)
++#define AP1302_SYS_START_PLL_LOCK		BIT(15)
++#define AP1302_SYS_START_LOAD_OTP		BIT(12)
++#define AP1302_SYS_START_RESTART_ERROR		BIT(11)
++#define AP1302_SYS_START_STALL_STATUS		BIT(9)
++#define AP1302_SYS_START_STALL_EN		BIT(8)
++#define AP1302_SYS_START_STALL_MODE_FRAME	(0U << 6)
++#define AP1302_SYS_START_STALL_MODE_DISABLED	(1U << 6)
++#define AP1302_SYS_START_STALL_MODE_POWER_DOWN	(2U << 6)
++#define AP1302_SYS_START_GO			BIT(4)
++#define AP1302_SYS_START_PATCH_FUN		BIT(1)
++#define AP1302_SYS_START_PLL_INIT		BIT(0)
++#define AP1302_DMA_SRC				AP1302_REG_32BIT(0x60a0)
++#define AP1302_DMA_DST				AP1302_REG_32BIT(0x60a4)
++#define AP1302_DMA_SIP_SIPM(n)			((n) << 26)
++#define AP1302_DMA_SIP_DATA_16_BIT		BIT(25)
++#define AP1302_DMA_SIP_ADDR_16_BIT		BIT(24)
++#define AP1302_DMA_SIP_ID(n)			((n) << 17)
++#define AP1302_DMA_SIP_REG(n)			((n) << 0)
++#define AP1302_DMA_SIZE				AP1302_REG_32BIT(0x60a8)
++#define AP1302_DMA_CTRL				AP1302_REG_16BIT(0x60ac)
++#define AP1302_DMA_CTRL_SCH_NORMAL		(0 << 12)
++#define AP1302_DMA_CTRL_SCH_NEXT		(1 << 12)
++#define AP1302_DMA_CTRL_SCH_NOW			(2 << 12)
++#define AP1302_DMA_CTRL_DST_REG			(0 << 8)
++#define AP1302_DMA_CTRL_DST_SRAM		(1 << 8)
++#define AP1302_DMA_CTRL_DST_SPI			(2 << 8)
++#define AP1302_DMA_CTRL_DST_SIP			(3 << 8)
++#define AP1302_DMA_CTRL_SRC_REG			(0 << 4)
++#define AP1302_DMA_CTRL_SRC_SRAM		(1 << 4)
++#define AP1302_DMA_CTRL_SRC_SPI			(2 << 4)
++#define AP1302_DMA_CTRL_SRC_SIP			(3 << 4)
++#define AP1302_DMA_CTRL_MODE_32_BIT		BIT(3)
++#define AP1302_DMA_CTRL_MODE_MASK		(7 << 0)
++#define AP1302_DMA_CTRL_MODE_IDLE		(0 << 0)
++#define AP1302_DMA_CTRL_MODE_SET		(1 << 0)
++#define AP1302_DMA_CTRL_MODE_COPY		(2 << 0)
++#define AP1302_DMA_CTRL_MODE_MAP		(3 << 0)
++#define AP1302_DMA_CTRL_MODE_UNPACK		(4 << 0)
++#define AP1302_DMA_CTRL_MODE_OTP_READ		(5 << 0)
++#define AP1302_DMA_CTRL_MODE_SIP_PROBE		(6 << 0)
++
++#define AP1302_BRIGHTNESS			AP1302_REG_16BIT(0x7000)
++#define AP1302_CONTRAST				AP1302_REG_16BIT(0x7002)
++#define AP1302_SATURATION			AP1302_REG_16BIT(0x7006)
++#define AP1302_GAMMA				AP1302_REG_16BIT(0x700A)
++
++/* Misc Registers */
++#define AP1302_REG_ADV_START			0xe000
++#define AP1302_ADVANCED_BASE			AP1302_REG_32BIT(0xf038)
++#define AP1302_SIP_CRC				AP1302_REG_16BIT(0xf052)
++
++/* Advanced System Registers */
++#define AP1302_ADV_IRQ_SYS_INTE			AP1302_REG_32BIT(0x00230000)
++#define AP1302_ADV_IRQ_SYS_INTE_TEST_COUNT	BIT(25)
++#define AP1302_ADV_IRQ_SYS_INTE_HINF_1		BIT(24)
++#define AP1302_ADV_IRQ_SYS_INTE_HINF_0		BIT(23)
++#define AP1302_ADV_IRQ_SYS_INTE_SINF_B_MIPI_L	(7U << 20)
++#define AP1302_ADV_IRQ_SYS_INTE_SINF_B_MIPI	BIT(19)
++#define AP1302_ADV_IRQ_SYS_INTE_SINF_A_MIPI_L	(15U << 14)
++#define AP1302_ADV_IRQ_SYS_INTE_SINF_A_MIPI	BIT(13)
++#define AP1302_ADV_IRQ_SYS_INTE_SINF		BIT(12)
++#define AP1302_ADV_IRQ_SYS_INTE_IPIPE_S		BIT(11)
++#define AP1302_ADV_IRQ_SYS_INTE_IPIPE_B		BIT(10)
++#define AP1302_ADV_IRQ_SYS_INTE_IPIPE_A		BIT(9)
++#define AP1302_ADV_IRQ_SYS_INTE_IP		BIT(8)
++#define AP1302_ADV_IRQ_SYS_INTE_TIMER		BIT(7)
++#define AP1302_ADV_IRQ_SYS_INTE_SIPM		(3U << 6)
++#define AP1302_ADV_IRQ_SYS_INTE_SIPS_ADR_RANGE	BIT(5)
++#define AP1302_ADV_IRQ_SYS_INTE_SIPS_DIRECT_WRITE	BIT(4)
++#define AP1302_ADV_IRQ_SYS_INTE_SIPS_FIFO_WRITE	BIT(3)
++#define AP1302_ADV_IRQ_SYS_INTE_SPI		BIT(2)
++#define AP1302_ADV_IRQ_SYS_INTE_GPIO_CNT	BIT(1)
++#define AP1302_ADV_IRQ_SYS_INTE_GPIO_PIN	BIT(0)
++
++/* Advanced Slave MIPI Registers */
++#define AP1302_ADV_SINF_MIPI_INTERNAL_p_LANE_n_STAT(p, n) \
++	AP1302_REG_32BIT(0x00420008 + (p) * 0x50000 + (n) * 0x20)
++#define AP1302_LANE_ERR_LP_VAL(n)		(((n) >> 30) & 3)
++#define AP1302_LANE_ERR_STATE(n)		(((n) >> 24) & 0xf)
++#define AP1302_LANE_ERR				BIT(18)
++#define AP1302_LANE_ABORT			BIT(17)
++#define AP1302_LANE_LP_VAL(n)			(((n) >> 6) & 3)
++#define AP1302_LANE_STATE(n)			((n) & 0xf)
++#define AP1302_LANE_STATE_STOP_S		0x0
++#define AP1302_LANE_STATE_HS_REQ_S		0x1
++#define AP1302_LANE_STATE_LP_REQ_S		0x2
++#define AP1302_LANE_STATE_HS_S			0x3
++#define AP1302_LANE_STATE_LP_S			0x4
++#define AP1302_LANE_STATE_ESC_REQ_S		0x5
++#define AP1302_LANE_STATE_TURN_REQ_S		0x6
++#define AP1302_LANE_STATE_ESC_S			0x7
++#define AP1302_LANE_STATE_ESC_0			0x8
++#define AP1302_LANE_STATE_ESC_1			0x9
++#define AP1302_LANE_STATE_TURN_S		0xa
++#define AP1302_LANE_STATE_TURN_MARK		0xb
++#define AP1302_LANE_STATE_ERROR_S		0xc
++
++#define AP1302_ADV_CAPTURE_A_FV_CNT		AP1302_REG_32BIT(0x00490040)
++
++struct ap1302_device;
++
++enum {
++	AP1302_PAD_SINK_0,
++	AP1302_PAD_SINK_1,
++	AP1302_PAD_SOURCE,
++	AP1302_PAD_MAX,
++};
++
++struct ap1302_format_info {
++	unsigned int code;
++	u16 out_fmt;
++};
++
++struct ap1302_format {
++	struct v4l2_mbus_framefmt format;
++	const struct ap1302_format_info *info;
++};
++
++struct ap1302_size {
++	unsigned int width;
++	unsigned int height;
++};
++
++struct ap1302_sensor_supply {
++	const char *name;
++	unsigned int post_delay_us;
++};
++
++struct ap1302_sensor_info {
++	const char *model;
++	const char *name;
++	unsigned int i2c_addr;
++	struct ap1302_size resolution;
++	u32 format;
++	const struct ap1302_sensor_supply *supplies;
++};
++
++struct ap1302_sensor {
++	struct ap1302_device *ap1302;
++	unsigned int index;
++
++	struct device_node *of_node;
++	struct device *dev;
++	unsigned int num_supplies;
++	struct regulator_bulk_data *supplies;
++
++	struct v4l2_subdev sd;
++	struct media_pad pad;
++};
++
++static inline struct ap1302_sensor *to_ap1302_sensor(struct v4l2_subdev *sd)
++{
++	return container_of(sd, struct ap1302_sensor, sd);
++}
++
++struct ap1302_device {
++	struct device *dev;
++	struct i2c_client *client;
++
++	struct gpio_desc *reset_gpio;
++	struct gpio_desc *standby_gpio;
++	struct clk *clock;
++	struct regmap *regmap16;
++	struct regmap *regmap32;
++	u32 reg_page;
++
++	const struct firmware *fw;
++
++	struct v4l2_fwnode_endpoint bus_cfg;
++
++	struct mutex lock;	/* Protects formats */
++
++	struct v4l2_subdev sd;
++	struct media_pad pads[AP1302_PAD_MAX];
++	struct ap1302_format formats[AP1302_PAD_MAX];
++	unsigned int width_factor;
++	bool streaming;
++
++	struct v4l2_ctrl_handler ctrls;
++
++	const struct ap1302_sensor_info *sensor_info;
++	struct ap1302_sensor sensors[2];
++
++	struct {
++		struct dentry *dir;
++		struct mutex lock;
++		u32 sipm_addr;
++	} debugfs;
++};
++
++static inline struct ap1302_device *to_ap1302(struct v4l2_subdev *sd)
++{
++	return container_of(sd, struct ap1302_device, sd);
++}
++
++struct ap1302_firmware_header {
++	u16 pll_init_size;
++	u16 crc;
++} __packed;
++
++
++static const struct ap1302_format_info supported_video_formats[] = {
++	{
++		.code = MEDIA_BUS_FMT_UYVY8_1X16,
++		.out_fmt = AP1302_PREVIEW_OUT_FMT_FT_YUV_JFIF
++			 | AP1302_PREVIEW_OUT_FMT_FST_YUV_422,
++	}, {
++		.code = MEDIA_BUS_FMT_UYYVYY8_0_5X24,
++		.out_fmt = AP1302_PREVIEW_OUT_FMT_FT_YUV_JFIF
++			 | AP1302_PREVIEW_OUT_FMT_FST_YUV_420,
++	},
++};
++
++/* -----------------------------------------------------------------------------
++ * Sensor Info
++ */
++
++static const struct ap1302_sensor_info ap1302_sensor_info[] = {
++	{
++		.model = "onnn,ar0144",
++		.name = "ar0144",
++		.i2c_addr = 0x10,
++		.resolution = { 1280, 800 },
++		.format = MEDIA_BUS_FMT_SGRBG12_1X12,
++		.supplies = (const struct ap1302_sensor_supply[]) {
++			{ "vaa", 0 },
++			{ "vddio", 0 },
++			{ "vdd", 0 },
++			{ NULL, 0 },
++		},
++	}, {
++		.model = "onnn,ar0330",
++		.name = "ar0330",
++		.i2c_addr = 0x10,
++		.resolution = { 2304, 1536 },
++		.format = MEDIA_BUS_FMT_SGRBG12_1X12,
++		.supplies = (const struct ap1302_sensor_supply[]) {
++			{ "vddpll", 0 },
++			{ "vaa", 0 },
++			{ "vdd", 0 },
++			{ "vddio", 0 },
++			{ NULL, 0 },
++		},
++	}, {
++		.model = "onnn,ar1335",
++		.name = "ar1335",
++		.i2c_addr = 0x36,
++		.resolution = { 4208, 3120 },
++		.format = MEDIA_BUS_FMT_SGRBG10_1X10,
++		.supplies = (const struct ap1302_sensor_supply[]) {
++			{ "vaa", 0 },
++			{ "vddio", 0 },
++			{ "vdd", 0 },
++			{ NULL, 0 },
++		},
++	},
++};
++
++static const struct ap1302_sensor_info ap1302_sensor_info_tpg = {
++	.model = "",
++	.name = "tpg",
++	.resolution = { 1920, 1080 },
++};
++
++/* -----------------------------------------------------------------------------
++ * Register Configuration
++ */
++
++static const struct regmap_config ap1302_reg16_config = {
++	.reg_bits = 16,
++	.val_bits = 16,
++	.reg_stride = 2,
++	.reg_format_endian = REGMAP_ENDIAN_BIG,
++	.val_format_endian = REGMAP_ENDIAN_BIG,
++	.cache_type = REGCACHE_NONE,
++};
++
++static const struct regmap_config ap1302_reg32_config = {
++	.reg_bits = 16,
++	.val_bits = 32,
++	.reg_stride = 4,
++	.reg_format_endian = REGMAP_ENDIAN_BIG,
++	.val_format_endian = REGMAP_ENDIAN_BIG,
++	.cache_type = REGCACHE_NONE,
++};
++
++static int __ap1302_write(struct ap1302_device *ap1302, u32 reg, u32 val)
++{
++	unsigned int size = AP1302_REG_SIZE(reg);
++	u16 addr = AP1302_REG_ADDR(reg);
++	int ret;
++
++	switch (size) {
++	case 2:
++		ret = regmap_write(ap1302->regmap16, addr, val);
++		break;
++	case 4:
++		ret = regmap_write(ap1302->regmap32, addr, val);
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	if (ret) {
++		dev_err(ap1302->dev, "%s: register 0x%04x %s failed: %d\n",
++			__func__, addr, "write", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int ap1302_write(struct ap1302_device *ap1302, u32 reg, u32 val,
++			int *err)
++{
++	u32 page = AP1302_REG_PAGE(reg);
++	int ret;
++
++	if (err && *err)
++		return *err;
++
++	if (page) {
++		if (ap1302->reg_page != page) {
++			ret = __ap1302_write(ap1302, AP1302_ADVANCED_BASE,
++					     page);
++			if (ret < 0)
++				goto done;
++
++			ap1302->reg_page = page;
++		}
++
++		reg &= ~AP1302_REG_PAGE_MASK;
++		reg += AP1302_REG_ADV_START;
++	}
++
++	ret = __ap1302_write(ap1302, reg, val);
++
++done:
++	if (err && ret)
++		*err = ret;
++
++	return ret;
++}
++
++static int __ap1302_read(struct ap1302_device *ap1302, u32 reg, u32 *val)
++{
++	unsigned int size = AP1302_REG_SIZE(reg);
++	u16 addr = AP1302_REG_ADDR(reg);
++	int ret;
++
++	switch (size) {
++	case 2:
++		ret = regmap_read(ap1302->regmap16, addr, val);
++		break;
++	case 4:
++		ret = regmap_read(ap1302->regmap32, addr, val);
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	if (ret) {
++		dev_err(ap1302->dev, "%s: register 0x%04x %s failed: %d\n",
++			__func__, addr, "read", ret);
++		return ret;
++	}
++
++	dev_dbg(ap1302->dev, "%s: R0x%04x = 0x%0*x\n", __func__,
++		addr, size * 2, *val);
++
++	return 0;
++}
++
++static int ap1302_read(struct ap1302_device *ap1302, u32 reg, u32 *val)
++{
++	u32 page = AP1302_REG_PAGE(reg);
++	int ret;
++
++	if (page) {
++		if (ap1302->reg_page != page) {
++			ret = __ap1302_write(ap1302, AP1302_ADVANCED_BASE,
++					     page);
++			if (ret < 0)
++				return ret;
++
++			ap1302->reg_page = page;
++		}
++
++		reg &= ~AP1302_REG_PAGE_MASK;
++		reg += AP1302_REG_ADV_START;
++	}
++
++	return __ap1302_read(ap1302, reg, val);
++}
++
++/* -----------------------------------------------------------------------------
++ * Sensor Registers Access
++ *
++ * Read and write sensor registers through the AP1302 DMA interface.
++ */
++
++static int ap1302_dma_wait_idle(struct ap1302_device *ap1302)
++{
++	unsigned int i;
++	u32 ctrl;
++	int ret;
++
++	for (i = 50; i > 0; i--) {
++		ret = ap1302_read(ap1302, AP1302_DMA_CTRL, &ctrl);
++		if (ret < 0)
++			return ret;
++
++		if ((ctrl & AP1302_DMA_CTRL_MODE_MASK) ==
++		    AP1302_DMA_CTRL_MODE_IDLE)
++			break;
++
++		usleep_range(1000, 1500);
++	}
++
++	if (!i) {
++		dev_err(ap1302->dev, "DMA timeout\n");
++		return -ETIMEDOUT;
++	}
++
++	return 0;
++}
++
++static int ap1302_sipm_read(struct ap1302_device *ap1302, unsigned int port,
++			    u32 reg, u32 *val)
++{
++	unsigned int size = AP1302_REG_SIZE(reg);
++	u32 src;
++	int ret;
++
++	if (size > 2)
++		return -EINVAL;
++
++	ret = ap1302_dma_wait_idle(ap1302);
++	if (ret < 0)
++		return ret;
++
++	ap1302_write(ap1302, AP1302_DMA_SIZE, size, &ret);
++	src = AP1302_DMA_SIP_SIPM(port)
++	    | (size == 2 ? AP1302_DMA_SIP_DATA_16_BIT : 0)
++	    | AP1302_DMA_SIP_ADDR_16_BIT
++	    | AP1302_DMA_SIP_ID(ap1302->sensor_info->i2c_addr)
++	    | AP1302_DMA_SIP_REG(AP1302_REG_ADDR(reg));
++	ap1302_write(ap1302, AP1302_DMA_SRC, src, &ret);
++
++	/*
++	 * Use the AP1302_DMA_DST register as both the destination address, and
++	 * the scratch pad to store the read value.
++	 */
++	ap1302_write(ap1302, AP1302_DMA_DST, AP1302_REG_ADDR(AP1302_DMA_DST),
++		     &ret);
++
++	ap1302_write(ap1302, AP1302_DMA_CTRL,
++		     AP1302_DMA_CTRL_SCH_NORMAL |
++		     AP1302_DMA_CTRL_DST_REG |
++		     AP1302_DMA_CTRL_SRC_SIP |
++		     AP1302_DMA_CTRL_MODE_COPY, &ret);
++	if (ret < 0)
++		return ret;
++
++	ret = ap1302_dma_wait_idle(ap1302);
++	if (ret < 0)
++		return ret;
++
++	ret = ap1302_read(ap1302, AP1302_DMA_DST, val);
++	if (ret < 0)
++		return ret;
++
++	/*
++	 * The value is stored in big-endian at the DMA_DST address. The regmap
++	 * uses big-endian, so 8-bit values are stored in bits 31:24 and 16-bit
++	 * values in bits 23:16.
++	 */
++	*val >>= 32 - size * 8;
++
++	return 0;
++}
++
++static int ap1302_sipm_write(struct ap1302_device *ap1302, unsigned int port,
++			     u32 reg, u32 val)
++{
++	unsigned int size = AP1302_REG_SIZE(reg);
++	u32 dst;
++	int ret;
++
++	if (size > 2)
++		return -EINVAL;
++
++	ret = ap1302_dma_wait_idle(ap1302);
++	if (ret < 0)
++		return ret;
++
++	ap1302_write(ap1302, AP1302_DMA_SIZE, size, &ret);
++
++	/*
++	 * Use the AP1302_DMA_SRC register as both the source address, and the
++	 * scratch pad to store the write value.
++	 *
++	 * As the AP1302 uses big endian, to store the value at address DMA_SRC
++	 * it must be written in the high order bits of the registers. However,
++	 * 8-bit values seem to be incorrectly handled by the AP1302, which
++	 * expects them to be stored at DMA_SRC + 1 instead of DMA_SRC. The
++	 * value is thus unconditionally shifted by 16 bits, unlike for DMA
++	 * reads.
++	 */
++	ap1302_write(ap1302, AP1302_DMA_SRC,
++		     (val << 16) | AP1302_REG_ADDR(AP1302_DMA_SRC), &ret);
++	if (ret < 0)
++		return ret;
++
++	dst = AP1302_DMA_SIP_SIPM(port)
++	    | (size == 2 ? AP1302_DMA_SIP_DATA_16_BIT : 0)
++	    | AP1302_DMA_SIP_ADDR_16_BIT
++	    | AP1302_DMA_SIP_ID(ap1302->sensor_info->i2c_addr)
++	    | AP1302_DMA_SIP_REG(AP1302_REG_ADDR(reg));
++	ap1302_write(ap1302, AP1302_DMA_DST, dst, &ret);
++
++	ap1302_write(ap1302, AP1302_DMA_CTRL,
++		     AP1302_DMA_CTRL_SCH_NORMAL |
++		     AP1302_DMA_CTRL_DST_SIP |
++		     AP1302_DMA_CTRL_SRC_REG |
++		     AP1302_DMA_CTRL_MODE_COPY, &ret);
++	if (ret < 0)
++		return ret;
++
++	ret = ap1302_dma_wait_idle(ap1302);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++
++/* -----------------------------------------------------------------------------
++ * Debugfs
++ */
++
++static int ap1302_sipm_addr_get(void *arg, u64 *val)
++{
++	struct ap1302_device *ap1302 = arg;
++
++	mutex_lock(&ap1302->debugfs.lock);
++	*val = ap1302->debugfs.sipm_addr;
++	mutex_unlock(&ap1302->debugfs.lock);
++
++	return 0;
++}
++
++static int ap1302_sipm_addr_set(void *arg, u64 val)
++{
++	struct ap1302_device *ap1302 = arg;
++
++	if (val & ~0x8700ffff)
++		return -EINVAL;
++
++	switch ((val >> 24) & 7) {
++	case 1:
++	case 2:
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	mutex_lock(&ap1302->debugfs.lock);
++	ap1302->debugfs.sipm_addr = val;
++	mutex_unlock(&ap1302->debugfs.lock);
++
++	return 0;
++}
++
++static int ap1302_sipm_data_get(void *arg, u64 *val)
++{
++	struct ap1302_device *ap1302 = arg;
++	u32 value;
++	u32 addr;
++	int ret;
++
++	mutex_lock(&ap1302->debugfs.lock);
++
++	addr = ap1302->debugfs.sipm_addr;
++	if (!addr) {
++		ret = -EINVAL;
++		goto unlock;
++	}
++
++	ret = ap1302_sipm_read(ap1302, addr >> 30, addr & ~BIT(31),
++			       &value);
++	if (!ret)
++		*val = value;
++
++unlock:
++	mutex_unlock(&ap1302->debugfs.lock);
++
++	return ret;
++}
++
++static int ap1302_sipm_data_set(void *arg, u64 val)
++{
++	struct ap1302_device *ap1302 = arg;
++	u32 addr;
++	int ret;
++
++	mutex_lock(&ap1302->debugfs.lock);
++
++	addr = ap1302->debugfs.sipm_addr;
++	if (!addr) {
++		ret = -EINVAL;
++		goto unlock;
++	}
++
++	ret = ap1302_sipm_write(ap1302, addr >> 30, addr & ~BIT(31),
++				val);
++
++unlock:
++	mutex_unlock(&ap1302->debugfs.lock);
++
++	return ret;
++}
++
++/*
++ * The sipm_addr and sipm_data attributes expose access to the sensor I2C bus.
++ *
++ * To read or write a register, sipm_addr has to first be written with the
++ * register address. The address is a 32-bit integer formatted as follows.
++ *
++ * I000 0SSS 0000 0000 RRRR RRRR RRRR RRRR
++ *
++ * I: SIPM index (0 or 1)
++ * S: Size (1: 8-bit, 2: 16-bit)
++ * R: Register address (16-bit)
++ *
++ * The sipm_data attribute can then be read to read the register value, or
++ * written to write it.
++ */
++
++DEFINE_DEBUGFS_ATTRIBUTE(ap1302_sipm_addr_fops, ap1302_sipm_addr_get,
++			 ap1302_sipm_addr_set, "0x%08llx\n");
++DEFINE_DEBUGFS_ATTRIBUTE(ap1302_sipm_data_fops, ap1302_sipm_data_get,
++			 ap1302_sipm_data_set, "0x%08llx\n");
++
++static void ap1302_debugfs_init(struct ap1302_device *ap1302)
++{
++	struct dentry *dir;
++	char name[16];
++
++	mutex_init(&ap1302->debugfs.lock);
++
++	snprintf(name, sizeof(name), "ap1302.%s", dev_name(ap1302->dev));
++
++	dir = debugfs_create_dir(name, NULL);
++	if (IS_ERR(dir))
++		return;
++
++	ap1302->debugfs.dir = dir;
++
++	debugfs_create_file_unsafe("sipm_addr", 0600, ap1302->debugfs.dir,
++				   ap1302, &ap1302_sipm_addr_fops);
++	debugfs_create_file_unsafe("sipm_data", 0600, ap1302->debugfs.dir,
++				   ap1302, &ap1302_sipm_data_fops);
++}
++
++static void ap1302_debugfs_cleanup(struct ap1302_device *ap1302)
++{
++	debugfs_remove_recursive(ap1302->debugfs.dir);
++	mutex_destroy(&ap1302->debugfs.lock);
++}
++
++/* -----------------------------------------------------------------------------
++ * Power Handling
++ */
++
++static int ap1302_power_on_sensors(struct ap1302_device *ap1302)
++{
++	struct ap1302_sensor *sensor;
++	unsigned int i, j;
++	int ret;
++
++	if (!ap1302->sensor_info->supplies)
++		return 0;
++
++	for (i = 0; i < ARRAY_SIZE(ap1302->sensors); ++i) {
++		sensor = &ap1302->sensors[i];
++		ret = 0;
++
++		for (j = 0; j < sensor->num_supplies; ++j) {
++			unsigned int delay;
++
++			/*
++			 * We can't use regulator_bulk_enable() as it would
++			 * enable all supplies in parallel, breaking the sensor
++			 * power sequencing constraints.
++			 */
++			ret = regulator_enable(sensor->supplies[j].consumer);
++			if (ret < 0) {
++				dev_err(ap1302->dev,
++					"Failed to enable supply %u for sensor %u\n",
++					j, i);
++				goto error;
++			}
++
++			delay = ap1302->sensor_info->supplies[j].post_delay_us;
++			usleep_range(delay, delay + 100);
++		}
++	}
++
++	return 0;
++
++error:
++	for (; j > 0; --j)
++		regulator_disable(sensor->supplies[j - 1].consumer);
++
++	for (; i > 0; --i) {
++		sensor = &ap1302->sensors[i - 1];
++		regulator_bulk_disable(sensor->num_supplies, sensor->supplies);
++	}
++
++	return ret;
++}
++
++static void ap1302_power_off_sensors(struct ap1302_device *ap1302)
++{
++	unsigned int i;
++
++	if (!ap1302->sensor_info->supplies)
++		return;
++
++	for (i = 0; i < ARRAY_SIZE(ap1302->sensors); ++i) {
++		struct ap1302_sensor *sensor = &ap1302->sensors[i];
++
++		regulator_bulk_disable(sensor->num_supplies, sensor->supplies);
++	}
++}
++
++static int ap1302_power_on(struct ap1302_device *ap1302)
++{
++	int ret;
++
++	/* 0. RESET was asserted when getting the GPIO. */
++
++	/* 1. Assert STANDBY. */
++	if (ap1302->standby_gpio) {
++		gpiod_set_value(ap1302->standby_gpio, 1);
++		usleep_range(200, 1000);
++	}
++
++	/* 2. Power up the regulators. To be implemented. */
++
++	/* 3. De-assert STANDBY. */
++	if (ap1302->standby_gpio) {
++		gpiod_set_value(ap1302->standby_gpio, 0);
++		usleep_range(200, 1000);
++	}
++
++	/* 4. Turn the clock on. */
++	ret = clk_prepare_enable(ap1302->clock);
++	if (ret < 0) {
++		dev_err(ap1302->dev, "Failed to enable clock: %d\n", ret);
++		return ret;
++	}
++
++	/* 5. De-assert RESET. */
++	gpiod_set_value(ap1302->reset_gpio, 0);
++
++	/*
++	 * 6. Wait for the AP1302 to initialize. The datasheet doesn't specify
++	 * how long this takes.
++	 */
++	usleep_range(10000, 11000);
++
++	return 0;
++}
++
++static void ap1302_power_off(struct ap1302_device *ap1302)
++{
++	/* 1. Assert RESET. */
++	gpiod_set_value(ap1302->reset_gpio, 1);
++
++	/* 2. Turn the clock off. */
++	clk_disable_unprepare(ap1302->clock);
++
++	/* 3. Assert STANDBY. */
++	if (ap1302->standby_gpio) {
++		gpiod_set_value(ap1302->standby_gpio, 1);
++		usleep_range(200, 1000);
++	}
++
++	/* 4. Power down the regulators. To be implemented. */
++
++	/* 5. De-assert STANDBY. */
++	if (ap1302->standby_gpio) {
++		usleep_range(200, 1000);
++		gpiod_set_value(ap1302->standby_gpio, 0);
++	}
++}
++
++/* -----------------------------------------------------------------------------
++ * Hardware Configuration
++ */
++
++static int ap1302_dump_console(struct ap1302_device *ap1302)
++{
++	u8 *buffer;
++	u8 *endp;
++	u8 *p;
++	int ret;
++
++	buffer = kmalloc(AP1302_CON_BUF_SIZE + 1, GFP_KERNEL);
++	if (!buffer)
++		return -ENOMEM;
++
++	ret = regmap_raw_read(ap1302->regmap16, AP1302_CON_BUF(0), buffer,
++			      AP1302_CON_BUF_SIZE);
++	if (ret < 0) {
++		dev_err(ap1302->dev, "Failed to read console buffer: %d\n",
++			ret);
++		goto done;
++	}
++
++	print_hex_dump(KERN_INFO, "console ", DUMP_PREFIX_OFFSET, 16, 1, buffer,
++		       AP1302_CON_BUF_SIZE, true);
++
++	buffer[AP1302_CON_BUF_SIZE] = '\0';
++
++	for (p = buffer; p < buffer + AP1302_CON_BUF_SIZE && *p; p = endp + 1) {
++		endp = strchrnul(p, '\n');
++		*endp = '\0';
++
++		pr_info("console %s\n", p);
++	}
++
++	ret = 0;
++
++done:
++	kfree(buffer);
++	return ret;
++}
++
++static int ap1302_configure(struct ap1302_device *ap1302)
++{
++	const struct ap1302_format *format = &ap1302->formats[AP1302_PAD_SOURCE];
++	unsigned int data_lanes = ap1302->bus_cfg.bus.mipi_csi2.num_data_lanes;
++	int ret = 0;
++
++	ap1302_write(ap1302, AP1302_PREVIEW_HINF_CTRL,
++		     AP1302_PREVIEW_HINF_CTRL_SPOOF |
++		     AP1302_PREVIEW_HINF_CTRL_MIPI_LANES(data_lanes), &ret);
++
++	ap1302_write(ap1302, AP1302_PREVIEW_WIDTH,
++		     format->format.width / ap1302->width_factor, &ret);
++	ap1302_write(ap1302, AP1302_PREVIEW_HEIGHT,
++		     format->format.height, &ret);
++	ap1302_write(ap1302, AP1302_PREVIEW_OUT_FMT,
++		     format->info->out_fmt, &ret);
++	if (ret < 0)
++		return ret;
++
++	__v4l2_ctrl_handler_setup(&ap1302->ctrls);
++
++	return 0;
++}
++
++static int ap1302_stall(struct ap1302_device *ap1302, bool stall)
++{
++	int ret = 0;
++
++	if (stall) {
++		ap1302_write(ap1302, AP1302_SYS_START,
++			     AP1302_SYS_START_PLL_LOCK |
++			     AP1302_SYS_START_STALL_MODE_DISABLED, &ret);
++		ap1302_write(ap1302, AP1302_SYS_START,
++			     AP1302_SYS_START_PLL_LOCK |
++			     AP1302_SYS_START_STALL_EN |
++			     AP1302_SYS_START_STALL_MODE_DISABLED, &ret);
++		if (ret < 0)
++			return ret;
++
++		msleep(200);
++
++		return ap1302_write(ap1302, AP1302_ADV_IRQ_SYS_INTE,
++			     AP1302_ADV_IRQ_SYS_INTE_SIPM |
++			     AP1302_ADV_IRQ_SYS_INTE_SIPS_FIFO_WRITE, NULL);
++	} else {
++		return ap1302_write(ap1302, AP1302_SYS_START,
++				    AP1302_SYS_START_PLL_LOCK |
++				    AP1302_SYS_START_STALL_STATUS |
++				    AP1302_SYS_START_STALL_EN |
++				    AP1302_SYS_START_STALL_MODE_DISABLED, NULL);
++	}
++}
++
++/* -----------------------------------------------------------------------------
++ * V4L2 Controls
++ */
++
++static u16 ap1302_wb_values[] = {
++	AP1302_AWB_CTRL_MODE_OFF,	/* V4L2_WHITE_BALANCE_MANUAL */
++	AP1302_AWB_CTRL_MODE_AUTO,	/* V4L2_WHITE_BALANCE_AUTO */
++	AP1302_AWB_CTRL_MODE_A,		/* V4L2_WHITE_BALANCE_INCANDESCENT */
++	AP1302_AWB_CTRL_MODE_D50,	/* V4L2_WHITE_BALANCE_FLUORESCENT */
++	AP1302_AWB_CTRL_MODE_D65,	/* V4L2_WHITE_BALANCE_FLUORESCENT_H */
++	AP1302_AWB_CTRL_MODE_HORIZON,	/* V4L2_WHITE_BALANCE_HORIZON */
++	AP1302_AWB_CTRL_MODE_D65,	/* V4L2_WHITE_BALANCE_DAYLIGHT */
++	AP1302_AWB_CTRL_MODE_AUTO,	/* V4L2_WHITE_BALANCE_FLASH */
++	AP1302_AWB_CTRL_MODE_D75,	/* V4L2_WHITE_BALANCE_CLOUDY */
++	AP1302_AWB_CTRL_MODE_D75,	/* V4L2_WHITE_BALANCE_SHADE */
++};
++
++static int ap1302_set_wb_mode(struct ap1302_device *ap1302, s32 mode)
++{
++	u32 val;
++	int ret;
++
++	ret = ap1302_read(ap1302, AP1302_AWB_CTRL, &val);
++	if (ret)
++		return ret;
++	val &= ~AP1302_AWB_CTRL_MODE_MASK;
++	val |= ap1302_wb_values[mode];
++
++	if (mode == V4L2_WHITE_BALANCE_FLASH)
++		val |= AP1302_AWB_CTRL_FLASH;
++	else
++		val &= ~AP1302_AWB_CTRL_FLASH;
++
++	return ap1302_write(ap1302, AP1302_AWB_CTRL, val, NULL);
++}
++
++static int ap1302_set_exposure(struct ap1302_device *ap1302, s32 mode)
++{
++	u32 val;
++	int ret;
++
++	ret = ap1302_read(ap1302, AP1302_AE_CTRL, &val);
++	if (ret)
++		return ret;
++
++	val &= ~AP1302_AE_CTRL_MODE_MASK;
++	val |= mode;
++
++	return ap1302_write(ap1302, AP1302_AE_CTRL, val, NULL);
++}
++
++static int ap1302_set_exp_met(struct ap1302_device *ap1302, s32 val)
++{
++	return ap1302_write(ap1302, AP1302_AE_MET, val, NULL);
++}
++
++static int ap1302_set_gain(struct ap1302_device *ap1302, s32 val)
++{
++	return ap1302_write(ap1302, AP1302_AE_MANUAL_GAIN, val, NULL);
++}
++
++static int ap1302_set_contrast(struct ap1302_device *ap1302, s32 val)
++{
++	return ap1302_write(ap1302, AP1302_CONTRAST, val, NULL);
++}
++
++static int ap1302_set_brightness(struct ap1302_device *ap1302, s32 val)
++{
++	return ap1302_write(ap1302, AP1302_BRIGHTNESS, val, NULL);
++}
++
++static int ap1302_set_saturation(struct ap1302_device *ap1302, s32 val)
++{
++	return ap1302_write(ap1302, AP1302_SATURATION, val, NULL);
++}
++
++static int ap1302_set_gamma(struct ap1302_device *ap1302, s32 val)
++{
++	return ap1302_write(ap1302, AP1302_GAMMA, val, NULL);
++}
++
++static int ap1302_set_zoom(struct ap1302_device *ap1302, s32 val)
++{
++	return ap1302_write(ap1302, AP1302_DZ_TGT_FCT, val, NULL);
++}
++
++static u16 ap1302_sfx_values[] = {
++	AP1302_SFX_MODE_SFX_NORMAL,	/* V4L2_COLORFX_NONE */
++	AP1302_SFX_MODE_SFX_BW,		/* V4L2_COLORFX_BW */
++	AP1302_SFX_MODE_SFX_SEPIA1,	/* V4L2_COLORFX_SEPIA */
++	AP1302_SFX_MODE_SFX_NEGATIVE,	/* V4L2_COLORFX_NEGATIVE */
++	AP1302_SFX_MODE_SFX_EMBOSS,	/* V4L2_COLORFX_EMBOSS */
++	AP1302_SFX_MODE_SFX_SKETCH,	/* V4L2_COLORFX_SKETCH */
++	AP1302_SFX_MODE_SFX_BLUISH,	/* V4L2_COLORFX_SKY_BLUE */
++	AP1302_SFX_MODE_SFX_GREENISH,	/* V4L2_COLORFX_GRASS_GREEN */
++	AP1302_SFX_MODE_SFX_REDISH,	/* V4L2_COLORFX_SKIN_WHITEN */
++	AP1302_SFX_MODE_SFX_NORMAL,	/* V4L2_COLORFX_VIVID */
++	AP1302_SFX_MODE_SFX_NORMAL,	/* V4L2_COLORFX_AQUA */
++	AP1302_SFX_MODE_SFX_NORMAL,	/* V4L2_COLORFX_ART_FREEZE */
++	AP1302_SFX_MODE_SFX_NORMAL,	/* V4L2_COLORFX_SILHOUETTE */
++	AP1302_SFX_MODE_SFX_SOLARIZE, /* V4L2_COLORFX_SOLARIZATION */
++	AP1302_SFX_MODE_SFX_ANTIQUE, /* V4L2_COLORFX_ANTIQUE */
++	AP1302_SFX_MODE_SFX_NORMAL,	/* V4L2_COLORFX_SET_CBCR */
++};
++
++static int ap1302_set_special_effect(struct ap1302_device *ap1302, s32 val)
++{
++	return ap1302_write(ap1302, AP1302_SFX_MODE, ap1302_sfx_values[val],
++			    NULL);
++}
++
++static u16 ap1302_scene_mode_values[] = {
++	AP1302_SCENE_CTRL_MODE_NORMAL,		/* V4L2_SCENE_MODE_NONE */
++	AP1302_SCENE_CTRL_MODE_BACKLIGHT,	/* V4L2_SCENE_MODE_BACKLIGHT */
++	AP1302_SCENE_CTRL_MODE_BEACH,		/* V4L2_SCENE_MODE_BEACH_SNOW */
++	AP1302_SCENE_CTRL_MODE_TWILIGHT,	/* V4L2_SCENE_MODE_CANDLE_LIGHT */
++	AP1302_SCENE_CTRL_MODE_NORMAL,		/* V4L2_SCENE_MODE_DAWN_DUSK */
++	AP1302_SCENE_CTRL_MODE_NORMAL,		/* V4L2_SCENE_MODE_FALL_COLORS */
++	AP1302_SCENE_CTRL_MODE_FIREWORKS,	/* V4L2_SCENE_MODE_FIREWORKS */
++	AP1302_SCENE_CTRL_MODE_LANDSCAPE,	/* V4L2_SCENE_MODE_LANDSCAPE */
++	AP1302_SCENE_CTRL_MODE_NIGHT,		/* V4L2_SCENE_MODE_NIGHT */
++	AP1302_SCENE_CTRL_MODE_PARTY,		/* V4L2_SCENE_MODE_PARTY_INDOOR */
++	AP1302_SCENE_CTRL_MODE_PORTRAIT,	/* V4L2_SCENE_MODE_PORTRAIT */
++	AP1302_SCENE_CTRL_MODE_SPORT,		/* V4L2_SCENE_MODE_SPORTS */
++	AP1302_SCENE_CTRL_MODE_SUNSET,		/* V4L2_SCENE_MODE_SUNSET */
++	AP1302_SCENE_CTRL_MODE_DOCUMENT,	/* V4L2_SCENE_MODE_TEXT */
++};
++
++static int ap1302_set_scene_mode(struct ap1302_device *ap1302, s32 val)
++{
++	return ap1302_write(ap1302, AP1302_SCENE_CTRL,
++			    ap1302_scene_mode_values[val], NULL);
++}
++
++static const u16 ap1302_flicker_values[] = {
++	AP1302_FLICK_CTRL_MODE_DISABLED,
++	AP1302_FLICK_CTRL_FREQ(50) | AP1302_FLICK_CTRL_MODE_MANUAL,
++	AP1302_FLICK_CTRL_FREQ(60) | AP1302_FLICK_CTRL_MODE_MANUAL,
++	AP1302_FLICK_CTRL_MODE_AUTO,
++};
++
++static int ap1302_set_flicker_freq(struct ap1302_device *ap1302, s32 val)
++{
++	return ap1302_write(ap1302, AP1302_FLICK_CTRL,
++			    ap1302_flicker_values[val], NULL);
++}
++
++static int ap1302_s_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct ap1302_device *ap1302 =
++		container_of(ctrl->handler, struct ap1302_device, ctrls);
++
++	switch (ctrl->id) {
++	case V4L2_CID_AUTO_N_PRESET_WHITE_BALANCE:
++		return ap1302_set_wb_mode(ap1302, ctrl->val);
++
++	case V4L2_CID_EXPOSURE:
++		return ap1302_set_exposure(ap1302, ctrl->val);
++
++	case V4L2_CID_EXPOSURE_METERING:
++		return ap1302_set_exp_met(ap1302, ctrl->val);
++
++	case V4L2_CID_GAIN:
++		return ap1302_set_gain(ap1302, ctrl->val);
++
++	case V4L2_CID_GAMMA:
++		return ap1302_set_gamma(ap1302, ctrl->val);
++
++	case V4L2_CID_CONTRAST:
++		return ap1302_set_contrast(ap1302, ctrl->val);
++
++	case V4L2_CID_BRIGHTNESS:
++		return ap1302_set_brightness(ap1302, ctrl->val);
++
++	case V4L2_CID_SATURATION:
++		return ap1302_set_saturation(ap1302, ctrl->val);
++
++	case V4L2_CID_ZOOM_ABSOLUTE:
++		return ap1302_set_zoom(ap1302, ctrl->val);
++
++	case V4L2_CID_COLORFX:
++		return ap1302_set_special_effect(ap1302, ctrl->val);
++
++	case V4L2_CID_SCENE_MODE:
++		return ap1302_set_scene_mode(ap1302, ctrl->val);
++
++	case V4L2_CID_POWER_LINE_FREQUENCY:
++		return ap1302_set_flicker_freq(ap1302, ctrl->val);
++
++	default:
++		return -EINVAL;
++	}
++}
++
++static const struct v4l2_ctrl_ops ap1302_ctrl_ops = {
++	.s_ctrl = ap1302_s_ctrl,
++};
++
++static const struct v4l2_ctrl_config ap1302_ctrls[] = {
++	{
++		.ops = &ap1302_ctrl_ops,
++		.id = V4L2_CID_AUTO_N_PRESET_WHITE_BALANCE,
++		.min = 0,
++		.max = 9,
++		.def = 1,
++	}, {
++		.ops = &ap1302_ctrl_ops,
++		.id = V4L2_CID_GAMMA,
++		.name = "Gamma",
++		.type = V4L2_CTRL_TYPE_INTEGER,
++		.min = 0x0100,
++		.max = 0xFFFF,
++		.step = 0x100,
++		.def = 0x1000,
++	}, {
++		.ops = &ap1302_ctrl_ops,
++		.id = V4L2_CID_CONTRAST,
++		.name = "Contrast",
++		.type = V4L2_CTRL_TYPE_INTEGER,
++		.min = 0x100,
++		.max = 0xFFFF,
++		.step = 0x100,
++		.def = 0x100,
++	}, {
++		.ops = &ap1302_ctrl_ops,
++		.id = V4L2_CID_BRIGHTNESS,
++		.name = "Brightness",
++		.type = V4L2_CTRL_TYPE_INTEGER,
++		.min = 0x100,
++		.max = 0xFFFF,
++		.step = 0x100,
++		.def = 0x100,
++	}, {
++		.ops = &ap1302_ctrl_ops,
++		.id = V4L2_CID_SATURATION,
++		.name = "Saturation",
++		.type = V4L2_CTRL_TYPE_INTEGER,
++		.min = 0x0100,
++		.max = 0xFFFF,
++		.step = 0x100,
++		.def = 0x1000,
++	}, {
++		.ops = &ap1302_ctrl_ops,
++		.id = V4L2_CID_EXPOSURE,
++		.name = "Exposure",
++		.type = V4L2_CTRL_TYPE_INTEGER,
++		.min = 0x0,
++		.max = 0xC,
++		.step = 1,
++		.def = 0xC,
++	}, {
++		.ops = &ap1302_ctrl_ops,
++		.id = V4L2_CID_EXPOSURE_METERING,
++		.name = "Exposure Metering",
++		.type = V4L2_CTRL_TYPE_INTEGER,
++		.min = 0x0,
++		.max = 0x3,
++		.step = 1,
++		.def = 0x1,
++	}, {
++		.ops = &ap1302_ctrl_ops,
++		.id = V4L2_CID_GAIN,
++		.name = "Gain",
++		.type = V4L2_CTRL_TYPE_INTEGER,
++		.min = 0x0100,
++		.max = 0xFFFF,
++		.step = 0x100,
++		.def = 0x100,
++	}, {
++		.ops = &ap1302_ctrl_ops,
++		.id = V4L2_CID_ZOOM_ABSOLUTE,
++		.min = 0x0100,
++		.max = 0x1000,
++		.step = 1,
++		.def = 0x0100,
++	}, {
++		.ops = &ap1302_ctrl_ops,
++		.id = V4L2_CID_COLORFX,
++		.min = 0,
++		.max = 15,
++		.def = 0,
++		.menu_skip_mask = BIT(15) | BIT(12) | BIT(11) | BIT(10) | BIT(9),
++	}, {
++		.ops = &ap1302_ctrl_ops,
++		.id = V4L2_CID_SCENE_MODE,
++		.min = 0,
++		.max = 13,
++		.def = 0,
++		.menu_skip_mask = BIT(5) | BIT(4),
++	}, {
++		.ops = &ap1302_ctrl_ops,
++		.id = V4L2_CID_POWER_LINE_FREQUENCY,
++		.min = 0,
++		.max = 3,
++		.def = 3,
++	},
++};
++
++static int ap1302_ctrls_init(struct ap1302_device *ap1302)
++{
++	unsigned int i;
++	int ret;
++
++	ret = v4l2_ctrl_handler_init(&ap1302->ctrls, ARRAY_SIZE(ap1302_ctrls));
++	if (ret)
++		return ret;
++
++	for (i = 0; i < ARRAY_SIZE(ap1302_ctrls); i++)
++		v4l2_ctrl_new_custom(&ap1302->ctrls, &ap1302_ctrls[i], NULL);
++
++	if (ap1302->ctrls.error) {
++		ret = ap1302->ctrls.error;
++		v4l2_ctrl_handler_free(&ap1302->ctrls);
++		return ret;
++	}
++
++	/* Use same lock for controls as for everything else. */
++	ap1302->ctrls.lock = &ap1302->lock;
++	ap1302->sd.ctrl_handler = &ap1302->ctrls;
++
++	return 0;
++}
++
++static void ap1302_ctrls_cleanup(struct ap1302_device *ap1302)
++{
++	v4l2_ctrl_handler_free(&ap1302->ctrls);
++}
++
++/* -----------------------------------------------------------------------------
++ * V4L2 Subdev Operations
++ */
++
++static struct v4l2_mbus_framefmt *
++ap1302_get_pad_format(struct ap1302_device *ap1302,
++		      struct v4l2_subdev_state *state,
++		      unsigned int pad, u32 which)
++{
++	switch (which) {
++	case V4L2_SUBDEV_FORMAT_TRY:
++		return v4l2_subdev_get_try_format(&ap1302->sd, state, pad);
++	case V4L2_SUBDEV_FORMAT_ACTIVE:
++		return &ap1302->formats[pad].format;
++	default:
++		return NULL;
++	}
++}
++
++static int ap1302_init_cfg(struct v4l2_subdev *sd,
++			   struct v4l2_subdev_state *state)
++{
++	u32 which = state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
++	struct ap1302_device *ap1302 = to_ap1302(sd);
++	const struct ap1302_sensor_info *info = ap1302->sensor_info;
++	unsigned int pad;
++
++	for (pad = 0; pad < ARRAY_SIZE(ap1302->formats); ++pad) {
++		struct v4l2_mbus_framefmt *format =
++			ap1302_get_pad_format(ap1302, state, pad, which);
++
++		format->width = info->resolution.width;
++		format->height = info->resolution.height;
++
++		/*
++		 * The source pad combines images side by side in multi-sensor
++		 * setup.
++		 */
++		if (pad == AP1302_PAD_SOURCE) {
++			format->width *= ap1302->width_factor;
++			format->code = ap1302->formats[pad].info->code;
++		} else {
++			format->code = info->format;
++		}
++
++		format->field = V4L2_FIELD_NONE;
++		format->colorspace = V4L2_COLORSPACE_SRGB;
++	}
++
++	return 0;
++}
++
++static int ap1302_enum_mbus_code(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *state,
++				 struct v4l2_subdev_mbus_code_enum *code)
++{
++	struct ap1302_device *ap1302 = to_ap1302(sd);
++
++	if (code->pad != AP1302_PAD_SOURCE) {
++		/*
++		 * On the sink pads, only the format produced by the sensor is
++		 * supported.
++		 */
++		if (code->index)
++			return -EINVAL;
++
++		code->code = ap1302->sensor_info->format;
++	} else {
++		/* On the source pad, multiple formats are supported. */
++		if (code->index >= ARRAY_SIZE(supported_video_formats))
++			return -EINVAL;
++
++		code->code = supported_video_formats[code->index].code;
++	}
++
++	return 0;
++}
++
++static int ap1302_enum_frame_size(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *state,
++				  struct v4l2_subdev_frame_size_enum *fse)
++{
++	struct ap1302_device *ap1302 = to_ap1302(sd);
++	unsigned int i;
++
++	if (fse->index)
++		return -EINVAL;
++
++	if (fse->pad != AP1302_PAD_SOURCE) {
++		/*
++		 * On the sink pads, only the size produced by the sensor is
++		 * supported.
++		 */
++		if (fse->code != ap1302->sensor_info->format)
++			return -EINVAL;
++
++		fse->min_width = ap1302->sensor_info->resolution.width;
++		fse->min_height = ap1302->sensor_info->resolution.height;
++		fse->max_width = ap1302->sensor_info->resolution.width;
++		fse->max_height = ap1302->sensor_info->resolution.height;
++	} else {
++		/*
++		 * On the source pad, the AP1302 can freely scale within the
++		 * scaler's limits.
++		 */
++		for (i = 0; i < ARRAY_SIZE(supported_video_formats); i++) {
++			if (supported_video_formats[i].code == fse->code)
++				break;
++		}
++
++		if (i >= ARRAY_SIZE(supported_video_formats))
++			return -EINVAL;
++
++		fse->min_width = AP1302_MIN_WIDTH * ap1302->width_factor;
++		fse->min_height = AP1302_MIN_HEIGHT;
++		fse->max_width = AP1302_MAX_WIDTH;
++		fse->max_height = AP1302_MAX_HEIGHT;
++	}
++
++	return 0;
++}
++
++static int ap1302_get_fmt(struct v4l2_subdev *sd,
++			  struct v4l2_subdev_state *state,
++			  struct v4l2_subdev_format *fmt)
++{
++	struct ap1302_device *ap1302 = to_ap1302(sd);
++	const struct v4l2_mbus_framefmt *format;
++
++	format = ap1302_get_pad_format(ap1302, state, fmt->pad, fmt->which);
++
++	mutex_lock(&ap1302->lock);
++	fmt->format = *format;
++	mutex_unlock(&ap1302->lock);
++
++	return 0;
++}
++
++static int ap1302_set_fmt(struct v4l2_subdev *sd,
++			  struct v4l2_subdev_state *state,
++			  struct v4l2_subdev_format *fmt)
++{
++	struct ap1302_device *ap1302 = to_ap1302(sd);
++	const struct ap1302_format_info *info = NULL;
++	struct v4l2_mbus_framefmt *format;
++	unsigned int i;
++
++	/* Formats on the sink pads can't be changed. */
++	if (fmt->pad != AP1302_PAD_SOURCE)
++		return ap1302_get_fmt(sd, state, fmt);
++
++	format = ap1302_get_pad_format(ap1302, state, fmt->pad, fmt->which);
++
++	/* Validate the media bus code, default to the first supported value. */
++	for (i = 0; i < ARRAY_SIZE(supported_video_formats); i++) {
++		if (supported_video_formats[i].code == fmt->format.code) {
++			info = &supported_video_formats[i];
++			break;
++		}
++	}
++
++	if (!info)
++		info = &supported_video_formats[0];
++
++	/*
++	 * Clamp the size. The width must be a multiple of 4 (or 8 in the
++	 * dual-sensor case) and the height a multiple of 2.
++	 */
++	fmt->format.width = clamp(ALIGN_DOWN(fmt->format.width,
++					     4 * ap1302->width_factor),
++				  AP1302_MIN_WIDTH * ap1302->width_factor,
++				  AP1302_MAX_WIDTH);
++	fmt->format.height = clamp(ALIGN_DOWN(fmt->format.height, 2),
++				   AP1302_MIN_HEIGHT, AP1302_MAX_HEIGHT);
++
++	mutex_lock(&ap1302->lock);
++
++	format->width = fmt->format.width;
++	format->height = fmt->format.height;
++	format->code = info->code;
++
++	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE)
++		ap1302->formats[fmt->pad].info = info;
++
++	mutex_unlock(&ap1302->lock);
++
++	fmt->format = *format;
++
++	return 0;
++}
++
++static int ap1302_get_selection(struct v4l2_subdev *sd,
++				struct v4l2_subdev_state *state,
++				struct v4l2_subdev_selection *sel)
++{
++	struct ap1302_device *ap1302 = to_ap1302(sd);
++	const struct ap1302_size *resolution = &ap1302->sensor_info->resolution;
++
++	switch (sel->target) {
++	case V4L2_SEL_TGT_NATIVE_SIZE:
++	case V4L2_SEL_TGT_CROP_BOUNDS:
++	case V4L2_SEL_TGT_CROP_DEFAULT:
++	case V4L2_SEL_TGT_CROP:
++		sel->r.left = 0;
++		sel->r.top = 0;
++		sel->r.width = resolution->width * ap1302->width_factor;
++		sel->r.height = resolution->height;
++		break;
++
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int ap1302_s_stream(struct v4l2_subdev *sd, int enable)
++{
++	struct ap1302_device *ap1302 = to_ap1302(sd);
++	int ret = 0;
++
++	mutex_lock(&ap1302->lock);
++
++	if (enable == ap1302->streaming)
++		goto done;
++
++	if (enable) {
++		ret = ap1302_configure(ap1302);
++		if (ret < 0)
++			goto done;
++
++		ret = ap1302_stall(ap1302, false);
++		if (!ret)
++			ap1302->streaming = true;
++	} else {
++		ret = ap1302_stall(ap1302, true);
++		if (!ret)
++			ap1302->streaming = false;
++	}
++
++done:
++	mutex_unlock(&ap1302->lock);
++
++	if (ret < 0)
++		dev_err(ap1302->dev, "Failed to %s stream: %d\n",
++			enable ? "start" : "stop", ret);
++
++	return ret;
++}
++
++static const char * const ap1302_warnings[] = {
++	"HINF_BANDWIDTH",
++	"FLICKER_DETECTION",
++	"FACED_NE",
++	"SMILED_NE",
++	"HINF_OVERRUN",
++	NULL,
++	"FRAME_TOO_SMALL",
++	"MISSING_PHASES",
++	"SPOOF_UNDERRUN",
++	"JPEG_NOLAST",
++	"NO_IN_FREQ_SPEC",
++	"SINF0",
++	"SINF1",
++	"CAPTURE0",
++	"CAPTURE1",
++	"ISR_UNHANDLED",
++	"INTERLEAVE_SPOOF",
++	"INTERLEAVE_BUF",
++	"COORD_OUT_OF_RANGE",
++	"ICP_CLOCKING",
++	"SENSOR_CLOCKING",
++	"SENSOR_NO_IHDR",
++	"DIVIDE_BY_ZERO",
++	"INT0_UNDERRUN",
++	"INT1_UNDERRUN",
++	"SCRATCHPAD_TOO_BIG",
++	"OTP_RECORD_READ",
++	"NO_LSC_IN_OTP",
++	"GPIO_INT_LOST",
++	"NO_PDAF_DATA",
++	"FAR_PDAF_ACCESS_SKIP",
++	"PDAF_ERROR",
++	"ATM_TVI_BOUNDS",
++	"SIPM_0_RTY",
++	"SIPM_1_TRY",
++	"SIPM_0_NO_ACK",
++	"SIPM_1_NO_ACK",
++	"SMILE_DIS",
++	"DVS_DIS",
++	"TEST_DIS",
++	"SENSOR_LV2LV",
++	"SENSOR_FV2FV",
++	"FRAME_LOST",
++};
++
++static const char * const ap1302_lane_states[] = {
++	"stop_s",
++	"hs_req_s",
++	"lp_req_s",
++	"hs_s",
++	"lp_s",
++	"esc_req_s",
++	"turn_req_s",
++	"esc_s",
++	"esc_0",
++	"esc_1",
++	"turn_s",
++	"turn_mark",
++	"error_s",
++};
++
++#define NUM_LANES 4
++static void ap1302_log_lane_state(struct ap1302_sensor *sensor,
++				  unsigned int index)
++{
++	static const char * const lp_states[] = {
++		"00", "10", "01", "11",
++	};
++	unsigned int counts[NUM_LANES][ARRAY_SIZE(ap1302_lane_states)];
++	unsigned int samples = 0;
++	unsigned int lane;
++	unsigned int i;
++	u32 first[NUM_LANES] = { 0, };
++	u32 last[NUM_LANES] = { 0, };
++	int ret;
++
++	memset(counts, 0, sizeof(counts));
++
++	for (i = 0; i < 1000; ++i) {
++		u32 values[NUM_LANES];
++
++		/*
++		 * Read the state of all lanes and skip read errors and invalid
++		 * values.
++		 */
++		for (lane = 0; lane < NUM_LANES; ++lane) {
++			ret = ap1302_read(sensor->ap1302,
++					  AP1302_ADV_SINF_MIPI_INTERNAL_p_LANE_n_STAT(index, lane),
++					  &values[lane]);
++			if (ret < 0)
++				break;
++
++			if (AP1302_LANE_STATE(values[lane]) >=
++			    ARRAY_SIZE(ap1302_lane_states)) {
++				ret = -EINVAL;
++				break;
++			}
++		}
++
++		if (ret < 0)
++			continue;
++
++		/* Accumulate the samples and save the first and last states. */
++		for (lane = 0; lane < NUM_LANES; ++lane)
++			counts[lane][AP1302_LANE_STATE(values[lane])]++;
++
++		if (!samples)
++			memcpy(first, values, sizeof(first));
++		memcpy(last, values, sizeof(last));
++
++		samples++;
++	}
++
++	if (!samples)
++		return;
++
++	/*
++	 * Print the LP state from the first sample, the error state from the
++	 * last sample, and the states accumulators for each lane.
++	 */
++	for (lane = 0; lane < NUM_LANES; ++lane) {
++		u32 state = last[lane];
++		char error_msg[25] = "";
++
++		if (state & (AP1302_LANE_ERR | AP1302_LANE_ABORT)) {
++			unsigned int err = AP1302_LANE_ERR_STATE(state);
++			const char *err_state = NULL;
++
++			err_state = err < ARRAY_SIZE(ap1302_lane_states)
++				  ? ap1302_lane_states[err] : "INVALID";
++
++			snprintf(error_msg, sizeof(error_msg), "ERR (%s%s) %s LP%s",
++				 state & AP1302_LANE_ERR ? "E" : "",
++				 state & AP1302_LANE_ABORT ? "A" : "",
++				 err_state,
++				 lp_states[AP1302_LANE_ERR_LP_VAL(state)]);
++		}
++
++		dev_info(sensor->ap1302->dev, "SINF%u L%u state: LP%s %s",
++			 index, lane, lp_states[AP1302_LANE_LP_VAL(first[lane])],
++			 error_msg);
++
++		for (i = 0; i < ARRAY_SIZE(ap1302_lane_states); ++i) {
++			if (counts[lane][i])
++				pr_cont(" %s:%u",
++				       ap1302_lane_states[i],
++				       counts[lane][i]);
++		}
++		pr_cont("\n");
++	}
++
++	/* Reset the error flags. */
++	for (lane = 0; lane < NUM_LANES; ++lane)
++		ap1302_write(sensor->ap1302,
++			     AP1302_ADV_SINF_MIPI_INTERNAL_p_LANE_n_STAT(index, lane),
++			     AP1302_LANE_ERR | AP1302_LANE_ABORT, NULL);
++}
++
++static int ap1302_log_status(struct v4l2_subdev *sd)
++{
++	struct ap1302_device *ap1302 = to_ap1302(sd);
++	u16 frame_count_icp;
++	u16 frame_count_brac;
++	u16 frame_count_hinf;
++	u32 warning[4];
++	u32 error[3];
++	unsigned int i;
++	u32 value;
++	int ret;
++
++	/* Dump the console buffer. */
++	ret = ap1302_dump_console(ap1302);
++	if (ret < 0)
++		return ret;
++
++	/* Print errors. */
++	ret = ap1302_read(ap1302, AP1302_ERROR, &error[0]);
++	if (ret < 0)
++		return ret;
++
++	ret = ap1302_read(ap1302, AP1302_ERR_FILE, &error[1]);
++	if (ret < 0)
++		return ret;
++
++	ret = ap1302_read(ap1302, AP1302_ERR_LINE, &error[2]);
++	if (ret < 0)
++		return ret;
++
++	dev_info(ap1302->dev, "ERROR: 0x%04x (file 0x%08x:%u)\n",
++		 error[0], error[1], error[2]);
++
++	ret = ap1302_read(ap1302, AP1302_SIPM_ERR_0, &error[0]);
++	if (ret < 0)
++		return ret;
++
++	ret = ap1302_read(ap1302, AP1302_SIPM_ERR_1, &error[1]);
++	if (ret < 0)
++		return ret;
++
++	dev_info(ap1302->dev, "SIPM_ERR [0] 0x%04x [1] 0x%04x\n",
++		 error[0], error[1]);
++
++	/* Print warnings. */
++	for (i = 0; i < ARRAY_SIZE(warning); ++i) {
++		ret = ap1302_read(ap1302, AP1302_WARNING(i), &warning[i]);
++		if (ret < 0)
++			return ret;
++	}
++
++	dev_info(ap1302->dev,
++		 "WARNING [0] 0x%04x [1] 0x%04x [2] 0x%04x [3] 0x%04x\n",
++		 warning[0], warning[1], warning[2], warning[3]);
++
++	for (i = 0; i < ARRAY_SIZE(ap1302_warnings); ++i) {
++		if ((warning[i / 16] & BIT(i % 16)) &&
++		    ap1302_warnings[i])
++			dev_info(ap1302->dev, "- WARN_%s\n",
++				 ap1302_warnings[i]);
++	}
++
++	/* Print the frame counter. */
++	ret = ap1302_read(ap1302, AP1302_FRAME_CNT, &value);
++	if (ret < 0)
++		return ret;
++
++	frame_count_hinf = value >> 8;
++	frame_count_brac = value & 0xff;
++
++	ret = ap1302_read(ap1302, AP1302_ADV_CAPTURE_A_FV_CNT, &value);
++	if (ret < 0)
++		return ret;
++
++	frame_count_icp = value & 0xffff;
++
++	dev_info(ap1302->dev, "Frame counters: ICP %u, HINF %u, BRAC %u\n",
++		 frame_count_icp, frame_count_hinf, frame_count_brac);
++
++	/* Sample the lane state. */
++	for (i = 0; i < ARRAY_SIZE(ap1302->sensors); ++i) {
++		struct ap1302_sensor *sensor = &ap1302->sensors[i];
++
++		if (!sensor->ap1302)
++			continue;
++
++		ap1302_log_lane_state(sensor, i);
++	}
++
++	return 0;
++}
++
++static int ap1302_subdev_registered(struct v4l2_subdev *sd)
++{
++	struct ap1302_device *ap1302 = to_ap1302(sd);
++	unsigned int i;
++	int ret;
++
++	for (i = 0; i < ARRAY_SIZE(ap1302->sensors); ++i) {
++		struct ap1302_sensor *sensor = &ap1302->sensors[i];
++
++		if (!sensor->dev)
++			continue;
++
++		dev_dbg(ap1302->dev, "registering sensor %u\n", i);
++
++		ret = v4l2_device_register_subdev(sd->v4l2_dev, &sensor->sd);
++		if (ret)
++			return ret;
++
++		ret = media_create_pad_link(&sensor->sd.entity, 0,
++					    &sd->entity, i,
++					    MEDIA_LNK_FL_IMMUTABLE |
++					    MEDIA_LNK_FL_ENABLED);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
++static const struct media_entity_operations ap1302_media_ops = {
++	.link_validate = v4l2_subdev_link_validate
++};
++
++static const struct v4l2_subdev_pad_ops ap1302_pad_ops = {
++	.init_cfg = ap1302_init_cfg,
++	.enum_mbus_code = ap1302_enum_mbus_code,
++	.enum_frame_size = ap1302_enum_frame_size,
++	.get_fmt = ap1302_get_fmt,
++	.set_fmt = ap1302_set_fmt,
++	.get_selection = ap1302_get_selection,
++	.set_selection = ap1302_get_selection,
++};
++
++static const struct v4l2_subdev_video_ops ap1302_video_ops = {
++	.s_stream = ap1302_s_stream,
++};
++
++static const struct v4l2_subdev_core_ops ap1302_core_ops = {
++	.log_status = ap1302_log_status,
++};
++
++static const struct v4l2_subdev_ops ap1302_subdev_ops = {
++	.core = &ap1302_core_ops,
++	.video = &ap1302_video_ops,
++	.pad = &ap1302_pad_ops,
++};
++
++static const struct v4l2_subdev_internal_ops ap1302_subdev_internal_ops = {
++	.registered = ap1302_subdev_registered,
++};
++
++/* -----------------------------------------------------------------------------
++ * Sensor
++ */
++
++static int ap1302_sensor_enum_mbus_code(struct v4l2_subdev *sd,
++					struct v4l2_subdev_state *state,
++					struct v4l2_subdev_mbus_code_enum *code)
++{
++	struct ap1302_sensor *sensor = to_ap1302_sensor(sd);
++	const struct ap1302_sensor_info *info = sensor->ap1302->sensor_info;
++
++	if (code->index)
++		return -EINVAL;
++
++	code->code = info->format;
++
++	return 0;
++}
++
++static int ap1302_sensor_enum_frame_size(struct v4l2_subdev *sd,
++					 struct v4l2_subdev_state *state,
++					 struct v4l2_subdev_frame_size_enum *fse)
++{
++	struct ap1302_sensor *sensor = to_ap1302_sensor(sd);
++	const struct ap1302_sensor_info *info = sensor->ap1302->sensor_info;
++
++	if (fse->index)
++		return -EINVAL;
++
++	if (fse->code != info->format)
++		return -EINVAL;
++
++	fse->min_width = info->resolution.width;
++	fse->min_height = info->resolution.height;
++	fse->max_width = info->resolution.width;
++	fse->max_height = info->resolution.height;
++
++	return 0;
++}
++
++static int ap1302_sensor_get_fmt(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *state,
++				 struct v4l2_subdev_format *fmt)
++{
++	struct ap1302_sensor *sensor = to_ap1302_sensor(sd);
++	const struct ap1302_sensor_info *info = sensor->ap1302->sensor_info;
++
++	memset(&fmt->format, 0, sizeof(fmt->format));
++
++	fmt->format.width = info->resolution.width;
++	fmt->format.height = info->resolution.height;
++	fmt->format.field = V4L2_FIELD_NONE;
++	fmt->format.code = info->format;
++	fmt->format.colorspace = V4L2_COLORSPACE_SRGB;
++
++	return 0;
++}
++
++static const struct v4l2_subdev_pad_ops ap1302_sensor_pad_ops = {
++	.enum_mbus_code = ap1302_sensor_enum_mbus_code,
++	.enum_frame_size = ap1302_sensor_enum_frame_size,
++	.get_fmt = ap1302_sensor_get_fmt,
++	.set_fmt = ap1302_sensor_get_fmt,
++};
++
++static const struct v4l2_subdev_ops ap1302_sensor_subdev_ops = {
++	.pad = &ap1302_sensor_pad_ops,
++};
++
++static int ap1302_sensor_parse_of(struct ap1302_device *ap1302,
++				  struct device_node *node)
++{
++	struct ap1302_sensor *sensor;
++	u32 reg;
++	int ret;
++
++	/* Retrieve the sensor index from the reg property. */
++	ret = of_property_read_u32(node, "reg", &reg);
++	if (ret < 0) {
++		dev_warn(ap1302->dev,
++			 "'reg' property missing in sensor node\n");
++		return -EINVAL;
++	}
++
++	if (reg >= ARRAY_SIZE(ap1302->sensors)) {
++		dev_warn(ap1302->dev, "Out-of-bounds 'reg' value %u\n",
++			 reg);
++		return -EINVAL;
++	}
++
++	sensor = &ap1302->sensors[reg];
++	if (sensor->ap1302) {
++		dev_warn(ap1302->dev, "Duplicate entry for sensor %u\n", reg);
++		return -EINVAL;
++	}
++
++	sensor->ap1302 = ap1302;
++	sensor->of_node = of_node_get(node);
++
++	return 0;
++}
++
++static void ap1302_sensor_dev_release(struct device *dev)
++{
++	of_node_put(dev->of_node);
++	kfree(dev);
++}
++
++static int ap1302_sensor_init(struct ap1302_sensor *sensor, unsigned int index)
++{
++	struct ap1302_device *ap1302 = sensor->ap1302;
++	struct v4l2_subdev *sd = &sensor->sd;
++	unsigned int i;
++	int ret;
++
++	sensor->index = index;
++
++	/*
++	 * Register a device for the sensor, to support usage of the regulator
++	 * API.
++	 */
++	sensor->dev = kzalloc(sizeof(*sensor->dev), GFP_KERNEL);
++	if (!sensor->dev)
++		return -ENOMEM;
++
++	sensor->dev->parent = ap1302->dev;
++	sensor->dev->of_node = of_node_get(sensor->of_node);
++	sensor->dev->release = &ap1302_sensor_dev_release;
++	dev_set_name(sensor->dev, "%s-%s.%u", dev_name(ap1302->dev),
++		     ap1302->sensor_info->name, index);
++
++	ret = device_register(sensor->dev);
++	if (ret < 0) {
++		dev_err(ap1302->dev,
++			"Failed to register device for sensor %u\n", index);
++		goto error;
++	}
++
++	/* Retrieve the power supplies for the sensor, if any. */
++	if (ap1302->sensor_info->supplies) {
++		const struct ap1302_sensor_supply *supplies =
++			ap1302->sensor_info->supplies;
++		unsigned int num_supplies;
++
++		for (num_supplies = 0; supplies[num_supplies].name;)
++			++num_supplies;
++
++		sensor->supplies = devm_kcalloc(ap1302->dev, num_supplies,
++						sizeof(*sensor->supplies),
++						GFP_KERNEL);
++		if (!sensor->supplies) {
++			ret = -ENOMEM;
++			goto error;
++		}
++
++		for (i = 0; i < num_supplies; ++i)
++			sensor->supplies[i].supply = supplies[i].name;
++
++		ret = regulator_bulk_get(sensor->dev, num_supplies,
++					 sensor->supplies);
++		if (ret < 0) {
++			dev_err(ap1302->dev,
++				"Failed to get supplies for sensor %u\n",
++				 index);
++			goto error;
++		}
++
++		sensor->num_supplies = i;
++	}
++
++	sd->dev = sensor->dev;
++	v4l2_subdev_init(sd, &ap1302_sensor_subdev_ops);
++
++	snprintf(sd->name, sizeof(sd->name), "%s %u",
++		 ap1302->sensor_info->name, index);
++
++	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
++	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
++
++	ret = media_entity_pads_init(&sd->entity, 1, &sensor->pad);
++	if (ret < 0) {
++		dev_err(ap1302->dev,
++			"failed to initialize media entity for sensor %u: %d\n",
++			index, ret);
++		goto error;
++	}
++
++	return 0;
++
++error:
++	put_device(sensor->dev);
++	return ret;
++}
++
++static void ap1302_sensor_cleanup(struct ap1302_sensor *sensor)
++{
++	media_entity_cleanup(&sensor->sd.entity);
++
++	if (sensor->num_supplies)
++		regulator_bulk_free(sensor->num_supplies, sensor->supplies);
++
++	put_device(sensor->dev);
++	of_node_put(sensor->of_node);
++}
++
++/* -----------------------------------------------------------------------------
++ * Boot & Firmware Handling
++ */
++
++static int ap1302_request_firmware(struct ap1302_device *ap1302)
++{
++	static const char * const suffixes[] = {
++		"",
++		"_single",
++		"_dual",
++	};
++
++	const struct ap1302_firmware_header *fw_hdr;
++	unsigned int num_sensors;
++	unsigned int fw_size;
++	unsigned int i;
++	char name[64];
++	int ret;
++
++	for (i = 0, num_sensors = 0; i < ARRAY_SIZE(ap1302->sensors); ++i) {
++		if (ap1302->sensors[i].dev)
++			num_sensors++;
++	}
++
++	ret = snprintf(name, sizeof(name), "ap1302_%s%s_fw.bin",
++		       ap1302->sensor_info->name, suffixes[num_sensors]);
++	if (ret >= sizeof(name)) {
++		dev_err(ap1302->dev, "Firmware name too long\n");
++		return -EINVAL;
++	}
++
++	dev_dbg(ap1302->dev, "Requesting firmware %s\n", name);
++
++	ret = request_firmware(&ap1302->fw, name, ap1302->dev);
++	if (ret) {
++		dev_err(ap1302->dev, "Failed to request firmware: %d\n", ret);
++		return ret;
++	}
++
++	if (ap1302->fw->size < sizeof(*fw_hdr)) {
++		dev_err(ap1302->dev, "Invalid firmware: too small\n");
++		return -EINVAL;
++	}
++
++	/*
++	 * The firmware binary contains a header defined by the
++	 * ap1302_firmware_header structure. The firmware itself (also referred
++	 * to as bootdata) follows the header. Perform sanity checks to ensure
++	 * the firmware is valid.
++	 */
++	fw_hdr = (const struct ap1302_firmware_header *)ap1302->fw->data;
++	fw_size = ap1302->fw->size - sizeof(*fw_hdr);
++
++	if (fw_hdr->pll_init_size > fw_size) {
++		dev_err(ap1302->dev,
++			"Invalid firmware: PLL init size too large\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++/*
++ * ap1302_write_fw_window() - Write a piece of firmware to the AP1302
++ * @win_pos: Firmware load window current position
++ * @buf: Firmware data buffer
++ * @len: Firmware data length
++ *
++ * The firmware is loaded through a window in the registers space. Writes are
++ * sequential starting at address 0x8000, and must wrap around when reaching
++ * 0x9fff. This function write the firmware data stored in @buf to the AP1302,
++ * keeping track of the window position in the @win_pos argument.
++ */
++static int ap1302_write_fw_window(struct ap1302_device *ap1302, const u8 *buf,
++				  u32 len, unsigned int *win_pos)
++{
++	while (len > 0) {
++		unsigned int write_addr;
++		unsigned int write_size;
++		int ret;
++
++		/*
++		 * Write at most len bytes, from the current position to the
++		 * end of the window.
++		 */
++		write_addr = *win_pos + AP1302_FW_WINDOW_OFFSET;
++		write_size = min(len, AP1302_FW_WINDOW_SIZE - *win_pos);
++
++		ret = regmap_raw_write(ap1302->regmap16, write_addr, buf,
++				       write_size);
++		if (ret)
++			return ret;
++
++		buf += write_size;
++		len -= write_size;
++
++		*win_pos += write_size;
++		if (*win_pos >= AP1302_FW_WINDOW_SIZE)
++			*win_pos = 0;
++	}
++
++	return 0;
++}
++
++static int ap1302_load_firmware(struct ap1302_device *ap1302)
++{
++	const struct ap1302_firmware_header *fw_hdr;
++	unsigned int fw_size;
++	const u8 *fw_data;
++	unsigned int win_pos = 0;
++	unsigned int crc;
++	int ret;
++
++	fw_hdr = (const struct ap1302_firmware_header *)ap1302->fw->data;
++	fw_data = (u8 *)&fw_hdr[1];
++	fw_size = ap1302->fw->size - sizeof(*fw_hdr);
++
++	/* Clear the CRC register. */
++	ret = ap1302_write(ap1302, AP1302_SIP_CRC, 0xffff, NULL);
++	if (ret)
++		return ret;
++
++	/*
++	 * Load the PLL initialization settings, set the bootdata stage to 2 to
++	 * apply the basic_init_hp settings, and wait 1ms for the PLL to lock.
++	 */
++	ret = ap1302_write_fw_window(ap1302, fw_data, fw_hdr->pll_init_size,
++				     &win_pos);
++	if (ret)
++		return ret;
++
++	ret = ap1302_write(ap1302, AP1302_BOOTDATA_STAGE, 0x0002, NULL);
++	if (ret)
++		return ret;
++
++	usleep_range(1000, 2000);
++
++	/* Load the rest of the bootdata content and verify the CRC. */
++	ret = ap1302_write_fw_window(ap1302, fw_data + fw_hdr->pll_init_size,
++				     fw_size - fw_hdr->pll_init_size, &win_pos);
++	if (ret)
++		return ret;
++
++	msleep(40);
++
++	ret = ap1302_read(ap1302, AP1302_SIP_CRC, &crc);
++	if (ret)
++		return ret;
++
++	if (crc != fw_hdr->crc) {
++		dev_warn(ap1302->dev,
++			 "CRC mismatch: expected 0x%04x, got 0x%04x\n",
++			 fw_hdr->crc, crc);
++		return -EAGAIN;
++	}
++
++	/*
++	 * Write 0xffff to the bootdata_stage register to indicate to the
++	 * AP1302 that the whole bootdata content has been loaded.
++	 */
++	ret = ap1302_write(ap1302, AP1302_BOOTDATA_STAGE, 0xffff, NULL);
++	if (ret)
++		return ret;
++
++	/* The AP1302 starts outputting frames right after boot, stop it. */
++	ret = ap1302_stall(ap1302, true);
++	if (!ret)
++		ap1302->streaming = false;
++
++	return ret;
++}
++
++static int ap1302_detect_chip(struct ap1302_device *ap1302)
++{
++	unsigned int version;
++	unsigned int revision;
++	int ret;
++
++	ret = ap1302_read(ap1302, AP1302_CHIP_VERSION, &version);
++	if (ret)
++		return ret;
++
++	ret = ap1302_read(ap1302, AP1302_CHIP_REV, &revision);
++	if (ret)
++		return ret;
++
++	if (version != AP1302_CHIP_ID) {
++		dev_err(ap1302->dev,
++			"Invalid chip version, expected 0x%04x, got 0x%04x\n",
++			AP1302_CHIP_ID, version);
++		return -EINVAL;
++	}
++
++	dev_info(ap1302->dev, "AP1302 revision %u.%u.%u detected\n",
++		 (revision & 0xf000) >> 12, (revision & 0x0f00) >> 8,
++		 revision & 0x00ff);
++
++	return 0;
++}
++
++static int ap1302_hw_init(struct ap1302_device *ap1302)
++{
++	unsigned int retries;
++	int ret;
++
++	/* Request and validate the firmware. */
++	ret = ap1302_request_firmware(ap1302);
++	if (ret)
++		return ret;
++
++	/*
++	 * Power the sensors first, as the firmware will access them once it
++	 * gets loaded.
++	 */
++	ret = ap1302_power_on_sensors(ap1302);
++	if (ret < 0)
++		goto error_firmware;
++
++#define MAX_FW_LOAD_RETRIES 3
++	/*
++	 * Load the firmware, retrying in case of CRC errors. The AP1302 is
++	 * reset with a full power cycle between each attempt.
++	 */
++	for (retries = 0; retries < MAX_FW_LOAD_RETRIES; ++retries) {
++		ret = ap1302_power_on(ap1302);
++		if (ret < 0)
++			goto error_power_sensors;
++
++		ret = ap1302_detect_chip(ap1302);
++		if (ret)
++			goto error_power;
++
++		ret = ap1302_load_firmware(ap1302);
++		if (!ret)
++			break;
++
++		if (ret != -EAGAIN)
++			goto error_power;
++
++		ap1302_power_off(ap1302);
++	}
++
++	if (retries == MAX_FW_LOAD_RETRIES) {
++		dev_err(ap1302->dev,
++			"Firmware load retries exceeded, aborting\n");
++		ret = -ETIMEDOUT;
++		goto error_power_sensors;
++	}
++
++	return 0;
++
++error_power:
++	ap1302_power_off(ap1302);
++error_power_sensors:
++	ap1302_power_off_sensors(ap1302);
++error_firmware:
++	release_firmware(ap1302->fw);
++
++	return ret;
++}
++
++static void ap1302_hw_cleanup(struct ap1302_device *ap1302)
++{
++	ap1302_power_off(ap1302);
++	ap1302_power_off_sensors(ap1302);
++}
++
++/* -----------------------------------------------------------------------------
++ * Probe & Remove
++ */
++
++static int ap1302_config_v4l2(struct ap1302_device *ap1302)
++{
++	struct v4l2_subdev *sd;
++	unsigned int i;
++	int ret;
++
++	sd = &ap1302->sd;
++	sd->dev = ap1302->dev;
++	v4l2_i2c_subdev_init(sd, ap1302->client, &ap1302_subdev_ops);
++
++	strscpy(sd->name, DRIVER_NAME, sizeof(sd->name));
++	strlcat(sd->name, ".", sizeof(sd->name));
++	strlcat(sd->name, dev_name(ap1302->dev), sizeof(sd->name));
++	dev_dbg(ap1302->dev, "name %s\n", sd->name);
++
++	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
++	sd->internal_ops = &ap1302_subdev_internal_ops;
++	sd->entity.function = MEDIA_ENT_F_PROC_VIDEO_ISP;
++	sd->entity.ops = &ap1302_media_ops;
++
++	for (i = 0; i < ARRAY_SIZE(ap1302->pads); ++i)
++		ap1302->pads[i].flags = i == AP1302_PAD_SOURCE
++				      ? MEDIA_PAD_FL_SOURCE : MEDIA_PAD_FL_SINK;
++
++	ret = media_entity_pads_init(&sd->entity, ARRAY_SIZE(ap1302->pads),
++				     ap1302->pads);
++	if (ret < 0) {
++		dev_err(ap1302->dev, "media_entity_init failed %d\n", ret);
++		return ret;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(ap1302->formats); ++i)
++		ap1302->formats[i].info = &supported_video_formats[0];
++
++	ret = ap1302_init_cfg(sd, NULL);
++	if (ret < 0)
++		goto error_media;
++
++	ret = ap1302_ctrls_init(ap1302);
++	if (ret < 0)
++		goto error_media;
++
++	ret = v4l2_async_register_subdev(sd);
++	if (ret < 0) {
++		dev_err(ap1302->dev, "v4l2_async_register_subdev failed %d\n", ret);
++		goto error_ctrls;
++	}
++
++	return 0;
++
++error_ctrls:
++	ap1302_ctrls_cleanup(ap1302);
++error_media:
++	media_entity_cleanup(&sd->entity);
++	return ret;
++}
++
++static int ap1302_parse_of(struct ap1302_device *ap1302)
++{
++	struct device_node *sensors;
++	struct device_node *node;
++	struct fwnode_handle *ep;
++	unsigned int num_sensors = 0;
++	const char *model;
++	unsigned int i;
++	int ret;
++
++	/* Clock */
++	ap1302->clock = devm_clk_get(ap1302->dev, NULL);
++	if (IS_ERR(ap1302->clock)) {
++		dev_err(ap1302->dev, "Failed to get clock: %ld\n",
++			PTR_ERR(ap1302->clock));
++		return PTR_ERR(ap1302->clock);
++	}
++
++	/* GPIOs */
++	ap1302->reset_gpio = devm_gpiod_get(ap1302->dev, "reset",
++					    GPIOD_OUT_HIGH);
++	if (IS_ERR(ap1302->reset_gpio)) {
++		dev_err(ap1302->dev, "Can't get reset GPIO: %ld\n",
++			PTR_ERR(ap1302->reset_gpio));
++		return PTR_ERR(ap1302->reset_gpio);
++	}
++
++	ap1302->standby_gpio = devm_gpiod_get_optional(ap1302->dev, "standby",
++						       GPIOD_OUT_LOW);
++	if (IS_ERR(ap1302->standby_gpio)) {
++		dev_err(ap1302->dev, "Can't get standby GPIO: %ld\n",
++			PTR_ERR(ap1302->standby_gpio));
++		return PTR_ERR(ap1302->standby_gpio);
++	}
++
++	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(ap1302->dev),
++					     AP1302_PAD_SOURCE, 0,
++					     FWNODE_GRAPH_ENDPOINT_NEXT);
++	if (!ep) {
++		dev_err(ap1302->dev, "no sink port found");
++		return -EINVAL;
++	}
++
++	ap1302->bus_cfg.bus_type = V4L2_MBUS_CSI2_DPHY;
++
++	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &ap1302->bus_cfg);
++	if (ret < 0) {
++		dev_err(ap1302->dev, "Failed to parse bus configuration\n");
++		return ret;
++	}
++
++	/* Sensors */
++	sensors = of_get_child_by_name(dev_of_node(ap1302->dev), "sensors");
++	if (!sensors) {
++		dev_err(ap1302->dev, "'sensors' child node not found\n");
++		return -EINVAL;
++	}
++
++	ret = of_property_read_string(sensors, "onnn,model", &model);
++	if (ret < 0) {
++		/*
++		 * If no sensor is connected, we can still support operation
++		 * with the test pattern generator.
++		 */
++		ap1302->sensor_info = &ap1302_sensor_info_tpg;
++		ap1302->width_factor = 1;
++		ret = 0;
++		goto done;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(ap1302_sensor_info); ++i) {
++		const struct ap1302_sensor_info *info =
++			&ap1302_sensor_info[i];
++
++		if (!strcmp(info->model, model)) {
++			ap1302->sensor_info = info;
++			break;
++		}
++	}
++
++	if (!ap1302->sensor_info) {
++		dev_warn(ap1302->dev, "Unsupported sensor model %s\n", model);
++		ret = -EINVAL;
++		goto done;
++	}
++
++	for_each_child_of_node(sensors, node) {
++		if (of_node_name_eq(node, "sensor")) {
++			if (!ap1302_sensor_parse_of(ap1302, node))
++				num_sensors++;
++		}
++	}
++
++	if (!num_sensors) {
++		dev_err(ap1302->dev, "No sensor found\n");
++		ret = -EINVAL;
++		goto done;
++	}
++
++	ap1302->width_factor = num_sensors;
++
++done:
++	of_node_put(sensors);
++	return ret;
++}
++
++static void ap1302_cleanup(struct ap1302_device *ap1302)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(ap1302->sensors); ++i) {
++		struct ap1302_sensor *sensor = &ap1302->sensors[i];
++
++		if (!sensor->ap1302)
++			continue;
++
++		ap1302_sensor_cleanup(sensor);
++	}
++
++	v4l2_fwnode_endpoint_free(&ap1302->bus_cfg);
++
++	mutex_destroy(&ap1302->lock);
++}
++
++static int ap1302_probe(struct i2c_client *client, const struct i2c_device_id *id)
++{
++	struct ap1302_device *ap1302;
++	unsigned int i;
++	int ret;
++
++	ap1302 = devm_kzalloc(&client->dev, sizeof(*ap1302), GFP_KERNEL);
++	if (!ap1302)
++		return -ENOMEM;
++
++	ap1302->dev = &client->dev;
++	ap1302->client = client;
++
++	mutex_init(&ap1302->lock);
++
++	ap1302->regmap16 = devm_regmap_init_i2c(client, &ap1302_reg16_config);
++	if (IS_ERR(ap1302->regmap16)) {
++		dev_err(ap1302->dev, "regmap16 init failed: %ld\n",
++			PTR_ERR(ap1302->regmap16));
++		ret = -ENODEV;
++		goto error;
++	}
++
++	ap1302->regmap32 = devm_regmap_init_i2c(client, &ap1302_reg32_config);
++	if (IS_ERR(ap1302->regmap32)) {
++		dev_err(ap1302->dev, "regmap32 init failed: %ld\n",
++			PTR_ERR(ap1302->regmap32));
++		ret = -ENODEV;
++		goto error;
++	}
++
++	ret = ap1302_parse_of(ap1302);
++	if (ret < 0)
++		goto error;
++
++	for (i = 0; i < ARRAY_SIZE(ap1302->sensors); ++i) {
++		struct ap1302_sensor *sensor = &ap1302->sensors[i];
++
++		if (!sensor->ap1302)
++			continue;
++
++		ret = ap1302_sensor_init(sensor, i);
++		if (ret < 0)
++			goto error;
++	}
++
++	ret = ap1302_hw_init(ap1302);
++	if (ret)
++		goto error;
++
++	ap1302_debugfs_init(ap1302);
++
++	ret = ap1302_config_v4l2(ap1302);
++	if (ret)
++		goto error_hw_cleanup;
++
++	return 0;
++
++error_hw_cleanup:
++	ap1302_hw_cleanup(ap1302);
++error:
++	ap1302_cleanup(ap1302);
++	return ret;
++}
++
++static int ap1302_remove(struct i2c_client *client)
++{
++	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct ap1302_device *ap1302 = to_ap1302(sd);
++
++	ap1302_debugfs_cleanup(ap1302);
++
++	ap1302_hw_cleanup(ap1302);
++
++	release_firmware(ap1302->fw);
++
++	v4l2_async_unregister_subdev(sd);
++	media_entity_cleanup(&sd->entity);
++
++	ap1302_ctrls_cleanup(ap1302);
++
++	ap1302_cleanup(ap1302);
++
++	return 0;
++}
++
++static const struct of_device_id ap1302_of_id_table[] = {
++	{ .compatible = "onnn,ap1302" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, ap1302_of_id_table);
++
++static struct i2c_driver ap1302_i2c_driver = {
++	.driver = {
++		.name	= DRIVER_NAME,
++		.of_match_table	= ap1302_of_id_table,
++	},
++	.probe		= ap1302_probe,
++	.remove		= ap1302_remove,
++};
++
++module_i2c_driver(ap1302_i2c_driver);
++
++MODULE_AUTHOR("Florian Rebaudo <frebaudo@witekio.com>");
++MODULE_AUTHOR("Laurent Pinchart <laurent.pinchart@ideasonboard.com>");
++MODULE_AUTHOR("Anil Kumar M <anil.mamidala@xilinx.com>");
++
++MODULE_DESCRIPTION("ON Semiconductor AP1302 ISP driver");
++MODULE_LICENSE("GPL");
+-- 
+2.7.4
 
-> When Android is using this for a production environment I think we
-> should be a bit harder and explicitly note that this is not a good idea
-> in sw_sync_debugfs_open().
->
-> > I think that should keep everyone happy, because if your Android has a
-> > fence stuck for more than 10s it's busted.
->
-> Well when they are using userptrs they are busted as soon as they have a
-> fence stuck for much less time.
-
-Hm right I forgot that you can't guarantee that it will complete, ever :-)
-
-Otoh I'm not sure the unconditional taint is very nice to the android
-folks, they'll probably just patch it out and then it looses it
-usefulness. taint on timeout otoh makes sure that normally it's not
-hit, but anytime you die in userptr or shrinker there will be a taint
-before anything else (since 10s is much shorter than the "stuck in
-non-interruptible sleep" warning).
--Daniel
-
-> Regards,
-> Christian.
->
-> >
-> > Note that with hwc1 the indefinite fence was actually the model, when
-> > you did a page_flip you got an out-fence back which will only be
-> > signalled when the new buffer _stopped_ being used for scanout. Which
-> > generally depends upon the next page-flip happening (except for manual
-> > mode display, which only scan out once, if you ignore that the
-> > kernel's supposed to restore the display after suspend/resume, which
-> > android did). hwc2 fixed this, so a 10s timeout-to-taint should be
-> > fine with Android people.
-> >
-> > Also since we do have the igt/sw_sync.c test intel-gfx-ci should be
-> > able to check that code even.
-> > -Daniel
-> >
-> >> Regards,
-> >> Christian.
-> >>
-> >>> Also for testing we use vgem now, which enforces a timeout.
-> >>> -Daniel
-> >>>
-> >>>> ---
-> >>>>    drivers/dma-buf/Kconfig      |  13 --
-> >>>>    drivers/dma-buf/Makefile     |   1 -
-> >>>>    drivers/dma-buf/sw_sync.c    | 412 ------------------------------=
------
-> >>>>    drivers/dma-buf/sync_debug.c | 190 ----------------
-> >>>>    drivers/dma-buf/sync_debug.h |  72 ------
-> >>>>    5 files changed, 688 deletions(-)
-> >>>>    delete mode 100644 drivers/dma-buf/sw_sync.c
-> >>>>    delete mode 100644 drivers/dma-buf/sync_debug.c
-> >>>>    delete mode 100644 drivers/dma-buf/sync_debug.h
-> >>>>
-> >>>> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-> >>>> index 9561e3d2d428..26c53f45616a 100644
-> >>>> --- a/drivers/dma-buf/Kconfig
-> >>>> +++ b/drivers/dma-buf/Kconfig
-> >>>> @@ -17,19 +17,6 @@ config SYNC_FILE
-> >>>>         Files fds, to the DRM driver for example. More details at
-> >>>>         Documentation/driver-api/sync_file.rst.
-> >>>>
-> >>>> -config SW_SYNC
-> >>>> -    bool "Sync File Validation Framework"
-> >>>> -    default n
-> >>>> -    depends on SYNC_FILE
-> >>>> -    depends on DEBUG_FS
-> >>>> -    help
-> >>>> -      A sync object driver that uses a 32bit counter to coordinate
-> >>>> -      synchronization.  Useful when there is no hardware primitive =
-backing
-> >>>> -      the synchronization.
-> >>>> -
-> >>>> -      WARNING: improper use of this can result in deadlocking kerne=
-l
-> >>>> -      drivers from userspace. Intended for test and debug only.
-> >>>> -
-> >>>>    config UDMABUF
-> >>>>       bool "userspace dmabuf misc driver"
-> >>>>       default n
-> >>>> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-> >>>> index 1ef021273a06..fa3af0953f87 100644
-> >>>> --- a/drivers/dma-buf/Makefile
-> >>>> +++ b/drivers/dma-buf/Makefile
-> >>>> @@ -4,7 +4,6 @@ obj-y :=3D dma-buf.o dma-fence.o dma-fence-array.o d=
-ma-fence-chain.o \
-> >>>>    obj-$(CONFIG_DMABUF_HEAPS) +=3D dma-heap.o
-> >>>>    obj-$(CONFIG_DMABUF_HEAPS) +=3D heaps/
-> >>>>    obj-$(CONFIG_SYNC_FILE)            +=3D sync_file.o
-> >>>> -obj-$(CONFIG_SW_SYNC)               +=3D sw_sync.o sync_debug.o
-> >>>>    obj-$(CONFIG_UDMABUF)              +=3D udmabuf.o
-> >>>>    obj-$(CONFIG_DMABUF_SYSFS_STATS) +=3D dma-buf-sysfs-stats.o
-> >>>>
-> >>>> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-> >>>> deleted file mode 100644
-> >>>> index 348b3a9170fa..000000000000
-> >>>> --- a/drivers/dma-buf/sw_sync.c
-> >>>> +++ /dev/null
-> >>>> @@ -1,412 +0,0 @@
-> >>>> -// SPDX-License-Identifier: GPL-2.0-only
-> >>>> -/*
-> >>>> - * Sync File validation framework
-> >>>> - *
-> >>>> - * Copyright (C) 2012 Google, Inc.
-> >>>> - */
-> >>>> -
-> >>>> -#include <linux/file.h>
-> >>>> -#include <linux/fs.h>
-> >>>> -#include <linux/uaccess.h>
-> >>>> -#include <linux/slab.h>
-> >>>> -#include <linux/sync_file.h>
-> >>>> -
-> >>>> -#include "sync_debug.h"
-> >>>> -
-> >>>> -#define CREATE_TRACE_POINTS
-> >>>> -#include "sync_trace.h"
-> >>>> -
-> >>>> -/*
-> >>>> - * SW SYNC validation framework
-> >>>> - *
-> >>>> - * A sync object driver that uses a 32bit counter to coordinate
-> >>>> - * synchronization.  Useful when there is no hardware primitive bac=
-king
-> >>>> - * the synchronization.
-> >>>> - *
-> >>>> - * To start the framework just open:
-> >>>> - *
-> >>>> - * <debugfs>/sync/sw_sync
-> >>>> - *
-> >>>> - * That will create a sync timeline, all fences created under this =
-timeline
-> >>>> - * file descriptor will belong to the this timeline.
-> >>>> - *
-> >>>> - * The 'sw_sync' file can be opened many times as to create differe=
-nt
-> >>>> - * timelines.
-> >>>> - *
-> >>>> - * Fences can be created with SW_SYNC_IOC_CREATE_FENCE ioctl with s=
-truct
-> >>>> - * sw_sync_create_fence_data as parameter.
-> >>>> - *
-> >>>> - * To increment the timeline counter, SW_SYNC_IOC_INC ioctl should =
-be used
-> >>>> - * with the increment as u32. This will update the last signaled va=
-lue
-> >>>> - * from the timeline and signal any fence that has a seqno smaller =
-or equal
-> >>>> - * to it.
-> >>>> - *
-> >>>> - * struct sw_sync_create_fence_data
-> >>>> - * @value:  the seqno to initialise the fence with
-> >>>> - * @name:   the name of the new sync point
-> >>>> - * @fence:  return the fd of the new sync_file with the created fen=
-ce
-> >>>> - */
-> >>>> -struct sw_sync_create_fence_data {
-> >>>> -    __u32   value;
-> >>>> -    char    name[32];
-> >>>> -    __s32   fence; /* fd of new fence */
-> >>>> -};
-> >>>> -
-> >>>> -#define SW_SYNC_IOC_MAGIC   'W'
-> >>>> -
-> >>>> -#define SW_SYNC_IOC_CREATE_FENCE    _IOWR(SW_SYNC_IOC_MAGIC, 0,\
-> >>>> -            struct sw_sync_create_fence_data)
-> >>>> -
-> >>>> -#define SW_SYNC_IOC_INC                     _IOW(SW_SYNC_IOC_MAGIC,=
- 1, __u32)
-> >>>> -
-> >>>> -static const struct dma_fence_ops timeline_fence_ops;
-> >>>> -
-> >>>> -static inline struct sync_pt *dma_fence_to_sync_pt(struct dma_fence=
- *fence)
-> >>>> -{
-> >>>> -    if (fence->ops !=3D &timeline_fence_ops)
-> >>>> -            return NULL;
-> >>>> -    return container_of(fence, struct sync_pt, base);
-> >>>> -}
-> >>>> -
-> >>>> -/**
-> >>>> - * sync_timeline_create() - creates a sync object
-> >>>> - * @name:   sync_timeline name
-> >>>> - *
-> >>>> - * Creates a new sync_timeline. Returns the sync_timeline object or=
- NULL in
-> >>>> - * case of error.
-> >>>> - */
-> >>>> -static struct sync_timeline *sync_timeline_create(const char *name)
-> >>>> -{
-> >>>> -    struct sync_timeline *obj;
-> >>>> -
-> >>>> -    obj =3D kzalloc(sizeof(*obj), GFP_KERNEL);
-> >>>> -    if (!obj)
-> >>>> -            return NULL;
-> >>>> -
-> >>>> -    kref_init(&obj->kref);
-> >>>> -    obj->context =3D dma_fence_context_alloc(1);
-> >>>> -    strlcpy(obj->name, name, sizeof(obj->name));
-> >>>> -
-> >>>> -    obj->pt_tree =3D RB_ROOT;
-> >>>> -    INIT_LIST_HEAD(&obj->pt_list);
-> >>>> -    spin_lock_init(&obj->lock);
-> >>>> -
-> >>>> -    sync_timeline_debug_add(obj);
-> >>>> -
-> >>>> -    return obj;
-> >>>> -}
-> >>>> -
-> >>>> -static void sync_timeline_free(struct kref *kref)
-> >>>> -{
-> >>>> -    struct sync_timeline *obj =3D
-> >>>> -            container_of(kref, struct sync_timeline, kref);
-> >>>> -
-> >>>> -    sync_timeline_debug_remove(obj);
-> >>>> -
-> >>>> -    kfree(obj);
-> >>>> -}
-> >>>> -
-> >>>> -static void sync_timeline_get(struct sync_timeline *obj)
-> >>>> -{
-> >>>> -    kref_get(&obj->kref);
-> >>>> -}
-> >>>> -
-> >>>> -static void sync_timeline_put(struct sync_timeline *obj)
-> >>>> -{
-> >>>> -    kref_put(&obj->kref, sync_timeline_free);
-> >>>> -}
-> >>>> -
-> >>>> -static const char *timeline_fence_get_driver_name(struct dma_fence =
-*fence)
-> >>>> -{
-> >>>> -    return "sw_sync";
-> >>>> -}
-> >>>> -
-> >>>> -static const char *timeline_fence_get_timeline_name(struct dma_fenc=
-e *fence)
-> >>>> -{
-> >>>> -    struct sync_timeline *parent =3D dma_fence_parent(fence);
-> >>>> -
-> >>>> -    return parent->name;
-> >>>> -}
-> >>>> -
-> >>>> -static void timeline_fence_release(struct dma_fence *fence)
-> >>>> -{
-> >>>> -    struct sync_pt *pt =3D dma_fence_to_sync_pt(fence);
-> >>>> -    struct sync_timeline *parent =3D dma_fence_parent(fence);
-> >>>> -    unsigned long flags;
-> >>>> -
-> >>>> -    spin_lock_irqsave(fence->lock, flags);
-> >>>> -    if (!list_empty(&pt->link)) {
-> >>>> -            list_del(&pt->link);
-> >>>> -            rb_erase(&pt->node, &parent->pt_tree);
-> >>>> -    }
-> >>>> -    spin_unlock_irqrestore(fence->lock, flags);
-> >>>> -
-> >>>> -    sync_timeline_put(parent);
-> >>>> -    dma_fence_free(fence);
-> >>>> -}
-> >>>> -
-> >>>> -static bool timeline_fence_signaled(struct dma_fence *fence)
-> >>>> -{
-> >>>> -    struct sync_timeline *parent =3D dma_fence_parent(fence);
-> >>>> -
-> >>>> -    return !__dma_fence_is_later(fence->seqno, parent->value, fence=
-->ops);
-> >>>> -}
-> >>>> -
-> >>>> -static bool timeline_fence_enable_signaling(struct dma_fence *fence=
-)
-> >>>> -{
-> >>>> -    return true;
-> >>>> -}
-> >>>> -
-> >>>> -static void timeline_fence_value_str(struct dma_fence *fence,
-> >>>> -                                char *str, int size)
-> >>>> -{
-> >>>> -    snprintf(str, size, "%lld", fence->seqno);
-> >>>> -}
-> >>>> -
-> >>>> -static void timeline_fence_timeline_value_str(struct dma_fence *fen=
-ce,
-> >>>> -                                         char *str, int size)
-> >>>> -{
-> >>>> -    struct sync_timeline *parent =3D dma_fence_parent(fence);
-> >>>> -
-> >>>> -    snprintf(str, size, "%d", parent->value);
-> >>>> -}
-> >>>> -
-> >>>> -static const struct dma_fence_ops timeline_fence_ops =3D {
-> >>>> -    .get_driver_name =3D timeline_fence_get_driver_name,
-> >>>> -    .get_timeline_name =3D timeline_fence_get_timeline_name,
-> >>>> -    .enable_signaling =3D timeline_fence_enable_signaling,
-> >>>> -    .signaled =3D timeline_fence_signaled,
-> >>>> -    .release =3D timeline_fence_release,
-> >>>> -    .fence_value_str =3D timeline_fence_value_str,
-> >>>> -    .timeline_value_str =3D timeline_fence_timeline_value_str,
-> >>>> -};
-> >>>> -
-> >>>> -/**
-> >>>> - * sync_timeline_signal() - signal a status change on a sync_timeli=
-ne
-> >>>> - * @obj:    sync_timeline to signal
-> >>>> - * @inc:    num to increment on timeline->value
-> >>>> - *
-> >>>> - * A sync implementation should call this any time one of it's fenc=
-es
-> >>>> - * has signaled or has an error condition.
-> >>>> - */
-> >>>> -static void sync_timeline_signal(struct sync_timeline *obj, unsigne=
-d int inc)
-> >>>> -{
-> >>>> -    struct sync_pt *pt, *next;
-> >>>> -
-> >>>> -    trace_sync_timeline(obj);
-> >>>> -
-> >>>> -    spin_lock_irq(&obj->lock);
-> >>>> -
-> >>>> -    obj->value +=3D inc;
-> >>>> -
-> >>>> -    list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
-> >>>> -            if (!timeline_fence_signaled(&pt->base))
-> >>>> -                    break;
-> >>>> -
-> >>>> -            list_del_init(&pt->link);
-> >>>> -            rb_erase(&pt->node, &obj->pt_tree);
-> >>>> -
-> >>>> -            /*
-> >>>> -             * A signal callback may release the last reference to =
-this
-> >>>> -             * fence, causing it to be freed. That operation has to=
- be
-> >>>> -             * last to avoid a use after free inside this loop, and=
- must
-> >>>> -             * be after we remove the fence from the timeline in or=
-der to
-> >>>> -             * prevent deadlocking on timeline->lock inside
-> >>>> -             * timeline_fence_release().
-> >>>> -             */
-> >>>> -            dma_fence_signal_locked(&pt->base);
-> >>>> -    }
-> >>>> -
-> >>>> -    spin_unlock_irq(&obj->lock);
-> >>>> -}
-> >>>> -
-> >>>> -/**
-> >>>> - * sync_pt_create() - creates a sync pt
-> >>>> - * @obj:    parent sync_timeline
-> >>>> - * @value:  value of the fence
-> >>>> - *
-> >>>> - * Creates a new sync_pt (fence) as a child of @parent.  @size byte=
-s will be
-> >>>> - * allocated allowing for implementation specific data to be kept a=
-fter
-> >>>> - * the generic sync_timeline struct. Returns the sync_pt object or
-> >>>> - * NULL in case of error.
-> >>>> - */
-> >>>> -static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
-> >>>> -                                  unsigned int value)
-> >>>> -{
-> >>>> -    struct sync_pt *pt;
-> >>>> -
-> >>>> -    pt =3D kzalloc(sizeof(*pt), GFP_KERNEL);
-> >>>> -    if (!pt)
-> >>>> -            return NULL;
-> >>>> -
-> >>>> -    sync_timeline_get(obj);
-> >>>> -    dma_fence_init(&pt->base, &timeline_fence_ops, &obj->lock,
-> >>>> -                   obj->context, value);
-> >>>> -    INIT_LIST_HEAD(&pt->link);
-> >>>> -
-> >>>> -    spin_lock_irq(&obj->lock);
-> >>>> -    if (!dma_fence_is_signaled_locked(&pt->base)) {
-> >>>> -            struct rb_node **p =3D &obj->pt_tree.rb_node;
-> >>>> -            struct rb_node *parent =3D NULL;
-> >>>> -
-> >>>> -            while (*p) {
-> >>>> -                    struct sync_pt *other;
-> >>>> -                    int cmp;
-> >>>> -
-> >>>> -                    parent =3D *p;
-> >>>> -                    other =3D rb_entry(parent, typeof(*pt), node);
-> >>>> -                    cmp =3D value - other->base.seqno;
-> >>>> -                    if (cmp > 0) {
-> >>>> -                            p =3D &parent->rb_right;
-> >>>> -                    } else if (cmp < 0) {
-> >>>> -                            p =3D &parent->rb_left;
-> >>>> -                    } else {
-> >>>> -                            if (dma_fence_get_rcu(&other->base)) {
-> >>>> -                                    sync_timeline_put(obj);
-> >>>> -                                    kfree(pt);
-> >>>> -                                    pt =3D other;
-> >>>> -                                    goto unlock;
-> >>>> -                            }
-> >>>> -                            p =3D &parent->rb_left;
-> >>>> -                    }
-> >>>> -            }
-> >>>> -            rb_link_node(&pt->node, parent, p);
-> >>>> -            rb_insert_color(&pt->node, &obj->pt_tree);
-> >>>> -
-> >>>> -            parent =3D rb_next(&pt->node);
-> >>>> -            list_add_tail(&pt->link,
-> >>>> -                          parent ? &rb_entry(parent, typeof(*pt), n=
-ode)->link : &obj->pt_list);
-> >>>> -    }
-> >>>> -unlock:
-> >>>> -    spin_unlock_irq(&obj->lock);
-> >>>> -
-> >>>> -    return pt;
-> >>>> -}
-> >>>> -
-> >>>> -/*
-> >>>> - * *WARNING*
-> >>>> - *
-> >>>> - * improper use of this can result in deadlocking kernel drivers fr=
-om userspace.
-> >>>> - */
-> >>>> -
-> >>>> -/* opening sw_sync create a new sync obj */
-> >>>> -static int sw_sync_debugfs_open(struct inode *inode, struct file *f=
-ile)
-> >>>> -{
-> >>>> -    struct sync_timeline *obj;
-> >>>> -    char task_comm[TASK_COMM_LEN];
-> >>>> -
-> >>>> -    get_task_comm(task_comm, current);
-> >>>> -
-> >>>> -    obj =3D sync_timeline_create(task_comm);
-> >>>> -    if (!obj)
-> >>>> -            return -ENOMEM;
-> >>>> -
-> >>>> -    file->private_data =3D obj;
-> >>>> -
-> >>>> -    return 0;
-> >>>> -}
-> >>>> -
-> >>>> -static int sw_sync_debugfs_release(struct inode *inode, struct file=
- *file)
-> >>>> -{
-> >>>> -    struct sync_timeline *obj =3D file->private_data;
-> >>>> -    struct sync_pt *pt, *next;
-> >>>> -
-> >>>> -    spin_lock_irq(&obj->lock);
-> >>>> -
-> >>>> -    list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
-> >>>> -            dma_fence_set_error(&pt->base, -ENOENT);
-> >>>> -            dma_fence_signal_locked(&pt->base);
-> >>>> -    }
-> >>>> -
-> >>>> -    spin_unlock_irq(&obj->lock);
-> >>>> -
-> >>>> -    sync_timeline_put(obj);
-> >>>> -    return 0;
-> >>>> -}
-> >>>> -
-> >>>> -static long sw_sync_ioctl_create_fence(struct sync_timeline *obj,
-> >>>> -                                   unsigned long arg)
-> >>>> -{
-> >>>> -    int fd =3D get_unused_fd_flags(O_CLOEXEC);
-> >>>> -    int err;
-> >>>> -    struct sync_pt *pt;
-> >>>> -    struct sync_file *sync_file;
-> >>>> -    struct sw_sync_create_fence_data data;
-> >>>> -
-> >>>> -    if (fd < 0)
-> >>>> -            return fd;
-> >>>> -
-> >>>> -    if (copy_from_user(&data, (void __user *)arg, sizeof(data))) {
-> >>>> -            err =3D -EFAULT;
-> >>>> -            goto err;
-> >>>> -    }
-> >>>> -
-> >>>> -    pt =3D sync_pt_create(obj, data.value);
-> >>>> -    if (!pt) {
-> >>>> -            err =3D -ENOMEM;
-> >>>> -            goto err;
-> >>>> -    }
-> >>>> -
-> >>>> -    sync_file =3D sync_file_create(&pt->base);
-> >>>> -    dma_fence_put(&pt->base);
-> >>>> -    if (!sync_file) {
-> >>>> -            err =3D -ENOMEM;
-> >>>> -            goto err;
-> >>>> -    }
-> >>>> -
-> >>>> -    data.fence =3D fd;
-> >>>> -    if (copy_to_user((void __user *)arg, &data, sizeof(data))) {
-> >>>> -            fput(sync_file->file);
-> >>>> -            err =3D -EFAULT;
-> >>>> -            goto err;
-> >>>> -    }
-> >>>> -
-> >>>> -    fd_install(fd, sync_file->file);
-> >>>> -
-> >>>> -    return 0;
-> >>>> -
-> >>>> -err:
-> >>>> -    put_unused_fd(fd);
-> >>>> -    return err;
-> >>>> -}
-> >>>> -
-> >>>> -static long sw_sync_ioctl_inc(struct sync_timeline *obj, unsigned l=
-ong arg)
-> >>>> -{
-> >>>> -    u32 value;
-> >>>> -
-> >>>> -    if (copy_from_user(&value, (void __user *)arg, sizeof(value)))
-> >>>> -            return -EFAULT;
-> >>>> -
-> >>>> -    while (value > INT_MAX)  {
-> >>>> -            sync_timeline_signal(obj, INT_MAX);
-> >>>> -            value -=3D INT_MAX;
-> >>>> -    }
-> >>>> -
-> >>>> -    sync_timeline_signal(obj, value);
-> >>>> -
-> >>>> -    return 0;
-> >>>> -}
-> >>>> -
-> >>>> -static long sw_sync_ioctl(struct file *file, unsigned int cmd,
-> >>>> -                      unsigned long arg)
-> >>>> -{
-> >>>> -    struct sync_timeline *obj =3D file->private_data;
-> >>>> -
-> >>>> -    switch (cmd) {
-> >>>> -    case SW_SYNC_IOC_CREATE_FENCE:
-> >>>> -            return sw_sync_ioctl_create_fence(obj, arg);
-> >>>> -
-> >>>> -    case SW_SYNC_IOC_INC:
-> >>>> -            return sw_sync_ioctl_inc(obj, arg);
-> >>>> -
-> >>>> -    default:
-> >>>> -            return -ENOTTY;
-> >>>> -    }
-> >>>> -}
-> >>>> -
-> >>>> -const struct file_operations sw_sync_debugfs_fops =3D {
-> >>>> -    .open           =3D sw_sync_debugfs_open,
-> >>>> -    .release        =3D sw_sync_debugfs_release,
-> >>>> -    .unlocked_ioctl =3D sw_sync_ioctl,
-> >>>> -    .compat_ioctl   =3D compat_ptr_ioctl,
-> >>>> -};
-> >>>> diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_deb=
-ug.c
-> >>>> deleted file mode 100644
-> >>>> index 101394f16930..000000000000
-> >>>> --- a/drivers/dma-buf/sync_debug.c
-> >>>> +++ /dev/null
-> >>>> @@ -1,190 +0,0 @@
-> >>>> -// SPDX-License-Identifier: GPL-2.0-only
-> >>>> -/*
-> >>>> - * Sync File validation framework and debug information
-> >>>> - *
-> >>>> - * Copyright (C) 2012 Google, Inc.
-> >>>> - */
-> >>>> -
-> >>>> -#include <linux/debugfs.h>
-> >>>> -#include "sync_debug.h"
-> >>>> -
-> >>>> -static struct dentry *dbgfs;
-> >>>> -
-> >>>> -static LIST_HEAD(sync_timeline_list_head);
-> >>>> -static DEFINE_SPINLOCK(sync_timeline_list_lock);
-> >>>> -static LIST_HEAD(sync_file_list_head);
-> >>>> -static DEFINE_SPINLOCK(sync_file_list_lock);
-> >>>> -
-> >>>> -void sync_timeline_debug_add(struct sync_timeline *obj)
-> >>>> -{
-> >>>> -    unsigned long flags;
-> >>>> -
-> >>>> -    spin_lock_irqsave(&sync_timeline_list_lock, flags);
-> >>>> -    list_add_tail(&obj->sync_timeline_list, &sync_timeline_list_hea=
-d);
-> >>>> -    spin_unlock_irqrestore(&sync_timeline_list_lock, flags);
-> >>>> -}
-> >>>> -
-> >>>> -void sync_timeline_debug_remove(struct sync_timeline *obj)
-> >>>> -{
-> >>>> -    unsigned long flags;
-> >>>> -
-> >>>> -    spin_lock_irqsave(&sync_timeline_list_lock, flags);
-> >>>> -    list_del(&obj->sync_timeline_list);
-> >>>> -    spin_unlock_irqrestore(&sync_timeline_list_lock, flags);
-> >>>> -}
-> >>>> -
-> >>>> -void sync_file_debug_add(struct sync_file *sync_file)
-> >>>> -{
-> >>>> -    unsigned long flags;
-> >>>> -
-> >>>> -    spin_lock_irqsave(&sync_file_list_lock, flags);
-> >>>> -    list_add_tail(&sync_file->sync_file_list, &sync_file_list_head)=
-;
-> >>>> -    spin_unlock_irqrestore(&sync_file_list_lock, flags);
-> >>>> -}
-> >>>> -
-> >>>> -void sync_file_debug_remove(struct sync_file *sync_file)
-> >>>> -{
-> >>>> -    unsigned long flags;
-> >>>> -
-> >>>> -    spin_lock_irqsave(&sync_file_list_lock, flags);
-> >>>> -    list_del(&sync_file->sync_file_list);
-> >>>> -    spin_unlock_irqrestore(&sync_file_list_lock, flags);
-> >>>> -}
-> >>>> -
-> >>>> -static const char *sync_status_str(int status)
-> >>>> -{
-> >>>> -    if (status < 0)
-> >>>> -            return "error";
-> >>>> -
-> >>>> -    if (status > 0)
-> >>>> -            return "signaled";
-> >>>> -
-> >>>> -    return "active";
-> >>>> -}
-> >>>> -
-> >>>> -static void sync_print_fence(struct seq_file *s,
-> >>>> -                         struct dma_fence *fence, bool show)
-> >>>> -{
-> >>>> -    struct sync_timeline *parent =3D dma_fence_parent(fence);
-> >>>> -    int status;
-> >>>> -
-> >>>> -    status =3D dma_fence_get_status_locked(fence);
-> >>>> -
-> >>>> -    seq_printf(s, "  %s%sfence %s",
-> >>>> -               show ? parent->name : "",
-> >>>> -               show ? "_" : "",
-> >>>> -               sync_status_str(status));
-> >>>> -
-> >>>> -    if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags)) {
-> >>>> -            struct timespec64 ts64 =3D
-> >>>> -                    ktime_to_timespec64(fence->timestamp);
-> >>>> -
-> >>>> -            seq_printf(s, "@%lld.%09ld", (s64)ts64.tv_sec, ts64.tv_=
-nsec);
-> >>>> -    }
-> >>>> -
-> >>>> -    if (fence->ops->timeline_value_str &&
-> >>>> -            fence->ops->fence_value_str) {
-> >>>> -            char value[64];
-> >>>> -            bool success;
-> >>>> -
-> >>>> -            fence->ops->fence_value_str(fence, value, sizeof(value)=
-);
-> >>>> -            success =3D strlen(value);
-> >>>> -
-> >>>> -            if (success) {
-> >>>> -                    seq_printf(s, ": %s", value);
-> >>>> -
-> >>>> -                    fence->ops->timeline_value_str(fence, value,
-> >>>> -                                                   sizeof(value));
-> >>>> -
-> >>>> -                    if (strlen(value))
-> >>>> -                            seq_printf(s, " / %s", value);
-> >>>> -            }
-> >>>> -    }
-> >>>> -
-> >>>> -    seq_putc(s, '\n');
-> >>>> -}
-> >>>> -
-> >>>> -static void sync_print_obj(struct seq_file *s, struct sync_timeline=
- *obj)
-> >>>> -{
-> >>>> -    struct list_head *pos;
-> >>>> -
-> >>>> -    seq_printf(s, "%s: %d\n", obj->name, obj->value);
-> >>>> -
-> >>>> -    spin_lock_irq(&obj->lock);
-> >>>> -    list_for_each(pos, &obj->pt_list) {
-> >>>> -            struct sync_pt *pt =3D container_of(pos, struct sync_pt=
-, link);
-> >>>> -            sync_print_fence(s, &pt->base, false);
-> >>>> -    }
-> >>>> -    spin_unlock_irq(&obj->lock);
-> >>>> -}
-> >>>> -
-> >>>> -static void sync_print_sync_file(struct seq_file *s,
-> >>>> -                              struct sync_file *sync_file)
-> >>>> -{
-> >>>> -    char buf[128];
-> >>>> -    int i;
-> >>>> -
-> >>>> -    seq_printf(s, "[%p] %s: %s\n", sync_file,
-> >>>> -               sync_file_get_name(sync_file, buf, sizeof(buf)),
-> >>>> -               sync_status_str(dma_fence_get_status(sync_file->fenc=
-e)));
-> >>>> -
-> >>>> -    if (dma_fence_is_array(sync_file->fence)) {
-> >>>> -            struct dma_fence_array *array =3D to_dma_fence_array(sy=
-nc_file->fence);
-> >>>> -
-> >>>> -            for (i =3D 0; i < array->num_fences; ++i)
-> >>>> -                    sync_print_fence(s, array->fences[i], true);
-> >>>> -    } else {
-> >>>> -            sync_print_fence(s, sync_file->fence, true);
-> >>>> -    }
-> >>>> -}
-> >>>> -
-> >>>> -static int sync_info_debugfs_show(struct seq_file *s, void *unused)
-> >>>> -{
-> >>>> -    struct list_head *pos;
-> >>>> -
-> >>>> -    seq_puts(s, "objs:\n--------------\n");
-> >>>> -
-> >>>> -    spin_lock_irq(&sync_timeline_list_lock);
-> >>>> -    list_for_each(pos, &sync_timeline_list_head) {
-> >>>> -            struct sync_timeline *obj =3D
-> >>>> -                    container_of(pos, struct sync_timeline,
-> >>>> -                                 sync_timeline_list);
-> >>>> -
-> >>>> -            sync_print_obj(s, obj);
-> >>>> -            seq_putc(s, '\n');
-> >>>> -    }
-> >>>> -    spin_unlock_irq(&sync_timeline_list_lock);
-> >>>> -
-> >>>> -    seq_puts(s, "fences:\n--------------\n");
-> >>>> -
-> >>>> -    spin_lock_irq(&sync_file_list_lock);
-> >>>> -    list_for_each(pos, &sync_file_list_head) {
-> >>>> -            struct sync_file *sync_file =3D
-> >>>> -                    container_of(pos, struct sync_file, sync_file_l=
-ist);
-> >>>> -
-> >>>> -            sync_print_sync_file(s, sync_file);
-> >>>> -            seq_putc(s, '\n');
-> >>>> -    }
-> >>>> -    spin_unlock_irq(&sync_file_list_lock);
-> >>>> -    return 0;
-> >>>> -}
-> >>>> -
-> >>>> -DEFINE_SHOW_ATTRIBUTE(sync_info_debugfs);
-> >>>> -
-> >>>> -static __init int sync_debugfs_init(void)
-> >>>> -{
-> >>>> -    dbgfs =3D debugfs_create_dir("sync", NULL);
-> >>>> -
-> >>>> -    /*
-> >>>> -     * The debugfs files won't ever get removed and thus, there is
-> >>>> -     * no need to protect it against removal races. The use of
-> >>>> -     * debugfs_create_file_unsafe() is actually safe here.
-> >>>> -     */
-> >>>> -    debugfs_create_file_unsafe("info", 0444, dbgfs, NULL,
-> >>>> -                               &sync_info_debugfs_fops);
-> >>>> -    debugfs_create_file_unsafe("sw_sync", 0644, dbgfs, NULL,
-> >>>> -                               &sw_sync_debugfs_fops);
-> >>>> -
-> >>>> -    return 0;
-> >>>> -}
-> >>>> -late_initcall(sync_debugfs_init);
-> >>>> diff --git a/drivers/dma-buf/sync_debug.h b/drivers/dma-buf/sync_deb=
-ug.h
-> >>>> deleted file mode 100644
-> >>>> index 6176e52ba2d7..000000000000
-> >>>> --- a/drivers/dma-buf/sync_debug.h
-> >>>> +++ /dev/null
-> >>>> @@ -1,72 +0,0 @@
-> >>>> -/*
-> >>>> - * Sync File validation framework and debug infomation
-> >>>> - *
-> >>>> - * Copyright (C) 2012 Google, Inc.
-> >>>> - *
-> >>>> - * This program is distributed in the hope that it will be useful,
-> >>>> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> >>>> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> >>>> - * GNU General Public License for more details.
-> >>>> - *
-> >>>> - */
-> >>>> -
-> >>>> -#ifndef _LINUX_SYNC_H
-> >>>> -#define _LINUX_SYNC_H
-> >>>> -
-> >>>> -#include <linux/list.h>
-> >>>> -#include <linux/rbtree.h>
-> >>>> -#include <linux/spinlock.h>
-> >>>> -#include <linux/dma-fence.h>
-> >>>> -
-> >>>> -#include <linux/sync_file.h>
-> >>>> -#include <uapi/linux/sync_file.h>
-> >>>> -
-> >>>> -/**
-> >>>> - * struct sync_timeline - sync object
-> >>>> - * @kref:           reference count on fence.
-> >>>> - * @name:           name of the sync_timeline. Useful for debugging
-> >>>> - * @lock:           lock protecting @pt_list and @value
-> >>>> - * @pt_tree:                rbtree of active (unsignaled/errored) s=
-ync_pts
-> >>>> - * @pt_list:                list of active (unsignaled/errored) syn=
-c_pts
-> >>>> - * @sync_timeline_list:     membership in global sync_timeline_list
-> >>>> - */
-> >>>> -struct sync_timeline {
-> >>>> -    struct kref             kref;
-> >>>> -    char                    name[32];
-> >>>> -
-> >>>> -    /* protected by lock */
-> >>>> -    u64                     context;
-> >>>> -    int                     value;
-> >>>> -
-> >>>> -    struct rb_root          pt_tree;
-> >>>> -    struct list_head        pt_list;
-> >>>> -    spinlock_t              lock;
-> >>>> -
-> >>>> -    struct list_head        sync_timeline_list;
-> >>>> -};
-> >>>> -
-> >>>> -static inline struct sync_timeline *dma_fence_parent(struct dma_fen=
-ce *fence)
-> >>>> -{
-> >>>> -    return container_of(fence->lock, struct sync_timeline, lock);
-> >>>> -}
-> >>>> -
-> >>>> -/**
-> >>>> - * struct sync_pt - sync_pt object
-> >>>> - * @base: base fence object
-> >>>> - * @link: link on the sync timeline's list
-> >>>> - * @node: node in the sync timeline's tree
-> >>>> - */
-> >>>> -struct sync_pt {
-> >>>> -    struct dma_fence base;
-> >>>> -    struct list_head link;
-> >>>> -    struct rb_node node;
-> >>>> -};
-> >>>> -
-> >>>> -extern const struct file_operations sw_sync_debugfs_fops;
-> >>>> -
-> >>>> -void sync_timeline_debug_add(struct sync_timeline *obj);
-> >>>> -void sync_timeline_debug_remove(struct sync_timeline *obj);
-> >>>> -void sync_file_debug_add(struct sync_file *fence);
-> >>>> -void sync_file_debug_remove(struct sync_file *fence);
-> >>>> -
-> >>>> -#endif /* _LINUX_SYNC_H */
-> >>>> --
-> >>>> 2.25.1
-> >>>>
-> >
->
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
