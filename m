@@ -2,1003 +2,214 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBB5F3DA331
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 14:31:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7F663DA33A
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 14:36:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236952AbhG2Mbo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 08:31:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60696 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235692AbhG2Mbn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 08:31:43 -0400
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE316C061765
-        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 05:31:40 -0700 (PDT)
-Received: by mail-ot1-x32d.google.com with SMTP id z6-20020a9d24860000b02904d14e47202cso5708021ota.4
-        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 05:31:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Kjd2WJ5/vwtAR5EF+yYhE5KpkDdl2tyxxCEI14OcFo4=;
-        b=Zi/bOaiIJHbniXArTRUNWs/o/No7tm5K4P9QlUKOExj8sbqBxGLN9Uta8kR0f/KbCe
-         lZ1hmrvaUM3Y00PgrgL3WC8xGCUUNlfaLjywXa/baBUM0tv8aMpOdMrFBfsKNbnua3Fw
-         5AsYCkNMmK461lvRXyS3JsUcAMpJZqvLLXUtE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Kjd2WJ5/vwtAR5EF+yYhE5KpkDdl2tyxxCEI14OcFo4=;
-        b=Wvi3sDqtDbesYXV2eazxqez+B/cPWiJXFdvXZQwfvQ7uVyriJnSfE7qug7Lcqxxe9p
-         AdZI3yJCI9w7fwTFdjJ9NRaI68TeFXguwOUwpjz7JNmuc2jLJNPkWgaDjrCDm0aeTrM9
-         /E5gE7JU+u3hhvbWeD+M10TmlbZaeRWfAAtGWPPK80zJPy1K/AdJ098tMMcqxjJIPGRj
-         MLIBSKo0ZOFTsaSE2Q2SlGTSbC9Kp6Q9OgE5kiQTjh3AwKTqrvLHGOsPLm4qytegX5Z4
-         MdTQMOnN43aUnE/Z0IkhVUtUmCRT/Lyt6/KeXYjugjx63DnBn9A79A90rVB2Jd7dJKAu
-         51+A==
-X-Gm-Message-State: AOAM5331A5DVBC2ngJZOKRRXLC/w2G72p1uF0qriSnw/ZOW4WkDkOgUJ
-        X+BirUtxpfikuNFUIxHaYuedihnD9zDhHxcee4HXhlHYEUo=
-X-Google-Smtp-Source: ABdhPJwJnYHqrf0jJ9fQQJ32c7P2QVQphg1F+TVYAqCOXl+6V5+8fOHahVTIg4VNad0UFtnn4Z8cGbD1sbII4ngabVw=
-X-Received: by 2002:a9d:27a4:: with SMTP id c33mr3346635otb.281.1627561899939;
- Thu, 29 Jul 2021 05:31:39 -0700 (PDT)
+        id S231938AbhG2MgX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 08:36:23 -0400
+Received: from mail-eopbgr60071.outbound.protection.outlook.com ([40.107.6.71]:8199
+        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234325AbhG2MgT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Jul 2021 08:36:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lrxHU9wdVxux4+iVWGDkwX89hcq3zSpntgtxC03rdwKn4Id8jN1nWis+W53fH1tgg2zeEyRPQf82fE33Rn+6SmWOnNmAWL6CAMQPsT2CdwKYl1h0iLP8As33WpL1HBEVZEWH0CQ72AM7QbOfuAHSk+2ORcH+w3bq9psghZJtESyCbsNIyJuRGoo2BGqc9NfkMSQ5mDZibH/WjeamzsWue7c52Auj9V5K/tb4p33okLE1jEKwBSJuENky0gW0gam0RdobeFnOQ4zhwR1DTRSTZKkKrzuNxrktAUqKfxJcuaU0paxqLz4dwj4L2l3ZDzhRlSH+ckeHeJN2yS8CI0TTlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lFFQk8TJH97sG7U03kuYnvDvy4kI/+wktvApdyU2KRg=;
+ b=myN2dI+Y02rR/qxxsucunJlJdZsO6PCcYjJmX+2GvSCJlQV9UZY4L/CI39H2EiYGs7f6vUUUBp7/u4WrQIYFnMXYqi/LGllBTlbcAJlfkxSWuJNEghs7nNFUKyTrc3Vu2Kv05jT6JR11WV2aeDWWeDV6CkGuF1aPN5Yh/nHji2lJTeQK3r3BftmWJI56fic6rziWDy6Jb75KsRs6bII5f7LKkMZkk21qd0MhOgQKL199iddrcAzHRxLjLQ1ys67fQlAWXUSdC7hJmw//Tppe6ZXrphUl7aIBwQaZlpa11EOXDgNQvweim1QfF79zha423e2/uHNfl6nmc29PwQ75fw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=trinamix.de; dmarc=pass action=none header.from=trinamix.de;
+ dkim=pass header.d=trinamix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=trinamix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lFFQk8TJH97sG7U03kuYnvDvy4kI/+wktvApdyU2KRg=;
+ b=eqenl1+Mf2akz3yAp0rxge1D/LVVOGjWo9BkvTm0PmNpT8NjBSnyteY+tMnnPbVJnN7So/iKs37lFJGDhsoa4QbaDHR5x9f+tMypttgX+RWMteFJhMiUTC0dt6stjeDdHVKQAtVUQNKGZIn4vdHa+RdFZWJoPuPiVh3tEN5wKiU=
+Received: from AM0PR04MB5825.eurprd04.prod.outlook.com (2603:10a6:208:127::19)
+ by AM0PR0402MB3555.eurprd04.prod.outlook.com (2603:10a6:208:1f::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.29; Thu, 29 Jul
+ 2021 12:36:15 +0000
+Received: from AM0PR04MB5825.eurprd04.prod.outlook.com
+ ([fe80::fd86:de23:57cd:70b2]) by AM0PR04MB5825.eurprd04.prod.outlook.com
+ ([fe80::fd86:de23:57cd:70b2%4]) with mapi id 15.20.4373.021; Thu, 29 Jul 2021
+ 12:36:15 +0000
+From:   Jens Korinth <jens.korinth@trinamix.de>
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: media: platform/rockchip/rkisp1 - v4l-compliance reports errors
+Thread-Topic: media: platform/rockchip/rkisp1 - v4l-compliance reports errors
+Thread-Index: AdeEc30cRBeDjNy2Rjakth/la7V3DA==
+Date:   Thu, 29 Jul 2021 12:36:15 +0000
+Message-ID: <AM0PR04MB5825DA3C650C569F69B99EF898EB9@AM0PR04MB5825.eurprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+authentication-results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none
+ header.from=trinamix.de;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 413e1e9d-7f67-4a74-1689-08d9528d74cf
+x-ms-traffictypediagnostic: AM0PR0402MB3555:
+x-microsoft-antispam-prvs: <AM0PR0402MB355533A7625E67444F1FEC4298EB9@AM0PR0402MB3555.eurprd04.prod.outlook.com>
+x-mg:   BASF_O365_RELAYED
+x-mg-sentby-basf: True
+x-mg-attachment: YES
+x-report-basf-outbound: True
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: LvMqujpZ5nYJCfGq/ueiZLMu69pz6DW/bHMiS/7gM8lDGqmShTZ6ysyXblK90YTa5n+iTqOGNTjPS/4tz0CaYXWdSocdCETndVkhO8UAt2GrJQoCfjp38kXxB6JqJyTw78Bo7tJfMs8whnWSptP4PnKBLB0zyZ7vj86MgRT7ydIiBAaRQMoVZuOiq09dLdraPC4jJblYDdcRK212UqJOEv0BFH+jGBgjzF+dNhdR9nA7HS+zTtdx8enA53YFd+82rv5rIbnuv5lkI9YfvKX0TTwqRzGrFWfqFclsNeA6662/WmsC+e8aSxRyaSt0lKrTX2N2nHzlzC+zWpcWZVL0JG97O2wpK1eGARcjQEAvgbOXMGzLCoMmhF/Pf/X6qYE5x9FireIrWMWwOl9QwRchtTbT/jMmVxhESQAPcxOg2Npetc2MuCE0K0gutEAuKtsg/e23yWf6tSCAbJBm69tvLNpmD6HlazBz8TPHM8pZiz7pJrYFSdANCkFjjT11JrB2BdQ2ghtTHJzMhuBqjnjC3VBgBmsYixCSajXsMU2eW7c20T74BzTOeyHiU2ILuu0yj3cMT/6sG/idNRY33C5F6Hm4uuNNr74ZgLKvFARnDtS8HvZJenVRdZdwTu1sAdVa6nyeM9jQaS8AlA5JaD8vd6r+u817g36FjY9TLMWzMA/vFJMIWMW772aNE3N9bvzcr+1rAeQELKxBq7zyFD2AAg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB5825.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(376002)(366004)(39860400002)(346002)(55016002)(4744005)(6506007)(86362001)(8676002)(26005)(9686003)(8936002)(478600001)(52536014)(44832011)(83380400001)(66946007)(66616009)(76116006)(66446008)(64756008)(66556008)(5660300002)(6916009)(316002)(66476007)(71200400001)(7696005)(99936003)(38070700005)(186003)(122000001)(2906002)(38100700002)(33656002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?GgX/Oz8hWyFq/QjdyLmjXSm2EuvIY1AEcUXmUjbcXXQA9NzRn+1f8n7rCUMB?=
+ =?us-ascii?Q?AJYnR+TaiKfo0Jy1QkB13p45JlXqQk3rHMUarhsze2AoKe6PA5ofOYq/qIVp?=
+ =?us-ascii?Q?/dWLa8vexPjchCGUmvNeRcvtLuIGqunXbNXXDpm39U5EE1qrKmgJPUklzAQt?=
+ =?us-ascii?Q?6Rdicv2j+bmqGyAy/w6rCb39Ns0QMw+lJmruCV2PmNIL6fxmpMzf3/x2mE6w?=
+ =?us-ascii?Q?XEXBjNCcIlHPcf3RdHC+WAEuDbNK5D2jM26WUZGLb97KGD1Bf+qXzSS73e3H?=
+ =?us-ascii?Q?V540SAZyGhqNLek2ppBwLrrFP0lMgrKRtKyXl2mhJD90nszNvUi+U+JJx0CR?=
+ =?us-ascii?Q?IRo2BhPaZwRkqOIGPZjVXFxlJlRx5hHBJO5teB5eeH+TBdnXHwCI3i48YQPv?=
+ =?us-ascii?Q?oBD8gvNYgedLI6ekdFXAejLXYrZ4i7lobpGNyjf6bgKez2qIN7CRXJV+l3rI?=
+ =?us-ascii?Q?mPRHWlcjXtCmJPLKLJDs9LXC7Ptl3k+r/xKwIpfcYOfe4spuhQiewnCwpuzS?=
+ =?us-ascii?Q?O3aaj+Anru+EKp6+BketB+JwNhwDXHeX/NAVPNwUfLaJgu1Ck1sb7ynPfR4p?=
+ =?us-ascii?Q?ZzdrX0yGWwq8oTSxZ9yDziOu5KMwbxCWAIyE3BQh+nuy7pAtJe54yTdnQTtO?=
+ =?us-ascii?Q?B6m+b03Kypv5dRHRFW2mSHsTIumFaK3GrszHWwh3pM7uZYkbX8aFWj+jLM/0?=
+ =?us-ascii?Q?5kA/1mgx7YeE0dYgaeQRJ4jIhUemrVRNdpJFJMBRbJEs5HbZdOmZMBzJpwuo?=
+ =?us-ascii?Q?+/AIcBzNYWpaAJWqTDFAliNZTd758+Hl/OXsSIWh52J/mjOapQoLavFpMY2e?=
+ =?us-ascii?Q?u+4TVc7cbSv5nThbJGFLeUYGAtOYbL0aZCjUVHhaQ4sY8Nw50X0Kl9zf2DBa?=
+ =?us-ascii?Q?m76GePAFg5Q5KC167G01RvKz7kLPxUs725CW/JHjrBzlIGiJVXEZypSTj/LU?=
+ =?us-ascii?Q?HlUuVSSUVuTwd8wv62rFrfJ8jPj9zpNWK2R0//FWscsb5EpyXghMyTW9HxTl?=
+ =?us-ascii?Q?alDvYOEuyE2n0elMLKIW93WbAuLhnDELpzoj3ShvVDVaSidkz7nf4RT0ZEAD?=
+ =?us-ascii?Q?2dlYxuJfwXLqoFuXRAEfCufy4e12DScLUmc9OJ2legMU2vacG9gsQ7xdsqW1?=
+ =?us-ascii?Q?xpWZqT9wlrELiI8yzW1x4hctZNq+ZwpskqUN82QdgXrjFxFoly1sCBqNoGQm?=
+ =?us-ascii?Q?FlOccaPCpKJEzjqW9IXKO9kLJV6tpTg0PKvNmftA8gTMjO3uimrmhhCCVCQ8?=
+ =?us-ascii?Q?7epLzdnFQ+zCqfGFX+0aN5t5hRTi/7ka/kY34dSoGicibcPf9XnM1HMXVNwk?=
+ =?us-ascii?Q?aFc=3D?=
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/mixed;
+        boundary="_002_AM0PR04MB5825DA3C650C569F69B99EF898EB9AM0PR04MB5825eurp_"
 MIME-Version: 1.0
-References: <20210729070330.41443-1-christian.koenig@amd.com>
- <20210729070330.41443-3-christian.koenig@amd.com> <YQJXi2JNZdH5DaR2@phenom.ffwll.local>
- <800b0278-922e-e7d8-450d-59721bb68585@gmail.com> <CAKMK7uHzbXY3vsGtwMaqzJNuXPffgOz8xuWDfgDPqsW7ijMnJw@mail.gmail.com>
- <14321470-0c5a-c8df-44b7-0873b6a44166@gmail.com> <CAKMK7uH5nJxrN30t_GkxgH2eKXYJO3uN8pod20R0bJeEoSsNiQ@mail.gmail.com>
- <0acb7094-ee1f-cc52-e077-795f7119b3e1@gmail.com>
-In-Reply-To: <0acb7094-ee1f-cc52-e077-795f7119b3e1@gmail.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Thu, 29 Jul 2021 14:31:28 +0200
-Message-ID: <CAKMK7uGQJpgPN8PJPzz27b=sUy41gnkzhWPXvwsB0ym3Xi_F7Q@mail.gmail.com>
-Subject: Re: [PATCH 3/3] dma-buf: nuke SW_SYNC debugfs files
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: trinamix.de
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB5825.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 413e1e9d-7f67-4a74-1689-08d9528d74cf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2021 12:36:15.1861
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: ecaa386b-c8df-4ce0-ad01-740cbdb5ba55
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 869JM7+iqmWGjJ3ZEsNFFaMWSo4UPWGYfhhrDWOA1Qhrph46K6y99+iwJAZSFAtoFqyBl/qW3f6oBET5cWI5Zw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR0402MB3555
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 29, 2021 at 2:25 PM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 29.07.21 um 13:59 schrieb Daniel Vetter:
-> > On Thu, Jul 29, 2021 at 12:21 PM Christian K=C3=B6nig
-> > <ckoenig.leichtzumerken@gmail.com> wrote:
-> >> Am 29.07.21 um 11:03 schrieb Daniel Vetter:
-> >>> On Thu, Jul 29, 2021 at 10:38 AM Christian K=C3=B6nig
-> >>> <ckoenig.leichtzumerken@gmail.com> wrote:
-> >>>> Am 29.07.21 um 09:23 schrieb Daniel Vetter:
-> >>>>> On Thu, Jul 29, 2021 at 09:03:30AM +0200, Christian K=C3=B6nig wrot=
-e:
-> >>>>>> As we now knew controlling dma_fence synchronization from userspac=
-e is
-> >>>>>> extremely dangerous and can not only deadlock drivers but triviall=
-y also the
-> >>>>>> whole kernel memory management.
-> >>>>>>
-> >>>>>> Entirely remove this option. We now have in kernel unit tests to e=
-xercise the
-> >>>>>> dma_fence framework and it's containers.
-> >>>>>>
-> >>>>>> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >>>>> There's also igts for this, and Android heavily uses this. So I'm n=
-ot sure
-> >>>>> we can just nuke it.
-> >>>> I feared that you would say that.
-> >>>>
-> >>>>> I guess what we could do is maybe just taint the kernel if it's eve=
-r used?
-> >>>> What should we use then? TAINT_SOFTLOCKUP or TAINT_CRAP? :)
-> >>> I think the cleanest solution would be to install a 10s timer on each
-> >>> sw fence, and TAINT_SOFTLOOKUP if it fails to signal. That's similar
-> >>> to what we do with vgem, except vgem then just steps in with a
-> >>> dma_fence_signal() instead of tainting the kernel.
-> >> Well vgem is only for testing as far as I know.
-> > I think CrOS is using it to shovel buffers around between process, as
-> > a convenient allocator for sw rendering dma-buf. But they don't use
-> > the dma-fence part afaik.
-> >
-> > We can't taint in vgem fences though because our CI reboots on any
-> > taint (or lockdep splat) and a few others, so that would make it
-> > useless for testing. Maybe we should have the fence part of vgem
-> > behind a separate Kconfig?
->
-> And then making it depend on CONFIG_BROKEN? :)
->
-> But more serious, that it probably makes sense.
->
-> Can you take care of that? I'm not that familiar with the vgem code base.
+--_002_AM0PR04MB5825DA3C650C569F69B99EF898EB9AM0PR04MB5825eurp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Iirc CONFIG_BROKEN is stuff you can't even enable at all. So not an
-option. Just a separate Kconfig for the fence ioctls.
+Hi *,
 
-> >> When Android is using this for a production environment I think we
-> >> should be a bit harder and explicitly note that this is not a good ide=
-a
-> >> in sw_sync_debugfs_open().
-> >>
-> >>> I think that should keep everyone happy, because if your Android has =
-a
-> >>> fence stuck for more than 10s it's busted.
-> >> Well when they are using userptrs they are busted as soon as they have=
- a
-> >> fence stuck for much less time.
-> > Hm right I forgot that you can't guarantee that it will complete, ever =
-:-)
-> >
-> > Otoh I'm not sure the unconditional taint is very nice to the android
-> > folks, they'll probably just patch it out and then it looses it
-> > usefulness. taint on timeout otoh makes sure that normally it's not
-> > hit, but anytime you die in userptr or shrinker there will be a taint
-> > before anything else (since 10s is much shorter than the "stuck in
-> > non-interruptible sleep" warning).
->
-> And then you don't hit the timeout during test but only in production,
-> e.g. not good enough either.
->
-> And yes I know that this is not really nice. But since this depends on
-> debugfs and Android usually disables debugfs AFAIK, they probably have
-> that heavily patched already anyway.
->
-> I just want to make sure that nobody else has the brilliant idea to
-> enable this and build an userspace stack on top of a fundamentally
-> broken approach.
->
-> Alternative is to add a dependency to CONFIG_BROKEN.
+I am working on a camera system on Rockchip RK3399 board (Firefly ROC-RK339=
+9-PC-Plus). Tried to use the rkisp1 driver, but was unable to connect to th=
+e rkisp1_mainpath output node, because format negotiation failed; so I ran =
+v4l-compliance next and found that it reports several errors (see attached =
+report).
 
-Yeah CONFIG_BROKEN isn't a thing either that is useful. It's for code
-that doesn't even compile (or soon will stop compiling) because build
-testers never set that. And I think you have to patch the source to
-even be able to get at it. So about equivalent to removal, except less
-honest :-)
+Upon closer inspection I noticed in the VIDIOC_ENUM_FMT handler in drivers/=
+media/platform/rockchip/rkisp1/rkisp1-dev.c:1169+ that
 
-Tbh I'd just leave things as-is. Occasionally we have mildly terrible
-stuff in-tree ...
--Daniel
+1) the "reserved" member is not zeroed,
+2) the userspace pointer to the v4l2_fmtdesc f is not checked via access_ok=
+, and
+3) it isn't copied from/to userspace using copy_from_user/copy_to_user.
 
-> Christian.
->
-> > -Daniel
-> >
-> >> Regards,
-> >> Christian.
-> >>
-> >>> Note that with hwc1 the indefinite fence was actually the model, when
-> >>> you did a page_flip you got an out-fence back which will only be
-> >>> signalled when the new buffer _stopped_ being used for scanout. Which
-> >>> generally depends upon the next page-flip happening (except for manua=
-l
-> >>> mode display, which only scan out once, if you ignore that the
-> >>> kernel's supposed to restore the display after suspend/resume, which
-> >>> android did). hwc2 fixed this, so a 10s timeout-to-taint should be
-> >>> fine with Android people.
-> >>>
-> >>> Also since we do have the igt/sw_sync.c test intel-gfx-ci should be
-> >>> able to check that code even.
-> >>> -Daniel
-> >>>
-> >>>> Regards,
-> >>>> Christian.
-> >>>>
-> >>>>> Also for testing we use vgem now, which enforces a timeout.
-> >>>>> -Daniel
-> >>>>>
-> >>>>>> ---
-> >>>>>>     drivers/dma-buf/Kconfig      |  13 --
-> >>>>>>     drivers/dma-buf/Makefile     |   1 -
-> >>>>>>     drivers/dma-buf/sw_sync.c    | 412 ---------------------------=
---------
-> >>>>>>     drivers/dma-buf/sync_debug.c | 190 ----------------
-> >>>>>>     drivers/dma-buf/sync_debug.h |  72 ------
-> >>>>>>     5 files changed, 688 deletions(-)
-> >>>>>>     delete mode 100644 drivers/dma-buf/sw_sync.c
-> >>>>>>     delete mode 100644 drivers/dma-buf/sync_debug.c
-> >>>>>>     delete mode 100644 drivers/dma-buf/sync_debug.h
-> >>>>>>
-> >>>>>> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-> >>>>>> index 9561e3d2d428..26c53f45616a 100644
-> >>>>>> --- a/drivers/dma-buf/Kconfig
-> >>>>>> +++ b/drivers/dma-buf/Kconfig
-> >>>>>> @@ -17,19 +17,6 @@ config SYNC_FILE
-> >>>>>>          Files fds, to the DRM driver for example. More details at
-> >>>>>>          Documentation/driver-api/sync_file.rst.
-> >>>>>>
-> >>>>>> -config SW_SYNC
-> >>>>>> -    bool "Sync File Validation Framework"
-> >>>>>> -    default n
-> >>>>>> -    depends on SYNC_FILE
-> >>>>>> -    depends on DEBUG_FS
-> >>>>>> -    help
-> >>>>>> -      A sync object driver that uses a 32bit counter to coordinat=
-e
-> >>>>>> -      synchronization.  Useful when there is no hardware primitiv=
-e backing
-> >>>>>> -      the synchronization.
-> >>>>>> -
-> >>>>>> -      WARNING: improper use of this can result in deadlocking ker=
-nel
-> >>>>>> -      drivers from userspace. Intended for test and debug only.
-> >>>>>> -
-> >>>>>>     config UDMABUF
-> >>>>>>        bool "userspace dmabuf misc driver"
-> >>>>>>        default n
-> >>>>>> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-> >>>>>> index 1ef021273a06..fa3af0953f87 100644
-> >>>>>> --- a/drivers/dma-buf/Makefile
-> >>>>>> +++ b/drivers/dma-buf/Makefile
-> >>>>>> @@ -4,7 +4,6 @@ obj-y :=3D dma-buf.o dma-fence.o dma-fence-array.o=
- dma-fence-chain.o \
-> >>>>>>     obj-$(CONFIG_DMABUF_HEAPS) +=3D dma-heap.o
-> >>>>>>     obj-$(CONFIG_DMABUF_HEAPS) +=3D heaps/
-> >>>>>>     obj-$(CONFIG_SYNC_FILE)            +=3D sync_file.o
-> >>>>>> -obj-$(CONFIG_SW_SYNC)               +=3D sw_sync.o sync_debug.o
-> >>>>>>     obj-$(CONFIG_UDMABUF)              +=3D udmabuf.o
-> >>>>>>     obj-$(CONFIG_DMABUF_SYSFS_STATS) +=3D dma-buf-sysfs-stats.o
-> >>>>>>
-> >>>>>> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-> >>>>>> deleted file mode 100644
-> >>>>>> index 348b3a9170fa..000000000000
-> >>>>>> --- a/drivers/dma-buf/sw_sync.c
-> >>>>>> +++ /dev/null
-> >>>>>> @@ -1,412 +0,0 @@
-> >>>>>> -// SPDX-License-Identifier: GPL-2.0-only
-> >>>>>> -/*
-> >>>>>> - * Sync File validation framework
-> >>>>>> - *
-> >>>>>> - * Copyright (C) 2012 Google, Inc.
-> >>>>>> - */
-> >>>>>> -
-> >>>>>> -#include <linux/file.h>
-> >>>>>> -#include <linux/fs.h>
-> >>>>>> -#include <linux/uaccess.h>
-> >>>>>> -#include <linux/slab.h>
-> >>>>>> -#include <linux/sync_file.h>
-> >>>>>> -
-> >>>>>> -#include "sync_debug.h"
-> >>>>>> -
-> >>>>>> -#define CREATE_TRACE_POINTS
-> >>>>>> -#include "sync_trace.h"
-> >>>>>> -
-> >>>>>> -/*
-> >>>>>> - * SW SYNC validation framework
-> >>>>>> - *
-> >>>>>> - * A sync object driver that uses a 32bit counter to coordinate
-> >>>>>> - * synchronization.  Useful when there is no hardware primitive b=
-acking
-> >>>>>> - * the synchronization.
-> >>>>>> - *
-> >>>>>> - * To start the framework just open:
-> >>>>>> - *
-> >>>>>> - * <debugfs>/sync/sw_sync
-> >>>>>> - *
-> >>>>>> - * That will create a sync timeline, all fences created under thi=
-s timeline
-> >>>>>> - * file descriptor will belong to the this timeline.
-> >>>>>> - *
-> >>>>>> - * The 'sw_sync' file can be opened many times as to create diffe=
-rent
-> >>>>>> - * timelines.
-> >>>>>> - *
-> >>>>>> - * Fences can be created with SW_SYNC_IOC_CREATE_FENCE ioctl with=
- struct
-> >>>>>> - * sw_sync_create_fence_data as parameter.
-> >>>>>> - *
-> >>>>>> - * To increment the timeline counter, SW_SYNC_IOC_INC ioctl shoul=
-d be used
-> >>>>>> - * with the increment as u32. This will update the last signaled =
-value
-> >>>>>> - * from the timeline and signal any fence that has a seqno smalle=
-r or equal
-> >>>>>> - * to it.
-> >>>>>> - *
-> >>>>>> - * struct sw_sync_create_fence_data
-> >>>>>> - * @value:  the seqno to initialise the fence with
-> >>>>>> - * @name:   the name of the new sync point
-> >>>>>> - * @fence:  return the fd of the new sync_file with the created f=
-ence
-> >>>>>> - */
-> >>>>>> -struct sw_sync_create_fence_data {
-> >>>>>> -    __u32   value;
-> >>>>>> -    char    name[32];
-> >>>>>> -    __s32   fence; /* fd of new fence */
-> >>>>>> -};
-> >>>>>> -
-> >>>>>> -#define SW_SYNC_IOC_MAGIC   'W'
-> >>>>>> -
-> >>>>>> -#define SW_SYNC_IOC_CREATE_FENCE    _IOWR(SW_SYNC_IOC_MAGIC, 0,\
-> >>>>>> -            struct sw_sync_create_fence_data)
-> >>>>>> -
-> >>>>>> -#define SW_SYNC_IOC_INC                     _IOW(SW_SYNC_IOC_MAGI=
-C, 1, __u32)
-> >>>>>> -
-> >>>>>> -static const struct dma_fence_ops timeline_fence_ops;
-> >>>>>> -
-> >>>>>> -static inline struct sync_pt *dma_fence_to_sync_pt(struct dma_fen=
-ce *fence)
-> >>>>>> -{
-> >>>>>> -    if (fence->ops !=3D &timeline_fence_ops)
-> >>>>>> -            return NULL;
-> >>>>>> -    return container_of(fence, struct sync_pt, base);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -/**
-> >>>>>> - * sync_timeline_create() - creates a sync object
-> >>>>>> - * @name:   sync_timeline name
-> >>>>>> - *
-> >>>>>> - * Creates a new sync_timeline. Returns the sync_timeline object =
-or NULL in
-> >>>>>> - * case of error.
-> >>>>>> - */
-> >>>>>> -static struct sync_timeline *sync_timeline_create(const char *nam=
-e)
-> >>>>>> -{
-> >>>>>> -    struct sync_timeline *obj;
-> >>>>>> -
-> >>>>>> -    obj =3D kzalloc(sizeof(*obj), GFP_KERNEL);
-> >>>>>> -    if (!obj)
-> >>>>>> -            return NULL;
-> >>>>>> -
-> >>>>>> -    kref_init(&obj->kref);
-> >>>>>> -    obj->context =3D dma_fence_context_alloc(1);
-> >>>>>> -    strlcpy(obj->name, name, sizeof(obj->name));
-> >>>>>> -
-> >>>>>> -    obj->pt_tree =3D RB_ROOT;
-> >>>>>> -    INIT_LIST_HEAD(&obj->pt_list);
-> >>>>>> -    spin_lock_init(&obj->lock);
-> >>>>>> -
-> >>>>>> -    sync_timeline_debug_add(obj);
-> >>>>>> -
-> >>>>>> -    return obj;
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static void sync_timeline_free(struct kref *kref)
-> >>>>>> -{
-> >>>>>> -    struct sync_timeline *obj =3D
-> >>>>>> -            container_of(kref, struct sync_timeline, kref);
-> >>>>>> -
-> >>>>>> -    sync_timeline_debug_remove(obj);
-> >>>>>> -
-> >>>>>> -    kfree(obj);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static void sync_timeline_get(struct sync_timeline *obj)
-> >>>>>> -{
-> >>>>>> -    kref_get(&obj->kref);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static void sync_timeline_put(struct sync_timeline *obj)
-> >>>>>> -{
-> >>>>>> -    kref_put(&obj->kref, sync_timeline_free);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static const char *timeline_fence_get_driver_name(struct dma_fenc=
-e *fence)
-> >>>>>> -{
-> >>>>>> -    return "sw_sync";
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static const char *timeline_fence_get_timeline_name(struct dma_fe=
-nce *fence)
-> >>>>>> -{
-> >>>>>> -    struct sync_timeline *parent =3D dma_fence_parent(fence);
-> >>>>>> -
-> >>>>>> -    return parent->name;
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static void timeline_fence_release(struct dma_fence *fence)
-> >>>>>> -{
-> >>>>>> -    struct sync_pt *pt =3D dma_fence_to_sync_pt(fence);
-> >>>>>> -    struct sync_timeline *parent =3D dma_fence_parent(fence);
-> >>>>>> -    unsigned long flags;
-> >>>>>> -
-> >>>>>> -    spin_lock_irqsave(fence->lock, flags);
-> >>>>>> -    if (!list_empty(&pt->link)) {
-> >>>>>> -            list_del(&pt->link);
-> >>>>>> -            rb_erase(&pt->node, &parent->pt_tree);
-> >>>>>> -    }
-> >>>>>> -    spin_unlock_irqrestore(fence->lock, flags);
-> >>>>>> -
-> >>>>>> -    sync_timeline_put(parent);
-> >>>>>> -    dma_fence_free(fence);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static bool timeline_fence_signaled(struct dma_fence *fence)
-> >>>>>> -{
-> >>>>>> -    struct sync_timeline *parent =3D dma_fence_parent(fence);
-> >>>>>> -
-> >>>>>> -    return !__dma_fence_is_later(fence->seqno, parent->value, fen=
-ce->ops);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static bool timeline_fence_enable_signaling(struct dma_fence *fen=
-ce)
-> >>>>>> -{
-> >>>>>> -    return true;
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static void timeline_fence_value_str(struct dma_fence *fence,
-> >>>>>> -                                char *str, int size)
-> >>>>>> -{
-> >>>>>> -    snprintf(str, size, "%lld", fence->seqno);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static void timeline_fence_timeline_value_str(struct dma_fence *f=
-ence,
-> >>>>>> -                                         char *str, int size)
-> >>>>>> -{
-> >>>>>> -    struct sync_timeline *parent =3D dma_fence_parent(fence);
-> >>>>>> -
-> >>>>>> -    snprintf(str, size, "%d", parent->value);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static const struct dma_fence_ops timeline_fence_ops =3D {
-> >>>>>> -    .get_driver_name =3D timeline_fence_get_driver_name,
-> >>>>>> -    .get_timeline_name =3D timeline_fence_get_timeline_name,
-> >>>>>> -    .enable_signaling =3D timeline_fence_enable_signaling,
-> >>>>>> -    .signaled =3D timeline_fence_signaled,
-> >>>>>> -    .release =3D timeline_fence_release,
-> >>>>>> -    .fence_value_str =3D timeline_fence_value_str,
-> >>>>>> -    .timeline_value_str =3D timeline_fence_timeline_value_str,
-> >>>>>> -};
-> >>>>>> -
-> >>>>>> -/**
-> >>>>>> - * sync_timeline_signal() - signal a status change on a sync_time=
-line
-> >>>>>> - * @obj:    sync_timeline to signal
-> >>>>>> - * @inc:    num to increment on timeline->value
-> >>>>>> - *
-> >>>>>> - * A sync implementation should call this any time one of it's fe=
-nces
-> >>>>>> - * has signaled or has an error condition.
-> >>>>>> - */
-> >>>>>> -static void sync_timeline_signal(struct sync_timeline *obj, unsig=
-ned int inc)
-> >>>>>> -{
-> >>>>>> -    struct sync_pt *pt, *next;
-> >>>>>> -
-> >>>>>> -    trace_sync_timeline(obj);
-> >>>>>> -
-> >>>>>> -    spin_lock_irq(&obj->lock);
-> >>>>>> -
-> >>>>>> -    obj->value +=3D inc;
-> >>>>>> -
-> >>>>>> -    list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
-> >>>>>> -            if (!timeline_fence_signaled(&pt->base))
-> >>>>>> -                    break;
-> >>>>>> -
-> >>>>>> -            list_del_init(&pt->link);
-> >>>>>> -            rb_erase(&pt->node, &obj->pt_tree);
-> >>>>>> -
-> >>>>>> -            /*
-> >>>>>> -             * A signal callback may release the last reference t=
-o this
-> >>>>>> -             * fence, causing it to be freed. That operation has =
-to be
-> >>>>>> -             * last to avoid a use after free inside this loop, a=
-nd must
-> >>>>>> -             * be after we remove the fence from the timeline in =
-order to
-> >>>>>> -             * prevent deadlocking on timeline->lock inside
-> >>>>>> -             * timeline_fence_release().
-> >>>>>> -             */
-> >>>>>> -            dma_fence_signal_locked(&pt->base);
-> >>>>>> -    }
-> >>>>>> -
-> >>>>>> -    spin_unlock_irq(&obj->lock);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -/**
-> >>>>>> - * sync_pt_create() - creates a sync pt
-> >>>>>> - * @obj:    parent sync_timeline
-> >>>>>> - * @value:  value of the fence
-> >>>>>> - *
-> >>>>>> - * Creates a new sync_pt (fence) as a child of @parent.  @size by=
-tes will be
-> >>>>>> - * allocated allowing for implementation specific data to be kept=
- after
-> >>>>>> - * the generic sync_timeline struct. Returns the sync_pt object o=
-r
-> >>>>>> - * NULL in case of error.
-> >>>>>> - */
-> >>>>>> -static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
-> >>>>>> -                                  unsigned int value)
-> >>>>>> -{
-> >>>>>> -    struct sync_pt *pt;
-> >>>>>> -
-> >>>>>> -    pt =3D kzalloc(sizeof(*pt), GFP_KERNEL);
-> >>>>>> -    if (!pt)
-> >>>>>> -            return NULL;
-> >>>>>> -
-> >>>>>> -    sync_timeline_get(obj);
-> >>>>>> -    dma_fence_init(&pt->base, &timeline_fence_ops, &obj->lock,
-> >>>>>> -                   obj->context, value);
-> >>>>>> -    INIT_LIST_HEAD(&pt->link);
-> >>>>>> -
-> >>>>>> -    spin_lock_irq(&obj->lock);
-> >>>>>> -    if (!dma_fence_is_signaled_locked(&pt->base)) {
-> >>>>>> -            struct rb_node **p =3D &obj->pt_tree.rb_node;
-> >>>>>> -            struct rb_node *parent =3D NULL;
-> >>>>>> -
-> >>>>>> -            while (*p) {
-> >>>>>> -                    struct sync_pt *other;
-> >>>>>> -                    int cmp;
-> >>>>>> -
-> >>>>>> -                    parent =3D *p;
-> >>>>>> -                    other =3D rb_entry(parent, typeof(*pt), node)=
-;
-> >>>>>> -                    cmp =3D value - other->base.seqno;
-> >>>>>> -                    if (cmp > 0) {
-> >>>>>> -                            p =3D &parent->rb_right;
-> >>>>>> -                    } else if (cmp < 0) {
-> >>>>>> -                            p =3D &parent->rb_left;
-> >>>>>> -                    } else {
-> >>>>>> -                            if (dma_fence_get_rcu(&other->base)) =
-{
-> >>>>>> -                                    sync_timeline_put(obj);
-> >>>>>> -                                    kfree(pt);
-> >>>>>> -                                    pt =3D other;
-> >>>>>> -                                    goto unlock;
-> >>>>>> -                            }
-> >>>>>> -                            p =3D &parent->rb_left;
-> >>>>>> -                    }
-> >>>>>> -            }
-> >>>>>> -            rb_link_node(&pt->node, parent, p);
-> >>>>>> -            rb_insert_color(&pt->node, &obj->pt_tree);
-> >>>>>> -
-> >>>>>> -            parent =3D rb_next(&pt->node);
-> >>>>>> -            list_add_tail(&pt->link,
-> >>>>>> -                          parent ? &rb_entry(parent, typeof(*pt),=
- node)->link : &obj->pt_list);
-> >>>>>> -    }
-> >>>>>> -unlock:
-> >>>>>> -    spin_unlock_irq(&obj->lock);
-> >>>>>> -
-> >>>>>> -    return pt;
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -/*
-> >>>>>> - * *WARNING*
-> >>>>>> - *
-> >>>>>> - * improper use of this can result in deadlocking kernel drivers =
-from userspace.
-> >>>>>> - */
-> >>>>>> -
-> >>>>>> -/* opening sw_sync create a new sync obj */
-> >>>>>> -static int sw_sync_debugfs_open(struct inode *inode, struct file =
-*file)
-> >>>>>> -{
-> >>>>>> -    struct sync_timeline *obj;
-> >>>>>> -    char task_comm[TASK_COMM_LEN];
-> >>>>>> -
-> >>>>>> -    get_task_comm(task_comm, current);
-> >>>>>> -
-> >>>>>> -    obj =3D sync_timeline_create(task_comm);
-> >>>>>> -    if (!obj)
-> >>>>>> -            return -ENOMEM;
-> >>>>>> -
-> >>>>>> -    file->private_data =3D obj;
-> >>>>>> -
-> >>>>>> -    return 0;
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static int sw_sync_debugfs_release(struct inode *inode, struct fi=
-le *file)
-> >>>>>> -{
-> >>>>>> -    struct sync_timeline *obj =3D file->private_data;
-> >>>>>> -    struct sync_pt *pt, *next;
-> >>>>>> -
-> >>>>>> -    spin_lock_irq(&obj->lock);
-> >>>>>> -
-> >>>>>> -    list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
-> >>>>>> -            dma_fence_set_error(&pt->base, -ENOENT);
-> >>>>>> -            dma_fence_signal_locked(&pt->base);
-> >>>>>> -    }
-> >>>>>> -
-> >>>>>> -    spin_unlock_irq(&obj->lock);
-> >>>>>> -
-> >>>>>> -    sync_timeline_put(obj);
-> >>>>>> -    return 0;
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static long sw_sync_ioctl_create_fence(struct sync_timeline *obj,
-> >>>>>> -                                   unsigned long arg)
-> >>>>>> -{
-> >>>>>> -    int fd =3D get_unused_fd_flags(O_CLOEXEC);
-> >>>>>> -    int err;
-> >>>>>> -    struct sync_pt *pt;
-> >>>>>> -    struct sync_file *sync_file;
-> >>>>>> -    struct sw_sync_create_fence_data data;
-> >>>>>> -
-> >>>>>> -    if (fd < 0)
-> >>>>>> -            return fd;
-> >>>>>> -
-> >>>>>> -    if (copy_from_user(&data, (void __user *)arg, sizeof(data))) =
-{
-> >>>>>> -            err =3D -EFAULT;
-> >>>>>> -            goto err;
-> >>>>>> -    }
-> >>>>>> -
-> >>>>>> -    pt =3D sync_pt_create(obj, data.value);
-> >>>>>> -    if (!pt) {
-> >>>>>> -            err =3D -ENOMEM;
-> >>>>>> -            goto err;
-> >>>>>> -    }
-> >>>>>> -
-> >>>>>> -    sync_file =3D sync_file_create(&pt->base);
-> >>>>>> -    dma_fence_put(&pt->base);
-> >>>>>> -    if (!sync_file) {
-> >>>>>> -            err =3D -ENOMEM;
-> >>>>>> -            goto err;
-> >>>>>> -    }
-> >>>>>> -
-> >>>>>> -    data.fence =3D fd;
-> >>>>>> -    if (copy_to_user((void __user *)arg, &data, sizeof(data))) {
-> >>>>>> -            fput(sync_file->file);
-> >>>>>> -            err =3D -EFAULT;
-> >>>>>> -            goto err;
-> >>>>>> -    }
-> >>>>>> -
-> >>>>>> -    fd_install(fd, sync_file->file);
-> >>>>>> -
-> >>>>>> -    return 0;
-> >>>>>> -
-> >>>>>> -err:
-> >>>>>> -    put_unused_fd(fd);
-> >>>>>> -    return err;
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static long sw_sync_ioctl_inc(struct sync_timeline *obj, unsigned=
- long arg)
-> >>>>>> -{
-> >>>>>> -    u32 value;
-> >>>>>> -
-> >>>>>> -    if (copy_from_user(&value, (void __user *)arg, sizeof(value))=
-)
-> >>>>>> -            return -EFAULT;
-> >>>>>> -
-> >>>>>> -    while (value > INT_MAX)  {
-> >>>>>> -            sync_timeline_signal(obj, INT_MAX);
-> >>>>>> -            value -=3D INT_MAX;
-> >>>>>> -    }
-> >>>>>> -
-> >>>>>> -    sync_timeline_signal(obj, value);
-> >>>>>> -
-> >>>>>> -    return 0;
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static long sw_sync_ioctl(struct file *file, unsigned int cmd,
-> >>>>>> -                      unsigned long arg)
-> >>>>>> -{
-> >>>>>> -    struct sync_timeline *obj =3D file->private_data;
-> >>>>>> -
-> >>>>>> -    switch (cmd) {
-> >>>>>> -    case SW_SYNC_IOC_CREATE_FENCE:
-> >>>>>> -            return sw_sync_ioctl_create_fence(obj, arg);
-> >>>>>> -
-> >>>>>> -    case SW_SYNC_IOC_INC:
-> >>>>>> -            return sw_sync_ioctl_inc(obj, arg);
-> >>>>>> -
-> >>>>>> -    default:
-> >>>>>> -            return -ENOTTY;
-> >>>>>> -    }
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -const struct file_operations sw_sync_debugfs_fops =3D {
-> >>>>>> -    .open           =3D sw_sync_debugfs_open,
-> >>>>>> -    .release        =3D sw_sync_debugfs_release,
-> >>>>>> -    .unlocked_ioctl =3D sw_sync_ioctl,
-> >>>>>> -    .compat_ioctl   =3D compat_ptr_ioctl,
-> >>>>>> -};
-> >>>>>> diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_d=
-ebug.c
-> >>>>>> deleted file mode 100644
-> >>>>>> index 101394f16930..000000000000
-> >>>>>> --- a/drivers/dma-buf/sync_debug.c
-> >>>>>> +++ /dev/null
-> >>>>>> @@ -1,190 +0,0 @@
-> >>>>>> -// SPDX-License-Identifier: GPL-2.0-only
-> >>>>>> -/*
-> >>>>>> - * Sync File validation framework and debug information
-> >>>>>> - *
-> >>>>>> - * Copyright (C) 2012 Google, Inc.
-> >>>>>> - */
-> >>>>>> -
-> >>>>>> -#include <linux/debugfs.h>
-> >>>>>> -#include "sync_debug.h"
-> >>>>>> -
-> >>>>>> -static struct dentry *dbgfs;
-> >>>>>> -
-> >>>>>> -static LIST_HEAD(sync_timeline_list_head);
-> >>>>>> -static DEFINE_SPINLOCK(sync_timeline_list_lock);
-> >>>>>> -static LIST_HEAD(sync_file_list_head);
-> >>>>>> -static DEFINE_SPINLOCK(sync_file_list_lock);
-> >>>>>> -
-> >>>>>> -void sync_timeline_debug_add(struct sync_timeline *obj)
-> >>>>>> -{
-> >>>>>> -    unsigned long flags;
-> >>>>>> -
-> >>>>>> -    spin_lock_irqsave(&sync_timeline_list_lock, flags);
-> >>>>>> -    list_add_tail(&obj->sync_timeline_list, &sync_timeline_list_h=
-ead);
-> >>>>>> -    spin_unlock_irqrestore(&sync_timeline_list_lock, flags);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -void sync_timeline_debug_remove(struct sync_timeline *obj)
-> >>>>>> -{
-> >>>>>> -    unsigned long flags;
-> >>>>>> -
-> >>>>>> -    spin_lock_irqsave(&sync_timeline_list_lock, flags);
-> >>>>>> -    list_del(&obj->sync_timeline_list);
-> >>>>>> -    spin_unlock_irqrestore(&sync_timeline_list_lock, flags);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -void sync_file_debug_add(struct sync_file *sync_file)
-> >>>>>> -{
-> >>>>>> -    unsigned long flags;
-> >>>>>> -
-> >>>>>> -    spin_lock_irqsave(&sync_file_list_lock, flags);
-> >>>>>> -    list_add_tail(&sync_file->sync_file_list, &sync_file_list_hea=
-d);
-> >>>>>> -    spin_unlock_irqrestore(&sync_file_list_lock, flags);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -void sync_file_debug_remove(struct sync_file *sync_file)
-> >>>>>> -{
-> >>>>>> -    unsigned long flags;
-> >>>>>> -
-> >>>>>> -    spin_lock_irqsave(&sync_file_list_lock, flags);
-> >>>>>> -    list_del(&sync_file->sync_file_list);
-> >>>>>> -    spin_unlock_irqrestore(&sync_file_list_lock, flags);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static const char *sync_status_str(int status)
-> >>>>>> -{
-> >>>>>> -    if (status < 0)
-> >>>>>> -            return "error";
-> >>>>>> -
-> >>>>>> -    if (status > 0)
-> >>>>>> -            return "signaled";
-> >>>>>> -
-> >>>>>> -    return "active";
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static void sync_print_fence(struct seq_file *s,
-> >>>>>> -                         struct dma_fence *fence, bool show)
-> >>>>>> -{
-> >>>>>> -    struct sync_timeline *parent =3D dma_fence_parent(fence);
-> >>>>>> -    int status;
-> >>>>>> -
-> >>>>>> -    status =3D dma_fence_get_status_locked(fence);
-> >>>>>> -
-> >>>>>> -    seq_printf(s, "  %s%sfence %s",
-> >>>>>> -               show ? parent->name : "",
-> >>>>>> -               show ? "_" : "",
-> >>>>>> -               sync_status_str(status));
-> >>>>>> -
-> >>>>>> -    if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags)) {
-> >>>>>> -            struct timespec64 ts64 =3D
-> >>>>>> -                    ktime_to_timespec64(fence->timestamp);
-> >>>>>> -
-> >>>>>> -            seq_printf(s, "@%lld.%09ld", (s64)ts64.tv_sec, ts64.t=
-v_nsec);
-> >>>>>> -    }
-> >>>>>> -
-> >>>>>> -    if (fence->ops->timeline_value_str &&
-> >>>>>> -            fence->ops->fence_value_str) {
-> >>>>>> -            char value[64];
-> >>>>>> -            bool success;
-> >>>>>> -
-> >>>>>> -            fence->ops->fence_value_str(fence, value, sizeof(valu=
-e));
-> >>>>>> -            success =3D strlen(value);
-> >>>>>> -
-> >>>>>> -            if (success) {
-> >>>>>> -                    seq_printf(s, ": %s", value);
-> >>>>>> -
-> >>>>>> -                    fence->ops->timeline_value_str(fence, value,
-> >>>>>> -                                                   sizeof(value))=
-;
-> >>>>>> -
-> >>>>>> -                    if (strlen(value))
-> >>>>>> -                            seq_printf(s, " / %s", value);
-> >>>>>> -            }
-> >>>>>> -    }
-> >>>>>> -
-> >>>>>> -    seq_putc(s, '\n');
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static void sync_print_obj(struct seq_file *s, struct sync_timeli=
-ne *obj)
-> >>>>>> -{
-> >>>>>> -    struct list_head *pos;
-> >>>>>> -
-> >>>>>> -    seq_printf(s, "%s: %d\n", obj->name, obj->value);
-> >>>>>> -
-> >>>>>> -    spin_lock_irq(&obj->lock);
-> >>>>>> -    list_for_each(pos, &obj->pt_list) {
-> >>>>>> -            struct sync_pt *pt =3D container_of(pos, struct sync_=
-pt, link);
-> >>>>>> -            sync_print_fence(s, &pt->base, false);
-> >>>>>> -    }
-> >>>>>> -    spin_unlock_irq(&obj->lock);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static void sync_print_sync_file(struct seq_file *s,
-> >>>>>> -                              struct sync_file *sync_file)
-> >>>>>> -{
-> >>>>>> -    char buf[128];
-> >>>>>> -    int i;
-> >>>>>> -
-> >>>>>> -    seq_printf(s, "[%p] %s: %s\n", sync_file,
-> >>>>>> -               sync_file_get_name(sync_file, buf, sizeof(buf)),
-> >>>>>> -               sync_status_str(dma_fence_get_status(sync_file->fe=
-nce)));
-> >>>>>> -
-> >>>>>> -    if (dma_fence_is_array(sync_file->fence)) {
-> >>>>>> -            struct dma_fence_array *array =3D to_dma_fence_array(=
-sync_file->fence);
-> >>>>>> -
-> >>>>>> -            for (i =3D 0; i < array->num_fences; ++i)
-> >>>>>> -                    sync_print_fence(s, array->fences[i], true);
-> >>>>>> -    } else {
-> >>>>>> -            sync_print_fence(s, sync_file->fence, true);
-> >>>>>> -    }
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -static int sync_info_debugfs_show(struct seq_file *s, void *unuse=
-d)
-> >>>>>> -{
-> >>>>>> -    struct list_head *pos;
-> >>>>>> -
-> >>>>>> -    seq_puts(s, "objs:\n--------------\n");
-> >>>>>> -
-> >>>>>> -    spin_lock_irq(&sync_timeline_list_lock);
-> >>>>>> -    list_for_each(pos, &sync_timeline_list_head) {
-> >>>>>> -            struct sync_timeline *obj =3D
-> >>>>>> -                    container_of(pos, struct sync_timeline,
-> >>>>>> -                                 sync_timeline_list);
-> >>>>>> -
-> >>>>>> -            sync_print_obj(s, obj);
-> >>>>>> -            seq_putc(s, '\n');
-> >>>>>> -    }
-> >>>>>> -    spin_unlock_irq(&sync_timeline_list_lock);
-> >>>>>> -
-> >>>>>> -    seq_puts(s, "fences:\n--------------\n");
-> >>>>>> -
-> >>>>>> -    spin_lock_irq(&sync_file_list_lock);
-> >>>>>> -    list_for_each(pos, &sync_file_list_head) {
-> >>>>>> -            struct sync_file *sync_file =3D
-> >>>>>> -                    container_of(pos, struct sync_file, sync_file=
-_list);
-> >>>>>> -
-> >>>>>> -            sync_print_sync_file(s, sync_file);
-> >>>>>> -            seq_putc(s, '\n');
-> >>>>>> -    }
-> >>>>>> -    spin_unlock_irq(&sync_file_list_lock);
-> >>>>>> -    return 0;
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -DEFINE_SHOW_ATTRIBUTE(sync_info_debugfs);
-> >>>>>> -
-> >>>>>> -static __init int sync_debugfs_init(void)
-> >>>>>> -{
-> >>>>>> -    dbgfs =3D debugfs_create_dir("sync", NULL);
-> >>>>>> -
-> >>>>>> -    /*
-> >>>>>> -     * The debugfs files won't ever get removed and thus, there i=
-s
-> >>>>>> -     * no need to protect it against removal races. The use of
-> >>>>>> -     * debugfs_create_file_unsafe() is actually safe here.
-> >>>>>> -     */
-> >>>>>> -    debugfs_create_file_unsafe("info", 0444, dbgfs, NULL,
-> >>>>>> -                               &sync_info_debugfs_fops);
-> >>>>>> -    debugfs_create_file_unsafe("sw_sync", 0644, dbgfs, NULL,
-> >>>>>> -                               &sw_sync_debugfs_fops);
-> >>>>>> -
-> >>>>>> -    return 0;
-> >>>>>> -}
-> >>>>>> -late_initcall(sync_debugfs_init);
-> >>>>>> diff --git a/drivers/dma-buf/sync_debug.h b/drivers/dma-buf/sync_d=
-ebug.h
-> >>>>>> deleted file mode 100644
-> >>>>>> index 6176e52ba2d7..000000000000
-> >>>>>> --- a/drivers/dma-buf/sync_debug.h
-> >>>>>> +++ /dev/null
-> >>>>>> @@ -1,72 +0,0 @@
-> >>>>>> -/*
-> >>>>>> - * Sync File validation framework and debug infomation
-> >>>>>> - *
-> >>>>>> - * Copyright (C) 2012 Google, Inc.
-> >>>>>> - *
-> >>>>>> - * This program is distributed in the hope that it will be useful=
-,
-> >>>>>> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> >>>>>> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> >>>>>> - * GNU General Public License for more details.
-> >>>>>> - *
-> >>>>>> - */
-> >>>>>> -
-> >>>>>> -#ifndef _LINUX_SYNC_H
-> >>>>>> -#define _LINUX_SYNC_H
-> >>>>>> -
-> >>>>>> -#include <linux/list.h>
-> >>>>>> -#include <linux/rbtree.h>
-> >>>>>> -#include <linux/spinlock.h>
-> >>>>>> -#include <linux/dma-fence.h>
-> >>>>>> -
-> >>>>>> -#include <linux/sync_file.h>
-> >>>>>> -#include <uapi/linux/sync_file.h>
-> >>>>>> -
-> >>>>>> -/**
-> >>>>>> - * struct sync_timeline - sync object
-> >>>>>> - * @kref:           reference count on fence.
-> >>>>>> - * @name:           name of the sync_timeline. Useful for debuggi=
-ng
-> >>>>>> - * @lock:           lock protecting @pt_list and @value
-> >>>>>> - * @pt_tree:                rbtree of active (unsignaled/errored)=
- sync_pts
-> >>>>>> - * @pt_list:                list of active (unsignaled/errored) s=
-ync_pts
-> >>>>>> - * @sync_timeline_list:     membership in global sync_timeline_li=
-st
-> >>>>>> - */
-> >>>>>> -struct sync_timeline {
-> >>>>>> -    struct kref             kref;
-> >>>>>> -    char                    name[32];
-> >>>>>> -
-> >>>>>> -    /* protected by lock */
-> >>>>>> -    u64                     context;
-> >>>>>> -    int                     value;
-> >>>>>> -
-> >>>>>> -    struct rb_root          pt_tree;
-> >>>>>> -    struct list_head        pt_list;
-> >>>>>> -    spinlock_t              lock;
-> >>>>>> -
-> >>>>>> -    struct list_head        sync_timeline_list;
-> >>>>>> -};
-> >>>>>> -
-> >>>>>> -static inline struct sync_timeline *dma_fence_parent(struct dma_f=
-ence *fence)
-> >>>>>> -{
-> >>>>>> -    return container_of(fence->lock, struct sync_timeline, lock);
-> >>>>>> -}
-> >>>>>> -
-> >>>>>> -/**
-> >>>>>> - * struct sync_pt - sync_pt object
-> >>>>>> - * @base: base fence object
-> >>>>>> - * @link: link on the sync timeline's list
-> >>>>>> - * @node: node in the sync timeline's tree
-> >>>>>> - */
-> >>>>>> -struct sync_pt {
-> >>>>>> -    struct dma_fence base;
-> >>>>>> -    struct list_head link;
-> >>>>>> -    struct rb_node node;
-> >>>>>> -};
-> >>>>>> -
-> >>>>>> -extern const struct file_operations sw_sync_debugfs_fops;
-> >>>>>> -
-> >>>>>> -void sync_timeline_debug_add(struct sync_timeline *obj);
-> >>>>>> -void sync_timeline_debug_remove(struct sync_timeline *obj);
-> >>>>>> -void sync_file_debug_add(struct sync_file *fence);
-> >>>>>> -void sync_file_debug_remove(struct sync_file *fence);
-> >>>>>> -
-> >>>>>> -#endif /* _LINUX_SYNC_H */
-> >>>>>> --
-> >>>>>> 2.25.1
-> >>>>>>
-> >
->
+I'm not sure if this is necessary in general, but at least on my platform t=
+he zeroing of the reserved member only worked correctly when I added the us=
+erspace copies. But even after these fixes, v4l-compliance reports further =
+issues in format enumeration and negotiation. Is this a known issue?
 
+Thanks!
+-Jens
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--_002_AM0PR04MB5825DA3C650C569F69B99EF898EB9AM0PR04MB5825eurp_
+Content-Type: text/plain; name="v4l2-compliance-report.txt"
+Content-Description: v4l2-compliance-report.txt
+Content-Disposition: attachment; filename="v4l2-compliance-report.txt";
+	size=3858; creation-date="Thu, 29 Jul 2021 12:34:06 GMT";
+	modification-date="Thu, 29 Jul 2021 12:33:05 GMT"
+Content-Transfer-Encoding: base64
+
+djRsMi1jb21wbGlhbmNlIFNIQTogbm90IGF2YWlsYWJsZSwgNjQgYml0cw0KDQpDb21wbGlhbmNl
+IHRlc3QgZm9yIHJraXNwMSBkZXZpY2UgL2Rldi92aWRlbzA6DQoNCkRyaXZlciBJbmZvOg0KCURy
+aXZlciBuYW1lICAgICAgOiBya2lzcDENCglDYXJkIHR5cGUgICAgICAgIDogcmtpc3AxDQoJQnVz
+IGluZm8gICAgICAgICA6IHBsYXRmb3JtOnJraXNwMQ0KCURyaXZlciB2ZXJzaW9uICAgOiA1LjEy
+LjEyDQoJQ2FwYWJpbGl0aWVzICAgICA6IDB4YTQyMDEwMDANCgkJVmlkZW8gQ2FwdHVyZSBNdWx0
+aXBsYW5hcg0KCQlTdHJlYW1pbmcNCgkJRXh0ZW5kZWQgUGl4IEZvcm1hdA0KCQlEZXZpY2UgQ2Fw
+YWJpbGl0aWVzDQoJRGV2aWNlIENhcHMgICAgICA6IDB4MjQyMDEwMDANCgkJVmlkZW8gQ2FwdHVy
+ZSBNdWx0aXBsYW5hcg0KCQlTdHJlYW1pbmcNCgkJRXh0ZW5kZWQgUGl4IEZvcm1hdA0KTWVkaWEg
+RHJpdmVyIEluZm86DQoJRHJpdmVyIG5hbWUgICAgICA6IHJraXNwMQ0KCU1vZGVsICAgICAgICAg
+ICAgOiBya2lzcDENCglTZXJpYWwgICAgICAgICAgIDogDQoJQnVzIGluZm8gICAgICAgICA6IHBs
+YXRmb3JtOnJraXNwMQ0KCU1lZGlhIHZlcnNpb24gICAgOiA1LjEyLjEyDQoJSGFyZHdhcmUgcmV2
+aXNpb246IDB4MDAwMDAwMGEgKDEwKQ0KCURyaXZlciB2ZXJzaW9uICAgOiA1LjEyLjEyDQpJbnRl
+cmZhY2UgSW5mbzoNCglJRCAgICAgICAgICAgICAgIDogMHgwMzAwMDAwZA0KCVR5cGUgICAgICAg
+ICAgICAgOiBWNEwgVmlkZW8NCkVudGl0eSBJbmZvOg0KCUlEICAgICAgICAgICAgICAgOiAweDAw
+MDAwMDBjICgxMikNCglOYW1lICAgICAgICAgICAgIDogcmtpc3AxX21haW5wYXRoDQoJRnVuY3Rp
+b24gICAgICAgICA6IFY0TDIgSS9PDQoJUGFkIDB4MDEwMDAwMGYgICA6IDA6IFNpbmsNCgkgIExp
+bmsgMHgwMjAwMDAyMjogZnJvbSByZW1vdGUgcGFkIDB4MTAwMDAwOCBvZiBlbnRpdHkgJ3JraXNw
+MV9yZXNpemVyX21haW5wYXRoJzogRGF0YSwgRW5hYmxlZCwgSW1tdXRhYmxlDQoNClJlcXVpcmVk
+IGlvY3RsczoNCgl0ZXN0IE1DIGluZm9ybWF0aW9uIChzZWUgJ01lZGlhIERyaXZlciBJbmZvJyBh
+Ym92ZSk6IE9LDQoJdGVzdCBWSURJT0NfUVVFUllDQVA6IE9LDQoNCkFsbG93IGZvciBtdWx0aXBs
+ZSBvcGVuczoNCgl0ZXN0IHNlY29uZCAvZGV2L3ZpZGVvMCBvcGVuOiBPSw0KCXRlc3QgVklESU9D
+X1FVRVJZQ0FQOiBPSw0KCXRlc3QgVklESU9DX0cvU19QUklPUklUWTogT0sNCgl0ZXN0IGZvciB1
+bmxpbWl0ZWQgb3BlbnM6IE9LDQoNCkRlYnVnIGlvY3RsczoNCgl0ZXN0IFZJRElPQ19EQkdfRy9T
+X1JFR0lTVEVSOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19MT0dfU1RBVFVTOiBP
+SyAoTm90IFN1cHBvcnRlZCkNCg0KSW5wdXQgaW9jdGxzOg0KCXRlc3QgVklESU9DX0cvU19UVU5F
+Ui9FTlVNX0ZSRVFfQkFORFM6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgVklESU9DX0cvU19G
+UkVRVUVOQ1k6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgVklESU9DX1NfSFdfRlJFUV9TRUVL
+OiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19FTlVNQVVESU86IE9LIChOb3QgU3Vw
+cG9ydGVkKQ0KCXRlc3QgVklESU9DX0cvUy9FTlVNSU5QVVQ6IE9LDQoJdGVzdCBWSURJT0NfRy9T
+X0FVRElPOiBPSyAoTm90IFN1cHBvcnRlZCkNCglJbnB1dHM6IDEgQXVkaW8gSW5wdXRzOiAwIFR1
+bmVyczogMA0KDQpPdXRwdXQgaW9jdGxzOg0KCXRlc3QgVklESU9DX0cvU19NT0RVTEFUT1I6IE9L
+IChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgVklESU9DX0cvU19GUkVRVUVOQ1k6IE9LIChOb3QgU3Vw
+cG9ydGVkKQ0KCXRlc3QgVklESU9DX0VOVU1BVURPVVQ6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRl
+c3QgVklESU9DX0cvUy9FTlVNT1VUUFVUOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElP
+Q19HL1NfQVVET1VUOiBPSyAoTm90IFN1cHBvcnRlZCkNCglPdXRwdXRzOiAwIEF1ZGlvIE91dHB1
+dHM6IDAgTW9kdWxhdG9yczogMA0KDQpJbnB1dC9PdXRwdXQgY29uZmlndXJhdGlvbiBpb2N0bHM6
+DQoJdGVzdCBWSURJT0NfRU5VTS9HL1MvUVVFUllfU1REOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0
+ZXN0IFZJRElPQ19FTlVNL0cvUy9RVUVSWV9EVl9USU1JTkdTOiBPSyAoTm90IFN1cHBvcnRlZCkN
+Cgl0ZXN0IFZJRElPQ19EVl9USU1JTkdTX0NBUDogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJdGVzdCBW
+SURJT0NfRy9TX0VESUQ6IE9LIChOb3QgU3VwcG9ydGVkKQ0KDQpDb250cm9sIGlvY3RscyAoSW5w
+dXQgMCk6DQoJdGVzdCBWSURJT0NfUVVFUllfRVhUX0NUUkwvUVVFUllNRU5VOiBPSyAoTm90IFN1
+cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19RVUVSWUNUUkw6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRl
+c3QgVklESU9DX0cvU19DVFJMOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19HL1Mv
+VFJZX0VYVF9DVFJMUzogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJdGVzdCBWSURJT0NfKFVOKVNVQlND
+UklCRV9FVkVOVC9EUUVWRU5UOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19HL1Nf
+SlBFR0NPTVA6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCVN0YW5kYXJkIENvbnRyb2xzOiAwIFByaXZh
+dGUgQ29udHJvbHM6IDANCg0KRm9ybWF0IGlvY3RscyAoSW5wdXQgMCk6DQoJCWZhaWw6IHY0bDIt
+dGVzdC1mb3JtYXRzLmNwcCgzMTEpOiBWaWRlbyBDYXB0dXJlIE11bHRpcGxhbmFyIGNhcCBzZXQs
+IGJ1dCBubyBWaWRlbyBDYXB0dXJlIE11bHRpcGxhbmFyIGZvcm1hdHMgZGVmaW5lZA0KCXRlc3Qg
+VklESU9DX0VOVU1fRk1UL0ZSQU1FU0laRVMvRlJBTUVJTlRFUlZBTFM6IEZBSUwNCgl0ZXN0IFZJ
+RElPQ19HL1NfUEFSTTogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJdGVzdCBWSURJT0NfR19GQlVGOiBP
+SyAoTm90IFN1cHBvcnRlZCkNCgkJZmFpbDogdjRsMi10ZXN0LWZvcm1hdHMuY3BwKDQ2MSk6IHBp
+eGVsZm9ybWF0IDU2NTk1NTU5IChZVVlWKSBmb3IgYnVmdHlwZSA5IG5vdCByZXBvcnRlZCBieSBF
+TlVNX0ZNVA0KCXRlc3QgVklESU9DX0dfRk1UOiBGQUlMDQoJCWZhaWw6IHY0bDItdGVzdC1mb3Jt
+YXRzLmNwcCg0NjEpOiBwaXhlbGZvcm1hdCA1NjU5NTU1OSAoWVVZVikgZm9yIGJ1ZnR5cGUgOSBu
+b3QgcmVwb3J0ZWQgYnkgRU5VTV9GTVQNCgl0ZXN0IFZJRElPQ19UUllfRk1UOiBGQUlMDQoJCWZh
+aWw6IHY0bDItdGVzdC1mb3JtYXRzLmNwcCg0NjEpOiBwaXhlbGZvcm1hdCA1NjU5NTU1OSAoWVVZ
+VikgZm9yIGJ1ZnR5cGUgOSBub3QgcmVwb3J0ZWQgYnkgRU5VTV9GTVQNCgl0ZXN0IFZJRElPQ19T
+X0ZNVDogRkFJTA0KCXRlc3QgVklESU9DX0dfU0xJQ0VEX1ZCSV9DQVA6IE9LIChOb3QgU3VwcG9y
+dGVkKQ0KCXRlc3QgQ3JvcHBpbmc6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgQ29tcG9zaW5n
+OiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFNjYWxpbmc6IE9LDQoNCkNvZGVjIGlvY3RscyAo
+SW5wdXQgMCk6DQoJdGVzdCBWSURJT0NfKFRSWV8pRU5DT0RFUl9DTUQ6IE9LIChOb3QgU3VwcG9y
+dGVkKQ0KCXRlc3QgVklESU9DX0dfRU5DX0lOREVYOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0
+IFZJRElPQ18oVFJZXylERUNPREVSX0NNRDogT0sgKE5vdCBTdXBwb3J0ZWQpDQoNCkJ1ZmZlciBp
+b2N0bHMgKElucHV0IDApOg0KCXRlc3QgVklESU9DX1JFUUJVRlMvQ1JFQVRFX0JVRlMvUVVFUllC
+VUY6IE9LDQoJdGVzdCBWSURJT0NfRVhQQlVGOiBPSw0KCXRlc3QgUmVxdWVzdHM6IE9LIChOb3Qg
+U3VwcG9ydGVkKQ0KDQpUb3RhbCBmb3Igcmtpc3AxIGRldmljZSAvZGV2L3ZpZGVvMDogNDUsIFN1
+Y2NlZWRlZDogNDEsIEZhaWxlZDogNCwgV2FybmluZ3M6IDANCg0K
+
+--_002_AM0PR04MB5825DA3C650C569F69B99EF898EB9AM0PR04MB5825eurp_--
