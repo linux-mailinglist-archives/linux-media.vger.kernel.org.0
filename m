@@ -2,175 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43F443D9F4C
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 10:17:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB8FA3D9F70
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 10:24:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234874AbhG2IRt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 04:17:49 -0400
-Received: from mail.netline.ch ([148.251.143.180]:57059 "EHLO
-        netline-mail3.netline.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234673AbhG2IRs (ORCPT
+        id S234928AbhG2IYX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 04:24:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57940 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234930AbhG2IYO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 04:17:48 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by netline-mail3.netline.ch (Postfix) with ESMTP id 7B59E20201D;
-        Thu, 29 Jul 2021 10:17:44 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
-        by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id umwX2Eu5Zu4W; Thu, 29 Jul 2021 10:17:44 +0200 (CEST)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch [85.2.99.24])
-        by netline-mail3.netline.ch (Postfix) with ESMTPA id E115A20201A;
-        Thu, 29 Jul 2021 10:17:43 +0200 (CEST)
-Received: from [::1]
-        by thor with esmtp (Exim 4.94.2)
-        (envelope-from <michel@daenzer.net>)
-        id 1m91Ed-00145r-4F; Thu, 29 Jul 2021 10:17:43 +0200
-To:     Daniel Vetter <daniel@ffwll.ch>
-References: <20210726233854.2453899-1-robdclark@gmail.com>
- <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
- <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
- <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
- <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
- <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
- <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
- <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com>
- <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
- <CAF6AEGu409eY9xznTAaBf2ZDcV_AaDELUzN2afWgiHwB_uBwqg@mail.gmail.com>
- <YQJUKXgf/Q957fmy@phenom.ffwll.local>
-From:   =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Cc:     Rob Clark <robdclark@gmail.com>,
+        Thu, 29 Jul 2021 04:24:14 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F3C6C0613C1;
+        Thu, 29 Jul 2021 01:24:11 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id r17so9481918lfe.2;
+        Thu, 29 Jul 2021 01:24:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=G+Xz0QEq5wz3RNVVo8FtNDcy65lKifkkcvU9k8GjVG8=;
+        b=XdBbKBZqGy0FNSyHcp2Kg1khC3/H0yjS2T7iFC6ayZsW2nRlpIalCvFyocQmrmZO3t
+         vSGsJbjPgC1f82y/m10k/Az93WquoJqxx3vg1Dj+15xw/5KKoUMCnpjtMI7HOSjv6yZa
+         xeZescss1HHCxuM8lzVpuLD6TYnt/fxcT674IDVuURJTdEtEJuAyod56+cqZdrVVSK9O
+         S8OKiAyUpgW3umuo5N+RGL9tWnLbeVtwgriUfZ7gwcmyyTzLyHCpCO5Wv0Azz1timtg+
+         i3h5KDslFMfADob7YU1FAbcjQd9uQmvLBKsHXkYLDQ/+Xh38fz6mtcBQ2wt7EWUlwu/P
+         GgLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=G+Xz0QEq5wz3RNVVo8FtNDcy65lKifkkcvU9k8GjVG8=;
+        b=oklE5xUM9oxTtrg1TYN26kK6vyWwhsVTGHxTw9sOGNJORGjAUYEMuIoHFCILW7ArUv
+         rmKXiNnYJBafm0kEBO+V6MjFB9vDFWyO9wfdx/ZVDJ5GlcLqCfNLsa87SQXqyWfFkl2F
+         n3RDpPKN8N5LtpxbSGdppbh4nKtJ+GUpmYguBF3z+MbnLJGmR/HfGUwGDzYroZlgXqcv
+         OQdyz9HhtYUFSgy8iHPYPXTyjpeiPk2v0YYKxPJz2ot4YkI0svOaI4ZJz9PJHp/Sf8N0
+         FswrDQbKeba5FEQftRw5Rh59VXgL2MInBrhBQas/Qq9hu4xV2h49ooH8LsWFNzEAnEge
+         eaCA==
+X-Gm-Message-State: AOAM530ikoT1lWJ2piU5Iw+BnSmzYD/DosZ94OoRAEDWy/2NkFMTnzkO
+        l1s9Zwgl/jjVUvKcONom+dI=
+X-Google-Smtp-Source: ABdhPJx3zQbUfVolfZXuorgwsMKZOlsC0XNccvgtZrhv2E6/ERdQqfPhXntVtLalwdv4tEmmeQr6Aw==
+X-Received: by 2002:a19:fc13:: with SMTP id a19mr2996482lfi.581.1627547049434;
+        Thu, 29 Jul 2021 01:24:09 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id h12sm108258ljq.41.2021.07.29.01.24.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jul 2021 01:24:09 -0700 (PDT)
+Date:   Thu, 29 Jul 2021 11:23:58 +0300
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc:     Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
+        Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
         Rob Clark <robdclark@chromium.org>,
         Matthew Brost <matthew.brost@intel.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        Jack Zhang <Jack.Zhang1@amd.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
         open list <linux-kernel@vger.kernel.org>,
         dri-devel <dri-devel@lists.freedesktop.org>,
         "moderated list:DMA BUFFER SHARING FRAMEWORK" 
         <linaro-mm-sig@lists.linaro.org>,
         Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
         Alex Deucher <alexander.deucher@amd.com>,
         Tian Tao <tiantao6@hisilicon.com>,
         Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
         "open list:DMA BUFFER SHARING FRAMEWORK" 
         <linux-media@vger.kernel.org>
 Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
-Message-ID: <ff394f2b-b555-e80f-b685-d0d59e2bbe67@daenzer.net>
-Date:   Thu, 29 Jul 2021 10:17:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Message-ID: <20210729112358.237651ff@eldfell>
+In-Reply-To: <74e310fa-e544-889f-2389-5abe06f80eb8@amd.com>
+References: <20210726233854.2453899-1-robdclark@gmail.com>
+        <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
+        <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
+        <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
+        <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
+        <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
+        <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
+        <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com>
+        <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
+        <eedfdc75-72f8-9150-584b-c5e9d16db180@amd.com>
+        <20210728165700.38c39cf8@eldfell>
+        <74e310fa-e544-889f-2389-5abe06f80eb8@amd.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <YQJUKXgf/Q957fmy@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/XsIW6p7OIJaoYdmP1AsQtia";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2021-07-29 9:09 a.m., Daniel Vetter wrote:
-> On Wed, Jul 28, 2021 at 08:34:13AM -0700, Rob Clark wrote:
->> On Wed, Jul 28, 2021 at 6:24 AM Michel Dänzer <michel@daenzer.net> wrote:
->>> On 2021-07-28 3:13 p.m., Christian König wrote:
->>>> Am 28.07.21 um 15:08 schrieb Michel Dänzer:
->>>>> On 2021-07-28 1:36 p.m., Christian König wrote:
->>>>>> Am 27.07.21 um 17:37 schrieb Rob Clark:
->>>>>>> On Tue, Jul 27, 2021 at 8:19 AM Michel Dänzer <michel@daenzer.net> wrote:
->>>>>>>> On 2021-07-27 5:12 p.m., Rob Clark wrote:
->>>>>>>>> On Tue, Jul 27, 2021 at 7:50 AM Michel Dänzer <michel@daenzer.net> wrote:
->>>>>>>>>> On 2021-07-27 1:38 a.m., Rob Clark wrote:
->>>>>>>>>>> From: Rob Clark <robdclark@chromium.org>
->>>>>>>>>>>
->>>>>>>>>>> Based on discussion from a previous series[1] to add a "boost" mechanism
->>>>>>>>>>> when, for example, vblank deadlines are missed.  Instead of a boost
->>>>>>>>>>> callback, this approach adds a way to set a deadline on the fence, by
->>>>>>>>>>> which the waiter would like to see the fence signalled.
->>>>>>>>>>>
->>>>>>>>>>> I've not yet had a chance to re-work the drm/msm part of this, but
->>>>>>>>>>> wanted to send this out as an RFC in case I don't have a chance to
->>>>>>>>>>> finish the drm/msm part this week.
->>>>>>>>>>>
->>>>>>>>>>> Original description:
->>>>>>>>>>>
->>>>>>>>>>> In some cases, like double-buffered rendering, missing vblanks can
->>>>>>>>>>> trick the GPU into running at a lower frequence, when really we
->>>>>>>>>>> want to be running at a higher frequency to not miss the vblanks
->>>>>>>>>>> in the first place.
->>>>>>>>>>>
->>>>>>>>>>> This is partially inspired by a trick i915 does, but implemented
->>>>>>>>>>> via dma-fence for a couple of reasons:
->>>>>>>>>>>
->>>>>>>>>>> 1) To continue to be able to use the atomic helpers
->>>>>>>>>>> 2) To support cases where display and gpu are different drivers
->>>>>>>>>>>
->>>>>>>>>>> [1] https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fseries%2F90331%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C269b2df3e1dc4f0b856d08d951c8c768%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637630745091538563%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=eYaSOSS5wOngNAd9wufp5eWCx5GtAwo6GkultJgrjmA%3D&amp;reserved=0
->>>>>>>>>> Unfortunately, none of these approaches will have the full intended effect once Wayland compositors start waiting for client buffers to become idle before using them for an output frame (to prevent output frames from getting delayed by client work). See https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.gnome.org%2FGNOME%2Fmutter%2F-%2Fmerge_requests%2F1880&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C269b2df3e1dc4f0b856d08d951c8c768%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637630745091538563%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=1ZkOzLqbiKSyCixGZ0u7Hd%2Fc1YnUZub%2F%2Fx7RuEclFKg%3D&amp;reserved=0 (shameless plug :) for a proof of concept of this for mutter. The boost will only affect the compositor's own GPU work, not the client work (which means no effect at all for fullscreen apps where the compositor can scan out the client buffers directly).
->>>>>>>>>>
->>>>>>>>> I guess you mean "no effect at all *except* for fullscreen..."?
->>>>>>>> I meant what I wrote: The compositor will wait for the next buffer to become idle, so there's no boost from this mechanism for the client drawing to that buffer. And since the compositor does no drawing of its own in this case, there's no boost from that either.
->>>>>>>>
->>>>>>>>
->>>>>>>>> I'd perhaps recommend that wayland compositors, in cases where only a
->>>>>>>>> single layer is changing, not try to be clever and just push the
->>>>>>>>> update down to the kernel.
->>>>>>>> Even just for the fullscreen direct scanout case, that would require some kind of atomic KMS API extension to allow queuing multiple page flips for the same CRTC.
->>>>>>>>
->>>>>>>> For other cases, this would also require a mechanism to cancel a pending atomic commit, for when another surface update comes in before the compositor's deadline, which affects the previously single updating surface as well.
->>>>>>>>
->>>>>>> Well, in the end, there is more than one compositor out there.. and if
->>>>>>> some wayland compositors are going this route, they can also implement
->>>>>>> the same mechanism in userspace using the sysfs that devfreq exports.
->>>>>>>
->>>>>>> But it sounds simpler to me for the compositor to have a sort of "game
->>>>>>> mode" for fullscreen games.. I'm less worried about UI interactive
->>>>>>> workloads, boosting the GPU freq upon sudden activity after a period
->>>>>>> of inactivity seems to work reasonably well there.
->>>>>> At least AMD hardware is already capable of flipping frames on GPU events like finishing rendering (or uploading etc).
->>>>>>
->>>>>> By waiting in userspace on the CPU before send the frame to the hardware you are completely killing of such features.
->>>>>>
->>>>>> For composing use cases that makes sense, but certainly not for full screen applications as far as I can see.
->>>>> Even for fullscreen, the current KMS API only allows queuing a single page flip per CRTC, with no way to cancel or otherwise modify it. Therefore, a Wayland compositor has to set a deadline for the next refresh cycle, and when the deadline passes, it has to select the best buffer available for the fullscreen surface. To make sure the flip will not miss the next refresh cycle, the compositor has to pick an idle buffer. If it picks a non-idle buffer, and the pending rendering does not finish in time for vertical blank, the flip will be delayed by at least one refresh cycle, which results in visible stuttering.
->>>>>
->>>>> (Until the deadline passes, the Wayland compositor can't even know if a previously fullscreen surface will still be fullscreen for the next refresh cycle)
->>>>
->>>> Well then let's extend the KMS API instead of hacking together workarounds in userspace.
->>>
->>> That's indeed a possible solution for the fullscreen / direct scanout case.
->>>
->>> Not for the general compositing case though, since a compositor does not want to composite multiple output frames per display refresh cycle, so it has to make sure the one frame hits the target.
->>
->> I think solving the fullscreen game case is sufficient enough forward
->> progress to be useful.  And the results I'm seeing[1] are sufficiently
->> positive to convince me that dma-fence deadline support is the right
->> thing to do.
+--Sig_/XsIW6p7OIJaoYdmP1AsQtia
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I'm not questioning that this approach helps when there's a direct chain of fences from the client to the page flip. I'm pointing out there will not always be such a chain.
+On Wed, 28 Jul 2021 16:30:13 +0200
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+
+> Am 28.07.21 um 15:57 schrieb Pekka Paalanen:
+> > On Wed, 28 Jul 2021 15:31:41 +0200
+> > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+> > =20
+> >> Am 28.07.21 um 15:24 schrieb Michel D=C3=A4nzer: =20
+> >>> On 2021-07-28 3:13 p.m., Christian K=C3=B6nig wrote: =20
+> >>>> Am 28.07.21 um 15:08 schrieb Michel D=C3=A4nzer: =20
+> >>>>> On 2021-07-28 1:36 p.m., Christian K=C3=B6nig wrote: =20
+> >>>>>> At least AMD hardware is already capable of flipping frames on GPU=
+ events like finishing rendering (or uploading etc).
+> >>>>>>
+> >>>>>> By waiting in userspace on the CPU before send the frame to the ha=
+rdware you are completely killing of such features.
+> >>>>>>
+> >>>>>> For composing use cases that makes sense, but certainly not for fu=
+ll screen applications as far as I can see. =20
+> >>>>> Even for fullscreen, the current KMS API only allows queuing a sing=
+le page flip per CRTC, with no way to cancel or otherwise modify it. Theref=
+ore, a Wayland compositor has to set a deadline for the next refresh cycle,=
+ and when the deadline passes, it has to select the best buffer available f=
+or the fullscreen surface. To make sure the flip will not miss the next ref=
+resh cycle, the compositor has to pick an idle buffer. If it picks a non-id=
+le buffer, and the pending rendering does not finish in time for vertical b=
+lank, the flip will be delayed by at least one refresh cycle, which results=
+ in visible stuttering.
+> >>>>>
+> >>>>> (Until the deadline passes, the Wayland compositor can't even know =
+if a previously fullscreen surface will still be fullscreen for the next re=
+fresh cycle) =20
+> >>>> Well then let's extend the KMS API instead of hacking together worka=
+rounds in userspace. =20
+> >>> That's indeed a possible solution for the fullscreen / direct scanout=
+ case.
+> >>>
+> >>> Not for the general compositing case though, since a compositor does =
+not want to composite multiple output frames per display refresh cycle, so =
+it has to make sure the one frame hits the target. =20
+> >> Yeah, that's true as well.
+> >>
+> >> At least as long as nobody invents a mechanism to do this decision on
+> >> the GPU instead. =20
+> > That would mean putting the whole window manager into the GPU. =20
+>=20
+> Not really. You only need to decide if you want to use the new backing=20
+> store or the old one based on if the new surface is ready or not.
+
+Except that a window content update in Wayland must be synchronised with
+all the possible and arbitrary other window system state changes, that
+will affect how and where other windows will get drawn *this frame*,
+how input events are routed, and more.
+
+But, if the window manager made sure that *only* window contents are
+about to change and *all* other state remains as it was, then it would
+be possible to let the GPU decide which frame it uses. As long as it
+also tells back which one it actually did, so that presentation
+feedback etc. can trigger the right Wayland events.
+
+Wayland has "atomic commits" to windows, and arbitrary protocol
+extensions can add arbitrary state to be tracked with it. A bit like KMS
+properties. Even atomic commits affecting multiple windows together are
+a thing, and they must be latched either all or none.
+
+So it's quite a lot of work to determine if one can allow the GPU to
+choose the buffer it will texture from, or not.
 
 
->> But maybe the solution to make this also useful for mutter
+Thanks,
+pq
 
-It's not just mutter BTW. I understand gamescope has been doing this for some time already. And there seems to be consensus among developers of Wayland compositors that this is needed, so I expect at least all the major compositors to do this longer term.
+--Sig_/XsIW6p7OIJaoYdmP1AsQtia
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
->> is to, once we have deadline support, extend it with an ioctl to the
->> dma-fence fd so userspace can be the one setting the deadline.
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmECZZ4ACgkQI1/ltBGq
+qqcYAg/+I51pd08BkpzGZ3k1g+HCC0qRSxehPuUveE/WiCkVFRrOpVC3zOCw5G4j
+c9BNZrbq+DptCDFizpnWcGCCycIcRKU7T9DEbTHOBD4NWCBrvbyGxcmT9SrrVzJy
++T7B302KWoGFMlnRTGWfPgQveHTLKwJCPIwVp1hq0hNKIBGJpY38aULKFlYVSC3c
+ucgjtrWlgAI6uCzjbasSER4zMHUlE4XYfALX1xC+eBl7ZVVueThqS0u9VjghCGCT
+1xqp/Id8932CoXyHs7fXSWXL2zgA6uVcK1yhw+jFOZtSEM7qmMbQAWiExYvv1A6V
+WHx2JUJGLkNdVBRu2ZLmqtRDzj0PMCkXxwYtQ6y2T8xgwwSYET+wGFp9P4r48P4p
+4ApoJ5ZZlTZmsdUcnME2aCEf7tlGE79B/jRqahBYDjlrL9KO8velYga7baODmnXy
+bSfO1MQZ/sdY1jQFj8Dhnj23bX2OIlbphG2Dn1ZZfbmp3Ccq7w9OvcZDDBbA09SO
+t5McCGkFF4qUGgitDp/T97knMUdB78INcDYwgdf54Zb2IKhVHKSfmrcDL+qtZnlK
+W3yVGJf/ON+Eik1PppyZuUChTP8b6iyebEWjr7W4AIurRVRoHT8gE44b7IO80J05
+VBgRew3Zpcy5em1zCmpOcfyo0Qi2ggmRvK3l4tRgNPnSg3RB4TY=
+=dE6O
+-----END PGP SIGNATURE-----
 
-I was thinking in a similar direction.
-
-> atomic ioctl with TEST_ONLY and SET_DEADLINES? Still gives mutter the
-> option to bail out with an old frame if it's too late?
-
-This is a bit cryptic though, can you elaborate?
-
-
-> Also mutter would need to supply the deadline, because we need to fit the
-> rendering in still before the actual flip. So gets a bit quirky maybe ...
-
-That should be fine. mutter is already keeping track of how long its rendering takes.
-
-
--- 
-Earthling Michel Dänzer               |               https://redhat.com
-Libre software enthusiast             |             Mesa and X developer
+--Sig_/XsIW6p7OIJaoYdmP1AsQtia--
