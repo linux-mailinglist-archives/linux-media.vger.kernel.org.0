@@ -2,433 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B57E3D9E5D
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 09:24:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B57023D9E5F
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 09:25:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234634AbhG2HYk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 03:24:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43960 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234583AbhG2HYj (ORCPT
+        id S234524AbhG2HZS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 03:25:18 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:52659 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234515AbhG2HZS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 03:24:39 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 407B6C061757
-        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 00:24:36 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id m12so797889wru.12
-        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 00:24:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=NodFcoBwcNkgj8qIefgAdW9Y4l0Gxe8cQ+RquSN5vqI=;
-        b=LgAEU8YmPev9Dm2qYtpOZw1mj0Rlar/a1L+s5JneNPbUm6tE3KhAoTtS74BaboP01A
-         hn9fSExUzoffnSRUWBy7dKO9tLc8mEGSeVSxWMdknbiBxIZfqAtkIv1oZ1q2GGaUAscv
-         Pru78DreO7SERE2pwlkGVySmC2F4wDN8FDJ/Du4JzNOGzpJSKMIAve2/RXRwtFwd7iRr
-         C51i1vcPfsUO3HUmpyaJJUo/0Xui+BrHg77NZSKCq70rDb0Iy66TAT/e4az7SDtBQdD+
-         6IMYCQjHz15Oq3iCjTZ4F7Gea6DAPq9NNSJIUEn1f10sIV7mw3AoQ/6fTP3LBUUyUxTy
-         fTBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=NodFcoBwcNkgj8qIefgAdW9Y4l0Gxe8cQ+RquSN5vqI=;
-        b=RNYPWLIetbyLlK4wv2OwYBBc2S131BTF2oH4svuYkXDnC5Kha5Jl5zkJbTz5PB1xn5
-         HO5lmvpWlvSKsA34k0aDVLrw3SR2QKhQha13NNN8epf5eIYOFtBqfuEgr6cGw446yDvM
-         J7ceMJQEP8LbjfnoKEvxecTNzIHX9UC2rs2C4KPaw83x6sExoE176/UfEnNNCJKMURvh
-         92HuvXLhQDQc+d+Pdor/13tcSmiMsX0LADV8hybfA+hV/7M/dlae30rEIJy9//8/1F/K
-         prTAQ1GF6MUMau0wnVeZ85wxl8JfDQxzjaPcJUEBr2fPtfsW6slAd/MHia3/1HV/TnY0
-         ChAA==
-X-Gm-Message-State: AOAM531YyfMe4FKuswhSlEK4JNY1TG5axFer4wREQUzbuGI3FssV0MWc
-        AsJPvgoHsyAQB37rpdZlt2o=
-X-Google-Smtp-Source: ABdhPJygc3XtktrPtQBa1obWqx2RKca2LZnMqXHNGpirfr8dOwqLy9Z9mFXHnRV4uCFhVk+J/YL+ug==
-X-Received: by 2002:a5d:620d:: with SMTP id y13mr3209343wru.45.1627543474766;
-        Thu, 29 Jul 2021 00:24:34 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:4b10:6e80:f619:9837? ([2a02:908:1252:fb60:4b10:6e80:f619:9837])
-        by smtp.gmail.com with ESMTPSA id a16sm2316537wrx.7.2021.07.29.00.24.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jul 2021 00:24:34 -0700 (PDT)
-Subject: Re: [PATCH 2/3] dma-buf: nuke DMA_FENCE_TRACE macros
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     sumit.semwal@linaro.org, gustavo@padovan.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-References: <20210729070330.41443-1-christian.koenig@amd.com>
- <20210729070330.41443-2-christian.koenig@amd.com>
- <YQJXHzWtCxFHXFAV@phenom.ffwll.local>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <3cadc3b4-60a8-0acc-ad31-db66804b7981@gmail.com>
-Date:   Thu, 29 Jul 2021 09:24:33 +0200
+        Thu, 29 Jul 2021 03:25:18 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 90PpmPLzDXTlc90PqmVk7v; Thu, 29 Jul 2021 09:25:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1627543514; bh=XEYIRKsPLFLBcvgxN3puMKHiUXpg7Re7qlpPGAHAJz0=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=KVCu3WOeYLif/jSzR8+Yy0wrRQG7CPn+FFC2S65IrfDKMK4nUHNVk6vUsj+v57Oqh
+         m3WLp8s5mI/tsuQC5+g3QYkRKLLzg+yLQwSWtC/bXnvYwoTZGC7osziJCLtmy1hPrr
+         xNsN8+IyjmDzXVp2BEE1TIzXQYy22qUZYmzbUDKtBo9bHn5xRBv2FxfUeCv4uZGT//
+         weDX7LZvX5vN1kaG+aPqItls2Hze/MTXmbrbC4lfjl6QFRejbypVkfytP2/P6fN9Rg
+         dNFBiQilekuVEgsGXXzttm+UIgXFNuw7RF9s8Nop6S+PncH5TplnasTObmdgtzvs1n
+         Na3TrnUCi2oWQ==
+Subject: Re: media/master bisection: v4l2-compliance-vivid.device-presence on
+ qemu_x86_64
+To:     Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        "kernelci-results@groups.io" <kernelci-results@groups.io>
+References: <60ed7c49.1c69fb81.518d4.80d2@mx.google.com>
+ <e7d8a6b9-5b60-a60f-f5e1-8d458bf56539@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <02487fea-09ba-cda8-3418-d1db4529ee7c@xs4all.nl>
+Date:   Thu, 29 Jul 2021 09:25:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YQJXHzWtCxFHXFAV@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <e7d8a6b9-5b60-a60f-f5e1-8d458bf56539@collabora.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfEKfRa+HUM2bExTMOzmsimPXQqOi9nZ+SL1kccfLER2bNn2RecgXdCf5tpnKK6NOgzWjR2jXiMQvOYBPg52/WYuBws7fjUS2Mb74s/clKvE6Gbo+3VX9
+ U25tu80qqE8uxg65V8x7zMTLNuqIUARPip1t3bqIVbxhn7LKAzr9cZuwjTPnjdRPV+FgRwL09UJQQ0vGsNx6wTtwf25zNt63Un7jCZxjv04pGLd77TPa/7j0
+ JFe9QDqh6+7WwoT+9uula+RJ9pE7r3KGir13+QyiBsQD2Bi5Ijotdo+VjgCL0AQ1fYad9XkFyhvf8tyFH846tJ5zJyYka0koJTFXjZK5q/Vi9kwpFYtpHOHt
+ g4/2wJAcOVKY6HEjtV1Iagd8egQZDxPcRuumRxPhylt6UvHfAd5LK/pJuImMsDC6x1kMa121
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 29/07/2021 09:05, Guillaume Tucker wrote:
+> Hello,
+> 
+> FYI - This bisection was run because the KernelCI v4l2-compliance
+> tests on vivid failed to find a media device.  Regression details
+> can be found here:
+> 
+>   https://linux.kernelci.org/test/job/media/branch/master/kernel/v5.14-rc1/plan/v4l2-compliance-vivid/
+> 
+> This doesn't really seem to be a kernel config issue per se, the
+> driver just wasn't built because of the DRM Kconfig change.
+> Instead I've added CONFIG_FB to the fragment used by KernelCI to
+> enable the vivid driver:
+> 
+>   https://github.com/kernelci/kernelci-core/pull/776/files
+> 
+> Does that sound like the best approach?  Trying to enable
+> CONFIG_FB in the vivid Kconfig causes cyclic dependencies and
+> seems backwards, so I thought that was the way to go.
 
+Yes, that's the right approach.
 
-Am 29.07.21 um 09:22 schrieb Daniel Vetter:
-> On Thu, Jul 29, 2021 at 09:03:29AM +0200, Christian König wrote:
->> Only the DRM GPU scheduler, radeon and amdgpu where using them and they depend
->> on a non existing config option to actually emit some code.
+I read that they disabled CONFIG_FB by default, so this is the fallout
+of that change. I wonder if I should change vivid so that it no longer
+depends on CONFIG_FB and instead just disables the bits that depend on
+that if it isn't set. I think it's a fair amount of work, though.
+
+Regards,
+
+	Hans
+
+> 
+> The drm-tip tree is not currently covered by KernelCI, I guess it
+> would have caught the issue before it landed in mainline.  We're
+> planning to enable it again, mainly to run IGT but it seems like
+> some basic checks for drivers that depend on some DRM configs
+> would be useful too.  Maybe doing that on linux-next too would be
+> useful.
+> 
+> Best wishes,
+> Guillaume
+> 
+> 
+> On 13/07/2021 12:43, KernelCI bot wrote:
+>> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+>> * This automated bisection report was sent to you on the basis  *
+>> * that you may be involved with the breaking commit it has      *
+>> * found.  No manual investigation has been done to verify it,   *
+>> * and the root cause of the problem may be somewhere else.      *
+>> *                                                               *
+>> * If you do send a fix, please include this trailer:            *
+>> *   Reported-by: "kernelci.org bot" <bot@kernelci.org>          *
+>> *                                                               *
+>> * Hope this helps!                                              *
+>> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 >>
->> Nuke them and clean up the dma_fence_signal* return value.
+>> media/master bisection: v4l2-compliance-vivid.device-presence on qemu_x86_64
 >>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
-> So i915 is very much become a horror show of wheel reinventing (and we're
-> trying to fix that), but there's some legit hand-rolled use-cases for
-> having the return value of dma_fence_signal. We're not using that right
-> now because hand-rollled nonsense, but can you perhaps keep that part?
-
-I was considering that for the unit tests as well, but then though "nah, 
-not if no drivers uses it".
-
-But can I make that a bool while at it? E.g. true for was signaled and 
-false for already signaled like we have for the callbacks?
-
-Thanks,
-Christian.
-
->
-> Other pieces lgtm.
-> -Daniel
->
->> ---
->>   drivers/dma-buf/dma-fence.c               | 44 +++++------------------
->>   drivers/dma-buf/st-dma-fence.c            | 12 ++-----
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 10 +-----
->>   drivers/gpu/drm/radeon/radeon_fence.c     | 24 +++----------
->>   drivers/gpu/drm/scheduler/sched_fence.c   | 18 ++--------
->>   include/linux/dma-fence.h                 | 32 +++--------------
->>   6 files changed, 23 insertions(+), 117 deletions(-)
+>> Summary:
+>>   Start:      e73f0f0ee754 Linux 5.14-rc1
+>>   Plain log:  https://storage.kernelci.org/media/master/v5.14-rc1/x86_64/x86_64_defconfig+virtualvideo/gcc-8/lab-collabora/v4l2-compliance-vivid-qemu_x86_64.txt
+>>   HTML log:   https://storage.kernelci.org/media/master/v5.14-rc1/x86_64/x86_64_defconfig+virtualvideo/gcc-8/lab-collabora/v4l2-compliance-vivid-qemu_x86_64.html
+>>   Result:     f611b1e7624c drm: Avoid circular dependencies for CONFIG_FB
 >>
->> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->> index ce0f5eff575d..21cba0f74e69 100644
->> --- a/drivers/dma-buf/dma-fence.c
->> +++ b/drivers/dma-buf/dma-fence.c
->> @@ -350,12 +350,9 @@ void __dma_fence_might_wait(void)
->>    *
->>    * Unlike dma_fence_signal_timestamp(), this function must be called with
->>    * &dma_fence.lock held.
->> - *
->> - * Returns 0 on success and a negative error value when @fence has been
->> - * signalled already.
->>    */
->> -int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->> -				      ktime_t timestamp)
->> +void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->> +				       ktime_t timestamp)
->>   {
->>   	struct dma_fence_cb *cur, *tmp;
->>   	struct list_head cb_list;
->> @@ -364,7 +361,7 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>   
->>   	if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->>   				      &fence->flags)))
->> -		return -EINVAL;
->> +		return;
->>   
->>   	/* Stash the cb_list before replacing it with the timestamp */
->>   	list_replace(&fence->cb_list, &cb_list);
->> @@ -377,8 +374,6 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>   		INIT_LIST_HEAD(&cur->node);
->>   		cur->func(fence, cur);
->>   	}
->> -
->> -	return 0;
->>   }
->>   EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
->>   
->> @@ -393,23 +388,14 @@ EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
->>    * can only go from the unsignaled to the signaled state and not back, it will
->>    * only be effective the first time. Set the timestamp provided as the fence
->>    * signal timestamp.
->> - *
->> - * Returns 0 on success and a negative error value when @fence has been
->> - * signalled already.
->>    */
->> -int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp)
->> +void dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp)
->>   {
->>   	unsigned long flags;
->> -	int ret;
->> -
->> -	if (!fence)
->> -		return -EINVAL;
->>   
->>   	spin_lock_irqsave(fence->lock, flags);
->> -	ret = dma_fence_signal_timestamp_locked(fence, timestamp);
->> +	dma_fence_signal_timestamp_locked(fence, timestamp);
->>   	spin_unlock_irqrestore(fence->lock, flags);
->> -
->> -	return ret;
->>   }
->>   EXPORT_SYMBOL(dma_fence_signal_timestamp);
->>   
->> @@ -425,13 +411,10 @@ EXPORT_SYMBOL(dma_fence_signal_timestamp);
->>    *
->>    * Unlike dma_fence_signal(), this function must be called with &dma_fence.lock
->>    * held.
->> - *
->> - * Returns 0 on success and a negative error value when @fence has been
->> - * signalled already.
->>    */
->> -int dma_fence_signal_locked(struct dma_fence *fence)
->> +void dma_fence_signal_locked(struct dma_fence *fence)
->>   {
->> -	return dma_fence_signal_timestamp_locked(fence, ktime_get());
->> +	dma_fence_signal_timestamp_locked(fence, ktime_get());
->>   }
->>   EXPORT_SYMBOL(dma_fence_signal_locked);
->>   
->> @@ -444,28 +427,19 @@ EXPORT_SYMBOL(dma_fence_signal_locked);
->>    * dma_fence_add_callback(). Can be called multiple times, but since a fence
->>    * can only go from the unsignaled to the signaled state and not back, it will
->>    * only be effective the first time.
->> - *
->> - * Returns 0 on success and a negative error value when @fence has been
->> - * signalled already.
->>    */
->> -int dma_fence_signal(struct dma_fence *fence)
->> +void dma_fence_signal(struct dma_fence *fence)
->>   {
->>   	unsigned long flags;
->> -	int ret;
->>   	bool tmp;
->>   
->> -	if (!fence)
->> -		return -EINVAL;
->> -
->>   	tmp = dma_fence_begin_signalling();
->>   
->>   	spin_lock_irqsave(fence->lock, flags);
->> -	ret = dma_fence_signal_timestamp_locked(fence, ktime_get());
->> +	dma_fence_signal_timestamp_locked(fence, ktime_get());
->>   	spin_unlock_irqrestore(fence->lock, flags);
->>   
->>   	dma_fence_end_signalling(tmp);
->> -
->> -	return ret;
->>   }
->>   EXPORT_SYMBOL(dma_fence_signal);
->>   
->> diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
->> index c8a12d7ad71a..e89001d8873f 100644
->> --- a/drivers/dma-buf/st-dma-fence.c
->> +++ b/drivers/dma-buf/st-dma-fence.c
->> @@ -122,21 +122,13 @@ static int test_signaling(void *arg)
->>   		goto err_free;
->>   	}
->>   
->> -	if (dma_fence_signal(f)) {
->> -		pr_err("Fence reported being already signaled\n");
->> -		goto err_free;
->> -	}
->> -
->> +	dma_fence_signal(f);
->>   	if (!dma_fence_is_signaled(f)) {
->>   		pr_err("Fence not reporting signaled\n");
->>   		goto err_free;
->>   	}
->>   
->> -	if (!dma_fence_signal(f)) {
->> -		pr_err("Fence reported not being already signaled\n");
->> -		goto err_free;
->> -	}
->> -
->> +	dma_fence_signal(f);
->>   	err = 0;
->>   err_free:
->>   	dma_fence_put(f);
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->> index d4547d195173..397872779c31 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->> @@ -246,7 +246,6 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->>   	struct amdgpu_fence_driver *drv = &ring->fence_drv;
->>   	struct amdgpu_device *adev = ring->adev;
->>   	uint32_t seq, last_seq;
->> -	int r;
->>   
->>   	do {
->>   		last_seq = atomic_read(&ring->fence_drv.last_seq);
->> @@ -278,12 +277,7 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->>   		if (!fence)
->>   			continue;
->>   
->> -		r = dma_fence_signal(fence);
->> -		if (!r)
->> -			DMA_FENCE_TRACE(fence, "signaled from irq context\n");
->> -		else
->> -			BUG();
->> -
->> +		dma_fence_signal(fence);
->>   		dma_fence_put(fence);
->>   		pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
->>   		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
->> @@ -673,8 +667,6 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
->>   	if (!timer_pending(&ring->fence_drv.fallback_timer))
->>   		amdgpu_fence_schedule_fallback(ring);
->>   
->> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", ring->idx);
->> -
->>   	return true;
->>   }
->>   
->> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
->> index 18f2c2e0dfb3..3f351d222cbb 100644
->> --- a/drivers/gpu/drm/radeon/radeon_fence.c
->> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
->> @@ -176,18 +176,11 @@ static int radeon_fence_check_signaled(wait_queue_entry_t *wait, unsigned mode,
->>   	 */
->>   	seq = atomic64_read(&fence->rdev->fence_drv[fence->ring].last_seq);
->>   	if (seq >= fence->seq) {
->> -		int ret = dma_fence_signal_locked(&fence->base);
->> -
->> -		if (!ret)
->> -			DMA_FENCE_TRACE(&fence->base, "signaled from irq context\n");
->> -		else
->> -			DMA_FENCE_TRACE(&fence->base, "was already signaled\n");
->> -
->> +		dma_fence_signal_locked(&fence->base);
->>   		radeon_irq_kms_sw_irq_put(fence->rdev, fence->ring);
->>   		__remove_wait_queue(&fence->rdev->fence_queue, &fence->fence_wake);
->>   		dma_fence_put(&fence->base);
->> -	} else
->> -		DMA_FENCE_TRACE(&fence->base, "pending\n");
->> +	}
->>   	return 0;
->>   }
->>   
->> @@ -422,8 +415,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
->>   	fence->fence_wake.func = radeon_fence_check_signaled;
->>   	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
->>   	dma_fence_get(f);
->> -
->> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", fence->ring);
->>   	return true;
->>   }
->>   
->> @@ -441,11 +432,7 @@ bool radeon_fence_signaled(struct radeon_fence *fence)
->>   		return true;
->>   
->>   	if (radeon_fence_seq_signaled(fence->rdev, fence->seq, fence->ring)) {
->> -		int ret;
->> -
->> -		ret = dma_fence_signal(&fence->base);
->> -		if (!ret)
->> -			DMA_FENCE_TRACE(&fence->base, "signaled from radeon_fence_signaled\n");
->> +		dma_fence_signal(&fence->base);
->>   		return true;
->>   	}
->>   	return false;
->> @@ -550,7 +537,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->>   {
->>   	uint64_t seq[RADEON_NUM_RINGS] = {};
->>   	long r;
->> -	int r_sig;
->>   
->>   	/*
->>   	 * This function should not be called on !radeon fences.
->> @@ -567,9 +553,7 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->>   		return r;
->>   	}
->>   
->> -	r_sig = dma_fence_signal(&fence->base);
->> -	if (!r_sig)
->> -		DMA_FENCE_TRACE(&fence->base, "signaled from fence_wait\n");
->> +	dma_fence_signal(&fence->base);
->>   	return r;
->>   }
->>   
->> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->> index 69de2c76731f..3736746c47bd 100644
->> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->> @@ -50,26 +50,12 @@ static void __exit drm_sched_fence_slab_fini(void)
->>   
->>   void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
->>   {
->> -	int ret = dma_fence_signal(&fence->scheduled);
->> -
->> -	if (!ret)
->> -		DMA_FENCE_TRACE(&fence->scheduled,
->> -				"signaled from irq context\n");
->> -	else
->> -		DMA_FENCE_TRACE(&fence->scheduled,
->> -				"was already signaled\n");
->> +	dma_fence_signal(&fence->scheduled);
->>   }
->>   
->>   void drm_sched_fence_finished(struct drm_sched_fence *fence)
->>   {
->> -	int ret = dma_fence_signal(&fence->finished);
->> -
->> -	if (!ret)
->> -		DMA_FENCE_TRACE(&fence->finished,
->> -				"signaled from irq context\n");
->> -	else
->> -		DMA_FENCE_TRACE(&fence->finished,
->> -				"was already signaled\n");
->> +	dma_fence_signal(&fence->finished);
->>   }
->>   
->>   static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
->> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->> index 6ffb4b2c6371..027db23fd4e3 100644
->> --- a/include/linux/dma-fence.h
->> +++ b/include/linux/dma-fence.h
->> @@ -370,11 +370,11 @@ static inline void dma_fence_end_signalling(bool cookie) {}
->>   static inline void __dma_fence_might_wait(void) {}
->>   #endif
->>   
->> -int dma_fence_signal(struct dma_fence *fence);
->> -int dma_fence_signal_locked(struct dma_fence *fence);
->> -int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
->> -int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->> -				      ktime_t timestamp);
->> +void dma_fence_signal(struct dma_fence *fence);
->> +void dma_fence_signal_locked(struct dma_fence *fence);
->> +void dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
->> +void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->> +				       ktime_t timestamp);
->>   signed long dma_fence_default_wait(struct dma_fence *fence,
->>   				   bool intr, signed long timeout);
->>   int dma_fence_add_callback(struct dma_fence *fence,
->> @@ -590,26 +590,4 @@ struct dma_fence *dma_fence_get_stub(void);
->>   struct dma_fence *dma_fence_allocate_private_stub(void);
->>   u64 dma_fence_context_alloc(unsigned num);
->>   
->> -#define DMA_FENCE_TRACE(f, fmt, args...) \
->> -	do {								\
->> -		struct dma_fence *__ff = (f);				\
->> -		if (IS_ENABLED(CONFIG_DMA_FENCE_TRACE))			\
->> -			pr_info("f %llu#%llu: " fmt,			\
->> -				__ff->context, __ff->seqno, ##args);	\
->> -	} while (0)
->> -
->> -#define DMA_FENCE_WARN(f, fmt, args...) \
->> -	do {								\
->> -		struct dma_fence *__ff = (f);				\
->> -		pr_warn("f %llu#%llu: " fmt, __ff->context, __ff->seqno,\
->> -			 ##args);					\
->> -	} while (0)
->> -
->> -#define DMA_FENCE_ERR(f, fmt, args...) \
->> -	do {								\
->> -		struct dma_fence *__ff = (f);				\
->> -		pr_err("f %llu#%llu: " fmt, __ff->context, __ff->seqno,	\
->> -			##args);					\
->> -	} while (0)
->> -
->>   #endif /* __LINUX_DMA_FENCE_H */
->> -- 
->> 2.25.1
+>> Checks:
+>>   revert:     PASS
+>>   verify:     PASS
 >>
+>> Parameters:
+>>   Tree:       media
+>>   URL:        https://git.linuxtv.org/media_tree.git
+>>   Branch:     master
+>>   Target:     qemu_x86_64
+>>   CPU arch:   x86_64
+>>   Lab:        lab-collabora
+>>   Compiler:   gcc-8
+>>   Config:     x86_64_defconfig+virtualvideo
+>>   Test case:  v4l2-compliance-vivid.device-presence
+>>
+>> Breaking commit found:
+>>
+>> -------------------------------------------------------------------------------
+>> commit f611b1e7624ccdbd495c19e9805629e22265aa16
+>> Author: Kees Cook <keescook@chromium.org>
+>> Date:   Wed Jun 2 14:52:50 2021 -0700
+>>
+>>     drm: Avoid circular dependencies for CONFIG_FB
+>>     
+>>     When cleaning up other drm config dependencies, it is too easy to create
+>>     larger problems. Instead, mark CONFIG_FB as a "depends":
+>>     
+>>     drivers/gpu/drm/Kconfig:74:error: recursive dependency detected!
+>>     
+>>     Suggested-by: Arnd Bergmann <arnd@kernel.org>
+>>     Link: https://lore.kernel.org/lkml/CAK8P3a3jUQs6c5tESSNMbqfuymewj9FhqRizyHcfOXf8Rgy-nA@mail.gmail.com/
+>>     Signed-off-by: Kees Cook <keescook@chromium.org>
+>>     [danvet: Rebase, the symbol has changed.]
+>>     Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>     Link: https://patchwork.freedesktop.org/patch/msgid/20210602215252.695994-2-keescook@chromium.org
+>>
+>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>> index 594ac6c3a1f4..56a55a6e6239 100644
+>> --- a/drivers/gpu/drm/Kconfig
+>> +++ b/drivers/gpu/drm/Kconfig
+>> @@ -98,8 +98,8 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+>>  config DRM_FBDEV_EMULATION
+>>  	bool "Enable legacy fbdev support for your modesetting driver"
+>>  	depends on DRM
+>> +	depends on FB
+>>  	select DRM_KMS_HELPER
+>> -	select FB
+>>  	select FB_CFB_FILLRECT
+>>  	select FB_CFB_COPYAREA
+>>  	select FB_CFB_IMAGEBLIT
+>> -------------------------------------------------------------------------------
+>>
+>>
+>> Git bisection log:
+>>
+>> -------------------------------------------------------------------------------
+>> git bisect start
+>> # good: [50e7a31d30e8221632675abed3be306382324ca2] media: Fix Media Controller API config checks
+>> git bisect good 50e7a31d30e8221632675abed3be306382324ca2
+>> # bad: [e73f0f0ee7541171d89f2e2491130c7771ba58d3] Linux 5.14-rc1
+>> git bisect bad e73f0f0ee7541171d89f2e2491130c7771ba58d3
+>> # bad: [e058a84bfddc42ba356a2316f2cf1141974625c9] Merge tag 'drm-next-2021-07-01' of git://anongit.freedesktop.org/drm/drm
+>> git bisect bad e058a84bfddc42ba356a2316f2cf1141974625c9
+>> # good: [a6eaf3850cb171c328a8b0db6d3c79286a1eba9d] Merge tag 'sched-urgent-2021-06-30' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+>> git bisect good a6eaf3850cb171c328a8b0db6d3c79286a1eba9d
+>> # good: [007b312c6f294770de01fbc0643610145012d244] Merge tag 'mac80211-next-for-net-next-2021-06-25' of git://git.kernel.org/pub/scm/linux/kernel/git/jberg/mac80211-next
+>> git bisect good 007b312c6f294770de01fbc0643610145012d244
+>> # good: [18703923a66aecf6f7ded0e16d22eb412ddae72f] drm/amdgpu: Fix incorrect register offsets for Sienna Cichlid
+>> git bisect good 18703923a66aecf6f7ded0e16d22eb412ddae72f
+>> # bad: [334200bf52f0637a5ab8331c557dfcecbb9c30fa] Merge tag 'drm-msm-next-2021-06-23b' of https://gitlab.freedesktop.org/drm/msm into drm-next
+>> git bisect bad 334200bf52f0637a5ab8331c557dfcecbb9c30fa
+>> # bad: [c707b73f0cfb1acc94a20389aecde65e6385349b] Merge tag 'amd-drm-next-5.14-2021-06-09' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
+>> git bisect bad c707b73f0cfb1acc94a20389aecde65e6385349b
+>> # good: [caa18dd6dd9305d52943a6b59f410cbc960ad0a0] drm/amd/display: force CP to DESIRED when removing display
+>> git bisect good caa18dd6dd9305d52943a6b59f410cbc960ad0a0
+>> # bad: [691cf8cd7a531dbfcc29d09a23c509a86fd9b24f] drm/amdgpu: use correct rounding macro for 64-bit
+>> git bisect bad 691cf8cd7a531dbfcc29d09a23c509a86fd9b24f
+>> # bad: [2fdcb55dfc86835e4845e3f422180b5596d23cb4] drm/amdkfd: use resource cursor in svm_migrate_copy_to_vram v2
+>> git bisect bad 2fdcb55dfc86835e4845e3f422180b5596d23cb4
+>> # bad: [6c3f953381e526a1623d4575660afae8b19ffa20] drm/sti/sti_hqvdp: Fix incorrectly named function 'sti_hqvdp_vtg_cb()'
+>> git bisect bad 6c3f953381e526a1623d4575660afae8b19ffa20
+>> # bad: [5ea4dba68305d9648b9dba30036cc36d4e877bca] drm/msm/a6xx: add CONFIG_QCOM_LLCC dependency
+>> git bisect bad 5ea4dba68305d9648b9dba30036cc36d4e877bca
+>> # good: [4a888ba03fd97d1cb0253581973533965bf348c4] drm/vgem/vgem_drv: Standard comment blocks should not use kernel-doc format
+>> git bisect good 4a888ba03fd97d1cb0253581973533965bf348c4
+>> # good: [c5ef15ae09637fb51ae43e1d1d98329d67dd4fd6] video: fbdev: atyfb: mach64_cursor.c: deleted the repeated word
+>> git bisect good c5ef15ae09637fb51ae43e1d1d98329d67dd4fd6
+>> # bad: [f611b1e7624ccdbd495c19e9805629e22265aa16] drm: Avoid circular dependencies for CONFIG_FB
+>> git bisect bad f611b1e7624ccdbd495c19e9805629e22265aa16
+>> # good: [ff323d6d72e1e4971c8ba9e2f3cf8afc48f22383] video: fbdev: mb862xx: use DEVICE_ATTR_RO macro
+>> git bisect good ff323d6d72e1e4971c8ba9e2f3cf8afc48f22383
+>> # first bad commit: [f611b1e7624ccdbd495c19e9805629e22265aa16] drm: Avoid circular dependencies for CONFIG_FB
+>> -------------------------------------------------------------------------------
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Groups.io Links: You receive all messages sent to this group.
+>> View/Reply Online (#13992): https://groups.io/g/kernelci-results/message/13992
+>> Mute This Topic: https://groups.io/mt/84176294/924702
+>> Group Owner: kernelci-results+owner@groups.io
+>> Unsubscribe: https://groups.io/g/kernelci-results/unsub [guillaume.tucker@collabora.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
+>>
+> 
 
