@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34C3A3DAFC2
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 01:17:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A64343DAFC4
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 01:20:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234496AbhG2XSA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 19:18:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42028 "EHLO mail.kernel.org"
+        id S234379AbhG2XUM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 19:20:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44976 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229975AbhG2XSA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 19:18:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 991B260F46;
-        Thu, 29 Jul 2021 23:17:55 +0000 (UTC)
+        id S229975AbhG2XUM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Jul 2021 19:20:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9056760C40;
+        Thu, 29 Jul 2021 23:20:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627600676;
-        bh=eLhWlByByA0Yc4wkJEjt4npcpC34h5H2IwUrHGl3WF8=;
+        s=k20201202; t=1627600808;
+        bh=pMtsokc+ndNjg/6npoelU7EHgkJ/JVkmNGh9tksS8JQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bxnjwSFhxE+LGrvQjJXu1JjMXfgG9odBIa+zGM0bMqfKmkQ1m83B8X7POcFquUihk
-         sm3D0BwEfnm840DJoptNpC6+01gNVD2O87j1twTLtjCdiimW2hRugvY8lZRbn6kqMW
-         cAKZ/bnl4WS/t9lvPdr2fR7nvgGGWoV0JLKCg6nu0ky2bQ/xkc80sSdwctuBj3K/qW
-         HIgzi8qFpX8IDyCvHtt587J6OK8TDWiwdh5Hk+QFy/JSwwyWyHatxrI7+IIZNQ2ASi
-         PDy63+zmWxelauRbR4zDVpVUIX1E6XMA5HIy39ggNDGwN4MXNRUqj22D8CWi7LV0CC
-         NdF7o6tm6Pg+w==
-Date:   Thu, 29 Jul 2021 18:20:28 -0500
+        b=RCS8dMSRS4V+z71xOZGTagLPGbWPl+X7H1jAnCV6OqgV4ytNGIqoMpurT8rWTJ7Ic
+         PCb406pHtI2x8GOnFf87s0yKbaqyuYmr6VtveamlPCc50gCJjZfNAQnzFnuzW4MTPt
+         S39QB3HwzElypgvekkfQEGjsQOYdp6HNgIlT5R+ltHVXshM18KnHrBllNxBuG58tq3
+         qrLDEecXbR+ickmqt8c+hAfnAXDS5rU+tFU/M/ILX9YWZ+3+8jO3Ra1byjgJRl0bFH
+         KZvaMV4FzNaVBKk0kyrpXqee8uGlfc2DXwHjikg6xqGgEZcsaEVI2JMHEM0ya7rmAA
+         v4VncQ/4o3kow==
+Date:   Thu, 29 Jul 2021 18:22:40 -0500
 From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Yong Zhi <yong.zhi@intel.com>,
@@ -35,44 +35,70 @@ Cc:     Yong Zhi <yong.zhi@intel.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-hardening@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: [PATCH 1/2][next] media: staging/intel-ipu3: css: Fix wrong size
- comparison
-Message-ID: <19339bd9b40f224cbd80a8f6bd990750fcf2d446.1627600430.git.gustavoars@kernel.org>
+Subject: [PATCH 2/2][next] media: staging/intel-ipu3: css: Replace
+ one-element array and use struct_size() helper
+Message-ID: <8db90c8f5124bbeab20af9c1314439da8f033184.1627600430.git.gustavoars@kernel.org>
 References: <cover.1627600430.git.gustavoars@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <cover.1627600430.git.gustavoars@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is a wrong comparison of the total size of the loaded firmware
-css->fw->size with the size of a pointer to struct imgu_fw_header.
+There is a regular need in the kernel to provide a way to declare having
+a dynamically sized set of trailing elements in a structure. Kernel code
+should always use “flexible array members”[1] for these cases. The older
+style of one-element or zero-length arrays should no longer be used[2].
 
-Fix this by using the right operand 'struct imgu_fw_header' for
-sizeof, instead of 'struct imgu_fw_header *'
+Replace a one-element array with a flexible-array member in struct
+imgu_fw_header and use the struct_size() helper.
 
-Fixes: 09d290f0ba21 ("media: staging/intel-ipu3: css: Add support for firmware management")
-Cc: stable@vger.kernel.org
+This also helps with the ongoing efforts to globally enable
+-Warray-bounds and get us closer to being able to tighten the
+FORTIFY_SOURCE routines on memcpy().
+
+[1] https://en.wikipedia.org/wiki/Flexible_array_member
+[2] https://www.kernel.org/doc/html/v5.10/process/deprecated.html#zero-length-and-one-element-arrays
+
+Link: https://github.com/KSPP/linux/issues/79
 Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
- drivers/staging/media/ipu3/ipu3-css-fw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/ipu3/ipu3-css-fw.c | 5 ++---
+ drivers/staging/media/ipu3/ipu3-css-fw.h | 2 +-
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/media/ipu3/ipu3-css-fw.c b/drivers/staging/media/ipu3/ipu3-css-fw.c
-index 45aff76198e2..ab021afff954 100644
+index ab021afff954..3b7df1128840 100644
 --- a/drivers/staging/media/ipu3/ipu3-css-fw.c
 +++ b/drivers/staging/media/ipu3/ipu3-css-fw.c
-@@ -124,7 +124,7 @@ int imgu_css_fw_init(struct imgu_css *css)
- 	/* Check and display fw header info */
- 
- 	css->fwp = (struct imgu_fw_header *)css->fw->data;
--	if (css->fw->size < sizeof(struct imgu_fw_header *) ||
-+	if (css->fw->size < sizeof(struct imgu_fw_header) ||
+@@ -127,9 +127,8 @@ int imgu_css_fw_init(struct imgu_css *css)
+ 	if (css->fw->size < sizeof(struct imgu_fw_header) ||
  	    css->fwp->file_header.h_size != sizeof(struct imgu_fw_bi_file_h))
  		goto bad_fw;
- 	if (sizeof(struct imgu_fw_bi_file_h) +
+-	if (sizeof(struct imgu_fw_bi_file_h) +
+-	    css->fwp->file_header.binary_nr * sizeof(struct imgu_fw_info) >
+-	    css->fw->size)
++	if (struct_size(css->fwp, binary_header,
++			css->fwp->file_header.binary_nr) > css->fw->size)
+ 		goto bad_fw;
+ 
+ 	dev_info(dev, "loaded firmware version %.64s, %u binaries, %zu bytes\n",
+diff --git a/drivers/staging/media/ipu3/ipu3-css-fw.h b/drivers/staging/media/ipu3/ipu3-css-fw.h
+index 3c078f15a295..c0bc57fd678a 100644
+--- a/drivers/staging/media/ipu3/ipu3-css-fw.h
++++ b/drivers/staging/media/ipu3/ipu3-css-fw.h
+@@ -171,7 +171,7 @@ struct imgu_fw_bi_file_h {
+ 
+ struct imgu_fw_header {
+ 	struct imgu_fw_bi_file_h file_header;
+-	struct imgu_fw_info binary_header[1];	/* binary_nr items */
++	struct imgu_fw_info binary_header[];	/* binary_nr items */
+ };
+ 
+ /******************* Firmware functions *******************/
 -- 
 2.27.0
 
