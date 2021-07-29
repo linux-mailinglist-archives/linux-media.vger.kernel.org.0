@@ -2,78 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A70A3DA0AB
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 11:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D2B33DA0C2
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 12:00:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235670AbhG2Jzz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 05:55:55 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:58883 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231488AbhG2Jzy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 05:55:54 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 92lXmQZzSXTlc92lYmWCY5; Thu, 29 Jul 2021 11:55:50 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1627552550; bh=zfdDd6IHmcwpegfCs0x5obfA9rbXIbLuza2xF5KLbEw=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=jZHk6DD5xEDme1JBVO/Y3KccZoeAGGL5usdQrThOasyFCk7NSC3osiG4asihHk9V8
-         mKzjq+p7yFMOSmaO4lybJs6ymLBzsIrNkTmo2k9SYJAmA+D4pp+9AU0+GzwmM3/HoJ
-         x4lVtmCCdQaVycZa8WndVgtADwbvW7RRRn/D2pDU2Gh3VdYRIzIeS07igG2bgxzx8E
-         KwoXlGQD2HvwdNAQOVwDcMqE/8IXpZCfkZ+jhtIhVPhvQQGg1bBVaZLXqYud5lJF6Z
-         hO/8NDjAQ60/3255aGwxJ9+dy2Ic0wxAVcxHKAlqhC4800AqtI81R+TaGGsPM9S4+s
-         ahC2Qe/ac0LdA==
-Subject: Re: [PATCH] TDA1997x: fix tda1997x_remove()
-To:     =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Tim Harvey <tharvey@gateworks.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <m35ywxcq1l.fsf@t19.piap.pl>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <a1f99432-f11e-fd4d-4956-ae2864f08a2a@xs4all.nl>
-Date:   Thu, 29 Jul 2021 11:55:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S235672AbhG2KAg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 06:00:36 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:47214 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235451AbhG2KAf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Jul 2021 06:00:35 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1m92q7-009wNV-0L; Thu, 29 Jul 2021 10:00:31 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1m92uq-0001Un-1i; Thu, 29 Jul 2021 10:05:24 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR v5.14] Two fixes for v5.14 (#76083)
+Date:   Thu, 29 Jul 2021 10:05:23 +0000
+Message-Id: <20210729100523.5708-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <378ad7f7-1fb9-0e3e-1093-4c368ffd42d2@xs4all.nl>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <m35ywxcq1l.fsf@t19.piap.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfPn7bQFYDQzVyj4l/K8Dfve+HIcRhrtN6kpZLSbnnpVUdTeFu7cMuRLW9nIom1Ei4jfvZEa5wHyg4Y+sNe9LUQyl9ngD61MRLGFUCZ1o9IcZeTmNUm5d
- Y+d67U87kSjELaUeS/pAmdClYKwlZRinj0rChSqCsll0ystgC7QRyHNYCV2DF4j6RK7zprJ3hjExFHas3/I/pw8JH3lBiuWl5txGCPcSCLUU5b9Qg99hQh2F
- KEGQLs1hnv0ZV2vQTi1mdHu2Oqhl21Yd3oA5NHWRUIHOyB0IbKg1F1a3ckDXkWGa7ojE0eiQ4MyQlw07Dxbs1mZcdseb9erkarADCjJ/mFpaRXd5M61X+qDJ
- 1lsoDM7HUQ00HYxcBwHUzfNmYNHzU+sFvxyKQMZohQNXATZcjUpkLeTQgSnv7KsVAidYFj0y
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/07/2021 12:44, Krzysztof Hałasa wrote:
-> TDA1997x I2C "client data" pointer was never set in tda1997x_probe(),
-> then the code tried to use invalid pointer in tda1997x_remove().
-> 
-> Signed-off-by: Krzysztof Hałasa <khalasa@piap.pl>
-> 
-> diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
-> index 71194746c874..043cc8275d00 100644
-> --- a/drivers/media/i2c/tda1997x.c
-> +++ b/drivers/media/i2c/tda1997x.c
-> @@ -2771,6 +2771,7 @@ static int tda1997x_probe(struct i2c_client *client,
->  		goto err_free_media;
->  	}
->  
-> +	i2c_set_clientdata(client, sd);
->  	return 0;
->  
->  err_free_media:
-> 
+From: builder@linuxtv.org
 
-Actually, v4l2_i2c_subdev_init() sets this, and v4l2_i2c_subdev_init() *is* called.
-Does it really crash in tda1997x_remove() without this patch?
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/378ad7f7-1fb9-0e3e-1093-4c368ffd42d2@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/128085/
+Build time: 00:16:23
+Link: https://lore.kernel.org/linux-media/378ad7f7-1fb9-0e3e-1093-4c368ffd42d2@xs4all.nl
 
-If so, then I suspect something else is going on.
+gpg: Signature made Thu 29 Jul 2021 09:37:53 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-Regards,
+Summary: got 2/2 patches with issues, being 1 at build time
 
-	Hans
+Error/warnings:
+
+patches/0001-videobuf2-core-dequeue-if-start_streaming-fails.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0002-media-atmel-fix-build-when-ISC-m-and-XISC-y.patch:
+
+   checkpatch.pl:
+	$ cat patches/0002-media-atmel-fix-build-when-ISC-m-and-XISC-y.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
