@@ -2,228 +2,922 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1F403DA2F9
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 14:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D9A13DA307
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 14:25:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236940AbhG2MSi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 08:18:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57512 "EHLO
+        id S236486AbhG2MZ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 08:25:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234826AbhG2MSh (ORCPT
+        with ESMTP id S231674AbhG2MZ1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 08:18:37 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C22C0613D3
-        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 05:18:33 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id o5-20020a1c4d050000b02901fc3a62af78so6696281wmh.3
-        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 05:18:33 -0700 (PDT)
+        Thu, 29 Jul 2021 08:25:27 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47422C061765
+        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 05:25:23 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id b128so3599723wmb.4
+        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 05:25:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=K4XS3jQDbEhTY4vhox2tdi5eMV9YDnW9YG1Sohr9u2s=;
-        b=U63mBHus6cpWixWrdLqgH3fsIR0xA3Sg/F8vRn330H6P96Mp0QmZ7KiW0lbiqiSf5P
-         pA5BMVC6ldBDPT0Sdpo3bgyujN3F1l993wnSO59bW+56hlfxOfCmd77puUhbxWpFhJgc
-         IA4qXHHBGYM8AeNxjSwAGGJu05lE8fkvJXm6k=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=PAHI3sAdI9ksDvwq5Qc1WFquqzpcxsCRnJT60u5/LEY=;
+        b=pGvEW6fkMF7nWwnQF871flaGz77N7nAeTAlWCUQLAzAut3oT/ovFcjm3bZ6RxJ667g
+         Rk00fcIyCJpkRxuCJus7/P0QDZAjACzEo6a7Lnz7J5KKN0sR4R7aTi/D8/1wXHKDz9lQ
+         Hkaf0Fut7K/uudkhplPdl9TEtcrQyX7Y2zGOMniY1sA2H/Zs9hvyBU0rra2wyXl1mXX5
+         AYpmiN+PNzzjmh8Ythv2K1dUROGIBTktk6PoVa7lLdwmOKxJ0XUcIo3oG98nHzzVdUBk
+         NnmOik8BGeSoK/Gt/GsRNzQqQWlMzWyNvd/s+mFTbG3vby8DDLNEDMnOD9NTwFVseRBq
+         z3Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=K4XS3jQDbEhTY4vhox2tdi5eMV9YDnW9YG1Sohr9u2s=;
-        b=XiakHSxXtv0QUefAnSdsQnKstaY6JrVqJwUbgK/H7JX16QjB98lbP08jCo5Bc7sJI5
-         qX1iLBvtlChRjnsnWn2BCdkWkzUhxFKlLGDtIrzF/u35rs3rf5om2xlpzJncgaSHp1dh
-         MfG7LTZZObRg0tWoxyaE6fJpjMqSPt7arXg/k1SJx1r+qnE/aVPVm6thO5nlGiMRfURr
-         gxeSySq1NMkgsmvyOJj+93AHto1JfFQVde0zhr0LCf0YxzL2ppMKtSqxjAdTduJC9ywC
-         kQxMf4ltxsmok/uV/IIJh3MJyC42+aIzBZ1Bux9jvKHiUNLvMuEkx08kxTf6yhGdsvJv
-         VC+w==
-X-Gm-Message-State: AOAM532J++Vp/hcHWHrGmc246E3VL+bHRWuWS+lVdQVj2sKDiN+MkQOQ
-        PqzBU7zHjY+ssRNOBWMpVDsZlg==
-X-Google-Smtp-Source: ABdhPJyQpJTA1ak/werqdV/qBjPra4SeA8v+xZEOpcOm43FkOHkPAROt99M4EftcdD3ZSY1URgB8Zg==
-X-Received: by 2002:a05:600c:4f96:: with SMTP id n22mr4429287wmq.137.1627561112158;
-        Thu, 29 Jul 2021 05:18:32 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id v5sm3379855wrd.74.2021.07.29.05.18.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 05:18:31 -0700 (PDT)
-Date:   Thu, 29 Jul 2021 14:18:29 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
-        Rob Clark <robdclark@chromium.org>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Roy Sun <Roy.Sun@amd.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        open list <linux-kernel@vger.kernel.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=PAHI3sAdI9ksDvwq5Qc1WFquqzpcxsCRnJT60u5/LEY=;
+        b=WDBwNoYzZYT7plVZ5J7/Naq+P2hGoXWp4QKBjqAKshmIFCe+ra9TgWWmmINn6M/i8d
+         WZB0tWNz5QhIVH3kned2CmmvCzos17o4PfLZgZ4oWwlckCarDinVZrvB/pwunFOFSQGk
+         nFug7Y2p2Qgb8X++xRYcY6K8JRPpAYz9/JKhu8Z2gjJ0+9LiSdq6a/hL32Mfop3JQAI6
+         Kxdy40515BRjrRxxUg+XMxpPAmjFk6P4tszXTosBDVDaBAT1x9BqEePPGTxnK6dewiNj
+         esUFdh4OP6L/QmFUTsxrQaZGMjDOUKojj5ry5fCanhdExgVy5wdeMR3I/aUpJowNgVy1
+         eecw==
+X-Gm-Message-State: AOAM530V+bD0QMYISDKT9s3pHN0FYw10xhOZgd4ZG982VYQi/5UADbFc
+        /hWdnVyehwIVIlXc1xkNQ1E=
+X-Google-Smtp-Source: ABdhPJwMBrtyc/x0oOxJKLmIQT3mb6VK0cJbtSZhquNsG+evMzvuDTrUvSSCb8Px5XdEtwCMHj36QA==
+X-Received: by 2002:a1c:4c06:: with SMTP id z6mr14375751wmf.163.1627561521568;
+        Thu, 29 Jul 2021 05:25:21 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:3e62:c902:d5a3:6f28? ([2a02:908:1252:fb60:3e62:c902:d5a3:6f28])
+        by smtp.gmail.com with ESMTPSA id r4sm3297037wre.84.2021.07.29.05.25.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Jul 2021 05:25:20 -0700 (PDT)
+Subject: Re: [PATCH 3/3] dma-buf: nuke SW_SYNC debugfs files
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
         dri-devel <dri-devel@lists.freedesktop.org>,
         "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
-Message-ID: <YQKclVvL+QeeL6cP@phenom.ffwll.local>
-Mail-Followup-To: Pekka Paalanen <ppaalanen@gmail.com>,
-        Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
-        Rob Clark <robdclark@chromium.org>,
-        Matthew Brost <matthew.brost@intel.com>, Roy Sun <Roy.Sun@amd.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Tian Tao <tiantao6@hisilicon.com>, Lee Jones <lee.jones@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-References: <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
- <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
- <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
- <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com>
- <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
- <CAF6AEGu409eY9xznTAaBf2ZDcV_AaDELUzN2afWgiHwB_uBwqg@mail.gmail.com>
- <YQJUKXgf/Q957fmy@phenom.ffwll.local>
- <ff394f2b-b555-e80f-b685-d0d59e2bbe67@daenzer.net>
- <YQJu6AqKn7bdT1li@phenom.ffwll.local>
- <20210729123732.3259a9bf@eldfell>
+        <linaro-mm-sig@lists.linaro.org>
+References: <20210729070330.41443-1-christian.koenig@amd.com>
+ <20210729070330.41443-3-christian.koenig@amd.com>
+ <YQJXi2JNZdH5DaR2@phenom.ffwll.local>
+ <800b0278-922e-e7d8-450d-59721bb68585@gmail.com>
+ <CAKMK7uHzbXY3vsGtwMaqzJNuXPffgOz8xuWDfgDPqsW7ijMnJw@mail.gmail.com>
+ <14321470-0c5a-c8df-44b7-0873b6a44166@gmail.com>
+ <CAKMK7uH5nJxrN30t_GkxgH2eKXYJO3uN8pod20R0bJeEoSsNiQ@mail.gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <0acb7094-ee1f-cc52-e077-795f7119b3e1@gmail.com>
+Date:   Thu, 29 Jul 2021 14:25:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <CAKMK7uH5nJxrN30t_GkxgH2eKXYJO3uN8pod20R0bJeEoSsNiQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210729123732.3259a9bf@eldfell>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 29, 2021 at 12:37:32PM +0300, Pekka Paalanen wrote:
-> On Thu, 29 Jul 2021 11:03:36 +0200
-> Daniel Vetter <daniel@ffwll.ch> wrote:
-> 
-> > On Thu, Jul 29, 2021 at 10:17:43AM +0200, Michel Dänzer wrote:
-> > > On 2021-07-29 9:09 a.m., Daniel Vetter wrote:  
-> > > > On Wed, Jul 28, 2021 at 08:34:13AM -0700, Rob Clark wrote:  
-> > > >> On Wed, Jul 28, 2021 at 6:24 AM Michel Dänzer <michel@daenzer.net> wrote:  
-> > > >>> On 2021-07-28 3:13 p.m., Christian König wrote:  
-> > > >>>> Am 28.07.21 um 15:08 schrieb Michel Dänzer:  
-> > > >>>>> On 2021-07-28 1:36 p.m., Christian König wrote:  
-> > > >>>>>> Am 27.07.21 um 17:37 schrieb Rob Clark:  
-> > > >>>>>>> On Tue, Jul 27, 2021 at 8:19 AM Michel Dänzer <michel@daenzer.net> wrote:  
-> > > >>>>>>>> On 2021-07-27 5:12 p.m., Rob Clark wrote:  
-> > > >>>>>>>>> On Tue, Jul 27, 2021 at 7:50 AM Michel Dänzer <michel@daenzer.net> wrote:  
-> > > >>>>>>>>>> On 2021-07-27 1:38 a.m., Rob Clark wrote:  
-> > > >>>>>>>>>>> From: Rob Clark <robdclark@chromium.org>
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>> Based on discussion from a previous series[1] to add a "boost" mechanism
-> > > >>>>>>>>>>> when, for example, vblank deadlines are missed.  Instead of a boost
-> > > >>>>>>>>>>> callback, this approach adds a way to set a deadline on the fence, by
-> > > >>>>>>>>>>> which the waiter would like to see the fence signalled.
-> 
-> ...
-> 
-> > > I'm not questioning that this approach helps when there's a direct
-> > > chain of fences from the client to the page flip. I'm pointing out
-> > > there will not always be such a chain.
-> > > 
-> > >   
-> > > >> But maybe the solution to make this also useful for mutter  
-> > > 
-> > > It's not just mutter BTW. I understand gamescope has been doing
-> > > this for some time already. And there seems to be consensus among
-> > > developers of Wayland compositors that this is needed, so I expect
-> > > at least all the major compositors to do this longer term.
-> > > 
-> > >   
-> > > >> is to, once we have deadline support, extend it with an ioctl to
-> > > >> the dma-fence fd so userspace can be the one setting the
-> > > >> deadline.  
-> > > 
-> > > I was thinking in a similar direction.
-> > >   
-> > > > atomic ioctl with TEST_ONLY and SET_DEADLINES? Still gives mutter
-> > > > the option to bail out with an old frame if it's too late?  
-> > > 
-> > > This is a bit cryptic though, can you elaborate?  
-> > 
-> > So essentially when the mutter compositor guesstimator is fairly
-> > confident about the next frame's composition (recall you're keeping
-> > track of clients to estimate their usual latency or something like
-> > that), then it does a TEST_ONLY commit to check it all works and prep
-> > the rendering, but _not_ yet fire it off.
-> > 
-> > Instead it waits until all buffers complete, and if some don't, pick
-> > the previous one. Which I guess in an extreme case would mean you
-> > need a different window tree configuration and maybe different
-> > TEST_ONLY check and all that, not sure how you solve that.
-> > 
-> > Anyway, in that TEST_ONLY commit my idea is that you'd also supply
-> > all the in-fences you expect to depend upon (maybe we need an
-> > additional list of in-fences for your rendering job), plus a deadline
-> > when you want to have them done (so that there's enough time for your
-> > render job still). And the kernel then calls dma_fence_set_deadline
-> > on all of them.
-> > 
-> > Pondering this more, maybe a separate ioctl is simpler where you just
-> > supply a list of in-fences and deadlines.
-> > 
-> > The real reason I want to tie this to atomic is for priviledge
-> > checking reasons. I don't think normal userspace should have the
-> > power to set arbitrary deadlines like this - at least on i915 it will
-> > also give you a slight priority boost and stuff like that, to make
-> > sure your rendering for the current frame goes in ahead of the next
-> > frame's prep work.
-> > 
-> > So maybe just a new ioctl that does this which is limited to the
-> > current kms owner (aka drm_master)?
-> 
-> Yeah.
-> 
-> Why not have a Wayland compositor *always* "set the deadlines" for the
-> next screen update as soon as it gets the wl_surface.commit with the
-> new buffer and fences (a simplified description of what is actually
-> necessary to take a new window state set into use)?
+Am 29.07.21 um 13:59 schrieb Daniel Vetter:
+> On Thu, Jul 29, 2021 at 12:21 PM Christian KÃ¶nig
+> <ckoenig.leichtzumerken@gmail.com> wrote:
+>> Am 29.07.21 um 11:03 schrieb Daniel Vetter:
+>>> On Thu, Jul 29, 2021 at 10:38 AM Christian KÃ¶nig
+>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+>>>> Am 29.07.21 um 09:23 schrieb Daniel Vetter:
+>>>>> On Thu, Jul 29, 2021 at 09:03:30AM +0200, Christian KÃ¶nig wrote:
+>>>>>> As we now knew controlling dma_fence synchronization from userspace is
+>>>>>> extremely dangerous and can not only deadlock drivers but trivially also the
+>>>>>> whole kernel memory management.
+>>>>>>
+>>>>>> Entirely remove this option. We now have in kernel unit tests to exercise the
+>>>>>> dma_fence framework and it's containers.
+>>>>>>
+>>>>>> Signed-off-by: Christian KÃ¶nig <christian.koenig@amd.com>
+>>>>> There's also igts for this, and Android heavily uses this. So I'm not sure
+>>>>> we can just nuke it.
+>>>> I feared that you would say that.
+>>>>
+>>>>> I guess what we could do is maybe just taint the kernel if it's ever used?
+>>>> What should we use then? TAINT_SOFTLOCKUP or TAINT_CRAP? :)
+>>> I think the cleanest solution would be to install a 10s timer on each
+>>> sw fence, and TAINT_SOFTLOOKUP if it fails to signal. That's similar
+>>> to what we do with vgem, except vgem then just steps in with a
+>>> dma_fence_signal() instead of tainting the kernel.
+>> Well vgem is only for testing as far as I know.
+> I think CrOS is using it to shovel buffers around between process, as
+> a convenient allocator for sw rendering dma-buf. But they don't use
+> the dma-fence part afaik.
+>
+> We can't taint in vgem fences though because our CI reboots on any
+> taint (or lockdep splat) and a few others, so that would make it
+> useless for testing. Maybe we should have the fence part of vgem
+> behind a separate Kconfig?
 
-Yeah taht's probably best. And if the frame is scheduled (video at 24fps
-or whatever) you can also immediately set the deadline for that too, just
-a few frames later. Always minus compositor budget taken into account.
+And then making it depend on CONFIG_BROKEN? :)
 
-> The Wayland client posted the frame to the compositor, so surely it
-> wants it ready and displayed ASAP. If we happen to have a Wayland frame
-> queuing extension, then also take that into account when setting the
-> deadline.
-> 
-> Then, *independently* of that, the compositor will choose which frames
-> it will actually use in its composition when the time comes.
-> 
-> No need for any KMS atomic commit fiddling, userspace just explicitly
-> sets the deadline on the fence and that's it. You could tie the
-> privilege of setting deadlines to simply holding DRM master on whatever
-> device? So the ioctl would need both the fence and any DRM device fd.
+But more serious, that it probably makes sense.
 
-Yeah tying that up with atomic doesn't make sense.
+Can you take care of that? I'm not that familiar with the vgem code base.
 
-> A rogue application opening a DRM device and becoming DRM master on it
-> just to be able to abuse deadlines feels both unlikely and with
-> insignificant consequences. It stops the obvious abuse, and if someone
-> actually goes the extra effort, then so what.
+>> When Android is using this for a production environment I think we
+>> should be a bit harder and explicitly note that this is not a good idea
+>> in sw_sync_debugfs_open().
+>>
+>>> I think that should keep everyone happy, because if your Android has a
+>>> fence stuck for more than 10s it's busted.
+>> Well when they are using userptrs they are busted as soon as they have a
+>> fence stuck for much less time.
+> Hm right I forgot that you can't guarantee that it will complete, ever :-)
+>
+> Otoh I'm not sure the unconditional taint is very nice to the android
+> folks, they'll probably just patch it out and then it looses it
+> usefulness. taint on timeout otoh makes sure that normally it's not
+> hit, but anytime you die in userptr or shrinker there will be a taint
+> before anything else (since 10s is much shorter than the "stuck in
+> non-interruptible sleep" warning).
 
-With logind you can't become drm master just for lolz anymore, so I'm not
-worried about that. On such systems only logind has the rights to access
-the primary node, everyone doing headless goes through the render node.
+And then you don't hit the timeout during test but only in production, 
+e.g. not good enough either.
 
-So just limiting the deadline ioctl to current kms owner is imo perfectly
-good enough for a security model.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+And yes I know that this is not really nice. But since this depends on 
+debugfs and Android usually disables debugfs AFAIK, they probably have 
+that heavily patched already anyway.
+
+I just want to make sure that nobody else has the brilliant idea to 
+enable this and build an userspace stack on top of a fundamentally 
+broken approach.
+
+Alternative is to add a dependency to CONFIG_BROKEN.
+
+Christian.
+
+> -Daniel
+>
+>> Regards,
+>> Christian.
+>>
+>>> Note that with hwc1 the indefinite fence was actually the model, when
+>>> you did a page_flip you got an out-fence back which will only be
+>>> signalled when the new buffer _stopped_ being used for scanout. Which
+>>> generally depends upon the next page-flip happening (except for manual
+>>> mode display, which only scan out once, if you ignore that the
+>>> kernel's supposed to restore the display after suspend/resume, which
+>>> android did). hwc2 fixed this, so a 10s timeout-to-taint should be
+>>> fine with Android people.
+>>>
+>>> Also since we do have the igt/sw_sync.c test intel-gfx-ci should be
+>>> able to check that code even.
+>>> -Daniel
+>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>> Also for testing we use vgem now, which enforces a timeout.
+>>>>> -Daniel
+>>>>>
+>>>>>> ---
+>>>>>>     drivers/dma-buf/Kconfig      |  13 --
+>>>>>>     drivers/dma-buf/Makefile     |   1 -
+>>>>>>     drivers/dma-buf/sw_sync.c    | 412 -----------------------------------
+>>>>>>     drivers/dma-buf/sync_debug.c | 190 ----------------
+>>>>>>     drivers/dma-buf/sync_debug.h |  72 ------
+>>>>>>     5 files changed, 688 deletions(-)
+>>>>>>     delete mode 100644 drivers/dma-buf/sw_sync.c
+>>>>>>     delete mode 100644 drivers/dma-buf/sync_debug.c
+>>>>>>     delete mode 100644 drivers/dma-buf/sync_debug.h
+>>>>>>
+>>>>>> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+>>>>>> index 9561e3d2d428..26c53f45616a 100644
+>>>>>> --- a/drivers/dma-buf/Kconfig
+>>>>>> +++ b/drivers/dma-buf/Kconfig
+>>>>>> @@ -17,19 +17,6 @@ config SYNC_FILE
+>>>>>>          Files fds, to the DRM driver for example. More details at
+>>>>>>          Documentation/driver-api/sync_file.rst.
+>>>>>>
+>>>>>> -config SW_SYNC
+>>>>>> -    bool "Sync File Validation Framework"
+>>>>>> -    default n
+>>>>>> -    depends on SYNC_FILE
+>>>>>> -    depends on DEBUG_FS
+>>>>>> -    help
+>>>>>> -      A sync object driver that uses a 32bit counter to coordinate
+>>>>>> -      synchronization.  Useful when there is no hardware primitive backing
+>>>>>> -      the synchronization.
+>>>>>> -
+>>>>>> -      WARNING: improper use of this can result in deadlocking kernel
+>>>>>> -      drivers from userspace. Intended for test and debug only.
+>>>>>> -
+>>>>>>     config UDMABUF
+>>>>>>        bool "userspace dmabuf misc driver"
+>>>>>>        default n
+>>>>>> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
+>>>>>> index 1ef021273a06..fa3af0953f87 100644
+>>>>>> --- a/drivers/dma-buf/Makefile
+>>>>>> +++ b/drivers/dma-buf/Makefile
+>>>>>> @@ -4,7 +4,6 @@ obj-y := dma-buf.o dma-fence.o dma-fence-array.o dma-fence-chain.o \
+>>>>>>     obj-$(CONFIG_DMABUF_HEAPS) += dma-heap.o
+>>>>>>     obj-$(CONFIG_DMABUF_HEAPS) += heaps/
+>>>>>>     obj-$(CONFIG_SYNC_FILE)            += sync_file.o
+>>>>>> -obj-$(CONFIG_SW_SYNC)               += sw_sync.o sync_debug.o
+>>>>>>     obj-$(CONFIG_UDMABUF)              += udmabuf.o
+>>>>>>     obj-$(CONFIG_DMABUF_SYSFS_STATS) += dma-buf-sysfs-stats.o
+>>>>>>
+>>>>>> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+>>>>>> deleted file mode 100644
+>>>>>> index 348b3a9170fa..000000000000
+>>>>>> --- a/drivers/dma-buf/sw_sync.c
+>>>>>> +++ /dev/null
+>>>>>> @@ -1,412 +0,0 @@
+>>>>>> -// SPDX-License-Identifier: GPL-2.0-only
+>>>>>> -/*
+>>>>>> - * Sync File validation framework
+>>>>>> - *
+>>>>>> - * Copyright (C) 2012 Google, Inc.
+>>>>>> - */
+>>>>>> -
+>>>>>> -#include <linux/file.h>
+>>>>>> -#include <linux/fs.h>
+>>>>>> -#include <linux/uaccess.h>
+>>>>>> -#include <linux/slab.h>
+>>>>>> -#include <linux/sync_file.h>
+>>>>>> -
+>>>>>> -#include "sync_debug.h"
+>>>>>> -
+>>>>>> -#define CREATE_TRACE_POINTS
+>>>>>> -#include "sync_trace.h"
+>>>>>> -
+>>>>>> -/*
+>>>>>> - * SW SYNC validation framework
+>>>>>> - *
+>>>>>> - * A sync object driver that uses a 32bit counter to coordinate
+>>>>>> - * synchronization.  Useful when there is no hardware primitive backing
+>>>>>> - * the synchronization.
+>>>>>> - *
+>>>>>> - * To start the framework just open:
+>>>>>> - *
+>>>>>> - * <debugfs>/sync/sw_sync
+>>>>>> - *
+>>>>>> - * That will create a sync timeline, all fences created under this timeline
+>>>>>> - * file descriptor will belong to the this timeline.
+>>>>>> - *
+>>>>>> - * The 'sw_sync' file can be opened many times as to create different
+>>>>>> - * timelines.
+>>>>>> - *
+>>>>>> - * Fences can be created with SW_SYNC_IOC_CREATE_FENCE ioctl with struct
+>>>>>> - * sw_sync_create_fence_data as parameter.
+>>>>>> - *
+>>>>>> - * To increment the timeline counter, SW_SYNC_IOC_INC ioctl should be used
+>>>>>> - * with the increment as u32. This will update the last signaled value
+>>>>>> - * from the timeline and signal any fence that has a seqno smaller or equal
+>>>>>> - * to it.
+>>>>>> - *
+>>>>>> - * struct sw_sync_create_fence_data
+>>>>>> - * @value:  the seqno to initialise the fence with
+>>>>>> - * @name:   the name of the new sync point
+>>>>>> - * @fence:  return the fd of the new sync_file with the created fence
+>>>>>> - */
+>>>>>> -struct sw_sync_create_fence_data {
+>>>>>> -    __u32   value;
+>>>>>> -    char    name[32];
+>>>>>> -    __s32   fence; /* fd of new fence */
+>>>>>> -};
+>>>>>> -
+>>>>>> -#define SW_SYNC_IOC_MAGIC   'W'
+>>>>>> -
+>>>>>> -#define SW_SYNC_IOC_CREATE_FENCE    _IOWR(SW_SYNC_IOC_MAGIC, 0,\
+>>>>>> -            struct sw_sync_create_fence_data)
+>>>>>> -
+>>>>>> -#define SW_SYNC_IOC_INC                     _IOW(SW_SYNC_IOC_MAGIC, 1, __u32)
+>>>>>> -
+>>>>>> -static const struct dma_fence_ops timeline_fence_ops;
+>>>>>> -
+>>>>>> -static inline struct sync_pt *dma_fence_to_sync_pt(struct dma_fence *fence)
+>>>>>> -{
+>>>>>> -    if (fence->ops != &timeline_fence_ops)
+>>>>>> -            return NULL;
+>>>>>> -    return container_of(fence, struct sync_pt, base);
+>>>>>> -}
+>>>>>> -
+>>>>>> -/**
+>>>>>> - * sync_timeline_create() - creates a sync object
+>>>>>> - * @name:   sync_timeline name
+>>>>>> - *
+>>>>>> - * Creates a new sync_timeline. Returns the sync_timeline object or NULL in
+>>>>>> - * case of error.
+>>>>>> - */
+>>>>>> -static struct sync_timeline *sync_timeline_create(const char *name)
+>>>>>> -{
+>>>>>> -    struct sync_timeline *obj;
+>>>>>> -
+>>>>>> -    obj = kzalloc(sizeof(*obj), GFP_KERNEL);
+>>>>>> -    if (!obj)
+>>>>>> -            return NULL;
+>>>>>> -
+>>>>>> -    kref_init(&obj->kref);
+>>>>>> -    obj->context = dma_fence_context_alloc(1);
+>>>>>> -    strlcpy(obj->name, name, sizeof(obj->name));
+>>>>>> -
+>>>>>> -    obj->pt_tree = RB_ROOT;
+>>>>>> -    INIT_LIST_HEAD(&obj->pt_list);
+>>>>>> -    spin_lock_init(&obj->lock);
+>>>>>> -
+>>>>>> -    sync_timeline_debug_add(obj);
+>>>>>> -
+>>>>>> -    return obj;
+>>>>>> -}
+>>>>>> -
+>>>>>> -static void sync_timeline_free(struct kref *kref)
+>>>>>> -{
+>>>>>> -    struct sync_timeline *obj =
+>>>>>> -            container_of(kref, struct sync_timeline, kref);
+>>>>>> -
+>>>>>> -    sync_timeline_debug_remove(obj);
+>>>>>> -
+>>>>>> -    kfree(obj);
+>>>>>> -}
+>>>>>> -
+>>>>>> -static void sync_timeline_get(struct sync_timeline *obj)
+>>>>>> -{
+>>>>>> -    kref_get(&obj->kref);
+>>>>>> -}
+>>>>>> -
+>>>>>> -static void sync_timeline_put(struct sync_timeline *obj)
+>>>>>> -{
+>>>>>> -    kref_put(&obj->kref, sync_timeline_free);
+>>>>>> -}
+>>>>>> -
+>>>>>> -static const char *timeline_fence_get_driver_name(struct dma_fence *fence)
+>>>>>> -{
+>>>>>> -    return "sw_sync";
+>>>>>> -}
+>>>>>> -
+>>>>>> -static const char *timeline_fence_get_timeline_name(struct dma_fence *fence)
+>>>>>> -{
+>>>>>> -    struct sync_timeline *parent = dma_fence_parent(fence);
+>>>>>> -
+>>>>>> -    return parent->name;
+>>>>>> -}
+>>>>>> -
+>>>>>> -static void timeline_fence_release(struct dma_fence *fence)
+>>>>>> -{
+>>>>>> -    struct sync_pt *pt = dma_fence_to_sync_pt(fence);
+>>>>>> -    struct sync_timeline *parent = dma_fence_parent(fence);
+>>>>>> -    unsigned long flags;
+>>>>>> -
+>>>>>> -    spin_lock_irqsave(fence->lock, flags);
+>>>>>> -    if (!list_empty(&pt->link)) {
+>>>>>> -            list_del(&pt->link);
+>>>>>> -            rb_erase(&pt->node, &parent->pt_tree);
+>>>>>> -    }
+>>>>>> -    spin_unlock_irqrestore(fence->lock, flags);
+>>>>>> -
+>>>>>> -    sync_timeline_put(parent);
+>>>>>> -    dma_fence_free(fence);
+>>>>>> -}
+>>>>>> -
+>>>>>> -static bool timeline_fence_signaled(struct dma_fence *fence)
+>>>>>> -{
+>>>>>> -    struct sync_timeline *parent = dma_fence_parent(fence);
+>>>>>> -
+>>>>>> -    return !__dma_fence_is_later(fence->seqno, parent->value, fence->ops);
+>>>>>> -}
+>>>>>> -
+>>>>>> -static bool timeline_fence_enable_signaling(struct dma_fence *fence)
+>>>>>> -{
+>>>>>> -    return true;
+>>>>>> -}
+>>>>>> -
+>>>>>> -static void timeline_fence_value_str(struct dma_fence *fence,
+>>>>>> -                                char *str, int size)
+>>>>>> -{
+>>>>>> -    snprintf(str, size, "%lld", fence->seqno);
+>>>>>> -}
+>>>>>> -
+>>>>>> -static void timeline_fence_timeline_value_str(struct dma_fence *fence,
+>>>>>> -                                         char *str, int size)
+>>>>>> -{
+>>>>>> -    struct sync_timeline *parent = dma_fence_parent(fence);
+>>>>>> -
+>>>>>> -    snprintf(str, size, "%d", parent->value);
+>>>>>> -}
+>>>>>> -
+>>>>>> -static const struct dma_fence_ops timeline_fence_ops = {
+>>>>>> -    .get_driver_name = timeline_fence_get_driver_name,
+>>>>>> -    .get_timeline_name = timeline_fence_get_timeline_name,
+>>>>>> -    .enable_signaling = timeline_fence_enable_signaling,
+>>>>>> -    .signaled = timeline_fence_signaled,
+>>>>>> -    .release = timeline_fence_release,
+>>>>>> -    .fence_value_str = timeline_fence_value_str,
+>>>>>> -    .timeline_value_str = timeline_fence_timeline_value_str,
+>>>>>> -};
+>>>>>> -
+>>>>>> -/**
+>>>>>> - * sync_timeline_signal() - signal a status change on a sync_timeline
+>>>>>> - * @obj:    sync_timeline to signal
+>>>>>> - * @inc:    num to increment on timeline->value
+>>>>>> - *
+>>>>>> - * A sync implementation should call this any time one of it's fences
+>>>>>> - * has signaled or has an error condition.
+>>>>>> - */
+>>>>>> -static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
+>>>>>> -{
+>>>>>> -    struct sync_pt *pt, *next;
+>>>>>> -
+>>>>>> -    trace_sync_timeline(obj);
+>>>>>> -
+>>>>>> -    spin_lock_irq(&obj->lock);
+>>>>>> -
+>>>>>> -    obj->value += inc;
+>>>>>> -
+>>>>>> -    list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
+>>>>>> -            if (!timeline_fence_signaled(&pt->base))
+>>>>>> -                    break;
+>>>>>> -
+>>>>>> -            list_del_init(&pt->link);
+>>>>>> -            rb_erase(&pt->node, &obj->pt_tree);
+>>>>>> -
+>>>>>> -            /*
+>>>>>> -             * A signal callback may release the last reference to this
+>>>>>> -             * fence, causing it to be freed. That operation has to be
+>>>>>> -             * last to avoid a use after free inside this loop, and must
+>>>>>> -             * be after we remove the fence from the timeline in order to
+>>>>>> -             * prevent deadlocking on timeline->lock inside
+>>>>>> -             * timeline_fence_release().
+>>>>>> -             */
+>>>>>> -            dma_fence_signal_locked(&pt->base);
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    spin_unlock_irq(&obj->lock);
+>>>>>> -}
+>>>>>> -
+>>>>>> -/**
+>>>>>> - * sync_pt_create() - creates a sync pt
+>>>>>> - * @obj:    parent sync_timeline
+>>>>>> - * @value:  value of the fence
+>>>>>> - *
+>>>>>> - * Creates a new sync_pt (fence) as a child of @parent.  @size bytes will be
+>>>>>> - * allocated allowing for implementation specific data to be kept after
+>>>>>> - * the generic sync_timeline struct. Returns the sync_pt object or
+>>>>>> - * NULL in case of error.
+>>>>>> - */
+>>>>>> -static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
+>>>>>> -                                  unsigned int value)
+>>>>>> -{
+>>>>>> -    struct sync_pt *pt;
+>>>>>> -
+>>>>>> -    pt = kzalloc(sizeof(*pt), GFP_KERNEL);
+>>>>>> -    if (!pt)
+>>>>>> -            return NULL;
+>>>>>> -
+>>>>>> -    sync_timeline_get(obj);
+>>>>>> -    dma_fence_init(&pt->base, &timeline_fence_ops, &obj->lock,
+>>>>>> -                   obj->context, value);
+>>>>>> -    INIT_LIST_HEAD(&pt->link);
+>>>>>> -
+>>>>>> -    spin_lock_irq(&obj->lock);
+>>>>>> -    if (!dma_fence_is_signaled_locked(&pt->base)) {
+>>>>>> -            struct rb_node **p = &obj->pt_tree.rb_node;
+>>>>>> -            struct rb_node *parent = NULL;
+>>>>>> -
+>>>>>> -            while (*p) {
+>>>>>> -                    struct sync_pt *other;
+>>>>>> -                    int cmp;
+>>>>>> -
+>>>>>> -                    parent = *p;
+>>>>>> -                    other = rb_entry(parent, typeof(*pt), node);
+>>>>>> -                    cmp = value - other->base.seqno;
+>>>>>> -                    if (cmp > 0) {
+>>>>>> -                            p = &parent->rb_right;
+>>>>>> -                    } else if (cmp < 0) {
+>>>>>> -                            p = &parent->rb_left;
+>>>>>> -                    } else {
+>>>>>> -                            if (dma_fence_get_rcu(&other->base)) {
+>>>>>> -                                    sync_timeline_put(obj);
+>>>>>> -                                    kfree(pt);
+>>>>>> -                                    pt = other;
+>>>>>> -                                    goto unlock;
+>>>>>> -                            }
+>>>>>> -                            p = &parent->rb_left;
+>>>>>> -                    }
+>>>>>> -            }
+>>>>>> -            rb_link_node(&pt->node, parent, p);
+>>>>>> -            rb_insert_color(&pt->node, &obj->pt_tree);
+>>>>>> -
+>>>>>> -            parent = rb_next(&pt->node);
+>>>>>> -            list_add_tail(&pt->link,
+>>>>>> -                          parent ? &rb_entry(parent, typeof(*pt), node)->link : &obj->pt_list);
+>>>>>> -    }
+>>>>>> -unlock:
+>>>>>> -    spin_unlock_irq(&obj->lock);
+>>>>>> -
+>>>>>> -    return pt;
+>>>>>> -}
+>>>>>> -
+>>>>>> -/*
+>>>>>> - * *WARNING*
+>>>>>> - *
+>>>>>> - * improper use of this can result in deadlocking kernel drivers from userspace.
+>>>>>> - */
+>>>>>> -
+>>>>>> -/* opening sw_sync create a new sync obj */
+>>>>>> -static int sw_sync_debugfs_open(struct inode *inode, struct file *file)
+>>>>>> -{
+>>>>>> -    struct sync_timeline *obj;
+>>>>>> -    char task_comm[TASK_COMM_LEN];
+>>>>>> -
+>>>>>> -    get_task_comm(task_comm, current);
+>>>>>> -
+>>>>>> -    obj = sync_timeline_create(task_comm);
+>>>>>> -    if (!obj)
+>>>>>> -            return -ENOMEM;
+>>>>>> -
+>>>>>> -    file->private_data = obj;
+>>>>>> -
+>>>>>> -    return 0;
+>>>>>> -}
+>>>>>> -
+>>>>>> -static int sw_sync_debugfs_release(struct inode *inode, struct file *file)
+>>>>>> -{
+>>>>>> -    struct sync_timeline *obj = file->private_data;
+>>>>>> -    struct sync_pt *pt, *next;
+>>>>>> -
+>>>>>> -    spin_lock_irq(&obj->lock);
+>>>>>> -
+>>>>>> -    list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
+>>>>>> -            dma_fence_set_error(&pt->base, -ENOENT);
+>>>>>> -            dma_fence_signal_locked(&pt->base);
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    spin_unlock_irq(&obj->lock);
+>>>>>> -
+>>>>>> -    sync_timeline_put(obj);
+>>>>>> -    return 0;
+>>>>>> -}
+>>>>>> -
+>>>>>> -static long sw_sync_ioctl_create_fence(struct sync_timeline *obj,
+>>>>>> -                                   unsigned long arg)
+>>>>>> -{
+>>>>>> -    int fd = get_unused_fd_flags(O_CLOEXEC);
+>>>>>> -    int err;
+>>>>>> -    struct sync_pt *pt;
+>>>>>> -    struct sync_file *sync_file;
+>>>>>> -    struct sw_sync_create_fence_data data;
+>>>>>> -
+>>>>>> -    if (fd < 0)
+>>>>>> -            return fd;
+>>>>>> -
+>>>>>> -    if (copy_from_user(&data, (void __user *)arg, sizeof(data))) {
+>>>>>> -            err = -EFAULT;
+>>>>>> -            goto err;
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    pt = sync_pt_create(obj, data.value);
+>>>>>> -    if (!pt) {
+>>>>>> -            err = -ENOMEM;
+>>>>>> -            goto err;
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    sync_file = sync_file_create(&pt->base);
+>>>>>> -    dma_fence_put(&pt->base);
+>>>>>> -    if (!sync_file) {
+>>>>>> -            err = -ENOMEM;
+>>>>>> -            goto err;
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    data.fence = fd;
+>>>>>> -    if (copy_to_user((void __user *)arg, &data, sizeof(data))) {
+>>>>>> -            fput(sync_file->file);
+>>>>>> -            err = -EFAULT;
+>>>>>> -            goto err;
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    fd_install(fd, sync_file->file);
+>>>>>> -
+>>>>>> -    return 0;
+>>>>>> -
+>>>>>> -err:
+>>>>>> -    put_unused_fd(fd);
+>>>>>> -    return err;
+>>>>>> -}
+>>>>>> -
+>>>>>> -static long sw_sync_ioctl_inc(struct sync_timeline *obj, unsigned long arg)
+>>>>>> -{
+>>>>>> -    u32 value;
+>>>>>> -
+>>>>>> -    if (copy_from_user(&value, (void __user *)arg, sizeof(value)))
+>>>>>> -            return -EFAULT;
+>>>>>> -
+>>>>>> -    while (value > INT_MAX)  {
+>>>>>> -            sync_timeline_signal(obj, INT_MAX);
+>>>>>> -            value -= INT_MAX;
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    sync_timeline_signal(obj, value);
+>>>>>> -
+>>>>>> -    return 0;
+>>>>>> -}
+>>>>>> -
+>>>>>> -static long sw_sync_ioctl(struct file *file, unsigned int cmd,
+>>>>>> -                      unsigned long arg)
+>>>>>> -{
+>>>>>> -    struct sync_timeline *obj = file->private_data;
+>>>>>> -
+>>>>>> -    switch (cmd) {
+>>>>>> -    case SW_SYNC_IOC_CREATE_FENCE:
+>>>>>> -            return sw_sync_ioctl_create_fence(obj, arg);
+>>>>>> -
+>>>>>> -    case SW_SYNC_IOC_INC:
+>>>>>> -            return sw_sync_ioctl_inc(obj, arg);
+>>>>>> -
+>>>>>> -    default:
+>>>>>> -            return -ENOTTY;
+>>>>>> -    }
+>>>>>> -}
+>>>>>> -
+>>>>>> -const struct file_operations sw_sync_debugfs_fops = {
+>>>>>> -    .open           = sw_sync_debugfs_open,
+>>>>>> -    .release        = sw_sync_debugfs_release,
+>>>>>> -    .unlocked_ioctl = sw_sync_ioctl,
+>>>>>> -    .compat_ioctl   = compat_ptr_ioctl,
+>>>>>> -};
+>>>>>> diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_debug.c
+>>>>>> deleted file mode 100644
+>>>>>> index 101394f16930..000000000000
+>>>>>> --- a/drivers/dma-buf/sync_debug.c
+>>>>>> +++ /dev/null
+>>>>>> @@ -1,190 +0,0 @@
+>>>>>> -// SPDX-License-Identifier: GPL-2.0-only
+>>>>>> -/*
+>>>>>> - * Sync File validation framework and debug information
+>>>>>> - *
+>>>>>> - * Copyright (C) 2012 Google, Inc.
+>>>>>> - */
+>>>>>> -
+>>>>>> -#include <linux/debugfs.h>
+>>>>>> -#include "sync_debug.h"
+>>>>>> -
+>>>>>> -static struct dentry *dbgfs;
+>>>>>> -
+>>>>>> -static LIST_HEAD(sync_timeline_list_head);
+>>>>>> -static DEFINE_SPINLOCK(sync_timeline_list_lock);
+>>>>>> -static LIST_HEAD(sync_file_list_head);
+>>>>>> -static DEFINE_SPINLOCK(sync_file_list_lock);
+>>>>>> -
+>>>>>> -void sync_timeline_debug_add(struct sync_timeline *obj)
+>>>>>> -{
+>>>>>> -    unsigned long flags;
+>>>>>> -
+>>>>>> -    spin_lock_irqsave(&sync_timeline_list_lock, flags);
+>>>>>> -    list_add_tail(&obj->sync_timeline_list, &sync_timeline_list_head);
+>>>>>> -    spin_unlock_irqrestore(&sync_timeline_list_lock, flags);
+>>>>>> -}
+>>>>>> -
+>>>>>> -void sync_timeline_debug_remove(struct sync_timeline *obj)
+>>>>>> -{
+>>>>>> -    unsigned long flags;
+>>>>>> -
+>>>>>> -    spin_lock_irqsave(&sync_timeline_list_lock, flags);
+>>>>>> -    list_del(&obj->sync_timeline_list);
+>>>>>> -    spin_unlock_irqrestore(&sync_timeline_list_lock, flags);
+>>>>>> -}
+>>>>>> -
+>>>>>> -void sync_file_debug_add(struct sync_file *sync_file)
+>>>>>> -{
+>>>>>> -    unsigned long flags;
+>>>>>> -
+>>>>>> -    spin_lock_irqsave(&sync_file_list_lock, flags);
+>>>>>> -    list_add_tail(&sync_file->sync_file_list, &sync_file_list_head);
+>>>>>> -    spin_unlock_irqrestore(&sync_file_list_lock, flags);
+>>>>>> -}
+>>>>>> -
+>>>>>> -void sync_file_debug_remove(struct sync_file *sync_file)
+>>>>>> -{
+>>>>>> -    unsigned long flags;
+>>>>>> -
+>>>>>> -    spin_lock_irqsave(&sync_file_list_lock, flags);
+>>>>>> -    list_del(&sync_file->sync_file_list);
+>>>>>> -    spin_unlock_irqrestore(&sync_file_list_lock, flags);
+>>>>>> -}
+>>>>>> -
+>>>>>> -static const char *sync_status_str(int status)
+>>>>>> -{
+>>>>>> -    if (status < 0)
+>>>>>> -            return "error";
+>>>>>> -
+>>>>>> -    if (status > 0)
+>>>>>> -            return "signaled";
+>>>>>> -
+>>>>>> -    return "active";
+>>>>>> -}
+>>>>>> -
+>>>>>> -static void sync_print_fence(struct seq_file *s,
+>>>>>> -                         struct dma_fence *fence, bool show)
+>>>>>> -{
+>>>>>> -    struct sync_timeline *parent = dma_fence_parent(fence);
+>>>>>> -    int status;
+>>>>>> -
+>>>>>> -    status = dma_fence_get_status_locked(fence);
+>>>>>> -
+>>>>>> -    seq_printf(s, "  %s%sfence %s",
+>>>>>> -               show ? parent->name : "",
+>>>>>> -               show ? "_" : "",
+>>>>>> -               sync_status_str(status));
+>>>>>> -
+>>>>>> -    if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags)) {
+>>>>>> -            struct timespec64 ts64 =
+>>>>>> -                    ktime_to_timespec64(fence->timestamp);
+>>>>>> -
+>>>>>> -            seq_printf(s, "@%lld.%09ld", (s64)ts64.tv_sec, ts64.tv_nsec);
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    if (fence->ops->timeline_value_str &&
+>>>>>> -            fence->ops->fence_value_str) {
+>>>>>> -            char value[64];
+>>>>>> -            bool success;
+>>>>>> -
+>>>>>> -            fence->ops->fence_value_str(fence, value, sizeof(value));
+>>>>>> -            success = strlen(value);
+>>>>>> -
+>>>>>> -            if (success) {
+>>>>>> -                    seq_printf(s, ": %s", value);
+>>>>>> -
+>>>>>> -                    fence->ops->timeline_value_str(fence, value,
+>>>>>> -                                                   sizeof(value));
+>>>>>> -
+>>>>>> -                    if (strlen(value))
+>>>>>> -                            seq_printf(s, " / %s", value);
+>>>>>> -            }
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    seq_putc(s, '\n');
+>>>>>> -}
+>>>>>> -
+>>>>>> -static void sync_print_obj(struct seq_file *s, struct sync_timeline *obj)
+>>>>>> -{
+>>>>>> -    struct list_head *pos;
+>>>>>> -
+>>>>>> -    seq_printf(s, "%s: %d\n", obj->name, obj->value);
+>>>>>> -
+>>>>>> -    spin_lock_irq(&obj->lock);
+>>>>>> -    list_for_each(pos, &obj->pt_list) {
+>>>>>> -            struct sync_pt *pt = container_of(pos, struct sync_pt, link);
+>>>>>> -            sync_print_fence(s, &pt->base, false);
+>>>>>> -    }
+>>>>>> -    spin_unlock_irq(&obj->lock);
+>>>>>> -}
+>>>>>> -
+>>>>>> -static void sync_print_sync_file(struct seq_file *s,
+>>>>>> -                              struct sync_file *sync_file)
+>>>>>> -{
+>>>>>> -    char buf[128];
+>>>>>> -    int i;
+>>>>>> -
+>>>>>> -    seq_printf(s, "[%p] %s: %s\n", sync_file,
+>>>>>> -               sync_file_get_name(sync_file, buf, sizeof(buf)),
+>>>>>> -               sync_status_str(dma_fence_get_status(sync_file->fence)));
+>>>>>> -
+>>>>>> -    if (dma_fence_is_array(sync_file->fence)) {
+>>>>>> -            struct dma_fence_array *array = to_dma_fence_array(sync_file->fence);
+>>>>>> -
+>>>>>> -            for (i = 0; i < array->num_fences; ++i)
+>>>>>> -                    sync_print_fence(s, array->fences[i], true);
+>>>>>> -    } else {
+>>>>>> -            sync_print_fence(s, sync_file->fence, true);
+>>>>>> -    }
+>>>>>> -}
+>>>>>> -
+>>>>>> -static int sync_info_debugfs_show(struct seq_file *s, void *unused)
+>>>>>> -{
+>>>>>> -    struct list_head *pos;
+>>>>>> -
+>>>>>> -    seq_puts(s, "objs:\n--------------\n");
+>>>>>> -
+>>>>>> -    spin_lock_irq(&sync_timeline_list_lock);
+>>>>>> -    list_for_each(pos, &sync_timeline_list_head) {
+>>>>>> -            struct sync_timeline *obj =
+>>>>>> -                    container_of(pos, struct sync_timeline,
+>>>>>> -                                 sync_timeline_list);
+>>>>>> -
+>>>>>> -            sync_print_obj(s, obj);
+>>>>>> -            seq_putc(s, '\n');
+>>>>>> -    }
+>>>>>> -    spin_unlock_irq(&sync_timeline_list_lock);
+>>>>>> -
+>>>>>> -    seq_puts(s, "fences:\n--------------\n");
+>>>>>> -
+>>>>>> -    spin_lock_irq(&sync_file_list_lock);
+>>>>>> -    list_for_each(pos, &sync_file_list_head) {
+>>>>>> -            struct sync_file *sync_file =
+>>>>>> -                    container_of(pos, struct sync_file, sync_file_list);
+>>>>>> -
+>>>>>> -            sync_print_sync_file(s, sync_file);
+>>>>>> -            seq_putc(s, '\n');
+>>>>>> -    }
+>>>>>> -    spin_unlock_irq(&sync_file_list_lock);
+>>>>>> -    return 0;
+>>>>>> -}
+>>>>>> -
+>>>>>> -DEFINE_SHOW_ATTRIBUTE(sync_info_debugfs);
+>>>>>> -
+>>>>>> -static __init int sync_debugfs_init(void)
+>>>>>> -{
+>>>>>> -    dbgfs = debugfs_create_dir("sync", NULL);
+>>>>>> -
+>>>>>> -    /*
+>>>>>> -     * The debugfs files won't ever get removed and thus, there is
+>>>>>> -     * no need to protect it against removal races. The use of
+>>>>>> -     * debugfs_create_file_unsafe() is actually safe here.
+>>>>>> -     */
+>>>>>> -    debugfs_create_file_unsafe("info", 0444, dbgfs, NULL,
+>>>>>> -                               &sync_info_debugfs_fops);
+>>>>>> -    debugfs_create_file_unsafe("sw_sync", 0644, dbgfs, NULL,
+>>>>>> -                               &sw_sync_debugfs_fops);
+>>>>>> -
+>>>>>> -    return 0;
+>>>>>> -}
+>>>>>> -late_initcall(sync_debugfs_init);
+>>>>>> diff --git a/drivers/dma-buf/sync_debug.h b/drivers/dma-buf/sync_debug.h
+>>>>>> deleted file mode 100644
+>>>>>> index 6176e52ba2d7..000000000000
+>>>>>> --- a/drivers/dma-buf/sync_debug.h
+>>>>>> +++ /dev/null
+>>>>>> @@ -1,72 +0,0 @@
+>>>>>> -/*
+>>>>>> - * Sync File validation framework and debug infomation
+>>>>>> - *
+>>>>>> - * Copyright (C) 2012 Google, Inc.
+>>>>>> - *
+>>>>>> - * This program is distributed in the hope that it will be useful,
+>>>>>> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>>>>>> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>>>>>> - * GNU General Public License for more details.
+>>>>>> - *
+>>>>>> - */
+>>>>>> -
+>>>>>> -#ifndef _LINUX_SYNC_H
+>>>>>> -#define _LINUX_SYNC_H
+>>>>>> -
+>>>>>> -#include <linux/list.h>
+>>>>>> -#include <linux/rbtree.h>
+>>>>>> -#include <linux/spinlock.h>
+>>>>>> -#include <linux/dma-fence.h>
+>>>>>> -
+>>>>>> -#include <linux/sync_file.h>
+>>>>>> -#include <uapi/linux/sync_file.h>
+>>>>>> -
+>>>>>> -/**
+>>>>>> - * struct sync_timeline - sync object
+>>>>>> - * @kref:           reference count on fence.
+>>>>>> - * @name:           name of the sync_timeline. Useful for debugging
+>>>>>> - * @lock:           lock protecting @pt_list and @value
+>>>>>> - * @pt_tree:                rbtree of active (unsignaled/errored) sync_pts
+>>>>>> - * @pt_list:                list of active (unsignaled/errored) sync_pts
+>>>>>> - * @sync_timeline_list:     membership in global sync_timeline_list
+>>>>>> - */
+>>>>>> -struct sync_timeline {
+>>>>>> -    struct kref             kref;
+>>>>>> -    char                    name[32];
+>>>>>> -
+>>>>>> -    /* protected by lock */
+>>>>>> -    u64                     context;
+>>>>>> -    int                     value;
+>>>>>> -
+>>>>>> -    struct rb_root          pt_tree;
+>>>>>> -    struct list_head        pt_list;
+>>>>>> -    spinlock_t              lock;
+>>>>>> -
+>>>>>> -    struct list_head        sync_timeline_list;
+>>>>>> -};
+>>>>>> -
+>>>>>> -static inline struct sync_timeline *dma_fence_parent(struct dma_fence *fence)
+>>>>>> -{
+>>>>>> -    return container_of(fence->lock, struct sync_timeline, lock);
+>>>>>> -}
+>>>>>> -
+>>>>>> -/**
+>>>>>> - * struct sync_pt - sync_pt object
+>>>>>> - * @base: base fence object
+>>>>>> - * @link: link on the sync timeline's list
+>>>>>> - * @node: node in the sync timeline's tree
+>>>>>> - */
+>>>>>> -struct sync_pt {
+>>>>>> -    struct dma_fence base;
+>>>>>> -    struct list_head link;
+>>>>>> -    struct rb_node node;
+>>>>>> -};
+>>>>>> -
+>>>>>> -extern const struct file_operations sw_sync_debugfs_fops;
+>>>>>> -
+>>>>>> -void sync_timeline_debug_add(struct sync_timeline *obj);
+>>>>>> -void sync_timeline_debug_remove(struct sync_timeline *obj);
+>>>>>> -void sync_file_debug_add(struct sync_file *fence);
+>>>>>> -void sync_file_debug_remove(struct sync_file *fence);
+>>>>>> -
+>>>>>> -#endif /* _LINUX_SYNC_H */
+>>>>>> --
+>>>>>> 2.25.1
+>>>>>>
+>
+
