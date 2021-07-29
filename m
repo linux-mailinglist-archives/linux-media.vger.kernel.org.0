@@ -2,81 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46B373DA0DA
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 12:11:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 333863DA0E8
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 12:14:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235192AbhG2KLY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 06:11:24 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:54075 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231488AbhG2KLY (ORCPT
+        id S235675AbhG2KOZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 06:14:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55882 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235155AbhG2KOZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 06:11:24 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 930ZmQhCvXTlc930amWGJi; Thu, 29 Jul 2021 12:11:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1627553480; bh=nTeBBiN5sE+Ve2dxda/t3FbjIhAlqP3BPbzDaS7KZow=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=bYZvHQ4gn2QxH8toKtg/P2ASN2FMjbhSo8vgxbSLsPuR0CwqCpNlrDb1DMRkefVTy
-         aKAMshIdaopu4aD/IGWOl63DJwqhL+rtksmAkLPiFYkNIZDQ9gXe9nTob+rExtqN9D
-         9Axol0V9idES+WLpXQg6P3V9M8Q3iJ5ytKcmOHGJdoiKHVd1zwM2X35E/SQWS6VYiS
-         KuBK7Pa7tZ0yChsTsFCADZCvsSWUKmFEetIgkB97qQ/d7TBOQhONEqh+Xr1MzJb7D5
-         HQSmJkOB7Rl5Z/uGQ72pr8D+ZoFTGEp88dChT+8U0hMa5FY01oYskQ0Ssp/YKBG+/9
-         +Sqi4y4NPokmA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.15] Various fixes
-Message-ID: <361dcfeb-8264-6e7a-dda4-7a942f7cb722@xs4all.nl>
-Date:   Thu, 29 Jul 2021 12:11:19 +0200
+        Thu, 29 Jul 2021 06:14:25 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29195C061757;
+        Thu, 29 Jul 2021 03:14:22 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id m19so3372078wms.0;
+        Thu, 29 Jul 2021 03:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=CbFHCpPlzhscajakLbbh3EIk/BRFf4SX49QUa0d5Qg8=;
+        b=iiRfREWMNqV+qofxci/nzSz0YAr9K6MCEnf8mrHjk5y30QSLdkiVVWBq2cSSMhixN3
+         ry579tv1iYeCv29lJtfmG5FwAtxbT5yYu5lAVL8ZpVNvJ53JkuPkc7CG6zDCoWMOyRFX
+         GADeLhCmxvmdJVr1mDhX6/g8ZgA2/q4W9C+er3WP4hMov+Tsm9dSAt+WgDJ4hr1RX+rn
+         E/qLsNO2AIRIJIm5SV1Y30DYw9Cw08mbLnPBLmj4yUu3UDnnqb6cip/FaecTccXJG/e3
+         l5ydK+ERFnB7VVy/Ts8KO7uAifGrAIXPr/o+CFsOc3K3/kwQNLOzOSOnJJR7wDL0EEe/
+         Nt+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=CbFHCpPlzhscajakLbbh3EIk/BRFf4SX49QUa0d5Qg8=;
+        b=gEg1wdVqeBoCZjMlzr17P84VLb7zQnnYJbm+fZosDQQP81hDfcvPquJulveK6Ry5xh
+         a6sbueEfCgwmx8DpVloZhhbX0l/gEVsipPQk8LvjsYfh3H8ii6D0oMu/LKhPDptBvTdu
+         gIzdts7mFBv4+2J++Rf00QT0T1lRPGl2BfTsgiBS5nm1TPlynWNRVQ0CkHfYSsNQ5Ljc
+         2/oblMjchVpkg4dpRuNyzYmlhYiTDnatY/Iy94DxTYD3Bgp+HtpwMQe0+vg7p72hGqKr
+         kLBVXdG1zPi4Euz68pkadnYIMj5knhheKjgjxEpNpCWD8qNSvGkdtIyo2EI1NQNta/CK
+         Rlyg==
+X-Gm-Message-State: AOAM530bSL0u0oJ3l8CODi0OJA0So1WLvEBf2rjn+OR/Boi/A54UZTNz
+        QMYuT/kZCqysKA1pxM5FpCWQuzYL5RH3wA==
+X-Google-Smtp-Source: ABdhPJz5727odHJWfYQdPwGMdYsRDkR36uAkRZDsHt9CJwGj6udF1FY1AywRQgAgB56AGxuvCy2G9A==
+X-Received: by 2002:a1c:a7d2:: with SMTP id q201mr13967106wme.61.1627553660808;
+        Thu, 29 Jul 2021 03:14:20 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:4b10:6e80:f619:9837? ([2a02:908:1252:fb60:4b10:6e80:f619:9837])
+        by smtp.gmail.com with ESMTPSA id d14sm2751552wrs.49.2021.07.29.03.14.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Jul 2021 03:14:20 -0700 (PDT)
+Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
+To:     Pekka Paalanen <ppaalanen@gmail.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+        Rob Clark <robdclark@chromium.org>,
+        Matthew Brost <matthew.brost@intel.com>,
+        Jack Zhang <Jack.Zhang1@amd.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+References: <20210726233854.2453899-1-robdclark@gmail.com>
+ <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
+ <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
+ <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
+ <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
+ <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
+ <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
+ <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com>
+ <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
+ <eedfdc75-72f8-9150-584b-c5e9d16db180@amd.com>
+ <20210728165700.38c39cf8@eldfell>
+ <74e310fa-e544-889f-2389-5abe06f80eb8@amd.com>
+ <20210729112358.237651ff@eldfell>
+ <3675d530-c9fc-7ec9-e157-b6abeeec7c2a@amd.com>
+ <20210729121542.27d9b1cc@eldfell>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <15cf73a8-eda4-3559-561a-a05a14f445d0@gmail.com>
+Date:   Thu, 29 Jul 2021 12:14:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210729121542.27d9b1cc@eldfell>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfDzs4zLXLedsX4y58+NEFXvYQmHxpzMWeUtHyF0bOICFLY326z2Fd3alJzF2sdqyDiXPcBruoV+gDx6YyPPNeie1Owkus8L+Wuwz79/66YKUvAc0JjRo
- 04+wFZvJPTbwFSwdUz/TtavrgC7AG+WHEtiRh6Oab8Q1ynjxHCbwcVfvbfI+TtPH4g6TeKhD3wsKABglZnDAFehPcsGmC9BXCsDeHn2GoDe9rO6vrKTD4OsE
- ZkRSl0C3Okv4r1W6FMCWQHPAaPkpYGqYOa1oAG9jtF8R8USh0IqtQd7QC5VPH4ay0jILnBEMlDZkaoQyn0vTBA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit c3cdc019a6bf03c4bf06fe8252db96eb6e4a3b5f:
+Am 29.07.21 um 11:15 schrieb Pekka Paalanen:
+> [SNIP]
+>> But how does it then help to wait on the CPU instead?
+> A compositor does not "wait" literally. It would only check which state
+> set is ready to be used, and uses the most recent set that is ready. Any
+> state sets that are not ready are ignored and reconsidered the next
+> time the compositor updates the screen.
 
-  media: atomisp: pci: reposition braces as per coding style (2021-07-23 09:04:03 +0200)
+Mhm, then I'm not understanding what Michel's changes are actually doing.
 
-are available in the Git repository at:
+> Depending on which state sets are selected for a screen update, the
+> global window manager state may be updated accordingly, before the
+> drawing commands for the composition can be created.
+>
+>> See what I'm proposing is to either render the next state of the window
+>> or compose from the old state (including all atomic properties).
+> Yes, that's exactly how it would work. It's just that state for a
+> window is not an independent thing, it can affect how unrelated windows
+> are managed.
+>
+> A simplified example would be two windows side by side where the
+> resizing of one causes the other to move. You can't resize the window
+> or move the other until the buffer with the new size is ready. Until
+> then the compositor uses the old state.
+>
+>> E.g. what do you do if you timeout and can't have the new window content
+>> on time? What's the fallback here?
+> As there is no wait, there is no timeout either.
+>
+> If the app happens to be frozen (e.g. some weird bug in fence handling
+> to make it never ready, or maybe it's just bugged itself and never
+> drawing again), then the app is frozen, and all the rest of the desktop
+> continues running normally without a glitch.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.15d
+But that is in contradict to what you told me before.
 
-for you to fetch changes up to 2d1dd48d0a674eaad937da83423413d7f2131756:
+See when the window should move but fails to draw it's new content what 
+happens?
 
-  media: tegra-cec: Handle errors of clk_prepare_enable() (2021-07-29 12:09:44 +0200)
+Are the other windows which would be affected by the move not drawn as well?
 
-----------------------------------------------------------------
-Tag branch
+Regards,
+Christian.
 
-----------------------------------------------------------------
-Deborah Brouwer (1):
-      media: cec-pin: rename timer overrun variables
+>
+>
+> Thanks,
+> pq
 
-Evgeny Novikov (1):
-      media: tegra-cec: Handle errors of clk_prepare_enable()
-
-Hans Verkuil (1):
-      v4l2-dv-timings.c: fix wrong condition in two for-loops
-
-Krzysztof Hałasa (3):
-      Fix cosmetic error in TDA1997x driver
-      TDA1997x: fix tda1997x_query_dv_timings() return value
-      TDA1997x: report -ENOLINK after disconnecting HDMI source
-
- drivers/media/cec/core/cec-pin-priv.h        |  4 ++--
- drivers/media/cec/core/cec-pin.c             | 20 ++++++++++----------
- drivers/media/cec/platform/tegra/tegra_cec.c | 10 ++++++----
- drivers/media/i2c/tda1997x.c                 | 10 ++++++----
- drivers/media/v4l2-core/v4l2-dv-timings.c    |  4 ++--
- 5 files changed, 26 insertions(+), 22 deletions(-)
