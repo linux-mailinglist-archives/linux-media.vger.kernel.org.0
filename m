@@ -2,324 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 694723D9DF8
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 09:03:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8F093D9E02
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 09:05:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234448AbhG2HDk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 03:03:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38936 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234437AbhG2HDj (ORCPT
+        id S234283AbhG2HFM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 03:05:12 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:58044 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234079AbhG2HFM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 03:03:39 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92EF4C061765
-        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 00:03:36 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id n21so3006616wmq.5
-        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 00:03:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=yjmoZLiUD+FWnyezF+2h89AQ15fOMkle7vS/pk0BQrk=;
-        b=CYR8Fi+P5EGNe3xUIak1oGG+oatnt/+x6BC4ocWfsDJ0OG6hWZPlm3OGOeViQJMCdI
-         UWclXE36+8hC86zTZkKVWdW5btkVTJSQq2YTENMQL0xa7ZHmW9YQazg4/NvC/1R8g51w
-         3PDiKAhYS6QM+IpddnmSyaPUtJ7Q4kq36fU0c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=yjmoZLiUD+FWnyezF+2h89AQ15fOMkle7vS/pk0BQrk=;
-        b=ZLGpwf9kG/dD2QUsUWY0FwMlQLbfQy9O0gEQhMiQdY2XFhgBA7DqXT6/wN35spKqqO
-         BVfd0FkWCkzJX9K8GM1wFNVvZ0wMyILO2Vsu5/WNR7XluyuZEYvsV5lB8hgJrR4Q7iGG
-         nE3pGrT9WLkF4zomuuFsZYPlPiIyvl6+ewNMyMmGbwNDi2IarmO5olNDs5gNhQ02RJxa
-         QR510l5/iJ1Ow6e0YqGyFqf4i8HjK8oaxZJsedhE+RM2zI1XAkwVKdDWyViP6zvCM3Rm
-         RAAkVGZUfRc+shWTaWSCozKzy/MU8uGRL2A+xn/vftbT9PP0gNaptzofp1bOFqIFbFwi
-         BgLw==
-X-Gm-Message-State: AOAM533+trKrI9L6btndj7R5/RmIOk0pO42w4yNqJk45yBLfuvuJkFpu
-        RNr1WjfIs2YP0YKQAugYk7VWkw==
-X-Google-Smtp-Source: ABdhPJxhDZGEhqp03BqW6NXSOqDd5aB+UkvkHgDcGsZFr8Q1/7QVZU8Ur8DP6zd16O+/MOBVdJtmzQ==
-X-Received: by 2002:a05:600c:3587:: with SMTP id p7mr12841259wmq.27.1627542215139;
-        Thu, 29 Jul 2021 00:03:35 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id p3sm8448882wmp.25.2021.07.29.00.03.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 00:03:34 -0700 (PDT)
-Date:   Thu, 29 Jul 2021 09:03:32 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC 1/4] dma-fence: Add deadline awareness
-Message-ID: <YQJSxEVUkZmfL5Cb@phenom.ffwll.local>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20210726233854.2453899-1-robdclark@gmail.com>
- <20210726233854.2453899-2-robdclark@gmail.com>
- <50b181fe-6605-b7ac-36a6-8bcda2930e6f@gmail.com>
- <CAF6AEGuNxi_aeYE37FT3a-atCUWgepxs-9EwxMfpiMaU7wgqdQ@mail.gmail.com>
- <9edd7083-e6b3-b230-c273-8f2fbe76ca17@amd.com>
- <703dc9c3-5657-432e-ca0b-25bdd67a2abd@gmail.com>
- <CAF6AEGvSpvc2po93b2eKB2cSzx_a+BtPWhQgRs-1NFFZfUbJNw@mail.gmail.com>
- <e5e71356-1c58-04ac-2609-70d268941b8d@amd.com>
- <CAF6AEGu3NMyRp1pC5iZQoHhKhu_xBFBqkkfbG36dx8bVzYdWMA@mail.gmail.com>
+        Thu, 29 Jul 2021 03:05:12 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: gtucker)
+        with ESMTPSA id A116F1F43B25
+Subject: Re: media/master bisection: v4l2-compliance-vivid.device-presence on
+ qemu_x86_64
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <60ed7c49.1c69fb81.518d4.80d2@mx.google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        "kernelci-results@groups.io" <kernelci-results@groups.io>
+From:   Guillaume Tucker <guillaume.tucker@collabora.com>
+Message-ID: <e7d8a6b9-5b60-a60f-f5e1-8d458bf56539@collabora.com>
+Date:   Thu, 29 Jul 2021 08:05:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGu3NMyRp1pC5iZQoHhKhu_xBFBqkkfbG36dx8bVzYdWMA@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <60ed7c49.1c69fb81.518d4.80d2@mx.google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 28, 2021 at 10:58:51AM -0700, Rob Clark wrote:
-> On Wed, Jul 28, 2021 at 10:23 AM Christian König
-> <christian.koenig@amd.com> wrote:
-> >
-> >
-> >
-> > Am 28.07.21 um 17:15 schrieb Rob Clark:
-> > > On Wed, Jul 28, 2021 at 4:37 AM Christian König
-> > > <ckoenig.leichtzumerken@gmail.com> wrote:
-> > >> Am 28.07.21 um 09:03 schrieb Christian König:
-> > >>> Am 27.07.21 um 16:25 schrieb Rob Clark:
-> > >>>> On Tue, Jul 27, 2021 at 12:11 AM Christian König
-> > >>>> <ckoenig.leichtzumerken@gmail.com> wrote:
-> > >>>>> Am 27.07.21 um 01:38 schrieb Rob Clark:
-> > >>>>>> From: Rob Clark <robdclark@chromium.org>
-> > >>>>>>
-> > >>>>>> Add a way to hint to the fence signaler of an upcoming deadline,
-> > >>>>>> such as
-> > >>>>>> vblank, which the fence waiter would prefer not to miss. This is to
-> > >>>>>> aid
-> > >>>>>> the fence signaler in making power management decisions, like boosting
-> > >>>>>> frequency as the deadline approaches and awareness of missing
-> > >>>>>> deadlines
-> > >>>>>> so that can be factored in to the frequency scaling.
-> > >>>>>>
-> > >>>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > >>>>>> ---
-> > >>>>>>     drivers/dma-buf/dma-fence.c | 39
-> > >>>>>> +++++++++++++++++++++++++++++++++++++
-> > >>>>>>     include/linux/dma-fence.h   | 17 ++++++++++++++++
-> > >>>>>>     2 files changed, 56 insertions(+)
-> > >>>>>>
-> > >>>>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > >>>>>> index ce0f5eff575d..2e0d25ab457e 100644
-> > >>>>>> --- a/drivers/dma-buf/dma-fence.c
-> > >>>>>> +++ b/drivers/dma-buf/dma-fence.c
-> > >>>>>> @@ -910,6 +910,45 @@ dma_fence_wait_any_timeout(struct dma_fence
-> > >>>>>> **fences, uint32_t count,
-> > >>>>>>     }
-> > >>>>>>     EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> > >>>>>>
-> > >>>>>> +
-> > >>>>>> +/**
-> > >>>>>> + * dma_fence_set_deadline - set desired fence-wait deadline
-> > >>>>>> + * @fence:    the fence that is to be waited on
-> > >>>>>> + * @deadline: the time by which the waiter hopes for the fence to be
-> > >>>>>> + *            signaled
-> > >>>>>> + *
-> > >>>>>> + * Inform the fence signaler of an upcoming deadline, such as
-> > >>>>>> vblank, by
-> > >>>>>> + * which point the waiter would prefer the fence to be signaled
-> > >>>>>> by.  This
-> > >>>>>> + * is intended to give feedback to the fence signaler to aid in power
-> > >>>>>> + * management decisions, such as boosting GPU frequency if a periodic
-> > >>>>>> + * vblank deadline is approaching.
-> > >>>>>> + */
-> > >>>>>> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t
-> > >>>>>> deadline)
-> > >>>>>> +{
-> > >>>>>> +     unsigned long flags;
-> > >>>>>> +
-> > >>>>>> +     if (dma_fence_is_signaled(fence))
-> > >>>>>> +             return;
-> > >>>>>> +
-> > >>>>>> +     spin_lock_irqsave(fence->lock, flags);
-> > >>>>>> +
-> > >>>>>> +     /* If we already have an earlier deadline, keep it: */
-> > >>>>>> +     if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags) &&
-> > >>>>>> +         ktime_before(fence->deadline, deadline)) {
-> > >>>>>> +             spin_unlock_irqrestore(fence->lock, flags);
-> > >>>>>> +             return;
-> > >>>>>> +     }
-> > >>>>>> +
-> > >>>>>> +     fence->deadline = deadline;
-> > >>>>>> +     set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags);
-> > >>>>>> +
-> > >>>>>> +     spin_unlock_irqrestore(fence->lock, flags);
-> > >>>>>> +
-> > >>>>>> +     if (fence->ops->set_deadline)
-> > >>>>>> +             fence->ops->set_deadline(fence, deadline);
-> > >>>>>> +}
-> > >>>>>> +EXPORT_SYMBOL(dma_fence_set_deadline);
-> > >>>>>> +
-> > >>>>>>     /**
-> > >>>>>>      * dma_fence_init - Initialize a custom fence.
-> > >>>>>>      * @fence: the fence to initialize
-> > >>>>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> > >>>>>> index 6ffb4b2c6371..4e6cfe4e6fbc 100644
-> > >>>>>> --- a/include/linux/dma-fence.h
-> > >>>>>> +++ b/include/linux/dma-fence.h
-> > >>>>>> @@ -88,6 +88,7 @@ struct dma_fence {
-> > >>>>>>                 /* @timestamp replaced by @rcu on
-> > >>>>>> dma_fence_release() */
-> > >>>>>>                 struct rcu_head rcu;
-> > >>>>>>         };
-> > >>>>>> +     ktime_t deadline;
-> > >>>>> Mhm, adding the flag sounds ok to me but I'm a bit hesitating adding
-> > >>>>> the
-> > >>>>> deadline as extra field here.
-> > >>>>>
-> > >>>>> We tuned the dma_fence structure intentionally so that it is only 64
-> > >>>>> bytes.
-> > >>>> Hmm, then I guess you wouldn't be a fan of also adding an hrtimer?
-> > >>>>
-> > >>>> We could push the ktime_t (and timer) down into the derived fence
-> > >>>> class, but I think there is going to need to be some extra storage
-> > >>>> *somewhere*.. maybe the fence signaler could get away with just
-> > >>>> storing the nearest upcoming deadline per fence-context instead?
-> > >>> I would just push that into the driver instead.
-> > >>>
-> > >>> You most likely don't want the deadline per fence anyway in complex
-> > >>> scenarios, but rather per frame. And a frame is usually composed from
-> > >>> multiple fences.
-> > > Right, I ended up keeping track of the nearest deadline in patch 5/4
-> > > which added drm/msm support:
-> > >
-> > >    https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fpatch%2F447138%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Cce6ace85263d448bbc9f08d951d9f06c%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637630819606427306%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=ameszAOlClaZNeUDlYr37ZdIytVXNgiEUKuctjXLqZ0%3D&amp;reserved=0
-> > >
-> > > But if we do have the ktime_t in dma_fence in dma_fence, we can add
-> > > some checks and avoid calling back to the driver if a later deadline
-> > > is set on a fence that already has an earlier deadline.  OTOH I
-> > > suppose I can push all that back to the driver to start, and we can
-> > > revisit once we have more drivers implementing deadline support.
-> >
-> > I still think that all of this is rather specific to your use case and
-> > have strong doubt that anybody else will implement that.
+Hello,
+
+FYI - This bisection was run because the KernelCI v4l2-compliance
+tests on vivid failed to find a media device.  Regression details
+can be found here:
+
+  https://linux.kernelci.org/test/job/media/branch/master/kernel/v5.14-rc1/plan/v4l2-compliance-vivid/
+
+This doesn't really seem to be a kernel config issue per se, the
+driver just wasn't built because of the DRM Kconfig change.
+Instead I've added CONFIG_FB to the fragment used by KernelCI to
+enable the vivid driver:
+
+  https://github.com/kernelci/kernelci-core/pull/776/files
+
+Does that sound like the best approach?  Trying to enable
+CONFIG_FB in the vivid Kconfig causes cyclic dependencies and
+seems backwards, so I thought that was the way to go.
+
+The drm-tip tree is not currently covered by KernelCI, I guess it
+would have caught the issue before it landed in mainline.  We're
+planning to enable it again, mainly to run IGT but it seems like
+some basic checks for drivers that depend on some DRM configs
+would be useful too.  Maybe doing that on linux-next too would be
+useful.
+
+Best wishes,
+Guillaume
+
+
+On 13/07/2021 12:43, KernelCI bot wrote:
+> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+> * This automated bisection report was sent to you on the basis  *
+> * that you may be involved with the breaking commit it has      *
+> * found.  No manual investigation has been done to verify it,   *
+> * and the root cause of the problem may be somewhere else.      *
+> *                                                               *
+> * If you do send a fix, please include this trailer:            *
+> *   Reported-by: "kernelci.org bot" <bot@kernelci.org>          *
+> *                                                               *
+> * Hope this helps!                                              *
+> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 > 
-> i915 does already have a similar thing in it's hand-rolled atomic
-> commit path.  So I think msm won't be the only one.  It should be also
-> useful to the other mobile GPUs with a gpu vs kms driver split,
-> although looking at the other gpu devfreq implementations, I don't
-> think they've yet gotten to this point in the fine tuning..
-
-Yeah I have a dream that maybe i915 will use the atomic commit helpers, I
-originally wrote them with i915 in mind :-) even had patches!
-
-I also think we'll need this eventually in other areas, Android also has
-some hacks like this to make sure idle->first touch doesn't suck and
-similar things.
--Daniel
-
+> media/master bisection: v4l2-compliance-vivid.device-presence on qemu_x86_64
 > 
-> BR,
-> -R
+> Summary:
+>   Start:      e73f0f0ee754 Linux 5.14-rc1
+>   Plain log:  https://storage.kernelci.org/media/master/v5.14-rc1/x86_64/x86_64_defconfig+virtualvideo/gcc-8/lab-collabora/v4l2-compliance-vivid-qemu_x86_64.txt
+>   HTML log:   https://storage.kernelci.org/media/master/v5.14-rc1/x86_64/x86_64_defconfig+virtualvideo/gcc-8/lab-collabora/v4l2-compliance-vivid-qemu_x86_64.html
+>   Result:     f611b1e7624c drm: Avoid circular dependencies for CONFIG_FB
 > 
-> > >> Thinking more about it we could probably kill the spinlock pointer and
-> > >> make the flags 32bit if we absolutely need that here.
-> > > If we had a 'struct dma_fence_context' we could push the spinlock, ops
-> > > pointer, and u64 context into that and replace with a single
-> > > dma_fence_context ptr, fwiw
-> >
-> > That won't work. We have a lot of use cases where you can't allocate
-> > memory, but must allocate a context.
-> >
-> > Christian.
-> >
-> > >
-> > > BR,
-> > > -R
-> > >
-> > >> But I still don't see the need for that, especially since most drivers
-> > >> probably won't implement it.
-> > >>
-> > >> Regards,
-> > >> Christian.
-> > >>
-> > >>> Regards,
-> > >>> Christian.
-> > >>>
-> > >>>> BR,
-> > >>>> -R
-> > >>>>
-> > >>>>> Regards,
-> > >>>>> Christian.
-> > >>>>>
-> > >>>>>>         u64 context;
-> > >>>>>>         u64 seqno;
-> > >>>>>>         unsigned long flags;
-> > >>>>>> @@ -99,6 +100,7 @@ enum dma_fence_flag_bits {
-> > >>>>>>         DMA_FENCE_FLAG_SIGNALED_BIT,
-> > >>>>>>         DMA_FENCE_FLAG_TIMESTAMP_BIT,
-> > >>>>>>         DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-> > >>>>>> +     DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
-> > >>>>>>         DMA_FENCE_FLAG_USER_BITS, /* must always be last member */
-> > >>>>>>     };
-> > >>>>>>
-> > >>>>>> @@ -261,6 +263,19 @@ struct dma_fence_ops {
-> > >>>>>>          */
-> > >>>>>>         void (*timeline_value_str)(struct dma_fence *fence,
-> > >>>>>>                                    char *str, int size);
-> > >>>>>> +
-> > >>>>>> +     /**
-> > >>>>>> +      * @set_deadline:
-> > >>>>>> +      *
-> > >>>>>> +      * Callback to allow a fence waiter to inform the fence
-> > >>>>>> signaler of an
-> > >>>>>> +      * upcoming deadline, such as vblank, by which point the
-> > >>>>>> waiter would
-> > >>>>>> +      * prefer the fence to be signaled by.  This is intended to
-> > >>>>>> give feedback
-> > >>>>>> +      * to the fence signaler to aid in power management
-> > >>>>>> decisions, such as
-> > >>>>>> +      * boosting GPU frequency.
-> > >>>>>> +      *
-> > >>>>>> +      * This callback is optional.
-> > >>>>>> +      */
-> > >>>>>> +     void (*set_deadline)(struct dma_fence *fence, ktime_t deadline);
-> > >>>>>>     };
-> > >>>>>>
-> > >>>>>>     void dma_fence_init(struct dma_fence *fence, const struct
-> > >>>>>> dma_fence_ops *ops,
-> > >>>>>> @@ -586,6 +601,8 @@ static inline signed long dma_fence_wait(struct
-> > >>>>>> dma_fence *fence, bool intr)
-> > >>>>>>         return ret < 0 ? ret : 0;
-> > >>>>>>     }
-> > >>>>>>
-> > >>>>>> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t
-> > >>>>>> deadline);
-> > >>>>>> +
-> > >>>>>>     struct dma_fence *dma_fence_get_stub(void);
-> > >>>>>>     struct dma_fence *dma_fence_allocate_private_stub(void);
-> > >>>>>>     u64 dma_fence_context_alloc(unsigned num);
-> >
+> Checks:
+>   revert:     PASS
+>   verify:     PASS
+> 
+> Parameters:
+>   Tree:       media
+>   URL:        https://git.linuxtv.org/media_tree.git
+>   Branch:     master
+>   Target:     qemu_x86_64
+>   CPU arch:   x86_64
+>   Lab:        lab-collabora
+>   Compiler:   gcc-8
+>   Config:     x86_64_defconfig+virtualvideo
+>   Test case:  v4l2-compliance-vivid.device-presence
+> 
+> Breaking commit found:
+> 
+> -------------------------------------------------------------------------------
+> commit f611b1e7624ccdbd495c19e9805629e22265aa16
+> Author: Kees Cook <keescook@chromium.org>
+> Date:   Wed Jun 2 14:52:50 2021 -0700
+> 
+>     drm: Avoid circular dependencies for CONFIG_FB
+>     
+>     When cleaning up other drm config dependencies, it is too easy to create
+>     larger problems. Instead, mark CONFIG_FB as a "depends":
+>     
+>     drivers/gpu/drm/Kconfig:74:error: recursive dependency detected!
+>     
+>     Suggested-by: Arnd Bergmann <arnd@kernel.org>
+>     Link: https://lore.kernel.org/lkml/CAK8P3a3jUQs6c5tESSNMbqfuymewj9FhqRizyHcfOXf8Rgy-nA@mail.gmail.com/
+>     Signed-off-by: Kees Cook <keescook@chromium.org>
+>     [danvet: Rebase, the symbol has changed.]
+>     Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>     Link: https://patchwork.freedesktop.org/patch/msgid/20210602215252.695994-2-keescook@chromium.org
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 594ac6c3a1f4..56a55a6e6239 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -98,8 +98,8 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+>  config DRM_FBDEV_EMULATION
+>  	bool "Enable legacy fbdev support for your modesetting driver"
+>  	depends on DRM
+> +	depends on FB
+>  	select DRM_KMS_HELPER
+> -	select FB
+>  	select FB_CFB_FILLRECT
+>  	select FB_CFB_COPYAREA
+>  	select FB_CFB_IMAGEBLIT
+> -------------------------------------------------------------------------------
+> 
+> 
+> Git bisection log:
+> 
+> -------------------------------------------------------------------------------
+> git bisect start
+> # good: [50e7a31d30e8221632675abed3be306382324ca2] media: Fix Media Controller API config checks
+> git bisect good 50e7a31d30e8221632675abed3be306382324ca2
+> # bad: [e73f0f0ee7541171d89f2e2491130c7771ba58d3] Linux 5.14-rc1
+> git bisect bad e73f0f0ee7541171d89f2e2491130c7771ba58d3
+> # bad: [e058a84bfddc42ba356a2316f2cf1141974625c9] Merge tag 'drm-next-2021-07-01' of git://anongit.freedesktop.org/drm/drm
+> git bisect bad e058a84bfddc42ba356a2316f2cf1141974625c9
+> # good: [a6eaf3850cb171c328a8b0db6d3c79286a1eba9d] Merge tag 'sched-urgent-2021-06-30' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+> git bisect good a6eaf3850cb171c328a8b0db6d3c79286a1eba9d
+> # good: [007b312c6f294770de01fbc0643610145012d244] Merge tag 'mac80211-next-for-net-next-2021-06-25' of git://git.kernel.org/pub/scm/linux/kernel/git/jberg/mac80211-next
+> git bisect good 007b312c6f294770de01fbc0643610145012d244
+> # good: [18703923a66aecf6f7ded0e16d22eb412ddae72f] drm/amdgpu: Fix incorrect register offsets for Sienna Cichlid
+> git bisect good 18703923a66aecf6f7ded0e16d22eb412ddae72f
+> # bad: [334200bf52f0637a5ab8331c557dfcecbb9c30fa] Merge tag 'drm-msm-next-2021-06-23b' of https://gitlab.freedesktop.org/drm/msm into drm-next
+> git bisect bad 334200bf52f0637a5ab8331c557dfcecbb9c30fa
+> # bad: [c707b73f0cfb1acc94a20389aecde65e6385349b] Merge tag 'amd-drm-next-5.14-2021-06-09' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
+> git bisect bad c707b73f0cfb1acc94a20389aecde65e6385349b
+> # good: [caa18dd6dd9305d52943a6b59f410cbc960ad0a0] drm/amd/display: force CP to DESIRED when removing display
+> git bisect good caa18dd6dd9305d52943a6b59f410cbc960ad0a0
+> # bad: [691cf8cd7a531dbfcc29d09a23c509a86fd9b24f] drm/amdgpu: use correct rounding macro for 64-bit
+> git bisect bad 691cf8cd7a531dbfcc29d09a23c509a86fd9b24f
+> # bad: [2fdcb55dfc86835e4845e3f422180b5596d23cb4] drm/amdkfd: use resource cursor in svm_migrate_copy_to_vram v2
+> git bisect bad 2fdcb55dfc86835e4845e3f422180b5596d23cb4
+> # bad: [6c3f953381e526a1623d4575660afae8b19ffa20] drm/sti/sti_hqvdp: Fix incorrectly named function 'sti_hqvdp_vtg_cb()'
+> git bisect bad 6c3f953381e526a1623d4575660afae8b19ffa20
+> # bad: [5ea4dba68305d9648b9dba30036cc36d4e877bca] drm/msm/a6xx: add CONFIG_QCOM_LLCC dependency
+> git bisect bad 5ea4dba68305d9648b9dba30036cc36d4e877bca
+> # good: [4a888ba03fd97d1cb0253581973533965bf348c4] drm/vgem/vgem_drv: Standard comment blocks should not use kernel-doc format
+> git bisect good 4a888ba03fd97d1cb0253581973533965bf348c4
+> # good: [c5ef15ae09637fb51ae43e1d1d98329d67dd4fd6] video: fbdev: atyfb: mach64_cursor.c: deleted the repeated word
+> git bisect good c5ef15ae09637fb51ae43e1d1d98329d67dd4fd6
+> # bad: [f611b1e7624ccdbd495c19e9805629e22265aa16] drm: Avoid circular dependencies for CONFIG_FB
+> git bisect bad f611b1e7624ccdbd495c19e9805629e22265aa16
+> # good: [ff323d6d72e1e4971c8ba9e2f3cf8afc48f22383] video: fbdev: mb862xx: use DEVICE_ATTR_RO macro
+> git bisect good ff323d6d72e1e4971c8ba9e2f3cf8afc48f22383
+> # first bad commit: [f611b1e7624ccdbd495c19e9805629e22265aa16] drm: Avoid circular dependencies for CONFIG_FB
+> -------------------------------------------------------------------------------
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Groups.io Links: You receive all messages sent to this group.
+> View/Reply Online (#13992): https://groups.io/g/kernelci-results/message/13992
+> Mute This Topic: https://groups.io/mt/84176294/924702
+> Group Owner: kernelci-results+owner@groups.io
+> Unsubscribe: https://groups.io/g/kernelci-results/unsub [guillaume.tucker@collabora.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+> 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
