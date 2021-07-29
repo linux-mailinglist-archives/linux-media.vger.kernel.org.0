@@ -2,96 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E0233DA62C
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 16:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0DDE3DA654
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 16:26:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234999AbhG2ORd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 10:17:33 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:46272 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234176AbhG2ORc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 10:17:32 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1m96ql-00ABnS-RR; Thu, 29 Jul 2021 14:17:27 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1m96vU-0003JW-Gh; Thu, 29 Jul 2021 14:22:20 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.15] Venus updates (#76089)
-Date:   Thu, 29 Jul 2021 14:22:19 +0000
-Message-Id: <20210729142219.12681-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210729132854.136809-1-stanimir.varbanov@linaro.org>
-References: 
+        id S236980AbhG2O0j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 10:26:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60616 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234314AbhG2O0i (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Jul 2021 10:26:38 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B89FC061765
+        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 07:26:35 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 376309FB;
+        Thu, 29 Jul 2021 16:26:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1627568792;
+        bh=IQJURyJP92Qcagc9o3RmnkCPQYXSqR5+ZLJ2U5mFyBQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vAoQue4Qb/zgg9RCKyuwQl3y/niX28KwxrZNeahhg1oNKV+fz+c22JVcOxv0p8DKP
+         GnNwsWxNMFIVlMC6kTWka+GrAm19EyKjuVjiHpeYSH1IqfsfFAufdSgmmb9l4YzJI/
+         KRknKrHoQcsE3AnzvGT3WW0CO6U3F5cbcrkzoSvg=
+Date:   Thu, 29 Jul 2021 17:26:24 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH for v5.14] videobuf2-core: dequeue if start_streaming
+ fails
+Message-ID: <YQK6kMhFBmxDN/Jc@pendragon.ideasonboard.com>
+References: <542319b4-387b-6e29-db72-998de02ae4b4@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <542319b4-387b-6e29-db72-998de02ae4b4@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Hans,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210729132854.136809-1-stanimir.varbanov@linaro.org/
-Build log: https://builder.linuxtv.org/job/patchwork/128126/
-Build time: 00:36:03
-Link: https://lore.kernel.org/linux-media/20210729132854.136809-1-stanimir.varbanov@linaro.org
+Thank you for the patch.
 
-gpg: Signature made Thu 29 Jul 2021 01:21:21 PM UTC
-gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
-gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
-gpg: Note: This key has expired!
-Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
-     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
+On Thu, Jul 29, 2021 at 10:35:33AM +0200, Hans Verkuil wrote:
+> If a vb2_queue sets q->min_buffers_needed then if the number of
+> queued buffers reaches that number vb2_core_qbuf() will call
+> the start_streaming() callback. If that returns an error, then that
+> was just returned, but that left the buffer still queued. But userspace
 
-Summary: got 2/7 patches with issues, being 2 at build time
+The three "that" in the sentence are confusing. Do you mean "If that
+function returns an error, the error code is just returned, but the
+buffer is left still queued." ?
 
-Error/warnings:
+> expects that if VIDIOC_QBUF fails, the buffer wasn't queued.
+> 
+> So if start_streaming() fails, then remove the buffer from the queue,
+> thus avoiding this unwanted side-effect.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Tested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> Fixes: b3379c6201bb ("[media] vb2: only call start_streaming if sufficient buffers are queued")
 
-patches/0001-media-venus-hfi-fix-return-value-check-in-sys_get_pr.patch:
+Possibly with the commit message updated,
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-    allyesconfig: return code #0:
-	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+> ---
+>  drivers/media/common/videobuf2/videobuf2-core.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 02281d13505f..508ac295eb06 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -1573,6 +1573,7 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
+>  		  struct media_request *req)
+>  {
+>  	struct vb2_buffer *vb;
+> +	enum vb2_buffer_state orig_state;
+>  	int ret;
+> 
+>  	if (q->error) {
+> @@ -1673,6 +1674,7 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
+>  	 * Add to the queued buffers list, a buffer will stay on it until
+>  	 * dequeued in dqbuf.
+>  	 */
+> +	orig_state = vb->state;
+>  	list_add_tail(&vb->queued_entry, &q->queued_list);
+>  	q->queued_count++;
+>  	q->waiting_for_buffers = false;
+> @@ -1703,8 +1705,17 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
+>  	if (q->streaming && !q->start_streaming_called &&
+>  	    q->queued_count >= q->min_buffers_needed) {
+>  		ret = vb2_start_streaming(q);
+> -		if (ret)
+> +		if (ret) {
+> +			/*
+> +			 * Since vb2_core_qbuf will return with an error,
+> +			 * we should return it to state DEQUEUED since
+> +			 * the error indicates that the buffer wasn't queued.
+> +			 */
+> +			list_del(&vb->queued_entry);
+> +			q->queued_count--;
+> +			vb->state = orig_state;
+>  			return ret;
+> +		}
+>  	}
+> 
+>  	dprintk(q, 2, "qbuf of buffer %d succeeded\n", vb->index);
 
-patches/0005-media-v4l2-ctrls-Add-intra-refresh-period-control.patch:
+-- 
+Regards,
 
-    allyesconfig: return code #0:
-	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0005-media-v4l2-ctrls-Add-intra-refresh-period-control.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:74: CHECK: spaces preferred around that '+' (ctx:VxV)
-
+Laurent Pinchart
