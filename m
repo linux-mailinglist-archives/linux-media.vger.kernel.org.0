@@ -2,57 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A52A3DAB64
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 20:53:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37FA13DAC10
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 21:49:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229761AbhG2Sxk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 14:53:40 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:40080 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229672AbhG2Sxk (ORCPT
+        id S229865AbhG2Tth (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 15:49:37 -0400
+Received: from smtp13.smtpout.orange.fr ([80.12.242.135]:48950 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229645AbhG2Ttg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 14:53:40 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: gtucker)
-        with ESMTPSA id A46131F44504
-Subject: Re: [PATCH] media: vivid: drop CONFIG_FB dependency
-From:   Guillaume Tucker <guillaume.tucker@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-References: <bf74a4670438864ca2e6bde47121554490350729.1627557341.git.guillaume.tucker@collabora.com>
- <37aaf1b0-bb5a-a3df-054d-9aeea1f32a44@collabora.com>
-Message-ID: <5a6270fd-57a5-e3f0-5485-1c514493d659@collabora.com>
-Date:   Thu, 29 Jul 2021 19:53:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        Thu, 29 Jul 2021 15:49:36 -0400
+Received: from localhost.localdomain ([86.243.172.93])
+        by mwinf5d56 with ME
+        id b7pU2500D21Fzsu037pUqA; Thu, 29 Jul 2021 21:49:31 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 29 Jul 2021 21:49:31 +0200
+X-ME-IP: 86.243.172.93
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     narmstrong@baylibre.com, mchehab@kernel.org, khilman@baylibre.com,
+        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+        hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: meson-ge2d: Fix rotation parameter changes detection in 'ge2d_s_ctrl()'
+Date:   Thu, 29 Jul 2021 21:49:25 +0200
+Message-Id: <6cb8efcadcf8c856efb32b7692fc9bf3241e3bc3.1627588010.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <37aaf1b0-bb5a-a3df-054d-9aeea1f32a44@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/07/2021 12:32, Guillaume Tucker wrote:
-> On 29/07/2021 12:16, Guillaume Tucker wrote:
->> +ifeq ($(CONFIG_FB),y)
->> +  vivid-objs += vivid-osd.o
->> +endif
-> 
-> Just realised CONFIG_FB is tristate, so I guess it should be:
-> 
-> ifneq ($(CONFIG_FB),)
->   vivid-objs += vivid-osd.o
-> endif
+There is likely a typo here. To be consistent, we should compare
+'fmt.height' with 'ctx->out.pix_fmt.height', not 'ctx->out.pix_fmt.width'.
 
-Tested-by: "kernelci.org bot" <bot@kernelci.org>
+Fixes: 59a635327ca7 ("media: meson: Add M2M driver for the Amlogic GE2D Accelerator Unit")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+I've not looked deeply in the code, but why is this test needed in the
+first place?
+Couldn't we assigned 'ctx->out.pix_fmt = fmt' un-conditionally?
+---
+ drivers/media/platform/meson/ge2d/ge2d.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  https://staging.kernelci.org/test/job/gtucker/branch/for-kernelci/kernel/v5.14-rc3-4412-g964fed94b566/plan/v4l2-compliance-vivid/
+diff --git a/drivers/media/platform/meson/ge2d/ge2d.c b/drivers/media/platform/meson/ge2d/ge2d.c
+index a1393fefa8ae..be22bb60e7cf 100644
+--- a/drivers/media/platform/meson/ge2d/ge2d.c
++++ b/drivers/media/platform/meson/ge2d/ge2d.c
+@@ -780,7 +780,7 @@ static int ge2d_s_ctrl(struct v4l2_ctrl *ctrl)
+ 		 * parameters, take them in account
+ 		 */
+ 		if (fmt.width != ctx->out.pix_fmt.width ||
+-		    fmt.height != ctx->out.pix_fmt.width ||
++		    fmt.height != ctx->out.pix_fmt.height ||
+ 		    fmt.bytesperline > ctx->out.pix_fmt.bytesperline ||
+ 		    fmt.sizeimage > ctx->out.pix_fmt.sizeimage)
+ 			ctx->out.pix_fmt = fmt;
+-- 
+2.30.2
 
-with the change mentioned above, on top of next-20210729.
-
-Best wishes,
-Guillaume
