@@ -2,92 +2,261 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D61693DA5E2
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 16:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E0533DA5E4
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 16:10:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238963AbhG2OJ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 10:09:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55620 "EHLO
+        id S238989AbhG2OKB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 10:10:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238947AbhG2OIS (ORCPT
+        with ESMTP id S239389AbhG2OIj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 10:08:18 -0400
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84B57C08E835
-        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 07:01:07 -0700 (PDT)
-Received: by mail-ot1-x333.google.com with SMTP id 61-20020a9d0d430000b02903eabfc221a9so6006006oti.0
-        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 07:01:07 -0700 (PDT)
+        Thu, 29 Jul 2021 10:08:39 -0400
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52057C061384
+        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 07:06:05 -0700 (PDT)
+Received: by mail-oi1-x22c.google.com with SMTP id t128so8636539oig.1
+        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 07:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=wfYoIbXkKb4zyoFrfqNBohA6xpxaoBFYaoffzN4CfD8=;
-        b=UKB8nGfA1rlwHcAEjQiugRjVH690wTi3vb6doe4ue9ro2nrDaTBfKdb0y67ozZvnpP
-         b1u3O7BaptscEcAio5ls8sBbczMkAfcG/Kon0tLu1+u5+8fvaY9N4gA6e1QcKsUL8nzj
-         roqsM6wx7hB7uYCfGz8zQzIxOSdXmSEWXEPow+IyOazn8UmUIoEzSh0bGWFoTsBtcQYq
-         3hNXVnMb95uJRGJ7+ZVD+tn3/SIUAIewDbA3sNzoAUflGWZAU4N+YWmfvobyjcYXIUAl
-         QWGrWSV2gwzXatn1vAHBRCAKOZTPcQl/1Nzvrlpkn8PBmdMRrarMgiN3oXiZhbSfZ3ZA
-         TEfg==
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ERFue+oHCOjcFjpKybCHGm8Nf73ebXktzSux0cMnuM0=;
+        b=RvIXERV7oStEjYkk/BrebgVpiq6/8GMBlhwGRXTlJXtmQD0+0FSp6vKd3U3rx72vnb
+         Dskbh9JEQHgZzaz14qnJiRv0Z85Z8/nI+jSd2GcG3uZQGbUV7HY1dYkpF40rHuOH/tOy
+         t++dhn7XmaIjhp7fKjyA8LkXn0d40y+ELabsU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=wfYoIbXkKb4zyoFrfqNBohA6xpxaoBFYaoffzN4CfD8=;
-        b=MMIC7403t3gMjopeXAnjdcYOuOBY7GDLDt9tL5j17hVCQUzwcZe8unfYeF2hOydmgs
-         torGWu/AHAsJQ8ZPl7zy4N7c+XLz3VLrksAHSVtzFQf3l/7f5ENnIBqCzEk11fhrqDrO
-         XTPTIy/WbnJOF0NUvj2LVv7eo+FH/DkcX2pxWgsg9JSYAbhdyIvSdjC28sUdcVqSivaO
-         ky+udNZ6avzqfIccMajUGbhEj6Z0gDn7ZN7IeWNSk3LIodqCIAF+ZFVReid18ZvmcWpO
-         lxopWJmosNY7zCszeoWUUhZU7tjsiKw6sf/ktHCPiGE7oZLWSgm7ofOLm9GY3mWRSYxZ
-         MiSw==
-X-Gm-Message-State: AOAM532GtR3TByKkWdKZMzXfMAasuM+umlTjuxJkMIBCCUJ8N+4P95pM
-        uPcYsc7rXh/tF9jCvFVuJ7kP/GCK6whpIGkNxJg=
-X-Google-Smtp-Source: ABdhPJynwVabEwtPINtXiS5xiXykaLDu9Sr0wCMdc9t/hCeLK1tinr8zcZOi5u3sCHU4A2FNIU98kdyL3R0tJsEbd88=
-X-Received: by 2002:a05:6830:1386:: with SMTP id d6mr3458632otq.73.1627567266935;
- Thu, 29 Jul 2021 07:01:06 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ERFue+oHCOjcFjpKybCHGm8Nf73ebXktzSux0cMnuM0=;
+        b=h3w1ozAZzSkuKH+6lH46YifQ9dIIIJRiq9fEN3/mTEjIDU5dtjYvBF88u58gKmmWQY
+         qnTiYsv876t0KtcClFz8M0mfOOkQ/rNe4MNyxVABzlxA6cQKi9BOLG++Nh0waUGnNs9J
+         Tvbj3sP917+ftdVswMNIwNRTSmHJKdILVIwKfN0vjzwI9Wtny3/SMUlYpfBWTL6OipIW
+         HNmp3C5LBvxfvwUlR5sdBTzCQ2yv/nsBBJGSZ7O9vk7T36uRpyS6TpJNyGj4w+VSaXnt
+         bDPyPO2SP8MhgkNzxJNcYFpnmkKvRiBeQwA8TZqoy8fTKIv67QJQHH9QyA/u2Kgjncj3
+         vOgQ==
+X-Gm-Message-State: AOAM533cRCkDb+YtcCx04SQ6FxLkcTXOTXQwobSn4dsVyGZKsIoADhuC
+        OF0PLAgEq4/gxchBk1FLLs7Mb2FHl2+a+qP3h/hoKQ==
+X-Google-Smtp-Source: ABdhPJxwHe8UR04yoFZoPSRg5yexYy7LIXZIIj5YSvpYgpfw3k7PwllaAKSr1vBFepIW+UHzpPn0HMznlj122DeDwuw=
+X-Received: by 2002:aca:d682:: with SMTP id n124mr3260319oig.128.1627567564541;
+ Thu, 29 Jul 2021 07:06:04 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6838:72d5:0:0:0:0 with HTTP; Thu, 29 Jul 2021 07:01:06
- -0700 (PDT)
-Reply-To: pzongo277@gmail.com
-From:   "Mr.Phillip Zongo" <nnauzo66@gmail.com>
-Date:   Thu, 29 Jul 2021 07:01:06 -0700
-Message-ID: <CAGQyTbLeCLCMrCX9Mwd05bPt5_OpKNSRnPe_fJgEPaDavABBKw@mail.gmail.com>
-Subject: Mr.Phillip Zongo
-To:     undisclosed-recipients:;
+References: <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
+ <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com> <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
+ <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com> <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
+ <CAF6AEGu409eY9xznTAaBf2ZDcV_AaDELUzN2afWgiHwB_uBwqg@mail.gmail.com>
+ <YQJUKXgf/Q957fmy@phenom.ffwll.local> <ff394f2b-b555-e80f-b685-d0d59e2bbe67@daenzer.net>
+ <YQJu6AqKn7bdT1li@phenom.ffwll.local> <20210729123732.3259a9bf@eldfell>
+ <YQKclVvL+QeeL6cP@phenom.ffwll.local> <20210729155959.665fc1a6@eldfell>
+In-Reply-To: <20210729155959.665fc1a6@eldfell>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Thu, 29 Jul 2021 16:05:53 +0200
+Message-ID: <CAKMK7uG=UtTjtGCxTQm9wnm44QqTK2=ZCSM2MS0wVwpTL7DEkw@mail.gmail.com>
+Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
+To:     Pekka Paalanen <ppaalanen@gmail.com>
+Cc:     Simon Ser <contact@emersion.fr>,
+        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+        Rob Clark <robdclark@chromium.org>,
+        Matthew Brost <matthew.brost@intel.com>,
+        Roy Sun <Roy.Sun@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I am Mr.Phillip Zongo. I work at the bank. I get your contact from
-internet search i hope that you will not expose or betray this trust
-and confident that am about to have in you for the benefit of our both
-families i am in need of your help as a foreigner to transfer sum of
-$15 million U.S dollars (Fifteen million U.S dollars) into your
-account risk is completely %100 free.
+On Thu, Jul 29, 2021 at 3:00 PM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> On Thu, 29 Jul 2021 14:18:29 +0200
+> Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> > On Thu, Jul 29, 2021 at 12:37:32PM +0300, Pekka Paalanen wrote:
+> > > On Thu, 29 Jul 2021 11:03:36 +0200
+> > > Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > > On Thu, Jul 29, 2021 at 10:17:43AM +0200, Michel D=C3=A4nzer wrote:
+> > > > > On 2021-07-29 9:09 a.m., Daniel Vetter wrote:
+> > > > > > On Wed, Jul 28, 2021 at 08:34:13AM -0700, Rob Clark wrote:
+> > > > > >> On Wed, Jul 28, 2021 at 6:24 AM Michel D=C3=A4nzer <michel@dae=
+nzer.net> wrote:
+> > > > > >>> On 2021-07-28 3:13 p.m., Christian K=C3=B6nig wrote:
+> > > > > >>>> Am 28.07.21 um 15:08 schrieb Michel D=C3=A4nzer:
+> > > > > >>>>> On 2021-07-28 1:36 p.m., Christian K=C3=B6nig wrote:
+> > > > > >>>>>> Am 27.07.21 um 17:37 schrieb Rob Clark:
+> > > > > >>>>>>> On Tue, Jul 27, 2021 at 8:19 AM Michel D=C3=A4nzer <miche=
+l@daenzer.net> wrote:
+> > > > > >>>>>>>> On 2021-07-27 5:12 p.m., Rob Clark wrote:
+> > > > > >>>>>>>>> On Tue, Jul 27, 2021 at 7:50 AM Michel D=C3=A4nzer <mic=
+hel@daenzer.net> wrote:
+> > > > > >>>>>>>>>> On 2021-07-27 1:38 a.m., Rob Clark wrote:
+> > > > > >>>>>>>>>>> From: Rob Clark <robdclark@chromium.org>
+> > > > > >>>>>>>>>>>
+> > > > > >>>>>>>>>>> Based on discussion from a previous series[1] to add =
+a "boost" mechanism
+> > > > > >>>>>>>>>>> when, for example, vblank deadlines are missed.  Inst=
+ead of a boost
+> > > > > >>>>>>>>>>> callback, this approach adds a way to set a deadline =
+on the fence, by
+> > > > > >>>>>>>>>>> which the waiter would like to see the fence signalle=
+d.
+> > >
+> > > ...
+> > >
+> > > > > I'm not questioning that this approach helps when there's a direc=
+t
+> > > > > chain of fences from the client to the page flip. I'm pointing ou=
+t
+> > > > > there will not always be such a chain.
+> > > > >
+> > > > >
+> > > > > >> But maybe the solution to make this also useful for mutter
+> > > > >
+> > > > > It's not just mutter BTW. I understand gamescope has been doing
+> > > > > this for some time already. And there seems to be consensus among
+> > > > > developers of Wayland compositors that this is needed, so I expec=
+t
+> > > > > at least all the major compositors to do this longer term.
+> > > > >
+> > > > >
+> > > > > >> is to, once we have deadline support, extend it with an ioctl =
+to
+> > > > > >> the dma-fence fd so userspace can be the one setting the
+> > > > > >> deadline.
+> > > > >
+> > > > > I was thinking in a similar direction.
+> > > > >
+> > > > > > atomic ioctl with TEST_ONLY and SET_DEADLINES? Still gives mutt=
+er
+> > > > > > the option to bail out with an old frame if it's too late?
+> > > > >
+> > > > > This is a bit cryptic though, can you elaborate?
+> > > >
+> > > > So essentially when the mutter compositor guesstimator is fairly
+> > > > confident about the next frame's composition (recall you're keeping
+> > > > track of clients to estimate their usual latency or something like
+> > > > that), then it does a TEST_ONLY commit to check it all works and pr=
+ep
+> > > > the rendering, but _not_ yet fire it off.
+> > > >
+> > > > Instead it waits until all buffers complete, and if some don't, pic=
+k
+> > > > the previous one. Which I guess in an extreme case would mean you
+> > > > need a different window tree configuration and maybe different
+> > > > TEST_ONLY check and all that, not sure how you solve that.
+> > > >
+> > > > Anyway, in that TEST_ONLY commit my idea is that you'd also supply
+> > > > all the in-fences you expect to depend upon (maybe we need an
+> > > > additional list of in-fences for your rendering job), plus a deadli=
+ne
+> > > > when you want to have them done (so that there's enough time for yo=
+ur
+> > > > render job still). And the kernel then calls dma_fence_set_deadline
+> > > > on all of them.
+> > > >
+> > > > Pondering this more, maybe a separate ioctl is simpler where you ju=
+st
+> > > > supply a list of in-fences and deadlines.
+> > > >
+> > > > The real reason I want to tie this to atomic is for priviledge
+> > > > checking reasons. I don't think normal userspace should have the
+> > > > power to set arbitrary deadlines like this - at least on i915 it wi=
+ll
+> > > > also give you a slight priority boost and stuff like that, to make
+> > > > sure your rendering for the current frame goes in ahead of the next
+> > > > frame's prep work.
+> > > >
+> > > > So maybe just a new ioctl that does this which is limited to the
+> > > > current kms owner (aka drm_master)?
+> > >
+> > > Yeah.
+> > >
+> > > Why not have a Wayland compositor *always* "set the deadlines" for th=
+e
+> > > next screen update as soon as it gets the wl_surface.commit with the
+> > > new buffer and fences (a simplified description of what is actually
+> > > necessary to take a new window state set into use)?
+> >
+> > Yeah taht's probably best. And if the frame is scheduled (video at 24fp=
+s
+> > or whatever) you can also immediately set the deadline for that too, ju=
+st
+> > a few frames later. Always minus compositor budget taken into account.
+> >
+> > > The Wayland client posted the frame to the compositor, so surely it
+> > > wants it ready and displayed ASAP. If we happen to have a Wayland fra=
+me
+> > > queuing extension, then also take that into account when setting the
+> > > deadline.
+> > >
+> > > Then, *independently* of that, the compositor will choose which frame=
+s
+> > > it will actually use in its composition when the time comes.
+> > >
+> > > No need for any KMS atomic commit fiddling, userspace just explicitly
+> > > sets the deadline on the fence and that's it. You could tie the
+> > > privilege of setting deadlines to simply holding DRM master on whatev=
+er
+> > > device? So the ioctl would need both the fence and any DRM device fd.
+> >
+> > Yeah tying that up with atomic doesn't make sense.
+> >
+> > > A rogue application opening a DRM device and becoming DRM master on i=
+t
+> > > just to be able to abuse deadlines feels both unlikely and with
+> > > insignificant consequences. It stops the obvious abuse, and if someon=
+e
+> > > actually goes the extra effort, then so what.
+> >
+> > With logind you can't become drm master just for lolz anymore, so I'm n=
+ot
+> > worried about that. On such systems only logind has the rights to acces=
+s
+> > the primary node, everyone doing headless goes through the render node.
+>
+> Mm, I hope the DRM leasing protocols don't rely on clients being able
+> to open KMS nodes anymore... they used to at some point, I think, for
+> the initial resource discovery before actually leasing anything.
 
+Yeah I thought that was fixed with additional xrandr/wayland discovery
+protocols. It doesn't work anyone on systems with display/render
+split. I think that was just to get it all going.
 
-Please I will like you to keep this proposal as top secret and Also
-note that you will have 40% of the above mentioned fund, while 60%
-will be for me.if you agree to transact this business with me I will
-give you full details of this transaction immediately you notify me
-your interest by sending your data.
+> "only logind has rights" might be a bit off still.
+>
+> > So just limiting the deadline ioctl to current kms owner is imo perfect=
+ly
+> > good enough for a security model.
+>
+> There could be multiple DRM devices. Including VKMS. Some of them not
+> used. The deadline setting ioctl can't guarantee the fenced buffer is
+> going to be used on the same DRM device the ioctl was called with. Or
+> used at all with KMS.
 
+That's not a problem, fence deadline interface is cross-driver.
 
-Your Full Name.
+> Anyway, even if that is not completely secure, I wouldn't think that
+> setting deadlines can do more than change GPU job priorities and power
+> consumption, which seem quite benign. It's enough hoops to jump through
+> that I think it stops everything we care to stop.
 
-Your Country.
-
-Your Age.
-
-Your Occupation.
-
-Your phone Number.
-
-Your office or House Address.
-
-Copy of your passport or id card.
-
-
-Thanks
-
-
-Mr.Phillip Zongo
+Yeah. Plus with this patch set you can do this already, just need to
+send out an atomic flip with all the fences merged together into your
+in-fence slots.
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
