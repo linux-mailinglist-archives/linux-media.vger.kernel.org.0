@@ -2,429 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 073873DAA19
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 19:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A52A3DAB64
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jul 2021 20:53:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231571AbhG2R2C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 13:28:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49612 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229662AbhG2R2C (ORCPT
+        id S229761AbhG2Sxk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 14:53:40 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:40080 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229672AbhG2Sxk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 13:28:02 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC597C061765;
-        Thu, 29 Jul 2021 10:27:57 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id n28-20020a05600c3b9cb02902552e60df56so4542409wms.0;
-        Thu, 29 Jul 2021 10:27:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8Bn+cPu5IgvR7pIamKA5mLhVnf1yh6hiT4eICk8HZr0=;
-        b=Aj4au+2Cx2smuXGJtUyolayfAnSBXZrXPPKMbxPjzANbYSbUSrtdDLiGr6MzFqNZM/
-         NAP+2Wm0FCQjqLsmZKu2WV1QFajMEWCuExDj7jRZM8pCA+6DW2IkvEbEU8GthPMQvwT+
-         SS1VlxS2j9JiWS1eU5V2r/P/xvVGI3kKHPKLrS94cG2ZyT3GMpXmv0fxiTLqTIMlc2tR
-         yJTxfsR8bezNAHChQvPRpUciRY1J6iHNj26ARHZ2KvzJ2QxhbZeQfBA6LXso8w9De+Bx
-         +99cJ7+C91NIYgZ223UuCoYKrxBbjsit068ZpD0/IXKiEm8cjPeYP/tEdFaekpU7lQk0
-         0ddw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8Bn+cPu5IgvR7pIamKA5mLhVnf1yh6hiT4eICk8HZr0=;
-        b=Ma0bfyQv27du9wR40LHKzgz7I+J1mDmuRJJPytvNaXzHFBNBFwRaUToHttX0/RGkTR
-         G/aRqO13XxOukVd5M5bjvQT+vsr6LATp1ZxsIuFrDNgy9d5oFJwBLZUsTknacVkFXH0N
-         MoG5h0/CsdfFkvhZmlfCGmQOczvRbYk8XyKmuk6EPAQ84VbGeXFtl0OmegfS01Q/U/Ov
-         K7qSc/SSunyo1SNYZHAW1GmH0OhkkdJ6Qa3pTk2AU/1tSsu3yTwDXrPAXCTnFM2WxFeS
-         P3AzFM9+qLZ6h8/VM2ylopAttvvsaz1C51qLofpINH//aYD5MMmK1q6gTa+cJAhH0W2m
-         37zQ==
-X-Gm-Message-State: AOAM531FMsSjxJxwyQ7h/uVXwOoxjsjumr92cDbm6zZKxAKubQ4xozg0
-        1dwUCsEZcb35+p6bdX/m9uxJSuD7FoOcaaKtEZo=
-X-Google-Smtp-Source: ABdhPJwsrQ2cq2G18NekGlXa+mURpKvg8ERic3HlrF9fg4I071Fi1jDxOYZ04QeGMA1+77I735b4fYhTMmKdbju5I08=
-X-Received: by 2002:a05:600c:19cb:: with SMTP id u11mr5869006wmq.175.1627579676269;
- Thu, 29 Jul 2021 10:27:56 -0700 (PDT)
+        Thu, 29 Jul 2021 14:53:40 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: gtucker)
+        with ESMTPSA id A46131F44504
+Subject: Re: [PATCH] media: vivid: drop CONFIG_FB dependency
+From:   Guillaume Tucker <guillaume.tucker@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+References: <bf74a4670438864ca2e6bde47121554490350729.1627557341.git.guillaume.tucker@collabora.com>
+ <37aaf1b0-bb5a-a3df-054d-9aeea1f32a44@collabora.com>
+Message-ID: <5a6270fd-57a5-e3f0-5485-1c514493d659@collabora.com>
+Date:   Thu, 29 Jul 2021 19:53:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <20210726233854.2453899-1-robdclark@gmail.com> <20210726233854.2453899-2-robdclark@gmail.com>
- <50b181fe-6605-b7ac-36a6-8bcda2930e6f@gmail.com> <CAF6AEGuNxi_aeYE37FT3a-atCUWgepxs-9EwxMfpiMaU7wgqdQ@mail.gmail.com>
- <9edd7083-e6b3-b230-c273-8f2fbe76ca17@amd.com> <703dc9c3-5657-432e-ca0b-25bdd67a2abd@gmail.com>
- <CAF6AEGvSpvc2po93b2eKB2cSzx_a+BtPWhQgRs-1NFFZfUbJNw@mail.gmail.com>
- <e5e71356-1c58-04ac-2609-70d268941b8d@amd.com> <CAF6AEGu3NMyRp1pC5iZQoHhKhu_xBFBqkkfbG36dx8bVzYdWMA@mail.gmail.com>
- <YQJSxEVUkZmfL5Cb@phenom.ffwll.local> <CAF6AEGswVQx3Vtm=Oab3CsQw1fE-yf9y2_MB2wdx_e14FLNwXQ@mail.gmail.com>
- <CAKMK7uHjtiL9TzfMMKaKWMRx=-p_ZUg07wSp9djz7gwwUjn=zw@mail.gmail.com>
-In-Reply-To: <CAKMK7uHjtiL9TzfMMKaKWMRx=-p_ZUg07wSp9djz7gwwUjn=zw@mail.gmail.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Thu, 29 Jul 2021 10:32:05 -0700
-Message-ID: <CAF6AEGuQsJ5Npi4_t=qme0j_a-=03qge6ZbRMiQS5ZRWyP7JBQ@mail.gmail.com>
-Subject: Re: [RFC 1/4] dma-fence: Add deadline awareness
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <37aaf1b0-bb5a-a3df-054d-9aeea1f32a44@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 29, 2021 at 9:18 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Thu, Jul 29, 2021 at 5:19 PM Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > On Thu, Jul 29, 2021 at 12:03 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Wed, Jul 28, 2021 at 10:58:51AM -0700, Rob Clark wrote:
-> > > > On Wed, Jul 28, 2021 at 10:23 AM Christian K=C3=B6nig
-> > > > <christian.koenig@amd.com> wrote:
-> > > > >
-> > > > >
-> > > > >
-> > > > > Am 28.07.21 um 17:15 schrieb Rob Clark:
-> > > > > > On Wed, Jul 28, 2021 at 4:37 AM Christian K=C3=B6nig
-> > > > > > <ckoenig.leichtzumerken@gmail.com> wrote:
-> > > > > >> Am 28.07.21 um 09:03 schrieb Christian K=C3=B6nig:
-> > > > > >>> Am 27.07.21 um 16:25 schrieb Rob Clark:
-> > > > > >>>> On Tue, Jul 27, 2021 at 12:11 AM Christian K=C3=B6nig
-> > > > > >>>> <ckoenig.leichtzumerken@gmail.com> wrote:
-> > > > > >>>>> Am 27.07.21 um 01:38 schrieb Rob Clark:
-> > > > > >>>>>> From: Rob Clark <robdclark@chromium.org>
-> > > > > >>>>>>
-> > > > > >>>>>> Add a way to hint to the fence signaler of an upcoming dea=
-dline,
-> > > > > >>>>>> such as
-> > > > > >>>>>> vblank, which the fence waiter would prefer not to miss. T=
-his is to
-> > > > > >>>>>> aid
-> > > > > >>>>>> the fence signaler in making power management decisions, l=
-ike boosting
-> > > > > >>>>>> frequency as the deadline approaches and awareness of miss=
-ing
-> > > > > >>>>>> deadlines
-> > > > > >>>>>> so that can be factored in to the frequency scaling.
-> > > > > >>>>>>
-> > > > > >>>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > >>>>>> ---
-> > > > > >>>>>>     drivers/dma-buf/dma-fence.c | 39
-> > > > > >>>>>> +++++++++++++++++++++++++++++++++++++
-> > > > > >>>>>>     include/linux/dma-fence.h   | 17 ++++++++++++++++
-> > > > > >>>>>>     2 files changed, 56 insertions(+)
-> > > > > >>>>>>
-> > > > > >>>>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf=
-/dma-fence.c
-> > > > > >>>>>> index ce0f5eff575d..2e0d25ab457e 100644
-> > > > > >>>>>> --- a/drivers/dma-buf/dma-fence.c
-> > > > > >>>>>> +++ b/drivers/dma-buf/dma-fence.c
-> > > > > >>>>>> @@ -910,6 +910,45 @@ dma_fence_wait_any_timeout(struct dma=
-_fence
-> > > > > >>>>>> **fences, uint32_t count,
-> > > > > >>>>>>     }
-> > > > > >>>>>>     EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> > > > > >>>>>>
-> > > > > >>>>>> +
-> > > > > >>>>>> +/**
-> > > > > >>>>>> + * dma_fence_set_deadline - set desired fence-wait deadli=
-ne
-> > > > > >>>>>> + * @fence:    the fence that is to be waited on
-> > > > > >>>>>> + * @deadline: the time by which the waiter hopes for the =
-fence to be
-> > > > > >>>>>> + *            signaled
-> > > > > >>>>>> + *
-> > > > > >>>>>> + * Inform the fence signaler of an upcoming deadline, suc=
-h as
-> > > > > >>>>>> vblank, by
-> > > > > >>>>>> + * which point the waiter would prefer the fence to be si=
-gnaled
-> > > > > >>>>>> by.  This
-> > > > > >>>>>> + * is intended to give feedback to the fence signaler to =
-aid in power
-> > > > > >>>>>> + * management decisions, such as boosting GPU frequency i=
-f a periodic
-> > > > > >>>>>> + * vblank deadline is approaching.
-> > > > > >>>>>> + */
-> > > > > >>>>>> +void dma_fence_set_deadline(struct dma_fence *fence, ktim=
-e_t
-> > > > > >>>>>> deadline)
-> > > > > >>>>>> +{
-> > > > > >>>>>> +     unsigned long flags;
-> > > > > >>>>>> +
-> > > > > >>>>>> +     if (dma_fence_is_signaled(fence))
-> > > > > >>>>>> +             return;
-> > > > > >>>>>> +
-> > > > > >>>>>> +     spin_lock_irqsave(fence->lock, flags);
-> > > > > >>>>>> +
-> > > > > >>>>>> +     /* If we already have an earlier deadline, keep it: =
-*/
-> > > > > >>>>>> +     if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence=
-->flags) &&
-> > > > > >>>>>> +         ktime_before(fence->deadline, deadline)) {
-> > > > > >>>>>> +             spin_unlock_irqrestore(fence->lock, flags);
-> > > > > >>>>>> +             return;
-> > > > > >>>>>> +     }
-> > > > > >>>>>> +
-> > > > > >>>>>> +     fence->deadline =3D deadline;
-> > > > > >>>>>> +     set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->fla=
-gs);
-> > > > > >>>>>> +
-> > > > > >>>>>> +     spin_unlock_irqrestore(fence->lock, flags);
-> > > > > >>>>>> +
-> > > > > >>>>>> +     if (fence->ops->set_deadline)
-> > > > > >>>>>> +             fence->ops->set_deadline(fence, deadline);
-> > > > > >>>>>> +}
-> > > > > >>>>>> +EXPORT_SYMBOL(dma_fence_set_deadline);
-> > > > > >>>>>> +
-> > > > > >>>>>>     /**
-> > > > > >>>>>>      * dma_fence_init - Initialize a custom fence.
-> > > > > >>>>>>      * @fence: the fence to initialize
-> > > > > >>>>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma=
--fence.h
-> > > > > >>>>>> index 6ffb4b2c6371..4e6cfe4e6fbc 100644
-> > > > > >>>>>> --- a/include/linux/dma-fence.h
-> > > > > >>>>>> +++ b/include/linux/dma-fence.h
-> > > > > >>>>>> @@ -88,6 +88,7 @@ struct dma_fence {
-> > > > > >>>>>>                 /* @timestamp replaced by @rcu on
-> > > > > >>>>>> dma_fence_release() */
-> > > > > >>>>>>                 struct rcu_head rcu;
-> > > > > >>>>>>         };
-> > > > > >>>>>> +     ktime_t deadline;
-> > > > > >>>>> Mhm, adding the flag sounds ok to me but I'm a bit hesitati=
-ng adding
-> > > > > >>>>> the
-> > > > > >>>>> deadline as extra field here.
-> > > > > >>>>>
-> > > > > >>>>> We tuned the dma_fence structure intentionally so that it i=
-s only 64
-> > > > > >>>>> bytes.
-> > > > > >>>> Hmm, then I guess you wouldn't be a fan of also adding an hr=
-timer?
-> > > > > >>>>
-> > > > > >>>> We could push the ktime_t (and timer) down into the derived =
-fence
-> > > > > >>>> class, but I think there is going to need to be some extra s=
-torage
-> > > > > >>>> *somewhere*.. maybe the fence signaler could get away with j=
-ust
-> > > > > >>>> storing the nearest upcoming deadline per fence-context inst=
-ead?
-> > > > > >>> I would just push that into the driver instead.
-> > > > > >>>
-> > > > > >>> You most likely don't want the deadline per fence anyway in c=
-omplex
-> > > > > >>> scenarios, but rather per frame. And a frame is usually compo=
-sed from
-> > > > > >>> multiple fences.
-> > > > > > Right, I ended up keeping track of the nearest deadline in patc=
-h 5/4
-> > > > > > which added drm/msm support:
-> > > > > >
-> > > > > >    https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%=
-3A%2F%2Fpatchwork.freedesktop.org%2Fpatch%2F447138%2F&amp;data=3D04%7C01%7C=
-christian.koenig%40amd.com%7Cce6ace85263d448bbc9f08d951d9f06c%7C3dd8961fe48=
-84e608e11a82d994e183d%7C0%7C0%7C637630819606427306%7CUnknown%7CTWFpbGZsb3d8=
-eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&a=
-mp;sdata=3DameszAOlClaZNeUDlYr37ZdIytVXNgiEUKuctjXLqZ0%3D&amp;reserved=3D0
-> > > > > >
-> > > > > > But if we do have the ktime_t in dma_fence in dma_fence, we can=
- add
-> > > > > > some checks and avoid calling back to the driver if a later dea=
-dline
-> > > > > > is set on a fence that already has an earlier deadline.  OTOH I
-> > > > > > suppose I can push all that back to the driver to start, and we=
- can
-> > > > > > revisit once we have more drivers implementing deadline support=
-.
-> > > > >
-> > > > > I still think that all of this is rather specific to your use cas=
-e and
-> > > > > have strong doubt that anybody else will implement that.
-> > > >
-> > > > i915 does already have a similar thing in it's hand-rolled atomic
-> > > > commit path.  So I think msm won't be the only one.  It should be a=
-lso
-> > > > useful to the other mobile GPUs with a gpu vs kms driver split,
-> > > > although looking at the other gpu devfreq implementations, I don't
-> > > > think they've yet gotten to this point in the fine tuning..
-> > >
-> > > Yeah I have a dream that maybe i915 will use the atomic commit helper=
-s, I
-> > > originally wrote them with i915 in mind :-) even had patches!
-> > >
-> > > I also think we'll need this eventually in other areas, Android also =
-has
-> > > some hacks like this to make sure idle->first touch doesn't suck and
-> > > similar things.
-> >
-> > input-boost is another thing I have on my roadmap.. part of the solutio=
-n is:
-> >
-> >     commit 9bc95570175a7fbca29d86d22c54bbf399f4ad5a
-> >     Author:     Rob Clark <robdclark@chromium.org>
-> >     AuthorDate: Mon Jul 26 07:46:50 2021 -0700
-> >     Commit:     Rob Clark <robdclark@chromium.org>
-> >     CommitDate: Tue Jul 27 17:54:36 2021 -0700
-> >
-> >         drm/msm: Devfreq tuning
-> >
-> > which gives the freq a bit of a nudge if the GPU has been idle for
-> > longer than a certain threshold.
-> >
-> > But the other part is that if the GPU has been idle for more than 66ms
-> > (typical autosuspend delay for adreno) it will suspend.  For modern
-> > adreno's it takes ~2ms to "boot up" the GPU from suspend.  Which is
-> > something you want to take out of the submit/execbuf path if you are
-> > trying to reduce input-to-pageflip latency.
-> >
-> > We have a downstream patch that boosts the CPUs on input events (with
-> > a cooldown period to prevent spacebar-heater) and I have been thinking
-> > of something along those lines to trigger resuming the GPU.. it is
-> > straightforward enough for touch based devices, but gets more
-> > complicated with keyboard input.  In particular, some keys you want to
-> > trigger boost on key-release.  Ie. modifier keys (ctrl/shift/alt/etc..
-> > the "search" key on chromebooks, etc) you want to boost on
-> > key-release, not on key-press because unless you type *really* fast
-> > you'll be in the cooldown period when the key-release event happens.
-> > Unfortunately the kernel doesn't really know this "policy" sort of
-> > information about which keys should boost on press vs release.  So I
-> > think the long-term/upstream solution is to do input-boost in
-> > userspace.. sysfs already has all the knobs that a userspace
-> > input-boost daemon would need to twiddle, so no real need for this to
-> > be in the kernel.  I guess the only drawback is the sysfs knobs are a
-> > bit less standardized on the "desktop GPUs" which don't use devfreq.
->
-> I think we could do a standard interface for this, either on the drm
-> owner/master or somewhere in sysfs. Essentially "I expect to use the
-> gpu for the very next frame, get it going". Across all hw there's a
-> lot of things we can do. I think abuse is pretty easy to prevent with
-> a cooldown or similar.
+On 29/07/2021 12:32, Guillaume Tucker wrote:
+> On 29/07/2021 12:16, Guillaume Tucker wrote:
+>> +ifeq ($(CONFIG_FB),y)
+>> +  vivid-objs += vivid-osd.o
+>> +endif
+> 
+> Just realised CONFIG_FB is tristate, so I guess it should be:
+> 
+> ifneq ($(CONFIG_FB),)
+>   vivid-objs += vivid-osd.o
+> endif
 
-The userspace input-boost ends up needing to be either part of the
-compositor, or a privileged process, in order to sniff input events..
-so I don't think the kernel needs to try to prevent abuse here (but
-the userspace part defn wants a cooldown period)
+Tested-by: "kernelci.org bot" <bot@kernelci.org>
 
-BR,
--R
+  https://staging.kernelci.org/test/job/gtucker/branch/for-kernelci/kernel/v5.14-rc3-4412-g964fed94b566/plan/v4l2-compliance-vivid/
 
-> -Daniel
->
-> >
-> > BR,
-> > -R
-> >
-> > > -Daniel
-> > >
-> > > >
-> > > > BR,
-> > > > -R
-> > > >
-> > > > > >> Thinking more about it we could probably kill the spinlock poi=
-nter and
-> > > > > >> make the flags 32bit if we absolutely need that here.
-> > > > > > If we had a 'struct dma_fence_context' we could push the spinlo=
-ck, ops
-> > > > > > pointer, and u64 context into that and replace with a single
-> > > > > > dma_fence_context ptr, fwiw
-> > > > >
-> > > > > That won't work. We have a lot of use cases where you can't alloc=
-ate
-> > > > > memory, but must allocate a context.
-> > > > >
-> > > > > Christian.
-> > > > >
-> > > > > >
-> > > > > > BR,
-> > > > > > -R
-> > > > > >
-> > > > > >> But I still don't see the need for that, especially since most=
- drivers
-> > > > > >> probably won't implement it.
-> > > > > >>
-> > > > > >> Regards,
-> > > > > >> Christian.
-> > > > > >>
-> > > > > >>> Regards,
-> > > > > >>> Christian.
-> > > > > >>>
-> > > > > >>>> BR,
-> > > > > >>>> -R
-> > > > > >>>>
-> > > > > >>>>> Regards,
-> > > > > >>>>> Christian.
-> > > > > >>>>>
-> > > > > >>>>>>         u64 context;
-> > > > > >>>>>>         u64 seqno;
-> > > > > >>>>>>         unsigned long flags;
-> > > > > >>>>>> @@ -99,6 +100,7 @@ enum dma_fence_flag_bits {
-> > > > > >>>>>>         DMA_FENCE_FLAG_SIGNALED_BIT,
-> > > > > >>>>>>         DMA_FENCE_FLAG_TIMESTAMP_BIT,
-> > > > > >>>>>>         DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-> > > > > >>>>>> +     DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
-> > > > > >>>>>>         DMA_FENCE_FLAG_USER_BITS, /* must always be last m=
-ember */
-> > > > > >>>>>>     };
-> > > > > >>>>>>
-> > > > > >>>>>> @@ -261,6 +263,19 @@ struct dma_fence_ops {
-> > > > > >>>>>>          */
-> > > > > >>>>>>         void (*timeline_value_str)(struct dma_fence *fence=
-,
-> > > > > >>>>>>                                    char *str, int size);
-> > > > > >>>>>> +
-> > > > > >>>>>> +     /**
-> > > > > >>>>>> +      * @set_deadline:
-> > > > > >>>>>> +      *
-> > > > > >>>>>> +      * Callback to allow a fence waiter to inform the fe=
-nce
-> > > > > >>>>>> signaler of an
-> > > > > >>>>>> +      * upcoming deadline, such as vblank, by which point=
- the
-> > > > > >>>>>> waiter would
-> > > > > >>>>>> +      * prefer the fence to be signaled by.  This is inte=
-nded to
-> > > > > >>>>>> give feedback
-> > > > > >>>>>> +      * to the fence signaler to aid in power management
-> > > > > >>>>>> decisions, such as
-> > > > > >>>>>> +      * boosting GPU frequency.
-> > > > > >>>>>> +      *
-> > > > > >>>>>> +      * This callback is optional.
-> > > > > >>>>>> +      */
-> > > > > >>>>>> +     void (*set_deadline)(struct dma_fence *fence, ktime_=
-t deadline);
-> > > > > >>>>>>     };
-> > > > > >>>>>>
-> > > > > >>>>>>     void dma_fence_init(struct dma_fence *fence, const str=
-uct
-> > > > > >>>>>> dma_fence_ops *ops,
-> > > > > >>>>>> @@ -586,6 +601,8 @@ static inline signed long dma_fence_wa=
-it(struct
-> > > > > >>>>>> dma_fence *fence, bool intr)
-> > > > > >>>>>>         return ret < 0 ? ret : 0;
-> > > > > >>>>>>     }
-> > > > > >>>>>>
-> > > > > >>>>>> +void dma_fence_set_deadline(struct dma_fence *fence, ktim=
-e_t
-> > > > > >>>>>> deadline);
-> > > > > >>>>>> +
-> > > > > >>>>>>     struct dma_fence *dma_fence_get_stub(void);
-> > > > > >>>>>>     struct dma_fence *dma_fence_allocate_private_stub(void=
-);
-> > > > > >>>>>>     u64 dma_fence_context_alloc(unsigned num);
-> > > > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+with the change mentioned above, on top of next-20210729.
+
+Best wishes,
+Guillaume
