@@ -2,159 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 689873DB208
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 05:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F35D43DB27C
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 06:52:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236158AbhG3Dul (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 23:50:41 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:40401 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230352AbhG3Duk (ORCPT
+        id S230148AbhG3Ewi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jul 2021 00:52:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229910AbhG3Ewh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 23:50:40 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 9JXemqrVu4Jsb9JXfmePep; Fri, 30 Jul 2021 05:50:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1627617035; bh=2QNpC7ugvG0S54+fvCWdUqk7zj53S8Fxvv6bul1O0ho=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=m/E786hvXhmegYlUtQ/V5wI3BW/z00rla7pdOty01m3ed786l1wKrdpOPr7QxiZK0
-         v6DTS0ZbMzgm8OnjUq1PTQjWN6zpRrxlORs9ZeyV8tOPTomNImmtiXkJbp9suRxXNz
-         V1hGdxiTs7mUKqUfMkjUOguNhkPlROKetFYVrpnpNVcaHeEUFnBbTHNKlh2PdfP3Lw
-         uOQ3IaYZBSixkDEjvxSWq/66bFPFjbIIU7BYwAZ3Va8Fz4FROik/ysR3fb5MlAiTsT
-         OfrHZ9skDuPmglrRxXCksR/KfnbUXluJbXG71fEtmx8cHFDzneM9Ej34d4SWDt7jHu
-         Dy5rs98MntgqQ==
-Message-ID: <8bd3fbdda8b1049ba3eb8db6c1cbafb6@smtp-cloud9.xs4all.net>
-Date:   Fri, 30 Jul 2021 05:50:34 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfF0QWJGD2XncffXOw+DJ4Hfa9EEtTHnkxt3PX0q6D4gObksASCDZGnEO30Yrh0AO/e3h6UesucE2nL8RjnZSeSrc0Puw0cFfQC8heALKS5KgtW2SljEU
- QWxL9Q4r2xB9JZjLH1+mBSDIIISiczaSV3pMcZwnE9GlVqLVON/gla/enoh4DsJTYmruKVYg4mQFwDU8N2VMW3Kw9Uflkp0pzRaEMGOFNJCwMPJyEs5NT57G
- /QDgW7dg+vQVJC0pqx7Zuw==
+        Fri, 30 Jul 2021 00:52:37 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAC17C061765
+        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 21:52:32 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id h2so15318084lfu.4
+        for <linux-media@vger.kernel.org>; Thu, 29 Jul 2021 21:52:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ngOm50/YMKcUx0bA3+RSYUsPg/JdRRvBdoD4piFXpKk=;
+        b=C8Jp7VhFjs0rnaOQ+PhARQZcXBqL3li1M1opg2ctxUM+UW431Xc6w3HRU9jqMEn9J8
+         mjRiwwt+tWiXsLMDZKwx5ZLEtcnwodMbSLh35X6Dl8KI5jfLdkHovCiYFvU9yLOXdVzm
+         T56dTYyum/xZim2C5bWj64K+N+jV8WY66Rg5/Bwn91Sn/snbwb/x3RlTxcAU29gmNhjl
+         KgwS2oOAfASo09QS8QxiHdsYQiVobP5e9jTXOpOAtTaaFBAO8bP4tgRSWo5PZXJaTFyV
+         bU5CM0EvtNCO+75RkPo/2Iit3ZJTxAR2kkb3LF3KCQ+AcEjKYyubIAL6gsTqWn2Kh4aO
+         Xr+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ngOm50/YMKcUx0bA3+RSYUsPg/JdRRvBdoD4piFXpKk=;
+        b=AUIA0GQAHdpbbPLPRNpzDmJzXl0hix5sN9UyMy+Wii2AU4Bn29eLKbqtbI6IG8N5nb
+         i/3e21FthKgmE8mOTochliQ9uRAYn4DdgT8Qis4KyB+cf2y2GbST16y6vCbONMi6HRwi
+         w3zKm4s07x0mX1gx+7FyNMfPhrnBDDmuB8cyxe+z9OREGdgeU3nxc1AZi/fEeIM3j0O3
+         pZykn//bmqQv3+4i2B7lDH4dixPT/waPIM5lowM1SFOdD0U6jcg06cM8ieoXVZRk7oyr
+         mrQP8WMHvbL6o4cJgoK3JxVg5RsVL1k7prM5StFQBYVo79wSvFWX7H8PG8EGTWLhVidl
+         q1iw==
+X-Gm-Message-State: AOAM532oYuNcjFS7zl3TzVRShd9cYjemc/ZdXGVWXgYCrXefNBDpeUiV
+        26R4GVjhk+/5vi6T2ZdEmPLFS5EyNjpPCcmXSDF6rA==
+X-Google-Smtp-Source: ABdhPJzDU5NmVnsCGCr2QxJh2cy55utwKVijKkr1tTD5MHrq+mqK18bOqc1KLFYSb9qZZ3DlCCOrI4gJHyxXUU4u7Zw=
+X-Received: by 2002:ac2:4a8d:: with SMTP id l13mr426511lfp.626.1627620751019;
+ Thu, 29 Jul 2021 21:52:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210729070330.41443-1-christian.koenig@amd.com>
+ <20210729070330.41443-3-christian.koenig@amd.com> <YQJXi2JNZdH5DaR2@phenom.ffwll.local>
+In-Reply-To: <YQJXi2JNZdH5DaR2@phenom.ffwll.local>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Thu, 29 Jul 2021 21:52:19 -0700
+Message-ID: <CALAqxLVN7RVz3+z1ZvkRHeb2=Y4KbpbTOw-8St0D+Lzt5U-cFw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] dma-buf: nuke SW_SYNC debugfs files
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Alistair Delva <adelva@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Sandeep Patil <sspatil@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Thu, Jul 29, 2021 at 12:24 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, Jul 29, 2021 at 09:03:30AM +0200, Christian K=C3=B6nig wrote:
+> > As we now knew controlling dma_fence synchronization from userspace is
+> > extremely dangerous and can not only deadlock drivers but trivially als=
+o the
+> > whole kernel memory management.
+> >
+> > Entirely remove this option. We now have in kernel unit tests to exerci=
+se the
+> > dma_fence framework and it's containers.
+> >
+> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> There's also igts for this, and Android heavily uses this. So I'm not sur=
+e
+> we can just nuke it.
 
-Results of the daily build of media_tree:
+Eeeeh... I don't think that's actually the case anymore. As of
+android12-5.10 CONFIG_SW_SYNC is not turned on.
+Further, Android is disabling debugfs in their kernels as it exposes
+too much to userland.
 
-date:			Fri Jul 30 05:00:12 CEST 2021
-media-tree git hash:	c27479d762de4eda72ba9e0aa150d439970f2077
-media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
-v4l-utils git hash:	c86aab9cc7f1f001502c70a5e342f7816de3a3d6
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7505-gb2467b103
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
-host hardware:		x86_64
-host os:		5.13.1-marune
+That said, there still are some references to it:
+  https://cs.android.com/android/platform/superproject/+/master:system/core=
+/libsync/sync.c;l=3D416
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: 
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 1
-virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+But it looks like the actual users are only kselftest and igt?
 
-Detailed results are available here:
+Adding Alistair, Hridya and Sandeep in case they have more context.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+thanks
+-john
