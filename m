@@ -2,141 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4E173DB037
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 02:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E58FD3DB15D
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 04:53:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235443AbhG3AT7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 20:19:59 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:32914 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235353AbhG3AT7 (ORCPT
+        id S230196AbhG3Cxg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 22:53:36 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:46386 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230134AbhG3Cxd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 20:19:59 -0400
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CBA279FB;
-        Fri, 30 Jul 2021 02:19:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1627604394;
-        bh=M6VkwQ5tp0kMMMx4XpysckIGfVjp5AH77xGymq984bQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=gaOTtYx5LAO4gmIIbK3KR0R6IhES3zxcqA5155sv4PxM4oFSHviGr4TNsMKbfXxES
-         tomEVza7UyXawX2npvofM/NjNVmAaE7O+/f3sqHtnTk8RZspzx9IE1ejscXimt4Lmz
-         kUkTHJjqBC/vHBkGwsQQwTdERvta7pAmUNIVhDgM=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH] media: vimc: Add support for contiguous DMA buffers
-Date:   Fri, 30 Jul 2021 03:19:39 +0300
-Message-Id: <20210730001939.30769-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.31.1
+        Thu, 29 Jul 2021 22:53:33 -0400
+X-UUID: 57878119c16b4be6b327136db865f85d-20210730
+X-UUID: 57878119c16b4be6b327136db865f85d-20210730
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+        (envelope-from <yong.wu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 643913909; Fri, 30 Jul 2021 10:53:24 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 30 Jul 2021 10:53:23 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 30 Jul 2021 10:53:16 +0800
+From:   Yong Wu <yong.wu@mediatek.com>
+To:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     Evan Green <evgreen@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Will Deacon <will.deacon@arm.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <iommu@lists.linux-foundation.org>, <yong.wu@mediatek.com>,
+        <youlin.pei@mediatek.com>, Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>, <anan.sun@mediatek.com>,
+        <ming-fan.chen@mediatek.com>, <yi.kuo@mediatek.com>,
+        <acourbot@chromium.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Xia Jiang <xia.jiang@mediatek.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        <anthony.huang@mediatek.com>,
+        Frank Wunderlich <frank-w@public-files.de>
+Subject: [PATCH v7 00/12] Clean up "mediatek,larb"
+Date:   Fri, 30 Jul 2021 10:52:26 +0800
+Message-ID: <20210730025238.22456-1-yong.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The vimc driver is used for testing purpose, and some test use cases
-involve sharing buffers with a consumer device. Consumers often require
-DMA contiguous memory, which vimc doesn't currently support. This leads
-in the best case to usage of bounce buffers, which is very slow, and in
-the worst case in a complete failure.
+MediaTek IOMMU block diagram always like below:
 
-Add support for the dma-contig allocator in vimc to support those use
-cases properly. The allocator is selected through a new "allocator"
-module parameter, which defaults to vmalloc.
+        M4U
+         |
+    smi-common
+         |
+  -------------
+  |         |  ...
+  |         |
+larb1     larb2
+  |         |
+vdec       venc
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/media/test-drivers/vimc/vimc-capture.c |  9 +++++++--
- drivers/media/test-drivers/vimc/vimc-common.h  |  2 ++
- drivers/media/test-drivers/vimc/vimc-core.c    | 10 ++++++++++
- 3 files changed, 19 insertions(+), 2 deletions(-)
+All the consumer connect with smi-larb, then connect with smi-common.
 
-diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-index 5e9fd902cd37..92b69a6529fb 100644
---- a/drivers/media/test-drivers/vimc/vimc-capture.c
-+++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-@@ -7,6 +7,7 @@
- 
- #include <media/v4l2-ioctl.h>
- #include <media/videobuf2-core.h>
-+#include <media/videobuf2-dma-contig.h>
- #include <media/videobuf2-vmalloc.h>
- 
- #include "vimc-common.h"
-@@ -423,14 +424,18 @@ static struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
- 	/* Initialize the vb2 queue */
- 	q = &vcap->queue;
- 	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
--	q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
-+	q->io_modes = VB2_MMAP | VB2_DMABUF;
-+	if (vimc_allocator != 1)
-+		q->io_modes |= VB2_USERPTR;
- 	q->drv_priv = vcap;
- 	q->buf_struct_size = sizeof(struct vimc_cap_buffer);
- 	q->ops = &vimc_cap_qops;
--	q->mem_ops = &vb2_vmalloc_memops;
-+	q->mem_ops = vimc_allocator == 1
-+		   ? &vb2_dma_contig_memops : &vb2_vmalloc_memops;
- 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
- 	q->min_buffers_needed = 2;
- 	q->lock = &vcap->lock;
-+	q->dev = v4l2_dev->dev;
- 
- 	ret = vb2_queue_init(q);
- 	if (ret) {
-diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
-index a289434e75ba..b77939123501 100644
---- a/drivers/media/test-drivers/vimc/vimc-common.h
-+++ b/drivers/media/test-drivers/vimc/vimc-common.h
-@@ -35,6 +35,8 @@
- 
- #define VIMC_PIX_FMT_MAX_CODES 8
- 
-+extern unsigned int vimc_allocator;
-+
- /**
-  * vimc_colorimetry_clamp - Adjust colorimetry parameters
-  *
-diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
-index 4b0ae6f51d76..7badcecb7aed 100644
---- a/drivers/media/test-drivers/vimc/vimc-core.c
-+++ b/drivers/media/test-drivers/vimc/vimc-core.c
-@@ -5,6 +5,7 @@
-  * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
-  */
- 
-+#include <linux/dma-mapping.h>
- #include <linux/font.h>
- #include <linux/init.h>
- #include <linux/module.h>
-@@ -15,6 +16,12 @@
- 
- #include "vimc-common.h"
- 
-+unsigned int vimc_allocator;
-+module_param_named(allocator, vimc_allocator, uint, 0444);
-+MODULE_PARM_DESC(allocator, " memory allocator selection, default is 0.\n"
-+			     "\t\t    0 == vmalloc\n"
-+			     "\t\t    1 == dma-contig");
-+
- #define VIMC_MDEV_MODEL_NAME "VIMC MDEV"
- 
- #define VIMC_ENT_LINK(src, srcpad, sink, sinkpad, link_flags) {	\
-@@ -278,6 +285,9 @@ static int vimc_probe(struct platform_device *pdev)
- 
- 	tpg_set_font(font->data);
- 
-+	if (vimc_allocator == 1)
-+		dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-+
- 	vimc = kzalloc(sizeof(*vimc), GFP_KERNEL);
- 	if (!vimc)
- 		return -ENOMEM;
+When the consumer works, it should enable the smi-larb's power which also
+need enable the smi-common's power firstly.
+
+Thus, Firstly, use the device link connect the consumer and the
+smi-larbs. then add device link between the smi-larb and smi-common.
+
+After adding the device_link, then "mediatek,larb" property can be removed.
+the iommu consumer don't need call the mtk_smi_larb_get/put to enable
+the power and clock of smi-larb and smi-common.
+
+Base on v5.14-rc1, and a jpeg[1] and mdp[2] patchset.
+
+[1] https://lore.kernel.org/linux-mediatek/20210702102304.3346429-1-hsinyi@chromium.org/
+[2] https://lore.kernel.org/linux-mediatek/20210709022324.1607884-1-eizan@chromium.org/
+
+Change notes:
+v7: 1) Fix a arm32 boot fail issue. reported from Frank.
+    2) Add a return fail in the mtk drm. suggested by Dafna.
+
+v6: https://lore.kernel.org/linux-mediatek/20210714025626.5528-1-yong.wu@mediatek.com/
+    1) rebase on v5.14-rc1.
+    2) Fix the issue commented in v5 from Dafna and Hsin-Yi.
+    3) Remove the patches about using pm_runtime_resume_and_get since they have
+       already been merged by other patches.
+
+v5: https://lore.kernel.org/linux-mediatek/20210410091128.31823-1-yong.wu@mediatek.com/
+    1) Base v5.12-rc2.
+    2) Remove changing the mtk-iommu to module_platform_driver patch, It have already been a
+    independent patch.
+
+v4: https://lore.kernel.org/linux-mediatek/1590826218-23653-1-git-send-email-yong.wu@mediatek.com/ 
+    base on v5.7-rc1.
+  1) Move drm PM patch before smi patchs.
+  2) Change builtin_platform_driver to module_platform_driver since we may need
+     build as module.
+  3) Rebase many patchset as above.
+
+v3: https://lore.kernel.org/linux-iommu/1567503456-24725-1-git-send-email-yong.wu@mediatek.com/
+    1) rebase on v5.3-rc1 and the latest mt8183 patchset.
+    2) Use device_is_bound to check whether the driver is ready from Matthias.    
+    3) Add DL_FLAG_STATELESS flag when calling device_link_add and explain the
+   reason in the commit message[3/14].
+    4) Add a display patch[12/14] into this series. otherwise it may affect
+   display HW fastlogo even though it don't happen in mt8183.
+   
+v2: https://lore.kernel.org/linux-iommu/1560171313-28299-1-git-send-email-yong.wu@mediatek.com/
+   1) rebase on v5.2-rc1.
+   2) Move adding device_link between the consumer and smi-larb into
+iommu_add_device from Robin.
+   3) add DL_FLAG_AUTOREMOVE_CONSUMER even though the smi is built-in from Evan.
+   4) Remove the shutdown callback in iommu.   
+
+v1: https://lore.kernel.org/linux-iommu/1546318276-18993-1-git-send-email-yong.wu@mediatek.com/
+
+Yong Wu (11):
+  dt-binding: mediatek: Get rid of mediatek,larb for multimedia HW
+  iommu/mediatek-v1: Free the existed fwspec if the master dev already
+    has
+  iommu/mediatek: Add probe_defer for smi-larb
+  iommu/mediatek: Add device_link between the consumer and the larb
+    devices
+  media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
+  media: mtk-mdp: Get rid of mtk_smi_larb_get/put
+  drm/mediatek: Get rid of mtk_smi_larb_get/put
+  media: mtk-vcodec: Get rid of mtk_smi_larb_get/put
+  memory: mtk-smi: Get rid of mtk_smi_larb_get/put
+  arm: dts: mediatek: Get rid of mediatek,larb for MM nodes
+  arm64: dts: mediatek: Get rid of mediatek,larb for MM nodes
+
+Yongqiang Niu (1):
+  drm/mediatek: Add pm runtime support for ovl and rdma
+
+ .../display/mediatek/mediatek,disp.txt        |  9 ----
+ .../bindings/media/mediatek-jpeg-decoder.yaml |  9 ----
+ .../bindings/media/mediatek-jpeg-encoder.yaml |  9 ----
+ .../bindings/media/mediatek-mdp.txt           |  8 ----
+ .../bindings/media/mediatek-vcodec.txt        |  4 --
+ arch/arm/boot/dts/mt2701.dtsi                 |  2 -
+ arch/arm/boot/dts/mt7623n.dtsi                |  5 --
+ arch/arm64/boot/dts/mediatek/mt8173.dtsi      | 16 -------
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  6 ---
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  9 +++-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  9 +++-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 15 +++---
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 36 +--------------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  1 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  5 +-
+ drivers/iommu/mtk_iommu.c                     | 24 +++++++++-
+ drivers/iommu/mtk_iommu_v1.c                  | 31 ++++++++++++-
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 45 +-----------------
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  2 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 46 +------------------
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  2 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  1 -
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 37 ++-------------
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
+ .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 44 ++----------------
+ drivers/memory/mtk-smi.c                      | 14 ------
+ include/soc/mediatek/smi.h                    | 20 --------
+ 28 files changed, 92 insertions(+), 321 deletions(-)
+
 -- 
-Regards,
+2.18.0
 
-Laurent Pinchart
 
