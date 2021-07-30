@@ -2,84 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D47883DBA8E
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 16:27:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C25923DBAF8
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 16:46:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239153AbhG3O1G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jul 2021 10:27:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40076 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231272AbhG3O1E (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jul 2021 10:27:04 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F7CCC06175F;
-        Fri, 30 Jul 2021 07:26:59 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: gtucker)
-        with ESMTPSA id 53CCA1F44A18
-Subject: Re: [PATCH] media: vivid: drop CONFIG_FB dependency
-To:     kernel test robot <lkp@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <bf74a4670438864ca2e6bde47121554490350729.1627557341.git.guillaume.tucker@collabora.com>
- <202107302145.AQPuE7DD-lkp@intel.com>
-From:   Guillaume Tucker <guillaume.tucker@collabora.com>
-Message-ID: <da7e0fe9-c476-7b79-d99d-24a6d3308188@collabora.com>
-Date:   Fri, 30 Jul 2021 15:26:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        id S239030AbhG3Oq1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jul 2021 10:46:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43060 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231272AbhG3Oq0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Jul 2021 10:46:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5E7AA60C40;
+        Fri, 30 Jul 2021 14:46:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627656382;
+        bh=azHnQCqNwW1SEe7zHt6FF4bGf7K2cQRhBm466xA3O8g=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=tVHRSyR6vQG89uMQ1SXGd8Dep0Yxq1X88wy1Tkl66GTWDeBc/J1b/qOzXU9r4eEsO
+         oXtkdekEmj34kGsWCNfayL9D7q96KdwwWGhV7T+jyoZsOeGksbd2WAm95dLfLV/lZU
+         lrkTU/aDO6HnQkg7tizEnWoGXLk6s3+lpVZdZeoVutCph/PydsmYHmUkpCGTeBXuYz
+         PA9csQpb9J2SfWWUJZgY5c4FNNGVoqylOWGLmpkyTfvBkk/JgEDQPzuVnjUjUVs+Fy
+         fuesfgg/uzv66ICYKsmeyusYcR0DH5QK942Iibz/+/BWyWDdU8E9dz9K3tOf5hRty9
+         ggsApPBUxqNaA==
+Date:   Fri, 30 Jul 2021 16:46:18 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [GIT PULL v2 for 5.15] Camera sensor, async and documentation
+ patches
+Message-ID: <20210730164611.4346612e@coco.lan>
+In-Reply-To: <20210727091551.GF3@valkosipuli.retiisi.eu>
+References: <20210727091551.GF3@valkosipuli.retiisi.eu>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <202107302145.AQPuE7DD-lkp@intel.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30/07/2021 14:32, kernel test robot wrote:
-> Hi Guillaume,
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on linuxtv-media/master]
-> [also build test ERROR on v5.14-rc3 next-20210729]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Guillaume-Tucker/media-vivid-drop-CONFIG_FB-dependency/20210729-191815
-> base:   git://linuxtv.org/media_tree.git master
-> config: m68k-allmodconfig (attached as .config)
-> compiler: m68k-linux-gcc (GCC) 10.3.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/0day-ci/linux/commit/51defc67cada10450046e4d4e7eda1a2573371cc
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Guillaume-Tucker/media-vivid-drop-CONFIG_FB-dependency/20210729-191815
->         git checkout 51defc67cada10450046e4d4e7eda1a2573371cc
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-10.3.0 make.cross ARCH=m68k 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
->>> ERROR: modpost: "vivid_clear_fb" [drivers/media/test-drivers/vivid/vivid.ko] undefined!
->>> ERROR: modpost: "vivid_fb_release_buffers" [drivers/media/test-drivers/vivid/vivid.ko] undefined!
->>> ERROR: modpost: "vivid_fb_init" [drivers/media/test-drivers/vivid/vivid.ko] undefined!
+Em Tue, 27 Jul 2021 12:15:51 +0300
+Sakari Ailus <sakari.ailus@iki.fi> escreveu:
 
-Pretty sure this is due to the conditional in the Makefile I
-mentioned in an email yesterday, where it should have been
-ifneq ($(CONFIG_FB),) for when CONFIG_FB=m.
+> Hi Mauro,
+> 
+> Here's a large set of patches for 5.15.
+> 
+> Notable changes include:
+> 
+> - Drivers for imx335, imx412 and ov9282 sensors
+> - Fixes for digital gain configuration in ov2740 and ov9734 drivers
+> - Fix ov8856 driver for ACPI
+> - Shorten V4L2 async notifier functions for better fitting under 80 chars
+> - Documentation improvements (camera sensors, CSI-2)
+> - V4L2 LED flash fixes
+> - Manual CSI-2 LP-11/LP-111 mode support with runtime PM, CCS driver
+>   support
+> - Correct mbus code for YUV output in ov5640 driver with CSI-2
+> - Switch to DEVICE_ATTR_RO and DEVICE_ATTR_RW in MC and a few drivers
+> - Omap3isp error path bugfix
+> 
+> since v1:
+> 
+> - Rebased on media-stage tree
+> - Include Niklas's rcar-vin patches
+> - Added imx258 fixes by Umang Jain and Laurent Pinchart
+> 
+> Please pull.
 
-Let me know if I should send a v2 now with this fix, I was
-waiting for Hans' feedback first.
+Partially applied.
+
+The RCar patches were adding new warnings. So, I ended not applying
+them:
+
+0008-0043-media-dt-bindings-media-renesas-csi2-Add-r8a779a0-su.patch
+0009-0043-rcar-csi2-Add-r8a779a0-support.patch
+0010-0043-rcar-vin-Refactor-controls-creation-for-video-device.patch
+0011-0043-rcar-vin-Fix-error-paths-for-rvin_mc_init.patch
+0012-0043-rcar-vin-Improve-async-notifier-cleanup-paths.patch
+0013-0043-rcar-vin-Improve-reuse-of-parallel-notifier.patch
+0014-0043-rcar-vin-Rename-array-storing-subdevice-information.patch
+0015-0043-rcar-vin-Move-group-async-notifier.patch
+0016-0043-rcar-vin-Extend-group-notifier-DT-parser-to-work-wit.patch
+0017-0043-rcar-vin-Create-a-callback-to-setup-media-links.patch
+0018-0043-rcar-vin-Specify-media-device-ops-at-group-creation-.patch
+0019-0043-rcar-vin-Move-and-rename-CSI-2-link-notifications.patch
+0020-0043-rcar-vin-Add-r8a779a0-support.patch
+
+Maybe due to that, those patches also didn't apply:
+0029-0043-v4l-async-Rename-async-nf-functions-clean-up-long-li.patch
+0030-0043-media-rcar-vin-Remove-explicit-device-availability-c.patch
+0031-0043-media-v4l2-fwnode-Simplify-v4l2_async_nf_parse_fwnod.patch
 
 Thanks,
-Guillaume
+Mauro
