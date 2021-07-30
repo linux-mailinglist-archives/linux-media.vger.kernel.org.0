@@ -2,96 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C25923DBAF8
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 16:46:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C70D3DBCB1
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 17:56:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239030AbhG3Oq1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jul 2021 10:46:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43060 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231272AbhG3Oq0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jul 2021 10:46:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5E7AA60C40;
-        Fri, 30 Jul 2021 14:46:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627656382;
-        bh=azHnQCqNwW1SEe7zHt6FF4bGf7K2cQRhBm466xA3O8g=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tVHRSyR6vQG89uMQ1SXGd8Dep0Yxq1X88wy1Tkl66GTWDeBc/J1b/qOzXU9r4eEsO
-         oXtkdekEmj34kGsWCNfayL9D7q96KdwwWGhV7T+jyoZsOeGksbd2WAm95dLfLV/lZU
-         lrkTU/aDO6HnQkg7tizEnWoGXLk6s3+lpVZdZeoVutCph/PydsmYHmUkpCGTeBXuYz
-         PA9csQpb9J2SfWWUJZgY5c4FNNGVoqylOWGLmpkyTfvBkk/JgEDQPzuVnjUjUVs+Fy
-         fuesfgg/uzv66ICYKsmeyusYcR0DH5QK942Iibz/+/BWyWDdU8E9dz9K3tOf5hRty9
-         ggsApPBUxqNaA==
-Date:   Fri, 30 Jul 2021 16:46:18 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [GIT PULL v2 for 5.15] Camera sensor, async and documentation
- patches
-Message-ID: <20210730164611.4346612e@coco.lan>
-In-Reply-To: <20210727091551.GF3@valkosipuli.retiisi.eu>
-References: <20210727091551.GF3@valkosipuli.retiisi.eu>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S231670AbhG3P4k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jul 2021 11:56:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36262 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230039AbhG3P4j (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Jul 2021 11:56:39 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09209C06175F
+        for <linux-media@vger.kernel.org>; Fri, 30 Jul 2021 08:56:34 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id x3so9851559qkl.6
+        for <linux-media@vger.kernel.org>; Fri, 30 Jul 2021 08:56:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=lJyqybyykZ9+8P9xpv1Ln9U9yvdCp0w+3oToStgL17c=;
+        b=lAkuOCN53GNn/pv8m1vXQ9cfhqKtLsq8C1nRqhX1DwrL6ISx1XNWesoHVy9x97bTvV
+         PtILti3hwWJh8jT02Mqah8HBBd+ycValurg9NGd4JMVZN5aHa3Ucyhbw0x/cAKwEtwox
+         ZmGbyAwp8AJK1hVQdGTzNxBIA/0dsyxisgr3k8GyvPKeNGYBcq5kJJ7E1MuIBhvvphoe
+         0Ha0KyHzdd3PUe3lIUTcz2dz0NldN8eJ3tYyyxsgZgxUiGkakEwmQCkRkbtL+jDoJA7U
+         CibmtWIyniDrwsIjIMu/R1m3tSk4KgVGOPFDQCB3GWRpwIKB0AwByXMBe9lmvudCXD6a
+         flmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=lJyqybyykZ9+8P9xpv1Ln9U9yvdCp0w+3oToStgL17c=;
+        b=EV0YZDFTMY4aBkK1KMiUlpCB1NNnYLXGnfoWtb9lT78FBLF6YNysEIl7GdQPbKYxcn
+         sslsk1sCUxsa7o+rB1Acdr92dV1wqu+IyprZhdjPCLfkbS3f11Zr1/BGXiIGHtMe/twE
+         t/8AQy+lfHtzHqsr8UCAjuxdO0ZNoNmYezfBR8AOoN/Luba0uU0W/X5wc0ybUDSHbeMh
+         4wzmtAUZ4RiS1/bhfq+R3Vn3QgfrXCRwQ6EWXDFs+5e4bVk2BofqxKKKvCqZa5ktIj0n
+         ZeR7w2BUu+swE0vdRjS5dVqw0p6NjHFFUx28dn5tKtOFun+r3/fZFsdPYsV0Jo11Da4T
+         4UZg==
+X-Gm-Message-State: AOAM533m+7LKKigeqMwqyEanpTaDpHWX3/7Uxwx7jJZxK5r6U2ENfKg8
+        XxmMS1ygbi8n71qivcEsaB/wpA==
+X-Google-Smtp-Source: ABdhPJyW4sp87JHptomucR3dGUjz2MmwhbfiEZ6B0BG2+0FYgzi5tMbIWve1Zj8N7zIqwGFfHRGvSA==
+X-Received: by 2002:a05:620a:911:: with SMTP id v17mr2950146qkv.458.1627660593235;
+        Fri, 30 Jul 2021 08:56:33 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id v4sm1071359qkf.52.2021.07.30.08.56.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jul 2021 08:56:32 -0700 (PDT)
+Message-ID: <936864e265155faa3e79780301d276b5f3be699a.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: vimc: Add support for contiguous DMA buffers
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Date:   Fri, 30 Jul 2021 11:56:31 -0400
+In-Reply-To: <YQP6aILfBDLhSFUt@pendragon.ideasonboard.com>
+References: <20210730001939.30769-1-laurent.pinchart+renesas@ideasonboard.com>
+         <40a1fed8-456e-97c5-9aa7-715a4a4c816b@collabora.com>
+         <YQP6aILfBDLhSFUt@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue, 27 Jul 2021 12:15:51 +0300
-Sakari Ailus <sakari.ailus@iki.fi> escreveu:
-
-> Hi Mauro,
+Le vendredi 30 juillet 2021 à 16:11 +0300, Laurent Pinchart a écrit :
+> Hi Dafna,
 > 
-> Here's a large set of patches for 5.15.
+> On Fri, Jul 30, 2021 at 02:35:20PM +0200, Dafna Hirschfeld wrote:
+> > On 30.07.21 02:19, Laurent Pinchart wrote:
+> > > The vimc driver is used for testing purpose, and some test use cases
+> > > involve sharing buffers with a consumer device. Consumers often require
+> > > DMA contiguous memory, which vimc doesn't currently support. This leads
+> > > in the best case to usage of bounce buffers, which is very slow, and in
+> > > the worst case in a complete failure.
+> > > 
+> > > Add support for the dma-contig allocator in vimc to support those use
+> > > cases properly. The allocator is selected through a new "allocator"
+> > > module parameter, which defaults to vmalloc.
+> > > 
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > ---
+> > >   drivers/media/test-drivers/vimc/vimc-capture.c |  9 +++++++--
+> > >   drivers/media/test-drivers/vimc/vimc-common.h  |  2 ++
+> > >   drivers/media/test-drivers/vimc/vimc-core.c    | 10 ++++++++++
+> > >   3 files changed, 19 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
+> > > index 5e9fd902cd37..92b69a6529fb 100644
+> > > --- a/drivers/media/test-drivers/vimc/vimc-capture.c
+> > > +++ b/drivers/media/test-drivers/vimc/vimc-capture.c
+> > > @@ -7,6 +7,7 @@
+> > >   
+> > >   #include <media/v4l2-ioctl.h>
+> > >   #include <media/videobuf2-core.h>
+> > > +#include <media/videobuf2-dma-contig.h>
+> > >   #include <media/videobuf2-vmalloc.h>
+> > >   
+> > >   #include "vimc-common.h"
+> > > @@ -423,14 +424,18 @@ static struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+> > >   	/* Initialize the vb2 queue */
+> > >   	q = &vcap->queue;
+> > >   	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> > > -	q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
+> > > +	q->io_modes = VB2_MMAP | VB2_DMABUF;
+> > 
+> > maybe to be on the safe side VB2_DMABUF should be set only if vimc_allocator==1 ?
 > 
-> Notable changes include:
+> Why so ? vb2-vmalloc can import dma-bufs.
+
+Indeed, should be safe with both allocator, the CMA one will validate that the
+pages are contiguous and fail synchronously as expected for CMA. The known
+issues are mostly for reading importers (consumers), for writing importer
+(producers) it is likely still a bit buggy on cache management.
+
+> > >   	if (ret) {
+> > > diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
+> > > index a289434e75ba..b77939123501 100644
+> > > --- a/drivers/media/test-drivers/vimc/vimc-common.h
+> > > +++ b/drivers/media/test-drivers/vimc/vimc-common.h
+> > > @@ -35,6 +35,8 @@
+> > >   
+> > >   #define VIMC_PIX_FMT_MAX_CODES 8
+> > >   
+> > > +extern unsigned int vimc_allocator;
+> > > +
+> > >   /**
+> > >    * vimc_colorimetry_clamp - Adjust colorimetry parameters
+> > >    *
+> > > diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
+> > > index 4b0ae6f51d76..7badcecb7aed 100644
+> > > --- a/drivers/media/test-drivers/vimc/vimc-core.c
+> > > +++ b/drivers/media/test-drivers/vimc/vimc-core.c
+> > > @@ -5,6 +5,7 @@
+> > >    * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
+> > >    */
+> > >   
+> > > +#include <linux/dma-mapping.h>
+> > >   #include <linux/font.h>
+> > >   #include <linux/init.h>
+> > >   #include <linux/module.h>
+> > > @@ -15,6 +16,12 @@
+> > >   
+> > >   #include "vimc-common.h"
+> > >   
+> > > +unsigned int vimc_allocator;
+> > > +module_param_named(allocator, vimc_allocator, uint, 0444);
+> > > +MODULE_PARM_DESC(allocator, " memory allocator selection, default is 0.\n"
+> > > +			     "\t\t    0 == vmalloc\n"
+> > > +			     "\t\t    1 == dma-contig");
+> > > +
+> > 
+> > There is a section 'Module options' in vimc.rst. So a doc should be added there.
 > 
-> - Drivers for imx335, imx412 and ov9282 sensors
-> - Fixes for digital gain configuration in ov2740 and ov9734 drivers
-> - Fix ov8856 driver for ACPI
-> - Shorten V4L2 async notifier functions for better fitting under 80 chars
-> - Documentation improvements (camera sensors, CSI-2)
-> - V4L2 LED flash fixes
-> - Manual CSI-2 LP-11/LP-111 mode support with runtime PM, CCS driver
->   support
-> - Correct mbus code for YUV output in ov5640 driver with CSI-2
-> - Switch to DEVICE_ATTR_RO and DEVICE_ATTR_RW in MC and a few drivers
-> - Omap3isp error path bugfix
+> OK, I'll update that.
 > 
-> since v1:
+> > >   #define VIMC_MDEV_MODEL_NAME "VIMC MDEV"
+> > >   
+> > >   #define VIMC_ENT_LINK(src, srcpad, sink, sinkpad, link_flags) {	\
+> > > @@ -278,6 +285,9 @@ static int vimc_probe(struct platform_device *pdev)
+> > >   
+> > >   	tpg_set_font(font->data);
+> > >   
+> > > +	if (vimc_allocator == 1)
+> > > +		dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+> > > +
+> > >   	vimc = kzalloc(sizeof(*vimc), GFP_KERNEL);
+> > >   	if (!vimc)
+> > >   		return -ENOMEM;
+> > > 
 > 
-> - Rebased on media-stage tree
-> - Include Niklas's rcar-vin patches
-> - Added imx258 fixes by Umang Jain and Laurent Pinchart
-> 
-> Please pull.
 
-Partially applied.
 
-The RCar patches were adding new warnings. So, I ended not applying
-them:
-
-0008-0043-media-dt-bindings-media-renesas-csi2-Add-r8a779a0-su.patch
-0009-0043-rcar-csi2-Add-r8a779a0-support.patch
-0010-0043-rcar-vin-Refactor-controls-creation-for-video-device.patch
-0011-0043-rcar-vin-Fix-error-paths-for-rvin_mc_init.patch
-0012-0043-rcar-vin-Improve-async-notifier-cleanup-paths.patch
-0013-0043-rcar-vin-Improve-reuse-of-parallel-notifier.patch
-0014-0043-rcar-vin-Rename-array-storing-subdevice-information.patch
-0015-0043-rcar-vin-Move-group-async-notifier.patch
-0016-0043-rcar-vin-Extend-group-notifier-DT-parser-to-work-wit.patch
-0017-0043-rcar-vin-Create-a-callback-to-setup-media-links.patch
-0018-0043-rcar-vin-Specify-media-device-ops-at-group-creation-.patch
-0019-0043-rcar-vin-Move-and-rename-CSI-2-link-notifications.patch
-0020-0043-rcar-vin-Add-r8a779a0-support.patch
-
-Maybe due to that, those patches also didn't apply:
-0029-0043-v4l-async-Rename-async-nf-functions-clean-up-long-li.patch
-0030-0043-media-rcar-vin-Remove-explicit-device-availability-c.patch
-0031-0043-media-v4l2-fwnode-Simplify-v4l2_async_nf_parse_fwnod.patch
-
-Thanks,
-Mauro
