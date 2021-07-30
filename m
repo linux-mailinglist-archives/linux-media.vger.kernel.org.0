@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D5EF3DB164
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 04:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B048E3DB169
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 04:54:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234299AbhG3Cxz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 22:53:55 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:46830 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S233918AbhG3Cxy (ORCPT
+        id S234759AbhG3CyK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 22:54:10 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:49926 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S234520AbhG3CyH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 22:53:54 -0400
-X-UUID: 4ad6bef9094743928928c97372254832-20210730
-X-UUID: 4ad6bef9094743928928c97372254832-20210730
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+        Thu, 29 Jul 2021 22:54:07 -0400
+X-UUID: b00803b2a0fb4783a18130c43510f914-20210730
+X-UUID: b00803b2a0fb4783a18130c43510f914-20210730
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
         (envelope-from <yong.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 504441517; Fri, 30 Jul 2021 10:53:48 +0800
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1608042048; Fri, 30 Jul 2021 10:54:00 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
  mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 30 Jul 2021 10:53:46 +0800
+ 15.0.1497.2; Fri, 30 Jul 2021 10:53:58 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 30 Jul 2021 10:53:42 +0800
+ Transport; Fri, 30 Jul 2021 10:53:54 +0800
 From:   Yong Wu <yong.wu@mediatek.com>
 To:     Matthias Brugger <matthias.bgg@gmail.com>,
         Joerg Roedel <joro@8bytes.org>,
@@ -54,9 +54,9 @@ CC:     Evan Green <evgreen@chromium.org>,
         Eizan Miyamoto <eizan@chromium.org>,
         <anthony.huang@mediatek.com>,
         Frank Wunderlich <frank-w@public-files.de>
-Subject: [PATCH v7 02/12] iommu/mediatek-v1: Free the existed fwspec if the master dev already has
-Date:   Fri, 30 Jul 2021 10:52:28 +0800
-Message-ID: <20210730025238.22456-3-yong.wu@mediatek.com>
+Subject: [PATCH v7 03/12] iommu/mediatek: Add probe_defer for smi-larb
+Date:   Fri, 30 Jul 2021 10:52:29 +0800
+Message-ID: <20210730025238.22456-4-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210730025238.22456-1-yong.wu@mediatek.com>
 References: <20210730025238.22456-1-yong.wu@mediatek.com>
@@ -67,68 +67,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the iommu master device enters of_iommu_xlate, the ops may be
-NULL(iommu dev is defered), then it will initialize the fwspec here:
+Prepare for adding device_link.
 
-[<c0c9c5bc>] (dev_iommu_fwspec_set) from [<c06bda80>]
-(iommu_fwspec_init+0xbc/0xd4)
-[<c06bd9c4>] (iommu_fwspec_init) from [<c06c0db4>]
-(of_iommu_xlate+0x7c/0x12c)
-[<c06c0d38>] (of_iommu_xlate) from [<c06c10e8>]
-(of_iommu_configure+0x144/0x1e8)
+The iommu consumer should use device_link to connect with the
+smi-larb(supplier). then the smi-larb should run before the iommu
+consumer. Here we delay the iommu driver until the smi driver is
+ready, then all the iommu consumer always is after the smi driver.
 
-BUT the mtk_iommu_v1.c only supports arm32, the probing flow still is a bit
-weird. We always expect create the fwspec internally. otherwise it will
-enter here and return fail.
+When there is no this patch, if some consumer drivers run before
+smi-larb, the supplier link_status is DL_DEV_NO_DRIVER(0) in the
+device_link_add, then device_links_driver_bound will use WARN_ON
+to complain that the link_status of supplier is not right.
 
-static int mtk_iommu_create_mapping(struct device *dev,
-				    struct of_phandle_args *args)
-{
-        ...
-	if (!fwspec) {
-	        ....
-	} else if (dev_iommu_fwspec_get(dev)->ops != &mtk_iommu_ops) {
-                >>>>>>>>>>Enter here. return fail.<<<<<<<<<<<<
-		return -EINVAL;
-	}
-	...
-}
-
-Thus, Free the existed fwspec if the master device already has fwspec.
-
-This issue is reported at:
-https://lore.kernel.org/linux-mediatek/trinity-7d9ebdc9-4849-4d93-bfb5-429dcb4ee449-1626253158870@3c-app-gmx-bs01/
-
-Reported-by: Frank Wunderlich <frank-w@public-files.de>
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+Tested-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com> # on mt8173
 ---
-No need fix tag, since it is ok before this cleanup patchset.
-the issue may be revealed by the patch adding probe_defer what adjust the
-device probing sequency.
----
- drivers/iommu/mtk_iommu_v1.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/iommu/mtk_iommu.c    | 2 +-
+ drivers/iommu/mtk_iommu_v1.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+index 6f7c69688ce2..a02dde094788 100644
+--- a/drivers/iommu/mtk_iommu.c
++++ b/drivers/iommu/mtk_iommu.c
+@@ -855,7 +855,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+ 			id = i;
+ 
+ 		plarbdev = of_find_device_by_node(larbnode);
+-		if (!plarbdev) {
++		if (!plarbdev || !plarbdev->dev.driver) {
+ 			of_node_put(larbnode);
+ 			return -EPROBE_DEFER;
+ 		}
 diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-index 778e66f5f1aa..6861eeab182d 100644
+index 6861eeab182d..c259433f1130 100644
 --- a/drivers/iommu/mtk_iommu_v1.c
 +++ b/drivers/iommu/mtk_iommu_v1.c
-@@ -426,6 +426,15 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
- 	struct mtk_iommu_data *data;
- 	int err, idx = 0;
+@@ -603,7 +603,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+ 		}
  
-+	/*
-+	 * In the deferred case, free the existed fwspec if the dev already has,
-+	 * Always initialize the fwspec internally.
-+	 */
-+	if (fwspec) {
-+		iommu_fwspec_free(dev);
-+		fwspec = dev_iommu_fwspec_get(dev);
-+	}
-+
- 	while (!of_parse_phandle_with_args(dev->of_node, "iommus",
- 					   "#iommu-cells",
- 					   idx, &iommu_spec)) {
+ 		plarbdev = of_find_device_by_node(larbnode);
+-		if (!plarbdev) {
++		if (!plarbdev || !plarbdev->dev.driver) {
+ 			of_node_put(larbnode);
+ 			return -EPROBE_DEFER;
+ 		}
 -- 
 2.18.0
 
