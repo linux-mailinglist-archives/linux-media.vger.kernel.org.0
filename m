@@ -2,90 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 048843DB83C
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 14:07:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD9703DB82D
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 14:04:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238792AbhG3MHP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jul 2021 08:07:15 -0400
-Received: from mout.gmx.net ([212.227.17.21]:45619 "EHLO mout.gmx.net"
+        id S238661AbhG3MEf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jul 2021 08:04:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45404 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238745AbhG3MHO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jul 2021 08:07:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1627646799;
-        bh=FOQ3kf7nC91N2pAcyJy+ukr7C27FR3nQ3DekDqj8uEI=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=SlQlS2e/5cr5IQ2fa8QR7A4b+mf+myEnxGLmMZJMRsxc7C6QbaN6sxtPbeJ9DKjcQ
-         KTKVbDH/GfqMcD9V/ooYsKa4KA0Vbhdx9noBM6+LD71cRA+6UXJPVBriHDvNN0DmKI
-         yyEtUDQVHUJ5U48CFjKqPjhfuocD8p842IRX/jRs=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [217.61.152.200] ([217.61.152.200]) by web-mail.gmx.net
- (3c-app-gmx-bs05.server.lan [172.19.170.54]) (via HTTP); Fri, 30 Jul 2021
- 14:06:39 +0200
-MIME-Version: 1.0
-Message-ID: <trinity-166e2707-ca11-4d84-803f-43732de72e2b-1627646799181@3c-app-gmx-bs05>
-From:   Frank Wunderlich <frank-w@public-files.de>
-To:     Yong Wu <yong.wu@mediatek.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        David Airlie <airlied@linux.ie>,
+        id S238878AbhG3MEc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Jul 2021 08:04:32 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5BB7F61050;
+        Fri, 30 Jul 2021 12:04:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627646668;
+        bh=I+xXFURVvAptYJKMr5PgQPz3hcAQV3Y/2tYQl3FYyKQ=;
+        h=Date:From:To:Cc:Subject:From;
+        b=JHfwB6FwLpGQ9drtWZThGhtUg4RQ51WAwy+ZhCt3CGNpnKVgbnxpU9ZqQZX/olY4w
+         hCDIqH1lQW+FgN+mlwEczWMIFMI/0M9Wg/TWwTnEdsXowaUsid+pVlv5eUOGE87E+m
+         QeQC41QVj9NfXLgVaqQ9dy5YgiQs2lFTiRaqoJA2hLnElWan+6k4MUI8cg/jekpXXa
+         Lkr4Tqljzmv17u1RHoKEqoM2MJ431kUG+il+kQ/Bmm4FPFdZ9W/8yfniV80oGqlqiZ
+         bhw/5outBA439yrBPj8WwDa3GhByz5miL8PKgoGd/RJJDbZim5SfNufUnh8iatfZSS
+         mYyUH2HBLLz8g==
+Date:   Fri, 30 Jul 2021 07:07:00 -0500
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Will Deacon <will.deacon@arm.com>,
-        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux-foundation.org, yong.wu@mediatek.com,
-        youlin.pei@mediatek.com, Nicolas Boichat <drinkcat@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
-        ming-fan.chen@mediatek.com, yi.kuo@mediatek.com,
-        acourbot@chromium.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Xia Jiang <xia.jiang@mediatek.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Eizan Miyamoto <eizan@chromium.org>, anthony.huang@mediatek.com
-Subject: Aw: [PATCH v7 00/12] Clean up "mediatek,larb"
-Content-Type: text/plain; charset=UTF-8
-Date:   Fri, 30 Jul 2021 14:06:39 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <20210730025238.22456-1-yong.wu@mediatek.com>
-References: <20210730025238.22456-1-yong.wu@mediatek.com>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:Ju8UvQ9aQQ211RZizAddcu/LK0Fbm40eWbtOgPOujam+ZiApQCh89ygqJKUfghzFx3Em+
- 2gYhue+9Tw2MD6gxpnG7k1n49GwJ96zbYr1t0dKh0XNlowbze19Bdjyh25AQrFqjwwEBD5zmvd83
- mhgHUGlB8Ek/ujixS17y/tmLUcS6lj6J3JAEdYwCmEJOBtpSoiNFM3NNFkq6C1Kia0XV7mTPl8vn
- vIhfuilUuastgrBdB7uKylodyw+GkvQKNLmACZ0chLIvF4sg96dcRXaudTEuldb+NRZCXQ2lp6Fe
- X4=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:A1JU1CJi+pQ=:iWEaNtvfYekBmQdj4p6NXW
- UCTDP5kHinGH0vNnqhIZRPdE39sbNxHrVO/p9Q24RiiXHAyeUJq8L+93SGGOg4tPCbdTxfiKV
- QNPWJF70uYhxy7mgbZlvInK5n6x9M1/K1gNBf3lccsTjt0t4n7WcI4NKCruv73h/djU0LVXne
- u+0SY70AaL3ley93WPeezkfjb8VSz88R2HcvX9McS6Od/X98F06af4B/GbOm1djPXU1SXfpKo
- KUIyySiyy6TRpyKROR56bXkdpixhsjixdqQCnx1NOPihzse8xL39ftyMRCoEojHVSiXTDrgV0
- wYLpEHQ3csdA1t3aEvcUXJrFC/iilayKyvXe9HrWP5LjD5hZlvX++dSXMC2bS+sjJ+eOU4CkG
- q5M0m7y1SLgWSah28VRg6keBpjwkiusGHwSeFrJBy9o+wBg7RZq2fwYkcq/79Mq9yixMZOoR6
- nhiymGdyIERrtxqU6M7A2syxtcjcXbLCmxadopF91xMgIPyRJLQmESawqxIuX/JKCRU8WnICX
- yaVOTYoq5ZT+yOg7fTBack7iK2KxkkNeuDn9dy/MhyU31tAOibr7pfGIyuHmU+MKjqOSn8sD2
- yJIhbYA42sZeUNd4oYzJMShnDHIkHHbMBy5uAgWrxznbOECqrG5/wUBFgzPZW93EAvMmi7d6r
- lk0vBXlmisYQWoMoO9WVZCx1Jf118gMwBc5emj7E35X/YicRI/KoVpTwSfgLVwFIUf/8E1yYK
- NxOYhTRYoQfJZSsRL/ySFrn1KZ2Wx9AntKI1JV3pQblcuhCCvu9yfmLU+oxe/6k6j32YmVzRy
- sVTI6932Tsaqfe0g/gNwzm3RroETnuenND43TwPhPdSsqPyflo=
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-hardening@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH v2 0/2] Fix size comparison bug and use flexible array
+Message-ID: <cover.1627646101.git.gustavoars@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Full Series tested on BPI-R2/MT7623
+Hi all,
 
-Tested-By: Frank Wunderlich <frank-w@public-files.de>
+This small series aims to fix a size comparison bug and replace a
+one-element array with a flexible-array member.
 
-regards Frank
+Thanks
+
+Changes in v2:
+ - Use flexible array and adjust relational operator in patch 1.
+
+Gustavo A. R. Silva (2):
+  media: staging/intel-ipu3: css: Fix wrong size comparison
+  media: staging/intel-ipu3: css: Use the struct_size() helper
+
+ drivers/staging/media/ipu3/ipu3-css-fw.c | 7 +++----
+ drivers/staging/media/ipu3/ipu3-css-fw.h | 2 +-
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+
+-- 
+2.27.0
+
