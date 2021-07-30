@@ -2,37 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 358733DB712
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 12:20:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3A4E3DB766
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 12:50:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238400AbhG3KVC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jul 2021 06:21:02 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:48424 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238387AbhG3KVC (ORCPT
+        id S238446AbhG3Ku7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jul 2021 06:50:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41774 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238487AbhG3Ku6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jul 2021 06:21:02 -0400
-Received: from [IPv6:2a02:810a:880:f54:51e7:d967:c146:d0c] (unknown [IPv6:2a02:810a:880:f54:51e7:d967:c146:d0c])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CD41C1F44836;
-        Fri, 30 Jul 2021 11:20:56 +0100 (BST)
-Subject: Re: media: platform/rockchip/rkisp1 - v4l-compliance reports errors
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Jens Korinth <jens.korinth@trinamix.de>
-Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>
-References: <AM0PR04MB5825DA3C650C569F69B99EF898EB9@AM0PR04MB5825.eurprd04.prod.outlook.com>
- <CAAEAJfDjGBBO4gL3gnn7qsmMHb+2MT2LNJ_Ctt7EqRoycj934A@mail.gmail.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <3a1c6ef4-603c-5d23-c999-6cdef90ffd62@collabora.com>
-Date:   Fri, 30 Jul 2021 12:20:53 +0200
+        Fri, 30 Jul 2021 06:50:58 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D442BC0613CF
+        for <linux-media@vger.kernel.org>; Fri, 30 Jul 2021 03:50:50 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id b128so5684487wmb.4
+        for <linux-media@vger.kernel.org>; Fri, 30 Jul 2021 03:50:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=9m/EKCN/FomdF8fORY1RUYBXPIVRzqaRTRpfCcIDSAQ=;
+        b=djNGTQcKjfbqXno2TU4kzE8+bWPIkBcMS9BIhXTf9TNoDidYc9kqclfq8RmLqIk/lx
+         2yfO3g/PgyOgDTNqcoH/4Kok8qtZbJ4zIiXXdk1VSZX8H1FNgWTdPa/UNwCmtkn4I7fX
+         ksmlLD9CSZ387SMVfUWH9vit4yd1tAQGOMIbvLlXNcsxka/03bLKyKfni2CBiBmJOLX4
+         V8PN6qDLQiP4QbQmCmqzpL2Jhc6a0IkTBj+gr6y54H84l2NNVEE74M6gpWORda3Emm7o
+         WrtZFfwzLRNAFh7bN3ImcJwXB6qjkcKD0BHJQjg4L2VaCSavItXUvnXeJkL7vbeIQoBN
+         hyFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=9m/EKCN/FomdF8fORY1RUYBXPIVRzqaRTRpfCcIDSAQ=;
+        b=C3xDIaMjyS8/vAafJLiLXMz47ZcU2230yFRJe2iEJTEJbhfhQNaeXJTa0fWRzGNvfZ
+         1BDaUi26ZXS92OvIN/IYzpfrcT1x6Midwiflo1HBdWnykuCJso1ztKSshJQN/dlIYa7t
+         CD8lekPrsG1DhWE7cbHQCXWuSQU85jLK7Aq6zJ6yn5ywSDnN4/GuTAZSLwdn0PJT1BXI
+         MyDxmEV2vYbUJ/+RxS1EbumibRHXzUB5NXBMvoKhTcOV9oHSOM4h1wS4/VzXwzGlR7xl
+         mh/CWSAzdIJRCI7kvPbZNxATxcT47oczs5ECr9KZiCVZy0B6N/M7w92BNm3fKtaSt7PI
+         IPIQ==
+X-Gm-Message-State: AOAM530x0LidCIIu8UlqDbNkx8lIXD2NompA88B09aUcSCI3LV3mdQIc
+        42mUhs2nDwGwS1J+Lo3kSB7NPA==
+X-Google-Smtp-Source: ABdhPJyX2LPYtmDUIpLqk9QfpHzwX2Hi9pA9KWy971nLG+S5hAFH4mLa1h+i1LAHXYSq0S9IbQRwfw==
+X-Received: by 2002:a1c:a98a:: with SMTP id s132mr2128944wme.131.1627642248857;
+        Fri, 30 Jul 2021 03:50:48 -0700 (PDT)
+Received: from ?IPv6:2001:861:44c0:66c0:2c71:4cb8:38f7:a2a0? ([2001:861:44c0:66c0:2c71:4cb8:38f7:a2a0])
+        by smtp.gmail.com with ESMTPSA id w13sm1265284wrq.91.2021.07.30.03.50.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Jul 2021 03:50:48 -0700 (PDT)
+Subject: Re: [PATCH] media: meson-ge2d: Fix rotation parameter changes
+ detection in 'ge2d_s_ctrl()'
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        mchehab@kernel.org, khilman@baylibre.com, jbrunet@baylibre.com,
+        martin.blumenstingl@googlemail.com, hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+References: <6cb8efcadcf8c856efb32b7692fc9bf3241e3bc3.1627588010.git.christophe.jaillet@wanadoo.fr>
+From:   Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <0fdd2990-7a4f-07cb-384e-e5c5a11452a8@baylibre.com>
+Date:   Fri, 30 Jul 2021 12:50:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAAEAJfDjGBBO4gL3gnn7qsmMHb+2MT2LNJ_Ctt7EqRoycj934A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <6cb8efcadcf8c856efb32b7692fc9bf3241e3bc3.1627588010.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -41,39 +76,43 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
+On 29/07/2021 21:49, Christophe JAILLET wrote:
+> There is likely a typo here. To be consistent, we should compare
+> 'fmt.height' with 'ctx->out.pix_fmt.height', not 'ctx->out.pix_fmt.width'.
 
-On 30.07.21 00:38, Ezequiel Garcia wrote:
-> (Adding Dafna and Helen)
+You're right, it's typo.
+
 > 
-> On Thu, 29 Jul 2021 at 09:36, Jens Korinth <jens.korinth@trinamix.de> wrote:
->>
->> Hi *,
->>
->> I am working on a camera system on Rockchip RK3399 board (Firefly ROC-RK3399-PC-Plus). Tried to use the rkisp1 driver, but was unable to connect to the rkisp1_mainpath output node, because format negotiation failed; so I ran v4l-compliance next and found that it reports several errors (see attached report).
+> Fixes: 59a635327ca7 ("media: meson: Add M2M driver for the Amlogic GE2D Accelerator Unit")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> I've not looked deeply in the code, but why is this test needed in the
+> first place?
+> Couldn't we assigned 'ctx->out.pix_fmt = fmt' un-conditionally?
 
-Hi, thanks for testing and reporting. We added some new features in order to supported the driver that also needed new code in v4l-utils in order
-to use v4l2-ctl and to pass compliance. Therefore you should clone the repo and compile those tools in order to use them for the driver:
+We could indeed, and with the typo you discovered it's already the case so the test could go away.
 
-git://linuxtv.org/v4l-utils.git
+> ---
+>  drivers/media/platform/meson/ge2d/ge2d.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/meson/ge2d/ge2d.c b/drivers/media/platform/meson/ge2d/ge2d.c
+> index a1393fefa8ae..be22bb60e7cf 100644
+> --- a/drivers/media/platform/meson/ge2d/ge2d.c
+> +++ b/drivers/media/platform/meson/ge2d/ge2d.c
+> @@ -780,7 +780,7 @@ static int ge2d_s_ctrl(struct v4l2_ctrl *ctrl)
+>  		 * parameters, take them in account
+>  		 */
+>  		if (fmt.width != ctx->out.pix_fmt.width ||
+> -		    fmt.height != ctx->out.pix_fmt.width ||
+> +		    fmt.height != ctx->out.pix_fmt.height ||
+>  		    fmt.bytesperline > ctx->out.pix_fmt.bytesperline ||
+>  		    fmt.sizeimage > ctx->out.pix_fmt.sizeimage)
+>  			ctx->out.pix_fmt = fmt;
+> 
 
+Acked-by: Neil Armstrong <narmstrong@baylibre.com>
 
->>
->> Upon closer inspection I noticed in the VIDIOC_ENUM_FMT handler in drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c:1169+ that
+(please keep it if you re-spin by removing the test entirely)
 
-The file rkisp1-dev.c does only the probe/remove function. The callbacks are implemented in other files.
-
->>
->> 1) the "reserved" member is not zeroed,
->> 2) the userspace pointer to the v4l2_fmtdesc f is not checked via access_ok, and
->> 3) it isn't copied from/to userspace using copy_from_user/copy_to_user.
-
-Those things seems to me like something that should be in the v4l2-core.
-
-Thanks,
-Dafna
-
->>
->> I'm not sure if this is necessary in general, but at least on my platform the zeroing of the reserved member only worked correctly when I added the userspace copies. But even after these fixes, v4l-compliance reports further issues in format enumeration and negotiation. Is this a known issue?
->>
->> Thanks!
->> -Jens
+Neil
