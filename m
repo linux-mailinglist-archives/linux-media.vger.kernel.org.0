@@ -2,117 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3A4E3DB766
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 12:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 048843DB83C
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 14:07:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238446AbhG3Ku7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jul 2021 06:50:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41774 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238487AbhG3Ku6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jul 2021 06:50:58 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D442BC0613CF
-        for <linux-media@vger.kernel.org>; Fri, 30 Jul 2021 03:50:50 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id b128so5684487wmb.4
-        for <linux-media@vger.kernel.org>; Fri, 30 Jul 2021 03:50:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=9m/EKCN/FomdF8fORY1RUYBXPIVRzqaRTRpfCcIDSAQ=;
-        b=djNGTQcKjfbqXno2TU4kzE8+bWPIkBcMS9BIhXTf9TNoDidYc9kqclfq8RmLqIk/lx
-         2yfO3g/PgyOgDTNqcoH/4Kok8qtZbJ4zIiXXdk1VSZX8H1FNgWTdPa/UNwCmtkn4I7fX
-         ksmlLD9CSZ387SMVfUWH9vit4yd1tAQGOMIbvLlXNcsxka/03bLKyKfni2CBiBmJOLX4
-         V8PN6qDLQiP4QbQmCmqzpL2Jhc6a0IkTBj+gr6y54H84l2NNVEE74M6gpWORda3Emm7o
-         WrtZFfwzLRNAFh7bN3ImcJwXB6qjkcKD0BHJQjg4L2VaCSavItXUvnXeJkL7vbeIQoBN
-         hyFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=9m/EKCN/FomdF8fORY1RUYBXPIVRzqaRTRpfCcIDSAQ=;
-        b=C3xDIaMjyS8/vAafJLiLXMz47ZcU2230yFRJe2iEJTEJbhfhQNaeXJTa0fWRzGNvfZ
-         1BDaUi26ZXS92OvIN/IYzpfrcT1x6Midwiflo1HBdWnykuCJso1ztKSshJQN/dlIYa7t
-         CD8lekPrsG1DhWE7cbHQCXWuSQU85jLK7Aq6zJ6yn5ywSDnN4/GuTAZSLwdn0PJT1BXI
-         MyDxmEV2vYbUJ/+RxS1EbumibRHXzUB5NXBMvoKhTcOV9oHSOM4h1wS4/VzXwzGlR7xl
-         mh/CWSAzdIJRCI7kvPbZNxATxcT47oczs5ECr9KZiCVZy0B6N/M7w92BNm3fKtaSt7PI
-         IPIQ==
-X-Gm-Message-State: AOAM530x0LidCIIu8UlqDbNkx8lIXD2NompA88B09aUcSCI3LV3mdQIc
-        42mUhs2nDwGwS1J+Lo3kSB7NPA==
-X-Google-Smtp-Source: ABdhPJyX2LPYtmDUIpLqk9QfpHzwX2Hi9pA9KWy971nLG+S5hAFH4mLa1h+i1LAHXYSq0S9IbQRwfw==
-X-Received: by 2002:a1c:a98a:: with SMTP id s132mr2128944wme.131.1627642248857;
-        Fri, 30 Jul 2021 03:50:48 -0700 (PDT)
-Received: from ?IPv6:2001:861:44c0:66c0:2c71:4cb8:38f7:a2a0? ([2001:861:44c0:66c0:2c71:4cb8:38f7:a2a0])
-        by smtp.gmail.com with ESMTPSA id w13sm1265284wrq.91.2021.07.30.03.50.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Jul 2021 03:50:48 -0700 (PDT)
-Subject: Re: [PATCH] media: meson-ge2d: Fix rotation parameter changes
- detection in 'ge2d_s_ctrl()'
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        mchehab@kernel.org, khilman@baylibre.com, jbrunet@baylibre.com,
-        martin.blumenstingl@googlemail.com, hverkuil-cisco@xs4all.nl
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-References: <6cb8efcadcf8c856efb32b7692fc9bf3241e3bc3.1627588010.git.christophe.jaillet@wanadoo.fr>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <0fdd2990-7a4f-07cb-384e-e5c5a11452a8@baylibre.com>
-Date:   Fri, 30 Jul 2021 12:50:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S238792AbhG3MHP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jul 2021 08:07:15 -0400
+Received: from mout.gmx.net ([212.227.17.21]:45619 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238745AbhG3MHO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Jul 2021 08:07:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1627646799;
+        bh=FOQ3kf7nC91N2pAcyJy+ukr7C27FR3nQ3DekDqj8uEI=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=SlQlS2e/5cr5IQ2fa8QR7A4b+mf+myEnxGLmMZJMRsxc7C6QbaN6sxtPbeJ9DKjcQ
+         KTKVbDH/GfqMcD9V/ooYsKa4KA0Vbhdx9noBM6+LD71cRA+6UXJPVBriHDvNN0DmKI
+         yyEtUDQVHUJ5U48CFjKqPjhfuocD8p842IRX/jRs=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [217.61.152.200] ([217.61.152.200]) by web-mail.gmx.net
+ (3c-app-gmx-bs05.server.lan [172.19.170.54]) (via HTTP); Fri, 30 Jul 2021
+ 14:06:39 +0200
 MIME-Version: 1.0
-In-Reply-To: <6cb8efcadcf8c856efb32b7692fc9bf3241e3bc3.1627588010.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Message-ID: <trinity-166e2707-ca11-4d84-803f-43732de72e2b-1627646799181@3c-app-gmx-bs05>
+From:   Frank Wunderlich <frank-w@public-files.de>
+To:     Yong Wu <yong.wu@mediatek.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, yong.wu@mediatek.com,
+        youlin.pei@mediatek.com, Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
+        ming-fan.chen@mediatek.com, yi.kuo@mediatek.com,
+        acourbot@chromium.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Xia Jiang <xia.jiang@mediatek.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Eizan Miyamoto <eizan@chromium.org>, anthony.huang@mediatek.com
+Subject: Aw: [PATCH v7 00/12] Clean up "mediatek,larb"
+Content-Type: text/plain; charset=UTF-8
+Date:   Fri, 30 Jul 2021 14:06:39 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <20210730025238.22456-1-yong.wu@mediatek.com>
+References: <20210730025238.22456-1-yong.wu@mediatek.com>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:Ju8UvQ9aQQ211RZizAddcu/LK0Fbm40eWbtOgPOujam+ZiApQCh89ygqJKUfghzFx3Em+
+ 2gYhue+9Tw2MD6gxpnG7k1n49GwJ96zbYr1t0dKh0XNlowbze19Bdjyh25AQrFqjwwEBD5zmvd83
+ mhgHUGlB8Ek/ujixS17y/tmLUcS6lj6J3JAEdYwCmEJOBtpSoiNFM3NNFkq6C1Kia0XV7mTPl8vn
+ vIhfuilUuastgrBdB7uKylodyw+GkvQKNLmACZ0chLIvF4sg96dcRXaudTEuldb+NRZCXQ2lp6Fe
+ X4=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:A1JU1CJi+pQ=:iWEaNtvfYekBmQdj4p6NXW
+ UCTDP5kHinGH0vNnqhIZRPdE39sbNxHrVO/p9Q24RiiXHAyeUJq8L+93SGGOg4tPCbdTxfiKV
+ QNPWJF70uYhxy7mgbZlvInK5n6x9M1/K1gNBf3lccsTjt0t4n7WcI4NKCruv73h/djU0LVXne
+ u+0SY70AaL3ley93WPeezkfjb8VSz88R2HcvX9McS6Od/X98F06af4B/GbOm1djPXU1SXfpKo
+ KUIyySiyy6TRpyKROR56bXkdpixhsjixdqQCnx1NOPihzse8xL39ftyMRCoEojHVSiXTDrgV0
+ wYLpEHQ3csdA1t3aEvcUXJrFC/iilayKyvXe9HrWP5LjD5hZlvX++dSXMC2bS+sjJ+eOU4CkG
+ q5M0m7y1SLgWSah28VRg6keBpjwkiusGHwSeFrJBy9o+wBg7RZq2fwYkcq/79Mq9yixMZOoR6
+ nhiymGdyIERrtxqU6M7A2syxtcjcXbLCmxadopF91xMgIPyRJLQmESawqxIuX/JKCRU8WnICX
+ yaVOTYoq5ZT+yOg7fTBack7iK2KxkkNeuDn9dy/MhyU31tAOibr7pfGIyuHmU+MKjqOSn8sD2
+ yJIhbYA42sZeUNd4oYzJMShnDHIkHHbMBy5uAgWrxznbOECqrG5/wUBFgzPZW93EAvMmi7d6r
+ lk0vBXlmisYQWoMoO9WVZCx1Jf118gMwBc5emj7E35X/YicRI/KoVpTwSfgLVwFIUf/8E1yYK
+ NxOYhTRYoQfJZSsRL/ySFrn1KZ2Wx9AntKI1JV3pQblcuhCCvu9yfmLU+oxe/6k6j32YmVzRy
+ sVTI6932Tsaqfe0g/gNwzm3RroETnuenND43TwPhPdSsqPyflo=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Full Series tested on BPI-R2/MT7623
 
-On 29/07/2021 21:49, Christophe JAILLET wrote:
-> There is likely a typo here. To be consistent, we should compare
-> 'fmt.height' with 'ctx->out.pix_fmt.height', not 'ctx->out.pix_fmt.width'.
+Tested-By: Frank Wunderlich <frank-w@public-files.de>
 
-You're right, it's typo.
-
-> 
-> Fixes: 59a635327ca7 ("media: meson: Add M2M driver for the Amlogic GE2D Accelerator Unit")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
-> I've not looked deeply in the code, but why is this test needed in the
-> first place?
-> Couldn't we assigned 'ctx->out.pix_fmt = fmt' un-conditionally?
-
-We could indeed, and with the typo you discovered it's already the case so the test could go away.
-
-> ---
->  drivers/media/platform/meson/ge2d/ge2d.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/meson/ge2d/ge2d.c b/drivers/media/platform/meson/ge2d/ge2d.c
-> index a1393fefa8ae..be22bb60e7cf 100644
-> --- a/drivers/media/platform/meson/ge2d/ge2d.c
-> +++ b/drivers/media/platform/meson/ge2d/ge2d.c
-> @@ -780,7 +780,7 @@ static int ge2d_s_ctrl(struct v4l2_ctrl *ctrl)
->  		 * parameters, take them in account
->  		 */
->  		if (fmt.width != ctx->out.pix_fmt.width ||
-> -		    fmt.height != ctx->out.pix_fmt.width ||
-> +		    fmt.height != ctx->out.pix_fmt.height ||
->  		    fmt.bytesperline > ctx->out.pix_fmt.bytesperline ||
->  		    fmt.sizeimage > ctx->out.pix_fmt.sizeimage)
->  			ctx->out.pix_fmt = fmt;
-> 
-
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
-
-(please keep it if you re-spin by removing the test entirely)
-
-Neil
+regards Frank
