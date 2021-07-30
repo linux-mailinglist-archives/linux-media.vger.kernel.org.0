@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9968D3DB82F
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 14:05:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F8333DB83F
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 14:07:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238709AbhG3MFp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jul 2021 08:05:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45638 "EHLO mail.kernel.org"
+        id S238809AbhG3MHR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jul 2021 08:07:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46226 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230263AbhG3MFp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jul 2021 08:05:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 955DD60F01;
-        Fri, 30 Jul 2021 12:05:39 +0000 (UTC)
+        id S238804AbhG3MHQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Jul 2021 08:07:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3307360C41;
+        Fri, 30 Jul 2021 12:07:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627646740;
-        bh=/YlnU4V3aPDSJabKbYYPbeEQmm/CqFf1w/7AEVfRlFY=;
+        s=k20201202; t=1627646832;
+        bh=ApOBTQ8PTH21zHn50z+zaDwWcp2TaGB8koeuLY0/XmQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OCnEFos0dJ2x7MMIS264xEhMeVRksdxI281u3TeuppryAu0qZNns6/HavEw2ZmnSM
-         JKkgPHFZGnTN0pMJha1YMZKpaCQ6kNcLwhd0uTn0r14upyD8smdxAuxOelTDFSBbUI
-         D3L7yIQqQerdQWBtOrecQCWzI23Bc5+u4/9/vUrYaHRl33+7MrP28hT799aiFzCfCB
-         n6hIc6yJAvd1uGh5uXRVws93pBX0j9yk0A9xsTCxvnF3XDlsi+rbEXwAV4oWEqMlQH
-         B2JSK7L96ho5qjc54RA/7zmg3vO56GEIFmcuJLQqzcyu4lDY4ufIYsYzixcs4x8e5e
-         82sjCEO1CaubA==
-Date:   Fri, 30 Jul 2021 07:08:13 -0500
+        b=ZOMFHIzw16y3LhPxjoI628FhsyujZuwy1W5sb2TfHXzH1OzKQxMdkilJC9H/ypm6X
+         EYicGdiL54rEhMXwHZRHxWL+lcetOVuHThiN3fWwA/m30FLa3WMLr8ozVqOYYc4ynC
+         dJxDFyQhMS2z2wXTpFYx87kCjW891z0o3aZrWSGT5fGInv2xzsU1lzkvBJYkGMpu5w
+         rVb47DNwU1KWoNbZt6IVyvWpYhLzVgPjSaKi4prKkD0F2GshNkXFXikbEKRq/Db87x
+         AGUcr8bN89Uzdn8afEevKlckiI5nwEGWIAccMLNCWbO8ab9c0AIa9zaGajhSifVpoN
+         3fp/RgwaMw3vQ==
+Date:   Fri, 30 Jul 2021 07:09:44 -0500
 From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Yong Zhi <yong.zhi@intel.com>,
@@ -36,9 +36,9 @@ Cc:     Yong Zhi <yong.zhi@intel.com>,
         linux-hardening@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH v2 1/2] media: staging/intel-ipu3: css: Fix wrong size
- comparison
-Message-ID: <184d96f95d6261b1a91704eb68adbd0a2e1c2cc2.1627646101.git.gustavoars@kernel.org>
+Subject: [PATCH v2 2/2] media: staging/intel-ipu3: css: Use the struct_size()
+ helper
+Message-ID: <4da2e05ea7b19a729859d2c34aa2b17a970422e8.1627646101.git.gustavoars@kernel.org>
 References: <cover.1627646101.git.gustavoars@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -48,67 +48,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is a wrong comparison of the total size of the loaded firmware
-css->fw->size with the size of a pointer to struct imgu_fw_header.
+Make use of the struct_size() helper instead of an open-coded version.
 
-Fix this by using the right operand 'struct imgu_fw_header' for
-sizeof, instead of 'struct imgu_fw_header *' and turn binary_header
-into a flexible-array member. Also, adjust the relational operator
-to be '<=' instead of '<', as it seems that the intention of the
-comparison is to determine if the loaded firmware contains any
-'struct imgu_fw_info' items in the binary_header[] array than merely
-the file_header (struct imgu_fw_bi_file_h).
-
-The replacement of the one-element array with a flexible-array member
-also help with the ongoing efforts to globally enable -Warray-bounds
-and get us closer to being able to tighten the FORTIFY_SOURCE routines
-on memcpy().
-
-Link: https://github.com/KSPP/linux/issues/79
-Link: https://github.com/KSPP/linux/issues/109
-Fixes: 09d290f0ba21 ("media: staging/intel-ipu3: css: Add support for firmware management")
-Cc: stable@vger.kernel.org
 Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
-
-It'd be just great if someone that knows this code better can confirm
-these changes are correct. In particular the adjustment of the
-relational operator. Thanks!
-
 Changes in v2:
- - Use flexible array and adjust relational operator, accordingly.
- - Update changelog text.
+ - Move the replacement of one-element array with a flexible-array
+   member to patch 1 of the series and update changelog text,
+   accordingly.
 
- drivers/staging/media/ipu3/ipu3-css-fw.c | 2 +-
- drivers/staging/media/ipu3/ipu3-css-fw.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/ipu3/ipu3-css-fw.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/media/ipu3/ipu3-css-fw.c b/drivers/staging/media/ipu3/ipu3-css-fw.c
-index 45aff76198e2..630cb5186b48 100644
+index 630cb5186b48..b9c850fc9fe4 100644
 --- a/drivers/staging/media/ipu3/ipu3-css-fw.c
 +++ b/drivers/staging/media/ipu3/ipu3-css-fw.c
-@@ -124,7 +124,7 @@ int imgu_css_fw_init(struct imgu_css *css)
- 	/* Check and display fw header info */
- 
- 	css->fwp = (struct imgu_fw_header *)css->fw->data;
--	if (css->fw->size < sizeof(struct imgu_fw_header *) ||
-+	if (css->fw->size <= sizeof(struct imgu_fw_header) ||
+@@ -127,9 +127,8 @@ int imgu_css_fw_init(struct imgu_css *css)
+ 	if (css->fw->size <= sizeof(struct imgu_fw_header) ||
  	    css->fwp->file_header.h_size != sizeof(struct imgu_fw_bi_file_h))
  		goto bad_fw;
- 	if (sizeof(struct imgu_fw_bi_file_h) +
-diff --git a/drivers/staging/media/ipu3/ipu3-css-fw.h b/drivers/staging/media/ipu3/ipu3-css-fw.h
-index 3c078f15a295..c0bc57fd678a 100644
---- a/drivers/staging/media/ipu3/ipu3-css-fw.h
-+++ b/drivers/staging/media/ipu3/ipu3-css-fw.h
-@@ -171,7 +171,7 @@ struct imgu_fw_bi_file_h {
+-	if (sizeof(struct imgu_fw_bi_file_h) +
+-	    css->fwp->file_header.binary_nr * sizeof(struct imgu_fw_info) >
+-	    css->fw->size)
++	if (struct_size(css->fwp, binary_header,
++			css->fwp->file_header.binary_nr) > css->fw->size)
+ 		goto bad_fw;
  
- struct imgu_fw_header {
- 	struct imgu_fw_bi_file_h file_header;
--	struct imgu_fw_info binary_header[1];	/* binary_nr items */
-+	struct imgu_fw_info binary_header[];	/* binary_nr items */
- };
- 
- /******************* Firmware functions *******************/
+ 	dev_info(dev, "loaded firmware version %.64s, %u binaries, %zu bytes\n",
 -- 
 2.27.0
 
