@@ -2,267 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F84D3DB18D
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 04:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 689873DB208
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 05:50:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236309AbhG3Czq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jul 2021 22:55:46 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:50956 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S230172AbhG3Czq (ORCPT
+        id S236158AbhG3Dul (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jul 2021 23:50:41 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:40401 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230352AbhG3Duk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jul 2021 22:55:46 -0400
-X-UUID: 0faf196a16e243c7aa01bd31fc46940f-20210730
-X-UUID: 0faf196a16e243c7aa01bd31fc46940f-20210730
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
-        (envelope-from <yong.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 2059840387; Fri, 30 Jul 2021 10:55:38 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 30 Jul 2021 10:55:37 +0800
-Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 30 Jul 2021 10:55:31 +0800
-From:   Yong Wu <yong.wu@mediatek.com>
-To:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        David Airlie <airlied@linux.ie>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     Evan Green <evgreen@chromium.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Will Deacon <will.deacon@arm.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <yong.wu@mediatek.com>,
-        <youlin.pei@mediatek.com>, Nicolas Boichat <drinkcat@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>, <anan.sun@mediatek.com>,
-        <ming-fan.chen@mediatek.com>, <yi.kuo@mediatek.com>,
-        <acourbot@chromium.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Xia Jiang <xia.jiang@mediatek.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Eizan Miyamoto <eizan@chromium.org>,
-        <anthony.huang@mediatek.com>,
-        Frank Wunderlich <frank-w@public-files.de>
-Subject: [PATCH v7 12/12] arm64: dts: mediatek: Get rid of mediatek,larb for MM nodes
-Date:   Fri, 30 Jul 2021 10:52:38 +0800
-Message-ID: <20210730025238.22456-13-yong.wu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210730025238.22456-1-yong.wu@mediatek.com>
-References: <20210730025238.22456-1-yong.wu@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+        Thu, 29 Jul 2021 23:50:40 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 9JXemqrVu4Jsb9JXfmePep; Fri, 30 Jul 2021 05:50:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1627617035; bh=2QNpC7ugvG0S54+fvCWdUqk7zj53S8Fxvv6bul1O0ho=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=m/E786hvXhmegYlUtQ/V5wI3BW/z00rla7pdOty01m3ed786l1wKrdpOPr7QxiZK0
+         v6DTS0ZbMzgm8OnjUq1PTQjWN6zpRrxlORs9ZeyV8tOPTomNImmtiXkJbp9suRxXNz
+         V1hGdxiTs7mUKqUfMkjUOguNhkPlROKetFYVrpnpNVcaHeEUFnBbTHNKlh2PdfP3Lw
+         uOQ3IaYZBSixkDEjvxSWq/66bFPFjbIIU7BYwAZ3Va8Fz4FROik/ysR3fb5MlAiTsT
+         OfrHZ9skDuPmglrRxXCksR/KfnbUXluJbXG71fEtmx8cHFDzneM9Ej34d4SWDt7jHu
+         Dy5rs98MntgqQ==
+Message-ID: <8bd3fbdda8b1049ba3eb8db6c1cbafb6@smtp-cloud9.xs4all.net>
+Date:   Fri, 30 Jul 2021 05:50:34 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfF0QWJGD2XncffXOw+DJ4Hfa9EEtTHnkxt3PX0q6D4gObksASCDZGnEO30Yrh0AO/e3h6UesucE2nL8RjnZSeSrc0Puw0cFfQC8heALKS5KgtW2SljEU
+ QWxL9Q4r2xB9JZjLH1+mBSDIIISiczaSV3pMcZwnE9GlVqLVON/gla/enoh4DsJTYmruKVYg4mQFwDU8N2VMW3Kw9Uflkp0pzRaEMGOFNJCwMPJyEs5NT57G
+ /QDgW7dg+vQVJC0pqx7Zuw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After adding device_link between the IOMMU consumer and smi,
-the mediatek,larb is unnecessary now.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-CC: Matthias Brugger <matthias.bgg@gmail.com>
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-Reviewed-by: Evan Green <evgreen@chromium.org>
-Tested-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- arch/arm64/boot/dts/mediatek/mt8173.dtsi | 16 ----------------
- arch/arm64/boot/dts/mediatek/mt8183.dtsi |  6 ------
- 2 files changed, 22 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173.dtsi b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-index 2f0fc1e317d7..cf5d26db82b8 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-@@ -1009,7 +1009,6 @@
- 				 <&mmsys CLK_MM_MUTEX_32K>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_RDMA0>;
--			mediatek,larb = <&larb0>;
- 		};
- 
- 		mdp_rdma1: rdma@14002000 {
-@@ -1019,7 +1018,6 @@
- 				 <&mmsys CLK_MM_MUTEX_32K>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_RDMA1>;
--			mediatek,larb = <&larb4>;
- 		};
- 
- 		mdp_rsz0: rsz@14003000 {
-@@ -1049,7 +1047,6 @@
- 			clocks = <&mmsys CLK_MM_MDP_WDMA>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_WDMA>;
--			mediatek,larb = <&larb0>;
- 		};
- 
- 		mdp_wrot0: wrot@14007000 {
-@@ -1058,7 +1055,6 @@
- 			clocks = <&mmsys CLK_MM_MDP_WROT0>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_WROT0>;
--			mediatek,larb = <&larb0>;
- 		};
- 
- 		mdp_wrot1: wrot@14008000 {
-@@ -1067,7 +1063,6 @@
- 			clocks = <&mmsys CLK_MM_MDP_WROT1>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_WROT1>;
--			mediatek,larb = <&larb4>;
- 		};
- 
- 		ovl0: ovl@1400c000 {
-@@ -1077,7 +1072,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL0>;
- 			iommus = <&iommu M4U_PORT_DISP_OVL0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
- 		};
- 
-@@ -1088,7 +1082,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL1>;
- 			iommus = <&iommu M4U_PORT_DISP_OVL1>;
--			mediatek,larb = <&larb4>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xd000 0x1000>;
- 		};
- 
-@@ -1099,7 +1092,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA0>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xe000 0x1000>;
- 		};
- 
-@@ -1110,7 +1102,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA1>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA1>;
--			mediatek,larb = <&larb4>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xf000 0x1000>;
- 		};
- 
-@@ -1121,7 +1112,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA2>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA2>;
--			mediatek,larb = <&larb4>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0 0x1000>;
- 		};
- 
-@@ -1132,7 +1122,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_WDMA0>;
- 			iommus = <&iommu M4U_PORT_DISP_WDMA0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x1000 0x1000>;
- 		};
- 
-@@ -1143,7 +1132,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_WDMA1>;
- 			iommus = <&iommu M4U_PORT_DISP_WDMA1>;
--			mediatek,larb = <&larb4>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x2000 0x1000>;
- 		};
- 
-@@ -1394,7 +1382,6 @@
- 			      <0 0x16027800 0 0x800>,	/* VDEC_HWB */
- 			      <0 0x16028400 0 0x400>;	/* VDEC_HWG */
- 			interrupts = <GIC_SPI 204 IRQ_TYPE_LEVEL_LOW>;
--			mediatek,larb = <&larb1>;
- 			iommus = <&iommu M4U_PORT_HW_VDEC_MC_EXT>,
- 				 <&iommu M4U_PORT_HW_VDEC_PP_EXT>,
- 				 <&iommu M4U_PORT_HW_VDEC_AVC_MV_EXT>,
-@@ -1462,7 +1449,6 @@
- 			compatible = "mediatek,mt8173-vcodec-enc";
- 			reg = <0 0x18002000 0 0x1000>;	/* VENC_SYS */
- 			interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>;
--			mediatek,larb = <&larb3>;
- 			iommus = <&iommu M4U_PORT_VENC_RCPU>,
- 				 <&iommu M4U_PORT_VENC_REC>,
- 				 <&iommu M4U_PORT_VENC_BSDMA>,
-@@ -1490,7 +1476,6 @@
- 			clock-names = "jpgdec-smi",
- 				      "jpgdec";
- 			power-domains = <&spm MT8173_POWER_DOMAIN_VENC>;
--			mediatek,larb = <&larb3>;
- 			iommus = <&iommu M4U_PORT_JPGDEC_WDMA>,
- 				 <&iommu M4U_PORT_JPGDEC_BSDMA>;
- 		};
-@@ -1524,7 +1509,6 @@
- 				 <&iommu M4U_PORT_VENC_CUR_CHROMA_SET2>,
- 				 <&iommu M4U_PORT_VENC_REF_LUMA_SET2>,
- 				 <&iommu M4U_PORT_VENC_REC_CHROMA_SET2>;
--			mediatek,larb = <&larb5>;
- 			mediatek,vpu = <&vpu>;
- 			clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
- 			clock-names = "venc_lt_sel";
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-index ca8ad953de91..d21e1ffc9b35 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-@@ -1239,7 +1239,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL0>;
- 			iommus = <&iommu M4U_PORT_DISP_OVL0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x8000 0x1000>;
- 		};
- 
-@@ -1250,7 +1249,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL0_2L>;
- 			iommus = <&iommu M4U_PORT_DISP_2L_OVL0_LARB0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x9000 0x1000>;
- 		};
- 
-@@ -1261,7 +1259,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL1_2L>;
- 			iommus = <&iommu M4U_PORT_DISP_2L_OVL1_LARB0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xa000 0x1000>;
- 		};
- 
-@@ -1272,7 +1269,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA0>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,rdma-fifo-size = <5120>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xb000 0x1000>;
- 		};
-@@ -1284,7 +1280,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA1>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA1>;
--			mediatek,larb = <&larb0>;
- 			mediatek,rdma-fifo-size = <2048>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
- 		};
-@@ -1439,7 +1434,6 @@
- 			compatible = "mediatek,mt8183-jpgenc", "mediatek,mtk-jpgenc";
- 			reg = <0 0x17030000 0 0x1000>;
- 			interrupts = <GIC_SPI 249 IRQ_TYPE_LEVEL_LOW>;
--			mediatek,larb = <&larb4>;
- 			iommus = <&iommu M4U_PORT_JPGENC_RDMA>,
- 				 <&iommu M4U_PORT_JPGENC_BSDMA>;
- 			power-domains = <&spm MT8183_POWER_DOMAIN_VENC>;
--- 
-2.18.0
+date:			Fri Jul 30 05:00:12 CEST 2021
+media-tree git hash:	c27479d762de4eda72ba9e0aa150d439970f2077
+media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
+v4l-utils git hash:	c86aab9cc7f1f001502c70a5e342f7816de3a3d6
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7505-gb2467b103
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
+host hardware:		x86_64
+host os:		5.13.1-marune
 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: 
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13.1-i686: OK
+linux-5.13.1-x86_64: OK
+linux-5.14-rc1-i686: OK
+linux-5.14-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 1
+virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
