@@ -2,80 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 906CB3DB526
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 10:42:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E07493DB5A0
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 11:05:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238109AbhG3Imb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jul 2021 04:42:31 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:57005 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237992AbhG3Imb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jul 2021 04:42:31 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 9O60mBQLTW9Qy9O61mCJaw; Fri, 30 Jul 2021 10:42:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1627634542; bh=hR6eYtup7U6pl22se16vO2FiM+jl8zOy7jMR37YQ3mQ=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=i4cUMYbIwlRprDATUhlGf9lr5wKYWwVJEsIGDSMn6FwrE2+1Gpw7/+0RNz0enWd0W
-         tkK/yB3cUJORn0dYoWPDeTAGexIEFCrzKv71DjvXdRNU9rdVlRTyykGMVlHb7AaRCe
-         RpqXeJa+1VxPFQJCearrX/swXoXmts43732GiIzFF6zH2MYh1x+aBbHVf+FHULQp17
-         ikTvVK8Re+scLxPOz2d0zgJWkkTVym+tp/5LkfTHvXa8QoEdLBDzytpnkwxfi7z1KH
-         4+g2gC0bkIQgQV9sWvQ1K1R69e3UzAxfcNfzDF5Q4mg7gwSeq/Z3Dg7gyUmr+lout3
-         w2+wQwT87MQnw==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Eugen Hristev <Eugen.Hristev@microchip.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT FIXES FOR v5.14] (v2) Two fixes for v5.14
-Message-ID: <adadb820-2eee-b1b8-09f1-0c454dfc1a84@xs4all.nl>
-Date:   Fri, 30 Jul 2021 10:42:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S230436AbhG3JFX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jul 2021 05:05:23 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:51972 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230335AbhG3JFW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Jul 2021 05:05:22 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1m9OSD-00BGRZ-BS; Fri, 30 Jul 2021 09:05:17 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1m9OWx-00089g-4T; Fri, 30 Jul 2021 09:10:11 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR v5.14] (v2) Two fixes for v5.14 (#76116)
+Date:   Fri, 30 Jul 2021 09:10:10 +0000
+Message-Id: <20210730091010.31307-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <adadb820-2eee-b1b8-09f1-0c454dfc1a84@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJzLMNKq70cLutyBpWQQYRQ8d4vrZlZsfhRgBJG5mgpzm5prV3FMbB/7KiMGuBCXyGbx9cuzcHY82ulkgUxcaSqq66/YJXjAnI9T7mF/7puormCyXfMA
- Nlk5IG+ThkLyUfqifKOGfWEIUXQBdH7fO6+kJOHycFl8ESPLRr3C9A6IXoKqEJFYQlKjtnFMQly3sYeKx9yLGgU48w+tpVKp5wqBRZFhI2tqdIci8OhxlN0v
- vPy+B2o7q6bhTdJ+mRmxWKqcgN8QEWVuF7TyKnkmaxWeATgLQ7C1r/aMw4u8zYTj1sas8v2Ol29dAv8e5G/AqqudX9YQ+aA6c8ti6A6g+Ll3lR2cDM0rB8Gk
- tDe0PJHUJ/sdY+/h1BsuZzaXoP0D853akdIfRNpmH+sFl9rWw1qsnPnlrVA6XWtDcnzxXAi4n0B5q1uQC88FDmPtdzyPsg==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Change since v1: improved the somewhat confusing commit log of the vb2 patch
-as per Laurent's review.
+From: builder@linuxtv.org
 
-	Hans
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/adadb820-2eee-b1b8-09f1-0c454dfc1a84@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/128349/
+Build time: 00:16:35
+Link: https://lore.kernel.org/linux-media/adadb820-2eee-b1b8-09f1-0c454dfc1a84@xs4all.nl
 
-The following changes since commit c3cdc019a6bf03c4bf06fe8252db96eb6e4a3b5f:
+gpg: Signature made Fri 30 Jul 2021 08:39:50 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-  media: atomisp: pci: reposition braces as per coding style (2021-07-23 09:04:03 +0200)
+Summary: got 2/2 patches with issues, being 1 at build time
 
-are available in the Git repository at:
+Error/warnings:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14a
+patches/0001-videobuf2-core-dequeue-if-start_streaming-fails.patch:
 
-for you to fetch changes up to 34182840bbdaa89a4b7280844ab4a96f80e9593d:
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
 
-  media: atmel: fix build when ISC=m and XISC=y (2021-07-30 10:39:43 +0200)
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-----------------------------------------------------------------
-Tag branch
+patches/0002-media-atmel-fix-build-when-ISC-m-and-XISC-y.patch:
 
-----------------------------------------------------------------
-Eugen Hristev (1):
-      media: atmel: fix build when ISC=m and XISC=y
+   checkpatch.pl:
+	$ cat patches/0002-media-atmel-fix-build-when-ISC-m-and-XISC-y.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-Hans Verkuil (1):
-      videobuf2-core: dequeue if start_streaming fails
-
- drivers/media/common/videobuf2/videobuf2-core.c | 13 ++++++++++++-
- drivers/media/platform/atmel/Kconfig            |  8 ++++++++
- drivers/media/platform/atmel/Makefile           |  5 +++--
- drivers/media/platform/atmel/atmel-isc-base.c   | 11 +++++++++++
- 4 files changed, 34 insertions(+), 3 deletions(-)
