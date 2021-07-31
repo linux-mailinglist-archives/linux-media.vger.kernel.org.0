@@ -2,109 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEC523DC4E3
-	for <lists+linux-media@lfdr.de>; Sat, 31 Jul 2021 10:13:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E72C3DC5C7
+	for <lists+linux-media@lfdr.de>; Sat, 31 Jul 2021 13:52:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232363AbhGaINf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 31 Jul 2021 04:13:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47232 "EHLO
+        id S232828AbhGaLwx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 31 Jul 2021 07:52:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230338AbhGaINe (ORCPT
+        with ESMTP id S232263AbhGaLww (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 31 Jul 2021 04:13:34 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CB19C06175F;
-        Sat, 31 Jul 2021 01:13:28 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id t3so11731463plg.9;
-        Sat, 31 Jul 2021 01:13:28 -0700 (PDT)
+        Sat, 31 Jul 2021 07:52:52 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25D52C06175F
+        for <linux-media@vger.kernel.org>; Sat, 31 Jul 2021 04:52:46 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id a13so14707079iol.5
+        for <linux-media@vger.kernel.org>; Sat, 31 Jul 2021 04:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        h=mime-version:reply-to:from:date:message-id:subject:to
          :content-transfer-encoding;
-        bh=pSqWDBwjSHpo0CpUmYzJgqTp6C8xaprSXoTH68RUk9A=;
-        b=uByXvFJLrQigPJrd54cWKzjfeHhmv/59d2ORQVsOva+5sc8NUkvICieZBg18ItO2Bl
-         H+jyxMqxtR0naDcAwKzLvkcaHmdzHLlTRV2Qd5tSi0sHOfJJSg7jY/ebFfZeOmmti3qi
-         1vVVuxwkQwYobrzkHkFpnjjzAjyaH6FXU2fi77dkQQkKugCrqjK1T9MFCse+PXzQRtIY
-         XP0TZajX/Rxe7SI2zQ5gYjE3+38td6o/gj0n5cl9efRbBGYGQYjXqzIiEadVQx9HQlGx
-         ta+9+0HadNRRG8JvzJnzj1NnY2ljjQUf+MbJ1vsR007GS4MkFmVY6+qUL3xODTt8ppuZ
-         CEMw==
+        bh=XnxR1dZaQUNFLCPP/3fv+f8YConc30Mv0mhqx6/Cl18=;
+        b=QqPHXF/GZfOsckiaz1rUFPT7hBG5y3tMg3Jyw87xhYPwrdj8zb1GRZOVffmNq/EsN7
+         wis2iYEFkuv18AgnTzI5BFwRRROfry305jRBJSDktndkyget6D4o46aatAPGgLxq4OX6
+         UtGoDiwDSAW3UdyLZpauOkU9ghnlf0tBhaT7FZwYD+eQU3aSQtk23dkZ1HZ9l97taHzD
+         y7VPAtvSm12NvlJVYh9GTgObBMXQqjz1Kli2KFOcMKQtwH+ThyHs/dzXhKc38v273Tsm
+         lXooXdr1v1z74Dr+JKxCOJq9NMnJ9KWI9gQRf6tO2JhoZH2s+PoK/NN5F9kf6F2eG4qn
+         kF+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pSqWDBwjSHpo0CpUmYzJgqTp6C8xaprSXoTH68RUk9A=;
-        b=STnuAzggIMj5UrjyYlZ1U99BvLdaKf9JGUJjJINNIpX9V9+IrmX+JeDwRajezaNLm2
-         F9dF6VrAyDrqRbtisLEgWV90ZaDhmd5tsS4IQWaq9Q3cAmsZMUvPoEamMAH0fzFtQiAy
-         yqR4Ec2gmHpUTvArVtnHQr1iP6ngsdHXdcSP+fNX/QHynTocRugN5nPkEFUJG53sVml2
-         e1JgcDIvebXjFQh1ac3kgBv8CMI3uPArlqtBQUt3cdbEh4G4BXmQakWnKJ1LdkWqPve5
-         xTzHrnHhCqAbMYrV0W2+/MD3cPVC7cYFndFNHbVJaw1hc+jvlnSbMDR9OE6HpKXmZLu3
-         GNKQ==
-X-Gm-Message-State: AOAM531W/XkuHX44ZXHZx6oQazFRqr4nlVaBK8W3cirYk4CGsRqsxwUn
-        /Wk3iMHeJDo/WQ/ZrV1tWwc=
-X-Google-Smtp-Source: ABdhPJw3sUv7SWXCtHAKD2+0aZD/9TU7DS9fJq1J3MW2qhUDFcv1S/rMnj/DfvR5PrG6iihq7vzA3Q==
-X-Received: by 2002:a62:30c5:0:b029:31e:fa6d:1738 with SMTP id w188-20020a6230c50000b029031efa6d1738mr6786010pfw.55.1627719207841;
-        Sat, 31 Jul 2021 01:13:27 -0700 (PDT)
-Received: from localhost.localdomain ([45.135.186.29])
-        by smtp.gmail.com with ESMTPSA id c7sm5314475pgq.22.2021.07.31.01.13.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jul 2021 01:13:27 -0700 (PDT)
-From:   Tuo Li <islituo@gmail.com>
-To:     alexander.deucher@amd.com, christian.koenig@amd.com,
-        Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, airlied@redhat.com,
-        Felix.Kuehling@amd.com, Oak.Zeng@amd.com, nirmoy.das@amd.com,
-        tzimmermann@suse.de, Philip.Yang@amd.com
-Cc:     amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, baijiaju1990@gmail.com,
-        Tuo Li <islituo@gmail.com>, TOTE Robot <oslab@tsinghua.edu.cn>
-Subject: [PATCH] drm/amdgpu: fix possible null-pointer dereference in amdgpu_ttm_tt_unpopulate()
-Date:   Sat, 31 Jul 2021 01:13:06 -0700
-Message-Id: <20210731081306.86523-1-islituo@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=XnxR1dZaQUNFLCPP/3fv+f8YConc30Mv0mhqx6/Cl18=;
+        b=QvslgJ9lA6Gk4LO/8XyXWZQZeo2vS2C2Eg+M2iyPE+Xe1XYUEWixJ8gNTTeoPa1r3W
+         LoSj7pBAwH1RLcYRefUR8nhCxshA8thaYZo8SKCG0uhXYBxhj+Gx2pj3gvbBIJX3B1D/
+         w9bcS1TeS2zhqG7QydAGuWdhuGMmNr6z9CL0f3KU1vZ1NP/H2s5TSN22OI4smzQk3UdS
+         4aV1yW/PNAdA3TZYStwisnp2G4vL1IxO1VL24Wd7tY/zMQg8LQggVGWJoVALEw62984q
+         F5jYUx7zprIsdLtRwErKPQms9nD+ccL+v0W3KNJoaZbiai51DUz1URwTxNPVDpBlapky
+         ypNQ==
+X-Gm-Message-State: AOAM533ehmnoGPpRFq3p2wMSJ1UXK9Iktrt2LFVoUh2z1s/QrmS8oRuA
+        TIeqyJN4VWzf65Xv//5D4PN+t1F+B1gwv2KiDDg=
+X-Google-Smtp-Source: ABdhPJxBCHGoISawxitvEHQNclUF5B0R7r5NxU7dqOiU4Q7yY0GLc0JptAzZPCZu8hK8bXWdruUjrE2CX2YjruZrKbU=
+X-Received: by 2002:a02:4444:: with SMTP id o65mr6081874jaa.24.1627732365704;
+ Sat, 31 Jul 2021 04:52:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a6b:c855:0:0:0:0:0 with HTTP; Sat, 31 Jul 2021 04:52:45
+ -0700 (PDT)
+Reply-To: tomcrist760@gmail.com
+From:   Tom Crist <mayowaolumorin@gmail.com>
+Date:   Sat, 31 Jul 2021 12:52:45 +0100
+Message-ID: <CALR72n5vfhV-_pZzrVt7EL=JvDZDN2ZOebQkCdXV6Kzs8PukJw@mail.gmail.com>
+Subject: Spende
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The variable ttm is assigned to the variable gtt, and the variable gtt
-is checked in:
-  if (gtt && gtt->userptr)
+--=20
+Bin Herr Tom Crist. Ich spende einen Zuschuss von 10.500.000 USD
 
-This indicates that both ttm and gtt can be NULL.
-If so, a null-pointer dereference will occur:
-  if (ttm->page_flags & TTM_PAGE_FLAG_SG)
+an dich.Kontaktiere mich (tomcrist760@gmail.com) f=C3=BCr
 
-Also, some null-pointer dereferences will occur in the function
-ttm_pool_free() which is called in:
-  return ttm_pool_free(&adev->mman.bdev.pool, ttm);
+weitere Details.
 
-To fix these possible null-pointer dereferences, the function returns
-when ttm is NULL.
-
-Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
-Signed-off-by: Tuo Li <islituo@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 3a55f08e00e1..0216ca085f11 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -1146,7 +1146,10 @@ static void amdgpu_ttm_tt_unpopulate(struct ttm_device *bdev,
- 	struct amdgpu_ttm_tt *gtt = (void *)ttm;
- 	struct amdgpu_device *adev;
- 
--	if (gtt && gtt->userptr) {
-+	if (ttm == NULL)
-+		return;
-+
-+	if (gtt->userptr) {
- 		amdgpu_ttm_tt_set_user_pages(ttm, NULL);
- 		kfree(ttm->sg);
- 		ttm->sg = NULL;
--- 
-2.25.1
-
+Danke und Gottes Segen.
+Tom Crist
