@@ -2,63 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F6B63DC49E
-	for <lists+linux-media@lfdr.de>; Sat, 31 Jul 2021 09:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A3943DC4C8
+	for <lists+linux-media@lfdr.de>; Sat, 31 Jul 2021 10:05:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232418AbhGaHwM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 31 Jul 2021 03:52:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42032 "EHLO
+        id S232705AbhGaIFs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 31 Jul 2021 04:05:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230338AbhGaHwL (ORCPT
+        with ESMTP id S229703AbhGaIFr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 31 Jul 2021 03:52:11 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 227FBC06175F;
-        Sat, 31 Jul 2021 00:52:05 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id a4-20020a17090aa504b0290176a0d2b67aso24160852pjq.2;
-        Sat, 31 Jul 2021 00:52:05 -0700 (PDT)
+        Sat, 31 Jul 2021 04:05:47 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95969C06175F;
+        Sat, 31 Jul 2021 01:05:40 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id m11so1618372plx.4;
+        Sat, 31 Jul 2021 01:05:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=LNinOfUJINPcfdOxhYvsgsalnU1GKLpLDBpG0mAohAc=;
-        b=TL/nDTwV7Ph7kC1oZk66wjgapAmGIuuvxKdZnyb2id6PMHXk3i4RURbvV6vN+GabZ0
-         5nKC4XMdjCnAQdmdM1bcAxlR9PIybYesEm8AYOmglzQijYZkBb2VyLlLvLH9yYsbTsxK
-         0yYvZVJMCN63zzu8VGgeKdHRVKCL470JVoFALEkpn7OJZaMW/ahykXkU4zwNGT5k8Tv0
-         6/S0ja07q4MoAw3FheqVo8DTllRy/nT4EoMa9q6VINztElQPFRVb29cccLjZbzjSJsZR
-         eRQmfcJ/n+nCYCVe9b+BWYBJ1LgV2iHr85HIMojw7mv+BhnuuR98JOlFkfqah5ZiBbA8
-         idkQ==
+        bh=M8s8mhhqZ8Up+UA2vSw3vvwlmTtYXes+e5VhDxbCIyA=;
+        b=bLCvfbuEP6qV/fkOAbd7z0uDgSx0ITQwQ67JwV6y4UggR35pF/iBN9Y8uYAn4i/h1Q
+         +OmDW2Bp+HnZF8bq9DQrAQLAEtP7Hmw43DF3bGKC9mVG1uM++cb6eue6AYxwUf5FGa/5
+         yygFB1IvISIM9pbIojyzAmH8J9NROnYxvvngVaPra8EzHBvCwLcguFYJNOaNzh22y/DI
+         xG2VSnH4tKPMDU1rbk/FTaKi279oWIWrgkhDyJsmN7b6bOcccMIb7I2RPvOU1KzK9+Jm
+         1fy57BXltuQjLDKNAwRGrPzvaxfc77lC6ehTunPUh7Se1cx+02jNjUKqTV0KXl+Td99o
+         rqiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=LNinOfUJINPcfdOxhYvsgsalnU1GKLpLDBpG0mAohAc=;
-        b=DO3PR7I0liFhdchpb7twB/licO+qahIidaAmig572sSAIwNxXtaYKdQk6oa+jSvbyN
-         SlUVNDtCujah2ibhGaheLTuP0h8C7UFebRomM2caxjk/ufCvqJU+1sxBskkHGJ6sHhDf
-         qgQ4gMeZpbuLvSDc3kH9tHGnx5sx1lCxqd1p3xcC456sPzZ1Tx2R6WvPTAusHyiltktR
-         ignqv/RcahOVVle0WG0bs26tXughDdoz+zq3FsTyH2a8XD0Qc6njE1iu1XaBnh6ug9Ms
-         GWyXSY/DXoAmJcGDRCwkv8MfGkSbfaDYzH/Iyj8hmX34PcMj9J2csU+D7zZILr0KwHp1
-         qMAQ==
-X-Gm-Message-State: AOAM533PR/8ItQGvUVE9palewqmtiI1FJkbx5Rok27HNzBkv9mIiVj05
-        Pw+o4riv4mfffLS7BdDAuBM=
-X-Google-Smtp-Source: ABdhPJxEmyd/fVeOUjyk7iQ/WLxWnrDrhtacIwVjgE+LHn4GCwVnNtolqtkZfzUNk0y77xteCo9kSQ==
-X-Received: by 2002:a63:e405:: with SMTP id a5mr5864785pgi.150.1627717924655;
-        Sat, 31 Jul 2021 00:52:04 -0700 (PDT)
+        bh=M8s8mhhqZ8Up+UA2vSw3vvwlmTtYXes+e5VhDxbCIyA=;
+        b=KQ5p0cQUYc7HSesilmkr8P2RCjlWKllvoVJ5EnJIcUfoVBuNiyrJzo/NOw8S/VcPA8
+         sY3YHn16X2cCKutsK7BQ2r/lgajv9P+xs3pTYjj1vQTRQryCZR2oIuHBnUPETlmOsAke
+         toQCyOc/ByM9KI02VRqQEAkroxeS8F/GdZkssTyodABL9qQ814YEtkjo+vAEViDnvu2K
+         R/ANubDqNIojqeeZPqMg1oxxQI2Rxn2uXcFc7G4bSj8HGyQBs/6xja8LJgz0eG2E0nKH
+         dS6/5OgsnMekOfdSck5S9mLvH5VIWT1eK5ryHiklNqnFK0viUl1mK+lC21Pd6QYBFx2q
+         YVdw==
+X-Gm-Message-State: AOAM532Ix96m96UOv43K3BJYZ9IniPScyOe8iRSZMxQ1O8B+dKYQUUHi
+        9qlBBar1u3OG1N/HD7xtqYY=
+X-Google-Smtp-Source: ABdhPJwlGBDhCkzdHi57AylTjultSYaBz302y2ff7rorMx5fNPjeqUSkEm9NlFx7UyITj/vo3B1mUg==
+X-Received: by 2002:a63:b60:: with SMTP id a32mr1585053pgl.29.1627718740214;
+        Sat, 31 Jul 2021 01:05:40 -0700 (PDT)
 Received: from localhost.localdomain ([45.135.186.29])
-        by smtp.gmail.com with ESMTPSA id y15sm5470504pga.34.2021.07.31.00.52.01
+        by smtp.gmail.com with ESMTPSA id c7sm5288427pgq.22.2021.07.31.01.05.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jul 2021 00:52:04 -0700 (PDT)
+        Sat, 31 Jul 2021 01:05:39 -0700 (PDT)
 From:   Tuo Li <islituo@gmail.com>
-To:     jejb@linux.ibm.com, martin.petersen@oracle.com,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        colin.king@canonical.com, jiapeng.chong@linux.alibaba.com
-Cc:     linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+To:     alexander.deucher@amd.com, christian.koenig@amd.com,
+        Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, airlied@redhat.com,
+        Felix.Kuehling@amd.com, Oak.Zeng@amd.com, nirmoy.das@amd.com,
+        tzimmermann@suse.de, Philip.Yang@amd.com
+Cc:     amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linaro-mm-sig@lists.linaro.org, baijiaju1990@gmail.com,
         Tuo Li <islituo@gmail.com>, TOTE Robot <oslab@tsinghua.edu.cn>
-Subject: [PATCH] scsi: csiostor: fix possible null-pointer dereference in csio_eh_lun_reset_handler()
-Date:   Sat, 31 Jul 2021 00:51:48 -0700
-Message-Id: <20210731075148.72494-1-islituo@gmail.com>
+Subject: [PATCH] drm/amdgpu: fix possible null-pointer dereference in amdgpu_ttm_tt_populate()
+Date:   Sat, 31 Jul 2021 01:04:37 -0700
+Message-Id: <20210731080437.74539-1-islituo@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -66,38 +68,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The variable rn is checked in:
-  if (!rn)
+The variable ttm is assigned to the variable gtt, and the variable gtt
+is checked in:
+  if (gtt && gtt->userptr)
 
-If rn is NULL, the program goes to the label fail:
-  fail:
-    CSIO_INC_STATS(rn, n_lun_rst_fail);
+This indicates that both ttm and gtt can be NULL.
+If so, a null-pointer dereference will occur:
+  if (ttm->page_flags & TTM_PAGE_FLAG_SG)
 
-However, rn is dereferenced in this macro:
-  #define CSIO_INC_STATS(elem, val) ((elem)->stats.val++)
+Also, some null-pointer dereferences will occur in the function
+ttm_pool_alloc() which is called in:
+  return ttm_pool_alloc(&adev->mman.bdev.pool, ttm, ctx);
 
-To fix this possible null-pointer dereference, the function returns
-FAILED directly if rn is NULL.
+To fix these possible null-pointer dereferences, the function returns
+-EINVAL when ttm is NULL.
 
 Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
 Signed-off-by: Tuo Li <islituo@gmail.com>
 ---
- drivers/scsi/csiostor/csio_scsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/csiostor/csio_scsi.c b/drivers/scsi/csiostor/csio_scsi.c
-index 56b9ad0a1ca0..df0bf8348860 100644
---- a/drivers/scsi/csiostor/csio_scsi.c
-+++ b/drivers/scsi/csiostor/csio_scsi.c
-@@ -2070,7 +2070,7 @@ csio_eh_lun_reset_handler(struct scsi_cmnd *cmnd)
- 	struct csio_scsi_level_data sld;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 3a55f08e00e1..80440f799c09 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -1120,8 +1120,11 @@ static int amdgpu_ttm_tt_populate(struct ttm_device *bdev,
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bdev);
+ 	struct amdgpu_ttm_tt *gtt = (void *)ttm;
  
- 	if (!rn)
--		goto fail;
-+		return FAILED;
- 
- 	csio_dbg(hw, "Request to reset LUN:%llu (ssni:0x%x tgtid:%d)\n",
- 		      cmnd->device->lun, rn->flowid, rn->scsi_id);
++	if (ttm == NULL)
++		return -EINVAL;
++
+ 	/* user pages are bound by amdgpu_ttm_tt_pin_userptr() */
+-	if (gtt && gtt->userptr) {
++	if (gtt->userptr) {
+ 		ttm->sg = kzalloc(sizeof(struct sg_table), GFP_KERNEL);
+ 		if (!ttm->sg)
+ 			return -ENOMEM;
 -- 
 2.25.1
 
