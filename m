@@ -2,117 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6410E3DC057
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jul 2021 23:39:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFC013DC474
+	for <lists+linux-media@lfdr.de>; Sat, 31 Jul 2021 09:39:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232237AbhG3VjS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jul 2021 17:39:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37944 "EHLO
+        id S230338AbhGaHib (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 31 Jul 2021 03:38:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232322AbhG3Vil (ORCPT
+        with ESMTP id S229715AbhGaHi3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jul 2021 17:38:41 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4334C0613C1;
-        Fri, 30 Jul 2021 14:38:34 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id p38so5649695lfa.0;
-        Fri, 30 Jul 2021 14:38:34 -0700 (PDT)
+        Sat, 31 Jul 2021 03:38:29 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 917BBC06175F;
+        Sat, 31 Jul 2021 00:38:22 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id m10-20020a17090a34cab0290176b52c60ddso17619804pjf.4;
+        Sat, 31 Jul 2021 00:38:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=yLXPblcRDB2e05zOf4kHv3HzeYLhfWQaVsNCdJRIDlU=;
-        b=GFPiExi40QXxFrlgXj+pDS+2S1/BbNETpI5U4PkFtdqyhr+cljTUknLzB5d2gIM3yK
-         YhOvW7sgBVU0QgRkdFoJs7D+dw88vCCuSgzyY6n4eS6dCiGp1KpGlJEnUmcPoy/EGPvC
-         6wyxZTN2dlmOeTl/pJl+NQ0oIoDqvKV6xkJ3cf8RC7C7gkm97hjp0AmQBWD8QZtCKf9K
-         JuDukEnBXryYeKOmq+TqLEeZ7oyEvJYWKwwftEQW0uaaikqkUc/wcBrTT804MSqjTNXg
-         IEh9rUD0a4YVcosjKxIKYT06DoAv2Mst6idfS+vxbpAvqPs67y8SkwIflcrwwbDGvSUi
-         PPaA==
+        bh=EA3wjniiLlqc+AVcuHkatzn6kofQT99Lx9fge6sBXps=;
+        b=UGGQC1i/6lFYHvjJjQYiB0dOC1qjvfbWgMrrW4J80rwl1EnQmKA+vNdsKFbpyBjDeS
+         7zKNFolEoQ7OBH3wkfv7hw3IW7dA92svB/ILS0TAXIKl18EZIw9KB0B3UhLcSHKfthdq
+         FzN/lYrKbLv/LQYg8gZnSsWJ6lWZbIb1aWoq8UXztCeEQ/O01il3x3cFiuy4AnHaWDxO
+         olSq9AoBMC8VKbVSCbLfSp32AkhVkeaPd4mjReHf7mFH7Isueq7xrZjh1xv2FaLTGkxr
+         hlumiSwpW5bvrnQjKdM0bJSsL7TrpiN5VsTHGuwUAZfPVuR2JdnUOYL4qKDUQVzj0w7V
+         wuBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=yLXPblcRDB2e05zOf4kHv3HzeYLhfWQaVsNCdJRIDlU=;
-        b=fN++q37/J7U39EqrAUV78Q3MpgMX08tNQXJmooTDldj23s5ohGSpCgW9iQFLJs98SV
-         bwMnn+VO/H9FOMXxkgxFrajQ8Tt6lhZeIWsQdZJHonIbAdS1RrW7qdKzLFmzaItfAA4+
-         Z+zZDGUbqKwGTX7p7lYgGzvXILNSiZU65O58bvSMRMkXxvuoNmMrISbZcqum58Sz36OA
-         l5xbdcWLrgJabq3685HzUnAz9B1kFIflFg8L8UhcN5E/YnK+OMy8ey9FhfE6o/TQxRUR
-         g8NFd2EEqd17DdVpHF5CSlt345dmapZnNDewCN9rKjBbNM12CYy2ddi/Pbf3khZaoxHg
-         1UTQ==
-X-Gm-Message-State: AOAM533KMtgrnndE8kXlt0MyVe5+pOTDFjMADzlbc8LBdm2w9vnFkkjJ
-        1fqAHMBeCjyoJ6VLTr+66NU=
-X-Google-Smtp-Source: ABdhPJzoWsLXZWbdU4xjzqJyPcdIeoDTQ0FIGpaqB+EYeYNTmh1szh/H15kin37XS6oc8jXHEeOToA==
-X-Received: by 2002:a05:6512:230b:: with SMTP id o11mr3593469lfu.292.1627681113067;
-        Fri, 30 Jul 2021 14:38:33 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.227.213])
-        by smtp.gmail.com with ESMTPSA id t17sm177373ljk.102.2021.07.30.14.38.32
+        bh=EA3wjniiLlqc+AVcuHkatzn6kofQT99Lx9fge6sBXps=;
+        b=sylBttCAk7wwzyo7XoCVHfwsZ2lWaAoAg/5ZFpglXndbT7uy///xPfIV0GuC4ZUt7O
+         aDoRh0Ct/VoaizgX4H5jo7F2YoPoSGhR8HW92UYJHAK3hmvehD2zMQzclTs+RB/RgF3b
+         5el9D6URuqAul9nM60lftRZM7865ecZR6zOMT71fvx35RyBiCWZVO91/uKeOIWfZnlGA
+         X2oRk53E5VTeiieodYyJdrXLqVxAUPXBDVwbzrAt+bpFmbupNS92EAAKTRhQ68ssh6KL
+         i8BtfVCjdidtS1fYfubSloDSWXBIM8372Z3MfdNzJfc74FZx0UwOc8u6pwTFBf2vWaZG
+         S+hg==
+X-Gm-Message-State: AOAM532OateEqOkOe3zhCOMUTJNuM7pf4UNghyf6zX+mHeQaP7WjNCQv
+        P1JHBzdcb0hlYW2SEFcIXX4=
+X-Google-Smtp-Source: ABdhPJyesMxQJNG/a7Frml8xmfbPsF+IczcYxIl7y8a3L666JPgFRwvhwFD+HuoJWkNcXybwIfkJCw==
+X-Received: by 2002:a17:90a:e289:: with SMTP id d9mr6978080pjz.186.1627717102149;
+        Sat, 31 Jul 2021 00:38:22 -0700 (PDT)
+Received: from localhost.localdomain ([45.135.186.29])
+        by smtp.gmail.com with ESMTPSA id f4sm5613408pgs.3.2021.07.31.00.38.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jul 2021 14:38:32 -0700 (PDT)
-From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     mkrufky@linuxtv.org, mchehab@kernel.org, crope@iki.fi
+        Sat, 31 Jul 2021 00:38:21 -0700 (PDT)
+From:   Tuo Li <islituo@gmail.com>
+To:     mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pavel Skripkin <paskripkin@gmail.com>,
-        syzbot+5ca0bf339f13c4243001@syzkaller.appspotmail.com
-Subject: [PATCH] media: mxl111sf: change mutex_init() location
-Date:   Sat, 31 Jul 2021 00:38:29 +0300
-Message-Id: <20210730213829.2909-1-paskripkin@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        baijiaju1990@gmail.com, Tuo Li <islituo@gmail.com>,
+        TOTE Robot <oslab@tsinghua.edu.cn>
+Subject: [PATCH] media: isl6421: fix possible uninitialized-variable access in isl6421_set_voltage()
+Date:   Sat, 31 Jul 2021 00:38:06 -0700
+Message-Id: <20210731073806.60142-1-islituo@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Syzbot reported, that mxl111sf_ctrl_msg() uses uninitialized
-mutex. The problem was in wrong mutex_init() location.
+A memory block is allocated through kmalloc(), and its return value is
+assigned to the pointer isl6421. Then isl6421 is assigned to the
+varialbe fe->sec_priv. The function isl6421_set_voltage() is called with
+the argument fe. In this function, fe->sec_priv is assigned to isl6421.
+Thus the pointer isl6421 in the function isl6421_attach() and the function
+isl6421_set_voltage() point to the same memory. However, isl6421->is_off
+is not initialized but it is accessed at line 75:
+  if (isl6421->is_off && !is_off)
 
-Previous mutex_init(&state->msg_lock) call was in ->init() function, but
-dvb_usbv2_init() has this order of calls:
+To fix this possible uninitialized-variable access, isl6421->is_off is
+initialized to false in the function isl6421_attach().
 
-	dvb_usbv2_init()
-	  dvb_usbv2_adapter_init()
-	    dvb_usbv2_adapter_frontend_init()
-	      props->frontend_attach()
-
-	  props->init()
-
-Since mxl111sf_frontend_attach_atsc_mh() calls mxl111sf_ctrl_msg()
-internally we need to initialize state->msg_lock in it to make lockdep
-happy.
-
-Reported-and-tested-by: syzbot+5ca0bf339f13c4243001@syzkaller.appspotmail.com
-Fixes: 8572211842af ("[media] mxl111sf: convert to new DVB USB")
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+Signed-off-by: Tuo Li <islituo@gmail.com>
 ---
- drivers/media/usb/dvb-usb-v2/mxl111sf.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/media/dvb-frontends/isl6421.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/usb/dvb-usb-v2/mxl111sf.c b/drivers/media/usb/dvb-usb-v2/mxl111sf.c
-index 7865fa0a8295..2e5663ffa7ce 100644
---- a/drivers/media/usb/dvb-usb-v2/mxl111sf.c
-+++ b/drivers/media/usb/dvb-usb-v2/mxl111sf.c
-@@ -931,8 +931,6 @@ static int mxl111sf_init(struct dvb_usb_device *d)
- 		  .len = sizeof(eeprom), .buf = eeprom },
- 	};
+diff --git a/drivers/media/dvb-frontends/isl6421.c b/drivers/media/dvb-frontends/isl6421.c
+index 43b0dfc6f453..ea101f66ea88 100644
+--- a/drivers/media/dvb-frontends/isl6421.c
++++ b/drivers/media/dvb-frontends/isl6421.c
+@@ -185,6 +185,7 @@ struct dvb_frontend *isl6421_attach(struct dvb_frontend *fe, struct i2c_adapter
+ 	isl6421->config = ISL6421_ISEL1;
+ 	isl6421->i2c = i2c;
+ 	isl6421->i2c_addr = i2c_addr;
++	isl6421->is_off = false;
+ 	fe->sec_priv = isl6421;
  
--	mutex_init(&state->msg_lock);
--
- 	ret = get_chip_info(state);
- 	if (mxl_fail(ret))
- 		pr_err("failed to get chip info during probe");
-@@ -979,8 +977,12 @@ static int mxl111sf_frontend_attach_mh(struct dvb_usb_adapter *adap)
- static int mxl111sf_frontend_attach_atsc_mh(struct dvb_usb_adapter *adap)
- {
- 	int ret;
-+	struct mxl111sf_state *state = d_to_priv(adap_to_d(adap));
-+
- 	pr_debug("%s\n", __func__);
- 
-+	mutex_init(&state->msg_lock);
-+
- 	ret = mxl111sf_lgdt3305_frontend_attach(adap, 0);
- 	if (ret < 0)
- 		return ret;
+ 	/* bits which should be forced to '1' */
 -- 
-2.32.0
+2.25.1
 
