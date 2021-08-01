@@ -2,159 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 654B23DC982
-	for <lists+linux-media@lfdr.de>; Sun,  1 Aug 2021 05:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B36A3DCA7A
+	for <lists+linux-media@lfdr.de>; Sun,  1 Aug 2021 09:08:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231452AbhHADpv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 31 Jul 2021 23:45:51 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56771 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229761AbhHADpu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 31 Jul 2021 23:45:50 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id A2Q0mNUCzW9QyA2Q1mGp7p; Sun, 01 Aug 2021 05:45:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1627789542; bh=D18KuHKzSUdpwYHzZiZsw09KMvYtZntTuJ01hmbqiOA=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=gvjqSr9qnkUj4sJGepkeA+uEWspCHAjQSbvSEQJgneEsPFzrWhXHXa0MBMVL6p/Ap
-         jx461tyFcuIVb2fKSJZVtuIl4tgi+mhYiXGstrdAEcWNPc3hULz3EalOz9SJSGf49i
-         uyP1VspP9hJbFssuKh+0rP6aC/SLc4vsXAVNpxHXsa6PdpEnyorPGGWv+biLAv2GC1
-         geJzSP4KlWxnYKMKPqlFcwDhIYTwcrNn+yIpUYm9r6kLvLBn+xhm8SJABD7REnzEHC
-         XNyIBymaWQsp744uQVUIYtQxw/509SxHx9ku3JAY1/RJ7L0NQgNIYHJwK6DPWqnaVp
-         XRhmRINFwGRSA==
-Message-ID: <3f188ffca792ee069c129e6e0a14ea1e@smtp-cloud7.xs4all.net>
-Date:   Sun, 01 Aug 2021 05:45:40 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfJanQMotXa9Y5Q/be5xt3G+aUrDIGyMmHf/BRvZTSlGl2HZAfArSpmIaECs2/jpGKIzhWPCMkr/R34LCDKSp1dZpLB+lQjcJHUw7kS5WbWuvElkyt+DM
- eOfnHO/a+QOa9qDRjFPlSeEtbHmBmg1kxxj8HEPRgm6FpShRIDgrkUC2/OyC8A2Qzcsh3FKuW8Q+xgLLFn+Ic3ee8b6vhT6C3XIHYT+h31RS5xKnw8enZHod
- nKB1Bd0O58YZ6Jh4Ti/I7w==
+        id S229698AbhHAHIg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Aug 2021 03:08:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49060 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229543AbhHAHIf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Aug 2021 03:08:35 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56D46C06175F
+        for <linux-media@vger.kernel.org>; Sun,  1 Aug 2021 00:08:27 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id i10so16108750pla.3
+        for <linux-media@vger.kernel.org>; Sun, 01 Aug 2021 00:08:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=3vGAG3kLbSzTM0p/uAMHzKvsD1C7/KevxVEIvUMPMbk=;
+        b=NNVKQUhTvyxNGgpMrzfUMQfnoffZF/wHMMDDYFm/I6b70fg8ohLVS/mtTE0u7oNW6C
+         7K/y+OxUvnnPL0JOd/EOzQBli2rumrgXZjfpOG70rG/E3mlJS2/fHvVOWkyv6psGuySF
+         ruzcc3/RY9GAn6cfhLTA3uWxAEp2ChEW/1JHPnafQiE/L4bJKx4QEGVTc5rjBP2TBH8t
+         aRQQmdr41SlB6IE/PrmrNIRkW5pJYKUxWgvkkNI96d5N3Tc9+vr+wT8QjodL6U9tvf8z
+         C7P+fS54xp02YWPMll4VOrUG1EzCBSZZtg4iwpRA/N3Pat7zeu6qPfDBOzIesAtROOUZ
+         NebQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=3vGAG3kLbSzTM0p/uAMHzKvsD1C7/KevxVEIvUMPMbk=;
+        b=LWvNDmGiah/hzv93bI+YVrloRtD8ygv+N8VZSlpLPSwqe77sUWIVpqhLkjy9C5kdAQ
+         DZvGYHA2CyK66EYpuIXDjIKk0yp+XOFjWaQhzP//IUakkArylYyGxEKgeJYNucr4q1+m
+         9r6Ugi/fXQyrnTefwctaNIT8p7gbiqHA/mDF28axeuIhu9TIrHpdac8h8JmK6gv7AkDP
+         u1qps6anW3Wo8QvEnV3VP75lz/3cCuNM4ODQoZp0/qlHt7VJpTx3KL79gnCoEipT3T6Z
+         sP4Nm6ZSB5gAwfh9z+k9puDxBH1pBRdr2pAB2STrcrpFLLfr/tdeHgCiea/OgIwO0Y9h
+         Mk4A==
+X-Gm-Message-State: AOAM5317wRkjI8iEPNoNtt2pW+/O1hIHdVV/PYZAAJiXrEYLIK/zVNWZ
+        AdXjG5chlrehvpwImozcLOGcpz1U07Go7MP7pFo=
+X-Google-Smtp-Source: ABdhPJwSe+24MhdCN+jTNQgH2Jn7RI1tid/bfo6AlHYDz95IBfEkobpzRhJtc1+7qbBFkUOV2BwYrMRYw2LXpS1F8Zo=
+X-Received: by 2002:a17:90a:708c:: with SMTP id g12mr11834780pjk.13.1627801706782;
+ Sun, 01 Aug 2021 00:08:26 -0700 (PDT)
+MIME-Version: 1.0
+From:   nil Yi <teroincn@gmail.com>
+Date:   Sun, 1 Aug 2021 15:08:16 +0800
+Message-ID: <CANTwqXCapbBTXEx1ow9QBw_h0mqCq_myRvmTN=2KpsEEBBJFKg@mail.gmail.com>
+Subject: [BUG]: drivers: media: dvb-frontends: rtl2832_sdr.c: a dangling
+ pointer may cause double free
+To:     crope@iki.fi, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi,
+I found there is a dangling pointer in  rtl2832_sdr_alloc_urbs which
+may cause double free in v5.14-rc3
 
-Results of the daily build of media_tree:
+in rtl2832_sdr_alloc_urbs:
 
-date:			Sun Aug  1 05:00:13 CEST 2021
-media-tree git hash:	c27479d762de4eda72ba9e0aa150d439970f2077
-media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
-v4l-utils git hash:	c86aab9cc7f1f001502c70a5e342f7816de3a3d6
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7505-gb2467b103
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
-host hardware:		x86_64
-host os:		5.13.1-marune
+379: for (j = 0; j < i; j++)
+380:    usb_free_urb(dev->urb_list[j]);
+it frees all the urbs but forgets to set the dev->urbs_initialized to
+zero, which will be used in function  rtl2832_sdr_free_urbs:
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+357: for (i = dev->urbs_initialized - 1; i >= 0; i--) {
+358:     if (dev->urb_list[i]) {
+359:          dev_dbg(&pdev->dev, "free urb=%d\n", i);
+360:                /* free the URBs */
+361:              usb_free_urb(dev->urb_list[i]);
+362: }
+363: }
+364:    dev->urbs_initialized = 0;
 
-Detailed results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+I'm not sure whether this double free would be triggered or not,
+similar issue happened in commit b7f870510384 <media: tm6000: double
+free if usb disconnect while streaming>
 
-Detailed regression test results are available here:
+Any feedback would be appreciated, thanks :)
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Best wishes,
+Lin Yi
