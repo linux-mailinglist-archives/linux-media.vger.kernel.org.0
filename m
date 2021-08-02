@@ -2,171 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10C313DD59C
-	for <lists+linux-media@lfdr.de>; Mon,  2 Aug 2021 14:26:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 106A43DD5C0
+	for <lists+linux-media@lfdr.de>; Mon,  2 Aug 2021 14:36:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233498AbhHBM0e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Aug 2021 08:26:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46362 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233557AbhHBM0d (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Aug 2021 08:26:33 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23D68C06175F
-        for <linux-media@vger.kernel.org>; Mon,  2 Aug 2021 05:26:23 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id b13so10409742wrs.3
-        for <linux-media@vger.kernel.org>; Mon, 02 Aug 2021 05:26:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kxR0X9YG0kXtm9glbe87gH0rqaiQqmAiB0pj4N0mww4=;
-        b=G0ndpLEm0QIhNyM0lXdANhZI6frBKaBPGFxi/CxzvAlEgIdi5h7JSMwH2olm00d25f
-         v05tylE4CKc74sY/2wF7TDL1dQfErCUjjpw9rBatnX7edKnXnLPKzwhxNnfgLqYJ5yUb
-         WTB8U7CFY+IyaloUytob+Grndrayu3cLbjJFnG9K0u0B3bWyL+PCNSsFenyn7+3/F6Dy
-         6hEiBfhnC7hK51X9d2OhZPrZmagUjvauWRwAFLsV9iZMyir8V4eKCpqRZwxEs1AIRaac
-         Dif0HdzFIWznZVUeAdmilg1/V/tP1h/PNxwWoSZz5ziUK1u2etcOHrqgL9C4pZX25MOJ
-         xa6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kxR0X9YG0kXtm9glbe87gH0rqaiQqmAiB0pj4N0mww4=;
-        b=K2khRP/oOxbONLQ/7oyCrRN5GNJI8kn42b5qIL2+6VHYzcZ7C+ewJsLdshYk9TNfrC
-         gjm23Jds1vWPnU91VubtO9VePNHbTYV60gGl+1vyEkRY+pnwAPLfheZ5CCBmGXXVNXdV
-         iE/YbqQRGv1MIJ6yCzqr5u3xj/zbT8fSQs5AJ02SktLtkC6YWEyefWmtCr/PlykKJLcC
-         hwhUUXx5ib2p2BceLkA3o94UVu0vOz4xkTLgzJPpPIRynKAA+qyXjzDF8M3g6M/muYpJ
-         2wxanLaWisugPc5g59Eqs+zABYEAlv1ugsgSGwEL3VK+IXwKEkszZJBzz6YYQjS2XOpB
-         8PVg==
-X-Gm-Message-State: AOAM533pzGN0eT4I4q10Jx9k//P3OEvdBhT7TgRhpxwXwA9g7mx3Gmwn
-        Fnqv6GHtsrz+HhoyunyRp7HdyLnhkhqI+72LkNk8Qg==
-X-Google-Smtp-Source: ABdhPJyymqTb1xvW9MsPoes7HMCaj79qHHJ8AyTq7tavlP2pVsPXx0YOol7kYqgc/rDLXbrJzeH0ZA==
-X-Received: by 2002:a5d:5090:: with SMTP id a16mr6691841wrt.21.1627907181816;
-        Mon, 02 Aug 2021 05:26:21 -0700 (PDT)
-Received: from beast-under-water.home ([95.149.132.0])
-        by smtp.gmail.com with ESMTPSA id d7sm4631855wrs.39.2021.08.02.05.26.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Aug 2021 05:26:21 -0700 (PDT)
-From:   Pete Hemery <hembeddedsoftware@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     kieran.bingham@ideasonboard.com,
-        Pete Hemery <petehemery@hotmail.com>
-Subject: [PATCH] media: gspca/sn9c20x: Add ability to control built-in webcam LEDs
-Date:   Mon,  2 Aug 2021 13:26:20 +0100
-Message-Id: <20210802122620.353458-1-hembeddedsoftware@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S233661AbhHBMg0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Aug 2021 08:36:26 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:45170 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232629AbhHBMgZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 2 Aug 2021 08:36:25 -0400
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 172CRbXj004221;
+        Mon, 2 Aug 2021 14:36:01 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=lNlQryOYukRxWW8f/bdXPFu7SvefaiNkrOqMIxDBW5A=;
+ b=SNicw1KMoPB2QUKieZB27autKNKLweuCVn52YOcNd5E65aKsVGLdVwE5y4vCkVqqgm4g
+ 2B96gg1I0He/U7fCGwhM/wkHrMZ74dwnXPwSbY3YnLpu/k/pJj0w2R6sH1DDj6J0YNTw
+ R57dBWFcGNTf0dGmWO0PupEfB5cykC9HbB9X3ZIVChzIFkrqVQevcjduWEaWal3vWLto
+ WekB4SUorF6QXULFTJiqL9erAmOzWWxzzm2vG814HM60aTo0voVF7oY7NQfODZ1liHsB
+ Rx2lqjswPRsuBUX3RirDZ3B+VFeG0t4qycM+N1DgE5XzTIu5+e1iSUR6n4vO4a+fmO06 Tg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 3a6cx518cc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 02 Aug 2021 14:36:01 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5EAA0100034;
+        Mon,  2 Aug 2021 14:36:00 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 058CB222C93;
+        Mon,  2 Aug 2021 14:36:00 +0200 (CEST)
+Received: from lmecxl0573.lme.st.com (10.75.127.44) by SFHDAG2NODE3.st.com
+ (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 2 Aug
+ 2021 14:35:59 +0200
+Subject: Re: [PATCH] [media] c8sectpfe: c8sectpfe-dvb: Remove unused including
+ <linux/version.h>
+To:     Cai Huoqing <caihuoqing@baidu.com>, <mchehab@kernel.org>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20210727053903.711-1-caihuoqing@baidu.com>
+From:   Patrice CHOTARD <patrice.chotard@foss.st.com>
+Message-ID: <f33dbe73-c7db-acc6-8f74-866ff74857e1@foss.st.com>
+Date:   Mon, 2 Aug 2021 14:35:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210727053903.711-1-caihuoqing@baidu.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG2NODE3.st.com
+ (10.75.127.6)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-08-02_05:2021-08-02,2021-08-02 signatures=0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Pete Hemery <petehemery@hotmail.com>
+Hi 
 
-If you image search "microdia sonix webcam", or SN9C120, you can find
- examples of the type of webcam I have. It has 6 built-in LEDs.
-It's ancient (2006 maybe?) but in 2020 it was the only USB webcam I had.
-It doesn't perform well, especially in low light.
+On 7/27/21 7:39 AM, Cai Huoqing wrote:
+> Remove including <linux/version.h> that don't need it.
+> 
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+> ---
+>  drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c | 1 -
+>  drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c  | 1 -
+>  2 files changed, 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
+> index 338b205ae3a7..02dc78bd7fab 100644
+> --- a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
+> +++ b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
+> @@ -28,7 +28,6 @@
+>  #include <linux/usb.h>
+>  #include <linux/slab.h>
+>  #include <linux/time.h>
+> -#include <linux/version.h>
+>  #include <linux/wait.h>
+>  #include <linux/pinctrl/pinctrl.h>
+>  
+> diff --git a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c
+> index 0560a9cb004b..feb48cb546d7 100644
+> --- a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c
+> +++ b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c
+> @@ -11,7 +11,6 @@
+>  #include <linux/delay.h>
+>  #include <linux/i2c.h>
+>  #include <linux/interrupt.h>
+> -#include <linux/version.h>
+>  
+>  #include <dt-bindings/media/c8sectpfe.h>
+>  
+> 
 
-The Windows XP drivers had the ability to toggle the LEDs, as well as
- "Auto" mode which would read and adjust the exposure and turn them
- on when it got "too dark", along with other nice features, like
- smoothing dead pixels, funky filters, effects and face tracking.
-
-Watching Wireshark usbmon with the Windows driver I was able to discover
- which values are required to toggle the LEDs.
-
-Reading ext-ctrls-flash.rst, V4L2_FLASH_LED_MODE_TORCH seems to describe
- mostly what I want it to do.
-Ideally the control would be boolean/checkbox, but the existing
- implementation seems to require a menu.
-
-This patch implements the ability to control the LEDs, attempting to
- minimise changes to external files and other webcams.
-
-Review by anyone more familiar with the code base for unintended
- side effects would be welcome and appreciated. First kernel submission.
-
-Signed-off-by: Pete Hemery <petehemery@hotmail.com>
----
- drivers/media/usb/gspca/sn9c20x.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/usb/gspca/sn9c20x.c b/drivers/media/usb/gspca/sn9c20x.c
-index bfd194c61819..da916127a896 100644
---- a/drivers/media/usb/gspca/sn9c20x.c
-+++ b/drivers/media/usb/gspca/sn9c20x.c
-@@ -50,6 +50,7 @@ MODULE_LICENSE("GPL");
- #define HAS_NO_BUTTON	0x1
- #define LED_REVERSE	0x2 /* some cameras unset gpio to turn on leds */
- #define FLIP_DETECT	0x4
-+#define HAS_LED_TORCH	0x8
- 
- /* specific webcam descriptor */
- struct sd {
-@@ -77,6 +78,8 @@ struct sd {
- 	};
- 	struct v4l2_ctrl *jpegqual;
- 
-+	struct v4l2_ctrl *led_mode;
-+
- 	struct work_struct work;
- 
- 	u32 pktsz;			/* (used by pkt_scan) */
-@@ -1533,6 +1536,12 @@ static void set_gain(struct gspca_dev *gspca_dev, s32 g)
- 	i2c_w(gspca_dev, gain);
- }
- 
-+static void set_led_mode(struct gspca_dev *gspca_dev, s32 val)
-+{
-+	reg_w1(gspca_dev, 0x1007, 0x60);
-+	reg_w1(gspca_dev, 0x1006, val ? 0x40 : 0x00);
-+}
-+
- static void set_quality(struct gspca_dev *gspca_dev, s32 val)
- {
- 	struct sd *sd = (struct sd *) gspca_dev;
-@@ -1699,6 +1708,9 @@ static int sd_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_JPEG_COMPRESSION_QUALITY:
- 		set_quality(gspca_dev, ctrl->val);
- 		break;
-+	case V4L2_CID_FLASH_LED_MODE:
-+		set_led_mode(gspca_dev, ctrl->val);
-+		break;
- 	}
- 	return gspca_dev->usb_err;
- }
-@@ -1757,6 +1769,12 @@ static int sd_init_controls(struct gspca_dev *gspca_dev)
- 
- 	sd->jpegqual = v4l2_ctrl_new_std(hdl, &sd_ctrl_ops,
- 			V4L2_CID_JPEG_COMPRESSION_QUALITY, 50, 90, 1, 80);
-+
-+	if (sd->flags & HAS_LED_TORCH)
-+		sd->led_mode = v4l2_ctrl_new_std_menu(hdl, &sd_ctrl_ops,
-+				V4L2_CID_FLASH_LED_MODE, V4L2_FLASH_LED_MODE_TORCH,
-+				~0x5, V4L2_FLASH_LED_MODE_NONE);
-+
- 	if (hdl->error) {
- 		pr_err("Could not initialize controls\n");
- 		return hdl->error;
-@@ -2048,6 +2066,8 @@ static int sd_start(struct gspca_dev *gspca_dev)
- 		sd->pktsz = sd->npkt = 0;
- 		sd->nchg = 0;
- 	}
-+	if (sd->led_mode)
-+		v4l2_ctrl_s_ctrl(sd->led_mode, 0);
- 
- 	return gspca_dev->usb_err;
- }
-@@ -2325,7 +2345,7 @@ static const struct sd_desc sd_desc = {
- 
- static const struct usb_device_id device_table[] = {
- 	{USB_DEVICE(0x0c45, 0x6240), SN9C20X(MT9M001, 0x5d, 0)},
--	{USB_DEVICE(0x0c45, 0x6242), SN9C20X(MT9M111, 0x5d, 0)},
-+	{USB_DEVICE(0x0c45, 0x6242), SN9C20X(MT9M111, 0x5d, HAS_LED_TORCH)},
- 	{USB_DEVICE(0x0c45, 0x6248), SN9C20X(OV9655, 0x30, 0)},
- 	{USB_DEVICE(0x0c45, 0x624c), SN9C20X(MT9M112, 0x5d, 0)},
- 	{USB_DEVICE(0x0c45, 0x624e), SN9C20X(SOI968, 0x30, LED_REVERSE)},
--- 
-2.25.1
-
+Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
+Thanks
+Patrice
