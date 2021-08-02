@@ -2,89 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE30D3DD246
-	for <lists+linux-media@lfdr.de>; Mon,  2 Aug 2021 10:50:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F2FD3DD33F
+	for <lists+linux-media@lfdr.de>; Mon,  2 Aug 2021 11:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232758AbhHBIuQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Aug 2021 04:50:16 -0400
-Received: from mx21.baidu.com ([220.181.3.85]:48034 "EHLO baidu.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232670AbhHBIuP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 2 Aug 2021 04:50:15 -0400
-Received: from BJHW-Mail-Ex15.internal.baidu.com (unknown [10.127.64.38])
-        by Forcepoint Email with ESMTPS id BA9626086EB51F782897;
-        Mon,  2 Aug 2021 16:50:04 +0800 (CST)
-Received: from BJHW-MAIL-EX25.internal.baidu.com (10.127.64.40) by
- BJHW-Mail-Ex15.internal.baidu.com (10.127.64.38) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Mon, 2 Aug 2021 16:50:04 +0800
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BJHW-MAIL-EX25.internal.baidu.com (10.127.64.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Mon, 2 Aug 2021 16:50:04 +0800
-Received: from BJHW-MAIL-EX27.internal.baidu.com ([169.254.58.247]) by
- BJHW-MAIL-EX27.internal.baidu.com ([169.254.58.247]) with mapi id
- 15.01.2308.014; Mon, 2 Aug 2021 16:50:04 +0800
-From:   "Cai,Huoqing" <caihuoqing@baidu.com>
-To:     "mchehab@kernel.org" <mchehab@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "gustavoars@kernel.org" <gustavoars@kernel.org>,
-        "salah.triki@gmail.com" <salah.triki@gmail.com>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: RE: [PATCH] media: smsusb: Use usb_get_dev() for the reference count
- of udev
-Thread-Topic: [PATCH] media: smsusb: Use usb_get_dev() for the reference count
- of udev
-Thread-Index: AQHXh2vxQuwZF2ZGmEOIGukWTKGuOatf50Tg
-Date:   Mon, 2 Aug 2021 08:50:04 +0000
-Message-ID: <5c1d01a6a19c409091b224d3aea34d89@baidu.com>
-References: <20210802065924.1163-1-caihuoqing@baidu.com>
-In-Reply-To: <20210802065924.1163-1-caihuoqing@baidu.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.18.18.60]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+        id S232855AbhHBJsO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Aug 2021 05:48:14 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:58234 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231669AbhHBJsO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Aug 2021 05:48:14 -0400
+Received: from [IPv6:2a02:810a:880:f54:ede9:5646:2cc5:9a78] (unknown [IPv6:2a02:810a:880:f54:ede9:5646:2cc5:9a78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CDE561F42778;
+        Mon,  2 Aug 2021 10:48:03 +0100 (BST)
+Subject: Re: [EXT] Re: media: platform/rockchip/rkisp1 - v4l-compliance
+ reports errors
+To:     Jens Korinth <jens.korinth@trinamix.de>
+References: <AM0PR04MB5825DA3C650C569F69B99EF898EB9@AM0PR04MB5825.eurprd04.prod.outlook.com>
+ <CAAEAJfDjGBBO4gL3gnn7qsmMHb+2MT2LNJ_Ctt7EqRoycj934A@mail.gmail.com>
+ <3a1c6ef4-603c-5d23-c999-6cdef90ffd62@collabora.com>
+ <AM0PR04MB58250C5C17446561D4A18EDA98EC9@AM0PR04MB5825.eurprd04.prod.outlook.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     Collabora Kernel ML <kernel@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Message-ID: <1e53b06a-bc75-87e3-04b4-b808dc0eb3de@collabora.com>
+Date:   Mon, 2 Aug 2021 11:48:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Baidu-BdMsfe-DateCheck: 1_BJHW-Mail-Ex15_2021-08-02 16:50:04:727
+In-Reply-To: <AM0PR04MB58250C5C17446561D4A18EDA98EC9@AM0PR04MB5825.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGVsbG8sIFNhbGFoDQp0aGUgc2FtZQ0KbWF5IEkgYWRkICJSZXBvcnRlZC1ieTogU2FsYWggVHJp
-a2kgPHNhbGFoLnRyaWtpQGdtYWlsLmNvbT4iDQphc2sgZm9yIHlvdXIgY29tZmlybWF0aW9uDQpp
-ZiBub3QsIEkgd2lsbCByZW1vdmUgaXQuDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
-Cj4gRnJvbTogQ2FpLEh1b3FpbmcgPGNhaWh1b3FpbmdAYmFpZHUuY29tPg0KPiBTZW50OiAyMDIx
-xOo41MIyyNUgMTQ6NTkNCj4gVG86IG1jaGVoYWJAa2VybmVsLm9yZzsgaHZlcmt1aWwtY2lzY29A
-eHM0YWxsLm5sOyBzYWthcmkuYWlsdXNAbGludXguaW50ZWwuY29tOw0KPiBndXN0YXZvYXJzQGtl
-cm5lbC5vcmcNCj4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZzsgQ2FpLEh1b3Fpbmcg
-PGNhaWh1b3FpbmdAYmFpZHUuY29tPg0KPiBTdWJqZWN0OiBbUEFUQ0hdIG1lZGlhOiBzbXN1c2I6
-IFVzZSB1c2JfZ2V0X2RldigpIGZvciB0aGUgcmVmZXJlbmNlIGNvdW50IG9mDQo+IHVkZXYNCj4g
-DQo+IFVzZSB1c2JfZ2V0X2RldigpIHRvIGluY3JlbWVudCB0aGUgcmVmZXJlbmNlIGNvdW50IG9m
-IHRoZSB1c2IgZGV2aWNlIHN0cnVjdHVyZQ0KPiBpbiBvcmRlciB0byBhdm9pZCByZWxlYXNpbmcg
-dGhlIHN0cnVjdHVyZSB3aGlsZSBpdCBpcyBzdGlsbCBpbiB1c2UuIEFuZCB1c2UNCj4gdXNiX3B1
-dF9kZXYoKSB0byBkZWNyZW1lbnQgdGhlIHJlZmVyZW5jZSBjb3VudCBhbmQgdGh1cywgd2hlbiBp
-dCB3aWxsIGJlIGVxdWFsDQo+IHRvIDAgdGhlIHN0cnVjdHVyZSB3aWxsIGJlIHJlbGVhc2VkLg0K
-PiANCj4gUmVwb3J0ZWQtYnk6IFNhbGFoIFRyaWtpIDxzYWxhaC50cmlraUBnbWFpbC5jb20+DQo+
-IFNpZ25lZC1vZmYtYnk6IENhaSBIdW9xaW5nIDxjYWlodW9xaW5nQGJhaWR1LmNvbT4NCj4gLS0t
-DQo+ICBkcml2ZXJzL21lZGlhL3VzYi9zaWFuby9zbXN1c2IuYyB8IDMgKystDQo+ICAxIGZpbGUg
-Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9tZWRpYS91c2Ivc2lhbm8vc21zdXNiLmMNCj4gYi9kcml2ZXJzL21lZGlhL3Vz
-Yi9zaWFuby9zbXN1c2IuYw0KPiBpbmRleCBkZjRjNWRjYmEzOWMuLjg2ZTBhMjVmOGRiYSAxMDA2
-NDQNCj4gLS0tIGEvZHJpdmVycy9tZWRpYS91c2Ivc2lhbm8vc21zdXNiLmMNCj4gKysrIGIvZHJp
-dmVycy9tZWRpYS91c2Ivc2lhbm8vc21zdXNiLmMNCj4gQEAgLTM1MSw2ICszNTEsNyBAQCBzdGF0
-aWMgdm9pZCBzbXN1c2JfdGVybV9kZXZpY2Uoc3RydWN0IHVzYl9pbnRlcmZhY2UNCj4gKmludGYp
-DQo+ICAJfQ0KPiANCj4gIAl1c2Jfc2V0X2ludGZkYXRhKGludGYsIE5VTEwpOw0KPiArCXVzYl9w
-dXRfZGV2KGRldi0+dWRldik7DQo+ICB9DQo+IA0KPiAgc3RhdGljIHZvaWQgKnNpYW5vX21lZGlh
-X2RldmljZV9yZWdpc3RlcihzdHJ1Y3Qgc21zdXNiX2RldmljZV90ICpkZXYsIEBAIC0NCj4gMzk4
-LDcgKzM5OSw3IEBAIHN0YXRpYyBpbnQgc21zdXNiX2luaXRfZGV2aWNlKHN0cnVjdCB1c2JfaW50
-ZXJmYWNlICppbnRmLCBpbnQNCj4gYm9hcmRfaWQpDQo+IA0KPiAgCW1lbXNldCgmcGFyYW1zLCAw
-LCBzaXplb2YocGFyYW1zKSk7DQo+ICAJdXNiX3NldF9pbnRmZGF0YShpbnRmLCBkZXYpOw0KPiAt
-CWRldi0+dWRldiA9IGludGVyZmFjZV90b191c2JkZXYoaW50Zik7DQo+ICsJZGV2LT51ZGV2ID0g
-dXNiX2dldF9kZXYoaW50ZXJmYWNlX3RvX3VzYmRldihpbnRmKSk7DQo+ICAJZGV2LT5zdGF0ZSA9
-IFNNU1VTQl9ESVNDT05ORUNURUQ7DQo+IA0KPiAgCWZvciAoaSA9IDA7IGkgPCBpbnRmLT5jdXJf
-YWx0c2V0dGluZy0+ZGVzYy5iTnVtRW5kcG9pbnRzOyBpKyspIHsNCj4gLS0NCj4gMi4yNS4xDQoN
-Cg==
+
+
+On 30.07.21 17:33, Jens Korinth wrote:
+> Hi Dafna,
+> 
+> Thanks for your quick answer!
+> 
+>> Therefore you should clone the repo and compile those tools in order to use them for the driver:
+> 
+> Thought I did that, but it turns out I didn't pay attention to the PATH order and the system version was used, thanks!
+> 
+> The camera I need to support is the OV9282, which is Y10 monochrome sensor. I've had some success passing it through the ISP as SRGGB10_1x10, but it does not feel like the right way(tm). 😊 I need the raw data with as little processing as possible (though 16b extension would be nice) - any advice?
+
+Hi,
+Currently the driver does not support Y10 format. But I think that configuring the isp subdevice with SRGGB10_1x10 should work.
+I think it is possible to just add Y10 format to the list of supported formats in rkisp1-isp1.c with identical data as SRGGB10_1x10:
+
+
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+index d596bc040005..051f8d45e3cc 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+@@ -59,6 +59,13 @@ static const struct rkisp1_isp_mbus_info rkisp1_isp_formats[] = {
+                 .mbus_code      = MEDIA_BUS_FMT_YUYV8_2X8,
+                 .pixel_enc      = V4L2_PIXEL_ENC_YUV,
+                 .direction      = RKISP1_ISP_SD_SRC,
++       }, {
++               .mbus_code      = MEDIA_BUS_FMT_Y10_1X10,
++               .pixel_enc      = V4L2_PIXEL_ENC_BAYER,
++               .mipi_dt        = RKISP1_CIF_CSI2_DT_RAW10,
++               .bayer_pat      = RKISP1_RAW_RGGB,
++               .bus_width      = 10,
++               .direction      = RKISP1_ISP_SD_SINK | RKISP1_ISP_SD_SRC,
+         }, {
+                 .mbus_code      = MEDIA_BUS_FMT_SRGGB10_1X10,
+                 .pixel_enc      = V4L2_PIXEL_ENC_BAYER,
+
+
+But I don't have a monochrome camera to test it.
+
+Thanks,
+Dafna
+
+> 
+> Thanks a lot!
+> Jens
+> 
+> -----Original Message-----
+> From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Sent: Friday, July 30, 2021 12:21 PM
+> To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>; Jens Korinth <jens.korinth@trinamix.de>
+> Cc: linux-media@vger.kernel.org; Helen Koike <helen.koike@collabora.com>
+> Subject: [EXT] Re: media: platform/rockchip/rkisp1 - v4l-compliance reports errors
+> 
+> Hi,
+> 
+> 
+> On 30.07.21 00:38, Ezequiel Garcia wrote:
+>> (Adding Dafna and Helen)
+>>
+>> On Thu, 29 Jul 2021 at 09:36, Jens Korinth <jens.korinth@trinamix.de> wrote:
+>>>
+>>> Hi *,
+>>>
+>>> I am working on a camera system on Rockchip RK3399 board (Firefly ROC-RK3399-PC-Plus). Tried to use the rkisp1 driver, but was unable to connect to the rkisp1_mainpath output node, because format negotiation failed; so I ran v4l-compliance next and found that it reports several errors (see attached report).
+> 
+> Hi, thanks for testing and reporting. We added some new features in order to supported the driver that also needed new code in v4l-utils in order to use v4l2-ctl and to pass compliance. Therefore you should clone the repo and compile those tools in order to use them for the driver:
+> 
+> git://linuxtv.org/v4l-utils.git
+> 
+> 
+>>>
+>>> Upon closer inspection I noticed in the VIDIOC_ENUM_FMT handler in
+>>> drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c:1169+ that
+> 
+> The file rkisp1-dev.c does only the probe/remove function. The callbacks are implemented in other files.
+> 
+>>>
+>>> 1) the "reserved" member is not zeroed,
+>>> 2) the userspace pointer to the v4l2_fmtdesc f is not checked via
+>>> access_ok, and
+>>> 3) it isn't copied from/to userspace using copy_from_user/copy_to_user.
+> 
+> Those things seems to me like something that should be in the v4l2-core.
+> 
+> Thanks,
+> Dafna
+> 
+>>>
+>>> I'm not sure if this is necessary in general, but at least on my platform the zeroing of the reserved member only worked correctly when I added the userspace copies. But even after these fixes, v4l-compliance reports further issues in format enumeration and negotiation. Is this a known issue?
+>>>
+>>> Thanks!
+>>> -Jens
