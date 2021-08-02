@@ -2,178 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 556E13DCEA1
-	for <lists+linux-media@lfdr.de>; Mon,  2 Aug 2021 04:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 145043DCEC2
+	for <lists+linux-media@lfdr.de>; Mon,  2 Aug 2021 04:47:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231425AbhHBCOe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 1 Aug 2021 22:14:34 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:44008 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229908AbhHBCOd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Aug 2021 22:14:33 -0400
-X-UUID: addda38986ef438f881231548e45ea96-20210802
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=eyKZc/ALoPV+sqAMaOz1Ex/8blpteLeS0dT9Y1aMYcs=;
-        b=Ws95q8ncTsOXLNFapjueL9oBx++0VGzRMwwxw7zDT4OkgaXEvdUPEBBf1g1oOx/XiECYJzVrLbdxQI7WzT99mfYIb9qefV5f1DZsrPygVd3ZZDjIOoN0P+FXCqBZ1CqYipHEt1lnM6vAxTP6+AYLZ2JO8rprOt1VcGDNOyxXScU=;
-X-UUID: addda38986ef438f881231548e45ea96-20210802
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
-        (envelope-from <ck.hu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1711135759; Mon, 02 Aug 2021 10:14:20 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 2 Aug 2021 10:14:19 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 2 Aug 2021 10:14:19 +0800
-Message-ID: <1627870459.4533.1.camel@mtksdaap41>
-Subject: Re: [PATCH v5 2/3] dts: arm64: mt8183: Add Mediatek MDP3 nodes
-From:   CK Hu <ck.hu@mediatek.com>
-To:     Moudy Ho <moudy.ho@mediatek.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <tfiga@chromium.org>,
-        <drinkcat@chromium.org>, <acourbot@chromium.org>,
-        <pihsun@chromium.org>, <menghui.lin@mediatek.com>,
-        <sj.huang@mediatek.com>, <ben.lok@mediatek.com>,
-        <randy.wu@mediatek.com>, <srv_heupstream@mediatek.com>
-Date:   Mon, 2 Aug 2021 10:14:19 +0800
-In-Reply-To: <20210719074640.25058-3-moudy.ho@mediatek.com>
-References: <20210719074640.25058-1-moudy.ho@mediatek.com>
-         <20210719074640.25058-3-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        id S231896AbhHBCrm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Aug 2021 22:47:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49822 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229908AbhHBCrk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Aug 2021 22:47:40 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BCC1C06175F;
+        Sun,  1 Aug 2021 19:47:31 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id u16so9499493ple.2;
+        Sun, 01 Aug 2021 19:47:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=XGbL8VwPWjiS4yy4Pnm/5ti4pl6SnxB74geqfXf2DB8=;
+        b=LT7iIak5S9eMVKEPZD7f0f9GaeTpf9fgxki9F73OG5+doNYssSWZ0f3lw9FdaLyodW
+         H+VftdRCAibeNawcMs/+wyMV07jxOnbL2d85GMVLWLny7/IBriAfc+cOb+mHA6nW71Sx
+         +5e9Xv+cfGX0tEiE7nHyJMElLi5Km8LSwGXHcZwBfY9cpcGfgAR2+q2AjdJQ1aNq95mA
+         ewqlpUaBT5mu9mYGHzlsh+9ZPR9mbnKe/5Nn193sVNPYJMVvCowTFjQMzJcfWdZF/BM9
+         ebe+OlZy1qPrEgPHdxuZBs0OXp5M+PrN3KdfC165JaM+goeJQfUbsVmboOQDq396IF8R
+         8SPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=XGbL8VwPWjiS4yy4Pnm/5ti4pl6SnxB74geqfXf2DB8=;
+        b=TXwiFGK+YyKKO0U1DeuAgDPrB9bWGyDr+dPnvN8PcKMI1tGtOySLbb/YW6dk8IgMzf
+         Bbtaegf2xGLNSIeW2QLF5uZaEJxYSGxrZ6yfMF2ojVuecz5TXBUxrWo0cVDn2dZmcLTF
+         q28b42rRRLRx1kaabWpwmgMDZOHZoDnZuZbsMPGiOA4L6nvgEzr10QgapKvZGuxApen4
+         8OI/gWYHOkJdQr+aLJ1puao9+++1JosH3fwMTu6brqE1MQ+/nN1L4bU9kfY7RQnnoPVJ
+         igVkB8guRG3y+aA2THRASBu3iqoswxxFb61ysr0d8txb2ErJVn+nVM6/3s89YW7wi84E
+         lmFA==
+X-Gm-Message-State: AOAM531XJp2AzXwBL3a5QhLPUAAXLSEO8y8Q5mtViayCcfITtF7RqHGd
+        vuo/1KkB/TwhJZxG1f0qt94=
+X-Google-Smtp-Source: ABdhPJxgLjle+X21msmkhScpohfSjneeqWivm7M3aHQYJvRXfoBdbPMfQOdSLJPQMzM3M/tZB5hKow==
+X-Received: by 2002:a17:903:20c1:b029:12c:4a37:5cbb with SMTP id i1-20020a17090320c1b029012c4a375cbbmr12001050plb.57.1627872450825;
+        Sun, 01 Aug 2021 19:47:30 -0700 (PDT)
+Received: from [10.106.0.86] ([45.135.186.29])
+        by smtp.gmail.com with ESMTPSA id l14sm9517229pfd.58.2021.08.01.19.47.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 01 Aug 2021 19:47:30 -0700 (PDT)
+Subject: Re: [PATCH] drm/amdgpu: fix possible null-pointer dereference in
+ amdgpu_ttm_tt_populate()
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, airlied@linux.ie,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Xinhui.Pan@amd.com, baijiaju1990@gmail.com,
+        alexander.deucher@amd.com, Philip.Yang@amd.com,
+        TOTE Robot <oslab@tsinghua.edu.cn>, sumit.semwal@linaro.org,
+        daniel@ffwll.ch, Felix.Kuehling@amd.com, airlied@redhat.com,
+        Oak.Zeng@amd.com, nirmoy.das@amd.com, tzimmermann@suse.de
+References: <20210731080437.74539-1-islituo@gmail.com>
+ <53ef6ff7-f793-5de4-4ab4-0efbfbfc0a54@amd.com>
+From:   Li Tuo <islituo@gmail.com>
+Message-ID: <fc060208-89b5-51aa-c956-adf7c42d6b79@gmail.com>
+Date:   Mon, 2 Aug 2021 10:47:24 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+In-Reply-To: <53ef6ff7-f793-5de4-4ab4-0efbfbfc0a54@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGksIE1vdWR5Og0KDQpPbiBNb24sIDIwMjEtMDctMTkgYXQgMTU6NDYgKzA4MDAsIE1vdWR5IEhv
-IHdyb3RlOg0KPiBBZGQgZGV2aWNlIG5vZGVzIGZvciBNZWRpYSBEYXRhIFBhdGggMyAoTURQMykg
-bW9kdWxlcy4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFBpbmctSHN1biBXdSA8cGluZy1oc3VuLnd1
-QG1lZGlhdGVrLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogZGFveXVhbiBodWFuZyA8ZGFveXVhbi5o
-dWFuZ0BtZWRpYXRlay5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IE1vdWR5IEhvIDxtb3VkeS5ob0Bt
-ZWRpYXRlay5jb20+DQo+IC0tLQ0KPiBEZXBlbmQgb246DQo+ICAgIFsxXSBodHRwczovL3VybGRl
-ZmVuc2UuY29tL3YzL19faHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvcGF0Y2h3b3JrL3BhdGNoLzEx
-NjQ3NDYvX187ISFDVFJOS0E5d01nMEFSYncheklZRFNDMWthZnhoZkVmcHlJaktZQTVTMmZvN05E
-NWN2QzN1TDA2eWpsYWRwQS0yMlJDamFHY1BQcXBLaHckIA0KPiAgICBbMl0gaHR0cHM6Ly91cmxk
-ZWZlbnNlLmNvbS92My9fX2h0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcGF0Y2gvMTE3MDMy
-OTkvX187ISFDVFJOS0E5d01nMEFSYncheklZRFNDMWthZnhoZkVmcHlJaktZQTVTMmZvN05ENWN2
-QzN1TDA2eWpsYWRwQS0yMlJDamFHZXJ6Vk55bEEkIA0KPiAgICBbM10gaHR0cHM6Ly91cmxkZWZl
-bnNlLmNvbS92My9fX2h0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcGF0Y2gvMTEyODM3NzMv
-X187ISFDVFJOS0E5d01nMEFSYncheklZRFNDMWthZnhoZkVmcHlJaktZQTVTMmZvN05ENWN2QzN1
-TDA2eWpsYWRwQS0yMlJDamFHZTRJREducFEkIA0KPiAtLS0NCj4gIGFyY2gvYXJtNjQvYm9vdC9k
-dHMvbWVkaWF0ZWsvbXQ4MTgzLmR0c2kgfCAxMTQgKysrKysrKysrKysrKysrKysrKysrKysNCj4g
-IDEgZmlsZSBjaGFuZ2VkLCAxMTQgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Fy
-Y2gvYXJtNjQvYm9vdC9kdHMvbWVkaWF0ZWsvbXQ4MTgzLmR0c2kgYi9hcmNoL2FybTY0L2Jvb3Qv
-ZHRzL21lZGlhdGVrL210ODE4My5kdHNpDQo+IGluZGV4IGM1ZTgyMmI2Yjc3YS4uMzA5MjBkNmNl
-N2QyIDEwMDY0NA0KPiAtLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL21lZGlhdGVrL210ODE4My5k
-dHNpDQo+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvbWVkaWF0ZWsvbXQ4MTgzLmR0c2kNCj4g
-QEAgLTExMjcsNiArMTEyNywxMTIgQEANCj4gIAkJCW1lZGlhdGVrLGdjZS1jbGllbnQtcmVnID0g
-PCZnY2UgU1VCU1lTXzE0MDBYWFhYIDAgMHgxMDAwPjsNCj4gIAkJfTsNCj4gIA0KPiArCQltZHAz
-X3JkbWEwOiBtZHAzX3JkbWEwQDE0MDAxMDAwIHsNCj4gKwkJCWNvbXBhdGlibGUgPSAibWVkaWF0
-ZWssbXQ4MTgzLW1kcDMiLA0KPiArCQkJCSAgICAgIm1lZGlhdGVrLG10ODE4My1tZHAzLXJkbWEi
-Ow0KPiArCQkJbWVkaWF0ZWssc2NwID0gPCZzY3A+Ow0KPiArCQkJbWVkaWF0ZWssbWRwMy1pZCA9
-IDwwPjsNCj4gKwkJCW1kcDMtY29tcHMgPSAibWVkaWF0ZWssbXQ4MTgzLW1kcDMtZGwiLCAibWVk
-aWF0ZWssbXQ4MTgzLW1kcDMtZGwiLA0KPiArCQkJCSAgICAgIm1lZGlhdGVrLG10ODE4My1tZHAz
-LWltZ2kiLCAibWVkaWF0ZWssbXQ4MTgzLW1kcDMtZXh0byI7DQo+ICsJCQltZHAzLWNvbXAtaWRz
-ID0gPDAgMSAwIDE+Ow0KPiArCQkJcmVnID0gPDAgMHgxNDAwMTAwMCAwIDB4MTAwMD4sDQo+ICsJ
-CQkgICAgICA8MCAweDE0MDAwMDAwIDAgMHgxMDAwPiwNCj4gKwkJCSAgICAgIDwwIDB4MTUwMjAw
-MDAgMCAweDEwMDA+Ow0KPiArCQkJbWVkaWF0ZWssZ2NlLWNsaWVudC1yZWcgPSA8JmdjZSBTVUJT
-WVNfMTQwMFhYWFggMHgxMDAwIDB4MTAwMD4sDQo+ICsJCQkJCQkgIDwmZ2NlIFNVQlNZU18xNDAw
-WFhYWCAwIDB4MTAwMD4sDQo+ICsJCQkJCQkgIDwmZ2NlIFNVQlNZU18xNTAyWFhYWCAwIDB4MTAw
-MD47DQo+ICsJCQlwb3dlci1kb21haW5zID0gPCZzcG0gTVQ4MTgzX1BPV0VSX0RPTUFJTl9ESVNQ
-PjsNCj4gKwkJCWNsb2NrcyA9IDwmbW1zeXMgQ0xLX01NX01EUF9SRE1BMD4sDQo+ICsJCQkJIDwm
-bW1zeXMgQ0xLX01NX01EUF9SU1oxPiwNCj4gKwkJCQkgPCZtbXN5cyBDTEtfTU1fTURQX0RMX1RY
-Q0s+LA0KPiArCQkJCSA8Jm1tc3lzIENMS19NTV9NRFBfRExfUlg+LA0KPiArCQkJCSA8Jm1tc3lz
-IENMS19NTV9JUFVfRExfVFhDSz4sDQo+ICsJCQkJIDwmbW1zeXMgQ0xLX01NX0lQVV9ETF9SWD47
-DQo+ICsJCQlpb21tdXMgPSA8JmlvbW11IE00VV9QT1JUX01EUF9SRE1BMD47DQo+ICsJCQltZWRp
-YXRlayxtbXN5cyA9IDwmbW1zeXM+Ow0KPiArCQkJbWVkaWF0ZWssbW0tbXV0ZXggPSA8Jm11dGV4
-PjsNCj4gKwkJCW1lZGlhdGVrLG1haWxib3gtZ2NlID0gPCZnY2U+Ow0KPiArCQkJbWJveGVzID0g
-PCZnY2UgMjAgQ01EUV9USFJfUFJJT19MT1dFU1QgMD4sDQo+ICsJCQkJIDwmZ2NlIDIxIENNRFFf
-VEhSX1BSSU9fTE9XRVNUIDA+LA0KPiArCQkJCSA8JmdjZSAyMiBDTURRX1RIUl9QUklPX0xPV0VT
-VCAwPiwNCj4gKwkJCQkgPCZnY2UgMjMgQ01EUV9USFJfUFJJT19MT1dFU1QgMD47DQo+ICsJCQlt
-ZHAzLXJzejAgPSA8Jm1kcDNfcnN6MD47IC8qIGRlYnVnIG9ubHkgKi8NCj4gKwkJCW1kcDMtcnN6
-MSA9IDwmbWRwM19yc3oxPjsgLyogZGVidWcgb25seSAqLw0KPiArCQkJbWRwMy13cm90MCA9IDwm
-bWRwM193cm90MD47IC8qIGRlYnVnIG9ubHkgKi8NCj4gKwkJCW1kcDMtd2RtYTAgPSA8Jm1kcDNf
-d2RtYT47IC8qIGRlYnVnIG9ubHkgKi8NCj4gKwkJCW1kcDMtY2NvcnIwID0gPCZtZHAzX2Njb3Jy
-PjsgLyogZGVidWcgb25seSAqLw0KPiArCQkJZ2NlLXN1YnN5cyA9IDwmZ2NlIDB4MTQwMDAwMDAg
-U1VCU1lTXzE0MDBYWFhYPiwNCj4gKwkJCQkgICAgIDwmZ2NlIDB4MTQwMTAwMDAgU1VCU1lTXzE0
-MDFYWFhYPiwNCj4gKwkJCQkgICAgIDwmZ2NlIDB4MTQwMjAwMDAgU1VCU1lTXzE0MDJYWFhYPiwN
-Cj4gKwkJCQkgICAgIDwmZ2NlIDB4MTUwMjAwMDAgU1VCU1lTXzE1MDJYWFhYPjsNCj4gKwkJCW1l
-ZGlhdGVrLGdjZS1ldmVudHMgPSA8Q01EUV9FVkVOVF9NRFBfUkRNQTBfU09GPiwNCj4gKwkJCQkJ
-ICAgICAgPENNRFFfRVZFTlRfTURQX1JETUEwX0VPRj4sDQo+ICsJCQkJCSAgICAgIDxDTURRX0VW
-RU5UX01EUF9SU1owX1NPRj4sDQo+ICsJCQkJCSAgICAgIDxDTURRX0VWRU5UX01EUF9SU1oxX1NP
-Rj4sDQoNClJTWiBldmVudCBpcyBzZW50IGJ5IHJzeiBkZXZpY2UsIHNvIG1vdmUgdGhpcyBldmVu
-dCBpbnRvIHJzeiBkZXZpY2UuDQoNCj4gKwkJCQkJICAgICAgPENNRFFfRVZFTlRfTURQX1REU0hQ
-X1NPRj4sDQo+ICsJCQkJCSAgICAgIDxDTURRX0VWRU5UX01EUF9XUk9UMF9TT0Y+LA0KPiArCQkJ
-CQkgICAgICA8Q01EUV9FVkVOVF9NRFBfV1JPVDBfRU9GPiwNCj4gKwkJCQkJICAgICAgPENNRFFf
-RVZFTlRfTURQX1dETUEwX1NPRj4sDQo+ICsJCQkJCSAgICAgIDxDTURRX0VWRU5UX01EUF9XRE1B
-MF9FT0Y+LA0KPiArCQkJCQkgICAgICA8Q01EUV9FVkVOVF9JU1BfRlJBTUVfRE9ORV9QMl8wPiwN
-Cj4gKwkJCQkJICAgICAgPENNRFFfRVZFTlRfSVNQX0ZSQU1FX0RPTkVfUDJfMT4sDQo+ICsJCQkJ
-CSAgICAgIDxDTURRX0VWRU5UX0lTUF9GUkFNRV9ET05FX1AyXzI+LA0KPiArCQkJCQkgICAgICA8
-Q01EUV9FVkVOVF9JU1BfRlJBTUVfRE9ORV9QMl8zPiwNCj4gKwkJCQkJICAgICAgPENNRFFfRVZF
-TlRfSVNQX0ZSQU1FX0RPTkVfUDJfND4sDQo+ICsJCQkJCSAgICAgIDxDTURRX0VWRU5UX0lTUF9G
-UkFNRV9ET05FX1AyXzU+LA0KPiArCQkJCQkgICAgICA8Q01EUV9FVkVOVF9JU1BfRlJBTUVfRE9O
-RV9QMl82PiwNCj4gKwkJCQkJICAgICAgPENNRFFfRVZFTlRfSVNQX0ZSQU1FX0RPTkVfUDJfNz4s
-DQo+ICsJCQkJCSAgICAgIDxDTURRX0VWRU5UX0lTUF9GUkFNRV9ET05FX1AyXzg+LA0KPiArCQkJ
-CQkgICAgICA8Q01EUV9FVkVOVF9JU1BfRlJBTUVfRE9ORV9QMl85PiwNCj4gKwkJCQkJICAgICAg
-PENNRFFfRVZFTlRfSVNQX0ZSQU1FX0RPTkVfUDJfMTA+LA0KPiArCQkJCQkgICAgICA8Q01EUV9F
-VkVOVF9JU1BfRlJBTUVfRE9ORV9QMl8xMT4sDQo+ICsJCQkJCSAgICAgIDxDTURRX0VWRU5UX0lT
-UF9GUkFNRV9ET05FX1AyXzEyPiwNCj4gKwkJCQkJICAgICAgPENNRFFfRVZFTlRfSVNQX0ZSQU1F
-X0RPTkVfUDJfMTM+LA0KPiArCQkJCQkgICAgICA8Q01EUV9FVkVOVF9JU1BfRlJBTUVfRE9ORV9Q
-Ml8xND4sDQo+ICsJCQkJCSAgICAgIDxDTURRX0VWRU5UX1dQRV9BX0RPTkU+LA0KPiArCQkJCQkg
-ICAgICA8Q01EUV9FVkVOVF9TUEVfQl9ET05FPjsNCg0KRGl0dG8gZm9yIHRoZXNlIGV2ZW50Lg0K
-DQpSZWdhcmRzLA0KQ0suDQoNCj4gKwkJfTsNCj4gKw0KPiArCQltZHAzX3JzejA6IG1kcDNfcnN6
-MEAxNDAwMzAwMCB7DQo+ICsJCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE4My1tZHAzLXJz
-eiI7DQo+ICsJCQltZWRpYXRlayxtZHAzLWlkID0gPDA+Ow0KPiArCQkJcmVnID0gPDAgMHgxNDAw
-MzAwMCAwIDB4MTAwMD47DQo+ICsJCQltZWRpYXRlayxnY2UtY2xpZW50LXJlZyA9IDwmZ2NlIFNV
-QlNZU18xNDAwWFhYWCAweDMwMDAgMHgxMDAwPjsNCj4gKwkJCWNsb2NrcyA9IDwmbW1zeXMgQ0xL
-X01NX01EUF9SU1owPjsNCj4gKwkJfTsNCj4gKw0KPiArCQltZHAzX3JzejE6IG1kcDNfcnN6MUAx
-NDAwNDAwMCB7DQo+ICsJCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE4My1tZHAzLXJzeiI7
-DQo+ICsJCQltZWRpYXRlayxtZHAzLWlkID0gPDE+Ow0KPiArCQkJcmVnID0gPDAgMHgxNDAwNDAw
-MCAwIDB4MTAwMD47DQo+ICsJCQltZWRpYXRlayxnY2UtY2xpZW50LXJlZyA9IDwmZ2NlIFNVQlNZ
-U18xNDAwWFhYWCAweDQwMDAgMHgxMDAwPjsNCj4gKwkJCWNsb2NrcyA9IDwmbW1zeXMgQ0xLX01N
-X01EUF9SU1oxPjsNCj4gKwkJfTsNCj4gKw0KPiArCQltZHAzX3dyb3QwOiBtZHAzX3dyb3QwQDE0
-MDA1MDAwIHsNCj4gKwkJCWNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTgzLW1kcDMtd3JvdCI7
-DQo+ICsJCQltZWRpYXRlayxtZHAzLWlkID0gPDA+Ow0KPiArCQkJbWRwMy1jb21wcyA9ICJtZWRp
-YXRlayxtdDgxODMtbWRwMy1wYXRoIjsNCj4gKwkJCW1kcDMtY29tcC1pZHMgPSA8MD47DQo+ICsJ
-CQlyZWcgPSA8MCAweDE0MDA1MDAwIDAgMHgxMDAwPjsNCj4gKwkJCW1lZGlhdGVrLGdjZS1jbGll
-bnQtcmVnID0gPCZnY2UgU1VCU1lTXzE0MDBYWFhYIDB4NTAwMCAweDEwMDA+Ow0KPiArCQkJcG93
-ZXItZG9tYWlucyA9IDwmc3BtIE1UODE4M19QT1dFUl9ET01BSU5fRElTUD47DQo+ICsJCQljbG9j
-a3MgPSA8Jm1tc3lzIENMS19NTV9NRFBfV1JPVDA+Ow0KPiArCQkJaW9tbXVzID0gPCZpb21tdSBN
-NFVfUE9SVF9NRFBfV1JPVDA+Ow0KPiArCQl9Ow0KPiArDQo+ICsJCW1kcDNfd2RtYTogbWRwM193
-ZG1hQDE0MDA2MDAwIHsNCj4gKwkJCWNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTgzLW1kcDMt
-d2RtYSI7DQo+ICsJCQltZWRpYXRlayxtZHAzLWlkID0gPDA+Ow0KPiArCQkJbWRwMy1jb21wcyA9
-ICJtZWRpYXRlayxtdDgxODMtbWRwMy1wYXRoIjsNCj4gKwkJCW1kcDMtY29tcC1pZHMgPSA8MT47
-DQo+ICsJCQlyZWcgPSA8MCAweDE0MDA2MDAwIDAgMHgxMDAwPjsNCj4gKwkJCW1lZGlhdGVrLGdj
-ZS1jbGllbnQtcmVnID0gPCZnY2UgU1VCU1lTXzE0MDBYWFhYIDB4NjAwMCAweDEwMDA+Ow0KPiAr
-CQkJcG93ZXItZG9tYWlucyA9IDwmc3BtIE1UODE4M19QT1dFUl9ET01BSU5fRElTUD47DQo+ICsJ
-CQljbG9ja3MgPSA8Jm1tc3lzIENMS19NTV9NRFBfV0RNQTA+Ow0KPiArCQkJaW9tbXVzID0gPCZp
-b21tdSBNNFVfUE9SVF9NRFBfV0RNQTA+Ow0KPiArCQl9Ow0KPiArDQo+ICAJCW92bDA6IG92bEAx
-NDAwODAwMCB7DQo+ICAJCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE4My1kaXNwLW92bCI7
-DQo+ICAJCQlyZWcgPSA8MCAweDE0MDA4MDAwIDAgMHgxMDAwPjsNCj4gQEAgLTEyNzIsNiArMTM3
-OCwxNCBAQA0KPiAgCQkJY2xvY2stbmFtZXMgPSAiYXBiIiwgInNtaSIsICJnYWxzMCIsICJnYWxz
-MSI7DQo+ICAJCX07DQo+ICANCj4gKwkJbWRwM19jY29ycjogbWRwM19jY29yckAxNDAxYzAwMCB7
-DQo+ICsJCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE4My1tZHAzLWNjb3JyIjsNCj4gKwkJ
-CW1lZGlhdGVrLG1kcDMtaWQgPSA8MD47DQo+ICsJCQlyZWcgPSA8MCAweDE0MDFjMDAwIDAgMHgx
-MDAwPjsNCj4gKwkJCW1lZGlhdGVrLGdjZS1jbGllbnQtcmVnID0gPCZnY2UgU1VCU1lTXzE0MDFY
-WFhYIDB4YzAwMCAweDEwMDA+Ow0KPiArCQkJY2xvY2tzID0gPCZtbXN5cyBDTEtfTU1fTURQX0ND
-T1JSPjsNCj4gKwkJfTsNCj4gKw0KPiAgCQlpbWdzeXM6IHN5c2NvbkAxNTAyMDAwMCB7DQo+ICAJ
-CQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE4My1pbWdzeXMiLCAic3lzY29uIjsNCj4gIAkJ
-CXJlZyA9IDwwIDB4MTUwMjAwMDAgMCAweDEwMDA+Ow0KDQo=
+Thanks for your feedback! We will remove the null tests according to 
+your advice and prepare a V2 patch.
+
+Best wishes,
+Tuo Li
+
+On 2021/8/2 1:19, Christian König wrote:
+> Am 31.07.21 um 10:04 schrieb Tuo Li:
+>> The variable ttm is assigned to the variable gtt, and the variable gtt
+>> is checked in:
+>>    if (gtt && gtt->userptr)
+>>
+>> This indicates that both ttm and gtt can be NULL.
+>> If so, a null-pointer dereference will occur:
+>>    if (ttm->page_flags & TTM_PAGE_FLAG_SG)
+>>
+>> Also, some null-pointer dereferences will occur in the function
+>> ttm_pool_alloc() which is called in:
+>>    return ttm_pool_alloc(&adev->mman.bdev.pool, ttm, ctx);
+>>
+>> To fix these possible null-pointer dereferences, the function returns
+>> -EINVAL when ttm is NULL.
+>
+> NAK, the NULL test is just a leftover from when the objects where 
+> distinct.
+>
+> Please remove the NULL test instead.
+>
+> Regards,
+> Christian.
+>
+>>
+>> Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+>> Signed-off-by: Tuo Li <islituo@gmail.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 5 ++++-
+>>   1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> index 3a55f08e00e1..80440f799c09 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> @@ -1120,8 +1120,11 @@ static int amdgpu_ttm_tt_populate(struct 
+>> ttm_device *bdev,
+>>       struct amdgpu_device *adev = amdgpu_ttm_adev(bdev);
+>>       struct amdgpu_ttm_tt *gtt = (void *)ttm;
+>>   +    if (ttm == NULL)
+>> +        return -EINVAL;
+>> +
+>>       /* user pages are bound by amdgpu_ttm_tt_pin_userptr() */
+>> -    if (gtt && gtt->userptr) {
+>> +    if (gtt->userptr) {
+>>           ttm->sg = kzalloc(sizeof(struct sg_table), GFP_KERNEL);
+>>           if (!ttm->sg)
+>>               return -ENOMEM;
+>
 
