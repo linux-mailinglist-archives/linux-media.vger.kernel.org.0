@@ -2,64 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EABD3DDC8A
-	for <lists+linux-media@lfdr.de>; Mon,  2 Aug 2021 17:36:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 961623DDF2D
+	for <lists+linux-media@lfdr.de>; Mon,  2 Aug 2021 20:30:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234974AbhHBPgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Aug 2021 11:36:48 -0400
-Received: from mga06.intel.com ([134.134.136.31]:45034 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233939AbhHBPgs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 2 Aug 2021 11:36:48 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10064"; a="274541762"
-X-IronPort-AV: E=Sophos;i="5.84,289,1620716400"; 
-   d="scan'208";a="274541762"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 08:36:38 -0700
-X-IronPort-AV: E=Sophos;i="5.84,289,1620716400"; 
-   d="scan'208";a="418704479"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 08:36:35 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 8870C2036B;
-        Mon,  2 Aug 2021 18:36:33 +0300 (EEST)
-Date:   Mon, 2 Aug 2021 18:36:33 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pavel Skripkin <paskripkin@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: restore missing 'return' statement
-Message-ID: <20210802153633.GN3@paasikivi.fi.intel.com>
-References: <20210802143820.1150099-1-arnd@kernel.org>
+        id S230409AbhHBSa5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Aug 2021 14:30:57 -0400
+Received: from gfs2.fields.utoronto.ca ([128.100.216.21]:35268 "EHLO
+        gfs2.fields.utoronto.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230290AbhHBSa5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Aug 2021 14:30:57 -0400
+X-Greylist: delayed 603 seconds by postgrey-1.27 at vger.kernel.org; Mon, 02 Aug 2021 14:30:56 EDT
+Received: from fields.fields.utoronto.ca (fields.fields.utoronto.ca [128.100.216.11])
+        by gfs2.fields.utoronto.ca (8.15.2/8.15.2/Fields_9.1_server_1625693608) with ESMTPS id 172IKZEb020929
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 2 Aug 2021 14:20:35 -0400
+Received: from fields.fields.utoronto.ca (localhost [127.0.0.1])
+        by fields.fields.utoronto.ca (8.15.2/8.15.2/Fields_9.1_workstation_1) with ESMTPS id 172IKZ5k023314
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Mon, 2 Aug 2021 14:20:35 -0400
+Received: from localhost (pspencer@localhost)
+        by fields.fields.utoronto.ca (8.15.2/8.15.2/Submit) with ESMTP id 172IKZGf023311;
+        Mon, 2 Aug 2021 14:20:35 -0400
+Date:   Mon, 2 Aug 2021 14:20:35 -0400 (EDT)
+From:   Philip Spencer <pspencer@fields.utoronto.ca>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] uvcvideo: Support devices that require SET_INTERFACE(0)
+ before/after streaming
+Message-ID: <alpine.LFD.2.21.2108021331010.12783@fields.fields.utoronto.ca>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210802143820.1150099-1-arnd@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Assessment: NotSpam -3.888/5 BAYES_00,SPF_HELO_NONE,SPF_NONE,T_HDRS_LCASE,FROM_LOCAL_MACHINE
+X-Scanned-By: MIMEDefang 2.79
+X-Greylist: No major spam indications; not delayed by milter-greylist-4.6.1 (gfs2.fields.utoronto.ca [128.100.216.26]); Mon, 02 Aug 2021 14:20:37 -0400 (EDT)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 02, 2021 at 04:38:14PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The input_system_configure_channel_sensor() function lost its final
-> return code in a previous patch:
-> 
-> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function 'input_system_configure_channel_sensor':
-> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
-> 
-> Restore what was there originally.
-> 
-> Fixes: 728a5c64ae5f ("media: atomisp: remove dublicate code")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+(This is my first kernel-related mailing list posting; my apologies if I 
+have targeted wrong maintainers and/or lists. This is posted on the Ubuntu 
+launchpad bug tracker at 
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1938669 and it was 
+suggested there that I post directly to the maintainers/mailing lists).
 
-Thanks!
+Video capture devices made by Epiphan Systems (vendor id 0x2b77) work 
+once, but as soon as the video device is closed (or even if it is kept 
+open but the application issues a VIDIOC_STREAMOFF ioctl) it won't work 
+again - subsequent calls to VIDOC_DQBUF simply hang - until the device is 
+unbound from and rebound to the uvcvideo module. (modprobe -r uvcvideo; 
+modprobe uvcvideo also works).
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+For example:
 
--- 
-Sakari Ailus
+   ffplay /dev/video0 -- works fine and shows the captured stream.
+
+   ffplay /dev/video0 -- when run a second time: hangs and does not capture 
+anything
+
+   modprobe -r uvcvideo ; modprobe uvcvideo; ffplay /dev/video0 -- works 
+fine again.
+
+Experimenting with the device and the uvcvideo module source code reveals 
+that problem is the device is expecting SET_INTERFACE(0) to be sent to 
+return it to a state where it can accept control requests and start 
+streaming again.
+
+The code in uvc_video.c has several comments stating that some 
+bulk-transfer devices require a SET_INTERFACE(0) call to be made before 
+any control commands, even though 0 is already the default and only valid 
+interface value. And, the function uvc_video_init makes such a call (which 
+is why the device starts working again after rebinding to the uvcvideo 
+module). But no such call is made when streaming is stopped then 
+restarted.
+
+Furthermore, SET_INTERFACE(0) is the mechanism by which isochronous 
+devices are told to stop streaming, and the comments in 
+uvc_video_stop_streaming state that the UVC specification is unclear on 
+how a bulk-based device should be told to stop streaming, so it is 
+reasonable to imagine this particular bulk-based device might be expecting 
+the same SET_INTERFACE(0) call that an isochronous device would get as 
+means of being told to stop streaming.
+
+The attached patch fixes the problem for these Epiphan devices by adding a 
+SET_INTERFACE(0) call in two places. Either one by itself is sufficient to 
+resolve the symptoms but I think it is probably safest to include both.
+
+The first hunk adds a SET_INTERFACE(0) call in uvc_video_start_streaming, 
+but only in the bulk-based case where 0 is the only possible interface 
+value (it won't mess with an isochronous device that might be set to a 
+different interface).
+
+The second hunk modifies the behaviour of uvc_video_stop_streaming to call 
+SET_INTERFACE(0) unconditionally instead of only calling it for 
+isochronous devices. Since interface 0 should already be set on 
+non-isochronous devices, it should be safe to set it again, and this way 
+devices that are expecting it as a signal to stop streaming will get it.
+
+The patch is against 5.4.137 but also applies cleanly to 5.14-rc3.
+
+--- a/drivers/media/usb/uvc/uvc_video.c	2021-08-01 10:19:19.343564026 -0400
++++ b/drivers/media/usb/uvc/uvc_video.c	2021-08-01 10:38:54.234311440 -0400
+@@ -2108,6 +2081,15 @@ int uvc_video_start_streaming(struct uvc
+  {
+  	int ret;
+
++	/* On a bulk-based device where there is only one alternate
++	 * setting possibility, set it explicitly to 0. This should be
++	 * the default value, but some devices (e.g. Epiphan Systems
++	 * framegrabbers) freeze and won't restart streaming until they
++	 * receive a SET_INTERFACE(0) request.
++	 */
++	if (stream->intf->num_altsetting == 1) 
++  		usb_set_interface(stream->dev->udev, stream->intfnum, 0);
++
+  	ret = uvc_video_clock_init(stream);
+  	if (ret < 0)
+  		return ret;
+@@ -2135,9 +2117,17 @@ void uvc_video_stop_streaming(struct uvc
+  {
+  	uvc_video_stop_transfer(stream, 1);
+
+-	if (stream->intf->num_altsetting > 1) {
+-		usb_set_interface(stream->dev->udev, stream->intfnum, 0);
+-	} else {
++	/* On isochronous devices, switch back to interface 0 to move
++	 * the device out of the "streaming" state.
++	 *
++	 * On bulk-based devices, this interface will already be selected
++	 * but we re-select it explicitly because some devices seem to need
++	 * a SET_INTERFACE(0) request to prepare them for receiving other
++	 * control requests and/or to tell them to stop streaming.
++	 */
++	usb_set_interface(stream->dev->udev, stream->intfnum, 0);
++
++	if (stream->intf->num_altsetting == 1) {
+  		/* UVC doesn't specify how to inform a bulk-based device
+  		 * when the video stream is stopped. Windows sends a
+  		 * CLEAR_FEATURE(HALT) request to the video streaming
+
+Philip
+
+--------------------------------------------+-------------------------------
+Philip Spencer  pspencer@fields.utoronto.ca | Director of Computing Services
+Room 348        (416)-348-9710  ext3048     | The Fields Institute for
+222 College St, Toronto ON M5T 3J1 Canada   | Research in Mathematical Sciences
