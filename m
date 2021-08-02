@@ -2,125 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F82D3DD470
-	for <lists+linux-media@lfdr.de>; Mon,  2 Aug 2021 13:01:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 741E03DD552
+	for <lists+linux-media@lfdr.de>; Mon,  2 Aug 2021 14:12:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233362AbhHBLBh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Aug 2021 07:01:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53920 "EHLO
+        id S233551AbhHBMMj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Aug 2021 08:12:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233421AbhHBLBa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Aug 2021 07:01:30 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 832A1C06175F;
-        Mon,  2 Aug 2021 04:01:21 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id t3so17088590plg.9;
-        Mon, 02 Aug 2021 04:01:21 -0700 (PDT)
+        with ESMTP id S233446AbhHBMMi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Aug 2021 08:12:38 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A8ECC0613D5
+        for <linux-media@vger.kernel.org>; Mon,  2 Aug 2021 05:12:28 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id k1so19349715plt.12
+        for <linux-media@vger.kernel.org>; Mon, 02 Aug 2021 05:12:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9wyMs+rwX3ldqcYresSOjD4BweaQ/WnMH4Ky/VQDi2I=;
-        b=Yc4FE9YjAWr9IC8sdF1L1QTKHbzv2l3QIYmiEecRKbBNneolptr9Pi3XzZU6rwfZCT
-         8O0thjHeEkHK3L1/Txx+ji8Mr513dnL+bfZDMwJt3YYdHu/09mkh0DkeVbUXrIisv81F
-         7YMYsvks+POltFmWXjm8TqCHeKU721PxvWx25P0sezJAC1cu2Kmi+w494F480GQ/FSHx
-         ZSNFgsT45n6tUDl/ryzLi3U5pAvlm1nCCmxwKgvGjhO5XHayaPGgh8OVwCCgex6V1p10
-         Isix8qFvOdtIwT36o1vcheb0yZayKW2fHYdpg9VklB8YLMQ+Gj0nlp/wRjfrxfM8ga9f
-         KDHQ==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yhCy+jdg2z+Eckz1yvxcPdL/SuIBQamgSG0Pchby1eE=;
+        b=IHFEat4kyp7BJrcnOYKhWyx2BgxojQqKz+Q69zBBnJ9SF6H/hSn+HkbWOVx8/ye6ir
+         b/2N1/CLAwC6wSGNYMbfA6QLp/HMduvyqpQv0/r+QOCJNRawHSLCsegT5OYBch2dGAZt
+         vFsHXxQKt0chTg+3kP4mAeEs6RBwjb0C5OEag=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9wyMs+rwX3ldqcYresSOjD4BweaQ/WnMH4Ky/VQDi2I=;
-        b=haq3757bHnC46PBKVQOl1LfZgX2T3bK1FHU/+HHlqjZRE71VcY5XRZ+aDfFjxFty7i
-         98Rp5pMWcnF5iMjEoFZF1r7zF7ldOvmPSFn7TQG/OHNUroYGXYxdC/HPTg2IE+IGMbdZ
-         Pr8nkEM9QKTAvhgqAprQIaPJ6sFUH1CfFCT1khwdaHYxvVWjWB/NiV6b6pvrLhvIkaHW
-         mcjCYT/AWs+852axmdDLf0QPoxypDd1xjOAYumYQFMRcCB5p6EmFI3m4/pgXWeQr4saq
-         p2m5q8/GbhrGvVUFpEaVeTDBvsTKZGhpk4jxHn9PsTntCSLP6sCIY1NbDKQ8cTpm08Yj
-         KPLA==
-X-Gm-Message-State: AOAM532El1KyQUG7gvo0MRYm/9SjVvcVTJ/b1qhcnx400A5W80vKW0hN
-        TLu5fWOygg8lpjIYKykn5LQ=
-X-Google-Smtp-Source: ABdhPJw3Zis0PZJdPsYef4VhN3d7rrLIYlB75L7nQeFiLyBly19H2n3lL4vzH8obKhGcJddjQi2ppw==
-X-Received: by 2002:a65:6a0a:: with SMTP id m10mr2267519pgu.145.1627902081017;
-        Mon, 02 Aug 2021 04:01:21 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
-        by smtp.gmail.com with ESMTPSA id v30sm9709158pgk.25.2021.08.02.04.01.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Aug 2021 04:01:20 -0700 (PDT)
-From:   Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        longman@redhat.com, boqun.feng@gmail.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com
-Cc:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
-        gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [RESEND PATCH v2 2/2] drm: add lockdep assert to drm_is_current_master_locked
-Date:   Mon,  2 Aug 2021 18:59:57 +0800
-Message-Id: <20210802105957.77692-3-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210802105957.77692-1-desmondcheongzx@gmail.com>
-References: <20210802105957.77692-1-desmondcheongzx@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yhCy+jdg2z+Eckz1yvxcPdL/SuIBQamgSG0Pchby1eE=;
+        b=rZVRT59ZfB6wPpFKFGEdLfnNs6WPrYW7Sh6d7RcaoE6ie2qcrYEwvLj/o3KM4k8Cch
+         spL7uufPp0angooiR5NsVj5lnbFyjT1p04WkAzmRkIWs2Iyxvsq9oi/Mpf0UCakd6KXv
+         aEDFpsv3/4dkFxsG3nV3zJpxLceiL31A+ziIlHxBncqRboLhx0KheWMF2NSg3OkiXi+K
+         Aj7QUdg0Plm7XRQTk4mMIOPx1ROw+DeocCd6HqdVyzoWX6kAe8hndMWmpRF+scTkYTYB
+         k7CQPM+QjnKxo8lI9w7bbNxNscw/S+4cgFib1tKJrREVL7AZgBrBrNx2UuYl6Ka1J1Ry
+         kq0Q==
+X-Gm-Message-State: AOAM530jXmRNze2ZDS8NWaa7MsnVA/KZRroirvxwNQ5CN8n5bFgaLNEe
+        AyLLLx+UugKb+9GXLISotpAmJw==
+X-Google-Smtp-Source: ABdhPJw9D3QYvpfQwiLiGcde+JTyAT/xpxneIagpGhWlhr9nQI9AqvoEdzzBW/YWozCp7VcQCEgNIw==
+X-Received: by 2002:a17:90a:de18:: with SMTP id m24mr16795133pjv.78.1627906348032;
+        Mon, 02 Aug 2021 05:12:28 -0700 (PDT)
+Received: from localhost ([2401:fa00:9:14:cd34:e942:c094:baef])
+        by smtp.gmail.com with UTF8SMTPSA id w134sm11685775pfd.124.2021.08.02.05.12.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Aug 2021 05:12:27 -0700 (PDT)
+From:   Eizan Miyamoto <eizan@chromium.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     wenst@chromium.org, houlong.wei@mediatek.com, yong.wu@mediatek.com,
+        enric.balletbo@collabora.com, devicetree@vger.kernel.org,
+        chunkuang.hu@kernel.org, Eizan Miyamoto <eizan@chromium.org>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH v6 0/9] Refactor MTK MDP driver into core/components
+Date:   Mon,  2 Aug 2021 22:12:06 +1000
+Message-Id: <20210802121215.703023-1-eizan@chromium.org>
+X-Mailer: git-send-email 2.32.0.554.ge1b32706d8-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In drm_is_current_master_locked, accessing drm_file.master should be
-protected by either drm_file.master_lookup_lock or
-drm_device.master_mutex. This was previously awkward to assert with
-lockdep.
 
-Following patch ("locking/lockdep: Provide lockdep_assert{,_once}()
-helpers"), this assertion is now convenient. So we add in the
-assertion and explain this lock design in the kerneldoc.
+This is an update to
+https://patchwork.kernel.org/project/linux-mediatek/list/?series=283075
+To address some comments and fixes.
 
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Acked-by: Boqun Feng <boqun.feng@gmail.com>
-Acked-by: Waiman Long <longman@redhat.com>
-Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
----
- drivers/gpu/drm/drm_auth.c | 6 +++---
- include/drm/drm_file.h     | 4 ++++
- 2 files changed, 7 insertions(+), 3 deletions(-)
+This series has been verified to work on 5.13.
 
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index 9c24b8cc8e36..6f4d7ff23c80 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -63,9 +63,9 @@
- 
- static bool drm_is_current_master_locked(struct drm_file *fpriv)
- {
--	/* Either drm_device.master_mutex or drm_file.master_lookup_lock
--	 * should be held here.
--	 */
-+	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
-+			    lockdep_is_held(&fpriv->minor->dev->master_mutex));
-+
- 	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
- }
- 
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 726cfe0ff5f5..a3acb7ac3550 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -233,6 +233,10 @@ struct drm_file {
- 	 * this only matches &drm_device.master if the master is the currently
- 	 * active one.
- 	 *
-+	 * To update @master, both &drm_device.master_mutex and
-+	 * @master_lookup_lock need to be held, therefore holding either of
-+	 * them is safe and enough for the read side.
-+	 *
- 	 * When dereferencing this pointer, either hold struct
- 	 * &drm_device.master_mutex for the duration of the pointer's use, or
- 	 * use drm_file_get_master() if struct &drm_device.master_mutex is not
+
+Changes in v6:
+- Don't propagate errors from clock_on/off as an afterthought.
+- Split apart modifying mdp driver to be loadable from mmsys from
+  actually loading it from mmsys into two changs to make review easier.
+- Update devicetree bindings to reflect no longer needing the
+  mediatek,vpu property in the mdp_rdma0 device node.
+- Some stylistic cleanups.
+
+Changes in v5:
+- rebase and test on 5.13-next @ e2f74b13dbe6
+
+Changes in v4:
+- rebase and test on 5.13
+- don't depend on https://patchwork.kernel.org/project/linux-mediatek/list/?series=464873
+
+Changes in v3:
+- get mdp master from aliases instead of strcmp against of_node->name
+
+Changes in v2:
+- rebased onto Linux 5.12
+- 100 char line length allowance was utilized in a few places
+- Removal of a redundant dev_err() print at the end of
+  mtk_mdp_comp_init()
+- Instead of printing errors and ignoring them, I've added a patch to
+  correctly propagate them.
+- Use of C style comments.
+- Three additional patches were added to eliminate dependency on the
+  mediatek,vpu property inside the mdp_rdma0 device node.
+
+Eizan Miyamoto (9):
+  mtk-mdp: propagate errors from clock_on
+  mtk-mdp: add driver to probe mdp components
+  mtk-mdp: use pm_runtime in MDP component driver
+  media: mtk-mdp: don't pm_run_time_get/put for master comp in clock_on
+  mtk-mdp: make mdp driver to be loadable by platform_device_register*()
+  soc: mediatek: mmsys: instantiate mdp virtual device from mmsys
+  media: mtk-mdp: use mdp-rdma0 alias to point to MDP master
+  dts: mtk-mdp: remove mediatek,vpu property from primary MDP device
+  dt-bindings: mediatek: remove vpu requirement from mtk-mdp
+
+ .../bindings/media/mediatek-mdp.txt           |   3 -
+ arch/arm64/boot/dts/mediatek/mt8173.dtsi      |   1 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 268 +++++++++++++++--
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  34 +--
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 282 ++++++++++++------
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.h |   3 +
+ drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  |   4 +-
+ drivers/soc/mediatek/mtk-mmsys.c              |  20 +-
+ 8 files changed, 470 insertions(+), 145 deletions(-)
+
 -- 
-2.25.1
+2.32.0.554.ge1b32706d8-goog
 
