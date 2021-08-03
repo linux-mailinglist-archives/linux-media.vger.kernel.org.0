@@ -2,159 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B83F3DE4BE
-	for <lists+linux-media@lfdr.de>; Tue,  3 Aug 2021 05:44:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F77A3DE6FC
+	for <lists+linux-media@lfdr.de>; Tue,  3 Aug 2021 09:07:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233519AbhHCDpG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Aug 2021 23:45:06 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:50025 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233436AbhHCDpF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 2 Aug 2021 23:45:05 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id AlMKmRHKrXTlcAlMLmjpCP; Tue, 03 Aug 2021 05:44:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1627962293; bh=S1eXc8r5FkiezdnDjuPYNApEjeff1ntyMt2IMDWX15o=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=HuxmckBZcX3vq/jL0TGai0tJguXKvrAx2V9vrwwXUJ4a0NqIvh9ZKRLUJpbLTsqwZ
-         vMKeyDqxPo4i9ER5z3AKTPEE0n3UtXQYZfyjISFWazy5pj87FtDw/7nz2ZUCr6STG0
-         XrrA3hHPLAhra6s1pquqoEpn2+e5PVPZBkDwIMKaahsyvxMhQOW2pTTXMKNsWn92EY
-         jMuf6UzqM5+tHMlQP4dLwzoP/3wwDFVo3CjZunYNKV/XBHG7429et3B7sniLjJp6Hk
-         SPyntMKIHdTWmHst4pdo9S6WD42BRtS0siXvHjQNN+plrILk7dPsYvuPwanCCumMTK
-         Dw12U92xtzOoA==
-Message-ID: <324657d952c90aede5e7704b6db35c80@smtp-cloud8.xs4all.net>
-Date:   Tue, 03 Aug 2021 05:44:52 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfKgUkZ4kqhRQYj+oXE3THtwnWCcNV/QsDNf5mGj36M2YGTJX9zU9dWNPCtYJuAmJJ4lQ5Orz+/GfnswkIzLTJSsF8yfsoHCKZy2k6oh4pxPu7JGVlJzM
- UZGGJMe6e+uajZIFVCKz5YBqEkzRoTOT55IBsq7oGVFnLKDaYAZwb/YzuQF50oI+KMbnVVpssrRbHee2p3j5ixs85MDgYhv60tGZLRiYsqFcdieHXGHdVx+s
- h3+pnCiOfqAsXb+XY2uAiw==
+        id S234157AbhHCHII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Aug 2021 03:08:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33744 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234126AbhHCHIG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Aug 2021 03:08:06 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D87DC06175F
+        for <linux-media@vger.kernel.org>; Tue,  3 Aug 2021 00:07:55 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id pj14-20020a17090b4f4eb029017786cf98f9so3455411pjb.2
+        for <linux-media@vger.kernel.org>; Tue, 03 Aug 2021 00:07:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=WN6UWlQHlJrqX7fWKP3w+a4gz17W1v3husZzZ4lYdZs=;
+        b=FG0BxQgTNclREe9wLVv4qS4z2N2sM3E8tcxJy7sG5CSbcRPTBPLmmzNBD++56n1i0Y
+         iAlp6ISBOSnkdYxdVe/Zu8i/Zkxikk3+SUwgoKONvFraMu/GvvzYdYTtcdIyhpEuRhHy
+         dvyre83Eg6GNEFlItaCRt9/Z7jox9BnAyajaE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=WN6UWlQHlJrqX7fWKP3w+a4gz17W1v3husZzZ4lYdZs=;
+        b=hij7xYSyyBCldN7bbLOXTKADaze4z3V5IO02MqceyZ4JZBQEDPOsk7/mmwB/ps9H3H
+         EuBZYlD4Yw243ZIUQLYscB9bQp+4F1wm+/x2mVhReoJQ6nc/fd3CPOM7YxjChLLV2Isa
+         PUg5S+h/xm7W/g2mF+MtYNoJrb+JZQITj1LyOCa27HjiS4lz3J4ivxXcjMdE0+nC2UM6
+         iIWVtQUZALthct2wiBCBKLXdKjP9ozYWLfVYa8ZirOk1SrmAztn+QZQ+9pUtNvCFJtEJ
+         ujPm6CvXP5A6mpuIC6RI82Zed+vJLpXMryskRw0SyEFfJ/hw7tQeBoV1GKp4lAXGiQoO
+         02nw==
+X-Gm-Message-State: AOAM530MpoJ/tOEGTQ5Vq63TRdEnFwXTTMFfef6MfAgLXmiqgzxx5UNz
+        r6gpgN/2Stwc9OlKvXM7i+NvnQ==
+X-Google-Smtp-Source: ABdhPJzwY/O8zGrmytB0XZTu4NI3puVLQ4qTvp0bifc+rcCa4MZIaf+qz4BUpXKkmLFaMBheKpJfSg==
+X-Received: by 2002:a65:63cf:: with SMTP id n15mr189772pgv.392.1627974475115;
+        Tue, 03 Aug 2021 00:07:55 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id c14sm15852676pgv.86.2021.08.03.00.07.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Aug 2021 00:07:54 -0700 (PDT)
+Date:   Tue, 3 Aug 2021 00:07:53 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Len Baker <len.baker@gmx.com>
+Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-hardening@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Joe Perches <joe@perches.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] drivers/input: Remove all strcpy() uses in favor of
+ strscpy()
+Message-ID: <202108022354.49612943B7@keescook>
+References: <20210801144316.12841-1-len.baker@gmx.com>
+ <20210801145959.GI22278@shell.armlinux.org.uk>
+ <20210801155732.GA16547@titan>
+ <202108010934.FA668DEB28@keescook>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202108010934.FA668DEB28@keescook>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Sun, Aug 01, 2021 at 09:44:33AM -0700, Kees Cook wrote:
+> On Sun, Aug 01, 2021 at 05:57:32PM +0200, Len Baker wrote:
+> > Hi,
+> > 
+> > On Sun, Aug 01, 2021 at 04:00:00PM +0100, Russell King (Oracle) wrote:
+> > > On Sun, Aug 01, 2021 at 04:43:16PM +0200, Len Baker wrote:
+> > > > strcpy() performs no bounds checking on the destination buffer. This
+> > > > could result in linear overflows beyond the end of the buffer, leading
+> > > > to all kinds of misbehaviors. The safe replacement is strscpy().
+> > > >
+> > > > Signed-off-by: Len Baker <len.baker@gmx.com>
+> > > > ---
+> > > > This is a task of the KSPP [1]
+> > > >
+> > > > [1] https://github.com/KSPP/linux/issues/88
+> > > >
+> > > >  drivers/input/keyboard/locomokbd.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/input/keyboard/locomokbd.c b/drivers/input/keyboard/locomokbd.c
+> > > > index dae053596572..dbb3dc48df12 100644
+> > > > --- a/drivers/input/keyboard/locomokbd.c
+> > > > +++ b/drivers/input/keyboard/locomokbd.c
+> > > > @@ -254,7 +254,7 @@ static int locomokbd_probe(struct locomo_dev *dev)
+> > > >  	locomokbd->suspend_jiffies = jiffies;
+> > > >
+> > > >  	locomokbd->input = input_dev;
+> > > > -	strcpy(locomokbd->phys, "locomokbd/input0");
+> > > > +	strscpy(locomokbd->phys, "locomokbd/input0", sizeof(locomokbd->phys));
+> > >
+> > > So if the string doesn't fit, it's fine to silently truncate it?
+> > 
+> > I think it is better than overflow :)
+> > 
+> > > Rather than converting every single strcpy() in the kernel to
+> > > strscpy(), maybe there should be some consideration given to how the
+> > > issue of a strcpy() that overflows the buffer should be handled.
+> > > E.g. in the case of a known string such as the above, if it's longer
+> > > than the destination, should we find a way to make the compiler issue
+> > > a warning at compile time?
+> > 
+> > Good point. I am a kernel newbie and have no experience. So this
+> > question should be answered by some kernel hacker :) But I agree
+> > with your proposals.
+> > 
+> > Kees and folks: Any comments?
+> > 
+> > Note: Kees is asked the same question in [2]
+> > 
+> > [2] https://lore.kernel.org/lkml/20210731135957.GB1979@titan/
+> 
+> Hi!
+> 
+> Sorry for the delay at looking into this. It didn't use to be a problem
+> (there would always have been a compile-time warning generated for
+> known-too-small cases), but that appears to have regressed when,
+> ironically, strscpy() coverage was added. I've detailed it in the bug
+> report:
+> https://github.com/KSPP/linux/issues/88
+> 
+> So, bottom line: we need to fix the missing compile-time warnings for
+> strcpy() and strscpy() under CONFIG_FORTIFY_SOURCE=y.
 
-Results of the daily build of media_tree:
+I've got these fixed now, and will send them out likely tomorrow, but I
+did, in fact, find 4 cases of truncation, all in v4l, and all appear to
+have been truncated since introduction:
 
-date:			Tue Aug  3 05:00:12 CEST 2021
-media-tree git hash:	c27479d762de4eda72ba9e0aa150d439970f2077
-media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
-v4l-utils git hash:	c86aab9cc7f1f001502c70a5e342f7816de3a3d6
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7505-gb2467b103
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
-host hardware:		x86_64
-host os:		5.13.1-marune
+struct v4l2_capability {
+...
+        __u8    card[32];
+(stores 31 characters)
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 2
-virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+drivers/media/radio/radio-wl1273.c:1282
+wl1273_fm_vidioc_querycap()
+            strscpy(capability->card, "Texas Instruments Wl1273 FM Radio",
+                    sizeof(capability->card));
+33 characters, getting truncated to:
+Texas Instruments Wl1273 FM Rad
+87d1a50ce45168cbaec10397e876286a398052c1
 
-Detailed results are available here:
+drivers/media/radio/si470x/radio-si470x-usb.c:514
+si470x_vidioc_querycap()
+#define DRIVER_CARD "Silicon Labs Si470x FM Radio Receiver"
+            strscpy(capability->card, DRIVER_CARD,
+sizeof(capability->card));
+37 characters, getting truncated to:
+Silicon Labs Si470x FM Radio Re
+78656acdcf4852547a29e929a1b7a98d5ac65f17
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+drivers/media/radio/si470x/radio-si470x-i2c.c:225
+si470x_vidioc_querycap()
+#define DRIVER_CARD "Silicon Labs Si470x FM Radio Receiver"
+            strscpy(capability->card, DRIVER_CARD,
+sizeof(capability->card));
+37 characters, getting truncated to:
+Silicon Labs Si470x FM Radio Re
+cc35bbddfe10f77d949f0190764b252cd2b70c3c
 
-Detailed regression test results are available here:
+drivers/media/usb/tm6000/tm6000-video.c:855
+vidioc_querycap()
+            strscpy(cap->card, "Trident TVMaster TM5600/6000/6010",
+                    sizeof(cap->card));
+33 characters, getting truncated to:
+Trident TVMaster TM5600/6000/60
+e28f49b0b2a8e678af62745ffdc4e4f36d7283a6
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+How should these be handled? I assume v4l2_capability::card can't be
+resized since it's part of IOCTL response, so likely all the string just
+need to be shortened in some way? Seems like dropping the manufacturer
+name makes the most sense, since manufacturer can be kind of derived
+from the driver names.
 
-Full logs are available here:
+Thoughts?
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+-Kees
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+Kees Cook
