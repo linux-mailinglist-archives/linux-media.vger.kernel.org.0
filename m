@@ -2,198 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 094333DF4D8
-	for <lists+linux-media@lfdr.de>; Tue,  3 Aug 2021 20:39:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE4173DF53B
+	for <lists+linux-media@lfdr.de>; Tue,  3 Aug 2021 21:15:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239152AbhHCSjJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Aug 2021 14:39:09 -0400
-Received: from mga05.intel.com ([192.55.52.43]:53083 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239132AbhHCSjI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 3 Aug 2021 14:39:08 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10065"; a="299343035"
-X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; 
-   d="scan'208";a="299343035"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2021 11:38:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; 
-   d="scan'208";a="670588591"
-Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Aug 2021 11:38:55 -0700
-Received: from kbuild by d053b881505b with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mAzJX-000EAq-83; Tue, 03 Aug 2021 18:38:55 +0000
-Date:   Wed, 04 Aug 2021 02:38:01 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-next] BUILD SUCCESS
- e76897000f906567ec94864c65a81931c39d6789
-Message-ID: <61098d09.aIanWZiz/2ETKFCs%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S239549AbhHCTQF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Aug 2021 15:16:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45438 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234540AbhHCTQF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Aug 2021 15:16:05 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6EBFC061757;
+        Tue,  3 Aug 2021 12:15:53 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id A59401F4282D
+Message-ID: <1c3d2d66902978e3533074b4d95c8da220cab255.camel@collabora.com>
+Subject: Re: [PATCH v1 2/2] media: hantro: Add scaling lists feature
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        hverkuil@xs4all.nl, p.zabel@pengutronix.de, mchehab@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
+        andrzej.p@collabora.com, jc@kynesim.co.uk,
+        jernej.skrabec@gmail.com, nicolas@ndufresne.ca, cphealy@gmail.com
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date:   Tue, 03 Aug 2021 16:15:39 -0300
+In-Reply-To: <20210715151223.656453-3-benjamin.gaignard@collabora.com>
+References: <20210715151223.656453-1-benjamin.gaignard@collabora.com>
+         <20210715151223.656453-3-benjamin.gaignard@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-next
-branch HEAD: e76897000f906567ec94864c65a81931c39d6789  media: venus: venc: add support for V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM control
+On Thu, 2021-07-15 at 17:12 +0200, Benjamin Gaignard wrote:
+> If the bitstream embedded scaling lists allow the driver to use
+> them for decode the frames.
+> The scaling lists are expected to be in raster scan order (i.e. not up
+> right diagonal scan order)
+> Allocate the memory needed to store lists.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-elapsed time: 957m
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
 
-configs tested: 140
-configs skipped: 3
+Thanks!
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c     |  8 +--
+>  .../staging/media/hantro/hantro_g2_hevc_dec.c | 52 +++++++++++++++++++
+>  drivers/staging/media/hantro/hantro_hevc.c    | 21 ++++++++
+>  drivers/staging/media/hantro/hantro_hw.h      |  3 ++
+>  4 files changed, 81 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 8ad074a464fe..5610b7821a54 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -267,9 +267,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>                     sps->bit_depth_luma_minus8 != 2)
+>                         /* Only 8-bit or 10-bit is supported */
+>                         return -EINVAL;
+> -               if (sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED)
+> -                       /* No scaling support */
+> -                       return -EINVAL;
+>         }
+>         return 0;
+>  }
+> @@ -451,6 +448,11 @@ static const struct hantro_ctrl controls[] = {
+>                 .cfg = {
+>                         .id = V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS,
+>                 },
+> +       }, {
+> +               .codec = HANTRO_HEVC_DECODER,
+> +               .cfg = {
+> +                       .id = V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX,
+> +               },
+>         }, {
+>                 .codec = HANTRO_HEVC_DECODER,
+>                 .cfg = {
+> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> index 90de74aa6b13..f95135ad553c 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> @@ -608,6 +608,56 @@ static void set_buffers(struct hantro_ctx *ctx)
+>         hantro_write_addr(vpu, G2_TILE_BSD, ctx->hevc_dec.tile_bsd.dma);
+>  }
+>  
+> +static void prepare_scaling_list_buffer(struct hantro_ctx *ctx)
+> +{
+> +       struct hantro_dev *vpu = ctx->dev;
+> +       const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+> +       const struct v4l2_ctrl_hevc_scaling_matrix *sc = ctrls->scaling;
+> +       const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+> +       u8 *p = ((u8 *)ctx->hevc_dec.scaling_lists.cpu);
+> +       unsigned int scaling_list_enabled;
+> +       unsigned int i, j, k;
+> +
+> +       scaling_list_enabled = !!(sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED);
+> +       hantro_reg_write(vpu, &g2_scaling_list_e, scaling_list_enabled);
+> +
+> +       if (!scaling_list_enabled)
+> +               return;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(sc->scaling_list_dc_coef_16x16); i++)
+> +               *p++ = sc->scaling_list_dc_coef_16x16[i];
+> +
+> +       for (i = 0; i < ARRAY_SIZE(sc->scaling_list_dc_coef_32x32); i++)
+> +               *p++ = sc->scaling_list_dc_coef_32x32[i];
+> +
+> +       /* 128-bit boundary */
+> +       p += 8;
+> +
+> +       /* write scaling lists column by column */
+> +
+> +       for (i = 0; i < 6; i++)
+> +               for (j = 0; j < 4; j++)
+> +                       for (k = 0; k < 4; k++)
+> +                               *p++ = sc->scaling_list_4x4[i][4 * k + j];
+> +
+> +       for (i = 0; i < 6; i++)
+> +               for (j = 0; j < 8; j++)
+> +                       for (k = 0; k < 8; k++)
+> +                               *p++ = sc->scaling_list_8x8[i][8 * k + j];
+> +
+> +       for (i = 0; i < 6; i++)
+> +               for (j = 0; j < 8; j++)
+> +                       for (k = 0; k < 8; k++)
+> +                               *p++ = sc->scaling_list_16x16[i][8 * k + j];
+> +
+> +       for (i = 0; i < 2; i++)
+> +               for (j = 0; j < 8; j++)
+> +                       for (k = 0; k < 8; k++)
+> +                               *p++ = sc->scaling_list_32x32[i][8 * k + j];
+> +
+> +       hantro_write_addr(vpu, HEVC_SCALING_LIST, ctx->hevc_dec.scaling_lists.dma);
+> +}
+> +
+>  static void hantro_g2_check_idle(struct hantro_dev *vpu)
+>  {
+>         int i;
+> @@ -668,6 +718,8 @@ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
+>         set_buffers(ctx);
+>         prepare_tile_info_buffer(ctx);
+>  
+> +       prepare_scaling_list_buffer(ctx);
+> +
+>         hantro_end_prepare_run(ctx);
+>  
+>         hantro_reg_write(vpu, &g2_mode, HEVC_DEC_MODE);
+> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+> index 4e816ea73018..95f765d9ff4e 100644
+> --- a/drivers/staging/media/hantro/hantro_hevc.c
+> +++ b/drivers/staging/media/hantro/hantro_hevc.c
+> @@ -20,6 +20,8 @@
+>  /* tile border coefficients of filter */
+>  #define VERT_SAO_RAM_SIZE 48 /* bytes per pixel */
+>  
+> +#define SCALING_LIST_SIZE (16 * 64)
+> +
+>  #define MAX_TILE_COLS 20
+>  #define MAX_TILE_ROWS 22
+>  
+> @@ -296,6 +298,11 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
+>         if (WARN_ON(!ctrls->decode_params))
+>                 return -EINVAL;
+>  
+> +       ctrls->scaling =
+> +               hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX);
+> +       if (WARN_ON(!ctrls->scaling))
+> +               return -EINVAL;
+> +
+>         ctrls->sps =
+>                 hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SPS);
+>         if (WARN_ON(!ctrls->sps))
+> @@ -324,6 +331,12 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx)
+>                                   hevc_dec->tile_sizes.dma);
+>         hevc_dec->tile_sizes.cpu = NULL;
+>  
+> +       if (hevc_dec->scaling_lists.cpu)
+> +               dma_free_coherent(vpu->dev, hevc_dec->scaling_lists.size,
+> +                                 hevc_dec->scaling_lists.cpu,
+> +                                 hevc_dec->scaling_lists.dma);
+> +       hevc_dec->scaling_lists.cpu = NULL;
+> +
+>         if (hevc_dec->tile_filter.cpu)
+>                 dma_free_coherent(vpu->dev, hevc_dec->tile_filter.size,
+>                                   hevc_dec->tile_filter.cpu,
+> @@ -367,6 +380,14 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx)
+>  
+>         hevc_dec->tile_sizes.size = size;
+>  
+> +       hevc_dec->scaling_lists.cpu = dma_alloc_coherent(vpu->dev, SCALING_LIST_SIZE,
+> +                                                        &hevc_dec->scaling_lists.dma,
+> +                                                        GFP_KERNEL);
+> +       if (!hevc_dec->scaling_lists.cpu)
+> +               return -ENOMEM;
+> +
+> +       hevc_dec->scaling_lists.size = SCALING_LIST_SIZE;
+> +
+>         hantro_hevc_ref_init(ctx);
+>  
+>         return 0;
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index d8126f8178f5..1becc22af0f9 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -108,6 +108,7 @@ struct hantro_h264_dec_hw_ctx {
+>   */
+>  struct hantro_hevc_dec_ctrls {
+>         const struct v4l2_ctrl_hevc_decode_params *decode_params;
+> +       const struct v4l2_ctrl_hevc_scaling_matrix *scaling;
+>         const struct v4l2_ctrl_hevc_sps *sps;
+>         const struct v4l2_ctrl_hevc_pps *pps;
+>         u32 hevc_hdr_skip_length;
+> @@ -120,6 +121,7 @@ struct hantro_hevc_dec_ctrls {
+>   * @tile_sao:          Tile SAO buffer
+>   * @tile_bsd:          Tile BSD control buffer
+>   * @ref_bufs:          Internal reference buffers
+> + * @scaling_lists:     Scaling lists buffer
+>   * @ref_bufs_poc:      Internal reference buffers picture order count
+>   * @ref_bufs_used:     Bitfield of used reference buffers
+>   * @ctrls:             V4L2 controls attached to a run
+> @@ -131,6 +133,7 @@ struct hantro_hevc_dec_hw_ctx {
+>         struct hantro_aux_buf tile_sao;
+>         struct hantro_aux_buf tile_bsd;
+>         struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
+> +       struct hantro_aux_buf scaling_lists;
+>         int ref_bufs_poc[NUM_REF_PICTURES];
+>         u32 ref_bufs_used;
+>         struct hantro_hevc_dec_ctrls ctrls;
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20210803
-sh                           se7751_defconfig
-arc                    vdk_hs38_smp_defconfig
-m68k                       bvme6000_defconfig
-arm                         mv78xx0_defconfig
-powerpc                     kmeter1_defconfig
-sh                     sh7710voipgw_defconfig
-arc                          axs101_defconfig
-sh                           se7750_defconfig
-arc                     haps_hs_smp_defconfig
-xtensa                          iss_defconfig
-mips                            gpr_defconfig
-arm                          pxa3xx_defconfig
-arm                         assabet_defconfig
-arm                          pxa910_defconfig
-powerpc                 mpc8315_rdb_defconfig
-parisc                              defconfig
-ia64                                defconfig
-x86_64                            allnoconfig
-arm                         nhk8815_defconfig
-arm                  colibri_pxa300_defconfig
-arm                     davinci_all_defconfig
-sh                         apsh4a3a_defconfig
-riscv                            allyesconfig
-powerpc                     powernv_defconfig
-mips                         bigsur_defconfig
-openrisc                 simple_smp_defconfig
-arm                        spear3xx_defconfig
-arc                          axs103_defconfig
-sh                           se7722_defconfig
-arm                     eseries_pxa_defconfig
-sh                          r7780mp_defconfig
-sh                            titan_defconfig
-powerpc                    socrates_defconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-sh                        sh7763rdp_defconfig
-sh                          sdk7786_defconfig
-powerpc                       maple_defconfig
-arm                            xcep_defconfig
-powerpc                     tqm8555_defconfig
-arm                        oxnas_v6_defconfig
-mips                        nlm_xlp_defconfig
-riscv                    nommu_k210_defconfig
-arm                          badge4_defconfig
-arm                              alldefconfig
-arm                       imx_v6_v7_defconfig
-powerpc                      bamboo_defconfig
-arm                          ixp4xx_defconfig
-powerpc                      ppc44x_defconfig
-powerpc                  iss476-smp_defconfig
-sh                                  defconfig
-arm                          moxart_defconfig
-sh                          kfr2r09_defconfig
-arm                         palmz72_defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a002-20210803
-x86_64               randconfig-a004-20210803
-x86_64               randconfig-a006-20210803
-x86_64               randconfig-a003-20210803
-x86_64               randconfig-a001-20210803
-x86_64               randconfig-a005-20210803
-i386                 randconfig-a004-20210803
-i386                 randconfig-a005-20210803
-i386                 randconfig-a002-20210803
-i386                 randconfig-a006-20210803
-i386                 randconfig-a001-20210803
-i386                 randconfig-a003-20210803
-x86_64               randconfig-a012-20210802
-x86_64               randconfig-a016-20210802
-x86_64               randconfig-a013-20210802
-x86_64               randconfig-a011-20210802
-x86_64               randconfig-a014-20210802
-x86_64               randconfig-a015-20210802
-i386                 randconfig-a012-20210803
-i386                 randconfig-a011-20210803
-i386                 randconfig-a015-20210803
-i386                 randconfig-a013-20210803
-i386                 randconfig-a014-20210803
-i386                 randconfig-a016-20210803
-i386                 randconfig-a012-20210802
-i386                 randconfig-a011-20210802
-i386                 randconfig-a015-20210802
-i386                 randconfig-a013-20210802
-i386                 randconfig-a014-20210802
-i386                 randconfig-a016-20210802
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
+-- 
+Kindly,
+Ezequiel
 
-clang tested configs:
-x86_64               randconfig-c001-20210803
-x86_64               randconfig-c001-20210802
-x86_64               randconfig-a012-20210803
-x86_64               randconfig-a016-20210803
-x86_64               randconfig-a013-20210803
-x86_64               randconfig-a011-20210803
-x86_64               randconfig-a014-20210803
-x86_64               randconfig-a015-20210803
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
