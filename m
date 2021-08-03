@@ -2,238 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 017623DF5AF
-	for <lists+linux-media@lfdr.de>; Tue,  3 Aug 2021 21:29:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE36F3DF5D6
+	for <lists+linux-media@lfdr.de>; Tue,  3 Aug 2021 21:39:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239953AbhHCT3i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Aug 2021 15:29:38 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:53758 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239956AbhHCT3i (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Aug 2021 15:29:38 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 760D71F43412
-Message-ID: <b89860d253b5610d6c20c1d843fc2e63d3e73c28.camel@collabora.com>
-Subject: Re: [PATCH v1 1/2] media: hevc: Add scaling matrix control
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        hverkuil@xs4all.nl, p.zabel@pengutronix.de, mchehab@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        andrzej.p@collabora.com, jc@kynesim.co.uk,
-        jernej.skrabec@gmail.com, nicolas@ndufresne.ca, cphealy@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date:   Tue, 03 Aug 2021 16:29:14 -0300
-In-Reply-To: <20210715151223.656453-2-benjamin.gaignard@collabora.com>
-References: <20210715151223.656453-1-benjamin.gaignard@collabora.com>
-         <20210715151223.656453-2-benjamin.gaignard@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        id S240146AbhHCTjT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Aug 2021 15:39:19 -0400
+Received: from mail-il1-f176.google.com ([209.85.166.176]:44698 "EHLO
+        mail-il1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240141AbhHCTjT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Aug 2021 15:39:19 -0400
+Received: by mail-il1-f176.google.com with SMTP id i13so8632491ilm.11;
+        Tue, 03 Aug 2021 12:39:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=9d7Nsy8vIgaqzKWJd0frDxnN4W4+2XNOR6Rw6MLP7lc=;
+        b=AMNcmzfRaMNwzgnXDKD5gTtTHWBRMXe0wtYYBxQgYuv67MM0kRGsuXEB/RVpSXilPO
+         7i86dB4MFLicNMb5XKQGN5nZiB1jlGW5U4AfrfEeMGfipGgeyTqq13dw2LjRTZNJToBz
+         gj3CrYRxQtZyB8x52/0W/EQkyTlxNGYfpC8tZIHhko4FmJriIQMK+xWkmgzlWDGBvNNU
+         ArekUzC891/JjOvU9yxToFw52yCVM1m1n4y363gS5vMKGVG+KlZvDD77OmSoJEcUj2ae
+         AyX+Rk4GotzR1IGeYKd/ulaDJR853HAchHZrGuz6RwRKZbepl2Gxgzfve8RqJjuyuAyb
+         S1Ng==
+X-Gm-Message-State: AOAM531dULGWk0CfRmTGESxFBPX6kHZWp78C0TUm0W2ZXPvAMsaGIRUU
+        LmNmoGu2YeZjxXiLj8r4sQ==
+X-Google-Smtp-Source: ABdhPJzT8M9UawMmeGyv4En4ZE287YQdMrdHlfDjny5V9ZaGYTzyb+y8uZ8fltBxT6amUkpCsUTq/Q==
+X-Received: by 2002:a05:6e02:1a6d:: with SMTP id w13mr218949ilv.299.1628019546458;
+        Tue, 03 Aug 2021 12:39:06 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id a17sm11643ios.36.2021.08.03.12.39.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Aug 2021 12:39:05 -0700 (PDT)
+Received: (nullmailer pid 3615314 invoked by uid 1000);
+        Tue, 03 Aug 2021 19:39:03 -0000
+Date:   Tue, 3 Aug 2021 13:39:03 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v4] dt-binding: media: document ON Semi AR0521 sensor
+ bindings
+Message-ID: <YQmbV8BNvHZR55lV@robh.at.kernel.org>
+References: <m3lf5o9s9l.fsf@t19.piap.pl>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <m3lf5o9s9l.fsf@t19.piap.pl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2021-07-15 at 17:12 +0200, Benjamin Gaignard wrote:
-> HEVC scaling lists are used for the scaling process for transform
-> coefficients.
-> V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED has to set when they are
-> encoded in the bitstream.
+On Fri, 30 Jul 2021 09:26:30 +0200, Krzysztof Hałasa wrote:
+> This file documents DT bindings for the AR0521 camera sensor driver.
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
-The HEVC control structs have some holes that we should fix soon,
-but the scaling matrix struct looks good, so I think we can merge this one.
-
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-
-Thanks,
-Ezequiel
-
-> ---
->  .../media/v4l/ext-ctrls-codec.rst             | 57 +++++++++++++++++++
->  .../media/v4l/vidioc-queryctrl.rst            |  6 ++
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     |  6 ++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 ++
->  include/media/hevc-ctrls.h                    | 11 ++++
->  5 files changed, 84 insertions(+)
+> Signed-off-by: Krzysztof Hałasa <khalasa@piap.pl>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index dc096a5562cd..ab3bda79b440 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -3071,6 +3071,63 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->  
->      \normalsize
->  
-> +``V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX (struct)``
-> +    Specifies the HEVC scaling matrix parameters used for the scaling process
-> +    for transform coefficients.
-> +    These matrix and parameters are defined according to :ref:`hevc`.
-> +    They are described in section 7.4.5 "Scaling list data semantics" of
-> +    the specification.
-> +
-> +.. c:type:: v4l2_ctrl_hevc_scaling_matrix
-> +
-> +.. raw:: latex
-> +
-> +    \scriptsize
-> +
-> +.. tabularcolumns:: |p{5.4cm}|p{6.8cm}|p{5.1cm}|
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table:: struct v4l2_ctrl_hevc_scaling_matrix
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u8
-> +      - ``scaling_list_4x4[6][16]``
-> +      - Scaling list is used for the scaling process for transform
-> +        coefficients. The values on each scaling list are expected
-> +        in raster scan order.
-> +    * - __u8
-> +      - ``scaling_list_8x8[6][64]``
-> +      - Scaling list is used for the scaling process for transform
-> +        coefficients. The values on each scaling list are expected
-> +        in raster scan order.
-> +    * - __u8
-> +      - ``scaling_list_16x16[6][64]``
-> +      - Scaling list is used for the scaling process for transform
-> +        coefficients. The values on each scaling list are expected
-> +        in raster scan order.
-> +    * - __u8
-> +      - ``scaling_list_32x32[2][64]``
-> +      - Scaling list is used for the scaling process for transform
-> +        coefficients. The values on each scaling list are expected
-> +        in raster scan order.
-> +    * - __u8
-> +      - ``scaling_list_dc_coef_16x16[6]``
-> +      - Scaling list is used for the scaling process for transform
-> +        coefficients. The values on each scaling list are expected
-> +        in raster scan order.
-> +    * - __u8
-> +      - ``scaling_list_dc_coef_32x32[2]``
-> +      - Scaling list is used for the scaling process for transform
-> +        coefficients. The values on each scaling list are expected
-> +        in raster scan order.
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
-> +
->  .. c:type:: v4l2_hevc_dpb_entry
->  
->  .. raw:: latex
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> index f9ecf6276129..2f491c17dd5d 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> @@ -495,6 +495,12 @@ See also the examples in :ref:`control`.
->        - n/a
->        - A struct :c:type:`v4l2_ctrl_hevc_slice_params`, containing HEVC
->         slice parameters for stateless video decoders.
-> +    * - ``V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX``
-> +      - n/a
-> +      - n/a
-> +      - n/a
-> +      - A struct :c:type:`v4l2_ctrl_hevc_scaling_matrix`, containing HEVC
-> +       scaling matrix for stateless video decoders.
->      * - ``V4L2_CTRL_TYPE_VP8_FRAME``
->        - n/a
->        - n/a
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index c4b5082849b6..70adfc1b9c81 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -687,6 +687,9 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->  
->                 break;
->  
-> +       case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
-> +               break;
-> +
->         case V4L2_CTRL_TYPE_AREA:
->                 area = p;
->                 if (!area->width || !area->height)
-> @@ -1240,6 +1243,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->         case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
->                 elem_size = sizeof(struct v4l2_ctrl_hevc_slice_params);
->                 break;
-> +       case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
-> +               elem_size = sizeof(struct v4l2_ctrl_hevc_scaling_matrix);
-> +               break;
->         case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
->                 elem_size = sizeof(struct v4l2_ctrl_hevc_decode_params);
->                 break;
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index b6344bbf1e00..cb29c2a7fabe 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -996,6 +996,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->         case V4L2_CID_MPEG_VIDEO_HEVC_SPS:                      return "HEVC Sequence Parameter Set";
->         case V4L2_CID_MPEG_VIDEO_HEVC_PPS:                      return "HEVC Picture Parameter Set";
->         case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:             return "HEVC Slice Parameters";
-> +       case V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX:           return "HEVC Scaling Matrix";
->         case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:            return "HEVC Decode Parameters";
->         case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:              return "HEVC Decode Mode";
->         case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:               return "HEVC Start Code";
-> @@ -1488,6 +1489,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->         case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:
->                 *type = V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
->                 break;
-> +       case V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX:
-> +               *type = V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
-> +               break;
->         case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:
->                 *type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
->                 break;
-> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index 781371bff2ad..ef63bc205756 100644
-> --- a/include/media/hevc-ctrls.h
-> +++ b/include/media/hevc-ctrls.h
-> @@ -19,6 +19,7 @@
->  #define V4L2_CID_MPEG_VIDEO_HEVC_SPS           (V4L2_CID_CODEC_BASE + 1008)
->  #define V4L2_CID_MPEG_VIDEO_HEVC_PPS           (V4L2_CID_CODEC_BASE + 1009)
->  #define V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS  (V4L2_CID_CODEC_BASE + 1010)
-> +#define V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX        (V4L2_CID_CODEC_BASE + 1011)
->  #define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS (V4L2_CID_CODEC_BASE + 1012)
->  #define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE   (V4L2_CID_CODEC_BASE + 1015)
->  #define V4L2_CID_MPEG_VIDEO_HEVC_START_CODE    (V4L2_CID_CODEC_BASE + 1016)
-> @@ -27,6 +28,7 @@
->  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
->  #define V4L2_CTRL_TYPE_HEVC_PPS 0x0121
->  #define V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS 0x0122
-> +#define V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX 0x0123
->  #define V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS 0x0124
->  
->  enum v4l2_mpeg_video_hevc_decode_mode {
-> @@ -225,6 +227,15 @@ struct v4l2_ctrl_hevc_decode_params {
->         __u64   flags;
->  };
->  
-> +struct v4l2_ctrl_hevc_scaling_matrix {
-> +       __u8    scaling_list_4x4[6][16];
-> +       __u8    scaling_list_8x8[6][64];
-> +       __u8    scaling_list_16x16[6][64];
-> +       __u8    scaling_list_32x32[2][64];
-> +       __u8    scaling_list_dc_coef_16x16[6];
-> +       __u8    scaling_list_dc_coef_32x32[2];
-> +};
-> +
->  /*  MPEG-class control IDs specific to the Hantro driver as defined by V4L2 */
->  #define V4L2_CID_CODEC_HANTRO_BASE                             (V4L2_CTRL_CLASS_CODEC | 0x1200)
->  /*
 
--- 
-Kindly,
-Ezequiel
-
+Reviewed-by: Rob Herring <robh@kernel.org>
