@@ -2,93 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC4803DED2C
-	for <lists+linux-media@lfdr.de>; Tue,  3 Aug 2021 13:49:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17DEE3DF046
+	for <lists+linux-media@lfdr.de>; Tue,  3 Aug 2021 16:28:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235905AbhHCLtf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Aug 2021 07:49:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45818 "EHLO
+        id S236412AbhHCO2P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Aug 2021 10:28:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236145AbhHCLtL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Aug 2021 07:49:11 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E331EC08EAC9
-        for <linux-media@vger.kernel.org>; Tue,  3 Aug 2021 04:47:01 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id m13so39200598lfg.13
-        for <linux-media@vger.kernel.org>; Tue, 03 Aug 2021 04:47:01 -0700 (PDT)
+        with ESMTP id S234328AbhHCO2O (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Aug 2021 10:28:14 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DCB7C061757
+        for <linux-media@vger.kernel.org>; Tue,  3 Aug 2021 07:28:02 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id qk33so36639109ejc.12
+        for <linux-media@vger.kernel.org>; Tue, 03 Aug 2021 07:28:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=etK0elpS05hz7Km273394Meji45lu69rkvmUfpsPSIQ=;
-        b=Tfds44W/7N6OvbAyP0TRdJLdBh4VucrnQroHeSiqwZDxfmA/2aGndP7kOTFdbAzzVv
-         qffehGnqve2NBSPHMYGdm9DisaX3EvAc4/s09ESqikbBbjAv9wW0b59PQCadqWSEVKKC
-         Rty/MzA4FfFXkICzwfYucun6omh3dosNSMpc4=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=pA7gWraqq223oeUigO97Usrl9Fr34mfXW+fmxdHcPoQ=;
+        b=R6G23C53vQuQm8MpllBDX+H/OntO2Gcm1fq88Z6tgMdH+NmGQeRA+bv39TQ9OlLUO1
+         +mFO4MlUyrCrjVHtY0JGTAUHkRrVmVhXbRh/+gges5X2eAvI4WXkyLL2Skv2fQjTR8XZ
+         6MgBqTp8XVR+0HeDPYS0UXeZmLGw5epMqoXL8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=etK0elpS05hz7Km273394Meji45lu69rkvmUfpsPSIQ=;
-        b=syb2i+LqKGtmhBuI1n6DLDA9Tu9RKrjkouL8+uGMWI/sdoOa6DAB+imwxmS3vzpTFD
-         p3A50bjDJxNg7zRomvUm8fsDNwkAvi2WusLCAXwId8VERDQTlnITQ5ZHQixbU97Qm8aM
-         ZqQMCCzx/knL/6aBx43OfLS30qDHiQhKEmUZWF/1jEUwV39lej9KYLUR5dOt5ciOl9DX
-         5dJ1oRrPBXQ06KUktu9gx69KzEKHfJgGIIpa9NCJZevP3iOEKjFEZwoufpHvI7VliV4l
-         Ro4pxLOpxousi41QSYZhFpR/bkI8y5JzzT94LbFbNuIkRp9qnKVcSmZDMUhLIWpG4RRf
-         l7HQ==
-X-Gm-Message-State: AOAM530I22Yfzxf6SES8/i0/CERSy5c8XjeqiNU/JtafHdMJq9IESbCi
-        x/ya2eYn1dsv0MMF0AnlFO4vT5qNdi4gpw==
-X-Google-Smtp-Source: ABdhPJy5dEX3nRUA3RHE4rrOjq0+VpoxZS3RWacbzIIoPSbZAqr00pKs7ijc2s6Wh98ztzBYgj+qdg==
-X-Received: by 2002:a05:6512:3f28:: with SMTP id y40mr9048989lfa.345.1627991220367;
-        Tue, 03 Aug 2021 04:47:00 -0700 (PDT)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
-        by smtp.gmail.com with ESMTPSA id p4sm1086066ljg.2.2021.08.03.04.46.59
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Aug 2021 04:47:00 -0700 (PDT)
-Received: by mail-lf1-f51.google.com with SMTP id b6so16432555lff.10
-        for <linux-media@vger.kernel.org>; Tue, 03 Aug 2021 04:46:59 -0700 (PDT)
-X-Received: by 2002:ac2:4433:: with SMTP id w19mr6028378lfl.30.1627991219371;
- Tue, 03 Aug 2021 04:46:59 -0700 (PDT)
+         :message-id:subject:to;
+        bh=pA7gWraqq223oeUigO97Usrl9Fr34mfXW+fmxdHcPoQ=;
+        b=DqAn7iRuA2ubOAlPpMQXUdhs44nbM6i/i5W2YkelvzhkpI8KFLWI7NsNlk/8OlU0tl
+         SG+mk3A6/VarmRqqCEiu1THl6yrz2lr2zdyLtvdiQDHoZjLfNp7YnIKWI2sPCzYcBc99
+         Il4jgdVUXH0AQ8JMwtH/PypKayariRUmEezM/6s3KkMAwqMs+MZT+M0fJSSztYoW0Bs8
+         KopOsizQLAhypwmtmfWHSwN4pe74FAN9QuYDSHsGt+TG1szgVLDoyi9obnakNjN5KrlS
+         zwS62W86sbeE/VJ+h3rCS9dzmrLEAc5PR/Ofeb4lqp0kZ4kiqQEWVvsDSDJwSyYpmLhb
+         /QoQ==
+X-Gm-Message-State: AOAM533M6MTTF1tN8k8dwNs+qZmrc/uj8kLkCFtKjv3I4+HyAuF5I1+c
+        q5uEnU+cju2bnP5mouGQtCi6C0WZ2Sd5Qv5Dyvf0hr7ZqRg=
+X-Google-Smtp-Source: ABdhPJzzfsRl1mScZORn3/hKwmFCpHbVxgCI/nW0dnv6G5AKKm0kWje4oSkkLyks99kbDmjdEzwd2BhL3uXOVpQ7kvc=
+X-Received: by 2002:a17:906:b052:: with SMTP id bj18mr15149397ejb.55.1628000881041;
+ Tue, 03 Aug 2021 07:28:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210802121215.703023-1-eizan@chromium.org> <20210802220943.v6.7.I2049e180dca12e0d1b3178bfc7292dcf9e05ac28@changeid>
- <CAFqH_527RL56P=zEg7yTaeeqTvFOjT3ThxpX-Qumk25dR6+-bA@mail.gmail.com>
-In-Reply-To: <CAFqH_527RL56P=zEg7yTaeeqTvFOjT3ThxpX-Qumk25dR6+-bA@mail.gmail.com>
-From:   Eizan Miyamoto <eizan@chromium.org>
-Date:   Tue, 3 Aug 2021 21:46:42 +1000
-X-Gmail-Original-Message-ID: <CAOak1e90y_2aaD4ssH9WfqUUXjUSWkN_rLW51NujkD7oMayhew@mail.gmail.com>
-Message-ID: <CAOak1e90y_2aaD4ssH9WfqUUXjUSWkN_rLW51NujkD7oMayhew@mail.gmail.com>
-Subject: Re: [PATCH v6 7/9] media: mtk-mdp: use mdp-rdma0 alias to point to
- MDP master
-To:     Enric Balletbo Serra <eballetbo@gmail.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
+References: <CAO5uPHM-n9Rh6MPTNoyzOGR-jV5-qy3zj67MZuSM8uaAN=RNXw@mail.gmail.com>
+In-Reply-To: <CAO5uPHM-n9Rh6MPTNoyzOGR-jV5-qy3zj67MZuSM8uaAN=RNXw@mail.gmail.com>
+From:   Hirokazu Honda <hiroh@chromium.org>
+Date:   Tue, 3 Aug 2021 23:27:50 +0900
+Message-ID: <CAO5uPHOY9f_w2cWno_AhmCK_Sv-6raZRpUT+JUdO5gyEf_PpYg@mail.gmail.com>
+Subject: Re: Clarification about V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING
+To:     linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Enric, thanks for your comment.
+Gentle ping, does anyone have an idea?
 
-> > ... Instead of depending on the presence of a mediatek,vpu property in
+Sincerely,
+-Hiro
+
+On Wed, Jul 21, 2021 at 7:22 PM Hirokazu Honda <hiroh@chromium.org> wrote:
 >
-> Looks like there is something missing in the commit message?
-
-That line is a continuation of the commit message header, I.e., it's
-meant to read:
-"use mdp-rdma0 alias to point to MDP master Instead of depending on
-the presence of a mediatek,vpu property in the device node"
-
-Eizan
+> Hi,
+>
+> There are V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING controls in
+> V4L2 extended codec controls. [1]
+> There are various layer structures. For example, the typical 3 layer
+> structure is shown in https://www.w3.org/TR/webrtc-svc/#L1T3*.
+> The document doesn't state the details about the layer structure that
+> will be produced by a driver with the control.
+> Is the layer structure up to a driver? Or must a driver produce a
+> predetermined layer structure?
+>
+> [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-codec.html?highlight=V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING
+>
+> Best Regards,
+> -Hiro
