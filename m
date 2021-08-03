@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F7913DF5EB
+	by mail.lfdr.de (Postfix) with ESMTP id F26153DF5EC
 	for <lists+linux-media@lfdr.de>; Tue,  3 Aug 2021 21:46:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240291AbhHCTq0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Aug 2021 15:46:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53188 "EHLO
+        id S240298AbhHCTq1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Aug 2021 15:46:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239676AbhHCTqZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Aug 2021 15:46:25 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7459BC061757
+        with ESMTP id S240288AbhHCTq0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Aug 2021 15:46:26 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF278C061799
         for <linux-media@vger.kernel.org>; Tue,  3 Aug 2021 12:46:14 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id nh14so19318457pjb.2
+Received: by mail-pj1-x1029.google.com with SMTP id o44-20020a17090a0a2fb0290176ca3e5a2fso291505pjo.1
         for <linux-media@vger.kernel.org>; Tue, 03 Aug 2021 12:46:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kbdmhYE/Ap9tx07ENJbk+L/5B3DTJSAT+gfjbTUDTS8=;
-        b=g8gKnpSIsuUKutNCarCvGvCSLP609dkCs8vFO5hQQiITyB942s5oFB1RNwOnVcumqB
-         SBD/cgm2BWgKHzNuBB4CMBkU4pPG5W7u6r522gbFpjv9xVhnVHmVW+ilf1lvuKCVDQ7t
-         JwlBnSNavUKHpUjTluYiOKUJoBHEt3wB7IsCA=
+        bh=VJ90DUqMvbv4wla/gnl3TcP0CoOTBbniBpXeAQ3Q+oY=;
+        b=JP1QQA9eF9nGhWYlu1wCzlIVD7rcEeCW1LCkZGcKWweOZ+z6ldh5xlcm9G8Ym0woaf
+         zfR98TGj4DCv32Vs1NQRUblCm/nsus7dh70f5Z7nJ4FCGzfO74S1S3UEHl6uEyBZTzFa
+         c/6fESEVSobdWr+EW34Uds+RdcJo+uX2xm0IE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kbdmhYE/Ap9tx07ENJbk+L/5B3DTJSAT+gfjbTUDTS8=;
-        b=DVBp8gWPdXnVs9g6FttYtcfIWkdOrlBXldI/DhtcCJYQYgez2v8tf4RIZFwR3QpX9X
-         RcpP/iN0TfO1q7MsYRwyrzLVGl5zuhJSPiJsMzkPmo0OpN3+nlAYEcxS3l9c6GVQ0fzv
-         NgtyPlFfX5q3X9g1SHzTc8ScMLJ9A/1+aebFTIe2nM7akp1VoJorvWo0yeM1NX7fYmO1
-         Wfx2FkH4p5HK7ozzvX/T62QCxtGA722q8aTswIWehYjKpf9Yoe5HuEEvaI7XMkCW3cAu
-         0x/yrfpAk43X93Ik4lICfVUijjRicmr4gg4ACl1PfZSBsh2zfSgz/NoEUYHbV9Ijlh+a
-         L8Ug==
-X-Gm-Message-State: AOAM532ZadvD/QQY0sTmkRPlfFuXQILFpCG5VQNyErE2HNkGWjork0hV
-        iljmCsufZR9yQsvbcuAc7KwFnA==
-X-Google-Smtp-Source: ABdhPJxYmJJMwBcM/YMgHpoFPm+5rRaUdvw0DCERDV6Rpfwgm+QEriZL2hJ4yOsqUE4hk8ZHUKZaMg==
-X-Received: by 2002:a65:448a:: with SMTP id l10mr2750805pgq.313.1628019973979;
-        Tue, 03 Aug 2021 12:46:13 -0700 (PDT)
+        bh=VJ90DUqMvbv4wla/gnl3TcP0CoOTBbniBpXeAQ3Q+oY=;
+        b=tgCa2kBx4gh7PbBpAJBTtONjnnbmVNErxfuu4mH3cjYqT3kBV9einLXhoDVwxNAo7e
+         fnsjtxjlXMVwfS/BkWkLbF3Z9dg73BUDdGEaZ/NF/7uY9Cq46AmGJaQ8FfzBWRWPNb+J
+         Ds77P8So2/uNv+hqw2fGDQKTN4Czj2un+0oEAvaB/nb8WyVQQfrXT1qVQu7Xq+gZskvV
+         o1Y9ctDuF7onMD98UgYDsEgRIaQdWtOqia/tTRQTbnt4INoDj2ZsAVkDjpGWsofI/3bN
+         CVQNBD8B+N6Ps3JnPjH4a8ARDxfoGODVuwJNTh+hfVy1x/KjJ53TD7xK/Y/edQmX9Mur
+         zxyw==
+X-Gm-Message-State: AOAM530nOT0DXuuMjr/03x2lvEB3hJUHweYosq76cg0SskMSw4Bt/RFD
+        hjxEt4bzuMs7rBJOpSNG6gbnzA==
+X-Google-Smtp-Source: ABdhPJxyF+4OgHXelOOHSdp4vUz34rcph+Yrir0NAkIpf0Ugk6o/kaC4Wumt1elOVq36LLK0j+xGbQ==
+X-Received: by 2002:a65:4244:: with SMTP id d4mr981837pgq.83.1628019974268;
+        Tue, 03 Aug 2021 12:46:14 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id x25sm4657pfq.28.2021.08.03.12.46.12
+        by smtp.gmail.com with ESMTPSA id jz24sm11359353pjb.9.2021.08.03.12.46.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 03 Aug 2021 12:46:13 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -50,14 +50,14 @@ Cc:     Kees Cook <keescook@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-hardening@vger.kernel.org
-Subject: [PATCH 1/3] media: radio-wl1273: Avoid card name truncation
-Date:   Tue,  3 Aug 2021 12:46:08 -0700
-Message-Id: <20210803194610.326030-2-keescook@chromium.org>
+Subject: [PATCH 2/3] media: si470x: Avoid card name truncation
+Date:   Tue,  3 Aug 2021 12:46:09 -0700
+Message-Id: <20210803194610.326030-3-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210803194610.326030-1-keescook@chromium.org>
 References: <20210803194610.326030-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1120; h=from:subject; bh=2RYUzk/cEnmLMc4fjwO7V5oCVfYHZoJHM/rw/dKeVoY=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhCZ0B+B5RpPsLqNQZA2oBrk4UAo4fhcG+/TqDA6rN h8n2OAmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQmdAQAKCRCJcvTf3G3AJt16EA CpEnl+Xpi0aQBHHRN3Qvh9WApds3wbGyDLSXW02OgtWZagicTY4xvBHWmkP1Ffe70LtuUDbnOe+Wrd IQXrRbYE3sl7+h98dPQRFdfh7IYk6p4Koh64FDm1x4SEF2nFCDmi3YooawEJlwfhKIun0kOAk9vsXO /3O0IWeMKyc3Lsowj1w0HbwxuJ3EAQU3bCi9KCr9zNfFTe8eGiKTE5la6kY+54MLMJAOvgFhpaOTtc eGDyOtaewqSAVMIw5/316jtHbEYW8zurUjH9ph33O8NFutsTjFIzlgdMpS9AYClquCZJxFz12m/jiC kU81HZNpvWQDGaYva8mmKSBU6OrRZYhBeDwIxb/TVZ8V13jka8hNJwDDgbyNVH1JUP24SPkdC9yuO5 MeofEwpWSOG7TQ0W/Y1i8ENGaBcHzQpFkZzyzHng5RwDygt1HWy7OwtYEY9jNW7onqqYSCGN9bFYAb ruo/FkuhgIeFc6kypvsTXS1x6oc8WhJFabC4VRDJxYmmt7JAKVvXfQgbxo8oaKDGUqjQf00dsFKRx1 gemMg9yE59+XFLtuY+tufXbXasqtN7Q1s9bCnG+4Ul1pf3MTig+sTQD7IjjX1r+CuRwef4lHTFebSb JEE7wqMkyXYfOZTrUjowrPwhykZgaDjFjGPNpsY+Wte088hgqjhJx9mwaNUQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1850; h=from:subject; bh=pk5S9HyUZuKFzWnjx5RWPHnxnnea4OwXR05+OF0bTmo=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhCZ0B3xXj+4dTzAtDK9PitipXlqRzSf3d5bls5vkI 5KZ65k6JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQmdAQAKCRCJcvTf3G3AJjsbD/ 9xaSsEGzVMifCJSncpaC0EkQ43SYFaN0uvajKxkhZQRFy6xlEZ4DISJP+Q5+oBi0JIEWxBAlKpLATD lj+SCgsY6BBF9WvPPi2MlRJtDHYGuMq7VZsmvRxlbB6+JEjkoZstlORxbCigzIzpv8bVxkmHfvrx1r VgQ12cg4TiPiQ7DI72GOD0IWbCMGWtxEmAWbiDYFexL6Y7CQ8kcVrU6x9vfmfHfulyYP0/eB1+wm6U gf5+q9ExPo12lNNQHLPKUn3Ak65InydAbBNZRLQ73nklaOdAqXXPvsQHwLZ/6P9ZFIH35QwDaX8jhM vUAC9akCqbJDLrBea56Ggjc7bPNKjKHSv/eukA0jIV68sXD81P+kwC6I9TM5v1VXHbMGKvxfyRh9NL KpY/yJjFAPi4v/eaNyKaY6iIZEjlszIH7UdZebv4YKXlrk/u26pzxPr/pNpygWeg6NiZqRbvOrbqC6 W0L/f8L2QwSoGE3//ghjGSgwm6vcLh9AW0d5zjNxRA09CpYxqzDa/WJauSUCUxwmM2l20cQijuA4fr Viixe1QkB6WB6xMAs/eKWsqvA4ItQbruKuApFqiekGI7bkQcxiWPPuxZSREJbqq1SWBjGbdAVfJ8bK 6t+oxgqAc/JWGSEW8S+gvMNmksj839lbi9PRvN40rkNjNI8mlgutS0daCXOQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -66,28 +66,43 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 The "card" string only holds 31 characters (and the terminating NUL).
 In order to avoid truncation, use a shorter card description instead of
-the current result, "Texas Instruments Wl1273 FM Rad".
+the current result, "Silicon Labs Si470x FM Radio Re".
 
 Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
-Fixes: 87d1a50ce451 ("[media] V4L2: WL1273 FM Radio: TI WL1273 FM radio driver")
+Fixes: 78656acdcf48 ("V4L/DVB (7038): USB radio driver for Silicon Labs Si470x FM Radio Receivers")
+Fixes: cc35bbddfe10 ("V4L/DVB (12416): radio-si470x: add i2c driver for si470x")
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/media/radio/radio-wl1273.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/radio/si470x/radio-si470x-i2c.c | 2 +-
+ drivers/media/radio/si470x/radio-si470x-usb.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/radio/radio-wl1273.c b/drivers/media/radio/radio-wl1273.c
-index 112376873167..484046471c03 100644
---- a/drivers/media/radio/radio-wl1273.c
-+++ b/drivers/media/radio/radio-wl1273.c
-@@ -1279,7 +1279,7 @@ static int wl1273_fm_vidioc_querycap(struct file *file, void *priv,
+diff --git a/drivers/media/radio/si470x/radio-si470x-i2c.c b/drivers/media/radio/si470x/radio-si470x-i2c.c
+index f491420d7b53..a972c0705ac7 100644
+--- a/drivers/media/radio/si470x/radio-si470x-i2c.c
++++ b/drivers/media/radio/si470x/radio-si470x-i2c.c
+@@ -11,7 +11,7 @@
  
- 	strscpy(capability->driver, WL1273_FM_DRIVER_NAME,
- 		sizeof(capability->driver));
--	strscpy(capability->card, "Texas Instruments Wl1273 FM Radio",
-+	strscpy(capability->card, "TI Wl1273 FM Radio",
- 		sizeof(capability->card));
- 	strscpy(capability->bus_info, radio->bus_type,
- 		sizeof(capability->bus_info));
+ /* driver definitions */
+ #define DRIVER_AUTHOR "Joonyoung Shim <jy0922.shim@samsung.com>";
+-#define DRIVER_CARD "Silicon Labs Si470x FM Radio Receiver"
++#define DRIVER_CARD "Silicon Labs Si470x FM Radio"
+ #define DRIVER_DESC "I2C radio driver for Si470x FM Radio Receivers"
+ #define DRIVER_VERSION "1.0.2"
+ 
+diff --git a/drivers/media/radio/si470x/radio-si470x-usb.c b/drivers/media/radio/si470x/radio-si470x-usb.c
+index fedff68d8c49..3f8634a46573 100644
+--- a/drivers/media/radio/si470x/radio-si470x-usb.c
++++ b/drivers/media/radio/si470x/radio-si470x-usb.c
+@@ -16,7 +16,7 @@
+ 
+ /* driver definitions */
+ #define DRIVER_AUTHOR "Tobias Lorenz <tobias.lorenz@gmx.net>"
+-#define DRIVER_CARD "Silicon Labs Si470x FM Radio Receiver"
++#define DRIVER_CARD "Silicon Labs Si470x FM Radio"
+ #define DRIVER_DESC "USB radio driver for Si470x FM Radio Receivers"
+ #define DRIVER_VERSION "1.0.10"
+ 
 -- 
 2.30.2
 
