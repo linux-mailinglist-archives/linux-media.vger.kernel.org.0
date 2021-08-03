@@ -2,55 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C3613DEAEF
-	for <lists+linux-media@lfdr.de>; Tue,  3 Aug 2021 12:30:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC4803DED2C
+	for <lists+linux-media@lfdr.de>; Tue,  3 Aug 2021 13:49:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234913AbhHCKaR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Aug 2021 06:30:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55428 "EHLO
+        id S235905AbhHCLtf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Aug 2021 07:49:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234674AbhHCKaQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Aug 2021 06:30:16 -0400
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF1DDC06175F;
-        Tue,  3 Aug 2021 03:30:04 -0700 (PDT)
-Received: by mail-ot1-x331.google.com with SMTP id h63-20020a9d14450000b02904ce97efee36so9573904oth.7;
-        Tue, 03 Aug 2021 03:30:04 -0700 (PDT)
+        with ESMTP id S236145AbhHCLtL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Aug 2021 07:49:11 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E331EC08EAC9
+        for <linux-media@vger.kernel.org>; Tue,  3 Aug 2021 04:47:01 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id m13so39200598lfg.13
+        for <linux-media@vger.kernel.org>; Tue, 03 Aug 2021 04:47:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=3psQaSG4d8w1oQM2avr7nhWCNx0TL7drom5fez4dSiA=;
-        b=fIfnWsy3hsqYB+PJtAaqeFHZ2boRJZ5sjE/ghiWyO7OXl3t78XlU35QhG2nOjwQw/S
-         T7GmDRZ9VA+QBgDBuBGktWIhdhlZU8y/L4vnzPvwpyJfP4jT9GsTk1bJhUoQjO2c6NLu
-         HX6d8qiCRup83YWKzbWwfLsVoqRsP3ZTk6VBn3fR3uiseGmyP+OlSPXL+47EemdkSDdM
-         usvB9EZlI95pRRVWj3+FoE4evyPoPANbEC70Jg9DBHDX6StbDfi1PDfclEB0yVuAvc/K
-         Tg5ZXW9ac+ngp/hGny7Jqnxc8UjtB6gF0XmpE9FgEk3z9BNDT3QlXlayKxRlxiQsav/R
-         Swag==
+         :cc;
+        bh=etK0elpS05hz7Km273394Meji45lu69rkvmUfpsPSIQ=;
+        b=Tfds44W/7N6OvbAyP0TRdJLdBh4VucrnQroHeSiqwZDxfmA/2aGndP7kOTFdbAzzVv
+         qffehGnqve2NBSPHMYGdm9DisaX3EvAc4/s09ESqikbBbjAv9wW0b59PQCadqWSEVKKC
+         Rty/MzA4FfFXkICzwfYucun6omh3dosNSMpc4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3psQaSG4d8w1oQM2avr7nhWCNx0TL7drom5fez4dSiA=;
-        b=rHa63ZLhkE4rMGLDF2yH0xOjOD55/ys5OxFg/pC6onOp2gNmTdyIOX2A8Ga6dfpXvL
-         IjUvyb6Dn/V0mQoJRVHcs3Ghd33FO7NvP4KdFxIDrv43enjPXSrexvsTyaqai+dFYBBN
-         1Bl2VERDrYfX6uZJt4b6/p3o/Dbnd8VNtydtOEbP6fZ68TbYZWJ/eBIZa9NjrWCtklse
-         UoAE90ciuxGY9+kbWQhdXn7I7zEu2ElTZOTPDTLRWjYe1MNZIReHA8RZEi09mH+GXvhF
-         bMFpNqcL7ktlhFTjvcELp/l3eYkaCPTsewOplYaWCViSTzhQm+SDZnp/+4TAjaBby5T2
-         AK4w==
-X-Gm-Message-State: AOAM532EJNU9LeaEoa0EMCEsJv+OnnN/sR1mH1WLdf0vd8TI46vmJuGs
-        GTkKXQlNaM9e0ZTd3jmo1JlEC/D207BipGn9q2U=
-X-Google-Smtp-Source: ABdhPJz7aYEd1VRZtveXnt0Uwl+nfwcojVZh6wKc8vyRBwlK5dggbGl+2+Ssk57ujfH0wJjXVjtVV0NXFs2KSY3sNV8=
-X-Received: by 2002:a9d:27a4:: with SMTP id c33mr15305949otb.281.1627986604246;
- Tue, 03 Aug 2021 03:30:04 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=etK0elpS05hz7Km273394Meji45lu69rkvmUfpsPSIQ=;
+        b=syb2i+LqKGtmhBuI1n6DLDA9Tu9RKrjkouL8+uGMWI/sdoOa6DAB+imwxmS3vzpTFD
+         p3A50bjDJxNg7zRomvUm8fsDNwkAvi2WusLCAXwId8VERDQTlnITQ5ZHQixbU97Qm8aM
+         ZqQMCCzx/knL/6aBx43OfLS30qDHiQhKEmUZWF/1jEUwV39lej9KYLUR5dOt5ciOl9DX
+         5dJ1oRrPBXQ06KUktu9gx69KzEKHfJgGIIpa9NCJZevP3iOEKjFEZwoufpHvI7VliV4l
+         Ro4pxLOpxousi41QSYZhFpR/bkI8y5JzzT94LbFbNuIkRp9qnKVcSmZDMUhLIWpG4RRf
+         l7HQ==
+X-Gm-Message-State: AOAM530I22Yfzxf6SES8/i0/CERSy5c8XjeqiNU/JtafHdMJq9IESbCi
+        x/ya2eYn1dsv0MMF0AnlFO4vT5qNdi4gpw==
+X-Google-Smtp-Source: ABdhPJy5dEX3nRUA3RHE4rrOjq0+VpoxZS3RWacbzIIoPSbZAqr00pKs7ijc2s6Wh98ztzBYgj+qdg==
+X-Received: by 2002:a05:6512:3f28:: with SMTP id y40mr9048989lfa.345.1627991220367;
+        Tue, 03 Aug 2021 04:47:00 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
+        by smtp.gmail.com with ESMTPSA id p4sm1086066ljg.2.2021.08.03.04.46.59
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Aug 2021 04:47:00 -0700 (PDT)
+Received: by mail-lf1-f51.google.com with SMTP id b6so16432555lff.10
+        for <linux-media@vger.kernel.org>; Tue, 03 Aug 2021 04:46:59 -0700 (PDT)
+X-Received: by 2002:ac2:4433:: with SMTP id w19mr6028378lfl.30.1627991219371;
+ Tue, 03 Aug 2021 04:46:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210802121215.703023-1-eizan@chromium.org>
-In-Reply-To: <20210802121215.703023-1-eizan@chromium.org>
-From:   Enric Balletbo Serra <eballetbo@gmail.com>
-Date:   Tue, 3 Aug 2021 12:29:52 +0200
-Message-ID: <CAFqH_51ZYwokcWAV0tg5z3vBhHmP3MHGKYf=jWDCa78RSYpifw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/9] Refactor MTK MDP driver into core/components
-To:     Eizan Miyamoto <eizan@chromium.org>
+References: <20210802121215.703023-1-eizan@chromium.org> <20210802220943.v6.7.I2049e180dca12e0d1b3178bfc7292dcf9e05ac28@changeid>
+ <CAFqH_527RL56P=zEg7yTaeeqTvFOjT3ThxpX-Qumk25dR6+-bA@mail.gmail.com>
+In-Reply-To: <CAFqH_527RL56P=zEg7yTaeeqTvFOjT3ThxpX-Qumk25dR6+-bA@mail.gmail.com>
+From:   Eizan Miyamoto <eizan@chromium.org>
+Date:   Tue, 3 Aug 2021 21:46:42 +1000
+X-Gmail-Original-Message-ID: <CAOak1e90y_2aaD4ssH9WfqUUXjUSWkN_rLW51NujkD7oMayhew@mail.gmail.com>
+Message-ID: <CAOak1e90y_2aaD4ssH9WfqUUXjUSWkN_rLW51NujkD7oMayhew@mail.gmail.com>
+Subject: Re: [PATCH v6 7/9] media: mtk-mdp: use mdp-rdma0 alias to point to
+ MDP master
+To:     Enric Balletbo Serra <eballetbo@gmail.com>
 Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
         Chen-Yu Tsai <wenst@chromium.org>,
         Houlong Wei <houlong.wei@mediatek.com>,
@@ -62,89 +71,24 @@ Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         "moderated list:ARM/Mediatek SoC support" 
         <linux-mediatek@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+Hi Enric, thanks for your comment.
 
-Missatge de Eizan Miyamoto <eizan@chromium.org> del dia dl., 2 d=E2=80=99ag=
-.
-2021 a les 14:12:
+> > ... Instead of depending on the presence of a mediatek,vpu property in
 >
->
-> This is an update to
-> https://patchwork.kernel.org/project/linux-mediatek/list/?series=3D283075
-> To address some comments and fixes.
->
-> This series has been verified to work on 5.13.
->
+> Looks like there is something missing in the commit message?
 
-The series have also been validated on top of 5.14-rc4 and linux-next
-on an Acer Chromebook R 13 without observing any problems and running
-some video decoding tests, so, for the full series.
+That line is a continuation of the commit message header, I.e., it's
+meant to read:
+"use mdp-rdma0 alias to point to MDP master Instead of depending on
+the presence of a mediatek,vpu property in the device node"
 
-Tested-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-
->
-> Changes in v6:
-> - Don't propagate errors from clock_on/off as an afterthought.
-> - Split apart modifying mdp driver to be loadable from mmsys from
->   actually loading it from mmsys into two changs to make review easier.
-> - Update devicetree bindings to reflect no longer needing the
->   mediatek,vpu property in the mdp_rdma0 device node.
-> - Some stylistic cleanups.
->
-> Changes in v5:
-> - rebase and test on 5.13-next @ e2f74b13dbe6
->
-> Changes in v4:
-> - rebase and test on 5.13
-> - don't depend on https://patchwork.kernel.org/project/linux-mediatek/lis=
-t/?series=3D464873
->
-> Changes in v3:
-> - get mdp master from aliases instead of strcmp against of_node->name
->
-> Changes in v2:
-> - rebased onto Linux 5.12
-> - 100 char line length allowance was utilized in a few places
-> - Removal of a redundant dev_err() print at the end of
->   mtk_mdp_comp_init()
-> - Instead of printing errors and ignoring them, I've added a patch to
->   correctly propagate them.
-> - Use of C style comments.
-> - Three additional patches were added to eliminate dependency on the
->   mediatek,vpu property inside the mdp_rdma0 device node.
->
-> Eizan Miyamoto (9):
->   mtk-mdp: propagate errors from clock_on
->   mtk-mdp: add driver to probe mdp components
->   mtk-mdp: use pm_runtime in MDP component driver
->   media: mtk-mdp: don't pm_run_time_get/put for master comp in clock_on
->   mtk-mdp: make mdp driver to be loadable by platform_device_register*()
->   soc: mediatek: mmsys: instantiate mdp virtual device from mmsys
->   media: mtk-mdp: use mdp-rdma0 alias to point to MDP master
->   dts: mtk-mdp: remove mediatek,vpu property from primary MDP device
->   dt-bindings: mediatek: remove vpu requirement from mtk-mdp
->
->  .../bindings/media/mediatek-mdp.txt           |   3 -
->  arch/arm64/boot/dts/mediatek/mt8173.dtsi      |   1 -
->  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 268 +++++++++++++++--
->  drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  34 +--
->  drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 282 ++++++++++++------
->  drivers/media/platform/mtk-mdp/mtk_mdp_core.h |   3 +
->  drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  |   4 +-
->  drivers/soc/mediatek/mtk-mmsys.c              |  20 +-
->  8 files changed, 470 insertions(+), 145 deletions(-)
->
-> --
-> 2.32.0.554.ge1b32706d8-goog
->
+Eizan
