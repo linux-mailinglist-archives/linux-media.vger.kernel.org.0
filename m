@@ -2,95 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D63223DF6F8
-	for <lists+linux-media@lfdr.de>; Tue,  3 Aug 2021 23:39:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 347D13DF968
+	for <lists+linux-media@lfdr.de>; Wed,  4 Aug 2021 03:52:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232707AbhHCVkI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Aug 2021 17:40:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51656 "EHLO
+        id S233841AbhHDBwl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Aug 2021 21:52:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232384AbhHCVkH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Aug 2021 17:40:07 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CD37C061757
-        for <linux-media@vger.kernel.org>; Tue,  3 Aug 2021 14:39:56 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id j77so973465ybj.3
-        for <linux-media@vger.kernel.org>; Tue, 03 Aug 2021 14:39:56 -0700 (PDT)
+        with ESMTP id S229820AbhHDBwl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Aug 2021 21:52:41 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1316C06175F;
+        Tue,  3 Aug 2021 18:52:28 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id mt6so810208pjb.1;
+        Tue, 03 Aug 2021 18:52:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eH7F2c4Hn9egywDlY45TqR5QW7h6BJhJpVKajFn/Dvg=;
-        b=frGpZAuU0TNGycNOUwSntnWTwUNXJjKhM/djmFxpOw4RLjxj4ZIMH/kWc6KmsJtmzd
-         5DZZF1XvLkwEjfV0d1g/+qd7fYu4p3IcXqxRh2+j2cEJmx1zwJZD59Hk+1HpT49HtK7X
-         Uqge3z5MMAj3GqdriP0bGY+4uxvfDwPHI/8AUaTv/dYUqCfItsy4CzgGG4YcVxQ2W+3k
-         8yFws8bfEWrZyIXSyrNOM13JM5LbYjDmUdpWEgK5q3XHMwmDZUH16Fn3Lcmdkk1kJ+tR
-         5f+ICl8eIJ74PX6+7FzayWfSiwsOc3t/1lDkBGqzyqADZbXQ5H4FBtmOqjk757mpLOmy
-         DCGg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fSQgo07VJZLrzxtRhVpF2elOIx5PWfCaTzxcdQTI7sQ=;
+        b=AH1zW7BE9omAKOjq4atorPk+57PqXqxm72okT/sJJeaB/KGSI/yVXGbo+or5iSV8DM
+         Nzn+Op61BdpBBK2z0eQ56R+86cH/pdH1JvRsF2MLdZdLN9QyF40cAis3V+3r+gys6pLF
+         Wt5nbPEidUbNwkSB0bSwwY/NkmoH+2qcmUVnwUGZ/MVha1n4bzf99cl4kCeR9U37tb6u
+         9ETOoeec+DlA30Cp/wA7qihjWYeg+EISnWTAmlGvj/kipYID5haaaGyo4YUdfN4Eghv2
+         1ckHyd5/COwgsJu8mDz2pcuozW/teLegKpb3Vkpb5WSx3f2bDQG3tuazJVz028oiSn8M
+         YmSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eH7F2c4Hn9egywDlY45TqR5QW7h6BJhJpVKajFn/Dvg=;
-        b=eHWCWJSs4icw52c5KxYEIwqiVzwdLITiDZf6RMTDoKyZLefjSqXD9m5wNom/jAfdtj
-         USQ5ceOG9i/9Uc14cP41+YBqSroHEmAP7l5OLJu0LURaBD1Mz8RYU/zfoMugUylV3cSu
-         yK5cy3cRIFa1v4iz9lpLHArmYsDL73KuRIAReTK6M7YqcISwVNzM9ybWOyZX1HlCRF4E
-         dmWh7ewk4f92r6M0LQzsrUQmIBTrxEFGB8ukyF7tXp0ITNUuI1gxAedkKYRV6v8wNmYU
-         xdLl/NFkmPysJrkFcVR0d3+6oVuWJx9ZohrI5ecPweYHtcsOrwznwBZZwLHxavdjYsBY
-         Hm5A==
-X-Gm-Message-State: AOAM530SPTpenNlqfM7zLQk7hA+PMzK+QRFaKWRostV7tjchZIVIBjTo
-        OxdLBVTSYpkPZv+D8r3Sir+1I2c7xE/qGQUPGgzIfg==
-X-Google-Smtp-Source: ABdhPJynfd6Tp5fx5X/8PoqmW8udIcLQViQbJXvKzToG91Bonke+UV5rO2Ua9gr8hn4ZJodP/4n3mFpQcnCzz5bXHoo=
-X-Received: by 2002:a25:cac7:: with SMTP id a190mr14975276ybg.290.1628026795438;
- Tue, 03 Aug 2021 14:39:55 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fSQgo07VJZLrzxtRhVpF2elOIx5PWfCaTzxcdQTI7sQ=;
+        b=g5W5GV0eghePopbpFN8w8vRVPZ5KlNtJZcISIMwzQZsi0SDr42L9rDEAAU6DCXR6vg
+         5/FzY5lnpWcBGi1ZtK96dY8SDCMpOwZTqMr9zi7Rm26T/p7scyZS2fhgAnMFjUDukiPH
+         chsUQKyenwVqtt0uOJsR5M6X1V/i2Wu/NY/hUAbCK2iT/83lylpC6GQBOj64uvQjcnW6
+         fFDh09Jqn5UWQ9Pxu6SREOwSfnuuVnaVZMxiSX2PH3BiHMY7VOQtr4Vre1CSgoRV1ktl
+         sGaQ7Y3nNrlyQpBoyXXTWeRX8HgCuTrcRnW++DifTTz5LYuLL3w0FEf2oGQ9KeCqSKdG
+         Q8gw==
+X-Gm-Message-State: AOAM530FC6s+U4rYYVg8dbPuwMNZx2uZSzaw5zWLoZq+HFwpEGTTjb6d
+        73BUrmE2kBZPaz8Pg3DUje4=
+X-Google-Smtp-Source: ABdhPJzyXDotjHwSv5EpTfdtG5zDwsdMySRsOZ7X/2I9Tj1ioD9a+FZjytRGdxDjmqtg3iLd1+amag==
+X-Received: by 2002:a17:90a:ea8b:: with SMTP id h11mr18676578pjz.157.1628041948277;
+        Tue, 03 Aug 2021 18:52:28 -0700 (PDT)
+Received: from localhost.localdomain ([45.135.186.49])
+        by smtp.gmail.com with ESMTPSA id b12sm496069pff.63.2021.08.03.18.52.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Aug 2021 18:52:27 -0700 (PDT)
+From:   Tuo Li <islituo@gmail.com>
+To:     alexander.deucher@amd.com, christian.koenig@amd.com,
+        Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, airlied@redhat.com,
+        Felix.Kuehling@amd.com, Oak.Zeng@amd.com, nirmoy.das@amd.com,
+        tzimmermann@suse.de, Philip.Yang@amd.com
+Cc:     amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, baijiaju1990@gmail.com,
+        Tuo Li <islituo@gmail.com>, TOTE Robot <oslab@tsinghua.edu.cn>
+Subject: [PATCH] drm/amdgpu: drop redundant null-pointer checks in amdgpu_ttm_tt_populate() and amdgpu_ttm_tt_unpopulate()
+Date:   Tue,  3 Aug 2021 18:51:32 -0700
+Message-Id: <20210804015132.29617-1-islituo@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210722190747.1986614-1-hridya@google.com> <CALAqxLVLMt7rbJBQtFBw-ikBAjKrVgfS8=Nu6NFQbp_gq1m22Q@mail.gmail.com>
-In-Reply-To: <CALAqxLVLMt7rbJBQtFBw-ikBAjKrVgfS8=Nu6NFQbp_gq1m22Q@mail.gmail.com>
-From:   Hridya Valsaraju <hridya@google.com>
-Date:   Tue, 3 Aug 2021 14:39:19 -0700
-Message-ID: <CA+wgaPOQmY4H9n302YspKuLk9iq9vBzdWBTu19EUUsiQYTUOzQ@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: heaps: Set allocation limit for system heap
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 2, 2021 at 7:18 PM John Stultz <john.stultz@linaro.org> wrote:
->
-> On Thu, Jul 22, 2021 at 12:07 PM Hridya Valsaraju <hridya@google.com> wrote:
-> > This patch limits the size of total memory that can be requested in a
-> > single allocation from the system heap. This would prevent a
-> > buggy/malicious client from depleting system memory by requesting for an
-> > extremely large allocation which might destabilize the system.
-> >
-> > The limit is set to half the size of the device's total RAM which is the
-> > same as what was set by the deprecated ION system heap.
-> >
-> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
->
-> Seems sane to me, unless folks have better suggestions for allocation limits.
->
-> Reviewed-by: John Stultz <john.stultz@linaro.org>
+The varialbe gtt in the function amdgpu_ttm_tt_populate() and
+amdgpu_ttm_tt_unpopulate() is guaranteed to be not NULL in the context.
+Thus the null-pointer checks are redundant and can be dropped.
 
-Thank you for taking a look John!
+Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+Signed-off-by: Tuo Li <islituo@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Regards,
-Hridya
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 3a55f08e00e1..719539bd6c44 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -1121,7 +1121,7 @@ static int amdgpu_ttm_tt_populate(struct ttm_device *bdev,
+ 	struct amdgpu_ttm_tt *gtt = (void *)ttm;
+ 
+ 	/* user pages are bound by amdgpu_ttm_tt_pin_userptr() */
+-	if (gtt && gtt->userptr) {
++	if (gtt->userptr) {
+ 		ttm->sg = kzalloc(sizeof(struct sg_table), GFP_KERNEL);
+ 		if (!ttm->sg)
+ 			return -ENOMEM;
+@@ -1146,7 +1146,7 @@ static void amdgpu_ttm_tt_unpopulate(struct ttm_device *bdev,
+ 	struct amdgpu_ttm_tt *gtt = (void *)ttm;
+ 	struct amdgpu_device *adev;
+ 
+-	if (gtt && gtt->userptr) {
++	if (gtt->userptr) {
+ 		amdgpu_ttm_tt_set_user_pages(ttm, NULL);
+ 		kfree(ttm->sg);
+ 		ttm->sg = NULL;
+-- 
+2.25.1
 
->
-> thanks
-> -john
