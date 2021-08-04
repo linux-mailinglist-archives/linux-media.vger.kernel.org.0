@@ -2,134 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA55C3E0350
-	for <lists+linux-media@lfdr.de>; Wed,  4 Aug 2021 16:33:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEFF03E03A8
+	for <lists+linux-media@lfdr.de>; Wed,  4 Aug 2021 16:46:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238806AbhHDOdJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Aug 2021 10:33:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55334 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238943AbhHDObf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Aug 2021 10:31:35 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F075C061799
-        for <linux-media@vger.kernel.org>; Wed,  4 Aug 2021 07:31:07 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id g21so3812003edb.4
-        for <linux-media@vger.kernel.org>; Wed, 04 Aug 2021 07:31:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=l42CD9aNxmWCDqyKDw8ejVgOtpb5ScrNq5SzMybM1qQ=;
-        b=zaXymW+e4obQlH0cqEj5J3hZ9mqXpRSDiAF2YV5UyHWMUiJ2UIXlk8I7YUbUzdy7Eu
-         djlvP8W6Wj5PGaTXv0XqAOOuBbgAGehKWXNdIrGSgEEJyP8fdSH0Z5934ckVHjgj60Jj
-         vY1SgxRZbAemsnG10U/gdQ/sAO6R0WIKSgeY/bKjixueMMSjYhJpLpgD39H15ChSnH/X
-         n3FmxsLsIznOVndJvlldEvDCRnRltHoINQ19i3AkF0enyWfNNiaeri+Kfr/+XJdPuP+A
-         X0xzwvnfI8VNIwaa49tQvspYq5Y5f98iV55IMt1+d7E40YL6kTZ0k2cqdh4Dpey8BYkB
-         mABQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=l42CD9aNxmWCDqyKDw8ejVgOtpb5ScrNq5SzMybM1qQ=;
-        b=r+30fnP3cf6qHhPeJm5FOYA+MCXdZiys8R6lDkv2hsFTKhmi3Gi90p7CSnlxt/jj1t
-         MimjKN8fgU8WMocB4MDwe4iNA35pFUj0srJr5qnxYGQ/gglhQxi0QjbzmaC4X07dBn4U
-         s1XegO36w+HBu1ulMUG5/S7CghQDPe7VvrxJRV1+ayVTPIamOEqksgUydpYSPGoH/UcL
-         t8g6DzMa8DHjai721GmeXD2ZEx5JcQS85x/UZnsr2zsup5NVZqUjC+oJvp8Ek3iCZqEv
-         05YTljL2CZ/iym22YV1baQIoFA6EV0Kb377rLJGPnOnOlpcYjVUeVCxv5AjrGyRIsGO1
-         g/kw==
-X-Gm-Message-State: AOAM530fjy4M2yBK1fSM8weD5FF7iOz2oTIIjHvrY9cGgVRb4aeqjFh1
-        wJylv3odgPScrh2IOWUnnfDsdiLocMpTxhGraxAYeQ==
-X-Google-Smtp-Source: ABdhPJxaJfMuj5BlHRTDkOTUk6YyWJu/nb4hudLgHPYcHYgFr8FtkMmCMO32Vl630YlfQ6BdVdjQXC5Xs+8EeJn2hLQ=
-X-Received: by 2002:a05:6402:1766:: with SMTP id da6mr7361edb.322.1628087466017;
- Wed, 04 Aug 2021 07:31:06 -0700 (PDT)
+        id S238251AbhHDOrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Aug 2021 10:47:07 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:40979 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238135AbhHDOrH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Aug 2021 10:47:07 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id BIAPmKb754JsbBIAQmoqJf; Wed, 04 Aug 2021 16:46:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1628088413; bh=raaawCinAYz+/udl0d3yfxNkRtF06TfKUSkvZAWEHZc=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=XNJKAuAkHA/2JFp7HWYPkibF5r58xIz4514y42nEbZ0nIndWOHbMKffj7CQxONAG+
+         RXCq8ni31x/mpm5uhqC8sOjn16vAZUSu57Vv2qW5Cez9mUqg5am4YrrlQfQPwWIaSc
+         bERfLbyT/mh79LPrctKCz6uKW7FFARKfjcrt4R/fl9OStuKoMNFFuh6HQn/FwVljvL
+         sTgT23Kjez/8Pf1ByvF1IRevnJDYcSQyJRNAYqWULV5eRj/MqKY/J0sPo52Ht59OeC
+         3SByqWegUS6QcXzxgUtLQLeKRcisz4X9T4qMLta0R2Byk6lZjuPeKOu7QqpK7ZEmiu
+         WKYTwIGZYtd+g==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Irui Wang <irui.wang@mediatek.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.15] Various fixes/enhancements
+Message-ID: <4eac86a6-af7f-fa85-de05-b3db62e70bf0@xs4all.nl>
+Date:   Wed, 4 Aug 2021 16:46:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210506010440.7016-1-peng.fan@oss.nxp.com>
-In-Reply-To: <20210506010440.7016-1-peng.fan@oss.nxp.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Wed, 4 Aug 2021 11:30:54 -0300
-Message-ID: <CAAEAJfDfjkHF164x2qRnZg3e5JRN0pHjxyAq+d5+-3JFYwEEOQ@mail.gmail.com>
-Subject: Re: [PATCH V2 00/13] soc: imx: gpcv2: support i.MX8MM
-To:     "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Lucas Stach <l.stach@pengutronix.de>, krzk@kernel.org,
-        agx@sigxcpu.org, Marek Vasut <marex@denx.de>,
-        andrew.smirnov@gmail.com, devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ping.bai@nxp.com, frieder.schrempf@kontron.de, aford173@gmail.com,
-        abel.vesa@nxp.com, Peng Fan <peng.fan@nxp.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfB4YXDorfODuYNPAHlMk4nEnC27CScyKtm5jZYUK6tI1lkAZZBqIFw+uiK7pXTaE5Dw2P6HNHY6Gjr/zO2+SGL6xUW+CfXiqgSZR03c+fkkaGWWUit1W
+ OWCn9hkDp/bSCvXSnIJveYy5+vIQUAizSRaV5eUsilaB+EvezeMaF2kg6ENjJbu3nYvhvZgpkJLMaxjt2iIIvgb5uCmj6EpiMtOmO38j+vIkqVp3l2q/KLP5
+ nedyA520YN+WtbnUfexnlshcUjrY2L6350mo+NK6oSvaTOJBzHdfbttGGPBAMTUJEAXIFrX1EP6djlDT9da3EQNUS03oofmul+EQe/QPQSaoOAMCTWVct/N+
+ 5lMQZFp5cAoHpnRzLsHSmav2qLkMaVejqGIcG3H11DatVNGZSjpNn7iC91kUOh1HPY1vfmJTibxqggISEWxETlNqdVG+8A==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Peng, Lucas,
+The following changes since commit bfee75f73c37a2f46a6326eaa06f5db701f76f01:
 
-On Wed, 5 May 2021 at 21:32, Peng Fan (OSS) <peng.fan@oss.nxp.com> wrote:
->
-> From: Peng Fan <peng.fan@nxp.com>
->
->
-> V2:
->  - Add R-b/A-b tag
->  - Merge V1 patch 13 to V2 patch 6
->  - Drop V1 patch 15
->  - Merge V1 patch 16 to V2 patch 5 and add comments in patch 5 to explain
->  details
->  - Add explaination in patch 8 for "why the resets are not defined"
->
-> This patchset is a pick up Lucas's gpcv2 work for i.MX8MM and several
-> minor changes from me to make it could work with i.MX BLK-CTL driver.
->
-> Thanks for Lucas's work and suggestion, Frieder Schrempf for collecting
-> all the patches, Jacky Bai on help debug issues.
->
-> Lucas Stach (12):
->   soc: imx: gpcv2: move to more ideomatic error handling in probe
->   soc: imx: gpcv2: move domain mapping to domain driver probe
->   soc: imx: gpcv2: switch to clk_bulk_* API
->   soc: imx: gpcv2: split power up and power down sequence control
->   soc: imx: gpcv2: wait for ADB400 handshake
->   soc: imx: gpcv2: add runtime PM support for power-domains
->   soc: imx: gpcv2: allow domains without power-sequence control
->   dt-bindings: imx: gpcv2: add support for optional resets
->   soc: imx: gpcv2: add support for optional resets
->   dt-bindings: power: add defines for i.MX8MM power domains
->   soc: imx: gpcv2: add support for i.MX8MM power domains
->   soc: imx: gpcv2: Add support for missing i.MX8MM VPU/DISPMIX power
->     domains
->
+  media: venus: venc: add support for V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM control (2021-08-04 14:43:52 +0200)
 
-It's nice to see this finally moving forward!
+are available in the Git repository at:
 
-As you know, Hantro G2 support for i.MX8MQ (and i.MX8MP, i.MX8MM) is currently
-blocked, as you have requested:
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.15f
 
-https://lore.kernel.org/driverdev-devel/5aa5700b862234895a7a6eb251ca3c80fdc1a6d3.camel@collabora.com/
+for you to fetch changes up to 5abb281113e0d023c2bb1b95b2bf2a477a8a24df:
 
-So, I think we really need to include i.MX8MP and i.MX8MQ on this series.
-It's been quite a while and we really need to have that. To be honest,
-I fear that
-if we merge this series as-is, MX8MP and MX8MP support will fall in
-the oblivion,
-and Hantro G2 VPU will remain unusable.
+  media: mtk-vcodec: Add MT8195 H264 venc driver (2021-08-04 16:33:03 +0200)
 
-We are planning to submit Hantro G2 VP9 support soon, and we've been testing
-on various platforms, but it will also be blocked by lack of power-domains.
+----------------------------------------------------------------
+Tag branch
 
-In the future, please Cc the linux-media mailing list, as well as
-Benjamin, Andrzej and myself, so we can follow this.
+----------------------------------------------------------------
+Benjamin Gaignard (2):
+      media: hevc: Add scaling matrix control
+      media: hantro: Add scaling lists feature
 
-Thanks a lot for the hard work!
-Ezequiel
+Christophe JAILLET (1):
+      media: meson-ge2d: Fix rotation parameter changes detection in 'ge2d_s_ctrl()'
+
+Hans Verkuil (3):
+      cedrus: drop min_buffers_needed.
+      vivid: add module option to set request support mode
+      videobuf2-core: sanity checks for requests and qbuf
+
+Irui Wang (3):
+      media: mtk-vcodec: Clean redundant encoder format definition
+      dt-bindings: media: mtk-vcodec: Add binding for MT8195 VENC
+      media: mtk-vcodec: Add MT8195 H264 venc driver
+
+Krzysztof Hałasa (1):
+      TDA1997x: fix tda1997x_remove()
+
+Pavel Skripkin (1):
+      media: em28xx: add missing em28xx_close_extension
+
+Pete Hemery (1):
+      media: gspca/sn9c20x: Add ability to control built-in webcam LEDs
+
+Robert Foss (4):
+      media: camss: vfe: Don't read hardware version needlessly
+      media: camss: vfe: Decrease priority of of VFE HW version to 'dbg'
+      media: camss: vfe: Remove vfe_hw_version_read() argument
+      media: camss: vfe: Rework vfe_hw_version_read() function definition
+
+ Documentation/devicetree/bindings/media/mediatek-vcodec.txt |  1 +
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst   | 57 +++++++++++++++++++++++++++++++++++++++
+ Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst  |  6 +++++
+ drivers/media/common/videobuf2/videobuf2-core.c             | 23 +++++++++++++++-
+ drivers/media/i2c/tda1997x.c                                |  4 +--
+ drivers/media/platform/meson/ge2d/ge2d.c                    |  6 +----
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h          |  1 +
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c      | 63 +++++++++++++++++++++++---------------------
+ drivers/media/platform/qcom/camss/camss-vfe-170.c           |  9 ++++---
+ drivers/media/platform/qcom/camss/camss-vfe-4-1.c           |  8 +++---
+ drivers/media/platform/qcom/camss/camss-vfe-4-7.c           |  8 +++---
+ drivers/media/platform/qcom/camss/camss-vfe-4-8.c           |  8 +++---
+ drivers/media/platform/qcom/camss/camss-vfe.c               |  3 +--
+ drivers/media/platform/qcom/camss/camss-vfe.h               |  2 +-
+ drivers/media/test-drivers/vivid/vivid-core.c               | 14 ++++++++--
+ drivers/media/usb/em28xx/em28xx-cards.c                     |  5 +++-
+ drivers/media/usb/gspca/sn9c20x.c                           | 22 +++++++++++++++-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c                   |  6 +++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c                   |  4 +++
+ drivers/staging/media/hantro/hantro_drv.c                   |  8 +++---
+ drivers/staging/media/hantro/hantro_g2_hevc_dec.c           | 52 ++++++++++++++++++++++++++++++++++++
+ drivers/staging/media/hantro/hantro_hevc.c                  | 21 +++++++++++++++
+ drivers/staging/media/hantro/hantro_hw.h                    |  3 +++
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c           |  2 --
+ include/media/hevc-ctrls.h                                  | 11 ++++++++
+ 25 files changed, 285 insertions(+), 62 deletions(-)
