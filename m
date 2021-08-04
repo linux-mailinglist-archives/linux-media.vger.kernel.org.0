@@ -2,159 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B849E3DF9EF
-	for <lists+linux-media@lfdr.de>; Wed,  4 Aug 2021 05:15:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B050F3DFB4B
+	for <lists+linux-media@lfdr.de>; Wed,  4 Aug 2021 08:05:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233816AbhHDDPr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Aug 2021 23:15:47 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:58813 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231827AbhHDDPr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 3 Aug 2021 23:15:47 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id B7NUmYfG6XTlcB7NWmn3nH; Wed, 04 Aug 2021 05:15:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1628046934; bh=OfqvuRJOL7smVE1SRfcIYyCabEF8d3CVqVa4VpvXHwU=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=QfKrYVWqhq0+0aa4Sn6m8GWr477h2X2GaoFdmKrNHglL66FdNzpeDWgV5PaiMSBHT
-         P8SVs5r6TKOwQPP4Er/Pev2E5PnIKtwUo3Y9Vhu34O9MKvGzCdIZg2XTFqBy/mZXnF
-         FsZNeWFVx3mKwFJZlYbLNOP1Xb5WyXTMumiHf8j1oNAWTQ9CuqDateEOCwMgDT6/rn
-         p2jDDEXcLKs0+fW1XHTTouti9Nf5ygpj1iLFsa0AjqxzaQCA2C8ZwTffGjgPmftrtE
-         n9XyG9raxdFMUWVBuCpRPKEo+djGUdeu2/sKU73022rBp28B+novTvWePM2iGchcoM
-         msWmYbI9DER4w==
-Message-ID: <586c590d713547b51b4c5238e8cd2bf5@smtp-cloud8.xs4all.net>
-Date:   Wed, 04 Aug 2021 05:15:32 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfAZ5bV1ZndTQTmPyKC6szFHEBVlCgDcTbclBnw8V3pJhLh5zKI36K2wz+tSgSLsUlj+D8J4G4LuaIf1Wal1n2ra5Qvu0AIuYiD3WCphhi4FVz8KBLLdJ
- xb2Cntozl+13zqwHjqahKxKoCMQODyIpv/97/WcFCzdRRGXU5rzkFYc2mBh14yEuY9uaizrGLm8BneSEZMPgqYYq4Mn5LfPSCREuRnbZZhXWUNjssAPeUxOy
- hygQFrqZS/7oj07fr8Qzsw==
+        id S235484AbhHDGFK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Aug 2021 02:05:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52630 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235480AbhHDGFJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Aug 2021 02:05:09 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C80AC0613D5
+        for <linux-media@vger.kernel.org>; Tue,  3 Aug 2021 23:04:57 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id a20so1921887plm.0
+        for <linux-media@vger.kernel.org>; Tue, 03 Aug 2021 23:04:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:references:date:in-reply-to:message-id
+         :user-agent:mime-version;
+        bh=s1QyI4OuNNIL0d9/Fmn3kOUfdBzFZ5BJ2C6Hz/djbOw=;
+        b=HXRRUGyLr9PjLgBIQjsDpIex5Ip0Wmy5gEglMHyuagYiI0SAuFK6bWFYu9PgvDzhZl
+         p9K+haRnyuxmcdCqvwUnpIPWtun1AIwrznOYY3YP/dA7C0zNUEp3Bn0g/22gCVjbTBgk
+         ch/AJ/J3F4R86zdqFoILQPSKgA2ce+i+zJ9V+XkFpCkYMpgQYQg26BbUvSJW14xQR9jM
+         n40PePtjJjGwx69NLf0fIhqZ/rzQWxkuf+aAzcgiRF+gZ0WF61uuD0PDHjfZzYSSQYM9
+         t4aBRPOlrRnKBfNSmWj78dYFhIksAVdNWOeeSo8QLi4MscKo3+tGgFOBxd1ETKw+/vUI
+         StMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+         :message-id:user-agent:mime-version;
+        bh=s1QyI4OuNNIL0d9/Fmn3kOUfdBzFZ5BJ2C6Hz/djbOw=;
+        b=U+SUo85a3uhk+DZ0PA8iBUNW4goRC0OMw5EQqYS5L/ZQKzWK/1dA21kMJoSkT1E12I
+         edxgWyFmEfu5/7eJwAj6MXxyIwyfQBjgMUc1GU7KHZXv7Q2GzpMgreEiPL3mwB29Y8Sb
+         4akRSQvCX3FyjzMqgUIUeDit3Di5ttULkkd7SgzTPm4ZickDSxemf+uv6aINT5sLORLC
+         ulbssj1Gaw1nGg0GGqfuNRTXVIGBwn9UucIXPVubbjlg0fruYZ81dTKsko1orTdh/M9Q
+         CLRq3E20KlYTJhSZhawUH4pzBH4ro7iJZlJC/au1TCGurQMLrBHvhFb4KuR5wgndvb9O
+         +X0A==
+X-Gm-Message-State: AOAM533W0jbSjIvGkoPKZJleJ8WJVeV70nzkPYd4GTwSPcUv3cxVPBeI
+        UaFqMxFjd8N4QEQmfixgzLA=
+X-Google-Smtp-Source: ABdhPJxPyeldaLFniJ2bsS1qVuFaVJGixvOJu0BNJMdnhJ7m3WYFLplU6xl/ZxGrevxTA9HTiSHIqg==
+X-Received: by 2002:a65:55c9:: with SMTP id k9mr106005pgs.262.1628057097110;
+        Tue, 03 Aug 2021 23:04:57 -0700 (PDT)
+Received: from localhost (122x211x248x161.ap122.ftth.ucom.ne.jp. [122.211.248.161])
+        by smtp.gmail.com with ESMTPSA id b12sm4823110pjw.6.2021.08.03.23.04.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Aug 2021 23:04:56 -0700 (PDT)
+From:   Punit Agrawal <punitagrawal@gmail.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, Andrej Picej <andrej.picej@norik.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] media: coda: fix frame_mem_ctrl for YUV420 and YVU420
+ formats
+References: <20210719145708.10643-1-p.zabel@pengutronix.de>
+Date:   Wed, 04 Aug 2021 15:04:53 +0900
+In-Reply-To: <20210719145708.10643-1-p.zabel@pengutronix.de> (Philipp Zabel's
+        message of "Mon, 19 Jul 2021 16:57:08 +0200")
+Message-ID: <87lf5hsq2i.fsf@stealth>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Philipp,
 
-Results of the daily build of media_tree:
+Philipp Zabel <p.zabel@pengutronix.de> writes:
 
-date:			Wed Aug  4 05:00:13 CEST 2021
-media-tree git hash:	a7a48b40c7990749b933250aca5030b3a0bad193
-media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
-v4l-utils git hash:	c86aab9cc7f1f001502c70a5e342f7816de3a3d6
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7505-gb2467b103
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
-host hardware:		x86_64
-host os:		5.13.1-marune
+> The frame memory control register value is currently determined
+> before userspace selects the final capture format and never corrected.
+> Update ctx->frame_mem_ctrl in __coda_start_decoding() to fix decoding
+> into YUV420 or YVU420 capture buffers.
+>
+> Reported-by: Andrej Picej <andrej.picej@norik.com>
+> Fixes: 497e6b8559a6 ("media: coda: add sequence initialization work")
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Thank you for the patch.
 
-Detailed results are available here:
+The patch fixes a failure (green screen) to display videos when using
+I420 and YV12 with gstreamer.
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+Tested-by: Punit Agrawal <punit1.agrawal@toshiba.co.jp>
 
-Detailed regression test results are available here:
+Considering it's a bug fix, any chance this can be picked up for 5.14?
+It'll help land it to stable kernels which are being used on i.MX6 based
+platforms internally.
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+Thanks,
+Punit
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> ---
+>  drivers/media/platform/coda/coda-bit.c | 18 +++++++++++++-----
+>  1 file changed, 13 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
+> index 2f42808c43a4..c484c008ab02 100644
+> --- a/drivers/media/platform/coda/coda-bit.c
+> +++ b/drivers/media/platform/coda/coda-bit.c
+> @@ -2053,17 +2053,25 @@ static int __coda_start_decoding(struct coda_ctx *ctx)
+>  	u32 src_fourcc, dst_fourcc;
+>  	int ret;
+>  
+> +	q_data_src = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+> +	q_data_dst = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	src_fourcc = q_data_src->fourcc;
+> +	dst_fourcc = q_data_dst->fourcc;
+> +
+>  	if (!ctx->initialized) {
+>  		ret = __coda_decoder_seq_init(ctx);
+>  		if (ret < 0)
+>  			return ret;
+> +	} else {
+> +		ctx->frame_mem_ctrl &= ~(CODA_FRAME_CHROMA_INTERLEAVE | (0x3 << 9) |
+> +					 CODA9_FRAME_TILED2LINEAR);
+> +		if (dst_fourcc == V4L2_PIX_FMT_NV12 || dst_fourcc == V4L2_PIX_FMT_YUYV)
+> +			ctx->frame_mem_ctrl |= CODA_FRAME_CHROMA_INTERLEAVE;
+> +		if (ctx->tiled_map_type == GDI_TILED_FRAME_MB_RASTER_MAP)
+> +			ctx->frame_mem_ctrl |= (0x3 << 9) |
+> +				((ctx->use_vdoa) ? 0 : CODA9_FRAME_TILED2LINEAR);
+>  	}
+>  
+> -	q_data_src = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+> -	q_data_dst = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> -	src_fourcc = q_data_src->fourcc;
+> -	dst_fourcc = q_data_dst->fourcc;
+> -
+>  	coda_write(dev, ctx->parabuf.paddr, CODA_REG_BIT_PARA_BUF_ADDR);
+>  
+>  	ret = coda_alloc_framebuffers(ctx, q_data_dst, src_fourcc);
