@@ -2,87 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 690D63DFD42
-	for <lists+linux-media@lfdr.de>; Wed,  4 Aug 2021 10:50:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 987E23DFDA5
+	for <lists+linux-media@lfdr.de>; Wed,  4 Aug 2021 11:08:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236733AbhHDIu1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Aug 2021 04:50:27 -0400
-Received: from smtp-relay-canonical-1.canonical.com ([185.125.188.121]:57546
-        "EHLO smtp-relay-canonical-1.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236698AbhHDIu0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Aug 2021 04:50:26 -0400
-Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 462303F228;
-        Wed,  4 Aug 2021 08:50:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1628067011;
-        bh=uoN7wGE5rbSl+FPh+rcsfSGaxUcJTJN+JDTF5R0gekM=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
-        b=jyn93kzwWGLXLHY27T1HMAEijIkPHDbWXwQBg1JgY7wQkNTl6k19RoQElzmIQUQrb
-         YEsIUp4CnAXP6dKplHJCY6hP+bkZjFo0Yb+QLtcVM8RSkP6qMAeG1hu/PsSNbJlULZ
-         mACFEhde9r66wt6lNk170YzzEv5+oRp+zAFFOEGoTrIQ3f0I2/d7NP95eX22Cf06SZ
-         7Tcmz4njUsqZq/oJFUBxajHsT57ixVYo0kDQ35X0tfpSHzflVpJ9NQCp8z4CG34PGW
-         mg0Wks0Jgg63Jyo0UFN4fYcavkXRwF/qjfdeMRm434YIONzQf/lHwOE21jtEhmoq3A
-         EK8FoQ/6bN5Gw==
-From:   Colin King <colin.king@canonical.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Steven Toth <stoth@kernellabs.com>,
-        "Igor M . Liplianin" <liplianin@netup.ru>,
-        Mijhail Moreyra <mijhail.moreyra@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: cx23885: Fix snd_card_free call on null card pointer
-Date:   Wed,  4 Aug 2021 09:50:10 +0100
-Message-Id: <20210804085010.103607-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.31.1
+        id S236943AbhHDJIp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Aug 2021 05:08:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52560 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236932AbhHDJIo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Aug 2021 05:08:44 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 05E8E60240;
+        Wed,  4 Aug 2021 09:08:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628068111;
+        bh=gfAOtMgy1zhnJcHxLDPXlUJEUMs0JUp013YInIpbWsY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=njsCDekBb+xm9B2mbLB/NC9RtbtJXADT85+pXdRF6oPgUa6WEK2JTC35ZSE7cSdxM
+         dvn2KOsGbDIubQ5hWY9VhqmPIIoblNvjZ4KKfhsN02z17puLse0x8MB0xmqTghjNH0
+         21LjiEeDgPD7wr5BBoIgeGupu4NB3qY1FN9NJUZ0Jawr/sGBXxA77R8lmyuRQs0Lv2
+         elAr5EwqLsbzIYRCxmQfvLwN1aJY2u6t6XastxShJsqOlmA/STkdgMQBAh5EKtFiDB
+         3R87766lWGVGkQv9disc4B/JNBXhl4AOhrZWPbWiClUwheDNEFe2cmAkSdC0Q219oz
+         0RSEcm2+MepWg==
+Date:   Wed, 4 Aug 2021 17:08:24 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     laurent.pinchart@ideasonboard.com, devicetree@vger.kernel.org,
+        festevam@gmail.com, kernel@pengutronix.de, kernel@puri.sm,
+        krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-imx@nxp.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        m.felsch@pengutronix.de, mchehab@kernel.org,
+        phone-devel@vger.kernel.org, robh@kernel.org, slongerbeam@gmail.com
+Subject: Re: [PATCH v9 3/3] arm64: dts: imx8mq: add mipi csi phy and csi
+ bridge descriptions
+Message-ID: <20210804090823.GB30984@dragon>
+References: <20210726082117.2423597-1-martin.kepplinger@puri.sm>
+ <20210726082117.2423597-4-martin.kepplinger@puri.sm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210726082117.2423597-4-martin.kepplinger@puri.sm>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+On Mon, Jul 26, 2021 at 10:21:17AM +0200, Martin Kepplinger wrote:
+> Describe the 2 available CSI interfaces on the i.MX8MQ with the MIPI-CSI2
+> receiver (new driver) and the CSI Bridge that provides the user buffers
+> (existing driver).
+> 
+> An image sensor is to be connected to the MIPIs' second port, to be described
+> in board files.
+> 
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
 
-Currently a call to snd_card_new that fails will set card with a NULL
-pointer, this causes a null pointer dereference on the error cleanup
-path when card it passed to snd_card_free. Fix this by adding a new
-error exit path that does not call snd_card_free and exiting via this
-new path.
-
-Addresses-Coverity: ("Explicit null dereference")
-Fixes: 9e44d63246a9 ("[media] cx23885: Add ALSA support")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/media/pci/cx23885/cx23885-alsa.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/pci/cx23885/cx23885-alsa.c b/drivers/media/pci/cx23885/cx23885-alsa.c
-index ab14d35214aa..25dc8d4dc5b7 100644
---- a/drivers/media/pci/cx23885/cx23885-alsa.c
-+++ b/drivers/media/pci/cx23885/cx23885-alsa.c
-@@ -550,7 +550,7 @@ struct cx23885_audio_dev *cx23885_audio_register(struct cx23885_dev *dev)
- 			   SNDRV_DEFAULT_IDX1, SNDRV_DEFAULT_STR1,
- 			THIS_MODULE, sizeof(struct cx23885_audio_dev), &card);
- 	if (err < 0)
--		goto error;
-+		goto error_msg;
- 
- 	chip = (struct cx23885_audio_dev *) card->private_data;
- 	chip->dev = dev;
-@@ -576,6 +576,7 @@ struct cx23885_audio_dev *cx23885_audio_register(struct cx23885_dev *dev)
- 
- error:
- 	snd_card_free(card);
-+error_msg:
- 	pr_err("%s(): Failed to register analog audio adapter\n",
- 	       __func__);
- 
--- 
-2.31.1
-
+Applied, thanks!
