@@ -2,181 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03C6D3E0276
-	for <lists+linux-media@lfdr.de>; Wed,  4 Aug 2021 15:53:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ACE73E02E9
+	for <lists+linux-media@lfdr.de>; Wed,  4 Aug 2021 16:18:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238377AbhHDNx7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Aug 2021 09:53:59 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:36781 "EHLO
+        id S238648AbhHDOTD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Aug 2021 10:19:03 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:49133 "EHLO
         lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237800AbhHDNx6 (ORCPT
+        by vger.kernel.org with ESMTP id S238560AbhHDOTC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Aug 2021 09:53:58 -0400
+        Wed, 4 Aug 2021 10:19:02 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id BHL5mKNk14JsbBHL6moiDs; Wed, 04 Aug 2021 15:53:44 +0200
+        id BHjJmKU4B4JsbBHjKmon8m; Wed, 04 Aug 2021 16:18:47 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1628085224; bh=XZx/51YuZg9AyML1XLnSfIRcYqEjDnYo65rTyvBPMvs=;
-        h=From:Subject:To:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1628086727; bh=MbAiBFZoPAuYbPOa72UikJ/SjTdADlf2bma3bgSbStk=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=aEdDyRhQ4Hlnmscjvl57xufGhRdu6/IGZ0dTnP4IGlpsApcCXCNMwZe+S2y3ugDsC
-         r1nFcwDB+aD+h0PQiMGezMjwNZ/KW3J/uP+vNCFObmiPl6+N9CQv1NscDvELuBeReT
-         9ka8r2Uip3nJZilBFnluZZuNHrayHAVbqHPob/r/LdNPOPuKTT9hZDGAnE8ZrDd8o+
-         LtCCDv1hZFW8eTMWzHOHftIQAsdJzTmeqxTxiyt06eD/WJxJGh6bMiKRae3dVfV38Z
-         4cH4/kp6i4Z9KJB8yiEZWyCmsT1XWo41WglTpaErBt3qy8/sa44w53cbM/rGgBKcTo
-         88nnJhmft02+Q==
+        b=PlTI8sEdPaClBAyyDPqGa5asG/7qk9y15KcuKcMY1xBr/L4NF43iuFbNdYVR2kkkH
+         TRZ3ZSdUT4tL4Thn2AiMG/U7hH3JYI/WZbh42ooNX765uguT0BF0YA5+a9suk4Yyf+
+         bHJWgIMDx23ysLSv1gF0jrQ6ara727+/t/8m8cJFz99AyStL8Houg4GBAqij+v/aM4
+         MSfM2FZkh74H6/pSW0FvGlxbS1hwc5e1WAnyvb5yuHOhzMqwpBCaTBP/4vLLmtLsTh
+         4fkgWsMj5r/334uBePF0dgkh2JhReG1Ni4Fzgl2jD1+zGdnrxJ0mmrSWAiCQ/v3UQJ
+         caoDNtTrw5dzA==
+Subject: Re: [PATCH] media: vivid: drop CONFIG_FB dependency
+To:     Guillaume Tucker <guillaume.tucker@collabora.com>,
+        kernel test robot <lkp@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+References: <bf74a4670438864ca2e6bde47121554490350729.1627557341.git.guillaume.tucker@collabora.com>
+ <202107302145.AQPuE7DD-lkp@intel.com>
+ <da7e0fe9-c476-7b79-d99d-24a6d3308188@collabora.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] staging/media/meson: vdec.h: fix kerneldoc warnings
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Neil Armstrong <narmstrong@baylibre.com>
-Message-ID: <2c2914d0-288c-3e0e-a343-fc1b856ce5e3@xs4all.nl>
-Date:   Wed, 4 Aug 2021 15:53:43 +0200
+Message-ID: <72a52c6b-c06b-f1fe-dda2-f9dd458ca342@xs4all.nl>
+Date:   Wed, 4 Aug 2021 16:18:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <da7e0fe9-c476-7b79-d99d-24a6d3308188@collabora.com>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKrmKmRRDlZfcqi73qFdNIurvKtABzb2oqyPfIC2IZDKhbqhBmpUB0I7OsAge4ewZvAkoByaDbkSMil65IEKMWTwl8fmtJeuEbNjgIS9FGELzxO5Mkzh
- A1k/AiblkghNwgXDgybjd9/v3CkcFRx/uvHYNTTKt490qMdhAGKZ+/1Qz6mJFiFzNtginXfYCiaKESktDQ/CfL8Lj4udQnuY5+3znfyaCbvktYwLu4Z2XRFO
- 3wV4NQxdmD6TqVrp9QyZYXTAprd2EXxPbyO+5r6V+ag4Z3uddytfLryJ9HKSKtf/5Zy6rhO8LMd2bBeR5QCdz7BP0haHDvIudkGt3vfdUQA=
+X-CMAE-Envelope: MS4xfML1+3azk9KvujL/Iisj/sqTlcPQ4/rXenIJ3SYZQyFEDlIzR3Sf99TBDqIz3y+o3T+yaDts3kMmhjswlThy4v0uOvneIBnZi0KguB2kp3+DiakaypTF
+ mNjwqZkdghqzzD2IkKaAv7z1e4we45/mtge8DW+PLSBuOn8iQu5+Ek44ThS6C3/Hvag7yeQPCoeb975beU93qpG8qyxxaJW6rnKlVh4RNY//PQeg5kjWdJYh
+ W7bEpBzkgEnT5bWcFNp91A3Arq6XvM4mygao65h3tHqhqK5Tr7/HTzRFO0KZRIRMMHlEqtB5kpv3iBMAmTy4GBJCkdOH9uWtpVhnK1ozJNb4Cw66Rh2yyBIq
+ KU3JBCuHUKCdyJCGtmnJGUsOGsfWUhITq5ymqs2BOrM8vTG9tQVEn6IUYHdtRQSzooYHoTzYMovkd52N6a4dYVEOKEs0smRdTWMhWh+6unQ8uH4Y5M8N40tl
+ Vxv7v4U8/BpZ3nXeVugPdfhzmbXoQAUsjcydHw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix a bunch of kernel-doc warnings:
+Hi Guillaume,
 
-drivers/staging/media/meson/vdec/esparser.h:22: warning: Function parameter or member 'core' not described in 'esparser_queue_eos'
-drivers/staging/media/meson/vdec/esparser.h:22: warning: Function parameter or member 'data' not described in 'esparser_queue_eos'
-drivers/staging/media/meson/vdec/esparser.h:22: warning: Function parameter or member 'len' not described in 'esparser_queue_eos'
-drivers/staging/media/meson/vdec/esparser.h:28: warning: Function parameter or member 'work' not described in 'esparser_queue_all_src'
-drivers/staging/media/meson/vdec/vdec.h:92: warning: Function parameter or member 'vdec_hevcf_clk' not described in 'amvdec_core'
-drivers/staging/media/meson/vdec/vdec.h:92: warning: Function parameter or member 'vdev_dec' not described in 'amvdec_core'
-drivers/staging/media/meson/vdec/vdec.h:92: warning: Function parameter or member 'lock' not described in 'amvdec_core'
-drivers/staging/media/meson/vdec/vdec.h:141: warning: Function parameter or member 'resume' not described in 'amvdec_codec_ops'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'lock' not described in 'amvdec_session'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'sequence_out' not described in 'amvdec_session'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'num_dst_bufs' not described in 'amvdec_session'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'changed_format' not described in 'amvdec_session'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'last_offset' not described in 'amvdec_session'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'wrap_count' not described in 'amvdec_session'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'fw_idx_to_vb2_idx' not described in 'amvdec_session'
-drivers/staging/media/meson/vdec/vdec_helpers.h:59: warning: Function parameter or member 'tc' not described in 'amvdec_add_ts'
-drivers/staging/media/meson/vdec/vdec_helpers.h:59: warning: Function parameter or member 'flags' not described in 'amvdec_add_ts'
+On 30/07/2021 16:26, Guillaume Tucker wrote:
+> On 30/07/2021 14:32, kernel test robot wrote:
+>> Hi Guillaume,
+>>
+>> Thank you for the patch! Yet something to improve:
+>>
+>> [auto build test ERROR on linuxtv-media/master]
+>> [also build test ERROR on v5.14-rc3 next-20210729]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch]
+>>
+>> url:    https://github.com/0day-ci/linux/commits/Guillaume-Tucker/media-vivid-drop-CONFIG_FB-dependency/20210729-191815
+>> base:   git://linuxtv.org/media_tree.git master
+>> config: m68k-allmodconfig (attached as .config)
+>> compiler: m68k-linux-gcc (GCC) 10.3.0
+>> reproduce (this is a W=1 build):
+>>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>>         chmod +x ~/bin/make.cross
+>>         # https://github.com/0day-ci/linux/commit/51defc67cada10450046e4d4e7eda1a2573371cc
+>>         git remote add linux-review https://github.com/0day-ci/linux
+>>         git fetch --no-tags linux-review Guillaume-Tucker/media-vivid-drop-CONFIG_FB-dependency/20210729-191815
+>>         git checkout 51defc67cada10450046e4d4e7eda1a2573371cc
+>>         # save the attached .config to linux build tree
+>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-10.3.0 make.cross ARCH=m68k 
+>>
+>> If you fix the issue, kindly add following tag as appropriate
+>> Reported-by: kernel test robot <lkp@intel.com>
+>>
+>> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>>
+>>>> ERROR: modpost: "vivid_clear_fb" [drivers/media/test-drivers/vivid/vivid.ko] undefined!
+>>>> ERROR: modpost: "vivid_fb_release_buffers" [drivers/media/test-drivers/vivid/vivid.ko] undefined!
+>>>> ERROR: modpost: "vivid_fb_init" [drivers/media/test-drivers/vivid/vivid.ko] undefined!
+> 
+> Pretty sure this is due to the conditional in the Makefile I
+> mentioned in an email yesterday, where it should have been
+> ifneq ($(CONFIG_FB),) for when CONFIG_FB=m.
+> 
+> Let me know if I should send a v2 now with this fix, I was
+> waiting for Hans' feedback first.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/staging/media/meson/vdec/esparser.h b/drivers/staging/media/meson/vdec/esparser.h
-index ff51fe7fda66..9351e62c70e6 100644
---- a/drivers/staging/media/meson/vdec/esparser.h
-+++ b/drivers/staging/media/meson/vdec/esparser.h
-@@ -17,13 +17,17 @@ int esparser_power_up(struct amvdec_session *sess);
- /**
-  * esparser_queue_eos() - write End Of Stream sequence to the ESPARSER
-  *
-- * @core vdec core struct
-+ * @core: vdec core struct
-+ * @data: EOS sequence
-+ * @len: length of EOS sequence
-  */
- int esparser_queue_eos(struct amvdec_core *core, const u8 *data, u32 len);
+Go ahead and send a v2.
 
- /**
-  * esparser_queue_all_src() - work handler that writes as many src buffers
-  * as possible to the ESPARSER
-+ *
-+ * @work: work struct
-  */
- void esparser_queue_all_src(struct work_struct *work);
+I have just one comment: in vivid-core.c, please change this in the node_types
+MODULE_PARM_DESC:
 
-diff --git a/drivers/staging/media/meson/vdec/vdec.h b/drivers/staging/media/meson/vdec/vdec.h
-index f95445ac0658..0906b8fb5cc6 100644
---- a/drivers/staging/media/meson/vdec/vdec.h
-+++ b/drivers/staging/media/meson/vdec/vdec.h
-@@ -60,10 +60,12 @@ struct amvdec_session;
-  * @dos_clk: DOS clock
-  * @vdec_1_clk: VDEC_1 clock
-  * @vdec_hevc_clk: VDEC_HEVC clock
-+ * @vdec_hevcf_clk: VDEC_HEVCF clock
-  * @esparser_reset: RESET for the PARSER
-- * @vdec_dec: video device for the decoder
-+ * @vdev_dec: video device for the decoder
-  * @v4l2_dev: v4l2 device
-  * @cur_sess: current decoding session
-+ * @lock: video device lock
-  */
- struct amvdec_core {
- 	void __iomem *dos_base;
-@@ -88,7 +90,7 @@ struct amvdec_core {
- 	struct v4l2_device v4l2_dev;
+                             "\t\t    bit 12: Radio Transmitter node\n"
+                             "\t\t    bit 16: Framebuffer for testing overlays\n"
+                             "\t\t    bit 17: Metadata Capture node\n"
 
- 	struct amvdec_session *cur_sess;
--	struct mutex lock; /* video device lock */
-+	struct mutex lock;
- };
+to:
 
- /**
-@@ -120,6 +122,7 @@ struct amvdec_ops {
-  * @recycle: optional call to tell the codec to recycle a dst buffer. Must go
-  *	     in pair with @can_recycle
-  * @drain: optional call if the codec has a custom way of draining
-+ * @resume: optional call to resume after a resolution change
-  * @eos_sequence: optional call to get an end sequence to send to esparser
-  *		  for flush. Mutually exclusive with @drain.
-  * @isr: mandatory call when the ISR triggers
-@@ -185,6 +188,7 @@ enum amvdec_status {
-  * @m2m_ctx: v4l2 m2m context
-  * @ctrl_handler: V4L2 control handler
-  * @ctrl_min_buf_capture: V4L2 control V4L2_CID_MIN_BUFFERS_FOR_CAPTURE
-+ * @lock: cap & out queues lock
-  * @fmt_out: vdec pixel format for the OUTPUT queue
-  * @pixfmt_cap: V4L2 pixel format for the CAPTURE queue
-  * @src_buffer_size: size in bytes of the OUTPUT buffers' only plane
-@@ -200,9 +204,12 @@ enum amvdec_status {
-  * @streamon_cap: stream on flag for capture queue
-  * @streamon_out: stream on flag for output queue
-  * @sequence_cap: capture sequence counter
-+ * @sequence_out: output sequence counter
-  * @should_stop: flag set if userspace signaled EOS via command
-  *		 or empty buffer
-  * @keyframe_found: flag set once a keyframe has been parsed
-+ * @num_dst_bufs: number of destination buffers
-+ * @changed_format: the format changed
-  * @canvas_alloc: array of all the canvas IDs allocated
-  * @canvas_num: number of canvas IDs allocated
-  * @vififo_vaddr: virtual address for the VIFIFO
-@@ -214,6 +221,9 @@ enum amvdec_status {
-  * @timestamps: chronological list of src timestamps
-  * @ts_spinlock: spinlock for the timestamps list
-  * @last_irq_jiffies: tracks last time the vdec triggered an IRQ
-+ * @last_offset: tracks last offset of vififo
-+ * @wrap_count: number of times the vififo wrapped around
-+ * @fw_idx_to_vb2_idx: firmware buffer index to vb2 buffer index
-  * @status: current decoding status
-  * @priv: codec private data
-  */
-@@ -225,7 +235,7 @@ struct amvdec_session {
- 	struct v4l2_m2m_ctx *m2m_ctx;
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	struct v4l2_ctrl *ctrl_min_buf_capture;
--	struct mutex lock; /* cap & out queues lock */
-+	struct mutex lock;
+                             "\t\t    bit 12: Radio Transmitter node\n"
+#ifdef CONFIG_FB
+                             "\t\t    bit 16: Framebuffer for testing overlays\n"
+#endif
+                             "\t\t    bit 17: Metadata Capture node\n"
 
- 	const struct amvdec_format *fmt_out;
- 	u32 pixfmt_cap;
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
-index cfaed52ab526..88137d15aa3a 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.h
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
-@@ -52,8 +52,9 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
-  *
-  * @sess: current session
-  * @ts: timestamp to add
-+ * @tc: timecode to add
-  * @offset: offset in the VIFIFO where the associated packet was written
-- * @flags the vb2_v4l2_buffer flags
-+ * @flags: the vb2_v4l2_buffer flags
-  */
- void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
- 		   struct v4l2_timecode tc, u32 offset, u32 flags);
+That way it is visible with modinfo whether or not framebuffer support is
+compiled in or not.
+
+Regards,
+
+	Hans
+
+> 
+> Thanks,
+> Guillaume
+> 
 
