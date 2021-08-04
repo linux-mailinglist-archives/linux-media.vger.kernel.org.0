@@ -2,123 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DEFF03E03A8
-	for <lists+linux-media@lfdr.de>; Wed,  4 Aug 2021 16:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD74C3E04D9
+	for <lists+linux-media@lfdr.de>; Wed,  4 Aug 2021 17:51:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238251AbhHDOrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Aug 2021 10:47:07 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:40979 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238135AbhHDOrH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Aug 2021 10:47:07 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id BIAPmKb754JsbBIAQmoqJf; Wed, 04 Aug 2021 16:46:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1628088413; bh=raaawCinAYz+/udl0d3yfxNkRtF06TfKUSkvZAWEHZc=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=XNJKAuAkHA/2JFp7HWYPkibF5r58xIz4514y42nEbZ0nIndWOHbMKffj7CQxONAG+
-         RXCq8ni31x/mpm5uhqC8sOjn16vAZUSu57Vv2qW5Cez9mUqg5am4YrrlQfQPwWIaSc
-         bERfLbyT/mh79LPrctKCz6uKW7FFARKfjcrt4R/fl9OStuKoMNFFuh6HQn/FwVljvL
-         sTgT23Kjez/8Pf1ByvF1IRevnJDYcSQyJRNAYqWULV5eRj/MqKY/J0sPo52Ht59OeC
-         3SByqWegUS6QcXzxgUtLQLeKRcisz4X9T4qMLta0R2Byk6lZjuPeKOu7QqpK7ZEmiu
-         WKYTwIGZYtd+g==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Irui Wang <irui.wang@mediatek.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.15] Various fixes/enhancements
-Message-ID: <4eac86a6-af7f-fa85-de05-b3db62e70bf0@xs4all.nl>
-Date:   Wed, 4 Aug 2021 16:46:45 +0200
+        id S239393AbhHDPvz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Aug 2021 11:51:55 -0400
+Received: from ale.deltatee.com ([204.191.154.188]:54802 "EHLO
+        ale.deltatee.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239214AbhHDPvy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Aug 2021 11:51:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
+        Message-ID:From:References:Cc:To:content-disposition;
+        bh=VAs5UjRtgSdqMEi8N1UFafwkPftDPX3haJmemJpQxKo=; b=qzwKi3ShxTPZRbFP0IKYI2MLLq
+        4grholbmN7sed3zBtdSyb6zZt4gc7djXMu/fvYd5s/fV3FYvpCRZwCGt9nQihB6lQ5+QGlBuEa4lN
+        NCxkXiKrdmAstr7R8LwgXK/hWyU89OUdAt72RtgSzXLNXlnngadle8SNbXpD8ENBC5fOcbcdHogEp
+        eoavcbFlsIc35KIFQqVKBENHEpJSRU9yUHJwE1f9+zl5JkpAMFTYM/Zk3wSR92rbZrTX8zIhtLunJ
+        vJvuqznBqGc3ZLorPoNbcOxgJOkh7hvZrvf9AmmCRumNyXyMklmdCdZQ7YgQ2gK0rYUaBF34BVjyK
+        A5w5eWTA==;
+Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200] helo=[192.168.0.10])
+        by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.92)
+        (envelope-from <logang@deltatee.com>)
+        id 1mBJB8-0003B9-M2; Wed, 04 Aug 2021 09:51:35 -0600
+To:     Dongdong Liu <liudongdong3@huawei.com>, helgaas@kernel.org,
+        hch@infradead.org, kw@linux.com, leon@kernel.org,
+        linux-pci@vger.kernel.org, rajur@chelsio.com,
+        hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, netdev@vger.kernel.org
+References: <1628084828-119542-1-git-send-email-liudongdong3@huawei.com>
+ <1628084828-119542-8-git-send-email-liudongdong3@huawei.com>
+From:   Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <75243571-3213-6ae2-040f-ae1b1f799e42@deltatee.com>
+Date:   Wed, 4 Aug 2021 09:51:29 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.12.0
 MIME-Version: 1.0
+In-Reply-To: <1628084828-119542-8-git-send-email-liudongdong3@huawei.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfB4YXDorfODuYNPAHlMk4nEnC27CScyKtm5jZYUK6tI1lkAZZBqIFw+uiK7pXTaE5Dw2P6HNHY6Gjr/zO2+SGL6xUW+CfXiqgSZR03c+fkkaGWWUit1W
- OWCn9hkDp/bSCvXSnIJveYy5+vIQUAizSRaV5eUsilaB+EvezeMaF2kg6ENjJbu3nYvhvZgpkJLMaxjt2iIIvgb5uCmj6EpiMtOmO38j+vIkqVp3l2q/KLP5
- nedyA520YN+WtbnUfexnlshcUjrY2L6350mo+NK6oSvaTOJBzHdfbttGGPBAMTUJEAXIFrX1EP6djlDT9da3EQNUS03oofmul+EQe/QPQSaoOAMCTWVct/N+
- 5lMQZFp5cAoHpnRzLsHSmav2qLkMaVejqGIcG3H11DatVNGZSjpNn7iC91kUOh1HPY1vfmJTibxqggISEWxETlNqdVG+8A==
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 24.64.144.200
+X-SA-Exim-Rcpt-To: netdev@vger.kernel.org, linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl, rajur@chelsio.com, linux-pci@vger.kernel.org, leon@kernel.org, kw@linux.com, hch@infradead.org, helgaas@kernel.org, liudongdong3@huawei.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-6.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+        MYRULES_OFFER,NICE_REPLY_A autolearn=ham autolearn_force=no
+        version=3.4.2
+Subject: Re: [PATCH V7 7/9] PCI/sysfs: Add a 10-Bit Tag sysfs file
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit bfee75f73c37a2f46a6326eaa06f5db701f76f01:
 
-  media: venus: venc: add support for V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM control (2021-08-04 14:43:52 +0200)
 
-are available in the Git repository at:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.15f
+On 2021-08-04 7:47 a.m., Dongdong Liu wrote:
+> PCIe spec 5.0 r1.0 section 2.2.6.2 says that if an Endpoint supports
+> sending Requests to other Endpoints (as opposed to host memory), the
+> Endpoint must not send 10-Bit Tag Requests to another given Endpoint
+> unless an implementation-specific mechanism determines that the Endpoint
+> supports 10-Bit Tag Completer capability. Add a 10bit_tag sysfs file,
+> write 0 to disable 10-Bit Tag Requester when the driver does not bind
+> the device if the peer device does not support the 10-Bit Tag Completer.
+> This will make P2P traffic safe. the 10bit_tag file content indicate
+> current 10-Bit Tag Requester Enable status.
 
-for you to fetch changes up to 5abb281113e0d023c2bb1b95b2bf2a477a8a24df:
+Can we not have both the sysfs file and the command line parameter? If
+the user wants to disable it always for a specific device this sysfs
+parameter is fairly awkward. A script at boot to unbind the driver, set
+the sysfs file and rebind the driver is not trivial and the command line
+parameter offers additional options for users.
 
-  media: mtk-vcodec: Add MT8195 H264 venc driver (2021-08-04 16:33:03 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Benjamin Gaignard (2):
-      media: hevc: Add scaling matrix control
-      media: hantro: Add scaling lists feature
-
-Christophe JAILLET (1):
-      media: meson-ge2d: Fix rotation parameter changes detection in 'ge2d_s_ctrl()'
-
-Hans Verkuil (3):
-      cedrus: drop min_buffers_needed.
-      vivid: add module option to set request support mode
-      videobuf2-core: sanity checks for requests and qbuf
-
-Irui Wang (3):
-      media: mtk-vcodec: Clean redundant encoder format definition
-      dt-bindings: media: mtk-vcodec: Add binding for MT8195 VENC
-      media: mtk-vcodec: Add MT8195 H264 venc driver
-
-Krzysztof Hałasa (1):
-      TDA1997x: fix tda1997x_remove()
-
-Pavel Skripkin (1):
-      media: em28xx: add missing em28xx_close_extension
-
-Pete Hemery (1):
-      media: gspca/sn9c20x: Add ability to control built-in webcam LEDs
-
-Robert Foss (4):
-      media: camss: vfe: Don't read hardware version needlessly
-      media: camss: vfe: Decrease priority of of VFE HW version to 'dbg'
-      media: camss: vfe: Remove vfe_hw_version_read() argument
-      media: camss: vfe: Rework vfe_hw_version_read() function definition
-
- Documentation/devicetree/bindings/media/mediatek-vcodec.txt |  1 +
- Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst   | 57 +++++++++++++++++++++++++++++++++++++++
- Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst  |  6 +++++
- drivers/media/common/videobuf2/videobuf2-core.c             | 23 +++++++++++++++-
- drivers/media/i2c/tda1997x.c                                |  4 +--
- drivers/media/platform/meson/ge2d/ge2d.c                    |  6 +----
- drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h          |  1 +
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c      | 63 +++++++++++++++++++++++---------------------
- drivers/media/platform/qcom/camss/camss-vfe-170.c           |  9 ++++---
- drivers/media/platform/qcom/camss/camss-vfe-4-1.c           |  8 +++---
- drivers/media/platform/qcom/camss/camss-vfe-4-7.c           |  8 +++---
- drivers/media/platform/qcom/camss/camss-vfe-4-8.c           |  8 +++---
- drivers/media/platform/qcom/camss/camss-vfe.c               |  3 +--
- drivers/media/platform/qcom/camss/camss-vfe.h               |  2 +-
- drivers/media/test-drivers/vivid/vivid-core.c               | 14 ++++++++--
- drivers/media/usb/em28xx/em28xx-cards.c                     |  5 +++-
- drivers/media/usb/gspca/sn9c20x.c                           | 22 +++++++++++++++-
- drivers/media/v4l2-core/v4l2-ctrls-core.c                   |  6 +++++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c                   |  4 +++
- drivers/staging/media/hantro/hantro_drv.c                   |  8 +++---
- drivers/staging/media/hantro/hantro_g2_hevc_dec.c           | 52 ++++++++++++++++++++++++++++++++++++
- drivers/staging/media/hantro/hantro_hevc.c                  | 21 +++++++++++++++
- drivers/staging/media/hantro/hantro_hw.h                    |  3 +++
- drivers/staging/media/sunxi/cedrus/cedrus_video.c           |  2 --
- include/media/hevc-ctrls.h                                  | 11 ++++++++
- 25 files changed, 285 insertions(+), 62 deletions(-)
+Logan
