@@ -2,122 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2B203E0262
-	for <lists+linux-media@lfdr.de>; Wed,  4 Aug 2021 15:49:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03C6D3E0276
+	for <lists+linux-media@lfdr.de>; Wed,  4 Aug 2021 15:53:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238570AbhHDNtt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Aug 2021 09:49:49 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:12446 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238408AbhHDNtb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Aug 2021 09:49:31 -0400
-Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.53])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GftKz1z7bzckq3;
-        Wed,  4 Aug 2021 21:45:43 +0800 (CST)
-Received: from SZX1000464847.huawei.com (10.21.59.169) by
- dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Wed, 4 Aug 2021 21:49:17 +0800
-From:   Dongdong Liu <liudongdong3@huawei.com>
-To:     <helgaas@kernel.org>, <hch@infradead.org>, <kw@linux.com>,
-        <logang@deltatee.com>, <leon@kernel.org>,
-        <linux-pci@vger.kernel.org>, <rajur@chelsio.com>,
-        <hverkuil-cisco@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
-Subject: [PATCH V7 9/9] PCI/P2PDMA: Add a 10-Bit Tag check in P2PDMA
-Date:   Wed, 4 Aug 2021 21:47:08 +0800
-Message-ID: <1628084828-119542-10-git-send-email-liudongdong3@huawei.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1628084828-119542-1-git-send-email-liudongdong3@huawei.com>
-References: <1628084828-119542-1-git-send-email-liudongdong3@huawei.com>
+        id S238377AbhHDNx7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Aug 2021 09:53:59 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:36781 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237800AbhHDNx6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Aug 2021 09:53:58 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id BHL5mKNk14JsbBHL6moiDs; Wed, 04 Aug 2021 15:53:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1628085224; bh=XZx/51YuZg9AyML1XLnSfIRcYqEjDnYo65rTyvBPMvs=;
+        h=From:Subject:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=aEdDyRhQ4Hlnmscjvl57xufGhRdu6/IGZ0dTnP4IGlpsApcCXCNMwZe+S2y3ugDsC
+         r1nFcwDB+aD+h0PQiMGezMjwNZ/KW3J/uP+vNCFObmiPl6+N9CQv1NscDvELuBeReT
+         9ka8r2Uip3nJZilBFnluZZuNHrayHAVbqHPob/r/LdNPOPuKTT9hZDGAnE8ZrDd8o+
+         LtCCDv1hZFW8eTMWzHOHftIQAsdJzTmeqxTxiyt06eD/WJxJGh6bMiKRae3dVfV38Z
+         4cH4/kp6i4Z9KJB8yiEZWyCmsT1XWo41WglTpaErBt3qy8/sa44w53cbM/rGgBKcTo
+         88nnJhmft02+Q==
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] staging/media/meson: vdec.h: fix kerneldoc warnings
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Neil Armstrong <narmstrong@baylibre.com>
+Message-ID: <2c2914d0-288c-3e0e-a343-fc1b856ce5e3@xs4all.nl>
+Date:   Wed, 4 Aug 2021 15:53:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.21.59.169]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggeme758-chm.china.huawei.com (10.3.19.104)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfKrmKmRRDlZfcqi73qFdNIurvKtABzb2oqyPfIC2IZDKhbqhBmpUB0I7OsAge4ewZvAkoByaDbkSMil65IEKMWTwl8fmtJeuEbNjgIS9FGELzxO5Mkzh
+ A1k/AiblkghNwgXDgybjd9/v3CkcFRx/uvHYNTTKt490qMdhAGKZ+/1Qz6mJFiFzNtginXfYCiaKESktDQ/CfL8Lj4udQnuY5+3znfyaCbvktYwLu4Z2XRFO
+ 3wV4NQxdmD6TqVrp9QyZYXTAprd2EXxPbyO+5r6V+ag4Z3uddytfLryJ9HKSKtf/5Zy6rhO8LMd2bBeR5QCdz7BP0haHDvIudkGt3vfdUQA=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a 10-Bit Tag check in the P2PDMA code to ensure that a device with
-10-Bit Tag Requester doesn't interact with a device that does not
-support 10-BIT Tag Completer. Before that happens, the kernel should
-emit a warning. "echo 0 > /sys/bus/pci/devices/.../10bit_tag" to
-disable 10-BIT Tag Requester for PF device.
-"echo 0 > /sys/bus/pci/devices/.../sriov_vf_10bit_tag_ctl" to disable
-10-BIT Tag Requester for VF device.
+Fix a bunch of kernel-doc warnings:
 
-Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
+drivers/staging/media/meson/vdec/esparser.h:22: warning: Function parameter or member 'core' not described in 'esparser_queue_eos'
+drivers/staging/media/meson/vdec/esparser.h:22: warning: Function parameter or member 'data' not described in 'esparser_queue_eos'
+drivers/staging/media/meson/vdec/esparser.h:22: warning: Function parameter or member 'len' not described in 'esparser_queue_eos'
+drivers/staging/media/meson/vdec/esparser.h:28: warning: Function parameter or member 'work' not described in 'esparser_queue_all_src'
+drivers/staging/media/meson/vdec/vdec.h:92: warning: Function parameter or member 'vdec_hevcf_clk' not described in 'amvdec_core'
+drivers/staging/media/meson/vdec/vdec.h:92: warning: Function parameter or member 'vdev_dec' not described in 'amvdec_core'
+drivers/staging/media/meson/vdec/vdec.h:92: warning: Function parameter or member 'lock' not described in 'amvdec_core'
+drivers/staging/media/meson/vdec/vdec.h:141: warning: Function parameter or member 'resume' not described in 'amvdec_codec_ops'
+drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'lock' not described in 'amvdec_session'
+drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'sequence_out' not described in 'amvdec_session'
+drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'num_dst_bufs' not described in 'amvdec_session'
+drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'changed_format' not described in 'amvdec_session'
+drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'last_offset' not described in 'amvdec_session'
+drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'wrap_count' not described in 'amvdec_session'
+drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'fw_idx_to_vb2_idx' not described in 'amvdec_session'
+drivers/staging/media/meson/vdec/vdec_helpers.h:59: warning: Function parameter or member 'tc' not described in 'amvdec_add_ts'
+drivers/staging/media/meson/vdec/vdec_helpers.h:59: warning: Function parameter or member 'flags' not described in 'amvdec_add_ts'
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/pci/p2pdma.c | 40 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
-
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 50cdde3..948f2be 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -19,6 +19,7 @@
- #include <linux/random.h>
- #include <linux/seq_buf.h>
- #include <linux/xarray.h>
-+#include "pci.h"
- 
- enum pci_p2pdma_map_type {
- 	PCI_P2PDMA_MAP_UNKNOWN = 0,
-@@ -410,6 +411,41 @@ static unsigned long map_types_idx(struct pci_dev *client)
- 		(client->bus->number << 8) | client->devfn;
- }
- 
-+static bool check_10bit_tags_vaild(struct pci_dev *a, struct pci_dev *b,
-+				   bool verbose)
-+{
-+	bool req;
-+	bool comp;
-+	u16 ctl2;
-+
-+	if (a->is_virtfn) {
-+#ifdef CONFIG_PCI_IOV
-+		req = !!(a->physfn->sriov->ctrl &
-+			 PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN);
-+#endif
-+	} else {
-+		pcie_capability_read_word(a, PCI_EXP_DEVCTL2, &ctl2);
-+		req = !!(ctl2 & PCI_EXP_DEVCTL2_10BIT_TAG_REQ_EN);
-+	}
-+
-+	comp = !!(b->pcie_devcap2 & PCI_EXP_DEVCAP2_10BIT_TAG_COMP);
-+	if (req && (!comp)) {
-+		if (verbose) {
-+			pci_warn(a, "cannot be used for peer-to-peer DMA as 10-Bit Tag Requester enable is set in device (%s), but peer device (%s) does not support the 10-Bit Tag Completer\n",
-+				 pci_name(a), pci_name(b));
-+			if (a->is_virtfn)
-+				pci_warn(a, "to disable 10-Bit Tag Requester for this device, echo 0 > /sys/bus/pci/devices/%s/sriov_vf_10bit_tag_ctl\n",
-+					 pci_name(a));
-+			else
-+				pci_warn(a, "to disable 10-Bit Tag Requester for this device, echo 0 > /sys/bus/pci/devices/%s/10bit_tag\n",
-+					 pci_name(a));
-+		}
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
- /*
-  * Calculate the P2PDMA mapping type and distance between two PCI devices.
+diff --git a/drivers/staging/media/meson/vdec/esparser.h b/drivers/staging/media/meson/vdec/esparser.h
+index ff51fe7fda66..9351e62c70e6 100644
+--- a/drivers/staging/media/meson/vdec/esparser.h
++++ b/drivers/staging/media/meson/vdec/esparser.h
+@@ -17,13 +17,17 @@ int esparser_power_up(struct amvdec_session *sess);
+ /**
+  * esparser_queue_eos() - write End Of Stream sequence to the ESPARSER
   *
-@@ -532,6 +568,10 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
- 		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
- 	}
- done:
-+	if (!check_10bit_tags_vaild(client, provider, verbose) ||
-+	    !check_10bit_tags_vaild(provider, client, verbose))
-+		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
-+
- 	rcu_read_lock();
- 	p2pdma = rcu_dereference(provider->p2pdma);
- 	if (p2pdma)
--- 
-2.7.4
+- * @core vdec core struct
++ * @core: vdec core struct
++ * @data: EOS sequence
++ * @len: length of EOS sequence
+  */
+ int esparser_queue_eos(struct amvdec_core *core, const u8 *data, u32 len);
+
+ /**
+  * esparser_queue_all_src() - work handler that writes as many src buffers
+  * as possible to the ESPARSER
++ *
++ * @work: work struct
+  */
+ void esparser_queue_all_src(struct work_struct *work);
+
+diff --git a/drivers/staging/media/meson/vdec/vdec.h b/drivers/staging/media/meson/vdec/vdec.h
+index f95445ac0658..0906b8fb5cc6 100644
+--- a/drivers/staging/media/meson/vdec/vdec.h
++++ b/drivers/staging/media/meson/vdec/vdec.h
+@@ -60,10 +60,12 @@ struct amvdec_session;
+  * @dos_clk: DOS clock
+  * @vdec_1_clk: VDEC_1 clock
+  * @vdec_hevc_clk: VDEC_HEVC clock
++ * @vdec_hevcf_clk: VDEC_HEVCF clock
+  * @esparser_reset: RESET for the PARSER
+- * @vdec_dec: video device for the decoder
++ * @vdev_dec: video device for the decoder
+  * @v4l2_dev: v4l2 device
+  * @cur_sess: current decoding session
++ * @lock: video device lock
+  */
+ struct amvdec_core {
+ 	void __iomem *dos_base;
+@@ -88,7 +90,7 @@ struct amvdec_core {
+ 	struct v4l2_device v4l2_dev;
+
+ 	struct amvdec_session *cur_sess;
+-	struct mutex lock; /* video device lock */
++	struct mutex lock;
+ };
+
+ /**
+@@ -120,6 +122,7 @@ struct amvdec_ops {
+  * @recycle: optional call to tell the codec to recycle a dst buffer. Must go
+  *	     in pair with @can_recycle
+  * @drain: optional call if the codec has a custom way of draining
++ * @resume: optional call to resume after a resolution change
+  * @eos_sequence: optional call to get an end sequence to send to esparser
+  *		  for flush. Mutually exclusive with @drain.
+  * @isr: mandatory call when the ISR triggers
+@@ -185,6 +188,7 @@ enum amvdec_status {
+  * @m2m_ctx: v4l2 m2m context
+  * @ctrl_handler: V4L2 control handler
+  * @ctrl_min_buf_capture: V4L2 control V4L2_CID_MIN_BUFFERS_FOR_CAPTURE
++ * @lock: cap & out queues lock
+  * @fmt_out: vdec pixel format for the OUTPUT queue
+  * @pixfmt_cap: V4L2 pixel format for the CAPTURE queue
+  * @src_buffer_size: size in bytes of the OUTPUT buffers' only plane
+@@ -200,9 +204,12 @@ enum amvdec_status {
+  * @streamon_cap: stream on flag for capture queue
+  * @streamon_out: stream on flag for output queue
+  * @sequence_cap: capture sequence counter
++ * @sequence_out: output sequence counter
+  * @should_stop: flag set if userspace signaled EOS via command
+  *		 or empty buffer
+  * @keyframe_found: flag set once a keyframe has been parsed
++ * @num_dst_bufs: number of destination buffers
++ * @changed_format: the format changed
+  * @canvas_alloc: array of all the canvas IDs allocated
+  * @canvas_num: number of canvas IDs allocated
+  * @vififo_vaddr: virtual address for the VIFIFO
+@@ -214,6 +221,9 @@ enum amvdec_status {
+  * @timestamps: chronological list of src timestamps
+  * @ts_spinlock: spinlock for the timestamps list
+  * @last_irq_jiffies: tracks last time the vdec triggered an IRQ
++ * @last_offset: tracks last offset of vififo
++ * @wrap_count: number of times the vififo wrapped around
++ * @fw_idx_to_vb2_idx: firmware buffer index to vb2 buffer index
+  * @status: current decoding status
+  * @priv: codec private data
+  */
+@@ -225,7 +235,7 @@ struct amvdec_session {
+ 	struct v4l2_m2m_ctx *m2m_ctx;
+ 	struct v4l2_ctrl_handler ctrl_handler;
+ 	struct v4l2_ctrl *ctrl_min_buf_capture;
+-	struct mutex lock; /* cap & out queues lock */
++	struct mutex lock;
+
+ 	const struct amvdec_format *fmt_out;
+ 	u32 pixfmt_cap;
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
+index cfaed52ab526..88137d15aa3a 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.h
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
+@@ -52,8 +52,9 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
+  *
+  * @sess: current session
+  * @ts: timestamp to add
++ * @tc: timecode to add
+  * @offset: offset in the VIFIFO where the associated packet was written
+- * @flags the vb2_v4l2_buffer flags
++ * @flags: the vb2_v4l2_buffer flags
+  */
+ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+ 		   struct v4l2_timecode tc, u32 offset, u32 flags);
 
