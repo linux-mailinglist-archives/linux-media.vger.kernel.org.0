@@ -2,171 +2,522 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B1823E12D4
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 12:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74D223E12F6
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 12:47:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240080AbhHEKkl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 06:40:41 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:7280 "EHLO
-        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240353AbhHEKkj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Aug 2021 06:40:39 -0400
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 175AUvNO008922;
-        Thu, 5 Aug 2021 10:40:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=eVaTRkamBWNeAIIvO1r0GAnkID272xxf4HZNo18Mxds=;
- b=zR15sbyOd/UICuPRr8fLRPJzkIBTNgGgbsAZbtTnRXeyqnSrGASx/vgy0oCJ2bS1ZUYh
- 1PYeOIjwB/M7AuQDoaWI0y6MnihY6wvj0O1X3eScaeG24ARAYa8ca8AzthqsUVKKuAgf
- XoRu7DaP3BloYSiKJTurHF0VIcM3PG49s230cmXEYXzj9+IrNl5t4ehjvJePNn2lSHqp
- KFVFZRT0vxP+cPRZMEYO8NWoNtdGwQVCfLFFoOIpP1f81bjXsS3u86XBOCXlpmY/UErF
- pjIMMUwun88AvxMf8HLoV9tgR9ktT8yCxXmf0u4LSIjoItDX7bU/wZ0FNcDY1gDrRZbS 2A== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2020-01-29;
- bh=eVaTRkamBWNeAIIvO1r0GAnkID272xxf4HZNo18Mxds=;
- b=gpNlQC/O9qVJLbUfUYM8sQ8QyWS6rtRcUvIF7ZAZCuzeGyXvA5W1cBtkDKkArViNZUXf
- W8Zgv5Sr6BPa3JHOj73tMCWHRY9ncvsfhYKRzwzhGQqfg+hbmvUkMJCbXDWc/s8WFOqC
- dVcMq5FmmlkHPojWsUNfZH0t8xxS5Bfh/2uHGMFoY25iriHm/P42HJpywTzXtcvgUg17
- c5Tb4bb58r6Z+MDTeZ3gufX+37gOrubg9wIz/IM/l3IANnh7wmRvSxyou3BWIbXa/nZr
- nb1ypAPXnM0zYou/INGV/h6SiZZaLXumKMS3ld+LNH57F33+85LXLavmoGtUD1sz3zXl fg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3a7hxpknmv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 05 Aug 2021 10:40:18 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 175AZhdx080384;
-        Thu, 5 Aug 2021 10:40:17 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2042.outbound.protection.outlook.com [104.47.51.42])
-        by userp3020.oracle.com with ESMTP id 3a5g9yybhc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 05 Aug 2021 10:40:17 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GyCGSCbdXLglJMJlVMH2mdQeodUDrAHYywjfF4rfDFEHaDVxs+gXzEg/DoUC8HLJEraQxBxAE8PC4XPpuzdSeDsSLzCScx7Tcvu2Y4As5gwgdntnRajO5IOTkP5TdWnFI+Txc6vy0ZFt8zCIUs2HkF1+Uo+EyPWhXnRN/KxjMlP+pfoAiNqqcpWyCOb28A3kZolPcJV1Wj9HhMgRd6/ObB5jL7ajyT/fz7QHJyr76X90IeAi7x9hmqAqp+R0p31lbyV4vYLgt0H7gWd4HFDBPl0lPBEJGJ6poHE4rC+wxmBKuCuWq37JFNIiupRvkFLHEbmtBo2c45wbTLFT2PSkAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eVaTRkamBWNeAIIvO1r0GAnkID272xxf4HZNo18Mxds=;
- b=FNCKOTaLBYoz1OpfsZAT+eA1wBM4Qx8Jn86LHBAVqF4QlUdEAjwZZBA3/Hxn1ydwC+haj+fIbaFT1UjtOUovYtciOO5pNU3b95cJvP77tq5uvY7nOI96CzF4ucKIqd4zjJpNW6E0eGZx4ztoLqHehNXMpUeQ9DNnW9eSPxXrigGWoZA1lMK6INdVGLf1VJCx2YA+L/uwy8HkkzG7MfI26kl+Vv60zX0xIFTVv1X7VVa38pRoq1RQduzIKklVpHvj2uvpl31aux0tTRnLoSDZAT6lt/2TmK08+5sguOHsk6iqGL5F3SdBAF3ag33neORgVmFILEeiqqjxUx1UzLIo+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        id S240531AbhHEKr3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 06:47:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47440 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240510AbhHEKr1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 06:47:27 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34A6DC061765
+        for <linux-media@vger.kernel.org>; Thu,  5 Aug 2021 03:47:13 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id go31so8813181ejc.6
+        for <linux-media@vger.kernel.org>; Thu, 05 Aug 2021 03:47:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eVaTRkamBWNeAIIvO1r0GAnkID272xxf4HZNo18Mxds=;
- b=nGJd5XqYXaKR6EVoRxBOKLwc+4CetT0+uO+UbCSRE9Nyy0OseudcBPYQM93pQf8rXb6XsfutaAJKCGKUgE6mABm2Zt4mtIU0tJeQq82h/DsGQkzL9/pzYY/H/Q279iLOKxAyHKs/dVDAAy6Inn7oXH/9/p3QTbSHX9w9wlK8nZg=
-Authentication-Results: sony.com; dkim=none (message not signed)
- header.d=none;sony.com; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO1PR10MB4484.namprd10.prod.outlook.com
- (2603:10b6:303:90::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.17; Thu, 5 Aug
- 2021 10:40:15 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4373.027; Thu, 5 Aug 2021
- 10:40:15 +0000
-Date:   Thu, 5 Aug 2021 13:40:03 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: cxd2880-spi: fix a reversed condition in error
- handling
-Message-ID: <20210805104002.GC26417@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: ZR0P278CA0102.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:23::17) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=CoG2esdMRwLFR8uHGGrQFQm0ZCUOJRe/ckDv511Bsxs=;
+        b=RTDZrPcaNrPyY/63CGHz3uXbwe2TFSbcxXG/lWDMIuN+EK+WeIM9CG6VpXlMlluGQ5
+         nB0vodUebjlU3Lf59Qs3xsLDQ+eWeDRiGc3wFRjw7AnnNVQtji7hTdRA9MrwDdANAheP
+         tWkaSUQ+0wDX4QH1A7A1vW6wpPmuOH/V71B8o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=CoG2esdMRwLFR8uHGGrQFQm0ZCUOJRe/ckDv511Bsxs=;
+        b=HXdYfCchkJuHcRmRT236oOLKB8UC3S0XFcJK2bqc7HbNey3TFjpCmEaSUfEIDMJ/G1
+         7FKoOI04T03nWmb1D+cmv4LbN2pSi1+YJI6lDXSPcEhuhOfdu1QGOajOply03ZZoYLDL
+         pMyN4G7Q1BKPy3my4TwhGxY6v/C29NKf0geX1zKQ0U5FIRkhZuCuCyd2mMvE3nFN6THq
+         l3m3XZV4SE14HB9P0cjRDtIO0w5pjg8NJy3MfINIKb7O9QzoFs6XUvYK6Dj0djaUBri1
+         IkGcAsedlIjKEvFIUfQNjpkz+rZGR5e6303UmFxOREnFdubP6/IwpPuQjZOLvCaeEHTZ
+         3KUg==
+X-Gm-Message-State: AOAM532dQv2FbazcCb7qwzRRBMV6yT/I3BsAeaJNAWHTKrc9/Izq6uu4
+        GvcBSVvmRlBAN9YtQO1R5E+FkA==
+X-Google-Smtp-Source: ABdhPJwKOARNyuAw0W/beCDS0nOUJqk3su10tEZmG/j8ymKhq644348cvEJBhIRTyIph93tXawPD0g==
+X-Received: by 2002:a17:906:b317:: with SMTP id n23mr3486132ejz.456.1628160431778;
+        Thu, 05 Aug 2021 03:47:11 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id p5sm1578809ejl.73.2021.08.05.03.47.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Aug 2021 03:47:11 -0700 (PDT)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Melissa Wen <mwen@igalia.com>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Emma Anholt <emma@anholt.net>,
+        Steven Price <steven.price@arm.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Qiang Yu <yuq825@gmail.com>, Rob Herring <robh@kernel.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Nick Terrell <terrelln@fb.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Paul Menzel <pmenzel@molgen.mpg.de>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Dave Airlie <airlied@redhat.com>,
+        Nirmoy Das <nirmoy.das@amd.com>,
+        Deepak R Varma <mh12gx2825@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Kevin Wang <kevin1.wang@amd.com>,
+        Chen Li <chenli@uniontech.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
+        Dennis Li <Dennis.Li@amd.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Sonny Jiang <sonny.jiang@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        etnaviv@lists.freedesktop.org, lima@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: [PATCH v5 01/20] drm/sched: Split drm_sched_job_init
+Date:   Thu,  5 Aug 2021 12:46:46 +0200
+Message-Id: <20210805104705.862416-2-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210805104705.862416-1-daniel.vetter@ffwll.ch>
+References: <20210805104705.862416-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kili (102.222.70.252) by ZR0P278CA0102.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:23::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.16 via Frontend Transport; Thu, 5 Aug 2021 10:40:11 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5973e0fe-645e-4647-f668-08d957fd6932
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4484:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO1PR10MB4484BCC178CC4D1F8BA133D48EF29@CO1PR10MB4484.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:651;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: q2ChD/47rT5u+re4+vkYXSdwO9ZqEZqTvjudw5/fy9LraM8/I/uho3IQkpzUrt5fcqhc5cS+Alqttuq8HxI8ScgLgNuooTffPBPQ2ObcsMDF2o2co9R/JkfJ1KXrlA4PpWr/LB2yUi53wc8Xp/Zvcf6TdkdPpoSljqLD+Ixr8K/DMUxjLSlfwgCYkkAUtw8U5U82XMwMnNuwlfbFSQ3vRtoG1KQF4jxTdSBsztPa9kIxKXDTG5oJTfI1wkhuTQmvOjgzHo1TPDExIibaYdks2ldKOkXeiRkQeZLzXjMk5zrO5FppXH6qX606WkId61fTwY+WFVTm/WnSsh3t7BXQRoIpQxyQtolp7If5jpK2iASxUjzS+AtDUp5ox+/AbWg2kB+EXArmv9nbghRXXHgviqABMLpUnSWW9fbglEvffQ+MFOxJgXPgD7GPy5FRlvtoUWfBsynPj9AsW/D8iF6DsKhCX+a63T0wemw4g7S2t+CAEFW3cFZtSOJcipBQju8A6gSUA6a6PLB74+rv4BiHJ98WLxWrS76072jwtYSKPtN34GPhCM/wDsN7rmSyRkoL+WvQC3Qzp69hIgKNX1UC3uHgbX6T0ewMfwEg1ixD5zBaMp2F34glHDg5uNiDBOsDlrBVQI4MB2orhrvthJiCrRk5WRkozSoTxoPDDFNzzJAB5G+0ddxSIRZhhy//gE75TmkUrXfbbCXjuoHfxlAGfQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(396003)(346002)(136003)(376002)(366004)(9576002)(8936002)(33716001)(86362001)(66946007)(66476007)(9686003)(6496006)(83380400001)(316002)(8676002)(66556008)(33656002)(55016002)(110136005)(54906003)(6666004)(26005)(186003)(4744005)(478600001)(956004)(44832011)(2906002)(1076003)(38350700002)(52116002)(5660300002)(38100700002)(4326008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+7n8PyN1LhN+4YE5wqTjVcoTNdAZuruwnSyMoKqpRpUHnwKBFvD+bAiZbgXO?=
- =?us-ascii?Q?75TvcCYzuttq+4gnC1rRru93e64Pi0y5YFNTJgb8c/6f6EJNUi57WiX03ZOu?=
- =?us-ascii?Q?I8ldAderM4AyK4pVUmtg+/oPYQuGFA+JFCs8x6xpXkqgGMDr5dHvyV0GGxlZ?=
- =?us-ascii?Q?73FYXEW340NfiCZPLVg7jnUVsaFxJEvQLI0G/7uiHtY2t6nq+obHgqn7MWEM?=
- =?us-ascii?Q?KhnIHVToxig3f+JRywn7C4lRggIEJ6qOQwru7StQ8k5lDaw9tSIQrd+GPVSD?=
- =?us-ascii?Q?I+xoQ9kq5fKRv5cxXOFTAt+6ihI8hC61AaL6eo+5MYFL3BddeYbhrGDFTTc7?=
- =?us-ascii?Q?Spha6DRL57ceHINsClSf7nSrZaeD1FEJy4yh7TT/GHvsh1zgmx6H21N5U4dv?=
- =?us-ascii?Q?Gs0GC7QjAXVlns6mZvmW54bHpRIkfZgcbrMUl8eEu+AZU5emVHM/c2kxzvWG?=
- =?us-ascii?Q?8Nvf1Laf6TAoJurVXkxPpPcsYzw7cnliOWzqYAg7IlnaSkY2FX8E9fUpHNK2?=
- =?us-ascii?Q?IAVhv4gs3kavN7n3Q16mORh8VEhXVrAm3zNLuvDreJVyXW/hdpUc31TiTjCG?=
- =?us-ascii?Q?0yxmKCeQZVXZ23i1hQyPlD7zUgeqsaoPuc5Rz9miQscGE9VOFkqCIgCeoMBp?=
- =?us-ascii?Q?Q7aVnsrUQvIoF/tKF4UqXtJCuh5Pd1PF5tWrasfc5s5e2q+WWxG5Ori2Uiaq?=
- =?us-ascii?Q?Mv+iq7EUC6IaoLGgc/YUAOZVKwhG+I+anFqKSYwJiZDemxpVQQRfgrfrzzJA?=
- =?us-ascii?Q?/ZvK1bOIHPbY6vQFuKShB3QvORo2+Fa1I/wDLBcIDiLAVlXamvdyhbnjpmx2?=
- =?us-ascii?Q?RJTTVaq2EuKK0t8FIBb5iqBc8CR1lVOmDjh3L+Z72EBjk1ZPp6GWiSZPn+dR?=
- =?us-ascii?Q?nSdtiqJmlhqK5w/ElIHK5u+9hzqubpS64flRHD6ynMc8cQY/NjsPaePbQ+PN?=
- =?us-ascii?Q?fuJLEcJX6Fe5jahrvVZqgtLLEqWXVJY32IM0jvj4D8ebeE0tcS+n/T7r00SN?=
- =?us-ascii?Q?SIwFQzjP1w7xScfBKtQlu9TT8qZOlXQJmzDjvSPN+Wyzk0kTAYMaYgcS+VEm?=
- =?us-ascii?Q?KE4NTwl0WXJAsYgCNtoIgJZvW0lGPX6zR/ZWVzImis+Z1C89rZ7OcHL3cO37?=
- =?us-ascii?Q?Y51waat0MRuMxLmMuL+ODWyFiWKPyi2D3gRx1JYwyrn6RJsnIAvzwo+Py8EP?=
- =?us-ascii?Q?QzAAfac+hSRMkYDSGeS+pGMMLDwBsRG3gSu8d7MlodmdGyP+kcVl+Y/WnlsP?=
- =?us-ascii?Q?3ko9Uon89oCQXhNSTBnAybjvGq/cb+ENvIFxp+aH6y9kKZUzwDZVXhv9+QJE?=
- =?us-ascii?Q?1w7+LkSVxm9tBigJA4fePoYz?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5973e0fe-645e-4647-f668-08d957fd6932
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2021 10:40:15.4404
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3ybgjKlC6xadwOSV9QikOGEGBYbbdfVzV42zSdL4RoGxBabdALYYCwIZ9Knrgq3KtWPScTjh34BrHsfQ4tAPUQ207LEHr+6noqAsnmRo3Fo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4484
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10066 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 phishscore=0
- spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108050063
-X-Proofpoint-GUID: tt-_ScGDXCcKqNf1MN9F7KAnOIEpjXZ2
-X-Proofpoint-ORIG-GUID: tt-_ScGDXCcKqNf1MN9F7KAnOIEpjXZ2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This if statement is reversed so it leads to either a NULL dereference
-or a leak.
+This is a very confusingly named function, because not just does it
+init an object, it arms it and provides a point of no return for
+pushing a job into the scheduler. It would be nice if that's a bit
+clearer in the interface.
 
-Fixes: dcb014582101 ("media: cxd2880-spi: Fix an error handling path")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+But the real reason is that I want to push the dependency tracking
+helpers into the scheduler code, and that means drm_sched_job_init
+must be called a lot earlier, without arming the job.
+
+v2:
+- don't change .gitignore (Steven)
+- don't forget v3d (Emma)
+
+v3: Emma noticed that I leak the memory allocated in
+drm_sched_job_init if we bail out before the point of no return in
+subsequent driver patches. To be able to fix this change
+drm_sched_job_cleanup() so it can handle being called both before and
+after drm_sched_job_arm().
+
+Also improve the kerneldoc for this.
+
+v4:
+- Fix the drm_sched_job_cleanup logic, I inverted the booleans, as
+  usual (Melissa)
+
+- Christian pointed out that drm_sched_entity_select_rq() also needs
+  to be moved into drm_sched_job_arm, which made me realize that the
+  job->id definitely needs to be moved too.
+
+  Shuffle things to fit between job_init and job_arm.
+
+v5:
+Reshuffle the split between init/arm once more, amdgpu abuses
+drm_sched.ready to signal gpu reset failures. Also document this
+somewhat. (Christian)
+
+v6:
+Rebase on top of the msm drm/sched support. Note that the
+drm_sched_job_init() call is completely misplaced, and hence also the
+split-out drm_sched_entity_push_job(). I've put in a FIXME which the next
+patch will address.
+
+Acked-by: Melissa Wen <mwen@igalia.com>
+Cc: Melissa Wen <melissa.srw@gmail.com>
+Acked-by: Emma Anholt <emma@anholt.net>
+Acked-by: Steven Price <steven.price@arm.com> (v2)
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com> (v5)
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: Qiang Yu <yuq825@gmail.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc: Steven Price <steven.price@arm.com>
+Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Adam Borowski <kilobyte@angband.pl>
+Cc: Nick Terrell <terrelln@fb.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: Sami Tolvanen <samitolvanen@google.com>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Nirmoy Das <nirmoy.das@amd.com>
+Cc: Deepak R Varma <mh12gx2825@gmail.com>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Kevin Wang <kevin1.wang@amd.com>
+Cc: Chen Li <chenli@uniontech.com>
+Cc: Luben Tuikov <luben.tuikov@amd.com>
+Cc: "Marek Olšák" <marek.olsak@amd.com>
+Cc: Dennis Li <Dennis.Li@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Cc: Sonny Jiang <sonny.jiang@amd.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Tian Tao <tiantao6@hisilicon.com>
+Cc: etnaviv@lists.freedesktop.org
+Cc: lima@lists.freedesktop.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: Emma Anholt <emma@anholt.net>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <sean@poorly.run>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org
 ---
- drivers/media/spi/cxd2880-spi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c   |  2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  2 +
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c  |  2 +
+ drivers/gpu/drm/lima/lima_sched.c        |  2 +
+ drivers/gpu/drm/msm/msm_gem_submit.c     |  3 ++
+ drivers/gpu/drm/panfrost/panfrost_job.c  |  2 +
+ drivers/gpu/drm/scheduler/sched_entity.c |  6 +--
+ drivers/gpu/drm/scheduler/sched_fence.c  | 19 ++++---
+ drivers/gpu/drm/scheduler/sched_main.c   | 69 ++++++++++++++++++++----
+ drivers/gpu/drm/v3d/v3d_gem.c            |  2 +
+ include/drm/gpu_scheduler.h              |  7 ++-
+ 11 files changed, 94 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/media/spi/cxd2880-spi.c b/drivers/media/spi/cxd2880-spi.c
-index b91a1e845b97..506f52c1af10 100644
---- a/drivers/media/spi/cxd2880-spi.c
-+++ b/drivers/media/spi/cxd2880-spi.c
-@@ -618,7 +618,7 @@ cxd2880_spi_probe(struct spi_device *spi)
- fail_attach:
- 	dvb_unregister_adapter(&dvb_spi->adapter);
- fail_adapter:
--	if (!dvb_spi->vcc_supply)
-+	if (dvb_spi->vcc_supply)
- 		regulator_disable(dvb_spi->vcc_supply);
- fail_regulator:
- 	kfree(dvb_spi);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 139cd3bf1ad6..32e80bc6af22 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -1226,6 +1226,8 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+ 	if (r)
+ 		goto error_unlock;
+ 
++	drm_sched_job_arm(&job->base);
++
+ 	/* No memory allocation is allowed while holding the notifier lock.
+ 	 * The lock is held until amdgpu_cs_submit is finished and fence is
+ 	 * added to BOs.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index d33e6d97cc89..5ddb955d2315 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -170,6 +170,8 @@ int amdgpu_job_submit(struct amdgpu_job *job, struct drm_sched_entity *entity,
+ 	if (r)
+ 		return r;
+ 
++	drm_sched_job_arm(&job->base);
++
+ 	*f = dma_fence_get(&job->base.s_fence->finished);
+ 	amdgpu_job_free_resources(job);
+ 	drm_sched_entity_push_job(&job->base, entity);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index feb6da1b6ceb..05f412204118 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -163,6 +163,8 @@ int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
+ 	if (ret)
+ 		goto out_unlock;
+ 
++	drm_sched_job_arm(&submit->sched_job);
++
+ 	submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
+ 	submit->out_fence_id = idr_alloc_cyclic(&submit->gpu->fence_idr,
+ 						submit->out_fence, 0,
+diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+index dba8329937a3..38f755580507 100644
+--- a/drivers/gpu/drm/lima/lima_sched.c
++++ b/drivers/gpu/drm/lima/lima_sched.c
+@@ -129,6 +129,8 @@ int lima_sched_task_init(struct lima_sched_task *task,
+ 		return err;
+ 	}
+ 
++	drm_sched_job_arm(&task->base);
++
+ 	task->num_bos = num_bos;
+ 	task->vm = lima_vm_get(vm);
+ 
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index fdc5367aecaa..6d6c44f0e1f3 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -52,6 +52,9 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
+ 		return ERR_PTR(ret);
+ 	}
+ 
++	/* FIXME: this is way too early */
++	drm_sched_job_arm(&job->base);
++
+ 	xa_init_flags(&submit->deps, XA_FLAGS_ALLOC);
+ 
+ 	kref_init(&submit->ref);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 71a72fb50e6b..2992dc85325f 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -288,6 +288,8 @@ int panfrost_job_push(struct panfrost_job *job)
+ 		goto unlock;
+ 	}
+ 
++	drm_sched_job_arm(&job->base);
++
+ 	job->render_done_fence = dma_fence_get(&job->base.s_fence->finished);
+ 
+ 	ret = panfrost_acquire_object_fences(job->bos, job->bo_count,
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 79554aa4dbb1..f7347c284886 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -485,9 +485,9 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+  * @sched_job: job to submit
+  * @entity: scheduler entity
+  *
+- * Note: To guarantee that the order of insertion to queue matches
+- * the job's fence sequence number this function should be
+- * called with drm_sched_job_init under common lock.
++ * Note: To guarantee that the order of insertion to queue matches the job's
++ * fence sequence number this function should be called with drm_sched_job_arm()
++ * under common lock.
+  *
+  * Returns 0 for success, negative error code otherwise.
+  */
+diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+index 69de2c76731f..bcea035cf4c6 100644
+--- a/drivers/gpu/drm/scheduler/sched_fence.c
++++ b/drivers/gpu/drm/scheduler/sched_fence.c
+@@ -90,7 +90,7 @@ static const char *drm_sched_fence_get_timeline_name(struct dma_fence *f)
+  *
+  * Free up the fence memory after the RCU grace period.
+  */
+-static void drm_sched_fence_free(struct rcu_head *rcu)
++void drm_sched_fence_free(struct rcu_head *rcu)
+ {
+ 	struct dma_fence *f = container_of(rcu, struct dma_fence, rcu);
+ 	struct drm_sched_fence *fence = to_drm_sched_fence(f);
+@@ -152,27 +152,32 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
+ }
+ EXPORT_SYMBOL(to_drm_sched_fence);
+ 
+-struct drm_sched_fence *drm_sched_fence_create(struct drm_sched_entity *entity,
+-					       void *owner)
++struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
++					      void *owner)
+ {
+ 	struct drm_sched_fence *fence = NULL;
+-	unsigned seq;
+ 
+ 	fence = kmem_cache_zalloc(sched_fence_slab, GFP_KERNEL);
+ 	if (fence == NULL)
+ 		return NULL;
+ 
+ 	fence->owner = owner;
+-	fence->sched = entity->rq->sched;
+ 	spin_lock_init(&fence->lock);
+ 
++	return fence;
++}
++
++void drm_sched_fence_init(struct drm_sched_fence *fence,
++			  struct drm_sched_entity *entity)
++{
++	unsigned seq;
++
++	fence->sched = entity->rq->sched;
+ 	seq = atomic_inc_return(&entity->fence_seq);
+ 	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
+ 		       &fence->lock, entity->fence_context, seq);
+ 	dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
+ 		       &fence->lock, entity->fence_context + 1, seq);
+-
+-	return fence;
+ }
+ 
+ module_init(drm_sched_fence_slab_init);
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 33c414d55fab..454cb6164bdc 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -48,9 +48,11 @@
+ #include <linux/wait.h>
+ #include <linux/sched.h>
+ #include <linux/completion.h>
++#include <linux/dma-resv.h>
+ #include <uapi/linux/sched/types.h>
+ 
+ #include <drm/drm_print.h>
++#include <drm/drm_gem.h>
+ #include <drm/gpu_scheduler.h>
+ #include <drm/spsc_queue.h>
+ 
+@@ -569,7 +571,6 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs_ext);
+ 
+ /**
+  * drm_sched_job_init - init a scheduler job
+- *
+  * @job: scheduler job to init
+  * @entity: scheduler entity to use
+  * @owner: job owner for debugging
+@@ -577,27 +578,28 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs_ext);
+  * Refer to drm_sched_entity_push_job() documentation
+  * for locking considerations.
+  *
++ * Drivers must make sure drm_sched_job_cleanup() if this function returns
++ * successfully, even when @job is aborted before drm_sched_job_arm() is called.
++ *
++ * WARNING: amdgpu abuses &drm_sched.ready to signal when the hardware
++ * has died, which can mean that there's no valid runqueue for a @entity.
++ * This function returns -ENOENT in this case (which probably should be -EIO as
++ * a more meanigful return value).
++ *
+  * Returns 0 for success, negative error code otherwise.
+  */
+ int drm_sched_job_init(struct drm_sched_job *job,
+ 		       struct drm_sched_entity *entity,
+ 		       void *owner)
+ {
+-	struct drm_gpu_scheduler *sched;
+-
+ 	drm_sched_entity_select_rq(entity);
+ 	if (!entity->rq)
+ 		return -ENOENT;
+ 
+-	sched = entity->rq->sched;
+-
+-	job->sched = sched;
+ 	job->entity = entity;
+-	job->s_priority = entity->rq - sched->sched_rq;
+-	job->s_fence = drm_sched_fence_create(entity, owner);
++	job->s_fence = drm_sched_fence_alloc(entity, owner);
+ 	if (!job->s_fence)
+ 		return -ENOMEM;
+-	job->id = atomic64_inc_return(&sched->job_id_count);
+ 
+ 	INIT_LIST_HEAD(&job->list);
+ 
+@@ -606,13 +608,58 @@ int drm_sched_job_init(struct drm_sched_job *job,
+ EXPORT_SYMBOL(drm_sched_job_init);
+ 
+ /**
+- * drm_sched_job_cleanup - clean up scheduler job resources
++ * drm_sched_job_arm - arm a scheduler job for execution
++ * @job: scheduler job to arm
++ *
++ * This arms a scheduler job for execution. Specifically it initializes the
++ * &drm_sched_job.s_fence of @job, so that it can be attached to struct dma_resv
++ * or other places that need to track the completion of this job.
++ *
++ * Refer to drm_sched_entity_push_job() documentation for locking
++ * considerations.
+  *
++ * This can only be called if drm_sched_job_init() succeeded.
++ */
++void drm_sched_job_arm(struct drm_sched_job *job)
++{
++	struct drm_gpu_scheduler *sched;
++	struct drm_sched_entity *entity = job->entity;
++
++	BUG_ON(!entity);
++
++	sched = entity->rq->sched;
++
++	job->sched = sched;
++	job->s_priority = entity->rq - sched->sched_rq;
++	job->id = atomic64_inc_return(&sched->job_id_count);
++
++	drm_sched_fence_init(job->s_fence, job->entity);
++}
++EXPORT_SYMBOL(drm_sched_job_arm);
++
++/**
++ * drm_sched_job_cleanup - clean up scheduler job resources
+  * @job: scheduler job to clean up
++ *
++ * Cleans up the resources allocated with drm_sched_job_init().
++ *
++ * Drivers should call this from their error unwind code if @job is aborted
++ * before drm_sched_job_arm() is called.
++ *
++ * After that point of no return @job is committed to be executed by the
++ * scheduler, and this function should be called from the
++ * &drm_sched_backend_ops.free_job callback.
+  */
+ void drm_sched_job_cleanup(struct drm_sched_job *job)
+ {
+-	dma_fence_put(&job->s_fence->finished);
++	if (kref_read(&job->s_fence->finished.refcount)) {
++		/* drm_sched_job_arm() has been called */
++		dma_fence_put(&job->s_fence->finished);
++	} else {
++		/* aborted job before committing to run it */
++		drm_sched_fence_free(&job->s_fence->finished.rcu);
++	}
++
+ 	job->s_fence = NULL;
+ }
+ EXPORT_SYMBOL(drm_sched_job_cleanup);
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index 5689da118197..2e808097b4d1 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -480,6 +480,8 @@ v3d_push_job(struct v3d_file_priv *v3d_priv,
+ 	if (ret)
+ 		return ret;
+ 
++	drm_sched_job_arm(&job->base);
++
+ 	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+ 
+ 	/* put by scheduler job completion */
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 88ae7f331bb1..83afc3aa8e2f 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -348,6 +348,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched);
+ int drm_sched_job_init(struct drm_sched_job *job,
+ 		       struct drm_sched_entity *entity,
+ 		       void *owner);
++void drm_sched_job_arm(struct drm_sched_job *job);
+ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+ 				    struct drm_gpu_scheduler **sched_list,
+                                    unsigned int num_sched_list);
+@@ -387,8 +388,12 @@ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
+ 				   enum drm_sched_priority priority);
+ bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
+ 
+-struct drm_sched_fence *drm_sched_fence_create(
++struct drm_sched_fence *drm_sched_fence_alloc(
+ 	struct drm_sched_entity *s_entity, void *owner);
++void drm_sched_fence_init(struct drm_sched_fence *fence,
++			  struct drm_sched_entity *entity);
++void drm_sched_fence_free(struct rcu_head *rcu);
++
+ void drm_sched_fence_scheduled(struct drm_sched_fence *fence);
+ void drm_sched_fence_finished(struct drm_sched_fence *fence);
+ 
 -- 
-2.30.2
+2.32.0
 
