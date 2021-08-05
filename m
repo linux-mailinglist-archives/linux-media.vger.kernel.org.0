@@ -2,115 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05FD03E0FD2
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 10:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E12093E102F
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 10:23:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239339AbhHEIEg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 04:04:36 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:13235 "EHLO
-        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239214AbhHEIER (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 04:04:17 -0400
-Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.57])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GgLj33fdfz1CRVR;
-        Thu,  5 Aug 2021 16:03:51 +0800 (CST)
-Received: from [10.67.103.235] (10.67.103.235) by
- dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Thu, 5 Aug 2021 16:03:58 +0800
-Subject: Re: [PATCH V7 5/9] PCI/IOV: Enable 10-Bit tag support for PCIe VF
- devices
-To:     Bjorn Helgaas <helgaas@kernel.org>
-References: <20210804232937.GA1691653@bjorn-Precision-5520>
-CC:     <hch@infradead.org>, <kw@linux.com>, <logang@deltatee.com>,
-        <leon@kernel.org>, <linux-pci@vger.kernel.org>,
-        <rajur@chelsio.com>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
-From:   Dongdong Liu <liudongdong3@huawei.com>
-Message-ID: <08b7a9b7-2951-43c3-5e81-3461b6724955@huawei.com>
-Date:   Thu, 5 Aug 2021 16:03:58 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S239485AbhHEIXb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 04:23:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42510 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237415AbhHEIXX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 04:23:23 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E72D4C061765
+        for <linux-media@vger.kernel.org>; Thu,  5 Aug 2021 01:23:09 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id z2so9548312lft.1
+        for <linux-media@vger.kernel.org>; Thu, 05 Aug 2021 01:23:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=+e6CGQXxPMJe6R9jF7UtUP2EM2nwkAeOu++SZ0r1h48=;
+        b=g9Fw9rp8HJt6YVrjbNKeYQ1cxVRtK7R5x5yue0bGcwObp8XT8wnN1ueN0WXsG0n46f
+         hJtSGe20wDlez9DuciC9s+qlj4cmcdzZ+oVIymjn3Q3IQhU7zhoft9qfOpmHlSZYhIxJ
+         jCN/BeTXg3D3L/XQuJdM3DSCT7/P3KFXDJcYKPza+o7lLDyn2iFtMQyThi6k1g749Go9
+         pjt2FCuQ0EwfxacwyBIZvcZqGDT2MwhoULpYjSx0CfoCY6YYZFl9Fdp0l7mlN2eTpVCn
+         h0IPLKTpJ0fMHtpT7TsyuuRGsE311a+5PgEy0+im9sj5WD1OOa+3+hKnyNEDVkQJ71Fz
+         5btQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=+e6CGQXxPMJe6R9jF7UtUP2EM2nwkAeOu++SZ0r1h48=;
+        b=RM6rDcSssok7dED/j59n07FBQnRMGMHXO8gRP4zYJqPcYrBBeBEGpi7KJ7Vpuuizlq
+         DUd40KovT5lRB1E2GJhwFtLLxXPY/Ip0giyzL1k9+vWjDp55VAmaWTxQyecwcKNSewjS
+         aBaRTkhdrsZpuiGA4oWnLMm58UvMTyARgErP4fnJcGhlktVrrD7VVzJ0atF53ufQClJN
+         hAAg4fqrDQRoO88Ln5qa8pyCo2pX90Q7XWMl0jNdcM4SCOIkuN6r4v7Aa4oBwFzPw6k1
+         TSr4MTVJNFnmt9yqVgFNvPGfEbVBmqHlbJsRHVsWsOiSNRiQRNsTdNtccI98r2gDgczG
+         +RuA==
+X-Gm-Message-State: AOAM531a5ea/OI06/h3MNxAhd1lOGa1WOwqwxaxLQDoB4VNNOvB2f2PB
+        zjFiEnWg0XURKmwnDan9rg+CIA==
+X-Google-Smtp-Source: ABdhPJy/d8s2887ufCuc62214Nvv1BektY4zjKTu/arCogjXCRDEpuyLUIGwPdFqdI23mNRuLRdaqw==
+X-Received: by 2002:ac2:569e:: with SMTP id 30mr2756171lfr.322.1628151787049;
+        Thu, 05 Aug 2021 01:23:07 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+        by smtp.gmail.com with ESMTPSA id w10sm440434lfa.66.2021.08.05.01.23.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Aug 2021 01:23:06 -0700 (PDT)
+Subject: Re: [PATCH -next v2] drm/msm: Use list_move_tail instead of
+ list_del/list_add_tail in msm_gem.c
+To:     Baokun Li <libaokun1@huawei.com>, linux-kernel@vger.kernel.org,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     weiyongjun1@huawei.com, yuehaibing@huawei.com,
+        yangjihong1@huawei.com, yukuai3@huawei.com,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        freedreno@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, kernel-janitors@vger.kernel.org,
+        Hulk Robot <hulkci@huawei.com>
+References: <20210609072838.1369371-1-libaokun1@huawei.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <0ac0b93f-65f6-930b-a224-12ebf919ad9d@linaro.org>
+Date:   Thu, 5 Aug 2021 11:23:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210804232937.GA1691653@bjorn-Precision-5520>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+In-Reply-To: <20210609072838.1369371-1-libaokun1@huawei.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.235]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggeme758-chm.china.huawei.com (10.3.19.104)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 09/06/2021 10:28, Baokun Li wrote:
+> Using list_move_tail() instead of list_del() + list_add_tail() in msm_gem.c.
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Baokun Li <libaokun1@huawei.com>
 
-On 2021/8/5 7:29, Bjorn Helgaas wrote:
-> On Wed, Aug 04, 2021 at 09:47:04PM +0800, Dongdong Liu wrote:
->> Enable VF 10-Bit Tag Requester when it's upstream component support
->> 10-bit Tag Completer.
->
-> s/it's/its/
-> s/support/supports/
-Will fix.
->
-> I think "upstream component" here means the PF, doesn't it?  I don't
-> think the PF is really an *upstream* component; there's no routing
-> like with a switch.
-I want to say the switch and root port devices that support 10-Bit
-Tag Completer. Sure, VF also needs to have 10-bit Tag Requester
-Supported capability.
->
->> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
->> Reviewed-by: Christoph Hellwig <hch@lst.de>
->> ---
->>  drivers/pci/iov.c | 8 ++++++++
->>  1 file changed, 8 insertions(+)
->>
->> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
->> index dafdc65..0d0bed1 100644
->> --- a/drivers/pci/iov.c
->> +++ b/drivers/pci/iov.c
->> @@ -634,6 +634,10 @@ static int sriov_enable(struct pci_dev *dev, int nr_virtfn)
->>
->>  	pci_iov_set_numvfs(dev, nr_virtfn);
->>  	iov->ctrl |= PCI_SRIOV_CTRL_VFE | PCI_SRIOV_CTRL_MSE;
->> +	if ((iov->cap & PCI_SRIOV_CAP_VF_10BIT_TAG_REQ) &&
->> +	    dev->ext_10bit_tag)
->> +		iov->ctrl |= PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN;
->> +
->>  	pci_cfg_access_lock(dev);
->>  	pci_write_config_word(dev, iov->pos + PCI_SRIOV_CTRL, iov->ctrl);
->>  	msleep(100);
->> @@ -650,6 +654,8 @@ static int sriov_enable(struct pci_dev *dev, int nr_virtfn)
->>
->>  err_pcibios:
->>  	iov->ctrl &= ~(PCI_SRIOV_CTRL_VFE | PCI_SRIOV_CTRL_MSE);
->> +	if (iov->ctrl & PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN)
->> +		iov->ctrl &= ~PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN;
->>  	pci_cfg_access_lock(dev);
->>  	pci_write_config_word(dev, iov->pos + PCI_SRIOV_CTRL, iov->ctrl);
->>  	ssleep(1);
->> @@ -682,6 +688,8 @@ static void sriov_disable(struct pci_dev *dev)
->>
->>  	sriov_del_vfs(dev);
->>  	iov->ctrl &= ~(PCI_SRIOV_CTRL_VFE | PCI_SRIOV_CTRL_MSE);
->> +	if (iov->ctrl & PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN)
->> +		iov->ctrl &= ~PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN;
->
-> You can just clear PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN unconditionally,
-> can't you?  I know it wouldn't change anything, but removing the "if"
-> makes the code prettier.  You could just add it in the existing
-> PCI_SRIOV_CTRL_VFE | PCI_SRIOV_CTRL_MSE mask.
-Will do.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Thanks,
-Dongdong
->
->>  	pci_cfg_access_lock(dev);
->>  	pci_write_config_word(dev, iov->pos + PCI_SRIOV_CTRL, iov->ctrl);
->>  	ssleep(1);
->> --
->> 2.7.4
->>
-> .
->
+> ---
+> V1->V2:
+> 	CC mailist
+> 
+>   drivers/gpu/drm/msm/msm_gem.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> index 1865919368f2..5b7d63d3750a 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -854,8 +854,7 @@ void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
+>   		mutex_lock(&priv->mm_lock);
+>   		if (msm_obj->evictable)
+>   			mark_unevictable(msm_obj);
+> -		list_del(&msm_obj->mm_list);
+> -		list_add_tail(&msm_obj->mm_list, &gpu->active_list);
+> +		list_move_tail(&msm_obj->mm_list, &gpu->active_list);
+>   		mutex_unlock(&priv->mm_lock);
+>   	}
+>   }
+> 
+
+
+-- 
+With best wishes
+Dmitry
