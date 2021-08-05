@@ -2,21 +2,18 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D658C3E1724
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 16:45:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 335883E1725
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 16:45:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242011AbhHEOnX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 10:43:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45312 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233059AbhHEOnK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 10:43:10 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 965E1C061765;
-        Thu,  5 Aug 2021 07:42:56 -0700 (PDT)
+        id S242021AbhHEOoJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 10:44:09 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59054 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229892AbhHEOnL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 10:43:11 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: andrzej.p)
-        with ESMTPSA id C14C51F44097
+        with ESMTPSA id 93B6B1F44098
 From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
@@ -36,131 +33,56 @@ Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com
-Subject: [PATCH v3 00/10] VP9 codec V4L2 control interface
-Date:   Thu,  5 Aug 2021 16:42:36 +0200
-Message-Id: <20210805144246.11998-1-andrzej.p@collabora.com>
+        Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v3 01/10] hantro: postproc: Fix motion vector space size
+Date:   Thu,  5 Aug 2021 16:42:37 +0200
+Message-Id: <20210805144246.11998-2-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210805144246.11998-1-andrzej.p@collabora.com>
+References: <20210805144246.11998-1-andrzej.p@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear all,
+From: Ezequiel Garcia <ezequiel@collabora.com>
 
-This patch series adds VP9 codec V4L2 control interface and two drivers
-using the new controls. It is a follow-up of previous RFC v2 series [1].
+When the post-processor hardware block is enabled, the driver
+allocates an internal queue of buffers for the decoder enginer,
+and uses the vb2 queue for the post-processor engine.
 
-In this new iteration, we've implemented VP9 hardware decoding on two devices:
-Rockchip VDEC and Hantro G2, and tested on RK3399, i.MX8MQ and i.MX8MP.
-The i.MX8M driver needs proper power domains support, though, which is a
-subject of a different effort, but in all 3 cases we were able to run the
-drivers.
+For instance, on a G1 core, the decoder engine produces NV12 buffers
+and the post-processor engine can produce YUY2 buffers. The decoder
+engine expects motion vectors to be appended to the NV12 buffers,
+but this is only required for CODECs that need motion vectors,
+such as H.264.
 
-GStreamer support is also available, the needed changes have been submitted
-by Daniel Almeida [2]. This MR is ready to be merged, and just needs the
-VP9 V4L2 controls to be merged and released.
+Fix the post-processor logic accordingly.
 
-Both rkvdec and hantro drivers are passing a significant number of VP9 tests
-using Fluster[3]. There are still a few tests that are not passing, due to
-dynamic frame resize (not yet supported by V4L2) and small size videos
-(due to IP block limitations).
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+---
+ drivers/staging/media/hantro/hantro_postproc.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-The series adds the VP9 codec V4L2 control API as uAPI, so it aims at being
-merged without passing through staging, as agreed[4]. The ABI has been checked
-for padding and verified to contain no holes. Please note, though,
-that I kindly ask not to merge this until Nicolas Dufresne reviews it.
-
-[1] https://patchwork.linuxtv.org/project/linux-media/cover/20210505123836.9573-1-andrzej.p@collabora.com/
-[2] https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/merge_requests/2144
-[3] https://github.com/fluendo/fluster
-[4] https://lore.kernel.org/linux-media/b8f83c93-67fd-09f5-9314-15746cbfdc61@xs4all.nl/
-
-Changes related to the RFC v2:
-
-- added another driver including a postprocessor to de-tile
-        codec-specific tiling
-- reworked uAPI structs layout to follow VP8 style
-- changed validation of loop filter params
-- changed validation of segmentation params
-- changed validation of VP9 frame params
-- removed level lookup array from loop filter struct
-        (can be computed by drivers)
-- renamed some enum values to match the spec more closely
-- V4L2 VP9 library changed the 'eob' member of
-        'struct v4l2_vp9_frame_symbol_counts' so that it is an array
-        of pointers instead of an array of pointers to arrays
-        (IPs such as g2 creatively pass parts of the 'eob' counts in
-        the 'coeff' counts)
-- factored out several repeated portions of code
-- minor nitpicks and cleanups
-
-The series depends on the YUV tiled format support prepared by Ezequiel:
-https://patchwork.linuxtv.org/project/linux-media/list/?series=6049.
-
-Andrzej Pietrasiewicz (4):
-  media: uapi: Add VP9 stateless decoder controls
-  media: Add VP9 v4l2 library
-  media: hantro: Prepare for other G2 codecs
-  media: hantro: Support VP9 on the G2 core
-
-Boris Brezillon (1):
-  media: rkvdec: Add the VP9 backend
-
-Ezequiel Garcia (5):
-  hantro: postproc: Fix motion vector space size
-  hantro: postproc: Introduce struct hantro_postproc_ops
-  hantro: Simplify postprocessor
-  hantro: Add quirk for NV12/NV12_4L4 capture format
-  media: hantro: Support NV12 on the G2 core
-
- .../userspace-api/media/v4l/biblio.rst        |   10 +
- .../media/v4l/ext-ctrls-codec-stateless.rst   |  545 +++++
- .../media/v4l/pixfmt-compressed.rst           |   15 +
- .../media/v4l/vidioc-g-ext-ctrls.rst          |    8 +
- .../media/v4l/vidioc-queryctrl.rst            |   12 +
- .../media/videodev2.h.rst.exceptions          |    2 +
- drivers/media/v4l2-core/Kconfig               |    4 +
- drivers/media/v4l2-core/Makefile              |    1 +
- drivers/media/v4l2-core/v4l2-ctrls-core.c     |  174 ++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c     |    8 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
- drivers/media/v4l2-core/v4l2-vp9.c            | 1850 +++++++++++++++++
- drivers/staging/media/hantro/Kconfig          |    1 +
- drivers/staging/media/hantro/Makefile         |    7 +-
- drivers/staging/media/hantro/hantro.h         |   40 +-
- drivers/staging/media/hantro/hantro_drv.c     |   18 +-
- drivers/staging/media/hantro/hantro_g2.c      |   27 +
- .../staging/media/hantro/hantro_g2_hevc_dec.c |   31 -
- drivers/staging/media/hantro/hantro_g2_regs.h |  104 +
- .../staging/media/hantro/hantro_g2_vp9_dec.c  |  978 +++++++++
- drivers/staging/media/hantro/hantro_hw.h      |   83 +-
- .../staging/media/hantro/hantro_postproc.c    |   79 +-
- drivers/staging/media/hantro/hantro_v4l2.c    |   20 +
- drivers/staging/media/hantro/hantro_vp9.c     |  240 +++
- drivers/staging/media/hantro/hantro_vp9.h     |  103 +
- drivers/staging/media/hantro/imx8m_vpu_hw.c   |   38 +-
- .../staging/media/hantro/rockchip_vpu_hw.c    |    7 +-
- .../staging/media/hantro/sama5d4_vdec_hw.c    |    3 +-
- drivers/staging/media/rkvdec/Kconfig          |    1 +
- drivers/staging/media/rkvdec/Makefile         |    2 +-
- drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1078 ++++++++++
- drivers/staging/media/rkvdec/rkvdec.c         |   52 +-
- drivers/staging/media/rkvdec/rkvdec.h         |   12 +-
- include/media/v4l2-ctrls.h                    |    4 +
- include/media/v4l2-vp9.h                      |  182 ++
- include/uapi/linux/v4l2-controls.h            |  433 ++++
- include/uapi/linux/videodev2.h                |    6 +
- 37 files changed, 6108 insertions(+), 71 deletions(-)
- create mode 100644 drivers/media/v4l2-core/v4l2-vp9.c
- create mode 100644 drivers/staging/media/hantro/hantro_g2.c
- create mode 100644 drivers/staging/media/hantro/hantro_g2_vp9_dec.c
- create mode 100644 drivers/staging/media/hantro/hantro_vp9.c
- create mode 100644 drivers/staging/media/hantro/hantro_vp9.h
- create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
- create mode 100644 include/media/v4l2-vp9.h
-
-
-base-commit: bfee75f73c37a2f46a6326eaa06f5db701f76f01
+diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
+index ed8916c950a4..07842152003f 100644
+--- a/drivers/staging/media/hantro/hantro_postproc.c
++++ b/drivers/staging/media/hantro/hantro_postproc.c
+@@ -132,9 +132,10 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+ 	unsigned int num_buffers = cap_queue->num_buffers;
+ 	unsigned int i, buf_size;
+ 
+-	buf_size = ctx->dst_fmt.plane_fmt[0].sizeimage +
+-		   hantro_h264_mv_size(ctx->dst_fmt.width,
+-				       ctx->dst_fmt.height);
++	buf_size = ctx->dst_fmt.plane_fmt[0].sizeimage;
++	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE)
++		buf_size += hantro_h264_mv_size(ctx->dst_fmt.width,
++						ctx->dst_fmt.height);
+ 
+ 	for (i = 0; i < num_buffers; ++i) {
+ 		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
 -- 
 2.17.1
 
