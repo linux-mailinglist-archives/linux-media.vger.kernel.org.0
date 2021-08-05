@@ -2,106 +2,278 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C2993E117F
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 11:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A0B93E11B4
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 11:56:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239309AbhHEJjw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 05:39:52 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:13281 "EHLO
-        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239159AbhHEJjv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 05:39:51 -0400
-Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.54])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4GgNjv31F7z7x6Z;
-        Thu,  5 Aug 2021 17:34:43 +0800 (CST)
-Received: from [10.67.103.235] (10.67.103.235) by
- dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Thu, 5 Aug 2021 17:39:35 +0800
-Subject: Re: [PATCH V7 8/9] PCI/IOV: Add 10-Bit Tag sysfs files for VF devices
-To:     Bjorn Helgaas <helgaas@kernel.org>
-References: <20210805000525.GA1693795@bjorn-Precision-5520>
-CC:     <hch@infradead.org>, <kw@linux.com>, <logang@deltatee.com>,
-        <leon@kernel.org>, <linux-pci@vger.kernel.org>,
-        <rajur@chelsio.com>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
-From:   Dongdong Liu <liudongdong3@huawei.com>
-Message-ID: <06da7110-da9f-5afe-e086-7a9a9b448fd7@huawei.com>
-Date:   Thu, 5 Aug 2021 17:39:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S239949AbhHEJ44 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 05:56:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35626 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232930AbhHEJ44 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 05:56:56 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70B63C061765;
+        Thu,  5 Aug 2021 02:56:42 -0700 (PDT)
+Received: from [IPv6:2a02:810a:880:f54:e5eb:348e:79df:e71f] (unknown [IPv6:2a02:810a:880:f54:e5eb:348e:79df:e71f])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F386C1F40C6F;
+        Thu,  5 Aug 2021 10:56:39 +0100 (BST)
+Subject: Re: [PATCH v4 14/15] media: mtk-vcodec: venc: support START and STOP
+ commands
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+References: <20210427111526.1772293-1-acourbot@chromium.org>
+ <20210427111526.1772293-15-acourbot@chromium.org>
+ <59b6a19a-0ed6-e142-cb67-0f7c6b64dd6d@collabora.com>
+Message-ID: <4989433f-6243-496f-ba3a-02d848c2902d@collabora.com>
+Date:   Thu, 5 Aug 2021 11:56:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210805000525.GA1693795@bjorn-Precision-5520>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.235]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggeme758-chm.china.huawei.com (10.3.19.104)
-X-CFilter-Loop: Reflected
+In-Reply-To: <59b6a19a-0ed6-e142-cb67-0f7c6b64dd6d@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Miss a comment reply  :).
 
-On 2021/8/5 8:05, Bjorn Helgaas wrote:
-> On Wed, Aug 04, 2021 at 09:47:07PM +0800, Dongdong Liu wrote:
->> PCIe spec 5.0 r1.0 section 2.2.6.2 says that if an Endpoint supports
->> sending Requests to other Endpoints (as opposed to host memory), the
->> Endpoint must not send 10-Bit Tag Requests to another given Endpoint
->> unless an implementation-specific mechanism determines that the
->> Endpoint supports 10-Bit Tag Completer capability.
->> Add sriov_vf_10bit_tag file to query the status of VF 10-Bit Tag
->> Requester Enable. Add sriov_vf_10bit_tag_ctl file to disable the VF
->> 10-Bit Tag Requester. The typical use case is for p2pdma when the peer
->> device does not support 10-BIT Tag Completer.
->
-> Fix the usual spec quoting issue.  Or maybe this is not actually
-> quoted but is missing blank lines between paragraphs.
->
-> s/10-BIT/10-Bit/
->
->> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
->> ---
->>  Documentation/ABI/testing/sysfs-bus-pci | 20 +++++++++++++
->>  drivers/pci/iov.c                       | 50 +++++++++++++++++++++++++++++++++
->>  2 files changed, 70 insertions(+)
+
+On 04.08.21 14:53, Dafna Hirschfeld wrote:
+> 
+> 
+> On 27.04.21 13:15, Alexandre Courbot wrote:
+>> The V4L2 encoder specification requires encoders to support the
+>> V4L2_ENC_CMD_START and V4L2_ENC_CMD_STOP commands. Add support for these
+>> to the mtk-vcodec encoder by reusing the same flush buffer as used by
+>> the decoder driver.
 >>
->> diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
->> index 0e0c97d..8fdbfae 100644
->> --- a/Documentation/ABI/testing/sysfs-bus-pci
->> +++ b/Documentation/ABI/testing/sysfs-bus-pci
->> @@ -421,3 +421,23 @@ Description:
->>  		to disable 10-Bit Tag Requester when the driver does not bind
->>  		the deivce. The typical use case is for p2pdma when the peer
->>  		device does not support 10-BIT Tag Completer.
+>> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+>> ---
+>>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |   2 +
+>>   .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 123 +++++++++++++++++-
+>>   .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |   4 +
+>>   3 files changed, 122 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+>> index c2f4cad6cfc2..1b61d722d313 100644
+>> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+>> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+>> @@ -252,6 +252,7 @@ struct vdec_pic_info {
+>>    * @last_decoded_picinfo: pic information get from latest decode
+>>    * @empty_flush_buf: a fake size-0 capture buffer that indicates flush. Only
+>>    *             to be used with encoder and stateful decoder.
+>> + * @is_flushing: set to true if flushing is in progress.
+>>    * @current_codec: current set input codec, in V4L2 pixel format
+>>    *
+>>    * @colorspace: enum v4l2_colorspace; supplemental to pixelformat
+>> @@ -291,6 +292,7 @@ struct mtk_vcodec_ctx {
+>>       struct work_struct encode_work;
+>>       struct vdec_pic_info last_decoded_picinfo;
+>>       struct v4l2_m2m_buffer empty_flush_buf;
+>> +    bool is_flushing;
+>>       u32 current_codec;
+>> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+>> index 4831052f475d..8058331dc553 100644
+>> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+>> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+>> @@ -659,6 +659,7 @@ static int vidioc_venc_dqbuf(struct file *file, void *priv,
+>>                    struct v4l2_buffer *buf)
+>>   {
+>>       struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
+>> +    int ret;
+>>       if (ctx->state == MTK_STATE_ABORT) {
+>>           mtk_v4l2_err("[%d] Call on QBUF after unrecoverable error",
+>> @@ -666,7 +667,77 @@ static int vidioc_venc_dqbuf(struct file *file, void *priv,
+>>           return -EIO;
+>>       }
+>> -    return v4l2_m2m_dqbuf(file, ctx->m2m_ctx, buf);
+>> +    ret = v4l2_m2m_dqbuf(file, ctx->m2m_ctx, buf);
+>> +    if (ret)
+>> +        return ret;
 >> +
->> +What:		/sys/bus/pci/devices/.../sriov_vf_10bit_tag
->> +Date:		August 2021
->> +Contact:	Dongdong Liu <liudongdong3@huawei.com>
->> +Description:
->> +		This file is associated with a SR-IOV physical function (PF).
->> +		It is visible when the device has VF 10-Bit Tag Requester
->> +		Supported. It contains the status of VF 10-Bit Tag Requester
->> +		Enable. The file is only readable.
->
-> s/only readable/read-only/
->
->> +What:		/sys/bus/pci/devices/.../sriov_vf_10bit_tag_ctl
->
-> Why does this file have "_ctl" on the end when the one in patch 7/9
-> does not?
+>> +    /*
+>> +     * Complete flush if the user dequeued the 0-payload LAST buffer.
+>> +     * We check the payload because a buffer with the LAST flag can also
+>> +     * be seen during resolution changes. If we happen to be flushing at
+>> +     * that time, the last buffer before the resolution changes could be
+>> +     * misinterpreted for the buffer generated by the flush and terminate
+>> +     * it earlier than we want.
+>> +     */
+>> +    if (!V4L2_TYPE_IS_OUTPUT(buf->type) &&
+>> +        buf->flags & V4L2_BUF_FLAG_LAST &&
+>> +        buf->m.planes[0].bytesused == 0 &&
+>> +        ctx->is_flushing) {
+>> +        /*
+>> +         * Last CAPTURE buffer is dequeued, we can allow another flush
+>> +         * to take place.
+>> +         */
+>> +        ctx->is_flushing = false;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static int vidioc_encoder_cmd(struct file *file, void *priv,
+>> +                  struct v4l2_encoder_cmd *cmd)
+>> +{
+>> +    struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
+>> +    struct vb2_queue *src_vq, *dst_vq;
+>> +    int ret;
+>> +
+>> +    ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, cmd);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    /* Calling START or STOP is invalid if a flush is in progress */
+>> +    if (ctx->is_flushing)
+>> +        return -EBUSY;
+>> +
+>> +    mtk_v4l2_debug(1, "encoder cmd=%u", cmd->cmd);
+>> +
+>> +    dst_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
+>> +                V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+>> +    switch (cmd->cmd) {
+>> +    case V4L2_ENC_CMD_STOP:
+>> +        src_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
+>> +                V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+>> +        if (!vb2_is_streaming(src_vq)) {
+>> +            mtk_v4l2_debug(1, "Output stream is off. No need to flush.");
+>> +            return 0;
+>> +        }
+>> +        if (!vb2_is_streaming(dst_vq)) {
+>> +            mtk_v4l2_debug(1, "Capture stream is off. No need to flush.");
+>> +            return 0;
+>> +        }
+>> +        ctx->is_flushing = true;
+>> +        v4l2_m2m_buf_queue(ctx->m2m_ctx, &ctx->empty_flush_buf.vb);
+>> +        v4l2_m2m_try_schedule(ctx->m2m_ctx);
+>> +        break;
+>> +
+>> +    case V4L2_ENC_CMD_START:
+>> +        vb2_clear_last_buffer_dequeued(dst_vq);
+>> +        break;
+>> +
+>> +    default:
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    return 0;
+>>   }
+>>   const struct v4l2_ioctl_ops mtk_venc_ioctl_ops = {
+>> @@ -702,6 +773,9 @@ const struct v4l2_ioctl_ops mtk_venc_ioctl_ops = {
+>>       .vidioc_g_selection        = vidioc_venc_g_selection,
+>>       .vidioc_s_selection        = vidioc_venc_s_selection,
+>> +
+>> +    .vidioc_encoder_cmd        = vidioc_encoder_cmd,
+>> +    .vidioc_try_encoder_cmd        = v4l2_m2m_ioctl_try_encoder_cmd,
+>>   };
+>>   static int vb2ops_venc_queue_setup(struct vb2_queue *vq,
+>> @@ -869,9 +943,27 @@ static void vb2ops_venc_stop_streaming(struct vb2_queue *q)
+>>               dst_buf->vb2_buf.planes[0].bytesused = 0;
+>>               v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_ERROR);
+>>           }
+>> +        /* STREAMOFF on the CAPTURE queue completes any ongoing flush */
+>> +        if (ctx->is_flushing) {
+>> +            mtk_v4l2_debug(1, "STREAMOFF called while flushing");
+>> +            v4l2_m2m_buf_remove_by_buf(&ctx->m2m_ctx->out_q_ctx,
+>> +                           &ctx->empty_flush_buf.vb);
+>> +            ctx->is_flushing = false;
+>> +        }
+>>       } else {
+>> -        while ((src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx)))
+>> -            v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
+>> +        while ((src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx))) {
+>> +            if (src_buf != &ctx->empty_flush_buf.vb)
+>> +                v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
+>> +        }
+>> +        if (ctx->is_flushing) {
+>> +            /*
+>> +             * If we are in the middle of a flush, put the flush
+>> +             * buffer back into the queue so the next CAPTURE
+>> +             * buffer gets returned with the LAST flag set.
+>> +             */
+>> +            v4l2_m2m_buf_queue(ctx->m2m_ctx,
+>> +                       &ctx->empty_flush_buf.vb);
+>> +        }
+>>       }
+>>       if ((q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
+>> @@ -971,12 +1063,15 @@ static int mtk_venc_param_change(struct mtk_vcodec_ctx *ctx)
+>>   {
+>>       struct venc_enc_param enc_prm;
+>>       struct vb2_v4l2_buffer *vb2_v4l2 = v4l2_m2m_next_src_buf(ctx->m2m_ctx);
+>> -    struct mtk_video_enc_buf *mtk_buf =
+>> -            container_of(vb2_v4l2, struct mtk_video_enc_buf,
+>> -                     m2m_buf.vb);
+>> -
+>> +    struct mtk_video_enc_buf *mtk_buf;
+>>       int ret = 0;
+>> +    /* Don't upcast the empty flush buffer */
+>> +    if (vb2_v4l2 == &ctx->empty_flush_buf.vb)
+>> +        return 0;
+> 
+> Hi, this check should also be in vb2ops_venc_buf_queue before upcasting
 
-PF: 0000:82:00.0  VF:0000:82:10.0
-/sys/bus/pci/devices/0000:82:00.0/sriov_vf_10bit_tag
-/sys/bus/pci/devices/0000:82:10.0/sriov_vf_10bit_tag_ctl
-
-sriov_vf_10bit_tag is used to qeury the status of VF 10-Bit Tag
-Requester Enable,  bind with PF device.
-
-sriov_vf_10bit_tag_ctl is used to disable the VF 10-Bit Tag Requester,
-bind with VF device, although in fact it writes PF SR-IOV control 
-register, just detect if the VF driver have already bond with the VF deivce.
-
-Thanks,
-Dongdong
+oh, sorry, the empty_flush_buf can't come from userspace so this test is not needed there.
+> 
+> Thanks,
+> Dafna
+> 
+>> +
+>> +    mtk_buf = container_of(vb2_v4l2, struct mtk_video_enc_buf, m2m_buf.vb);
+>> +
+>>       memset(&enc_prm, 0, sizeof(enc_prm));
+>>       if (mtk_buf->param_change == MTK_ENCODE_PARAM_NONE)
+>>           return 0;
+>> @@ -1062,6 +1157,20 @@ static void mtk_venc_worker(struct work_struct *work)
+>>       }
+>>       src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
+>> +
+>> +    /*
+>> +     * If we see the flush buffer, send an empty buffer with the LAST flag
+>> +     * to the client. is_flushing will be reset at the time the buffer
+>> +     * is dequeued.
+>> +     */
+>> +    if (src_buf == &ctx->empty_flush_buf.vb) {
+>> +        vb2_set_plane_payload(&dst_buf->vb2_buf, 0, 0);
+>> +        dst_buf->flags |= V4L2_BUF_FLAG_LAST;
+>> +        v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_DONE);
+>> +        v4l2_m2m_job_finish(ctx->dev->m2m_dev_enc, ctx->m2m_ctx);
+>> +        return;
+>> +    }
+>> +
+>>       memset(&frm_buf, 0, sizeof(frm_buf));
+>>       for (i = 0; i < src_buf->vb2_buf.num_planes ; i++) {
+>>           frm_buf.fb_addr[i].dma_addr =
+>> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+>> index 7d7b8cfc2cc5..2dd6fef896df 100644
+>> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+>> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+>> @@ -131,6 +131,7 @@ static int fops_vcodec_open(struct file *file)
+>>       struct mtk_vcodec_dev *dev = video_drvdata(file);
+>>       struct mtk_vcodec_ctx *ctx = NULL;
+>>       int ret = 0;
+>> +    struct vb2_queue *src_vq;
+>>       ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+>>       if (!ctx)
+>> @@ -164,6 +165,9 @@ static int fops_vcodec_open(struct file *file)
+>>                   ret);
+>>           goto err_m2m_ctx_init;
+>>       }
+>> +    src_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
+>> +                V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+>> +    ctx->empty_flush_buf.vb.vb2_buf.vb2_queue = src_vq;
+>>       mtk_vcodec_enc_set_default_params(ctx);
+>>       if (v4l2_fh_is_singular(&ctx->fh)) {
+>>
