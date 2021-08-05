@@ -2,159 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EEC63E0CE0
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 05:45:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3D0C3E0D52
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 06:33:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238572AbhHEDpm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Aug 2021 23:45:42 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:59807 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238537AbhHEDpl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Aug 2021 23:45:41 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id BUJxmofzAW9QyBUJymSK06; Thu, 05 Aug 2021 05:45:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1628135127; bh=lA58yaS8MRcZgcfWw3urmvDcxfn1WEmZwJ/Eypm4tgM=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=eC96UGRH4OYATxV3J7g4BC5cHFGn/ndAlEkSS4johb3UGcR2OQIyWJ4XgQDRgsWhK
-         B1GwKwulEqo2s7aREK8ZEwGahPXvLYVjNwLzs8o7aGN1mZoEFQS8bb1HicgBez/avN
-         Uuz4MG4B1NkQoLraZSiPe4tIxcwHkY3HZYNLs43AVv0b1/JEfZBtqsSHP7QZiLx6I9
-         S9WDo4oPxFH1C3Mh/4qzxEkfqqq88BC0nOK69yi80Whqjq1yGSIbgO+OXY6WyTjCd7
-         WYS1oPFVAI95CriXUdlxGqdC9eMwPTANYx6Ui2SEKKiiOLfaB+qF0aMOYC0x/CtH1o
-         3H0dzEyV9Wm4Q==
-Message-ID: <7f32bd23414328ee8c351cd39ede54c7@smtp-cloud7.xs4all.net>
-Date:   Thu, 05 Aug 2021 05:45:25 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfA+WePojz/1yDWIuUso1a7k4W3IC6ezS4NoAquGKcPyXk8nuIL7PbrIh202srKs5bhTEuMsCrEi30rOhVkH1W/ZIFOnsG3OQ/OgLn0nyfouPJMULutb2
- 620AifT1ko40hqnA5AyqNojtCwn5na2NbQr1ybkXR2lapzHTLFtYqDVCVLnerwDyBToWaQqPMoG989xluaut3pvBohxOfGdxgCfjcvmZ1JUmKs8GzFkjPr3u
- eJKiQSa1Fi2vq908OY5bag==
+        id S234675AbhHEEdO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 00:33:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47154 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231373AbhHEEdO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 00:33:14 -0400
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6ACC061765;
+        Wed,  4 Aug 2021 21:32:59 -0700 (PDT)
+Received: by mail-ot1-x32e.google.com with SMTP id g5-20020a9d6b050000b02904f21e977c3eso3919208otp.5;
+        Wed, 04 Aug 2021 21:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=WPmSYKxM3hDxf4j2HGMY4KEBqM5rWpME+JCZGt0gVjw=;
+        b=d6lgTlgZ4XtRuTrGFwjnfu6FMANDeGYNkF3HVRgAEz3zNJWeXPay2/77o5xUFwchyy
+         fZ+RxFE6PKyFPBCA/PrBqv7fb7Ru/8F66ANYljfjpCZek/EgK9BnwwHV0KtaiOXGOBHC
+         awwvqO+5eU4YhGFJjXO4OaZpU6kBceP9x20lc/jksWMCQHnZ8orlDNKyp4wj86imwnCD
+         6YKPbF79Crl7D4d2jD8s0rV9wTcK0I3OjHVcLIxaFULDXF9ynJoOKulQ9ZfLCD/pGLv1
+         zFEDI6x2G+joB+ZOQckwYoiMZ1LQcX9rian6mNKcuPDevnN7/eoOCrSnqHj1w21TH/v7
+         BVog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=WPmSYKxM3hDxf4j2HGMY4KEBqM5rWpME+JCZGt0gVjw=;
+        b=OwLFiVGMaYs2wDyCqgFTesxXRTkK0RCB+Nax1y40ep8X1Fg880NTtYddXvGDPbozet
+         iUIifVJRDjG3WwF1pFn426gFY27IK2m2wYYojXuumNpa8/7YcYVZpob4/8tFLPA4D/Ks
+         dr7F0lP+Xi+/77TxrvYSyY8vE+r/0NGHyVe+PR30ikvPBtHcYIhT1AlHSp1ecoQss8AH
+         LAtk869RYvpanRiYpLOyGQhbQVSz5zJykVbf2s9A/C52vGvQGZvwLUrPOIpjIq0L72UN
+         166rzXaaUl06WsMgLbyqba+gFbtXX1GPQGePJJ4NCkL9qHptOPt55y/ruvwRpWp7Z5/a
+         SY0Q==
+X-Gm-Message-State: AOAM5309XmTxbcm8DhxlzklWmMnfVp3IJ7gSh9JqbpAo4F9055//+dF+
+        Uxbgx7j+xgdUVNz17VMbML1lMD+0ct0+e5Zid5k=
+X-Google-Smtp-Source: ABdhPJxVoTU6a30brhTf1IeElqkRglO5k+x+tHkN0DLsz3Nd4Duri9Cmng8GzMH9mtkqISPNR9a5gCNiMTCPSizufzw=
+X-Received: by 2002:a9d:70c3:: with SMTP id w3mr2216613otj.311.1628137979011;
+ Wed, 04 Aug 2021 21:32:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210804015132.29617-1-islituo@gmail.com> <f515880f-17f8-66b3-20d9-c1a46a252463@amd.com>
+In-Reply-To: <f515880f-17f8-66b3-20d9-c1a46a252463@amd.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Thu, 5 Aug 2021 00:32:47 -0400
+Message-ID: <CADnq5_MSp=PAqbaTrS771ssKJzVpT2LyDTjZCSx2hh-DFo3MXg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: drop redundant null-pointer checks in
+ amdgpu_ttm_tt_populate() and amdgpu_ttm_tt_unpopulate()
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Tuo Li <islituo@gmail.com>,
+        "Deucher, Alexander" <alexander.deucher@amd.com>,
+        xinhui pan <Xinhui.Pan@amd.com>,
+        Dave Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Dave Airlie <airlied@redhat.com>,
+        "Kuehling, Felix" <Felix.Kuehling@amd.com>,
+        Oak Zeng <Oak.Zeng@amd.com>, Nirmoy Das <nirmoy.das@amd.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        "Yang, Philip" <Philip.Yang@amd.com>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Jia-Ju Bai <baijiaju1990@gmail.com>,
+        TOTE Robot <oslab@tsinghua.edu.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Applied.  Thanks!
 
-Results of the daily build of media_tree:
+Alex
 
-date:			Thu Aug  5 05:00:13 CEST 2021
-media-tree git hash:	bfee75f73c37a2f46a6326eaa06f5db701f76f01
-media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
-v4l-utils git hash:	7952c0042ccf549959cf924fbd3e7dd894966e57
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7505-gb2467b103
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
-host hardware:		x86_64
-host os:		5.13.1-marune
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: 
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: ERRORS
-linux-4.4.258-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.258-i686: ERRORS
-linux-4.9.258-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.222-i686: ERRORS
-linux-4.14.222-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.177-i686: ERRORS
-linux-4.19.177-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 0
-virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+On Wed, Aug 4, 2021 at 2:49 AM Christian K=C3=B6nig <christian.koenig@amd.c=
+om> wrote:
+>
+> Am 04.08.21 um 03:51 schrieb Tuo Li:
+> > The varialbe gtt in the function amdgpu_ttm_tt_populate() and
+> > amdgpu_ttm_tt_unpopulate() is guaranteed to be not NULL in the context.
+> > Thus the null-pointer checks are redundant and can be dropped.
+> >
+> > Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+> > Signed-off-by: Tuo Li <islituo@gmail.com>
+>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_ttm.c
+> > index 3a55f08e00e1..719539bd6c44 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> > @@ -1121,7 +1121,7 @@ static int amdgpu_ttm_tt_populate(struct ttm_devi=
+ce *bdev,
+> >       struct amdgpu_ttm_tt *gtt =3D (void *)ttm;
+> >
+> >       /* user pages are bound by amdgpu_ttm_tt_pin_userptr() */
+> > -     if (gtt && gtt->userptr) {
+> > +     if (gtt->userptr) {
+> >               ttm->sg =3D kzalloc(sizeof(struct sg_table), GFP_KERNEL);
+> >               if (!ttm->sg)
+> >                       return -ENOMEM;
+> > @@ -1146,7 +1146,7 @@ static void amdgpu_ttm_tt_unpopulate(struct ttm_d=
+evice *bdev,
+> >       struct amdgpu_ttm_tt *gtt =3D (void *)ttm;
+> >       struct amdgpu_device *adev;
+> >
+> > -     if (gtt && gtt->userptr) {
+> > +     if (gtt->userptr) {
+> >               amdgpu_ttm_tt_set_user_pages(ttm, NULL);
+> >               kfree(ttm->sg);
+> >               ttm->sg =3D NULL;
+>
