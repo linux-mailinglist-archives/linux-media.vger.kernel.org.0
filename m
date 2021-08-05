@@ -2,171 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67E7C3E1B04
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 20:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D960B3E1C0F
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 21:04:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241007AbhHESMt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 14:12:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44904 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239013AbhHESMt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Aug 2021 14:12:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ABF7F60F43;
-        Thu,  5 Aug 2021 18:12:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628187155;
-        bh=p3jgh7jK/C4VhYgj51TWN+4tV+Kpxd+e+Euwt7iJ+8k=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=Nbmy1Htd7+FJpa8uHUgsDo+M1Af0j7Fje1ddfPZtMi8xZPbWlR26yCjP4t1ZSU0np
-         8TDne6zs6Ot06VDPAG9moGXfQPynyaFQHZvsGX9Y55vjwqRQHqEwzGloXcYMkqcVwa
-         eLvgh0xGENrwHEGKoi3DzB3mjA1Z1ZZeBoRjqIk2sA3l2tIy0+NKG3vf1APMFPG9UM
-         6iYQgew/I+11rS8uceDG96MhLFK2emEaZ9ie5SdPnNih/hJ64smxkIifIAKMZn+6z2
-         bc9khRePRPwp1KErIDIltAfd3JIbNjnZUkTlXdGcDk1J1IhangNPnKXiFRZ8IhLRhr
-         skBVsncaskgUg==
-Date:   Thu, 5 Aug 2021 13:12:33 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Dongdong Liu <liudongdong3@huawei.com>
-Cc:     hch@infradead.org, kw@linux.com, logang@deltatee.com,
-        leon@kernel.org, linux-pci@vger.kernel.org, rajur@chelsio.com,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH V7 9/9] PCI/P2PDMA: Add a 10-Bit Tag check in P2PDMA
-Message-ID: <20210805181233.GA1765293@bjorn-Precision-5520>
+        id S242907AbhHETFJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 15:05:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49792 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242436AbhHETEv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 15:04:51 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F4C2C061384;
+        Thu,  5 Aug 2021 12:04:24 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id l34-20020a05600c1d22b02902573c214807so7091803wms.2;
+        Thu, 05 Aug 2021 12:04:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oTE2yvgvW8glea98LSY/ffZ1b6poaqIV5ugiE4I/bJE=;
+        b=lNNGt2hJtFLKaKfbRjcNF8QqPU6aHLbcEsKqIcUgkcBGaXt7+2Gc3JP83833YrWOIv
+         7jlaYW6QhcblMUqhSdwb6y+Myp+VyNclNkEOqYgO2WYj/LLZvzv79PPIfufk5L6ZVNnS
+         MSdFq1BZ3wz0ebR5WbqMUEcNA4+zP/6OV7D3dSQtXmcb6K5WlGGX0qpHJLHJX3N7sQOX
+         gIJt3pV2aV/+tmX7rD0tIWBiz/gSxp/mANKC65ED/b/DurNYsao+j0pGMqqf1/n1sZY/
+         Z4fa5X+QBDUhRVtgcpPrIjj2Aia7Q6ubvHXo36kvFKm+El3DLIOoGtnqcR3WsK3Mopk1
+         2uvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oTE2yvgvW8glea98LSY/ffZ1b6poaqIV5ugiE4I/bJE=;
+        b=UgbDm7bPkyFquM7YFD16kFchpEshIUCDca3Z3sXOWktZdRC4hmaJQbcTdpYg1hsQDc
+         P7h8ZH3IYUwfEOrc4VQX7xMucXsMIASEGRZfZgkmFNKsBS1W9u+mtJw5zMtlvVxOF/qY
+         +IZIJOjNlYWUjpE34tFphr/Y4uHLzZDly/nh1LyY9vFwP5V7d8kD+A0+2ZJjE1IhfFI4
+         OZkkbHJ14Hh+HlhccDEEFbAj1eQxtxKUyNjkZ0pYjWfwNeTJWdKUapQBshvFAn9RtHzO
+         e/nrp5QeeYzVnA1TauMeVLR37tZpCRy5eesWH4IS9/DtF8fzyjGysnySidTYPUxvtH8Y
+         mIwg==
+X-Gm-Message-State: AOAM531Eta7Lgf1xupvS2G2uzkQC4NMKULvULyeEwJBGTFxmVBUyadkS
+        bCbWcGhUEYIQV6g05QayWGI=
+X-Google-Smtp-Source: ABdhPJwkC/YeGz/Dyo9+y84CiGmImn7JArYQpWwTejOvMX6UfS/2NsjkB1EpQntC8fZ8bP7wy08HGQ==
+X-Received: by 2002:a1c:2b04:: with SMTP id r4mr6508448wmr.168.1628190263065;
+        Thu, 05 Aug 2021 12:04:23 -0700 (PDT)
+Received: from kista.localdomain (cpe-86-58-46-198.static.triera.net. [86.58.46.198])
+        by smtp.gmail.com with ESMTPSA id q7sm6329781wmq.33.2021.08.05.12.04.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Aug 2021 12:04:22 -0700 (PDT)
+From:   Jernej Skrabec <jernej.skrabec@gmail.com>
+To:     ezequiel@collabora.com, p.zabel@pengutronix.de
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, emil.velikov@collabora.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] media: hantro: Fix check for single irq
+Date:   Thu,  5 Aug 2021 21:04:16 +0200
+Message-Id: <20210805190416.332563-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1628084828-119542-10-git-send-email-liudongdong3@huawei.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 04, 2021 at 09:47:08PM +0800, Dongdong Liu wrote:
-> Add a 10-Bit Tag check in the P2PDMA code to ensure that a device with
-> 10-Bit Tag Requester doesn't interact with a device that does not
-> support 10-BIT Tag Completer. Before that happens, the kernel should
-> emit a warning. "echo 0 > /sys/bus/pci/devices/.../10bit_tag" to
-> disable 10-BIT Tag Requester for PF device.
-> "echo 0 > /sys/bus/pci/devices/.../sriov_vf_10bit_tag_ctl" to disable
-> 10-BIT Tag Requester for VF device.
+Some cores use only one interrupt and in such case interrupt name in DT
+is not needed. Driver supposedly accounted that, but due to the wrong
+field check it never worked. Fix that.
 
-s/10-BIT/10-Bit/ several times.
+Fixes: 18d6c8b7b4c9 ("media: hantro: add fallback handling for single irq/clk")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/staging/media/hantro/hantro_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Add blank lines between paragraphs.
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 8a2edd67f2c6..20e508158871 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -919,7 +919,7 @@ static int hantro_probe(struct platform_device *pdev)
+ 		if (!vpu->variant->irqs[i].handler)
+ 			continue;
+ 
+-		if (vpu->variant->num_clocks > 1) {
++		if (vpu->variant->num_irqs > 1) {
+ 			irq_name = vpu->variant->irqs[i].name;
+ 			irq = platform_get_irq_byname(vpu->pdev, irq_name);
+ 		} else {
+-- 
+2.32.0
 
-> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
-> ---
->  drivers/pci/p2pdma.c | 40 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 40 insertions(+)
-> 
-> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> index 50cdde3..948f2be 100644
-> --- a/drivers/pci/p2pdma.c
-> +++ b/drivers/pci/p2pdma.c
-> @@ -19,6 +19,7 @@
->  #include <linux/random.h>
->  #include <linux/seq_buf.h>
->  #include <linux/xarray.h>
-> +#include "pci.h"
->  
->  enum pci_p2pdma_map_type {
->  	PCI_P2PDMA_MAP_UNKNOWN = 0,
-> @@ -410,6 +411,41 @@ static unsigned long map_types_idx(struct pci_dev *client)
->  		(client->bus->number << 8) | client->devfn;
->  }
->  
-> +static bool check_10bit_tags_vaild(struct pci_dev *a, struct pci_dev *b,
-
-s/vaild/valid/
-
-Or maybe s/valid/safe/ or s/valid/supported/, since "valid" isn't
-quite the right word here.  We want to know whether the source is
-enabled to generate 10-bit tags, and if so, whether the destination
-can handle them.
-
-"if (check_10bit_tags_valid())" does not make sense because
-"check_10bit_tags_valid()" is not a question with a yes/no answer.
-
-"10bit_tags_valid()" *might* be, because "if (10bit_tags_valid())"
-makes sense.  But I don't think you can start with a digit.
-
-Or maybe you want to invert the sense, e.g.,
-"10bit_tags_unsupported()", since that avoids negation at the caller:
-
-  if (10bit_tags_unsupported(a, b) ||
-      10bit_tags_unsupported(b, a))
-        map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
-
-Doesn't this patch need to be at the very beginning, before you start
-enabling 10-bit tags?  Otherwise there's a hole in the middle where we
-enable them and P2P DMA might break.
-
-> +				   bool verbose)
-> +{
-> +	bool req;
-> +	bool comp;
-> +	u16 ctl2;
-> +
-> +	if (a->is_virtfn) {
-> +#ifdef CONFIG_PCI_IOV
-> +		req = !!(a->physfn->sriov->ctrl &
-> +			 PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN);
-> +#endif
-> +	} else {
-> +		pcie_capability_read_word(a, PCI_EXP_DEVCTL2, &ctl2);
-> +		req = !!(ctl2 & PCI_EXP_DEVCTL2_10BIT_TAG_REQ_EN);
-> +	}
-> +
-> +	comp = !!(b->pcie_devcap2 & PCI_EXP_DEVCAP2_10BIT_TAG_COMP);
-> +	if (req && (!comp)) {
-> +		if (verbose) {
-> +			pci_warn(a, "cannot be used for peer-to-peer DMA as 10-Bit Tag Requester enable is set in device (%s), but peer device (%s) does not support the 10-Bit Tag Completer\n",
-> +				 pci_name(a), pci_name(b));
-
-No point in printing pci_name(a) twice.  pci_warn() prints it already;
-that should be enough.
-
-I think you can simplify this a little, e.g.,
-
-  if (!req)           /* 10-bit tags not enabled on requester */
-    return true;
-
-  if (comp)           /* completer can handle anything */
-    return true;
-
-  /* error case */
-  if (!verbose)
-    return false;
-
-  pci_warn(...);
-  return false;
-
-> +			if (a->is_virtfn)
-> +				pci_warn(a, "to disable 10-Bit Tag Requester for this device, echo 0 > /sys/bus/pci/devices/%s/sriov_vf_10bit_tag_ctl\n",
-> +					 pci_name(a));
-> +			else
-> +				pci_warn(a, "to disable 10-Bit Tag Requester for this device, echo 0 > /sys/bus/pci/devices/%s/10bit_tag\n",
-> +					 pci_name(a));
-> +		}
-> +		return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
->  /*
->   * Calculate the P2PDMA mapping type and distance between two PCI devices.
->   *
-> @@ -532,6 +568,10 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
->  		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
->  	}
->  done:
-> +	if (!check_10bit_tags_vaild(client, provider, verbose) ||
-> +	    !check_10bit_tags_vaild(provider, client, verbose))
-> +		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
-> +
->  	rcu_read_lock();
->  	p2pdma = rcu_dereference(provider->p2pdma);
->  	if (p2pdma)
-> -- 
-> 2.7.4
-> 
