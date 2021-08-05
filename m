@@ -2,246 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E96A03E1A4A
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 19:21:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA7663E1AEE
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 20:05:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238816AbhHERVU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 13:21:20 -0400
-Received: from mga14.intel.com ([192.55.52.115]:46992 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230172AbhHERVT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Aug 2021 13:21:19 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10067"; a="213939134"
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
-   d="scan'208";a="213939134"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2021 10:21:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
-   d="scan'208";a="522915797"
-Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 05 Aug 2021 10:21:00 -0700
-Received: from kbuild by d053b881505b with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mBh3D-000G4m-Qi; Thu, 05 Aug 2021 17:20:59 +0000
-Date:   Fri, 06 Aug 2021 01:19:59 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-next] BUILD SUCCESS
- bfee75f73c37a2f46a6326eaa06f5db701f76f01
-Message-ID: <610c1dbf.1VMkQ1OMzezaqyNK%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S239712AbhHESFe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 14:05:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36012 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231372AbhHESFe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 14:05:34 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3462C061765
+        for <linux-media@vger.kernel.org>; Thu,  5 Aug 2021 11:05:19 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (89-27-100-251.bb.dnainternet.fi [89.27.100.251])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id F06B0202A5;
+        Thu,  5 Aug 2021 21:05:14 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1628186715;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WWVuUWu5tevIWNc5csvndj7WuzG1IigCjb17QcUqQqY=;
+        b=oF/4STmBAZPwHJzVnKOdsNUSC8Q4Bt9R4YeTGxbX5EElNVhynxWYzLGLO2vJAU+I+J3XUq
+        Kw1vtS5mxXPPSglPZI+aRrwwIDXpEDliWgl6J4SrqhEcooT4+DdLUD807mIJrQp11aHBjn
+        UphYm/wnGwbdZCeFsk+JVsrXy3+xaRQ=
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id CE86B634C89;
+        Thu,  5 Aug 2021 21:03:55 +0300 (EEST)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
+        by valkosipuli.localdomain with esmtp (Exim 4.92)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1mBhjr-00034a-DH; Thu, 05 Aug 2021 21:05:03 +0300
+Date:   Thu, 5 Aug 2021 21:05:03 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     David Plowman <david.plowman@raspberrypi.com>,
+        linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v3 1/2] media: v4l2-ctrls: Add V4L2_CID_NOTIFY_GAIN_XXX
+ controls
+Message-ID: <20210805180503.GF3@valkosipuli.retiisi.eu>
+References: <20210722121249.16483-1-david.plowman@raspberrypi.com>
+ <20210722121249.16483-2-david.plowman@raspberrypi.com>
+ <YQwCOBCFK9w4dvxl@pendragon.ideasonboard.com>
+ <20210805154042.GE3@valkosipuli.retiisi.eu>
+ <YQwIjW1BannEjBWg@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <YQwIjW1BannEjBWg@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1628186715;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WWVuUWu5tevIWNc5csvndj7WuzG1IigCjb17QcUqQqY=;
+        b=WMciXSkLlg2FTmZGCl55oOxLBatDAkl5ENDyoQSLS/++XlcsNvt542nr2o0ElRGHYFJjWo
+        qfmZyvKaOdKK0aKSjJlCFGzJly7EORB5os4Bml7DxVgvj4PzPeKVAsgdzLG7QcH9QDTQiF
+        rZCBJOFXFCwPDcW64YehmkWvjp5EcP0=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1628186715; a=rsa-sha256; cv=none;
+        b=x8ClMDZoP3N0sbGECqcAulcqHabt/lhc+hEC1Mq97QvrDH86+mpWgsofZajj2b50xFtvaD
+        zVGEdzD4OKKLVaKcGErMuNEasGLlZ0rFmFdbp+hdEda77VqathcCsxc3RNWWtXKZytygxY
+        8NeYBI5gPdZcHRSCle/RtEHs4lTTtVE=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-next
-branch HEAD: bfee75f73c37a2f46a6326eaa06f5db701f76f01  media: venus: venc: add support for V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM control
+On Thu, Aug 05, 2021 at 06:49:33PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> On Thu, Aug 05, 2021 at 06:40:42PM +0300, Sakari Ailus wrote:
+> > On Thu, Aug 05, 2021 at 06:22:32PM +0300, Laurent Pinchart wrote:
+> > > On Thu, Jul 22, 2021 at 01:12:48PM +0100, David Plowman wrote:
+> > > > We add new controls, one for each of the four usual Bayer channels:
+> > > > 
+> > > > V4L2_CID_NOTIFY_GAIN_RED
+> > > > V4L2_CID_NOTIFY_GAIN_GREENR
+> > > > V4L2_CID_NOTIFY_GAIN_BLUE
+> > > > V4L2_CID_NOTIFY_GAIN_GREENB
+> > > 
+> > > This will effectively limit the API to Bayer patterns. I wonder if we
+> > > should instead implement it as a single array control, with one element
+> > > per CFA component.
+> > 
+> > There are other raw patterns, too. Supporting them would likely require one
+> > or a few more controls.
+> > 
+> > That said, as the values change often it's more efficient to use a single
+> > control. But each colour combination (not each pattern) would require its
+> > own control in this case, eventually requiring more controls.
+> 
+> I'm not sure to follow you. My idea is to define a single control, with
+> a number of elements that depends on the pattern being used, and the
+> order specified in the native sensor pattern. I don't think each colour
+> combination would then require its own control.
 
-elapsed time: 1691m
+Ah, I guess that would work, too. Then we'll need to define what kind of
+pixel orders are supported for that single control (and for which formats).
 
-configs tested: 188
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20210804
-i386                 randconfig-c001-20210805
-arm                     davinci_all_defconfig
-sh                          rsk7264_defconfig
-powerpc                      obs600_defconfig
-powerpc                        fsp2_defconfig
-mips                          rb532_defconfig
-arc                                 defconfig
-arm                     eseries_pxa_defconfig
-powerpc                      walnut_defconfig
-mips                 decstation_r4k_defconfig
-m68k                          multi_defconfig
-arm                              alldefconfig
-powerpc                       ppc64_defconfig
-arm                        magician_defconfig
-riscv             nommu_k210_sdcard_defconfig
-xtensa                              defconfig
-mips                   sb1250_swarm_defconfig
-powerpc                     powernv_defconfig
-sh                          kfr2r09_defconfig
-powerpc                          g5_defconfig
-powerpc                 canyonlands_defconfig
-m68k                        stmark2_defconfig
-powerpc                      pcm030_defconfig
-arm                            pleb_defconfig
-arm                           u8500_defconfig
-arm                         palmz72_defconfig
-sh                           se7343_defconfig
-powerpc                     kilauea_defconfig
-powerpc                      cm5200_defconfig
-arm                            xcep_defconfig
-mips                             allmodconfig
-powerpc                      acadia_defconfig
-sh                   rts7751r2dplus_defconfig
-arm                          gemini_defconfig
-mips                          malta_defconfig
-alpha                            allyesconfig
-mips                        bcm47xx_defconfig
-powerpc                     tqm8548_defconfig
-sh                          rsk7201_defconfig
-powerpc                 mpc834x_itx_defconfig
-powerpc                      mgcoge_defconfig
-mips                           jazz_defconfig
-mips                       bmips_be_defconfig
-arm                       omap2plus_defconfig
-arm                       aspeed_g5_defconfig
-openrisc                            defconfig
-arm                        mini2440_defconfig
-arm                           corgi_defconfig
-sh                          rsk7269_defconfig
-powerpc                    adder875_defconfig
-um                           x86_64_defconfig
-sh                        sh7757lcr_defconfig
-m68k                        m5307c3_defconfig
-sh                             sh03_defconfig
-mips                      bmips_stb_defconfig
-arm                        trizeps4_defconfig
-sh                        edosk7705_defconfig
-sh                          polaris_defconfig
-sh                               j2_defconfig
-arm                        vexpress_defconfig
-ia64                      gensparse_defconfig
-sh                     sh7710voipgw_defconfig
-mips                        workpad_defconfig
-mips                      fuloong2e_defconfig
-powerpc                 mpc8560_ads_defconfig
-m68k                       m5249evb_defconfig
-riscv                    nommu_virt_defconfig
-arm                           viper_defconfig
-powerpc                      chrp32_defconfig
-nios2                         3c120_defconfig
-h8300                    h8300h-sim_defconfig
-powerpc                     kmeter1_defconfig
-powerpc                  iss476-smp_defconfig
-sh                          rsk7203_defconfig
-mips                  maltasmvp_eva_defconfig
-s390                                defconfig
-mips                        nlm_xlp_defconfig
-powerpc                     tqm8541_defconfig
-openrisc                  or1klitex_defconfig
-riscv                            allyesconfig
-i386                                defconfig
-powerpc                     tqm5200_defconfig
-riscv                               defconfig
-arm                          imote2_defconfig
-sh                           se7705_defconfig
-arm                         cm_x300_defconfig
-arc                          axs101_defconfig
-powerpc                      ep88xc_defconfig
-m68k                            mac_defconfig
-arm                         orion5x_defconfig
-arm                            zeus_defconfig
-sh                           se7722_defconfig
-arm                         socfpga_defconfig
-mips                  decstation_64_defconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allyesconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a002-20210805
-x86_64               randconfig-a006-20210805
-x86_64               randconfig-a004-20210805
-x86_64               randconfig-a003-20210805
-x86_64               randconfig-a001-20210805
-x86_64               randconfig-a005-20210805
-i386                 randconfig-a005-20210804
-i386                 randconfig-a004-20210804
-i386                 randconfig-a002-20210804
-i386                 randconfig-a006-20210804
-i386                 randconfig-a003-20210804
-i386                 randconfig-a001-20210804
-i386                 randconfig-a005-20210805
-i386                 randconfig-a004-20210805
-i386                 randconfig-a002-20210805
-i386                 randconfig-a006-20210805
-i386                 randconfig-a003-20210805
-i386                 randconfig-a001-20210805
-x86_64               randconfig-a012-20210804
-x86_64               randconfig-a016-20210804
-x86_64               randconfig-a011-20210804
-x86_64               randconfig-a013-20210804
-x86_64               randconfig-a014-20210804
-x86_64               randconfig-a015-20210804
-i386                 randconfig-a012-20210805
-i386                 randconfig-a011-20210805
-i386                 randconfig-a015-20210805
-i386                 randconfig-a013-20210805
-i386                 randconfig-a014-20210805
-i386                 randconfig-a016-20210805
-i386                 randconfig-a012-20210804
-i386                 randconfig-a011-20210804
-i386                 randconfig-a015-20210804
-i386                 randconfig-a013-20210804
-i386                 randconfig-a014-20210804
-i386                 randconfig-a016-20210804
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-c001-20210804
-x86_64               randconfig-c001-20210805
-x86_64               randconfig-a002-20210804
-x86_64               randconfig-a006-20210804
-x86_64               randconfig-a004-20210804
-x86_64               randconfig-a003-20210804
-x86_64               randconfig-a001-20210804
-x86_64               randconfig-a005-20210804
-x86_64               randconfig-a012-20210805
-x86_64               randconfig-a016-20210805
-x86_64               randconfig-a011-20210805
-x86_64               randconfig-a013-20210805
-x86_64               randconfig-a014-20210805
-x86_64               randconfig-a015-20210805
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+Sakari Ailus
