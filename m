@@ -2,278 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A0B93E11B4
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 11:56:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8DF73E1224
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 12:08:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239949AbhHEJ44 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 05:56:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35626 "EHLO
+        id S240316AbhHEKIs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 06:08:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232930AbhHEJ44 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 05:56:56 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70B63C061765;
-        Thu,  5 Aug 2021 02:56:42 -0700 (PDT)
-Received: from [IPv6:2a02:810a:880:f54:e5eb:348e:79df:e71f] (unknown [IPv6:2a02:810a:880:f54:e5eb:348e:79df:e71f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F386C1F40C6F;
-        Thu,  5 Aug 2021 10:56:39 +0100 (BST)
-Subject: Re: [PATCH v4 14/15] media: mtk-vcodec: venc: support START and STOP
- commands
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     Alexandre Courbot <acourbot@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-References: <20210427111526.1772293-1-acourbot@chromium.org>
- <20210427111526.1772293-15-acourbot@chromium.org>
- <59b6a19a-0ed6-e142-cb67-0f7c6b64dd6d@collabora.com>
-Message-ID: <4989433f-6243-496f-ba3a-02d848c2902d@collabora.com>
-Date:   Thu, 5 Aug 2021 11:56:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        with ESMTP id S240284AbhHEKIr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 06:08:47 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F224DC0613C1
+        for <linux-media@vger.kernel.org>; Thu,  5 Aug 2021 03:08:32 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id x14so7518242edr.12
+        for <linux-media@vger.kernel.org>; Thu, 05 Aug 2021 03:08:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=k6wqR5Bdo/hf86YR+lFfIEge3bTc/2js1IYHLxrLWkI=;
+        b=gkUdbiWszms/iCP7GRNJEKiA9CoyKB3GuGPnTB/iOuh/XcRtGT3ITC1QjwvnNRI3ny
+         6yFoK1cP3Lzdf7MusUBiAPJDuecdEFRCrXhpUB2v2MKhjdlC4uzptD/84LAgqoH5Ppw/
+         MzTV2RNZFpMDF6aU1LC9leQ2AHLdrputXIk9Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=k6wqR5Bdo/hf86YR+lFfIEge3bTc/2js1IYHLxrLWkI=;
+        b=HTpQEcL4jKyBTAi2FFSkG9Q9KNgXQDyzSYJGw2XR//CVuTTUcUQ4Dr19xoin6B0ZGB
+         Bcu91eQH5hnEARFvIL4U3KyFHO73foQIm+Jp68v+YTcJfDunmsxCL9KX6BM1NAjfdspD
+         OwMi1iTscII1knOl5zFaLyECmtQXagGIG/TOTxC8RcKtChwa2NCx9YSo3ncq1EZtoqp4
+         ddVJIHBqZXBzFIqlL+4Ef1EQ4FrYHyopfgZKdR2mv2FDHJxR1v1F/BnAN19xTl8pZFCZ
+         n6raJmQE4eGfxT6I0rfnqpmu0r/yna6858CX2uZoe9B45/zAaLH7ZO3Pq4sPMyYM6EdK
+         iPmQ==
+X-Gm-Message-State: AOAM530uIa646MLVOKatQrjIn3ViqNPuUhIB487Jc6bRLIIKnZ8e7XIT
+        heNDXgC6i3SL817Ys/Hq3caSEw==
+X-Google-Smtp-Source: ABdhPJzJzNr2yGRkeakCzfK1k4PTnOjG5zboYz+WBO25moyiJhKeEGmc8cFnax2qMfHn/lgN8Q1BvQ==
+X-Received: by 2002:a05:6402:40c4:: with SMTP id z4mr5435513edb.120.1628158111607;
+        Thu, 05 Aug 2021 03:08:31 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id p23sm1550407ejc.19.2021.08.05.03.08.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Aug 2021 03:08:31 -0700 (PDT)
+Date:   Thu, 5 Aug 2021 12:08:29 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        longman@redhat.com, boqun.feng@gmail.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [RESEND PATCH v2 2/2] drm: add lockdep assert to
+ drm_is_current_master_locked
+Message-ID: <YQu4nfxtxyTCVGhn@phenom.ffwll.local>
+Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, peterz@infradead.org,
+        mingo@redhat.com, will@kernel.org, longman@redhat.com,
+        boqun.feng@gmail.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <20210802105957.77692-1-desmondcheongzx@gmail.com>
+ <20210802105957.77692-3-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <59b6a19a-0ed6-e142-cb67-0f7c6b64dd6d@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210802105957.77692-3-desmondcheongzx@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Aug 02, 2021 at 06:59:57PM +0800, Desmond Cheong Zhi Xi wrote:
+> In drm_is_current_master_locked, accessing drm_file.master should be
+> protected by either drm_file.master_lookup_lock or
+> drm_device.master_mutex. This was previously awkward to assert with
+> lockdep.
+> 
+> Following patch ("locking/lockdep: Provide lockdep_assert{,_once}()
+> helpers"), this assertion is now convenient. So we add in the
+> assertion and explain this lock design in the kerneldoc.
+> 
+> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> Acked-by: Boqun Feng <boqun.feng@gmail.com>
+> Acked-by: Waiman Long <longman@redhat.com>
+> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
+Both patches pushed to drm-misc-next, thanks.
+-Daniel
 
-On 04.08.21 14:53, Dafna Hirschfeld wrote:
+> ---
+>  drivers/gpu/drm/drm_auth.c | 6 +++---
+>  include/drm/drm_file.h     | 4 ++++
+>  2 files changed, 7 insertions(+), 3 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> index 9c24b8cc8e36..6f4d7ff23c80 100644
+> --- a/drivers/gpu/drm/drm_auth.c
+> +++ b/drivers/gpu/drm/drm_auth.c
+> @@ -63,9 +63,9 @@
+>  
+>  static bool drm_is_current_master_locked(struct drm_file *fpriv)
+>  {
+> -	/* Either drm_device.master_mutex or drm_file.master_lookup_lock
+> -	 * should be held here.
+> -	 */
+> +	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
+> +			    lockdep_is_held(&fpriv->minor->dev->master_mutex));
+> +
+>  	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
+>  }
+>  
+> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> index 726cfe0ff5f5..a3acb7ac3550 100644
+> --- a/include/drm/drm_file.h
+> +++ b/include/drm/drm_file.h
+> @@ -233,6 +233,10 @@ struct drm_file {
+>  	 * this only matches &drm_device.master if the master is the currently
+>  	 * active one.
+>  	 *
+> +	 * To update @master, both &drm_device.master_mutex and
+> +	 * @master_lookup_lock need to be held, therefore holding either of
+> +	 * them is safe and enough for the read side.
+> +	 *
+>  	 * When dereferencing this pointer, either hold struct
+>  	 * &drm_device.master_mutex for the duration of the pointer's use, or
+>  	 * use drm_file_get_master() if struct &drm_device.master_mutex is not
+> -- 
+> 2.25.1
 > 
-> On 27.04.21 13:15, Alexandre Courbot wrote:
->> The V4L2 encoder specification requires encoders to support the
->> V4L2_ENC_CMD_START and V4L2_ENC_CMD_STOP commands. Add support for these
->> to the mtk-vcodec encoder by reusing the same flush buffer as used by
->> the decoder driver.
->>
->> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
->> ---
->>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |   2 +
->>   .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 123 +++++++++++++++++-
->>   .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |   4 +
->>   3 files changed, 122 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
->> index c2f4cad6cfc2..1b61d722d313 100644
->> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
->> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
->> @@ -252,6 +252,7 @@ struct vdec_pic_info {
->>    * @last_decoded_picinfo: pic information get from latest decode
->>    * @empty_flush_buf: a fake size-0 capture buffer that indicates flush. Only
->>    *             to be used with encoder and stateful decoder.
->> + * @is_flushing: set to true if flushing is in progress.
->>    * @current_codec: current set input codec, in V4L2 pixel format
->>    *
->>    * @colorspace: enum v4l2_colorspace; supplemental to pixelformat
->> @@ -291,6 +292,7 @@ struct mtk_vcodec_ctx {
->>       struct work_struct encode_work;
->>       struct vdec_pic_info last_decoded_picinfo;
->>       struct v4l2_m2m_buffer empty_flush_buf;
->> +    bool is_flushing;
->>       u32 current_codec;
->> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
->> index 4831052f475d..8058331dc553 100644
->> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
->> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
->> @@ -659,6 +659,7 @@ static int vidioc_venc_dqbuf(struct file *file, void *priv,
->>                    struct v4l2_buffer *buf)
->>   {
->>       struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
->> +    int ret;
->>       if (ctx->state == MTK_STATE_ABORT) {
->>           mtk_v4l2_err("[%d] Call on QBUF after unrecoverable error",
->> @@ -666,7 +667,77 @@ static int vidioc_venc_dqbuf(struct file *file, void *priv,
->>           return -EIO;
->>       }
->> -    return v4l2_m2m_dqbuf(file, ctx->m2m_ctx, buf);
->> +    ret = v4l2_m2m_dqbuf(file, ctx->m2m_ctx, buf);
->> +    if (ret)
->> +        return ret;
->> +
->> +    /*
->> +     * Complete flush if the user dequeued the 0-payload LAST buffer.
->> +     * We check the payload because a buffer with the LAST flag can also
->> +     * be seen during resolution changes. If we happen to be flushing at
->> +     * that time, the last buffer before the resolution changes could be
->> +     * misinterpreted for the buffer generated by the flush and terminate
->> +     * it earlier than we want.
->> +     */
->> +    if (!V4L2_TYPE_IS_OUTPUT(buf->type) &&
->> +        buf->flags & V4L2_BUF_FLAG_LAST &&
->> +        buf->m.planes[0].bytesused == 0 &&
->> +        ctx->is_flushing) {
->> +        /*
->> +         * Last CAPTURE buffer is dequeued, we can allow another flush
->> +         * to take place.
->> +         */
->> +        ctx->is_flushing = false;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +static int vidioc_encoder_cmd(struct file *file, void *priv,
->> +                  struct v4l2_encoder_cmd *cmd)
->> +{
->> +    struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
->> +    struct vb2_queue *src_vq, *dst_vq;
->> +    int ret;
->> +
->> +    ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, cmd);
->> +    if (ret)
->> +        return ret;
->> +
->> +    /* Calling START or STOP is invalid if a flush is in progress */
->> +    if (ctx->is_flushing)
->> +        return -EBUSY;
->> +
->> +    mtk_v4l2_debug(1, "encoder cmd=%u", cmd->cmd);
->> +
->> +    dst_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
->> +                V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->> +    switch (cmd->cmd) {
->> +    case V4L2_ENC_CMD_STOP:
->> +        src_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
->> +                V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
->> +        if (!vb2_is_streaming(src_vq)) {
->> +            mtk_v4l2_debug(1, "Output stream is off. No need to flush.");
->> +            return 0;
->> +        }
->> +        if (!vb2_is_streaming(dst_vq)) {
->> +            mtk_v4l2_debug(1, "Capture stream is off. No need to flush.");
->> +            return 0;
->> +        }
->> +        ctx->is_flushing = true;
->> +        v4l2_m2m_buf_queue(ctx->m2m_ctx, &ctx->empty_flush_buf.vb);
->> +        v4l2_m2m_try_schedule(ctx->m2m_ctx);
->> +        break;
->> +
->> +    case V4L2_ENC_CMD_START:
->> +        vb2_clear_last_buffer_dequeued(dst_vq);
->> +        break;
->> +
->> +    default:
->> +        return -EINVAL;
->> +    }
->> +
->> +    return 0;
->>   }
->>   const struct v4l2_ioctl_ops mtk_venc_ioctl_ops = {
->> @@ -702,6 +773,9 @@ const struct v4l2_ioctl_ops mtk_venc_ioctl_ops = {
->>       .vidioc_g_selection        = vidioc_venc_g_selection,
->>       .vidioc_s_selection        = vidioc_venc_s_selection,
->> +
->> +    .vidioc_encoder_cmd        = vidioc_encoder_cmd,
->> +    .vidioc_try_encoder_cmd        = v4l2_m2m_ioctl_try_encoder_cmd,
->>   };
->>   static int vb2ops_venc_queue_setup(struct vb2_queue *vq,
->> @@ -869,9 +943,27 @@ static void vb2ops_venc_stop_streaming(struct vb2_queue *q)
->>               dst_buf->vb2_buf.planes[0].bytesused = 0;
->>               v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_ERROR);
->>           }
->> +        /* STREAMOFF on the CAPTURE queue completes any ongoing flush */
->> +        if (ctx->is_flushing) {
->> +            mtk_v4l2_debug(1, "STREAMOFF called while flushing");
->> +            v4l2_m2m_buf_remove_by_buf(&ctx->m2m_ctx->out_q_ctx,
->> +                           &ctx->empty_flush_buf.vb);
->> +            ctx->is_flushing = false;
->> +        }
->>       } else {
->> -        while ((src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx)))
->> -            v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
->> +        while ((src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx))) {
->> +            if (src_buf != &ctx->empty_flush_buf.vb)
->> +                v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
->> +        }
->> +        if (ctx->is_flushing) {
->> +            /*
->> +             * If we are in the middle of a flush, put the flush
->> +             * buffer back into the queue so the next CAPTURE
->> +             * buffer gets returned with the LAST flag set.
->> +             */
->> +            v4l2_m2m_buf_queue(ctx->m2m_ctx,
->> +                       &ctx->empty_flush_buf.vb);
->> +        }
->>       }
->>       if ((q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
->> @@ -971,12 +1063,15 @@ static int mtk_venc_param_change(struct mtk_vcodec_ctx *ctx)
->>   {
->>       struct venc_enc_param enc_prm;
->>       struct vb2_v4l2_buffer *vb2_v4l2 = v4l2_m2m_next_src_buf(ctx->m2m_ctx);
->> -    struct mtk_video_enc_buf *mtk_buf =
->> -            container_of(vb2_v4l2, struct mtk_video_enc_buf,
->> -                     m2m_buf.vb);
->> -
->> +    struct mtk_video_enc_buf *mtk_buf;
->>       int ret = 0;
->> +    /* Don't upcast the empty flush buffer */
->> +    if (vb2_v4l2 == &ctx->empty_flush_buf.vb)
->> +        return 0;
-> 
-> Hi, this check should also be in vb2ops_venc_buf_queue before upcasting
 
-oh, sorry, the empty_flush_buf can't come from userspace so this test is not needed there.
-> 
-> Thanks,
-> Dafna
-> 
->> +
->> +    mtk_buf = container_of(vb2_v4l2, struct mtk_video_enc_buf, m2m_buf.vb);
->> +
->>       memset(&enc_prm, 0, sizeof(enc_prm));
->>       if (mtk_buf->param_change == MTK_ENCODE_PARAM_NONE)
->>           return 0;
->> @@ -1062,6 +1157,20 @@ static void mtk_venc_worker(struct work_struct *work)
->>       }
->>       src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
->> +
->> +    /*
->> +     * If we see the flush buffer, send an empty buffer with the LAST flag
->> +     * to the client. is_flushing will be reset at the time the buffer
->> +     * is dequeued.
->> +     */
->> +    if (src_buf == &ctx->empty_flush_buf.vb) {
->> +        vb2_set_plane_payload(&dst_buf->vb2_buf, 0, 0);
->> +        dst_buf->flags |= V4L2_BUF_FLAG_LAST;
->> +        v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_DONE);
->> +        v4l2_m2m_job_finish(ctx->dev->m2m_dev_enc, ctx->m2m_ctx);
->> +        return;
->> +    }
->> +
->>       memset(&frm_buf, 0, sizeof(frm_buf));
->>       for (i = 0; i < src_buf->vb2_buf.num_planes ; i++) {
->>           frm_buf.fb_addr[i].dma_addr =
->> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
->> index 7d7b8cfc2cc5..2dd6fef896df 100644
->> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
->> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
->> @@ -131,6 +131,7 @@ static int fops_vcodec_open(struct file *file)
->>       struct mtk_vcodec_dev *dev = video_drvdata(file);
->>       struct mtk_vcodec_ctx *ctx = NULL;
->>       int ret = 0;
->> +    struct vb2_queue *src_vq;
->>       ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
->>       if (!ctx)
->> @@ -164,6 +165,9 @@ static int fops_vcodec_open(struct file *file)
->>                   ret);
->>           goto err_m2m_ctx_init;
->>       }
->> +    src_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
->> +                V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
->> +    ctx->empty_flush_buf.vb.vb2_buf.vb2_queue = src_vq;
->>       mtk_vcodec_enc_set_default_params(ctx);
->>       if (v4l2_fh_is_singular(&ctx->fh)) {
->>
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
