@@ -2,99 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 080C23E0FBA
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 09:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05FD03E0FD2
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 10:04:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239044AbhHEH4w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 03:56:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36474 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232191AbhHEH4v (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 03:56:51 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C09B7C061765;
-        Thu,  5 Aug 2021 00:56:36 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id nh14so6832357pjb.2;
-        Thu, 05 Aug 2021 00:56:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KzRsy5xjBsFP1lotVUKgcaA0YPpQUsU83EGq9W53Tvk=;
-        b=UMgOnE/1pl9TWQilf0ZfyeW3FaKKTp9Japy2/9SQAATB6IS1y8pRZ92oUAXcvL/Hjd
-         2pfy3tDPrOR4Schcd5JSU9q7nIRMZuRoDad5IFBRCUnirEMVxf9XkHxQxDH6tTWRio3M
-         fNwnMTZplpaqfPKVIk9wQGcB7RCMn9ZVSncr/EHX6GFuidcnqPeu5OP5ZU/IbGLFeAtd
-         4yJkcDURsTT1LVqyhH3+mq3NKt09HRrEBXbsqbmcIZ4Xa62mAAE+4o/QgoKywHp7RBCn
-         mvVRZZwl+zVBMOAS36kwFLtp21kG38YnUBXtRwbijyp8XKwm5JPZhFMT0pRnrE7zfsWU
-         qvnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KzRsy5xjBsFP1lotVUKgcaA0YPpQUsU83EGq9W53Tvk=;
-        b=oQlGNI45N2kEImHP5UfPzNC47Kq8SqeBCco+CoXYEr7lJwV70Ama2Up3/UkrJjqN3K
-         TmItPySYmZb8dwhp6DG4UGa8bzK9QPoDxCQy54opTWaChmcUX+x4UYxYoSUzo7HQxMh/
-         mM3PW6d7+RkR0GyRdP8z7dBL3OTAjP4/FTa/aLFgRY7rOzNnt8zAc26PJgInJFpJ3w2x
-         Pu9Hz3tjQW3/fvHqjl6tXyv/KKXf0l7ilwYUqMsVu2w4jLW+N9ipjdJKAnSRb+F8UprA
-         DnXm8fJc3hoxEWeA7YkHCYb5EMI6sn04Tr8mKwKRyOh1ygTejsG2iQ8X2cAJgb0u+ZGq
-         lR5Q==
-X-Gm-Message-State: AOAM533K20XULHaYHWWnbkIRroAd+VOa+g42eWKeYYgS/Me2WwqglQQa
-        rKnUwB3pGAxuhEXpKa1/HE8=
-X-Google-Smtp-Source: ABdhPJwdyARdZoc6Y55KTanj8seRN95/jamf11lnAx/tR+rFkqJTVyGuEMC3CBmQso+NPARXZbvYDQ==
-X-Received: by 2002:a63:e547:: with SMTP id z7mr495600pgj.65.1628150196358;
-        Thu, 05 Aug 2021 00:56:36 -0700 (PDT)
-Received: from localhost.localdomain ([45.135.186.81])
-        by smtp.gmail.com with ESMTPSA id 136sm6775573pge.77.2021.08.05.00.56.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Aug 2021 00:56:35 -0700 (PDT)
-From:   Tuo Li <islituo@gmail.com>
-To:     a.hajda@samsung.com, mchehab@kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, baijiaju1990@gmail.com,
-        Tuo Li <islituo@gmail.com>, TOTE Robot <oslab@tsinghua.edu.cn>
-Subject: [PATCH] media: s5p-mfc: fix possible null-pointer dereference in s5p_mfc_probe()
-Date:   Thu,  5 Aug 2021 00:55:35 -0700
-Message-Id: <20210805075535.116097-1-islituo@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S239339AbhHEIEg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 04:04:36 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:13235 "EHLO
+        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239214AbhHEIER (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 04:04:17 -0400
+Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.57])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GgLj33fdfz1CRVR;
+        Thu,  5 Aug 2021 16:03:51 +0800 (CST)
+Received: from [10.67.103.235] (10.67.103.235) by
+ dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Thu, 5 Aug 2021 16:03:58 +0800
+Subject: Re: [PATCH V7 5/9] PCI/IOV: Enable 10-Bit tag support for PCIe VF
+ devices
+To:     Bjorn Helgaas <helgaas@kernel.org>
+References: <20210804232937.GA1691653@bjorn-Precision-5520>
+CC:     <hch@infradead.org>, <kw@linux.com>, <logang@deltatee.com>,
+        <leon@kernel.org>, <linux-pci@vger.kernel.org>,
+        <rajur@chelsio.com>, <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
+From:   Dongdong Liu <liudongdong3@huawei.com>
+Message-ID: <08b7a9b7-2951-43c3-5e81-3461b6724955@huawei.com>
+Date:   Thu, 5 Aug 2021 16:03:58 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210804232937.GA1691653@bjorn-Precision-5520>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.103.235]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggeme758-chm.china.huawei.com (10.3.19.104)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The variable pdev is assigned to dev->plat_dev, and dev->plat_dev is 
-checked in:
-  if (!dev->plat_dev)
 
-This indicates both dev->plat_dev and pdev can be NULL. If so, the 
-function dev_err() is called to print error infomation.
-  dev_err(&pdev->dev, "No platform data specified\n");
+On 2021/8/5 7:29, Bjorn Helgaas wrote:
+> On Wed, Aug 04, 2021 at 09:47:04PM +0800, Dongdong Liu wrote:
+>> Enable VF 10-Bit Tag Requester when it's upstream component support
+>> 10-bit Tag Completer.
+>
+> s/it's/its/
+> s/support/supports/
+Will fix.
+>
+> I think "upstream component" here means the PF, doesn't it?  I don't
+> think the PF is really an *upstream* component; there's no routing
+> like with a switch.
+I want to say the switch and root port devices that support 10-Bit
+Tag Completer. Sure, VF also needs to have 10-bit Tag Requester
+Supported capability.
+>
+>> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
+>> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>> ---
+>>  drivers/pci/iov.c | 8 ++++++++
+>>  1 file changed, 8 insertions(+)
+>>
+>> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
+>> index dafdc65..0d0bed1 100644
+>> --- a/drivers/pci/iov.c
+>> +++ b/drivers/pci/iov.c
+>> @@ -634,6 +634,10 @@ static int sriov_enable(struct pci_dev *dev, int nr_virtfn)
+>>
+>>  	pci_iov_set_numvfs(dev, nr_virtfn);
+>>  	iov->ctrl |= PCI_SRIOV_CTRL_VFE | PCI_SRIOV_CTRL_MSE;
+>> +	if ((iov->cap & PCI_SRIOV_CAP_VF_10BIT_TAG_REQ) &&
+>> +	    dev->ext_10bit_tag)
+>> +		iov->ctrl |= PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN;
+>> +
+>>  	pci_cfg_access_lock(dev);
+>>  	pci_write_config_word(dev, iov->pos + PCI_SRIOV_CTRL, iov->ctrl);
+>>  	msleep(100);
+>> @@ -650,6 +654,8 @@ static int sriov_enable(struct pci_dev *dev, int nr_virtfn)
+>>
+>>  err_pcibios:
+>>  	iov->ctrl &= ~(PCI_SRIOV_CTRL_VFE | PCI_SRIOV_CTRL_MSE);
+>> +	if (iov->ctrl & PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN)
+>> +		iov->ctrl &= ~PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN;
+>>  	pci_cfg_access_lock(dev);
+>>  	pci_write_config_word(dev, iov->pos + PCI_SRIOV_CTRL, iov->ctrl);
+>>  	ssleep(1);
+>> @@ -682,6 +688,8 @@ static void sriov_disable(struct pci_dev *dev)
+>>
+>>  	sriov_del_vfs(dev);
+>>  	iov->ctrl &= ~(PCI_SRIOV_CTRL_VFE | PCI_SRIOV_CTRL_MSE);
+>> +	if (iov->ctrl & PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN)
+>> +		iov->ctrl &= ~PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN;
+>
+> You can just clear PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN unconditionally,
+> can't you?  I know it wouldn't change anything, but removing the "if"
+> makes the code prettier.  You could just add it in the existing
+> PCI_SRIOV_CTRL_VFE | PCI_SRIOV_CTRL_MSE mask.
+Will do.
 
-However, &pdev->dev is an illegal address, and it is dereferenced in 
-dev_err().
-
-To fix this possible null-pointer dereference, replace dev_err() with 
-mfc_err().
-
-Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
-Signed-off-by: Tuo Li <islituo@gmail.com>
----
- drivers/media/platform/s5p-mfc/s5p_mfc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-index eba2b9f040df..c763c0a03140 100644
---- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
-+++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-@@ -1283,7 +1283,7 @@ static int s5p_mfc_probe(struct platform_device *pdev)
- 	spin_lock_init(&dev->condlock);
- 	dev->plat_dev = pdev;
- 	if (!dev->plat_dev) {
--		dev_err(&pdev->dev, "No platform data specified\n");
-+		mfc_err("No platform data specified\n");
- 		return -ENODEV;
- 	}
- 
--- 
-2.25.1
-
+Thanks,
+Dongdong
+>
+>>  	pci_cfg_access_lock(dev);
+>>  	pci_write_config_word(dev, iov->pos + PCI_SRIOV_CTRL, iov->ctrl);
+>>  	ssleep(1);
+>> --
+>> 2.7.4
+>>
+> .
+>
