@@ -2,93 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7241D3E1824
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 17:37:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CA713E1845
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 17:41:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242059AbhHEPhT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 11:37:19 -0400
-Received: from ale.deltatee.com ([204.191.154.188]:46304 "EHLO
-        ale.deltatee.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242000AbhHEPhS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 11:37:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
-        Message-ID:From:References:Cc:To:content-disposition;
-        bh=FxYXTHDKCyAHR0FYBUwfJJEcH3aS8cyREXURVdqN5q0=; b=BjKGfcMbJaSz5EI4uoGVGgtNou
-        zfsti+KtAHPe6/B1GVGOmRjNso8+YObUCICxTILRRqezHaHobvX4d4r7x6yz7w5C04P191lQH1Syr
-        2ADzcIxeZZwp71jJRPRCrd2S1Gp0QbvMzDUq7cnoB4SvD9QKmccnh0J/JUriAYF/wsCG4+ZnHVtzw
-        pPNAXdrdWOKXv/+2dJcoUUnZwB7ZOcyu6dKPnGiGd8oN3EP+C+ghLngsGKLZjXRBSo75qFImfKAcM
-        oBW6FUiG/zmmePYL7Ssa4m1kdI/m8q//cy9U3kCDYUAPuRkDvoGGBZsv8w556Zvoq1cFEubtM1HXt
-        pd0JNqbA==;
-Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200] helo=[192.168.0.10])
-        by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.92)
-        (envelope-from <logang@deltatee.com>)
-        id 1mBfQZ-0001xq-3P; Thu, 05 Aug 2021 09:36:59 -0600
-To:     Dongdong Liu <liudongdong3@huawei.com>, helgaas@kernel.org,
-        hch@infradead.org, kw@linux.com, leon@kernel.org,
-        linux-pci@vger.kernel.org, rajur@chelsio.com,
-        hverkuil-cisco@xs4all.nl
-Cc:     linux-media@vger.kernel.org, netdev@vger.kernel.org
-References: <1628084828-119542-1-git-send-email-liudongdong3@huawei.com>
- <1628084828-119542-8-git-send-email-liudongdong3@huawei.com>
- <75243571-3213-6ae2-040f-ae1b1f799e42@deltatee.com>
- <8758a42b-233b-eb73-dce4-493e0ce8eed5@huawei.com>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <fee2f889-f549-26a1-4afa-57f52500d6e2@deltatee.com>
-Date:   Thu, 5 Aug 2021 09:36:55 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        id S242000AbhHEPlM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 11:41:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58784 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241840AbhHEPlL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 11:41:11 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C8FC061765
+        for <linux-media@vger.kernel.org>; Thu,  5 Aug 2021 08:40:56 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (89-27-100-251.bb.dnainternet.fi [89.27.100.251])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id DD21F1B00215;
+        Thu,  5 Aug 2021 18:40:53 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1628178053;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=2KhAkfn/4rUnbF0tYJXx32ZJn+uR4dZRMrOyZQQV8SY=;
+        b=KtLlpTIrH13lyHb5dGfM5SL70vbixJ058kHAunPoAOuc/Covo+5OYygekaSJympKT7jQZL
+        ZSijrbEnUETrxTm/fOjt1DOgqngmC8z9GroDA8E2R9EdajSIYJuCgGGEMlQs6FM51MQOwc
+        HLUkAiCniwaYWCa2z+mDDoNvVDdI8PfNV83aeJxpN6t1PdIeF3dtOjP2A2J2dPx9d9zbmf
+        iJ8EKLQ+If2seLPc+WTPzOcwdbV5AyJxC9vOANmZ1TsZy0HFUnsL75uUfqH+tLh8R9gJYh
+        25lsVgmnUCVuFkPQrbkI+IZbvAnaONtgJh3EJAn7Rm/xlCGZ374agR+z/Vs92Q==
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 36E68634C8C;
+        Thu,  5 Aug 2021 18:39:35 +0300 (EEST)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
+        by valkosipuli.localdomain with esmtp (Exim 4.92)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1mBfUA-000338-87; Thu, 05 Aug 2021 18:40:42 +0300
+Date:   Thu, 5 Aug 2021 18:40:42 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     David Plowman <david.plowman@raspberrypi.com>,
+        linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v3 1/2] media: v4l2-ctrls: Add V4L2_CID_NOTIFY_GAIN_XXX
+ controls
+Message-ID: <20210805154042.GE3@valkosipuli.retiisi.eu>
+References: <20210722121249.16483-1-david.plowman@raspberrypi.com>
+ <20210722121249.16483-2-david.plowman@raspberrypi.com>
+ <YQwCOBCFK9w4dvxl@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <8758a42b-233b-eb73-dce4-493e0ce8eed5@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 24.64.144.200
-X-SA-Exim-Rcpt-To: netdev@vger.kernel.org, linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl, rajur@chelsio.com, linux-pci@vger.kernel.org, leon@kernel.org, kw@linux.com, hch@infradead.org, helgaas@kernel.org, liudongdong3@huawei.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-        GREYLIST_ISWHITE,MYRULES_OFFER,NICE_REPLY_A autolearn=ham
-        autolearn_force=no version=3.4.2
-Subject: Re: [PATCH V7 7/9] PCI/sysfs: Add a 10-Bit Tag sysfs file
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YQwCOBCFK9w4dvxl@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1628178053;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=2KhAkfn/4rUnbF0tYJXx32ZJn+uR4dZRMrOyZQQV8SY=;
+        b=rSCzEwVs1KF3ymORwRBA0YS0Dl1F+S5qA7P12+Tyeh52aYFr4GqQP+SO/DA2JimvQSdmDN
+        00RQnf57QwiRTXhNg2vQkLkGTsEjgiz8Oa7jqO01aSbvcjZOyMnNLd/OirO1zD+RV8I68z
+        1pWGBs9AQicsyDRV+Cx3uVO7Y9niGPYivY0Rieez9xtS5t958EN7+Bx7xiPul4Aw46NTkN
+        PhT5BH1YdMjWD6cqhhewSctTGCEX+zPYJETWBq+DhSF7yy/ZO8MkcjvAePi6GzsH4tHmNy
+        rC2h7OBy7e98hLuSSGTouUgrbUThg+6my+0Ndc43I+mEEiiaNHGBLdhex4lupg==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1628178053; a=rsa-sha256;
+        cv=none;
+        b=TEhE8NrK099I6TNgiV6YtS8l2vcPncbT5cIu09/XWIEWzelDJJZswF9OfMIwp1FnQBhjpN
+        qc68UFTuAfo3/KOyOOkXLS3cThc1kurntEowBAUDxNJK/Vh+Rg8kVghiSImwYr5e6v0bRy
+        3LKJbAOu+Q+RnmwFRKGEVIDx5mxQq/kp+SwUUudEq6WDBtEGUtfpk7oTAaKzOPMflqD8nZ
+        LzO5IvmsH9946MgnpBvIzoBLvKLZLyUG0g75FTeYSDdUdCVzrBcr9q7opEJchHwHhG66DY
+        7wZ0uzbHXnsHEIRhy+98WB84WPsUnOiD9lXjIBwF3lb5V4TYVBNKzUtuA4ywoQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi David, Laurent,
 
-
-On 2021-08-05 7:14 a.m., Dongdong Liu wrote:
-> On 2021/8/4 23:51, Logan Gunthorpe wrote:
->>
->>
->>
->> On 2021-08-04 7:47 a.m., Dongdong Liu wrote:
->>> PCIe spec 5.0 r1.0 section 2.2.6.2 says that if an Endpoint supports
->>> sending Requests to other Endpoints (as opposed to host memory), the
->>> Endpoint must not send 10-Bit Tag Requests to another given Endpoint
->>> unless an implementation-specific mechanism determines that the Endpoint
->>> supports 10-Bit Tag Completer capability. Add a 10bit_tag sysfs file,
->>> write 0 to disable 10-Bit Tag Requester when the driver does not bind
->>> the device if the peer device does not support the 10-Bit Tag Completer.
->>> This will make P2P traffic safe. the 10bit_tag file content indicate
->>> current 10-Bit Tag Requester Enable status.
->>
->> Can we not have both the sysfs file and the command line parameter? If
->> the user wants to disable it always for a specific device this sysfs
->> parameter is fairly awkward. A script at boot to unbind the driver, set
->> the sysfs file and rebind the driver is not trivial and the command line
->> parameter offers additional options for users.
-> Does the command line parameter as "[PATCH V6 7/8] PCI: Add
-> "pci=disable_10bit_tag=" parameter for peer-to-peer support" does?
+On Thu, Aug 05, 2021 at 06:22:32PM +0300, Laurent Pinchart wrote:
+> Hi David,
 > 
-> Do we also need such command line if we already had sysfs file?
-> I think we may not need.
+> Thank you for the patch.
+> 
+> On Thu, Jul 22, 2021 at 01:12:48PM +0100, David Plowman wrote:
+> > We add new controls, one for each of the four usual Bayer channels:
+> > 
+> > V4L2_CID_NOTIFY_GAIN_RED
+> > V4L2_CID_NOTIFY_GAIN_GREENR
+> > V4L2_CID_NOTIFY_GAIN_BLUE
+> > V4L2_CID_NOTIFY_GAIN_GREENB
+> 
+> This will effectively limit the API to Bayer patterns. I wonder if we
+> should instead implement it as a single array control, with one element
+> per CFA component.
 
-In my opinion, for reasons stated above, the command line parameter is
-way more convenient.
+There are other raw patterns, too. Supporting them would likely require one
+or a few more controls.
 
-Logan
+That said, as the values change often it's more efficient to use a single
+control. But each colour combination (not each pattern) would require its
+own control in this case, eventually requiring more controls.
+
+Given that the number of sensors using non-Bayer patterns but still produce
+Bayer output is likely to grow, these could be used by a number of devices.
+I'd hence prefer an array control as well.
+
+-- 
+Kind regards,
+
+Sakari Ailus
