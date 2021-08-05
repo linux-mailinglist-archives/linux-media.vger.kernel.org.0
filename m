@@ -2,77 +2,256 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A6503E156F
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 15:14:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE0B13E1594
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 15:22:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241651AbhHENPH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 09:15:07 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:7794 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241638AbhHENPG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 09:15:06 -0400
-Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.57])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GgTbl2KdxzYlJg;
-        Thu,  5 Aug 2021 21:14:43 +0800 (CST)
-Received: from [10.67.103.235] (10.67.103.235) by
- dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Thu, 5 Aug 2021 21:14:50 +0800
-Subject: Re: [PATCH V7 7/9] PCI/sysfs: Add a 10-Bit Tag sysfs file
-To:     Logan Gunthorpe <logang@deltatee.com>, <helgaas@kernel.org>,
-        <hch@infradead.org>, <kw@linux.com>, <leon@kernel.org>,
-        <linux-pci@vger.kernel.org>, <rajur@chelsio.com>,
-        <hverkuil-cisco@xs4all.nl>
-References: <1628084828-119542-1-git-send-email-liudongdong3@huawei.com>
- <1628084828-119542-8-git-send-email-liudongdong3@huawei.com>
- <75243571-3213-6ae2-040f-ae1b1f799e42@deltatee.com>
-CC:     <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
-From:   Dongdong Liu <liudongdong3@huawei.com>
-Message-ID: <8758a42b-233b-eb73-dce4-493e0ce8eed5@huawei.com>
-Date:   Thu, 5 Aug 2021 21:14:50 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S240608AbhHENW0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 09:22:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55038 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240596AbhHENWY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 09:22:24 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C3CCC0613C1;
+        Thu,  5 Aug 2021 06:22:10 -0700 (PDT)
+Received: from [IPv6:2a02:810a:880:f54:e5eb:348e:79df:e71f] (unknown [IPv6:2a02:810a:880:f54:e5eb:348e:79df:e71f])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 68C5F1F43E6D;
+        Thu,  5 Aug 2021 14:22:06 +0100 (BST)
+Subject: Re: [PATCH v7 04/12] iommu/mediatek: Add device_link between the
+ consumer and the larb devices
+To:     Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Evan Green <evgreen@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, youlin.pei@mediatek.com,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
+        ming-fan.chen@mediatek.com, yi.kuo@mediatek.com,
+        acourbot@chromium.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Xia Jiang <xia.jiang@mediatek.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        anthony.huang@mediatek.com,
+        Frank Wunderlich <frank-w@public-files.de>,
+        Collabora Kernel ML <kernel@collabora.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>
+References: <20210730025238.22456-1-yong.wu@mediatek.com>
+ <20210730025238.22456-5-yong.wu@mediatek.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <3f359c03-df44-2410-3172-2f17e620cada@collabora.com>
+Date:   Thu, 5 Aug 2021 15:22:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <75243571-3213-6ae2-040f-ae1b1f799e42@deltatee.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20210730025238.22456-5-yong.wu@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.235]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggeme758-chm.china.huawei.com (10.3.19.104)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2021/8/4 23:51, Logan Gunthorpe wrote:
->
->
->
-> On 2021-08-04 7:47 a.m., Dongdong Liu wrote:
->> PCIe spec 5.0 r1.0 section 2.2.6.2 says that if an Endpoint supports
->> sending Requests to other Endpoints (as opposed to host memory), the
->> Endpoint must not send 10-Bit Tag Requests to another given Endpoint
->> unless an implementation-specific mechanism determines that the Endpoint
->> supports 10-Bit Tag Completer capability. Add a 10bit_tag sysfs file,
->> write 0 to disable 10-Bit Tag Requester when the driver does not bind
->> the device if the peer device does not support the 10-Bit Tag Completer.
->> This will make P2P traffic safe. the 10bit_tag file content indicate
->> current 10-Bit Tag Requester Enable status.
->
-> Can we not have both the sysfs file and the command line parameter? If
-> the user wants to disable it always for a specific device this sysfs
-> parameter is fairly awkward. A script at boot to unbind the driver, set
-> the sysfs file and rebind the driver is not trivial and the command line
-> parameter offers additional options for users.
-Does the command line parameter as "[PATCH V6 7/8] PCI: Add 
-"pci=disable_10bit_tag=" parameter for peer-to-peer support" does?
 
-Do we also need such command line if we already had sysfs file?
-I think we may not need.
+
+On 30.07.21 04:52, Yong Wu wrote:
+> MediaTek IOMMU-SMI diagram is like below. all the consumer connect with
+> smi-larb, then connect with smi-common.
+> 
+>          M4U
+>           |
+>      smi-common
+>           |
+>    -------------
+>    |         |    ...
+>    |         |
+> larb1     larb2
+>    |         |
+> vdec       venc
+> 
+> When the consumer works, it should enable the smi-larb's power which
+> also need enable the smi-common's power firstly.
+> 
+> Thus, First of all, use the device link connect the consumer and the
+> smi-larbs. then add device link between the smi-larb and smi-common.
+> 
+> This patch adds device_link between the consumer and the larbs.
+> 
+> When device_link_add, I add the flag DL_FLAG_STATELESS to avoid calling
+> pm_runtime_xx to keep the original status of clocks. It can avoid two
+> issues:
+> 1) Display HW show fastlogo abnormally reported in [1]. At the beggining,
+> all the clocks are enabled before entering kernel, but the clocks for
+> display HW(always in larb0) will be gated after clk_enable and clk_disable
+> called from device_link_add(->pm_runtime_resume) and rpm_idle. The clock
+> operation happened before display driver probe. At that time, the display
+> HW will be abnormal.
+> 
+> 2) A deadlock issue reported in [2]. Use DL_FLAG_STATELESS to skip
+> pm_runtime_xx to avoid the deadlock.
+> 
+> Corresponding, DL_FLAG_AUTOREMOVE_CONSUMER can't be added, then
+> device_link_removed should be added explicitly.
+> 
+> [1] https://lore.kernel.org/linux-mediatek/1564213888.22908.4.camel@mhfsdcap03/
+> [2] https://lore.kernel.org/patchwork/patch/1086569/
+> 
+> Suggested-by: Tomasz Figa <tfiga@chromium.org>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> Tested-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com> # on mt8173
+
+Hi, unfortunately, I have to take back the Tested-by tag.
+I am now testing the mtk-vcodec with latest kernel + patches sent from the mailing list:
+https://gitlab.collabora.com/eballetbo/linux/-/commits/topic/chromeos/chromeos-5.14
+which includes this patchset.
+
+On chromeos I open a video conference with googl-meet which cause the mtk-vcodec vp8 encoder to run.
+If I kill it with `killall -9 chrome` I get some page fault messages from the iommu:
+
+[  837.255952] mtk-iommu 10205000.iommu: fault type=0x5 iova=0xfcff0001 pa=0x0 larb=0 port=0 layer=1 read
+[  837.265696] mtk-iommu 10205000.iommu: fault type=0x5 iova=0xfcff0001 pa=0x0 larb=0 port=0 layer=1 read
+[  837.282367] mtk-iommu 10205000.iommu: fault type=0x5 iova=0xfcff0001 pa=0x0 larb=0 port=0 layer=1 read
+[  837.299028] mtk-iommu 10205000.iommu: fault type=0x5 iova=0xfcff0001 pa=0x0 larb=0 port=0 layer=1 read
+[  837.315683] mtk-iommu 10205000.iommu: fault type=0x5 iova=0xfcff0001 pa=0x0 larb=0 port=0 layer=1 read
+[  837.332345] mtk-iommu 10205000.iommu: fault type=0x5 iova=0xfcff0001 pa=0x0 larb=0 port=0 layer=1 read
+[  837.349004] mtk-iommu 10205000.iommu: fault type=0x5 iova=0xfcff0001 pa=0x0 larb=0 port=0 layer=1 read
+[  837.365665] mtk-iommu 10205000.iommu: fault type=0x5 iova=0xfcff0001 pa=0x0 larb=0 port=0 layer=1 read
+[  837.382329] mtk-iommu 10205000.iommu: fault type=0x5 iova=0xfcff0001 pa=0x0 larb=0 port=0 layer=1 read
+[  837.400002] mtk-iommu 10205000.iommu: fault type=0x5 iova=0xfcff0001 pa=0x0 larb=0 port=0 layer=1 read
+
+In addition, running the encoder tests from the shell:
+
+sudo --user=#1000 /usr/local/libexec/chrome-binary-tests/video_encode_accelerator_tests --gtest_filter=VideoEncoderTest.FlushAtEndOfStream_Multiple*  --codec=vp8 /usr/local/share/tast/data/chromiumos/tast/local/bundles/cros/video/data/tulip2-320x180.yuv --disable_validator
+
+At some point it fails with the error
+
+[ 5472.161821] [MTK_V4L2][ERROR] mtk_vcodec_wait_for_done_ctx:32: [290] ctx->type=1, cmd=1, wait_event_interruptible_timeout time=1000ms out 0 0!
+[ 5472.174678] [MTK_VCODEC][ERROR][290]: vp8_enc_encode_frame() irq_status=0 failed
+[ 5472.182687] [MTK_V4L2][ERROR] mtk_venc_worker:1239: venc_if_encode failed=-5
+
+
+If you have any idea of what might be the problem or how to debug?
 
 Thanks,
-Dongdong
->
-> Logan
-> .
->
+Dafna
+
+> ---
+>   drivers/iommu/mtk_iommu.c    | 22 ++++++++++++++++++++++
+>   drivers/iommu/mtk_iommu_v1.c | 20 +++++++++++++++++++-
+>   2 files changed, 41 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> index a02dde094788..ee742900cf4b 100644
+> --- a/drivers/iommu/mtk_iommu.c
+> +++ b/drivers/iommu/mtk_iommu.c
+> @@ -571,22 +571,44 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+>   {
+>   	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+>   	struct mtk_iommu_data *data;
+> +	struct device_link *link;
+> +	struct device *larbdev;
+> +	unsigned int larbid;
+>   
+>   	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+>   		return ERR_PTR(-ENODEV); /* Not a iommu client device */
+>   
+>   	data = dev_iommu_priv_get(dev);
+>   
+> +	/*
+> +	 * Link the consumer device with the smi-larb device(supplier)
+> +	 * The device in each a larb is a independent HW. thus only link
+> +	 * one larb here.
+> +	 */
+> +	larbid = MTK_M4U_TO_LARB(fwspec->ids[0]);
+> +	larbdev = data->larb_imu[larbid].dev;
+> +	link = device_link_add(dev, larbdev,
+> +			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
+> +	if (!link)
+> +		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
+>   	return &data->iommu;
+>   }
+>   
+>   static void mtk_iommu_release_device(struct device *dev)
+>   {
+>   	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+> +	struct mtk_iommu_data *data;
+> +	struct device *larbdev;
+> +	unsigned int larbid;
+>   
+>   	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+>   		return;
+>   
+> +	data = dev_iommu_priv_get(dev);
+> +	larbid = MTK_M4U_TO_LARB(fwspec->ids[0]);
+> +	larbdev = data->larb_imu[larbid].dev;
+> +	device_link_remove(dev, larbdev);
+> +
+>   	iommu_fwspec_free(dev);
+>   }
+>   
+> diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
+> index c259433f1130..806d4200665b 100644
+> --- a/drivers/iommu/mtk_iommu_v1.c
+> +++ b/drivers/iommu/mtk_iommu_v1.c
+> @@ -424,7 +424,9 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+>   	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+>   	struct of_phandle_args iommu_spec;
+>   	struct mtk_iommu_data *data;
+> -	int err, idx = 0;
+> +	int err, idx = 0, larbid;
+> +	struct device_link *link;
+> +	struct device *larbdev;
+>   
+>   	/*
+>   	 * In the deferred case, free the existed fwspec if the dev already has,
+> @@ -454,6 +456,14 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+>   
+>   	data = dev_iommu_priv_get(dev);
+>   
+> +	/* Link the consumer device with the smi-larb device(supplier) */
+> +	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
+> +	larbdev = data->larb_imu[larbid].dev;
+> +	link = device_link_add(dev, larbdev,
+> +			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
+> +	if (!link)
+> +		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
+> +
+>   	return &data->iommu;
+>   }
+>   
+> @@ -474,10 +484,18 @@ static void mtk_iommu_probe_finalize(struct device *dev)
+>   static void mtk_iommu_release_device(struct device *dev)
+>   {
+>   	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+> +	struct mtk_iommu_data *data;
+> +	struct device *larbdev;
+> +	unsigned int larbid;
+>   
+>   	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+>   		return;
+>   
+> +	data = dev_iommu_priv_get(dev);
+> +	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
+> +	larbdev = data->larb_imu[larbid].dev;
+> +	device_link_remove(dev, larbdev);
+> +
+>   	iommu_fwspec_free(dev);
+>   }
+>   
+> 
