@@ -2,183 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB75C3E1820
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 17:36:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7241D3E1824
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 17:37:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240747AbhHEPgy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 11:36:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57710 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232057AbhHEPgx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 11:36:53 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93804C061765;
-        Thu,  5 Aug 2021 08:36:39 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: gtucker)
-        with ESMTPSA id 93F451F40AC3
-From:   Guillaume Tucker <guillaume.tucker@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-Subject: [PATCH v2] media: vivid: drop CONFIG_FB dependency
-Date:   Thu,  5 Aug 2021 16:36:31 +0100
-Message-Id: <8615e9e583173652894889afd492022683389621.1628177586.git.guillaume.tucker@collabora.com>
-X-Mailer: git-send-email 2.20.1
+        id S242059AbhHEPhT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 11:37:19 -0400
+Received: from ale.deltatee.com ([204.191.154.188]:46304 "EHLO
+        ale.deltatee.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242000AbhHEPhS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 11:37:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
+        Message-ID:From:References:Cc:To:content-disposition;
+        bh=FxYXTHDKCyAHR0FYBUwfJJEcH3aS8cyREXURVdqN5q0=; b=BjKGfcMbJaSz5EI4uoGVGgtNou
+        zfsti+KtAHPe6/B1GVGOmRjNso8+YObUCICxTILRRqezHaHobvX4d4r7x6yz7w5C04P191lQH1Syr
+        2ADzcIxeZZwp71jJRPRCrd2S1Gp0QbvMzDUq7cnoB4SvD9QKmccnh0J/JUriAYF/wsCG4+ZnHVtzw
+        pPNAXdrdWOKXv/+2dJcoUUnZwB7ZOcyu6dKPnGiGd8oN3EP+C+ghLngsGKLZjXRBSo75qFImfKAcM
+        oBW6FUiG/zmmePYL7Ssa4m1kdI/m8q//cy9U3kCDYUAPuRkDvoGGBZsv8w556Zvoq1cFEubtM1HXt
+        pd0JNqbA==;
+Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200] helo=[192.168.0.10])
+        by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.92)
+        (envelope-from <logang@deltatee.com>)
+        id 1mBfQZ-0001xq-3P; Thu, 05 Aug 2021 09:36:59 -0600
+To:     Dongdong Liu <liudongdong3@huawei.com>, helgaas@kernel.org,
+        hch@infradead.org, kw@linux.com, leon@kernel.org,
+        linux-pci@vger.kernel.org, rajur@chelsio.com,
+        hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, netdev@vger.kernel.org
+References: <1628084828-119542-1-git-send-email-liudongdong3@huawei.com>
+ <1628084828-119542-8-git-send-email-liudongdong3@huawei.com>
+ <75243571-3213-6ae2-040f-ae1b1f799e42@deltatee.com>
+ <8758a42b-233b-eb73-dce4-493e0ce8eed5@huawei.com>
+From:   Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <fee2f889-f549-26a1-4afa-57f52500d6e2@deltatee.com>
+Date:   Thu, 5 Aug 2021 09:36:55 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <8758a42b-233b-eb73-dce4-493e0ce8eed5@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 24.64.144.200
+X-SA-Exim-Rcpt-To: netdev@vger.kernel.org, linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl, rajur@chelsio.com, linux-pci@vger.kernel.org, leon@kernel.org, kw@linux.com, hch@infradead.org, helgaas@kernel.org, liudongdong3@huawei.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-8.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+        GREYLIST_ISWHITE,MYRULES_OFFER,NICE_REPLY_A autolearn=ham
+        autolearn_force=no version=3.4.2
+Subject: Re: [PATCH V7 7/9] PCI/sysfs: Add a 10-Bit Tag sysfs file
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Drop the vivid dependency on CONFIG_FB by compiling out parts of the
-code that make use of the framebuffer API when not enabled.  This is
-particularly useful as CONFIG_FB is not selected any more by
-DRM_FBDEV_EMULATION.
 
-Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Guillaume Tucker <guillaume.tucker@collabora.com>
----
 
-Notes:
-    Changes in v2:
-    * fix Makefile conditional for when CONFIG_FB=m
-    * compile-out bit 16 (framebuffer) when no CONFIG_FB
+On 2021-08-05 7:14 a.m., Dongdong Liu wrote:
+> On 2021/8/4 23:51, Logan Gunthorpe wrote:
+>>
+>>
+>>
+>> On 2021-08-04 7:47 a.m., Dongdong Liu wrote:
+>>> PCIe spec 5.0 r1.0 section 2.2.6.2 says that if an Endpoint supports
+>>> sending Requests to other Endpoints (as opposed to host memory), the
+>>> Endpoint must not send 10-Bit Tag Requests to another given Endpoint
+>>> unless an implementation-specific mechanism determines that the Endpoint
+>>> supports 10-Bit Tag Completer capability. Add a 10bit_tag sysfs file,
+>>> write 0 to disable 10-Bit Tag Requester when the driver does not bind
+>>> the device if the peer device does not support the 10-Bit Tag Completer.
+>>> This will make P2P traffic safe. the 10bit_tag file content indicate
+>>> current 10-Bit Tag Requester Enable status.
+>>
+>> Can we not have both the sysfs file and the command line parameter? If
+>> the user wants to disable it always for a specific device this sysfs
+>> parameter is fairly awkward. A script at boot to unbind the driver, set
+>> the sysfs file and rebind the driver is not trivial and the command line
+>> parameter offers additional options for users.
+> Does the command line parameter as "[PATCH V6 7/8] PCI: Add
+> "pci=disable_10bit_tag=" parameter for peer-to-peer support" does?
+> 
+> Do we also need such command line if we already had sysfs file?
+> I think we may not need.
 
- drivers/media/test-drivers/vivid/Kconfig       | 5 +----
- drivers/media/test-drivers/vivid/Makefile      | 5 ++++-
- drivers/media/test-drivers/vivid/vivid-core.c  | 9 +++++++++
- drivers/media/test-drivers/vivid/vivid-ctrls.c | 4 ++++
- 4 files changed, 18 insertions(+), 5 deletions(-)
+In my opinion, for reasons stated above, the command line parameter is
+way more convenient.
 
-diff --git a/drivers/media/test-drivers/vivid/Kconfig b/drivers/media/test-drivers/vivid/Kconfig
-index c3abde2986b2..06ad350f1903 100644
---- a/drivers/media/test-drivers/vivid/Kconfig
-+++ b/drivers/media/test-drivers/vivid/Kconfig
-@@ -1,13 +1,10 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config VIDEO_VIVID
- 	tristate "Virtual Video Test Driver"
--	depends on VIDEO_DEV && VIDEO_V4L2 && !SPARC32 && !SPARC64 && FB
-+	depends on VIDEO_DEV && VIDEO_V4L2 && !SPARC32 && !SPARC64
- 	depends on HAS_DMA
- 	select FONT_SUPPORT
- 	select FONT_8x16
--	select FB_CFB_FILLRECT
--	select FB_CFB_COPYAREA
--	select FB_CFB_IMAGEBLIT
- 	select VIDEOBUF2_VMALLOC
- 	select VIDEOBUF2_DMA_CONTIG
- 	select VIDEO_V4L2_TPG
-diff --git a/drivers/media/test-drivers/vivid/Makefile b/drivers/media/test-drivers/vivid/Makefile
-index b12ad0152a3e..2ad634da7f88 100644
---- a/drivers/media/test-drivers/vivid/Makefile
-+++ b/drivers/media/test-drivers/vivid/Makefile
-@@ -3,10 +3,13 @@ vivid-objs := vivid-core.o vivid-ctrls.o vivid-vid-common.o vivid-vbi-gen.o \
- 		vivid-vid-cap.o vivid-vid-out.o vivid-kthread-cap.o vivid-kthread-out.o \
- 		vivid-radio-rx.o vivid-radio-tx.o vivid-radio-common.o \
- 		vivid-rds-gen.o vivid-sdr-cap.o vivid-vbi-cap.o vivid-vbi-out.o \
--		vivid-osd.o vivid-meta-cap.o vivid-meta-out.o \
-+		vivid-meta-cap.o vivid-meta-out.o \
- 		vivid-kthread-touch.o vivid-touch-cap.o
- ifeq ($(CONFIG_VIDEO_VIVID_CEC),y)
-   vivid-objs += vivid-cec.o
- endif
-+ifneq ($(CONFIG_FB),)
-+  vivid-objs += vivid-osd.o
-+endif
- 
- obj-$(CONFIG_VIDEO_VIVID) += vivid.o
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index d2bd2653cf54..7675962b9e93 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.c
-+++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -126,7 +126,9 @@ MODULE_PARM_DESC(node_types, " node types, default is 0xe1d3d. Bitmask with the
- 			     "\t\t    bit 8: Video Output node\n"
- 			     "\t\t    bit 10-11: VBI Output node: 0 = none, 1 = raw vbi, 2 = sliced vbi, 3 = both\n"
- 			     "\t\t    bit 12: Radio Transmitter node\n"
-+#if IS_ENABLED(CONFIG_FB)
- 			     "\t\t    bit 16: Framebuffer for testing overlays\n"
-+#endif
- 			     "\t\t    bit 17: Metadata Capture node\n"
- 			     "\t\t    bit 18: Metadata Output node\n"
- 			     "\t\t    bit 19: Touch Capture node\n");
-@@ -1021,9 +1023,11 @@ static int vivid_detect_feature_set(struct vivid_dev *dev, int inst,
- 	/* do we have a modulator? */
- 	*has_modulator = dev->has_radio_tx;
- 
-+#if IS_ENABLED(CONFIG_FB)
- 	if (dev->has_vid_cap)
- 		/* do we have a framebuffer for overlay testing? */
- 		dev->has_fb = node_type & 0x10000;
-+#endif
- 
- 	/* can we do crop/compose/scaling while capturing? */
- 	if (no_error_inj && *ccs_cap == -1)
-@@ -1355,6 +1359,7 @@ static int vivid_create_queues(struct vivid_dev *dev)
- 			return ret;
- 	}
- 
-+#if IS_ENABLED(CONFIG_FB)
- 	if (dev->has_fb) {
- 		/* Create framebuffer for testing capture/output overlay */
- 		ret = vivid_fb_init(dev);
-@@ -1363,6 +1368,8 @@ static int vivid_create_queues(struct vivid_dev *dev)
- 		v4l2_info(&dev->v4l2_dev, "Framebuffer device registered as fb%d\n",
- 			  dev->fb_info.node);
- 	}
-+#endif
-+
- 	return 0;
- }
- 
-@@ -2069,12 +2076,14 @@ static int vivid_remove(struct platform_device *pdev)
- 				video_device_node_name(&dev->radio_tx_dev));
- 			video_unregister_device(&dev->radio_tx_dev);
- 		}
-+#if IS_ENABLED(CONFIG_FB)
- 		if (dev->has_fb) {
- 			v4l2_info(&dev->v4l2_dev, "unregistering fb%d\n",
- 				dev->fb_info.node);
- 			unregister_framebuffer(&dev->fb_info);
- 			vivid_fb_release_buffers(dev);
- 		}
-+#endif
- 		if (dev->has_meta_cap) {
- 			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
- 				  video_device_node_name(&dev->meta_cap_dev));
-diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-index 8dc50fe22972..081470a1d88a 100644
---- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
-+++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-@@ -305,6 +305,7 @@ static const struct v4l2_ctrl_config vivid_ctrl_ro_int32 = {
- 
- /* Framebuffer Controls */
- 
-+#if IS_ENABLED(CONFIG_FB)
- static int vivid_fb_s_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct vivid_dev *dev = container_of(ctrl->handler,
-@@ -328,6 +329,7 @@ static const struct v4l2_ctrl_config vivid_ctrl_clear_fb = {
- 	.name = "Clear Framebuffer",
- 	.type = V4L2_CTRL_TYPE_BUTTON,
- };
-+#endif /* IS_ENABLED(CONFIG_FB) */
- 
- 
- /* Video User Controls */
-@@ -1761,8 +1763,10 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
- 	    (dev->has_vbi_cap && dev->has_vbi_out))
- 		v4l2_ctrl_new_custom(hdl_loop_cap, &vivid_ctrl_loop_video, NULL);
- 
-+#if IS_ENABLED(CONFIG_FB)
- 	if (dev->has_fb)
- 		v4l2_ctrl_new_custom(hdl_fb, &vivid_ctrl_clear_fb, NULL);
-+#endif
- 
- 	if (dev->has_radio_rx) {
- 		v4l2_ctrl_new_custom(hdl_radio_rx, &vivid_ctrl_radio_hw_seek_mode, NULL);
--- 
-2.20.1
-
+Logan
