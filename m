@@ -2,116 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA7663E1AEE
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 20:05:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67E7C3E1B04
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 20:12:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239712AbhHESFe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 14:05:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36012 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231372AbhHESFe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 14:05:34 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3462C061765
-        for <linux-media@vger.kernel.org>; Thu,  5 Aug 2021 11:05:19 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (89-27-100-251.bb.dnainternet.fi [89.27.100.251])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id F06B0202A5;
-        Thu,  5 Aug 2021 21:05:14 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1628186715;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WWVuUWu5tevIWNc5csvndj7WuzG1IigCjb17QcUqQqY=;
-        b=oF/4STmBAZPwHJzVnKOdsNUSC8Q4Bt9R4YeTGxbX5EElNVhynxWYzLGLO2vJAU+I+J3XUq
-        Kw1vtS5mxXPPSglPZI+aRrwwIDXpEDliWgl6J4SrqhEcooT4+DdLUD807mIJrQp11aHBjn
-        UphYm/wnGwbdZCeFsk+JVsrXy3+xaRQ=
-Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id CE86B634C89;
-        Thu,  5 Aug 2021 21:03:55 +0300 (EEST)
-Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
-        by valkosipuli.localdomain with esmtp (Exim 4.92)
-        (envelope-from <sakari.ailus@iki.fi>)
-        id 1mBhjr-00034a-DH; Thu, 05 Aug 2021 21:05:03 +0300
-Date:   Thu, 5 Aug 2021 21:05:03 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     David Plowman <david.plowman@raspberrypi.com>,
-        linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v3 1/2] media: v4l2-ctrls: Add V4L2_CID_NOTIFY_GAIN_XXX
- controls
-Message-ID: <20210805180503.GF3@valkosipuli.retiisi.eu>
-References: <20210722121249.16483-1-david.plowman@raspberrypi.com>
- <20210722121249.16483-2-david.plowman@raspberrypi.com>
- <YQwCOBCFK9w4dvxl@pendragon.ideasonboard.com>
- <20210805154042.GE3@valkosipuli.retiisi.eu>
- <YQwIjW1BannEjBWg@pendragon.ideasonboard.com>
+        id S241007AbhHESMt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 14:12:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44904 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239013AbhHESMt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Aug 2021 14:12:49 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ABF7F60F43;
+        Thu,  5 Aug 2021 18:12:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628187155;
+        bh=p3jgh7jK/C4VhYgj51TWN+4tV+Kpxd+e+Euwt7iJ+8k=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=Nbmy1Htd7+FJpa8uHUgsDo+M1Af0j7Fje1ddfPZtMi8xZPbWlR26yCjP4t1ZSU0np
+         8TDne6zs6Ot06VDPAG9moGXfQPynyaFQHZvsGX9Y55vjwqRQHqEwzGloXcYMkqcVwa
+         eLvgh0xGENrwHEGKoi3DzB3mjA1Z1ZZeBoRjqIk2sA3l2tIy0+NKG3vf1APMFPG9UM
+         6iYQgew/I+11rS8uceDG96MhLFK2emEaZ9ie5SdPnNih/hJ64smxkIifIAKMZn+6z2
+         bc9khRePRPwp1KErIDIltAfd3JIbNjnZUkTlXdGcDk1J1IhangNPnKXiFRZ8IhLRhr
+         skBVsncaskgUg==
+Date:   Thu, 5 Aug 2021 13:12:33 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Dongdong Liu <liudongdong3@huawei.com>
+Cc:     hch@infradead.org, kw@linux.com, logang@deltatee.com,
+        leon@kernel.org, linux-pci@vger.kernel.org, rajur@chelsio.com,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH V7 9/9] PCI/P2PDMA: Add a 10-Bit Tag check in P2PDMA
+Message-ID: <20210805181233.GA1765293@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YQwIjW1BannEjBWg@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1628186715;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WWVuUWu5tevIWNc5csvndj7WuzG1IigCjb17QcUqQqY=;
-        b=WMciXSkLlg2FTmZGCl55oOxLBatDAkl5ENDyoQSLS/++XlcsNvt542nr2o0ElRGHYFJjWo
-        qfmZyvKaOdKK0aKSjJlCFGzJly7EORB5os4Bml7DxVgvj4PzPeKVAsgdzLG7QcH9QDTQiF
-        rZCBJOFXFCwPDcW64YehmkWvjp5EcP0=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1628186715; a=rsa-sha256; cv=none;
-        b=x8ClMDZoP3N0sbGECqcAulcqHabt/lhc+hEC1Mq97QvrDH86+mpWgsofZajj2b50xFtvaD
-        zVGEdzD4OKKLVaKcGErMuNEasGLlZ0rFmFdbp+hdEda77VqathcCsxc3RNWWtXKZytygxY
-        8NeYBI5gPdZcHRSCle/RtEHs4lTTtVE=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+In-Reply-To: <1628084828-119542-10-git-send-email-liudongdong3@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 05, 2021 at 06:49:33PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Thu, Aug 05, 2021 at 06:40:42PM +0300, Sakari Ailus wrote:
-> > On Thu, Aug 05, 2021 at 06:22:32PM +0300, Laurent Pinchart wrote:
-> > > On Thu, Jul 22, 2021 at 01:12:48PM +0100, David Plowman wrote:
-> > > > We add new controls, one for each of the four usual Bayer channels:
-> > > > 
-> > > > V4L2_CID_NOTIFY_GAIN_RED
-> > > > V4L2_CID_NOTIFY_GAIN_GREENR
-> > > > V4L2_CID_NOTIFY_GAIN_BLUE
-> > > > V4L2_CID_NOTIFY_GAIN_GREENB
-> > > 
-> > > This will effectively limit the API to Bayer patterns. I wonder if we
-> > > should instead implement it as a single array control, with one element
-> > > per CFA component.
-> > 
-> > There are other raw patterns, too. Supporting them would likely require one
-> > or a few more controls.
-> > 
-> > That said, as the values change often it's more efficient to use a single
-> > control. But each colour combination (not each pattern) would require its
-> > own control in this case, eventually requiring more controls.
-> 
-> I'm not sure to follow you. My idea is to define a single control, with
-> a number of elements that depends on the pattern being used, and the
-> order specified in the native sensor pattern. I don't think each colour
-> combination would then require its own control.
+On Wed, Aug 04, 2021 at 09:47:08PM +0800, Dongdong Liu wrote:
+> Add a 10-Bit Tag check in the P2PDMA code to ensure that a device with
+> 10-Bit Tag Requester doesn't interact with a device that does not
+> support 10-BIT Tag Completer. Before that happens, the kernel should
+> emit a warning. "echo 0 > /sys/bus/pci/devices/.../10bit_tag" to
+> disable 10-BIT Tag Requester for PF device.
+> "echo 0 > /sys/bus/pci/devices/.../sriov_vf_10bit_tag_ctl" to disable
+> 10-BIT Tag Requester for VF device.
 
-Ah, I guess that would work, too. Then we'll need to define what kind of
-pixel orders are supported for that single control (and for which formats).
+s/10-BIT/10-Bit/ several times.
 
--- 
-Sakari Ailus
+Add blank lines between paragraphs.
+
+> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
+> ---
+>  drivers/pci/p2pdma.c | 40 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 40 insertions(+)
+> 
+> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> index 50cdde3..948f2be 100644
+> --- a/drivers/pci/p2pdma.c
+> +++ b/drivers/pci/p2pdma.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/random.h>
+>  #include <linux/seq_buf.h>
+>  #include <linux/xarray.h>
+> +#include "pci.h"
+>  
+>  enum pci_p2pdma_map_type {
+>  	PCI_P2PDMA_MAP_UNKNOWN = 0,
+> @@ -410,6 +411,41 @@ static unsigned long map_types_idx(struct pci_dev *client)
+>  		(client->bus->number << 8) | client->devfn;
+>  }
+>  
+> +static bool check_10bit_tags_vaild(struct pci_dev *a, struct pci_dev *b,
+
+s/vaild/valid/
+
+Or maybe s/valid/safe/ or s/valid/supported/, since "valid" isn't
+quite the right word here.  We want to know whether the source is
+enabled to generate 10-bit tags, and if so, whether the destination
+can handle them.
+
+"if (check_10bit_tags_valid())" does not make sense because
+"check_10bit_tags_valid()" is not a question with a yes/no answer.
+
+"10bit_tags_valid()" *might* be, because "if (10bit_tags_valid())"
+makes sense.  But I don't think you can start with a digit.
+
+Or maybe you want to invert the sense, e.g.,
+"10bit_tags_unsupported()", since that avoids negation at the caller:
+
+  if (10bit_tags_unsupported(a, b) ||
+      10bit_tags_unsupported(b, a))
+        map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+
+Doesn't this patch need to be at the very beginning, before you start
+enabling 10-bit tags?  Otherwise there's a hole in the middle where we
+enable them and P2P DMA might break.
+
+> +				   bool verbose)
+> +{
+> +	bool req;
+> +	bool comp;
+> +	u16 ctl2;
+> +
+> +	if (a->is_virtfn) {
+> +#ifdef CONFIG_PCI_IOV
+> +		req = !!(a->physfn->sriov->ctrl &
+> +			 PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN);
+> +#endif
+> +	} else {
+> +		pcie_capability_read_word(a, PCI_EXP_DEVCTL2, &ctl2);
+> +		req = !!(ctl2 & PCI_EXP_DEVCTL2_10BIT_TAG_REQ_EN);
+> +	}
+> +
+> +	comp = !!(b->pcie_devcap2 & PCI_EXP_DEVCAP2_10BIT_TAG_COMP);
+> +	if (req && (!comp)) {
+> +		if (verbose) {
+> +			pci_warn(a, "cannot be used for peer-to-peer DMA as 10-Bit Tag Requester enable is set in device (%s), but peer device (%s) does not support the 10-Bit Tag Completer\n",
+> +				 pci_name(a), pci_name(b));
+
+No point in printing pci_name(a) twice.  pci_warn() prints it already;
+that should be enough.
+
+I think you can simplify this a little, e.g.,
+
+  if (!req)           /* 10-bit tags not enabled on requester */
+    return true;
+
+  if (comp)           /* completer can handle anything */
+    return true;
+
+  /* error case */
+  if (!verbose)
+    return false;
+
+  pci_warn(...);
+  return false;
+
+> +			if (a->is_virtfn)
+> +				pci_warn(a, "to disable 10-Bit Tag Requester for this device, echo 0 > /sys/bus/pci/devices/%s/sriov_vf_10bit_tag_ctl\n",
+> +					 pci_name(a));
+> +			else
+> +				pci_warn(a, "to disable 10-Bit Tag Requester for this device, echo 0 > /sys/bus/pci/devices/%s/10bit_tag\n",
+> +					 pci_name(a));
+> +		}
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  /*
+>   * Calculate the P2PDMA mapping type and distance between two PCI devices.
+>   *
+> @@ -532,6 +568,10 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
+>  		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+>  	}
+>  done:
+> +	if (!check_10bit_tags_vaild(client, provider, verbose) ||
+> +	    !check_10bit_tags_vaild(provider, client, verbose))
+> +		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+> +
+>  	rcu_read_lock();
+>  	p2pdma = rcu_dereference(provider->p2pdma);
+>  	if (p2pdma)
+> -- 
+> 2.7.4
+> 
