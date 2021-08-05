@@ -2,129 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DA973E180D
-	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 17:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB75C3E1820
+	for <lists+linux-media@lfdr.de>; Thu,  5 Aug 2021 17:36:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241979AbhHEPbw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 11:31:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42314 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238390AbhHEPbv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Aug 2021 11:31:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3138060F35;
-        Thu,  5 Aug 2021 15:31:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628177497;
-        bh=U6aKIz0g06u4wCe/q6bsAhRSJ5oHrtqJe+reCcGUy14=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=k6uyNpMzgdLgc/vVL5x+KZZQ5XStYUwqo13M2XdNMByP64SC3vdGLSDKDQD87j+9u
-         uvFFs4OGg4fNE8g2YavD90klD4okcS604fbh7WNBuiP4PIJNOPWKCjToeSZLqh0Sbb
-         TAY5vKM414V9CdN3szxHrpK0oVzZ7Irnk/btY4KmiUlTm0bpx0A4i61FZKn7PP/W37
-         4ULpfj3C5GcjEhIcqSDaX9784uAQU8MU9GNSh+e0ugC2XjWDi8s26V6gGAkyJ+s4j4
-         RH85NBRt9vhf3MG8beeXCbEAVFkvPZ+HDORIotGj3geKKcLhB9kopO4Rxa6CsRpyOR
-         p49CQCyOiJiwA==
-Date:   Thu, 5 Aug 2021 10:31:35 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Dongdong Liu <liudongdong3@huawei.com>
-Cc:     hch@infradead.org, kw@linux.com, logang@deltatee.com,
-        leon@kernel.org, linux-pci@vger.kernel.org, rajur@chelsio.com,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH V7 7/9] PCI/sysfs: Add a 10-Bit Tag sysfs file
-Message-ID: <20210805153135.GA1757362@bjorn-Precision-5520>
+        id S240747AbhHEPgy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Aug 2021 11:36:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57710 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232057AbhHEPgx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Aug 2021 11:36:53 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93804C061765;
+        Thu,  5 Aug 2021 08:36:39 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: gtucker)
+        with ESMTPSA id 93F451F40AC3
+From:   Guillaume Tucker <guillaume.tucker@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+Subject: [PATCH v2] media: vivid: drop CONFIG_FB dependency
+Date:   Thu,  5 Aug 2021 16:36:31 +0100
+Message-Id: <8615e9e583173652894889afd492022683389621.1628177586.git.guillaume.tucker@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f300d75c-5fb8-54ae-0c84-3916b1dda360@huawei.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 05, 2021 at 04:37:39PM +0800, Dongdong Liu wrote:
-> 
-> 
-> On 2021/8/5 7:49, Bjorn Helgaas wrote:
-> > On Wed, Aug 04, 2021 at 09:47:06PM +0800, Dongdong Liu wrote:
-> > > PCIe spec 5.0 r1.0 section 2.2.6.2 says that if an Endpoint supports
-> > > sending Requests to other Endpoints (as opposed to host memory), the
-> > > Endpoint must not send 10-Bit Tag Requests to another given Endpoint
-> > > unless an implementation-specific mechanism determines that the Endpoint
-> > > supports 10-Bit Tag Completer capability. Add a 10bit_tag sysfs file,
-> > > write 0 to disable 10-Bit Tag Requester when the driver does not bind
-> > > the device if the peer device does not support the 10-Bit Tag Completer.
-> > > This will make P2P traffic safe. the 10bit_tag file content indicate
-> > > current 10-Bit Tag Requester Enable status.
-> > > 
-> > > Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
-> > > ---
-> > >  Documentation/ABI/testing/sysfs-bus-pci | 16 +++++++-
-> > >  drivers/pci/pci-sysfs.c                 | 69 +++++++++++++++++++++++++++++++++
-> > >  2 files changed, 84 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
-> > > index 793cbb7..0e0c97d 100644
-> > > --- a/Documentation/ABI/testing/sysfs-bus-pci
-> > > +++ b/Documentation/ABI/testing/sysfs-bus-pci
-> > > @@ -139,7 +139,7 @@ Description:
-> > >  		binary file containing the Vital Product Data for the
-> > >  		device.  It should follow the VPD format defined in
-> > >  		PCI Specification 2.1 or 2.2, but users should consider
-> > > -		that some devices may have incorrectly formatted data.
-> > > +		that some devices may have incorrectly formatted data.
-> > >  		If the underlying VPD has a writable section then the
-> > >  		corresponding section of this file will be writable.
-> > > 
-> > > @@ -407,3 +407,17 @@ Description:
-> > > 
-> > >  		The file is writable if the PF is bound to a driver that
-> > >  		implements ->sriov_set_msix_vec_count().
-> > > +
-> > > +What:		/sys/bus/pci/devices/.../10bit_tag
-> > > +Date:		August 2021
-> > > +Contact:	Dongdong Liu <liudongdong3@huawei.com>
-> > > +Description:
-> > > +		If a PCI device support 10-Bit Tag Requester, will create the
-> > > +		10bit_tag sysfs file. The file is readable, the value
-> > > +		indicate current 10-Bit Tag Requester Enable.
-> > > +		1 - enabled, 0 - disabled.
-> > > +
-> > > +		The file is also writeable, the value only accept by write 0
-> > > +		to disable 10-Bit Tag Requester when the driver does not bind
-> > > +		the deivce. The typical use case is for p2pdma when the peer
-> > > +		device does not support 10-BIT Tag Completer.
+Drop the vivid dependency on CONFIG_FB by compiling out parts of the
+code that make use of the framebuffer API when not enabled.  This is
+particularly useful as CONFIG_FB is not selected any more by
+DRM_FBDEV_EMULATION.
 
-> > > +static ssize_t pci_10bit_tag_store(struct device *dev,
-> > > +				   struct device_attribute *attr,
-> > > +				   const char *buf, size_t count)
-> > > +{
-> > > +	struct pci_dev *pdev = to_pci_dev(dev);
-> > > +	bool enable;
-> > > +
-> > > +	if (kstrtobool(buf, &enable) < 0)
-> > > +		return -EINVAL;
-> > > +
-> > > +	if (enable != false )
-> > > +		return -EINVAL;
-> > 
-> > Is this the same as "if (enable)"?
-> Yes, Will fix.
+Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Guillaume Tucker <guillaume.tucker@collabora.com>
+---
 
-I actually don't like the one-way nature of this.  When the hierarchy
-supports 10-bit tags, we automatically enable them during enumeration.
+Notes:
+    Changes in v2:
+    * fix Makefile conditional for when CONFIG_FB=m
+    * compile-out bit 16 (framebuffer) when no CONFIG_FB
 
-Then we provide this sysfs file, but it can only *disable* 10-bit
-tags.  There's no way to re-enable them except by rebooting (or using
-setpci, I guess).
+ drivers/media/test-drivers/vivid/Kconfig       | 5 +----
+ drivers/media/test-drivers/vivid/Makefile      | 5 ++++-
+ drivers/media/test-drivers/vivid/vivid-core.c  | 9 +++++++++
+ drivers/media/test-drivers/vivid/vivid-ctrls.c | 4 ++++
+ 4 files changed, 18 insertions(+), 5 deletions(-)
 
-Why can't we allow *enabling* them here if they're supported in this
-hierarchy?
+diff --git a/drivers/media/test-drivers/vivid/Kconfig b/drivers/media/test-drivers/vivid/Kconfig
+index c3abde2986b2..06ad350f1903 100644
+--- a/drivers/media/test-drivers/vivid/Kconfig
++++ b/drivers/media/test-drivers/vivid/Kconfig
+@@ -1,13 +1,10 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config VIDEO_VIVID
+ 	tristate "Virtual Video Test Driver"
+-	depends on VIDEO_DEV && VIDEO_V4L2 && !SPARC32 && !SPARC64 && FB
++	depends on VIDEO_DEV && VIDEO_V4L2 && !SPARC32 && !SPARC64
+ 	depends on HAS_DMA
+ 	select FONT_SUPPORT
+ 	select FONT_8x16
+-	select FB_CFB_FILLRECT
+-	select FB_CFB_COPYAREA
+-	select FB_CFB_IMAGEBLIT
+ 	select VIDEOBUF2_VMALLOC
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select VIDEO_V4L2_TPG
+diff --git a/drivers/media/test-drivers/vivid/Makefile b/drivers/media/test-drivers/vivid/Makefile
+index b12ad0152a3e..2ad634da7f88 100644
+--- a/drivers/media/test-drivers/vivid/Makefile
++++ b/drivers/media/test-drivers/vivid/Makefile
+@@ -3,10 +3,13 @@ vivid-objs := vivid-core.o vivid-ctrls.o vivid-vid-common.o vivid-vbi-gen.o \
+ 		vivid-vid-cap.o vivid-vid-out.o vivid-kthread-cap.o vivid-kthread-out.o \
+ 		vivid-radio-rx.o vivid-radio-tx.o vivid-radio-common.o \
+ 		vivid-rds-gen.o vivid-sdr-cap.o vivid-vbi-cap.o vivid-vbi-out.o \
+-		vivid-osd.o vivid-meta-cap.o vivid-meta-out.o \
++		vivid-meta-cap.o vivid-meta-out.o \
+ 		vivid-kthread-touch.o vivid-touch-cap.o
+ ifeq ($(CONFIG_VIDEO_VIVID_CEC),y)
+   vivid-objs += vivid-cec.o
+ endif
++ifneq ($(CONFIG_FB),)
++  vivid-objs += vivid-osd.o
++endif
+ 
+ obj-$(CONFIG_VIDEO_VIVID) += vivid.o
+diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+index d2bd2653cf54..7675962b9e93 100644
+--- a/drivers/media/test-drivers/vivid/vivid-core.c
++++ b/drivers/media/test-drivers/vivid/vivid-core.c
+@@ -126,7 +126,9 @@ MODULE_PARM_DESC(node_types, " node types, default is 0xe1d3d. Bitmask with the
+ 			     "\t\t    bit 8: Video Output node\n"
+ 			     "\t\t    bit 10-11: VBI Output node: 0 = none, 1 = raw vbi, 2 = sliced vbi, 3 = both\n"
+ 			     "\t\t    bit 12: Radio Transmitter node\n"
++#if IS_ENABLED(CONFIG_FB)
+ 			     "\t\t    bit 16: Framebuffer for testing overlays\n"
++#endif
+ 			     "\t\t    bit 17: Metadata Capture node\n"
+ 			     "\t\t    bit 18: Metadata Output node\n"
+ 			     "\t\t    bit 19: Touch Capture node\n");
+@@ -1021,9 +1023,11 @@ static int vivid_detect_feature_set(struct vivid_dev *dev, int inst,
+ 	/* do we have a modulator? */
+ 	*has_modulator = dev->has_radio_tx;
+ 
++#if IS_ENABLED(CONFIG_FB)
+ 	if (dev->has_vid_cap)
+ 		/* do we have a framebuffer for overlay testing? */
+ 		dev->has_fb = node_type & 0x10000;
++#endif
+ 
+ 	/* can we do crop/compose/scaling while capturing? */
+ 	if (no_error_inj && *ccs_cap == -1)
+@@ -1355,6 +1359,7 @@ static int vivid_create_queues(struct vivid_dev *dev)
+ 			return ret;
+ 	}
+ 
++#if IS_ENABLED(CONFIG_FB)
+ 	if (dev->has_fb) {
+ 		/* Create framebuffer for testing capture/output overlay */
+ 		ret = vivid_fb_init(dev);
+@@ -1363,6 +1368,8 @@ static int vivid_create_queues(struct vivid_dev *dev)
+ 		v4l2_info(&dev->v4l2_dev, "Framebuffer device registered as fb%d\n",
+ 			  dev->fb_info.node);
+ 	}
++#endif
++
+ 	return 0;
+ }
+ 
+@@ -2069,12 +2076,14 @@ static int vivid_remove(struct platform_device *pdev)
+ 				video_device_node_name(&dev->radio_tx_dev));
+ 			video_unregister_device(&dev->radio_tx_dev);
+ 		}
++#if IS_ENABLED(CONFIG_FB)
+ 		if (dev->has_fb) {
+ 			v4l2_info(&dev->v4l2_dev, "unregistering fb%d\n",
+ 				dev->fb_info.node);
+ 			unregister_framebuffer(&dev->fb_info);
+ 			vivid_fb_release_buffers(dev);
+ 		}
++#endif
+ 		if (dev->has_meta_cap) {
+ 			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
+ 				  video_device_node_name(&dev->meta_cap_dev));
+diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+index 8dc50fe22972..081470a1d88a 100644
+--- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
++++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+@@ -305,6 +305,7 @@ static const struct v4l2_ctrl_config vivid_ctrl_ro_int32 = {
+ 
+ /* Framebuffer Controls */
+ 
++#if IS_ENABLED(CONFIG_FB)
+ static int vivid_fb_s_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct vivid_dev *dev = container_of(ctrl->handler,
+@@ -328,6 +329,7 @@ static const struct v4l2_ctrl_config vivid_ctrl_clear_fb = {
+ 	.name = "Clear Framebuffer",
+ 	.type = V4L2_CTRL_TYPE_BUTTON,
+ };
++#endif /* IS_ENABLED(CONFIG_FB) */
+ 
+ 
+ /* Video User Controls */
+@@ -1761,8 +1763,10 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+ 	    (dev->has_vbi_cap && dev->has_vbi_out))
+ 		v4l2_ctrl_new_custom(hdl_loop_cap, &vivid_ctrl_loop_video, NULL);
+ 
++#if IS_ENABLED(CONFIG_FB)
+ 	if (dev->has_fb)
+ 		v4l2_ctrl_new_custom(hdl_fb, &vivid_ctrl_clear_fb, NULL);
++#endif
+ 
+ 	if (dev->has_radio_rx) {
+ 		v4l2_ctrl_new_custom(hdl_radio_rx, &vivid_ctrl_radio_hw_seek_mode, NULL);
+-- 
+2.20.1
 
-> > > +	if (pdev->driver)
-> > > +		 return -EBUSY;
-> > > +
-> > > +	pcie_capability_clear_word(pdev, PCI_EXP_DEVCTL2,
-> > > +				   PCI_EXP_DEVCTL2_10BIT_TAG_REQ_EN);
-> > > +	pci_info(pdev, "disabled 10-Bit Tag Requester\n");
-> > > +
-> > > +	return count;
-> > > +}
