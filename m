@@ -2,159 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E0503E223F
-	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 05:42:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 234513E225D
+	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 06:15:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242705AbhHFDmc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Aug 2021 23:42:32 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:52551 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231173AbhHFDma (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Aug 2021 23:42:30 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id BqkNmhojITTg6BqkPmk3nl; Fri, 06 Aug 2021 05:42:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1628221334; bh=z77uhxeaKdocq3YpDm7vFzcuLec2LMYk3NH0+KZY0No=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=QHaCWeRL0h6sgi8wLMH7uqYi8XD36uY8VkP8OLeV+4Y4gNH2x+Wit3VwDvn7zZTAd
-         yijWr5SK/ExCP/a9BvfRI8CYRzincVzILIbm043VbM8xO9Db28Gts8XJ97GwC1+6LC
-         7dRXLLlEpeTiU6zOOZQ1IGdaRrz2kqs6tvN2mAMl2dd9/0KctYCixVsjPE0Ux/SuJn
-         hRkD+0lCfDYFKuduGjVIxs9duceuE0eoVcPc06NIZ8450yfi2ioziZj38TBUvVFtnn
-         ATimnKUBDp+iIcy0Gkm0385JZyKCmR/JP6+YfaMOs/pNL5xgbqNao/z/KwN1RDxsCq
-         OZ2Uw5U+Ywp5g==
-Message-ID: <de41faaa73219262ec4a7b42c605f39d@smtp-cloud9.xs4all.net>
-Date:   Fri, 06 Aug 2021 05:42:11 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfA/OArO4ZgGY1vabqhX5mOMF2vlSnngQGcM1eD+ooWP0jAyt6rykYygJYTFE1tR8r7mF3ax0/lQkSKRceubAMRoaHtAmDj41a9sHaEfEy365dkFHX4fH
- NJABmoQ4vrI7guskaQUBCu++V66HUDBIYuy63yry5UjE42vYB2Bo3MXIaqExM6LbnZEU5pl0kl+C9NtAfNqkRxM1kW0KWvhs0lpepMLnqwNFeihtvnzHcdgi
- E724FkzP7Q1LOs4c9a4MIw==
+        id S242343AbhHFEQI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Aug 2021 00:16:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59928 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229836AbhHFEQI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 00:16:08 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B136C061798
+        for <linux-media@vger.kernel.org>; Thu,  5 Aug 2021 21:15:53 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id f3-20020a25cf030000b029055a2303fc2dso8345444ybg.11
+        for <linux-media@vger.kernel.org>; Thu, 05 Aug 2021 21:15:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=DHya/hoF1LeBPMXz4YTDp72VS75LjFpDtDFk0VuSfn4=;
+        b=u56rS8kna/BGA7+TfF+WLwx2MDfeETn+2o1Te0czNN5U77CJpXg4SdgzJBdSOMXvRl
+         iBWN1lPTKHfOAB3En7quz5zBHh1lcpxLDAAjd7B4VzY+SC5Tpb0JP0CMOH6IhwZn1PeX
+         fZg78LAvDygebVuPwxyF+JlmNzlNB0HCO9fxxHzwADubcpXoniUvXwXM89Tyy1BimE1Q
+         IyJwsnOf1Z8aI3alsDnJS4wKzKFYS9k9lAcJnhGeJZN3CCyDwFMKpRs1Hu0z1giHrRtt
+         4rgYcJeaFXkzahLdk4FNrR840p/OZEwGv+85F67WK7MCO6JaqAp2hrHQpSJ6GabEIozv
+         KF8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=DHya/hoF1LeBPMXz4YTDp72VS75LjFpDtDFk0VuSfn4=;
+        b=CGk/47smggXRlsKyBU4Y+Robw7NkhTxR82ZJ1LIp/sbtrGulvlZ+ywbZJ3jIGuv+2y
+         pjrJwLX0lUzOazaC9Nhx/4ufUzMMniiQKT9k6WPysr8tR6VG078oH3JDQF0NqDVuyZLm
+         /IDoDBqtruPI257iD869RCAvmouar48a5fGzf2eWY6GU516JRyV/MIGWw3EhxbI/uiQE
+         dci2+LkGKTWYoJ2LNC6Rcfboxla8qtvayWUWlUx1dmAQwZMswnFWs5HubrtJ5u1FZU7W
+         GC27ak21vmCPYrAdrqjUuawQKdIrDpUuBAGNNjgpuAVciNrfGSv0xU9m/D2yAStOVN14
+         JM5g==
+X-Gm-Message-State: AOAM530FkGxxloJt0AszprZlewD8Q6139jI25RJrhrWWDINwmXu/968D
+        dyxR6q/U/wwGF848lhm5ejGqtDFRZcCY
+X-Google-Smtp-Source: ABdhPJxqAg+C66m0Q2/Z7CVajksZirZN7CWUQJwJfcxiA2BzCiRBO58KrLV63u0xGifnL8GnX8J1JXBSpxLj
+X-Received: from tzungbi-z840.tpe.corp.google.com ([2401:fa00:1:10:ebc2:859f:4153:773e])
+ (user=tzungbi job=sendgmr) by 2002:a25:b70d:: with SMTP id
+ t13mr10444163ybj.204.1628223352389; Thu, 05 Aug 2021 21:15:52 -0700 (PDT)
+Date:   Fri,  6 Aug 2021 12:15:16 +0800
+Message-Id: <20210806041530.4170869-1-tzungbi@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.605.g8dce9f2422-goog
+Subject: [PATCH v7 00/14] media: mtk-vcodec: support for MT8183 decoder
+From:   Tzung-Bi Shih <tzungbi@google.com>
+To:     hverkuil-cisco@xs4all.nl, yunfei.dong@mediatek.com,
+        acourbot@chromium.org
+Cc:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
+        dafna.hirschfeld@collabora.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, tzungbi@google.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+This series adds support for the stateless API into mtk-vcodec, by first
+separating the stateful ops into their own source file, and introducing
+a new set of ops suitable for stateless decoding. As such, support for
+stateful decoders should remain completely unaffected.
 
-Results of the daily build of media_tree:
+This series has been tested with both MT8183 and MT8173. Decoding was
+working for both chips, and in the case of MT8173 no regression has been
+spotted.
 
-date:			Fri Aug  6 05:00:18 CEST 2021
-media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
-media_build git hash:	bdc3294781a89c69fc05acefd95842b88ffcb4b9
-v4l-utils git hash:	7952c0042ccf549959cf924fbd3e7dd894966e57
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7532-gde99456f6
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
-host hardware:		x86_64
-host os:		5.13.1-marune
+Patches 1-5 fix a few compliance issues with the decoder and encoder, most
+notably by adding support for the START and STOP command for the latter. These
+patches were last up until v4 but have been moved to the beginning so they can
+be applied sooner.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: ERRORS
-linux-4.4.258-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.258-i686: ERRORS
-linux-4.9.258-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.222-i686: ERRORS
-linux-4.14.222-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.177-i686: ERRORS
-linux-4.19.177-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Patches 6-9 separates the "stateful" part of the driver into its own file and
+add support for the new firmware and pixel format used by MT8183.
 
-Detailed results are available here:
+Patches 10-14 add support for H.264 stateless decoding and MT8183.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+Note that a few checkpatch issues have been left unadressed on purpose:
+* Conversion from e.g. uint32_t to u32 can't be done without breaking
+  consistency. This should be done by a driver-wide patch.
+* Some macro warning suggesting parentheses for parameters expanded as struct
+  members, which is obviously not applicable here.
+* Warnings about adding new files without an update the MAINTAINERS, which is
+  irrelevant as the new files are already covered by the existing wildcards.
 
-Detailed regression test results are available here:
+Changes since v6:
+(https://patchwork.linuxtv.org/project/linux-media/cover/20210705053258.1614177-1-acourbot@chromium.org/)
+* Fix errors from 'checkpatch.pl --strict'.
+* Fix missing kerneldoc issue.
+* Fix wrong device minor number reference.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+Changes since v5:
+* Rebased against latest media tree.
+* Applied most suggestions of `checkpatch.pl --strict`. Some proposed fixes were
+  not applied because they would require a larger refactoring (i.e. large-scale
+  type changes) of the code.
+* Applied Reviewed-by and fix suggestions from Tzung-bi.
+* Check for ABORT state in vidioc_encoder_cmd.
 
-Full logs are available here:
+Changes since v4:
+* Reorganized fixup patches first.
+* Select MEDIA_CONTROLLER_REQUEST_API.
+* Properly capitalize MM21's format description string.
+* Reorganize stateless code as suggested by Hans.
+* Fix compilation errors when DEBUG is defined.
+* Merge double-free fixup patch into the patch that introduced the issue.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+Changes since v3:
+* Stop checking that controls are set for every request.
+* Add V4L2_CID_STATELESS_H264_START_CODE control.
+* Stop mapping OUTPUT buffers and getting the NAL type from them, use the
+  nal_ref_idc field instead.
+* Make V4L2_CID_MIN_BUFFERS_FOR_CAPTURE control stateful-only.
+* Set vb2_buffer's field to V4L2_FIELD_NONE in buffer validation hook.
 
-The Media Infrastructure API from this daily build is here:
+Changes since v2:
+* Add follow-up patches fixing support for START/STOP commands for the
+  encoder, and stateful decoder.
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Alexandre Courbot (8):
+  media: mtk-vcodec: vdec: use helpers in VIDIOC_(TRY_)DECODER_CMD
+  media: mtk-vcodec: vdec: clamp OUTPUT resolution to hardware limits
+  media: mtk-vcodec: make flush buffer reusable by encoder
+  media: mtk-vcodec: venc: support START and STOP commands
+  media: mtk-vcodec: vdec: handle firmware version field
+  media: mtk-vcodec: support version 2 of decoder firmware ABI
+  media: add Mediatek's MM21 format
+  dt-bindings: media: document mediatek,mt8183-vcodec-dec
+
+Hirokazu Honda (1):
+  media: mtk-vcodec: vdec: Support H264 profile control
+
+Yunfei Dong (5):
+  media: mtk-vcodec: vdec: move stateful ops into their own file
+  media: mtk-vcodec: vdec: support stateless API
+  media: mtk-vcodec: vdec: support stateless H.264 decoding
+  media: mtk-vcodec: vdec: add media device if using stateless api
+  media: mtk-vcodec: enable MT8183 decoder
+
+ .../bindings/media/mediatek-vcodec.txt        |   1 +
+ .../media/v4l/pixfmt-reserved.rst             |   7 +
+ drivers/media/platform/Kconfig                |   3 +
+ drivers/media/platform/mtk-vcodec/Makefile    |   3 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 820 +++---------------
+ .../platform/mtk-vcodec/mtk_vcodec_dec.h      |  25 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  68 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      | 628 ++++++++++++++
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     | 360 ++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  58 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 140 ++-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |   6 +-
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        | 774 +++++++++++++++++
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |   3 +
+ .../media/platform/mtk-vcodec/vdec_drv_if.h   |   1 +
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  23 +-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  43 +-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |   5 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ include/uapi/linux/videodev2.h                |   1 +
+ 20 files changed, 2241 insertions(+), 729 deletions(-)
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+
+-- 
+2.32.0.605.g8dce9f2422-goog
+
