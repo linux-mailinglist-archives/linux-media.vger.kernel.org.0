@@ -2,137 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A79603E2DDA
-	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 17:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 953DD3E2E2F
+	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 18:13:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244748AbhHFPkH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Aug 2021 11:40:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46920 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244736AbhHFPkG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 11:40:06 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F878C0613CF;
-        Fri,  6 Aug 2021 08:39:50 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id x14so13557090edr.12;
-        Fri, 06 Aug 2021 08:39:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eTk4yr0eN3hm7lLtT7TJ+GcZ/BI3UsKqBaJTxX9s20I=;
-        b=pe/zubRk3mozz1yIUrLLk1qW9TXvaqf1wg8raPZZYwlgaDMsBtQ5EDWfwopd9beKl4
-         USnByrcmC0Cw74780PIXSlzgIoQkiso5bHCfa/BdkLff7QVTcYcsZe3no4MRwTd3aipr
-         7Y+h8H2Ni2e6qkmhORuMQUvJCW8VZW2dfwrXQZeCrW9IwUlX4HvWMdfxBkmTHkOV54A/
-         Lb0VsTz+XP6P/gNmMQsaGMlQQ4B32Rf2qlFeryKtYndgmXoej2XSU0XWlQBbiQsHi9j/
-         kDoCZYS/MMIepYDppzIGPTiUFkj8816MtmjKrXnw+3bkVqM2BaOg8BXDzH9n3O9o3dx5
-         Txgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=eTk4yr0eN3hm7lLtT7TJ+GcZ/BI3UsKqBaJTxX9s20I=;
-        b=rr7Cf8pHFFwagvV078n6heTwEihb8tHFFomuvndSUAtVUoo027mgo3N1YYyyQW3Yin
-         WaQB0zFHescjEzHcP3NmetYLq2w8gnYOzp9vF6JaQgOR9urPANnsdIfMvwrfYPzODoCb
-         gVCk23sQBmvnEZ8np7eG5slypAMiY/Nu0FTb4B6hZLMWlYGOVENIcdNT7W4omo176O43
-         tTXGi/TsTM+NJj5odcTaPHE7ceVNxw1EXQ+TIfY3L0jb/wdnsEM/zXRy8nX9Fqba1lI/
-         4P0ib3psmi5WqfuAd39MZaHlNGVMzvftLekEpC0IFFB5YZb9J7kJmxKgz4b1KthZ1waU
-         C+8g==
-X-Gm-Message-State: AOAM532z9ZVLJpiCINVqknbKY/qabNtcjN3QXHLXyqt1FApy7JaK+RYg
-        Yd+ZYHAWkR05Qc/4sG6pr2k=
-X-Google-Smtp-Source: ABdhPJwf+uCRRQJXeuBWe+3Hl730847C6jJePnZrXtrwCgIpfunEruQsEVRxOsUqaRz/YFxnW+J1LA==
-X-Received: by 2002:a05:6402:1ad9:: with SMTP id ba25mr13595781edb.255.1628264389312;
-        Fri, 06 Aug 2021 08:39:49 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net. [89.212.178.211])
-        by smtp.gmail.com with ESMTPSA id bm1sm2997309ejb.38.2021.08.06.08.39.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Aug 2021 08:39:48 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     p.zabel@pengutronix.de, Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, emil.velikov@collabora.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: hantro: Fix check for single irq
-Date:   Fri, 06 Aug 2021 17:39:47 +0200
-Message-ID: <1909651.VgzLf9ffF6@jernej-laptop>
-In-Reply-To: <79673df0562db410753c90f9957125f202c5a1b2.camel@collabora.com>
-References: <20210805190416.332563-1-jernej.skrabec@gmail.com> <8101406.vZ8PxZ7URt@jernej-laptop> <79673df0562db410753c90f9957125f202c5a1b2.camel@collabora.com>
+        id S229865AbhHFQNp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Aug 2021 12:13:45 -0400
+Received: from gofer.mess.org ([88.97.38.141]:39727 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229552AbhHFQNn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 6 Aug 2021 12:13:43 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 09E6FC6385; Fri,  6 Aug 2021 17:13:25 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1628266405; bh=3nQraI2a7wSlLN6K8YSX6n6020S1hVX07Plxk2tRt7o=;
+        h=Date:From:To:Subject:From;
+        b=rR9yJCdCzdhysuThuJd4XkoXH15mxUbHfKqc9p1X8N5nsDSbjwAFpHG3wtNYb0Zsg
+         H3Lb3cZ+9q4CZNX4UP65P98mFumACcB5FZxGlw6Ze4WXZWYsB8DckOXQ4NM/zjEytr
+         VZbtLswc/bz3OvVG4ixDzA+yKIe471lAdWa5fJwp4KWriDezC8EYJv4ICw9aNzYVQx
+         BR4GDV4B2y9XdRX960q8L8KlykluBSjh09JOHp9whdbaRW9MawM6E2WsjmGhjVgxll
+         fIg+4biT5E64HzLlGxxq//mTu8P9hfajq240s7IZFhpLBfFJ+00AdEDqHWQ1iwihwZ
+         lcrqIAYADY7cQ==
+Date:   Fri, 6 Aug 2021 17:13:24 +0100
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.15] Small fixes
+Message-ID: <20210806161324.GA25660@gofer.mess.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 06. avgust 2021 ob 16:13:46 CEST je Ezequiel Garcia napisal(a):
-> On Fri, 2021-08-06 at 06:44 +0200, Jernej =C5=A0krabec wrote:
-> > Dne petek, 06. avgust 2021 ob 00:03:36 CEST je Ezequiel Garcia napisal(=
-a):
-> > > Hi Jernej,
-> > >=20
-> > > On Thu, 2021-08-05 at 21:04 +0200, Jernej Skrabec wrote:
-> > > > Some cores use only one interrupt and in such case interrupt name in
-> > > > DT
-> > > > is not needed. Driver supposedly accounted that, but due to the wro=
-ng
-> > > > field check it never worked. Fix that.
-> > > >=20
-> > > > Fixes: 18d6c8b7b4c9 ("media: hantro: add fallback handling for sing=
-le
-> > > > irq/clk") Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > > ---
-> > > >  drivers/staging/media/hantro/hantro_drv.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >=20
-> > > > diff --git a/drivers/staging/media/hantro/hantro_drv.c
-> > > > b/drivers/staging/media/hantro/hantro_drv.c index
-> > > > 8a2edd67f2c6..20e508158871 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > > > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > > > @@ -919,7 +919,7 @@ static int hantro_probe(struct platform_device
-> > > > *pdev)
-> > > >                 if (!vpu->variant->irqs[i].handler)
-> > > >                         continue;
-> > > > =20
-> > > > -               if (vpu->variant->num_clocks > 1) {
-> > > > +               if (vpu->variant->num_irqs > 1) {
-> > >=20
-> > > Oops, thanks for spotting this.
-> > >=20
-> > > How about this instead?
-> >=20
-> > No, original solution is more robust. With solution below, you're assum=
-ing
-> > that irq order in driver array is same as in DT. That doesn't matter if
-> > there is only one name or if names match. However, if there is a typo,
-> > either in DT node or in driver, driver will still happily assign clock
-> > based on index and that might not be correct one. Even if it works out,
-> > you can easily miss that you have a typo. Driver doesn't tell you which
-> > irq is used, if it is successfully acquired.
->=20
-> I find it odd to iterate up to num_irqs but then
-> have a case for num_irqs =3D=3D 1, and call
-> platform_get_irq(vpu->pdev, 0).
+The following changes since commit 6daa9f32282ac76b8996f5291fb387d685786288:
 
-True, it was also strange for me at first, but then it's robust and simple.=
-=20
-Because of that, I just fixed obvious issue.
+  media: Clean V4L2_PIX_FMT_NV12MT documentation (2021-08-06 10:54:04 +0200)
 
->=20
-> But OTOH, your fix is correct and it's a oneliner.
->=20
-> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
->=20
+are available in the Git repository at:
 
-Thanks!
+  git://linuxtv.org/syoung/media_tree.git tags/v5.15c
 
-Best regards,
-Jernej
+for you to fetch changes up to 75b276f90587f41b926e5a8a8d75ed099912e54d:
 
-> Thanks,
-> Ezequiel
+  media: tuners: mxl5007t: Removed unnecessary 'return' (2021-08-06 16:14:26 +0100)
 
+----------------------------------------------------------------
+v5.15c
 
+----------------------------------------------------------------
+Colin Ian King (1):
+      media: cxd2880-spi: Fix a null pointer dereference on error handling path
 
+Evgeny Novikov (1):
+      media: ttusb-dec: avoid release of non-acquired mutex
 
+Sean Young (2):
+      media: mceusb: ensure rx resolution can be retrieved
+      media: streamzap: ensure rx resolution can be retrieved
+
+lijian (1):
+      media: tuners: mxl5007t: Removed unnecessary 'return'
+
+ drivers/media/rc/mceusb.c               |  1 +
+ drivers/media/rc/streamzap.c            |  1 +
+ drivers/media/spi/cxd2880-spi.c         |  2 +-
+ drivers/media/tuners/mxl5007t.c         |  9 ---------
+ drivers/media/usb/ttusb-dec/ttusb_dec.c | 10 +++++-----
+ 5 files changed, 8 insertions(+), 15 deletions(-)
