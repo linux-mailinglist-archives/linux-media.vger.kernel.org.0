@@ -2,64 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE3A33E2C00
-	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 15:55:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F1C83E2C1E
+	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 16:10:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234469AbhHFNzV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Aug 2021 09:55:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51420 "EHLO
+        id S236936AbhHFOK6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Aug 2021 10:10:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233195AbhHFNzU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 09:55:20 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E5A8C0613CF
-        for <linux-media@vger.kernel.org>; Fri,  6 Aug 2021 06:55:05 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: daniels)
-        with ESMTPSA id 396251F44A76
-Message-ID: <08df38bda028bde4d566b89fae266d0e9f424cd6.camel@collabora.com>
-Subject: Re: [PATCH v3 3/4] media: Add NV12_4L4 tiled format
-From:   Daniel Stone <daniels@collabora.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        kernel@collabora.com
-In-Reply-To: <20210805024752.8755-4-ezequiel@collabora.com>
-References: <20210805024752.8755-1-ezequiel@collabora.com>
-         <20210805024752.8755-4-ezequiel@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S235736AbhHFOKu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 10:10:50 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD506C061799
+        for <linux-media@vger.kernel.org>; Fri,  6 Aug 2021 07:10:32 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id g21so13240866edb.4
+        for <linux-media@vger.kernel.org>; Fri, 06 Aug 2021 07:10:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
+        b=q3xyYt1HrVQnyL1KZndhIFKim0Z6RZXWCajZa6+jKaUt/xPBmWrU2b2TpwIqgxHoY3
+         6sUeXJPoUC3zz+xqx5Y/7bh16ON7BcCcP2liy5jl/yv+hyxVGmxIcBCDJXoapuOO0RIl
+         REN9Zv+ClhtVVEMybVDTEUTnyt+YraWqvgNO4CiPEvSNbjJp0ymaQzc4FwPALfOqM4La
+         f+KzIMXFoGuca5XlZdCXXnnqi+xUiOGsem/cV9JUjNFonSZWOzEGazowyEr2eG3dp5DR
+         pLBa7cN2FmOkeXw/dSFAaB7k29Eu0Yivashc8iQbXHlro4ZoI7aiyRP21+G8wGDlMmu6
+         HPDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
+        b=SmZVfD/u1tZ7iFz6B0w8Dpl+0wKoqC8urY9kBfekQ9XruwAptcku48EA6O7u2LyPY0
+         EL3SmWOITneXXIh2S3RKBhdT6VQSLXc0Iq+h8Tnb6XBLgYCzkI3x30v4yRtCwKg3oznS
+         o6n6PSpWqLEU3WXxjC51PYn1t4ol7FaH9qicpwiyGWroS5vwU1XjlkXHQSvU+buxzinH
+         P1+6R1du7kTZEnD0YUqt/IRMRykh34T8dE2gMNX9wbC2VFyYwVWXvyRXXfvwtnVRePVM
+         KbBbaBEC0fdUVnjdlCfC/ptijl6jDcQZJ+1GszCEAfyYxqftjzOAml2PDTm+HEMdOM1b
+         Ualw==
+X-Gm-Message-State: AOAM533Gg+606oHXc6yarzQ++nEEDI7scXNgTB3TsjfRcINSy4momRJu
+        UDoQx9SNbQ9R2iEIfU0V9SxFUEi8THJHPUZA1g==
+X-Google-Smtp-Source: ABdhPJx229jhz+o+nQwdgIkoqR5HwLh3S4+JGHt0eG+5fB4X3WTmNmInTj1ZpuXDIVm9CYEhhFZzLyuZYbLrplGdX6A=
+X-Received: by 2002:a05:6402:3094:: with SMTP id de20mr13526197edb.272.1628259031175;
+ Fri, 06 Aug 2021 07:10:31 -0700 (PDT)
 MIME-Version: 1.0
-Date:   Fri, 06 Aug 2021 13:42:47 +0100
-User-Agent: Evolution 3.40.3 (by Flathub.org) 
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a54:26cf:0:0:0:0:0 with HTTP; Fri, 6 Aug 2021 07:10:30 -0700 (PDT)
+Reply-To: mrmaxwellwatford@gmail.com
+From:   Maxwell Watford <orchowskiruthi@gmail.com>
+Date:   Fri, 6 Aug 2021 14:10:30 +0000
+Message-ID: <CA+q9Q6OJB6Z0+y=5_3MBDNGkAUG9rVxg7bZVma38uDOvJ+sOGw@mail.gmail.com>
+Subject: i need your reply
+To:     orchowskiruthi@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2021-08-04 at 23:47 -0300, Ezequiel Garcia wrote:
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -275,6 +275,9 @@ const struct v4l2_format_info
-> *v4l2_format_info(u32 format)
->                 { .format = V4L2_PIX_FMT_YUV422P, .pixel_enc =
-> V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1,
-> 1, 0 }, .hdiv = 2, .vdiv = 1 },
->                 { .format = V4L2_PIX_FMT_GREY,    .pixel_enc =
-> V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0,
-> 0, 0 }, .hdiv = 1, .vdiv = 1 },
->  
-> +               /* Tiled YUV formats */
-> +               { .format = V4L2_PIX_FMT_NV12_4L4, .pixel_enc =
-> V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2,
-> 0, 0 }, .hdiv = 2, .vdiv = 2 },
+Greetings,
 
-Still no movement on modifiers, I guess ... :(
+We are writing to you from Ecowas Finance Controller Office Lome Togo,
+because we have received a file from the Ministry of Finance Lome-
+Togo, concerning an Inherited Fund bearing your name on it, And after
+our verifications, we found out that the funds belong to you.
 
-Cheers,
-Daniel
+It has been awarded and I will like to guide you to claim the funds.
+Please contact me at my private email address
+(mrmaxwellwatford@gmail.com) for more information and directive
 
+I am looking forward to your urgent reply,
+Best regards
+Mr Maxwell Watford
