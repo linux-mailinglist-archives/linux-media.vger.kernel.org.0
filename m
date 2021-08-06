@@ -2,75 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22D793E315C
-	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 23:47:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9473F3E31C9
+	for <lists+linux-media@lfdr.de>; Sat,  7 Aug 2021 00:30:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245318AbhHFVrs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Aug 2021 17:47:48 -0400
-Received: from mail-io1-f48.google.com ([209.85.166.48]:33444 "EHLO
-        mail-io1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241587AbhHFVrs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 17:47:48 -0400
-Received: by mail-io1-f48.google.com with SMTP id n19so14339013ioz.0;
-        Fri, 06 Aug 2021 14:47:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BnsmwWZ5UV2/LE+aqdhfs09L7FfJpBqefxeuDQt77V0=;
-        b=fzpBgXoWW8yy3JLsV+xOPngXts/ZTyUi1jq9dDWruHulYyECjCaWyOhVkJ/lHXoqL/
-         1bTYZIMErgW+Y6BK9TaCsy0Bf9B70EX4eDhVontnLWxzfhihiqYW5VADoTprX1H2FTQn
-         Vy9mbT48z9oZiAov6QCeN5qM5dpqoeXEOYQtIWt5MF5zqzITuReN87JPcPfii/seJGnl
-         KyLnKSdARFH5SygpGGBsb0A/tTpbG0xaQVCEoeY6x7spKfT3/khhZpzkELCI3AkNeijD
-         IhwoGtdn7ALp1nbdO8m5WwUVU+jnZrnW9suRzLVn1HMLuomqRUI0LJ6uxlHwEB2aJK6p
-         /CLg==
-X-Gm-Message-State: AOAM532lGT56UplbA8HOFC3gOEOUd60VVGgTkvFNhvWu8mGY2CWPK+Pg
-        /D026RkVTbm7jykh3mRfTg==
-X-Google-Smtp-Source: ABdhPJwY3vn+yJ5z1R0ZdpqJAsHZRNWFU1oMd54Rjtxc4mGO4QSs/gfI94S40UfF3mOemJERn/2Ohw==
-X-Received: by 2002:a05:6e02:1d8d:: with SMTP id h13mr289082ila.40.1628286450854;
-        Fri, 06 Aug 2021 14:47:30 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id q2sm1054502iog.22.2021.08.06.14.47.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Aug 2021 14:47:30 -0700 (PDT)
-Received: (nullmailer pid 1862298 invoked by uid 1000);
-        Fri, 06 Aug 2021 21:47:28 -0000
-Date:   Fri, 6 Aug 2021 15:47:28 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Eizan Miyamoto <eizan@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        chunkuang.hu@kernel.org, Rob Herring <robh+dt@kernel.org>,
-        yong.wu@mediatek.com, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, houlong.wei@mediatek.com,
-        linux-arm-kernel@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        enric.balletbo@collabora.com, wenst@chromium.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 9/9] dt-bindings: mediatek: remove vpu requirement
- from mtk-mdp
-Message-ID: <YQ2t8DMqz/Ju1Qng@robh.at.kernel.org>
-References: <20210802121215.703023-1-eizan@chromium.org>
- <20210802220943.v6.9.If10dbdfade9f48710e485efe79e53e6e65144a2f@changeid>
+        id S245550AbhHFWa6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Aug 2021 18:30:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245547AbhHFWaz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 18:30:55 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C1DFC0613CF;
+        Fri,  6 Aug 2021 15:30:39 -0700 (PDT)
+Received: from localhost.localdomain (unknown [IPv6:2804:14c:1a9:2434:b693:c9:5cb6:b688])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: nfraprado)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F25A51F44DDF;
+        Fri,  6 Aug 2021 23:30:35 +0100 (BST)
+From:   =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@collabora.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+Subject: [PATCH] media: ipu3.rst: Improve header formatting on tables
+Date:   Fri,  6 Aug 2021 19:30:22 -0300
+Message-Id: <20210806223022.2012984-1-nfraprado@collabora.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210802220943.v6.9.If10dbdfade9f48710e485efe79e53e6e65144a2f@changeid>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 02 Aug 2021 22:12:15 +1000, Eizan Miyamoto wrote:
-> It is no longer needed by the mtk-mdp driver
-> 
-> Signed-off-by: Eizan Miyamoto <eizan@chromium.org>
-> ---
-> 
-> (no changes since v1)
-> 
->  Documentation/devicetree/bindings/media/mediatek-mdp.txt | 3 ---
->  1 file changed, 3 deletions(-)
-> 
+Use the header-rows option of the flat-table directive in order to have
+the first row displayed as a header. Also capitalize these headers.
+These changes make the tables easier to read.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+---
+ Documentation/admin-guide/media/ipu3.rst | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/admin-guide/media/ipu3.rst b/Documentation/admin-guide/media/ipu3.rst
+index 52c1c04173da..83b3cd03b35c 100644
+--- a/Documentation/admin-guide/media/ipu3.rst
++++ b/Documentation/admin-guide/media/ipu3.rst
+@@ -51,10 +51,11 @@ to userspace as a V4L2 sub-device node and has two pads:
+ .. tabularcolumns:: |p{0.8cm}|p{4.0cm}|p{4.0cm}|
+ 
+ .. flat-table::
++    :header-rows: 1
+ 
+-    * - pad
+-      - direction
+-      - purpose
++    * - Pad
++      - Direction
++      - Purpose
+ 
+     * - 0
+       - sink
+@@ -148,10 +149,11 @@ Each pipe has two sink pads and three source pads for the following purpose:
+ .. tabularcolumns:: |p{0.8cm}|p{4.0cm}|p{4.0cm}|
+ 
+ .. flat-table::
++    :header-rows: 1
+ 
+-    * - pad
+-      - direction
+-      - purpose
++    * - Pad
++      - Direction
++      - Purpose
+ 
+     * - 0
+       - sink
+-- 
+2.32.0
+
