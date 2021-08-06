@@ -2,70 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F1C83E2C1E
-	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 16:10:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D49993E2C4B
+	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 16:14:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236936AbhHFOK6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Aug 2021 10:10:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54782 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235736AbhHFOKu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 10:10:50 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD506C061799
-        for <linux-media@vger.kernel.org>; Fri,  6 Aug 2021 07:10:32 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id g21so13240866edb.4
-        for <linux-media@vger.kernel.org>; Fri, 06 Aug 2021 07:10:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
-        b=q3xyYt1HrVQnyL1KZndhIFKim0Z6RZXWCajZa6+jKaUt/xPBmWrU2b2TpwIqgxHoY3
-         6sUeXJPoUC3zz+xqx5Y/7bh16ON7BcCcP2liy5jl/yv+hyxVGmxIcBCDJXoapuOO0RIl
-         REN9Zv+ClhtVVEMybVDTEUTnyt+YraWqvgNO4CiPEvSNbjJp0ymaQzc4FwPALfOqM4La
-         f+KzIMXFoGuca5XlZdCXXnnqi+xUiOGsem/cV9JUjNFonSZWOzEGazowyEr2eG3dp5DR
-         pLBa7cN2FmOkeXw/dSFAaB7k29Eu0Yivashc8iQbXHlro4ZoI7aiyRP21+G8wGDlMmu6
-         HPDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
-        b=SmZVfD/u1tZ7iFz6B0w8Dpl+0wKoqC8urY9kBfekQ9XruwAptcku48EA6O7u2LyPY0
-         EL3SmWOITneXXIh2S3RKBhdT6VQSLXc0Iq+h8Tnb6XBLgYCzkI3x30v4yRtCwKg3oznS
-         o6n6PSpWqLEU3WXxjC51PYn1t4ol7FaH9qicpwiyGWroS5vwU1XjlkXHQSvU+buxzinH
-         P1+6R1du7kTZEnD0YUqt/IRMRykh34T8dE2gMNX9wbC2VFyYwVWXvyRXXfvwtnVRePVM
-         KbBbaBEC0fdUVnjdlCfC/ptijl6jDcQZJ+1GszCEAfyYxqftjzOAml2PDTm+HEMdOM1b
-         Ualw==
-X-Gm-Message-State: AOAM533Gg+606oHXc6yarzQ++nEEDI7scXNgTB3TsjfRcINSy4momRJu
-        UDoQx9SNbQ9R2iEIfU0V9SxFUEi8THJHPUZA1g==
-X-Google-Smtp-Source: ABdhPJx229jhz+o+nQwdgIkoqR5HwLh3S4+JGHt0eG+5fB4X3WTmNmInTj1ZpuXDIVm9CYEhhFZzLyuZYbLrplGdX6A=
-X-Received: by 2002:a05:6402:3094:: with SMTP id de20mr13526197edb.272.1628259031175;
- Fri, 06 Aug 2021 07:10:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a54:26cf:0:0:0:0:0 with HTTP; Fri, 6 Aug 2021 07:10:30 -0700 (PDT)
-Reply-To: mrmaxwellwatford@gmail.com
-From:   Maxwell Watford <orchowskiruthi@gmail.com>
-Date:   Fri, 6 Aug 2021 14:10:30 +0000
-Message-ID: <CA+q9Q6OJB6Z0+y=5_3MBDNGkAUG9rVxg7bZVma38uDOvJ+sOGw@mail.gmail.com>
-Subject: i need your reply
-To:     orchowskiruthi@gmail.com
+        id S237023AbhHFOOS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Aug 2021 10:14:18 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:47552 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237233AbhHFOOL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 10:14:11 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id D545C1F44A85
+Message-ID: <79673df0562db410753c90f9957125f202c5a1b2.camel@collabora.com>
+Subject: Re: [PATCH] media: hantro: Fix check for single irq
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        p.zabel@pengutronix.de
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, emil.velikov@collabora.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date:   Fri, 06 Aug 2021 11:13:46 -0300
+In-Reply-To: <8101406.vZ8PxZ7URt@jernej-laptop>
+References: <20210805190416.332563-1-jernej.skrabec@gmail.com>
+         <6761bb11f4554e9f9cbe468b5ff8f851c57515ef.camel@collabora.com>
+         <8101406.vZ8PxZ7URt@jernej-laptop>
+Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Greetings,
+On Fri, 2021-08-06 at 06:44 +0200, Jernej Škrabec wrote:
+> Dne petek, 06. avgust 2021 ob 00:03:36 CEST je Ezequiel Garcia napisal(a):
+> > Hi Jernej,
+> > 
+> > On Thu, 2021-08-05 at 21:04 +0200, Jernej Skrabec wrote:
+> > > Some cores use only one interrupt and in such case interrupt name in DT
+> > > is not needed. Driver supposedly accounted that, but due to the wrong
+> > > field check it never worked. Fix that.
+> > > 
+> > > Fixes: 18d6c8b7b4c9 ("media: hantro: add fallback handling for single
+> > > irq/clk") Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > ---
+> > >  drivers/staging/media/hantro/hantro_drv.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/staging/media/hantro/hantro_drv.c
+> > > b/drivers/staging/media/hantro/hantro_drv.c index
+> > > 8a2edd67f2c6..20e508158871 100644
+> > > --- a/drivers/staging/media/hantro/hantro_drv.c
+> > > +++ b/drivers/staging/media/hantro/hantro_drv.c
+> > > @@ -919,7 +919,7 @@ static int hantro_probe(struct platform_device *pdev)
+> > >                 if (!vpu->variant->irqs[i].handler)
+> > >                         continue;
+> > >  
+> > > -               if (vpu->variant->num_clocks > 1) {
+> > > +               if (vpu->variant->num_irqs > 1) {
+> > 
+> > Oops, thanks for spotting this.
+> > 
+> > How about this instead?
+> 
+> No, original solution is more robust. With solution below, you're assuming 
+> that irq order in driver array is same as in DT. That doesn't matter if there 
+> is only one name or if names match. However, if there is a typo, either in DT 
+> node or in driver, driver will still happily assign clock based on index and 
+> that might not be correct one. Even if it works out, you can easily miss that 
+> you have a typo. Driver doesn't tell you which irq is used, if it is 
+> successfully acquired.
+> 
 
-We are writing to you from Ecowas Finance Controller Office Lome Togo,
-because we have received a file from the Ministry of Finance Lome-
-Togo, concerning an Inherited Fund bearing your name on it, And after
-our verifications, we found out that the funds belong to you.
+I find it odd to iterate up to num_irqs but then
+have a case for num_irqs == 1, and call
+platform_get_irq(vpu->pdev, 0).
 
-It has been awarded and I will like to guide you to claim the funds.
-Please contact me at my private email address
-(mrmaxwellwatford@gmail.com) for more information and directive
+But OTOH, your fix is correct and it's a oneliner.
 
-I am looking forward to your urgent reply,
-Best regards
-Mr Maxwell Watford
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+
+Thanks,
+Ezequiel
+
