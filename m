@@ -2,102 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 740E63E225E
-	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 06:15:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD1B73E225F
+	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 06:16:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242405AbhHFEQN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Aug 2021 00:16:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59944 "EHLO
+        id S242702AbhHFEQR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Aug 2021 00:16:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbhHFEQM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 00:16:12 -0400
+        with ESMTP id S229836AbhHFEQQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 00:16:16 -0400
 Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC57FC061798
-        for <linux-media@vger.kernel.org>; Thu,  5 Aug 2021 21:15:56 -0700 (PDT)
-Received: by mail-qv1-xf4a.google.com with SMTP id t18-20020a0cd4120000b02902fbda5d4988so5537463qvh.11
-        for <linux-media@vger.kernel.org>; Thu, 05 Aug 2021 21:15:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AA36C061798
+        for <linux-media@vger.kernel.org>; Thu,  5 Aug 2021 21:16:00 -0700 (PDT)
+Received: by mail-qv1-xf4a.google.com with SMTP id j13-20020a0cf30d0000b029032dd803a7edso5569522qvl.2
+        for <linux-media@vger.kernel.org>; Thu, 05 Aug 2021 21:16:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=WL3xTLZhfFrhkuc0OkQrHT12omffck/a/CybJO83okg=;
-        b=R5gi+wfQozM+tZmJxMGO77+NbPcGSEqShKmY1tmDXb6iXvWLefwje5oDCIr0Oi12TI
-         s2WSxUGQMGewK6zp1nesYCPh5Ju/7pZkDZ2NFVDRBbC2oQp9ejMIPzqfVYyb0MOpfvnr
-         0SmKzgDLbJBY+J3tyHxpiduBBbftX2KWf1KTG4XKOCEUyvK49508x3muFkf75Pd4VgE0
-         6UGaCSvcSzPttBpWBfHDjhrodXR/JAE2nUrttIB/xQfzSHJmWrJx4msrXI1OCbmM8sRd
-         eTW4R7eT7ADmyCtNRccrfaLZ0n0CR5N8FgcYjyGw4ykYBR/jwJCtch0SJrJXh0KoMkeW
-         USCA==
+        bh=DhkoP3CndI6xOQyniDPb4V1Ek5PJMvMmCPk1Pl/SFdk=;
+        b=uE4ntQ3e6/bd319jhZU2640yqFPUWgI9Z1oQV6U50RDeC8CGxXBq7QWAVZaWSkPUCY
+         Z8MRdY6/n6QIl7KSfmwzK4yf51Iy8sXYxYqgHGS//Fhz4/Cyoj2WJSUbd4FsXMiyVSI1
+         otDzL4yIQuLjaEDO5J6QHCbAEOihaTVaZe6QOpzKmSbsCo9KbB3JHbCiPpYqpovSLX+y
+         pbcHEITB9K7/f/1vHV0w2D/7XdAYxMzK3KYP7+hxiZZuRogOhivHt9PRKHAIolD704nH
+         0ScMhmeZF4OOr3qriS0+ytBI/fdZC0BXt2HAf2EZzWLFeH2x9dQp5VOPTxdYhrBVMhmT
+         ecEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=WL3xTLZhfFrhkuc0OkQrHT12omffck/a/CybJO83okg=;
-        b=clZQENkcihAq7anqZHT8zo/gNe5NjmAKpa9F9hc0w3WtnH5XVNPCNnV6XCX0WveE6Z
-         57YtIObCJRlqZVZ7AKMio89SFiVNXE+3SwjugHhFCjU1fI8sDI4+EB54Xbcv/YqtY+IQ
-         S3kAd1KkOEg5yukH9+gmLjpyCJQ5ZejAiCs/t0Tz7lNOgioa6oZSgfXbgbTY2UUunrOr
-         T+8RfTErttNh2mxqSQmWoxBh56T+xtxAhRj1q5+5T/vX6o0s/g9d/WBGWeUUt8DKO5Xz
-         LFk6I/YPrlQOVOjosEllKgZERctlaUAAw934PwJWJCm/E/aGU9EdYP9uQa8E81s9OfC7
-         cqag==
-X-Gm-Message-State: AOAM530+iXr9tojolSKsGJm5GglU8sQ0wSksUCE+vOQnSz8Q6Bp/Ec33
-        IthpWnChjpSdOj9QO0g4TfJAleS62Gh4
-X-Google-Smtp-Source: ABdhPJxBsaIDHmyQ29WaZg2znI4qKV7rxgagb+NJIsfnJzseCynAI4hpCV8igttTVtE9rT4oRwzVuBmDRsN2
+        bh=DhkoP3CndI6xOQyniDPb4V1Ek5PJMvMmCPk1Pl/SFdk=;
+        b=Z0W6usyn06yUFxeYnYm+tW6N6oej6GAj2L7BImj3Lvg27S/s2LXqFb8KrhttRZhjqH
+         DFFYVpyop5nd2BcLZWhYY4VMpoWfO38zwcKFZvZ95VtPd+YiIbD5fSagZMnLgBiLLtYM
+         rkBmFoDpu9PTjuRW74ckEbLS0wdxiqeZgfHVZ/hz5sxH6e/RpFM8nwtPP274i4eXiMf3
+         wUj2XKe4FGiZwyA6Pzurg5G90WRapmCerk1QkTjkxXIbdEQmoYpSYAMmSScR+49afek9
+         XwTJ3ifDP1X8eOqBO0oGAdFn64nrQIpcETKZ24GxL9FJnOIXgLMKO1kHsWJFNmFJbzDc
+         /hVw==
+X-Gm-Message-State: AOAM530FK/gQZNMZrq9RG5vsVrBklRHLkca0LTCU8BpF5U3jdQxdLXYz
+        +isrZfLcoKBwSOxRNPt0agn/VqMxYj1P
+X-Google-Smtp-Source: ABdhPJwDOZAFSB2KFl1TezoMeHIutNrC0Fy4BBTwqgurX8ctFKbAVKr3I5BgwGL0MmxhDupCCXCF9+RjcYUF
 X-Received: from tzungbi-z840.tpe.corp.google.com ([2401:fa00:1:10:ebc2:859f:4153:773e])
- (user=tzungbi job=sendgmr) by 2002:a05:6214:3001:: with SMTP id
- ke1mr9176750qvb.52.1628223355982; Thu, 05 Aug 2021 21:15:55 -0700 (PDT)
-Date:   Fri,  6 Aug 2021 12:15:17 +0800
+ (user=tzungbi job=sendgmr) by 2002:a05:6214:2a85:: with SMTP id
+ jr5mr9022641qvb.5.1628223359525; Thu, 05 Aug 2021 21:15:59 -0700 (PDT)
+Date:   Fri,  6 Aug 2021 12:15:18 +0800
 In-Reply-To: <20210806041530.4170869-1-tzungbi@google.com>
-Message-Id: <20210806041530.4170869-2-tzungbi@google.com>
+Message-Id: <20210806041530.4170869-3-tzungbi@google.com>
 Mime-Version: 1.0
 References: <20210806041530.4170869-1-tzungbi@google.com>
 X-Mailer: git-send-email 2.32.0.605.g8dce9f2422-goog
-Subject: [PATCH v7 01/14] media: mtk-vcodec: vdec: Support H264 profile control
+Subject: [PATCH v7 02/14] media: mtk-vcodec: vdec: use helpers in VIDIOC_(TRY_)DECODER_CMD
 From:   Tzung-Bi Shih <tzungbi@google.com>
 To:     hverkuil-cisco@xs4all.nl, yunfei.dong@mediatek.com,
         acourbot@chromium.org
 Cc:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
         dafna.hirschfeld@collabora.com, mchehab@kernel.org,
         linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, tzungbi@google.com,
-        Hirokazu Honda <hiroh@chromium.org>
+        linux-arm-kernel@lists.infradead.org, tzungbi@google.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hirokazu Honda <hiroh@chromium.org>
+From: Alexandre Courbot <acourbot@chromium.org>
 
-Add H264 profiles supported by the MediaTek 8173 decoder.
+Let's use the dedicated helpers to make sure we get the expected
+behavior and remove redundant code.
 
-Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
-[acourbot: fix commit log a bit, move to mtk_vcodec_dec.c]
 Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
 Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
 Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
 diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-index 56d86e59421e..8df8bcfe5e9c 100644
+index 8df8bcfe5e9c..1a633b485a69 100644
 --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
 +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-@@ -1421,6 +1421,16 @@ int mtk_vcodec_dec_ctrls_setup(struct mtk_vcodec_ctx *ctx)
- 				V4L2_CID_MPEG_VIDEO_VP9_PROFILE,
- 				V4L2_MPEG_VIDEO_VP9_PROFILE_0,
- 				0, V4L2_MPEG_VIDEO_VP9_PROFILE_0);
-+	/*
-+	 * H264. Baseline / Extended decoding is not supported.
-+	 */
-+	v4l2_ctrl_new_std_menu(&ctx->ctrl_hdl,
-+			       &mtk_vcodec_dec_ctrl_ops,
-+			       V4L2_CID_MPEG_VIDEO_H264_PROFILE,
-+			       V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-+			       BIT(V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
-+			       BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
-+			       V4L2_MPEG_VIDEO_H264_PROFILE_MAIN);
+@@ -484,18 +484,7 @@ static void mtk_vdec_worker(struct work_struct *work)
+ static int vidioc_try_decoder_cmd(struct file *file, void *priv,
+ 				struct v4l2_decoder_cmd *cmd)
+ {
+-	switch (cmd->cmd) {
+-	case V4L2_DEC_CMD_STOP:
+-	case V4L2_DEC_CMD_START:
+-		if (cmd->flags != 0) {
+-			mtk_v4l2_err("cmd->flags=%u", cmd->flags);
+-			return -EINVAL;
+-		}
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-	return 0;
++	return v4l2_m2m_ioctl_try_decoder_cmd(file, priv, cmd);
+ }
  
- 	if (ctx->ctrl_hdl.error) {
- 		mtk_v4l2_err("Adding control failed %d",
+ 
 -- 
 2.32.0.605.g8dce9f2422-goog
 
