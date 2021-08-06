@@ -2,56 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 963AC3E2260
-	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 06:16:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 634253E2261
+	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 06:16:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242705AbhHFEQT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Aug 2021 00:16:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59974 "EHLO
+        id S242717AbhHFEQX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Aug 2021 00:16:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbhHFEQT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 00:16:19 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D4CC061798
-        for <linux-media@vger.kernel.org>; Thu,  5 Aug 2021 21:16:04 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id t101-20020a25aaee0000b0290578c0c455b2so8293312ybi.13
-        for <linux-media@vger.kernel.org>; Thu, 05 Aug 2021 21:16:04 -0700 (PDT)
+        with ESMTP id S229836AbhHFEQW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 00:16:22 -0400
+Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A59A9C061798
+        for <linux-media@vger.kernel.org>; Thu,  5 Aug 2021 21:16:07 -0700 (PDT)
+Received: by mail-qv1-xf4a.google.com with SMTP id cb3-20020ad456230000b02903319321d1e3so4081195qvb.14
+        for <linux-media@vger.kernel.org>; Thu, 05 Aug 2021 21:16:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=FlUyCuv7nkwXTSJ3TTeSOKCRVd1rmSaLBcPma8bxmIM=;
-        b=pMYzDnLMqRNNyVX7IyuBXL5iUhkbKDXXpG0CxRp58y7sq4gjNrB3bz4oxGfwUiKR64
-         VjThSogoktlM+DG5BrtqtQvZ0bR0uRyK3tnL78Pr82fGOVHWURGaGEh9juJVyas8h8kN
-         g/VZ0mB5H86LnfK7zM5awlyoPkGBLet+GtFWs7V/ql2mpIsO8jX7+DaCxcgeid0NWltU
-         dOMbnMntZ3UdQe+MWCyEwz+5Xe2qrPfHqTUBBmyVX8vxNNHCRvjM1213/jShbPO84Dzg
-         +00LwAAKtR6qMy1HbI6IjgozhgFWeSjF0y83cCRfypy0vz3Dco/Z42vUkKi1nibgoQl+
-         L/2g==
+        bh=eYcWw1nW7jHB277kKKn0ceDffDK/7XF/xGVoXBkrBY8=;
+        b=OuMZS7D7lGu+ZVa6XXIrkUCUShUtisWb9l1JVhda/ltA6EVfVmw1PN0xr8Db7QReEy
+         tZ8VyH/CmEteUbXgUKTJfoU0ZcfsLE4BEv0NlqsBCw7L2PCiZ2X7+gB9foXrICk/9jdC
+         tRSVCjbnHCrT1SbzVh3lRG9VMpAVz94kQ7dRrISgmkCoyQTP52dZh40MuKnrfauMxlME
+         AqK8loxaOcHwUN6PJlmIkS690dnTAuatvGLq4MOIMnIFynRrT6u4+SPzphInhpwe5xGD
+         gLjxpqPuP+MP8LjUk176j1VZZQgb1SWReODw1wXuGzTPZLGH3p5DKo0wKqLRJVXFjrZg
+         lSDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=FlUyCuv7nkwXTSJ3TTeSOKCRVd1rmSaLBcPma8bxmIM=;
-        b=aSAQnVWvX5ZS7G0lcOAKO/I6DTeGkj924/Wmo/LDPj664KZWFfwQspInxQa7JMuW1Y
-         cWknHWdrDAtrwo1i7R7tiaHIOAC519dyuFghklh4m+kzkhTWFhXzak6W4/7Nwuq0yPTL
-         ytxkEoim7009KScphpZ/1vgF12Oj3ENJBXx2YofsIH7UNUAUgC0OkrpMy1Bpi1dBRN1G
-         sDo58h9tPajXmomzBLTUYeBvU2VEX/KQFHgSYaSIexdDMLz0bWjBut+psoLxAveq+zUc
-         Pjjgn/Z3J3yxZVEqMBu2oclJH2YtERllWJazu+LjfWdRkAvIiyWUJu0KGejt1UNFrJEm
-         eKlw==
-X-Gm-Message-State: AOAM530HtwVtlnvkyXTP48jO6BYThLvflR2BYwXXXTpdbrpbt4ZXLb65
-        xk4dC28zII4U3+zXJqnS2lXC02nJ5u7F
-X-Google-Smtp-Source: ABdhPJxQsftZR7o7MRHdKIkC/yVIzT3BAW7EZW5HLGDHihPAsV9sxnwfsKyRFnWdjjB/0CB/Lo9V4t1gqchB
+        bh=eYcWw1nW7jHB277kKKn0ceDffDK/7XF/xGVoXBkrBY8=;
+        b=G0YwiK/PCI0PtndZ5PZEgMX3/End6MMKEyBSUKUhUUmuKhVYNX6F2wVKsuQC2V6fBn
+         2gNHEP5W3Z+qDYyPvEImgu+0Has5Pd8qqvlKTCAzUMN1ztkbhyU+qjsGjONU9ekIDcdj
+         5JLmkUa0zwHevqooPLUvxOag5MCLbWm7SWSyUt0dNwLEMoWwAmE8GvbCw5Kx0JNon6d3
+         d81EakTyv7Ut8m6VrX81g6gnG1FNF2JzZGa6BafMufrB/YgQxcdwyOVk7054XAdrblcc
+         qFrNjYFHlisTBgiMeAkGu1NYeoiqENeB4gFiNEAi3xKFAl6V47kxoHTkglssK+YKyt3f
+         /mHA==
+X-Gm-Message-State: AOAM532ca0YHBS9NuZmXIHiu2QGla83QHwFzntq57gZp3YLBcaWWfC3T
+        DOMC1JW9Jw9jSHDa2DxsVY0/QbhEWJL0
+X-Google-Smtp-Source: ABdhPJxfnNpIju3kspgRlCFg2/ZYUG+rN2HaDKiEmN/sVCGSnId5BWf/0qeqzEb93duwcgVLP6vcxph4O0jv
 X-Received: from tzungbi-z840.tpe.corp.google.com ([2401:fa00:1:10:ebc2:859f:4153:773e])
- (user=tzungbi job=sendgmr) by 2002:a25:7810:: with SMTP id
- t16mr10800664ybc.352.1628223363503; Thu, 05 Aug 2021 21:16:03 -0700 (PDT)
-Date:   Fri,  6 Aug 2021 12:15:19 +0800
+ (user=tzungbi job=sendgmr) by 2002:a05:6214:c6f:: with SMTP id
+ t15mr9156602qvj.52.1628223366920; Thu, 05 Aug 2021 21:16:06 -0700 (PDT)
+Date:   Fri,  6 Aug 2021 12:15:20 +0800
 In-Reply-To: <20210806041530.4170869-1-tzungbi@google.com>
-Message-Id: <20210806041530.4170869-4-tzungbi@google.com>
+Message-Id: <20210806041530.4170869-5-tzungbi@google.com>
 Mime-Version: 1.0
 References: <20210806041530.4170869-1-tzungbi@google.com>
 X-Mailer: git-send-email 2.32.0.605.g8dce9f2422-goog
-Subject: [PATCH v7 03/14] media: mtk-vcodec: vdec: clamp OUTPUT resolution to
- hardware limits
+Subject: [PATCH v7 04/14] media: mtk-vcodec: make flush buffer reusable by encoder
 From:   Tzung-Bi Shih <tzungbi@google.com>
 To:     hverkuil-cisco@xs4all.nl, yunfei.dong@mediatek.com,
         acourbot@chromium.org
@@ -66,53 +65,224 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Alexandre Courbot <acourbot@chromium.org>
 
-Calling S_FMT or TRY_FMT on the OUTPUT queue should adjust the
-resolution to the limits supported by the hardware. Until now this was
-only done on the CAPTURE queue, which could make clients believe that
-unsupported resolutions can be used when they set the coded size on the
-OUTPUT queue.
+The flush buffer is a special buffer that tells the decoder driver to
+send an empty CAPTURE frame to the client with V4L2_BUF_FLAG_LAST set.
 
-In the case of the stateless decoder, the problem was even bigger since
-subsequently calling G_FMT on the CAPTURE queue would result in the
-unclamped resolution being returned, further inducing the client into
-error.
+We need similar functionality for the encoder ; however currently the
+flush buffer depends on decoder-specific structures and thus cannot be
+reused with the encoder.
+
+Fix this by testing for this buffer by its VB2 address, and not through
+a dedicated flag stored in a higher-level decoder structure. This also
+allows us to remove said flag and simplify the code a bit.
+
+Since the flush buffer should never be used in the stateless decoder,
+also add safeguards to check against it.
 
 Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
 Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
 Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 24 +++++++++----------
+ .../platform/mtk-vcodec/mtk_vcodec_dec.h      |  2 --
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 12 +---------
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  6 +++--
+ 4 files changed, 16 insertions(+), 28 deletions(-)
 
 diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-index 1a633b485a69..16e057f73789 100644
+index 16e057f73789..7edd6266dc6a 100644
 --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
 +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-@@ -649,19 +649,17 @@ static int vidioc_try_fmt(struct v4l2_format *f,
+@@ -368,8 +368,6 @@ static void mtk_vdec_worker(struct work_struct *work)
+ 		return;
+ 	}
  
- 	pix_fmt_mp->field = V4L2_FIELD_NONE;
+-	src_buf_info = container_of(src_buf, struct mtk_video_dec_buf,
+-				    m2m_buf.vb);
+ 	dst_buf_info = container_of(dst_buf, struct mtk_video_dec_buf,
+ 				    m2m_buf.vb);
  
-+	pix_fmt_mp->width =
-+		clamp(pix_fmt_mp->width, MTK_VDEC_MIN_W, MTK_VDEC_MAX_W);
-+	pix_fmt_mp->height =
-+		clamp(pix_fmt_mp->height, MTK_VDEC_MIN_H, MTK_VDEC_MAX_H);
+@@ -390,7 +388,7 @@ static void mtk_vdec_worker(struct work_struct *work)
+ 			pfb->base_y.va, &pfb->base_y.dma_addr,
+ 			&pfb->base_c.dma_addr, pfb->base_y.size);
+ 
+-	if (src_buf_info->lastframe) {
++	if (src_buf == &ctx->empty_flush_buf.vb) {
+ 		mtk_v4l2_debug(1, "Got empty flush input buffer.");
+ 		src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
+ 
+@@ -411,6 +409,10 @@ static void mtk_vdec_worker(struct work_struct *work)
+ 		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+ 		return;
+ 	}
 +
- 	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
- 		pix_fmt_mp->num_planes = 1;
- 		pix_fmt_mp->plane_fmt[0].bytesperline = 0;
- 	} else if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
- 		int tmp_w, tmp_h;
++	src_buf_info = container_of(src_buf, struct mtk_video_dec_buf,
++				    m2m_buf.vb);
++
+ 	buf.va = vb2_plane_vaddr(&src_buf->vb2_buf, 0);
+ 	buf.dma_addr = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
+ 	buf.size = (size_t)src_buf->vb2_buf.planes[0].bytesused;
+@@ -514,8 +516,7 @@ static int vidioc_decoder_cmd(struct file *file, void *priv,
+ 			mtk_v4l2_debug(1, "Capture stream is off. No need to flush.");
+ 			return 0;
+ 		}
+-		v4l2_m2m_buf_queue(ctx->m2m_ctx,
+-				   &ctx->empty_flush_buf->m2m_buf.vb);
++		v4l2_m2m_buf_queue(ctx->m2m_ctx, &ctx->empty_flush_buf.vb);
+ 		v4l2_m2m_try_schedule(ctx->m2m_ctx);
+ 		break;
  
--		pix_fmt_mp->height = clamp(pix_fmt_mp->height,
--					MTK_VDEC_MIN_H,
--					MTK_VDEC_MAX_H);
--		pix_fmt_mp->width = clamp(pix_fmt_mp->width,
--					MTK_VDEC_MIN_W,
--					MTK_VDEC_MAX_W);
--
- 		/*
- 		 * Find next closer width align 64, heign align 64, size align
- 		 * 64 rectangle
+@@ -1122,7 +1123,6 @@ static void vb2ops_vdec_buf_queue(struct vb2_buffer *vb)
+ 	unsigned int dpbsize = 1, i = 0;
+ 	struct mtk_vcodec_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+ 	struct vb2_v4l2_buffer *vb2_v4l2 = NULL;
+-	struct mtk_video_dec_buf *buf = NULL;
+ 	struct mtk_q_data *dst_q_data;
+ 
+ 	mtk_v4l2_debug(3, "[%d] (%d) id=%d, vb=%p",
+@@ -1132,6 +1132,8 @@ static void vb2ops_vdec_buf_queue(struct vb2_buffer *vb)
+ 	 * check if this buffer is ready to be used after decode
+ 	 */
+ 	if (vb->vb2_queue->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
++		struct mtk_video_dec_buf *buf;
++
+ 		vb2_v4l2 = to_vb2_v4l2_buffer(vb);
+ 		buf = container_of(vb2_v4l2, struct mtk_video_dec_buf,
+ 				   m2m_buf.vb);
+@@ -1161,8 +1163,8 @@ static void vb2ops_vdec_buf_queue(struct vb2_buffer *vb)
+ 		mtk_v4l2_err("No src buffer");
+ 		return;
+ 	}
+-	buf = container_of(src_buf, struct mtk_video_dec_buf, m2m_buf.vb);
+-	if (buf->lastframe) {
++
++	if (src_buf == &ctx->empty_flush_buf.vb) {
+ 		/* This shouldn't happen. Just in case. */
+ 		mtk_v4l2_err("Invalid flush buffer.");
+ 		v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
+@@ -1267,8 +1269,6 @@ static int vb2ops_vdec_buf_init(struct vb2_buffer *vb)
+ 	if (vb->vb2_queue->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+ 		buf->used = false;
+ 		buf->queued_in_v4l2 = false;
+-	} else {
+-		buf->lastframe = false;
+ 	}
+ 
+ 	return 0;
+@@ -1294,9 +1294,7 @@ static void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
+ 
+ 	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+ 		while ((src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx))) {
+-			struct mtk_video_dec_buf *buf_info = container_of(
+-				 src_buf, struct mtk_video_dec_buf, m2m_buf.vb);
+-			if (!buf_info->lastframe)
++			if (src_buf != &ctx->empty_flush_buf.vb)
+ 				v4l2_m2m_buf_done(src_buf,
+ 						VB2_BUF_STATE_ERROR);
+ 		}
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
+index cf26b6c1486a..1f8b7300dce6 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
+@@ -40,7 +40,6 @@ struct vdec_fb {
+  * @queued_in_vb2:	Capture buffer is queue in vb2
+  * @queued_in_v4l2:	Capture buffer is in v4l2 driver, but not in vb2
+  *			queue yet
+- * @lastframe:		Intput buffer is last buffer - EOS
+  * @error:		An unrecoverable error occurs on this buffer.
+  * @frame_buffer:	Decode status, and buffer information of Capture buffer
+  *
+@@ -52,7 +51,6 @@ struct mtk_video_dec_buf {
+ 	bool	used;
+ 	bool	queued_in_vb2;
+ 	bool	queued_in_v4l2;
+-	bool	lastframe;
+ 	bool	error;
+ 	struct vdec_fb	frame_buffer;
+ };
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+index f87dc47d9e63..5ce7f1b83e4e 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+@@ -81,21 +81,14 @@ static int fops_vcodec_open(struct file *file)
+ {
+ 	struct mtk_vcodec_dev *dev = video_drvdata(file);
+ 	struct mtk_vcodec_ctx *ctx = NULL;
+-	struct mtk_video_dec_buf *mtk_buf = NULL;
+ 	int ret = 0;
+ 	struct vb2_queue *src_vq;
+ 
+ 	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+ 	if (!ctx)
+ 		return -ENOMEM;
+-	mtk_buf = kzalloc(sizeof(*mtk_buf), GFP_KERNEL);
+-	if (!mtk_buf) {
+-		kfree(ctx);
+-		return -ENOMEM;
+-	}
+ 
+ 	mutex_lock(&dev->dev_mutex);
+-	ctx->empty_flush_buf = mtk_buf;
+ 	ctx->id = dev->id_counter++;
+ 	v4l2_fh_init(&ctx->fh, video_devdata(file));
+ 	file->private_data = &ctx->fh;
+@@ -121,8 +114,7 @@ static int fops_vcodec_open(struct file *file)
+ 	}
+ 	src_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
+ 				V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+-	ctx->empty_flush_buf->m2m_buf.vb.vb2_buf.vb2_queue = src_vq;
+-	ctx->empty_flush_buf->lastframe = true;
++	ctx->empty_flush_buf.vb.vb2_buf.vb2_queue = src_vq;
+ 	mtk_vcodec_dec_set_default_params(ctx);
+ 
+ 	if (v4l2_fh_is_singular(&ctx->fh)) {
+@@ -162,7 +154,6 @@ static int fops_vcodec_open(struct file *file)
+ err_ctrls_setup:
+ 	v4l2_fh_del(&ctx->fh);
+ 	v4l2_fh_exit(&ctx->fh);
+-	kfree(ctx->empty_flush_buf);
+ 	kfree(ctx);
+ 	mutex_unlock(&dev->dev_mutex);
+ 
+@@ -193,7 +184,6 @@ static int fops_vcodec_release(struct file *file)
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+ 
+ 	list_del_init(&ctx->list);
+-	kfree(ctx->empty_flush_buf);
+ 	kfree(ctx);
+ 	mutex_unlock(&dev->dev_mutex);
+ 	return 0;
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+index c6c7672fecfb..cad52d8b1463 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+@@ -13,6 +13,7 @@
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ioctl.h>
++#include <media/v4l2-mem2mem.h>
+ #include <media/videobuf2-core.h>
+ #include "mtk_vcodec_util.h"
+ 
+@@ -249,7 +250,8 @@ struct vdec_pic_info {
+  * @decode_work: worker for the decoding
+  * @encode_work: worker for the encoding
+  * @last_decoded_picinfo: pic information get from latest decode
+- * @empty_flush_buf: a fake size-0 capture buffer that indicates flush
++ * @empty_flush_buf: a fake size-0 capture buffer that indicates flush. Only
++ *		     to be used with encoder and stateful decoder.
+  *
+  * @colorspace: enum v4l2_colorspace; supplemental to pixelformat
+  * @ycbcr_enc: enum v4l2_ycbcr_encoding, Y'CbCr encoding
+@@ -288,7 +290,7 @@ struct mtk_vcodec_ctx {
+ 	struct work_struct decode_work;
+ 	struct work_struct encode_work;
+ 	struct vdec_pic_info last_decoded_picinfo;
+-	struct mtk_video_dec_buf *empty_flush_buf;
++	struct v4l2_m2m_buffer empty_flush_buf;
+ 
+ 	enum v4l2_colorspace colorspace;
+ 	enum v4l2_ycbcr_encoding ycbcr_enc;
 -- 
 2.32.0.605.g8dce9f2422-goog
 
