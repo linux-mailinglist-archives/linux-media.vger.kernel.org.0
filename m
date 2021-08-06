@@ -2,86 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9473F3E31C9
-	for <lists+linux-media@lfdr.de>; Sat,  7 Aug 2021 00:30:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CA543E31FE
+	for <lists+linux-media@lfdr.de>; Sat,  7 Aug 2021 00:59:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245550AbhHFWa6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Aug 2021 18:30:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53848 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245547AbhHFWaz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 18:30:55 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C1DFC0613CF;
-        Fri,  6 Aug 2021 15:30:39 -0700 (PDT)
-Received: from localhost.localdomain (unknown [IPv6:2804:14c:1a9:2434:b693:c9:5cb6:b688])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: nfraprado)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F25A51F44DDF;
-        Fri,  6 Aug 2021 23:30:35 +0100 (BST)
-From:   =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
-        <nfraprado@collabora.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-Subject: [PATCH] media: ipu3.rst: Improve header formatting on tables
-Date:   Fri,  6 Aug 2021 19:30:22 -0300
-Message-Id: <20210806223022.2012984-1-nfraprado@collabora.com>
-X-Mailer: git-send-email 2.32.0
+        id S244503AbhHFW7f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Aug 2021 18:59:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43066 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230280AbhHFW7f (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 6 Aug 2021 18:59:35 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A030A60EE9;
+        Fri,  6 Aug 2021 22:59:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628290758;
+        bh=HU2xeowJBFARB+34Pp8jGrd/zZAOVyAJGJWh8YkA/Ho=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=d3jngVQutsnEePS1XLx+uK1ceEvIan/3CPVuRqoMqeoPrlsJOhlRopE606S4OnOVL
+         xYzOtTibLua3S6jLxK4i3hSqCV1cv3wGzPbpMmXJpB8Zkm47bdbZS4W2dCzYZJXvYD
+         Y8mLDXTOt7g3Si/7HmQ6q8XBerUZdY7F2OzSPKFmwXRJUWbb3Io5LfYpcJ+4weLeY7
+         YNlmo/DW9TX61aM0Mh6im9C5H/7U+8MZVT1rvvTAOmiUWd1HJVy5xnSUmVgd1dpM6P
+         w0uujMI/8gsDaiYwjPm/Sc8xaOnw2LvOD1WrpDQGO8JPMBWqSSOBxb8rSEuTC+nWvq
+         05X8uhCWFRHcA==
+Date:   Fri, 6 Aug 2021 17:59:17 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Dongdong Liu <liudongdong3@huawei.com>
+Cc:     hch@infradead.org, kw@linux.com, logang@deltatee.com,
+        leon@kernel.org, linux-pci@vger.kernel.org, rajur@chelsio.com,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH V7 5/9] PCI/IOV: Enable 10-Bit tag support for PCIe VF
+ devices
+Message-ID: <20210806225917.GA1897594@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <08b7a9b7-2951-43c3-5e81-3461b6724955@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the header-rows option of the flat-table directive in order to have
-the first row displayed as a header. Also capitalize these headers.
-These changes make the tables easier to read.
+On Thu, Aug 05, 2021 at 04:03:58PM +0800, Dongdong Liu wrote:
+> 
+> On 2021/8/5 7:29, Bjorn Helgaas wrote:
+> > On Wed, Aug 04, 2021 at 09:47:04PM +0800, Dongdong Liu wrote:
+> > > Enable VF 10-Bit Tag Requester when it's upstream component support
+> > > 10-bit Tag Completer.
+> > 
+> > I think "upstream component" here means the PF, doesn't it?  I don't
+> > think the PF is really an *upstream* component; there's no routing
+> > like with a switch.
+>
+> I want to say the switch and root port devices that support 10-Bit
+> Tag Completer. Sure, VF also needs to have 10-bit Tag Requester
+> Supported capability.
 
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
----
- Documentation/admin-guide/media/ipu3.rst | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/admin-guide/media/ipu3.rst b/Documentation/admin-guide/media/ipu3.rst
-index 52c1c04173da..83b3cd03b35c 100644
---- a/Documentation/admin-guide/media/ipu3.rst
-+++ b/Documentation/admin-guide/media/ipu3.rst
-@@ -51,10 +51,11 @@ to userspace as a V4L2 sub-device node and has two pads:
- .. tabularcolumns:: |p{0.8cm}|p{4.0cm}|p{4.0cm}|
- 
- .. flat-table::
-+    :header-rows: 1
- 
--    * - pad
--      - direction
--      - purpose
-+    * - Pad
-+      - Direction
-+      - Purpose
- 
-     * - 0
-       - sink
-@@ -148,10 +149,11 @@ Each pipe has two sink pads and three source pads for the following purpose:
- .. tabularcolumns:: |p{0.8cm}|p{4.0cm}|p{4.0cm}|
- 
- .. flat-table::
-+    :header-rows: 1
- 
--    * - pad
--      - direction
--      - purpose
-+    * - Pad
-+      - Direction
-+      - Purpose
- 
-     * - 0
-       - sink
--- 
-2.32.0
-
+OK.  IIUC we're not talking about P2PDMA here; we're talking about
+regular DMA to host memory, which means I *think* only the Root Port
+is important, since it is the completer for DMA to host memory.  We're
+not talking about P2PDMA to a switch BAR, where the switch would be
+the completer.
