@@ -2,24 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22C2A3E267B
-	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 10:54:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02A623E2686
+	for <lists+linux-media@lfdr.de>; Fri,  6 Aug 2021 10:55:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243487AbhHFIyV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Aug 2021 04:54:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37204 "EHLO
+        id S241735AbhHFI4J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Aug 2021 04:56:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230119AbhHFIyV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 04:54:21 -0400
+        with ESMTP id S230119AbhHFI4I (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Aug 2021 04:56:08 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD95DC061798
-        for <linux-media@vger.kernel.org>; Fri,  6 Aug 2021 01:54:05 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42FC2C061798
+        for <linux-media@vger.kernel.org>; Fri,  6 Aug 2021 01:55:53 -0700 (PDT)
 Received: from [IPv6:2a02:810a:880:f54:ec56:4a95:44cf:a8a] (unknown [IPv6:2a02:810a:880:f54:ec56:4a95:44cf:a8a])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4C95B1F4443E;
-        Fri,  6 Aug 2021 09:54:03 +0100 (BST)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0FE8B1F4443E;
+        Fri,  6 Aug 2021 09:55:52 +0100 (BST)
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 Subject: Re: [EXT] Re: media: platform/rockchip/rkisp1 - v4l-compliance
  reports errors
 To:     Jens Korinth <jens.korinth@trinamix.de>
@@ -31,9 +32,8 @@ References: <AM0PR04MB5825DA3C650C569F69B99EF898EB9@AM0PR04MB5825.eurprd04.prod.
  <AM0PR04MB58250C5C17446561D4A18EDA98EC9@AM0PR04MB5825.eurprd04.prod.outlook.com>
  <1e53b06a-bc75-87e3-04b4-b808dc0eb3de@collabora.com>
  <AM0PR04MB582556DE304687EA2CCA558198F39@AM0PR04MB5825.eurprd04.prod.outlook.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <d9e3c9b4-4e2f-05fd-6995-85d0418f5178@collabora.com>
-Date:   Fri, 6 Aug 2021 10:54:01 +0200
+Message-ID: <aefbddf0-7fbf-0251-9e31-9a5153d74da1@collabora.com>
+Date:   Fri, 6 Aug 2021 10:55:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
