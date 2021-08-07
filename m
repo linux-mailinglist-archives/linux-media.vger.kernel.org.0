@@ -2,159 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90B113E3302
-	for <lists+linux-media@lfdr.de>; Sat,  7 Aug 2021 05:43:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF2783E33B8
+	for <lists+linux-media@lfdr.de>; Sat,  7 Aug 2021 08:19:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230342AbhHGDoI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Aug 2021 23:44:08 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:51793 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230144AbhHGDoH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 6 Aug 2021 23:44:07 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id CDFVmjDa94SnACDFWmfxiU; Sat, 07 Aug 2021 05:43:50 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1628307830; bh=ZU+LLLGH/SabZ0E6jcfVET2RGM3vKDkjDF1ev1YOOv8=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=gAlRm929uHV03E6Z/ZQRCjnY1IuDUdPCU2IYezm0q1QKyWCucuhf/2uc8sMNLR5T8
-         PDR08MGLLoqZ2cFcsTcmBGwZx4HiCxqs4Ng/uSuzC5uZnLs4a72nQl36JL3gasGuJk
-         BNs29kES43xWj0534iJNEQFrJqFKJ0flDYlem8hjqYxt5TVEJclai+VEH/ZebGSNFb
-         G2hduCajh13JYzNWhZNRDY1jUHKA1hEsyhqPc7d9nNrcGeCxCQITHRH7Q5LU1AQ3//
-         mzMFYZh9W2H4D6qntq98N02H4hSnSp3CRP8g+UDbCKsMECw21K7JMnS1Xe+fo/zhDp
-         SwEz7gT5kfczQ==
-Message-ID: <f2d9a88c278b124959562a0673a3b711@smtp-cloud7.xs4all.net>
-Date:   Sat, 07 Aug 2021 05:43:48 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfO+k3OJdQwAO5nCiZPbIQ3xvtVsL21A6sJ+BX8dREZ7IgnQF0MimJ/4xfRrdsNZZdLXRj/AUUnVjD/qLNdiH4eiL+Zyc9rE5XpXPTPqZrgWPGCMPrBLk
- H89jMDgXo/l5KQS4VaZ0g9QSk24Pc77LmVvpI8ZCNyls8B955N1JUqqJHQPhsln2A1GilG6Nb5Kcu9bJdXiQRIT6V+ndGoMdJiBPEBzQZHmElggJwWnO/Ais
- 1zgHFqndUFvztxYfAnvLnQ==
+        id S231301AbhHGGTb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Aug 2021 02:19:31 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:13242 "EHLO
+        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229495AbhHGGTa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Aug 2021 02:19:30 -0400
+Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.57])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GhXH86wjQz1CSMK;
+        Sat,  7 Aug 2021 14:19:00 +0800 (CST)
+Received: from [10.67.103.235] (10.67.103.235) by
+ dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Sat, 7 Aug 2021 14:19:10 +0800
+Subject: Re: [PATCH V7 4/9] PCI: Enable 10-Bit Tag support for PCIe Endpoint
+ devices
+To:     Bjorn Helgaas <helgaas@kernel.org>
+References: <20210805195407.GA1763784@bjorn-Precision-5520>
+CC:     <hch@infradead.org>, <kw@linux.com>, <logang@deltatee.com>,
+        <leon@kernel.org>, <linux-pci@vger.kernel.org>,
+        <rajur@chelsio.com>, <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
+From:   Dongdong Liu <liudongdong3@huawei.com>
+Message-ID: <c7fdb77d-8b93-f3ef-05d2-54daf67305e2@huawei.com>
+Date:   Sat, 7 Aug 2021 14:19:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
+MIME-Version: 1.0
+In-Reply-To: <20210805195407.GA1763784@bjorn-Precision-5520>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.103.235]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggeme758-chm.china.huawei.com (10.3.19.104)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
 
-Results of the daily build of media_tree:
 
-date:			Sat Aug  7 05:00:13 CEST 2021
-media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
-media_build git hash:	b90a15c5094f88c53fdeff025d9bb6a7716a5ef8
-v4l-utils git hash:	7952c0042ccf549959cf924fbd3e7dd894966e57
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7532-gde99456f6
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
-host hardware:		x86_64
-host os:		5.13.1-marune
+On 2021/8/6 3:54, Bjorn Helgaas wrote:
+> On Thu, Aug 05, 2021 at 03:47:31PM +0800, Dongdong Liu wrote:
+>> Hi Bjorn
+>>
+>> Many thanks for your review.
+>> On 2021/8/5 7:17, Bjorn Helgaas wrote:
+>>> On Wed, Aug 04, 2021 at 09:47:03PM +0800, Dongdong Liu wrote:
+>>>> 10-Bit Tag capability, introduced in PCIe-4.0 increases the total Tag
+>>>> field size from 8 bits to 10 bits.
+>>>>
+>>>> PCIe spec 5.0 r1.0 section 2.2.6.2 "Considerations for Implementing
+>>>> 10-Bit Tag Capabilities" Implementation Note.
+>>>> For platforms where the RC supports 10-Bit Tag Completer capability,
+>>>> it is highly recommended for platform firmware or operating software
+>>>> that configures PCIe hierarchies to Set the 10-Bit Tag Requester Enable
+>>>> bit automatically in Endpoints with 10-Bit Tag Requester capability. This
+>>>> enables the important class of 10-Bit Tag capable adapters that send
+>>>> Memory Read Requests only to host memory.
+>>>
+>>> Quoted material should be set off with a blank line before it and
+>>> indented by two spaces so it's clear exactly what comes from the spec
+>>> and what you've added.  For example, see
+>>> https://git.kernel.org/linus/ec411e02b7a2
+>> Good point, will fix.
+>>>
+>>> We need to say why we assume it's safe to enable 10-bit tags for all
+>>> devices below a Root Port that supports them.  I think this has to do
+>>> with switches being required to forward 10-bit tags correctly even if
+>>> they were designed before 10-bit tags were added to the spec.
+>>
+>> PCIe spec 5.0 r1.0 section 2.2.6.2 "Considerations for Implementing
+>> 10-Bit Tag Capabilities" Implementation Note:
+>>
+>>   Switches that lack 10-Bit Tag Completer capability are still able to
+>>   forward NPRs and Completions carrying 10-Bit Tags correctly, since the
+>>   two new Tag bits are in TLP Header bits that were formerly Reserved,
+>>   and Switches are required to forward Reserved TLP Header bits without
+>>   modification. However, if such a Switch detects an error with an NPR
+>>   carrying a 10-Bit Tag, and that Switch handles the error by acting as
+>>   the Completer for the NPR, the resulting Completion will have an
+>>   invalid 10-Bit Tag. Thus, it is strongly recommended that Switches
+>>   between any components using 10-Bit Tags support 10-Bit Tag Completer
+>>   capability.  Note that Switches supporting 16.0 GT/s data rates or
+>>   greater must support 10-Bit Tag Completer capability.
+>>
+>> This patch also consider to enable 10-Bit Tag for EP device need RP
+>> and Switch device support 10-Bit Tag Completer capability.
+>>>
+>>> And it should call out any cases where it is *not* safe, e.g., if P2P
+>>> traffic is an issue.
+>> Yes, indeed.
+>>>
+>>> If there are cases where we don't want to enable 10-bit tags, whether
+>>> it's to enable P2P traffic or merely to work around device defects,
+>>> that ability needs to be here from the beginning.  If somebody needs
+>>> to bisect with 10-bit tags disabled, we don't want a bisection hole
+>>> between this commit and the commit that adds the control.
+>> We provide sysfs file to disable 10-bit tag for P2P traffic when needed.
+>> The details see PATCH 7/8/9.
+>
+> A mechanism for avoiding problems needs to be present from the very
+> beginning so there's no bisection hole.  It should not be added by a
+> future patch.
+Yes, will adjust PATCH 7/8/9 before PATCH 4。
+>
+> The sysfs file is a start, but if we run into an issue, it could mean
+> that we can't boot and run long enough to use sysfs to disable 10-bit
+> tags.  So I think we might need a kernel parameter that disables it
+> (and possibly other things like MPS optimization).
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.222-i686: ERRORS
-linux-4.14.222-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.177-i686: ERRORS
-linux-4.19.177-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 1
-virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Yes, We can add a pcie_tag_p2p kernel parameter just to use the 8-bit
+tags, not to enable 10-bit tags for all PCIe devices.
 
-Detailed results are available here:
+Thanks,
+Dongdong
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
