@@ -2,110 +2,292 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60D863E33FE
-	for <lists+linux-media@lfdr.de>; Sat,  7 Aug 2021 09:46:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A63833E36A5
+	for <lists+linux-media@lfdr.de>; Sat,  7 Aug 2021 20:33:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231564AbhHGHqt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Aug 2021 03:46:49 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:16058 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231543AbhHGHqs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Aug 2021 03:46:48 -0400
-Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GhZ7w3HQ3zZy8r;
-        Sat,  7 Aug 2021 15:42:52 +0800 (CST)
-Received: from [10.67.103.235] (10.67.103.235) by
- dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Sat, 7 Aug 2021 15:46:28 +0800
-Subject: Re: [PATCH V7 5/9] PCI/IOV: Enable 10-Bit tag support for PCIe VF
- devices
-To:     Bjorn Helgaas <helgaas@kernel.org>
-References: <20210806225917.GA1897594@bjorn-Precision-5520>
-CC:     <hch@infradead.org>, <kw@linux.com>, <logang@deltatee.com>,
-        <leon@kernel.org>, <linux-pci@vger.kernel.org>,
-        <rajur@chelsio.com>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
-From:   Dongdong Liu <liudongdong3@huawei.com>
-Message-ID: <8f261291-ced7-45dd-cb8b-429bcdd512d1@huawei.com>
-Date:   Sat, 7 Aug 2021 15:46:27 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S229590AbhHGSeI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Aug 2021 14:34:08 -0400
+Received: from mga11.intel.com ([192.55.52.93]:31474 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229471AbhHGSeH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 7 Aug 2021 14:34:07 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10069"; a="211416978"
+X-IronPort-AV: E=Sophos;i="5.84,303,1620716400"; 
+   d="scan'208";a="211416978"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2021 11:33:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,303,1620716400"; 
+   d="scan'208";a="672938095"
+Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 07 Aug 2021 11:33:48 -0700
+Received: from kbuild by d053b881505b with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mCR8m-000I5d-3G; Sat, 07 Aug 2021 18:33:48 +0000
+Date:   Sun, 08 Aug 2021 02:33:30 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-next] BUILD SUCCESS
+ 6daa9f32282ac76b8996f5291fb387d685786288
+Message-ID: <610ed1fa.reOYkZTz1SmIYp3D%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <20210806225917.GA1897594@bjorn-Precision-5520>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.235]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggeme758-chm.china.huawei.com (10.3.19.104)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+tree/branch: git://git.ragnatech.se/linux media-next
+branch HEAD: 6daa9f32282ac76b8996f5291fb387d685786288  media: Clean V4L2_PIX_FMT_NV12MT documentation
 
+elapsed time: 1954m
 
-On 2021/8/7 6:59, Bjorn Helgaas wrote:
-> On Thu, Aug 05, 2021 at 04:03:58PM +0800, Dongdong Liu wrote:
->>
->> On 2021/8/5 7:29, Bjorn Helgaas wrote:
->>> On Wed, Aug 04, 2021 at 09:47:04PM +0800, Dongdong Liu wrote:
->>>> Enable VF 10-Bit Tag Requester when it's upstream component support
->>>> 10-bit Tag Completer.
->>>
->>> I think "upstream component" here means the PF, doesn't it?  I don't
->>> think the PF is really an *upstream* component; there's no routing
->>> like with a switch.
->>
->> I want to say the switch and root port devices that support 10-Bit
->> Tag Completer. Sure, VF also needs to have 10-bit Tag Requester
->> Supported capability.
->
-> OK.  IIUC we're not talking about P2PDMA here; we're talking about
-> regular DMA to host memory, which means I *think* only the Root Port
-> is important, since it is the completer for DMA to host memory.  We're
-> not talking about P2PDMA to a switch BAR, where the switch would be
-> the completer.
+configs tested: 234
+configs skipped: 4
 
-Yes, only the Root Port is important, this is also PCIe spec
-recommended.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Only when switch detects an error with an NPR carrying a 10-Bit Tag,
-and that Switch handles the error by acting as the Completer for the
-NPR, the resulting Completion will have an invalid 10-Bit Tag.
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20210804
+i386                 randconfig-c001-20210805
+i386                 randconfig-c001-20210807
+h8300                       h8s-sim_defconfig
+arm                       mainstone_defconfig
+arm                            pleb_defconfig
+powerpc                 mpc832x_mds_defconfig
+sh                            titan_defconfig
+powerpc                           allnoconfig
+arm                       aspeed_g4_defconfig
+powerpc                  mpc866_ads_defconfig
+powerpc                      mgcoge_defconfig
+sparc                       sparc64_defconfig
+sh                            migor_defconfig
+sh                  sh7785lcr_32bit_defconfig
+arm                              alldefconfig
+mips                malta_qemu_32r6_defconfig
+sparc                            alldefconfig
+ia64                             allmodconfig
+mips                     loongson1b_defconfig
+arm                           sama5_defconfig
+sh                     sh7710voipgw_defconfig
+arc                                 defconfig
+arm                          moxart_defconfig
+mips                           jazz_defconfig
+powerpc                      arches_defconfig
+microblaze                          defconfig
+sh                           se7721_defconfig
+arm                         socfpga_defconfig
+parisc                              defconfig
+arm                       aspeed_g5_defconfig
+arm                            dove_defconfig
+xtensa                           alldefconfig
+arm                          imote2_defconfig
+arm                       imx_v4_v5_defconfig
+arm                         axm55xx_defconfig
+powerpc                     tqm5200_defconfig
+sh                        sh7763rdp_defconfig
+h8300                    h8300h-sim_defconfig
+nds32                               defconfig
+sh                ecovec24-romimage_defconfig
+powerpc                   microwatt_defconfig
+sh                        dreamcast_defconfig
+xtensa                  nommu_kc705_defconfig
+parisc                generic-32bit_defconfig
+arm                        mvebu_v7_defconfig
+sh                           se7343_defconfig
+arm                        multi_v7_defconfig
+powerpc                    sam440ep_defconfig
+powerpc                       ebony_defconfig
+sh                   secureedge5410_defconfig
+mips                        jmr3927_defconfig
+m68k                        m5307c3_defconfig
+powerpc                        fsp2_defconfig
+arm                      footbridge_defconfig
+arm                           spitz_defconfig
+powerpc                     stx_gp3_defconfig
+sh                          urquell_defconfig
+mips                           ip27_defconfig
+mips                  decstation_64_defconfig
+mips                          ath79_defconfig
+mips                           ip28_defconfig
+sh                           se7722_defconfig
+sh                               j2_defconfig
+mips                           xway_defconfig
+s390                                defconfig
+powerpc                      tqm8xx_defconfig
+mips                           gcw0_defconfig
+powerpc                     pq2fads_defconfig
+mips                        omega2p_defconfig
+arm                          collie_defconfig
+arm                   milbeaut_m10v_defconfig
+powerpc                     taishan_defconfig
+powerpc                     mpc83xx_defconfig
+sh                        edosk7705_defconfig
+arm                         nhk8815_defconfig
+arm                          gemini_defconfig
+mips                       bmips_be_defconfig
+parisc                           allyesconfig
+powerpc               mpc834x_itxgp_defconfig
+sh                        edosk7760_defconfig
+arm                           tegra_defconfig
+parisc                           alldefconfig
+m68k                         apollo_defconfig
+arm                         palmz72_defconfig
+mips                            gpr_defconfig
+powerpc                 mpc834x_mds_defconfig
+csky                                defconfig
+arm                     am200epdkit_defconfig
+powerpc                          allmodconfig
+arm                      jornada720_defconfig
+powerpc                  mpc885_ads_defconfig
+powerpc                      obs600_defconfig
+powerpc                      walnut_defconfig
+mips                          rb532_defconfig
+arm                       spear13xx_defconfig
+sh                          polaris_defconfig
+m68k                       m5249evb_defconfig
+ia64                        generic_defconfig
+arm                          badge4_defconfig
+powerpc                          allyesconfig
+arm                          pcm027_defconfig
+xtensa                  audio_kc705_defconfig
+x86_64                            allnoconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nios2                            allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+sh                               allmodconfig
+s390                             allyesconfig
+s390                             allmodconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+x86_64               randconfig-a002-20210805
+x86_64               randconfig-a006-20210805
+x86_64               randconfig-a004-20210805
+x86_64               randconfig-a003-20210805
+x86_64               randconfig-a001-20210805
+x86_64               randconfig-a005-20210805
+i386                 randconfig-a004-20210808
+i386                 randconfig-a005-20210808
+i386                 randconfig-a006-20210808
+i386                 randconfig-a002-20210808
+i386                 randconfig-a001-20210808
+i386                 randconfig-a003-20210808
+i386                 randconfig-a005-20210804
+i386                 randconfig-a004-20210804
+i386                 randconfig-a002-20210804
+i386                 randconfig-a006-20210804
+i386                 randconfig-a003-20210804
+i386                 randconfig-a001-20210804
+i386                 randconfig-a005-20210805
+i386                 randconfig-a004-20210805
+i386                 randconfig-a002-20210805
+i386                 randconfig-a006-20210805
+i386                 randconfig-a003-20210805
+i386                 randconfig-a001-20210805
+i386                 randconfig-a005-20210806
+i386                 randconfig-a004-20210806
+i386                 randconfig-a002-20210806
+i386                 randconfig-a006-20210806
+i386                 randconfig-a003-20210806
+i386                 randconfig-a001-20210806
+x86_64               randconfig-a012-20210804
+x86_64               randconfig-a016-20210804
+x86_64               randconfig-a011-20210804
+x86_64               randconfig-a013-20210804
+x86_64               randconfig-a014-20210804
+x86_64               randconfig-a015-20210804
+x86_64               randconfig-a016-20210808
+x86_64               randconfig-a012-20210808
+x86_64               randconfig-a013-20210808
+x86_64               randconfig-a011-20210808
+x86_64               randconfig-a014-20210808
+x86_64               randconfig-a015-20210808
+i386                 randconfig-a012-20210806
+i386                 randconfig-a011-20210806
+i386                 randconfig-a015-20210806
+i386                 randconfig-a013-20210806
+i386                 randconfig-a014-20210806
+i386                 randconfig-a016-20210806
+i386                 randconfig-a012-20210807
+i386                 randconfig-a011-20210807
+i386                 randconfig-a015-20210807
+i386                 randconfig-a013-20210807
+i386                 randconfig-a014-20210807
+i386                 randconfig-a016-20210807
+i386                 randconfig-a012-20210805
+i386                 randconfig-a011-20210805
+i386                 randconfig-a015-20210805
+i386                 randconfig-a013-20210805
+i386                 randconfig-a014-20210805
+i386                 randconfig-a016-20210805
+i386                 randconfig-a012-20210808
+i386                 randconfig-a015-20210808
+i386                 randconfig-a011-20210808
+i386                 randconfig-a013-20210808
+i386                 randconfig-a014-20210808
+i386                 randconfig-a016-20210808
+i386                 randconfig-a012-20210804
+i386                 randconfig-a011-20210804
+i386                 randconfig-a015-20210804
+i386                 randconfig-a013-20210804
+i386                 randconfig-a014-20210804
+i386                 randconfig-a016-20210804
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
-Enable 10-bit for EP devices depend on the hierarchy(include switch)
-supports 10-bit tags in "[PATCH V7 4/9] PCI: Enable 10-Bit Tag support
-for PCIe Endpoint devices". This seems complex.
-I will fix this. Enable 10-bit tag for EP devices only depend on Root
-Port 10-bit tag completer about regular DMA to host memory.
+clang tested configs:
+x86_64               randconfig-c001-20210804
+x86_64               randconfig-c001-20210808
+x86_64               randconfig-c001-20210805
+x86_64               randconfig-c001-20210807
+x86_64               randconfig-c001-20210806
+x86_64               randconfig-a002-20210804
+x86_64               randconfig-a006-20210804
+x86_64               randconfig-a004-20210804
+x86_64               randconfig-a003-20210804
+x86_64               randconfig-a001-20210804
+x86_64               randconfig-a005-20210804
+x86_64               randconfig-a012-20210805
+x86_64               randconfig-a016-20210805
+x86_64               randconfig-a011-20210805
+x86_64               randconfig-a013-20210805
+x86_64               randconfig-a014-20210805
+x86_64               randconfig-a015-20210805
 
-The below is the PCIe spec describe:
-PCIe spec 5.0 r1.0 section 2.2.6.2 "Considerations for Implementing
-10-Bit Tag Capabilities" Implementation Note.
-
-   For platforms where the RC supports 10-Bit Tag Completer capability,
-   it is highly recommended for platform firmware or operating software
-   that configures PCIe hierarchies to Set the 10-Bit Tag Requester
-   Enable bit automatically in Endpoints with 10-Bit Tag Requester
-   capability. This enables the important class of 10-Bit Tag capable
-   adapters that send Memory Read Requests only to host memory.
-
-...
-   Switches that lack 10-Bit Tag Completer capability are still able to
-   forward NPRs and Completions carrying 10-Bit Tags correctly, since the
-   two new Tag bits are in TLP Header bits that were formerly Reserved,
-   and Switches are required to forward Reserved TLP Header bits without
-   modification. However, if such a Switch detects an error with an NPR
-   carrying a 10-Bit Tag, and that Switch handles the error by acting as
-   the Completer for the NPR, the resulting Completion will have an
-   invalid 10-Bit Tag. Thus, it is strongly recommended that Switches
-   between any components using 10-Bit Tags support 10-Bit Tag Completer
-   capability.  Note that Switches supporting 16.0 GT/s data rates or
-   greater must support 10-Bit Tag Completer capability.
-
-Thanks,
-Dongdong
-
-> .
->
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
