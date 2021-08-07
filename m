@@ -2,292 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A63833E36A5
-	for <lists+linux-media@lfdr.de>; Sat,  7 Aug 2021 20:33:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBFC33E36A9
+	for <lists+linux-media@lfdr.de>; Sat,  7 Aug 2021 20:34:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229590AbhHGSeI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Aug 2021 14:34:08 -0400
-Received: from mga11.intel.com ([192.55.52.93]:31474 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229471AbhHGSeH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 7 Aug 2021 14:34:07 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10069"; a="211416978"
-X-IronPort-AV: E=Sophos;i="5.84,303,1620716400"; 
-   d="scan'208";a="211416978"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2021 11:33:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,303,1620716400"; 
-   d="scan'208";a="672938095"
-Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 07 Aug 2021 11:33:48 -0700
-Received: from kbuild by d053b881505b with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mCR8m-000I5d-3G; Sat, 07 Aug 2021 18:33:48 +0000
-Date:   Sun, 08 Aug 2021 02:33:30 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-next] BUILD SUCCESS
- 6daa9f32282ac76b8996f5291fb387d685786288
-Message-ID: <610ed1fa.reOYkZTz1SmIYp3D%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S229869AbhHGSeM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Aug 2021 14:34:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32782 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229471AbhHGSeL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Aug 2021 14:34:11 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C7AC0613CF;
+        Sat,  7 Aug 2021 11:33:54 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id ca5so21550510pjb.5;
+        Sat, 07 Aug 2021 11:33:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=F+e3SooHzk+LlYQaG9v32P5P5RuC1GzjFNDE7bWnXxU=;
+        b=YfI6lxfAOG2OET1bh5zLHcADMAbiMkPadAy7+H7riBVXl5spMBcXo/HISjFdEUQtYB
+         3JrS0bUFUY5TgelVHFfCnfpSPIDWIeFgO8Un0u+dCCpfWSvvWUo5dWu6PZn3eL673Xmu
+         0fVtGhMcoTjJ8CjS5oT3j2x3quVjSFLOssCTIL62/ZZPwYeQb6RYiOkcJOJeU9sVJxhf
+         fMq+Dx8Ni0k6gRoxgfYw/IyqUGE5shZ105uPamGO7/y/uILu6ztFAtavZb8UVRcn16Lr
+         OCeGpxYtLmS+Je8nCGmlplld7jrDcgNIyOI65SDgDW0MdLDfatAxyaOrZFl0XiIoiqkH
+         jADQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=F+e3SooHzk+LlYQaG9v32P5P5RuC1GzjFNDE7bWnXxU=;
+        b=gKJBKH8L/epQnzKCVZmjyb3rJTatdWilAej+d4xyusxPygWnhuxJA2jRhcHQKlpQhL
+         od8YVpiMUQGV2v2gjp2lNsVQxELg6X7dgGnV51tQzJylSOEsvzTRNnqSs8+8lXTesBSF
+         E+DNlYRbVdE0GuL6O+PvSdfktpwWbANNGFO0AH/RF59lLGB1aEFcTTsm12e4YCZIQ+Ig
+         GEzDGmXZcFJdskoCxDjLxOO/9BWHS1fW8PHqq4xb24pZRgRK8WFzajF15s5eOamVbX55
+         SSWAMSoVmixNM3b4Beu2i6/xtmAESTfVbgiG18NS9VpZ+prNsnkLTkkUJRPg+62I+1+f
+         p8jw==
+X-Gm-Message-State: AOAM5321cILnMQgdMy7tx/lTmouoaxsbp4dv7CBRfgBLUZ9xxU0Drdyz
+        MUYWERkSNJE/p3EHdugcEwU=
+X-Google-Smtp-Source: ABdhPJzS73oVEfLet7XYlKo2tM804kuGxGgyBQG8GiyiEdJG6r6bk27S0ruQMTqD/d+FDHRA4bcakw==
+X-Received: by 2002:a63:4f51:: with SMTP id p17mr139787pgl.29.1628361233656;
+        Sat, 07 Aug 2021 11:33:53 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+        by smtp.gmail.com with ESMTPSA id n33sm16516858pgm.55.2021.08.07.11.33.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Aug 2021 11:33:52 -0700 (PDT)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Jack Zhang <Jack.Zhang1@amd.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+        FRAMEWORK), linux-kernel@vger.kernel.org (open list),
+        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Steven Price <steven.price@arm.com>,
+        Tian Tao <tiantao6@hisilicon.com>
+Subject: [PATCH v2 0/5] dma-fence: Deadline awareness
+Date:   Sat,  7 Aug 2021 11:37:54 -0700
+Message-Id: <20210807183804.459850-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-next
-branch HEAD: 6daa9f32282ac76b8996f5291fb387d685786288  media: Clean V4L2_PIX_FMT_NV12MT documentation
+From: Rob Clark <robdclark@chromium.org>
 
-elapsed time: 1954m
+Based on discussion from a previous series[1] to add a "boost" mechanism
+when, for example, vblank deadlines are missed.  Instead of a boost
+callback, this approach adds a way to set a deadline on the fence, by
+which the waiter would like to see the fence signalled.
 
-configs tested: 234
-configs skipped: 4
+I've not yet had a chance to re-work the drm/msm part of this, but
+wanted to send this out as an RFC in case I don't have a chance to
+finish the drm/msm part this week.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Original description:
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20210804
-i386                 randconfig-c001-20210805
-i386                 randconfig-c001-20210807
-h8300                       h8s-sim_defconfig
-arm                       mainstone_defconfig
-arm                            pleb_defconfig
-powerpc                 mpc832x_mds_defconfig
-sh                            titan_defconfig
-powerpc                           allnoconfig
-arm                       aspeed_g4_defconfig
-powerpc                  mpc866_ads_defconfig
-powerpc                      mgcoge_defconfig
-sparc                       sparc64_defconfig
-sh                            migor_defconfig
-sh                  sh7785lcr_32bit_defconfig
-arm                              alldefconfig
-mips                malta_qemu_32r6_defconfig
-sparc                            alldefconfig
-ia64                             allmodconfig
-mips                     loongson1b_defconfig
-arm                           sama5_defconfig
-sh                     sh7710voipgw_defconfig
-arc                                 defconfig
-arm                          moxart_defconfig
-mips                           jazz_defconfig
-powerpc                      arches_defconfig
-microblaze                          defconfig
-sh                           se7721_defconfig
-arm                         socfpga_defconfig
-parisc                              defconfig
-arm                       aspeed_g5_defconfig
-arm                            dove_defconfig
-xtensa                           alldefconfig
-arm                          imote2_defconfig
-arm                       imx_v4_v5_defconfig
-arm                         axm55xx_defconfig
-powerpc                     tqm5200_defconfig
-sh                        sh7763rdp_defconfig
-h8300                    h8300h-sim_defconfig
-nds32                               defconfig
-sh                ecovec24-romimage_defconfig
-powerpc                   microwatt_defconfig
-sh                        dreamcast_defconfig
-xtensa                  nommu_kc705_defconfig
-parisc                generic-32bit_defconfig
-arm                        mvebu_v7_defconfig
-sh                           se7343_defconfig
-arm                        multi_v7_defconfig
-powerpc                    sam440ep_defconfig
-powerpc                       ebony_defconfig
-sh                   secureedge5410_defconfig
-mips                        jmr3927_defconfig
-m68k                        m5307c3_defconfig
-powerpc                        fsp2_defconfig
-arm                      footbridge_defconfig
-arm                           spitz_defconfig
-powerpc                     stx_gp3_defconfig
-sh                          urquell_defconfig
-mips                           ip27_defconfig
-mips                  decstation_64_defconfig
-mips                          ath79_defconfig
-mips                           ip28_defconfig
-sh                           se7722_defconfig
-sh                               j2_defconfig
-mips                           xway_defconfig
-s390                                defconfig
-powerpc                      tqm8xx_defconfig
-mips                           gcw0_defconfig
-powerpc                     pq2fads_defconfig
-mips                        omega2p_defconfig
-arm                          collie_defconfig
-arm                   milbeaut_m10v_defconfig
-powerpc                     taishan_defconfig
-powerpc                     mpc83xx_defconfig
-sh                        edosk7705_defconfig
-arm                         nhk8815_defconfig
-arm                          gemini_defconfig
-mips                       bmips_be_defconfig
-parisc                           allyesconfig
-powerpc               mpc834x_itxgp_defconfig
-sh                        edosk7760_defconfig
-arm                           tegra_defconfig
-parisc                           alldefconfig
-m68k                         apollo_defconfig
-arm                         palmz72_defconfig
-mips                            gpr_defconfig
-powerpc                 mpc834x_mds_defconfig
-csky                                defconfig
-arm                     am200epdkit_defconfig
-powerpc                          allmodconfig
-arm                      jornada720_defconfig
-powerpc                  mpc885_ads_defconfig
-powerpc                      obs600_defconfig
-powerpc                      walnut_defconfig
-mips                          rb532_defconfig
-arm                       spear13xx_defconfig
-sh                          polaris_defconfig
-m68k                       m5249evb_defconfig
-ia64                        generic_defconfig
-arm                          badge4_defconfig
-powerpc                          allyesconfig
-arm                          pcm027_defconfig
-xtensa                  audio_kc705_defconfig
-x86_64                            allnoconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nios2                            allyesconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-s390                             allyesconfig
-s390                             allmodconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-x86_64               randconfig-a002-20210805
-x86_64               randconfig-a006-20210805
-x86_64               randconfig-a004-20210805
-x86_64               randconfig-a003-20210805
-x86_64               randconfig-a001-20210805
-x86_64               randconfig-a005-20210805
-i386                 randconfig-a004-20210808
-i386                 randconfig-a005-20210808
-i386                 randconfig-a006-20210808
-i386                 randconfig-a002-20210808
-i386                 randconfig-a001-20210808
-i386                 randconfig-a003-20210808
-i386                 randconfig-a005-20210804
-i386                 randconfig-a004-20210804
-i386                 randconfig-a002-20210804
-i386                 randconfig-a006-20210804
-i386                 randconfig-a003-20210804
-i386                 randconfig-a001-20210804
-i386                 randconfig-a005-20210805
-i386                 randconfig-a004-20210805
-i386                 randconfig-a002-20210805
-i386                 randconfig-a006-20210805
-i386                 randconfig-a003-20210805
-i386                 randconfig-a001-20210805
-i386                 randconfig-a005-20210806
-i386                 randconfig-a004-20210806
-i386                 randconfig-a002-20210806
-i386                 randconfig-a006-20210806
-i386                 randconfig-a003-20210806
-i386                 randconfig-a001-20210806
-x86_64               randconfig-a012-20210804
-x86_64               randconfig-a016-20210804
-x86_64               randconfig-a011-20210804
-x86_64               randconfig-a013-20210804
-x86_64               randconfig-a014-20210804
-x86_64               randconfig-a015-20210804
-x86_64               randconfig-a016-20210808
-x86_64               randconfig-a012-20210808
-x86_64               randconfig-a013-20210808
-x86_64               randconfig-a011-20210808
-x86_64               randconfig-a014-20210808
-x86_64               randconfig-a015-20210808
-i386                 randconfig-a012-20210806
-i386                 randconfig-a011-20210806
-i386                 randconfig-a015-20210806
-i386                 randconfig-a013-20210806
-i386                 randconfig-a014-20210806
-i386                 randconfig-a016-20210806
-i386                 randconfig-a012-20210807
-i386                 randconfig-a011-20210807
-i386                 randconfig-a015-20210807
-i386                 randconfig-a013-20210807
-i386                 randconfig-a014-20210807
-i386                 randconfig-a016-20210807
-i386                 randconfig-a012-20210805
-i386                 randconfig-a011-20210805
-i386                 randconfig-a015-20210805
-i386                 randconfig-a013-20210805
-i386                 randconfig-a014-20210805
-i386                 randconfig-a016-20210805
-i386                 randconfig-a012-20210808
-i386                 randconfig-a015-20210808
-i386                 randconfig-a011-20210808
-i386                 randconfig-a013-20210808
-i386                 randconfig-a014-20210808
-i386                 randconfig-a016-20210808
-i386                 randconfig-a012-20210804
-i386                 randconfig-a011-20210804
-i386                 randconfig-a015-20210804
-i386                 randconfig-a013-20210804
-i386                 randconfig-a014-20210804
-i386                 randconfig-a016-20210804
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
+In some cases, like double-buffered rendering, missing vblanks can
+trick the GPU into running at a lower frequence, when really we
+want to be running at a higher frequency to not miss the vblanks
+in the first place.
 
-clang tested configs:
-x86_64               randconfig-c001-20210804
-x86_64               randconfig-c001-20210808
-x86_64               randconfig-c001-20210805
-x86_64               randconfig-c001-20210807
-x86_64               randconfig-c001-20210806
-x86_64               randconfig-a002-20210804
-x86_64               randconfig-a006-20210804
-x86_64               randconfig-a004-20210804
-x86_64               randconfig-a003-20210804
-x86_64               randconfig-a001-20210804
-x86_64               randconfig-a005-20210804
-x86_64               randconfig-a012-20210805
-x86_64               randconfig-a016-20210805
-x86_64               randconfig-a011-20210805
-x86_64               randconfig-a013-20210805
-x86_64               randconfig-a014-20210805
-x86_64               randconfig-a015-20210805
+This is partially inspired by a trick i915 does, but implemented
+via dma-fence for a couple of reasons:
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+1) To continue to be able to use the atomic helpers
+2) To support cases where display and gpu are different drivers
+
+[1] https://patchwork.freedesktop.org/series/90331/
+
+v1: https://patchwork.freedesktop.org/series/93035/
+v2: Move filtering out of later deadlines to fence implementation
+    to avoid increasing the size of dma_fence
+
+Rob Clark (5):
+  dma-fence: Add deadline awareness
+  drm/vblank: Add helper to get next vblank time
+  drm/atomic-helper: Set fence deadline for vblank
+  drm/scheduler: Add fence deadline support
+  drm/msm: Add deadline based boost support
+
+ drivers/dma-buf/dma-fence.c             | 20 +++++++
+ drivers/gpu/drm/drm_atomic_helper.c     | 36 ++++++++++++
+ drivers/gpu/drm/drm_vblank.c            | 31 ++++++++++
+ drivers/gpu/drm/msm/msm_fence.c         | 76 +++++++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_fence.h         | 20 +++++++
+ drivers/gpu/drm/msm/msm_gpu.h           |  1 +
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c   | 20 +++++++
+ drivers/gpu/drm/scheduler/sched_fence.c | 25 ++++++++
+ drivers/gpu/drm/scheduler/sched_main.c  |  3 +
+ include/drm/drm_vblank.h                |  1 +
+ include/drm/gpu_scheduler.h             |  6 ++
+ include/linux/dma-fence.h               | 16 ++++++
+ 12 files changed, 255 insertions(+)
+
+-- 
+2.31.1
+
