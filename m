@@ -2,175 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D19F3E45A1
-	for <lists+linux-media@lfdr.de>; Mon,  9 Aug 2021 14:31:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C5BA3E45A2
+	for <lists+linux-media@lfdr.de>; Mon,  9 Aug 2021 14:31:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233802AbhHIMb1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Aug 2021 08:31:27 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:45325 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233528AbhHIMb0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 9 Aug 2021 08:31:26 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id D4Qnm0UzS4SnAD4QqmmSQa; Mon, 09 Aug 2021 14:31:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1628512265; bh=1JnpY81zYR22eAIMj8YwHdE2jfxpqz8Bq/xmPMsAibU=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=PssgTV2OeSyUhiW/DVzPrCf9omGPJ/Zo3xyPdR7zwCUYzwbnPTDO2vLCvnqhxq0pk
-         3uj6AmMP20khXXpjqS0QvXkOtCxhRh8jfGphYW9QsjfICZ+a+892NFeylQZGm2L/JK
-         tfoMHqMeacH3Q4+kiFd2LoZzVan7JX0vqoUL8tl4twU5Z6Ejk2Di7kC0PA7V8QB5jr
-         ch/7b8eDZ/mFX68K3ZY2UJPHE6sEQSH4mhQrvlHLTYtNTMgEGDEuvVErfsYmF20dKx
-         Gen99t041S4NdCKTXKzKWEYt0g674/9HGsrUuV49Df9KqxYrBQ0jN6DVJj2jNsmQZy
-         VAs84im2OCIvg==
-Subject: Re: [PATCH v7 00/14] media: mtk-vcodec: support for MT8183 decoder
-To:     Tzung-Bi Shih <tzungbi@google.com>, yunfei.dong@mediatek.com,
-        acourbot@chromium.org
-Cc:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
-        dafna.hirschfeld@collabora.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20210806041530.4170869-1-tzungbi@google.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <104309d4-0973-cf1f-d61f-731b0642c1cf@xs4all.nl>
-Date:   Mon, 9 Aug 2021 14:31:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
+        id S233999AbhHIMcR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Aug 2021 08:32:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46422 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233528AbhHIMcQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Aug 2021 08:32:16 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A2FBC0613D3
+        for <linux-media@vger.kernel.org>; Mon,  9 Aug 2021 05:31:56 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id h13so21196650wrp.1
+        for <linux-media@vger.kernel.org>; Mon, 09 Aug 2021 05:31:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DXykzn+En8BS1os1tt/8rLT4Z5PHVvY/B3TJOpteTAc=;
+        b=Nw8LPKH99MkOYtXJIrbbX/FNEvvy/2Wq7CkmgP5xGUZFfNmAqcTOeTZlWP4i8IT+lI
+         v5tprKW+j+6uk+++KrFRd3pTQ5WoZgiOrUIpkDZpMjz8DULiLlCsW/4Gj6mVcBJorTuK
+         D812I+TlmDgdiEf9QgtJpKDMiia0WtVsNSEEOib2KAphwl1XINjwe7hll0086u98jqB2
+         zU4n2c3cgYcR/MygwJxdCRxkcMQXSD+JCNtyGB6X7PH9SWei9xh4ItIIlp2TtdsuyOpr
+         pAjssxuukABPmQA/QQLvYWVl0Jp7Ywhye7rC+pFiaMR/lBsj2bXMOzCKzfGvUkAMvdEX
+         k/JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DXykzn+En8BS1os1tt/8rLT4Z5PHVvY/B3TJOpteTAc=;
+        b=djRWAQsv0LDWfS6A+mpMqqXFw5hOKMkX1JhMoVUiN3DmNVDglVqev9M//mPOGvSbku
+         s7NCIO/ZNdxy265UuLF8pF5w4n25lWN+xBGAVbgFK5Q4/9vVkbCgNSGmVWWrEGmnaqhV
+         lkxAspIIOKVuuifz8FluZcIDJ9uxGlot+0gCm4+nj0a6vY+hgl5qM5eXkF8AyrFO4SE8
+         z1xlVacOT2tAdc6iwX1pwaEcArrfEb1p0d9cI/L3pRcezmpFbvBPF5UiHp3NwOpjjDnf
+         o3IO9y+mS7yXUicf6CwP/lRjAkF9A6NW97Yl09YIou30e9T1HmQR9vdUBwc+PAAogSIr
+         lGRA==
+X-Gm-Message-State: AOAM533Qzzm+ZuVBa3RC3nq+6UjWUoGLZQexayhLkRnuPAl/7MLcSAYW
+        psQ/ccWX+zVVIKBnW4nleYDSmA/KuTSV/IizD237sA==
+X-Google-Smtp-Source: ABdhPJxrl+Xrpva/3uYTXV8vBBhf2Upx4usQOlj4vhGHprHCxUWfBuaFkrINDnHyPbp9SnJki7zxNpDVy0g4lhbxYdw=
+X-Received: by 2002:a5d:6e12:: with SMTP id h18mr24932734wrz.236.1628512314727;
+ Mon, 09 Aug 2021 05:31:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210806041530.4170869-1-tzungbi@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKHcYEgO5nUvEjWF9VvuOaGi8Xs1S3AddrVTU30ZsQPerr20ruSyK9C6mP13FtplYyLgn3GIRdTL8qJjeXvdxRk4wKv2bTNASL7brbvlB1M074pLCp9+
- teiCCo7SSdSEPn2OiFyMfPT9O0hvPVppgzR8lhNQX50tFJyZHj1PG9iOac8ZjLB16QRKajFqWICOVuLrOlYPbwucU/QDa8RoY8vdENJD9HATjfMXDX7sOBen
- WNIt7yqeRYSK9IX145iVK/9BFJTZqMvDVZtbZzHsmMphq09UACA9xUcrMxUDl9INiD8g3sTLN9NWpz6yVudP3u4Q1cbztf1Uqn96cb2/fbR1HnNemm7nsYvX
- cf/wiHmhBsrKzcWVnZeF2s9eQ9ak24+5t04dLZvpMJGvxvtD/LjbnTdtKMgpXRwUlH6KHhtKpfeBY+sQgLcTof93xPFps4TqARAH8Ln9gPScafDxX9qnhS7+
- t3tsKybO18UAK+qgtQ+ONljCB3jKf8KlhNs82dwe6iJd1Si6q8cN9L689aXWjpRuo+sgCDFQXnq0ACGK4snT5tQ7D2Asfct2f6BrBA==
+References: <20210809093448.4461-1-david.plowman@raspberrypi.com>
+ <20210809093448.4461-2-david.plowman@raspberrypi.com> <21527f47-3c9e-55e2-3973-bfd0ebc91c2e@xs4all.nl>
+ <YREdXF2XhR6WA+50@pendragon.ideasonboard.com> <54c13814-634d-b0db-1e8c-965dbb45fa0f@xs4all.nl>
+In-Reply-To: <54c13814-634d-b0db-1e8c-965dbb45fa0f@xs4all.nl>
+From:   David Plowman <david.plowman@raspberrypi.com>
+Date:   Mon, 9 Aug 2021 13:31:44 +0100
+Message-ID: <CAHW6GYKAYq=MaJBF3HRvuR1=oYOWXgGjK-DHXSvxmSAqcHPJ0g@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] media: v4l2-ctrls: Add V4L2_CID_NOTIFY_GAINS control
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tzung-Bi,
+Hi everyone
 
-I made a PR for this series, but I would like a follow-up patch that fixes this
-sparse warning:
+On Mon, 9 Aug 2021 at 13:24, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> On 09/08/2021 14:19, Laurent Pinchart wrote:
+> > Hi Hans,
+> >
+> > On Mon, Aug 09, 2021 at 01:05:00PM +0200, Hans Verkuil wrote:
+> >> On 09/08/2021 11:34, David Plowman wrote:
+> >>> We add a new control V4L2_CID_NOTIFY_GAINS which allows the sensor to
+> >>> be notified what gains will be applied to the different colour
+> >>> channels by subsequent processing (such as by an ISP), even though the
+> >>> sensor will not apply any of these gains itself.
+> >>>
+> >>> For Bayer sensors this will be an array control taking 4 values which
+> >>> are the 4 gains arranged in the fixed order B, Gb, Gr and R,
+> >>> irrespective of the exact Bayer order of the sensor itself.
+> >>>
+> >>> The units are in all cases linear with the default value indicating a
+> >>> gain of exactly 1.
+> >>
+> >> So a value of 2 means a gain of 2? Or are these fixed point values? How do
+> >> I represent a gain of 1.5?
+> >
+> > No, the default value corresponds to a x1.0 gain, but it's not 1. If the
+> > default is, let's say, 128, then x2.0 will be 256.
+>
+> Ah, now I get it. Perhaps a small example of this in the documentation patch will
+> help clarify this.
 
-SPARSE:mtk-vcodec/mtk_vcodec_dec_stateful.c:615:35: warning: symbol 'mtk_vdec_8173_pdata' was not declared. Should it be static?
-SPARSE:mtk-vcodec/mtk_vcodec_dec_stateless.c:346:35: warning: symbol 'mtk_vdec_8183_pdata' was not declared. Should it be static?
+Yes I agree that would be helpful. I'll put that in the next version
+shortly (just waiting to see if there are any other changes
+suggested).
 
-mtk_vcodec_dec.h is probably a good header to put the extern declaration.
+>
+> >
+> >>> Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
+> >>> ---
+> >>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c | 1 +
+> >>>  include/uapi/linux/v4l2-controls.h        | 1 +
+> >>>  2 files changed, 2 insertions(+)
+> >>>
+> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> index 421300e13a41..f87053c83249 100644
+> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> @@ -1107,6 +1107,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >>>     case V4L2_CID_TEST_PATTERN_GREENR:      return "Green (Red) Pixel Value";
+> >>>     case V4L2_CID_TEST_PATTERN_BLUE:        return "Blue Pixel Value";
+> >>>     case V4L2_CID_TEST_PATTERN_GREENB:      return "Green (Blue) Pixel Value";
+> >>> +   case V4L2_CID_NOTIFY_GAINS:             return "Notify Gains";
+> >>>
+> >>>     /* Image processing controls */
+> >>>     /* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> >>
+> >> Since this is a standard control, it should also be configured correctly in
+> >> v4l2_ctrl_fill().
 
-Regards,
+Just a small clarification on this. Given that the min/max/default
+values are really up to the sensor what would I fill in here, maybe
+just the control type?
 
-	Hans
+> >>
+> >> Instead of an array, would a compound control (aka a struct) be better? Then you can
+> >> explicitly have field names g, gb, gr and r.
+> >>
+> >> Is there a specific reason we want an array instead of that? I'm not opposed, but
+> >> I'd like to see a rationale for that.
+> >
+> > Bayer ia only one of the possible CFA patterns for sensors. With a
+> > structure containing named b, gb, gr and r fields, we wouldn't be able
+> > to support, for instance, RGBW filters. It's not clear at this point
+> > what other CFA patterns will be seen in sensors that require this
+> > feature, but an array control will be able to more easily support these
+> > use cases.
+>
+> OK. It is probably a good idea to mention this in the commit log at least.
 
-On 06/08/2021 06:15, Tzung-Bi Shih wrote:
-> This series adds support for the stateless API into mtk-vcodec, by first
-> separating the stateful ops into their own source file, and introducing
-> a new set of ops suitable for stateless decoding. As such, support for
-> stateful decoders should remain completely unaffected.
-> 
-> This series has been tested with both MT8183 and MT8173. Decoding was
-> working for both chips, and in the case of MT8173 no regression has been
-> spotted.
-> 
-> Patches 1-5 fix a few compliance issues with the decoder and encoder, most
-> notably by adding support for the START and STOP command for the latter. These
-> patches were last up until v4 but have been moved to the beginning so they can
-> be applied sooner.
-> 
-> Patches 6-9 separates the "stateful" part of the driver into its own file and
-> add support for the new firmware and pixel format used by MT8183.
-> 
-> Patches 10-14 add support for H.264 stateless decoding and MT8183.
-> 
-> Note that a few checkpatch issues have been left unadressed on purpose:
-> * Conversion from e.g. uint32_t to u32 can't be done without breaking
->   consistency. This should be done by a driver-wide patch.
-> * Some macro warning suggesting parentheses for parameters expanded as struct
->   members, which is obviously not applicable here.
-> * Warnings about adding new files without an update the MAINTAINERS, which is
->   irrelevant as the new files are already covered by the existing wildcards.
-> 
-> Changes since v6:
-> (https://patchwork.linuxtv.org/project/linux-media/cover/20210705053258.1614177-1-acourbot@chromium.org/)
-> * Fix errors from 'checkpatch.pl --strict'.
-> * Fix missing kerneldoc issue.
-> * Fix wrong device minor number reference.
-> 
-> Changes since v5:
-> * Rebased against latest media tree.
-> * Applied most suggestions of `checkpatch.pl --strict`. Some proposed fixes were
->   not applied because they would require a larger refactoring (i.e. large-scale
->   type changes) of the code.
-> * Applied Reviewed-by and fix suggestions from Tzung-bi.
-> * Check for ABORT state in vidioc_encoder_cmd.
-> 
-> Changes since v4:
-> * Reorganized fixup patches first.
-> * Select MEDIA_CONTROLLER_REQUEST_API.
-> * Properly capitalize MM21's format description string.
-> * Reorganize stateless code as suggested by Hans.
-> * Fix compilation errors when DEBUG is defined.
-> * Merge double-free fixup patch into the patch that introduced the issue.
-> 
-> Changes since v3:
-> * Stop checking that controls are set for every request.
-> * Add V4L2_CID_STATELESS_H264_START_CODE control.
-> * Stop mapping OUTPUT buffers and getting the NAL type from them, use the
->   nal_ref_idc field instead.
-> * Make V4L2_CID_MIN_BUFFERS_FOR_CAPTURE control stateful-only.
-> * Set vb2_buffer's field to V4L2_FIELD_NONE in buffer validation hook.
-> 
-> Changes since v2:
-> * Add follow-up patches fixing support for START/STOP commands for the
->   encoder, and stateful decoder.
-> 
-> Alexandre Courbot (8):
->   media: mtk-vcodec: vdec: use helpers in VIDIOC_(TRY_)DECODER_CMD
->   media: mtk-vcodec: vdec: clamp OUTPUT resolution to hardware limits
->   media: mtk-vcodec: make flush buffer reusable by encoder
->   media: mtk-vcodec: venc: support START and STOP commands
->   media: mtk-vcodec: vdec: handle firmware version field
->   media: mtk-vcodec: support version 2 of decoder firmware ABI
->   media: add Mediatek's MM21 format
->   dt-bindings: media: document mediatek,mt8183-vcodec-dec
-> 
-> Hirokazu Honda (1):
->   media: mtk-vcodec: vdec: Support H264 profile control
-> 
-> Yunfei Dong (5):
->   media: mtk-vcodec: vdec: move stateful ops into their own file
->   media: mtk-vcodec: vdec: support stateless API
->   media: mtk-vcodec: vdec: support stateless H.264 decoding
->   media: mtk-vcodec: vdec: add media device if using stateless api
->   media: mtk-vcodec: enable MT8183 decoder
-> 
->  .../bindings/media/mediatek-vcodec.txt        |   1 +
->  .../media/v4l/pixfmt-reserved.rst             |   7 +
->  drivers/media/platform/Kconfig                |   3 +
->  drivers/media/platform/mtk-vcodec/Makefile    |   3 +
->  .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 820 +++---------------
->  .../platform/mtk-vcodec/mtk_vcodec_dec.h      |  25 +-
->  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  68 +-
->  .../mtk-vcodec/mtk_vcodec_dec_stateful.c      | 628 ++++++++++++++
->  .../mtk-vcodec/mtk_vcodec_dec_stateless.c     | 360 ++++++++
->  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  58 +-
->  .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 140 ++-
->  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |   6 +-
->  .../mtk-vcodec/vdec/vdec_h264_req_if.c        | 774 +++++++++++++++++
->  .../media/platform/mtk-vcodec/vdec_drv_if.c   |   3 +
->  .../media/platform/mtk-vcodec/vdec_drv_if.h   |   1 +
->  .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  23 +-
->  .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  43 +-
->  .../media/platform/mtk-vcodec/vdec_vpu_if.h   |   5 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
->  include/uapi/linux/videodev2.h                |   1 +
->  20 files changed, 2241 insertions(+), 729 deletions(-)
->  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
->  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
->  create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-> 
+Will do!
 
+Thanks and best regards
+David
+
+>
+> Regards,
+>
+>         Hans
+>
+> >
+> >>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> >>> index 5532b5f68493..133e20444939 100644
+> >>> --- a/include/uapi/linux/v4l2-controls.h
+> >>> +++ b/include/uapi/linux/v4l2-controls.h
+> >>> @@ -1118,6 +1118,7 @@ enum v4l2_jpeg_chroma_subsampling {
+> >>>  #define V4L2_CID_TEST_PATTERN_BLUE         (V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 6)
+> >>>  #define V4L2_CID_TEST_PATTERN_GREENB               (V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 7)
+> >>>  #define V4L2_CID_UNIT_CELL_SIZE                    (V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 8)
+> >>> +#define V4L2_CID_NOTIFY_GAINS                      (V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 9)
+> >>>
+> >>>
+> >>>  /* Image processing controls */
+> >
+>
