@@ -2,145 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FE733E424A
-	for <lists+linux-media@lfdr.de>; Mon,  9 Aug 2021 11:16:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F9F73E42D9
+	for <lists+linux-media@lfdr.de>; Mon,  9 Aug 2021 11:35:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234278AbhHIJQ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Aug 2021 05:16:26 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:39043 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234154AbhHIJQZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 9 Aug 2021 05:16:25 -0400
-X-Greylist: delayed 366 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Aug 2021 05:16:24 EDT
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id D1O3mzM1v4SnAD1O6mlikF; Mon, 09 Aug 2021 11:16:03 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1628500563; bh=zeXxdLM8LzjWjZQIvOD7a0FLojdqnvKW9IdZzgJWrAE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=FapdsSWgrEHvWVXcUaMD3fLqqLg/hvsZq5zGHbQ6h9GYNLDWLnL7UQg6autDQ3EDa
-         c9KOVGv7Jj3I9lqNCNjvkoMASuNgqtx5BTCRzLdS3zd8ZZfBOWkI5wIstJByDEiyeK
-         W4WHF41/bE4AfYMVB08J14Fokwn5rK7tXTGM5r1UefyCjW35YFCSLZZF0MqKyf++9f
-         +Gk0xxdVG12yjwX6Dlu40Hdu44C6fJKHXuhU+BZyjJMnWN44sjG4adPrVzUmuVB1rV
-         2iLqCnrFXrNYeH+dP7W1D41PVx3LMgpm9RsDGH0ecMQxJADmba723sJhqPbAuaue2q
-         ggyxDaFLgZWZA==
-Subject: Re: [PATCH v2 7/9] media: docs: add doc for the stm32 dma2d driver
-To:     dillon.minfei@gmail.com, mchehab@kernel.org,
-        mchehab+huawei@kernel.org, ezequiel@collabora.com,
-        gnurou@gmail.com, pihsun@chromium.org, mcoquelin.stm32@gmail.com,
-        alexandre.torgue@foss.st.com, mturquette@baylibre.com,
-        sboyd@kernel.org, robh+dt@kernel.org
-Cc:     patrice.chotard@foss.st.com, hugues.fruchet@foss.st.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <1626341068-20253-1-git-send-email-dillon.minfei@gmail.com>
- <1626341068-20253-18-git-send-email-dillon.minfei@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <7131ee03-fc81-cb9b-665f-80e4ce8435ab@xs4all.nl>
-Date:   Mon, 9 Aug 2021 11:15:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.11.0
+        id S234669AbhHIJfb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Aug 2021 05:35:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33990 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234604AbhHIJfa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Aug 2021 05:35:30 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BF9BC0613CF
+        for <linux-media@vger.kernel.org>; Mon,  9 Aug 2021 02:35:10 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id f5so4726571wrm.13
+        for <linux-media@vger.kernel.org>; Mon, 09 Aug 2021 02:35:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1YBiBcroaCGfs43F1yXOAvIFrmvVA0pP1gURrvg7tek=;
+        b=dNpWNVF+gUzA+nsU5grsFsDvKcgsVKG0AthWe/uSudeHm/X27+dAQcDOKI6cXG9eiQ
+         v+Nlu7IZ6t7Nq1OyVE6yNZARyOjp9+dR7F1KyMJJfQac+RuWil7y8E/ZFtTknm+UzBBe
+         QZtixOI3ltB4gYPApVlD2kQA1/FepxFe3/w6sWNSRivqmibz7QY0T5B37dovdmdiWI68
+         49s0XLdpA2E7ZNR5F2oato12rLBAN62OPd5Nk114AdR1Wj9I5K847Cm1jxYy6ig2Zwt5
+         uRbOYCGqunfj4DVHlBfv3A9jx8dbEWAklMUH5/1rVdAGwy6uqoXPuW5cxbrwCj0k+Wr8
+         o59Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1YBiBcroaCGfs43F1yXOAvIFrmvVA0pP1gURrvg7tek=;
+        b=jbMHedaO7ozzSmFqjHkDqz1jfVMy0Wp16KWr1h771XkgdoeWasIDfTD6hmcHjJ9HnA
+         rA4inz5LgC3qdkAKB2ZhhCxreUL4SO52LItEb7dU7pgAagwGDyY+j8kzPrbZrbP6mOFS
+         siFHjfD0sIJnGxj0JEm0orCO9ZzBU1dZVPcye5SUKiOhIR6kci+OutDGssbY2ZCanZtV
+         JhO16gVyXEmhV/1ANK7QiY4ANeWEy7ysdU+TKMdudPJKd93M9gLQAg5H8ulLObiVX/ca
+         LefOYOPMywmdXwLPNW0J7GjZRPGmCfezAMLDA53insf7XOXYYcGmcE+twdciiGuPe4K2
+         oxgQ==
+X-Gm-Message-State: AOAM532mEL9zwIO2eSpqZz/ByB4oQ5ENAHpz8CrbrSQigfkubeJDLh5X
+        S8ofgQj1fXo9DGXsvgXbthOjg9xaH2hCkw==
+X-Google-Smtp-Source: ABdhPJwY2O6XEoGph2WIjmxNXBrsftTAdXYuutCC8R5UMFcd8EqrdSQWUX8FswNL0+fyxGedK00UXw==
+X-Received: by 2002:adf:f384:: with SMTP id m4mr23368705wro.129.1628501708420;
+        Mon, 09 Aug 2021 02:35:08 -0700 (PDT)
+Received: from davidp-xps-13.pitowers.org ([2a00:1098:3142:14:b9d5:8bb6:b974:d6b6])
+        by smtp.gmail.com with ESMTPSA id j1sm19941720wmo.4.2021.08.09.02.35.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Aug 2021 02:35:08 -0700 (PDT)
+From:   David Plowman <david.plowman@raspberrypi.com>
+To:     linux-media@vger.kernel.org, sakari.ailus@iki.fi,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     David Plowman <david.plowman@raspberrypi.com>
+Subject: [PATCH v4 0/2] New V4L2 control V4L2_CID_NOTIFY_GAINS
+Date:   Mon,  9 Aug 2021 10:34:46 +0100
+Message-Id: <20210809093448.4461-1-david.plowman@raspberrypi.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <1626341068-20253-18-git-send-email-dillon.minfei@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJjZzB2AcxlqBOUwWHqo+yH9Eb+LcfXJCeRn5OWwp8nCYrdlYMKifMmC4EkG+ffRU7MQVVBJkTHcRYBIefuRsbR/v06kAj+qoKsR1Yk9azbC0u4s0VO3
- szFefb8rEZl3GtO+BsoiKigu/A/vsezQYHEbGTEWeN+JFSeB55VFdakD0lbXbqqX7xZ2woNpfY/SnlREfmD1AihMgrcw05feLS7rZEH8GweBLJFZyRh7627x
- zRCJOAdPjrt3nYBAo/PZcXiLT73kIfxa/2ad9gB/697IxNKtA2YTmlWTa5AFqxxNHudUm83nE+7oPB3mIpSD6AdZHmBrI3DxR8zBRhFAyaJ1pqyvuSIpzPdE
- L8purSweoZn32sKjaflhXWbBS15YXyO2eHFJEQ8ZPXfKES1Wv5yWZpQduu7tij8+Ri8NWWnVmS+vZe6lEtAd2zNSBu5f+ijoqPE1z8NSAFC6qVyOrOtkhUwn
- AzaP5ArBmDVtZh++6aXXemDmzGGDZydf+398v7JGwEd4sgbMoqnDfYktQHpgo5pN97sc5NNOlyKtZKyLM8wItAPpRo6l/ktkLAv9n/mXIfcBnE43cIscD04C
- oGn93fHZZpE1DgcxPlwRUh5ADx+i3RZvXVahJMDrSbyACph/229gIaOAgfPXs3qmAU/dha1z6AQ5IUh8gI3jQZiv+ySBfjZEmHouf1lCL2WqrnXteWB2qt5W
- XilwGk1qmW1kJWvFBx8OmCM+wWuoIVB+Y4rOzSEsIXZHkUNCe2c3zRzu0UJnvilAExL+SSwIb+i9TGTAKeQN+WLiUMawpbWpm1VQS13D/PQ1rtZtBQ4L9fPD
- +oFoVBlxolO75yY0i9oUtdBxFoyFmnlWqYziIfLWYQAljxj54aeKjgDqlNSHlQ==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/07/2021 11:24, dillon.minfei@gmail.com wrote:
-> From: Dillon Min <dillon.minfei@gmail.com>
-> 
-> add stm32-uapi.rst for stm32's dma2d driver, explain the details of ioctl
-> V4L2_CID_DMA2D_R2M_MODE, V4L2_CID_DMA2D_R2M_COLOR.
-> 
-> Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
-> ---
-> v2: introduce the stm32-uapi.rst to explain the detail of dma2d's ioctl.
-> 
->  .../userspace-api/media/drivers/index.rst          |  1 +
->  .../userspace-api/media/drivers/stm32-uapi.rst     | 22 ++++++++++++++++++++++
->  2 files changed, 23 insertions(+)
->  create mode 100644 Documentation/userspace-api/media/drivers/stm32-uapi.rst
-> 
-> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-> index 12e3c512d718..ce42915d48f4 100644
-> --- a/Documentation/userspace-api/media/drivers/index.rst
-> +++ b/Documentation/userspace-api/media/drivers/index.rst
-> @@ -38,4 +38,5 @@ For more details see the file COPYING in the source distribution of Linux.
->  	max2175
->  	meye-uapi
->  	omap3isp-uapi
-> +	stm32-uapi
->  	uvcvideo
-> diff --git a/Documentation/userspace-api/media/drivers/stm32-uapi.rst b/Documentation/userspace-api/media/drivers/stm32-uapi.rst
-> new file mode 100644
-> index 000000000000..d7a4f717387d
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/drivers/stm32-uapi.rst
-> @@ -0,0 +1,22 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +STM32 Chrom-Art 2D Graphics Accelerator unit (DMA2D) driver
-> +================================================
-> +
-> +The DMA2D driver implements the following driver-specific controls:
-> +
-> +``V4L2_CID_DMA2D_R2M_MODE``
+Hi Laurent, Sakari, everyone
 
-Please mention the control type as well.
+Thanks for the various comments on the previous version of these
+patches. This latest revision is identical in just about all respects,
+the difference being that the four previous controls
+(V4L2_CID_NOTIFY_GAIN_XXX) have been replaced by a single "array"
+control (V4L2_CID_NOTIFY_GAINS), as per that discussion.
 
-> +-------------------------
-> +    Enable/Disable the Register-To-Memory mode, filling a part or the
-> +    whole of a destination image with a specific color.
-> +
-> +    1 for enable, 0 for disable.
-> +
-> +``V4L2_CID_DMA2D_R2M_COLOR``
+Thanks and best regards
+David
 
-Ditto.
+David Plowman (2):
+  media: v4l2-ctrls: Add V4L2_CID_NOTIFY_GAINS control
+  media: v4l2-ctrls: Document V4L2_CID_NOTIFY_GAINS control
 
-> +-------------------------------
-> +    Set the color to fill a part or the whole of a destination image.
-> +    only used under Register-To-Memory mode, to set the DMA2D_OCOLR register
-> +    (RED, GREEN, BLUE) which is:
+ .../media/v4l/ext-ctrls-image-source.rst          | 15 +++++++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c         |  1 +
+ include/uapi/linux/v4l2-controls.h                |  1 +
+ 3 files changed, 17 insertions(+)
 
-Here you mention RGB only,
+-- 
+2.30.2
 
-> +
-> +    31 .. 24    23 .. 16  15 .. 8     7 .. 0
-> +    ALPHA[7:0]  RED[7:0]  GREEN[7:0]  BLUE[7:0]
-
-but here you also mention Alpha. So which is it?
-
-See also my review of patch 9/9.
-
-> 
-
-I'm getting some warnings building this doc:
-
-Documentation/media/userspace-api/drivers/stm32-uapi.rst:4: WARNING: Title underline too short.
-
-STM32 Chrom-Art 2D Graphics Accelerator unit (DMA2D) driver
-================================================
-Documentation/media/userspace-api/drivers/stm32-uapi.rst:9: WARNING: Title underline too short.
-
-``V4L2_CID_DMA2D_R2M_MODE``
--------------------------
-
-Regards,
-
-	Hans
