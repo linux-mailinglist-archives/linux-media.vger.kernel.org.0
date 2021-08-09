@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22E1A3E4F9F
+	by mail.lfdr.de (Postfix) with ESMTP id 6C5933E4FA0
 	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 00:59:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236944AbhHIW7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Aug 2021 18:59:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49262 "EHLO
+        id S236948AbhHIW70 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Aug 2021 18:59:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232846AbhHIW7Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Aug 2021 18:59:24 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78A79C0613D3
-        for <linux-media@vger.kernel.org>; Mon,  9 Aug 2021 15:59:03 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id f5so7709574wrm.13
-        for <linux-media@vger.kernel.org>; Mon, 09 Aug 2021 15:59:03 -0700 (PDT)
+        with ESMTP id S232846AbhHIW7Z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Aug 2021 18:59:25 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86C77C0613D3
+        for <linux-media@vger.kernel.org>; Mon,  9 Aug 2021 15:59:04 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id b128so11641396wmb.4
+        for <linux-media@vger.kernel.org>; Mon, 09 Aug 2021 15:59:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=SJrufKJjaLxdMoyjsvkVa1bnKNgVyDCa5SfbalBDx3M=;
-        b=ux3mrfR7KxKshAB1dPtqQegTFA/4Mw49CG3CSr1ZYjZYlNzti87ryMaT78x+VuDuCo
-         8NADQlU8b3lKb+3hhyJAe6uxk6q+wv7gUKvDMRC7U5s8Gi7z9p/OLz4YQl7U76tJDXy5
-         jTWRpgRYgS6QLx4+6OiaAZ1JmFfUuX/gp3h25eMsnK5JKbaEPLrGArfCe9GvFsvKLtYo
-         4FOnKCfg4u51Co2bnHpuLdJG6Nc0NJEu/o4eDXHPFQUmXl5oqyGyR2uuV10B3AHAkR0D
-         OtF9hCPmAt7VLlmu9KP9EB7qdmp8n+PWRCUCPYxp59Lykzq8JtTyokuFiuLzWgL2wME8
-         8Cjw==
+        bh=xh0P4NTmPzYcjBqILM/Pjd/H6Y/GMmN8W7uqdPEVo30=;
+        b=JIYC9CmAg9UEddcj/VhReoZhScehYl9oc4SK5t9fBnXG62WqL9zaXmj+T5qfvpgb3q
+         VqoiML6uraeCvea7p/ecVtCckHNVYmDD2p3NFg5Fs0iuCAY6zlLrD6yAo/0kGyiG7u/I
+         +fKtf7wi2wIhq3fspZD1deK2+llgM91sgSA2+5vQ2CWFJyPaS5FSXFFebqxxDpRYHpUS
+         TQ9uS+oWjZnAHNWYmDoVU/ojR6fDSKvFqOCkD8ACRIEZtCQ8xfeiaILN1/xvMk6iUYTz
+         fgD4HwHzo/eEBSmnF6haPuNUFkyJ4M7ls8FA0bpoVg8zj40HsdhzJMYVs4WfnoeTuUlN
+         8bnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=SJrufKJjaLxdMoyjsvkVa1bnKNgVyDCa5SfbalBDx3M=;
-        b=V3pTuT6HaVzkKfRkfWInQ2wUABqQPzNbfoPINU1t7LcZAyXgAMubrLLlioP/ZnSfM5
-         iIZaGsuomYD4esPSxrm+PJB4NiVuSf89vK3j8gIpbNjtb0xr//g4+cYoj4qY40JDSHVG
-         AhHKrbH02q2qKq9OkuSnR3XE9E2l1gHyGF82yecdegtRKklcc1IgTUZaATlEnXy7WIHz
-         RXxRblsQcCu3xgPV5irc0J5DNEVVhvsTYAcImLmBX9+XMWu4uv/DKx4LyWhYIk9xGTIF
-         AlgSGQLxGM0C323YsC/yaHohCg2kbck1v9OQWzAMX4U9JQX0Sxbft5y6YNx22dJ37NBC
-         BD5g==
-X-Gm-Message-State: AOAM532oslL9KlR9bnChJtUjK4Pi10i08Cz76IW2le98/ruzgEBgrmK1
-        pD0D06xpuBxBHFQTZoWbCXk=
-X-Google-Smtp-Source: ABdhPJwdvVxFqKwjqrnQ98qqmwzSIHqNdE386Gr2+n6T5VFdYB7DZwB0YFSafKeTa8LoTgVTOZ/FCw==
-X-Received: by 2002:a05:6000:1805:: with SMTP id m5mr12773826wrh.265.1628549942123;
-        Mon, 09 Aug 2021 15:59:02 -0700 (PDT)
+        bh=xh0P4NTmPzYcjBqILM/Pjd/H6Y/GMmN8W7uqdPEVo30=;
+        b=dJ5g8X8pFSywFglq4KTbtJRwO/w6omrrpeX+OFYgQeXSquXuCvipH2A0bKFiJ62lxY
+         oqQ3/Pb5VuyilKK7Gtu6ID6LkiyD9YZsmJEhYuDHml5A2diF9u3GjxBBpbJrByQXGRGd
+         2U3QmkY1W0G611iCausvg7Y4a2amGXdnztTnrhOFBiPUnkPoh2IRHtqLnjhFmwI/+TDt
+         luK/bOUKkomcTT+5yXDlKE9o1HuMK8yEyzrUys2dWEPSk2fkiviHepI/AfAoDtbdtHdT
+         RBHOM6wTX1sL1v9VamQowoSLifqSc+KyyN9hxGTerqZsqOxQhaB2fNdVbjgj+eFxrx7u
+         qnvA==
+X-Gm-Message-State: AOAM533RoIV2Eqn1KXYT3zLswaLp5nwnD5klLbLPBGF2Z3M+Q8swmeln
+        ixG8yrc0WptDQQjb3HLXyGA=
+X-Google-Smtp-Source: ABdhPJxPtWjIZZj9X9wDeeK+/5O10/mnthkEFbpWjV9QdSlfyy97XpZ41vu7/nVUacJGHEXtkmazog==
+X-Received: by 2002:a1c:9884:: with SMTP id a126mr1369404wme.153.1628549943167;
+        Mon, 09 Aug 2021 15:59:03 -0700 (PDT)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id v12sm20437957wrq.59.2021.08.09.15.59.01
+        by smtp.gmail.com with ESMTPSA id v12sm20437957wrq.59.2021.08.09.15.59.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Aug 2021 15:59:01 -0700 (PDT)
+        Mon, 09 Aug 2021 15:59:02 -0700 (PDT)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     djrscally@gmail.com, sakari.ailus@linux.intel.com,
         paul.kocialkowski@bootlin.com, ezequiel@collabora.com,
@@ -55,9 +55,9 @@ Cc:     yong.zhi@intel.com, bingbu.cao@intel.com, tian.shu.qiu@intel.com,
         kevin.lhopital@bootlin.com, yang.lee@linux.alibaba.com,
         andy.shevchenko@gmail.com, laurent.pinchart@ideasonboard.com,
         kieran.bingham@ideasonboard.com
-Subject: [PATCH v2 04/12] media: i2c: Support 19.2MHz input clock in ov8865
-Date:   Mon,  9 Aug 2021 23:58:37 +0100
-Message-Id: <20210809225845.916430-5-djrscally@gmail.com>
+Subject: [PATCH v2 05/12] media: i2c: Add .get_selection() support to ov8865
+Date:   Mon,  9 Aug 2021 23:58:38 +0100
+Message-Id: <20210809225845.916430-6-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210809225845.916430-1-djrscally@gmail.com>
 References: <20210809225845.916430-1-djrscally@gmail.com>
@@ -67,324 +67,103 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The ov8865 driver as written expects a 24MHz input clock, but the sensor
-is sometimes found on x86 platforms with a 19.2MHz input clock supplied.
-Add a set of PLL configurations to the driver to support that rate too.
-As ACPI doesn't auto-configure the clock rate, check for a clock-frequency
-during probe and set that rate if one is found.
+The ov8865 driver's v4l2_subdev_pad_ops currently does not include
+.get_selection() - add support for that callback.
 
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
 Changes in v2:
 
-	- Added an enum defining the possible frequency rates to index the
-	  array (Andy)
+	- None
 
- drivers/media/i2c/ov8865.c | 164 +++++++++++++++++++++++++++----------
- 1 file changed, 121 insertions(+), 43 deletions(-)
+ drivers/media/i2c/ov8865.c | 61 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
 
 diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-index fe700787bfb9..1382b16d1a09 100644
+index 1382b16d1a09..8c2b7d3cbc8c 100644
 --- a/drivers/media/i2c/ov8865.c
 +++ b/drivers/media/i2c/ov8865.c
-@@ -21,10 +21,6 @@
- #include <media/v4l2-image-sizes.h>
- #include <media/v4l2-mediabus.h>
+@@ -450,6 +450,15 @@
+ #define OV8865_PRE_CTRL0_PATTERN_COLOR_SQUARES	2
+ #define OV8865_PRE_CTRL0_PATTERN_BLACK		3
  
--/* Clock rate */
--
--#define OV8865_EXTCLK_RATE			24000000
--
- /* Register definitions */
- 
- /* System */
-@@ -567,6 +563,19 @@ struct ov8865_sclk_config {
- 	unsigned int sclk_div;
- };
- 
-+/* Clock rate */
++/* Pixel Array */
 +
-+enum extclk_rate {
-+	OV8865_19_2_MHZ,
-+	OV8865_24_MHZ,
-+	OV8865_NUM_SUPPORTED_RATES,
-+};
++#define OV8865_NATIVE_WIDTH			3296
++#define OV8865_NATIVE_HEIGHT			2528
++#define OV8865_ACTIVE_START_TOP			32
++#define OV8865_ACTIVE_START_LEFT		80
++#define OV8865_ACTIVE_WIDTH			3264
++#define OV8865_ACTIVE_HEIGHT			2448
 +
-+static const unsigned long supported_extclk_rates[] = {
-+	[OV8865_19_2_MHZ] = 19200000,
-+	[OV8865_24_MHZ] = 24000000,
-+};
-+
- /*
-  * General formulas for (array-centered) mode calculation:
-  * - photo_array_width = 3296
-@@ -665,6 +674,9 @@ struct ov8865_sensor {
- 	struct regulator *avdd;
- 	struct regulator *dvdd;
- 	struct regulator *dovdd;
-+
-+	unsigned long extclk_rate;
-+	enum extclk_rate extclk_rate_idx;
- 	struct clk *extclk;
+ /* Macros */
  
- 	struct v4l2_fwnode_endpoint endpoint;
-@@ -680,49 +692,83 @@ struct ov8865_sensor {
- /* Static definitions */
+ #define ov8865_subdev_sensor(s) \
+@@ -2749,12 +2758,64 @@ static int ov8865_enum_frame_interval(struct v4l2_subdev *subdev,
+ 	return 0;
+ }
  
- /*
-- * EXTCLK = 24 MHz
-  * PHY_SCLK = 720 MHz
-  * MIPI_PCLK = 90 MHz
-  */
--static const struct ov8865_pll1_config ov8865_pll1_config_native = {
--	.pll_pre_div_half	= 1,
--	.pll_pre_div		= 0,
--	.pll_mul		= 30,
--	.m_div			= 1,
--	.mipi_div		= 3,
--	.pclk_div		= 1,
--	.sys_pre_div		= 1,
--	.sys_div		= 2,
-+
-+static const struct ov8865_pll1_config ov8865_pll1_configs_native[] = {
-+	{ /* 19.2 MHz input clock */
-+		.pll_pre_div_half	= 1,
-+		.pll_pre_div		= 2,
-+		.pll_mul		= 75,
-+		.m_div			= 1,
-+		.mipi_div		= 3,
-+		.pclk_div		= 1,
-+		.sys_pre_div		= 1,
-+		.sys_div		= 2,
-+	},
-+	{ /* 24MHz input clock */
-+		.pll_pre_div_half	= 1,
-+		.pll_pre_div		= 0,
-+		.pll_mul		= 30,
-+		.m_div			= 1,
-+		.mipi_div		= 3,
-+		.pclk_div		= 1,
-+		.sys_pre_div		= 1,
-+		.sys_div		= 2,
-+	},
- };
- 
- /*
-- * EXTCLK = 24 MHz
-  * DAC_CLK = 360 MHz
-  * SCLK = 144 MHz
-  */
- 
--static const struct ov8865_pll2_config ov8865_pll2_config_native = {
--	.pll_pre_div_half	= 1,
--	.pll_pre_div		= 0,
--	.pll_mul		= 30,
--	.dac_div		= 2,
--	.sys_pre_div		= 5,
--	.sys_div		= 0,
-+static const struct ov8865_pll2_config ov8865_pll2_configs_native[] = {
-+	/* 19.2MHz input clock */
-+	{
-+		.pll_pre_div_half	= 1,
-+		.pll_pre_div		= 5,
-+		.pll_mul		= 75,
-+		.dac_div		= 1,
-+		.sys_pre_div		= 1,
-+		.sys_div		= 3,
-+	},
-+	/* 24MHz input clock */
-+	{
-+		.pll_pre_div_half	= 1,
-+		.pll_pre_div		= 0,
-+		.pll_mul		= 30,
-+		.dac_div		= 2,
-+		.sys_pre_div		= 5,
-+		.sys_div		= 0,
++static void
++__ov8865_get_pad_crop(struct ov8865_sensor *sensor,
++		      struct v4l2_subdev_state *state, unsigned int pad,
++		      enum v4l2_subdev_format_whence which, struct v4l2_rect *r)
++{
++	switch (which) {
++	case V4L2_SUBDEV_FORMAT_TRY:
++		*r = *v4l2_subdev_get_try_crop(&sensor->subdev, state, pad);
++		break;
++	case V4L2_SUBDEV_FORMAT_ACTIVE:
++		r->height = sensor->state.mode->output_size_y;
++		r->width = sensor->state.mode->output_size_x;
++		r->top = (OV8865_NATIVE_HEIGHT - sensor->state.mode->output_size_y) / 2;
++		r->left = (OV8865_NATIVE_WIDTH - sensor->state.mode->output_size_x) / 2;
++		break;
 +	}
- };
- 
- /*
-- * EXTCLK = 24 MHz
-  * DAC_CLK = 360 MHz
-  * SCLK = 72 MHz
-  */
- 
--static const struct ov8865_pll2_config ov8865_pll2_config_binning = {
-+static const struct ov8865_pll2_config ov8865_pll2_configs_binning[] = {
-+	/* 19.2MHz input clock */
-+	{
-+	.pll_pre_div_half	= 1,
-+	.pll_pre_div		= 2,
-+	.pll_mul		= 75,
-+	.dac_div		= 2,
-+	.sys_pre_div		= 10,
-+	.sys_div		= 0,
-+	},
-+	/* 24MHz input clock */
-+	{
- 	.pll_pre_div_half	= 1,
- 	.pll_pre_div		= 0,
- 	.pll_mul		= 30,
- 	.dac_div		= 2,
- 	.sys_pre_div		= 10,
- 	.sys_div		= 0,
-+	}
- };
- 
- static const struct ov8865_sclk_config ov8865_sclk_config_native = {
-@@ -934,8 +980,8 @@ static const struct ov8865_mode ov8865_modes[] = {
- 		.frame_interval			= { 1, 30 },
- 
- 		/* PLL */
--		.pll1_config			= &ov8865_pll1_config_native,
--		.pll2_config			= &ov8865_pll2_config_native,
-+		.pll1_config			= ov8865_pll1_configs_native,
-+		.pll2_config			= ov8865_pll2_configs_native,
- 		.sclk_config			= &ov8865_sclk_config_native,
- 
- 		/* Registers */
-@@ -990,8 +1036,8 @@ static const struct ov8865_mode ov8865_modes[] = {
- 		.frame_interval			= { 1, 30 },
- 
- 		/* PLL */
--		.pll1_config			= &ov8865_pll1_config_native,
--		.pll2_config			= &ov8865_pll2_config_native,
-+		.pll1_config			= ov8865_pll1_configs_native,
-+		.pll2_config			= ov8865_pll2_configs_native,
- 		.sclk_config			= &ov8865_sclk_config_native,
- 
- 		/* Registers */
-@@ -1050,8 +1096,8 @@ static const struct ov8865_mode ov8865_modes[] = {
- 		.frame_interval			= { 1, 30 },
- 
- 		/* PLL */
--		.pll1_config			= &ov8865_pll1_config_native,
--		.pll2_config			= &ov8865_pll2_config_binning,
-+		.pll1_config			= ov8865_pll1_configs_native,
-+		.pll2_config			= ov8865_pll2_configs_binning,
- 		.sclk_config			= &ov8865_sclk_config_native,
- 
- 		/* Registers */
-@@ -1116,8 +1162,8 @@ static const struct ov8865_mode ov8865_modes[] = {
- 		.frame_interval			= { 1, 90 },
- 
- 		/* PLL */
--		.pll1_config			= &ov8865_pll1_config_native,
--		.pll2_config			= &ov8865_pll2_config_binning,
-+		.pll1_config			= ov8865_pll1_configs_native,
-+		.pll2_config			= ov8865_pll2_configs_binning,
- 		.sclk_config			= &ov8865_sclk_config_native,
- 
- 		/* Registers */
-@@ -1513,12 +1559,11 @@ static int ov8865_isp_configure(struct ov8865_sensor *sensor)
- static unsigned long ov8865_mode_pll1_rate(struct ov8865_sensor *sensor,
- 					   const struct ov8865_mode *mode)
- {
--	const struct ov8865_pll1_config *config = mode->pll1_config;
--	unsigned long extclk_rate;
-+	const struct ov8865_pll1_config *config;
- 	unsigned long pll1_rate;
- 
--	extclk_rate = clk_get_rate(sensor->extclk);
--	pll1_rate = extclk_rate * config->pll_mul / config->pll_pre_div_half;
-+	config = &mode->pll1_config[sensor->extclk_rate_idx];
-+	pll1_rate = sensor->extclk_rate * config->pll_mul / config->pll_pre_div_half;
- 
- 	switch (config->pll_pre_div) {
- 	case 0:
-@@ -1552,10 +1597,12 @@ static int ov8865_mode_pll1_configure(struct ov8865_sensor *sensor,
- 				      const struct ov8865_mode *mode,
- 				      u32 mbus_code)
- {
--	const struct ov8865_pll1_config *config = mode->pll1_config;
-+	const struct ov8865_pll1_config *config;
- 	u8 value;
- 	int ret;
- 
-+	config = &mode->pll1_config[sensor->extclk_rate_idx];
++}
 +
- 	switch (mbus_code) {
- 	case MEDIA_BUS_FMT_SBGGR10_1X10:
- 		value = OV8865_MIPI_BIT_SEL(10);
-@@ -1622,9 +1669,11 @@ static int ov8865_mode_pll1_configure(struct ov8865_sensor *sensor,
- static int ov8865_mode_pll2_configure(struct ov8865_sensor *sensor,
- 				      const struct ov8865_mode *mode)
- {
--	const struct ov8865_pll2_config *config = mode->pll2_config;
-+	const struct ov8865_pll2_config *config;
- 	int ret;
- 
-+	config = &mode->pll2_config[sensor->extclk_rate_idx];
++static int ov8865_get_selection(struct v4l2_subdev *subdev,
++				struct v4l2_subdev_state *state,
++				struct v4l2_subdev_selection *sel)
++{
++	struct ov8865_sensor *sensor = ov8865_subdev_sensor(subdev);
 +
- 	ret = ov8865_write(sensor, OV8865_PLL_CTRL12_REG,
- 			   OV8865_PLL_CTRL12_PRE_DIV_HALF(config->pll_pre_div_half) |
- 			   OV8865_PLL_CTRL12_DAC_DIV(config->dac_div));
-@@ -2053,9 +2102,11 @@ static int ov8865_mode_configure(struct ov8865_sensor *sensor,
- static unsigned long ov8865_mode_mipi_clk_rate(struct ov8865_sensor *sensor,
- 					       const struct ov8865_mode *mode)
- {
--	const struct ov8865_pll1_config *config = mode->pll1_config;
-+	const struct ov8865_pll1_config *config;
- 	unsigned long pll1_rate;
- 
-+	config = &mode->pll1_config[sensor->extclk_rate_idx];
-+
- 	pll1_rate = ov8865_mode_pll1_rate(sensor, mode);
- 
- 	return pll1_rate / config->m_div / 2;
-@@ -2783,7 +2834,8 @@ static int ov8865_probe(struct i2c_client *client)
- 	struct ov8865_sensor *sensor;
- 	struct v4l2_subdev *subdev;
- 	struct media_pad *pad;
--	unsigned long rate;
-+	unsigned int rate;
-+	unsigned int i;
- 	int ret;
- 
- 	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
-@@ -2858,13 +2910,39 @@ static int ov8865_probe(struct i2c_client *client)
- 		goto error_endpoint;
- 	}
- 
--	rate = clk_get_rate(sensor->extclk);
--	if (rate != OV8865_EXTCLK_RATE) {
--		dev_err(dev, "clock rate %lu Hz is unsupported\n", rate);
-+	/*
-+	 * We could have either a 24MHz or 19.2MHz clock rate. Check for a
-+	 * clock-frequency property and if found, set that rate. This should
-+	 * cover ACPI case. If the system uses devicetree then the configured
-+	 * rate should already be set, so we'll have to check it.
-+	 */
-+
-+	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
-+				       &rate);
-+	if (!ret) {
-+		ret = clk_set_rate(sensor->extclk, rate);
-+		if (ret) {
-+			dev_err(dev, "failed to set clock rate\n");
-+			return ret;
-+		}
++	switch (sel->target) {
++	case V4L2_SEL_TGT_CROP:
++		mutex_lock(&sensor->mutex);
++			__ov8865_get_pad_crop(sensor, state, sel->pad,
++					      sel->which, &sel->r);
++		mutex_unlock(&sensor->mutex);
++		break;
++	case V4L2_SEL_TGT_NATIVE_SIZE:
++		sel->r.top = 0;
++		sel->r.left = 0;
++		sel->r.width = OV8865_NATIVE_WIDTH;
++		sel->r.height = OV8865_NATIVE_HEIGHT;
++		break;
++	case V4L2_SEL_TGT_CROP_BOUNDS:
++	case V4L2_SEL_TGT_CROP_DEFAULT:
++		sel->r.top = OV8865_ACTIVE_START_TOP;
++		sel->r.left = OV8865_ACTIVE_START_LEFT;
++		sel->r.width = OV8865_ACTIVE_WIDTH;
++		sel->r.height = OV8865_ACTIVE_HEIGHT;
++		break;
++	default:
++		return -EINVAL;
 +	}
 +
-+	sensor->extclk_rate = clk_get_rate(sensor->extclk);
++	return 0;
++}
 +
-+	for (i = 0; i < ARRAY_SIZE(supported_extclk_rates); i++) {
-+		if (sensor->extclk_rate == supported_extclk_rates[i])
-+			break;
-+	}
-+
-+	if (i == ARRAY_SIZE(supported_extclk_rates)) {
-+		dev_err(dev, "clock rate %lu Hz is unsupported\n",
-+			sensor->extclk_rate);
- 		ret = -EINVAL;
- 		goto error_endpoint;
- 	}
+ static const struct v4l2_subdev_pad_ops ov8865_subdev_pad_ops = {
+ 	.enum_mbus_code		= ov8865_enum_mbus_code,
+ 	.get_fmt		= ov8865_get_fmt,
+ 	.set_fmt		= ov8865_set_fmt,
+ 	.enum_frame_size	= ov8865_enum_frame_size,
+ 	.enum_frame_interval	= ov8865_enum_frame_interval,
++	.get_selection		= ov8865_get_selection,
+ };
  
-+	sensor->extclk_rate_idx = i;
-+
- 	/* Subdev, entity and pad */
- 
- 	subdev = &sensor->subdev;
+ static const struct v4l2_subdev_ops ov8865_subdev_ops = {
 -- 
 2.25.1
 
