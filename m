@@ -2,99 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A77F3E3E3F
-	for <lists+linux-media@lfdr.de>; Mon,  9 Aug 2021 05:24:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E82A23E3E6B
+	for <lists+linux-media@lfdr.de>; Mon,  9 Aug 2021 05:44:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232842AbhHIDYS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 8 Aug 2021 23:24:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35066 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232841AbhHIDYR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Aug 2021 23:24:17 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F3C1C061760
-        for <linux-media@vger.kernel.org>; Sun,  8 Aug 2021 20:23:57 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id h9so21628984ljq.8
-        for <linux-media@vger.kernel.org>; Sun, 08 Aug 2021 20:23:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DeHqVi50CBdFqd2+LMixauUxIiHfce3Yzl/5XSJiGW4=;
-        b=udwP6An1CopsSJoND9TlRMg9C+2um44ZaVmKGf2a64xc4zfU4B+ba9JQrNJi7MAs8M
-         TYEk25w2jsN0FflqKdIu+nBRbjdZX+LZiiFcR+9C+rPscQrfWRvUbTHVO73bRfAtJgCy
-         xy3oLjEh4rLObEK2Lh+uFTsJBKhqqcJzPmrWpmjkjL8Ut9li5azzrDc9cYodoVsM9r1l
-         61bL4/j+xEgq3dG5qbFQuOy+c2KRplm2ID2KeD3hrVxRWz5+6coq92wN9tfRVx1ktKCH
-         TSA4/f1IBPIOMagR2QvkrAo5oXxfJKHihMqLSfevR2stW/TMZFnJuoxCdMvlBPrlhMnC
-         1dzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DeHqVi50CBdFqd2+LMixauUxIiHfce3Yzl/5XSJiGW4=;
-        b=LvI/vyrT7E2J+IVRClvJ0y3z5f0jrhhQ90gMowlqrQRl44neheRokuUlwIuCzoTAAt
-         pKHo/aqLI4fo6N6N8JWiRXABzlLqkKw77/baqI+KA8Ak7hK73D64gBj6/HWjL0um48bl
-         IY5XMlzOAopezilKEhno9H6qVlv8MA0hlatGgcS3zges+3Oy5nOsPUpHrqyIVMx+MNkS
-         gNEC+m0FBaZ9hJjJ0Dbes1IfIKtkR3SuaR2fc/7dls4WK1Lx5oi6EENUtbINxOjx01ay
-         M/aEzLd/LYYI0dkrHXxkEs78EVvbsip9YnEbQVeQaQWuZ4ftv/NbL+U4LXvcfpFMTkPp
-         HLBQ==
-X-Gm-Message-State: AOAM533xkcdWLUMupRWD61SFXDQIL/GT3IEEiXLHeF8DpU1d8ZE1q34q
-        zZZom/ERd4yhgZrHtXOEBpqdvg5qBM3by/sK/9clSA==
-X-Google-Smtp-Source: ABdhPJzWrze6pAE8SouLNWKvQSYVzPjq/X4MfGn/t6RZQRfJMwb3DGCw0Pw2Pt5DPOfM3ZweoUmSdCNVONUnlfB2Cpo=
-X-Received: by 2002:a2e:9e0b:: with SMTP id e11mr14181716ljk.423.1628479435239;
- Sun, 08 Aug 2021 20:23:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210802121215.703023-1-eizan@chromium.org> <20210802220943.v6.2.Ie6d1e6e39cf9b5d6b2108ae1096af34c3d55880b@changeid>
- <0aff1abb-734f-c714-6ecc-c906862255c3@collabora.com>
-In-Reply-To: <0aff1abb-734f-c714-6ecc-c906862255c3@collabora.com>
-From:   Eizan Miyamoto <eizan@google.com>
-Date:   Mon, 9 Aug 2021 13:23:37 +1000
-Message-ID: <CAOak1e8n6JpNKODfM57OTtbCNz8UBbj+wefwipVWP_Ep6SHmHA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/9] mtk-mdp: add driver to probe mdp components
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-kernel@vger.kernel.org, wenst@chromium.org,
-        houlong.wei@mediatek.com, yong.wu@mediatek.com,
-        enric.balletbo@collabora.com, devicetree@vger.kernel.org,
-        chunkuang.hu@kernel.org,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+        id S232739AbhHIDpI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 8 Aug 2021 23:45:08 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:57301 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231459AbhHIDpG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 8 Aug 2021 23:45:06 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id CwDTmQPuKkUPmCwDVm4T6a; Mon, 09 Aug 2021 05:44:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1628480685; bh=SqvHoCyPiVrT9M7lnqn1NeCXke9M2K3KM0maQr+gaJA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=kwRlZZ44967PGhonkzB5V3xfkrg0frGIJLLqUJKLPCRHOUnwthwF3E//3sJLHrjkk
+         1QJeC48spy3odJwKNy/d3Kw8qPIYlyyqrydnECkRJpBGMJlekBJuBzyBA9aIesFziZ
+         WDakYhFeymRc8XcO6ax58dtiiOh3gcUaz8B2/fRg1SdGfeBc2IO/jEE1FuuIFvpuN6
+         XHbZbXUPiYWFnKhwUtV6hmHgdYlBlLE9uDH0kuy1AdlTY7W/WLBtlJnLgn48DQ9tnC
+         ppK6MSaGbshOxnZw9pywoHPx4JdkwMpBEagHNFUd5Q11Sa4iGqpVh3xrj89P78kSQ4
+         ZVhS3AdcJSDkg==
+Message-ID: <fa0a08bf97a19a16820b2e4f941d193f@smtp-cloud8.xs4all.net>
+Date:   Mon, 09 Aug 2021 05:44:43 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfA05PvZ+xiBhdJ/l9zKaa5kgkqb85cUOeYQ4GJIzZyL04TbgESsbMgSlVzfZL94eX56fUnFKjaxtfZdd7AguHCXGHJwITi0e+f6XtEs4MU3wFcO7yLRI
+ RQ04MeHoDk1t/yw9p8gBRAVxBrTU04mFKIfUZrDm4zR0i22j9TQGdXoWzI/GpI3Ndk2u4Sg8YmgvvA8cBMTR8XUzwwpvlO+78rBbNG0VEMVCp4UtiOhJE0bJ
+ NevS5N9hL/n8k5ksrtsSGA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Thu, Aug 5, 2021 at 4:40 PM Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
-> > +int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device *dev)
->
-> This function can be static
+Results of the daily build of media_tree:
 
-If it's all the same to you, are you okay for me to make this change either:
-- If upstream requests changes be made to this series, I will include
-this suggestion
-- If the series is accepted as-is, I will make a follow-up patch
+date:			Mon Aug  9 05:00:11 CEST 2021
+media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
+media_build git hash:	1eb0147944fbe5607028ff998e4149f13fd35dec
+v4l-utils git hash:	7952c0042ccf549959cf924fbd3e7dd894966e57
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7532-gde99456f6
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
+host hardware:		x86_64
+host os:		5.13.1-marune
 
-This is to reduce workload on reviewers having to re-ack changes for
-(what I hope you agree is) a nit.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13.1-i686: OK
+linux-5.13.1-x86_64: OK
+linux-5.14-rc1-i686: OK
+linux-5.14-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2906, Succeeded: 2905, Failed: 1, Warnings: 0
+virtme-32: ERRORS: Final Summary: 3035, Succeeded: 3034, Failed: 1, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-If you don't agree, I will happily oblige and make the change and
-upload a new version of the series.
+Detailed results are available here:
 
-> >       for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
-> >               comp->clk[i] = of_clk_get(node, i);
->
-> that iteration can be replaced with clk_bulk_get
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
 
-As per Enric's suggestion in response to "propagate errors from
-clock_on" in this series, are you okay for me to make the change in a
-follow-up patch?
+Detailed regression test results are available here:
 
-Thanks again for your review,
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
 
-Eizan
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
