@@ -2,117 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 569F03E457C
-	for <lists+linux-media@lfdr.de>; Mon,  9 Aug 2021 14:19:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE9343E4588
+	for <lists+linux-media@lfdr.de>; Mon,  9 Aug 2021 14:23:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234654AbhHIMUE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Aug 2021 08:20:04 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:51560 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233632AbhHIMUD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Aug 2021 08:20:03 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F2AD466;
-        Mon,  9 Aug 2021 14:19:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1628511582;
-        bh=j6V6Cjp3JCRuXQHvmqQ6hphQEj5SdZE/JyneUt2h4og=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SDnonr2tDmxFYyTpdhvilaC9QRjlwwYeQBxT47v10fbwA2q8YscOO2jbokSY/kvgZ
-         uEvRcHYMHkEULd7C3klZILEaW5TEKMtPxc5gr8X9q5rcaUipFAMpJddIhzV2qAuOZw
-         TmxgbHxaeefSBZSU2YFfIE2PkPbrNPNQ2IjVe8K0=
-Date:   Mon, 9 Aug 2021 15:19:40 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     David Plowman <david.plowman@raspberrypi.com>,
-        linux-media@vger.kernel.org, sakari.ailus@iki.fi,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v4 1/2] media: v4l2-ctrls: Add V4L2_CID_NOTIFY_GAINS
- control
-Message-ID: <YREdXF2XhR6WA+50@pendragon.ideasonboard.com>
-References: <20210809093448.4461-1-david.plowman@raspberrypi.com>
- <20210809093448.4461-2-david.plowman@raspberrypi.com>
- <21527f47-3c9e-55e2-3973-bfd0ebc91c2e@xs4all.nl>
+        id S235045AbhHIMX1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Aug 2021 08:23:27 -0400
+Received: from smtp-fw-80007.amazon.com ([99.78.197.218]:11666 "EHLO
+        smtp-fw-80007.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234619AbhHIMX0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Aug 2021 08:23:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1628511787; x=1660047787;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cOMO+TjtDSXLd6IwINl4YBGHY7nTYJ6NSi74jdZdrH4=;
+  b=WGxJ6nqqXNVK1Xv4gMKf03VeZd1MVLjGDDyofa4dUg+zEP+zdiQPE2CO
+   ssywZ1u4glhs/NjpHwPxKwGlnnly07axRS1YC0XXalGpt7VLPGM+9eY0I
+   PV68c5JuiEeBFTeCvJEVAbBUomEMJ+v4yt2lMSVhCGYKlEjeO5G+WRwW7
+   w=;
+X-IronPort-AV: E=Sophos;i="5.84,307,1620691200"; 
+   d="scan'208";a="17955198"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-2b-baacba05.us-west-2.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP; 09 Aug 2021 12:23:00 +0000
+Received: from EX13D19EUB004.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+        by email-inbound-relay-2b-baacba05.us-west-2.amazon.com (Postfix) with ESMTPS id A7345A2128;
+        Mon,  9 Aug 2021 12:22:58 +0000 (UTC)
+Received: from EX13MTAUEA001.ant.amazon.com (10.43.61.82) by
+ EX13D19EUB004.ant.amazon.com (10.43.166.61) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.23; Mon, 9 Aug 2021 12:22:56 +0000
+Received: from 8c85908914bf.ant.amazon.com.com (10.218.69.139) by
+ mail-relay.amazon.com (10.43.61.243) with Microsoft SMTP Server id
+ 15.0.1497.23 via Frontend Transport; Mon, 9 Aug 2021 12:22:55 +0000
+From:   Gal Pressman <galpress@amazon.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>, <christian.koenig@amd.com>
+CC:     <linux-kernel@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
+        <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
+        Gal Pressman <galpress@amazon.com>
+Subject: [PATCH] dma-buf: Fix a few typos in dma-buf documentation
+Date:   Mon, 9 Aug 2021 15:22:46 +0300
+Message-ID: <20210809122247.15869-1-galpress@amazon.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <21527f47-3c9e-55e2-3973-bfd0ebc91c2e@xs4all.nl>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Fix a few typos in the documentation:
+- Remove an extraneous 'or'
+- 'unpins' -> 'unpin'
+- 'braket' -> 'bracket'
+- 'mappinsg' -> 'mappings'
+- 'fullfills' -> 'fulfills'
 
-On Mon, Aug 09, 2021 at 01:05:00PM +0200, Hans Verkuil wrote:
-> On 09/08/2021 11:34, David Plowman wrote:
-> > We add a new control V4L2_CID_NOTIFY_GAINS which allows the sensor to
-> > be notified what gains will be applied to the different colour
-> > channels by subsequent processing (such as by an ISP), even though the
-> > sensor will not apply any of these gains itself.
-> > 
-> > For Bayer sensors this will be an array control taking 4 values which
-> > are the 4 gains arranged in the fixed order B, Gb, Gr and R,
-> > irrespective of the exact Bayer order of the sensor itself.
-> > 
-> > The units are in all cases linear with the default value indicating a
-> > gain of exactly 1.
-> 
-> So a value of 2 means a gain of 2? Or are these fixed point values? How do
-> I represent a gain of 1.5?
+Signed-off-by: Gal Pressman <galpress@amazon.com>
+---
+ include/linux/dma-buf.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-No, the default value corresponds to a x1.0 gain, but it's not 1. If the
-default is, let's say, 128, then x2.0 will be 256.
-
-> > Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c | 1 +
-> >  include/uapi/linux/v4l2-controls.h        | 1 +
-> >  2 files changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > index 421300e13a41..f87053c83249 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > @@ -1107,6 +1107,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> >  	case V4L2_CID_TEST_PATTERN_GREENR:	return "Green (Red) Pixel Value";
-> >  	case V4L2_CID_TEST_PATTERN_BLUE:	return "Blue Pixel Value";
-> >  	case V4L2_CID_TEST_PATTERN_GREENB:	return "Green (Blue) Pixel Value";
-> > +	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
-> >  
-> >  	/* Image processing controls */
-> >  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> 
-> Since this is a standard control, it should also be configured correctly in
-> v4l2_ctrl_fill().
-> 
-> Instead of an array, would a compound control (aka a struct) be better? Then you can
-> explicitly have field names g, gb, gr and r.
-> 
-> Is there a specific reason we want an array instead of that? I'm not opposed, but
-> I'd like to see a rationale for that.
-
-Bayer ia only one of the possible CFA patterns for sensors. With a
-structure containing named b, gb, gr and r fields, we wouldn't be able
-to support, for instance, RGBW filters. It's not clear at this point
-what other CFA patterns will be seen in sensors that require this
-feature, but an array control will be able to more easily support these
-use cases.
-
-> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> > index 5532b5f68493..133e20444939 100644
-> > --- a/include/uapi/linux/v4l2-controls.h
-> > +++ b/include/uapi/linux/v4l2-controls.h
-> > @@ -1118,6 +1118,7 @@ enum v4l2_jpeg_chroma_subsampling {
-> >  #define V4L2_CID_TEST_PATTERN_BLUE		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 6)
-> >  #define V4L2_CID_TEST_PATTERN_GREENB		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 7)
-> >  #define V4L2_CID_UNIT_CELL_SIZE			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 8)
-> > +#define V4L2_CID_NOTIFY_GAINS			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 9)
-> >  
-> >  
-> >  /* Image processing controls */
-
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index efdc56b9d95f..772403352767 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -54,7 +54,7 @@ struct dma_buf_ops {
+ 	 * device), and otherwise need to fail the attach operation.
+ 	 *
+ 	 * The exporter should also in general check whether the current
+-	 * allocation fullfills the DMA constraints of the new device. If this
++	 * allocation fulfills the DMA constraints of the new device. If this
+ 	 * is not the case, and the allocation cannot be moved, it should also
+ 	 * fail the attach operation.
+ 	 *
+@@ -146,7 +146,7 @@ struct dma_buf_ops {
+ 	 *
+ 	 * Returns:
+ 	 *
+-	 * A &sg_table scatter list of or the backing storage of the DMA buffer,
++	 * A &sg_table scatter list of the backing storage of the DMA buffer,
+ 	 * already mapped into the device address space of the &device attached
+ 	 * with the provided &dma_buf_attachment. The addresses and lengths in
+ 	 * the scatter list are PAGE_SIZE aligned.
+@@ -168,7 +168,7 @@ struct dma_buf_ops {
+ 	 *
+ 	 * This is called by dma_buf_unmap_attachment() and should unmap and
+ 	 * release the &sg_table allocated in @map_dma_buf, and it is mandatory.
+-	 * For static dma_buf handling this might also unpins the backing
++	 * For static dma_buf handling this might also unpin the backing
+ 	 * storage if this is the last mapping of the DMA buffer.
+ 	 */
+ 	void (*unmap_dma_buf)(struct dma_buf_attachment *,
+@@ -237,7 +237,7 @@ struct dma_buf_ops {
+ 	 * This callback is used by the dma_buf_mmap() function
+ 	 *
+ 	 * Note that the mapping needs to be incoherent, userspace is expected
+-	 * to braket CPU access using the DMA_BUF_IOCTL_SYNC interface.
++	 * to bracket CPU access using the DMA_BUF_IOCTL_SYNC interface.
+ 	 *
+ 	 * Because dma-buf buffers have invariant size over their lifetime, the
+ 	 * dma-buf core checks whether a vma is too large and rejects such
+@@ -464,7 +464,7 @@ static inline bool dma_buf_is_dynamic(struct dma_buf *dmabuf)
+ 
+ /**
+  * dma_buf_attachment_is_dynamic - check if a DMA-buf attachment uses dynamic
+- * mappinsg
++ * mappings
+  * @attach: the DMA-buf attachment to check
+  *
+  * Returns true if a DMA-buf importer wants to call the map/unmap functions with
 -- 
-Regards,
+2.32.0
 
-Laurent Pinchart
