@@ -2,100 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20B923E4593
-	for <lists+linux-media@lfdr.de>; Mon,  9 Aug 2021 14:25:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A0453E459A
+	for <lists+linux-media@lfdr.de>; Mon,  9 Aug 2021 14:28:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235366AbhHIM0M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Aug 2021 08:26:12 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56333 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235360AbhHIM0K (ORCPT
+        id S235133AbhHIM3G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Aug 2021 08:29:06 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:57339 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235361AbhHIM3F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 9 Aug 2021 08:26:10 -0400
+        Mon, 9 Aug 2021 08:29:05 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id D4Lhm0TBH4SnAD4LkmmRE9; Mon, 09 Aug 2021 14:25:48 +0200
+        id D4OWm0UBU4SnAD4OammRtK; Mon, 09 Aug 2021 14:28:44 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1628511948; bh=sQBLeYDznGTa/2TP6veQAIGI6Jhn8ZN06fqsZIRYYXg=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1628512124; bh=uIVo65t8w9oq0oCsQyz5D+5t8L2wh9JsWusJ1xpibQY=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=tUiJPw1RnUHDdjztX1Zss2CG/k9iJY/l6SX9J+exEjtnfsYZlm45yUb+Rk2A6cfkr
-         q07FbBz0ANMqWFfNxacLa3kVh29zy48tW4Gque88p11WwVAEujqKuQa4vYSBkodkzi
-         kAt3n5RcFuwelHPiPbhW2FNFcEEwvlS24iej32+DrrzMMJexfmH9OzUeKpGIfgD7b/
-         icQcX5cSaeXZV1nbsHfncJ1UMbS6f/VrLFXEBQooKssn/wnVTpTSfdT3UlJamMVnr2
-         M9efopAl18nwSWmATCpmwnVEfaSYXAVekCw+QF0SQ4iimKXMA4Sw8PdeepC+Dez5hR
-         LgYnFgZpprQYw==
-Subject: Re: [PATCH v4 2/2] media: v4l2-ctrls: Document V4L2_CID_NOTIFY_GAINS
- control
-To:     David Plowman <david.plowman@raspberrypi.com>,
-        linux-media@vger.kernel.org, sakari.ailus@iki.fi,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20210809093448.4461-1-david.plowman@raspberrypi.com>
- <20210809093448.4461-3-david.plowman@raspberrypi.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <9dd9c8ec-1168-60d3-2a94-fdd68eb9553e@xs4all.nl>
-Date:   Mon, 9 Aug 2021 14:25:45 +0200
+        b=qpkDJCBQ+HEYOiT4/+gF6qgP7+4vk8KdllluUC9FIbADmp2h3VJpVXrpa/8TqFspw
+         0dY97OJ6dVYRliIxsy3gwjOyZ8sfF8sWrFKdaFaI7ej7jIHD8T6EI6W1pXC5zW6TA5
+         lyu+5na7TTEq0jxxKJTYiQaPhcGi93V6LuMQQuXGN9wGFYU4523ORe+A7DF46VQq/I
+         zUFCqTOf3X1cVpLdrEqmV654FptFRY51rKLD+n/BWAUFl33umdBp5oOvE1BTaA4xkN
+         wa9Jw/bazQhBEV38NMUsbtH2aqKtCpz08wIP8kyv1/uP/LCF7V0gfA/BqDzhX+1/Wx
+         0QhDAjAHj35ug==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Tzung-Bi Shih <tzungbi@google.com>,
+        Alexandre Courbot <acourbot@chromium.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.15] mtk-vcodec: support for MT8183 decoder
+Message-ID: <97ed8ac5-32ce-0603-f7a1-e9763016b71f@xs4all.nl>
+Date:   Mon, 9 Aug 2021 14:28:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210809093448.4461-3-david.plowman@raspberrypi.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfGuSy4ucVejC8ZA0l9rLeE6BzfXi5q8/fP9drCYmdk/jMj8q94PP1xxlzKQUVwramjeOEaGso8VOEmKexKKH7YWaqjosqkjkbzN/KwdZA8wXgunTofDw
- qrYr231DE4+8q/M7+PICedLzR/lWWpGToM5Yg8Lj8lrMci84QL4HomeHKVKNdtl+Vsv+oowLlb2PD0q+cajqiztYxehhaCDArV/T0d6oR6WRQwyIYCgiLM7W
- 5aWuxOy0fZ+EyoSQeYnRw3ZxURbWLEo7IKixtAj6VrzBAY1jcWi72sC+DHc3yyZymX0DVOaQpSkVAStgKFioNKEn4a0AZTPSqaUTGt4pn6YdsVvuHwYbIuL5
- uwMxlfya7Zv7lGhsWQkIQ+23dS59S0txTDp+gHabjkK1T/4SOsY=
+X-CMAE-Envelope: MS4xfHZTZNCNfmlUFkLyhNe1322+/4sLbvdXB9X+34ZsgROTG/0wUheCS6zFCzfPOnb4Zp6f0913+7891RdCI4X0s7Hv9bOgbDXM89l0nD53lK07zqpWDHqR
+ G75LAdPuCBKgAV5eG9D/52lF3FvysYHU9wUJogDSbo7AqBM//X5k9SSTNLviF2aVM9bR9rzvJklpYLtrMPqtg8+IO3XQEfHxtQmGNq1XqJnWw+NRMH2hQP8M
+ VFdMIUxB70utBgVqrhLUPg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/08/2021 11:34, David Plowman wrote:
-> Add documentation for the V4L2_CID_NOTIFY_GAINS control.
-> 
-> This control is required by sensors that need to know what colour
-> gains will be applied to pixels by downstream processing (such as by
-> an ISP), though the sensor does not apply these gains itself.
-> 
-> Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
-> ---
->  .../media/v4l/ext-ctrls-image-source.rst          | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> index de43f5c8486d..c1793fda1429 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> @@ -72,3 +72,18 @@ Image Source Control IDs
->      * - __u32
->        - ``height``
->        - Height of the area.
-> +
-> +``V4L2_CID_NOTIFY_GAINS (integer)``
+The following changes since commit 6daa9f32282ac76b8996f5291fb387d685786288:
 
-Say '(integer array)' here to clarify that this is an array.
+  media: Clean V4L2_PIX_FMT_NV12MT documentation (2021-08-06 10:54:04 +0200)
 
-> +    The sensor is notified what gains will be applied to the different
-> +    colour channels by subsequent processing (such as by an ISP). The
-> +    sensor is merely informed of these values in case it performs
-> +    processing that requires them, but it does not apply them itself to
-> +    the output pixels.
-> +
-> +    For Bayer sensors this is an array control taking 4 gain values,
-> +    being the gains for each of the Bayer channels. The gains are always
-> +    in the order B, Gb, Gr and R, irrespective of the exact Bayer order
-> +    of the sensor itself.
-> +
-> +    The units for the gain values are linear, with the default value
-> +    representing a gain of exactly 1.
+are available in the Git repository at:
 
-Add an example here to clarify this.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.15g
 
-Regards,
+for you to fetch changes up to ab7cbbc9a178b68c08aafcce6570d4bdeb0c92f8:
 
-	Hans
+  media: mtk-vcodec: enable MT8183 decoder (2021-08-09 13:26:09 +0200)
 
-> 
+----------------------------------------------------------------
+Tag branch
 
+----------------------------------------------------------------
+Alexandre Courbot (8):
+      media: mtk-vcodec: vdec: use helpers in VIDIOC_(TRY_)DECODER_CMD
+      media: mtk-vcodec: vdec: clamp OUTPUT resolution to hardware limits
+      media: mtk-vcodec: make flush buffer reusable by encoder
+      media: mtk-vcodec: venc: support START and STOP commands
+      media: mtk-vcodec: vdec: handle firmware version field
+      media: mtk-vcodec: support version 2 of decoder firmware ABI
+      media: add Mediatek's MM21 format
+      dt-bindings: media: document mediatek,mt8183-vcodec-dec
+
+Hirokazu Honda (1):
+      media: mtk-vcodec: vdec: Support H264 profile control
+
+Yunfei Dong (5):
+      media: mtk-vcodec: vdec: move stateful ops into their own file
+      media: mtk-vcodec: vdec: support stateless API
+      media: mtk-vcodec: vdec: support stateless H.264 decoding
+      media: mtk-vcodec: vdec: add media device if using stateless api
+      media: mtk-vcodec: enable MT8183 decoder
+
+ Documentation/devicetree/bindings/media/mediatek-vcodec.txt  |   1 +
+ Documentation/userspace-api/media/v4l/pixfmt-reserved.rst    |   7 +
+ drivers/media/platform/Kconfig                               |   3 +
+ drivers/media/platform/mtk-vcodec/Makefile                   |   3 +
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c           | 820 ++++++---------------------------------
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h           |  25 +-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c       |  68 +++-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c  | 628 ++++++++++++++++++++++++++++++
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c | 360 +++++++++++++++++
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h           |  58 ++-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c           | 140 ++++++-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c       |   6 +-
+ drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c    | 774 ++++++++++++++++++++++++++++++++++++
+ drivers/media/platform/mtk-vcodec/vdec_drv_if.c              |   3 +
+ drivers/media/platform/mtk-vcodec/vdec_drv_if.h              |   1 +
+ drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h             |  23 +-
+ drivers/media/platform/mtk-vcodec/vdec_vpu_if.c              |  43 +-
+ drivers/media/platform/mtk-vcodec/vdec_vpu_if.h              |   5 +
+ drivers/media/v4l2-core/v4l2-ioctl.c                         |   1 +
+ include/uapi/linux/videodev2.h                               |   1 +
+ 20 files changed, 2241 insertions(+), 729 deletions(-)
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
