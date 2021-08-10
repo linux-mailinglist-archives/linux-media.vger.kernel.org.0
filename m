@@ -2,137 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ACA33E59F2
-	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 14:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8940A3E59F4
+	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 14:32:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240571AbhHJMb4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Aug 2021 08:31:56 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:17001 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238518AbhHJMbz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Aug 2021 08:31:55 -0400
-Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.53])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GkXKN6PHnzb0VN;
-        Tue, 10 Aug 2021 20:27:52 +0800 (CST)
-Received: from [10.67.103.235] (10.67.103.235) by
- dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Tue, 10 Aug 2021 20:31:31 +0800
-Subject: Re: [PATCH V7 9/9] PCI/P2PDMA: Add a 10-Bit Tag check in P2PDMA
-To:     Bjorn Helgaas <helgaas@kernel.org>
-References: <20210809173113.GA2166744@bjorn-Precision-5520>
-CC:     <hch@infradead.org>, <kw@linux.com>, <logang@deltatee.com>,
-        <leon@kernel.org>, <linux-pci@vger.kernel.org>,
-        <rajur@chelsio.com>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
-From:   Dongdong Liu <liudongdong3@huawei.com>
-Message-ID: <d113a3f3-6098-314b-32d3-b944daf1186c@huawei.com>
-Date:   Tue, 10 Aug 2021 20:31:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S237391AbhHJMco (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Aug 2021 08:32:44 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:52302 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229764AbhHJMcn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Aug 2021 08:32:43 -0400
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mDQvb-009jG0-P6; Tue, 10 Aug 2021 12:32:19 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mDQvZ-0006IY-KL; Tue, 10 Aug 2021 12:32:17 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.15] mtk-vcodec: support for MT8183 decoder (#76235)
+Date:   Tue, 10 Aug 2021 12:32:17 +0000
+Message-Id: <20210810123217.24168-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <97ed8ac5-32ce-0603-f7a1-e9763016b71f@xs4all.nl>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <20210809173113.GA2166744@bjorn-Precision-5520>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.235]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggeme758-chm.china.huawei.com (10.3.19.104)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: builder@linuxtv.org
 
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/97ed8ac5-32ce-0603-f7a1-e9763016b71f@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/129979/
+Build time: 00:37:49
+Link: https://lore.kernel.org/linux-media/97ed8ac5-32ce-0603-f7a1-e9763016b71f@xs4all.nl
 
-On 2021/8/10 1:31, Bjorn Helgaas wrote:
-> On Sat, Aug 07, 2021 at 03:11:34PM +0800, Dongdong Liu wrote:
->>
->> On 2021/8/6 2:12, Bjorn Helgaas wrote:
->>> On Wed, Aug 04, 2021 at 09:47:08PM +0800, Dongdong Liu wrote:
->>>> Add a 10-Bit Tag check in the P2PDMA code to ensure that a device with
->>>> 10-Bit Tag Requester doesn't interact with a device that does not
->>>> support 10-BIT Tag Completer. Before that happens, the kernel should
->>>> emit a warning. "echo 0 > /sys/bus/pci/devices/.../10bit_tag" to
->>>> disable 10-BIT Tag Requester for PF device.
->>>> "echo 0 > /sys/bus/pci/devices/.../sriov_vf_10bit_tag_ctl" to disable
->>>> 10-BIT Tag Requester for VF device.
->>>
->>> s/10-BIT/10-Bit/ several times.
->> Will fix.
->>>
->>> Add blank lines between paragraphs.
->> Will fix.
->>>
->>>> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
->>>> ---
->>>>  drivers/pci/p2pdma.c | 40 ++++++++++++++++++++++++++++++++++++++++
->>>>  1 file changed, 40 insertions(+)
->>>>
->>>> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
->>>> index 50cdde3..948f2be 100644
->>>> --- a/drivers/pci/p2pdma.c
->>>> +++ b/drivers/pci/p2pdma.c
->>>> @@ -19,6 +19,7 @@
->>>>  #include <linux/random.h>
->>>>  #include <linux/seq_buf.h>
->>>>  #include <linux/xarray.h>
->>>> +#include "pci.h"
->>>>
->>>>  enum pci_p2pdma_map_type {
->>>>  	PCI_P2PDMA_MAP_UNKNOWN = 0,
->>>> @@ -410,6 +411,41 @@ static unsigned long map_types_idx(struct pci_dev *client)
->>>>  		(client->bus->number << 8) | client->devfn;
->>>>  }
->>>>
->>>> +static bool check_10bit_tags_vaild(struct pci_dev *a, struct pci_dev *b,
->>>
->>> s/vaild/valid/
->>>
->>> Or maybe s/valid/safe/ or s/valid/supported/, since "valid" isn't
->>> quite the right word here.  We want to know whether the source is
->>> enabled to generate 10-bit tags, and if so, whether the destination
->>> can handle them.
->>>
->>> "if (check_10bit_tags_valid())" does not make sense because
->>> "check_10bit_tags_valid()" is not a question with a yes/no answer.
->>>
->>> "10bit_tags_valid()" *might* be, because "if (10bit_tags_valid())"
->>> makes sense.  But I don't think you can start with a digit.
->>>
->>> Or maybe you want to invert the sense, e.g.,
->>> "10bit_tags_unsupported()", since that avoids negation at the caller:
->>>
->>>   if (10bit_tags_unsupported(a, b) ||
->>>       10bit_tags_unsupported(b, a))
->>>         map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
->> Good suggestion. add a pci_ prefix.
->>
->> if (pci_10bit_tags_unsupported(a, b) ||
->>     pci_10bit_tags_unsupported(b, a))
->> 	map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
->
-> This treats both directions as equally important.  I don't know P2PDMA
-> very well, but that doesn't seem like it would necessarily be the
-> case.  I would think a common case would be device A doing DMA to B,
-> but B *not* doing DMA to A.  So can you tell which direction you're
-> setting up here, and can you take advantage of any asymmetry, e.g., by
-> enabling 10-bit tags in the direction that supports it even if the
-> other direction does not?
+gpg: Signature made Mon 09 Aug 2021 12:26:08 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-Documentation/driver-api/pci/p2pdma.rst
-* Provider - A driver which provides or publishes P2P resources like
-   memory or doorbell registers to other drivers.
-* Client - A driver which makes use of a resource by setting up a
-   DMA transaction to or from it.
+Summary: got 9/14 patches with issues, being 7 at build time
 
-So we may just check as below.
-if (10bit_tags_unsupported(client, provider, verbose)
-	map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+Error/warnings:
 
-@Logan What's your opinion?
+patches/0001-media-mtk-vcodec-vdec-Support-H264-profile-control.patch:
 
-Thanks,
-Dongdong
-> .
->
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1425 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1979 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2835 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0006-media-mtk-vcodec-vdec-move-stateful-ops-into-their-o.patch:
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c ../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c:615:35:  warning: symbol 'mtk_vdec_8173_pdata' was not declared. Should it be static?
+
+   checkpatch.pl:
+	$ cat patches/0006-media-mtk-vcodec-vdec-move-stateful-ops-into-their-o.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:1072: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0007-media-mtk-vcodec-vdec-handle-firmware-version-field.patch:
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c ../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c:615:35:  warning: symbol 'mtk_vdec_8173_pdata' was not declared. Should it be static?
+
+   checkpatch.pl:
+	$ cat patches/0007-media-mtk-vcodec-vdec-handle-firmware-version-field.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:78: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
+patches/0008-media-mtk-vcodec-support-version-2-of-decoder-firmwa.patch:
+
+   checkpatch.pl:
+	$ cat patches/0008-media-mtk-vcodec-support-version-2-of-decoder-firmwa.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:36: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:37: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:58: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:59: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:76: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:160: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:161: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
+patches/0009-media-add-Mediatek-s-MM21-format.patch:
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1426 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1979 vivid_create_instance() parse error: turning off implications after 60 seconds
+	SPARSE:../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c ../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c:615:35:  warning: symbol 'mtk_vdec_8173_pdata' was not declared. Should it be static?
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2835 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+   checkpatch.pl:
+	$ cat patches/0009-media-add-Mediatek-s-MM21-format.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:46: ERROR: trailing statements should be on next line
+	-:58: WARNING: line length of 120 exceeds 100 columns
+
+patches/0010-media-mtk-vcodec-vdec-support-stateless-API.patch:
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c ../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c:615:35:  warning: symbol 'mtk_vdec_8173_pdata' was not declared. Should it be static?
+	SPARSE:../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c ../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c:346:35:  warning: symbol 'mtk_vdec_8183_pdata' was not declared. Should it be static?
+
+   checkpatch.pl:
+	$ cat patches/0010-media-mtk-vcodec-vdec-support-stateless-API.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:180: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0011-media-mtk-vcodec-vdec-support-stateless-H.264-decodi.patch:
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c ../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c:615:35:  warning: symbol 'mtk_vdec_8173_pdata' was not declared. Should it be static?
+	SPARSE:../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c ../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c:346:35:  warning: symbol 'mtk_vdec_8183_pdata' was not declared. Should it be static?
+
+   checkpatch.pl:
+	$ cat patches/0011-media-mtk-vcodec-vdec-support-stateless-H.264-decodi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:52: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:76: CHECK: Macro argument 'cond' may be better as '(cond)' to avoid precedence issues
+	-:78: CHECK: Macro argument reuse 'param' - possible side-effects?
+	-:78: CHECK: Macro argument 'param' may be better as '(param)' to avoid precedence issues
+
+patches/0012-media-mtk-vcodec-vdec-add-media-device-if-using-stat.patch:
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c ../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c:615:35:  warning: symbol 'mtk_vdec_8173_pdata' was not declared. Should it be static?
+	SPARSE:../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c ../drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c:346:35:  warning: symbol 'mtk_vdec_8183_pdata' was not declared. Should it be static?
+
+patches/0014-media-mtk-vcodec-enable-MT8183-decoder.patch:
+
+   checkpatch.pl:
+	$ cat patches/0014-media-mtk-vcodec-enable-MT8183-decoder.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:28: WARNING: externs should be avoided in .c files
+
