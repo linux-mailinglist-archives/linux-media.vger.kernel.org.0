@@ -2,105 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75DEE3E59CF
-	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 14:23:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ACA33E59F2
+	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 14:31:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237785AbhHJMXU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Aug 2021 08:23:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33950 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232523AbhHJMXT (ORCPT
+        id S240571AbhHJMb4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Aug 2021 08:31:56 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:17001 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238518AbhHJMbz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Aug 2021 08:23:19 -0400
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C38AC061798
-        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 05:22:57 -0700 (PDT)
-Received: by mail-vs1-xe44.google.com with SMTP id h7so10861883vso.13
-        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 05:22:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=oZoJVjBidnvPVFvMpPWZppXKGeyyaDUB3Ugu5JUsoak=;
-        b=qIQDlA/gUyoRPh3kgWXZkiUaIb3qcyb8TOW9CKWJmmvFsvyfJMbRJp97WbmjhiyjOC
-         mnkqXMdci14i5YX4fThGwDaNhtdgPMl8QQ8GLzA5/V9qqqAzJ2NLeBpHSjhBA1ooWd55
-         WeVyQrZ2PJ7RGF/EEuO1LLzR/VQDKZVroky6UJ61cynK0Eo94rDW747aK3HA0LXMhHGU
-         xhOtH2jUuSvyZ83LKIVMrj/75HQaoJekDOmAqRJ3FdZhxc01OFjIoZ01kJzqwRlczBQg
-         n/Y8yYRcIL3K9gNw4KexSGWkiGY0LAmH3clUKgzisOPSOWaG8GJ5gml2PjPymIK6vVN1
-         1g+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=oZoJVjBidnvPVFvMpPWZppXKGeyyaDUB3Ugu5JUsoak=;
-        b=hNdHT6zHHJ1Oi7b5CkylRGtJNpEaRv9xw1Hiz4xQCObvYGwe703KoNOVY8fQtgrA30
-         yrY6ZUul2RwjXfQgtv06Py+lHEu1tdsFZudKHefgFZ65FdReRi+GAaEWSqD0KdX5HRnZ
-         FHCvf2xdNTK7UhCmKE3Zfihyr8N9WLqiGwZPIOiqpwK3EhePo5EJX4anaFYXmglGUK5/
-         NHLUmfjEm2i7u4Rbqhvq6O68zTxEH7BiVjmsIfarWG1dv6hlcFA/BPYbQW5SLB1NOVDU
-         8mXVLB16Knp8Le9Me2LrL8mGkgrSYJxDc9gLD56C7dntjeoucdO0HyAIDDt1HMrYHcDC
-         vTvw==
-X-Gm-Message-State: AOAM5333uQZJLb2Ww0Epf7PUxIi5YIESQfax/ytkIuHJQ1b+QKJxJ7e0
-        oCuZeRdT3hz38G+FTE1vgqGymzhXxqUd82/2+Ss=
-X-Google-Smtp-Source: ABdhPJyBu8sk/AoiYFwRL1z/MPSFVE4uHzMzZwuiKkbEBHa2/PyMxqxCeR62vN3HESRqSgro6T+hSWYJlKWrblPZj/E=
-X-Received: by 2002:a05:6102:3047:: with SMTP id w7mr20462751vsa.6.1628598176633;
- Tue, 10 Aug 2021 05:22:56 -0700 (PDT)
+        Tue, 10 Aug 2021 08:31:55 -0400
+Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GkXKN6PHnzb0VN;
+        Tue, 10 Aug 2021 20:27:52 +0800 (CST)
+Received: from [10.67.103.235] (10.67.103.235) by
+ dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Tue, 10 Aug 2021 20:31:31 +0800
+Subject: Re: [PATCH V7 9/9] PCI/P2PDMA: Add a 10-Bit Tag check in P2PDMA
+To:     Bjorn Helgaas <helgaas@kernel.org>
+References: <20210809173113.GA2166744@bjorn-Precision-5520>
+CC:     <hch@infradead.org>, <kw@linux.com>, <logang@deltatee.com>,
+        <leon@kernel.org>, <linux-pci@vger.kernel.org>,
+        <rajur@chelsio.com>, <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
+From:   Dongdong Liu <liudongdong3@huawei.com>
+Message-ID: <d113a3f3-6098-314b-32d3-b944daf1186c@huawei.com>
+Date:   Tue, 10 Aug 2021 20:31:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Reply-To: mrsdaniella.kyle@yandex.com
-Sender: munasalemmustapha@gmail.com
-Received: by 2002:ab0:279a:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 05:22:55
- -0700 (PDT)
-From:   Mrs Daniella Kyle <mrsdaniellakyle6@gmail.com>
-Date:   Tue, 10 Aug 2021 05:22:55 -0700
-X-Google-Sender-Auth: zMAEyhPwkCthbLxT_cHTxvFLOJo
-Message-ID: <CAKASgyKUQ9Zzy5G8kQFVmpKm12k20z6zUOHM-2qN3oxC3VP9-A@mail.gmail.com>
-Subject: ATM Visa card compensation, Thanks for your past effort
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210809173113.GA2166744@bjorn-Precision-5520>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.103.235]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggeme758-chm.china.huawei.com (10.3.19.104)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-Good Day, This message may actually come to you as surprises today, To
-be very honest with you, It is a joyful moment for me and my family
-right now, so therefore am using this opportunity to inform you that
-have successfully move to Vietnam where am currently living with my
-business partner who assisted me to complete the transfer, but due to
-the willingness and acceptance you showed during my pain have decided
-to willingly compensated you and show my gratitude to you with these
-sum of $950,000.00 Nine Hundred and fifty Thousand US Dollars).
 
-I want you to accept this amount it=E2=80=99s from the bottom of my heart,
-have issued the check and instructed the bank to roll the fund on a
-master card for security reasons, you can use the card to withdraw
-money from any ATM machine worldwide with a maximum of US$10,000 per
-day.
+On 2021/8/10 1:31, Bjorn Helgaas wrote:
+> On Sat, Aug 07, 2021 at 03:11:34PM +0800, Dongdong Liu wrote:
+>>
+>> On 2021/8/6 2:12, Bjorn Helgaas wrote:
+>>> On Wed, Aug 04, 2021 at 09:47:08PM +0800, Dongdong Liu wrote:
+>>>> Add a 10-Bit Tag check in the P2PDMA code to ensure that a device with
+>>>> 10-Bit Tag Requester doesn't interact with a device that does not
+>>>> support 10-BIT Tag Completer. Before that happens, the kernel should
+>>>> emit a warning. "echo 0 > /sys/bus/pci/devices/.../10bit_tag" to
+>>>> disable 10-BIT Tag Requester for PF device.
+>>>> "echo 0 > /sys/bus/pci/devices/.../sriov_vf_10bit_tag_ctl" to disable
+>>>> 10-BIT Tag Requester for VF device.
+>>>
+>>> s/10-BIT/10-Bit/ several times.
+>> Will fix.
+>>>
+>>> Add blank lines between paragraphs.
+>> Will fix.
+>>>
+>>>> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
+>>>> ---
+>>>>  drivers/pci/p2pdma.c | 40 ++++++++++++++++++++++++++++++++++++++++
+>>>>  1 file changed, 40 insertions(+)
+>>>>
+>>>> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+>>>> index 50cdde3..948f2be 100644
+>>>> --- a/drivers/pci/p2pdma.c
+>>>> +++ b/drivers/pci/p2pdma.c
+>>>> @@ -19,6 +19,7 @@
+>>>>  #include <linux/random.h>
+>>>>  #include <linux/seq_buf.h>
+>>>>  #include <linux/xarray.h>
+>>>> +#include "pci.h"
+>>>>
+>>>>  enum pci_p2pdma_map_type {
+>>>>  	PCI_P2PDMA_MAP_UNKNOWN = 0,
+>>>> @@ -410,6 +411,41 @@ static unsigned long map_types_idx(struct pci_dev *client)
+>>>>  		(client->bus->number << 8) | client->devfn;
+>>>>  }
+>>>>
+>>>> +static bool check_10bit_tags_vaild(struct pci_dev *a, struct pci_dev *b,
+>>>
+>>> s/vaild/valid/
+>>>
+>>> Or maybe s/valid/safe/ or s/valid/supported/, since "valid" isn't
+>>> quite the right word here.  We want to know whether the source is
+>>> enabled to generate 10-bit tags, and if so, whether the destination
+>>> can handle them.
+>>>
+>>> "if (check_10bit_tags_valid())" does not make sense because
+>>> "check_10bit_tags_valid()" is not a question with a yes/no answer.
+>>>
+>>> "10bit_tags_valid()" *might* be, because "if (10bit_tags_valid())"
+>>> makes sense.  But I don't think you can start with a digit.
+>>>
+>>> Or maybe you want to invert the sense, e.g.,
+>>> "10bit_tags_unsupported()", since that avoids negation at the caller:
+>>>
+>>>   if (10bit_tags_unsupported(a, b) ||
+>>>       10bit_tags_unsupported(b, a))
+>>>         map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+>> Good suggestion. add a pci_ prefix.
+>>
+>> if (pci_10bit_tags_unsupported(a, b) ||
+>>     pci_10bit_tags_unsupported(b, a))
+>> 	map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+>
+> This treats both directions as equally important.  I don't know P2PDMA
+> very well, but that doesn't seem like it would necessarily be the
+> case.  I would think a common case would be device A doing DMA to B,
+> but B *not* doing DMA to A.  So can you tell which direction you're
+> setting up here, and can you take advantage of any asymmetry, e.g., by
+> enabling 10-bit tags in the direction that supports it even if the
+> other direction does not?
 
-My bank account manager said you can receive the card and use it
-anywhere in this global world. Go ahead contact the Global ATM
-Alliance directly with this below information. Email Address: .....
-maastercarddeptme20@yahoo.com
+Documentation/driver-api/pci/p2pdma.rst
+* Provider - A driver which provides or publishes P2P resources like
+   memory or doorbell registers to other drivers.
+* Client - A driver which makes use of a resource by setting up a
+   DMA transaction to or from it.
 
- Name: ........... ....... Global Alliance Burkina Faso
-Office Address; ...... 01BP 23 Rue Des Grands Moulins.Ouagadougou, Burkina =
-Faso
-Email Address: ..... [maastercarddeptme20@yahoo.com]
-Name of Manager In charge: Mrs Zoure Gueratou
+So we may just check as below.
+if (10bit_tags_unsupported(client, provider, verbose)
+	map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
 
-Presently, I am very busy here in Vietnam because of the investment
-projects which I and my new partner are having at hand, I have given
-instructions to the ATM Visa card office on your behalf to release the
-ATM card which I gave to you as compensation. Therefore feel free and
-get in touch with her and she will send the card and the pin code to
-you in your location in order for you to start withdrawing the
-compensation money without delay.
+@Logan What's your opinion?
 
-My family wishes you best of luck in whatever business you shall
-invest this money into. Kindly let me know as soon you received the
-card together with the pin code.
-
-Thank you
-Yours Sincerely
-Daniela Angelo Kyle
+Thanks,
+Dongdong
+> .
+>
