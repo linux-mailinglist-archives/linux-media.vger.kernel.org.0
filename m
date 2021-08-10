@@ -2,119 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A24C53E5978
-	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 13:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EE383E5992
+	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 14:00:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237632AbhHJLxe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Aug 2021 07:53:34 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:39494 "EHLO mail.ispras.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233558AbhHJLxd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Aug 2021 07:53:33 -0400
-Received: from hellwig.intra.ispras.ru (unknown [10.10.2.182])
-        by mail.ispras.ru (Postfix) with ESMTPS id 42A2140D4004;
-        Tue, 10 Aug 2021 11:53:04 +0000 (UTC)
-From:   Evgeny Novikov <novikov@ispras.ru>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Evgeny Novikov <novikov@ispras.ru>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, ldv-project@linuxtesting.org
-Subject: [PATCH] media: atomisp: Fix error handling in probe
-Date:   Tue, 10 Aug 2021 14:53:03 +0300
-Message-Id: <20210810115303.9089-1-novikov@ispras.ru>
-X-Mailer: git-send-email 2.26.2
+        id S240358AbhHJMAU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Aug 2021 08:00:20 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:8001 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238333AbhHJMAT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Aug 2021 08:00:19 -0400
+Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.57])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GkWhs1KySzYmb4;
+        Tue, 10 Aug 2021 19:59:41 +0800 (CST)
+Received: from [10.67.103.235] (10.67.103.235) by
+ dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Tue, 10 Aug 2021 19:59:54 +0800
+Subject: Re: [PATCH V7 6/9] PCI: Enable 10-Bit Tag support for PCIe RP devices
+To:     Bjorn Helgaas <helgaas@kernel.org>
+References: <20210809172650.GA1897893@bjorn-Precision-5520>
+CC:     <hch@infradead.org>, <kw@linux.com>, <logang@deltatee.com>,
+        <leon@kernel.org>, <linux-pci@vger.kernel.org>,
+        <rajur@chelsio.com>, <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
+From:   Dongdong Liu <liudongdong3@huawei.com>
+Message-ID: <bf71ba50-42d3-13e1-4600-3f39613863a3@huawei.com>
+Date:   Tue, 10 Aug 2021 19:59:54 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210809172650.GA1897893@bjorn-Precision-5520>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.103.235]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggeme758-chm.china.huawei.com (10.3.19.104)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There were several issues with handling errors in lm3554_probe():
-- Probe did not set the error code when v4l2_ctrl_handler_init() failed.
-- It intermixed gotos for handling errors of v4l2_ctrl_handler_init()
-  and media_entity_pads_init().
-- Probe did not free resources in case of failures of
-  atomisp_register_i2c_module().
 
-The patch fixes all these issues.
 
-Found by Linux Driver Verification project (linuxtesting.org).
+On 2021/8/10 1:26, Bjorn Helgaas wrote:
+> On Thu, Aug 05, 2021 at 04:25:23PM +0800, Dongdong Liu wrote:
+>> On 2021/8/5 7:38, Bjorn Helgaas wrote:
+>>> On Wed, Aug 04, 2021 at 09:47:05PM +0800, Dongdong Liu wrote:
+>>>> PCIe spec 5.0r1.0 section 2.2.6.2 implementation note, In configurations
+>>>> where a Requester with 10-Bit Tag Requester capability needs to target
+>>>> multiple Completers, one needs to ensure that the Requester sends 10-Bit
+>>>> Tag Requests only to Completers that have 10-Bit Tag Completer capability.
+>>>> So we enable 10-Bit Tag Requester for root port only when the devices
+>>>> under the root port support 10-Bit Tag Completer.
+>>>
+>>> Fix quoting.  I can't tell what is from the spec and what you wrote.
+>> Will fix.
+>>>
+>>>> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
+>>>> ---
+>>>>  drivers/pci/pcie/portdrv_pci.c | 69 ++++++++++++++++++++++++++++++++++++++++++
+>>>>  1 file changed, 69 insertions(+)
+>>>>
+>>>> diff --git a/drivers/pci/pcie/portdrv_pci.c b/drivers/pci/pcie/portdrv_pci.c
+>>>> index c7ff1ee..2382cd2 100644
+>>>> --- a/drivers/pci/pcie/portdrv_pci.c
+>>>> +++ b/drivers/pci/pcie/portdrv_pci.c
+>>>> @@ -90,6 +90,72 @@ static const struct dev_pm_ops pcie_portdrv_pm_ops = {
+>>>>  #define PCIE_PORTDRV_PM_OPS	NULL
+>>>>  #endif /* !PM */
+>>>>
+>>>> +static int pci_10bit_tag_comp_support(struct pci_dev *dev, void *data)
+>>>> +{
+>>>> +	bool *support = (bool *)data;
+>>>> +
+>>>> +	if (!pci_is_pcie(dev)) {
+>>>> +		*support = false;
+>>>> +		return 1;
+>>>> +	}
+>>>> +
+>>>> +	/*
+>>>> +	 * PCIe spec 5.0r1.0 section 2.2.6.2 implementation note.
+>>>> +	 * For configurations where a Requester with 10-Bit Tag Requester
+>>>> +	 * capability targets Completers where some do and some do not have
+>>>> +	 * 10-Bit Tag Completer capability, how the Requester determines which
+>>>> +	 * NPRs include 10-Bit Tags is outside the scope of this specification.
+>>>> +	 * So we do not consider hotplug scenario.
+>>>> +	 */
+>>>> +	if (dev->is_hotplug_bridge) {
+>>>> +		*support = false;
+>>>> +		return 1;
+>>>> +	}
+>>>> +
+>>>> +	if (!(dev->pcie_devcap2 & PCI_EXP_DEVCAP2_10BIT_TAG_COMP)) {
+>>>> +		*support = false;
+>>>> +		return 1;
+>>>> +	}
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +static void pci_configure_rp_10bit_tag(struct pci_dev *dev)
+>>>> +{
+>>>> +	bool support = true;
+>>>> +
+>>>> +	if (dev->subordinate == NULL)
+>>>> +		return;
+>>>> +
+>>>> +	/* If no devices under the root port, no need to enable 10-Bit Tag. */
+>>>> +	if (list_empty(&dev->subordinate->devices))
+>>>> +		return;
+>>>> +
+>>>> +	pci_10bit_tag_comp_support(dev, &support);
+>>>> +	if (!support)
+>>>> +		return;
+>>>> +
+>>>> +	/*
+>>>> +	 * PCIe spec 5.0r1.0 section 2.2.6.2 implementation note.
+>>>> +	 * In configurations where a Requester with 10-Bit Tag Requester
+>>>> +	 * capability needs to target multiple Completers, one needs to ensure
+>>>> +	 * that the Requester sends 10-Bit Tag Requests only to Completers
+>>>> +	 * that have 10-Bit Tag Completer capability. So we enable 10-Bit Tag
+>>>> +	 * Requester for root port only when the devices under the root port
+>>>> +	 * support 10-Bit Tag Completer.
+>>>> +	 */
+>>>> +	pci_walk_bus(dev->subordinate, pci_10bit_tag_comp_support, &support);
+>>>> +	if (!support)
+>>>> +		return;
+>>>> +
+>>>> +	if (!(dev->pcie_devcap2 & PCI_EXP_DEVCAP2_10BIT_TAG_REQ))
+>>>> +		return;
+>>>> +
+>>>> +	pci_dbg(dev, "enabling 10-Bit Tag Requester\n");
+>>>> +	pcie_capability_set_word(dev, PCI_EXP_DEVCTL2,
+>>>> +				 PCI_EXP_DEVCTL2_10BIT_TAG_REQ_EN);
+>>>> +}
+>>>> +
+>>>>  /*
+>>>>   * pcie_portdrv_probe - Probe PCI-Express port devices
+>>>>   * @dev: PCI-Express port device being probed
+>>>> @@ -111,6 +177,9 @@ static int pcie_portdrv_probe(struct pci_dev *dev,
+>>>>  	     (type != PCI_EXP_TYPE_RC_EC)))
+>>>>  		return -ENODEV;
+>>>>
+>>>> +	if (type == PCI_EXP_TYPE_ROOT_PORT)
+>>>> +		pci_configure_rp_10bit_tag(dev);
+>>>
+>>> I don't think this has anything to do with the portdrv, so all this
+>>> should go somewhere else.
+>>
+>> Yes, any suggestion where to put the code?
+>
+> It seems similar to pci_configure_ltr(), pci_configure_eetlp_prefix(),
+> and other things in drivers/pci/probe.c, so maybe there?
+Seems similar to pcie_bus_configure_settings().
+Enable RP 10-bit tag requester need to know all the EP devices 10-bit 
+tag completer capability under the RP.
 
-Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
----
- .../media/atomisp/i2c/atomisp-lm3554.c        | 28 +++++++++++++------
- 1 file changed, 19 insertions(+), 9 deletions(-)
+>
+> Or, if this is more of a theoretical advantage than a demonstrated
+> performance improvement, we could just hold off on doing it until it
+> becomes important.  I can't tell if you have a scenario that actually
+> benefits from this yet.
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-index 362ed44b4eff..1e9432d6ec0c 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-@@ -835,7 +835,6 @@ static int lm3554_probe(struct i2c_client *client)
- 	int err = 0;
- 	struct lm3554 *flash;
- 	unsigned int i;
--	int ret;
- 
- 	flash = kzalloc(sizeof(*flash), GFP_KERNEL);
- 	if (!flash)
-@@ -852,12 +851,12 @@ static int lm3554_probe(struct i2c_client *client)
- 	flash->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	flash->mode = ATOMISP_FLASH_MODE_OFF;
- 	flash->timeout = LM3554_MAX_TIMEOUT / LM3554_TIMEOUT_STEPSIZE - 1;
--	ret =
-+	err =
- 	    v4l2_ctrl_handler_init(&flash->ctrl_handler,
- 				   ARRAY_SIZE(lm3554_controls));
--	if (ret) {
-+	if (err) {
- 		dev_err(&client->dev, "error initialize a ctrl_handler.\n");
--		goto fail3;
-+		goto fail2;
- 	}
- 
- 	for (i = 0; i < ARRAY_SIZE(lm3554_controls); i++)
-@@ -873,7 +872,7 @@ static int lm3554_probe(struct i2c_client *client)
- 	err = media_entity_pads_init(&flash->sd.entity, 0, NULL);
- 	if (err) {
- 		dev_err(&client->dev, "error initialize a media entity.\n");
--		goto fail2;
-+		goto fail3;
- 	}
- 
- 	flash->sd.entity.function = MEDIA_ENT_F_FLASH;
-@@ -884,12 +883,23 @@ static int lm3554_probe(struct i2c_client *client)
- 
- 	err = lm3554_gpio_init(client);
- 	if (err) {
--		dev_err(&client->dev, "gpio request/direction_output fail");
--		goto fail3;
-+		dev_err(&client->dev, "gpio request/direction_output fail.\n");
-+		goto fail4;
- 	}
--	return atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
--fail3:
-+
-+	err = atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
-+	if (err) {
-+		dev_err(&client->dev, "fail to register atomisp i2c module.\n");
-+		goto fail5;
-+	}
-+
-+	return 0;
-+
-+fail5:
-+	lm3554_gpio_uninit(client);
-+fail4:
- 	media_entity_cleanup(&flash->sd.entity);
-+fail3:
- 	v4l2_ctrl_handler_free(&flash->ctrl_handler);
- fail2:
- 	v4l2_device_unregister_subdev(&flash->sd);
--- 
-2.26.2
+Ok, I will remove this patch from the patchset.
+We will do this later when get performance improvement data.
 
+Thanks,
+Dongdong
+>
+>>> Out of curiosity, IIUC this enables 10-bit tags for MMIO transactions
+>>> from the root port toward the device, i.e., traffic that originates
+>>> from a CPU.  Is that a significant benefit?  I would expect high-speed
+>>> devices would primarily operate via DMA with relatively little MMIO
+>>> traffic.
+>>
+>> The benefits of 10-Bit Tag for EP are obvious.
+>> There are few RP scenarios. Unless there are two:
+>> 1. RC has its own DMA.
+>> 2. The P2P tag is replaced at the RP when the P2PDMA go through RP.
+>
+> .
+>
