@@ -2,79 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE5093E5C23
-	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 15:48:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82C493E5C3C
+	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 15:52:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241885AbhHJNss (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Aug 2021 09:48:48 -0400
-Received: from mga05.intel.com ([192.55.52.43]:63845 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240232AbhHJNss (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Aug 2021 09:48:48 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="300492031"
-X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; 
-   d="scan'208";a="300492031"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2021 06:48:26 -0700
-X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; 
-   d="scan'208";a="503131908"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2021 06:48:22 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 53DC220364;
-        Tue, 10 Aug 2021 16:48:20 +0300 (EEST)
-Date:   Tue, 10 Aug 2021 16:48:20 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     paul.kocialkowski@bootlin.com, ezequiel@collabora.com,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        yong.zhi@intel.com, bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        kevin.lhopital@bootlin.com, yang.lee@linux.alibaba.com,
-        andy.shevchenko@gmail.com, laurent.pinchart@ideasonboard.com,
-        kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v2 06/12] media: i2c: Switch control to
- V4L2_CID_ANALOGUE_GAIN
-Message-ID: <20210810134820.GD3@paasikivi.fi.intel.com>
-References: <20210809225845.916430-1-djrscally@gmail.com>
- <20210809225845.916430-7-djrscally@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210809225845.916430-7-djrscally@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S241986AbhHJNxR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Aug 2021 09:53:17 -0400
+Received: from mail-io1-f44.google.com ([209.85.166.44]:35668 "EHLO
+        mail-io1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241985AbhHJNxQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Aug 2021 09:53:16 -0400
+Received: by mail-io1-f44.google.com with SMTP id s184so32376961ios.2;
+        Tue, 10 Aug 2021 06:52:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=n0pQptOPLSLX5QIJ3YjoYTw0YmHkHPJHCW1Ja2cSyMo=;
+        b=V1c4zjkhhnB+pdUELhG0WzBxByYShwBNI66ug+B2Po62RO2Aj/WxQ0CLhHrHxLYzaI
+         O5EqtcCwnZ6v5w8Ml97WOp3c5+lD8GX5L4b2KpjJZ7luUiG0OrHNcJbGwuBF8OL71yft
+         g4c8zqM3DCf8+mJ/BZM55MMi/BXAsjC2mwo2RQcIydSdAvoTm04cmXfAcqjLKL6uWl8G
+         21fY4xpnsM1Rzwe3mfDpQ/143bcrA5uzBQmesc8ZZ6UVc51CHt/xJr8tPR0nlFkmv0TH
+         E2jyyT22Jp2lf8lJxwykHh/Ug+PqKdlf1ZLj2Ffpt2hUfa1S5Q4OR6c7UmngwKYYcYmH
+         QpRg==
+X-Gm-Message-State: AOAM533hN8HS3GNSc+dhbwfsBqxKv2eyOS6C3rI8R6XM6UsRtpZcqu8T
+        nCCJqWdv19iZMCwmErTe0Q==
+X-Google-Smtp-Source: ABdhPJxbfBYGw8RHYSAjad8JbTAHBSwUTqo3bLN+N1qARLZk4PyFRs8m9FCgFlBHdl8i3mVv/aeDHw==
+X-Received: by 2002:a6b:f813:: with SMTP id o19mr315560ioh.49.1628603574396;
+        Tue, 10 Aug 2021 06:52:54 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id e12sm1423228ilc.16.2021.08.10.06.52.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Aug 2021 06:52:53 -0700 (PDT)
+Received: (nullmailer pid 1500790 invoked by uid 1000);
+        Tue, 10 Aug 2021 13:52:51 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        Rob Herring <robh+dt@kernel.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Tomasz Figa <tfiga@google.com>, linux-media@vger.kernel.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-mediatek@lists.infradead.org,
+        George Sun <george.sun@mediatek.com>,
+        srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>
+In-Reply-To: <20210810083047.16693-14-yunfei.dong@mediatek.com>
+References: <20210810083047.16693-1-yunfei.dong@mediatek.com> <20210810083047.16693-14-yunfei.dong@mediatek.com>
+Subject: Re: [PATCH v4, 13/15] dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8192
+Date:   Tue, 10 Aug 2021 07:52:51 -0600
+Message-Id: <1628603571.555258.1500789.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 09, 2021 at 11:58:39PM +0100, Daniel Scally wrote:
-> @@ -2143,7 +2143,7 @@ static int ov8865_exposure_configure(struct ov8865_sensor *sensor, u32 exposure)
->  
->  /* Gain */
->  
-> -static int ov8865_gain_configure(struct ov8865_sensor *sensor, u32 gain)
-> +static int ov8865_analog_gain_configure(struct ov8865_sensor *sensor, u32 gain)
->  {
->  	int ret;
->  
-> @@ -2453,8 +2453,8 @@ static int ov8865_s_ctrl(struct v4l2_ctrl *ctrl)
->  		if (ret)
->  			return ret;
->  		break;
-> -	case V4L2_CID_GAIN:
-> -		ret = ov8865_gain_configure(sensor, ctrl->val);
-> +	case V4L2_CID_ANALOGUE_GAIN:
-> +		ret = ov8865_analog_gain_configure(sensor, ctrl->val);
->  		if (ret)
->  			return ret;
->  		break;
-> @@ -2499,7 +2499,7 @@ static int ov8865_ctrls_init(struct ov8865_sensor *sensor)
->  
->  	/* Gain */
->  
-> -	v4l2_ctrl_new_std(handler, ops, V4L2_CID_GAIN, 128, 8191, 128, 128);
-> +	v4l2_ctrl_new_std(handler, ops, V4L2_CID_ANALOGUE_GAIN, 128, 8191, 128, 128);
+On Tue, 10 Aug 2021 16:30:45 +0800, Yunfei Dong wrote:
+> Adds decoder dt-bindings for mt8192.
+> 
+> Change-Id: I2c482fa6c0a91b5fc4f1950dd563cbc4d6c35da1
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+> v4: fix yaml file check fail
+> ---
+>  .../media/mediatek,vcodec-comp-decoder.yaml   | 172 ++++++++++++++++++
+>  1 file changed, 172 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
+> 
 
-Over 80, please wrap.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
--- 
-Sakari Ailus
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+./Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml: $id: relative path/filename doesn't match actual path or filename
+	expected: http://devicetree.org/schemas/media/mediatek,vcodec-comp-decoder.yaml#
+Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.example.dts:22:18: fatal error: dt-bindings/clock/mt8192-clk.h: No such file or directory
+   22 |         #include <dt-bindings/clock/mt8192-clk.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [scripts/Makefile.lib:380: Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1419: dt_binding_check] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1515305
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
