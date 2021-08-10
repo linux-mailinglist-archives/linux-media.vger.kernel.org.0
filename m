@@ -2,432 +2,234 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 761CA3E858A
-	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 23:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFA473E859B
+	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 23:46:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234828AbhHJViX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Aug 2021 17:38:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51214 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234075AbhHJViB (ORCPT
+        id S234877AbhHJVqq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Aug 2021 17:46:46 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:38729 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234852AbhHJVqm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Aug 2021 17:38:01 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92B60C061765
-        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 14:37:38 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id n11so445841wmd.2
-        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 14:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=rhhvtGr+c36pe+A64kgn7B1x6iLlH+Rl8KB7LFxnChA=;
-        b=cU8OnoFVEFwZOdg3Pof3vVfyFbHSdb/bZEcIvJxtQ02ggG3X8u6kdCsOlgFzTSjWrF
-         lQaDzcCLfzyNCu5vZDuqJBQdkC5n9PRcmJspaR51ueag31Zis1ZTcMxDvl8FkyhsEwZl
-         AxxxXC9ijkzouqCHbDGoAOtn1rMJt024F9RoKSX2AbcHCYUuafXPCkMi269le5H1yBb9
-         ysOTzThZZSsYS1xj7g6hBN8aF66S2syjrrWyItZk0Iie6G5tNpuOxhbnnaliiejeQvSe
-         fkR+jKQ3LkKg/gyVj993qBJIzWpqU9YszsszZdMPDwuFEQS7XS7TdGSNHFc7efdn1cku
-         xW+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=rhhvtGr+c36pe+A64kgn7B1x6iLlH+Rl8KB7LFxnChA=;
-        b=MbVXhKl5qfWiRKVPmb5MHUOMPu+1ZNyZ0BUjAU0fWmMEN3aai8J31e61eSEFXDoaw1
-         QyzQyKEBSsLsUbUWnWXbUZqTSPmDEEiFW9XWkYefJeHv+dkcdKIsVEsa9v0uX9F+sk+J
-         wGwYsmLi7UDZ55z2qjyJgStALg8oeMuEVpU8AWqjFjtQErXo437DtqXQUVH2KyQsCGxc
-         MN/q7XJdEzbYA/czEDu9YAwhNqgjXz9W1+XiEc7WjYDJkH039cuNdMZ9djOpTyFGk6af
-         3SJXO3fsKf12tr+xdOH5RhVYkLH4bsaIhuOYON/L28gn9S5+1HnySwe+O+/ZWalFigmI
-         ci9w==
-X-Gm-Message-State: AOAM531C/O2X5dU01PBLARxWOH2LTUk1FZqR8C8bmfLR6WjPhaOCkFRf
-        GjjwIwhKsqfBmcpzeZKQkUw=
-X-Google-Smtp-Source: ABdhPJxWgykykVoLCctLCqsaxjR+QBT1posSi8DyPQARLkZoxZ5lcA8pdqxz9A0UCSEYHG3aPlojbQ==
-X-Received: by 2002:a05:600c:218b:: with SMTP id e11mr6650948wme.185.1628631457175;
-        Tue, 10 Aug 2021 14:37:37 -0700 (PDT)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id c1sm3707038wmp.7.2021.08.10.14.37.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Aug 2021 14:37:36 -0700 (PDT)
-Subject: Re: [PATCH v2 04/12] media: i2c: Support 19.2MHz input clock in
- ov8865
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     paul.kocialkowski@bootlin.com, ezequiel@collabora.com,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        yong.zhi@intel.com, bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        kevin.lhopital@bootlin.com, yang.lee@linux.alibaba.com,
-        andy.shevchenko@gmail.com, laurent.pinchart@ideasonboard.com,
-        kieran.bingham@ideasonboard.com
-References: <20210809225845.916430-1-djrscally@gmail.com>
- <20210809225845.916430-5-djrscally@gmail.com>
- <20210810133426.GB3@paasikivi.fi.intel.com>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <711e4f6d-f539-0a69-fe78-d5e32eecb673@gmail.com>
-Date:   Tue, 10 Aug 2021 22:37:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Tue, 10 Aug 2021 17:46:42 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20210810214618euoutp02122c03394aaf89d8235b318c77440a70~aECfJpi-S2841728417euoutp02H
+        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 21:46:18 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20210810214618euoutp02122c03394aaf89d8235b318c77440a70~aECfJpi-S2841728417euoutp02H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1628631978;
+        bh=S25XaAe0ngNqrCVdTPrPS4i86nKmo+AzEvVivVRY+cE=;
+        h=Subject:To:From:Date:In-Reply-To:References:From;
+        b=Sq4yomnnc9Kh84itcjf2wiF1zRrWroeBzaod/BM9DR5cCc3IwcnMbmOG5eWIBMC3f
+         09+hFmm7q5I+3MS1byydXEhyXk+szvPLBsA6P/xfm9e7337AM4WuLpTcch1vZ5vVND
+         lpOpJ4gUAzpniRyGUtEkM0AWt/R8HVGDFqTiBpoc=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20210810214617eucas1p14da6ebc5f1fb9ad276590938b3023f20~aECetelZu0812208122eucas1p1A;
+        Tue, 10 Aug 2021 21:46:17 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id 1F.5F.56448.9A3F2116; Tue, 10
+        Aug 2021 22:46:17 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20210810214617eucas1p1e007c68c34792a844b6c72dd11d05887~aECeTllFG0812208122eucas1p1-;
+        Tue, 10 Aug 2021 21:46:17 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20210810214617eusmtrp192a2aef195af6ec0addc791fa1894025~aECeS4r_v0902309023eusmtrp1M;
+        Tue, 10 Aug 2021 21:46:17 +0000 (GMT)
+X-AuditID: cbfec7f5-d3bff7000002dc80-a0-6112f3a987b6
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 75.64.20981.9A3F2116; Tue, 10
+        Aug 2021 22:46:17 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20210810214616eusmtip2b510259d70584686d121513db11c33ed~aECdqZGqO0254702547eusmtip2o;
+        Tue, 10 Aug 2021 21:46:16 +0000 (GMT)
+Subject: Re: [PATCH v1 1/4] media: camss: vfe: Don't read hardware version
+ needlessly
+To:     Robert Foss <robert.foss@linaro.org>, todor.too@gmail.com,
+        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <cea446e5-f377-d565-2701-94194d565d99@samsung.com>
+Date:   Tue, 10 Aug 2021 23:46:16 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
+        Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210810133426.GB3@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210726080113.8378-1-robert.foss@linaro.org>
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBKsWRmVeSWpSXmKPExsWy7djPc7orPwslGkz5Y2Rx7vFvFotXp9rZ
+        LU7vf8disfv1KiaLifvPsltc3jWHzaJnw1ZWi2Wb/jBZfJr1kNni0JRpbA5cHjtn3WX32LSq
+        k83jzrU9bB6fN8kFsERx2aSk5mSWpRbp2yVwZXx8spS9YK96RVPTadYGxpOKXYycHBICJhIf
+        W/8wdzFycQgJrGCUWHrrIQuE84VR4vHEHewgVUICnxklpm+phel4vuEKVMdyRomTvx6wQzgf
+        GSXWHzzJDFIlLBAuceX7V7BRIgJHmCSmH5oJlmATMJToetvFBmLzCthJXOh+wQhiswioSqx9
+        cYUVxBYVSJa4c/o9VI2gxMmZT1hAbE4Ba4k7O38zgdjMAvISzVtnM0PY4hK3nsxnAlkmIXCH
+        Q+LnzJcsELe6SKy6e4gNwhaWeHV8CzuELSNxenIPC0RDM6PEw3Nr2SGcHkaJy00zGCGqgNad
+        +wXUzQG0QlNi/S59iLCjxKcXy9lBwhICfBI33gpCHMEnMWnbdGaIMK9ER5sQRLWaxKzj6+DW
+        HrxwCarEQ2LaUt4JjIqzkHw5C8lns5B8NgvhhAWMLKsYxVNLi3PTU4uN81LL9YoTc4tL89L1
+        kvNzNzECE9Ppf8e/7mBc8eqj3iFGJg7GQ4wSHMxKIrw75YQShXhTEiurUovy44tKc1KLDzFK
+        c7AoifPu2romXkggPbEkNTs1tSC1CCbLxMEp1cAUvXnimmrltP6dyVFlQpM9dWQUOUv/qnAp
+        bzqielo1dWay8VTm+H35+rffzlI99E0sV+H/jnue1664CBtuv/VX0atpv3JQx8O+fC9nhbXv
+        H+Xsu5m0VWLdkuyb79j80+Rfz/Dm1L4Ytz9N0WrZyal/smY1dNn8a3qvcPPUvDdBWnbO4ixa
+        t5huhXhqpCg+PPPQ6yqLYOqeeUsZChY3zz7qODfMKfzNpE9eW8p+tzus79BTW/GTZ8b/LQJt
+        zB2d7x2CE5UXLVl3JL9s7lnxyOru7xKJ5Q8bObg2P/4haFH1vM7rRvneTo1lMxmctmX+vrt9
+        y8lIoa0T2OceUisT2z3rRZ7GlH93t/reKap7XK2oxFKckWioxVxUnAgAVZ+jz7sDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHIsWRmVeSWpSXmKPExsVy+t/xe7orPwslGrxsFrc49/g3i8WrU+3s
+        Fqf3v2Ox2P16FZPFxP1n2S0u75rDZtGzYSurxbJNf5gsPs16yGxxaMo0Ngcuj52z7rJ7bFrV
+        yeZx59oeNo/Pm+QCWKL0bIryS0tSFTLyi0tslaINLYz0DC0t9IxMLPUMjc1jrYxMlfTtbFJS
+        czLLUov07RL0Mj4+WcpesFe9oqnpNGsD40nFLkZODgkBE4nnG64wg9hCAksZJT7NC4eIy0ic
+        nNbACmELS/y51sXWxcgFVPOeUWLrxfWMIAlhgXCJK9+/soAkRAQOMUnc+zuNCWKSlcTvgyAd
+        nBxsAoYSXW8hbF4BO4kL3S/AmlkEVCXWvrgCtkFUIFmi78sERogaQYmTM5+wgNicAtYSd3b+
+        BpvJLGAmMW/zQ2YIW16ieetsKFtc4taT+UwTGAVnIWmfhaRlFpKWWUhaFjCyrGIUSS0tzk3P
+        LTbSK07MLS7NS9dLzs/dxAiMuG3Hfm7Zwbjy1Ue9Q4xMHIyHGCU4mJVEeHfKCSUK8aYkVlal
+        FuXHF5XmpBYfYjQF+mcis5Rocj4w5vNK4g3NDEwNTcwsDUwtzYyVxHlNjqyJFxJITyxJzU5N
+        LUgtgulj4uCUamCK4Wnz7+wPzH3bEWj458GNjTw3omPvl7o2Om9eoH/1/jJtB1fR1a/qdrc+
+        ccvqjL5eI/dIz3i6vDBzYch0g+VWezucTBbaBnt6upif+3NzScNPV7Hlpvu8Dvx3K/6yRyLE
+        RTr9mVrbgTa/YDGd+kgvpTvTHjPxHpX5WbjnU+6ezH0u37cui7tc4lI9ZYNYQZ2m7rXpO8uC
+        H788OF/gpgL3Fu2Qm9Kn6xtu83ls+fRkpQHbkulFK5jtbj9rTjH796zRUey6y2Yj0bKGnPtB
+        BosZtulJhW41a2x6tT2P7/LxY7lyz4Tt4xJWWdRt9nq1fp32hWub3nZtOfCnudtbdPe+ZtnT
+        WbMe/HYW63V7E63EUpyRaKjFXFScCAB3PfGPQQMAAA==
+X-CMS-MailID: 20210810214617eucas1p1e007c68c34792a844b6c72dd11d05887
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20210810214617eucas1p1e007c68c34792a844b6c72dd11d05887
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210810214617eucas1p1e007c68c34792a844b6c72dd11d05887
+References: <20210726080113.8378-1-robert.foss@linaro.org>
+        <CGME20210810214617eucas1p1e007c68c34792a844b6c72dd11d05887@eucas1p1.samsung.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari - thanks for all the comments
+Hi,
 
-On 10/08/2021 14:34, Sakari Ailus wrote:
-> Hi Daniel,
+On 26.07.2021 10:01, Robert Foss wrote:
+> vfe_set_power() is invoced a few times, which causes a lot of
+> VFE HW version prints.
 >
-> Thanks for the set.
+> Secondly there is no real reason for calling hw_version_read() from
+> this location specifically, since it does nothing more than print
+> the VFE HW version.
 >
-> On Mon, Aug 09, 2021 at 11:58:37PM +0100, Daniel Scally wrote:
->> The ov8865 driver as written expects a 24MHz input clock, but the sensor
->> is sometimes found on x86 platforms with a 19.2MHz input clock supplied.
->> Add a set of PLL configurations to the driver to support that rate too.
->> As ACPI doesn't auto-configure the clock rate, check for a clock-frequency
->> during probe and set that rate if one is found.
->>
->> Signed-off-by: Daniel Scally <djrscally@gmail.com>
->> ---
->> Changes in v2:
->>
->> 	- Added an enum defining the possible frequency rates to index the
->> 	  array (Andy)
->>
->>  drivers/media/i2c/ov8865.c | 164 +++++++++++++++++++++++++++----------
->>  1 file changed, 121 insertions(+), 43 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
->> index fe700787bfb9..1382b16d1a09 100644
->> --- a/drivers/media/i2c/ov8865.c
->> +++ b/drivers/media/i2c/ov8865.c
->> @@ -21,10 +21,6 @@
->>  #include <media/v4l2-image-sizes.h>
->>  #include <media/v4l2-mediabus.h>
->>  
->> -/* Clock rate */
->> -
->> -#define OV8865_EXTCLK_RATE			24000000
->> -
->>  /* Register definitions */
->>  
->>  /* System */
->> @@ -567,6 +563,19 @@ struct ov8865_sclk_config {
->>  	unsigned int sclk_div;
->>  };
->>  
->> +/* Clock rate */
->> +
->> +enum extclk_rate {
->> +	OV8865_19_2_MHZ,
->> +	OV8865_24_MHZ,
->> +	OV8865_NUM_SUPPORTED_RATES,
->> +};
->> +
->> +static const unsigned long supported_extclk_rates[] = {
->> +	[OV8865_19_2_MHZ] = 19200000,
->> +	[OV8865_24_MHZ] = 24000000,
->> +};
->> +
->>  /*
->>   * General formulas for (array-centered) mode calculation:
->>   * - photo_array_width = 3296
->> @@ -665,6 +674,9 @@ struct ov8865_sensor {
->>  	struct regulator *avdd;
->>  	struct regulator *dvdd;
->>  	struct regulator *dovdd;
->> +
->> +	unsigned long extclk_rate;
->> +	enum extclk_rate extclk_rate_idx;
->>  	struct clk *extclk;
->>  
->>  	struct v4l2_fwnode_endpoint endpoint;
->> @@ -680,49 +692,83 @@ struct ov8865_sensor {
->>  /* Static definitions */
->>  
->>  /*
->> - * EXTCLK = 24 MHz
->>   * PHY_SCLK = 720 MHz
->>   * MIPI_PCLK = 90 MHz
->>   */
->> -static const struct ov8865_pll1_config ov8865_pll1_config_native = {
->> -	.pll_pre_div_half	= 1,
->> -	.pll_pre_div		= 0,
->> -	.pll_mul		= 30,
->> -	.m_div			= 1,
->> -	.mipi_div		= 3,
->> -	.pclk_div		= 1,
->> -	.sys_pre_div		= 1,
->> -	.sys_div		= 2,
->> +
->> +static const struct ov8865_pll1_config ov8865_pll1_configs_native[] = {
->> +	{ /* 19.2 MHz input clock */
->> +		.pll_pre_div_half	= 1,
->> +		.pll_pre_div		= 2,
->> +		.pll_mul		= 75,
->> +		.m_div			= 1,
->> +		.mipi_div		= 3,
->> +		.pclk_div		= 1,
->> +		.sys_pre_div		= 1,
->> +		.sys_div		= 2,
->> +	},
->> +	{ /* 24MHz input clock */
->> +		.pll_pre_div_half	= 1,
->> +		.pll_pre_div		= 0,
->> +		.pll_mul		= 30,
->> +		.m_div			= 1,
->> +		.mipi_div		= 3,
->> +		.pclk_div		= 1,
->> +		.sys_pre_div		= 1,
->> +		.sys_div		= 2,
->> +	},
-> Could you instead add a struct specific to the clock frequency with
-> pointers to these? See e.g. the ov8856 driver how this could otherwise end
-> up...
-
-
-You mean something like
-
-
-static struct ov8865_pll_configs_19_2_mhz {
-
-    .pll1_config_native = &ov8865_pll1_config_native,
-
-    ...
-
-};
-
-
-
-static struct ov8865_pll_configs_24_mhz {
-
-    .pll1_config_native = &ov8865_pll1_config_native,
-
-    ...
-
-};
-
-
-or am I misunderstanding?
-
+> A better location for the hw_version_read() call would be somewhere
+> which is only executed once per VFE unit.
 >
->>  };
->>  
->>  /*
->> - * EXTCLK = 24 MHz
->>   * DAC_CLK = 360 MHz
->>   * SCLK = 144 MHz
->>   */
->>  
->> -static const struct ov8865_pll2_config ov8865_pll2_config_native = {
->> -	.pll_pre_div_half	= 1,
->> -	.pll_pre_div		= 0,
->> -	.pll_mul		= 30,
->> -	.dac_div		= 2,
->> -	.sys_pre_div		= 5,
->> -	.sys_div		= 0,
->> +static const struct ov8865_pll2_config ov8865_pll2_configs_native[] = {
->> +	/* 19.2MHz input clock */
->> +	{
->> +		.pll_pre_div_half	= 1,
->> +		.pll_pre_div		= 5,
->> +		.pll_mul		= 75,
->> +		.dac_div		= 1,
->> +		.sys_pre_div		= 1,
->> +		.sys_div		= 3,
->> +	},
->> +	/* 24MHz input clock */
->> +	{
->> +		.pll_pre_div_half	= 1,
->> +		.pll_pre_div		= 0,
->> +		.pll_mul		= 30,
->> +		.dac_div		= 2,
->> +		.sys_pre_div		= 5,
->> +		.sys_div		= 0,
->> +	}
->>  };
->>  
->>  /*
->> - * EXTCLK = 24 MHz
->>   * DAC_CLK = 360 MHz
->>   * SCLK = 72 MHz
->>   */
->>  
->> -static const struct ov8865_pll2_config ov8865_pll2_config_binning = {
->> +static const struct ov8865_pll2_config ov8865_pll2_configs_binning[] = {
->> +	/* 19.2MHz input clock */
->> +	{
->> +	.pll_pre_div_half	= 1,
->> +	.pll_pre_div		= 2,
->> +	.pll_mul		= 75,
->> +	.dac_div		= 2,
->> +	.sys_pre_div		= 10,
->> +	.sys_div		= 0,
->> +	},
->> +	/* 24MHz input clock */
->> +	{
->>  	.pll_pre_div_half	= 1,
->>  	.pll_pre_div		= 0,
->>  	.pll_mul		= 30,
->>  	.dac_div		= 2,
->>  	.sys_pre_div		= 10,
->>  	.sys_div		= 0,
->> +	}
->>  };
->>  
->>  static const struct ov8865_sclk_config ov8865_sclk_config_native = {
->> @@ -934,8 +980,8 @@ static const struct ov8865_mode ov8865_modes[] = {
->>  		.frame_interval			= { 1, 30 },
->>  
->>  		/* PLL */
->> -		.pll1_config			= &ov8865_pll1_config_native,
->> -		.pll2_config			= &ov8865_pll2_config_native,
->> +		.pll1_config			= ov8865_pll1_configs_native,
->> +		.pll2_config			= ov8865_pll2_configs_native,
->>  		.sclk_config			= &ov8865_sclk_config_native,
->>  
->>  		/* Registers */
->> @@ -990,8 +1036,8 @@ static const struct ov8865_mode ov8865_modes[] = {
->>  		.frame_interval			= { 1, 30 },
->>  
->>  		/* PLL */
->> -		.pll1_config			= &ov8865_pll1_config_native,
->> -		.pll2_config			= &ov8865_pll2_config_native,
->> +		.pll1_config			= ov8865_pll1_configs_native,
->> +		.pll2_config			= ov8865_pll2_configs_native,
->>  		.sclk_config			= &ov8865_sclk_config_native,
->>  
->>  		/* Registers */
->> @@ -1050,8 +1096,8 @@ static const struct ov8865_mode ov8865_modes[] = {
->>  		.frame_interval			= { 1, 30 },
->>  
->>  		/* PLL */
->> -		.pll1_config			= &ov8865_pll1_config_native,
->> -		.pll2_config			= &ov8865_pll2_config_binning,
->> +		.pll1_config			= ov8865_pll1_configs_native,
->> +		.pll2_config			= ov8865_pll2_configs_binning,
->>  		.sclk_config			= &ov8865_sclk_config_native,
->>  
->>  		/* Registers */
->> @@ -1116,8 +1162,8 @@ static const struct ov8865_mode ov8865_modes[] = {
->>  		.frame_interval			= { 1, 90 },
->>  
->>  		/* PLL */
->> -		.pll1_config			= &ov8865_pll1_config_native,
->> -		.pll2_config			= &ov8865_pll2_config_binning,
->> +		.pll1_config			= ov8865_pll1_configs_native,
->> +		.pll2_config			= ov8865_pll2_configs_binning,
->>  		.sclk_config			= &ov8865_sclk_config_native,
->>  
->>  		/* Registers */
->> @@ -1513,12 +1559,11 @@ static int ov8865_isp_configure(struct ov8865_sensor *sensor)
->>  static unsigned long ov8865_mode_pll1_rate(struct ov8865_sensor *sensor,
->>  					   const struct ov8865_mode *mode)
->>  {
->> -	const struct ov8865_pll1_config *config = mode->pll1_config;
->> -	unsigned long extclk_rate;
->> +	const struct ov8865_pll1_config *config;
->>  	unsigned long pll1_rate;
->>  
->> -	extclk_rate = clk_get_rate(sensor->extclk);
->> -	pll1_rate = extclk_rate * config->pll_mul / config->pll_pre_div_half;
->> +	config = &mode->pll1_config[sensor->extclk_rate_idx];
->> +	pll1_rate = sensor->extclk_rate * config->pll_mul / config->pll_pre_div_half;
->>  
->>  	switch (config->pll_pre_div) {
->>  	case 0:
->> @@ -1552,10 +1597,12 @@ static int ov8865_mode_pll1_configure(struct ov8865_sensor *sensor,
->>  				      const struct ov8865_mode *mode,
->>  				      u32 mbus_code)
->>  {
->> -	const struct ov8865_pll1_config *config = mode->pll1_config;
->> +	const struct ov8865_pll1_config *config;
->>  	u8 value;
->>  	int ret;
->>  
->> +	config = &mode->pll1_config[sensor->extclk_rate_idx];
->> +
->>  	switch (mbus_code) {
->>  	case MEDIA_BUS_FMT_SBGGR10_1X10:
->>  		value = OV8865_MIPI_BIT_SEL(10);
->> @@ -1622,9 +1669,11 @@ static int ov8865_mode_pll1_configure(struct ov8865_sensor *sensor,
->>  static int ov8865_mode_pll2_configure(struct ov8865_sensor *sensor,
->>  				      const struct ov8865_mode *mode)
->>  {
->> -	const struct ov8865_pll2_config *config = mode->pll2_config;
->> +	const struct ov8865_pll2_config *config;
->>  	int ret;
->>  
->> +	config = &mode->pll2_config[sensor->extclk_rate_idx];
->> +
->>  	ret = ov8865_write(sensor, OV8865_PLL_CTRL12_REG,
->>  			   OV8865_PLL_CTRL12_PRE_DIV_HALF(config->pll_pre_div_half) |
->>  			   OV8865_PLL_CTRL12_DAC_DIV(config->dac_div));
->> @@ -2053,9 +2102,11 @@ static int ov8865_mode_configure(struct ov8865_sensor *sensor,
->>  static unsigned long ov8865_mode_mipi_clk_rate(struct ov8865_sensor *sensor,
->>  					       const struct ov8865_mode *mode)
->>  {
->> -	const struct ov8865_pll1_config *config = mode->pll1_config;
->> +	const struct ov8865_pll1_config *config;
->>  	unsigned long pll1_rate;
->>  
->> +	config = &mode->pll1_config[sensor->extclk_rate_idx];
->> +
->>  	pll1_rate = ov8865_mode_pll1_rate(sensor, mode);
->>  
->>  	return pll1_rate / config->m_div / 2;
->> @@ -2783,7 +2834,8 @@ static int ov8865_probe(struct i2c_client *client)
->>  	struct ov8865_sensor *sensor;
->>  	struct v4l2_subdev *subdev;
->>  	struct media_pad *pad;
->> -	unsigned long rate;
->> +	unsigned int rate;
->> +	unsigned int i;
->>  	int ret;
->>  
->>  	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
->> @@ -2858,13 +2910,39 @@ static int ov8865_probe(struct i2c_client *client)
->>  		goto error_endpoint;
->>  	}
->>  
->> -	rate = clk_get_rate(sensor->extclk);
->> -	if (rate != OV8865_EXTCLK_RATE) {
->> -		dev_err(dev, "clock rate %lu Hz is unsupported\n", rate);
->> +	/*
->> +	 * We could have either a 24MHz or 19.2MHz clock rate. Check for a
->> +	 * clock-frequency property and if found, set that rate. This should
->> +	 * cover ACPI case. If the system uses devicetree then the configured
->> +	 * rate should already be set, so we'll have to check it.
->> +	 */
->> +
->> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
->> +				       &rate);
->> +	if (!ret) {
->> +		ret = clk_set_rate(sensor->extclk, rate);
->> +		if (ret) {
->> +			dev_err(dev, "failed to set clock rate\n");
->> +			return ret;
->> +		}
->> +	}
->> +
->> +	sensor->extclk_rate = clk_get_rate(sensor->extclk);
->> +
->> +	for (i = 0; i < ARRAY_SIZE(supported_extclk_rates); i++) {
->> +		if (sensor->extclk_rate == supported_extclk_rates[i])
->> +			break;
->> +	}
->> +
->> +	if (i == ARRAY_SIZE(supported_extclk_rates)) {
->> +		dev_err(dev, "clock rate %lu Hz is unsupported\n",
->> +			sensor->extclk_rate);
->>  		ret = -EINVAL;
->>  		goto error_endpoint;
->>  	}
->>  
->> +	sensor->extclk_rate_idx = i;
->> +
->>  	/* Subdev, entity and pad */
->>  
->>  	subdev = &sensor->subdev;
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+
+This patch landed recently in linux-next as commit b10b5334528a ("media: 
+camss: vfe: Don't read hardware version needlessly"). Sadly it causes a 
+following regression on DragonBoard410c 
+(arch/arm64/boot/dts/qcom/apq8016-sbc.dts):
+
+Unable to handle kernel NULL pointer dereference at virtual address 
+0000000000000000
+Mem abort info:
+   ESR = 0x96000006
+   EC = 0x25: DABT (current EL), IL = 32 bits
+   SET = 0, FnV = 0
+   EA = 0, S1PTW = 0
+   FSC = 0x06: level 2 translation fault
+input: pm8941_resin as 
+/devices/platform/soc/200f000.spmi/spmi-0/0-00/200f000.spmi:pmic@0:pon@800/200f000.spmi:pmic@0:pon@800:resin/input/input2
+Data abort info:
+   ISV = 0, ISS = 0x00000006
+   CM = 0, WnR = 0
+user pgtable: 4k pages, 48-bit VAs, pgdp=0000000087ca0000
+[0000000000000000] pgd=0800000084c4c003, p4d=0800000084c4c003, 
+pud=08000000859c2003, pmd=0000000000000000
+Internal error: Oops: 96000006 [#1] PREEMPT SMP
+Modules linked in: msm(+) qcom_pon rtc_pm8xxx qcom_spmi_vadc 
+qcom_vadc_common qcom_camss(+) snd_soc_msm8916_analog 
+qcom_spmi_temp_alarm venus_core(+) videobuf2_dma_sg v4l2_fwnode 
+snd_soc_lpass_apq8016 v4l2_async videobuf2_memops snd_soc_lpass_cpu 
+v4l2_mem2mem snd_soc_apq8016_sbc snd_soc_lpass_platform 
+snd_soc_msm8916_digital videobuf2_v4l2 snd_soc_qcom_common 
+videobuf2_common qnoc_msm8916 qcom_rng videodev i2c_qcom_cci mdt_loader 
+mc icc_smd_rpm crct10dif_ce socinfo rmtfs_mem display_connector
+adreno 1c00000.gpu: Adding to iommu group 2
+CPU: 1 PID: 286 Comm: systemd-udevd Not tainted 5.14.0-rc4+ #3778
+Hardware name: Qualcomm Technologies, Inc. APQ 8016 SBC (DT)
+pstate: 80000005 (Nzcv daif -PAN -UAO -TCO BTYPE=--)
+pc : vfe_hw_version_read+0x4/0x10 [qcom_camss]
+platform 1a98000.dsi: Fixing up cyclic dependency with 3-0039
+lr : msm_vfe_subdev_init+0x84/0x558 [qcom_camss]
+platform 1a98000.dsi: Fixing up cyclic dependency with 1a01000.mdp
+sp : ffff8000148337f0
+x29: ffff8000148337f0 x28: ffff000006c1d800 x27: 0000000000000001
+x26: 0000000000000002 x25: ffff8000091976d0 x24: ffff000006a98080
+x23: 0000000000000000 x22: ffff000006c1d800 x21: ffff000000298010
+x20: ffff800009197028 x19: ffff000000298000 x18: 0000000000000000
+x17: 2e726f74616c7567 x16: 0000000000000028 x15: 0000b5f01da86af8
+x14: 0000000000000001 x13: 000000000000001f x12: 0000000000000001
+x11: 0000000000000010 x10: 0101010101010101 x9 : ffff8000091922f0
+x8 : ffff8000091949f0 x7 : ffff800009194a08 x6 : ffff8000091925c8
+x5 : ffff800009191f00 x4 : ffff000006a9ca00 x3 : ffff000006a9c080
+x2 : ffff80000918d3a0 x1 : ffff000000298010 x0 : 0000000000000000
+msm_mdp 1a01000.mdp: Adding to iommu group 3
+Call trace:
+  vfe_hw_version_read+0x4/0x10 [qcom_camss]
+  camss_probe+0x370/0xdd0 [qcom_camss]
+  platform_probe+0x90/0xd8
+  really_probe+0x138/0x2d0
+  __driver_probe_device+0x78/0xd8
+  driver_probe_device+0x40/0x110
+  __driver_attach+0xcc/0x118
+  bus_for_each_dev+0x68/0xc8
+  driver_attach+0x20/0x28
+  bus_add_driver+0x168/0x1f8
+  driver_register+0x60/0x110
+  __platform_driver_register+0x24/0x30
+  qcom_camss_driver_init+0x1c/0x1000 [qcom_camss]
+  do_one_initcall+0x84/0x450
+  do_init_module+0x58/0x200
+  load_module+0x1f54/0x26a0
+  __do_sys_finit_module+0xe4/0x100
+  __arm64_sys_finit_module+0x18/0x20
+  invoke_syscall+0x40/0xf8
+  el0_svc_common+0x60/0x100
+  do_el0_svc_compat+0x1c/0x48
+  el0_svc_compat+0x20/0x30
+  el0t_32_sync_handler+0xec/0x140
+  el0t_32_sync+0x168/0x16c
+Code: 88dffc63 88dffc63 00000000 f9400800 (b9400000)
+---[ end trace e1e3b303eae40654 ]---
+
+Let me know if I can help somehow to fix this issue.
+
+> ---
+>   drivers/media/platform/qcom/camss/camss-vfe.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+> index e0f3a36f3f3f..f6e889c1598e 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+> @@ -713,8 +713,6 @@ static int vfe_set_power(struct v4l2_subdev *sd, int on)
+>   		ret = vfe_get(vfe);
+>   		if (ret < 0)
+>   			return ret;
+> -
+> -		vfe->ops->hw_version_read(vfe, vfe->camss->dev);
+>   	} else {
+>   		vfe_put(vfe);
+>   	}
+> @@ -1301,6 +1299,7 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
+>   		return -EINVAL;
+>   	}
+>   	vfe->ops->subdev_init(dev, vfe);
+> +	vfe->ops->hw_version_read(vfe, dev);
+>   
+>   	/* Memory */
+>   
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
