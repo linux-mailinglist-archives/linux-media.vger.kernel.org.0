@@ -2,242 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD95F3E5575
-	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 10:33:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2144B3E55AE
+	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 10:40:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238343AbhHJIdC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Aug 2021 04:33:02 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:46478 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S238360AbhHJIcK (ORCPT
+        id S233318AbhHJIko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Aug 2021 04:40:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38162 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231860AbhHJIko (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Aug 2021 04:32:10 -0400
-X-UUID: fd0f156ebce0447c9fae012d2730b613-20210810
-X-UUID: fd0f156ebce0447c9fae012d2730b613-20210810
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 773417869; Tue, 10 Aug 2021 16:31:46 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 10 Aug 2021 16:31:44 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 10 Aug 2021 16:31:44 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        George Sun <george.sun@mediatek.com>
-Subject: [PATCH v4, 15/15] media: mtk-vcodec: Use codec type to separate different hardware
-Date:   Tue, 10 Aug 2021 16:30:47 +0800
-Message-ID: <20210810083047.16693-16-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210810083047.16693-1-yunfei.dong@mediatek.com>
-References: <20210810083047.16693-1-yunfei.dong@mediatek.com>
+        Tue, 10 Aug 2021 04:40:44 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B63AC061798
+        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 01:40:22 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id m12so25132781wru.12
+        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 01:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=cKbU9FcikmLQJ8ei5FqM01XsNg7Lhvb/CqBLRSs+e6Y=;
+        b=dyIuT2n2VcPiM/RBZyvglfDmYnDB6Khh/nbdE68r8gYpY/a2NOrDaGfZLTs1W/+53t
+         vXS/cZ/tC1I9/7dqHtnrmgMvWpGq9dGx95D1TIug5tn0JH7x68v/1Ix3ehVQ3mzJinRI
+         GUr9/F01AqBZbk8e0i4kbq2w26FwQ6BX+66Fo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=cKbU9FcikmLQJ8ei5FqM01XsNg7Lhvb/CqBLRSs+e6Y=;
+        b=oK8CXEzlXKyHWAiBj+Dd5Cnk/tv0hsZHBRWElXyH/qmnFr1gEvXwhD7xEbfv+1KBGd
+         9mFGoYrT/WwR1ohz21ZcaG4KGxJAWYnyXo0ceNRvmoEEKgLEYo+doLq0lpX3QvFvpTjA
+         hYkLgUvCWxCIgknB0fLD9o5W6fm6dHO6IhFrz8Uab0DAacp5lH793Vz/EOiGd3dDjrkL
+         o/DylAIDXPSC0tvK5c6i497EBRhUdp0mSKSsgfCWTWaDiJR6E+Gt9f3/copGAWOxegeK
+         nDfGexV56mxhfJJpKTdWKPqZ1HxVVxnu2D0fBorBV/1xt/qe3cy6i8EfIQtzySnlUZ8P
+         Qhcw==
+X-Gm-Message-State: AOAM531dtS/np5uXosoJLqwqLMRy91JKbJZMaBrdErbSlj2VIXXxmblt
+        RUvscj+pfv495xPjGelSmoiUmw==
+X-Google-Smtp-Source: ABdhPJza6SgqUQMLMWRHmcm7FQ9wXAO72W40L4Idi8UXF8r5IQoBj3uhgCeKhzBt6M/C31Jpx7GRDw==
+X-Received: by 2002:adf:ee4e:: with SMTP id w14mr29754692wro.15.1628584821138;
+        Tue, 10 Aug 2021 01:40:21 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id c15sm22801342wrw.93.2021.08.10.01.40.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Aug 2021 01:40:20 -0700 (PDT)
+Date:   Tue, 10 Aug 2021 10:40:18 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Sumit Semwal <sumit.semwal@linaro.org>
+Cc:     Hridya Valsaraju <hridya@google.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] dma-buf: heaps: Set allocation limit for system heap
+Message-ID: <YRI7cqWXM545iMzO@phenom.ffwll.local>
+Mail-Followup-To: Sumit Semwal <sumit.semwal@linaro.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20210722190747.1986614-1-hridya@google.com>
+ <CALAqxLVLMt7rbJBQtFBw-ikBAjKrVgfS8=Nu6NFQbp_gq1m22Q@mail.gmail.com>
+ <CA+wgaPOQmY4H9n302YspKuLk9iq9vBzdWBTu19EUUsiQYTUOzQ@mail.gmail.com>
+ <CAO_48GFS5SsdNCwOp6Jb+nmZJ+SdNkQkq628VhxXRGSLVeP0Yg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAO_48GFS5SsdNCwOp6Jb+nmZJ+SdNkQkq628VhxXRGSLVeP0Yg@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are just one core thread, in order to separeate different
-hardware, using codec type to separeate it in scp driver.
+On Tue, Aug 10, 2021 at 01:54:41PM +0530, Sumit Semwal wrote:
+> Hi Hridya,
+> 
+> Apologies for the delay in responding.
+> 
+> On Wed, 4 Aug 2021 at 03:09, Hridya Valsaraju <hridya@google.com> wrote:
+> 
+> > On Mon, Aug 2, 2021 at 7:18 PM John Stultz <john.stultz@linaro.org> wrote:
+> > >
+> > > On Thu, Jul 22, 2021 at 12:07 PM Hridya Valsaraju <hridya@google.com>
+> > wrote:
+> > > > This patch limits the size of total memory that can be requested in a
+> > > > single allocation from the system heap. This would prevent a
+> > > > buggy/malicious client from depleting system memory by requesting for
+> > an
+> > > > extremely large allocation which might destabilize the system.
+> > > >
+> > > > The limit is set to half the size of the device's total RAM which is
+> > the
+> > > > same as what was set by the deprecated ION system heap.
+> > > >
+> > > > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > >
+> > > Seems sane to me, unless folks have better suggestions for allocation
+> > limits.
+> > >
+> > > Reviewed-by: John Stultz <john.stultz@linaro.org>
+> >
+> > Thank you for taking a look John!
+> >
+> Looks good to me; I will apply it to drm-misc today.
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
-v4: no change
----
- .../media/platform/mtk-vcodec/vdec_ipi_msg.h  | 12 ++++---
- .../media/platform/mtk-vcodec/vdec_vpu_if.c   | 34 ++++++++++++++++---
- .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  4 +++
- 3 files changed, 41 insertions(+), 9 deletions(-)
+Please don't, this doesn't really solve anything:
+- it's easy to bypass, just allocate more buffers to get over the limit
+- resource limit plan is cgroups, not hand-rolled limits in every
+  allocator
+- the ttm "max half of system memory" is for pinned memory, to work around
+  locking inversion issues between dma_resv_lock and core mm shrinkers. It
+  does not actually impose an overall allocation limit, you can allocate
+  ttm bo until your entire memory (and swap) are full. Christian König has
+  merged a patch set to lift this by reworking the shrinker interaction,
+  but it had to be reverted again because of some fallout I can't remember
+  offhand. dma_resv_lock vs shrinkers is very tricky.
 
-diff --git a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
-index 9d8079c4f976..c488f0c40190 100644
---- a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
-+++ b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
-@@ -35,6 +35,8 @@ enum vdec_ipi_msgid {
-  * @msg_id	: vdec_ipi_msgid
-  * @vpu_inst_addr : VPU decoder instance address. Used if ABI version < 2.
-  * @inst_id     : instance ID. Used if the ABI version >= 2.
-+ * @codec_type	: Codec fourcc
-+ * @reserved	: reserved param
-  */
- struct vdec_ap_ipi_cmd {
- 	uint32_t msg_id;
-@@ -42,6 +44,8 @@ struct vdec_ap_ipi_cmd {
- 		uint32_t vpu_inst_addr;
- 		uint32_t inst_id;
- 	};
-+	uint32_t codec_type;
-+	uint32_t reserved;
- };
- 
- /**
-@@ -59,12 +63,12 @@ struct vdec_vpu_ipi_ack {
- /**
-  * struct vdec_ap_ipi_init - for AP_IPIMSG_DEC_INIT
-  * @msg_id	: AP_IPIMSG_DEC_INIT
-- * @reserved	: Reserved field
-+ * @codec_type	: Codec fourcc
-  * @ap_inst_addr	: AP video decoder instance address
-  */
- struct vdec_ap_ipi_init {
- 	uint32_t msg_id;
--	uint32_t reserved;
-+	uint32_t codec_type;
- 	uint64_t ap_inst_addr;
- };
- 
-@@ -77,7 +81,7 @@ struct vdec_ap_ipi_init {
-  *	H264 decoder [0]:buf_sz [1]:nal_start
-  *	VP8 decoder  [0]:width/height
-  *	VP9 decoder  [0]:profile, [1][2] width/height
-- * @reserved	: Reserved field
-+ * @codec_type	: Codec fourcc
-  */
- struct vdec_ap_ipi_dec_start {
- 	uint32_t msg_id;
-@@ -86,7 +90,7 @@ struct vdec_ap_ipi_dec_start {
- 		uint32_t inst_id;
- 	};
- 	uint32_t data[3];
--	uint32_t reserved;
-+	uint32_t codec_type;
- };
- 
- /**
-diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
-index bfd8e87dceff..c84fac52fe26 100644
---- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
-+++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
-@@ -100,18 +100,29 @@ static void vpu_dec_ipi_handler(void *data, unsigned int len, void *priv)
- 
- static int vcodec_vpu_send_msg(struct vdec_vpu_inst *vpu, void *msg, int len)
- {
--	int err;
-+	int err, id, msgid;
- 
--	mtk_vcodec_debug(vpu, "id=%X", *(uint32_t *)msg);
-+	msgid = *(uint32_t *)msg;
-+	mtk_vcodec_debug(vpu, "id=%X", msgid);
- 
- 	vpu->failure = 0;
- 	vpu->signaled = 0;
- 
--	err = mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, vpu->id, msg,
-+	if (vpu->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_LAT_SINGLE_CORE) {
-+		if (msgid == AP_IPIMSG_DEC_CORE ||
-+			msgid == AP_IPIMSG_DEC_CORE_END)
-+			id = vpu->core_id;
-+		else
-+			id = vpu->id;
-+	} else {
-+		id = vpu->id;
-+	}
-+
-+	err = mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, id, msg,
- 				     len, 2000);
- 	if (err) {
- 		mtk_vcodec_err(vpu, "send fail vpu_id=%d msg_id=%X status=%d",
--			       vpu->id, *(uint32_t *)msg, err);
-+			       id, msgid, err);
- 		return err;
- 	}
- 
-@@ -131,6 +142,7 @@ static int vcodec_send_ap_ipi(struct vdec_vpu_inst *vpu, unsigned int msg_id)
- 		msg.vpu_inst_addr = vpu->inst_addr;
- 	else
- 		msg.inst_id = vpu->inst_id;
-+	msg.codec_type = vpu->codec_type;
- 
- 	err = vcodec_vpu_send_msg(vpu, &msg, sizeof(msg));
- 	mtk_vcodec_debug(vpu, "- id=%X ret=%d", msg_id, err);
-@@ -149,14 +161,25 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
- 
- 	err = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler, vpu->id,
- 					 vpu->handler, "vdec", NULL);
--	if (err != 0) {
-+	if (err) {
- 		mtk_vcodec_err(vpu, "vpu_ipi_register fail status=%d", err);
- 		return err;
- 	}
- 
-+	if (vpu->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_LAT_SINGLE_CORE) {
-+		err = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler,
-+					 vpu->core_id, vpu->handler,
-+					 "vdec", NULL);
-+		if (err) {
-+			mtk_vcodec_err(vpu, "vpu_ipi_register core fail status=%d", err);
-+			return err;
-+		}
-+	}
-+
- 	memset(&msg, 0, sizeof(msg));
- 	msg.msg_id = AP_IPIMSG_DEC_INIT;
- 	msg.ap_inst_addr = (unsigned long)vpu;
-+	msg.codec_type = vpu->codec_type;
- 
- 	mtk_vcodec_debug(vpu, "vdec_inst=%p", vpu);
- 
-@@ -187,6 +210,7 @@ int vpu_dec_start(struct vdec_vpu_inst *vpu, uint32_t *data, unsigned int len)
- 
- 	for (i = 0; i < len; i++)
- 		msg.data[i] = data[i];
-+	msg.codec_type = vpu->codec_type;
- 
- 	err = vcodec_vpu_send_msg(vpu, (void *)&msg, sizeof(msg));
- 	mtk_vcodec_debug(vpu, "- ret=%d", err);
-diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
-index ae24b75d1649..802660770a87 100644
---- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
-+++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
-@@ -14,6 +14,7 @@ struct mtk_vcodec_ctx;
- /**
-  * struct vdec_vpu_inst - VPU instance for video codec
-  * @id          : ipi msg id for each decoder
-+ * @core_id     : core id used to separate different hardware
-  * @vsi         : driver structure allocated by VPU side and shared to AP side
-  *                for control and info share
-  * @failure     : VPU execution result status, 0: success, others: fail
-@@ -26,9 +27,11 @@ struct mtk_vcodec_ctx;
-  * @dev		: platform device of VPU
-  * @wq          : wait queue to wait VPU message ack
-  * @handler     : ipi handler for each decoder
-+ * @codec_type     : used codec type to separate different codecs
-  */
- struct vdec_vpu_inst {
- 	int id;
-+	int core_id;
- 	void *vsi;
- 	int32_t failure;
- 	uint32_t inst_addr;
-@@ -38,6 +41,7 @@ struct vdec_vpu_inst {
- 	struct mtk_vcodec_ctx *ctx;
- 	wait_queue_head_t wq;
- 	mtk_vcodec_ipi_handler handler;
-+	unsigned int codec_type;
- };
- 
- /**
+So if you want resource limits then you really want cgroups here.
+
+Cheers, Daniel
+
+> 
+> 
+> >
+> > Regards,
+> > Hridya
+> >
+> > >
+> > > thanks
+> > > -john
+> >
+> Best,
+> Sumit.
+> 
+> -- 
+> Thanks and regards,
+> 
+> Sumit Semwal (he / him)
+> Tech Lead - LCG, Vertical Technologies
+> Linaro.org │ Open source software for ARM SoCs
+
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
