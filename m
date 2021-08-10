@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC1683E5560
-	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 10:32:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9A883E5565
+	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 10:32:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236419AbhHJIcK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Aug 2021 04:32:10 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:46478 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S238302AbhHJIcH (ORCPT
+        id S238283AbhHJIcQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Aug 2021 04:32:16 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:58232 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S238329AbhHJIcH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 10 Aug 2021 04:32:07 -0400
-X-UUID: 952fd43cd5dd42269d360b7428b357f9-20210810
-X-UUID: 952fd43cd5dd42269d360b7428b357f9-20210810
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
+X-UUID: 56cd2ff3d64c4a6eb3ee926715ccd8cf-20210810
+X-UUID: 56cd2ff3d64c4a6eb3ee926715ccd8cf-20210810
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
         (envelope-from <yunfei.dong@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 459318924; Tue, 10 Aug 2021 16:31:42 +0800
+        with ESMTP id 2107097003; Tue, 10 Aug 2021 16:31:44 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 10 Aug 2021 16:31:35 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 10 Aug 2021 16:31:42 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 10 Aug 2021 16:31:34 +0800
+ Transport; Tue, 10 Aug 2021 16:31:35 +0800
 From:   Yunfei Dong <yunfei.dong@mediatek.com>
 To:     Yunfei Dong <yunfei.dong@mediatek.com>,
         Alexandre Courbot <acourbot@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Tzung-Bi Shih" <tzungbi@chromium.org>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
         Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -45,9 +45,9 @@ CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
         <linux-mediatek@lists.infradead.org>,
         <Project_Global_Chrome_Upstream_Group@mediatek.com>,
         George Sun <george.sun@mediatek.com>
-Subject: [PATCH v4, 12/15] media: mtk-vcodec: Support 34bits dma address for vdec
-Date:   Tue, 10 Aug 2021 16:30:44 +0800
-Message-ID: <20210810083047.16693-13-yunfei.dong@mediatek.com>
+Subject: [PATCH v4, 13/15] dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8192
+Date:   Tue, 10 Aug 2021 16:30:45 +0800
+Message-ID: <20210810083047.16693-14-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210810083047.16693-1-yunfei.dong@mediatek.com>
 References: <20210810083047.16693-1-yunfei.dong@mediatek.com>
@@ -58,35 +58,195 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the dma_set_mask_and_coherent helper to set vdec
-DMA bit mask to support 34bits iova space(16GB) that
-the mt8192 iommu HW support.
+Adds decoder dt-bindings for mt8192.
 
-Whole the iova range separate to 0~4G/4G~8G/8G~12G/12G~16G,
-regarding which iova range VDEC actually locate, it
-depends on the dma-ranges property of vdec dtsi node.
-
+Change-Id: I2c482fa6c0a91b5fc4f1950dd563cbc4d6c35da1
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 ---
-v4: no change
+v4: fix yaml file check fail
 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c | 3 +++
- 1 file changed, 3 insertions(+)
+ .../media/mediatek,vcodec-comp-decoder.yaml   | 172 ++++++++++++++++++
+ 1 file changed, 172 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-index 05601d911fb4..6c3268778fb3 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-@@ -418,6 +418,9 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
-+		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
+diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
+new file mode 100644
+index 000000000000..083c89933917
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
+@@ -0,0 +1,172 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iommu/mediatek,vcodec-comp-decoder.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	for (i = 0; i < MTK_VDEC_HW_MAX; i++)
- 		mutex_init(&dev->dec_mutex[i]);
- 	spin_lock_init(&dev->irqlock);
++title: Mediatek Video Decode Accelerator With Component
++
++maintainers:
++  - Yunfei Dong <yunfei.dong@mediatek.com>
++
++description: |+
++  Mediatek Video Decode is the video decode hardware present in Mediatek
++  SoCs which supports high resolution decoding functionalities. Required
++  master and component node.
++
++properties:
++  compatible:
++    oneOf:
++      - enum:
++          - mediatek,mt8192-vcodec-dec  # for lat hardware
++          - mediatek,mtk-vcodec-lat     # for core hardware
++          - mediatek,mtk-vcodec-core
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 5
++
++  clock-names:
++    items:
++      - const: vdec-sel
++      - const: vdec-soc-vdec
++      - const: vdec-soc-lat
++      - const: vdec-vdec
++      - const: vdec-top
++
++  assigned-clocks: true
++
++  assigned-clock-parents: true
++
++  power-domains:
++    maxItems: 1
++
++  iommus:
++    minItems: 1
++    maxItems: 32
++    description: |
++      List of the hardware port in respective IOMMU block for current Socs.
++      Refer to bindings/iommu/mediatek,iommu.yaml.
++
++  dma-ranges:
++    maxItems: 1
++    description: |
++      Describes the physical address space of IOMMU maps to memory.
++
++  mediatek,scp:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    maxItems: 1
++    description:
++      Describes point to scp.
++
++required:
++      - compatible
++      - reg
++      - iommus
++      - dma-ranges
++
++allOf:
++  - if: #master node
++      properties:
++        compatible:
++          contains:
++            enum:
++              - mediatek,mt8192-vcodec-dec  # for lat hardware
++
++    then:
++      required:
++        - mediatek,scp
++
++  - if: #component node
++      properties:
++        compatible:
++          contains:
++            enum:
++              - mediatek,mtk-vcodec-lat     # for core hardware
++              - mediatek,mtk-vcodec-core
++
++    then:
++      required:
++        - interrupts
++        - clocks
++        - clock-names
++        - assigned-clocks
++        - assigned-clock-parents
++        - power-domains
++
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/memory/mt8192-larb-port.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/mt8192-clk.h>
++    #include <dt-bindings/power/mt8192-power.h>
++
++    vcodec_dec: vcodec_dec@16000000 {
++        compatible = "mediatek,mt8192-vcodec-dec";
++        reg = <0 0x16000000 0 0x1000>;		/* VDEC_SYS */
++        mediatek,scp = <&scp>;
++        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
++        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
++    };
++
++    vcodec_lat: vcodec_lat@0x16010000 {
++        compatible = "mediatek,mtk-vcodec-lat";
++        reg = <0 0x16010000 0 0x800>;		/* VDEC_MISC */
++        interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
++        iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
++             <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
++             <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
++             <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
++             <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
++             <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
++             <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
++             <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
++        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
++        clocks = <&topckgen CLK_TOP_VDEC_SEL>,
++             <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
++             <&vdecsys_soc CLK_VDEC_SOC_LAT>,
++             <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
++             <&topckgen CLK_TOP_MAINPLL_D4>;
++        clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
++              "vdec-vdec", "vdec-top";
++        assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
++        assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
++        power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
++    };
++
++    vcodec_core: vcodec_core@0x16025000 {
++        compatible = "mediatek,mtk-vcodec-core";
++        reg = <0 0x16025000 0 0x1000>;		/* VDEC_CORE_MISC */
++        interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
++        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
++             <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
++             <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
++             <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
++             <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
++             <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
++             <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
++             <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
++             <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
++             <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
++             <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
++        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
++        clocks = <&topckgen CLK_TOP_VDEC_SEL>,
++             <&vdecsys CLK_VDEC_VDEC>,
++             <&vdecsys CLK_VDEC_LAT>,
++             <&vdecsys CLK_VDEC_LARB1>,
++             <&topckgen CLK_TOP_MAINPLL_D4>;
++        clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
++              "vdec-vdec", "vdec-top";
++        assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
++        assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
++        power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
++    };
 -- 
 2.25.1
 
