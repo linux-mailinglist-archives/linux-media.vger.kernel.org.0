@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 533093E85E5
-	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 00:06:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BB173E85E7
+	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 00:06:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235135AbhHJWGg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Aug 2021 18:06:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57664 "EHLO
+        id S235158AbhHJWGs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Aug 2021 18:06:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235129AbhHJWGg (ORCPT
+        with ESMTP id S235161AbhHJWGo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Aug 2021 18:06:36 -0400
+        Tue, 10 Aug 2021 18:06:44 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C697C061765;
-        Tue, 10 Aug 2021 15:06:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68A28C061799;
+        Tue, 10 Aug 2021 15:06:19 -0700 (PDT)
 Received: from localhost.localdomain (unknown [IPv6:2804:14d:72b1:a2ff:e85c:7833:5d85:73d6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: dwlsalmeida)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4DE571F43164;
-        Tue, 10 Aug 2021 23:06:06 +0100 (BST)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B1A5E1F43170;
+        Tue, 10 Aug 2021 23:06:12 +0100 (BST)
 From:   daniel.almeida@collabora.com
 To:     stevecho@google.com, shawnku@google.com, tzungbi@google.com,
         mcasas@google.com, nhebert@google.com, abodenha@google.com,
@@ -33,14 +33,13 @@ To:     stevecho@google.com, shawnku@google.com, tzungbi@google.com,
 Cc:     Daniel Almeida <daniel.almeida@collabora.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         kernel@collabora.com
-Subject: [RFC PATCH 1/2] media: Add AV1 uAPI
-Date:   Tue, 10 Aug 2021 19:05:51 -0300
-Message-Id: <20210810220552.298140-2-daniel.almeida@collabora.com>
+Subject: [RFC PATCH 2/2] media: vivpu: add virtual VPU driver
+Date:   Tue, 10 Aug 2021 19:05:52 -0300
+Message-Id: <20210810220552.298140-3-daniel.almeida@collabora.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210810220552.298140-1-daniel.almeida@collabora.com>
 References: <20210810220552.298140-1-daniel.almeida@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -48,2811 +47,1862 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Daniel Almeida <daniel.almeida@collabora.com>
 
-This patch adds the  AOMedia Video 1 (AV1) kernel uAPI.
+Add a virtual VPU driver to aid userspace in testing stateless uAPI
+implementations for which no hardware is currently available.
 
-This design is based on currently available AV1 API implementations and
-aims to support the development of AV1 stateless video codecs
-on Linux.
+A userspace implementation can use vivpu to run a decoding loop even
+when no hardware is available or when the kernel uAPI for the codec
+has not been upstreamed yet. This can reveal bugs at an early stage.
+
+Also makes it possible to work on the kernel uAPI for a codec and
+a corresponding userspace implementation at the same time.
 
 Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
 ---
- .../userspace-api/media/v4l/biblio.rst        |   10 +
- .../media/v4l/ext-ctrls-codec-stateless.rst   | 1268 +++++++++++++++++
- .../media/v4l/pixfmt-compressed.rst           |   21 +
- .../media/v4l/vidioc-g-ext-ctrls.rst          |   36 +
- .../media/v4l/vidioc-queryctrl.rst            |   54 +
- .../media/videodev2.h.rst.exceptions          |    9 +
- drivers/media/v4l2-core/v4l2-ctrls-core.c     |  286 +++-
- drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   79 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
- include/media/v4l2-ctrls.h                    |   12 +
- include/uapi/linux/v4l2-controls.h            |  796 +++++++++++
- include/uapi/linux/videodev2.h                |   15 +
- 12 files changed, 2586 insertions(+), 1 deletion(-)
+ drivers/media/test-drivers/Kconfig            |   1 +
+ drivers/media/test-drivers/Makefile           |   1 +
+ drivers/media/test-drivers/vivpu/Kconfig      |  16 +
+ drivers/media/test-drivers/vivpu/Makefile     |   4 +
+ drivers/media/test-drivers/vivpu/vivpu-core.c | 418 ++++++++++++
+ drivers/media/test-drivers/vivpu/vivpu-dec.c  | 491 ++++++++++++++
+ drivers/media/test-drivers/vivpu/vivpu-dec.h  |  61 ++
+ .../media/test-drivers/vivpu/vivpu-video.c    | 599 ++++++++++++++++++
+ .../media/test-drivers/vivpu/vivpu-video.h    |  46 ++
+ drivers/media/test-drivers/vivpu/vivpu.h      | 119 ++++
+ 10 files changed, 1756 insertions(+)
+ create mode 100644 drivers/media/test-drivers/vivpu/Kconfig
+ create mode 100644 drivers/media/test-drivers/vivpu/Makefile
+ create mode 100644 drivers/media/test-drivers/vivpu/vivpu-core.c
+ create mode 100644 drivers/media/test-drivers/vivpu/vivpu-dec.c
+ create mode 100644 drivers/media/test-drivers/vivpu/vivpu-dec.h
+ create mode 100644 drivers/media/test-drivers/vivpu/vivpu-video.c
+ create mode 100644 drivers/media/test-drivers/vivpu/vivpu-video.h
+ create mode 100644 drivers/media/test-drivers/vivpu/vivpu.h
 
-diff --git a/Documentation/userspace-api/media/v4l/biblio.rst b/Documentation/userspace-api/media/v4l/biblio.rst
-index 7b8e6738ff9e..7061144d10bb 100644
---- a/Documentation/userspace-api/media/v4l/biblio.rst
-+++ b/Documentation/userspace-api/media/v4l/biblio.rst
-@@ -417,3 +417,13 @@ VP8
- :title:     RFC 6386: "VP8 Data Format and Decoding Guide"
+diff --git a/drivers/media/test-drivers/Kconfig b/drivers/media/test-drivers/Kconfig
+index e27d6602545d..b426cef7fc88 100644
+--- a/drivers/media/test-drivers/Kconfig
++++ b/drivers/media/test-drivers/Kconfig
+@@ -22,6 +22,7 @@ config VIDEO_VIM2M
+ 	  framework.
  
- :author:    J. Bankoski et al.
-+
-+.. _av1:
-+
-+AV1
-+===
-+
-+
-+:title:     AV1 Bitstream & Decoding Process Specification
-+
-+:author:    Peter de Rivaz, Argon Design Ltd, Jack Haughton, Argon Design Ltd
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-index 72f5e85b4f34..960500651e4b 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-@@ -1458,3 +1458,1271 @@ FWHT Flags
- .. raw:: latex
+ source "drivers/media/test-drivers/vicodec/Kconfig"
++source "drivers/media/test-drivers/vivpu/Kconfig"
  
-     \normalsize
-+
-+
-+.. _v4l2-codec-stateless-av1:
-+
-+``V4L2_CID_STATELESS_AV1_SEQUENCE (struct)``
-+    Represents an AV1 Sequence OBU. See section 5.5. "Sequence header OBU syntax"
-+    in :ref:`av1` for more details.
-+
-+.. c:type:: v4l2_ctrl_av1_sequence
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{5.8cm}|p{4.8cm}|p{6.6cm}|
-+
-+.. flat-table:: struct v4l2_ctrl_av1_sequence
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __u32
-+      - ``flags``
-+      - See :ref:`AV1 Sequence Flags <av1_sequence_flags>`.
-+    * - __u8
-+      - ``seq_profile``
-+      - Specifies the features that can be used in the coded video sequence.
-+    * - __u8
-+      - ``order_hint_bits``
-+      - Specifies the number of bits used for the order_hint field at each frame.
-+    * - __u8
-+      - ``bit_depth``
-+      - the bitdepth to use for the sequence as described in section 5.5.2
-+        "Color config syntax" in :ref:`av1` for more details.
-+
-+
-+.. _av1_sequence_flags:
-+
-+``AV1 Sequence Flags``
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_STILL_PICTURE``
-+      - 0x00000001
-+      - If set, specifies that the coded video sequence contains only one coded
-+	frame. If not set, specifies that the coded video sequence contains one or
-+	more coded frames.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_USE_128X128_SUPERBLOCK``
-+      - 0x00000002
-+      - If set, indicates that superblocks contain 128x128 luma samples.
-+	When equal to 0, it indicates that superblocks contain 64x64 luma samples.
-+	(The number of contained chroma samples depends on subsampling_x and
-+	subsampling_y).
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_ENABLE_FILTER_INTRA``
-+      - 0x00000004
-+      - If set, specifies that the use_filter_intra syntax element may be
-+	present. If not set, specifies that the use_filter_intra syntax element will
-+	not be present.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_ENABLE_INTRA_EDGE_FILTER``
-+      - 0x00000008
-+      - Specifies whether the intra edge filtering process should be enabled.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_ENABLE_INTERINTRA_COMPOUND``
-+      - 0x00000010
-+      - If set, specifies that the mode info for inter blocks may contain the
-+	syntax element interintra. If not set, specifies that the syntax element
-+	interintra will not be present.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_ENABLE_MASKED_COMPOUND``
-+      - 0x00000020
-+      - If set, specifies that the mode info for inter blocks may contain the
-+	syntax element compound_type. If not set, specifies that the syntax element
-+	compound_type will not be present.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_ENABLE_WARPED_MOTION``
-+      - 0x00000040
-+      - If set, indicates that the allow_warped_motion syntax element may be
-+	present. If not set, indicates that the allow_warped_motion syntax element
-+	will not be present.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_ENABLE_DUAL_FILTER``
-+      - 0x00000080
-+      - If set, indicates that the inter prediction filter type may be specified
-+	independently in the horizontal and vertical directions. If the flag is
-+	equal to 0, only one filter type may be specified, which is then used in
-+	both directions.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_ENABLE_ORDER_HINT``
-+      - 0x00000100
-+      - If set, indicates that tools based on the values of order hints may be
-+	used. If not set, indicates that tools based on order hints are disabled.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_ENABLE_JNT_COMP``
-+      - 0x00000200
-+      - If set, indicates that the distance weights process may be used for
-+	inter prediction.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_ENABLE_REF_FRAME_MVS``
-+      - 0x00000400
-+      - If set, indicates that the use_ref_frame_mvs syntax element may be
-+	present. If not set, indicates that the use_ref_frame_mvs syntax element
-+	will not be present.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_ENABLE_SUPERRES``
-+      - 0x00000800
-+      - If set, specifies that the use_superres syntax element will be present
-+	in the uncompressed header. If not set, specifies that the use_superres
-+	syntax element will not be present (instead use_superres will be set to 0
-+	in the uncompressed header without being read).
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_ENABLE_CDEF``
-+      - 0x00001000
-+      - If set, specifies that cdef filtering may be enabled. If not set,
-+	specifies that cdef filtering is disabled.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_ENABLE_RESTORATION``
-+      - 0x00002000
-+      - If set, specifies that loop restoration filtering may be enabled. If not
-+	set, specifies that loop restoration filtering is disabled.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME``
-+      - 0x00004000
-+      - If set, indicates that the video does not contain U and V color planes.
-+	If not set, indicates that the video contains Y, U, and V color planes.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_COLOR_RANGE``
-+      - 0x00008000
-+      - If set, signals full swing representation. If not set, signals studio
-+	swing representation.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X``
-+      - 0x00010000
-+      - Specify the chroma subsampling format.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y``
-+      - 0x00020000
-+      - Specify the chroma subsampling format.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_FILM_GRAIN_PARAMS_PRESENT``
-+      - 0x00040000
-+      - Specifies whether film grain parameters are present in the coded video
-+	sequence.
-+    * - ``V4L2_AV1_SEQUENCE_FLAG_SEPARATE_UV_DELTA_Q``
-+      - 0x00080000
-+      - If set, indicates that the U and V planes may have separate delta
-+	quantizer values. If not set, indicates that the U and V planes will share
-+	the same delta quantizer value.
-+
-+``V4L2_CID_STATELESS_AV1_TILE_GROUP (struct)``
-+    Represents a tile group as seen in an AV1 Tile Group OBU or Frame OBU. A
-+    v4l2_ctrl_av1_tile_group instance will refer to tg_end - tg_start instances
-+    of struct :c:type:`struct v4l2_ctrl_av1_tile_group_entry`. See section
-+    6.10.1 "General tile group OBU semantics" in :ref:`av1` for more details.
-+
-+.. c:type:: v4l2_ctrl_av1_tile_group
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{5.8cm}|p{4.8cm}|p{6.6cm}|
-+
-+.. flat-table:: struct v4l2_ctrl_av1_tile_group
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __u8
-+      - ``flags``
-+      - See :ref:`AV1 Tile Group Flags <av1_tile_group_flags>`.
-+    * - __u8
-+      - ``tg_start``
-+      - Specifies the zero-based index of the first tile in the current tile
-+        group.
-+    * - __u8
-+      - ``tg_end``
-+      - Specifies the zero-based index of the last tile in the current tile
-+        group.
-+
-+.. _av1_tile_group_flags:
-+
-+``AV1 Tile Group Flags``
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_TILE_GROUP_FLAG_START_AND_END_PRESENT``
-+      - 0x00000001
-+      - Specifies whether tg_start and tg_end are present. If tg_start and
-+	tg_end are not present, this tile group covers the entire frame.
-+
-+``V4L2_CID_STATELESS_AV1_TILE_GROUP_ENTRY (struct)``
-+    Represents a single AV1 tile inside an AV1 Tile Group. Note that MiRowStart,
-+    MiRowEnd, MiColStart and MiColEnd can be retrieved from struct
-+    v4l2_av1_tile_info in struct v4l2_ctrl_av1_frame_header using tile_row and
-+    tile_col. See section 6.10.1 "General tile group OBU semantics" in
-+    :ref:`av1` for more details.
-+
-+.. c:type:: v4l2_ctrl_av1_tile_group_entry
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{5.8cm}|p{4.8cm}|p{6.6cm}|
-+
-+.. flat-table:: struct v4l2_ctrl_av1_tile_group_entry
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __u32
-+      - ``tile_offset``
-+      - Offset from the OBU data, i.e. where the coded tile data actually starts.
-+    * - __u32
-+      - ``tile_size``
-+      - Specifies the size in bytes of the coded tile. Equivalent to "TileSize"
-+        in :ref:`av1`.
-+    * - __u32
-+      - ``tile_row``
-+      - Specifies the row of the current tile. Equivalent to "TileRow" in
-+        :ref:`av1`.
-+    * - __u32
-+      - ``tile_col``
-+      - Specifies the column of the current tile. Equivalent to "TileColumn" in
-+        :ref:`av1`.
-+
-+``V4L2_CID_STATELESS_AV1_TILE_LIST (struct)``
-+    Represents a tile list as seen in an AV1 Tile List OBU. Tile lists are used
-+    in "Large Scale Tile Decode Mode". Note that tile_count_minus_1 should be at
-+    most V4L2_AV1_MAX_TILE_COUNT - 1. A struct v4l2_ctrl_av1_tile_list instance
-+    will refer to "tile_count_minus_1" + 1 instances of struct
-+    v4l2_ctrl_av1_tile_list_entry.
-+
-+.. c:type:: v4l2_ctrl_av1_tile_list
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{5.8cm}|p{4.8cm}|p{6.6cm}|
-+
-+.. flat-table:: struct v4l2_ctrl_av1_tile_list
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __u8
-+      - ``output_frame_width_in_tiles_minus_1``
-+      - This field plus one is the width of the output frame, in tile units.
-+    * - __u8
-+      - ``output_frame_height_in_tiles_minus_1``
-+      - This field plus one is the height of the output frame, in tile units.
-+    * - __u8
-+      - ``tile_count_minus_1``
-+      - This field plus one is the number of tile_list_entry in the list.
-+
-+``V4L2_CID_STATELESS_AV1_TILE_LIST_ENTRY (struct)``
-+    Represents a tile list entry as seen in an AV1 Tile List OBU. See section
-+    6.11.2. "Tile list entry semantics" of :ref:`av1` for more details.
-+
-+.. c:type:: v4l2_ctrl_av1_tile_list_entry
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{5.8cm}|p{4.8cm}|p{6.6cm}|
-+
-+.. flat-table:: struct v4l2_ctrl_av1_tile_list
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __u8
-+      - ``anchor_frame_idx``
-+      - The index into an array AnchorFrames of the frames that the tile uses
-+	for prediction.
-+    * - __u8
-+      - ``anchor_tile_row``
-+      - The row coordinate of the tile in the frame that it belongs, in tile
-+	units.
-+    * - __u8
-+      - ``anchor_tile_col``
-+      - The column coordinate of the tile in the frame that it belongs, in tile
-+	units.
-+    * - __u8
-+      - ``tile_data_size_minus_1``
-+      - This field plus one is the size of the coded tile data in bytes.
-+
-+.. c:type:: v4l2_av1_film_grain
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{1.5cm}|p{5.8cm}|p{10.0cm}|
-+
-+.. flat-table:: struct v4l2_av1_film_grain
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __u8
-+      - ``flags``
-+      - See :ref:`AV1 Film Grain Flags <av1_film_grain_flags>`.
-+    * - __u16
-+      - ``grain_seed``
-+      - Specifies the starting value for the pseudo-random numbers used during
-+	film grain synthesis.
-+    * - __u8
-+      - ``film_grain_params_ref_idx``
-+      - Indicates which reference frame contains the film grain parameters to be
-+	used for this frame.
-+    * - __u8
-+      - ``num_y_points``
-+      - Specifies the number of points for the piece-wise linear scaling
-+	function of the luma component.
-+    * - __u8
-+      - ``point_y_value[V4L2_AV1_MAX_NUM_Y_POINTS]``
-+      - Represents the x (luma value) coordinate for the i-th point
-+        of the piecewise linear scaling function for luma component. The values
-+        are signaled on the scale of 0..255. (In case of 10 bit video, these
-+        values correspond to luma values divided by 4. In case of 12 bit video,
-+        these values correspond to luma values divided by 16.).
-+    * - __u8
-+      - ``point_y_scaling[V4L2_AV1_MAX_NUM_Y_POINTS]``
-+      - Represents the scaling (output) value for the i-th point
-+	of the piecewise linear scaling function for luma component.
-+    * - __u8
-+      - ``num_cb_points``
-+      -  Specifies the number of points for the piece-wise linear scaling
-+         function of the cb component.
-+    * - __u8
-+      - ``point_cb_value[V4L2_AV1_MAX_NUM_CB_POINTS]``
-+      - Represents the x coordinate for the i-th point of the
-+        piece-wise linear scaling function for cb component. The values are
-+        signaled on the scale of 0..255.
-+    * - __u8
-+      - ``point_cb_scaling[V4L2_AV1_MAX_NUM_CB_POINTS]``
-+      - Represents the scaling (output) value for the i-th point of the
-+        piecewise linear scaling function for cb component.
-+    * - __u8
-+      - ``num_cr_points``
-+      - Represents the number of points for the piece-wise
-+        linear scaling function of the cr component.
-+    * - __u8
-+      - ``point_cr_value[V4L2_AV1_MAX_NUM_CR_POINTS]``
-+      - Represents the x coordinate for the i-th point of the
-+        piece-wise linear scaling function for cr component. The values are
-+        signaled on the scale of 0..255.
-+    * - __u8
-+      - ``point_cr_scaling[V4L2_AV1_MAX_NUM_CR_POINTS]``
-+      - Represents the scaling (output) value for the i-th point of the
-+        piecewise linear scaling function for cr component.
-+    * - __u8
-+      - ``grain_scaling_minus_8``
-+      - Represents the shift – 8 applied to the values of the chroma component.
-+        The grain_scaling_minus_8 can take values of 0..3 and determines the
-+        range and quantization step of the standard deviation of film grain.
-+    * - __u8
-+      - ``ar_coeff_lag``
-+      - Specifies the number of auto-regressive coefficients for luma and
-+	chroma.
-+    * - __u8
-+      - ``ar_coeffs_y_plus_128[V4L2_AV1_MAX_NUM_POS_LUMA]``
-+      - Specifies auto-regressive coefficients used for the Y plane.
-+    * - __u8
-+      - ``ar_coeffs_cb_plus_128[V4L2_AV1_MAX_NUM_POS_LUMA]``
-+      - Specifies auto-regressive coefficients used for the U plane.
-+    * - __u8
-+      - ``ar_coeffs_cr_plus_128[V4L2_AV1_MAX_NUM_POS_LUMA]``
-+      - Specifies auto-regressive coefficients used for the V plane.
-+    * - __u8
-+      - ``ar_coeff_shift_minus_6``
-+      - Specifies the range of the auto-regressive coefficients. Values of 0,
-+        1, 2, and 3 correspond to the ranges for auto-regressive coefficients of
-+        [-2, 2), [-1, 1), [-0.5, 0.5) and [-0.25, 0.25) respectively.
-+    * - __u8
-+      - ``grain_scale_shift``
-+      - Specifies how much the Gaussian random numbers should be scaled down
-+	during the grain synthesis process.
-+    * - __u8
-+      - ``cb_mult``
-+      - Represents a multiplier for the cb component used in derivation of the
-+	input index to the cb component scaling function.
-+    * - __u8
-+      - ``cb_luma_mult``
-+      - Represents a multiplier for the average luma component used in
-+	derivation of the input index to the cb component scaling function..
-+    * - __u16
-+      - ``cb_offset``
-+      - Represents an offset used in derivation of the input index to the
-+	cb component scaling function.
-+    * - __u8
-+      - ``cr_mult``
-+      - Represents a multiplier for the cb component used in derivation of the
-+	input index to the cr component scaling function.
-+    * - __u8
-+      - ``cr_luma_mult``
-+      - Represents a multiplier for the average luma component used in
-+        derivation of the input index to the cr component scaling function.
-+    * - __u16
-+      - ``cr_offset``
-+      - Represents an offset used in derivation of the input index to the
-+        cr component scaling function.
-+
-+.. _av1_film_grain_flags:
-+
-+``AV1 Film Grain Flags``
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_FILM_GRAIN_FLAG_APPLY_GRAIN``
-+      - 0x00000001
-+      - If set, specifies that film grain should be added to this frame. If not
-+	set, specifies that film grain should not be added.
-+    * - ``V4L2_AV1_FILM_GRAIN_FLAG_UPDATE_GRAIN``
-+      - 0x00000002
-+      - If set, means that a new set of parameters should be sent. If not set,
-+	specifies that the previous set of parameters should be used.
-+    * - ``V4L2_AV1_FILM_GRAIN_FLAG_CHROMA_SCALING_FROM_LUMA``
-+      - 0x00000004
-+      - If set, specifies that the chroma scaling is inferred from the luma
-+	scaling.
-+    * - ``V4L2_AV1_FILM_GRAIN_FLAG_OVERLAP``
-+      - 0x00000008
-+      - If set, indicates that the overlap between film grain blocks shall be
-+	applied. If not set, indicates that the overlap between film grain blocks
-+	shall not be applied.
-+    * - ``V4L2_AV1_FILM_GRAIN_FLAG_CLIP_TO_RESTRICTED_RANGE``
-+      - 0x00000010
-+      - If set, indicates that clipping to the restricted (studio) range shall
-+        be applied to the sample values after adding the film grain (see the
-+        semantics for color_range for an explanation of studio swing). If not
-+        set, indicates that clipping to the full range shall be applied to the
-+        sample values after adding the film grain.
-+
-+.. c:type:: v4l2_av1_warp_model
-+
-+	AV1 Warp Model as described in section 3 "Symbols and abbreviated terms" of
-+	:ref:`av1`.
-+
-+.. raw:: latex
-+
-+    \scriptsize
-+
-+.. tabularcolumns:: |p{7.4cm}|p{0.3cm}|p{9.6cm}|
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_WARP_MODEL_IDENTITY``
-+      - 0
-+      - Warp model is just an identity transform.
-+    * - ``V4L2_AV1_WARP_MODEL_TRANSLATION``
-+      - 1
-+      - Warp model is a pure translation.
-+    * - ``V4L2_AV1_WARP_MODEL_ROTZOOM``
-+      - 2
-+      - Warp model is a rotation + symmetric zoom + translation.
-+    * - ``V4L2_AV1_WARP_MODEL_AFFINE``
-+      - 3
-+      - Warp model is a general affine transform.
-+
-+.. c:type:: v4l2_av1_reference_frame
-+
-+AV1 Reference Frames as described in section 6.10.24. "Ref frames semantics"
-+of :ref:`av1`.
-+
-+.. raw:: latex
-+
-+    \scriptsize
-+
-+.. tabularcolumns:: |p{7.4cm}|p{0.3cm}|p{9.6cm}|
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_REF_INTRA_FRAME``
-+      - 0
-+      - Intra Frame Reference.
-+    * - ``V4L2_AV1_REF_LAST_FRAME``
-+      - 1
-+      - Last Frame Reference.
-+    * - ``V4L2_AV1_REF_LAST2_FRAME``
-+      - 2
-+      - Last2 Frame Reference.
-+    * - ``V4L2_AV1_REF_LAST3_FRAME``
-+      - 3
-+      - Last3 Frame Reference.
-+    * - ``V4L2_AV1_REF_GOLDEN_FRAME``
-+      - 4
-+      - Golden Frame Reference.
-+    * - ``V4L2_AV1_REF_BWDREF_FRAME``
-+      - 5
-+      - BWD Frame Reference.
-+    * - ``V4L2_AV1_REF_ALTREF2_FRAME``
-+      - 6
-+      - ALTREF2 Frame Reference.
-+    * - ``V4L2_AV1_REF_ALTREF_FRAME``
-+      - 7
-+      - ALTREF Frame Reference.
-+    * - ``V4L2_AV1_NUM_REF_FRAMES``
-+      - 8
-+      - Total number of reference frames.
-+
-+.. c:type:: v4l2_av1_global_motion
-+
-+AV1 Global Motion parameters as described in section 6.8.17
-+"Global motion params semantics" of :ref:`av1` for more details.
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{1.5cm}|p{5.8cm}|p{10.0cm}|
-+
-+.. flat-table:: struct v4l2_av1_global_motion
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __u8
-+      - ``flags[V4L2_AV1_TOTAL_REFS_PER_FRAME]``
-+      - A bitfield containing the flags per reference frame. See
-+        :ref:`AV1 Global Motion Flags <av1_global_motion_flags>` for more
-+        details.
-+    * - enum :c:type:`v4l2_av1_warp_model`
-+      - ``type[V4L2_AV1_TOTAL_REFS_PER_FRAME]``
-+      - The type of global motion transform used.
-+    * - __u32
-+      - ``params[V4L2_AV1_TOTAL_REFS_PER_FRAME][6]``
-+      - This field has the same meaning as "gm_params" in :ref:`av1`.
-+    * - __u8
-+      - ``invalid``
-+      - Bitfield indicating whether the global motion params are invalid for a
-+        given reference frame. See section 7.11.3.6. Setup shear process and the
-+        variable "warpValid". Use V4L2_AV1_GLOBAL_MOTION_IS_INVALID(ref) to
-+        create a suitable mask.
-+
-+.. _av1_global_motion_flags:
-+
-+``AV1 Global Motion Flags``
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_GLOBAL_MOTION_FLAG_IS_GLOBAL``
-+      - 0x00000001
-+      - Specifies whether global motion parameters are present for a particular
-+        reference frame.
-+    * - ``V4L2_AV1_GLOBAL_MOTION_FLAG_IS_ROT_ZOOM``
-+      - 0x00000002
-+      - Specifies whether a particular reference frame uses rotation and zoom
-+        global motion.
-+    * - ``V4L2_AV1_GLOBAL_MOTION_FLAG_IS_TRANSLATION``
-+      - 0x00000004
-+      - Specifies whether a particular reference frame uses rotation and zoom
-+        global motion.
-+
-+.. c:type:: v4l2_av1_frame_restoration_type
-+
-+AV1 Frame Restoration Type.
-+
-+.. raw:: latex
-+
-+    \scriptsize
-+
-+.. tabularcolumns:: |p{7.4cm}|p{0.3cm}|p{9.6cm}|
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_FRAME_RESTORE_NONE``
-+      - 0
-+      - No filtering is applied.
-+    * - ``V4L2_AV1_FRAME_RESTORE_WIENER``
-+      - 1
-+      - Wiener filter process is invoked.
-+    * - ``V4L2_AV1_FRAME_RESTORE_SGRPROJ``
-+      - 2
-+      - Self guided filter process is invoked.
-+    * - ``V4L2_AV1_FRAME_RESTORE_SWITCHABLE``
-+      - 3
-+      - Restoration filter is swichtable.
-+
-+.. c:type:: v4l2_av1_loop_restoration
-+
-+AV1 Loop Restauration as described in section 6.10.15 "Loop restoration params
-+semantics" of :ref:`av1`.
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{1.5cm}|p{5.8cm}|p{10.0cm}|
-+
-+.. flat-table:: struct v4l2_av1_loop_restoration
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - :c:type:`v4l2_av1_frame_restoration_type`
-+      - ``frame_restoration_type[V4L2_AV1_NUM_PLANES_MAX]``
-+      - Specifies the type of restoration used for each plane.
-+    * - __u8
-+      - ``lr_unit_shift``
-+      - Specifies if the luma restoration size should be halved.
-+    * - __u8
-+      - ``lr_uv_shift``
-+      - Specifies if the chroma size should be half the luma size.
-+    * - __u8
-+      - ``loop_restoration_size[V4L2_AV1_MAX_NUM_PLANES]``
-+      - specifies the size of loop restoration units in units of samples in the
-+        current plane.
-+
-+.. c:type:: v4l2_av1_cdef
-+
-+AV1 CDEF params semantics as described in section 6.10.14. "CDEF params
-+semantics" of :ref:`av1`.
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{1.5cm}|p{5.8cm}|p{10.0cm}|
-+
-+.. flat-table:: struct v4l2_av1_cdef
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __u8
-+      - ``damping_minus_3``
-+      - Controls the amount of damping in the deringing filter.
-+    * - __u8
-+      - ``bits``
-+      - Specifies the number of bits needed to specify which CDEF filter to
-+        apply.
-+    * - __u8
-+      - ``y_pri_strength[V4L2_AV1_CDEF_MAX]``
-+      -  Specifies the strength of the primary filter.
-+    * - __u8
-+      - ``y_sec_strength[V4L2_AV1_CDEF_MAX]``
-+      -  Specifies the strength of the secondary filter.
-+    * - __u8
-+      - ``uv_pri_strength[V4L2_AV1_CDEF_MAX]``
-+      -  Specifies the strength of the primary filter.
-+    * - __u8
-+      - ``uv_secondary_strength[V4L2_AV1_CDEF_MAX]``
-+      -  Specifies the strength of the secondary filter.
-+
-+.. c:type:: v4l2_av1_segment_feature
-+
-+AV1 segment features as described in section 3 "Symbols and abbreviated terms"
-+of :ref:`av1`.
-+
-+.. raw:: latex
-+
-+    \scriptsize
-+
-+.. tabularcolumns:: |p{7.4cm}|p{0.3cm}|p{9.6cm}|
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_SEG_LVL_ALT_Q``
-+      - 0
-+      - Index for quantizer segment feature.
-+    * - ``V4L2_AV1_SEG_LVL_ALT_LF_Y_V``
-+      - 1
-+      - Index for vertical luma loop filter segment feature.
-+    * - ``V4L2_AV1_SEG_LVL_REF_FRAME``
-+      - 5
-+      - Index for reference frame segment feature.
-+    * - ``V4L2_AV1_SEG_LVL_REF_SKIP``
-+      - 6
-+      - Index for skip segment feature.
-+    * - ``V4L2_AV1_SEG_LVL_REF_GLOBALMV``
-+      - 7
-+      - Index for global mv feature.
-+    * - ``V4L2_AV1_SEG_LVL_MAX``
-+      - 8
-+      - Number of segment features.
-+
-+.. c:type:: v4l2_av1_segmentation
-+
-+AV1 Segmentation params as defined in section 6.8.13. "Segmentation params
-+semantics" of :ref:`av1`.
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{1.5cm}|p{5.8cm}|p{10.0cm}|
-+
-+.. flat-table:: struct v4l2_av1_film_grain
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __u8
-+      - ``flags``
-+      - See :ref:`AV1 Segmentation Flags <av1_segmentation_flags>`
-+    * - __u8
-+      - ``feature_enabled[V4L2_AV1_MAX_SEGMENTS]``
-+      - Bitmask defining which features are enabled in each segment. Use
-+        V4L2_AV1_SEGMENT_FEATURE_ENABLED to build a suitable mask.
-+    * - __u16
-+      - `feature_data[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX]``
-+      -  Data attached to each feature. Data entry is only valid if the feature
-+         is enabled
-+    * - __u8
-+      - ``last_active_seg_id``
-+      -  Indicates the highest numbered segment id that has some
-+         enabled feature. This is used when decoding the segment id to only decode
-+         choices corresponding to used segments.
-+
-+.. _av1_segmentation_flags:
-+
-+``AV1 Segmentation Flags``
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_SEGMENTATION_FLAG_ENABLED``
-+      - 0x00000001
-+      - If set, indicates that this frame makes use of the segmentation tool. If
-+        not set, indicates that the frame does not use segmentation.
-+    * - ``V4L2_AV1_SEGMENTATION_FLAG_UPDATE_MAP``
-+      - 0x00000002
-+      - If set, indicates that the segmentation map are updated during the
-+        decoding of this frame. If not set, indicates that the segmentation map
-+        from the previous frame is used.
-+    * - ``V4L2_AV1_SEGMENTATION_FLAG_TEMPORAL_UPDATE``
-+      - 0x00000004
-+      - If set, indicates that the updates to the segmentation map are coded
-+        relative to the existing segmentation map. If not set, indicates that
-+        the new segmentation map is coded without reference to the existing
-+        segmentation map.
-+    * - ``V4L2_AV1_SEGMENTATION_FLAG_UPDATE_DATA``
-+      - 0x00000008
-+      - If set, indicates that the updates to the segmentation map are coded
-+        relative to the existing segmentation map. If not set, indicates that
-+        the new segmentation map is coded without reference to the existing
-+        segmentation map.
-+    * - ``V4L2_AV1_SEGMENTATION_FLAG_SEG_ID_PRE_SKIP``
-+      - 0x00000010
-+      - If set, indicates that the segment id will be read before the skip
-+        syntax element. If not set, indicates that the skip syntax element will
-+        be read first.
-+
-+.. c:type:: v4l2_av1_loop_filter
-+
-+AV1 Loop filter params as defined in section 6.8.10. "Loop filter semantics" of
-+:ref:`av1`.
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{1.5cm}|p{5.8cm}|p{10.0cm}|
-+
-+.. flat-table:: struct v4l2_av1_global_motion
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __u8
-+      - ``flags``
-+      - See
-+        :ref:`AV1 Loop Filter flags <av1_loop_filter_flags>` for more details.
-+    * - __u8
-+      - ``level[4]``
-+      - an array containing loop filter strength values. Different loop
-+        filter strength values from the array are used depending on the image
-+        plane being filtered, and the edge direction (vertical or horizontal)
-+        being filtered.
-+    * - __u8
-+      - ``sharpness``
-+      - indicates the sharpness level. The loop_filter_level and
-+        loop_filter_sharpness together determine when a block edge is filtered,
-+        and by how much the filtering can change the sample values. The loop
-+        filter process is described in section 7.14 of :ref:`av1`.
-+    * - __u8
-+      - ``ref_deltas[V4L2_AV1_TOTAL_REFS_PER_FRAME]``
-+      - contains the adjustment needed for the filter level based on the
-+        chosen reference frame. If this syntax element is not present, it
-+        maintains its previous value.
-+    * - __u8
-+      - ``mode_deltas[2]``
-+      - contains the adjustment needed for the filter level based on
-+        the chosen mode. If this syntax element is not present, it maintains its
-+        previous value.
-+    * - __u8
-+      - ``delta_lf_res``
-+      - specifies the left shift which should be applied to decoded loop filter
-+        delta values.
-+    * - __u8
-+      - ``delta_lf_multi``
-+      - a value equal to 1 specifies that separate loop filter
-+        deltas are sent for horizontal luma edges, vertical luma edges, the U
-+        edges, and the V edges. A value of delta_lf_multi equal to 0 specifies
-+        that the same loop filter delta is used for all edges.
-+
-+.. _av1_loop_filter_flags:
-+
-+``AV1 Loop Filter Flags``
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_LOOP_FILTER_FLAG_DELTA_ENABLED``
-+      - 0x00000001
-+      - If set, means that the filter level depends on the mode and reference
-+        frame used to predict a block. If not set, means that the filter level
-+        does not depend on the mode and reference frame.
-+    * - ``V4L2_AV1_LOOP_FILTER_FLAG_DELTA_UPDATE``
-+      - 0x00000002
-+      - If set, means that additional syntax elements are present that specify
-+        which mode and reference frame deltas are to be updated. If not set,
-+        means that these syntax elements are not present.
-+    * - ``V4L2_AV1_LOOP_FILTER_FLAG_DELTA_LF_PRESENT``
-+      - 0x00000004
-+      - Specifies whether loop filter delta values are present
-+
-+.. c:type:: v4l2_av1_quantization
-+
-+AV1 Quantization params as defined in section 6.8.11 "Quantization params
-+semantics" of :ref:`av1`.
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{1.5cm}|p{5.8cm}|p{10.0cm}|
-+
-+.. flat-table:: struct v4l2_av1_quantization
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __u8
-+      - ``flags``
-+      - See
-+        :ref:`AV1 Loop Filter flags <av1_quantization_flags>` for more details.
-+    * - __u8
-+      - ``base_q_idx``
-+      - Indicates the base frame qindex. This is used for Y AC coefficients and
-+        as the base value for the other quantizers.
-+    * - __u8
-+      - ``delta_q_y_dc``
-+      - Indicates the Y DC quantizer relative to base_q_idx.
-+    * - __u8
-+      - ``delta_q_u_dc``
-+      - Indicates the U DC quantizer relative to base_q_idx.
-+    * - __u8
-+      - ``delta_q_u_ac``
-+      - Indicates the U AC quantizer relative to base_q_idx.
-+    * - __u8
-+      - ``delta_q_v_dc``
-+      - Indicates the V DC quantizer relative to base_q_idx.
-+    * - __u8
-+      - ``delta_q_v_dc``
-+      - Indicates the V DC quantizer relative to base_q_idx.
-+    * - __u8
-+      - ``qm_y``
-+      - Specifies the level in the quantizer matrix that should be used for
-+        luma plane decoding.
-+    * - __u8
-+      - ``qm_u``
-+      - Specifies the level in the quantizer matrix that should be used for
-+        chroma U plane decoding.
-+    * - __u8
-+      - ``qm_y``
-+      - Specifies the level in the quantizer matrix that should be used for
-+        chroma V plane decoding.
-+    * - __u8
-+      - ``delta_q_res``
-+      - Specifies the left shift which should be applied to decoded quantizer
-+        index delta values.
-+
-+.. _av1_quantization_flags:
-+
-+``AV1 Quantization Flags``
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_QUANTIZATION_FLAG_DIFF_UV_DELTA``
-+      - 0x00000001
-+      - If set, indicates that the U and V delta quantizer values are coded
-+        separately. If not set, indicates that the U and V delta quantizer
-+        values share a common value.
-+    * - ``V4L2_AV1_QUANTIZATION_FLAG_USING_QMATRIX``
-+      - 0x00000002
-+      - If set, specifies that the quantizer matrix will be used to compute
-+        quantizers.
-+    * - ``V4L2_AV1_QUANTIZATION_FLAG_DELTA_Q_PRESENT``
-+      - 0x00000004
-+      - Specifies whether quantizer index delta values are present.
-+
-+.. c:type:: v4l2_av1_tile_info
-+
-+AV1 Tile info as defined in section 6.8.14. "Tile info semantics" of ref:`av1`.
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{1.5cm}|p{5.8cm}|p{10.0cm}|
-+
-+.. flat-table:: struct v4l2_av1_film_grain
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __u8
-+      - ``flags``
-+      - See
-+        :ref:`AV1 Tile Info flags <av1_tile_info_flags>` for more details.
-+    * - __u32
-+      - ``mi_col_starts[V4L2_AV1_MAX_TILE_COLS + 1]``
-+      - An array specifying the start column (in units of 4x4 luma
-+        samples) for each tile across the image.
-+    * - __u32
-+      - ``mi_row_starts[V4L2_AV1_MAX_TILE_ROWS + 1]``
-+      - An array specifying the start row (in units of 4x4 luma
-+        samples) for each tile across the image.
-+    * - __u32
-+      - ``width_in_sbs_minus_1[V4L2_AV1_MAX_TILE_COLS]``
-+      - Specifies the width of a tile minus 1 in units of superblocks.
-+    * - __u32
-+      - ``height_in_sbs_minus_1[V4L2_AV1_MAX_TILE_ROWS]``
-+      - Specifies the height of a tile minus 1 in units of superblocks.
-+    * - __u8
-+      - ``tile_size_bytes``
-+      - Specifies the number of bytes needed to code each tile size.
-+    * - __u8
-+      - ``context_update_tile_id``
-+      - Specifies which tile to use for the CDF update.
-+    * - __u8
-+      - ``tile_rows``
-+      - Specifies the number of tiles down the frame.
-+    * - __u8
-+      - ``tile_rows``
-+      - Specifies the number of tiles across the frame.
-+
-+.. _av1_tile_info_flags:
-+
-+``AV1 Tile Info Flags``
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_TILE_INFO_FLAG_UNIFORM_TILE_SPACING``
-+      - 0x00000001
-+      - If set, means that the tiles are uniformly spaced across the frame. (In
-+        other words, all tiles are the same size except for the ones at the
-+        right and bottom edge which can be smaller). If not set means that the
-+        tile sizes are coded.
-+
-+.. c:type:: v4l2_av1_frame_type
-+
-+AV1 Frame Type
-+
-+.. raw:: latex
-+
-+    \scriptsize
-+
-+.. tabularcolumns:: |p{7.4cm}|p{0.3cm}|p{9.6cm}|
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_KEY_FRAME``
-+      - 0
-+      - Key frame.
-+    * - ``V4L2_AV1_INTER_FRAME``
-+      - 1
-+      - Inter frame.
-+    * - ``V4L2_AV1_INTRA_ONLY_FRAME``
-+      - 2
-+      - Intra-only frame.
-+    * - ``V4L2_AV1_SWITCH_FRAME``
-+      - 3
-+      - Switch frame.
-+
-+.. c:type:: v4l2_av1_interpolation_filter
-+
-+AV1 Interpolation Filter
-+
-+.. raw:: latex
-+
-+    \scriptsize
-+
-+.. tabularcolumns:: |p{7.4cm}|p{0.3cm}|p{9.6cm}|
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_INTERPOLATION_FILTER_EIGHTTAP``
-+      - 0
-+      - Eight tap filter.
-+    * - ``V4L2_AV1_INTERPOLATION_FILTER_EIGHTTAP_SMOOTH``
-+      - 1
-+      - Eight tap smooth filter.
-+    * - ``V4L2_AV1_INTERPOLATION_FILTER_EIGHTTAP_SHARP``
-+      - 2
-+      - Eight tap sharp filter.
-+    * - ``V4L2_AV1_INTERPOLATION_FILTER_BILINEAR``
-+      - 3
-+      - Bilinear filter.
-+    * - ``V4L2_AV1_INTERPOLATION_FILTER_SWITCHABLE``
-+      - 4
-+      - Filter selection is signaled at the block level.
-+
-+.. c:type:: v4l2_av1_tx_mode
-+
-+AV1 Tx mode as described in section 6.8.21 "TX mode semantics" of :ref:`av1`.
-+
-+.. raw:: latex
-+
-+    \scriptsize
-+
-+.. tabularcolumns:: |p{7.4cm}|p{0.3cm}|p{9.6cm}|
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_TX_MODE_ONLY_4X4``
-+      - 0
-+      -  The inverse transform will use only 4x4 transforms.
-+    * - ``V4L2_AV1_TX_MODE_LARGEST``
-+      - 1
-+      - The inverse transform will use the largest transform size that fits
-+        inside the block.
-+    * - ``V4L2_AV1_TX_MODE_SELECT``
-+      - 2
-+      - The choice of transform size is specified explicitly for each block.
-+
-+``V4L2_CID_STATELESS_AV1_FRAME_HEADER (struct)``
-+    Represents a tile list entry as seen in an AV1 Tile List OBU. See section
-+    6.11.2. "Tile list entry semantics" of :ref:`av1` for more details.
-+
-+.. c:type:: v4l2_ctrl_av1_frame_header
-+
-+.. cssclass:: longtable
-+
-+.. tabularcolumns:: |p{5.8cm}|p{4.8cm}|p{6.6cm}|
-+
-+.. flat-table:: struct v4l2_ctrl_av1_frame_header
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - struct :c:type:`v4l2_av1_tile_info`
-+      - ``tile_info``
-+      - Tile info
-+    * - struct :c:type:`v4l2_av1_quantization`
-+      - ``quantization``
-+      - Quantization params
-+    * - struct :c:type:`v4l2_av1_segmentation`
-+      - ``segmentation``
-+      - Segmentation params
-+    * - struct :c:type:`v4l2_av1_loop_filter`
-+      - ``loop_filter``
-+      - Loop filter params
-+    * - struct :c:type:`v4l2_av1_cdef`
-+      - ``cdef``
-+      - CDEF params
-+    * - struct :c:type:`v4l2_av1_loop_restoration`
-+      - ``loop_restoration``
-+      - Loop restoration params
-+    * - struct :c:type:`v4l2_av1_loop_restoration`
-+      - ``loop_restoration``
-+      - Loop restoration params
-+    * - struct :c:type:`v4l2_av1_loop_global_motion`
-+      - ``global_motion``
-+      - Global motion params
-+    * - struct :c:type:`v4l2_av1_loop_film_grain`
-+      - ``film_grain``
-+      - Film grain params
-+    * - __u32
-+      - ``flags``
-+      - See
-+        :ref:`AV1 Tile Info flags <av1_frame_header_flags>` for more details.
-+    * - enum :c:type:`v4l2_av1_frame_type`
-+      - ``frame_type``
-+      - Specifies the AV1 frame type
-+    * - __u32
-+      - ``order_hint``
-+      - Specifies OrderHintBits least significant bits of the expected output
-+        order for this frame.
-+    * - __u8
-+      - ``superres_denom``
-+      - The denominator for the upscaling ratio.
-+    * - __u32
-+      - ``upscaled_width``
-+      - The upscaled width.
-+    * - enum :c:type:`v4l2_av1_interpolation_filter`
-+      - ``interpolation_filter``
-+      - Specifies the filter selection used for performing inter prediction.
-+    * - enum :c:type:`v4l2_av1_tx_mode`
-+      - ``tx_mode``
-+      - Specifies how the transform size is determined.
-+    * - __u32
-+      - ``frame_width_minus_1``
-+      - Add 1 to get the frame's width.
-+    * - __u32
-+      - ``frame_height_minus_1``
-+      - Add 1 to get the frame's height.
-+    * - __u16
-+      - ``render_width_minus_1``
-+      - Add 1 to get the render width of the frame in luma samples.
-+    * - __u16
-+      - ``render_height_minus_1``
-+      - Add 1 to get the render height of the frame in luma samples.
-+    * - __u32
-+      - ``current_frame_id``
-+      - Specifies the frame id number for the current frame. Frame
-+        id numbers are additional information that do not affect the decoding
-+        process, but provide decoders with a way of detecting missing reference
-+        frames so that appropriate action can be taken.
-+    * - __u8
-+      - ``primary_ref_frame``
-+      - Specifies which reference frame contains the CDF values and other state
-+        that should be loaded at the start of the frame..
-+    * - __u8
-+      - ``buffer_removal_time[V4L2_AV1_MAX_OPERATING_POINTS]``
-+      - Specifies the frame removal time in units of DecCT clock ticks counted
-+        from the removal time of the last random access point for operating point
-+        opNum.
-+    * - __u8
-+      - ``refresh_frame_flags[V4L2_AV1_MAX_OPERATING_POINTS]``
-+      - Contains a bitmask that specifies which reference frame slots will be
-+        updated with the current frame after it is decoded.
-+    * - __u32
-+      - ``ref_order_hint[V4L2_AV1_NUM_REF_FRAMES]``
-+      - Specifies the expected output order hint for each reference frame.
-+    * - __s8
-+      - ``last_frame_idx``
-+      - Specifies the reference frame to use for LAST_FRAME.
-+    * - __s8
-+      - ``gold_frame_idx``
-+      - Specifies the reference frame to use for GOLDEN_FRAME.
-+    * - __u64
-+      - ``reference_frame_ts[V4L2_AV1_NUM_REF_FRAMES]``
-+      - the V4L2 timestamp for each of the reference frames enumerated in
-+        enum :c:type:`v4l2_av1_reference_frame`. The timestamp refers to the
-+        ``timestamp`` field in struct :c:type:`v4l2_buffer`. Use the
-+        :c:func:`v4l2_timeval_to_ns()` function to convert the struct
-+        :c:type:`timeval` in struct :c:type:`v4l2_buffer` to a __u64.
-+    * - __u8
-+      - ``skip_mode_frame[2]``
-+      - Specifies the frames to use for compound prediction when skip_mode is
-+        equal to 1.
-+
-+.. _av1_frame_header_flags:
-+
-+``AV1 Frame Header Flags``
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_SHOW_FRAME``
-+      - 0x00000001
-+      - If set, specifies that this frame should be immediately output once
-+        decoded. If not set, specifies that this frame should not be immediately
-+        output. (It may be output later if a later uncompressed header uses
-+        show_existing_frame equal to 1).
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_SHOWABLE_FRAME``
-+      - 0x00000002
-+      - If set, specifies that the frame may be output using the
-+        show_existing_frame mechanism. If not set, specifies that this frame
-+        will not be output using the show_existing_frame mechanism.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_ERROR_RESILIENT_MODE``
-+      - 0x00000004
-+      - Specifies whether error resilient mode is enabled.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_DISABLE_CDF_UPDATE``
-+      - 0x00000008
-+      - Specifies whether the CDF update in the symbol decoding process should
-+        be disabled.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_ALLOW_SCREEN_CONTENT_TOOLS``
-+      - 0x00000010
-+      - Specifies whether the CDF update in the symbol decoding process should
-+        be disabled.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_FORCE_INTEGER_MV``
-+      - 0x00000020
-+      - If set, specifies that motion vectors will always be integers. If not
-+        set, specifies that motion vectors can contain fractional bits.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_ALLOW_INTRABC``
-+      - 0x00000040
-+      - If set, indicates that intra block copy may be used in this frame. If
-+        not set, indicates that intra block copy is not allowed in this frame.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_USE_SUPERRES``
-+      - 0x00000080
-+      - If set, indicates that upscaling is needed.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_ALLOW_HIGH_PRECISION_MV``
-+      - 0x00000100
-+      - If set, specifies that motion vectors are specified to eighth pel
-+        precision. If not set, specifies that motion vectors are specified to
-+        quarter pel precision;
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_IS_MOTION_MODE_SWITCHABLE``
-+      - 0x00000200
-+      - If not set, specifies that only the SIMPLE motion mode will be used.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_USE_REF_FRAME_MVS``
-+      - 0x00000400
-+      - If set specifies that motion vector information from a previous frame
-+        can be used when decoding the current frame. If not set, specifies that
-+        this information will not be used.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_DISABLE_FRAME_END_UPDATE_CDF``
-+      - 0x00000800
-+      - If set indicates that the end of frame CDF update is disabled. If not
-+        set, indicates that the end of frame CDF update is enabled
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_UNIFORM_TILE_SPACING``
-+      - 0x00001000
-+      - If set, means that the tiles are uniformly spaced across the frame. (In
-+        other words, all tiles are the same size except for the ones at the
-+        right and bottom edge which can be smaller). If not set, means that the
-+        tile sizes are coded
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_ALLOW_WARPED_MOTION``
-+      - 0x00002000
-+      - If set, indicates that the syntax element motion_mode may be present, if
-+        not set, indicates that the syntax element motion_mode will not be
-+        present.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_REFERENCE_SELECT``
-+      - 0x00004000
-+      - If set, specifies that the mode info for inter blocks contains the
-+        syntax element comp_mode that indicates whether to use single or
-+        compound reference prediction. If not set, specifies that all inter
-+        blocks will use single prediction.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_REDUCED_TX_SET``
-+      - 0x00008000
-+      - If set, specifies that the frame is restricted to a reduced subset of
-+        the full set of transform types.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_SKIP_MODE_PRESENT``
-+      - 0x00010000
-+      - If set, specifies that the syntax element skip_mode will be present, if
-+        not set, specifies that skip_mode will not be used for this frame.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_FRAME_SIZE_OVERRIDE``
-+      - 0x00020000
-+      - If set, specifies that the frame size will either be specified as the
-+        size of one of the reference frames, or computed from the
-+        frame_width_minus_1 and frame_height_minus_1 syntax elements. If not
-+        set, specifies that the frame size is equal to the size in the sequence
-+        header.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_BUFFER_REMOVAL_TIME_PRESENT``
-+      - 0x00040000
-+      - If set, specifies that buffer_removal_time is present. If not set,
-+        specifies that buffer_removal_time is not present.
-+    * - ``V4L2_AV1_FRAME_HEADER_FLAG_FRAME_REFS_SHORT_SIGNALING``
-+      - 0x00080000
-+      - If set, indicates that only two reference frames are explicitly
-+        signaled. If not set, indicates that all reference frames are explicitly
-+        signaled.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-index 0ede39907ee2..c1951e890d6f 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-@@ -223,6 +223,27 @@ Compressed Formats
-         through the ``V4L2_CID_STATELESS_FWHT_PARAMS`` control.
- 	See the :ref:`associated Codec Control ID <codec-stateless-fwht>`.
+ endif #V4L_TEST_DRIVERS
  
-+    * .. _V4L2-PIX-FMT-AV1-FRAME:
+diff --git a/drivers/media/test-drivers/Makefile b/drivers/media/test-drivers/Makefile
+index 9f0e4ebb2efe..a4fadccc4b95 100644
+--- a/drivers/media/test-drivers/Makefile
++++ b/drivers/media/test-drivers/Makefile
+@@ -7,4 +7,5 @@ obj-$(CONFIG_VIDEO_VIMC)		+= vimc/
+ obj-$(CONFIG_VIDEO_VIVID)		+= vivid/
+ obj-$(CONFIG_VIDEO_VIM2M)		+= vim2m.o
+ obj-$(CONFIG_VIDEO_VICODEC)		+= vicodec/
++obj-$(CONFIG_VIDEO_VIVPU)		+= vivpu/
+ obj-$(CONFIG_DVB_VIDTV)			+= vidtv/
+diff --git a/drivers/media/test-drivers/vivpu/Kconfig b/drivers/media/test-drivers/vivpu/Kconfig
+new file mode 100644
+index 000000000000..1e6267418d19
+--- /dev/null
++++ b/drivers/media/test-drivers/vivpu/Kconfig
+@@ -0,0 +1,16 @@
++# SPDX-License-Identifier: GPL-2.0-only
++config VIDEO_VIVPU
++	tristate "Virtual VPU Driver (vivpu)"
++	depends on VIDEO_DEV && VIDEO_V4L2
++	select VIDEOBUF2_VMALLOC
++	select V4L2_MEM2MEM_DEV
++	select MEDIA_CONTROLLER
++	select MEDIA_CONTROLLER_REQUEST_API
++	help
++	  A virtual stateless VPU example device for uAPI development purposes.
 +
-+      - ``V4L2_PIX_FMT_AV1_FRAME``
-+      - 'AV1F'
-+      - AV1 parsed frame, including the frame header, as extracted from the container.
-+        This format is adapted for stateless video decoders that implement a AV1
-+        pipeline with the :ref:`stateless_decoder`. Metadata associated with the
-+        frame to decode is required to be passed through the
-+        ``V4L2_CID_STATELESS_AV1_SEQUENCE``, ``V4L2_CID_STATELESS_AV1_FRAME``,
-+        ``V4L2_CID_STATELESS_AV1_TILE_GROUP`` and
-+        ``V4L2_CID_STATELESS_AV1_TILE_GROUP_ENTRY`` controls.
-+        ``V4L2_CID_STATELESS_AV1_TILE_LIST`` and
-+        ``V4L2_CID_STATELESS_AV1_TILE_LIST_ENTRY`` controls should be used if
-+        the decoder supports large scale tile decoding mode as signaled by the
-+        ``V4L2_CID_STATELESS_AV1_OPERATING_MODE`` control.
-+        See the :ref:`associated Codec Control IDs <v4l2-codec-stateless-av1>`.
-+        Exactly one output and one capture buffer must be provided for use with
-+        this pixel format. The output buffer must contain the appropriate number
-+        of macroblocks to decode a full corresponding frame to the matching
-+        capture buffer.
++	  A userspace implementation can use vivpu to run a decoding loop even
++	  when no hardware is available or when the kernel uAPI for the codec
++	  has not been upstreamed yet. This can reveal bugs at an early stage
 +
- .. raw:: latex
- 
-     \normalsize
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-index 2d6bc8d94380..50d4ed714123 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-@@ -233,6 +233,42 @@ still cause this situation.
-       - ``p_mpeg2_quantisation``
-       - A pointer to a struct :c:type:`v4l2_ctrl_mpeg2_quantisation`. Valid if this control is
-         of type ``V4L2_CTRL_TYPE_MPEG2_QUANTISATION``.
-+    * - struct :c:type:`v4l2_ctrl_av1_sequence` *
-+      - ``p_av1_sequence``
-+      - A pointer to a struct :c:type:`v4l2_ctrl_av1_sequence`. Valid if this control is
-+        of type ``V4L2_CTRL_TYPE_AV1_SEQUENCE``.
-+    * - struct :c:type:`v4l2_ctrl_av1_tile_group` *
-+      - ``p_av1_tile_group``
-+      - A pointer to a struct :c:type:`v4l2_ctrl_av1_tile_group`. Valid if this control is
-+        of type ``V4L2_CTRL_TYPE_AV1_TILE_GROUP``.
-+    * - struct :c:type:`v4l2_ctrl_av1_tile_group_entry` *
-+      - ``p_av1_tile_group_entry``
-+      - A pointer to a struct :c:type:`v4l2_ctrl_av1_tile_group_entry`. Valid if this control is
-+        of type ``V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY``.
-+    * - struct :c:type:`v4l2_ctrl_av1_tile_list` *
-+      - ``p_av1_tile_list``
-+      - A pointer to a struct :c:type:`v4l2_ctrl_av1_tile_list`. Valid if this control is
-+        of type ``V4L2_CTRL_TYPE_AV1_TILE_GROUP_LIST``.
-+    * - struct :c:type:`v4l2_ctrl_av1_tile_list_entry` *
-+      - ``p_av1_tile_list_entry``
-+      - A pointer to a struct :c:type:`v4l2_ctrl_av1_tile_list_entry`. Valid if this control is
-+        of type ``V4L2_CTRL_TYPE_AV1_TILE_GROUP_LIST_ENTRY``.
-+    * - struct :c:type:`v4l2_ctrl_av1_frame_header` *
-+      - ``p_av1_frame_header``
-+      - A pointer to a struct :c:type:`v4l2_ctrl_av1_frame_header`. Valid if this control is
-+        of type ``V4L2_CTRL_TYPE_AV1_FRAME_HEADER``.
-+    * - struct :c:type:`v4l2_ctrl_av1_profile` *
-+      - ``p_av1_profile``
-+      - A pointer to a struct :c:type:`v4l2_ctrl_av1_profile`. Valid if this control is
-+        of type ``V4L2_CTRL_TYPE_AV1_PROFILE``.
-+    * - struct :c:type:`v4l2_ctrl_av1_level` *
-+      - ``p_av1_level``
-+      - A pointer to a struct :c:type:`v4l2_ctrl_av1_level`. Valid if this control is
-+        of type ``V4L2_CTRL_TYPE_AV1_LEVEL``.
-+    * - struct :c:type:`v4l2_ctrl_av1_operating_mode` *
-+      - ``p_av1_operating_mode``
-+      - A pointer to a struct :c:type:`v4l2_ctrl_av1_operating_mode`. Valid if this control is
-+        of type ``V4L2_CTRL_TYPE_AV1_OPERATING_MODE``.
-     * - struct :c:type:`v4l2_ctrl_hdr10_cll_info` *
-       - ``p_hdr10_cll``
-       - A pointer to a struct :c:type:`v4l2_ctrl_hdr10_cll_info`. Valid if this control is
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-index 819a70a26e18..73ff5311b7ae 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-@@ -507,6 +507,60 @@ See also the examples in :ref:`control`.
-       - n/a
-       - A struct :c:type:`v4l2_ctrl_hevc_decode_params`, containing HEVC
- 	decoding parameters for stateless video decoders.
-+    * - ``V4L2_CTRL_TYPE_AV1_SEQUENCE``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A struct :c:type:`v4l2_ctrl_av1_sequence`, containing AV1 Sequence OBU
-+	decoding parameters for stateless video decoders.
-+    * - ``V4L2_CTRL_TYPE_AV1_TILE_GROUP``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A struct :c:type:`v4l2_ctrl_av1_tile_group`, containing AV1 Tile Group
-+	OBU decoding parameters for stateless video decoders.
-+    * - ``V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A struct :c:type:`v4l2_ctrl_av1_tile_group`, containing AV1 Tile Group
-+	OBU decoding parameters for stateless video decoders.
-+    * - ``V4L2_CTRL_TYPE_AV1_TILE_LIST``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A struct :c:type:`v4l2_ctrl_av1_tile_list`, containing AV1 Tile List
-+	OBU decoding parameters for stateless video decoders.
-+    * - ``V4L2_CTRL_TYPE_AV1_TILE_LIST_ENTRY``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A struct :c:type:`v4l2_ctrl_av1_tile_list_entry`, containing AV1 Tile List
-+	OBU decoding parameters for stateless video decoders.
-+    * - ``V4L2_CTRL_TYPE_AV1_FRAME_HEADER``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A struct :c:type:`v4l2_ctrl_av1_frame_header`, containing AV1 Frame/Frame
-+	Header OBU decoding parameters for stateless video decoders.
-+    * - ``V4L2_CTRL_TYPE_AV1_PROFILE``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A enum :c:type:`v4l2_ctrl_av1_profile`, indicating what AV1 profiles
-+	an AV1 stateless decoder might support.
-+    * - ``V4L2_CTRL_TYPE_AV1_LEVEL``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A enum :c:type:`v4l2_ctrl_av1_level`, indicating what AV1 levels
-+	an AV1 stateless decoder might support.
-+    * - ``V4L2_CTRL_TYPE_AV1_OPERATING_MODE``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A enum :c:type:`v4l2_ctrl_av1_operating_mode`, indicating what AV1
-+	operating modes an AV1 stateless decoder might support.
- 
- .. raw:: latex
- 
-diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-index 2217b56c2686..088d4014e4c5 100644
---- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-@@ -146,6 +146,15 @@ replace symbol V4L2_CTRL_TYPE_H264_DECODE_PARAMS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
-+replace symbol V4L2_CTRL_TYPE_AV1_SEQUENCE :c:type:`v4l2_ctrl_type`
-+replace symbol V4L2_CTRL_TYPE_AV1_TILE_GROUP :c:type:`v4l2_ctrl_type`
-+replace symbol V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY :c:type:`v4l2_ctrl_type`
-+replace symbol V4L2_CTRL_TYPE_AV1_TILE_LIST :c:type:`v4l2_ctrl_type`
-+replace symbol V4L2_CTRL_TYPE_AV1_TILE_LIST_ENTRY :c:type:`v4l2_ctrl_type`
-+replace symbol V4L2_CTRL_TYPE_AV1_FRAME_HEADER :c:type:`v4l2_ctrl_type`
-+replace symbol V4L2_CTRL_TYPE_AV1_PROFILE :c:type:`v4l2_ctrl_type`
-+replace symbol V4L2_CTRL_TYPE_AV1_LEVEL :c:type:`v4l2_ctrl_type`
-+replace symbol V4L2_CTRL_TYPE_AV1_OPERATING_MODE :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index e7ef2d16745e..3f0e425278b3 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -283,6 +283,25 @@ static void std_log(const struct v4l2_ctrl *ctrl)
- 	case V4L2_CTRL_TYPE_MPEG2_PICTURE:
- 		pr_cont("MPEG2_PICTURE");
- 		break;
-+	case V4L2_CTRL_TYPE_AV1_SEQUENCE:
-+		pr_cont("AV1_SEQUENCE");
-+		break;
-+	case V4L2_CTRL_TYPE_AV1_TILE_GROUP:
-+		pr_cont("AV1_TILE_GROUP");
-+		break;
-+	case V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY:
-+		pr_cont("AV1_TILE_GROUP_ENTRY");
-+		break;
-+	case V4L2_CTRL_TYPE_AV1_TILE_LIST:
-+		pr_cont("AV1_TILE_LIST");
-+		break;
-+	case V4L2_CTRL_TYPE_AV1_TILE_LIST_ENTRY:
-+		pr_cont("AV1_TILE_LIST_ENTRY");
-+		break;
-+	case V4L2_CTRL_TYPE_AV1_FRAME_HEADER:
-+		pr_cont("AV1_FRAME_HEADER");
-+		break;
++	  When in doubt, say N.
+diff --git a/drivers/media/test-drivers/vivpu/Makefile b/drivers/media/test-drivers/vivpu/Makefile
+new file mode 100644
+index 000000000000..d20a1dbbd9e5
+--- /dev/null
++++ b/drivers/media/test-drivers/vivpu/Makefile
+@@ -0,0 +1,4 @@
++# SPDX-License-Identifier: GPL-2.0
++vivpu-y := vivpu-core.o vivpu-video.o vivpu-dec.o
 +
- 	default:
- 		pr_cont("unknown type %d", ctrl->type);
- 		break;
-@@ -317,6 +336,244 @@ static void std_log(const struct v4l2_ctrl *ctrl)
- #define zero_reserved(s) \
- 	memset(&(s).reserved, 0, sizeof((s).reserved))
- 
-+static int validate_av1_quantization(struct v4l2_av1_quantization *q)
++obj-$(CONFIG_VIDEO_VIVPU) += vivpu.o
+diff --git a/drivers/media/test-drivers/vivpu/vivpu-core.c b/drivers/media/test-drivers/vivpu/vivpu-core.c
+new file mode 100644
+index 000000000000..1eb1ce33bab1
+--- /dev/null
++++ b/drivers/media/test-drivers/vivpu/vivpu-core.c
+@@ -0,0 +1,418 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * A virtual stateless VPU example device for uAPI development purposes.
++ *
++ * A userspace implementation can use vivpu to run a decoding loop even
++ * when no hardware is available or when the kernel uAPI for the codec
++ * has not been upstreamed yet. This can reveal bugs at an early stage.
++ *
++ * Copyright (c) Collabora, Ltd.
++ *
++ * Based on the vim2m driver, that is:
++ *
++ * Copyright (c) 2009-2010 Samsung Electronics Co., Ltd.
++ * Pawel Osciak, <pawel@osciak.com>
++ * Marek Szyprowski, <m.szyprowski@samsung.com>
++ *
++ * Based on the vicodec driver, that is:
++ *
++ * Copyright 2018 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
++ *
++ * Based on the Cedrus VPU driver, that is:
++ *
++ * Copyright (C) 2016 Florent Revest <florent.revest@free-electrons.com>
++ * Copyright (C) 2018 Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++ * Copyright (C) 2018 Bootlin
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version
++ */
++
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/font.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-ioctl.h>
++#include <media/v4l2-mem2mem.h>
++
++#include "vivpu.h"
++#include "vivpu-dec.h"
++#include "vivpu-video.h"
++
++unsigned int vivpu_debug;
++module_param(vivpu_debug, uint, 0644);
++MODULE_PARM_DESC(vivpu_debug, " activates debug info");
++
++const unsigned int vivpu_src_default_w = 640;
++const unsigned int vivpu_src_default_h = 480;
++const unsigned int vivpu_src_default_depth = 8;
++
++unsigned int vivpu_transtime;
++module_param(vivpu_transtime, uint, 0644);
++MODULE_PARM_DESC(vivpu_transtime, " simulated process time.");
++
++struct v4l2_ctrl *vivpu_find_control(struct vivpu_ctx *ctx, u32 id)
 +{
-+	if (q->flags > GENMASK(2, 0))
-+		return -EINVAL;
++	unsigned int i;
 +
-+	if (q->delta_q_y_dc < -63 || q->delta_q_y_dc > 63 ||
-+	    q->delta_q_u_dc < -63 || q->delta_q_u_dc > 63 ||
-+	    q->delta_q_v_dc < -63 || q->delta_q_v_dc > 63 ||
-+	    q->delta_q_u_ac < -63 || q->delta_q_u_ac > 63 ||
-+	    q->delta_q_v_ac < -63 || q->delta_q_v_ac > 63 ||
-+	    q->delta_q_res > GENMASK(1, 0))
-+		return -EINVAL;
++	for (i = 0; ctx->ctrls[i]; i++)
++		if (ctx->ctrls[i]->id == id)
++			return ctx->ctrls[i];
 +
-+	if (q->qm_y > GENMASK(3, 0) ||
-+	    q->qm_u > GENMASK(3, 0) ||
-+	    q->qm_v > GENMASK(3, 0))
-+		return -EINVAL;
++	return NULL;
++}
++
++void *vivpu_find_control_data(struct vivpu_ctx *ctx, u32 id)
++{
++	struct v4l2_ctrl *ctrl;
++
++	ctrl = vivpu_find_control(ctx, id);
++	if (ctrl)
++		return ctrl->p_cur.p;
++
++	return NULL;
++}
++
++u32 vivpu_control_num_elems(struct vivpu_ctx *ctx, u32 id)
++{
++	struct v4l2_ctrl *ctrl;
++
++	ctrl = vivpu_find_control(ctx, id);
++	if (ctrl)
++		return ctrl->elems;
 +
 +	return 0;
 +}
 +
-+static int validate_av1_segmentation(struct v4l2_av1_segmentation *s)
++static void vivpu_device_release(struct video_device *vdev)
++{
++	struct vivpu_dev *dev = container_of(vdev, struct vivpu_dev, vfd);
++
++	v4l2_device_unregister(&dev->v4l2_dev);
++	v4l2_m2m_release(dev->m2m_dev);
++	media_device_cleanup(&dev->mdev);
++	kfree(dev);
++}
++
++static const struct vivpu_control vivpu_controls[] = {
++	{
++		.cfg.id = V4L2_CID_STATELESS_AV1_FRAME_HEADER,
++	},
++	{
++		.cfg.id = V4L2_CID_STATELESS_AV1_SEQUENCE,
++	},
++	{
++		.cfg.id = V4L2_CID_STATELESS_AV1_TILE_GROUP,
++		.cfg.dims = { V4L2_AV1_MAX_TILE_COUNT },
++	},
++	{
++		.cfg.id = V4L2_CID_STATELESS_AV1_TILE_GROUP_ENTRY,
++		.cfg.dims = { V4L2_AV1_MAX_TILE_COUNT },
++	},
++	{
++		.cfg.id = V4L2_CID_STATELESS_AV1_TILE_LIST,
++		.cfg.dims = { V4L2_AV1_MAX_TILE_COUNT },
++	},
++	{
++		.cfg.id = V4L2_CID_STATELESS_AV1_TILE_LIST_ENTRY,
++		.cfg.dims = { V4L2_AV1_MAX_TILE_COUNT },
++	},
++	{
++		.cfg.id = V4L2_CID_STATELESS_AV1_PROFILE,
++	},
++	{
++		.cfg.id = V4L2_CID_STATELESS_AV1_LEVEL,
++	},
++	{
++		.cfg.id = V4L2_CID_STATELESS_AV1_OPERATING_MODE,
++	},
++};
++
++#define VIVPU_CONTROLS_COUNT	ARRAY_SIZE(vivpu_controls)
++
++static int vivpu_init_ctrls(struct vivpu_ctx *ctx)
++{
++	struct vivpu_dev *dev = ctx->dev;
++	struct v4l2_ctrl_handler *hdl = &ctx->hdl;
++	struct v4l2_ctrl *ctrl;
++	unsigned int ctrl_size;
++	unsigned int i;
++
++	v4l2_ctrl_handler_init(hdl, VIVPU_CONTROLS_COUNT);
++	if (hdl->error) {
++		v4l2_err(&dev->v4l2_dev,
++			 "Failed to initialize control handler\n");
++		return hdl->error;
++	}
++
++	ctrl_size = sizeof(ctrl) * VIVPU_CONTROLS_COUNT + 1;
++
++	ctx->ctrls = kzalloc(ctrl_size, GFP_KERNEL);
++	if (!ctx->ctrls)
++		return -ENOMEM;
++
++	for (i = 0; i < VIVPU_CONTROLS_COUNT; i++) {
++		ctrl = v4l2_ctrl_new_custom(hdl, &vivpu_controls[i].cfg,
++					    NULL);
++		if (hdl->error) {
++			v4l2_err(&dev->v4l2_dev,
++				 "Failed to create new custom control, errno: %d\n",
++				 hdl->error);
++
++			return hdl->error;
++		}
++
++		ctx->ctrls[i] = ctrl;
++	}
++
++	ctx->fh.ctrl_handler = hdl;
++	v4l2_ctrl_handler_setup(hdl);
++
++	return 0;
++}
++
++static void vivpu_free_ctrls(struct vivpu_ctx *ctx)
++{
++	kfree(ctx->ctrls);
++	v4l2_ctrl_handler_free(&ctx->hdl);
++}
++
++static int vivpu_open(struct file *file)
++{
++	struct vivpu_dev *dev = video_drvdata(file);
++	struct vivpu_ctx *ctx = NULL;
++	int rc = 0;
++
++	if (mutex_lock_interruptible(&dev->dev_mutex))
++		return -ERESTARTSYS;
++	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
++	if (!ctx) {
++		rc = -ENOMEM;
++		goto unlock;
++	}
++
++	v4l2_fh_init(&ctx->fh, video_devdata(file));
++	file->private_data = &ctx->fh;
++	ctx->dev = dev;
++
++	rc = vivpu_init_ctrls(ctx);
++	if (rc)
++		goto free_ctx;
++
++	ctx->fh.m2m_ctx = v4l2_m2m_ctx_init(dev->m2m_dev, ctx, &vivpu_queue_init);
++
++	mutex_init(&ctx->vb_mutex);
++
++	if (IS_ERR(ctx->fh.m2m_ctx)) {
++		rc = PTR_ERR(ctx->fh.m2m_ctx);
++		goto free_hdl;
++	}
++
++	vivpu_set_default_format(ctx);
++
++	v4l2_fh_add(&ctx->fh);
++
++	dprintk(dev, "Created instance: %p, m2m_ctx: %p\n",
++		ctx, ctx->fh.m2m_ctx);
++
++	mutex_unlock(&dev->dev_mutex);
++	return rc;
++
++free_hdl:
++	vivpu_free_ctrls(ctx);
++	v4l2_fh_exit(&ctx->fh);
++free_ctx:
++	kfree(ctx);
++unlock:
++	mutex_unlock(&dev->dev_mutex);
++	return rc;
++}
++
++static int vivpu_release(struct file *file)
++{
++	struct vivpu_dev *dev = video_drvdata(file);
++	struct vivpu_ctx *ctx = vivpu_file_to_ctx(file);
++
++	dprintk(dev, "Releasing instance %p\n", ctx);
++
++	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_exit(&ctx->fh);
++	vivpu_free_ctrls(ctx);
++	mutex_lock(&dev->dev_mutex);
++	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
++	mutex_unlock(&dev->dev_mutex);
++	kfree(ctx);
++
++	return 0;
++}
++
++static const struct v4l2_file_operations vivpu_fops = {
++	.owner		= THIS_MODULE,
++	.open		= vivpu_open,
++	.release	= vivpu_release,
++	.poll		= v4l2_m2m_fop_poll,
++	.unlocked_ioctl	= video_ioctl2,
++	.mmap		= v4l2_m2m_fop_mmap,
++};
++
++static const struct video_device vivpu_videodev = {
++	.name		= VIVPU_NAME,
++	.vfl_dir	= VFL_DIR_M2M,
++	.fops		= &vivpu_fops,
++	.ioctl_ops	= &vivpu_ioctl_ops,
++	.minor		= -1,
++	.release	= vivpu_device_release,
++	.device_caps	= V4L2_CAP_VIDEO_M2M | V4L2_CAP_STREAMING,
++};
++
++static const struct v4l2_m2m_ops vivpu_m2m_ops = {
++	.device_run	= vivpu_device_run,
++};
++
++static const struct media_device_ops vivpu_m2m_media_ops = {
++	.req_validate	= vivpu_request_validate,
++	.req_queue	= v4l2_m2m_request_queue,
++};
++
++static int vivpu_probe(struct platform_device *pdev)
++{
++	struct vivpu_dev *dev;
++	struct video_device *vfd;
++	int ret;
++
++	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
++	if (!dev)
++		return -ENOMEM;
++
++	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
++	if (ret)
++		goto error_vivpu_dev;
++
++	mutex_init(&dev->dev_mutex);
++
++	dev->vfd = vivpu_videodev;
++	vfd = &dev->vfd;
++	vfd->lock = &dev->dev_mutex;
++	vfd->v4l2_dev = &dev->v4l2_dev;
++
++	video_set_drvdata(vfd, dev);
++	v4l2_info(&dev->v4l2_dev,
++		  "Device registered as /dev/video%d\n", vfd->num);
++
++	platform_set_drvdata(pdev, dev);
++
++	dev->m2m_dev = v4l2_m2m_init(&vivpu_m2m_ops);
++	if (IS_ERR(dev->m2m_dev)) {
++		v4l2_err(&dev->v4l2_dev, "Failed to init mem2mem device\n");
++		ret = PTR_ERR(dev->m2m_dev);
++		dev->m2m_dev = NULL;
++		goto error_dev;
++	}
++
++	dev->mdev.dev = &pdev->dev;
++	strscpy(dev->mdev.model, "vivpu", sizeof(dev->mdev.model));
++	strscpy(dev->mdev.bus_info, "platform:vivpu",
++		sizeof(dev->mdev.bus_info));
++	media_device_init(&dev->mdev);
++	dev->mdev.ops = &vivpu_m2m_media_ops;
++	dev->v4l2_dev.mdev = &dev->mdev;
++
++	ret = video_register_device(vfd, VFL_TYPE_VIDEO, -1);
++	if (ret) {
++		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
++		goto error_m2m;
++	}
++
++	ret = v4l2_m2m_register_media_controller(dev->m2m_dev, vfd,
++						 MEDIA_ENT_F_PROC_VIDEO_DECODER);
++	if (ret) {
++		v4l2_err(&dev->v4l2_dev, "Failed to init mem2mem media controller\n");
++		goto error_v4l2;
++	}
++
++	ret = media_device_register(&dev->mdev);
++	if (ret) {
++		v4l2_err(&dev->v4l2_dev, "Failed to register mem2mem media device\n");
++		goto error_m2m_mc;
++	}
++
++	return 0;
++
++error_m2m_mc:
++	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
++error_v4l2:
++	video_unregister_device(&dev->vfd);
++	/* vivpu_device_release called by video_unregister_device to release various objects */
++	return ret;
++error_m2m:
++	v4l2_m2m_release(dev->m2m_dev);
++error_dev:
++	v4l2_device_unregister(&dev->v4l2_dev);
++error_vivpu_dev:
++	kfree(dev);
++
++	return ret;
++}
++
++static int vivpu_remove(struct platform_device *pdev)
++{
++	struct vivpu_dev *dev = platform_get_drvdata(pdev);
++
++	v4l2_info(&dev->v4l2_dev, "Removing " VIVPU_NAME);
++
++#ifdef CONFIG_MEDIA_CONTROLLER
++	if (media_devnode_is_registered(dev->mdev.devnode)) {
++		media_device_unregister(&dev->mdev);
++		v4l2_m2m_unregister_media_controller(dev->m2m_dev);
++	}
++#endif
++	video_unregister_device(&dev->vfd);
++
++	return 0;
++}
++
++static struct platform_driver vivpu_pdrv = {
++	.probe		= vivpu_probe,
++	.remove		= vivpu_remove,
++	.driver		= {
++		.name	= VIVPU_NAME,
++	},
++};
++
++static void vivpu_dev_release(struct device *dev) {}
++
++static struct platform_device vivpu_pdev = {
++	.name		= VIVPU_NAME,
++	.dev.release	= vivpu_dev_release,
++};
++
++static void __exit vivpu_exit(void)
++{
++	platform_driver_unregister(&vivpu_pdrv);
++	platform_device_unregister(&vivpu_pdev);
++}
++
++static int __init vivpu_init(void)
++{
++	int ret;
++
++	ret = platform_device_register(&vivpu_pdev);
++	if (ret)
++		return ret;
++
++	ret = platform_driver_register(&vivpu_pdrv);
++	if (ret)
++		platform_device_unregister(&vivpu_pdev);
++
++	return ret;
++}
++
++MODULE_DESCRIPTION("Virtual VPU device");
++MODULE_AUTHOR("Daniel Almeida <daniel.almeida@collabora.com>");
++MODULE_LICENSE("GPL v2");
++
++module_init(vivpu_init);
++module_exit(vivpu_exit);
+diff --git a/drivers/media/test-drivers/vivpu/vivpu-dec.c b/drivers/media/test-drivers/vivpu/vivpu-dec.c
+new file mode 100644
+index 000000000000..f928768aff77
+--- /dev/null
++++ b/drivers/media/test-drivers/vivpu/vivpu-dec.c
+@@ -0,0 +1,491 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * A virtual stateless VPU example device for uAPI development purposes.
++ *
++ * A userspace implementation can use vivpu to run a decoding loop even
++ * when no hardware is available or when the kernel uAPI for the codec
++ * has not been upstreamed yet. This can reveal bugs at an early stage.
++ *
++ * Copyright (c) Collabora, Ltd.
++ *
++ * Based on the vim2m driver, that is:
++ *
++ * Copyright (c) 2009-2010 Samsung Electronics Co., Ltd.
++ * Pawel Osciak, <pawel@osciak.com>
++ * Marek Szyprowski, <m.szyprowski@samsung.com>
++ *
++ * Based on the vicodec driver, that is:
++ *
++ * Copyright 2018 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
++ *
++ * Based on the Cedrus VPU driver, that is:
++ *
++ * Copyright (C) 2016 Florent Revest <florent.revest@free-electrons.com>
++ * Copyright (C) 2018 Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++ * Copyright (C) 2018 Bootlin
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version
++ */
++
++#include "vivpu.h"
++#include "vivpu-dec.h"
++
++#include <linux/delay.h>
++#include <linux/workqueue.h>
++#include <media/v4l2-mem2mem.h>
++#include <media/tpg/v4l2-tpg.h>
++
++static void
++vivpu_av1_check_reference_frames(struct vivpu_ctx *ctx, struct vivpu_run *run)
 +{
 +	u32 i;
-+	u32 j;
-+	s32 limit;
++	int idx;
++	const struct v4l2_ctrl_av1_frame_header *f;
++	struct vb2_queue *capture_queue;
 +
-+	if (s->flags > GENMASK(3, 0))
++	f = run->av1.frame_header;
++	capture_queue = &ctx->fh.m2m_ctx->cap_q_ctx.q;
++
++	/*
++	 * For every reference frame timestamp, make sure we can actually find
++	 * the buffer in the CAPTURE queue.
++	 */
++	for (i = 0; i < V4L2_AV1_NUM_REF_FRAMES; i++) {
++		idx = vb2_find_timestamp(capture_queue, f->reference_frame_ts[i], 0);
++		if (idx < 0)
++			v4l2_err(&ctx->dev->v4l2_dev,
++				 "no capture buffer found for reference_frame_ts[%d] %llu",
++				 i, f->reference_frame_ts[i]);
++		else
++			dprintk(ctx->dev,
++				"found capture buffer %d for reference_frame_ts[%d] %llu\n",
++				idx, i, f->reference_frame_ts[i]);
++	}
++}
++
++static void vivpu_dump_av1_seq(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_ctrl_av1_sequence *seq = run->av1.sequence;
++
++	dprintk(ctx->dev, "AV1 Sequence\n");
++	dprintk(ctx->dev, "flags %d\n", seq->flags);
++	dprintk(ctx->dev, "profile %d\n", seq->seq_profile);
++	dprintk(ctx->dev, "order_hint_bits %d\n", seq->order_hint_bits);
++	dprintk(ctx->dev, "bit_depth %d\n", seq->bit_depth);
++	dprintk(ctx->dev, "\n");
++}
++
++static void
++vivpu_dump_av1_tile_group(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_ctrl_av1_tile_group *tg;
++	u32 n;
++	u32 i;
++
++	n = vivpu_control_num_elems(ctx, V4L2_CID_STATELESS_AV1_TILE_GROUP);
++	for (i = 0; i < n; i++) {
++		tg = &run->av1.tile_group[i];
++		dprintk(ctx->dev, "AV1 Tile Group\n");
++		dprintk(ctx->dev, "flags %d\n", tg->flags);
++		dprintk(ctx->dev, "tg_start %d\n", tg->tg_start);
++		dprintk(ctx->dev, "tg_end %d\n", tg->tg_end);
++		dprintk(ctx->dev, "\n");
++	}
++
++	dprintk(ctx->dev, "\n");
++}
++
++static void
++vivpu_dump_av1_tile_group_entry(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_ctrl_av1_tile_group_entry *tge;
++	u32 n;
++	u32 i;
++
++	n = vivpu_control_num_elems(ctx, V4L2_CID_STATELESS_AV1_TILE_GROUP_ENTRY);
++	for (i = 0; i < n; i++) {
++		tge = &run->av1.tg_entries[i];
++		dprintk(ctx->dev, "AV1 Tile Group Entry\n");
++		dprintk(ctx->dev, "tile_offset %d\n", tge->tile_offset);
++		dprintk(ctx->dev, "tile_size %d\n", tge->tile_size);
++		dprintk(ctx->dev, "tile_row %d\n", tge->tile_row);
++		dprintk(ctx->dev, "tile_col %d\n", tge->tile_col);
++
++		dprintk(ctx->dev, "\n");
++	}
++
++	dprintk(ctx->dev, "\n");
++}
++
++static void
++vivpu_dump_av1_tile_list(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_ctrl_av1_tile_list *tl;
++	u32 n;
++	u32 i;
++
++	n = vivpu_control_num_elems(ctx, V4L2_CID_STATELESS_AV1_TILE_LIST);
++	for (i = 0; i < n; i++) {
++		tl = &run->av1.tile_list[i];
++		dprintk(ctx->dev, "AV1 Tile List\n");
++		dprintk(ctx->dev, "output_frame_width_in_tiles_minus_1 %d\n",
++			tl->output_frame_width_in_tiles_minus_1);
++		dprintk(ctx->dev, "output_frame_height_in_tiles_minus_1 %d\n",
++			tl->output_frame_height_in_tiles_minus_1);
++		dprintk(ctx->dev, "tile_count_minus_1 %d\n",
++			tl->tile_count_minus_1);
++		dprintk(ctx->dev, "\n");
++	}
++
++	dprintk(ctx->dev, "\n");
++}
++
++static void
++vivpu_dump_av1_tile_list_entry(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_ctrl_av1_tile_list_entry *tle;
++	u32 n;
++	u32 i;
++
++	n = vivpu_control_num_elems(ctx, V4L2_CID_STATELESS_AV1_TILE_LIST_ENTRY);
++	for (i = 0; i < n; i++) {
++		tle = &run->av1.tl_entries[i];
++		dprintk(ctx->dev, "AV1 Tile List Entry\n");
++		dprintk(ctx->dev, "anchor_frame_idx %d\n", tle->anchor_frame_idx);
++		dprintk(ctx->dev, "anchor_tile_row %d\n", tle->anchor_tile_row);
++		dprintk(ctx->dev, "anchor_tile_col %d\n", tle->anchor_tile_col);
++		dprintk(ctx->dev, "tile_data_size_minus_1 %d\n",
++			tle->tile_data_size_minus_1);
++		dprintk(ctx->dev, "\n");
++	}
++
++	dprintk(ctx->dev, "\n");
++}
++
++static void
++vivpu_dump_av1_quantization(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_av1_quantization *q = &run->av1.frame_header->quantization;
++
++	dprintk(ctx->dev, "AV1 Quantization\n");
++	dprintk(ctx->dev, "flags %d\n", q->flags);
++	dprintk(ctx->dev, "base_q_idx %d\n", q->base_q_idx);
++	dprintk(ctx->dev, "delta_q_y_dc %d\n", q->delta_q_y_dc);
++	dprintk(ctx->dev, "delta_q_u_dc %d\n", q->delta_q_u_dc);
++	dprintk(ctx->dev, "delta_q_u_ac %d\n", q->delta_q_u_ac);
++	dprintk(ctx->dev, "delta_q_v_dc %d\n", q->delta_q_v_dc);
++	dprintk(ctx->dev, "delta_q_v_ac %d\n", q->delta_q_v_ac);
++	dprintk(ctx->dev, "qm_y %d\n", q->qm_y);
++	dprintk(ctx->dev, "qm_u %d\n", q->qm_u);
++	dprintk(ctx->dev, "qm_v %d\n", q->qm_v);
++	dprintk(ctx->dev, "delta_q_res %d\n", q->delta_q_res);
++	dprintk(ctx->dev, "\n");
++}
++
++static void
++vivpu_dump_av1_segmentation(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_av1_segmentation *s = &run->av1.frame_header->segmentation;
++	u32 i;
++	u32 j;
++
++	dprintk(ctx->dev, "AV1 Segmentation\n");
++	dprintk(ctx->dev, "flags %d\n", s->flags);
++
++	for (i = 0; i < ARRAY_SIZE(s->feature_enabled); i++)
++		dprintk(ctx->dev,
++			"feature_enabled[%d] %d\n",
++			i, s->feature_enabled[i]);
++
++	for (i = 0; i < V4L2_AV1_MAX_SEGMENTS; i++)
++		for (j = 0; j < V4L2_AV1_SEG_LVL_MAX; j++)
++			dprintk(ctx->dev,
++				"feature_data[%d][%d] %d\n",
++				i, j, s->feature_data[i][j]);
++
++	dprintk(ctx->dev, "last_active_seg_id %d\n", s->last_active_seg_id);
++	dprintk(ctx->dev, "\n");
++}
++
++static void
++vivpu_dump_av1_loop_filter(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_av1_loop_filter *lf = &run->av1.frame_header->loop_filter;
++	u32 i;
++
++	dprintk(ctx->dev, "AV1 Loop Filter\n");
++	dprintk(ctx->dev, "flags %d\n", lf->flags);
++
++	for (i = 0; i < ARRAY_SIZE(lf->level); i++)
++		dprintk(ctx->dev, "level[%d] %d\n", i, lf->level[i]);
++
++	dprintk(ctx->dev, "sharpness %d\n", lf->sharpness);
++
++	for (i = 0; i < ARRAY_SIZE(lf->ref_deltas); i++)
++		dprintk(ctx->dev, "ref_deltas[%d] %d\n", i, lf->ref_deltas[i]);
++
++	for (i = 0; i < ARRAY_SIZE(lf->mode_deltas); i++)
++		dprintk(ctx->dev, "mode_deltas[%d], %d\n", i, lf->mode_deltas[i]);
++
++	dprintk(ctx->dev, "delta_lf_res %d\n", lf->delta_lf_res);
++	dprintk(ctx->dev, "delta_lf_multi %d\n", lf->delta_lf_multi);
++	dprintk(ctx->dev, "\n");
++}
++
++static void
++vivpu_dump_av1_loop_restoration(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_av1_loop_restoration *lr;
++	u32 i;
++
++	lr = &run->av1.frame_header->loop_restoration;
++	dprintk(ctx->dev, "AV1 Loop Restoration\n");
++
++	for (i = 0; i < ARRAY_SIZE(lr->frame_restoration_type); i++)
++		dprintk(ctx->dev, "frame_restoration_type[%d] %d\n", i,
++			lr->frame_restoration_type[i]);
++
++	dprintk(ctx->dev, "lr_unit_shift %d\n", lr->lr_unit_shift);
++	dprintk(ctx->dev, "lr_uv_shift %d\n", lr->lr_uv_shift);
++
++	for (i = 0; i < ARRAY_SIZE(lr->loop_restoration_size); i++)
++		dprintk(ctx->dev, "loop_restoration_size[%d] %d\n",
++			i, lr->loop_restoration_size[i]);
++
++	dprintk(ctx->dev, "\n");
++}
++
++static void
++vivpu_dump_av1_cdef(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_av1_cdef *cdef = &run->av1.frame_header->cdef;
++	u32 i;
++
++	dprintk(ctx->dev, "AV1 CDEF\n");
++	dprintk(ctx->dev, "damping_minus_3 %d\n", cdef->damping_minus_3);
++	dprintk(ctx->dev, "bits %d\n", cdef->bits);
++
++	for (i = 0; i < ARRAY_SIZE(cdef->y_pri_strength); i++)
++		dprintk(ctx->dev,
++			"y_pri_strength[%d] %d\n", i, cdef->y_pri_strength[i]);
++	for (i = 0; i < ARRAY_SIZE(cdef->y_sec_strength); i++)
++		dprintk(ctx->dev,
++			"y_sec_strength[%d] %d\n", i, cdef->y_sec_strength[i]);
++	for (i = 0; i < ARRAY_SIZE(cdef->uv_pri_strength); i++)
++		dprintk(ctx->dev,
++			"uv_pri_strength[%d] %d\n", i, cdef->uv_pri_strength[i]);
++	for (i = 0; i < ARRAY_SIZE(cdef->uv_sec_strength); i++)
++		dprintk(ctx->dev,
++			"uv_sec_strength[%d] %d\n", i, cdef->uv_sec_strength[i]);
++
++	dprintk(ctx->dev, "\n");
++}
++
++static void
++vivpu_dump_av1_global_motion(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_av1_global_motion *gm;
++	u32 i;
++	u32 j;
++
++	gm = &run->av1.frame_header->global_motion;
++
++	dprintk(ctx->dev, "AV1 Global Motion\n");
++
++	for (i = 0; i < ARRAY_SIZE(gm->flags); i++)
++		dprintk(ctx->dev, "flags[%d] %d\n", i, gm->flags[i]);
++	for (i = 0; i < ARRAY_SIZE(gm->type); i++)
++		dprintk(ctx->dev, "type[%d] %d\n", i, gm->type[i]);
++
++	for (i = 0; i < V4L2_AV1_TOTAL_REFS_PER_FRAME; i++)
++		for (j = 0; j < 6; j++)
++			dprintk(ctx->dev, "params[%d][%d] %d\n",
++				i, j, gm->type[i]);
++
++	dprintk(ctx->dev, "invalid %d\n", gm->invalid);
++
++	dprintk(ctx->dev, "\n");
++}
++
++static void
++vivpu_dump_av1_film_grain(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_av1_film_grain *fg;
++	u32 i;
++
++	fg = &run->av1.frame_header->film_grain;
++
++	dprintk(ctx->dev, "AV1 Film Grain\n");
++	dprintk(ctx->dev, "flags %d\n", fg->flags);
++	dprintk(ctx->dev, "grain_seed %d\n", fg->grain_seed);
++	dprintk(ctx->dev, "film_grain_params_ref_idx %d\n",
++		fg->film_grain_params_ref_idx);
++	dprintk(ctx->dev, "num_y_points %d\n", fg->num_y_points);
++
++	for (i = 0; i < ARRAY_SIZE(fg->point_y_value); i++)
++		dprintk(ctx->dev, "point_y_value[%d] %d\n",
++			i, fg->point_y_value[i]);
++
++	for (i = 0; i < ARRAY_SIZE(fg->point_y_scaling); i++)
++		dprintk(ctx->dev, "point_y_scaling[%d] %d\n",
++			i, fg->point_y_scaling[i]);
++
++	dprintk(ctx->dev, "\n");
++}
++
++static void
++vivpu_dump_av1_tile_info(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_av1_tile_info *ti;
++	u32 i;
++
++	ti = &run->av1.frame_header->tile_info;
++
++	dprintk(ctx->dev, "AV1 Tile Info\n");
++
++	dprintk(ctx->dev, "flags %d\n", ti->flags);
++
++	for (i = 0; i < ARRAY_SIZE(ti->mi_col_starts); i++)
++		dprintk(ctx->dev, "mi_col_starts[%d] %d\n",
++			i, ti->mi_col_starts[i]);
++
++	for (i = 0; i < ARRAY_SIZE(ti->mi_row_starts); i++)
++		dprintk(ctx->dev, "mi_row_starts[%d] %d\n",
++			i, ti->mi_row_starts[i]);
++
++	for (i = 0; i < ARRAY_SIZE(ti->width_in_sbs_minus_1); i++)
++		dprintk(ctx->dev, "width_in_sbs_minus_1[%d] %d\n",
++			i, ti->width_in_sbs_minus_1[i]);
++
++	for (i = 0; i < ARRAY_SIZE(ti->height_in_sbs_minus_1); i++)
++		dprintk(ctx->dev, "height_in_sbs_minus_1[%d] %d\n",
++			i, ti->height_in_sbs_minus_1[i]);
++
++	dprintk(ctx->dev, "tile_size_bytes %d\n", ti->tile_size_bytes);
++	dprintk(ctx->dev, "context_update_tile_id %d\n", ti->context_update_tile_id);
++	dprintk(ctx->dev, "tile_cols %d\n", ti->tile_cols);
++	dprintk(ctx->dev, "tile_rows %d\n", ti->tile_rows);
++
++	dprintk(ctx->dev, "\n");
++}
++
++static void vivpu_dump_av1_frame(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	const struct v4l2_ctrl_av1_frame_header *f = run->av1.frame_header;
++	u32 i;
++
++	dprintk(ctx->dev, "AV1 Frame Header\n");
++	dprintk(ctx->dev, "flags %d\n", f->flags);
++	dprintk(ctx->dev, "frame_type %d\n", f->frame_type);
++	dprintk(ctx->dev, "order_hint %d\n", f->order_hint);
++	dprintk(ctx->dev, "superres_denom %d\n", f->superres_denom);
++	dprintk(ctx->dev, "upscaled_width %d\n", f->upscaled_width);
++	dprintk(ctx->dev, "interpolation_filter %d\n", f->interpolation_filter);
++	dprintk(ctx->dev, "tx_mode %d\n", f->tx_mode);
++	dprintk(ctx->dev, "frame_width_minus_1 %d\n", f->frame_width_minus_1);
++	dprintk(ctx->dev, "frame_height_minus_1 %d\n", f->frame_height_minus_1);
++	dprintk(ctx->dev, "render_width_minus_1 %d\n", f->render_width_minus_1);
++	dprintk(ctx->dev, "render_height_minus_1 %d\n", f->render_height_minus_1);
++	dprintk(ctx->dev, "current_frame_id %d\n", f->current_frame_id);
++	dprintk(ctx->dev, "primary_ref_frame %d\n", f->primary_ref_frame);
++
++	for (i = 0; i < V4L2_AV1_MAX_OPERATING_POINTS; i++) {
++		dprintk(ctx->dev, "buffer_removal_time[%d] %d\n",
++			i, f->buffer_removal_time[i]);
++	}
++
++	dprintk(ctx->dev, "refresh_frame_flags %d\n", f->refresh_frame_flags);
++	dprintk(ctx->dev, "last_frame_idx %d\n", f->last_frame_idx);
++	dprintk(ctx->dev, "gold_frame_idx %d\n", f->gold_frame_idx);
++
++	for (i = 0; i < ARRAY_SIZE(f->reference_frame_ts); i++)
++		dprintk(ctx->dev, "reference_frame_ts[%d] %llu\n", i,
++			f->reference_frame_ts[i]);
++
++	vivpu_dump_av1_tile_info(ctx, run);
++	vivpu_dump_av1_quantization(ctx, run);
++	vivpu_dump_av1_segmentation(ctx, run);
++	vivpu_dump_av1_loop_filter(ctx, run);
++	vivpu_dump_av1_cdef(ctx, run);
++	vivpu_dump_av1_loop_restoration(ctx, run);
++	vivpu_dump_av1_global_motion(ctx, run);
++	vivpu_dump_av1_film_grain(ctx, run);
++
++	for (i = 0; i < ARRAY_SIZE(f->skip_mode_frame); i++)
++		dprintk(ctx->dev, "skip_mode_frame[%d] %d\n",
++			i, f->skip_mode_frame[i]);
++
++	dprintk(ctx->dev, "\n");
++}
++
++static void vivpu_dump_av1_ctrls(struct vivpu_ctx *ctx, struct vivpu_run *run)
++{
++	vivpu_dump_av1_seq(ctx, run);
++	vivpu_dump_av1_frame(ctx, run);
++	vivpu_dump_av1_tile_group(ctx, run);
++	vivpu_dump_av1_tile_group_entry(ctx, run);
++	vivpu_dump_av1_tile_list(ctx, run);
++	vivpu_dump_av1_tile_list_entry(ctx, run);
++}
++
++void vivpu_device_run(void *priv)
++{
++	struct vivpu_ctx *ctx = priv;
++	struct vivpu_run run = {};
++	struct media_request *src_req;
++
++	run.src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
++	run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
++
++	/* Apply request(s) controls if needed. */
++	src_req = run.src->vb2_buf.req_obj.req;
++
++	if (src_req)
++		v4l2_ctrl_request_setup(src_req, &ctx->hdl);
++
++	switch (ctx->current_codec) {
++	case VIVPU_CODEC_AV1:
++		run.av1.sequence =
++			vivpu_find_control_data(ctx, V4L2_CID_STATELESS_AV1_SEQUENCE);
++		run.av1.frame_header =
++			vivpu_find_control_data(ctx, V4L2_CID_STATELESS_AV1_FRAME_HEADER);
++		run.av1.tile_group =
++			vivpu_find_control_data(ctx, V4L2_CID_STATELESS_AV1_TILE_GROUP);
++		run.av1.tg_entries =
++			vivpu_find_control_data(ctx, V4L2_CID_STATELESS_AV1_TILE_GROUP_ENTRY);
++		run.av1.tile_list =
++			vivpu_find_control_data(ctx, V4L2_CID_STATELESS_AV1_TILE_LIST);
++		run.av1.tl_entries =
++			vivpu_find_control_data(ctx, V4L2_CID_STATELESS_AV1_TILE_LIST_ENTRY);
++
++		vivpu_dump_av1_ctrls(ctx, &run);
++		vivpu_av1_check_reference_frames(ctx, &run);
++		break;
++	default:
++		break;
++	}
++
++	v4l2_m2m_buf_copy_metadata(run.src, run.dst, true);
++	run.dst->sequence = ctx->q_data[V4L2_M2M_DST].sequence++;
++	run.src->sequence = ctx->q_data[V4L2_M2M_SRC].sequence++;
++	run.dst->field = ctx->dst_fmt.fmt.pix.field;
++
++	dprintk(ctx->dev, "Got src buffer %p, sequence %d, timestamp %llu\n",
++		run.src, run.src->sequence, run.src->vb2_buf.timestamp);
++
++	dprintk(ctx->dev, "Got dst buffer %p, sequence %d, timestamp %llu\n",
++		run.dst, run.dst->sequence, run.dst->vb2_buf.timestamp);
++
++	/* Complete request(s) controls if needed. */
++	if (src_req)
++		v4l2_ctrl_request_complete(src_req, &ctx->hdl);
++
++	if (vivpu_transtime)
++		usleep_range(vivpu_transtime, vivpu_transtime * 2);
++
++	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
++					 ctx->fh.m2m_ctx, VB2_BUF_STATE_DONE);
++}
+diff --git a/drivers/media/test-drivers/vivpu/vivpu-dec.h b/drivers/media/test-drivers/vivpu/vivpu-dec.h
+new file mode 100644
+index 000000000000..4a3ca5952e43
+--- /dev/null
++++ b/drivers/media/test-drivers/vivpu/vivpu-dec.h
+@@ -0,0 +1,61 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * A virtual stateless VPU example device for uAPI development purposes.
++ *
++ * A userspace implementation can use vivpu to run a decoding loop even
++ * when no hardware is available or when the kernel uAPI for the codec
++ * has not been upstreamed yet. This can reveal bugs at an early stage.
++ *
++ * Copyright (c) Collabora, Ltd.
++ *
++ * Based on the vim2m driver, that is:
++ *
++ * Copyright (c) 2009-2010 Samsung Electronics Co., Ltd.
++ * Pawel Osciak, <pawel@osciak.com>
++ * Marek Szyprowski, <m.szyprowski@samsung.com>
++ *
++ * Based on the vicodec driver, that is:
++ *
++ * Copyright 2018 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
++ *
++ * Based on the Cedrus VPU driver, that is:
++ *
++ * Copyright (C) 2016 Florent Revest <florent.revest@free-electrons.com>
++ * Copyright (C) 2018 Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++ * Copyright (C) 2018 Bootlin
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version
++ */
++
++#ifndef _VIVPU_DEC_H_
++#define _VIVPU_DEC_H_
++
++#include "vivpu.h"
++
++struct vivpu_av1_run {
++	const struct v4l2_ctrl_av1_sequence *sequence;
++	const struct v4l2_ctrl_av1_frame_header *frame_header;
++	const struct v4l2_ctrl_av1_tile_group *tile_group;
++	const struct v4l2_ctrl_av1_tile_group_entry *tg_entries;
++	const struct v4l2_ctrl_av1_tile_list *tile_list;
++	const struct v4l2_ctrl_av1_tile_list_entry *tl_entries;
++};
++
++struct vivpu_run {
++	struct vb2_v4l2_buffer	*src;
++	struct vb2_v4l2_buffer	*dst;
++
++	union {
++		struct vivpu_av1_run	av1;
++	};
++};
++
++int vivpu_dec_start(struct vivpu_ctx *ctx);
++int vivpu_dec_stop(struct vivpu_ctx *ctx);
++int vivpu_job_ready(void *priv);
++void vivpu_device_run(void *priv);
++
++#endif /* _VIVPU_DEC_H_ */
+diff --git a/drivers/media/test-drivers/vivpu/vivpu-video.c b/drivers/media/test-drivers/vivpu/vivpu-video.c
+new file mode 100644
+index 000000000000..a3018b0a4da3
+--- /dev/null
++++ b/drivers/media/test-drivers/vivpu/vivpu-video.c
+@@ -0,0 +1,599 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * A virtual stateless VPU example device for uAPI development purposes.
++ *
++ * A userspace implementation can use vivpu to run a decoding loop even
++ * when no hardware is available or when the kernel uAPI for the codec
++ * has not been upstreamed yet. This can reveal bugs at an early stage.
++ *
++ * Copyright (c) Collabora, Ltd.
++ *
++ * Based on the vim2m driver, that is:
++ *
++ * Copyright (c) 2009-2010 Samsung Electronics Co., Ltd.
++ * Pawel Osciak, <pawel@osciak.com>
++ * Marek Szyprowski, <m.szyprowski@samsung.com>
++ *
++ * Based on the vicodec driver, that is:
++ *
++ * Copyright 2018 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
++ *
++ * Based on the cedrus VPU driver, that is:
++ *
++ * Copyright (C) 2016 Florent Revest <florent.revest@free-electrons.com>
++ * Copyright (C) 2018 Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++ * Copyright (C) 2018 Bootlin
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version
++ */
++
++#include <media/v4l2-event.h>
++#include <media/v4l2-ioctl.h>
++#include <media/videobuf2-vmalloc.h>
++
++#include "vivpu-video.h"
++#include "vivpu.h"
++
++static const u32 vivpu_decoded_formats[] = {
++	V4L2_PIX_FMT_NV12,
++};
++
++static const struct vivpu_coded_format_desc coded_formats[] = {
++	{
++	.pixelformat = V4L2_PIX_FMT_AV1_FRAME,
++	/* simulated frame sizes for AV1 */
++	.frmsize = {
++		.min_width = 48,
++		.max_width = 4096,
++		.step_width = 16,
++		.min_height = 48,
++		.max_height = 2304,
++		.step_height = 16,
++	},
++	.num_decoded_fmts = ARRAY_SIZE(vivpu_decoded_formats),
++	/* simulate that the AV1 coded format decodes to raw NV12 */
++	.decoded_fmts = vivpu_decoded_formats,
++	}
++};
++
++static const struct vivpu_coded_format_desc*
++vivpu_find_coded_fmt_desc(u32 fourcc)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(coded_formats); i++) {
++		if (coded_formats[i].pixelformat == fourcc)
++			return &coded_formats[i];
++	}
++
++	return NULL;
++}
++
++void vivpu_set_default_format(struct vivpu_ctx *ctx)
++{
++	struct v4l2_format src_fmt = {
++		.fmt.pix = {
++			.width = vivpu_src_default_w,
++			.height = vivpu_src_default_h,
++			/* Zero bytes per line for encoded source. */
++			.bytesperline = 0,
++			/* Choose some minimum size since this can't be 0 */
++			.sizeimage = SZ_1K,
++		},
++	};
++
++	ctx->coded_format_desc = &coded_formats[0];
++	ctx->src_fmt = src_fmt;
++
++	v4l2_fill_pixfmt_mp(&ctx->dst_fmt.fmt.pix_mp,
++			    V4L2_PIX_FMT_NV12,
++			    vivpu_src_default_w, vivpu_src_default_h);
++
++	/* Always apply the frmsize constraint of the coded end. */
++	v4l2_apply_frmsize_constraints(&ctx->dst_fmt.fmt.pix.width,
++				       &ctx->dst_fmt.fmt.pix.height,
++				       &ctx->coded_format_desc->frmsize);
++
++	ctx->src_fmt.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
++	ctx->dst_fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
++}
++
++static const char *q_name(enum v4l2_buf_type type)
++{
++	switch (type) {
++	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
++		return "Output";
++	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
++		return "Capture";
++	default:
++		return "Invalid";
++	}
++}
++
++static struct vivpu_q_data *get_q_data(struct vivpu_ctx *ctx,
++				       enum v4l2_buf_type type)
++{
++	switch (type) {
++	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
++	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
++		return &ctx->q_data[V4L2_M2M_SRC];
++	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
++	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
++		return &ctx->q_data[V4L2_M2M_DST];
++	default:
++		break;
++	}
++	return NULL;
++}
++
++static int vivpu_querycap(struct file *file, void *priv,
++			  struct v4l2_capability *cap)
++{
++	strscpy(cap->driver, VIVPU_NAME, sizeof(cap->driver));
++	strscpy(cap->card, VIVPU_NAME, sizeof(cap->card));
++	snprintf(cap->bus_info, sizeof(cap->bus_info),
++		 "platform:%s", VIVPU_NAME);
++
++	return 0;
++}
++
++static int vivpu_enum_fmt_vid_cap(struct file *file, void *priv,
++				  struct v4l2_fmtdesc *f)
++{
++	struct vivpu_ctx *ctx = vivpu_file_to_ctx(file);
++
++	if (f->index >= ctx->coded_format_desc->num_decoded_fmts)
 +		return -EINVAL;
 +
-+	for (i = 0; i < ARRAY_SIZE(s->feature_data); i++) {
-+		const int segmentation_feature_signed[] = { 1, 1, 1, 1, 1, 0, 0, 0 };
-+		const int segmentation_feature_max[] = { 255, 63, 63, 63, 63, 7, 0, 0};
++	f->pixelformat = ctx->coded_format_desc->decoded_fmts[f->index];
++	return 0;
++}
 +
-+		for (j = 0; j < ARRAY_SIZE(s->feature_data[j]); j++) {
-+			if (segmentation_feature_signed[j]) {
-+				limit = segmentation_feature_max[j];
++static int vivpu_enum_fmt_vid_out(struct file *file, void *priv,
++				  struct v4l2_fmtdesc *f)
++{
++	if (f->index >= ARRAY_SIZE(coded_formats))
++		return -EINVAL;
 +
-+				if (s->feature_data[i][j] < -limit ||
-+				    s->feature_data[i][j] > limit)
-+					return -EINVAL;
-+			} else {
-+				if (s->feature_data[i][j] > limit)
-+					return -EINVAL;
-+			}
++	f->pixelformat = coded_formats[f->index].pixelformat;
++	return 0;
++}
++
++static int vivpu_g_fmt_vid_cap(struct file *file, void *priv,
++			       struct v4l2_format *f)
++{
++	struct vivpu_ctx *ctx = vivpu_file_to_ctx(file);
++	*f = ctx->dst_fmt;
++
++	return 0;
++}
++
++static int vivpu_g_fmt_vid_out(struct file *file, void *priv,
++			       struct v4l2_format *f)
++{
++	struct vivpu_ctx *ctx = vivpu_file_to_ctx(file);
++
++	*f = ctx->src_fmt;
++	return 0;
++}
++
++static int vivpu_try_fmt_vid_cap(struct file *file, void *priv,
++				 struct v4l2_format *f)
++{
++	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
++	struct vivpu_ctx *ctx = vivpu_file_to_ctx(file);
++	const struct vivpu_coded_format_desc *coded_desc;
++	unsigned int i;
++
++	coded_desc = ctx->coded_format_desc;
++	if (WARN_ON(!coded_desc))
++		return -EINVAL;
++
++	for (i = 0; i < coded_desc->num_decoded_fmts; i++) {
++		if (coded_desc->decoded_fmts[i] == pix_mp->pixelformat)
++			break;
++	}
++
++	if (i == coded_desc->num_decoded_fmts)
++		return -EINVAL;
++
++	v4l2_apply_frmsize_constraints(&pix_mp->width,
++				       &pix_mp->height,
++				       &coded_desc->frmsize);
++
++	pix_mp->field = V4L2_FIELD_NONE;
++
++	return 0;
++}
++
++static int vivpu_try_fmt_vid_out(struct file *file, void *priv,
++				 struct v4l2_format *f)
++{
++	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
++	const struct vivpu_coded_format_desc *coded_desc;
++
++	coded_desc = vivpu_find_coded_fmt_desc(pix_mp->pixelformat);
++	if (!coded_desc)
++		return -EINVAL;
++
++	/* apply the (simulated) hw constraints */
++	v4l2_apply_frmsize_constraints(&pix_mp->width,
++				       &pix_mp->height,
++				       &coded_desc->frmsize);
++
++	pix_mp->field = V4L2_FIELD_NONE;
++	/* All coded formats are considered single planar for now. */
++	pix_mp->num_planes = 1;
++
++	return 0;
++}
++
++static int vivpu_s_fmt_vid_out(struct file *file, void *priv,
++			       struct v4l2_format *f)
++{
++	struct vivpu_ctx *ctx = vivpu_file_to_ctx(file);
++	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
++	struct v4l2_format *cap_fmt = &ctx->dst_fmt;
++	const struct vivpu_coded_format_desc *desc;
++	struct vb2_queue *peer_vq;
++	int ret;
++
++	peer_vq = v4l2_m2m_get_vq(m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
++	if (vb2_is_busy(peer_vq))
++		return -EBUSY;
++
++	dprintk(ctx->dev,
++		"Current OUTPUT queue format: width %d, height %d, pixfmt %d\n",
++		ctx->src_fmt.fmt.pix_mp.width, ctx->src_fmt.fmt.pix_mp.height,
++		ctx->src_fmt.fmt.pix_mp.pixelformat);
++
++	dprintk(ctx->dev,
++		"Current CAPTURE queue format: width %d, height %d, pixfmt %d\n",
++		ctx->dst_fmt.fmt.pix_mp.width, ctx->dst_fmt.fmt.pix_mp.height,
++		ctx->dst_fmt.fmt.pix_mp.pixelformat);
++
++	ret = vivpu_try_fmt_vid_out(file, priv, f);
++	if (ret) {
++		dprintk(ctx->dev,
++			"Unsupported format for the OUTPUT queue: %d\n",
++			f->fmt.pix_mp.pixelformat);
++		return ret;
++	}
++
++	desc = vivpu_find_coded_fmt_desc(f->fmt.pix_mp.pixelformat);
++	if (!desc) {
++		dprintk(ctx->dev,
++			"Unsupported format for the OUTPUT queue: %d\n",
++			f->fmt.pix_mp.pixelformat);
++		return -EINVAL;
++	}
++
++	ctx->coded_format_desc = desc;
++
++	ctx->src_fmt = *f;
++
++	v4l2_fill_pixfmt_mp(&ctx->dst_fmt.fmt.pix_mp,
++			    ctx->coded_format_desc->decoded_fmts[0],
++			    ctx->src_fmt.fmt.pix_mp.width,
++			    ctx->src_fmt.fmt.pix_mp.height);
++	cap_fmt->fmt.pix_mp.colorspace = f->fmt.pix_mp.colorspace;
++	cap_fmt->fmt.pix_mp.xfer_func = f->fmt.pix_mp.xfer_func;
++	cap_fmt->fmt.pix_mp.ycbcr_enc = f->fmt.pix_mp.ycbcr_enc;
++	cap_fmt->fmt.pix_mp.quantization = f->fmt.pix_mp.quantization;
++
++	dprintk(ctx->dev,
++		"Current OUTPUT queue format: width %d, height %d, pixfmt %d\n",
++		ctx->src_fmt.fmt.pix_mp.width, ctx->src_fmt.fmt.pix_mp.height,
++		ctx->src_fmt.fmt.pix_mp.pixelformat);
++
++	dprintk(ctx->dev,
++		"Current CAPTURE queue format: width %d, height %d, pixfmt %d\n",
++		ctx->dst_fmt.fmt.pix_mp.width, ctx->dst_fmt.fmt.pix_mp.height,
++		ctx->dst_fmt.fmt.pix_mp.pixelformat);
++
++	return 0;
++}
++
++static int vivpu_s_fmt_vid_cap(struct file *file, void *priv,
++			       struct v4l2_format *f)
++{
++	struct vivpu_ctx *ctx = vivpu_file_to_ctx(file);
++	int ret;
++
++	dprintk(ctx->dev,
++		"Current CAPTURE queue format: width %d, height %d, pixfmt %d\n",
++		ctx->dst_fmt.fmt.pix_mp.width, ctx->dst_fmt.fmt.pix_mp.height,
++		ctx->dst_fmt.fmt.pix_mp.pixelformat);
++
++	ret = vivpu_try_fmt_vid_cap(file, priv, f);
++	if (ret)
++		return ret;
++
++	ctx->dst_fmt = *f;
++
++	dprintk(ctx->dev,
++		"Current CAPTURE queue format: width %d, height %d, pixfmt %d\n",
++		ctx->dst_fmt.fmt.pix_mp.width, ctx->dst_fmt.fmt.pix_mp.height,
++		ctx->dst_fmt.fmt.pix_mp.pixelformat);
++
++	return 0;
++}
++
++static int vivpu_enum_framesizes(struct file *file, void *priv,
++				 struct v4l2_frmsizeenum *fsize)
++{
++	const struct vivpu_coded_format_desc *fmt;
++	struct vivpu_ctx *ctx = vivpu_file_to_ctx(file);
++
++	if (fsize->index != 0)
++		return -EINVAL;
++
++	fmt = vivpu_find_coded_fmt_desc(fsize->pixel_format);
++	if (!fmt) {
++		dprintk(ctx->dev,
++			"Unsupported format for the OUTPUT queue: %d\n",
++			fsize->pixel_format);
++
++		return -EINVAL;
++	}
++
++	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
++	fsize->stepwise = fmt->frmsize;
++	return 0;
++}
++
++const struct v4l2_ioctl_ops vivpu_ioctl_ops = {
++	.vidioc_querycap		= vivpu_querycap,
++	.vidioc_enum_framesizes		= vivpu_enum_framesizes,
++
++	.vidioc_enum_fmt_vid_cap	= vivpu_enum_fmt_vid_cap,
++	.vidioc_g_fmt_vid_cap		= vivpu_g_fmt_vid_cap,
++	.vidioc_try_fmt_vid_cap		= vivpu_try_fmt_vid_cap,
++	.vidioc_s_fmt_vid_cap		= vivpu_s_fmt_vid_cap,
++
++	.vidioc_enum_fmt_vid_out	= vivpu_enum_fmt_vid_out,
++	.vidioc_g_fmt_vid_out		= vivpu_g_fmt_vid_out,
++	.vidioc_try_fmt_vid_out		= vivpu_try_fmt_vid_out,
++	.vidioc_s_fmt_vid_out		= vivpu_s_fmt_vid_out,
++
++	.vidioc_reqbufs			= v4l2_m2m_ioctl_reqbufs,
++	.vidioc_querybuf		= v4l2_m2m_ioctl_querybuf,
++	.vidioc_qbuf			= v4l2_m2m_ioctl_qbuf,
++	.vidioc_dqbuf			= v4l2_m2m_ioctl_dqbuf,
++	.vidioc_prepare_buf		= v4l2_m2m_ioctl_prepare_buf,
++	.vidioc_create_bufs		= v4l2_m2m_ioctl_create_bufs,
++	.vidioc_expbuf			= v4l2_m2m_ioctl_expbuf,
++
++	.vidioc_streamon		= v4l2_m2m_ioctl_streamon,
++	.vidioc_streamoff		= v4l2_m2m_ioctl_streamoff,
++
++	.vidioc_try_decoder_cmd		= v4l2_m2m_ioctl_stateless_try_decoder_cmd,
++	.vidioc_decoder_cmd		= v4l2_m2m_ioctl_stateless_decoder_cmd,
++
++	.vidioc_subscribe_event		= v4l2_ctrl_subscribe_event,
++	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
++};
++
++static int vivpu_queue_setup(struct vb2_queue *vq,
++			     unsigned int *nbuffers,
++			     unsigned int *nplanes,
++			     unsigned int sizes[],
++			     struct device *alloc_devs[])
++{
++	struct vivpu_ctx *ctx = vb2_get_drv_priv(vq);
++	struct v4l2_pix_format *pix_fmt;
++
++	if (V4L2_TYPE_IS_OUTPUT(vq->type))
++		pix_fmt = &ctx->src_fmt.fmt.pix;
++	else
++		pix_fmt = &ctx->dst_fmt.fmt.pix;
++
++	if (*nplanes) {
++		if (sizes[0] < pix_fmt->sizeimage) {
++			v4l2_err(&ctx->dev->v4l2_dev, "sizes[0] is %d, sizeimage is %d\n",
++				 sizes[0], pix_fmt->sizeimage);
++			return -EINVAL;
++		}
++	} else {
++		sizes[0] = pix_fmt->sizeimage;
++		*nplanes = 1;
++	}
++
++	dprintk(ctx->dev, "%s: get %d buffer(s) of size %d each.\n",
++		q_name(vq->type), *nbuffers, sizes[0]);
++
++	return 0;
++}
++
++static void vivpu_queue_cleanup(struct vb2_queue *vq, u32 state)
++{
++	struct vivpu_ctx *ctx = vb2_get_drv_priv(vq);
++	struct vb2_v4l2_buffer *vbuf;
++
++	dprintk(ctx->dev, "Cleaning up queues\n");
++	for (;;) {
++		if (V4L2_TYPE_IS_OUTPUT(vq->type))
++			vbuf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
++		else
++			vbuf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
++
++		if (!vbuf)
++			break;
++
++		v4l2_ctrl_request_complete(vbuf->vb2_buf.req_obj.req,
++					   &ctx->hdl);
++		dprintk(ctx->dev, "Marked request %p as complete\n",
++			vbuf->vb2_buf.req_obj.req);
++
++		v4l2_m2m_buf_done(vbuf, state);
++		dprintk(ctx->dev,
++			"Marked buffer %llu as done, state is %d\n",
++			vbuf->vb2_buf.timestamp,
++			state);
++	}
++}
++
++static int vivpu_buf_out_validate(struct vb2_buffer *vb)
++{
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++
++	vbuf->field = V4L2_FIELD_NONE;
++	return 0;
++}
++
++static int vivpu_buf_prepare(struct vb2_buffer *vb)
++{
++	struct vb2_queue *vq = vb->vb2_queue;
++	struct vivpu_ctx *ctx = vb2_get_drv_priv(vq);
++	u32 plane_sz = vb2_plane_size(vb, 0);
++	struct v4l2_pix_format *pix_fmt;
++
++	if (V4L2_TYPE_IS_OUTPUT(vq->type))
++		pix_fmt = &ctx->src_fmt.fmt.pix;
++	else
++		pix_fmt = &ctx->dst_fmt.fmt.pix;
++
++	if (plane_sz < pix_fmt->sizeimage) {
++		v4l2_err(&ctx->dev->v4l2_dev, "plane[0] size is %d, sizeimage is %d\n",
++			 plane_sz, pix_fmt->sizeimage);
++		return -EINVAL;
++	}
++
++	vb2_set_plane_payload(vb, 0, pix_fmt->sizeimage);
++
++	return 0;
++}
++
++static int vivpu_start_streaming(struct vb2_queue *vq, unsigned int count)
++{
++	struct vivpu_ctx *ctx = vb2_get_drv_priv(vq);
++	struct vivpu_q_data *q_data = get_q_data(ctx, vq->type);
++	int ret = 0;
++
++	if (!q_data)
++		return -EINVAL;
++
++	q_data->sequence = 0;
++
++	switch (ctx->src_fmt.fmt.pix.pixelformat) {
++	case V4L2_PIX_FMT_AV1_FRAME:
++		dprintk(ctx->dev, "Pixfmt is AV1F\n");
++		ctx->current_codec = VIVPU_CODEC_AV1;
++		break;
++	default:
++		v4l2_err(&ctx->dev->v4l2_dev, "Unsupported src format %d\n",
++			 ctx->src_fmt.fmt.pix.pixelformat);
++		ret = -EINVAL;
++		goto err;
++	}
++
++	return 0;
++
++err:
++	vivpu_queue_cleanup(vq, VB2_BUF_STATE_QUEUED);
++	return ret;
++}
++
++static void vivpu_stop_streaming(struct vb2_queue *vq)
++{
++	struct vivpu_ctx *ctx = vb2_get_drv_priv(vq);
++
++	dprintk(ctx->dev, "Stop streaming\n");
++	vivpu_queue_cleanup(vq, VB2_BUF_STATE_ERROR);
++}
++
++static void vivpu_buf_queue(struct vb2_buffer *vb)
++{
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct vivpu_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
++
++	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
++}
++
++static void vivpu_buf_request_complete(struct vb2_buffer *vb)
++{
++	struct vivpu_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
++
++	v4l2_ctrl_request_complete(vb->req_obj.req, &ctx->hdl);
++}
++
++const struct vb2_ops vivpu_qops = {
++	.queue_setup          = vivpu_queue_setup,
++	.buf_out_validate     = vivpu_buf_out_validate,
++	.buf_prepare          = vivpu_buf_prepare,
++	.buf_queue            = vivpu_buf_queue,
++	.start_streaming      = vivpu_start_streaming,
++	.stop_streaming       = vivpu_stop_streaming,
++	.wait_prepare         = vb2_ops_wait_prepare,
++	.wait_finish          = vb2_ops_wait_finish,
++	.buf_request_complete = vivpu_buf_request_complete,
++};
++
++int vivpu_queue_init(void *priv, struct vb2_queue *src_vq,
++		     struct vb2_queue *dst_vq)
++{
++	struct vivpu_ctx *ctx = priv;
++	int ret;
++
++	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
++	src_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
++	src_vq->drv_priv = ctx;
++	src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
++	src_vq->ops = &vivpu_qops;
++	src_vq->mem_ops = &vb2_vmalloc_memops;
++	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
++	src_vq->lock = &ctx->vb_mutex;
++	src_vq->supports_requests = true;
++
++	ret = vb2_queue_init(src_vq);
++	if (ret)
++		return ret;
++
++	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++	dst_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
++	dst_vq->drv_priv = ctx;
++	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
++	dst_vq->ops = &vivpu_qops;
++	dst_vq->mem_ops = &vb2_vmalloc_memops;
++	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
++	dst_vq->lock = &ctx->vb_mutex;
++
++	return vb2_queue_init(dst_vq);
++}
++
++int vivpu_request_validate(struct media_request *req)
++{
++	struct media_request_object *obj;
++	struct vivpu_ctx *ctx = NULL;
++	unsigned int count;
++
++	list_for_each_entry(obj, &req->objects, list) {
++		struct vb2_buffer *vb;
++
++		if (vb2_request_object_is_buffer(obj)) {
++			vb = container_of(obj, struct vb2_buffer, req_obj);
++			ctx = vb2_get_drv_priv(vb->vb2_queue);
++
++			break;
 +		}
 +	}
 +
-+	return 0;
-+}
++	if (!ctx)
++		return -ENOENT;
 +
-+static int validate_av1_loop_filter(struct v4l2_av1_loop_filter *lf)
-+{
-+	u32 i;
-+
-+	if (lf->flags > GENMASK(2, 0))
++	count = vb2_request_buffer_cnt(req);
++	if (!count) {
++		v4l2_err(&ctx->dev->v4l2_dev,
++			 "No buffer was provided with the request\n");
++		return -ENOENT;
++	} else if (count > 1) {
++		v4l2_err(&ctx->dev->v4l2_dev,
++			 "More than one buffer was provided with the request\n");
 +		return -EINVAL;
-+
-+	for (i = 0; i < ARRAY_SIZE(lf->level); i++) {
-+		if (lf->level[i] > GENMASK(5, 0))
-+			return -EINVAL;
 +	}
 +
-+	if (lf->sharpness > GENMASK(2, 0))
-+		return -EINVAL;
-+
-+	for (i = 0; i < ARRAY_SIZE(lf->ref_deltas); i++) {
-+		if (lf->ref_deltas[i] < -63 || lf->ref_deltas[i] > 63)
-+			return -EINVAL;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(lf->mode_deltas); i++) {
-+		if (lf->mode_deltas[i] < -63 || lf->mode_deltas[i] > 63)
-+			return -EINVAL;
-+	}
-+
-+	return 0;
++	return vb2_request_validate(req);
 +}
+diff --git a/drivers/media/test-drivers/vivpu/vivpu-video.h b/drivers/media/test-drivers/vivpu/vivpu-video.h
+new file mode 100644
+index 000000000000..6cf8c1570887
+--- /dev/null
++++ b/drivers/media/test-drivers/vivpu/vivpu-video.h
+@@ -0,0 +1,46 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * A virtual stateless VPU example device for uAPI development purposes.
++ *
++ * A userspace implementation can use vivpu to run a decoding loop even
++ * when no hardware is available or when the kernel uAPI for the codec
++ * has not been upstreamed yet. This can reveal bugs at an early stage.
++ *
++ * Copyright (c) Collabora, Ltd.
++ *
++ * Based on the vim2m driver, that is:
++ *
++ * Copyright (c) 2009-2010 Samsung Electronics Co., Ltd.
++ * Pawel Osciak, <pawel@osciak.com>
++ * Marek Szyprowski, <m.szyprowski@samsung.com>
++ *
++ * Based on the vicodec driver, that is:
++ *
++ * Copyright 2018 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
++ *
++ * Based on the Cedrus VPU driver, that is:
++ *
++ * Copyright (C) 2016 Florent Revest <florent.revest@free-electrons.com>
++ * Copyright (C) 2018 Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++ * Copyright (C) 2018 Bootlin
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version
++ */
 +
-+static int validate_av1_cdef(struct v4l2_av1_cdef *cdef)
++#ifndef _VIVPU_VIDEO_H_
++#define _VIVPU_VIDEO_H_
++#include <media/v4l2-mem2mem.h>
++
++#include "vivpu.h"
++
++extern const struct v4l2_ioctl_ops vivpu_ioctl_ops;
++int vivpu_queue_init(void *priv, struct vb2_queue *src_vq,
++		     struct vb2_queue *dst_vq);
++
++void vivpu_set_default_format(struct vivpu_ctx *ctx);
++int vivpu_request_validate(struct media_request *req);
++
++#endif /* _VIVPU_VIDEO_H_ */
+diff --git a/drivers/media/test-drivers/vivpu/vivpu.h b/drivers/media/test-drivers/vivpu/vivpu.h
+new file mode 100644
+index 000000000000..89b993c460c1
+--- /dev/null
++++ b/drivers/media/test-drivers/vivpu/vivpu.h
+@@ -0,0 +1,119 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * A virtual stateless VPU example device for uAPI development purposes.
++ *
++ * A userspace implementation can use vivpu to run a decoding loop even
++ * when no hardware is available or when the kernel uAPI for the codec
++ * has not been upstreamed yet. This can reveal bugs at an early stage.
++ *
++ * Copyright (c) Collabora, Ltd.
++ *
++ * Based on the vim2m driver, that is:
++ *
++ * Copyright (c) 2009-2010 Samsung Electronics Co., Ltd.
++ * Pawel Osciak, <pawel@osciak.com>
++ * Marek Szyprowski, <m.szyprowski@samsung.com>
++ *
++ * Based on the vicodec driver, that is:
++ *
++ * Copyright 2018 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
++ *
++ * Based on the Cedrus VPU driver, that is:
++ *
++ * Copyright (C) 2016 Florent Revest <florent.revest@free-electrons.com>
++ * Copyright (C) 2018 Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++ * Copyright (C) 2018 Bootlin
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version
++ */
++
++#ifndef _VIVPU_H_
++#define _VIVPU_H_
++
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-device.h>
++#include <media/tpg/v4l2-tpg.h>
++
++#define VIVPU_NAME		"vivpu"
++#define VIVPU_M2M_NQUEUES	2
++
++extern const unsigned int vivpu_src_default_w;
++extern const unsigned int vivpu_src_default_h;
++extern const unsigned int vivpu_src_default_depth;
++extern unsigned int vivpu_transtime;
++
++struct vivpu_coded_format_desc {
++	u32 pixelformat;
++	struct v4l2_frmsize_stepwise frmsize;
++	unsigned int num_decoded_fmts;
++	const u32 *decoded_fmts;
++};
++
++enum {
++	V4L2_M2M_SRC = 0,
++	V4L2_M2M_DST = 1,
++};
++
++extern unsigned int vivpu_debug;
++#define dprintk(dev, fmt, arg...) \
++	v4l2_dbg(1, vivpu_debug, &dev->v4l2_dev, "%s: " fmt, __func__, ## arg)
++
++struct vivpu_q_data {
++	unsigned int		sequence;
++};
++
++struct vivpu_dev {
++	struct v4l2_device	v4l2_dev;
++	struct video_device	vfd;
++#ifdef CONFIG_MEDIA_CONTROLLER
++	struct media_device	mdev;
++#endif
++
++	struct mutex		dev_mutex;
++
++	struct v4l2_m2m_dev	*m2m_dev;
++};
++
++enum vivpu_codec {
++	VIVPU_CODEC_AV1,
++};
++
++struct vivpu_ctx {
++	struct v4l2_fh		fh;
++	struct vivpu_dev	*dev;
++	struct v4l2_ctrl_handler hdl;
++	struct v4l2_ctrl	**ctrls;
++
++	struct mutex		vb_mutex;
++
++	struct vivpu_q_data	q_data[VIVPU_M2M_NQUEUES];
++	enum   vivpu_codec	current_codec;
++
++	const struct vivpu_coded_format_desc *coded_format_desc;
++
++	struct v4l2_format	src_fmt;
++	struct v4l2_format	dst_fmt;
++};
++
++struct vivpu_control {
++	struct v4l2_ctrl_config cfg;
++};
++
++static inline struct vivpu_ctx *vivpu_file_to_ctx(struct file *file)
 +{
-+	u32 i;
-+
-+	if (cdef->damping_minus_3 > GENMASK(1, 0) ||
-+	    cdef->bits > GENMASK(1, 0))
-+		return -EINVAL;
-+
-+	for (i = 0; i < 1 << cdef->bits; i++) {
-+		if (cdef->y_pri_strength[i] > GENMASK(3, 0) ||
-+		    cdef->y_sec_strength[i] > 4 ||
-+		    cdef->uv_pri_strength[i] > GENMASK(3, 0) ||
-+		    cdef->uv_sec_strength[i] > 4)
-+			return -EINVAL;
-+	}
-+
-+	return 0;
++	return container_of(file->private_data, struct vivpu_ctx, fh);
 +}
 +
-+static int validate_av1_loop_restauration(struct v4l2_av1_loop_restoration *lr)
++static inline struct vivpu_ctx *vivpu_v4l2fh_to_ctx(struct v4l2_fh *v4l2_fh)
 +{
-+	if (lr->lr_unit_shift > 3 || lr->lr_uv_shift > 1)
-+		return -EINVAL;
-+
-+	return 0;
++	return container_of(v4l2_fh, struct vivpu_ctx, fh);
 +}
 +
-+static int validate_av1_film_grain(struct v4l2_av1_film_grain *fg)
-+{
-+	u32 i;
-+
-+	if (fg->flags > GENMASK(4, 0))
-+		return -EINVAL;
-+
-+	if (fg->film_grain_params_ref_idx > GENMASK(2, 0) ||
-+	    fg->num_y_points > 14 ||
-+	    fg->num_cb_points > 10 ||
-+	    fg->num_cr_points > GENMASK(3, 0) ||
-+	    fg->grain_scaling_minus_8 > GENMASK(1, 0) ||
-+	    fg->ar_coeff_lag > GENMASK(1, 0) ||
-+	    fg->ar_coeff_shift_minus_6 > GENMASK(1, 0) ||
-+	    fg->grain_scale_shift > GENMASK(1, 0))
-+		return -EINVAL;
-+
-+	if (!(fg->flags & V4L2_AV1_FILM_GRAIN_FLAG_APPLY_GRAIN))
-+		return 0;
-+
-+	for (i = 1; i < ARRAY_SIZE(fg->point_y_value); i++)
-+		if (fg->point_y_value[i] <= fg->point_y_value[i - 1])
-+			return -EINVAL;
-+
-+	for (i = 1; i < ARRAY_SIZE(fg->point_cb_value); i++)
-+		if (fg->point_cb_value[i] <= fg->point_cb_value[i - 1])
-+			return -EINVAL;
-+
-+	for (i = 1; i < ARRAY_SIZE(fg->point_cr_value); i++)
-+		if (fg->point_cr_value[i] <= fg->point_cr_value[i - 1])
-+			return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int validate_av1_frame_header(struct v4l2_ctrl_av1_frame_header *f)
-+{
-+	int ret = 0;
-+
-+	ret = validate_av1_quantization(&f->quantization);
-+	if (ret)
-+		return ret;
-+	ret = validate_av1_segmentation(&f->segmentation);
-+	if (ret)
-+		return ret;
-+	ret = validate_av1_loop_filter(&f->loop_filter);
-+	if (ret)
-+		return ret;
-+	ret = validate_av1_cdef(&f->cdef);
-+	if (ret)
-+		return ret;
-+	ret = validate_av1_loop_restauration(&f->loop_restoration);
-+	if (ret)
-+		return ret;
-+	ret = validate_av1_film_grain(&f->film_grain);
-+	if (ret)
-+		return ret;
-+
-+	if (f->flags &
-+	~(V4L2_AV1_FRAME_HEADER_FLAG_SHOW_FRAME |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_SHOWABLE_FRAME |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_ERROR_RESILIENT_MODE |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_DISABLE_CDF_UPDATE |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_ALLOW_SCREEN_CONTENT_TOOLS |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_FORCE_INTEGER_MV |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_ALLOW_INTRABC |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_USE_SUPERRES |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_ALLOW_HIGH_PRECISION_MV |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_IS_MOTION_MODE_SWITCHABLE |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_USE_REF_FRAME_MVS |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_DISABLE_FRAME_END_UPDATE_CDF |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_UNIFORM_TILE_SPACING |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_ALLOW_WARPED_MOTION |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_REFERENCE_SELECT |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_REDUCED_TX_SET |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_FRAME_SIZE_OVERRIDE |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_BUFFER_REMOVAL_TIME_PRESENT |
-+	  V4L2_AV1_FRAME_HEADER_FLAG_FRAME_REFS_SHORT_SIGNALING))
-+		return -EINVAL;
-+
-+	if (f->superres_denom > GENMASK(2, 0) + 9)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int validate_av1_sequence(struct v4l2_ctrl_av1_sequence *s)
-+{
-+	if (s->flags &
-+	~(V4L2_AV1_SEQUENCE_FLAG_STILL_PICTURE |
-+	 V4L2_AV1_SEQUENCE_FLAG_USE_128X128_SUPERBLOCK |
-+	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_FILTER_INTRA |
-+	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_INTRA_EDGE_FILTER |
-+	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_INTERINTRA_COMPOUND |
-+	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_MASKED_COMPOUND |
-+	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_WARPED_MOTION |
-+	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_DUAL_FILTER |
-+	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_ORDER_HINT |
-+	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_JNT_COMP |
-+	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_REF_FRAME_MVS |
-+	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_SUPERRES |
-+	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_CDEF |
-+	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_RESTORATION |
-+	 V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME |
-+	 V4L2_AV1_SEQUENCE_FLAG_COLOR_RANGE |
-+	 V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X |
-+	 V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y |
-+	 V4L2_AV1_SEQUENCE_FLAG_FILM_GRAIN_PARAMS_PRESENT |
-+	 V4L2_AV1_SEQUENCE_FLAG_SEPARATE_UV_DELTA_Q))
-+		return -EINVAL;
-+
-+	if (s->seq_profile == 1 && s->flags & V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME)
-+		return -EINVAL;
-+
-+	/* reserved */
-+	if (s->seq_profile > 2)
-+		return -EINVAL;
-+
-+	/* TODO: PROFILES */
-+	return 0;
-+}
-+
-+static int validate_av1_tile_group(struct v4l2_ctrl_av1_tile_group *t)
-+{
-+	if (t->flags & ~(V4L2_AV1_TILE_GROUP_FLAG_START_AND_END_PRESENT))
-+		return -EINVAL;
-+	if (t->tg_start > t->tg_end)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
- /*
-  * Compound controls validation requires setting unused fields/flags to zero
-  * in order to properly detect unchanged controls with std_equal's memcmp.
-@@ -573,7 +830,16 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 		zero_padding(p_vp8_frame->entropy);
- 		zero_padding(p_vp8_frame->coder_state);
- 		break;
--
-+	case V4L2_CTRL_TYPE_AV1_FRAME_HEADER:
-+		return validate_av1_frame_header(p);
-+	case V4L2_CTRL_TYPE_AV1_SEQUENCE:
-+		return validate_av1_sequence(p);
-+	case V4L2_CTRL_TYPE_AV1_TILE_GROUP:
-+		return validate_av1_tile_group(p);
-+	case V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY:
-+	case V4L2_CTRL_TYPE_AV1_TILE_LIST:
-+	case V4L2_CTRL_TYPE_AV1_TILE_LIST_ENTRY:
-+		break;
- 	case V4L2_CTRL_TYPE_HEVC_SPS:
- 		p_hevc_sps = p;
- 
-@@ -1313,6 +1579,24 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	case V4L2_CTRL_TYPE_VP8_FRAME:
- 		elem_size = sizeof(struct v4l2_ctrl_vp8_frame);
- 		break;
-+	case V4L2_CTRL_TYPE_AV1_SEQUENCE:
-+		elem_size = sizeof(struct v4l2_ctrl_av1_sequence);
-+		break;
-+	case V4L2_CTRL_TYPE_AV1_TILE_GROUP:
-+		elem_size = sizeof(struct v4l2_ctrl_av1_tile_group);
-+		break;
-+	case V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY:
-+		elem_size = sizeof(struct v4l2_ctrl_av1_tile_group_entry);
-+		break;
-+	case V4L2_CTRL_TYPE_AV1_TILE_LIST:
-+		elem_size = sizeof(struct v4l2_ctrl_av1_tile_list);
-+		break;
-+	case V4L2_CTRL_TYPE_AV1_TILE_LIST_ENTRY:
-+		elem_size = sizeof(struct v4l2_ctrl_av1_tile_list_entry);
-+		break;
-+	case V4L2_CTRL_TYPE_AV1_FRAME_HEADER:
-+		elem_size = sizeof(struct v4l2_ctrl_av1_frame_header);
-+		break;
- 	case V4L2_CTRL_TYPE_HEVC_SPS:
- 		elem_size = sizeof(struct v4l2_ctrl_hevc_sps);
- 		break;
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-index 421300e13a41..6f9b53f180cc 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -499,6 +499,45 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
- 		NULL,
- 	};
- 
-+	static const char * const av1_profile[] = {
-+		"Main",
-+		"High",
-+		"Professional",
-+		NULL,
-+	};
-+	static const char * const av1_level[] = {
-+		"2.0",
-+		"2.1",
-+		"2.2",
-+		"2.3",
-+		"3.0",
-+		"3.1",
-+		"3.2",
-+		"3.3",
-+		"4.0",
-+		"4.1",
-+		"4.2",
-+		"4.3",
-+		"5.0",
-+		"5.1",
-+		"5.2",
-+		"5.3",
-+		"6.0",
-+		"6.1",
-+		"6.2",
-+		"6.3",
-+		"7.0",
-+		"7.1",
-+		"7.2",
-+		"7.3",
-+		NULL,
-+	};
-+	static const char * const av1_operating_mode[] = {
-+		"General decoding",
-+		"Large scale tile decoding",
-+		NULL,
-+	};
-+
- 	static const char * const hevc_profile[] = {
- 		"Main",
- 		"Main Still Picture",
-@@ -685,6 +724,12 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
- 		return dv_it_content_type;
- 	case V4L2_CID_DETECT_MD_MODE:
- 		return detect_md_mode;
-+	case V4L2_CID_STATELESS_AV1_PROFILE:
-+		return av1_profile;
-+	case V4L2_CID_STATELESS_AV1_LEVEL:
-+		return av1_level;
-+	case V4L2_CID_STATELESS_AV1_OPERATING_MODE:
-+		return av1_operating_mode;
- 	case V4L2_CID_MPEG_VIDEO_HEVC_PROFILE:
- 		return hevc_profile;
- 	case V4L2_CID_MPEG_VIDEO_HEVC_LEVEL:
-@@ -1175,6 +1220,15 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_STATELESS_MPEG2_SEQUENCE:			return "MPEG-2 Sequence Header";
- 	case V4L2_CID_STATELESS_MPEG2_PICTURE:			return "MPEG-2 Picture Header";
- 	case V4L2_CID_STATELESS_MPEG2_QUANTISATION:		return "MPEG-2 Quantisation Matrices";
-+	case V4L2_CID_STATELESS_AV1_SEQUENCE:			return "AV1 Sequence parameters";
-+	case V4L2_CID_STATELESS_AV1_TILE_GROUP:		        return "AV1 Tile Group";
-+	case V4L2_CID_STATELESS_AV1_TILE_GROUP_ENTRY:	        return "AV1 Tile Group Entry";
-+	case V4L2_CID_STATELESS_AV1_TILE_LIST:		        return "AV1 Tile List";
-+	case V4L2_CID_STATELESS_AV1_TILE_LIST_ENTRY:		return "AV1 Tile List Entry";
-+	case V4L2_CID_STATELESS_AV1_FRAME_HEADER:		return "AV1 Frame Header parameters";
-+	case V4L2_CID_STATELESS_AV1_PROFILE:			return "AV1 Profile";
-+	case V4L2_CID_STATELESS_AV1_LEVEL:			return "AV1 Level";
-+	case V4L2_CID_STATELESS_AV1_OPERATING_MODE:		return "AV1 Operating Mode";
- 
- 	/* Colorimetry controls */
- 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-@@ -1343,6 +1397,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_MPEG_VIDEO_VP9_PROFILE:
- 	case V4L2_CID_MPEG_VIDEO_VP9_LEVEL:
- 	case V4L2_CID_DETECT_MD_MODE:
-+	case V4L2_CID_STATELESS_AV1_PROFILE:
-+	case V4L2_CID_STATELESS_AV1_LEVEL:
-+	case V4L2_CID_STATELESS_AV1_OPERATING_MODE:
- 	case V4L2_CID_MPEG_VIDEO_HEVC_PROFILE:
- 	case V4L2_CID_MPEG_VIDEO_HEVC_LEVEL:
- 	case V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_TYPE:
-@@ -1481,6 +1538,28 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_STATELESS_VP8_FRAME:
- 		*type = V4L2_CTRL_TYPE_VP8_FRAME;
- 		break;
-+	case V4L2_CID_STATELESS_AV1_SEQUENCE:
-+		*type = V4L2_CTRL_TYPE_AV1_SEQUENCE;
-+		break;
-+	case V4L2_CID_STATELESS_AV1_TILE_GROUP:
-+		*type = V4L2_CTRL_TYPE_AV1_TILE_GROUP;
-+		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-+		break;
-+	case V4L2_CID_STATELESS_AV1_TILE_GROUP_ENTRY:
-+		*type = V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY;
-+		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-+		break;
-+	case V4L2_CID_STATELESS_AV1_TILE_LIST:
-+		*type = V4L2_CTRL_TYPE_AV1_TILE_LIST;
-+		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-+		break;
-+	case V4L2_CID_STATELESS_AV1_TILE_LIST_ENTRY:
-+		*type = V4L2_CTRL_TYPE_AV1_TILE_LIST_ENTRY;
-+		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-+		break;
-+	case V4L2_CID_STATELESS_AV1_FRAME_HEADER:
-+		*type = V4L2_CTRL_TYPE_AV1_FRAME_HEADER;
-+		break;
- 	case V4L2_CID_MPEG_VIDEO_HEVC_SPS:
- 		*type = V4L2_CTRL_TYPE_HEVC_SPS;
- 		break;
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 05d5db3d85e5..135474c43b65 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1416,6 +1416,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 		case V4L2_PIX_FMT_S5C_UYVY_JPG:	descr = "S5C73MX interleaved UYVY/JPEG"; break;
- 		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
- 		case V4L2_PIX_FMT_SUNXI_TILED_NV12: descr = "Sunxi Tiled NV12 Format"; break;
-+		case V4L2_PIX_FMT_AV1_FRAME: descr = "AV1 Frame"; break;
- 		default:
- 			if (fmt->description[0])
- 				return;
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index ebd9cef13309..5f8ba4fac92e 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -56,6 +56,12 @@ struct video_device;
-  * @p_hdr10_cll:		Pointer to an HDR10 Content Light Level structure.
-  * @p_hdr10_mastering:		Pointer to an HDR10 Mastering Display structure.
-  * @p_area:			Pointer to an area.
-+ * @p_av1_sequence:		Pointer to an AV1 sequence.
-+ * @p_av1_tile_group:		Pointer to an AV1 tile group.
-+ * @p_av1_tile_group_entry:	Pointer to an AV1 tile group entry.
-+ * @p_av1_tile_list:		Pointer to an AV1 tile list.
-+ * @p_av1_tile_list_entry:	Pointer to an AV1 tile list entry.
-+ * @p_av1_frame_header:		Pointer to an AV1 frame header.
-  * @p:				Pointer to a compound value.
-  * @p_const:			Pointer to a constant compound value.
-  */
-@@ -83,6 +89,12 @@ union v4l2_ctrl_ptr {
- 	struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
- 	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
- 	struct v4l2_area *p_area;
-+	struct v4l2_ctrl_av1_sequence *p_av1_sequence;
-+	struct v4l2_ctrl_av1_tile_group *p_av1_tile_group;
-+	struct v4l2_ctrl_av1_tile_group_entry *p_av1_tile_group_entry;
-+	struct v4l2_ctrl_av1_tile_list *p_av1_tile_list;
-+	struct v4l2_ctrl_av1_tile_list_entry *p_av1_tile_list_entry;
-+	struct v4l2_ctrl_av1_frame_header *p_av1_frame_header;
- 	void *p;
- 	const void *p_const;
- };
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 5532b5f68493..0378fe8e1967 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -1976,6 +1976,802 @@ struct v4l2_ctrl_mpeg2_quantisation {
- 	__u8	chroma_non_intra_quantiser_matrix[64];
- };
- 
-+/* Stateless AV1 controls */
-+
-+#define V4L2_AV1_TOTAL_REFS_PER_FRAME	8
-+#define V4L2_AV1_CDEF_MAX		8
-+#define V4L2_AV1_NUM_PLANES_MAX		3 /* 1 if monochrome, 3 otherwise */
-+#define V4L2_AV1_MAX_SEGMENTS		8
-+#define V4L2_AV1_MAX_OPERATING_POINTS	(1 << 5) /* 5 bits to encode */
-+#define V4L2_AV1_REFS_PER_FRAME		7
-+#define V4L2_AV1_MAX_NUM_Y_POINTS	(1 << 4) /* 4 bits to encode */
-+#define V4L2_AV1_MAX_NUM_CB_POINTS	(1 << 4) /* 4 bits to encode */
-+#define V4L2_AV1_MAX_NUM_CR_POINTS	(1 << 4) /* 4 bits to encode */
-+#define V4L2_AV1_MAX_NUM_POS_LUMA	25 /* (2 * 3 * (3 + 1)) + 1 */
-+#define V4L2_AV1_MAX_NUM_PLANES		3
-+#define V4L2_AV1_MAX_TILE_COLS		64
-+#define V4L2_AV1_MAX_TILE_ROWS		64
-+#define V4L2_AV1_MAX_TILE_COUNT		512
-+
-+#define V4L2_AV1_SEQUENCE_FLAG_STILL_PICTURE		  BIT(0)
-+#define V4L2_AV1_SEQUENCE_FLAG_USE_128X128_SUPERBLOCK	  BIT(1)
-+#define V4L2_AV1_SEQUENCE_FLAG_ENABLE_FILTER_INTRA	  BIT(2)
-+#define V4L2_AV1_SEQUENCE_FLAG_ENABLE_INTRA_EDGE_FILTER   BIT(3)
-+#define V4L2_AV1_SEQUENCE_FLAG_ENABLE_INTERINTRA_COMPOUND BIT(4)
-+#define V4L2_AV1_SEQUENCE_FLAG_ENABLE_MASKED_COMPOUND	  BIT(5)
-+#define V4L2_AV1_SEQUENCE_FLAG_ENABLE_WARPED_MOTION	  BIT(6)
-+#define V4L2_AV1_SEQUENCE_FLAG_ENABLE_DUAL_FILTER	  BIT(7)
-+#define V4L2_AV1_SEQUENCE_FLAG_ENABLE_ORDER_HINT	  BIT(8)
-+#define V4L2_AV1_SEQUENCE_FLAG_ENABLE_JNT_COMP		  BIT(9)
-+#define V4L2_AV1_SEQUENCE_FLAG_ENABLE_REF_FRAME_MVS	  BIT(10)
-+#define V4L2_AV1_SEQUENCE_FLAG_ENABLE_SUPERRES		  BIT(11)
-+#define V4L2_AV1_SEQUENCE_FLAG_ENABLE_CDEF		  BIT(12)
-+#define V4L2_AV1_SEQUENCE_FLAG_ENABLE_RESTORATION	  BIT(13)
-+#define V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME		  BIT(14)
-+#define V4L2_AV1_SEQUENCE_FLAG_COLOR_RANGE		  BIT(15)
-+#define V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X		  BIT(16)
-+#define V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y		  BIT(17)
-+#define V4L2_AV1_SEQUENCE_FLAG_FILM_GRAIN_PARAMS_PRESENT  BIT(18)
-+#define V4L2_AV1_SEQUENCE_FLAG_SEPARATE_UV_DELTA_Q	  BIT(19)
-+
-+#define V4L2_CID_STATELESS_AV1_SEQUENCE (V4L2_CID_CODEC_STATELESS_BASE + 401)
-+/**
-+ * struct v4l2_ctrl_av1_sequence - AV1 Sequence
-+ *
-+ * Represents an AV1 Sequence OBU. See section 5.5. "Sequence header OBU syntax"
-+ * for more details.
-+ *
-+ * @flags: See V4L2_AV1_SEQUENCE_FLAG_{}.
-+ * @seq_profile: specifies the features that can be used in the coded video
-+ * sequence.
-+ * @order_hint_bits: specifies the number of bits used for the order_hint field
-+ * at each frame.
-+ * @bit_depth: the bitdepth to use for the sequence as described in section
-+ * 5.5.2 "Color config syntax".
-+ */
-+struct v4l2_ctrl_av1_sequence {
-+	__u32 flags;
-+	__u8 seq_profile;
-+	__u8 order_hint_bits;
-+	__u8 bit_depth;
-+};
-+
-+#define V4L2_AV1_TILE_GROUP_FLAG_START_AND_END_PRESENT BIT(0)
-+
-+#define V4L2_CID_STATELESS_AV1_TILE_GROUP (V4L2_CID_CODEC_STATELESS_BASE + 402)
-+/**
-+ * struct v4l2_ctrl_av1_tile_group - AV1 Tile Group header.
-+ *
-+ * Represents a tile group as seen in an AV1 Tile Group OBU or Frame OBU. A
-+ * v4l2_ctrl_av1_tile_group instance will refer to tg_end - tg_start instances
-+ * of v4l2_ctrl_tile_group_entry. See section 6.10.1 "General tile group OBU
-+ * semantics" for more details.
-+ *
-+ * @flags: see V4L2_AV1_TILE_GROUP_FLAG_{}.
-+ * @tg_start: specifies the zero-based index of the first tile in the current
-+ * tile group.
-+ * @tg_end: specifies the zero-based index of the last tile in the current tile
-+ * group.
-+ */
-+struct v4l2_ctrl_av1_tile_group {
-+	__u8 flags;
-+	__u32 tg_start;
-+	__u32 tg_end;
-+};
-+
-+#define V4L2_CID_STATELESS_AV1_TILE_GROUP_ENTRY (V4L2_CID_CODEC_STATELESS_BASE + 403)
-+/**
-+ * struct v4l2_ctrl_av1_tile_group_entry - AV1 Tile Group entry
-+ *
-+ * Represents a single AV1 tile inside an AV1 Tile Group. Note that MiRowStart,
-+ * MiRowEnd, MiColStart and MiColEnd can be retrieved from struct
-+ * v4l2_av1_tile_info in struct v4l2_ctrl_av1_frame_header using tile_row and
-+ * tile_col. See section 6.10.1 "General tile group OBU semantics" for more
-+ * details.
-+ *
-+ * @tile_offset: offset from the OBU data, i.e. where the coded tile data
-+ * actually starts.
-+ * @tile_size: specifies the size in bytes of the coded tile. Equivalent to
-+ * "TileSize" in the AV1 Specification.
-+ * @tile_row: specifies the row of the current tile. Equivalent to "TileRow" in
-+ * the AV1 Specification.
-+ * @tile_col: specifies the col of the current tile. Equivalent to "TileCol" in
-+ * the AV1 Specification.
-+ */
-+struct v4l2_ctrl_av1_tile_group_entry {
-+	__u32 tile_offset;
-+	__u32 tile_size;
-+	__u32 tile_row;
-+	__u32 tile_col;
-+};
-+
-+#define V4L2_CID_STATELESS_AV1_TILE_LIST (V4L2_CID_CODEC_STATELESS_BASE + 404)
-+/**
-+ * struct v4l2_ctrl_av1_tile_list - AV1 Tile List header.
-+ *
-+ * Represents a tile list as seen in an AV1 Tile List OBU. Tile lists are used
-+ * in "Large Scale Tile Decode Mode". Note that tile_count_minus_1 should be at
-+ * most V4L2_AV1_MAX_TILE_COUNT - 1. A struct v4l2_ctrl_av1_tile_list instance
-+ * will refer to "tile_count_minus_1" + 1 instances of struct
-+ * v4l2_ctrl_av1_tile_list_entry.
-+ *
-+ * Each rendered frame may require at most two tile list OBU to be decodded. See
-+ * section "6.11.1. General tile list OBU semantics" for more details.
-+ *
-+ * @output_frame_width_in_tiles_minus_1: this field plus one is the width of the
-+ * output frame, in tile units.
-+ * @output_frame_height_in_tiles_minus_1: this field plus one is the height of
-+ * the output frame, in tile units.
-+ * @tile_count_minus_1: this field plus one is the number of tile_list_entry in
-+ * the list.
-+ */
-+struct v4l2_ctrl_av1_tile_list {
-+	__u8 output_frame_width_in_tiles_minus_1;
-+	__u8 output_frame_height_in_tiles_minus_1;
-+	__u8 tile_count_minus_1;
-+};
-+
-+#define V4L2_CID_STATELESS_AV1_TILE_LIST_ENTRY (V4L2_CID_CODEC_STATELESS_BASE + 405)
-+
-+/**
-+ * struct v4l2_ctrl_av1_tile_list_entry - AV1 Tile List entry
-+ *
-+ * Represents a tile list entry as seen in an AV1 Tile List OBU. See section
-+ * 6.11.2. "Tile list entry semantics" of the AV1 Specification for more
-+ * details.
-+ *
-+ * @anchor_frame_idx: the index into an array AnchorFrames of the frames that
-+ * the tile uses for prediction.
-+ * @anchor_tile_row: the row coordinate of the tile in the frame that it
-+ * belongs, in tile units.
-+ * @anchor_tile_col: the column coordinate of the tile in the frame that it
-+ * belongs, in tile units.
-+ * @tile_data_size_minus_1: this field plus one is the size of the coded tile
-+ * data in bytes.
-+ */
-+struct v4l2_ctrl_av1_tile_list_entry {
-+	__u8 anchor_frame_idx;
-+	__u8 anchor_tile_row;
-+	__u8 anchor_tile_col;
-+	__u8 tile_data_size_minus_1;
-+};
-+
-+#define V4L2_AV1_FILM_GRAIN_FLAG_APPLY_GRAIN BIT(0)
-+#define V4L2_AV1_FILM_GRAIN_FLAG_UPDATE_GRAIN BIT(1)
-+#define V4L2_AV1_FILM_GRAIN_FLAG_CHROMA_SCALING_FROM_LUMA BIT(2)
-+#define V4L2_AV1_FILM_GRAIN_FLAG_OVERLAP BIT(3)
-+#define V4L2_AV1_FILM_GRAIN_FLAG_CLIP_TO_RESTRICTED_RANGE BIT(4)
-+
-+/**
-+ * struct v4l2_av1_film_grain - AV1 Film Grain parameters.
-+ *
-+ * Film grain parameters as specified by section 6.8.20 of the AV1
-+   Specification.
-+ *
-+ * @flags: see V4L2_AV1_FILM_GRAIN_{}.
-+ * @grain_seed: specifies the starting value for the pseudo-random numbers used
-+ * during film grain synthesis.
-+ * @film_grain_params_ref_idx: indicates which reference frame contains the
-+ * film grain parameters to be used for this frame.
-+ * @num_y_points: specifies the number of points for the piece-wise linear
-+ * scaling function of the luma component.
-+ * @point_y_value: represents the x (luma value) coordinate for the i-th point
-+ * of the piecewise linear scaling function for luma component. The values are
-+ * signaled on the scale of 0..255. (In case of 10 bit video, these values
-+ * correspond to luma values divided by 4. In case of 12 bit video, these values
-+ * correspond to luma values divided by 16.).
-+ * @point_y_scaling:  represents the scaling (output) value for the i-th point
-+ * of the piecewise linear scaling function for luma component.
-+ * @num_cb_points: specifies the number of points for the piece-wise linear
-+ * scaling function of the cb component.
-+ * @point_cb_value: represents the x coordinate for the i-th point of the
-+ * piece-wise linear scaling function for cb component. The values are signaled
-+ * on the scale of 0..255.
-+ * @point_cb_scaling: represents the scaling (output) value for the i-th point
-+ * of the piecewise linear scaling function for cb component.
-+ * @num_cr_points: specifies represents the number of points for the piece-wise
-+ * linear scaling function of the cr component.
-+ * @point_cr_value:  represents the x coordinate for the i-th point of the
-+ * piece-wise linear scaling function for cr component. The values are signaled
-+ * on the scale of 0..255.
-+ * @point_cr_scaling:  represents the scaling (output) value for the i-th point
-+ * of the piecewise linear scaling function for cr component.
-+ * @grain_scaling_minus_8: represents the shift – 8 applied to the values of the
-+ * chroma component. The grain_scaling_minus_8 can take values of 0..3 and
-+ * determines the range and quantization step of the standard deviation of film
-+ * grain.
-+ * @ar_coeff_lag: specifies the number of auto-regressive coefficients for luma
-+ * and chroma.
-+ * @ar_coeffs_y_plus_128: specifies auto-regressive coefficients used for the Y
-+ * plane.
-+ * @ar_coeffs_cb_plus_128: specifies auto-regressive coefficients used for the U
-+ * plane.
-+ * @ar_coeffs_cr_plus_128: specifies auto-regressive coefficients used for the V
-+ * plane.
-+ * @ar_coeff_shift_minus_6: specifies the range of the auto-regressive
-+ * coefficients. Values of 0, 1, 2, and 3 correspond to the ranges for
-+ * auto-regressive coefficients of [-2, 2), [-1, 1), [-0.5, 0.5) and [-0.25,
-+ * 0.25) respectively.
-+ * @grain_scale_shift: specifies how much the Gaussian random numbers should be
-+ * scaled down during the grain synthesis process.
-+ * @cb_mult: represents a multiplier for the cb component used in derivation of
-+ * the input index to the cb component scaling function.
-+ * @cb_luma_mult: represents a multiplier for the average luma component used in
-+ * derivation of the input index to the cb component scaling function.
-+ * @cb_offset: represents an offset used in derivation of the input index to the
-+ * cb component scaling function.
-+ * @cr_mult: represents a multiplier for the cr component used in derivation of
-+ * the input index to the cr component scaling function.
-+ * @cr_luma_mult: represents a multiplier for the average luma component used in
-+ * derivation of the input index to the cr component scaling function.
-+ * @cr_offset: represents an offset used in derivation of the input index to the
-+ * cr component scaling function.
-+ */
-+struct v4l2_av1_film_grain {
-+	__u8 flags;
-+	__u16 grain_seed;
-+	__u8 film_grain_params_ref_idx;
-+	__u8 num_y_points;
-+	__u8 point_y_value[V4L2_AV1_MAX_NUM_Y_POINTS];
-+	__u8 point_y_scaling[V4L2_AV1_MAX_NUM_Y_POINTS];
-+	__u8 num_cb_points;
-+	__u8 point_cb_value[V4L2_AV1_MAX_NUM_CB_POINTS];
-+	__u8 point_cb_scaling[V4L2_AV1_MAX_NUM_CB_POINTS];
-+	__u8 num_cr_points;
-+	__u8 point_cr_value[V4L2_AV1_MAX_NUM_CR_POINTS];
-+	__u8 point_cr_scaling[V4L2_AV1_MAX_NUM_CR_POINTS];
-+	__u8 grain_scaling_minus_8;
-+	__u8 ar_coeff_lag;
-+	__u8 ar_coeffs_y_plus_128[V4L2_AV1_MAX_NUM_POS_LUMA];
-+	__u8 ar_coeffs_cb_plus_128[V4L2_AV1_MAX_NUM_POS_LUMA];
-+	__u8 ar_coeffs_cr_plus_128[V4L2_AV1_MAX_NUM_POS_LUMA];
-+	__u8 ar_coeff_shift_minus_6;
-+	__u8 grain_scale_shift;
-+	__u8 cb_mult;
-+	__u8 cb_luma_mult;
-+	__u16 cb_offset;
-+	__u8 cr_mult;
-+	__u8 cr_luma_mult;
-+	__u16 cr_offset;
-+};
-+
-+/**
-+ * enum v4l2_av1_warp_model - AV1 Warp Model as described in section 3
-+ * "Symbols and abbreviated terms" of the AV1 Specification.
-+ *
-+ * @V4L2_AV1_WARP_MODEL_IDENTITY: Warp model is just an identity transform.
-+ * @V4L2_AV1_WARP_MODEL_TRANSLATION: Warp model is a pure translation.
-+ * @V4L2_AV1_WARP_MODEL_ROTZOOM: Warp model is a rotation + symmetric zoom +
-+ * translation.
-+ * @V4L2_AV1_WARP_MODEL_AFFINE: Warp model is a general affine transform.
-+ */
-+enum v4l2_av1_warp_model {
-+	V4L2_AV1_WARP_MODEL_IDENTITY = 0,
-+	V4L2_AV1_WARP_MODEL_TRANSLATION = 1,
-+	V4L2_AV1_WARP_MODEL_ROTZOOM = 2,
-+	V4L2_AV1_WARP_MODEL_AFFINE = 3,
-+};
-+
-+/**
-+ * enum v4l2_av1_reference_frame - AV1 reference frames
-+ *
-+ * @V4L2_AV1_REF_INTRA_FRAME: Intra Frame Reference
-+ * @V4L2_AV1_REF_LAST_FRAME: Last Reference Frame
-+ * @V4L2_AV1_REF_LAST2_FRAME: Last2 Reference Frame
-+ * @V4L2_AV1_REF_LAST3_FRAME: Last3 Reference Frame
-+ * @V4L2_AV1_REF_GOLDEN_FRAME: Golden Reference Frame
-+ * @V4L2_AV1_REF_BWDREF_FRAME: BWD Reference Frame
-+ * @V4L2_AV1_REF_ALTREF2_FRAME: Alternative2 Reference Frame
-+ * @V4L2_AV1_REF_ALTREF_FRAME: Alternative Reference Frame
-+ * @V4L2_AV1_NUM_REF_FRAMES: Total Reference Frame Number
-+ */
-+enum v4l2_av1_reference_frame {
-+	V4L2_AV1_REF_INTRA_FRAME = 0,
-+	V4L2_AV1_REF_LAST_FRAME = 1,
-+	V4L2_AV1_REF_LAST2_FRAME = 2,
-+	V4L2_AV1_REF_LAST3_FRAME = 3,
-+	V4L2_AV1_REF_GOLDEN_FRAME = 4,
-+	V4L2_AV1_REF_BWDREF_FRAME = 5,
-+	V4L2_AV1_REF_ALTREF2_FRAME = 6,
-+	V4L2_AV1_REF_ALTREF_FRAME = 7,
-+	V4L2_AV1_NUM_REF_FRAMES,
-+};
-+
-+#define V4L2_AV1_GLOBAL_MOTION_IS_INVALID(ref) (1 << (ref))
-+
-+#define V4L2_AV1_GLOBAL_MOTION_FLAG_IS_GLOBAL	   BIT(0)
-+#define V4L2_AV1_GLOBAL_MOTION_FLAG_IS_ROT_ZOOM	   BIT(1)
-+#define V4L2_AV1_GLOBAL_MOTION_FLAG_IS_TRANSLATION BIT(2)
-+/**
-+ * struct v4l2_av1_global_motion - AV1 Global Motion parameters as described in
-+ * section 6.8.17 "Global motion params semantics" of the AV1 specification.
-+ *
-+ * @flags: A bitfield containing the flags per reference frame. See
-+ * V4L2_AV1_GLOBAL_MOTION_FLAG_{}
-+ * @type: The type of global motion transform used.
-+ * @params: this field has the same meaning as "gm_params" in the AV1
-+ * specification.
-+ * @invalid: bitfield indicating whether the global motion params are invalid
-+ * for a given reference frame. See section 7.11.3.6. Setup shear process and
-+ * the variable "warpValid". Use V4L2_AV1_GLOBAL_MOTION_IS_INVALID(ref) to
-+ * create a suitable mask.
-+ */
-+
-+struct v4l2_av1_global_motion {
-+	__u8 flags[V4L2_AV1_TOTAL_REFS_PER_FRAME];
-+	enum v4l2_av1_warp_model type[V4L2_AV1_TOTAL_REFS_PER_FRAME];
-+	__u32 params[V4L2_AV1_TOTAL_REFS_PER_FRAME][6];
-+	__u8 invalid;
-+};
-+
-+/**
-+ * enum v4l2_av1_frame_restoration_type - AV1 Frame Restoration Type
-+ * @V4L2_AV1_FRAME_RESTORE_NONE: no filtering is applied.
-+ * @V4L2_AV1_FRAME_RESTORE_WIENER: Wiener filter process is invoked.
-+ * @V4L2_AV1_FRAME_RESTORE_SGRPROJ: self guided filter process is invoked.
-+ * @V4L2_AV1_FRAME_RESTORE_SWITCHABLE: restoration filter is swichtable.
-+ */
-+enum v4l2_av1_frame_restoration_type {
-+	V4L2_AV1_FRAME_RESTORE_NONE = 0,
-+	V4L2_AV1_FRAME_RESTORE_WIENER = 1,
-+	V4L2_AV1_FRAME_RESTORE_SGRPROJ = 2,
-+	V4L2_AV1_FRAME_RESTORE_SWITCHABLE = 3,
-+};
-+
-+/**
-+ * struct v4l2_av1_loop_restoration - AV1 Loop Restauration as described in
-+ * section 6.10.15 "Loop restoration params semantics" of the AV1 specification.
-+ *
-+ * @frame_restoration_type: specifies the type of restoration used for each
-+ * plane. See enum_v4l2_av1_frame_restoration_type.
-+ * @lr_unit_shift: specifies if the luma restoration size should be halved.
-+ * @lr_uv_shift: specifies if the chroma size should be half the luma size.
-+ * @loop_restoration_size: specifies the size of loop restoration units in units
-+ * of samples in the current plane.
-+ */
-+struct v4l2_av1_loop_restoration {
-+	enum v4l2_av1_frame_restoration_type frame_restoration_type[V4L2_AV1_NUM_PLANES_MAX];
-+	__u8 lr_unit_shift;
-+	__u8 lr_uv_shift;
-+	__u32 loop_restoration_size[V4L2_AV1_MAX_NUM_PLANES];
-+};
-+
-+/**
-+ * struct v4l2_av1_cdef - AV1 CDEF params semantics as described in section
-+ * 6.10.14. "CDEF params semantics" of the AV1 specification
-+ *
-+ * @damping_minus_3: controls the amount of damping in the deringing filter.
-+ * @bits: specifies the number of bits needed to specify which CDEF filter to
-+ * apply.
-+ * @y_pri_strength: specifies the strength of the primary filter.
-+ * @y_sec_strength: specifies the strength of the secondary filter.
-+ * @uv_pri_strength: specifies the strength of the primary filter.
-+ * @uv_sec_strength: specifies the strength of the secondary filter.
-+ */
-+struct v4l2_av1_cdef {
-+	__u8 damping_minus_3;
-+	__u8 bits;
-+	__u8 y_pri_strength[V4L2_AV1_CDEF_MAX];
-+	__u8 y_sec_strength[V4L2_AV1_CDEF_MAX];
-+	__u8 uv_pri_strength[V4L2_AV1_CDEF_MAX];
-+	__u8 uv_sec_strength[V4L2_AV1_CDEF_MAX];
-+};
-+
-+#define V4L2_AV1_SEGMENTATION_FLAG_ENABLED	   BIT(0)
-+#define V4L2_AV1_SEGMENTATION_FLAG_UPDATE_MAP	   BIT(1)
-+#define V4L2_AV1_SEGMENTATION_FLAG_TEMPORAL_UPDATE BIT(2)
-+#define V4L2_AV1_SEGMENTATION_FLAG_UPDATE_DATA	   BIT(3)
-+#define V4L2_AV1_SEGMENTATION_FLAG_SEG_ID_PRE_SKIP	BIT(4)
-+
-+/**
-+ * enum v4l2_av1_segment_feature - AV1 segment features as described in section
-+ * 3 "Symbols and abbreviated terms" of the AV1 specification.
-+ *
-+ * @V4L2_AV1_SEG_LVL_ALT_Q: Index for quantizer segment feature.
-+ * @V4L2_AV1_SEG_LVL_ALT_LF_Y_V: Index for vertical luma loop filter segment
-+ * feature.
-+ * @V4L2_AV1_SEG_LVL_REF_FRAME: Index for reference frame segment feature.
-+ * @V4L2_AV1_SEG_LVL_SKIP: Index for skip segment feature.
-+ * @V4L2_AV1_SEG_LVL_GLOBALMV: Index for global mv feature.
-+ * @V4L2_AV1_SEG_LVL_MAX: Number of segment features.
-+ */
-+enum v4l2_av1_segment_feature {
-+	V4L2_AV1_SEG_LVL_ALT_Q = 0,
-+	V4L2_AV1_SEG_LVL_ALT_LF_Y_V = 1,
-+	V4L2_AV1_SEG_LVL_REF_FRAME = 5,
-+	V4L2_AV1_SEG_LVL_REF_SKIP = 6,
-+	V4L2_AV1_SEG_LVL_REF_GLOBALMV = 7,
-+	V4L2_AV1_SEG_LVL_MAX = 8
-+};
-+
-+#define V4L2_AV1_SEGMENT_FEATURE_ENABLED(id)	(1 << (id))
-+
-+/**
-+ * struct v4l2_av1_segmentation - AV1 Segmentation params as defined in section
-+ * 6.8.13. "Segmentation params semantics" of the AV1 specification.
-+ *
-+ * @flags: see V4L2_AV1_SEGMENTATION_FLAG_{}.
-+ * @feature_enabled: bitmask defining which features are enabled in each segment.
-+ * Use V4L2_AV1_SEGMENT_FEATURE_ENABLED to build a suitable mask.
-+ * @feature_data: data attached to each feature. Data entry is only valid if the
-+ * feature is enabled
-+ * @last_active_seg_id: indicates the highest numbered segment id that has some
-+ * enabled feature. This is used when decoding the segment id to only decode
-+ * choices corresponding to used segments.
-+ */
-+struct v4l2_av1_segmentation {
-+	__u8 flags;
-+	__u8 feature_enabled[V4L2_AV1_MAX_SEGMENTS];
-+	__u16 feature_data[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX];
-+	__u8 last_active_seg_id;
-+};
-+
-+#define V4L2_AV1_LOOP_FILTER_FLAG_DELTA_ENABLED    BIT(0)
-+#define V4L2_AV1_LOOP_FILTER_FLAG_DELTA_UPDATE     BIT(1)
-+#define V4L2_AV1_LOOP_FILTER_FLAG_DELTA_LF_PRESENT BIT(2)
-+
-+/**
-+ * struct v4l2_av1_loop_filter - AV1 Loop filter params as defined in section
-+ * 6.8.10. "Loop filter semantics" of the AV1 specification.
-+ *
-+ * @flags: see V4L2_AV1_LOOP_FILTER_FLAG_{}
-+ * @level: an array containing loop filter strength values. Different loop
-+ * filter strength values from the array are used depending on the image plane
-+ * being filtered, and the edge direction (vertical or horizontal) being
-+ * filtered.
-+ * @sharpness: indicates the sharpness level. The loop_filter_level and
-+ * loop_filter_sharpness together determine when a block edge is filtered, and
-+ * by how much the filtering can change the sample values. The loop filter
-+ * process is described in section 7.14 of the AV1 specification.
-+ * @ref_deltas: contains the adjustment needed for the filter level based on the
-+ * chosen reference frame. If this syntax element is not present, it maintains
-+ * its previous value.
-+ * @mode_deltas: contains the adjustment needed for the filter level based on
-+ * the chosen mode. If this syntax element is not present, it maintains its
-+ * previous value.
-+ * @delta_lf_res: specifies the left shift which should be applied to decoded
-+ * loop filter delta values.
-+ * @delta_lf_multi: a value equal to 1 specifies that separate loop filter
-+ * deltas are sent for horizontal luma edges, vertical luma edges,
-+ * the U edges, and the V edges. A value of delta_lf_multi equal to 0 specifies
-+ * that the same loop filter delta is used for all edges.
-+ */
-+struct v4l2_av1_loop_filter {
-+	__u8 flags;
-+	__u8 level[4];
-+	__u8 sharpness;
-+	__u8 ref_deltas[V4L2_AV1_TOTAL_REFS_PER_FRAME];
-+	__u8 mode_deltas[2];
-+	__u8 delta_lf_res;
-+	__u8 delta_lf_multi;
-+};
-+
-+#define V4L2_AV1_QUANTIZATION_FLAG_DIFF_UV_DELTA   BIT(0)
-+#define V4L2_AV1_QUANTIZATION_FLAG_USING_QMATRIX   BIT(1)
-+#define V4L2_AV1_QUANTIZATION_FLAG_DELTA_Q_PRESENT BIT(2)
-+
-+/**
-+ * struct v4l2_av1_quantization - AV1 Quantization params as defined in section
-+ * 6.8.11 "Quantization params semantics" of the AV1 specification.
-+ *
-+ * @flags: see V4L2_AV1_QUANTIZATION_FLAG_{}
-+ * @base_q_idx: indicates the base frame qindex. This is used for Y AC
-+ * coefficients and as the base value for the other quantizers.
-+ * @delta_q_y_dc: indicates the Y DC quantizer relative to base_q_idx.
-+ * @delta_q_u_dc: indicates the U DC quantizer relative to base_q_idx.
-+ * @delta_q_u_ac: indicates the U AC quantizer relative to base_q_idx.
-+ * @delta_q_v_dc: indicates the V DC quantizer relative to base_q_idx.
-+ * @delta_q_v_ac: indicates the V AC quantizer relative to base_q_idx.
-+ * @qm_y: specifies the level in the quantizer matrix that should be used for
-+ * luma plane decoding.
-+ * @qm_u: specifies the level in the quantizer matrix that should be used for
-+ * chroma U plane decoding.
-+ * @qm_v: specifies the level in the quantizer matrix that should be used for
-+ * chroma V plane decoding.
-+ * @delta_q_res: specifies the left shift which should be applied to decoded
-+ * quantizer index delta values.
-+ */
-+struct v4l2_av1_quantization {
-+	__u8 flags;
-+	__u8 base_q_idx;
-+	__s8 delta_q_y_dc;
-+	__s8 delta_q_u_dc;
-+	__s8 delta_q_u_ac;
-+	__s8 delta_q_v_dc;
-+	__s8 delta_q_v_ac;
-+	__u8 qm_y;
-+	__u8 qm_u;
-+	__u8 qm_v;
-+	__u8 delta_q_res;
-+};
-+
-+#define V4L2_AV1_TILE_INFO_FLAG_UNIFORM_TILE_SPACING	BIT(0)
-+
-+/**
-+ * struct v4l2_av1_tile_info - AV1 Tile info as defined in section 6.8.14. "Tile
-+ * info semantics" of the AV1 specification.
-+ *
-+ * @flags: see V4L2_AV1_TILE_INFO_FLAG_{}
-+ * @mi_col_starts: an array specifying the start column (in units of 4x4 luma
-+ * samples) for each tile across the image.
-+ * @mi_row_starts: an array specifying the start row (in units of 4x4 luma
-+ * samples) for each tile down the image.
-+ * @width_in_sbs_minus_1: specifies the width of a tile minus 1 in units of
-+ * superblocks.
-+ * @height_in_sbs_minus_1:  specifies the height of a tile minus 1 in units of
-+ * superblocks.
-+ * @tile_size_bytes: specifies the number of bytes needed to code each tile
-+ * size.
-+ * @context_update_tile_id: specifies which tile to use for the CDF update.
-+ * @tile_rows: specifies the number of tiles down the frame.
-+ * @tile_cols: specifies the number of tiles across the frame.
-+ */
-+struct v4l2_av1_tile_info {
-+	__u8 flags;
-+	__u32 mi_col_starts[V4L2_AV1_MAX_TILE_COLS + 1];
-+	__u32 mi_row_starts[V4L2_AV1_MAX_TILE_ROWS + 1];
-+	__u32 width_in_sbs_minus_1[V4L2_AV1_MAX_TILE_COLS];
-+	__u32 height_in_sbs_minus_1[V4L2_AV1_MAX_TILE_ROWS];
-+	__u8 tile_size_bytes;
-+	__u8 context_update_tile_id;
-+	__u8 tile_cols;
-+	__u8 tile_rows;
-+};
-+
-+/**
-+ * enum v4l2_av1_frame_type - AV1 Frame Type
-+ *
-+ * @V4L2_AV1_KEY_FRAME: Key frame
-+ * @V4L2_AV1_INTER_FRAME: Inter frame
-+ * @V4L2_AV1_INTRA_ONLY_FRAME: Intra-only frame
-+ * @V4L2_AV1_SWITCH_FRAME: Switch frame
-+ */
-+enum v4l2_av1_frame_type {
-+	V4L2_AV1_KEY_FRAME = 0,
-+	V4L2_AV1_INTER_FRAME = 1,
-+	V4L2_AV1_INTRA_ONLY_FRAME = 2,
-+	V4L2_AV1_SWITCH_FRAME = 3
-+};
-+
-+/**
-+ * enum v4l2_vp9_interpolation_filter - AV1 interpolation filter types
-+ *
-+ * @V4L2_AV1_INTERPOLATION_FILTER_EIGHTTAP: eight tap filter
-+ * @V4L2_AV1_INTERPOLATION_FILTER_EIGHTTAP_SMOOTH: eight tap smooth filter
-+ * @V4L2_AV1_INTERPOLATION_FILTER_EIGHTTAP_SHARP: eight tap sharp filter
-+ * @V4L2_AV1_INTERPOLATION_FILTER_BILINEAR: bilinear filter
-+ * @V4L2_AV1_INTERPOLATION_FILTER_SWITCHABLE: filter selection is signaled at
-+ * the block level
-+ *
-+ * See section 6.8.9 "Interpolation filter semantics" of the AV1 specification
-+ * for more details.
-+ */
-+enum v4l2_av1_interpolation_filter {
-+	V4L2_AV1_INTERPOLATION_FILTER_EIGHTTAP = 0,
-+	V4L2_AV1_INTERPOLATION_FILTER_EIGHTTAP_SMOOTH = 1,
-+	V4L2_AV1_INTERPOLATION_FILTER_EIGHTTAP_SHARP = 2,
-+	V4L2_AV1_INTERPOLATION_FILTER_BILINEAR = 3,
-+	V4L2_AV1_INTERPOLATION_FILTER_SWITCHABLE = 4,
-+};
-+
-+/**
-+ * enum v4l2_av1_tx_mode - AV1 Tx mode as described in section 6.8.21 "TX mode
-+ * semantics" of the AV1 specification.
-+ * @V4L2_AV1_TX_MODE_ONLY_4X4: the inverse transform will use only 4x4
-+ * transforms
-+ * @V4L2_AV1_TX_MODE_LARGEST: the inverse transform will use the largest
-+ * transform size that fits inside the block
-+ * @V4L2_AV1_TX_MODE_SELECT: the choice of transform size is specified
-+ * explicitly for each block.
-+ */
-+enum v4l2_av1_tx_mode {
-+	V4L2_AV1_TX_MODE_ONLY_4X4 = 0,
-+	V4L2_AV1_TX_MODE_LARGEST = 1,
-+	V4L2_AV1_TX_MODE_SELECT = 2
-+};
-+
-+#define V4L2_AV1_FRAME_HEADER_FLAG_SHOW_FRAME			BIT(0)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_SHOWABLE_FRAME		BIT(1)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_ERROR_RESILIENT_MODE		BIT(2)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_DISABLE_CDF_UPDATE		BIT(3)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_ALLOW_SCREEN_CONTENT_TOOLS	BIT(4)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_FORCE_INTEGER_MV		BIT(5)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_ALLOW_INTRABC		BIT(6)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_USE_SUPERRES			BIT(7)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_ALLOW_HIGH_PRECISION_MV	BIT(8)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_IS_MOTION_MODE_SWITCHABLE	BIT(9)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_USE_REF_FRAME_MVS		BIT(10)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_DISABLE_FRAME_END_UPDATE_CDF BIT(11)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_UNIFORM_TILE_SPACING		BIT(12)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_ALLOW_WARPED_MOTION		BIT(13)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_REFERENCE_SELECT		BIT(14)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_REDUCED_TX_SET		BIT(15)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_SKIP_MODE_PRESENT		BIT(16)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_FRAME_SIZE_OVERRIDE		BIT(17)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_BUFFER_REMOVAL_TIME_PRESENT	BIT(18)
-+#define V4L2_AV1_FRAME_HEADER_FLAG_FRAME_REFS_SHORT_SIGNALING	BIT(19)
-+
-+#define V4L2_CID_STATELESS_AV1_FRAME_HEADER (V4L2_CID_CODEC_STATELESS_BASE + 406)
-+/**
-+ * struct v4l2_ctrl_av1_frame_header - Represents an AV1 Frame Header OBU.
-+ *
-+ * @tile_info: tile info
-+ * @quantization: quantization params
-+ * @segmentation: segmentation params
-+ * @loop_filter: loop filter params
-+ * @cdef: cdef params
-+ * @loop_restoration: loop restoration params
-+ * @global_motion: global motion params
-+ * @film_grain: film grain params
-+ * @flags: see V4L2_AV1_FRAME_HEADER_FLAG_{}
-+ * @frame_type: specifies the AV1 frame type
-+ * @order_hint: specifies OrderHintBits least significant bits of the expected
-+ * output order for this frame.
-+ * @superres_denom: the denominator for the upscaling ratio.
-+ * @upscaled_width: the upscaled width.
-+ * @interpolation_filter: specifies the filter selection used for performing
-+ * inter prediction.
-+ * @tx_mode: specifies how the transform size is determined.
-+ * @frame_width_minus_1: add 1 to get the frame's width.
-+ * @frame_height_minus_1: add 1 to get the frame's height
-+ * @render_width_minus_1: add 1 to get the render width of the frame in luma
-+ * samples.
-+ * @render_height_minus_1: add 1 to get the render height of the frame in luma
-+ * samples.
-+ * @current_frame_id: specifies the frame id number for the current frame. Frame
-+ * id numbers are additional information that do not affect the decoding
-+ * process, but provide decoders with a way of detecting missing reference
-+ * frames so that appropriate action can be taken.
-+ * @primary_ref_frame: specifies which reference frame contains the CDF values
-+ * and other state that should be loaded at the start of the frame.
-+ * @buf_removal_time: specifies the frame removal time in units of DecCT clock
-+ * ticks counted from the removal time of the last random access point for
-+ * operating point opNum.
-+ * @refresh_frame_flags: contains a bitmask that specifies which reference frame
-+ * slots will be updated with the current frame after it is decoded.
-+ * @ref_order_hint: specifies the expected output order hint for each reference
-+ * frame.
-+ * @last_frame_idx: specifies the reference frame to use for LAST_FRAME.
-+ * @gold_frame_idx: specifies the reference frame to use for GOLDEN_FRAME.
-+ * refs
-+ * @reference_frame_ts: the V4L2 timestamp for each of the reference frames
-+ * enumerated in &v4l2_av1_reference_frame. The timestamp refers to the
-+ * timestamp field in struct v4l2_buffer. Use v4l2_timeval_to_ns() to convert
-+ * the struct timeval to a __u64.
-+ * @skip_mode_frame: specifies the frames to use for compound prediction when
-+ * skip_mode is equal to 1.
-+ */
-+struct v4l2_ctrl_av1_frame_header {
-+	struct v4l2_av1_tile_info tile_info;
-+	struct v4l2_av1_quantization quantization;
-+	struct v4l2_av1_segmentation segmentation;
-+	struct v4l2_av1_loop_filter  loop_filter;
-+	struct v4l2_av1_cdef cdef;
-+	struct v4l2_av1_loop_restoration loop_restoration;
-+	struct v4l2_av1_global_motion global_motion;
-+	struct v4l2_av1_film_grain film_grain;
-+	__u32 flags;
-+	enum v4l2_av1_frame_type frame_type;
-+	__u32 order_hint;
-+	__u8 superres_denom;
-+	__u32 upscaled_width;
-+	enum v4l2_av1_interpolation_filter interpolation_filter;
-+	enum v4l2_av1_tx_mode tx_mode;
-+	__u32 frame_width_minus_1;
-+	__u32 frame_height_minus_1;
-+	__u16 render_width_minus_1;
-+	__u16 render_height_minus_1;
-+
-+	__u32 current_frame_id;
-+	__u8 primary_ref_frame;
-+	__u8 buffer_removal_time[V4L2_AV1_MAX_OPERATING_POINTS];
-+	__u8 refresh_frame_flags;
-+	__u32 ref_order_hint[V4L2_AV1_NUM_REF_FRAMES];
-+	__s8 last_frame_idx;
-+	__s8 gold_frame_idx;
-+	__u64 reference_frame_ts[V4L2_AV1_NUM_REF_FRAMES];
-+	__u8 skip_mode_frame[2];
-+};
-+
-+/**
-+ * enum v4l2_stateless_av1_profile - AV1 profiles
-+ *
-+ * @V4L2_STATELESS_AV1_PROFILE_MAIN: compliant decoders must be able to decode
-+ * streams with seq_profile equal to 0.
-+ * @V4L2_STATELESS_PROFILE_HIGH: compliant decoders must be able to decode
-+ * streams with seq_profile equal to 0.
-+ * @V4L2_STATELESS_PROFILE_PROFESSIONAL: compliant decoders must be able to
-+ * decode streams with seq_profile equal to 0.
-+ *
-+ * Conveys the highest profile a decoder can work with.
-+ */
-+#define V4L2_CID_STATELESS_AV1_PROFILE (V4L2_CID_CODEC_STATELESS_BASE + 407)
-+enum v4l2_stateless_av1_profile {
-+	V4L2_STATELESS_AV1_PROFILE_MAIN = 0,
-+	V4L2_STATELESS_AV1_PROFILE_HIGH = 1,
-+	V4L2_STATELESS_AV1_PROFILE_PROFESSIONAL = 2,
-+};
-+
-+/**
-+ * enum v4l2_stateless_av1_level - AV1 levels
-+ *
-+ * @V4L2_STATELESS_AV1_LEVEL_2_0: Level 2.0.
-+ * @V4L2_STATELESS_AV1_LEVEL_2_1: Level 2.1.
-+ * @V4L2_STATELESS_AV1_LEVEL_2_2: Level 2.2.
-+ * @V4L2_STATELESS_AV1_LEVEL_2_3: Level 2.3.
-+ * @V4L2_STATELESS_AV1_LEVEL_3_0: Level 3.0.
-+ * @V4L2_STATELESS_AV1_LEVEL_3_1: Level 3.1.
-+ * @V4L2_STATELESS_AV1_LEVEL_3_2: Level 3.2.
-+ * @V4L2_STATELESS_AV1_LEVEL_3_3: Level 3.3.
-+ * @V4L2_STATELESS_AV1_LEVEL_4_0: Level 4.0.
-+ * @V4L2_STATELESS_AV1_LEVEL_4_1: Level 4.1.
-+ * @V4L2_STATELESS_AV1_LEVEL_4_2: Level 4.2.
-+ * @V4L2_STATELESS_AV1_LEVEL_4_3: Level 4.3.
-+ * @V4L2_STATELESS_AV1_LEVEL_5_0: Level 5.0.
-+ * @V4L2_STATELESS_AV1_LEVEL_5_1: Level 5.1.
-+ * @V4L2_STATELESS_AV1_LEVEL_5_2: Level 5.2.
-+ * @V4L2_STATELESS_AV1_LEVEL_5_3: Level 5.3.
-+ * @V4L2_STATELESS_AV1_LEVEL_6_0: Level 6.0.
-+ * @V4L2_STATELESS_AV1_LEVEL_6_1: Level 6.1.
-+ * @V4L2_STATELESS_AV1_LEVEL_6_2: Level 6.2.
-+ * @V4L2_STATELESS_AV1_LEVEL_6_3: Level 6.3.
-+ * @V4L2_STATELESS_AV1_LEVEL_7_0: Level 7.0.
-+ * @V4L2_STATELESS_AV1_LEVEL_7_2: Level 7.2.
-+ * @V4L2_STATELESS_AV1_LEVEL_7_3: Level 7.3.
-+ *
-+ * Conveys the highest level a decoder can work with.
-+ */
-+#define V4L2_CID_STATELESS_AV1_LEVEL (V4L2_CID_CODEC_STATELESS_BASE + 408)
-+enum v4l2_stateless_av1_level {
-+	V4L2_STATELESS_AV1_LEVEL_2_0 = 0,
-+	V4L2_STATELESS_AV1_LEVEL_2_1 = 1,
-+	V4L2_STATELESS_AV1_LEVEL_2_2 = 2,
-+	V4L2_STATELESS_AV1_LEVEL_2_3 = 3,
-+
-+	V4L2_STATELESS_AV1_LEVEL_3_0 = 4,
-+	V4L2_STATELESS_AV1_LEVEL_3_1 = 5,
-+	V4L2_STATELESS_AV1_LEVEL_3_2 = 6,
-+	V4L2_STATELESS_AV1_LEVEL_3_3 = 7,
-+
-+	V4L2_STATELESS_AV1_LEVEL_4_0 = 8,
-+	V4L2_STATELESS_AV1_LEVEL_4_1 = 9,
-+	V4L2_STATELESS_AV1_LEVEL_4_2 = 10,
-+	V4L2_STATELESS_AV1_LEVEL_4_3 = 11,
-+
-+	V4L2_STATELESS_AV1_LEVEL_5_0 = 12,
-+	V4L2_STATELESS_AV1_LEVEL_5_1 = 13,
-+	V4L2_STATELESS_AV1_LEVEL_5_2 = 14,
-+	V4L2_STATELESS_AV1_LEVEL_5_3 = 15,
-+
-+	V4L2_STATELESS_AV1_LEVEL_6_0 = 16,
-+	V4L2_STATELESS_AV1_LEVEL_6_1 = 17,
-+	V4L2_STATELESS_AV1_LEVEL_6_2 = 18,
-+	V4L2_STATELESS_AV1_LEVEL_6_3 = 19,
-+
-+	V4L2_STATELESS_AV1_LEVEL_7_0 = 20,
-+	V4L2_STATELESS_AV1_LEVEL_7_1 = 21,
-+	V4L2_STATELESS_AV1_LEVEL_7_2 = 22,
-+	V4L2_STATELESS_AV1_LEVEL_7_3 = 23
-+};
-+
-+/**
-+ * enum v4l2_stateless_av1_operating_mode - AV1 operating mode
-+ *
-+ * @V4L2_STATELESS_AV1_OPERATING_MODE_GENERAL_DECODING: input is a sequence of
-+ * OBUs, output is decoded frames)
-+ * @V4L2_STATELESS_AV1_OPERATING_MODE_LARGE_SCALE_TILE_DECODING: Large scale
-+ * tile decoding (input is a tile list OBU plus additional side information,
-+ * output is a decoded frame)
-+ *
-+ * Conveys the decoding mode the decoder is operating with. The two AV1 decoding
-+ * modes are specified in section 7 "Decoding process" of the AV1 specification.
-+ */
-+#define V4L2_CID_STATELESS_AV1_OPERATING_MODE (V4L2_CID_CODEC_STATELESS_BASE + 409)
-+enum v4l2_stateless_av1_operating_mode {
-+	V4L2_STATELESS_AV1_OPERATING_MODE_GENERAL_DECODING = 0,
-+	V4L2_STATELESS_AV1_OPERATING_MODE_LARGE_SCALE_TILE_DECODING = 1,
-+};
-+
- #define V4L2_CID_COLORIMETRY_CLASS_BASE	(V4L2_CTRL_CLASS_COLORIMETRY | 0x900)
- #define V4L2_CID_COLORIMETRY_CLASS	(V4L2_CTRL_CLASS_COLORIMETRY | 1)
- 
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 7222fc855d6b..d20f8505f980 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -701,6 +701,7 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_FWHT     v4l2_fourcc('F', 'W', 'H', 'T') /* Fast Walsh Hadamard Transform (vicodec) */
- #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') /* Stateless FWHT (vicodec) */
- #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
-+#define V4L2_PIX_FMT_AV1_FRAME	v4l2_fourcc('A', 'V', '1', 'F') /* AV1 parsed frame */
- 
- /*  Vendor-specific formats   */
- #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 YUV */
-@@ -1750,6 +1751,13 @@ struct v4l2_ext_control {
- 		struct v4l2_ctrl_mpeg2_sequence __user *p_mpeg2_sequence;
- 		struct v4l2_ctrl_mpeg2_picture __user *p_mpeg2_picture;
- 		struct v4l2_ctrl_mpeg2_quantisation __user *p_mpeg2_quantisation;
-+
-+		struct v4l2_ctrl_av1_sequence __user *p_av1_sequence;
-+		struct v4l2_ctrl_av1_tile_group __user *p_av1_tile_group;
-+		struct v4l2_ctrl_av1_tile_group_entry __user *p_av1_tile_group_entry;
-+		struct v4l2_ctrl_av1_tile_list __user *p_av1_tile_list;
-+		struct v4l2_ctrl_av1_tile_list_entry __user *p_av1_tile_list_entry;
-+		struct v4l2_ctrl_av1_frame_header __user *p_av1_frame_header;
- 		void __user *ptr;
- 	};
- } __attribute__ ((packed));
-@@ -1814,6 +1822,13 @@ enum v4l2_ctrl_type {
- 	V4L2_CTRL_TYPE_MPEG2_QUANTISATION   = 0x0250,
- 	V4L2_CTRL_TYPE_MPEG2_SEQUENCE       = 0x0251,
- 	V4L2_CTRL_TYPE_MPEG2_PICTURE        = 0x0252,
-+
-+	V4L2_CTRL_TYPE_AV1_SEQUENCE	    = 0x280,
-+	V4L2_CTRL_TYPE_AV1_TILE_GROUP	    = 0x281,
-+	V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY = 0x282,
-+	V4L2_CTRL_TYPE_AV1_TILE_LIST	    = 0x283,
-+	V4L2_CTRL_TYPE_AV1_TILE_LIST_ENTRY  = 0x284,
-+	V4L2_CTRL_TYPE_AV1_FRAME_HEADER	    = 0x285,
- };
- 
- /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
++void *vivpu_find_control_data(struct vivpu_ctx *ctx, u32 id);
++struct v4l2_ctrl *vivpu_find_control(struct vivpu_ctx *ctx, u32 id);
++u32 vivpu_control_num_elems(struct vivpu_ctx *ctx, u32 id);
++
++#endif /* _VIVPU_H_ */
 -- 
 2.32.0
 
