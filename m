@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 714D53E576A
-	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 11:50:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F74E3E5764
+	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 11:48:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239292AbhHJJtB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Aug 2021 05:49:01 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:2212 "EHLO
+        id S239286AbhHJJtA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Aug 2021 05:49:00 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:22844 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239189AbhHJJss (ORCPT
+        with ESMTP id S239240AbhHJJst (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Aug 2021 05:48:48 -0400
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
-  by alexa-out.qualcomm.com with ESMTP; 10 Aug 2021 02:48:24 -0700
+        Tue, 10 Aug 2021 05:48:49 -0400
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 10 Aug 2021 02:48:27 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 10 Aug 2021 02:48:22 -0700
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 10 Aug 2021 02:48:25 -0700
 X-QCInternal: smtphost
 Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
-  by ironmsg02-blr.qualcomm.com with ESMTP; 10 Aug 2021 15:18:10 +0530
+  by ironmsg02-blr.qualcomm.com with ESMTP; 10 Aug 2021 15:18:11 +0530
 Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
-        id D7BB521CA3; Tue, 10 Aug 2021 15:18:09 +0530 (IST)
+        id F252D21CA3; Tue, 10 Aug 2021 15:18:10 +0530 (IST)
 From:   Dikshita Agarwal <dikshita@codeaurora.org>
 To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH v4 2/7] media: venus: core: Add sc7280 DT compatible and resource data
-Date:   Tue, 10 Aug 2021 15:17:50 +0530
-Message-Id: <1628588875-23790-3-git-send-email-dikshita@codeaurora.org>
+Subject: [PATCH v4 3/7] media: venus: Add num_vpp_pipes to resource structure
+Date:   Tue, 10 Aug 2021 15:17:51 +0530
+Message-Id: <1628588875-23790-4-git-send-email-dikshita@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1628588875-23790-1-git-send-email-dikshita@codeaurora.org>
 References: <1628588875-23790-1-git-send-email-dikshita@codeaurora.org>
@@ -36,84 +36,126 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adds a sm7280 compatible binding to the venus core.
+V6 HW can have vpp pipes as 1 or 4, add num_vpp_pipes
+to resource struture to differentiate.
 
-Co-developed-by: Mansur Alisha Shaik <mansur@codeaurora.org>
 Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 ---
- drivers/media/platform/qcom/venus/core.c | 52 ++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ drivers/media/platform/qcom/venus/core.c            |  2 ++
+ drivers/media/platform/qcom/venus/core.h            |  1 +
+ drivers/media/platform/qcom/venus/helpers.c         |  2 +-
+ drivers/media/platform/qcom/venus/hfi_platform.c    | 13 -------------
+ drivers/media/platform/qcom/venus/hfi_platform.h    |  2 --
+ drivers/media/platform/qcom/venus/hfi_platform_v6.c |  6 ------
+ 6 files changed, 4 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 91b1584..68acfc0 100644
+index 68acfc0..2e75fc7 100644
 --- a/drivers/media/platform/qcom/venus/core.c
 +++ b/drivers/media/platform/qcom/venus/core.c
-@@ -736,6 +736,57 @@ static const struct venus_resources sm8250_res = {
- 	.fwname = "qcom/vpu-1.0/venus.mdt",
- };
+@@ -729,6 +729,7 @@ static const struct venus_resources sm8250_res = {
+ 	.vcodec_num = 1,
+ 	.max_load = 7833600,
+ 	.hfi_version = HFI_VERSION_6XX,
++	.num_vpp_pipes = 4,
+ 	.vmem_id = VIDC_RESOURCE_NONE,
+ 	.vmem_size = 0,
+ 	.vmem_addr = 0,
+@@ -780,6 +781,7 @@ static const struct venus_resources sc7280_res = {
+ 	.opp_pmdomain = (const char *[]) { "cx", NULL },
+ 	.vcodec_num = 1,
+ 	.hfi_version = HFI_VERSION_6XX,
++	.num_vpp_pipes = 1,
+ 	.vmem_id = VIDC_RESOURCE_NONE,
+ 	.vmem_size = 0,
+ 	.vmem_addr = 0,
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 8df2d49..29f2c4f 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -68,6 +68,7 @@ struct venus_resources {
+ 	const char * const resets[VIDC_RESETS_NUM_MAX];
+ 	unsigned int resets_num;
+ 	enum hfi_version hfi_version;
++	u8 num_vpp_pipes;
+ 	u32 max_load;
+ 	unsigned int vmem_id;
+ 	u32 vmem_size;
+diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+index 1fe6d46..60a2775 100644
+--- a/drivers/media/platform/qcom/venus/helpers.c
++++ b/drivers/media/platform/qcom/venus/helpers.c
+@@ -583,7 +583,7 @@ static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
+ 		return -EINVAL;
  
-+static const struct freq_tbl sc7280_freq_table[] = {
-+	{ 0, 460000000 },
-+	{ 0, 424000000 },
-+	{ 0, 335000000 },
-+	{ 0, 240000000 },
-+	{ 0, 133333333 },
-+};
-+
-+static const struct bw_tbl sc7280_bw_table_enc[] = {
-+	{ 1944000, 1896000, 0, 3657000, 0 },	/* 3840x2160@60 */
-+	{  972000,  968000, 0, 1848000, 0 },	/* 3840x2160@30 */
-+	{  489600,  618000, 0,  941000, 0 },	/* 1920x1080@60 */
-+	{  244800,  318000, 0,	480000, 0 },	/* 1920x1080@30 */
-+};
-+
-+static const struct bw_tbl sc7280_bw_table_dec[] = {
-+	{ 2073600, 2128000, 0, 3831000, 0 },	/* 4096x2160@60 */
-+	{ 1036800, 1085000, 0, 1937000, 0 },	/* 4096x2160@30 */
-+	{  489600,  779000, 0,  998000, 0 },	/* 1920x1080@60 */
-+	{  244800,  400000, 0,  509000, 0 },	/* 1920x1080@30 */
-+};
-+
-+static const struct reg_val sm7280_reg_preset[] = {
-+	{ 0xb0088, 0 },
-+};
-+
-+static const struct venus_resources sc7280_res = {
-+	.freq_tbl = sc7280_freq_table,
-+	.freq_tbl_size = ARRAY_SIZE(sc7280_freq_table),
-+	.reg_tbl = sm7280_reg_preset,
-+	.reg_tbl_size = ARRAY_SIZE(sm7280_reg_preset),
-+	.bw_tbl_enc = sc7280_bw_table_enc,
-+	.bw_tbl_enc_size = ARRAY_SIZE(sc7280_bw_table_enc),
-+	.bw_tbl_dec = sc7280_bw_table_dec,
-+	.bw_tbl_dec_size = ARRAY_SIZE(sc7280_bw_table_dec),
-+	.clks = {"core", "bus", "iface"},
-+	.clks_num = 3,
-+	.vcodec0_clks = {"vcodec_core", "vcodec_bus"},
-+	.vcodec_clks_num = 2,
-+	.vcodec_pmdomains = { "venus", "vcodec0" },
-+	.vcodec_pmdomains_num = 2,
-+	.opp_pmdomain = (const char *[]) { "cx", NULL },
-+	.vcodec_num = 1,
-+	.hfi_version = HFI_VERSION_6XX,
-+	.vmem_id = VIDC_RESOURCE_NONE,
-+	.vmem_size = 0,
-+	.vmem_addr = 0,
-+	.dma_mask = 0xe0000000 - 1,
-+	.fwname = "qcom/vpu-2.0/venus.mdt",
-+};
-+
- static const struct of_device_id venus_dt_match[] = {
- 	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
- 	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
-@@ -743,6 +794,7 @@ static const struct of_device_id venus_dt_match[] = {
- 	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
- 	{ .compatible = "qcom,sc7180-venus", .data = &sc7180_res, },
- 	{ .compatible = "qcom,sm8250-venus", .data = &sm8250_res, },
-+	{ .compatible = "qcom,sc7280-venus", .data = &sc7280_res, },
- 	{ }
+ 	params.version = version;
+-	params.num_vpp_pipes = hfi_platform_num_vpp_pipes(version);
++	params.num_vpp_pipes = inst->core->res->num_vpp_pipes;
+ 
+ 	if (is_dec) {
+ 		params.width = inst->width;
+diff --git a/drivers/media/platform/qcom/venus/hfi_platform.c b/drivers/media/platform/qcom/venus/hfi_platform.c
+index f5b4e1f..f16f896 100644
+--- a/drivers/media/platform/qcom/venus/hfi_platform.c
++++ b/drivers/media/platform/qcom/venus/hfi_platform.c
+@@ -66,16 +66,3 @@ hfi_platform_get_codec_lp_freq(enum hfi_version version, u32 codec, u32 session_
+ 	return freq;
+ }
+ 
+-u8 hfi_platform_num_vpp_pipes(enum hfi_version version)
+-{
+-	const struct hfi_platform *plat;
+-
+-	plat = hfi_platform_get(version);
+-	if (!plat)
+-		return 0;
+-
+-	if (plat->num_vpp_pipes)
+-		return plat->num_vpp_pipes();
+-
+-	return 0;
+-}
+diff --git a/drivers/media/platform/qcom/venus/hfi_platform.h b/drivers/media/platform/qcom/venus/hfi_platform.h
+index 2dbe608..1dcf408 100644
+--- a/drivers/media/platform/qcom/venus/hfi_platform.h
++++ b/drivers/media/platform/qcom/venus/hfi_platform.h
+@@ -52,7 +52,6 @@ struct hfi_platform {
+ 	unsigned long (*codec_lp_freq)(u32 session_type, u32 codec);
+ 	void (*codecs)(u32 *enc_codecs, u32 *dec_codecs, u32 *count);
+ 	const struct hfi_plat_caps *(*capabilities)(unsigned int *entries);
+-	u8 (*num_vpp_pipes)(void);
+ 	int (*bufreq)(struct hfi_plat_buffers_params *params, u32 session_type,
+ 		      u32 buftype, struct hfi_buffer_requirements *bufreq);
  };
- MODULE_DEVICE_TABLE(of, venus_dt_match);
+@@ -67,5 +66,4 @@ unsigned long hfi_platform_get_codec_vsp_freq(enum hfi_version version, u32 code
+ 					      u32 session_type);
+ unsigned long hfi_platform_get_codec_lp_freq(enum hfi_version version, u32 codec,
+ 					     u32 session_type);
+-u8 hfi_platform_num_vpp_pipes(enum hfi_version version);
+ #endif
+diff --git a/drivers/media/platform/qcom/venus/hfi_platform_v6.c b/drivers/media/platform/qcom/venus/hfi_platform_v6.c
+index d8243b2..c10618e 100644
+--- a/drivers/media/platform/qcom/venus/hfi_platform_v6.c
++++ b/drivers/media/platform/qcom/venus/hfi_platform_v6.c
+@@ -322,17 +322,11 @@ static unsigned long codec_lp_freq(u32 session_type, u32 codec)
+ 	return 0;
+ }
+ 
+-static u8 num_vpp_pipes(void)
+-{
+-	return 4;
+-}
+-
+ const struct hfi_platform hfi_plat_v6 = {
+ 	.codec_vpp_freq = codec_vpp_freq,
+ 	.codec_vsp_freq = codec_vsp_freq,
+ 	.codec_lp_freq = codec_lp_freq,
+ 	.codecs = get_codecs,
+ 	.capabilities = get_capabilities,
+-	.num_vpp_pipes = num_vpp_pipes,
+ 	.bufreq = hfi_plat_bufreq_v6,
+ };
 -- 
 2.7.4
 
