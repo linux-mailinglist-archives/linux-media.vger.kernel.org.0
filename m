@@ -2,108 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 961663E5AC5
-	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 15:13:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1279E3E5B47
+	for <lists+linux-media@lfdr.de>; Tue, 10 Aug 2021 15:24:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240543AbhHJNNW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Aug 2021 09:13:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45786 "EHLO
+        id S241287AbhHJNYX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Aug 2021 09:24:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236764AbhHJNNU (ORCPT
+        with ESMTP id S241344AbhHJNYV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Aug 2021 09:13:20 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 173ACC0613D3
-        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 06:12:59 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id j1so33055646pjv.3
-        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 06:12:59 -0700 (PDT)
+        Tue, 10 Aug 2021 09:24:21 -0400
+Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5F72C06179A
+        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 06:23:58 -0700 (PDT)
+Received: by mail-ua1-x92f.google.com with SMTP id v3so8558825uau.3
+        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 06:23:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KCI0uiAKmWQQAmSnEBPRADG/n6Kf0DP5kIB/hhGHtdg=;
-        b=QsELMJLuXMfzerb8Yq5oUUZ9o20x/BR0yX9duqIFIwleZ90e4GIQkDEWE4Chf9xC1q
-         kunR8c0gVUWCPzJoIardXu8nwnuKqqANyr9tCpHT7Y8EhsrBo+7YHOQWhOUwULS0Pbfy
-         WAAClsSISCPa+8YyUZaegazj+PPMrZIlfAAEPOSwyvGjgLy45HxkanNg6P9B7iDCCrh8
-         1TAb5748kJns5gnSj9hefBnDPxp4TCwJv0NH5lnNUAW2QFeuskCBfcT3rhuruPIAKTe6
-         7+b0mPftjXSUZUmbDWUQbk0yboVcK/wS9MQbX7QMSbvHjoXPMz5v/MTQYRjrcK7PutY+
-         nWWA==
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
+        b=qJkL8fZ0S06Z0FQYNh/4MmhK7j+A3bS9xjmC8OhX22QJHec66aC0Yf4uxmFTWU4uq4
+         4zaEpRJNfTE5P16qMJLxRcIb0ytBzoINHrciZ16oueveU7FDwweNrhTU3c5UDo/z56b1
+         V6OdxuJ3tySYUYaZ04rAyM/uWtPYMenii8jy05cVXjVhDDgXkFHgaK2GOhpBsc52YFve
+         VL8iidod2m9w/QUkoClpuMrUGWkFzng1pEsZ+h9zY+IQVIYyQzRt6aNjeoljVsfoneAG
+         aU0zlSqRp6BET5jUs8EdKhkDPhg4/tsUe0YNuMP0A6vUsTut9Hk4K2nn2uiUPyEelDJr
+         VDiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KCI0uiAKmWQQAmSnEBPRADG/n6Kf0DP5kIB/hhGHtdg=;
-        b=rzbStog0yqWNHEa8ieDkq63fUOz1XZ550atBuYypXo/EbJMIWvsGDYWRWk0lmdW3Jo
-         XPNPY/ezSo3xyuICmfNd79NzRotkcw4DILtwQTNs5BxhuowXLxwW3mixZ0e7jH8liIlL
-         6SEhz1cr9Bv1j8vJYtZq6EZ9j2bZB28vwd4H0p07i26uKhrHA43xkQqt45fevfAHdPzN
-         sd54kXpytpB6MLwEupwJ6zilVNi7bBYd22HYldUBbqy7Lp0wmQh/gv2yTSau+H6ZRQGc
-         lIWFiNWOyGYMaYGg7p4mev7JN9R/urX0yOWHcsUSFEYdanC63OyYhLRbm0jWUMVac+jA
-         ILDA==
-X-Gm-Message-State: AOAM531TTyWkVMaKwt+IEk0FZMVsicBQ5HwNux32Nrvkx4QKHFDm9+z5
-        DrsRAQ6hha2C6Z+xNlRMvDqzhRc2XGsBpB277nY=
-X-Google-Smtp-Source: ABdhPJznkFbTX0ZWPm0BlVX0n3Zk2tfbr6YRawm+VCutTkPoFqsgZ3IwZzhzSmRj0nFZlsETyTGkhQmh6hC8MxuX0Is=
-X-Received: by 2002:a17:90b:33c5:: with SMTP id lk5mr5028677pjb.129.1628601178638;
- Tue, 10 Aug 2021 06:12:58 -0700 (PDT)
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
+        b=f68kL9jYyOVLIVZL8DSyh51N8SkOc8qsMhh40UDy5cd+ynrlkmKupwLr298spcilzf
+         UdKHnHpgR3dIYR1miyaNTo/dS/oorSYYkPCfiDIlh22zQ8q+GW3OTvyCNdAWV06tyiNx
+         vebjNGaaZ8XcZ24YQafvCxJukQXrpSfVCYK8rBfZwicwsruwSu/21L9juK6/XaNtpAWK
+         uzKw7oCh7yJXoygApXfptH6Ea/siSOaGrrGI+K+D3Kh4pwdDKIfbpFrFTHTGuvQKrUpQ
+         rofRIlkFy3kUgo9Fm/lEOegCzVmYmqunEBXuuA4kOaORj86bXjMJcsCCLMlYZmppecOp
+         4QFQ==
+X-Gm-Message-State: AOAM530B5z9HgNQANriVHwcUpysqpKu7KQU9lCUAOEF8RWuwazEr4ksE
+        PkbabdiNJtAi2kCqUboXOLuRJKMzo9pz4uxJpn0=
+X-Google-Smtp-Source: ABdhPJzvLPSDVsAzGJ6P6qYZROOmnBdkR5scyeQ8xySEfopDOzsn96BkEsNJXYQk9ma1do3JY374g/deOX6n1CT3K3s=
+X-Received: by 2002:ab0:3b59:: with SMTP id o25mr9024839uaw.80.1628601838128;
+ Tue, 10 Aug 2021 06:23:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210809225845.916430-1-djrscally@gmail.com> <20210809225845.916430-13-djrscally@gmail.com>
-In-Reply-To: <20210809225845.916430-13-djrscally@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 10 Aug 2021 16:12:22 +0300
-Message-ID: <CAHp75Vd3N+dqkiS0aYMin0miyO5LZfvm-wnUKCSnL+Qbm3K5DQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/12] media: ipu3-cio2: Add INT347A to cio2-bridge
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        kevin.lhopital@bootlin.com, Yang Li <yang.lee@linux.alibaba.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        kieran.bingham@ideasonboard.com
+Sender: immeublesourou@gmail.com
+Received: by 2002:ab0:3903:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 06:23:57
+ -0700 (PDT)
+From:   John Kumor <owo219901@gmail.com>
+Date:   Wed, 11 Aug 2021 01:23:57 +1200
+X-Google-Sender-Auth: yS3UzgPnn68wNDbf-hnce3gLnn0
+Message-ID: <CAHdg_cT_K-3CiTtG_z=2JyS3OA_ir2VvAFdLZYYHbPxjicSz0w@mail.gmail.com>
+Subject: Urgent
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 10, 2021 at 1:59 AM Daniel Scally <djrscally@gmail.com> wrote:
->
-> ACPI _HID INT347A represents the OV8865 sensor, the driver for which can
-> support the platforms that the cio2-bridge serves. Add it to the array
-> of supported sensors so the bridge will connect the sensor to the CIO2
-> device.
-
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-> Signed-off-by: Daniel Scally <djrscally@gmail.com>
-> ---
-> Changes in V2:
->
->         - Ordered the list by ACPI _HID (Andy)
->
->  drivers/media/pci/intel/ipu3/cio2-bridge.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> index 4657e99df033..18a31196a4a3 100644
-> --- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> @@ -22,6 +22,8 @@
->  static const struct cio2_sensor_config cio2_supported_sensors[] = {
->         /* Omnivision OV5693 */
->         CIO2_SENSOR_CONFIG("INT33BE", 0),
-> +       /* Omnivision OV8865 */
-> +       CIO2_SENSOR_CONFIG("INT347A", 1, 360000000),
->         /* Omnivision OV2680 */
->         CIO2_SENSOR_CONFIG("OVTI2680", 0),
->  };
-> --
-> 2.25.1
->
-
-
--- 
-With Best Regards,
-Andy Shevchenko
+My dear,
+Greetings! I trust that all is well with you and your family. Did you
+receive my previous email?
+Regards
+John Kumor.
