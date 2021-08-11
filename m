@@ -2,159 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 715B33E88F7
-	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 05:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 684983E8905
+	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 05:54:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233217AbhHKDpM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Aug 2021 23:45:12 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35905 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233072AbhHKDpL (ORCPT
+        id S233408AbhHKDym (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Aug 2021 23:54:42 -0400
+Received: from mx-lax3-2.ucr.edu ([169.235.156.37]:19595 "EHLO
+        mx-lax3-2.ucr.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233182AbhHKDyl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Aug 2021 23:45:11 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id DfAbmC3VA4SnADfAdmwBjY; Wed, 11 Aug 2021 05:44:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1628653487; bh=XZmxgrzh10z/K89Rd0+HZupzP2YUbX1Edj8oFooT7bo=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=k2MSS2Hxf6LG+hGARzpzo7pLKtpVwJqudUALKyhUcTVux/0ZrIzcAHTipfemo1yIf
-         Mj9AZmorf2EpxN+a+UytIxld99SXHnCcmowLIPfjgXYGo7YkR6Lk4CJlIH6JsKD79F
-         T4zgehYFhW6WzHl1hOA7nZOucf3afbq3o5Raznjtlez/XGPBi/Mouw6ZVXLrFCVlrH
-         EE3mNbNHpK6qtk41+4rmU7Xx7eut+n+6nZUxv2eipGlrOeINVb4ZpBi/RKWT6ZOBgm
-         usKofRxKxJj1KE499sOgYXu/eNJwwjJWjIyT3n023La8RbgQpT1EoKAedMt02eO6d/
-         oggVaDAQiU22w==
-Message-ID: <63f62ab29eff0f88d9b25b68f01d6538@smtp-cloud7.xs4all.net>
-Date:   Wed, 11 Aug 2021 05:44:45 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfIBjZdR1gPHAtxYP3tyMuMeRZWRypbW2sQt9KOcH4G+3/IeDAToSkxCYE8kFzDL8RW6vr2n5A96O4oHfXZ0N7ykUmX+5sicjIzvkHVnyl1VcG87+j+QF
- pH51Xj99jHCV7HvnEhxzZYZw529xhlr2RRuVvRi3nk2lg6gPQPk/O1enBF3T8ja7D7a1ZADJLrnfF8eEVeHAXeRvhBh3HuUZCMa4gLuWsBLgBsGM85dO58Yf
- b77oDSrZG/bqo2Usz4NVUQ==
+        Tue, 10 Aug 2021 23:54:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
+  t=1628654059; x=1660190059;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=+r6J+pkHEbVFSGHQElxJnDO6jFts9TCA3QpIXRznslM=;
+  b=qS2Qg/T9bs1E5OqJAYnxBh3q1eGCCZzGcVakfxMFdm8ubDyYxm2KjIUA
+   FM2mTVi7ZpcJv2AEpxknor8NIkWaZTbo/kJyYhNJg0AXpuSekgl/VURtK
+   mbI8t8ThnQ7UBgFCAeyoHD72R4vnpOidw8rEJ3Al2wg7mOrWTG3vzqIno
+   NkrBlqAu9l38ud5CzcKrLqWM18JKsk2IyRkPmG3hZUl87Xao4AvDZ1mWX
+   aGovB+Y7U67NM9JbKdSFL9pPqLOni2NJt5iiKHZn4+lCLT0fWAR7IMCJl
+   kOsIfPpBHpPfc8Es80iUQugsBoE8Uu/yOal4Wkta8nszZHVPOCG1WqSzz
+   g==;
+IronPort-SDR: bYoPRlr+sdXP8GeVmKd3WAUPDst5PnPe3s/lYEfrP7lxDXe5s8zff7Rdg3kWNH4cZ6JcJ479q1
+ 8aGiNY5TaePUnSZXsnYvXapUM4rU+B8+Fb6Z9Z+IKDWhcZ7g4MANHTj8XehquAMeypZ2gG0uJ4
+ lWGa6zQzUjzdx9rl2UiW5bI1IjCNFlCd91vV3QRYGgBhf5BgN0ZhSBkeWFc1rSdm1I83/XSCKs
+ Ncs1oqo+bOoXdEKFbed7+4GQOim8/fZslIzKGzi2OOOYy63yVSCsmI8jzyyKtJpx5o1AJia0B6
+ 0J0dl9IePWlJMBKQOy5pZ02t
+X-IPAS-Result: =?us-ascii?q?A2ESCwCjSBNhf0jYVdFaHAEBATwBAQQEAQECAQEHAQGBb?=
+ =?us-ascii?q?gKDd1UWjUyIaoplgRqGfIhogXwCCQEBAQ0BARITHAQBAYRYAoJkAiU0CQ4BA?=
+ =?us-ascii?q?gQBAQEBAwIDAQEBAQEBAwEBBgEBAQEBAQUEAQECEAEBgSILWQtjgU+BeQYEP?=
+ =?us-ascii?q?YI1KYNlCQIBAxIVUhAgMTQBBQEcGSI5ghYBgwedHYEEPYwxMoEBiBYBCQ2BY?=
+ =?us-ascii?q?wkBCIEoAYh9hHEngimCUIEzdYdvglAEg1t7E4IpgVABAQGQOhuDBgGLUYEmm?=
+ =?us-ascii?q?3EBBgKDDhyeMUWVRZEquyoCCgcGECOBPYIVMxolgWwKgUFNAQIBAgEMAgECA?=
+ =?us-ascii?q?QIBAgECCAEBAp0LITI4AgYLAQEDCYh4AQ?=
+IronPort-PHdr: A9a23:ZP0eNBCW8P/4CWbvBArsUyQUrEMY04WdBeb1wqQuh78GSKm/5ZOqZ
+ BWZua81yg+RFtuKo9t/yMPu+5j6XmIB5ZvT+FsjS7drEyE/tMMNggY7C9SEA0CoZNTjbig9A
+ dgQHAQ9pyLzPkdaAtvxaEPPqXOu8zESBg//NQ1oLejpB4Lelcu62/6u95HJYAhEmDWxbLJ2I
+ R6rsQjfq84ajJd4JK0s0BXJuHxIe+pXxWNsO12emgv369mz8pB+7Sleouot+MFcX6r0eaQ4V
+ qFYAy89M28p/s3rtALMQhWJ63ABT2gZiBtIAwzC7BHnQpf8tzbxu+Rh1CWGO8D9UKs5Uiq+4
+ ah1VBDoiT8HNz8n/2HRlsxwl79QrBa4qxBi34LYfISZOfx7fqPcZtMaXmtBXsBeVydcHI2yd
+ pYED+QAPelGq4nyukYFoR+wCAWwAe/izDhHi2P40KEmzugtCB3K0BE9FN4KrXjZrND5OaEPW
+ u630abI1y3OYfNI1zng5obGcRcvrvOCXb9rbcbd1VMiGx/fg1mMtYDoOS6e2OQXs2ic6uptT
+ eCgi28mqgFxvzivwdonhYrJho0Py1DP6CJ0wYY0JN24UkF7YMKoHIdeuiyBKot5XtkiT3t2t
+ ykn170LoJi2dzUFx5o73RDQceCHc5SW7RL5UuacOSt0iXZ4dLywmRq88VWsxvDzWMe63ltHo
+ CpInsXCuH0RyxDe5MeKR/V/80qh2DuB2Bzf5O5GLE0qlKfVJJ4szLA2m5EOskrDBjf7lFvqg
+ KKSbEkp+eil5/75brn7p5KQLY15hh/mPqgzm8GyBf40PhYAUmWb4+iwyr/u8VfnTLlUgPA7l
+ LTSvorAKsQBvKG5BhdY0oMk6xmiETiryM8YnXwbLFJdfxKHkpTpN0nOIP/mCfe/hEyhkDJxy
+ PDHOr3tG43NLnrenLv4c7Zw6VBQxBA8zdBY4JJUBbUBL+zpVkDts9zYCwc1Mw2yw+n5FNVwz
+ p0SVX6LD6ODM67fsUWE6vwyL+SNfoMYuijxJ+Ag5/H0jH85nVEdfbOu3ZsScH25HvVnI0WDb
+ nrtntsNDWkHsxEjTOP2kl2OSyBcaGuvX64k/DE0FJqmDZvfRoCqmLGB2Ca7HptLZmFJE1yMF
+ GnneJiFW/gWcy+SPMBhnSIeVbS7SI8uywuutAnkxLpjNObU/TcYtZ2wnPZv4OiGpBAg9SFzR
+ /ad2mDFG3BmnmoJH2dt9L10uwpwxkrVgvswuOBRCdEGv6ABaQw9L5OJirEnY+0=
+IronPort-HdrOrdr: A9a23:gQGrUam2iFhm6MxOrBmCyMe5xpjpDfIR3DAbv31ZSRFFG/FwWf
+ re+cjzuiWE7wr5NEtQ+uxofZPwOU80i6QFh7X5VI3KNGKHhILrFvAY0WKL+Vzd8kbFh4pgPM
+ lbAspD4R7LYGSST/yR3OB1KbkdKaG8gdmVbC7loxlQcT0=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; 
+   d="scan'208";a="59655352"
+Received: from mail-pj1-f72.google.com ([209.85.216.72])
+  by smtp-lax3-2.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 10 Aug 2021 20:54:18 -0700
+Received: by mail-pj1-f72.google.com with SMTP id 2-20020a17090a1742b0290178de0ca331so728719pjm.1
+        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 20:54:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=lSccYX79bCga8PfiO71I5eGOlFYRkHyS4P+krasVmlI=;
+        b=gsKJ+OMuzNeFhMBnl7cnGfd5E/vIynXPQC466chv3nWZcQ3l4qh+e50zxGQ9ulMb8Q
+         V5hvcspx3nN2s8cbTW6wUyOKWFMXGxxMM7Ug9Ebvph3sqPIugf1h3k3SaB3qQevR75lm
+         1t1hJlZRHPg/pTXtlj+J02mdZtkK9caOlPu3/AxAWFpezl+EfvmbN/YYGqecuR6cNFoB
+         Dj+kvSanx4rg04HOTmjSBIWytyXxY/4VmlFY9p77xfPBrSwS5GUOajUGxhgKsNTcz8St
+         Ar1REzWeMBVO4oycBoL/vB1RoeDRV2yHxPZ1Q0AbvR+tZDVvawW7g0LvaO5NEfk88/sH
+         LaAA==
+X-Gm-Message-State: AOAM533J5wYlzkQaWM9KNHvtWFT3DF58vuQ3SyCnAmU4rDx5H42RBuvC
+        y6mhhbmmCXU93h/4eQkcT33DsdUVeb+Av9u4jZJf/h1qRU87RQyePdS57OzXlwe+f8nCeBEkKR6
+        71MR2G2KN0d5jgRrxABBylfOw
+X-Received: by 2002:a17:90b:f17:: with SMTP id br23mr8156310pjb.60.1628654057100;
+        Tue, 10 Aug 2021 20:54:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqbNjbWkU4ar3037qpQVx+m8hnhLSTWWK+YqOhqq7Z85m2c+hqh7j8OGYm44oN3HtAPxORMg==
+X-Received: by 2002:a17:90b:f17:: with SMTP id br23mr8156299pjb.60.1628654056896;
+        Tue, 10 Aug 2021 20:54:16 -0700 (PDT)
+Received: from kq.cs.ucr.edu (kq.cs.ucr.edu. [169.235.27.223])
+        by smtp.googlemail.com with ESMTPSA id 143sm21100364pfx.1.2021.08.10.20.54.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Aug 2021 20:54:16 -0700 (PDT)
+From:   Yizhuo Zhai <yzhai003@ucr.edu>
+Cc:     Yizhuo <yzhai003@ucr.edu>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juan Antonio Aldea-Armenteros <juant.aldea@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4] media: atomisp: fix the uninitialized use and rename "retvalue"
+Date:   Tue, 10 Aug 2021 20:54:03 -0700
+Message-Id: <20210811035405.17382-1-yzhai003@ucr.edu>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210723003607.64179-1-yzhai003@ucr.edu>
+References: <20210723003607.64179-1-yzhai003@ucr.edu>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: Yizhuo <yzhai003@ucr.edu>
 
-Results of the daily build of media_tree:
+Inside function mt9m114_detect(), variable "retvalue" could
+be uninitialized if mt9m114_read_reg() returns error, however, it
+is used in the later if statement, which is potentially unsafe.
 
-date:			Wed Aug 11 05:00:11 CEST 2021
-media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
-media_build git hash:	1eb0147944fbe5607028ff998e4149f13fd35dec
-v4l-utils git hash:	7952c0042ccf549959cf924fbd3e7dd894966e57
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7532-gde99456f6
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
-host hardware:		x86_64
-host os:		5.13.1-marune
+The local variable "retvalue" is renamed to "model" to avoid
+confusion.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 2
-virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+Signed-off-by: Yizhuo Zhai<yzhai003@ucr.edu>
+---
+ drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-Detailed results are available here:
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+index f5de81132177..77293579a134 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+@@ -1533,16 +1533,19 @@ static struct v4l2_ctrl_config mt9m114_controls[] = {
+ static int mt9m114_detect(struct mt9m114_device *dev, struct i2c_client *client)
+ {
+ 	struct i2c_adapter *adapter = client->adapter;
+-	u32 retvalue;
++	u32 model;
++	int ret;
+ 
+ 	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C)) {
+ 		dev_err(&client->dev, "%s: i2c error", __func__);
+ 		return -ENODEV;
+ 	}
+-	mt9m114_read_reg(client, MISENSOR_16BIT, (u32)MT9M114_PID, &retvalue);
+-	dev->real_model_id = retvalue;
++	ret = mt9m114_read_reg(client, MISENSOR_16BIT, MT9M114_PID, &model);
++	if (ret)
++		return ret;
++	dev->real_model_id = model;
+ 
+-	if (retvalue != MT9M114_MOD_ID) {
++	if (model != MT9M114_MOD_ID) {
+ 		dev_err(&client->dev, "%s: failed: client->addr = %x\n",
+ 			__func__, client->addr);
+ 		return -ENODEV;
+-- 
+2.17.1
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
