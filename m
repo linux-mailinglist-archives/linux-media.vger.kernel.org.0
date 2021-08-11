@@ -2,107 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7357E3E85EB
-	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 00:07:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D03C73E8853
+	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 04:58:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235049AbhHJWHs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Aug 2021 18:07:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57960 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235007AbhHJWHr (ORCPT
+        id S232363AbhHKC7C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Aug 2021 22:59:02 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:49188 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231967AbhHKC7C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Aug 2021 18:07:47 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 346C1C061765
-        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 15:07:25 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id x12so16150wrr.11
-        for <linux-media@vger.kernel.org>; Tue, 10 Aug 2021 15:07:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=TxnQpwocua2iUnRWSu4IYH7rNwFFPLQnyj7bNn+TXpk=;
-        b=I7vIdFJwUi6uH5qM4TMsAwzGM/dEONiJhA5iDMLZHnNztbQh6iOqCyHB+53df9nahR
-         94v9tGW8TqXeSxwM9IX4Zpn7UzO+tAzpzhZicBLdGrRIxJc8vsFFqDl5PFU21iuNua1p
-         zkAuSb8E6Gku7wHdMaOKnUuWDfJsYNX+Vwly5idzObTzSrHwrG2nulp1EUYwBhWcySs3
-         kooGf1O6HVUcIxzlmVXk+7LXlCmDt3JcP/QV/ucAR/epFYwVFVarygDcnyXwBWlBgeh3
-         H85kSEKlyka0v4682JjvjRNkzgYpt5CAt62cHVqfda/WIN7jUNQPq4S2SKOEyS+z8Lik
-         Jb7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=TxnQpwocua2iUnRWSu4IYH7rNwFFPLQnyj7bNn+TXpk=;
-        b=eBPLUBLu78RaEMthhYn8tvADDPjbvRpN2sEyMY9YTjQ0SHeokfL/T1oAJRvGgJuk5O
-         y6aRayKUOD/1T4QQKi+y14J0/a0Xdm7OwTLXEkHB/PgMIcI9WbHJwtdVQoVamk7+q8LK
-         k1Z1jvAqnIMQXycSJ/u0gmu7u/6D3gxPtcEfzqCBxWxaCfRGP6ogmGsdVxuzXasqb4bA
-         FWcnzwKJNgDYkbsnp8felPOHvm0qq1MiTUl+GcyDJzsB+GI+9NRgabGShDyc7+sj/wQ0
-         IRREluqvoc3ugdekA79xXWXE/vIC8YWd4jFD0q6Ht+Zs7R/MoNjMiJDt/XdNWOZM85+/
-         wZow==
-X-Gm-Message-State: AOAM53161bVu+oKZcGYQ/m0vcLPAVPpBLeUP2ZVrH5b6Oy9fZnTG0KVP
-        ObJzSXC1VoLCHeyIRrGwHag=
-X-Google-Smtp-Source: ABdhPJwc5TL2kIlGLcRgP1OqcvayoyoFoyViXgElldbdQv40Hqy80WmDXpOKLJO1Ljs7FGXYumNFEg==
-X-Received: by 2002:adf:f08e:: with SMTP id n14mr11996652wro.427.1628633243896;
-        Tue, 10 Aug 2021 15:07:23 -0700 (PDT)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id h14sm24719758wrp.55.2021.08.10.15.07.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Aug 2021 15:07:23 -0700 (PDT)
-Subject: Re: [PATCH v2 08/12] media: i2c: Add hblank control to ov8865
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     paul.kocialkowski@bootlin.com, ezequiel@collabora.com,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        yong.zhi@intel.com, bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        kevin.lhopital@bootlin.com, yang.lee@linux.alibaba.com,
-        andy.shevchenko@gmail.com, laurent.pinchart@ideasonboard.com,
-        kieran.bingham@ideasonboard.com
-References: <20210809225845.916430-1-djrscally@gmail.com>
- <20210809225845.916430-9-djrscally@gmail.com>
- <20210810142934.GE3@paasikivi.fi.intel.com>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <74125e27-abe3-c596-53e6-4416cabfcc63@gmail.com>
-Date:   Tue, 10 Aug 2021 23:07:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Tue, 10 Aug 2021 22:59:02 -0400
+X-UUID: f2044a600d13425d94162396fa64e97e-20210811
+X-UUID: f2044a600d13425d94162396fa64e97e-20210811
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 641959052; Wed, 11 Aug 2021 10:58:35 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 11 Aug 2021 10:58:33 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 11 Aug 2021 10:58:32 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        George Sun <george.sun@mediatek.com>
+Subject: [PATCH v5, 00/15] Using component framework to support multi hardware decode
+Date:   Wed, 11 Aug 2021 10:57:46 +0800
+Message-ID: <20210811025801.21597-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <20210810142934.GE3@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari
+This series adds support for multi hardware decode into mtk-vcodec, by first
+adding component framework to manage each hardware information: interrupt,
+clock, register bases and power. Secondly add core thread to deal with core
+hardware message, at the same time, add msg queue for different hardware
+share messages. Lastly, the architecture of different specs are not the same,
+using specs type to separate them.
 
-On 10/08/2021 15:29, Sakari Ailus wrote:
-> Hi Daniel,
->
-> On Mon, Aug 09, 2021 at 11:58:41PM +0100, Daniel Scally wrote:
->> @@ -2542,6 +2544,13 @@ static int ov8865_ctrls_init(struct ov8865_sensor *sensor)
->>  				     0, 0, ov8865_test_pattern_menu);
->>  
->>  	/* Blanking */
->> +	hblank = mode->hts < mode->output_size_x ? 0 : mode->hts - mode->output_size_x;
-> Is the result in relation with the analogue crop size? Based on the above
-> it wouldn't seem like that.
+This series has been tested with both MT8183 and MT8173. Decoding was working
+for both chips.
 
+Patches 1~3 rewrite get register bases and power on/off interface.
 
-This was a weird one actually. My understanding was that HTS should
-always be >= the horizontal crop plus hblank...but that doesn't hold
-true for some of this driver's modes and nor does it hold true when
-running the camera in Windows (I checked the registers whilst running
-it). So I went with setting hblank to 0 if the mode's HTS exceeded the
-horizontal crop as the only way I could see to reconcile that.
+Patch 4 add component framework to support multi hardware.
 
->
->> +	ctrls->hblank = v4l2_ctrl_new_std(handler, ops, V4L2_CID_HBLANK, hblank,
->> +					  hblank, 1, hblank);
->> +
->> +	if (ctrls->hblank)
->> +		ctrls->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->> +
->>  	vblank_max = OV8865_TIMING_MAX_VTS - mode->output_size_y;
->>  	vblank_def = mode->vts - mode->output_size_y;
->>  	ctrls->vblank = v4l2_ctrl_new_std(handler, ops, V4L2_CID_VBLANK,
+Patch 5 separate video encoder and decoder document
+
+Patches 6-15 add interfaces to support core hardware.
+----
+This patch dependents on : "media: mtk-vcodec: support for MT8183 decoder"[1] and
+"Mediatek MT8192 clock support"[2].
+
+1: Multi hardware decode is based on stateless decoder, MT8183 is the first time
+to add stateless decoder. Otherwise it will cause conflict. Please also accept
+this patch together with [1].
+
+2: The definition of decoder clocks are in mt8192-clk.h, need to include them in
+case of build fail [2].
+
+[1]https://patchwork.linuxtv.org/project/linux-media/list/?series=6057
+[2]https://patchwork.kernel.org/project/linux-mediatek/list/?series=511175
+----
+Changes compared with v4:
+- Fix comments for patch 4/15
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  Fix platform_set_drvdata.
+- Fix build error for patch 9/15
+- Add depend patch in case of error header file for patch 13/15
+
+Changes compared with v3:
+- Fix return value for patch 1/15
+- Fix comments for patch 4/15
+  > Looking up "mediatek,mtk-vcodec-core" to determine if it uses component framwork sounds like...
+  Add prameter in pdata, for all platform will use compoent after mt8183
+
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  > + Has asked the same question in [1].  Why it removes the
+  > +platform_set_drvdata() above?  mtk_vcodec_init_master() also calls platform_set_drvdata().
+  Must call component_master_add_with_match after platform_set_drvdata for component architecture.
+- Fix yaml files check fail for patch 5/15
+- Fix yaml file check fail for patch 14/15
+
+Changes compared with v1:
+- Fix many comments for patch 3/14
+- Remove unnecessary code for patch 4/14
+- Using enum mtk_vdec_hw_count instead of magic numbers for patch 6/14
+- Reconstructed get/put lat buffer for lat and core hardware for patch 7/14
+- Using yaml format to instead of txt file for patch 12/14
+
+Yunfei Dong (15):
+  media: mtk-vcodec: Get numbers of register bases from DT
+  media: mtk-vcodec: Align vcodec wake up interrupt interface
+  media: mtk-vcodec: Refactor vcodec pm interface
+  media: mtk-vcodec: Use component framework to manage each hardware
+    information
+  dt-bindings: media: mtk-vcodec: Separate video encoder and decoder
+    dt-bindings
+  media: mtk-vcodec: Use pure single core for MT8183
+  media: mtk-vcodec: Add irq interface for multi hardware
+  media: mtk-vcodec: Add msg queue feature for lat and core architecture
+  media: mtk-vcodec: Generalize power and clock on/off interfaces
+  media: mtk-vcodec: Add new interface to lock different hardware
+  media: mtk-vcodec: Add core thread
+  media: mtk-vcodec: Support 34bits dma address for vdec
+  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8192
+  media: mtk-vcodec: Add core dec and dec end ipi msg
+  media: mtk-vcodec: Use codec type to separate different hardware
+
+ .../media/mediatek,vcodec-comp-decoder.yaml   | 172 +++++++++++
+ .../media/mediatek,vcodec-decoder.yaml        | 175 +++++++++++
+ .../media/mediatek,vcodec-encoder.yaml        | 185 +++++++++++
+ .../bindings/media/mediatek-vcodec.txt        | 130 --------
+ drivers/media/platform/mtk-vcodec/Makefile    |   2 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.h      |   1 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 276 ++++++++++++++---
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 184 +++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  53 ++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  98 ++++--
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  13 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   2 +
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |   2 +
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  71 ++++-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  12 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |   1 -
+ .../platform/mtk-vcodec/mtk_vcodec_intr.c     |  27 +-
+ .../platform/mtk-vcodec/mtk_vcodec_intr.h     |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_util.c     |  87 +++++-
+ .../platform/mtk-vcodec/mtk_vcodec_util.h     |   8 +-
+ .../platform/mtk-vcodec/vdec/vdec_h264_if.c   |   2 +-
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    |   2 +-
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |  21 +-
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  16 +-
+ .../platform/mtk-vcodec/vdec_msg_queue.c      | 290 ++++++++++++++++++
+ .../platform/mtk-vcodec/vdec_msg_queue.h      | 157 ++++++++++
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  46 ++-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  22 ++
+ .../platform/mtk-vcodec/venc/venc_h264_if.c   |   2 +-
+ .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   2 +-
+ 33 files changed, 1792 insertions(+), 279 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
+
+-- 
+2.25.1
+
