@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1669C3E8C18
-	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 10:44:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1CAC3E8C1D
+	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 10:44:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233112AbhHKIo1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Aug 2021 04:44:27 -0400
-Received: from mail-am6eur05on2060.outbound.protection.outlook.com ([40.107.22.60]:57888
+        id S236312AbhHKIoi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Aug 2021 04:44:38 -0400
+Received: from mail-am6eur05on2078.outbound.protection.outlook.com ([40.107.22.78]:49598
         "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235282AbhHKIo0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Aug 2021 04:44:26 -0400
+        id S235282AbhHKIoc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Aug 2021 04:44:32 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BO+MTJcxBuAxCodYJpBlmH/h4TnCU+SRxmdFeWsjnURwxmpXn25qXklcjmlIDXBE9Y8YnYoHU15bso1gc3ZarXs1PwwqZzHu9fmsJf+x/HQ+ibWvOWPHdOoZuNl2Y1gJMp962Bkrrg0MtScsi5nlbrOTicrHKloQppDnz/K4GJpaEhwmeJn/y14p7cjg8TSvIvLO0/HkKRKa07wCmCflKimsHAAz+gDzGS5kfoK4V3oWNr51Y949H/mJpHWmTyLD6oTRqLWXsF21lzxqeZBg58G2L7yE1/K0eF7EpTYJRXPOe3s8GFA23ebygPLeYU4519CWVY1FzrVvmspPeHRu3w==
+ b=AoDZjQ3g0t8XdP4MnxDxbY+Ic8fvZhHGKJPko8Tzc9xG8pmETGogc+ufNB5hZnv6bVWWtpaMCAKLiA/c+Pn4g5iNKHsAWF1JIHVGT9bkarIWtgYA65klyOKW2Dw7gYheKHyEmYMUorvDKxApIThN3EeKWcLXvywOkTS8VObpDQ0ORsdixX2sSPdyi6uqAI0tLoKw1+1djFdfhGJSwF2MdIlRQnRoF6AtVBRQHRflDnHEGOfrYBThOhX87CfhnxvlToUVQMQJn0gL7N4KF2v8++3lQed3FAjBBQ2l/SwMbpmcBlowhWtd8DZeu5z2XcZptrDyjRtfzxZWv8q8+ME2bg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H3jpB7DdHmmFt71WplG37Ho65HeyNyanqan0uuBVEYg=;
- b=d/w5i0gey920/mjabvx8vO0WQqCa4Cc/U3gdmDkk93rXdlEXwbiMtQhvE+mEqoSjIv68NXR5a8+VxjugdTjXoLZGKhlb0LvSgCiTUOpTu2jxT4X5rLJ6egmuk43xau3WnebDXz5dzyVkkjJ09hDy+u09XDahiQP70PiyjixxgTG0R6xYyAgI+RZynNBuITbYPfbCJyLGdE9r1PrYkHcqT19DM1rEVF+/7hvBEQ7rEwt7cJvBsZqnD7NXBdj8wQQuoEvRJ77GW69/26J2J47x7xuT+6Q/J61rWBmFr6DhSI4YJdxkt+SMETs558u3Z1tzjSTL91niumrIA4YxuYea0g==
+ bh=OhxRUPnEwlV4CgYdBTvE2xDk5TIbD3YkypRNoc0XgM4=;
+ b=PiteA9zbmzr0o7Eu1OW4ewOAmnNVeMlEG5DhpkbQKQptKayirGrDQnDzLgkbuiME5Pw48yUKnuqE55faCrV5fZ4WpNta8HelMjtd0Zv7/08YqhGkmF2ny92EQG+QpkpMCj/bMLm1D4DOHrsghF5LoVSaDkC3hdaPIs5OHOVEhjn5RfDJXYkmjRCL+I+nqvJbDdN1915HEJr8PLD54omta2Sl7LCKBJ5PUAqyE1FxZ60pnq8feJOFjGmoGCa0q09PKnuRS/ykB/jTJddZ3iz1FJ6ZKA2jBQBzxYb/wgn3qMqZLP43OA14j8fr2uduLcSRIK1I4EGCVR/oCCBxWb0o5Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H3jpB7DdHmmFt71WplG37Ho65HeyNyanqan0uuBVEYg=;
- b=clHHDD/GkYgHyx5eGY52/Y25v06Iyao7rwuYuEA/HhWWjpSOFaoopJvA4WB8zSs1z+YwabYc/vtrCnWQ6hp9PoNcoHZ+LF5HlSXvlXwRkvHexPfGvv1Ir+2LRIss6Mw7JSKq1WlPKFBoU+cjFNpxTwavJabsdNmHeNVCX7+KuOI=
+ bh=OhxRUPnEwlV4CgYdBTvE2xDk5TIbD3YkypRNoc0XgM4=;
+ b=ZKkmfMXn07nt9RD9SL1j8pIkjekvuZyi8T91unlhSjpdAwHF6SBei6K1MNhaWq2WyYSRGcdZ17DQOWaMjB03kw7Y58WIL/bxb7DlFPwaqr8MysRbTbn2Xr5f5wAt2nHHtjNG3rvyfyRo3AxVqyBZU4uFuOanB7VVtvvW5phPEPw=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
  by AM6PR04MB5126.eurprd04.prod.outlook.com (2603:10a6:20b:4::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.19; Wed, 11 Aug
- 2021 08:44:01 +0000
+ 2021 08:44:05 +0000
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::9cb5:bd97:8500:2384]) by AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::9cb5:bd97:8500:2384%6]) with mapi id 15.20.4394.023; Wed, 11 Aug 2021
- 08:44:01 +0000
+ 08:44:05 +0000
 From:   Ming Qian <ming.qian@nxp.com>
 To:     mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
         s.hauer@pengutronix.de
@@ -44,9 +44,9 @@ Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
         festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v6 01/14] dt-bindings: media: imx8q: add imx video codec bindings
-Date:   Wed, 11 Aug 2021 16:42:57 +0800
-Message-Id: <74899fe01678641839be0eea7e3fd35214aad84c.1628671163.git.ming.qian@nxp.com>
+Subject: [PATCH v6 02/14] media:Add nt8 and nt10 video format.
+Date:   Wed, 11 Aug 2021 16:42:58 +0800
+Message-Id: <981eee1270fb47658f7821d59525ff4c53c30644.1628671163.git.ming.qian@nxp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1628671163.git.ming.qian@nxp.com>
 References: <cover.1628671163.git.ming.qian@nxp.com>
@@ -56,252 +56,131 @@ X-ClientProxiedBy: SG2P153CA0022.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::9)
  To AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from lsv11149.swis.cn-sha01.nxp.com (119.31.174.70) by SG2P153CA0022.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::9) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.4 via Frontend Transport; Wed, 11 Aug 2021 08:43:56 +0000
+Received: from lsv11149.swis.cn-sha01.nxp.com (119.31.174.70) by SG2P153CA0022.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::9) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.4 via Frontend Transport; Wed, 11 Aug 2021 08:44:01 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b6566735-bd16-4906-d52f-08d95ca42a87
+X-MS-Office365-Filtering-Correlation-Id: e10345b6-31ed-4ff8-aee8-08d95ca42cfb
 X-MS-TrafficTypeDiagnostic: AM6PR04MB5126:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR04MB51267D59AF2BADBF0D808986E7F89@AM6PR04MB5126.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-Microsoft-Antispam-PRVS: <AM6PR04MB5126EABD2062386CCD4B61E4E7F89@AM6PR04MB5126.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nsA4LjtTUjSimsZe5JmEW4CZhgcm1hfbPeXGTftDxCg/JYXZ5s0koKFTFgDV4RiO1VXCCdCMuxOMj8hIJZ/63sjZRrCLbaRtxa6dT0EcJ89hsNkTOkGlm3Ux7plFoO1XctQlnbD8g0C73qlcHiuJISWM2wyyTq2fvSSmYclAutEHTDBvEnpqKXviDs77Tikk5KOnSHBJxr9I/twiY1tq6FTrgB186dttwFJimKbuxpJoMH7ZijO/LGg0A0Cb9N7y1cJUd/+QUCUfbcBlVuYCDZJg49GfD+IP6A4GE1IokYm6/MSf1BxCCD+zfQOOn6udKI8e+wxwE8ilnqPoOcs7ZFlUpukny0JX9gbl5nYJVB+ALkD6QPVYWBjUzo/SGzZ+SBqex2ncNgXfPKS967JypdoiPpE1OBMU1cU60xpFGh50Aj88gykfMO8/qRYiidSIsmV7isHHKUweF0mBs8V760/JDZZiJSRwS6V8GB5BS9ubkv0lv53zuko23/WC9kW2t0VaNJUIJGC2w2guGtLqSE/ImroMcjTOgfYgzNOtjtEwyYshpCMhXksiwtQ/UdTttBQiS9sVEhhJjbYs7ITpx/yQv/Mk/ddmzlDEQWPl7ebtSZAhWRWMfzVLkRf0nmiS8gTV0a2zsJiloisfeOP5zfNMCaExHHKxY8pbw+zJP3LpDEjJTVIX+QciSq3KD8bmVjV4vdAnvr+xRNSeOS2hEC4KTbf+STIZHGEXpuSafKR9Z0A7BrmFZBMDb18SVzlxU790iWBw2INUGIcK0a5pBi6CJP9FfQhvfcFABNOUWc3mcFAmiKGSSFZfcPD4BzIVKJeiAsWaTwgjPVVBB9k14Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(136003)(396003)(346002)(366004)(8676002)(4326008)(38100700002)(2906002)(6486002)(966005)(86362001)(38350700002)(8936002)(478600001)(186003)(36756003)(316002)(66476007)(26005)(44832011)(2616005)(66946007)(7696005)(66556008)(5660300002)(83380400001)(7416002)(52116002)(956004)(32563001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: NXeqF3C+i+E+Jdhg1pBV2A9u2YvEPF7GnsjP4lBHZlX3dx6QAA+LDZHjl+3cMdTaoB0HsthLbjkY9diNmjLWkZIPt3tB+NI/7bS5J2Gf2x88dRmjfU50d1vAXs0BX324UjjWRJN6ZLId35u2w99Nis88dQxCw+28kX0uzV6kiObxS3yL4eXwNP5cT0OF5Kj+nIPLbjdIzbMRpICnFHB/G6NgZQ1p7JWH3eA0kCVUNqQXRdODin2XQF1rbRy8CGHLDhMx319SK4gLQ6+xaGfJHYmO+AEki/4+qPgWd6tsjdwxsF/t8xBtgTGtZL974xEQVEDaqX+flGFo0xa3xSYkfd66jVqkJhhatIF/i2fupKJFK5jUJo4QLMqsPzfguvwy9GO4FuK/zcmw+937IZeVHeGfsvjc6Xkn+Sr7+q4PXURw10HZagEmk3udX+rKSf6LXsh0kLbA/ut4vBBwSa8F3G8xp5J6z0XfcbXoyKIgvISTqWqE8UC3roSXdqyCZe3Xxxy5QZCDfL9GEAWyrA7SXiaUcJE2eD+vD2Ta0aP9NemSlA8v90ISoVK0ItXyRoO1W1bklPX0MX1kLs40jIc7hRNji4YNr0529JVi9wwwDoG5fuNKDifbEhjmM6s12AHxOhpG1f6i0Qs2qV+mbJuoRmi+wlEpQTMTU9vN0FAUszhcE+vFe9n03tlbxl9usd/wfOy1npDr1/uWfydjcp11c7G7z9yZaKLJ4NeIvpqPDmylFwOt9wDTGOrS8ZlxE74No/WPDLIDLKyViu2hQmV5KzoOHQktX7EzDhuYujjMVRY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(136003)(396003)(346002)(366004)(8676002)(4326008)(38100700002)(2906002)(6486002)(966005)(86362001)(6666004)(38350700002)(8936002)(478600001)(186003)(36756003)(316002)(66476007)(26005)(44832011)(2616005)(66946007)(7696005)(66556008)(5660300002)(83380400001)(7416002)(52116002)(956004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?syb96K5xT6n0PhyqKVVxBnQDX0pIxJng2my2466gJt006vENzAlS+ZfVIssM?=
- =?us-ascii?Q?ZutTp3LQvr4KVa+cS0KFnnvBcjY23/Isra63akdyz1Ontw/JI+O0m6XNZ+oB?=
- =?us-ascii?Q?f0e3OWU+hJweHDFQHTNPtzkbcaAajtyLELA74z27tbAVXE/bhREQ2mVlFfVM?=
- =?us-ascii?Q?75DDzBAQcLgzOWjYhv6vmAjLqhudfGZvItZXB7lnyMbkip/yqP72MXaAoAFr?=
- =?us-ascii?Q?+gl5RloaffmwfL9c2UuYChW6ohoi7m8nsN+TCGYS++nuMvPWBUlRENKuBEgD?=
- =?us-ascii?Q?HT2i6IEYEmJP9ASvVIQHFW9IrjRwCcW4j/090a10we2gJrA+c9jpdnrWXm9d?=
- =?us-ascii?Q?U5EmEegUDU3936gWG1gGXse/NO375tlCzh1+SzdeMSOr78wiYvZI04Eljona?=
- =?us-ascii?Q?rGKYlGLPOS3ZFzNH77/0J4RBbQSRVqobJb7k1KLjUw0TLTf88QS9JEFDfKED?=
- =?us-ascii?Q?XzmH/BpnT7bpyZKEuL27zRveAAWjLNZMn0Y/c1NZDFOPU4rY5ZZow4AHTKpm?=
- =?us-ascii?Q?ys0rM+LvMpknLFf7y8Vraf+4/xPP2ufL+yEm6O96rqIpkDHhGIzWxo1/i7i4?=
- =?us-ascii?Q?DWxwy6dLKYgEG9VpxTRoOXxebeNIeRxeRGy/mZSK/v6Dm+CzFqY9q2ecN9sD?=
- =?us-ascii?Q?xdmvLgtoVO/N3V+31s5rZ1850SmkU0PVIfDzZqd3/yKggrCMawOg4Q75trGv?=
- =?us-ascii?Q?GMu+c3MmDuQtNczs+4T5CuuojJS/nJpSZD3OgTMmMtZUPRBxQ+2/J1lmJUcj?=
- =?us-ascii?Q?6LXo/JEsqunQHv7BOQOeKxDXOIn3Iuues23TbdvuuenI0cxDLugt33PpTFns?=
- =?us-ascii?Q?KOsVWLSZ51jlqZFgAcTHKa4pJIRkp5+d4EVyl9azDVn8WjgrQq6vblmIG1cz?=
- =?us-ascii?Q?7JTliTTr53lnU2O+tjEENkBmfNn+9orWwjgHqRUjyjvu0r3X/TeV54hWIdBs?=
- =?us-ascii?Q?bXFgHw15pYEUjV1sbCf6Y4lJgOKWp+BbZ2QzBi3n8LRL0gR3G1UQTFjK/MTK?=
- =?us-ascii?Q?IEnD40k0FmL8Tz6aRoPHW3ctsuDEjO14OHR9GyDG5DlhoVbs+DN9xvrqsEGT?=
- =?us-ascii?Q?mwCLSenXhtEAk5rCCgw3jQcaa6ptLJdDxXSV9MPWLSLOgSPODVDJaKYON+EH?=
- =?us-ascii?Q?HB0vIMBxX3pYIpMBFtPx5fnR7fqPJPSdCNJqfcv6xSQmMOg0kAZYZSKNyWXx?=
- =?us-ascii?Q?rERHudA8po+8GK3pNLKMwk9yWPfBYkHPIh7yuvSE2DasEzWdumkbl2B6DS7s?=
- =?us-ascii?Q?GOFoV/qH5QgJ1ti3cVgQKSZs1N1GYOI87G0CHI6kVkhTyhp5jD0dd/46YU/S?=
- =?us-ascii?Q?t6neyMZqLyqmK0N/bQIwjCec?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?W3m54KMQRe2fbQ6Gw59/ho6zIXJjatz8UCQ13NxQi4EAic6AUlYNLpaykdT/?=
+ =?us-ascii?Q?4d4nlprTpi5dShNQdpt0/KjtkI/o+KDO3OkDzIjp7kILg3YmX4nuaYc1ygHm?=
+ =?us-ascii?Q?7oTdCemF+NLk7y4S8fq/3ViJNqTYZqRDfEjKw7tNQepkZBp3aEsOBSSpidIW?=
+ =?us-ascii?Q?V533GbVdVQhiqne7730y49cQkLQ5Cxv0Pfcwc9iU0B8/z84dXhopyNxS71oH?=
+ =?us-ascii?Q?LWyFwLAIwISkgp16U0Tg1JFnr3jIXFAKsAoj9LcllYYBbXB8GMGu8WojNJFd?=
+ =?us-ascii?Q?NsKeQOkwVWOKgzxVywZyHBA5gevZdFNJlcPL5Bm5I4p3KgzwTVXmbIaj17Ml?=
+ =?us-ascii?Q?9fYNxGJ70smSavIWvKP0GcFMWtbuwmIstS54TMenJEIfrg6yf5lXNRHDxr1O?=
+ =?us-ascii?Q?qCdgv2zt2PhVoWK/eE3/h/9XpcPT6YwUpZLurCR/8uIBKWRxyGS6S8dOryZ8?=
+ =?us-ascii?Q?HIXZ9Yo9qSteC69KILZC9uSqDiEm5H8vE+ROeRYajkrm16sWC6wK7FSpcP9n?=
+ =?us-ascii?Q?bCgpC3ZcHeeIJf2btdXc7G4161e1uUnlteOC/hzOhlBXhyf1LxE0a3PNphr2?=
+ =?us-ascii?Q?3txinPMAjYJfffYfw4RatxNyKvGeHCAtyIcr6I7ywOeWldxq6NgJfhz4YU3g?=
+ =?us-ascii?Q?nFrf2diqtSpU6BgmtaYOEMa4oRO6qeoi28tGGgP863Ni5E4tpJlHNY6Fc0RX?=
+ =?us-ascii?Q?y85TOiUq6DYJ84MuFiIEpoDi4RhmpLDbXFR+40aH2TFOwjOyZG3grSK9XsHA?=
+ =?us-ascii?Q?uFM2Q1erxEitXoFzZ7kZWW80Sy+AsmV0I5/5JLtxD/RBL3kC7/roqWsjupPn?=
+ =?us-ascii?Q?jAEYZWx1Nzr2YBZJBzYlO6rdR85r5LitF2YW5KrMTYmdjHImgDh46bZVN2bW?=
+ =?us-ascii?Q?7YiZzqnsW59jAL/LIbLj14x2TsVIaLwfXw79J0ondNAMGaaEhGkWBTKR3zXT?=
+ =?us-ascii?Q?A2yOAn4nScGYdp9e/M0TskP6KHvS68ZA2q9UiV88IXQcmjCQAVAvfD55+jy4?=
+ =?us-ascii?Q?1aArkYRGy0gHQ9vqNrf0lkNnnvBIxO/GIpTzV34+neUjcyh8O3yNWFyucLtH?=
+ =?us-ascii?Q?jpm+XNd6y6WDJMxtgJBrazydQZMVUhI9TQscX+w/98WgrtqjWbh1yLmEBIkZ?=
+ =?us-ascii?Q?RD6ZiyZ5HzxDRaIEy7UmGNAaPWik3FNdV6naf6KGRedO6L0QO91hjX+sA6Rz?=
+ =?us-ascii?Q?9AROqHFBShbKnyx/gkv592evRB+uEkueAqI5ibzwYPmr/zq0KqkgFL8Ba+52?=
+ =?us-ascii?Q?VLvWm7dlSqk7FKf/T0FS4be1TWlufHPQscod/4oRTBe9qaL6BpzM+2LKtCyq?=
+ =?us-ascii?Q?NOt8WP4wiuLDXE199zr9N7Y3?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6566735-bd16-4906-d52f-08d95ca42a87
+X-MS-Exchange-CrossTenant-Network-Message-Id: e10345b6-31ed-4ff8-aee8-08d95ca42cfb
 X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2021 08:44:00.9501
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2021 08:44:05.0448
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4rBZOQBFfVynf1/FERS9V4uAURUtgYvRUBFfY0LYXpvXqM3Vzw3T31qQggwXdN95dxPKFWjGwJO2wrk1OIxNPw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: gztnfpGUd0Y6V2z91Cov/48k+ZnNBDZtLS0In3LKvaAnb4Pd1eFx5Z9K9eHPmL7NkqSYItF3+8mkjZ502+aW7g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB5126
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add devicetree binding documentation for IMX8Q Video Processing Unit IP
+NT8 is 8-bit tiled nv12 format used by amphion decoder.
+NT10 is 10-bit tiled format used by amphion decoder.
+The tile size is 8x128
 
 Signed-off-by: Ming Qian <ming.qian@nxp.com>
 Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
 Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- .../bindings/media/nxp,imx8q-vpu.yaml         | 178 ++++++++++++++++++
- 1 file changed, 178 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8q-vpu.yaml
+ .../userspace-api/media/v4l/pixfmt-yuv-planar.rst | 15 +++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c              |  2 ++
+ include/uapi/linux/videodev2.h                    |  4 ++++
+ 3 files changed, 21 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/nxp,imx8q-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8q-vpu.yaml
-new file mode 100644
-index 000000000000..04a040e5a9d1
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/nxp,imx8q-vpu.yaml
-@@ -0,0 +1,178 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+index 090c091affd2..ce3419d95691 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+@@ -254,6 +254,8 @@ of the luma plane.
+ 
+ .. _V4L2-PIX-FMT-NV12MT:
+ .. _V4L2-PIX-FMT-NV12MT-16X16:
++.. _V4L2_PIX_FMT_NV12_8L128:
++.. _V4L2_PIX_FMT_NV12_10BE_8L128:
+ 
+ NV12MT and MV12MT_16X16
+ -----------------------
+@@ -276,6 +278,19 @@ If the vertical resolution is an odd number of macroblocks, the last row of
+ macroblocks is stored in linear order. The layouts of the luma and chroma
+ planes are identical.
+ 
++``V4L2_PIX_FMT_NV12_8L128`` stores pixel in 2D 8x128 tiles, and stores
++tiles linearly in memory. The line stride must be aligned to a multiple of 256.
++The image height must be aligned to a multiple of 128. The layouts of the
++luma and chroma planes are identical.
 +
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/nxp,imx8q-vpu.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++``V4L2_PIX_FMT_NV12_10BE_8L128`` stores 10 bits pixel in 2D 8x128 tiles,
++and stores tiles linearly in memory. the data is arranged at the big end.
++The line stride must be aligned to a multiple of 256 bytes.  The image
++height must be aligned to a multiple of 128.  The layouts of the luma
++and chroma planes are identical. Note the tile size is 8bytes multiplied
++by 128 bytes, it means that the low bits and high bits of one pixel
++may be in differnt tiles.
 +
-+title: NXP i.MX8Q video encode and decode accelerators
+ .. _nv12mt:
+ 
+ .. kernel-figure:: nv12mt.svg
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 05d5db3d85e5..22f97a1cfbeb 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1367,6 +1367,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
+ 	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
+ 	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
++	case V4L2_PIX_FMT_NV12_8L128:		descr = "Y/CbCr 4:2:0 (8x128 Linear)"; break;
++	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "Y/CbCr 4:2:0 10BE(8x128 Linear)"; break;
+ 
+ 	default:
+ 		/* Compressed formats */
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 9260791b8438..167c0e40ec06 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -627,6 +627,10 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_YUV444M v4l2_fourcc('Y', 'M', '2', '4') /* 24  YUV444 planar */
+ #define V4L2_PIX_FMT_YVU444M v4l2_fourcc('Y', 'M', '4', '2') /* 24  YVU444 planar */
+ 
++/* Tiled YUV formats */
++#define V4L2_PIX_FMT_NV12_8L128      v4l2_fourcc('N', 'A', '1', '2') /* Y/CbCr 4:2:0 8x128 tiles */
++#define V4L2_PIX_FMT_NV12_10BE_8L128 v4l2_fourcc('N', 'T', '1', '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
 +
-+maintainers:
-+  - Ming Qian <ming.qian@nxp.com>
-+  - Shijie Qin <shijie.qin@nxp.com>
-+
-+description: |-
-+  The Amphion MXC video encoder(Windsor) and decoder(Malone) accelerators present
-+  on NXP i.MX8Q SoCs.
-+
-+properties:
-+  $nodename:
-+    pattern: "^vpu@[0-9a-f]+$"
-+
-+  compatible:
-+    oneOf:
-+      - const: nxp,imx8qm-vpu
-+      - const: nxp,imx8qxp-vpu
-+
-+  reg:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 1
-+
-+  ranges: true
-+
-+patternProperties:
-+  "^mailbox@[0-9a-f]+$":
-+    description:
-+      Each vpu encoder or decoder correspond a MU, which used for communication
-+      between driver and firmware. Implement via mailbox on driver.
-+    $ref: ../mailbox/fsl,mu.yaml#
-+
-+
-+  "^vpu_core@[0-9a-f]+$":
-+    description:
-+      Each core correspond a decoder or encoder, need to configure them
-+      separately. NXP i.MX8QM SoC has one decoder and two encoder, i.MX8QXP SoC
-+      has one decoder and one encoder.
-+    type: object
-+
-+    properties:
-+      compatible:
-+        oneOf:
-+          - const: nxp,imx8q-vpu-decoder
-+          - const: nxp,imx8q-vpu-encoder
-+
-+      reg:
-+        maxItems: 1
-+
-+      power-domains:
-+        maxItems: 1
-+
-+      mbox-names:
-+        items:
-+          - const: tx0
-+          - const: tx1
-+          - const: rx
-+
-+      mboxes:
-+        description:
-+          List of phandle of 2 MU channels for tx, 1 MU channel for rx.
-+        maxItems: 3
-+
-+      memory-region:
-+        description:
-+          Phandle to the reserved memory nodes to be associated with the
-+          remoteproc device. The reserved memory nodes should be carveout nodes,
-+          and should be defined as per the bindings in
-+          Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-+        items:
-+          - description: region reserved for firmware image sections.
-+          - description: region used for RPC shared memory between firmware and
-+                         driver.
-+
-+    required:
-+      - compatible
-+      - reg
-+      - power-domains
-+      - mbox-names
-+      - mboxes
-+      - memory-region
-+
-+    additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - power-domains
-+
-+additionalProperties: false
-+
-+examples:
-+  # Device node example for i.MX8QM platform:
-+  - |
-+    #include <dt-bindings/firmware/imx/rsrc.h>
-+
-+    vpu: vpu@2c000000 {
-+      compatible = "nxp,imx8qm-vpu";
-+      ranges = <0x2c000000 0x2c000000 0x2000000>;
-+      reg = <0x2c000000 0x1000000>;
-+      #address-cells = <1>;
-+      #size-cells = <1>;
-+      power-domains = <&pd IMX_SC_R_VPU>;
-+
-+      mu_m0: mailbox@2d000000 {
-+        compatible = "fsl,imx6sx-mu";
-+        reg = <0x2d000000 0x20000>;
-+        interrupts = <0 472 4>;
-+        #mbox-cells = <2>;
-+        power-domains = <&pd IMX_SC_R_VPU_MU_0>;
-+      };
-+
-+      mu1_m0: mailbox@2d020000 {
-+        compatible = "fsl,imx6sx-mu";
-+        reg = <0x2d020000 0x20000>;
-+        interrupts = <0 473 4>;
-+        #mbox-cells = <2>;
-+        power-domains = <&pd IMX_SC_R_VPU_MU_1>;
-+      };
-+
-+      mu2_m0: mailbox@2d040000 {
-+        compatible = "fsl,imx6sx-mu";
-+        reg = <0x2d040000 0x20000>;
-+        interrupts = <0 474 4>;
-+        #mbox-cells = <2>;
-+        power-domains = <&pd IMX_SC_R_VPU_MU_2>;
-+      };
-+
-+      vpu_core0: vpu_core@2d080000 {
-+        compatible = "nxp,imx8q-vpu-decoder";
-+        reg = <0x2d080000 0x10000>;
-+        power-domains = <&pd IMX_SC_R_VPU_DEC_0>;
-+        mbox-names = "tx0", "tx1", "rx";
-+        mboxes = <&mu_m0 0 0>,
-+                 <&mu_m0 0 1>,
-+                 <&mu_m0 1 0>;
-+        memory-region = <&decoder_boot>, <&decoder_rpc>;
-+      };
-+
-+      vpu_core1: vpu_core@2d090000 {
-+        compatible = "nxp,imx8q-vpu-encoder";
-+        reg = <0x2d090000 0x10000>;
-+        power-domains = <&pd IMX_SC_R_VPU_ENC_0>;
-+        mbox-names = "tx0", "tx1", "rx";
-+        mboxes = <&mu1_m0 0 0>,
-+                 <&mu1_m0 0 1>,
-+                 <&mu1_m0 1 0>;
-+        memory-region = <&encoder1_boot>, <&encoder1_rpc>;
-+      };
-+
-+      vpu_core2: vpu_core@2d0a0000 {
-+        reg = <0x2d0a0000 0x10000>;
-+        compatible = "nxp,imx8q-vpu-encoder";
-+        power-domains = <&pd IMX_SC_R_VPU_ENC_1>;
-+        mbox-names = "tx0", "tx1", "rx";
-+        mboxes = <&mu2_m0 0 0>,
-+                 <&mu2_m0 0 1>,
-+                 <&mu2_m0 1 0>;
-+        memory-region = <&encoder2_boot>, <&encoder2_rpc>;
-+      };
-+    };
-+
-+...
+ /* Bayer formats - see http://www.siliconimaging.com/RGB%20Bayer.htm */
+ #define V4L2_PIX_FMT_SBGGR8  v4l2_fourcc('B', 'A', '8', '1') /*  8  BGBG.. GRGR.. */
+ #define V4L2_PIX_FMT_SGBRG8  v4l2_fourcc('G', 'B', 'R', 'G') /*  8  GBGB.. RGRG.. */
 -- 
 2.32.0
 
