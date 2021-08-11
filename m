@@ -2,101 +2,271 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7F883E9708
-	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 19:51:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E33E3E9732
+	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 19:59:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231236AbhHKRvW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Aug 2021 13:51:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48694 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230400AbhHKRvV (ORCPT
+        id S229655AbhHKSAB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Aug 2021 14:00:01 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35812 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229473AbhHKSAB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Aug 2021 13:51:21 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F0FAC061765;
-        Wed, 11 Aug 2021 10:50:57 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id m17so2187211ljp.7;
-        Wed, 11 Aug 2021 10:50:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WzsnUxBYIc+bSZUtA3NKiDP+0ZwVyawbHIDa/FfGc4Y=;
-        b=Z98w6Murfk1StGoEFJCxePVLAOuOt1g1EmB1/Vb7kolrquRDRjbCvwlsGVHgf0/s6R
-         6Gi1582QeZGW5yn4B89EGNMtVaADen/DMnYolZ8DU4/JEuU7EJG7skg+Gh1KOv7ca7aT
-         IuGOcO53necv70sOTZbxVWkH1lb1NMKAAx3GStoRV7NQVC/ECn3ANBhpzVMBYz8liMMi
-         C++Jg2VJOFum8AoP3ryOAk9oH5PW8Yi5LnDkGpbgG82yPzsAiACedneLPUSYNdtp45WW
-         AlDPBjttamudHhH3+D+gXlvS+WcTS+Tfv3yq+9yyxsrlai0ulfcQYqu7ok4DenjDTz4b
-         yThQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WzsnUxBYIc+bSZUtA3NKiDP+0ZwVyawbHIDa/FfGc4Y=;
-        b=TaBo2mep0SGWpOMIrOUpplmSoqvYSI7Lhenk8yMKjLxOVlw7NlNEpuY8ecNMYJvrll
-         ri0K8NZWsOaNvhat355/jbZCrxOSxnZ1WMwbxTJk85QuUJCCCQBrPhWGn46RqEOmE1Ca
-         JRBk29qICrYOYG6M5If1YRItjlr9djbdnBwOrxV9s2kydtmY6jbkrmENt2c+8L4otNGX
-         j5U95Ka4slqDNmRpvObtwpgCZjTRa7mh+5K5f8MQsYEu0juQVKuAmUC3OouC+FeIl95L
-         qwrxHTrjw2Ut9j0MMPmiWe3aU9GaBS9OkI5K5BkWyp69B0tlg7+bFWJqpJbKkICcoOJ2
-         PfpQ==
-X-Gm-Message-State: AOAM533rGvGyC4wEzPUEk32DQ4dmxJb7RxzIfz9+qfcdDIESkyCsSGYG
-        U8gs7s5zIPF3PIr38HrjWr4=
-X-Google-Smtp-Source: ABdhPJzEyaU97ApUL46N7106t7ETiGvrl5AX89dDJP4GxSN4vbomMZnLX8IRmHcAPlg3m9k57d7mtw==
-X-Received: by 2002:a05:651c:2043:: with SMTP id t3mr17204244ljo.499.1628704255038;
-        Wed, 11 Aug 2021 10:50:55 -0700 (PDT)
-Received: from localhost.localdomain ([46.235.67.232])
-        by smtp.gmail.com with ESMTPSA id h10sm1619lfc.49.2021.08.11.10.50.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Aug 2021 10:50:54 -0700 (PDT)
-From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     kraxel@redhat.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, dongwon.kim@intel.com
-Cc:     linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org,
-        Pavel Skripkin <paskripkin@gmail.com>,
-        syzbot+e9cd3122a37c5d6c51e8@syzkaller.appspotmail.com
-Subject: [PATCH next] udmabuf: fix general protection fault in udmabuf_create
-Date:   Wed, 11 Aug 2021 20:50:52 +0300
-Message-Id: <20210811175052.21254-1-paskripkin@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        Wed, 11 Aug 2021 14:00:01 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67DDFEE;
+        Wed, 11 Aug 2021 19:59:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1628704775;
+        bh=BMsdi7My1VYTMrplXoEmSnQucwP+J/DbPd0dzrnNBsM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IHxA1AMILWKIHji8vmE4Bnzr2zmoUHodN+zQtrlMsQXc2KnZ8/0jXPdvhcRyMK9Y0
+         biqdsyNn4CTwpBw/Wf+8yaT/O4PgR/8Akw0izPsfspboLK84s9qqEGgnTlP3HzMB7o
+         2CsHjgO66+Hz0AV3k68PC9sB+etZaCQAptgb114Q=
+Date:   Wed, 11 Aug 2021 20:59:32 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        George Sun <george.sun@mediatek.com>
+Subject: Re: [PATCH v5, 13/15] dt-bindings: media: mtk-vcodec: Adds decoder
+ dt-bindings for mt8192
+Message-ID: <YRQQBL8AN0925zj9@pendragon.ideasonboard.com>
+References: <20210811025801.21597-1-yunfei.dong@mediatek.com>
+ <20210811025801.21597-14-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210811025801.21597-14-yunfei.dong@mediatek.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Syzbot reported general protection fault in udmabuf_create. The problem
-was in wrong error handling.
+Hi Yunfei,
 
-In commit 16c243e99d33 ("udmabuf: Add support for mapping hugepages (v4)")
-shmem_read_mapping_page() call was replaced with find_get_page_flags(),
-but find_get_page_flags() returns NULL on failure instead PTR_ERR().
+Thank you for the patch.
 
-Wrong error checking was causing GPF in get_page(), since passed page
-was equal to NULL. Fix it by changing if (IS_ER(!hpage)) to if (!hpage)
+On Wed, Aug 11, 2021 at 10:57:59AM +0800, Yunfei Dong wrote:
+> Adds decoder dt-bindings for mt8192.
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+> v5: no changes
+> 
+> This patch depends on "Mediatek MT8192 clock support"[1].
+> 
+> The definition of decoder clocks are in mt8192-clk.h, need to include them in case of build fail [1].
+> 
+> [1]https://patchwork.kernel.org/project/linux-mediatek/list/?series=511175
+> ---
+>  .../media/mediatek,vcodec-comp-decoder.yaml   | 172 ++++++++++++++++++
+>  1 file changed, 172 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
+> new file mode 100644
+> index 000000000000..083c89933917
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
+> @@ -0,0 +1,172 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iommu/mediatek,vcodec-comp-decoder.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Mediatek Video Decode Accelerator With Component
+> +
+> +maintainers:
+> +  - Yunfei Dong <yunfei.dong@mediatek.com>
+> +
+> +description: |+
+> +  Mediatek Video Decode is the video decode hardware present in Mediatek
+> +  SoCs which supports high resolution decoding functionalities. Required
+> +  master and component node.
 
-Reported-by: syzbot+e9cd3122a37c5d6c51e8@syzkaller.appspotmail.com
-Fixes: 16c243e99d33 ("udmabuf: Add support for mapping hugepages (v4)")
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- drivers/dma-buf/udmabuf.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This should explain how the three IP cores relate to each other.
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 8df761a10251..c57a609db75b 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -227,8 +227,8 @@ static long udmabuf_create(struct miscdevice *device,
- 				if (!hpage) {
- 					hpage = find_get_page_flags(mapping, pgoff,
- 								    FGP_ACCESSED);
--					if (IS_ERR(hpage)) {
--						ret = PTR_ERR(hpage);
-+					if (!hpage) {
-+						ret = -EINVAL;
- 						goto err;
- 					}
- 				}
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - enum:
+> +          - mediatek,mt8192-vcodec-dec  # for lat hardware
+> +          - mediatek,mtk-vcodec-lat     # for core hardware
+> +          - mediatek,mtk-vcodec-core
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 5
+> +
+> +  clock-names:
+> +    items:
+> +      - const: vdec-sel
+> +      - const: vdec-soc-vdec
+> +      - const: vdec-soc-lat
+> +      - const: vdec-vdec
+> +      - const: vdec-top
+> +
+> +  assigned-clocks: true
+> +
+> +  assigned-clock-parents: true
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    minItems: 1
+> +    maxItems: 32
+> +    description: |
+> +      List of the hardware port in respective IOMMU block for current Socs.
+> +      Refer to bindings/iommu/mediatek,iommu.yaml.
+> +
+> +  dma-ranges:
+> +    maxItems: 1
+> +    description: |
+> +      Describes the physical address space of IOMMU maps to memory.
+> +
+> +  mediatek,scp:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    maxItems: 1
+> +    description:
+> +      Describes point to scp.
+> +
+> +required:
+> +      - compatible
+> +      - reg
+> +      - iommus
+> +      - dma-ranges
+> +
+> +allOf:
+> +  - if: #master node
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - mediatek,mt8192-vcodec-dec  # for lat hardware
+> +
+> +    then:
+> +      required:
+> +        - mediatek,scp
+> +
+> +  - if: #component node
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - mediatek,mtk-vcodec-lat     # for core hardware
+> +              - mediatek,mtk-vcodec-core
+> +
+> +    then:
+> +      required:
+> +        - interrupts
+> +        - clocks
+> +        - clock-names
+> +        - assigned-clocks
+> +        - assigned-clock-parents
+> +        - power-domains
+> +
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/memory/mt8192-larb-port.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/mt8192-clk.h>
+> +    #include <dt-bindings/power/mt8192-power.h>
+> +
+> +    vcodec_dec: vcodec_dec@16000000 {
+> +        compatible = "mediatek,mt8192-vcodec-dec";
+> +        reg = <0 0x16000000 0 0x1000>;		/* VDEC_SYS */
+> +        mediatek,scp = <&scp>;
+> +        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
+> +        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+> +    };
+> +
+> +    vcodec_lat: vcodec_lat@0x16010000 {
+> +        compatible = "mediatek,mtk-vcodec-lat";
+> +        reg = <0 0x16010000 0 0x800>;		/* VDEC_MISC */
+> +        interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+> +        iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
+> +             <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
+> +             <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
+> +             <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
+> +             <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
+> +             <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
+> +             <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
+> +             <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
+> +        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+> +        clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> +             <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
+> +             <&vdecsys_soc CLK_VDEC_SOC_LAT>,
+> +             <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
+> +             <&topckgen CLK_TOP_MAINPLL_D4>;
+> +        clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
+> +              "vdec-vdec", "vdec-top";
+> +        assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> +        assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+> +        power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
+> +    };
+> +
+> +    vcodec_core: vcodec_core@0x16025000 {
+> +        compatible = "mediatek,mtk-vcodec-core";
+> +        reg = <0 0x16025000 0 0x1000>;		/* VDEC_CORE_MISC */
+> +        interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+> +        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
+> +             <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
+> +             <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
+> +             <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
+> +             <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
+> +             <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
+> +             <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
+> +             <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
+> +             <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
+> +             <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
+> +             <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
+> +        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+> +        clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> +             <&vdecsys CLK_VDEC_VDEC>,
+> +             <&vdecsys CLK_VDEC_LAT>,
+> +             <&vdecsys CLK_VDEC_LARB1>,
+> +             <&topckgen CLK_TOP_MAINPLL_D4>;
+> +        clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
+> +              "vdec-vdec", "vdec-top";
+> +        assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> +        assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+> +        power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
+> +    };
+
+I'm a bit late in the game, reviewing v5 only, but I'm wondering if
+those IP cores need to be modelled in separate nodes. It would be much
+easier, from a software point of view, to have a single node, with
+multiple register ranges.
+
+Are some of those IP cores used in different SoCs, combined in different
+ways, that make a modular design better ?
+
 -- 
-2.32.0
+Regards,
 
+Laurent Pinchart
