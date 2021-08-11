@@ -2,227 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68CF03E8E4F
-	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 12:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 948C53E8E76
+	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 12:22:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236904AbhHKKQN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Aug 2021 06:16:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53106 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237080AbhHKKOv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Aug 2021 06:14:51 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA6A6C0617A2
-        for <linux-media@vger.kernel.org>; Wed, 11 Aug 2021 03:14:06 -0700 (PDT)
-Received: from [IPv6:2a02:810a:880:f54:2882:6431:6b83:8ffa] (unknown [IPv6:2a02:810a:880:f54:2882:6431:6b83:8ffa])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8382D1F42465;
-        Wed, 11 Aug 2021 11:14:04 +0100 (BST)
-Subject: =?UTF-8?B?UmU6IOetlOWkjTog562U5aSNOiBbUEFUQ0ggNC81XSBtZWRpYTogbXRr?=
- =?UTF-8?Q?-vcodec=3a_Add_two_error_cases_upon_vpu_irq_handling?=
-To:     =?UTF-8?B?SXJ1aSBXYW5nICjnjovnkZ4p?= <Irui.Wang@mediatek.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>
-References: <20210804142729.7231-1-dafna.hirschfeld@collabora.com>
- <20210804142729.7231-5-dafna.hirschfeld@collabora.com>
- <81524c608e9ef640e71d969aa83d1a383e687b0a.camel@mediatek.com>
- <f343f406-111b-326f-3671-094e699a3aa6@collabora.com>
- <HK0PR03MB302713CFF1F1E79AD99737679DF69@HK0PR03MB3027.apcprd03.prod.outlook.com>
- <18e477a2-60c7-3e18-730d-ab0cb5e5821a@collabora.com>
- <HK0PR03MB30274F4B532D52E775687E069DF69@HK0PR03MB3027.apcprd03.prod.outlook.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <29274c52-22d3-b17b-6278-04c298272e0f@collabora.com>
-Date:   Wed, 11 Aug 2021 12:14:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <HK0PR03MB30274F4B532D52E775687E069DF69@HK0PR03MB3027.apcprd03.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+        id S236877AbhHKKWp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Aug 2021 06:22:45 -0400
+Received: from mail-dm6nam10on2080.outbound.protection.outlook.com ([40.107.93.80]:30735
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S236861AbhHKKWo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Aug 2021 06:22:44 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XNKmbSTVaJmQLXmxZ6TU+iIlwngjYDlh2BgcfeEx/K48yOUKp5EQF1XGC6ytZ1QBpLXGERiLMckiTOIZrSAlgEsvIJ+HomVAs3YHCvrd7qPNl7wtLd7e+rRBOpOEbyXdadDu0ZD86WlXu5XnS7tqicPecarm0XjpoSKZDm5hToAVT/MRsK9BnKtBFVs60T/VdsEBmeeV6FgYlAFluxTfO7saNZtcIgvQ57FCqyFCfiZ3V3Ed3Wf/oE4EG+ghXc+UOhyhIWjclxo38KxAJzB1kc3Bb2KJNk6cHh0hYblEtcJE83LC/RXQyby/qsAE+kgICdZtIcREx6MQHeb6RdRRmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eG2btuaxWFKAZOAPSqUn01HczRIrEqyhFPNEKzb7vwQ=;
+ b=QXkVQ4So1vXwIQUUF/M8MCWzHTJmQevtoK4+aBnLDV4ig30MP2EhO73kUmW4NtgW7VJ1WzWydC3UDVBGibccltzvMGH4OTEO95MKMcOQjQe+46v4R6bwFNbqcmdFf7DTyxUmoH2998Er8c5dMyvfueyWHUAb/Sr7lcY1KSme39BqlHgQNrNqlejd97WzJe4+xqxPphjH66l5PrhHIy3VogQVyjfOzBUpwLWHHB1IncYnLdhhdTVF0yM4Qydar2dX+JBvUfQPjlVkmHEonXacLil8sOpKJaAumhmSJl80it1sR5pJX2P//aH8rKTIv4ny2zbQmrZyW4l/6wbl5w9c2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eG2btuaxWFKAZOAPSqUn01HczRIrEqyhFPNEKzb7vwQ=;
+ b=e6jlDdryFlkFbtCN/FsVCRgTmFT0BrUh1qFdg3tqCNuMw+7ioJHvra7BEQmRCteFzK+hi978K+EHb7XjEt09YEcY/7vbEIVX1WFMxeg/w0pWtGPLbHjC77tn27aVVkRJ1FrmXh2idSNq4Q3BZ5iBYEXakIlLAkgVAkFv5zVwgaQ=
+Received: from SJ0PR02MB8514.namprd02.prod.outlook.com (2603:10b6:a03:3f5::9)
+ by BYAPR02MB4422.namprd02.prod.outlook.com (2603:10b6:a03:5c::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.16; Wed, 11 Aug
+ 2021 10:22:17 +0000
+Received: from SJ0PR02MB8514.namprd02.prod.outlook.com
+ ([fe80::47f:231c:548f:446]) by SJ0PR02MB8514.namprd02.prod.outlook.com
+ ([fe80::47f:231c:548f:446%3]) with mapi id 15.20.4415.016; Wed, 11 Aug 2021
+ 10:22:17 +0000
+From:   Anil Kumar Mamidala <amamidal@xilinx.com>
+To:     "sakari.ailus@iki.fi" <sakari.ailus@iki.fi>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Naveen Kumar Gaddipati <naveenku@xilinx.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Stefan Hladnik <stefan.hladnik@gmail.com>,
+        Florian Rebaudo <frebaudo@witekio.com>
+Subject: RE: [PATCH v2 1/2] media: i2c: Add ON Semiconductor AP1302 ISP driver
+Thread-Topic: [PATCH v2 1/2] media: i2c: Add ON Semiconductor AP1302 ISP
+ driver
+Thread-Index: AQHXhHOywFZVtONePUePbBV06zFQwKti3d5AgAoRTICAASu7UA==
+Date:   Wed, 11 Aug 2021 10:22:17 +0000
+Message-ID: <SJ0PR02MB851440739434B1C101FC8BE2B7F89@SJ0PR02MB8514.namprd02.prod.outlook.com>
+References: <1627560692-21675-1-git-send-email-anil.mamidala@xilinx.com>
+ <SJ0PR02MB851449DED958C023D662E14CB7F19@SJ0PR02MB8514.namprd02.prod.outlook.com>
+ <20210810152605.GM3@valkosipuli.retiisi.eu>
+In-Reply-To: <20210810152605.GM3@valkosipuli.retiisi.eu>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: iki.fi; dkim=none (message not signed)
+ header.d=none;iki.fi; dmarc=none action=none header.from=xilinx.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9249c4b9-24b2-4b1f-d064-08d95cb1e55a
+x-ms-traffictypediagnostic: BYAPR02MB4422:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB442271DDA184582C66C79D66B7F89@BYAPR02MB4422.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: uOxLegSgvQiroO5nOUiOHWh1RC9NwpkQoLMVeII0ZsqF4XHEMP0dDbtY01yMDq3To+pXtSUdoXdjXk3lOfHa9kazdbbMnrb14+/PpZM1LnLAG5Z1nXlMrAiEIihYI6IeXNYU3dBWd+7wzwtaO676ZMwyMKHxVj27yyu16Y0aFVtaKSzzqCmL9afHpdQ0omW3T4PvYOC9bODbDSmL6znF9nwwGyiIHYXyPtHEVMwln2CIStYgZta/rOtDiT3rvELBVsqjP+HMHRB4RmzCHhXRDWs6h0C+1ARg0Rq+HpN1iblSv2D1+sUGhq7M7n36DRDqAG6CRnoptss4HSAhIO5t9WP32QsRv7u/hJ2qWzuhYW1ZxhNxo3GhbxOgO4GC30GcEcN5cq9wgzGEAd8pQUd0yFNN/hs7UpSoyLNDtopA34QNZibbtDYU2G0+ISYr/tlHQQf/xhkLbd7qemENVok6cHMi6FMOZvOMUNDF+0YJOF2Xwg7M0AMz776o1kQogv+6i7da6IlkqGXrnCJTha5DyWVpmGFFUQ2/OjO+Bj9HgGobA/06yOui1Y3G59xYOinCnVESNPD1gxk+xDAhc/l0dStf9AIDd3yMZB6ut5ZK0Y5we40zasxGFZrLjrKzY6pd7FhXS/fMyIfV5tHYJx2m9i87vxMNlDhmgq6rNX9YcXhxhCtSvdGK7lthqLL18+6UPR2A9AnbqGqfG+BvE4bIRw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR02MB8514.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39860400002)(396003)(376002)(346002)(366004)(26005)(8676002)(7696005)(76116006)(186003)(66476007)(66556008)(64756008)(66446008)(66946007)(33656002)(38070700005)(6506007)(55016002)(122000001)(9686003)(54906003)(71200400001)(316002)(53546011)(8936002)(478600001)(38100700002)(86362001)(2906002)(4326008)(5660300002)(6916009)(83380400001)(52536014);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?i1Rz7+EdmaadSFdvg6C5JW+nFsVu0bCbior8CmIKBqU8NqHYoI3jUy0Pr1Bq?=
+ =?us-ascii?Q?+kmh1IEUyBo6aaAyX8e3K/XrMJEYymiKxlMn2Dym7khm5YD30VYhifGqxZZS?=
+ =?us-ascii?Q?ctu18XZLJ65DKilOTInc5TGIjC9xx3GEh1zVlzQXM5D3FKQqF/5PihF0QFcT?=
+ =?us-ascii?Q?xeXKprTSbRdkk4oRhmgwyguL7L/Sjl6K80KAzv8qe6oeDuc1D58SuVCZhB2r?=
+ =?us-ascii?Q?qhXIyS58fWbzTxFHyVDbLKT2yV770nC7+uIjsF+DZhvRhggllQE5KfACxUoo?=
+ =?us-ascii?Q?SatdsOIOoH2ziY4zdWh6K5NOeIXe0Bp/2SOVMpPC8qH8D5mkZ9EoJXdAahPf?=
+ =?us-ascii?Q?GEQ0/nIttZ/zHDNHVMOgs43hoswwvk8Vs1wnIk8RPiMXKN5Mmbd1CEa7O/GU?=
+ =?us-ascii?Q?9y/gsJ8hH/vhZtqZeV4P2LwdFwzwiqmJiZWES9y2aupYPp96hLx7bz5a6kFI?=
+ =?us-ascii?Q?gcvMyVTadh9JnflIJExQbmxmL8nsB2eVcNoORzoeNkMhv8WBsst5QryupuMB?=
+ =?us-ascii?Q?SMRYi6LTeiPBldS7HAGaTk7dyej8rua1csZ+QPq7yRgBzq8fBtd1KgFv+G0+?=
+ =?us-ascii?Q?wspBUiQ9qYL1z8Ohrdh9rMyjZvnZvi32BOvNrb82WBTqVdP+L0r/4uiE4nnV?=
+ =?us-ascii?Q?2cbkQJ3Smf5gTlLJoRlj2npm9RFOlTdDg+vLn4bNkyS9xir7aMHGIrHD5dle?=
+ =?us-ascii?Q?kgDC5kOtRL1gj1tKgxwO6VL4q26YA0Pw/Wx7SA5fVj8yAdjfkPBo6R0XA+bU?=
+ =?us-ascii?Q?QI+ARkwtsw0iw7qZd3TMELGAxk7B9MHVtlo0ez4hzUwNXSivRHPQL23IXeE4?=
+ =?us-ascii?Q?S8RCVA5RcYTy1NgcIb36XWA5CYQTCcKJWyM2H8CHnMYdmo6jMyh9WOd9cooC?=
+ =?us-ascii?Q?iguihTdaStCpLgEy7VdWd0QaQpRLqD2qN3qk8S2HNTaEBQnKmFwQYi4BY5CY?=
+ =?us-ascii?Q?JAsyWhbHe1cfS3PdFe3HpQ4HPDK0WeUXw2bzD1OyxGfivMAT836AQcHD3P59?=
+ =?us-ascii?Q?+W1o4wlx9AMqz1qlhddRWRYQIZnRhtwe76er2NCMl9yKt4n1zATgf9m2dE0P?=
+ =?us-ascii?Q?NLSlfMO/JVB8pt/OYmI5scuqgxZp0tcje3vRNcF4uS0K4DPCQNcyuxjhuQ3J?=
+ =?us-ascii?Q?wFOA7omWpUhvGq7wrudOll/uSVbiDWvTkAJeQVquL/RPvrpfTVFkx5xUVvGj?=
+ =?us-ascii?Q?d2MJGoBCxC+hZ+VzbW9P1UUKuWTNjKEpo2fZm1anAFJ1kgcYrxEmud7zoazp?=
+ =?us-ascii?Q?6Mqi9A80l4Q3ruH7yvwKG9iETFUOM8lAq5u43RKVfJIrUXZT4P8+yO3BcH9+?=
+ =?us-ascii?Q?ecMlcACsTowt1YDd8wjFwrOL?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR02MB8514.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9249c4b9-24b2-4b1f-d064-08d95cb1e55a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Aug 2021 10:22:17.5053
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Fp7wkIxbt8DvCIQpEFf3lbRk3RcULd3UoXW5MuMCQ0n4KapJVY3cAxFlnGy+i/K+HyzSUpna8XSIo7MPhqZg1Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4422
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sakari,
 
+Please find my reply inline.
 
-On 09.08.21 11:12, Irui Wang (王瑞) wrote:
-> Hi Dafna,
-> 
->>> 2. Always happened  issue ?  timeout at the beginning or  in processing ?
-> 
->> The commands that I run is:
-> 
->>> sudo --user=#1000 /usr/local/libexec/chrome-binary-tests/video_encode_accelerator_tests --gtest_filter=-*NV12Dmabuf*  -->>codec=vp8 >/usr/local/share/tast/data/chromiumos/tast/local/bundles/cros/video/data/tulip2-320x180.yuv --disable_validator
-> 
->>> The command sometime succeed but when I run it sequentially then at some point after few attempts I start to get those timeout errors.
-> 
-> It seems mean VP8 encoding function OK, but failed sometimes, did you have check VENC clock info during encoding:
-> 
-> cat /sys/kernel/debug/clk/clk_summary | grep venc:
-> 
-> venc_sel   > it's H.264 clock
-> venclt_sel  > it's VP8 clock
-> 
-> the enable&prepare count is not 0 during encoding process.
+Thanks and regards,
+Anil
+-----Original Message-----
+From: sakari.ailus@iki.fi <sakari.ailus@iki.fi>=20
+Sent: Tuesday, August 10, 2021 8:56 PM
+To: Anil Kumar Mamidala <amamidal@xilinx.com>
+Cc: linux-media@vger.kernel.org; Naveen Kumar Gaddipati <naveenku@xilinx.co=
+m>; Laurent Pinchart <laurent.pinchart@ideasonboard.com>; Stefan Hladnik <s=
+tefan.hladnik@gmail.com>; Florian Rebaudo <frebaudo@witekio.com>
+Subject: Re: [PATCH v2 1/2] media: i2c: Add ON Semiconductor AP1302 ISP dri=
+ver
 
-I see that the values are indeed incremented while streaming.
-When timeout occurs it is always in the beginning of the encoding. So upon the first call to vp8_enc_wait_venc_done.
+Hi Anil,
 
-Thanks,
-Dafna
+On Wed, Aug 04, 2021 at 06:05:54AM +0000, Anil Kumar Mamidala wrote:
+> Hi Sakari,
+>=20
+> Can you please review ap1302 ISP driver patch. Sorry for the delay in pus=
+hing the changes.
 
+No worries.
 
-> 
-> Thanks
-> Best Regards
-> 
-> -----邮件原件-----
-> 发件人: Dafna Hirschfeld [mailto:dafna.hirschfeld@collabora.com]
-> 发送时间: 2021年8月9日 16:27
-> 收件人: Irui Wang (王瑞)
-> 抄送: Linux Media Mailing List; moderated list:ARM/Mediatek SoC support; Enric Balletbo i Serra
-> 主题: Re: 答复: [PATCH 4/5] media: mtk-vcodec: Add two error cases upon vpu irq handling
-> 
-> 
-> 
-> On 09.08.21 09:37, Irui Wang (王瑞) wrote:
->> Hi Dafna,
->>
->>>> I am testing the vp8 encoder on chromeos and at some point the encoder interrupts stop arriving so I try to figure out why and report any possible error.
->> 1. Log shows wait IRQ timeout ?
-> 
-> Hi, yes, I get timeout when waiting to the encoder interrupt. The timeout is on vp8_enc_wait_venc_done
-> 
-> 
->> 2. Always happened  issue ?  timeout at the beginning or  in processing ?
-> 
-> The commands that I run is:
-> 
-> sudo --user=#1000 /usr/local/libexec/chrome-binary-tests/video_encode_accelerator_tests --gtest_filter=-*NV12Dmabuf*  --codec=vp8 /usr/local/share/tast/data/chromiumos/tast/local/bundles/cros/video/data/tulip2-320x180.yuv --disable_validator
-> 
-> The command sometime succeed but when I run it sequentially then at some point after few attempts I start to get those timeout errors.
-> 
->> 3. how about IRQ infos?
->> cat /proc/interrupts | grep vcodec
->> 18002000.vcodec   >> it's H.264 encoder
->> 19002000.vcodec  >> it's  VP8 encoder
->>
->> I was told you have  met another H.264 encoding failed before, did you find reasons about that ?
-> 
-> No,
-> But since I see that the google meetup uses the vp8 encoder I decided to test the vp8 first.
-> 
->>> [   81.918747] [MTK_V4L2][ERROR] mtk_vcodec_wait_for_done_ctx:32: [3] ctx->type=1, cmd=1, wait_event_interruptible_timeout time=1000ms out 0 0!
->>> [   81.931392] [MTK_VCODEC][ERROR][3]: h264_encode_frame() irq_status=0 failed
->>> [   81.938470] [MTK_V4L2][ERROR] mtk_venc_worker:1219: venc_if_encode failed=-5
-> 
-> 
->>
->> MT8173 latest VPUD firmware:
->> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmwar
->> e.git/commit/?id=aaed4a8bf9a77ec68376e8d92fb218d5fdd88b59
->>
-> 
-> I uses the latest firmware.
-> 
-> Thanks,
-> Dafna
-> 
->> Thanks
->> Best Regards
->>
->> -----邮件原件-----
->> 发件人: Dafna Hirschfeld [mailto:dafna.hirschfeld@collabora.com]
->> 发送时间: 2021年8月6日 15:49
->> 收件人: Irui Wang (王瑞); linux-kernel@vger.kernel.org;
->> linux-media@vger.kernel.org; linux-mediatek@lists.infradead.org
->> 抄送: dafna3@gmail.com; tfiga@chromium.org; Tiffany Lin (林慧珊);
->> eizan@chromium.org; Maoguang Meng (孟毛广); kernel@collabora.com;
->> mchehab@kernel.org; hverkuil@xs4all.nl; Yunfei Dong (董云飞); Yong Wu
->> (吴勇); hsinyi@chromium.org; matthias.bgg@gmail.com; Andrew-CT Chen
->> (陳智迪); acourbot@chromium.org
->> 主题: Re: [PATCH 4/5] media: mtk-vcodec: Add two error cases upon vpu
->> irq handling
->>
->>
->>
->> On 06.08.21 08:58, Irui Wang (王瑞) wrote:
->>> On Wed, 2021-08-04 at 16:27 +0200, Dafna Hirschfeld wrote:
->>>> 1. Fail if the function mtk_vcodec_fw_map_dm_addr returns ERR
->>>> pointer.
->>>> 2. Fail if the state from the vpu msg is either
->>>> VEN_IPI_MSG_ENC_STATE_ERROR or VEN_IPI_MSG_ENC_STATE_PART
->>>>
->>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>> ---
->>>>    drivers/media/platform/mtk-vcodec/venc_vpu_if.c | 8 ++++++++
->>>>    1 file changed, 8 insertions(+)
->>>>
->>>> diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
->>>> b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
->>>> index 32dc844d16f9..234705ba7cd6 100644
->>>> --- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
->>>> +++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
->>>> @@ -17,6 +17,8 @@ static int handle_enc_init_msg(struct
->>>> venc_vpu_inst *vpu, const void *data)
->>>>    vpu->vsi = mtk_vcodec_fw_map_dm_addr(vpu->ctx->dev->fw_handler,
->>>>         msg->vpu_inst_addr);
->>>>    
->>>> +if (IS_ERR(vpu->vsi))
->>>> +return PTR_ERR(vpu->vsi);
->>>>    /* Firmware version field value is unspecified on MT8173. */
->>>>    if (vpu->ctx->dev->venc_pdata->chip == MTK_MT8173)
->>>>    return 0;
->>>> @@ -42,6 +44,12 @@ static int handle_enc_encode_msg(struct
->>>> venc_vpu_inst *vpu, const void *data)
->>>>    vpu->state = msg->state;
->>>>    vpu->bs_size = msg->bs_size;
->>>>    vpu->is_key_frm = msg->is_key_frm;
->>>> +if (vpu->state == VEN_IPI_MSG_ENC_STATE_ERROR ||
->>>> +    vpu->state == VEN_IPI_MSG_ENC_STATE_PART) { mtk_vcodec_err(vpu,
->>>> +"bad ipi-enc-state: %s",
->>>> +       vpu->state ==
->>>> VEN_IPI_MSG_ENC_STATE_ERROR ? "ERR" : "PART");
->>>> +return -EINVAL;
->>>> +}
->>>
->>> Hi Dafna,
->>>
->>> This state check is useless, the enc result will check in
->>> "vpu_enc_ipi_handler".
->>>
->>
->> Hi, thanks for reviewing. I see that the vpu_enc_ipi_handler only test the msg->status and I see that the states are not tested anywhere except of "skip" state in the h264 enc.
->>
->> Can't there be a scenario where msg->status is ok but the state is error?
->> I am testing the vp8 encoder on chromeos and at some point the encoder interrupts stop arriving so I try to figure out why and report any possible error.
->>
->> Thanks,
->> Dafna
->>
->>> Thanks
->>>
->>>>    return 0;
->>>>    }
->>>>    
->>
->> ************* MEDIATEK Confidentiality Notice ******************** The
->> information contained in this e-mail message (including any
->> attachments) may be confidential, proprietary, privileged, or
->> otherwise exempt from disclosure under applicable laws. It is intended
->> to be conveyed only to the designated recipient(s). Any use,
->> dissemination, distribution, printing, retaining or copying of this
->> e-mail (including its
->> attachments) by unintended recipient(s) is strictly prohibited and may
->> be unlawful. If you are not an intended recipient of this e-mail, or
->> believe that you have received this e-mail in error, please notify the
->> sender immediately (by replying to this e-mail), delete any and all
->> copies of this e-mail (including any attachments) from your system,
->> and do not disclose the content of this e-mail to any other person. Thank you!
->>
+Could you elaborate what has changed here since v1?
+<Anil> Please find the changes list below.
+1.  Updated code with the review comments from you for patch v1.
+	- Add check for firmware size
+	- Remove hardcoding of MIPI lanes
+	- Use fwnode_graph_get_endpoint_by_id() API instead of fwnode_graph_get_ne=
+xt_endpoint
+
+2.  Add streaming flag to avoid multiple times calling of stream on/off fun=
+ctionality if already in that state.=20
+3.  Add v4l2_ctrls for setting brightness, saturation, AE metering mode, co=
+ntrast, gain ctrls.
+
+--=20
+Sakari Ailus
