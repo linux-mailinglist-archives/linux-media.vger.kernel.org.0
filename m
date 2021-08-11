@@ -2,141 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A90B3E8C4B
-	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 10:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 944183E8D5F
+	for <lists+linux-media@lfdr.de>; Wed, 11 Aug 2021 11:42:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236469AbhHKIqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Aug 2021 04:46:01 -0400
-Received: from mail-eopbgr80054.outbound.protection.outlook.com ([40.107.8.54]:2016
-        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236434AbhHKIpm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Aug 2021 04:45:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xu5OR/xdH2poyLE75ozMi2zagMZC68fuEBbcsLfiOyLrhq0to6J0/PTvVWiJ6WcqvWxPHsHgU32ySxzgMxBMF24q18x8jNRIPCgOnAcQSsA7MjSXdZe+lYA/aTc0uOULwV5OStZHzBfwtZxHkLlVO9p/NAkU0tWRCfXNY5ZQJBMbpIocDEMwc3gyfuJswdeIJlo9gQcoD3uTTaSdCAyPnPOypljvL2RSKYR5TKKrEIkpoJBQQ++2iyakMhv7jRWYrSBe2R13W1cNLFxYiTUhgqVWynWyErJNCTGOXybZ5OwMpIso6tCVhyKHHDfvd3M0ESVeDT0RYVYHhcYtn5t7Dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZIxbb9rEHNY5D28FLfrsP7F6i+sjxtTYatIyhaTEdKY=;
- b=WJV1ylruJgPwdDja/+c/p0ofZhbuvX4wV9Ca6DUDOzeIoDMzHaCORsOOUdLUEOQBbM1eHh4cfB5t0ZzjKwTFx08L9zZigLGYCwMavzWOpifmlEPbQELPrWi5U5gMLiBPHLCcqUt7KEdGzUY5AjI4QCQI0vTfA8IvIPTAutlC0qAugPmkhYVur3+HY2F0wvcxlpX28VltXuOZFboo8ohVQdoClG70brhyHnqfIs8zL5zEQ0PvcZKlAwoiI7yapvLq9FR9carP5Uc9UNujygqD7Z2g8PjjWP/DLMHVxKCmEo88AsHL5ZC/1jmWBVUJC0bKcGdOauQdl2O16dQukXVxCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZIxbb9rEHNY5D28FLfrsP7F6i+sjxtTYatIyhaTEdKY=;
- b=iq6Ieg9ZgZ7HZApN8soBmwui1kCsgkR3jNzNoF9JA3DwY7hPTyl180krYzoLKB9rr9W5gQGKkgSTwKkvfgByKY0540+71S5A2RXw8lgbVgB9dBbh+0HV6NNz3lpw/8A8V81xDGXWnb7BYfnIlqKG7cCNFZ8k7zvmiUuNiJTqv4E=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by AM6PR04MB4888.eurprd04.prod.outlook.com (2603:10a6:20b:12::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.17; Wed, 11 Aug
- 2021 08:44:54 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::9cb5:bd97:8500:2384]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::9cb5:bd97:8500:2384%6]) with mapi id 15.20.4394.023; Wed, 11 Aug 2021
- 08:44:54 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
-        s.hauer@pengutronix.de
-Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v6 14/14] MAINTAINERS: add NXP IMX8Q VPU CODEC V4L2 driver entry
-Date:   Wed, 11 Aug 2021 16:43:10 +0800
-Message-Id: <2d1fc6f2be99f96e34a1074485e936f6bfb4b1f5.1628671163.git.ming.qian@nxp.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <cover.1628671163.git.ming.qian@nxp.com>
-References: <cover.1628671163.git.ming.qian@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2P153CA0022.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::9)
- To AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+        id S236668AbhHKJmX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Aug 2021 05:42:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45344 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236678AbhHKJmX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Aug 2021 05:42:23 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15130C0613D3
+        for <linux-media@vger.kernel.org>; Wed, 11 Aug 2021 02:42:00 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id cp15-20020a17090afb8fb029017891959dcbso8670673pjb.2
+        for <linux-media@vger.kernel.org>; Wed, 11 Aug 2021 02:42:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ET1+ZjzComT36ndSZVUKzhjE6lLi2eturMaqxLGm5O8=;
+        b=ePOqM1Pw/3iTBXH81cLS6rrfbNInK4idxR4KGzIJxEFexp0L9Fu4L0Hjqha1giq9j5
+         iF+ZxqxJv6mlVr8uZOFQiWimlcClZ2ojE7Ya9lQ5Aa1MzrqCAzdnrtkUMmJKQfK0YQrq
+         F92rMiB2PKCmYomVyVotPwnUxumq59SldIvA4nXWI0oVxfRDk1WjuEGiNvv5DScTgjPw
+         jt4ryfojp55ZSYKI/C9m4LslwkaHBhr/S/GrX3Qi81V3/kJ+Vt8lws73SDzo7ZsnxYuV
+         KZrUE72+p8qM4yyVeb3UQptDzU1ITUxaaHfdWNt16bdBQNFmGMLQ7/fbkPp/ceu6nj7h
+         KzEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ET1+ZjzComT36ndSZVUKzhjE6lLi2eturMaqxLGm5O8=;
+        b=eLJeySBpeSvEfq5M5KO5GuW7DXbqeCL00AuZG5d11MnjYVoF/nPmz1qLTpfl/rduMn
+         N3p0X02x0BtfvwfC95B4LYEwQllv7x1ayMGqLqmxFfykqJjNLw8FTybqTmTRZ2o6YYx/
+         Cu+5qJqXKUNuYff2z7twFmCwj1zl9aDvD7dFT3mqqvPYSomuJIsq4/FWK5libedgM7/k
+         liUUauX5Kkgs2SkDN7q48dESnJd7zhQ0LQy2IOCNSnEOp57BqxV33GUXcwFYYhMz6A7s
+         tWsyvI8IKPyMrWZNTv1ov77UL5RysPZi/s5fljMlyQIOiXqEnWh6QqPRbuspkW/8ymnm
+         ymWQ==
+X-Gm-Message-State: AOAM533nFoTscuiLceH9qhqHFOz+/UvsdKyNEVKnqLcUassHaelVDP43
+        H2zDyFT8S4r+5bImyg5KsL/XZKfwVfMVeO9GpbUf/Q==
+X-Google-Smtp-Source: ABdhPJxYgVxxqbLY47gEt/zvPvdFQD/c+j2VIRTiXnc9r1HKIEXV3Jite9T1g1lAykdBzTwD9KpUlN6GismQCJ/lQn4=
+X-Received: by 2002:a63:f754:: with SMTP id f20mr99905pgk.385.1628674919479;
+ Wed, 11 Aug 2021 02:41:59 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from lsv11149.swis.cn-sha01.nxp.com (119.31.174.70) by SG2P153CA0022.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::9) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.4 via Frontend Transport; Wed, 11 Aug 2021 08:44:50 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2923b9f4-ba05-424f-e08e-08d95ca44a62
-X-MS-TrafficTypeDiagnostic: AM6PR04MB4888:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR04MB48889835AA2EDDBF2EA12512E7F89@AM6PR04MB4888.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:243;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3iODo3fVZ4SBV2VF9S3GMIPMm0yJ2OBu3CblrTFyjnVOwOxU5OkIRcngB1MJe7j+NQ4CxRT3z4ktfhnZfDBcFLuNuxlhHX1mdqaHXVr6sTK2mfGHtjpwtllFnBggkNQCSuy4ktxa/zSYiJ8M03/0Jy++rYcAf49CCCb5w18acNTIbrIkhVm2alQCkblvDcv2ftGHZ+a0cy1a5iwHieS+MvGFFx60uF8iiWDa5uXhLmqsGGHPG/N9ZmERj9uZlbzJAFhKRvVBJkLncl0JRApzwdkOoQZneHOtM+FPYeHOUNMRg2oF9zLVEAwr59ArMrLNnsaJiVrjvFznkr9ZOIDvmwdFrmTh3PwbSMlE9HTmUdeCzwB26IMwB+tWFlpIYnbuOyTiVU+W7ppAokvNn1DZbIxbNcxCwijGAqMHLUAin4Ib1iEJB0buV37J9SwNrRQZkK8UJRm4Q0Y/obeXeN5k8kkmPdTKo/RMf4I67gWsNs1npfLvPKMAa7YAx9OFwBrrQBgUeZXdQa0Kj4zQ3oUWylXdKlnpDsc24sjG+pdimj8zaRI+VI6gZp6JIHq9Sjo8Rbf946R32dleanYP0VghuVruT64HIsqH1TXZsO7cV+GbKlUh9KhGT2rphopeI2BtoptOFycQADWx8yreNKrWAykDWln64Tqit2uy2xtHcHg29+AksRwWP+avqHRIBxCVit0dJh6ck3GptxK0IZjhRHWYg93Ak/Vb5e8+i2l0zQk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(366004)(396003)(136003)(39860400002)(7416002)(86362001)(8676002)(6486002)(36756003)(44832011)(2616005)(956004)(4326008)(7696005)(2906002)(38100700002)(4744005)(66476007)(478600001)(26005)(52116002)(66556008)(66946007)(38350700002)(186003)(8936002)(316002)(6666004)(5660300002)(32563001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tIQcPhc1f7rXKoOOlUtjZI8dD4AKgu8BkcnfS8+CLzsewSHOlczTHH6EEcDM?=
- =?us-ascii?Q?rYhLNiNPK1qYaubpmix8ZD8enbWX7lQ2LhFSZO6wnbkSR/F1FH77Y2sqP5KC?=
- =?us-ascii?Q?J5Tmf1JmSOntucuIPloLAfpK5g49l8e03xNsKoShuHi9CXR9N5uqJALK2tSh?=
- =?us-ascii?Q?pGdmpRuIm0RWFQZrAf31vdTNvWP2/pax1f5euzknTHDlauyGWwoF6zoicsb0?=
- =?us-ascii?Q?N21comFFjnRN2j+xoiREmws4i2ZedmqaWTRCH2SwGvNJI/Fx561/t3bOEOk7?=
- =?us-ascii?Q?l7NQPscXyd6DLRpMGCgsYxq4WZjKA7mKXOjApB2pfk7qeDTLSAkpP8wOkfAu?=
- =?us-ascii?Q?N2qg4bVk6eydpQgwiYoHqbwT46CV0yNQBhEG7IrMg5KaTIfSKrG9phN2+nVf?=
- =?us-ascii?Q?fnoUfK6ohLlMXUvzpmrLWkN6cP8CSZ8cXThEC7wHbpEn0bN+Am+TXaGvY6Qp?=
- =?us-ascii?Q?tUs4SYAHuEXOQqUeIiLqPgj+go3kskU5owxbzHl4qF1HrvNDBTth6KCf2hCa?=
- =?us-ascii?Q?W0dS5nlKebKOWALjVh2UV+HHkJj1+51AMA6uD+d2wLgunjAt5IbPolFN10OD?=
- =?us-ascii?Q?+7coLOkHlOeut164NQWYqSIYM6R3EvAZeDvILpeHtKlPeWDdMeKpZkjgqQW3?=
- =?us-ascii?Q?IW5kq0+AZkhYfhrRoFy6j5qcms4hTusSsiiJ2QkArHA8aUUjWkaR4WHroROV?=
- =?us-ascii?Q?7Up+nqc6JbvZuk+V0pAaHqNS9ucL5rl5RRx5NRZBa1smImImPqxpjfimvHi8?=
- =?us-ascii?Q?LxGQYxu6V/ORANjTffG0POCOWEQSOXZnP6sBCqhE8jczJ/AHQ3ndTEvnECop?=
- =?us-ascii?Q?xHf09PEhpIAejpceWXw0ngunrvDAQF8FJI9rV/R8FBobb+go8jvfF26BsPYC?=
- =?us-ascii?Q?xAm0nDfVPVAlPddDZYf9KuPLeFj8Mg3oEHZq8gDiSsoWvhD17JC1wwdV6O6I?=
- =?us-ascii?Q?ndhu2M29B/JlrCNlpYyK19ck3cqSstDACkw9hKoBUUxWS7bX7KC9mPf4cK06?=
- =?us-ascii?Q?YPOP+xeOSJ1/oKEVJFXzydSshy4bPsVguqzVOooaOHRiuQRYDspWVvH8SXub?=
- =?us-ascii?Q?aE6h7m7pGDTyKAm0HeohPCqe6JIGbAsu+13W0kjgTTfwp1uhdzVV50s8vrJ2?=
- =?us-ascii?Q?fGInj26O5xOwPV7QxiAonrfQH3kbf2SO6ChSfawn6gsu0r5IyXAGYIpSjOqT?=
- =?us-ascii?Q?+Ej8Xn5Id6JtDmwM9ZV4Kh2JHWUhbA2xg+iORF5aReun7VPz3DktKVKK2BvI?=
- =?us-ascii?Q?0swcFmPN+qgr6wIvH6XCFVz/wVtSD28WGlvHkGqBZuDq4p5H/snJlMQ/RI4/?=
- =?us-ascii?Q?diqYmxXTqlJKk0GKA2eVNLgL?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2923b9f4-ba05-424f-e08e-08d95ca44a62
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2021 08:44:54.5359
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lqiv1VNUDM0ZmFOfkpkFkLWcguXmuR4/9gVO7Rotxf07gk14XlFL3tJoHEi+NAgQUlb+XY+hTDCr/D3oq3M4dw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4888
+References: <CGME20210811074838eucas1p2a0e8625af27c10209d9bcfc732254ae7@eucas1p2.samsung.com>
+ <20210810103336.114077-1-robert.foss@linaro.org> <0b694e24-5cc8-4944-d3a2-115306ae7b89@samsung.com>
+In-Reply-To: <0b694e24-5cc8-4944-d3a2-115306ae7b89@samsung.com>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Wed, 11 Aug 2021 11:41:48 +0200
+Message-ID: <CAG3jFys+ch86Y7338-DH1+8Q4w5eK83revVsNwoVCugwXeqjmQ@mail.gmail.com>
+Subject: Re: [PATCH v1] media: camss: vfe: Don't use vfe->base before it's assigned
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media <linux-media@vger.kernel.org>,
+        MSM <linux-arm-msm@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Kernel Functional Testing <lkft@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add NXP IMX8Q VPU CODEC v4l2 driver entry
+Hey Marek,
 
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
-Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
-Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
----
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Thanks for testing this.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 524eabe50d79..77d30a55983a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13416,6 +13416,16 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/media/imx8-jpeg.yaml
- F:	drivers/media/platform/imx-jpeg
- 
-+NXP i.MX 8QXP/8QM VPU CODEC V4L2 DRIVER
-+M:	Ming Qian <ming.qian@nxp.com>
-+M:	Shijie Qin <shijie.qin@nxp.com>
-+M:	Zhou Peng <eagle.zhou@nxp.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/media/nxp,imx8q-vpu.yaml
-+F:	drivers/media/platform/imx/vpu-8q/
-+F:	include/uapi/linux/imx_vpu.h
-+
- NZXT-KRAKEN2 HARDWARE MONITORING DRIVER
- M:	Jonas Malaco <jonas@protocubo.io>
- L:	linux-hwmon@vger.kernel.org
--- 
-2.32.0
+On Wed, 11 Aug 2021 at 09:48, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
+>
+> On 10.08.2021 12:33, Robert Foss wrote:
+> > vfe->ops->hw_version(vfe) being called before vfe->base has been assigned
+> > is incorrect and causes crashes.
+> >
+> > Fixes: b10b5334528a9 ("media: camss: vfe: Don't read hardware version needlessly")
+> >
+> > Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
+>
+> With this patch applied on top of linux next-20210810 instead of the
+> NULL pointer dereference I get following error on DragonBoard410c while
+> loading kernel modules:
+>
+> [   18.480608] qcom-venus 1d00000.video-codec: Adding to iommu group 1
+> [   18.536167] qcom-camss 1b0ac00.camss: Adding to iommu group 2
+> [   18.600373] Internal error: synchronous external abort: 96000010 [#1]
+> PREEMPT SMP
 
+I'll spin a v2 asap.
