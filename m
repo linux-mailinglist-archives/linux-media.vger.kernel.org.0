@@ -2,177 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A24F83EA546
-	for <lists+linux-media@lfdr.de>; Thu, 12 Aug 2021 15:14:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D29473EA908
+	for <lists+linux-media@lfdr.de>; Thu, 12 Aug 2021 19:02:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237043AbhHLNOq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Aug 2021 09:14:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59158 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236439AbhHLNOp (ORCPT
+        id S234215AbhHLRCc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Aug 2021 13:02:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41273 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234160AbhHLRCa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Aug 2021 09:14:45 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B16CC061765
-        for <linux-media@vger.kernel.org>; Thu, 12 Aug 2021 06:14:20 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 203-20020a1c00d40000b02902e6a4e244e4so4537070wma.4
-        for <linux-media@vger.kernel.org>; Thu, 12 Aug 2021 06:14:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dmErGBV7VXck18Gc2qFrnojMPrzyI2EPrDXNv3U1XmY=;
-        b=CYOg+LUjp256t2um90jzwNbIMAWQqkmOEyFN5EaBp2h4O1nKvX8H8o+CpGJVu0cvra
-         Bi59H593zFqTO0Tjipd0y7gxXb6Ue/uv7MOnvMvMSbigvqtdo3oKpION6K2wkaAQM/Ot
-         psaWaQkhb4+YONaercPJtRtGxTcp9kDY4zUv0=
+        Thu, 12 Aug 2021 13:02:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628787724;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=lzfndhflF+wd6yiYGmCwi7SKf8tfaBBXC1snuqNvgik=;
+        b=cRYqsnsiMaNFZIXsgOO60j2N4/SWxZpGZ6g1DzOttd9b/2LCKfOYf8k1F0zUDj464DRfky
+        njblFcH25/rqMA/QYhhMNxr92pUIY7SO7IxfWVLhlR4mTxwpb84mPTIoVpK51HDNgXsGZj
+        6feU2IKJybN5QmvFeEgiWwtlnSSmwaU=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-WkQDscbWPA-L70wR910P_w-1; Thu, 12 Aug 2021 13:00:57 -0400
+X-MC-Unique: WkQDscbWPA-L70wR910P_w-1
+Received: by mail-oi1-f200.google.com with SMTP id t42-20020a05680815aab0290267a116f6b3so3180923oiw.0
+        for <linux-media@vger.kernel.org>; Thu, 12 Aug 2021 10:00:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=dmErGBV7VXck18Gc2qFrnojMPrzyI2EPrDXNv3U1XmY=;
-        b=XMqzgEMniEoNv9yj4TIdtBPZuQooxaQ4GIGs489Y3TAhi/xbzA8MXNrdbBU+4pkI0S
-         qJ1+NORaxLiq7nuCUitQo9w9LueZxKg+jTYYGjY7j2aIbWxe1SIRa5WtfNETD2sJtJr9
-         Mv6uiO4C4XpOzSDBOd1trUTnFOBxla+c3pyPbdXPeUDd9gAXclJu0xsb8MVj2tld6Y1s
-         1riib/EW1/ykoiwdv8k3qf0cAUAz6kzSB7JXFLwLQb89rF0U0vX2/QNESjWOnc5JRYfp
-         CM/3311IXU81sxTXyt0OYL2nZOFH433v700aOrkdy8fjKDiBSBi8WlSGOUi4I+PA3Dzz
-         k79A==
-X-Gm-Message-State: AOAM530RQ7s4EZoq7xDKCilAWN/4xox70mVJWpHRAFV79pahEd7ejdgF
-        AS5v9LcI93zq+bNef/AQ1Eui1A==
-X-Google-Smtp-Source: ABdhPJwkvxrgUNLDCUG2WS460z2SKSCQl05C+7mRo54qZ58QNtO0XiYEVEgB1vN4eNSqQUwqOsYJGA==
-X-Received: by 2002:a1c:4e02:: with SMTP id g2mr15899917wmh.150.1628774059127;
-        Thu, 12 Aug 2021 06:14:19 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id h4sm2914957wru.2.2021.08.12.06.14.18
+        bh=lzfndhflF+wd6yiYGmCwi7SKf8tfaBBXC1snuqNvgik=;
+        b=F66rhz7XEOpmQWi8zRUYsZiICU132xUYyoFcV6JpBQKlxbnrSekBOGYlJpueEzE+uW
+         gW6ymcsqpTgECiLmnXiygTew6ptUyh0lrNZ7edxxNs37UKuMBwUWsrWRCgfLMCfmRHts
+         NmFU8NfPTsOFbtbcjTw2Panpg+VfpQsdu940CVkxcVzs8WY4weDqL0oIsFsUJaG6ahQ5
+         2NfFHQnGdwEFc42yyZFP1iWx1WLnv/tdMdU2kRnvMP9GdERl8GIGO8MhCbb7JUwDjOhj
+         LNkCWXPPoetEh/LPMS+M1AXsIBvwLGAb3oVivpqHrnhjbULxvw4K9oU/PqOtFOAeoesA
+         Xhpw==
+X-Gm-Message-State: AOAM533eevOh8HnpgtLqnUhQ47XqIvz+h1WbJ17dT83DxPiu5+GoqzAZ
+        PDJHQOzxDRb57uJIDGBHiibr3BseB45TVg76Gwjq99lN1NWwwCfpB4mlCecz5/0tLLqU+pFxaRc
+        1qXVGRUtD4zO4H1COQxPw5jc=
+X-Received: by 2002:a9d:206a:: with SMTP id n97mr4153368ota.247.1628787656516;
+        Thu, 12 Aug 2021 10:00:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzLJG+qeojkPAWrgQnIckkIT0lYWQZF7QBKca/wrMOL4142OtxbdL+wDGfvvHhTpw7wuRL3Bg==
+X-Received: by 2002:a9d:206a:: with SMTP id n97mr4153342ota.247.1628787656245;
+        Thu, 12 Aug 2021 10:00:56 -0700 (PDT)
+Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id l9sm733981otr.34.2021.08.12.10.00.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Aug 2021 06:14:18 -0700 (PDT)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 1/4] dma-buf: Require VM_PFNMAP vma for mmap
-Date:   Thu, 12 Aug 2021 15:14:09 +0200
-Message-Id: <20210812131412.2487363-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.32.0
+        Thu, 12 Aug 2021 10:00:55 -0700 (PDT)
+From:   trix@redhat.com
+To:     tharvey@gateworks.com, mchehab@kernel.org, hans.verkuil@cisco.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH] media: TDA1997x: handle short reads of hdmi info frame.
+Date:   Thu, 12 Aug 2021 10:00:43 -0700
+Message-Id: <20210812170043.1046669-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tldr; DMA buffers aren't normal memory, expecting that you can use
-them like that (like calling get_user_pages works, or that they're
-accounting like any other normal memory) cannot be guaranteed.
+From: Tom Rix <trix@redhat.com>
 
-Since some userspace only runs on integrated devices, where all
-buffers are actually all resident system memory, there's a huge
-temptation to assume that a struct page is always present and useable
-like for any more pagecache backed mmap. This has the potential to
-result in a uapi nightmare.
+Static analysis reports this representative problem
 
-To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
-blocks get_user_pages and all the other struct page based
-infrastructure for everyone. In spirit this is the uapi counterpart to
-the kernel-internal CONFIG_DMABUF_DEBUG.
+tda1997x.c:1939: warning: 7th function call argument is an uninitialized
+value
 
-Motivated by a recent patch which wanted to swich the system dma-buf
-heap to vm_insert_page instead of vm_insert_pfn.
+The 7th argument is buffer[0], which is set in the earlier call to
+io_readn().  When io_readn() call to io_read() fails with the first
+read, buffer[0] is not set and 0 is returned and stored in len.
 
-v2:
+The later call to hdmi_infoframe_unpack()'s size parameter is the
+static size of buffer, always 40, so a short read is not caught
+in hdmi_infoframe_unpacks()'s checking.  The variable len should be
+used instead.
 
-Jason brought up that we also want to guarantee that all ptes have the
-pte_special flag set, to catch fast get_user_pages (on architectures
-that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
-still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
+Zero initialize buffer to 0 so it is in a known start state.
 
-From auditing the various functions to insert pfn pte entires
-(vm_insert_pfn_prot, remap_pfn_range and all it's callers like
-dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
-this should be the correct flag to check for.
-
-v3: Change to WARN_ON_ONCE (Thomas Zimmermann)
-
-References: https://lore.kernel.org/lkml/CAKMK7uHi+mG0z0HUmNt13QCCvutuRVjpcR0NjRL12k-WbWzkRg@mail.gmail.com/
-Acked-by: Christian König <christian.koenig@amd.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: John Stultz <john.stultz@linaro.org>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
---
-Resending this so I can test the next patches for vgem/shmem in
-intel-gfx-ci.
-
-No immediate plans to merge this patch here since ttm isn't addressed
-yet (and there we have the hugepte issue, for which I don't think we
-have a clear consensus yet).
--Daniel
+Fixes: 9ac0038db9a7 ("media: i2c: Add TDA1997x HDMI receiver driver")
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/dma-buf/dma-buf.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ drivers/media/i2c/tda1997x.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 63d32261b63f..d19b1cf6c34f 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -130,6 +130,7 @@ static struct file_system_type dma_buf_fs_type = {
- static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
+index 1e2a263be9335..0b995424cb346 100644
+--- a/drivers/media/i2c/tda1997x.c
++++ b/drivers/media/i2c/tda1997x.c
+@@ -1248,13 +1248,13 @@ tda1997x_parse_infoframe(struct tda1997x_state *state, u16 addr)
  {
- 	struct dma_buf *dmabuf;
-+	int ret;
+ 	struct v4l2_subdev *sd = &state->sd;
+ 	union hdmi_infoframe frame;
+-	u8 buffer[40];
++	u8 buffer[40] = { 0 };
+ 	u8 reg;
+ 	int len, err;
  
- 	if (!is_dma_buf_file(file))
- 		return -EINVAL;
-@@ -145,7 +146,11 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- 	    dmabuf->size >> PAGE_SHIFT)
- 		return -EINVAL;
- 
--	return dmabuf->ops->mmap(dmabuf, vma);
-+	ret = dmabuf->ops->mmap(dmabuf, vma);
-+
-+	WARN_ON_ONCE(!(vma->vm_flags & VM_PFNMAP));
-+
-+	return ret;
- }
- 
- static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
-@@ -1260,6 +1265,8 @@ EXPORT_SYMBOL_GPL(dma_buf_end_cpu_access);
- int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 		 unsigned long pgoff)
+ 	/* read data */
+ 	len = io_readn(sd, addr, sizeof(buffer), buffer);
+-	err = hdmi_infoframe_unpack(&frame, buffer, sizeof(buffer));
++	err = hdmi_infoframe_unpack(&frame, buffer, len);
+ 	if (err) {
+ 		v4l_err(state->client,
+ 			"failed parsing %d byte infoframe: 0x%04x/0x%02x\n",
+@@ -1928,13 +1928,13 @@ static int tda1997x_log_infoframe(struct v4l2_subdev *sd, int addr)
  {
-+	int ret;
-+
- 	if (WARN_ON(!dmabuf || !vma))
- 		return -EINVAL;
+ 	struct tda1997x_state *state = to_state(sd);
+ 	union hdmi_infoframe frame;
+-	u8 buffer[40];
++	u8 buffer[40] = { 0 };
+ 	int len, err;
  
-@@ -1280,7 +1287,11 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 	vma_set_file(vma, dmabuf->file);
- 	vma->vm_pgoff = pgoff;
- 
--	return dmabuf->ops->mmap(dmabuf, vma);
-+	ret = dmabuf->ops->mmap(dmabuf, vma);
-+
-+	WARN_ON_ONCE(!(vma->vm_flags & VM_PFNMAP));
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(dma_buf_mmap);
- 
+ 	/* read data */
+ 	len = io_readn(sd, addr, sizeof(buffer), buffer);
+ 	v4l2_dbg(1, debug, sd, "infoframe: addr=%d len=%d\n", addr, len);
+-	err = hdmi_infoframe_unpack(&frame, buffer, sizeof(buffer));
++	err = hdmi_infoframe_unpack(&frame, buffer, len);
+ 	if (err) {
+ 		v4l_err(state->client,
+ 			"failed parsing %d byte infoframe: 0x%04x/0x%02x\n",
 -- 
-2.32.0
+2.26.3
 
