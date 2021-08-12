@@ -2,153 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F9643E9F7A
-	for <lists+linux-media@lfdr.de>; Thu, 12 Aug 2021 09:35:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36F913E9F8B
+	for <lists+linux-media@lfdr.de>; Thu, 12 Aug 2021 09:40:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234287AbhHLHfy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Aug 2021 03:35:54 -0400
-Received: from mx2.ucr.edu ([138.23.62.3]:61504 "EHLO mx2.ucr.edu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231331AbhHLHfy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Aug 2021 03:35:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
-  t=1628753730; x=1660289730;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ih509MZfBFgCEEZtNiCc3rKR+7wk2Y1qBqpU/o2sR8I=;
-  b=eDCsTpKc72Wmivex7Ucy89Rlaut7cU0I/4xn9a+jmt6S41qSOKeXFzGY
-   OSEDq9mfExUsGJ1tIigFsmefjeR3Ri6VTQ41itXUXeNO/2eiN4U6VqitJ
-   QirKSM0rzgcadzT9VXMIOLb0++RqfLyQqhTstq9niLgeRqANVV92a1clp
-   wJJo5FTuoDCDS+1CGfmLPReOgj4brUNs+xZ33GR/ZQuMsdTviWqn/8Foe
-   iWe18ZTUdKcBtvj9q250U+QZTUpk+0gevxnrfM4FpEQKa+gjRn56IRBl6
-   NSqpu7/cXdsOYp4bQR5lTTkHWzx2EbeX+sS/xBPMc+BEFrtSvJ+qWaTfF
-   g==;
-IronPort-SDR: EI7ZyLpc7AynoceOZEzSxwd3BQrMRLQrk13mML6Teh7EwwB4hkD4+kQpKG+huEWeFI2i+3VukP
- n+IGwrkkPcXAPhSvOE5inY3HLUABM8SEv6wBd6aQaqMMSxaB99tgql0xS3XEQPsbcEGsv67BH1
- yHQrIgvzmaMWmjqaBckGCP6E4VUyFWoXxT8RkgJPbbVv00urkyKhM5mcTxZvIrTNbEv05OpQ0w
- gTafJE2HIXEq190sND8Hq+J/ad+hl5c/XaTIXIYewV08zkATiiYr3a2Y10rgo9RL5tfFUuCaGL
- xiGkcQUElibYsH/Zr1rvYS0A
-X-IPAS-Result: =?us-ascii?q?A2GiAwDqzhRhh0bYVdFaHgE8DAILgW6DeVUWjUyTUYEah?=
- =?us-ascii?q?nyIaIF8AgkBAQENAQFBBAEBhFkCgmcCJTQJDgECBAEBAQEDAgMBAQEBAQEDA?=
- =?us-ascii?q?QEGAQEBAQEBBQQBAQIQAQEBAYEgC1kLY4FPgXkGBD2CNSmDZQkCAQMSFQsBR?=
- =?us-ascii?q?hBRNAEFARwZIjmCFgGDB54QgQQ9jDEygQGIHAEJDYFjCQEIgSiIf4RxJ4Ipg?=
- =?us-ascii?q?lCBM3WHb4JQBINqexOCKYFQAQEBkD0bgwYBi1iBJptyAQYCgw4cnjNFlUeRL?=
- =?us-ascii?q?LsuAgoHBhAjgT2CFTMaJYFsCoFBTQECAQIBDAIBAgECAQIBAggBAQKONY5XI?=
- =?us-ascii?q?TI4AgYLAQEDCYkMAQ?=
-IronPort-PHdr: A9a23:sHxh3hIj86rJzmJOndmcuKFmWUAX0o4c3iYr45Yqw4hDbr6kt8y7e
- hCFvbM91hSZAc3y0LFts6LuqafuWGgNs96qkUspV9hybSIDktgchAc6AcSIWgXRJf/uaDEmT
- owZDAc2t360PlJIF8ngelbcvmO97SIIGhX4KAF5Ovn5FpTdgsipy+y+4Z7ebxtHiDe+br55M
- Qm7oxjWusQKm4VpN7w/ygHOontGeuRWwX1nKFeOlBvi5cm+4YBu/T1It/0u68BPX6P6f78lT
- bNDFzQpL3o15MzwuhbdSwaE+2YRXX8XkhpMBAjF8Q36U5LsuSb0quZxxC+XNtDtQLsqRTqt8
- btkSB7wiCcGKTE59n3Xitdth65fuR6tugBzz5LRbIyTMfp+f7jdfcgbRWpHUcZaSjJPDJqhZ
- IsBDuoOI+JYoJTgrFcKoxayGQygCeXoxTJUiHL6wbA23/09HQ3bwQcsG88CvXTRoNjzKawcU
- /26zLPQwDvDcf1YxDnz5ovPfB8jr/GDUr1+fNHNxUQsDQ7Jkk+dpZD5Mz6Ty+8Ds3Kb7+1lV
- e+3iWEnqgBwojiyxscrl4LGhYIVxUrF9S5kx4s0Jdy5SE5hbt6lDJdcqy+XOpBrQsw+WWFko
- jg1xaAbuZOieiUB1ZsoyQLFZfOdb4iI/gzsVPyXITpgmH9oZr2xiRa9/0W9y+DxVsm63UhXo
- yZbjtTBq24B2gLQ58WHRPZw8Uiv1DaR2w7c5exJIEQ5mLfFJpAvxrM9mZweulnAEC/ugEj6k
- rOae0E+9uWr6+nreKvqqoKdOoNuiAzyLrwiltG+DOk8KAQCQWaW9OSm2LH9/0D1WqtGguM4n
- 6TfrZvUP94UprSjDA9Qyosj7hG/ACq439kAhnkHKU5FeAqAj4j0J1HCOPD4Aum7g1SriDprw
- urJPrzlApnUNnjDkqrtca9z60Ne1AY/199f55VTCrEOJPL8RFX9u8DfDh88KwC0wuDnB8th1
- o4GR26DHquUPLnRvFKI/O4jPfSAaY4PtDv/N/Qp//vugmU4mV8Zc6mpx5wXaHWgE/VmIkSZY
- WDjgtYdHWsWsAczV/Hqh0GYUTJJeXm9Qr886ikhCI26FYfDWpytgLuZ0Se/H51WYH1GC1+VH
- XftaYqLRvYMZziJL89/nTwLS6KhR5Ui1R6wrg/6zaRoLu7O9i0fr5Lj24s9yffUkEQD9C50E
- sPV4WGETikgj3EITj5uhPtXvEdnjFqPzP4r0LRjCdVP6qYRAU8BPpnGwrk/Vo2aZw==
-IronPort-HdrOrdr: A9a23:NqEplqmroD4m6ShA2k77mMMx++rpDfIF3DAbv31ZSRFFG/FwWf
- re+cjzsiWE9Qr5N0tQ/uxoVJPwIk80sKQFmbX5Xo3SJjUOxlHYSr2KhLGKq1aBJ8S9zJ8n6U
- 4JSclD4bbLfDxHZKjBkWuF+hUbreVvMprDuQ4T9RhQpHlRGthdBs5CZmimLnE=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.84,315,1620716400"; 
-   d="scan'208";a="170706997"
-Received: from mail-pj1-f70.google.com ([209.85.216.70])
-  by smtp2.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 12 Aug 2021 00:35:29 -0700
-Received: by mail-pj1-f70.google.com with SMTP id z23-20020a17090abd97b0290176898bbb9cso4364595pjr.8
-        for <linux-media@vger.kernel.org>; Thu, 12 Aug 2021 00:35:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kccsi7K3Q0d7ZEGUYI767ae2qeNpNVR9x1RI+mNTwAU=;
-        b=IYBuxUo4iCo0HZcACbXCeUa9tINKncM7x0dglf7W0M8ahXqJh3P6uCazL3Mcs5B42A
-         GpDSiS61M3M71cMSwDwo8VhjoYe/eaDQ3txWQfUzb4wE0SKmYGwotioBjpgi38Yvy/TB
-         4lUxDhnDH3VL8PPjC+oLWd9l6kC5VTbsaTTTmPym+o1SQrno92lcCjlIfODW9FIkgiff
-         1r0fv6PPbJMVkbVZnD+qOQPoZ4aFGANZNC9tGwSsaAsmkG9JmFNzYygMJaQosTO9vJE8
-         UF2HXAnLRuoDdOtLmZ/T4rYRIf1120zXTFHK2/Qg2sEGYcwgsu74/uwWw2XlNO1zsQi0
-         Oicg==
-X-Gm-Message-State: AOAM530KGvmldmkHwn2ehAfLLbwRZ3F7RTYlQrlAZH2nLtc6mK/EmmPC
-        S+yTYVNmUdUJzkSEhkm1DujHMVNxSFyVXOn71uVA91tSHUWoT2z7QwTa7TNovDWL91mf1FNu2Hp
-        UJKFH3ZhzlxX3slMejFDnJ3Ci
-X-Received: by 2002:a17:90a:1d05:: with SMTP id c5mr15695403pjd.175.1628753727677;
-        Thu, 12 Aug 2021 00:35:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwlN3QIKxpfS3sp2zQl+zNyzHUDzfrTSRi+p5FZ6+O5COzp/wL3UQAMaJrRFiVp810LR6P+ow==
-X-Received: by 2002:a17:90a:1d05:: with SMTP id c5mr15695395pjd.175.1628753727504;
-        Thu, 12 Aug 2021 00:35:27 -0700 (PDT)
-Received: from kq.cs.ucr.edu (kq.cs.ucr.edu. [169.235.27.223])
-        by smtp.googlemail.com with ESMTPSA id s5sm1879447pji.56.2021.08.12.00.35.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Aug 2021 00:35:27 -0700 (PDT)
-From:   Yizhuo Zhai <yzhai003@ucr.edu>
-Cc:     Yizhuo Zhai <yzhai003@ucr.edu>,
+        id S234829AbhHLHlF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Aug 2021 03:41:05 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:30883 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234835AbhHLHlC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Aug 2021 03:41:02 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20210812074035euoutp01232f38091ed5ca62d80e768a4e11b1b3~afyqHfppN1528815288euoutp01X
+        for <linux-media@vger.kernel.org>; Thu, 12 Aug 2021 07:40:35 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20210812074035euoutp01232f38091ed5ca62d80e768a4e11b1b3~afyqHfppN1528815288euoutp01X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1628754035;
+        bh=fVknA03gNmeAJpmTPams6tLJ6o3sYX2Td79X/9jTxZs=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=ZfzM4y5eiDx9pNN+RAavirc7No4b0uJ46VhPWprKml04tJya7PDCsVu6gIZKu6KoP
+         sVM4asGoGx+zCFQMz6Yx0XElLewUmi4UISvmPKyFMgl1rSmX8uXXgHrJQXBgdU8Lw0
+         LSfLODPxXHuagrRhrAvewzsQKQp+NbV4YSAQePBM=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20210812074035eucas1p12b447b59def0ce7f422d6583cc3cd702~afypsCcWt2921529215eucas1p1a;
+        Thu, 12 Aug 2021 07:40:35 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id A4.6E.56448.370D4116; Thu, 12
+        Aug 2021 08:40:35 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20210812074034eucas1p14c128074be6bd68e745f780d4d8c2d06~afypC3yGL3125031250eucas1p1d;
+        Thu, 12 Aug 2021 07:40:34 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20210812074034eusmtrp2d35ec58eaa0efa07eb5ed3c5d0f589f7~afypCHpSJ1159111591eusmtrp2H;
+        Thu, 12 Aug 2021 07:40:34 +0000 (GMT)
+X-AuditID: cbfec7f5-d3bff7000002dc80-f3-6114d0732860
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 90.2A.20981.270D4116; Thu, 12
+        Aug 2021 08:40:34 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20210812074033eusmtip1b7915168387c51bc70a9a72e6a1edbf2~afyoN3v7-2365123651eusmtip1k;
+        Thu, 12 Aug 2021 07:40:33 +0000 (GMT)
+Subject: Re: [PATCH v1] media: camss: vfe: Don't use vfe->base before it's
+ assigned
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juan Antonio Aldea-Armenteros <juant.aldea@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4] media: atomisp: fix the uninitialized use and rename "retvalue"
-Date:   Thu, 12 Aug 2021 00:34:46 -0700
-Message-Id: <20210812073447.127193-1-yzhai003@ucr.edu>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210723003607.64179-1-yzhai003@ucr.edu>
-References: <20210723003607.64179-1-yzhai003@ucr.edu>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media <linux-media@vger.kernel.org>,
+        MSM <linux-arm-msm@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Kernel Functional Testing <lkft@linaro.org>
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <de1df486-255f-6405-5ea9-4dddd5507006@samsung.com>
+Date:   Thu, 12 Aug 2021 09:40:33 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
+        Gecko/20100101 Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <CAG3jFytOQQBnnJQU9qDdQedrrcPz=SQPeXHX1HJQ8c5U94feCg@mail.gmail.com>
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKKsWRmVeSWpSXmKPExsWy7djPc7rFF0QSDY5eEbc49/g3i8Xp/e9Y
+        LC7OvMticWryMyaLifvPsltc3jWHzaJnw1ZWi68HuCyWbfrDZHHrE7/Fp1kPmS0OTZnG5sDj
+        sXPWXXaPTas62TzuXNvD5vF5k5zHqa+f2QNYo7hsUlJzMstSi/TtErgydk1ZxFqwWbTiYutN
+        pgbG84JdjJwcEgImEv1nDzN2MXJxCAmsYJRYvOwzC4TzhVHi85nrTBDOZ0aJDb3zWGBazn9/
+        ygyRWM4oMalvAZTzkVHi8rPrjCBVwgKhEjcWTWIHsUUENCSOP34EtoRZ4DKzxPpt61lBEmwC
+        hhJdb7vYuhg5OHgF7CQ+7QULswioStw42Q9miwokS0x8MgnM5hUQlDg58wnYFZwCgRJ3Lm0B
+        28UsIC+x/e0cZghbXOLWk/lgZ0sINHNKPOndxw5xtovEhDOzWCFsYYlXx7dAxWUk/u+Ea2CU
+        eHhuLTuE0wP0TtMMRogqa4k7536BXcosoCmxfpc+iCkh4Chx66ochMknceOtIMQNfBKTtk1n
+        hgjzSnS0CUHMUJOYdXwd3NaDFy4xT2BUmoXks1lIvpmF5JtZCGsXMLKsYhRPLS3OTU8tNs5L
+        LdcrTswtLs1L10vOz93ECExZp/8d/7qDccWrj3qHGJk4GA8xSnAwK4nw7pQTShTiTUmsrEot
+        yo8vKs1JLT7EKM3BoiTOu2vrmnghgfTEktTs1NSC1CKYLBMHp1QDk+iZWUcdBQvrlzh/nKXG
+        czJnuepjLu2PE7Q/6x/puvh1us+jqggpi/sPuSe0Lv1rk+n558IpY5/2oBsBJWXhvx4p3Jl4
+        /9c1lif/kgJMu3a6cFR0Rb5aN3fb9Mk/jboyNZeom8psC1uguOyhj8Dq/BUe+94ERAR90Dp0
+        ZM9hnz2J/9o2pU34LP8zb7qV+CwuptKzdQyub69nproGXVL7+0o/Puxg066e2coz7nod51wj
+        8zb1L59P02rOq3deHny1sPHLi1kacqlHHdf2FUr+n2IW/XQ320c5/jUnVSwkS/7tPqWe8t33
+        TkmE8noBL+ltFn/iat7Wiq84cujyh2ksOVVZVWwH5H3eiW76GuaTlK/EUpyRaKjFXFScCAAz
+        Am9hyAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBIsWRmVeSWpSXmKPExsVy+t/xu7pFF0QSDR6sULU49/g3i8Xp/e9Y
+        LC7OvMticWryMyaLifvPsltc3jWHzaJnw1ZWi68HuCyWbfrDZHHrE7/Fp1kPmS0OTZnG5sDj
+        sXPWXXaPTas62TzuXNvD5vF5k5zHqa+f2QNYo/RsivJLS1IVMvKLS2yVog0tjPQMLS30jEws
+        9QyNzWOtjEyV9O1sUlJzMstSi/TtEvQydk1ZxFqwWbTiYutNpgbG84JdjJwcEgImEue/P2Xu
+        YuTiEBJYyiixfNtkJoiEjMTJaQ2sELawxJ9rXWwQRe8ZJf7/e8oGkhAWCJW4sWgSO4gtIqAh
+        cfzxI0aQImaB68wSDcsboMZeZpJY97IfrIpNwFCi6y3IKA4OXgE7iU97wTawCKhK3DjZD2aL
+        CiRLfDi9FMzmFRCUODnzCQuIzSkQKHHn0hZGEJtZwExi3uaHzBC2vMT2t3OgbHGJW0/mM01g
+        FJqFpH0WkpZZSFpmIWlZwMiyilEktbQ4Nz232EivODG3uDQvXS85P3cTIzBKtx37uWUH48pX
+        H/UOMTJxMB5ilOBgVhLh3SknlCjEm5JYWZValB9fVJqTWnyI0RTon4nMUqLJ+cA0kVcSb2hm
+        YGpoYmZpYGppZqwkzmtyZE28kEB6YklqdmpqQWoRTB8TB6dUA5P+u+pFlZ0bzr/etza1b/28
+        l8wRyWH/fWdMvnfYVcj217pXReFvOeovM9y0zZyYUbUodmqnU3B8u00zMGm0371dsKzqz9Kv
+        HzmeRqpGGXz9Y3KVY96ao1aad1/G6tX+Cpyw5xB3s89B3c3fn9dJVbeLRoqmpX6ZplmY07kq
+        6O3civjFOwwmZs+b/iVwnmiAEo/XjemXNtUK9WwNY/pnf85k4n/VzYpcN74q8h00Mqxf0rbx
+        2tOFbTkRZddnbJVminQ5MJeJ8/i/ut1rNlhV5vHM056q7v9/+i173lyJFwGB3l6LTr0RMLL+
+        Z3pZ2urA3PXJl7dufuqm6nLXj3XW/vDIi3ZveTrmC78OPzPnSbUSS3FGoqEWc1FxIgAVokWA
+        WwMAAA==
+X-CMS-MailID: 20210812074034eucas1p14c128074be6bd68e745f780d4d8c2d06
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20210811074838eucas1p2a0e8625af27c10209d9bcfc732254ae7
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210811074838eucas1p2a0e8625af27c10209d9bcfc732254ae7
+References: <CGME20210811074838eucas1p2a0e8625af27c10209d9bcfc732254ae7@eucas1p2.samsung.com>
+        <20210810103336.114077-1-robert.foss@linaro.org>
+        <0b694e24-5cc8-4944-d3a2-115306ae7b89@samsung.com>
+        <CAG3jFys+ch86Y7338-DH1+8Q4w5eK83revVsNwoVCugwXeqjmQ@mail.gmail.com>
+        <CAG3jFytOQQBnnJQU9qDdQedrrcPz=SQPeXHX1HJQ8c5U94feCg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Inside function mt9m114_detect(), variable "retvalue" could
-be uninitialized if mt9m114_read_reg() returns error, however, it
-is used in the later if statement, which is potentially unsafe.
+Hi Robert,
 
-The local variable "retvalue" is renamed to "model" to avoid
-confusion.
+On 11.08.2021 15:42, Robert Foss wrote:
+> On Wed, 11 Aug 2021 at 11:41, Robert Foss <robert.foss@linaro.org> wrote:
+>> Hey Marek,
+>>
+>> Thanks for testing this.
+>>
+>> On Wed, 11 Aug 2021 at 09:48, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
+>>> On 10.08.2021 12:33, Robert Foss wrote:
+>>>> vfe->ops->hw_version(vfe) being called before vfe->base has been assigned
+>>>> is incorrect and causes crashes.
+>>>>
+>>>> Fixes: b10b5334528a9 ("media: camss: vfe: Don't read hardware version needlessly")
+>>>>
+>>>> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+>>>> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+>>> With this patch applied on top of linux next-20210810 instead of the
+>>> NULL pointer dereference I get following error on DragonBoard410c while
+>>> loading kernel modules:
+>>>
+>>> [   18.480608] qcom-venus 1d00000.video-codec: Adding to iommu group 1
+>>> [   18.536167] qcom-camss 1b0ac00.camss: Adding to iommu group 2
+>>> [   18.600373] Internal error: synchronous external abort: 96000010 [#1]
+>>> PREEMPT SMP
+> After testing this patch + linux-next[1] I'm not able to replicate the
+> 'Internal error' above on the db410c. And I don't think it is related
+> to this patch.
+>
+> Are you seeing the same error on [1]? And are you seeing it before the
+> b10b5334528a9 ("media: camss: vfe: Don't read hardware version
+> needlessly") patch?
 
-Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
-Signed-off-by: Yizhuo Zhai <yzhai003@ucr.edu>
----
- drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+I've checked once again on your branch. Yes, it is fully reproducible on 
+my DragonBoard410c. On your branch I get the above synchronous external 
+abort, while without your last patch I get Null ptr dereference.
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-index f5de81132177..77293579a134 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-@@ -1533,16 +1533,19 @@ static struct v4l2_ctrl_config mt9m114_controls[] = {
- static int mt9m114_detect(struct mt9m114_device *dev, struct i2c_client *client)
- {
- 	struct i2c_adapter *adapter = client->adapter;
--	u32 retvalue;
-+	u32 model;
-+	int ret;
- 
- 	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C)) {
- 		dev_err(&client->dev, "%s: i2c error", __func__);
- 		return -ENODEV;
- 	}
--	mt9m114_read_reg(client, MISENSOR_16BIT, (u32)MT9M114_PID, &retvalue);
--	dev->real_model_id = retvalue;
-+	ret = mt9m114_read_reg(client, MISENSOR_16BIT, MT9M114_PID, &model);
-+	if (ret)
-+		return ret;
-+	dev->real_model_id = model;
- 
--	if (retvalue != MT9M114_MOD_ID) {
-+	if (model != MT9M114_MOD_ID) {
- 		dev_err(&client->dev, "%s: failed: client->addr = %x\n",
- 			__func__, client->addr);
- 		return -ENODEV;
+Are you sure you have deployed the kernel modules for doing the test? 
+This issue happens when udev triggers loading kernel modules for the 
+detected hardware.
+
+Here is the kernel configuration used for my tests on ARM64 based board:
+
+# make ARCH=arm64 defconfig && ./scripts/config --set-val 
+CMA_SIZE_MBYTES 96 -e PROVE_LOCKING -e DEBUG_ATOMIC_SLEEP -e PM_DEBUG -e 
+PM_ADVANCED_DEBUG -d ARCH_SUNXI -d ARCH_ALPINE -d DRM_NOUVEAU -d 
+ARCH_BCM_IPROC -d ARCH_BERLIN -d ARCH_BRCMSTB -d ARCH_LAYERSCAPE -d 
+ARCH_LG1K -d ARCH_HISI -d ARCH_MEDIATEK -d ARCH_MVEBU -d ARCH_ROCKCHIP 
+-d ARCH_SEATTLE -d ARCH_SYNQUACER -d ARCH_RENESAS -d ARCH_STRATIX10 -d 
+ARCH_TEGRA -d ARCH_SPRD -d ARCH_THUNDER -d ARCH_THUNDER2 -d 
+ARCH_UNIPHIER -d ARCH_XGENE -d ARCH_ZX -d ARCH_ZYNQMP -d HIBERNATION -d 
+CLK_SUNXI -e BLK_DEV_RAM --set-val BLK_DEV_RAM_COUNT 4 --set-val 
+BLK_DEV_RAM_SIZE 65536 -d CONFIG_EFI -d CONFIG_TEE
+
+Comparing to the arm64's defconfig, I've enabled some debugging options 
+and disabled some unused boards.
+
+Best regards
+
 -- 
-2.25.1
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
