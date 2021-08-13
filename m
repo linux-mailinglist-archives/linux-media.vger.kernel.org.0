@@ -2,225 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D47BE3EAB05
-	for <lists+linux-media@lfdr.de>; Thu, 12 Aug 2021 21:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D2E63EADD6
+	for <lists+linux-media@lfdr.de>; Fri, 13 Aug 2021 02:21:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232860AbhHLT3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Aug 2021 15:29:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33442 "EHLO
+        id S236471AbhHMAVv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Aug 2021 20:21:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229950AbhHLT3x (ORCPT
+        with ESMTP id S236607AbhHMAVl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Aug 2021 15:29:53 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9BEDC061756
-        for <linux-media@vger.kernel.org>; Thu, 12 Aug 2021 12:29:25 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id u15so5305145wmj.1
-        for <linux-media@vger.kernel.org>; Thu, 12 Aug 2021 12:29:25 -0700 (PDT)
+        Thu, 12 Aug 2021 20:21:41 -0400
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC354C0617A8
+        for <linux-media@vger.kernel.org>; Thu, 12 Aug 2021 17:21:15 -0700 (PDT)
+Received: by mail-io1-xd32.google.com with SMTP id r72so10955336iod.6
+        for <linux-media@vger.kernel.org>; Thu, 12 Aug 2021 17:21:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=PwnarB9Hsk8rWLa1EFppI8N3ZwQbA79XO0sGP5n+o4s=;
-        b=EQWz/z0WbgSIqJOdreuC2j9GpACsC/fidpu4zh3rmKelAUnrJtNvISKSCDnFMFkB/3
-         ZG1CpvXl6JpEZJGzqNCWlzeMoVX0WvtvyhPZtKLYB6bwCWQUqB+aO4pYd/MMQiIrxpEa
-         YtGOgnRWSiLhvP6Ixjplj6glIRYt/vCrSJ0/0=
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=XW7E6eMIUzBOMeFJlgcA+60MtDtkCTUh5FeR0EffHK0=;
+        b=FxvXKnL9Ow50P/sCD64YR+mmtOXvKbqubYIhoplwch+zlosb2HRgt2cuZ0qwE+yLlN
+         LvwEyFLgA0hiUjL05ktTgmbKb/Ql2iogV/lOZfS8ubNGBCOAH+SLu2oYLVK2VaOg5z5j
+         q9pkb+6evIY0WbmWef9YpmNBwbP05UivCb4el79zmyTYJxnlGhtnCQi8NE2yqO8fztX7
+         B6kvXwqptinXu8HS0Gb5DHfU604iCFpHZ1Cch3r8Fsk8nja/bUTsqxRwslxjQMhQHl7N
+         AqX6z3lsnI1aE9nHPkMRB25wEkLFMkhxdRi0o2L3hjt2JWF/fn2Mo8AHY3gKu5q965en
+         PsEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=PwnarB9Hsk8rWLa1EFppI8N3ZwQbA79XO0sGP5n+o4s=;
-        b=Ep95WYHhuocuTME6xAByMp9M5Cbq0D5x3BMokqt9g5xrTe5qhbJbKXN6qI0LsBrSTB
-         t6QlFvNKGpB+nQ/u06u9lwElmKUXE8/1b1WPBlQgcqfENJoss4HyrI3iPntndlWBCdmz
-         0Wgij3958GCjxuFA+hUMLMIsG0ACx5fdpGEvZ8QGFat2ZpdxgRk1F15BOk6RrO2x66XE
-         ZoDScCakqV6dfsCc4xSauBPyBucriXXjnKewl/8tiPCaSGsWRCclFloGmBGbDj1sZIJe
-         zQkcBYO4GmYubyzA+kNsOzvbStK+0dTVtJ8Keai1FXC4pZfS6EQYXSASHjIZnfqVmLOQ
-         KRSw==
-X-Gm-Message-State: AOAM532ULM1r0mULdfCG/xDc8iwOna4Itklg6bDsmoMqd/7PNUZ4r4pk
-        JSHXNclfV9EO7rDsBzYRh9uWEQ==
-X-Google-Smtp-Source: ABdhPJzFa0sPdX8nnl+3cilN+tka6w0zCwZ32CKFR4AhNGnNzC9nxs9m6cRvPlNkytR2CeqyZxpdnA==
-X-Received: by 2002:a7b:c112:: with SMTP id w18mr121651wmi.60.1628796564531;
-        Thu, 12 Aug 2021 12:29:24 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id i8sm6403254wma.7.2021.08.12.12.29.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Aug 2021 12:29:24 -0700 (PDT)
-Date:   Thu, 12 Aug 2021 21:29:22 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5 13/20] drm/gem: Delete gem array fencing helpers
-Message-ID: <YRV2ki1DbxwKqGFt@phenom.ffwll.local>
-References: <20210805104705.862416-1-daniel.vetter@ffwll.ch>
- <20210805104705.862416-14-daniel.vetter@ffwll.ch>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=XW7E6eMIUzBOMeFJlgcA+60MtDtkCTUh5FeR0EffHK0=;
+        b=D9NYDV6jtYHjScCLLSJ83fYPN15Bg/DCNTxXqqyW7faifvNswdNOxqDC92yWXb0SF1
+         hx5K4ZK188yjBTeUlT+2bPGQ92WUbjcpvlZLUqc5Rv15c0i5rQkpS0GgOddMV8RAV08Q
+         imugFu4M9l4ftaKZ+7hb65QGxhXZCKG/Tt8xgVbJ/IuVIdbrBMHxexdQ1ew+zvpano5K
+         tIRCZj66p5N5Y8Wlac3+PRVrJ7XSRZfYPVxNxo5Vs9HOcsSIQnaZhQwcjqUa5DlCZlvx
+         0XepZOQ/6nw1Nyhepk7H8jpvPDVBtjhSbIkEp6vL+ld3TX5W251iC5FoHTEjkpBNzJ1L
+         /btA==
+X-Gm-Message-State: AOAM5309C//IyJc99W/kYMbbj5B9eMPhk74wybMg8Vm45Lpow0h1097i
+        sskg96lPAe/g4j3+cAD420nN1pPT+do1LPie2S5PVWPY4tIQCQ==
+X-Google-Smtp-Source: ABdhPJyjiNixsEmaxzGLfwy3sbyj2wysTt1NbuzzLya2qKWw2gG0wyMhrM+pbH6tr46K8YDZxmAYfdB0JOU18UqXuz4=
+X-Received: by 2002:a05:6638:419a:: with SMTP id az26mr5996345jab.70.1628814075057;
+ Thu, 12 Aug 2021 17:21:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210805104705.862416-14-daniel.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+From:   Andrew Goff <goffa72@gmail.com>
+Date:   Fri, 13 Aug 2021 10:21:04 +1000
+Message-ID: <CAAUSrfF4Wks0TTe=G+uSoksagSo_+S67JAsWJS1PGzvkS3DPmQ@mail.gmail.com>
+Subject: Sony PlayTV Dual Tuner- dvb_usb_dib0700
+To:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 05, 2021 at 12:46:58PM +0200, Daniel Vetter wrote:
-> Integrated into the scheduler now and all users converted over.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
+Hi, I hope this is the right place for posting this.
 
-Some acks would be great here.
--Daniel
+I have the above TV tuner / capture device which has been working well
+in Ubuntu 16.04. I've decided to update the OS to Ubuntu 20.04 with a
+fresh install on a different disk and haven't been able to get this
+device working.
 
-> ---
->  drivers/gpu/drm/drm_gem.c | 96 ---------------------------------------
->  include/drm/drm_gem.h     |  5 --
->  2 files changed, 101 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 09c820045859..37e2e2820f08 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1272,99 +1272,3 @@ drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
->  	ww_acquire_fini(acquire_ctx);
->  }
->  EXPORT_SYMBOL(drm_gem_unlock_reservations);
-> -
-> -/**
-> - * drm_gem_fence_array_add - Adds the fence to an array of fences to be
-> - * waited on, deduplicating fences from the same context.
-> - *
-> - * @fence_array: array of dma_fence * for the job to block on.
-> - * @fence: the dma_fence to add to the list of dependencies.
-> - *
-> - * This functions consumes the reference for @fence both on success and error
-> - * cases.
-> - *
-> - * Returns:
-> - * 0 on success, or an error on failing to expand the array.
-> - */
-> -int drm_gem_fence_array_add(struct xarray *fence_array,
-> -			    struct dma_fence *fence)
-> -{
-> -	struct dma_fence *entry;
-> -	unsigned long index;
-> -	u32 id = 0;
-> -	int ret;
-> -
-> -	if (!fence)
-> -		return 0;
-> -
-> -	/* Deduplicate if we already depend on a fence from the same context.
-> -	 * This lets the size of the array of deps scale with the number of
-> -	 * engines involved, rather than the number of BOs.
-> -	 */
-> -	xa_for_each(fence_array, index, entry) {
-> -		if (entry->context != fence->context)
-> -			continue;
-> -
-> -		if (dma_fence_is_later(fence, entry)) {
-> -			dma_fence_put(entry);
-> -			xa_store(fence_array, index, fence, GFP_KERNEL);
-> -		} else {
-> -			dma_fence_put(fence);
-> -		}
-> -		return 0;
-> -	}
-> -
-> -	ret = xa_alloc(fence_array, &id, fence, xa_limit_32b, GFP_KERNEL);
-> -	if (ret != 0)
-> -		dma_fence_put(fence);
-> -
-> -	return ret;
-> -}
-> -EXPORT_SYMBOL(drm_gem_fence_array_add);
-> -
-> -/**
-> - * drm_gem_fence_array_add_implicit - Adds the implicit dependencies tracked
-> - * in the GEM object's reservation object to an array of dma_fences for use in
-> - * scheduling a rendering job.
-> - *
-> - * This should be called after drm_gem_lock_reservations() on your array of
-> - * GEM objects used in the job but before updating the reservations with your
-> - * own fences.
-> - *
-> - * @fence_array: array of dma_fence * for the job to block on.
-> - * @obj: the gem object to add new dependencies from.
-> - * @write: whether the job might write the object (so we need to depend on
-> - * shared fences in the reservation object).
-> - */
-> -int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
-> -				     struct drm_gem_object *obj,
-> -				     bool write)
-> -{
-> -	int ret;
-> -	struct dma_fence **fences;
-> -	unsigned int i, fence_count;
-> -
-> -	if (!write) {
-> -		struct dma_fence *fence =
-> -			dma_resv_get_excl_unlocked(obj->resv);
-> -
-> -		return drm_gem_fence_array_add(fence_array, fence);
-> -	}
-> -
-> -	ret = dma_resv_get_fences(obj->resv, NULL,
-> -						&fence_count, &fences);
-> -	if (ret || !fence_count)
-> -		return ret;
-> -
-> -	for (i = 0; i < fence_count; i++) {
-> -		ret = drm_gem_fence_array_add(fence_array, fences[i]);
-> -		if (ret)
-> -			break;
-> -	}
-> -
-> -	for (; i < fence_count; i++)
-> -		dma_fence_put(fences[i]);
-> -	kfree(fences);
-> -	return ret;
-> -}
-> -EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 35e7f44c2a75..e55a767188af 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -407,11 +407,6 @@ int drm_gem_lock_reservations(struct drm_gem_object **objs, int count,
->  			      struct ww_acquire_ctx *acquire_ctx);
->  void drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
->  				 struct ww_acquire_ctx *acquire_ctx);
-> -int drm_gem_fence_array_add(struct xarray *fence_array,
-> -			    struct dma_fence *fence);
-> -int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
-> -				     struct drm_gem_object *obj,
-> -				     bool write);
->  int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
->  			    u32 handle, u64 *offset);
->  
-> -- 
-> 2.32.0
-> 
+Ubuntu 21.04, 18.04 have also been tested with the same results. On a
+fresh install of 16.04 this device works well.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+It seems something has changed between 16.04 (kernel 4.15.0-142) and
+18.04 (kernel 5.4.0-42).
+
+In /etc/modprobe.d/dvb.conf
+# Sony Play TV
+options dvb-usb-dib0700 adapter_nr=5,6 force_lna_activation=1
+
+This has been tested with different variations of the above without success.
+
+When using w_scan with a file manager open I've noticed if scanning
+adapter6 I could see the folder named adapter5 disappear. I then
+opened up the adapter6 folder and two of the four files had
+disappeared. When the scan finished the files/folder reappeared,
+however the device then became unusable.
+
+'modinfo dvb_usb_dib0700 | grep depends' yields the following
+
+For Ubuntu 18.04
+depends:
+dib7000m,dib9000,dibx000_common,dvb-usb,dib0090,dib0070,dib3000mc,rc-core
+
+For Ubuntu 16.04
+depends:        dib7000m,dvb-usb,dib0090,dib0070,dib3000mc,rc-core
+
+So something has changed in the driver?
+
+Please let me know if any further information is required to help fix this.
+Thanks
+Andrew
