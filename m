@@ -2,90 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AB2D3EB6C9
-	for <lists+linux-media@lfdr.de>; Fri, 13 Aug 2021 16:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B52D3EB7D0
+	for <lists+linux-media@lfdr.de>; Fri, 13 Aug 2021 17:24:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240805AbhHMOez (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Aug 2021 10:34:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37538 "EHLO
+        id S241301AbhHMPJa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Aug 2021 11:09:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240746AbhHMOey (ORCPT
+        with ESMTP id S241263AbhHMPJZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Aug 2021 10:34:54 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5D4DC061756;
-        Fri, 13 Aug 2021 07:34:27 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id t9so20234597lfc.6;
-        Fri, 13 Aug 2021 07:34:27 -0700 (PDT)
+        Fri, 13 Aug 2021 11:09:25 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D581DC0613A4
+        for <linux-media@vger.kernel.org>; Fri, 13 Aug 2021 08:08:58 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id k29so13726422wrd.7
+        for <linux-media@vger.kernel.org>; Fri, 13 Aug 2021 08:08:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=l4iReoXHFEApkp8RV8F2KI8fkXLo3b3K6dKxcu94AXI=;
-        b=vNi6ZDT6w2n6KVbw5/2rVRHBAEn7r1QQh8J0W1D4bU87XLDIJOsuFvzhY3t5Yq+q1S
-         G1yyA6gP//wN2DVgs7lk3/V6Y98ANjoXC5wdhz5nxxAl7L5uneuR4Z+E7WA4ti9D5ixA
-         dtUAd/w5A9uItSP/RkP1909baC8vzCbPN2apdcICWllIAQXvuDfA+wUI40ngwtb4lruX
-         Shuc7fj0XrEeq39t8uYqSDdW0v/ewUfWXCjHUZKHKMLAR0OeR2NO2Fpy6fc/76Q2YpXk
-         bdKtfGE31NHGXd/5Eat7RvFHgRsi3f1EgBPSwCtwtwIOGgeMzC4RWWp1A5iGo/+h+K59
-         poRQ==
+        bh=MJmnMiqiIExJnQO7nDSEkupepLCI4iEDd+CsumVTut8=;
+        b=feB6b8dEwMs54No0bdiwARiMr6PvNB+5Y/QwTiHn41Oco6vCq7kHRLBkNWJevIrM95
+         B+RZpgK7M7MaSKD05lAYlCG7jKUF6Kn3VfeuToeRpRPLQR9hPpZfcbqVxF5SxuAy88bg
+         uk4957fWc1/xCv3wsQaGG516Z41hS4MV2bJt4n5nZHlDxbH4RusHgermCMTtgJteaJH9
+         rqNo4wgtP+R1s4L9mKO4v8/Pkb252Oam1sUAKDrdaSj0pjMEUGmSdFD8aLCueG4V9VKR
+         fuC14jgG0ytSaXihK2MI4zvZ1P4L5ZZM0Tf5j1Hu5kkwm+MWUpPhCE1t4ResInRVFIHh
+         x8JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=l4iReoXHFEApkp8RV8F2KI8fkXLo3b3K6dKxcu94AXI=;
-        b=bNveU09lA1pimlmYbGaftZceEd/938RMum+teb3eONsZtVB6MqDFg7Ykr2VXLMpUcr
-         gkFmkuIA5Qee5j4zCjt5woSnYvoiVvBmmUCaUvV2/ixnFC3Vxn86Wvnz4dUBMU2H1uVZ
-         wQhrJNrM1IBG4p7pgRxOB3OFxneHiyGTSnN1GXlO6dm+ui2/9NqFXEUDcdp0zOtm00/y
-         6C+xMq5R+gUJhds06K+q4ZJWppFedkRO9WAyi2rJ41vTYET6rsMaGsnLqyR2Tye/QC3q
-         AWcHMsrNZprFOEOkmheEKbAlJ1EcwMHMCYGTGMuXnoG2YYSwzpz8YNeWxnuH49rAhSIB
-         MD9w==
-X-Gm-Message-State: AOAM530ZcjeRiWAA9ct3Nb7XHrOjO3YtKFo+ai/ZhKehEOaj2tner7bb
-        yHAsrf4RASUVhi5McqHnAJs=
-X-Google-Smtp-Source: ABdhPJx7MYJ2JkcqKeEc+izjDcUd0n30XDocfuuuSdeS/PZAHxBYwQkGM6lsV2cnTqgmQlA40dlC9Q==
-X-Received: by 2002:a05:6512:234a:: with SMTP id p10mr335917lfu.482.1628865266035;
-        Fri, 13 Aug 2021 07:34:26 -0700 (PDT)
-Received: from localhost.localdomain ([46.235.67.232])
-        by smtp.gmail.com with ESMTPSA id s4sm186041ljp.115.2021.08.13.07.34.25
+        bh=MJmnMiqiIExJnQO7nDSEkupepLCI4iEDd+CsumVTut8=;
+        b=KwOMxNwlGIm0WHeTDsUqg/3n1PI49CcrRyQrGQTv83uebHu5oeqyO/+LVU3UhmDw1F
+         RuBeY0ZrdLyN1bekZ6R5e3jsBJ5H35m6ACt5GUR3bFhNSaJtODWtlI0s6ZzPckamgf8h
+         nZ8/uz1uwPqsJuZ0ctOvWFlOH0hASb6nR+ff7jSRKeJEzJkddA1EfyvwSfY2yoEVLZRw
+         Sby9SiJ8MbwOCe3TvskAlk8mHUdg2+aEXOsgqRyehVzTnUwI5QPlBb7pXDOVa+OG3/Yy
+         FzmCGdOab/qCCN7x/8VFZS9Zk3qf0zBgq5GYSU9vqOId5uRYsyYscEaEcYxSssdFDhuO
+         FvHw==
+X-Gm-Message-State: AOAM533SyZ905msbuPbqaB9bI0FOlwBfL4Xm6zM4IW22Hl+GPPQ3ltVY
+        TIHGiRL03qQpCuupg+S3ikQd0w==
+X-Google-Smtp-Source: ABdhPJw99y6IpfcMMbjWcPoIu6O98hDnqEM/2v5YWE6v0ZuOOSJCbKScQnaQ86cDPhD0AfIiDzg8xg==
+X-Received: by 2002:a5d:4d41:: with SMTP id a1mr1558708wru.76.1628867337517;
+        Fri, 13 Aug 2021 08:08:57 -0700 (PDT)
+Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
+        by smtp.googlemail.com with ESMTPSA id h4sm1799575wrm.42.2021.08.13.08.08.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 07:34:25 -0700 (PDT)
-From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     mchehab@kernel.org, manu@linuxtv.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pavel Skripkin <paskripkin@gmail.com>,
-        syzbot+2cd8c5db4a85f0a04142@syzkaller.appspotmail.com
-Subject: [PATCH] media: dvb-usb: fix ununit-value in az6027_rc_query
-Date:   Fri, 13 Aug 2021 17:34:20 +0300
-Message-Id: <20210813143420.20724-1-paskripkin@gmail.com>
+        Fri, 13 Aug 2021 08:08:57 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Suresh Udipi <sudipi@jp.adit-jv.com>,
+        linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/3] rcar-csi2: Improve link frequency selection
+Date:   Fri, 13 Aug 2021 17:07:53 +0200
+Message-Id: <20210813150756.131826-1-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Syzbot reported ununit-value bug in az6027_rc_query(). The problem was
-in missing state pointer initialization. Since this funtion does nothing
-we can simply initialize state to REMOTE_NO_KEY_PRESSED.
+Hello,
 
-Fixes: 76f9a820c867 ("V4L/DVB: AZ6027: Initial import of the driver")
-Reported-and-tested-by: syzbot+2cd8c5db4a85f0a04142@syzkaller.appspotmail.com
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- drivers/media/usb/dvb-usb/az6027.c | 1 +
- 1 file changed, 1 insertion(+)
+This series improves CSI-2 link frequency selection for the R-Car CSI-2 
+driver. This series have been posted before in different forms but 
+appears to have been side lined due to a confusion about a table in 
+datasheets.
 
-diff --git a/drivers/media/usb/dvb-usb/az6027.c b/drivers/media/usb/dvb-usb/az6027.c
-index 1c39b61cde29..86788771175b 100644
---- a/drivers/media/usb/dvb-usb/az6027.c
-+++ b/drivers/media/usb/dvb-usb/az6027.c
-@@ -391,6 +391,7 @@ static struct rc_map_table rc_map_az6027_table[] = {
- /* remote control stuff (does not work with my box) */
- static int az6027_rc_query(struct dvb_usb_device *d, u32 *event, int *state)
- {
-+	*state = REMOTE_NO_KEY_PRESSED;
- 	return 0;
- }
- 
+Since then a datasheet update have been issued and clarified the 
+situation and I think the series is ready to be picked up.
+
+The series have been rebased to Mauro's media-next tree and tested on 
+R-Car M3N with out any regressions found.
+
+Suresh Udipi (3):
+  media: rcar-csi2: Correct the selection of hsfreqrange
+  media: rcar-csi2: Add warning for PHY speed less than minimum
+  media: rcar-csi2: Optimize the selection PHTW register
+
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 22 +++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
+
 -- 
 2.32.0
 
