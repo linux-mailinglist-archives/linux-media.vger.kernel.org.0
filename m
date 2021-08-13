@@ -2,92 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77A213EB300
-	for <lists+linux-media@lfdr.de>; Fri, 13 Aug 2021 10:55:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 605223EB314
+	for <lists+linux-media@lfdr.de>; Fri, 13 Aug 2021 11:02:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239571AbhHMIzE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Aug 2021 04:55:04 -0400
-Received: from gofer.mess.org ([88.97.38.141]:35071 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239291AbhHMIzD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Aug 2021 04:55:03 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 42822C63A5; Fri, 13 Aug 2021 09:54:36 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1628844876; bh=YC6OzmHLK5k/oDScH3ZzYqVPQj0movnxnqCcgEsZ2Ks=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=f3+hcocwBG8SN0ibx3zhZTxZrEL+NljGW6PHD/Q4dMCC9yi2mpqqPRia+wXcVzJOU
-         3RF81NzZ+Bg2EbnQUgsJ2zXAEaf2nAuPHxieFe12y0YTp8efF2KOmPm9QBgjB0bd1W
-         8COXjQk6OsYoiWJRWtEi4tBAmu1QDDR94hU194Byj5lQNjFtaTQ5j2tBgrTWRN0avT
-         dBgVOcaQxOzVnqsOGm4d06GpFNBQakg9EEMDFVpLvqlJyk1UuEL1qXb9wOBHe1CG/H
-         7YNL1ZTnTDvty2xBEtFov++Sv/5ZKmGWPPd7b+PBlDUk5oNZbq71Dxmd85qgpjSKhq
-         kkaE6ivVjw/Aw==
-Date:   Fri, 13 Aug 2021 09:54:36 +0100
-From:   Sean Young <sean@mess.org>
-To:     Andrew Goff <goffa72@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: Sony PlayTV Dual Tuner- dvb_usb_dib0700
-Message-ID: <20210813085435.GA28634@gofer.mess.org>
-References: <CAAUSrfF4Wks0TTe=G+uSoksagSo_+S67JAsWJS1PGzvkS3DPmQ@mail.gmail.com>
+        id S239879AbhHMJCx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Aug 2021 05:02:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46852 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239704AbhHMJCw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Aug 2021 05:02:52 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94EE7C061756;
+        Fri, 13 Aug 2021 02:02:26 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id m24-20020a17090a7f98b0290178b1a81700so15056401pjl.4;
+        Fri, 13 Aug 2021 02:02:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QyadB7FpuNKWDpEAZ8pIq2q37loKngbMavtVP6UOn6M=;
+        b=otuX9qtW7oO7slcAr8Qx9A7t9+t16sjcuBTl0Nz1CiCb/f+XIczvOF3wPAf72bjlA0
+         eh9bVUdU+CbC57B3GtKBbNP5C3gC9FbLyiunBYxysyO+TmTxoXWr+pR8FqLuKMqy7ndv
+         X42dGivelzNOJPCYdAKl5b9GYZGUPQJhA9z3g5boJaeMcB+MJCqDza6JXTKzu5V+i4Je
+         pDYKKtsBFnyJ+68KHYwtwFf8z774UFQYQu8cPjX3Iuzcbas3mGrsFkhyzJ/dcN2WwrT+
+         aDca6bW8UBPIF0QqZXCnPVSh4gJB4cThZ/dK+FzKoXsr7HOu+vRrnKGK3IKk8sQVZS0s
+         lLXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QyadB7FpuNKWDpEAZ8pIq2q37loKngbMavtVP6UOn6M=;
+        b=CMApOO/Ts9kCpvk0qccO49U8SNLCKGz7vIHPnuqZ3RkJXFuGsgHbZzv0zu3TLPBK2F
+         ZHz2OORT4eqHl0btMlFIGH4krikE+ueew6c8jJcS/wUEvjMg6mMB047OgTgxuCjL5LhG
+         rL7xQ33hRZTvgat3e44eod+rIetCH4h0Z+wpUyelpWPx4LKb4Sg4pCQBXD+KDgEUmfOZ
+         zwyWoJrRhc2XvKNK6YbFZyinZSiXyz016qBmbkXth7OSZrKhV9hWlVNjsPKBnNWm2oz/
+         +OAvxoL2YGcf/NJpoqHokmr8NtkBG+4VZjKehj3dqjA1TrXhcFio0oOxSbBp7ODletHw
+         nl/w==
+X-Gm-Message-State: AOAM53108TzTXDGXRY7Th1178ZUp1PJb0JQNCPc383kimnQSS3Rq/J1G
+        lpp6KxvQIqX+H6WDD0Kedbs=
+X-Google-Smtp-Source: ABdhPJzwOPIahHcMzCFDYaA2ZSWs+PyhnrGetdTzb2NAmo63L/38ue6X0HTkv/G8tJ/ZUe0l9S34hA==
+X-Received: by 2002:a65:468c:: with SMTP id h12mr1473806pgr.423.1628845346151;
+        Fri, 13 Aug 2021 02:02:26 -0700 (PDT)
+Received: from localhost.localdomain ([118.200.190.93])
+        by smtp.gmail.com with ESMTPSA id 31sm1818428pgy.26.2021.08.13.02.02.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Aug 2021 02:02:25 -0700 (PDT)
+From:   Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, christian.koenig@amd.com
+Cc:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        intel-gfx@lists.freedesktop.org, skhan@linuxfoundation.org,
+        gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH 0/2] drm: update the ioctl handler
+Date:   Fri, 13 Aug 2021 16:54:48 +0800
+Message-Id: <20210813085450.32494-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAUSrfF4Wks0TTe=G+uSoksagSo_+S67JAsWJS1PGzvkS3DPmQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andrew,
+Hi,
 
-On Fri, Aug 13, 2021 at 10:21:04AM +1000, Andrew Goff wrote:
-> Hi, I hope this is the right place for posting this.
-> 
-> I have the above TV tuner / capture device which has been working well
-> in Ubuntu 16.04. I've decided to update the OS to Ubuntu 20.04 with a
-> fresh install on a different disk and haven't been able to get this
-> device working.
-> 
-> Ubuntu 21.04, 18.04 have also been tested with the same results. On a
-> fresh install of 16.04 this device works well.
-> 
-> It seems something has changed between 16.04 (kernel 4.15.0-142) and
-> 18.04 (kernel 5.4.0-42).
-> 
-> In /etc/modprobe.d/dvb.conf
-> # Sony Play TV
-> options dvb-usb-dib0700 adapter_nr=5,6 force_lna_activation=1
-> 
-> This has been tested with different variations of the above without success.
-> 
-> When using w_scan with a file manager open I've noticed if scanning
-> adapter6 I could see the folder named adapter5 disappear. I then
-> opened up the adapter6 folder and two of the four files had
-> disappeared. When the scan finished the files/folder reappeared,
-> however the device then became unusable.
-> 
-> 'modinfo dvb_usb_dib0700 | grep depends' yields the following
-> 
-> For Ubuntu 18.04
-> depends:
-> dib7000m,dib9000,dibx000_common,dvb-usb,dib0090,dib0070,dib3000mc,rc-core
-> 
-> For Ubuntu 16.04
-> depends:        dib7000m,dvb-usb,dib0090,dib0070,dib3000mc,rc-core
-> 
-> So something has changed in the driver?
-> 
-> Please let me know if any further information is required to help fix this.
+Finally got around to it. This patchset implements some updates to the
+drm ioctl handler that were first raised by Daniel Vetter in [1].
+Namely:
 
-This does sound like a regression, but we'll have to figure out what
-caused this. First of all, is there any output in dmesg when the device
-does not work?
+- Flush concurrent processes that can change the modeset when
+DRM masters are set/dropped or a lease is revoked
+- Unexport drm_ioctl_permit()
 
-Secondly, the best way to track this down is using bisection. Is this
-something you could do? This would be enormously helpful.
+Thoughts and comments would be very appreciated.
 
-https://www.kernel.org/doc/html/latest/admin-guide/bug-bisect.html
+Link: https://lore.kernel.org/lkml/YN9kAFcfGoB13x7f@phenom.ffwll.local/ [1]
 
-Thanks,
+Best wishes,
+Desmond
 
-Sean
+Desmond Cheong Zhi Xi (2):
+  drm: avoid races with modesetting rights
+  drm: unexport drm_ioctl_permit
+
+ drivers/gpu/drm/drm_auth.c           | 17 +++++++++---
+ drivers/gpu/drm/drm_client_modeset.c | 10 ++++---
+ drivers/gpu/drm/drm_drv.c            |  2 ++
+ drivers/gpu/drm/drm_fb_helper.c      | 20 ++++++++------
+ drivers/gpu/drm/drm_internal.h       |  5 ++--
+ drivers/gpu/drm/drm_ioctl.c          | 40 +++++++++++++++-------------
+ include/drm/drm_device.h             | 11 ++++++++
+ include/drm/drm_ioctl.h              |  8 +++++-
+ 8 files changed, 77 insertions(+), 36 deletions(-)
+
+-- 
+2.25.1
+
