@@ -2,93 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D2E63EADD6
-	for <lists+linux-media@lfdr.de>; Fri, 13 Aug 2021 02:21:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF9633EAEA8
+	for <lists+linux-media@lfdr.de>; Fri, 13 Aug 2021 04:42:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236471AbhHMAVv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Aug 2021 20:21:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42722 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236607AbhHMAVl (ORCPT
+        id S238357AbhHMCnB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Aug 2021 22:43:01 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42156 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238396AbhHMCnB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Aug 2021 20:21:41 -0400
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC354C0617A8
-        for <linux-media@vger.kernel.org>; Thu, 12 Aug 2021 17:21:15 -0700 (PDT)
-Received: by mail-io1-xd32.google.com with SMTP id r72so10955336iod.6
-        for <linux-media@vger.kernel.org>; Thu, 12 Aug 2021 17:21:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=XW7E6eMIUzBOMeFJlgcA+60MtDtkCTUh5FeR0EffHK0=;
-        b=FxvXKnL9Ow50P/sCD64YR+mmtOXvKbqubYIhoplwch+zlosb2HRgt2cuZ0qwE+yLlN
-         LvwEyFLgA0hiUjL05ktTgmbKb/Ql2iogV/lOZfS8ubNGBCOAH+SLu2oYLVK2VaOg5z5j
-         q9pkb+6evIY0WbmWef9YpmNBwbP05UivCb4el79zmyTYJxnlGhtnCQi8NE2yqO8fztX7
-         B6kvXwqptinXu8HS0Gb5DHfU604iCFpHZ1Cch3r8Fsk8nja/bUTsqxRwslxjQMhQHl7N
-         AqX6z3lsnI1aE9nHPkMRB25wEkLFMkhxdRi0o2L3hjt2JWF/fn2Mo8AHY3gKu5q965en
-         PsEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=XW7E6eMIUzBOMeFJlgcA+60MtDtkCTUh5FeR0EffHK0=;
-        b=D9NYDV6jtYHjScCLLSJ83fYPN15Bg/DCNTxXqqyW7faifvNswdNOxqDC92yWXb0SF1
-         hx5K4ZK188yjBTeUlT+2bPGQ92WUbjcpvlZLUqc5Rv15c0i5rQkpS0GgOddMV8RAV08Q
-         imugFu4M9l4ftaKZ+7hb65QGxhXZCKG/Tt8xgVbJ/IuVIdbrBMHxexdQ1ew+zvpano5K
-         tIRCZj66p5N5Y8Wlac3+PRVrJ7XSRZfYPVxNxo5Vs9HOcsSIQnaZhQwcjqUa5DlCZlvx
-         0XepZOQ/6nw1Nyhepk7H8jpvPDVBtjhSbIkEp6vL+ld3TX5W251iC5FoHTEjkpBNzJ1L
-         /btA==
-X-Gm-Message-State: AOAM5309C//IyJc99W/kYMbbj5B9eMPhk74wybMg8Vm45Lpow0h1097i
-        sskg96lPAe/g4j3+cAD420nN1pPT+do1LPie2S5PVWPY4tIQCQ==
-X-Google-Smtp-Source: ABdhPJyjiNixsEmaxzGLfwy3sbyj2wysTt1NbuzzLya2qKWw2gG0wyMhrM+pbH6tr46K8YDZxmAYfdB0JOU18UqXuz4=
-X-Received: by 2002:a05:6638:419a:: with SMTP id az26mr5996345jab.70.1628814075057;
- Thu, 12 Aug 2021 17:21:15 -0700 (PDT)
+        Thu, 12 Aug 2021 22:43:01 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8B904EE;
+        Fri, 13 Aug 2021 04:42:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1628822553;
+        bh=f2p8CERp95jSIPt+OCmvG4RJ+BFbg3txXjhb5K/mPWE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=clYejeDDS7OjYwcl7wgVxHIDz4JsMCfdKdmf88cuCnaeEaZxfUtUWwEp//cdahl/o
+         ZT5bvibDycmukn5Vg/OEcaaFCCkTL99iQ6bU83Vqczx02r2vluA+fImrnCuY3yTSof
+         k2OTEwVXpoW0oR29Emo15EOj/VWhKQ7eGQUaJkck=
+Date:   Fri, 13 Aug 2021 05:42:29 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     David Plowman <david.plowman@raspberrypi.com>
+Cc:     linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>, sakari.ailus@iki.fi,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v5 2/2] media: v4l2-ctrls: Document V4L2_CID_NOTIFY_GAINS
+ control
+Message-ID: <YRXcFRLrw+HZGTUV@pendragon.ideasonboard.com>
+References: <20210810093811.7205-1-david.plowman@raspberrypi.com>
+ <20210810093811.7205-3-david.plowman@raspberrypi.com>
 MIME-Version: 1.0
-From:   Andrew Goff <goffa72@gmail.com>
-Date:   Fri, 13 Aug 2021 10:21:04 +1000
-Message-ID: <CAAUSrfF4Wks0TTe=G+uSoksagSo_+S67JAsWJS1PGzvkS3DPmQ@mail.gmail.com>
-Subject: Sony PlayTV Dual Tuner- dvb_usb_dib0700
-To:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210810093811.7205-3-david.plowman@raspberrypi.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, I hope this is the right place for posting this.
+Hi David,
 
-I have the above TV tuner / capture device which has been working well
-in Ubuntu 16.04. I've decided to update the OS to Ubuntu 20.04 with a
-fresh install on a different disk and haven't been able to get this
-device working.
+Thank you for the patch.
 
-Ubuntu 21.04, 18.04 have also been tested with the same results. On a
-fresh install of 16.04 this device works well.
+On Tue, Aug 10, 2021 at 10:38:11AM +0100, David Plowman wrote:
+> Add documentation for the V4L2_CID_NOTIFY_GAINS control.
+> 
+> This control is required by sensors that need to know what colour
+> gains will be applied to pixels by downstream processing (such as by
+> an ISP), though the sensor does not apply these gains itself.
+> 
+> Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
+> ---
+>  .../media/v4l/ext-ctrls-image-source.rst      | 20 +++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> index de43f5c8486d..ba83cc0867d2 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> @@ -72,3 +72,23 @@ Image Source Control IDs
+>      * - __u32
+>        - ``height``
+>        - Height of the area.
+> +
+> +``V4L2_CID_NOTIFY_GAINS (integer array)``
+> +    The sensor is notified what gains will be applied to the different
+> +    colour channels by subsequent processing (such as by an ISP). The
+> +    sensor is merely informed of these values in case it performs
+> +    processing that requires them, but it does not apply them itself to
+> +    the output pixels.
+> +
+> +    The use of an array allows this control to be extended to sensors
+> +    with, for example, non-Bayer CFAs (colour filter arrays).
+> +
+> +    Currently it is defined only for Bayer sensors, and is an array
+> +    control taking 4 gain values, being the gains for each of the
+> +    Bayer channels. The gains are always in the order B, Gb, Gr and R,
+> +    irrespective of the exact Bayer order of the sensor itself.
 
-It seems something has changed between 16.04 (kernel 4.15.0-142) and
-18.04 (kernel 5.4.0-42).
+I'd swap the above two paragraphs.
 
-In /etc/modprobe.d/dvb.conf
-# Sony Play TV
-options dvb-usb-dib0700 adapter_nr=5,6 force_lna_activation=1
+> +
+> +    The units for the gain values are linear, with the default value
+> +    representing a gain of exactly 1. For example, if this default value
+> +    is reported as being (say) 128, then a value of 256 would represent
+> +    a gain of exactly 2.
 
-This has been tested with different variations of the above without success.
+Maybe 1.0 and 2.0 instead of 1 and 2 to show that the gains values
+themselves can be fractional ?
 
-When using w_scan with a file manager open I've noticed if scanning
-adapter6 I could see the folder named adapter5 disappear. I then
-opened up the adapter6 folder and two of the four files had
-disappeared. When the scan finished the files/folder reappeared,
-however the device then became unusable.
+With those two minor issues addressed if deemed to be worth it,
 
-'modinfo dvb_usb_dib0700 | grep depends' yields the following
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-For Ubuntu 18.04
-depends:
-dib7000m,dib9000,dibx000_common,dvb-usb,dib0090,dib0070,dib3000mc,rc-core
+-- 
+Regards,
 
-For Ubuntu 16.04
-depends:        dib7000m,dvb-usb,dib0090,dib0070,dib3000mc,rc-core
-
-So something has changed in the driver?
-
-Please let me know if any further information is required to help fix this.
-Thanks
-Andrew
+Laurent Pinchart
