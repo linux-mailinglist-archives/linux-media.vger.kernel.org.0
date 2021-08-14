@@ -2,218 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 385C83EBFD1
-	for <lists+linux-media@lfdr.de>; Sat, 14 Aug 2021 04:46:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 188D53EC0F9
+	for <lists+linux-media@lfdr.de>; Sat, 14 Aug 2021 08:43:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236519AbhHNCqh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Aug 2021 22:46:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35240 "EHLO
+        id S236943AbhHNGnq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Aug 2021 02:43:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236466AbhHNCqg (ORCPT
+        with ESMTP id S232021AbhHNGnq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Aug 2021 22:46:36 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49294C061756
-        for <linux-media@vger.kernel.org>; Fri, 13 Aug 2021 19:46:09 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id b132so6486877ybg.4
-        for <linux-media@vger.kernel.org>; Fri, 13 Aug 2021 19:46:09 -0700 (PDT)
+        Sat, 14 Aug 2021 02:43:46 -0400
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C8D8C06175F
+        for <linux-media@vger.kernel.org>; Fri, 13 Aug 2021 23:43:18 -0700 (PDT)
+Received: by mail-io1-xd2e.google.com with SMTP id j18so922630ioj.8
+        for <linux-media@vger.kernel.org>; Fri, 13 Aug 2021 23:43:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=doexGRRFRH9NbdTG0blGI0xcOYJky3DrV73X8D1906s=;
-        b=Wne+WBIGEmscULU46di2hCVQ25Q1QSDoOgEXBIbaOJY12hyCsOnnb5kLxOGoqdvFg8
-         gSEgIQMm4Rl+wruc8INnteNs2KS7V52hjZNn5cKFy0jkm4RW8zJhaHXKT9NP5xYCgvzK
-         HHMXWZxPiy1y/ffk2A9Ly87G07YtLyZoS++bk6B5EW43tdqGfEqlTJ1FRqE9WS+nKdr/
-         0Q7AThigu6GuZ+a8WWgOGtttxwMZTIdX0WIov4ypKAz7bHtx8Ft6pVV2WZI0kYEtVgXI
-         TSTguhHY8eXakFzk8KktN934PACMgOv0zR+FnH3EeY1LjleOTwb2KTq+6S0mUkSo4qS1
-         8r2w==
+         :cc;
+        bh=la8H+awZEO/kUXwgRGyUq3Pc2CyC1Qyq3xRmdVM3kTw=;
+        b=e3Yt53jbmZgDw9RokgJX2KmbC3IgMEa5fJU1PCWkUTy004wKS3a0o90PwxeAwFN5pE
+         nQd1NNuFTh7wmC/nnJVZuymnBJ1wbRaCdnqvhipTVrRzY+uqp+dKXoBh/WHNmRDbWX4L
+         X5aKGrDw/YEw4BiPliUD06BaDzoBkiEOnUXazjg8+1oz02u6Gw+X/tG79HLIyWiOlJWK
+         Uy/0nQJAwaLlakHYgb83xamvmHkwMEyAwPZ8rGbGgC6Er/c/rGHu1FGvx+rwOnjhZ/dr
+         foGgEW83dfgf/B/334zGB5tg8wA6CF6BShxKvzde9joO5eKUnlNuJP0Co6FFd6ltlz4a
+         FaEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=doexGRRFRH9NbdTG0blGI0xcOYJky3DrV73X8D1906s=;
-        b=NW/lDxd6Zup8wDgOZn8qKyGi08gLwkvOWDJ8gLW/OOZGsMwM3ZKTjPjwlNfSf+J0Cv
-         nRTu3xp01cNTXSjGGOjY5YsOQsfErKWJ+3XjdcqqATWfuGezkfgaxfdzNl/qx463ULAC
-         hXd2zZ3vEx1kzHDQxbQFw7vm1OjboOoJvKd3RsdJ3/1ewedjp+7ZrfjLZa0MjnIlcZD8
-         YVDVR0K2FdeQDV2bN605SQ3P9NNe1LGR7O9eh39i/PObYLRXlVEqjnb+QlD2v5a/Sq+g
-         nckcolcwXBIAtb9YDELuoCs/OzgT1+sWpsApPqkBAe/3whIX8oEIlFo0vWCCZUSlSsUt
-         lj7A==
-X-Gm-Message-State: AOAM5329nzfuy+xa+FbgMAUtqPgRkLE8r5E1VzrfjMix+plgFaBdNOI5
-        jap9rTy9/r34eWmAu2YFejrtSvdmf60tOmms1Oc=
-X-Google-Smtp-Source: ABdhPJxhwi5/Li+Ln3JGQm9q+us2VD16GiY4mH5NyM66cox0fnYlEIpJ8k1pvRTQJsOui9Z0v8Z4uN+VOdHyHnN9Sqo=
-X-Received: by 2002:a25:83ce:: with SMTP id v14mr7429993ybm.221.1628909168633;
- Fri, 13 Aug 2021 19:46:08 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=la8H+awZEO/kUXwgRGyUq3Pc2CyC1Qyq3xRmdVM3kTw=;
+        b=B4JnA0YbL3BBrgZa6Sp+qQvO8A6mhcd8C6n70WQlvjQqeHXzKPmfHJ5KlolHgRb/TK
+         FiPvD2Colk03NPfuasqx2fl/PJJswzWxiJbGCeC2vcrktSKb66O9YIzPfkhvzdaaJ/mx
+         b/oJezBMaBtz9mTrvDbZG5bGxwCF9kDcHpLYWVC24IbRK6bAp8TujxIvw1iPZzpirzC8
+         eQB6ly/HlHgJAfIvhcyUow2mxaz4RD7FgfZNA69tiLrOOAavWjiBWWn7njlRD5H+UVNo
+         YLuKgmIvMYs/fultB/kc+pTWjZpvh3cOHu/XTkFKeukzrdPuVz8W+O5qwTyE/dwfeK2U
+         5sOA==
+X-Gm-Message-State: AOAM533ZUBBrOO+9+7pP9zP6nNijA4I5/zoACAXRyHbjdb1LXbu3g7W0
+        bZHaWAEmi/XppnMtoMJQOmjizYCn/owU20CactaB7Wjha7Q=
+X-Google-Smtp-Source: ABdhPJwpM/LtBvcTl9ue/3AwiP2WnWvIlz5Y+/fY/f5r3QR6y4bVz5gTRYyQx6yg0EZj6mnbmo8nCGfOsFoct+bQVh8=
+X-Received: by 2002:a05:6602:583:: with SMTP id v3mr4675306iox.91.1628923397600;
+ Fri, 13 Aug 2021 23:43:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210805104705.862416-1-daniel.vetter@ffwll.ch>
- <20210805104705.862416-9-daniel.vetter@ffwll.ch> <YRV2ShnIbOyaHG8X@phenom.ffwll.local>
-In-Reply-To: <YRV2ShnIbOyaHG8X@phenom.ffwll.local>
-From:   Qiang Yu <yuq825@gmail.com>
-Date:   Sat, 14 Aug 2021 10:45:57 +0800
-Message-ID: <CAKGbVbvc=JiW87oOGZ84sg513o2-ibGfzd6m8CKTHD2igaw81w@mail.gmail.com>
-Subject: Re: [PATCH v5 08/20] drm/lima: use scheduler dependency tracking
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        lima@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
+References: <CAAUSrfF4Wks0TTe=G+uSoksagSo_+S67JAsWJS1PGzvkS3DPmQ@mail.gmail.com>
+ <20210813085435.GA28634@gofer.mess.org> <CAAUSrfEJ-ks=zoEWr=SuUtmGPdMS4qaeWivz0r5FXrnbZqhWyQ@mail.gmail.com>
+In-Reply-To: <CAAUSrfEJ-ks=zoEWr=SuUtmGPdMS4qaeWivz0r5FXrnbZqhWyQ@mail.gmail.com>
+From:   Andrew Goff <goffa72@gmail.com>
+Date:   Sat, 14 Aug 2021 16:43:05 +1000
+Message-ID: <CAAUSrfEdrSRtDFnGqBv-1f4wd4fWdPP0OVykdXuOVcV5JqM4gA@mail.gmail.com>
+Subject: Re: Sony PlayTV Dual Tuner- dvb_usb_dib0700
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks for the remind, indeed miss a lock. Patch is:
-Reviewed-by: Qiang Yu <yuq825@gmail.com>
+Further to below I had been thinking that after a scan sometimes my
+system would crash but it seems the usb devices became disabled and
+therefore i could not use the mouse or keyboard.
+When I do the test remotely I can do further tests, I had not
+previously noted the correlation of this behaviour.
 
-Regards,
-Qiang
+After a reboot it is the first scan that causes disabling of the hub,
+EMI issue which I don't get on Ubuntu 16.04. Using either adapter0 or
+1 creates this error.
+Closing the terminal and doing a new scan on either adapter
+successfully completes without any further errors.
 
-On Fri, Aug 13, 2021 at 3:28 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+
+On Sat, 14 Aug 2021 at 11:10, Andrew Goff <goffa72@gmail.com> wrote:
 >
-> On Thu, Aug 05, 2021 at 12:46:53PM +0200, Daniel Vetter wrote:
-> > Nothing special going on here.
-> >
-> > Aside reviewing the code, it seems like drm_sched_job_arm() should be
-> > moved into lima_sched_context_queue_task and put under some mutex
-> > together with drm_sched_push_job(). See the kerneldoc for
-> > drm_sched_push_job().
-> >
-> > v2: Rebase over renamed functions to add dependencies.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Qiang Yu <yuq825@gmail.com>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> > Cc: lima@lists.freedesktop.org
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
+> Hi Sean,
 >
-> Ping for an ack here please. Testing would be even better ofc.
-> -Daniel
+> I'll have a go at using bisection.
 >
-> > ---
-> >  drivers/gpu/drm/lima/lima_gem.c   |  6 ++++--
-> >  drivers/gpu/drm/lima/lima_sched.c | 21 ---------------------
-> >  drivers/gpu/drm/lima/lima_sched.h |  3 ---
-> >  3 files changed, 4 insertions(+), 26 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lim=
-a_gem.c
-> > index c528f40981bb..640acc060467 100644
-> > --- a/drivers/gpu/drm/lima/lima_gem.c
-> > +++ b/drivers/gpu/drm/lima/lima_gem.c
-> > @@ -267,7 +267,9 @@ static int lima_gem_sync_bo(struct lima_sched_task =
-*task, struct lima_bo *bo,
-> >       if (explicit)
-> >               return 0;
-> >
-> > -     return drm_gem_fence_array_add_implicit(&task->deps, &bo->base.ba=
-se, write);
-> > +     return drm_sched_job_add_implicit_dependencies(&task->base,
-> > +                                                    &bo->base.base,
-> > +                                                    write);
-> >  }
-> >
-> >  static int lima_gem_add_deps(struct drm_file *file, struct lima_submit=
- *submit)
-> > @@ -285,7 +287,7 @@ static int lima_gem_add_deps(struct drm_file *file,=
- struct lima_submit *submit)
-> >               if (err)
-> >                       return err;
-> >
-> > -             err =3D drm_gem_fence_array_add(&submit->task->deps, fenc=
-e);
-> > +             err =3D drm_sched_job_add_dependency(&submit->task->base,=
- fence);
-> >               if (err) {
-> >                       dma_fence_put(fence);
-> >                       return err;
-> > diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/l=
-ima_sched.c
-> > index e968b5a8f0b0..99d5f6f1a882 100644
-> > --- a/drivers/gpu/drm/lima/lima_sched.c
-> > +++ b/drivers/gpu/drm/lima/lima_sched.c
-> > @@ -134,24 +134,15 @@ int lima_sched_task_init(struct lima_sched_task *=
-task,
-> >       task->num_bos =3D num_bos;
-> >       task->vm =3D lima_vm_get(vm);
-> >
-> > -     xa_init_flags(&task->deps, XA_FLAGS_ALLOC);
-> > -
-> >       return 0;
-> >  }
-> >
-> >  void lima_sched_task_fini(struct lima_sched_task *task)
-> >  {
-> > -     struct dma_fence *fence;
-> > -     unsigned long index;
-> >       int i;
-> >
-> >       drm_sched_job_cleanup(&task->base);
-> >
-> > -     xa_for_each(&task->deps, index, fence) {
-> > -             dma_fence_put(fence);
-> > -     }
-> > -     xa_destroy(&task->deps);
-> > -
-> >       if (task->bos) {
-> >               for (i =3D 0; i < task->num_bos; i++)
-> >                       drm_gem_object_put(&task->bos[i]->base.base);
-> > @@ -186,17 +177,6 @@ struct dma_fence *lima_sched_context_queue_task(st=
-ruct lima_sched_task *task)
-> >       return fence;
-> >  }
-> >
-> > -static struct dma_fence *lima_sched_dependency(struct drm_sched_job *j=
-ob,
-> > -                                            struct drm_sched_entity *e=
-ntity)
-> > -{
-> > -     struct lima_sched_task *task =3D to_lima_task(job);
-> > -
-> > -     if (!xa_empty(&task->deps))
-> > -             return xa_erase(&task->deps, task->last_dep++);
-> > -
-> > -     return NULL;
-> > -}
-> > -
-> >  static int lima_pm_busy(struct lima_device *ldev)
-> >  {
-> >       int ret;
-> > @@ -472,7 +452,6 @@ static void lima_sched_free_job(struct drm_sched_jo=
-b *job)
-> >  }
-> >
-> >  static const struct drm_sched_backend_ops lima_sched_ops =3D {
-> > -     .dependency =3D lima_sched_dependency,
-> >       .run_job =3D lima_sched_run_job,
-> >       .timedout_job =3D lima_sched_timedout_job,
-> >       .free_job =3D lima_sched_free_job,
-> > diff --git a/drivers/gpu/drm/lima/lima_sched.h b/drivers/gpu/drm/lima/l=
-ima_sched.h
-> > index ac70006b0e26..6a11764d87b3 100644
-> > --- a/drivers/gpu/drm/lima/lima_sched.h
-> > +++ b/drivers/gpu/drm/lima/lima_sched.h
-> > @@ -23,9 +23,6 @@ struct lima_sched_task {
-> >       struct lima_vm *vm;
-> >       void *frame;
-> >
-> > -     struct xarray deps;
-> > -     unsigned long last_dep;
-> > -
-> >       struct lima_bo **bos;
-> >       int num_bos;
-> >
-> > --
-> > 2.32.0
-> >
+> Attached is the output of dmesg, when I started a scan of adapter1 the
+> following occurred -
 >
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> usb usb1-port1: disabled by hub (EMI?), re-enabling...
+>
+> and when I closed the terminal window the USB ports re-enabled.
+>
+>
+>
+> On Fri, 13 Aug 2021 at 18:54, Sean Young <sean@mess.org> wrote:
+> >
+> > Hi Andrew,
+> >
+> > On Fri, Aug 13, 2021 at 10:21:04AM +1000, Andrew Goff wrote:
+> > > Hi, I hope this is the right place for posting this.
+> > >
+> > > I have the above TV tuner / capture device which has been working well
+> > > in Ubuntu 16.04. I've decided to update the OS to Ubuntu 20.04 with a
+> > > fresh install on a different disk and haven't been able to get this
+> > > device working.
+> > >
+> > > Ubuntu 21.04, 18.04 have also been tested with the same results. On a
+> > > fresh install of 16.04 this device works well.
+> > >
+> > > It seems something has changed between 16.04 (kernel 4.15.0-142) and
+> > > 18.04 (kernel 5.4.0-42).
+> > >
+> > > In /etc/modprobe.d/dvb.conf
+> > > # Sony Play TV
+> > > options dvb-usb-dib0700 adapter_nr=5,6 force_lna_activation=1
+> > >
+> > > This has been tested with different variations of the above without success.
+> > >
+> > > When using w_scan with a file manager open I've noticed if scanning
+> > > adapter6 I could see the folder named adapter5 disappear. I then
+> > > opened up the adapter6 folder and two of the four files had
+> > > disappeared. When the scan finished the files/folder reappeared,
+> > > however the device then became unusable.
+> > >
+> > > 'modinfo dvb_usb_dib0700 | grep depends' yields the following
+> > >
+> > > For Ubuntu 18.04
+> > > depends:
+> > > dib7000m,dib9000,dibx000_common,dvb-usb,dib0090,dib0070,dib3000mc,rc-core
+> > >
+> > > For Ubuntu 16.04
+> > > depends:        dib7000m,dvb-usb,dib0090,dib0070,dib3000mc,rc-core
+> > >
+> > > So something has changed in the driver?
+> > >
+> > > Please let me know if any further information is required to help fix this.
+> >
+> > This does sound like a regression, but we'll have to figure out what
+> > caused this. First of all, is there any output in dmesg when the device
+> > does not work?
+> >
+> > Secondly, the best way to track this down is using bisection. Is this
+> > something you could do? This would be enormously helpful.
+> >
+> > https://www.kernel.org/doc/html/latest/admin-guide/bug-bisect.html
+> >
+> > Thanks,
+> >
+> > Sean
