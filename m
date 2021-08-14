@@ -2,212 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7E7A3EC4DD
-	for <lists+linux-media@lfdr.de>; Sat, 14 Aug 2021 21:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B3013EC513
+	for <lists+linux-media@lfdr.de>; Sat, 14 Aug 2021 22:33:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230354AbhHNTzS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Aug 2021 15:55:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35642 "EHLO
+        id S232602AbhHNUeT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Aug 2021 16:34:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbhHNTzS (ORCPT
+        with ESMTP id S229489AbhHNUeT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Aug 2021 15:55:18 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FF02C061764;
-        Sat, 14 Aug 2021 12:54:49 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id qe12-20020a17090b4f8c00b00179321cbae7so10455818pjb.2;
-        Sat, 14 Aug 2021 12:54:49 -0700 (PDT)
+        Sat, 14 Aug 2021 16:34:19 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F18FC061764
+        for <linux-media@vger.kernel.org>; Sat, 14 Aug 2021 13:33:50 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id q11-20020a7bce8b0000b02902e6880d0accso12101815wmj.0
+        for <linux-media@vger.kernel.org>; Sat, 14 Aug 2021 13:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZwyWUeyXG8fg6irLvuiEugsOVJBFRc7EQfmplXnmw84=;
-        b=VeFRMhPUpKgvC57pC96tpSIPSIgKXEpWy3CWSV73rpvmy54wdMEKxF3FFIlHD8KgDr
-         2sH4nN0+W9FDh/nNvRRrfGD/eXPXrFv6tOxlylDAZfrUOCEYBG5o8qEKRRwHxVrPuVxf
-         SoSPtramZaNp9b02D+a4anuHwx2p9O7XyXKNeF8Y9HAKDj6Pc2H1M49Fg81my6JXfAJQ
-         fo9cvSxTR49ulvGNY7ZiqWpOcNqYnQ/jB7lOaT2xyQu1etmyPHHZAlMu0SxCc6jYTMUI
-         sMJHQbO8N2G7mZALcPtriVvVF4U5TtNqTe7CrKNVfy+eCS9H+f9p8aO/84ia1mF7hF+O
-         sMBQ==
+        h=message-id:from:mime-version:content-transfer-encoding
+         :content-description:subject:to:date:reply-to;
+        bh=5NTJSky9UX3JbuB9riY3wCYfXDpCwy2c7hzO0kF4AHA=;
+        b=KmYS6FzawTnnhSt5e9WipQwY1eno2DvZ0plE4yXaWI+FpBzqTadceL+O6GnI4g6xdd
+         cfdyMclNTwvrEovf9b3JCq7VkavvfowAdedJF5WyzS/rcAjkeFaHosNqJlHpqJLL/uNe
+         d1gyhAWqttwRsmTFCMBb9yZfwPf3qnZ0Tb1hLFpBoET6C+nPkUMS15BwB8puURfJ2jhV
+         49gBHPsf18+0PP43zAhoOOwXkoulSaf+7Lxd5pEbyBmFmxwqR3Geqg0D6GEFje8xSKN/
+         2pwQkDBLHgZEtQj+YWwHaeyowrufX3x0xrsP6ANUGETq2xpcnMwmp1Ap2QB45l6HHyYZ
+         B6aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZwyWUeyXG8fg6irLvuiEugsOVJBFRc7EQfmplXnmw84=;
-        b=hZsqbesZhzKPjf7TNBMLqcWJ6CD64sXK5m7Xp0btSPMTlC6HFAXgYbvXoyzgmIaxbp
-         MSDM7hlbxZagcbrso5LMk+74MK2K4Vh6myJ8GKTtGRMHudZsxvhHkihkJdQvrdaKMV/1
-         LOz3bHaKfj4WTYbBWstlKtyHte0HcpBoho7YCVfAN7rRQuqq00XrGh1IXvRw5XAuA2rs
-         F7n1zgknDyutJsfIvPFrpv0fYOwlc4O13J2hjX5XKLFU0ozgA5t/v2Ry2hTz+aV6FNRN
-         g3Qr0tVezwCORfnNNb0dEm5JB8NsU5lPqMHyADgVg6oIC1RlZ/YPdSpMu0pcg8n3+USE
-         jl2A==
-X-Gm-Message-State: AOAM533/6hfFNyOmBD2/bwaaNb1LVQ8kYFty2hMhQANiZ6xVcI/ZYw4l
-        J+dgjk/n1ghPv1ZcrLP5uhuv+1xeNHvzjvllTXA=
-X-Google-Smtp-Source: ABdhPJyJ4W1qyU1Zdy8gzE429sAUaIl9BZ83fhF9zUPbekk3FlQmwv/D1UfE1VnswdUU8b17xmyrjy6EMb3AxGSwM24=
-X-Received: by 2002:a17:90b:33c5:: with SMTP id lk5mr8774888pjb.129.1628970889047;
- Sat, 14 Aug 2021 12:54:49 -0700 (PDT)
+        h=x-gm-message-state:message-id:from:mime-version
+         :content-transfer-encoding:content-description:subject:to:date
+         :reply-to;
+        bh=5NTJSky9UX3JbuB9riY3wCYfXDpCwy2c7hzO0kF4AHA=;
+        b=dyNZXwMOSh3IPabKuWWK6H9MkAklyiweQT8O/iw6Si/9BsvLFRA5fvLI/tvhnbeoyq
+         xDLhUapX5qSk9R45s2LbZw2rlxG6SUQ+ssNj3FGd3kJ2PmZqgP2Fr+PCH2PPC7ZF9roF
+         DgA04obmXffyCKN1+Wr1bywiNx6BCB7fNHDm2sU9LicyMbzGxO5qzgwjho1mBFKA8a5V
+         yeZ3QJa42DfoqZ/eDG9Wpxlz8C02nIW56q8uCyWUsv9+lPEFu4cwoFPgnGFSS0k/+7B6
+         bjEXZjxf+LyyR+V3vRC9HuMoNsBqjLZxlIOMC7NrUU3xPj8SV28gBAJ3u1OKOP3Ap7ow
+         fMQw==
+X-Gm-Message-State: AOAM533+dRN49PYar4I0Qd9+KZa18pPH0R6d/SKU9pPqUf7SyE576yOO
+        2PsreVQEaY7lIhMuQxalnt0=
+X-Google-Smtp-Source: ABdhPJzqj5LVGSGK/FOQ2rtqTktQLdIP+g4qk+FA+vViowFloHh0LYBS0KVDNuqIEncpD0E9c6OTZA==
+X-Received: by 2002:a1c:2090:: with SMTP id g138mr8259486wmg.98.1628973228816;
+        Sat, 14 Aug 2021 13:33:48 -0700 (PDT)
+Received: from [192.168.1.70] ([102.64.221.122])
+        by smtp.gmail.com with ESMTPSA id e17sm5604100wrs.78.2021.08.14.13.33.34
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Sat, 14 Aug 2021 13:33:48 -0700 (PDT)
+Message-ID: <611828ac.1c69fb81.4ddf7.f252@mx.google.com>
+From:   Vanina curth <curtisvani0028@gmail.com>
+X-Google-Original-From: Vanina curth
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-References: <20210814155742.11392-1-novikov@ispras.ru>
-In-Reply-To: <20210814155742.11392-1-novikov@ispras.ru>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 14 Aug 2021 22:54:12 +0300
-Message-ID: <CAHp75Vdgt=HAK6Cd886AQ+BK-HAJjq0aqf_gkdcpefW5UMBnXg@mail.gmail.com>
-Subject: Re: [PATCH v2] media: pt3: Switch to using functions pcim_* and devm_*
-To:     Evgeny Novikov <novikov@ispras.ru>
-Cc:     Akihiro Tsukada <tskd08@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kirill Shilimanov <kirill.shilimanov@huawei.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ldv-project@linuxtesting.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Sir,
+To:     Recipients <Vanina@vger.kernel.org>
+Date:   Sat, 14 Aug 2021 20:33:17 +0000
+Reply-To: curtisvani9008@gmail.com
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Aug 14, 2021 at 6:57 PM Evgeny Novikov <novikov@ispras.ru> wrote:
->
-> pt3_probe() did not free one of IO mappings in case when one of them was
-> successful while another one failed. The patch fixed that by using
-> functions pcim_*. Also, it simplifies error handling through switching
-> to devm_* functions.
->
-> Found by Linux Driver Verification project (linuxtesting.org).
-
-Looks good to me, though I can't test this myself either (I have no hardware).
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-> Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
-> Co-developed-by: Kirill Shilimanov <kirill.shilimanov@huawei.com>
-> Signed-off-by: Kirill Shilimanov <kirill.shilimanov@huawei.com>
-> ---
-> v2: Use functions pcim_* and devm_* to simplify code (Andy Shevchenko)
-> ---
->  drivers/media/pci/pt3/pt3.c | 58 +++++++++----------------------------
->  1 file changed, 14 insertions(+), 44 deletions(-)
->
-> diff --git a/drivers/media/pci/pt3/pt3.c b/drivers/media/pci/pt3/pt3.c
-> index c0bc86793355..0d51bdf01f43 100644
-> --- a/drivers/media/pci/pt3/pt3.c
-> +++ b/drivers/media/pci/pt3/pt3.c
-> @@ -685,12 +685,6 @@ static void pt3_remove(struct pci_dev *pdev)
->         for (i = PT3_NUM_FE - 1; i >= 0; i--)
->                 pt3_cleanup_adapter(pt3, i);
->         i2c_del_adapter(&pt3->i2c_adap);
-> -       kfree(pt3->i2c_buf);
-> -       pci_iounmap(pt3->pdev, pt3->regs[0]);
-> -       pci_iounmap(pt3->pdev, pt3->regs[1]);
-> -       pci_release_regions(pdev);
-> -       pci_disable_device(pdev);
-> -       kfree(pt3);
->  }
->
->  static int pt3_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-> @@ -704,14 +698,14 @@ static int pt3_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->         if (pci_read_config_byte(pdev, PCI_REVISION_ID, &rev) || rev != 1)
->                 return -ENODEV;
->
-> -       ret = pci_enable_device(pdev);
-> +       ret = pcim_enable_device(pdev);
->         if (ret < 0)
->                 return -ENODEV;
->         pci_set_master(pdev);
->
-> -       ret = pci_request_regions(pdev, DRV_NAME);
-> +       ret = pcim_iomap_regions(pdev, BIT(0) | BIT(2), DRV_NAME);
->         if (ret < 0)
-> -               goto err_disable_device;
-> +               return ret;
->
->         ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
->         if (ret == 0)
-> @@ -722,42 +716,32 @@ static int pt3_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->                         dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
->                 else {
->                         dev_err(&pdev->dev, "Failed to set DMA mask\n");
-> -                       goto err_release_regions;
-> +                       return ret;
->                 }
->                 dev_info(&pdev->dev, "Use 32bit DMA\n");
->         }
->
-> -       pt3 = kzalloc(sizeof(*pt3), GFP_KERNEL);
-> -       if (!pt3) {
-> -               ret = -ENOMEM;
-> -               goto err_release_regions;
-> -       }
-> +       pt3 = devm_kzalloc(&pdev->dev, sizeof(*pt3), GFP_KERNEL);
-> +       if (!pt3)
-> +               return -ENOMEM;
->         pci_set_drvdata(pdev, pt3);
->         pt3->pdev = pdev;
->         mutex_init(&pt3->lock);
-> -       pt3->regs[0] = pci_ioremap_bar(pdev, 0);
-> -       pt3->regs[1] = pci_ioremap_bar(pdev, 2);
-> -       if (pt3->regs[0] == NULL || pt3->regs[1] == NULL) {
-> -               dev_err(&pdev->dev, "Failed to ioremap\n");
-> -               ret = -ENOMEM;
-> -               goto err_kfree;
-> -       }
-> +       pt3->regs[0] = pcim_iomap_table(pdev)[0];
-> +       pt3->regs[1] = pcim_iomap_table(pdev)[2];
->
->         ver = ioread32(pt3->regs[0] + REG_VERSION);
->         if ((ver >> 16) != 0x0301) {
->                 dev_warn(&pdev->dev, "PT%d, I/F-ver.:%d not supported\n",
->                          ver >> 24, (ver & 0x00ff0000) >> 16);
-> -               ret = -ENODEV;
-> -               goto err_iounmap;
-> +               return -ENODEV;
->         }
->
->         pt3->num_bufs = clamp_val(num_bufs, MIN_DATA_BUFS, MAX_DATA_BUFS);
->
-> -       pt3->i2c_buf = kmalloc(sizeof(*pt3->i2c_buf), GFP_KERNEL);
-> -       if (pt3->i2c_buf == NULL) {
-> -               ret = -ENOMEM;
-> -               goto err_iounmap;
-> -       }
-> +       pt3->i2c_buf = devm_kmalloc(&pdev->dev, sizeof(*pt3->i2c_buf), GFP_KERNEL);
-> +       if (!pt3->i2c_buf)
-> +               return -ENOMEM;
->         i2c = &pt3->i2c_adap;
->         i2c->owner = THIS_MODULE;
->         i2c->algo = &pt3_i2c_algo;
-> @@ -767,7 +751,7 @@ static int pt3_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->         i2c_set_adapdata(i2c, pt3);
->         ret = i2c_add_adapter(i2c);
->         if (ret < 0)
-> -               goto err_i2cbuf;
-> +               return ret;
->
->         for (i = 0; i < PT3_NUM_FE; i++) {
->                 ret = pt3_alloc_adapter(pt3, i);
-> @@ -799,21 +783,7 @@ static int pt3_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->         while (i >= 0)
->                 pt3_cleanup_adapter(pt3, i--);
->         i2c_del_adapter(i2c);
-> -err_i2cbuf:
-> -       kfree(pt3->i2c_buf);
-> -err_iounmap:
-> -       if (pt3->regs[0])
-> -               pci_iounmap(pdev, pt3->regs[0]);
-> -       if (pt3->regs[1])
-> -               pci_iounmap(pdev, pt3->regs[1]);
-> -err_kfree:
-> -       kfree(pt3);
-> -err_release_regions:
-> -       pci_release_regions(pdev);
-> -err_disable_device:
-> -       pci_disable_device(pdev);
->         return ret;
-> -
->  }
->
->  static const struct pci_device_id pt3_id_table[] = {
-> --
-> 2.26.2
->
-
-
--- 
-With Best Regards,
-Andy Shevchenko
+How are you? I'm Vanina. I'm interested to know you and I would like to kno=
+w more about you and establish relationship with you. i will wait for your =
+response. thank you.
