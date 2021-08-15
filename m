@@ -2,103 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D6983EC525
-	for <lists+linux-media@lfdr.de>; Sat, 14 Aug 2021 22:56:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00EDD3EC6A6
+	for <lists+linux-media@lfdr.de>; Sun, 15 Aug 2021 03:33:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231956AbhHNU4m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Aug 2021 16:56:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49198 "EHLO
+        id S234385AbhHOBeH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Aug 2021 21:34:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229532AbhHNU4l (ORCPT
+        with ESMTP id S229453AbhHOBeH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Aug 2021 16:56:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF97AC061764
-        for <linux-media@vger.kernel.org>; Sat, 14 Aug 2021 13:56:12 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34BE03F0;
-        Sat, 14 Aug 2021 22:56:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1628974570;
-        bh=E7uy894Me6nun4fEBJRDIgIXVbYy6rvddst1VziMlOc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ExEonD4pUWp0FqsCBw5qE3ZtC/QM5OVmcfsqMYj/YaxLCsAjOXVvzoWQuCX++FEW5
-         pFUyez+b5V0Hkf9K8WUTGu5QfhqgJulOHOUICrJ4iUDKdNu3Z49fWp6iMYZ9mlfDtP
-         Cc/9+4gzVgKRgOOs96UTP5PJVPeq3Qqwi/xIPUPQ=
-Date:   Sat, 14 Aug 2021 23:56:04 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Daniel Scally <djrscally@gmail.com>, paul.kocialkowski@bootlin.com
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        ezequiel@collabora.com, hverkuil-cisco@xs4all.nl,
-        linux-media@vger.kernel.org, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        kevin.lhopital@bootlin.com, yang.lee@linux.alibaba.com,
-        andy.shevchenko@gmail.com, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v2 08/12] media: i2c: Add hblank control to ov8865
-Message-ID: <YRgt5B5IyBZiA1pG@pendragon.ideasonboard.com>
-References: <20210809225845.916430-1-djrscally@gmail.com>
- <20210809225845.916430-9-djrscally@gmail.com>
- <20210810142934.GE3@paasikivi.fi.intel.com>
- <74125e27-abe3-c596-53e6-4416cabfcc63@gmail.com>
- <YRXhYP7H639DuQUK@pendragon.ideasonboard.com>
- <189aa86c-68ec-e3a0-9804-209f3d4b1f08@gmail.com>
+        Sat, 14 Aug 2021 21:34:07 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26816C061764;
+        Sat, 14 Aug 2021 18:33:38 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id n13-20020a17090a4e0d00b0017946980d8dso7803248pjh.5;
+        Sat, 14 Aug 2021 18:33:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1EeySskwO3yUJbu0dTi3++bDv7n7jGo4CAMzCEMyuPQ=;
+        b=Ib3p1DQ+i0JKU3HeUgbJ3rwbNQARmLx2bKw1z9Iro4hgqYeC6u8ixe0CPfTvMdtJGB
+         eWiUB+5j+ZfkvkB/h11WwvwQYymTiDnX1cnl1J0mD7kmqEj6QCZMWwqPxMxIKa9ytHTu
+         lIcVi2sb42uRgDAGKg74av68Sby9A4rfhUweLf8lamU0yNxGEgMui3a9BeR8sZs1JnQT
+         +itwTiOB0ScHTbJlQPc7A/TTjOxkxInxmJ3R7HzBasw/J+Tn3CbIQrTboAa5oWsgYq41
+         exRt4Dl2ewN9Oc806g218HH6ySwXRXx5eAv1liJyYcLr1C8nV7bKABFs0bM7/TxIEDdD
+         J8cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1EeySskwO3yUJbu0dTi3++bDv7n7jGo4CAMzCEMyuPQ=;
+        b=k+7CsevkzAvGE0CMLwDjhBetxc3sioc1d9lDzDdMFfVWyYJo8cCWtE440OEQDywFPF
+         KDW9apRdkC5nxu2wU2TQ2K2xAHUqJ2tXav2IDPMe+CbT3xye7yP2oIXpiDwWeKpg0H/J
+         N4IU2T0/8WTobsNxznC2lP0KCx2ic8BxemiEdQZv2SU51oB+U2G640rJ2c8kJP5tnSN7
+         D/vBPMTHcQsINvBYZ0k/SgXW5C1WtBA8GhywsbyFyJWkJ4FtL9msDm3NkBdpMrhukdx2
+         /MWWZjgipYGTOFkmljBT1PnFPoS2hi5ow3087xxS1ot4D9H8nT/ONCY+J1tIQZ5xddPA
+         rMdw==
+X-Gm-Message-State: AOAM532sUjlihF1sGfS+gkNLPAS5zIJfnx0OVXj1g5bFPbnuPW50sc+y
+        kcrrgeNJ76vMFD5Axd3aq0s=
+X-Google-Smtp-Source: ABdhPJydX6mMbMSdFL3vauiu2ZzK80Wlyoa/s9B4tPmcTFsLqbAgOZY36NRTTVtZ1ap+YWiGa7QgOw==
+X-Received: by 2002:a17:90a:f696:: with SMTP id cl22mr9366361pjb.23.1628991217707;
+        Sat, 14 Aug 2021 18:33:37 -0700 (PDT)
+Received: from [192.168.3.4] (softbank219203027033.bbtec.net. [219.203.27.33])
+        by smtp.gmail.com with ESMTPSA id e12sm6533717pfc.214.2021.08.14.18.33.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Aug 2021 18:33:37 -0700 (PDT)
+Subject: Re: [PATCH v2] media: pt3: Switch to using functions pcim_* and
+ devm_*
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Evgeny Novikov <novikov@ispras.ru>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kirill Shilimanov <kirill.shilimanov@huawei.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ldv-project@linuxtesting.org
+References: <20210814155742.11392-1-novikov@ispras.ru>
+ <CAHp75Vdgt=HAK6Cd886AQ+BK-HAJjq0aqf_gkdcpefW5UMBnXg@mail.gmail.com>
+From:   Akihiro TSUKADA <tskd08@gmail.com>
+Message-ID: <ee21588e-67f7-73bf-b533-f1eb7ad2c265@gmail.com>
+Date:   Sun, 15 Aug 2021 10:33:28 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <CAHp75Vdgt=HAK6Cd886AQ+BK-HAJjq0aqf_gkdcpefW5UMBnXg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <189aa86c-68ec-e3a0-9804-209f3d4b1f08@gmail.com>
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+I have the device,
+but currently I have some hardware problems in my testing environment.
+I will test it later when I have a time and fix those problems.
 
-On Fri, Aug 13, 2021 at 10:45:48AM +0100, Daniel Scally wrote:
-> On 13/08/2021 04:05, Laurent Pinchart wrote:
-> > On Tue, Aug 10, 2021 at 11:07:22PM +0100, Daniel Scally wrote:
-> >> On 10/08/2021 15:29, Sakari Ailus wrote:
-> >>> On Mon, Aug 09, 2021 at 11:58:41PM +0100, Daniel Scally wrote:
-> >>>> @@ -2542,6 +2544,13 @@ static int ov8865_ctrls_init(struct ov8865_sensor *sensor)
-> >>>>  				     0, 0, ov8865_test_pattern_menu);
-> >>>>  
-> >>>>  	/* Blanking */
-> >>>> +	hblank = mode->hts < mode->output_size_x ? 0 : mode->hts - mode->output_size_x;
-> >>>
-> >>> Is the result in relation with the analogue crop size? Based on the above
-> >>> it wouldn't seem like that.
-> >>
-> >> This was a weird one actually. My understanding was that HTS should
-> >> always be >= the horizontal crop plus hblank...but that doesn't hold
-> >> true for some of this driver's modes and nor does it hold true when
-> >> running the camera in Windows (I checked the registers whilst running
-> >> it). So I went with setting hblank to 0 if the mode's HTS exceeded the
-> >> horizontal crop as the only way I could see to reconcile that.
-> >
-> > There's something very fishy here, HTS is, by definition, equal to the
-> > analog crop width plus the horizontal blanking. I suspect that the
-> > values in ov8865_modes are wrong.
-> 
-> I thought that initially too but confirming that the same thing happened
-> running windows switched me into "you're probably wrong" mode. If we're
-> confident that the HTS is likely wrong though I can add an extra patch
-> to bring those into lining with that definition.
-
-I think it's worth investigating this. The hblank computed here is
-clearly incorrect, and would thus be useless for all practical purposes.
-As usual with OmniVision, the datasheet is also quite useless.
-
-Paul, do you have any information about this ?
-
-> >>>> +	ctrls->hblank = v4l2_ctrl_new_std(handler, ops, V4L2_CID_HBLANK, hblank,
-> >>>> +					  hblank, 1, hblank);
-> >>>> +
-> >>>> +	if (ctrls->hblank)
-> >>>> +		ctrls->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> >>>> +
-> >>>>  	vblank_max = OV8865_TIMING_MAX_VTS - mode->output_size_y;
-> >>>>  	vblank_def = mode->vts - mode->output_size_y;
-> >>>>  	ctrls->vblank = v4l2_ctrl_new_std(handler, ops, V4L2_CID_VBLANK,
-
--- 
-Regards,
-
-Laurent Pinchart
+regards,
+Akihiro Tsukada
