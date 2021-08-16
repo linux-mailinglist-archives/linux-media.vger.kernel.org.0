@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AB0E3ED32E
-	for <lists+linux-media@lfdr.de>; Mon, 16 Aug 2021 13:39:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B90BD3ED32F
+	for <lists+linux-media@lfdr.de>; Mon, 16 Aug 2021 13:39:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236179AbhHPLjz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Aug 2021 07:39:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53174 "EHLO
+        id S236189AbhHPLj4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Aug 2021 07:39:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236131AbhHPLjy (ORCPT
+        with ESMTP id S236026AbhHPLjz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Aug 2021 07:39:54 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46D76C0613C1
+        Mon, 16 Aug 2021 07:39:55 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA8D3C061764
         for <linux-media@vger.kernel.org>; Mon, 16 Aug 2021 04:39:23 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id i10-20020a05600c354ab029025a0f317abfso14761779wmq.3
+Received: by mail-wr1-x429.google.com with SMTP id k29so23113843wrd.7
         for <linux-media@vger.kernel.org>; Mon, 16 Aug 2021 04:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=am3po7tFFKOjxreZAMFOikHzx21vo4EVP5N25KRWOrw=;
-        b=SeNit5wJj4nBjC8V1JWGep2DMexTz3r3vajG5EF+GYq3qodNf3FC9zqafjztHtFkYF
-         bWwjEWWM5Y3gdFSjRiL/AN0flbhD9XsvwFphW5a43JM8qJt8rbQZLoe5kULfJZmVfHfN
-         2pIbkL0DCyBKIVTqeE1ncJKq18ZUtmaBo7U3oFeRcPPeysNopZvvHyQBUTSLHq8PkTNA
-         kkiaGKfTybzStUrXDESHLJgv4fMNF+NlZV616fLYMC5WWCNO4aR1GP1d0rMUhAn1+gb1
-         s9jl0SCAUB+h6s3yYpjahzRsDDkNzSAuyjLpOmZ9AVX2VhVvH2/FPMulFwnw2I5nAbXT
-         XTCQ==
+        bh=6Czysx3TZArwTJNVPYUbWQfbhEq/z5HVSNA79tCZk5c=;
+        b=cRHwo+nQyt6sJrxrp5SutUrAflEDeRsMjM//OKN0WUmhztP+z5j5KV+citKCLv0VKE
+         HxtDvsR1jGAIANb0V8U/Nc5ssUn4Zut0qJKrlTU/BffP4nuwJFPXj+74SlFlZQwsJYnt
+         7CMVA4YWrJpFKZMmn/MAaSdshukzMkD/bazTVT6aUnUe2JIBnIgtMIxa5H8MYnezUdmV
+         +gbWcCPbzqRBEBOiwzXjvNy8yg5YzQJaTqWHJwEHR2/lfxK0lK4Gm/3fXwF4OaJxiaRi
+         7U3/Au1JrP90nJ2giq6CQwL2oeuVsSyWrLse8LaqaOIsZzuvVFLGvJQW2+A0d8IpTEXW
+         NUvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=am3po7tFFKOjxreZAMFOikHzx21vo4EVP5N25KRWOrw=;
-        b=KzTu2HoD1adcKkv8WiWvvUw7lpTJJWCCwyrCfZE2ir4PGi40HTgVNUPFp120E/SRDk
-         SKddbDl+AjB4DpU84MiTWWpapJ+qcRj3xIiv/1Ww9U8W756NCJRZWhoEfU0V3jHxKI3E
-         VmJJY81y5+MSJGax/VBWLHhXVv0xDzIvCbwDqJ9I86F9zYNeyeMbVeN1cRV9rcK54XBY
-         aqthXqi7ic62Vd+lrzEpSg9u/oTLiLiIwAo5nhSKJ6I28EFQFSdpn2xdBQHJAwePeBpw
-         p7NmNpP31YzgQ6Y5fwHq+8IywH3CCTBY697KCzlP0YSaBomayZjSskiry5Z3yZJszeMp
-         xC6w==
-X-Gm-Message-State: AOAM533urDaBQ/ppn5MJe8uSsrQm5WE66f2t2l4kvg0v0HN25vi3ru50
-        EfbwAf64wzIJtuXPPFyXj0nnA6xjrbxwag==
-X-Google-Smtp-Source: ABdhPJycgAuGkRrGoCARbjoLrUD9iYcGipJ2CcLlm1dOsSv7NS83BethlJrIZ8hCzDpTeFOHLnhDtg==
-X-Received: by 2002:a1c:cc05:: with SMTP id h5mr14974909wmb.5.1629113961724;
-        Mon, 16 Aug 2021 04:39:21 -0700 (PDT)
+        bh=6Czysx3TZArwTJNVPYUbWQfbhEq/z5HVSNA79tCZk5c=;
+        b=pLzrWviAPdym3sYPLZ2UKgBYcl0KVJkeHBmn6r7N6MN+4p9dS3SO9LpJBw7dJO/YhG
+         yQXzg5DFwhTauyt4TUDABb45R5XMBReOBWuOsZZHvhVGByK3KHeERai/1akJeFCAMHJ9
+         Vtsx7DDzR35S5kjQf5IS8iLF3QMsV1lliWRG6Awkn7TT2iiaIZjyLzluzr9/IwMjD45p
+         Q4KAwyQlm3s0y6ob/iOaWZHiVGfGDdRj+C1v8tM4/Qt5YeHqUqcgh5YK8PAaoXT4tJXD
+         9jV1lND3mbszPT2XFodxxdvGVkzseknFFMO7r98wcLtH9RCSELGihxBhmwGhrn7EYtMd
+         cKuQ==
+X-Gm-Message-State: AOAM532q5Di1n8NpyXnS0cw1a0M9eOJtTe6j5hhji5G1VY9PL92JejHZ
+        5fveabjFzOGbYVeWPBFQw+RdIYY7Wm3BmA==
+X-Google-Smtp-Source: ABdhPJxsjODTW3m10lTiDGOJe+Sjt+Mihy425os4NXMMtaOYcKQtTG+YxiW2jWgrrh1w7XXqx70c8g==
+X-Received: by 2002:a5d:42c2:: with SMTP id t2mr17830626wrr.49.1629113962427;
+        Mon, 16 Aug 2021 04:39:22 -0700 (PDT)
 Received: from davidp-xps-13.lan (plowpeople3.plus.com. [80.229.223.72])
         by smtp.gmail.com with ESMTPSA id g9sm10356548wmk.34.2021.08.16.04.39.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 04:39:21 -0700 (PDT)
+        Mon, 16 Aug 2021 04:39:22 -0700 (PDT)
 From:   David Plowman <david.plowman@raspberrypi.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@iki.fi,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -55,9 +55,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@iki.fi,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     David Plowman <david.plowman@raspberrypi.com>
-Subject: [PATCH v6 1/2] media: v4l2-ctrls: Add V4L2_CID_NOTIFY_GAINS control
-Date:   Mon, 16 Aug 2021 12:39:08 +0100
-Message-Id: <20210816113909.234872-2-david.plowman@raspberrypi.com>
+Subject: [PATCH v6 2/2] media: v4l2-ctrls: Document V4L2_CID_NOTIFY_GAINS control
+Date:   Mon, 16 Aug 2021 12:39:09 +0100
+Message-Id: <20210816113909.234872-3-david.plowman@raspberrypi.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210816113909.234872-1-david.plowman@raspberrypi.com>
 References: <20210816113909.234872-1-david.plowman@raspberrypi.com>
@@ -67,52 +67,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We add a new control V4L2_CID_NOTIFY_GAINS which allows the sensor to
-be notified what gains will be applied to the different colour
-channels by subsequent processing (such as by an ISP), even though the
-sensor will not apply any of these gains itself.
+Add documentation for the V4L2_CID_NOTIFY_GAINS control.
 
-For Bayer sensors this will be an array control taking 4 values which
-are the 4 gains arranged in the fixed order B, Gb, Gr and R,
-irrespective of the exact Bayer order of the sensor itself. The use of
-an array makes it straightforward to extend this control to non-Bayer
-sensors (for example, sensors with an RGBW pattern) in future.
-
-The units are in all cases linear with the default value indicating a
-gain of exactly 1.0. For example, if the default value were reported as
-128 then the value 192 would represent a gain of exactly 1.5.
+This control is required by sensors that need to know what colour
+gains will be applied to pixels by downstream processing (such as by
+an ISP), though the sensor does not apply these gains itself.
 
 Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-ctrls-defs.c | 1 +
- include/uapi/linux/v4l2-controls.h        | 1 +
- 2 files changed, 2 insertions(+)
+ .../media/v4l/ext-ctrls-image-source.rst      | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-index 421300e13a41..f87053c83249 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -1107,6 +1107,7 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_TEST_PATTERN_GREENR:	return "Green (Red) Pixel Value";
- 	case V4L2_CID_TEST_PATTERN_BLUE:	return "Blue Pixel Value";
- 	case V4L2_CID_TEST_PATTERN_GREENB:	return "Green (Blue) Pixel Value";
-+	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
- 
- 	/* Image processing controls */
- 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 5532b5f68493..133e20444939 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -1118,6 +1118,7 @@ enum v4l2_jpeg_chroma_subsampling {
- #define V4L2_CID_TEST_PATTERN_BLUE		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 6)
- #define V4L2_CID_TEST_PATTERN_GREENB		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 7)
- #define V4L2_CID_UNIT_CELL_SIZE			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 8)
-+#define V4L2_CID_NOTIFY_GAINS			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 9)
- 
- 
- /* Image processing controls */
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+index de43f5c8486d..71f23f131f97 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+@@ -72,3 +72,23 @@ Image Source Control IDs
+     * - __u32
+       - ``height``
+       - Height of the area.
++
++``V4L2_CID_NOTIFY_GAINS (integer array)``
++    The sensor is notified what gains will be applied to the different
++    colour channels by subsequent processing (such as by an ISP). The
++    sensor is merely informed of these values in case it performs
++    processing that requires them, but it does not apply them itself to
++    the output pixels.
++
++    Currently it is defined only for Bayer sensors, and is an array
++    control taking 4 gain values, being the gains for each of the
++    Bayer channels. The gains are always in the order B, Gb, Gr and R,
++    irrespective of the exact Bayer order of the sensor itself.
++
++    The use of an array allows this control to be extended to sensors
++    with, for example, non-Bayer CFAs (colour filter arrays).
++
++    The units for the gain values are linear, with the default value
++    representing a gain of exactly 1.0. For example, if this default value
++    is reported as being (say) 128, then a value of 192 would represent
++    a gain of exactly 1.5.
 -- 
 2.30.2
 
