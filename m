@@ -2,272 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F8113ED2D1
-	for <lists+linux-media@lfdr.de>; Mon, 16 Aug 2021 13:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23F313ED32D
+	for <lists+linux-media@lfdr.de>; Mon, 16 Aug 2021 13:39:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236427AbhHPLBg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Aug 2021 07:01:36 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:42090 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S236376AbhHPLBW (ORCPT
+        id S236140AbhHPLjy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Aug 2021 07:39:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53172 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236026AbhHPLjy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Aug 2021 07:01:22 -0400
-X-UUID: 0f203480291e4a2c8795eaf1ead89c8f-20210816
-X-UUID: 0f203480291e4a2c8795eaf1ead89c8f-20210816
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1912319955; Mon, 16 Aug 2021 19:00:47 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 16 Aug 2021 19:00:45 +0800
-Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 16 Aug 2021 19:00:44 +0800
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>, Yong Wu <yong.wu@mediatek.com>
-CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH 9/9] media: mtk-vcodec: Add delayed worker for encode timeout
-Date:   Mon, 16 Aug 2021 18:59:34 +0800
-Message-ID: <20210816105934.28265-10-irui.wang@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210816105934.28265-1-irui.wang@mediatek.com>
-References: <20210816105934.28265-1-irui.wang@mediatek.com>
+        Mon, 16 Aug 2021 07:39:54 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCAB3C061764
+        for <linux-media@vger.kernel.org>; Mon, 16 Aug 2021 04:39:22 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id u1so11411350wmm.0
+        for <linux-media@vger.kernel.org>; Mon, 16 Aug 2021 04:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dhLr6dNru65fF6f/Z2bmJvlD/DzsoJ8cTCEXBqOz4bw=;
+        b=Gy0HWWeyafmUG9ycFVnQIFzhljb1M9jUWviRZlS6zkZz3f4rgR/8B/ZcE1SGNLr/FN
+         Y2pGHsBloXZPvNoCAjudCr95QIitFBFhLRVUNtZ0kFu8Bt7QhxnMcDfdpvGPnu/YkJP+
+         xiCLUZFHRszcaVW3hTOBYhV4+BM4xGFD5wuL1y0hGPPHN71hlBVTyc1XjYs9JJImFYiH
+         XFjIDnc+61Y0OnO/PtA6klfxsh0/PTnXg0KJavXWtPLK7a7VcRGZTQBYurjRRrQrc3iZ
+         NoC7eKTrcUvvY6+i3kwV6D+BskKvWQ8QTVOa8W5gJoe3XA/dbEyF6MTBpVGi1oeVipKM
+         L+8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dhLr6dNru65fF6f/Z2bmJvlD/DzsoJ8cTCEXBqOz4bw=;
+        b=d8oAX3aDB/weCpStwqxtfMwKb972C+Sv70NurfACRkCJM8j4ZA8hWVcVdozjK4SsvZ
+         7Dpq1EUFfUi0sOxsnfd05XgD/eaPIpBgFQo+2H7jjwVxAPLvwkvaJHYIXNYOsAcIPutb
+         cbbXRff5cJwOyPVLl0ET4R2YTACBn2ylg/wwK1XkqETVuO5rIs+EqsJkxj6tPbjonnC8
+         8BtmiXDHXj4it/QXQGJw4s0FL6I0FWJ3iMuPVQp+7Lbih+aJxionff+ppfLXwROkDSJd
+         yDqxykhdBhOh81TgJhnOKU9YjoMhO3LhbR0WR/Qk8yi1j+A1Ml34JIjxOnCHiwl0EfGD
+         0byA==
+X-Gm-Message-State: AOAM533+lOXmq9q+ZJAbaoQIjhcw5ju6lDp3a7yUDwajjPicBJH34t3b
+        3zGUT96g0NgqF1NKpQSCtgGzMwsuNUiilw==
+X-Google-Smtp-Source: ABdhPJwHt7EhZGUXv+RiXFHix8XARDXx4lUPeQctOjGmElDfjDo5BJzrtfpjxp6D/oWkEBIm2ABHDA==
+X-Received: by 2002:a05:600c:3590:: with SMTP id p16mr14476445wmq.33.1629113961030;
+        Mon, 16 Aug 2021 04:39:21 -0700 (PDT)
+Received: from davidp-xps-13.lan (plowpeople3.plus.com. [80.229.223.72])
+        by smtp.gmail.com with ESMTPSA id g9sm10356548wmk.34.2021.08.16.04.39.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Aug 2021 04:39:20 -0700 (PDT)
+From:   David Plowman <david.plowman@raspberrypi.com>
+To:     linux-media@vger.kernel.org, sakari.ailus@iki.fi,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     David Plowman <david.plowman@raspberrypi.com>
+Subject: [PATCH v6 0/2] New V4L2 control V4L2_CID_NOTIFY_GAINS
+Date:   Mon, 16 Aug 2021 12:39:07 +0100
+Message-Id: <20210816113909.234872-1-david.plowman@raspberrypi.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When encoding timeout, a delayed timeout worker is needed because
-of asynchronous encoding process, restore encoding process in
-timeout worker.
+Hi again everyone
 
-Signed-off-by: Irui Wang <irui.wang@mediatek.com>
----
- .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 12 ++++--
- .../platform/mtk-vcodec/mtk_vcodec_enc_hw.c   | 26 +++++++++++
- .../platform/mtk-vcodec/mtk_vcodec_enc_hw.h   |  2 +
- .../platform/mtk-vcodec/venc/venc_common_if.c | 43 +++++++++++++++++--
- 4 files changed, 77 insertions(+), 6 deletions(-)
+Thanks for last round of feedback, leading to this v6 pair of
+patches. I've made the documentation improvements that were suggested,
+and accordingly added Laurent's "Reviewed-by" tags.
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-index de8e012f1b0e..bc635436aa90 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-@@ -1340,9 +1340,15 @@ void mtk_venc_buf_done(struct mtk_vcodec_ctx *ctx, int core_id,
- 		if (key_frame)
- 			dst_vb2_v4l2->flags |= V4L2_BUF_FLAG_KEYFRAME;
- 
--		v4l2_m2m_buf_done(src_vb2_v4l2, VB2_BUF_STATE_DONE);
--		dst_vb2_v4l2->vb2_buf.planes[0].bytesused = bs_size;
--		v4l2_m2m_buf_done(dst_vb2_v4l2, VB2_BUF_STATE_DONE);
-+		if (time_out) {
-+			v4l2_m2m_buf_done(src_vb2_v4l2, VB2_BUF_STATE_ERROR);
-+			dst_vb2_v4l2->vb2_buf.planes[0].bytesused = 0;
-+			v4l2_m2m_buf_done(dst_vb2_v4l2, VB2_BUF_STATE_ERROR);
-+		} else {
-+			v4l2_m2m_buf_done(src_vb2_v4l2, VB2_BUF_STATE_DONE);
-+			dst_vb2_v4l2->vb2_buf.planes[0].bytesused = bs_size;
-+			v4l2_m2m_buf_done(dst_vb2_v4l2, VB2_BUF_STATE_DONE);
-+		}
- 	}
- }
- 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_hw.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_hw.c
-index 687b255c58e8..f6a5dfa6929f 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_hw.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_hw.c
-@@ -16,6 +16,28 @@
- #define VENC_PIC_FRM_TYPE	0x0010
- #define VENC_PIC_KEY_FRM	0x2
- 
-+static void mtk_venc_timeout_worker(struct work_struct *work)
-+{
-+	struct mtk_venc_comp_dev *dev = container_of(work,
-+						     struct mtk_venc_comp_dev,
-+						     enc_timeout_worker.work);
-+
-+	struct mtk_vcodec_ctx *ctx;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&dev->master_dev->irqlock, flags);
-+	ctx = dev->curr_ctx;
-+
-+	dev_err(&dev->plat_dev->dev, "core: %d timeout\n", dev->core_id);
-+
-+	mtk_venc_buf_done(ctx, dev->core_id, 0, 1, 0);
-+
-+	mtk_vcodec_enc_clock_off(dev->master_dev, dev->core_id);
-+	dev->curr_ctx = NULL;
-+	spin_unlock_irqrestore(&dev->master_dev->irqlock, flags);
-+
-+	mtk_venc_unlock(ctx, dev->core_id);
-+}
- /* Wake up core context wait_queue */
- static void mtk_venc_comp_wake_up_ctx(struct mtk_vcodec_ctx *ctx,
- 				      unsigned int hw_id)
-@@ -67,6 +89,7 @@ static irqreturn_t mtk_enc_comp_irq_handler(int irq, void *priv)
- 	frm_type = readl(dev->reg_base + VENC_PIC_FRM_TYPE);
- 	clean_irq_status(ctx->irq_status, addr);
- 	if (ctx->irq_status & MTK_VENC_IRQ_STATUS_FRM) {
-+		cancel_delayed_work(&dev->enc_timeout_worker);
- 		if (ctx->hdr_size != 0) {
- 			bs_size += ctx->hdr_size;
- 			ctx->hdr_size = 0;
-@@ -182,6 +205,9 @@ static int mtk_venc_comp_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, comp_dev);
- 
-+	INIT_DELAYED_WORK(&comp_dev->enc_timeout_worker,
-+			  mtk_venc_timeout_worker);
-+
- 	ret = component_add(&pdev->dev, &mtk_venc_component_ops);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to add component: %d\n", ret);
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_hw.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_hw.h
-index f9ae97e252dc..e69344e38ca6 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_hw.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_hw.h
-@@ -19,6 +19,7 @@
-  * @irq_status: venc hw irq status
-  * @enc_irq: venc device irq
-  * @core id: for venc core id: core#0, core#1...
-+ * @enc_timeout_worker: venc timeout worker
-  */
- struct mtk_venc_comp_dev {
- 	struct platform_device *plat_dev;
-@@ -31,6 +32,7 @@ struct mtk_venc_comp_dev {
- 	unsigned int irq_status;
- 	int enc_irq;
- 	int core_id;
-+	struct delayed_work enc_timeout_worker;
- };
- 
- #endif /* _MTK_VCODEC_ENC_HW_H_ */
-diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_common_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_common_if.c
-index 75b4e90232ae..1aab84faadf0 100644
---- a/drivers/media/platform/mtk-vcodec/venc/venc_common_if.c
-+++ b/drivers/media/platform/mtk-vcodec/venc/venc_common_if.c
-@@ -10,11 +10,13 @@
- #include "../mtk_vcodec_drv.h"
- #include "../mtk_vcodec_util.h"
- #include "../mtk_vcodec_enc_hw.h"
-+#include "../mtk_vcodec_enc_pm.h"
- 
- static const char h264_filler_marker[] = {0x0, 0x0, 0x0, 0x1, 0xc};
- 
- #define H264_FILLER_MARKER_SIZE ARRAY_SIZE(h264_filler_marker)
- #define VENC_PIC_BITSTREAM_BYTE_CNT 0x0098
-+#define MTK_VENC_HW_TIMEOUT_MSEC 2000
- 
- enum venc_vpu_work_buf {
- 	VENC_VPU_WORK_BUF_RC_INFO_CORE0,
-@@ -413,6 +415,34 @@ static void h264_encode_filler(struct venc_common_inst *inst, void *buf,
- 	memset(p, 0xff, size);
- }
- 
-+static void init_schedule_work(struct mtk_vcodec_ctx *ctx)
-+{
-+	unsigned long timeout;
-+	struct mtk_venc_comp_dev *venc;
-+
-+	venc = ctx->dev->enc_comp_dev[ctx->hw_id];
-+	timeout = msecs_to_jiffies(MTK_VENC_HW_TIMEOUT_MSEC);
-+	schedule_delayed_work(&venc->enc_timeout_worker, timeout);
-+}
-+
-+static void cancel_schedule_work(struct mtk_vcodec_ctx *ctx)
-+{
-+	struct mtk_venc_comp_dev *venc;
-+	unsigned long flags;
-+
-+	venc = ctx->dev->enc_comp_dev[ctx->hw_id];
-+	cancel_delayed_work(&venc->enc_timeout_worker);
-+
-+	mtk_venc_buf_done(ctx, ctx->hw_id, 0, 1, 0);
-+	mtk_vcodec_enc_clock_off(ctx->dev, ctx->hw_id);
-+
-+	spin_lock_irqsave(&ctx->dev->irqlock, flags);
-+	venc->curr_ctx = NULL;
-+	spin_unlock_irqrestore(&ctx->dev->irqlock, flags);
-+
-+	mtk_venc_unlock(ctx, ctx->hw_id);
-+}
-+
- static int venc_init(struct mtk_vcodec_ctx *ctx)
- {
- 	int i;
-@@ -489,12 +519,13 @@ static int venc_encode(void *handle,
- 		ctx->pbs_buf[ctx->hw_id] = bs_buf->buf;
- 
- 		if (!inst->prepend_hdr) {
-+			init_schedule_work(ctx);
- 			ret = venc_encode_frame(inst, frm_buf, bs_buf,
- 						&result->bs_size, ctx->hw_id);
- 			if (ret) {
- 				mtk_vcodec_err(inst, "encode frame failed: %d",
- 					       ret);
--				return ret;
-+				goto encode_err;
- 			}
- 
- 			result->is_key_frm = inst->vpu_inst.is_key_frm;
-@@ -503,11 +534,13 @@ static int venc_encode(void *handle,
- 
- 		mtk_vcodec_debug(inst, "venc_encode_frame prepend SPS/PPS");
- 
-+		init_schedule_work(ctx);
-+
- 		ret = venc_encode_header(inst, bs_buf, &bs_size_hdr);
- 		if (ret) {
- 			mtk_vcodec_err(inst, "encode prepend hdr failed: %d",
- 				       ret);
--			return ret;
-+			goto encode_err;
- 		}
- 
- 		hdr_sz = bs_size_hdr;
-@@ -530,7 +563,7 @@ static int venc_encode(void *handle,
- 		if (ret) {
- 			mtk_vcodec_err(inst, "encode hdr frame failed: %d",
- 				       ret);
--			return ret;
-+			goto encode_err;
- 		}
- 
- 		result->bs_size = hdr_sz + filler_sz + bs_size_frm;
-@@ -552,6 +585,10 @@ static int venc_encode(void *handle,
- 	}
- 
- 	return ret;
-+
-+encode_err:
-+	cancel_schedule_work(ctx);
-+	return ret;
- }
- 
- static int venc_set_param(void *handle,
+Thanks and best regards
+
+David
+
+David Plowman (2):
+  media: v4l2-ctrls: Add V4L2_CID_NOTIFY_GAINS control
+  media: v4l2-ctrls: Document V4L2_CID_NOTIFY_GAINS control
+
+ .../media/v4l/ext-ctrls-image-source.rst      | 20 +++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  1 +
+ include/uapi/linux/v4l2-controls.h            |  1 +
+ 3 files changed, 22 insertions(+)
+
 -- 
-2.25.1
+2.30.2
 
