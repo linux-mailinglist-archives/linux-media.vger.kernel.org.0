@@ -2,153 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 940733EDFEC
-	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 00:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B9703EE051
+	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 01:22:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232519AbhHPW0F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Aug 2021 18:26:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34468 "EHLO
+        id S232726AbhHPXWh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Aug 2021 19:22:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232067AbhHPW0E (ORCPT
+        with ESMTP id S232618AbhHPXWh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Aug 2021 18:26:04 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93153C061764;
-        Mon, 16 Aug 2021 15:25:32 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id k8so6732572wrn.3;
-        Mon, 16 Aug 2021 15:25:32 -0700 (PDT)
+        Mon, 16 Aug 2021 19:22:37 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBE26C061764
+        for <linux-media@vger.kernel.org>; Mon, 16 Aug 2021 16:22:04 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id x7so29832408ljn.10
+        for <linux-media@vger.kernel.org>; Mon, 16 Aug 2021 16:22:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=3pjhlUQ9zfXp80LAsXsFddhwkDCjIr1Qa6F73Rea0zo=;
-        b=R2kIByJ61EjHKTZg4V2rq3Z7W17o8o4uPxU/T0mj4fztjC60Yn60rkDWcP6k5wuKSe
-         pOMwhNxGPeTTcHosG5mvzlvzBfVfTIHyPXfDsxEXaHQVkpwMLcYGdU7mN6+B5fozfxKM
-         OTH8GlaS/Js2USbMgOBx7JPthoW4h6Jg5KbFr/zqgfT3gJo3klvwqM672rjTni4+6MPQ
-         Dt45zNlkb5nWvdI7+NUwHYNQ+Vn9N9Qm02MZMN9j0YvET7t1EAtJYpGhxwPGK6d8b3SM
-         uWIAl+1ZGvF9C4dlLBhDCS2JJiNaIhs9c+wVXkzk4Y2vrItPDVH8Ei36QF0oe7kdEHlS
-         j7PA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=If86FY8sdS4N9bwIDSXGC/RFPeY8+SvwoygVsUxKCHw=;
+        b=TPfjutxuUz5jIzJ4i1wZrR32dkH9aZkB6O/NAtQHHbTXYTXmyZJpZgT1nA/kOyRod0
+         2akuW+cX8BiYyDNv2Fqm/T2Fm5OcJLem7SXpZPrKDIiBYlQSt4g5nLjE2GOIHKYDTOvl
+         F47gr23+vc5ZIsVX2JaEEfVc7b6ui1bT5irIDwudKcXgOhDOvuq5FgdcAV1LdLwgLSNF
+         7YUe3l0eBzGzJ3nY/+d55CREXkVsrfa3jKP7WOZaYQEMhTQ6k6DTdLCRdUuDz7D18cBg
+         sEAAanJZasvoWmMAk6UsfjEzp3/q35ghKQKt7OId4kcLkiB6UXpH2y2GK5lLnOQi/1UM
+         7ZzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3pjhlUQ9zfXp80LAsXsFddhwkDCjIr1Qa6F73Rea0zo=;
-        b=lfFvWsXIZVZhtB3piu8Fkmt6WJfBO1h8zerBD/V5BQqFHpKSI0k1PoZUhpEZKsbD9l
-         TTDlc+3h3AVRbtubub34Inrqhu7ZGb9MA8zqlYv0Sff15vJzijniTp6/6pgakztc1SX0
-         q5FHUVSrsfGKklv+UDeAmsyT6ePyp+Na1E5p8g2ywmTwsL5a0WTjVxw+8lFqhG9WvWnE
-         hu7xPkbb9YxPyz/Gm30cdpZ0Wu8wqDZw/2t5m/diusajgTKSGTQW1GpYZ7qqwiazzL6y
-         g5/KL9vw+BpaBv7iL/ZUKgCXkTy8n8+ZzH0sqTJo8KIpM3oBhmX/hzT7hydY9WJlW9id
-         Q+ww==
-X-Gm-Message-State: AOAM532SasTeAstOFS3Ws0R6ONYsEVHe7AVYkm2XMezxQlOU45M+nOpe
-        1O9C+77ncfvhNa+m6ezpFbEv5NsNBQEbDdXw3JQ=
-X-Google-Smtp-Source: ABdhPJyNem4NbmX4zNKpNipu1Xbu257Pj4hM0/aydLtGI6NNqHWvdhzNERN5io39lCQQLYxin7sgkoaB45AFy8ihnhE=
-X-Received: by 2002:adf:dd11:: with SMTP id a17mr312204wrm.132.1629152731183;
- Mon, 16 Aug 2021 15:25:31 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=If86FY8sdS4N9bwIDSXGC/RFPeY8+SvwoygVsUxKCHw=;
+        b=DQtQn9VBPL0KCttiYkiCaXmJVKm6Nv5NP3kI059aJ/Uea0T+uhP1gx41Nb9tpmta+7
+         HvdvrP20FzImQdNqw35bHXQfrwMsLlAhun/r5eEZiMf3FQgMint/w70aByNj6iTlFfu3
+         gwu0qvUIFZ+lTj8w1hXSCp6d4nyz6S4UAdq+NyJa5BQ3CG1OBnLV4BByjCQXSFTW/dTi
+         gfzRQzmXab5bJJNK5KRf6E4VqkI6NeToT0iqVqW0SCzOO/hTV6wJyBgDZSiQFi6o1WsQ
+         54XbsLeO5CBbOeHu3CydzZWuuUujTW6Pqeqtb2UZG6Wejz776g6Dz7dY4J0FKq12E/O8
+         C1xQ==
+X-Gm-Message-State: AOAM532GU0Jw6uEF7QGjn3AszHZKZGTSggHGjtv8+55C8bnV7HJ7RB7b
+        t33znBbhUVVRu/Fkt+g9m2bRtg==
+X-Google-Smtp-Source: ABdhPJyRhvLWMMSQoyde0ynfTC3RXCBdJNDW9jUvTFN2p6iMO1yGEmtAal6tbziEhSz41mQJ2T5n2w==
+X-Received: by 2002:a2e:bd89:: with SMTP id o9mr530452ljq.345.1629156123295;
+        Mon, 16 Aug 2021 16:22:03 -0700 (PDT)
+Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+        by smtp.gmail.com with ESMTPSA id bu22sm26388lfb.290.2021.08.16.16.22.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Aug 2021 16:22:02 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Antti Palosaari <crope@iki.fi>
+Subject: [PATCH] [media] cxd2820r: Include the right header
+Date:   Tue, 17 Aug 2021 01:20:01 +0200
+Message-Id: <20210816232001.484553-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210807183804.459850-1-robdclark@gmail.com> <9a7bdcb5-4f6f-539b-060e-d69ec15da874@amd.com>
-In-Reply-To: <9a7bdcb5-4f6f-539b-060e-d69ec15da874@amd.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Mon, 16 Aug 2021 15:29:49 -0700
-Message-ID: <CAF6AEGuwmLXW0xiFGGLie6qiL_ryE47pTiNYxmwwyshrb7eDpQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] dma-fence: Deadline awareness
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Jack Zhang <Jack.Zhang1@amd.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Luben Tuikov <luben.tuikov@amd.com>,
-        Steven Price <steven.price@arm.com>,
-        Tian Tao <tiantao6@hisilicon.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-dma_fence_array looks simple enough, just propagate the deadline to
-all children.
+This driver is just using <gpio/driver.h> so include that and
+not the legacy <linux/gpio.h> header.
 
-I guess dma_fence_chain is similar (ie. fence is signalled when all
-children are signalled), the difference being simply that children are
-added dynamically?
+Cc: Antti Palosaari <crope@iki.fi>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/media/dvb-frontends/cxd2820r_priv.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-BR,
--R
+diff --git a/drivers/media/dvb-frontends/cxd2820r_priv.h b/drivers/media/dvb-frontends/cxd2820r_priv.h
+index 7baf0162424f..09c42bcef971 100644
+--- a/drivers/media/dvb-frontends/cxd2820r_priv.h
++++ b/drivers/media/dvb-frontends/cxd2820r_priv.h
+@@ -13,7 +13,7 @@
+ #include <media/dvb_frontend.h>
+ #include <media/dvb_math.h>
+ #include "cxd2820r.h"
+-#include <linux/gpio.h>
++#include <linux/gpio/driver.h> /* For gpio_chip */
+ #include <linux/math64.h>
+ #include <linux/regmap.h>
+ 
+-- 
+2.31.1
 
-On Mon, Aug 16, 2021 at 3:17 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> The general approach seems to make sense now I think.
->
-> One minor thing which I'm missing is adding support for this to the
-> dma_fence_array and dma_fence_chain containers.
->
-> Regards,
-> Christian.
->
-> Am 07.08.21 um 20:37 schrieb Rob Clark:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Based on discussion from a previous series[1] to add a "boost" mechanis=
-m
-> > when, for example, vblank deadlines are missed.  Instead of a boost
-> > callback, this approach adds a way to set a deadline on the fence, by
-> > which the waiter would like to see the fence signalled.
-> >
-> > I've not yet had a chance to re-work the drm/msm part of this, but
-> > wanted to send this out as an RFC in case I don't have a chance to
-> > finish the drm/msm part this week.
-> >
-> > Original description:
-> >
-> > In some cases, like double-buffered rendering, missing vblanks can
-> > trick the GPU into running at a lower frequence, when really we
-> > want to be running at a higher frequency to not miss the vblanks
-> > in the first place.
-> >
-> > This is partially inspired by a trick i915 does, but implemented
-> > via dma-fence for a couple of reasons:
-> >
-> > 1) To continue to be able to use the atomic helpers
-> > 2) To support cases where display and gpu are different drivers
-> >
-> > [1] https://patchwork.freedesktop.org/series/90331/
-> >
-> > v1: https://patchwork.freedesktop.org/series/93035/
-> > v2: Move filtering out of later deadlines to fence implementation
-> >      to avoid increasing the size of dma_fence
-> >
-> > Rob Clark (5):
-> >    dma-fence: Add deadline awareness
-> >    drm/vblank: Add helper to get next vblank time
-> >    drm/atomic-helper: Set fence deadline for vblank
-> >    drm/scheduler: Add fence deadline support
-> >    drm/msm: Add deadline based boost support
-> >
-> >   drivers/dma-buf/dma-fence.c             | 20 +++++++
-> >   drivers/gpu/drm/drm_atomic_helper.c     | 36 ++++++++++++
-> >   drivers/gpu/drm/drm_vblank.c            | 31 ++++++++++
-> >   drivers/gpu/drm/msm/msm_fence.c         | 76 ++++++++++++++++++++++++=
-+
-> >   drivers/gpu/drm/msm/msm_fence.h         | 20 +++++++
-> >   drivers/gpu/drm/msm/msm_gpu.h           |  1 +
-> >   drivers/gpu/drm/msm/msm_gpu_devfreq.c   | 20 +++++++
-> >   drivers/gpu/drm/scheduler/sched_fence.c | 25 ++++++++
-> >   drivers/gpu/drm/scheduler/sched_main.c  |  3 +
-> >   include/drm/drm_vblank.h                |  1 +
-> >   include/drm/gpu_scheduler.h             |  6 ++
-> >   include/linux/dma-fence.h               | 16 ++++++
-> >   12 files changed, 255 insertions(+)
-> >
->
