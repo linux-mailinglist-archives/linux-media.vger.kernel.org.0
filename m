@@ -2,89 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 752F53EF41F
-	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 22:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB6473EF4C1
+	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 23:15:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234360AbhHQUea (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Aug 2021 16:34:30 -0400
-Received: from mail-ot1-f43.google.com ([209.85.210.43]:34745 "EHLO
-        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235120AbhHQUeP (ORCPT
+        id S234723AbhHQVQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Aug 2021 17:16:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37486 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234116AbhHQVQa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Aug 2021 16:34:15 -0400
-Received: by mail-ot1-f43.google.com with SMTP id e13-20020a9d63cd0000b02904fa42f9d275so5569otl.1;
-        Tue, 17 Aug 2021 13:33:41 -0700 (PDT)
+        Tue, 17 Aug 2021 17:16:30 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34E28C061764
+        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 14:15:56 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id z2so44092819lft.1
+        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 14:15:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=ATCLIjFqGGObCAiQgVaXtBBFI9QIF1mOiCwgN84NEFY=;
+        b=T7/blMxy5X53rJzMiw1NkzQkj7UZLHWgjVLFHASX3nGHmEDeOzWIupsq/pwqzS/j+L
+         lNWFwL34oOiu94Lq+Ok24yc+QBo4q99CKmqX0sjgz8S7uVuYtzhPaZNOsVJQusdFk6Ga
+         JtTS+b+bN5wRVZe0BSxnj4/wGctuid3c9X49hALmQtH2eH775SZJg7l8Enmm0fc8nleG
+         xhqnAygVp1jkA+pvKdCcHXL4F0h5ZXs/91ym2GJ1jsoMBhMPmjzS4lgtIjtjW0wXAnRI
+         +jsfa9xNDBHORU/V4ym5C2FGFyoovzs4S4zO/C4sR5554VQ1b+Hq6nTNI+uR1TRq13Mz
+         983w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Qk6NGp+xE9TOP3LguIONlFmciWZ7grkB7B+J2N/IzfI=;
-        b=lvd0hTy8USB3ESgOJmZYvw7Z3cEld4+Tp7J8+27dptjzrBaZPUdm2Wwg170wRRWZt+
-         OZuUbGCTnhE3mME+fA85TW42LKdlYSen4vF5PgfMrsMxLEqahN8C4L7VRRR1x98ZFbI9
-         semjmaUKUFihdjC+CprLXBK7rC0z/qcyFQ+lkYUnTz//2UTSQ4kiJY/lX6YO419wfQOK
-         c48iHuvlcbw+NHUNSmINTDaUHT4coOUjtHEhHU35BEnBzx1wEFnTiB6VzQ+LFbptlUAR
-         u4iCqAyMQ/Bc8vfp1b5JV7X+zg9pszviFiy5SAZqJEoLPE7dfWcqILntwpCcU2a7SIlf
-         NP7w==
-X-Gm-Message-State: AOAM531aNiqkaaxd7H9yu4tYt8UqvSnFSJBjFVUSAUPELipuJNbfLHzh
-        Y182564OCkf1MKEWysQULw==
-X-Google-Smtp-Source: ABdhPJyz9ZLACKFVCFOlx9kgV8DMkNjlz3yzfdPCFXr/Q6uhyAKnR/Oq/0tiJKDwIGxRSNPOgxES1Q==
-X-Received: by 2002:a9d:7416:: with SMTP id n22mr1780224otk.309.1629232421572;
-        Tue, 17 Aug 2021 13:33:41 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id n9sm589559otn.54.2021.08.17.13.33.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 13:33:40 -0700 (PDT)
-Received: (nullmailer pid 791869 invoked by uid 1000);
-        Tue, 17 Aug 2021 20:33:39 -0000
-Date:   Tue, 17 Aug 2021 15:33:39 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tomasz Figa <tfiga@google.com>,
-        George Sun <george.sun@mediatek.com>,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        Alexandre Courbot <acourbot@chromium.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        Irui Wang <irui.wang@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        srv_heupstream@mediatek.com, Tzung-Bi Shih <tzungbi@chromium.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5, 05/15] dt-bindings: media: mtk-vcodec: Separate video
- encoder and decoder dt-bindings
-Message-ID: <YRwdI7GcPofoSube@robh.at.kernel.org>
-References: <20210811025801.21597-1-yunfei.dong@mediatek.com>
- <20210811025801.21597-6-yunfei.dong@mediatek.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=ATCLIjFqGGObCAiQgVaXtBBFI9QIF1mOiCwgN84NEFY=;
+        b=KSABelyn0z+ebOF2TJVaBpUshijxhOF7ilL8KoFlEQG1Uno4cAmLNocmKDhxoe8gKc
+         eO3121jAUsPYkbG4VAu1lOY+w9vwJSqKkQqzKRHzG3pcWL/iHEDVZME9uaUaeE3lP4oL
+         UxktpJOlTov9Cy4hdZGBh3RcVSlxceUQ3NLW1Rw/NRZDQIRUJYhnbeSWXkDHMRimk8XH
+         TIs/pUTVrLz+zA+aNTrhT+kmNugTgwDlu560ToS5gaX2qdKOHSW1ozPh5uw+JjY8/iZS
+         2Ds18P0VstqO1q+scbBuI3xYK2rQ3rKoDdE5VBbEHmgfIKPVRSPM11GxjhfYH779nEpO
+         WhZA==
+X-Gm-Message-State: AOAM5312FDfP64Ov4yMf2zxaGikHJ++rLbiKvZMzuzCVopwH9XSGKe+d
+        WflEfuFv9nIfEKB8/D4CREwVyGdpCpa9OYepXQE=
+X-Google-Smtp-Source: ABdhPJxjxnCRpG46UN8gWaCBE/lxuRsk/0D0f7Q4rpjpWIe17Skgr5HQ17WS9WM194TjScAKWspUNoqWrP/oKZr7qpM=
+X-Received: by 2002:ac2:47e8:: with SMTP id b8mr3881220lfp.555.1629234954461;
+ Tue, 17 Aug 2021 14:15:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210811025801.21597-6-yunfei.dong@mediatek.com>
+Received: by 2002:a05:6520:58e:b029:11f:45d7:c3e6 with HTTP; Tue, 17 Aug 2021
+ 14:15:53 -0700 (PDT)
+Reply-To: barristerbengazzarak@gmail.com
+From:   Barrister Ben Gazzara Kekel <barristerbenkekeli7@gmail.com>
+Date:   Tue, 17 Aug 2021 14:15:53 -0700
+Message-ID: <CAFSkZWNoYDD2XpVzgSRrXH=4VR2b9tsh+ymr=+L+wdJz4JBsSw@mail.gmail.com>
+Subject: Hi,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 11 Aug 2021 10:57:51 +0800, Yunfei Dong wrote:
-> Decoder will use component framework to manage hardware, it is big
-> difference with encoder.
-> 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
-> v5: no changes
-> ---
->  .../media/mediatek,vcodec-decoder.yaml        | 175 +++++++++++++++++
->  .../media/mediatek,vcodec-encoder.yaml        | 185 ++++++++++++++++++
->  .../bindings/media/mediatek-vcodec.txt        | 130 ------------
->  3 files changed, 360 insertions(+), 130 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
->  delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec.txt
-> 
-
-Reviewed-by: Rob Herring <robh@kernel.org>
+I hope this mail meets you in good health? I sent you an email a
+couple of days ago to help me receive sum of $3.2million
+dollars(Money) Please get back to me because it is urgent and of
+mutual benefits and 100% legitimate.
