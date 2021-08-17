@@ -2,293 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1A323EE204
-	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 03:20:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BA2B3EE205
+	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 03:21:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233322AbhHQBUs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Aug 2021 21:20:48 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:59072 "EHLO www.linuxtv.org"
+        id S233389AbhHQBVg convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 16 Aug 2021 21:21:36 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:59118 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233244AbhHQBUr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Aug 2021 21:20:47 -0400
+        id S233244AbhHQBVf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Aug 2021 21:21:35 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1mFnm2-0025GF-2o; Tue, 17 Aug 2021 01:20:14 +0000
+        id 1mFnmo-0025Hk-C4; Tue, 17 Aug 2021 01:21:02 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.94.2)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1mFnm0-000FKz-RC; Tue, 17 Aug 2021 01:20:12 +0000
-Date:   Tue, 17 Aug 2021 01:20:11 +0000 (UTC)
+        id 1mFnmn-000Geu-7R; Tue, 17 Aug 2021 01:21:00 +0000
+Date:   Tue, 17 Aug 2021 01:21:00 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1583032005.3.1629163211761@builder.linuxtv.org>
-Subject: Build failed in Jenkins: v4l-utils #344
+Message-ID: <507979508.4.1629163260148@builder.linuxtv.org>
+In-Reply-To: <75044628.0.1629107387048@builder.linuxtv.org>
+References: <75044628.0.1629107387048@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3597
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: v4l-utils
+X-Jenkins-Job: media-build
 X-Jenkins-Result: FAILURE
 Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/v4l-utils/344/display/redirect>
+See <https://builder.linuxtv.org/job/media-build/3597/display/redirect>
 
 Changes:
 
 
 ------------------------------------------
-[...truncated 6.01 KB...]
-checking the name lister (/usr/bin/nm -B) interface... BSD nm
-checking whether ln -s works... yes
-checking the maximum length of command line arguments... 1572864
-checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
-checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
-checking for /usr/bin/ld option to reload object files... -r
-checking for objdump... objdump
-checking how to recognize dependent libraries... pass_all
-checking for dlltool... no
-checking how to associate runtime and link libraries... printf %s\n
-checking for ar... ar
-checking for archiver @FILE support... @
-checking for strip... strip
-checking for ranlib... ranlib
-checking command to parse /usr/bin/nm -B output from gcc object... ok
-checking for sysroot... no
-checking for a working dd... /bin/dd
-checking how to truncate binary pipes... /bin/dd bs=4096 count=1
-checking for mt... mt
-checking if mt is a manifest tool... no
-checking for dlfcn.h... yes
-checking for objdir... .libs
-checking if gcc supports -fno-rtti -fno-exceptions... no
-checking for gcc option to produce PIC... -fPIC -DPIC
-checking if gcc PIC flag -fPIC -DPIC works... yes
-checking if gcc static flag -static works... yes
-checking if gcc supports -c -o file.o... yes
-checking if gcc supports -c -o file.o... (cached) yes
-checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking whether -lc should be explicitly linked in... no
-checking dynamic linker characteristics... GNU/Linux ld.so
-checking how to hardcode library paths into programs... immediate
-checking whether stripping libraries is possible... yes
-checking if libtool supports shared libraries... yes
-checking whether to build shared libraries... yes
-checking whether to build static libraries... yes
-checking how to run the C++ preprocessor... g++ -E
-checking for ld used by g++... /usr/bin/ld -m elf_x86_64
-checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld... yes
-checking whether the g++ linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking for g++ option to produce PIC... -fPIC -DPIC
-checking if g++ PIC flag -fPIC -DPIC works... yes
-checking if g++ static flag -static works... yes
-checking if g++ supports -c -o file.o... yes
-checking if g++ supports -c -o file.o... (cached) yes
-checking whether the g++ linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking dynamic linker characteristics... (cached) GNU/Linux ld.so
-checking how to hardcode library paths into programs... immediate
-checking whether ln -s works... yes
-checking for pkg-config... /usr/bin/pkg-config
-checking pkg-config is at least version 0.9.0... yes
-checking for doxygen... /usr/bin/doxygen
-checking for perl... /usr/bin/perl
-checking for dot... /usr/bin/dot
-checking for latex... /usr/bin/latex
-checking for makeindex... /usr/bin/makeindex
-checking for dvips... /usr/bin/dvips
-checking for egrep... /bin/egrep
-checking for pdflatex... /usr/bin/pdflatex
-checking for makeindex... (cached) /usr/bin/makeindex
-checking for egrep... (cached) /bin/egrep
-checking whether NLS is requested... yes
-checking for msgfmt... /usr/bin/msgfmt
-checking for gmsgfmt... /usr/bin/msgfmt
-checking for xgettext... /usr/bin/xgettext
-checking for msgmerge... /usr/bin/msgmerge
-checking for ld used by gcc... /usr/bin/ld -m elf_x86_64
-checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld... yes
-checking for shared library run path origin... done
-checking for CFPreferencesCopyAppValue... no
-checking for CFLocaleCopyPreferredLanguages... no
-checking for GNU gettext in libc... yes
-checking whether to use NLS... yes
-checking where the gettext function comes from... libc
-checking for mode_t... yes
-checking for promoted mode_t type... mode_t
-./configure: line 20641: gl_VISIBILITY: command not found
-checking sys/klog.h usability... yes
-checking sys/klog.h presence... yes
-checking for sys/klog.h... yes
-checking for klogctl... yes
-checking for ioctl with POSIX signature... no
-checking for __secure_getenv... no
-checking for secure_getenv... yes
-checking whether sys/types.h defines makedev... no
-checking sys/mkdev.h usability... no
-checking sys/mkdev.h presence... no
-checking for sys/mkdev.h... no
-checking sys/sysmacros.h usability... yes
-checking sys/sysmacros.h presence... yes
-checking for sys/sysmacros.h... yes
-checking for x11... yes
-checking for libelf... yes
-checking for clang... no
-checking for gl... yes
-checking for glu... yes
-checking jpeglib.h usability... yes
-checking jpeglib.h presence... yes
-checking for jpeglib.h... yes
-checking for jpeg_read_header in -ljpeg... yes
-checking for Qt5Core >= 5.0 Qt5Gui >= 5.0 Qt5Widgets >= 5.0... yes
-checking for Qt5Core >= 5.4 Qt5Gui >= 5.4 Qt5Widgets >= 5.4... yes
-checking for moc-qt5... no
-checking for moc... moc
-checking for uic-qt5... no
-checking for uic... uic
-checking for rcc-qt5... no
-checking for rcc... rcc
-checking for Qt5OpenGL >= 5.4 gl... yes
-checking for Qt5 Desktop OpenGL... yes
-checking for alsa... yes
-checking for libudev... yes
-checking whether gcc is Clang... no
-checking whether pthreads work with -pthread... yes
-checking for joinable pthread attribute... PTHREAD_CREATE_JOINABLE
-checking whether more special flags are required for pthreads... no
-checking for PTHREAD_PRIO_INHERIT... yes
-checking for library containing dlopen... -ldl
-checking argp.h usability... yes
-checking argp.h presence... yes
-checking for argp.h... yes
-checking for library containing argp_parse... none required
-checking for fork... yes
-checking linux/i2c-dev.h usability... yes
-checking linux/i2c-dev.h presence... yes
-checking for linux/i2c-dev.h... yes
-checking for iconv... yes
-checking for working iconv... yes
-checking for iconv declaration... 
-         extern size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
-checking if gcc accepts -m32... yes
-checking for sdl2 SDL2_image... yes
-checking for library containing backtrace... none required
-checking for libbpf... yes
-checking that generated files are newer than configure... done
-configure: creating ./config.status
-config.status: creating Makefile
-config.status: creating lib/Makefile
-config.status: creating lib/libv4lconvert/Makefile
-config.status: creating lib/libv4l2/Makefile
-config.status: creating lib/libv4l1/Makefile
-config.status: creating lib/libdvbv5/Makefile
-config.status: creating lib/libv4l2rds/Makefile
-config.status: creating lib/libv4l-mplane/Makefile
-config.status: creating utils/Makefile
-config.status: creating utils/libv4l2util/Makefile
-config.status: creating utils/libmedia_dev/Makefile
-config.status: creating utils/dvb/Makefile
-config.status: creating utils/keytable/Makefile
-config.status: creating utils/keytable/bpf_protocols/Makefile
-config.status: creating utils/ir-ctl/Makefile
-config.status: creating utils/cx18-ctl/Makefile
-config.status: creating utils/ivtv-ctl/Makefile
-config.status: creating utils/media-ctl/Makefile
-config.status: creating utils/v4l2-compliance/Makefile
-config.status: creating utils/v4l2-ctl/Makefile
-config.status: creating utils/v4l2-dbg/Makefile
-config.status: creating utils/v4l2-sysfs-path/Makefile
-config.status: creating utils/qv4l2/Makefile
-config.status: creating utils/libcecutil/Makefile
-config.status: creating utils/cec-ctl/Makefile
-config.status: creating utils/cec-ctl/cec-ctl.1
-config.status: creating utils/cec-compliance/Makefile
-config.status: creating utils/cec-compliance/cec-compliance.1
-config.status: creating utils/cec-follower/Makefile
-config.status: creating utils/cec-follower/cec-follower.1
-config.status: creating utils/qvidcap/Makefile
-config.status: creating utils/rds-ctl/Makefile
-config.status: creating contrib/Makefile
-config.status: creating contrib/freebsd/Makefile
-config.status: creating contrib/test/Makefile
-config.status: creating contrib/gconv/Makefile
-config.status: creating contrib/cobalt-ctl/Makefile
-config.status: creating contrib/decode_tm6000/Makefile
-config.status: creating contrib/xc3028-firmware/Makefile
-config.status: creating contrib/rds-saa6588/Makefile
-config.status: creating v4l-utils-po/Makefile.in
-config.status: creating libdvbv5-po/Makefile.in
-config.status: creating v4l-utils.spec
-config.status: creating lib/libv4lconvert/libv4lconvert.pc
-config.status: creating lib/libv4l1/libv4l1.pc
-config.status: creating lib/libv4l2/libv4l2.pc
-config.status: creating lib/libdvbv5/libdvbv5.pc
-config.status: creating lib/libv4l2rds/libv4l2rds.pc
-config.status: creating utils/media-ctl/libmediactl.pc
-config.status: creating utils/media-ctl/libv4l2subdev.pc
-config.status: creating lib/include/libdvbv5/libdvb-version.h
-config.status: creating utils/qv4l2/qv4l2.1
-config.status: creating utils/qvidcap/qvidcap.1
-config.status: creating utils/v4l2-compliance/v4l2-compliance.1
-config.status: creating utils/v4l2-ctl/v4l2-ctl.1
-config.status: creating utils/keytable/ir-keytable.1
-config.status: creating utils/keytable/rc_keymap.5
-config.status: creating utils/ir-ctl/ir-ctl.1
-config.status: creating utils/dvb/dvb-fe-tool.1
-config.status: creating utils/dvb/dvbv5-scan.1
-config.status: creating utils/dvb/dvb-format-convert.1
-config.status: creating utils/dvb/dvbv5-zap.1
-config.status: creating config.h
-config.status: executing depfiles commands
-config.status: executing libtool commands
-config.status: executing po-directories commands
-config.status: creating v4l-utils-po/POTFILES
-config.status: creating v4l-utils-po/Makefile
-config.status: creating libdvbv5-po/POTFILES
-config.status: creating libdvbv5-po/Makefile
+Started by user Mauro Carvalho Chehab
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 1eb0147944fbe5607028ff998e4149f13fd35dec (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 1eb0147944fbe5607028ff998e4149f13fd35dec # timeout=10
+Commit message: "Update backports/v5.0_gpio.patch"
+ > git rev-list --no-walk 1eb0147944fbe5607028ff998e4149f13fd35dec # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 1eb0147944fbe5607028ff998e4149f13fd35dec^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
+[GitCheckoutListener] Found previous build 'media-build #3596' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '1eb0147'
+[GitCheckoutListener] -> Using head commit '1eb0147' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@5acd5c72'
+[GitCheckoutListener] -> No new commits found
+[media-build] $ /bin/sh -xe /tmp/jenkins3257827948842723443.sh
++ rm v4l/.version
++ ./build
+Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
+Needed package dependencies are met.
 
-compile time options summary
-============================
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
 
-    Host OS                    : linux-gnu
-    X11                        : yes
-    GL                         : yes
-    glu                        : yes
-    libelf		       : yes
-    libjpeg                    : yes
-    libudev                    : yes
-    pthread                    : yes
-    QT version                 : v5.4 with QtGL
-    ALSA support               : yes
-    SDL support		       : yes
+Not aborted. It means that the licence was agreed. Proceeding...
 
-    build dynamic libs         : yes
-    build static libs          : yes
+****************************
+Updating the building system
+****************************
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2021-08-17 01:20:55--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2021-08-17 01:20:55--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
 
-    gconv                      : yes
+     0K                                                       100%  203M=0s
 
-    dynamic libv4l             : yes
-    v4l_plugins                : yes
-    v4l_wrappers               : yes
-    libdvbv5                   : yes
-    dvbv5-daemon               : yes
-    v4lutils                   : yes
-    qv4l2                      : yes
-    qvidcap                    : yes
-    v4l2-ctl uses libv4l       : yes
-    v4l2-ctl-32                : yes
-    v4l2-compliance            : yes
-    v4l2-compliance uses libv4l: yes
-    v4l2-compliance-32         : yes
-    BPF IR Decoders:           : no
-+ make
-make --no-print-directory all-recursive
-Making all in v4l-utils-po
-*** error: gettext infrastructure mismatch: using a Makefile.in.in from gettext version 0.20 but the autoconf macros are from gettext version 0.19
-make[2]: *** [Makefile:233: stamp-po] Error 1
-make[1]: *** [Makefile:597: all-recursive] Error 1
-make: *** [Makefile:524: all] Error 2
+2021-08-17 01:20:56 (203 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-8-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-8-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/ccs.patch
+patch -s -f -N -p1 -i ../backports/rc-cec.patch
+patch -s -f -N -p1 -i ../backports/v5.12_uvc.patch
+patch -s -f -N -p1 -i ../backports/v5.11_isa.patch
+patch -s -f -N -p1 -i ../backports/v5.10_vb2_dma_buf_map.patch
+Patched drivers/media/dvb-core/dvbdev.c
+Patched drivers/media/v4l2-core/v4l2-dev.c
+Patched drivers/media/rc/rc-main.c
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+./scripts/make_kconfig.pl /lib/modules/5.10.0-8-amd64/build /lib/modules/5.10.0-8-amd64/build 1
+File not found: /lib/modules/5.10.0-8-amd64/build/.config at ./scripts/make_kconfig.pl line 33, <IN> line 4.
+Preparing to compile for kernel version 5.10.0
+make[1]: *** [Makefile:367: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
 Build step 'Execute shell' marked build as failure
