@@ -2,89 +2,293 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B9703EE051
-	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 01:22:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DD4C3EE200
+	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 03:19:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232726AbhHPXWh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Aug 2021 19:22:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47194 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232618AbhHPXWh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Aug 2021 19:22:37 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBE26C061764
-        for <linux-media@vger.kernel.org>; Mon, 16 Aug 2021 16:22:04 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id x7so29832408ljn.10
-        for <linux-media@vger.kernel.org>; Mon, 16 Aug 2021 16:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=If86FY8sdS4N9bwIDSXGC/RFPeY8+SvwoygVsUxKCHw=;
-        b=TPfjutxuUz5jIzJ4i1wZrR32dkH9aZkB6O/NAtQHHbTXYTXmyZJpZgT1nA/kOyRod0
-         2akuW+cX8BiYyDNv2Fqm/T2Fm5OcJLem7SXpZPrKDIiBYlQSt4g5nLjE2GOIHKYDTOvl
-         F47gr23+vc5ZIsVX2JaEEfVc7b6ui1bT5irIDwudKcXgOhDOvuq5FgdcAV1LdLwgLSNF
-         7YUe3l0eBzGzJ3nY/+d55CREXkVsrfa3jKP7WOZaYQEMhTQ6k6DTdLCRdUuDz7D18cBg
-         sEAAanJZasvoWmMAk6UsfjEzp3/q35ghKQKt7OId4kcLkiB6UXpH2y2GK5lLnOQi/1UM
-         7ZzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=If86FY8sdS4N9bwIDSXGC/RFPeY8+SvwoygVsUxKCHw=;
-        b=DQtQn9VBPL0KCttiYkiCaXmJVKm6Nv5NP3kI059aJ/Uea0T+uhP1gx41Nb9tpmta+7
-         HvdvrP20FzImQdNqw35bHXQfrwMsLlAhun/r5eEZiMf3FQgMint/w70aByNj6iTlFfu3
-         gwu0qvUIFZ+lTj8w1hXSCp6d4nyz6S4UAdq+NyJa5BQ3CG1OBnLV4BByjCQXSFTW/dTi
-         gfzRQzmXab5bJJNK5KRf6E4VqkI6NeToT0iqVqW0SCzOO/hTV6wJyBgDZSiQFi6o1WsQ
-         54XbsLeO5CBbOeHu3CydzZWuuUujTW6Pqeqtb2UZG6Wejz776g6Dz7dY4J0FKq12E/O8
-         C1xQ==
-X-Gm-Message-State: AOAM532GU0Jw6uEF7QGjn3AszHZKZGTSggHGjtv8+55C8bnV7HJ7RB7b
-        t33znBbhUVVRu/Fkt+g9m2bRtg==
-X-Google-Smtp-Source: ABdhPJyRhvLWMMSQoyde0ynfTC3RXCBdJNDW9jUvTFN2p6iMO1yGEmtAal6tbziEhSz41mQJ2T5n2w==
-X-Received: by 2002:a2e:bd89:: with SMTP id o9mr530452ljq.345.1629156123295;
-        Mon, 16 Aug 2021 16:22:03 -0700 (PDT)
-Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
-        by smtp.gmail.com with ESMTPSA id bu22sm26388lfb.290.2021.08.16.16.22.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 16:22:02 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Antti Palosaari <crope@iki.fi>
-Subject: [PATCH] [media] cxd2820r: Include the right header
-Date:   Tue, 17 Aug 2021 01:20:01 +0200
-Message-Id: <20210816232001.484553-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.31.1
+        id S233216AbhHQBTv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Aug 2021 21:19:51 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:59014 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230304AbhHQBTv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Aug 2021 21:19:51 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mFnl7-0025DI-QO; Tue, 17 Aug 2021 01:19:17 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mFnl4-0009E6-BL; Tue, 17 Aug 2021 01:19:14 +0000
+Date:   Tue, 17 Aug 2021 01:19:13 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1237478927.0.1629163153254@builder.linuxtv.org>
+Subject: Build failed in Jenkins: xawtv3 #7
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: xawtv3
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This driver is just using <gpio/driver.h> so include that and
-not the legacy <linux/gpio.h> header.
+See <https://builder.linuxtv.org/job/xawtv3/7/display/redirect>
 
-Cc: Antti Palosaari <crope@iki.fi>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/media/dvb-frontends/cxd2820r_priv.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes:
 
-diff --git a/drivers/media/dvb-frontends/cxd2820r_priv.h b/drivers/media/dvb-frontends/cxd2820r_priv.h
-index 7baf0162424f..09c42bcef971 100644
---- a/drivers/media/dvb-frontends/cxd2820r_priv.h
-+++ b/drivers/media/dvb-frontends/cxd2820r_priv.h
-@@ -13,7 +13,7 @@
- #include <media/dvb_frontend.h>
- #include <media/dvb_math.h>
- #include "cxd2820r.h"
--#include <linux/gpio.h>
-+#include <linux/gpio/driver.h> /* For gpio_chip */
- #include <linux/math64.h>
- #include <linux/regmap.h>
- 
--- 
-2.31.1
 
+------------------------------------------
+[...truncated 2.64 KB...]
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking for g++... g++
+checking whether we are using the GNU C++ compiler... yes
+checking whether g++ accepts -g... yes
+checking how to run the C preprocessor... gcc -E
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for gccmakedep... no
+checking for makedepend... no
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking whether sys/types.h defines makedev... no
+checking sys/mkdev.h usability... no
+checking sys/mkdev.h presence... no
+checking for sys/mkdev.h... no
+checking sys/sysmacros.h usability... yes
+checking sys/sysmacros.h presence... yes
+checking for sys/sysmacros.h... yes
+checking getopt.h usability... yes
+checking getopt.h presence... yes
+checking for getopt.h... yes
+checking soundcard.h usability... no
+checking soundcard.h presence... no
+checking for soundcard.h... no
+checking for unistd.h... (cached) yes
+checking sys/select.h usability... yes
+checking sys/select.h presence... yes
+checking for sys/select.h... yes
+checking sys/soundcard.h usability... yes
+checking sys/soundcard.h presence... yes
+checking for sys/soundcard.h... yes
+checking alsa/asoundlib.h usability... yes
+checking alsa/asoundlib.h presence... yes
+checking for alsa/asoundlib.h... yes
+checking linux/joystick.h usability... yes
+checking linux/joystick.h presence... yes
+checking for linux/joystick.h... yes
+checking dev/ic/bt8xx.h usability... no
+checking dev/ic/bt8xx.h presence... no
+checking for dev/ic/bt8xx.h... no
+checking machine/ioctl_bt848.h usability... no
+checking machine/ioctl_bt848.h presence... no
+checking for machine/ioctl_bt848.h... no
+checking for ftello... yes
+checking for fseeko... yes
+checking for getpt... yes
+checking for getnameinfo... yes
+checking for getopt_long... yes
+checking for strcasestr... yes
+checking for dlopen... no
+checking for dlopen in -ldl... yes
+checking for ELF... yes
+checking for pthread_create in -lpthread... yes
+checking for main in -lossaudio... no
+checking for initscr in -lncursesw... yes
+checking for X... libraries , headers 
+checking for gethostbyname... yes
+checking for connect... yes
+checking for remove... yes
+checking for shmat... yes
+checking for IceConnectionNumber in -lICE... yes
+checking for Xft... yes
+checking for v4l2_fd_open in -lv4l2... yes
+checking for explain_open in -lexplain... no
+checking for jpeg_start_compress in -ljpeg... yes
+checking for snd_seq_open in -lasound... yes
+checking for lirc_init in -llirc_client... yes
+checking for vbi_capture_fd in -lzvbi... yes
+checking for aa_autoinit in -laa... yes
+checking for dv_decoder_new in -ldv... yes
+checking for lqt_query_registry in -lquicktime... yes
+checking for XF86DGAQueryExtension in -lXxf86dga... yes
+checking for XF86VidModeQueryExtension in -lXxf86vm... yes
+checking for DPMSQueryExtension in -lXdpms... no
+checking for DPMSQueryExtension in -lXext... yes
+checking for XineramaQueryExtension in -lXinerama... yes
+checking for XRenderQueryExtension in -lXrender... yes
+checking for XRRConfigCurrentConfiguration in -lXrandr... yes
+checking for XvQueryExtension in -lXv... yes
+checking for XmStringGenerate in -lXm... yes
+checking for glXChooseVisual in -lGL... yes
+checking for X11 config directory... /etc/X11
+checking for X11 app-defaults directory... /etc/X11/app-defaults
+checking if mmx should be used... no
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: WARNING:  'Makefile.in' seems to ignore the --datarootdir setting
+config.status: creating xawtv.spec
+config.status: creating config.h
+config.status: config.h is unchanged
+
+compile time options summary
+============================
+
+    aalib        : yes
+    alsa         : yes
+    dv           : yes
+    QuickTime    : yes
+    OpenMotif    : yes
+    X11R6        : yes
+    OpenGL       : yes
+    zvbi         : yes
+    libv4l       : yes
+    libexplain   : no
+    lirc         : yes
+
++ ./configure
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking for g++... g++
+checking whether we are using the GNU C++ compiler... yes
+checking whether g++ accepts -g... yes
+checking how to run the C preprocessor... gcc -E
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for gccmakedep... no
+checking for makedepend... no
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking whether sys/types.h defines makedev... no
+checking sys/mkdev.h usability... no
+checking sys/mkdev.h presence... no
+checking for sys/mkdev.h... no
+checking sys/sysmacros.h usability... yes
+checking sys/sysmacros.h presence... yes
+checking for sys/sysmacros.h... yes
+checking getopt.h usability... yes
+checking getopt.h presence... yes
+checking for getopt.h... yes
+checking soundcard.h usability... no
+checking soundcard.h presence... no
+checking for soundcard.h... no
+checking for unistd.h... (cached) yes
+checking sys/select.h usability... yes
+checking sys/select.h presence... yes
+checking for sys/select.h... yes
+checking sys/soundcard.h usability... yes
+checking sys/soundcard.h presence... yes
+checking for sys/soundcard.h... yes
+checking alsa/asoundlib.h usability... yes
+checking alsa/asoundlib.h presence... yes
+checking for alsa/asoundlib.h... yes
+checking linux/joystick.h usability... yes
+checking linux/joystick.h presence... yes
+checking for linux/joystick.h... yes
+checking dev/ic/bt8xx.h usability... no
+checking dev/ic/bt8xx.h presence... no
+checking for dev/ic/bt8xx.h... no
+checking machine/ioctl_bt848.h usability... no
+checking machine/ioctl_bt848.h presence... no
+checking for machine/ioctl_bt848.h... no
+checking for ftello... yes
+checking for fseeko... yes
+checking for getpt... yes
+checking for getnameinfo... yes
+checking for getopt_long... yes
+checking for strcasestr... yes
+checking for dlopen... no
+checking for dlopen in -ldl... yes
+checking for ELF... yes
+checking for pthread_create in -lpthread... yes
+checking for main in -lossaudio... no
+checking for initscr in -lncursesw... yes
+checking for X... libraries , headers 
+checking for gethostbyname... yes
+checking for connect... yes
+checking for remove... yes
+checking for shmat... yes
+checking for IceConnectionNumber in -lICE... yes
+checking for Xft... yes
+checking for v4l2_fd_open in -lv4l2... yes
+checking for explain_open in -lexplain... no
+checking for jpeg_start_compress in -ljpeg... yes
+checking for snd_seq_open in -lasound... yes
+checking for lirc_init in -llirc_client... yes
+checking for vbi_capture_fd in -lzvbi... yes
+checking for aa_autoinit in -laa... yes
+checking for dv_decoder_new in -ldv... yes
+checking for lqt_query_registry in -lquicktime... yes
+checking for XF86DGAQueryExtension in -lXxf86dga... yes
+checking for XF86VidModeQueryExtension in -lXxf86vm... yes
+checking for DPMSQueryExtension in -lXdpms... no
+checking for DPMSQueryExtension in -lXext... yes
+checking for XineramaQueryExtension in -lXinerama... yes
+checking for XRenderQueryExtension in -lXrender... yes
+checking for XRRConfigCurrentConfiguration in -lXrandr... yes
+checking for XvQueryExtension in -lXv... yes
+checking for XmStringGenerate in -lXm... yes
+checking for glXChooseVisual in -lGL... yes
+checking for X11 config directory... /etc/X11
+checking for X11 app-defaults directory... /etc/X11/app-defaults
+checking if mmx should be used... no
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: WARNING:  'Makefile.in' seems to ignore the --datarootdir setting
+config.status: creating xawtv.spec
+config.status: creating config.h
+config.status: config.h is unchanged
+
+compile time options summary
+============================
+
+    aalib        : yes
+    alsa         : yes
+    dv           : yes
+    QuickTime    : yes
+    OpenMotif    : yes
+    X11R6        : yes
+    OpenGL       : yes
+    zvbi         : yes
+    libv4l       : yes
+    libexplain   : no
+    lirc         : yes
+
++ make
+make: *** No rule to make target '/usr/lib/gcc/x86_64-linux-gnu/8/include/stddef.h', needed by 'console/dump-mixers.o'.  Stop.
+Build step 'Execute shell' marked build as failure
