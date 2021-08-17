@@ -2,229 +2,297 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 684F83EEC1C
-	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 14:06:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 639DC3EEC2F
+	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 14:09:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237197AbhHQMF4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Aug 2021 08:05:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51444 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237271AbhHQMFv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Aug 2021 08:05:51 -0400
-Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB507C0613A3
-        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 05:05:16 -0700 (PDT)
-Received: by mail-vs1-xe36.google.com with SMTP id a201so11012758vsd.3
-        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 05:05:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zp99VySxCP/C+XoDYPyxq/KzXedadDuj5suqohF5Fvg=;
-        b=nFsjYjBXuhreAiAOicko40FJ2Ek7yGZ95EL78+psS1PBgU/zV/hVvGucyeNGB/VHuA
-         CZvLcibDFKv0his4Xlc/kKpRR4KmuVlfNPdCOjLa9yqFMDSVDsx+N86gbova/TWvfOvh
-         UN5fcZIAF+gxZrptxSzZ1Ic8Wvj0+yF7hFtRm/gqHM41KJ03TLeAZhinYWrAoSrnataU
-         dyVF+WhuUoCZmS68K3nFSjCbBWA101ONrhbvx8clVKf/1q6HwW6DBCFaGKFGnYrUqvgr
-         aL45tUdh4eNundsr+ZCDy2CWtZ6BTR2SQU6gRUHinuEuOmjdznvPCL+5j+0D/G8oV6sT
-         gR9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zp99VySxCP/C+XoDYPyxq/KzXedadDuj5suqohF5Fvg=;
-        b=jn8s7loOUBCNR0hPsUzNF3Xs7om+MpSu0TTuJnF99SknAeDRT0nz38ukLmdNHryven
-         zHpPj2zgEOmJGedAUpFzaSH9GKGb0K0fzoySx3MLcA+FzwhOSBMQIjPZerkDE6aDwjp6
-         bGkzg25oS2O3gIsbZOeq2vDwc0u0+hTgtRf6dZQlY2IhbG4f0Nbmit8hiPZzM7JWO22Y
-         gnGLAVN1OzCzxoP/SL1OKbld/Lxnjx1UYILhPpX/LICYr2WNjXC1b8+ngwex1ftPfdq3
-         bAIEU7gnWakP1T/+8bPhuVhY6qEvYzqPTp1pEQ1sVshJhc2t70ZV70h+i/TgM9grfkGa
-         BfKw==
-X-Gm-Message-State: AOAM533fMuhhL17sn7kWf1VYVtz39xeMAyk+FnRVKN6F76MJwbfNXlxr
-        KAuFYdkVFDXARL2Px9UVjI2/vW8q5kg7K9znVmAu6w==
-X-Google-Smtp-Source: ABdhPJyAoDZB8D567sM7+DgXNNDfJZjhAOy3SVS/bltXL11iGgVxqJXFnX1rcCitBmOIa8V8M0KZWwa23CQNDRPlT28=
-X-Received: by 2002:a67:f6d8:: with SMTP id v24mr2357440vso.48.1629201915619;
- Tue, 17 Aug 2021 05:05:15 -0700 (PDT)
+        id S237250AbhHQMKH convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 17 Aug 2021 08:10:07 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:50942 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236113AbhHQMKG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 17 Aug 2021 08:10:06 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mFxuO-002n6k-Jw; Tue, 17 Aug 2021 12:09:32 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mFxuN-0028le-UP; Tue, 17 Aug 2021 12:09:30 +0000
+Date:   Tue, 17 Aug 2021 12:09:30 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <493138498.18.1629202170859@builder.linuxtv.org>
+In-Reply-To: <1619129671.17.1629201442955@builder.linuxtv.org>
+References: <1619129671.17.1629201442955@builder.linuxtv.org>
+Subject: Build failed in Jenkins: xawtv4 #27
 MIME-Version: 1.0
-References: <20210817012754.8710-1-digetx@gmail.com> <20210817012754.8710-12-digetx@gmail.com>
-In-Reply-To: <20210817012754.8710-12-digetx@gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Tue, 17 Aug 2021 14:04:38 +0200
-Message-ID: <CAPDyKFrax-EYtO03W5QWM2tcWLWeMM8hHZCRYFcsenuiP2zObQ@mail.gmail.com>
-Subject: Re: [PATCH v8 11/34] gpu: host1x: Add runtime PM and OPP support
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        DTML <devicetree@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: xawtv4
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 17 Aug 2021 at 03:30, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> Add runtime PM and OPP support to the Host1x driver. It's required for
-> enabling system-wide DVFS and supporting dynamic power management using
-> a generic power domain. For the starter we will keep host1x always-on
-> because dynamic power management require a major refactoring of the driver
-> code since lot's of code paths will need the RPM handling and we're going
-> to remove some of these paths in the future. Host1x doesn't consume much
-> power so it is good enough, we at least need to resume Host1x in order
-> to initialize the power state.
->
-> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
-> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
-> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
+See <https://builder.linuxtv.org/job/xawtv4/27/display/redirect?page=changes>
 
-[...]
+Changes:
 
-> +
->  static int host1x_probe(struct platform_device *pdev)
->  {
->         struct host1x *host;
-> @@ -394,6 +423,10 @@ static int host1x_probe(struct platform_device *pdev)
->         /* set common host1x device data */
->         platform_set_drvdata(pdev, host);
->
-> +       err = devm_tegra_core_dev_init_opp_table_simple(&pdev->dev);
-> +       if (err)
-> +               return err;
-> +
->         host->regs = devm_ioremap_resource(&pdev->dev, regs);
->         if (IS_ERR(host->regs))
->                 return PTR_ERR(host->regs);
-> @@ -423,12 +456,9 @@ static int host1x_probe(struct platform_device *pdev)
->                 return err;
->         }
->
-> -       host->rst = devm_reset_control_get(&pdev->dev, "host1x");
-> -       if (IS_ERR(host->rst)) {
-> -               err = PTR_ERR(host->rst);
-> -               dev_err(&pdev->dev, "failed to get reset: %d\n", err);
-> +       err = host1x_get_resets(host);
-> +       if (err)
->                 return err;
-> -       }
->
->         err = host1x_iommu_init(host);
->         if (err < 0) {
-> @@ -443,22 +473,10 @@ static int host1x_probe(struct platform_device *pdev)
->                 goto iommu_exit;
->         }
->
-> -       err = clk_prepare_enable(host->clk);
-> -       if (err < 0) {
-> -               dev_err(&pdev->dev, "failed to enable clock\n");
-> -               goto free_channels;
-> -       }
-> -
-> -       err = reset_control_deassert(host->rst);
-> -       if (err < 0) {
-> -               dev_err(&pdev->dev, "failed to deassert reset: %d\n", err);
-> -               goto unprepare_disable;
-> -       }
-> -
+[Mauro Carvalho Chehab] tty: got rid of an undefined function
 
-Removing the clk_prepare_enable() and reset_control_deassert() from
-host1x_probe(), might not be a good idea. See more about why, below.
 
->         err = host1x_syncpt_init(host);
->         if (err) {
->                 dev_err(&pdev->dev, "failed to initialize syncpts\n");
-> -               goto reset_assert;
-> +               goto free_channels;
->         }
->
->         err = host1x_intr_init(host, syncpt_irq);
-> @@ -467,10 +485,14 @@ static int host1x_probe(struct platform_device *pdev)
->                 goto deinit_syncpt;
->         }
->
-> -       host1x_debug_init(host);
-> +       pm_runtime_enable(&pdev->dev);
->
-> -       if (host->info->has_hypervisor)
-> -               host1x_setup_sid_table(host);
-> +       /* the driver's code isn't ready yet for the dynamic RPM */
-> +       err = pm_runtime_resume_and_get(&pdev->dev);
-
-If the driver is being built with the CONFIG_PM Kconfig option being
-unset, pm_runtime_resume_and_get() will return 0 to indicate success -
-and without calling the ->runtime_resume() callback.
-In other words, the clock will remain gated and the reset will not be
-deasserted, likely causing the driver to be malfunctioning.
-
-If the driver isn't ever being built with CONFIG_PM unset, feel free
-to ignore my above comments.
-
-Otherwise, if it needs to work both with and without CONFIG_PM being
-set, you may use the following pattern in host1x_probe() to deploy
-runtime PM support:
-
-"Enable the needed resources to probe the device"
-pm_runtime_get_noresume()
-pm_runtime_set_active()
-pm_runtime_enable()
-
-"Before successfully completing probe"
-pm_runtime_put()
-
-> +       if (err)
-> +               goto deinit_intr;
-> +
-> +       host1x_debug_init(host);
->
->         err = host1x_register(host);
->         if (err < 0)
-> @@ -486,13 +508,13 @@ static int host1x_probe(struct platform_device *pdev)
->         host1x_unregister(host);
->  deinit_debugfs:
->         host1x_debug_deinit(host);
-> +
-> +       pm_runtime_put(&pdev->dev);
-> +       pm_runtime_disable(&pdev->dev);
-> +deinit_intr:
->         host1x_intr_deinit(host);
->  deinit_syncpt:
->         host1x_syncpt_deinit(host);
-> -reset_assert:
-> -       reset_control_assert(host->rst);
-> -unprepare_disable:
-> -       clk_disable_unprepare(host->clk);
->  free_channels:
->         host1x_channel_list_free(&host->channel_list);
->  iommu_exit:
-
-[...]
-
-Kind regards
-Uffe
+------------------------------------------
+[...truncated 7.32 KB...]
++ make verbose=1
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/console_streamer.tmp -c -o console/streamer.o console/streamer.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/common_sound.tmp -c -o common/sound.o common/sound.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/common_webcam.tmp -c -o common/webcam.o common/webcam.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/common_tuning.tmp -c -o common/tuning.o common/tuning.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/common_commands.tmp -c -o common/commands.o common/commands.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/common_devs.tmp -c -o common/devs.o common/devs.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/common_capture.tmp -c -o common/capture.o common/capture.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/common_event.tmp -c -o common/event.o common/event.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/common_fifo.tmp -c -o common/fifo.o common/fifo.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/common_tv-config.tmp -c -o common/tv-config.o common/tv-config.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/common_dvb-tuning.tmp -c -o common/dvb-tuning.o common/dvb-tuning.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/libng_grab-ng.tmp -c -o libng/grab-ng.o libng/grab-ng.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/libng_writefile.tmp -c -o libng/writefile.o libng/writefile.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/libng_parse-mpeg.tmp -c -o libng/parse-mpeg.o libng/parse-mpeg.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/libng_parse-dvb.tmp -c -o libng/parse-dvb.o libng/parse-dvb.c
+common/devs.c: In function ‘device_probe_video’:
+common/devs.c:127:15: warning: variable ‘add’ set but not used [-Wunused-but-set-variable]
+  127 |     int err,i,add=0;
+      |               ^~~
+common/devs.c: In function ‘device_probe_dvb’:
+common/devs.c:193:11: warning: variable ‘add’ set but not used [-Wunused-but-set-variable]
+  193 |     int i,add = 0;
+      |           ^~~
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/libng_color_common.tmp -c -o libng/color_common.o libng/color_common.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/libng_color_packed.tmp -c -o libng/color_packed.o libng/color_packed.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/libng_color_lut.tmp -c -o libng/color_lut.o libng/color_lut.c
+common/commands.c: In function ‘keypad_handler’:
+common/commands.c:1184:18: warning: ‘%d’ directive writing between 1 and 10 bytes into a region of size 8 [-Wformat-overflow=]
+ 1184 |      sprintf(ch,"%d",n);
+      |                  ^~
+common/commands.c:1184:17: note: directive argument in the range [1, 2147483647]
+ 1184 |      sprintf(ch,"%d",n);
+      |                 ^~~~
+common/commands.c:1184:6: note: ‘sprintf’ output between 2 and 11 bytes into a destination of size 8
+ 1184 |      sprintf(ch,"%d",n);
+      |      ^~~~~~~~~~~~~~~~~~
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/libng_color_yuv2rgb.tmp -c -o libng/color_yuv2rgb.o libng/color_yuv2rgb.c
+libng/parse-dvb.c: In function ‘parse_nit_desc_2’:
+libng/parse-dvb.c:196:13: warning: variable ‘l’ set but not used [-Wunused-but-set-variable]
+  196 |     int i,t,l;
+      |             ^
+libng/parse-dvb.c: In function ‘parse_sdt_desc’:
+libng/parse-dvb.c:239:13: warning: variable ‘l’ set but not used [-Wunused-but-set-variable]
+  239 |     int i,t,l;
+      |             ^
+libng/parse-dvb.c: In function ‘mpeg_parse_psi_nit’:
+libng/parse-dvb.c:351:6: warning: the address of ‘network’ will always evaluate as ‘true’ [-Waddress]
+  351 |  if (network)
+      |      ^~~~~~~
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/libng_convert.tmp -c -o libng/convert.o libng/convert.c
+common/dvb-tuning.c: In function ‘fixup_numbers’:
+common/dvb-tuning.c:329:5: warning: enumeration value ‘FE_ATSC’ not handled in switch [-Wswitch]
+  329 |     switch (h->info.type) {
+      |     ^~~~~~
+common/dvb-tuning.c: In function ‘dump_fe_info’:
+common/dvb-tuning.c:365:5: warning: enumeration value ‘FE_ATSC’ not handled in switch [-Wswitch]
+  365 |     switch (h->info.type) {
+      |     ^~~~~~
+common/dvb-tuning.c: In function ‘dvb_frontend_tune’:
+common/dvb-tuning.c:433:5: warning: enumeration value ‘FE_ATSC’ not handled in switch [-Wswitch]
+  433 |     switch (h->info.type) {
+      |     ^~~~~~
+common/dvb-tuning.c: In function ‘parse_vdr_diseqc.constprop.isra’:
+common/dvb-tuning.c:1126:26: warning: ‘%d’ directive writing between 1 and 10 bytes into a region of size 9 [-Wformat-overflow=]
+ 1126 |  sprintf(section,"diseqc-%d",i++);
+      |                          ^~
+common/dvb-tuning.c:1126:18: note: directive argument in the range [0, 2147483647]
+ 1126 |  sprintf(section,"diseqc-%d",i++);
+      |                  ^~~~~~~~~~~
+common/dvb-tuning.c:1126:2: note: ‘sprintf’ output between 9 and 18 bytes into a destination of size 16
+ 1126 |  sprintf(section,"diseqc-%d",i++);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/libng_misc.tmp -c -o libng/misc.o libng/misc.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/console_webcam.tmp -c -o console/webcam.o console/webcam.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/console_scantv.tmp -c -o console/scantv.o console/scantv.c
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/console_ttv.tmp -c -o console/ttv.o console/ttv.c
+libng/grab-ng.c: In function ‘ng_filter_single’:
+libng/grab-ng.c:965:11: warning: variable ‘handle’ set but not used [-Wunused-but-set-variable]
+  965 |     void *handle;
+      |           ^~~~~~
+In file included from console/ttv.c:13:
+./common/frequencies.h:82:2: warning: #warning obsolete header file [-Wcpp]
+   82 | #warning obsolete header file
+      |  ^~~~~~~
+console/ttv.c: In function ‘grabber_init’:
+console/ttv.c:37:5: error: ‘drv’ undeclared (first use in this function); did you mean ‘div’?
+   37 |     drv = ng_vid_open(ng_dev.video,NULL,NULL,0,&h_drv);
+      |     ^~~
+      |     div
+console/ttv.c:37:5: note: each undeclared identifier is reported only once for each function it appears in
+console/ttv.c:37:11: warning: implicit declaration of function ‘ng_vid_open’; did you mean ‘ng_dev_open’? [-Wimplicit-function-declaration]
+   37 |     drv = ng_vid_open(ng_dev.video,NULL,NULL,0,&h_drv);
+      |           ^~~~~~~~~~~
+      |           ng_dev_open
+console/ttv.c:37:49: error: ‘h_drv’ undeclared (first use in this function)
+   37 |     drv = ng_vid_open(ng_dev.video,NULL,NULL,0,&h_drv);
+      |                                                 ^~~~~
+console/ttv.c:42:5: error: ‘f_drv’ undeclared (first use in this function)
+   42 |     f_drv = drv->capabilities(h_drv);
+      |     ^~~~~
+console/ttv.c:43:5: warning: implicit declaration of function ‘add_attrs’; did you mean ‘aa_attrs’? [-Wimplicit-function-declaration]
+   43 |     add_attrs(drv->list_attrs(h_drv));
+      |     ^~~~~~~~~
+      |     aa_attrs
+console/ttv.c: In function ‘do_capture’:
+console/ttv.c:63:10: error: ‘CAPTURE_GRABDISPLAY’ undeclared (first use in this function)
+   63 |     case CAPTURE_GRABDISPLAY:
+      |          ^~~~~~~~~~~~~~~~~~~
+console/ttv.c:64:6: error: ‘f_drv’ undeclared (first use in this function)
+   64 |  if (f_drv & CAN_CAPTURE)
+      |      ^~~~~
+console/ttv.c:65:6: error: ‘drv’ undeclared (first use in this function); did you mean ‘div’?
+   65 |      drv->stopvideo(h_drv);
+      |      ^~~
+      |      div
+console/ttv.c:65:21: error: ‘h_drv’ undeclared (first use in this function)
+   65 |      drv->stopvideo(h_drv);
+      |                     ^~~~~
+console/ttv.c:76:32: warning: passing argument 1 of ‘ng_grabber_setformat’ from incompatible pointer type [-Wincompatible-pointer-types]
+   76 |  if (0 != ng_grabber_setformat(&fmt,1)) {
+      |                                ^~~~
+      |                                |
+      |                                struct ng_video_fmt *
+In file included from console/ttv.c:11:
+./common/capture.h:6:46: note: expected ‘struct ng_devstate *’ but argument is of type ‘struct ng_video_fmt *’
+    6 | int ng_grabber_setformat(struct ng_devstate *dev, struct ng_video_fmt *fmt,
+      |                          ~~~~~~~~~~~~~~~~~~~~^~~
+console/ttv.c:76:37: warning: passing argument 2 of ‘ng_grabber_setformat’ makes pointer from integer without a cast [-Wint-conversion]
+   76 |  if (0 != ng_grabber_setformat(&fmt,1)) {
+      |                                     ^
+      |                                     |
+      |                                     int
+In file included from console/ttv.c:11:
+./common/capture.h:6:72: note: expected ‘struct ng_video_fmt *’ but argument is of type ‘int’
+    6 | int ng_grabber_setformat(struct ng_devstate *dev, struct ng_video_fmt *fmt,
+      |                                                   ~~~~~~~~~~~~~~~~~~~~~^~~
+console/ttv.c:76:11: error: too few arguments to function ‘ng_grabber_setformat’
+   76 |  if (0 != ng_grabber_setformat(&fmt,1)) {
+      |           ^~~~~~~~~~~~~~~~~~~~
+In file included from console/ttv.c:11:
+./common/capture.h:6:5: note: declared here
+    6 | int ng_grabber_setformat(struct ng_devstate *dev, struct ng_video_fmt *fmt,
+      |     ^~~~~~~~~~~~~~~~~~~~
+console/ttv.c:78:46: warning: passing argument 1 of ‘ng_grabber_findconv’ from incompatible pointer type [-Wincompatible-pointer-types]
+   78 |      if (NULL == (conv = ng_grabber_findconv(&gfmt,0))) {
+      |                                              ^~~~~
+      |                                              |
+      |                                              struct ng_video_fmt *
+In file included from console/ttv.c:11:
+./common/capture.h:8:63: note: expected ‘struct ng_devstate *’ but argument is of type ‘struct ng_video_fmt *’
+    8 | struct ng_video_conv* ng_grabber_findconv(struct ng_devstate *dev,
+      |                                           ~~~~~~~~~~~~~~~~~~~~^~~
+console/ttv.c:78:26: error: too few arguments to function ‘ng_grabber_findconv’
+   78 |      if (NULL == (conv = ng_grabber_findconv(&gfmt,0))) {
+      |                          ^~~~~~~~~~~~~~~~~~~
+In file included from console/ttv.c:11:
+./common/capture.h:8:23: note: declared here
+    8 | struct ng_video_conv* ng_grabber_findconv(struct ng_devstate *dev,
+      |                       ^~~~~~~~~~~~~~~~~~~
+console/ttv.c:82:11: warning: implicit declaration of function ‘ng_convert_alloc’ [-Wimplicit-function-declaration]
+   82 |      ch = ng_convert_alloc(conv,&gfmt,&fmt);
+      |           ^~~~~~~~~~~~~~~~
+console/ttv.c:82:9: warning: assignment to ‘struct ng_convert_handle *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+   82 |      ch = ng_convert_alloc(conv,&gfmt,&fmt);
+      |         ^
+console/ttv.c:83:6: warning: implicit declaration of function ‘ng_convert_init’; did you mean ‘ng_conv_init’? [-Wimplicit-function-declaration]
+   83 |      ng_convert_init(ch);
+      |      ^~~~~~~~~~~~~~~
+      |      ng_conv_init
+console/ttv.c: In function ‘main’:
+console/ttv.c:209:5: warning: implicit declaration of function ‘freq_init’ [-Wimplicit-function-declaration]
+  209 |     freq_init();
+      |     ^~~~~~~~~
+console/ttv.c:210:5: warning: implicit declaration of function ‘read_config’ [-Wimplicit-function-declaration]
+  210 |     read_config(NULL,NULL,NULL);
+      |     ^~~~~~~~~~~
+console/ttv.c:217:21: error: ‘mixerdev’ undeclared (first use in this function)
+  217 |     if (0 != strlen(mixerdev)) {
+      |                     ^~~~~~~~
+console/ttv.c:219:43: error: ‘mixerctl’ undeclared (first use in this function)
+  219 |  if (NULL != (attr = ng_mix_init(mixerdev,mixerctl)))
+      |                                           ^~~~~~~~
+console/ttv.c:219:22: error: too few arguments to function ‘ng_mix_init’
+  219 |  if (NULL != (attr = ng_mix_init(mixerdev,mixerctl)))
+      |                      ^~~~~~~~~~~
+In file included from console/ttv.c:10:
+./libng/grab-ng.h:600:5: note: declared here
+  600 | int ng_mix_init(struct ng_devstate *dev, char *device, char *control);
+      |     ^~~~~~~~~~~
+console/ttv.c:226:5: error: ‘set_capture_hook’ undeclared (first use in this function)
+  226 |     set_capture_hook  = do_capture;
+      |     ^~~~~~~~~~~~~~~~
+console/ttv.c:229:5: warning: implicit declaration of function ‘parse_config’ [-Wimplicit-function-declaration]
+  229 |     parse_config();
+      |     ^~~~~~~~~~~~
+console/ttv.c:232:5: error: ‘cur_capture’ undeclared (first use in this function); did you mean ‘do_capture’?
+  232 |     cur_capture = 0;
+      |     ^~~~~~~~~~~
+      |     do_capture
+console/ttv.c:237:7: error: ‘f_drv’ undeclared (first use in this function)
+  237 |  if ((f_drv & CAN_TUNE) && 0 != (freq = drv->getfreq(h_drv))) {
+      |       ^~~~~
+console/ttv.c:237:41: error: ‘drv’ undeclared (first use in this function); did you mean ‘div’?
+  237 |  if ((f_drv & CAN_TUNE) && 0 != (freq = drv->getfreq(h_drv))) {
+      |                                         ^~~
+      |                                         div
+console/ttv.c:237:54: error: ‘h_drv’ undeclared (first use in this function)
+  237 |  if ((f_drv & CAN_TUNE) && 0 != (freq = drv->getfreq(h_drv))) {
+      |                                                      ^~~~~
+console/ttv.c:244:12: error: ‘cur_channel’ undeclared (first use in this function)
+  244 |  if (-1 == cur_channel) {
+      |            ^~~~~~~~~~~
+console/ttv.c:245:10: error: ‘count’ undeclared (first use in this function)
+  245 |      if (count > 0)
+      |          ^~~~~
+console/ttv.c:248:3: warning: implicit declaration of function ‘set_defaults’ [-Wimplicit-function-declaration]
+  248 |   set_defaults();
+      |   ^~~~~~~~~~~~
+console/ttv.c:272:21: error: too few arguments to function ‘ng_grabber_grab_image’
+  272 |  if (NULL == (buf = ng_grabber_grab_image(0))) {
+      |                     ^~~~~~~~~~~~~~~~~~~~~
+In file included from console/ttv.c:11:
+./common/capture.h:11:22: note: declared here
+   11 | struct ng_video_buf* ng_grabber_grab_image(struct ng_devstate *dev,
+      |                      ^~~~~~~~~~~~~~~~~~~~~
+console/ttv.c:277:12: warning: implicit declaration of function ‘ng_convert_single’; did you mean ‘ng_filter_single’? [-Wimplicit-function-declaration]
+  277 |      buf = ng_convert_single(ch,buf);
+      |            ^~~~~~~~~~~~~~~~~
+      |            ng_filter_single
+console/ttv.c:277:10: warning: assignment to ‘struct ng_video_buf *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+  277 |      buf = ng_convert_single(ch,buf);
+      |          ^
+make: *** [mk/Compile.mk:54: console/ttv.o] Error 1
+make: *** Waiting for unfinished jobs....
+In function ‘do_scan’,
+    inlined from ‘main’ at console/scantv.c:399:2:
+console/scantv.c:235:7: warning: ‘%s’ directive argument is null [-Wformat-overflow=]
+  235 |       sprintf(dummy,"unknown (%s)",fchannel);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+libng/parse-mpeg.c: In function ‘parse_pmt_desc’:
+libng/parse-mpeg.c:680:13: warning: variable ‘l’ set but not used [-Wunused-but-set-variable]
+  680 |     int i,t,l;
+      |             ^
+libng/parse-mpeg.c: In function ‘get_lang_tag’:
+libng/parse-mpeg.c:697:13: warning: variable ‘l’ set but not used [-Wunused-but-set-variable]
+  697 |     int i,t,l;
+      |             ^
+Build step 'Execute shell' marked build as failure
