@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0D503EEB1B
-	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 12:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A6BC3EEB1D
+	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 12:41:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236075AbhHQKlp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Aug 2021 06:41:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60524 "EHLO
+        id S236594AbhHQKmQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Aug 2021 06:42:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236034AbhHQKlo (ORCPT
+        with ESMTP id S235380AbhHQKmP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Aug 2021 06:41:44 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E505C061764
-        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 03:41:11 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so4443212pjr.1
-        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 03:41:11 -0700 (PDT)
+        Tue, 17 Aug 2021 06:42:15 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E614C061764
+        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 03:41:42 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id cp15-20020a17090afb8fb029017891959dcbso4423717pjb.2
+        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 03:41:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Vakua7dB9MNN/4+EvWcg/tkA9unAO8MnqooNldYK9is=;
-        b=hmjUn9cvLrKrl5cyT5UaVFMBlY0lf6tv5/vLf2NAvY8wiUtZSvCNhqhM3iVNdSkJHj
-         msroeQrJpKML3icpKyaR4fWnXfqHwPrLF9UpdSdyftHVhpm/69XhUHZ1L4mXWtvHZebD
-         WAlgTWptRnbCFx0sAzOS38GzE9W8pUmm3eKkU=
+        bh=ziGJcTCS+ZXDXHbNImBiMiKR28CUbjajUlGyaY3CzMg=;
+        b=ED+6iEB1IDQ11WklEbAfULbzXPgEsrb2Qek0mvhKNiE8D4Xjl+hqwICL0X7Q+szQeQ
+         tN0mEk5Xv2vYFRSQtvj1NmkFzPD9yNqpu4/8GNPX4XY9aYbt/Ye5ouItZSew0Rym5TEp
+         qYVgByH2DR9wqNZkPbfPsaeXIj/5pvEsrh96E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Vakua7dB9MNN/4+EvWcg/tkA9unAO8MnqooNldYK9is=;
-        b=AWkLS+/jB4yAyjg2XMKcPHLvrqJCwjUTb1reL5ZGUBCioTO7DgnsCdpcngC0+rJCjK
-         NEGvfUcYvMFq7A76d8hnrV1HxGmte4GjAv2/Es+yXN1+deZQOs8A3beNn51xQl2w5D23
-         2imypMkUtlobmnvUNp8YFs71pId0UAyl5C+5aqweSKmJvIMIoQ99EymvsfMBNiVQuj99
-         vreX9reOjPJbvGhvLgvNYyJSJEbXvnE2SasnIQVe8g8IljBYe1zu8RtR8J9ixQ2dBvF1
-         Te/Z0BY75WO9OjvFsS2rRvXk6OX7yh/YClocjw2fxoB8+HyIIRYsBZcgb78m3R1wQPJX
-         oUNw==
-X-Gm-Message-State: AOAM530YEW9C1BmIGKdcjp52f3FyP8cwLZEWx5Wybj14AyNDRqwcjRjq
-        c9nC5K7HhAzMECO7Pf0cZrHtjQ==
-X-Google-Smtp-Source: ABdhPJyH+sfgV7i5vCz2VdxYloXot1O+JjbDHyjtkdDNLEYbWsQa51i9g2aU06kZkv2Pex3TICmUOA==
-X-Received: by 2002:a17:903:234e:b0:12d:ad8d:56c6 with SMTP id c14-20020a170903234e00b0012dad8d56c6mr2272743plh.23.1629196871081;
-        Tue, 17 Aug 2021 03:41:11 -0700 (PDT)
+        bh=ziGJcTCS+ZXDXHbNImBiMiKR28CUbjajUlGyaY3CzMg=;
+        b=mI358MvT0hKa7/BaAl1y5Rh8VWiuRyVwq0CxPinNewYrkdj7nGLv8D+LeLRXpfMisT
+         wwoA7sUgpyWGKc0nv+ULAhnVxio6ArHS554+oonIKLem/VZH16oYCoAksWc54I9f638n
+         jmf1VXDishyIK76/bNwUGw1biqzO3Wxzvo+rE6F6xDb2KP1KUM3ozrdqdzK2eG1JDGvB
+         BXT4q03ugjGdsjlhNqBmcZ8/cMe3hvf85I01pDkLpErh9o26HiBozUqfeiVRMjw0aUPc
+         Qfyt/T5qZwku6mELNjmY7t1FnvlCow6unlrjOLqnfTM403ZpY6IfFOITMvIC3cPD+w4T
+         e+MA==
+X-Gm-Message-State: AOAM532+CCmUGYBrr6o58HvaILnJdSIra5yfsuf3JodJGshWI9QbzfjF
+        gWVew+2zc3jPoQ/2Ld6E4XFn7Q==
+X-Google-Smtp-Source: ABdhPJwOcZm7BOUvVE3bZo5kMUCHlSCbRS2sBynHVAV9CB/YF4ic562AKE/x3eajJJAQmTQNWo7emg==
+X-Received: by 2002:aa7:838a:0:b029:3b7:31a5:649c with SMTP id u10-20020aa7838a0000b02903b731a5649cmr2949362pfm.44.1629196902228;
+        Tue, 17 Aug 2021 03:41:42 -0700 (PDT)
 Received: from google.com ([2409:10:2e40:5100:8aab:cb84:5fe8:99dd])
-        by smtp.gmail.com with ESMTPSA id q68sm2775955pgq.5.2021.08.17.03.41.07
+        by smtp.gmail.com with ESMTPSA id x14sm2227345pfa.127.2021.08.17.03.41.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 03:41:10 -0700 (PDT)
-Date:   Tue, 17 Aug 2021 19:41:04 +0900
+        Tue, 17 Aug 2021 03:41:41 -0700 (PDT)
+Date:   Tue, 17 Aug 2021 19:41:36 +0900
 From:   Sergey Senozhatsky <senozhatsky@chromium.org>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
@@ -55,59 +55,28 @@ Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
         Christoph Hellwig <hch@lst.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv4 1/8] videobuf2: rework vb2_mem_ops API
-Message-ID: <YRuSQMTcexYmFGub@google.com>
+Subject: Re: [PATCHv4 3/8] videobuf2: split buffer cache_hints initialisation
+Message-ID: <YRuSYMKHq6wIqphV@google.com>
 References: <20210727070517.443167-1-senozhatsky@chromium.org>
- <20210727070517.443167-2-senozhatsky@chromium.org>
- <3744c521-ce07-4ca9-5f57-fa42b917d53c@xs4all.nl>
+ <20210727070517.443167-4-senozhatsky@chromium.org>
+ <148b9d78-7515-eb1d-7e38-f8e1052d057c@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3744c521-ce07-4ca9-5f57-fa42b917d53c@xs4all.nl>
+In-Reply-To: <148b9d78-7515-eb1d-7e38-f8e1052d057c@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (21/08/03 10:08), Hans Verkuil wrote:
+On (21/08/03 10:10), Hans Verkuil wrote:
 > On 27/07/2021 09:05, Sergey Senozhatsky wrote:
+> > V4L2 is not the perfect place to manage vb2 buffer cache hints.
+> > It works for V4L2 users, but there are backends that use vb2 core
 > 
-> Sprinkle a few more 'the's in the text:
+> use -> use the
 > 
-> > With new DMA API we need an extension of videobuf2 API. Previously,
+> > and don't use V4L2. Factor buffer cache hints init and call it
 > 
-> With -> With the
-> of -> of the
-> 
-> > videobuf2 core would set non-coherent DMA bit in vb2 queue dma_attr
-> 
-> videobuf2 -> the videobuf2
-> set -> set the
-> in vb2 queue dma_attr -> in the vb2_queue dma_attr field
-> 
-> > (if user-space would pass a corresponding memory hint); vb2 core
-> 
-> vb2 core -> the vb2 core
-> 
-> > then would pass the vb2 queue dma_attrs to the vb2 allocators.
-> 
-> vb2 queue -> vb2_queue
-> 
-> > vb2 allocator would use queue's dma_attr and DMA API would allocate
-> 
-> vb2 -> The vb2
-> queue's -> the queue's
-> DMA API -> the DMA API
-> 
-> > either coherent or non-coherent memory.
-> > 
-> > But we cannot do this anymore, since there is no corresponding DMA
-> > attr flag and, hence, there is no way for the allocator to become
-> > aware of what type of allocation user-space has requested. So we
-> > need to pass more context from videobuf2 core to the allocators.
-> > 
-> > Fix this by changing call_ptr_memop() macro to pass vb2 pointer to
-> 
-> changing -> changing the
-> vb2 pointer to -> the vb2 pointer to the
+> Factor? You mean Refactor?
 
-Ack... The Ack.
+Factor out.
