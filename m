@@ -2,297 +2,295 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89EBB3EE985
-	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 11:19:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDD273EE9A1
+	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 11:20:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235611AbhHQJUZ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 17 Aug 2021 05:20:25 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:56760 "EHLO www.linuxtv.org"
+        id S239628AbhHQJVK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Aug 2021 05:21:10 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:56812 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235575AbhHQJUY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Aug 2021 05:20:24 -0400
+        id S239645AbhHQJVB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 17 Aug 2021 05:21:01 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1mFvGB-002bEJ-0G; Tue, 17 Aug 2021 09:19:51 +0000
+        id 1mFvGl-002bFL-BP; Tue, 17 Aug 2021 09:20:27 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.94.2)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1mFvGA-001nbc-Ab; Tue, 17 Aug 2021 09:19:49 +0000
-Date:   Tue, 17 Aug 2021 09:19:49 +0000 (UTC)
+        id 1mFvGk-001oC0-Lm; Tue, 17 Aug 2021 09:20:25 +0000
+Date:   Tue, 17 Aug 2021 09:20:25 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1106307648.5.1629191989245@builder.linuxtv.org>
-In-Reply-To: <306011361.2.1629163194966@builder.linuxtv.org>
-References: <306011361.2.1629163194966@builder.linuxtv.org>
-Subject: Build failed in Jenkins: xawtv4 #15
+Message-ID: <486266951.6.1629192025593@builder.linuxtv.org>
+In-Reply-To: <860227407.2.1629189696290@builder.linuxtv.org>
+References: <860227407.2.1629189696290@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3599
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: xawtv4
+X-Jenkins-Job: media-build
 X-Jenkins-Result: FAILURE
 Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/xawtv4/15/display/redirect?page=changes>
+See <https://builder.linuxtv.org/job/media-build/3599/display/redirect>
 
 Changes:
 
-[Mauro Carvalho Chehab] configure.ac: fix handling of dlopen
-
 
 ------------------------------------------
-[...truncated 4.24 KB...]
-checking sys/soundcard.h presence... yes
-checking for sys/soundcard.h... yes
-checking alsa/asoundlib.h usability... yes
-checking alsa/asoundlib.h presence... yes
-checking for alsa/asoundlib.h... yes
-checking linux/joystick.h usability... yes
-checking linux/joystick.h presence... yes
-checking for linux/joystick.h... yes
-checking dev/bktr/ioctl_bt848.h usability... no
-checking dev/bktr/ioctl_bt848.h presence... no
-checking for dev/bktr/ioctl_bt848.h... no
-checking dev/ic/bt8xx.h usability... no
-checking dev/ic/bt8xx.h presence... no
-checking for dev/ic/bt8xx.h... no
-checking linux/dvb/dmx.h usability... yes
-checking linux/dvb/dmx.h presence... yes
-checking for linux/dvb/dmx.h... yes
-checking for dlopen in -ldl... yes
-checking for ftello... yes
-checking for fseeko... yes
-checking for getpt... yes
-checking for getnameinfo... yes
-checking for getopt_long... yes
-checking for strcasestr... yes
-checking for memmem... yes
-checking for iconv_open... yes
-checking for ELF... yes
-checking for pthread_create in -lpthread... yes
-checking for main in -lossaudio... no
-checking for initscr in -lncurses... yes
-checking for X... libraries , headers 
-checking for gethostbyname... yes
-checking for connect... yes
-checking for remove... yes
-checking for shmat... yes
-checking for IceConnectionNumber in -lICE... yes
-checking for Xft... yes
-checking for jpeg_start_compress in -ljpeg... yes
-checking for snd_seq_open in -lasound... yes
-checking for aRts... no
-checking for mad_decoder_init in -lmad... yes
-checking for mpeg2_init in -lmpeg2... yes
-checking for lirc_init in -llirc_client... yes
-checking for vbi_capture_fd in -lzvbi... yes
-checking for vbi_capture_proxy_new in -lzvbi... yes
-checking for vbi_capture_dvb_new2 in -lzvbi... yes
-*** aalib support disabled
-checking for dv_decoder_new in -ldv... yes
-Package glib was not found in the pkg-config search path.
-Perhaps you should add the directory containing `glib.pc'
-to the PKG_CONFIG_PATH environment variable
-No package 'glib' found
-checking for lqt_query_registry in -lquicktime... yes
-checking for DPMSQueryExtension in -lXdpms... no
-checking for DPMSQueryExtension in -lXext... yes
-checking for XineramaQueryExtension in -lXinerama... yes
-checking for XRenderQueryExtension in -lXrender... yes
-checking for XvQueryExtension in -lXv... yes
-checking for XmStringGenerate in -lXm... yes
-checking for glXChooseVisual in -lGL... yes
-checking for gtk+ 2.4... yes
-checking for X11 config directory... /etc/X11
-checking for X11 app-defaults directory... /etc/X11/app-defaults
-checking if mmx should be used... no
-configure: creating ./config.status
-config.status: creating Makefile
-config.status: WARNING:  'Makefile.in' seems to ignore the --datarootdir setting
-config.status: creating xawtv.spec
-config.status: creating config.h
-
-compile time options summary
-============================
-
-    aalib        : no
-    alsa         : yes
-    aRts         : no
-    dv           : yes
-    QuickTime    : yes
-    mad          : yes
-    mpeg2        : yes
-    X11R6        : yes
-    gtk+         : yes
-    OpenMotif    : yes
-    OpenGL       : yes
-    zvbi         : yes
-    DVB          : yes
-
-+ make
-  CC	  console/dump-mixers.o
-  CC	  console/record.o
-  CC	  console/showriff.o
-  CC	  console/showqt.o
-  CC	  console/streamer.o
-  CC	  common/sound.o
-  CC	  common/webcam.o
-  CC	  common/tuning.o
-  CC	  common/commands.o
-  CC	  common/devs.o
-  CC	  common/parseconfig.o
-  CC	  common/fifo.o
-  CC	  common/capture.o
-  CC	  common/event.o
-console/showqt.c: In function ‘handle_classic_atom’:
-console/showqt.c:505:19: warning: ‘%d’ directive writing between 1 and 10 bytes into a region of size 7 [-Wformat-overflow=]
-  505 |      sprintf(si,"[%d] ",loop);
-      |                   ^~
-console/showqt.c:505:17: note: directive argument in the range [0, 2147483647]
-  505 |      sprintf(si,"[%d] ",loop);
-      |                 ^~~~~~~
-console/showqt.c:505:6: note: ‘sprintf’ output between 5 and 14 bytes into a destination of size 8
-  505 |      sprintf(si,"[%d] ",loop);
-      |      ^~~~~~~~~~~~~~~~~~~~~~~~
-console/showqt.c:510:19: warning: ‘%d’ directive writing between 1 and 10 bytes into a region of size 7 [-Wformat-overflow=]
-  510 |      sprintf(si,"[%d] ",loop);
-      |                   ^~
-console/showqt.c:510:17: note: directive argument in the range [1, 2147483647]
-  510 |      sprintf(si,"[%d] ",loop);
-      |                 ^~~~~~~
-console/showqt.c:510:6: note: ‘sprintf’ output between 5 and 14 bytes into a destination of size 8
-  510 |      sprintf(si,"[%d] ",loop);
-      |      ^~~~~~~~~~~~~~~~~~~~~~~~
-  CC	  common/tv-config.o
-  CC	  common/dvb-tuning.o
-  CC	  structs/struct-dvb.o
-common/devs.c: In function ‘device_probe_video’:
-common/devs.c:127:15: warning: variable ‘add’ set but not used [-Wunused-but-set-variable]
-  127 |     int err,i,add=0;
-      |               ^~~
-common/devs.c: In function ‘device_probe_dvb’:
-common/devs.c:193:11: warning: variable ‘add’ set but not used [-Wunused-but-set-variable]
-  193 |     int i,add = 0;
-      |           ^~~
-  CC	  structs/struct-dump.o
-  CC	  libng/grab-ng.o
-  CC	  libng/devices.o
-  CC	  libng/writefile.o
-  CC	  libng/parse-mpeg.o
-  CC	  libng/parse-dvb.o
-  CC	  libng/color_common.o
-  CC	  libng/color_packed.o
-  CC	  libng/color_lut.o
-  CC	  libng/color_yuv2rgb.o
-common/dvb-tuning.c: In function ‘fixup_numbers’:
-common/dvb-tuning.c:329:5: warning: enumeration value ‘FE_ATSC’ not handled in switch [-Wswitch]
-  329 |     switch (h->info.type) {
-      |     ^~~~~~
-common/dvb-tuning.c: In function ‘dump_fe_info’:
-common/dvb-tuning.c:365:5: warning: enumeration value ‘FE_ATSC’ not handled in switch [-Wswitch]
-  365 |     switch (h->info.type) {
-      |     ^~~~~~
-common/dvb-tuning.c: In function ‘dvb_frontend_tune’:
-common/dvb-tuning.c:433:5: warning: enumeration value ‘FE_ATSC’ not handled in switch [-Wswitch]
-  433 |     switch (h->info.type) {
-      |     ^~~~~~
-common/dvb-tuning.c: In function ‘parse_vdr_diseqc.constprop.isra’:
-common/dvb-tuning.c:1126:26: warning: ‘%d’ directive writing between 1 and 10 bytes into a region of size 9 [-Wformat-overflow=]
- 1126 |  sprintf(section,"diseqc-%d",i++);
-      |                          ^~
-common/dvb-tuning.c:1126:18: note: directive argument in the range [0, 2147483647]
- 1126 |  sprintf(section,"diseqc-%d",i++);
-      |                  ^~~~~~~~~~~
-common/dvb-tuning.c:1126:2: note: ‘sprintf’ output between 9 and 18 bytes into a destination of size 16
- 1126 |  sprintf(section,"diseqc-%d",i++);
-      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  CC	  libng/convert.o
-  CC	  libng/misc.o
-common/commands.c: In function ‘keypad_handler’:
-common/commands.c:1184:18: warning: ‘%d’ directive writing between 1 and 10 bytes into a region of size 8 [-Wformat-overflow=]
- 1184 |      sprintf(ch,"%d",n);
-      |                  ^~
-common/commands.c:1184:17: note: directive argument in the range [1, 2147483647]
- 1184 |      sprintf(ch,"%d",n);
-      |                 ^~~~
-common/commands.c:1184:6: note: ‘sprintf’ output between 2 and 11 bytes into a destination of size 8
- 1184 |      sprintf(ch,"%d",n);
-      |      ^~~~~~~~~~~~~~~~~~
-  CC	  console/webcam.o
-  CC	  console/ftp.o
-libng/parse-dvb.c: In function ‘parse_nit_desc_2’:
-libng/parse-dvb.c:196:13: warning: variable ‘l’ set but not used [-Wunused-but-set-variable]
-  196 |     int i,t,l;
-      |             ^
-libng/parse-dvb.c: In function ‘parse_sdt_desc’:
-libng/parse-dvb.c:239:13: warning: variable ‘l’ set but not used [-Wunused-but-set-variable]
-  239 |     int i,t,l;
-      |             ^
-libng/parse-dvb.c: In function ‘mpeg_parse_psi_nit’:
-libng/parse-dvb.c:351:6: warning: the address of ‘network’ will always evaluate as ‘true’ [-Waddress]
-  351 |  if (network)
-      |      ^~~~~~~
-  CC	  console/scantv.o
-  CC	  common/vbi-dvb.o
-libng/grab-ng.c: In function ‘ng_filter_single’:
-libng/grab-ng.c:965:11: warning: variable ‘handle’ set but not used [-Wunused-but-set-variable]
-  965 |     void *handle;
-      |           ^~~~~~
-  CC	  common/vbi-data.o
-  CC	  console/radio.o
-  CC	  console/v4l-info.o
-  CC	  structs/struct-v4l.o
-  CC	  structs/struct-v4l2.o
-  CC	  console/v4l-conf.o
-  LD	  console/dump-mixers
-  LD	  console/record
-In function ‘do_scan’,
-    inlined from ‘main’ at console/scantv.c:399:2:
-console/scantv.c:235:7: warning: ‘%s’ directive argument is null [-Wformat-overflow=]
-  235 |       sprintf(dummy,"unknown (%s)",fchannel);
-      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  LD	  console/showriff
-  LD	  console/showqt
-  LD	  console/v4l-info
-libng/parse-mpeg.c: In function ‘parse_pmt_desc’:
-libng/parse-mpeg.c:680:13: warning: variable ‘l’ set but not used [-Wunused-but-set-variable]
-  680 |     int i,t,l;
-      |             ^
-libng/parse-mpeg.c: In function ‘get_lang_tag’:
-libng/parse-mpeg.c:697:13: warning: variable ‘l’ set but not used [-Wunused-but-set-variable]
-  697 |     int i,t,l;
-      |             ^
-  AR	  libng/libng.a
-In file included from common/vbi-data.c:17:
-common/vbi-sim.c: In function ‘ttx_sim’:
-common/vbi-sim.c:186:13: warning: variable ‘n’ set but not used [-Wunused-but-set-variable]
-  186 |   int i, j, n;
-      |             ^
-  LD	  console/radio
-ar: creating libng/libng.a
-  LD	  console/streamer
-  LD	  console/webcam
-  LD	  console/scantv
-/usr/bin/ld: libng/libng.a(grab-ng.o): in function `ng_plugins':
-<https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1125: undefined reference to `dlopen'
-/usr/bin/ld: <https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1126: undefined reference to `dlerror'
-/usr/bin/ld:   LD	  console/v4l-conf
-libng/libng.a(grab-ng.o): in function `ng_plugins':
-<https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1125: undefined reference to `dlopen'
-/usr/bin/ld: <https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1126: undefined reference to `dlerror'
-collect2: error: ld returned 1 exit status
-make: *** [mk/Compile.mk:75: console/streamer] Error 1
-make: *** Waiting for unfinished jobs....
-collect2: error: ld returned 1 exit status
-make: *** [mk/Compile.mk:75: console/webcam] Error 1
-/usr/bin/ld: libng/libng.a(grab-ng.o): in function `ng_plugins':
-<https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1125: undefined reference to `dlopen'
-/usr/bin/ld: <https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1126: undefined reference to `dlerror'
-collect2: error: ld returned 1 exit status
-make: *** [mk/Compile.mk:75: console/scantv] Error 1
+[...truncated 77.74 KB...]
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vimc-sensor.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-ctrls.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-vid-common.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-vbi-gen.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-vid-cap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-vid-out.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-kthread-cap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-kthread-out.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-radio-rx.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-radio-tx.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-radio-common.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-rds-gen.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-sdr-cap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-vbi-cap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-vbi-out.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-osd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-meta-cap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-meta-out.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-kthread-touch.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-touch-cap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid-cec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vim2m.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vicodec-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/codec-fwht.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/codec-v4l2-fwht.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vidtv_tuner.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vidtv_demod.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vidtv_bridge.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vidtv_common.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vidtv_ts.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vidtv_psi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vidtv_pes.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vidtv_s302m.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vidtv_channel.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vidtv_mux.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-maxiradio.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-shark.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-shark2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-tea5777.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dsbr100.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-si470x-common.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-si470x-usb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-si470x-i2c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/si4713.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-usb-si4713.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-platform-si4713.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-mr800.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-keene.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-ma901.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-tea5764.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7706h.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tef6862.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-wl1273.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea575x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/radio-raremono.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/altera-lpt.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/altera-jtag.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/altera-comp.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/altera.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda18271.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stb0899.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/drxd.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0900.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/drx39xyj.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2820r.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/drxk.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videodev.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tuner.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-core.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-core.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/b2c2-flexcop.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146_vv.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smsmdtv.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-tpg.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smsdvb.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-common.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cafe_ccic.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ti-vpdma.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ti-sc.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ti-csc.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/b2c2-flexcop-pci.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/earth-pt1.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/earth-pt3.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mantis_core.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mantis.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/hopper.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ngene.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ddbridge.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smipcie.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/netup-unidvb.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ivtv.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ivtv-alsa.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx18.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx18-alsa.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx23885.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx88xx.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25821.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx8800.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx8802.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bttv.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7134.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw68.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw686x.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7164.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/solo6x10.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cobalt.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw5864.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-vp7045.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-vp702x.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-gp8psk.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-dibusb-common.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-dibusb-mc-common.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-dtt200u.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-a800.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-dibusb-mb.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-dibusb-mc.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-umt-010.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-m920x.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-nova-t-usb2.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-digitv.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-cxusb.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-dib0700.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-ttusb2.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-opera.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-af9005.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-af9005-remote.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-pctv452e.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-dw2102.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-dtv5100.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-cinergyT2.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-az6027.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-technisat-usb2.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_usb_v2.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-af9015.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-af9035.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-anysee.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-au6610.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-az6007.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-ce6230.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-ec168.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-lmedm04.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-gl861.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-mxl111sf.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-rtl28xxu.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-usb-dvbsky.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/b2c2-flexcop-usb.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stkwebcam.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/uvcvideo.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_main.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_benq.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_conex.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_cpia1.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_dtcs033.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_etoms.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_finepix.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_jeilinj.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_jl2005bcd.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_kinect.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_konica.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_mars.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_mr97310a.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_nw80x.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_ov519.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_ov534.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_ov534_9.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_pac207.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_pac7302.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_pac7311.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_se401.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_sn9c2028.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_sn9c20x.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_sonixb.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_sonixj.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_spca500.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_spca501.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_spca505.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_spca508.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_spca561.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_spca1528.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_sq905.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_spca506.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_sq905c.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_sq930x.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_sunplus.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_stk014.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_stk1135.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_stv0680.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_t613.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_topro.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_touptek.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_tv8532.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_vicam.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_vc032x.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_xirlink_cit.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_zc3xx.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_m5602.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_stv06xx.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gspca_gl860.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/pwc.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cpia2.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/au0828.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/hdpvr.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/pvrusb2.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stk1160.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx231xx.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx231xx-alsa.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tm6000.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/em28xx.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/em28xx-v4l.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/em28xx-alsa.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/em28xx-rc.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/usbtv.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/go7007.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s2250.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-as102.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/firedtv.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vimc.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vivid.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vicodec.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-vidtv-tuner.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-vidtv-demod.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb-vidtv-bridge.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/shark2.o>
+  LD [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/altera-stapl.o>
+  MODPOST <https://builder.linuxtv.org/job/media-build/ws/v4l/Module.symvers>
+ERROR: modpost: "__devm_regmap_init_sccb" [<https://builder.linuxtv.org/job/media-build/ws/v4l/ov9650.ko]> undefined!
+ERROR: modpost: "__devm_regmap_init_sccb" [<https://builder.linuxtv.org/job/media-build/ws/v4l/ov772x.ko]> undefined!
+make[4]: *** [/usr/src/linux-headers-5.10.0-8-common/scripts/Makefile.modpost:124: <https://builder.linuxtv.org/job/media-build/ws/v4l/Module.symvers]> Error 1
+make[4]: *** Deleting file '<https://builder.linuxtv.org/job/media-build/ws/v4l/Module.symvers'>
+make[3]: *** [/usr/src/linux-headers-5.10.0-8-common/Makefile:1749: modules] Error 2
+make[2]: *** [/usr/src/linux-headers-5.10.0-8-common/Makefile:185: __sub-make] Error 2
+make[2]: Leaving directory '/usr/src/linux-headers-5.10.0-8-amd64'
+make[1]: *** [Makefile:53: default] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: all] Error 2
+build failed at ./build line 533
 Build step 'Execute shell' marked build as failure
