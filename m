@@ -2,247 +2,299 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AA673EE917
-	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 11:04:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 170F53EE927
+	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 11:06:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239283AbhHQJE6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Aug 2021 05:04:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37794 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235586AbhHQJEz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Aug 2021 05:04:55 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFB1EC0613C1
-        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 02:04:20 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id r7so27574644wrs.0
-        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 02:04:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=j4i/x9tyzc/3LgdLRFqgQgxEO4pmJgQLsrj80WtwhVI=;
-        b=KxIpxVtWjns4F7qLg1rRcmYAW3SH1eBW9sxDxCEB/2uN9a/FcASQ4t2WjsOxmPgxmd
-         fgz5X/LnvStc/dmaZypl8I2CLhvMTPQvq6+5wSjEtiUMwMdBFl0TqJEk7e7klYUpDrkI
-         1ao2oorbeN2dN+umv0mr5W2gM8/ZhXk0b3GGM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=j4i/x9tyzc/3LgdLRFqgQgxEO4pmJgQLsrj80WtwhVI=;
-        b=g/9al/yh8lFtElfR+Frmr5W1823tvKwih1sQU1ajP5WtiXrN8E4mnN6hj8dtXEPFgE
-         Iug4M6VfLWri5qMSuog1jxc9O62RUERZW7zip4MflvvMVWyw13nS+IjIhkL3CLS+lfZ0
-         Rq4r6F5KzXPrtpqRzPcxDHQtk0tM3c8p/LfIxbt93nemOjq5IzkKL6ny+ReKRahAXBNd
-         sX2zJ80gAZweVcZlVJEKjOAv8mSdO5KUxKX7z2bedkXtt/K9psSCClW4+qnD49RFIL/K
-         /N5RxAuddkY3BQRO9lU/e2kc9j2VonPW2M4HhWFXm6bWR1MLdE4nMV71TqMFWjAklUCC
-         hkWw==
-X-Gm-Message-State: AOAM531dVQGcvORE8pjxSToJr+X8MNxgjhrkDDDwyOfEr+nFMKOznZ74
-        Bp3mUy1CUvLcspeyHQEWiagLkQ==
-X-Google-Smtp-Source: ABdhPJy/Dl1NsISUcWJ7CU+4M3hb5C4YhyxhHFqeiJF0/2LxZzlK7v8qd5PIxfPQBoJAIj1gqztDvw==
-X-Received: by 2002:a05:6000:1043:: with SMTP id c3mr2732415wrx.144.1629191059584;
-        Tue, 17 Aug 2021 02:04:19 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id e17sm1625963wrs.78.2021.08.17.02.04.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 02:04:19 -0700 (PDT)
-Date:   Tue, 17 Aug 2021 11:04:17 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        Rob Clark <robdclark@chromium.org>,
-        David Airlie <airlied@linux.ie>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        Steven Price <steven.price@arm.com>, Roy Sun <Roy.Sun@amd.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jack Zhang <Jack.Zhang1@amd.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 4/5] drm/scheduler: Add fence deadline support
-Message-ID: <YRt7ka8TZrjdxy/6@phenom.ffwll.local>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        Steven Price <steven.price@arm.com>, Roy Sun <Roy.Sun@amd.com>,
-        Lee Jones <lee.jones@linaro.org>, Jack Zhang <Jack.Zhang1@amd.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
-References: <20210807183804.459850-1-robdclark@gmail.com>
- <20210807183804.459850-5-robdclark@gmail.com>
- <e28020c5-3da3-c721-96df-9a115f105bf7@gmail.com>
- <YRqGazgGJ2NAIzg2@phenom.ffwll.local>
- <CAF6AEGtyA2ovPcsP_3wbD-KfJFZosc=qf=SMkE2BVMq5+=cxWw@mail.gmail.com>
+        id S235401AbhHQJGz convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 17 Aug 2021 05:06:55 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:55352 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234880AbhHQJGz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 17 Aug 2021 05:06:55 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mFv37-002aSP-AD; Tue, 17 Aug 2021 09:06:21 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mFv36-001mLs-Ku; Tue, 17 Aug 2021 09:06:19 +0000
+Date:   Tue, 17 Aug 2021 09:06:19 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <2098208947.3.1629191179564@builder.linuxtv.org>
+In-Reply-To: <1908260298.9.1629163769990@builder.linuxtv.org>
+References: <1908260298.9.1629163769990@builder.linuxtv.org>
+Subject: Build failed in Jenkins: xawtv4 #13
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGtyA2ovPcsP_3wbD-KfJFZosc=qf=SMkE2BVMq5+=cxWw@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: xawtv4
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 16, 2021 at 03:25:20PM -0700, Rob Clark wrote:
-> On Mon, Aug 16, 2021 at 8:38 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Mon, Aug 16, 2021 at 12:14:35PM +0200, Christian K�nig wrote:
-> > > Am 07.08.21 um 20:37 schrieb Rob Clark:
-> > > > From: Rob Clark <robdclark@chromium.org>
-> > > >
-> > > > As the finished fence is the one that is exposed to userspace, and
-> > > > therefore the one that other operations, like atomic update, would
-> > > > block on, we need to propagate the deadline from from the finished
-> > > > fence to the actual hw fence.
-> > > >
-> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >
-> > I guess you're already letting the compositor run at a higher gpu priority
-> > so that your deadline'd drm_sched_job isn't stuck behind the app rendering
-> > the next frame?
-> 
-> With the scheduler conversion we do have multiple priorities (provided
-> by scheduler) for all generations.. but not yet preemption for all
-> generations.
-> 
-> But the most common use-case where we need this ends up being display
-> composition (either fullscreen app/game or foreground app/game
-> composited via overlay) so I haven't thought too much about the next
-> step of boosting job priority.  I might leave that to someone who
-> already has preemption wired up ;-)
+See <https://builder.linuxtv.org/job/xawtv4/13/display/redirect?page=changes>
 
-Atm no-one, drm/sched isn't really aware that's a concept. I was more
-thinking of just boosting that request as a first step. Maybe within the
-same priority class we pick jobs with deadlines first, or something like
-that.
+Changes:
 
-Preempting is an entire can of worms on top.
--Daniel
+[Mauro Carvalho Chehab] Replace sys_siglist with strsignal
 
-> 
-> BR,
-> -R
-> 
-> > I'm not sure whether you wire that one up as part of the conversion to
-> > drm/sched. Without that I think we might need to ponder how we can do a
-> > prio-boost for these, e.g. within a scheduling class we pick the jobs with
-> > the nearest deadline first, before we pick others.
-> > -Daniel
-> >
-> > > > ---
-> > > >   drivers/gpu/drm/scheduler/sched_fence.c | 25 +++++++++++++++++++++++++
-> > > >   drivers/gpu/drm/scheduler/sched_main.c  |  3 +++
-> > > >   include/drm/gpu_scheduler.h             |  6 ++++++
-> > > >   3 files changed, 34 insertions(+)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> > > > index 69de2c76731f..f389dca44185 100644
-> > > > --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> > > > +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> > > > @@ -128,6 +128,30 @@ static void drm_sched_fence_release_finished(struct dma_fence *f)
-> > > >     dma_fence_put(&fence->scheduled);
-> > > >   }
-> > > > +static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
-> > > > +                                             ktime_t deadline)
-> > > > +{
-> > > > +   struct drm_sched_fence *fence = to_drm_sched_fence(f);
-> > > > +   unsigned long flags;
-> > > > +
-> > > > +   spin_lock_irqsave(&fence->lock, flags);
-> > > > +
-> > > > +   /* If we already have an earlier deadline, keep it: */
-> > > > +   if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
-> > > > +       ktime_before(fence->deadline, deadline)) {
-> > > > +           spin_unlock_irqrestore(&fence->lock, flags);
-> > > > +           return;
-> > > > +   }
-> > > > +
-> > > > +   fence->deadline = deadline;
-> > > > +   set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
-> > > > +
-> > > > +   spin_unlock_irqrestore(&fence->lock, flags);
-> > > > +
-> > > > +   if (fence->parent)
-> > > > +           dma_fence_set_deadline(fence->parent, deadline);
-> > > > +}
-> > > > +
-> > > >   static const struct dma_fence_ops drm_sched_fence_ops_scheduled = {
-> > > >     .get_driver_name = drm_sched_fence_get_driver_name,
-> > > >     .get_timeline_name = drm_sched_fence_get_timeline_name,
-> > > > @@ -138,6 +162,7 @@ static const struct dma_fence_ops drm_sched_fence_ops_finished = {
-> > > >     .get_driver_name = drm_sched_fence_get_driver_name,
-> > > >     .get_timeline_name = drm_sched_fence_get_timeline_name,
-> > > >     .release = drm_sched_fence_release_finished,
-> > > > +   .set_deadline = drm_sched_fence_set_deadline_finished,
-> > > >   };
-> > > >   struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
-> > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > index a2a953693b45..3ab0900d3596 100644
-> > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > @@ -818,6 +818,9 @@ static int drm_sched_main(void *param)
-> > > >             if (!IS_ERR_OR_NULL(fence)) {
-> > > >                     s_fence->parent = dma_fence_get(fence);
-> > > > +                   if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
-> > > > +                                &s_fence->finished.flags))
-> > > > +                           dma_fence_set_deadline(fence, s_fence->deadline);
-> > >
-> > > Maybe move this into a dma_sched_fence_set_parent() function.
-> > >
-> > > Apart from that looks good to me.
-> > >
-> > > Regards,
-> > > Christian.
-> > >
-> > > >                     r = dma_fence_add_callback(fence, &sched_job->cb,
-> > > >                                                drm_sched_job_done_cb);
-> > > >                     if (r == -ENOENT)
-> > > > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> > > > index d18af49fd009..0f08ade614ae 100644
-> > > > --- a/include/drm/gpu_scheduler.h
-> > > > +++ b/include/drm/gpu_scheduler.h
-> > > > @@ -144,6 +144,12 @@ struct drm_sched_fence {
-> > > >            */
-> > > >     struct dma_fence                finished;
-> > > > +   /**
-> > > > +    * @deadline: deadline set on &drm_sched_fence.finished which
-> > > > +    * potentially needs to be propagated to &drm_sched_fence.parent
-> > > > +    */
-> > > > +   ktime_t                         deadline;
-> > > > +
-> > > >           /**
-> > > >            * @parent: the fence returned by &drm_sched_backend_ops.run_job
-> > > >            * when scheduling the job on hardware. We signal the
-> > >
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+[Mauro Carvalho Chehab] Properly declare extern variables
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+------------------------------------------
+[...truncated 1.17 KB...]
+Checking out Revision 5d6831fee26220fbf1570aa8ccc68ec485c72406 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 5d6831fee26220fbf1570aa8ccc68ec485c72406 # timeout=10
+Commit message: "Properly declare extern variables"
+ > git rev-list --no-walk f890bcf135a43772c0fa15d3f539bfe3a029c6e0 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 5d6831fee26220fbf1570aa8ccc68ec485c72406^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/xawtv4.git'
+[GitCheckoutListener] Found previous build 'xawtv4 #12' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since 'f890bcf'
+[GitCheckoutListener] -> Using head commit '5d6831f' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@5f0258f4'
+[GitCheckoutListener] -> Recorded 2 new commits
+[xawtv4] $ /bin/sh -xe /tmp/jenkins13297634856123216837.sh
++ ./autogen.sh
++ autoconf
++ autoheader
++ rm -rf autom4te.cache
++ cp /usr/share/automake-1.16/install-sh .
++ ./configure --enable-arts
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking for g++... g++
+checking whether we are using the GNU C++ compiler... yes
+checking whether g++ accepts -g... yes
+checking how to run the C preprocessor... gcc -E
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for gccmakedep... no
+checking for makedepend... no
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking getopt.h usability... yes
+checking getopt.h presence... yes
+checking for getopt.h... yes
+checking soundcard.h usability... no
+checking soundcard.h presence... no
+checking for soundcard.h... no
+checking for unistd.h... (cached) yes
+checking sys/select.h usability... yes
+checking sys/select.h presence... yes
+checking for sys/select.h... yes
+checking sys/soundcard.h usability... yes
+checking sys/soundcard.h presence... yes
+checking for sys/soundcard.h... yes
+checking alsa/asoundlib.h usability... yes
+checking alsa/asoundlib.h presence... yes
+checking for alsa/asoundlib.h... yes
+checking linux/joystick.h usability... yes
+checking linux/joystick.h presence... yes
+checking for linux/joystick.h... yes
+checking dev/bktr/ioctl_bt848.h usability... no
+checking dev/bktr/ioctl_bt848.h presence... no
+checking for dev/bktr/ioctl_bt848.h... no
+checking dev/ic/bt8xx.h usability... no
+checking dev/ic/bt8xx.h presence... no
+checking for dev/ic/bt8xx.h... no
+checking linux/dvb/dmx.h usability... yes
+checking linux/dvb/dmx.h presence... yes
+checking for linux/dvb/dmx.h... yes
+checking for ftello... yes
+checking for fseeko... yes
+checking for getpt... yes
+checking for getnameinfo... yes
+checking for getopt_long... yes
+checking for strcasestr... yes
+checking for memmem... yes
+checking for dlopen... no
+checking for iconv_open... yes
+checking for dlopen in -ldl... yes
+checking for ELF... yes
+checking for pthread_create in -lpthread... yes
+checking for main in -lossaudio... no
+checking for initscr in -lncurses... yes
+checking for X... libraries , headers 
+checking for gethostbyname... yes
+checking for connect... yes
+checking for remove... yes
+checking for shmat... yes
+checking for IceConnectionNumber in -lICE... yes
+checking for Xft... yes
+checking for jpeg_start_compress in -ljpeg... yes
+checking for snd_seq_open in -lasound... yes
+checking for aRts... no
+checking for mad_decoder_init in -lmad... yes
+checking for mpeg2_init in -lmpeg2... yes
+checking for lirc_init in -llirc_client... yes
+checking for vbi_capture_fd in -lzvbi... yes
+checking for vbi_capture_proxy_new in -lzvbi... yes
+checking for vbi_capture_dvb_new2 in -lzvbi... yes
+*** aalib support disabled
+checking for dv_decoder_new in -ldv... yes
+Package glib was not found in the pkg-config search path.
+Perhaps you should add the directory containing `glib.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'glib' found
+checking for lqt_query_registry in -lquicktime... yes
+checking for DPMSQueryExtension in -lXdpms... no
+checking for DPMSQueryExtension in -lXext... yes
+checking for XineramaQueryExtension in -lXinerama... yes
+checking for XRenderQueryExtension in -lXrender... yes
+checking for XvQueryExtension in -lXv... yes
+checking for XmStringGenerate in -lXm... yes
+checking for glXChooseVisual in -lGL... yes
+checking for gtk+ 2.4... yes
+checking for X11 config directory... /etc/X11
+checking for X11 app-defaults directory... /etc/X11/app-defaults
+checking if mmx should be used... no
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: WARNING:  'Makefile.in' seems to ignore the --datarootdir setting
+config.status: creating xawtv.spec
+config.status: creating config.h
+config.status: config.h is unchanged
+
+compile time options summary
+============================
+
+    aalib        : no
+    alsa         : yes
+    aRts         : no
+    dv           : yes
+    QuickTime    : yes
+    mad          : yes
+    mpeg2        : yes
+    X11R6        : yes
+    gtk+         : yes
+    OpenMotif    : yes
+    OpenGL       : yes
+    zvbi         : yes
+    DVB          : yes
+
++ make
+  CC	  console/record.o
+  CC	  console/streamer.o
+  CC	  common/tuning.o
+  CC	  common/commands.o
+  CC	  common/devs.o
+  CC	  common/dvb-tuning.o
+  CC	  libng/parse-mpeg.o
+  CC	  libng/parse-dvb.o
+  CC	  console/scantv.o
+libng/parse-dvb.c: In function ‘parse_nit_desc_2’:
+libng/parse-dvb.c:196:13: warning: variable ‘l’ set but not used [-Wunused-but-set-variable]
+  196 |     int i,t,l;
+      |             ^
+libng/parse-dvb.c: In function ‘parse_sdt_desc’:
+libng/parse-dvb.c:239:13: warning: variable ‘l’ set but not used [-Wunused-but-set-variable]
+  239 |     int i,t,l;
+      |             ^
+libng/parse-dvb.c: In function ‘mpeg_parse_psi_nit’:
+libng/parse-dvb.c:351:6: warning: the address of ‘network’ will always evaluate as ‘true’ [-Waddress]
+  351 |  if (network)
+      |      ^~~~~~~
+In function ‘do_scan’,
+    inlined from ‘main’ at console/scantv.c:399:2:
+console/scantv.c:235:7: warning: ‘%s’ directive argument is null [-Wformat-overflow=]
+  235 |       sprintf(dummy,"unknown (%s)",fchannel);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+common/devs.c: In function ‘device_probe_video’:
+common/devs.c:127:15: warning: variable ‘add’ set but not used [-Wunused-but-set-variable]
+  127 |     int err,i,add=0;
+      |               ^~~
+common/devs.c: In function ‘device_probe_dvb’:
+common/devs.c:193:11: warning: variable ‘add’ set but not used [-Wunused-but-set-variable]
+  193 |     int i,add = 0;
+      |           ^~~
+  LD	  console/record
+common/dvb-tuning.c: In function ‘fixup_numbers’:
+common/dvb-tuning.c:329:5: warning: enumeration value ‘FE_ATSC’ not handled in switch [-Wswitch]
+  329 |     switch (h->info.type) {
+      |     ^~~~~~
+common/dvb-tuning.c: In function ‘dump_fe_info’:
+common/dvb-tuning.c:365:5: warning: enumeration value ‘FE_ATSC’ not handled in switch [-Wswitch]
+  365 |     switch (h->info.type) {
+      |     ^~~~~~
+common/dvb-tuning.c: In function ‘dvb_frontend_tune’:
+common/dvb-tuning.c:433:5: warning: enumeration value ‘FE_ATSC’ not handled in switch [-Wswitch]
+  433 |     switch (h->info.type) {
+      |     ^~~~~~
+common/dvb-tuning.c: In function ‘parse_vdr_diseqc.constprop.isra’:
+common/dvb-tuning.c:1126:26: warning: ‘%d’ directive writing between 1 and 10 bytes into a region of size 9 [-Wformat-overflow=]
+ 1126 |  sprintf(section,"diseqc-%d",i++);
+      |                          ^~
+common/dvb-tuning.c:1126:18: note: directive argument in the range [0, 2147483647]
+ 1126 |  sprintf(section,"diseqc-%d",i++);
+      |                  ^~~~~~~~~~~
+common/dvb-tuning.c:1126:2: note: ‘sprintf’ output between 9 and 18 bytes into a destination of size 16
+ 1126 |  sprintf(section,"diseqc-%d",i++);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+common/commands.c: In function ‘keypad_handler’:
+common/commands.c:1184:18: warning: ‘%d’ directive writing between 1 and 10 bytes into a region of size 8 [-Wformat-overflow=]
+ 1184 |      sprintf(ch,"%d",n);
+      |                  ^~
+common/commands.c:1184:17: note: directive argument in the range [1, 2147483647]
+ 1184 |      sprintf(ch,"%d",n);
+      |                 ^~~~
+common/commands.c:1184:6: note: ‘sprintf’ output between 2 and 11 bytes into a destination of size 8
+ 1184 |      sprintf(ch,"%d",n);
+      |      ^~~~~~~~~~~~~~~~~~
+libng/parse-mpeg.c: In function ‘parse_pmt_desc’:
+libng/parse-mpeg.c:680:13: warning: variable ‘l’ set but not used [-Wunused-but-set-variable]
+  680 |     int i,t,l;
+      |             ^
+libng/parse-mpeg.c: In function ‘get_lang_tag’:
+libng/parse-mpeg.c:697:13: warning: variable ‘l’ set but not used [-Wunused-but-set-variable]
+  697 |     int i,t,l;
+      |             ^
+  AR	  libng/libng.a
+ar: creating libng/libng.a
+  LD	  console/streamer
+  LD	  console/webcam
+  LD	  console/scantv
+/usr/bin/ld: libng/libng.a(grab-ng.o): in function `ng_plugins':
+<https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1124: undefined reference to `dlopen'
+/usr/bin/ld: <https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1125: undefined reference to `dlerror'
+collect2: error: ld returned 1 exit status
+make: *** [mk/Compile.mk:75: console/webcam] Error 1
+make: *** Waiting for unfinished jobs....
+/usr/bin/ld: libng/libng.a(grab-ng.o): in function `ng_plugins':
+<https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1124: undefined reference to `dlopen'
+/usr/bin/ld: <https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1125: undefined reference to `dlerror'
+/usr/bin/ld: libng/libng.a(grab-ng.o): in function `ng_plugins':
+<https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1124: undefined reference to `dlopen'
+/usr/bin/ld: <https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1125: undefined reference to `dlerror'
+collect2: error: ld returned 1 exit status
+make: *** [mk/Compile.mk:75: console/scantv] Error 1
+collect2: error: ld returned 1 exit status
+make: *** [mk/Compile.mk:75: console/streamer] Error 1
+Build step 'Execute shell' marked build as failure
