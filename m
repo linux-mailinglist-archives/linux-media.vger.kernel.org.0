@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C6DC3EEBD3
-	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 13:37:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02CC53EEBEA
+	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 13:52:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236716AbhHQLhv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Aug 2021 07:37:51 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:45830 "EHLO www.linuxtv.org"
+        id S236902AbhHQLwt convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 17 Aug 2021 07:52:49 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:48636 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231515AbhHQLhs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Aug 2021 07:37:48 -0400
+        id S236713AbhHQLwt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 17 Aug 2021 07:52:49 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1mFxP8-002kg8-Us; Tue, 17 Aug 2021 11:37:15 +0000
+        id 1mFxde-002ltc-VL; Tue, 17 Aug 2021 11:52:15 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.94.2)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1mFxP8-002547-8e; Tue, 17 Aug 2021 11:37:13 +0000
-Date:   Tue, 17 Aug 2021 11:37:13 +0000 (UTC)
+        id 1mFxde-0026uY-9R; Tue, 17 Aug 2021 11:52:13 +0000
+Date:   Tue, 17 Aug 2021 11:52:13 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1776807099.15.1629200233185@builder.linuxtv.org>
-In-Reply-To: <1375138458.14.1629196307904@builder.linuxtv.org>
-References: <1375138458.14.1629196307904@builder.linuxtv.org>
-Subject: Build failed in Jenkins: xawtv4 #24
+Message-ID: <1504633879.16.1629201133210@builder.linuxtv.org>
+In-Reply-To: <1776807099.15.1629200233185@builder.linuxtv.org>
+References: <1776807099.15.1629200233185@builder.linuxtv.org>
+Subject: Build failed in Jenkins: xawtv4 #25
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
 X-Jenkins-Job: xawtv4
 X-Jenkins-Result: FAILURE
@@ -38,7 +38,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/xawtv4/24/display/redirect?page=changes>
+See <https://builder.linuxtv.org/job/xawtv4/25/display/redirect?page=changes>
 
 Changes:
 
@@ -46,77 +46,7 @@ Changes:
 
 
 ------------------------------------------
-Started by an SCM change
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/xawtv4/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/xawtv4/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/xawtv4.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/xawtv4.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/xawtv4.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 004bdcc678cfd5eeec3776a919813e0f666e837a (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 004bdcc678cfd5eeec3776a919813e0f666e837a # timeout=10
-Commit message: "Fix dlopen/dlerror for libng"
- > git rev-list --no-walk b476fc17fd1fa71204314686bb4ac5a7324a4af7 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 004bdcc678cfd5eeec3776a919813e0f666e837a^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/xawtv4.git'
-[GitCheckoutListener] Found previous build 'xawtv4 #23' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since 'b476fc1'
-[GitCheckoutListener] -> Using head commit '004bdcc' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@c246627'
-[GitCheckoutListener] -> Recorded 191 new commits
-[xawtv4] $ /bin/sh -xe /tmp/jenkins1040565992860801892.sh
-+ ./autogen.sh
-+ autoconf
-+ autoheader
-+ rm -rf autom4te.cache
-+ cp /usr/share/automake-1.16/install-sh .
-+ ./configure --enable-arts --enable-aa
-checking for gcc... gcc
-checking whether the C compiler works... yes
-checking for C compiler default output file name... a.out
-checking for suffix of executables... 
-checking whether we are cross compiling... no
-checking for suffix of object files... o
-checking whether we are using the GNU C compiler... yes
-checking whether gcc accepts -g... yes
-checking for gcc option to accept ISO C89... none needed
-checking for g++... g++
-checking whether we are using the GNU C++ compiler... yes
-checking whether g++ accepts -g... yes
-checking how to run the C preprocessor... gcc -E
-checking for a BSD-compatible install... /usr/bin/install -c
-checking for gccmakedep... no
-checking for makedepend... no
-checking for grep that handles long lines and -e... /usr/bin/grep
-checking for egrep... /usr/bin/grep -E
-checking for ANSI C header files... yes
-checking for sys/types.h... yes
-checking for sys/stat.h... yes
-checking for stdlib.h... yes
-checking for string.h... yes
-checking for memory.h... yes
-checking for strings.h... yes
-checking for inttypes.h... yes
-checking for stdint.h... yes
-checking for unistd.h... yes
-checking getopt.h usability... yes
-checking getopt.h presence... yes
-checking for getopt.h... yes
-checking soundcard.h usability... no
-checking soundcard.h presence... no
-checking for soundcard.h... no
-checking for unistd.h... (cached) yes
+[...truncated 3.71 KB...]
 checking sys/select.h usability... yes
 checking sys/select.h presence... yes
 checking for sys/select.h... yes
@@ -211,5 +141,158 @@ compile time options summary
     DVB          : yes
 
 + make verbose=1
-make: *** No rule to make target '-Wl,-E', needed by 'console/streamer'.  Stop.
+gcc -g -O2 -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/X11R6/include/X11/fonts -I/usr/include/lqt -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I. -I./vbistuff -I./x11 -I./jwz -I./common -I./console -I./x11 -I./structs -I./libng -Llibng -DCONFIGFILE="/etc/X11/xawtvrc" -DLIBDIR="/usr/local/lib/xawtv4" -DDATADIR="/usr/local/share/xawtv" -DLOCALEDIR="/usr/local/share/locale" -DPACKAGE="xawtv" -DVERSION="4.0-pre" -fno-omit-frame-pointer -Wp,-MD,mk/console_ttv.tmp -c -o console/ttv.o console/ttv.c
+In file included from console/ttv.c:13:
+./common/frequencies.h:82:2: warning: #warning obsolete header file [-Wcpp]
+   82 | #warning obsolete header file
+      |  ^~~~~~~
+console/ttv.c: In function ‘grabber_init’:
+console/ttv.c:37:5: error: ‘drv’ undeclared (first use in this function); did you mean ‘div’?
+   37 |     drv = ng_vid_open(ng_dev.video,NULL,NULL,0,&h_drv);
+      |     ^~~
+      |     div
+console/ttv.c:37:5: note: each undeclared identifier is reported only once for each function it appears in
+console/ttv.c:37:11: warning: implicit declaration of function ‘ng_vid_open’; did you mean ‘ng_dev_open’? [-Wimplicit-function-declaration]
+   37 |     drv = ng_vid_open(ng_dev.video,NULL,NULL,0,&h_drv);
+      |           ^~~~~~~~~~~
+      |           ng_dev_open
+console/ttv.c:37:49: error: ‘h_drv’ undeclared (first use in this function)
+   37 |     drv = ng_vid_open(ng_dev.video,NULL,NULL,0,&h_drv);
+      |                                                 ^~~~~
+console/ttv.c:42:5: error: ‘f_drv’ undeclared (first use in this function)
+   42 |     f_drv = drv->capabilities(h_drv);
+      |     ^~~~~
+console/ttv.c:43:5: warning: implicit declaration of function ‘add_attrs’; did you mean ‘aa_attrs’? [-Wimplicit-function-declaration]
+   43 |     add_attrs(drv->list_attrs(h_drv));
+      |     ^~~~~~~~~
+      |     aa_attrs
+console/ttv.c: In function ‘do_capture’:
+console/ttv.c:63:10: error: ‘CAPTURE_GRABDISPLAY’ undeclared (first use in this function)
+   63 |     case CAPTURE_GRABDISPLAY:
+      |          ^~~~~~~~~~~~~~~~~~~
+console/ttv.c:64:6: error: ‘f_drv’ undeclared (first use in this function)
+   64 |  if (f_drv & CAN_CAPTURE)
+      |      ^~~~~
+console/ttv.c:65:6: error: ‘drv’ undeclared (first use in this function); did you mean ‘div’?
+   65 |      drv->stopvideo(h_drv);
+      |      ^~~
+      |      div
+console/ttv.c:65:21: error: ‘h_drv’ undeclared (first use in this function)
+   65 |      drv->stopvideo(h_drv);
+      |                     ^~~~~
+console/ttv.c:76:32: warning: passing argument 1 of ‘ng_grabber_setformat’ from incompatible pointer type [-Wincompatible-pointer-types]
+   76 |  if (0 != ng_grabber_setformat(&fmt,1)) {
+      |                                ^~~~
+      |                                |
+      |                                struct ng_video_fmt *
+In file included from console/ttv.c:11:
+./common/capture.h:6:46: note: expected ‘struct ng_devstate *’ but argument is of type ‘struct ng_video_fmt *’
+    6 | int ng_grabber_setformat(struct ng_devstate *dev, struct ng_video_fmt *fmt,
+      |                          ~~~~~~~~~~~~~~~~~~~~^~~
+console/ttv.c:76:37: warning: passing argument 2 of ‘ng_grabber_setformat’ makes pointer from integer without a cast [-Wint-conversion]
+   76 |  if (0 != ng_grabber_setformat(&fmt,1)) {
+      |                                     ^
+      |                                     |
+      |                                     int
+In file included from console/ttv.c:11:
+./common/capture.h:6:72: note: expected ‘struct ng_video_fmt *’ but argument is of type ‘int’
+    6 | int ng_grabber_setformat(struct ng_devstate *dev, struct ng_video_fmt *fmt,
+      |                                                   ~~~~~~~~~~~~~~~~~~~~~^~~
+console/ttv.c:76:11: error: too few arguments to function ‘ng_grabber_setformat’
+   76 |  if (0 != ng_grabber_setformat(&fmt,1)) {
+      |           ^~~~~~~~~~~~~~~~~~~~
+In file included from console/ttv.c:11:
+./common/capture.h:6:5: note: declared here
+    6 | int ng_grabber_setformat(struct ng_devstate *dev, struct ng_video_fmt *fmt,
+      |     ^~~~~~~~~~~~~~~~~~~~
+console/ttv.c:78:46: warning: passing argument 1 of ‘ng_grabber_findconv’ from incompatible pointer type [-Wincompatible-pointer-types]
+   78 |      if (NULL == (conv = ng_grabber_findconv(&gfmt,0))) {
+      |                                              ^~~~~
+      |                                              |
+      |                                              struct ng_video_fmt *
+In file included from console/ttv.c:11:
+./common/capture.h:8:63: note: expected ‘struct ng_devstate *’ but argument is of type ‘struct ng_video_fmt *’
+    8 | struct ng_video_conv* ng_grabber_findconv(struct ng_devstate *dev,
+      |                                           ~~~~~~~~~~~~~~~~~~~~^~~
+console/ttv.c:78:26: error: too few arguments to function ‘ng_grabber_findconv’
+   78 |      if (NULL == (conv = ng_grabber_findconv(&gfmt,0))) {
+      |                          ^~~~~~~~~~~~~~~~~~~
+In file included from console/ttv.c:11:
+./common/capture.h:8:23: note: declared here
+    8 | struct ng_video_conv* ng_grabber_findconv(struct ng_devstate *dev,
+      |                       ^~~~~~~~~~~~~~~~~~~
+console/ttv.c:82:11: warning: implicit declaration of function ‘ng_convert_alloc’ [-Wimplicit-function-declaration]
+   82 |      ch = ng_convert_alloc(conv,&gfmt,&fmt);
+      |           ^~~~~~~~~~~~~~~~
+console/ttv.c:82:9: warning: assignment to ‘struct ng_convert_handle *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+   82 |      ch = ng_convert_alloc(conv,&gfmt,&fmt);
+      |         ^
+console/ttv.c:83:6: warning: implicit declaration of function ‘ng_convert_init’; did you mean ‘ng_conv_init’? [-Wimplicit-function-declaration]
+   83 |      ng_convert_init(ch);
+      |      ^~~~~~~~~~~~~~~
+      |      ng_conv_init
+console/ttv.c: In function ‘main’:
+console/ttv.c:209:5: warning: implicit declaration of function ‘freq_init’ [-Wimplicit-function-declaration]
+  209 |     freq_init();
+      |     ^~~~~~~~~
+console/ttv.c:210:5: warning: implicit declaration of function ‘read_config’ [-Wimplicit-function-declaration]
+  210 |     read_config(NULL,NULL,NULL);
+      |     ^~~~~~~~~~~
+console/ttv.c:217:21: error: ‘mixerdev’ undeclared (first use in this function)
+  217 |     if (0 != strlen(mixerdev)) {
+      |                     ^~~~~~~~
+console/ttv.c:219:43: error: ‘mixerctl’ undeclared (first use in this function)
+  219 |  if (NULL != (attr = ng_mix_init(mixerdev,mixerctl)))
+      |                                           ^~~~~~~~
+console/ttv.c:219:22: error: too few arguments to function ‘ng_mix_init’
+  219 |  if (NULL != (attr = ng_mix_init(mixerdev,mixerctl)))
+      |                      ^~~~~~~~~~~
+In file included from console/ttv.c:10:
+./libng/grab-ng.h:603:5: note: declared here
+  603 | int ng_mix_init(struct ng_devstate *dev, char *device, char *control);
+      |     ^~~~~~~~~~~
+console/ttv.c:226:5: error: ‘set_capture_hook’ undeclared (first use in this function)
+  226 |     set_capture_hook  = do_capture;
+      |     ^~~~~~~~~~~~~~~~
+console/ttv.c:229:5: warning: implicit declaration of function ‘parse_config’ [-Wimplicit-function-declaration]
+  229 |     parse_config();
+      |     ^~~~~~~~~~~~
+console/ttv.c:232:5: error: ‘cur_capture’ undeclared (first use in this function); did you mean ‘do_capture’?
+  232 |     cur_capture = 0;
+      |     ^~~~~~~~~~~
+      |     do_capture
+console/ttv.c:237:7: error: ‘f_drv’ undeclared (first use in this function)
+  237 |  if ((f_drv & CAN_TUNE) && 0 != (freq = drv->getfreq(h_drv))) {
+      |       ^~~~~
+console/ttv.c:237:41: error: ‘drv’ undeclared (first use in this function); did you mean ‘div’?
+  237 |  if ((f_drv & CAN_TUNE) && 0 != (freq = drv->getfreq(h_drv))) {
+      |                                         ^~~
+      |                                         div
+console/ttv.c:237:54: error: ‘h_drv’ undeclared (first use in this function)
+  237 |  if ((f_drv & CAN_TUNE) && 0 != (freq = drv->getfreq(h_drv))) {
+      |                                                      ^~~~~
+console/ttv.c:244:12: error: ‘cur_channel’ undeclared (first use in this function)
+  244 |  if (-1 == cur_channel) {
+      |            ^~~~~~~~~~~
+console/ttv.c:245:10: error: ‘count’ undeclared (first use in this function)
+  245 |      if (count > 0)
+      |          ^~~~~
+console/ttv.c:248:3: warning: implicit declaration of function ‘set_defaults’ [-Wimplicit-function-declaration]
+  248 |   set_defaults();
+      |   ^~~~~~~~~~~~
+console/ttv.c:272:21: error: too few arguments to function ‘ng_grabber_grab_image’
+  272 |  if (NULL == (buf = ng_grabber_grab_image(0))) {
+      |                     ^~~~~~~~~~~~~~~~~~~~~
+In file included from console/ttv.c:11:
+./common/capture.h:11:22: note: declared here
+   11 | struct ng_video_buf* ng_grabber_grab_image(struct ng_devstate *dev,
+      |                      ^~~~~~~~~~~~~~~~~~~~~
+console/ttv.c:277:12: warning: implicit declaration of function ‘ng_convert_frame’; did you mean ‘ng_convert_thread’? [-Wimplicit-function-declaration]
+  277 |      buf = ng_convert_frame(ch,NULL,buf);
+      |            ^~~~~~~~~~~~~~~~
+      |            ng_convert_thread
+console/ttv.c:277:10: warning: assignment to ‘struct ng_video_buf *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+  277 |      buf = ng_convert_frame(ch,NULL,buf);
+      |          ^
+make: *** [mk/Compile.mk:55: console/ttv.o] Error 1
 Build step 'Execute shell' marked build as failure
