@@ -2,46 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5FAC3EE73F
-	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 09:30:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 254F83EE745
+	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 09:33:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238243AbhHQHav (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Aug 2021 03:30:51 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:55517 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234402AbhHQHau (ORCPT
+        id S234715AbhHQHdp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Aug 2021 03:33:45 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:44067 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238067AbhHQHdo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Aug 2021 03:30:50 -0400
+        Tue, 17 Aug 2021 03:33:44 -0400
+X-Greylist: delayed 405 seconds by postgrey-1.27 at vger.kernel.org; Tue, 17 Aug 2021 03:33:44 EDT
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 5F16F100007;
-        Tue, 17 Aug 2021 07:30:16 +0000 (UTC)
-Date:   Tue, 17 Aug 2021 09:31:04 +0200
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 83E37FF80A;
+        Tue, 17 Aug 2021 07:33:09 +0000 (UTC)
+Date:   Tue, 17 Aug 2021 09:33:57 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: rcar-csi2: Cleanup mutex on remove and fail
-Message-ID: <20210817073104.6qy7ltabl32hnh46@uno.localdomain>
+Subject: Re: [PATCH 2/2] media: rcar-csi2: Serialize access to set_fmt and
+ get_fmt
+Message-ID: <20210817073357.ey2l4lecz5vv5cdy@uno.localdomain>
 References: <20210815024915.1183417-1-niklas.soderlund+renesas@ragnatech.se>
- <20210815024915.1183417-2-niklas.soderlund+renesas@ragnatech.se>
+ <20210815024915.1183417-3-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210815024915.1183417-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20210815024915.1183417-3-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Niklas,
 
-On Sun, Aug 15, 2021 at 04:49:14AM +0200, Niklas Söderlund wrote:
-> The mutex was not destroyed on remove or failed probe, fix this.
+On Sun, Aug 15, 2021 at 04:49:15AM +0200, Niklas Söderlund wrote:
+> The access to the internal storage of the format rcar_csi2.mf should be
+> serialized, extend the exciting lock mutex to also cover this.
+
+truly an exciting lock mutex indeed! :D
+
+>
+> While at it document the mutex.
 >
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-Looks good!
 
 Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 
@@ -49,62 +55,54 @@ Thanks
    j
 
 > ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 >
 > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index e28eff0396888f2d..a02573dbd5da4f62 100644
+> index a02573dbd5da4f62..2fdfdc38de424c72 100644
 > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
 > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -1245,14 +1245,14 @@ static int rcsi2_probe(struct platform_device *pdev)
->  	ret = rcsi2_probe_resources(priv, pdev);
->  	if (ret) {
->  		dev_err(priv->dev, "Failed to get resources\n");
-> -		return ret;
-> +		goto error_mutex;
+> @@ -370,9 +370,8 @@ struct rcar_csi2 {
+>  	struct v4l2_subdev *remote;
+>  	unsigned int remote_pad;
+>
+> +	struct mutex lock; /* Protects mf and stream_count. */
+>  	struct v4l2_mbus_framefmt mf;
+> -
+> -	struct mutex lock;
+>  	int stream_count;
+>
+>  	unsigned short lanes;
+> @@ -725,6 +724,8 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+>  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+>  	struct v4l2_mbus_framefmt *framefmt;
+>
+> +	mutex_lock(&priv->lock);
+> +
+>  	if (!rcsi2_code_to_fmt(format->format.code))
+>  		format->format.code = rcar_csi2_formats[0].code;
+>
+> @@ -735,6 +736,8 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+>  		*framefmt = format->format;
 >  	}
 >
->  	platform_set_drvdata(pdev, priv);
->
->  	ret = rcsi2_parse_dt(priv);
->  	if (ret)
-> -		return ret;
-> +		goto error_mutex;
->
->  	priv->subdev.owner = THIS_MODULE;
->  	priv->subdev.dev = &pdev->dev;
-> @@ -1272,21 +1272,23 @@ static int rcsi2_probe(struct platform_device *pdev)
->  	ret = media_entity_pads_init(&priv->subdev.entity, NR_OF_RCAR_CSI2_PAD,
->  				     priv->pads);
->  	if (ret)
-> -		goto error;
-> +		goto error_async;
->
->  	pm_runtime_enable(&pdev->dev);
->
->  	ret = v4l2_async_register_subdev(&priv->subdev);
->  	if (ret < 0)
-> -		goto error;
-> +		goto error_async;
->
->  	dev_info(priv->dev, "%d lanes found\n", priv->lanes);
->
+> +	mutex_unlock(&priv->lock);
+> +
 >  	return 0;
->
-> -error:
-> +error_async:
->  	v4l2_async_notifier_unregister(&priv->notifier);
->  	v4l2_async_notifier_cleanup(&priv->notifier);
-> +error_mutex:
-> +	mutex_destroy(&priv->lock);
->
->  	return ret;
 >  }
-> @@ -1301,6 +1303,8 @@ static int rcsi2_remove(struct platform_device *pdev)
 >
->  	pm_runtime_disable(&pdev->dev);
+> @@ -744,11 +747,15 @@ static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
+>  {
+>  	struct rcar_csi2 *priv = sd_to_csi2(sd);
 >
-> +	mutex_destroy(&priv->lock);
+> +	mutex_lock(&priv->lock);
+> +
+>  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+>  		format->format = priv->mf;
+>  	else
+>  		format->format = *v4l2_subdev_get_try_format(sd, sd_state, 0);
+>
+> +	mutex_unlock(&priv->lock);
 > +
 >  	return 0;
 >  }
