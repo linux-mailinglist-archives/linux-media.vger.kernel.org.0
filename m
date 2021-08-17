@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10C6C3EE9A8
-	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 11:23:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E2063EE9B0
+	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 11:26:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234859AbhHQJXh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Aug 2021 05:23:37 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:57208 "EHLO www.linuxtv.org"
+        id S235005AbhHQJ0r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Aug 2021 05:26:47 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:57692 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234347AbhHQJXg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Aug 2021 05:23:36 -0400
+        id S234347AbhHQJ0r (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 17 Aug 2021 05:26:47 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1mFvJH-002bYb-36; Tue, 17 Aug 2021 09:23:03 +0000
+        id 1mFvML-002brz-8J; Tue, 17 Aug 2021 09:26:13 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.94.2)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1mFvJG-001oDF-Ab; Tue, 17 Aug 2021 09:23:01 +0000
-Date:   Tue, 17 Aug 2021 09:23:01 +0000 (UTC)
+        id 1mFvMK-001ooN-IS; Tue, 17 Aug 2021 09:26:11 +0000
+Date:   Tue, 17 Aug 2021 09:26:11 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <735090427.7.1629192181245@builder.linuxtv.org>
-In-Reply-To: <1106307648.5.1629191989245@builder.linuxtv.org>
-References: <1106307648.5.1629191989245@builder.linuxtv.org>
-Subject: Build failed in Jenkins: xawtv4 #16
+Message-ID: <822001000.8.1629192371489@builder.linuxtv.org>
+In-Reply-To: <735090427.7.1629192181245@builder.linuxtv.org>
+References: <735090427.7.1629192181245@builder.linuxtv.org>
+Subject: Build failed in Jenkins: xawtv4 #17
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -38,9 +38,11 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/xawtv4/16/display/redirect>
+See <https://builder.linuxtv.org/job/xawtv4/17/display/redirect?page=changes>
 
 Changes:
+
+[Mauro Carvalho Chehab] libng/subdir.mk: fix dlopen/dlerror for libng
 
 
 ------------------------------------------
@@ -57,24 +59,23 @@ Fetching upstream changes from git://linuxtv.org/xawtv4.git
  > git --version # 'git version 2.30.2'
  > git fetch --tags --force --progress -- git://linuxtv.org/xawtv4.git +refs/heads/*:refs/remotes/origin/* # timeout=10
  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 34c81185a5a05725312fdb248dfd2ae1dd9b439e (refs/remotes/origin/master)
+Checking out Revision 64530e56e69e8e5d1e7586333ba4ee67b5b9cf79 (refs/remotes/origin/master)
  > git config core.sparsecheckout # timeout=10
- > git checkout -f 34c81185a5a05725312fdb248dfd2ae1dd9b439e # timeout=10
-Commit message: "Makefile.in: fix dlopen/dlerror for libng"
- > git rev-list --no-walk ec78dce5ec930d316ae4115493669783771b8b52 # timeout=10
-First time build. Skipping changelog.
+ > git checkout -f 64530e56e69e8e5d1e7586333ba4ee67b5b9cf79 # timeout=10
+Commit message: "libng/subdir.mk: fix dlopen/dlerror for libng"
+ > git rev-list --no-walk 34c81185a5a05725312fdb248dfd2ae1dd9b439e # timeout=10
 The recommended git tool is: NONE
 No credentials specified
- > git rev-parse 34c81185a5a05725312fdb248dfd2ae1dd9b439e^{commit} # timeout=10
+ > git rev-parse 64530e56e69e8e5d1e7586333ba4ee67b5b9cf79^{commit} # timeout=10
 The recommended git tool is: NONE
 No credentials specified
 [GitCheckoutListener] Recording commits of 'git git://linuxtv.org/xawtv4.git'
-[GitCheckoutListener] Found previous build 'xawtv4 #15' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since 'ec78dce'
-[GitCheckoutListener] -> Using head commit '34c8118' as starting point
+[GitCheckoutListener] Found previous build 'xawtv4 #16' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '34c8118'
+[GitCheckoutListener] -> Using head commit '64530e5' as starting point
 [GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@5f0258f4'
 [GitCheckoutListener] -> Recorded 191 new commits
-[xawtv4] $ /bin/sh -xe /tmp/jenkins6588981196312570770.sh
+[xawtv4] $ /bin/sh -xe /tmp/jenkins4793038651321553551.sh
 + ./autogen.sh
 + autoconf
 + autoheader
@@ -213,20 +214,20 @@ compile time options summary
   LD	  console/streamer
   LD	  console/webcam
   LD	  console/scantv
-/usr/bin/ld: libng/libng.a(grab-ng.o): in function `ng_plugins':
+/usr/bin/ld: /usr/bin/ld: libng/libng.a(grab-ng.o): in function `ng_pluginslibng/libng.a(grab-ng.o): in function `ng_plugins':
 <https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1125: undefined reference to `dlopen'
 /usr/bin/ld: <https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1126: undefined reference to `dlerror'
-/usr/bin/ld: libng/libng.a(grab-ng.o): in function `ng_plugins':
+':
 <https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1125: undefined reference to `dlopen'
 /usr/bin/ld: <https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1126: undefined reference to `dlerror'
-/usr/bin/ld: collect2: error: ld returned 1 exit status
-libng/libng.a(grab-ng.o): in function `ng_plugins':
-<https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1125: undefined reference to `dlopen'
-/usr/bin/ld: <https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1126: undefined reference to `dlerror'
+collect2: error: ld returned 1 exit status
 make: *** [mk/Compile.mk:75: console/streamer] Error 1
 make: *** Waiting for unfinished jobs....
 collect2: error: ld returned 1 exit status
 make: *** [mk/Compile.mk:75: console/webcam] Error 1
+/usr/bin/ld: libng/libng.a(grab-ng.o): in function `ng_plugins':
+<https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1125: undefined reference to `dlopen'
+/usr/bin/ld: <https://builder.linuxtv.org/job/xawtv4/ws/libng/grab-ng.c>:1126: undefined reference to `dlerror'
 collect2: error: ld returned 1 exit status
 make: *** [mk/Compile.mk:75: console/scantv] Error 1
 Build step 'Execute shell' marked build as failure
