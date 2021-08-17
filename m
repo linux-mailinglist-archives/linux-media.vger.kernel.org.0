@@ -2,119 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72C6F3EE72C
-	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 09:26:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5FAC3EE73F
+	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 09:30:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238439AbhHQH1Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Aug 2021 03:27:16 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:37543 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238067AbhHQH1O (ORCPT
+        id S238243AbhHQHav (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Aug 2021 03:30:51 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:55517 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234402AbhHQHau (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Aug 2021 03:27:14 -0400
+        Tue, 17 Aug 2021 03:30:50 -0400
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 4CC3AFF80A;
-        Tue, 17 Aug 2021 07:26:37 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 5F16F100007;
+        Tue, 17 Aug 2021 07:30:16 +0000 (UTC)
+Date:   Tue, 17 Aug 2021 09:31:04 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Thomas NIZAN <tnizan@witekio.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [RFC 5/5] arm64: dts: GMSL: Adapt to the use max9271 driver
-Date:   Tue, 17 Aug 2021 09:27:03 +0200
-Message-Id: <20210817072703.1167-6-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210817072703.1167-1-jacopo+renesas@jmondi.org>
-References: <20210817072703.1167-1-jacopo+renesas@jmondi.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: rcar-csi2: Cleanup mutex on remove and fail
+Message-ID: <20210817073104.6qy7ltabl32hnh46@uno.localdomain>
+References: <20210815024915.1183417-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210815024915.1183417-2-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210815024915.1183417-2-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently the whole RDACM20/21 camera module was handled by a single
-driver and a single device node entry was required in DTS to describe
-it.
+Hi Niklas,
 
-With the introduction of the max9271 subdevice driver the camera module
-is now described by two device nodes, one for the serializer and one for
-the image sensor connected to it.
+On Sun, Aug 15, 2021 at 04:49:14AM +0200, Niklas Söderlund wrote:
+> The mutex was not destroyed on remove or failed probe, fix this.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi | 34 ++++++++++++++++---
- .../arm64/boot/dts/renesas/r8a77970-eagle.dts |  6 ++--
- 2 files changed, 32 insertions(+), 8 deletions(-)
+Looks good!
 
-diff --git a/arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi b/arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi
-index d45f072f8cdf..7d8f2e979134 100644
---- a/arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi
-+++ b/arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi
-@@ -131,13 +131,37 @@ i2c-mux {
- 		i2c@0 {
- 			status = "okay";
- 
--			camera@51 {
--				compatible = GMSL_CAMERA_MODEL;
--				reg = <0x51>, <0x61>;
-+			serializer@51 {
-+				compatible = "maxim,max9271";
-+				reg = <0x51>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+						fakra_con0: endpoint {
-+							remote-endpoint = <&max9286_in0>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+						sensor_in0: endpoint {
-+							remote-endpoint = <&sensor_out0>;
-+						};
-+					};
-+				};
-+			};
-+
-+			camera@61 {
-+				compatible = "imi,rdacm20";
-+				reg = <0x61>;
- 
- 				port {
--					fakra_con0: endpoint {
--						remote-endpoint = <&max9286_in0>;
-+					sensor_out0: endpoint {
-+						remote-endpoint = <&sensor_in0>;
- 					};
- 				};
- 			};
-diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-index 96c807bf868c..22bb04914159 100644
---- a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-@@ -388,7 +388,7 @@ &scif0 {
- /* FAKRA Overlay */
- #define GMSL_CAMERA_RDACM20
- #define GMSL_CAMERA_0
--#define GMSL_CAMERA_1
--#define GMSL_CAMERA_2
--#define GMSL_CAMERA_3
-+//#define GMSL_CAMERA_1
-+//#define GMSL_CAMERA_2
-+//#define GMSL_CAMERA_3
- #include "gmsl-cameras.dtsi"
--- 
-2.32.0
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 
+Thanks
+   j
+
+> ---
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index e28eff0396888f2d..a02573dbd5da4f62 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -1245,14 +1245,14 @@ static int rcsi2_probe(struct platform_device *pdev)
+>  	ret = rcsi2_probe_resources(priv, pdev);
+>  	if (ret) {
+>  		dev_err(priv->dev, "Failed to get resources\n");
+> -		return ret;
+> +		goto error_mutex;
+>  	}
+>
+>  	platform_set_drvdata(pdev, priv);
+>
+>  	ret = rcsi2_parse_dt(priv);
+>  	if (ret)
+> -		return ret;
+> +		goto error_mutex;
+>
+>  	priv->subdev.owner = THIS_MODULE;
+>  	priv->subdev.dev = &pdev->dev;
+> @@ -1272,21 +1272,23 @@ static int rcsi2_probe(struct platform_device *pdev)
+>  	ret = media_entity_pads_init(&priv->subdev.entity, NR_OF_RCAR_CSI2_PAD,
+>  				     priv->pads);
+>  	if (ret)
+> -		goto error;
+> +		goto error_async;
+>
+>  	pm_runtime_enable(&pdev->dev);
+>
+>  	ret = v4l2_async_register_subdev(&priv->subdev);
+>  	if (ret < 0)
+> -		goto error;
+> +		goto error_async;
+>
+>  	dev_info(priv->dev, "%d lanes found\n", priv->lanes);
+>
+>  	return 0;
+>
+> -error:
+> +error_async:
+>  	v4l2_async_notifier_unregister(&priv->notifier);
+>  	v4l2_async_notifier_cleanup(&priv->notifier);
+> +error_mutex:
+> +	mutex_destroy(&priv->lock);
+>
+>  	return ret;
+>  }
+> @@ -1301,6 +1303,8 @@ static int rcsi2_remove(struct platform_device *pdev)
+>
+>  	pm_runtime_disable(&pdev->dev);
+>
+> +	mutex_destroy(&priv->lock);
+> +
+>  	return 0;
+>  }
+>
+> --
+> 2.32.0
+>
