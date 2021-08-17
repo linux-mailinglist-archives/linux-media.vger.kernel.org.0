@@ -2,97 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B2E93EEB04
-	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 12:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0D503EEB1B
+	for <lists+linux-media@lfdr.de>; Tue, 17 Aug 2021 12:41:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236215AbhHQKdd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Aug 2021 06:33:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58658 "EHLO
+        id S236075AbhHQKlp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Aug 2021 06:41:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235358AbhHQKdc (ORCPT
+        with ESMTP id S236034AbhHQKlo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Aug 2021 06:33:32 -0400
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F2FC0613C1
-        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 03:32:59 -0700 (PDT)
-Received: by mail-io1-xd36.google.com with SMTP id g9so9223193ioq.11
-        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 03:32:59 -0700 (PDT)
+        Tue, 17 Aug 2021 06:41:44 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E505C061764
+        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 03:41:11 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so4443212pjr.1
+        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 03:41:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PKbSeN4+Cmups93O1IHb3uzQsoTZaUe6j4ZOOZ0T96g=;
-        b=Ot3EMK6zlgbVFzyMonFw1RciGP2Z0eAUruugg9+Nh3XxJA4yvxok/yj8AvyeP0gPsq
-         VfOexX5Z5+tLPeQJiVz8LAjlVmks8FbJ3iOHm9F/emjwKPHDsRv6OVh+1lj0RSANp94n
-         0ZPZXcU594Bvl7NNqbqeZxcYhlnuUswE9caRw=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Vakua7dB9MNN/4+EvWcg/tkA9unAO8MnqooNldYK9is=;
+        b=hmjUn9cvLrKrl5cyT5UaVFMBlY0lf6tv5/vLf2NAvY8wiUtZSvCNhqhM3iVNdSkJHj
+         msroeQrJpKML3icpKyaR4fWnXfqHwPrLF9UpdSdyftHVhpm/69XhUHZ1L4mXWtvHZebD
+         WAlgTWptRnbCFx0sAzOS38GzE9W8pUmm3eKkU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PKbSeN4+Cmups93O1IHb3uzQsoTZaUe6j4ZOOZ0T96g=;
-        b=tnCOtAqZr8UaNnVBfSOpzu9CVw1c8i67da+rz3vn3qMgL27p8jDbzOj2xob9sc/aCj
-         rT3nqK0Voh5KeBs4QaHM09fJduah4tbm3ATxY7NUzTmN6ISSlTwPdjyxz5w9uiit5fjF
-         siBBHMnlaCzwkRMATSN6hVOnsMCm3w4CYvlXpmcACqs1oTUuwqUwzD4JI02ksNewmUQU
-         VrrpaAI02veb+C0pVMqMS6pXFWg4Sx7a/WarmshZ0+8ftCo94OUyMDfa5hGLRI+bU/LE
-         oS1Gl8IJnzL43mhOAMgLYjFmnyaWgiftGfRgYt0zmT4LPIc18ySjBqX4lv908Ildqy69
-         CmiQ==
-X-Gm-Message-State: AOAM533aPSmmkfyKbKk4I+PMR7dJlL6NvY63lTMt+QCulc59QB53gZEc
-        fIdks55nf1eDWYMAjM42y+aGn9x7GFB2T7W8F0gPeg==
-X-Google-Smtp-Source: ABdhPJxoAI2n/TTPeOxdJViJhU71lL8vd+F7mpwucXSKO3zITTXH7MWb4WRW/zdi6ILM/Rqw8U+z/FwgPi235BCy79w=
-X-Received: by 2002:a02:6a24:: with SMTP id l36mr2338514jac.4.1629196379357;
- Tue, 17 Aug 2021 03:32:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210705081724.168523-1-hsinyi@chromium.org> <CAG3jFyuT09KOG9Xn-wbrr2DSOB=jSRvBVj96Vx4ja0PQWPKh6g@mail.gmail.com>
-In-Reply-To: <CAG3jFyuT09KOG9Xn-wbrr2DSOB=jSRvBVj96Vx4ja0PQWPKh6g@mail.gmail.com>
-From:   Hsin-Yi Wang <hsinyi@chromium.org>
-Date:   Tue, 17 Aug 2021 18:32:33 +0800
-Message-ID: <CAJMQK-ixwkR2ECJdYXXtHJTGsSfV_Axs0-E1-rbS8e3XF92FLQ@mail.gmail.com>
-Subject: Re: [PATCH] media: ov8856: Set default mbus format but allow caller
- to alter
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Vakua7dB9MNN/4+EvWcg/tkA9unAO8MnqooNldYK9is=;
+        b=AWkLS+/jB4yAyjg2XMKcPHLvrqJCwjUTb1reL5ZGUBCioTO7DgnsCdpcngC0+rJCjK
+         NEGvfUcYvMFq7A76d8hnrV1HxGmte4GjAv2/Es+yXN1+deZQOs8A3beNn51xQl2w5D23
+         2imypMkUtlobmnvUNp8YFs71pId0UAyl5C+5aqweSKmJvIMIoQ99EymvsfMBNiVQuj99
+         vreX9reOjPJbvGhvLgvNYyJSJEbXvnE2SasnIQVe8g8IljBYe1zu8RtR8J9ixQ2dBvF1
+         Te/Z0BY75WO9OjvFsS2rRvXk6OX7yh/YClocjw2fxoB8+HyIIRYsBZcgb78m3R1wQPJX
+         oUNw==
+X-Gm-Message-State: AOAM530YEW9C1BmIGKdcjp52f3FyP8cwLZEWx5Wybj14AyNDRqwcjRjq
+        c9nC5K7HhAzMECO7Pf0cZrHtjQ==
+X-Google-Smtp-Source: ABdhPJyH+sfgV7i5vCz2VdxYloXot1O+JjbDHyjtkdDNLEYbWsQa51i9g2aU06kZkv2Pex3TICmUOA==
+X-Received: by 2002:a17:903:234e:b0:12d:ad8d:56c6 with SMTP id c14-20020a170903234e00b0012dad8d56c6mr2272743plh.23.1629196871081;
+        Tue, 17 Aug 2021 03:41:11 -0700 (PDT)
+Received: from google.com ([2409:10:2e40:5100:8aab:cb84:5fe8:99dd])
+        by smtp.gmail.com with ESMTPSA id q68sm2775955pgq.5.2021.08.17.03.41.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Aug 2021 03:41:10 -0700 (PDT)
+Date:   Tue, 17 Aug 2021 19:41:04 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
         Tomasz Figa <tfiga@chromium.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv4 1/8] videobuf2: rework vb2_mem_ops API
+Message-ID: <YRuSQMTcexYmFGub@google.com>
+References: <20210727070517.443167-1-senozhatsky@chromium.org>
+ <20210727070517.443167-2-senozhatsky@chromium.org>
+ <3744c521-ce07-4ca9-5f57-fa42b917d53c@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3744c521-ce07-4ca9-5f57-fa42b917d53c@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 28, 2021 at 7:22 PM Robert Foss <robert.foss@linaro.org> wrote:
->
-> Hey Hsin-Yi,
->
-> Thanks for looking into this.
->
-> On Mon, 5 Jul 2021 at 10:17, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> >
-> > Setting the value of V_WIN_OFF (0x3818) from 0x02 to 0x01 to use GRBG
-> > format still results in wrong color output if data is tuned in BGGR mode
-> > before.
-> >
-> > Set default mbus format for the supported modes, but allow the caller of
-> > set(get)_fmt to change the bayer format between BGGR and GRBG.
-> >
-> > Set the default mbus format for 3264x2448 (and 1632x1224) to BGGR as the
-> > data sheet states the value of this reg should be 0x02 by default.
-> >
-> > If new modes are added in the future, they can add the
-> > mipi_data_mbus_{format} settings into bayer_offset_configs to adjust their
-> > offset regs.
-> >
-> > Fixes: 2984b0ddd557 ("media: ov8856: Configure sensor for GRBG Bayer for all modes")
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > ---
-<snip>
->
-> Looks good to me.
->
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
+On (21/08/03 10:08), Hans Verkuil wrote:
+> On 27/07/2021 09:05, Sergey Senozhatsky wrote:
+> 
+> Sprinkle a few more 'the's in the text:
+> 
+> > With new DMA API we need an extension of videobuf2 API. Previously,
+> 
+> With -> With the
+> of -> of the
+> 
+> > videobuf2 core would set non-coherent DMA bit in vb2 queue dma_attr
+> 
+> videobuf2 -> the videobuf2
+> set -> set the
+> in vb2 queue dma_attr -> in the vb2_queue dma_attr field
+> 
+> > (if user-space would pass a corresponding memory hint); vb2 core
+> 
+> vb2 core -> the vb2 core
+> 
+> > then would pass the vb2 queue dma_attrs to the vb2 allocators.
+> 
+> vb2 queue -> vb2_queue
+> 
+> > vb2 allocator would use queue's dma_attr and DMA API would allocate
+> 
+> vb2 -> The vb2
+> queue's -> the queue's
+> DMA API -> the DMA API
+> 
+> > either coherent or non-coherent memory.
+> > 
+> > But we cannot do this anymore, since there is no corresponding DMA
+> > attr flag and, hence, there is no way for the allocator to become
+> > aware of what type of allocation user-space has requested. So we
+> > need to pass more context from videobuf2 core to the allocators.
+> > 
+> > Fix this by changing call_ptr_memop() macro to pass vb2 pointer to
+> 
+> changing -> changing the
+> vb2 pointer to -> the vb2 pointer to the
 
-Hello maintainers,
-
-kindly ping on this patch, thanks!
+Ack... The Ack.
