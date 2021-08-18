@@ -2,119 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7347A3F0721
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 16:52:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C21103F0762
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 17:04:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239608AbhHROw6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 10:52:58 -0400
-Received: from smtp-relay-canonical-0.canonical.com ([185.125.188.120]:53694
-        "EHLO smtp-relay-canonical-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239503AbhHROw5 (ORCPT
+        id S239509AbhHRPE7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 11:04:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58638 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239208AbhHRPE4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 10:52:57 -0400
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPS id EEE2F418F6
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 14:52:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1629298341;
-        bh=C63KvaJ+cWhAEINSiaxTGMz7FLf9euvtefJ5UKJKvuw=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-        b=Cf1hQJqU5ksYONZ5cTTUkNEOKPmgZ/u1JD5SQdzpvfbtv025NwXmnxR27O6Vt0/aM
-         Nb8O3K995JgzWEJ/qr+iVBHX7JLPXkJXLU1hOLaKUt0kIz9jt3T7qF8jP4HLNXua9P
-         JKAg1MOFC1AZFaB/GfJi6tSLsy6FaMBBDQziQ7TCC90k+Ze7TZz5ekNzYs70nPz/BH
-         2v9j5EJoDVnkj4Wgy59IKyYl2PdQImUIwizOdITuDSbLXJHChMa3GNrrNAHux3ui+s
-         AX5YBfiLfg4/ycY8AvA6oJ/C9Yc+gcT4bLlfR3zyNtYxhpmdHH3faviAWwhe9RBBol
-         +i6PqaBHMkEjQ==
-Received: by mail-pj1-f71.google.com with SMTP id e2-20020a17090a3b8200b001791a53ce87so1423289pjc.0
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:52:21 -0700 (PDT)
+        Wed, 18 Aug 2021 11:04:56 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BDDEC061764;
+        Wed, 18 Aug 2021 08:04:21 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id y6so5710956lje.2;
+        Wed, 18 Aug 2021 08:04:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Xr9jfom6cWdr34E1fd8HPE7h7ktRyhvZRNFf4lj4jAQ=;
+        b=d7vWQtfYNwjvKTlX+D7cGmxzglW4/UcbCP3k883yPwOnxzLjUO0MPLUtr+mkpWt1Oi
+         P6esNY3xCKInvn9sKG4XBfONscW0AIoeu5bJLV5ZTKWBGLAhdZ64HG8UcVIz6r2nfQQl
+         Yrxf+zPusVZGvFkC4QytKocyFHnvXnTinlNufGur7yB83siMoPE+NlIFcdErvMFOvaRm
+         djF5sqCwTodRZH48kqlk0WysuoONIiF9oO3KYSPg+WVHw6iqzbFtFUS7q02t5k20ekd+
+         45EsBKWTuCNLNfcORCVLawHr8Q3kMXd1Bq4Pg8JARvc5KVV1TVghp79Rl7Nr3fufWiW5
+         iqfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=C63KvaJ+cWhAEINSiaxTGMz7FLf9euvtefJ5UKJKvuw=;
-        b=ZgajhiF9iTtBQDX+0iD23OJOuxzUz2Okpr3iQOz6SSUatWiOP1FCsuLXRSiJy+5YzI
-         9vynhYFCEKKj/6jLj43JA6Lvcqm1xeT7C/C6La82BuUan1cnnxzx+BQHlgWt9rVaIKqy
-         ge7rNBG/OPLMUJaO2pTZgTvP70Uj1k6WdodPDanAy0hGvQJfLVQsweMK1uKP3UtHFlMD
-         lZV7W2CSvStn+gewubrcJxNiq0SWRkS8Qn5SRO03u2ckJOl85r28z9UE2hrrw0af3HzY
-         lTUwr7JD43DNavYDBwAI4bq1gwtkXV0kp1UmsC+bO3A3BxZnhfg4rq2ScUJSqZDQfRQT
-         mTEA==
-X-Gm-Message-State: AOAM533vrAHvK1rrJjU/XbFBsr/dyjewJ6v3sa8MFrmywjF75mGoQTJJ
-        xMDqhA4YqCgmQ7aRDP0LTTuUcCefAwHduaYmHSNr20CGcxgpEM2iJNKyQHVIkAsYVZO4e006o8d
-        +tP/UEaEcZED5nXMte0AmJmTUlEAdDLQN142+oXX3
-X-Received: by 2002:a17:90a:f314:: with SMTP id ca20mr10053541pjb.210.1629298339357;
-        Wed, 18 Aug 2021 07:52:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIX0xUNdP8jrpWXr9FRIo/5CxYkCcC18au0WkZhrfprpv1h8lb2dEHNI4DzTUBH3RtKFQesg==
-X-Received: by 2002:a17:90a:f314:: with SMTP id ca20mr10053525pjb.210.1629298339084;
-        Wed, 18 Aug 2021 07:52:19 -0700 (PDT)
-Received: from localhost.localdomain ([69.163.84.166])
-        by smtp.gmail.com with ESMTPSA id 73sm7331pfz.73.2021.08.18.07.52.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 07:52:18 -0700 (PDT)
-From:   Tim Gardner <tim.gardner@canonical.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     tim.gardner@canonical.com, stable@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] drm/i915/gem: Avoid NULL dereference in __i915_gem_object_lock()
-Date:   Wed, 18 Aug 2021 08:51:59 -0600
-Message-Id: <20210818145159.12402-1-tim.gardner@canonical.com>
-X-Mailer: git-send-email 2.33.0
+        bh=Xr9jfom6cWdr34E1fd8HPE7h7ktRyhvZRNFf4lj4jAQ=;
+        b=ogNq+EgYAb+XlHXYgS5K51twqfMoa5mFXm6EGIGvvINYEA/B0bq8rd+Ls9HsfLHNku
+         TqcZL253G4RJ6E6teHTckfJUv3a9nQoOe/PTKemrPM2M6xTQN4o5I9gMVarmMSvsyER3
+         60mVnq04ZQqjjG4QeFRDi/RAp50JhXbZQnV3leYdpDU0+ACFyGiKhwA1jT158RmdIsJm
+         LY9gNlKHapZsIXt1CjfXCyN7iMV4crInBf5ledInD5NYbWANgZ3rzxKiyPYHiBxGRYDC
+         2/vP0gduRX4ewSjCTclVGl9JejvhLHmBUo1oiEyNfz4IT2l8kIPaLmdWIExdFAYzuTKy
+         OSYw==
+X-Gm-Message-State: AOAM531nRdI6OUh1dOEpJ32uGWhWugMaXJBt3d4uzgFKtCP8pSXPu6/G
+        4Qdet6zbArPpX8t+Jk5Bgmx98yhi558=
+X-Google-Smtp-Source: ABdhPJyyQVKytu447MFJPeps/ZgloBzDSSZ92Nm3+pCI6+S9Y81A/uwqWMGjetCbs6/mNtqN/r95BQ==
+X-Received: by 2002:a2e:99da:: with SMTP id l26mr8197284ljj.339.1629299059349;
+        Wed, 18 Aug 2021 08:04:19 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
+        by smtp.googlemail.com with ESMTPSA id q5sm517822lfb.78.2021.08.18.08.04.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Aug 2021 08:04:18 -0700 (PDT)
+Subject: Re: [PATCH v8 06/34] dt-bindings: clock: tegra-car: Document new
+ tegra-clocks sub-node
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-7-digetx@gmail.com>
+ <YRxfGtWPXeSQXuHo@robh.at.kernel.org>
+ <06128217-92e1-9b66-64ea-91855d041121@gmail.com>
+ <YR0QrFGZs6iQv1N3@orome.fritz.box>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <659df86d-4fa1-b541-3d0d-8a1622fe7068@gmail.com>
+Date:   Wed, 18 Aug 2021 18:04:17 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <YR0QrFGZs6iQv1N3@orome.fritz.box>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Coverity warns of a possible NULL dereference:
+18.08.2021 16:52, Thierry Reding пишет:
+> On Wed, Aug 18, 2021 at 04:44:30AM +0300, Dmitry Osipenko wrote:
+>> 18.08.2021 04:15, Rob Herring пишет:
+>>>> +  tegra-clocks:
+>>>> +    description: child nodes are the output clocks from the CAR
+>>>> +    type: object
+>>>> +
+>>>> +    patternProperties:
+>>>> +      "^[a-z]+[0-9]+$":
+>>>> +        type: object
+>>>> +        properties:
+>>>> +          compatible:
+>>>> +            allOf:
+>>>> +              - items:
+>>>> +                  - enum:
+>>>> +                      - nvidia,tegra20-sclk
+>>>> +                      - nvidia,tegra30-sclk
+>>>> +                      - nvidia,tegra30-pllc
+>>>> +                      - nvidia,tegra30-plle
+>>>> +                      - nvidia,tegra30-pllm
+>>>> +              - const: nvidia,tegra-clock
+>>> You are saying the first string must be both one of the enums and 
+>>> 'nvidia,tegra-clock'. You don't get an error because your pattern 
+>>> doesn't match 'sclk'.
+>>>
+>>
+>> Could you please rephrase or clarify? If pattern doesn't match 'sclk',
+>> then it must match any other enum. I'm not sure what you're meaning.
+> 
+> "sclk" doesn't match "^[a-z]+[0-9]+$" because it's missing at least one
+> digit at the end. Perhaps that last + was supposed to be *?
 
-Both dma_resv_lock_interruptible() and dma_resv_lock() can return -EDEADLK. Protect
-against a NULL dereference by checking for NULL before saving the object pointer. This
-is consistent with previous checks for ww==NULL.
+Ah, the regex pattern. Yes, I forgot to update it.
 
-Addresses-Coverity: ("Dereference after null check")
+>> The 'nvidia,tegra-clock' actually could be removed since it's
+>> superfluous now. I'll consider the removal in v9.
+> 
+> It also looks like your schema was meant to be something like:
+> 
+> 	compatible:
+> 	  - items:
+> 	      - enum:
+> 	          - nvidia,tegra20-sclk
+> 	          - nvidia,tegra30-sclk
+> 	          - nvidia,tegra30-pllc
+> 	          - nvidia,tegra30-plle
+> 	          - nvidia,tegra30-pllm
+> 	      - const: nvidia,tegra-clock
+> 
+> Note how the const: element is indented one more level. Now this means:
+> one of the enumeration values, followed by the constant value. That
+> matches what the example has.
+> 
+> That said, I agree that nvidia,tegra-clock seems a bit useless. There's
+> really no such thing as a generic clock, they're all different in some
+> way.
 
-Cc: stable@vger.kernel.org
-Fixes: 80f0b679d6f0683f23cf98a511af3e44dd509472 ("drm/i915: Add an implementation for i915_gem_ww_ctx locking, v2.")
-Cc: kernel-janitors@vger.kernel.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Tim Gardner <tim.gardner@canonical.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_object.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 48112b9d76df..3391ca4f662a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -187,7 +187,7 @@ static inline int __i915_gem_object_lock(struct drm_i915_gem_object *obj,
- 	if (ret == -EALREADY)
- 		ret = 0;
- 
--	if (ret == -EDEADLK) {
-+	if (ret == -EDEADLK && ww) {
- 		i915_gem_object_get(obj);
- 		ww->contended = obj;
- 	}
--- 
-2.33.0
-
+It's a leftover from older versions of this patchset, I'll remove it.
