@@ -2,220 +2,983 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 425E53EFE84
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 10:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E65023EFF1B
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 10:26:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238955AbhHRIBZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 04:01:25 -0400
-Received: from mail-co1nam11on2046.outbound.protection.outlook.com ([40.107.220.46]:54880
-        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S237348AbhHRIBY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 04:01:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dfTLQ6YnLWS3A2IrVfHa6nxo2dmdzpQubYbhLvlW9YX2gtY4+Xi/wNb4Q27FHSzsj6UDKxC2V1AmbayBc41firi9RIDb6Hp/TPzv/mqyj/1nDzwfCY2Wv0FeC4MFL3MbyT6V8+w4Bo2JbjawYIiHfLQkzZauebQ22UWcLk/SkLVWlbRq9FMcCoYlWmfw9v9YueRlxx0q1b+waG+zVY0tfBnT74BD33aEu+jzPteJnTRJ6NJ67uEb15Ng4NTLx3G/9ZexxFPhdSCBpKzZjj9xYt/NPqLDJhIHjVRADAsXRRjmkvxoR/XKInp/KQBYZdYC+6A6fEP5KHbjubJk4pSNNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d1VJbNnnNAYVRN1sCYSkMwltVFzMza62UhuQSUH8goU=;
- b=NQz9JudVos8piNyP8cjeRYJ/4zTah/aVV8OLfyzLRZkU/itEZJhSIpbYg4k1cI7Ljp/jQyTlT2DfPyORfS689Vdubi5QKv0ig65avIoNmSKJltxOSlnvKZGbFLcPkh1itVEuIbT1jZmUJrl9e4HMDgvh/S/zQ8dmMWlvEcL9Vt7CLZAcMuy0Zdh+4+s7E0vJb7bPqmtnWDUMafBusl7ATxO5zBR8TIY2XjIGIozDVuhM4c3SF0nbHJMK4VfvCvI6k3ZvIJHcO8lk+JZPTKrhnb3NqPL/a42JNKXMi31IEdQ3lrOLtqRZsmJF/a3ZOBRhebdjB9jqliHNYLMFHxWjMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d1VJbNnnNAYVRN1sCYSkMwltVFzMza62UhuQSUH8goU=;
- b=3JgDaRsVPHhZ8SrRVLB0DLWkznfPedRQ5RgTiLdZyEAdlZAdD1ALrtO7vEtIABMdwwlssmvWa84YZ68Fw0J2sEbX6LNBMElmFkkyiWhCpg0va8ZhFSGGlaONIsCzmO/WkgSbw4s3F6Tj1s6PqoKmGlnKH0igDAUh+ZY690yfb6o=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4607.namprd12.prod.outlook.com (2603:10b6:208:a1::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.16; Wed, 18 Aug
- 2021 08:00:47 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4415.024; Wed, 18 Aug 2021
- 08:00:47 +0000
-Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
-To:     Gal Pressman <galpress@amazon.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        Oded Gabbay <ogabbay@habana.ai>,
-        Tomer Tayar <ttayar@habana.ai>,
-        Yossi Leybovich <sleybo@amazon.com>,
-        Alexander Matushevsky <matua@amazon.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Jianxin Xiong <jianxin.xiong@intel.com>
-References: <20210818074352.29950-1-galpress@amazon.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <3abaef49-2733-8b5e-3eaa-662a2a57b96e@amd.com>
-Date:   Wed, 18 Aug 2021 10:00:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210818074352.29950-1-galpress@amazon.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR10CA0073.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:15::26) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+        id S238561AbhHRI0x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 04:26:53 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:59167 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238168AbhHRI0w (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 18 Aug 2021 04:26:52 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 7945D24000B;
+        Wed, 18 Aug 2021 08:26:12 +0000 (UTC)
+Date:   Wed, 18 Aug 2021 10:27:00 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Thomas NIZAN <tnizan@witekio.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [RFC 2/5] media: i2c: Add MAX9271 I2C driver
+Message-ID: <20210818082700.tihxzs6yinvpf45h@uno.localdomain>
+References: <20210817072703.1167-1-jacopo+renesas@jmondi.org>
+ <20210817072703.1167-3-jacopo+renesas@jmondi.org>
+ <10e068ea-98c0-46ba-0013-5f0dfdc5f772@ideasonboard.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.178.21] (91.14.161.181) by AM0PR10CA0073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Wed, 18 Aug 2021 08:00:45 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1486a533-9738-48b7-4ef4-08d9621e49b1
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4607:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB460711431545F71C974C4CF683FF9@MN2PR12MB4607.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QmidLFnxCP9X4zOcKKCFszCW0nxu9kRdvDBarXmWZNxlq6UCQYpBIUTD0jhVtVj4SbjcMQb7JdSxe3BiHmxUwqTTRg2rDUgGyJaa8rPy9XpfSXPjWKosWAQ16X9HctMUzI/LEqdHf45Pep0b5c7BPGlipl8d+3xpKNqdHnAwgzFTSBxcfTQyiQbjMWoNOh6alL38LkibYJyYqq4EsKQC+G4Rn6ZKHcbn/KuQCX2WiNr9Tn6+TKPRoA3mRYYpVCsuyc58vueJaeRbMjWke+dpoq4QXTSfyssKjoqViidiHD2NXAB5fLMZHeIK3OlLB1f4MfAeJ9NRGrA/X3SS+5Clv2GFQtvVydSmEbkyglj+EzRSItqCvqGg4emKzcRdKImDLdgpqRk5njI48ZelDYxl7i5hxRWUaDaau2TKusrdULD+HtrWRqM0rx9RSAHhpAdd4xCmRd2rlZ25vfthElClW6IeUXtNX2MqF4FNej2e+BN/7VeT2Xif9+Sv1OqRvNfN83F8qA289UX7qDq1oo0qvixOGmsFMOrykrYKXAQN5hV2n2zWkilNewyJvpE17SS4PQdkhWJKqQoIOrWDKyXMbN3VcpJQLjxosD3pGGSz/Rs1cLGPYs/I1RA748LXQUlgj7msI9nbDzw4VE+q4MjfB8LPFBcHj3TDSaQPnCSL9SmXiYMJZQYX0MBnm+b4muXgIkbUk1JalIY3w2uPprSffFEN42BzSQOnOAmp8+teBHKkrLWzFA2zhTgIow+N6gB3
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(136003)(376002)(366004)(346002)(38100700002)(31696002)(31686004)(83380400001)(956004)(6666004)(86362001)(66556008)(4326008)(2906002)(186003)(7416002)(66476007)(5660300002)(66946007)(8936002)(478600001)(2616005)(8676002)(316002)(16576012)(6486002)(26005)(36756003)(110136005)(54906003)(43740500002)(45980500001)(309714004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N0hrcForZkd0WEhobmtNbUM3OE1BVDJHOUlZc1VmVHMxL3MrblNxWXE3WkVv?=
- =?utf-8?B?WjREM2ZMODJMK0cxTVV3YXpocGY3ZEllbU92OTVMTGZOeFRTdEoxY3NOaFUy?=
- =?utf-8?B?Qlk1U1kwK1Vqek1PeWwwNEg4bWtUZzZlVXZuUG1DMUVYNmVLZG13UW1kOGc1?=
- =?utf-8?B?cnhBdG9zRklqc1RDRDJUeE02blp3Rk14ejBqbHRMU3dBanBSRGl2NTVNb0lJ?=
- =?utf-8?B?MWN6a1hlZUFZeWtoTHltMS9FZ3gyTlVIcnBaSFZ5c1FGM3ZKdVJQNENHNmZT?=
- =?utf-8?B?R3J1VVdDNlp1OFpnVFUxMjRwR21oWkNNai84N1dyd29XNjk3LzhuRnVESXFn?=
- =?utf-8?B?eEJSb2hXK3FBWnVQYWtsMFRoQWtXeURVSy9xUzRYR1E5Zmg0cFlKY1NtL2Vw?=
- =?utf-8?B?SmoreitnT1FhaTFia0d5QUcrYTcxaWJXSVExY2Nkb24xN0lsN0FWbjI0dXBr?=
- =?utf-8?B?Z1RJd3N6ZmU3T0E1T1RHcDBVNnRTazlEb0tKQUY3VjNoNFIxOVNTTzlDaGRX?=
- =?utf-8?B?akE4c1k1VHBrVWtqNkxBUXdPOGdFQTJncWtrempKK1JxVzYybUdxQkp6cVA0?=
- =?utf-8?B?TUpLWnVOK2FXM0FhdWZnYXlrVXN1MWRKbGNkMFdQRUFhKzJhSUpNODdJcFhw?=
- =?utf-8?B?RUhqSXdRS1hXVDc2K1NXZFFGYkYzY3ZralVkSElzdHdoNXJHL2hLaEc0UGpE?=
- =?utf-8?B?NXk5OFkxRlpWdTVyb1NXeFhnWXZkZW1DazJOUGRQWVhWSTVlV01uU2JVT1hU?=
- =?utf-8?B?cU5MMzgyN3NTSU5rYTY1Rno4TThPeVF4VzMveUltV2NTRDJtQ2VHQkxYOGJp?=
- =?utf-8?B?cUFFRjliR1p1Umh2M1BpeHhKaE1wcktVcXowMS9xTGEwUDIzdGZOZlVnV0VE?=
- =?utf-8?B?bVhWd2JIUEFwdG5sSXBEcVRsdHlOZXdseHBpbWs4bzNiT1JiSGlrV2FpUHV1?=
- =?utf-8?B?MHE5MGttZlRTYmdNQUF3S1JrY0tNdE8yQTJtc3JYWXV1YWtrN2prZU9hTU1v?=
- =?utf-8?B?MUYrZ1k0dEZucnhTallvRlAwaGN0U3gzNVZBeThNQk9IR0F6YWtyRmI3Qi9l?=
- =?utf-8?B?YUwrbjYvSllxckNIN0pQeWZtaXlrbEJMRUpQUEp1bjlFWk5JQkE4SDg0Uzk1?=
- =?utf-8?B?QTVNTmF5czJjblNCdnYvRngwaFRBVjZJWHN6cUFueXFmLytIK3B2aW5md2pv?=
- =?utf-8?B?cVhNVUZVWklhUmQya05wQ2tPTDVmQ2x6MHNJNHNtaTBjWDBCOUlTUVhreTV6?=
- =?utf-8?B?b2VjYytkbXBMdGZldXRoaDVrc09QTnh1NkI1Zm5rOHRtbTZvcUtkSE96WmdD?=
- =?utf-8?B?d05HZC9DbHZGcjg2NmMwRWxxaUxROXBValJXRFZuOWJ3c0tJZmFqQVdUOUJW?=
- =?utf-8?B?S1NjekJPOG5ScGt3aVVxdWptVFptOGpIOVpDSktsdWtJRWpsN3dwTmJhVGZz?=
- =?utf-8?B?Ym5UdGZnTzFxSDJPbTBVRlAzbzJlOVFFOGRzY3RrQWhsQ25QYWUrWUhrZ2Jv?=
- =?utf-8?B?YkNySDQ2VEZWZ3o3Ti9Fa3FBUHFyWlh4VWlsTnl5Lzhsa1MyK0FpOGJvZjBv?=
- =?utf-8?B?Y0xBQmN2KzFSMURvdzNVSE1xb2l0TEh0U3NrSERkQTVDQzBuWDNGZW5Fa2Ni?=
- =?utf-8?B?c3JBV3FiVkpxVDVGeDVwQ1d6VnNwY3lnR0F4L2l0UWgwVjREeHdhTEZZK1FB?=
- =?utf-8?B?SmpxbkpKNUtsSXhZQktEbXl0d3J0VVhCN3hTU1o4eVp5OUVEWTRmWGRSekx1?=
- =?utf-8?Q?3L8bBCL0+smhpSUXCIL7nshdgVkp8gyfXnAOUzj?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1486a533-9738-48b7-4ef4-08d9621e49b1
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2021 08:00:47.6432
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qEW1rqPws5zSslIyKIWSc2W+GNUfyWL33XpaU4LR/xscRkaZSOylm+qjR4DGGg06
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4607
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <10e068ea-98c0-46ba-0013-5f0dfdc5f772@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 18.08.21 um 09:43 schrieb Gal Pressman:
-> Hey all,
+Hi Kieran, thanks for review!
+
+On Tue, Aug 17, 2021 at 04:49:17PM +0100, Kieran Bingham wrote:
+> Hi Jacopo,
 >
-> Currently, the RDMA subsystem can only work with dynamic dmabuf
-> attachments, which requires the RDMA device to support on-demand-paging
-> (ODP) which is not common on most devices (only supported by mlx5).
+> On 17/08/2021 08:27, Jacopo Mondi wrote:
+> > The MAX9271 is a GMSL serializer that serializes a video stream
+> > received from an image sensor through the parallel video bus.
 >
-> While the dynamic requirement makes sense for certain GPUs, some devices
-> (such as habanalabs) have device memory that is always "pinned" and do
-> not need/use the move_notify operation.
 >
-> The motivation of this RFC is to use habanalabs as the dmabuf exporter,
-> and EFA as the importer to allow for peer2peer access through libibverbs.
+> https://datasheets.maximintegrated.com/en/ds/MAX9271.pdf calls it a
+> "16-Bit GMSL Serializer with Coas or STP Cable Drive"
 >
-> This draft patch changes the dmabuf driver to differentiate between
-> static/dynamic attachments by looking at the move_notify op instead of
-> the importer_ops struct, and allowing the peer2peer flag to be enabled
-> in case of a static exporter.
 
-Well NAK to the general approach, this can be solved much easier.
-
-If you can't support dynamic moves while using the buffer then just pin 
-all buffers during import/export.
-
-This avoids the move notification and the framework/exporter can still 
-correctly account for pinned buffers.
-
-But please note that at least amdgpu never uses P2P support for pinned 
-buffers since we want to avoid that unmoveable buffers clutter video 
-memory and create conflicts with V4L and scanout.
-
-If you don't have such concerns in habanalabs then you can implement the 
-pinning there while keeping P2P still enabled.
-
-Regards,
-Christian.
+Nice we have a public datasheet now!
+Nice, well, it might mean GMSL is just old ?
 
 >
-> Thanks
+> > The serializer it's usually found embedded with an image sensor and
 >
-> Signed-off-by: Gal Pressman <galpress@amazon.com>
-> ---
->   drivers/dma-buf/dma-buf.c             | 5 +++--
->   drivers/infiniband/core/umem_dmabuf.c | 2 +-
->   include/linux/dma-buf.h               | 2 +-
->   3 files changed, 5 insertions(+), 4 deletions(-)
+> s/it's/is/
 >
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 511fe0d217a0..e3faad8f492c 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -727,7 +727,8 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->   	if (WARN_ON(!dmabuf || !dev))
->   		return ERR_PTR(-EINVAL);
->   
-> -	if (WARN_ON(importer_ops && !importer_ops->move_notify))
-> +	if (WARN_ON(importer_ops && !importer_ops->move_notify &&
-> +		    dma_buf_is_dynamic(attach->dmabuf)))
->   		return ERR_PTR(-EINVAL);
->   
->   	attach = kzalloc(sizeof(*attach), GFP_KERNEL);
-> @@ -1048,7 +1049,7 @@ void dma_buf_move_notify(struct dma_buf *dmabuf)
->   	dma_resv_assert_held(dmabuf->resv);
->   
->   	list_for_each_entry(attach, &dmabuf->attachments, node)
-> -		if (attach->importer_ops)
-> +		if (attach->importer_ops && attach->importer_ops->move_notify)
->   			attach->importer_ops->move_notify(attach);
->   }
->   EXPORT_SYMBOL_GPL(dma_buf_move_notify);
-> diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
-> index c6e875619fac..c502ae828bd3 100644
-> --- a/drivers/infiniband/core/umem_dmabuf.c
-> +++ b/drivers/infiniband/core/umem_dmabuf.c
-> @@ -118,7 +118,7 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
->   	if (check_add_overflow(offset, (unsigned long)size, &end))
->   		return ret;
->   
-> -	if (unlikely(!ops || !ops->move_notify))
-> +	if (unlikely(!ops))
->   		return ret;
->   
->   	dmabuf = dma_buf_get(fd);
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index efdc56b9d95f..4b2e99012cb1 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -473,7 +473,7 @@ static inline bool dma_buf_is_dynamic(struct dma_buf *dmabuf)
->   static inline bool
->   dma_buf_attachment_is_dynamic(struct dma_buf_attachment *attach)
->   {
-> -	return !!attach->importer_ops;
-> +	return !!attach->importer_ops->move_notify;
->   }
->   
->   struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+> > other ancillary chips in camera modules like RDACM20 and RDACM21.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  MAINTAINERS                 |   9 +
+> >  drivers/media/i2c/Kconfig   |  12 +
+> >  drivers/media/i2c/Makefile  |   1 +
+> >  drivers/media/i2c/max9271.c | 756 ++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 778 insertions(+)
+> >  create mode 100644 drivers/media/i2c/max9271.c
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 7ad89cac19b7..2dab25a08c9c 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -11244,6 +11244,15 @@ F:	Documentation/hwmon/max6697.rst
+> >  F:	drivers/hwmon/max6697.c
+> >  F:	include/linux/platform_data/max6697.h
+> >
+> > +MAX9271 GMSL SERIALIZER DRIVER
+> > +M:	Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > +M:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > +M:	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > +M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > +L:	linux-media@vger.kernel.org
+> > +S:	Maintained
+> > +F:	drivers/media/i2c/max9271.c
+> > +
+> >  MAX9286 QUAD GMSL DESERIALIZER DRIVER
+> >  M:	Jacopo Mondi <jacopo+renesas@jmondi.org>
+> >  M:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > index 08feb3e8c1bf..b793d1f322d9 100644
+> > --- a/drivers/media/i2c/Kconfig
+> > +++ b/drivers/media/i2c/Kconfig
+> > @@ -1300,6 +1300,18 @@ source "drivers/media/i2c/m5mols/Kconfig"
+> >  config VIDEO_MAX9271_LIB
+> >  	tristate
+> >
+> > +config VIDEO_MAX9271
+> > +	tristate "MAX9271 GMSL serializer support"
+> > +	depends on I2C
+> > +	select V4L2_FWNODE
+> > +	select VIDEO_V4L2_SUBDEV_API
+> > +	select MEDIA_CONTROLLER
+> > +	help
+> > +	  This driver supports the Maxim MAX9271 GMSL serializer.
+> > +
+> > +	  To compile this driver as a module, choose M here: the
+> > +	  module will be called max9271.
+> > +
+> >  config VIDEO_RDACM20
+> >  	tristate "IMI RDACM20 camera support"
+> >  	depends on I2C
+> > diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> > index 4d879373bd48..37bb51065574 100644
+> > --- a/drivers/media/i2c/Makefile
+> > +++ b/drivers/media/i2c/Makefile
+> > @@ -130,6 +130,7 @@ obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
+> >  obj-$(CONFIG_VIDEO_IMX412)	+= imx412.o
+> >  obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
+> >  obj-$(CONFIG_VIDEO_MAX9271_LIB)	+= max9271-lib.o
+> > +obj-$(CONFIG_VIDEO_MAX9271)	+= max9271.o
+> >  obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20.o
+> >  obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21.o
+> >  obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
+> > diff --git a/drivers/media/i2c/max9271.c b/drivers/media/i2c/max9271.c
+> > new file mode 100644
+> > index 000000000000..64987cba3d3e
+> > --- /dev/null
+> > +++ b/drivers/media/i2c/max9271.c
+> > @@ -0,0 +1,756 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/*
+> > + * Copyright (C) 2017-2021 Jacopo Mondi
+> > + * Copyright (C) 2017-2020 Kieran Bingham
+> > + * Copyright (C) 2017-2019 Laurent Pinchart
+> > + * Copyright (C) 2017-2019 Niklas Söderlund
+> > + * Copyright (C) 2016 Renesas Electronics Corporation
+> > + * Copyright (C) 2015 Cogent Embedded, Inc.
+> > + */
+> > +
+> > +#include <linux/delay.h>
+> > +#include <linux/fwnode.h>
+> > +#include <linux/init.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/module.h>
+> > +#include <linux/property.h>
+> > +
+> > +#include <media/v4l2-async.h>
+> > +#include <media/v4l2-ctrls.h>
+> > +#include <media/v4l2-fwnode.h>
+> > +#include <media/v4l2-subdev.h>
+> > +
+> > +#define MAX9271_DEFAULT_ADDR	0x40
+> > +
+> > +/* Register 0x02 */
+> > +#define MAX9271_SPREAD_SPECT_0		(0 << 5)
+> > +#define MAX9271_SPREAD_SPECT_05		(1 << 5)
+> > +#define MAX9271_SPREAD_SPECT_15		(2 << 5)
+> > +#define MAX9271_SPREAD_SPECT_1		(5 << 5)
+> > +#define MAX9271_SPREAD_SPECT_2		(3 << 5)
+> > +#define MAX9271_SPREAD_SPECT_3		(6 << 5)
+> > +#define MAX9271_SPREAD_SPECT_4		(7 << 5)
+> > +#define MAX9271_R02_RES			BIT(4)
+> > +#define MAX9271_PCLK_AUTODETECT		(3 << 2)
+> > +#define MAX9271_SERIAL_AUTODETECT	(0x03)
+> > +/* Register 0x04 */
+> > +#define MAX9271_SEREN			BIT(7)
+> > +#define MAX9271_CLINKEN			BIT(6)
+> > +#define MAX9271_PRBSEN			BIT(5)
+> > +#define MAX9271_SLEEP			BIT(4)
+> > +#define MAX9271_INTTYPE_I2C		(0 << 2)
+> > +#define MAX9271_INTTYPE_UART		(1 << 2)
+> > +#define MAX9271_INTTYPE_NONE		(2 << 2)
+> > +#define MAX9271_REVCCEN			BIT(1)
+> > +#define MAX9271_FWDCCEN			BIT(0)
+> > +/* Register 0x07 */
+> > +#define MAX9271_DBL			BIT(7)
+> > +#define MAX9271_DRS			BIT(6)
+> > +#define MAX9271_BWS			BIT(5)
+> > +#define MAX9271_ES			BIT(4)
+> > +#define MAX9271_HVEN			BIT(2)
+> > +#define MAX9271_EDC_1BIT_PARITY		(0 << 0)
+> > +#define MAX9271_EDC_6BIT_CRC		(1 << 0)
+> > +#define MAX9271_EDC_6BIT_HAMMING	(2 << 0)
+> > +/* Register 0x08 */
+> > +#define MAX9271_INVVS			BIT(7)
+> > +#define MAX9271_INVHS			BIT(6)
+> > +#define MAX9271_REV_LOGAIN		BIT(3)
+> > +#define MAX9271_REV_HIVTH		BIT(0)
+> > +/* Register 0x09 */
+> > +#define MAX9271_ID			0x09
+> > +/* Register 0x0d */
+> > +#define MAX9271_I2CLOCACK		BIT(7)
+> > +#define MAX9271_I2CSLVSH_1046NS_469NS	(3 << 5)
+> > +#define MAX9271_I2CSLVSH_938NS_352NS	(2 << 5)
+> > +#define MAX9271_I2CSLVSH_469NS_234NS	(1 << 5)
+> > +#define MAX9271_I2CSLVSH_352NS_117NS	(0 << 5)
+> > +#define MAX9271_I2CMSTBT_837KBPS	(7 << 2)
+> > +#define MAX9271_I2CMSTBT_533KBPS	(6 << 2)
+> > +#define MAX9271_I2CMSTBT_339KBPS	(5 << 2)
+> > +#define MAX9271_I2CMSTBT_173KBPS	(4 << 2)
+> > +#define MAX9271_I2CMSTBT_105KBPS	(3 << 2)
+> > +#define MAX9271_I2CMSTBT_84KBPS		(2 << 2)
+> > +#define MAX9271_I2CMSTBT_28KBPS		(1 << 2)
+> > +#define MAX9271_I2CMSTBT_8KBPS		(0 << 2)
+> > +#define MAX9271_I2CSLVTO_NONE		(3 << 0)
+> > +#define MAX9271_I2CSLVTO_1024US		(2 << 0)
+> > +#define MAX9271_I2CSLVTO_256US		(1 << 0)
+> > +#define MAX9271_I2CSLVTO_64US		(0 << 0)
+> > +/* Register 0x0f */
+> > +#define MAX9271_GPIO5OUT		BIT(5)
+> > +#define MAX9271_GPIO4OUT		BIT(4)
+> > +#define MAX9271_GPIO3OUT		BIT(3)
+> > +#define MAX9271_GPIO2OUT		BIT(2)
+> > +#define MAX9271_GPIO1OUT		BIT(1)
+> > +#define MAX9271_GPO			BIT(0)
+> > +/* Register 0x15 */
+> > +#define MAX9271_PCLKDET			BIT(0)
+> > +
+> > +struct max9271_device {
+> > +	struct device			*dev;
+> > +	struct i2c_client		*client;
+> > +	struct v4l2_subdev		sd;
+> > +#define MAX9271_SOURCE_PAD	0
+> > +#define MAX9271_SINK_PAD	1
+> > +	struct media_pad		pads[2];
+> > +	struct v4l2_async_notifier	notifier;
+> > +	struct v4l2_async_subdev	*asd;
+> > +	struct v4l2_ctrl_handler	ctrls;
+> > +	struct v4l2_subdev		*sensor;
+> > +};
+> > +
+> > +static inline struct max9271_device *sd_to_max9271(struct v4l2_subdev *sd)
+> > +{
+> > +	return container_of(sd, struct max9271_device, sd);
+> > +}
+> > +
+> > +static inline struct max9271_device *i2c_to_max9271(struct i2c_client *client)
+> > +{
+> > +	return sd_to_max9271(i2c_get_clientdata(client));
+> > +}
+> > +
+> > +static inline struct max9271_device *notifier_to_max9271(
+> > +						struct v4l2_async_notifier *nf)
+> > +{
+> > +	return container_of(nf, struct max9271_device, notifier);
+> > +}
+> > +
+> > +/* --- MAX9271 hardware operations --- */
+> > +
+> > +static int max9271_read(struct max9271_device *dev, u8 reg)
+> > +{
+> > +	int ret;
+> > +
+> > +	dev_dbg(&dev->client->dev, "%s(0x%02x)\n", __func__, reg);
+> > +
+> > +	ret = i2c_smbus_read_byte_data(dev->client, reg);
+> > +	if (ret < 0)
+> > +		dev_dbg(&dev->client->dev,
+> > +			"%s: register 0x%02x read failed (%d)\n",
+> > +			__func__, reg, ret);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int max9271_write(struct max9271_device *dev, u8 reg, u8 val)
+> > +{
+> > +	int ret;
+> > +
+> > +	dev_dbg(&dev->client->dev, "%s(0x%02x, 0x%02x)\n", __func__, reg, val);
+> > +
+> > +	ret = i2c_smbus_write_byte_data(dev->client, reg, val);
+> > +	if (ret < 0)
+> > +		dev_err(&dev->client->dev,
+> > +			"%s: register 0x%02x write failed (%d)\n",
+> > +			__func__, reg, ret);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +/*
+> > + * max9271_pclk_detect() - Detect valid pixel clock from image sensor
+> > + *
+> > + * Wait up to 10ms for a valid pixel clock.
+> > + *
+> > + * Returns 0 for success, < 0 for pixel clock not properly detected
+> > + */
+> > +static int max9271_pclk_detect(struct max9271_device *dev)
+> > +{
+> > +	unsigned int i;
+> > +	int ret;
+> > +
+> > +	for (i = 0; i < 100; i++) {
+> > +		ret = max9271_read(dev, 0x15);
+> > +		if (ret < 0)
+> > +			return ret;
+> > +
+> > +		if (ret & MAX9271_PCLKDET)
+> > +			return 0;
+> > +
+> > +		usleep_range(50, 100);
+> > +	}
+> > +
+> > +	dev_err(&dev->client->dev, "Unable to detect valid pixel clock\n");
+> > +
+> > +	return -EIO;
+> > +}
+> > +
+> > +static void max9271_wake_up(struct max9271_device *dev)
+> > +{
+> > +	/*
+> > +	 * Use the chip default address as this function has to be called
+> > +	 * before any other one.
+> > +	 */
+> > +	dev->client->addr = MAX9271_DEFAULT_ADDR;
+> > +	i2c_smbus_read_byte(dev->client);
+> > +	usleep_range(5000, 8000);
+> > +}
+> > +
+> > +static int max9271_set_serial_link(struct max9271_device *dev, bool enable)
+> > +{
+> > +	int ret;
+> > +	u8 val = MAX9271_REVCCEN | MAX9271_FWDCCEN;
+> > +
+> > +	if (enable) {
+> > +		ret = max9271_pclk_detect(dev);
+> > +		if (ret)
+> > +			return ret;
+> > +
+> > +		val |= MAX9271_SEREN;
+> > +	} else {
+> > +		val |= MAX9271_CLINKEN;
+> > +	}
+> > +
+> > +	/*
+> > +	 * The serializer temporarily disables the reverse control channel for
+> > +	 * 350µs after starting/stopping the forward serial link, but the
+> > +	 * deserializer synchronization time isn't clearly documented.
+> > +	 *
+> > +	 * According to the serializer datasheet we should wait 3ms, while
+> > +	 * according to the deserializer datasheet we should wait 5ms.
+> > +	 *
+> > +	 * Short delays here appear to show bit-errors in the writes following.
+> > +	 * Therefore a conservative delay seems best here.
+> > +	 */
+> > +	ret = max9271_write(dev, 0x04, val);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	usleep_range(5000, 8000);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int max9271_configure_i2c(struct max9271_device *dev, u8 i2c_config)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = max9271_write(dev, 0x0d, i2c_config);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	/* The delay required after an I2C bus configuration change is not
+>
+> /*
+>  * The delay ... ?
+>
 
+Ah, ups
+
+>
+>
+> > +	 * characterized in the serializer manual. Sleep up to 5msec to
+> > +	 * stay safe.
+> > +	 */
+> > +	usleep_range(3500, 5000);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int max9271_set_high_threshold(struct max9271_device *dev, bool enable)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = max9271_read(dev, 0x08);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	/*
+> > +	 * Enable or disable reverse channel high threshold to increase
+> > +	 * immunity to power supply noise.
+> > +	 */
+> > +	ret = max9271_write(dev, 0x08, enable ? ret | BIT(0) : ret & ~BIT(0));
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	usleep_range(2000, 2500);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int max9271_configure_gmsl_link(struct max9271_device *dev)
+> > +{
+> > +	int ret;
+> > +
+> > +	/*
+> > +	 * Configure the GMSL link:
+> > +	 *
+> > +	 * - Double input mode, high data rate, 24-bit mode
+> > +	 * - Latch input data on PCLKIN rising edge
+> > +	 * - Enable HS/VS encoding
+> > +	 * - 1-bit parity error detection
+> > +	 *
+> > +	 * TODO: Make the GMSL link configuration parametric.
+> > +	 */
+> > +	ret = max9271_write(dev, 0x07, MAX9271_DBL | MAX9271_HVEN |
+> > +			    MAX9271_EDC_1BIT_PARITY);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	usleep_range(5000, 8000);
+> > +
+> > +	/*
+> > +	 * Adjust spread spectrum to +4% and auto-detect pixel clock
+> > +	 * and serial link rate.
+> > +	 */
+> > +	ret = max9271_write(dev, 0x02,
+> > +			    MAX9271_SPREAD_SPECT_4 | MAX9271_R02_RES |
+> > +			    MAX9271_PCLK_AUTODETECT |
+> > +			    MAX9271_SERIAL_AUTODETECT);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	usleep_range(5000, 8000);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int max9271_set_gpios(struct max9271_device *dev, u8 gpio_mask)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = max9271_read(dev, 0x0f);
+>
+> What is 0x0f?
+>
+> Ah - the registers are unnamed...
+>
+> Seems a shame..
+
+It is a bit. If the overall approach is validated, I'll go and
+beautify the driver.
+
+>
+>
+> > +	if (ret < 0)
+> > +		return 0;
+> > +
+> > +	ret |= gpio_mask;
+> > +	ret = max9271_write(dev, 0x0f, ret);
+> > +	if (ret < 0) {
+> > +		dev_err(&dev->client->dev, "Failed to set gpio (%d)\n", ret);
+> > +		return ret;
+> > +	}
+> > +
+> > +	usleep_range(3500, 5000);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int max9271_clear_gpios(struct max9271_device *dev, u8 gpio_mask)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = max9271_read(dev, 0x0f);
+> > +	if (ret < 0)
+> > +		return 0;
+> > +
+> > +	ret &= ~gpio_mask;
+> > +	ret = max9271_write(dev, 0x0f, ret);
+> > +	if (ret < 0) {
+> > +		dev_err(&dev->client->dev, "Failed to clear gpio (%d)\n", ret);
+> > +		return ret;
+> > +	}
+> > +
+> > +	usleep_range(3500, 5000);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int max9271_enable_gpios(struct max9271_device *dev, u8 gpio_mask)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = max9271_read(dev, 0x0e);
+> > +	if (ret < 0)
+> > +		return 0;
+> > +
+> > +	/* BIT(0) reserved: GPO is always enabled. */
+> > +	ret |= (gpio_mask & ~BIT(0));
+> > +	ret = max9271_write(dev, 0x0e, ret);
+> > +	if (ret < 0) {
+> > +		dev_err(&dev->client->dev, "Failed to enable gpio (%d)\n", ret);
+> > +		return ret;
+> > +	}
+> > +
+> > +	usleep_range(3500, 5000);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int max9271_verify_id(struct max9271_device *dev)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = max9271_read(dev, 0x1e);
+> > +	if (ret < 0) {
+> > +		dev_err(&dev->client->dev, "MAX9271 ID read failed (%d)\n",
+> > +			ret);
+> > +		return ret;
+> > +	}
+> > +
+> > +	if (ret != MAX9271_ID) {
+> > +		dev_err(&dev->client->dev, "MAX9271 ID mismatch (0x%02x)\n",
+> > +			ret);
+> > +		return -ENXIO;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int max9271_set_address(struct max9271_device *dev, u8 addr)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = max9271_write(dev, 0x00, addr << 1);
+> > +	if (ret < 0) {
+> > +		dev_err(&dev->client->dev,
+> > +			"MAX9271 I2C address change failed (%d)\n", ret);
+> > +		return ret;
+> > +	}
+> > +	usleep_range(3500, 5000);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/* --- V4L2 Subdev Ops --- */
+> > +
+> > +static int max9271_s_stream(struct v4l2_subdev *sd, int enable)
+> > +{
+> > +	struct max9271_device *max9271 = sd_to_max9271(sd);
+> > +
+> > +	return max9271_set_serial_link(max9271, enable);
+> > +}
+> > +
+> > +static int max9271_enum_mbus_code(struct v4l2_subdev *sd,
+> > +				  struct v4l2_subdev_state *sd_state,
+> > +				  struct v4l2_subdev_mbus_code_enum *code)
+> > +{
+> > +	struct max9271_device *max9271 = sd_to_max9271(sd);
+> > +
+> > +	return v4l2_subdev_call(max9271->sensor, pad, enum_mbus_code, NULL,
+> > +				code);
+> > +}
+> > +
+> > +static int max9271_get_fmt(struct v4l2_subdev *sd,
+> > +			   struct v4l2_subdev_state *sd_state,
+> > +			   struct v4l2_subdev_format *format)
+> > +{
+> > +	struct max9271_device *max9271 = sd_to_max9271(sd);
+> > +
+> > +	return v4l2_subdev_call(max9271->sensor, pad, get_fmt, NULL,
+> > +				format);
+> > +}
+> > +
+> > +static int max9271_set_fmt(struct v4l2_subdev *sd,
+> > +			   struct v4l2_subdev_state *sd_state,
+> > +			   struct v4l2_subdev_format *format)
+> > +{
+> > +	struct max9271_device *max9271 = sd_to_max9271(sd);
+> > +
+> > +	return v4l2_subdev_call(max9271->sensor, pad, set_fmt, NULL,
+> > +				format);
+> > +}
+> > +
+> > +static int max9271_post_register(struct v4l2_subdev *sd)
+> > +{
+> > +	struct max9271_device *max9271 = sd_to_max9271(sd);
+> > +	int ret;
+> > +
+> > +	ret = max9271_verify_id(max9271);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	ret = max9271_enable_gpios(max9271, MAX9271_GPIO1OUT);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = max9271_configure_gmsl_link(max9271);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct v4l2_subdev_video_ops max9271_video_ops = {
+> > +	.s_stream	= max9271_s_stream,
+> > +};
+> > +
+> > +static const struct v4l2_subdev_pad_ops max9271_subdev_pad_ops = {
+> > +	.enum_mbus_code = max9271_enum_mbus_code,
+> > +	.get_fmt	= max9271_get_fmt,
+> > +	.set_fmt	= max9271_set_fmt,
+> > +};
+> > +
+> > +static const struct v4l2_subdev_core_ops max9271_core_ops = {
+> > +	.post_register	= max9271_post_register,
+> > +};
+> > +
+> > +static const struct v4l2_subdev_ops max9271_subdev_ops = {
+> > +	.core		= &max9271_core_ops,
+> > +	.video		= &max9271_video_ops,
+> > +	.pad		= &max9271_subdev_pad_ops,
+> > +};
+> > +
+> > +/* --- V4L2 Async Notifier --- */
+> > +
+> > +static int max9271_notify_bound(struct v4l2_async_notifier *notifier,
+> > +				struct v4l2_subdev *subdev,
+> > +				struct v4l2_async_subdev *asd)
+> > +{
+> > +	struct max9271_device *max9271 = notifier_to_max9271(notifier);
+> > +	int ret, pad;
+> > +
+> > +	/*
+> > +	 * Reserve more space than necessary for controls inherited by the
+> > +	 * remote subdev.
+> > +	 */
+> > +	ret = v4l2_ctrl_handler_init(&max9271->ctrls, 16);
+> > +	if (ret < 0) {
+> > +		dev_err(max9271->dev,
+> > +			"Unable to initialize control handler: %d\n", ret);
+> > +		return ret;
+> > +	}
+> > +
+> > +	ret = v4l2_ctrl_add_handler(&max9271->ctrls, subdev->ctrl_handler,
+> > +				    NULL, true);
+> > +	if (ret < 0) {
+> > +		dev_err(max9271->dev,
+> > +			"Unable to add subdev control handler: %d\n", ret);
+> > +		goto error_free_handler;
+> > +	}
+> > +	max9271->sd.ctrl_handler = &max9271->ctrls;
+> > +
+> > +	/* Create media link with the remote sensor source pad. */
+> > +	pad = media_entity_get_fwnode_pad(&subdev->entity, asd->match.fwnode,
+> > +					  MEDIA_PAD_FL_SOURCE);
+> > +	if (pad < 0) {
+> > +		dev_err(max9271->dev,
+> > +			"Failed to find source pad for %s\n", subdev->name);
+> > +		ret = pad;
+> > +		goto error_free_handler;
+> > +	}
+> > +
+> > +	ret = media_create_pad_link(&subdev->entity, pad,
+> > +				    &max9271->sd.entity, MAX9271_SINK_PAD,
+> > +				    MEDIA_LNK_FL_ENABLED |
+> > +				    MEDIA_LNK_FL_IMMUTABLE);
+> > +	if (ret)
+> > +		goto error_free_handler;
+> > +
+> > +	max9271->sensor = subdev;
+> > +
+> > +	/*
+> > +	 * Hold OV10635 in reset during max9271 configuration. The reset signal
+>
+> Hold the sensor in reset ...
+>
+> But are all sensors guaranteed to be connected to the GPIO in the same way?
+>
+> Will this cause us issues? - does the GPIO need to be modelled somehow
+> to determine what's connected to them?
+>
+>
+>
+> > +	 * has to be asserted for at least 200 microseconds.
+> > +	 */
+> > +	ret = max9271_clear_gpios(max9271, MAX9271_GPIO1OUT);
+> > +	if (ret)
+> > +		return ret;
+> > +	usleep_range(200, 500);
+> > +
+> > +	/*
+> > +	 * Release ov10635 from reset and initialize it. The image sensor
+> > +	 * requires at least 2048 XVCLK cycles (85 micro-seconds at 24MHz)
+> > +	 * before being available. Stay safe and wait up to 500 micro-seconds.
+>
+> More sensor specific ... what needs to be abstracted here?
+
+Yes indeed. As pointed out in the cover letter the handling of the
+sensor's reset line should go through the gpiod API, and will probably
+require installing a gpiochip in the max9271 driver.
+
+>
+>
+> > +	 */
+> > +	ret = max9271_set_gpios(max9271, MAX9271_GPIO1OUT);
+> > +	if (ret)
+> > +		return ret;
+> > +	usleep_range(100, 500);
+> > +
+> > +	/*
+> > +	 * Call the sensor post_register operation to complete its
+> > +	 * initialization.
+> > +	 */
+> > +	ret = v4l2_subdev_call(max9271->sensor, core, post_register);
+> > +	if (ret) {
+> > +		dev_err(max9271->dev, "Failed to initialize sensor %u\n", ret);
+> > +		goto error_remove_link;
+> > +	}
+> > +
+> > +	return 0;
+> > +
+> > +error_remove_link:
+> > +	media_entity_remove_links(&max9271->sd.entity);
+> > +	max9271->sensor = NULL;
+> > +
+> > +error_free_handler:
+> > +	v4l2_ctrl_handler_free(&max9271->ctrls);
+> > +	max9271->sd.ctrl_handler = NULL;
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static void max9271_notify_unbind(struct v4l2_async_notifier *notifier,
+> > +				  struct v4l2_subdev *subdev,
+> > +				  struct v4l2_async_subdev *asd)
+> > +{
+> > +	struct max9271_device *max9271 = notifier_to_max9271(notifier);
+> > +
+> > +	media_entity_remove_links(&max9271->sd.entity);
+> > +	max9271->sensor = NULL;
+> > +}
+> > +
+> > +static const struct v4l2_async_notifier_operations max9271_notifier_ops = {
+> > +	.bound = max9271_notify_bound,
+> > +	.unbind = max9271_notify_unbind,
+> > +};
+> > +
+> > +static int max9271_parse_dt(struct max9271_device *max9271)
+> > +{
+> > +	struct fwnode_handle *ep, *remote;
+> > +	struct v4l2_fwnode_endpoint vep = {
+> > +		.bus_type = V4L2_MBUS_PARALLEL,
+> > +	};
+> > +	int ret;
+> > +
+> > +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(max9271->dev), 1, 0, 0);
+> > +	if (!ep) {
+> > +		dev_err(max9271->dev, "Unable to get sensor endpoint: %pOF\n",
+> > +			max9271->dev->of_node);
+> > +		return -ENOENT;
+> > +	}
+> > +
+> > +	remote = fwnode_graph_get_remote_endpoint(ep);
+> > +	if (!remote) {
+> > +		dev_err(max9271->dev, "Unable to get remote endpoint: %pOF\n",
+> > +			max9271->dev->of_node);
+> > +		return -ENOENT;
+> > +	}
+> > +
+> > +	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> > +	fwnode_handle_put(ep);
+> > +	if (ret) {
+> > +		fwnode_handle_put(remote);
+> > +		dev_err(max9271->dev, "Unable to parse endpoint: %pOF\n",
+> > +			to_of_node(ep));
+> > +		return ret;
+> > +	}
+> > +
+> > +	v4l2_async_notifier_init(&max9271->notifier);
+> > +	max9271->asd = v4l2_async_notifier_add_fwnode_subdev(&max9271->notifier,
+> > +					      remote, struct v4l2_async_subdev);
+> > +	fwnode_handle_put(remote);
+> > +	if (IS_ERR(max9271->asd))
+> > +		return PTR_ERR(max9271->asd);
+> > +
+> > +	max9271->notifier.ops = &max9271_notifier_ops;
+> > +	max9271->notifier.flags = V4L2_ASYNC_NOTIFIER_DEFER_POST_REGISTER;
+>
+> This looks new, I'll have to read up on it ...
+
+It is. I am pushing to get feedback on this since a few months now.
+If you wish to help:
+https://patchwork.linuxtv.org/project/linux-media/list/?series=5847
+
+>
+>
+> > +	ret = v4l2_async_subdev_notifier_register(&max9271->sd,
+> > +						  &max9271->notifier);
+> > +	if (ret < 0) {
+> > +		v4l2_async_notifier_cleanup(&max9271->notifier);
+> > +		return ret;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int max9271_init(struct max9271_device *max9271)
+> > +{
+> > +	int ret;
+> > +	u8 addr;
+> > +
+> > +	max9271_wake_up(max9271);
+>
+> This call has just set max9271->client->addr = MAX9271_DEFAULT_ADDR, so
+> the original has now been lost.
+
+Doh! I overlooked the fact max9271_wake_up() silently overwrites the
+i2c client address. For the reasons explained in the cover letter I've
+been able to test this patch with a single camera only, so the issue
+went unnoticed here. Thanks for spotting!
+
+>
+>
+> > +
+> > +	/* Re-program the chip address. */
+> > +	addr = max9271->client->addr;
+> > +	max9271->client->addr = MAX9271_DEFAULT_ADDR;
+> > +	ret = max9271_set_address(max9271, addr);
+>
+> So this is currently broken :S
+>
+> > +	if (ret < 0)
+> > +		return ret;
+> > +	max9271->client->addr = addr;
+> > +
+> > +	/* Serial link disabled during conf as it needs a valid pixel clock. */
+> > +	ret = max9271_set_serial_link(max9271, false);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	/*
+> > +	 *  Ensure that we have a good link configuration before attempting to
+> > +	 *  identify the device.
+> > +	 */
+> > +	ret = max9271_configure_i2c(max9271, MAX9271_I2CSLVSH_469NS_234NS |
+> > +					     MAX9271_I2CSLVTO_1024US |
+> > +					     MAX9271_I2CMSTBT_105KBPS);
+>
+> Are these parameters tied to the max9286 ?
+>
+
+More to the I2c bus configuration and should probably be made
+configurable through the canonical i2c DTS properties.
+
+>
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	/*
+> > +	 * Set reverse channel high threshold to increase noise immunity.
+> > +	 *
+> > +	 * This should be compensated by increasing the reverse channel
+> > +	 * amplitude on the remote deserializer side.
+> > +	 */
+> > +	return max9271_set_high_threshold(max9271, true);
+> > +}
+> > +
+> > +static int max9271_probe(struct i2c_client *client)
+> > +{
+> > +	struct max9271_device *max9271;
+> > +	struct fwnode_handle *ep;
+> > +	int ret;
+> > +
+> > +	max9271 = devm_kzalloc(&client->dev, sizeof(*max9271), GFP_KERNEL);
+> > +	if (!max9271)
+> > +		return -ENOMEM;
+> > +	max9271->dev = &client->dev;
+> > +	max9271->client = client;
+> > +
+> > +	/* Initialize and register the subdevice. */
+> > +	v4l2_i2c_subdev_init(&max9271->sd, client, &max9271_subdev_ops);
+> > +	max9271->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > +	max9271->pads[MAX9271_SOURCE_PAD].flags = MEDIA_PAD_FL_SOURCE;
+> > +	max9271->pads[MAX9271_SINK_PAD].flags = MEDIA_PAD_FL_SINK;
+> > +	max9271->sd.entity.flags |= MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
+>
+> Is it a formatter - do we need a new/different entity type?
+
+I admit I had an hard time choosing the correct entity type :)
+
+>
+>
+> > +	ret = media_entity_pads_init(&max9271->sd.entity, 2, max9271->pads);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(max9271->dev), 0, 0, 0);
+> > +	if (!ep) {
+> > +		dev_err(max9271->dev, "Unable to get endpoint 0: %pOF\n",
+> > +			max9271->dev->of_node);
+> > +		ret = -ENODEV;
+> > +		goto error_media_entity;
+> > +	}
+> > +
+> > +	max9271->sd.fwnode = ep;
+> > +	ret = v4l2_async_register_subdev(&max9271->sd);
+> > +	if (ret)
+> > +		goto error_put_node;
+> > +
+> > +	ret = max9271_parse_dt(max9271);
+> > +	if (ret)
+> > +		goto error_unregister_subdev;
+> > +
+> > +	ret = max9271_init(max9271);
+> > +	if (ret)
+> > +		goto error_unregister_subdev;
+> > +
+> > +	return 0;
+> > +
+> > +error_unregister_subdev:
+> > +	v4l2_async_unregister_subdev(&max9271->sd);
+> > +error_put_node:
+> > +	fwnode_handle_put(max9271->sd.fwnode);
+> > +error_media_entity:
+> > +	media_entity_cleanup(&max9271->sd.entity);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int max9271_remove(struct i2c_client *client)
+> > +{
+> > +	struct max9271_device *max9271 = i2c_to_max9271(client);
+> > +
+> > +	v4l2_ctrl_handler_free(&max9271->ctrls);
+> > +	v4l2_async_notifier_cleanup(&max9271->notifier);
+> > +	v4l2_async_unregister_subdev(&max9271->sd);
+> > +	fwnode_handle_put(max9271->sd.fwnode);
+> > +	media_entity_cleanup(&max9271->sd.entity);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct of_device_id max9271_of_ids[] = {
+> > +	{ .compatible = "imi,max9271", },
+>
+> This should be a 'maxim' prefix now, not IMI.
+>
+
+Indeed!
+
+Thanks
+  j
+
+>
+> > +	{ }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, max9271_of_ids);
+> > +
+> > +static struct i2c_driver max9271_i2c_driver = {
+> > +	.driver	= {
+> > +		.name	= "max9271",
+> > +		.of_match_table = max9271_of_ids,
+> > +	},
+> > +	.probe_new	= max9271_probe,
+> > +	.remove		= max9271_remove,
+> > +};
+> > +
+> > +module_i2c_driver(max9271_i2c_driver);
+> > +
+> > +MODULE_DESCRIPTION("MAX9271 GMSL serializer subdevice driver");
+> > +MODULE_AUTHOR("Jacopo Mondi");
+> > +MODULE_LICENSE("GPL");
+> >
