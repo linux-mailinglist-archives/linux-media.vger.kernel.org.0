@@ -2,178 +2,322 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 623EA3F03EB
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 14:46:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAF893F03EF
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 14:47:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235627AbhHRMrU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 08:47:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54322 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233634AbhHRMrU (ORCPT
+        id S235907AbhHRMrl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 08:47:41 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46972 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233634AbhHRMrk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 08:47:20 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B129C061764
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 05:46:45 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id k29so3320208wrd.7
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 05:46:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=uP7fJxLQ5TTQ8aYHYwLJ/kNb8CkLiwmQWgbmcKMOm0w=;
-        b=PS2hT9t/9lt08j1dPeij1H4maeOQEorQjjXGvVlj3rdRK5EGB3LBdL6ZFc5ihgsxu6
-         Raz3EniFUixp+J6NugUiY1vx8r7+9nC42cxjcI6WOR8VaONMTiKSM8toXdb/UC7G9576
-         ozvIPU2VygZBZ9UvUWtEYcANJ4iW6Vtt9Cpmc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=uP7fJxLQ5TTQ8aYHYwLJ/kNb8CkLiwmQWgbmcKMOm0w=;
-        b=ABxGLbRVlWYzjiifMWoTZiRAVwjZKOtzTP+Y+o68OvTinBEoJxV05mZyZjsSkrHMkv
-         bqyrZTI8W4NK60kIXqCNV0XdXuWWY2wQE2ATBQDdS93W7VvqS+hgQHvPell6rXrhJM/W
-         1594rMl+DI97mTjNvJVqouCBE76M1PtEZiIXfaO7lYgpphbTGIsb4yHfckvKWZynO/cR
-         IM4SYh3mHtcgt6mS6z545w7mLpYjbS5jibU1ExcV/Q3a5sqgr800ZatcHYOy5ugDmyCo
-         JxWPtLhdGMTegoX/vSuU3ohl1wPUSOZAnKXwrF0x+B5+Xz5sS4ckPK/jEylLSsgUTjad
-         TPWA==
-X-Gm-Message-State: AOAM5326igZGk/8EsYS5jngYfwk81IXJAUrrtzHvI0VHnfzt+M0KI9l/
-        N9shiHPzjNAx07Kyo83NcCq/Zw==
-X-Google-Smtp-Source: ABdhPJy9q41WJDBnQ045sdEUQOBByE6IbQCS+2X6AUgaQtPFfyt/n6ZzI0Dt7LogN6spZ356e/F0gg==
-X-Received: by 2002:adf:e38a:: with SMTP id e10mr10315579wrm.213.1629290802572;
-        Wed, 18 Aug 2021 05:46:42 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id o7sm4916803wmc.46.2021.08.18.05.46.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 05:46:42 -0700 (PDT)
-Date:   Wed, 18 Aug 2021 14:46:40 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     "Sa, Nuno" <Nuno.Sa@analog.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Rob Clark <rob@ti.com>
-Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf: return -EINVAL if dmabuf object
- is NULL
-Message-ID: <YR0BMCMFcwXLjNAe@phenom.ffwll.local>
-References: <20210818115810.274084-1-nuno.sa@analog.com>
- <9a63b45f-6fec-6269-ae16-8604b08514de@amd.com>
- <SJ0PR03MB6359C318092E0CB99D28D85099FF9@SJ0PR03MB6359.namprd03.prod.outlook.com>
- <ed0bf7fd-de49-f94a-3eda-0c1fac50153a@amd.com>
+        Wed, 18 Aug 2021 08:47:40 -0400
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A131DEE;
+        Wed, 18 Aug 2021 14:47:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1629290825;
+        bh=ri0zJzxLe7CNL6+6ghG6c+9H7LthZ50EbzBpcEJZJNw=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=Uo6+2lfUNqhMPxt1fxK2469CJUlC2ifGouxW5/B7wPYLz/YAnbzJJ6AFBGjXUM5Di
+         oO20BL36sXXwGd/RB62/CiURaMBvmfbGz97+HWaLcQma8nwFKQgW+dbOipSy6wCIzf
+         rVoxT3pDnaJ2mzdyKZqGlEMyJO862Ctn+SpDUKoo=
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Thomas NIZAN <tnizan@witekio.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+References: <20210817072703.1167-1-jacopo+renesas@jmondi.org>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [RFC 0/5] media: i2c: Add MAX9271 subdevice driver
+Message-ID: <55551fab-cef1-45e1-5f39-158a7d9faa1b@ideasonboard.com>
+Date:   Wed, 18 Aug 2021 13:47:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20210817072703.1167-1-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ed0bf7fd-de49-f94a-3eda-0c1fac50153a@amd.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 02:31:34PM +0200, Christian König wrote:
-> Am 18.08.21 um 14:17 schrieb Sa, Nuno:
-> > > From: Christian König <christian.koenig@amd.com>
-> > > Sent: Wednesday, August 18, 2021 2:10 PM
-> > > To: Sa, Nuno <Nuno.Sa@analog.com>; linaro-mm-sig@lists.linaro.org;
-> > > dri-devel@lists.freedesktop.org; linux-media@vger.kernel.org
-> > > Cc: Rob Clark <rob@ti.com>; Sumit Semwal
-> > > <sumit.semwal@linaro.org>
-> > > Subject: Re: [PATCH] dma-buf: return -EINVAL if dmabuf object is
-> > > NULL
-> > > 
-> > > [External]
-> > > 
-> > > To be honest I think the if(WARN_ON(!dmabuf)) return -EINVAL
-> > > handling
-> > > here is misleading in the first place.
-> > > 
-> > > Returning -EINVAL on a hard coding error is not good practice and
-> > > should
-> > > probably be removed from the DMA-buf subsystem in general.
-> > Would you say to just return 0 then? I don't think that having the
-> > dereference is also good..
+Hi Jacopo,
+
+On 17/08/2021 08:26, Jacopo Mondi wrote:
+> Hello,
+>    as noticed during the inclusion of the RDACM20/21 cameras, their driver make
+> use of a library driver that exports functions to control the MAX9271 GMSL
+> serializer embedded in the camera module.
 > 
-> No, just run into the dereference.
+> This series attempts to create an i2c subdevice driver for the MAX9271
+> serializer, to support the camera module operations using the v4l2 subdev
+> operations.
 > 
-> Passing NULL as the core object you are working on is a hard coding error
-> and not something we should bubble up as recoverable error.
+> The series is based on the currently in-review:
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=5847
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=5949
 > 
-> > I used -EINVAL to be coherent with the rest of the code.
+> The series:
+> 1) Introduced an i2c subdev driver for the MAX9271 GMSL serializer
+> 2) Adapt the RDACM20 driver by removing the MAX9271 handling from there
+> 3) Modify the DTS layout to describe the MAX9271 chip and the camera module
+>    separately
 > 
-> I rather suggest to remove the check elsewhere as well.
+> To be done:
+> - bindings
+> - handling of reset lines between max9271 and image sensor
+> - the camera module drivers could be made sensor drivers
+> 
+> However I'm not fully convinced this really brings any benefit as the serializer
+> and the image sensor are actually packed together in the same camera module
+> and are tightly coupled.
+> 
+> The biggest issue I'm facing, and for which I would be happy to receive pointers
+> to is the following one.
+> 
+> The new DTS layout now looks like
+> 
+> 	max9286 {
+> 
+> 		i2c-mux {
+> 			i2c@0 {
+> 				max9271 {
+> 				}
+> 
+> 				rdacm20{
+> 				}
+> 			}
+> 		}
+> 	}
 
-It's a lot more complicated, and WARN_ON + bail out is rather
-well-established code-pattern. There's been plenty of discussions in the
-past that a BUG_ON is harmful since it makes debugging a major pain, e.g.
+Is there any feasibility, or benefit to us modelling like:
 
-https://lore.kernel.org/lkml/CA+55aFwyNTLuZgOWMTRuabWobF27ygskuxvFd-P0n-3UNT=0Og@mail.gmail.com/
+> 	max9286 {
+>
+> 		i2c-mux {
+> 			i2c@0 {
+> 				rdacm20 {
+>	 				max9271{
+>					}
+>					ov13858{
+					}
+> 				}
+> 			}
+> 		}
+> 	}
 
-There's also a checkpatch check for this.
 
-commit 9d3e3c705eb395528fd8f17208c87581b134da48
-Author: Joe Perches <joe@perches.com>
-Date:   Wed Sep 9 15:37:27 2015 -0700
+Perhaps that doesn't actually give much benefit, but I feel like the
+max9271 is a part of the rdacm20, so it should be contained within it,
+not besides it ..
 
-    checkpatch: add warning on BUG/BUG_ON use
 
-Anyone who is paranoid about security crashes their machine on any WARNING
-anyway (like syzkaller does).
+> If I do rely on the probe sequence implemented by the instantiation of the
+> i2c-mux child nodes:
+> 
+> 	- max9286
+> 		-max9271
+> 		-sensor
+> 
+> 		-max9271
+> 		-sensor
+> 
+> 		...
+> 
+> As per each i2c-mux subnode the max9271 and the connected sensor are probed once
+> after the other.
+> 
+> This unfortunately doesn't play well with the requirements of GMSL bus, for
+> which the post_register operation is being introduced. With the current
+> RDACM20/21 drivers and post_register in place with two cameras connected to the
+> system, the desired initialization sequence looks like:
+> 
+>             MAX9286                  RDACM20/21
+> 
+>             probe()
+>                |
+>                ---------------------> |
+>                                       camera 1 probe() {
+>                                          enable_threshold()
+>                                       }
+>                |<--------------------|
+>             v4l2 async bound {
+> 		completed = no
+>                |
+>                ---------------------> |
+>                                       camera 2 probe() {
+>                                          enable_threshold()
+>                                       }
+>                |<--------------------|
+> 		completed = yes
+> 
+>                 compensate_amplitude()
+> 
+>                 call post_register()
+>                |-------------------->|
+>                                      camera 1 post_register()
+>                                          access camera registers()
+>                                     }
+>                |<-------------------
+>                |-------------------->|
+>                                      camera 2 post_register()
+>                                          access camera registers()
+>                                     }
+>                |<-------------------
+>             }
+> 
+> Which guarantees that the bulk access to the camera registers happens after the
+> deserializer has compensated the channel amplitude.
+> 
+> With the new model I do have a race between the sensor probe and the
+> post_register() of the serializer in case a single camera is connected.
+> 
+> What happes is that as soon as the max9271 registers its async subdev the
+> max9286 notifier completes an call max9271->post_register(). But at that time
+> the sensor subdev has not probed yet, so there is no subdev on which to call
+> post_register in the max9271
+> 
+> following:
+> 
+>     MAX9286                  MAX9271			SENSOR
+> 
+>     probe()
+>        |
+>        ---------------------> |
+> 			      probe() {
+> 				 enable_threshold()
+> 			      }
+>       }
+>        |<--------------------|
+>     v4l2 async bound {
+> 	completed = yes
+>  	subdev->post_register()
+>        |-------------------->|
+> 			     post_register()
+> 				gmsl_bus_config()
+> 				subdev->post_register(NULL)
+> 				segfault
+> 			    }
+> 							probe()
+>     }
+> > If I instead do not use post_register() between the max9271 and the
+sensor,
+> then the model works for a single camera only (as it is implemented in this
+> version)
+> 
+>     MAX9286                  MAX9271			SENSOR
+> 
+>     probe()
+>        |
+>        ---------------------> |
+> 			      probe() {
+> 				 enable_threshold()
+> 			      }
+>       }
+>        |<--------------------|
+>     v4l2 async bound {
+> 	completed = no
+>        |-------------------->|
+> 							probe() {
+> 							   i2c writes to
+> 							   the sensor without
+> 							   GMSL configuration
+> 							}
+>     }
+> 
+> So, my question is: are there examples on how to have the max9271 driver
+> control the probe time the connected sensor without relying on the probe
+> sequence of the I2C-mux device nodes ? If I could do so, what I would like to
+> realize looks like
+> 
+>     MAX9286                  MAX9271			SENSOR
+> 
+>     probe()
+>        |
+>        ---------------------> |
+> 			      camera 1 probe() {
+> 				--------------------->|
+> 							 sensor probe()
+> 				 enable_threshold()
+> 			      }
+>       }
+>        |<--------------------|
+>     v4l2 async bound {
+> 	completed = no
+>        |-------------------->|
+> 			     camera 2 probe() {
+> 				--------------------->|
+> 							sensor probe()
+> 				 enable_threshold()
+> 			      }
+>        |<--------------------|
+> 	completed = yes
+> 
+> 	compensate_amplitude()
+> 	for (subdev)
+> 	   subdev->post_register()
+>           |----------------->|
+> 			     camera 1 post_register()
+> 				subdev->post_register()
+> 				--------------------->|
+> 							post_register()
+> 								i2c writes
+> 	   subdev->post_register()
+>           |----------------->|
+> 			     camera 2 post_register()
+> 				subdev->post_register()
+> 				--------------------->|
+> 							post_register()
+> 								i2c writes
+>     }
+> 
 
-My rule of thumb is that if the WARN_ON + bail-out code is just an if
-(WARN_ON()) return; then it's fine, if it's more then BUG_ON is the better
-choice perhaps.
 
-I think the worst choice is just removing all these checks, because a few
-code reorgs later you might not Oops immediately afterwards anymore, and
-then we'll merge potentially very busted new code. Which is no good.
--Daniel
+If we're still likely to have an RDACM20 container 'device' - I wonder
+if it's possible that it could be responsible for making sure both of
+it's subdevices (the max9271, and the sensor) are handled in the correct
+sequence...
 
 
 
 > 
-> Christian.
+> I recall Mauro pointed me to an example when he first suggested to make the
+> MAX9271 library a proper i2c subdevice driver. Do you happen to recall which one
+> was it ?
 > 
-> > 
-> > - Nuno Sá
-> > 
-> > > Christian.
-> > > 
-> > > Am 18.08.21 um 13:58 schrieb Nuno Sá:
-> > > > On top of warning about a NULL object, we also want to return with a
-> > > > proper error code (as done in 'dma_buf_begin_cpu_access()').
-> > > Otherwise,
-> > > > we will get a NULL pointer dereference.
-> > > > 
-> > > > Fixes: fc13020e086b ("dma-buf: add support for kernel cpu access")
-> > > > Signed-off-by: Nuno Sá <nuno.sa@analog.com>
-> > > > ---
-> > > >    drivers/dma-buf/dma-buf.c | 3 ++-
-> > > >    1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-
-> > > buf.c
-> > > > index 63d32261b63f..8ec7876dd523 100644
-> > > > --- a/drivers/dma-buf/dma-buf.c
-> > > > +++ b/drivers/dma-buf/dma-buf.c
-> > > > @@ -1231,7 +1231,8 @@ int dma_buf_end_cpu_access(struct
-> > > dma_buf *dmabuf,
-> > > >    {
-> > > >    	int ret = 0;
-> > > > 
-> > > > -	WARN_ON(!dmabuf);
-> > > > +	if (WARN_ON(!dmabuf))
-> > > > +		return -EINVAL;
-> > > > 
-> > > >    	might_lock(&dmabuf->resv->lock.base);
-> > > > 
+> Thanks
+>    j
 > 
-> _______________________________________________
-> Linaro-mm-sig mailing list
-> Linaro-mm-sig@lists.linaro.org
-> https://lists.linaro.org/mailman/listinfo/linaro-mm-sig
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> Jacopo Mondi (5):
+>   media: i2c: max9271: Rename max9271 library driver
+>   media: i2c: Add MAX9271 I2C driver
+>   media: i2c: rdacm20: Adapt to work with MAX9271
+>   media: i2c: max9286: Fetch PIXEL_RATE in s_stream
+>   arm64: dts: GMSL: Adapt to the use max9271 driver
+> 
+>  MAINTAINERS                                   |  17 +-
+>  arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi |  34 +-
+>  .../arm64/boot/dts/renesas/r8a77970-eagle.dts |   6 +-
+>  drivers/media/i2c/Kconfig                     |  12 +
+>  drivers/media/i2c/Makefile                    |   3 +-
+>  drivers/media/i2c/max9271-lib.c               | 374 +++++++++++++
+>  .../media/i2c/{max9271.h => max9271-lib.h}    |   0
+>  drivers/media/i2c/max9271.c                   | 528 +++++++++++++++---
+>  drivers/media/i2c/max9286.c                   |   6 +-
+>  drivers/media/i2c/rdacm20.c                   | 139 +----
+>  drivers/media/i2c/rdacm21.c                   |   2 +-
+>  11 files changed, 917 insertions(+), 204 deletions(-)
+>  create mode 100644 drivers/media/i2c/max9271-lib.c
+>  rename drivers/media/i2c/{max9271.h => max9271-lib.h} (100%)
+> 
+> --
+> 2.32.0
+> 
