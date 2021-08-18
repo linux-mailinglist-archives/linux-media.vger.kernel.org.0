@@ -2,159 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 838283EF8D8
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 05:44:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BA213EF8EC
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 05:55:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236890AbhHRDpS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Aug 2021 23:45:18 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:49299 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234435AbhHRDpS (ORCPT
+        id S236055AbhHRD4M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Aug 2021 23:56:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42842 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237154AbhHRD4L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Aug 2021 23:45:18 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id GCVNm9Y41UWyVGCVPmmKfV; Wed, 18 Aug 2021 05:44:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1629258283; bh=LjPRWtBH5940wogcm+nZA5eyF1gqHyyH5Mcgov4FZgw=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=e7XiGNvVt35xbDq8VY1jUGVw8UoX3f285HSMmvdqCq1P+rHUQuqMHV0q3QcSmgRb1
-         vyOU0enLtlwYHMI1Sk8FJD/geHbzTsP1KimKYARKCiRdyafUePjB3Vpd9UvOEGUREU
-         BgyiEcv7f6zbqldqGQSl8lZ6zo2Xi6UOvvufb+nVpmeCwyj+Z5Z2P30UhC3la4J+mg
-         wi84QU+nmIO4H28BYNGxHt2QKfljTiN71/XLxWt2BC9SssOMPIMA9ySucog2bsx4t+
-         I8aFRyvknRGESdW5oYzP1b0sbr82ZQ68cKPvnl7eXGHjoqu51c+qVaBb5IuDwQXKx8
-         Ak+jNpdUmpQSA==
-Message-ID: <ac83eb64e2901430a84484bfbd809a86@smtp-cloud8.xs4all.net>
-Date:   Wed, 18 Aug 2021 05:44:41 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfOzOuRxLxdvrvFksgICJ7ZmBFcPAqI9apoi0oFgrm35jNerlpsTHWmC6mjK+SlABJG38uPEOGKCYArQSeZ7J5/c/mLcchihGTEIwv5rw4N7aR/aWf+41
- QHVwvn3w2Ue/GTtMG4dbB+jAdElB2zBRQc8u1CUukclmkucYcXB87O9DJw0GPxW8SFlSbioLWy2L2AW0Wd52oqwuv0951HaBdSbrLEAnsDw+XDfR9YYr86+6
- wG07iS6+VjBhz5shFiW26A==
+        Tue, 17 Aug 2021 23:56:11 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C2ECC0613CF
+        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 20:55:36 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id y190so801120pfg.7
+        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 20:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=VGIhwyovjc9cLTorbY5F7s7VUrCyo5ROsIE6mKdF2i8=;
+        b=rsLZ+5+cs34CeKm8FdeypOasGszO5Z+LGg/gURNdpo/BaltaeBSvKidQFxg+U/P7vq
+         S/zusxLUtdDoCDzHAq+gTq22WAB40n4Qkk0Ku4cXOc+uTEyaQRKWv/b52rLV4JZHB+rE
+         GpTGxz7vZkIm7Ms92t/jEfqzxajkgCcDGx/hfYVqqHH+Ja2QK6EJtgOjTFD7Mons7/7z
+         jRQRosrCR9tYeU2COXGJUOTnQsHGWC5eYAYHYZf+lDoWMOvzM0YqaRI8vzA1Q6qR94h5
+         JdL36SX2xj7RIzuN9CFefrR3429SFDWAFHYvDz+a1OiNH/4h5wRF/0Uqw9a4yTL9NaQb
+         DX8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=VGIhwyovjc9cLTorbY5F7s7VUrCyo5ROsIE6mKdF2i8=;
+        b=GibURPF57ogJYckK87fREKnguKvkfa8ZyD4BG0apaRJU0PiwVtn1ZaDag7PGZ6gqVs
+         3R7wmOt/IPXtSVJx3ncfhv8YJMM4tQ3OfEn+z76npotmnr/5szWmMVFi7lRwT57WK7yq
+         tPVDiT2De1wpiMKEZv50nieUf5aKsd3SY3afclWvWfeKwfCPNvEwElRBD5fUsqp/xyMc
+         a5nr7GYew1VNSCOPiopzW0JySFLVydkJUUMPhrBp4S4ln7XMpDTYTp+yujhLYybF1Vc2
+         6OzqisaqYZ1s1tonJ6rugDN/6ntcSXG3KiJ3cMRw3cIoMUZU++je52yI07XSTmlh8mWs
+         jmzg==
+X-Gm-Message-State: AOAM531fQn3cMjZfEWl+Px6K7F39/UOAl0JjQpnZMv0dxptAR+A/dPHP
+        nPNHeNZ/VrQIkWJDjo2A3U8S0A==
+X-Google-Smtp-Source: ABdhPJxZ0gvNmqzlYvzU9rK9OQ8NNCMq9wCIZZhKFhU5FN4x6UJRSgCEgSUhRZIdfilYavV9v+XkrA==
+X-Received: by 2002:a62:a20d:0:b029:35b:73da:dc8d with SMTP id m13-20020a62a20d0000b029035b73dadc8dmr7200457pff.54.1629258935761;
+        Tue, 17 Aug 2021 20:55:35 -0700 (PDT)
+Received: from localhost ([122.172.201.85])
+        by smtp.gmail.com with ESMTPSA id u21sm4880194pgk.57.2021.08.17.20.55.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Aug 2021 20:55:35 -0700 (PDT)
+Date:   Wed, 18 Aug 2021 09:25:33 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+Message-ID: <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-2-digetx@gmail.com>
+ <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
+ <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 17-08-21, 18:49, Dmitry Osipenko wrote:
+> 17.08.2021 10:55, Viresh Kumar пишет:
+> ...
+> >> +int dev_pm_opp_sync(struct device *dev)
+> >> +{
+> >> +	struct opp_table *opp_table;
+> >> +	struct dev_pm_opp *opp;
+> >> +	int ret = 0;
+> >> +
+> >> +	/* Device may not have OPP table */
+> >> +	opp_table = _find_opp_table(dev);
+> >> +	if (IS_ERR(opp_table))
+> >> +		return 0;
+> >> +
+> >> +	if (!_get_opp_count(opp_table))
+> >> +		goto put_table;
+> >> +
+> >> +	opp = _find_current_opp(dev, opp_table);
+> >> +	ret = _set_opp(dev, opp_table, opp, opp->rate);
+> > 
+> > And I am not sure how this will end up working, since new OPP will be
+> > equal to old one. Since I see you call this from resume() at many
+> > places.
+> 
+> Initially OPP table is "uninitialized" and opp_table->enabled=false,
+> hence the first sync always works even if OPP is equal to old one. Once
+> OPP has been synced, all further syncs are NO-OPs, hence it doesn't
+> matter how many times syncing is called.
+> 
+> https://elixir.bootlin.com/linux/v5.14-rc6/source/drivers/opp/core.c#L1012
 
-Results of the daily build of media_tree:
+Right, but how will this work from Resume ? Won't that be a no-op ?
 
-date:			Wed Aug 18 05:00:11 CEST 2021
-media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
-media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
-v4l-utils git hash:	58f4f974944c182890a09d040418dafa9a431e45
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7532-gde99456f6
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
-host hardware:		x86_64
-host os:		5.13.1-marune
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 2
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+viresh
