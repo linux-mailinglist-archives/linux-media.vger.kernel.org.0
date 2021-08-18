@@ -2,134 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 162AF3F077D
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 17:05:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABE093F081C
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 17:34:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239800AbhHRPGH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 11:06:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58902 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239703AbhHRPGE (ORCPT
+        id S239906AbhHRPfT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 11:35:19 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:48314 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S239533AbhHRPfS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 11:06:04 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B165C061764;
-        Wed, 18 Aug 2021 08:05:25 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id q21so5687170ljj.6;
-        Wed, 18 Aug 2021 08:05:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=aGlCEyRQuTJeUoFwcMyBmvkG6HpGwGhkMF7tidyqkMk=;
-        b=M87kjRAMcB8Ej6Q47lM0GYR3alWgY77tCbHd5VPt6/26s7KfdIel+RPo8tLBJ6OQC2
-         kr0n4etJEbLpDf9MoZDAFN0QTsHd+9gPEMCmWM5ksKOEgb0AKvQNx3IO3PGUQ/dcG7JN
-         O4q2B857vNsGgJAGFJfaf6qa2P3p02g7vMkro/0jkPEf80W+ZLE1qQc8dd9G7bfj3v+G
-         QFGCPxYHx/jnAv8b2MO3kLO+ZhZTQeVsJrlw097wwbOioFBgVb4eF6Y3P5jrwoLdljs1
-         UUf2sDSOV8KkpdFpAiT6PQOqUxxHhBCgd+5wUmfl+PSKIJaF6Ar2cNQGwh8AeZy87Vkj
-         1qkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aGlCEyRQuTJeUoFwcMyBmvkG6HpGwGhkMF7tidyqkMk=;
-        b=CqfyITkNbHyDI1rfmupud+dvMoo7EN0qRd2Y5TUP05dlJ7MaYeynnfTyOtBRZIF0c2
-         1DAfqkAC/Jswmhgm0gWtLsXf11mDqNZm1LxgKpA6kjfnrhjLo1LcggHXQ7OYngbbmoMh
-         ej2+Pute40hKC8DWNyG0F9z6xrcauRT61HUtARy4ZoeTJ87PSjmJu49dwjMlLhi407YY
-         IO73fv+5fvF0+2YvJNZGHg4EKjZfvLqnDJxtM7thlfkg0fHJfpWFoTx5n8R2zsrBONWk
-         gF5MINLcO6PCEQ6FBAT+8olJd8+Gw02CqPe8fXQQgXPQMvCBrvd7giPGrltPrLQvSi1T
-         OhEw==
-X-Gm-Message-State: AOAM530U6BjmC8M7kZyKPWNQg4nVoaVagsPZ71WYvlEJtTz7klrX2b1z
-        02q0XmYKI+MZOuAHM4oU0EC7Sqr/TVs=
-X-Google-Smtp-Source: ABdhPJzgPx8keOi8/DQzO3f7iOHun/vyL+e/2XSDlGREgL/XxAZF1WVrIsIMO5qrsaQBfPOBnrljWQ==
-X-Received: by 2002:a2e:87d0:: with SMTP id v16mr8420209ljj.30.1629299123582;
-        Wed, 18 Aug 2021 08:05:23 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
-        by smtp.googlemail.com with ESMTPSA id h22sm11140ljk.133.2021.08.18.08.05.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Aug 2021 08:05:23 -0700 (PDT)
-Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
+        Wed, 18 Aug 2021 11:35:18 -0400
+X-UUID: a9e2c846c5114af59fe9a63f1822d80d-20210818
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=mY2xlANhzGaCwEJ+ZS0j92R3ALD9b0W3vexQNRdZJa0=;
+        b=d/PQsBmLKcfXJGiCIJLrWK92Sjfl664iHR3EI8HDaHNGm54Z1/h+Z+qPhbK8XNEdj53a0PpNPUIDEAV74ThOfavMecjQ8rn7TAWO22JdRaa8KZXaifagBkV40oa+Of4jh0etw8zJ/XWphS3MmV61pij1F+PScdkcI4DtGpx1Mag=;
+X-UUID: a9e2c846c5114af59fe9a63f1822d80d-20210818
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <houlong.wei@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 690763005; Wed, 18 Aug 2021 23:34:37 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS32N1.mediatek.inc
+ (172.27.4.71) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 18 Aug
+ 2021 23:34:31 +0800
+Received: from mhfsdcap04 (10.17.3.154) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 18 Aug 2021 23:34:31 +0800
+Message-ID: <ea8c8373fbf6a9895276f098cfa2cf3f7761a4b5.camel@mediatek.com>
+Subject: Re: [PATCH v6 7/9] media: mtk-mdp: use mdp-rdma0 alias to point to
+ MDP master
+From:   houlong wei <houlong.wei@mediatek.com>
+To:     Eizan Miyamoto <eizan@chromium.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "wenst@chromium.org" <wenst@chromium.org>,
+        Yong Wu =?UTF-8?Q?=28=E5=90=B4=E5=8B=87=29?= 
+        <Yong.Wu@mediatek.com>,
+        "enric.balletbo@collabora.com" <enric.balletbo@collabora.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+        "Andrew-CT Chen =?UTF-8?Q?=28=E9=99=B3=E6=99=BA=E8=BF=AA=29?=" 
+        <Andrew-CT.Chen@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-8-digetx@gmail.com> <YR0UBi/ejy+oF4Hm@orome.fritz.box>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <da7356cb-05ee-ba84-8a7c-6e69d853a805@gmail.com>
-Date:   Wed, 18 Aug 2021 18:05:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        "Minghsiu Tsai =?UTF-8?Q?=28=E8=94=A1=E6=98=8E=E4=BF=AE=29?=" 
+        <Minghsiu.Tsai@mediatek.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>, <houlong.wei@mediatek.com>
+Date:   Wed, 18 Aug 2021 23:34:32 +0800
+In-Reply-To: <CAOak1e-oyzxbvHimMReQpZCAPyCtAsaGixjwmoa0EzMjqaUxVg@mail.gmail.com>
+References: <20210802121215.703023-1-eizan@chromium.org>
+         <20210802220943.v6.7.I2049e180dca12e0d1b3178bfc7292dcf9e05ac28@changeid>
+         <bf98c5ee749bca755bd46832f858536dbf51a2a4.camel@mediatek.com>
+         <CAOak1e-oyzxbvHimMReQpZCAPyCtAsaGixjwmoa0EzMjqaUxVg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-In-Reply-To: <YR0UBi/ejy+oF4Hm@orome.fritz.box>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-TM-SNTS-SMTP: 52578409B4DD15A61C9794237D2C83A9C988EF0D0F591ADDCF1BB92849887C712000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-18.08.2021 17:07, Thierry Reding пишет:
-> On Tue, Aug 17, 2021 at 04:27:27AM +0300, Dmitry Osipenko wrote:
-> [...]
->> +struct clk *tegra_clk_register(struct clk_hw *hw)
->> +{
->> +	struct platform_device *pdev;
->> +	struct device *dev = NULL;
->> +	struct device_node *np;
->> +	const char *dev_name;
->> +
->> +	np = tegra_clk_get_of_node(hw);
->> +
->> +	if (!of_device_is_available(np))
->> +		goto put_node;
->> +
->> +	dev_name = kasprintf(GFP_KERNEL, "tegra_clk_%s", hw->init->name);
->> +	if (!dev_name)
->> +		goto put_node;
->> +
->> +	pdev = of_platform_device_create(np, dev_name, NULL);
->> +	if (!pdev) {
->> +		pr_err("%s: failed to create device for %pOF\n", __func__, np);
->> +		kfree(dev_name);
->> +		goto put_node;
->> +	}
->> +
->> +	dev = &pdev->dev;
->> +	pm_runtime_enable(dev);
->> +put_node:
->> +	of_node_put(np);
->> +
->> +	return clk_register(dev, hw);
->> +}
-> 
-> This looks wrong. Why do we need struct platform_device objects for each
-> of these clocks? That's going to be a massive amount of platform devices
-> and they will completely mess up sysfs.
+SGkgRWl6YW4sDQoNCkZpcnN0bHksIGFib3V0IGhvdyB0byBkZXRlcm1pbmUgdGhlIG1hc3RlciBt
+ZHAgZHJpdmVyLCB3ZSBhbHNvIGNhbg0KanVkZ2UgdGhlIGNvbXBvbmVudCB0eXBlLiBUaGUgY29t
+cG9uZW50IHR5cGUgY2FuIGJlIGdvdHRlbiBieSBjYWxsaW5nDQpvZl9kZXZpY2VfZ2V0X21hdGNo
+X2RhdGEoZGV2KS4gSWYgdGhlIGNvbXBvbmVudCBpcyBNVEtfTURQX1JETUEsIGl0IGlzDQp0aGUg
+bWFzdGVyIGRyaXZlci4gTm8gbWF0dGVyIGl0IGlzIG1kcF9yZG1hMCBvciBtZHBfcmRtYTEuDQoN
+ClNlY29uZGx5LCBhYm91dCBzdXBwb3J0aW5nIHRoZSBtdWx0aXBsZSBNRFAgbWFzdGVyIGRldmlj
+ZSBub2RlcywgeW91DQpjYW4gdHJ5IG15IGFkdmljZSBpbiBteSBwcmV2aW91cyBjb21tZW50IGFm
+dGVyIHRoZSBjb21wbGV0aW9uIG9mIHRoaXMNCnNlcmllcyBvZiBwYXRjaGVzLg0KDQpUaGFua3Mg
+YSBsb3QuDQoNClJlZ2FyZHMsDQpIb3Vsb25nDQoNCk9uIFdlZCwgMjAyMS0wOC0xOCBhdCAxNTo0
+MyArMDgwMCwgRWl6YW4gTWl5YW1vdG8gd3JvdGU6DQo+IEhpIEhvdWxvbmcsDQo+IA0KPiBPbiBN
+b24sIEF1ZyAxNiwgMjAyMSBhdCAxOjAwIFBNIGhvdWxvbmcgd2VpIDxob3Vsb25nLndlaUBtZWRp
+YXRlay5jb20NCj4gPiB3cm90ZToNCj4gPiBIaSBFaXphbiwNCj4gPiANCj4gPiAibWRwLXJkbWEw
+IiBtYXkgYmUgbm90IHRoZSBvbmx5IG9uZSBtYXN0ZXIgZGV2aWNlIG5vZGUuIEluIGZhY3QsDQo+
+ID4gdGhlcmUNCj4gPiBhcmUgMiAibWRwLXJkbWEiIGluIG10ODE3My4gWW91IGNhbiBzZWUgIm1k
+cF9yZG1hMSIgdmlhIGJlbG93IGxpbmsuDQo+ID4gDQo+ID4gDQpodHRwczovL2dpdC5rZXJuZWwu
+b3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9zdGFibGUvbGludXguZ2l0L3RyZWUvYXJjaC9h
+cm02NC9ib290L2R0cy9tZWRpYXRlay9tdDgxNzMuZHRzaT9oPXY1LjEzLjExI24xMDE2DQo+ID4g
+SWYgd2UgYWRkICJtZWRpYXRlayxtdDgxNzMtbWRwIiB0byAibWRwX3JkbWExIiBsaWtlIGJlbG93
+LCB3ZSB3aWxsDQo+ID4gaGF2ZQ0KPiA+IG9uZSBtb3JlIFY0TDIgdmlkZW8gZGV2aWUgbm9kZS4N
+Cj4gPiANCj4gPiAgICAgICAgICAgICAgICAgbWRwX3JkbWExOiByZG1hQDE0MDAyMDAwIHsNCj4g
+PiAgICAgICAgICAgICAgICAgICAgICAgICBjb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE3My1t
+ZHAtcmRtYSIsDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJtZWRp
+YXRlayxtdDgxNzMtbWRwIjsNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAuLi4NCj4gPiAg
+ICAgICAgICAgICAgICAgfQ0KPiA+IA0KPiA+IFdlIHNob3VsZCBjb25zaWRlciB0aGUgY2FzZSB0
+aGF0IHRoZXJlIGFyZSBtb3JlIHRoYW4gb25lICJNRFBfUkRNQSINCj4gPiBjb21wb25lbnRzLg0K
+PiANCj4gV291bGQgaXQgYmUgb2theSB3aXRoIHlvdSBpZiB3ZSBhZGRlZCBzdXBwb3J0IGZvciBt
+dWx0aXBsZSBNRFAgbWFzdGVyDQo+IGRldmljZSBub2RlcyBpbiBmb2xsb3ctdXAgY2hhbmdlcz8g
+TXkgcmF0aW9uYWxlIGlzIHRoaXM6DQo+IC0gQXMgZmFyIGFzIEkgY2FuIHRlbGwsIHRoZSBtZWRp
+YXRlayBpbnRlZ3JhdGlvbiB3aXRoIFY0TDIgY3VycmVudGx5DQo+IG9ubHkgaGFuZGxlcyBhIHNp
+bmdsZSBNRFAgbWFzdGVyIGRldmljZSBub2RlLiBJdCdzIG5vdCBjbGVhciB0byBtZQ0KPiB0aGUN
+Cj4gc2NvcGUgb2YgY2hhbmdlcyB0aGF0IHdpbGwgYmUgbmVlZGVkIHRvIG1ha2UgdGhpbmdzIHdv
+cmsgcHJvcGVybHkNCj4gd2l0aA0KPiBtdWx0aXBsZSBub2Rlcy4NCj4gLSBUaGUgcGF0Y2ggc2Vy
+aWVzIG1ha2VzIHZpZGVvIGRlY29kZSB3b3JrIChhZG1pdHRlZGx5LCBpbiBsaWdodCBvZg0KPiB5
+b3VyIGNvbW1lbnRzIG5vdCBvcHRpbWFsbHkpIHVwc3RyZWFtLCB3aGljaCBpcyBiZXR0ZXIgdGhh
+biBub3QNCj4gbGFuZGluZyB0aGVzZSBjaGFuZ2VzIGF0IGFsbC4NCj4gDQo+IEknZCBsaWtlIHRv
+IHNheSB0aGF0IEknbSB2ZXJ5IG9wZW4gdG8gKGFuZCBleGNpdGVkIGFib3V0KSBkaXNjdXNzaW5n
+DQo+IGZ1cnRoZXIgd29yayB0byBzdXBwb3J0IG11bHRpcGxlIE1EUCBtYXN0ZXIgbm9kZXMsIHBl
+cmhhcHMgd2UgY2FuDQo+IHdvcmsgdG9nZXRoZXIgb24gdGhpcyBzbyBJIGNhbiB1bmRlcnN0YW5k
+IHdoYXQgbmVlZHMgdG8gYmUgZG9uZS4NCj4gDQo+IFBsZWFzZSBsZXQgbWUga25vdyB5b3VyIHRo
+b3VnaHRzLA0KPiANCj4gRWl6YW4NCg==
 
-RPM works with a device. It's not a massive amount of devices, it's one
-device for T20 and four devices for T30.
