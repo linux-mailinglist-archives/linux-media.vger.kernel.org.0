@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D6123F05ED
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 16:12:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B43DD3F05EF
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 16:12:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239146AbhHRONC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 10:13:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46434 "EHLO
+        id S239148AbhHRONH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 10:13:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239042AbhHROMq (ORCPT
+        with ESMTP id S239152AbhHROM7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 10:12:46 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E788BC06179A
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:10 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id n13-20020a17090a4e0d00b0017946980d8dso8929989pjh.5
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:10 -0700 (PDT)
+        Wed, 18 Aug 2021 10:12:59 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F432C0613A4
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:13 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id y23so2363868pgi.7
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=pathpartnertech.com; s=google;
         h=mime-version:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=hv3/BWr2Hya5YVjCfpoeEoJ6c50x4vzxYN47UPUAiik=;
-        b=Fcxk54jOWEHUD7HshO9XrrEp1rCkbmk4ZyhBZJZEv7ZtKgfm4v3pAuZfIp9EHX8YiS
-         GhyAA4A4SUcCXghlmWAsCQLZfWsJ6eRIw9HukhUDVkC5bR0AQtkecQ7Gqo6loVf2m6Vr
-         P97N/cCcDUbr1cOr9BHLwLuILFM+kjS4bekvWunwY0ZNoolh6CMMrIflhPlUUEDaTpw1
-         O5xByQ+JYq856G+6TZ9SltfdDpVhbsAUpCifArTwtoA8fb0tzD/4l1EBWrsUHViUXeJ2
-         pMJFmZDUACSO+5a6/AZ/xqfZc7i2AfUW7GoPK05Vklfsi7OPvAAnkcxWfsTvo/szp7bV
-         +CQQ==
+        bh=9WlfM7kZF/JezkcppnxVCfS/bkuX2OvnbHl3e2vQcM0=;
+        b=Yx1RCDJ/s0Nr35sMLkuVoVvGjXvpPIfhtMn2wdwZ/I2lGmYPJN6UNDuEBnMvln8TWn
+         EayCkvOHWCc7AENBttSasihFW9GNTSnW7UIkmJmOqBtEgTKQyAdmPJNGC/8Wkjkm6DKQ
+         1RPr1CSaLfpacT8WKdOyyNNPjiCn2dyf6jitfneoOvhzlBh8oKbX+MzFAlJC0DUXOVG5
+         EKH2sC76SydC+BI/AeBa0joNYT3EcXRVgMaWAOlP109/PEzMCkM/arebbZulMK61dUXy
+         lDjscpNgByr4D+QCQc+hNd6mSnMLq2nT0jO+yDQzQ1OL5b0umJDJwqHU9innOTPhX8Tv
+         ABTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :in-reply-to:references;
-        bh=hv3/BWr2Hya5YVjCfpoeEoJ6c50x4vzxYN47UPUAiik=;
-        b=Mbgcfm+GNktZldYWZoimOJWXyj9iCq4ZZJlUHb/rYypPuOIrtbj+UD2Y+dmbcUcd7c
-         D+7rdCOeJh271S0VRdy4GnS/zgatmN18mVC+4k1qjVRrbg8ftGzvlD95r1OFHXtYELZZ
-         Kq3yeuB3flGnWtRxFTRzAXjOYImY/pQ+ESbE+Nw+gxWxaSPovHKDySUbKv6fIgByyNUu
-         GssE5E7r3g14iwG2nGnPvoHoQRxTVg+wLvedt7X1Tsf15OoTRgAWaWOj8RX0B9Zjcy1b
-         iKatkWUqHi8XZY3DH1zSpns9VCYOEF5bse0iYo6wkHwNZLYiAg5PLcUHCTpuf8ajzTPJ
-         I0Dg==
+        bh=9WlfM7kZF/JezkcppnxVCfS/bkuX2OvnbHl3e2vQcM0=;
+        b=g95WpO/jyY5wG5BXoXXO/O4rGwGF255P3LYxMEBBynwRueqmIeDhkYH7hHexQP4+rH
+         kxPSgu0cNsRnpIINOS15JKlnS4xdWIdjzUeyakBvOW9/eyUS19lpDDCZck9rHS1rhEwh
+         uQ4iotVtFE1WY/HrE8kqKrgpjkLmoz1cFHPyAgDjo6wzts0pzlvxRDgsRhW+k0THUCyX
+         RsaIfGUUmuerknaFv1r2x58jOf4BLb2Xyr200RuqgoJzKxDxSCrbQ93NIQ5AjoJGCZbV
+         /3NTROkdlPPXbDSHWvG9cH4b1Z8Bnb/fA2rXcLb7d+yb9OV05QxHZmIyKV3fn43F7n5K
+         /BtA==
 MIME-Version: 1.0
-X-Gm-Message-State: AOAM532pNDkFX4d3fhuyutGi/LT12n9m21tRV4gchM5KsZOgZ+F83KiB
-        w3jMKqLKt0N32nNqScnoMVAsaZ50Jnxgdo2V/tIlObED4Plb9aHrTrUZOfuEPFptcNTiEkMH02q
-        aBqqM4kTa5gUfM4LG
-X-Google-Smtp-Source: ABdhPJyIr1TkaFFgf0ol7O4P95lkdXF7H6Byb9HucJM/OkTgtOG7ITooPFLHW+3fql0EJCDGz/yw3w==
-X-Received: by 2002:a17:90a:a42:: with SMTP id o60mr9754602pjo.191.1629295929751;
-        Wed, 18 Aug 2021 07:12:09 -0700 (PDT)
+X-Gm-Message-State: AOAM530bDceWdQCrjy6918VmZ9mwaJC70/b7BCc6VBqv57qOHBonRVGg
+        VN+/dErASnqUr66V0taCarCY2X0mxmYnmX4nFm3lPk1ZoJnNk6JbtAUt6cOeK9KfV7GtxclzSpH
+        G1pRPxB3c+RCuJSCX
+X-Google-Smtp-Source: ABdhPJylu6nx/ruZSKzcF99+FnOeovG7f4T9R0tnbLGes0y/CjkVf2/eLTpD+E/3FrhI7klKtdEpcA==
+X-Received: by 2002:a63:1358:: with SMTP id 24mr4312089pgt.327.1629295932908;
+        Wed, 18 Aug 2021 07:12:12 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.214.181])
-        by smtp.gmail.com with ESMTPSA id e8sm8084343pgg.31.2021.08.18.07.12.06
+        by smtp.gmail.com with ESMTPSA id e8sm8084343pgg.31.2021.08.18.07.12.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 07:12:09 -0700 (PDT)
+        Wed, 18 Aug 2021 07:12:12 -0700 (PDT)
 From:   sidraya.bj@pathpartnertech.com
 To:     gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org
@@ -57,9 +57,9 @@ Cc:     prashanth.ka@pathpartnertech.com, praneeth@ti.com,
         mchehab@kernel.org, linux-media@vger.kernel.org,
         praveen.ap@pathpartnertech.com,
         Sidraya <sidraya.bj@pathpartnertech.com>
-Subject: [PATCH 05/30] v4l: vxd-dec: Add IMG VXD Video Decoder mem to mem drive
-Date:   Wed, 18 Aug 2021 19:40:12 +0530
-Message-Id: <20210818141037.19990-6-sidraya.bj@pathpartnertech.com>
+Subject: [PATCH 06/30] v4l: vxd-dec: Add hardware control modules
+Date:   Wed, 18 Aug 2021 19:40:13 +0530
+Message-Id: <20210818141037.19990-7-sidraya.bj@pathpartnertech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
 References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
@@ -70,1938 +70,1260 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Sidraya <sidraya.bj@pathpartnertech.com>
 
-The IMG VXD Video Decoder uses the IMG D5520 to provide video
-decoding for various codecs including H.264 and HEVC.
-Scaling and rotation are also supported by the hardware
-and driver. The driver also supports multiple simultaneous
-video decodes.
+The TI Video Decoder uses IMG D5520 to provide video
+decoding for H.264 codec and this patch handles firmware
+messages transaction with firmware.
+It prepares the batch and fragment messages for firmware.
 
-Each mem2mem context is a single stream decode session.
-Each session creates it's own vxd context and associated
-mem mgr and mmu contexts. Firmware loading, firmware messaging,
-and hardware power management (reset) are supported, as well as MMU
-programming of the HW.
-
-This patch adds the framework for the v4l2 IMG VXD video decoder
-driver, supporting HW initialization, MMU mapping and buffer management.
-The decoding functionality is not yet implemented.
-
-Signed-off-by: Buddy Liong <buddy.liong@ti.com>
-Signed-off-by: Angela Stegmaier <angelabaker@ti.com>
+Signed-off-by: Amit Makani <amit.makani@ti.com>
 Signed-off-by: Sidraya <sidraya.bj@pathpartnertech.com>
 ---
- MAINTAINERS                                  |    3 +
- drivers/staging/media/vxd/decoder/vxd_core.c | 1683 ++++++++++++++++++
- drivers/staging/media/vxd/decoder/vxd_dec.c  |  185 ++
- drivers/staging/media/vxd/decoder/vxd_dec.h  |  477 +++++
- 4 files changed, 2348 insertions(+)
- create mode 100644 drivers/staging/media/vxd/decoder/vxd_core.c
- create mode 100644 drivers/staging/media/vxd/decoder/vxd_dec.c
- create mode 100644 drivers/staging/media/vxd/decoder/vxd_dec.h
+ MAINTAINERS                                   |    2 +
+ .../staging/media/vxd/decoder/hw_control.c    | 1211 +++++++++++++++++
+ .../staging/media/vxd/decoder/hw_control.h    |  144 ++
+ 3 files changed, 1357 insertions(+)
+ create mode 100644 drivers/staging/media/vxd/decoder/hw_control.c
+ create mode 100644 drivers/staging/media/vxd/decoder/hw_control.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 0f8154b69a91..47067f907539 100644
+index 47067f907539..2327ea12caa6 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -19543,6 +19543,9 @@ F:	drivers/staging/media/vxd/common/img_mem_unified.c
+@@ -19542,6 +19542,8 @@ F:	drivers/staging/media/vxd/common/img_mem_man.h
+ F:	drivers/staging/media/vxd/common/img_mem_unified.c
  F:	drivers/staging/media/vxd/common/imgmmu.c
  F:	drivers/staging/media/vxd/common/imgmmu.h
++F:	drivers/staging/media/vxd/decoder/hw_control.c
++F:	drivers/staging/media/vxd/decoder/hw_control.h
  F:	drivers/staging/media/vxd/decoder/img_dec_common.h
-+F:	drivers/staging/media/vxd/decoder/vxd_core.c
-+F:	drivers/staging/media/vxd/decoder/vxd_dec.c
-+F:	drivers/staging/media/vxd/decoder/vxd_dec.h
- F:	drivers/staging/media/vxd/decoder/vxd_pvdec.c
- F:	drivers/staging/media/vxd/decoder/vxd_pvdec_priv.h
- F:	drivers/staging/media/vxd/decoder/vxd_pvdec_regs.h
-diff --git a/drivers/staging/media/vxd/decoder/vxd_core.c b/drivers/staging/media/vxd/decoder/vxd_core.c
+ F:	drivers/staging/media/vxd/decoder/vxd_core.c
+ F:	drivers/staging/media/vxd/decoder/vxd_dec.c
+diff --git a/drivers/staging/media/vxd/decoder/hw_control.c b/drivers/staging/media/vxd/decoder/hw_control.c
 new file mode 100644
-index 000000000000..b502c33e6456
+index 000000000000..049d9bbcd52c
 --- /dev/null
-+++ b/drivers/staging/media/vxd/decoder/vxd_core.c
-@@ -0,0 +1,1683 @@
++++ b/drivers/staging/media/vxd/decoder/hw_control.c
+@@ -0,0 +1,1211 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * IMG DEC VXD Core component function implementations
++ * VXD DEC Hardware control implementation
 + *
 + * Copyright (c) Imagination Technologies Ltd.
 + * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
 + *
 + * Authors:
-+ *	Angela Stegmaier <angelabaker@ti.com>
++ *	Amit Makani <amit.makani@ti.com>
 + *
 + * Re-written for upstreamimg
 + *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
 + *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com>
 + */
 +
-+#include <linux/firmware.h>
-+#include <linux/completion.h>
-+#include <linux/slab.h>
-+#include <linux/idr.h>
-+#include <linux/platform_device.h>
-+#include <linux/interrupt.h>
-+#include <linux/printk.h>
-+#include <linux/mutex.h>
-+#include <linux/delay.h>
-+#include <linux/jiffies.h>
-+#include <linux/time64.h>
++#include <linux/types.h>
 +#include <linux/dma-mapping.h>
 +#include <media/v4l2-ctrls.h>
 +#include <media/v4l2-device.h>
 +#include <media/v4l2-mem2mem.h>
 +
-+#include "img_dec_common.h"
++#include "decoder.h"
++#include "hw_control.h"
++#include "img_msvdx_vdmc_regs.h"
++#include "img_pvdec_core_regs.h"
++#include "img_pvdec_pixel_regs.h"
++#include "img_pvdec_test_regs.h"
++#include "img_vdec_fw_msg.h"
++#include "img_video_bus4_mmu_regs.h"
++#include "img_msvdx_core_regs.h"
++#include "reg_io2.h"
++#include "vdecdd_defs.h"
++#include "vxd_dec.h"
++#include "vxd_ext.h"
++#include "vxd_int.h"
 +#include "vxd_pvdec_priv.h"
 +
-+#define VXD_RENDEC_SIZE (5 * 1024 * 1024)
++#define MSG_GROUP_MASK  0xf0
 +
-+#define VXD_MSG_CNT_SHIFT 8
-+#define VXD_MSG_CNT_MASK 0xff00
-+#define VXD_MAX_MSG_CNT ((1 << VXD_MSG_CNT_SHIFT) - 1)
-+#define VXD_MSG_STR_MASK 0xff
-+#define VXD_INVALID_ID (-1)
-+
-+#define MAP_FIRMWARE_TO_STREAM 1
-+
-+/* Has to be used with VXD->mutex acquired! */
-+#define VXD_GEN_MSG_ID(VXD, STR_ID, MSG_ID, vxd_type, str_type) \
-+	do { \
-+		vxd_type __VXD = VXD; \
-+		str_type __STR_ID = STR_ID; \
-+		WARN_ON((__STR_ID) > VXD_MSG_STR_MASK); \
-+		(__VXD)->msg_cnt = (__VXD)->msg_cnt + 1 % (VXD_MAX_MSG_CNT); \
-+		(MSG_ID) = ((__VXD)->msg_cnt << VXD_MSG_CNT_SHIFT) | \
-+			((__STR_ID) & VXD_MSG_STR_MASK); \
-+	} while (0)
-+
-+/* Have to be used with VXD->mutex acquired! */
-+#define VXD_RET_MSG_ID(VXD) ((VXD)->msg_cnt--)
-+
-+#define VXD_MSG_ID_GET_STR_ID(MSG_ID) \
-+	((MSG_ID) & VXD_MSG_STR_MASK)
-+
-+#define VXD_MSG_ID_GET_CNT(MSG_ID) \
-+	(((MSG_ID) & VXD_MSG_CNT_MASK) >> VXD_MSG_CNT_SHIFT)
-+
-+static const unsigned char *drv_fw_name = "pvdec_full_bin.fw";
-+
-+/* Driver context */
-+static struct {
-+	/* Available memory heaps. List of <struct vxd_heap> */
-+	struct list_head heaps;
-+	/* heap id for all internal allocations (rendec, firmware) */
-+	int internal_heap_id;
-+
-+	/* Memory Management context for driver */
-+	struct mem_ctx *mem_ctx;
-+
-+	/* List of associated <struct vxd_dev> */
-+	struct list_head devices;
-+
-+	/* Virtual addresses of shared buffers, common for all streams. */
-+	struct {
-+		unsigned int fw_addr; /* Firmware blob */
-+		unsigned int rendec_addr; /* Rendec buffer */
-+	} virt_space;
-+
-+	int initialised;
-+} vxd_drv;
-+
-+/*
-+ * struct vxd_heap - node for heaps list
-+ * @id:   heap id
-+ * @list: Entry in <struct vxd_drv:heaps>
-+ */
-+struct vxd_heap {
-+	int id;
-+	struct list_head list;
++struct hwctrl_ctx {
++	unsigned int is_initialised;
++	unsigned int is_on_seq_replay;
++	unsigned int replay_tid;
++	unsigned int num_pipes;
++	struct vdecdd_dd_devconfig devconfig;
++	void *hndl_vxd;
++	void *dec_core;
++	void *comp_init_userdata;
++	struct vidio_ddbufinfo dev_ptd_bufinfo;
++	struct lst_t pend_pict_list;
++	struct hwctrl_msgstatus host_msg_status;
++	void *hmsg_task_event;
++	void *hmsg_task_kick;
++	void *hmsg_task;
++	unsigned int is_msg_task_active;
++	struct hwctrl_state state;
++	struct hwctrl_state prev_state;
++	unsigned int is_prev_hw_state_set;
++	unsigned int is_fatal_state;
 +};
 +
-+static void img_mmu_callback(enum mmu_callback_type callback_type,
-+			     int buff_id, void *data)
-+{
-+	struct vxd_dev *vxd = data;
-+
-+	if (!vxd)
-+		return;
-+
-+	if (callback_type == MMU_CALLBACK_MAP)
-+		return;
-+
-+	if (vxd->hw_on)
-+		vxd_pvdec_mmu_flush(vxd->dev, vxd->reg_base);
-+}
-+
-+static int vxd_is_apm_required(struct vxd_dev *vxd)
-+{
-+	return vxd->hw_on;
-+}
++struct vdeckm_context {
++	unsigned int core_num;
++	struct vxd_coreprops props;
++	unsigned short current_msgid;
++	unsigned char reader_active;
++	void *comms_ram_addr;
++	unsigned int state_offset;
++	unsigned int state_size;
++};
 +
 +/*
-+ * Power on the HW.
-+ * Call with vxd->mutex acquired.
++ * Panic reason identifier.
 + */
-+static int vxd_make_hw_on_locked(struct vxd_dev *vxd, unsigned int fw_ptd)
++enum pvdec_panic_reason {
++	PANIC_REASON_OTHER = 0,
++	PANIC_REASON_WDT,
++	PANIC_REASON_READ_TIMEOUT,
++	PANIC_REASON_CMD_TIMEOUT,
++	PANIC_REASON_MMU_FAULT,
++	PANIC_REASON_MAX,
++	PANIC_REASON_FORCE32BITS = 0x7FFFFFFFU
++};
++
++/*
++ * Panic reason strings.
++ * NOTE: Should match the pvdec_panic_reason ids.
++ */
++static unsigned char *apanic_reason[PANIC_REASON_MAX] = {
++	[PANIC_REASON_OTHER] = "Other",
++	[PANIC_REASON_WDT] = "Watch Dog Timeout",
++	[PANIC_REASON_READ_TIMEOUT] = "Read Timeout",
++	[PANIC_REASON_CMD_TIMEOUT] = "Command Timeout",
++	[PANIC_REASON_MMU_FAULT] = "MMU Page Fault"
++};
++
++/*
++ * Maximum length of the panic reason string.
++ */
++#define PANIC_REASON_LEN  (255)
++
++static struct vdeckm_context acore_ctx[VXD_MAX_CORES] = {0};
++
++static int vdeckm_getregsoffsets(const void *hndl_vxd,
++				 struct decoder_regsoffsets *regs_offsets)
 +{
-+	unsigned int fw_size;
-+	struct vxd_fw_hdr *fw_hdr;
-+	struct vxd_ena_params ena_params;
-+	int ret;
++	struct vdeckm_context *core_ctx = (struct vdeckm_context *)hndl_vxd;
 +
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev, "%s:%d\n", __func__, __LINE__);
-+#endif
-+	if (vxd->hw_on)
-+		return 0;
++	if (!core_ctx)
++		return IMG_ERROR_INVALID_PARAMETERS;
 +
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev, "%s: enabling HW\n", __func__);
-+#endif
++	regs_offsets->vdmc_cmd_offset = MSVDX_CMD_OFFSET;
++	regs_offsets->vec_offset = MSVDX_VEC_OFFSET;
++	regs_offsets->entropy_offset = PVDEC_ENTROPY_OFFSET;
++	regs_offsets->vec_be_regs_offset = PVDEC_VEC_BE_OFFSET;
++	regs_offsets->vdec_be_codec_regs_offset = PVDEC_VEC_BE_CODEC_OFFSET;
 +
-+	fw_size = vxd->firmware.fw_size;
-+	fw_hdr = vxd->firmware.hdr;
-+	if (!fw_size || !fw_hdr) {
-+		dev_err(vxd->dev, "%s: firmware missing!\n", __func__);
-+		return -ENOENT;
++	return IMG_SUCCESS;
++}
++
++static int vdeckm_send_message(const void *hndl_vxd,
++			       struct hwctrl_to_kernel_msg *to_kernelmsg,
++			       void *vxd_dec_ctx)
++{
++	struct vdeckm_context *core_ctx = (struct vdeckm_context *)hndl_vxd;
++	unsigned int count = 0;
++	unsigned int *msg;
++
++	if (!core_ctx || !to_kernelmsg)
++		return IMG_ERROR_INVALID_PARAMETERS;
++
++	msg = kzalloc(VXD_SIZE_MSG_BUFFER, GFP_KERNEL);
++	if (!msg)
++		return IMG_ERROR_OUT_OF_MEMORY;
++
++	msg[count++] = to_kernelmsg->flags;
++	msg[count++] = to_kernelmsg->msg_size;
++
++	memcpy(&msg[count], to_kernelmsg->msg_hdr, to_kernelmsg->msg_size);
++
++	core_ctx->reader_active = 1;
++
++	if (!(to_kernelmsg->msg_hdr)) {
++		kfree(msg);
++		return IMG_ERROR_INVALID_PARAMETERS;
 +	}
 +
-+	memset(&ena_params, 0, sizeof(struct vxd_ena_params));
++	pr_debug("[HWCTRL] adding message to vxd queue\n");
++	vxd_send_msg(vxd_dec_ctx, (struct vxd_fw_msg *)msg);
 +
-+	ena_params.fw_buf_size = fw_size - sizeof(struct vxd_fw_hdr);
-+	ena_params.fw_buf_virt_addr = vxd_drv.virt_space.fw_addr;
-+	ena_params.ptd = fw_ptd;
-+	ena_params.boot_poll.msleep_cycles = 50;
-+	ena_params.crc = 0;
-+	ena_params.rendec_addr = vxd_drv.virt_space.rendec_addr;
-+	ena_params.rendec_size = (VXD_NUM_PIX_PIPES(vxd->props) *
-+		VXD_RENDEC_SIZE) / 4096u;
++	kfree(msg);
 +
-+	ena_params.secure = 0;
-+	ena_params.wait_dbg_fifo = 0;
-+	ena_params.mem_staller.data = NULL;
-+	ena_params.mem_staller.size = 0;
-+
-+	ret = vxd_pvdec_ena(vxd->dev, vxd->reg_base, &ena_params,
-+			    fw_hdr, &vxd->freq_khz);
-+	/*
-+	 * Ignore the return code, proceed as usual, it will be returned anyway.
-+	 * The HW is turned on, so we can perform post mortem analysis,
-+	 * and collect the fw logs when available.
-+	 */
-+
-+	vxd->hw_on = 1;
-+
-+	return ret;
++	return 0;
 +}
 +
-+/*
-+ * Power off the HW.
-+ * Call with vxd->mutex acquired.
-+ */
-+static void vxd_make_hw_off_locked(struct vxd_dev *vxd, unsigned char suspending)
++static void vdeckm_return_msg(const void *hndl_vxd,
++			      struct hwctrl_to_kernel_msg *to_kernelmsg)
 +{
-+	int ret;
-+
-+	if (!vxd->hw_on)
-+		return;
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev, "%s:%d\n", __func__, __LINE__);
-+#endif
-+
-+	ret = vxd_pvdec_dis(vxd->dev, vxd->reg_base);
-+	vxd->hw_on = 0;
-+	if (ret)
-+		dev_err(vxd->dev, "%s: failed to power off the VXD!\n", __func__);
++	if (to_kernelmsg)
++		kfree(to_kernelmsg->msg_hdr);
 +}
 +
-+/*
-+ * Moves all valid items from the queue of items being currently processed to
-+ * the pending queue.
-+ * Call with vxd->mutex locked
-+ */
-+static void vxd_rewind_msgs_locked(struct vxd_dev *vxd)
++static int vdeckm_handle_mtxtohost_msg(unsigned int *msg, struct lst_t *pend_pict_list,
++				       enum vxd_msg_attr *msg_attr,
++				       struct dec_decpict  **decpict,
++				       unsigned char msg_type,
++				       unsigned int trans_id)
 +{
-+	struct vxd_item *item, *tmp;
++	struct dec_decpict *pdec_pict;
 +
-+	if (list_empty(&vxd->msgs))
-+		return;
++	switch (msg_type) {
++	case FW_DEVA_COMPLETED:
++	{
++		struct dec_pict_attrs *pict_attrs = NULL;
++		unsigned short error_flags = 0;
++		unsigned int no_bewdts = 0;
++		unsigned int mbs_dropped = 0;
++		unsigned int mbs_recovered = 0;
++		unsigned char flag = 0;
 +
-+	list_for_each_entry_safe(item, tmp, &vxd->msgs, list)
-+		list_move(&item->list, &vxd->pend);
-+}
++		pr_debug("Received message from firmware\n");
++		error_flags = MEMIO_READ_FIELD(msg, FW_DEVA_COMPLETED_ERROR_FLAGS);
 +
-+static void vxd_report_item_locked(struct vxd_dev *vxd,
-+				   struct vxd_item *item,
-+				   unsigned int flags)
-+{
-+	struct vxd_stream *stream;
++		no_bewdts = MEMIO_READ_FIELD(msg, FW_DEVA_COMPLETED_NUM_BEWDTS);
 +
-+	__list_del_entry(&item->list);
-+	stream = idr_find(vxd->streams, item->stream_id);
-+	if (!stream) {
++		mbs_dropped = MEMIO_READ_FIELD(msg, FW_DEVA_COMPLETED_NUM_MBSDROPPED);
++
++		mbs_recovered = MEMIO_READ_FIELD(msg, FW_DEVA_COMPLETED_NUM_MBSRECOVERED);
++
++		pdec_pict = lst_first(pend_pict_list);
++		while (pdec_pict) {
++			if (pdec_pict->transaction_id == trans_id)
++				break;
++			pdec_pict = lst_next(pdec_pict);
++		}
 +		/*
-+		 * Failed to find associated stream. Probably it was
-+		 * already destroyed -- drop the item
++		 * We must have a picture in the list that matches
++		 * the transaction id
++		 */
++		if (!pdec_pict)
++			return IMG_ERROR_FATAL;
++
++		if (!(pdec_pict->first_fld_fwmsg) || !(pdec_pict->second_fld_fwmsg))
++			return IMG_ERROR_FATAL;
++
++		flag = pdec_pict->first_fld_fwmsg->pict_attrs.first_fld_rcvd;
++		if (flag) {
++			pict_attrs = &pdec_pict->second_fld_fwmsg->pict_attrs;
++		} else {
++			pict_attrs = &pdec_pict->first_fld_fwmsg->pict_attrs;
++			flag = 1;
++		}
++
++		pict_attrs->fe_err = (unsigned int)error_flags;
++		pict_attrs->no_be_wdt = no_bewdts;
++		pict_attrs->mbs_dropped = mbs_dropped;
++		pict_attrs->mbs_recovered = mbs_recovered;
++		/*
++		 * We may successfully replayed the picture,
++		 * so reset the error flags
++		 */
++		pict_attrs->pict_attrs.dwrfired = 0;
++		pict_attrs->pict_attrs.mmufault = 0;
++		pict_attrs->pict_attrs.deverror = 0;
++
++		*msg_attr = VXD_MSG_ATTR_DECODED;
++		*decpict = pdec_pict;
++		break;
++	}
++
++	case FW_DEVA_PANIC:
++	{
++		unsigned int panic_info =  MEMIO_READ_FIELD(msg, FW_DEVA_PANIC_ERROR_INT);
++		unsigned char panic_reason[PANIC_REASON_LEN] = "Reason(s): ";
++		unsigned char is_panic_reson_identified = 0;
++		/*
++		 * Create panic reason string.
++		 */
++		if (REGIO_READ_FIELD(panic_info, PVDEC_CORE, CR_PVDEC_HOST_INTERRUPT_STATUS,
++				     CR_HOST_SYS_WDT)) {
++			strncat(panic_reason, apanic_reason[PANIC_REASON_WDT],
++				PANIC_REASON_LEN - 1);
++			is_panic_reson_identified = 1;
++		}
++		if (REGIO_READ_FIELD(panic_info, PVDEC_CORE, CR_PVDEC_HOST_INTERRUPT_STATUS,
++				     CR_HOST_READ_TIMEOUT_PROC_IRQ)) {
++			strncat(panic_reason, apanic_reason[PANIC_REASON_READ_TIMEOUT],
++				PANIC_REASON_LEN - 1);
++			is_panic_reson_identified = 1;
++		}
++		if (REGIO_READ_FIELD(panic_info, PVDEC_CORE, CR_PVDEC_HOST_INTERRUPT_STATUS,
++				     CR_HOST_COMMAND_TIMEOUT_PROC_IRQ)) {
++			strncat(panic_reason, apanic_reason[PANIC_REASON_CMD_TIMEOUT],
++				PANIC_REASON_LEN - 1);
++			is_panic_reson_identified = 1;
++		}
++		if (!is_panic_reson_identified) {
++			strncat(panic_reason, apanic_reason[PANIC_REASON_OTHER],
++				PANIC_REASON_LEN - 1);
++		}
++		panic_reason[strlen(panic_reason) - 2] = 0;
++		if (trans_id != 0)
++			pr_err("TID=0x%08X [FIRMWARE PANIC %s]\n", trans_id, panic_reason);
++		else
++			pr_err("TID=NULL [GENERAL FIRMWARE PANIC %s]\n", panic_reason);
++
++		break;
++	}
++
++	case FW_ASSERT:
++	{
++		unsigned int fwfile_namehash = MEMIO_READ_FIELD(msg, FW_ASSERT_FILE_NAME_HASH);
++		unsigned int fwfile_line = MEMIO_READ_FIELD(msg, FW_ASSERT_FILE_LINE);
++
++		pr_err("ASSERT file name hash:0x%08X line number:%d\n",
++		       fwfile_namehash, fwfile_line);
++		break;
++	}
++
++	case FW_SO:
++	{
++		unsigned int task_name = MEMIO_READ_FIELD(msg, FW_SO_TASK_NAME);
++		unsigned char sztaskname[sizeof(unsigned int) + 1];
++
++		sztaskname[0] = task_name >> 24;
++		sztaskname[1] = (task_name >> 16) & 0xff;
++		sztaskname[2] = (task_name >> 8) & 0xff;
++		sztaskname[3] = task_name & 0xff;
++		if (sztaskname[3] != 0)
++			sztaskname[4] = 0;
++		pr_warn("STACK OVERFLOW for %s task\n", sztaskname);
++		break;
++	}
++
++	case FW_VXD_EMPTY_COMPL:
++		/*
++		 * Empty completion message sent as response to init,
++		 * configure etc The architecture of vxd.ko module
++		 * requires the firmware to send a reply for every
++		 * message submitted by the user space.
++		 */
++		break;
++
++	default:
++		break;
++	}
++
++	return 0;
++}
++
++static int vdeckm_handle_hosttomtx_msg(unsigned int *msg, struct lst_t *pend_pict_list,
++				       enum vxd_msg_attr *msg_attr,
++				       struct dec_decpict  **decpict,
++				       unsigned char msg_type,
++				       unsigned int trans_id,
++				       unsigned int msg_flags)
++{
++	struct dec_decpict *pdec_pict;
++
++	pr_debug("Received message from HOST\n");
++
++	switch (msg_type) {
++	case FW_DEVA_PARSE:
++	{
++		struct dec_pict_attrs *pict_attrs = NULL;
++		unsigned char flag = 0;
++
++		pdec_pict = lst_first(pend_pict_list);
++		while (pdec_pict) {
++			if (pdec_pict->transaction_id == trans_id)
++				break;
++
++			pdec_pict = lst_next(pdec_pict);
++		}
++
++		/*
++		 * We must have a picture in the list that matches
++		 * the transaction id
++		 */
++		if (!pdec_pict) {
++			pr_err("Firmware decoded message received\n");
++			pr_err("no pending picture\n");
++			return IMG_ERROR_FATAL;
++		}
++
++		if (!(pdec_pict->first_fld_fwmsg) || !(pdec_pict->second_fld_fwmsg)) {
++			pr_err("invalid pending picture struct\n");
++			return IMG_ERROR_FATAL;
++		}
++
++		flag = pdec_pict->first_fld_fwmsg->pict_attrs.first_fld_rcvd;
++		if (flag) {
++			pict_attrs = &pdec_pict->second_fld_fwmsg->pict_attrs;
++		} else {
++			pict_attrs = &pdec_pict->first_fld_fwmsg->pict_attrs;
++			flag = 1;
++		}
++
++		/*
++		 * The below info is fetched from firmware state
++		 * afterwards, so just set this to zero for now.
++		 */
++		pict_attrs->fe_err = 0;
++		pict_attrs->no_be_wdt = 0;
++		pict_attrs->mbs_dropped = 0;
++		pict_attrs->mbs_recovered = 0;
++
++		vxd_get_pictattrs(msg_flags, &pict_attrs->pict_attrs);
++		vxd_get_msgerrattr(msg_flags, msg_attr);
++
++		if (*msg_attr == VXD_MSG_ATTR_FATAL)
++			pr_err("[TID=0x%08X] [DECODE_FAILED]\n", trans_id);
++		if (*msg_attr == VXD_MSG_ATTR_CANCELED)
++			pr_err("[TID=0x%08X] [DECODE_CANCELED]\n", trans_id);
++
++		*decpict = pdec_pict;
++		break;
++	}
++
++	case FW_DEVA_PARSE_FRAGMENT:
++		/*
++		 * Do nothing - Picture holds the list of fragments.
++		 * So, in case of any error those would be replayed
++		 * anyway.
++		 */
++		break;
++	default:
++		pr_warn("Unknown message received 0x%02x\n", msg_type);
++		break;
++	}
++
++	return 0;
++}
++
++static int vdeckm_process_msg(const void *hndl_vxd, unsigned int *msg,
++			      struct lst_t *pend_pict_list,
++			      unsigned int msg_flags,
++			      enum vxd_msg_attr *msg_attr,
++			      struct dec_decpict  **decpict)
++{
++	struct vdeckm_context *core_ctx = (struct vdeckm_context *)hndl_vxd;
++	unsigned char msg_type;
++	unsigned char msg_group;
++	unsigned int trans_id = 0;
++	struct vdec_pict_hwcrc *pict_hwcrc = NULL;
++	struct dec_decpict *pdec_pict;
++
++	if (!core_ctx || !msg || !msg_attr || !pend_pict_list || !decpict)
++		return IMG_ERROR_INVALID_PARAMETERS;
++
++	*msg_attr = VXD_MSG_ATTR_NONE;
++	*decpict = NULL;
++
++	trans_id = MEMIO_READ_FIELD(msg, FW_DEVA_GENMSG_TRANS_ID);
++	msg_type  = MEMIO_READ_FIELD(msg, FW_DEVA_GENMSG_MSG_TYPE);
++	msg_group = msg_type & MSG_GROUP_MASK;
++
++	switch (msg_group) {
++	case MSG_TYPE_START_PSR_MTXHOST_MSG:
++		vdeckm_handle_mtxtohost_msg(msg, pend_pict_list, msg_attr,
++					    decpict, msg_type, trans_id);
++		break;
++	/*
++	 * Picture decode has been returned as unprocessed.
++	 * Locate the picture with corresponding TID and mark
++	 * it as decoded with errors.
++	 */
++	case MSG_TYPE_START_PSR_HOSTMTX_MSG:
++		vdeckm_handle_hosttomtx_msg(msg, pend_pict_list, msg_attr,
++					    decpict, msg_type, trans_id,
++					    msg_flags);
++		break;
++
++	case FW_DEVA_SIGNATURES_HEVC:
++	case FW_DEVA_SIGNATURES_LEGACY:
++	{
++		unsigned int *signatures = msg + (FW_DEVA_SIGNATURES_SIGNATURES_OFFSET /
++				sizeof(unsigned int));
++		unsigned char sigcount  = MEMIO_READ_FIELD(msg, FW_DEVA_SIGNATURES_MSG_SIZE) -
++			((FW_DEVA_SIGNATURES_SIZE / sizeof(unsigned int)) - 1);
++		unsigned int selected = MEMIO_READ_FIELD(msg, FW_DEVA_SIGNATURES_SIGNATURE_SELECT);
++		unsigned char i, j = 0;
++
++		pdec_pict = lst_first(pend_pict_list);
++		while (pdec_pict) {
++			if (pdec_pict->transaction_id == trans_id)
++				break;
++			pdec_pict = lst_next(pdec_pict);
++		}
++
++		/* We must have a picture in the list that matches the tid */
++		VDEC_ASSERT(pdec_pict);
++		if (!pdec_pict) {
++			pr_err("Firmware signatures message received with no pending picture\n");
++			return IMG_ERROR_FATAL;
++		}
++
++		VDEC_ASSERT(pdec_pict->first_fld_fwmsg);
++		VDEC_ASSERT(pdec_pict->second_fld_fwmsg);
++		if (!pdec_pict->first_fld_fwmsg || !pdec_pict->second_fld_fwmsg) {
++			pr_err("Invalid pending picture struct\n");
++			return IMG_ERROR_FATAL;
++		}
++		if (pdec_pict->first_fld_fwmsg->pict_hwcrc.first_fld_rcvd) {
++			pict_hwcrc = &pdec_pict->second_fld_fwmsg->pict_hwcrc;
++		} else {
++			pict_hwcrc = &pdec_pict->first_fld_fwmsg->pict_hwcrc;
++			if (selected & (PVDEC_SIGNATURE_GROUP_20 | PVDEC_SIGNATURE_GROUP_24))
++				pdec_pict->first_fld_fwmsg->pict_hwcrc.first_fld_rcvd = TRUE;
++		}
++
++		for (i = 0; i < 32; i++) {
++			unsigned int group = selected & (1 << i);
++
++			switch (group) {
++			case PVDEC_SIGNATURE_GROUP_20:
++				pict_hwcrc->crc_vdmc_pix_recon = signatures[j++];
++				break;
++
++			case PVDEC_SIGNATURE_GROUP_24:
++				pict_hwcrc->vdeb_sysmem_wrdata = signatures[j++];
++				break;
++
++			default:
++				break;
++			}
++		}
++
++		/* sanity check */
++		sigcount -= j;
++		VDEC_ASSERT(sigcount == 0);
++
++		/*
++		 * suppress PVDEC_SIGNATURE_GROUP_1 and notify
++		 * only about groups used for verification
 +		 */
 +#ifdef DEBUG_DECODER_DRIVER
-+		dev_dbg(vxd->dev, "%s: drop item %p [0x%x]\n", __func__, item, item->msg_id);
++		if (selected & (PVDEC_SIGNATURE_GROUP_20 | PVDEC_SIGNATURE_GROUP_24))
++			pr_info("[TID=0x%08X] [SIGNATURES]\n", trans_id);
 +#endif
-+		kfree(item);
-+	} else {
-+		item->msg.out_flags |= flags;
-+		list_add_tail(&item->list, &stream->ctx->items_done);
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_dbg(vxd->dev, "%s: waking %p\n", __func__, stream->ctx);
 +
-+		dev_info(vxd->dev, "%s: signaling worker for %p\n", __func__, stream->ctx);
-+#endif
-+		schedule_work(stream->ctx->work);
++		*decpict = pdec_pict;
++
++		break;
 +	}
++
++	default: {
++#ifdef DEBUG_DECODER_DRIVER
++		unsigned short msg_size, i;
++
++		pr_warn("Unknown message type received: 0x%x", msg_type);
++
++		msg_size = MEMIO_READ_FIELD(msg, FW_DEVA_GENMSG_MSG_SIZE);
++
++		for (i = 0; i < msg_size; i++)
++			pr_info("0x%04x: 0x%08x\n", i, msg[i]);
++#endif
++		break;
++	}
++	}
++
++	return 0;
 +}
 +
-+/*
-+ * Rewind all items to the pending queue and report those to listener.
-+ * Postpone the reset.
-+ * Call with vxd->mutex acquired.
-+ */
-+static void vxd_emrg_reset_locked(struct vxd_dev *vxd, unsigned int flags)
++static void vdeckm_vlr_copy(void *dst, void *src, unsigned int size)
 +{
-+	cancel_delayed_work(vxd->dwork);
++	unsigned int *pdst = (unsigned int *)dst;
++	unsigned int *psrc = (unsigned int *)src;
 +
-+	vxd->emergency = 1;
++	size /= 4;
++	while (size--)
++		*pdst++ = *psrc++;
++}
++
++static int vdeckm_get_core_state(const void *hndl_vxd, struct vxd_states *state)
++{
++	struct vdeckm_context *core_ctx = (struct vdeckm_context *)hndl_vxd;
++	struct vdecfw_pvdecfirmwarestate firmware_state;
++	unsigned char pipe = 0;
 +
 +#ifdef ERROR_RECOVERY_SIMULATION
-+	if (disable_fw_irq_value != 0) {
-+		/*
-+		 * Previously we have disabled IRQ, now enable it. This
-+		 * condition will occur only when the firmware non responsiveness
-+		 * will be detected on vxd_worker thread. Once we reproduce the
-+		 * issue we will enable the IRQ so that the code flow continues.
-+		 */
-+		enable_irq(g_module_irq);
-+	}
++	/*
++	 * if disable_fw_irq_value is not zero, return error. If processed further
++	 * the kernel will crash because we have ignored the interrupt, but here
++	 * we will try to access comms_ram_addr which will result in crash.
++	 */
++	if (disable_fw_irq_value != 0)
++		return IMG_ERROR_INVALID_PARAMETERS;
 +#endif
 +
++	if (!core_ctx || !state)
++		return IMG_ERROR_INVALID_PARAMETERS;
++
 +	/*
-+	 * If the firmware sends more than one reply per item, it's possible
-+	 * that corresponding item was already removed from vxd-msgs, but the
-+	 * HW was still processing it and MMU page fault could happen and
-+	 * trigger execution of this function. So make sure that vxd->msgs
-+	 * is not empty before rewinding items.
++	 * If state is requested for the first time.
 +	 */
-+	if (!list_empty(&vxd->msgs))
-+		/* Move all valid items to the pending queue */
-+		vxd_rewind_msgs_locked(vxd);
++	if (core_ctx->state_size == 0) {
++		unsigned int regval;
++		/*
++		 * get the state buffer info.
++		 */
++		regval = *((unsigned int *)core_ctx->comms_ram_addr +
++			(PVDEC_COM_RAM_STATE_BUF_SIZE_AND_OFFSET_OFFSET / sizeof(unsigned int)));
++		core_ctx->state_size = PVDEC_COM_RAM_BUF_GET_SIZE(regval, STATE);
++		core_ctx->state_offset = PVDEC_COM_RAM_BUF_GET_OFFSET(regval, STATE);
++	}
 +
-+	{
-+		struct vxd_item *item, *tmp;
++	/*
++	 * If state buffer is available.
++	 */
++	if (core_ctx->state_size) {
++		/*
++		 * Determine the latest transaction to have passed each
++		 * checkpoint in the firmware.
++		 * Read the firmware state from VEC Local RAM
++		 */
++		vdeckm_vlr_copy(&firmware_state, (unsigned char *)core_ctx->comms_ram_addr +
++				core_ctx->state_offset, core_ctx->state_size);
 +
-+		list_for_each_entry_safe(item, tmp, &vxd->pend, list) {
++		for (pipe = 0; pipe < core_ctx->props.num_pixel_pipes; pipe++) {
 +			/*
-+			 * Exclusive items that were on the pending list
-+			 * must be reported as canceled
++			 * Set pipe presence.
 +			 */
-+			if ((item->msg.out_flags & VXD_FW_MSG_FLAG_EXCL) && !item->msg_id)
-+				item->msg.out_flags |= VXD_FW_MSG_FLAG_CANCELED;
++			state->fw_state.pipe_state[pipe].is_pipe_present = 1;
 +
-+			vxd_report_item_locked(vxd, item, flags);
++			/*
++			 * For checkpoints copy message ids here. These will
++			 * be translated into transaction ids later.
++			 */
++			memcpy(state->fw_state.pipe_state[pipe].acheck_point,
++			       firmware_state.pipestate[pipe].check_point,
++				sizeof(state->fw_state.pipe_state[pipe].acheck_point));
++			state->fw_state.pipe_state[pipe].firmware_action  =
++				firmware_state.pipestate[pipe].firmware_action;
++			state->fw_state.pipe_state[pipe].cur_codec =
++				firmware_state.pipestate[pipe].curr_codec;
++			state->fw_state.pipe_state[pipe].fe_slices =
++				firmware_state.pipestate[pipe].fe_slices;
++			state->fw_state.pipe_state[pipe].be_slices =
++				firmware_state.pipestate[pipe].be_slices;
++			state->fw_state.pipe_state[pipe].fe_errored_slices =
++				firmware_state.pipestate[pipe].fe_errored_slices;
++			state->fw_state.pipe_state[pipe].be_errored_slices =
++				firmware_state.pipestate[pipe].be_errored_slices;
++			state->fw_state.pipe_state[pipe].be_mbs_dropped =
++				firmware_state.pipestate[pipe].be_mbs_dropped;
++			state->fw_state.pipe_state[pipe].be_mbs_recovered =
++				firmware_state.pipestate[pipe].be_mbs_recovered;
++			state->fw_state.pipe_state[pipe].fe_mb.x =
++				firmware_state.pipestate[pipe].last_fe_mb_xy & 0xFF;
++			state->fw_state.pipe_state[pipe].fe_mb.y =
++				(firmware_state.pipestate[pipe].last_fe_mb_xy >> 16) & 0xFF;
++			state->fw_state.pipe_state[pipe].be_mb.x =
++				REGIO_READ_FIELD(firmware_state.pipestate[pipe].last_be_mb_xy,
++						 MSVDX_VDMC,
++						 CR_VDMC_MACROBLOCK_NUMBER,
++						 CR_VDMC_MACROBLOCK_X_OFFSET);
++			state->fw_state.pipe_state[pipe].be_mb.y =
++				REGIO_READ_FIELD(firmware_state.pipestate[pipe].last_be_mb_xy,
++						 MSVDX_VDMC,
++						 CR_VDMC_MACROBLOCK_NUMBER,
++						 CR_VDMC_MACROBLOCK_Y_OFFSET);
 +		}
 +	}
++
++	return 0;
 +}
 +
-+static void vxd_handle_io_error_locked(struct vxd_dev *vxd)
++static int vdeckm_prepare_batch(struct vdeckm_context *core_ctx,
++				const struct hwctrl_batch_msgdata *batch_msgdata,
++				unsigned char **msg)
 +{
-+	struct vxd_item *item, *tmp;
-+	unsigned int pend_flags = !vxd->hw_on ? VXD_FW_MSG_FLAG_DEV_ERR :
-+		VXD_FW_MSG_FLAG_CANCELED;
++	unsigned char vdec_flags = 0;
++	unsigned short flags = 0;
++	unsigned char *pmsg = kzalloc(FW_DEVA_DECODE_SIZE, GFP_KERNEL);
++	struct vidio_ddbufinfo *pbatch_msg_bufinfo = batch_msgdata->batchmsg_bufinfo;
 +
-+	list_for_each_entry_safe(item, tmp, &vxd->msgs, list)
-+		vxd_report_item_locked(vxd, item, VXD_FW_MSG_FLAG_DEV_ERR);
++	if (!pmsg)
++		return IMG_ERROR_MALLOC_FAILED;
 +
-+	list_for_each_entry_safe(item, tmp, &vxd->pend, list)
-+		vxd_report_item_locked(vxd, item, pend_flags);
-+}
++	if (batch_msgdata->size_delimited_mode)
++		vdec_flags |= FW_VDEC_NAL_SIZE_DELIM;
 +
-+static void vxd_sched_worker_locked(struct vxd_dev *vxd, unsigned int delay_ms)
-+{
-+	unsigned long long work_at = jiffies + msecs_to_jiffies(delay_ms);
-+	int ret;
++	flags |= FW_DEVA_RENDER_HOST_INT;
 +
 +	/*
-+	 * Try to queue the work.
-+	 * This may be also called from the worker context,
-+	 * so we need to re-arm anyway in case of error
++	 * Message type and stream ID
 +	 */
-+	ret = schedule_delayed_work(vxd->dwork, work_at - jiffies);
-+	if (ret) {
-+		/* Work is already in the queue */
-+		/*
-+		 * Check if new requested time is "before"
-+		 * the last "time" we scheduled this work at,
-+		 * if not, do nothing, the worker will do
-+		 * recalculation for APM/DWR afterwards
-+		 */
-+		if (time_before((unsigned long)work_at, (unsigned long)vxd->work_sched_at)) {
-+			/*
-+			 * Canceling & rescheduling might be problematic,
-+			 * so just modify it, when needed
-+			 */
-+			ret = mod_delayed_work(system_wq, vxd->dwork, work_at - jiffies);
-+			if (!ret)
-+				dev_err(vxd->dev, "%s: failed to modify work!\n", __func__);
-+			/*
-+			 * Record the 'time' this work
-+			 * has been rescheduled at
-+			 */
-+			vxd->work_sched_at = work_at;
-+		}
-+	} else {
-+		/* Record the 'time' this work has been scheduled at */
-+		vxd->work_sched_at = work_at;
-+	}
-+}
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_GENMSG_MSG_TYPE, FW_DEVA_PARSE, unsigned char*);
 +
-+static void vxd_monitor_locked(struct vxd_dev *vxd)
-+{
-+	/* HW is dead, not much sense in rescheduling */
-+	if (vxd->hw_dead)
-+		return;
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_CTRL_ALLOC_ADDR,
++			  (unsigned int)pbatch_msg_bufinfo->dev_virt, unsigned char*);
++
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_BUFFER_SIZE,
++			  batch_msgdata->ctrl_alloc_bytes / sizeof(unsigned int), unsigned char*);
 +
 +	/*
-+	 * We are not processing anything, but pending list is not empty
-+	 * probably the message fifo is full, so retrigger the worker.
++	 * Operating mode and decode flags
 +	 */
-+	if (!list_empty(&vxd->pend) && list_empty(&vxd->msgs))
-+		vxd_sched_worker_locked(vxd, 1);
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_OPERATING_MODE, batch_msgdata->operating_mode,
++			  unsigned char*);
 +
-+	if (list_empty(&vxd->pend) && list_empty(&vxd->msgs) && vxd_is_apm_required(vxd)) {
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_dbg(vxd->dev, "%s: scheduling APM work (%d ms)!\n", __func__, vxd->hw_pm_delay);
-+#endif
-+		/*
-+		 * No items to process and no items being processed -
-+		 * disable the HW
-+		 */
-+		vxd->pm_start = jiffies;
-+		vxd_sched_worker_locked(vxd, vxd->hw_pm_delay);
-+		return;
-+	}
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_FLAGS, flags, unsigned char*);
 +
-+	if (vxd->hw_dwr_period > 0 && !list_empty(&vxd->msgs)) {
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_dbg(vxd->dev, "%s: scheduling DWR work (%d ms)!\n",
-+			__func__, vxd->hw_dwr_period);
-+#endif
-+		vxd->dwr_start = jiffies;
-+		vxd_sched_worker_locked(vxd, vxd->hw_dwr_period);
-+	}
-+}
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_VDEC_FLAGS, vdec_flags, unsigned char*);
 +
-+/*
-+ * Take first item from pending list and submit it to the hardware.
-+ * Has to be called with vxd->mutex locked.
-+ */
-+static int vxd_sched_single_locked(struct vxd_dev *vxd)
-+{
-+	struct vxd_item *item = NULL;
-+	unsigned long msg_size;
-+	int ret;
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_GENC_ID, batch_msgdata->genc_id, unsigned char*);
 +
-+	item = list_first_entry(&vxd->pend, struct vxd_item, list);
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_MB_LOAD, batch_msgdata->mb_load, unsigned char*);
 +
-+	msg_size = item->msg.payload_size / sizeof(unsigned int);
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_STREAMID,
++			  GET_STREAM_ID(batch_msgdata->transaction_id), unsigned char*);
 +
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev, "%s: checking msg_size: %zu, item: %p\n", __func__, msg_size, item);
-+#endif
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_EXT_STATE_BUFFER,
++			  (unsigned int)batch_msgdata->pvdec_fwctx->dev_virt, unsigned char*);
++
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_MSG_ID, ++core_ctx->current_msgid,
++			  unsigned char*);
++
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_TRANS_ID, batch_msgdata->transaction_id,
++			  unsigned char*);
++
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_TILE_CFG, batch_msgdata->tile_cfg, unsigned char*);
 +
 +	/*
-+	 * In case of exclusive item check if hw/fw is
-+	 * currently processing anything.
-+	 * If so we need to wait until items are returned back.
++	 * size of message
 +	 */
-+	if ((item->msg.out_flags & VXD_FW_MSG_FLAG_EXCL) && !list_empty(&vxd->msgs) &&
-+	    /*
-+	     * We can move forward if message
-+	     * is about to be dropped.
-+	     */
-+	     !(item->msg.out_flags & VXD_FW_MSG_FLAG_DROP))
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_GENMSG_MSG_SIZE,
++			  FW_DEVA_DECODE_SIZE / sizeof(unsigned int), unsigned char*);
 +
-+		ret = -EBUSY;
-+	else
++	*msg = pmsg;
++
++	return 0;
++}
++
++static int vdeckm_prepare_fragment(struct vdeckm_context *core_ctx,
++				   const struct hwctrl_fragment_msgdata
++				   *fragment_msgdata,
++				   unsigned char **msg)
++{
++	struct vidio_ddbufinfo *pbatch_msg_bufinfo = NULL;
++	unsigned char *pmsg = NULL;
++
++	pbatch_msg_bufinfo = fragment_msgdata->batchmsg_bufinfo;
++
++	if (!(fragment_msgdata->batchmsg_bufinfo)) {
++		pr_err("Batch message info missing!\n");
++		return IMG_ERROR_INVALID_PARAMETERS;
++	}
++
++	pmsg = kzalloc(FW_DEVA_DECODE_FRAGMENT_SIZE, GFP_KERNEL);
++	if (!pmsg)
++		return IMG_ERROR_MALLOC_FAILED;
++	/*
++	 * message type and stream id
++	 */
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_GENMSG_MSG_TYPE,
++			  FW_DEVA_PARSE_FRAGMENT, unsigned char*);
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_MSG_ID, ++core_ctx->current_msgid, unsigned char*);
++
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_FRAGMENT_CTRL_ALLOC_ADDR,
++			  (unsigned int)pbatch_msg_bufinfo->dev_virt
++			  + fragment_msgdata->ctrl_alloc_offset, unsigned char*);
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_FRAGMENT_BUFFER_SIZE,
++			  fragment_msgdata->ctrl_alloc_bytes / sizeof(unsigned int),
++			  unsigned char*);
++
++	/*
++	 * size of message
++	 */
++	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_GENMSG_MSG_SIZE,
++			  FW_DEVA_DECODE_FRAGMENT_SIZE / sizeof(unsigned int), unsigned char*);
++
++	*msg = pmsg;
++
++	return 0;
++}
++
++static int vdeckm_get_message(const void *hndl_vxd, const enum hwctrl_msgid msgid,
++			      const struct hwctrl_msgdata *msgdata,
++			      struct hwctrl_to_kernel_msg *to_kernelmsg)
++{
++	unsigned int result = 0;
++	struct vdeckm_context *core_ctx = (struct vdeckm_context *)hndl_vxd;
++
++	if (!core_ctx || !to_kernelmsg || !msgdata)
++		return IMG_ERROR_INVALID_PARAMETERS;
++
++	switch (msgid) {
++	case HWCTRL_MSGID_BATCH:
++		result = vdeckm_prepare_batch(core_ctx, &msgdata->batch_msgdata,
++					      &to_kernelmsg->msg_hdr);
++		break;
++
++	case HWCTRL_MSGID_FRAGMENT:
++		result = vdeckm_prepare_fragment(core_ctx, &msgdata->fragment_msgdata,
++						 &to_kernelmsg->msg_hdr);
++		vxd_set_msgflag(VXD_MSG_FLAG_DROP, &to_kernelmsg->flags);
++		break;
++
++	default:
++		result = IMG_ERROR_GENERIC_FAILURE;
++		pr_err("got a message that is not supported by PVDEC");
++		break;
++	}
++
++	if (result == 0) {
++		/* Set the stream ID for the next message to be sent. */
++		to_kernelmsg->km_str_id = msgdata->km_str_id;
++		to_kernelmsg->msg_size = MEMIO_READ_FIELD(to_kernelmsg->msg_hdr,
++							  FW_DEVA_GENMSG_MSG_SIZE) *
++							  sizeof(unsigned int);
++	}
++
++	return result;
++}
++
++static void hwctrl_dump_state(struct vxd_states *prev_state,
++			      struct vxd_states *cur_state,
++			      unsigned char pipe_minus1)
++{
++	pr_info("Back-End MbX                          [% 10d]",
++		prev_state->fw_state.pipe_state[pipe_minus1].be_mb.x);
++	pr_info("Back-End MbY                          [% 10d]",
++		prev_state->fw_state.pipe_state[pipe_minus1].be_mb.y);
++	pr_info("Front-End MbX                         [% 10d]",
++		prev_state->fw_state.pipe_state[pipe_minus1].fe_mb.x);
++	pr_info("Front-End MbY                         [% 10d]",
++		prev_state->fw_state.pipe_state[pipe_minus1].fe_mb.y);
++	pr_info("VDECFW_CHECKPOINT_BE_PICTURE_COMPLETE [0x%08X]",
++		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
++		[VDECFW_CHECKPOINT_BE_PICTURE_COMPLETE]);
++	pr_info("VDECFW_CHECKPOINT_BE_1SLICE_DONE      [0x%08X]",
++		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
++		[VDECFW_CHECKPOINT_BE_1SLICE_DONE]);
++	pr_info("VDECFW_CHECKPOINT_BE_PICTURE_STARTED  [0x%08X]",
++		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
++		[VDECFW_CHECKPOINT_BE_PICTURE_STARTED]);
++	pr_info("VDECFW_CHECKPOINT_FE_PICTURE_COMPLETE [0x%08X]",
++		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
++		[VDECFW_CHECKPOINT_FE_PICTURE_COMPLETE]);
++	pr_info("VDECFW_CHECKPOINT_FE_PARSE_DONE       [0x%08X]",
++		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
++		[VDECFW_CHECKPOINT_FE_PARSE_DONE]);
++	pr_info("VDECFW_CHECKPOINT_FE_1SLICE_DONE      [0x%08X]",
++		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
++		[VDECFW_CHECKPOINT_FE_1SLICE_DONE]);
++	pr_info("VDECFW_CHECKPOINT_ENTDEC_STARTED      [0x%08X]",
++		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
++		[VDECFW_CHECKPOINT_ENTDEC_STARTED]);
++	pr_info("VDECFW_CHECKPOINT_FIRMWARE_SAVED      [0x%08X]",
++		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
++		[VDECFW_CHECKPOINT_FIRMWARE_SAVED]);
++	pr_info("VDECFW_CHECKPOINT_PICMAN_COMPLETE     [0x%08X]",
++		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
++		[VDECFW_CHECKPOINT_PICMAN_COMPLETE]);
++	pr_info("VDECFW_CHECKPOINT_FIRMWARE_READY      [0x%08X]",
++		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
++		[VDECFW_CHECKPOINT_FIRMWARE_READY]);
++	pr_info("VDECFW_CHECKPOINT_PICTURE_STARTED     [0x%08X]",
++		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
++		[VDECFW_CHECKPOINT_PICTURE_STARTED]);
++}
++
++static unsigned int hwctrl_calculate_load(struct bspp_pict_hdr_info *pict_hdr_info)
++{
++	return (((pict_hdr_info->coded_frame_size.width + 15) / 16)
++	       * ((pict_hdr_info->coded_frame_size.height + 15) / 16));
++}
++
++static int hwctrl_send_batch_message(struct hwctrl_ctx *hwctx,
++				     struct dec_decpict *decpict,
++				     void *vxd_dec_ctx)
++{
++	int result;
++	struct hwctrl_to_kernel_msg to_kernelmsg = {0};
++	struct vidio_ddbufinfo *batchmsg_bufinfo =
++		decpict->batch_msginfo->ddbuf_info;
++	struct hwctrl_msgdata msg_data;
++	struct hwctrl_batch_msgdata *batch_msgdata = &msg_data.batch_msgdata;
++
++	memset(&msg_data, 0, sizeof(msg_data));
++
++	msg_data.km_str_id = GET_STREAM_ID(decpict->transaction_id);
++
++	batch_msgdata->batchmsg_bufinfo  = batchmsg_bufinfo;
++
++	batch_msgdata->transaction_id    = decpict->transaction_id;
++	batch_msgdata->pvdec_fwctx       = decpict->str_pvdec_fw_ctxbuf;
++	batch_msgdata->ctrl_alloc_bytes  = decpict->ctrl_alloc_bytes;
++	batch_msgdata->operating_mode    = decpict->operating_op;
++	batch_msgdata->genc_id           = decpict->genc_id;
++	batch_msgdata->mb_load           = hwctrl_calculate_load(decpict->pict_hdr_info);
++	batch_msgdata->size_delimited_mode =
++		(decpict->pict_hdr_info->parser_mode != VDECFW_SCP_ONLY) ?
++		(1) : (0);
++
++	result = vdeckm_get_message(hwctx->hndl_vxd, HWCTRL_MSGID_BATCH,
++				    &msg_data, &to_kernelmsg);
++	if (result != 0) {
++		pr_err("failed to get decode message\n");
++		return result;
++	}
++
++	pr_debug("[HWCTRL] send batch message\n");
++	result = vdeckm_send_message(hwctx->hndl_vxd, &to_kernelmsg,
++				     vxd_dec_ctx);
++	if (result != 0)
++		return result;
++
++	vdeckm_return_msg(hwctx->hndl_vxd, &to_kernelmsg);
++
++	return 0;
++}
++
++int hwctrl_process_msg(void *hndl_hwctx, unsigned int msg_flags, unsigned int *msg,
++		       struct dec_decpict **decpict)
++{
++	int result;
++	struct hwctrl_ctx *hwctx;
++	enum vxd_msg_attr msg_attr = VXD_MSG_ATTR_NONE;
++	struct dec_decpict *pdecpict = NULL;
++	unsigned int val_first = 0;
++	unsigned int val_sec = 0;
++
++	if (!hndl_hwctx || !msg || !decpict) {
++		VDEC_ASSERT(0);
++		return IMG_ERROR_INVALID_PARAMETERS;
++	}
++
++	hwctx = (struct hwctrl_ctx *)hndl_hwctx;
++
++	*decpict = NULL;
++
++	pr_debug("[HWCTRL] : process message\n");
++	result = vdeckm_process_msg(hwctx->hndl_vxd, msg, &hwctx->pend_pict_list, msg_flags,
++				    &msg_attr, &pdecpict);
++
++	/* validate pointers before using them */
++	if (!pdecpict || !pdecpict->first_fld_fwmsg || !pdecpict->second_fld_fwmsg) {
++		VDEC_ASSERT(0);
++		return -EIO;
++	}
++
++	val_first = pdecpict->first_fld_fwmsg->pict_attrs.pict_attrs.deverror;
++	val_sec = pdecpict->second_fld_fwmsg->pict_attrs.pict_attrs.deverror;
++
++	if (val_first || val_sec)
++		pr_err("device signaled critical error!!!\n");
++
++	if (msg_attr == VXD_MSG_ATTR_DECODED) {
++		pdecpict->state = DECODER_PICTURE_STATE_DECODED;
 +		/*
-+		 * Check if there's enough space
-+		 * in comms RAM to submit the message.
++		 * We have successfully decoded a picture as normally or
++		 * after the replay.
++		 * Mark HW is in good state.
 +		 */
-+		ret = vxd_pvdec_msg_fit(vxd->dev, vxd->reg_base, msg_size);
++		hwctx->is_fatal_state = 0;
++	} else if (msg_attr == VXD_MSG_ATTR_FATAL) {
++		struct hwctrl_state state;
++		unsigned char pipe_minus1 = 0;
 +
-+	if (ret == 0) {
-+		unsigned short msg_id;
++		memset(&state, 0, sizeof(state));
 +
-+		VXD_GEN_MSG_ID(vxd, item->stream_id, msg_id, struct vxd_dev*, unsigned int);
++		result = hwctrl_get_core_status(hwctx, &state);
++		if (result == 0) {
++			hwctx->is_prev_hw_state_set = 1;
++			memcpy(&hwctx->prev_state, &state, sizeof(struct hwctrl_state));
 +
-+		/* submit the message to the hardware */
-+		ret = vxd_pvdec_send_msg(vxd->dev, vxd->reg_base,
-+					 (unsigned int *)item->msg.payload, msg_size,
-+					 msg_id, vxd);
-+		if (ret) {
-+			dev_err(vxd->dev, "%s: failed to send msg!\n", __func__);
-+			VXD_RET_MSG_ID(vxd);
-+		} else {
-+			if (item->msg.out_flags & VXD_FW_MSG_FLAG_DROP) {
-+				__list_del_entry(&item->list);
-+				kfree(item);
-+#ifdef DEBUG_DECODER_DRIVER
-+				dev_dbg(vxd->dev, "%s: drop msg 0x%x! (user requested)\n",
-+					__func__, msg_id);
-+#endif
-+			} else {
-+				item->msg_id = msg_id;
-+#ifdef DEBUG_DECODER_DRIVER
-+				dev_dbg(vxd->dev,
-+					"%s: moving item %p, id 0x%x to msgs\n",
-+					__func__, item, item->msg_id);
-+#endif
-+				list_move(&item->list, &vxd->msgs);
++			for (pipe_minus1 = 0; pipe_minus1 < hwctx->num_pipes;
++				pipe_minus1++) {
++				hwctrl_dump_state(&state.core_state, &state.core_state,
++						  pipe_minus1);
 +			}
-+
-+			vxd_monitor_locked(vxd);
 +		}
-+
-+	} else if (ret == -EINVAL) {
-+		dev_warn(vxd->dev, "%s: invalid msg!\n", __func__);
-+		vxd_report_item_locked(vxd, item, VXD_FW_MSG_FLAG_INV);
-+		/*
-+		 * HW is ok, the message was invalid, so don't return an
-+		 * error
-+		 */
-+		ret = 0;
-+	} else if (ret == -EBUSY) {
-+		/*
-+		 * Not enough space. Message is already in the pending queue,
-+		 * so it will be submitted once we've got space. Delayed work
-+		 * might have been canceled (if we are currently processing
-+		 * threaded irq), so make sure that DWR will trigger if it's
-+		 * enabled.
-+		 */
-+		vxd_monitor_locked(vxd);
-+	} else {
-+		dev_err(vxd->dev, "%s: failed to check space for msg!\n", __func__);
 +	}
++	*decpict = pdecpict;
 +
-+	return ret;
++	return 0;
 +}
 +
-+/*
-+ * Take items from pending list and submit them to the hardware, if space is
-+ * available in the ring buffer.
-+ * Call with vxd->mutex locked
-+ */
-+static void vxd_schedule_locked(struct vxd_dev *vxd)
++int hwctrl_getcore_cached_status(void *hndl_hwctx, struct hwctrl_state *state)
 +{
-+	unsigned char emergency = vxd->emergency;
-+	int ret;
++	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
 +
-+	/* if HW is dead, inform the UM and skip */
-+	if (vxd->hw_dead) {
-+		vxd_handle_io_error_locked(vxd);
-+		return;
-+	}
++	if (hwctx->is_prev_hw_state_set)
++		memcpy(state, &hwctx->prev_state, sizeof(struct hwctrl_state));
++	else
++		return IMG_ERROR_UNEXPECTED_STATE;
 +
-+	if (!vxd->hw_on && !list_empty(&vxd->msgs))
-+		dev_err(vxd->dev, "%s: msgs not empty when the HW is off!\n", __func__);
-+
-+	if (list_empty(&vxd->pend)) {
-+		vxd_monitor_locked(vxd);
-+		return;
-+	}
-+
-+	/*
-+	 * If the emergency routine was fired, the hw was left ON,so the UM
-+	 * could do the post mortem analysis before submitting the next items.
-+	 * Now we can switch off the hardware.
-+	 */
-+	if (emergency) {
-+		vxd->emergency = 0;
-+		vxd_make_hw_off_locked(vxd, FALSE);
-+		usleep_range(1000, 2000);
-+	}
-+
-+	/* Try to schedule */
-+	ret = 0;
-+	while (!list_empty(&vxd->pend) && ret == 0) {
-+		struct vxd_item *item;
-+		struct vxd_stream *stream;
-+
-+		item = list_first_entry(&vxd->pend, struct vxd_item, list);
-+		stream = idr_find(vxd->streams, item->stream_id);
-+
-+		ret = vxd_make_hw_on_locked(vxd, stream->ptd);
-+		if (ret) {
-+			dev_err(vxd->dev, "%s: failed to start HW!\n", __func__);
-+			vxd->hw_dead = 1;
-+			vxd_handle_io_error_locked(vxd);
-+			return;
-+		}
-+
-+		ret = vxd_sched_single_locked(vxd);
-+	}
-+
-+	if (ret != 0 && ret != -EBUSY) {
-+		dev_err(vxd->dev, "%s: failed to schedule, emrg: %d!\n", __func__, emergency);
-+		if (emergency) {
-+			/*
-+			 * Failed to schedule in the emergency mode --
-+			 * there's no hope. Power off the HW, mark all
-+			 * items as failed and return them.
-+			 */
-+			vxd_handle_io_error_locked(vxd);
-+			return;
-+		}
-+		/* Let worker try to handle it */
-+		vxd_sched_worker_locked(vxd, 0);
-+	}
++	return 0;
 +}
 +
-+static void stream_worker(void *work)
++int hwctrl_get_core_status(void *hndl_hwctx, struct hwctrl_state *state)
 +{
-+	struct vxd_dec_ctx *ctx = NULL;
-+	struct vxd_dev *vxd = NULL;
-+	struct vxd_item *item;
++	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
++	unsigned int result = IMG_ERROR_GENERIC_FAILURE;
 +
-+	work = get_work_buff(work, FALSE);
-+	ctx = container_of(work, struct vxd_dec_ctx, work);
-+	vxd = ctx->dev;
++	if (!hwctx->is_fatal_state && state) {
++		struct vxd_states *pcorestate = NULL;
 +
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev, "%s: got work for ctx %p\n", __func__, ctx);
-+#endif
++		pcorestate  = &state->core_state;
 +
-+	mutex_lock_nested(ctx->mutex, SUBCLASS_VXD_CORE);
++		memset(pcorestate, 0, sizeof(*(pcorestate)));
 +
-+	while (!list_empty(&ctx->items_done)) {
-+		item = list_first_entry(&ctx->items_done, struct vxd_item, list);
-+
-+		item->msg.out_flags &= VXD_FW_MSG_RD_FLAGS_MASK;
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_info(vxd->dev, "%s: item: %p, payload_size: %d, flags: 0x%x\n",
-+			 __func__, item, item->msg.payload_size,
-+			 item->msg.out_flags);
-+#endif
-+
-+		if (ctx->cb)
-+			ctx->cb(ctx->res_str_id, item->msg.payload,
-+				item->msg.payload_size, item->msg.out_flags);
-+
-+		__list_del_entry(&item->list);
-+		kfree(item);
++		result = vdeckm_get_core_state(hwctx->hndl_vxd, pcorestate);
 +	}
-+	mutex_unlock(ctx->mutex);
++
++	return result;
 +}
 +
-+int vxd_create_ctx(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx)
++int hwctrl_is_on_seq_replay(void *hndl_hwctx)
 +{
-+	int ret = 0;
-+	unsigned int fw_load_retries = 2 * 1000;
++	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
 +
-+	while (!vxd->firmware.ready) {
-+		usleep_range(1000, 2000);
-+		fw_load_retries--;
-+	}
-+	if (vxd->firmware.buf_id == 0) {
-+		dev_err(vxd->dev, "%s: request fw not yet done!\n", __func__);
-+		return -EAGAIN;
-+	}
-+
-+	/* Create memory management context for HW buffers */
-+	ret = img_mem_create_ctx(&ctx->mem_ctx);
-+	if (ret) {
-+		dev_err(vxd->dev, "%s: failed to create mem context (err:%d)!\n", __func__, ret);
-+		return ret;
-+	}
-+
-+	ret = img_mmu_ctx_create(vxd->dev, vxd->mmu_config_addr_width,
-+				 ctx->mem_ctx, vxd_drv.internal_heap_id,
-+				 img_mmu_callback, vxd, &ctx->mmu_ctx);
-+	if (ret) {
-+		dev_err(vxd->dev, "%s:%d: failed to create mmu ctx\n", __func__, __LINE__);
-+		ret = -EPERM;
-+		goto out_destroy_ctx;
-+	}
-+
-+	ret = img_mmu_map(ctx->mmu_ctx, vxd->mem_ctx, vxd->firmware.buf_id,
-+			  vxd_drv.virt_space.fw_addr,
-+			  VXD_MMU_PTD_FLAG_READ_ONLY);
-+	if (ret) {
-+		dev_err(vxd->dev, "%s:%d: failed to map firmware buffer\n", __func__, __LINE__);
-+		ret = -EPERM;
-+		goto out_destroy_mmu_ctx;
-+	}
-+
-+	ret = img_mmu_map(ctx->mmu_ctx, vxd->mem_ctx, vxd->rendec_buf_id,
-+			  vxd_drv.virt_space.rendec_addr,
-+			  VXD_MMU_PTD_FLAG_NONE);
-+	if (ret) {
-+		dev_err(vxd->dev, "%s:%d: failed to map rendec buffer\n", __func__, __LINE__);
-+		ret = -EPERM;
-+		goto out_unmap_fw;
-+	}
-+
-+	ret = img_mmu_get_ptd(ctx->mmu_ctx, &ctx->ptd);
-+	if (ret) {
-+		dev_err(vxd->dev, "%s:%d: failed to get PTD\n", __func__, __LINE__);
-+		ret = -EPERM;
-+		goto out_unmap_rendec;
-+	}
-+
-+	/* load fw - turned Hw on */
-+	ret = vxd_make_hw_on_locked(vxd, ctx->ptd);
-+	if (ret) {
-+		dev_err(vxd->dev, "%s:%d: failed to start HW\n", __func__, __LINE__);
-+		ret = -EPERM;
-+		vxd->hw_on = FALSE;
-+		goto out_unmap_rendec;
-+	}
-+
-+	init_work(&ctx->work, stream_worker, HWA_DECODER);
-+	if (!ctx->work) {
-+		ret = ENOMEM;
-+		goto out_unmap_rendec;
-+	}
-+
-+	vxd->fw_refcnt++;
-+
-+	return ret;
-+
-+out_unmap_rendec:
-+	img_mmu_unmap(ctx->mmu_ctx, vxd->mem_ctx, vxd->rendec_buf_id);
-+out_unmap_fw:
-+	img_mmu_unmap(ctx->mmu_ctx, vxd->mem_ctx, vxd->firmware.buf_id);
-+
-+out_destroy_mmu_ctx:
-+	img_mmu_ctx_destroy(ctx->mmu_ctx);
-+out_destroy_ctx:
-+	img_mem_destroy_ctx(ctx->mem_ctx);
-+	return ret;
++	return hwctx->is_on_seq_replay;
 +}
 +
-+void vxd_destroy_ctx(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx)
++int hwctrl_picture_submitbatch(void *hndl_hwctx, struct dec_decpict  *decpict, void *vxd_dec_ctx)
 +{
-+	vxd->fw_refcnt--;
++	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
 +
-+	flush_work(ctx->work);
-+
-+	img_mmu_unmap(ctx->mmu_ctx, vxd->mem_ctx, vxd->rendec_buf_id);
-+
-+	img_mmu_unmap(ctx->mmu_ctx, vxd->mem_ctx, vxd->firmware.buf_id);
-+
-+	img_mmu_ctx_destroy(ctx->mmu_ctx);
-+
-+	img_mem_destroy_ctx(ctx->mem_ctx);
-+
-+	if (vxd->fw_refcnt == 0) {
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_info(vxd->dev, "FW: put %s\n", drv_fw_name);
-+#endif
-+		/* Poke the monitor to finally switch off the hw, when needed */
-+		vxd_monitor_locked(vxd);
-+	}
-+}
-+
-+/* Top half */
-+irqreturn_t vxd_handle_irq(void *dev)
-+{
-+	struct vxd_dev *vxd = ((const struct device *)dev)->driver_data;
-+	struct vxd_hw_state *hw_state = &vxd->state.hw_state;
-+	int ret;
-+
-+	if (!vxd)
-+		return IRQ_NONE;
-+
-+	ret = vxd_pvdec_clear_int(vxd->reg_base, &hw_state->irq_status);
-+
-+	if (!hw_state->irq_status || ret == IRQ_NONE)
-+		dev_warn(dev, "Got spurious interrupt!\n");
-+
-+	return (irqreturn_t)ret;
-+}
-+
-+static void vxd_drop_msg_locked(const struct vxd_dev *vxd)
-+{
-+	int ret;
-+
-+	ret = vxd_pvdec_recv_msg(vxd->dev, vxd->reg_base, NULL, 0, (struct vxd_dev *)vxd);
-+	if (ret)
-+		dev_warn(vxd->dev, "%s: failed to receive msg!\n", __func__);
-+}
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+static void vxd_dbg_dump_msg(const void *dev, const unsigned char *func,
-+			     const unsigned int *payload,
-+			     unsigned long msg_size)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < msg_size; i++)
-+		dev_dbg(dev, "%s: msg %d: 0x%08x\n", func, i, payload[i]);
-+}
-+#endif
-+
-+static struct vxd_item *vxd_get_orphaned_item_locked(struct vxd_dev *vxd,
-+						     unsigned short msg_id,
-+						     unsigned long msg_size)
-+{
-+	struct vxd_stream *stream;
-+	struct vxd_item *item;
-+	unsigned short str_id = VXD_MSG_ID_GET_STR_ID(msg_id);
-+
-+	/* Try to find associated stream */
-+	stream = idr_find(vxd->streams, str_id);
-+	if (!stream) {
-+		/* Failed to find associated stream. */
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_dbg(vxd->dev, "%s: failed to find str_id: %u\n", __func__, str_id);
-+#endif
-+		return NULL;
++	if (hwctx->is_initialised) {
++		lst_add(&hwctx->pend_pict_list, decpict);
++		if (!hwctx->is_on_seq_replay)
++			return hwctrl_send_batch_message(hwctx, decpict, vxd_dec_ctx);
 +	}
 +
-+	item = kzalloc(sizeof(*item) + (msg_size * sizeof(unsigned int)), GFP_KERNEL);
-+	if (!item)
-+		return NULL;
-+
-+	item->msg.out_flags = 0;
-+	item->stream_id = str_id;
-+	item->msg.payload_size = msg_size * sizeof(unsigned int);
-+	if (vxd_pvdec_recv_msg(vxd->dev, vxd->reg_base, item->msg.payload, msg_size, vxd)) {
-+		dev_err(vxd->dev, "%s: failed to receive msg from VXD!\n", __func__);
-+		item->msg.out_flags |= VXD_FW_MSG_FLAG_DEV_ERR;
-+	}
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev, "%s: item: %p str_id: %u\n", __func__, item, str_id);
-+#endif
-+	/*
-+	 * Need to put this item on the vxd->msgs list.
-+	 * It will be removed after.
-+	 */
-+	list_add_tail(&item->list, &vxd->msgs);
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	vxd_dbg_dump_msg(vxd->dev, __func__, item->msg.payload, msg_size);
-+#endif
-+
-+	return item;
++	return 0;
 +}
 +
-+/*
-+ * Fetch and process a single message from the MTX->host ring buffer.
-+ * <no_more> parameter is used to indicate if there are more messages pending.
-+ * <fatal> parameter indicates if there is some serious situation detected.
-+ * Has to be called with vxd->mutex locked.
-+ */
-+static void vxd_handle_single_msg_locked(struct vxd_dev *vxd,
-+					 unsigned char *no_more,
-+					 unsigned char *fatal)
++int hwctrl_getpicpend_pictlist(void *hndl_hwctx, unsigned int transaction_id,
++			       struct dec_decpict  **decpict)
 +{
-+	int ret;
-+	unsigned short msg_id, str_id;
-+	unsigned long msg_size; /* size in dwords */
-+	struct vxd_item *item = NULL, *tmp, *it;
-+	struct vxd_stream *stream;
-+	void *dev = vxd->dev;
-+	unsigned char not_last_msg;
++	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
++	struct dec_decpict  *dec_pic;
 +
-+	/* get the message size and id */
-+	ret = vxd_pvdec_pend_msg_info(dev, vxd->reg_base, &msg_size, &msg_id,
-+				      &not_last_msg);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to get pending msg size!\n", __func__);
-+		*no_more = TRUE; /* worker will HW failure */
-+		return;
-+	}
-+
-+	if (msg_size == 0) {
-+		*no_more = TRUE;
-+		return;
-+	}
-+	*no_more = FALSE;
-+
-+	str_id = VXD_MSG_ID_GET_STR_ID(msg_id);
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: [msg] size: %zu, cnt: %u, str_id: %u, id: 0x%x\n",
-+		__func__, msg_size, VXD_MSG_ID_GET_CNT(msg_id),
-+		str_id, msg_id);
-+	dev_dbg(dev, "%s: [msg] not last: %u\n", __func__, not_last_msg);
-+#endif
-+
-+	cancel_delayed_work(vxd->dwork);
-+
-+	/* Find associated item */
-+	list_for_each_entry_safe_reverse(it, tmp, &vxd->msgs, list) {
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_dbg(dev, "%s: checking item %p [0x%x] [des: %d]\n",
-+			__func__, it, it->msg_id, it->destroy);
-+#endif
-+		if (it->msg_id == msg_id) {
-+			item = it;
++	dec_pic = lst_first(&hwctx->pend_pict_list);
++	while (dec_pic) {
++		if (dec_pic->transaction_id == transaction_id) {
++			*decpict = dec_pic;
 +			break;
 +		}
++		dec_pic = lst_next(dec_pic);
 +	}
 +
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: found item %p [destroy: %d]\n",
-+		__func__, item, item ? item->destroy : VXD_INVALID_ID);
-+#endif
-+
-+	/* Find associated stream */
-+	stream = idr_find(vxd->streams, str_id);
-+	/*
-+	 * Check for firmware condition in case
-+	 * when unexpected item is received.
-+	 */
-+	if (!item && !stream && vxd_pvdec_check_fw_status(dev, vxd->reg_base)) {
-+		struct vxd_item *orphan;
-+		/*
-+		 * Lets forward the fatal info to listeners first, relaying
-+		 * on the head of the msg queue.
-+		 */
-+		/* TODO: forward fatal info to all attached processes */
-+		item = list_entry(vxd->msgs.prev, struct vxd_item, list);
-+		orphan = vxd_get_orphaned_item_locked(vxd, item->msg_id, msg_size);
-+		if (!orphan) {
-+			dev_warn(dev, "%s: drop msg 0x%x! (no orphan)\n", __func__, item->msg_id);
-+			vxd_drop_msg_locked(vxd);
-+		}
-+
-+		*fatal = TRUE;
-+		return;
-+	}
-+
-+	if ((item && item->destroy) || !stream) {
-+		/*
-+		 * Item was marked for destruction or we failed to find
-+		 * associated stream. Probably it was already destroyed --
-+		 * just ignore the message.
-+		 */
-+		if (item) {
-+			__list_del_entry(&item->list);
-+			kfree(item);
-+			item = NULL;
-+		}
-+		dev_warn(dev, "%s: drop msg 0x%x! (no owner)\n", __func__, msg_id);
-+		vxd_drop_msg_locked(vxd);
-+		return;
-+	}
-+
-+	/* Remove item from vxd->msgs list */
-+	if (item && item->msg_id == msg_id && !not_last_msg)
-+		__list_del_entry(&item->list);
-+
-+	/*
-+	 * If there's no such item on a <being processed> list, or the one
-+	 * found is too small to fit the output, or it's not supposed to be
-+	 * released, allocate a new one.
-+	 */
-+	if (!item || (msg_size * sizeof(unsigned int) > item->msg.payload_size) || not_last_msg) {
-+		struct vxd_item *new_item;
-+
-+		new_item = kzalloc(sizeof(*new_item) +
-+				(msg_size * sizeof(unsigned int)), GFP_KERNEL);
-+		if (item) {
-+			if (!new_item) {
-+				/*
-+				 * Failed to allocate new item. Mark item as
-+				 * errored and continue best effort, provide
-+				 * only part of the message to the userspace
-+				 */
-+				dev_err(dev, "%s: failed to alloc new item!\n", __func__);
-+				msg_size = item->msg.payload_size / sizeof(unsigned int);
-+				item->msg.out_flags |= VXD_FW_MSG_FLAG_DRV_ERR;
-+			} else {
-+				*new_item = *item;
-+				/*
-+				 * Do not free the old item if subsequent
-+				 * messages are expected (it also wasn't
-+				 * removed from the vxd->msgs list, so we are
-+				 * not losing a pointer here).
-+				 */
-+				if (!not_last_msg)
-+					kfree(item);
-+				item = new_item;
-+			}
-+		} else {
-+			if (!new_item) {
-+				/*
-+				 * We have no place to put the message, we have
-+				 * to drop it
-+				 */
-+				dev_err(dev, "%s: drop msg 0x%08x! (no mem)\n", __func__, msg_id);
-+				vxd_drop_msg_locked(vxd);
-+				return;
-+			}
-+			/*
-+			 * There was no corresponding item on the
-+			 * <being processed> list and we've allocated
-+			 * a new one. Initialize it
-+			 */
-+			new_item->msg.out_flags = 0;
-+			new_item->stream_id = str_id;
-+			item = new_item;
-+		}
-+	}
-+	ret = vxd_pvdec_recv_msg(dev, vxd->reg_base, item->msg.payload, msg_size, vxd);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to receive msg from VXD!\n", __func__);
-+		item->msg.out_flags |= VXD_FW_MSG_FLAG_DEV_ERR;
-+	}
-+	item->msg.payload_size = msg_size * sizeof(unsigned int);
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	vxd_dbg_dump_msg(dev, __func__, item->msg.payload, msg_size);
-+
-+	dev_dbg(dev, "%s: adding to done list, item: %p, msg_size: %zu\n",
-+		__func__, item, msg_size);
-+#endif
-+	list_add_tail(&item->list, &stream->ctx->items_done);
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_info(dev, "%s: signaling worker for %p\n", __func__, stream->ctx);
-+#endif
-+	schedule_work(stream->ctx->work);
-+}
-+
-+/* Bottom half */
-+irqreturn_t vxd_handle_thread_irq(void *dev)
-+{
-+	unsigned char no_more = FALSE;
-+	unsigned char fatal = FALSE;
-+	struct vxd_dev *vxd = ((const struct device *)dev)->driver_data;
-+	struct vxd_hw_state *hw_state = &vxd->state.hw_state;
-+	irqreturn_t ret = IRQ_HANDLED;
-+
-+	if (!vxd)
-+		return IRQ_NONE;
-+
-+	mutex_lock(vxd->mutex);
-+
-+	/* Spurious interrupt? */
-+	if (unlikely(!vxd->hw_on || vxd->hw_dead)) {
-+		ret = IRQ_NONE;
-+		goto out_unlock;
-+	}
-+
-+	/* Check for critical exception - only MMU faults for now */
-+	if (vxd_pvdec_check_irq(dev, vxd->reg_base, hw_state->irq_status) < 0) {
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_info(vxd->dev, "device MMU fault: resetting!!!\n");
-+#endif
-+		vxd_emrg_reset_locked(vxd, VXD_FW_MSG_FLAG_MMU_FAULT);
-+		goto out_unlock;
-+	}
-+
-+	/*
-+	 * Single interrupt can correspond to multiple messages, handle them
-+	 * all.
-+	 */
-+	while (!no_more)
-+		vxd_handle_single_msg_locked(vxd, &no_more, &fatal);
-+
-+	if (fatal) {
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_info(vxd->dev, "fw fatal condition: resetting!!!\n");
-+#endif
-+		/* Try to recover ... */
-+		vxd_emrg_reset_locked(vxd, VXD_FW_MSG_FLAG_FATAL);
-+	} else {
-+		/* Try to submit items to the HW */
-+		vxd_schedule_locked(vxd);
-+	}
-+
-+out_unlock:
-+	hw_state->irq_status = 0;
-+	mutex_unlock(vxd->mutex);
-+
-+	return ret;
-+}
-+
-+static void vxd_worker(void *work)
-+{
-+	struct vxd_dev *vxd = NULL;
-+	struct vxd_hw_state state = { 0 };
-+	struct vxd_item *item_tail;
-+
-+	work = get_delayed_work_buff(work, FALSE);
-+	vxd = container_of(work, struct vxd_dev, dwork);
-+	mutex_lock(vxd->mutex);
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev, "%s: jif: %lu, pm: %llu dwr: %llu\n", __func__,
-+		jiffies, vxd->pm_start, vxd->dwr_start);
-+#endif
-+
-+	/*
-+	 * Disable the hardware if it has been idle for vxd->hw_pm_delay
-+	 * milliseconds. Or simply leave the function without doing anything
-+	 * if the HW is not supposed to be turned off.
-+	 */
-+	if (list_empty(&vxd->pend) && list_empty(&vxd->msgs)) {
-+		if (vxd_is_apm_required(vxd)) {
-+			unsigned long long dst = vxd->pm_start +
-+				msecs_to_jiffies(vxd->hw_pm_delay);
-+
-+			if (time_is_before_eq_jiffies((unsigned long)dst)) {
-+#ifdef DEBUG_DECODER_DRIVER
-+				dev_dbg(vxd->dev, "%s: pm, power off\n", __func__);
-+#endif
-+				vxd_make_hw_off_locked(vxd, FALSE);
-+			} else {
-+				unsigned long long targ = dst - jiffies;
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+				dev_dbg(vxd->dev, "%s: pm, reschedule: %llu\n", __func__, targ);
-+#endif
-+				vxd_sched_worker_locked(vxd, jiffies_to_msecs(targ));
-+			}
-+		}
-+		goto out_unlock;
-+	}
-+
-+	/*
-+	 * We are not processing anything, but pending list is not empty (if it
-+	 * was, we would enter <if statement> above. This can happen upon
-+	 * specific conditions, when input message occupies almost whole
-+	 * host->MTX ring buffer and is followed by large padding message.
-+	 */
-+	if (list_empty(&vxd->msgs)) {
-+		vxd_schedule_locked(vxd);
-+		goto out_unlock;
-+	}
-+
-+	/* Skip emergency reset if it's disabled. */
-+	if (vxd->hw_dwr_period <= 0) {
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_dbg(vxd->dev, "%s: skip watchdog\n", __func__);
-+#endif
-+		goto out_unlock;
-+	} else {
-+		/* Recalculate DWR when needed */
-+		unsigned long long dst = vxd->dwr_start +
-+			msecs_to_jiffies(vxd->hw_dwr_period);
-+
-+		if (time_is_after_jiffies((unsigned long)dst)) {
-+			unsigned long long targ = dst - jiffies;
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+			dev_dbg(vxd->dev, "%s: dwr, reschedule: %llu\n", __func__, targ);
-+#endif
-+			vxd_sched_worker_locked(vxd, jiffies_to_msecs(targ));
-+			goto out_unlock;
-+		}
-+	}
-+
-+	/* Get ID of the oldest item being processed by the HW */
-+	item_tail = list_entry(vxd->msgs.prev, struct vxd_item, list);
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev, "%s: tail_item: %p, id: 0x%x\n", __func__, item_tail,
-+		item_tail->msg_id);
-+#endif
-+
-+	/* Get HW and firmware state */
-+	vxd_pvdec_get_state(vxd->dev, vxd->reg_base, VXD_NUM_PIX_PIPES(vxd->props), &state);
-+
-+	if (vxd->state.msg_id_tail == item_tail->msg_id &&
-+	    !memcmp(&state, &vxd->state.hw_state,
-+	    sizeof(struct vxd_hw_state))) {
-+		vxd->state.msg_id_tail = 0;
-+		memset(&vxd->state.hw_state, 0, sizeof(vxd->state.hw_state));
-+		dev_err(vxd->dev, "device DWR(%ums) expired: resetting!!!\n",
-+			vxd->hw_dwr_period);
-+		vxd_emrg_reset_locked(vxd, VXD_FW_MSG_FLAG_DWR);
-+	} else {
-+		/* Record current state */
-+		vxd->state.msg_id_tail = item_tail->msg_id;
-+		vxd->state.hw_state = state;
-+
-+		/* Submit items to the HW, if space is available.  */
-+		vxd_schedule_locked(vxd);
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_dbg(vxd->dev, "%s: scheduling DWR work (%d ms)!\n",
-+			__func__, vxd->hw_dwr_period);
-+#endif
-+		vxd_sched_worker_locked(vxd, vxd->hw_dwr_period);
-+	}
-+
-+out_unlock:
-+	mutex_unlock(vxd->mutex);
-+}
-+
-+/*
-+ * Lazy initialization of main driver context (when first core is probed -- we
-+ * need heap configuration from sysdev to allocate firmware buffers.
-+ */
-+int vxd_init(void *dev, struct vxd_dev *vxd,
-+	     const struct heap_config heap_configs[], int heaps)
-+{
-+	int ret, i;
-+
-+	INIT_LIST_HEAD(&vxd_drv.heaps);
-+	vxd_drv.internal_heap_id = VXD_INVALID_ID;
-+
-+	vxd_drv.mem_ctx = NULL;
-+
-+	INIT_LIST_HEAD(&vxd_drv.devices);
-+
-+	vxd_drv.virt_space.fw_addr = 0x42000;
-+	vxd_drv.virt_space.rendec_addr = 0xe0000000;
-+
-+	vxd_drv.initialised = 0;
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: vxd drv init, params:\n", __func__);
-+#endif
-+
-+	/* Initialise memory management component */
-+	for (i = 0; i < heaps; i++) {
-+		struct vxd_heap *heap;
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_dbg(dev, "%s: adding heap of type %d\n",
-+			__func__, heap_configs[i].type);
-+#endif
-+
-+		heap = kzalloc(sizeof(*heap), GFP_KERNEL);
-+		if (!heap) {
-+			ret = -ENOMEM;
-+			goto heap_add_failed;
-+		}
-+
-+		ret = img_mem_add_heap(&heap_configs[i], &heap->id);
-+		if (ret < 0) {
-+			dev_err(dev, "%s: failed to init heap (type %d)!\n",
-+				__func__, heap_configs[i].type);
-+			kfree(heap);
-+			goto heap_add_failed;
-+		}
-+		list_add(&heap->list, &vxd_drv.heaps);
-+
-+		/* Implicitly, first heap is used for internal allocations */
-+		if (vxd_drv.internal_heap_id < 0) {
-+			vxd_drv.internal_heap_id = heap->id;
-+#ifdef DEBUG_DECODER_DRIVER
-+			dev_dbg(dev, "%s: using heap %d for internal alloc\n",
-+				__func__, vxd_drv.internal_heap_id);
-+#endif
-+		}
-+	}
-+
-+	/* Do not proceed if internal heap not defined */
-+	if (vxd_drv.internal_heap_id < 0) {
-+		dev_err(dev, "%s: failed to locate heap for internal alloc\n", __func__);
-+		ret = -EINVAL;
-+		/* Loop registered heaps just for sanity */
-+		goto heap_add_failed;
-+	}
-+
-+	/* Create memory management context for HW buffers */
-+	ret = img_mem_create_ctx(&vxd_drv.mem_ctx);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to create mem context (err:%d)!\n", __func__, ret);
-+		goto create_mem_context_failed;
-+	}
-+
-+	vxd->mem_ctx = vxd_drv.mem_ctx;
-+
-+	/* Allocate rendec buffer */
-+	ret = img_mem_alloc(dev, vxd_drv.mem_ctx, vxd_drv.internal_heap_id,
-+			    VXD_RENDEC_SIZE * VXD_NUM_PIX_PIPES(vxd->props),
-+			    (enum mem_attr)0, &vxd->rendec_buf_id);
-+	if (ret) {
-+		dev_err(dev, "%s: alloc rendec buffer failed (err:%d)!\n", __func__, ret);
-+		goto create_mem_context_failed;
-+	}
-+
-+	init_delayed_work(&vxd->dwork, vxd_worker, HWA_DECODER);
-+	if (!vxd->dwork) {
-+		ret = ENOMEM;
-+		goto create_mem_context_failed;
-+	}
-+
-+	vxd_drv.initialised = 1;
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: vxd drv init done\n", __func__);
-+#endif
-+	return 0;
-+
-+create_mem_context_failed:
-+heap_add_failed:
-+	while (!list_empty(&vxd_drv.heaps)) {
-+		struct vxd_heap *heap;
-+
-+		heap = list_first_entry(&vxd_drv.heaps, struct vxd_heap, list);
-+		__list_del_entry(&heap->list);
-+		img_mem_del_heap(heap->id);
-+		kfree(heap);
-+	}
-+	vxd_drv.internal_heap_id = VXD_INVALID_ID;
-+	return ret;
-+}
-+
-+/*
-+ * Get internal_heap_id
-+ * TODO: Only error checking is if < 0, so if the stored value is < 0, then
-+ * just passing the value to caller still conveys error.
-+ * Caller must error check.
-+ */
-+int vxd_g_internal_heap_id(void)
-+{
-+	return vxd_drv.internal_heap_id;
-+}
-+
-+void vxd_deinit(struct vxd_dev *vxd)
-+{
-+	cancel_delayed_work_sync(vxd->dwork);
-+	vxd_make_hw_off_locked(vxd, FALSE);
-+
-+	/* Destroy memory management context */
-+	if (vxd_drv.mem_ctx) {
-+		/* Deallocate rendec buffer */
-+		img_mem_free(vxd_drv.mem_ctx, vxd->rendec_buf_id);
-+
-+		img_mem_destroy_ctx(vxd_drv.mem_ctx);
-+		vxd_drv.mem_ctx = NULL;
-+	}
-+
-+	/* Deinitialize memory management component */
-+	while (!list_empty(&vxd_drv.heaps)) {
-+		struct vxd_heap *heap;
-+
-+		heap = list_first_entry(&vxd_drv.heaps, struct vxd_heap, list);
-+		__list_del_entry(&heap->list);
-+		img_mem_del_heap(heap->id);
-+		kfree(heap);
-+	}
-+
-+	vxd_drv.internal_heap_id = VXD_INVALID_ID;
-+	vxd_drv.mem_ctx = NULL;
-+	vxd_drv.virt_space.fw_addr = 0x0;
-+	vxd_drv.virt_space.rendec_addr = 0x0;
-+	vxd_drv.initialised = 0;
-+
-+#ifdef ERROR_RECOVERY_SIMULATION
-+	/* free the kernel object created to debug */
-+	kobject_put(vxd_dec_kobject);
-+#endif
-+}
-+
-+static void vxd_fw_loaded(const struct firmware *fw, void *context)
-+{
-+	struct vxd_dev *vxd = context;
-+	unsigned long bin_size;
-+	int buf_id;
-+	struct vxd_fw_hdr *hdr;
-+	void *buf_kptr;
-+	int ret;
-+	unsigned long size = 0;
-+	const unsigned char *data = NULL;
-+
-+	if (!fw) {
-+		dev_err(vxd->dev, "Firmware binary is not present\n");
-+		vxd->no_fw = 1;
-+		return;
-+	}
-+
-+	size = fw->size;
-+	data = fw->data;
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_info(vxd->dev, "FW: acquired %s size %zu\n", drv_fw_name, size);
-+#endif
-+
-+	/* Sanity verification of the firmware */
-+	if (size < sizeof(struct vxd_fw_hdr)) {
-+		dev_err(vxd->dev, "%s: firmware file too small!\n", __func__);
-+		goto out;
-+	}
-+
-+	bin_size = size - sizeof(struct vxd_fw_hdr);
-+	ret = img_mem_alloc(vxd->dev, vxd_drv.mem_ctx, vxd_drv.internal_heap_id,
-+			    bin_size, (enum mem_attr)0, &buf_id);
-+	if (ret) {
-+		dev_err(vxd->dev, "%s: failed to alloc fw buffer (err:%d)!\n", __func__, ret);
-+		goto out;
-+	}
-+
-+	hdr = kzalloc(sizeof(*hdr), GFP_KERNEL);
-+	if (!hdr)
-+		goto out_release_buf;
-+
-+	/* Store firmware header in vxd context */
-+	memcpy(hdr, data, sizeof(struct vxd_fw_hdr));
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_info(vxd->dev, "FW: info cs: %u, bs: %u, id: 0x%08x, ts: %u\n",
-+		 hdr->core_size, hdr->blob_size,
-+		 hdr->firmware_id, hdr->timestamp);
-+#endif
-+
-+	/* Check if header is consistent */
-+	if (hdr->core_size > bin_size || hdr->blob_size > bin_size) {
-+		dev_err(vxd->dev, "%s: got invalid firmware!\n", __func__);
-+		goto out_release_hdr;
-+	}
-+
-+	/* Map the firmware buffer to CPU */
-+	ret = img_mem_map_km(vxd_drv.mem_ctx, buf_id);
-+	if (ret) {
-+		dev_err(vxd->dev, "%s: failed to map FW buf to cpu! (%d)\n", __func__, ret);
-+		goto out_release_hdr;
-+	}
-+
-+	/* Copy firmware to device buffer */
-+	buf_kptr = img_mem_get_kptr(vxd_drv.mem_ctx, buf_id);
-+	memcpy(buf_kptr, data + sizeof(struct vxd_fw_hdr), size - sizeof(struct vxd_fw_hdr));
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev, "%s: FW: copied to buffer %d kptr 0x%p\n", __func__, buf_id, buf_kptr);
-+#endif
-+
-+	img_mem_sync_cpu_to_device(vxd_drv.mem_ctx, buf_id);
-+
-+	vxd->firmware.fw_size = size;
-+	vxd->firmware.buf_id = buf_id;
-+	vxd->firmware.hdr = hdr;
-+	vxd->firmware.ready = TRUE;
-+
-+	release_firmware(fw);
-+	complete_all(vxd->firmware_loading_complete);
-+	pr_debug("Firmware loaded successfully ..!!\n");
-+	return;
-+
-+out_release_hdr:
-+	kfree(hdr);
-+out_release_buf:
-+	img_mem_free(vxd_drv.mem_ctx, buf_id);
-+out:
-+	release_firmware(fw);
-+	complete_all(vxd->firmware_loading_complete);
-+	kfree(vxd->firmware_loading_complete);
-+	vxd->firmware_loading_complete = NULL;
-+}
-+
-+/*
-+ * Takes the firmware from the file system and allocates a buffer
-+ */
-+int vxd_prepare_fw(struct vxd_dev *vxd)
-+{
-+	int ret;
-+
-+	/* Fetch firmware from the file system */
-+	struct completion **firmware_loading_complete =
-+		(struct completion **)&vxd->firmware_loading_complete;
-+
-+	*firmware_loading_complete = kmalloc(sizeof(*firmware_loading_complete), GFP_KERNEL);
-+	if (!(*firmware_loading_complete)) {
-+		pr_err("Memory allocation failed for init_completion\n");
-+		return -ENOMEM;
-+	}
-+	init_completion(*firmware_loading_complete);
-+
-+	if (!vxd->firmware_loading_complete)
-+		return -ENOMEM;
-+
-+	vxd->firmware.ready = FALSE;
-+	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
-+				      drv_fw_name, vxd->dev, GFP_KERNEL, vxd,
-+				      vxd_fw_loaded);
-+	if (ret < 0) {
-+		dev_err(vxd->dev, "request_firmware_nowait err: %d\n", ret);
-+		complete_all(vxd->firmware_loading_complete);
-+		kfree(vxd->firmware_loading_complete);
-+		vxd->firmware_loading_complete = NULL;
-+	}
-+
-+	return ret;
-+}
-+
-+/*
-+ * Cleans firmware resources
-+ */
-+void vxd_clean_fw_resources(struct vxd_dev *vxd)
-+{
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev, "%s:%d\n", __func__, __LINE__);
-+#endif
-+
-+	wait_for_completion(vxd->firmware_loading_complete);
-+	kfree(vxd->firmware_loading_complete);
-+	vxd->firmware_loading_complete = NULL;
-+
-+	if (vxd->firmware.fw_size) {
-+		img_mem_free(vxd_drv.mem_ctx, vxd->firmware.buf_id);
-+		kfree(vxd->firmware.hdr);
-+		vxd->firmware.hdr = NULL;
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_info(vxd->dev, "FW: released %s\n", drv_fw_name);
-+#endif
-+		vxd->firmware.buf_id = VXD_INVALID_ID;
-+	}
-+}
-+
-+/*
-+ * Submit a message to the VXD.
-+ * <ctx> is used to verify that requested stream id (item->stream_id) is valid
-+ * for this ctx
-+ */
-+int vxd_send_msg(struct vxd_dec_ctx *ctx, struct vxd_fw_msg *msg)
-+{
-+	struct vxd_dev *vxd = ctx->dev;
-+	unsigned long msg_size;
-+	struct vxd_item *item;
-+	struct vxd_stream *stream;
-+	int ret;
-+
-+	if (msg->payload_size < VXD_MIN_INPUT_SIZE)
-+		return -EINVAL;
-+
-+	if (msg->payload_size % sizeof(unsigned int)) {
-+		dev_err(vxd->dev, "msg size not aligned! (%u)\n",
-+			msg->payload_size);
-+		return -EINVAL;
-+	}
-+
-+	msg_size = VXD_MSG_SIZE(*msg);
-+
-+	if (msg_size > VXD_MAX_INPUT_SIZE)
-+		return -EINVAL;
-+
-+	/* Verify that the gap was left for stream PTD */
-+	if (msg->payload[VXD_PTD_MSG_OFFSET] != 0) {
-+		dev_err(vxd->dev, "%s: PTD gap missing!\n", __func__);
-+		return -EINVAL;
-+	}
-+
-+	ret = mutex_lock_interruptible_nested(ctx->mutex, SUBCLASS_VXD_CORE);
-+	if (ret)
-+		return ret;
-+
-+	stream = idr_find(vxd->streams, ctx->stream.id);
-+	if (!stream) {
-+		dev_warn(vxd->dev, "%s: invalid stream id requested! (%u)\n",
-+			 __func__, ctx->stream.id);
-+
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
-+
-+	item = kmalloc(sizeof(*item) + msg->payload_size, GFP_KERNEL);
-+	if (!item) {
-+		ret = -ENOMEM;
-+		goto out_unlock;
-+	}
-+
-+	memcpy(&item->msg, msg, msg_size);
-+
-+	msg->out_flags &= VXD_FW_MSG_WR_FLAGS_MASK;
-+	item->stream_id = ctx->stream.id;
-+	item->msg_id = 0;
-+	item->msg.out_flags = msg->out_flags;
-+	item->destroy = 0;
-+
-+	/*
-+	 * Inject the stream PTD into the message. It was already verified that
-+	 * there is enough space.
-+	 */
-+	item->msg.payload[VXD_PTD_MSG_OFFSET] = stream->ptd;
-+
-+	list_add_tail(&item->list, &vxd->pend);
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev,
-+		"%s: added item %p to pend, ptd: 0x%x, str: %u flags: 0x%x\n",
-+		__func__, item, stream->ptd, stream->id, item->msg.out_flags);
-+#endif
-+
-+	vxd_schedule_locked(vxd);
-+
-+out_unlock:
-+	mutex_unlock(ctx->mutex);
-+
-+	return ret;
-+}
-+
-+int vxd_suspend_dev(void *dev)
-+{
-+	struct vxd_dev *vxd = platform_get_drvdata(to_platform_device(dev));
-+
-+	mutex_lock(vxd->mutex);
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: taking a nap!\n", __func__);
-+#endif
-+
-+	/* Cancel the worker first */
-+	cancel_delayed_work(vxd->dwork);
-+
-+	/* Forcing hardware disable */
-+	vxd_make_hw_off_locked(vxd, TRUE);
-+
-+	/* Move all valid items to the pending queue */
-+	vxd_rewind_msgs_locked(vxd);
-+
-+	mutex_unlock(vxd->mutex);
++	if (!dec_pic)
++		return IMG_ERROR_INVALID_ID;
 +
 +	return 0;
 +}
 +
-+int vxd_resume_dev(void *dev)
++int hwctrl_peekheadpiclist(void *hndl_hwctx, struct dec_decpict **decpict)
 +{
-+	struct vxd_dev *vxd = platform_get_drvdata(to_platform_device(dev));
-+	int ret = 0;
++	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
 +
-+	mutex_lock(vxd->mutex);
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: waking up!\n", __func__);
-+#endif
++	if (hwctx)
++		*decpict = lst_first(&hwctx->pend_pict_list);
 +
-+	mutex_unlock(vxd->mutex);
-+
-+	return ret;
-+}
-+
-+int vxd_map_buffer_sg(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx,
-+		      unsigned int str_id,
-+		      unsigned int buff_id,
-+		      void *sgt, unsigned int virt_addr,
-+		      unsigned int map_flags)
-+{
-+	struct vxd_stream *stream;
-+	unsigned int flags = VXD_MMU_PTD_FLAG_NONE;
-+	int ret;
-+
-+	ret = mutex_lock_interruptible_nested(ctx->mutex, SUBCLASS_VXD_CORE);
-+	if (ret)
-+		return ret;
-+
-+	stream = idr_find(vxd->streams, str_id);
-+	if (!stream) {
-+		dev_err(vxd->dev, "%s: stream %d not found!\n", __func__, str_id);
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
-+
-+	if ((map_flags & (VXD_MAP_FLAG_READ_ONLY | VXD_MAP_FLAG_WRITE_ONLY))
-+		== (VXD_MAP_FLAG_READ_ONLY | VXD_MAP_FLAG_WRITE_ONLY)) {
-+		dev_err(vxd->dev, "%s: Bogus mapping flags 0x%x!\n", __func__,
-+			map_flags);
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
-+
-+	/* Convert permission flags to internal definitions */
-+	if (map_flags & VXD_MAP_FLAG_READ_ONLY)
-+		flags |= VXD_MMU_PTD_FLAG_READ_ONLY;
-+
-+	if (map_flags & VXD_MAP_FLAG_WRITE_ONLY)
-+		flags |= VXD_MMU_PTD_FLAG_WRITE_ONLY;
-+
-+	ret = img_mmu_map_sg(stream->mmu_ctx, ctx->mem_ctx, buff_id, sgt, virt_addr, flags);
-+	if (ret) {
-+		dev_err(vxd->dev, "%s: map failed!\n", __func__);
-+		goto out_unlock;
-+	}
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev,
-+		"%s: mapped buf %u to 0x%08x, str_id: %u flags: 0x%x\n",
-+		__func__, buff_id, virt_addr, str_id, flags);
-+#endif
-+
-+out_unlock:
-+	mutex_unlock(ctx->mutex);
-+	return ret;
-+}
-+
-+int vxd_map_buffer(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx, unsigned int str_id,
-+		   unsigned int buff_id,
-+		   unsigned int virt_addr,
-+		   unsigned int map_flags)
-+{
-+	struct vxd_stream *stream;
-+	unsigned int flags = VXD_MMU_PTD_FLAG_NONE;
-+	int ret;
-+
-+	ret = mutex_lock_interruptible_nested(ctx->mutex, SUBCLASS_VXD_CORE);
-+	if (ret)
-+		return ret;
-+
-+	stream = idr_find(vxd->streams, str_id);
-+	if (!stream) {
-+		dev_err(vxd->dev, "%s: stream %d not found!\n", __func__, str_id);
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
-+
-+	if ((map_flags & (VXD_MAP_FLAG_READ_ONLY | VXD_MAP_FLAG_WRITE_ONLY))
-+		== (VXD_MAP_FLAG_READ_ONLY | VXD_MAP_FLAG_WRITE_ONLY)) {
-+		dev_err(vxd->dev, "%s: Bogus mapping flags 0x%x!\n", __func__, map_flags);
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
-+
-+	/* Convert permission flags to internal definitions */
-+	if (map_flags & VXD_MAP_FLAG_READ_ONLY)
-+		flags |= VXD_MMU_PTD_FLAG_READ_ONLY;
-+
-+	if (map_flags & VXD_MAP_FLAG_WRITE_ONLY)
-+		flags |= VXD_MMU_PTD_FLAG_WRITE_ONLY;
-+
-+	ret = img_mmu_map(stream->mmu_ctx, ctx->mem_ctx, buff_id, virt_addr, flags);
-+	if (ret) {
-+		dev_err(vxd->dev, "%s: map failed!\n", __func__);
-+		goto out_unlock;
-+	}
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev,
-+		"%s: mapped buf %u to 0x%08x, str_id: %u flags: 0x%x\n",
-+		__func__, buff_id, virt_addr, str_id, flags);
-+#endif
-+
-+out_unlock:
-+	mutex_unlock(ctx->mutex);
-+	return ret;
-+}
-+
-+int vxd_unmap_buffer(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx,
-+		     unsigned int str_id, unsigned int buff_id)
-+{
-+	struct vxd_stream *stream;
-+	int ret;
-+
-+	ret = mutex_lock_interruptible_nested(ctx->mutex, SUBCLASS_VXD_CORE);
-+	if (ret)
-+		return ret;
-+
-+	stream = idr_find(vxd->streams, str_id);
-+	if (!stream) {
-+		dev_err(vxd->dev, "%s: stream %d not found!\n", __func__, str_id);
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
-+
-+	ret = img_mmu_unmap(stream->mmu_ctx, ctx->mem_ctx, buff_id);
-+	if (ret) {
-+		dev_err(vxd->dev, "%s: map failed!\n", __func__);
-+		goto out_unlock;
-+	}
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(vxd->dev, "%s: unmapped buf %u str_id: %u\n", __func__, buff_id, str_id);
-+#endif
-+
-+out_unlock: mutex_unlock(ctx->mutex);
-+	return ret;
-+}
-diff --git a/drivers/staging/media/vxd/decoder/vxd_dec.c b/drivers/staging/media/vxd/decoder/vxd_dec.c
-new file mode 100644
-index 000000000000..cf3cf9b7b6f0
---- /dev/null
-+++ b/drivers/staging/media/vxd/decoder/vxd_dec.c
-@@ -0,0 +1,185 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * IMG DEC SYSDEV and UI Interface function implementations
-+ *
-+ * Copyright (c) Imagination Technologies Ltd.
-+ * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
-+ *
-+ * Authors:
-+ *	Amit Makani <amit.makani@ti.com>
-+ *
-+ * Re-written for upstreamimg
-+ *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
-+ *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com>
-+ */
-+
-+#include <linux/dma-mapping.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-mem2mem.h>
-+
-+#include "core.h"
-+#include "h264fw_data.h"
-+#include "hevcfw_data.h"
-+#include "img_dec_common.h"
-+#include "vxd_pvdec_priv.h"
-+
-+unsigned int get_nbuffers(enum vdec_vid_std std, int w, int h,
-+			  unsigned int max_num_ref_frames)
-+{
-+	unsigned int nbuffers;
-+
-+	switch (std) {
-+	case VDEC_STD_H264:
-+		/*
-+		 * Request number of buffers from header bspp information
-+		 * using formula N + Display Lag
-+		 * Parser is passing (2*N)
-+		 */
-+		if (max_num_ref_frames == 0) {
-+			nbuffers = DISPLAY_LAG + min(MAX_CAPBUFS_H264,
-+					(184320 / ((w / 16) * (h / 16))));
-+		} else {
-+			nbuffers = max_num_ref_frames + DISPLAY_LAG;
-+		}
-+		break;
-+	case VDEC_STD_HEVC:
-+		if (max_num_ref_frames == 0) {
-+			if ((w * h) <= (HEVC_MAX_LUMA_PS >> 2))
-+				nbuffers = 16;
-+			else if ((w * h) <= (HEVC_MAX_LUMA_PS >> 1))
-+				nbuffers = 12;
-+			else if ((w * h) <= ((3 * HEVC_MAX_LUMA_PS) >> 2))
-+				nbuffers = 8;
-+			else
-+				nbuffers = 6;
-+			nbuffers += DISPLAY_LAG;
-+		} else {
-+			nbuffers = max_num_ref_frames + DISPLAY_LAG;
-+		}
-+		break;
-+#ifdef HAS_JPEG
-+	case VDEC_STD_JPEG:
-+		/*
-+		 * Request number of output buffers based on h264 spec
-+		 * + display delay
-+		 */
-+		nbuffers = DISPLAY_LAG + min(MAX_CAPBUFS_H264,
-+				(184320 / ((w / 16) * (h / 16))));
-+		break;
-+#endif
-+	default:
-+		nbuffers = 0;
-+	}
-+
-+	return nbuffers;
-+}
-+
-+int vxd_dec_alloc_bspp_resource(struct vxd_dec_ctx *ctx, enum vdec_vid_std vid_std)
-+{
-+	struct vxd_dev *vxd_dev = ctx->dev;
-+	struct device *dev = vxd_dev->v4l2_dev.dev;
-+	struct vdec_buf_info buf_info;
-+	struct bspp_ddbuf_array_info *fw_sequ = ctx->fw_sequ;
-+	struct bspp_ddbuf_array_info *fw_pps = ctx->fw_pps;
-+	int attributes = 0, heap_id = 0, size = 0;
-+	int i, ret = 0;
-+
-+	attributes = SYS_MEMATTRIB_UNCACHED | SYS_MEMATTRIB_WRITECOMBINE |
-+		SYS_MEMATTRIB_INTERNAL | SYS_MEMATTRIB_CPU_WRITE;
-+	heap_id = vxd_g_internal_heap_id();
-+
-+	size = vid_std == VDEC_STD_HEVC ?
-+		sizeof(struct hevcfw_sequence_ps) : sizeof(struct h264fw_sequence_ps);
-+
-+#ifdef HAS_JPEG
-+	if (vid_std == VDEC_STD_JPEG)
-+		size = sizeof(struct vdec_jpeg_sequ_hdr_info);
-+#endif
-+
-+	for (i = 0; i < MAX_SEQUENCES; i++) {
-+		ret = img_mem_alloc(vxd_dev->dev, ctx->mem_ctx, heap_id,
-+				    size, (enum mem_attr)attributes,
-+				    (int *)&fw_sequ[i].ddbuf_info.buf_id);
-+		if (ret) {
-+			dev_err(dev, "Couldn't allocate sequ buffer %d\n", i);
-+			return -ENOMEM;
-+		}
-+		ret = img_mem_map_km(ctx->mem_ctx, fw_sequ[i].ddbuf_info.buf_id);
-+		if (ret) {
-+			dev_err(dev, "Couldn't map sequ buffer %d\n", i);
-+			return -ENOMEM;
-+		}
-+		fw_sequ[i].ddbuf_info.cpu_virt_addr = img_mem_get_kptr
-+							(ctx->mem_ctx,
-+							 fw_sequ[i].ddbuf_info.buf_id);
-+		fw_sequ[i].buf_offset = 0;
-+		fw_sequ[i].buf_element_size = size;
-+		fw_sequ[i].ddbuf_info.buf_size = size;
-+		fw_sequ[i].ddbuf_info.mem_attrib = (enum sys_emem_attrib)attributes;
-+		memset(fw_sequ[i].ddbuf_info.cpu_virt_addr, 0, size);
-+
-+		buf_info.cpu_linear_addr =
-+			fw_sequ[i].ddbuf_info.cpu_virt_addr;
-+		buf_info.buf_size = size;
-+		buf_info.fd = -1;
-+		buf_info.buf_id = fw_sequ[i].ddbuf_info.buf_id;
-+		buf_info.mem_attrib =
-+			(enum sys_emem_attrib)(SYS_MEMATTRIB_UNCACHED | SYS_MEMATTRIB_WRITECOMBINE |
-+			SYS_MEMATTRIB_INPUT | SYS_MEMATTRIB_CPU_WRITE);
-+
-+		ret = core_stream_map_buf(ctx->res_str_id, VDEC_BUFTYPE_BITSTREAM, &buf_info,
-+					  &fw_sequ[i].ddbuf_info.bufmap_id);
-+		if (ret) {
-+			dev_err(dev, "sps core_stream_map_buf failed\n");
-+			return ret;
-+		}
-+	}
-+
-+#ifdef HAS_JPEG
-+	if (vid_std == VDEC_STD_JPEG)
++	if (*decpict)
 +		return 0;
-+#endif
 +
-+	size = vid_std == VDEC_STD_HEVC ?
-+		sizeof(struct hevcfw_picture_ps) : sizeof(struct h264fw_picture_ps);
++	return IMG_ERROR_GENERIC_FAILURE;
++}
 +
-+	for (i = 0; i < MAX_PPSS; i++) {
-+		ret = img_mem_alloc(vxd_dev->dev, ctx->mem_ctx, heap_id, size,
-+				    (enum mem_attr)attributes,
-+				    (int *)&fw_pps[i].ddbuf_info.buf_id);
-+		if (ret) {
-+			dev_err(dev, "Couldn't allocate sequ buffer %d\n", i);
-+			return -ENOMEM;
-+		}
-+		ret = img_mem_map_km(ctx->mem_ctx, fw_pps[i].ddbuf_info.buf_id);
-+		if (ret) {
-+			dev_err(dev, "Couldn't map sequ buffer %d\n", i);
-+			return -ENOMEM;
-+		}
-+		fw_pps[i].ddbuf_info.cpu_virt_addr = img_mem_get_kptr(ctx->mem_ctx,
-+								      fw_pps[i].ddbuf_info.buf_id);
-+		fw_pps[i].buf_offset = 0;
-+		fw_pps[i].buf_element_size = size;
-+		fw_pps[i].ddbuf_info.buf_size = size;
-+		fw_pps[i].ddbuf_info.mem_attrib = (enum sys_emem_attrib)attributes;
-+		memset(fw_pps[i].ddbuf_info.cpu_virt_addr, 0, size);
++int hwctrl_getdecodedpicture(void *hndl_hwctx, struct dec_decpict **decpict)
++{
++	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
 +
-+		buf_info.cpu_linear_addr =
-+			fw_pps[i].ddbuf_info.cpu_virt_addr;
-+		buf_info.buf_size = size;
-+		buf_info.fd = -1;
-+		buf_info.buf_id = fw_pps[i].ddbuf_info.buf_id;
-+		buf_info.mem_attrib =
-+			(enum sys_emem_attrib)(SYS_MEMATTRIB_UNCACHED | SYS_MEMATTRIB_WRITECOMBINE |
-+			SYS_MEMATTRIB_INPUT | SYS_MEMATTRIB_CPU_WRITE);
++	if (hwctx) {
++		struct dec_decpict *cur_decpict;
++		/*
++		 * Ensure that this picture is in the list.
++		 */
++		cur_decpict = lst_first(&hwctx->pend_pict_list);
++		while (cur_decpict) {
++			if (cur_decpict->state == DECODER_PICTURE_STATE_DECODED) {
++				*decpict = cur_decpict;
++				return 0;
++			}
 +
-+		ret = core_stream_map_buf(ctx->res_str_id, VDEC_BUFTYPE_BITSTREAM, &buf_info,
-+					  &fw_pps[i].ddbuf_info.bufmap_id);
-+		if (ret) {
-+			dev_err(dev, "pps core_stream_map_buf failed\n");
-+			return ret;
++			cur_decpict = lst_next(cur_decpict);
 +		}
 +	}
++
++	return IMG_ERROR_VALUE_OUT_OF_RANGE;
++}
++
++void hwctrl_removefrom_piclist(void *hndl_hwctx, struct dec_decpict  *decpict)
++{
++	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
++
++	if (hwctx) {
++		struct dec_decpict *cur_decpict;
++		/*
++		 * Ensure that this picture is in the list.
++		 */
++		cur_decpict = lst_first(&hwctx->pend_pict_list);
++		while (cur_decpict) {
++			if (cur_decpict == decpict) {
++				lst_remove(&hwctx->pend_pict_list, decpict);
++				break;
++			}
++
++			cur_decpict = lst_next(cur_decpict);
++		}
++	}
++}
++
++int hwctrl_getregsoffset(void *hndl_hwctx, struct decoder_regsoffsets *regs_offsets)
++{
++	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
++
++	return vdeckm_getregsoffsets(hwctx->hndl_vxd, regs_offsets);
++}
++
++static int pvdec_create(struct vxd_dev *vxd, struct vxd_coreprops *core_props,
++			void **hndl_vdeckm_context)
++{
++	struct vdeckm_context  *corectx;
++	struct vxd_core_props hndl_core_props;
++	int result;
++
++	if (!hndl_vdeckm_context || !core_props)
++		return IMG_ERROR_INVALID_PARAMETERS;
++
++	/*
++	 * Obtain core context.
++	 */
++	corectx = &acore_ctx[0];
++
++	memset(corectx, 0, sizeof(*corectx));
++
++	corectx->core_num = 0;
++
++	result = vxd_pvdec_get_props(vxd->dev, vxd->reg_base, &hndl_core_props);
++	if (result != 0)
++		return result;
++
++	vxd_get_coreproperties(&hndl_core_props, &corectx->props);
++
++	memcpy(core_props, &corectx->props, sizeof(*core_props));
++
++	*hndl_vdeckm_context = corectx;
++
 +	return 0;
 +}
-diff --git a/drivers/staging/media/vxd/decoder/vxd_dec.h b/drivers/staging/media/vxd/decoder/vxd_dec.h
++
++int hwctrl_deinitialise(void *hndl_hwctx)
++{
++	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
++
++	if (hwctx->is_initialised) {
++		kfree(hwctx);
++		hwctx = NULL;
++	}
++
++	return 0;
++}
++
++int hwctrl_initialise(void *dec_core, void *comp_int_userdata,
++		      const struct vdecdd_dd_devconfig  *dd_devconfig,
++		      struct vxd_coreprops *core_props, void **hndl_hwctx)
++{
++	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)*hndl_hwctx;
++	int result;
++
++	if (!hwctx) {
++		hwctx = kzalloc(sizeof(*(hwctx)), GFP_KERNEL);
++		if (!hwctx)
++			return IMG_ERROR_OUT_OF_MEMORY;
++
++		*hndl_hwctx = hwctx;
++	}
++
++	if (!hwctx->is_initialised) {
++		hwctx->hndl_vxd = ((struct dec_core_ctx *)dec_core)->dec_ctx->dev_handle;
++		result = pvdec_create(hwctx->hndl_vxd, core_props, &hwctx->hndl_vxd);
++		if (result != 0)
++			goto error;
++
++		lst_init(&hwctx->pend_pict_list);
++
++		hwctx->devconfig = *dd_devconfig;
++		hwctx->num_pipes = core_props->num_pixel_pipes;
++		hwctx->comp_init_userdata = comp_int_userdata;
++		hwctx->dec_core = dec_core;
++		hwctx->is_initialised = 1;
++		hwctx->is_on_seq_replay = 0;
++		hwctx->is_fatal_state = 0;
++	}
++
++	return 0;
++error:
++	hwctrl_deinitialise(*hndl_hwctx);
++
++	return result;
++}
++
++static int hwctrl_send_fragment_message(struct hwctrl_ctx *hwctx,
++					struct dec_pict_fragment *pict_fragment,
++					struct dec_decpict *decpict,
++					void *vxd_dec_ctx)
++{
++	int result;
++	struct hwctrl_to_kernel_msg to_kernelmsg = {0};
++	struct hwctrl_msgdata msg_data;
++	struct hwctrl_fragment_msgdata *pfragment_msgdata =
++		&msg_data.fragment_msgdata;
++
++	msg_data.km_str_id = GET_STREAM_ID(decpict->transaction_id);
++
++	pfragment_msgdata->ctrl_alloc_bytes = pict_fragment->ctrl_alloc_bytes;
++
++	pfragment_msgdata->ctrl_alloc_offset = pict_fragment->ctrl_alloc_offset;
++
++	pfragment_msgdata->batchmsg_bufinfo = decpict->batch_msginfo->ddbuf_info;
++
++	result = vdeckm_get_message(hwctx->hndl_vxd, HWCTRL_MSGID_FRAGMENT, &msg_data,
++				    &to_kernelmsg);
++	if (result != 0) {
++		pr_err("Failed to get decode message\n");
++		return result;
++	}
++
++	result = vdeckm_send_message(hwctx->hndl_vxd, &to_kernelmsg, vxd_dec_ctx);
++	if (result != 0)
++		return result;
++
++	vdeckm_return_msg(hwctx->hndl_vxd, &to_kernelmsg);
++
++	return 0;
++}
++
++int hwctrl_picture_submit_fragment(void *hndl_hwctx,
++				   struct dec_pict_fragment  *pict_fragment,
++				   struct dec_decpict *decpict,
++				   void *vxd_dec_ctx)
++{
++	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
++	unsigned int result = 0;
++
++	if (hwctx->is_initialised) {
++		result = hwctrl_send_fragment_message(hwctx, pict_fragment,
++						      decpict, vxd_dec_ctx);
++		if (result != 0)
++			pr_err("Failed to send fragment message to firmware !");
++	}
++
++	return result;
++}
+diff --git a/drivers/staging/media/vxd/decoder/hw_control.h b/drivers/staging/media/vxd/decoder/hw_control.h
 new file mode 100644
-index 000000000000..a8d409bc4212
+index 000000000000..3f430969b998
 --- /dev/null
-+++ b/drivers/staging/media/vxd/decoder/vxd_dec.h
-@@ -0,0 +1,477 @@
++++ b/drivers/staging/media/vxd/decoder/hw_control.h
+@@ -0,0 +1,144 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * IMG DEC SYSDEV and UI Interface header
++ * VXD DEC Hardware control implementation
 + *
 + * Copyright (c) Imagination Technologies Ltd.
 + * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
@@ -2014,468 +1336,135 @@ index 000000000000..a8d409bc4212
 + *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com>
 + */
 +
-+#ifndef _VXD_DEC_H
-+#define _VXD_DEC_H
-+
-+#include <linux/interrupt.h>
-+#include <linux/dma-mapping.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-mem2mem.h>
-+#include <linux/types.h>
++#ifndef _HW_CONTROL_H
++#define _HW_CONTROL_H
 +
 +#include "bspp.h"
++#include "decoder.h"
++#include "fw_interface.h"
 +#include "img_dec_common.h"
-+#include "img_mem_man.h"
-+#include "img_pixfmts.h"
-+#include "pixel_api.h"
++#include "img_errors.h"
++#include "lst.h"
++#include "mem_io.h"
 +#include "vdecdd_defs.h"
-+#include "vdec_defs.h"
-+#include "work_queue.h"
++#include "vdecfw_shared.h"
++#include "vid_buf.h"
++#include "vxd_ext.h"
++#include "vxd_props.h"
 +
-+#define VXD_MIN_STREAM_ID 1
-+#define VXD_MAX_STREAMS_PER_DEV 254
-+#define VXD_MAX_STREAM_ID (VXD_MIN_STREAM_ID + VXD_MAX_STREAMS_PER_DEV)
++/* Size of additional buffers needed for each HEVC picture */
++#ifdef HAS_HEVC
 +
-+#define CODEC_NONE -1
-+#define CODEC_H264_DEC 0
-+#define CODEC_MPEG4_DEC 1
-+#define CODEC_VP8_DEC 2
-+#define CODEC_VC1_DEC 3
-+#define CODEC_MPEG2_DEC 4
-+#define CODEC_JPEG_DEC 5
-+#define CODEC_VP9_DEC 6
-+#define CODEC_HEVC_DEC 7
-+
-+#define MAX_SEGMENTS 6
-+#define HW_ALIGN 64
-+
-+#define MAX_BUF_TRACE 30
-+
-+#define MAX_CAPBUFS_H264 16
-+#define DISPLAY_LAG 3
-+#define HEVC_MAX_LUMA_PS 35651584
-+
-+#define MAX_PLANES 3
-+
-+enum {
-+	Q_DATA_SRC         = 0,
-+	Q_DATA_DST         = 1,
-+	Q_DATA_FORCE32BITS = 0x7FFFFFFFU
-+};
-+
-+enum {
-+	IMG_DEC_FMT_TYPE_CAPTURE     = 0x01,
-+	IMG_DEC_FMT_TYPE_OUTPUT      = 0x10,
-+	IMG_DEC_FMT_TYPE_FORCE32BITS = 0x7FFFFFFFU
-+};
-+
-+enum vxd_map_flags {
-+	VXD_MAP_FLAG_NONE        = 0x0,
-+	VXD_MAP_FLAG_READ_ONLY   = 0x1,
-+	VXD_MAP_FLAG_WRITE_ONLY  = 0x2,
-+	VXD_MAP_FLAG_FORCE32BITS = 0x7FFFFFFFU
-+};
++/* Empirically defined */
++#define MEM_TO_REG_BUF_SIZE 0x2000
 +
 +/*
-+ * struct vxd_fw_msg - This structure holds the information about the message
-+ *                     exchanged in read/write between Kernel and firmware.
-+ *
-+ * @out_flags: indicating the type of message
-+ * @payload_size: size of payload in bytes
-+ * @payload: data which is send to firmware
++ * Max. no. of slices found in stream db: approx. 2200,
++ * set MAX_SLICES to 2368 to get buffer size page aligned
 + */
-+struct vxd_fw_msg {
-+	unsigned int out_flags;
-+	unsigned int payload_size;
-+	unsigned int payload[0];
-+};
-+
-+/* HW state */
-+struct vxd_hw_state {
-+	unsigned int fw_counter;
-+	unsigned int fe_status[VXD_MAX_PIPES];
-+	unsigned int be_status[VXD_MAX_PIPES];
-+	unsigned int dmac_status[VXD_MAX_PIPES][2]; /* Cover DMA chan 2/3*/
-+	unsigned int irq_status;
-+};
++#define MAX_SLICES 2368
++#define SLICE_PARAMS_SIZE 64
++#define SLICE_PARAMS_BUF_SIZE (MAX_SLICES * SLICE_PARAMS_SIZE)
 +
 +/*
-+ * struct vxd_state - contains VXD HW state
-+ *
-+ * @hw_state: HW state
-+ * @msg_id_tail: msg id of the oldest item being processed
++ * Size of buffer for "above params" structure, sufficient for stream of width 8192
++ * 192 * (8192/64) == 0x6000, see "above_param_size" in TRM
 + */
-+struct vxd_state {
-+	struct vxd_hw_state hw_state;
-+	unsigned short msg_id_tail;
-+};
-+
-+/*
-+ * struct vxd_dec_fmt - contains info for each of the supported video format
-+ *
-+ * @fourcc: V4L2 pixel format FCC identifier
-+ * @num_planes: number of planes required for luma and chroma
-+ * @type: CAPTURE or OUTPUT
-+ * @std: VDEC video standard
-+ * @pixfmt: IMG pixel format
-+ * @interleave: Chroma interleave order
-+ * @idc: Chroma format
-+ * @size_num: Numberator used to calculate image size
-+ * @size_den: Denominator used to calculate image size
-+ * @bytes_pp: Bytes per pixel for this format
-+ */
-+struct vxd_dec_fmt {
-+	unsigned int fourcc;
-+	unsigned int num_planes;
-+	unsigned char type;
-+	enum vdec_vid_std std;
-+	enum img_pixfmt pixfmt;
-+	enum pixel_chroma_interleaved interleave;
-+	enum pixel_fmt_idc idc;
-+	int size_num;
-+	int size_den;
-+	int bytes_pp;
-+};
-+
-+/*
-+ * struct vxd_item - contains information about the item sent to fw
-+ *
-+ * @list: item to be linked list to items_done, msgs, or pend.
-+ * @stream_id: stream id
-+ * @msg_id: message id
-+ * @destroy: item belongs to the stream which is destroyed
-+ * @msg: contains msg between kernel and fw
-+ */
-+struct vxd_item {
-+	struct list_head list;
-+	unsigned int stream_id;
-+	unsigned int msg_id;
-+	struct {
-+		unsigned destroy : 1;
-+	};
-+	struct vxd_fw_msg msg;
-+};
-+
-+enum vxd_cb_type {
-+	VXD_CB_STRUNIT_PROCESSED,
-+	VXD_CB_SPS_RELEASE,
-+	VXD_CB_PPS_RELEASE,
-+	VXD_CB_PICT_DECODED,
-+	VXD_CB_PICT_DISPLAY,
-+	VXD_CB_PICT_RELEASE,
-+	VXD_CB_PICT_END,
-+	VXD_CB_STR_END,
-+	VXD_CB_ERROR_FATAL,
-+	VXD_CB_FORCE32BITS = 0x7FFFFFFFU
-+};
-+
-+/*
-+ * vxd_cb - Return a resource to vxd
-+ *
-+ * @ctx: the vxd stream context
-+ * @type: the type of message
-+ * @buf_map_id: the buf_map_id of the resource being returned
-+ */
-+typedef void (*vxd_cb)(void *ctx, enum vxd_cb_type type, unsigned int buf_map_id);
-+
-+/*
-+ * struct vxd_return - contains information about items returning from core
-+ *
-+ * @type: Type of item being returned
-+ * @buf_map_id: mmu mapped id of buffer being returned
-+ */
-+struct vxd_return {
-+	void *work;
-+	struct vxd_dec_ctx *ctx;
-+	enum vxd_cb_type type;
-+	unsigned int buf_map_id;
-+};
-+
-+/*
-+ * struct vxd_dec_q_data - contains queue data information
-+ *
-+ * @fmt: format info
-+ * @width: frame width
-+ * @height: frame height
-+ * @bytesperline: bytes per line in memory
-+ * @size_image: image size in memory
-+ */
-+struct vxd_dec_q_data {
-+	struct vxd_dec_fmt *fmt;
-+	unsigned int width;
-+	unsigned int height;
-+	unsigned int bytesperline[MAX_PLANES];
-+	unsigned int size_image[MAX_PLANES];
-+};
-+
-+/*
-+ * struct time_prof - contains time taken by decoding information
-+ *
-+ * @id: id info
-+ * @start_time: start time
-+ * @end_time: end time
-+ */
-+struct time_prof {
-+	unsigned int id;
-+	long long start_time;
-+	long long end_time;
-+};
-+
-+/*
-+ * struct vxd_dev - The struct containing decoder driver internal parameters.
-+ *
-+ * @v4l2_dev: main struct of V4L2 device drivers
-+ * @dev: platform device driver
-+ * @vfd_dec: video device structure to create and manage the V4L2 device node.
-+ * @plat_dev: linux platform device
-+ * @struct v4l2_m2m_dev: mem2mem device
-+ * @mutex: mutex to protect certain ongoing operation.
-+ * @module_irq: a threaded request IRQ for the device
-+ * @reg_base: base address of the IMG VXD hw registers
-+ * @props: contains HW properties
-+ * @mmu_config_addr_width: indicates the number of extended address bits
-+ *                         (above 32) that the external memory interface
-+ *                         uses, based on EXTENDED_ADDR_RANGE field of
-+ *                         MMU_CONFIG0
-+ * @rendec_buf_id: buffer id for rendec buffer allocation
-+ * @firmware: firmware information based on vxd_dev_fw structure
-+ * @firmware_loading_complete: loading completion
-+ * @no_fw: Just to check if firmware is present in /lib
-+ * @fw_refcnt: firmware reference counter
-+ * @hw_on: indication if hw is on or off
-+ * @hw_dead: indication if hw is dead
-+ * @lock: basic primitive for locking through spinlock
-+ * @state: internal state handling of vxd state
-+ * @msgs: linked list of msgs with vxd_item
-+ * @pend: linked list of pending msgs to be sent to fw
-+ * @msg_cnt: counter of messages submitted to VXD. Wraps every VXD_MSG_ID_MASK
-+ * @freq_khz: Core clock frequency measured during boot of firmware
-+ * @streams: unique id for the stream
-+ * @mem_ctx: memory management context for HW buffers
-+ * @dwork: use for Power Management and Watchdog
-+ * @work_sched_at: the time of the last work has been scheduled at
-+ * @emergency: indicates if emergency condition occurred
-+ * @dbgfs_ctx: pointer to debug FS context.
-+ * @hw_pm_delay: delay before performaing PM
-+ * @hw_dwr_period: period for checking for dwr
-+ * @pm_start: time, in jiffies, when core become idle
-+ * @dwr_start: time, in jiffies, when dwr has been started
-+ */
-+struct vxd_dev {
-+	struct v4l2_device v4l2_dev;
-+	void *dev;
-+	struct video_device *vfd_dec;
-+	struct platform_device *plat_dev;
-+	struct v4l2_m2m_dev *m2m_dev;
-+	struct mutex  *mutex; /* Per device mutex */
-+	int module_irq;
-+	void __iomem *reg_base;
-+	struct vxd_core_props props;
-+	unsigned int mmu_config_addr_width;
-+	int rendec_buf_id;
-+	struct vxd_dev_fw firmware;
-+	void *firmware_loading_complete;
-+	unsigned char no_fw;
-+	unsigned char fw_refcnt;
-+	unsigned int hw_on;
-+	unsigned int hw_dead;
-+	void *lock; /* basic device level spinlock */
-+	struct vxd_state state;
-+	struct list_head msgs;
-+	struct list_head pend;
-+	int msg_cnt;
-+	unsigned int freq_khz;
-+	struct idr *streams;
-+	struct mem_ctx *mem_ctx;
-+	void *dwork;
-+	unsigned long long work_sched_at;
-+	unsigned int emergency;
-+	void *dbgfs_ctx;
-+	unsigned int hw_pm_delay;
-+	unsigned int hw_dwr_period;
-+	unsigned long long pm_start;
-+	unsigned long long dwr_start;
-+	struct time_prof time_fw[MAX_BUF_TRACE];
-+	struct time_prof time_drv[MAX_BUF_TRACE];
-+
-+	/* The variables defined below are used in RTOS only. */
-+	/* This variable holds queue handler */
-+	void *vxd_worker_queue_handle;
-+	void *vxd_worker_queue_sem_handle;
-+};
-+
-+/*
-+ * struct vxd_stream - holds stream-related info
-+ *
-+ * @ctx: associated vxd_dec_ctx
-+ * @mmu_ctx: MMU context for this stream
-+ * @ptd: ptd for the stream
-+ * @id: unique stream id
-+ */
-+struct vxd_stream {
-+	struct vxd_dec_ctx *ctx;
-+	struct mmu_ctx *mmu_ctx;
-+	unsigned int ptd;
-+	unsigned int id;
-+};
-+
-+/*
-+ * struct vxd_buffer - holds per buffer info.
-+ * @buffer: the vb2_v4l2_buffer
-+ * @list: list head for gathering in linked list
-+ * @mapped: is this buffer mapped yet
-+ * @reuse: is the buffer ready for reuse
-+ * @buf_map_id: the mapped buffer id
-+ * @buf_info: the buffer info for submitting to map
-+ * @bstr_info: the buffer info for submitting to bspp
-+ * @seq_unit: the str_unit for submitting sps
-+ * @seq_unit: the str_unit for submitting pps and segments
-+ * @seq_unit: the str_unit for submitting picture_end
-+ */
-+struct vxd_buffer {
-+	struct v4l2_m2m_buffer buffer;
-+	struct list_head list;
-+	unsigned char mapped;
-+	unsigned char reuse;
-+	unsigned int buf_map_id;
-+	struct vdec_buf_info buf_info;
-+	struct bspp_ddbuf_info bstr_info;
-+	struct vdecdd_str_unit seq_unit;
-+	struct vdecdd_str_unit pic_unit;
-+	struct vdecdd_str_unit end_unit;
-+	struct bspp_preparsed_data preparsed_data;
-+};
-+
-+typedef void (*decode_cb)(int res_str_id, unsigned int *msg, unsigned int msg_size,
-+			  unsigned int msg_flags);
-+
-+/*
-+ * struct vxd_dec_ctx - holds per stream data. Each playback has its own
-+ *                      vxd_dec_ctx
-+ *
-+ * @fh: V4L2 file handler
-+ * @dev: pointer to the device main information.
-+ * @ctrl_hdl_dec: v4l2 custom control command for video decoder
-+ * @mem_ctx: mem context for this stream
-+ * @mmu_ctx: MMU context for this stream
-+ * @ptd: page table information
-+ * @items_done: linked list of items is ready
-+ * @width: frame width
-+ * @height: frame height
-+ * @width_orig: original frame width (before padding)
-+ * @height_orig: original frame height (before padding)
-+ * @q_data: Queue data information of src[0] and dst[1]
-+ * @stream: stream-related info
-+ * @work: work queue for message handling
-+ * @return_queue: list of resources returned from core
-+ * @out_buffers: list of all output buffers
-+ * @cap_buffers: list of all capture buffers except those in reuse_queue
-+ * @reuse_queue: list of capture buffers waiting for core to signal reuse
-+ * @res_str_id: Core stream id
-+ * @stream_created: Core stream is created
-+ * @stream_configured: Core stream is configured
-+ * @opconfig_pending: Core opconfig is pending stream_create
-+ * @src_streaming: V4L2 src stream is streaming
-+ * @dst_streaming: V4L2 dst stream is streaming
-+ * @core_streaming: core is streaming
-+ * @aborting: signal job abort on next irq
-+ * @str_opcfg: core output config
-+ * @pict_bufcfg: core picture buffer config
-+ * @bspp_context: BSPP Stream context handle
-+ * @seg_list: list of bspp_bitstr_seg for submitting to BSPP
-+ * @fw_sequ: BSPP sps resource
-+ * @fw_pps: BSPP pps resource
-+ * @cb: registered callback for incoming messages
-+ * @mutex: mutex to protect context specific state machine
-+ */
-+struct vxd_dec_ctx {
-+	struct v4l2_fh fh;
-+	struct vxd_dev *dev;
-+	struct mem_ctx *mem_ctx;
-+	struct mmu_ctx *mmu_ctx;
-+	unsigned int ptd;
-+	struct list_head items_done;
-+	unsigned int width;
-+	unsigned int height;
-+	unsigned int width_orig;
-+	unsigned int height_orig;
-+	struct vxd_dec_q_data q_data[2];
-+	struct vxd_stream stream;
-+	void *work;
-+	struct list_head return_queue;
-+	struct list_head out_buffers;
-+	struct list_head cap_buffers;
-+	struct list_head reuse_queue;
-+	unsigned int res_str_id;
-+	unsigned char stream_created;
-+	unsigned char stream_configured;
-+	unsigned char opconfig_pending;
-+	unsigned char src_streaming;
-+	unsigned char dst_streaming;
-+	unsigned char core_streaming;
-+	unsigned char aborting;
-+	unsigned char eos;
-+	unsigned char stop_initiated;
-+	unsigned char flag_last;
-+	unsigned char num_decoding;
-+	unsigned int max_num_ref_frames;
-+	struct vdec_str_opconfig str_opcfg;
-+	struct vdec_pict_bufconfig pict_bufcfg;
-+	void *bspp_context;
-+	struct bspp_bitstr_seg bstr_segments[MAX_SEGMENTS];
-+	struct lst_t seg_list;
-+	struct bspp_ddbuf_array_info fw_sequ[MAX_SEQUENCES];
-+	struct bspp_ddbuf_array_info fw_pps[MAX_PPSS];
-+	decode_cb cb;
-+	struct mutex *mutex; /* Per stream mutex */
-+
-+	/* The below variable used only in Rtos */
-+	void *mm_return_resource; /* Place holder for CB to application */
-+	void *stream_worker_queue_handle;
-+	void *stream_worker_queue_sem_handle;
-+	// lock is used to synchronize the stream worker and process function
-+	void *lock;
-+	/* "sem_eos" this semaphore variable used to wait until all frame decoded */
-+	void *sem_eos;
-+};
-+
-+irqreturn_t vxd_handle_irq(void *dev);
-+irqreturn_t vxd_handle_thread_irq(void *dev);
-+int vxd_init(void *dev, struct vxd_dev *vxd, const struct heap_config heap_configs[], int heaps);
-+int vxd_g_internal_heap_id(void);
-+void vxd_deinit(struct vxd_dev *vxd);
-+int vxd_prepare_fw(struct vxd_dev *vxd);
-+void vxd_clean_fw_resources(struct vxd_dev *vxd);
-+int vxd_send_msg(struct vxd_dec_ctx *ctx, struct vxd_fw_msg *msg);
-+int vxd_suspend_dev(void *dev);
-+int vxd_resume_dev(void *dev);
-+
-+int vxd_create_ctx(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx);
-+void vxd_destroy_ctx(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx);
-+
-+int vxd_map_buffer_sg(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx,
-+		      unsigned int str_id, unsigned int buff_id,
-+		      void *sgt, unsigned int virt_addr,
-+		      unsigned int map_flags);
-+int vxd_map_buffer(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx, unsigned int str_id,
-+		   unsigned int buff_id, unsigned int virt_addr, unsigned int map_flags);
-+int vxd_unmap_buffer(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx,
-+		     unsigned int str_id, unsigned int buff_id);
-+
-+unsigned int get_nbuffers(enum vdec_vid_std std, int w, int h, unsigned int max_num_ref_frames);
-+
-+int vxd_dec_alloc_bspp_resource(struct vxd_dec_ctx *ctx, enum vdec_vid_std vid_std);
-+
-+#ifdef ERROR_RECOVERY_SIMULATION
-+/* sysfs read write functions */
-+ssize_t vxd_sysfs_show(struct kobject *vxd_dec_kobject,
-+		       struct kobj_attribute *attr, char *buf);
-+
-+ssize_t vxd_sysfs_store(struct kobject *vxd_dec_kobject,
-+			struct kobj_attribute *attr, const char *buf, unsigned long count);
++#define ABOVE_PARAMS_BUF_SIZE 0x6000
 +#endif
-+#endif /* _VXD_DEC_H */
++
++enum hwctrl_msgid {
++	HWCTRL_MSGID_BATCH     = 0,
++	HWCTRL_MSGID_FRAGMENT  = 1,
++	CORE_MSGID_MAX,
++	CORE_MSGID_FORCE32BITS = 0x7FFFFFFFU
++};
++
++struct hwctrl_to_kernel_msg {
++	unsigned int msg_size;
++	unsigned int km_str_id;
++	unsigned int flags;
++	unsigned char *msg_hdr;
++};
++
++struct hwctrl_batch_msgdata {
++	struct vidio_ddbufinfo *batchmsg_bufinfo;
++	struct vidio_ddbufinfo *pvdec_fwctx;
++	unsigned int ctrl_alloc_bytes;
++	unsigned int operating_mode;
++	unsigned int transaction_id;
++	unsigned int tile_cfg;
++	unsigned int genc_id;
++	unsigned int mb_load;
++	unsigned int size_delimited_mode;
++};
++
++struct hwctrl_fragment_msgdata {
++	struct vidio_ddbufinfo *batchmsg_bufinfo;
++	unsigned int ctrl_alloc_offset;
++	unsigned int ctrl_alloc_bytes;
++};
++
++struct hwctrl_msgdata {
++	unsigned int km_str_id;
++	struct hwctrl_batch_msgdata batch_msgdata;
++	struct hwctrl_fragment_msgdata fragment_msgdata;
++};
++
++/*
++ * This structure contains MSVDX Message information.
++ */
++struct hwctrl_msgstatus {
++	unsigned char control_fence_id[VDECFW_MSGID_CONTROL_TYPES];
++	unsigned char decode_fence_id[VDECFW_MSGID_DECODE_TYPES];
++	unsigned char completion_fence_id[VDECFW_MSGID_COMPLETION_TYPES];
++};
++
++/*
++ * this structure contains the HWCTRL Core state.
++ */
++struct hwctrl_state {
++	struct vxd_states core_state;
++	struct hwctrl_msgstatus fwmsg_status;
++	struct hwctrl_msgstatus hostmsg_status;
++};
++
++int hwctrl_picture_submit_fragment(void *hndl_hwctx,
++				   struct dec_pict_fragment *pict_fragment,
++				   struct dec_decpict *decpict,
++				   void *vxd_dec_ctx);
++
++int hwctrl_process_msg(void *hndl_hwct, unsigned int msg_flags, unsigned int *msg,
++		       struct dec_decpict **decpict);
++
++int hwctrl_getcore_cached_status(void *hndl_hwctx, struct hwctrl_state *state);
++
++int hwctrl_get_core_status(void *hndl_hwctx, struct hwctrl_state *state);
++
++int hwctrl_is_on_seq_replay(void *hndl_hwctx);
++
++int hwctrl_picture_submitbatch(void *hndl_hwctx, struct dec_decpict *decpict,
++			       void *vxd_dec_ctx);
++
++int hwctrl_getpicpend_pictlist(void *hndl_hwctx, unsigned int transaction_id,
++			       struct dec_decpict **decpict);
++
++int hwctrl_peekheadpiclist(void *hndl_hwctx, struct dec_decpict **decpict);
++
++int hwctrl_getdecodedpicture(void *hndl_hwctx, struct dec_decpict **decpict);
++
++void hwctrl_removefrom_piclist(void *hndl_hwctx, struct dec_decpict *decpict);
++
++int hwctrl_getregsoffset(void *hndl_hwctx,
++			 struct decoder_regsoffsets *regs_offsets);
++
++int hwctrl_initialise(void *dec_core, void *comp_int_userdata,
++		      const struct vdecdd_dd_devconfig *dd_devconfig,
++		      struct vxd_coreprops *core_props, void **hndl_hwctx);
++
++int hwctrl_deinitialise(void *hndl_hwctx);
++
++#endif /* _HW_CONTROL_H */
 -- 
 2.17.1
 
