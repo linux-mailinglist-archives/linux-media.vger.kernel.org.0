@@ -2,147 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0437B3F0890
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 17:55:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E0633F08B5
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 18:07:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240144AbhHRP4F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 11:56:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42588 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239944AbhHRP4A (ORCPT
+        id S229694AbhHRQI1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 12:08:27 -0400
+Received: from ale.deltatee.com ([204.191.154.188]:54198 "EHLO
+        ale.deltatee.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229454AbhHRQI0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 11:56:00 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD7EDC061764;
-        Wed, 18 Aug 2021 08:55:25 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id c12so5966908ljr.5;
-        Wed, 18 Aug 2021 08:55:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=FDEHOwK/tV+p4BwibJ2eZxjOpc4MiqVcjf+8RCPnl/I=;
-        b=H0RQfIKG86hjucXIS4WiNewr/HEa0soca6FW/SoC/rnEEopBHfFKy8EBd0pGQounk/
-         Oq9/0nUk373C3fZI609KQfoxLIlCX33VL4jD/UoSCTP1jNz94LT73hGlRg0OGe2pZPMl
-         Oibirrv4BUfG5Z6A9XvafJxus+f47S5hMtsDMR0PfSid8tbadkJELX8svkntbABSkpcD
-         RimCcpLAmvdux+9g7Wlco/fYko0MP+hTZL/CMoVJHvmpnxNhBGRdHEtQ4ME9XbOrtsOg
-         Ou9Bf0Prbo4kHm9SvJmQDHot8vFIRpjN5c2/oXbQGbbtlY4/TvTgQHm5WSs8SXzEzrL/
-         q0pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FDEHOwK/tV+p4BwibJ2eZxjOpc4MiqVcjf+8RCPnl/I=;
-        b=qIEojt5AjO1DBQW4Ighx74dbqHTjCmaXzeCd9DHsabHSFaQ7QFNlDy7v0t9NTINotE
-         O/cw3SEp+CX+9+nxE/YijQ41RRYCPe905VV/rK7Ck3n8BYlifB3437OCISKNawClcElg
-         2okE5kGBj33dZAxzxvPppTG+KPk5UzC5vnq05lbDa1edW/nUFIMTR9/XUCOYHaFWJTc+
-         wvU/T/GENQtiJiJDVA353iERXt8REkMzS3YvO4Av0LXRWcDt+xorNpYmWmQl1dWfs74b
-         +fdjlRTvn/HKOFpPeOjAuqnGnXVG+xJ9UmnDORXfBrqqOxD+BkWrDtamwErbGcmiqM1t
-         m+dg==
-X-Gm-Message-State: AOAM531nFi1Ww7pB1o+krdO6pafeLIX6mfj/OWLgg+TVbY/ZseZqEina
-        agLHafcpm+hTRIg9Xrr+0GTr1m2bo64=
-X-Google-Smtp-Source: ABdhPJwH2B3VgRzJIvI+pIkKDsVXz6Nb3IHX68qBDgW7hPMqkLurd3vlILu0yEDQld58r5qYiUr6VQ==
-X-Received: by 2002:a2e:300a:: with SMTP id w10mr8608460ljw.510.1629302124200;
-        Wed, 18 Aug 2021 08:55:24 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
-        by smtp.googlemail.com with ESMTPSA id y8sm7917lfh.249.2021.08.18.08.55.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Aug 2021 08:55:23 -0700 (PDT)
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-To:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        DTML <devicetree@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-References: <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
- <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
- <20210818043131.7klajx6drvvkftoc@vireshk-i7>
- <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7>
- <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
- <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
- <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
-Date:   Wed, 18 Aug 2021 18:55:22 +0300
+        Wed, 18 Aug 2021 12:08:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
+        Message-ID:From:References:Cc:To:content-disposition;
+        bh=CDm4i4hwwrEGLoygLnIUbGFhDR61f58uuviY8Rqvqis=; b=gaUFIZeu4t5laVHZig7TFyAtzO
+        qe9BVj6lqRpa9C+ID8lUpWLPlL2s1k9opX3QgzUQ3RPNC3Q8l+3e0rimDS+kzs/BK8j4PXy/zZlCp
+        bjiO/VjnY/OHx906RphxMOaJ3PBfF3hf79tG9W8rVCYAKzw7cJmTv7wezTgLb+qgt+k91ByIa1Nos
+        JrRGytM7cAwPBHz1mBkuXwTbbtfxpZnxnM9AlrYhIVJ4sjSwwUKe2WNn5F1V6vpkShkJGd4znEryu
+        A2FmTvAyvL+PqRH6Vkw+vjFZ2IqXWx0q+9d0AyKIdd5/VrSS6+eSWrxO+C1E9m+tsLVGzCW4wFWQp
+        4UA+ElOQ==;
+Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200] helo=[192.168.0.10])
+        by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.92)
+        (envelope-from <logang@deltatee.com>)
+        id 1mGO6G-0001Ud-Cp; Wed, 18 Aug 2021 10:07:37 -0600
+To:     Dongdong Liu <liudongdong3@huawei.com>, helgaas@kernel.org,
+        hch@infradead.org, kw@linux.com, leon@kernel.org,
+        linux-pci@vger.kernel.org, rajur@chelsio.com,
+        hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, netdev@vger.kernel.org
+References: <1629291717-38564-1-git-send-email-liudongdong3@huawei.com>
+ <1629291717-38564-7-git-send-email-liudongdong3@huawei.com>
+From:   Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <a097d255-85e4-cab8-c9be-c1b9af9dcaf5@deltatee.com>
+Date:   Wed, 18 Aug 2021 10:07:29 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+In-Reply-To: <1629291717-38564-7-git-send-email-liudongdong3@huawei.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 24.64.144.200
+X-SA-Exim-Rcpt-To: netdev@vger.kernel.org, linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl, rajur@chelsio.com, linux-pci@vger.kernel.org, leon@kernel.org, kw@linux.com, hch@infradead.org, helgaas@kernel.org, liudongdong3@huawei.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-10.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+        GREYLIST_ISWHITE,NICE_REPLY_A autolearn=ham autolearn_force=no
+        version=3.4.2
+Subject: Re: [PATCH V8 6/8] PCI/P2PDMA: Add a 10-Bit Tag check in P2PDMA
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-18.08.2021 12:41, Ulf Hansson пишет:
-> On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
->>
->> On 18-08-21, 10:29, Ulf Hansson wrote:
->>> Me and Dmitry discussed adding a new genpd callback for this. I agreed
->>> that it seems like a reasonable thing to add, if he insists.
 
-Either way gives the equal result. The new callback allows to remove the
-boilerplate dev_pm_opp_set_rate(clk_get_rate() code from the rpm-resume
-of consumer devices, that's it.
 
->>> The intent was to invoke the new callback from __genpd_dev_pm_attach()
->>> when the device has been attached to its genpd. This allows the
->>> callback, to invoke clk_get_rate() and then dev_pm_opp_set_rate(), to
->>> update the vote according to the current state of the HW.
->>
->> I wouldn't call dev_pm_opp_set_rate() from there, since it means
->> configure and enable (both) for different resources, clk, regulator,
->> genpd, etc..
+On 2021-08-18 7:01 a.m., Dongdong Liu wrote:
+> Add a 10-Bit Tag check in the P2PDMA code to ensure that a device with
+> 10-Bit Tag Requester doesn't interact with a device that does not
+> support 10-Bit Tag Completer. Before that happens, the kernel should
+> emit a warning.
 > 
-> Right, good point!
+> "echo 0 > /sys/bus/pci/devices/.../10bit_tag" to disable 10-Bit Tag
+> Requester for PF device.
 > 
-> dev_pm_opp_set_rate() is best called from consumer drivers, as they
-> need to be in control.
->> What we need here is just configure. So something like this then:
-The intent wasn't to use dev_pm_opp_set_rate() from
-__genpd_dev_pm_attach(), but to set genpd->rpm_pstate in accordance to
-the h/w configuration.
+> "echo 0 > /sys/bus/pci/devices/.../sriov_vf_10bit_tag_ctl" to disable
+> 10-Bit Tag Requester for VF device.
+> 
+> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
 
-On Tegra we have a chain of PDs and it's not trivial to convert the
-device's OPP into pstate because only the parent domain can translate
-the required OPP.
+Looks good to me, thanks.
 
-Viresh, please take a look at what I did in [1]. Maybe it could be done
-in another way.
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 
-[1]
-https://patchwork.ozlabs.org/project/linux-tegra/patch/20210701232728.23591-3-digetx@gmail.com/
+> ---
+>  drivers/pci/p2pdma.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+> 
+> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> index 50cdde3..2b9c2c9 100644
+> --- a/drivers/pci/p2pdma.c
+> +++ b/drivers/pci/p2pdma.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/random.h>
+>  #include <linux/seq_buf.h>
+>  #include <linux/xarray.h>
+> +#include "pci.h"
+>  
+>  enum pci_p2pdma_map_type {
+>  	PCI_P2PDMA_MAP_UNKNOWN = 0,
+> @@ -410,6 +411,50 @@ static unsigned long map_types_idx(struct pci_dev *client)
+>  		(client->bus->number << 8) | client->devfn;
+>  }
+>  
+> +static bool pci_10bit_tags_unsupported(struct pci_dev *a,
+> +				       struct pci_dev *b,
+> +				       bool verbose)
+> +{
+> +	bool req;
+> +	bool comp;
+> +	u16 ctl;
+> +	const char *str = "10bit_tag";
+> +
+> +	if (a->is_virtfn) {
+> +#ifdef CONFIG_PCI_IOV
+> +		req = !!(a->physfn->sriov->ctrl &
+> +			 PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN);
+> +#endif
+> +	} else {
+> +		pcie_capability_read_word(a, PCI_EXP_DEVCTL2, &ctl);
+> +		req = !!(ctl & PCI_EXP_DEVCTL2_10BIT_TAG_REQ_EN);
+> +	}
+> +
+> +	comp = !!(b->pcie_devcap2 & PCI_EXP_DEVCAP2_10BIT_TAG_COMP);
+> +
+> +	/* 10-bit tags not enabled on requester */
+> +	if (!req)
+> +		return false;
+> +
+> +	 /* Completer can handle anything */
+> +	if (comp)
+> +		return false;
+> +
+> +	if (!verbose)
+> +		return true;
+> +
+> +	pci_warn(a, "cannot be used for peer-to-peer DMA as 10-Bit Tag Requester enable is set for this device, but peer device (%s) does not support the 10-Bit Tag Completer\n",
+> +		 pci_name(b));
+> +
+> +	if (a->is_virtfn)
+> +		str = "sriov_vf_10bit_tag_ctl";
+> +
+> +	pci_warn(a, "to disable 10-Bit Tag Requester for this device, echo 0 > /sys/bus/pci/devices/%s/%s\n",
+> +		 pci_name(a), str);
+> +
+> +	return true;
+> +}
+> +
+>  /*
+>   * Calculate the P2PDMA mapping type and distance between two PCI devices.
+>   *
+> @@ -532,6 +577,9 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
+>  		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+>  	}
+>  done:
+> +	if (pci_10bit_tags_unsupported(client, provider, verbose))
+> +		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+> +
+>  	rcu_read_lock();
+>  	p2pdma = rcu_dereference(provider->p2pdma);
+>  	if (p2pdma)
+> 
