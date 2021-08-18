@@ -2,133 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 765803F023A
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 13:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 287343F0314
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 13:55:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234796AbhHRLHR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 07:07:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59106 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234630AbhHRLHP (ORCPT
+        id S233833AbhHRL40 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 07:56:26 -0400
+Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:34428 "EHLO
+        mx0a-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231476AbhHRL4B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 07:07:15 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A979FC061764
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 04:06:40 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id k29so2860837wrd.7
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 04:06:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NPOr3Gsm++Jn+YbgaVuAdXWQs+lGHRq4aVwKxZvTaSw=;
-        b=Gb+bX/DMqPhU/Gs13lF8AY1wqU95YsbV5W+CDvEpOSq0hnHYwwvnW6d/lNA9UADnZX
-         09wq+/BL4admOxeXXY4T1RPPuMJyOhLwUN6623S+X/BbKTRUPVQ4UIq69HbzA1KcPZ+B
-         Hjsq2uYLK6ZiY0UjkL8U9aT8QL0lkk0TXVXCo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=NPOr3Gsm++Jn+YbgaVuAdXWQs+lGHRq4aVwKxZvTaSw=;
-        b=NBNyL6ECx8Duk0BnxSIdc2khw24aMWXkidM8w8rmFqeW76elhb4cm9AlZggQyMbLMt
-         TW/vX87XBgiFGB4C0USNg0PmUokEplUh2oxwb0uFJC/sN3ry9txKiPa+cI6bX/co+eG+
-         HuGQunoQpFL+IxtmXQby5eE4jd6nVrte9sj45jyd2ZhZVrobWN2o+7FRbeiGNF03I4oZ
-         V6mLJHBjkzXgU5dnBkw0a2ADfa5BumQcMMpoU9eiXGJlIftiLXDT202rFgkvUoYtjKIO
-         asI8/cNSacn+KPH3N+dwlmPGrycXbnTzbPDULmFY8qlsJmMsNnSluvUalSpu160fUEaa
-         8EpQ==
-X-Gm-Message-State: AOAM531RGOuMeTeay+Y3+FAHiCSfC75aGpVQnL4Ip9YlqY+5SQNldIWS
-        1x8K/P3ZQIkJMgj0x3RwjVBzXA==
-X-Google-Smtp-Source: ABdhPJy3direa3AYQ9AORP/zJ+ru6FCIsPvkYBAl/d0IdWCjpdrItlf4YzM0hadmH90C6qm9MQnNjg==
-X-Received: by 2002:adf:f282:: with SMTP id k2mr9819865wro.255.1629284799276;
-        Wed, 18 Aug 2021 04:06:39 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id d8sm5575127wrx.12.2021.08.18.04.06.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 04:06:38 -0700 (PDT)
-Date:   Wed, 18 Aug 2021 13:06:36 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, christian.koenig@amd.com, axboe@kernel.dk,
-        oleg@redhat.com, tglx@linutronix.de, dvyukov@google.com,
-        walter-zh.wu@mediatek.com, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 8/9] kernel: export task_work_add
-Message-ID: <YRzpvHBQuq0kFtzH@phenom.ffwll.local>
-Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, axboe@kernel.dk, oleg@redhat.com,
-        tglx@linutronix.de, dvyukov@google.com, walter-zh.wu@mediatek.com,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
-        gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        kernel test robot <lkp@intel.com>
-References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
- <20210818073824.1560124-9-desmondcheongzx@gmail.com>
+        Wed, 18 Aug 2021 07:56:01 -0400
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17I8Wt6N023819;
+        Wed, 18 Aug 2021 07:55:18 -0400
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+        by mx0a-00128a01.pphosted.com with ESMTP id 3ag9e6fmbq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 18 Aug 2021 07:55:18 -0400
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 17IBtHEH020339
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 18 Aug 2021 07:55:17 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.858.5; Wed, 18 Aug 2021
+ 07:55:16 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.858.5 via Frontend
+ Transport; Wed, 18 Aug 2021 07:55:16 -0400
+Received: from nsa.ad.analog.com ([10.44.3.58])
+        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 17IBtEUE031440;
+        Wed, 18 Aug 2021 07:55:15 -0400
+From:   =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
+To:     <linaro-mm-sig@lists.linaro.org>,
+        <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>
+CC:     Rob Clark <rob@ti.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+Subject: [PATCH] dma-buf: return -EINVAL if dmabuf object is NULL
+Date:   Wed, 18 Aug 2021 13:58:10 +0200
+Message-ID: <20210818115810.274084-1-nuno.sa@analog.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210818073824.1560124-9-desmondcheongzx@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: VysZlt1syHx-snAeROfAhL42Qwl8f88W
+X-Proofpoint-ORIG-GUID: VysZlt1syHx-snAeROfAhL42Qwl8f88W
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-08-18_04,2021-08-17_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ spamscore=0 malwarescore=0 priorityscore=1501 phishscore=0 impostorscore=0
+ bulkscore=0 mlxlogscore=978 adultscore=0 clxscore=1011 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108180075
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 03:38:23PM +0800, Desmond Cheong Zhi Xi wrote:
-> The task_work_add function is needed to prevent userspace races with
-> DRM modesetting rights.
-> 
-> Some DRM ioctls can change modesetting permissions while other
-> concurrent users are performing modesetting. To prevent races with
-> userspace, such functions should flush readers of old permissions
-> before returning to user mode. As the function that changes
-> permissions might itself be a reader of the old permissions, we intend
-> to schedule this flush using task_work_add.
-> 
-> However, when DRM is compiled as a loadable kernel module without
-> exporting task_work_add, we get the following compilation error:
-> 
-> ERROR: modpost: "task_work_add" [drivers/gpu/drm/drm.ko] undefined!
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+On top of warning about a NULL object, we also want to return with a
+proper error code (as done in 'dma_buf_begin_cpu_access()'). Otherwise,
+we will get a NULL pointer dereference.
 
-Just realized another benefit of pushing the dev->master_rwsem write
-locks down into ioctls that need them: We wouldn't need this function here
-exported for use in drm. But also I'm not sure that works any better than
-the design in your current patch set ...
--Daniel
+Fixes: fc13020e086b ("dma-buf: add support for kernel cpu access")
+Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+---
+ drivers/dma-buf/dma-buf.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> ---
->  kernel/task_work.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/kernel/task_work.c b/kernel/task_work.c
-> index 1698fbe6f0e1..90000404af2b 100644
-> --- a/kernel/task_work.c
-> +++ b/kernel/task_work.c
-> @@ -60,6 +60,7 @@ int task_work_add(struct task_struct *task, struct callback_head *work,
->  
->  	return 0;
->  }
-> +EXPORT_SYMBOL(task_work_add);
->  
->  /**
->   * task_work_cancel_match - cancel a pending work added by task_work_add()
-> -- 
-> 2.25.1
-> 
-
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 63d32261b63f..8ec7876dd523 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -1231,7 +1231,8 @@ int dma_buf_end_cpu_access(struct dma_buf *dmabuf,
+ {
+ 	int ret = 0;
+ 
+-	WARN_ON(!dmabuf);
++	if (WARN_ON(!dmabuf))
++		return -EINVAL;
+ 
+ 	might_lock(&dmabuf->resv->lock.base);
+ 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.32.0
+
