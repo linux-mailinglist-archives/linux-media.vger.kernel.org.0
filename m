@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 357263F0AFF
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 20:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C8AB3F0BB1
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 21:23:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229448AbhHRSZa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 14:25:30 -0400
-Received: from mga09.intel.com ([134.134.136.24]:57952 "EHLO mga09.intel.com"
+        id S232831AbhHRTXm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 15:23:42 -0400
+Received: from mga09.intel.com ([134.134.136.24]:62883 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229661AbhHRSZ2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 14:25:28 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="216392371"
+        id S231743AbhHRTXl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 18 Aug 2021 15:23:41 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="216404405"
 X-IronPort-AV: E=Sophos;i="5.84,332,1620716400"; 
-   d="gz'50?scan'50,208,50";a="216392371"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2021 11:24:52 -0700
+   d="gz'50?scan'50,208,50";a="216404405"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2021 12:23:03 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.84,332,1620716400"; 
-   d="gz'50?scan'50,208,50";a="678674826"
+   d="gz'50?scan'50,208,50";a="488851731"
 Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 18 Aug 2021 11:24:48 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 18 Aug 2021 12:23:00 -0700
 Received: from kbuild by d053b881505b with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mGQF6-000TDz-3E; Wed, 18 Aug 2021 18:24:48 +0000
-Date:   Thu, 19 Aug 2021 02:24:07 +0800
+        id 1mGR9P-000TGe-Gy; Wed, 18 Aug 2021 19:22:59 +0000
+Date:   Thu, 19 Aug 2021 03:22:23 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     sidraya.bj@pathpartnertech.com, gregkh@linuxfoundation.org,
         linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
@@ -32,30 +32,29 @@ Cc:     kbuild-all@lists.01.org, prashanth.ka@pathpartnertech.com,
         praneeth@ti.com, mchehab@kernel.org, linux-media@vger.kernel.org,
         praveen.ap@pathpartnertech.com,
         Sidraya <sidraya.bj@pathpartnertech.com>
-Subject: Re: [PATCH 27/30] media: platform: vxd: Kconfig: Add Video decoder
- Kconfig and Makefile
-Message-ID: <202108190252.cuQREQUH-lkp@intel.com>
-References: <20210818141037.19990-28-sidraya.bj@pathpartnertech.com>
+Subject: Re: [PATCH 28/30] IMG DEC V4L2 Interface function implementations
+Message-ID: <202108190344.r6sgymao-lkp@intel.com>
+References: <20210818141037.19990-29-sidraya.bj@pathpartnertech.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="LQksG6bCIzRHxTLp"
+Content-Type: multipart/mixed; boundary="PEIAKu/WMn1b1Hv9"
 Content-Disposition: inline
-In-Reply-To: <20210818141037.19990-28-sidraya.bj@pathpartnertech.com>
+In-Reply-To: <20210818141037.19990-29-sidraya.bj@pathpartnertech.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---LQksG6bCIzRHxTLp
+--PEIAKu/WMn1b1Hv9
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Hi,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on linuxtv-media/master]
-[also build test WARNING on staging/staging-testing driver-core/driver-core-testing linus/master v5.14-rc6 next-20210818]
+[auto build test ERROR on linuxtv-media/master]
+[also build test ERROR on staging/staging-testing driver-core/driver-core-testing linus/master v5.14-rc6 next-20210818]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
@@ -67,210 +66,211 @@ compiler: m68k-linux-gcc (GCC) 11.2.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/f42ae4f45639a6214f9e775d4280061bf52fc229
+        # https://github.com/0day-ci/linux/commit/ed83bf9b395e58893b5d92675196aee8f619efc9
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review sidraya-bj-pathpartnertech-com/TI-Video-Decoder-driver-upstreaming-to-v5-14-rc6-kernel/20210818-221811
-        git checkout f42ae4f45639a6214f9e775d4280061bf52fc229
+        git checkout ed83bf9b395e58893b5d92675196aee8f619efc9
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross ARCH=m68k 
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:456,
-                    from include/linux/kernel.h:19,
-                    from include/linux/radix-tree.h:12,
-                    from include/linux/idr.h:15,
-                    from drivers/staging/media/vxd/decoder/../common/img_mem_man.c:15:
-   drivers/staging/media/vxd/decoder/../common/img_mem_man.c: In function '_img_mem_alloc':
->> drivers/staging/media/vxd/decoder/../common/img_mem_man.c:290:25: warning: format '%zu' expects argument of type 'size_t', but argument 9 has type 'long unsigned int' [-Wformat=]
-     290 |         dev_dbg(device, "%s heap %p ctx %p created buffer %d (%p) actual_size %zu\n",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:134:29: note: in definition of macro '__dynamic_func_call'
-     134 |                 func(&id, ##__VA_ARGS__);               \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:166:9: note: in expansion of macro '_dynamic_func_call'
-     166 |         _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:123:9: note: in expansion of macro 'dynamic_dev_dbg'
-     123 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:123:30: note: in expansion of macro 'dev_fmt'
-     123 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/staging/media/vxd/decoder/../common/img_mem_man.c:290:9: note: in expansion of macro 'dev_dbg'
-     290 |         dev_dbg(device, "%s heap %p ctx %p created buffer %d (%p) actual_size %zu\n",
-         |         ^~~~~~~
-   drivers/staging/media/vxd/decoder/../common/img_mem_man.c:290:81: note: format string is defined here
-     290 |         dev_dbg(device, "%s heap %p ctx %p created buffer %d (%p) actual_size %zu\n",
-         |                                                                               ~~^
-         |                                                                                 |
-         |                                                                                 unsigned int
-         |                                                                               %lu
-   In file included from include/linux/printk.h:456,
-                    from include/linux/kernel.h:19,
-                    from include/linux/radix-tree.h:12,
-                    from include/linux/idr.h:15,
-                    from drivers/staging/media/vxd/decoder/../common/img_mem_man.c:15:
-   drivers/staging/media/vxd/decoder/../common/img_mem_man.c: In function 'img_mem_alloc':
-   drivers/staging/media/vxd/decoder/../common/img_mem_man.c:309:25: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'long unsigned int' [-Wformat=]
-     309 |         dev_dbg(device, "%s heap %d ctx %p size %zu\n", __func__, heap_id,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:134:29: note: in definition of macro '__dynamic_func_call'
-     134 |                 func(&id, ##__VA_ARGS__);               \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:166:9: note: in expansion of macro '_dynamic_func_call'
-     166 |         _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:123:9: note: in expansion of macro 'dynamic_dev_dbg'
-     123 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:123:30: note: in expansion of macro 'dev_fmt'
-     123 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/staging/media/vxd/decoder/../common/img_mem_man.c:309:9: note: in expansion of macro 'dev_dbg'
-     309 |         dev_dbg(device, "%s heap %d ctx %p size %zu\n", __func__, heap_id,
-         |         ^~~~~~~
-   drivers/staging/media/vxd/decoder/../common/img_mem_man.c:309:51: note: format string is defined here
-     309 |         dev_dbg(device, "%s heap %d ctx %p size %zu\n", __func__, heap_id,
-         |                                                 ~~^
-         |                                                   |
-         |                                                   unsigned int
-         |                                                 %lu
-   In file included from include/linux/printk.h:456,
-                    from include/linux/kernel.h:19,
-                    from include/linux/radix-tree.h:12,
-                    from include/linux/idr.h:15,
-                    from drivers/staging/media/vxd/decoder/../common/img_mem_man.c:15:
-   drivers/staging/media/vxd/decoder/../common/img_mem_man.c:333:25: warning: format '%zu' expects argument of type 'size_t', but argument 9 has type 'long unsigned int' [-Wformat=]
-     333 |         dev_dbg(device, "%s heap %d ctx %p created buffer %d (%p) size %zu\n",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:134:29: note: in definition of macro '__dynamic_func_call'
-     134 |                 func(&id, ##__VA_ARGS__);               \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:166:9: note: in expansion of macro '_dynamic_func_call'
-     166 |         _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:123:9: note: in expansion of macro 'dynamic_dev_dbg'
-     123 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:123:30: note: in expansion of macro 'dev_fmt'
-     123 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/staging/media/vxd/decoder/../common/img_mem_man.c:333:9: note: in expansion of macro 'dev_dbg'
-     333 |         dev_dbg(device, "%s heap %d ctx %p created buffer %d (%p) size %zu\n",
-         |         ^~~~~~~
-   drivers/staging/media/vxd/decoder/../common/img_mem_man.c:333:74: note: format string is defined here
-     333 |         dev_dbg(device, "%s heap %d ctx %p created buffer %d (%p) size %zu\n",
-         |                                                                        ~~^
-         |                                                                          |
-         |                                                                          unsigned int
-         |                                                                        %lu
-   In file included from include/linux/printk.h:456,
-                    from include/linux/kernel.h:19,
-                    from include/linux/radix-tree.h:12,
-                    from include/linux/idr.h:15,
-                    from drivers/staging/media/vxd/decoder/../common/img_mem_man.c:15:
-   drivers/staging/media/vxd/decoder/../common/img_mem_man.c: In function '_img_mem_import':
-   drivers/staging/media/vxd/decoder/../common/img_mem_man.c:372:25: warning: format '%zu' expects argument of type 'size_t', but argument 8 has type 'long unsigned int' [-Wformat=]
-     372 |         dev_dbg(device, "%s ctx %p created buffer %d (%p) actual_size %zu\n",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:134:29: note: in definition of macro '__dynamic_func_call'
-     134 |                 func(&id, ##__VA_ARGS__);               \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:166:9: note: in expansion of macro '_dynamic_func_call'
-     166 |         _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:123:9: note: in expansion of macro 'dynamic_dev_dbg'
-     123 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
+   drivers/staging/media/vxd/decoder/vxd_core.c: In function 'stream_worker':
+>> drivers/staging/media/vxd/decoder/vxd_core.c:549:25: warning: variable 'vxd' set but not used [-Wunused-but-set-variable]
+     549 |         struct vxd_dev *vxd = NULL;
+         |                         ^~~
 --
-   drivers/staging/media/vxd/decoder/../common/work_queue.c: In function 'get_delayed_work_buff':
->> drivers/staging/media/vxd/decoder/../common/work_queue.c:148:22: warning: variable 'previous' set but not used [-Wunused-but-set-variable]
-     148 |         struct node *previous = NULL;
-         |                      ^~~~~~~~
+   drivers/staging/media/vxd/decoder/vxd_v4l2.c: In function 'vxd_dec_buf_prepare':
+>> drivers/staging/media/vxd/decoder/vxd_v4l2.c:712:36: error: implicit declaration of function 'phys_to_page'; did you mean 'pfn_to_page'? [-Werror=implicit-function-declaration]
+     712 |                         new_page = phys_to_page(vb2_dma_contig_plane_dma_addr(vb, plane));
+         |                                    ^~~~~~~~~~~~
+         |                                    pfn_to_page
+>> drivers/staging/media/vxd/decoder/vxd_v4l2.c:712:34: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     712 |                         new_page = phys_to_page(vb2_dma_contig_plane_dma_addr(vb, plane));
+         |                                  ^
+>> drivers/staging/media/vxd/decoder/vxd_v4l2.c:618:13: warning: variable 'pages' set but not used [-Wunused-but-set-variable]
+     618 |         int pages;
+         |             ^~~~~
+   In file included from drivers/staging/media/vxd/decoder/vxd_props.h:19,
+                    from drivers/staging/media/vxd/decoder/decoder.h:29,
+                    from drivers/staging/media/vxd/decoder/core.h:20,
+                    from drivers/staging/media/vxd/decoder/vxd_v4l2.c:52:
+   At top level:
+   drivers/staging/media/vxd/common/imgmmu.h:65:28: warning: 'VIRT_DIR_IDX_MASK' defined but not used [-Wunused-const-variable=]
+      65 | static const unsigned long VIRT_DIR_IDX_MASK = (~((1 << MMU_DIR_SHIFT) - 1));
+         |                            ^~~~~~~~~~~~~~~~~
+   drivers/staging/media/vxd/common/imgmmu.h:62:28: warning: 'VIRT_PAGE_TBL_MASK' defined but not used [-Wunused-const-variable=]
+      62 | static const unsigned long VIRT_PAGE_TBL_MASK =
+         |                            ^~~~~~~~~~~~~~~~~~
+   drivers/staging/media/vxd/common/imgmmu.h:60:28: warning: 'VIRT_PAGE_OFF_MASK' defined but not used [-Wunused-const-variable=]
+      60 | static const unsigned long VIRT_PAGE_OFF_MASK = ((1 << MMU_PAGE_SHIFT) - 1);
+         |                            ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 --
->> drivers/staging/media/vxd/decoder/jpeg_secure_parser.c:596:5: warning: no previous prototype for 'bspp_jpeg_unit_parser' [-Wmissing-prototypes]
-     596 | int bspp_jpeg_unit_parser(void *swsr_ctx, struct bspp_unit_data *unit_data)
-         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/vxd/decoder/hevc_secure_parser.c: In function 'bspp_hevc_parse_vps':
+>> drivers/staging/media/vxd/decoder/hevc_secure_parser.c:594:1: warning: the frame size of 1168 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     594 | }
+         | ^
 
 
-vim +290 drivers/staging/media/vxd/decoder/../common/img_mem_man.c
+vim +712 drivers/staging/media/vxd/decoder/vxd_v4l2.c
 
-76b88427fbba69 Sidraya 2021-08-18  240  
-76b88427fbba69 Sidraya 2021-08-18  241  static int _img_mem_alloc(void *device, struct mem_ctx *ctx,
-76b88427fbba69 Sidraya 2021-08-18  242  			  struct heap *heap, unsigned long size,
-76b88427fbba69 Sidraya 2021-08-18  243  			  enum mem_attr attr, struct buffer **buffer_new)
-76b88427fbba69 Sidraya 2021-08-18  244  {
-76b88427fbba69 Sidraya 2021-08-18  245  	struct buffer *buffer;
-76b88427fbba69 Sidraya 2021-08-18  246  	int ret;
-76b88427fbba69 Sidraya 2021-08-18  247  
-76b88427fbba69 Sidraya 2021-08-18  248  	if (size == 0) {
-76b88427fbba69 Sidraya 2021-08-18  249  		dev_err(device, "%s: buffer size is zero\n", __func__);
-76b88427fbba69 Sidraya 2021-08-18  250  		return -EINVAL;
-76b88427fbba69 Sidraya 2021-08-18  251  	}
-76b88427fbba69 Sidraya 2021-08-18  252  
-76b88427fbba69 Sidraya 2021-08-18  253  	if (!heap->ops || !heap->ops->alloc) {
-76b88427fbba69 Sidraya 2021-08-18  254  		dev_err(device, "%s: no alloc function in heap %d!\n",
-76b88427fbba69 Sidraya 2021-08-18  255  			__func__, heap->id);
-76b88427fbba69 Sidraya 2021-08-18  256  		return -EINVAL;
-76b88427fbba69 Sidraya 2021-08-18  257  	}
-76b88427fbba69 Sidraya 2021-08-18  258  
-76b88427fbba69 Sidraya 2021-08-18  259  	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
-76b88427fbba69 Sidraya 2021-08-18  260  	if (!buffer)
-76b88427fbba69 Sidraya 2021-08-18  261  		return -ENOMEM;
-76b88427fbba69 Sidraya 2021-08-18  262  
-76b88427fbba69 Sidraya 2021-08-18  263  	ret = idr_alloc(ctx->buffers, buffer,
-76b88427fbba69 Sidraya 2021-08-18  264  			MEM_MAN_MIN_BUFFER, MEM_MAN_MAX_BUFFER, GFP_KERNEL);
-76b88427fbba69 Sidraya 2021-08-18  265  	if (ret < 0) {
-76b88427fbba69 Sidraya 2021-08-18  266  		dev_err(device, "%s: idr_alloc failed\n", __func__);
-76b88427fbba69 Sidraya 2021-08-18  267  		goto idr_alloc_failed;
-76b88427fbba69 Sidraya 2021-08-18  268  	}
-76b88427fbba69 Sidraya 2021-08-18  269  
-76b88427fbba69 Sidraya 2021-08-18  270  	buffer->id = ret;
-76b88427fbba69 Sidraya 2021-08-18  271  	buffer->request_size = size;
-76b88427fbba69 Sidraya 2021-08-18  272  	buffer->actual_size = ((size + PAGE_SIZE - 1) / PAGE_SIZE) * PAGE_SIZE;
-76b88427fbba69 Sidraya 2021-08-18  273  	buffer->device = device;
-76b88427fbba69 Sidraya 2021-08-18  274  	buffer->mem_ctx = ctx;
-76b88427fbba69 Sidraya 2021-08-18  275  	buffer->heap = heap;
-76b88427fbba69 Sidraya 2021-08-18  276  	INIT_LIST_HEAD(&buffer->mappings);
-76b88427fbba69 Sidraya 2021-08-18  277  	buffer->kptr = NULL;
-76b88427fbba69 Sidraya 2021-08-18  278  	buffer->priv = NULL;
-76b88427fbba69 Sidraya 2021-08-18  279  
-76b88427fbba69 Sidraya 2021-08-18  280  	ret = heap->ops->alloc(device, heap, buffer->actual_size, attr,
-76b88427fbba69 Sidraya 2021-08-18  281  		buffer);
-76b88427fbba69 Sidraya 2021-08-18  282  	if (ret) {
-76b88427fbba69 Sidraya 2021-08-18  283  		dev_err(device, "%s: heap %d alloc failed\n", __func__,
-76b88427fbba69 Sidraya 2021-08-18  284  			heap->id);
-76b88427fbba69 Sidraya 2021-08-18  285  		goto heap_alloc_failed;
-76b88427fbba69 Sidraya 2021-08-18  286  	}
-76b88427fbba69 Sidraya 2021-08-18  287  
-76b88427fbba69 Sidraya 2021-08-18  288  	*buffer_new = buffer;
-76b88427fbba69 Sidraya 2021-08-18  289  
-76b88427fbba69 Sidraya 2021-08-18 @290  	dev_dbg(device, "%s heap %p ctx %p created buffer %d (%p) actual_size %zu\n",
-76b88427fbba69 Sidraya 2021-08-18  291  		__func__, heap, ctx, buffer->id, buffer, buffer->actual_size);
-76b88427fbba69 Sidraya 2021-08-18  292  	return 0;
-76b88427fbba69 Sidraya 2021-08-18  293  
-76b88427fbba69 Sidraya 2021-08-18  294  heap_alloc_failed:
-76b88427fbba69 Sidraya 2021-08-18  295  	idr_remove(ctx->buffers, buffer->id);
-76b88427fbba69 Sidraya 2021-08-18  296  idr_alloc_failed:
-76b88427fbba69 Sidraya 2021-08-18  297  	kfree(buffer);
-76b88427fbba69 Sidraya 2021-08-18  298  	return ret;
-76b88427fbba69 Sidraya 2021-08-18  299  }
-76b88427fbba69 Sidraya 2021-08-18  300  
+   604	
+   605	static int vxd_dec_buf_prepare(struct vb2_buffer *vb)
+   606	{
+   607		struct vxd_dec_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+   608		struct device *dev = ctx->dev->dev;
+   609		struct vxd_dec_q_data *q_data;
+   610		void *sgt;
+   611	#ifdef CAPTURE_CONTIG_ALLOC
+   612		struct page *new_page;
+   613	#else
+   614		void *sgl;
+   615	#endif
+   616		struct sg_table *sgt_new;
+   617		void *sgl_new;
+ > 618		int pages;
+   619		int nents = 0;
+   620		int size = 0;
+   621		int plane, num_planes, ret = 0;
+   622		struct vxd_buffer *buf =
+   623			container_of(vb, struct vxd_buffer, buffer.vb.vb2_buf);
+   624	
+   625		q_data = get_q_data(ctx, vb->vb2_queue->type);
+   626		if (!q_data)
+   627			return -EINVAL;
+   628	
+   629		num_planes = q_data->fmt->num_planes;
+   630	
+   631		for (plane = 0; plane < num_planes; plane++) {
+   632			if (vb2_plane_size(vb, plane) < q_data->size_image[plane]) {
+   633				dev_err(dev, "data will not fit into plane (%lu < %lu)\n",
+   634					vb2_plane_size(vb, plane),
+   635					(long)q_data->size_image[plane]);
+   636				return -EINVAL;
+   637			}
+   638		}
+   639	
+   640		if (buf->mapped)
+   641			return 0;
+   642	
+   643		buf->buf_info.cpu_linear_addr = vb2_plane_vaddr(vb, 0);
+   644		buf->buf_info.buf_size = vb2_plane_size(vb, 0);
+   645		buf->buf_info.fd = -1;
+   646		sgt = vb2_dma_sg_plane_desc(vb, 0);
+   647		if (!sgt) {
+   648			dev_err(dev, "Could not get sg_table from plane 0\n");
+   649			return -EINVAL;
+   650		}
+   651	
+   652		if (V4L2_TYPE_IS_OUTPUT(vb->type)) {
+   653			ret = core_stream_map_buf_sg(ctx->res_str_id,
+   654						     VDEC_BUFTYPE_BITSTREAM,
+   655						     &buf->buf_info, sgt,
+   656						     &buf->buf_map_id);
+   657			if (ret) {
+   658				dev_err(dev, "OUTPUT core_stream_map_buf_sg failed\n");
+   659				return ret;
+   660			}
+   661	
+   662			buf->bstr_info.buf_size = q_data->size_image[0];
+   663			buf->bstr_info.cpu_virt_addr = buf->buf_info.cpu_linear_addr;
+   664			buf->bstr_info.mem_attrib =
+   665				SYS_MEMATTRIB_UNCACHED | SYS_MEMATTRIB_WRITECOMBINE |
+   666				SYS_MEMATTRIB_INPUT | SYS_MEMATTRIB_CPU_WRITE;
+   667			buf->bstr_info.bufmap_id = buf->buf_map_id;
+   668			lst_init(&buf->seq_unit.bstr_seg_list);
+   669			lst_init(&buf->pic_unit.bstr_seg_list);
+   670			lst_init(&buf->end_unit.bstr_seg_list);
+   671	
+   672			list_add_tail(&buf->list, &ctx->out_buffers);
+   673		} else {
+   674			/* Create a single sgt from the plane(s) */
+   675			sgt_new = kmalloc(sizeof(*sgt_new), GFP_KERNEL);
+   676			if (!sgt_new)
+   677				return -EINVAL;
+   678	
+   679			for (plane = 0; plane < num_planes; plane++) {
+   680				size += ALIGN(vb2_plane_size(vb, plane), PAGE_SIZE);
+   681				sgt = vb2_dma_sg_plane_desc(vb, plane);
+   682				if (!sgt) {
+   683					dev_err(dev, "Could not get sg_table from plane %d\n", plane);
+   684					kfree(sgt_new);
+   685					return -EINVAL;
+   686				}
+   687	#ifdef CAPTURE_CONTIG_ALLOC
+   688				nents += 1;
+   689	#else
+   690				nents += sg_nents(img_mmu_get_sgl(sgt));
+   691	#endif
+   692			}
+   693			buf->buf_info.buf_size = size;
+   694	
+   695			pages = (size + PAGE_SIZE - 1) / PAGE_SIZE;
+   696			ret = sg_alloc_table(sgt_new, nents, GFP_KERNEL);
+   697			if (ret) {
+   698				kfree(sgt_new);
+   699				return -EINVAL;
+   700			}
+   701			sgl_new = img_mmu_get_sgl(sgt_new);
+   702	
+   703			for (plane = 0; plane < num_planes; plane++) {
+   704				sgt = vb2_dma_sg_plane_desc(vb, plane);
+   705				if (!sgt) {
+   706					dev_err(dev, "Could not get sg_table from plane %d\n", plane);
+   707					sg_free_table(sgt_new);
+   708					kfree(sgt_new);
+   709					return -EINVAL;
+   710				}
+   711	#ifdef CAPTURE_CONTIG_ALLOC
+ > 712				new_page = phys_to_page(vb2_dma_contig_plane_dma_addr(vb, plane));
+   713				sg_set_page(sgl_new, new_page, ALIGN(vb2_plane_size(vb, plane),
+   714								     PAGE_SIZE), 0);
+   715				sgl_new = sg_next(sgl_new);
+   716	#else
+   717				sgl = img_mmu_get_sgl(sgt);
+   718	
+   719				while (sgl) {
+   720					sg_set_page(sgl_new, sg_page(sgl), img_mmu_get_sgl_length(sgl), 0);
+   721					sgl = sg_next(sgl);
+   722					sgl_new = sg_next(sgl_new);
+   723				}
+   724	#endif
+   725			}
+   726	
+   727			buf->buf_info.pictbuf_cfg = ctx->pict_bufcfg;
+   728			ret = core_stream_map_buf_sg(ctx->res_str_id,
+   729						     VDEC_BUFTYPE_PICTURE,
+   730						     &buf->buf_info, sgt_new,
+   731						     &buf->buf_map_id);
+   732			sg_free_table(sgt_new);
+   733			kfree(sgt_new);
+   734			if (ret) {
+   735				dev_err(dev, "CAPTURE core_stream_map_buf_sg failed\n");
+   736				return ret;
+   737			}
+   738			list_add_tail(&buf->list, &ctx->cap_buffers);
+   739		}
+   740		buf->mapped = TRUE;
+   741		buf->reuse = TRUE;
+   742	
+   743		return 0;
+   744	}
+   745	
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---LQksG6bCIzRHxTLp
+--PEIAKu/WMn1b1Hv9
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICCpGHWEAAy5jb25maWcAlFxLl9u4jt7fX+GT3ty76O56tTszc2pBSZTNa0lUSMquqo2O
+H4sICJZUHWEAAy5jb25maWcAlFxLl9u4jt7fX+GT3ty76O56tTszc2pBSZTNa0lUSMquqo2O
 U3HSdboeOVVOT+f++gGoF0hRcmaTlD6AFAkCIABS/ukfPy3Yt+PL0/74cL9/fPy++HJ4Przu
 j4dPi88Pj4f/WSRyUUiz4IkwvwBz9vD87e9fn5bv/1z89sv51S9nP7/eXy02h9fnw+Mifnn+
 /PDlGzR/eHn+x0//iGWRilUdx/WWKy1kURt+Y67fYfOfH7Gnn7/c3y/+uYrjfy3Oz3+5+OXs
@@ -1396,4 +1396,4 @@ nCSU0hM2ITaHnE9e2kK8JOs84CWQ43R5qSQNTV4E33MY7kBWj1tAH2975u0l2n63tkY5ik3s
 CR5+xI7kNJejDi+LKRgScty1Nl9RMOqksSNzotSDmptyJnAG1TLfW/qY9miyMuDNqDzYYkhC
 R7tcxnZZYZsAYWz+X6f6ax0w2AMA
 
---LQksG6bCIzRHxTLp--
+--PEIAKu/WMn1b1Hv9--
