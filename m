@@ -2,165 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BBC33F009F
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 11:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 164103F00CB
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 11:42:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234535AbhHRJgG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 05:36:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37600 "EHLO
+        id S232386AbhHRJml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 05:42:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234121AbhHRJfo (ORCPT
+        with ESMTP id S232486AbhHRJmj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 05:35:44 -0400
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C1EC0617AE
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 02:35:03 -0700 (PDT)
-Received: by mail-ot1-x329.google.com with SMTP id m7-20020a9d4c87000000b0051875f56b95so2430667otf.6
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 02:35:02 -0700 (PDT)
+        Wed, 18 Aug 2021 05:42:39 -0400
+Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04F81C0617AE
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 02:42:03 -0700 (PDT)
+Received: by mail-vs1-xe36.google.com with SMTP id a20so1382873vsh.4
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 02:42:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=+Xyn/PM5YP2/IFB7tHgsnFcmbLe6blpVJ1aozmlu1ow=;
-        b=gykCm02M32GyZzKN1jfPZSs6ksGKG8l2HXfkmk5eKcJSlW5ZG7T0cBaM6blIbOzxSm
-         mE6oC/HNp/hdxXahUd3yM8+s//fCqPmr2cM/b4lDVrkeFWGFD5OhwWzexvIvVZrYSA/o
-         5RvVMnMJ/nxikIQRWfFHgxPgKIrsz/pQyKHKM=
+        bh=kbdSCU3Rw09uivyYf1YKzhrdNkwTtywFq3z2eNcAoHU=;
+        b=kqUWzgUl/yiaXMoS2k9dhVzmvWVdRfo7Fo2KXwGPP2K5ZKcbfq4mKKs9fLOs8fk96x
+         ptk/PW2l+MORjgDTGKf9YKJffdNc1pkzifnQ3yMMmSj3Id6or6s1mOH4RD5LiDbhWJRI
+         ol1Z3YbHIv6bhJb7wFU0bti68QvEuV9zCxn5x80BVxIEcknLkLqXu0njTtyUvhPQ0gSW
+         KzGkOvTBoLGzarTvJDvnT+M4FVW2tzG1L1lXroB9VMemhLKPlypoT4WgQlmDdyLEkHoL
+         avQ5B2EbRBekdWSQILEJHijb8G0nZOKWFmqrMWiR04qbuKkEn8DBAAYOVrTAxrrtgcGi
+         fUDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+Xyn/PM5YP2/IFB7tHgsnFcmbLe6blpVJ1aozmlu1ow=;
-        b=PWbvaravnQBmyXDJgQOnXgKhqY9ar0FQtay7dPNRfdB4e2TtJDPS4eUHb64PqKccVb
-         mUqxSpZoeLAqmNv2GEK5suBdZCyHG71uoD1OV1H7UO2Qeb49G53uuERvW9tGC6rWT3Zp
-         H/cmiXCBcHDEFbPpImx6iJMtsPjadoVyIEH9nKyFPQMJXv7wdwGp7POAmchyi/ooGrI9
-         eC3kS3ZTP0FxXdkDqA74WuhgdQA8Pp583s0oMZ3uOjna4Olql9oKy/vLjE6yFUM+BEpI
-         urZ7jSNM/cd8CRNlJXCfT2VBlgG2at6sPshVvHI0teBn0VOnnCbc+fBnaI2qVbHZDJCI
-         XLKw==
-X-Gm-Message-State: AOAM532QWgQx/6+6CKQiDe6UBslYQ95fKzJ7qScAEranHzVsGykiSk1x
-        nNLWx5D9kDMJeLzx3Jpx2kJci7CjB11sOUK/oZ01hw==
-X-Google-Smtp-Source: ABdhPJzzKnNN6vTQEqveeY3cTCAGgV7gRJVSFEJ7nlgeJN7LO2mJNz++CF+lAxXxgRgj3f7Ugw8Xdn5CgD7rk7Hez/s=
-X-Received: by 2002:a9d:65da:: with SMTP id z26mr6101976oth.303.1629279302395;
- Wed, 18 Aug 2021 02:35:02 -0700 (PDT)
+        bh=kbdSCU3Rw09uivyYf1YKzhrdNkwTtywFq3z2eNcAoHU=;
+        b=tYRl9nJWnzGsfHF4UWdi35SLziayxAWVGmvhKYLoPoqI2q2uv5cueUFSC0PV4YjYsR
+         aIRiI5apFLysQtsoI6VgRgzI5WdTE8qjJGuHX+fPw2YVVcHfeNfwuwHgqtocEY4FyZPd
+         23i1Fkw3udcCVQKFOZ7xT0ouodM5piQOudQosRpYwpJyaXrQBMjjKAtn2QrpGBLz9VDK
+         Qvt6HcwOvPg+sILjGr78z6zGk8tfyLZ/19yitICJLvUJJj265TSt8uAYAk9EbWmF3GNV
+         Sc5fyTxU+2jwRvv0yqVMi9Su2dUBVIe5rGJmdnZB6AXTpRHALfWCzKeEEYddbxNnxZI/
+         jENg==
+X-Gm-Message-State: AOAM532QpPsVGkcflEtr6OB8ip/s6aAB/urwDlayP+u54sGYwAccHSx5
+        R1wJ1X0pTgBnX72uUGLL5AJeRuXcvS8NgCKK6GUuTQ==
+X-Google-Smtp-Source: ABdhPJz8iEC0DtBNEl/b/C36HfmefejpZ6mYBF4J4rSAfO4RoK/etFf85MFbc+601w1EL4Uj4rk9xHbR9GbyCxpBsGg=
+X-Received: by 2002:a67:f6d8:: with SMTP id v24mr6581141vso.48.1629279723051;
+ Wed, 18 Aug 2021 02:42:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210818074352.29950-1-galpress@amazon.com>
-In-Reply-To: <20210818074352.29950-1-galpress@amazon.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Wed, 18 Aug 2021 11:34:51 +0200
-Message-ID: <CAKMK7uGZ_eX+XfYJU6EkKEOVrHz3q6QMxaEbyyD3_1iqj9YSjw@mail.gmail.com>
-Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
-To:     Gal Pressman <galpress@amazon.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
+References: <20210818035533.ieqkexltfvvf2p4n@vireshk-i7> <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
+ <20210818043131.7klajx6drvvkftoc@vireshk-i7> <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
+ <20210818045307.4brb6cafkh3adjth@vireshk-i7> <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7> <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+ <20210818062723.dqamssfkf7lf7cf7@vireshk-i7> <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+ <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+In-Reply-To: <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 18 Aug 2021 11:41:26 +0200
+Message-ID: <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Oded Gabbay <ogabbay@habana.ai>,
-        Tomer Tayar <ttayar@habana.ai>,
-        Yossi Leybovich <sleybo@amazon.com>,
-        Alexander Matushevsky <matua@amazon.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Jianxin Xiong <jianxin.xiong@intel.com>
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        DTML <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 9:45 AM Gal Pressman <galpress@amazon.com> wrote:
+On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
 >
-> Hey all,
+> On 18-08-21, 10:29, Ulf Hansson wrote:
+> > Me and Dmitry discussed adding a new genpd callback for this. I agreed
+> > that it seems like a reasonable thing to add, if he insists.
+> >
+> > The intent was to invoke the new callback from __genpd_dev_pm_attach()
+> > when the device has been attached to its genpd. This allows the
+> > callback, to invoke clk_get_rate() and then dev_pm_opp_set_rate(), to
+> > update the vote according to the current state of the HW.
 >
-> Currently, the RDMA subsystem can only work with dynamic dmabuf
-> attachments, which requires the RDMA device to support on-demand-paging
-> (ODP) which is not common on most devices (only supported by mlx5).
->
-> While the dynamic requirement makes sense for certain GPUs, some devices
-> (such as habanalabs) have device memory that is always "pinned" and do
-> not need/use the move_notify operation.
->
-> The motivation of this RFC is to use habanalabs as the dmabuf exporter,
-> and EFA as the importer to allow for peer2peer access through libibverbs.
->
-> This draft patch changes the dmabuf driver to differentiate between
-> static/dynamic attachments by looking at the move_notify op instead of
-> the importer_ops struct, and allowing the peer2peer flag to be enabled
-> in case of a static exporter.
->
-> Thanks
->
-> Signed-off-by: Gal Pressman <galpress@amazon.com>
+> I wouldn't call dev_pm_opp_set_rate() from there, since it means
+> configure and enable (both) for different resources, clk, regulator,
+> genpd, etc..
 
-Given that habanalabs dma-buf support is very firmly in limbo (at
-least it's not yet in linux-next or anywhere else) I think you want to
-solve that problem first before we tackle the additional issue of
-making p2p work without dynamic dma-buf. Without that it just doesn't
-make a lot of sense really to talk about solutions here.
--Daniel
+Right, good point!
 
-> ---
->  drivers/dma-buf/dma-buf.c             | 5 +++--
->  drivers/infiniband/core/umem_dmabuf.c | 2 +-
->  include/linux/dma-buf.h               | 2 +-
->  3 files changed, 5 insertions(+), 4 deletions(-)
+dev_pm_opp_set_rate() is best called from consumer drivers, as they
+need to be in control.
+
 >
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 511fe0d217a0..e3faad8f492c 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -727,7 +727,8 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->         if (WARN_ON(!dmabuf || !dev))
->                 return ERR_PTR(-EINVAL);
+> What we need here is just configure. So something like this then:
 >
-> -       if (WARN_ON(importer_ops && !importer_ops->move_notify))
-> +       if (WARN_ON(importer_ops && !importer_ops->move_notify &&
-> +                   dma_buf_is_dynamic(attach->dmabuf)))
->                 return ERR_PTR(-EINVAL);
+> - genpd->get_performance_state()
+>   -> dev_pm_opp_get_current_opp() //New API
+>   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
 >
->         attach = kzalloc(sizeof(*attach), GFP_KERNEL);
-> @@ -1048,7 +1049,7 @@ void dma_buf_move_notify(struct dma_buf *dmabuf)
->         dma_resv_assert_held(dmabuf->resv);
+> This can be done just once from probe() then.
+
+How would dev_pm_opp_get_current_opp() work? Do you have a suggestion?
+
 >
->         list_for_each_entry(attach, &dmabuf->attachments, node)
-> -               if (attach->importer_ops)
-> +               if (attach->importer_ops && attach->importer_ops->move_notify)
->                         attach->importer_ops->move_notify(attach);
->  }
->  EXPORT_SYMBOL_GPL(dma_buf_move_notify);
-> diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
-> index c6e875619fac..c502ae828bd3 100644
-> --- a/drivers/infiniband/core/umem_dmabuf.c
-> +++ b/drivers/infiniband/core/umem_dmabuf.c
-> @@ -118,7 +118,7 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
->         if (check_add_overflow(offset, (unsigned long)size, &end))
->                 return ret;
+> > I am not sure if/why that approach seemed insufficient?
+> >
+> > Another option to solve the problem, I think, is simply to patch
+> > drivers to let them call dev_pm_opp_set_rate() during ->probe(), this
+> > should synchronize the HW state too.
 >
-> -       if (unlikely(!ops || !ops->move_notify))
-> +       if (unlikely(!ops))
->                 return ret;
+> Dmitry already mentioned that this will make the device start
+> consuming power, and he doesn't want that, else we need an explicit
+> disble call as well.
+
+I am sure I understand the problem. When a device is getting probed,
+it needs to consume power, how else can the corresponding driver
+successfully probe it?
+
 >
->         dmabuf = dma_buf_get(fd);
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index efdc56b9d95f..4b2e99012cb1 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -473,7 +473,7 @@ static inline bool dma_buf_is_dynamic(struct dma_buf *dmabuf)
->  static inline bool
->  dma_buf_attachment_is_dynamic(struct dma_buf_attachment *attach)
->  {
-> -       return !!attach->importer_ops;
-> +       return !!attach->importer_ops->move_notify;
->  }
->
->  struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
 > --
-> 2.32.0
->
+> viresh
 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Kind regards
+Uffe
