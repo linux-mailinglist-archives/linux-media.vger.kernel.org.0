@@ -2,108 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABE093F081C
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 17:34:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ED253F0822
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 17:37:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239906AbhHRPfT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 11:35:19 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:48314 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S239533AbhHRPfS (ORCPT
+        id S239584AbhHRPhz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 11:37:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38262 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237598AbhHRPhy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 11:35:18 -0400
-X-UUID: a9e2c846c5114af59fe9a63f1822d80d-20210818
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=mY2xlANhzGaCwEJ+ZS0j92R3ALD9b0W3vexQNRdZJa0=;
-        b=d/PQsBmLKcfXJGiCIJLrWK92Sjfl664iHR3EI8HDaHNGm54Z1/h+Z+qPhbK8XNEdj53a0PpNPUIDEAV74ThOfavMecjQ8rn7TAWO22JdRaa8KZXaifagBkV40oa+Of4jh0etw8zJ/XWphS3MmV61pij1F+PScdkcI4DtGpx1Mag=;
-X-UUID: a9e2c846c5114af59fe9a63f1822d80d-20210818
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <houlong.wei@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 690763005; Wed, 18 Aug 2021 23:34:37 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS32N1.mediatek.inc
- (172.27.4.71) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 18 Aug
- 2021 23:34:31 +0800
-Received: from mhfsdcap04 (10.17.3.154) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 18 Aug 2021 23:34:31 +0800
-Message-ID: <ea8c8373fbf6a9895276f098cfa2cf3f7761a4b5.camel@mediatek.com>
-Subject: Re: [PATCH v6 7/9] media: mtk-mdp: use mdp-rdma0 alias to point to
- MDP master
-From:   houlong wei <houlong.wei@mediatek.com>
-To:     Eizan Miyamoto <eizan@chromium.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "wenst@chromium.org" <wenst@chromium.org>,
-        Yong Wu =?UTF-8?Q?=28=E5=90=B4=E5=8B=87=29?= 
-        <Yong.Wu@mediatek.com>,
-        "enric.balletbo@collabora.com" <enric.balletbo@collabora.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
-        "Andrew-CT Chen =?UTF-8?Q?=28=E9=99=B3=E6=99=BA=E8=BF=AA=29?=" 
-        <Andrew-CT.Chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Minghsiu Tsai =?UTF-8?Q?=28=E8=94=A1=E6=98=8E=E4=BF=AE=29?=" 
-        <Minghsiu.Tsai@mediatek.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>, <houlong.wei@mediatek.com>
-Date:   Wed, 18 Aug 2021 23:34:32 +0800
-In-Reply-To: <CAOak1e-oyzxbvHimMReQpZCAPyCtAsaGixjwmoa0EzMjqaUxVg@mail.gmail.com>
-References: <20210802121215.703023-1-eizan@chromium.org>
-         <20210802220943.v6.7.I2049e180dca12e0d1b3178bfc7292dcf9e05ac28@changeid>
-         <bf98c5ee749bca755bd46832f858536dbf51a2a4.camel@mediatek.com>
-         <CAOak1e-oyzxbvHimMReQpZCAPyCtAsaGixjwmoa0EzMjqaUxVg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Wed, 18 Aug 2021 11:37:54 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5449FC061764;
+        Wed, 18 Aug 2021 08:37:19 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id om1-20020a17090b3a8100b0017941c44ce4so9118581pjb.3;
+        Wed, 18 Aug 2021 08:37:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=hf+PYnU598KTcaGn+kaY/aSf215EGIiFQvdsiOz+iNE=;
+        b=CRReCz8U1P4Vv/4YGcZ1yXzH+D47/TB1oHO0dVMmc5eJZFDAPmpymyNAEiBN5WDZyc
+         NLB4xpGh5K2xs7hcYiNjXy3kjkwe/wYIu7m7c06ELfE/fUF4dPSfnhpowkVFnHyQlWLe
+         jn1hD7cIAUnNAa+AkHUsJzHIX72hvs0va83jAGwW3SZgKxi1D7Xzfl2g00lA7Xl0Q7kV
+         NYVYOxslSek9f4SQTMl4vz0gLls1vYwbRtdDkLY2IkRxn574O3FUUO1DaoL+MnK8iWvX
+         JcfR0P72LfOlmhcDM5BzprPbafaZjAMdVEZYmXUjP2ieYuwkmxm+vmnOvdonssKqlW+q
+         ujqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=hf+PYnU598KTcaGn+kaY/aSf215EGIiFQvdsiOz+iNE=;
+        b=RKgEeelXNJhaH9rJLDTZXzfUhqZ1W1EZXEigzb9pv+XDBgPV46nNwygJqPFgATETTX
+         ma9aTvMD93Pj4sPsUHAxQwToQwMYZC1oe08eFhbt4O/NohN2AuyzPjhmtufFhL22sLBi
+         fpn5Yppd1a/mKasFmIAJeRG4Ji776nRAES1ewpdRa7IomYUSWFDB1GoNJ9Zv/iH7ukDf
+         eVo2lkgxTb3M/kDZBZG3XyBUOWF3hNIE6vFIiPndoji3jtqRR3Bwk+B7tjvzAnE5dwI4
+         +JY+o2VU+EGQQHs14OEbMVxjn01Ksr+QnraS02NlyH+wfH6dSIPvH2Qcy3tmhrfy5hhh
+         maFg==
+X-Gm-Message-State: AOAM5323SkBtQ7FpipJ4JXvXAph/iIFtzjZnR2uapwF7CX57i2GZKBH3
+        w0C9hIpjCjt0hZoXHZCZS5c=
+X-Google-Smtp-Source: ABdhPJxnOCxmhvFCsrLoYA3U+x8QTr55RHKLH9kbAlQwE+cwDJdAHyVY/t70CXCisMkBQjAYex3AVQ==
+X-Received: by 2002:a17:90a:2b89:: with SMTP id u9mr9961429pjd.116.1629301038807;
+        Wed, 18 Aug 2021 08:37:18 -0700 (PDT)
+Received: from [192.168.1.237] ([118.200.190.93])
+        by smtp.gmail.com with ESMTPSA id c15sm223676pjr.22.2021.08.18.08.37.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Aug 2021 08:37:18 -0700 (PDT)
+Subject: Re: [PATCH v3 4/9] drm: fix potential null ptr dereferences in
+ drm_{auth,ioctl}
+To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, axboe@kernel.dk, oleg@redhat.com,
+        tglx@linutronix.de, dvyukov@google.com, walter-zh.wu@mediatek.com,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
+        gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
+ <20210818073824.1560124-5-desmondcheongzx@gmail.com>
+ <YRzcuiQrLFsWowas@phenom.ffwll.local>
+From:   Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Message-ID: <53a63ac8-f2de-91f7-4e0f-20b0f3f61d52@gmail.com>
+Date:   Wed, 18 Aug 2021 23:37:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 52578409B4DD15A61C9794237D2C83A9C988EF0D0F591ADDCF1BB92849887C712000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+In-Reply-To: <YRzcuiQrLFsWowas@phenom.ffwll.local>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgRWl6YW4sDQoNCkZpcnN0bHksIGFib3V0IGhvdyB0byBkZXRlcm1pbmUgdGhlIG1hc3RlciBt
-ZHAgZHJpdmVyLCB3ZSBhbHNvIGNhbg0KanVkZ2UgdGhlIGNvbXBvbmVudCB0eXBlLiBUaGUgY29t
-cG9uZW50IHR5cGUgY2FuIGJlIGdvdHRlbiBieSBjYWxsaW5nDQpvZl9kZXZpY2VfZ2V0X21hdGNo
-X2RhdGEoZGV2KS4gSWYgdGhlIGNvbXBvbmVudCBpcyBNVEtfTURQX1JETUEsIGl0IGlzDQp0aGUg
-bWFzdGVyIGRyaXZlci4gTm8gbWF0dGVyIGl0IGlzIG1kcF9yZG1hMCBvciBtZHBfcmRtYTEuDQoN
-ClNlY29uZGx5LCBhYm91dCBzdXBwb3J0aW5nIHRoZSBtdWx0aXBsZSBNRFAgbWFzdGVyIGRldmlj
-ZSBub2RlcywgeW91DQpjYW4gdHJ5IG15IGFkdmljZSBpbiBteSBwcmV2aW91cyBjb21tZW50IGFm
-dGVyIHRoZSBjb21wbGV0aW9uIG9mIHRoaXMNCnNlcmllcyBvZiBwYXRjaGVzLg0KDQpUaGFua3Mg
-YSBsb3QuDQoNClJlZ2FyZHMsDQpIb3Vsb25nDQoNCk9uIFdlZCwgMjAyMS0wOC0xOCBhdCAxNTo0
-MyArMDgwMCwgRWl6YW4gTWl5YW1vdG8gd3JvdGU6DQo+IEhpIEhvdWxvbmcsDQo+IA0KPiBPbiBN
-b24sIEF1ZyAxNiwgMjAyMSBhdCAxOjAwIFBNIGhvdWxvbmcgd2VpIDxob3Vsb25nLndlaUBtZWRp
-YXRlay5jb20NCj4gPiB3cm90ZToNCj4gPiBIaSBFaXphbiwNCj4gPiANCj4gPiAibWRwLXJkbWEw
-IiBtYXkgYmUgbm90IHRoZSBvbmx5IG9uZSBtYXN0ZXIgZGV2aWNlIG5vZGUuIEluIGZhY3QsDQo+
-ID4gdGhlcmUNCj4gPiBhcmUgMiAibWRwLXJkbWEiIGluIG10ODE3My4gWW91IGNhbiBzZWUgIm1k
-cF9yZG1hMSIgdmlhIGJlbG93IGxpbmsuDQo+ID4gDQo+ID4gDQpodHRwczovL2dpdC5rZXJuZWwu
-b3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9zdGFibGUvbGludXguZ2l0L3RyZWUvYXJjaC9h
-cm02NC9ib290L2R0cy9tZWRpYXRlay9tdDgxNzMuZHRzaT9oPXY1LjEzLjExI24xMDE2DQo+ID4g
-SWYgd2UgYWRkICJtZWRpYXRlayxtdDgxNzMtbWRwIiB0byAibWRwX3JkbWExIiBsaWtlIGJlbG93
-LCB3ZSB3aWxsDQo+ID4gaGF2ZQ0KPiA+IG9uZSBtb3JlIFY0TDIgdmlkZW8gZGV2aWUgbm9kZS4N
-Cj4gPiANCj4gPiAgICAgICAgICAgICAgICAgbWRwX3JkbWExOiByZG1hQDE0MDAyMDAwIHsNCj4g
-PiAgICAgICAgICAgICAgICAgICAgICAgICBjb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE3My1t
-ZHAtcmRtYSIsDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJtZWRp
-YXRlayxtdDgxNzMtbWRwIjsNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAuLi4NCj4gPiAg
-ICAgICAgICAgICAgICAgfQ0KPiA+IA0KPiA+IFdlIHNob3VsZCBjb25zaWRlciB0aGUgY2FzZSB0
-aGF0IHRoZXJlIGFyZSBtb3JlIHRoYW4gb25lICJNRFBfUkRNQSINCj4gPiBjb21wb25lbnRzLg0K
-PiANCj4gV291bGQgaXQgYmUgb2theSB3aXRoIHlvdSBpZiB3ZSBhZGRlZCBzdXBwb3J0IGZvciBt
-dWx0aXBsZSBNRFAgbWFzdGVyDQo+IGRldmljZSBub2RlcyBpbiBmb2xsb3ctdXAgY2hhbmdlcz8g
-TXkgcmF0aW9uYWxlIGlzIHRoaXM6DQo+IC0gQXMgZmFyIGFzIEkgY2FuIHRlbGwsIHRoZSBtZWRp
-YXRlayBpbnRlZ3JhdGlvbiB3aXRoIFY0TDIgY3VycmVudGx5DQo+IG9ubHkgaGFuZGxlcyBhIHNp
-bmdsZSBNRFAgbWFzdGVyIGRldmljZSBub2RlLiBJdCdzIG5vdCBjbGVhciB0byBtZQ0KPiB0aGUN
-Cj4gc2NvcGUgb2YgY2hhbmdlcyB0aGF0IHdpbGwgYmUgbmVlZGVkIHRvIG1ha2UgdGhpbmdzIHdv
-cmsgcHJvcGVybHkNCj4gd2l0aA0KPiBtdWx0aXBsZSBub2Rlcy4NCj4gLSBUaGUgcGF0Y2ggc2Vy
-aWVzIG1ha2VzIHZpZGVvIGRlY29kZSB3b3JrIChhZG1pdHRlZGx5LCBpbiBsaWdodCBvZg0KPiB5
-b3VyIGNvbW1lbnRzIG5vdCBvcHRpbWFsbHkpIHVwc3RyZWFtLCB3aGljaCBpcyBiZXR0ZXIgdGhh
-biBub3QNCj4gbGFuZGluZyB0aGVzZSBjaGFuZ2VzIGF0IGFsbC4NCj4gDQo+IEknZCBsaWtlIHRv
-IHNheSB0aGF0IEknbSB2ZXJ5IG9wZW4gdG8gKGFuZCBleGNpdGVkIGFib3V0KSBkaXNjdXNzaW5n
-DQo+IGZ1cnRoZXIgd29yayB0byBzdXBwb3J0IG11bHRpcGxlIE1EUCBtYXN0ZXIgbm9kZXMsIHBl
-cmhhcHMgd2UgY2FuDQo+IHdvcmsgdG9nZXRoZXIgb24gdGhpcyBzbyBJIGNhbiB1bmRlcnN0YW5k
-IHdoYXQgbmVlZHMgdG8gYmUgZG9uZS4NCj4gDQo+IFBsZWFzZSBsZXQgbWUga25vdyB5b3VyIHRo
-b3VnaHRzLA0KPiANCj4gRWl6YW4NCg==
+On 18/8/21 6:11 pm, Daniel Vetter wrote:
+> On Wed, Aug 18, 2021 at 03:38:19PM +0800, Desmond Cheong Zhi Xi wrote:
+>> There are three areas where we dereference struct drm_master without
+>> checking if the pointer is non-NULL.
+>>
+>> 1. drm_getmagic is called from the ioctl_handler. Since
+>> DRM_IOCTL_GET_MAGIC has no ioctl flags, drm_getmagic is run without
+>> any check that drm_file.master has been set.
+>>
+>> 2. Similarly, drm_getunique is called from the ioctl_handler, but
+>> DRM_IOCTL_GET_UNIQUE has no ioctl flags. So there is no guarantee that
+>> drm_file.master has been set.
+> 
+> I think the above two are impossible, due to the refcounting rules for
+> struct file.
+> 
+
+Right, will drop those two parts from the patch.
+
+>> 3. drm_master_release can also be called without having a
+>> drm_file.master set. Here is one error path:
+>>    drm_open():
+>>      drm_open_helper():
+>>        drm_master_open():
+>>          drm_new_set_master(); <--- returns -ENOMEM,
+>>                                     drm_file.master not set
+>>        drm_file_free():
+>>          drm_master_release(); <--- NULL ptr dereference
+>>                                     (file_priv->master->magic_map)
+>>
+>> Fix these by checking if the master pointers are NULL before use.
+>>
+>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+>> ---
+>>   drivers/gpu/drm/drm_auth.c  | 16 ++++++++++++++--
+>>   drivers/gpu/drm/drm_ioctl.c |  5 +++++
+>>   2 files changed, 19 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+>> index f9267b21556e..b7230604496b 100644
+>> --- a/drivers/gpu/drm/drm_auth.c
+>> +++ b/drivers/gpu/drm/drm_auth.c
+>> @@ -95,11 +95,18 @@ EXPORT_SYMBOL(drm_is_current_master);
+>>   int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
+>>   {
+>>   	struct drm_auth *auth = data;
+>> +	struct drm_master *master;
+>>   	int ret = 0;
+>>   
+>>   	mutex_lock(&dev->master_mutex);
+>> +	master = file_priv->master;
+>> +	if (!master) {
+>> +		mutex_unlock(&dev->master_mutex);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>>   	if (!file_priv->magic) {
+>> -		ret = idr_alloc(&file_priv->master->magic_map, file_priv,
+>> +		ret = idr_alloc(&master->magic_map, file_priv,
+>>   				1, 0, GFP_KERNEL);
+>>   		if (ret >= 0)
+>>   			file_priv->magic = ret;
+>> @@ -355,8 +362,12 @@ void drm_master_release(struct drm_file *file_priv)
+>>   
+>>   	mutex_lock(&dev->master_mutex);
+>>   	master = file_priv->master;
+>> +
+>> +	if (!master)
+>> +		goto unlock;
+> 
+> This is a bit convoluted, since we're in the single-threaded release path
+> we don't need any locking for file_priv related things. Therefore we can
+> pull the master check out and just directly return.
+> 
+> But since it's a bit surprising maybe a comment that this can happen when
+> drm_master_open in drm_open_helper fails?
+> 
+
+Sounds good. This can actually also happen in the failure path of 
+mock_drm_getfile if anon_inode_getfile fails. I'll leave a short note 
+about both of them.
+
+> Another option, and maybe cleaner, would be to move the drm_master_release
+> from drm_file_free into drm_close_helper. That would be fully symmetrical
+> and should also fix the bug here?
+> -Daniel
+> 
+Hmmm maybe the first option to move the check out of the lock might be 
+better. If I'm not wrong, we would otherwise also need to move 
+drm_master_release into drm_client_close.
+
+> 
+>> +
+>>   	if (file_priv->magic)
+>> -		idr_remove(&file_priv->master->magic_map, file_priv->magic);
+>> +		idr_remove(&master->magic_map, file_priv->magic);
+>>   
+>>   	if (!drm_is_current_master_locked(file_priv))
+>>   		goto out;
+>> @@ -379,6 +390,7 @@ void drm_master_release(struct drm_file *file_priv)
+>>   		drm_master_put(&file_priv->master);
+>>   		spin_unlock(&dev->master_lookup_lock);
+>>   	}
+>> +unlock:
+>>   	mutex_unlock(&dev->master_mutex);
+>>   }
+>>   
+>> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+>> index 26f3a9ede8fe..4d029d3061d9 100644
+>> --- a/drivers/gpu/drm/drm_ioctl.c
+>> +++ b/drivers/gpu/drm/drm_ioctl.c
+>> @@ -121,6 +121,11 @@ int drm_getunique(struct drm_device *dev, void *data,
+>>   
+>>   	mutex_lock(&dev->master_mutex);
+>>   	master = file_priv->master;
+>> +	if (!master) {
+>> +		mutex_unlock(&dev->master_mutex);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>>   	if (u->unique_len >= master->unique_len) {
+>>   		if (copy_to_user(u->unique, master->unique, master->unique_len)) {
+>>   			mutex_unlock(&dev->master_mutex);
+>> -- 
+>> 2.25.1
+>>
+> 
 
