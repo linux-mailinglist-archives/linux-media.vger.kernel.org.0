@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E11633F05E9
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 16:12:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D6123F05ED
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 16:12:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239062AbhHROMt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 10:12:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46410 "EHLO
+        id S239146AbhHRONC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 10:13:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238812AbhHROMm (ORCPT
+        with ESMTP id S239042AbhHROMq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 10:12:42 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85D69C0613CF
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:07 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id g14so2261838pfm.1
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:07 -0700 (PDT)
+        Wed, 18 Aug 2021 10:12:46 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E788BC06179A
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:10 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id n13-20020a17090a4e0d00b0017946980d8dso8929989pjh.5
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=pathpartnertech.com; s=google;
         h=mime-version:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=bSxbKWulFFpyjBcPxiz8ABeCm/CvZUpjssP2kGx4wOk=;
-        b=gqwBHC8M2rQ8BCh+4CR3JV8mnBPpY0enzBtsg16a+OSI2t9o08SYWbkcfNLOqj1X8y
-         yXfzUA0MRmqIk26QotJKL76ePteffiECzQIfDUc5aiPW1Z8QLppF2APg9cFtrE+p686Z
-         hS4Y71WX5cK2RYuapWWExUFQgdb/kLaojTzOVprD3qW+nk20+a7ybj3CR9HvHvvgPaeM
-         uPiDt18j+STM/fOukyZF6VLybNRjFcLCkkrBCjR5yPI9AjUPEnsMNGouNUFuObT0QUJk
-         2VaIkdNzTaNa7WPqaHOcfwT41iSnWvg9jN8DpEEsgDakzFC/rGGYnBy+z26WxIKQVzmr
-         uJLA==
+        bh=hv3/BWr2Hya5YVjCfpoeEoJ6c50x4vzxYN47UPUAiik=;
+        b=Fcxk54jOWEHUD7HshO9XrrEp1rCkbmk4ZyhBZJZEv7ZtKgfm4v3pAuZfIp9EHX8YiS
+         GhyAA4A4SUcCXghlmWAsCQLZfWsJ6eRIw9HukhUDVkC5bR0AQtkecQ7Gqo6loVf2m6Vr
+         P97N/cCcDUbr1cOr9BHLwLuILFM+kjS4bekvWunwY0ZNoolh6CMMrIflhPlUUEDaTpw1
+         O5xByQ+JYq856G+6TZ9SltfdDpVhbsAUpCifArTwtoA8fb0tzD/4l1EBWrsUHViUXeJ2
+         pMJFmZDUACSO+5a6/AZ/xqfZc7i2AfUW7GoPK05Vklfsi7OPvAAnkcxWfsTvo/szp7bV
+         +CQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :in-reply-to:references;
-        bh=bSxbKWulFFpyjBcPxiz8ABeCm/CvZUpjssP2kGx4wOk=;
-        b=fY4XloeS5b0XIoXmv135zLPwPJ+7HLVj230kLn+bK12tX/XonnAIhu343gmdcX75C7
-         JeJfJ1cWyEKrYtv6k94cKtG/WcOaz4VjBzWk/VlYl9gdx2qF5ydmdDNqxSgz2HllZIOX
-         fzWCcyYgtu1lq/85g0lAWRL/HaNETvSxJ37cTcOa21911oih39AgKxtn7j/0Aud0yOFZ
-         ZAfDQHZ25rAZ8uHSDgIn1Rfx345142WwRWrXN43/sJQRJHEwAolv5H86HIVYJtZrqN+9
-         24RuDhU7HIxH5PwJWJ3N8Y3L/HQskUkTyhQaVoqdyBSfIYiCMJkyUCeZ+TJjpn30DUuX
-         /piA==
+        bh=hv3/BWr2Hya5YVjCfpoeEoJ6c50x4vzxYN47UPUAiik=;
+        b=Mbgcfm+GNktZldYWZoimOJWXyj9iCq4ZZJlUHb/rYypPuOIrtbj+UD2Y+dmbcUcd7c
+         D+7rdCOeJh271S0VRdy4GnS/zgatmN18mVC+4k1qjVRrbg8ftGzvlD95r1OFHXtYELZZ
+         Kq3yeuB3flGnWtRxFTRzAXjOYImY/pQ+ESbE+Nw+gxWxaSPovHKDySUbKv6fIgByyNUu
+         GssE5E7r3g14iwG2nGnPvoHoQRxTVg+wLvedt7X1Tsf15OoTRgAWaWOj8RX0B9Zjcy1b
+         iKatkWUqHi8XZY3DH1zSpns9VCYOEF5bse0iYo6wkHwNZLYiAg5PLcUHCTpuf8ajzTPJ
+         I0Dg==
 MIME-Version: 1.0
-X-Gm-Message-State: AOAM53389oDzddZkQwiDDkxcCXd7Ceuram50Cd/fhxJYYTO7TacE6tmp
-        9SrThwFQwwO7vNkFV68Q5lr9PjYP9y/XGnaI+kM2hQBt1ttueottawOwBtkfhDbjaBoBO9l+8JG
-        XUibI/4+zWbrXTfG1
-X-Google-Smtp-Source: ABdhPJz/x72SxvT+k2GtWyP8h08VHNtMDs0gbY5gXECHswI+FegIijEKpidKtARvvubTwWiqDayNrA==
-X-Received: by 2002:a65:6894:: with SMTP id e20mr8928100pgt.419.1629295926463;
-        Wed, 18 Aug 2021 07:12:06 -0700 (PDT)
+X-Gm-Message-State: AOAM532pNDkFX4d3fhuyutGi/LT12n9m21tRV4gchM5KsZOgZ+F83KiB
+        w3jMKqLKt0N32nNqScnoMVAsaZ50Jnxgdo2V/tIlObED4Plb9aHrTrUZOfuEPFptcNTiEkMH02q
+        aBqqM4kTa5gUfM4LG
+X-Google-Smtp-Source: ABdhPJyIr1TkaFFgf0ol7O4P95lkdXF7H6Byb9HucJM/OkTgtOG7ITooPFLHW+3fql0EJCDGz/yw3w==
+X-Received: by 2002:a17:90a:a42:: with SMTP id o60mr9754602pjo.191.1629295929751;
+        Wed, 18 Aug 2021 07:12:09 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.214.181])
-        by smtp.gmail.com with ESMTPSA id e8sm8084343pgg.31.2021.08.18.07.12.03
+        by smtp.gmail.com with ESMTPSA id e8sm8084343pgg.31.2021.08.18.07.12.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 07:12:05 -0700 (PDT)
+        Wed, 18 Aug 2021 07:12:09 -0700 (PDT)
 From:   sidraya.bj@pathpartnertech.com
 To:     gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org
@@ -57,9 +57,9 @@ Cc:     prashanth.ka@pathpartnertech.com, praneeth@ti.com,
         mchehab@kernel.org, linux-media@vger.kernel.org,
         praveen.ap@pathpartnertech.com,
         Sidraya <sidraya.bj@pathpartnertech.com>
-Subject: [PATCH 04/30] v4l: vxd-dec: Add vxd helper library
-Date:   Wed, 18 Aug 2021 19:40:11 +0530
-Message-Id: <20210818141037.19990-5-sidraya.bj@pathpartnertech.com>
+Subject: [PATCH 05/30] v4l: vxd-dec: Add IMG VXD Video Decoder mem to mem drive
+Date:   Wed, 18 Aug 2021 19:40:12 +0530
+Message-Id: <20210818141037.19990-6-sidraya.bj@pathpartnertech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
 References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
@@ -70,2221 +70,58 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Sidraya <sidraya.bj@pathpartnertech.com>
 
-The vxd helper provides the functionality for firmware blob preparation
-and loading, power management (core reset, etc.), firmware messaging,
-interrupt handling, managing the hardware status, and error handling.
+The IMG VXD Video Decoder uses the IMG D5520 to provide video
+decoding for various codecs including H.264 and HEVC.
+Scaling and rotation are also supported by the hardware
+and driver. The driver also supports multiple simultaneous
+video decodes.
 
-The vxd helper also interacts with the memory manager helper to create
-a context for each stream and associate it with the mmu context. The
-common mappings are done during this creation for the firmware and
-rendec buffers.
+Each mem2mem context is a single stream decode session.
+Each session creates it's own vxd context and associated
+mem mgr and mmu contexts. Firmware loading, firmware messaging,
+and hardware power management (reset) are supported, as well as MMU
+programming of the HW.
+
+This patch adds the framework for the v4l2 IMG VXD video decoder
+driver, supporting HW initialization, MMU mapping and buffer management.
+The decoding functionality is not yet implemented.
 
 Signed-off-by: Buddy Liong <buddy.liong@ti.com>
 Signed-off-by: Angela Stegmaier <angelabaker@ti.com>
 Signed-off-by: Sidraya <sidraya.bj@pathpartnertech.com>
 ---
- MAINTAINERS                                   |    4 +
- .../media/vxd/decoder/img_dec_common.h        |  278 +++
- drivers/staging/media/vxd/decoder/vxd_pvdec.c | 1745 +++++++++++++++++
- .../media/vxd/decoder/vxd_pvdec_priv.h        |  126 ++
- .../media/vxd/decoder/vxd_pvdec_regs.h        |  779 ++++++++
- 5 files changed, 2932 insertions(+)
- create mode 100644 drivers/staging/media/vxd/decoder/img_dec_common.h
- create mode 100644 drivers/staging/media/vxd/decoder/vxd_pvdec.c
- create mode 100644 drivers/staging/media/vxd/decoder/vxd_pvdec_priv.h
- create mode 100644 drivers/staging/media/vxd/decoder/vxd_pvdec_regs.h
+ MAINTAINERS                                  |    3 +
+ drivers/staging/media/vxd/decoder/vxd_core.c | 1683 ++++++++++++++++++
+ drivers/staging/media/vxd/decoder/vxd_dec.c  |  185 ++
+ drivers/staging/media/vxd/decoder/vxd_dec.h  |  477 +++++
+ 4 files changed, 2348 insertions(+)
+ create mode 100644 drivers/staging/media/vxd/decoder/vxd_core.c
+ create mode 100644 drivers/staging/media/vxd/decoder/vxd_dec.c
+ create mode 100644 drivers/staging/media/vxd/decoder/vxd_dec.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 150272927839..0f8154b69a91 100644
+index 0f8154b69a91..47067f907539 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -19542,6 +19542,10 @@ F:	drivers/staging/media/vxd/common/img_mem_man.h
- F:	drivers/staging/media/vxd/common/img_mem_unified.c
+@@ -19543,6 +19543,9 @@ F:	drivers/staging/media/vxd/common/img_mem_unified.c
  F:	drivers/staging/media/vxd/common/imgmmu.c
  F:	drivers/staging/media/vxd/common/imgmmu.h
-+F:	drivers/staging/media/vxd/decoder/img_dec_common.h
-+F:	drivers/staging/media/vxd/decoder/vxd_pvdec.c
-+F:	drivers/staging/media/vxd/decoder/vxd_pvdec_priv.h
-+F:	drivers/staging/media/vxd/decoder/vxd_pvdec_regs.h
- 
- VIDEO I2C POLLING DRIVER
- M:	Matt Ranostay <matt.ranostay@konsulko.com>
-diff --git a/drivers/staging/media/vxd/decoder/img_dec_common.h b/drivers/staging/media/vxd/decoder/img_dec_common.h
+ F:	drivers/staging/media/vxd/decoder/img_dec_common.h
++F:	drivers/staging/media/vxd/decoder/vxd_core.c
++F:	drivers/staging/media/vxd/decoder/vxd_dec.c
++F:	drivers/staging/media/vxd/decoder/vxd_dec.h
+ F:	drivers/staging/media/vxd/decoder/vxd_pvdec.c
+ F:	drivers/staging/media/vxd/decoder/vxd_pvdec_priv.h
+ F:	drivers/staging/media/vxd/decoder/vxd_pvdec_regs.h
+diff --git a/drivers/staging/media/vxd/decoder/vxd_core.c b/drivers/staging/media/vxd/decoder/vxd_core.c
 new file mode 100644
-index 000000000000..7bb3bd6d6e78
+index 000000000000..b502c33e6456
 --- /dev/null
-+++ b/drivers/staging/media/vxd/decoder/img_dec_common.h
-@@ -0,0 +1,278 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * IMG DEC common header
-+ *
-+ * Copyright (c) Imagination Technologies Ltd.
-+ * Copyright (c) 2021 exas Instruments Incorporated - http://www.ti.com/
-+ *
-+ * Authors:
-+ *	Amit Makani <amit.makani@ti.com>
-+ *
-+ * Re-written for upstreamimg
-+ *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
-+ *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com>
-+ */
-+
-+#ifndef _IMG_DEC_COMMON_H
-+#define _IMG_DEC_COMMON_H
-+
-+#include <linux/types.h>
-+
-+#define VXD_MAX_PIPES 2
-+#define MAX_DST_BUFFERS 32
-+
-+/* Helpers for parsing core properties. Based on HW registers layout. */
-+#define VXD_GET_BITS(v, lb, rb, type) \
-+	({                                \
-+		type __rb = (rb);                                       \
-+		(((v) >> (__rb)) & ((1 << ((lb) - __rb + 1)) - 1)); })
-+#define VXD_GET_BIT(v, b) (((v) >> (b)) & 1)
-+
-+/* Get major core revision. */
-+#define VXD_MAJ_REV(props) (VXD_GET_BITS((props).core_rev, 23, 16, unsigned int))
-+/* Get minor core revision. */
-+#define VXD_MIN_REV(props) (VXD_GET_BITS((props).core_rev, 15, 8, unsigned int))
-+/* Get maint core revision. */
-+#define VXD_MAINT_REV(props) (VXD_GET_BITS((props).core_rev, 7, 0, unsigned int))
-+/* Get number of entropy pipes available (HEVC). */
-+#define VXD_NUM_ENT_PIPES(props) ((props).pvdec_core_id & 0xF)
-+/* Get number of pixel pipes available (other standards). */
-+#define VXD_NUM_PIX_PIPES(props) (((props).pvdec_core_id & 0xF0) >> 4)
-+/* Get number of bits used by external memory interface. */
-+#define VXD_EXTRN_ADDR_WIDTH(props) ((((props).mmu_config0 & 0xF0) >> 4) + 32)
-+
-+/* Check whether specific standard is supported by the pixel pipe. */
-+#define VXD_HAS_MPEG2(props, pipe) VXD_GET_BIT(props.pixel_pipe_cfg[pipe], 0)
-+#define VXD_HAS_MPEG4(props, pipe) VXD_GET_BIT(props.pixel_pipe_cfg[pipe], 1)
-+#define VXD_HAS_H264(props, pipe) VXD_GET_BIT(props.pixel_pipe_cfg[pipe], 2)
-+#define VXD_HAS_VC1(props, pipe) VXD_GET_BIT(props.pixel_pipe_cfg[pipe], 3)
-+#define VXD_HAS_WMV9(props, pipe) VXD_GET_BIT(props.pixel_pipe_cfg[pipe], 4)
-+#define VXD_HAS_JPEG(props, pipe) VXD_GET_BIT(props.pixel_pipe_cfg[pipe], 5)
-+#define VXD_HAS_MPEG4_DATA_PART(props, pipe) \
-+	VXD_GET_BIT(props.pixel_pipe_cfg[pipe], 6)
-+#define VXD_HAS_AVS(props, pipe) VXD_GET_BIT(props.pixel_pipe_cfg[pipe], 7)
-+#define VXD_HAS_REAL(props, pipe) VXD_GET_BIT(props.pixel_pipe_cfg[pipe], 8)
-+#define VXD_HAS_VP6(props, pipe) VXD_GET_BIT(props.pixel_pipe_cfg[pipe], 9)
-+#define VXD_HAS_VP8(props, pipe) VXD_GET_BIT(props.pixel_pipe_cfg[pipe], 10)
-+#define VXD_HAS_SORENSON(props, pipe) \
-+	VXD_GET_BIT(props.pixel_pipe_cfg[pipe], 11)
-+#define VXD_HAS_HEVC(props, pipe) VXD_GET_BIT(props.pixel_pipe_cfg[pipe], 22)
-+
-+/* Check whether specific feature is supported by the pixel pipe */
-+
-+/*
-+ * Max picture size for HEVC still picture profile is 64k wide and/or 64k
-+ * high.
-+ */
-+#define VXD_HAS_HEVC_64K_STILL(props, pipe) \
-+	(VXD_GET_BIT((props).pixel_misc_cfg[pipe], 24))
-+
-+/* Pixel processing pipe index. */
-+#define VXD_PIX_PIPE_ID(props, pipe) \
-+	(VXD_GET_BITS((props).pixel_misc_cfg[pipe], 18, 16, unsigned int))
-+
-+/* Number of stream supported by the pixel pipe DMAC and shift register. */
-+#define VXD_PIX_NUM_STRS(props, pipe) \
-+	(VXD_GET_BITS((props).pixel_misc_cfg[pipe], 13, 12, unsigned int) + 1)
-+
-+/* Is scaling supported. */
-+#define VXD_HAS_SCALING(props, pipe) \
-+	(VXD_GET_BIT((props).pixel_misc_cfg[pipe], 9))
-+
-+/* Is rotation supported. */
-+#define VXD_HAS_ROTATION(props, pipe) \
-+	(VXD_GET_BIT((props).pixel_misc_cfg[pipe], 8))
-+
-+/* Are HEVC range extensions supported. */
-+#define VXD_HAS_HEVC_REXT(props, pipe) \
-+	(VXD_GET_BIT((props).pixel_misc_cfg[pipe], 7))
-+
-+/* Maximum bit depth supported by the pipe. */
-+#define VXD_MAX_BIT_DEPTH(props, pipe) \
-+	(VXD_GET_BITS((props).pixel_misc_cfg[pipe], 6, 4, unsigned int) + 8)
-+
-+/*
-+ * Maximum chroma fomar supported by the pipe in HEVC mode.
-+ * 0x1 - 4:2:0
-+ * 0x2 - 4:2:2
-+ * 0x3 - 4:4:4
-+ */
-+#define VXD_MAX_HEVC_CHROMA_FMT(props, pipe) \
-+	(VXD_GET_BITS((props).pixel_misc_cfg[pipe], 3, 2, unsigned int))
-+
-+/*
-+ * Maximum chroma format supported by the pipe in H264 mode.
-+ * 0x1 - 4:2:0
-+ * 0x2 - 4:2:2
-+ * 0x3 - 4:4:4
-+ */
-+#define VXD_MAX_H264_CHROMA_FMT(props, pipe) \
-+	(VXD_GET_BITS((props).pixel_misc_cfg[pipe], 1, 0, unsigned int))
-+
-+/*
-+ * Maximum frame width and height supported in MSVDX pipeline.
-+ */
-+#define VXD_MAX_WIDTH_MSVDX(props) \
-+	(2 << (VXD_GET_BITS((props).pixel_max_frame_cfg, 4, 0, unsigned int)))
-+#define VXD_MAX_HEIGHT_MSVDX(props) \
-+	(2 << (VXD_GET_BITS((props).pixel_max_frame_cfg, 12, 8, unsigned int)))
-+
-+/*
-+ * Maximum frame width and height supported in PVDEC pipeline.
-+ */
-+#define VXD_MAX_WIDTH_PVDEC(props) \
-+	(2 << (VXD_GET_BITS((props).pixel_max_frame_cfg, 20, 16, unsigned int)))
-+#define VXD_MAX_HEIGHT_PVDEC(props) \
-+	(2 << (VXD_GET_BITS((props).pixel_max_frame_cfg, 28, 24, unsigned int)))
-+
-+#define PVDEC_COMMS_RAM_OFFSET      0x00002000
-+#define PVDEC_COMMS_RAM_SIZE        0x00001000
-+#define PVDEC_ENTROPY_OFFSET        0x00003000
-+#define PVDEC_ENTROPY_SIZE          0x1FF
-+#define PVDEC_VEC_BE_OFFSET         0x00005000
-+#define PVDEC_VEC_BE_SIZE           0x3FF
-+#define PVDEC_VEC_BE_CODEC_OFFSET   0x00005400
-+#define MSVDX_VEC_OFFSET            0x00006000
-+#define MSVDX_VEC_SIZE              0x7FF
-+#define MSVDX_CMD_OFFSET            0x00007000
-+
-+/*
-+ * Virtual memory heap address ranges for tiled
-+ * and non-tiled buffers. Addresses within each
-+ * range should be assigned to the appropriate
-+ * buffers by the UM driver and mapped into the
-+ * device using the corresponding KM driver ioctl.
-+ */
-+#define PVDEC_HEAP_UNTILED_START    0x00400000ul
-+#define PVDEC_HEAP_UNTILED_SIZE     0x3FC00000ul
-+#define PVDEC_HEAP_TILE512_START    0x40000000ul
-+#define PVDEC_HEAP_TILE512_SIZE     0x10000000ul
-+#define PVDEC_HEAP_TILE1024_START   0x50000000ul
-+#define PVDEC_HEAP_TILE1024_SIZE    0x20000000ul
-+#define PVDEC_HEAP_TILE2048_START   0x70000000ul
-+#define PVDEC_HEAP_TILE2048_SIZE    0x30000000ul
-+#define PVDEC_HEAP_TILE4096_START   0xA0000000ul
-+#define PVDEC_HEAP_TILE4096_SIZE    0x30000000ul
-+#define PVDEC_HEAP_BITSTREAM_START  0xD2000000ul
-+#define PVDEC_HEAP_BITSTREAM_SIZE   0x0A000000ul
-+#define PVDEC_HEAP_STREAM_START     0xE4000000ul
-+#define PVDEC_HEAP_STREAM_SIZE      0x1C000000ul
-+
-+/*
-+ * Max size of the message payload, in bytes. There are 7 bits used to encode
-+ * the message size in the firmware interface.
-+ */
-+#define VXD_MAX_PAYLOAD_SIZE (127 * sizeof(unsigned int))
-+/* Max size of the input message in bytes. */
-+#define VXD_MAX_INPUT_SIZE (VXD_MAX_PAYLOAD_SIZE + sizeof(struct vxd_fw_msg))
-+/*
-+ * Min size of the input message. Two words needed for message header and
-+ * stream PTD
-+ */
-+#define VXD_MIN_INPUT_SIZE 2
-+/*
-+ * Offset of the stream PTD within message. This word has to be left null in
-+ * submitted message, driver will fill it in with an appropriate value.
-+ */
-+#define VXD_PTD_MSG_OFFSET 1
-+
-+/* Read flags */
-+#define VXD_FW_MSG_RD_FLAGS_MASK 0xffff
-+/* Driver watchdog interrupted processing of the message. */
-+#define VXD_FW_MSG_FLAG_DWR 0x1
-+/* VXD MMU fault occurred when the message was processed. */
-+#define VXD_FW_MSG_FLAG_MMU_FAULT 0x2
-+/* Invalid input message, e.g. the message was too large. */
-+#define VXD_FW_MSG_FLAG_INV 0x4
-+/* I/O error occurred when the message was processed. */
-+#define VXD_FW_MSG_FLAG_DEV_ERR 0x8
-+/*
-+ * Driver error occurred when the message was processed, e.g. failed to
-+ * allocate memory.
-+ */
-+#define VXD_FW_MSG_FLAG_DRV_ERR 0x10
-+/*
-+ * Item was canceled, without being fully processed
-+ * i.e. corresponding stream was destroyed.
-+ */
-+#define VXD_FW_MSG_FLAG_CANCELED 0x20
-+/* Firmware internal error occurred when the message was processed */
-+#define VXD_FW_MSG_FLAG_FATAL 0x40
-+
-+/* Write flags */
-+#define VXD_FW_MSG_WR_FLAGS_MASK 0xffff0000
-+/* Indicates that message shall be dropped after sending it to the firmware. */
-+#define VXD_FW_MSG_FLAG_DROP 0x10000
-+/*
-+ * Indicates that message shall be exclusively handled by
-+ * the firmware/hardware. Any other pending messages are
-+ * blocked until such message is handled.
-+ */
-+#define VXD_FW_MSG_FLAG_EXCL 0x20000
-+
-+#define VXD_MSG_SIZE(msg) (sizeof(struct vxd_fw_msg) + ((msg).payload_size))
-+
-+/* Header included at the beginning of firmware binary */
-+struct vxd_fw_hdr {
-+	unsigned int core_size;
-+	unsigned int blob_size;
-+	unsigned int firmware_id;
-+	unsigned int timestamp;
-+};
-+
-+/*
-+ * struct vxd_dev_fw - Core component will allocate a buffer for firmware.
-+ *                     This structure holds the information about the firmware
-+ *                     binary.
-+ * @buf_id: The buffer id allocation
-+ * @hdr: firmware header information
-+ * @fw_size: The size of the fw. Set after successful firmware request.
-+ */
-+struct vxd_dev_fw {
-+	int buf_id;
-+	struct vxd_fw_hdr *hdr;
-+	unsigned int fw_size;
-+	unsigned char ready;
-+};
-+
-+/*
-+ * struct vxd_core_props - contains HW core properties
-+ * @core_rev: Core revision based on register CR_PVDEC_CORE_REV
-+ * @pvdec_core_id: PVDEC Core id based on register CR_PVDEC_CORE_ID
-+ * @mmu_config0: MMU configuration 0 based on register MMU_CONFIG0
-+ * @mmu_config1: MMU configuration 1 based on register MMU_CONFIG1
-+ * @mtx_ram_size: size of the MTX RAM based on register CR_PROC_DEBUG
-+ * @pixel_max_frame_cfg: indicates the max frame height and width for
-+ *                       PVDEC pipeline and MSVDX pipeline based on register
-+ *                       MAX_FRAME_CONFIG
-+ * @pixel_pipe_cfg: pipe configuration which codecs are supported in a
-+ *                  Pixel Processing Pipe, based on register
-+ *                  PIXEL_PIPE_CONFIG
-+ * @pixel_misc_cfg: Additional pipe configuration eg. supported scaling
-+ *                  or rotation, based on register PIXEL_MISC_CONFIG
-+ * @dbg_fifo_size: contains the depth of the Debug FIFO, based on
-+ *                 register CR_PROC_DEBUG_FIFO_SIZE
-+ */
-+struct vxd_core_props {
-+	unsigned int core_rev;
-+	unsigned int pvdec_core_id;
-+	unsigned int mmu_config0;
-+	unsigned int mmu_config1;
-+	unsigned int mtx_ram_size;
-+	unsigned int pixel_max_frame_cfg;
-+	unsigned int pixel_pipe_cfg[VXD_MAX_PIPES];
-+	unsigned int pixel_misc_cfg[VXD_MAX_PIPES];
-+	unsigned int dbg_fifo_size;
-+};
-+
-+struct vxd_alloc_data {
-+	unsigned int heap_id;       /* [IN] Heap ID of allocator                */
-+	unsigned int size;          /* [IN] Size of device memory (in bytes)    */
-+	unsigned int attributes;    /* [IN] Attributes of buffer */
-+	unsigned int buf_id;        /* [OUT] Generated buffer ID                */
-+};
-+
-+struct vxd_free_data {
-+	unsigned int buf_id;        /* [IN] ID of device buffer to free */
-+};
-+#endif /* _IMG_DEC_COMMON_H */
-diff --git a/drivers/staging/media/vxd/decoder/vxd_pvdec.c b/drivers/staging/media/vxd/decoder/vxd_pvdec.c
-new file mode 100644
-index 000000000000..c2b59c3dd164
---- /dev/null
-+++ b/drivers/staging/media/vxd/decoder/vxd_pvdec.c
-@@ -0,0 +1,1745 @@
++++ b/drivers/staging/media/vxd/decoder/vxd_core.c
+@@ -0,0 +1,1683 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * IMG DEC PVDEC function implementations
-+ *
-+ * Copyright (c) Imagination Technologies Ltd.
-+ * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
-+ *
-+ * Authors:
-+ *	Amit Makani <amit.makani@ti.com>
-+ *
-+ * Re-written for upstreamimg
-+ *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
-+ *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com>
-+ */
-+
-+#include <linux/interrupt.h>
-+#include <linux/time64.h>
-+#include <linux/slab.h>
-+#include <linux/delay.h>
-+#include <linux/jiffies.h>
-+#include <linux/dma-mapping.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-mem2mem.h>
-+
-+#include "img_dec_common.h"
-+#include "img_pvdec_test_regs.h"
-+#include "img_video_bus4_mmu_regs.h"
-+#include "vxd_pvdec_priv.h"
-+#include "vxd_pvdec_regs.h"
-+
-+#ifdef PVDEC_SINGLETHREADED_IO
-+static DEFINE_SPINLOCK(pvdec_irq_lock);
-+static ulong pvdec_irq_flags;
-+#endif
-+
-+static const ulong vxd_plat_poll_udelay = 100;
-+
-+/* This function will return reminder and quotient */
-+static inline unsigned int do_divide(unsigned long long *n, unsigned int base)
-+{
-+	unsigned int remainder = *n % base;
-+	*n = *n / base;
-+	return remainder;
-+}
-+
-+/*
-+ * Reads PROC_DEBUG register and provides number of MTX RAM banks
-+ * and their size
-+ */
-+static int pvdec_get_mtx_ram_info(void __iomem *reg_base, int *bank_cnt,
-+				  unsigned long *bank_size,
-+				  unsigned long *last_bank_size)
-+{
-+	unsigned int ram_bank_count, reg;
-+
-+	reg = VXD_RD_REG(reg_base, PVDEC_CORE, PROC_DEBUG);
-+	ram_bank_count = VXD_RD_REG_FIELD(reg, PVDEC_CORE, PROC_DEBUG, MTX_RAM_BANKS);
-+	if (!ram_bank_count)
-+		return -EIO;
-+
-+	if (bank_cnt)
-+		*bank_cnt = ram_bank_count;
-+
-+	if (bank_size) {
-+		unsigned int ram_bank_size = VXD_RD_REG_FIELD(reg, PVDEC_CORE,
-+				PROC_DEBUG, MTX_RAM_BANK_SIZE);
-+		*bank_size = 1 << (ram_bank_size + 2);
-+	}
-+
-+	if (last_bank_size) {
-+		unsigned int last_bank = VXD_RD_REG_FIELD(reg, PVDEC_CORE, PROC_DEBUG,
-+				MTX_LAST_RAM_BANK_SIZE);
-+		unsigned char new_representation = VXD_RD_REG_FIELD(reg,
-+				PVDEC_CORE, PROC_DEBUG, MTX_RAM_NEW_REPRESENTATION);
-+		if (new_representation) {
-+			*last_bank_size = 1024 * last_bank;
-+		} else {
-+			*last_bank_size = 1 << (last_bank + 2);
-+			if (bank_cnt && last_bank == 13 && *bank_cnt == 4) {
-+				/*
-+				 * VXD hardware ambiguity:
-+				 * old cores confuse 120k and 128k
-+				 * So assume worst case.
-+				 */
-+				*last_bank_size -= 0x2000;
-+			}
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+/* Provides size of MTX RAM in bytes */
-+static int pvdec_get_mtx_ram_size(void __iomem *reg_base, unsigned int *ram_size)
-+{
-+	int bank_cnt, ret;
-+	unsigned long bank_size, last_bank_size;
-+
-+	ret = pvdec_get_mtx_ram_info(reg_base, &bank_cnt, &bank_size, &last_bank_size);
-+	if (ret)
-+		return ret;
-+
-+	*ram_size = (bank_cnt - 1) * bank_size + last_bank_size;
-+
-+	return 0;
-+}
-+
-+/* Poll for single register-based transfer to/from MTX to complete */
-+static unsigned int pvdec_wait_mtx_reg_access(void __iomem *reg_base, unsigned int *mtx_fault)
-+{
-+	unsigned int pvdec_timeout = PVDEC_TIMEOUT_COUNTER, reg;
-+
-+	do {
-+		/* Check MTX is OK */
-+		reg = VXD_RD_REG(reg_base, MTX_CORE, MTX_FAULT0);
-+		if (reg != 0) {
-+			*mtx_fault = reg;
-+			return -EIO;
-+		}
-+
-+		pvdec_timeout--;
-+		reg = VXD_RD_REG(reg_base, MTX_CORE, MTX_REG_READ_WRITE_REQUEST);
-+	} while ((VXD_RD_REG_FIELD(reg, MTX_CORE,
-+		MTX_REG_READ_WRITE_REQUEST,
-+		MTX_DREADY) == 0) &&
-+		(pvdec_timeout != 0));
-+
-+	if (pvdec_timeout == 0)
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+static void pvdec_mtx_status_dump(void __iomem *reg_base, unsigned int *status)
-+{
-+	unsigned int reg;
-+
-+	pr_debug("%s: *** dumping status ***\n", __func__);
-+
-+#define READ_MTX_REG(_NAME_) \
-+	do { \
-+		unsigned int val; \
-+		VXD_WR_REG(reg_base, MTX_CORE, \
-+			MTX_REG_READ_WRITE_REQUEST, reg); \
-+		if (pvdec_wait_mtx_reg_access(reg_base, &reg)) { \
-+			pr_debug("%s: " \
-+				"MTX REG RD fault: 0x%08x\n", __func__, reg); \
-+			break; \
-+		} \
-+		val = VXD_RD_REG(reg_base, MTX_CORE, MTX_REG_READ_WRITE_DATA); \
-+		if (status) \
-+			*status++ = val; \
-+		pr_debug("%s: " _NAME_ ": 0x%08x\n", __func__, val); \
-+	} while (0)
-+
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, /* Read */
-+			       MTX_REG_READ_WRITE_REQUEST, MTX_RNW, 1);
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, /* PC or PCX */
-+			       MTX_REG_READ_WRITE_REQUEST, MTX_USPECIFIER, 5);
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, /* PC */
-+			       MTX_REG_READ_WRITE_REQUEST, MTX_RSPECIFIER, 0);
-+	READ_MTX_REG("MTX PC");
-+
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, /* Read */
-+			       MTX_REG_READ_WRITE_REQUEST, MTX_RNW, 1);
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, /* PC or PCX */
-+			       MTX_REG_READ_WRITE_REQUEST, MTX_USPECIFIER, 5);
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, /* PCX */
-+			       MTX_REG_READ_WRITE_REQUEST, MTX_RSPECIFIER, 1);
-+	READ_MTX_REG("MTX PCX");
-+
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, /* Read */
-+			       MTX_REG_READ_WRITE_REQUEST, MTX_RNW, 1);
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, /* A0StP */
-+			       MTX_REG_READ_WRITE_REQUEST, MTX_USPECIFIER, 3);
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE,
-+			       MTX_REG_READ_WRITE_REQUEST, MTX_RSPECIFIER, 0);
-+	READ_MTX_REG("MTX A0STP");
-+
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, /* Read */
-+			       MTX_REG_READ_WRITE_REQUEST, MTX_RNW, 1);
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, /* A0FrP */
-+			       MTX_REG_READ_WRITE_REQUEST, MTX_USPECIFIER, 3);
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, MTX_REG_READ_WRITE_REQUEST, MTX_RSPECIFIER, 1);
-+	READ_MTX_REG("MTX A0FRP");
-+#undef PRINT_MTX_REG
-+
-+	pr_debug("%s: *** status dump done ***\n", __func__);
-+}
-+
-+static void pvdec_prep_fw_upload(const void *dev,
-+				 void __iomem *reg_base,
-+				 struct vxd_ena_params *ena_params,
-+				 unsigned char dma_channel)
-+{
-+	unsigned int fw_vxd_virt_addr = ena_params->fw_buf_virt_addr;
-+	unsigned int vxd_ptd_addr = ena_params->ptd;
-+	unsigned int reg = 0;
-+	int i;
-+	unsigned int flags = PVDEC_FWFLAG_FORCE_FS_FLOW |
-+		PVDEC_FWFLAG_DISABLE_GENC_FLUSHING |
-+		PVDEC_FWFLAG_DISABLE_AUTONOMOUS_RESET |
-+		PVDEC_FWFLAG_DISABLE_IDLE_GPIO |
-+		PVDEC_FWFLAG_ENABLE_ERROR_CONCEALMENT;
-+
-+	if (ena_params->secure)
-+		flags |= PVDEC_FWFLAG_BIG_TO_HOST_BUFFER;
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: fw_virt: 0x%x, ptd: 0x%x, dma ch: %u, flags: 0x%x\n",
-+		__func__, fw_vxd_virt_addr, vxd_ptd_addr, dma_channel, flags);
-+#endif
-+
-+	/* Reset MTX */
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, MTX_SOFT_RESET, MTX_RESET, 1);
-+	VXD_WR_REG(reg_base, MTX_CORE, MTX_SOFT_RESET, reg);
-+	/*
-+	 * NOTE: The MTX reset bit is WRITE ONLY, so we cannot
-+	 * check the reset procedure has finished, thus BEWARE to put
-+	 * any MTX_CORE* access just after this line
-+	 */
-+
-+	/* Clear COMMS RAM header */
-+	for (i = 0; i < PVDEC_FW_COMMS_HDR_SIZE; i++)
-+		VXD_WR_REG_ABS(reg_base, VLR_OFFSET + i * sizeof(unsigned int), 0);
-+
-+	VXD_WR_REG_ABS(reg_base, VLR_OFFSET + PVDEC_FW_FLAGS_OFFSET, flags);
-+	/* Do not wait for debug FIFO flag - set it only when requested */
-+	VXD_WR_REG_ABS(reg_base, VLR_OFFSET + PVDEC_FW_SIGNATURE_OFFSET,
-+		       !ena_params->wait_dbg_fifo);
-+
-+	/*
-+	 * Clear the bypass bits and enable extended addressing in MMU.
-+	 * Firmware depends on this configuration, so we have to set it,
-+	 * even if firmware is being uploaded via registers.
-+	 */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_ADDRESS_CONTROL, UPPER_ADDR_FIXED, 0);
-+	reg = VXD_WR_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_ADDRESS_CONTROL, MMU_ENA_EXT_ADDR, 1);
-+	reg = VXD_WR_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_ADDRESS_CONTROL, MMU_BYPASS, 0);
-+	VXD_WR_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_ADDRESS_CONTROL, reg);
-+
-+	/*
-+	 * Buffer device virtual address.
-+	 * This is an address of a firmware blob, firmware reads this base
-+	 * address from DMAC_SETUP register and uses to load the modules, so it
-+	 * has to be set even when uploading the FW via registers.
-+	 */
-+	VXD_WR_RPT_REG(reg_base, DMAC, DMAC_SETUP, fw_vxd_virt_addr, dma_channel);
-+
-+	/*
-+	 * Set base address of PTD. Same as before, has to be configured even
-+	 * when uploading the firmware via regs, FW uses it to execute DMA
-+	 * before switching to stream MMU context.
-+	 */
-+	VXD_WR_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_DIR_BASE_ADDR, vxd_ptd_addr);
-+
-+	/* Configure MMU bank index - Use bank 0 */
-+	VXD_WR_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_BANK_INDEX, 0);
-+
-+	/* Set the MTX timer divider register */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, MTX_SYSC_TIMERDIV, TIMER_EN, 1);
-+	/*
-+	 * Setting max freq - divide by 1 for better measurement accuracy
-+	 * during fw upload stage
-+	 */
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, MTX_SYSC_TIMERDIV, TIMER_DIV, 0);
-+	VXD_WR_REG(reg_base, MTX_CORE, MTX_SYSC_TIMERDIV, reg);
-+}
-+
-+static int pvdec_check_fw_sig(void __iomem *reg_base)
-+{
-+	unsigned int fw_sig = VXD_RD_REG_ABS(reg_base, VLR_OFFSET +
-+			PVDEC_FW_SIGNATURE_OFFSET);
-+
-+	if (fw_sig != PVDEC_FW_READY_SIG)
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+static void pvdec_kick_mtx(void __iomem *reg_base)
-+{
-+	unsigned int reg = 0;
-+
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, MTX_KICKI, MTX_KICKI, 1);
-+	VXD_WR_REG(reg_base, MTX_CORE, MTX_KICKI, reg);
-+}
-+
-+static int pvdec_write_vlr(void __iomem *reg_base, const unsigned int *buf,
-+			   unsigned long size_dwrds, int off_dwrds)
-+{
-+	unsigned int i;
-+
-+	if (((off_dwrds + size_dwrds) * sizeof(unsigned int)) > VLR_SIZE)
-+		return -EINVAL;
-+
-+	for (i = 0; i < size_dwrds; i++) {
-+		int off = (off_dwrds + i) * sizeof(unsigned int);
-+
-+		VXD_WR_REG_ABS(reg_base, (VLR_OFFSET + off), *buf);
-+		buf++;
-+	}
-+
-+	return 0;
-+}
-+
-+static int pvdec_poll_fw_boot(void __iomem *reg_base, struct vxd_boot_poll_params *poll_params)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < 25; i++) {
-+		if (!pvdec_check_fw_sig(reg_base))
-+			return 0;
-+		usleep_range(100, 110);
-+	}
-+	for (i = 0; i < poll_params->msleep_cycles; i++) {
-+		if (!pvdec_check_fw_sig(reg_base))
-+			return 0;
-+		msleep(100);
-+	}
-+	return -EIO;
-+}
-+
-+static int pvdec_read_vlr(void __iomem *reg_base, unsigned int *buf,
-+			  unsigned long size_dwrds, int off_dwrds)
-+{
-+	unsigned int i;
-+
-+	if (((off_dwrds + size_dwrds) * sizeof(unsigned int)) > VLR_SIZE)
-+		return -EINVAL;
-+
-+	for (i = 0; i < size_dwrds; i++) {
-+		int off = (off_dwrds + i) * sizeof(unsigned int);
-+		*buf++ = VXD_RD_REG_ABS(reg_base, (VLR_OFFSET + off));
-+	}
-+
-+	return 0;
-+}
-+
-+/* Get configuration of a ring buffer used to send messages to the MTX */
-+static int pvdec_get_to_mtx_cfg(void __iomem *reg_base, unsigned long *size, int *off,
-+				unsigned int *wr_idx, unsigned int *rd_idx)
-+{
-+	unsigned int to_mtx_cfg;
-+	int to_mtx_off, ret;
-+
-+	ret = pvdec_check_fw_sig(reg_base);
-+	if (ret)
-+		return ret;
-+
-+	to_mtx_cfg = VXD_RD_REG_ABS(reg_base, VLR_OFFSET + PVDEC_FW_TO_MTX_BUF_CONF_OFFSET);
-+
-+	*size = PVDEC_FW_COM_BUF_SIZE(to_mtx_cfg);
-+	to_mtx_off = PVDEC_FW_COM_BUF_OFF(to_mtx_cfg);
-+
-+	if (to_mtx_off % 4)
-+		return -EIO;
-+
-+	to_mtx_off /= sizeof(unsigned int);
-+	*off = to_mtx_off;
-+
-+	*wr_idx = VXD_RD_REG_ABS(reg_base, VLR_OFFSET + PVDEC_FW_TO_MTX_WR_IDX_OFFSET);
-+	*rd_idx = VXD_RD_REG_ABS(reg_base, VLR_OFFSET + PVDEC_FW_TO_MTX_RD_IDX_OFFSET);
-+
-+	if ((*rd_idx >= *size) || (*wr_idx >= *size))
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+/* Submit a padding message to the host->MTX ring buffer */
-+static int pvdec_send_pad_msg(void __iomem *reg_base)
-+{
-+	int ret, pad_size, to_mtx_off; /* offset in dwords */
-+	unsigned int wr_idx, rd_idx; /* indicies in dwords */
-+	unsigned long pad_msg_size = 1, to_mtx_size; /* size in dwords */
-+	const unsigned long max_msg_size = VXD_MAX_PAYLOAD_SIZE / sizeof(unsigned int);
-+	unsigned int pad_msg;
-+
-+	ret = pvdec_get_to_mtx_cfg(reg_base, &to_mtx_size, &to_mtx_off, &wr_idx, &rd_idx);
-+	if (ret)
-+		return ret;
-+
-+	pad_size = to_mtx_size - wr_idx; /* size in dwords */
-+
-+	if (pad_size <= 0) {
-+		VXD_WR_REG_ABS(reg_base, VLR_OFFSET + PVDEC_FW_TO_MTX_WR_IDX_OFFSET, 0);
-+		return 0;
-+	}
-+
-+	while (pad_size > 0) {
-+		int cur_pad_size = pad_size > max_msg_size ?
-+			max_msg_size : pad_size;
-+
-+		pad_msg = 0;
-+		pad_msg = VXD_WR_REG_FIELD(pad_msg, PVDEC_FW, DEVA_GENMSG, MSG_SIZE, cur_pad_size);
-+		pad_msg = VXD_WR_REG_FIELD(pad_msg, PVDEC_FW, DEVA_GENMSG,
-+					   MSG_TYPE, PVDEC_FW_MSG_TYPE_PADDING);
-+
-+		ret = pvdec_write_vlr(reg_base, &pad_msg, pad_msg_size, to_mtx_off + wr_idx);
-+		if (ret)
-+			return ret;
-+
-+		wr_idx += cur_pad_size;
-+
-+		VXD_WR_REG_ABS(reg_base, VLR_OFFSET + PVDEC_FW_TO_MTX_WR_IDX_OFFSET, wr_idx);
-+
-+		pad_size -= cur_pad_size;
-+
-+		pvdec_kick_mtx(reg_base);
-+	}
-+
-+	wr_idx = 0;
-+	VXD_WR_REG_ABS(reg_base, VLR_OFFSET + PVDEC_FW_TO_MTX_WR_IDX_OFFSET, wr_idx);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Check if there is enough space in comms RAM to submit a <msg_size>
-+ * dwords long message. Submit a padding message if necessary and requested.
-+ *
-+ * Returns 0 if there is space for a message.
-+ * Returns -EINVAL when msg is too big or empty.
-+ * Returns -EIO when there was a problem accessing the HW.
-+ * Returns -EBUSY when there is not ennough space.
-+ */
-+static int pvdec_check_comms_space(void __iomem *reg_base, unsigned long msg_size,
-+				   unsigned char send_padding)
-+{
-+	int ret, to_mtx_off; /* offset in dwords */
-+	unsigned int wr_idx, rd_idx; /* indicies in dwords */
-+	unsigned long to_mtx_size; /* size in dwords */
-+
-+	ret = pvdec_get_to_mtx_cfg(reg_base, &to_mtx_size, &to_mtx_off, &wr_idx, &rd_idx);
-+	if (ret)
-+		return ret;
-+
-+	/* Enormous or empty message, won't fit */
-+	if (msg_size >= to_mtx_size || !msg_size)
-+		return -EINVAL;
-+
-+	/* Buffer does not wrap */
-+	if (wr_idx >= rd_idx) {
-+		/* Is there enough space to put the message? */
-+		if (wr_idx + msg_size < to_mtx_size)
-+			return 0;
-+
-+		if (!send_padding)
-+			return -EBUSY;
-+
-+		/* Check if it's ok to send a padding message */
-+		if (rd_idx == 0)
-+			return -EBUSY;
-+
-+		/* Send a padding message */
-+		ret = pvdec_send_pad_msg(reg_base);
-+		if (ret)
-+			return ret;
-+
-+		/*
-+		 * And check if there's enough space at the beginning
-+		 * of a buffer
-+		 */
-+		if (msg_size >= rd_idx)
-+			return -EBUSY; /* Not enough space at the beginning */
-+
-+	} else { /* Buffer wraps */
-+		if (wr_idx + msg_size >= rd_idx)
-+			return -EBUSY; /* Not enough space! */
-+	}
-+
-+	return 0;
-+}
-+
-+/* Get configuration of a ring buffer used to receive messages from the MTX */
-+static int pvdec_get_to_host_cfg(void __iomem *reg_base, unsigned long *size, int *off,
-+				 unsigned int *wr_idx, unsigned int *rd_idx)
-+{
-+	unsigned int to_host_cfg;
-+	int to_host_off, ret;
-+
-+	ret = pvdec_check_fw_sig(reg_base);
-+	if (ret)
-+		return ret;
-+
-+	to_host_cfg = VXD_RD_REG_ABS(reg_base, VLR_OFFSET + PVDEC_FW_TO_HOST_BUF_CONF_OFFSET);
-+
-+	*size = PVDEC_FW_COM_BUF_SIZE(to_host_cfg);
-+	to_host_off = PVDEC_FW_COM_BUF_OFF(to_host_cfg);
-+
-+	if (to_host_off % 4)
-+		return -EIO;
-+
-+	to_host_off /= sizeof(unsigned int);
-+	*off = to_host_off;
-+
-+	*wr_idx = VXD_RD_REG_ABS(reg_base, VLR_OFFSET + PVDEC_FW_TO_HOST_WR_IDX_OFFSET);
-+	*rd_idx = VXD_RD_REG_ABS(reg_base, VLR_OFFSET + PVDEC_FW_TO_HOST_RD_IDX_OFFSET);
-+
-+	if ((*rd_idx >= *size) || (*wr_idx >= *size))
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+static void pvdec_select_pipe(void __iomem *reg_base, unsigned char pipe)
-+{
-+	unsigned int reg = 0;
-+
-+	reg = VXD_WR_REG_FIELD(reg, PVDEC_CORE, PVDEC_HOST_PIPE_SELECT, PIPE_SEL, pipe);
-+	VXD_WR_REG(reg_base, PVDEC_CORE, PVDEC_HOST_PIPE_SELECT, reg);
-+}
-+
-+static void pvdec_pre_boot_setup(const void *dev,
-+				 void __iomem *reg_base,
-+				 struct vxd_ena_params *ena_params)
-+{
-+	/* Memory staller pre boot settings */
-+	if (ena_params->mem_staller.data) {
-+		unsigned char size = ena_params->mem_staller.size;
-+
-+		if (size == PVDEC_CORE_MEMSTALLER_ELEMENTS) {
-+			unsigned int *data = ena_params->mem_staller.data;
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+			dev_dbg(dev, "%s: Setting up memory staller", __func__);
-+#endif
-+			/*
-+			 * Data structure represents PVDEC_TEST memory staller
-+			 * registers according to TRM 5.25 section
-+			 */
-+			VXD_WR_REG(reg_base, PVDEC_TEST, MEM_READ_LATENCY, data[0]);
-+			VXD_WR_REG(reg_base, PVDEC_TEST, MEM_WRITE_RESPONSE_LATENCY, data[1]);
-+			VXD_WR_REG(reg_base, PVDEC_TEST, MEM_CTRL, data[2]);
-+			VXD_WR_REG(reg_base, PVDEC_TEST, RAND_STL_MEM_CMD_CONFIG, data[3]);
-+			VXD_WR_REG(reg_base, PVDEC_TEST, RAND_STL_MEM_WDATA_CONFIG, data[4]);
-+			VXD_WR_REG(reg_base, PVDEC_TEST, RAND_STL_MEM_WRESP_CONFIG, data[5]);
-+			VXD_WR_REG(reg_base, PVDEC_TEST, RAND_STL_MEM_RDATA_CONFIG, data[6]);
-+		} else {
-+			dev_warn(dev, "%s: Wrong layout of mem staller config (%u)!",
-+				 __func__, size);
-+		}
-+	}
-+}
-+
-+static void pvdec_post_boot_setup(const void *dev,
-+				  void __iomem *reg_base,
-+				  unsigned int freq_khz)
-+{
-+	int reg;
-+
-+	/*
-+	 * Configure VXD MMU to use video tiles (256x16) and unique
-+	 * strides per context as default. There is currently no
-+	 * override mechanism.
-+	 */
-+	reg = VXD_RD_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_CONTROL0);
-+	reg = VXD_WR_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_CONTROL0,
-+			       MMU_TILING_SCHEME, 0);
-+	reg = VXD_WR_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_CONTROL0,
-+			       USE_TILE_STRIDE_PER_CTX, 1);
-+	VXD_WR_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_CONTROL0, reg);
-+
-+	/*
-+	 * Setup VXD MMU with the tile heap device virtual address
-+	 * ranges.
-+	 */
-+	VXD_WR_RPT_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_TILE_MIN_ADDR,
-+		       PVDEC_HEAP_TILE512_START, 0);
-+	VXD_WR_RPT_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_TILE_MAX_ADDR,
-+		       PVDEC_HEAP_TILE512_START + PVDEC_HEAP_TILE512_SIZE - 1, 0);
-+	VXD_WR_RPT_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_TILE_MIN_ADDR,
-+		       PVDEC_HEAP_TILE1024_START, 1);
-+	VXD_WR_RPT_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_TILE_MAX_ADDR,
-+		       PVDEC_HEAP_TILE1024_START + PVDEC_HEAP_TILE1024_SIZE - 1, 1);
-+	VXD_WR_RPT_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_TILE_MIN_ADDR,
-+		       PVDEC_HEAP_TILE2048_START, 2);
-+	VXD_WR_RPT_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_TILE_MAX_ADDR,
-+		       PVDEC_HEAP_TILE2048_START + PVDEC_HEAP_TILE2048_SIZE - 1, 2);
-+	VXD_WR_RPT_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_TILE_MIN_ADDR,
-+		       PVDEC_HEAP_TILE4096_START, 3);
-+	VXD_WR_RPT_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_TILE_MAX_ADDR,
-+		       PVDEC_HEAP_TILE4096_START + PVDEC_HEAP_TILE4096_SIZE - 1, 3);
-+
-+	/* Disable timer */
-+	VXD_WR_REG(reg_base, MTX_CORE, MTX_SYSC_TIMERDIV, 0);
-+
-+	reg = 0;
-+	if (freq_khz)
-+		reg = VXD_WR_REG_FIELD(reg, MTX_CORE, MTX_SYSC_TIMERDIV, TIMER_DIV,
-+				       PVDEC_CALC_TIMER_DIV(freq_khz / 1000));
-+	else
-+		reg = VXD_WR_REG_FIELD(reg, MTX_CORE, MTX_SYSC_TIMERDIV,
-+				       TIMER_DIV, PVDEC_CLK_MHZ_DEFAULT - 1);
-+
-+	/* Enable the MTX timer with final settings */
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, MTX_SYSC_TIMERDIV, TIMER_EN, 1);
-+	VXD_WR_REG(reg_base, MTX_CORE, MTX_SYSC_TIMERDIV, reg);
-+}
-+
-+static void pvdec_clock_measure(void __iomem *reg_base,
-+				struct timespec64 *start_time,
-+				unsigned int *start_ticks)
-+{
-+	local_irq_disable();
-+	ktime_get_real_ts64(start_time);
-+	*start_ticks = VXD_RD_REG(reg_base, MTX_CORE, MTX_SYSC_TXTIMER);
-+	local_irq_enable();
-+}
-+
-+static int pvdec_clock_calculate(const void *dev,
-+				 void __iomem *reg_base,
-+				 struct timespec64 *start_time,
-+				 unsigned int start_ticks,
-+				 unsigned int *freq_khz)
-+{
-+	struct timespec64 end_time, dif_time;
-+	long long span_nsec = 0;
-+	unsigned int stop_ticks, tot_ticks;
-+
-+	local_irq_disable();
-+	ktime_get_real_ts64(&end_time);
-+
-+	stop_ticks = VXD_RD_REG(reg_base, MTX_CORE, MTX_SYSC_TXTIMER);
-+	local_irq_enable();
-+
-+	*(struct timespec64 *)(&dif_time) = timespec64_sub(*((struct timespec64 *)(&end_time)),
-+							  *((struct timespec64 *)(&start_time)));
-+
-+	span_nsec = timespec64_to_ns((const struct timespec64 *)&dif_time);
-+
-+	/* Sanity check for mtx timer */
-+	if (!stop_ticks || stop_ticks < start_ticks) {
-+		dev_err(dev, "%s: invalid ticks (0x%x -> 0x%x)\n",
-+			__func__, start_ticks, stop_ticks);
-+		return -EIO;
-+	}
-+	tot_ticks = stop_ticks - start_ticks;
-+
-+	if (span_nsec) {
-+		unsigned long long res = (unsigned long long)tot_ticks * 1000000UL;
-+
-+		do_divide(&res, span_nsec);
-+		*freq_khz = (unsigned int)res;
-+		if (*freq_khz < 1000)
-+			*freq_khz = 1000;   /* 1MHz */
-+	} else {
-+		dev_err(dev, "%s: generic failure!\n", __func__);
-+		*freq_khz = 0;
-+		return -ERANGE;
-+	}
-+
-+	return 0;
-+}
-+
-+static int pvdec_wait_dma_done(const void *dev,
-+			       void __iomem *reg_base,
-+			       unsigned long size,
-+			       unsigned char dma_channel)
-+{
-+	unsigned int reg, timeout = PVDEC_TIMEOUT_COUNTER, prev_count, count = size;
-+
-+	do {
-+		usleep_range(300, 310);
-+		prev_count = count;
-+		reg = VXD_RD_RPT_REG(reg_base, DMAC, DMAC_COUNT, dma_channel);
-+		count = VXD_RD_REG_FIELD(reg, DMAC, DMAC_COUNT, CNT);
-+		/* Check for dma progress */
-+		if (count == prev_count) {
-+			/* There could be a bus lag, protect against that */
-+			timeout--;
-+			if (timeout == 0) {
-+				dev_err(dev, "%s FW DMA failed! (0x%x)\n", __func__, count);
-+				return -EIO;
-+			}
-+		} else {
-+			/* Reset timeout counter */
-+			timeout = PVDEC_TIMEOUT_COUNTER;
-+		}
-+	} while (count > 0);
-+
-+	return 0;
-+}
-+
-+static int pvdec_start_fw_dma(const void *dev,
-+			      void __iomem *reg_base,
-+			      unsigned char dma_channel,
-+			      unsigned long fw_buf_size,
-+			      unsigned int *freq_khz)
-+{
-+	unsigned int reg = 0;
-+	int ret = 0;
-+
-+	fw_buf_size = fw_buf_size / sizeof(unsigned int);
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: dma FW upload, fw_buf_size: %zu (dwords)\n", __func__, fw_buf_size);
-+#endif
-+
-+	pvdec_select_pipe(reg_base, 1);
-+
-+	reg = VXD_RD_REG(reg_base, PVDEC_PIXEL, PIXEL_MAN_CLK_ENA);
-+	reg = VXD_WR_REG_FIELD(reg, PVDEC_PIXEL, PIXEL_MAN_CLK_ENA, PIXEL_DMAC_MAN_CLK_ENA, 1);
-+	reg = VXD_WR_REG_FIELD(reg, PVDEC_PIXEL, PIXEL_MAN_CLK_ENA, PIXEL_REG_MAN_CLK_ENA, 1);
-+	VXD_WR_REG(reg_base, PVDEC_PIXEL, PIXEL_MAN_CLK_ENA, reg);
-+
-+	/*
-+	 * Setup MTX to receive DMA
-+	 * DMA transfers to/from the MTX have to be 32-bit aligned and
-+	 * in multiples of 32 bits
-+	 */
-+	VXD_WR_REG(reg_base, MTX_CORE, MTX_SYSC_CDMAA, 0); /* MTX: 0x80900000 */
-+
-+	reg = 0;
-+	/* Burst size in multiples of 64 bits (allowed values are 2 or 4) */
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, MTX_SYSC_CDMAC, BURSTSIZE, 0);
-+	/* 0 - write to MTX memory */
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, MTX_SYSC_CDMAC, RNW, 0);
-+	/* Begin transfer */
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, MTX_SYSC_CDMAC, ENABLE, 1);
-+	/* Transfer size */
-+	reg = VXD_WR_REG_FIELD(reg, MTX_CORE, MTX_SYSC_CDMAC, LENGTH,
-+			       ((fw_buf_size + 7) & (~7)) + 8);
-+	VXD_WR_REG(reg_base, MTX_CORE, MTX_SYSC_CDMAC, reg);
-+
-+	/* Boot MTX once transfer is done */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, PVDEC_CORE, PROC_DMAC_CONTROL,
-+			       BOOT_ON_DMA_CH0, 1);
-+	VXD_WR_REG(reg_base, PVDEC_CORE, PROC_DMAC_CONTROL, reg);
-+
-+	/* Toggle channel 0 usage between MTX and other PVDEC peripherals */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, PVDEC_PIXEL, PIXEL_CONTROL_0,
-+			       DMAC_CH_SEL_FOR_MTX, 0);
-+	VXD_WR_REG(reg_base, PVDEC_PIXEL, PIXEL_CONTROL_0, reg);
-+
-+	/* Reset DMA channel first */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, SRST, 1);
-+	VXD_WR_RPT_REG(reg_base, DMAC, DMAC_COUNT, reg, dma_channel);
-+
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, LIST_EN, 0);
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, CNT, 0);
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, EN, 0);
-+	VXD_WR_RPT_REG(reg_base, DMAC, DMAC_COUNT, reg, dma_channel);
-+
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, SRST, 0);
-+	VXD_WR_RPT_REG(reg_base, DMAC, DMAC_COUNT, reg, dma_channel);
-+
-+	/*
-+	 * Setup a Simple DMA for Ch0
-+	 * Specify the holdover period to use for the channel
-+	 */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_PER_HOLD, PER_HOLD, 7);
-+	VXD_WR_RPT_REG(reg_base, DMAC, DMAC_PER_HOLD, reg, dma_channel);
-+
-+	/* Clear the DMAC Stats */
-+	VXD_WR_RPT_REG(reg_base, DMAC, DMAC_IRQ_STAT, 0, dma_channel);
-+
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_PERIPH_ADDR, ADDR,
-+			       MTX_CORE_MTX_SYSC_CDMAT_OFFSET);
-+	VXD_WR_RPT_REG(reg_base, DMAC, DMAC_PERIPH_ADDR, reg, dma_channel);
-+
-+	/* Clear peripheral register address */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_PERIPH, ACC_DEL, 0);
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_PERIPH, INCR, DMAC_INCR_OFF);
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_PERIPH, BURST, DMAC_BURST_1);
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_PERIPH, EXT_BURST, DMAC_EXT_BURST_0);
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_PERIPH, EXT_SA, 0);
-+	VXD_WR_RPT_REG(reg_base, DMAC, DMAC_PERIPH, reg, dma_channel);
-+
-+	/*
-+	 * Now start the transfer by setting the list enable bit in
-+	 * the count register
-+	 */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, TRANSFER_IEN, 1);
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, PW, DMAC_PWIDTH_32_BIT);
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, DIR, DMAC_MEM_TO_VXD);
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, PI, DMAC_INCR_ON);
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, LIST_FIN_CTL, 0);
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, LIST_EN, 0);
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, ENABLE_2D_MODE, 0);
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, CNT, fw_buf_size);
-+	VXD_WR_RPT_REG(reg_base, DMAC, DMAC_COUNT, reg, dma_channel);
-+
-+	reg = VXD_WR_REG_FIELD(reg, DMAC, DMAC_COUNT, EN, 1);
-+	VXD_WR_RPT_REG(reg_base, DMAC, DMAC_COUNT, reg, dma_channel);
-+
-+	/* NOTE: The MTX timer starts once DMA boot is triggered */
-+	{
-+		struct timespec64 host_time;
-+		unsigned int mtx_time;
-+
-+		pvdec_clock_measure(reg_base, &host_time, &mtx_time);
-+
-+		ret = pvdec_wait_dma_done(dev, reg_base, fw_buf_size, dma_channel);
-+		if (!ret) {
-+			if (pvdec_clock_calculate(dev, reg_base, &host_time, mtx_time,
-+						  freq_khz) < 0)
-+				dev_dbg(dev, "%s: measure info not available!\n", __func__);
-+		}
-+	}
-+
-+	return ret;
-+}
-+
-+static int pvdec_set_clocks(void __iomem *reg_base, unsigned int req_clocks)
-+{
-+	unsigned int clocks = 0, reg;
-+	unsigned int pvdec_timeout;
-+
-+	/* Turn on core clocks only */
-+	clocks = VXD_WR_REG_FIELD(clocks, PVDEC_CORE, PVDEC_MAN_CLK_ENA,
-+				  PVDEC_REG_MAN_CLK_ENA, 1);
-+	clocks = VXD_WR_REG_FIELD(clocks, PVDEC_CORE, PVDEC_MAN_CLK_ENA, CORE_MAN_CLK_ENA, 1);
-+
-+	/* Wait until core clocks set */
-+	pvdec_timeout = PVDEC_TIMEOUT_COUNTER;
-+	do {
-+		VXD_WR_REG(reg_base, PVDEC_CORE, PVDEC_MAN_CLK_ENA, clocks);
-+		udelay(vxd_plat_poll_udelay);
-+		reg = VXD_RD_REG(reg_base, PVDEC_CORE, PVDEC_MAN_CLK_ENA);
-+		pvdec_timeout--;
-+	} while (reg != clocks && pvdec_timeout != 0);
-+
-+	if (pvdec_timeout == 0)
-+		return -EIO;
-+
-+	/* Write requested clocks */
-+	VXD_WR_REG(reg_base, PVDEC_CORE, PVDEC_MAN_CLK_ENA, req_clocks);
-+
-+	return 0;
-+}
-+
-+static int pvdec_enable_clocks(void __iomem *reg_base)
-+{
-+	unsigned int clocks = 0;
-+
-+	clocks = VXD_WR_REG_FIELD(clocks, PVDEC_CORE, PVDEC_MAN_CLK_ENA,
-+				  PVDEC_REG_MAN_CLK_ENA, 1);
-+	clocks = VXD_WR_REG_FIELD(clocks, PVDEC_CORE, PVDEC_MAN_CLK_ENA,
-+				  CORE_MAN_CLK_ENA, 1);
-+	clocks = VXD_WR_REG_FIELD(clocks, PVDEC_CORE, PVDEC_MAN_CLK_ENA,
-+				  MEM_MAN_CLK_ENA, 1);
-+	clocks = VXD_WR_REG_FIELD(clocks, PVDEC_CORE, PVDEC_MAN_CLK_ENA,
-+				  PROC_MAN_CLK_ENA, 1);
-+	clocks = VXD_WR_REG_FIELD(clocks, PVDEC_CORE, PVDEC_MAN_CLK_ENA,
-+				  PIXEL_PROC_MAN_CLK_ENA, 1);
-+
-+	return pvdec_set_clocks(reg_base, clocks);
-+}
-+
-+static int pvdec_disable_clocks(void __iomem *reg_base)
-+{
-+	return pvdec_set_clocks(reg_base, 0);
-+}
-+
-+static void pvdec_ena_mtx_int(void __iomem *reg_base)
-+{
-+	unsigned int reg = VXD_RD_REG(reg_base, PVDEC_CORE, PVDEC_HOST_INT_ENA);
-+
-+	reg = VXD_WR_REG_FIELD(reg, PVDEC_CORE, PVDEC_INT_STAT, HOST_PROC_IRQ, 1);
-+	reg = VXD_WR_REG_FIELD(reg, PVDEC_CORE, PVDEC_INT_STAT, HOST_MMU_FAULT_IRQ, 1);
-+	VXD_WR_REG(reg_base, PVDEC_CORE, PVDEC_HOST_INT_ENA, reg);
-+}
-+
-+static void pvdec_check_mmu_requests(void __iomem *reg_base,
-+				     unsigned int mmu_checks,
-+				     unsigned int max_attempts)
-+{
-+	unsigned int reg, i, checks = 0;
-+
-+	for (i = 0; i < max_attempts; i++) {
-+		reg = VXD_RD_REG(reg_base,
-+				 IMG_VIDEO_BUS4_MMU, MMU_MEM_REQ);
-+		reg = VXD_RD_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_MEM_REQ, TAG_OUTSTANDING);
-+		if (reg) {
-+			udelay(vxd_plat_poll_udelay);
-+			continue;
-+		}
-+
-+		/* Read READ_WORDS_OUTSTANDING */
-+		reg = VXD_RD_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_MEM_EXT_OUTSTANDING);
-+		reg = VXD_RD_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_MEM_EXT_OUTSTANDING,
-+				       READ_WORDS);
-+		if (!reg) {
-+			checks++;
-+			if (checks == mmu_checks)
-+				break;
-+		} else { /* Reset the counter and continue */
-+			checks = 0;
-+		}
-+	}
-+
-+	if (checks != mmu_checks)
-+		pr_warn("Checking for MMU outstanding requests failed!\n");
-+}
-+
-+static int pvdec_reset(void __iomem *reg_base, unsigned char skip_pipe_clocks)
-+{
-+	unsigned int reg = 0;
-+	unsigned char pipe, num_ent_pipes, num_pix_pipes;
-+	unsigned int core_id, pvdec_timeout;
-+
-+	core_id = VXD_RD_REG(reg_base, PVDEC_CORE, PVDEC_CORE_ID);
-+
-+	num_ent_pipes = VXD_RD_REG_FIELD(core_id, PVDEC_CORE, PVDEC_CORE_ID, ENT_PIPES);
-+	num_pix_pipes = VXD_RD_REG_FIELD(core_id, PVDEC_CORE, PVDEC_CORE_ID, PIX_PIPES);
-+
-+	if (num_pix_pipes == 0 || num_pix_pipes > VXD_MAX_PIPES)
-+		return -EINVAL;
-+
-+	/* Clear interrupt enabled flag */
-+	VXD_WR_REG(reg_base, PVDEC_CORE, PVDEC_HOST_INT_ENA, 0);
-+
-+	/* Clear any pending interrupt flags */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, PVDEC_CORE, PVDEC_INT_CLEAR, IRQ_CLEAR, 0xFFFF);
-+	VXD_WR_REG(reg_base, PVDEC_CORE, PVDEC_INT_CLEAR, reg);
-+
-+	/* Turn all clocks on - don't touch reserved bits! */
-+	pvdec_set_clocks(reg_base, 0xFFFF0113);
-+
-+	if (!skip_pipe_clocks) {
-+		for (pipe = 1; pipe <= num_pix_pipes; pipe++) {
-+			pvdec_select_pipe(reg_base, pipe);
-+			/* Turn all available clocks on - skip reserved bits! */
-+			VXD_WR_REG(reg_base, PVDEC_PIXEL, PIXEL_MAN_CLK_ENA, 0xFFBF0FFF);
-+		}
-+
-+		for (pipe = 1; pipe <= num_ent_pipes; pipe++) {
-+			pvdec_select_pipe(reg_base, pipe);
-+			/* Turn all available clocks on - skip reserved bits! */
-+			VXD_WR_REG(reg_base, PVDEC_ENTROPY, ENTROPY_MAN_CLK_ENA, 0x5);
-+		}
-+	}
-+
-+	/* 1st MMU outstanding requests check */
-+	pvdec_check_mmu_requests(reg_base, 1000, 2000);
-+
-+	/* Make sure MMU is not under reset MMU_SOFT_RESET -> 0 */
-+	pvdec_timeout = PVDEC_TIMEOUT_COUNTER;
-+	do {
-+		reg = VXD_RD_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1);
-+		reg = VXD_RD_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1, MMU_SOFT_RESET);
-+		udelay(vxd_plat_poll_udelay);
-+		pvdec_timeout--;
-+	} while (reg != 0 && pvdec_timeout != 0);
-+
-+	if (pvdec_timeout == 0) {
-+		pr_err("Waiting for MMU soft reset(1) timed out!\n");
-+		pvdec_mtx_status_dump(reg_base, NULL);
-+	}
-+
-+	/* Write 1 to MMU_PAUSE_SET */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1, MMU_PAUSE_SET, 1);
-+	VXD_WR_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1, reg);
-+
-+	/* 2nd MMU outstanding requests check */
-+	pvdec_check_mmu_requests(reg_base, 100, 1000);
-+
-+	/* Issue software reset for all but MMU/core */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, PVDEC_CORE, PVDEC_SOFT_RST, PVDEC_PIXEL_PROC_SOFT_RST, 0xFF);
-+	reg = VXD_WR_REG_FIELD(reg, PVDEC_CORE, PVDEC_SOFT_RST, PVDEC_ENTROPY_SOFT_RST, 0xFF);
-+	VXD_WR_REG(reg_base, PVDEC_CORE, PVDEC_SOFT_RST, reg);
-+
-+	VXD_RD_REG(reg_base, PVDEC_CORE, PVDEC_SOFT_RST);
-+	VXD_WR_REG(reg_base, PVDEC_CORE, PVDEC_SOFT_RST, 0);
-+
-+	/* Write 1 to MMU_PAUSE_CLEAR in MMU_CONTROL1 reg */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1, MMU_PAUSE_CLEAR, 1);
-+	VXD_WR_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1, reg);
-+
-+	/* Confirm MMU_PAUSE_SET is cleared */
-+	pvdec_timeout = PVDEC_TIMEOUT_COUNTER;
-+	do {
-+		reg = VXD_RD_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1);
-+		reg = VXD_RD_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1, MMU_PAUSE_SET);
-+		udelay(vxd_plat_poll_udelay);
-+		pvdec_timeout--;
-+	} while (reg != 0 && pvdec_timeout != 0);
-+
-+	if (pvdec_timeout == 0) {
-+		pr_err("Waiting for MMU pause clear timed out!\n");
-+		pvdec_mtx_status_dump(reg_base, NULL);
-+		return -EIO;
-+	}
-+
-+	/* Issue software reset for MMU */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1, MMU_SOFT_RESET, 1);
-+	VXD_WR_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1, reg);
-+
-+	/* Wait until MMU_SOFT_RESET -> 0 */
-+	pvdec_timeout = PVDEC_TIMEOUT_COUNTER;
-+	do {
-+		reg = VXD_RD_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1);
-+		reg = VXD_RD_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1, MMU_SOFT_RESET);
-+		udelay(vxd_plat_poll_udelay);
-+		pvdec_timeout--;
-+	} while (reg != 0 && pvdec_timeout != 0);
-+
-+	if (pvdec_timeout == 0) {
-+		pr_err("Waiting for MMU soft reset(2) timed out!\n");
-+		pvdec_mtx_status_dump(reg_base, NULL);
-+	}
-+
-+	/* Issue software reset for entire PVDEC */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, PVDEC_CORE, PVDEC_SOFT_RST, PVDEC_SOFT_RST, 0x1);
-+	VXD_WR_REG(reg_base, PVDEC_CORE, PVDEC_SOFT_RST, reg);
-+
-+	/* Waiting for reset bit to be cleared */
-+	pvdec_timeout = PVDEC_TIMEOUT_COUNTER;
-+	do {
-+		reg = VXD_RD_REG(reg_base, PVDEC_CORE, PVDEC_SOFT_RST);
-+		reg = VXD_RD_REG_FIELD(reg, PVDEC_CORE, PVDEC_SOFT_RST, PVDEC_SOFT_RST);
-+		udelay(vxd_plat_poll_udelay);
-+		pvdec_timeout--;
-+	} while (reg != 0 && pvdec_timeout != 0);
-+
-+	if (pvdec_timeout == 0) {
-+		pr_err("Waiting for PVDEC soft reset timed out!\n");
-+		pvdec_mtx_status_dump(reg_base, NULL);
-+		return -EIO;
-+	}
-+
-+	/* Clear interrupt enabled flag */
-+	VXD_WR_REG(reg_base, PVDEC_CORE, PVDEC_HOST_INT_ENA, 0);
-+
-+	/* Clear any pending interrupt flags */
-+	reg = 0;
-+	reg = VXD_WR_REG_FIELD(reg, PVDEC_CORE, PVDEC_INT_CLEAR, IRQ_CLEAR, 0xFFFF);
-+	VXD_WR_REG(reg_base, PVDEC_CORE, PVDEC_INT_CLEAR, reg);
-+	return 0;
-+}
-+
-+static int pvdec_get_properties(void __iomem *reg_base,
-+				struct vxd_core_props *props)
-+{
-+	unsigned int major, minor, maint, group_id, core_id;
-+	unsigned char num_pix_pipes, pipe;
-+
-+	if (!props)
-+		return -EINVAL;
-+
-+	/* PVDEC Core Revision Information */
-+	props->core_rev = VXD_RD_REG(reg_base, PVDEC_CORE, PVDEC_CORE_REV);
-+	major = VXD_RD_REG_FIELD(props->core_rev, PVDEC_CORE, PVDEC_CORE_REV, PVDEC_MAJOR_REV);
-+	minor = VXD_RD_REG_FIELD(props->core_rev, PVDEC_CORE, PVDEC_CORE_REV, PVDEC_MINOR_REV);
-+	maint = VXD_RD_REG_FIELD(props->core_rev, PVDEC_CORE, PVDEC_CORE_REV, PVDEC_MAINT_REV);
-+
-+	/* Core ID */
-+	props->pvdec_core_id = VXD_RD_REG(reg_base, PVDEC_CORE, PVDEC_CORE_ID);
-+	group_id = VXD_RD_REG_FIELD(props->pvdec_core_id, PVDEC_CORE, PVDEC_CORE_ID, GROUP_ID);
-+	core_id = VXD_RD_REG_FIELD(props->pvdec_core_id, PVDEC_CORE, PVDEC_CORE_ID, CORE_ID);
-+
-+	/* Ensure that the core is IMG Video Decoder (PVDEC). */
-+	if (group_id != 3 || core_id != 3) {
-+		pr_err("Wrong core revision %d.%d.%d !!!\n", major, minor, maint);
-+		return -EIO;
-+	}
-+
-+	props->mmu_config0 = VXD_RD_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_CONFIG0);
-+	props->mmu_config1 = VXD_RD_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_CONFIG1);
-+
-+	num_pix_pipes = VXD_NUM_PIX_PIPES(*props);
-+
-+	if (unlikely(num_pix_pipes > VXD_MAX_PIPES)) {
-+		pr_warn("Too many pipes detected!\n");
-+		num_pix_pipes = VXD_MAX_PIPES;
-+	}
-+
-+	for (pipe = 1; pipe <= num_pix_pipes; ++pipe) {
-+		pvdec_select_pipe(reg_base, pipe);
-+		if (pipe < VXD_MAX_PIPES) {
-+			props->pixel_pipe_cfg[pipe - 1] =
-+				VXD_RD_REG(reg_base, PVDEC_PIXEL, PIXEL_PIPE_CONFIG);
-+			props->pixel_misc_cfg[pipe - 1] =
-+				VXD_RD_REG(reg_base, PVDEC_PIXEL, PIXEL_MISC_CONFIG);
-+			/*
-+			 * Detect pipe access problems.
-+			 * Pipe config shall always indicate
-+			 * a non zero value (at least one standard supported)!
-+			 */
-+			if (!props->pixel_pipe_cfg[pipe - 1])
-+				pr_warn("Pipe config info is wrong!\n");
-+		}
-+	}
-+
-+	pvdec_select_pipe(reg_base, 1);
-+	props->pixel_max_frame_cfg = VXD_RD_REG(reg_base, PVDEC_PIXEL, MAX_FRAME_CONFIG);
-+
-+	{
-+		unsigned int fifo_ctrl = VXD_RD_REG(reg_base, PVDEC_CORE, PROC_DBG_FIFO_CTRL0);
-+
-+		props->dbg_fifo_size = VXD_RD_REG_FIELD(fifo_ctrl,
-+							PVDEC_CORE,
-+							PROC_DBG_FIFO_CTRL0,
-+							PROC_DBG_FIFO_SIZE);
-+	}
-+
-+	return 0;
-+}
-+
-+int vxd_pvdec_init(const void *dev, void __iomem *reg_base)
-+{
-+	int ret;
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: trying to reset VXD, reg base: %p\n", __func__, reg_base);
-+#endif
-+
-+	ret = pvdec_enable_clocks(reg_base);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to enable clocks!\n", __func__);
-+		return ret;
-+	}
-+
-+	ret = pvdec_reset(reg_base, FALSE);
-+	if (ret) {
-+		dev_err(dev, "%s: VXD reset failed!\n", __func__);
-+		return ret;
-+	}
-+
-+	pvdec_ena_mtx_int(reg_base);
-+
-+	return 0;
-+}
-+
-+/* Send <msg_size> dwords long message */
-+int vxd_pvdec_send_msg(const void *dev,
-+		       void __iomem *reg_base,
-+		       unsigned int *msg,
-+		       unsigned long msg_size,
-+		       unsigned short msg_id,
-+		       struct vxd_dev *ctx)
-+{
-+	int ret, to_mtx_off; /* offset in dwords */
-+	unsigned int wr_idx, rd_idx; /* indicies in dwords */
-+	unsigned long to_mtx_size; /* size in dwords */
-+	unsigned int msg_wrd;
-+	struct timespec64 time;
-+	static int cnt;
-+
-+	ktime_get_real_ts64(&time);
-+
-+	ctx->time_fw[cnt].start_time = timespec64_to_ns((const struct timespec64 *)&time);
-+	ctx->time_fw[cnt].id = msg_id;
-+	cnt++;
-+
-+	if (cnt >= ARRAY_SIZE(ctx->time_fw))
-+		cnt = 0;
-+
-+	ret = pvdec_get_to_mtx_cfg(reg_base, &to_mtx_size, &to_mtx_off, &wr_idx, &rd_idx);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to obtain mtx ring buffer config!\n", __func__);
-+		return ret;
-+	}
-+
-+	/* populate the size and id fields in the message header */
-+	msg_wrd = VXD_RD_MSG_WRD(msg, PVDEC_FW, DEVA_GENMSG);
-+	msg_wrd = VXD_WR_REG_FIELD(msg_wrd, PVDEC_FW, DEVA_GENMSG, MSG_SIZE, msg_size);
-+	msg_wrd = VXD_WR_REG_FIELD(msg_wrd, PVDEC_FW, DEVA_GENMSG, MSG_ID, msg_id);
-+	VXD_WR_MSG_WRD(msg, PVDEC_FW, DEVA_GENMSG, msg_wrd);
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: [msg out] size: %zu, id: 0x%x, type: 0x%x\n", __func__, msg_size, msg_id,
-+		VXD_RD_REG_FIELD(msg_wrd, PVDEC_FW, DEVA_GENMSG, MSG_TYPE));
-+	dev_dbg(dev, "%s: to_mtx: (%zu @ %d), wr_idx: %d, rd_idx: %d\n",
-+		__func__, to_mtx_size, to_mtx_off, wr_idx, rd_idx);
-+#endif
-+
-+	ret = pvdec_check_comms_space(reg_base, msg_size, FALSE);
-+	if (ret) {
-+		dev_err(dev, "%s: invalid message or not enough space (%d)!\n", __func__, ret);
-+		return ret;
-+	}
-+
-+	ret = pvdec_write_vlr(reg_base, msg, msg_size, to_mtx_off + wr_idx);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to write msg to vlr!\n", __func__);
-+		return ret;
-+	}
-+
-+	wr_idx += msg_size;
-+	if (wr_idx == to_mtx_size)
-+		wr_idx = 0;
-+	VXD_WR_REG_ABS(reg_base, VLR_OFFSET +
-+		PVDEC_FW_TO_MTX_WR_IDX_OFFSET, wr_idx);
-+
-+	pvdec_kick_mtx(reg_base);
-+
-+	return 0;
-+}
-+
-+/* Fetch size (in dwords) of message pending from MTX */
-+int vxd_pvdec_pend_msg_info(const void *dev, void __iomem *reg_base,
-+			    unsigned long *size,
-+			    unsigned short *msg_id,
-+			    unsigned char *not_last_msg)
-+{
-+	int ret, to_host_off; /* offset in dwords */
-+	unsigned int wr_idx, rd_idx; /* indicies in dwords */
-+	unsigned long to_host_size; /* size in dwords */
-+	unsigned int val = 0;
-+
-+	ret = pvdec_get_to_host_cfg(reg_base, &to_host_size, &to_host_off, &wr_idx, &rd_idx);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to obtain host ring buffer config!\n", __func__);
-+		return ret;
-+	}
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: to host: (%zu @ %d), wr: %u, rd: %u\n", __func__,
-+		to_host_size, to_host_off, wr_idx, rd_idx);
-+#endif
-+
-+	if (wr_idx == rd_idx) {
-+		*size = 0;
-+		*msg_id = 0;
-+		return 0;
-+	}
-+
-+	ret = pvdec_read_vlr(reg_base, &val, 1, to_host_off + rd_idx);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to read first word!\n", __func__);
-+		return ret;
-+	}
-+
-+	*size = VXD_RD_REG_FIELD(val, PVDEC_FW, DEVA_GENMSG, MSG_SIZE);
-+	*msg_id = VXD_RD_REG_FIELD(val, PVDEC_FW, DEVA_GENMSG, MSG_ID);
-+	*not_last_msg = VXD_RD_REG_FIELD(val, PVDEC_FW, DEVA_GENMSG, NOT_LAST_MSG);
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: [msg in] rd_idx: %d, size: %zu, id: 0x%04x, type: 0x%x\n",
-+		__func__, rd_idx, *size, *msg_id,
-+		VXD_RD_REG_FIELD(val, PVDEC_FW, DEVA_GENMSG, MSG_TYPE));
-+#endif
-+
-+	return 0;
-+}
-+
-+/*
-+ * Receive message from the MTX and place it in a <buf_size> dwords long
-+ * buffer. If the provided buffer is too small to hold the message, only part
-+ * of it will be placed in a buffer, but the ring buffer read index will be
-+ * moved so that message is no longer available.
-+ */
-+int vxd_pvdec_recv_msg(const void *dev, void __iomem *reg_base,
-+		       unsigned int *buf,
-+		       unsigned long buf_size,
-+		       struct vxd_dev *vxd)
-+{
-+	int ret, to_host_off; /* offset in dwords */
-+	unsigned int wr_idx, rd_idx; /* indicies in dwords */
-+	unsigned long to_host_size, msg_size, to_read; /* sizes in dwords */
-+	unsigned int val = 0;
-+	struct timespec64 time;
-+	unsigned short msg_id;
-+	int loop;
-+
-+	ret = pvdec_get_to_host_cfg(reg_base, &to_host_size,
-+				    &to_host_off, &wr_idx, &rd_idx);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to obtain host ring buffer config!\n", __func__);
-+		return ret;
-+	}
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: to host: (%zu @ %d), wr: %u, rd: %u\n", __func__,
-+		to_host_size, to_host_off, wr_idx, rd_idx);
-+#endif
-+
-+	/* Obtain the message size */
-+	ret = pvdec_read_vlr(reg_base, &val, 1, to_host_off + rd_idx);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to read first word!\n", __func__);
-+		return ret;
-+	}
-+	msg_size = VXD_RD_REG_FIELD(val, PVDEC_FW, DEVA_GENMSG, MSG_SIZE);
-+
-+	to_read = (msg_size > buf_size) ? buf_size : msg_size;
-+
-+	/* Does the message wrap? */
-+	if (to_read + rd_idx > to_host_size) {
-+		unsigned long chunk_size = to_host_size - rd_idx;
-+
-+		ret = pvdec_read_vlr(reg_base, buf, chunk_size, to_host_off + rd_idx);
-+		if (ret) {
-+			dev_err(dev, "%s: failed to read chunk before wrap!\n", __func__);
-+			return ret;
-+		}
-+		to_read -= chunk_size;
-+		buf += chunk_size;
-+		rd_idx = 0;
-+		msg_size -= chunk_size;
-+	}
-+
-+	/*
-+	 * If the message wrapped, read the second chunk.
-+	 * If it didn't, read first and only chunk
-+	 */
-+	ret = pvdec_read_vlr(reg_base, buf, to_read, to_host_off + rd_idx);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to read message from vlr!\n", __func__);
-+		return ret;
-+	}
-+
-+	/* Update read index in the ring buffer */
-+	rd_idx = (rd_idx + msg_size) % to_host_size;
-+	VXD_WR_REG_ABS(reg_base, VLR_OFFSET +
-+		PVDEC_FW_TO_HOST_RD_IDX_OFFSET, rd_idx);
-+
-+	msg_id = VXD_RD_REG_FIELD(val, PVDEC_FW, DEVA_GENMSG, MSG_ID);
-+
-+	ktime_get_real_ts64(&time);
-+	for (loop = 0; loop < ARRAY_SIZE(vxd->time_fw); loop++) {
-+		if (vxd->time_fw[loop].id == msg_id) {
-+			vxd->time_fw[loop].end_time =
-+				timespec64_to_ns((const struct timespec64 *)&time);
-+#ifdef DEBUG_DECODER_DRIVER
-+			dev_info(dev, "fw decode time is %llu us for msg_id x%0x\n",
-+				 div_s64(vxd->time_fw[loop].end_time -
-+				 vxd->time_fw[loop].start_time, 1000), msg_id);
-+#endif
-+					break;
-+		}
-+	}
-+
-+	if (loop == ARRAY_SIZE(vxd->time_fw))
-+		dev_err(dev, "fw decode time for msg_id x%0x is not measured\n", msg_id);
-+
-+	return 0;
-+}
-+
-+int vxd_pvdec_check_fw_status(const void *dev, void __iomem *reg_base)
-+{
-+	int ret;
-+	unsigned int val = 0;
-+
-+	/* Obtain current fw status */
-+	ret = pvdec_read_vlr(reg_base, &val, 1, PVDEC_FW_STATUS_OFFSET);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to read fw status!\n", __func__);
-+		return ret;
-+	}
-+
-+	/* Check for fatal condition */
-+	if (val == PVDEC_FW_STATUS_PANIC  || val == PVDEC_FW_STATUS_ASSERT ||
-+	    val == PVDEC_FW_STATUS_SO)
-+		return -1;
-+
-+	return 0;
-+}
-+
-+static int pvdec_send_init_msg(const void *dev,
-+			       void __iomem *reg_base,
-+			       struct vxd_ena_params *ena_params)
-+{
-+	unsigned short msg_id = 0;
-+	unsigned int msg[PVDEC_FW_DEVA_INIT_MSG_WRDS] = { 0 }, msg_wrd = 0;
-+	struct vxd_dev *vxd;
-+	int ret;
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: rendec: %d@0x%x, crc: 0x%x\n", __func__,
-+		ena_params->rendec_size, ena_params->rendec_addr, ena_params->crc);
-+#endif
-+
-+	vxd = kzalloc(sizeof(*vxd), GFP_KERNEL);
-+	if (!vxd)
-+		return -1;
-+
-+	/* message type */
-+	msg_wrd = VXD_WR_REG_FIELD(msg_wrd, PVDEC_FW, DEVA_GENMSG, MSG_TYPE,
-+				   PVDEC_FW_MSG_TYPE_INIT);
-+	VXD_WR_MSG_WRD(msg, PVDEC_FW, DEVA_GENMSG, msg_wrd);
-+
-+	/* rendec address */
-+	VXD_WR_MSG_WRD(msg, PVDEC_FW_DEVA_INIT, RENDEC_ADDR0, ena_params->rendec_addr);
-+
-+	/* rendec size */
-+	msg_wrd = 0;
-+	msg_wrd = VXD_WR_REG_FIELD(msg_wrd, PVDEC_FW, DEVA_INIT, RENDEC_SIZE0,
-+				   ena_params->rendec_size);
-+	VXD_WR_MSG_WRD(msg, PVDEC_FW_DEVA_INIT, RENDEC_SIZE0, msg_wrd);
-+
-+	/* HEVC configuration */
-+	msg_wrd = 0;
-+	msg_wrd = VXD_WR_REG_FIELD(msg_wrd, PVDEC_FW, DEVA_INIT,
-+				   HEVC_CFG_MAX_H_FOR_PIPE_WAIT, 0xFFFF);
-+	VXD_WR_MSG_WRD(msg, PVDEC_FW_DEVA_INIT, HEVC_CFG, msg_wrd);
-+
-+	/* signature select */
-+	VXD_WR_MSG_WRD(msg, PVDEC_FW_DEVA_INIT, SIG_SELECT, ena_params->crc);
-+
-+	/* partial frame notification timer divider */
-+	msg_wrd = 0;
-+	msg_wrd = VXD_WR_REG_FIELD(msg_wrd, PVDEC_FW, DEVA_INIT, PFNT_DIV, PVDEC_PFNT_DIV);
-+	VXD_WR_MSG_WRD(msg, PVDEC_FW_DEVA_INIT, PFNT_DIV, msg_wrd);
-+
-+	/* firmware watchdog timeout value */
-+	msg_wrd = VXD_WR_REG_FIELD(msg_wrd, PVDEC_FW, DEVA_INIT, FWWDT_MS, ena_params->fwwdt_ms);
-+	VXD_WR_MSG_WRD(msg, PVDEC_FW_DEVA_INIT, FWWDT_MS, msg_wrd);
-+
-+	ret = vxd_pvdec_send_msg(dev, reg_base, msg, ARRAY_SIZE(msg), msg_id, vxd);
-+	kfree(vxd);
-+
-+	return ret;
-+}
-+
-+int vxd_pvdec_ena(const void *dev, void __iomem *reg_base,
-+		  struct vxd_ena_params *ena_params,
-+		  struct vxd_fw_hdr *fw_hdr,
-+		  unsigned int *freq_khz)
-+{
-+	int ret;
-+	unsigned int mtx_ram_size = 0;
-+	unsigned char dma_channel = 0;
-+
-+	ret = vxd_pvdec_init(dev, reg_base);
-+	if (ret) {
-+		dev_err(dev, "%s: PVDEC init failed!\n", __func__);
-+		return ret;
-+	}
-+
-+	ret = pvdec_get_mtx_ram_size(reg_base, &mtx_ram_size);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to get MTX RAM size!\n", __func__);
-+		return ret;
-+	}
-+
-+	if (mtx_ram_size < fw_hdr->core_size) {
-+		dev_err(dev, "%s: FW larger than MTX RAM size (%u < %d)!\n",
-+			__func__, mtx_ram_size, fw_hdr->core_size);
-+		return -EINVAL;
-+	}
-+
-+	/* Apply pre boot settings - if any */
-+	pvdec_pre_boot_setup(dev, reg_base, ena_params);
-+
-+	pvdec_prep_fw_upload(dev, reg_base, ena_params, dma_channel);
-+
-+	ret = pvdec_start_fw_dma(dev, reg_base, dma_channel, fw_hdr->core_size, freq_khz);
-+
-+	if (ret) {
-+		dev_err(dev, "%s: failed to load FW! (%d)", __func__, ret);
-+		pvdec_mtx_status_dump(reg_base, NULL);
-+		return ret;
-+	}
-+
-+	/* Apply final settings - if any */
-+	pvdec_post_boot_setup(dev, reg_base, *freq_khz);
-+
-+	ret = pvdec_poll_fw_boot(reg_base, &ena_params->boot_poll);
-+	if (ret) {
-+		dev_err(dev, "%s: FW failed to boot! (%d)!\n", __func__, ret);
-+		return ret;
-+	}
-+
-+	ret = pvdec_send_init_msg(dev, reg_base, ena_params);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to send init message! (%d)!\n", __func__, ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+int vxd_pvdec_dis(const void *dev, void __iomem *reg_base)
-+{
-+	int ret = pvdec_enable_clocks(reg_base);
-+
-+	if (ret) {
-+		dev_err(dev, "%s: failed to enable clocks! (%d)\n", __func__, ret);
-+		return ret;
-+	}
-+
-+	ret = pvdec_reset(reg_base, TRUE);
-+	if (ret) {
-+		dev_err(dev, "%s: VXD reset failed! (%d)\n", __func__, ret);
-+		return ret;
-+	}
-+
-+	ret = pvdec_disable_clocks(reg_base);
-+	if (ret) {
-+		dev_err(dev, "%s: VXD disable clocks failed! (%d)\n", __func__, ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * Invalidate VXD's MMU cache.
-+ */
-+int vxd_pvdec_mmu_flush(const void *dev, void __iomem *reg_base)
-+{
-+	unsigned int reg = VXD_RD_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1);
-+
-+	if (reg == PVDEC_INVALID_HW_STATE) {
-+		dev_err(dev, "%s: invalid HW state!\n", __func__);
-+		return -EIO;
-+	}
-+
-+	reg = VXD_WR_REG_FIELD(reg, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1, MMU_INVALDC, 0xF);
-+	VXD_WR_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_CONTROL1, reg);
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	dev_dbg(dev, "%s: device MMU cache invalidated!\n", __func__);
-+#endif
-+
-+	return 0;
-+}
-+
-+irqreturn_t vxd_pvdec_clear_int(void __iomem *reg_base, unsigned int *irq_status)
-+{
-+	irqreturn_t ret = IRQ_NONE;
-+	unsigned int enabled;
-+	unsigned int status = VXD_RD_REG(reg_base, PVDEC_CORE, PVDEC_INT_STAT);
-+
-+	enabled = VXD_RD_REG(reg_base, PVDEC_CORE, PVDEC_HOST_INT_ENA);
-+
-+	status &= enabled;
-+	/* Store the last irq status */
-+	*irq_status |= status;
-+
-+	if (status & (PVDEC_CORE_PVDEC_INT_STAT_HOST_MMU_FAULT_IRQ_MASK |
-+		PVDEC_CORE_PVDEC_INT_STAT_HOST_PROC_IRQ_MASK))
-+		ret = IRQ_WAKE_THREAD;
-+
-+	/* Disable MMU interrupts - clearing is not enough */
-+	if (status & PVDEC_CORE_PVDEC_INT_STAT_HOST_MMU_FAULT_IRQ_MASK) {
-+		enabled &= ~PVDEC_CORE_PVDEC_INT_STAT_HOST_MMU_FAULT_IRQ_MASK;
-+		VXD_WR_REG(reg_base, PVDEC_CORE, PVDEC_HOST_INT_ENA, enabled);
-+	}
-+
-+	VXD_WR_REG(reg_base, PVDEC_CORE, PVDEC_INT_CLEAR, status);
-+
-+	return ret;
-+}
-+
-+/*
-+ * Check if there's enough space in comms RAM to submit <msg_size> dwords long
-+ * message. This function also submits a padding message if it will be
-+ * necessary for this particular message.
-+ *
-+ * return 0 if there is enough space,
-+ * return -EBUSY if there is not enough space,
-+ * return another fault code in case of an error.
-+ */
-+int vxd_pvdec_msg_fit(const void *dev, void __iomem *reg_base, unsigned long msg_size)
-+{
-+	int ret = pvdec_check_comms_space(reg_base, msg_size, TRUE);
-+
-+	/*
-+	 * In specific environment, when to_mtx buffer is small, and messages
-+	 * the userspace is submitting are large (e.g. FWBSP flow), it's
-+	 * possible that firmware will consume the padding message sent by
-+	 * vxd_pvdec_msg_fit() immediately. Retry the check.
-+	 */
-+	if (ret == -EBUSY) {
-+		unsigned int flags = VXD_RD_REG_ABS(reg_base,
-+				VLR_OFFSET + PVDEC_FW_FLAGS_OFFSET) |
-+			PVDEC_FWFLAG_FAKE_COMPLETION;
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_dbg(dev, "comms space full, asking fw to send empty msg when space is available");
-+#endif
-+
-+		VXD_WR_REG_ABS(reg_base, VLR_OFFSET + PVDEC_FW_FLAGS_OFFSET, flags);
-+		ret = pvdec_check_comms_space(reg_base, msg_size, FALSE);
-+	}
-+
-+	return ret;
-+}
-+
-+void vxd_pvdec_get_state(const void *dev, void __iomem *reg_base,
-+			 unsigned int num_pipes,
-+			 struct vxd_hw_state *state)
-+{
-+	unsigned char pipe;
-+#ifdef DEBUG_DECODER_DRIVER
-+	unsigned int state_cfg = VXD_RD_REG_ABS(reg_base, (VLR_OFFSET +
-+			PVDEC_FW_STATE_BUF_CFG_OFFSET));
-+
-+	unsigned short state_size = PVDEC_FW_COM_BUF_SIZE(state_cfg);
-+	unsigned short state_off = PVDEC_FW_COM_BUF_OFF(state_cfg);
-+
-+	/*
-+	 * The generic fw progress counter
-+	 * is the first element in the fw state
-+	 */
-+	dev_dbg(dev, "%s: state off: 0x%x, size: 0x%x\n", __func__, state_off, state_size);
-+	state->fw_counter = VXD_RD_REG_ABS(reg_base, (VLR_OFFSET + state_off));
-+	dev_dbg(dev, "%s: fw_counter: 0x%x\n", __func__, state->fw_counter);
-+#endif
-+
-+	/* We just combine the macroblocks being processed by the HW */
-+	for (pipe = 0; pipe < num_pipes; pipe++) {
-+		unsigned int p_off = VXD_GET_PIPE_OFF(num_pipes, pipe + 1);
-+		unsigned int reg_val;
-+
-+		/* Front-end */
-+		unsigned int reg_off = VXD_GET_REG_OFF(PVDEC_ENTROPY, ENTROPY_LAST_MB);
-+
-+		state->fe_status[pipe] = VXD_RD_REG_ABS(reg_base, reg_off + p_off);
-+
-+		reg_off = VXD_GET_REG_OFF(MSVDX_VEC, VEC_ENTDEC_INFORMATION);
-+		state->fe_status[pipe] |= VXD_RD_REG_ABS(reg_base, reg_off + p_off);
-+
-+		/* Back-end */
-+		reg_off = VXD_GET_REG_OFF(PVDEC_VEC_BE, VEC_BE_STATUS);
-+		state->be_status[pipe] = VXD_RD_REG_ABS(reg_base, reg_off + p_off);
-+		reg_off = VXD_GET_REG_OFF(MSVDX_VDMC, VDMC_MACROBLOCK_NUMBER);
-+		state->be_status[pipe] |= VXD_RD_REG_ABS(reg_base, reg_off + p_off);
-+
-+		/*
-+		 * Take DMAC channels 2/3 into consideration to cover
-+		 * parser progress on SR1/2
-+		 */
-+		reg_off = VXD_GET_RPT_REG_OFF(DMAC, DMAC_COUNT, 2);
-+		reg_val = VXD_RD_REG_ABS(reg_base, reg_off + p_off);
-+		state->dmac_status[pipe][0] = VXD_RD_REG_FIELD(reg_val, DMAC, DMAC_COUNT, CNT);
-+		reg_off = VXD_GET_RPT_REG_OFF(DMAC, DMAC_COUNT, 3);
-+		reg_val = VXD_RD_REG_ABS(reg_base, reg_off + p_off);
-+		state->dmac_status[pipe][1] = VXD_RD_REG_FIELD(reg_val, DMAC, DMAC_COUNT, CNT);
-+	}
-+}
-+
-+/*
-+ * Check for the source of the last interrupt.
-+ *
-+ * return 0 if nothing serious happened,
-+ * return -EFAULT if there was a critical interrupt detected.
-+ */
-+int vxd_pvdec_check_irq(const void *dev, void __iomem *reg_base, unsigned int irq_status)
-+{
-+	if (irq_status & PVDEC_CORE_PVDEC_INT_STAT_HOST_MMU_FAULT_IRQ_MASK) {
-+		unsigned int status0 =
-+			VXD_RD_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_STATUS0);
-+		unsigned int status1 =
-+			VXD_RD_REG(reg_base, IMG_VIDEO_BUS4_MMU, MMU_STATUS1);
-+
-+		unsigned int addr = VXD_RD_REG_FIELD(status0, IMG_VIDEO_BUS4_MMU,
-+				MMU_STATUS0, MMU_FAULT_ADDR) << 12;
-+		unsigned char reason = VXD_RD_REG_FIELD(status0, IMG_VIDEO_BUS4_MMU,
-+				MMU_STATUS0, MMU_PF_N_RW);
-+		unsigned char requestor = VXD_RD_REG_FIELD(status1, IMG_VIDEO_BUS4_MMU,
-+				MMU_STATUS1, MMU_FAULT_REQ_ID);
-+		unsigned char type = VXD_RD_REG_FIELD(status1, IMG_VIDEO_BUS4_MMU,
-+				MMU_STATUS1, MMU_FAULT_RNW);
-+		unsigned char secure = VXD_RD_REG_FIELD(status0, IMG_VIDEO_BUS4_MMU,
-+				MMU_STATUS0, MMU_SECURE_FAULT);
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+		dev_dbg(dev, "%s: MMU Page Fault s0:%08x s1:%08x", __func__, status0, status1);
-+#endif
-+
-+		dev_err(dev, "%s: MMU %s fault from %s while %s @ 0x%08X", __func__,
-+			(reason) ? "Page" : "Protection",
-+			(requestor & (0x1)) ? "dmac" :
-+			(requestor & (0x2)) ? "vec"  :
-+			(requestor & (0x4)) ? "vdmc" :
-+			(requestor & (0x8)) ? "vdeb" : "unknown source",
-+			(type) ? "reading" : "writing", addr);
-+
-+		if (secure)
-+			dev_err(dev, "%s: MMU security policy violation detected!", __func__);
-+
-+		return -EFAULT;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * This functions enables the clocks, fetches the core properties, stores them
-+ * in the <props> structure and DISABLES the clocks. Do not call when hardware
-+ * is busy!
-+ */
-+int vxd_pvdec_get_props(const void *dev, void __iomem *reg_base, struct vxd_core_props *props)
-+{
-+#ifdef DEBUG_DECODER_DRIVER
-+	unsigned char num_pix_pipes, pipe;
-+#endif
-+	int ret = pvdec_enable_clocks(reg_base);
-+
-+	if (ret) {
-+		dev_err(dev, "%s: failed to enable clocks!\n", __func__);
-+		return ret;
-+	}
-+
-+	ret = pvdec_get_mtx_ram_size(reg_base, &props->mtx_ram_size);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to get MTX ram size!\n", __func__);
-+		return ret;
-+	}
-+
-+	ret = pvdec_get_properties(reg_base, props);
-+	if (ret) {
-+		dev_err(dev, "%s: failed to get VXD props!\n", __func__);
-+		return ret;
-+	}
-+
-+	if (pvdec_disable_clocks(reg_base))
-+		dev_err(dev, "%s: failed to disable clocks!\n", __func__);
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+	num_pix_pipes = VXD_NUM_PIX_PIPES(*props);
-+
-+	/* Warning already raised in pvdec_get_properties() */
-+	if (unlikely(num_pix_pipes > VXD_MAX_PIPES))
-+		num_pix_pipes = VXD_MAX_PIPES;
-+	dev_dbg(dev, "%s: core_rev: 0x%08x\n", __func__, props->core_rev);
-+	dev_dbg(dev, "%s: pvdec_core_id: 0x%08x\n", __func__, props->pvdec_core_id);
-+	dev_dbg(dev, "%s: mmu_config0: 0x%08x\n", __func__, props->mmu_config0);
-+	dev_dbg(dev, "%s: mmu_config1: 0x%08x\n", __func__, props->mmu_config1);
-+	dev_dbg(dev, "%s: mtx_ram_size: %u\n", __func__, props->mtx_ram_size);
-+	dev_dbg(dev, "%s: pix max frame: 0x%08x\n", __func__, props->pixel_max_frame_cfg);
-+
-+	for (pipe = 1; pipe <= num_pix_pipes; ++pipe)
-+		dev_dbg(dev, "%s:  pipe %u, 0x%08x, misc 0x%08x\n",
-+			__func__, pipe, props->pixel_pipe_cfg[pipe - 1],
-+			props->pixel_misc_cfg[pipe - 1]);
-+	dev_dbg(dev, "%s: dbg fifo size: %u\n", __func__, props->dbg_fifo_size);
-+#endif
-+	return 0;
-+}
-diff --git a/drivers/staging/media/vxd/decoder/vxd_pvdec_priv.h b/drivers/staging/media/vxd/decoder/vxd_pvdec_priv.h
-new file mode 100644
-index 000000000000..6cc9aef45904
---- /dev/null
-+++ b/drivers/staging/media/vxd/decoder/vxd_pvdec_priv.h
-@@ -0,0 +1,126 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * VXD PVDEC Private header file
-+ *
-+ * Copyright (c) Imagination Technologies Ltd.
-+ * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
-+ *
-+ * Authors:
-+ *	Amit Makani <amit.makani@ti.com>
-+ *
-+ * Re-written for upstreamimg
-+ *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
-+ *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com>
-+ */
-+
-+#ifndef _VXD_PVDEC_PRIV_H
-+#define _VXD_PVDEC_PRIV_H
-+#include <linux/interrupt.h>
-+
-+#include "img_dec_common.h"
-+#include "vxd_pvdec_regs.h"
-+#include "vxd_dec.h"
-+
-+#ifdef ERROR_RECOVERY_SIMULATION
-+/* kernel object used to debug. Declared in v4l2_int.c */
-+extern struct kobject *vxd_dec_kobject;
-+extern int disable_fw_irq_value;
-+extern int g_module_irq;
-+#endif
-+
-+struct vxd_boot_poll_params {
-+	unsigned int msleep_cycles;
-+};
-+
-+struct vxd_ena_params {
-+	struct vxd_boot_poll_params boot_poll;
-+
-+	unsigned long fw_buf_size;
-+	unsigned int fw_buf_virt_addr;
-+	/*
-+	 * VXD's MMU virtual address of a firmware
-+	 * buffer.
-+	 */
-+	unsigned int ptd; /* Shifted physical address of PTD */
-+
-+	/* Required for firmware upload via registers. */
-+	struct {
-+		const unsigned char *buf; /* Firmware blob buffer */
-+
-+	} regs_data;
-+
-+	struct {
-+		unsigned secure : 1;        /* Secure flow indicator. */
-+		unsigned wait_dbg_fifo : 1; /*
-+					     * Indicates that fw shall use
-+					     * blocking mode when putting logs
-+					     * into debug fifo
-+					     */
-+	};
-+
-+	/* Structure containing memory staller configuration */
-+	struct {
-+		unsigned int *data;          /* Configuration data array */
-+		unsigned char size;            /* Configuration size in dwords */
-+
-+	} mem_staller;
-+
-+	unsigned int fwwdt_ms;    /* Firmware software watchdog timeout value */
-+
-+	unsigned int crc;         /* HW signatures to be enabled by firmware */
-+	unsigned int rendec_addr; /* VXD's virtual address of a rendec buffer */
-+	unsigned short rendec_size; /* Size of a rendec buffer in 4K pages */
-+};
-+
-+int vxd_pvdec_init(const void *dev, void __iomem *reg_base);
-+
-+int vxd_pvdec_ena(const void *dev, void __iomem *reg_base,
-+		  struct vxd_ena_params *ena_params, struct vxd_fw_hdr *hdr,
-+		  unsigned int *freq_khz);
-+
-+int vxd_pvdec_dis(const void *dev, void __iomem *reg_base);
-+
-+int vxd_pvdec_mmu_flush(const void *dev, void __iomem *reg_base);
-+
-+int vxd_pvdec_send_msg(const void *dev, void __iomem *reg_base,
-+		       unsigned int *msg, unsigned long msg_size, unsigned short msg_id,
-+		       struct vxd_dev *ctx);
-+
-+int vxd_pvdec_pend_msg_info(const void *dev, void __iomem *reg_base,
-+			    unsigned long *size, unsigned short *msg_id,
-+			    unsigned char *not_last_msg);
-+
-+int vxd_pvdec_recv_msg(const void *dev, void __iomem *reg_base,
-+		       unsigned int *buf, unsigned long buf_size, struct vxd_dev *ctx);
-+
-+int vxd_pvdec_check_fw_status(const void *dev, void __iomem *reg_base);
-+
-+unsigned long vxd_pvdec_peek_mtx_fifo(const void *dev,
-+				      void __iomem *reg_base);
-+
-+unsigned long vxd_pvdec_read_mtx_fifo(const void *dev, void __iomem *reg_base,
-+				      unsigned int *buf, unsigned long size);
-+
-+irqreturn_t vxd_pvdec_clear_int(void __iomem *reg_base, unsigned int *irq_status);
-+
-+int vxd_pvdec_check_irq(const void *dev, void __iomem *reg_base,
-+			unsigned int irq_status);
-+
-+int vxd_pvdec_msg_fit(const void *dev, void __iomem *reg_base,
-+		      unsigned long msg_size);
-+
-+void vxd_pvdec_get_state(const void *dev, void __iomem *reg_base,
-+			 unsigned int num_pipes, struct vxd_hw_state *state);
-+
-+int vxd_pvdec_get_props(const void *dev, void __iomem *reg_base,
-+			struct vxd_core_props *props);
-+
-+unsigned long vxd_pvdec_get_dbg_fifo_size(void __iomem *reg_base);
-+
-+int vxd_pvdec_dump_mtx_ram(const void *dev, void __iomem *reg_base,
-+			   unsigned int addr, unsigned int count, unsigned int *buf);
-+
-+int vxd_pvdec_dump_mtx_status(const void *dev, void __iomem *reg_base,
-+			      unsigned int *array, unsigned int array_size);
-+
-+#endif /* _VXD_PVDEC_PRIV_H */
-diff --git a/drivers/staging/media/vxd/decoder/vxd_pvdec_regs.h b/drivers/staging/media/vxd/decoder/vxd_pvdec_regs.h
-new file mode 100644
-index 000000000000..2d8cf9ef8df7
---- /dev/null
-+++ b/drivers/staging/media/vxd/decoder/vxd_pvdec_regs.h
-@@ -0,0 +1,779 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * VXD PVDEC registers header file
++ * IMG DEC VXD Core component function implementations
 + *
 + * Copyright (c) Imagination Technologies Ltd.
 + * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
@@ -2297,770 +134,2348 @@ index 000000000000..2d8cf9ef8df7
 + *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com>
 + */
 +
-+#ifndef VXD_PVDEC_REGS_H
-+#define VXD_PVDEC_REGS_H
++#include <linux/firmware.h>
++#include <linux/completion.h>
++#include <linux/slab.h>
++#include <linux/idr.h>
++#include <linux/platform_device.h>
++#include <linux/interrupt.h>
++#include <linux/printk.h>
++#include <linux/mutex.h>
++#include <linux/delay.h>
++#include <linux/jiffies.h>
++#include <linux/time64.h>
++#include <linux/dma-mapping.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-mem2mem.h>
 +
-+/* ************************* VXD-specific values *************************** */
-+/* 0x10 for code, 0x18 for data. */
-+#define PVDEC_MTX_CORE_MEM 0x18
-+/* Iteration time out counter for MTX I/0. */
-+#define PVDEC_TIMEOUT_COUNTER 1000
-+/* Partial frame notification timer divider. */
-+#define PVDEC_PFNT_DIV 0
-+/* Value returned by register reads when HW enters invalid state (FPGA) */
-+#define PVDEC_INVALID_HW_STATE 0x000dead1
++#include "img_dec_common.h"
++#include "vxd_pvdec_priv.h"
 +
-+/* Default core clock for pvdec */
-+#define PVDEC_CLK_MHZ_DEFAULT 200
++#define VXD_RENDEC_SIZE (5 * 1024 * 1024)
 +
-+/* Offsets of registers groups within VXD. */
-+#define PVDEC_PROC_OFFSET 0x0000
-+/* 0x34c: Skip DMA registers when running against CSIM (vritual platform) */
-+#define PVDEC_PROC_SIZE 0x34C  /* 0x3FF */
++#define VXD_MSG_CNT_SHIFT 8
++#define VXD_MSG_CNT_MASK 0xff00
++#define VXD_MAX_MSG_CNT ((1 << VXD_MSG_CNT_SHIFT) - 1)
++#define VXD_MSG_STR_MASK 0xff
++#define VXD_INVALID_ID (-1)
 +
-+#define PVDEC_CORE_OFFSET 0x0400
-+#define PVDEC_CORE_SIZE 0x3FF
++#define MAP_FIRMWARE_TO_STREAM 1
 +
-+#define MTX_CORE_OFFSET PVDEC_PROC_OFFSET
-+#define MTX_CORE_SIZE PVDEC_PROC_SIZE
++/* Has to be used with VXD->mutex acquired! */
++#define VXD_GEN_MSG_ID(VXD, STR_ID, MSG_ID, vxd_type, str_type) \
++	do { \
++		vxd_type __VXD = VXD; \
++		str_type __STR_ID = STR_ID; \
++		WARN_ON((__STR_ID) > VXD_MSG_STR_MASK); \
++		(__VXD)->msg_cnt = (__VXD)->msg_cnt + 1 % (VXD_MAX_MSG_CNT); \
++		(MSG_ID) = ((__VXD)->msg_cnt << VXD_MSG_CNT_SHIFT) | \
++			((__STR_ID) & VXD_MSG_STR_MASK); \
++	} while (0)
 +
-+#define VIDEO_BUS4_MMU_OFFSET 0x1000
-+#define VIDEO_BUS4_MMU_SIZE 0x1FF
++/* Have to be used with VXD->mutex acquired! */
++#define VXD_RET_MSG_ID(VXD) ((VXD)->msg_cnt--)
 +
-+#define IMG_VIDEO_BUS4_MMU_OFFSET VIDEO_BUS4_MMU_OFFSET
-+#define IMG_VIDEO_BUS4_MMU_SIZE VIDEO_BUS4_MMU_SIZE
++#define VXD_MSG_ID_GET_STR_ID(MSG_ID) \
++	((MSG_ID) & VXD_MSG_STR_MASK)
 +
-+#define VLR_OFFSET 0x2000
-+#define VLR_SIZE 0x1000
++#define VXD_MSG_ID_GET_CNT(MSG_ID) \
++	(((MSG_ID) & VXD_MSG_CNT_MASK) >> VXD_MSG_CNT_SHIFT)
 +
-+/* PVDEC_ENTROPY defined in uapi/vxd_pvdec.h */
++static const unsigned char *drv_fw_name = "pvdec_full_bin.fw";
 +
-+#define PVDEC_PIXEL_OFFSET 0x4000
-+#define PVDEC_PIXEL_SIZE 0x1FF
++/* Driver context */
++static struct {
++	/* Available memory heaps. List of <struct vxd_heap> */
++	struct list_head heaps;
++	/* heap id for all internal allocations (rendec, firmware) */
++	int internal_heap_id;
 +
-+/* PVDEC_VEC_BE defined in uapi/vxd_pvdec.h */
++	/* Memory Management context for driver */
++	struct mem_ctx *mem_ctx;
 +
-+/* MSVDX_VEC defined in uapi/vxd_pvdec.h */
++	/* List of associated <struct vxd_dev> */
++	struct list_head devices;
 +
-+#define MSVDX_VDMC_OFFSET 0x6800
-+#define MSVDX_VDMC_SIZE 0x7F
++	/* Virtual addresses of shared buffers, common for all streams. */
++	struct {
++		unsigned int fw_addr; /* Firmware blob */
++		unsigned int rendec_addr; /* Rendec buffer */
++	} virt_space;
 +
-+#define DMAC_OFFSET 0x6A00
-+#define DMAC_SIZE 0x1FF
-+
-+#define PVDEC_TEST_OFFSET 0xFF00
-+#define PVDEC_TEST_SIZE 0xFF
-+
-+/* *********************** firmware specific values ************************* */
-+
-+/* layout of COMMS RAM */
-+
-+#define PVDEC_FW_COMMS_HDR_SIZE 0x38
-+
-+#define PVDEC_FW_STATUS_OFFSET 0x00
-+#define PVDEC_FW_TASK_STATUS_OFFSET 0x04
-+#define PVDEC_FW_ID_OFFSET 0x08
-+#define PVDEC_FW_MTXPC_OFFSET 0x0c
-+#define PVDEC_FW_MSG_COUNTER_OFFSET 0x10
-+#define PVDEC_FW_SIGNATURE_OFFSET 0x14
-+#define PVDEC_FW_TO_HOST_BUF_CONF_OFFSET 0x18
-+#define PVDEC_FW_TO_HOST_RD_IDX_OFFSET 0x1c
-+#define PVDEC_FW_TO_HOST_WR_IDX_OFFSET 0x20
-+#define PVDEC_FW_TO_MTX_BUF_CONF_OFFSET 0x24
-+#define PVDEC_FW_TO_MTX_RD_IDX_OFFSET 0x28
-+#define PVDEC_FW_FLAGS_OFFSET 0x2c
-+#define PVDEC_FW_TO_MTX_WR_IDX_OFFSET 0x30
-+#define PVDEC_FW_STATE_BUF_CFG_OFFSET 0x34
-+
-+/* firmware status */
-+
-+#define PVDEC_FW_STATUS_PANIC  0x2
-+#define PVDEC_FW_STATUS_ASSERT 0x3
-+#define PVDEC_FW_STATUS_SO     0x8
-+
-+/* firmware flags */
-+
-+#define PVDEC_FWFLAG_BIG_TO_HOST_BUFFER 0x00000002
-+#define PVDEC_FWFLAG_FORCE_FS_FLOW 0x00000004
-+#define PVDEC_FWFLAG_DISABLE_WATCHDOGS 0x00000008
-+#define PVDEC_FWFLAG_DISABLE_AUTONOMOUS_RESET 0x00000040
-+#define PVDEC_FWFLAG_DISABLE_IDLE_GPIO 0x00002000
-+#define PVDEC_FWFLAG_ENABLE_ERROR_CONCEALMENT 0x00100000
-+#define PVDEC_FWFLAG_DISABLE_GENC_FLUSHING 0x00800000
-+#define PVDEC_FWFLAG_FAKE_COMPLETION 0x20000000
-+#define PVDEC_FWFLAG_DISABLE_COREWDT_TIMERS 0x01000000
-+
-+/* firmware message header */
-+
-+#define PVDEC_FW_DEVA_GENMSG_OFFSET 0
-+
-+#define PVDEC_FW_DEVA_GENMSG_MSG_ID_MASK 0xFFFF0000
-+#define PVDEC_FW_DEVA_GENMSG_MSG_ID_SHIFT 16
-+
-+#define PVDEC_FW_DEVA_GENMSG_MSG_TYPE_MASK 0xFF00
-+#define PVDEC_FW_DEVA_GENMSG_MSG_TYPE_SHIFT 8
-+
-+#define PVDEC_FW_DEVA_GENMSG_NOT_LAST_MSG_MASK 0x80
-+#define PVDEC_FW_DEVA_GENMSG_NOT_LAST_MSG_SHIFT 7
-+
-+#define PVDEC_FW_DEVA_GENMSG_MSG_SIZE_MASK 0x7F
-+#define PVDEC_FW_DEVA_GENMSG_MSG_SIZE_SHIFT 0
-+
-+/* firmware init message */
-+
-+#define PVDEC_FW_DEVA_INIT_MSG_WRDS 9
-+
-+#define PVDEC_FW_DEVA_INIT_RENDEC_ADDR0_OFFSET 0xC
-+
-+#define PVDEC_FW_DEVA_INIT_RENDEC_SIZE0_OFFSET 0x10
-+#define PVDEC_FW_DEVA_INIT_RENDEC_SIZE0_MASK 0xFFFF
-+#define PVDEC_FW_DEVA_INIT_RENDEC_SIZE0_SHIFT 0
-+
-+#define PVDEC_FW_DEVA_INIT_HEVC_CFG_OFFSET 0x14
-+#define PVDEC_FW_DEVA_INIT_HEVC_CFG_MAX_H_FOR_PIPE_WAIT_MASK 0xFFFF0000
-+#define PVDEC_FW_DEVA_INIT_HEVC_CFG_MAX_H_FOR_PIPE_WAIT_SHIFT 16
-+#define PVDEC_FW_DEVA_INIT_HEVC_CFG_MIN_H_FOR_DUAL_PIPE_MASK 0xFFFF
-+#define PVDEC_FW_DEVA_INIT_HEVC_CFG_MIN_H_FOR_DUAL_PIPE_SHIFT 0
-+
-+#define PVDEC_FW_DEVA_INIT_SIG_SELECT_OFFSET 0x18
-+
-+#define PVDEC_FW_DEVA_INIT_DBG_DELAYS_OFFSET 0x1C
-+
-+#define PVDEC_FW_DEVA_INIT_PFNT_DIV_OFFSET 0x20
-+#define PVDEC_FW_DEVA_INIT_PFNT_DIV_MASK 0xFFFF0000
-+#define PVDEC_FW_DEVA_INIT_PFNT_DIV_SHIFT 16
-+
-+#define PVDEC_FW_DEVA_INIT_FWWDT_MS_OFFSET 0x20
-+#define PVDEC_FW_DEVA_INIT_FWWDT_MS_MASK 0xFFFF
-+#define PVDEC_FW_DEVA_INIT_FWWDT_MS_SHIFT 0
-+
-+/* firmware message types */
-+#define PVDEC_FW_MSG_TYPE_PADDING 0
-+#define PVDEC_FW_MSG_TYPE_INIT 0x80
-+
-+/* miscellaneous */
-+
-+#define PVDEC_FW_READY_SIG 0xa5a5a5a5
-+
-+#define PVDEC_FW_COM_BUF_SIZE(cfg) ((cfg) & 0x0000ffff)
-+#define PVDEC_FW_COM_BUF_OFF(cfg) (((cfg) & 0xffff0000) >> 16)
++	int initialised;
++} vxd_drv;
 +
 +/*
-+ * Timer divider calculation macro.
-+ * NOTE: The Timer divider is only 8bit field
-+ * so we set it for 2MHz timer base to cover wider
-+ * range of core frequencies on real platforms (freq > 255MHz)
++ * struct vxd_heap - node for heaps list
++ * @id:   heap id
++ * @list: Entry in <struct vxd_drv:heaps>
 + */
-+#define PVDEC_CALC_TIMER_DIV(val) (((val) - 1) / 2)
-+
-+#define MTX_CORE_STATUS_ELEMENTS 4
-+
-+#define PVDEC_CORE_MEMSTALLER_ELEMENTS 7
-+
-+/* ********************** PVDEC_CORE registers group ************************ */
-+
-+/* register PVDEC_SOFT_RESET */
-+#define PVDEC_CORE_PVDEC_SOFT_RST_OFFSET 0x0000
-+
-+#define PVDEC_CORE_PVDEC_SOFT_RST_PVDEC_PIXEL_PROC_SOFT_RST_MASK 0xFF000000
-+#define PVDEC_CORE_PVDEC_SOFT_RST_PVDEC_PIXEL_PROC_SOFT_RST_SHIFT 24
-+
-+#define PVDEC_CORE_PVDEC_SOFT_RST_PVDEC_ENTROPY_SOFT_RST_MASK 0x00FF0000
-+#define PVDEC_CORE_PVDEC_SOFT_RST_PVDEC_ENTROPY_SOFT_RST_SHIFT 16
-+
-+#define PVDEC_CORE_PVDEC_SOFT_RST_PVDEC_MMU_SOFT_RST_MASK 0x00000002
-+#define PVDEC_CORE_PVDEC_SOFT_RST_PVDEC_MMU_SOFT_RST_SHIFT 1
-+
-+#define PVDEC_CORE_PVDEC_SOFT_RST_PVDEC_SOFT_RST_MASK 0x00000001
-+#define PVDEC_CORE_PVDEC_SOFT_RST_PVDEC_SOFT_RST_SHIFT 0
-+
-+/* register PVDEC_HOST_INTERRUPT_STATUS */
-+#define PVDEC_CORE_PVDEC_INT_STAT_OFFSET 0x0010
-+
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_SYS_WDT_MASK 0x10000000
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_SYS_WDT_SHIFT 28
-+
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_READ_TIMEOUT_PROC_IRQ_MASK 0x08000000
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_READ_TIMEOUT_PROC_IRQ_SHIFT 27
-+
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_COMMAND_TIMEOUT_PROC_IRQ_MASK 0x04000000
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_COMMAND_TIMEOUT_PROC_IRQ_SHIFT 26
-+
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_READ_TIMEOUT_HOST_IRQ_MASK 0x02000000
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_READ_TIMEOUT_HOST_IRQ_SHIFT 25
-+
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_COMMAND_TIMEOUT_HOST_IRQ_MASK 0x01000000
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_COMMAND_TIMEOUT_HOST_IRQ_SHIFT 24
-+
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_PROC_GPIO_IRQ_MASK 0x00200000
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_PROC_GPIO_IRQ_SHIFT 21
-+
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_PROC_IRQ_MASK 0x00100000
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_PROC_IRQ_SHIFT 20
-+
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_MMU_FAULT_IRQ_MASK 0x00010000
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_MMU_FAULT_IRQ_SHIFT 16
-+
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_PIXEL_PROCESSING_IRQ_MASK 0x0000FF00
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_PIXEL_PROCESSING_IRQ_SHIFT 8
-+
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_ENTROPY_PIPE_IRQ_MASK 0x000000FF
-+#define PVDEC_CORE_PVDEC_INT_STAT_HOST_ENTROPY_PIPE_IRQ_SHIFT 0
-+
-+/* register PVDEC_INTERRUPT_CLEAR */
-+#define PVDEC_CORE_PVDEC_INT_CLEAR_OFFSET 0x0014
-+
-+#define PVDEC_CORE_PVDEC_INT_CLEAR_IRQ_CLEAR_MASK 0xFFFF0000
-+#define PVDEC_CORE_PVDEC_INT_CLEAR_IRQ_CLEAR_SHIFT 16
-+
-+/* register PVDEC_HOST_INTERRUPT_ENABLE */
-+#define PVDEC_CORE_PVDEC_HOST_INT_ENA_OFFSET 0x0018
-+
-+#define PVDEC_CORE_PVDEC_HOST_INT_ENA_HOST_IRQ_ENABLE_MASK 0xFFFF0000
-+#define PVDEC_CORE_PVDEC_HOST_INT_ENA_HOST_IRQ_ENABLE_SHIFT 16
-+
-+/* Register PVDEC_MAN_CLK_ENABLE */
-+#define PVDEC_CORE_PVDEC_MAN_CLK_ENA_OFFSET 0x0040
-+
-+#define PVDEC_CORE_PVDEC_MAN_CLK_ENA_PIXEL_PROC_MAN_CLK_ENA_MASK 0xFF000000
-+#define PVDEC_CORE_PVDEC_MAN_CLK_ENA_PIXEL_PROC_MAN_CLK_ENA_SHIFT 24
-+
-+#define PVDEC_CORE_PVDEC_MAN_CLK_ENA_ENTROPY_PIPE_MAN_CLK_ENA_MASK 0x00FF0000
-+#define PVDEC_CORE_PVDEC_MAN_CLK_ENA_ENTROPY_PIPE_MAN_CLK_ENA_SHIFT 16
-+
-+#define PVDEC_CORE_PVDEC_MAN_CLK_ENA_MEM_MAN_CLK_ENA_MASK 0x00000100
-+#define PVDEC_CORE_PVDEC_MAN_CLK_ENA_MEM_MAN_CLK_ENA_SHIFT 8
-+
-+#define PVDEC_CORE_PVDEC_MAN_CLK_ENA_PVDEC_REG_MAN_CLK_ENA_MASK 0x00000010
-+#define PVDEC_CORE_PVDEC_MAN_CLK_ENA_PVDEC_REG_MAN_CLK_ENA_SHIFT 4
-+
-+#define PVDEC_CORE_PVDEC_MAN_CLK_ENA_PROC_MAN_CLK_ENA_MASK 0x00000002
-+#define PVDEC_CORE_PVDEC_MAN_CLK_ENA_PROC_MAN_CLK_ENA_SHIFT 1
-+
-+#define PVDEC_CORE_PVDEC_MAN_CLK_ENA_CORE_MAN_CLK_ENA_MASK 0x00000001
-+#define PVDEC_CORE_PVDEC_MAN_CLK_ENA_CORE_MAN_CLK_ENA_SHIFT 0
-+
-+/* register PVDEC_HOST_PIPE_SELECT */
-+#define PVDEC_CORE_PVDEC_HOST_PIPE_SELECT_OFFSET 0x0060
-+
-+#define PVDEC_CORE_PVDEC_HOST_PIPE_SELECT_PIPE_SEL_MASK 0x0000000F
-+#define PVDEC_CORE_PVDEC_HOST_PIPE_SELECT_PIPE_SEL_SHIFT 0
-+
-+/* register PROC_DEBUG */
-+#define PVDEC_CORE_PROC_DEBUG_OFFSET 0x0100
-+
-+#define PVDEC_CORE_PROC_DEBUG_MTX_LAST_RAM_BANK_SIZE_MASK 0xFF000000
-+#define PVDEC_CORE_PROC_DEBUG_MTX_LAST_RAM_BANK_SIZE_SHIFT 24
-+
-+#define PVDEC_CORE_PROC_DEBUG_MTX_RAM_BANK_SIZE_MASK 0x000F0000
-+#define PVDEC_CORE_PROC_DEBUG_MTX_RAM_BANK_SIZE_SHIFT 16
-+
-+#define PVDEC_CORE_PROC_DEBUG_MTX_RAM_BANKS_MASK 0x00000F00
-+#define PVDEC_CORE_PROC_DEBUG_MTX_RAM_BANKS_SHIFT 8
-+
-+#define PVDEC_CORE_PROC_DEBUG_MTX_RAM_NEW_REPRESENTATION_MASK 0x00000080
-+#define PVDEC_CORE_PROC_DEBUG_MTX_RAM_NEW_REPRESENTATION_SHIFT 7
-+
-+#define PVDEC_CORE_PROC_DEBUG_PROC_DBG_GPIO_OUT_MASK 0x00000018
-+#define PVDEC_CORE_PROC_DEBUG_PROC_DBG_GPIO_OUT_SHIFT 3
-+
-+#define PVDEC_CORE_PROC_DEBUG_PROC_DBG_IS_SLAVE_MASK 0x00000004
-+#define PVDEC_CORE_PROC_DEBUG_PROC_DBG_IS_SLAVE_SHIFT 2
-+
-+#define PVDEC_CORE_PROC_DEBUG_PROC_DBG_GPIO_IN_MASK 0x00000003
-+#define PVDEC_CORE_PROC_DEBUG_PROC_DBG_GPIO_IN_SHIFT 0
-+
-+/* register PROC_DMAC_CONTROL */
-+#define PVDEC_CORE_PROC_DMAC_CONTROL_OFFSET 0x0104
-+
-+#define PVDEC_CORE_PROC_DMAC_CONTROL_BOOT_ON_DMA_CH0_MASK 0x80000000
-+#define PVDEC_CORE_PROC_DMAC_CONTROL_BOOT_ON_DMA_CH0_SHIFT 31
-+
-+/* register PROC_DEBUG_FIFO */
-+#define PVDEC_CORE_PROC_DBG_FIFO_OFFSET 0x0108
-+
-+#define PVDEC_CORE_PROC_DBG_FIFO_PROC_DBG_FIFO_MASK 0xFFFFFFFF
-+#define PVDEC_CORE_PROC_DBG_FIFO_PROC_DBG_FIFO_SHIFT 0
-+
-+/* register PROC_DEBUG_FIFO_CTRL_0 */
-+#define PVDEC_CORE_PROC_DBG_FIFO_CTRL0_OFFSET 0x010C
-+
-+#define PVDEC_CORE_PROC_DBG_FIFO_CTRL0_PROC_DBG_FIFO_COUNT_MASK 0xFFFF0000
-+#define PVDEC_CORE_PROC_DBG_FIFO_CTRL0_PROC_DBG_FIFO_COUNT_SHIFT 16
-+
-+#define PVDEC_CORE_PROC_DBG_FIFO_CTRL0_PROC_DBG_FIFO_SIZE_MASK 0x0000FFFF
-+#define PVDEC_CORE_PROC_DBG_FIFO_CTRL0_PROC_DBG_FIFO_SIZE_SHIFT 0
-+
-+/* register PVDEC_CORE_ID */
-+#define PVDEC_CORE_PVDEC_CORE_ID_OFFSET 0x0230
-+
-+#define PVDEC_CORE_PVDEC_CORE_ID_GROUP_ID_MASK 0xFF000000
-+#define PVDEC_CORE_PVDEC_CORE_ID_GROUP_ID_SHIFT 24
-+
-+#define PVDEC_CORE_PVDEC_CORE_ID_CORE_ID_MASK 0x00FF0000
-+#define PVDEC_CORE_PVDEC_CORE_ID_CORE_ID_SHIFT 16
-+
-+#define PVDEC_CORE_PVDEC_CORE_ID_PVDEC_CORE_CONFIG_MASK 0x0000FFFF
-+#define PVDEC_CORE_PVDEC_CORE_ID_PVDEC_CORE_CONFIG_SHIFT 0
-+
-+#define PVDEC_CORE_PVDEC_CORE_ID_ENT_PIPES_MASK 0x0000000F
-+#define PVDEC_CORE_PVDEC_CORE_ID_ENT_PIPES_SHIFT 0
-+
-+#define PVDEC_CORE_PVDEC_CORE_ID_PIX_PIPES_MASK 0x000000F0
-+#define PVDEC_CORE_PVDEC_CORE_ID_PIX_PIPES_SHIFT 4
-+
-+/* register PVDEC_CORE_REV */
-+#define PVDEC_CORE_PVDEC_CORE_REV_OFFSET 0x0240
-+
-+#define PVDEC_CORE_PVDEC_CORE_REV_PVDEC_DESIGNER_MASK 0xFF000000
-+#define PVDEC_CORE_PVDEC_CORE_REV_PVDEC_DESIGNER_SHIFT 24
-+
-+#define PVDEC_CORE_PVDEC_CORE_REV_PVDEC_MAJOR_REV_MASK 0x00FF0000
-+#define PVDEC_CORE_PVDEC_CORE_REV_PVDEC_MAJOR_REV_SHIFT 16
-+
-+#define PVDEC_CORE_PVDEC_CORE_REV_PVDEC_MINOR_REV_MASK 0x0000FF00
-+#define PVDEC_CORE_PVDEC_CORE_REV_PVDEC_MINOR_REV_SHIFT 8
-+
-+#define PVDEC_CORE_PVDEC_CORE_REV_PVDEC_MAINT_REV_MASK 0x000000FF
-+#define PVDEC_CORE_PVDEC_CORE_REV_PVDEC_MAINT_REV_SHIFT 0
-+
-+/* *********************** MTX_CORE registers group ************************* */
-+
-+/* register MTX_ENABLE  */
-+#define MTX_CORE_MTX_ENABLE_OFFSET 0x0000
-+
-+/* register MTX_SYSC_TXTIMER. Note: it's not defined in PVDEC TRM. */
-+#define MTX_CORE_MTX_SYSC_TXTIMER_OFFSET 0x0010
-+
-+/* register MTX_KICKI */
-+#define MTX_CORE_MTX_KICKI_OFFSET 0x0088
-+
-+#define MTX_CORE_MTX_KICKI_MTX_KICKI_MASK 0x0000FFFF
-+#define MTX_CORE_MTX_KICKI_MTX_KICKI_SHIFT 0
-+
-+/* register MTX_FAULT0 */
-+#define MTX_CORE_MTX_FAULT0_OFFSET 0x0090
-+
-+/* register MTX_REGISTER_READ_WRITE_DATA */
-+#define MTX_CORE_MTX_REG_READ_WRITE_DATA_OFFSET 0x00F8
-+
-+/* register MTX_REGISTER_READ_WRITE_REQUEST */
-+#define MTX_CORE_MTX_REG_READ_WRITE_REQUEST_OFFSET 0x00FC
-+
-+#define MTX_CORE_MTX_REG_READ_WRITE_REQUEST_MTX_DREADY_MASK 0x80000000
-+#define MTX_CORE_MTX_REG_READ_WRITE_REQUEST_MTX_DREADY_SHIFT 31
-+
-+#define MTX_CORE_MTX_REG_READ_WRITE_REQUEST_MTX_RNW_MASK 0x00010000
-+#define MTX_CORE_MTX_REG_READ_WRITE_REQUEST_MTX_RNW_SHIFT 16
-+
-+#define MTX_CORE_MTX_REG_READ_WRITE_REQUEST_MTX_RSPECIFIER_MASK 0x00000070
-+#define MTX_CORE_MTX_REG_READ_WRITE_REQUEST_MTX_RSPECIFIER_SHIFT 4
-+
-+#define MTX_CORE_MTX_REG_READ_WRITE_REQUEST_MTX_USPECIFIER_MASK 0x0000000F
-+#define MTX_CORE_MTX_REG_READ_WRITE_REQUEST_MTX_USPECIFIER_SHIFT 0
-+
-+/* register MTX_RAM_ACCESS_DATA_EXCHANGE */
-+#define MTX_CORE_MTX_RAM_ACCESS_DATA_EXCHANGE_OFFSET 0x0100
-+
-+/* register MTX_RAM_ACCESS_DATA_TRANSFER */
-+#define MTX_CORE_MTX_RAM_ACCESS_DATA_TRANSFER_OFFSET 0x0104
-+
-+/* register MTX_RAM_ACCESS_CONTROL */
-+#define MTX_CORE_MTX_RAM_ACCESS_CONTROL_OFFSET 0x0108
-+
-+#define MTX_CORE_MTX_RAM_ACCESS_CONTROL_MTX_MCMID_MASK 0x0FF00000
-+#define MTX_CORE_MTX_RAM_ACCESS_CONTROL_MTX_MCMID_SHIFT 20
-+
-+#define MTX_CORE_MTX_RAM_ACCESS_CONTROL_MTX_MCM_ADDR_MASK 0x000FFFFC
-+#define MTX_CORE_MTX_RAM_ACCESS_CONTROL_MTX_MCM_ADDR_SHIFT 2
-+
-+#define MTX_CORE_MTX_RAM_ACCESS_CONTROL_MTX_MCMAI_MASK 0x00000002
-+#define MTX_CORE_MTX_RAM_ACCESS_CONTROL_MTX_MCMAI_SHIFT 1
-+
-+#define MTX_CORE_MTX_RAM_ACCESS_CONTROL_MTX_MCMR_MASK 0x00000001
-+#define MTX_CORE_MTX_RAM_ACCESS_CONTROL_MTX_MCMR_SHIFT 0
-+
-+/* register MTX_RAM_ACCESS_STATUS */
-+#define MTX_CORE_MTX_RAM_ACCESS_STATUS_OFFSET 0x010C
-+
-+#define MTX_CORE_MTX_RAM_ACCESS_STATUS_MTX_MTX_MCM_STAT_MASK 0x00000001
-+#define MTX_CORE_MTX_RAM_ACCESS_STATUS_MTX_MTX_MCM_STAT_SHIFT 0
-+
-+/* register MTX_SOFT_RESET */
-+#define MTX_CORE_MTX_SOFT_RESET_OFFSET 0x0200
-+
-+#define MTX_CORE_MTX_SOFT_RESET_MTX_RESET_MASK 0x00000001
-+#define MTX_CORE_MTX_SOFT_RESET_MTX_RESET_SHIFT 0
-+
-+/* register MTX_SYSC_TIMERDIV */
-+#define MTX_CORE_MTX_SYSC_TIMERDIV_OFFSET 0x0208
-+
-+#define MTX_CORE_MTX_SYSC_TIMERDIV_TIMER_EN_MASK 0x00010000
-+#define MTX_CORE_MTX_SYSC_TIMERDIV_TIMER_EN_SHIFT 16
-+
-+#define MTX_CORE_MTX_SYSC_TIMERDIV_TIMER_DIV_MASK 0x000000FF
-+#define MTX_CORE_MTX_SYSC_TIMERDIV_TIMER_DIV_SHIFT 0
-+
-+/* register MTX_SYSC_CDMAA */
-+#define MTX_CORE_MTX_SYSC_CDMAA_OFFSET 0x0344
-+
-+#define MTX_CORE_MTX_SYSC_CDMAA_CDMAA_ADDRESS_MASK 0x03FFFFFC
-+#define MTX_CORE_MTX_SYSC_CDMAA_CDMAA_ADDRESS_SHIFT 2
-+
-+/* register MTX_SYSC_CDMAC */
-+#define MTX_CORE_MTX_SYSC_CDMAC_OFFSET 0x0340
-+
-+#define MTX_CORE_MTX_SYSC_CDMAC_BURSTSIZE_MASK 0x07000000
-+#define MTX_CORE_MTX_SYSC_CDMAC_BURSTSIZE_SHIFT 24
-+
-+#define MTX_CORE_MTX_SYSC_CDMAC_RNW_MASK 0x00020000
-+#define MTX_CORE_MTX_SYSC_CDMAC_RNW_SHIFT 17
-+
-+#define MTX_CORE_MTX_SYSC_CDMAC_ENABLE_MASK 0x00010000
-+#define MTX_CORE_MTX_SYSC_CDMAC_ENABLE_SHIFT 16
-+
-+#define MTX_CORE_MTX_SYSC_CDMAC_LENGTH_MASK 0x0000FFFF
-+#define MTX_CORE_MTX_SYSC_CDMAC_LENGTH_SHIFT 0
-+
-+/* register MTX_SYSC_CDMAT */
-+#define MTX_CORE_MTX_SYSC_CDMAT_OFFSET 0x0350
-+
-+/* ****************** IMG_VIDEO_BUS4_MMU registers group ******************** */
-+
-+/* register MMU_CONTROL0_ */
-+#define IMG_VIDEO_BUS4_MMU_MMU_CONTROL0_USE_TILE_STRIDE_PER_CTX_MASK 0x00010000
-+#define IMG_VIDEO_BUS4_MMU_MMU_CONTROL0_USE_TILE_STRIDE_PER_CTX_SHIFT 16
-+
-+#define IMG_VIDEO_BUS4_MMU_MMU_ADDRESS_CONTROL_MMU_ENA_EXT_ADDR_MASK 0x00000010
-+#define IMG_VIDEO_BUS4_MMU_MMU_ADDRESS_CONTROL_MMU_ENA_EXT_ADDR_SHIFT 4
-+
-+#define IMG_VIDEO_BUS4_MMU_MMU_ADDRESS_CONTROL_UPPER_ADDR_FIXED_MASK 0x00FF0000
-+#define IMG_VIDEO_BUS4_MMU_MMU_ADDRESS_CONTROL_UPPER_ADDR_FIXED_SHIFT 16
-+
-+#define IMG_VIDEO_BUS4_MMU_MMU_MEM_EXT_OUTSTANDING_READ_WORDS_MASK 0x0000FFFF
-+#define IMG_VIDEO_BUS4_MMU_MMU_MEM_EXT_OUTSTANDING_READ_WORDS_SHIFT 0
-+
-+/* *************************** MMU-related values ************************** */
-+
-+/* MMU page size */
-+
-+enum {
-+	VXD_MMU_SOFT_PAGE_SIZE_PAGE_64K    = 0x4,
-+	VXD_MMU_SOFT_PAGE_SIZE_PAGE_16K    = 0x2,
-+	VXD_MMU_SOFT_PAGE_SIZE_PAGE_4K     = 0x0,
-+	VXD_MMU_SOFT_PAGE_SIZE_FORCE32BITS = 0x7FFFFFFFU
++struct vxd_heap {
++	int id;
++	struct list_head list;
 +};
 +
-+/* MMU PTD entry flags */
-+enum {
-+	VXD_MMU_PTD_FLAG_NONE            = 0x0,
-+	VXD_MMU_PTD_FLAG_VALID           = 0x1,
-+	VXD_MMU_PTD_FLAG_WRITE_ONLY      = 0x2,
-+	VXD_MMU_PTD_FLAG_READ_ONLY       = 0x4,
-+	VXD_MMU_PTD_FLAG_CACHE_COHERENCY = 0x8,
-+	VXD_MMU_PTD_FLAG_FORCE32BITS     = 0x7FFFFFFFU
-+};
++static void img_mmu_callback(enum mmu_callback_type callback_type,
++			     int buff_id, void *data)
++{
++	struct vxd_dev *vxd = data;
 +
-+/* ********************* PVDEC_PIXEL registers group *********************** */
++	if (!vxd)
++		return;
 +
-+/* register PVDEC_PIXEL_PIXEL_CONTROL_0 */
-+#define PVDEC_PIXEL_PIXEL_CONTROL_0_OFFSET 0x0004
++	if (callback_type == MMU_CALLBACK_MAP)
++		return;
 +
-+#define PVDEC_PIXEL_PIXEL_CONTROL_0_DMAC_CH_SEL_FOR_MTX_MASK 0x0000000E
-+#define PVDEC_PIXEL_PIXEL_CONTROL_0_DMAC_CH_SEL_FOR_MTX_SHIFT 1
++	if (vxd->hw_on)
++		vxd_pvdec_mmu_flush(vxd->dev, vxd->reg_base);
++}
 +
-+#define PVDEC_PIXEL_PIXEL_CONTROL_0_PROC_DMAC_CH0_SEL_MASK 0x00000001
-+#define PVDEC_PIXEL_PIXEL_CONTROL_0_PROC_DMAC_CH0_SEL_SHIFT 0
-+
-+/* register PVDEC_PIXEL_MAN_CLK_ENABLE */
-+#define PVDEC_PIXEL_PIXEL_MAN_CLK_ENA_OFFSET 0x0020
-+
-+#define PVDEC_PIXEL_PIXEL_MAN_CLK_ENA_PIXEL_REG_MAN_CLK_ENA_MASK 0x00020000
-+#define PVDEC_PIXEL_PIXEL_MAN_CLK_ENA_PIXEL_REG_MAN_CLK_ENA_SHIFT 17
-+
-+#define PVDEC_PIXEL_PIXEL_MAN_CLK_ENA_PIXEL_DMAC_MAN_CLK_ENA_MASK 0x00010000
-+#define PVDEC_PIXEL_PIXEL_MAN_CLK_ENA_PIXEL_DMAC_MAN_CLK_ENA_SHIFT 16
-+
-+/* register PIXEL_PIPE_CONFIG */
-+#define PVDEC_PIXEL_PIXEL_PIPE_CONFIG_OFFSET 0x00C0
-+
-+/* register PIXEL_MISC_CONFIG */
-+#define PVDEC_PIXEL_PIXEL_MISC_CONFIG_OFFSET 0x00C4
-+
-+/* register MAX_FRAME_CONFIG */
-+#define PVDEC_PIXEL_MAX_FRAME_CONFIG_OFFSET 0x00C8
-+
-+/* ********************* PVDEC_ENTROPY registers group ********************* */
-+
-+/* Register PVDEC_ENTROPY_MAN_CLK_ENABLE */
-+#define PVDEC_ENTROPY_ENTROPY_MAN_CLK_ENA_OFFSET 0x0020
-+
-+/* Register PVDEC_ENTROPY_LAST_LAST_MB */
-+#define PVDEC_ENTROPY_ENTROPY_LAST_MB_OFFSET 0x00BC
-+
-+/* ********************* PVDEC_VEC_BE registers group ********************** */
-+
-+/* Register PVDEC_VEC_BE_VEC_BE_STATUS */
-+#define PVDEC_VEC_BE_VEC_BE_STATUS_OFFSET 0x0018
-+
-+/* ********************* MSVDX_VEC registers group ************************* */
-+
-+/* Register MSVDX_VEC_VEC_ENTDEC_INFORMATION */
-+#define MSVDX_VEC_VEC_ENTDEC_INFORMATION_OFFSET 0x00AC
-+
-+/* ********************* MSVDX_VDMC registers group ************************ */
-+
-+/* Register MSVDX_VDMC_VDMC_MACROBLOCK_NUMBER */
-+#define MSVDX_VDMC_VDMC_MACROBLOCK_NUMBER_OFFSET 0x0048
-+
-+/* ************************** DMAC registers group ************************* */
-+
-+/* register DMAC_SETUP */
-+#define DMAC_DMAC_SETUP_OFFSET 0x0000
-+#define DMAC_DMAC_SETUP_STRIDE 32
-+#define DMAC_DMAC_SETUP_NO_ENTRIES 6
-+
-+/* register DMAC_COUNT */
-+#define DMAC_DMAC_COUNT_OFFSET 0x0004
-+#define DMAC_DMAC_COUNT_STRIDE 32
-+#define DMAC_DMAC_COUNT_NO_ENTRIES 6
-+
-+#define DMAC_DMAC_COUNT_LIST_IEN_MASK 0x80000000
-+#define DMAC_DMAC_COUNT_LIST_IEN_SHIFT 31
-+
-+#define DMAC_DMAC_COUNT_BSWAP_MASK 0x40000000
-+#define DMAC_DMAC_COUNT_BSWAP_SHIFT 30
-+
-+#define DMAC_DMAC_COUNT_TRANSFER_IEN_MASK 0x20000000
-+#define DMAC_DMAC_COUNT_TRANSFER_IEN_SHIFT 29
-+
-+#define DMAC_DMAC_COUNT_PW_MASK 0x18000000
-+#define DMAC_DMAC_COUNT_PW_SHIFT 27
-+
-+#define DMAC_DMAC_COUNT_DIR_MASK 0x04000000
-+#define DMAC_DMAC_COUNT_DIR_SHIFT 26
-+
-+#define DMAC_DMAC_COUNT_PI_MASK 0x03000000
-+#define DMAC_DMAC_COUNT_PI_SHIFT 24
-+
-+#define DMAC_DMAC_COUNT_LIST_FIN_CTL_MASK 0x00400000
-+#define DMAC_DMAC_COUNT_LIST_FIN_CTL_SHIFT 22
-+
-+#define DMAC_DMAC_COUNT_DREQ_MASK 0x00100000
-+#define DMAC_DMAC_COUNT_DREQ_SHIFT 20
-+
-+#define DMAC_DMAC_COUNT_SRST_MASK 0x00080000
-+#define DMAC_DMAC_COUNT_SRST_SHIFT 19
-+
-+#define DMAC_DMAC_COUNT_LIST_EN_MASK 0x00040000
-+#define DMAC_DMAC_COUNT_LIST_EN_SHIFT 18
-+
-+#define DMAC_DMAC_COUNT_ENABLE_2D_MODE_MASK 0x00020000
-+#define DMAC_DMAC_COUNT_ENABLE_2D_MODE_SHIFT 17
-+
-+#define DMAC_DMAC_COUNT_EN_MASK 0x00010000
-+#define DMAC_DMAC_COUNT_EN_SHIFT 16
-+
-+#define DMAC_DMAC_COUNT_CNT_MASK 0x0000FFFF
-+#define DMAC_DMAC_COUNT_CNT_SHIFT 0
-+
-+/* register DMAC_PERIPH */
-+#define DMAC_DMAC_PERIPH_OFFSET 0x0008
-+#define DMAC_DMAC_PERIPH_STRIDE 32
-+#define DMAC_DMAC_PERIPH_NO_ENTRIES 6
-+
-+#define DMAC_DMAC_PERIPH_ACC_DEL_MASK 0xE0000000
-+#define DMAC_DMAC_PERIPH_ACC_DEL_SHIFT 29
-+
-+#define DMAC_DMAC_PERIPH_INCR_MASK 0x08000000
-+#define DMAC_DMAC_PERIPH_INCR_SHIFT 27
-+
-+#define DMAC_DMAC_PERIPH_BURST_MASK 0x07000000
-+#define DMAC_DMAC_PERIPH_BURST_SHIFT 24
-+
-+#define DMAC_DMAC_PERIPH_EXT_BURST_MASK 0x000F0000
-+#define DMAC_DMAC_PERIPH_EXT_BURST_SHIFT 16
-+
-+#define DMAC_DMAC_PERIPH_EXT_SA_MASK 0x0000000F
-+#define DMAC_DMAC_PERIPH_EXT_SA_SHIFT 0
-+
-+/* register DMAC_IRQ_STAT */
-+#define DMAC_DMAC_IRQ_STAT_OFFSET 0x000C
-+#define DMAC_DMAC_IRQ_STAT_STRIDE 32
-+#define DMAC_DMAC_IRQ_STAT_NO_ENTRIES 6
-+
-+/* register DMAC_PERIPHERAL_ADDR */
-+#define DMAC_DMAC_PERIPH_ADDR_OFFSET 0x0014
-+#define DMAC_DMAC_PERIPH_ADDR_STRIDE 32
-+#define DMAC_DMAC_PERIPH_ADDR_NO_ENTRIES 6
-+
-+#define DMAC_DMAC_PERIPH_ADDR_ADDR_MASK 0x007FFFFF
-+#define DMAC_DMAC_PERIPH_ADDR_ADDR_SHIFT 0
-+
-+/* register DMAC_PER_HOLD */
-+#define DMAC_DMAC_PER_HOLD_OFFSET 0x0018
-+#define DMAC_DMAC_PER_HOLD_STRIDE 32
-+#define DMAC_DMAC_PER_HOLD_NO_ENTRIES 6
-+
-+#define DMAC_DMAC_PER_HOLD_PER_HOLD_MASK 0x0000001F
-+#define DMAC_DMAC_PER_HOLD_PER_HOLD_SHIFT 0
-+
-+#define DMAC_DMAC_SOFT_RESET_OFFSET 0x00C0
-+
-+/* ************************** DMAC-related values *************************** */
++static int vxd_is_apm_required(struct vxd_dev *vxd)
++{
++	return vxd->hw_on;
++}
 +
 +/*
-+ * This type defines whether the peripheral address is static or
-+ * auto-incremented. (see the TRM "Transfer Sequence Linked-list - INCR")
++ * Power on the HW.
++ * Call with vxd->mutex acquired.
 + */
-+enum {
-+	DMAC_INCR_OFF         = 0, /* No action, no increment. */
-+	DMAC_INCR_ON          = 1, /* Generate address increment. */
-+	DMAC_INCR_FORCE32BITS = 0x7FFFFFFFU
-+};
++static int vxd_make_hw_on_locked(struct vxd_dev *vxd, unsigned int fw_ptd)
++{
++	unsigned int fw_size;
++	struct vxd_fw_hdr *fw_hdr;
++	struct vxd_ena_params ena_params;
++	int ret;
 +
-+/* Burst size settings (see the TRM "Transfer Sequence Linked-list - BURST"). */
-+enum {
-+	DMAC_BURST_0           = 0x0, /* burst size of 0 */
-+	DMAC_BURST_1           = 0x1, /* burst size of 1 */
-+	DMAC_BURST_2           = 0x2, /* burst size of 2 */
-+	DMAC_BURST_3           = 0x3, /* burst size of 3 */
-+	DMAC_BURST_4           = 0x4, /* burst size of 4 */
-+	DMAC_BURST_5           = 0x5, /* burst size of 5 */
-+	DMAC_BURST_6           = 0x6, /* burst size of 6 */
-+	DMAC_BURST_7           = 0x7, /* burst size of 7 */
-+	DMAC_BURST_8           = 0x8, /* burst size of 8 */
-+	DMAC_BURST_FORCE32BITS = 0x7FFFFFFFU
-+};
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev, "%s:%d\n", __func__, __LINE__);
++#endif
++	if (vxd->hw_on)
++		return 0;
 +
-+/*
-+ * Extended burst size settings (see TRM "Transfer Sequence Linked-list -
-+ * EXT_BURST").
-+ */
-+enum {
-+	DMAC_EXT_BURST_0           = 0x0, /* no extension */
-+	DMAC_EXT_BURST_1           = 0x1, /* extension of 8 */
-+	DMAC_EXT_BURST_2           = 0x2, /* extension of 16 */
-+	DMAC_EXT_BURST_3           = 0x3, /* extension of 24 */
-+	DMAC_EXT_BURST_4           = 0x4, /* extension of 32 */
-+	DMAC_EXT_BURST_5           = 0x5, /* extension of 40 */
-+	DMAC_EXT_BURST_6           = 0x6, /* extension of 48 */
-+	DMAC_EXT_BURST_7           = 0x7, /* extension of 56 */
-+	DMAC_EXT_BURST_8           = 0x8, /* extension of 64 */
-+	DMAC_EXT_BURST_9           = 0x9, /* extension of 72 */
-+	DMAC_EXT_BURST_10          = 0xa, /* extension of 80 */
-+	DMAC_EXT_BURST_11          = 0xb, /* extension of 88 */
-+	DMAC_EXT_BURST_12          = 0xc, /* extension of 96 */
-+	DMAC_EXT_BURST_13          = 0xd, /* extension of 104 */
-+	DMAC_EXT_BURST_14          = 0xe, /* extension of 112 */
-+	DMAC_EXT_BURST_15          = 0xf, /* extension of 120 */
-+	DMAC_EXT_BURST_FORCE32BITS = 0x7FFFFFFFU
-+};
-+
-+/* Transfer direction. */
-+enum {
-+	DMAC_MEM_TO_VXD         = 0x0,
-+	DMAC_VXD_TO_MEM         = 0x1,
-+	DMAC_VXD_TO_FORCE32BITS = 0x7FFFFFFFU
-+};
-+
-+/* How much to increment the peripheral address. */
-+enum {
-+	DMAC_PI_1           = 0x2, /* increment by 1 */
-+	DMAC_PI_2           = 0x1, /* increment by 2 */
-+	DMAC_PI_4           = 0x0, /* increment by 4 */
-+	DMAC_PI_FORCE32BITS = 0x7FFFFFFFU
-+};
-+
-+/* Peripheral width settings (see TRM "Transfer Sequence Linked-list - PW"). */
-+enum {
-+	DMAC_PWIDTH_32_BIT      = 0x0, /* Peripheral width 32-bit. */
-+	DMAC_PWIDTH_16_BIT      = 0x1, /* Peripheral width 16-bit. */
-+	DMAC_PWIDTH_8_BIT       = 0x2, /* Peripheral width 8-bit. */
-+	DMAC_PWIDTH_FORCE32BITS = 0x7FFFFFFFU
-+};
-+
-+/* ******************************* macros ********************************** */
-+
-+#ifdef PVDEC_SINGLETHREADED_IO
-+/* Write to the register */
-+#define VXD_WR_REG_ABS(base, addr, val) \
-+	({ spin_lock_irqsave(&pvdec_irq_lock, pvdec_irq_flags); \
-+	   iowrite32((val), (addr) + (base)); \
-+	   spin_unlock_irqrestore(&pvdec_irq_lock, (unsigned long)pvdec_irq_flags); })
-+
-+/* Read the register */
-+#define VXD_RD_REG_ABS(base, addr) \
-+	({ unsigned int reg; \
-+	   spin_lock_irqsave(&pvdec_irq_lock, pvdec_irq_flags); \
-+	   reg = ioread32((addr) + (base)); \
-+	   spin_unlock_irqrestore(&pvdec_irq_lock, (unsigned long)pvdec_irq_flags); \
-+	   reg; })
-+#else /* ndef PVDEC_SINGLETHREADED_IO */
-+
-+/* Write to the register */
-+#define VXD_WR_REG_ABS(base, addr, val) \
-+	(iowrite32((val), (addr) + (base)))
-+
-+/* Read the register */
-+#define VXD_RD_REG_ABS(base, addr) \
-+	(ioread32((addr) + (base)))
-+
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev, "%s: enabling HW\n", __func__);
 +#endif
 +
-+/* Get offset of a register */
-+#define VXD_GET_REG_OFF(group, reg) \
-+	(group ## _OFFSET + group ## _ ## reg ## _OFFSET)
++	fw_size = vxd->firmware.fw_size;
++	fw_hdr = vxd->firmware.hdr;
++	if (!fw_size || !fw_hdr) {
++		dev_err(vxd->dev, "%s: firmware missing!\n", __func__);
++		return -ENOENT;
++	}
 +
-+/* Get offset of a repated register */
-+#define VXD_GET_RPT_REG_OFF(group, reg, index) \
-+	(VXD_GET_REG_OFF(group, reg) + ((index) * group ## _ ## reg ## _STRIDE))
++	memset(&ena_params, 0, sizeof(struct vxd_ena_params));
 +
-+/* Extract field from a register */
-+#define VXD_RD_REG_FIELD(val, group, reg, field) \
-+	(((val) & group ## _ ## reg ## _ ## field ## _MASK) >> \
-+	 group ## _ ## reg ## _ ## field ## _SHIFT)
++	ena_params.fw_buf_size = fw_size - sizeof(struct vxd_fw_hdr);
++	ena_params.fw_buf_virt_addr = vxd_drv.virt_space.fw_addr;
++	ena_params.ptd = fw_ptd;
++	ena_params.boot_poll.msleep_cycles = 50;
++	ena_params.crc = 0;
++	ena_params.rendec_addr = vxd_drv.virt_space.rendec_addr;
++	ena_params.rendec_size = (VXD_NUM_PIX_PIPES(vxd->props) *
++		VXD_RENDEC_SIZE) / 4096u;
 +
-+/* Shift provided value by number of bits relevant to register specification */
-+#define VXD_ENC_REG_FIELD(group, reg, field, val) \
-+	((unsigned int)(val) << (group ## _ ## reg ## _ ## field ## _SHIFT))
++	ena_params.secure = 0;
++	ena_params.wait_dbg_fifo = 0;
++	ena_params.mem_staller.data = NULL;
++	ena_params.mem_staller.size = 0;
 +
-+/* Update the field in a register */
-+#define VXD_WR_REG_FIELD(reg_val, group, reg, field, val) \
-+	(((reg_val) & ~(group ## _ ## reg ## _ ## field ## _MASK)) | \
-+	 (VXD_ENC_REG_FIELD(group, reg, field, val) & \
-+	  (group ## _ ## reg ## _ ## field ## _MASK)))
++	ret = vxd_pvdec_ena(vxd->dev, vxd->reg_base, &ena_params,
++			    fw_hdr, &vxd->freq_khz);
++	/*
++	 * Ignore the return code, proceed as usual, it will be returned anyway.
++	 * The HW is turned on, so we can perform post mortem analysis,
++	 * and collect the fw logs when available.
++	 */
 +
-+/* Write to a register */
-+#define VXD_WR_REG(base, group, reg, val) \
-+	VXD_WR_REG_ABS(base, VXD_GET_REG_OFF(group, reg), val)
++	vxd->hw_on = 1;
 +
-+/* Write to a repeated register */
-+#define VXD_WR_RPT_REG(base, group, reg, val, index) \
-+	VXD_WR_REG_ABS(base, VXD_GET_RPT_REG_OFF(group, reg, index), val)
++	return ret;
++}
 +
-+/* Read a register */
-+#define VXD_RD_REG(base, group, reg) \
-+	VXD_RD_REG_ABS(base, VXD_GET_REG_OFF(group, reg))
++/*
++ * Power off the HW.
++ * Call with vxd->mutex acquired.
++ */
++static void vxd_make_hw_off_locked(struct vxd_dev *vxd, unsigned char suspending)
++{
++	int ret;
 +
-+/* Read a repeated register */
-+#define VXD_RD_RPT_REG(base, group, reg, index) \
-+	VXD_RD_REG_ABS(base, VXD_GET_RPT_REG_OFF(group, reg, index))
++	if (!vxd->hw_on)
++		return;
 +
-+/* Insert word into the message buffer */
-+#define VXD_WR_MSG_WRD(buf, msg_type, wrd, val) \
-+	(((unsigned int *)buf)[(msg_type ## _ ## wrd ## _OFFSET) / sizeof(unsigned int)] = \
-+		 val)
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev, "%s:%d\n", __func__, __LINE__);
++#endif
 +
-+/* Get a word from the message buffer */
-+#define VXD_RD_MSG_WRD(buf, msg_type, wrd) \
-+	(((unsigned int *)buf)[(msg_type ## _ ## wrd ## _OFFSET) / sizeof(unsigned int)])
++	ret = vxd_pvdec_dis(vxd->dev, vxd->reg_base);
++	vxd->hw_on = 0;
++	if (ret)
++		dev_err(vxd->dev, "%s: failed to power off the VXD!\n", __func__);
++}
 +
-+/* Get offset for pipe register */
-+#define VXD_GET_PIPE_OFF(num_pipes, pipe) \
-+	((num_pipes) > 1 ? ((pipe) << 16) : 0)
++/*
++ * Moves all valid items from the queue of items being currently processed to
++ * the pending queue.
++ * Call with vxd->mutex locked
++ */
++static void vxd_rewind_msgs_locked(struct vxd_dev *vxd)
++{
++	struct vxd_item *item, *tmp;
 +
-+#endif /* VXD_PVDEC_REGS_H */
++	if (list_empty(&vxd->msgs))
++		return;
++
++	list_for_each_entry_safe(item, tmp, &vxd->msgs, list)
++		list_move(&item->list, &vxd->pend);
++}
++
++static void vxd_report_item_locked(struct vxd_dev *vxd,
++				   struct vxd_item *item,
++				   unsigned int flags)
++{
++	struct vxd_stream *stream;
++
++	__list_del_entry(&item->list);
++	stream = idr_find(vxd->streams, item->stream_id);
++	if (!stream) {
++		/*
++		 * Failed to find associated stream. Probably it was
++		 * already destroyed -- drop the item
++		 */
++#ifdef DEBUG_DECODER_DRIVER
++		dev_dbg(vxd->dev, "%s: drop item %p [0x%x]\n", __func__, item, item->msg_id);
++#endif
++		kfree(item);
++	} else {
++		item->msg.out_flags |= flags;
++		list_add_tail(&item->list, &stream->ctx->items_done);
++#ifdef DEBUG_DECODER_DRIVER
++		dev_dbg(vxd->dev, "%s: waking %p\n", __func__, stream->ctx);
++
++		dev_info(vxd->dev, "%s: signaling worker for %p\n", __func__, stream->ctx);
++#endif
++		schedule_work(stream->ctx->work);
++	}
++}
++
++/*
++ * Rewind all items to the pending queue and report those to listener.
++ * Postpone the reset.
++ * Call with vxd->mutex acquired.
++ */
++static void vxd_emrg_reset_locked(struct vxd_dev *vxd, unsigned int flags)
++{
++	cancel_delayed_work(vxd->dwork);
++
++	vxd->emergency = 1;
++
++#ifdef ERROR_RECOVERY_SIMULATION
++	if (disable_fw_irq_value != 0) {
++		/*
++		 * Previously we have disabled IRQ, now enable it. This
++		 * condition will occur only when the firmware non responsiveness
++		 * will be detected on vxd_worker thread. Once we reproduce the
++		 * issue we will enable the IRQ so that the code flow continues.
++		 */
++		enable_irq(g_module_irq);
++	}
++#endif
++
++	/*
++	 * If the firmware sends more than one reply per item, it's possible
++	 * that corresponding item was already removed from vxd-msgs, but the
++	 * HW was still processing it and MMU page fault could happen and
++	 * trigger execution of this function. So make sure that vxd->msgs
++	 * is not empty before rewinding items.
++	 */
++	if (!list_empty(&vxd->msgs))
++		/* Move all valid items to the pending queue */
++		vxd_rewind_msgs_locked(vxd);
++
++	{
++		struct vxd_item *item, *tmp;
++
++		list_for_each_entry_safe(item, tmp, &vxd->pend, list) {
++			/*
++			 * Exclusive items that were on the pending list
++			 * must be reported as canceled
++			 */
++			if ((item->msg.out_flags & VXD_FW_MSG_FLAG_EXCL) && !item->msg_id)
++				item->msg.out_flags |= VXD_FW_MSG_FLAG_CANCELED;
++
++			vxd_report_item_locked(vxd, item, flags);
++		}
++	}
++}
++
++static void vxd_handle_io_error_locked(struct vxd_dev *vxd)
++{
++	struct vxd_item *item, *tmp;
++	unsigned int pend_flags = !vxd->hw_on ? VXD_FW_MSG_FLAG_DEV_ERR :
++		VXD_FW_MSG_FLAG_CANCELED;
++
++	list_for_each_entry_safe(item, tmp, &vxd->msgs, list)
++		vxd_report_item_locked(vxd, item, VXD_FW_MSG_FLAG_DEV_ERR);
++
++	list_for_each_entry_safe(item, tmp, &vxd->pend, list)
++		vxd_report_item_locked(vxd, item, pend_flags);
++}
++
++static void vxd_sched_worker_locked(struct vxd_dev *vxd, unsigned int delay_ms)
++{
++	unsigned long long work_at = jiffies + msecs_to_jiffies(delay_ms);
++	int ret;
++
++	/*
++	 * Try to queue the work.
++	 * This may be also called from the worker context,
++	 * so we need to re-arm anyway in case of error
++	 */
++	ret = schedule_delayed_work(vxd->dwork, work_at - jiffies);
++	if (ret) {
++		/* Work is already in the queue */
++		/*
++		 * Check if new requested time is "before"
++		 * the last "time" we scheduled this work at,
++		 * if not, do nothing, the worker will do
++		 * recalculation for APM/DWR afterwards
++		 */
++		if (time_before((unsigned long)work_at, (unsigned long)vxd->work_sched_at)) {
++			/*
++			 * Canceling & rescheduling might be problematic,
++			 * so just modify it, when needed
++			 */
++			ret = mod_delayed_work(system_wq, vxd->dwork, work_at - jiffies);
++			if (!ret)
++				dev_err(vxd->dev, "%s: failed to modify work!\n", __func__);
++			/*
++			 * Record the 'time' this work
++			 * has been rescheduled at
++			 */
++			vxd->work_sched_at = work_at;
++		}
++	} else {
++		/* Record the 'time' this work has been scheduled at */
++		vxd->work_sched_at = work_at;
++	}
++}
++
++static void vxd_monitor_locked(struct vxd_dev *vxd)
++{
++	/* HW is dead, not much sense in rescheduling */
++	if (vxd->hw_dead)
++		return;
++
++	/*
++	 * We are not processing anything, but pending list is not empty
++	 * probably the message fifo is full, so retrigger the worker.
++	 */
++	if (!list_empty(&vxd->pend) && list_empty(&vxd->msgs))
++		vxd_sched_worker_locked(vxd, 1);
++
++	if (list_empty(&vxd->pend) && list_empty(&vxd->msgs) && vxd_is_apm_required(vxd)) {
++#ifdef DEBUG_DECODER_DRIVER
++		dev_dbg(vxd->dev, "%s: scheduling APM work (%d ms)!\n", __func__, vxd->hw_pm_delay);
++#endif
++		/*
++		 * No items to process and no items being processed -
++		 * disable the HW
++		 */
++		vxd->pm_start = jiffies;
++		vxd_sched_worker_locked(vxd, vxd->hw_pm_delay);
++		return;
++	}
++
++	if (vxd->hw_dwr_period > 0 && !list_empty(&vxd->msgs)) {
++#ifdef DEBUG_DECODER_DRIVER
++		dev_dbg(vxd->dev, "%s: scheduling DWR work (%d ms)!\n",
++			__func__, vxd->hw_dwr_period);
++#endif
++		vxd->dwr_start = jiffies;
++		vxd_sched_worker_locked(vxd, vxd->hw_dwr_period);
++	}
++}
++
++/*
++ * Take first item from pending list and submit it to the hardware.
++ * Has to be called with vxd->mutex locked.
++ */
++static int vxd_sched_single_locked(struct vxd_dev *vxd)
++{
++	struct vxd_item *item = NULL;
++	unsigned long msg_size;
++	int ret;
++
++	item = list_first_entry(&vxd->pend, struct vxd_item, list);
++
++	msg_size = item->msg.payload_size / sizeof(unsigned int);
++
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev, "%s: checking msg_size: %zu, item: %p\n", __func__, msg_size, item);
++#endif
++
++	/*
++	 * In case of exclusive item check if hw/fw is
++	 * currently processing anything.
++	 * If so we need to wait until items are returned back.
++	 */
++	if ((item->msg.out_flags & VXD_FW_MSG_FLAG_EXCL) && !list_empty(&vxd->msgs) &&
++	    /*
++	     * We can move forward if message
++	     * is about to be dropped.
++	     */
++	     !(item->msg.out_flags & VXD_FW_MSG_FLAG_DROP))
++
++		ret = -EBUSY;
++	else
++		/*
++		 * Check if there's enough space
++		 * in comms RAM to submit the message.
++		 */
++		ret = vxd_pvdec_msg_fit(vxd->dev, vxd->reg_base, msg_size);
++
++	if (ret == 0) {
++		unsigned short msg_id;
++
++		VXD_GEN_MSG_ID(vxd, item->stream_id, msg_id, struct vxd_dev*, unsigned int);
++
++		/* submit the message to the hardware */
++		ret = vxd_pvdec_send_msg(vxd->dev, vxd->reg_base,
++					 (unsigned int *)item->msg.payload, msg_size,
++					 msg_id, vxd);
++		if (ret) {
++			dev_err(vxd->dev, "%s: failed to send msg!\n", __func__);
++			VXD_RET_MSG_ID(vxd);
++		} else {
++			if (item->msg.out_flags & VXD_FW_MSG_FLAG_DROP) {
++				__list_del_entry(&item->list);
++				kfree(item);
++#ifdef DEBUG_DECODER_DRIVER
++				dev_dbg(vxd->dev, "%s: drop msg 0x%x! (user requested)\n",
++					__func__, msg_id);
++#endif
++			} else {
++				item->msg_id = msg_id;
++#ifdef DEBUG_DECODER_DRIVER
++				dev_dbg(vxd->dev,
++					"%s: moving item %p, id 0x%x to msgs\n",
++					__func__, item, item->msg_id);
++#endif
++				list_move(&item->list, &vxd->msgs);
++			}
++
++			vxd_monitor_locked(vxd);
++		}
++
++	} else if (ret == -EINVAL) {
++		dev_warn(vxd->dev, "%s: invalid msg!\n", __func__);
++		vxd_report_item_locked(vxd, item, VXD_FW_MSG_FLAG_INV);
++		/*
++		 * HW is ok, the message was invalid, so don't return an
++		 * error
++		 */
++		ret = 0;
++	} else if (ret == -EBUSY) {
++		/*
++		 * Not enough space. Message is already in the pending queue,
++		 * so it will be submitted once we've got space. Delayed work
++		 * might have been canceled (if we are currently processing
++		 * threaded irq), so make sure that DWR will trigger if it's
++		 * enabled.
++		 */
++		vxd_monitor_locked(vxd);
++	} else {
++		dev_err(vxd->dev, "%s: failed to check space for msg!\n", __func__);
++	}
++
++	return ret;
++}
++
++/*
++ * Take items from pending list and submit them to the hardware, if space is
++ * available in the ring buffer.
++ * Call with vxd->mutex locked
++ */
++static void vxd_schedule_locked(struct vxd_dev *vxd)
++{
++	unsigned char emergency = vxd->emergency;
++	int ret;
++
++	/* if HW is dead, inform the UM and skip */
++	if (vxd->hw_dead) {
++		vxd_handle_io_error_locked(vxd);
++		return;
++	}
++
++	if (!vxd->hw_on && !list_empty(&vxd->msgs))
++		dev_err(vxd->dev, "%s: msgs not empty when the HW is off!\n", __func__);
++
++	if (list_empty(&vxd->pend)) {
++		vxd_monitor_locked(vxd);
++		return;
++	}
++
++	/*
++	 * If the emergency routine was fired, the hw was left ON,so the UM
++	 * could do the post mortem analysis before submitting the next items.
++	 * Now we can switch off the hardware.
++	 */
++	if (emergency) {
++		vxd->emergency = 0;
++		vxd_make_hw_off_locked(vxd, FALSE);
++		usleep_range(1000, 2000);
++	}
++
++	/* Try to schedule */
++	ret = 0;
++	while (!list_empty(&vxd->pend) && ret == 0) {
++		struct vxd_item *item;
++		struct vxd_stream *stream;
++
++		item = list_first_entry(&vxd->pend, struct vxd_item, list);
++		stream = idr_find(vxd->streams, item->stream_id);
++
++		ret = vxd_make_hw_on_locked(vxd, stream->ptd);
++		if (ret) {
++			dev_err(vxd->dev, "%s: failed to start HW!\n", __func__);
++			vxd->hw_dead = 1;
++			vxd_handle_io_error_locked(vxd);
++			return;
++		}
++
++		ret = vxd_sched_single_locked(vxd);
++	}
++
++	if (ret != 0 && ret != -EBUSY) {
++		dev_err(vxd->dev, "%s: failed to schedule, emrg: %d!\n", __func__, emergency);
++		if (emergency) {
++			/*
++			 * Failed to schedule in the emergency mode --
++			 * there's no hope. Power off the HW, mark all
++			 * items as failed and return them.
++			 */
++			vxd_handle_io_error_locked(vxd);
++			return;
++		}
++		/* Let worker try to handle it */
++		vxd_sched_worker_locked(vxd, 0);
++	}
++}
++
++static void stream_worker(void *work)
++{
++	struct vxd_dec_ctx *ctx = NULL;
++	struct vxd_dev *vxd = NULL;
++	struct vxd_item *item;
++
++	work = get_work_buff(work, FALSE);
++	ctx = container_of(work, struct vxd_dec_ctx, work);
++	vxd = ctx->dev;
++
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev, "%s: got work for ctx %p\n", __func__, ctx);
++#endif
++
++	mutex_lock_nested(ctx->mutex, SUBCLASS_VXD_CORE);
++
++	while (!list_empty(&ctx->items_done)) {
++		item = list_first_entry(&ctx->items_done, struct vxd_item, list);
++
++		item->msg.out_flags &= VXD_FW_MSG_RD_FLAGS_MASK;
++
++#ifdef DEBUG_DECODER_DRIVER
++		dev_info(vxd->dev, "%s: item: %p, payload_size: %d, flags: 0x%x\n",
++			 __func__, item, item->msg.payload_size,
++			 item->msg.out_flags);
++#endif
++
++		if (ctx->cb)
++			ctx->cb(ctx->res_str_id, item->msg.payload,
++				item->msg.payload_size, item->msg.out_flags);
++
++		__list_del_entry(&item->list);
++		kfree(item);
++	}
++	mutex_unlock(ctx->mutex);
++}
++
++int vxd_create_ctx(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx)
++{
++	int ret = 0;
++	unsigned int fw_load_retries = 2 * 1000;
++
++	while (!vxd->firmware.ready) {
++		usleep_range(1000, 2000);
++		fw_load_retries--;
++	}
++	if (vxd->firmware.buf_id == 0) {
++		dev_err(vxd->dev, "%s: request fw not yet done!\n", __func__);
++		return -EAGAIN;
++	}
++
++	/* Create memory management context for HW buffers */
++	ret = img_mem_create_ctx(&ctx->mem_ctx);
++	if (ret) {
++		dev_err(vxd->dev, "%s: failed to create mem context (err:%d)!\n", __func__, ret);
++		return ret;
++	}
++
++	ret = img_mmu_ctx_create(vxd->dev, vxd->mmu_config_addr_width,
++				 ctx->mem_ctx, vxd_drv.internal_heap_id,
++				 img_mmu_callback, vxd, &ctx->mmu_ctx);
++	if (ret) {
++		dev_err(vxd->dev, "%s:%d: failed to create mmu ctx\n", __func__, __LINE__);
++		ret = -EPERM;
++		goto out_destroy_ctx;
++	}
++
++	ret = img_mmu_map(ctx->mmu_ctx, vxd->mem_ctx, vxd->firmware.buf_id,
++			  vxd_drv.virt_space.fw_addr,
++			  VXD_MMU_PTD_FLAG_READ_ONLY);
++	if (ret) {
++		dev_err(vxd->dev, "%s:%d: failed to map firmware buffer\n", __func__, __LINE__);
++		ret = -EPERM;
++		goto out_destroy_mmu_ctx;
++	}
++
++	ret = img_mmu_map(ctx->mmu_ctx, vxd->mem_ctx, vxd->rendec_buf_id,
++			  vxd_drv.virt_space.rendec_addr,
++			  VXD_MMU_PTD_FLAG_NONE);
++	if (ret) {
++		dev_err(vxd->dev, "%s:%d: failed to map rendec buffer\n", __func__, __LINE__);
++		ret = -EPERM;
++		goto out_unmap_fw;
++	}
++
++	ret = img_mmu_get_ptd(ctx->mmu_ctx, &ctx->ptd);
++	if (ret) {
++		dev_err(vxd->dev, "%s:%d: failed to get PTD\n", __func__, __LINE__);
++		ret = -EPERM;
++		goto out_unmap_rendec;
++	}
++
++	/* load fw - turned Hw on */
++	ret = vxd_make_hw_on_locked(vxd, ctx->ptd);
++	if (ret) {
++		dev_err(vxd->dev, "%s:%d: failed to start HW\n", __func__, __LINE__);
++		ret = -EPERM;
++		vxd->hw_on = FALSE;
++		goto out_unmap_rendec;
++	}
++
++	init_work(&ctx->work, stream_worker, HWA_DECODER);
++	if (!ctx->work) {
++		ret = ENOMEM;
++		goto out_unmap_rendec;
++	}
++
++	vxd->fw_refcnt++;
++
++	return ret;
++
++out_unmap_rendec:
++	img_mmu_unmap(ctx->mmu_ctx, vxd->mem_ctx, vxd->rendec_buf_id);
++out_unmap_fw:
++	img_mmu_unmap(ctx->mmu_ctx, vxd->mem_ctx, vxd->firmware.buf_id);
++
++out_destroy_mmu_ctx:
++	img_mmu_ctx_destroy(ctx->mmu_ctx);
++out_destroy_ctx:
++	img_mem_destroy_ctx(ctx->mem_ctx);
++	return ret;
++}
++
++void vxd_destroy_ctx(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx)
++{
++	vxd->fw_refcnt--;
++
++	flush_work(ctx->work);
++
++	img_mmu_unmap(ctx->mmu_ctx, vxd->mem_ctx, vxd->rendec_buf_id);
++
++	img_mmu_unmap(ctx->mmu_ctx, vxd->mem_ctx, vxd->firmware.buf_id);
++
++	img_mmu_ctx_destroy(ctx->mmu_ctx);
++
++	img_mem_destroy_ctx(ctx->mem_ctx);
++
++	if (vxd->fw_refcnt == 0) {
++#ifdef DEBUG_DECODER_DRIVER
++		dev_info(vxd->dev, "FW: put %s\n", drv_fw_name);
++#endif
++		/* Poke the monitor to finally switch off the hw, when needed */
++		vxd_monitor_locked(vxd);
++	}
++}
++
++/* Top half */
++irqreturn_t vxd_handle_irq(void *dev)
++{
++	struct vxd_dev *vxd = ((const struct device *)dev)->driver_data;
++	struct vxd_hw_state *hw_state = &vxd->state.hw_state;
++	int ret;
++
++	if (!vxd)
++		return IRQ_NONE;
++
++	ret = vxd_pvdec_clear_int(vxd->reg_base, &hw_state->irq_status);
++
++	if (!hw_state->irq_status || ret == IRQ_NONE)
++		dev_warn(dev, "Got spurious interrupt!\n");
++
++	return (irqreturn_t)ret;
++}
++
++static void vxd_drop_msg_locked(const struct vxd_dev *vxd)
++{
++	int ret;
++
++	ret = vxd_pvdec_recv_msg(vxd->dev, vxd->reg_base, NULL, 0, (struct vxd_dev *)vxd);
++	if (ret)
++		dev_warn(vxd->dev, "%s: failed to receive msg!\n", __func__);
++}
++
++#ifdef DEBUG_DECODER_DRIVER
++static void vxd_dbg_dump_msg(const void *dev, const unsigned char *func,
++			     const unsigned int *payload,
++			     unsigned long msg_size)
++{
++	unsigned int i;
++
++	for (i = 0; i < msg_size; i++)
++		dev_dbg(dev, "%s: msg %d: 0x%08x\n", func, i, payload[i]);
++}
++#endif
++
++static struct vxd_item *vxd_get_orphaned_item_locked(struct vxd_dev *vxd,
++						     unsigned short msg_id,
++						     unsigned long msg_size)
++{
++	struct vxd_stream *stream;
++	struct vxd_item *item;
++	unsigned short str_id = VXD_MSG_ID_GET_STR_ID(msg_id);
++
++	/* Try to find associated stream */
++	stream = idr_find(vxd->streams, str_id);
++	if (!stream) {
++		/* Failed to find associated stream. */
++#ifdef DEBUG_DECODER_DRIVER
++		dev_dbg(vxd->dev, "%s: failed to find str_id: %u\n", __func__, str_id);
++#endif
++		return NULL;
++	}
++
++	item = kzalloc(sizeof(*item) + (msg_size * sizeof(unsigned int)), GFP_KERNEL);
++	if (!item)
++		return NULL;
++
++	item->msg.out_flags = 0;
++	item->stream_id = str_id;
++	item->msg.payload_size = msg_size * sizeof(unsigned int);
++	if (vxd_pvdec_recv_msg(vxd->dev, vxd->reg_base, item->msg.payload, msg_size, vxd)) {
++		dev_err(vxd->dev, "%s: failed to receive msg from VXD!\n", __func__);
++		item->msg.out_flags |= VXD_FW_MSG_FLAG_DEV_ERR;
++	}
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev, "%s: item: %p str_id: %u\n", __func__, item, str_id);
++#endif
++	/*
++	 * Need to put this item on the vxd->msgs list.
++	 * It will be removed after.
++	 */
++	list_add_tail(&item->list, &vxd->msgs);
++
++#ifdef DEBUG_DECODER_DRIVER
++	vxd_dbg_dump_msg(vxd->dev, __func__, item->msg.payload, msg_size);
++#endif
++
++	return item;
++}
++
++/*
++ * Fetch and process a single message from the MTX->host ring buffer.
++ * <no_more> parameter is used to indicate if there are more messages pending.
++ * <fatal> parameter indicates if there is some serious situation detected.
++ * Has to be called with vxd->mutex locked.
++ */
++static void vxd_handle_single_msg_locked(struct vxd_dev *vxd,
++					 unsigned char *no_more,
++					 unsigned char *fatal)
++{
++	int ret;
++	unsigned short msg_id, str_id;
++	unsigned long msg_size; /* size in dwords */
++	struct vxd_item *item = NULL, *tmp, *it;
++	struct vxd_stream *stream;
++	void *dev = vxd->dev;
++	unsigned char not_last_msg;
++
++	/* get the message size and id */
++	ret = vxd_pvdec_pend_msg_info(dev, vxd->reg_base, &msg_size, &msg_id,
++				      &not_last_msg);
++	if (ret) {
++		dev_err(dev, "%s: failed to get pending msg size!\n", __func__);
++		*no_more = TRUE; /* worker will HW failure */
++		return;
++	}
++
++	if (msg_size == 0) {
++		*no_more = TRUE;
++		return;
++	}
++	*no_more = FALSE;
++
++	str_id = VXD_MSG_ID_GET_STR_ID(msg_id);
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(dev, "%s: [msg] size: %zu, cnt: %u, str_id: %u, id: 0x%x\n",
++		__func__, msg_size, VXD_MSG_ID_GET_CNT(msg_id),
++		str_id, msg_id);
++	dev_dbg(dev, "%s: [msg] not last: %u\n", __func__, not_last_msg);
++#endif
++
++	cancel_delayed_work(vxd->dwork);
++
++	/* Find associated item */
++	list_for_each_entry_safe_reverse(it, tmp, &vxd->msgs, list) {
++#ifdef DEBUG_DECODER_DRIVER
++		dev_dbg(dev, "%s: checking item %p [0x%x] [des: %d]\n",
++			__func__, it, it->msg_id, it->destroy);
++#endif
++		if (it->msg_id == msg_id) {
++			item = it;
++			break;
++		}
++	}
++
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(dev, "%s: found item %p [destroy: %d]\n",
++		__func__, item, item ? item->destroy : VXD_INVALID_ID);
++#endif
++
++	/* Find associated stream */
++	stream = idr_find(vxd->streams, str_id);
++	/*
++	 * Check for firmware condition in case
++	 * when unexpected item is received.
++	 */
++	if (!item && !stream && vxd_pvdec_check_fw_status(dev, vxd->reg_base)) {
++		struct vxd_item *orphan;
++		/*
++		 * Lets forward the fatal info to listeners first, relaying
++		 * on the head of the msg queue.
++		 */
++		/* TODO: forward fatal info to all attached processes */
++		item = list_entry(vxd->msgs.prev, struct vxd_item, list);
++		orphan = vxd_get_orphaned_item_locked(vxd, item->msg_id, msg_size);
++		if (!orphan) {
++			dev_warn(dev, "%s: drop msg 0x%x! (no orphan)\n", __func__, item->msg_id);
++			vxd_drop_msg_locked(vxd);
++		}
++
++		*fatal = TRUE;
++		return;
++	}
++
++	if ((item && item->destroy) || !stream) {
++		/*
++		 * Item was marked for destruction or we failed to find
++		 * associated stream. Probably it was already destroyed --
++		 * just ignore the message.
++		 */
++		if (item) {
++			__list_del_entry(&item->list);
++			kfree(item);
++			item = NULL;
++		}
++		dev_warn(dev, "%s: drop msg 0x%x! (no owner)\n", __func__, msg_id);
++		vxd_drop_msg_locked(vxd);
++		return;
++	}
++
++	/* Remove item from vxd->msgs list */
++	if (item && item->msg_id == msg_id && !not_last_msg)
++		__list_del_entry(&item->list);
++
++	/*
++	 * If there's no such item on a <being processed> list, or the one
++	 * found is too small to fit the output, or it's not supposed to be
++	 * released, allocate a new one.
++	 */
++	if (!item || (msg_size * sizeof(unsigned int) > item->msg.payload_size) || not_last_msg) {
++		struct vxd_item *new_item;
++
++		new_item = kzalloc(sizeof(*new_item) +
++				(msg_size * sizeof(unsigned int)), GFP_KERNEL);
++		if (item) {
++			if (!new_item) {
++				/*
++				 * Failed to allocate new item. Mark item as
++				 * errored and continue best effort, provide
++				 * only part of the message to the userspace
++				 */
++				dev_err(dev, "%s: failed to alloc new item!\n", __func__);
++				msg_size = item->msg.payload_size / sizeof(unsigned int);
++				item->msg.out_flags |= VXD_FW_MSG_FLAG_DRV_ERR;
++			} else {
++				*new_item = *item;
++				/*
++				 * Do not free the old item if subsequent
++				 * messages are expected (it also wasn't
++				 * removed from the vxd->msgs list, so we are
++				 * not losing a pointer here).
++				 */
++				if (!not_last_msg)
++					kfree(item);
++				item = new_item;
++			}
++		} else {
++			if (!new_item) {
++				/*
++				 * We have no place to put the message, we have
++				 * to drop it
++				 */
++				dev_err(dev, "%s: drop msg 0x%08x! (no mem)\n", __func__, msg_id);
++				vxd_drop_msg_locked(vxd);
++				return;
++			}
++			/*
++			 * There was no corresponding item on the
++			 * <being processed> list and we've allocated
++			 * a new one. Initialize it
++			 */
++			new_item->msg.out_flags = 0;
++			new_item->stream_id = str_id;
++			item = new_item;
++		}
++	}
++	ret = vxd_pvdec_recv_msg(dev, vxd->reg_base, item->msg.payload, msg_size, vxd);
++	if (ret) {
++		dev_err(dev, "%s: failed to receive msg from VXD!\n", __func__);
++		item->msg.out_flags |= VXD_FW_MSG_FLAG_DEV_ERR;
++	}
++	item->msg.payload_size = msg_size * sizeof(unsigned int);
++
++#ifdef DEBUG_DECODER_DRIVER
++	vxd_dbg_dump_msg(dev, __func__, item->msg.payload, msg_size);
++
++	dev_dbg(dev, "%s: adding to done list, item: %p, msg_size: %zu\n",
++		__func__, item, msg_size);
++#endif
++	list_add_tail(&item->list, &stream->ctx->items_done);
++
++#ifdef DEBUG_DECODER_DRIVER
++	dev_info(dev, "%s: signaling worker for %p\n", __func__, stream->ctx);
++#endif
++	schedule_work(stream->ctx->work);
++}
++
++/* Bottom half */
++irqreturn_t vxd_handle_thread_irq(void *dev)
++{
++	unsigned char no_more = FALSE;
++	unsigned char fatal = FALSE;
++	struct vxd_dev *vxd = ((const struct device *)dev)->driver_data;
++	struct vxd_hw_state *hw_state = &vxd->state.hw_state;
++	irqreturn_t ret = IRQ_HANDLED;
++
++	if (!vxd)
++		return IRQ_NONE;
++
++	mutex_lock(vxd->mutex);
++
++	/* Spurious interrupt? */
++	if (unlikely(!vxd->hw_on || vxd->hw_dead)) {
++		ret = IRQ_NONE;
++		goto out_unlock;
++	}
++
++	/* Check for critical exception - only MMU faults for now */
++	if (vxd_pvdec_check_irq(dev, vxd->reg_base, hw_state->irq_status) < 0) {
++#ifdef DEBUG_DECODER_DRIVER
++		dev_info(vxd->dev, "device MMU fault: resetting!!!\n");
++#endif
++		vxd_emrg_reset_locked(vxd, VXD_FW_MSG_FLAG_MMU_FAULT);
++		goto out_unlock;
++	}
++
++	/*
++	 * Single interrupt can correspond to multiple messages, handle them
++	 * all.
++	 */
++	while (!no_more)
++		vxd_handle_single_msg_locked(vxd, &no_more, &fatal);
++
++	if (fatal) {
++#ifdef DEBUG_DECODER_DRIVER
++		dev_info(vxd->dev, "fw fatal condition: resetting!!!\n");
++#endif
++		/* Try to recover ... */
++		vxd_emrg_reset_locked(vxd, VXD_FW_MSG_FLAG_FATAL);
++	} else {
++		/* Try to submit items to the HW */
++		vxd_schedule_locked(vxd);
++	}
++
++out_unlock:
++	hw_state->irq_status = 0;
++	mutex_unlock(vxd->mutex);
++
++	return ret;
++}
++
++static void vxd_worker(void *work)
++{
++	struct vxd_dev *vxd = NULL;
++	struct vxd_hw_state state = { 0 };
++	struct vxd_item *item_tail;
++
++	work = get_delayed_work_buff(work, FALSE);
++	vxd = container_of(work, struct vxd_dev, dwork);
++	mutex_lock(vxd->mutex);
++
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev, "%s: jif: %lu, pm: %llu dwr: %llu\n", __func__,
++		jiffies, vxd->pm_start, vxd->dwr_start);
++#endif
++
++	/*
++	 * Disable the hardware if it has been idle for vxd->hw_pm_delay
++	 * milliseconds. Or simply leave the function without doing anything
++	 * if the HW is not supposed to be turned off.
++	 */
++	if (list_empty(&vxd->pend) && list_empty(&vxd->msgs)) {
++		if (vxd_is_apm_required(vxd)) {
++			unsigned long long dst = vxd->pm_start +
++				msecs_to_jiffies(vxd->hw_pm_delay);
++
++			if (time_is_before_eq_jiffies((unsigned long)dst)) {
++#ifdef DEBUG_DECODER_DRIVER
++				dev_dbg(vxd->dev, "%s: pm, power off\n", __func__);
++#endif
++				vxd_make_hw_off_locked(vxd, FALSE);
++			} else {
++				unsigned long long targ = dst - jiffies;
++
++#ifdef DEBUG_DECODER_DRIVER
++				dev_dbg(vxd->dev, "%s: pm, reschedule: %llu\n", __func__, targ);
++#endif
++				vxd_sched_worker_locked(vxd, jiffies_to_msecs(targ));
++			}
++		}
++		goto out_unlock;
++	}
++
++	/*
++	 * We are not processing anything, but pending list is not empty (if it
++	 * was, we would enter <if statement> above. This can happen upon
++	 * specific conditions, when input message occupies almost whole
++	 * host->MTX ring buffer and is followed by large padding message.
++	 */
++	if (list_empty(&vxd->msgs)) {
++		vxd_schedule_locked(vxd);
++		goto out_unlock;
++	}
++
++	/* Skip emergency reset if it's disabled. */
++	if (vxd->hw_dwr_period <= 0) {
++#ifdef DEBUG_DECODER_DRIVER
++		dev_dbg(vxd->dev, "%s: skip watchdog\n", __func__);
++#endif
++		goto out_unlock;
++	} else {
++		/* Recalculate DWR when needed */
++		unsigned long long dst = vxd->dwr_start +
++			msecs_to_jiffies(vxd->hw_dwr_period);
++
++		if (time_is_after_jiffies((unsigned long)dst)) {
++			unsigned long long targ = dst - jiffies;
++
++#ifdef DEBUG_DECODER_DRIVER
++			dev_dbg(vxd->dev, "%s: dwr, reschedule: %llu\n", __func__, targ);
++#endif
++			vxd_sched_worker_locked(vxd, jiffies_to_msecs(targ));
++			goto out_unlock;
++		}
++	}
++
++	/* Get ID of the oldest item being processed by the HW */
++	item_tail = list_entry(vxd->msgs.prev, struct vxd_item, list);
++
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev, "%s: tail_item: %p, id: 0x%x\n", __func__, item_tail,
++		item_tail->msg_id);
++#endif
++
++	/* Get HW and firmware state */
++	vxd_pvdec_get_state(vxd->dev, vxd->reg_base, VXD_NUM_PIX_PIPES(vxd->props), &state);
++
++	if (vxd->state.msg_id_tail == item_tail->msg_id &&
++	    !memcmp(&state, &vxd->state.hw_state,
++	    sizeof(struct vxd_hw_state))) {
++		vxd->state.msg_id_tail = 0;
++		memset(&vxd->state.hw_state, 0, sizeof(vxd->state.hw_state));
++		dev_err(vxd->dev, "device DWR(%ums) expired: resetting!!!\n",
++			vxd->hw_dwr_period);
++		vxd_emrg_reset_locked(vxd, VXD_FW_MSG_FLAG_DWR);
++	} else {
++		/* Record current state */
++		vxd->state.msg_id_tail = item_tail->msg_id;
++		vxd->state.hw_state = state;
++
++		/* Submit items to the HW, if space is available.  */
++		vxd_schedule_locked(vxd);
++
++#ifdef DEBUG_DECODER_DRIVER
++		dev_dbg(vxd->dev, "%s: scheduling DWR work (%d ms)!\n",
++			__func__, vxd->hw_dwr_period);
++#endif
++		vxd_sched_worker_locked(vxd, vxd->hw_dwr_period);
++	}
++
++out_unlock:
++	mutex_unlock(vxd->mutex);
++}
++
++/*
++ * Lazy initialization of main driver context (when first core is probed -- we
++ * need heap configuration from sysdev to allocate firmware buffers.
++ */
++int vxd_init(void *dev, struct vxd_dev *vxd,
++	     const struct heap_config heap_configs[], int heaps)
++{
++	int ret, i;
++
++	INIT_LIST_HEAD(&vxd_drv.heaps);
++	vxd_drv.internal_heap_id = VXD_INVALID_ID;
++
++	vxd_drv.mem_ctx = NULL;
++
++	INIT_LIST_HEAD(&vxd_drv.devices);
++
++	vxd_drv.virt_space.fw_addr = 0x42000;
++	vxd_drv.virt_space.rendec_addr = 0xe0000000;
++
++	vxd_drv.initialised = 0;
++
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(dev, "%s: vxd drv init, params:\n", __func__);
++#endif
++
++	/* Initialise memory management component */
++	for (i = 0; i < heaps; i++) {
++		struct vxd_heap *heap;
++
++#ifdef DEBUG_DECODER_DRIVER
++		dev_dbg(dev, "%s: adding heap of type %d\n",
++			__func__, heap_configs[i].type);
++#endif
++
++		heap = kzalloc(sizeof(*heap), GFP_KERNEL);
++		if (!heap) {
++			ret = -ENOMEM;
++			goto heap_add_failed;
++		}
++
++		ret = img_mem_add_heap(&heap_configs[i], &heap->id);
++		if (ret < 0) {
++			dev_err(dev, "%s: failed to init heap (type %d)!\n",
++				__func__, heap_configs[i].type);
++			kfree(heap);
++			goto heap_add_failed;
++		}
++		list_add(&heap->list, &vxd_drv.heaps);
++
++		/* Implicitly, first heap is used for internal allocations */
++		if (vxd_drv.internal_heap_id < 0) {
++			vxd_drv.internal_heap_id = heap->id;
++#ifdef DEBUG_DECODER_DRIVER
++			dev_dbg(dev, "%s: using heap %d for internal alloc\n",
++				__func__, vxd_drv.internal_heap_id);
++#endif
++		}
++	}
++
++	/* Do not proceed if internal heap not defined */
++	if (vxd_drv.internal_heap_id < 0) {
++		dev_err(dev, "%s: failed to locate heap for internal alloc\n", __func__);
++		ret = -EINVAL;
++		/* Loop registered heaps just for sanity */
++		goto heap_add_failed;
++	}
++
++	/* Create memory management context for HW buffers */
++	ret = img_mem_create_ctx(&vxd_drv.mem_ctx);
++	if (ret) {
++		dev_err(dev, "%s: failed to create mem context (err:%d)!\n", __func__, ret);
++		goto create_mem_context_failed;
++	}
++
++	vxd->mem_ctx = vxd_drv.mem_ctx;
++
++	/* Allocate rendec buffer */
++	ret = img_mem_alloc(dev, vxd_drv.mem_ctx, vxd_drv.internal_heap_id,
++			    VXD_RENDEC_SIZE * VXD_NUM_PIX_PIPES(vxd->props),
++			    (enum mem_attr)0, &vxd->rendec_buf_id);
++	if (ret) {
++		dev_err(dev, "%s: alloc rendec buffer failed (err:%d)!\n", __func__, ret);
++		goto create_mem_context_failed;
++	}
++
++	init_delayed_work(&vxd->dwork, vxd_worker, HWA_DECODER);
++	if (!vxd->dwork) {
++		ret = ENOMEM;
++		goto create_mem_context_failed;
++	}
++
++	vxd_drv.initialised = 1;
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(dev, "%s: vxd drv init done\n", __func__);
++#endif
++	return 0;
++
++create_mem_context_failed:
++heap_add_failed:
++	while (!list_empty(&vxd_drv.heaps)) {
++		struct vxd_heap *heap;
++
++		heap = list_first_entry(&vxd_drv.heaps, struct vxd_heap, list);
++		__list_del_entry(&heap->list);
++		img_mem_del_heap(heap->id);
++		kfree(heap);
++	}
++	vxd_drv.internal_heap_id = VXD_INVALID_ID;
++	return ret;
++}
++
++/*
++ * Get internal_heap_id
++ * TODO: Only error checking is if < 0, so if the stored value is < 0, then
++ * just passing the value to caller still conveys error.
++ * Caller must error check.
++ */
++int vxd_g_internal_heap_id(void)
++{
++	return vxd_drv.internal_heap_id;
++}
++
++void vxd_deinit(struct vxd_dev *vxd)
++{
++	cancel_delayed_work_sync(vxd->dwork);
++	vxd_make_hw_off_locked(vxd, FALSE);
++
++	/* Destroy memory management context */
++	if (vxd_drv.mem_ctx) {
++		/* Deallocate rendec buffer */
++		img_mem_free(vxd_drv.mem_ctx, vxd->rendec_buf_id);
++
++		img_mem_destroy_ctx(vxd_drv.mem_ctx);
++		vxd_drv.mem_ctx = NULL;
++	}
++
++	/* Deinitialize memory management component */
++	while (!list_empty(&vxd_drv.heaps)) {
++		struct vxd_heap *heap;
++
++		heap = list_first_entry(&vxd_drv.heaps, struct vxd_heap, list);
++		__list_del_entry(&heap->list);
++		img_mem_del_heap(heap->id);
++		kfree(heap);
++	}
++
++	vxd_drv.internal_heap_id = VXD_INVALID_ID;
++	vxd_drv.mem_ctx = NULL;
++	vxd_drv.virt_space.fw_addr = 0x0;
++	vxd_drv.virt_space.rendec_addr = 0x0;
++	vxd_drv.initialised = 0;
++
++#ifdef ERROR_RECOVERY_SIMULATION
++	/* free the kernel object created to debug */
++	kobject_put(vxd_dec_kobject);
++#endif
++}
++
++static void vxd_fw_loaded(const struct firmware *fw, void *context)
++{
++	struct vxd_dev *vxd = context;
++	unsigned long bin_size;
++	int buf_id;
++	struct vxd_fw_hdr *hdr;
++	void *buf_kptr;
++	int ret;
++	unsigned long size = 0;
++	const unsigned char *data = NULL;
++
++	if (!fw) {
++		dev_err(vxd->dev, "Firmware binary is not present\n");
++		vxd->no_fw = 1;
++		return;
++	}
++
++	size = fw->size;
++	data = fw->data;
++
++#ifdef DEBUG_DECODER_DRIVER
++	dev_info(vxd->dev, "FW: acquired %s size %zu\n", drv_fw_name, size);
++#endif
++
++	/* Sanity verification of the firmware */
++	if (size < sizeof(struct vxd_fw_hdr)) {
++		dev_err(vxd->dev, "%s: firmware file too small!\n", __func__);
++		goto out;
++	}
++
++	bin_size = size - sizeof(struct vxd_fw_hdr);
++	ret = img_mem_alloc(vxd->dev, vxd_drv.mem_ctx, vxd_drv.internal_heap_id,
++			    bin_size, (enum mem_attr)0, &buf_id);
++	if (ret) {
++		dev_err(vxd->dev, "%s: failed to alloc fw buffer (err:%d)!\n", __func__, ret);
++		goto out;
++	}
++
++	hdr = kzalloc(sizeof(*hdr), GFP_KERNEL);
++	if (!hdr)
++		goto out_release_buf;
++
++	/* Store firmware header in vxd context */
++	memcpy(hdr, data, sizeof(struct vxd_fw_hdr));
++
++#ifdef DEBUG_DECODER_DRIVER
++	dev_info(vxd->dev, "FW: info cs: %u, bs: %u, id: 0x%08x, ts: %u\n",
++		 hdr->core_size, hdr->blob_size,
++		 hdr->firmware_id, hdr->timestamp);
++#endif
++
++	/* Check if header is consistent */
++	if (hdr->core_size > bin_size || hdr->blob_size > bin_size) {
++		dev_err(vxd->dev, "%s: got invalid firmware!\n", __func__);
++		goto out_release_hdr;
++	}
++
++	/* Map the firmware buffer to CPU */
++	ret = img_mem_map_km(vxd_drv.mem_ctx, buf_id);
++	if (ret) {
++		dev_err(vxd->dev, "%s: failed to map FW buf to cpu! (%d)\n", __func__, ret);
++		goto out_release_hdr;
++	}
++
++	/* Copy firmware to device buffer */
++	buf_kptr = img_mem_get_kptr(vxd_drv.mem_ctx, buf_id);
++	memcpy(buf_kptr, data + sizeof(struct vxd_fw_hdr), size - sizeof(struct vxd_fw_hdr));
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev, "%s: FW: copied to buffer %d kptr 0x%p\n", __func__, buf_id, buf_kptr);
++#endif
++
++	img_mem_sync_cpu_to_device(vxd_drv.mem_ctx, buf_id);
++
++	vxd->firmware.fw_size = size;
++	vxd->firmware.buf_id = buf_id;
++	vxd->firmware.hdr = hdr;
++	vxd->firmware.ready = TRUE;
++
++	release_firmware(fw);
++	complete_all(vxd->firmware_loading_complete);
++	pr_debug("Firmware loaded successfully ..!!\n");
++	return;
++
++out_release_hdr:
++	kfree(hdr);
++out_release_buf:
++	img_mem_free(vxd_drv.mem_ctx, buf_id);
++out:
++	release_firmware(fw);
++	complete_all(vxd->firmware_loading_complete);
++	kfree(vxd->firmware_loading_complete);
++	vxd->firmware_loading_complete = NULL;
++}
++
++/*
++ * Takes the firmware from the file system and allocates a buffer
++ */
++int vxd_prepare_fw(struct vxd_dev *vxd)
++{
++	int ret;
++
++	/* Fetch firmware from the file system */
++	struct completion **firmware_loading_complete =
++		(struct completion **)&vxd->firmware_loading_complete;
++
++	*firmware_loading_complete = kmalloc(sizeof(*firmware_loading_complete), GFP_KERNEL);
++	if (!(*firmware_loading_complete)) {
++		pr_err("Memory allocation failed for init_completion\n");
++		return -ENOMEM;
++	}
++	init_completion(*firmware_loading_complete);
++
++	if (!vxd->firmware_loading_complete)
++		return -ENOMEM;
++
++	vxd->firmware.ready = FALSE;
++	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
++				      drv_fw_name, vxd->dev, GFP_KERNEL, vxd,
++				      vxd_fw_loaded);
++	if (ret < 0) {
++		dev_err(vxd->dev, "request_firmware_nowait err: %d\n", ret);
++		complete_all(vxd->firmware_loading_complete);
++		kfree(vxd->firmware_loading_complete);
++		vxd->firmware_loading_complete = NULL;
++	}
++
++	return ret;
++}
++
++/*
++ * Cleans firmware resources
++ */
++void vxd_clean_fw_resources(struct vxd_dev *vxd)
++{
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev, "%s:%d\n", __func__, __LINE__);
++#endif
++
++	wait_for_completion(vxd->firmware_loading_complete);
++	kfree(vxd->firmware_loading_complete);
++	vxd->firmware_loading_complete = NULL;
++
++	if (vxd->firmware.fw_size) {
++		img_mem_free(vxd_drv.mem_ctx, vxd->firmware.buf_id);
++		kfree(vxd->firmware.hdr);
++		vxd->firmware.hdr = NULL;
++#ifdef DEBUG_DECODER_DRIVER
++		dev_info(vxd->dev, "FW: released %s\n", drv_fw_name);
++#endif
++		vxd->firmware.buf_id = VXD_INVALID_ID;
++	}
++}
++
++/*
++ * Submit a message to the VXD.
++ * <ctx> is used to verify that requested stream id (item->stream_id) is valid
++ * for this ctx
++ */
++int vxd_send_msg(struct vxd_dec_ctx *ctx, struct vxd_fw_msg *msg)
++{
++	struct vxd_dev *vxd = ctx->dev;
++	unsigned long msg_size;
++	struct vxd_item *item;
++	struct vxd_stream *stream;
++	int ret;
++
++	if (msg->payload_size < VXD_MIN_INPUT_SIZE)
++		return -EINVAL;
++
++	if (msg->payload_size % sizeof(unsigned int)) {
++		dev_err(vxd->dev, "msg size not aligned! (%u)\n",
++			msg->payload_size);
++		return -EINVAL;
++	}
++
++	msg_size = VXD_MSG_SIZE(*msg);
++
++	if (msg_size > VXD_MAX_INPUT_SIZE)
++		return -EINVAL;
++
++	/* Verify that the gap was left for stream PTD */
++	if (msg->payload[VXD_PTD_MSG_OFFSET] != 0) {
++		dev_err(vxd->dev, "%s: PTD gap missing!\n", __func__);
++		return -EINVAL;
++	}
++
++	ret = mutex_lock_interruptible_nested(ctx->mutex, SUBCLASS_VXD_CORE);
++	if (ret)
++		return ret;
++
++	stream = idr_find(vxd->streams, ctx->stream.id);
++	if (!stream) {
++		dev_warn(vxd->dev, "%s: invalid stream id requested! (%u)\n",
++			 __func__, ctx->stream.id);
++
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	item = kmalloc(sizeof(*item) + msg->payload_size, GFP_KERNEL);
++	if (!item) {
++		ret = -ENOMEM;
++		goto out_unlock;
++	}
++
++	memcpy(&item->msg, msg, msg_size);
++
++	msg->out_flags &= VXD_FW_MSG_WR_FLAGS_MASK;
++	item->stream_id = ctx->stream.id;
++	item->msg_id = 0;
++	item->msg.out_flags = msg->out_flags;
++	item->destroy = 0;
++
++	/*
++	 * Inject the stream PTD into the message. It was already verified that
++	 * there is enough space.
++	 */
++	item->msg.payload[VXD_PTD_MSG_OFFSET] = stream->ptd;
++
++	list_add_tail(&item->list, &vxd->pend);
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev,
++		"%s: added item %p to pend, ptd: 0x%x, str: %u flags: 0x%x\n",
++		__func__, item, stream->ptd, stream->id, item->msg.out_flags);
++#endif
++
++	vxd_schedule_locked(vxd);
++
++out_unlock:
++	mutex_unlock(ctx->mutex);
++
++	return ret;
++}
++
++int vxd_suspend_dev(void *dev)
++{
++	struct vxd_dev *vxd = platform_get_drvdata(to_platform_device(dev));
++
++	mutex_lock(vxd->mutex);
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(dev, "%s: taking a nap!\n", __func__);
++#endif
++
++	/* Cancel the worker first */
++	cancel_delayed_work(vxd->dwork);
++
++	/* Forcing hardware disable */
++	vxd_make_hw_off_locked(vxd, TRUE);
++
++	/* Move all valid items to the pending queue */
++	vxd_rewind_msgs_locked(vxd);
++
++	mutex_unlock(vxd->mutex);
++
++	return 0;
++}
++
++int vxd_resume_dev(void *dev)
++{
++	struct vxd_dev *vxd = platform_get_drvdata(to_platform_device(dev));
++	int ret = 0;
++
++	mutex_lock(vxd->mutex);
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(dev, "%s: waking up!\n", __func__);
++#endif
++
++	mutex_unlock(vxd->mutex);
++
++	return ret;
++}
++
++int vxd_map_buffer_sg(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx,
++		      unsigned int str_id,
++		      unsigned int buff_id,
++		      void *sgt, unsigned int virt_addr,
++		      unsigned int map_flags)
++{
++	struct vxd_stream *stream;
++	unsigned int flags = VXD_MMU_PTD_FLAG_NONE;
++	int ret;
++
++	ret = mutex_lock_interruptible_nested(ctx->mutex, SUBCLASS_VXD_CORE);
++	if (ret)
++		return ret;
++
++	stream = idr_find(vxd->streams, str_id);
++	if (!stream) {
++		dev_err(vxd->dev, "%s: stream %d not found!\n", __func__, str_id);
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	if ((map_flags & (VXD_MAP_FLAG_READ_ONLY | VXD_MAP_FLAG_WRITE_ONLY))
++		== (VXD_MAP_FLAG_READ_ONLY | VXD_MAP_FLAG_WRITE_ONLY)) {
++		dev_err(vxd->dev, "%s: Bogus mapping flags 0x%x!\n", __func__,
++			map_flags);
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	/* Convert permission flags to internal definitions */
++	if (map_flags & VXD_MAP_FLAG_READ_ONLY)
++		flags |= VXD_MMU_PTD_FLAG_READ_ONLY;
++
++	if (map_flags & VXD_MAP_FLAG_WRITE_ONLY)
++		flags |= VXD_MMU_PTD_FLAG_WRITE_ONLY;
++
++	ret = img_mmu_map_sg(stream->mmu_ctx, ctx->mem_ctx, buff_id, sgt, virt_addr, flags);
++	if (ret) {
++		dev_err(vxd->dev, "%s: map failed!\n", __func__);
++		goto out_unlock;
++	}
++
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev,
++		"%s: mapped buf %u to 0x%08x, str_id: %u flags: 0x%x\n",
++		__func__, buff_id, virt_addr, str_id, flags);
++#endif
++
++out_unlock:
++	mutex_unlock(ctx->mutex);
++	return ret;
++}
++
++int vxd_map_buffer(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx, unsigned int str_id,
++		   unsigned int buff_id,
++		   unsigned int virt_addr,
++		   unsigned int map_flags)
++{
++	struct vxd_stream *stream;
++	unsigned int flags = VXD_MMU_PTD_FLAG_NONE;
++	int ret;
++
++	ret = mutex_lock_interruptible_nested(ctx->mutex, SUBCLASS_VXD_CORE);
++	if (ret)
++		return ret;
++
++	stream = idr_find(vxd->streams, str_id);
++	if (!stream) {
++		dev_err(vxd->dev, "%s: stream %d not found!\n", __func__, str_id);
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	if ((map_flags & (VXD_MAP_FLAG_READ_ONLY | VXD_MAP_FLAG_WRITE_ONLY))
++		== (VXD_MAP_FLAG_READ_ONLY | VXD_MAP_FLAG_WRITE_ONLY)) {
++		dev_err(vxd->dev, "%s: Bogus mapping flags 0x%x!\n", __func__, map_flags);
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	/* Convert permission flags to internal definitions */
++	if (map_flags & VXD_MAP_FLAG_READ_ONLY)
++		flags |= VXD_MMU_PTD_FLAG_READ_ONLY;
++
++	if (map_flags & VXD_MAP_FLAG_WRITE_ONLY)
++		flags |= VXD_MMU_PTD_FLAG_WRITE_ONLY;
++
++	ret = img_mmu_map(stream->mmu_ctx, ctx->mem_ctx, buff_id, virt_addr, flags);
++	if (ret) {
++		dev_err(vxd->dev, "%s: map failed!\n", __func__);
++		goto out_unlock;
++	}
++
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev,
++		"%s: mapped buf %u to 0x%08x, str_id: %u flags: 0x%x\n",
++		__func__, buff_id, virt_addr, str_id, flags);
++#endif
++
++out_unlock:
++	mutex_unlock(ctx->mutex);
++	return ret;
++}
++
++int vxd_unmap_buffer(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx,
++		     unsigned int str_id, unsigned int buff_id)
++{
++	struct vxd_stream *stream;
++	int ret;
++
++	ret = mutex_lock_interruptible_nested(ctx->mutex, SUBCLASS_VXD_CORE);
++	if (ret)
++		return ret;
++
++	stream = idr_find(vxd->streams, str_id);
++	if (!stream) {
++		dev_err(vxd->dev, "%s: stream %d not found!\n", __func__, str_id);
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	ret = img_mmu_unmap(stream->mmu_ctx, ctx->mem_ctx, buff_id);
++	if (ret) {
++		dev_err(vxd->dev, "%s: map failed!\n", __func__);
++		goto out_unlock;
++	}
++
++#ifdef DEBUG_DECODER_DRIVER
++	dev_dbg(vxd->dev, "%s: unmapped buf %u str_id: %u\n", __func__, buff_id, str_id);
++#endif
++
++out_unlock: mutex_unlock(ctx->mutex);
++	return ret;
++}
+diff --git a/drivers/staging/media/vxd/decoder/vxd_dec.c b/drivers/staging/media/vxd/decoder/vxd_dec.c
+new file mode 100644
+index 000000000000..cf3cf9b7b6f0
+--- /dev/null
++++ b/drivers/staging/media/vxd/decoder/vxd_dec.c
+@@ -0,0 +1,185 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * IMG DEC SYSDEV and UI Interface function implementations
++ *
++ * Copyright (c) Imagination Technologies Ltd.
++ * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
++ *
++ * Authors:
++ *	Amit Makani <amit.makani@ti.com>
++ *
++ * Re-written for upstreamimg
++ *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
++ *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com>
++ */
++
++#include <linux/dma-mapping.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-mem2mem.h>
++
++#include "core.h"
++#include "h264fw_data.h"
++#include "hevcfw_data.h"
++#include "img_dec_common.h"
++#include "vxd_pvdec_priv.h"
++
++unsigned int get_nbuffers(enum vdec_vid_std std, int w, int h,
++			  unsigned int max_num_ref_frames)
++{
++	unsigned int nbuffers;
++
++	switch (std) {
++	case VDEC_STD_H264:
++		/*
++		 * Request number of buffers from header bspp information
++		 * using formula N + Display Lag
++		 * Parser is passing (2*N)
++		 */
++		if (max_num_ref_frames == 0) {
++			nbuffers = DISPLAY_LAG + min(MAX_CAPBUFS_H264,
++					(184320 / ((w / 16) * (h / 16))));
++		} else {
++			nbuffers = max_num_ref_frames + DISPLAY_LAG;
++		}
++		break;
++	case VDEC_STD_HEVC:
++		if (max_num_ref_frames == 0) {
++			if ((w * h) <= (HEVC_MAX_LUMA_PS >> 2))
++				nbuffers = 16;
++			else if ((w * h) <= (HEVC_MAX_LUMA_PS >> 1))
++				nbuffers = 12;
++			else if ((w * h) <= ((3 * HEVC_MAX_LUMA_PS) >> 2))
++				nbuffers = 8;
++			else
++				nbuffers = 6;
++			nbuffers += DISPLAY_LAG;
++		} else {
++			nbuffers = max_num_ref_frames + DISPLAY_LAG;
++		}
++		break;
++#ifdef HAS_JPEG
++	case VDEC_STD_JPEG:
++		/*
++		 * Request number of output buffers based on h264 spec
++		 * + display delay
++		 */
++		nbuffers = DISPLAY_LAG + min(MAX_CAPBUFS_H264,
++				(184320 / ((w / 16) * (h / 16))));
++		break;
++#endif
++	default:
++		nbuffers = 0;
++	}
++
++	return nbuffers;
++}
++
++int vxd_dec_alloc_bspp_resource(struct vxd_dec_ctx *ctx, enum vdec_vid_std vid_std)
++{
++	struct vxd_dev *vxd_dev = ctx->dev;
++	struct device *dev = vxd_dev->v4l2_dev.dev;
++	struct vdec_buf_info buf_info;
++	struct bspp_ddbuf_array_info *fw_sequ = ctx->fw_sequ;
++	struct bspp_ddbuf_array_info *fw_pps = ctx->fw_pps;
++	int attributes = 0, heap_id = 0, size = 0;
++	int i, ret = 0;
++
++	attributes = SYS_MEMATTRIB_UNCACHED | SYS_MEMATTRIB_WRITECOMBINE |
++		SYS_MEMATTRIB_INTERNAL | SYS_MEMATTRIB_CPU_WRITE;
++	heap_id = vxd_g_internal_heap_id();
++
++	size = vid_std == VDEC_STD_HEVC ?
++		sizeof(struct hevcfw_sequence_ps) : sizeof(struct h264fw_sequence_ps);
++
++#ifdef HAS_JPEG
++	if (vid_std == VDEC_STD_JPEG)
++		size = sizeof(struct vdec_jpeg_sequ_hdr_info);
++#endif
++
++	for (i = 0; i < MAX_SEQUENCES; i++) {
++		ret = img_mem_alloc(vxd_dev->dev, ctx->mem_ctx, heap_id,
++				    size, (enum mem_attr)attributes,
++				    (int *)&fw_sequ[i].ddbuf_info.buf_id);
++		if (ret) {
++			dev_err(dev, "Couldn't allocate sequ buffer %d\n", i);
++			return -ENOMEM;
++		}
++		ret = img_mem_map_km(ctx->mem_ctx, fw_sequ[i].ddbuf_info.buf_id);
++		if (ret) {
++			dev_err(dev, "Couldn't map sequ buffer %d\n", i);
++			return -ENOMEM;
++		}
++		fw_sequ[i].ddbuf_info.cpu_virt_addr = img_mem_get_kptr
++							(ctx->mem_ctx,
++							 fw_sequ[i].ddbuf_info.buf_id);
++		fw_sequ[i].buf_offset = 0;
++		fw_sequ[i].buf_element_size = size;
++		fw_sequ[i].ddbuf_info.buf_size = size;
++		fw_sequ[i].ddbuf_info.mem_attrib = (enum sys_emem_attrib)attributes;
++		memset(fw_sequ[i].ddbuf_info.cpu_virt_addr, 0, size);
++
++		buf_info.cpu_linear_addr =
++			fw_sequ[i].ddbuf_info.cpu_virt_addr;
++		buf_info.buf_size = size;
++		buf_info.fd = -1;
++		buf_info.buf_id = fw_sequ[i].ddbuf_info.buf_id;
++		buf_info.mem_attrib =
++			(enum sys_emem_attrib)(SYS_MEMATTRIB_UNCACHED | SYS_MEMATTRIB_WRITECOMBINE |
++			SYS_MEMATTRIB_INPUT | SYS_MEMATTRIB_CPU_WRITE);
++
++		ret = core_stream_map_buf(ctx->res_str_id, VDEC_BUFTYPE_BITSTREAM, &buf_info,
++					  &fw_sequ[i].ddbuf_info.bufmap_id);
++		if (ret) {
++			dev_err(dev, "sps core_stream_map_buf failed\n");
++			return ret;
++		}
++	}
++
++#ifdef HAS_JPEG
++	if (vid_std == VDEC_STD_JPEG)
++		return 0;
++#endif
++
++	size = vid_std == VDEC_STD_HEVC ?
++		sizeof(struct hevcfw_picture_ps) : sizeof(struct h264fw_picture_ps);
++
++	for (i = 0; i < MAX_PPSS; i++) {
++		ret = img_mem_alloc(vxd_dev->dev, ctx->mem_ctx, heap_id, size,
++				    (enum mem_attr)attributes,
++				    (int *)&fw_pps[i].ddbuf_info.buf_id);
++		if (ret) {
++			dev_err(dev, "Couldn't allocate sequ buffer %d\n", i);
++			return -ENOMEM;
++		}
++		ret = img_mem_map_km(ctx->mem_ctx, fw_pps[i].ddbuf_info.buf_id);
++		if (ret) {
++			dev_err(dev, "Couldn't map sequ buffer %d\n", i);
++			return -ENOMEM;
++		}
++		fw_pps[i].ddbuf_info.cpu_virt_addr = img_mem_get_kptr(ctx->mem_ctx,
++								      fw_pps[i].ddbuf_info.buf_id);
++		fw_pps[i].buf_offset = 0;
++		fw_pps[i].buf_element_size = size;
++		fw_pps[i].ddbuf_info.buf_size = size;
++		fw_pps[i].ddbuf_info.mem_attrib = (enum sys_emem_attrib)attributes;
++		memset(fw_pps[i].ddbuf_info.cpu_virt_addr, 0, size);
++
++		buf_info.cpu_linear_addr =
++			fw_pps[i].ddbuf_info.cpu_virt_addr;
++		buf_info.buf_size = size;
++		buf_info.fd = -1;
++		buf_info.buf_id = fw_pps[i].ddbuf_info.buf_id;
++		buf_info.mem_attrib =
++			(enum sys_emem_attrib)(SYS_MEMATTRIB_UNCACHED | SYS_MEMATTRIB_WRITECOMBINE |
++			SYS_MEMATTRIB_INPUT | SYS_MEMATTRIB_CPU_WRITE);
++
++		ret = core_stream_map_buf(ctx->res_str_id, VDEC_BUFTYPE_BITSTREAM, &buf_info,
++					  &fw_pps[i].ddbuf_info.bufmap_id);
++		if (ret) {
++			dev_err(dev, "pps core_stream_map_buf failed\n");
++			return ret;
++		}
++	}
++	return 0;
++}
+diff --git a/drivers/staging/media/vxd/decoder/vxd_dec.h b/drivers/staging/media/vxd/decoder/vxd_dec.h
+new file mode 100644
+index 000000000000..a8d409bc4212
+--- /dev/null
++++ b/drivers/staging/media/vxd/decoder/vxd_dec.h
+@@ -0,0 +1,477 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * IMG DEC SYSDEV and UI Interface header
++ *
++ * Copyright (c) Imagination Technologies Ltd.
++ * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
++ *
++ * Authors:
++ *	Amit Makani <amit.makani@ti.com>
++ *
++ * Re-written for upstreamimg
++ *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
++ *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com>
++ */
++
++#ifndef _VXD_DEC_H
++#define _VXD_DEC_H
++
++#include <linux/interrupt.h>
++#include <linux/dma-mapping.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-mem2mem.h>
++#include <linux/types.h>
++
++#include "bspp.h"
++#include "img_dec_common.h"
++#include "img_mem_man.h"
++#include "img_pixfmts.h"
++#include "pixel_api.h"
++#include "vdecdd_defs.h"
++#include "vdec_defs.h"
++#include "work_queue.h"
++
++#define VXD_MIN_STREAM_ID 1
++#define VXD_MAX_STREAMS_PER_DEV 254
++#define VXD_MAX_STREAM_ID (VXD_MIN_STREAM_ID + VXD_MAX_STREAMS_PER_DEV)
++
++#define CODEC_NONE -1
++#define CODEC_H264_DEC 0
++#define CODEC_MPEG4_DEC 1
++#define CODEC_VP8_DEC 2
++#define CODEC_VC1_DEC 3
++#define CODEC_MPEG2_DEC 4
++#define CODEC_JPEG_DEC 5
++#define CODEC_VP9_DEC 6
++#define CODEC_HEVC_DEC 7
++
++#define MAX_SEGMENTS 6
++#define HW_ALIGN 64
++
++#define MAX_BUF_TRACE 30
++
++#define MAX_CAPBUFS_H264 16
++#define DISPLAY_LAG 3
++#define HEVC_MAX_LUMA_PS 35651584
++
++#define MAX_PLANES 3
++
++enum {
++	Q_DATA_SRC         = 0,
++	Q_DATA_DST         = 1,
++	Q_DATA_FORCE32BITS = 0x7FFFFFFFU
++};
++
++enum {
++	IMG_DEC_FMT_TYPE_CAPTURE     = 0x01,
++	IMG_DEC_FMT_TYPE_OUTPUT      = 0x10,
++	IMG_DEC_FMT_TYPE_FORCE32BITS = 0x7FFFFFFFU
++};
++
++enum vxd_map_flags {
++	VXD_MAP_FLAG_NONE        = 0x0,
++	VXD_MAP_FLAG_READ_ONLY   = 0x1,
++	VXD_MAP_FLAG_WRITE_ONLY  = 0x2,
++	VXD_MAP_FLAG_FORCE32BITS = 0x7FFFFFFFU
++};
++
++/*
++ * struct vxd_fw_msg - This structure holds the information about the message
++ *                     exchanged in read/write between Kernel and firmware.
++ *
++ * @out_flags: indicating the type of message
++ * @payload_size: size of payload in bytes
++ * @payload: data which is send to firmware
++ */
++struct vxd_fw_msg {
++	unsigned int out_flags;
++	unsigned int payload_size;
++	unsigned int payload[0];
++};
++
++/* HW state */
++struct vxd_hw_state {
++	unsigned int fw_counter;
++	unsigned int fe_status[VXD_MAX_PIPES];
++	unsigned int be_status[VXD_MAX_PIPES];
++	unsigned int dmac_status[VXD_MAX_PIPES][2]; /* Cover DMA chan 2/3*/
++	unsigned int irq_status;
++};
++
++/*
++ * struct vxd_state - contains VXD HW state
++ *
++ * @hw_state: HW state
++ * @msg_id_tail: msg id of the oldest item being processed
++ */
++struct vxd_state {
++	struct vxd_hw_state hw_state;
++	unsigned short msg_id_tail;
++};
++
++/*
++ * struct vxd_dec_fmt - contains info for each of the supported video format
++ *
++ * @fourcc: V4L2 pixel format FCC identifier
++ * @num_planes: number of planes required for luma and chroma
++ * @type: CAPTURE or OUTPUT
++ * @std: VDEC video standard
++ * @pixfmt: IMG pixel format
++ * @interleave: Chroma interleave order
++ * @idc: Chroma format
++ * @size_num: Numberator used to calculate image size
++ * @size_den: Denominator used to calculate image size
++ * @bytes_pp: Bytes per pixel for this format
++ */
++struct vxd_dec_fmt {
++	unsigned int fourcc;
++	unsigned int num_planes;
++	unsigned char type;
++	enum vdec_vid_std std;
++	enum img_pixfmt pixfmt;
++	enum pixel_chroma_interleaved interleave;
++	enum pixel_fmt_idc idc;
++	int size_num;
++	int size_den;
++	int bytes_pp;
++};
++
++/*
++ * struct vxd_item - contains information about the item sent to fw
++ *
++ * @list: item to be linked list to items_done, msgs, or pend.
++ * @stream_id: stream id
++ * @msg_id: message id
++ * @destroy: item belongs to the stream which is destroyed
++ * @msg: contains msg between kernel and fw
++ */
++struct vxd_item {
++	struct list_head list;
++	unsigned int stream_id;
++	unsigned int msg_id;
++	struct {
++		unsigned destroy : 1;
++	};
++	struct vxd_fw_msg msg;
++};
++
++enum vxd_cb_type {
++	VXD_CB_STRUNIT_PROCESSED,
++	VXD_CB_SPS_RELEASE,
++	VXD_CB_PPS_RELEASE,
++	VXD_CB_PICT_DECODED,
++	VXD_CB_PICT_DISPLAY,
++	VXD_CB_PICT_RELEASE,
++	VXD_CB_PICT_END,
++	VXD_CB_STR_END,
++	VXD_CB_ERROR_FATAL,
++	VXD_CB_FORCE32BITS = 0x7FFFFFFFU
++};
++
++/*
++ * vxd_cb - Return a resource to vxd
++ *
++ * @ctx: the vxd stream context
++ * @type: the type of message
++ * @buf_map_id: the buf_map_id of the resource being returned
++ */
++typedef void (*vxd_cb)(void *ctx, enum vxd_cb_type type, unsigned int buf_map_id);
++
++/*
++ * struct vxd_return - contains information about items returning from core
++ *
++ * @type: Type of item being returned
++ * @buf_map_id: mmu mapped id of buffer being returned
++ */
++struct vxd_return {
++	void *work;
++	struct vxd_dec_ctx *ctx;
++	enum vxd_cb_type type;
++	unsigned int buf_map_id;
++};
++
++/*
++ * struct vxd_dec_q_data - contains queue data information
++ *
++ * @fmt: format info
++ * @width: frame width
++ * @height: frame height
++ * @bytesperline: bytes per line in memory
++ * @size_image: image size in memory
++ */
++struct vxd_dec_q_data {
++	struct vxd_dec_fmt *fmt;
++	unsigned int width;
++	unsigned int height;
++	unsigned int bytesperline[MAX_PLANES];
++	unsigned int size_image[MAX_PLANES];
++};
++
++/*
++ * struct time_prof - contains time taken by decoding information
++ *
++ * @id: id info
++ * @start_time: start time
++ * @end_time: end time
++ */
++struct time_prof {
++	unsigned int id;
++	long long start_time;
++	long long end_time;
++};
++
++/*
++ * struct vxd_dev - The struct containing decoder driver internal parameters.
++ *
++ * @v4l2_dev: main struct of V4L2 device drivers
++ * @dev: platform device driver
++ * @vfd_dec: video device structure to create and manage the V4L2 device node.
++ * @plat_dev: linux platform device
++ * @struct v4l2_m2m_dev: mem2mem device
++ * @mutex: mutex to protect certain ongoing operation.
++ * @module_irq: a threaded request IRQ for the device
++ * @reg_base: base address of the IMG VXD hw registers
++ * @props: contains HW properties
++ * @mmu_config_addr_width: indicates the number of extended address bits
++ *                         (above 32) that the external memory interface
++ *                         uses, based on EXTENDED_ADDR_RANGE field of
++ *                         MMU_CONFIG0
++ * @rendec_buf_id: buffer id for rendec buffer allocation
++ * @firmware: firmware information based on vxd_dev_fw structure
++ * @firmware_loading_complete: loading completion
++ * @no_fw: Just to check if firmware is present in /lib
++ * @fw_refcnt: firmware reference counter
++ * @hw_on: indication if hw is on or off
++ * @hw_dead: indication if hw is dead
++ * @lock: basic primitive for locking through spinlock
++ * @state: internal state handling of vxd state
++ * @msgs: linked list of msgs with vxd_item
++ * @pend: linked list of pending msgs to be sent to fw
++ * @msg_cnt: counter of messages submitted to VXD. Wraps every VXD_MSG_ID_MASK
++ * @freq_khz: Core clock frequency measured during boot of firmware
++ * @streams: unique id for the stream
++ * @mem_ctx: memory management context for HW buffers
++ * @dwork: use for Power Management and Watchdog
++ * @work_sched_at: the time of the last work has been scheduled at
++ * @emergency: indicates if emergency condition occurred
++ * @dbgfs_ctx: pointer to debug FS context.
++ * @hw_pm_delay: delay before performaing PM
++ * @hw_dwr_period: period for checking for dwr
++ * @pm_start: time, in jiffies, when core become idle
++ * @dwr_start: time, in jiffies, when dwr has been started
++ */
++struct vxd_dev {
++	struct v4l2_device v4l2_dev;
++	void *dev;
++	struct video_device *vfd_dec;
++	struct platform_device *plat_dev;
++	struct v4l2_m2m_dev *m2m_dev;
++	struct mutex  *mutex; /* Per device mutex */
++	int module_irq;
++	void __iomem *reg_base;
++	struct vxd_core_props props;
++	unsigned int mmu_config_addr_width;
++	int rendec_buf_id;
++	struct vxd_dev_fw firmware;
++	void *firmware_loading_complete;
++	unsigned char no_fw;
++	unsigned char fw_refcnt;
++	unsigned int hw_on;
++	unsigned int hw_dead;
++	void *lock; /* basic device level spinlock */
++	struct vxd_state state;
++	struct list_head msgs;
++	struct list_head pend;
++	int msg_cnt;
++	unsigned int freq_khz;
++	struct idr *streams;
++	struct mem_ctx *mem_ctx;
++	void *dwork;
++	unsigned long long work_sched_at;
++	unsigned int emergency;
++	void *dbgfs_ctx;
++	unsigned int hw_pm_delay;
++	unsigned int hw_dwr_period;
++	unsigned long long pm_start;
++	unsigned long long dwr_start;
++	struct time_prof time_fw[MAX_BUF_TRACE];
++	struct time_prof time_drv[MAX_BUF_TRACE];
++
++	/* The variables defined below are used in RTOS only. */
++	/* This variable holds queue handler */
++	void *vxd_worker_queue_handle;
++	void *vxd_worker_queue_sem_handle;
++};
++
++/*
++ * struct vxd_stream - holds stream-related info
++ *
++ * @ctx: associated vxd_dec_ctx
++ * @mmu_ctx: MMU context for this stream
++ * @ptd: ptd for the stream
++ * @id: unique stream id
++ */
++struct vxd_stream {
++	struct vxd_dec_ctx *ctx;
++	struct mmu_ctx *mmu_ctx;
++	unsigned int ptd;
++	unsigned int id;
++};
++
++/*
++ * struct vxd_buffer - holds per buffer info.
++ * @buffer: the vb2_v4l2_buffer
++ * @list: list head for gathering in linked list
++ * @mapped: is this buffer mapped yet
++ * @reuse: is the buffer ready for reuse
++ * @buf_map_id: the mapped buffer id
++ * @buf_info: the buffer info for submitting to map
++ * @bstr_info: the buffer info for submitting to bspp
++ * @seq_unit: the str_unit for submitting sps
++ * @seq_unit: the str_unit for submitting pps and segments
++ * @seq_unit: the str_unit for submitting picture_end
++ */
++struct vxd_buffer {
++	struct v4l2_m2m_buffer buffer;
++	struct list_head list;
++	unsigned char mapped;
++	unsigned char reuse;
++	unsigned int buf_map_id;
++	struct vdec_buf_info buf_info;
++	struct bspp_ddbuf_info bstr_info;
++	struct vdecdd_str_unit seq_unit;
++	struct vdecdd_str_unit pic_unit;
++	struct vdecdd_str_unit end_unit;
++	struct bspp_preparsed_data preparsed_data;
++};
++
++typedef void (*decode_cb)(int res_str_id, unsigned int *msg, unsigned int msg_size,
++			  unsigned int msg_flags);
++
++/*
++ * struct vxd_dec_ctx - holds per stream data. Each playback has its own
++ *                      vxd_dec_ctx
++ *
++ * @fh: V4L2 file handler
++ * @dev: pointer to the device main information.
++ * @ctrl_hdl_dec: v4l2 custom control command for video decoder
++ * @mem_ctx: mem context for this stream
++ * @mmu_ctx: MMU context for this stream
++ * @ptd: page table information
++ * @items_done: linked list of items is ready
++ * @width: frame width
++ * @height: frame height
++ * @width_orig: original frame width (before padding)
++ * @height_orig: original frame height (before padding)
++ * @q_data: Queue data information of src[0] and dst[1]
++ * @stream: stream-related info
++ * @work: work queue for message handling
++ * @return_queue: list of resources returned from core
++ * @out_buffers: list of all output buffers
++ * @cap_buffers: list of all capture buffers except those in reuse_queue
++ * @reuse_queue: list of capture buffers waiting for core to signal reuse
++ * @res_str_id: Core stream id
++ * @stream_created: Core stream is created
++ * @stream_configured: Core stream is configured
++ * @opconfig_pending: Core opconfig is pending stream_create
++ * @src_streaming: V4L2 src stream is streaming
++ * @dst_streaming: V4L2 dst stream is streaming
++ * @core_streaming: core is streaming
++ * @aborting: signal job abort on next irq
++ * @str_opcfg: core output config
++ * @pict_bufcfg: core picture buffer config
++ * @bspp_context: BSPP Stream context handle
++ * @seg_list: list of bspp_bitstr_seg for submitting to BSPP
++ * @fw_sequ: BSPP sps resource
++ * @fw_pps: BSPP pps resource
++ * @cb: registered callback for incoming messages
++ * @mutex: mutex to protect context specific state machine
++ */
++struct vxd_dec_ctx {
++	struct v4l2_fh fh;
++	struct vxd_dev *dev;
++	struct mem_ctx *mem_ctx;
++	struct mmu_ctx *mmu_ctx;
++	unsigned int ptd;
++	struct list_head items_done;
++	unsigned int width;
++	unsigned int height;
++	unsigned int width_orig;
++	unsigned int height_orig;
++	struct vxd_dec_q_data q_data[2];
++	struct vxd_stream stream;
++	void *work;
++	struct list_head return_queue;
++	struct list_head out_buffers;
++	struct list_head cap_buffers;
++	struct list_head reuse_queue;
++	unsigned int res_str_id;
++	unsigned char stream_created;
++	unsigned char stream_configured;
++	unsigned char opconfig_pending;
++	unsigned char src_streaming;
++	unsigned char dst_streaming;
++	unsigned char core_streaming;
++	unsigned char aborting;
++	unsigned char eos;
++	unsigned char stop_initiated;
++	unsigned char flag_last;
++	unsigned char num_decoding;
++	unsigned int max_num_ref_frames;
++	struct vdec_str_opconfig str_opcfg;
++	struct vdec_pict_bufconfig pict_bufcfg;
++	void *bspp_context;
++	struct bspp_bitstr_seg bstr_segments[MAX_SEGMENTS];
++	struct lst_t seg_list;
++	struct bspp_ddbuf_array_info fw_sequ[MAX_SEQUENCES];
++	struct bspp_ddbuf_array_info fw_pps[MAX_PPSS];
++	decode_cb cb;
++	struct mutex *mutex; /* Per stream mutex */
++
++	/* The below variable used only in Rtos */
++	void *mm_return_resource; /* Place holder for CB to application */
++	void *stream_worker_queue_handle;
++	void *stream_worker_queue_sem_handle;
++	// lock is used to synchronize the stream worker and process function
++	void *lock;
++	/* "sem_eos" this semaphore variable used to wait until all frame decoded */
++	void *sem_eos;
++};
++
++irqreturn_t vxd_handle_irq(void *dev);
++irqreturn_t vxd_handle_thread_irq(void *dev);
++int vxd_init(void *dev, struct vxd_dev *vxd, const struct heap_config heap_configs[], int heaps);
++int vxd_g_internal_heap_id(void);
++void vxd_deinit(struct vxd_dev *vxd);
++int vxd_prepare_fw(struct vxd_dev *vxd);
++void vxd_clean_fw_resources(struct vxd_dev *vxd);
++int vxd_send_msg(struct vxd_dec_ctx *ctx, struct vxd_fw_msg *msg);
++int vxd_suspend_dev(void *dev);
++int vxd_resume_dev(void *dev);
++
++int vxd_create_ctx(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx);
++void vxd_destroy_ctx(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx);
++
++int vxd_map_buffer_sg(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx,
++		      unsigned int str_id, unsigned int buff_id,
++		      void *sgt, unsigned int virt_addr,
++		      unsigned int map_flags);
++int vxd_map_buffer(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx, unsigned int str_id,
++		   unsigned int buff_id, unsigned int virt_addr, unsigned int map_flags);
++int vxd_unmap_buffer(struct vxd_dev *vxd, struct vxd_dec_ctx *ctx,
++		     unsigned int str_id, unsigned int buff_id);
++
++unsigned int get_nbuffers(enum vdec_vid_std std, int w, int h, unsigned int max_num_ref_frames);
++
++int vxd_dec_alloc_bspp_resource(struct vxd_dec_ctx *ctx, enum vdec_vid_std vid_std);
++
++#ifdef ERROR_RECOVERY_SIMULATION
++/* sysfs read write functions */
++ssize_t vxd_sysfs_show(struct kobject *vxd_dec_kobject,
++		       struct kobj_attribute *attr, char *buf);
++
++ssize_t vxd_sysfs_store(struct kobject *vxd_dec_kobject,
++			struct kobj_attribute *attr, const char *buf, unsigned long count);
++#endif
++#endif /* _VXD_DEC_H */
 -- 
 2.17.1
 
