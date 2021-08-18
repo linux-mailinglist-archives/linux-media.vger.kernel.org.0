@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74F533EFDDF
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 09:39:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD68A3EFDE2
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 09:40:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239112AbhHRHkB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 03:40:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37704 "EHLO
+        id S238718AbhHRHkx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 03:40:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239108AbhHRHkB (ORCPT
+        with ESMTP id S238224AbhHRHkw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 03:40:01 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E8F7C061764;
-        Wed, 18 Aug 2021 00:39:27 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id oa17so2093619pjb.1;
-        Wed, 18 Aug 2021 00:39:27 -0700 (PDT)
+        Wed, 18 Aug 2021 03:40:52 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FBAFC061764;
+        Wed, 18 Aug 2021 00:40:18 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id u1so1294154plr.1;
+        Wed, 18 Aug 2021 00:40:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e6vxkGEC/5cBQ7RDSXvwNkc+jNWhSIL2gt3cyXjlMy0=;
-        b=i4L99wf64dEZ9LMIjZCdq5HBsL7YO+w6mPeYaGb3CXwuW15cjMopamJ7i+UtFSaN25
-         z4rZKcLO5w15cg7+P4rlboKjkGbHm2INjwHBCSyIBdvOIIHKMs8iq36Uc2t2HpR4U6DS
-         PeVX7wc1SgqOfwrOtaOMAAAbWfhKZOxgQEPpTAD2DwGmKJuxv9SRbs1jI4DjEfvYP16W
-         GdHdUTB0UPtvFtAUhhcXY6s7AuE8PdIXUBbgVw/jQ8o6Dek7vaaLJH/PPPw6v2VcG07L
-         knSCx6Bi7AAG29YttwsWCAtn2JIenaQ0ncOp7C6cEebcrLUcHzclF2lQeLIn61qhRq9F
-         j7Eg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=+V7VHTmfbYqxcJ76dou/taP9ZefhBvJ0ABxX4BEFPg8=;
+        b=m7n8Xew0QgjJED5UdrcOheshCPBH0tOTHhxv660xjAbgyIpemb6WWMkWeOjM3nvhhi
+         YBjY0Vw0mJFYYfhOB6GFTpmXrcR+S5UftwQpJUdjC9CP5vhdSBj88Fd7nUGahEFzZuKW
+         4gqVic6J3w0xZojmhuJzQ7aiMxKPoMaoQcmarwrsEmdpNNw7CS0U/dM55b0Si0LYcaNv
+         hYeoPp1t8rlOl1BuCXVgd/S4J0vIXLK1ToRPRmS5zni6OrP4BxM8jnWGsu6XodZQCzS8
+         KEkr5hi6W6AElILHnDc9tP044YmuoT1hNaikI98llUuJ2y7FCwQy3gb1mPUl3Lo56iI9
+         iAqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e6vxkGEC/5cBQ7RDSXvwNkc+jNWhSIL2gt3cyXjlMy0=;
-        b=XEFbpYZqKLsKctf0GGMdpYyY38N4vMy8cI3xP+oytzfYSylx03Id8OW+Gxr7AozvMs
-         fcuhd8gSSMGq1bEzuSSTDIAw49BiVmOn48Al8NCMFDpkxBXSCIl+5u+3cyVxijvoskbd
-         8rvqSRjMf1cw49/qXUDAjALKFKVyHSo215mUmtgJNnuCsNL0Dt2XikKpSmdnBhjB8I+V
-         NtsWjv90yVBT41ss3A7S3D9Pg6jWfIMYRN3b/4biWhmGV8zHAsTuZzzukCFSCMLD0Tez
-         EUzGcez5u9POl+jlIqlfGsDvzY2VJY2oTtBPkTBX1Xo8EoVBCQHMVSJnXk0bDFNp8JmG
-         96BQ==
-X-Gm-Message-State: AOAM532zqBUQCvoqkZnfcXVvGRyBwCeaCfC5TnSGjz3FBU/5fr6FqtP1
-        xKIFkDqGOHERn54qR/P7y8g=
-X-Google-Smtp-Source: ABdhPJwsjLetmmkwthytXHRAjBgzfi7amhs4Th7JIiNaKTNGuKsh8scjwN6S/Fd61RcIgh641geZBg==
-X-Received: by 2002:a17:90a:8b12:: with SMTP id y18mr8016646pjn.72.1629272366618;
-        Wed, 18 Aug 2021 00:39:26 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=+V7VHTmfbYqxcJ76dou/taP9ZefhBvJ0ABxX4BEFPg8=;
+        b=Icc1icZmcfHf+h/kjQkAbVxk/cMFEQ82LvBPKkDItZtMSJGtsjyJpStGx5WkKQewmP
+         BS9zUdzONrVFGOi9G25lIt+yKt3DxXv8Iz28qS+/AX1zTuDGIYQQJgJ+p3J8sK9+1uQI
+         FKl7ox3lnPbYSMZRr1UwGb/mcU98zAKPWSYsF8MnhLw8Y8UKX8lVx3vm5CCPG9avlN4P
+         SpymwFNRZZQAH9Dw5L8IrG31jNdXpnkdyCYo/aMOYJEoLSGWFqSY2mYTPiTjrEqjL9D4
+         iFXp+PDiycq4hU1k205Jk/kKiwH9NYhp3dI7ta580PmS/8do9xoITq/lnkgcX4dudg82
+         eWkQ==
+X-Gm-Message-State: AOAM533MMQ49PbiOVAg87XCQHbfyXa+clT1d/sDmmKXunc9JiYQKpAI6
+        TFyZc73iRGnxY4Ib3lVubXI=
+X-Google-Smtp-Source: ABdhPJxykdwOQoyj/vaukkauBj0yW2JddlxJ9QU5ekI6Ur/DK3dD/PNFCCoHKHLsE4Eb+yPsJaq8ww==
+X-Received: by 2002:a17:90a:6684:: with SMTP id m4mr8131277pjj.226.1629272418090;
+        Wed, 18 Aug 2021 00:40:18 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
-        by smtp.gmail.com with ESMTPSA id u3sm3886729pjr.2.2021.08.18.00.39.21
+        by smtp.gmail.com with ESMTPSA id u3sm3886729pjr.2.2021.08.18.00.40.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 00:39:26 -0700 (PDT)
+        Wed, 18 Aug 2021 00:40:17 -0700 (PDT)
 From:   Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
         tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
@@ -60,97 +60,173 @@ Cc:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
         linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
         gregkh@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v3 0/9] drm, kernel: update locking for DRM
-Date:   Wed, 18 Aug 2021 15:38:15 +0800
-Message-Id: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
+Subject: [PATCH v3 1/9] drm: move master_lookup_lock into drm_device
+Date:   Wed, 18 Aug 2021 15:38:16 +0800
+Message-Id: <20210818073824.1560124-2-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
+References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+The master_lookup_lock spinlock can be useful as an inner lock for
+other attributes that are currently protected by
+drm_device.master_mutex.
 
-The patches in this series are largely fixes and prepwork leading up to
-the final patch which plugs races with modesetting rights. Most of the
-fixes don't have bug reports, so comments would be very appreciated.
+However, since the spinlock belongs to struct drm_file, its use case
+is limited to serializing accesses by a single drm_file. Moving this
+lock into struct drm_device allows us to use it for structures that
+are accessed by multiple drm_files, such as drm_master.magic_map.
 
-The biggest change from the previous version is that we convert
-drm_device.master_mutex into master_rwsem, instead of introducing
-master_rwsem as a third lock.
+Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+---
+ drivers/gpu/drm/drm_auth.c | 18 +++++++++---------
+ drivers/gpu/drm/drm_drv.c  |  1 +
+ drivers/gpu/drm/drm_file.c |  1 -
+ include/drm/drm_device.h   |  3 +++
+ include/drm/drm_file.h     | 10 ++++------
+ 5 files changed, 17 insertions(+), 16 deletions(-)
 
-Overall, this series makes the following changes:
-
-- Patch 1: Move master_lookup_lock into struct drm_device (enables us to
-use it to protect attributes accessed by different drm_files)
-
-- Patch 2: Add a missing master_lookup_lock in drm_master_release
-
-- Patch 3: Fix a potential race in drm_is_current_master_locked
-
-- Patch 4: Fix potential null ptr dereferences in drm_{auth, ioctl}
-
-- Patch 5: Move magic_map,unique{_len} out from master_mutex's
-protection into master_lookup_lock's protection (allows us to avoid
-read_lock -> write_lock deadlocks)
-
-- Patch 6: Convert master_mutex into rwsem (avoids creating a new lock)
-
-- Patch 7: Update global mutex locking in the ioctl handler (avoids
-deadlock when grabbing read lock on master_rwsem in drm_ioctl_kernel)
-
-- Patch 8: Export task_work_add (enables us to write drm_master_flush)
-
-- Patch 9: Plug races with drm modesetting rights
-
-v2 -> v3:
-- Unexport drm_master_flush, as suggested by Daniel Vetter.
-- Merge master_mutex and master_rwsem, as suggested by Daniel Vetter.
-- Export task_work_add, reported by kernel test robot.
-- Make master_flush static, reported by kernel test robot.
-- Move master_lookup_lock into struct drm_device.
-- Add a missing lock on master_lookup_lock in drm_master_release.
-- Fix a potential race in drm_is_current_master_locked.
-- Fix potential null ptr dereferences in drm_{auth, ioctl}.
-- Protect magic_map,unique{_len} with  master_lookup_lock.
-- Convert master_mutex into a rwsem.
-- Update global mutex locking in the ioctl handler.
-
-v1 -> v2 (suggested by Daniel Vetter):
-- Address an additional race when drm_open runs.
-- Switch from SRCU to rwsem to synchronise readers and writers.
-- Implement drm_master_flush with task_work so that flushes can be
-queued to run before returning to userspace without creating a new
-DRM_MASTER_FLUSH ioctl flag.
-
-Best wishes,
-Desmond
-
-Desmond Cheong Zhi Xi (9):
-  drm: move master_lookup_lock into drm_device
-  drm: hold master_lookup_lock when releasing a drm_file's master
-  drm: check for null master in drm_is_current_master_locked
-  drm: fix potential null ptr dereferences in drm_{auth,ioctl}
-  drm: protect magic_map,unique{_len} with master_lookup_lock
-  drm: convert drm_device.master_mutex into a rwsem
-  drm: update global mutex lock in the ioctl handler
-  kernel: export task_work_add
-  drm: avoid races with modesetting rights
-
- drivers/gpu/drm/drm_auth.c     | 108 ++++++++++++++++++++++++---------
- drivers/gpu/drm/drm_debugfs.c  |   4 +-
- drivers/gpu/drm/drm_drv.c      |   4 +-
- drivers/gpu/drm/drm_file.c     |   1 -
- drivers/gpu/drm/drm_internal.h |   1 +
- drivers/gpu/drm/drm_ioctl.c    |  39 +++++++-----
- drivers/gpu/drm/drm_lease.c    |   1 +
- include/drm/drm_auth.h         |   6 +-
- include/drm/drm_device.h       |  27 +++++++--
- include/drm/drm_file.h         |  20 +++---
- kernel/task_work.c             |   1 +
- 11 files changed, 145 insertions(+), 67 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+index 60a6b21474b1..8efb58aa7d95 100644
+--- a/drivers/gpu/drm/drm_auth.c
++++ b/drivers/gpu/drm/drm_auth.c
+@@ -63,7 +63,7 @@
+ 
+ static bool drm_is_current_master_locked(struct drm_file *fpriv)
+ {
+-	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
++	lockdep_assert_once(lockdep_is_held(&fpriv->minor->dev->master_lookup_lock) ||
+ 			    lockdep_is_held(&fpriv->minor->dev->master_mutex));
+ 
+ 	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
+@@ -83,9 +83,9 @@ bool drm_is_current_master(struct drm_file *fpriv)
+ {
+ 	bool ret;
+ 
+-	spin_lock(&fpriv->master_lookup_lock);
++	spin_lock(&fpriv->minor->dev->master_lookup_lock);
+ 	ret = drm_is_current_master_locked(fpriv);
+-	spin_unlock(&fpriv->master_lookup_lock);
++	spin_unlock(&fpriv->minor->dev->master_lookup_lock);
+ 
+ 	return ret;
+ }
+@@ -174,9 +174,9 @@ static int drm_new_set_master(struct drm_device *dev, struct drm_file *fpriv)
+ 	new_master = drm_master_create(dev);
+ 	if (!new_master)
+ 		return -ENOMEM;
+-	spin_lock(&fpriv->master_lookup_lock);
++	spin_lock(&dev->master_lookup_lock);
+ 	fpriv->master = new_master;
+-	spin_unlock(&fpriv->master_lookup_lock);
++	spin_unlock(&dev->master_lookup_lock);
+ 
+ 	fpriv->is_master = 1;
+ 	fpriv->authenticated = 1;
+@@ -338,9 +338,9 @@ int drm_master_open(struct drm_file *file_priv)
+ 	if (!dev->master) {
+ 		ret = drm_new_set_master(dev, file_priv);
+ 	} else {
+-		spin_lock(&file_priv->master_lookup_lock);
++		spin_lock(&dev->master_lookup_lock);
+ 		file_priv->master = drm_master_get(dev->master);
+-		spin_unlock(&file_priv->master_lookup_lock);
++		spin_unlock(&dev->master_lookup_lock);
+ 	}
+ 	mutex_unlock(&dev->master_mutex);
+ 
+@@ -405,13 +405,13 @@ struct drm_master *drm_file_get_master(struct drm_file *file_priv)
+ {
+ 	struct drm_master *master = NULL;
+ 
+-	spin_lock(&file_priv->master_lookup_lock);
++	spin_lock(&file_priv->minor->dev->master_lookup_lock);
+ 	if (!file_priv->master)
+ 		goto unlock;
+ 	master = drm_master_get(file_priv->master);
+ 
+ unlock:
+-	spin_unlock(&file_priv->master_lookup_lock);
++	spin_unlock(&file_priv->minor->dev->master_lookup_lock);
+ 	return master;
+ }
+ EXPORT_SYMBOL(drm_file_get_master);
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 7a5097467ba5..218c16f11c80 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -612,6 +612,7 @@ static int drm_dev_init(struct drm_device *dev,
+ 	mutex_init(&dev->filelist_mutex);
+ 	mutex_init(&dev->clientlist_mutex);
+ 	mutex_init(&dev->master_mutex);
++	spin_lock_init(&dev->master_lookup_lock);
+ 
+ 	ret = drmm_add_action(dev, drm_dev_init_release, NULL);
+ 	if (ret)
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index ed25168619fc..b8679bbaea69 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -176,7 +176,6 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
+ 	init_waitqueue_head(&file->event_wait);
+ 	file->event_space = 4096; /* set aside 4k for event buffer */
+ 
+-	spin_lock_init(&file->master_lookup_lock);
+ 	mutex_init(&file->event_read_lock);
+ 
+ 	if (drm_core_check_feature(dev, DRIVER_GEM))
+diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+index 604b1d1b2d72..506eb2784819 100644
+--- a/include/drm/drm_device.h
++++ b/include/drm/drm_device.h
+@@ -152,6 +152,9 @@ struct drm_device {
+ 	 */
+ 	struct mutex master_mutex;
+ 
++	/** @master_lookup_lock: Serializes &drm_file.master. */
++	spinlock_t master_lookup_lock;
++
+ 	/**
+ 	 * @open_count:
+ 	 *
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index a3acb7ac3550..0536e9612a46 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -227,15 +227,16 @@ struct drm_file {
+ 	 * @master:
+ 	 *
+ 	 * Master this node is currently associated with. Protected by struct
+-	 * &drm_device.master_mutex, and serialized by @master_lookup_lock.
++	 * &drm_device.master_mutex, and serialized by
++	 * &drm_device.master_lookup_lock.
+ 	 *
+ 	 * Only relevant if drm_is_primary_client() returns true. Note that
+ 	 * this only matches &drm_device.master if the master is the currently
+ 	 * active one.
+ 	 *
+ 	 * To update @master, both &drm_device.master_mutex and
+-	 * @master_lookup_lock need to be held, therefore holding either of
+-	 * them is safe and enough for the read side.
++	 * &drm_device.master_lookup_lock need to be held, therefore holding
++	 * either of them is safe and enough for the read side.
+ 	 *
+ 	 * When dereferencing this pointer, either hold struct
+ 	 * &drm_device.master_mutex for the duration of the pointer's use, or
+@@ -248,9 +249,6 @@ struct drm_file {
+ 	 */
+ 	struct drm_master *master;
+ 
+-	/** @master_lock: Serializes @master. */
+-	spinlock_t master_lookup_lock;
+-
+ 	/** @pid: Process that opened this file. */
+ 	struct pid *pid;
+ 
 -- 
 2.25.1
 
