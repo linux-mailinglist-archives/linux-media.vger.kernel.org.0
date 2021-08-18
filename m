@@ -2,157 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81F4C3F05B4
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 16:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D71523F05B8
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 16:07:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238534AbhHROHn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 10:07:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45108 "EHLO
+        id S238849AbhHROHw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 10:07:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235121AbhHROHl (ORCPT
+        with ESMTP id S238763AbhHROHs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 10:07:41 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23442C061764;
-        Wed, 18 Aug 2021 07:07:06 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id x12so3693126wrr.11;
-        Wed, 18 Aug 2021 07:07:06 -0700 (PDT)
+        Wed, 18 Aug 2021 10:07:48 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18E44C0617AE
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:07:13 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id gt38so5225732ejc.13
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:07:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=i6nHV4Vzm5Umu6SJhmhoU8e3Ow8sOCfq6m4vf5vpOCg=;
-        b=ZJdtuwUuQvNaAbdr9Fz2fAvktw5J/+5+vjt8im/pkRZqyKjHlmqluk+dpJgPv/GFEk
-         rs7jlCk5NOlSnehipLU0nyzn/A/7FZS7QQCaIl7MSF6vAha+BX6LZBrQQREaflmjEitO
-         dlEahiAy8zC6MjFccmUrLBYvfs88a8jl/uHALh0tSc5Nn+N5OqlxOYEPLAvMwQAyowns
-         Ndkxrox4afb9mQcpEWWL0GiCRmTwzTOHCYxL6M4H8oWTYs7RmlUoqU0WistPX7vqT8pO
-         6Su4Nkctsrk6dlh0F8i2tqudBygnvEpqj+ChJ3xGjixCFrJ6bgmI3P/HGSPs7QQyovGr
-         4V5w==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=64zifREinBHAwmFxgrDBcSqFtKr4jlCZS5WKAwKoAXg=;
+        b=Dqv70yX93zXZr6jzmhvMeWNIKTnXuLw0MEEK7GV3TiU2x5BvM11uG8NZWDKBrQ8KFf
+         Uod5IWznhUW0T4R7w/UCTcOGE+TI0Bz76CA3wlCkzsNkXqm7X8Esf7ozHWvrYptriVmT
+         0QXozwG4Q6j7K+YdY16ETjLy6mMCgA7F1hAs0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=i6nHV4Vzm5Umu6SJhmhoU8e3Ow8sOCfq6m4vf5vpOCg=;
-        b=ppTKTa/703CeAEI59hNnPTP/m+Te09QvsyLaeQh0wbfGD3ANAmhKMOlfhQXmALYSWs
-         DlxWkHbk1MN+JvtWh6lDqeUG7D+zicVKtvEX1pCIwk1UPaSTijlDGylYiZs+97zGeaHP
-         GCjLexRwAm6GmTygFxVYwAA11t6uWcWH2IJIhfgF1P6z35GqpeVkbJbJBtQPb8V8hsjl
-         eY7uj0ZgwV6BTFl3ObiJ+uUIQHDaGIICQBqNhZ1fPmAvqeR8gD3ar5rM4WdhRARzjA+u
-         HLroI4XkcBeKM3auSgk/dAaQlHG78hntBNSiuk+w+p+AWXJ1Ktcq0UKeoHR77GZdYob3
-         zv5Q==
-X-Gm-Message-State: AOAM531/qHmw0w9EyI5oh5UVYX8+7+9wnrwn4tterqWOKh2FChP7EGci
-        ixA7Jxc1TL0TXzc4XHUZtZQ=
-X-Google-Smtp-Source: ABdhPJyXq9/0R+WfXjdNLNbDmiuZklvSlQEBjFaDDAdAwgPSc6Y2VNRCrYkje8+AywzsdZxW8DAWow==
-X-Received: by 2002:a5d:500a:: with SMTP id e10mr11157882wrt.332.1629295624742;
-        Wed, 18 Aug 2021 07:07:04 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id e2sm6158851wrq.56.2021.08.18.07.07.03
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=64zifREinBHAwmFxgrDBcSqFtKr4jlCZS5WKAwKoAXg=;
+        b=c9pSdD7GsH0tkllazTTExMb/PW7s8+Atbz7KvWYYijjWmJALtCh2eO86w1sSo5ARIv
+         KIbQIjzRxQ0eZOB8rd93U+RMeDbutiOC7rDAPfeH3f5zHtGXpzKdvy7BmcOUb+Qd67ky
+         8GMs3Yq6J78LykZl6C94iFsyEWlW3n79rh2Jx0jIwkaX53K5UCDhJ4tlGpZMxqGbtgbD
+         bmTTJAzktBtICxixnIHvYFnigqwCsDKSxKXYQ5043BZ6ffkP9Fbs54epg8+FXM3OXZr5
+         eH9riGyvIiMlzvVTKRxRKWVJs1t0SrZ3rtDg6N3o1znH1Y2nkqkzJfwudAEDouPrGCyA
+         uK8w==
+X-Gm-Message-State: AOAM533U/0B3QSnGMB4b6TH8CTfekirFu+BkG7ykXvL+jeaCPj/vsNxB
+        soTYNmUnZR58phBAGfp/JHS6dA==
+X-Google-Smtp-Source: ABdhPJxqqKOBz+of90XjDMG6gzll1zUAgspFw9u1WR+Axp7BK9MoT+c8eS8ZPFhua2tvp7B7/05Hfg==
+X-Received: by 2002:a17:906:8444:: with SMTP id e4mr10116391ejy.516.1629295631579;
+        Wed, 18 Aug 2021 07:07:11 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id m6sm40070edc.82.2021.08.18.07.07.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 07:07:03 -0700 (PDT)
-Date:   Wed, 18 Aug 2021 16:07:02 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
-Message-ID: <YR0UBi/ejy+oF4Hm@orome.fritz.box>
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-8-digetx@gmail.com>
+        Wed, 18 Aug 2021 07:07:11 -0700 (PDT)
+Date:   Wed, 18 Aug 2021 16:07:09 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Wentao_Liang <Wentao_Liang_g@163.com>,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] drm/prime: fix a potential double put (release) bug
+Message-ID: <YR0UDT9G4G37hHtL@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Wentao_Liang <Wentao_Liang_g@163.com>,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20210818130231.3484-1-Wentao_Liang_g@163.com>
+ <14aa6dfe-faba-8632-01a4-8119f199005c@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="GjgnhAguwPYREA1d"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210817012754.8710-8-digetx@gmail.com>
-User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <14aa6dfe-faba-8632-01a4-8119f199005c@amd.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, Aug 18, 2021 at 03:25:59PM +0200, Christian König wrote:
+> Am 18.08.21 um 15:02 schrieb Wentao_Liang:
+> > In line 317 (#1), drm_gem_prime_import() is called, it will call
+> > drm_gem_prime_import_dev(). At the end of the function
+> > drm_gem_prime_import_dev() (line 956, #2), "dma_buf_put(dma_buf);" puts
+> > dma_buf->file and may cause it to be released. However, after
+> > drm_gem_prime_import() returning, the dma_buf may be put again by the
+> > same put function in lines 342, 351 and 358 (#3, #4, #5). Putting the
+> > dma_buf improperly more than once can lead to an incorrect dma_buf-
+> > > file put.
+> > We believe that the put of the dma_buf in the function
+> > drm_gem_prime_import() is unnecessary (#2). We can fix the above bug by
+> > removing the redundant "dma_buf_put(dma_buf);" in line 956.
+> 
+> Guys I'm getting tired of NAKing those incorrect reference count analysis.
+> 
+> The dma_buf_put() in the error handling of drm_gem_prime_import_dev()
+> function is balanced with the get_dma_buf() in the same function directly
+> above.
+> 
+> This is for the creating a GEM object for a DMA-buf imported from other
+> device use case and certainly correct.
+> 
+> The various dma_buf_put() in drm_gem_prime_fd_to_handle() is balanced with
+> the dma_buf_get(prime_fd) at the beginning of the function.
+> 
+> This is for extracting the DMA-buf from the file descriptor and keeping a
+> reference to it while we are busy importing it (e.g. to prevent a race when
+> somebody changes the fd at the same time).
+> 
+> As far as I can see this is correct as well.
 
---GjgnhAguwPYREA1d
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Yeah the analysis is just high-grade nonsense. The current code looks
+correct, the analysis presented here, not.
+-Daniel
 
-On Tue, Aug 17, 2021 at 04:27:27AM +0300, Dmitry Osipenko wrote:
-[...]
-> +struct clk *tegra_clk_register(struct clk_hw *hw)
-> +{
-> +	struct platform_device *pdev;
-> +	struct device *dev = NULL;
-> +	struct device_node *np;
-> +	const char *dev_name;
-> +
-> +	np = tegra_clk_get_of_node(hw);
-> +
-> +	if (!of_device_is_available(np))
-> +		goto put_node;
-> +
-> +	dev_name = kasprintf(GFP_KERNEL, "tegra_clk_%s", hw->init->name);
-> +	if (!dev_name)
-> +		goto put_node;
-> +
-> +	pdev = of_platform_device_create(np, dev_name, NULL);
-> +	if (!pdev) {
-> +		pr_err("%s: failed to create device for %pOF\n", __func__, np);
-> +		kfree(dev_name);
-> +		goto put_node;
-> +	}
-> +
-> +	dev = &pdev->dev;
-> +	pm_runtime_enable(dev);
-> +put_node:
-> +	of_node_put(np);
-> +
-> +	return clk_register(dev, hw);
-> +}
 
-This looks wrong. Why do we need struct platform_device objects for each
-of these clocks? That's going to be a massive amount of platform devices
-and they will completely mess up sysfs.
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> >   314     if (dev->driver->gem_prime_import)
+> >   315         obj = dev->driver->gem_prime_import(dev, dma_buf);
+> >   316     else
+> >   317         obj = drm_gem_prime_import(dev, dma_buf);
+> >   				//#1 call to drm_gem_prime_import
+> > 				//   ->drm_gem_prime_import_dev
+> > 				//   ->dma_buf_put
+> >   ...
+> > 
+> >   336     ret = drm_prime_add_buf_handle(&file_priv->prime,
+> >   337             dma_buf, *handle);
+> > 
+> >   ...
+> > 
+> >   342     dma_buf_put(dma_buf);  //#3 put again
+> >   343
+> >   344     return 0;
+> >   345
+> >   346 fail:
+> > 
+> >   351     dma_buf_put(dma_buf); //#4 put again
+> >   352     return ret;
+> > 
+> >   356 out_put:
+> >   357     mutex_unlock(&file_priv->prime.lock);
+> >   358     dma_buf_put(dma_buf);  //#5 put again
+> >   359     return ret;
+> >   360 }
+> > 
+> >   905 struct drm_gem_object *drm_gem_prime_import_dev
+> >   							(struct drm_device *dev,
+> >   906                         struct dma_buf *dma_buf,
+> >   907                         struct device *attach_dev)
+> >   908 {
+> > 
+> >   ...
+> > 
+> >   952 fail_unmap:
+> >   953     dma_buf_unmap_attachment(attach, sgt, DMA_BIDIRECTIONAL);
+> >   954 fail_detach:
+> >   955     dma_buf_detach(dma_buf, attach);
+> >   956     dma_buf_put(dma_buf);  //#2 the first put of dma_buf
+> > 								//	 (unnecessary)
+> >   957
+> >   958     return ERR_PTR(ret);
+> >   959 }
+> > 
+> > Signed-off-by: Wentao_Liang <Wentao_Liang_g@163.com>
+> > ---
+> >   drivers/gpu/drm/drm_prime.c | 1 -
+> >   1 file changed, 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> > index 2a54f86856af..cef03ad0d5cd 100644
+> > --- a/drivers/gpu/drm/drm_prime.c
+> > +++ b/drivers/gpu/drm/drm_prime.c
+> > @@ -953,7 +953,6 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
+> >   	dma_buf_unmap_attachment(attach, sgt, DMA_BIDIRECTIONAL);
+> >   fail_detach:
+> >   	dma_buf_detach(dma_buf, attach);
+> > -	dma_buf_put(dma_buf);
+> >   	return ERR_PTR(ret);
+> >   }
+> 
 
-Thierry
-
---GjgnhAguwPYREA1d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEdFAYACgkQ3SOs138+
-s6HeRQ/+On1vzXNiDk0hs4KISsGV+2p4XxyJVq/mvJWq4nwbzB0fnbltpnQGekNK
-rv9LKvLwpMpikV4RHOysHn4hnusz+I3P/SOJVq8nB5ctz7QEcklxJNgaKIyY3Nri
-JD8EiV936HB8R2Ecg5fEynk0MHmJ4+Pe1pFjfK/3i6l1Xx5Xy+jt/AwHXkTAJG6B
-LilpaYxjeYK0xLVY0uy/3TWmSNj7zmA9NLYadLedHWKAIrmfdhL4qEn0keHZPjeN
-wTRUkexp/mHpfwaNRpUvHM2sF6WuetFM6FrIIAEyVB4SSq3usTLtWtFWl3qca2Vi
-f/LKNT+GlKsS7vs6/bokHE5CtOc1bbILItuJCunjCSnOgElWzJ+WV2oAdBodcDr9
-AaDHCtN1kTr/1f0KYw3zKQHErq1Z9sRrTeETjAkYSE6agOOHm+eBIkPF38mdl7ZN
-eI5syiX8NwgIHv4jp1YR6lbvplx9XhD9Se4EcrgNSytiYYWfZMDEyH3dFTzCjzyT
-E5pNO8BuA8JHJWCUYtqjl+OccK0XhnR99XyHvsb1HM+jT0EqRjLc59PJlOwQeX2f
-KwOX9DhOQf+ZyRegAHSh4uNpR2fySasbnBT7RwyG17MKbeoTEqTOTJ5QZmMXSqDa
-kNchGN8JwMPpyDcw6adERGyrLYh0tFLdrM+1JjImnnDrLx9SuRo=
-=yj83
------END PGP SIGNATURE-----
-
---GjgnhAguwPYREA1d--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
