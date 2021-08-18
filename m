@@ -2,173 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 430053F095E
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 18:42:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 455593F096C
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 18:44:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229953AbhHRQmt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 12:42:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53400 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbhHRQmq (ORCPT
+        id S230078AbhHRQoy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 12:44:54 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:53164 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229517AbhHRQox (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 12:42:46 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E80E8C061764;
-        Wed, 18 Aug 2021 09:42:11 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id q10so4523717wro.2;
-        Wed, 18 Aug 2021 09:42:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=W5GdT8EduZhugpUzvA2/GGwOnhoyQZEiDeyMUn6wh8E=;
-        b=bycOHzTRH+aRXcUmSXBOsZG5Gkzo5xIQfqMjeSwTAggOfBKGiaEZit8SDMA+PJV/4R
-         +SioqGMlkGUdU6qIL2kxqre0MEaJPxbT+4UymP0e0nIcatW2YHuqV6G0EIqPFtuQCXGi
-         Jbq09VFv7EPVyH4eqNrlwu5USRtrIn6CMQC5U3LS+A02T5Q9fvgScM1H4nhBKGtN6RUL
-         Y7XsBkNrly0Ys3jNk9rVgELVdzM5wqEqZJwenqVHtLxnyDipXrN6bN2LOmUK3dXnQ22U
-         JiAZrzffEiDVy9U9R9IWv6dEQafAII9n5gfOOnt2dMqQTo7gBmHpvFh40BS5bWEuQ0Sg
-         o14Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=W5GdT8EduZhugpUzvA2/GGwOnhoyQZEiDeyMUn6wh8E=;
-        b=K5ujuBdMP30OXH16vCcT/OiuJ0UaT2kBUS5X7DkCUYDKhI00DmHrv0blPUZVWUYJyb
-         zGZj1tbX1DEMT7Uh1DZ4aU8VhhgMr12k0y8nQ8Qa/HU+dMPpEDQVNuha8h97qoBr0fJE
-         hpBJui48/nPTli2td63lCuVCpWbYKbOmsIn27esiaS9Wu167ScBkbF3zCyr59EdLk2UC
-         /dbmvyXsO4cpXyWP/tTsB60GF4Ly5C71Dwwu/qJxwy0j1qYxU1ZvRZMQ8W29xNbagNeU
-         JqhZsCld3K072/78gD4T+TK+Y931yQhOrM4uyKpy3Ne7bORo3i3MZb3BAnM/xlxv/fB2
-         kLpw==
-X-Gm-Message-State: AOAM530MTxRbvmufBVNf83XNgo8v6UISmRggF9mHYe5LdV2Tl3z8EF+m
-        KERloGd/c0EwT5LlJ4EIuVc=
-X-Google-Smtp-Source: ABdhPJybiNwCfJ6kqxUImknf7ykkkk34GLtm70yXj+iZARNGInDoPzAW6ue7Kn6H0xv3rLWosSR4+g==
-X-Received: by 2002:a5d:4c4e:: with SMTP id n14mr11446318wrt.226.1629304930527;
-        Wed, 18 Aug 2021 09:42:10 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id v12sm296002wrq.59.2021.08.18.09.42.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 09:42:09 -0700 (PDT)
-Date:   Wed, 18 Aug 2021 18:42:08 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
-Message-ID: <YR04YHGEluqLIZeo@orome.fritz.box>
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-8-digetx@gmail.com>
- <YR0UBi/ejy+oF4Hm@orome.fritz.box>
- <da7356cb-05ee-ba84-8a7c-6e69d853a805@gmail.com>
+        Wed, 18 Aug 2021 12:44:53 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 17IGiFwm094931;
+        Wed, 18 Aug 2021 11:44:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1629305055;
+        bh=s1fQOrd2AGCGmTDAq1P48wzKCCxRSu9avGN2pWSwF9k=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=S9Atjj2m+KY6N9xDp+HDV9bw/Vrz/lKDCeCcQudJAALKOr91gT4UzWLMU/JroPm9g
+         092kQp9vr1tV9V+AmUBrnM0ISycxjY+xYRR+kbg407PEoKrwUfLRzFhHh+4NXyHUeY
+         8XrRhhLKuxy9+uyUXGAKSCWD6/fWc3W0D4KHoBDE=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 17IGiFdE075940
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 18 Aug 2021 11:44:15 -0500
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 18
+ Aug 2021 11:44:15 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Wed, 18 Aug 2021 11:44:15 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 17IGiFGv055811;
+        Wed, 18 Aug 2021 11:44:15 -0500
+Date:   Wed, 18 Aug 2021 11:44:15 -0500
+From:   Nishanth Menon <nm@ti.com>
+To:     <sidraya.bj@pathpartnertech.com>
+CC:     <gregkh@linuxfoundation.org>, <linux-staging@lists.linux.dev>,
+        <linux-kernel@vger.kernel.org>, <prashanth.ka@pathpartnertech.com>,
+        <praneeth@ti.com>, <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <praveen.ap@pathpartnertech.com>
+Subject: Re: [PATCH 29/30] arm64: dts: dra82: Add v4l2 vxd_dec device node
+Message-ID: <20210818164415.2wizi43eidtngqca@siberian>
+References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
+ <20210818141037.19990-30-sidraya.bj@pathpartnertech.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ZRswRx01OcPCxpgj"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <da7356cb-05ee-ba84-8a7c-6e69d853a805@gmail.com>
-User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
+In-Reply-To: <20210818141037.19990-30-sidraya.bj@pathpartnertech.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+^^ $subject
+you might want to run:
+git log --oneline arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
 
---ZRswRx01OcPCxpgj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+to see precedence of usage.
 
-On Wed, Aug 18, 2021 at 06:05:21PM +0300, Dmitry Osipenko wrote:
-> 18.08.2021 17:07, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Tue, Aug 17, 2021 at 04:27:27AM +0300, Dmitry Osipenko wrote:
-> > [...]
-> >> +struct clk *tegra_clk_register(struct clk_hw *hw)
-> >> +{
-> >> +	struct platform_device *pdev;
-> >> +	struct device *dev =3D NULL;
-> >> +	struct device_node *np;
-> >> +	const char *dev_name;
-> >> +
-> >> +	np =3D tegra_clk_get_of_node(hw);
-> >> +
-> >> +	if (!of_device_is_available(np))
-> >> +		goto put_node;
-> >> +
-> >> +	dev_name =3D kasprintf(GFP_KERNEL, "tegra_clk_%s", hw->init->name);
-> >> +	if (!dev_name)
-> >> +		goto put_node;
-> >> +
-> >> +	pdev =3D of_platform_device_create(np, dev_name, NULL);
-> >> +	if (!pdev) {
-> >> +		pr_err("%s: failed to create device for %pOF\n", __func__, np);
-> >> +		kfree(dev_name);
-> >> +		goto put_node;
-> >> +	}
-> >> +
-> >> +	dev =3D &pdev->dev;
-> >> +	pm_runtime_enable(dev);
-> >> +put_node:
-> >> +	of_node_put(np);
-> >> +
-> >> +	return clk_register(dev, hw);
-> >> +}
-> >=20
-> > This looks wrong. Why do we need struct platform_device objects for each
-> > of these clocks? That's going to be a massive amount of platform devices
-> > and they will completely mess up sysfs.
->=20
-> RPM works with a device. It's not a massive amount of devices, it's one
-> device for T20 and four devices for T30.
+On 19:40-20210818, sidraya.bj@pathpartnertech.com wrote:
+> From: Sidraya <sidraya.bj@pathpartnertech.com>
+> 
+> Enable v4l2 vxd_dec on dra82
 
-I'm still not sure I understand why we need to call RPM functions on a
-clock. And even if they are few, it seems wrong to make these platform
-devices.
+s/dra82/j721e
 
-Perhaps they can be simple struct device:s instead? Ideally they would
-also be parented to the CAR so that they appear in the right place in
-the sysfs hierarchy.
+> 
+> Signed-off-by: Angela Stegmaier <angelabaker@ti.com>
+> Signed-off-by: Sidraya <sidraya.bj@pathpartnertech.com>
+> ---
+>  arch/arm64/boot/dts/ti/k3-j721e-main.dtsi | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi b/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
+> index cf3482376c1e..a10eb7bcce74 100644
+> --- a/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
+> +++ b/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
+> @@ -1242,6 +1242,15 @@
+>  		power-domains = <&k3_pds 193 TI_SCI_PD_EXCLUSIVE>;
+>  	};
+>  
+> +	d5520: video-decoder@4300000 {
+> +	       /* IMG D5520 driver configuration */
+> +	       compatible = "img,d5500-vxd";
+> +	       reg = <0x00 0x04300000>,
+> +		     <0x00 0x100000>;
+> +	       power-domains = <&k3_pds 144 TI_SCI_PD_EXCLUSIVE>;
+> +	       interrupts = <GIC_SPI 180 IRQ_TYPE_LEVEL_HIGH>;
+> +	};
+> +
+>  	ufs_wrapper: ufs-wrapper@4e80000 {
+>  		compatible = "ti,j721e-ufs";
+>  		reg = <0x0 0x4e80000 0x0 0x100>;
+> -- 
+> 2.17.1
+> 
+> 
+> -- 
+> 
+> 
+> 
+> 
+> 
+> 
+> This
+> message contains confidential information and is intended only 
+> for the
+> individual(s) named. If you are not the intended
+> recipient, you are 
 
-Thierry
+You might want to look up the MAINTAINER file to see who this patch
+and what list this should have been addressed to.
 
---ZRswRx01OcPCxpgj
-Content-Type: application/pgp-signature; name="signature.asc"
+Further I DONOT want to see a single bit of confidential information
+based patch in my tree. Please discuss with your legal department
+and since TI is mentioned in the patches, please discuss with TI's
+legal team as well.
 
------BEGIN PGP SIGNATURE-----
+This patch, IMHO, series mis-represents TI's legal position and
+respect for upstream community and in no way represents the quality
+of patches we(TI) would like to contribute to upstream and DOES NOT
+represent the quality of contributions or collaboration expected of TI
+or representatives of TI.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEdOGAACgkQ3SOs138+
-s6G9mg/7B+N6pKP5RLa+6MqSqr6J1GJQB7fIfzIcmA+LrnV32JQkR+5m6b7bfiYa
-DoWB783TtFILVyc4wpZ/rsEbV7fjEXQiyn4NP44rTeb/EIm54Ls30KodfLm2e+RB
-bomthI0uoJmGnwrE/l73t4XFVGOfslcYBTGhJpGoS6y/mWsszBziqsv7TZjK9EFx
-oBHc5ZPXK6jg2jNdB214Qt9mFH0Y4e23XwC8NH8YRmPANz+BHUX5yLOqpNzBFBqX
-6pltXB/ddB7OMVqgbyghTDPHPr9TM86APIFi29w6aqeXx4JPrih2jtxugr7wDu1r
-05XNQifCKrPCdLHRU6KmSCiOt+9cN3Ze4GIok4i/qVaSJh0oZip+rblv8GCeAXzV
-zra4hTvTG6SNtcYqEZb87DpB7lzU5umKm11TQqjRDH+wEiXcCVFtY1qtvv/WZXfV
-OXMG4pYoU70hxKnlp+MlhsX+1tkWnpb4us35yEYxAv7UqUEXPqaHdRNT4uO8tiGy
-s80pZ6s3Bm1PGRo6wO3dvLh4OXT6QY2Ov+lwZmmUHurizSvRvZ/9B/pL6HLG3NWM
-x1513tBCxJb9dMPsLPK9BZbY1mDopAa6XjMjiaIVkDbrEs7zF0doeksIw50os1Bk
-dNgOWnghgHtl13lzRRLHi/H4onElpL3LCiDteV0kIurgC4v5DeM=
-=SBkO
------END PGP SIGNATURE-----
+So, sorry NAK for the complete series.
 
---ZRswRx01OcPCxpgj--
+-- 
+Regards,
+Nishanth Menon
+Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
