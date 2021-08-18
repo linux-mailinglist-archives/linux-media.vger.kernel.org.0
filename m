@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79A1B3F0634
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 16:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64A343F060A
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 16:14:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239519AbhHROQ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 10:16:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46530 "EHLO
+        id S239438AbhHROPO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 10:15:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239658AbhHROOM (ORCPT
+        with ESMTP id S239619AbhHROON (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 10:14:12 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35E96C06124C
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:48 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id d17so1847832plr.12
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:48 -0700 (PDT)
+        Wed, 18 Aug 2021 10:14:13 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A614C061224
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:51 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so9010381pjr.1
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=pathpartnertech.com; s=google;
         h=mime-version:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=lTn1tv+cdEEWthxb7x9eEJtLz7gLrC1ZYvDMpUK9UtU=;
-        b=W7A9o60SXqg+Pm4Zvg+9FQMtg8rSHOBJI2nwglb095hB8O0O3ovYoar36huZ3ZbVvZ
-         TQLyUwxaWhzDXaeI1n1otLRDy6oUnycYug+gRKjZ7iw8S1jiblO5z6p5QvmBnlffSwDI
-         dsjUY/XVbsTIDJ8i+raMaLxYpb8iPt+QSBjsCeOx9skX44a/WLaXS8kSTuCThwkkooUa
-         THYDlWbMfPdEMEqbmyQIOFHtF5vvISKphCjJkR8cDk5QAnNsQ+tOrB7YztWxiuYNcCmt
-         cpCHGcsSdnDBirK1oYAfPtmy2zdgHsG39YaPq4GLdjjAgyvDb0vavVclE4BbUNvrjQMG
-         BU9A==
+        bh=hciLVVz7oYmPEz+0OVi+40tuZkd3zXhAHIFMBcV5fuQ=;
+        b=CTgZvPMPrtzQSE3z+Tt/9htreF/68IeCOF2+whRVF6fO4LGY99ryZJadAfp2wMKbJ0
+         abccfykvqGzHuOmuXeMpqzxnnsG5OzRrKd+aV2NkGJz1KE+g/7bK9GA+Qo1npkCVn5e6
+         u19V4CrMy890EdRSRYqvPMpGy0Islw/sISe3z024rMftW93MmRO5Ngxbu58ouZCLkDQs
+         7eAuQIesoMRh441BqSpre4NuzY0fAeqUFMb0fvHm85iHMqHb+cOKL0AT4Jd9deSaDurs
+         De8EgHdUKDjdjMgRaQr+6hckwhME3U0BfVOYJeLRaM3IVt1d0CYhl4Y4SFHjg5LCIx2I
+         Kdaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :in-reply-to:references;
-        bh=lTn1tv+cdEEWthxb7x9eEJtLz7gLrC1ZYvDMpUK9UtU=;
-        b=UhgifBVLYRCcJwV3YZj7cuA6ZAXz9gueFESsFkDdNsUvpJbleSwSCI8iEeopM4X9UC
-         mK/XP7tGpnSrTqmKKNCmX5uoopSzogdi8mC1o/1fT/LLM2hqzndrU9zu8MtMQXoOCELK
-         byjPEdrNlGgtSXcaNy4JcW7kbPiS6uXLuUkssrscvZE/QDe6rySeNQMq4rBDt6bC+icZ
-         ERMOO1RW74mYFK/8djGLAVuVooQWP+82dDjgJtahAoD4JIAivMJCyt5yCy4OHcikyGyT
-         y/m64B1Aj4dcPwysgBHXNYgg5hUl0D0Gl8JOidy15YUcXxnOELkf4D/XFqzEaDKK7rPA
-         biCw==
+        bh=hciLVVz7oYmPEz+0OVi+40tuZkd3zXhAHIFMBcV5fuQ=;
+        b=ZqlkVRmG3u9T9mX1tlxR0cyk5cy9GKAvbLI4UIyylSXQ6DqgLebKXoKyTkz8PWhpao
+         DACrNNvzAOp2zwizwy5pYAFDlVpbsMLkdwG3+JysJ2v9DavjQ6vqDJUhKKDEbDtjg/lZ
+         htwWtTZ+YRg4CF3ZiRZsXA7QrVMnexysaNS3Jn3UvjbtJQudY4c/tAT4+zjAoLqCMDr1
+         P9EAzudz7xdm/3KeAuq7NpSCbHRGQWfoxkLIMIfZhctJclXHz7hOxMdjtDKFvZCJxHJn
+         0sYl5Mvom+j4iga45APWYrdn3NRGBou5fjlqTX5fAHQoO/QndriBcbvDAtd+bVwDAkZ2
+         G4WA==
 MIME-Version: 1.0
-X-Gm-Message-State: AOAM532CETmJCD4x8AHYaeXIEah0DeseFwVtgI6aiCVoURkAeR/3J/pr
-        NHfujGgfaPo5EkqwofgHJJ/tTrtRS9tBgJKqTcb1RRg+NRzd6vaxwHDcmnXonRb3pBNeWA0CEE3
-        wQZr23fBUplMnt7cW
-X-Google-Smtp-Source: ABdhPJzWE4IEG6p1dUMaTevQk3xKy4dKqZZPdBdTIF+8HzvDBttle5+iDu25KKfVjahs11LvahUa9w==
-X-Received: by 2002:a17:90a:c8b:: with SMTP id v11mr9330341pja.114.1629295967576;
-        Wed, 18 Aug 2021 07:12:47 -0700 (PDT)
+X-Gm-Message-State: AOAM531Yyiioa5CqLA+d6QIi3sbI/en5U0/yxKy7ZnQi3lkTLMCKAxJH
+        7Su/GqPQPY1MUwmqVLJDpQi4UsPrE6MS1xbGHHr8NF3eFc2Y3JvAD6PtnNBIKzfwjBNyWKsd7wb
+        LEWnWJdrzqkmYk1oC
+X-Google-Smtp-Source: ABdhPJzIajwSqAJ/xLWgynJls+uwaNrEilp9qnynPFj+e/RNJO4L1NHC37WYsSlJAcaePOxqx7vDlQ==
+X-Received: by 2002:a17:903:2349:b0:12d:ada3:192e with SMTP id c9-20020a170903234900b0012dada3192emr7594388plh.3.1629295970735;
+        Wed, 18 Aug 2021 07:12:50 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.214.181])
-        by smtp.gmail.com with ESMTPSA id e8sm8084343pgg.31.2021.08.18.07.12.44
+        by smtp.gmail.com with ESMTPSA id e8sm8084343pgg.31.2021.08.18.07.12.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 07:12:47 -0700 (PDT)
+        Wed, 18 Aug 2021 07:12:50 -0700 (PDT)
 From:   sidraya.bj@pathpartnertech.com
 To:     gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org
@@ -57,9 +57,9 @@ Cc:     prashanth.ka@pathpartnertech.com, praneeth@ti.com,
         mchehab@kernel.org, linux-media@vger.kernel.org,
         praveen.ap@pathpartnertech.com,
         Sidraya <sidraya.bj@pathpartnertech.com>
-Subject: [PATCH 16/30] v4l: vxd-dec: Add pool api modules
-Date:   Wed, 18 Aug 2021 19:40:23 +0530
-Message-Id: <20210818141037.19990-17-sidraya.bj@pathpartnertech.com>
+Subject: [PATCH 17/30] v4l: vxd-dec: This patch implements resource manage component
+Date:   Wed, 18 Aug 2021 19:40:24 +0530
+Message-Id: <20210818141037.19990-18-sidraya.bj@pathpartnertech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
 References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
@@ -70,41 +70,42 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Sidraya <sidraya.bj@pathpartnertech.com>
 
-This patch create and destroy the pool of the resources
-and it manages the allocation and free of the resources.
+This component is used to track decoder resources, and share them
+across other components.
 
-Signed-off-by: Amit Makani <amit.makani@ti.com>
+Signed-off-by: Sunita Nadampalli <sunitan@ti.com>
 Signed-off-by: Sidraya <sidraya.bj@pathpartnertech.com>
 ---
  MAINTAINERS                                 |   2 +
- drivers/staging/media/vxd/common/pool_api.c | 709 ++++++++++++++++++++
- drivers/staging/media/vxd/common/pool_api.h | 113 ++++
- 3 files changed, 824 insertions(+)
- create mode 100644 drivers/staging/media/vxd/common/pool_api.c
- create mode 100644 drivers/staging/media/vxd/common/pool_api.h
+ drivers/staging/media/vxd/common/rman_api.c | 620 ++++++++++++++++++++
+ drivers/staging/media/vxd/common/rman_api.h |  66 +++
+ 3 files changed, 688 insertions(+)
+ create mode 100644 drivers/staging/media/vxd/common/rman_api.c
+ create mode 100644 drivers/staging/media/vxd/common/rman_api.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index a00ac0852b2a..f7e55791f355 100644
+index f7e55791f355..d126162984c6 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -19556,6 +19556,8 @@ F:	drivers/staging/media/vxd/common/lst.c
- F:	drivers/staging/media/vxd/common/lst.h
- F:	drivers/staging/media/vxd/common/pool.c
- F:	drivers/staging/media/vxd/common/pool.h
-+F:	drivers/staging/media/vxd/common/pool_api.c
-+F:	drivers/staging/media/vxd/common/pool_api.h
+@@ -19560,6 +19560,8 @@ F:	drivers/staging/media/vxd/common/pool_api.c
+ F:	drivers/staging/media/vxd/common/pool_api.h
  F:	drivers/staging/media/vxd/common/ra.c
  F:	drivers/staging/media/vxd/common/ra.h
++F:	drivers/staging/media/vxd/common/rman_api.c
++F:	drivers/staging/media/vxd/common/rman_api.h
  F:	drivers/staging/media/vxd/common/talmmu_api.c
-diff --git a/drivers/staging/media/vxd/common/pool_api.c b/drivers/staging/media/vxd/common/pool_api.c
+ F:	drivers/staging/media/vxd/common/talmmu_api.h
+ F:	drivers/staging/media/vxd/common/work_queue.c
+diff --git a/drivers/staging/media/vxd/common/rman_api.c b/drivers/staging/media/vxd/common/rman_api.c
 new file mode 100644
-index 000000000000..68d960a687da
+index 000000000000..c595dccd5ed2
 --- /dev/null
-+++ b/drivers/staging/media/vxd/common/pool_api.c
-@@ -0,0 +1,709 @@
++++ b/drivers/staging/media/vxd/common/rman_api.c
+@@ -0,0 +1,620 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Resource pool manager API.
++ * This component is used to track decoder resources,
++ * and share them across other components.
 + *
 + * Copyright (c) Imagination Technologies Ltd.
 + * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
@@ -115,711 +116,622 @@ index 000000000000..68d960a687da
 + * Re-written for upstreamimg
 + *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
 + */
-+
 +#include <linux/slab.h>
 +#include <linux/printk.h>
 +#include <linux/mutex.h>
++#include <linux/types.h>
 +#include <linux/dma-mapping.h>
 +#include <media/v4l2-ctrls.h>
 +#include <media/v4l2-device.h>
 +#include <media/v4l2-mem2mem.h>
-+#include <linux/types.h>
 +
++#include "dq.h"
 +#include "idgen_api.h"
-+#include "lst.h"
-+#include "pool_api.h"
++#include "rman_api.h"
 +
 +/*
-+ * list can be modified by different instances. So please,
-+ * make sure to acquire mutex lock before initializing the list.
++ * The following macros are used to build/decompose the composite resource Id
++ * made up from the bucket index + 1 and the allocated resource Id.
 + */
++#define RMAN_CRESID_BUCKET_INDEX_BITS	(8)
++#define RMAN_CRESID_RES_ID_BITS		(32 - RMAN_CRESID_BUCKET_INDEX_BITS)
++#define RMAN_CRESID_MAX_RES_ID		((1 << RMAN_CRESID_RES_ID_BITS) - 1)
++#define RMAN_CRESID_RES_ID_MASK		(RMAN_CRESID_MAX_RES_ID)
++#define RMAN_CRESID_BUCKET_SHIFT	(RMAN_CRESID_RES_ID_BITS)
++#define RMAN_CRESID_MAX_BUCKET_INDEX	\
++			((1 << RMAN_CRESID_BUCKET_INDEX_BITS) - 1)
++
++#define RMAN_MAX_ID		4096
++#define RMAN_ID_BLOCKSIZE	256
++
++/* global state variable */
++static unsigned char inited;
++static struct rman_bucket *bucket_array[RMAN_CRESID_MAX_BUCKET_INDEX] = {0};
++static struct rman_bucket *global_res_bucket;
++static struct rman_bucket *shared_res_bucket;
 +static struct mutex *shared_res_mutex_handle;
++static struct mutex *global_mutex;
 +
 +/*
-+ * Max resource ID's.
++ * This structure contains the bucket information.
 + */
-+#define POOL_IDGEN_MAX_ID	   (0xFFFFFFFF)
-+/*
-+ * Size of blocks used for ID's.
-+ */
-+#define POOL_IDGEN_BLOCK_SIZE  (50)
-+
-+/*
-+ * Indicates if the pool API has been indialized or not.
-+ * zero if not done. 1 if done.
-+ */
-+static int poolinitdone;
-+
-+/* list of resource pool */
-+static struct lst_t poollist = {0};
-+
-+/**
-+ * struct poollist - Structure contains resource list information.
-+ * @link: to be able to part of single linked list
-+ * @pool_mutex: lock
-+ * @freereslst: list of free resource structure
-+ * @actvreslst: list of active resource structure
-+ * @pfnfree: pool free callback function
-+ * @idgenhandle: ID generator context handl
-+ */
-+struct poollist {
-+	void **link;
-+	struct mutex *pool_mutex; /* Mutex lock */
-+	struct lst_t freereslst;
-+	struct lst_t actvreslst;
-+	pfrecalbkpntr pfnfree;
-+	void *idgenhandle;
++struct rman_bucket {
++	void		**link; /* to be part of single linked list */
++	struct dq_linkage_t	res_list;
++	unsigned int		bucket_idx;
++	void		*id_gen;
++	unsigned int	res_cnt;
 +};
 +
 +/*
-+ * This structure contains pool resource.
++ * This structure contains the resource details for a resource registered with
++ * the resource manager.
 + */
-+struct poolres {
-+	void **link; /* to be able to part of single linked list */
-+	/* Resource id */
-+	unsigned int resid;
-+	/* Pointer to destructor function */
-+	pdestcallbkptr desfunc;
-+	/* resource param */
-+	void *resparam;
-+	/* size of resource param in bytes */
-+	unsigned int resparmsize;
-+	/* pointer to resource pool list */
-+	struct poollist *respoollst;
-+	/* 1 if this is a clone of the original resource */
-+	int isclone;
-+	/* pointer to original resource */
-+	struct poolres *origres;
-+	/* list of cloned resource structures. Only used on the original */
-+	struct lst_t clonereslst;
-+	/* reference count. Only used on the original resource */
-+	unsigned int refcnt;
-+	void *cb_handle;
++struct rman_res {
++	struct dq_linkage_t	link; /* to be part of double linked list */
++	struct rman_bucket	*bucket;
++	unsigned int		type_id;
++	rman_fn_free		fn_free;
++	void			*param;
++	unsigned int		res_id;
++	struct mutex		*mutex_handle; /*resource mutex */
++	unsigned char		*res_name;
++	struct rman_res		*shared_res;
++	unsigned int		ref_cnt;
 +};
 +
 +/*
-+ * This function initializes the list if not done earlier.
++ * initialization
 + */
-+int pool_init(void)
++int rman_initialise(void)
 +{
-+	/* Check if list already initialized */
-+	if (!poolinitdone) {
-+		/*
-+		 * list can be modified by different instances. So please,
-+		 * make sure to acquire mutex lock before initializing the list.
-+		 */
++	unsigned int ret;
 +
++	if (!inited) {
 +		shared_res_mutex_handle = kzalloc(sizeof(*shared_res_mutex_handle), GFP_KERNEL);
 +		if (!shared_res_mutex_handle)
-+			return -ENOMEM;
++			return IMG_ERROR_OUT_OF_MEMORY;
 +
 +		mutex_init(shared_res_mutex_handle);
 +
-+		/* initialize the list of pools */
-+		lst_init(&poollist);
-+		/* Get initialized flag to true */
-+		poolinitdone = 1;
-+	}
++		/* Set initialised flag */
++		inited = TRUE;
 +
-+	return 0;
++		/* Create the global resource bucket */
++		ret = rman_create_bucket((void **)&global_res_bucket);
++		IMG_DBG_ASSERT(ret == IMG_SUCCESS);
++		if (ret != IMG_SUCCESS)
++			return ret;
++
++		/* Create the shared resource bucket */
++		ret = rman_create_bucket((void **)&shared_res_bucket);
++		IMG_DBG_ASSERT(ret == IMG_SUCCESS);
++		if (ret != IMG_SUCCESS)
++			return ret;
++
++		global_mutex = kzalloc(sizeof(*global_mutex), GFP_KERNEL);
++		if (!global_mutex)
++			return IMG_ERROR_OUT_OF_MEMORY;
++
++		mutex_init(global_mutex);
++	}
++	return IMG_SUCCESS;
 +}
 +
 +/*
-+ * This function de-initializes the list.
++ * deinitialization
 + */
-+void pool_deinit(void)
++void rman_deinitialise(void)
 +{
-+	struct poollist *respoollist;
++	unsigned int	i;
 +
-+	/* Check if list initialized */
-+	if (poolinitdone) {
-+		/* destroy any active pools */
-+		respoollist = (struct poollist *)lst_first(&poollist);
-+		while (respoollist) {
-+			pool_destroy(respoollist);
-+			respoollist = (struct poollist *)lst_first(&poollist);
-+		}
++	if (inited) {
++		/* Destroy the golbal resource bucket */
++		rman_destroy_bucket(global_res_bucket);
++
++		/* Destroy the shared resource bucket */
++		rman_destroy_bucket(shared_res_bucket);
++
++		/* Make sure we destroy the mutex after destroying the bucket */
++		mutex_destroy(global_mutex);
++		kfree(global_mutex);
++		global_mutex = NULL;
 +
 +		/* Destroy mutex */
 +		mutex_destroy(shared_res_mutex_handle);
 +		kfree(shared_res_mutex_handle);
 +		shared_res_mutex_handle = NULL;
 +
-+		/* set initialized flag to 0 */
-+		poolinitdone = 0;
++		/* Check all buckets destroyed */
++		for (i = 0; i < RMAN_CRESID_MAX_BUCKET_INDEX; i++)
++			IMG_DBG_ASSERT(!bucket_array[i]);
++
++		/* Reset initialised flag */
++		inited = FALSE;
 +	}
 +}
 +
-+/*
-+ * This function creates pool.
-+ */
-+int pool_api_create(void **poolhndle)
++int rman_create_bucket(void **res_bucket_handle)
 +{
-+	struct poollist *respoollist;
-+	unsigned int result = 0;
++	struct rman_bucket	*bucket;
++	unsigned int			i;
++	int			ret;
 +
-+	/* Allocate a pool structure */
-+	respoollist = kzalloc(sizeof(*respoollist), GFP_KERNEL);
-+	if (!respoollist)
++	IMG_DBG_ASSERT(inited);
++
++	/* Allocate a bucket structure */
++	bucket = kzalloc(sizeof(*bucket), GFP_KERNEL);
++	IMG_DBG_ASSERT(bucket);
++	if (!bucket)
 +		return IMG_ERROR_OUT_OF_MEMORY;
 +
-+	/* Initialize the pool info */
-+	lst_init(&respoollist->freereslst);
-+	lst_init(&respoollist->actvreslst);
++	/* Initialise the resource list */
++	dq_init(&bucket->res_list);
 +
-+	/* Create mutex */
-+	respoollist->pool_mutex = kzalloc(sizeof(*respoollist->pool_mutex), GFP_KERNEL);
-+	if (!respoollist->pool_mutex) {
-+		result = ENOMEM;
-+		goto error_create_context;
++	/* Then start allocating resource ids at the first */
++	ret = idgen_createcontext(RMAN_MAX_ID, RMAN_ID_BLOCKSIZE, FALSE,
++				  &bucket->id_gen);
++	if (ret != IMG_SUCCESS) {
++		kfree(bucket);
++		IMG_DBG_ASSERT("failed to create IDGEN context" == NULL);
++		return ret;
 +	}
-+	mutex_init(respoollist->pool_mutex);
 +
-+	/* Create context for the Id generator */
-+	result = idgen_createcontext(POOL_IDGEN_MAX_ID,
-+				     POOL_IDGEN_BLOCK_SIZE, 0,
-+				     &respoollist->idgenhandle);
-+	if (result != IMG_SUCCESS)
-+		goto error_create_context;
++	/* Locate free bucket index within the table */
++	mutex_lock_nested(shared_res_mutex_handle, SUBCLASS_RMAN);
++	for (i = 0; i < RMAN_CRESID_MAX_BUCKET_INDEX; i++) {
++		if (!bucket_array[i])
++			break;
++	}
++	if (i >= RMAN_CRESID_MAX_BUCKET_INDEX) {
++		mutex_unlock(shared_res_mutex_handle);
++		idgen_destroycontext(bucket->id_gen);
++		kfree(bucket);
++		IMG_DBG_ASSERT("No free buckets left" == NULL);
++		return IMG_ERROR_GENERIC_FAILURE;
++	}
 +
-+	/* Disable interrupts */
-+	mutex_lock_nested(shared_res_mutex_handle, SUBCLASS_POOL_RES);
++	/* Allocate bucket index */
++	bucket->bucket_idx = i;
++	bucket_array[i] = bucket;
 +
-+	/* Add to list of pools */
-+	lst_add(&poollist, respoollist);
-+
-+	/* Enable interrupts */
 +	mutex_unlock(shared_res_mutex_handle);
 +
-+	/* Return handle to pool */
-+	*poolhndle = respoollist;
++	/* Return the bucket handle */
++	*res_bucket_handle = bucket;
 +
 +	return IMG_SUCCESS;
-+
-+	/* Error handling. */
-+error_create_context:
-+	kfree(respoollist);
-+
-+	return result;
 +}
 +
-+/*
-+ * This function destroys the pool.
-+ */
-+int pool_destroy(void *poolhndle)
++void rman_destroy_bucket(void *res_bucket_handle)
 +{
-+	struct poollist *respoollist = poolhndle;
-+	struct poolres *respool;
-+	struct poolres *clonerespool;
-+	unsigned int result = 0;
++	struct rman_bucket *bucket = (struct rman_bucket *)res_bucket_handle;
 +
-+	if (!poolinitdone || !respoollist) {
-+		result = IMG_ERROR_INVALID_PARAMETERS;
-+		goto	error_nolock;
-+	}
++	IMG_DBG_ASSERT(inited);
 +
-+	/* Lock the pool */
-+	mutex_lock_nested(respoollist->pool_mutex, SUBCLASS_POOL);
++	IMG_DBG_ASSERT(bucket);
++	if (!bucket)
++		return;
 +
-+	/* Disable interrupts */
-+	/*
-+	 * We need to check if we really need to check disable,
-+	 * interrupts because before deleting we need to make sure the
-+	 * pool lst is not being used other process. As of now getting ipl
-+	 * global mutex
-+	 */
-+	mutex_lock_nested(shared_res_mutex_handle, SUBCLASS_POOL_RES);
++	IMG_DBG_ASSERT(bucket->bucket_idx < RMAN_CRESID_MAX_BUCKET_INDEX);
++	IMG_DBG_ASSERT(bucket_array[bucket->bucket_idx]);
 +
-+	/* Remove the pool from the active list */
-+	lst_remove(&poollist, respoollist);
++	/* Free all resources from the bucket */
++	rman_free_resources(res_bucket_handle, RMAN_TYPE_P1);
++	rman_free_resources(res_bucket_handle, RMAN_TYPE_P2);
++	rman_free_resources(res_bucket_handle, RMAN_TYPE_P3);
++	rman_free_resources(res_bucket_handle, RMAN_ALL_TYPES);
 +
-+	/* Enable interrupts */
++	/* free sticky resources last: other resources are dependent on them */
++	rman_free_resources(res_bucket_handle, RMAN_STICKY);
++	/* Use proper locking around global buckets.  */
++	mutex_lock_nested(shared_res_mutex_handle, SUBCLASS_RMAN);
++
++	/* Free from array of bucket pointers */
++	bucket_array[bucket->bucket_idx] = NULL;
++
 +	mutex_unlock(shared_res_mutex_handle);
 +
-+	/* Destroy any resources in the free list */
-+	respool = (struct poolres *)lst_removehead(&respoollist->freereslst);
-+	while (respool) {
-+		respool->desfunc(respool->resparam, respool->cb_handle);
-+		kfree(respool);
-+		respool = (struct poolres *)
-+				lst_removehead(&respoollist->freereslst);
-+	}
-+
-+	/* Destroy any resources in the active list */
-+	respool = (struct poolres *)lst_removehead(&respoollist->actvreslst);
-+	while (respool) {
-+		clonerespool = (struct poolres *)
-+				lst_removehead(&respool->clonereslst);
-+		while (clonerespool) {
-+			/*
-+			 * If we created a copy of the resources pvParam
-+			 * then free it.
-+			 * kfree(NULL) is safe and this check is probably not
-+			 * required
-+			 */
-+			kfree(clonerespool->resparam);
-+
-+			kfree(clonerespool);
-+			clonerespool = (struct poolres *)
-+					lst_removehead(&respool->clonereslst);
-+		}
-+
-+		/* Call the resource destructor */
-+		respool->desfunc(respool->resparam, respool->cb_handle);
-+		kfree(respool);
-+		respool = (struct poolres *)
-+				lst_removehead(&respoollist->actvreslst);
-+	}
-+	/* Destroy the context for the Id generator */
-+	if (respoollist->idgenhandle)
-+		result = idgen_destroycontext(respoollist->idgenhandle);
-+
-+	/* Unlock the pool */
-+	mutex_unlock(respoollist->pool_mutex);
-+
-+	/* Destroy mutex */
-+	mutex_destroy(respoollist->pool_mutex);
-+	kfree(respoollist->pool_mutex);
-+	respoollist->pool_mutex = NULL;
-+
-+	/* Free the pool structure */
-+	kfree(respoollist);
-+
-+	return IMG_SUCCESS;
-+
-+error_nolock:
-+	return result;
++	/* Free the bucket itself */
++	idgen_destroycontext(bucket->id_gen);
++	kfree(bucket);
 +}
 +
-+int pool_setfreecalbck(void *poolhndle, pfrecalbkpntr pfnfree)
++void *rman_get_global_bucket(void)
 +{
-+	struct poollist *respoollist = poolhndle;
-+	struct poolres *respool;
-+	unsigned int result = 0;
++	IMG_DBG_ASSERT(inited);
++	IMG_DBG_ASSERT(global_res_bucket);
 +
-+	if (!poolinitdone || !respoollist) {
-+		result = IMG_ERROR_INVALID_PARAMETERS;
-+		goto error_nolock;
-+	}
-+
-+	/* Lock the pool */
-+	mutex_lock_nested(respoollist->pool_mutex, SUBCLASS_POOL);
-+
-+	respoollist->pfnfree = pfnfree;
-+
-+	/* If free callback set */
-+	if (respoollist->pfnfree) {
-+		/* Move resources from free to active list */
-+		respool = (struct poolres *)
-+				lst_removehead(&respoollist->freereslst);
-+		while (respool) {
-+			/* Add to active list */
-+			lst_add(&respoollist->actvreslst, respool);
-+			respool->refcnt++;
-+
-+			/* Unlock the pool */
-+			mutex_unlock(respoollist->pool_mutex);
-+
-+			/* Call the free callback */
-+			respoollist->pfnfree(respool->resid, respool->resparam);
-+
-+			/* Lock the pool */
-+			mutex_lock_nested(respoollist->pool_mutex, SUBCLASS_POOL);
-+
-+			/* Get next free resource */
-+			respool = (struct poolres *)
-+				lst_removehead(&respoollist->freereslst);
-+		}
-+	}
-+
-+	/* Unlock the pool */
-+	mutex_unlock(respoollist->pool_mutex);
-+
-+	/* Return IMG_SUCCESS */
-+	return IMG_SUCCESS;
-+
-+error_nolock:
-+	return result;
++	/* Return the handle of the global resource bucket */
++	return global_res_bucket;
 +}
 +
-+int pool_resreg(void *poolhndle, pdestcallbkptr fndestructor,
-+		void *resparam, unsigned int resparamsize,
-+		int balloc, unsigned int *residptr,
-+		void **poolreshndle, void *cb_handle)
++int rman_register_resource(void *res_bucket_handle, unsigned int type_id,
++			   rman_fn_free fnfree, void *param,
++			   void **res_handle, unsigned int *res_id)
 +{
-+	struct poollist *respoollist = poolhndle;
-+	struct poolres *respool;
-+	unsigned int result = 0;
++	struct rman_bucket *bucket = (struct rman_bucket *)res_bucket_handle;
++	struct rman_res		*res;
++	int			 ret;
 +
-+	if (!poolinitdone || !respoollist) {
-+		result = IMG_ERROR_INVALID_PARAMETERS;
-+		goto	error_nolock;
-+	}
++	IMG_DBG_ASSERT(inited);
++	IMG_DBG_ASSERT(type_id != RMAN_ALL_TYPES);
++
++	IMG_DBG_ASSERT(res_bucket_handle);
++	if (!res_bucket_handle)
++		return IMG_ERROR_GENERIC_FAILURE;
 +
 +	/* Allocate a resource structure */
-+	respool = kzalloc(sizeof(*respool), GFP_KERNEL);
-+	if (!respool)
++	res = kzalloc(sizeof(*res), GFP_KERNEL);
++	IMG_DBG_ASSERT(res);
++	if (!res)
 +		return IMG_ERROR_OUT_OF_MEMORY;
 +
-+	/* Setup the resource */
-+	respool->desfunc  = fndestructor;
-+	respool->cb_handle = cb_handle;
-+	respool->resparam = resparam;
-+	respool->resparmsize = resparamsize;
-+	respool->respoollst = respoollist;
-+	lst_init(&respool->clonereslst);
++	/* Fill in the resource structure */
++	res->bucket	= bucket;
++	res->type_id	= type_id;
++	res->fn_free	= fnfree;
++	res->param	= param;
 +
-+	/* Lock the pool */
-+	mutex_lock_nested(respoollist->pool_mutex, SUBCLASS_POOL);
-+
-+	/* Set resource id */
-+	result = idgen_allocid(respoollist->idgenhandle,
-+			       (void *)respool, &respool->resid);
-+	if (result != IMG_SUCCESS) {
-+		kfree(respool);
-+		/* Unlock the pool */
-+		mutex_unlock(respoollist->pool_mutex);
-+		return result;
++	/* Allocate resource Id */
++	mutex_lock_nested(global_mutex, SUBCLASS_RMAN);
++	ret = idgen_allocid(bucket->id_gen, res, &res->res_id);
++	mutex_unlock(global_mutex);
++	if (ret != IMG_SUCCESS) {
++		IMG_DBG_ASSERT("failed to allocate RMAN id" == NULL);
++		return ret;
 +	}
++	IMG_DBG_ASSERT(res->res_id <= RMAN_CRESID_MAX_RES_ID);
 +
-+	/* If allocated or free callback not set */
-+	if (balloc || respoollist->pfnfree) {
-+		/* Add to active list */
-+		lst_add(&respoollist->actvreslst, respool);
-+		respool->refcnt++;
-+	} else {
-+		/* Add to free list */
-+		lst_add(&respoollist->freereslst, respool);
-+	}
++	/* add this resource to the bucket */
++	mutex_lock_nested(shared_res_mutex_handle, SUBCLASS_RMAN);
++	dq_addtail(&bucket->res_list, res);
 +
-+	/* Return the resource id */
-+	if (residptr)
-+		*residptr = respool->resid;
++	/* Update count of resources */
++	bucket->res_cnt++;
++	mutex_unlock(shared_res_mutex_handle);
 +
-+	/* Return the handle to the resource */
-+	if (poolreshndle)
-+		*poolreshndle = respool;
++	/* If resource handle required */
++	if (res_handle)
++		*res_handle = res;
 +
-+	/* Unlock the pool */
-+	mutex_unlock(respoollist->pool_mutex);
-+
-+	/* If free callback set */
-+	if (respoollist->pfnfree) {
-+		/* Call the free callback */
-+		respoollist->pfnfree(respool->resid, respool->resparam);
-+	}
-+
-+	/* Return IMG_SUCCESS */
-+	return IMG_SUCCESS;
-+
-+error_nolock:
-+	return result;
-+}
-+
-+int pool_resdestroy(void *poolreshndle, int bforce)
-+{
-+	struct poolres *respool = poolreshndle;
-+	struct poollist *respoollist;
-+	struct poolres *origrespool;
-+	unsigned int result = 0;
-+
-+	if (!poolinitdone || !respool) {
-+		result = IMG_ERROR_INVALID_PARAMETERS;
-+		goto error_nolock;
-+	}
-+
-+	respoollist = respool->respoollst;
-+
-+	/* If this is a clone */
-+	if (respool->isclone) {
-+		/* Get access to the original */
-+		origrespool = respool->origres;
-+		if (!origrespool) {
-+			result = IMG_ERROR_UNEXPECTED_STATE;
-+			goto error_nolock;
-+		}
-+
-+		if (origrespool->isclone) {
-+			result = IMG_ERROR_UNEXPECTED_STATE;
-+			goto error_nolock;
-+		}
-+
-+		/* Remove from the clone list */
-+		lst_remove(&origrespool->clonereslst, respool);
-+
-+		/* Free resource id */
-+		result = idgen_freeid(respoollist->idgenhandle,
-+				      respool->resid);
-+		if (result != IMG_SUCCESS)
-+			return result;
-+
-+		/*
-+		 * If we created a copy of the resources pvParam then free it
-+		 * kfree(NULL) is safe and this check is probably not required.
-+		 */
-+		kfree(respool->resparam);
-+
-+		/* Free the clone resource structure */
-+		kfree(respool);
-+
-+		/* Set resource to be "freed" to the original */
-+		respool = origrespool;
-+	}
-+
-+	/* If there are still outstanding references */
-+	if (!bforce && respool->refcnt != 0) {
-+		/*
-+		 * We may need to mark the resource and destroy it when
-+		 * there are no outstanding references
-+		 */
-+		return IMG_SUCCESS;
-+	}
-+
-+	/* Has the resource outstanding references */
-+	if (respool->refcnt != 0) {
-+		/* Remove the resource from the active list */
-+		lst_remove(&respoollist->actvreslst, respool);
-+	} else {
-+		/* Remove the resource from the free list */
-+		lst_remove(&respoollist->freereslst, respool);
-+	}
-+
-+	/* Free resource id */
-+	result = idgen_freeid(respoollist->idgenhandle,
-+			      respool->resid);
-+	if (result != IMG_SUCCESS)
-+		return result;
-+
-+	/* Call the resource destructor */
-+	respool->desfunc(respool->resparam, respool->cb_handle);
-+	kfree(respool);
++	/* If resource id required */
++	if (res_id)
++		*res_id = rman_get_resource_id(res);
 +
 +	return IMG_SUCCESS;
-+
-+error_nolock:
-+	return result;
 +}
 +
-+int pool_resalloc(void *poolhndle, void *poolreshndle)
++unsigned int rman_get_resource_id(void *res_handle)
 +{
-+	struct poollist *respoollist = poolhndle;
-+	struct poolres *respool = poolreshndle;
-+	unsigned int result = 0;
++	struct rman_res *res = res_handle;
++	unsigned int		ext_res_id;
 +
-+	if (!poolinitdone || !respoollist || !poolreshndle) {
-+		result = IMG_ERROR_INVALID_PARAMETERS;
-+		goto error_nolock;
++	IMG_DBG_ASSERT(res_handle);
++	if (!res_handle)
++		return 0;
++
++	IMG_DBG_ASSERT(res->res_id <= RMAN_CRESID_MAX_RES_ID);
++	IMG_DBG_ASSERT(res->bucket->bucket_idx < RMAN_CRESID_MAX_BUCKET_INDEX);
++	if (res->bucket->bucket_idx >= RMAN_CRESID_MAX_BUCKET_INDEX)
++		return 0;
++
++	ext_res_id = (((res->bucket->bucket_idx + 1) <<
++			 RMAN_CRESID_BUCKET_SHIFT) | res->res_id);
++
++	return ext_res_id;
++}
++
++static void *rman_getresource_int(void *res_bucket_handle, unsigned int res_id,
++				  unsigned int type_id, void **res_handle)
++{
++	struct rman_bucket *bucket = (struct rman_bucket *)res_bucket_handle;
++	struct rman_res	*res;
++	int		ret;
++
++	IMG_DBG_ASSERT(res_id <= RMAN_CRESID_MAX_RES_ID);
++
++	/* Loop over the resources in this bucket till we find the required id */
++	mutex_lock_nested(global_mutex, SUBCLASS_RMAN);
++	ret = idgen_gethandle(bucket->id_gen, res_id, (void **)&res);
++	mutex_unlock(global_mutex);
++	if (ret != IMG_SUCCESS) {
++		IMG_DBG_ASSERT("failed to get RMAN resource" == NULL);
++		return NULL;
 +	}
 +
-+	/* Lock the pool */
-+	mutex_lock_nested(respoollist->pool_mutex, SUBCLASS_POOL);
++	/* If the resource handle is required */
++	if (res_handle)
++		*res_handle = res; /* Return it */
 +
-+	/* Remove resource from free list */
-+	lst_remove(&respoollist->freereslst, respool);
++	/* If the resource was not found */
++	IMG_DBG_ASSERT(res);
++	IMG_DBG_ASSERT((void *)res != &bucket->res_list);
++	if (!res || ((void *)res == &bucket->res_list))
++		return NULL;
 +
-+	/* Add to active list */
-+	lst_add(&respoollist->actvreslst, respool);
-+	respool->refcnt++;
++	/* Cross check the type */
++	IMG_DBG_ASSERT(type_id == res->type_id);
 +
-+	/* Unlock the pool */
-+	mutex_unlock(respoollist->pool_mutex);
++	/* Return the resource. */
++	return res->param;
++}
 +
-+	/* Return IMG_SUCCESS */
++int rman_get_resource(unsigned int res_id, unsigned int type_id, void **param,
++		      void **res_handle)
++{
++	unsigned int	bucket_idx = (res_id >> RMAN_CRESID_BUCKET_SHIFT) - 1;
++	unsigned int	int_res_id = (res_id & RMAN_CRESID_RES_ID_MASK);
++	void	*local_param;
++
++	IMG_DBG_ASSERT(bucket_idx < RMAN_CRESID_MAX_BUCKET_INDEX);
++	if (bucket_idx >= RMAN_CRESID_MAX_BUCKET_INDEX)
++		return IMG_ERROR_INVALID_ID; /* Happens when bucket_idx == 0 */
++
++	IMG_DBG_ASSERT(bucket_array[bucket_idx]);
++	if (!bucket_array[bucket_idx])
++		return IMG_ERROR_INVALID_ID;
++
++	local_param = rman_getresource_int(bucket_array[bucket_idx],
++					   int_res_id, type_id,
++					   res_handle);
++
++	/* If we didn't find the resource */
++	if (!local_param)
++		return IMG_ERROR_INVALID_ID;
++
++	/* Return the resource */
++	if (param)
++		*param = local_param;
++
 +	return IMG_SUCCESS;
-+
-+error_nolock:
-+	return result;
 +}
 +
-+int pool_resfree(void *poolreshndle)
++int rman_get_named_resource(unsigned char *res_name, rman_fn_alloc fn_alloc,
++			    void *alloc_info, void *res_bucket_handle,
++			    unsigned int type_id, rman_fn_free fn_free,
++			    void **param, void **res_handle, unsigned int *res_id)
 +{
-+	struct poolres *respool = poolreshndle;
-+	struct poollist *respoollist;
-+	struct poolres *origrespool;
-+	unsigned int result = 0;
++	struct rman_bucket *bucket = res_bucket_handle;
++	struct rman_res	*res;
++	unsigned int		ret;
++	void	*local_param;
++	unsigned char	found = FALSE;
 +
-+	if (!poolinitdone || !respool) {
-+		result = IMG_ERROR_INVALID_PARAMETERS;
-+		goto error_nolock;
-+	}
++	IMG_DBG_ASSERT(inited);
 +
-+	respoollist = respool->respoollst;
++	IMG_DBG_ASSERT(res_bucket_handle);
++	if (!res_bucket_handle)
++		return IMG_ERROR_GENERIC_FAILURE;
 +
-+	/* Lock the pool */
-+	mutex_lock_nested(respoollist->pool_mutex, SUBCLASS_POOL);
-+
-+	/* If this is a clone */
-+	if (respool->isclone) {
-+		/* Get access to the original */
-+		origrespool = respool->origres;
-+		if (!origrespool) {
-+			mutex_unlock(respoollist->pool_mutex);
-+			return IMG_ERROR_INVALID_PARAMETERS;
++	/* Lock the shared resources */
++	mutex_lock_nested(shared_res_mutex_handle, SUBCLASS_RMAN);
++	res = (struct rman_res *)dq_first(&bucket->res_list);
++	while (res && ((void *)res != &bucket->res_list)) {
++		/* If resource already in the shared list */
++		if (res->res_name && (strcmp(res_name,
++					     res->res_name) == 0)) {
++			IMG_DBG_ASSERT(res->fn_free == fn_free);
++			found = TRUE;
++			break;
 +		}
 +
-+		/* Remove from the clone list */
-+		lst_remove(&origrespool->clonereslst, respool);
++		/* Move to next resource */
++		res = (struct rman_res *)dq_next(res);
++	}
++	mutex_unlock(shared_res_mutex_handle);
 +
-+		/* Free resource id */
-+		result = idgen_freeid(respoollist->idgenhandle,
-+				      respool->resid);
-+		if (result != IMG_SUCCESS) {
-+			/* Unlock the pool */
-+			mutex_unlock(respoollist->pool_mutex);
-+			return result;
-+		}
++	/* If the named resource was not found */
++	if (!found) {
++		/* Allocate the resource */
++		ret = fn_alloc(alloc_info, &local_param);
++		IMG_DBG_ASSERT(ret == IMG_SUCCESS);
++		if (ret != IMG_SUCCESS)
++			return ret;
 +
-+		/*
-+		 * If we created a copy of the resources pvParam then free it
-+		 * kfree(NULL) is safe and this check is probably not required.
-+		 */
-+		kfree(respool->resparam);
++		/* Register the named resource */
++		ret = rman_register_resource(res_bucket_handle, type_id,
++					     fn_free, local_param,
++					     (void **)&res, NULL);
++		IMG_DBG_ASSERT(ret == IMG_SUCCESS);
++		if (ret != IMG_SUCCESS)
++			return ret;
 +
-+		/* Free the clone resource structure */
-+		kfree(respool);
-+
-+		/* Set resource to be "freed" to the original */
-+		respool = origrespool;
++		mutex_lock_nested(shared_res_mutex_handle, SUBCLASS_RMAN);
++		res->res_name = res_name;
++		mutex_unlock(shared_res_mutex_handle);
 +	}
 +
-+	/* Update the reference count */
-+	respool->refcnt--;
++	/* Return the pvParam value */
++	*param = res->param;
 +
-+	/* If there are still outstanding references */
-+	if (respool->refcnt != 0) {
-+		/* Unlock the pool */
-+		mutex_unlock(respoollist->pool_mutex);
-+		/* Return IMG_SUCCESS */
-+		return IMG_SUCCESS;
-+	}
++	/* If resource handle required */
++	if (res_handle)
++		*res_handle = res;
++
++	/* If resource id required */
++	if (res_id)
++		*res_id = rman_get_resource_id(res);
++
++	/* Exit */
++	return IMG_SUCCESS;
++}
++
++static void rman_free_resource_int(struct rman_res *res)
++{
++	struct rman_bucket *bucket = res->bucket;
 +
 +	/* Remove the resource from the active list */
-+	lst_remove(&respoollist->actvreslst, respool);
++	mutex_lock_nested(shared_res_mutex_handle, SUBCLASS_RMAN);
 +
-+	/* If free callback set */
-+	if (respoollist->pfnfree) {
-+		/* Add to active list */
-+		lst_add(&respoollist->actvreslst, respool);
-+		respool->refcnt++;
++	/* Remove from list */
++	dq_remove(res);
++
++	/* Update count of resources */
++	bucket->res_cnt--;
++
++	mutex_unlock(shared_res_mutex_handle);
++
++	/* If mutex associated with the resource */
++	if (res->mutex_handle) {
++		/* Destroy mutex */
++		mutex_destroy(res->mutex_handle);
++		kfree(res->mutex_handle);
++		res->mutex_handle = NULL;
++	}
++
++	/* If this resource is not already shared */
++	if (res->shared_res) {
++		/* Lock the shared resources */
++		mutex_lock_nested(shared_res_mutex_handle, SUBCLASS_RMAN);
++
++		/* Update the reference count */
++		IMG_DBG_ASSERT(res->shared_res->ref_cnt != 0);
++		res->shared_res->ref_cnt--;
++
++		/* If this is the last free for the shared resource */
++		if (res->shared_res->ref_cnt == 0)
++			/* Free the shared resource */
++			rman_free_resource_int(res->shared_res);
++
++		/* UnLock the shared resources */
++		mutex_unlock(shared_res_mutex_handle);
 +	} else {
-+		/* Add to free list */
-+		lst_add(&respoollist->freereslst, respool);
++		/* If there is a free callback function. */
++		if (res->fn_free)
++			/* Call resource free callback */
++			res->fn_free(res->param);
 +	}
 +
-+	/* Unlock the pool */
-+	mutex_unlock(respoollist->pool_mutex);
++	/* If the resource has a name then free it */
++	kfree(res->res_name);
 +
-+	/* If free callback set */
-+	if (respoollist->pfnfree) {
-+		/* Call the free callback */
-+		respoollist->pfnfree(respool->resid, respool->resparam);
-+	}
++	/* Free the resource ID. */
++	mutex_lock_nested(global_mutex, SUBCLASS_RMAN);
++	idgen_freeid(bucket->id_gen, res->res_id);
++	mutex_unlock(global_mutex);
 +
-+	/* Return IMG_SUCCESS */
-+	return IMG_SUCCESS;
-+
-+error_nolock:
-+	return result;
++	/* Free a resource structure */
++	kfree(res);
 +}
 +
-+int pool_resclone(void *poolreshndle, void **clonereshndle, void **resparam)
++void rman_free_resource(void *res_handle)
 +{
-+	struct poolres *respool = poolreshndle;
-+	struct poollist *respoollist;
-+	struct poolres *origrespool = respool;
-+	struct poolres *clonerespool;
-+	unsigned int result = 0;
++	struct rman_res *res;
 +
-+	if (!poolinitdone || !respool) {
-+		result = IMG_ERROR_INVALID_PARAMETERS;
-+		goto error_nolock;
++	IMG_DBG_ASSERT(inited);
++
++	IMG_DBG_ASSERT(res_handle);
++	if (!res_handle)
++		return;
++
++	/* Get access to the resource structure */
++	res = (struct rman_res *)res_handle;
++
++	/* Free resource */
++	rman_free_resource_int(res);
++}
++
++void rman_lock_resource(void *res_handle)
++{
++	struct rman_res	*res;
++
++	IMG_DBG_ASSERT(inited);
++
++	IMG_DBG_ASSERT(res_handle);
++	if (!res_handle)
++		return;
++
++	/* Get access to the resource structure */
++	res = (struct rman_res *)res_handle;
++
++	/* If this is a shared resource */
++	if (res->shared_res)
++		/* We need to lock/unlock the underlying shared resource */
++		res = res->shared_res;
++
++	/* If no mutex associated with this resource */
++	if (!res->mutex_handle) {
++		/* Create one */
++
++		res->mutex_handle = kzalloc(sizeof(*res->mutex_handle), GFP_KERNEL);
++		if (!res->mutex_handle)
++			return;
++
++		mutex_init(res->mutex_handle);
 +	}
 +
-+	/* Allocate a resource structure */
-+	clonerespool = kzalloc(sizeof(*clonerespool), GFP_KERNEL);
-+	if (!clonerespool)
-+		return IMG_ERROR_OUT_OF_MEMORY;
++	/* lock it */
++	mutex_lock(res->mutex_handle);
++}
 +
-+	respoollist = respool->respoollst;
-+	if (!respoollist)
-+		return IMG_ERROR_FATAL;
++void rman_unlock_resource(void *res_handle)
++{
++	struct rman_res *res;
 +
-+	/* Lock the pool */
-+	mutex_lock_nested(respoollist->pool_mutex, SUBCLASS_POOL);
++	IMG_DBG_ASSERT(inited);
 +
-+	/* Set resource id */
-+	result = idgen_allocid(respoollist->idgenhandle,
-+			       (void *)clonerespool, &clonerespool->resid);
-+	if (result != IMG_SUCCESS)
-+		goto error_alloc_id;
++	IMG_DBG_ASSERT(res_handle);
++	if (!res_handle)
++		return;
 +
-+	/* If this is a clone, set the original */
-+	if (respool->isclone)
-+		origrespool = respool->origres;
++	/* Get access to the resource structure */
++	res = (struct rman_res *)res_handle;
 +
-+	/* Setup the cloned resource */
-+	clonerespool->isclone = 1;
-+	clonerespool->respoollst = respoollist;
-+	clonerespool->origres = origrespool;
++	/* If this is a shared resource */
++	if (res->shared_res)
++		/* We need to lock/unlock the underlying shared resource */
++		res = res->shared_res;
 +
-+	/* Add to clone list */
-+	lst_add(&origrespool->clonereslst, clonerespool);
-+	origrespool->refcnt++;
++	IMG_DBG_ASSERT(res->mutex_handle);
 +
-+	/* If ppvParam is not IMG_NULL */
-+	if (resparam) {
-+		/* If the size of the original vParam is 0 */
-+		if (origrespool->resparmsize == 0) {
-+			*resparam = NULL;
++	/* Unlock mutex */
++	mutex_unlock(res->mutex_handle);
++}
++
++void rman_free_resources(void *res_bucket_handle, unsigned int type_id)
++{
++	struct rman_bucket *bucket = (struct rman_bucket *)res_bucket_handle;
++	struct rman_res		*res;
++
++	IMG_DBG_ASSERT(inited);
++
++	IMG_DBG_ASSERT(res_bucket_handle);
++	if (!res_bucket_handle)
++		return;
++
++	/* Scan the active list looking for the resources to be freed */
++	mutex_lock_nested(shared_res_mutex_handle, SUBCLASS_RMAN);
++	res = (struct rman_res *)dq_first(&bucket->res_list);
++	while ((res) && ((void *)res != &bucket->res_list)) {
++		/* If this is resource is to be removed */
++		if ((type_id == RMAN_ALL_TYPES  &&
++		     res->type_id != RMAN_STICKY) ||
++		     res->type_id == type_id) {
++			/* Yes, remove it, Free current resource */
++			mutex_unlock(shared_res_mutex_handle);
++			rman_free_resource_int(res);
++			mutex_lock_nested(shared_res_mutex_handle, SUBCLASS_RMAN);
++
++			/* Restart from the beginning of the list */
++			res = (struct rman_res *)dq_first(&bucket->res_list);
 +		} else {
-+			/* Allocate memory for a copy of the original vParam */
-+			/*
-+			 * kmemdup allocates memory of length
-+			 * origrespool->resparmsize and to resparam and copy
-+			 * origrespool->resparam to resparam of the allocated
-+			 * length
-+			 */
-+			*resparam = kmemdup(origrespool->resparam,
-+					    origrespool->resparmsize,
-+					    GFP_KERNEL);
-+			if (!(*resparam)) {
-+				result = IMG_ERROR_OUT_OF_MEMORY;
-+				goto error_copy_param;
-+			}
++			/* Move to next resource */
++			res = (struct rman_res *)lst_next(res);
 +		}
 +	}
-+
-+	/* Unlock the pool */
-+	mutex_unlock(respoollist->pool_mutex);
-+
-+	/* Return the cloned resource */
-+	*clonereshndle = clonerespool;
-+
-+	/* Return IMG_SUCCESS */
-+	return IMG_SUCCESS;
-+
-+	/* Error handling. */
-+error_copy_param:
-+	lst_remove(&origrespool->clonereslst, clonerespool);
-+	origrespool->refcnt--;
-+error_alloc_id:
-+	kfree(clonerespool);
-+
-+	/* Unlock the pool */
-+	mutex_unlock(respoollist->pool_mutex);
-+
-+error_nolock:
-+	return result;
++	mutex_unlock(shared_res_mutex_handle);
 +}
-diff --git a/drivers/staging/media/vxd/common/pool_api.h b/drivers/staging/media/vxd/common/pool_api.h
+diff --git a/drivers/staging/media/vxd/common/rman_api.h b/drivers/staging/media/vxd/common/rman_api.h
 new file mode 100644
-index 000000000000..1e7803abb715
+index 000000000000..baadc7f22eff
 --- /dev/null
-+++ b/drivers/staging/media/vxd/common/pool_api.h
-@@ -0,0 +1,113 @@
++++ b/drivers/staging/media/vxd/common/rman_api.h
+@@ -0,0 +1,66 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * Resource pool manager API.
++ * This component is used to track decoder resources,
++ * and share them across other components.
 + *
 + * Copyright (c) Imagination Technologies Ltd.
 + * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
@@ -830,106 +742,58 @@ index 000000000000..1e7803abb715
 + * Re-written for upstreamimg
 + *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
 + */
-+#ifndef __POOLAPI_H__
-+#define __POOLAPI_H__
++
++#ifndef __RMAN_API_H__
++#define __RMAN_API_H__
++
++#include <linux/types.h>
 +
 +#include "img_errors.h"
 +#include "lst.h"
 +
-+/*
-+ * This is the prototype for "free" callback functions.  This function
-+ * is called when resources are returned to the pools list of free resources.
-+ * NOTE: The "freed" resource is then allocated and passed to the callback
-+ * function.
-+ */
-+typedef void (*pfrecalbkpntr)(unsigned int ui32resid, void *resparam);
++#define	RMAN_ALL_TYPES		(0xFFFFFFFF)
++#define	RMAN_TYPE_P1		(0xFFFFFFFE)
++#define	RMAN_TYPE_P2		(0xFFFFFFFE)
++#define	RMAN_TYPE_P3		(0xFFFFFFFE)
++#define RMAN_STICKY		(0xFFFFFFFD)
 +
-+/*
-+ * This is the prototype for "destructor" callback functions.  This function
-+ * is called when a resource registered with the resource pool manager is to
-+ * be destroyed.
-+ */
-+typedef void (*pdestcallbkptr)(void *resparam, void *cb_handle);
++int rman_initialise(void);
 +
-+/*
-+ * pool_init - This function is used to initializes the resource pool manager component
-+ * and should be called at start-up.
-+ */
-+int pool_init(void);
++void rman_deinitialise(void);
 +
-+/*
-+ * This function is used to deinitialises the resource pool manager component
-+ * and would normally be called at shutdown.
-+ */
-+void pool_deinit(void);
++int rman_create_bucket(void **res_handle);
 +
-+/*
-+ * This function is used to create a resource pool into which resources can be
-+ * placed.
-+ */
-+int pool_api_create(void **poolhndle);
++void rman_destroy_bucket(void *res_handle);
 +
-+/*
-+ * This function is used to destroy a resource pool.
-+ * NOTE: Destroying a resource pool destroys all of the resources within the
-+ * pool by calling the associated destructor function #POOL_pfnDestructor
-+ * defined when the resource what registered using POOL_ResRegister().
-+ *
-+ * NOTE: All of the pools resources must be in the pools free list - the
-+ * allocated list must be empty.
-+ */
-+int pool_destroy(void *poolhndle);
++void *rman_get_global_bucket(void);
 +
-+/*
-+ * This function is used to set or remove a free callback function on a pool.
-+ * The free callback function gets call for any resources already in the
-+ * pools free list or for any resources that subsequently get freed.
-+ * NOTE: The resource passed to the callback function has been allocated before
-+ * the callback is made.
-+ */
-+int pool_setfreecalbck(void *poolhndle, pfrecalbkpntr pfnfree);
++typedef void (*rman_fn_free) (void *param);
 +
-+/*
-+ * This function is used to register a resource within a resource pool.  The
-+ * resource is added to the pools allocated or free list based on the value
-+ * of bAlloc.
-+ */
-+int pool_resreg(void *poolhndle, pdestcallbkptr fndestructor,
-+		void *resparam, unsigned int resparamsize,
-+		int balloc, unsigned int *residptr,
-+		void **poolreshndle, void *cb_handle);
++int rman_register_resource(void *res_handle, unsigned int type_id, rman_fn_free fn_free,
++			   void *param, void **res_handle_ptr,
++			   unsigned int *res_id);
 +
-+/*
-+ * This function is used to destroy a resource.
-+ */
-+int pool_resdestroy(void *poolreshndle, int bforce);
++typedef int (*rman_fn_alloc) (void *alloc_info, void **param);
 +
-+/*
-+ * This function is used to get/allocate a resource from a pool.  This moves
-+ * the resource from the free to allocated list.
-+ */
-+int pool_resalloc(void *poolhndle, void *poolreshndle);
++int rman_get_named_resource(unsigned char *res_name, rman_fn_alloc fn_alloc,
++			    void *alloc_info, void *res_bucket_handle,
++			    unsigned int type_id, rman_fn_free fn_free,
++			    void **param, void **res_handle, unsigned int *res_id);
 +
-+/*
-+ * This function is used to free a resource and return it to the pools lists of
-+ * free resources.
-+ * NOTE: The resources is only moved to the free list when all references to
-+ * the resource have been freed.
-+ */
-+int pool_resfree(void *poolreshndle);
++unsigned int rman_get_resource_id(void *res_handle);
 +
-+/*
-+ * This function is used to clone a resource - this creates an additional
-+ * reference to the resource.
-+ * NOTE: The resources is only moved to the free list when all references to
-+ * the resource have been freed.
-+ * NOTE: If this function is used to clone the resource's pvParam data then
-+ * the clone of the data is freed when the clone of the resource is freed.
-+ * The resource destructor is NOT used for this - simply an IMG_FREE.
-+ */
-+int pool_resclone(void *poolreshndle, void **clonereshndle, void **resparam);
++int rman_get_resource(unsigned int res_id, unsigned int type_id, void **param,
++		      void **res_handle);
 +
-+#endif /* __POOLAPI_H__ */
++void rman_free_resource(void *res_handle);
++
++void rman_lock_resource(void *res_handle);
++
++void rman_unlock_resource(void *res_hanle);
++
++void rman_free_resources(void *res_bucket_handle, unsigned int type_id);
++
++#endif
 -- 
 2.17.1
 
