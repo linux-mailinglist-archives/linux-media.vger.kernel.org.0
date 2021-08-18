@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B43DD3F05EF
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 16:12:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CB8B3F05F4
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 16:12:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239148AbhHRONH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 10:13:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46490 "EHLO
+        id S238961AbhHRONI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 10:13:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239152AbhHROM7 (ORCPT
+        with ESMTP id S239177AbhHROM7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 18 Aug 2021 10:12:59 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F432C0613A4
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:13 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id y23so2363868pgi.7
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:13 -0700 (PDT)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6B41C06129D
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:16 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id j187so2258312pfg.4
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=pathpartnertech.com; s=google;
         h=mime-version:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=9WlfM7kZF/JezkcppnxVCfS/bkuX2OvnbHl3e2vQcM0=;
-        b=Yx1RCDJ/s0Nr35sMLkuVoVvGjXvpPIfhtMn2wdwZ/I2lGmYPJN6UNDuEBnMvln8TWn
-         EayCkvOHWCc7AENBttSasihFW9GNTSnW7UIkmJmOqBtEgTKQyAdmPJNGC/8Wkjkm6DKQ
-         1RPr1CSaLfpacT8WKdOyyNNPjiCn2dyf6jitfneoOvhzlBh8oKbX+MzFAlJC0DUXOVG5
-         EKH2sC76SydC+BI/AeBa0joNYT3EcXRVgMaWAOlP109/PEzMCkM/arebbZulMK61dUXy
-         lDjscpNgByr4D+QCQc+hNd6mSnMLq2nT0jO+yDQzQ1OL5b0umJDJwqHU9innOTPhX8Tv
-         ABTQ==
+        bh=m++M81VE6OdBHGBRaES4X5rl8RRew/F1aidWQUBA3Dg=;
+        b=XgUwth7g1HxRLL5bt6/ntSyf8x0/qNqatr1NwLtR5RO4qkBAag3GhX7VWYokMNmsLI
+         d4DiI5PTnfwdhDK1mjHttmel4foqT/jj7H/M8rIsqL6pLl70PBX2kKwO0DYeLS4XO8qB
+         ABQGon+dN9G1J+0aB2/Xyp9kG2VBOHPP1zwnYRBnQ8/lR66MoLKvSwv2VxebMttsw1w7
+         zxQPWKqTtU+4yowHeaC4+Bx+c3jXMVFVzsAOEJnFlX/neEcRHt5ZPKyzCqhicDv0pgHF
+         FgHLAcosXUUgDrEy1MJasp53n0YSZQ8v+7PrHUw5aCAmB4JkwX067izvq7gyquD9ieM+
+         63mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :in-reply-to:references;
-        bh=9WlfM7kZF/JezkcppnxVCfS/bkuX2OvnbHl3e2vQcM0=;
-        b=g95WpO/jyY5wG5BXoXXO/O4rGwGF255P3LYxMEBBynwRueqmIeDhkYH7hHexQP4+rH
-         kxPSgu0cNsRnpIINOS15JKlnS4xdWIdjzUeyakBvOW9/eyUS19lpDDCZck9rHS1rhEwh
-         uQ4iotVtFE1WY/HrE8kqKrgpjkLmoz1cFHPyAgDjo6wzts0pzlvxRDgsRhW+k0THUCyX
-         RsaIfGUUmuerknaFv1r2x58jOf4BLb2Xyr200RuqgoJzKxDxSCrbQ93NIQ5AjoJGCZbV
-         /3NTROkdlPPXbDSHWvG9cH4b1Z8Bnb/fA2rXcLb7d+yb9OV05QxHZmIyKV3fn43F7n5K
-         /BtA==
+        bh=m++M81VE6OdBHGBRaES4X5rl8RRew/F1aidWQUBA3Dg=;
+        b=EgQm/vUqGjkVI7VkIeon5s1VmBAhFiVTmlZTM5KIwJC5VI6/w+wqp8PbSo4hBe5t+t
+         3EyOf6zj83pOgg2CnMZpIXl7kDFZRsH5VGtw3BvnfEL3+FfsKYtvwHMq6sMkdwwJREoa
+         6NEtrjVtfj/0s4/vqjhPhrasu2XF7kS0xKnpnlAumehwAvHldw/haRSGJL7VUzQUiNc6
+         9B6Imo0M7HN5hLbOcaDiqUu1wGpsH753UCkB5gCJH5E0bYhuRDTBet51OeRAflCSKc57
+         FGLS2ynk1nlqza66A3TKkHSIih1N3M+4izuFMLR+0vrSe/8PK9QZZri63+sZzEQpGCmj
+         DzWw==
 MIME-Version: 1.0
-X-Gm-Message-State: AOAM530bDceWdQCrjy6918VmZ9mwaJC70/b7BCc6VBqv57qOHBonRVGg
-        VN+/dErASnqUr66V0taCarCY2X0mxmYnmX4nFm3lPk1ZoJnNk6JbtAUt6cOeK9KfV7GtxclzSpH
-        G1pRPxB3c+RCuJSCX
-X-Google-Smtp-Source: ABdhPJylu6nx/ruZSKzcF99+FnOeovG7f4T9R0tnbLGes0y/CjkVf2/eLTpD+E/3FrhI7klKtdEpcA==
-X-Received: by 2002:a63:1358:: with SMTP id 24mr4312089pgt.327.1629295932908;
-        Wed, 18 Aug 2021 07:12:12 -0700 (PDT)
+X-Gm-Message-State: AOAM531Wv0hCT08rIuaEqXgNhyiJ+/tn3BvVc13iS+XddifHDR/0Zn9B
+        214GQE4yxP1QRh/tweqCval/S9OZdA5Lw3bVApCCSBH+qCtVrdFbTuCjdkwGaL44P3oD4xVfRP9
+        kdycGEFjjFas4LVaZ
+X-Google-Smtp-Source: ABdhPJzVod3IDoBobK2yD1TioSpwBm4BGtTVLyNIdws93umdsJPE5YKQacPp712ygVgHeZqd7UV9IA==
+X-Received: by 2002:a63:510a:: with SMTP id f10mr9154852pgb.249.1629295935997;
+        Wed, 18 Aug 2021 07:12:15 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.214.181])
-        by smtp.gmail.com with ESMTPSA id e8sm8084343pgg.31.2021.08.18.07.12.10
+        by smtp.gmail.com with ESMTPSA id e8sm8084343pgg.31.2021.08.18.07.12.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 07:12:12 -0700 (PDT)
+        Wed, 18 Aug 2021 07:12:15 -0700 (PDT)
 From:   sidraya.bj@pathpartnertech.com
 To:     gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org
@@ -57,9 +57,9 @@ Cc:     prashanth.ka@pathpartnertech.com, praneeth@ti.com,
         mchehab@kernel.org, linux-media@vger.kernel.org,
         praveen.ap@pathpartnertech.com,
         Sidraya <sidraya.bj@pathpartnertech.com>
-Subject: [PATCH 06/30] v4l: vxd-dec: Add hardware control modules
-Date:   Wed, 18 Aug 2021 19:40:13 +0530
-Message-Id: <20210818141037.19990-7-sidraya.bj@pathpartnertech.com>
+Subject: [PATCH 07/30] v4l: vxd-dec: Add vxd core module
+Date:   Wed, 18 Aug 2021 19:40:14 +0530
+Message-Id: <20210818141037.19990-8-sidraya.bj@pathpartnertech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
 References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
@@ -70,43 +70,41 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Sidraya <sidraya.bj@pathpartnertech.com>
 
-The TI Video Decoder uses IMG D5520 to provide video
-decoding for H.264 codec and this patch handles firmware
-messages transaction with firmware.
-It prepares the batch and fragment messages for firmware.
+This patch prepares the picture commands for the firmware
+it includes reconstructed and alternate picture commands.
 
 Signed-off-by: Amit Makani <amit.makani@ti.com>
 Signed-off-by: Sidraya <sidraya.bj@pathpartnertech.com>
 ---
- MAINTAINERS                                   |    2 +
- .../staging/media/vxd/decoder/hw_control.c    | 1211 +++++++++++++++++
- .../staging/media/vxd/decoder/hw_control.h    |  144 ++
- 3 files changed, 1357 insertions(+)
- create mode 100644 drivers/staging/media/vxd/decoder/hw_control.c
- create mode 100644 drivers/staging/media/vxd/decoder/hw_control.h
+ MAINTAINERS                                 |    2 +
+ drivers/staging/media/vxd/decoder/vxd_int.c | 1137 +++++++++++++++++++
+ drivers/staging/media/vxd/decoder/vxd_int.h |  128 +++
+ 3 files changed, 1267 insertions(+)
+ create mode 100644 drivers/staging/media/vxd/decoder/vxd_int.c
+ create mode 100644 drivers/staging/media/vxd/decoder/vxd_int.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 47067f907539..2327ea12caa6 100644
+index 2327ea12caa6..7b21ebfc61d4 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -19542,6 +19542,8 @@ F:	drivers/staging/media/vxd/common/img_mem_man.h
- F:	drivers/staging/media/vxd/common/img_mem_unified.c
- F:	drivers/staging/media/vxd/common/imgmmu.c
- F:	drivers/staging/media/vxd/common/imgmmu.h
-+F:	drivers/staging/media/vxd/decoder/hw_control.c
-+F:	drivers/staging/media/vxd/decoder/hw_control.h
- F:	drivers/staging/media/vxd/decoder/img_dec_common.h
+@@ -19548,6 +19548,8 @@ F:	drivers/staging/media/vxd/decoder/img_dec_common.h
  F:	drivers/staging/media/vxd/decoder/vxd_core.c
  F:	drivers/staging/media/vxd/decoder/vxd_dec.c
-diff --git a/drivers/staging/media/vxd/decoder/hw_control.c b/drivers/staging/media/vxd/decoder/hw_control.c
+ F:	drivers/staging/media/vxd/decoder/vxd_dec.h
++F:	drivers/staging/media/vxd/decoder/vxd_int.c
++F:	drivers/staging/media/vxd/decoder/vxd_int.h
+ F:	drivers/staging/media/vxd/decoder/vxd_pvdec.c
+ F:	drivers/staging/media/vxd/decoder/vxd_pvdec_priv.h
+ F:	drivers/staging/media/vxd/decoder/vxd_pvdec_regs.h
+diff --git a/drivers/staging/media/vxd/decoder/vxd_int.c b/drivers/staging/media/vxd/decoder/vxd_int.c
 new file mode 100644
-index 000000000000..049d9bbcd52c
+index 000000000000..c75aef6deed1
 --- /dev/null
-+++ b/drivers/staging/media/vxd/decoder/hw_control.c
-@@ -0,0 +1,1211 @@
++++ b/drivers/staging/media/vxd/decoder/vxd_int.c
+@@ -0,0 +1,1137 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * VXD DEC Hardware control implementation
++ * VXD DEC Common low level core interface component
 + *
 + * Copyright (c) Imagination Technologies Ltd.
 + * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
@@ -125,1205 +123,1131 @@ index 000000000000..049d9bbcd52c
 +#include <media/v4l2-device.h>
 +#include <media/v4l2-mem2mem.h>
 +
-+#include "decoder.h"
-+#include "hw_control.h"
-+#include "img_msvdx_vdmc_regs.h"
++#include "bspp.h"
++#include "fw_interface.h"
++#include "h264fw_data.h"
++#include "img_errors.h"
++#include "img_dec_common.h"
 +#include "img_pvdec_core_regs.h"
 +#include "img_pvdec_pixel_regs.h"
 +#include "img_pvdec_test_regs.h"
 +#include "img_vdec_fw_msg.h"
 +#include "img_video_bus4_mmu_regs.h"
 +#include "img_msvdx_core_regs.h"
++#include "img_msvdx_cmds.h"
 +#include "reg_io2.h"
++#include "scaler_setup.h"
 +#include "vdecdd_defs.h"
-+#include "vxd_dec.h"
++#include "vdecdd_utils.h"
++#include "vdecfw_shared.h"
++#include "vdec_defs.h"
 +#include "vxd_ext.h"
 +#include "vxd_int.h"
-+#include "vxd_pvdec_priv.h"
-+
-+#define MSG_GROUP_MASK  0xf0
-+
-+struct hwctrl_ctx {
-+	unsigned int is_initialised;
-+	unsigned int is_on_seq_replay;
-+	unsigned int replay_tid;
-+	unsigned int num_pipes;
-+	struct vdecdd_dd_devconfig devconfig;
-+	void *hndl_vxd;
-+	void *dec_core;
-+	void *comp_init_userdata;
-+	struct vidio_ddbufinfo dev_ptd_bufinfo;
-+	struct lst_t pend_pict_list;
-+	struct hwctrl_msgstatus host_msg_status;
-+	void *hmsg_task_event;
-+	void *hmsg_task_kick;
-+	void *hmsg_task;
-+	unsigned int is_msg_task_active;
-+	struct hwctrl_state state;
-+	struct hwctrl_state prev_state;
-+	unsigned int is_prev_hw_state_set;
-+	unsigned int is_fatal_state;
-+};
-+
-+struct vdeckm_context {
-+	unsigned int core_num;
-+	struct vxd_coreprops props;
-+	unsigned short current_msgid;
-+	unsigned char reader_active;
-+	void *comms_ram_addr;
-+	unsigned int state_offset;
-+	unsigned int state_size;
-+};
-+
-+/*
-+ * Panic reason identifier.
-+ */
-+enum pvdec_panic_reason {
-+	PANIC_REASON_OTHER = 0,
-+	PANIC_REASON_WDT,
-+	PANIC_REASON_READ_TIMEOUT,
-+	PANIC_REASON_CMD_TIMEOUT,
-+	PANIC_REASON_MMU_FAULT,
-+	PANIC_REASON_MAX,
-+	PANIC_REASON_FORCE32BITS = 0x7FFFFFFFU
-+};
-+
-+/*
-+ * Panic reason strings.
-+ * NOTE: Should match the pvdec_panic_reason ids.
-+ */
-+static unsigned char *apanic_reason[PANIC_REASON_MAX] = {
-+	[PANIC_REASON_OTHER] = "Other",
-+	[PANIC_REASON_WDT] = "Watch Dog Timeout",
-+	[PANIC_REASON_READ_TIMEOUT] = "Read Timeout",
-+	[PANIC_REASON_CMD_TIMEOUT] = "Command Timeout",
-+	[PANIC_REASON_MMU_FAULT] = "MMU Page Fault"
-+};
-+
-+/*
-+ * Maximum length of the panic reason string.
-+ */
-+#define PANIC_REASON_LEN  (255)
-+
-+static struct vdeckm_context acore_ctx[VXD_MAX_CORES] = {0};
-+
-+static int vdeckm_getregsoffsets(const void *hndl_vxd,
-+				 struct decoder_regsoffsets *regs_offsets)
-+{
-+	struct vdeckm_context *core_ctx = (struct vdeckm_context *)hndl_vxd;
-+
-+	if (!core_ctx)
-+		return IMG_ERROR_INVALID_PARAMETERS;
-+
-+	regs_offsets->vdmc_cmd_offset = MSVDX_CMD_OFFSET;
-+	regs_offsets->vec_offset = MSVDX_VEC_OFFSET;
-+	regs_offsets->entropy_offset = PVDEC_ENTROPY_OFFSET;
-+	regs_offsets->vec_be_regs_offset = PVDEC_VEC_BE_OFFSET;
-+	regs_offsets->vdec_be_codec_regs_offset = PVDEC_VEC_BE_CODEC_OFFSET;
-+
-+	return IMG_SUCCESS;
-+}
-+
-+static int vdeckm_send_message(const void *hndl_vxd,
-+			       struct hwctrl_to_kernel_msg *to_kernelmsg,
-+			       void *vxd_dec_ctx)
-+{
-+	struct vdeckm_context *core_ctx = (struct vdeckm_context *)hndl_vxd;
-+	unsigned int count = 0;
-+	unsigned int *msg;
-+
-+	if (!core_ctx || !to_kernelmsg)
-+		return IMG_ERROR_INVALID_PARAMETERS;
-+
-+	msg = kzalloc(VXD_SIZE_MSG_BUFFER, GFP_KERNEL);
-+	if (!msg)
-+		return IMG_ERROR_OUT_OF_MEMORY;
-+
-+	msg[count++] = to_kernelmsg->flags;
-+	msg[count++] = to_kernelmsg->msg_size;
-+
-+	memcpy(&msg[count], to_kernelmsg->msg_hdr, to_kernelmsg->msg_size);
-+
-+	core_ctx->reader_active = 1;
-+
-+	if (!(to_kernelmsg->msg_hdr)) {
-+		kfree(msg);
-+		return IMG_ERROR_INVALID_PARAMETERS;
-+	}
-+
-+	pr_debug("[HWCTRL] adding message to vxd queue\n");
-+	vxd_send_msg(vxd_dec_ctx, (struct vxd_fw_msg *)msg);
-+
-+	kfree(msg);
-+
-+	return 0;
-+}
-+
-+static void vdeckm_return_msg(const void *hndl_vxd,
-+			      struct hwctrl_to_kernel_msg *to_kernelmsg)
-+{
-+	if (to_kernelmsg)
-+		kfree(to_kernelmsg->msg_hdr);
-+}
-+
-+static int vdeckm_handle_mtxtohost_msg(unsigned int *msg, struct lst_t *pend_pict_list,
-+				       enum vxd_msg_attr *msg_attr,
-+				       struct dec_decpict  **decpict,
-+				       unsigned char msg_type,
-+				       unsigned int trans_id)
-+{
-+	struct dec_decpict *pdec_pict;
-+
-+	switch (msg_type) {
-+	case FW_DEVA_COMPLETED:
-+	{
-+		struct dec_pict_attrs *pict_attrs = NULL;
-+		unsigned short error_flags = 0;
-+		unsigned int no_bewdts = 0;
-+		unsigned int mbs_dropped = 0;
-+		unsigned int mbs_recovered = 0;
-+		unsigned char flag = 0;
-+
-+		pr_debug("Received message from firmware\n");
-+		error_flags = MEMIO_READ_FIELD(msg, FW_DEVA_COMPLETED_ERROR_FLAGS);
-+
-+		no_bewdts = MEMIO_READ_FIELD(msg, FW_DEVA_COMPLETED_NUM_BEWDTS);
-+
-+		mbs_dropped = MEMIO_READ_FIELD(msg, FW_DEVA_COMPLETED_NUM_MBSDROPPED);
-+
-+		mbs_recovered = MEMIO_READ_FIELD(msg, FW_DEVA_COMPLETED_NUM_MBSRECOVERED);
-+
-+		pdec_pict = lst_first(pend_pict_list);
-+		while (pdec_pict) {
-+			if (pdec_pict->transaction_id == trans_id)
-+				break;
-+			pdec_pict = lst_next(pdec_pict);
-+		}
-+		/*
-+		 * We must have a picture in the list that matches
-+		 * the transaction id
-+		 */
-+		if (!pdec_pict)
-+			return IMG_ERROR_FATAL;
-+
-+		if (!(pdec_pict->first_fld_fwmsg) || !(pdec_pict->second_fld_fwmsg))
-+			return IMG_ERROR_FATAL;
-+
-+		flag = pdec_pict->first_fld_fwmsg->pict_attrs.first_fld_rcvd;
-+		if (flag) {
-+			pict_attrs = &pdec_pict->second_fld_fwmsg->pict_attrs;
-+		} else {
-+			pict_attrs = &pdec_pict->first_fld_fwmsg->pict_attrs;
-+			flag = 1;
-+		}
-+
-+		pict_attrs->fe_err = (unsigned int)error_flags;
-+		pict_attrs->no_be_wdt = no_bewdts;
-+		pict_attrs->mbs_dropped = mbs_dropped;
-+		pict_attrs->mbs_recovered = mbs_recovered;
-+		/*
-+		 * We may successfully replayed the picture,
-+		 * so reset the error flags
-+		 */
-+		pict_attrs->pict_attrs.dwrfired = 0;
-+		pict_attrs->pict_attrs.mmufault = 0;
-+		pict_attrs->pict_attrs.deverror = 0;
-+
-+		*msg_attr = VXD_MSG_ATTR_DECODED;
-+		*decpict = pdec_pict;
-+		break;
-+	}
-+
-+	case FW_DEVA_PANIC:
-+	{
-+		unsigned int panic_info =  MEMIO_READ_FIELD(msg, FW_DEVA_PANIC_ERROR_INT);
-+		unsigned char panic_reason[PANIC_REASON_LEN] = "Reason(s): ";
-+		unsigned char is_panic_reson_identified = 0;
-+		/*
-+		 * Create panic reason string.
-+		 */
-+		if (REGIO_READ_FIELD(panic_info, PVDEC_CORE, CR_PVDEC_HOST_INTERRUPT_STATUS,
-+				     CR_HOST_SYS_WDT)) {
-+			strncat(panic_reason, apanic_reason[PANIC_REASON_WDT],
-+				PANIC_REASON_LEN - 1);
-+			is_panic_reson_identified = 1;
-+		}
-+		if (REGIO_READ_FIELD(panic_info, PVDEC_CORE, CR_PVDEC_HOST_INTERRUPT_STATUS,
-+				     CR_HOST_READ_TIMEOUT_PROC_IRQ)) {
-+			strncat(panic_reason, apanic_reason[PANIC_REASON_READ_TIMEOUT],
-+				PANIC_REASON_LEN - 1);
-+			is_panic_reson_identified = 1;
-+		}
-+		if (REGIO_READ_FIELD(panic_info, PVDEC_CORE, CR_PVDEC_HOST_INTERRUPT_STATUS,
-+				     CR_HOST_COMMAND_TIMEOUT_PROC_IRQ)) {
-+			strncat(panic_reason, apanic_reason[PANIC_REASON_CMD_TIMEOUT],
-+				PANIC_REASON_LEN - 1);
-+			is_panic_reson_identified = 1;
-+		}
-+		if (!is_panic_reson_identified) {
-+			strncat(panic_reason, apanic_reason[PANIC_REASON_OTHER],
-+				PANIC_REASON_LEN - 1);
-+		}
-+		panic_reason[strlen(panic_reason) - 2] = 0;
-+		if (trans_id != 0)
-+			pr_err("TID=0x%08X [FIRMWARE PANIC %s]\n", trans_id, panic_reason);
-+		else
-+			pr_err("TID=NULL [GENERAL FIRMWARE PANIC %s]\n", panic_reason);
-+
-+		break;
-+	}
-+
-+	case FW_ASSERT:
-+	{
-+		unsigned int fwfile_namehash = MEMIO_READ_FIELD(msg, FW_ASSERT_FILE_NAME_HASH);
-+		unsigned int fwfile_line = MEMIO_READ_FIELD(msg, FW_ASSERT_FILE_LINE);
-+
-+		pr_err("ASSERT file name hash:0x%08X line number:%d\n",
-+		       fwfile_namehash, fwfile_line);
-+		break;
-+	}
-+
-+	case FW_SO:
-+	{
-+		unsigned int task_name = MEMIO_READ_FIELD(msg, FW_SO_TASK_NAME);
-+		unsigned char sztaskname[sizeof(unsigned int) + 1];
-+
-+		sztaskname[0] = task_name >> 24;
-+		sztaskname[1] = (task_name >> 16) & 0xff;
-+		sztaskname[2] = (task_name >> 8) & 0xff;
-+		sztaskname[3] = task_name & 0xff;
-+		if (sztaskname[3] != 0)
-+			sztaskname[4] = 0;
-+		pr_warn("STACK OVERFLOW for %s task\n", sztaskname);
-+		break;
-+	}
-+
-+	case FW_VXD_EMPTY_COMPL:
-+		/*
-+		 * Empty completion message sent as response to init,
-+		 * configure etc The architecture of vxd.ko module
-+		 * requires the firmware to send a reply for every
-+		 * message submitted by the user space.
-+		 */
-+		break;
-+
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int vdeckm_handle_hosttomtx_msg(unsigned int *msg, struct lst_t *pend_pict_list,
-+				       enum vxd_msg_attr *msg_attr,
-+				       struct dec_decpict  **decpict,
-+				       unsigned char msg_type,
-+				       unsigned int trans_id,
-+				       unsigned int msg_flags)
-+{
-+	struct dec_decpict *pdec_pict;
-+
-+	pr_debug("Received message from HOST\n");
-+
-+	switch (msg_type) {
-+	case FW_DEVA_PARSE:
-+	{
-+		struct dec_pict_attrs *pict_attrs = NULL;
-+		unsigned char flag = 0;
-+
-+		pdec_pict = lst_first(pend_pict_list);
-+		while (pdec_pict) {
-+			if (pdec_pict->transaction_id == trans_id)
-+				break;
-+
-+			pdec_pict = lst_next(pdec_pict);
-+		}
-+
-+		/*
-+		 * We must have a picture in the list that matches
-+		 * the transaction id
-+		 */
-+		if (!pdec_pict) {
-+			pr_err("Firmware decoded message received\n");
-+			pr_err("no pending picture\n");
-+			return IMG_ERROR_FATAL;
-+		}
-+
-+		if (!(pdec_pict->first_fld_fwmsg) || !(pdec_pict->second_fld_fwmsg)) {
-+			pr_err("invalid pending picture struct\n");
-+			return IMG_ERROR_FATAL;
-+		}
-+
-+		flag = pdec_pict->first_fld_fwmsg->pict_attrs.first_fld_rcvd;
-+		if (flag) {
-+			pict_attrs = &pdec_pict->second_fld_fwmsg->pict_attrs;
-+		} else {
-+			pict_attrs = &pdec_pict->first_fld_fwmsg->pict_attrs;
-+			flag = 1;
-+		}
-+
-+		/*
-+		 * The below info is fetched from firmware state
-+		 * afterwards, so just set this to zero for now.
-+		 */
-+		pict_attrs->fe_err = 0;
-+		pict_attrs->no_be_wdt = 0;
-+		pict_attrs->mbs_dropped = 0;
-+		pict_attrs->mbs_recovered = 0;
-+
-+		vxd_get_pictattrs(msg_flags, &pict_attrs->pict_attrs);
-+		vxd_get_msgerrattr(msg_flags, msg_attr);
-+
-+		if (*msg_attr == VXD_MSG_ATTR_FATAL)
-+			pr_err("[TID=0x%08X] [DECODE_FAILED]\n", trans_id);
-+		if (*msg_attr == VXD_MSG_ATTR_CANCELED)
-+			pr_err("[TID=0x%08X] [DECODE_CANCELED]\n", trans_id);
-+
-+		*decpict = pdec_pict;
-+		break;
-+	}
-+
-+	case FW_DEVA_PARSE_FRAGMENT:
-+		/*
-+		 * Do nothing - Picture holds the list of fragments.
-+		 * So, in case of any error those would be replayed
-+		 * anyway.
-+		 */
-+		break;
-+	default:
-+		pr_warn("Unknown message received 0x%02x\n", msg_type);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int vdeckm_process_msg(const void *hndl_vxd, unsigned int *msg,
-+			      struct lst_t *pend_pict_list,
-+			      unsigned int msg_flags,
-+			      enum vxd_msg_attr *msg_attr,
-+			      struct dec_decpict  **decpict)
-+{
-+	struct vdeckm_context *core_ctx = (struct vdeckm_context *)hndl_vxd;
-+	unsigned char msg_type;
-+	unsigned char msg_group;
-+	unsigned int trans_id = 0;
-+	struct vdec_pict_hwcrc *pict_hwcrc = NULL;
-+	struct dec_decpict *pdec_pict;
-+
-+	if (!core_ctx || !msg || !msg_attr || !pend_pict_list || !decpict)
-+		return IMG_ERROR_INVALID_PARAMETERS;
-+
-+	*msg_attr = VXD_MSG_ATTR_NONE;
-+	*decpict = NULL;
-+
-+	trans_id = MEMIO_READ_FIELD(msg, FW_DEVA_GENMSG_TRANS_ID);
-+	msg_type  = MEMIO_READ_FIELD(msg, FW_DEVA_GENMSG_MSG_TYPE);
-+	msg_group = msg_type & MSG_GROUP_MASK;
-+
-+	switch (msg_group) {
-+	case MSG_TYPE_START_PSR_MTXHOST_MSG:
-+		vdeckm_handle_mtxtohost_msg(msg, pend_pict_list, msg_attr,
-+					    decpict, msg_type, trans_id);
-+		break;
-+	/*
-+	 * Picture decode has been returned as unprocessed.
-+	 * Locate the picture with corresponding TID and mark
-+	 * it as decoded with errors.
-+	 */
-+	case MSG_TYPE_START_PSR_HOSTMTX_MSG:
-+		vdeckm_handle_hosttomtx_msg(msg, pend_pict_list, msg_attr,
-+					    decpict, msg_type, trans_id,
-+					    msg_flags);
-+		break;
-+
-+	case FW_DEVA_SIGNATURES_HEVC:
-+	case FW_DEVA_SIGNATURES_LEGACY:
-+	{
-+		unsigned int *signatures = msg + (FW_DEVA_SIGNATURES_SIGNATURES_OFFSET /
-+				sizeof(unsigned int));
-+		unsigned char sigcount  = MEMIO_READ_FIELD(msg, FW_DEVA_SIGNATURES_MSG_SIZE) -
-+			((FW_DEVA_SIGNATURES_SIZE / sizeof(unsigned int)) - 1);
-+		unsigned int selected = MEMIO_READ_FIELD(msg, FW_DEVA_SIGNATURES_SIGNATURE_SELECT);
-+		unsigned char i, j = 0;
-+
-+		pdec_pict = lst_first(pend_pict_list);
-+		while (pdec_pict) {
-+			if (pdec_pict->transaction_id == trans_id)
-+				break;
-+			pdec_pict = lst_next(pdec_pict);
-+		}
-+
-+		/* We must have a picture in the list that matches the tid */
-+		VDEC_ASSERT(pdec_pict);
-+		if (!pdec_pict) {
-+			pr_err("Firmware signatures message received with no pending picture\n");
-+			return IMG_ERROR_FATAL;
-+		}
-+
-+		VDEC_ASSERT(pdec_pict->first_fld_fwmsg);
-+		VDEC_ASSERT(pdec_pict->second_fld_fwmsg);
-+		if (!pdec_pict->first_fld_fwmsg || !pdec_pict->second_fld_fwmsg) {
-+			pr_err("Invalid pending picture struct\n");
-+			return IMG_ERROR_FATAL;
-+		}
-+		if (pdec_pict->first_fld_fwmsg->pict_hwcrc.first_fld_rcvd) {
-+			pict_hwcrc = &pdec_pict->second_fld_fwmsg->pict_hwcrc;
-+		} else {
-+			pict_hwcrc = &pdec_pict->first_fld_fwmsg->pict_hwcrc;
-+			if (selected & (PVDEC_SIGNATURE_GROUP_20 | PVDEC_SIGNATURE_GROUP_24))
-+				pdec_pict->first_fld_fwmsg->pict_hwcrc.first_fld_rcvd = TRUE;
-+		}
-+
-+		for (i = 0; i < 32; i++) {
-+			unsigned int group = selected & (1 << i);
-+
-+			switch (group) {
-+			case PVDEC_SIGNATURE_GROUP_20:
-+				pict_hwcrc->crc_vdmc_pix_recon = signatures[j++];
-+				break;
-+
-+			case PVDEC_SIGNATURE_GROUP_24:
-+				pict_hwcrc->vdeb_sysmem_wrdata = signatures[j++];
-+				break;
-+
-+			default:
-+				break;
-+			}
-+		}
-+
-+		/* sanity check */
-+		sigcount -= j;
-+		VDEC_ASSERT(sigcount == 0);
-+
-+		/*
-+		 * suppress PVDEC_SIGNATURE_GROUP_1 and notify
-+		 * only about groups used for verification
-+		 */
-+#ifdef DEBUG_DECODER_DRIVER
-+		if (selected & (PVDEC_SIGNATURE_GROUP_20 | PVDEC_SIGNATURE_GROUP_24))
-+			pr_info("[TID=0x%08X] [SIGNATURES]\n", trans_id);
++#include "vxd_props.h"
++
++#define MSVDX_CACHE_REF_OFFSET_V100     (72L)
++#define MSVDX_CACHE_ROW_OFFSET_V100     (4L)
++
++#define MSVDX_CACHE_REF_OFFSET_V550     (144L)
++#define MSVDX_CACHE_ROW_OFFSET_V550     (8L)
++
++#define GET_BITS(v, lb, n)       (((v) >> (lb)) & ((1 << (n)) - 1))
++#define IS_PVDEC_PIPELINE(std)   ((std) == VDEC_STD_HEVC ? 1 : 0)
++
++static int amsvdx_codecmode[VDEC_STD_MAX] = {
++	/* Invalid */
++	-1,
++	/* MPEG2 */
++	3,
++	/* MPEG4 */
++	4,
++	/* H263 */
++	4,
++	/* H264 */
++	1,
++	/* VC1 */
++	2,
++	/* AVS */
++	5,
++	/* RealVideo (8) */
++	8,
++	/* JPEG */
++	0,
++	/* On2 VP6 */
++	10,
++	/* On2 VP8 */
++	11,
++	/* Invalid */
++#ifdef HAS_VP9
++	/* On2 VP9 */
++	13,
 +#endif
++	/* Sorenson */
++	4,
++	/* HEVC */
++	12,
++};
 +
-+		*decpict = pdec_pict;
++struct msvdx_scaler_coeff_cmds {
++	unsigned int acmd_horizluma_coeff[VDECFW_NUM_SCALE_COEFFS];
++	unsigned int acmd_vertluma_coeff[VDECFW_NUM_SCALE_COEFFS];
++	unsigned int acmd_horizchroma_coeff[VDECFW_NUM_SCALE_COEFFS];
++	unsigned int acmd_vertchroma_coeff[VDECFW_NUM_SCALE_COEFFS];
++};
 +
-+		break;
-+	}
++static struct vxd_vidstd_props astd_props[] = {
++	{ VDEC_STD_MPEG2, CORE_REVISION(7, 0, 0), 64, 16, 4096, 4096, 0, 8, 8,
++	  PIXEL_FORMAT_420 },
++	{ VDEC_STD_MPEG4, CORE_REVISION(7, 0, 0), 64, 16, 4096, 4096, 0, 8, 8,
++	  PIXEL_FORMAT_420 },
++	{ VDEC_STD_H263, CORE_REVISION(7, 0, 0), 64, 16, 4096, 4096, 0, 8, 8,
++	  PIXEL_FORMAT_420 },
++	{ VDEC_STD_H264, CORE_REVISION(7, 0, 0), 64, 16, 4096, 4096, 0x10000, 8,
++	  8, PIXEL_FORMAT_420 },
++	{ VDEC_STD_VC1, CORE_REVISION(7, 0, 0), 80, 16, 4096, 4096, 0, 8, 8,
++	  PIXEL_FORMAT_420 },
++	{ VDEC_STD_AVS, CORE_REVISION(7, 0, 0), 64, 16, 4096, 4096, 0, 8, 8,
++	  PIXEL_FORMAT_420 },
++	{ VDEC_STD_REAL, CORE_REVISION(7, 0, 0), 64, 16, 4096, 4096, 0, 8, 8,
++	  PIXEL_FORMAT_420 },
++	{ VDEC_STD_JPEG, CORE_REVISION(7, 0, 0), 64, 16, 32768, 32768, 0, 8, 8,
++	  PIXEL_FORMAT_444 },
++	{ VDEC_STD_VP6, CORE_REVISION(7, 0, 0), 64, 16, 4096, 4096, 0, 8, 8,
++	  PIXEL_FORMAT_420 },
++	{ VDEC_STD_VP8, CORE_REVISION(7, 0, 0), 64, 16, 4096, 4096, 0, 8, 8,
++	  PIXEL_FORMAT_420 },
++	{ VDEC_STD_SORENSON, CORE_REVISION(7, 0, 0), 64, 16, 4096, 4096, 0, 8,
++	  8, PIXEL_FORMAT_420 },
++	{ VDEC_STD_HEVC, CORE_REVISION(7, 0, 0), 64, 16, 8192, 8192, 0, 8, 8,
++	  PIXEL_FORMAT_420 },
++};
 +
-+	default: {
-+#ifdef DEBUG_DECODER_DRIVER
-+		unsigned short msg_size, i;
++enum vdec_msvdx_async_mode {
++	VDEC_MSVDX_ASYNC_NORMAL,
++	VDEC_MSVDX_ASYNC_VDMC,
++	VDEC_MSVDX_ASYNC_VDEB,
++	VDEC_MSVDX_ASYNC_FORCE32BITS = 0x7FFFFFFFU
++};
 +
-+		pr_warn("Unknown message type received: 0x%x", msg_type);
++/* MSVDX row strides for video buffers. */
++static const unsigned int amsvdx_64byte_row_stride[] = {
++	384, 768, 1280, 1920, 512, 1024, 2048, 4096
++};
 +
-+		msg_size = MEMIO_READ_FIELD(msg, FW_DEVA_GENMSG_MSG_SIZE);
++/* MSVDX row strides for jpeg buffers. */
++static const unsigned int amsvdx_jpeg_row_stride[] = {
++	256, 384, 512, 768, 1024, 1536, 2048, 3072, 4096, 6144, 8192, 12288, 16384, 24576, 32768
++};
 +
-+		for (i = 0; i < msg_size; i++)
-+			pr_info("0x%04x: 0x%08x\n", i, msg[i]);
-+#endif
-+		break;
-+	}
-+	}
++/* VXD Core major revision. */
++static unsigned int maj_rev;
++/* VXD Core minor revision. */
++static unsigned int min_rev;
++/* VXD Core maintenance revision. */
++static unsigned int maint_rev;
 +
-+	return 0;
-+}
-+
-+static void vdeckm_vlr_copy(void *dst, void *src, unsigned int size)
++static int get_stride_code(enum vdec_vid_std vidstd, unsigned int row_stride)
 +{
-+	unsigned int *pdst = (unsigned int *)dst;
-+	unsigned int *psrc = (unsigned int *)src;
++	unsigned int i;
 +
-+	size /= 4;
-+	while (size--)
-+		*pdst++ = *psrc++;
-+}
-+
-+static int vdeckm_get_core_state(const void *hndl_vxd, struct vxd_states *state)
-+{
-+	struct vdeckm_context *core_ctx = (struct vdeckm_context *)hndl_vxd;
-+	struct vdecfw_pvdecfirmwarestate firmware_state;
-+	unsigned char pipe = 0;
-+
-+#ifdef ERROR_RECOVERY_SIMULATION
-+	/*
-+	 * if disable_fw_irq_value is not zero, return error. If processed further
-+	 * the kernel will crash because we have ignored the interrupt, but here
-+	 * we will try to access comms_ram_addr which will result in crash.
-+	 */
-+	if (disable_fw_irq_value != 0)
-+		return IMG_ERROR_INVALID_PARAMETERS;
-+#endif
-+
-+	if (!core_ctx || !state)
-+		return IMG_ERROR_INVALID_PARAMETERS;
-+
-+	/*
-+	 * If state is requested for the first time.
-+	 */
-+	if (core_ctx->state_size == 0) {
-+		unsigned int regval;
-+		/*
-+		 * get the state buffer info.
-+		 */
-+		regval = *((unsigned int *)core_ctx->comms_ram_addr +
-+			(PVDEC_COM_RAM_STATE_BUF_SIZE_AND_OFFSET_OFFSET / sizeof(unsigned int)));
-+		core_ctx->state_size = PVDEC_COM_RAM_BUF_GET_SIZE(regval, STATE);
-+		core_ctx->state_offset = PVDEC_COM_RAM_BUF_GET_OFFSET(regval, STATE);
-+	}
-+
-+	/*
-+	 * If state buffer is available.
-+	 */
-+	if (core_ctx->state_size) {
-+		/*
-+		 * Determine the latest transaction to have passed each
-+		 * checkpoint in the firmware.
-+		 * Read the firmware state from VEC Local RAM
-+		 */
-+		vdeckm_vlr_copy(&firmware_state, (unsigned char *)core_ctx->comms_ram_addr +
-+				core_ctx->state_offset, core_ctx->state_size);
-+
-+		for (pipe = 0; pipe < core_ctx->props.num_pixel_pipes; pipe++) {
-+			/*
-+			 * Set pipe presence.
-+			 */
-+			state->fw_state.pipe_state[pipe].is_pipe_present = 1;
-+
-+			/*
-+			 * For checkpoints copy message ids here. These will
-+			 * be translated into transaction ids later.
-+			 */
-+			memcpy(state->fw_state.pipe_state[pipe].acheck_point,
-+			       firmware_state.pipestate[pipe].check_point,
-+				sizeof(state->fw_state.pipe_state[pipe].acheck_point));
-+			state->fw_state.pipe_state[pipe].firmware_action  =
-+				firmware_state.pipestate[pipe].firmware_action;
-+			state->fw_state.pipe_state[pipe].cur_codec =
-+				firmware_state.pipestate[pipe].curr_codec;
-+			state->fw_state.pipe_state[pipe].fe_slices =
-+				firmware_state.pipestate[pipe].fe_slices;
-+			state->fw_state.pipe_state[pipe].be_slices =
-+				firmware_state.pipestate[pipe].be_slices;
-+			state->fw_state.pipe_state[pipe].fe_errored_slices =
-+				firmware_state.pipestate[pipe].fe_errored_slices;
-+			state->fw_state.pipe_state[pipe].be_errored_slices =
-+				firmware_state.pipestate[pipe].be_errored_slices;
-+			state->fw_state.pipe_state[pipe].be_mbs_dropped =
-+				firmware_state.pipestate[pipe].be_mbs_dropped;
-+			state->fw_state.pipe_state[pipe].be_mbs_recovered =
-+				firmware_state.pipestate[pipe].be_mbs_recovered;
-+			state->fw_state.pipe_state[pipe].fe_mb.x =
-+				firmware_state.pipestate[pipe].last_fe_mb_xy & 0xFF;
-+			state->fw_state.pipe_state[pipe].fe_mb.y =
-+				(firmware_state.pipestate[pipe].last_fe_mb_xy >> 16) & 0xFF;
-+			state->fw_state.pipe_state[pipe].be_mb.x =
-+				REGIO_READ_FIELD(firmware_state.pipestate[pipe].last_be_mb_xy,
-+						 MSVDX_VDMC,
-+						 CR_VDMC_MACROBLOCK_NUMBER,
-+						 CR_VDMC_MACROBLOCK_X_OFFSET);
-+			state->fw_state.pipe_state[pipe].be_mb.y =
-+				REGIO_READ_FIELD(firmware_state.pipestate[pipe].last_be_mb_xy,
-+						 MSVDX_VDMC,
-+						 CR_VDMC_MACROBLOCK_NUMBER,
-+						 CR_VDMC_MACROBLOCK_Y_OFFSET);
++	if (vidstd == VDEC_STD_JPEG) {
++		for (i = 0; i < (sizeof(amsvdx_jpeg_row_stride) /
++			sizeof(amsvdx_jpeg_row_stride[0])); i++) {
++			if (amsvdx_jpeg_row_stride[i] == row_stride)
++				return i;
++		}
++	} else {
++		for (i = 0; i < (sizeof(amsvdx_64byte_row_stride) /
++			sizeof(amsvdx_64byte_row_stride[0])); i++) {
++			if (amsvdx_64byte_row_stride[i] == row_stride)
++				return i;
 +		}
 +	}
 +
-+	return 0;
++	return -1;
 +}
 +
-+static int vdeckm_prepare_batch(struct vdeckm_context *core_ctx,
-+				const struct hwctrl_batch_msgdata *batch_msgdata,
-+				unsigned char **msg)
++/* Obtains the hardware defined video profile. */
++static unsigned int vxd_getprofile(enum vdec_vid_std vidstd, unsigned int std_profile)
 +{
-+	unsigned char vdec_flags = 0;
-+	unsigned short flags = 0;
-+	unsigned char *pmsg = kzalloc(FW_DEVA_DECODE_SIZE, GFP_KERNEL);
-+	struct vidio_ddbufinfo *pbatch_msg_bufinfo = batch_msgdata->batchmsg_bufinfo;
++	unsigned int profile = 0;
 +
-+	if (!pmsg)
-+		return IMG_ERROR_MALLOC_FAILED;
++	switch (vidstd) {
++	case VDEC_STD_H264:
++		switch (std_profile) {
++		case H264_PROFILE_BASELINE:
++			profile = 0;
++			break;
 +
-+	if (batch_msgdata->size_delimited_mode)
-+		vdec_flags |= FW_VDEC_NAL_SIZE_DELIM;
-+
-+	flags |= FW_DEVA_RENDER_HOST_INT;
-+
-+	/*
-+	 * Message type and stream ID
-+	 */
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_GENMSG_MSG_TYPE, FW_DEVA_PARSE, unsigned char*);
-+
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_CTRL_ALLOC_ADDR,
-+			  (unsigned int)pbatch_msg_bufinfo->dev_virt, unsigned char*);
-+
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_BUFFER_SIZE,
-+			  batch_msgdata->ctrl_alloc_bytes / sizeof(unsigned int), unsigned char*);
-+
-+	/*
-+	 * Operating mode and decode flags
-+	 */
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_OPERATING_MODE, batch_msgdata->operating_mode,
-+			  unsigned char*);
-+
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_FLAGS, flags, unsigned char*);
-+
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_VDEC_FLAGS, vdec_flags, unsigned char*);
-+
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_GENC_ID, batch_msgdata->genc_id, unsigned char*);
-+
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_MB_LOAD, batch_msgdata->mb_load, unsigned char*);
-+
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_STREAMID,
-+			  GET_STREAM_ID(batch_msgdata->transaction_id), unsigned char*);
-+
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_EXT_STATE_BUFFER,
-+			  (unsigned int)batch_msgdata->pvdec_fwctx->dev_virt, unsigned char*);
-+
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_MSG_ID, ++core_ctx->current_msgid,
-+			  unsigned char*);
-+
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_TRANS_ID, batch_msgdata->transaction_id,
-+			  unsigned char*);
-+
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_TILE_CFG, batch_msgdata->tile_cfg, unsigned char*);
-+
-+	/*
-+	 * size of message
-+	 */
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_GENMSG_MSG_SIZE,
-+			  FW_DEVA_DECODE_SIZE / sizeof(unsigned int), unsigned char*);
-+
-+	*msg = pmsg;
-+
-+	return 0;
-+}
-+
-+static int vdeckm_prepare_fragment(struct vdeckm_context *core_ctx,
-+				   const struct hwctrl_fragment_msgdata
-+				   *fragment_msgdata,
-+				   unsigned char **msg)
-+{
-+	struct vidio_ddbufinfo *pbatch_msg_bufinfo = NULL;
-+	unsigned char *pmsg = NULL;
-+
-+	pbatch_msg_bufinfo = fragment_msgdata->batchmsg_bufinfo;
-+
-+	if (!(fragment_msgdata->batchmsg_bufinfo)) {
-+		pr_err("Batch message info missing!\n");
-+		return IMG_ERROR_INVALID_PARAMETERS;
-+	}
-+
-+	pmsg = kzalloc(FW_DEVA_DECODE_FRAGMENT_SIZE, GFP_KERNEL);
-+	if (!pmsg)
-+		return IMG_ERROR_MALLOC_FAILED;
-+	/*
-+	 * message type and stream id
-+	 */
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_GENMSG_MSG_TYPE,
-+			  FW_DEVA_PARSE_FRAGMENT, unsigned char*);
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_MSG_ID, ++core_ctx->current_msgid, unsigned char*);
-+
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_FRAGMENT_CTRL_ALLOC_ADDR,
-+			  (unsigned int)pbatch_msg_bufinfo->dev_virt
-+			  + fragment_msgdata->ctrl_alloc_offset, unsigned char*);
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_DECODE_FRAGMENT_BUFFER_SIZE,
-+			  fragment_msgdata->ctrl_alloc_bytes / sizeof(unsigned int),
-+			  unsigned char*);
-+
-+	/*
-+	 * size of message
-+	 */
-+	MEMIO_WRITE_FIELD(pmsg, FW_DEVA_GENMSG_MSG_SIZE,
-+			  FW_DEVA_DECODE_FRAGMENT_SIZE / sizeof(unsigned int), unsigned char*);
-+
-+	*msg = pmsg;
-+
-+	return 0;
-+}
-+
-+static int vdeckm_get_message(const void *hndl_vxd, const enum hwctrl_msgid msgid,
-+			      const struct hwctrl_msgdata *msgdata,
-+			      struct hwctrl_to_kernel_msg *to_kernelmsg)
-+{
-+	unsigned int result = 0;
-+	struct vdeckm_context *core_ctx = (struct vdeckm_context *)hndl_vxd;
-+
-+	if (!core_ctx || !to_kernelmsg || !msgdata)
-+		return IMG_ERROR_INVALID_PARAMETERS;
-+
-+	switch (msgid) {
-+	case HWCTRL_MSGID_BATCH:
-+		result = vdeckm_prepare_batch(core_ctx, &msgdata->batch_msgdata,
-+					      &to_kernelmsg->msg_hdr);
-+		break;
-+
-+	case HWCTRL_MSGID_FRAGMENT:
-+		result = vdeckm_prepare_fragment(core_ctx, &msgdata->fragment_msgdata,
-+						 &to_kernelmsg->msg_hdr);
-+		vxd_set_msgflag(VXD_MSG_FLAG_DROP, &to_kernelmsg->flags);
-+		break;
-+
-+	default:
-+		result = IMG_ERROR_GENERIC_FAILURE;
-+		pr_err("got a message that is not supported by PVDEC");
-+		break;
-+	}
-+
-+	if (result == 0) {
-+		/* Set the stream ID for the next message to be sent. */
-+		to_kernelmsg->km_str_id = msgdata->km_str_id;
-+		to_kernelmsg->msg_size = MEMIO_READ_FIELD(to_kernelmsg->msg_hdr,
-+							  FW_DEVA_GENMSG_MSG_SIZE) *
-+							  sizeof(unsigned int);
-+	}
-+
-+	return result;
-+}
-+
-+static void hwctrl_dump_state(struct vxd_states *prev_state,
-+			      struct vxd_states *cur_state,
-+			      unsigned char pipe_minus1)
-+{
-+	pr_info("Back-End MbX                          [% 10d]",
-+		prev_state->fw_state.pipe_state[pipe_minus1].be_mb.x);
-+	pr_info("Back-End MbY                          [% 10d]",
-+		prev_state->fw_state.pipe_state[pipe_minus1].be_mb.y);
-+	pr_info("Front-End MbX                         [% 10d]",
-+		prev_state->fw_state.pipe_state[pipe_minus1].fe_mb.x);
-+	pr_info("Front-End MbY                         [% 10d]",
-+		prev_state->fw_state.pipe_state[pipe_minus1].fe_mb.y);
-+	pr_info("VDECFW_CHECKPOINT_BE_PICTURE_COMPLETE [0x%08X]",
-+		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
-+		[VDECFW_CHECKPOINT_BE_PICTURE_COMPLETE]);
-+	pr_info("VDECFW_CHECKPOINT_BE_1SLICE_DONE      [0x%08X]",
-+		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
-+		[VDECFW_CHECKPOINT_BE_1SLICE_DONE]);
-+	pr_info("VDECFW_CHECKPOINT_BE_PICTURE_STARTED  [0x%08X]",
-+		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
-+		[VDECFW_CHECKPOINT_BE_PICTURE_STARTED]);
-+	pr_info("VDECFW_CHECKPOINT_FE_PICTURE_COMPLETE [0x%08X]",
-+		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
-+		[VDECFW_CHECKPOINT_FE_PICTURE_COMPLETE]);
-+	pr_info("VDECFW_CHECKPOINT_FE_PARSE_DONE       [0x%08X]",
-+		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
-+		[VDECFW_CHECKPOINT_FE_PARSE_DONE]);
-+	pr_info("VDECFW_CHECKPOINT_FE_1SLICE_DONE      [0x%08X]",
-+		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
-+		[VDECFW_CHECKPOINT_FE_1SLICE_DONE]);
-+	pr_info("VDECFW_CHECKPOINT_ENTDEC_STARTED      [0x%08X]",
-+		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
-+		[VDECFW_CHECKPOINT_ENTDEC_STARTED]);
-+	pr_info("VDECFW_CHECKPOINT_FIRMWARE_SAVED      [0x%08X]",
-+		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
-+		[VDECFW_CHECKPOINT_FIRMWARE_SAVED]);
-+	pr_info("VDECFW_CHECKPOINT_PICMAN_COMPLETE     [0x%08X]",
-+		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
-+		[VDECFW_CHECKPOINT_PICMAN_COMPLETE]);
-+	pr_info("VDECFW_CHECKPOINT_FIRMWARE_READY      [0x%08X]",
-+		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
-+		[VDECFW_CHECKPOINT_FIRMWARE_READY]);
-+	pr_info("VDECFW_CHECKPOINT_PICTURE_STARTED     [0x%08X]",
-+		cur_state->fw_state.pipe_state[pipe_minus1].acheck_point
-+		[VDECFW_CHECKPOINT_PICTURE_STARTED]);
-+}
-+
-+static unsigned int hwctrl_calculate_load(struct bspp_pict_hdr_info *pict_hdr_info)
-+{
-+	return (((pict_hdr_info->coded_frame_size.width + 15) / 16)
-+	       * ((pict_hdr_info->coded_frame_size.height + 15) / 16));
-+}
-+
-+static int hwctrl_send_batch_message(struct hwctrl_ctx *hwctx,
-+				     struct dec_decpict *decpict,
-+				     void *vxd_dec_ctx)
-+{
-+	int result;
-+	struct hwctrl_to_kernel_msg to_kernelmsg = {0};
-+	struct vidio_ddbufinfo *batchmsg_bufinfo =
-+		decpict->batch_msginfo->ddbuf_info;
-+	struct hwctrl_msgdata msg_data;
-+	struct hwctrl_batch_msgdata *batch_msgdata = &msg_data.batch_msgdata;
-+
-+	memset(&msg_data, 0, sizeof(msg_data));
-+
-+	msg_data.km_str_id = GET_STREAM_ID(decpict->transaction_id);
-+
-+	batch_msgdata->batchmsg_bufinfo  = batchmsg_bufinfo;
-+
-+	batch_msgdata->transaction_id    = decpict->transaction_id;
-+	batch_msgdata->pvdec_fwctx       = decpict->str_pvdec_fw_ctxbuf;
-+	batch_msgdata->ctrl_alloc_bytes  = decpict->ctrl_alloc_bytes;
-+	batch_msgdata->operating_mode    = decpict->operating_op;
-+	batch_msgdata->genc_id           = decpict->genc_id;
-+	batch_msgdata->mb_load           = hwctrl_calculate_load(decpict->pict_hdr_info);
-+	batch_msgdata->size_delimited_mode =
-+		(decpict->pict_hdr_info->parser_mode != VDECFW_SCP_ONLY) ?
-+		(1) : (0);
-+
-+	result = vdeckm_get_message(hwctx->hndl_vxd, HWCTRL_MSGID_BATCH,
-+				    &msg_data, &to_kernelmsg);
-+	if (result != 0) {
-+		pr_err("failed to get decode message\n");
-+		return result;
-+	}
-+
-+	pr_debug("[HWCTRL] send batch message\n");
-+	result = vdeckm_send_message(hwctx->hndl_vxd, &to_kernelmsg,
-+				     vxd_dec_ctx);
-+	if (result != 0)
-+		return result;
-+
-+	vdeckm_return_msg(hwctx->hndl_vxd, &to_kernelmsg);
-+
-+	return 0;
-+}
-+
-+int hwctrl_process_msg(void *hndl_hwctx, unsigned int msg_flags, unsigned int *msg,
-+		       struct dec_decpict **decpict)
-+{
-+	int result;
-+	struct hwctrl_ctx *hwctx;
-+	enum vxd_msg_attr msg_attr = VXD_MSG_ATTR_NONE;
-+	struct dec_decpict *pdecpict = NULL;
-+	unsigned int val_first = 0;
-+	unsigned int val_sec = 0;
-+
-+	if (!hndl_hwctx || !msg || !decpict) {
-+		VDEC_ASSERT(0);
-+		return IMG_ERROR_INVALID_PARAMETERS;
-+	}
-+
-+	hwctx = (struct hwctrl_ctx *)hndl_hwctx;
-+
-+	*decpict = NULL;
-+
-+	pr_debug("[HWCTRL] : process message\n");
-+	result = vdeckm_process_msg(hwctx->hndl_vxd, msg, &hwctx->pend_pict_list, msg_flags,
-+				    &msg_attr, &pdecpict);
-+
-+	/* validate pointers before using them */
-+	if (!pdecpict || !pdecpict->first_fld_fwmsg || !pdecpict->second_fld_fwmsg) {
-+		VDEC_ASSERT(0);
-+		return -EIO;
-+	}
-+
-+	val_first = pdecpict->first_fld_fwmsg->pict_attrs.pict_attrs.deverror;
-+	val_sec = pdecpict->second_fld_fwmsg->pict_attrs.pict_attrs.deverror;
-+
-+	if (val_first || val_sec)
-+		pr_err("device signaled critical error!!!\n");
-+
-+	if (msg_attr == VXD_MSG_ATTR_DECODED) {
-+		pdecpict->state = DECODER_PICTURE_STATE_DECODED;
 +		/*
-+		 * We have successfully decoded a picture as normally or
-+		 * after the replay.
-+		 * Mark HW is in good state.
++		 * Extended may be attempted as Baseline or
++		 * Main depending on the constraint_set_flags
 +		 */
-+		hwctx->is_fatal_state = 0;
-+	} else if (msg_attr == VXD_MSG_ATTR_FATAL) {
-+		struct hwctrl_state state;
-+		unsigned char pipe_minus1 = 0;
++		case H264_PROFILE_EXTENDED:
++		case H264_PROFILE_MAIN:
++			profile = 1;
++			break;
 +
-+		memset(&state, 0, sizeof(state));
-+
-+		result = hwctrl_get_core_status(hwctx, &state);
-+		if (result == 0) {
-+			hwctx->is_prev_hw_state_set = 1;
-+			memcpy(&hwctx->prev_state, &state, sizeof(struct hwctrl_state));
-+
-+			for (pipe_minus1 = 0; pipe_minus1 < hwctx->num_pipes;
-+				pipe_minus1++) {
-+				hwctrl_dump_state(&state.core_state, &state.core_state,
-+						  pipe_minus1);
-+			}
-+		}
-+	}
-+	*decpict = pdecpict;
-+
-+	return 0;
-+}
-+
-+int hwctrl_getcore_cached_status(void *hndl_hwctx, struct hwctrl_state *state)
-+{
-+	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
-+
-+	if (hwctx->is_prev_hw_state_set)
-+		memcpy(state, &hwctx->prev_state, sizeof(struct hwctrl_state));
-+	else
-+		return IMG_ERROR_UNEXPECTED_STATE;
-+
-+	return 0;
-+}
-+
-+int hwctrl_get_core_status(void *hndl_hwctx, struct hwctrl_state *state)
-+{
-+	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
-+	unsigned int result = IMG_ERROR_GENERIC_FAILURE;
-+
-+	if (!hwctx->is_fatal_state && state) {
-+		struct vxd_states *pcorestate = NULL;
-+
-+		pcorestate  = &state->core_state;
-+
-+		memset(pcorestate, 0, sizeof(*(pcorestate)));
-+
-+		result = vdeckm_get_core_state(hwctx->hndl_vxd, pcorestate);
-+	}
-+
-+	return result;
-+}
-+
-+int hwctrl_is_on_seq_replay(void *hndl_hwctx)
-+{
-+	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
-+
-+	return hwctx->is_on_seq_replay;
-+}
-+
-+int hwctrl_picture_submitbatch(void *hndl_hwctx, struct dec_decpict  *decpict, void *vxd_dec_ctx)
-+{
-+	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
-+
-+	if (hwctx->is_initialised) {
-+		lst_add(&hwctx->pend_pict_list, decpict);
-+		if (!hwctx->is_on_seq_replay)
-+			return hwctrl_send_batch_message(hwctx, decpict, vxd_dec_ctx);
-+	}
-+
-+	return 0;
-+}
-+
-+int hwctrl_getpicpend_pictlist(void *hndl_hwctx, unsigned int transaction_id,
-+			       struct dec_decpict  **decpict)
-+{
-+	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
-+	struct dec_decpict  *dec_pic;
-+
-+	dec_pic = lst_first(&hwctx->pend_pict_list);
-+	while (dec_pic) {
-+		if (dec_pic->transaction_id == transaction_id) {
-+			*decpict = dec_pic;
++		case H264_PROFILE_HIGH:
++		case H264_PROFILE_HIGH444:
++		case H264_PROFILE_HIGH422:
++		case H264_PROFILE_HIGH10:
++		case H264_PROFILE_CAVLC444:
++		case H264_PROFILE_MVC_HIGH:
++		case H264_PROFILE_MVC_STEREO:
++			profile = 2;
++			break;
++		default:
++			profile = 2;
 +			break;
 +		}
-+		dec_pic = lst_next(dec_pic);
++		break;
++
++	default:
++		profile = 0;
++		break;
 +	}
 +
-+	if (!dec_pic)
-+		return IMG_ERROR_INVALID_ID;
-+
-+	return 0;
++	return profile;
 +}
 +
-+int hwctrl_peekheadpiclist(void *hndl_hwctx, struct dec_decpict **decpict)
++static int vxd_getcoreproperties(struct vxd_coreprops *coreprops,
++				 unsigned int corerev,
++				 unsigned int pvdec_coreid, unsigned int mmu_config0,
++				 unsigned int mmu_config1, unsigned int *pixel_pipecfg,
++				 unsigned int *pixel_misccfg, unsigned int max_framecfg)
 +{
-+	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
++	unsigned int group_id;
++	unsigned int core_id;
++	unsigned int core_config;
++	unsigned int extended_address_range;
++	unsigned char group_size = 0;
++	unsigned char pipe_minus1 = 0;
++	unsigned int max_h264_hw_chromaformat = 0;
++	unsigned int max_hevc_hw_chromaformat = 0;
++	unsigned int max_bitdepth_luma = 0;
++	unsigned int i;
 +
-+	if (hwctx)
-+		*decpict = lst_first(&hwctx->pend_pict_list);
++	struct pvdec_core_rev core_rev;
 +
-+	if (*decpict)
-+		return 0;
-+
-+	return IMG_ERROR_GENERIC_FAILURE;
-+}
-+
-+int hwctrl_getdecodedpicture(void *hndl_hwctx, struct dec_decpict **decpict)
-+{
-+	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
-+
-+	if (hwctx) {
-+		struct dec_decpict *cur_decpict;
-+		/*
-+		 * Ensure that this picture is in the list.
-+		 */
-+		cur_decpict = lst_first(&hwctx->pend_pict_list);
-+		while (cur_decpict) {
-+			if (cur_decpict->state == DECODER_PICTURE_STATE_DECODED) {
-+				*decpict = cur_decpict;
-+				return 0;
-+			}
-+
-+			cur_decpict = lst_next(cur_decpict);
-+		}
-+	}
-+
-+	return IMG_ERROR_VALUE_OUT_OF_RANGE;
-+}
-+
-+void hwctrl_removefrom_piclist(void *hndl_hwctx, struct dec_decpict  *decpict)
-+{
-+	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
-+
-+	if (hwctx) {
-+		struct dec_decpict *cur_decpict;
-+		/*
-+		 * Ensure that this picture is in the list.
-+		 */
-+		cur_decpict = lst_first(&hwctx->pend_pict_list);
-+		while (cur_decpict) {
-+			if (cur_decpict == decpict) {
-+				lst_remove(&hwctx->pend_pict_list, decpict);
-+				break;
-+			}
-+
-+			cur_decpict = lst_next(cur_decpict);
-+		}
-+	}
-+}
-+
-+int hwctrl_getregsoffset(void *hndl_hwctx, struct decoder_regsoffsets *regs_offsets)
-+{
-+	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
-+
-+	return vdeckm_getregsoffsets(hwctx->hndl_vxd, regs_offsets);
-+}
-+
-+static int pvdec_create(struct vxd_dev *vxd, struct vxd_coreprops *core_props,
-+			void **hndl_vdeckm_context)
-+{
-+	struct vdeckm_context  *corectx;
-+	struct vxd_core_props hndl_core_props;
-+	int result;
-+
-+	if (!hndl_vdeckm_context || !core_props)
++	if (!coreprops || !pixel_pipecfg || !pixel_misccfg)
 +		return IMG_ERROR_INVALID_PARAMETERS;
 +
++	/* PVDEC Core Revision Information */
++	core_rev.maj_rev = REGIO_READ_FIELD(corerev, PVDEC_CORE, CR_PVDEC_CORE_REV,
++					    CR_PVDEC_MAJOR_REV);
++	core_rev.min_rev = REGIO_READ_FIELD(corerev, PVDEC_CORE, CR_PVDEC_CORE_REV,
++					    CR_PVDEC_MINOR_REV);
++	core_rev.maint_rev = REGIO_READ_FIELD(corerev, PVDEC_CORE, CR_PVDEC_CORE_REV,
++					      CR_PVDEC_MAINT_REV);
++
++	/* core id */
++	group_id = REGIO_READ_FIELD(pvdec_coreid, PVDEC_CORE, CR_PVDEC_CORE_ID, CR_GROUP_ID);
++	core_id = REGIO_READ_FIELD(pvdec_coreid, PVDEC_CORE, CR_PVDEC_CORE_ID, CR_CORE_ID);
++
++	/* Ensure that the core is IMG Video Decoder (PVDEC). */
++	if (group_id != 3 || core_id != 3)
++		return IMG_ERROR_DEVICE_NOT_FOUND;
++
++	core_config = REGIO_READ_FIELD(pvdec_coreid, PVDEC_CORE,
++				       CR_PVDEC_CORE_ID, CR_PVDEC_CORE_CONFIG);
++
++	memset(coreprops, 0, sizeof(*(coreprops)));
++
++	/*  Construct core version name. */
++	snprintf(coreprops->aversion, VER_STR_LEN, "%d.%d.%d",
++		 core_rev.maj_rev, core_rev.min_rev, core_rev.maint_rev);
++
++	coreprops->mmu_support_stride_per_context =
++			REGIO_READ_FIELD(mmu_config1, IMG_VIDEO_BUS4_MMU,
++					 MMU_CONFIG1,
++					 SUPPORT_STRIDE_PER_CONTEXT) == 1 ? 1 : 0;
++
++	coreprops->mmu_support_secure = REGIO_READ_FIELD(mmu_config1, IMG_VIDEO_BUS4_MMU,
++							 MMU_CONFIG1, SUPPORT_SECURE) == 1 ? 1 : 0;
++
++	extended_address_range = REGIO_READ_FIELD(mmu_config0, IMG_VIDEO_BUS4_MMU,
++						  MMU_CONFIG0, EXTENDED_ADDR_RANGE);
++
++	switch (extended_address_range) {
++	case 0:
++		coreprops->mmu_type = MMU_TYPE_32BIT;
++		break;
++	case 4:
++		coreprops->mmu_type = MMU_TYPE_36BIT;
++		break;
++	case 8:
++		coreprops->mmu_type = MMU_TYPE_40BIT;
++		break;
++	default:
++		return IMG_ERROR_NOT_SUPPORTED;
++	}
++
++	group_size += REGIO_READ_FIELD(mmu_config0, IMG_VIDEO_BUS4_MMU,
++			MMU_CONFIG0, GROUP_OVERRIDE_SIZE);
++
++	coreprops->num_entropy_pipes = core_config & 0xF;
++	coreprops->num_pixel_pipes = core_config >> 4 & 0xF;
++#ifdef	DEBUG_DECODER_DRIVER
++	pr_info("PVDEC revision %08x detected, id %08x.\n", corerev, core_id);
++	pr_info("Found %d entropy pipe(s), %d pixel pipe(s), %d group size",
++		coreprops->num_entropy_pipes, coreprops->num_pixel_pipes,
++		group_size);
++#endif
++
++	/* Set global rev info variables used by macros */
++	maj_rev = core_rev.maj_rev;
++	min_rev = core_rev.min_rev;
++	maint_rev = core_rev.maint_rev;
++
++	/* Default settings */
++	for (i = 0; i < ARRAY_SIZE(astd_props); i++) {
++		struct vxd_vidstd_props *pvidstd_props =
++			&coreprops->vidstd_props[astd_props[i].vidstd];
++		/*
++		 * Update video standard properties if the core is beyond
++		 * specified version and the properties are for newer cores
++		 * than the previous.
++		 */
++		if (FROM_REV(MAJOR_REVISION((int)astd_props[i].core_rev),
++			     MINOR_REVISION((int)astd_props[i].core_rev),
++			     MAINT_REVISION((int)astd_props[i].core_rev), int) &&
++		    astd_props[i].core_rev >= pvidstd_props->core_rev) {
++			*pvidstd_props = astd_props[i];
++
++			if (pvidstd_props->vidstd != VDEC_STD_JPEG &&
++			    (FROM_REV(8, 0, 0, int)) && (pvidstd_props->vidstd ==
++			    VDEC_STD_HEVC ? 1 : 0)) {
++				/*
++				 * override default values with values
++				 * specified in HW (register does not
++				 * exist in previous cores)
++				 */
++				pvidstd_props->max_width =
++					2 << REGIO_READ_FIELD(max_framecfg,
++						PVDEC_PIXEL,
++						CR_MAX_FRAME_CONFIG,
++						CR_PVDEC_HOR_MSB);
++
++				pvidstd_props->max_height =
++					2 << REGIO_READ_FIELD(max_framecfg,
++						PVDEC_PIXEL,
++						CR_MAX_FRAME_CONFIG,
++						CR_PVDEC_VER_MSB);
++			} else if (pvidstd_props->vidstd != VDEC_STD_JPEG &&
++				(FROM_REV(8, 0, 0, int))) {
++				pvidstd_props->max_width =
++					2 << REGIO_READ_FIELD(max_framecfg,
++						PVDEC_PIXEL,
++						CR_MAX_FRAME_CONFIG,
++						CR_MSVDX_HOR_MSB);
++
++				pvidstd_props->max_height =
++					2 << REGIO_READ_FIELD(max_framecfg,
++						PVDEC_PIXEL,
++						CR_MAX_FRAME_CONFIG,
++						CR_MSVDX_VER_MSB);
++			}
++		}
++	}
++
++	/* Populate the core properties. */
++	if (GET_BITS(core_config, 11, 1))
++		coreprops->hd_support = 1;
++
++	for (pipe_minus1 = 0; pipe_minus1 < coreprops->num_pixel_pipes;
++		pipe_minus1++) {
++		unsigned int current_bitdepth =
++			GET_BITS(pixel_misccfg[pipe_minus1], 4, 3) + 8;
++		unsigned int current_h264_hw_chromaformat =
++			GET_BITS(pixel_misccfg[pipe_minus1], 0, 2);
++		unsigned int current_hevc_hw_chromaformat =
++			GET_BITS(pixel_misccfg[pipe_minus1], 2, 2);
++#ifdef DEBUG_DECODER_DRIVER
++		pr_info("cur_bitdepth: %d  cur_h264_hw_chromaformat: %d",
++			current_bitdepth, current_h264_hw_chromaformat);
++		pr_info("cur_hevc_hw_chromaformat: %d  pipe_minus1: %d\n",
++			current_hevc_hw_chromaformat, pipe_minus1);
++#endif
++
++		if (GET_BITS(pixel_misccfg[pipe_minus1], 8, 1))
++			coreprops->rotation_support[pipe_minus1] = 1;
++
++		if (GET_BITS(pixel_misccfg[pipe_minus1], 9, 1))
++			coreprops->scaling_support[pipe_minus1] = 1;
++
++		coreprops->num_streams[pipe_minus1] =
++			GET_BITS(pixel_misccfg[pipe_minus1], 12, 2) + 1;
++
++		/* Video standards. */
++		coreprops->mpeg2[pipe_minus1] =
++			GET_BITS(pixel_pipecfg[pipe_minus1], 0, 1) ? 1 : 0;
++		coreprops->mpeg4[pipe_minus1] =
++			GET_BITS(pixel_pipecfg[pipe_minus1], 1, 1) ? 1 : 0;
++		coreprops->h264[pipe_minus1] =
++			GET_BITS(pixel_pipecfg[pipe_minus1], 2, 1) ? 1 : 0;
++		coreprops->vc1[pipe_minus1] =
++			GET_BITS(pixel_pipecfg[pipe_minus1], 3, 1) ? 1 : 0;
++		coreprops->jpeg[pipe_minus1] =
++			GET_BITS(pixel_pipecfg[pipe_minus1], 5, 1) ? 1 : 0;
++		coreprops->avs[pipe_minus1] =
++			GET_BITS(pixel_pipecfg[pipe_minus1], 7, 1) ? 1 : 0;
++		coreprops->real[pipe_minus1] =
++			GET_BITS(pixel_pipecfg[pipe_minus1], 8, 1) ? 1 : 0;
++		coreprops->vp6[pipe_minus1] =
++			GET_BITS(pixel_pipecfg[pipe_minus1], 9, 1) ? 1 : 0;
++		coreprops->vp8[pipe_minus1] =
++			GET_BITS(pixel_pipecfg[pipe_minus1], 10, 1) ? 1 : 0;
++		coreprops->hevc[pipe_minus1] =
++			GET_BITS(pixel_pipecfg[pipe_minus1], 22, 1) ? 1 : 0;
++
++		max_bitdepth_luma = (max_bitdepth_luma > current_bitdepth ?
++			max_bitdepth_luma : current_bitdepth);
++		max_h264_hw_chromaformat = (max_h264_hw_chromaformat >
++			current_h264_hw_chromaformat ? max_h264_hw_chromaformat
++			: current_h264_hw_chromaformat);
++		max_hevc_hw_chromaformat = (max_hevc_hw_chromaformat >
++			current_hevc_hw_chromaformat ? max_hevc_hw_chromaformat
++			: current_hevc_hw_chromaformat);
++	}
++
++	/* Override default bit-depth with value signalled explicitly by core. */
++	coreprops->vidstd_props[0].max_luma_bitdepth = max_bitdepth_luma;
++	coreprops->vidstd_props[0].max_chroma_bitdepth =
++		coreprops->vidstd_props[0].max_luma_bitdepth;
++
++	for (i = 1; i < VDEC_STD_MAX; i++) {
++		coreprops->vidstd_props[i].max_luma_bitdepth =
++			coreprops->vidstd_props[0].max_luma_bitdepth;
++		coreprops->vidstd_props[i].max_chroma_bitdepth =
++			coreprops->vidstd_props[0].max_chroma_bitdepth;
++	}
++
++	switch (max_h264_hw_chromaformat) {
++	case 1:
++		coreprops->vidstd_props[VDEC_STD_H264].max_chroma_format =
++			PIXEL_FORMAT_420;
++		break;
++
++	case 2:
++		coreprops->vidstd_props[VDEC_STD_H264].max_chroma_format =
++			PIXEL_FORMAT_422;
++		break;
++
++	case 3:
++		coreprops->vidstd_props[VDEC_STD_H264].max_chroma_format =
++			PIXEL_FORMAT_444;
++		break;
++
++	default:
++		break;
++	}
++
++	switch (max_hevc_hw_chromaformat) {
++	case 1:
++		coreprops->vidstd_props[VDEC_STD_HEVC].max_chroma_format =
++			PIXEL_FORMAT_420;
++		break;
++
++	case 2:
++		coreprops->vidstd_props[VDEC_STD_HEVC].max_chroma_format =
++			PIXEL_FORMAT_422;
++		break;
++
++	case 3:
++		coreprops->vidstd_props[VDEC_STD_HEVC].max_chroma_format =
++			PIXEL_FORMAT_444;
++		break;
++
++	default:
++		break;
++	}
++
++	return 0;
++}
++
++static unsigned char vxd_is_supported_byatleast_onepipe(const unsigned char *features,
++							unsigned int num_pipes)
++{
++	unsigned int i;
++
++	VDEC_ASSERT(features);
++	VDEC_ASSERT(num_pipes <= VDEC_MAX_PIXEL_PIPES);
++
++	for (i = 0; i < num_pipes; i++) {
++		if (features[i])
++			return 1;
++	}
++
++	return 0;
++}
++
++void vxd_set_reconpictcmds(const struct vdecdd_str_unit *str_unit,
++			   const struct vdec_str_configdata *str_configdata,
++			   const struct vdec_str_opconfig *output_config,
++			   const struct vxd_coreprops *coreprops,
++			   const struct vxd_buffers *buffers,
++			   unsigned int *pict_cmds)
++{
++	struct pixel_pixinfo  *pixel_info;
++	unsigned int row_stride_code;
++	unsigned char benable_auxline_buf = 1;
++
++	unsigned int coded_height;
++	unsigned int coded_width;
++	unsigned int disp_height;
++	unsigned int disp_width;
++	unsigned int profile;
++	unsigned char plane;
++	unsigned int y_stride;
++	unsigned int uv_stride;
++	unsigned int v_stride;
++	unsigned int cache_ref_offset;
++	unsigned int cache_row_offset;
++
++	if (str_configdata->vid_std == VDEC_STD_JPEG) {
++		disp_height = 0;
++		disp_width = 0;
++		coded_height = 0;
++		coded_width = 0;
++	} else {
++		coded_height = ALIGN(str_unit->pict_hdr_info->coded_frame_size.height,
++				     (str_unit->pict_hdr_info->field) ?
++				     2 * VDEC_MB_DIMENSION : VDEC_MB_DIMENSION);
++				     /*  Hardware field is coded size - 1 */
++				     coded_height -= 1;
++
++		coded_width = ALIGN(str_unit->pict_hdr_info->coded_frame_size.width,
++				    VDEC_MB_DIMENSION);
++		/*  Hardware field is coded size - 1 */
++		coded_width -= 1;
++
++		disp_height = str_unit->pict_hdr_info->disp_info.enc_disp_region.height
++			+ str_unit->pict_hdr_info->disp_info.enc_disp_region.left_offset - 1;
++		disp_width = str_unit->pict_hdr_info->disp_info.enc_disp_region.width +
++			str_unit->pict_hdr_info->disp_info.enc_disp_region.top_offset - 1;
++	}
 +	/*
-+	 * Obtain core context.
++	 * Display picture size (DISPLAY_PICTURE)
++	 * The display to be written is not the actual video size to be
++	 * displayed but a number that has to differ from the coded pixel size
++	 * by less than 1MB (coded_size-display_size <= 0x0F). Because H264 can
++	 * have a different display size, we need to check and write
++	 * the coded_size again in the display_size register if this condition
++	 * is not fulfilled.
 +	 */
-+	corectx = &acore_ctx[0];
++	if (str_configdata->vid_std != VDEC_STD_VC1 && ((coded_height - disp_height) > 0x0F)) {
++		REGIO_WRITE_FIELD_LITE(pict_cmds[VDECFW_CMD_DISPLAY_PICTURE],
++				       MSVDX_CMDS, DISPLAY_PICTURE_SIZE,
++				       DISPLAY_PICTURE_HEIGHT,
++				       coded_height, unsigned int);
++	} else {
++		REGIO_WRITE_FIELD_LITE(pict_cmds[VDECFW_CMD_DISPLAY_PICTURE],
++				       MSVDX_CMDS, DISPLAY_PICTURE_SIZE,
++				       DISPLAY_PICTURE_HEIGHT,
++				       disp_height, unsigned int);
++	}
 +
-+	memset(corectx, 0, sizeof(*corectx));
++	if (((coded_width - disp_width) > 0x0F)) {
++		REGIO_WRITE_FIELD_LITE(pict_cmds[VDECFW_CMD_DISPLAY_PICTURE],
++				       MSVDX_CMDS, DISPLAY_PICTURE_SIZE,
++				       DISPLAY_PICTURE_WIDTH,
++				       coded_width, unsigned int);
++	} else {
++		REGIO_WRITE_FIELD_LITE(pict_cmds[VDECFW_CMD_DISPLAY_PICTURE],
++				       MSVDX_CMDS, DISPLAY_PICTURE_SIZE,
++				       DISPLAY_PICTURE_WIDTH,
++				       disp_width, unsigned int);
++	}
 +
-+	corectx->core_num = 0;
++	REGIO_WRITE_FIELD_LITE(pict_cmds[VDECFW_CMD_CODED_PICTURE],
++			       MSVDX_CMDS, CODED_PICTURE_SIZE,
++			       CODED_PICTURE_HEIGHT,
++			       coded_height, unsigned int);
++	REGIO_WRITE_FIELD_LITE(pict_cmds[VDECFW_CMD_CODED_PICTURE],
++			       MSVDX_CMDS, CODED_PICTURE_SIZE,
++			       CODED_PICTURE_WIDTH,
++			       coded_width, unsigned int);
 +
-+	result = vxd_pvdec_get_props(vxd->dev, vxd->reg_base, &hndl_core_props);
-+	if (result != 0)
-+		return result;
++	/*
++	 * For standards where dpb_diff != 1 and chroma format != 420
++	 * cache_ref_offset has to be calculated in the F/W.
++	 */
++	if (str_configdata->vid_std != VDEC_STD_HEVC && str_configdata->vid_std != VDEC_STD_H264) {
++		unsigned int log2_size, cache_size, luma_size;
++		unsigned char is_hevc_supported, is_hevc444_supported = 0;
 +
-+	vxd_get_coreproperties(&hndl_core_props, &corectx->props);
++		is_hevc_supported =
++			vxd_is_supported_byatleast_onepipe(coreprops->hevc,
++							   coreprops->num_pixel_pipes);
 +
-+	memcpy(core_props, &corectx->props, sizeof(*core_props));
++		if (is_hevc_supported) {
++			is_hevc444_supported =
++				coreprops->vidstd_props[VDEC_STD_HEVC].max_chroma_format ==
++				PIXEL_FORMAT_444 ? 1 : 0;
++		}
 +
-+	*hndl_vdeckm_context = corectx;
++		log2_size = 9 + (is_hevc_supported ? 1 : 0) + (is_hevc444_supported ? 1 : 0);
++		cache_size = 3 << log2_size;
++		luma_size = (cache_size * 2) / 3;
++		cache_ref_offset = (luma_size * 15) / 32;
++		cache_ref_offset = (cache_ref_offset + 7) & (~7);
++		cache_row_offset = 0x0C;
++
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_MC_CACHE_CONFIGURATION],
++				  MSVDX_CMDS, MC_CACHE_CONFIGURATION,
++				  CONFIG_REF_CHROMA_ADJUST, 1,
++				  unsigned int, unsigned int);
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_MC_CACHE_CONFIGURATION],
++				  MSVDX_CMDS, MC_CACHE_CONFIGURATION,
++				  CONFIG_REF_OFFSET, cache_ref_offset,
++				  unsigned int, unsigned int);
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_MC_CACHE_CONFIGURATION],
++				  MSVDX_CMDS, MC_CACHE_CONFIGURATION,
++				  CONFIG_ROW_OFFSET, cache_row_offset,
++				  unsigned int, unsigned int);
++	}
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_OPERATING_MODE],
++			  MSVDX_CMDS, OPERATING_MODE, CODEC_MODE,
++			  amsvdx_codecmode[str_configdata->vid_std],
++			  unsigned int, unsigned int);
++
++	profile = str_unit->seq_hdr_info->com_sequ_hdr_info.codec_profile;
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_OPERATING_MODE],
++			  MSVDX_CMDS, OPERATING_MODE, CODEC_PROFILE,
++			  vxd_getprofile(str_configdata->vid_std, profile),
++			  unsigned int, unsigned int);
++
++	plane = str_unit->seq_hdr_info->com_sequ_hdr_info.separate_chroma_planes;
++	pixel_info = &str_unit->seq_hdr_info->com_sequ_hdr_info.pixel_info;
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_OPERATING_MODE],
++			  MSVDX_CMDS, OPERATING_MODE, CHROMA_FORMAT, plane ?
++			  0 : pixel_info->chroma_fmt, unsigned int, int);
++
++	if (str_configdata->vid_std != VDEC_STD_JPEG) {
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_EXT_OP_MODE],
++				  MSVDX_CMDS, EXT_OP_MODE, CHROMA_FORMAT_IDC, plane ?
++				  0 : pixel_get_hw_chroma_format_idc
++							(pixel_info->chroma_fmt_idc),
++				  unsigned int, int);
++
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_EXT_OP_MODE],
++				  MSVDX_CMDS, EXT_OP_MODE, MEMORY_PACKING,
++				  output_config->pixel_info.mem_pkg ==
++				  PIXEL_BIT10_MP ? 1 : 0, unsigned int, int);
++
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_EXT_OP_MODE],
++				  MSVDX_CMDS, EXT_OP_MODE, BIT_DEPTH_LUMA_MINUS8,
++				  pixel_info->bitdepth_y - 8,
++				  unsigned int, unsigned int);
++
++		if (pixel_info->chroma_fmt_idc == PIXEL_FORMAT_MONO) {
++			/*
++			 * For monochrome streams use the same bit depth for
++			 * chroma and luma.
++			 */
++			REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_EXT_OP_MODE],
++					  MSVDX_CMDS, EXT_OP_MODE,
++					  BIT_DEPTH_CHROMA_MINUS8,
++					  pixel_info->bitdepth_y - 8,
++					  unsigned int, unsigned int);
++		} else {
++			/*
++			 * For normal streams use the appropriate bit depth for chroma.
++			 */
++			REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_EXT_OP_MODE], MSVDX_CMDS,
++					  EXT_OP_MODE, BIT_DEPTH_CHROMA_MINUS8,
++					  pixel_info->bitdepth_c - 8,
++					  unsigned int, unsigned int);
++		}
++	} else {
++		pict_cmds[VDECFW_CMD_EXT_OP_MODE] = 0;
++	}
++
++	if (str_configdata->vid_std != VDEC_STD_JPEG) {
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_OPERATING_MODE], MSVDX_CMDS,
++				  OPERATING_MODE, CHROMA_INTERLEAVED,
++				  PIXEL_GET_HW_CHROMA_INTERLEAVED
++				  (output_config->pixel_info.chroma_interleave),
++				  unsigned int, int);
++	}
++
++	if (str_configdata->vid_std == VDEC_STD_JPEG) {
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_OPERATING_MODE],
++				  MSVDX_CMDS, OPERATING_MODE, ASYNC_MODE,
++				  VDEC_MSVDX_ASYNC_VDMC,
++				  unsigned int, unsigned int);
++	}
++
++	if (str_configdata->vid_std == VDEC_STD_H264) {
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_OPERATING_MODE], MSVDX_CMDS,
++				  OPERATING_MODE, ASYNC_MODE,
++				  str_unit->pict_hdr_info->discontinuous_mbs ?
++				  VDEC_MSVDX_ASYNC_VDMC : VDEC_MSVDX_ASYNC_NORMAL,
++				  unsigned int, int);
++	}
++
++	y_stride = buffers->recon_pict->rend_info.plane_info[VDEC_PLANE_VIDEO_Y].stride;
++	uv_stride = buffers->recon_pict->rend_info.plane_info[VDEC_PLANE_VIDEO_UV].stride;
++	v_stride = buffers->recon_pict->rend_info.plane_info[VDEC_PLANE_VIDEO_V].stride;
++
++	if (((y_stride % (VDEC_VXD_EXT_STRIDE_ALIGNMENT_DEFAULT)) == 0) &&
++	    ((uv_stride % (VDEC_VXD_EXT_STRIDE_ALIGNMENT_DEFAULT)) == 0) &&
++	    ((v_stride % (VDEC_VXD_EXT_STRIDE_ALIGNMENT_DEFAULT)) == 0)) {
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_OPERATING_MODE],
++				  MSVDX_CMDS, OPERATING_MODE,
++				  USE_EXT_ROW_STRIDE, 1, unsigned int, int);
++
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_EXTENDED_ROW_STRIDE],
++				  MSVDX_CMDS, EXTENDED_ROW_STRIDE,
++				  EXT_ROW_STRIDE, y_stride >> 6, unsigned int, unsigned int);
++
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_CHROMA_ROW_STRIDE],
++				  MSVDX_CMDS, CHROMA_ROW_STRIDE,
++				  CHROMA_ROW_STRIDE, uv_stride >> 6, unsigned int, unsigned int);
++	} else {
++		row_stride_code = get_stride_code(str_configdata->vid_std, y_stride);
++
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_OPERATING_MODE],
++				  MSVDX_CMDS, OPERATING_MODE, ROW_STRIDE,
++				  row_stride_code & 0x7, unsigned int, unsigned int);
++
++		if (str_configdata->vid_std == VDEC_STD_JPEG) {
++			/*
++			 * Use the unused chroma interleaved flag
++			 * to hold MSB of row stride code
++			 */
++			IMG_ASSERT(row_stride_code < 16);
++			REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_OPERATING_MODE],
++					  MSVDX_CMDS, OPERATING_MODE,
++					  CHROMA_INTERLEAVED,
++					  row_stride_code >> 3, unsigned int, unsigned int);
++		} else {
++			IMG_ASSERT(row_stride_code < 8);
++		}
++	}
++	pict_cmds[VDECFW_CMD_LUMA_RECONSTRUCTED_PICTURE_BASE_ADDRESS] =
++		(unsigned int)GET_HOST_ADDR(&buffers->recon_pict->pict_buf->ddbuf_info) +
++		buffers->recon_pict->rend_info.plane_info[0].offset;
++
++	pict_cmds[VDECFW_CMD_CHROMA_RECONSTRUCTED_PICTURE_BASE_ADDRESS] =
++		(unsigned int)GET_HOST_ADDR(&buffers->recon_pict->pict_buf->ddbuf_info) +
++		buffers->recon_pict->rend_info.plane_info[1].offset;
++
++	pict_cmds[VDECFW_CMD_CHROMA2_RECONSTRUCTED_PICTURE_BASE_ADDRESS] =
++		(unsigned int)GET_HOST_ADDR(&buffers->recon_pict->pict_buf->ddbuf_info) +
++		buffers->recon_pict->rend_info.plane_info[2].offset;
++
++	pict_cmds[VDECFW_CMD_LUMA_ERROR_PICTURE_BASE_ADDRESS] = 0;
++	pict_cmds[VDECFW_CMD_CHROMA_ERROR_PICTURE_BASE_ADDRESS] = 0;
++
++#ifdef ERROR_CONCEALMENT
++	/* update error concealment frame info if available */
++	if (buffers->err_pict_bufinfo) {
++		pict_cmds[VDECFW_CMD_LUMA_ERROR_PICTURE_BASE_ADDRESS] =
++			(unsigned int)GET_HOST_ADDR(buffers->err_pict_bufinfo) +
++			buffers->recon_pict->rend_info.plane_info[0].offset;
++
++		pict_cmds[VDECFW_CMD_CHROMA_ERROR_PICTURE_BASE_ADDRESS] =
++			(unsigned int)GET_HOST_ADDR(buffers->err_pict_bufinfo) +
++			buffers->recon_pict->rend_info.plane_info[1].offset;
++	}
++#endif
++
++	pict_cmds[VDECFW_CMD_INTRA_BUFFER_BASE_ADDRESS] =
++		(unsigned int)GET_HOST_ADDR(buffers->intra_bufinfo);
++	pict_cmds[VDECFW_CMD_INTRA_BUFFER_PLANE_SIZE] =
++		buffers->intra_bufsize_per_pipe / 3;
++	pict_cmds[VDECFW_CMD_INTRA_BUFFER_SIZE_PER_PIPE] =
++		buffers->intra_bufsize_per_pipe;
++	pict_cmds[VDECFW_CMD_AUX_LINE_BUFFER_BASE_ADDRESS] =
++		(unsigned int)GET_HOST_ADDR(buffers->auxline_bufinfo);
++	pict_cmds[VDECFW_CMD_AUX_LINE_BUFFER_SIZE_PER_PIPE] =
++		buffers->auxline_bufsize_per_pipe;
++
++	/*
++	 * for pvdec we need to set this registers even if we don't
++	 * use alternative output
++	 */
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  ALT_BIT_DEPTH_CHROMA_MINUS8,
++			  output_config->pixel_info.bitdepth_c - 8, unsigned int, unsigned int);
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  ALT_BIT_DEPTH_LUMA_MINUS8,
++			  output_config->pixel_info.bitdepth_y - 8, unsigned int, unsigned int);
++
++	/*
++	 * this is causing corruption in RV40 and VC1 streams with
++	 * scaling/rotation enabled on Coral, so setting to 0
++	 */
++	benable_auxline_buf = benable_auxline_buf &&
++		(str_configdata->vid_std != VDEC_STD_REAL) &&
++		(str_configdata->vid_std != VDEC_STD_VC1);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_PICTURE_ROTATION],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_PICTURE_ROTATION,
++			  USE_AUX_LINE_BUF, benable_auxline_buf ? 1 : 0, unsigned int, int);
++}
++
++void vxd_set_altpictcmds(const struct vdecdd_str_unit *str_unit,
++			 const struct vdec_str_configdata *str_configdata,
++			 const struct vdec_str_opconfig *output_config,
++			 const struct vxd_coreprops *coreprops,
++			 const struct vxd_buffers *buffers,
++			 unsigned int *pict_cmds)
++{
++	unsigned int row_stride_code;
++	unsigned int y_stride;
++	unsigned int uv_stride;
++	unsigned int v_stride;
++
++	y_stride = buffers->alt_pict->rend_info.plane_info[VDEC_PLANE_VIDEO_Y].stride;
++	uv_stride = buffers->alt_pict->rend_info.plane_info[VDEC_PLANE_VIDEO_UV].stride;
++	v_stride = buffers->alt_pict->rend_info.plane_info[VDEC_PLANE_VIDEO_V].stride;
++
++	if (((y_stride % (VDEC_VXD_EXT_STRIDE_ALIGNMENT_DEFAULT)) == 0) &&
++	    ((uv_stride % (VDEC_VXD_EXT_STRIDE_ALIGNMENT_DEFAULT)) == 0) &&
++	    ((v_stride % (VDEC_VXD_EXT_STRIDE_ALIGNMENT_DEFAULT)) == 0)) {
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_PICTURE_ROTATION],
++				  MSVDX_CMDS, ALTERNATIVE_OUTPUT_PICTURE_ROTATION,
++				  USE_EXT_ROT_ROW_STRIDE, 1, unsigned int, int);
++
++		/* 64-byte (min) aligned luma stride value. */
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_PICTURE_ROTATION],
++				  MSVDX_CMDS,
++				  ALTERNATIVE_OUTPUT_PICTURE_ROTATION,
++				  EXT_ROT_ROW_STRIDE, y_stride >> 6,
++				  unsigned int, unsigned int);
++
++		/* 64-byte (min) aligned chroma stride value. */
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_CHROMA_ROW_STRIDE],
++				  MSVDX_CMDS, CHROMA_ROW_STRIDE,
++				  ALT_CHROMA_ROW_STRIDE, uv_stride >> 6,
++				  unsigned int, unsigned int);
++	} else {
++		/*
++		 * Obtain the code for buffer stride
++		 * (must be less than 8, i.e. not JPEG strides)
++		 */
++		row_stride_code =
++			get_stride_code(str_configdata->vid_std, y_stride);
++
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_PICTURE_ROTATION],
++				  MSVDX_CMDS,
++				  ALTERNATIVE_OUTPUT_PICTURE_ROTATION,
++				  ROTATION_ROW_STRIDE, row_stride_code & 0x7,
++				  unsigned int, unsigned int);
++	}
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_PICTURE_ROTATION],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_PICTURE_ROTATION,
++			  SCALE_INPUT_SIZE_SEL,
++			  ((output_config->pixel_info.chroma_fmt_idc !=
++			  str_unit->seq_hdr_info->com_sequ_hdr_info.pixel_info.chroma_fmt_idc)) ?
++			  1 : 0, unsigned int, int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_PICTURE_ROTATION],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_PICTURE_ROTATION,
++			  PACKED_422_OUTPUT,
++			  (output_config->pixel_info.chroma_fmt_idc ==
++			  PIXEL_FORMAT_422 &&
++			  output_config->pixel_info.num_planes == 1) ? 1 : 0,
++			  unsigned int, int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  ALT_OUTPUT_FORMAT,
++			  str_unit->seq_hdr_info->com_sequ_hdr_info.separate_chroma_planes ?
++			  0 : pixel_get_hw_chroma_format_idc
++					(output_config->pixel_info.chroma_fmt_idc),
++			  unsigned int, int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  ALT_BIT_DEPTH_CHROMA_MINUS8,
++			  output_config->pixel_info.bitdepth_c - 8,
++			  unsigned int, unsigned int);
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  ALT_BIT_DEPTH_LUMA_MINUS8,
++			  output_config->pixel_info.bitdepth_y - 8,
++			  unsigned int, unsigned int);
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  ALT_MEMORY_PACKING,
++			  (output_config->pixel_info.mem_pkg ==
++			  PIXEL_BIT10_MP) ? 1 : 0, unsigned int, int);
++
++	pict_cmds[VDECFW_CMD_LUMA_ALTERNATIVE_PICTURE_BASE_ADDRESS] =
++		(unsigned int)GET_HOST_ADDR(&buffers->alt_pict->pict_buf->ddbuf_info) +
++		buffers->alt_pict->rend_info.plane_info[0].offset;
++
++	pict_cmds[VDECFW_CMD_CHROMA_ALTERNATIVE_PICTURE_BASE_ADDRESS] =
++		(unsigned int)GET_HOST_ADDR(&buffers->alt_pict->pict_buf->ddbuf_info) +
++		buffers->alt_pict->rend_info.plane_info[1].offset;
++
++	pict_cmds[VDECFW_CMD_CHROMA2_ALTERNATIVE_PICTURE_BASE_ADDRESS] =
++		(unsigned int)GET_HOST_ADDR(&buffers->alt_pict->pict_buf->ddbuf_info) +
++		buffers->alt_pict->rend_info.plane_info[2].offset;
++}
++
++int vxd_getscalercmds(const struct scaler_config *scaler_config,
++		      const struct scaler_pitch *pitch,
++		      const struct scaler_filter *filter,
++		      const struct pixel_pixinfo *out_loop_pixel_info,
++		      struct scaler_params *params,
++		      unsigned int *pict_cmds)
++{
++	const struct vxd_coreprops *coreprops = scaler_config->coreprops;
++	/*
++	 * Indirectly detect decoder core type (if HEVC is supported, it has
++	 * to be PVDEC core) and decide if to force luma re-sampling.
++	 */
++	unsigned char bforce_luma_resampling = coreprops->hevc[0];
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  ALT_OUTPUT_FORMAT,
++			  scaler_config->bseparate_chroma_planes ? 0 :
++			  pixel_get_hw_chroma_format_idc(out_loop_pixel_info->chroma_fmt_idc),
++			  unsigned int, int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  SCALE_CHROMA_RESAMP_ONLY, bforce_luma_resampling ? 0 :
++			  (pitch->horiz_luma == FIXED(1, HIGHP)) &&
++			  (pitch->vert_luma == FIXED(1, HIGHP)), unsigned int, int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL, ALT_MEMORY_PACKING,
++			  pixel_get_hw_memory_packing(out_loop_pixel_info->mem_pkg),
++			  unsigned int, int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  ALT_BIT_DEPTH_LUMA_MINUS8,
++			  out_loop_pixel_info->bitdepth_y - 8,
++			  unsigned int, unsigned int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  ALT_BIT_DEPTH_CHROMA_MINUS8,
++			  out_loop_pixel_info->bitdepth_c - 8,
++			  unsigned int, unsigned int);
++
++	/* Scale luma bifilter is always 0 for now */
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  SCALE_LUMA_BIFILTER_HORIZ,
++			  0, unsigned int, int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  SCALE_LUMA_BIFILTER_VERT,
++			  0, unsigned int, int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  SCALE_CHROMA_BIFILTER_HORIZ,
++			  filter->bhoriz_bilinear ? 1 : 0,
++			  unsigned int, int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_ALTERNATIVE_OUTPUT_CONTROL],
++			  MSVDX_CMDS, ALTERNATIVE_OUTPUT_CONTROL,
++			  SCALE_CHROMA_BIFILTER_VERT,
++			   filter->bvert_bilinear ? 1 : 0, unsigned int, int);
++
++	/* for cores 7.x.x and more, precision 3.13 */
++	params->fixed_point_shift = 13;
++
++	/* Calculate the fixed-point versions for use by the hardware. */
++	params->vert_pitch = (int)((pitch->vert_luma +
++		(1 << (HIGHP - params->fixed_point_shift - 1))) >>
++		(HIGHP - params->fixed_point_shift));
++	params->vert_startpos = params->vert_pitch >> 1;
++	params->vert_pitch_chroma = (int)((pitch->vert_chroma +
++		(1 << (HIGHP - params->fixed_point_shift - 1))) >>
++		(HIGHP - params->fixed_point_shift));
++	params->vert_startpos_chroma = params->vert_pitch_chroma >> 1;
++	params->horz_pitch = (int)(pitch->horiz_luma >>
++		(HIGHP - params->fixed_point_shift));
++	params->horz_startpos = params->horz_pitch >> 1;
++	params->horz_pitch_chroma = (int)(pitch->horiz_chroma >>
++		(HIGHP - params->fixed_point_shift));
++	params->horz_startpos_chroma = params->horz_pitch_chroma >> 1;
++
++#ifdef HAS_HEVC
++	if (scaler_config->vidstd == VDEC_STD_HEVC) {
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_SCALED_DISPLAY_SIZE],
++				  MSVDX_CMDS, PVDEC_SCALED_DISPLAY_SIZE,
++				  PVDEC_SCALE_DISPLAY_WIDTH,
++				  scaler_config->recon_width - 1,
++				  unsigned int, unsigned int);
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_SCALED_DISPLAY_SIZE],
++				  MSVDX_CMDS, PVDEC_SCALED_DISPLAY_SIZE,
++				  PVDEC_SCALE_DISPLAY_HEIGHT,
++				  scaler_config->recon_height - 1,
++				  unsigned int, unsigned int);
++	} else {
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_SCALED_DISPLAY_SIZE],
++				  MSVDX_CMDS, SCALED_DISPLAY_SIZE,
++				  SCALE_DISPLAY_WIDTH,
++				  scaler_config->recon_width - 1,
++				  unsigned int, unsigned int);
++		REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_SCALED_DISPLAY_SIZE],
++				  MSVDX_CMDS, SCALED_DISPLAY_SIZE,
++				  SCALE_DISPLAY_HEIGHT,
++				  scaler_config->recon_height - 1,
++				  unsigned int, unsigned int);
++	}
++#else
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_SCALED_DISPLAY_SIZE],
++			  MSVDX_CMDS, SCALED_DISPLAY_SIZE,
++			  SCALE_DISPLAY_WIDTH,
++			  scaler_config->recon_width - 1,
++			  unsigned int, unsigned int);
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_SCALED_DISPLAY_SIZE],
++			  MSVDX_CMDS, SCALED_DISPLAY_SIZE, SCALE_DISPLAY_HEIGHT,
++			  scaler_config->recon_height - 1,
++			  unsigned int, unsigned int);
++#endif
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_SCALE_OUTPUT_SIZE],
++			  MSVDX_CMDS, SCALE_OUTPUT_SIZE,
++			  SCALE_OUTPUT_WIDTH_MIN1,
++			  scaler_config->scale_width - 1,
++			  unsigned int, unsigned int);
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_SCALE_OUTPUT_SIZE],
++			  MSVDX_CMDS, SCALE_OUTPUT_SIZE,
++			  SCALE_OUTPUT_HEIGHT_MIN1,
++			  scaler_config->scale_height - 1,
++			  unsigned int, unsigned int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_HORIZONTAL_SCALE_CONTROL],
++			  MSVDX_CMDS, HORIZONTAL_SCALE_CONTROL,
++			  HORIZONTAL_SCALE_PITCH, params->horz_pitch,
++			  unsigned int, unsigned int);
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_HORIZONTAL_SCALE_CONTROL],
++			  MSVDX_CMDS, HORIZONTAL_SCALE_CONTROL,
++			  HORIZONTAL_INITIAL_POS, params->horz_startpos,
++			  unsigned int, unsigned int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_SCALE_HORIZONTAL_CHROMA],
++			  MSVDX_CMDS, SCALE_HORIZONTAL_CHROMA,
++			  CHROMA_HORIZONTAL_PITCH, params->horz_pitch_chroma,
++			  unsigned int, unsigned int);
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_SCALE_HORIZONTAL_CHROMA],
++			  MSVDX_CMDS, SCALE_HORIZONTAL_CHROMA,
++			  CHROMA_HORIZONTAL_INITIAL,
++			  params->horz_startpos_chroma,
++			  unsigned int, unsigned int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_VERTICAL_SCALE_CONTROL],
++			  MSVDX_CMDS, VERTICAL_SCALE_CONTROL,
++			  VERTICAL_SCALE_PITCH, params->vert_pitch,
++			  unsigned int, unsigned int);
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_VERTICAL_SCALE_CONTROL],
++			  MSVDX_CMDS, VERTICAL_SCALE_CONTROL,
++			  VERTICAL_INITIAL_POS, params->vert_startpos,
++			  unsigned int, unsigned int);
++
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_SCALE_VERTICAL_CHROMA],
++			  MSVDX_CMDS, SCALE_VERTICAL_CHROMA,
++			  CHROMA_VERTICAL_PITCH, params->vert_pitch_chroma,
++			  unsigned int, unsigned int);
++	REGIO_WRITE_FIELD(pict_cmds[VDECFW_CMD_SCALE_VERTICAL_CHROMA],
++			  MSVDX_CMDS, SCALE_VERTICAL_CHROMA,
++			  CHROMA_VERTICAL_INITIAL,
++			  params->vert_startpos_chroma,
++			  unsigned int, unsigned int);
++	return 0;
++}
++
++unsigned int vxd_get_codedpicsize(unsigned short width_min1, unsigned short height_min1)
++{
++	unsigned int reg = 0;
++
++	REGIO_WRITE_FIELD_LITE(reg, MSVDX_CMDS, CODED_PICTURE_SIZE,
++			       CODED_PICTURE_WIDTH, width_min1,
++			       unsigned short);
++	REGIO_WRITE_FIELD_LITE(reg, MSVDX_CMDS, CODED_PICTURE_SIZE,
++			       CODED_PICTURE_HEIGHT, height_min1,
++			       unsigned short);
++
++	return reg;
++}
++
++unsigned char vxd_get_codedmode(enum vdec_vid_std vidstd)
++{
++	return (unsigned char)amsvdx_codecmode[vidstd];
++}
++
++void vxd_get_coreproperties(void *hndl_coreproperties,
++			    struct vxd_coreprops *vxd_coreprops)
++{
++	struct vxd_core_props *props =
++		(struct vxd_core_props *)hndl_coreproperties;
++
++	vxd_getcoreproperties(vxd_coreprops, props->core_rev,
++			      props->pvdec_core_id,
++			      props->mmu_config0,
++			      props->mmu_config1,
++			      props->pixel_pipe_cfg,
++			      props->pixel_misc_cfg,
++			      props->pixel_max_frame_cfg);
++}
++
++int vxd_get_pictattrs(unsigned int flags, struct vxd_pict_attrs *pict_attrs)
++{
++	if (flags & (VXD_FW_MSG_FLAG_DWR | VXD_FW_MSG_FLAG_FATAL))
++		pict_attrs->dwrfired = 1;
++	if (flags & VXD_FW_MSG_FLAG_MMU_FAULT)
++		pict_attrs->mmufault = 1;
++	if (flags & VXD_FW_MSG_FLAG_DEV_ERR)
++		pict_attrs->deverror = 1;
 +
 +	return 0;
 +}
 +
-+int hwctrl_deinitialise(void *hndl_hwctx)
++int vxd_get_msgerrattr(unsigned int flags, enum vxd_msg_attr *msg_attr)
 +{
-+	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
-+
-+	if (hwctx->is_initialised) {
-+		kfree(hwctx);
-+		hwctx = NULL;
-+	}
++	if ((flags & ~VXD_FW_MSG_FLAG_CANCELED))
++		*msg_attr = VXD_MSG_ATTR_FATAL;
++	else if ((flags & VXD_FW_MSG_FLAG_CANCELED))
++		*msg_attr = VXD_MSG_ATTR_CANCELED;
++	else
++		*msg_attr = VXD_MSG_ATTR_NONE;
 +
 +	return 0;
 +}
 +
-+int hwctrl_initialise(void *dec_core, void *comp_int_userdata,
-+		      const struct vdecdd_dd_devconfig  *dd_devconfig,
-+		      struct vxd_coreprops *core_props, void **hndl_hwctx)
++int vxd_set_msgflag(enum vxd_msg_flag input_flag, unsigned int *flags)
 +{
-+	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)*hndl_hwctx;
-+	int result;
-+
-+	if (!hwctx) {
-+		hwctx = kzalloc(sizeof(*(hwctx)), GFP_KERNEL);
-+		if (!hwctx)
-+			return IMG_ERROR_OUT_OF_MEMORY;
-+
-+		*hndl_hwctx = hwctx;
-+	}
-+
-+	if (!hwctx->is_initialised) {
-+		hwctx->hndl_vxd = ((struct dec_core_ctx *)dec_core)->dec_ctx->dev_handle;
-+		result = pvdec_create(hwctx->hndl_vxd, core_props, &hwctx->hndl_vxd);
-+		if (result != 0)
-+			goto error;
-+
-+		lst_init(&hwctx->pend_pict_list);
-+
-+		hwctx->devconfig = *dd_devconfig;
-+		hwctx->num_pipes = core_props->num_pixel_pipes;
-+		hwctx->comp_init_userdata = comp_int_userdata;
-+		hwctx->dec_core = dec_core;
-+		hwctx->is_initialised = 1;
-+		hwctx->is_on_seq_replay = 0;
-+		hwctx->is_fatal_state = 0;
++	switch (input_flag) {
++	case VXD_MSG_FLAG_DROP:
++		*flags |= VXD_FW_MSG_FLAG_DROP;
++		break;
++	case VXD_MSG_FLAG_EXCL:
++		*flags |= VXD_FW_MSG_FLAG_EXCL;
++		break;
++	default:
++		return IMG_ERROR_FATAL;
 +	}
 +
 +	return 0;
-+error:
-+	hwctrl_deinitialise(*hndl_hwctx);
-+
-+	return result;
 +}
-+
-+static int hwctrl_send_fragment_message(struct hwctrl_ctx *hwctx,
-+					struct dec_pict_fragment *pict_fragment,
-+					struct dec_decpict *decpict,
-+					void *vxd_dec_ctx)
-+{
-+	int result;
-+	struct hwctrl_to_kernel_msg to_kernelmsg = {0};
-+	struct hwctrl_msgdata msg_data;
-+	struct hwctrl_fragment_msgdata *pfragment_msgdata =
-+		&msg_data.fragment_msgdata;
-+
-+	msg_data.km_str_id = GET_STREAM_ID(decpict->transaction_id);
-+
-+	pfragment_msgdata->ctrl_alloc_bytes = pict_fragment->ctrl_alloc_bytes;
-+
-+	pfragment_msgdata->ctrl_alloc_offset = pict_fragment->ctrl_alloc_offset;
-+
-+	pfragment_msgdata->batchmsg_bufinfo = decpict->batch_msginfo->ddbuf_info;
-+
-+	result = vdeckm_get_message(hwctx->hndl_vxd, HWCTRL_MSGID_FRAGMENT, &msg_data,
-+				    &to_kernelmsg);
-+	if (result != 0) {
-+		pr_err("Failed to get decode message\n");
-+		return result;
-+	}
-+
-+	result = vdeckm_send_message(hwctx->hndl_vxd, &to_kernelmsg, vxd_dec_ctx);
-+	if (result != 0)
-+		return result;
-+
-+	vdeckm_return_msg(hwctx->hndl_vxd, &to_kernelmsg);
-+
-+	return 0;
-+}
-+
-+int hwctrl_picture_submit_fragment(void *hndl_hwctx,
-+				   struct dec_pict_fragment  *pict_fragment,
-+				   struct dec_decpict *decpict,
-+				   void *vxd_dec_ctx)
-+{
-+	struct hwctrl_ctx *hwctx = (struct hwctrl_ctx *)hndl_hwctx;
-+	unsigned int result = 0;
-+
-+	if (hwctx->is_initialised) {
-+		result = hwctrl_send_fragment_message(hwctx, pict_fragment,
-+						      decpict, vxd_dec_ctx);
-+		if (result != 0)
-+			pr_err("Failed to send fragment message to firmware !");
-+	}
-+
-+	return result;
-+}
-diff --git a/drivers/staging/media/vxd/decoder/hw_control.h b/drivers/staging/media/vxd/decoder/hw_control.h
+diff --git a/drivers/staging/media/vxd/decoder/vxd_int.h b/drivers/staging/media/vxd/decoder/vxd_int.h
 new file mode 100644
-index 000000000000..3f430969b998
+index 000000000000..a294e0d6044f
 --- /dev/null
-+++ b/drivers/staging/media/vxd/decoder/hw_control.h
-@@ -0,0 +1,144 @@
++++ b/drivers/staging/media/vxd/decoder/vxd_int.h
+@@ -0,0 +1,128 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * VXD DEC Hardware control implementation
++ * VXD DEC Common low level core interface component
 + *
 + * Copyright (c) Imagination Technologies Ltd.
 + * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
@@ -1335,136 +1259,120 @@ index 000000000000..3f430969b998
 + *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
 + *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com>
 + */
++#ifndef _VXD_INT_H
++#define _VXD_INT_H
 +
-+#ifndef _HW_CONTROL_H
-+#define _HW_CONTROL_H
-+
-+#include "bspp.h"
-+#include "decoder.h"
 +#include "fw_interface.h"
-+#include "img_dec_common.h"
-+#include "img_errors.h"
-+#include "lst.h"
-+#include "mem_io.h"
++#include "scaler_setup.h"
 +#include "vdecdd_defs.h"
 +#include "vdecfw_shared.h"
-+#include "vid_buf.h"
++#include "vdec_defs.h"
 +#include "vxd_ext.h"
 +#include "vxd_props.h"
 +
-+/* Size of additional buffers needed for each HEVC picture */
-+#ifdef HAS_HEVC
++/*
++ * Size of buffer used for batching messages
++ */
++#define BATCH_MSG_BUFFER_SIZE           (8 * 4096)
 +
-+/* Empirically defined */
-+#define MEM_TO_REG_BUF_SIZE 0x2000
++#define INTRA_BUF_SIZE                  (1024 * 32)
++#define AUX_LINE_BUFFER_SIZE            (512 * 1024)
++
++#define MAX_PICTURE_WIDTH               (4096)
++#define MAX_PICTURE_HEIGHT              (4096)
 +
 +/*
-+ * Max. no. of slices found in stream db: approx. 2200,
-+ * set MAX_SLICES to 2368 to get buffer size page aligned
++ * this macro returns the host address of device buffer.
 + */
-+#define MAX_SLICES 2368
-+#define SLICE_PARAMS_SIZE 64
-+#define SLICE_PARAMS_BUF_SIZE (MAX_SLICES * SLICE_PARAMS_SIZE)
++#define GET_HOST_ADDR(buf) ((buf)->dev_virt)
++
++#define GET_HOST_ADDR_OFFSET(buf, offset) (((buf)->dev_virt) + (offset))
 +
 +/*
-+ * Size of buffer for "above params" structure, sufficient for stream of width 8192
-+ * 192 * (8192/64) == 0x6000, see "above_param_size" in TRM
++ * The extended stride alignment for VXD.
 + */
-+#define ABOVE_PARAMS_BUF_SIZE 0x6000
-+#endif
++#define VDEC_VXD_EXT_STRIDE_ALIGNMENT_DEFAULT  (64)
 +
-+enum hwctrl_msgid {
-+	HWCTRL_MSGID_BATCH     = 0,
-+	HWCTRL_MSGID_FRAGMENT  = 1,
-+	CORE_MSGID_MAX,
-+	CORE_MSGID_FORCE32BITS = 0x7FFFFFFFU
++struct vxd_buffers {
++	struct vdecdd_ddpict_buf *recon_pict;
++	struct vdecdd_ddpict_buf *alt_pict;
++	struct vidio_ddbufinfo *intra_bufinfo;
++	struct vidio_ddbufinfo *auxline_bufinfo;
++	struct vidio_ddbufinfo *err_pict_bufinfo;
++	unsigned int intra_bufsize_per_pipe;
++	unsigned int auxline_bufsize_per_pipe;
++	struct vidio_ddbufinfo *msb_bufinfo;
++	unsigned char btwopass;
 +};
 +
-+struct hwctrl_to_kernel_msg {
-+	unsigned int msg_size;
-+	unsigned int km_str_id;
-+	unsigned int flags;
-+	unsigned char *msg_hdr;
-+};
-+
-+struct hwctrl_batch_msgdata {
-+	struct vidio_ddbufinfo *batchmsg_bufinfo;
-+	struct vidio_ddbufinfo *pvdec_fwctx;
-+	unsigned int ctrl_alloc_bytes;
-+	unsigned int operating_mode;
-+	unsigned int transaction_id;
-+	unsigned int tile_cfg;
-+	unsigned int genc_id;
-+	unsigned int mb_load;
-+	unsigned int size_delimited_mode;
-+};
-+
-+struct hwctrl_fragment_msgdata {
-+	struct vidio_ddbufinfo *batchmsg_bufinfo;
-+	unsigned int ctrl_alloc_offset;
-+	unsigned int ctrl_alloc_bytes;
-+};
-+
-+struct hwctrl_msgdata {
-+	unsigned int km_str_id;
-+	struct hwctrl_batch_msgdata batch_msgdata;
-+	struct hwctrl_fragment_msgdata fragment_msgdata;
++struct pvdec_core_rev {
++	unsigned int maj_rev;
++	unsigned int min_rev;
++	unsigned int maint_rev;
++	unsigned int int_rev;
 +};
 +
 +/*
-+ * This structure contains MSVDX Message information.
++ * this has all that it needs to translate a Stream Unit for a picture
++ * into a transaction.
 + */
-+struct hwctrl_msgstatus {
-+	unsigned char control_fence_id[VDECFW_MSGID_CONTROL_TYPES];
-+	unsigned char decode_fence_id[VDECFW_MSGID_DECODE_TYPES];
-+	unsigned char completion_fence_id[VDECFW_MSGID_COMPLETION_TYPES];
-+};
++void vxd_set_altpictcmds(const struct vdecdd_str_unit *str_unit,
++			 const struct vdec_str_configdata *str_configdata,
++			 const struct vdec_str_opconfig *output_config,
++			 const struct vxd_coreprops *coreprops,
++			 const struct vxd_buffers *buffers,
++			 unsigned int *pict_cmds);
 +
 +/*
-+ * this structure contains the HWCTRL Core state.
++ * this has all that it needs to translate a Stream Unit for
++ * a picture into a transaction.
 + */
-+struct hwctrl_state {
-+	struct vxd_states core_state;
-+	struct hwctrl_msgstatus fwmsg_status;
-+	struct hwctrl_msgstatus hostmsg_status;
-+};
++void vxd_set_reconpictcmds(const struct vdecdd_str_unit *str_unit,
++			   const struct vdec_str_configdata *str_configdata,
++			   const struct vdec_str_opconfig *output_config,
++			   const struct vxd_coreprops *coreprops,
++			   const struct vxd_buffers *buffers,
++			   unsigned int *pict_cmds);
 +
-+int hwctrl_picture_submit_fragment(void *hndl_hwctx,
-+				   struct dec_pict_fragment *pict_fragment,
-+				   struct dec_decpict *decpict,
-+				   void *vxd_dec_ctx);
++int vxd_getscalercmds(const struct scaler_config *scaler_config,
++		      const struct scaler_pitch *pitch,
++		      const struct scaler_filter *filter,
++		      const struct pixel_pixinfo *out_loop_pixel_info,
++		      struct scaler_params *params,
++		      unsigned int *pict_cmds);
 +
-+int hwctrl_process_msg(void *hndl_hwct, unsigned int msg_flags, unsigned int *msg,
-+		       struct dec_decpict **decpict);
++/*
++ * this creates value of MSVDX_CMDS_CODED_PICTURE_SIZE register.
++ */
++unsigned int vxd_get_codedpicsize(unsigned short width_min1, unsigned short height_min1);
 +
-+int hwctrl_getcore_cached_status(void *hndl_hwctx, struct hwctrl_state *state);
++/*
++ * return HW codec mode based on video standard.
++ */
++unsigned char vxd_get_codedmode(enum vdec_vid_std vidstd);
 +
-+int hwctrl_get_core_status(void *hndl_hwctx, struct hwctrl_state *state);
++/*
++ * translates core properties to the form of the struct vxd_coreprops struct.
++ */
++void vxd_get_coreproperties(void *hndl_coreproperties,
++			    struct vxd_coreprops *vxd_coreprops);
 +
-+int hwctrl_is_on_seq_replay(void *hndl_hwctx);
++/*
++ * translates picture attributes to the form of the VXD_sPictAttrs struct.
++ */
++int vxd_get_pictattrs(unsigned int flags, struct vxd_pict_attrs *pict_attrs);
 +
-+int hwctrl_picture_submitbatch(void *hndl_hwctx, struct dec_decpict *decpict,
-+			       void *vxd_dec_ctx);
++/*
++ * translates message attributes to the form of the VXD_eMsgAttr struct.
++ */
++int vxd_get_msgerrattr(unsigned int flags, enum vxd_msg_attr *msg_attr);
 +
-+int hwctrl_getpicpend_pictlist(void *hndl_hwctx, unsigned int transaction_id,
-+			       struct dec_decpict **decpict);
++/*
++ * sets a message flag.
++ */
++int vxd_set_msgflag(enum vxd_msg_flag input_flag, unsigned int *flags);
 +
-+int hwctrl_peekheadpiclist(void *hndl_hwctx, struct dec_decpict **decpict);
-+
-+int hwctrl_getdecodedpicture(void *hndl_hwctx, struct dec_decpict **decpict);
-+
-+void hwctrl_removefrom_piclist(void *hndl_hwctx, struct dec_decpict *decpict);
-+
-+int hwctrl_getregsoffset(void *hndl_hwctx,
-+			 struct decoder_regsoffsets *regs_offsets);
-+
-+int hwctrl_initialise(void *dec_core, void *comp_int_userdata,
-+		      const struct vdecdd_dd_devconfig *dd_devconfig,
-+		      struct vxd_coreprops *core_props, void **hndl_hwctx);
-+
-+int hwctrl_deinitialise(void *hndl_hwctx);
-+
-+#endif /* _HW_CONTROL_H */
++#endif /* _VXD_INT_H */
 -- 
 2.17.1
 
