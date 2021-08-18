@@ -2,101 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0D693F0C81
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 22:15:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12F3A3F0CA9
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 22:23:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232969AbhHRUQ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 16:16:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46786 "EHLO
+        id S233651AbhHRUYI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 16:24:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230440AbhHRUQZ (ORCPT
+        with ESMTP id S233436AbhHRUYH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 16:16:25 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57389C061764
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 13:15:50 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dbd1vftgng281pd4yskly-3.rev.dnainternet.fi [IPv6:2001:14ba:8eb:1240:ab2d:b956:f00:7a12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 5F579200CE;
-        Wed, 18 Aug 2021 23:15:47 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1629317747;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZQ/waZgJwLCEzD0vKdhEjQNqAq65vN1RjzSS2C3sGcY=;
-        b=C+UGn3YtMdsAxR4A9zeUGrESIsr9H/Cnt9sWDzG5Qx7bqNzzML/YBICIZ6mq75XqAiNlZF
-        x2GXswnMrdsZofJOl0u8oPfw1IAoI4hjsv8ctGGgMYticnXc/9Jkug64xkDFlUBpAFnJPt
-        vzAmIx1w6Lbb75tMwFDl4+ifUBAupAA=
-Received: from valkosipuli.retiisi.eu (unknown [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 2685B634C3A;
-        Wed, 18 Aug 2021 23:13:31 +0300 (EEST)
-Date:   Wed, 18 Aug 2021 23:15:46 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Wed, 18 Aug 2021 16:24:07 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F4B0C061764
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 13:23:32 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id b7so5095405edu.3
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 13:23:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yE1jUBvTlSKiQfOB3L5au2tliUnWZLNpdRP8a1r8bhE=;
+        b=UzSiYoVDYsdDr1U1Z7itOTxq4ovOxzLmTdQ4YCxF5BTfmv1hqXqq0cLfLcZGC7jHRJ
+         61+VSyqb5ow2iTyKIovbUQCgSB/nQv6OC73tBqsEQZG74sy9Jhd8ivyDpDEef3Kmh+Gg
+         /Y88ZJTuIw0BaH0gBTbSUMWxXJ8kNvBaImkvY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yE1jUBvTlSKiQfOB3L5au2tliUnWZLNpdRP8a1r8bhE=;
+        b=aRy5ZqY67H6DiZjXoZ9IkK70Uh8w+hIdkfE87wjuhRoM0hOeaXL8H7CiGFnsEWn+Qu
+         Cd2aG5o91qJxkCQP8sCumeSzOy/QbAzbPrjrlyw7erWYT0B+1cRL+nesNBOxu3tuwaY4
+         DOoHKg2P7xEEasWbo61rqATAe6JUIkCLUPjR4fBZ0FsXmVX1U414hbPpG9hPdhaGJUzx
+         ZM8IojsZQauZzExJ0rsbZKjw4Iy51C+FjRIHu36zSLklmDeJDkUHzsrqvOQCfgQV6e8Y
+         01w7HfTuVGX6UCyvo1+NjQWpK0PoCRmuPFurmlObErkd1Uoi4tixoJkhGadr+aRUC497
+         JBWA==
+X-Gm-Message-State: AOAM533/LqVG0hqHt8UU8cHcdNT1Rf0X16W/Kp7fw3guCvOc4W0qg1GX
+        +7YLuIzriMCxq3laFuQgghjPaA==
+X-Google-Smtp-Source: ABdhPJw2JwD3yZsePo2kPcmh/lzqRQwV65XVPEW32tN1mP+HlXLaaE4Ba9tQN9u5/krdIW12SwkIaA==
+X-Received: by 2002:a05:6402:3128:: with SMTP id dd8mr12263271edb.40.1629318210766;
+        Wed, 18 Aug 2021 13:23:30 -0700 (PDT)
+Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id m6sm597920edq.22.2021.08.18.13.23.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 13:23:30 -0700 (PDT)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] Driver for ON Semi AR0521 camera sensor
-Message-ID: <YR1qckqUpUwnm3IT@valkosipuli.retiisi.eu>
-References: <m3im0s9rks.fsf@t19.piap.pl>
- <YR01VfIM5o1PmcWY@valkosipuli.retiisi.eu>
- <YR053s0EoYrz/RcP@pendragon.ideasonboard.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH] media: uvcvideo: Quirk for hardware with invalid sof
+Date:   Wed, 18 Aug 2021 22:23:28 +0200
+Message-Id: <20210818202328.267644-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.33.0.rc2.250.ged5fa647cd-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YR053s0EoYrz/RcP@pendragon.ideasonboard.com>
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1629317747;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZQ/waZgJwLCEzD0vKdhEjQNqAq65vN1RjzSS2C3sGcY=;
-        b=KmHu+q13MsxDoH5Kb+yOL93O9VJpwawNyQDuG5Dd5VHXu4MjLq0FewQhQ3qruLrDuFpNvH
-        F5JArj2eB4MbABujiCG4eEvxIjkpu1EqNHse2YDM4bL3YFUsIRBn0U3FfRQN4ZePAajL0H
-        81rQmnlXOxd8niJckiSikJwcMkQzX4M=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1629317747; a=rsa-sha256; cv=none;
-        b=uWFWJ2c3zluOAW5WF6iGWC05gWKr1y2ARuLiDG89Lttarv1PEzl1pIfmYR+NLzzOeA+ys+
-        PmBAG18+gzjgMRSX3QuqvFE9BilWtpjvZw72U+CV3/pCgmvKKOJIGX2rZDRxVK5BQJi9HV
-        XAJNVU2soQjtwmLmVm+fWjOp0KMBqb0=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 07:48:30PM +0300, Laurent Pinchart wrote:
-> > > +static const char *mhz(u32 value)
-> > > +{
-> > > +	static char buff[32];
-> > > +
-> > > +	if (value % 1000)
-> > > +		sprintf(buff, "%u.%06u", value / (1000 * 1000), value % (1000 * 1000));
-> > > +	else if (value % (1000 * 1000))
-> > > +		sprintf(buff, "%u.%03u", value / (1000 * 1000), (value / 1000) % 1000);
-> > > +	else
-> > > +		sprintf(buff, "%u", value / (1000 * 1000));
-> > > +	return buff;
-> > 
-> > Sorry, you can't do that. buff is allocated in the stack and the memory is
-> > no longer available once the function returns.
-> 
-> It's a static char array, so it won't be allocated on the stack, but
-> it's still bad practice as it's not thread-safe. Given that it's used in
+The hardware timestamping code has the assumption than the device_sof
+and the host_sof run at the same frequency (2048 Hz).
 
-Ah, yeah. I missed the static there.
+Unfortunately, this is not the case for all the hardware. Add a quirk to
+support such hardware.
 
-> two debugging messages only, I'd hardcode the %u.06%u format in the
-> callers.
+Note on how to identify such hardware:
+When running with "yavta -c /dev/videoX" Look for periodic jumps of the
+fps. Eg:
 
-Or just plain number in Hz. Both are fine though.
+30 (6) [-] none 30 614400 B 21.245557 21.395214 34.133 fps ts mono/SoE
+31 (7) [-] none 31 614400 B 21.275327 21.427246 33.591 fps ts mono/SoE
+32 (0) [-] none 32 614400 B 21.304739 21.459256 34.000 fps ts mono/SoE
+33 (1) [-] none 33 614400 B 21.334324 21.495274 33.801 fps ts mono/SoE
+34 (2) [-] none 34 614400 B 21.529237 21.527297 5.130 fps ts mono/SoE
+35 (3) [-] none 35 614400 B 21.649416 21.559306 8.321 fps ts mono/SoE
+36 (4) [-] none 36 614400 B 21.678789 21.595320 34.045 fps ts mono/SoE
+...
+99 (3) [-] none 99 614400 B 23.542226 23.696352 33.541 fps ts mono/SoE
+100 (4) [-] none 100 614400 B 23.571578 23.728404 34.069 fps ts mono/SoE
+101 (5) [-] none 101 614400 B 23.601425 23.760420 33.504 fps ts mono/SoE
+102 (6) [-] none 102 614400 B 23.798324 23.796428 5.079 fps ts mono/SoE
+103 (7) [-] none 103 614400 B 23.916271 23.828450 8.478 fps ts mono/SoE
+104 (0) [-] none 104 614400 B 23.945720 23.860479 33.957 fps ts mono/SoE
 
+They happen because the delta_sof calculated at
+uvc_video_clock_host_sof(), wraps periodically, as both clocks drift.
+
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ drivers/media/usb/uvc/uvc_driver.c |  9 +++++++++
+ drivers/media/usb/uvc/uvc_video.c  | 11 +++++++++--
+ drivers/media/usb/uvc/uvcvideo.h   |  2 ++
+ 3 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 9a791d8ef200..d1e6cba10b15 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2771,6 +2771,15 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
++	/* Logitech HD Pro Webcam C922 */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x046d,
++	  .idProduct		= 0x085c,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_INVALID_DEVICE_SOF) },
+ 	/* Chicony CNF7129 (Asus EEE 100HE) */
+ 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+ 				| USB_DEVICE_ID_MATCH_INT_INFO,
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index 6d0e474671a2..760ab015cf9c 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -518,13 +518,20 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+ 	/* To limit the amount of data, drop SCRs with an SOF identical to the
+ 	 * previous one.
+ 	 */
+-	dev_sof = get_unaligned_le16(&data[header_size - 2]);
++	if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
++		dev_sof = usb_get_current_frame_number(stream->dev->udev);
++	else
++		dev_sof = get_unaligned_le16(&data[header_size - 2]);
++
+ 	if (dev_sof == stream->clock.last_sof)
+ 		return;
+ 
+ 	stream->clock.last_sof = dev_sof;
+ 
+-	host_sof = usb_get_current_frame_number(stream->dev->udev);
++	if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
++		host_sof = dev_sof;
++	else
++		host_sof = usb_get_current_frame_number(stream->dev->udev);
+ 	time = uvc_video_get_time();
+ 
+ 	/* The UVC specification allows device implementations that can't obtain
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index cce5e38133cd..89d909661915 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -209,6 +209,8 @@
+ #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
+ #define UVC_QUIRK_FORCE_Y8		0x00000800
+ #define UVC_QUIRK_FORCE_BPP		0x00001000
++#define UVC_QUIRK_INVALID_DEVICE_SOF	0x00002000
++
+ 
+ /* Format flags */
+ #define UVC_FMT_FLAG_COMPRESSED		0x00000001
 -- 
-Sakari Ailus
+2.33.0.rc2.250.ged5fa647cd-goog
+
