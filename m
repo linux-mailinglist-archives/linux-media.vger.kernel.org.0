@@ -2,139 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DCBFD3EFCB5
-	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 08:27:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DD663EFDB0
+	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 09:19:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239131AbhHRG2O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 02:28:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49140 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239049AbhHRG2F (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 02:28:05 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50953C0612E7
-        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 23:27:26 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id k19so1115075pfc.11
-        for <linux-media@vger.kernel.org>; Tue, 17 Aug 2021 23:27:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=ynpJGQ+aoMGoVR3/TzuLa6jhj83G7NCnezbFysKyDck=;
-        b=rkMxRzllxsu72p9VoE+F1Y2uNFqfHroY89seElO0F/IF9+njGBhH+JhTjiV6p10xBW
-         RZkVVmBoHTbmBO5qy0Cu5P7Yjfpn+Q0pDbpgd//DyVd9iIE8FToCC+snGEMZelh3paY/
-         +hPtSq0td+yzw80H6HXZomYGW6ujPphQgl+LDlsExLGmraR/J0ZHNe7yOVInyCFXmT/P
-         91wgqIKeFsyocJA7qECcUweDwMNTMng3I+m8yWPcUOWHp3ukJGcj7wwvK4fm1T2uIjDm
-         QM2rYu2cAoeXaM+8hLCXU5bhhQmCXVpZaudJg93f24DbqOKNah/15WaZUn/RqJ/MrtRh
-         mNtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=ynpJGQ+aoMGoVR3/TzuLa6jhj83G7NCnezbFysKyDck=;
-        b=Iv/N9bOazVL/hU2PJFZsU7Ivd1l58oTUoirdVWi188bu/JxA9cOKjQkpsk1REptUU9
-         hagBJkh2WKnrk29Tl06EMSea2jl/SbPNuHvaDVs4En2Are/OIywm/i0YGPmnY8N+xQr7
-         Lt8SuyFvuxm6BeTRbfDtZyryGsrM0xbG+tm3lolSmCZmh1z5uIagZlm+Vktp9xMhnKkv
-         mr8wvpd5K9V9kJlzS7q59/v4fPMC4a9jheSL2SMSdtEx6kr7InRR4CtUUjbUTfLxwpLn
-         Ds8CQ1QlHNgUOlUTu0y8nQ8ti3q7yTwkkxSblGJBsSKkUKiO16GdL4yc2img1gk29vw5
-         7sBw==
-X-Gm-Message-State: AOAM530TNHADXjbh5dbt7lDI8RAeAtcx4s96+ZfbsNgZCa26uF0tOosW
-        yiYJXsgu3Dg6UBlWR4FflB4ynA==
-X-Google-Smtp-Source: ABdhPJyUhfdCbjMBESEOiqAS08eZgxAs7V5/0XRqW4UZTe3K4OmwyniXAPYZlVBrx4vmpFlW5lQzVA==
-X-Received: by 2002:a62:ea0f:0:b029:319:8eef:5ff1 with SMTP id t15-20020a62ea0f0000b02903198eef5ff1mr7706167pfh.74.1629268045601;
-        Tue, 17 Aug 2021 23:27:25 -0700 (PDT)
-Received: from localhost ([122.172.201.85])
-        by smtp.gmail.com with ESMTPSA id l12sm4457595pff.182.2021.08.17.23.27.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 23:27:24 -0700 (PDT)
-Date:   Wed, 18 Aug 2021 11:57:23 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-Message-ID: <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
-References: <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
- <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
- <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
- <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
- <20210818043131.7klajx6drvvkftoc@vireshk-i7>
- <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7>
- <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
- <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+        id S238264AbhHRHU2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 03:20:28 -0400
+Received: from gofer.mess.org ([88.97.38.141]:57603 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238080AbhHRHU1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 18 Aug 2021 03:20:27 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id DA6AFC6459; Wed, 18 Aug 2021 08:19:50 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1629271190; bh=zsMfN8icGNBmVKoHAoS5ezmh4WMYA/SE/8Dp1fR4mXo=;
+        h=Date:From:To:Subject:From;
+        b=ffW8wDOK/LdG6Pd7v1ACeUChVIIEkjClgLI25IPr8BuqsL/COGoylBsYiE3D+WvRA
+         BDbo28/LfyC1wsi4/8WqoLnkLn++W7rZhDE4AQIMMS0/JZeNIX8uwt+0sDpm34oR03
+         OXsEjuA9eEA3zCArFbe0kRL6CIgk/8kDy/EhzGo3i13wrHSUV3EbV1T3AZcApiLZBS
+         7tNPxZdhghahrO2snXgRSi+QzLopGvEW/K7VG3Q1ReqfJrKpEWpvQzmQmQWoiL1CDD
+         HeHigPeX/J6Wi8jVn1bctSecrXktLgCHG2jtEfRSqoLgNdRq9pv6nqpAl+nHmUbHZT
+         tMtBGnkiY9ZfQ==
+Date:   Wed, 18 Aug 2021 08:19:50 +0100
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.15] Minor fixes
+Message-ID: <20210818071950.GA2223@gofer.mess.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18-08-21, 09:22, Dmitry Osipenko wrote:
-> 18.08.2021 08:58, Viresh Kumar пишет:
-> > What about calling dev_pm_opp_set_rate(dev, clk_get_rate(dev)) here
-> > instead ? That will work, right ? The advantage is it works without
-> > any special routine to do so.
-> 
-> It will work, but a dedicated helper is nicer.
-> 
-> > I also wonder looking at your gr3d.c changes, you set a set-opp
-> > helper, but the driver doesn't call set_opp_rate at all. Who calls it
-> > ?
-> 
-> dev_pm_opp_sync() calls it from _set_opp().
+The following changes since commit b395ba42afd9ee3abafc389d15e0985172448927:
 
-Okay, please use dev_pm_opp_set_rate() instead then. New helper just
-adds to the confusion and isn't doing anything special apart from
-doing clk_get_rate() for you.
+  media: ir_toy: allow tx carrier to be set (2021-08-12 16:01:14 +0200)
 
-> > And if it is all about just syncing the genpd core, then can the genpd
-> > core do something like what clk framework does? i.e. allow a new
-> > optional genpd callback, get_performance_state() (just like
-> > set_performance_state()), which can be called initially by the core to
-> > get the performance to something other than zero. opp-set-rate is
-> > there to set the performance state and enable the stuff as well.
-> > That's why it looks incorrect in your case, where the function was
-> > only required to be called once, and you are ending up calling it on
-> > each resume. Limiting that with another local variable is bad as well.
-> 
-> We discussed variant with get_performance_state() previously and Ulf
-> didn't like it either since it still requires to touch 'internals' of GENPD.
+are available in the Git repository at:
 
-Hmm, I wonder if that would be a problem since only genpd core is
-going to call that routine anyway.
+  git://linuxtv.org/syoung/media_tree.git tags/v5.15e
 
--- 
-viresh
+for you to fetch changes up to 9b2cc3b383d150103b5bcfe65a37bc8cab2c883e:
+
+  media: netup_unidvb: handle interrupt properly according to the firmware (2021-08-17 22:41:25 +0100)
+
+----------------------------------------------------------------
+v5.15e
+
+----------------------------------------------------------------
+Cai Huoqing (1):
+      media: c8sectpfe-dvb: Remove unused including <linux/version.h>
+
+Linus Walleij (1):
+      media: cxd2820r: include the right header
+
+Muhammad Usama Anjum (1):
+      media: siano: use DEFINE_MUTEX() for mutex lock
+
+Nil Yi (1):
+      media: rc: clean the freed urb pointer to avoid double free
+
+Pavel Skripkin (1):
+      media: dvb-usb: fix ununit-value in az6027_rc_query
+
+Zheyu Ma (1):
+      media: netup_unidvb: handle interrupt properly according to the firmware
+
+ drivers/media/common/siano/smscoreapi.c            |  7 ++----
+ drivers/media/dvb-frontends/cxd2820r_priv.h        |  2 +-
+ drivers/media/pci/netup_unidvb/netup_unidvb_core.c | 27 +++++++++++++---------
+ .../media/platform/sti/c8sectpfe/c8sectpfe-core.c  |  1 -
+ .../media/platform/sti/c8sectpfe/c8sectpfe-dvb.c   |  1 -
+ drivers/media/rc/imon.c                            |  2 ++
+ drivers/media/usb/dvb-usb/az6027.c                 |  1 +
+ 7 files changed, 22 insertions(+), 19 deletions(-)
