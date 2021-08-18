@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 611EF3F0637
+	by mail.lfdr.de (Postfix) with ESMTP id F2D7B3F0639
 	for <lists+linux-media@lfdr.de>; Wed, 18 Aug 2021 16:16:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238743AbhHROQc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 10:16:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46588 "EHLO
+        id S239494AbhHROQj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 10:16:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239054AbhHROON (ORCPT
+        with ESMTP id S239800AbhHROOg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 10:14:13 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6854C0611C1
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:54 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id o10so1945933plg.0
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:54 -0700 (PDT)
+        Wed, 18 Aug 2021 10:14:36 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B645C0611C6
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:58 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id n12so1897158plf.4
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 07:12:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=pathpartnertech.com; s=google;
         h=mime-version:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=N4maNljv8YqN7CqHYNSQ8TkywzC8SpDjoi41ZOBU8Gs=;
-        b=mJLVEmTwWjZKxKwxC/1+1/cz79oV6f1H/AzNVM7nzofn8DEaXBLtB3pT4yourK4EMD
-         HW6um9LudCqPd4sT2yz9GmhYUdnoehqclSNmrTwNgyh6G9kMW8Z8qU4Wah3NsFocxP1s
-         3CZYA2KLl3NViWqIzhug6IF8R6Lynfv9BWjDVnFXLPcwnw+SAU7qMoJ5ul6k0rR+s4rr
-         4Xra+aivYBO4MHA3wt+uW7UIY5auM+w8sLLqsWdGMEPukF71g+AOk4Gl+1N/+QH+78Rv
-         7yo1tjh3RswQMKVBO4D7/KBDNLpnC81KpH/HHkV0W2R0+8FRKln8eezMXvNYk1+Jkva0
-         IKMw==
+        bh=vYeVmkRlQJdiZWrWZxyf4PyNxu87a0l/3abmvqWezow=;
+        b=jNnsDnT3KCn80HJVGC7PeWiYLC+T8h7VnPBOw0EErfAlYeZ86k9YURFbJEMF0Vaoy7
+         klDS3iFJZ8F9qXuzcsrpxHzMfT9GEjTb7YQGyFz5MmGpCQeaM7APSLK6tWurjG9iwIZd
+         JhLI/jah2ERgjezddFztfriOYDerFV0/jA0Jocmk5dBlmuoyhC7UfiO694MaMZZi7MG7
+         C2TCU4dIGZeS/e1OhnZpPXHcCkB7ZeyrAvtRCrYc6NpRTqUuupUlGtN8ZHlQD7iWSRLH
+         U0pVpDBLP8jmnIxHQNyI5oa29U0fIzrb15p7Mlzea/DCHTKtzrbW0pfIbA/2x17ckLRh
+         z7hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :in-reply-to:references;
-        bh=N4maNljv8YqN7CqHYNSQ8TkywzC8SpDjoi41ZOBU8Gs=;
-        b=TrkyKzOGqZVIXRuSB1sIDwwUwyo4+gyT9Npv16N40clKtS5LWGid8uoFo1smeZ42pY
-         7qexHv4sjkR9E+eG7+gsBbtYdjW4w9F6fZdL7nWp07W9PnW4sHyhC11A3U/776P04iFw
-         hdaH/048dbg/fUAuHYFIyqGsPDN4sbDWJbCgnaQhT3blDO1/KC4oREZK8zKlTIpn7ZL5
-         wEaikJR/D/kB6cj6x+LD6Gx8cnJiJvVrA2i4O/z2yCmDRxboSdaDWQtdPLpfWyvAMyWb
-         XWPy0WiJ3jh2F6laIqnbXyl5SumttQZ+3jADGO6oRCzsNN0dGFWTUHDm3hpqvl/J3DAF
-         3G0A==
+        bh=vYeVmkRlQJdiZWrWZxyf4PyNxu87a0l/3abmvqWezow=;
+        b=OLxIIJ5q9C3RTkOwMugoa3ykoLmrDfv5phoNazMMVUwDTWA000zb9NKFGg7z5S/7ic
+         u+iWyjH1Un658IiQqDLfJwSc9yUoXD94blgKKHIQj+PRvZxZpB+YJME/kpFqx1nB3Wti
+         Bj98tKvKfQuY1Df/BznbU2aDhF966/rUzNRNWkNMmeJPNaDmd79bTBvjVfb3Pg89lEGm
+         18bwl9ZDB6z/Mu0GkyZhmPzde9uEqBo6mCoQFecxHfdt0wpicR0X3D4iops6btHzjfb5
+         SqCJUBjp1K2BVKFgPCHy4rWZP5CfBWv2Ums/FRL0rB8Ir3ufuPpxHf2xXgC3EcBNMZwe
+         MwRg==
 MIME-Version: 1.0
-X-Gm-Message-State: AOAM531KrdjK7Uqr639rXq8hActRQLL2CX6qmDWBbDaTepkmp1b0j5Jm
-        OtAPj2AAQzrco2q6exVe76C2UzBYv6sHo7oV4a4kMmkIEpeIBjOLhKmolBb66r68JlLRItiwfbI
-        7/N0Jso2Cve8gS3Oy
-X-Google-Smtp-Source: ABdhPJy5ldwSV6EuZsLiWVpUS7n/5Rh0xCwiwYj3/gD/HWKg/Kx7Gh4IblwV3ytp024SN0hLTyhM+w==
-X-Received: by 2002:a17:90a:7881:: with SMTP id x1mr9746437pjk.102.1629295974278;
-        Wed, 18 Aug 2021 07:12:54 -0700 (PDT)
+X-Gm-Message-State: AOAM532ieXQQ6VRgUxQrNa1TbRtI32K6gPO/oI3CaiivSs//klMjSjjF
+        gqQ4+ViQObMyDdumJOn3q4CprHrzoRi+nW1K4oz+2lw0jrhgV9SRgFToI9w1tHThVaKjelk0EIK
+        OL9EThJcKC8p7vM0M
+X-Google-Smtp-Source: ABdhPJz5JWPXOGZkvkB43Sy4cb3lH+qsHRMkZ9pZ38X9NzGGVjWHkiovW0y/BI/bAhyZvrcoizI9sg==
+X-Received: by 2002:a17:90a:d910:: with SMTP id c16mr9726089pjv.33.1629295977324;
+        Wed, 18 Aug 2021 07:12:57 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.214.181])
-        by smtp.gmail.com with ESMTPSA id e8sm8084343pgg.31.2021.08.18.07.12.51
+        by smtp.gmail.com with ESMTPSA id e8sm8084343pgg.31.2021.08.18.07.12.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 07:12:53 -0700 (PDT)
+        Wed, 18 Aug 2021 07:12:56 -0700 (PDT)
 From:   sidraya.bj@pathpartnertech.com
 To:     gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org
@@ -57,9 +57,9 @@ Cc:     prashanth.ka@pathpartnertech.com, praneeth@ti.com,
         mchehab@kernel.org, linux-media@vger.kernel.org,
         praveen.ap@pathpartnertech.com,
         Sidraya <sidraya.bj@pathpartnertech.com>
-Subject: [PATCH 18/30] v4l: vxd-dec: This patch implements pixel processing library
-Date:   Wed, 18 Aug 2021 19:40:25 +0530
-Message-Id: <20210818141037.19990-19-sidraya.bj@pathpartnertech.com>
+Subject: [PATCH 19/30] v4l:vxd-dec:vdecdd utility library
+Date:   Wed, 18 Aug 2021 19:40:26 +0530
+Message-Id: <20210818141037.19990-20-sidraya.bj@pathpartnertech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
 References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
@@ -70,40 +70,45 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Sidraya <sidraya.bj@pathpartnertech.com>
 
-This library is used to handle different pixel format layouts.
+This library handles picture buffer pixel format checking
+and layout conversion to suit HW requirements.
 
 Signed-off-by: Sunita Nadampalli <sunitan@ti.com>
+
 Signed-off-by: Sidraya <sidraya.bj@pathpartnertech.com>
 ---
- MAINTAINERS                                   |   2 +
- drivers/staging/media/vxd/decoder/pixel_api.c | 895 ++++++++++++++++++
- drivers/staging/media/vxd/decoder/pixel_api.h | 152 +++
- 3 files changed, 1049 insertions(+)
- create mode 100644 drivers/staging/media/vxd/decoder/pixel_api.c
- create mode 100644 drivers/staging/media/vxd/decoder/pixel_api.h
+ MAINTAINERS                                   |   3 +
+ .../staging/media/vxd/decoder/vdecdd_utils.c  |  95 ++
+ .../staging/media/vxd/decoder/vdecdd_utils.h  |  93 ++
+ .../media/vxd/decoder/vdecdd_utils_buf.c      | 897 ++++++++++++++++++
+ 4 files changed, 1088 insertions(+)
+ create mode 100644 drivers/staging/media/vxd/decoder/vdecdd_utils.c
+ create mode 100644 drivers/staging/media/vxd/decoder/vdecdd_utils.h
+ create mode 100644 drivers/staging/media/vxd/decoder/vdecdd_utils_buf.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index d126162984c6..bf47d48a1ec2 100644
+index bf47d48a1ec2..c7edc60f4d5b 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -19600,6 +19600,8 @@ F:	drivers/staging/media/vxd/decoder/jpegfw_data.h
- F:	drivers/staging/media/vxd/decoder/jpegfw_data_shared.h
- F:	drivers/staging/media/vxd/decoder/mem_io.h
- F:	drivers/staging/media/vxd/decoder/mmu_defs.h
-+F:	drivers/staging/media/vxd/decoder/pixel_api.c
-+F:	drivers/staging/media/vxd/decoder/pixel_api.h
- F:	drivers/staging/media/vxd/decoder/pvdec_entropy_regs.h
- F:	drivers/staging/media/vxd/decoder/pvdec_int.h
- F:	drivers/staging/media/vxd/decoder/pvdec_vec_be_regs.h
-diff --git a/drivers/staging/media/vxd/decoder/pixel_api.c b/drivers/staging/media/vxd/decoder/pixel_api.c
+@@ -19614,6 +19614,9 @@ F:	drivers/staging/media/vxd/decoder/translation_api.h
+ F:	drivers/staging/media/vxd/decoder/vdec_defs.h
+ F:	drivers/staging/media/vxd/decoder/vdec_mmu_wrapper.c
+ F:	drivers/staging/media/vxd/decoder/vdec_mmu_wrapper.h
++F:	drivers/staging/media/vxd/decoder/vdecdd_utils.c
++F:	drivers/staging/media/vxd/decoder/vdecdd_utils.h
++F:	drivers/staging/media/vxd/decoder/vdecdd_utils_buf.c
+ F:	drivers/staging/media/vxd/decoder/vdecfw_share.h
+ F:	drivers/staging/media/vxd/decoder/vdecfw_shared.h
+ F:	drivers/staging/media/vxd/decoder/vxd_core.c
+diff --git a/drivers/staging/media/vxd/decoder/vdecdd_utils.c b/drivers/staging/media/vxd/decoder/vdecdd_utils.c
 new file mode 100644
-index 000000000000..a0620662a68e
+index 000000000000..7fd7a80d46ae
 --- /dev/null
-+++ b/drivers/staging/media/vxd/decoder/pixel_api.c
-@@ -0,0 +1,895 @@
++++ b/drivers/staging/media/vxd/decoder/vdecdd_utils.c
+@@ -0,0 +1,95 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Pixel processing function implementations
++ * VXD Decoder device driver utility functions implementation
 + *
 + * Copyright (c) Imagination Technologies Ltd.
 + * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
@@ -113,6 +118,7 @@ index 000000000000..a0620662a68e
 + *
 + * Re-written for upstream
 + *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
++ *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com>
 + */
 +
 +#include <linux/dma-mapping.h>
@@ -120,891 +126,90 @@ index 000000000000..a0620662a68e
 +#include <media/v4l2-device.h>
 +#include <media/v4l2-mem2mem.h>
 +
-+#include "img_errors.h"
-+#include "img_pixfmts.h"
-+#include "pixel_api.h"
-+#include "vdec_defs.h"
-+
-+#define NUM_OF_FORMATS 17
-+#define PIXNAME(x) /* Pixel name support not enabled */
-+#define FACT_SPEC_FORMAT_NUM_PLANES 4
-+#define FACT_SPEC_FORMAT_PLANE_UNUSED 0xf
-+#define FACT_SPEC_FORMAT_PLANE_CODE_BITS 4
-+#define FACT_SPEC_FORMAT_PLANE_CODE_MASK 3
-+#define FACT_SPEC_FORMAT_MIN_FACT_VAL 1
++#include "bspp.h"
++#include "vdecdd_utils.h"
 +
 +/*
-+ * @brief Pointer to the default format in the asPixelFormats array
-+ * default format is an invalid format
-+ * @note pointer set by initSearch()
-+ * This pointer is also used to know if the arrays were sorted
++ * @Function              VDECDDUTILS_FreeStrUnit
 + */
-+static struct pixel_pixinfo *def_fmt;
-+
-+/*
-+ * @brief Actual array storing the pixel formats information.
-+ */
-+static struct pixel_pixinfo pix_fmts[NUM_OF_FORMATS] = {
-+	{
-+		IMG_PIXFMT_420PL12YUV8,
-+		PIXEL_UV_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT8_MP,
-+		PIXEL_FORMAT_420,
-+		8,
-+		8,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_420PL12YVU8,
-+		PIXEL_VU_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT8_MP,
-+		PIXEL_FORMAT_420,
-+		8,
-+		8,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_420PL12YUV10,
-+		PIXEL_UV_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT10_MP,
-+		PIXEL_FORMAT_420,
-+		10,
-+		10,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_420PL12YVU10,
-+		PIXEL_VU_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT10_MP,
-+		PIXEL_FORMAT_420,
-+		10,
-+		10,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_420PL12YUV10_MSB,
-+		PIXEL_UV_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT10_MSB_MP,
-+		PIXEL_FORMAT_420,
-+		10,
-+		10,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_420PL12YVU10_MSB,
-+		PIXEL_VU_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT10_MSB_MP,
-+		PIXEL_FORMAT_420,
-+		10,
-+		10,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_420PL12YUV10_LSB,
-+		PIXEL_UV_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT10_LSB_MP,
-+		PIXEL_FORMAT_420,
-+		10,
-+		10,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_420PL12YVU10_LSB,
-+		PIXEL_VU_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT10_LSB_MP,
-+		PIXEL_FORMAT_420,
-+		10,
-+		10,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YUV8,
-+		PIXEL_UV_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT8_MP,
-+		PIXEL_FORMAT_422,
-+		8,
-+		8,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YVU8,
-+		PIXEL_VU_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT8_MP,
-+		PIXEL_FORMAT_422,
-+		8,
-+		8,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YUV10,
-+		PIXEL_UV_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT10_MP,
-+		PIXEL_FORMAT_422,
-+		10,
-+		10,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YVU10,
-+		PIXEL_VU_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT10_MP,
-+		PIXEL_FORMAT_422,
-+		10,
-+		10,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YUV10_MSB,
-+		PIXEL_UV_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT10_MSB_MP,
-+		PIXEL_FORMAT_422,
-+		10,
-+		10,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YVU10_MSB,
-+		PIXEL_VU_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT10_MSB_MP,
-+		PIXEL_FORMAT_422,
-+		10,
-+		10,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YUV10_LSB,
-+		PIXEL_UV_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT10_LSB_MP,
-+		PIXEL_FORMAT_422,
-+		10,
-+		10,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YVU10_LSB,
-+		PIXEL_VU_ORDER,
-+		PIXEL_MULTICHROME,
-+		PIXEL_BIT10_LSB_MP,
-+		PIXEL_FORMAT_422,
-+		10,
-+		10,
-+		2
-+	},
-+
-+	{
-+		IMG_PIXFMT_UNDEFINED,
-+		PIXEL_INVALID_CI,
-+		0,
-+		(enum pixel_mem_packing)0,
-+		PIXEL_FORMAT_INVALID,
-+		0,
-+		0,
-+		0
-+	}
-+};
-+
-+static struct pixel_pixinfo_table pixinfo_table[] = {
-+	{
-+		IMG_PIXFMT_420PL12YUV8_A8,
-+		{
-+			PIXNAME(IMG_PIXFMT_420PL12YUV8_A8)
-+			16,
-+			16,
-+			16,
-+			0,
-+			16,
-+			TRUE,
-+			TRUE,
-+			4,
-+			TRUE
-+		}
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YUV8_A8,
-+		{
-+			PIXNAME(IMG_PIXFMT_422PL12YUV8_A8)
-+			16,
-+			16,
-+			16,
-+			0,
-+			16,
-+			TRUE,
-+			FALSE,
-+			4,
-+			TRUE
-+		}
-+	},
-+
-+	{
-+		IMG_PIXFMT_420PL12YUV8,
-+		{
-+			PIXNAME(IMG_PIXFMT_420PL12YUV8)
-+			16,
-+			16,
-+			16,
-+			0,
-+			0,
-+			TRUE,
-+			TRUE,
-+			4,
-+			FALSE
-+		}
-+	},
-+
-+	{
-+		IMG_PIXFMT_420PL12YVU8,
-+		{
-+			PIXNAME(IMG_PIXFMT_420PL12YVU8)
-+			16,
-+			16,
-+			16,
-+			0,
-+			0,
-+			TRUE,
-+			TRUE,
-+			4,
-+			FALSE
-+		}
-+	},
-+
-+	{
-+		IMG_PIXFMT_420PL12YUV10,
-+		{
-+			PIXNAME(IMG_PIXFMT_420PL12YUV10)
-+			12,
-+			16,
-+			16,
-+			0,
-+			0,
-+			TRUE,
-+			TRUE,
-+			4,
-+			FALSE
-+		}
-+	},
-+
-+	{
-+		IMG_PIXFMT_420PL12YVU10,
-+		{
-+			PIXNAME(IMG_PIXFMT_420PL12YVU10)
-+			12,
-+			16,
-+			16,
-+			0,
-+			0,
-+			TRUE,
-+			TRUE,
-+			4,
-+			FALSE
-+		}
-+	},
-+
-+	{
-+		IMG_PIXFMT_420PL12YUV10_MSB,
-+		{
-+			PIXNAME(IMG_PIXFMT_420PL12YUV10_MSB)
-+			8,
-+			16,
-+			16,
-+			0,
-+			0,
-+			TRUE,
-+			TRUE,
-+			4,
-+			FALSE
-+		}
-+	},
-+
-+	{
-+		IMG_PIXFMT_420PL12YVU10_MSB,
-+		{
-+			PIXNAME(IMG_PIXFMT_420PL12YVU10_MSB)
-+			8,
-+			16,
-+			16,
-+			0,
-+			0,
-+			TRUE,
-+			TRUE,
-+			4,
-+			FALSE
-+		}
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YUV8,
-+		{
-+			PIXNAME(IMG_PIXFMT_422PL12YUV8)
-+			16,
-+			16,
-+			16,
-+			0,
-+			0,
-+			TRUE,
-+			FALSE,
-+			4,
-+			FALSE
-+		}
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YVU8,
-+		{
-+			PIXNAME(IMG_PIXFMT_422PL12YVU8)
-+			16,
-+			16,
-+			16,
-+			0,
-+			0,
-+			TRUE,
-+			FALSE,
-+			4,
-+			FALSE
-+		}
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YUV10,
-+		{
-+			PIXNAME(IMG_PIXFMT_422PL12YUV10)
-+			12,
-+			16,
-+			16,
-+			0,
-+			0,
-+			TRUE,
-+			FALSE,
-+			4,
-+			FALSE
-+		}
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YVU10,
-+		{
-+			PIXNAME(IMG_PIXFMT_422PL12YVU10)
-+			12,
-+			16,
-+			16,
-+			0,
-+			0,
-+			TRUE,
-+			FALSE,
-+			4,
-+			FALSE
-+		}
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YUV10_MSB,
-+		{
-+			PIXNAME(IMG_PIXFMT_422PL12YUV10_MSB)
-+			8,
-+			16,
-+			16,
-+			0,
-+			0,
-+			TRUE,
-+			FALSE,
-+			4,
-+			FALSE
-+		}
-+	},
-+
-+	{
-+		IMG_PIXFMT_422PL12YVU10_MSB,
-+		{
-+			PIXNAME(IMG_PIXFMT_422PL12YVU10_MSB)
-+			8,
-+			16,
-+			16,
-+			0,
-+			0,
-+			TRUE,
-+			FALSE,
-+			4,
-+			FALSE
-+		}
-+	},
-+};
-+
-+static struct pixel_pixinfo_table*
-+pixel_get_pixelinfo_from_pixfmt(enum img_pixfmt pix_fmt)
++int vdecddutils_free_strunit(struct vdecdd_str_unit *str_unit)
 +{
-+	unsigned int i;
-+	unsigned char found = FALSE;
-+	struct pixel_pixinfo_table *this_pixinfo_table_entry = NULL;
++	struct bspp_bitstr_seg *bstr_seg;
 +
-+	for (i = 0;
-+		i < (sizeof(pixinfo_table) / sizeof(struct pixel_pixinfo_table));
-+		i++) {
-+		if (pix_fmt ==  pixinfo_table[i].pix_color_fmt) {
-+			/*
-+			 * There must only be one entry per pixel colour format
-+			 * in the table
-+			 */
-+			VDEC_ASSERT(!found);
-+			found = TRUE;
-+			this_pixinfo_table_entry = &pixinfo_table[i];
++	/* Loop over bit stream segments */
++	bstr_seg = (struct bspp_bitstr_seg *)lst_removehead(&str_unit->bstr_seg_list);
++	while (bstr_seg) {
++		/* Free segment. */
++		kfree(bstr_seg);
 +
-+			/*
-+			 * We deliberately do NOT break here - scan rest of
-+			 * table to ensure there are not duplicate entries
-+			 */
-+		}
-+	}
-+	return this_pixinfo_table_entry;
-+}
-+
-+/*
-+ * @brief Array containing string lookup of pixel format IDC.
-+ * @warning this must be kept in step with PIXEL_FormatIdc.
-+ */
-+unsigned char pix_fmt_idc_names[6][16] = {
-+	"Monochrome",
-+	"4:1:1",
-+	"4:2:0",
-+	"4:2:2",
-+	"4:4:4",
-+	"Invalid",
-+};
-+
-+static int pixel_compare_pixfmts(const void *a, const void *b)
-+{
-+	return ((struct pixel_pixinfo *)a)->pixfmt -
-+	       ((struct pixel_pixinfo *)b)->pixfmt;
-+}
-+
-+static struct pixel_info*
-+pixel_get_bufinfo_from_pixfmt(enum img_pixfmt pix_fmt)
-+{
-+	struct pixel_pixinfo_table *pixinfo_table_entry = NULL;
-+	struct pixel_info *pix_info = NULL;
-+
-+	pixinfo_table_entry = pixel_get_pixelinfo_from_pixfmt(pix_fmt);
-+	VDEC_ASSERT(pixinfo_table_entry);
-+	if (pixinfo_table_entry)
-+		pix_info = &pixinfo_table_entry->info;
-+
-+	return pix_info;
-+}
-+
-+/*
-+ * @brief Search a pixel format based on its attributes rather than its format
-+ * enum.
-+ * @warning use PIXEL_Comparpix_fmts to search by enum
-+ */
-+static int pixel_compare_pixinfo(const void *a, const void *b)
-+{
-+	int result = 0;
-+	const struct pixel_pixinfo *fmt_a = (struct pixel_pixinfo *)a;
-+	const struct pixel_pixinfo *fmt_b = (struct pixel_pixinfo *)b;
-+
-+	result = fmt_a->chroma_fmt_idc - fmt_b->chroma_fmt_idc;
-+	if (result != 0)
-+		return result;
-+
-+	result = fmt_a->mem_pkg - fmt_b->mem_pkg;
-+	if (result != 0)
-+		return result;
-+
-+	result = fmt_a->chroma_interleave - fmt_b->chroma_interleave;
-+	if (result != 0)
-+		return result;
-+
-+	result = fmt_a->bitdepth_y - fmt_b->bitdepth_y;
-+	if (result != 0)
-+		return result;
-+
-+	result = fmt_a->bitdepth_c - fmt_b->bitdepth_c;
-+	if (result != 0)
-+		return result;
-+
-+	result = fmt_a->num_planes - fmt_b->num_planes;
-+	if (result != 0)
-+		return result;
-+
-+	return result;
-+}
-+
-+static void pixel_init_search(void)
-+{
-+	static unsigned int search_inited;
-+
-+	search_inited++;
-+	if (search_inited == 1) {
-+		if (!def_fmt) {
-+			int i = 0;
-+
-+			i = NUM_OF_FORMATS - 1;
-+			while (i >= 0) {
-+				if (IMG_PIXFMT_UNDEFINED ==
-+					pix_fmts[i].pixfmt) {
-+					def_fmt = &pix_fmts[i];
-+					break;
-+				}
-+			}
-+			VDEC_ASSERT(def_fmt);
-+		}
-+	} else {
-+		search_inited--;
-+	}
-+}
-+
-+static struct pixel_pixinfo *pixel_search_fmt(const struct pixel_pixinfo *key,
-+					      unsigned char enum_only)
-+{
-+	struct pixel_pixinfo *fmt_found = NULL;
-+	int (*compar)(const void *pixfmt1, const void *pixfmt2);
-+
-+	if (enum_only)
-+		compar = &pixel_compare_pixfmts;
-+	else
-+		compar = &pixel_compare_pixinfo;
-+
-+	{
-+		unsigned int i;
-+
-+		for (i = 0; i < NUM_OF_FORMATS; i++) {
-+			if (compar(key, &pix_fmts[i]) == 0) {
-+				fmt_found = &pix_fmts[i];
-+				break;
-+			}
-+		}
-+	}
-+	return fmt_found;
-+}
-+
-+/*
-+ * @brief Set a pixel format info structure to the default.
-+ * @warning This MODIDIFES the pointer therefore you shouldn't
-+ * call it on pointer you got from the library!
-+ */
-+static void pixel_pixinfo_defaults(struct pixel_pixinfo *to_def)
-+{
-+	if (!def_fmt)
-+		pixel_init_search();
-+
-+	memcpy(to_def, def_fmt, sizeof(struct pixel_pixinfo));
-+}
-+
-+enum img_pixfmt pixel_get_pixfmt(enum pixel_fmt_idc chroma_fmt_idc,
-+				 enum pixel_chroma_interleaved
-+				 chroma_interleaved,
-+				 enum pixel_mem_packing mem_pkg,
-+				 unsigned int bitdepth_y, unsigned int bitdepth_c,
-+				 unsigned int num_planes)
-+{
-+	unsigned int internal_num_planes = (num_planes == 0 || num_planes > 4) ? 2 :
-+		num_planes;
-+	struct pixel_pixinfo key;
-+	struct pixel_pixinfo *fmt_found = NULL;
-+
-+	if (chroma_fmt_idc != PIXEL_FORMAT_MONO &&
-+	    chroma_fmt_idc != PIXEL_FORMAT_411 &&
-+	    chroma_fmt_idc != PIXEL_FORMAT_420 &&
-+	    chroma_fmt_idc != PIXEL_FORMAT_422 &&
-+	    chroma_fmt_idc != PIXEL_FORMAT_444)
-+		return IMG_PIXFMT_UNDEFINED;
-+
-+	/* valid bit depth 8, 9, 10, or 16/0 for 422 */
-+	if (bitdepth_y < 8 || bitdepth_y > 10)
-+		return IMG_PIXFMT_UNDEFINED;
-+
-+	/* valid bit depth 8, 9, 10, or 16/0 for 422 */
-+	if (bitdepth_c < 8 || bitdepth_c > 10)
-+		return IMG_PIXFMT_UNDEFINED;
-+
-+	key.pixfmt = IMG_PIXFMT_UNDEFINED;
-+	key.chroma_fmt_idc = chroma_fmt_idc;
-+	key.chroma_interleave = chroma_interleaved;
-+	key.mem_pkg = mem_pkg;
-+	key.bitdepth_y = bitdepth_y;
-+	key.bitdepth_c = bitdepth_c;
-+	key.num_planes = internal_num_planes;
-+
-+	/*
-+	 * 9 and 10 bits formats are handled in the same way, and there is only
-+	 * one entry in the PixelFormat table
-+	 */
-+	if (key.bitdepth_y == 9)
-+		key.bitdepth_y = 10;
-+
-+	/*
-+	 * 9 and 10 bits formats are handled in the same way, and there is only
-+	 * one entry in the PixelFormat table
-+	 */
-+	if (key.bitdepth_c == 9)
-+		key.bitdepth_c = 10;
-+
-+	pixel_init_search();
-+
-+	/* do not search by format */
-+	fmt_found = pixel_search_fmt(&key, FALSE);
-+	if (!fmt_found)
-+		return IMG_PIXFMT_UNDEFINED;
-+
-+	return fmt_found->pixfmt;
-+}
-+
-+static void pixel_get_internal_pixelinfo(struct pixel_pixinfo *pixinfo,
-+					 struct pixel_info *pix_bufinfo)
-+{
-+	if (pixinfo->bitdepth_y == 8 && pixinfo->bitdepth_c == 8)
-+		pix_bufinfo->pixels_in_bop = 16;
-+	else if (pixinfo->mem_pkg == PIXEL_BIT10_MP)
-+		pix_bufinfo->pixels_in_bop = 12;
-+	else
-+		pix_bufinfo->pixels_in_bop = 8;
-+
-+	if (pixinfo->bitdepth_y == 8)
-+		pix_bufinfo->ybytes_in_bop = pix_bufinfo->pixels_in_bop;
-+	else
-+		pix_bufinfo->ybytes_in_bop = 16;
-+
-+	if (pixinfo->chroma_fmt_idc == PIXEL_FORMAT_MONO) {
-+		pix_bufinfo->uvbytes_in_bop = 0;
-+	} else if (pixinfo->bitdepth_c == 8) {
-+		pix_bufinfo->uvbytes_in_bop = pix_bufinfo->pixels_in_bop;
-+		if (pixinfo->chroma_fmt_idc == PIXEL_FORMAT_422 && pixinfo->num_planes == 1) {
-+			pix_bufinfo->uvbytes_in_bop = 0;
-+			pix_bufinfo->pixels_in_bop = 8;
-+		}
-+	} else {
-+		pix_bufinfo->uvbytes_in_bop = 16;
++		/* Get next segment. */
++		bstr_seg = (struct bspp_bitstr_seg *)lst_removehead(&str_unit->bstr_seg_list);
 +	}
 +
-+	if (pixinfo->chroma_fmt_idc == PIXEL_FORMAT_444)
-+		pix_bufinfo->uvbytes_in_bop *= 2;
-+
-+	if (pixinfo->chroma_interleave == PIXEL_INVALID_CI) {
-+		pix_bufinfo->uvbytes_in_bop /= 2;
-+		pix_bufinfo->vbytes_in_bop = pix_bufinfo->uvbytes_in_bop;
-+	} else {
-+		pix_bufinfo->vbytes_in_bop = 0;
++	/* Free the sequence header */
++	if (str_unit->seq_hdr_info) {
++		str_unit->seq_hdr_info->ref_count--;
++		if (str_unit->seq_hdr_info->ref_count == 0) {
++			kfree(str_unit->seq_hdr_info);
++			str_unit->seq_hdr_info = NULL;
++		}
 +	}
 +
-+	pix_bufinfo->alphabytes_in_bop = 0;
++	/* Free the picture header... */
++	if (str_unit->pict_hdr_info) {
++		kfree(str_unit->pict_hdr_info->pict_sgm_data.pic_data);
++		str_unit->pict_hdr_info->pict_sgm_data.pic_data = NULL;
 +
-+	if (pixinfo->num_planes == 1)
-+		pix_bufinfo->is_planar = FALSE;
-+	else
-+		pix_bufinfo->is_planar = TRUE;
-+
-+	if (pixinfo->chroma_fmt_idc == PIXEL_FORMAT_420)
-+		pix_bufinfo->uv_height_halved = TRUE;
-+	else
-+		pix_bufinfo->uv_height_halved = FALSE;
-+
-+	if (pixinfo->chroma_fmt_idc == PIXEL_FORMAT_444)
-+		pix_bufinfo->uv_stride_ratio_times4 = 8;
-+	else
-+		pix_bufinfo->uv_stride_ratio_times4 = 4;
-+
-+	if (pixinfo->chroma_interleave == PIXEL_INVALID_CI)
-+		pix_bufinfo->uv_stride_ratio_times4 /= 2;
-+
-+	pix_bufinfo->has_alpha = FALSE;
-+}
-+
-+static void pixel_yuv_get_descriptor_int(struct pixel_info *pixinfo,
-+					 struct img_pixfmt_desc  *pix_desc)
-+{
-+	pix_desc->bop_denom = pixinfo->pixels_in_bop;
-+	pix_desc->h_denom = (pixinfo->uv_stride_ratio_times4 == 2 ||
-+		!pixinfo->is_planar) ? 2 : 1;
-+	pix_desc->v_denom = (pixinfo->uv_height_halved || !pixinfo->is_planar)
-+		? 2 : 1;
-+
-+	pix_desc->planes[0] = TRUE;
-+	pix_desc->bop_numer[0] = pixinfo->ybytes_in_bop;
-+	pix_desc->h_numer[0] = pix_desc->h_denom;
-+	pix_desc->v_numer[0] = pix_desc->v_denom;
-+
-+	pix_desc->planes[1] = pixinfo->is_planar;
-+	pix_desc->bop_numer[1] = pixinfo->uvbytes_in_bop;
-+	pix_desc->h_numer[1] = (pix_desc->h_denom * pixinfo->uv_stride_ratio_times4) / 4;
-+	pix_desc->v_numer[1] = 1;
-+
-+	pix_desc->planes[2] = (pixinfo->vbytes_in_bop > 0) ? TRUE : FALSE;
-+	pix_desc->bop_numer[2] = pixinfo->vbytes_in_bop;
-+	pix_desc->h_numer[2] = (pixinfo->vbytes_in_bop > 0) ? 1 : 0;
-+	pix_desc->v_numer[2] = (pixinfo->vbytes_in_bop > 0) ? 1 : 0;
-+
-+	pix_desc->planes[3] = pixinfo->has_alpha;
-+	pix_desc->bop_numer[3] = pixinfo->alphabytes_in_bop;
-+	pix_desc->h_numer[3] = pix_desc->h_denom;
-+	pix_desc->v_numer[3] = pix_desc->v_denom;
-+}
-+
-+int pixel_yuv_get_desc(struct pixel_pixinfo *pix_info, struct img_pixfmt_desc *pix_desc)
-+{
-+	struct pixel_info int_pix_info;
-+
-+	struct pixel_info *int_pix_info_old = NULL;
-+	enum img_pixfmt pix_fmt = pixel_get_pixfmt(pix_info->chroma_fmt_idc,
-+			pix_info->chroma_interleave,
-+			pix_info->mem_pkg,
-+			pix_info->bitdepth_y,
-+			pix_info->bitdepth_c,
-+			pix_info->num_planes);
-+
-+	/* Validate the output from new function. */
-+	if (pix_fmt != IMG_PIXFMT_UNDEFINED)
-+		int_pix_info_old = pixel_get_bufinfo_from_pixfmt(pix_fmt);
-+
-+	pixel_get_internal_pixelinfo(pix_info, &int_pix_info);
-+
-+	if (int_pix_info_old) {
-+		VDEC_ASSERT(int_pix_info_old->has_alpha ==
-+			int_pix_info.has_alpha);
-+		VDEC_ASSERT(int_pix_info_old->is_planar ==
-+			int_pix_info.is_planar);
-+		VDEC_ASSERT(int_pix_info_old->uv_height_halved ==
-+			int_pix_info.uv_height_halved);
-+		VDEC_ASSERT(int_pix_info_old->alphabytes_in_bop ==
-+			int_pix_info.alphabytes_in_bop);
-+		VDEC_ASSERT(int_pix_info_old->pixels_in_bop ==
-+			int_pix_info.pixels_in_bop);
-+		VDEC_ASSERT(int_pix_info_old->uvbytes_in_bop ==
-+			int_pix_info.uvbytes_in_bop);
-+		VDEC_ASSERT(int_pix_info_old->uv_stride_ratio_times4 ==
-+			int_pix_info.uv_stride_ratio_times4);
-+		VDEC_ASSERT(int_pix_info_old->vbytes_in_bop ==
-+			int_pix_info.vbytes_in_bop);
-+		VDEC_ASSERT(int_pix_info_old->ybytes_in_bop ==
-+			int_pix_info.ybytes_in_bop);
++		kfree(str_unit->pict_hdr_info);
++		str_unit->pict_hdr_info = NULL;
 +	}
 +
-+	pixel_yuv_get_descriptor_int(&int_pix_info, pix_desc);
++	/* Free stream unit. */
++	kfree(str_unit);
++	str_unit = NULL;
 +
++	/* Return success */
 +	return IMG_SUCCESS;
 +}
 +
-+struct pixel_pixinfo *pixel_get_pixinfo(const enum img_pixfmt pix_fmt)
++/*
++ * @Function: VDECDDUTILS_CreateStrUnit
++ * @Description: this function allocate a structure for a complete data unit
++ */
++int vdecddutils_create_strunit(struct vdecdd_str_unit **str_unit_handle,
++			       struct lst_t *bs_list)
 +{
-+	struct pixel_pixinfo key;
-+	struct pixel_pixinfo *fmt_found = NULL;
++	struct vdecdd_str_unit *str_unit;
++	struct bspp_bitstr_seg *bstr_seg;
 +
-+	pixel_init_search();
-+	pixel_pixinfo_defaults(&key);
-+	key.pixfmt = pix_fmt;
++	str_unit = kzalloc(sizeof(*str_unit), GFP_KERNEL);
++	VDEC_ASSERT(str_unit);
++	if (!str_unit)
++		return IMG_ERROR_OUT_OF_MEMORY;
 +
-+	fmt_found = pixel_search_fmt(&key, TRUE);
-+	if (!fmt_found)
-+		return def_fmt;
-+	return fmt_found;
-+}
-+
-+int pixel_get_fmt_desc(enum img_pixfmt pix_fmt, struct img_pixfmt_desc *pix_desc)
-+{
-+	if (pix_fmt >= IMG_PIXFMT_ARBPLANAR8 && pix_fmt <= IMG_PIXFMT_ARBPLANAR8_LAST) {
-+		unsigned int i;
-+		unsigned short spec;
-+
-+		pix_desc->bop_denom = 1;
-+		pix_desc->h_denom = 1;
-+		pix_desc->v_denom = 1;
-+
-+		spec = (pix_fmt - IMG_PIXFMT_ARBPLANAR8) & 0xffff;
-+		for (i = 0; i < FACT_SPEC_FORMAT_NUM_PLANES; i++) {
-+			unsigned char code = (spec >> FACT_SPEC_FORMAT_PLANE_CODE_BITS *
-+				(FACT_SPEC_FORMAT_NUM_PLANES - 1 - i)) & 0xf;
-+			pix_desc->bop_numer[i] = 1;
-+			pix_desc->h_numer[i] = ((code >> 2) & FACT_SPEC_FORMAT_PLANE_CODE_MASK) +
-+						FACT_SPEC_FORMAT_MIN_FACT_VAL;
-+			pix_desc->v_numer[i] = (code & FACT_SPEC_FORMAT_PLANE_CODE_MASK) +
-+						FACT_SPEC_FORMAT_MIN_FACT_VAL;
-+			if (i == 0 || code != FACT_SPEC_FORMAT_PLANE_UNUSED) {
-+				pix_desc->planes[i] = TRUE;
-+
-+				pix_desc->h_denom =
-+					pix_desc->h_denom > pix_desc->h_numer[i] ?
-+					pix_desc->h_denom : pix_desc->h_numer[i];
-+
-+				pix_desc->v_denom =
-+					pix_desc->v_denom > pix_desc->v_numer[i] ?
-+					pix_desc->v_denom : pix_desc->v_numer[i];
-+			} else {
-+				pix_desc->planes[i] = FALSE;
-+			}
++	if (bs_list) {
++		/* copy BS list to this list */
++		lst_init(&str_unit->bstr_seg_list);
++		for (bstr_seg = lst_first(bs_list); bstr_seg;
++			bstr_seg = lst_first(bs_list)) {
++			bstr_seg = lst_removehead(bs_list);
++			lst_add(&str_unit->bstr_seg_list, bstr_seg);
 +		}
-+	} else {
-+		struct pixel_info *info =
-+			pixel_get_bufinfo_from_pixfmt(pix_fmt);
-+		if (!info) {
-+			VDEC_ASSERT(0);
-+			return -EINVAL;
-+		}
-+
-+		pixel_yuv_get_descriptor_int(info, pix_desc);
 +	}
++
++	*str_unit_handle = str_unit;
 +
 +	return IMG_SUCCESS;
 +}
-+
-+int pixel_gen_pixfmt(enum img_pixfmt *pix_fmt, struct img_pixfmt_desc *pix_desc)
-+{
-+	unsigned short spec = 0, i;
-+	unsigned char code;
-+
-+	for (i = 0; i < FACT_SPEC_FORMAT_NUM_PLANES; i++) {
-+		if (pix_desc->planes[i] != 1) {
-+			code = FACT_SPEC_FORMAT_PLANE_UNUSED;
-+		} else {
-+			code = (((pix_desc->h_numer[i] - FACT_SPEC_FORMAT_MIN_FACT_VAL) &
-+				FACT_SPEC_FORMAT_PLANE_CODE_MASK) << 2) |
-+				((pix_desc->v_numer[i] - FACT_SPEC_FORMAT_MIN_FACT_VAL) &
-+				FACT_SPEC_FORMAT_PLANE_CODE_MASK);
-+		}
-+		spec |= (code << FACT_SPEC_FORMAT_PLANE_CODE_BITS *
-+			(FACT_SPEC_FORMAT_NUM_PLANES - 1 - i));
-+	}
-+
-+	*pix_fmt = (enum img_pixfmt)(IMG_PIXFMT_ARBPLANAR8 | spec);
-+
-+	return 0;
-+}
-diff --git a/drivers/staging/media/vxd/decoder/pixel_api.h b/drivers/staging/media/vxd/decoder/pixel_api.h
+diff --git a/drivers/staging/media/vxd/decoder/vdecdd_utils.h b/drivers/staging/media/vxd/decoder/vdecdd_utils.h
 new file mode 100644
-index 000000000000..3648c1b32ea7
+index 000000000000..233b7c80fe10
 --- /dev/null
-+++ b/drivers/staging/media/vxd/decoder/pixel_api.h
-@@ -0,0 +1,152 @@
++++ b/drivers/staging/media/vxd/decoder/vdecdd_utils.h
+@@ -0,0 +1,93 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * Pixel processing functions header
++ * VXD Decoder device driver utility header
 + *
 + * Copyright (c) Imagination Technologies Ltd.
 + * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
@@ -1016,144 +221,988 @@ index 000000000000..3648c1b32ea7
 + *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
 + */
 +
-+#ifndef __PIXEL_API_H__
-+#define __PIXEL_API_H__
-+
-+#include <linux/types.h>
++#ifndef __VDECDD_UTILS_H__
++#define __VDECDD_UTILS_H__
 +
 +#include "img_errors.h"
-+#include "img_pixfmts.h"
++#include "vdecdd_defs.h"
 +
-+#define PIXEL_MULTICHROME   TRUE
-+#define PIXEL_MONOCHROME    FALSE
-+#define IMG_MAX_NUM_PLANES  4
-+#define PIXEL_INVALID_BDC   8
++/* The picture buffer alignment (in bytes) for VXD. */
++#define VDEC_VXD_PICTBUF_ALIGNMENT              (64)
++/* The buffer alignment (in bytes) for VXD. */
++#define VDEC_VXD_BUF_ALIGNMENT                  (4096)
++/* The extended stride alignment for VXD.  */
++#define VDEC_VXD_EXT_STRIDE_ALIGNMENT_DEFAULT   (64)
++/* Macroblock dimension (width and height) in pixels. */
++#define VDEC_MB_DIMENSION                       (16)
 +
-+extern unsigned char pix_fmt_idc_names[6][16];
-+
-+struct img_pixfmt_desc {
-+	unsigned char planes[IMG_MAX_NUM_PLANES];
-+	unsigned int bop_denom;
-+	unsigned int bop_numer[IMG_MAX_NUM_PLANES];
-+	unsigned int h_denom;
-+	unsigned int v_denom;
-+	unsigned int h_numer[IMG_MAX_NUM_PLANES];
-+	unsigned int v_numer[IMG_MAX_NUM_PLANES];
-+};
-+
-+/*
-+ * @brief This type defines memory chroma interleaved order
-+ */
-+enum pixel_chroma_interleaved {
-+	PIXEL_INVALID_CI        = 0,
-+	PIXEL_UV_ORDER          = 1,
-+	PIXEL_VU_ORDER          = 2,
-+	PIXEL_YAYB_ORDER        = 4,
-+	PIXEL_AYBY_ORDER        = 8,
-+	PIXEL_ORDER_FORCE32BITS = 0x7FFFFFFFU
-+};
-+
-+/*
-+ * @brief This macro translates enum pixel_chroma_interleaved values into
-+ * value that can be used to write HW registers directly.
-+ */
-+#define PIXEL_GET_HW_CHROMA_INTERLEAVED(value) \
-+	((value) & PIXEL_VU_ORDER ? TRUE : FALSE)
-+
-+/*
-+ * @brief This type defines memory packing types
-+ */
-+enum pixel_mem_packing {
-+	PIXEL_BIT8_MP             = 0,
-+	PIXEL_BIT10_MSB_MP        = 1,
-+	PIXEL_BIT10_LSB_MP        = 2,
-+	PIXEL_BIT10_MP            = 3,
-+	PIXEL_DEFAULT_MP          = 0xff,
-+	PIXEL_DEFAULT_FORCE32BITS = 0x7FFFFFFFU
-+};
-+
-+static inline unsigned char pixel_get_hw_memory_packing(enum pixel_mem_packing value)
++static inline unsigned int vdec_size_min(unsigned int a, unsigned int b)
 +{
-+	return value == PIXEL_BIT8_MP ? FALSE :
-+	       value == PIXEL_BIT10_MSB_MP ? FALSE :
-+	       value == PIXEL_BIT10_LSB_MP ? FALSE :
-+	       value == PIXEL_BIT10_MP ? TRUE : FALSE;
++	return a <= b ? a : b;
 +}
 +
-+/*
-+ * @brief This type defines chroma formats
-+ */
-+enum pixel_fmt_idc {
-+	PIXEL_FORMAT_MONO        = 0,
-+	PIXEL_FORMAT_411         = 1,
-+	PIXEL_FORMAT_420         = 2,
-+	PIXEL_FORMAT_422         = 3,
-+	PIXEL_FORMAT_444         = 4,
-+	PIXEL_FORMAT_INVALID     = 0xFF,
-+	PIXEL_FORMAT_FORCE32BITS = 0x7FFFFFFFU
-+};
-+
-+static inline int pixel_get_hw_chroma_format_idc(enum pixel_fmt_idc value)
++static inline unsigned char vdec_size_lt(struct vdec_pict_size sa, struct vdec_pict_size sb)
 +{
-+	return value == PIXEL_FORMAT_MONO ? 0 :
-+	       value == PIXEL_FORMAT_420 ? 1 :
-+	       value == PIXEL_FORMAT_422 ? 2 :
-+	       value == PIXEL_FORMAT_444 ? 3 :
-+	       PIXEL_FORMAT_INVALID;
++	return (sa.width < sb.width && sa.height <= sb.height) ||
++	       (sa.width <= sb.width && sa.height < sb.height);
 +}
 +
-+/*
-+ * @brief This structure contains information about the pixel formats
-+ */
-+struct pixel_pixinfo {
-+	enum img_pixfmt pixfmt;
-+	enum pixel_chroma_interleaved chroma_interleave;
-+	unsigned char chroma_fmt;
-+	enum pixel_mem_packing mem_pkg;
-+	enum pixel_fmt_idc chroma_fmt_idc;
-+	unsigned int bitdepth_y;
-+	unsigned int bitdepth_c;
-+	unsigned int num_planes;
-+};
++static inline unsigned char vdec_size_ge(struct vdec_pict_size sa, struct vdec_pict_size sb)
++{
++	return sa.width >= sb.width && sa.height >= sb.height;
++}
 +
-+/*
-+ * @brief This type defines the image in memory
-+ */
-+struct pixel_info {
-+	unsigned int pixels_in_bop;
-+	unsigned int ybytes_in_bop;
-+	unsigned int uvbytes_in_bop;
-+	unsigned int vbytes_in_bop;
-+	unsigned int alphabytes_in_bop;
-+	unsigned char is_planar;
-+	unsigned char uv_height_halved;
-+	unsigned int uv_stride_ratio_times4;
-+	unsigned char has_alpha;
-+};
++static inline unsigned char vdec_size_ne(struct vdec_pict_size sa, struct vdec_pict_size sb)
++{
++	return sa.width != sb.width || sa.height != sb.height;
++}
 +
-+struct pixel_pixinfo_table {
-+	enum img_pixfmt pix_color_fmt;
-+	struct pixel_info info;
-+};
++static inline unsigned char vdec_size_nz(struct vdec_pict_size sa)
++{
++	return sa.width != 0 && sa.height != 0;
++}
 +
-+struct pixel_pixinfo *pixel_get_pixinfo(const enum img_pixfmt pixfmt);
++int vdecddutils_free_strunit(struct vdecdd_str_unit *str_unit);
 +
-+enum img_pixfmt pixel_get_pixfmt(enum pixel_fmt_idc chroma_fmt_idc,
-+				 enum pixel_chroma_interleaved
-+				 chroma_interleaved,
-+				 enum pixel_mem_packing mem_packing,
-+				 unsigned int bitdepth_y, unsigned int bitdepth_c,
-+				 unsigned int num_planes);
++int vdecddutils_create_strunit(struct vdecdd_str_unit **str_unit_handle,
++			       struct lst_t *bs_list);
 +
-+int pixel_yuv_get_desc(struct pixel_pixinfo *pix_info,
-+		       struct img_pixfmt_desc *desc);
++int vdecddutils_ref_pict_get_maxnum(const struct vdec_str_configdata *str_cfg_data,
++				    const struct vdec_comsequ_hdrinfo *comseq_hdr_info,
++				    unsigned int *num_picts);
 +
-+int pixel_get_fmt_desc(enum img_pixfmt pixfmt,
-+		       struct img_pixfmt_desc *fmt_desc);
++int vdecddutils_get_minrequired_numpicts(const struct vdec_str_configdata *str_cfg_data,
++					 const struct vdec_comsequ_hdrinfo *comseq_hdr_info,
++					 const struct vdec_str_opconfig *op_cfg,
++					 unsigned int *num_picts);
 +
-+int pixel_gen_pixfmt(enum img_pixfmt *pix_fmt, struct img_pixfmt_desc *pix_desc);
++int vdecddutils_pictbuf_getconfig(const struct vdec_str_configdata *str_cfg_data,
++				  const struct vdec_pict_rend_config *pict_rend_cfg,
++				  const struct vdec_str_opconfig *str_opcfg,
++				  struct vdec_pict_bufconfig *pict_bufcfg);
++
++int vdecddutils_pictbuf_getinfo(const struct vdec_str_configdata *str_cfg_data,
++				const struct vdec_pict_rend_config *pict_rend_cfg,
++				const struct vdec_str_opconfig *str_opcfg,
++				struct vdec_pict_rendinfo *pict_rend_info);
++
++int vdecddutils_convert_buffer_config(const struct vdec_str_configdata *str_cfg_data,
++				      const struct vdec_pict_bufconfig *pict_bufcfg,
++				      struct vdec_pict_rendinfo *pict_rend_info);
++
++int vdecddutils_get_display_region(const struct vdec_pict_size *coded_size,
++				   const struct vdec_rect *orig_disp_region,
++				   struct vdec_rect *disp_region);
++
++void vdecddutils_buf_vxd_adjust_size(unsigned int *buf_size);
++
++int vdecddutils_ref_pic_hevc_get_maxnum(const struct vdec_comsequ_hdrinfo *comseq_hdrinfo,
++					unsigned int *max_ref_picnum);
 +
 +#endif
+diff --git a/drivers/staging/media/vxd/decoder/vdecdd_utils_buf.c b/drivers/staging/media/vxd/decoder/vdecdd_utils_buf.c
+new file mode 100644
+index 000000000000..3a6ad609f981
+--- /dev/null
++++ b/drivers/staging/media/vxd/decoder/vdecdd_utils_buf.c
+@@ -0,0 +1,897 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * VXD Decoder device driver buffer utility functions implementation
++ *
++ * Copyright (c) Imagination Technologies Ltd.
++ * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
++ *
++ * Authors:
++ *	Sunita Nadampalli <sunitan@ti.com>
++ *
++ * Re-written for upstream
++ *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
++ *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com>
++ */
++
++#include <linux/dma-mapping.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-mem2mem.h>
++
++#include "img_profiles_levels.h"
++#include "pixel_api.h"
++#include "vdecdd_utils.h"
++
++/*
++ * Tests if chroma offset (immediately after size of luma) is exactly
++ * aligned to buffer alignment constraint.
++ */
++static inline unsigned char is_packedbuf_chroma_aligned(unsigned int offset,
++							unsigned int color_plane,
++							unsigned int align)
++{
++	return(color_plane != VDEC_PLANE_VIDEO_Y ? TRUE :
++	       (offset == ALIGN(offset, align) ? TRUE : FALSE));
++}
++
++/*
++ * < h.264 MaxDpbMbs values per profile (see Table A-1 of Rec. ITU-T H.264
++ * (03/2010)).
++ *   NOTE: Level 1b will be treated as 1.1 in case of Baseline,
++ * Constrained Baseline, Main, and Extended profiles as the value of the
++ * constraint_set3_flag is not available in #VDEC_sComSequHdrInfo structure.
++ */
++static unsigned int h264_max_dpb_mbs[H264_LEVEL_MAJOR_NUM][H264_LEVEL_MINOR_NUM] = {
++	/* level: n/a     n/a     n/a     1.0b */
++	{ 396,    396,    396,    396  },
++	/* level: 1.0     1.1     1.2     1.3 */
++	{ 396,    900,    2376,   2376 },
++	/* level: 2.0     2.1     2.2     n/a */
++	{ 2376,   4752,   8100,   8100 },
++	/* level: 3.0     3.1     3.2     n/a */
++	{ 8100,   18000,  20480,  20480},
++	/* level: 4.0     4.1     4.2     n/a */
++	{ 32768,  32768,  34816,  34816},
++	/* level: 5.0     5.1     5.2     n/a */
++	{ 110400, 184320, 184320, 184320}
++};
++
++typedef int (*fn_ref_pic_get_max_num)(const struct vdec_comsequ_hdrinfo
++	*comseq_hdrinfo, unsigned int *max_ref_pic_num);
++
++void vdecddutils_buf_vxd_adjust_size(unsigned int *buf_size)
++{
++	/* Align the buffer size to VXD page size. */
++	*buf_size = ALIGN(*buf_size, VDEC_VXD_BUF_ALIGNMENT);
++}
++
++static int vdecddutils_ref_pic_h264_get_maxnum
++	(const struct vdec_comsequ_hdrinfo *comseq_hdrinfo,
++	unsigned int *max_ref_pic_num)
++{
++	unsigned int pic_width_mb;
++	unsigned int pic_height_mb;
++	unsigned int lvl_major = 0;
++	unsigned int lvl_minor = 0;
++
++	/* Pre-validate level. */
++	if (comseq_hdrinfo->codec_level < H264_LEVEL_MIN ||
++	    comseq_hdrinfo->codec_level > H264_LEVEL_MAX) {
++		pr_warn("Wrong H264 level value: %u",
++			comseq_hdrinfo->codec_level);
++	}
++
++	if (comseq_hdrinfo->max_reorder_picts) {
++		*max_ref_pic_num = comseq_hdrinfo->max_reorder_picts;
++	} else {
++		/* Calculate level major and minor. */
++		lvl_major = comseq_hdrinfo->codec_level / 10;
++		lvl_minor = comseq_hdrinfo->codec_level % 10;
++
++		/* Calculate picture sizes in MBs. */
++		pic_width_mb = (comseq_hdrinfo->max_frame_size.width +
++			(VDEC_MB_DIMENSION - 1)) / VDEC_MB_DIMENSION;
++		pic_height_mb = (comseq_hdrinfo->max_frame_size.height +
++			(VDEC_MB_DIMENSION - 1)) / VDEC_MB_DIMENSION;
++
++		/* Validate lvl_minor */
++		if (lvl_minor > 3) {
++			pr_warn("Wrong H264 lvl_minor level value: %u, overriding with 3",
++				lvl_minor);
++			lvl_minor = 3;
++		}
++		/* Validate lvl_major */
++		if (lvl_major > 5) {
++			pr_warn("Wrong H264 lvl_major level value: %u, overriding with 5",
++				lvl_major);
++			lvl_major = 5;
++		}
++
++		/*
++		 * Calculate the maximum number of reference pictures
++		 * required based on level.
++		 */
++		*max_ref_pic_num = h264_max_dpb_mbs[lvl_major][lvl_minor] /
++			(pic_width_mb * pic_height_mb);
++		if (*max_ref_pic_num > 16)
++			*max_ref_pic_num = 16;
++	}
++
++	/* Return success. */
++	return IMG_SUCCESS;
++}
++
++#ifdef HAS_HEVC
++/*
++ * @Function              vdecddutils_ref_pic_hevc_get_maxnum
++ */
++int vdecddutils_ref_pic_hevc_get_maxnum(const struct vdec_comsequ_hdrinfo *comseq_hdrinfo,
++					unsigned int *max_ref_picnum)
++{
++	static const unsigned int HEVC_LEVEL_IDC_MIN = 30;
++	static const unsigned int HEVC_LEVEL_IDC_MAX = 186;
++
++	static const unsigned int
++		max_luma_ps_list[HEVC_LEVEL_MAJOR_NUM][HEVC_LEVEL_MINOR_NUM] = {
++		/* level: 1.0       1.1       1.2       */
++		{ 36864,    0,        0,        },
++		/* level: 2.0       2.1       2.2       */
++		{ 122880,   245760,   0,        },
++		/* level: 3.0       3.1       3.2       */
++		{ 552960,   983040,   0,        },
++		/* level: 4.0       4.1       4.2       */
++		{ 2228224,  2228224,  0,        },
++		/* level: 5.0       5.1       5.2       */
++		{ 8912896,  8912896,  8912896,  },
++		/* level: 6.0       6.1       6.2       */
++		{ 35651584, 35651584, 35651584, }
++	};
++
++	/* ITU-T H.265 04/2013 A.4.1 */
++
++	const unsigned int max_dpb_picbuf = 6;
++
++	/* this is rounded to whole Ctbs */
++	unsigned int pic_size_in_samples_Y = comseq_hdrinfo->frame_size.height *
++		comseq_hdrinfo->frame_size.width;
++
++	signed char level_maj, level_min;
++	unsigned int max_luma_ps;
++
++	/* some error resilience */
++	if (comseq_hdrinfo->codec_level > HEVC_LEVEL_IDC_MAX ||
++	    comseq_hdrinfo->codec_level < HEVC_LEVEL_IDC_MIN) {
++		pr_warn("HEVC Codec level out of range: %u, falling back to %u",
++			comseq_hdrinfo->codec_level,
++			comseq_hdrinfo->min_pict_buf_num);
++
++		*max_ref_picnum = comseq_hdrinfo->min_pict_buf_num;
++		return IMG_SUCCESS;
++	}
++
++	level_maj = comseq_hdrinfo->codec_level / 30;
++	level_min = (comseq_hdrinfo->codec_level % 30) / 3;
++
++	if (level_maj > 0 && level_maj <= HEVC_LEVEL_MAJOR_NUM &&
++	    level_min >= 0 && level_min < HEVC_LEVEL_MINOR_NUM) {
++		max_luma_ps = max_luma_ps_list[level_maj - 1][level_min];
++	} else {
++		pr_err("%s: Invalid parameters\n", __func__);
++		return IMG_ERROR_INVALID_PARAMETERS;
++	}
++
++	if (max_luma_ps == 0) {
++		pr_err("Wrong HEVC level value: %u.%u (general_level_idc: %u)",
++		       level_maj, level_min, comseq_hdrinfo->codec_level);
++
++		return IMG_ERROR_VALUE_OUT_OF_RANGE;
++	}
++
++	if (max_luma_ps < pic_size_in_samples_Y)
++		pr_warn("HEVC PicSizeInSamplesY too large for level (%u > %u)",
++			pic_size_in_samples_Y, max_luma_ps);
++
++	if (pic_size_in_samples_Y <= (max_luma_ps >> 2))
++		*max_ref_picnum = vdec_size_min(4 * max_dpb_picbuf, 16);
++	else if (pic_size_in_samples_Y <= (max_luma_ps >> 1))
++		*max_ref_picnum = vdec_size_min(2 * max_dpb_picbuf, 16);
++	else if (pic_size_in_samples_Y <= ((3 * max_luma_ps) >> 2))
++		*max_ref_picnum = vdec_size_min((4 * max_dpb_picbuf) / 3, 16);
++	else
++		*max_ref_picnum = max_dpb_picbuf;
++
++	/* Return success. */
++	return IMG_SUCCESS;
++}
++#endif
++
++#ifdef HAS_JPEG
++static int vdecddutils_ref_pic_jpeg_get_maxnum(const struct vdec_comsequ_hdrinfo *comseq_hdrinfo,
++					       unsigned int *max_ref_picnum)
++{
++	/* No reference frames for JPEG. */
++	*max_ref_picnum = 0;
++
++	/* Return success. */
++	return IMG_SUCCESS;
++}
++#endif
++
++/*
++ * The array of pointers to functions calculating the maximum number
++ * of reference pictures required for each supported video standard.
++ * NOTE: The table is indexed by #VDEC_eVidStd enum values.
++ */
++static fn_ref_pic_get_max_num ref_pic_get_maxnum[VDEC_STD_MAX - 1] = {
++	NULL,
++	NULL,
++	NULL,
++	vdecddutils_ref_pic_h264_get_maxnum,
++	NULL,
++	NULL,
++	NULL,
++#ifdef HAS_JPEG
++	vdecddutils_ref_pic_jpeg_get_maxnum,
++#else
++	NULL,
++#endif
++	NULL,
++	NULL,
++	NULL,
++#ifdef HAS_HEVC
++	vdecddutils_ref_pic_hevc_get_maxnum
++#else
++	NULL
++#endif
++};
++
++int
++vdecddutils_ref_pict_get_maxnum(const struct vdec_str_configdata *str_cfg_data,
++				const struct vdec_comsequ_hdrinfo *comseq_hdr_info,
++				unsigned int *num_picts)
++{
++	int ret = IMG_SUCCESS;
++
++	/* Validate input params. */
++	if (str_cfg_data->vid_std == VDEC_STD_UNDEFINED || str_cfg_data->vid_std >= VDEC_STD_MAX)
++		return IMG_ERROR_VALUE_OUT_OF_RANGE;
++
++	/* Call the function related to the provided video standard. */
++	ret = ref_pic_get_maxnum[str_cfg_data->vid_std - 1](comseq_hdr_info,
++			num_picts);
++	if (ret != IMG_SUCCESS)
++		pr_warn("[USERSID=0x%08X] Failed to get number of reference pictures",
++			str_cfg_data->user_str_id);
++
++	/*
++	 * For non-conformant stream use the
++	 * max(*pui32NumPicts,comseq_hdrinfo->ui32MinPicBufNum)
++	 */
++	if (*num_picts < comseq_hdr_info->min_pict_buf_num)
++		*num_picts = comseq_hdr_info->min_pict_buf_num;
++
++	/*
++	 * Increase for MVC: mvcScaleFactor = 2 (H.10.2) and additional pictures
++	 * for a StoreInterViewOnlyRef case (C.4.5.2)
++	 */
++	if (comseq_hdr_info->num_views > 1) {
++		*num_picts *= 2;
++		*num_picts += comseq_hdr_info->num_views - 1;
++	}
++
++	return ret;
++}
++
++static void vdecddutils_update_rend_pictsize(struct vdec_pict_size pict_size,
++					     struct vdec_pict_size *rend_pict_size)
++{
++	if (rend_pict_size->width == 0) {
++		rend_pict_size->width = pict_size.width;
++	} else {
++		/* Take the smallest resolution supported by all the planes */
++		rend_pict_size->width = (pict_size.width <
++			rend_pict_size->width) ?
++			pict_size.width :
++			rend_pict_size->width;
++	}
++	if (rend_pict_size->height == 0) {
++		rend_pict_size->height = pict_size.height;
++	} else {
++		/* Take the smallest resolution supported by all the planes. */
++		rend_pict_size->height = (pict_size.height <
++			rend_pict_size->height) ?
++			pict_size.height :
++			rend_pict_size->height;
++	}
++}
++
++int vdecddutils_convert_buffer_config(const struct vdec_str_configdata *str_cfg_data,
++				      const struct vdec_pict_bufconfig *pict_bufcfg,
++				      struct vdec_pict_rendinfo *pict_rend_info)
++{
++	const struct pixel_pixinfo      *pix_info;
++	struct  img_pixfmt_desc pixfmt;
++	unsigned int i;
++	unsigned int total_vert_samples = 0;
++	unsigned int vert_samples[IMG_MAX_NUM_PLANES];
++	unsigned int plane_size = 0;
++	unsigned int plane_offset = 0;
++	struct vdec_pict_size pict_size;
++
++	/* Validate inputs. */
++	VDEC_ASSERT(str_cfg_data);
++	VDEC_ASSERT(pict_bufcfg);
++	VDEC_ASSERT(pict_rend_info);
++
++	/* Reset picture buffer allocation data. */
++	memset(pict_rend_info, 0x0, sizeof(*pict_rend_info));
++
++	pr_debug("%s picture buffer pixel_fmt = %d\n", __func__, pict_bufcfg->pixel_fmt);
++	/* Get pixel format info for regular pixel formats... */
++	if (pict_bufcfg->pixel_fmt < IMG_PIXFMT_ARBPLANAR8) {
++		pix_info = pixel_get_pixinfo(pict_bufcfg->pixel_fmt);
++		pixel_yuv_get_desc((struct pixel_pixinfo *)pix_info, &pixfmt);
++	} else {
++		pixel_get_fmt_desc(pict_bufcfg->pixel_fmt, &pixfmt);
++	}
++
++	/*
++	 * Construct the render region information from the picture
++	 * buffer configuration.
++	 */
++	for (i = 0; i < IMG_MAX_NUM_PLANES; i++) {
++		if (pixfmt.planes[i]) {
++			unsigned int plane_align = VDEC_VXD_PICTBUF_ALIGNMENT;
++
++			/*
++			 * Determine the offset (in bytes) to this plane.
++			 * This is zero for the first (luma) plane and at the
++			 * end of the previous plane for all subsequent planes.
++			 */
++			plane_offset = plane_offset + plane_size;
++
++			/*
++			 * Calculate the minimum number of vertical samples
++			 * for this plane.
++			 */
++			vert_samples[i] =
++				((pict_bufcfg->coded_height +
++				pixfmt.v_denom - 1) / pixfmt.v_denom) *
++				pixfmt.v_numer[i];
++
++			/*
++			 * Calculate the mimimum plane size from the stride and
++			 * decode picture height. Packed buffers have the luma
++			 * and chroma exactly adjacent and consequently the
++			 * chroma plane offset is equal to this plane size.
++			 */
++			plane_size = pict_bufcfg->stride[i] * vert_samples[i];
++			plane_size = ALIGN(plane_size, plane_align);
++
++			if (!pict_bufcfg->packed && pict_bufcfg->chroma_offset[i]) {
++				unsigned int max_plane_size;
++
++				max_plane_size =
++					pict_bufcfg->chroma_offset[i] - plane_offset;
++
++				if (plane_size > max_plane_size) {
++					pr_err("Chroma offset [%d bytes] is not large enough to fit minimum plane data [%d bytes] at offset [%d]",
++					       pict_bufcfg->chroma_offset[i],
++					       plane_size, plane_offset);
++					return IMG_ERROR_INVALID_PARAMETERS;
++				}
++
++				plane_size = max_plane_size;
++
++				vert_samples[i] = plane_size /
++					pict_bufcfg->stride[i];
++			} else {
++				if (pict_bufcfg->chroma_offset[i] && (plane_offset + plane_size) !=
++				    pict_bufcfg->chroma_offset[i]) {
++					pr_err("Chroma offset specified [%d bytes] should match that required for plane size calculated from stride and height [%d bytes]",
++					       pict_bufcfg->chroma_offset[i],
++					       plane_offset + plane_size);
++					return IMG_ERROR_INVALID_PARAMETERS;
++				}
++			}
++
++			pict_rend_info->plane_info[i].offset = plane_offset;
++			pict_rend_info->plane_info[i].stride =
++				pict_bufcfg->stride[i];
++			pict_rend_info->plane_info[i].size = plane_size;
++
++#ifdef DEBUG_DECODER_DRIVER
++			pr_info("VDECDDUTILS_ConvertBufferConfig() plane %d stride %u size %u offset %u",
++				i, pict_rend_info->plane_info[i].stride,
++				pict_rend_info->plane_info[i].size,
++				pict_rend_info->plane_info[i].offset);
++#endif
++
++			pict_rend_info->rendered_size +=
++				pict_rend_info->plane_info[i].size;
++
++			total_vert_samples += vert_samples[i];
++
++			/* Calculate the render region maximum picture size. */
++			pict_size.width = (pict_rend_info->plane_info[i].stride *
++					   pixfmt.bop_denom) / pixfmt.bop_numer[i];
++			pict_size.height = (vert_samples[i] * pixfmt.v_denom) / pixfmt.v_numer[i];
++			vdecddutils_update_rend_pictsize(pict_size,
++							 &pict_rend_info->rend_pict_size);
++		}
++	}
++#ifdef DEBUG_DECODER_DRIVER
++	pr_info("VDECDDUTILS_ConvertBufferConfig() total required %u (inc. alignment for addressing/tiling) vs. buffer %u",
++		pict_rend_info->rendered_size, pict_bufcfg->buf_size);
++#endif
++
++	/* Ensure that the buffer size is large enough to hold the data */
++	if (pict_bufcfg->buf_size < pict_rend_info->rendered_size) {
++		pr_err("Buffer size [%d bytes] should be at least as large as rendered data (inc. any enforced gap between planes) [%d bytes]",
++		       pict_bufcfg->buf_size,
++		       pict_rend_info->rendered_size);
++		return IMG_ERROR_INVALID_PARAMETERS;
++	}
++
++	/* Whole buffer should be marked as rendered region */
++	pict_rend_info->rendered_size = pict_bufcfg->buf_size;
++	/* Use the actual stride alignment */
++	pict_rend_info->stride_alignment = pict_bufcfg->stride_alignment;
++
++	return IMG_SUCCESS;
++}
++
++static unsigned char vdecddutils_is_secondary_op_required(const struct vdec_comsequ_hdrinfo
++	*comseq_hdr_info,
++	const struct vdec_str_opconfig
++	*op_cfg)
++{
++	unsigned char result = TRUE;
++
++	if (!op_cfg->force_oold &&
++	    !comseq_hdr_info->post_processing &&
++	    comseq_hdr_info->pixel_info.chroma_fmt_idc ==
++	    op_cfg->pixel_info.chroma_fmt_idc &&
++	    comseq_hdr_info->pixel_info.bitdepth_y ==
++	    op_cfg->pixel_info.bitdepth_y &&
++	    comseq_hdr_info->pixel_info.bitdepth_c ==
++	    op_cfg->pixel_info.bitdepth_c)
++		/*
++		 * The secondary output is not required (if we have it we will
++		 * not use it for transformation (e.g. scaling. rotating or
++		 * up/down-sampling).
++		 */
++		result = FALSE;
++
++	return result;
++}
++
++int vdecddutils_get_minrequired_numpicts(const struct vdec_str_configdata *str_cfg_data,
++					 const struct vdec_comsequ_hdrinfo *comseq_hdr_info,
++					 const struct vdec_str_opconfig *op_cfg,
++					 unsigned int *num_picts)
++{
++	int ret;
++	unsigned int max_held_picnum;
++
++	/* If any operation requiring internal buffers is to be applied... */
++	if (vdecddutils_is_secondary_op_required(comseq_hdr_info, op_cfg)) {
++		/*
++		 * Reference picture buffers will be allocated internally,
++		 * but there may be a number of picture buffers to which
++		 * out-of-display-order pictures will be decoded. These
++		 * buffers need to be allocated externally, so there's a
++		 * need to calculate the number of out-of-(display)-order
++		 * pictures required for the provided video standard.
++		 */
++		ret = vdecddutils_ref_pict_get_maxnum(str_cfg_data, comseq_hdr_info,
++						      &max_held_picnum);
++		if (ret != IMG_SUCCESS)
++			return ret;
++	} else {
++		/*
++		 * All the reference picture buffers have to be allocated
++		 * externally, so there's a need to calculate the number of
++		 * reference picture buffers required for the provided video
++		 * standard.
++		 */
++		ret = vdecddutils_ref_pict_get_maxnum(str_cfg_data, comseq_hdr_info,
++						      &max_held_picnum);
++		if (ret != IMG_SUCCESS)
++			return ret;
++	}
++
++	/*
++	 * Calculate the number of picture buffers required as the maximum
++	 * number of picture buffers to be held onto by the driver plus the
++	 * current picture buffer.
++	 */
++	*num_picts = max_held_picnum +
++		(comseq_hdr_info->interlaced_frames ? 2 : 1);
++
++	return IMG_SUCCESS;
++}
++
++static void vdecddutils_get_codedsize(const struct vdec_pict_rend_config *pict_rend_cfg,
++				      struct vdec_pict_size *decoded_pict_size)
++{
++	decoded_pict_size->width = pict_rend_cfg->coded_pict_size.width;
++	decoded_pict_size->height = pict_rend_cfg->coded_pict_size.height;
++}
++
++static unsigned char vdecddutils_is_packed(const struct vdec_pict_rendinfo *pict_rend_info,
++					   const struct vdec_pict_rend_config *pict_rend_cfg)
++{
++	unsigned char packed = TRUE;
++	unsigned int pict_buf_align;
++
++	/* Validate inputs. */
++	VDEC_ASSERT(pict_rend_info);
++	VDEC_ASSERT(pict_rend_cfg);
++
++	pict_buf_align = VDEC_VXD_PICTBUF_ALIGNMENT;
++
++	if (pict_rend_info->plane_info[VDEC_PLANE_VIDEO_Y].size !=
++		pict_rend_info->plane_info[VDEC_PLANE_VIDEO_UV].offset) {
++		/* Planes that are not adjacent cannot be packed */
++		packed = FALSE;
++	} else if (!is_packedbuf_chroma_aligned(pict_rend_info->plane_info
++				[VDEC_PLANE_VIDEO_UV].offset,
++				VDEC_PLANE_VIDEO_Y,
++				pict_buf_align)) {
++		/* Chroma plane must be aligned for packed buffers. */
++		VDEC_ASSERT(pict_rend_info->plane_info[VDEC_PLANE_VIDEO_Y].size ==
++			pict_rend_info->plane_info[VDEC_PLANE_VIDEO_UV].offset);
++		packed = FALSE;
++	}
++
++	return packed;
++}
++
++static int vdecddutils_get_stride
++	(const struct vdec_str_configdata *str_cfg_data,
++	const struct vdec_pict_rend_config *pict_rend_cfg,
++	unsigned int vert_samples, unsigned int *h_stride,
++	enum vdec_color_planes color_planes)
++{
++	unsigned int hw_h_stride = *h_stride;
++
++	/*
++	 * If extended strides are to be used or indexed strides failed,
++	 * make extended stride alignment.
++	 */
++	hw_h_stride = ALIGN(hw_h_stride,
++			    pict_rend_cfg->stride_alignment > 0 ?
++			    pict_rend_cfg->stride_alignment :
++			    VDEC_VXD_EXT_STRIDE_ALIGNMENT_DEFAULT);
++
++	/* A zero-value indicates unsupported stride */
++	if (hw_h_stride == 0)
++		/* No valid stride found */
++		return IMG_ERROR_NOT_SUPPORTED;
++
++	*h_stride = hw_h_stride;
++
++	return IMG_SUCCESS;
++}
++
++static int vdecddutils_get_render_info(const struct vdec_str_configdata *str_cfg_data,
++				       const struct vdec_pict_rend_config *pict_rend_cfg,
++				       const struct pixel_pixinfo *pix_info,
++				       struct vdec_pict_rendinfo *pict_rend_info)
++{
++	unsigned int i;
++	struct img_pixfmt_desc pixfmt;
++	struct vdec_pict_size coded_pict_size;
++	unsigned char single_stride = FALSE;
++	unsigned int vert_sample[IMG_MAX_NUM_PLANES] = {0};
++	unsigned int total_vert_samples;
++	unsigned int largest_stride;
++	unsigned int result;
++
++	/* Reset the output structure. */
++	memset(pict_rend_info, 0, sizeof(*pict_rend_info));
++
++	/* Ensure that the coded sizes are in whole macroblocks. */
++	if ((pict_rend_cfg->coded_pict_size.width  &
++		(VDEC_MB_DIMENSION - 1)) != 0 ||
++		(pict_rend_cfg->coded_pict_size.height &
++		(VDEC_MB_DIMENSION - 1)) != 0) {
++		pr_err("Invalid render configuration coded picture size [%d x %d]. It should be a whole number of MBs in each dimension",
++		       pict_rend_cfg->coded_pict_size.width,
++		       pict_rend_cfg->coded_pict_size.height);
++		return IMG_ERROR_INVALID_PARAMETERS;
++	}
++
++	/* Check if the stride alignment is multiple of default. */
++	if ((pict_rend_cfg->stride_alignment &
++		(VDEC_VXD_EXT_STRIDE_ALIGNMENT_DEFAULT - 1)) != 0) {
++		pr_err("Invalid stride alignment %d used. It should be multiple of %d.",
++		       pict_rend_cfg->stride_alignment,
++		       VDEC_VXD_EXT_STRIDE_ALIGNMENT_DEFAULT);
++		return IMG_ERROR_INVALID_PARAMETERS;
++	}
++
++	/* Get pixel format info for regular pixel formats... */
++	if (pix_info->pixfmt < IMG_PIXFMT_ARBPLANAR8)
++		pixel_yuv_get_desc((struct pixel_pixinfo *)pix_info, &pixfmt);
++	else
++		pixel_get_fmt_desc(pix_info->pixfmt, &pixfmt);
++
++	/* Get the coded size for the appropriate orientation */
++	vdecddutils_get_codedsize(pict_rend_cfg, &coded_pict_size);
++
++	/*
++	 * Calculate the hardware (inc. constraints) strides and
++	 * number of vertical samples for each plane.
++	 */
++	total_vert_samples = 0;
++	largest_stride = 0;
++	for (i = 0; i < IMG_MAX_NUM_PLANES; i++) {
++		if (pixfmt.planes[i]) {
++			unsigned int h_stride;
++
++			/* Horizontal stride must be for a multiple of BOPs. */
++			h_stride = ((coded_pict_size.width +
++				pixfmt.bop_denom - 1) /
++				pixfmt.bop_denom) * pixfmt.bop_numer[i];
++
++			/*
++			 * Vertical only has to satisfy whole pixel of
++			 * samples.
++			 */
++			vert_sample[i] = ((coded_pict_size.height +
++				pixfmt.v_denom - 1) /
++				pixfmt.v_denom) * pixfmt.v_numer[i];
++
++			/*
++			 * Obtain a horizontal stride supported by the hardware
++			 * (inc. constraints).
++			 */
++			result = vdecddutils_get_stride(str_cfg_data, pict_rend_cfg, vert_sample[i],
++							&h_stride, (enum vdec_color_planes)i);
++			if (result != IMG_SUCCESS) {
++				VDEC_ASSERT(0);
++				pr_err("No valid VXD stride found for picture with decoded dimensions [%d x %d] and min stride [%d]",
++				       coded_pict_size.width, coded_pict_size.height, h_stride);
++				return result;
++			}
++
++			pict_rend_info->plane_info[i].stride = h_stride;
++			if (i == VDEC_PLANE_VIDEO_UV && (str_cfg_data->vid_std == VDEC_STD_H264 ||
++							 str_cfg_data->vid_std == VDEC_STD_HEVC)) {
++				struct pixel_pixinfo *info =
++					pixel_get_pixinfo(pix_info->pixfmt);
++				VDEC_ASSERT(PIXEL_FORMAT_INVALID !=
++					info->chroma_fmt_idc);
++			}
++
++			total_vert_samples += vert_sample[i];
++			if (h_stride > largest_stride)
++				largest_stride = h_stride;
++		}
++	}
++	pict_rend_info->stride_alignment =
++		pict_rend_cfg->stride_alignment > 0 ?
++		pict_rend_cfg->stride_alignment :
++		VDEC_VXD_EXT_STRIDE_ALIGNMENT_DEFAULT;
++
++	if (pict_rend_cfg->packed)
++		single_stride = TRUE;
++
++#ifdef HAS_JPEG
++	/* JPEG hardware uses a single (luma) stride for all planes. */
++	if (str_cfg_data->vid_std == VDEC_STD_JPEG) {
++		single_stride = true;
++
++		/* Luma should be largest for this to be used for all planes. */
++		VDEC_ASSERT(largest_stride ==
++			pict_rend_info->plane_info[VDEC_PLANE_VIDEO_Y].stride);
++	}
++#endif
++
++	/* Calculate plane sizes. */
++	for (i = 0; i < IMG_MAX_NUM_PLANES; i++) {
++		if (pixfmt.planes[i]) {
++			struct vdec_pict_size pict_size;
++			unsigned int vert_samples = vert_sample[i];
++			unsigned int plane_align = VDEC_VXD_PICTBUF_ALIGNMENT;
++
++			if (single_stride)
++				pict_rend_info->plane_info[i].stride =
++					largest_stride;
++
++			pict_rend_info->plane_info[i].size =
++				pict_rend_info->plane_info[i].stride *
++				vert_samples;
++			pict_rend_info->plane_info[i].size =
++				ALIGN(pict_rend_info->plane_info[i].size, plane_align);
++			/*
++			 * Ensure that the total buffer rendered size is
++			 * rounded-up to the picture buffer alignment so that
++			 * this plane (within this single buffer) can be
++			 * correctly addressed by the hardware at this byte
++			 * offset.
++			 */
++			if (i == 1 && pict_rend_cfg->packed)
++				/*
++				 * Packed buffers must have chroma plane
++				 * already aligned since this was factored
++				 * into the stride/size calculation.
++				 */
++				VDEC_ASSERT(pict_rend_info->rendered_size ==
++					    ALIGN(pict_rend_info->rendered_size, plane_align));
++
++			pict_rend_info->plane_info[i].offset = pict_rend_info->rendered_size;
++
++			/* Update the total buffer size (inc. this plane). */
++			pict_rend_info->rendered_size +=
++				pict_rend_info->plane_info[i].size;
++
++			/*
++			 * Update the maximum render picture size supported
++			 * by all planes of this buffer.
++			 */
++			pict_size.width = (pict_rend_info->plane_info[i].stride *
++				pixfmt.bop_denom) / pixfmt.bop_numer[i];
++
++			pict_size.height = (vert_sample[i] * pixfmt.v_denom) / pixfmt.v_numer[i];
++
++			vdecddutils_update_rend_pictsize(pict_size,
++							 &pict_rend_info->rend_pict_size);
++
++#ifdef DEBUG_DECODER_DRIVER
++			pr_info("vdecddutils_GetRenderInfo() plane %d stride %u size %u offset %u",
++				i, pict_rend_info->plane_info[i].stride,
++				pict_rend_info->plane_info[i].size,
++				pict_rend_info->plane_info[i].offset);
++#endif
++		}
++	}
++
++#ifdef DEBUG_DECODER_DRIVER
++	pr_info("vdecddutils_GetRenderInfo() total %u (inc. alignment for addressing/tiling)",
++		pict_rend_info->rendered_size);
++#endif
++
++	return IMG_SUCCESS;
++}
++
++int vdecddutils_pictbuf_getconfig(const struct vdec_str_configdata *str_cfg_data,
++				  const struct vdec_pict_rend_config *pict_rend_cfg,
++				  const struct vdec_str_opconfig *str_opcfg,
++				  struct vdec_pict_bufconfig *pict_bufcfg)
++{
++	struct vdec_pict_rendinfo disp_pict_rendinfo;
++	struct vdec_pict_size coded_pict_size;
++	unsigned int ret, i;
++	unsigned int size0, size1;
++
++	/* Validate inputs. */
++	VDEC_ASSERT(str_cfg_data);
++	VDEC_ASSERT(pict_rend_cfg);
++	VDEC_ASSERT(str_opcfg);
++	VDEC_ASSERT(pict_bufcfg);
++
++	/* Clear the picture buffer config before populating */
++	memset(pict_bufcfg, 0, sizeof(struct vdec_pict_bufconfig));
++
++	/* Determine the rounded-up coded sizes (compatible with hardware) */
++	ret = vdecddutils_get_render_info(str_cfg_data,
++					  pict_rend_cfg,
++					  &str_opcfg->pixel_info,
++					  &disp_pict_rendinfo);
++	if (ret != IMG_SUCCESS)
++		return ret;
++
++	/* Get the coded size for the appropriate orientation */
++	vdecddutils_get_codedsize(pict_rend_cfg, &coded_pict_size);
++
++	pict_bufcfg->coded_width = coded_pict_size.width;
++	pict_bufcfg->coded_height = coded_pict_size.height;
++
++	/*
++	 * Use the luma stride for all planes in buffer.
++	 * Additional chroma stride may be needed for other pixel formats.
++	 */
++	for (i = 0; i < VDEC_PLANE_MAX; i++)
++		pict_bufcfg->stride[i] = disp_pict_rendinfo.plane_info[i].stride;
++
++	/*
++	 * Pixel information is taken from that
++	 * specified for display.
++	 */
++	pict_bufcfg->pixel_fmt = str_opcfg->pixel_info.pixfmt;
++	pr_debug("picture buffer pixel_fmt = %d\n", pict_bufcfg->pixel_fmt);
++
++	/* Tiling scheme is taken from render configuration */
++	pict_bufcfg->byte_interleave = pict_rend_cfg->byte_interleave;
++	pr_debug("picture buffer byte_interleave = %d\n", pict_bufcfg->byte_interleave);
++	/* Stride alignment */
++	pict_bufcfg->stride_alignment = pict_rend_cfg->stride_alignment > 0 ?
++		pict_rend_cfg->stride_alignment : VDEC_VXD_EXT_STRIDE_ALIGNMENT_DEFAULT;
++
++	pr_debug("picture buffer stride_alignment = %d\n", pict_bufcfg->stride_alignment);
++	/* Chroma offset taken as calculated for render configuration. */
++	pict_bufcfg->chroma_offset[0] = disp_pict_rendinfo.plane_info[VDEC_PLANE_VIDEO_UV].offset;
++	pict_bufcfg->chroma_offset[1] = disp_pict_rendinfo.plane_info[VDEC_PLANE_VIDEO_V].offset;
++
++	if (pict_rend_cfg->packed && str_opcfg->pixel_info.num_planes > 1) {
++		pict_bufcfg->packed = vdecddutils_is_packed(&disp_pict_rendinfo, pict_rend_cfg);
++		if (!pict_bufcfg->packed) {
++			/* Report if unable to meet request to pack. */
++			pr_err("Request for packed buffer could not be met");
++			return IMG_ERROR_NOT_SUPPORTED;
++		}
++
++		size0 = ALIGN(pict_bufcfg->chroma_offset[0], VDEC_VXD_PICTBUF_ALIGNMENT);
++		size1 = ALIGN(pict_bufcfg->chroma_offset[1], VDEC_VXD_PICTBUF_ALIGNMENT);
++
++		if (pict_bufcfg->chroma_offset[0] != size0 ||
++		    pict_bufcfg->chroma_offset[1] != size1)  {
++			pr_err("Chroma plane could not be located on a %d byte boundary (investigate stride calculations)",
++			       VDEC_VXD_PICTBUF_ALIGNMENT);
++			return IMG_ERROR_NOT_SUPPORTED;
++		}
++	} else {
++		pict_bufcfg->packed = FALSE;
++	}
++
++	pict_bufcfg->buf_size = disp_pict_rendinfo.rendered_size;
++
++	/* Return success */
++	return IMG_SUCCESS;
++}
++
++int vdecddutils_get_display_region(const struct vdec_pict_size *coded_size,
++				   const struct vdec_rect   *orig_disp_region,
++				   struct vdec_rect *disp_region)
++{
++	int ret = IMG_SUCCESS;
++
++	/* Validate inputs. */
++	VDEC_ASSERT(coded_size);
++	VDEC_ASSERT(orig_disp_region);
++	VDEC_ASSERT(disp_region);
++	if (!coded_size || !orig_disp_region || !disp_region)
++		return IMG_ERROR_INVALID_PARAMETERS;
++
++	/*
++	 * In the simplest case the display region is the same as
++	 * that defined in the bitstream.
++	 */
++	*disp_region = *orig_disp_region;
++
++	if (orig_disp_region->height == 0 || orig_disp_region->width == 0 ||
++	    coded_size->height == 0 || coded_size->width == 0) {
++		pr_err("Invalid params to calculate display region:");
++		pr_err("Display Size: [%d,%d]", orig_disp_region->width, orig_disp_region->height);
++		pr_err("Coded Size  : [%d,%d]", coded_size->width, coded_size->height);
++		return IMG_ERROR_INVALID_PARAMETERS;
++	}
++
++	return ret;
++}
++
++int vdecddutils_pictbuf_getinfo(const struct vdec_str_configdata *str_cfg_data,
++				const struct vdec_pict_rend_config *pict_rend_cfg,
++				const struct vdec_str_opconfig *str_op_cfg,
++				struct vdec_pict_rendinfo *pict_rend_info)
++{
++	unsigned int ret;
++
++	/* Validate inputs. */
++	VDEC_ASSERT(str_cfg_data);
++	VDEC_ASSERT(pict_rend_cfg);
++	VDEC_ASSERT(str_op_cfg);
++	VDEC_ASSERT(pict_rend_info);
++
++	ret = vdecddutils_get_render_info(str_cfg_data, pict_rend_cfg,
++					  &str_op_cfg->pixel_info,
++					  pict_rend_info);
++	VDEC_ASSERT(ret == IMG_SUCCESS);
++	if (ret != IMG_SUCCESS)
++		return ret;
++
++	return IMG_SUCCESS;
++}
 -- 
 2.17.1
 
