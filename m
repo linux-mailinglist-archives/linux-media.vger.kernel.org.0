@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE8EB3F1417
-	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 09:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7620A3F1413
+	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 09:10:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236523AbhHSHKk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Aug 2021 03:10:40 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:59578 "EHLO
+        id S236028AbhHSHKj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Aug 2021 03:10:39 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:59614 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S234904AbhHSHKi (ORCPT
+        with ESMTP id S234859AbhHSHKi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 19 Aug 2021 03:10:38 -0400
-X-UUID: febfcdccdf5345068d40069d78b6269c-20210819
-X-UUID: febfcdccdf5345068d40069d78b6269c-20210819
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+X-UUID: c607dfbf4e854d588cc69231696b0429-20210819
+X-UUID: c607dfbf4e854d588cc69231696b0429-20210819
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
         (envelope-from <moudy.ho@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1243903222; Thu, 19 Aug 2021 15:09:57 +0800
+        with ESMTP id 1417815486; Thu, 19 Aug 2021 15:09:57 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Thu, 19 Aug 2021 15:09:56 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
@@ -46,9 +46,9 @@ CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
         <sj.huang@mediatek.com>, <ben.lok@mediatek.com>,
         <randy.wu@mediatek.com>, <srv_heupstream@mediatek.com>,
         <hsinyi@google.com>
-Subject: [PATCH v6 2/5] soc: mediatek: mutex: add support for MDP
-Date:   Thu, 19 Aug 2021 15:09:51 +0800
-Message-ID: <20210819070954.16679-3-moudy.ho@mediatek.com>
+Subject: [PATCH v6 3/5] dt-binding: mt8183: Add Mediatek MDP3 dt-bindings
+Date:   Thu, 19 Aug 2021 15:09:52 +0800
+Message-ID: <20210819070954.16679-4-moudy.ho@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210819070954.16679-1-moudy.ho@mediatek.com>
 References: <20210819070954.16679-1-moudy.ho@mediatek.com>
@@ -59,242 +59,560 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add functions to support MDP:
-  1. Get mutex function
-  2. Enable/disable mutex
-  3. Enable MDP's modules
-  4. Write register via CMDQ
-
-Add MDP related settings for 8183 SoC
-  1. Register settings
+This patch adds DT binding document for Media Data Path 3 (MDP3)
+a unit in multimedia system used for scaling and color format convert.
 
 Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 ---
- drivers/soc/mediatek/mtk-mutex.c       | 106 +++++++++++++++++++++++--
- include/linux/soc/mediatek/mtk-mutex.h |   8 ++
- 2 files changed, 108 insertions(+), 6 deletions(-)
+ .../bindings/media/mediatek,mdp3-ccorr.yaml   |  58 +++++
+ .../bindings/media/mediatek,mdp3-rdma.yaml    | 241 ++++++++++++++++++
+ .../bindings/media/mediatek,mdp3-rsz.yaml     |  66 +++++
+ .../bindings/media/mediatek,mdp3-wdma.yaml    |  71 ++++++
+ .../bindings/media/mediatek,mdp3-wrot.yaml    |  71 ++++++
+ 5 files changed, 507 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-ccorr.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-wdma.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
 
-diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-index 2e4bcc300576..935f2849a094 100644
---- a/drivers/soc/mediatek/mtk-mutex.c
-+++ b/drivers/soc/mediatek/mtk-mutex.c
-@@ -7,9 +7,11 @@
- #include <linux/iopoll.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
-+#include <linux/of_address.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/soc/mediatek/mtk-mmsys.h>
-+#include <linux/soc/mediatek/mtk-cmdq.h>
- #include <linux/soc/mediatek/mtk-mutex.h>
- 
- #define MT2701_MUTEX0_MOD0			0x2c
-@@ -107,6 +109,10 @@
- #define MT8183_MUTEX_EOF_DSI0			(MT8183_MUTEX_SOF_DSI0 << 6)
- #define MT8183_MUTEX_EOF_DPI0			(MT8183_MUTEX_SOF_DPI0 << 6)
- 
-+#define MT8183_MUTEX_MDP_START			5
-+#define MT8183_MUTEX_MDP_MOD_MASK		0x07FFFFFF
-+#define MT8183_MUTEX_MDP_SOF_MASK		0x00000007
+diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-ccorr.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-ccorr.yaml
+new file mode 100644
+index 000000000000..205b91b55806
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-ccorr.yaml
+@@ -0,0 +1,58 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/mediatek,mdp3-ccorr.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- struct mtk_mutex {
- 	int id;
- 	bool claimed;
-@@ -123,11 +129,14 @@ enum mtk_mutex_sof_id {
- };
- 
- struct mtk_mutex_data {
--	const unsigned int *mutex_mod;
--	const unsigned int *mutex_sof;
--	const unsigned int mutex_mod_reg;
--	const unsigned int mutex_sof_reg;
--	const bool no_clk;
-+	const unsigned int	*mutex_mod;
-+	const unsigned int	*mutex_sof;
-+	const unsigned int	mutex_mod_reg;
-+	const unsigned int	mutex_sof_reg;
-+	const unsigned int	*mutex_mdp_offset;
-+	const unsigned int	mutex_mdp_mod_mask;
-+	const unsigned int	mutex_mdp_sof_mask;
-+	const bool		no_clk;
- };
- 
- struct mtk_mutex_ctx {
-@@ -136,6 +145,8 @@ struct mtk_mutex_ctx {
- 	void __iomem			*regs;
- 	struct mtk_mutex		mutex[10];
- 	const struct mtk_mutex_data	*data;
-+	phys_addr_t			addr;
-+	u8				subsys_id;
- };
- 
- static const unsigned int mt2701_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-@@ -238,6 +249,14 @@ static const unsigned int mt8183_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
- 	[MUTEX_SOF_DPI0] = MT8183_MUTEX_SOF_DPI0 | MT8183_MUTEX_EOF_DPI0,
- };
- 
-+/* indicate which mutex is used by each pipepline */
-+static const unsigned int mt8183_mutex_mdp_offset[MDP_PIPE_MAX] = {
-+	[MDP_PIPE_IMGI] = MT8183_MUTEX_MDP_START,
-+	[MDP_PIPE_RDMA0] = MT8183_MUTEX_MDP_START + 1,
-+	[MDP_PIPE_WPEI] = MT8183_MUTEX_MDP_START + 2,
-+	[MDP_PIPE_WPEI2] = MT8183_MUTEX_MDP_START + 3
-+};
++title: Mediatek Media Data Path 3 CCORR Device Tree Bindings
 +
- static const struct mtk_mutex_data mt2701_mutex_driver_data = {
- 	.mutex_mod = mt2701_mutex_mod,
- 	.mutex_sof = mt2712_mutex_sof,
-@@ -272,6 +291,9 @@ static const struct mtk_mutex_data mt8183_mutex_driver_data = {
- 	.mutex_sof = mt8183_mutex_sof,
- 	.mutex_mod_reg = MT8183_MUTEX0_MOD0,
- 	.mutex_sof_reg = MT8183_MUTEX0_SOF0,
-+	.mutex_mdp_offset = mt8183_mutex_mdp_offset,
-+	.mutex_mdp_mod_mask = MT8183_MUTEX_MDP_MOD_MASK,
-+	.mutex_mdp_sof_mask = MT8183_MUTEX_MDP_SOF_MASK,
- 	.no_clk = true,
- };
- 
-@@ -290,6 +312,21 @@ struct mtk_mutex *mtk_mutex_get(struct device *dev)
- }
- EXPORT_SYMBOL_GPL(mtk_mutex_get);
- 
-+struct mtk_mutex *mtk_mutex_mdp_get(struct device *dev,
-+				    enum mtk_mdp_pipe_id id)
-+{
-+	struct mtk_mutex_ctx *mtx = dev_get_drvdata(dev);
-+	int i = mtx->data->mutex_mdp_offset[id];
++maintainers:
++  - Daoyuan Huang <daoyuan.huang@mediatek.com>
++  - Moudy Ho <moudy.ho@mediatek.com>
 +
-+	if (!mtx->mutex[i].claimed) {
-+		mtx->mutex[i].claimed = true;
-+		return &mtx->mutex[i];
-+	}
++description: |
++  One of Media Data Path 3 (MDP3) components used to do color correction with 3X3 matrix.
 +
-+	return ERR_PTR(-EBUSY);
-+}
-+EXPORT_SYMBOL_GPL(mtk_mutex_mdp_get);
++properties:
++  compatible:
++    items:
++      - enum:
++        - mediatek,mt8183-mdp3-ccorr
 +
- void mtk_mutex_put(struct mtk_mutex *mutex)
- {
- 	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-@@ -369,6 +406,25 @@ void mtk_mutex_add_comp(struct mtk_mutex *mutex,
- }
- EXPORT_SYMBOL_GPL(mtk_mutex_add_comp);
- 
-+void mtk_mutex_add_mdp_mod(struct mtk_mutex *mutex, u32 mod,
-+			   struct mmsys_cmdq_cmd *cmd)
-+{
-+	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-+						 mutex[mutex->id]);
-+	unsigned int offset;
++  mediatek,mdp3-id:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    maxItems: 1
++    description: |
++      HW index to distinguish same functionality modules.
 +
-+	WARN_ON(&mtx->mutex[mutex->id] != mutex);
++  reg:
++    description: |
++      Physical base address and length of the function block
++      register space, the number aligns with the component
++      and its own subcomponent.
 +
-+	offset = DISP_REG_MUTEX_MOD(mtx->data->mutex_mod_reg, mutex->id);
-+	cmdq_pkt_write_mask(cmd->pkt, mtx->subsys_id, mtx->addr + offset,
-+			    mod, mtx->data->mutex_mdp_mod_mask);
++  mediatek,gce-client-reg:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: |
++      sub-system id corresponding to the global command engine (GCE)
++      register address.
++      $ref: /schemas/mailbox/mtk-gce.txt
 +
-+	offset = DISP_REG_MUTEX_SOF(mtx->data->mutex_sof_reg, mutex->id);
-+	cmdq_pkt_write_mask(cmd->pkt, mtx->subsys_id, mtx->addr + offset,
-+			    0, mtx->data->mutex_mdp_sof_mask);
-+}
-+EXPORT_SYMBOL_GPL(mtk_mutex_add_mdp_mod);
++  clocks:
++    minItems: 1
 +
- void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
- 			   enum mtk_ddp_comp_id id)
- {
-@@ -420,6 +476,20 @@ void mtk_mutex_enable(struct mtk_mutex *mutex)
- }
- EXPORT_SYMBOL_GPL(mtk_mutex_enable);
- 
-+void mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex,
-+			      struct mmsys_cmdq_cmd *cmd)
-+{
-+	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-+						 mutex[mutex->id]);
++additionalProperties: false
 +
-+	WARN_ON(&mtx->mutex[mutex->id] != mutex);
++examples:
++  - |
++    #include <dt-bindings/clock/mt8183-clk.h>
++    #include <dt-bindings/gce/mt8183-gce.h>
 +
-+	cmdq_pkt_write_mask(cmd->pkt, mtx->subsys_id,
-+			    mtx->addr + DISP_REG_MUTEX_EN(mutex->id),
-+			    0x1, 0x00000001);
-+}
-+EXPORT_SYMBOL_GPL(mtk_mutex_enable_by_cmdq);
++    mdp3_ccorr: mdp3_ccorr@1401c000 {
++      compatible = "mediatek,mt8183-mdp3-ccorr";
++      mediatek,mdp3-id = <0>;
++      reg = <0x1401c000 0x1000>;
++      mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0xc000 0x1000>;
++      clocks = <&mmsys CLK_MM_MDP_CCORR>;
++    };
 +
- void mtk_mutex_disable(struct mtk_mutex *mutex)
- {
- 	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-@@ -431,6 +501,20 @@ void mtk_mutex_disable(struct mtk_mutex *mutex)
- }
- EXPORT_SYMBOL_GPL(mtk_mutex_disable);
- 
-+void mtk_mutex_disable_by_cmdq(struct mtk_mutex *mutex,
-+			       struct mmsys_cmdq_cmd *cmd)
-+{
-+	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-+						 mutex[mutex->id]);
+diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+new file mode 100644
+index 000000000000..9565317990a6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+@@ -0,0 +1,241 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	WARN_ON(&mtx->mutex[mutex->id] != mutex);
++title: Mediatek Media Data Path 3 Device Tree Bindings
 +
-+	cmdq_pkt_write_mask(cmd->pkt, mtx->subsys_id,
-+			    mtx->addr + DISP_REG_MUTEX_EN(mutex->id),
-+			    0x0, 0x00000001);
-+}
-+EXPORT_SYMBOL_GPL(mtk_mutex_disable_by_cmdq);
++maintainers:
++  - Daoyuan Huang <daoyuan.huang@mediatek.com>
++  - Moudy Ho <moudy.ho@mediatek.com>
 +
- void mtk_mutex_acquire(struct mtk_mutex *mutex)
- {
- 	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-@@ -458,7 +542,8 @@ static int mtk_mutex_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct mtk_mutex_ctx *mtx;
--	struct resource *regs;
-+	struct cmdq_client_reg cmdq_reg;
-+	struct resource *regs, addr;
- 	int i;
- 
- 	mtx = devm_kzalloc(dev, sizeof(*mtx), GFP_KERNEL);
-@@ -479,6 +564,15 @@ static int mtk_mutex_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	if (of_address_to_resource(dev->of_node, 0, &addr) < 0)
-+		mtx->addr = 0L;
-+	else
-+		mtx->addr = addr.start;
++description: |
++  One of Media Data Path 3 (MDP3) components used to do read DMA.
++  RDMA0 is also used to be a controller node containing MMSYS,
++  MUTEX, GCE and SCP settings.
 +
-+	if (cmdq_dev_get_client_reg(dev, &cmdq_reg, 0) != 0)
-+		dev_info(dev, "cmdq subsys id has not been set\n");
-+	mtx->subsys_id = cmdq_reg.subsys;
++properties:
++  compatible:
++    oneOf:
++      - items:
++        - enum:
++          # controller node
++          - mediatek,mt8183-mdp3
++        - enum:
++          - mediatek,mt8183-mdp3-rdma
 +
- 	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	mtx->regs = devm_ioremap_resource(dev, regs);
- 	if (IS_ERR(mtx->regs)) {
-diff --git a/include/linux/soc/mediatek/mtk-mutex.h b/include/linux/soc/mediatek/mtk-mutex.h
-index 6fe4ffbde290..d08b98419dd9 100644
---- a/include/linux/soc/mediatek/mtk-mutex.h
-+++ b/include/linux/soc/mediatek/mtk-mutex.h
-@@ -11,11 +11,19 @@ struct device;
- struct mtk_mutex;
- 
- struct mtk_mutex *mtk_mutex_get(struct device *dev);
-+struct mtk_mutex *mtk_mutex_mdp_get(struct device *dev,
-+				    enum mtk_mdp_pipe_id id);
- int mtk_mutex_prepare(struct mtk_mutex *mutex);
- void mtk_mutex_add_comp(struct mtk_mutex *mutex,
- 			enum mtk_ddp_comp_id id);
-+void mtk_mutex_add_mdp_mod(struct mtk_mutex *mutex, u32 mod,
-+			   struct mmsys_cmdq_cmd *cmd);
- void mtk_mutex_enable(struct mtk_mutex *mutex);
-+void mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex,
-+			      struct mmsys_cmdq_cmd *cmd);
- void mtk_mutex_disable(struct mtk_mutex *mutex);
-+void mtk_mutex_disable_by_cmdq(struct mtk_mutex *mutex,
-+			       struct mmsys_cmdq_cmd *cmd);
- void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
- 			   enum mtk_ddp_comp_id id);
- void mtk_mutex_unprepare(struct mtk_mutex *mutex);
++      - items:
++        - enum:
++          # read DMA
++          - mediatek,mt8183-mdp3-rdma
++
++  mediatek,scp:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    maxItems: 1
++    description: |
++      The node of system control processor (SCP), using
++      the remoteproc & rpmsg framework.
++      $ref: /schemas/remoteproc/mtk,scp.yaml
++
++  mediatek,mdp3-id:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    maxItems: 1
++    description: |
++      In MDP3, it can allocate multiple identical modules for
++      different data path selection or multi-pipeline execution.
++      This node is used to indicate the ID of each module.
++
++  mdp3-comps:
++    $ref: /schemas/types.yaml#/definitions/string-array
++    items:
++        - enum:
++          # MDP direct-link input path selection, create a
++          # component for path connectedness of HW pipe control
++          - mediatek,mt8183-mdp3-dl1
++        - enum:
++          - mediatek,mt8183-mdp3-dl2
++        - enum:
++          # MDP direct-link output path selection, create a
++          # component for path connectedness of HW pipe control
++          - mediatek,mt8183-mdp3-path1
++        - enum:
++          - mediatek,mt8183-mdp3-path2
++        - enum:
++          # Input DMA of ISP PASS2 (DIP) module for raw image input
++          - mediatek,mt8183-mdp3-imgi
++        - enum:
++          # Output DMA of ISP PASS2 (DIP) module for YUV image output
++          - mediatek,mt8183-mdp3-exto
++
++  mdp3-comp-ids:
++    maxItems: 1
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description: |
++      Pipeline ID of MDP direct-link or DIP.
++
++  reg:
++    description: |
++      Physical base address and length of the function block
++      register space, the number aligns with the component
++      and its own subcomponent.
++
++  mediatek,gce-client-reg:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: |
++      sub-system id corresponding to the global command engine (GCE)
++      register address.
++      $ref: /schemas/mailbox/mtk-gce.txt
++
++  power-domains:
++    maxItems: 1
++
++  clocks:
++    minItems: 1
++    maxItems: 6
++
++  iommus:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: |
++      Should point to the respective IOMMU block with master
++      port as argument.
++      $ref: /schemas/iommu/mediatek,iommu.yaml
++
++  mediatek,mmsys:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    maxItems: 1
++    description: |
++      The node of mux(multiplexer) controller for HW connections.
++
++  mediatek,mm-mutex:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    maxItems: 1
++    description: |
++      The node of sof(start of frame) signal controller.
++
++  mediatek,mailbox-gce:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: |
++      The node of global command engine (GCE), used to read/write
++      registers with critical time limitation.
++      $ref: /schemas/mailbox/mtk-gce.txt
++
++  mboxes:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: |
++      $ref: /schemas/mailbox/mailbox.txt
++
++  gce-subsys:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: |
++      sub-system id corresponding to the global command engine (GCE)
++      register address.
++      $ref: /schemas/mailbox/mtk-gce.txt
++
++  mediatek,gce-events:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description: |
++      In use event IDs list, all IDs are defined in
++      'dt-bindings/gce/mt8183-gce.h'.
++      $ref: /schemas/mailbox/mtk-gce.txt
++
++if:
++  properties:
++    compatible:
++      items:
++        - enum:
++          - mediatek,mt8183-mdp3
++        - enum:
++          - mediatek,mt8183-mdp3-rdma
++
++then:
++  required:
++    - mediatek,scp
++    - mediatek,mmsys
++    - mediatek,mm-mutex
++    - mediatek,gce-events
++    - mediatek,mailbox-gce
++    - mboxes
++    - gce-subsys
++
++required:
++  - compatible
++  - mediatek,mdp3-id
++  - reg
++  - clocks
++  - mediatek,gce-client-reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/mt8183-clk.h>
++    #include <dt-bindings/gce/mt8183-gce.h>
++    #include <dt-bindings/power/mt8183-power.h>
++    #include <dt-bindings/memory/mt8183-larb-port.h>
++
++    mdp3_rdma0: mdp3_rdma0@14001000 {
++      compatible = "mediatek,mt8183-mdp3",
++                   "mediatek,mt8183-mdp3-rdma";
++      mediatek,scp = <&scp>;
++      mediatek,mdp3-id = <0>;
++      mdp3-comps = "mediatek,mt8183-mdp3-dl1", "mediatek,mt8183-mdp3-dl2",
++		   "mediatek,mt8183-mdp3-path1", "mediatek,mt8183-mdp3-path2",
++                   "mediatek,mt8183-mdp3-imgi", "mediatek,mt8183-mdp3-exto";
++      mdp3-comp-ids = <0 1 0 1 0 1>;
++      reg = <0x14001000 0x1000>,
++            <0x14000000 0x1000>,
++            <0x14005000 0x1000>,
++            <0x14006000 0x1000>,
++            <0x15020000 0x1000>;
++      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x1000 0x1000>,
++                                <&gce SUBSYS_1400XXXX 0 0x1000>,
++                                <&gce SUBSYS_1400XXXX 0x5000 0x1000>,
++                                <&gce SUBSYS_1400XXXX 0x6000 0x1000>,
++                                <&gce SUBSYS_1502XXXX 0 0x1000>;
++      power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
++      clocks = <&mmsys CLK_MM_MDP_RDMA0>,
++               <&mmsys CLK_MM_MDP_RSZ1>,
++               <&mmsys CLK_MM_MDP_DL_TXCK>,
++               <&mmsys CLK_MM_MDP_DL_RX>,
++               <&mmsys CLK_MM_IPU_DL_TXCK>,
++               <&mmsys CLK_MM_IPU_DL_RX>;
++      iommus = <&iommu>;
++      mediatek,mmsys = <&mmsys>;
++      mediatek,mm-mutex = <&mutex>;
++      mediatek,mailbox-gce = <&gce>;
++      mboxes = <&gce 20 CMDQ_THR_PRIO_LOWEST 0>,
++               <&gce 21 CMDQ_THR_PRIO_LOWEST 0>,
++               <&gce 22 CMDQ_THR_PRIO_LOWEST 0>,
++               <&gce 23 CMDQ_THR_PRIO_LOWEST 0>;
++      gce-subsys = <&gce 0x14000000 SUBSYS_1400XXXX>,
++                   <&gce 0x14010000 SUBSYS_1401XXXX>,
++                   <&gce 0x14020000 SUBSYS_1402XXXX>,
++                   <&gce 0x15020000 SUBSYS_1502XXXX>;
++      mediatek,gce-events = <CMDQ_EVENT_MDP_RDMA0_SOF>,
++                            <CMDQ_EVENT_MDP_RDMA0_EOF>,
++                            <CMDQ_EVENT_MDP_RSZ0_SOF>,
++                            <CMDQ_EVENT_MDP_RSZ1_SOF>,
++                            <CMDQ_EVENT_MDP_TDSHP_SOF>,
++                            <CMDQ_EVENT_MDP_WROT0_SOF>,
++                            <CMDQ_EVENT_MDP_WROT0_EOF>,
++                            <CMDQ_EVENT_MDP_WDMA0_SOF>,
++                            <CMDQ_EVENT_MDP_WDMA0_EOF>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_0>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_1>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_2>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_3>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_4>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_5>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_6>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_7>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_8>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_9>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_10>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_11>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_12>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_13>,
++                            <CMDQ_EVENT_ISP_FRAME_DONE_P2_14>,
++                            <CMDQ_EVENT_WPE_A_DONE>,
++                            <CMDQ_EVENT_SPE_B_DONE>;
++    };
+diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+new file mode 100644
+index 000000000000..218f035ad406
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+@@ -0,0 +1,66 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Mediatek Media Data Path 3 Resizer Device Tree Bindings
++
++maintainers:
++  - Daoyuan Huang <daoyuan.huang@mediatek.com>
++  - Moudy Ho <moudy.ho@mediatek.com>
++
++description: |
++  One of Media Data Path 3 (MDP3) components used to do frame resizing.
++
++properties:
++  compatible:
++    items:
++      - enum:
++        - mediatek,mt8183-mdp3-rsz
++
++  mediatek,mdp3-id:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    maxItems: 1
++    description: |
++      HW index to distinguish same functionality modules.
++
++  reg:
++    description: |
++      Physical base address and length of the function block
++      register space, the number aligns with the component
++      and its own subcomponent.
++
++  mediatek,gce-client-reg:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: |
++      sub-system id corresponding to the global command engine (GCE)
++      register address.
++      $ref: /schemas/mailbox/mtk-gce.txt
++
++  clocks:
++    minItems: 1
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/mt8183-clk.h>
++    #include <dt-bindings/gce/mt8183-gce.h>
++
++    mdp3_rsz0: mdp3_rsz0@14003000 {
++      compatible = "mediatek,mt8183-mdp3-rsz";
++      mediatek,mdp3-id = <0>;
++      reg = <0x14003000 0x1000>;
++      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x3000 0x1000>;
++      clocks = <&mmsys CLK_MM_MDP_RSZ0>;
++    };
++
++    mdp3_rsz1: mdp3_rsz1@14004000 {
++      compatible = "mediatek,mt8183-mdp3-rsz";
++      mediatek,mdp3-id = <1>;
++      reg = <0x14004000 0x1000>;
++      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x4000 0x1000>;
++      clocks = <&mmsys CLK_MM_MDP_RSZ1>;
++    };
++
+diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-wdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-wdma.yaml
+new file mode 100644
+index 000000000000..93e6f331ada8
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-wdma.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/mediatek,mdp3-wdma.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Mediatek Media Data Path 3 Device Tree Bindings
++
++maintainers:
++  - Daoyuan Huang <daoyuan.huang@mediatek.com>
++  - Moudy Ho <moudy.ho@mediatek.com>
++
++description: |
++  One of Media Data Path 3 (MDP3) components used to write DMA.
++
++properties:
++  compatible:
++    items:
++      - enum:
++        - mediatek,mt8183-mdp3-wdma
++
++  mediatek,mdp3-id:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    maxItems: 1
++    description: |
++      HW index to distinguish same functionality modules.
++
++  reg:
++    description: |
++      Physical base address and length of the function block
++      register space, the number aligns with the component
++      and its own subcomponent.
++
++  mediatek,gce-client-reg:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: |
++      sub-system id corresponding to the global command engine (GCE)
++      register address.
++      $ref: /schemas/mailbox/mtk-gce.txt
++
++  power-domains:
++    maxItems: 1
++
++  clocks:
++    minItems: 1
++
++  iommus:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: |
++      Should point to the respective IOMMU block with master
++      port as argument.
++      $ref: /schemas/iommu/mediatek,iommu.yaml
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/mt8183-clk.h>
++    #include <dt-bindings/gce/mt8183-gce.h>
++    #include <dt-bindings/power/mt8183-power.h>
++    #include <dt-bindings/memory/mt8183-larb-port.h>
++
++    mdp3_wdma: mdp3_wdma@14006000 {
++      compatible = "mediatek,mt8183-mdp3-wdma";
++      mediatek,mdp3-id = <0>;
++      reg = <0x14006000 0x1000>;
++      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x6000 0x1000>;
++      power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
++      clocks = <&mmsys CLK_MM_MDP_WDMA0>;
++      iommus = <&iommu>;
++    };
+diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
+new file mode 100644
+index 000000000000..2993da04c562
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Mediatek Media Data Path 3 Device Tree Bindings
++
++maintainers:
++  - Daoyuan Huang <daoyuan.huang@mediatek.com>
++  - Moudy Ho <moudy.ho@mediatek.com>
++
++description: |
++  One of Media Data Path 3 (MDP3) components used to write DMA with frame rotation.
++
++properties:
++  compatible:
++    items:
++      - enum:
++        - mediatek,mt8183-mdp3-wrot
++
++  mediatek,mdp3-id:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    maxItems: 1
++    description: |
++      HW index to distinguish same functionality modules.
++
++  reg:
++    description: |
++      Physical base address and length of the function block
++      register space, the number aligns with the component
++      and its own subcomponent.
++
++  mediatek,gce-client-reg:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: |
++      sub-system id corresponding to the global command engine (GCE)
++      register address.
++      $ref: /schemas/mailbox/mtk-gce.txt
++
++  power-domains:
++    maxItems: 1
++
++  clocks:
++    minItems: 1
++
++  iommus:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: |
++      Should point to the respective IOMMU block with master
++      port as argument.
++      $ref: /schemas/iommu/mediatek,iommu.yaml
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/mt8183-clk.h>
++    #include <dt-bindings/gce/mt8183-gce.h>
++    #include <dt-bindings/power/mt8183-power.h>
++    #include <dt-bindings/memory/mt8183-larb-port.h>
++
++    mdp3_wrot0: mdp3_wrot0@14005000 {
++      compatible = "mediatek,mt8183-mdp3-wrot";
++      mediatek,mdp3-id = <0>;
++      reg = <0x14005000 0x1000>;
++      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x5000 0x1000>;
++      power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
++      clocks = <&mmsys CLK_MM_MDP_WROT0>;
++      iommus = <&iommu>;
++    };
 -- 
 2.18.0
 
