@@ -2,134 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C49D03F19BA
-	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 14:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B67303F1A00
+	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 15:07:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239503AbhHSMt7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Aug 2021 08:49:59 -0400
-Received: from mail-ot1-f41.google.com ([209.85.210.41]:41967 "EHLO
-        mail-ot1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237758AbhHSMtr (ORCPT
+        id S238924AbhHSNIY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Aug 2021 09:08:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52422 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238212AbhHSNIX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Aug 2021 08:49:47 -0400
-Received: by mail-ot1-f41.google.com with SMTP id w22-20020a056830411600b0048bcf4c6bd9so8544071ott.8;
-        Thu, 19 Aug 2021 05:49:11 -0700 (PDT)
+        Thu, 19 Aug 2021 09:08:23 -0400
+Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 074F5C06175F
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 06:07:47 -0700 (PDT)
+Received: by mail-vs1-xe36.google.com with SMTP id s19so3963082vsl.11
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 06:07:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=1GCKu9c84zINYtTdflsWXKCWXkOZdKhJUWmHuvrkY+4=;
+        b=f+4CRpBzlKKi/DOaSNA/G+hiFrodgB7WwtvP6lDjHBbwMct5xJEnNRIBbwWd50HxVl
+         4zhiGfKdAN1zaQTNFhB6Vi8xqc4j40IY1vsyJhWmkAu9OGW99mwK9tXMUYa730kFsYI4
+         idKdGIien3FkWDSAe9a9bUwucupyJle2LRixnAHVpFbbr4u728pooiABojadky5czPhQ
+         T05rm31+E59u8E8W6WOHoHOIbfDCZtTsEcAVQYXP/NQkrFth/PCbSSe6c7z8JAzoaO1+
+         46BAA+NxWAouT+Gc5X4wCTy1dHtG/pP9SH4vbLZ8x03CSox6/vBN4JfPUqmpPE9U44nl
+         Iiow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=ZNMlpd5elTsi6B8hZyA4f6ldMNMZe0l4iu+9KL9MAls=;
-        b=AkocnMOb3viSGj0rGYhfDN1q4YN824IhHFgMhCwAl/wpPUrpwIviH4C70LP66Kru6W
-         51UExmKs71WBf5tF0wH7Y8pi4yRHV+zosMFzZ0Haf2iWr2qMwlGT4jBczejQmjN1XSJ3
-         GlI7zenoDkpRCrheKzdpDhAsEf2W6DN+6LVySO9beTad/NnwKIdN9PvhtOQ4mfQ1OZRQ
-         ZCXcia2sO8wfolDM9ft323E5n1pVbvkt/gEWJMVOKJ9vr+6LKJJQzGFY3u5+x/aNB/0n
-         HdtvwBXwbbV+gDfKpyhzWQVJu3YPI7PBu+Qv6H56OdPXiC07kPv5D3cPfphnEcTGZTtP
-         ynjQ==
-X-Gm-Message-State: AOAM5317SXp9/c0L/n9MoL5Z3kqttBmtdzrY4SjvUFR7HQeUHTqGr+8p
-        P9kwDILx0Zxvw9ePsZ41xUlo6Lkgag==
-X-Google-Smtp-Source: ABdhPJx3jDL4kYXzHNo10aYXPmecs8RlS3lgGSDuZYyaYvNJSUU0W1uDlCeC1BzxHjCr+IqeAl5AoA==
-X-Received: by 2002:a05:6830:12c1:: with SMTP id a1mr12254350otq.231.1629377351101;
-        Thu, 19 Aug 2021 05:49:11 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id n4sm555536ooe.10.2021.08.19.05.49.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 05:49:10 -0700 (PDT)
-Received: (nullmailer pid 288208 invoked by uid 1000);
-        Thu, 19 Aug 2021 12:49:09 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Moudy Ho <moudy.ho@mediatek.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        devicetree@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>, acourbot@chromium.org,
-        pihsun@chromium.org, daoyuan huang <daoyuan.huang@mediatek.com>,
-        Rob Landley <rob@landley.net>, drinkcat@chromium.org,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        sj.huang@mediatek.com, menghui.lin@mediatek.com,
-        tfiga@chromium.org, Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        hsinyi@google.com, Rob Herring <robh+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        randy.wu@mediatek.com, srv_heupstream@mediatek.com,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        linux-mediatek@lists.infradead.org, ben.lok@mediatek.com,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20210819070954.16679-4-moudy.ho@mediatek.com>
-References: <20210819070954.16679-1-moudy.ho@mediatek.com> <20210819070954.16679-4-moudy.ho@mediatek.com>
-Subject: Re: [PATCH v6 3/5] dt-binding: mt8183: Add Mediatek MDP3 dt-bindings
-Date:   Thu, 19 Aug 2021 07:49:09 -0500
-Message-Id: <1629377349.142826.288207.nullmailer@robh.at.kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1GCKu9c84zINYtTdflsWXKCWXkOZdKhJUWmHuvrkY+4=;
+        b=dBiCwXwCnmsqNSZWbQEetE5O9/uXm+zUbwliMr3r0jxstAig+2qAggvjMz/gFMkTJM
+         fOzUbX4Xhc8PQDWsxGZ6v1177agbyzysaypuKg08OJLfcWTxWMwLXSjXeQ89pkuclHwt
+         Zz/6M7+ESUay5B4DE0feslHCupC36Q2vIjl9q7vz9XyooW8teffgkdjTK8iq/ncXbFUD
+         BbaM/uw7JjgW6bXTWZ1EI70oBfDhoGsKK1O/HGWaGbx0pgY9fjjCvf4wSzrNqPawJDlJ
+         HykiWMfgUlT1UueRFgeDhLQUgQhaRfqJstXknh4pIQBqNaJe9fl4U3Kd0swwr4RfVtA/
+         pRAw==
+X-Gm-Message-State: AOAM531f87dPQsv5b5et1/4Z8ZfC5Sdn8/8eWoHjHHo8lzrZh5sLuvU4
+        ayqCx9F1X2yOhxk0XWcqwT0SANYvi6n2QJ4hCMMvgg==
+X-Google-Smtp-Source: ABdhPJyJROokpzMBNet191tDOwD7eE8PakuStZsC4TgI99eWakoC4SNznlH+uH6MVn3jKPVb3Va23L7NrWpzQmbz4ck=
+X-Received: by 2002:a67:3212:: with SMTP id y18mr12074668vsy.19.1629378466059;
+ Thu, 19 Aug 2021 06:07:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210818043131.7klajx6drvvkftoc@vireshk-i7> <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
+ <20210818045307.4brb6cafkh3adjth@vireshk-i7> <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7> <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+ <20210818062723.dqamssfkf7lf7cf7@vireshk-i7> <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+ <20210818091417.dvlnsxlgybdsn76x@vireshk-i7> <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+ <20210818095044.e2ntsm45h5cddk7s@vireshk-i7> <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
+ <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
+In-Reply-To: <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 19 Aug 2021 15:07:09 +0200
+Message-ID: <CAPDyKFoQdn1rm91iFNJwZwpSYcKJBjDLqtJB4KZAkhgY1Grm-Q@mail.gmail.com>
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        DTML <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 19 Aug 2021 15:09:52 +0800, Moudy Ho wrote:
-> This patch adds DT binding document for Media Data Path 3 (MDP3)
-> a unit in multimedia system used for scaling and color format convert.
-> 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
->  .../bindings/media/mediatek,mdp3-ccorr.yaml   |  58 +++++
->  .../bindings/media/mediatek,mdp3-rdma.yaml    | 241 ++++++++++++++++++
->  .../bindings/media/mediatek,mdp3-rsz.yaml     |  66 +++++
->  .../bindings/media/mediatek,mdp3-wdma.yaml    |  71 ++++++
->  .../bindings/media/mediatek,mdp3-wrot.yaml    |  71 ++++++
->  5 files changed, 507 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-ccorr.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-wdma.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
-> 
+On Wed, 18 Aug 2021 at 17:43, Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> 18.08.2021 13:08, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Wed, 18 Aug 2021 at 11:50, Viresh Kumar <viresh.kumar@linaro.org> wr=
+ote:
+> >>
+> >> On 18-08-21, 11:41, Ulf Hansson wrote:
+> >>> On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> =
+wrote:
+> >>>> What we need here is just configure. So something like this then:
+> >>>>
+> >>>> - genpd->get_performance_state()
+> >>>>   -> dev_pm_opp_get_current_opp() //New API
+> >>>>   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
+> >>>>
+> >>>> This can be done just once from probe() then.
+> >>>
+> >>> How would dev_pm_opp_get_current_opp() work? Do you have a suggestion=
+?
+> >>
+> >> The opp core already has a way of finding current OPP, that's what
+> >> Dmitry is trying to use here. It finds it using clk_get_rate(), if
+> >> that is zero, it picks the lowest freq possible.
+> >>
+> >>> I am sure I understand the problem. When a device is getting probed,
+> >>> it needs to consume power, how else can the corresponding driver
+> >>> successfully probe it?
+> >>
+> >> Dmitry can answer that better, but a device doesn't necessarily need
+> >> to consume energy in probe. It can consume bus clock, like APB we
+> >> have, but the more energy consuming stuff can be left disabled until
+> >> the time a user comes up. Probe will just end up registering the
+> >> driver and initializing it.
+> >
+> > That's perfectly fine, as then it's likely that it won't vote for an
+> > OPP, but can postpone that as well.
+> >
+> > Perhaps the problem is rather that the HW may already carry a non-zero
+> > vote made from a bootloader. If the consumer driver tries to clear
+> > that vote (calling dev_pm_opp_set_rate(dev, 0), for example), it would
+> > still not lead to any updates of the performance state in genpd,
+> > because genpd internally has initialized the performance-state to
+> > zero.
+>
+> We don't need to discover internal SoC devices because we use
+> device-tree on ARM. For most devices power isn't required at a probe
+> time because probe function doesn't touch h/w at all, thus devices are
+> left in suspended state after probe.
+>
+> We have three components comprising PM on Tegra:
+>
+> 1. Power gate
+> 2. Clock state
+> 3. Voltage state
+>
+> GENPD on/off represents the 'power gate'.
+>
+> Clock and reset are controlled by device drivers using clk and rst APIs.
+>
+> Voltage state is represented by GENPD's performance level.
+>
+> GENPD core assumes that at a first rpm-resume of a consumer device, its
+> genpd_performance=3D0. Not true for Tegra because h/w of the device is
+> preconfigured to a non-zero perf level initially, h/w may not support
+> zero level at all.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+I think you may be misunderstanding genpd's behaviour around this, but
+let me elaborate.
 
-yamllint warnings/errors:
+In genpd_runtime_resume(), we try to restore the performance state for
+the device that genpd_runtime_suspend() *may* have dropped earlier.
+That means, if genpd_runtime_resume() is called prior
+genpd_runtime_suspend() for the first time, it means that
+genpd_runtime_resume() will *not* restore a performance state, but
+instead just leave the performance state as is for the device (see
+genpd_restore_performance_state()).
 
-dtschema/dtc warnings/errors:
-make[1]: *** Deleting file 'Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.example.dts'
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-extract-example", line 45, in <module>
-    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
-    return constructor.get_single_data()
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 120, in get_single_data
-    node = self.composer.get_single_node()
-  File "_ruamel_yaml.pyx", line 706, in _ruamel_yaml.CParser.get_single_node
-  File "_ruamel_yaml.pyx", line 724, in _ruamel_yaml.CParser._compose_document
-  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
-  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
-  File "_ruamel_yaml.pyx", line 773, in _ruamel_yaml.CParser._compose_node
-  File "_ruamel_yaml.pyx", line 848, in _ruamel_yaml.CParser._compose_sequence_node
-  File "_ruamel_yaml.pyx", line 904, in _ruamel_yaml.CParser._parse_next_event
-ruamel.yaml.scanner.ScannerError: while scanning a block scalar
-  in "<unicode string>", line 171, column 5
-found a tab character where an indentation space is expected
-  in "<unicode string>", line 183, column 1
-make[1]: *** [Documentation/devicetree/bindings/Makefile:20: Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.example.dts] Error 1
-make[1]: *** Waiting for unfinished jobs....
-./Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml:  while scanning a block scalar
-  in "<unicode string>", line 171, column 5
-found a tab character where an indentation space is expected
-  in "<unicode string>", line 183, column 1
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml: ignoring, error parsing file
-warning: no schema found in file: ./Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
-make: *** [Makefile:1419: dt_binding_check] Error 2
+In other words, a consumer driver may use the following sequence to
+set an initial performance state for the device during ->probe():
 
-doc reference errors (make refcheckdocs):
+...
+rate =3D clk_get_rate()
+dev_pm_opp_set_rate(rate)
 
-See https://patchwork.ozlabs.org/patch/1518477
+pm_runtime_enable()
+pm_runtime_resume_and_get()
+...
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+Note that, it's the consumer driver's responsibility to manage device
+specific resources, in its ->runtime_suspend|resume() callbacks.
+Typically that means dealing with clock gating/ungating, for example.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+In the other scenario where a consumer driver prefers to *not* call
+pm_runtime_resume_and_get() in its ->probe(), because it doesn't need
+to power on the device to complete probing, then we don't want to vote
+for an OPP at all - and we also want the performance state for the
+device in genpd to be set to zero. Correct?
 
-pip3 install dtschema --upgrade
+Is this the main problem you are trying to solve, because I think this
+doesn't work out of the box as of today?
 
-Please check and re-submit.
+There is another concern though, but perhaps it's not a problem after
+all. Viresh told us that dev_pm_opp_set_rate() may turn on resources
+like clock/regulators. That could certainly be problematic, in
+particular if the device and its genpd have OPP tables associated with
+it and the consumer driver wants to follow the above sequence in
+probe.
 
+Viresh, can you please chime in here and elaborate on some of the
+magic happening behind dev_pm_opp_set_rate() API - is there a problem
+here or not?
+
+>
+> GENPD core assumes that consumer devices can work at any performance
+> level. Not true for Tegra because voltage needs to be set in accordance
+> to the clock rate before clock is enabled, otherwise h/w won't work
+> properly, perhaps clock may be unstable or h/w won't be latching.
+
+Correct. Genpd relies on the callers to use the OPP framework if there
+are constraints like you describe above.
+
+That said, it's not forbidden for a consumer driver to call
+dev_pm_genpd_set_performance_state() directly, but then it better
+knows exactly what it's doing.
+
+>
+> Performance level should be set to 0 while device is suspended.
+
+Do you mean system suspend or runtime suspend? Or both?
+
+> Performance level needs to be bumped on rpm-resume of a device in
+> accordance to h/w state before hardware is enabled.
+
+Assuming there was a performance state set for the device when
+genpd_runtime_suspend() was called, genpd_runtime_resume() will
+restore that state according to the sequence you described.
+
+Kind regards
+Uffe
