@@ -2,117 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C1F93F1B27
-	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 16:05:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDBA13F1B51
+	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 16:10:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240260AbhHSOGF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Aug 2021 10:06:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37754 "EHLO
+        id S240461AbhHSOLP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Aug 2021 10:11:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238495AbhHSOGE (ORCPT
+        with ESMTP id S240493AbhHSOLO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Aug 2021 10:06:04 -0400
-Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com [IPv6:2607:f8b0:4864:20::92a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE46DC061796
-        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 07:05:27 -0700 (PDT)
-Received: by mail-ua1-x92a.google.com with SMTP id j16so55411uag.0
-        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 07:05:27 -0700 (PDT)
+        Thu, 19 Aug 2021 10:11:14 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 645B6C061756
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 07:10:38 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id dj8so9108836edb.2
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 07:10:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=z8ppYolHk+6MAlg/iRV3TOW64DDORViSUFtjVS4tPfU=;
-        b=pf8lMOnxg/R18hy9RmRXn53gTyaSPBEYPRXidYbCWDeGyj1Q84GnstXRTsE70HIZwL
-         rOZaYQbJ0JsuexxwGKTbxTnmUkIeE3lCIDKi4y5M7EdG4KOJ33bce1Ym5TIJ8eyXrlgP
-         dbE7l+Rznz9FT+hME0DQqhK7lxhDgOPmbvRDcLaquo7wS/EVnyYYfbE9J5SpPQV1WnQ8
-         fXPIAlBPmH1/Wbcsr6ERwHJaV/U7LQTY8nCTXj0WtrNaCQEnZqZy2yVRdVBh7ZdPgr+l
-         lQknd5LJKpfGihHNxJOG9NmGE/fM0gVDzrjpqFwZqJoFyhmk+xoMBA6IKCATwNl/L1GC
-         MrVQ==
+        bh=Rb9V42rg0n45GVH3GY2bVeX0F+8SMJocuuGI1FyjcmM=;
+        b=iJEPUU5oZEQ+HWwTgTCgLhFsbcZY/sN4h/IMNe1p8EeCOxcgf3JVciTGX87OqGRILz
+         Urxhw5a2EAGgRMcidl2dwJCCCNjUGG+3Aq90qboKf6+1WMDC1oxL1rZspWV1ngDaYwsV
+         SSO5y5R0ILHZz2TBbDnJjnbVGQnmK6+W9FW53lMoxbuOFnxeBiFz1jk3h8V4EIdyBR0y
+         N+u/wHUfjMg9Ibs9phlJMeMO9p/VILY8p8K6VKTmAN7+7nOwCJw4kPu2KNOjA4HOElnP
+         14V9a4ullK9qeLa87hC5WKNqfxQrOQAMCWlXZVYnTUrLieLB0auCQCaenqpPDW1tlikX
+         tE+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=z8ppYolHk+6MAlg/iRV3TOW64DDORViSUFtjVS4tPfU=;
-        b=dkmkwPJhkvZ5ePuvyp8SYr+PJ1HlovI+u/pv0SFsCk99D6lbZAPeoY7MMY10MyYmNb
-         bRmwMgeyu2C8HqI+FMB0o4fDqRsPE5ZCsPwxJRPJRC/gBHaLuhjVISNBVdjJ7ky4QXNY
-         DQ87MrvE2iXpm80vxwqo+KSulLwW7Qz7Xr65Q20pq/olNFn6vL1/KhvTQ7sUiaAasy3/
-         MOPK0P6xsi/A8Q8uwIbutOmSd35IHKP0C631Eg2mS5gIoYQuwwWK4B+ww7jyMkjNIZEX
-         WfLrmbWnbARC4xho3K1LAESjyIznG3cOYSfhqhtaZzXLBUTU7hQLxaw8Y9G9l/AauBOJ
-         sE+w==
-X-Gm-Message-State: AOAM532btGzb5nM4g/eli6faQ3/pCfoXd+EFD1b54v8zziKQ3tpd1wwo
-        KZfQHzM4BS1ykzCTQyeC+Ppn+6J1HUoRQaG/it3hGQ==
-X-Google-Smtp-Source: ABdhPJy/9RKTdWSvjYHKQ+0uBbarqxq9rsGLaiJcPg/kihysGVgUWTFM+D2WJBPDbj8B50jGA4KtwzpHd41jDaJSEK8=
-X-Received: by 2002:a9f:25a7:: with SMTP id 36mr11206760uaf.129.1629381926495;
- Thu, 19 Aug 2021 07:05:26 -0700 (PDT)
+        bh=Rb9V42rg0n45GVH3GY2bVeX0F+8SMJocuuGI1FyjcmM=;
+        b=NPYldlqig0j2Ssv1mW87GHfuIGxq0IfSeCjmDScvEl5hxndrMB8yPqbao68Tgp2Kd2
+         GJgGokYx4PT9/U9BlxyJNxkxEAb45vubrVmewPYqPOkrpLWCF6x58vfnMqh6rNgXULp2
+         /bYCbyvEvu27XdAUvwTOGrv5lRenmECrTUOlsJHxSkhAYpoOfqKISxqAEqFcJSlROcqj
+         yAaeL/afTCifQuKCCNhqdI9yNHm7qAhkkVHBSPIajbt1sNccLRJ+E93emzAxGThN5ulk
+         56Kkc88+hGmjcRx0NFujkkQvYrYerEteMXcXE0VHRiTE5MSkVoZkd2LZveeadqv3TX3N
+         x0cg==
+X-Gm-Message-State: AOAM533T9qjAkMtHq2S+gGjHXe9pCE3pb+uKIxxDIAZ629/3+805Xwoa
+        r0OTMAB7+DKuM9d71ZnsnVkAqL/ivOeZMFIlunmH2Q==
+X-Google-Smtp-Source: ABdhPJwsG2az69sF2C7NBuTLTqeCC9h1NnsP0/piYeVTCMnzsFbdwVTCtw/GXuxcx6yC4CKvqxzNAm07Sn6//4vK+aU=
+X-Received: by 2002:a05:6402:1514:: with SMTP id f20mr16652377edw.17.1629382236918;
+ Thu, 19 Aug 2021 07:10:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210817012754.8710-1-digetx@gmail.com> <20210817012754.8710-20-digetx@gmail.com>
- <YR5ay6+r0hJsUbhy@orome.fritz.box>
-In-Reply-To: <YR5ay6+r0hJsUbhy@orome.fritz.box>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 19 Aug 2021 16:04:50 +0200
-Message-ID: <CAPDyKFqr6NYO89io+6EfwrtELhTMps-tpGcAVbmuQ1_NnOD7Ew@mail.gmail.com>
-Subject: Re: [PATCH v8 19/34] pwm: tegra: Add runtime PM and OPP support
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
+References: <20210811025801.21597-1-yunfei.dong@mediatek.com>
+ <CAAEAJfDWOzCJxZFNtxeT7Cvr2pWbYrfz-YnA81sVNs-rM=8n4Q@mail.gmail.com> <1b79a67b703d2c894bc4d9458c760e082fc42958.camel@mediatek.com>
+In-Reply-To: <1b79a67b703d2c894bc4d9458c760e082fc42958.camel@mediatek.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Thu, 19 Aug 2021 11:10:25 -0300
+Message-ID: <CAAEAJfCTrKj9AFExN-L-TKww4E=us1VVh8LHtZ8Q0j_eaCD4Eg@mail.gmail.com>
+Subject: Re: [PATCH v5, 00/15] Using component framework to support multi
+ hardware decode
+To:     "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        DTML <devicetree@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        George Sun <george.sun@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 19 Aug 2021 at 15:21, Thierry Reding <thierry.reding@gmail.com> wrote:
+On Thu, 19 Aug 2021 at 04:13, yunfei.dong@mediatek.com
+<yunfei.dong@mediatek.com> wrote:
 >
-> On Tue, Aug 17, 2021 at 04:27:39AM +0300, Dmitry Osipenko wrote:
-> > The PWM on Tegra belongs to the core power domain and we're going to
-> > enable GENPD support for the core domain. Now PWM must be resumed using
-> > runtime PM API in order to initialize the PWM power state. The PWM clock
-> > rate must be changed using OPP API that will reconfigure the power domain
-> > performance state in accordance to the rate. Add runtime PM and OPP
-> > support to the PWM driver.
+> Hi Ezequiel,
+>
+> Thanks for your suggestion.
+>
+> On Wed, 2021-08-18 at 11:11 -0300, Ezequiel Garcia wrote:
+> > +danvet
 > >
-> > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> > ---
-> >  drivers/pwm/pwm-tegra.c | 104 ++++++++++++++++++++++++++++++++--------
-> >  1 file changed, 85 insertions(+), 19 deletions(-)
+> > Hi,
+> >
+> > On Tue, 10 Aug 2021 at 23:58, Yunfei Dong <yunfei.dong@mediatek.com>
+> > wrote:
+> > >
+> > > This series adds support for multi hardware decode into mtk-vcodec,
+> > > by first
+> > > adding component framework to manage each hardware information:
+> > > interrupt,
+> > > clock, register bases and power. Secondly add core thread to deal
+> > > with core
+> > > hardware message, at the same time, add msg queue for different
+> > > hardware
+> > > share messages. Lastly, the architecture of different specs are not
+> > > the same,
+> > > using specs type to separate them.
+> > >
+> >
+> > I don't think it's a good idea to introduce the component API in the
+> > media subsystem. It doesn't seem to be maintained, IRC there's not
+> > even
+> > a maintainer for it, and it has some issues that were never
+> > addressed.
+> >
+> > It would be really important to avoid it. Is it really needed in the
+> > first place?
+> >
+> > Thanks,
+> > Ezequiel
 >
-> Can this be safely applied independently of the rest of the series, or
-> are there any dependencies on earlier patches?
-
-Just to make sure we don't rush something in, I would rather withhold
-all runtime PM related patches in the series, until we have agreed on
-how to fix the in genpd/opp core parts. Simply, because those may very
-well affect the deployments in the drivers.
-
+> For there are many hardware need to use, mt8192 is three and mt8195 is
+> five. Maybe need more to be used in the feature.
 >
-> Thierry
+> Each hardware has independent clk/power/iommu port/irq.
+> Use component interface in prob to get each component's information.
+> Just enable the hardware when need to use it, very convenient and
+> simple.
+>
+> I found that there are many modules use component to manage hardware
+> information, such as iommu and drm etc.
+>
 
-Kind regards
-Uffe
+Many drivers support multiple hardware variants, where each variant
+has a different number of clocks or interrupts, see for instance
+struct hantro_variant which allows to expose different codec cores,
+some having both decoder/encoder, and some having just a decoder.
+
+The component API is mostly used by DRM to aggregate independent
+subdevices (called components) into an aggregated driver.
+
+For instance, a DRM driver needs to glue together the HDMI, MIPI,
+and plany controller, or any other hardware arrangement where
+devices can be described independently.
+
+The component API may look simple but has some issues, it's not easy
+to debug, and can cause troubles if not used as expected [1].
+It's worth making sure you actually need a framework
+to glue different devices together.
+
+> Do you have any other suggestion for this architecture?
+>
+
+Looking at the different patchsets that are posted, it's not clear
+to me what exactly are the different architectures that you intend
+to support, can you some documentation which clarifies that?
+
+Thanks,
+Ezequiel
+
+[1] https://patchwork.kernel.org/project/linux-rockchip/cover/20200120170602.3832-1-ezequiel@collabora.com/
