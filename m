@@ -2,220 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DDF23F183A
-	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 13:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09F343F1880
+	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 13:49:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238785AbhHSLcV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Aug 2021 07:32:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58082 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236881AbhHSLcV (ORCPT
+        id S238210AbhHSLuS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Aug 2021 07:50:18 -0400
+Received: from lahtoruutu.iki.fi ([185.185.170.37]:35912 "EHLO
+        lahtoruutu.iki.fi" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238105AbhHSLuS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Aug 2021 07:32:21 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0126EC061756
-        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 04:31:45 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id d11so7174750ioo.9
-        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 04:31:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LYXkuAAsk44iG4nE9gw8odWrdQJ6Z2ttVi+BaylE290=;
-        b=BI0+SHAMWRWaiVgC7EtQs3toIqPonP4iDu6oqnULwHUsaarkrjBTvhO/hnImY8OQKc
-         FJwZvfPjOwSkC64pXT33YVllhySipCxnxCwdh/K0VdSrqLiS4CHI6+3/JvamgxbCjUd7
-         D+r2FEC76Lwvb93YC3xwSd3S3r5jSWm8/VAd0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LYXkuAAsk44iG4nE9gw8odWrdQJ6Z2ttVi+BaylE290=;
-        b=spJfHAnQLUrzgWTEKzbd4XnQEODtoErXdCkGxDaGr59ad/XqPVox4RuLmcZzPe4ldC
-         sm3rRfqb6gKG+pqqKP0Ww6vSSCjv0ge9oRCHPw7oyR3ucaEmUZzJpvgCaj2s2uwzCoWR
-         0t9L9LauDaN/c41A1HnvXX/xEmQd85MtlpgAOykLVwborTCngnFT/KszYG4lyL4gqnop
-         wS3p6Stxj/96zY5L57aUhlecT3KpVnmlFOzoU9ino1TQ92j6KvK0NdoE+AQk82ix42bb
-         VSsC+ZrneU9PYOz5+42tOfY13BnP9BK4xavEU/b61OgQKb2kpDLsnETICpuivzhWlYq2
-         2gkA==
-X-Gm-Message-State: AOAM530x65p756aaaM2qix1HGixMN/jqBlLFK5MSG2IR7QS6pPPyGAs9
-        +oBYctyB6xg+od9RsoZuX7OPn0byXZxzq4Np
-X-Google-Smtp-Source: ABdhPJzJx9/J3yUR3g2mLFVLuRkvWFffBVWmdVqr3Tf54MWy1N2BM6nPiUU8tMAd5sqbKlIYOB4fCg==
-X-Received: by 2002:a6b:8d08:: with SMTP id p8mr11135585iod.150.1629372704266;
-        Thu, 19 Aug 2021 04:31:44 -0700 (PDT)
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com. [209.85.166.53])
-        by smtp.gmail.com with ESMTPSA id k5sm1462534iob.45.2021.08.19.04.31.43
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Aug 2021 04:31:43 -0700 (PDT)
-Received: by mail-io1-f53.google.com with SMTP id a13so7204039iol.5
-        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 04:31:43 -0700 (PDT)
-X-Received: by 2002:a6b:8d08:: with SMTP id p8mr11135503iod.150.1629372702850;
- Thu, 19 Aug 2021 04:31:42 -0700 (PDT)
+        Thu, 19 Aug 2021 07:50:18 -0400
+Received: from hillosipuli.retiisi.eu (89-27-100-251.bb.dnainternet.fi [89.27.100.251])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id E85791B00239
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 14:49:39 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1629373780;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=t2gyf4cFU/bzxrB0LCplScJCQuq/M2PLZ/+k1r4kXrM=;
+        b=LyHkRdALpgYGDOx61SBqhDqNqUT8hX2DR6L90P9umgZRI4Xki6a3uiRNEWvOp25vrKQ6u3
+        54THbIR0Qc3LopHRrOT45p+WPtBcL+NigX3BPXqi3ASuMhYFwJG/Ts4vvgDd/kbQkzarNO
+        +JmeKHoWvSId5bK/uGkxTp5KLvGR/+YOG2fEAMFYK4amgAsy0ct6JNMS0nUZTUPvyQUc/G
+        pGGs9UngM7FQlGDuzdeEdbZ6lPOwLuL6jjuzc4THn3Dccv+fFDPbpjB4956J3CyntSavY0
+        mG9+8HCXDONfzFNg1F/A6Ap2MOyRt+QQi+fdzXQkR8Ez0RcDfpmBFVCJpdwmEA==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5D2BA634C91
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 14:49:39 +0300 (EEST)
+Date:   Thu, 19 Aug 2021 14:49:39 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 5.15] More V4L2 patches
+Message-ID: <YR5FU/yKuX8Tx3y9@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-References: <20210818203502.269889-1-ribalda@chromium.org> <YR2INUYJSZCnBiC0@pendragon.ideasonboard.com>
- <CANiDSCuP3OS7Z9UmHApPMmt0X3yrAoKVShEZgZ1oCvPgYshUSA@mail.gmail.com> <YR4yRfEmMvsAXRfu@pendragon.ideasonboard.com>
-In-Reply-To: <YR4yRfEmMvsAXRfu@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 19 Aug 2021 13:31:32 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvStwDkkW7FLwTmogsH45292gugAvZfuoss3aJ9RzOAQw@mail.gmail.com>
-Message-ID: <CANiDSCvStwDkkW7FLwTmogsH45292gugAvZfuoss3aJ9RzOAQw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: uvcvideo: Quirk for hardware with invalid sof
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1629373780;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=t2gyf4cFU/bzxrB0LCplScJCQuq/M2PLZ/+k1r4kXrM=;
+        b=R/QTkCh4YY9RQFcoS1R+zPL/kyV6iwens829/hjgGrc1kxQ4J6nhcQdJjJQYiz1YUQma06
+        toLwE2SF1PS26GrSY+89tDvjfi19n7GW9kDwuKkKwtB+Rm1LT3rNec9wgMb70mfwGzxE7k
+        yKyKfD+k5Cr/JB5U2V1BZEHJn0RjI8UcjkC6toO6o5GdpnicTQxtQUzQyr8RfiUI3rZJ/g
+        E6I2Kcm+Zk98kWdTt0IhhYd6UKQZ7OFlIOQ/tg5K0juOoZcQCRRLk8qJw8Hx2kwJ9Hiq6Z
+        Y1cZrSdwdI3Pe9PwE/gHa9BSP4PjU3yY4tN1ULoAEWNONYB9+9hs0sE+81Mbhw==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1629373780; a=rsa-sha256;
+        cv=none;
+        b=WK2INeZqb0749C6cgAu0iYbZuBZaTQnUDvLM/miuYgJMqtXwSjS0P4qX5VdwO5H0fAkh/p
+        XLdlOyHFfV2bRLrJfHkVjbmY12yYD6Vx7iBY42FqchTzNpBP3TXSDT6sjCjeDIz+UoTebz
+        NianQTCOnrD5TepBALKFw9Gmdpj4vSa7rpMaVjNkPjLZJRBNTN02/MjD8xAt2SKRSl/VL9
+        tVTXeeuys7wcIleDkDVRg9uKViA3tYwncHy5mSzaYpIei/uRzblt7brPbDpnOQbRL0z3b7
+        8CX9MUy6XzdCP3EUnr5cqXSZz+jfJqhfA2z5730HlNonDYQ7BdWANMQeKD5bLQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 19 Aug 2021 at 12:28, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> On Thu, Aug 19, 2021 at 08:27:00AM +0200, Ricardo Ribalda wrote:
-> > On Thu, 19 Aug 2021 at 00:22, Laurent Pinchart wrote:
-> > > On Wed, Aug 18, 2021 at 10:35:02PM +0200, Ricardo Ribalda wrote:
-> > > > The hardware timestamping code has the assumption than the device_sof
-> > > > and the host_sof run at the same frequency (1 KHz).
-> > > >
-> > > > Unfortunately, this is not the case for all the hardware. Add a quirk to
-> > > > support such hardware.
-> > > >
-> > > > Note on how to identify such hardware:
-> > > > When running with "yavta -c /dev/videoX" Look for periodic jumps of the
-> > > > fps. Eg:
-> > > >
-> > > > 30 (6) [-] none 30 614400 B 21.245557 21.395214 34.133 fps ts mono/SoE
-> > > > 31 (7) [-] none 31 614400 B 21.275327 21.427246 33.591 fps ts mono/SoE
-> > > > 32 (0) [-] none 32 614400 B 21.304739 21.459256 34.000 fps ts mono/SoE
-> > > > 33 (1) [-] none 33 614400 B 21.334324 21.495274 33.801 fps ts mono/SoE
-> > > > 34 (2) [-] none 34 614400 B 21.529237 21.527297 5.130 fps ts mono/SoE
-> > > > 35 (3) [-] none 35 614400 B 21.649416 21.559306 8.321 fps ts mono/SoE
-> > > > 36 (4) [-] none 36 614400 B 21.678789 21.595320 34.045 fps ts mono/SoE
-> > > > ...
-> > > > 99 (3) [-] none 99 614400 B 23.542226 23.696352 33.541 fps ts mono/SoE
-> > > > 100 (4) [-] none 100 614400 B 23.571578 23.728404 34.069 fps ts mono/SoE
-> > > > 101 (5) [-] none 101 614400 B 23.601425 23.760420 33.504 fps ts mono/SoE
-> > > > 102 (6) [-] none 102 614400 B 23.798324 23.796428 5.079 fps ts mono/SoE
-> > > > 103 (7) [-] none 103 614400 B 23.916271 23.828450 8.478 fps ts mono/SoE
-> > > > 104 (0) [-] none 104 614400 B 23.945720 23.860479 33.957 fps ts mono/SoE
-> > > >
-> > > > They happen because the delta_sof calculated at
-> > > > uvc_video_clock_host_sof(), wraps periodically, as both clocks drift.
-> > >
-> > > That looks plain wrong. First of all, the whole purpose of the SOF clock
-> > > is to have a shared clock between the host and the device. It makes no
-> > > sense for a device to have a free-running "SOF" clock. Given the log
-> > > above, the issue occurs so quickly that it doesn't seem to be a mere
-> > > drift of a free running clock. Could you investigate this more carefully
-> > > ?
-> >
-> > In my test the dev_sof runs at 887.91Hz and the dev_sof at 1000.35Hz.
-> > If I plot the difference of both clocks host_sof - (dev_sof % 2048), I
-> > get this nice graph https://imgur.com/a/5fQnKa7
-> >
-> >
-> > I agree that it makes not sense to have a free-running "SOF", but the
-> > manufacturer thinks otherwise :)
->
-> In that case there's no common clock between the device and the host,
-> which means that clock recovery is impossible. The whole timestamp
-> computation should be bypassed, and the driver should use the system
-> timestamp instead.
+Hi Mauro,
 
-Or said differently. The clock recovery is susceptible to the jitter
-in the frame acquisition.
+Here's a pile of more patche sfor 5.15. There's a new driver for the
+ov13b10 camera sensor, a bunch of fixes and cleanups for the IPU3 CIO2 and
+ImgU drivers as well as other drivers including gspca (a trivial fix),
+stm32, ov8856 and imx258 drivers. Also renensas,imr bindings are converted
+to json-schema.
 
-If you have no jitter, the clock recovered will match the reality, and
-if you have bad jitter, it will be as bad as system timestamp.
-
-So this patch will still be better than nothing.
-
->
-> I still find it hard to believe that a Logitech camera would get this
-> wrong.
-
-I guess I can send you a device, or give you access to mine remotely
-if you do not believe me :)
+Please pull.
 
 
->
-> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > ---
-> > > > v2: Fix typo in frequency
-> > > >
-> > > >  drivers/media/usb/uvc/uvc_driver.c |  9 +++++++++
-> > > >  drivers/media/usb/uvc/uvc_video.c  | 11 +++++++++--
-> > > >  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
-> > > >  3 files changed, 20 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > > index 9a791d8ef200..d1e6cba10b15 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > > @@ -2771,6 +2771,15 @@ static const struct usb_device_id uvc_ids[] = {
-> > > >         .bInterfaceSubClass   = 1,
-> > > >         .bInterfaceProtocol   = 0,
-> > > >         .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
-> > > > +     /* Logitech HD Pro Webcam C922 */
-> > > > +     { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> > > > +                             | USB_DEVICE_ID_MATCH_INT_INFO,
-> > > > +       .idVendor             = 0x046d,
-> > > > +       .idProduct            = 0x085c,
-> > > > +       .bInterfaceClass      = USB_CLASS_VIDEO,
-> > > > +       .bInterfaceSubClass   = 1,
-> > > > +       .bInterfaceProtocol   = 0,
-> > > > +       .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_INVALID_DEVICE_SOF) },
-> > > >       /* Chicony CNF7129 (Asus EEE 100HE) */
-> > > >       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> > > >                               | USB_DEVICE_ID_MATCH_INT_INFO,
-> > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > > > index 6d0e474671a2..760ab015cf9c 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_video.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > > > @@ -518,13 +518,20 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
-> > > >       /* To limit the amount of data, drop SCRs with an SOF identical to the
-> > > >        * previous one.
-> > > >        */
-> > > > -     dev_sof = get_unaligned_le16(&data[header_size - 2]);
-> > > > +     if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
-> > > > +             dev_sof = usb_get_current_frame_number(stream->dev->udev);
-> > > > +     else
-> > > > +             dev_sof = get_unaligned_le16(&data[header_size - 2]);
-> > > > +
-> > > >       if (dev_sof == stream->clock.last_sof)
-> > > >               return;
-> > > >
-> > > >       stream->clock.last_sof = dev_sof;
-> > > >
-> > > > -     host_sof = usb_get_current_frame_number(stream->dev->udev);
-> > > > +     if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
-> > > > +             host_sof = dev_sof;
-> > > > +     else
-> > > > +             host_sof = usb_get_current_frame_number(stream->dev->udev);
-> > > >       time = uvc_video_get_time();
-> > > >
-> > > >       /* The UVC specification allows device implementations that can't obtain
-> > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > index cce5e38133cd..89d909661915 100644
-> > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > @@ -209,6 +209,8 @@
-> > > >  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT      0x00000400
-> > > >  #define UVC_QUIRK_FORCE_Y8           0x00000800
-> > > >  #define UVC_QUIRK_FORCE_BPP          0x00001000
-> > > > +#define UVC_QUIRK_INVALID_DEVICE_SOF 0x00002000
-> > > > +
-> > > >
-> > > >  /* Format flags */
-> > > >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
->
-> --
-> Regards,
->
-> Laurent Pinchart
+The following changes since commit 19e95228c722ad458ef03f4a45e7740a640252f7:
 
+  media: netup_unidvb: handle interrupt properly according to the firmware (2021-08-18 14:51:30 +0200)
 
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.15-3-signed
+
+for you to fetch changes up to 7835a2c0059629bd13150ac80cc293335a01d476:
+
+  media: staging: document that Imgu not output auto-exposure statistics (2021-08-19 11:29:52 +0300)
+
+----------------------------------------------------------------
+V4L2 patches for 5.15
+
+----------------------------------------------------------------
+Andy Shevchenko (6):
+      media: ipu3-cio2: Replace open-coded for_each_set_bit()
+      media: ipu3-cio2: Use temporary storage for struct device pointer
+      media: ipu3-cio2: Switch to use media_entity_to_video_device()
+      media: ipu3-cio2: Introduce to_sensor_asd() helper macro
+      media: ipu3-cio2: Introduce to_cio2_buffer() helper macro
+      media: ipu3-cio2: Introduce to_cio2_device() helper macro
+
+Arec Kao (1):
+      Add sensor driver support for the ov13b10 camera.
+
+Bingbu Cao (1):
+      media: staging: document that Imgu not output auto-exposure statistics
+
+David Plowman (2):
+      media: v4l2-ctrls: Add V4L2_CID_NOTIFY_GAINS control
+      media: v4l2-ctrls: Document V4L2_CID_NOTIFY_GAINS control
+
+Dmitriy Ulitin (1):
+      stm32: Potential NULL pointer dereference in dcmi_irq_thread()
+
+Geert Uytterhoeven (1):
+      dt-bindings: media: renesas,imr: Convert to json-schema
+
+Gustavo A. R. Silva (1):
+      media: staging/intel-ipu3: css: Fix wrong size comparison imgu_css_fw_init
+
+Hsin-Yi Wang (1):
+      media: ov8856: Set default mbus format but allow caller to alter
+
+Nícolas F. R. A. Prado (1):
+      media: ipu3.rst: Improve header formatting on tables
+
+Sakari Ailus (1):
+      imx258: Fix getting clock frequency
+
+Shaokun Zhang (1):
+      m5602_ov7660: remove the repeated declaration
+
+ Documentation/admin-guide/media/ipu3.rst           |   14 +-
+ .../devicetree/bindings/media/renesas,imr.txt      |   31 -
+ .../devicetree/bindings/media/renesas,imr.yaml     |   67 +
+ .../media/v4l/ext-ctrls-image-source.rst           |   20 +
+ MAINTAINERS                                        |    7 +
+ drivers/media/i2c/Kconfig                          |   10 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/imx258.c                         |   12 +-
+ drivers/media/i2c/ov13b10.c                        | 1491 ++++++++++++++++++++
+ drivers/media/i2c/ov8856.c                         |   83 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c      |  247 ++--
+ drivers/media/pci/intel/ipu3/ipu3-cio2.h           |    4 +
+ drivers/media/platform/stm32/stm32-dcmi.c          |   19 +-
+ drivers/media/usb/gspca/m5602/m5602_ov7660.h       |    1 -
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c          |    1 +
+ .../staging/media/ipu3/include/uapi/intel-ipu3.h   |    7 +-
+ drivers/staging/media/ipu3/ipu3-css-fw.c           |    7 +-
+ drivers/staging/media/ipu3/ipu3-css-fw.h           |    2 +-
+ include/uapi/linux/v4l2-controls.h                 |    1 +
+ 19 files changed, 1826 insertions(+), 199 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/renesas,imr.txt
+ create mode 100644 Documentation/devicetree/bindings/media/renesas,imr.yaml
+ create mode 100644 drivers/media/i2c/ov13b10.c
 
 -- 
-Ricardo Ribalda
+Sakari Ailus
