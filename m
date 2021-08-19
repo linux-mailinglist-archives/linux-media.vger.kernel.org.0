@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4A503F1E49
-	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 18:47:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F6273F1E54
+	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 18:48:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230089AbhHSQrp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Aug 2021 12:47:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47918 "EHLO
+        id S230416AbhHSQtA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Aug 2021 12:49:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229465AbhHSQro (ORCPT
+        with ESMTP id S230092AbhHSQs6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Aug 2021 12:47:44 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B352C061756
-        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 09:47:08 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id r2so6445104pgl.10
-        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 09:47:08 -0700 (PDT)
+        Thu, 19 Aug 2021 12:48:58 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DAB8C061575
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 09:48:22 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id t1so6462821pgv.3
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 09:48:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gateworks-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=s+Wwu2BCumEJC46q6yenF3dRV5K2EWETsK1YrMFqy9w=;
-        b=t0aDUBfiS33CSOj/Dr+MWtreWrkcojkMjnWzTzzkq4p5MzNxiHkucko6sq84OOSQkH
-         gLBoJ12XAJdmSVu88EJbBii4DxYjoTZYHYxOhO1s0O2wKxsJY+zeLo0G2bMwxPC6nct8
-         refAHTVNSnwImFVmWBOW3HohPjg5rimSQb5g8JWtEI2u4d/KD+owKafS8wbAOpWYk1xn
-         uXH+9RqIiCOdp0Nm3EnZiw8ytP4oAxPw6JjsTaolMBes7HZAmuR8bHUaBrzsEE3IcKCg
-         HJntl14gakGuNDymXeuEVyLrokNdYY4f3W/D1LhDcWJ4/iQ2FdLBvIaBGEheMYvgk8H7
-         /v1w==
+        bh=XLrT/sf+7DDfgyGl2ekHDV7Nozk+mw2Dakh6x2ma2AI=;
+        b=MdlzVKpK1YDsJjBXNs28Mn8rTdyiGdCmh5v88cNATVYDO3po74YfzP9vyBrGJrGnq9
+         3TAFmoo5siAwdtvRttnLfbOUWF+tGflYhEz8G7BH+lY+5B3JSkJGSCJg1QZH8m470aaG
+         ox13fw6yaM8HI0SVIRH7Ijqy5JPeMdgwdPmQK5lr2E+lVjtInktW3ttaguK17eSe9q/F
+         Is/2DIQY+L2trBy9zHQCRQWMD3ByRIRBtjPcnQWtdpWa5GA7EXMhza267D7+9grX61X2
+         /mceIhTi7iohzV+JoB/GUK2hzbDFHZJ4YS7/hbftVPv3HjQQS6mxeFxV27bnEsvo1uur
+         nq9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=s+Wwu2BCumEJC46q6yenF3dRV5K2EWETsK1YrMFqy9w=;
-        b=T2kAImps1ARXSdSKaNAOGqnjcxVuFaDGjMQM8k/WybJVfilCuSt7b84GsuzuRdILCa
-         jPrbm0tWHTVBF8duI6opcuVIIz9VdgQG08raSBlx8YxykugltxNhHLIK688de1KGhMMN
-         G77nXHjw0NYQcKv7ZhoXm7SnFwX1kF825nmehH8v1f2vXkrP5jQf/UtK460ifo4XkK/H
-         ykosc3bFjtEfhrlwVkLwNhCL1GfbcyOT67aC6UY3FIBvZU5+385YwRofw/je/VKhR0ik
-         sxySzqwOEgLqSrC9398w8h0pxyKPtrrFq/vyF1b9vKqMnP3g+kaQuOqETmijgI3kuyN/
-         C8PQ==
-X-Gm-Message-State: AOAM532laWdVw4a1COKT9UYdYvD+ygYMXf5mgB//vE1XmTVYZsNQ9tVe
-        MZ7N2GmWikidwAHirFZyTOa0bHTBDkuxXit+hBupGg==
-X-Google-Smtp-Source: ABdhPJzLNgcExj0UR3byNKrR7iav69hW36zMSqA+jdvLcsg8sV3gbuUGftzwHaSGCuT/7EpnToi6fJZwRKzwBXikVfQ=
-X-Received: by 2002:a63:db4a:: with SMTP id x10mr1073774pgi.30.1629391627867;
- Thu, 19 Aug 2021 09:47:07 -0700 (PDT)
+        bh=XLrT/sf+7DDfgyGl2ekHDV7Nozk+mw2Dakh6x2ma2AI=;
+        b=jy8f351sm+HyeS75/KJe4V0uq8ZuLGbqh2nPQgIhm9poK4c1Y43VQzmATV/V1yt8dI
+         4ohWW3NaVVz/tek/HGgY8qiph8GANMGbwq4Ggacec/e+U6adzOlscZjarv7I8oN8i5oP
+         JGq82IUSHGT1vayeXZy+q/cvFZZrnNcDx4pcGkwev89JzexTdCUeYoH6Csf8kDiXsMAc
+         V5ApWzccYWDyaMiDI0wWvtahqJBKJkUHpPyP4ripbIfkItPMRRWVCby94U13mDpTS2f2
+         D4ueppWTWkQsldu941cwEWE+ljddVCiGPVgPqeo7uJoUogSJ5j46OdNesa93ipQa99ms
+         VXAg==
+X-Gm-Message-State: AOAM532s8jV7pWAudq+W3F9wq8QrKitwCiC3cciaweKKLArqKpJ4LkRL
+        /VEuVlhApNeOauzjSzsXnZSzZpFlLx/2e1gZ5TAOsQ==
+X-Google-Smtp-Source: ABdhPJy+JT3fZCG1ifMZP964pkdJZZWF0NoBoahECAWIEx3T5KNUsdJxXBYcManD8NBpfVGiWOXQIioomP9ca8D/xoA=
+X-Received: by 2002:a63:150e:: with SMTP id v14mr14989244pgl.126.1629391701797;
+ Thu, 19 Aug 2021 09:48:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <m3a6m9cq52.fsf@t19.piap.pl>
-In-Reply-To: <m3a6m9cq52.fsf@t19.piap.pl>
+References: <m31r7lcpyz.fsf@t19.piap.pl>
+In-Reply-To: <m31r7lcpyz.fsf@t19.piap.pl>
 From:   Tim Harvey <tharvey@gateworks.com>
-Date:   Thu, 19 Aug 2021 09:46:56 -0700
-Message-ID: <CAJ+vNU34_t=zF5ZuJWr2Cw_9+0EvSwYBNSEZikkUBiOsTtDUcQ@mail.gmail.com>
-Subject: Re: [PATCH] Fix cosmetic error in TDA1997x driver
+Date:   Thu, 19 Aug 2021 09:48:10 -0700
+Message-ID: <CAJ+vNU35OoSs+AcV0xFmae1CPn9T+3tbs29YxmXC17WgO+vSXQ@mail.gmail.com>
+Subject: Re: [PATCH] TDA1997x: fix tda1997x_query_dv_timings() return value
 To:     =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media <linux-media@vger.kernel.org>,
@@ -61,27 +61,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 26, 2021 at 3:42 AM Krzysztof Ha=C5=82asa <khalasa@piap.pl> wro=
+On Mon, Jul 26, 2021 at 3:46 AM Krzysztof Ha=C5=82asa <khalasa@piap.pl> wro=
 te:
->
-> The colon isn't followed by anything here.
 >
 > Signed-off-by: Krzysztof Ha=C5=82asa <khalasa@piap.pl>
 >
 > diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
-> index 91e6db847bb5..e55e4afaae8a 100644
+> index 043cc8275d00..cbfe58e413e9 100644
 > --- a/drivers/media/i2c/tda1997x.c
 > +++ b/drivers/media/i2c/tda1997x.c
-> @@ -563,7 +563,7 @@ static void tda1997x_delayed_work_enable_hpd(struct w=
-ork_struct *work)
->                                                     delayed_work_enable_h=
-pd);
->         struct v4l2_subdev *sd =3D &state->sd;
+> @@ -1695,14 +1695,15 @@ static int tda1997x_query_dv_timings(struct v4l2_=
+subdev *sd,
+>                                      struct v4l2_dv_timings *timings)
+>  {
+>         struct tda1997x_state *state =3D to_state(sd);
+> +       int ret;
 >
-> -       v4l2_dbg(2, debug, sd, "%s:\n", __func__);
-> +       v4l2_dbg(2, debug, sd, "%s\n", __func__);
+>         v4l_dbg(1, debug, state->client, "%s\n", __func__);
+>         memset(timings, 0, sizeof(struct v4l2_dv_timings));
+>         mutex_lock(&state->lock);
+> -       tda1997x_detect_std(state, timings);
+> +       ret =3D tda1997x_detect_std(state, timings);
+>         mutex_unlock(&state->lock);
 >
->         /* Set HPD high */
->         tda1997x_manual_hpd(sd, HPD_HIGH_OTHER);
+> -       return 0;
+> +       return ret;
+>  }
+>
+>  static const struct v4l2_subdev_video_ops tda1997x_video_ops =3D {
 
-Acked-By: Tim Harvey <tharvey@gateworks.com>
+Krzysztof,
+
+Patch looks good to me but needs a commit log.
+
+Best regards,
+
+Tim
