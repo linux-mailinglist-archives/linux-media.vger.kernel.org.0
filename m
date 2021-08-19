@@ -2,126 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFB5F3F1838
-	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 13:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DDF23F183A
+	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 13:31:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238581AbhHSLcI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Aug 2021 07:32:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57592 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231210AbhHSLcH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Aug 2021 07:32:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0157C60F11;
-        Thu, 19 Aug 2021 11:31:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629372691;
-        bh=8pd1ouX1VqEjwrfhm7rFU7lcY+9aqpJwyQGUIK2YB/o=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=OU684YEFzUphGMdUPbt5gmmuAz4kC0qPLRi+gaeEhfQhf1lfqUGQvAXWgFqb5o7fD
-         6o/SWB0pBziboKRVrEHZ2c1UVHnZmgTKhncBhYpxf+kukflkVgu5vYs7MxzJoZ7uH7
-         Z5qhaz4IH3ADgcDajZlF1U9Wtm4C9CtlsVBp8F02BETvruL6RFin2RImPiVSndu5+v
-         AsYiZmyTbmICXYvjiC/On8xc6sjk0n+i43Bt7KTxShdsBrP1xj31sHTbRoJuCWHt68
-         PHMhRagq+/Dwkuz0jXUldBJLmVxh0nDoaMpOYSVbuJBaS6zN1XQyBn1WLWFuVsY4gB
-         arO24d8HyPYYA==
-Date:   Thu, 19 Aug 2021 13:31:28 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Soeren Moch <smoch@web.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [Regression 5.14] media: dvb userspace api
-Message-ID: <20210819133128.45ef4353@coco.lan>
-In-Reply-To: <4e3e0d40-df4a-94f8-7c2d-85010b0873c4@web.de>
-References: <4e3e0d40-df4a-94f8-7c2d-85010b0873c4@web.de>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S238785AbhHSLcV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Aug 2021 07:32:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58082 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236881AbhHSLcV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 19 Aug 2021 07:32:21 -0400
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0126EC061756
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 04:31:45 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id d11so7174750ioo.9
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 04:31:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LYXkuAAsk44iG4nE9gw8odWrdQJ6Z2ttVi+BaylE290=;
+        b=BI0+SHAMWRWaiVgC7EtQs3toIqPonP4iDu6oqnULwHUsaarkrjBTvhO/hnImY8OQKc
+         FJwZvfPjOwSkC64pXT33YVllhySipCxnxCwdh/K0VdSrqLiS4CHI6+3/JvamgxbCjUd7
+         D+r2FEC76Lwvb93YC3xwSd3S3r5jSWm8/VAd0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LYXkuAAsk44iG4nE9gw8odWrdQJ6Z2ttVi+BaylE290=;
+        b=spJfHAnQLUrzgWTEKzbd4XnQEODtoErXdCkGxDaGr59ad/XqPVox4RuLmcZzPe4ldC
+         sm3rRfqb6gKG+pqqKP0Ww6vSSCjv0ge9oRCHPw7oyR3ucaEmUZzJpvgCaj2s2uwzCoWR
+         0t9L9LauDaN/c41A1HnvXX/xEmQd85MtlpgAOykLVwborTCngnFT/KszYG4lyL4gqnop
+         wS3p6Stxj/96zY5L57aUhlecT3KpVnmlFOzoU9ino1TQ92j6KvK0NdoE+AQk82ix42bb
+         VSsC+ZrneU9PYOz5+42tOfY13BnP9BK4xavEU/b61OgQKb2kpDLsnETICpuivzhWlYq2
+         2gkA==
+X-Gm-Message-State: AOAM530x65p756aaaM2qix1HGixMN/jqBlLFK5MSG2IR7QS6pPPyGAs9
+        +oBYctyB6xg+od9RsoZuX7OPn0byXZxzq4Np
+X-Google-Smtp-Source: ABdhPJzJx9/J3yUR3g2mLFVLuRkvWFffBVWmdVqr3Tf54MWy1N2BM6nPiUU8tMAd5sqbKlIYOB4fCg==
+X-Received: by 2002:a6b:8d08:: with SMTP id p8mr11135585iod.150.1629372704266;
+        Thu, 19 Aug 2021 04:31:44 -0700 (PDT)
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com. [209.85.166.53])
+        by smtp.gmail.com with ESMTPSA id k5sm1462534iob.45.2021.08.19.04.31.43
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Aug 2021 04:31:43 -0700 (PDT)
+Received: by mail-io1-f53.google.com with SMTP id a13so7204039iol.5
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 04:31:43 -0700 (PDT)
+X-Received: by 2002:a6b:8d08:: with SMTP id p8mr11135503iod.150.1629372702850;
+ Thu, 19 Aug 2021 04:31:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20210818203502.269889-1-ribalda@chromium.org> <YR2INUYJSZCnBiC0@pendragon.ideasonboard.com>
+ <CANiDSCuP3OS7Z9UmHApPMmt0X3yrAoKVShEZgZ1oCvPgYshUSA@mail.gmail.com> <YR4yRfEmMvsAXRfu@pendragon.ideasonboard.com>
+In-Reply-To: <YR4yRfEmMvsAXRfu@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Thu, 19 Aug 2021 13:31:32 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvStwDkkW7FLwTmogsH45292gugAvZfuoss3aJ9RzOAQw@mail.gmail.com>
+Message-ID: <CANiDSCvStwDkkW7FLwTmogsH45292gugAvZfuoss3aJ9RzOAQw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: uvcvideo: Quirk for hardware with invalid sof
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 11 Aug 2021 14:15:02 +0200
-Soeren Moch <smoch@web.de> escreveu:
+On Thu, 19 Aug 2021 at 12:28, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> On Thu, Aug 19, 2021 at 08:27:00AM +0200, Ricardo Ribalda wrote:
+> > On Thu, 19 Aug 2021 at 00:22, Laurent Pinchart wrote:
+> > > On Wed, Aug 18, 2021 at 10:35:02PM +0200, Ricardo Ribalda wrote:
+> > > > The hardware timestamping code has the assumption than the device_sof
+> > > > and the host_sof run at the same frequency (1 KHz).
+> > > >
+> > > > Unfortunately, this is not the case for all the hardware. Add a quirk to
+> > > > support such hardware.
+> > > >
+> > > > Note on how to identify such hardware:
+> > > > When running with "yavta -c /dev/videoX" Look for periodic jumps of the
+> > > > fps. Eg:
+> > > >
+> > > > 30 (6) [-] none 30 614400 B 21.245557 21.395214 34.133 fps ts mono/SoE
+> > > > 31 (7) [-] none 31 614400 B 21.275327 21.427246 33.591 fps ts mono/SoE
+> > > > 32 (0) [-] none 32 614400 B 21.304739 21.459256 34.000 fps ts mono/SoE
+> > > > 33 (1) [-] none 33 614400 B 21.334324 21.495274 33.801 fps ts mono/SoE
+> > > > 34 (2) [-] none 34 614400 B 21.529237 21.527297 5.130 fps ts mono/SoE
+> > > > 35 (3) [-] none 35 614400 B 21.649416 21.559306 8.321 fps ts mono/SoE
+> > > > 36 (4) [-] none 36 614400 B 21.678789 21.595320 34.045 fps ts mono/SoE
+> > > > ...
+> > > > 99 (3) [-] none 99 614400 B 23.542226 23.696352 33.541 fps ts mono/SoE
+> > > > 100 (4) [-] none 100 614400 B 23.571578 23.728404 34.069 fps ts mono/SoE
+> > > > 101 (5) [-] none 101 614400 B 23.601425 23.760420 33.504 fps ts mono/SoE
+> > > > 102 (6) [-] none 102 614400 B 23.798324 23.796428 5.079 fps ts mono/SoE
+> > > > 103 (7) [-] none 103 614400 B 23.916271 23.828450 8.478 fps ts mono/SoE
+> > > > 104 (0) [-] none 104 614400 B 23.945720 23.860479 33.957 fps ts mono/SoE
+> > > >
+> > > > They happen because the delta_sof calculated at
+> > > > uvc_video_clock_host_sof(), wraps periodically, as both clocks drift.
+> > >
+> > > That looks plain wrong. First of all, the whole purpose of the SOF clock
+> > > is to have a shared clock between the host and the device. It makes no
+> > > sense for a device to have a free-running "SOF" clock. Given the log
+> > > above, the issue occurs so quickly that it doesn't seem to be a mere
+> > > drift of a free running clock. Could you investigate this more carefully
+> > > ?
+> >
+> > In my test the dev_sof runs at 887.91Hz and the dev_sof at 1000.35Hz.
+> > If I plot the difference of both clocks host_sof - (dev_sof % 2048), I
+> > get this nice graph https://imgur.com/a/5fQnKa7
+> >
+> >
+> > I agree that it makes not sense to have a free-running "SOF", but the
+> > manufacturer thinks otherwise :)
+>
+> In that case there's no common clock between the device and the host,
+> which means that clock recovery is impossible. The whole timestamp
+> computation should be bypassed, and the driver should use the system
+> timestamp instead.
 
-> Commit 819fbd3d8ef36c09576c2a0ffea503f5c46e9177 ("media: dvb header
-> files: move some headers to staging") moved audio, video, and osd parts
-> of the media DVB API to staging and out of kernel headers. But this is
-> part of the media userspace API, removing this causes regressions.
+Or said differently. The clock recovery is susceptible to the jitter
+in the frame acquisition.
 
-There's no regression: a legacy driver (av7110) for a device that stopped
-being manufactured 15 years ago and that doesn't work anymore with current
-Digital TV transmissions was removed, together with the API that it was
-implemented inside such driver's code.
+If you have no jitter, the clock recovered will match the reality, and
+if you have bad jitter, it will be as bad as system timestamp.
 
-More details below.
+So this patch will still be better than nothing.
 
-> There
-> already is a RedHat bug filed against this [1], and cannot be resolved
-> there, of course. Please revert the above mentioned commit.
->=20
->=20
-> Linus,
->=20
-> Please help to keep the media DVB API intact. From all my previous
-> experience with Mauro, he would otherwise just ignore this request and
-> later claim: it was removed and cannot be brought back. The userspace
-> behind this API is a program suite called VDR ("video disk recorder"),
-> which was part of the linux media ecosystem from the beginning, is still
-> part of linux distributions like RedHat/Fedora, Debian, SuSE, Ubuntu,
-> easyVDR, yaVDR, is actively developed further, and runs with a bigger
-> community behind it.
-> =C2=A0
->=20
-> Mauro,
->=20
-> From many previous discussions you know that the av7110 driver, the DVB
-> API, and especially also the output part of it, is in active use.
+>
+> I still find it hard to believe that a Logitech camera would get this
+> wrong.
 
-The av7110 hardware was developed up to 1999. Its Linux API was implemented
-by a company called Convergence which has long gone (they stopped working
-on it back in 2004, afaikt). The av7110 production stopped ~15 years ago.
+I guess I can send you a device, or give you access to mine remotely
+if you do not believe me :)
 
-This is a legacy hardware, which supports only the first generation of DVB
-standards, and had an integrated MPEG-2 decoder. As most DVB transmissions
-use MPEG4 or newer encoding schemas that didn't exist back in 1999, it
-doesn't make any sense keeping such driver upstream nowadays.
 
-The API that got removed was written to control the av7110 MPEG-2 decoder,
-and was never integrated at the DVB core: the av7110 had a driver-specific
-implementation inside its code.
+>
+> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > ---
+> > > > v2: Fix typo in frequency
+> > > >
+> > > >  drivers/media/usb/uvc/uvc_driver.c |  9 +++++++++
+> > > >  drivers/media/usb/uvc/uvc_video.c  | 11 +++++++++--
+> > > >  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
+> > > >  3 files changed, 20 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > > index 9a791d8ef200..d1e6cba10b15 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > > @@ -2771,6 +2771,15 @@ static const struct usb_device_id uvc_ids[] = {
+> > > >         .bInterfaceSubClass   = 1,
+> > > >         .bInterfaceProtocol   = 0,
+> > > >         .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
+> > > > +     /* Logitech HD Pro Webcam C922 */
+> > > > +     { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > > > +                             | USB_DEVICE_ID_MATCH_INT_INFO,
+> > > > +       .idVendor             = 0x046d,
+> > > > +       .idProduct            = 0x085c,
+> > > > +       .bInterfaceClass      = USB_CLASS_VIDEO,
+> > > > +       .bInterfaceSubClass   = 1,
+> > > > +       .bInterfaceProtocol   = 0,
+> > > > +       .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_INVALID_DEVICE_SOF) },
+> > > >       /* Chicony CNF7129 (Asus EEE 100HE) */
+> > > >       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > > >                               | USB_DEVICE_ID_MATCH_INT_INFO,
+> > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > > index 6d0e474671a2..760ab015cf9c 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > > @@ -518,13 +518,20 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+> > > >       /* To limit the amount of data, drop SCRs with an SOF identical to the
+> > > >        * previous one.
+> > > >        */
+> > > > -     dev_sof = get_unaligned_le16(&data[header_size - 2]);
+> > > > +     if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
+> > > > +             dev_sof = usb_get_current_frame_number(stream->dev->udev);
+> > > > +     else
+> > > > +             dev_sof = get_unaligned_le16(&data[header_size - 2]);
+> > > > +
+> > > >       if (dev_sof == stream->clock.last_sof)
+> > > >               return;
+> > > >
+> > > >       stream->clock.last_sof = dev_sof;
+> > > >
+> > > > -     host_sof = usb_get_current_frame_number(stream->dev->udev);
+> > > > +     if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
+> > > > +             host_sof = dev_sof;
+> > > > +     else
+> > > > +             host_sof = usb_get_current_frame_number(stream->dev->udev);
+> > > >       time = uvc_video_get_time();
+> > > >
+> > > >       /* The UVC specification allows device implementations that can't obtain
+> > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > > index cce5e38133cd..89d909661915 100644
+> > > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > > @@ -209,6 +209,8 @@
+> > > >  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT      0x00000400
+> > > >  #define UVC_QUIRK_FORCE_Y8           0x00000800
+> > > >  #define UVC_QUIRK_FORCE_BPP          0x00001000
+> > > > +#define UVC_QUIRK_INVALID_DEVICE_SOF 0x00002000
+> > > > +
+> > > >
+> > > >  /* Format flags */
+> > > >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-Besides that, the API was never fully documented: there are several ioctls
-from the now removed API that never had any in-kernel implementation, nor
-had and descriptions at the specs. None of the current upstream maintainers
-have any glue about what such ioctls are supposed to do, nor do we have any=
-=20
-av7110 hardware to test it.
 
-> I also
-> asked several times to pull the saa716x driver [2], which also
-> implements the full DVB API, among others for the successor cards of
-> saa7146/av7110-based so called full-featured DVB cards. I also offered
-> several times to maintain both drivers, and the related API.
 
-The saa716x driver you're mentioned is an out of tree driver.
-We don't keep APIs at the upstream Kernel due to OOT drivers.
-
-Btw, there's no need for that: if you have an OOT tree, you can simply
-place the API headers for whatever API your device requires.
-
--
-
-Now, if you want to upstream your driver, I gave you already a
-way to do it in the past: we need to develop an interface that it
-is not dependent on any hardware-specific functionality, but can
-be evolved with time and can support different families of codec
-protocols. It should also be properly documented.
-
-Those are the goals already achieved by the V4L2 codec API:
-it already supports MPEG2, MPEG4, HEVC and other types of codec,
-and can easily be integrated with a DVB device via the media
-controller API.
-
-Thanks,
-Mauro
+-- 
+Ricardo Ribalda
