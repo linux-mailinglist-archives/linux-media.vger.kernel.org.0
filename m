@@ -2,156 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 487AF3F1330
-	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 08:17:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E1B03F1384
+	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 08:27:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231180AbhHSGSH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Aug 2021 02:18:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41456 "EHLO
+        id S230447AbhHSG1t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Aug 2021 02:27:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230477AbhHSGSF (ORCPT
+        with ESMTP id S230404AbhHSG1s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Aug 2021 02:18:05 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDD31C0617AD
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 23:17:29 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id oa17so4267813pjb.1
-        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 23:17:29 -0700 (PDT)
+        Thu, 19 Aug 2021 02:27:48 -0400
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F2E4C061756
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 23:27:13 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id b7so6278947iob.4
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 23:27:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=Z7TQEkkTOfvT3y1VcK9cbeGmLxLBDuWce4oY9e31CIQ=;
-        b=n8Z7pceL3Q1hHrYhRGbE2Ft6ysYoV2T29GwsgsIk5zym7iZcje0CXVg1jI36aNnFP1
-         wEt31EiA2dUBQwlv5rK6Pb4jBRjUZnVnX9lq3yYWlZnsAiqoC84b2+sIg5qRcoOEikt2
-         Bl5OLXFHBLycojOK68FIhPW3b2fskqhF3vr/eyYOYKdL7QspG0UOJAgIVnJ/rUe4LZFr
-         9Mx+8O2v0d2rHrH3yazUPQGMQQQiYdzhDIVBgB1HMOdlKqueyQlS0Pa++oE7KDNseaKY
-         ZqQcskpZ4qIHBPun+Nz8BNcPrFRsCGUIgrdD9AWMNWaoX41LuxEow35zOBfD0rRFPHfn
-         o2nQ==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ytAdw+4HbwxOixwhqqwAmgZxwbQ6ZemJDjSd2P3wFF4=;
+        b=BEC7/EhVvY7tvtV8oDyQd/m6axDnb0FgYYWumjx5Z2vf7CzIwceIWsKbqaNqdjRVHX
+         I/8fp4pRY0VAaVkCilTbyRxB/is1D9ghUazxqokeWtm42jO2HTJ9fX3ZyJ0ZV/pV0681
+         v5RYXQrDD9UiC63u0Sj56ayUkebKlM6w7o9Mo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=Z7TQEkkTOfvT3y1VcK9cbeGmLxLBDuWce4oY9e31CIQ=;
-        b=kqqlatMGcaT2AgSwFWtOsVMan2/sYdHuj4nl32pRx2e5IgTBngaGW/c88ffhMWPOnp
-         cS5j8o7mtGzrdtmOxyZQD665DAmoJr4IRjzIEYshcFK1keseCZFOk0FG1gD+rA7PXDTL
-         XGUPWJkdFxp2a4gXP3pKvvoWr73KJUL14CAIhPkpaCuQ5qq2Ze8ULdbFwnbGP6wVid3m
-         yKxr6OgmI2Ai0x8wocCDdk0Ozeb+Qth5BiEjBR7DarqgEtuwyi7vg3rYkMQFBqVSZHSS
-         Imm/88woHn8xiRqkrSMX2mS8WmOuL4OecjyaJ/PGulHy+Tx4GF2RRldbSRq/N/aBKOSO
-         gWHQ==
-X-Gm-Message-State: AOAM533AEp+1W5yCIDYXOC+HeQdJvai02jvVLEzUGBUoUiOfkq3Qpbld
-        x+M4grHLkb5Tf+dFpdhnHHTrFQ==
-X-Google-Smtp-Source: ABdhPJwi8ECnFjz7ftlBUkQP1U01xvcbaFwYmCvSxRCVadF/ZCBCreA9Xq0KVJGpteNV1tSqbtF8Eg==
-X-Received: by 2002:a17:90a:ce88:: with SMTP id g8mr13456163pju.116.1629353849006;
-        Wed, 18 Aug 2021 23:17:29 -0700 (PDT)
-Received: from localhost ([122.172.201.85])
-        by smtp.gmail.com with ESMTPSA id r18sm2222724pgk.54.2021.08.18.23.16.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 23:16:53 -0700 (PDT)
-Date:   Thu, 19 Aug 2021 11:46:17 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        DTML <devicetree@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-Message-ID: <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
-References: <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7>
- <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
- <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
- <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ytAdw+4HbwxOixwhqqwAmgZxwbQ6ZemJDjSd2P3wFF4=;
+        b=bk8ZC9La9SjaoaN0oiziRcL0r/W7KBg2kwVRDmFeI7xVXt+l8HXSEoLfI+AYXWeFC8
+         d3z5F/rFFXS6+guM2zsNH5xLy/mgL5ZUn+xgo4kfZV9fcojlzT2PJtmzbYQkfH7T2v0H
+         T8PSOMe0XNmfU3HjuepVDyEKVGKEXFj+oeW65Wv0/pmxgtfRybfIu0gN2IbN97dmZ6a1
+         iHyc59poXAZ/XH4QCoQ45HZ3iGxSjCXY6a2aKbkOuNcCQx5bHarn/uMEnlsbyEDkkLmc
+         wmIC0NzkeehNVPU/hEOqgu3GvD4xKx04hKOgzlHF/F7gmLVu2/P0tPSrfcyLJPL1fYxY
+         XVzQ==
+X-Gm-Message-State: AOAM530vWEQFQq/0Y8NV95CVwuehXhIAjLqMTHyIrNgDx+PrVo5mbFN2
+        XLKPG4sFz7GdONZzdvdsjjSnKEc3cgei3g==
+X-Google-Smtp-Source: ABdhPJybQRFO+MYtjtr7QjM44NUxplAQdg3hcO7fyGoEYvmr9AcZ1ctLeRmQIC/zsOpxh8gW72EWSQ==
+X-Received: by 2002:a6b:f416:: with SMTP id i22mr10204909iog.162.1629354432478;
+        Wed, 18 Aug 2021 23:27:12 -0700 (PDT)
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com. [209.85.166.44])
+        by smtp.gmail.com with ESMTPSA id w4sm1153387ior.2.2021.08.18.23.27.11
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Aug 2021 23:27:11 -0700 (PDT)
+Received: by mail-io1-f44.google.com with SMTP id z1so6279180ioh.7
+        for <linux-media@vger.kernel.org>; Wed, 18 Aug 2021 23:27:11 -0700 (PDT)
+X-Received: by 2002:a6b:6603:: with SMTP id a3mr10605555ioc.68.1629354431072;
+ Wed, 18 Aug 2021 23:27:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+References: <20210818203502.269889-1-ribalda@chromium.org> <YR2INUYJSZCnBiC0@pendragon.ideasonboard.com>
+In-Reply-To: <YR2INUYJSZCnBiC0@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Thu, 19 Aug 2021 08:27:00 +0200
+X-Gmail-Original-Message-ID: <CANiDSCuP3OS7Z9UmHApPMmt0X3yrAoKVShEZgZ1oCvPgYshUSA@mail.gmail.com>
+Message-ID: <CANiDSCuP3OS7Z9UmHApPMmt0X3yrAoKVShEZgZ1oCvPgYshUSA@mail.gmail.com>
+Subject: Re: [PATCH v2] media: uvcvideo: Quirk for hardware with invalid sof
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18-08-21, 18:55, Dmitry Osipenko wrote:
-> 18.08.2021 12:41, Ulf Hansson пишет:
-> 
-> Either way gives the equal result. The new callback allows to remove the
-> boilerplate dev_pm_opp_set_rate(clk_get_rate() code from the rpm-resume
-> of consumer devices, that's it.
+Hi Laurent
 
-It may not be equal, as dev_pm_opp_set_rate() may do additional stuff,
-now or in a later implementation. Currently it only does
-regulator_enable() as a special case, but it can be clk_enable() as
-well. Also, this tries to solve the problem in a tricky/hacky way,
-while all you wanted was to make the genpd aware of what the
-performance state should be.
+Thanks for your prompt reply
 
-Your driver can break tomorrow if we started to do more stuff from
-this API at another time.
+On Thu, 19 Aug 2021 at 00:22, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> Thank you for the patch.
+>
+> On Wed, Aug 18, 2021 at 10:35:02PM +0200, Ricardo Ribalda wrote:
+> > The hardware timestamping code has the assumption than the device_sof
+> > and the host_sof run at the same frequency (1 KHz).
+> >
+> > Unfortunately, this is not the case for all the hardware. Add a quirk to
+> > support such hardware.
+> >
+> > Note on how to identify such hardware:
+> > When running with "yavta -c /dev/videoX" Look for periodic jumps of the
+> > fps. Eg:
+> >
+> > 30 (6) [-] none 30 614400 B 21.245557 21.395214 34.133 fps ts mono/SoE
+> > 31 (7) [-] none 31 614400 B 21.275327 21.427246 33.591 fps ts mono/SoE
+> > 32 (0) [-] none 32 614400 B 21.304739 21.459256 34.000 fps ts mono/SoE
+> > 33 (1) [-] none 33 614400 B 21.334324 21.495274 33.801 fps ts mono/SoE
+> > 34 (2) [-] none 34 614400 B 21.529237 21.527297 5.130 fps ts mono/SoE
+> > 35 (3) [-] none 35 614400 B 21.649416 21.559306 8.321 fps ts mono/SoE
+> > 36 (4) [-] none 36 614400 B 21.678789 21.595320 34.045 fps ts mono/SoE
+> > ...
+> > 99 (3) [-] none 99 614400 B 23.542226 23.696352 33.541 fps ts mono/SoE
+> > 100 (4) [-] none 100 614400 B 23.571578 23.728404 34.069 fps ts mono/SoE
+> > 101 (5) [-] none 101 614400 B 23.601425 23.760420 33.504 fps ts mono/SoE
+> > 102 (6) [-] none 102 614400 B 23.798324 23.796428 5.079 fps ts mono/SoE
+> > 103 (7) [-] none 103 614400 B 23.916271 23.828450 8.478 fps ts mono/SoE
+> > 104 (0) [-] none 104 614400 B 23.945720 23.860479 33.957 fps ts mono/SoE
+> >
+> > They happen because the delta_sof calculated at
+> > uvc_video_clock_host_sof(), wraps periodically, as both clocks drift.
+>
+> That looks plain wrong. First of all, the whole purpose of the SOF clock
+> is to have a shared clock between the host and the device. It makes no
+> sense for a device to have a free-running "SOF" clock. Given the log
+> above, the issue occurs so quickly that it doesn't seem to be a mere
+> drift of a free running clock. Could you investigate this more carefully
+> ?
 
-> > dev_pm_opp_set_rate() is best called from consumer drivers, as they
-> > need to be in control.
-> >> What we need here is just configure. So something like this then:
-> The intent wasn't to use dev_pm_opp_set_rate() from
-> __genpd_dev_pm_attach(), but to set genpd->rpm_pstate in accordance to
-> the h/w configuration.
+In my test the dev_sof runs at 887.91Hz and the dev_sof at 1000.35Hz.
+If I plot the difference of both clocks host_sof - (dev_sof % 2048), I
+get this nice graph
+https://imgur.com/a/5fQnKa7
 
-Right.
 
-> On Tegra we have a chain of PDs and it's not trivial to convert the
-> device's OPP into pstate because only the parent domain can translate
-> the required OPP.
+I agree that it makes not sense to have a free-running "SOF", but the
+manufacturer thinks otherwise :)
 
-The driver should just be required to make a call, and OPP/genpd core
-should return it a value. This is already done today while setting the
-pstate for a device. The same frameworks must be able to supply a
-value to be used for the device.
+Best regards
 
-> Viresh, please take a look at what I did in [1]. Maybe it could be done
-> in another way.
+>
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> > v2: Fix typo in frequency
+> >
+> >  drivers/media/usb/uvc/uvc_driver.c |  9 +++++++++
+> >  drivers/media/usb/uvc/uvc_video.c  | 11 +++++++++--
+> >  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
+> >  3 files changed, 20 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > index 9a791d8ef200..d1e6cba10b15 100644
+> > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > @@ -2771,6 +2771,15 @@ static const struct usb_device_id uvc_ids[] = {
+> >         .bInterfaceSubClass   = 1,
+> >         .bInterfaceProtocol   = 0,
+> >         .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
+> > +     /* Logitech HD Pro Webcam C922 */
+> > +     { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > +                             | USB_DEVICE_ID_MATCH_INT_INFO,
+> > +       .idVendor             = 0x046d,
+> > +       .idProduct            = 0x085c,
+> > +       .bInterfaceClass      = USB_CLASS_VIDEO,
+> > +       .bInterfaceSubClass   = 1,
+> > +       .bInterfaceProtocol   = 0,
+> > +       .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_INVALID_DEVICE_SOF) },
+> >       /* Chicony CNF7129 (Asus EEE 100HE) */
+> >       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> >                               | USB_DEVICE_ID_MATCH_INT_INFO,
+> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > index 6d0e474671a2..760ab015cf9c 100644
+> > --- a/drivers/media/usb/uvc/uvc_video.c
+> > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > @@ -518,13 +518,20 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+> >       /* To limit the amount of data, drop SCRs with an SOF identical to the
+> >        * previous one.
+> >        */
+> > -     dev_sof = get_unaligned_le16(&data[header_size - 2]);
+> > +     if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
+> > +             dev_sof = usb_get_current_frame_number(stream->dev->udev);
+> > +     else
+> > +             dev_sof = get_unaligned_le16(&data[header_size - 2]);
+> > +
+> >       if (dev_sof == stream->clock.last_sof)
+> >               return;
+> >
+> >       stream->clock.last_sof = dev_sof;
+> >
+> > -     host_sof = usb_get_current_frame_number(stream->dev->udev);
+> > +     if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
+> > +             host_sof = dev_sof;
+> > +     else
+> > +             host_sof = usb_get_current_frame_number(stream->dev->udev);
+> >       time = uvc_video_get_time();
+> >
+> >       /* The UVC specification allows device implementations that can't obtain
+> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > index cce5e38133cd..89d909661915 100644
+> > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > @@ -209,6 +209,8 @@
+> >  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT      0x00000400
+> >  #define UVC_QUIRK_FORCE_Y8           0x00000800
+> >  #define UVC_QUIRK_FORCE_BPP          0x00001000
+> > +#define UVC_QUIRK_INVALID_DEVICE_SOF 0x00002000
+> > +
+> >
+> >  /* Format flags */
+> >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-I looked into this and looked like too much trouble. The
-implementation needs to be simple. I am not sure I understand all the
-problems you faced while doing that, would be better to start with a
-simpler implementation of get_performance_state() kind of API for
-genpd, after the domain is attached and its OPP table is initialized.
 
-Note, that the OPP table isn't required to be fully initialized for
-the device at this point, we can parse the DT as well if needed be.
 
 -- 
-viresh
+Ricardo Ribalda
