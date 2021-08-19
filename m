@@ -2,156 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0E173F0E19
-	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 00:22:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 862633F1210
+	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 05:45:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234106AbhHRWXd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Aug 2021 18:23:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47606 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232456AbhHRWXc (ORCPT
+        id S236516AbhHSDp3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Aug 2021 23:45:29 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:36121 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236028AbhHSDp2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Aug 2021 18:23:32 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F2D0C061764;
-        Wed, 18 Aug 2021 15:22:57 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA93D2A8;
-        Thu, 19 Aug 2021 00:22:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1629325374;
-        bh=iglJOCDJskdnnATm9m1oJieHqRlccWM7jKQUDh9x17c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=R/9HwdTBDj3/4PyAXUw9w+Zk3CxuQc6r4fQcycUvpdcXX/BmOjYF4q+FVxz/gmQUu
-         VUVmjforztb5UhQc0dhjc3iRXlt6otxNJeCin+LoGRBlm6nK7kBuyxbYvV/GhqP+zq
-         F/vkqxC/f6djlwaYleF7sfQAcAU8AN0sD+wo8hWI=
-Date:   Thu, 19 Aug 2021 01:22:45 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: uvcvideo: Quirk for hardware with invalid sof
-Message-ID: <YR2INUYJSZCnBiC0@pendragon.ideasonboard.com>
-References: <20210818203502.269889-1-ribalda@chromium.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210818203502.269889-1-ribalda@chromium.org>
+        Wed, 18 Aug 2021 23:45:28 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id GYz2mEepmUWyVGYz4mo9Ra; Thu, 19 Aug 2021 05:44:51 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1629344691; bh=xhBO6Bt7R8fnU9CEtvF7kF0ws/hb8K+cRmEmnT1TE5k=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=sxyTAtkN9PwO3/wWVKWcImCVUgwAzzHhl6B3TY5+cEoCVW4GJsL7bnBK3DHpY35lI
+         I1DvRb9HgF4JGWXdLXhicm6nmusX0Qx8vPdPvd+gKvyRhkg5dlwZY5vyxfSNENI93i
+         jj/qvRibtuob5yyL6nGQLalx/0nb066Uzyz55Ltv/zYBTW/El+x6a29NoIifGzN3ja
+         7MBxioFlmliap58ZPQOUXSSnph9gzmM5legJxgvAm4j9bN7/88GwJ5uI2fN8XnT5Eu
+         DoSwRfA9iG3BzRp5QlbL61+hpP9pXUvc4qdHuwNsgu70SvDS/3WVui2vZTRhVuu0dr
+         vKzNlm08iNt+Q==
+Message-ID: <d3073b4c7d3aec29c86b36a89c01c25a@smtp-cloud8.xs4all.net>
+Date:   Thu, 19 Aug 2021 05:44:48 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfMZMq1+A03cphdn2onUW/zJWV1jW2v1gzZ7xla1wd4p+aBdcW37/VDkAGTFAoXn3lW/wvGCSPMgrzd+6rQpaCQs5Mcd+B+5PNUhhs3B1KHOs90HICxem
+ SHwecs70rD/58sF3gLboiv7yQUbFqJlc3Dt9Xv5OuF2oq6tcHPDQMjDxhmXW7OL9aq13qEGf12i1MdbxUSkaF46h5o2GhrReUt0uIyj2IF7fn1PWFvJopQ/X
+ qlzz/bZ/dhDMC8sO1B9jag==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thank you for the patch.
+Results of the daily build of media_tree:
 
-On Wed, Aug 18, 2021 at 10:35:02PM +0200, Ricardo Ribalda wrote:
-> The hardware timestamping code has the assumption than the device_sof
-> and the host_sof run at the same frequency (1 KHz).
-> 
-> Unfortunately, this is not the case for all the hardware. Add a quirk to
-> support such hardware.
-> 
-> Note on how to identify such hardware:
-> When running with "yavta -c /dev/videoX" Look for periodic jumps of the
-> fps. Eg:
-> 
-> 30 (6) [-] none 30 614400 B 21.245557 21.395214 34.133 fps ts mono/SoE
-> 31 (7) [-] none 31 614400 B 21.275327 21.427246 33.591 fps ts mono/SoE
-> 32 (0) [-] none 32 614400 B 21.304739 21.459256 34.000 fps ts mono/SoE
-> 33 (1) [-] none 33 614400 B 21.334324 21.495274 33.801 fps ts mono/SoE
-> 34 (2) [-] none 34 614400 B 21.529237 21.527297 5.130 fps ts mono/SoE
-> 35 (3) [-] none 35 614400 B 21.649416 21.559306 8.321 fps ts mono/SoE
-> 36 (4) [-] none 36 614400 B 21.678789 21.595320 34.045 fps ts mono/SoE
-> ...
-> 99 (3) [-] none 99 614400 B 23.542226 23.696352 33.541 fps ts mono/SoE
-> 100 (4) [-] none 100 614400 B 23.571578 23.728404 34.069 fps ts mono/SoE
-> 101 (5) [-] none 101 614400 B 23.601425 23.760420 33.504 fps ts mono/SoE
-> 102 (6) [-] none 102 614400 B 23.798324 23.796428 5.079 fps ts mono/SoE
-> 103 (7) [-] none 103 614400 B 23.916271 23.828450 8.478 fps ts mono/SoE
-> 104 (0) [-] none 104 614400 B 23.945720 23.860479 33.957 fps ts mono/SoE
-> 
-> They happen because the delta_sof calculated at
-> uvc_video_clock_host_sof(), wraps periodically, as both clocks drift.
+date:			Thu Aug 19 05:00:12 CEST 2021
+media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
+media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
+v4l-utils git hash:	58f4f974944c182890a09d040418dafa9a431e45
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7532-gde99456f6
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
+host hardware:		x86_64
+host os:		5.13.1-marune
 
-That looks plain wrong. First of all, the whole purpose of the SOF clock
-is to have a shared clock between the host and the device. It makes no
-sense for a device to have a free-running "SOF" clock. Given the log
-above, the issue occurs so quickly that it doesn't seem to be a mere
-drift of a free running clock. Could you investigate this more carefully
-?
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13.1-i686: OK
+linux-5.13.1-x86_64: OK
+linux-5.14-rc1-i686: OK
+linux-5.14-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 0
+virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> v2: Fix typo in frequency
-> 
->  drivers/media/usb/uvc/uvc_driver.c |  9 +++++++++
->  drivers/media/usb/uvc/uvc_video.c  | 11 +++++++++--
->  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
->  3 files changed, 20 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 9a791d8ef200..d1e6cba10b15 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2771,6 +2771,15 @@ static const struct usb_device_id uvc_ids[] = {
->  	  .bInterfaceSubClass	= 1,
->  	  .bInterfaceProtocol	= 0,
->  	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
-> +	/* Logitech HD Pro Webcam C922 */
-> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-> +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> +	  .idVendor		= 0x046d,
-> +	  .idProduct		= 0x085c,
-> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
-> +	  .bInterfaceSubClass	= 1,
-> +	  .bInterfaceProtocol	= 0,
-> +	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_INVALID_DEVICE_SOF) },
->  	/* Chicony CNF7129 (Asus EEE 100HE) */
->  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
->  				| USB_DEVICE_ID_MATCH_INT_INFO,
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index 6d0e474671a2..760ab015cf9c 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -518,13 +518,20 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
->  	/* To limit the amount of data, drop SCRs with an SOF identical to the
->  	 * previous one.
->  	 */
-> -	dev_sof = get_unaligned_le16(&data[header_size - 2]);
-> +	if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
-> +		dev_sof = usb_get_current_frame_number(stream->dev->udev);
-> +	else
-> +		dev_sof = get_unaligned_le16(&data[header_size - 2]);
-> +
->  	if (dev_sof == stream->clock.last_sof)
->  		return;
->  
->  	stream->clock.last_sof = dev_sof;
->  
-> -	host_sof = usb_get_current_frame_number(stream->dev->udev);
-> +	if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
-> +		host_sof = dev_sof;
-> +	else
-> +		host_sof = usb_get_current_frame_number(stream->dev->udev);
->  	time = uvc_video_get_time();
->  
->  	/* The UVC specification allows device implementations that can't obtain
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index cce5e38133cd..89d909661915 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -209,6 +209,8 @@
->  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
->  #define UVC_QUIRK_FORCE_Y8		0x00000800
->  #define UVC_QUIRK_FORCE_BPP		0x00001000
-> +#define UVC_QUIRK_INVALID_DEVICE_SOF	0x00002000
-> +
->  
->  /* Format flags */
->  #define UVC_FMT_FLAG_COMPRESSED		0x00000001
+Detailed results are available here:
 
--- 
-Regards,
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
-Laurent Pinchart
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
