@@ -2,208 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEF4A3F1DE1
-	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 18:31:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED43F3F1E3B
+	for <lists+linux-media@lfdr.de>; Thu, 19 Aug 2021 18:43:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230447AbhHSQcC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Aug 2021 12:32:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44194 "EHLO
+        id S229580AbhHSQoT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Aug 2021 12:44:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230416AbhHSQcB (ORCPT
+        with ESMTP id S230136AbhHSQoS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Aug 2021 12:32:01 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E93C2C061575;
-        Thu, 19 Aug 2021 09:31:24 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id k8so10005658wrn.3;
-        Thu, 19 Aug 2021 09:31:24 -0700 (PDT)
+        Thu, 19 Aug 2021 12:44:18 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58C01C061575
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 09:43:38 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id oa17so5376016pjb.1
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 09:43:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=xdfmGh23k0aNDX33xwOdlnspLCgiV2qSptJyQT4CArg=;
-        b=TqvsyYuIzPTFNISEaUDmY0h791HLIf4qH1WXS1GxVOvTPNRDVQWqqcXQlxGoSmEhYq
-         hmHtTmIeKTi83VzFGyYEcVObXx+9sz/n5eRC4i5PoGxDQ5FuJyqmzwZC3DZsTYvcC7lj
-         Pr/Hk6ZGcay72lFauB5YyEIy1wE9tdSBx7LT+U3/P67mkfLEUFIanjAo3tpK1Of8NDws
-         BwdnJJRNFFFrUFU5DylX11cauyAcPLYzFuHfmvb7prU10HBcx3ThlIFERG8TGHBfHyo4
-         yySdwCCzMSuAkV9jh3xYDU+0sLNNdvXISoBFguTvMb8H+aD1MJ35euCxfdXOs3xfCmJt
-         nByA==
+        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hK7Fa2T5Mqb2eYP1LWjsHMo12/1vCyWC8tE5Fpg8NZs=;
+        b=U135XQszfFS1KqGbh0bEdnnB2KTRgzdpLRjDs68LpPGbaUQ0b54EVzV5CRbNz8k3yR
+         adWSzUVGSsz4J827hOWbTsJL9xSftlx+PDgfdSeXB5gAxKbnql3aawh9OF/HNMT+1N78
+         vdmbb7ZG8rQVTDvE/B4Z2fAUi160DVvw3iXRhHmhnUU+k4R4vo5Gu4CTgqkhzWyKPlhq
+         MoL8ZDtegeddWBwVK3szTdPjluy0RgpxNck0zjXlc+hPoUmTYT2gCXkihHr9TbMlLMCX
+         uwrtantruP5gWs8cic1Y6XuuWNjLey3Kqvi9LCnn2qUfdq6GgLZQVcMUzNjVagk5Mr2m
+         XYCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=xdfmGh23k0aNDX33xwOdlnspLCgiV2qSptJyQT4CArg=;
-        b=mOZXduuE9bVwOCymxoqTm0O+CBy9fgiSmr0eIcat6+XSqs6xscM2EgCEQPWDDLlKTr
-         6UKjFFqIQGgpj+BrY5Dy+A+RTCUiZb2AQEseHdsqp7Fq2LKKGliJ8PeKXTBDdn08aUyF
-         K58k8wuSy+aPet8EXNYjlCNBfVRD40DmCLBgbZUoDrE44XCjyGn01nS9OcN5HAH3xcYu
-         sIjzHiSrCVRdZfV6aoT8OIXIsUaWOKXIcIS8fkDrZznpuTT3zoult23JDzQdveOlVT6D
-         yJTNiQMrVI1qVEkB+694QN2pnkYebeCKPUEdkgz2t3Oi2zRkd5df618QXxLnFmD++m5A
-         pqrA==
-X-Gm-Message-State: AOAM531aPwJhRjMZLO66z+Qsfv7BAAVOplA0JVb08FFWhDPyrPay55dR
-        0OolyrbbsiYe2E8q5aWCqpc=
-X-Google-Smtp-Source: ABdhPJw+layCx1zXDlaPhdMiFy7BJcVfdPSGx4BZzhnHtq808ns6k0cMS2cwB3t84/EUctnSBTQSPg==
-X-Received: by 2002:adf:f541:: with SMTP id j1mr4794858wrp.180.1629390683554;
-        Thu, 19 Aug 2021 09:31:23 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id p8sm7766709wme.22.2021.08.19.09.31.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 09:31:21 -0700 (PDT)
-Date:   Thu, 19 Aug 2021 18:31:20 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH v8 06/34] dt-bindings: clock: tegra-car: Document new
- tegra-clocks sub-node
-Message-ID: <YR6HWMuYcF6NIepi@orome.fritz.box>
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-7-digetx@gmail.com>
- <YR0SSz7KMh7TwaFW@orome.fritz.box>
- <eff5ef47-e6e0-3e03-cf1a-d931b0f2dc2a@gmail.com>
- <YR033zuYWWLCeYpM@orome.fritz.box>
- <a5b942cb-1611-9ae1-6e89-4b68fdaf03e3@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hK7Fa2T5Mqb2eYP1LWjsHMo12/1vCyWC8tE5Fpg8NZs=;
+        b=hW80IcxK6wAeDNRz5KmRVlWl1wbNGRDh+rJRBOmUfn3+AYLJ5SHnCeh7bd9vshi1Ov
+         jd6ifz3H/PbyAYMkfBmPsHaGbf40sdXYEBGDPNiJteTtsWguoCKq/FVbnHyopLqPaHOw
+         gGio7s7GlmPrAxxK04pNOE4ylya+0Mh2SRse5IdnPYQg1mOoP7s3BsGEVN7D0e/gyCVS
+         uNGC0Phieq9wjymGNTZvVClNEJdJ/9yjKRDTcQ18FfJEhDip1yuoN8DdAN+5hVvvI+NU
+         A2odkZ46A+3OioIOtt09Uo3UTCP4uWnzFpZ+oBWKXP+3nPcZhkmKx2seAJiTo+0GTc8y
+         O3rQ==
+X-Gm-Message-State: AOAM53072F5qhLCImtZfPFwRMS/d57L5LCD4KJC4b4n97FEL9iQD0x68
+        7A96XRnplDs42mGGpt89H5fEGAdSkxtWL6mkhBGaJg==
+X-Google-Smtp-Source: ABdhPJwm+aeYNDed28m4WVxf3MJkQl4iX1wJ7gLetztr0nwb5a6sRia0/ghG16ar66d0fDU5Jniw0loy+QJPdGcnkFE=
+X-Received: by 2002:a17:90a:9a8a:: with SMTP id e10mr16069370pjp.125.1629391417706;
+ Thu, 19 Aug 2021 09:43:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="rcVyDzt3QNLnQ9/o"
-Content-Disposition: inline
-In-Reply-To: <a5b942cb-1611-9ae1-6e89-4b68fdaf03e3@gmail.com>
-User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
+References: <20210812170043.1046669-1-trix@redhat.com>
+In-Reply-To: <20210812170043.1046669-1-trix@redhat.com>
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Thu, 19 Aug 2021 09:43:26 -0700
+Message-ID: <CAJ+vNU3Z54Mbr8s6JTOtCsNorV_sYZg39o8w44mLX4d-F9=L4g@mail.gmail.com>
+Subject: Re: [PATCH] media: TDA1997x: handle short reads of hdmi info frame.
+To:     trix@redhat.com
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Thu, Aug 12, 2021 at 10:01 AM <trix@redhat.com> wrote:
+>
+> From: Tom Rix <trix@redhat.com>
+>
+> Static analysis reports this representative problem
+>
+> tda1997x.c:1939: warning: 7th function call argument is an uninitialized
+> value
+>
+> The 7th argument is buffer[0], which is set in the earlier call to
+> io_readn().  When io_readn() call to io_read() fails with the first
+> read, buffer[0] is not set and 0 is returned and stored in len.
+>
+> The later call to hdmi_infoframe_unpack()'s size parameter is the
+> static size of buffer, always 40, so a short read is not caught
+> in hdmi_infoframe_unpacks()'s checking.  The variable len should be
+> used instead.
+>
+> Zero initialize buffer to 0 so it is in a known start state.
+>
+> Fixes: 9ac0038db9a7 ("media: i2c: Add TDA1997x HDMI receiver driver")
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  drivers/media/i2c/tda1997x.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
+> index 1e2a263be9335..0b995424cb346 100644
+> --- a/drivers/media/i2c/tda1997x.c
+> +++ b/drivers/media/i2c/tda1997x.c
+> @@ -1248,13 +1248,13 @@ tda1997x_parse_infoframe(struct tda1997x_state *state, u16 addr)
+>  {
+>         struct v4l2_subdev *sd = &state->sd;
+>         union hdmi_infoframe frame;
+> -       u8 buffer[40];
+> +       u8 buffer[40] = { 0 };
+>         u8 reg;
+>         int len, err;
+>
+>         /* read data */
+>         len = io_readn(sd, addr, sizeof(buffer), buffer);
+> -       err = hdmi_infoframe_unpack(&frame, buffer, sizeof(buffer));
+> +       err = hdmi_infoframe_unpack(&frame, buffer, len);
+>         if (err) {
+>                 v4l_err(state->client,
+>                         "failed parsing %d byte infoframe: 0x%04x/0x%02x\n",
+> @@ -1928,13 +1928,13 @@ static int tda1997x_log_infoframe(struct v4l2_subdev *sd, int addr)
+>  {
+>         struct tda1997x_state *state = to_state(sd);
+>         union hdmi_infoframe frame;
+> -       u8 buffer[40];
+> +       u8 buffer[40] = { 0 };
+>         int len, err;
+>
+>         /* read data */
+>         len = io_readn(sd, addr, sizeof(buffer), buffer);
+>         v4l2_dbg(1, debug, sd, "infoframe: addr=%d len=%d\n", addr, len);
+> -       err = hdmi_infoframe_unpack(&frame, buffer, sizeof(buffer));
+> +       err = hdmi_infoframe_unpack(&frame, buffer, len);
+>         if (err) {
+>                 v4l_err(state->client,
+>                         "failed parsing %d byte infoframe: 0x%04x/0x%02x\n",
+> --
+> 2.26.3
+>
 
---rcVyDzt3QNLnQ9/o
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-By: Tim Harvey <tharvey@gateworks.com>
 
-On Wed, Aug 18, 2021 at 07:57:04PM +0300, Dmitry Osipenko wrote:
-> 18.08.2021 19:39, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >> We don't have a platform device for CaR. I don't see how it's going to
-> >> work. We need to create a platform device for each RPM-capable clock
-> >> because that's how RPM works. The compatible string is required for
-> >> instantiating OF-devices from a node, otherwise we will have to
-> >> re-invent the OF core.
-> > I think we do have a platform device for CAR. It's just not bound
-> > against by the driver because these clock drivers are "special". But
-> > from other parts of the series you're already trying to fix that, at
-> > least partially.
-> >=20
-> > But it doesn't seem right to create a platform device for each RPM-
-> > capable clock. Why do they need to be devices? They aren't, so why
-> > pretend? Is it that some API that we want to use here requires the
-> > struct device?
->=20
-> The "device" representation is internal to the kernel. It's okay to me
-> to have PLLs represented by a device, it's a distinct h/w by itself.
->=20
-> CCF supports managing of clock's RPM and it requires to have clock to be
-> backed by a device. That's what we are using here.
->=20
-> Please see
-> https://elixir.bootlin.com/linux/v5.14-rc6/source/drivers/clk/clk.c#L109
-
-Looking at the implementation of __clk_register() and where that device
-pointer typically comes from, I don't think the way this is used here is
-what was intended. The way I interpret the code is that a clock is
-registered with a parent device (i.e. its provider) and
-clk_pm_runtime_get() is then used internally as a way to make sure that
-when a clock is prepared, it's parent device is runtime resumed. This is
-presumably to ensure that any registers that the driver might need to
-access in order to prepare and enable the clock are accessible (i.e. the
-CAR is not powered off or in reset).
-
-So the struct device that is passed to __clk_register() (or its callers)
-should be that of the CAR rather than virtual struct devices created by
-the CAR.
-
-And it's a bit debatable whether or not PLLs represent distinct
-hardware. Ultimately every transistor on a chip could be considered
-distinct hardware. But a platform device is a device on a platform bus,
-which is really just another way of saying it's a hardware block that's
-accessible from the CPU via a memory-mapped address. A PLL (just like
-other clocks) is merely a resource exposed by means of access to these
-registers. So I don't think they should be platform devices. Even making
-them struct device:s seems a bit of a stretch.
-
-Is there any reason why struct clk can't be used for this? I mean, the
-whole purpose of that structure is to represent clocks. Why do we need
-to make them special?
-
-> >>> Also, I don't think the tegra- prefix is necessary here. The parent n=
-ode
-> >>> is already identified as Tegra via the compatible string.
-> >>>
-> >>> In the case of CAR, I'd imagine something like:
-> >>>
-> >>> 	clocks {
-> >>> 		sclk {
-> >>> 			operating-points-v2 =3D <&opp_table>;
-> >>> 			power-domains =3D <&domain>;
-> >>> 		};
-> >>> 	};
-> >>>
-> >>> Now you've only got the bare minimum in here that you actually add. A=
-ll
-> >>> the other data that you used to have is simply derived from the paren=
-t.
-> >> 'clocks' is already a generic keyword in DT. It's probably not okay to
-> >> redefine it.
-> > "clocks" is not a generic keyword. It's the name of a property and given
-> > that we're talking about the clock provider here, it doesn't need a
-> > clocks property of its own, so it should be fine to use that for the
-> > node.
->=20
-> I'm curious what Rob thinks about it. Rob, does this sound okay to you?
-
-Another alternative would be to omit that level altogether and just make
-sclk and siblings direct children of the CAR node.
-
-Thierry
-
---rcVyDzt3QNLnQ9/o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEeh1YACgkQ3SOs138+
-s6H2hw/9FHQE4gIC68lVuteJusivX3to+lSemB8K8zjRkcxT7nURgxWEiaqizxEC
-HdNxAuNdVDpD1v34JC2ZGJgnnYdMSrk9k4BhykGgn1+QhdgEQGSTAEXUhcxfK2Yg
-5Slk4jnHH9HF0GPYfbJ5SP6k3NgkeL8h0fCa2JviaoCOhzyRBJK71IG1cIOlj7Ud
-3nxcd1/NzHcPZnsGivm5Qd8saf1nyLrZghmyUsuaZp5tsH8Ct/x5HWiShOTVB6UT
-+uRefYWMbuaJp/mCa+6N0gK2827S84iSRzO5sxI3nYZbRJsgLgD766fzdC/EDZ9G
-Zg5AZgzH67GoEicbdCQMgx6zVV6Y1LQF1+5mrHjpomm2OWRVZELLEfGa1pqVNIGu
-VJjQuIX618IKU5jBYUw18+vr2HiJNDEFCXX0PrBYXp/cc64fiq4I3M30clqQQoxr
-puehYCuiVtD9v6lr8tnEA79qUnn0XsWIpzzHbeLtwclpaqN5lTZUo6eXXFIGid+3
-ZauSDJzqa4qTX1fvwH23kMnkA91nI2A00rPQWtER0uhJGq8TjXFPeJ4JHsvTyXxg
-Xr77eogUzKs15p0Eh3BBBYCu5CLnaePC+kK5pcVnJLDmbmRW/gaS/RvCuw/YfIhE
-Q5nj2KNqZny4RL9VKn0X77bP0ngrfjlFjFsEDt+9MYgNMX3kjj8=
-=ibYp
------END PGP SIGNATURE-----
-
---rcVyDzt3QNLnQ9/o--
+Tim
