@@ -2,127 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FC683F2383
-	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 01:06:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 279E63F23A0
+	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 01:20:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236105AbhHSXGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Aug 2021 19:06:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50712 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229808AbhHSXGl (ORCPT
+        id S236479AbhHSXVA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Aug 2021 19:21:00 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:29802 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S233512AbhHSXVA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Aug 2021 19:06:41 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3830AC061757
-        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 16:06:04 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id p22so8989495qki.10
-        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 16:06:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=lUX7epF7foRJPnJW8zAvGrpG9sbsCy+8eUVnLXUioaw=;
-        b=k/GgjG+KGvsRHDTaR/VlVvRNrfg9uPX5JU23M6lnlFazEhBaLpFG2yLgIA5DjuqITc
-         ZtITYZTtiD4QoA9YVBs+h0X1AVz3p2dPiahcKu4x64AcrhVQXiJIob4kXZsFDqfHLPEH
-         MDAy0kMdT7vfNS453Pn3keQ8XOV6pBw+XrZ9JH3zS6LTaGidh2NOFMUyf6POnFxjJjMV
-         dteg7esI3k4ovVAkSAOQhtzZ0/kyjPmh1I1TnfpWjWVKuXx7m8P9gtlyRFtfWMupn+rj
-         +p4DvEIaviEiwP7Tg+vxG/hXWAG9QrvF2o7GcnaIaJ8USAjvXaOGmBneEWy8U7uYSyyp
-         KRiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lUX7epF7foRJPnJW8zAvGrpG9sbsCy+8eUVnLXUioaw=;
-        b=Pn/AgD9/2RVmZ5+1S3J5tvQmC7U6czeD2Ga0Lq67pAYaloZPc2RzZ+eN5HQ/z5cF+D
-         9gwJmr/zEs1yWwLTo+vmiMjGFPpHs9lo/lWPCIZk9PM+x+CJvpuwrinvcFP54toazqsV
-         XWEaeqPdnvVorKEOa+t3wEeldVAceBx1FDAWUTz30RwkuNN9Hrp9XZP/RTTDqnPT2Qz3
-         UvI1J/qqbn6S3wEEfI2/S7Ucprm568KBXPHSUSc3l2ZhBMwBQlcRtCAY0DG0Z3xEj3Gq
-         2EKRb9GS4lfMN5ciR1ZCGDtlVl/Cb0ILsOfZMPbxaN8skDow5FfSdiO0JpFv0ZQK52VB
-         IiCw==
-X-Gm-Message-State: AOAM531g5DF8F6XM86hormTBLr1180+9oJgdFa9QOHDU483ztqthsvSZ
-        njSQNTjCNYbaxUoIpWZQpo0A3g==
-X-Google-Smtp-Source: ABdhPJy/ltQJWz3bEvwivJHVegVN2SJG5oJXKMzn032Cjp7qnG0C8JFFt9RanDCCQRXqWfZ4YPIPmA==
-X-Received: by 2002:a37:2753:: with SMTP id n80mr5973504qkn.223.1629414363407;
-        Thu, 19 Aug 2021 16:06:03 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id n20sm2401213qkk.135.2021.08.19.16.06.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 16:06:02 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1mGr6o-001dOi-8m; Thu, 19 Aug 2021 20:06:02 -0300
-Date:   Thu, 19 Aug 2021 20:06:02 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Gal Pressman <galpress@amazon.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Doug Ledford <dledford@redhat.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Oded Gabbay <ogabbay@habana.ai>,
-        Tomer Tayar <ttayar@habana.ai>,
-        Yossi Leybovich <sleybo@amazon.com>,
-        Alexander Matushevsky <matua@amazon.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Jianxin Xiong <jianxin.xiong@intel.com>,
-        John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
-Message-ID: <20210819230602.GU543798@ziepe.ca>
-References: <20210818074352.29950-1-galpress@amazon.com>
- <CAKMK7uGZ_eX+XfYJU6EkKEOVrHz3q6QMxaEbyyD3_1iqj9YSjw@mail.gmail.com>
+        Thu, 19 Aug 2021 19:21:00 -0400
+X-UUID: 4fe051843262477f8a5670667e4230c6-20210820
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=QfeDJW3m4L57kRx1ekiwSC66ZVnjMitRsEcL77yqUug=;
+        b=h7lLzP6r8j9QVwh0abLzRZYUGWTNl1b5cM4qRCRgD364hb8GohNxIXYOYsk5tdb0Qeja+dyvrJ474JYdVZ0gMMOYTL1/Ownbt6GFuWGBVdl8pDp8874ArEWWFgoTeo7OazhTiqTQV/LTNgqEatWFGiDAQiZi91Wgi65EN64E7qM=;
+X-UUID: 4fe051843262477f8a5670667e4230c6-20210820
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <houlong.wei@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 483222040; Fri, 20 Aug 2021 07:20:21 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 20 Aug
+ 2021 07:20:13 +0800
+Received: from mhfsdcap04 (10.17.3.154) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 20 Aug 2021 07:20:12 +0800
+Message-ID: <6cb09965bce5bffe97fc00faecfffae9d3b38b3d.camel@mediatek.com>
+Subject: Re: [PATCH] media: mtk-vpu: Fix a resource leak in the error
+ handling path of 'mtk_vpu_probe()'
+From:   houlong wei <houlong.wei@mediatek.com>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Minghsiu Tsai =?UTF-8?Q?=28=E8=94=A1=E6=98=8E=E4=BF=AE=29?= 
+        <Minghsiu.Tsai@mediatek.com>,
+        Andrew-CT Chen =?UTF-8?Q?=28=E9=99=B3=E6=99=BA=E8=BF=AA=29?= 
+        <Andrew-CT.Chen@mediatek.com>,
+        Tiffany Lin =?UTF-8?Q?=28=E6=9E=97=E6=85=A7=E7=8F=8A=29?= 
+        <tiffany.lin@mediatek.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+        <houlong.wei@mediatek.com>
+Date:   Fri, 20 Aug 2021 07:20:13 +0800
+In-Reply-To: <3d4ba5d254044567653a006b18971658ec69560f.1629404378.git.christophe.jaillet@wanadoo.fr>
+References: <3d4ba5d254044567653a006b18971658ec69560f.1629404378.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uGZ_eX+XfYJU6EkKEOVrHz3q6QMxaEbyyD3_1iqj9YSjw@mail.gmail.com>
+X-TM-SNTS-SMTP: 814C1EEA859FBE07EB023142BB288BF8A660564BFC7F2A04322B36A3694EEE642000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 11:34:51AM +0200, Daniel Vetter wrote:
-> On Wed, Aug 18, 2021 at 9:45 AM Gal Pressman <galpress@amazon.com> wrote:
-> >
-> > Hey all,
-> >
-> > Currently, the RDMA subsystem can only work with dynamic dmabuf
-> > attachments, which requires the RDMA device to support on-demand-paging
-> > (ODP) which is not common on most devices (only supported by mlx5).
-> >
-> > While the dynamic requirement makes sense for certain GPUs, some devices
-> > (such as habanalabs) have device memory that is always "pinned" and do
-> > not need/use the move_notify operation.
-> >
-> > The motivation of this RFC is to use habanalabs as the dmabuf exporter,
-> > and EFA as the importer to allow for peer2peer access through libibverbs.
-> >
-> > This draft patch changes the dmabuf driver to differentiate between
-> > static/dynamic attachments by looking at the move_notify op instead of
-> > the importer_ops struct, and allowing the peer2peer flag to be enabled
-> > in case of a static exporter.
-> >
-> > Thanks
-> >
-> > Signed-off-by: Gal Pressman <galpress@amazon.com>
-> 
-> Given that habanalabs dma-buf support is very firmly in limbo (at
-> least it's not yet in linux-next or anywhere else) I think you want to
-> solve that problem first before we tackle the additional issue of
-> making p2p work without dynamic dma-buf. Without that it just doesn't
-> make a lot of sense really to talk about solutions here.
+T24gRnJpLCAyMDIxLTA4LTIwIGF0IDA0OjIxICswODAwLCBDaHJpc3RvcGhlIEpBSUxMRVQgd3Jv
+dGU6DQo+IEEgc3VjY2Vzc2Z1bCAnY2xrX3ByZXBhcmUoKScgY2FsbCBzaG91bGQgYmUgYmFsYW5j
+ZWQgYnkgYQ0KPiBjb3JyZXNwb25kaW5nDQo+ICdjbGtfdW5wcmVwYXJlKCknIGNhbGwgaW4gdGhl
+IGVycm9yIGhhbmRsaW5nIHBhdGggb2YgdGhlIHByb2JlLCBhcw0KPiBhbHJlYWR5DQo+IGRvbmUg
+aW4gdGhlIHJlbW92ZSBmdW5jdGlvbi4NCj4gDQo+IFVwZGF0ZSB0aGUgZXJyb3IgaGFuZGxpbmcg
+cGF0aCBhY2NvcmRpbmdseS4NCj4gDQo+IEZpeGVzOiAzMDAzYTE4MGVmNmIgKCJbbWVkaWFdIFZQ
+VTogbWVkaWF0ZWs6IHN1cHBvcnQgTWVkaWF0ZWsgVlBVIikNCj4gU2lnbmVkLW9mZi1ieTogQ2hy
+aXN0b3BoZSBKQUlMTEVUIDxjaHJpc3RvcGhlLmphaWxsZXRAd2FuYWRvby5mcj4NCj4gLS0tDQo+
+IA0KUmV2aWV3ZWQtYnk6IEhvdWxvbmcgV2VpIDxob3Vsb25nLndlaUBtZWRpYXRlay5jb20+DQoN
+Cj4gIGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZwdS9tdGtfdnB1LmMgfCA1ICsrKystDQo+
+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstdnB1L210a192cHUuYw0KPiBi
+L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZwdS9tdGtfdnB1LmMNCj4gaW5kZXggZWMyOTBk
+ZGU1OWNmLi43ZjE2NDdkYTBhZGUgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZv
+cm0vbXRrLXZwdS9tdGtfdnB1LmMNCj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGst
+dnB1L210a192cHUuYw0KPiBAQCAtODQ4LDcgKzg0OCw4IEBAIHN0YXRpYyBpbnQgbXRrX3ZwdV9w
+cm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlDQo+ICpwZGV2KQ0KPiAgCXZwdS0+d2R0LndxID0g
+Y3JlYXRlX3NpbmdsZXRocmVhZF93b3JrcXVldWUoInZwdV93ZHQiKTsNCj4gIAlpZiAoIXZwdS0+
+d2R0LndxKSB7DQo+ICAJCWRldl9lcnIoZGV2LCAiaW5pdGlhbGl6ZSB3ZHQgd29ya3F1ZXVlIGZh
+aWxlZFxuIik7DQo+IC0JCXJldHVybiAtRU5PTUVNOw0KPiArCQlyZXQgPSAtRU5PTUVNOw0KPiAr
+CQlnb3RvIGNsa191bnByZXBhcmU7DQo+ICAJfQ0KPiAgCUlOSVRfV09SSygmdnB1LT53ZHQud3Ms
+IHZwdV93ZHRfcmVzZXRfZnVuYyk7DQo+ICAJbXV0ZXhfaW5pdCgmdnB1LT52cHVfbXV0ZXgpOw0K
+PiBAQCAtOTQyLDYgKzk0Myw4IEBAIHN0YXRpYyBpbnQgbXRrX3ZwdV9wcm9iZShzdHJ1Y3QgcGxh
+dGZvcm1fZGV2aWNlDQo+ICpwZGV2KQ0KPiAgCXZwdV9jbG9ja19kaXNhYmxlKHZwdSk7DQo+ICB3
+b3JrcXVldWVfZGVzdHJveToNCj4gIAlkZXN0cm95X3dvcmtxdWV1ZSh2cHUtPndkdC53cSk7DQo+
+ICtjbGtfdW5wcmVwYXJlOg0KPiArCWNsa191bnByZXBhcmUodnB1LT5jbGspOw0KPiAgDQo+ICAJ
+cmV0dXJuIHJldDsNCj4gIH0NCj4gLS0gDQo+IDIuMzAuMg0KPiANCg==
 
-I have been thinking about adding a dmabuf exporter to VFIO, for
-basically the same reason habana labs wants to do it.
-
-In that situation we'd want to see an approach similar to this as well
-to have a broad usability.
-
-The GPU drivers also want this for certain sophisticated scenarios
-with RDMA, the intree drivers just haven't quite got there yet.
-
-So, I think it is worthwhile to start thinking about this regardless
-of habana labs.
-
-Jason
