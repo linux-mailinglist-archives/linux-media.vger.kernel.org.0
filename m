@@ -2,159 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D55523F256E
-	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 05:44:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA6AF3F264B
+	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 07:07:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235342AbhHTDpV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Aug 2021 23:45:21 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:33953 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234930AbhHTDpV (ORCPT
+        id S232904AbhHTFIO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Aug 2021 01:08:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46708 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233004AbhHTFIN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Aug 2021 23:45:21 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id GvSSmygw8JB2jGvSUmnQ44; Fri, 20 Aug 2021 05:44:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1629431082; bh=MLSudDfU6QMEAtDdap9lgbvaOus8iNWqDHi5iS1GjO0=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=lpAbpk8x0uIfDxtTm0tr5wvQOCR66zW8ZlAKs1arft0qjzTjcxGDyLEXJ4Mlt5gpn
-         ZoSIjW78y7//4194N3bE+Emg3HCRb9uJogYMyEmoSoHZa4+3ie7oeJ9iAX60wX69YT
-         97Wa5ZW0jUbBUl8OqkSd7BvvtMBxOj23uC7iZUL/q1Mk5S6YbYWppHuCuc9tM3aVRu
-         loGX0pDrR1j+qJUwNGfOsJlarUjGpCg2XHoze4Bl6w1uLOptEUxGJJMmdr/M5G6TFw
-         abIBfLyiObFXlT2f/9fQayIhEUbfP9QTW1eAEmIsoE3k+H4yO6oun+K1iji8+Gi+ci
-         7fa1+7giaQW3Q==
-Message-ID: <49f32d491671c555fb9f65b27a701a6f@smtp-cloud9.xs4all.net>
-Date:   Fri, 20 Aug 2021 05:44:40 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfEFjFEO2giTWot0yZiTVlJIRUL309LB32N2EMOixKhMLV5xyEoUSwdG+0f3u43n3HL1CaMvxhkHAzoL/3GncaZoHzjDpa50gHfofMDRxrJK0nAGRCC72
- slLvad8mg9ovCfAgeVB8jGqS9NWVh2auvq2HAp7qch4f6MgVWQ9X5DCMp6ilZI2YKRZjK6VFpZqerF9Kg9R5QPcsNkRHOgHtSyMZLHkMNTejbZd9QgONDS9i
- pi60LMfxOu27SOeCIPZt8Q==
+        Fri, 20 Aug 2021 01:08:13 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5734AC061764
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 22:07:36 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id q2so8000208pgt.6
+        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 22:07:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=I11c1cKgPr/Sp26Jfws1CaBTqYhcyWk53u2DaXhbwr4=;
+        b=UpF+nH2OkwIlPICwJCGnmyjIr4B9zvEagcPYbt+FJYBnDajj0m1nO6tNVE8qbt0+Fb
+         dvuJgN/eTqaJJteqhCVn/rpcLUbjjgUdxm7UyfiENQfoJm1xoF4RsPXSRRmHR5JJ+BPY
+         PyeM7sN+r+QeMIx3F/9qJdfTHD7pTlzTgVcV3EQwfDc98f2L+ENvpCEJkt6OSiVH99HJ
+         DBrXa6YTNx2fJk97BqJPlKXpgux1dBNrNVjVGSJvKx8onkggk5QqicWc5AuujjenjwE8
+         18Ew9Inp2nlX4py5sLi42iaANQsw78fFTvRX/HOAZ1Q/cYx042ZZ2sxqM8pjRICPn4KS
+         FXng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=I11c1cKgPr/Sp26Jfws1CaBTqYhcyWk53u2DaXhbwr4=;
+        b=fyegWuevK4P8XmIgmlnp9/RP/GXsKsAfObcrB6y5Z8Q0y0/R3/Uqud9QYi8XNd/tui
+         23d0IFnNm/QBtNtOFgTnAHz5YD3miPo+B+bNPfSy9OuBosIw8xIYp3YzrxDMRbdWbmZa
+         6bBKXvTo3ZncVOlXVqkrQjnPc0AUnsQr/VwysHucf1EcBc0hQs+PDjaIUsacxU/Cxd4d
+         ZymOIxlOsI2EKL1tK2tQ2BNR/avatjJXQCbI1g/KY2NLkX7UIwl6k1SQDvGi9ycA81Xv
+         +Kt4GybBYAyR6DASLZVfzQ+fUIzVho0GABtpMXcXGK4rLDY7pa79M0Sj2aqQk5rH9sB1
+         pHag==
+X-Gm-Message-State: AOAM533dMOPBOwrp37mFMZ/aDi3CEg7tbj2RiQe+LmTJY9g3Kx/qOtzv
+        FKcUolbrAFAUOgT39ALtTVx/lA==
+X-Google-Smtp-Source: ABdhPJy16/E+lvO8MOOTzYuxWhro60JOgxJRFDA2oDgCU53rDXdaeG2jdAFewa07ZsImLDOdZ74p+w==
+X-Received: by 2002:a05:6a00:791:b0:3e1:3316:2e8 with SMTP id g17-20020a056a00079100b003e1331602e8mr18151438pfu.10.1629436055638;
+        Thu, 19 Aug 2021 22:07:35 -0700 (PDT)
+Received: from localhost ([122.172.201.85])
+        by smtp.gmail.com with ESMTPSA id m5sm6747464pgn.70.2021.08.19.22.07.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Aug 2021 22:07:35 -0700 (PDT)
+Date:   Fri, 20 Aug 2021 10:37:32 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        DTML <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+Message-ID: <20210820050732.oy2qdtwha5zioasq@vireshk-i7>
+References: <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+ <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+ <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+ <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+ <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+ <20210818095044.e2ntsm45h5cddk7s@vireshk-i7>
+ <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
+ <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
+ <CAPDyKFoQdn1rm91iFNJwZwpSYcKJBjDLqtJB4KZAkhgY1Grm-Q@mail.gmail.com>
+ <87073fc2-d7b3-98f4-0067-29430ea2adef@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87073fc2-d7b3-98f4-0067-29430ea2adef@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 19-08-21, 22:35, Dmitry Osipenko wrote:
+> 19.08.2021 16:07, Ulf Hansson пишет:
+> > In the other scenario where a consumer driver prefers to *not* call
+> > pm_runtime_resume_and_get() in its ->probe(), because it doesn't need
+> > to power on the device to complete probing, then we don't want to vote
+> > for an OPP at all - and we also want the performance state for the
+> > device in genpd to be set to zero. Correct?
+> 
+> Yes
+> 
+> > Is this the main problem you are trying to solve, because I think this
+> > doesn't work out of the box as of today?
+> 
+> The main problem is that the restored performance state is zero for the
+> first genpd_runtime_resume(), while it's not zero from the h/w perspective.
 
-Results of the daily build of media_tree:
+This is exactly why I have been advocating that the genpd needs to
+sync up with the hardware before any calls are made to it from the
+consumer driver. Just what clock framework does to get the clock rate.
 
-date:			Fri Aug 20 05:00:10 CEST 2021
-media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
-media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
-v4l-utils git hash:	58f4f974944c182890a09d040418dafa9a431e45
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7532-gde99456f6
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
-host hardware:		x86_64
-host os:		5.13.1-marune
+> > There is another concern though, but perhaps it's not a problem after
+> > all. Viresh told us that dev_pm_opp_set_rate() may turn on resources
+> > like clock/regulators. That could certainly be problematic, in
+> > particular if the device and its genpd have OPP tables associated with
+> > it and the consumer driver wants to follow the above sequence in
+> > probe.
+> 
+> dev_pm_opp_set_rate() won't enable clocks and regulators, but it may
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+It does enable regulators right now, it may choose to enable clocks
+later on, no guarantees.
 
-Detailed results are available here:
+> change the clock rate and voltage. This is also platform/driver specific
+> because it's up to OPP user how to configure OPP table. On Tegra we only
+> assign clock to OPP table, regulators are unused.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+Right, over that platforms can set their own version of set-opp
+callback, where all this is done from a platform specific callback.
 
-Detailed regression test results are available here:
+> > Viresh, can you please chime in here and elaborate on some of the
+> > magic happening behind dev_pm_opp_set_rate() API - is there a problem
+> > here or not?
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+It configures clock, regulators, genpds, any required OPPs, + it
+enables regulators right now.
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+viresh
