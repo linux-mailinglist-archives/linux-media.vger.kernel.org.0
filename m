@@ -2,164 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A43223F266E
-	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 07:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5435A3F27A0
+	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 09:25:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233976AbhHTFTZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Aug 2021 01:19:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49246 "EHLO
+        id S238646AbhHTH0U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Aug 2021 03:26:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235342AbhHTFTX (ORCPT
+        with ESMTP id S235996AbhHTH0T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Aug 2021 01:19:23 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DBE8C0613D9
-        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 22:18:46 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id y23so8032021pgi.7
-        for <linux-media@vger.kernel.org>; Thu, 19 Aug 2021 22:18:46 -0700 (PDT)
+        Fri, 20 Aug 2021 03:26:19 -0400
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2993FC061756
+        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 00:25:42 -0700 (PDT)
+Received: by mail-oi1-x235.google.com with SMTP id p2so9224170oif.1
+        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 00:25:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=chAct3ipnxxeeUzw3hiYvmSC99rC9KHQnQdo3Qo5wI0=;
-        b=PAK0FwHpNruccQOMJcEETGgiuehcBfGqSXwbOalixpfWmC8iUPHKv0ZRFhT4USGW3L
-         s3ikZix1CXYk8w3jX5LaxfyZfb40GBiPWSjG9bWn3gJp9a9Md0FR48UGizRgXzY9ODgl
-         10gDNc8YxX4abwwur3/2Ib4tR0HK4fxAVz95jdn0g5Bjm1f+zlmZUdf0J4uOmNCA+73o
-         QmFwB0uLKerpVDInoO9o15o02ie64XpCaCSsIImcFb/KjT6Us0KvUWI0KV441DGxP1Gb
-         Qjx6eoerfkbM7U/RrGe2d3xgWfRJJ6PVyX/2MvEkhvBiHXfKbkbdOk6b4KB2LrxPQeQV
-         fLzw==
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=G5ALr4EA4tA2v978TPeOHUvCmve3hdooJ+JbOY+xBaw=;
+        b=e8DhrBaGywh239BR9UQgfCjPecmsIPU8LAS/ZlfifZh0cpL4zFyrZpikEaVhObl4IF
+         pozoTQDVklP+HA+yeDTCvsVH4MDujDI65ZCmdG1lpbaPY8SXUM9RnkO2x6mIrJPOBr/o
+         18WMB/R0IAUdjnO9eSdJriCYRNe3pfqIq9ePc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=chAct3ipnxxeeUzw3hiYvmSC99rC9KHQnQdo3Qo5wI0=;
-        b=OY0QN0v8Ir2XlaIQ8CaF3hUnPxiDa8yLbWlC6O4rRKLVLbA/kxdhdpi4rvP903q4M/
-         MGK9GdgGQfPCyDeUa/ogecZ7JmPdxvBdEKJalHEJzjamd/VrAzrNfMKoVTxSG+UZe2a9
-         rrkq6EIZ9ykzT6ghnEgzAn9SOAb1Ldpw4tDMw/eiFhgGbvaCuEh4LlXMFIGpPDW3Y0RQ
-         WTGeSlCGLlBwU0+w6LVsimV3WBOazfqgzy4pTIAls8z9czC2VhmpyI/op/m/qW9Z9A5D
-         kMz8u8tQjxzYjsyazSXJ7NTMYhh0sLUGnAmW5raEsK6S4l4IQJpGLZgwlur2j0gTXeTW
-         3SHA==
-X-Gm-Message-State: AOAM5325laWfwqJgUk+QjcXX/qgXYu6ja1Ac+IBqEvbV3Oma5Fo5gk27
-        nK0aiAaqVM2wHLSS1vdYLs9kqg==
-X-Google-Smtp-Source: ABdhPJwH30rFrNGt2fTNK9Na7wrgKwgjGw7543RwntMIs+dfy9PTWNVMu53RFGAQHLSof48YBaglZA==
-X-Received: by 2002:a62:8283:0:b0:3e0:f3f3:839d with SMTP id w125-20020a628283000000b003e0f3f3839dmr17811980pfd.37.1629436725848;
-        Thu, 19 Aug 2021 22:18:45 -0700 (PDT)
-Received: from localhost ([122.172.201.85])
-        by smtp.gmail.com with ESMTPSA id i26sm5582209pfu.6.2021.08.19.22.18.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 22:18:45 -0700 (PDT)
-Date:   Fri, 20 Aug 2021 10:48:43 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        DTML <devicetree@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-Message-ID: <20210820051843.5mueqpnjbqt3zdzc@vireshk-i7>
-References: <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
- <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
- <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
- <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
- <CAPDyKFpg8ixT4AEjzVLTwQR7Nn9CctjnLCDS5GwkOrAERquyxw@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=G5ALr4EA4tA2v978TPeOHUvCmve3hdooJ+JbOY+xBaw=;
+        b=cZdyMnckp58/DSqqijXce+vevX+mohsuYQXsPhUddpbTdxvhcQ17xKrOAYr6oUcCQg
+         cK5Y2svkCMF2db8di1po52ZA83q2Vuwt4XJKzMfN+12lSeE0Urkp3wujVGm51fTFk8lg
+         TgUTpwZVgtWrkOKbTCzJIK9fxq9Km+ONb3aH0+sFhGUQ0c4hgigoV58gpE6ZOEg3k9KD
+         sbvegD/Sjz3u/51pq6pM4JaBNFnaqSAIZvBkck1je5C4HB22QtMmEsYP4exOMnotZBFa
+         wQ5SQt5s4f4xF2dCq6ANFRxbmFGcSP9jYtgGKmRTN3s2wA6nIi730Hz8xXgHmwS50zoO
+         S+dQ==
+X-Gm-Message-State: AOAM533CI0O3bxh7IyYs4gLMaY6zqQCSUwTj/I/g07rp3dKeqn9PlO6F
+        sDn7R17ZeZmYzBDjnhI21EWWgKrqw4magj+Bn4iogw==
+X-Google-Smtp-Source: ABdhPJwlex8RkEsRvudtfGWE0C46ujA2iX4BP2ZJ8GsF4Jblfr83G50+9sU0thDn+HWeLg/nFJaZIYC4VGB2Ro+Unmc=
+X-Received: by 2002:a05:6808:2116:: with SMTP id r22mr2012118oiw.128.1629444341532;
+ Fri, 20 Aug 2021 00:25:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFpg8ixT4AEjzVLTwQR7Nn9CctjnLCDS5GwkOrAERquyxw@mail.gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+References: <20210818074352.29950-1-galpress@amazon.com> <CAKMK7uGZ_eX+XfYJU6EkKEOVrHz3q6QMxaEbyyD3_1iqj9YSjw@mail.gmail.com>
+ <20210819230602.GU543798@ziepe.ca>
+In-Reply-To: <20210819230602.GU543798@ziepe.ca>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Fri, 20 Aug 2021 09:25:30 +0200
+Message-ID: <CAKMK7uGgQWcs4Va6TGN9akHSSkmTs1i0Kx+6WpeiXWhJKpasLA@mail.gmail.com>
+Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Gal Pressman <galpress@amazon.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Doug Ledford <dledford@redhat.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Oded Gabbay <ogabbay@habana.ai>,
+        Tomer Tayar <ttayar@habana.ai>,
+        Yossi Leybovich <sleybo@amazon.com>,
+        Alexander Matushevsky <matua@amazon.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Jianxin Xiong <jianxin.xiong@intel.com>,
+        John Hubbard <jhubbard@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19-08-21, 16:55, Ulf Hansson wrote:
-> Right, that sounds reasonable.
-> 
-> We already have pm_genpd_opp_to_performance_state() which translates
-> an OPP to a performance state. This function invokes the
-> ->opp_to_performance_state() for a genpd. Maybe we need to allow a
-> genpd to not have ->opp_to_performance_state() callback assigned
-> though, but continue up in the hierarchy to see if the parent has the
-> callback assigned, to make this work for Tegra?
-> 
-> Perhaps we should add an API dev_pm_genpd_opp_to_performance_state(),
-> allowing us to pass the device instead of the genpd. But that's a
-> minor thing.
-
-I am not concerned a lot about how it gets implemented, and am not
-sure as well, as I haven't looked into these details since sometime.
-Any reasonable thing will be accepted, as simple as that.
-
-> Finally, the precondition to use the above, is to first get a handle
-> to an OPP table. This is where I am struggling to find a generic
-> solution, because I guess that would be platform or even consumer
-> driver specific for how to do this. And at what point should we do
-> this?
-
-Hmm, I am not very clear with the whole picture at this point of time.
-
-Dmitry, can you try to frame a sequence of events/calls/etc that will
-define what kind of devices we are looking at here, and how this can
-be made to work ?
-
-> > > Viresh, please take a look at what I did in [1]. Maybe it could be done
-> > > in another way.
+On Fri, Aug 20, 2021 at 1:06 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> On Wed, Aug 18, 2021 at 11:34:51AM +0200, Daniel Vetter wrote:
+> > On Wed, Aug 18, 2021 at 9:45 AM Gal Pressman <galpress@amazon.com> wrote:
+> > >
+> > > Hey all,
+> > >
+> > > Currently, the RDMA subsystem can only work with dynamic dmabuf
+> > > attachments, which requires the RDMA device to support on-demand-paging
+> > > (ODP) which is not common on most devices (only supported by mlx5).
+> > >
+> > > While the dynamic requirement makes sense for certain GPUs, some devices
+> > > (such as habanalabs) have device memory that is always "pinned" and do
+> > > not need/use the move_notify operation.
+> > >
+> > > The motivation of this RFC is to use habanalabs as the dmabuf exporter,
+> > > and EFA as the importer to allow for peer2peer access through libibverbs.
+> > >
+> > > This draft patch changes the dmabuf driver to differentiate between
+> > > static/dynamic attachments by looking at the move_notify op instead of
+> > > the importer_ops struct, and allowing the peer2peer flag to be enabled
+> > > in case of a static exporter.
+> > >
+> > > Thanks
+> > >
+> > > Signed-off-by: Gal Pressman <galpress@amazon.com>
 > >
-> > I looked into this and looked like too much trouble. The
-> > implementation needs to be simple. I am not sure I understand all the
-> > problems you faced while doing that, would be better to start with a
-> > simpler implementation of get_performance_state() kind of API for
-> > genpd, after the domain is attached and its OPP table is initialized.
-> >
-> > Note, that the OPP table isn't required to be fully initialized for
-> > the device at this point, we can parse the DT as well if needed be.
-> 
-> Sure, but as I indicated above, you need some kind of input data to
-> figure out what OPP table to pick, before you can translate that into
-> a performance state. Is that always the clock rate, for example?
+> > Given that habanalabs dma-buf support is very firmly in limbo (at
+> > least it's not yet in linux-next or anywhere else) I think you want to
+> > solve that problem first before we tackle the additional issue of
+> > making p2p work without dynamic dma-buf. Without that it just doesn't
+> > make a lot of sense really to talk about solutions here.
+>
+> I have been thinking about adding a dmabuf exporter to VFIO, for
+> basically the same reason habana labs wants to do it.
+>
+> In that situation we'd want to see an approach similar to this as well
+> to have a broad usability.
+>
+> The GPU drivers also want this for certain sophisticated scenarios
+> with RDMA, the intree drivers just haven't quite got there yet.
+>
+> So, I think it is worthwhile to start thinking about this regardless
+> of habana labs.
 
-Eventually it can be clock, bandwidth, or pstate of anther genpd, not
-sure what all we are looking for now. It should be just clock right
-now as far as I can imagine :)
+Oh sure, I've been having these for a while. I think there's two options:
+- some kind of soft-pin, where the contract is that we only revoke
+when absolutely necessary, and it's expected to be catastrophic on the
+importer's side. The use-case would be single user that fully controls
+all accelerator local memory, and so kernel driver evicting stuff. I
+havent implemented it, but the idea is that essentially in eviction we
+check whom we're evicting for (by checking owners of buffers maybe,
+atm those are not tracked in generic code but not that hard to add),
+and if it's the same userspace owner we don't ever pick these buffers
+as victims for eviction, preferreing -ENOMEM/-ENOSPC. If a new user
+comes around then we'd still throw these out to avoid abuse, and it
+would be up to sysadmins to make sure this doesn't happen untimely,
+maybe with the next thing.
 
-> Perhaps, we should start with adding a dev_pm_opp_get_from_rate() or
-> what do you think? Do you have other suggestions?
+- cgroups for (pinned) buffers. Mostly because cgroups for local
+memory is somewhere on the plans anyway, but that one could also take
+forever since there's questions about overlap with memcg and things
+like that, plus thus far everyone who cares made and incompatible
+proposal about how it should be done :-/
 
-We already have similar APIs, so that won't be a problem. We also have
-a mechanism inside the OPP core, frequency based, which is used to
-guess the current OPP. Maybe we can enhance and use that directly
-here.
-
+A variant of the first one would be device-level revoke, which is a
+concept we already have in drm for the modesetting side and also for
+like 20 year old gpu drivers. We could brush that off and close some
+of the gaps (a student is fixing the locking right now, the thing left
+to do is mmap revoke), and I think that model of exclusive device
+ownership with the option to revoke fits pretty well for at least some
+of the accelerators floating around. In that case importers would
+never get a move_notify (maybe we should call this revoke_notify to
+make it clear it's a bit different) callback, except when the entire
+thing has been yanked. I think that would fit pretty well for VFIO,
+and I think we should be able to make it work for rdma too as some
+kind of auto-deregister. The locking might be fun with both of these
+since I expect some inversions compared to the register path, we'll
+have to figure these out.
+-Daniel
 -- 
-viresh
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
