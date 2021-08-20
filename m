@@ -2,111 +2,293 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF0643F2E1D
-	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 16:32:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8240A3F2E27
+	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 16:35:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240861AbhHTOd2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Aug 2021 10:33:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35522 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240851AbhHTOd2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Aug 2021 10:33:28 -0400
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A1FCC061756
-        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 07:32:50 -0700 (PDT)
-Received: by mail-qt1-x834.google.com with SMTP id u21so4636429qtw.8
-        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 07:32:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=e0wrVGt7kFkQ7/wtYNAWRBgRnWXShvbh13I5Ys01L+E=;
-        b=CJ7ZuJeCdchRl4XgOXd49TxFXsziyfoAObxQJTDcAhjeYeuNnMWGvlkddsUNs7Yy3q
-         tM56eXxmJgNjYtz4wl/f8KseperUdZgrpGVf4lEnEqbHV1bUVN0z9lt4OODWEKREvdlT
-         TF+IZKaReYT67Em58muNv8ChnbvR+loV5nFVSM71QZGQQDw8E1Oh3Trsr8HX0Y8eJRVH
-         CgymNCiT29qApJReU16s0Vr4h0ea8sv9HXXEwuRckCmzH8u5niys1+qSkMslwPUm7oNN
-         3y4asbHkuiLCSqW62K/s0cLlm5z0e0XtYBZT+lAFbxc8onwoZfWAsWC7gOw5AIfOkc7o
-         nzrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=e0wrVGt7kFkQ7/wtYNAWRBgRnWXShvbh13I5Ys01L+E=;
-        b=WN0UvqeRwxTngdNOoI7vwzKqaDhyVdBSWT/pdXtGRrqiAOLvtd9+2nMZ1lO8Na7KUy
-         tJCF6Q17EQao/CvMzOF0/HJP8RIOq9yFZnqzDsDYAwDAQ1EjXGs04V8jfQ4JgV5//PC5
-         BN3l953wrOkD6sbPaYAhqqRXdYLDeRnuMK6VSPB5L/do5EtnTHy/U9FPtp/Q1Sme8sHL
-         BaRsr802FM707sxIOzqeBXHa4aMsQ3zIMW58IvC1xkWOChZe3o5RybN7tAXrEVRPX80w
-         VcYcxrGONo7AhTdyDMPxTEtWScEmVzvmMM/wHdnr6+MJ8N+iOPijcQidSQBotq5YNtnq
-         C90g==
-X-Gm-Message-State: AOAM531wtDn+8vwkklmiHUnSCwkPU8GtVQFQRDP6dzwCWrzgYgCRW24r
-        j6+6oe6A6ORQJBtDBkPGX6mYsw==
-X-Google-Smtp-Source: ABdhPJwmdH6rF/yxxbcSNY8JaS0SkaULXIuYiJrw1kTXkGwDrlKXUC7BypHhSOicY9n0ZG/pqAFTrg==
-X-Received: by 2002:ac8:7f06:: with SMTP id f6mr7901829qtk.262.1629469969475;
-        Fri, 20 Aug 2021 07:32:49 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id i18sm622187qke.103.2021.08.20.07.32.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 07:32:48 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1mH5Zg-001ri3-25; Fri, 20 Aug 2021 11:32:48 -0300
-Date:   Fri, 20 Aug 2021 11:32:48 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Gal Pressman <galpress@amazon.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Doug Ledford <dledford@redhat.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Oded Gabbay <ogabbay@habana.ai>,
-        Tomer Tayar <ttayar@habana.ai>,
-        Yossi Leybovich <sleybo@amazon.com>,
-        Alexander Matushevsky <matua@amazon.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Jianxin Xiong <jianxin.xiong@intel.com>,
-        John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
-Message-ID: <20210820143248.GX543798@ziepe.ca>
-References: <20210818074352.29950-1-galpress@amazon.com>
- <CAKMK7uGZ_eX+XfYJU6EkKEOVrHz3q6QMxaEbyyD3_1iqj9YSjw@mail.gmail.com>
- <20210819230602.GU543798@ziepe.ca>
- <CAKMK7uGgQWcs4Va6TGN9akHSSkmTs1i0Kx+6WpeiXWhJKpasLA@mail.gmail.com>
- <20210820123316.GV543798@ziepe.ca>
- <0fc94ac0-2bb9-4835-62b8-ea14f85fe512@amazon.com>
+        id S238451AbhHTOfh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Aug 2021 10:35:37 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:52278 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231706AbhHTOfg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 20 Aug 2021 10:35:36 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mH5bl-007VfP-QJ; Fri, 20 Aug 2021 14:34:57 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mH5bk-00FHLw-0i; Fri, 20 Aug 2021 14:34:55 +0000
+Date:   Fri, 20 Aug 2021 14:34:54 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1419478388.2.1629470094728@builder.linuxtv.org>
+Subject: Build failed in Jenkins: linux-media #245
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0fc94ac0-2bb9-4835-62b8-ea14f85fe512@amazon.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: linux-media
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Aug 20, 2021 at 03:58:33PM +0300, Gal Pressman wrote:
+See <https://builder.linuxtv.org/job/linux-media/245/display/redirect>
 
-> Though it would've been nicer if we could agree on a solution that could work
-> for more than 1-2 RDMA devices, using the existing tools the RDMA subsystem has.
+Changes:
 
-I don't think it can really be done, revoke is necessary, and isn't a
-primitive we have today.
 
-Revoke is sort of like rereg MR, but with a guaranteed no-change to
-the lkey/rkey
-
-Then there is the locking complexity of linking the mr creation and
-destruction to the lifecycle of the pages, which is messy and maybe
-not general. For instance mlx5 would call its revoke_mr, disconnect
-the dmabuf then destroy the mkey - but this is only safe because mlx5
-HW can handle concurrent revokes.
-
-> That's why I tried to approach this by denying such attachments for non-ODP
-> importers instead of exposing a "limited" dynamic importer.
-
-That is fine if there is no revoke - once revoke exists we must have
-driver and HW support.
-
-Jason
+------------------------------------------
+[...truncated 24824 lines...]
+  CC [M]  drivers/staging/vt6656/vt6656_stage.mod.o
+  CC [M]  kernel/trace/preemptirq_delay_test.mod.o
+  CC [M]  lib/livepatch/test_klp_atomic_replace.mod.o
+  CC [M]  lib/livepatch/test_klp_callbacks_busy.mod.o
+  CC [M]  lib/livepatch/test_klp_callbacks_demo.mod.o
+  CC [M]  lib/livepatch/test_klp_callbacks_demo2.mod.o
+  CC [M]  lib/livepatch/test_klp_callbacks_mod.mod.o
+  CC [M]  lib/livepatch/test_klp_livepatch.mod.o
+  CC [M]  lib/livepatch/test_klp_shadow_vars.mod.o
+  CC [M]  lib/livepatch/test_klp_state.mod.o
+  CC [M]  lib/livepatch/test_klp_state2.mod.o
+  CC [M]  lib/livepatch/test_klp_state3.mod.o
+  CC [M]  lib/percpu_test.mod.o
+  CC [M]  lib/test_bitops.mod.o
+  CC [M]  lib/test_blackhole_dev.mod.o
+  CC [M]  lib/test_bpf.mod.o
+  CC [M]  lib/test_kasan_module.mod.o
+  CC [M]  lib/test_kmod.mod.o
+  CC [M]  lib/test_lockup.mod.o
+  CC [M]  lib/test_module.mod.o
+  CC [M]  lib/test_static_key_base.mod.o
+  CC [M]  lib/test_static_keys.mod.o
+  CC [M]  lib/test_ubsan.mod.o
+  CC [M]  lib/test_user_copy.mod.o
+  CC [M]  lib/test_vmalloc.mod.o
+  CC [M]  samples/configfs/configfs_sample.mod.o
+  CC [M]  samples/connector/cn_test.mod.o
+  CC [M]  samples/ftrace/ftrace-direct-modify.mod.o
+  CC [M]  samples/ftrace/ftrace-direct-too.mod.o
+  CC [M]  samples/ftrace/ftrace-direct.mod.o
+  CC [M]  samples/ftrace/sample-trace-array.mod.o
+  CC [M]  samples/hw_breakpoint/data_breakpoint.mod.o
+  CC [M]  samples/kdb/kdb_hello.mod.o
+  CC [M]  samples/kfifo/bytestream-example.mod.o
+  CC [M]  samples/kfifo/dma-example.mod.o
+  CC [M]  samples/kfifo/inttype-example.mod.o
+  CC [M]  samples/kfifo/record-example.mod.o
+  CC [M]  samples/kmemleak/kmemleak-test.mod.o
+  CC [M]  samples/kprobes/kprobe_example.mod.o
+  CC [M]  samples/kprobes/kretprobe_example.mod.o
+  CC [M]  samples/livepatch/livepatch-callbacks-busymod.mod.o
+  CC [M]  samples/livepatch/livepatch-callbacks-demo.mod.o
+  CC [M]  samples/livepatch/livepatch-callbacks-mod.mod.o
+  CC [M]  samples/livepatch/livepatch-sample.mod.o
+  CC [M]  samples/livepatch/livepatch-shadow-fix1.mod.o
+  CC [M]  samples/livepatch/livepatch-shadow-fix2.mod.o
+  CC [M]  samples/livepatch/livepatch-shadow-mod.mod.o
+  CC [M]  samples/rpmsg/rpmsg_client_sample.mod.o
+  CC [M]  samples/trace_events/trace-events-sample.mod.o
+  CC [M]  samples/trace_printk/trace-printk.mod.o
+  CC [M]  samples/vfio-mdev/mbochs.mod.o
+  CC [M]  samples/vfio-mdev/mdpy-fb.mod.o
+  CC [M]  samples/vfio-mdev/mdpy.mod.o
+  CC [M]  samples/vfio-mdev/mtty.mod.o
+  LD [M]  arch/x86/mm/testmmiotrace.ko
+  LD [M]  drivers/accessibility/speakup/speakup_decpc.ko
+  LD [M]  drivers/base/test/test_async_driver_probe.ko
+  LD [M]  drivers/i2c/i2c-stub.ko
+  LD [M]  drivers/mtd/tests/mtd_nandbiterrs.ko
+  LD [M]  drivers/mtd/tests/mtd_nandecctest.ko
+  LD [M]  drivers/mtd/tests/mtd_oobtest.ko
+  LD [M]  drivers/mtd/tests/mtd_pagetest.ko
+  LD [M]  drivers/mtd/tests/mtd_readtest.ko
+  LD [M]  drivers/mtd/tests/mtd_speedtest.ko
+  LD [M]  drivers/mtd/tests/mtd_stresstest.ko
+  LD [M]  drivers/mtd/tests/mtd_subpagetest.ko
+  LD [M]  drivers/ntb/hw/epf/ntb_hw_epf.ko
+  LD [M]  drivers/mtd/tests/mtd_torturetest.ko
+  LD [M]  drivers/nvdimm/../../tools/testing/nvdimm/test/iomap.ko
+  LD [M]  drivers/scsi/mpi3mr/mpi3mr.ko
+  LD [M]  drivers/scsi/pcmcia/aha152x_cs.ko
+  LD [M]  drivers/scsi/pcmcia/fdomain_cs.ko
+  LD [M]  drivers/scsi/pcmcia/nsp_cs.ko
+  LD [M]  drivers/scsi/pcmcia/qlogic_cs.ko
+  LD [M]  drivers/scsi/pcmcia/sym53c500_cs.ko
+  LD [M]  drivers/scsi/qlogicfas408.ko
+  LD [M]  drivers/spi/spi-loopback-test.ko
+  LD [M]  drivers/staging/gdm724x/gdmtty.ko
+  LD [M]  drivers/staging/gdm724x/gdmulte.ko
+  LD [M]  drivers/staging/rtl8188eu/r8188eu.ko
+  LD [M]  drivers/staging/rtl8192e/rtl8192e/r8192e_pci.ko
+  LD [M]  drivers/staging/rtl8192e/rtllib.ko
+  LD [M]  drivers/staging/rtl8192e/rtllib_crypt_ccmp.ko
+  LD [M]  drivers/staging/rtl8192e/rtllib_crypt_tkip.ko
+  LD [M]  drivers/staging/rtl8192e/rtllib_crypt_wep.ko
+  LD [M]  drivers/staging/rtl8192u/r8192u_usb.ko
+  LD [M]  drivers/staging/rtl8723bs/r8723bs.ko
+  LD [M]  drivers/staging/vt6655/vt6655_stage.ko
+  LD [M]  drivers/staging/vt6656/vt6656_stage.ko
+  LD [M]  kernel/trace/preemptirq_delay_test.ko
+  LD [M]  lib/livepatch/test_klp_atomic_replace.ko
+  LD [M]  lib/livepatch/test_klp_callbacks_busy.ko
+  LD [M]  lib/livepatch/test_klp_callbacks_demo.ko
+  LD [M]  lib/livepatch/test_klp_callbacks_demo2.ko
+  LD [M]  lib/livepatch/test_klp_callbacks_mod.ko
+  LD [M]  lib/livepatch/test_klp_livepatch.ko
+  LD [M]  lib/livepatch/test_klp_shadow_vars.ko
+  LD [M]  lib/livepatch/test_klp_state.ko
+  LD [M]  lib/livepatch/test_klp_state2.ko
+  LD [M]  lib/livepatch/test_klp_state3.ko
+  LD [M]  lib/percpu_test.ko
+  LD [M]  lib/test_bitops.ko
+  LD [M]  lib/test_blackhole_dev.ko
+  LD [M]  lib/test_kasan_module.ko
+  LD [M]  lib/test_bpf.ko
+  LD [M]  lib/test_kmod.ko
+  LD [M]  lib/test_module.ko
+  LD [M]  lib/test_static_key_base.ko
+  LD [M]  lib/test_static_keys.ko
+  LD [M]  lib/test_ubsan.ko
+  LD [M]  lib/test_user_copy.ko
+  LD [M]  lib/test_vmalloc.ko
+  LD [M]  samples/configfs/configfs_sample.ko
+  LD [M]  samples/connector/cn_test.ko
+  LD [M]  lib/test_lockup.ko
+  LD [M]  samples/ftrace/ftrace-direct-modify.ko
+  LD [M]  samples/ftrace/ftrace-direct-too.ko
+  LD [M]  samples/ftrace/ftrace-direct.ko
+  LD [M]  samples/ftrace/sample-trace-array.ko
+  LD [M]  samples/kdb/kdb_hello.ko
+  LD [M]  samples/kfifo/bytestream-example.ko
+  LD [M]  samples/kfifo/dma-example.ko
+  LD [M]  samples/hw_breakpoint/data_breakpoint.ko
+  LD [M]  samples/kfifo/inttype-example.ko
+  LD [M]  samples/kfifo/record-example.ko
+  LD [M]  samples/kmemleak/kmemleak-test.ko
+  LD [M]  samples/kprobes/kprobe_example.ko
+  LD [M]  samples/kprobes/kretprobe_example.ko
+  LD [M]  samples/livepatch/livepatch-callbacks-busymod.ko
+  LD [M]  samples/livepatch/livepatch-callbacks-demo.ko
+  LD [M]  samples/livepatch/livepatch-callbacks-mod.ko
+  LD [M]  samples/livepatch/livepatch-sample.ko
+  LD [M]  samples/livepatch/livepatch-shadow-fix1.ko
+  LD [M]  samples/livepatch/livepatch-shadow-fix2.ko
+  LD [M]  samples/livepatch/livepatch-shadow-mod.ko
+  LD [M]  samples/rpmsg/rpmsg_client_sample.ko
+  LD [M]  samples/trace_events/trace-events-sample.ko
+  LD [M]  samples/trace_printk/trace-printk.ko
+  LD [M]  samples/vfio-mdev/mdpy-fb.ko
+  LD [M]  samples/vfio-mdev/mbochs.ko
+  LD [M]  samples/vfio-mdev/mdpy.ko
+  LD [M]  samples/vfio-mdev/mtty.ko
+  MKPIGGY arch/x86/boot/compressed/piggy.S
+  AS      arch/x86/boot/compressed/piggy.o
+  LD      arch/x86/boot/compressed/vmlinux
+  ZOFFSET arch/x86/boot/zoffset.h
+  OBJCOPY arch/x86/boot/vmlinux.bin
+  AS      arch/x86/boot/header.o
+  LD      arch/x86/boot/setup.elf
+  OBJCOPY arch/x86/boot/setup.bin
+  BUILD   arch/x86/boot/bzImage
+Kernel: arch/x86/boot/bzImage is ready  (#11)
+make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
++ make O=arm64_yes CROSS_COMPILER=/usr/bin/aarch64-linux-gnu- allyesconfig
+make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/arm64_yes'
+  GEN     Makefile
+  HOSTCC  scripts/basic/fixdep
+  HOSTCC  scripts/kconfig/conf.o
+  HOSTCC  scripts/kconfig/confdata.o
+  HOSTCC  scripts/kconfig/expr.o
+  LEX     scripts/kconfig/lexer.lex.c
+  YACC    scripts/kconfig/parser.tab.[ch]
+  HOSTCC  scripts/kconfig/lexer.lex.o
+  HOSTCC  scripts/kconfig/menu.o
+  HOSTCC  scripts/kconfig/parser.tab.o
+  HOSTCC  scripts/kconfig/preprocess.o
+  HOSTCC  scripts/kconfig/symbol.o
+  HOSTCC  scripts/kconfig/util.o
+  HOSTLD  scripts/kconfig/conf
+#
+# configuration written to .config
+#
+make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/arm64_yes'
++ ./scripts/config --file arm64_yes/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
++ make O=arm64_yes CROSS_COMPILER=/usr/bin/aarch64-linux-gnu- -j9
+make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/arm64_yes'
+  SYNC    include/config/auto.conf.cmd
+  GEN     Makefile
+  GEN     Makefile
+  HOSTCC  arch/x86/tools/relocs_32.o
+  HOSTCC  arch/x86/tools/relocs_64.o
+  HOSTCC  scripts/dtc/dtc.o
+  HOSTCC  scripts/unifdef
+  HOSTCC  scripts/dtc/flattree.o
+  HOSTCC  arch/x86/tools/relocs_common.o
+  HOSTCC  scripts/dtc/fstree.o
+  HOSTCC  scripts/dtc/data.o
+  SYSHDR  arch/x86/include/generated/uapi/asm/unistd_32.h
+  SYSHDR  arch/x86/include/generated/uapi/asm/unistd_64.h
+  SYSHDR  arch/x86/include/generated/uapi/asm/unistd_x32.h
+  SYSTBL  arch/x86/include/generated/asm/syscalls_32.h
+  HOSTCC  scripts/dtc/livetree.o
+  HOSTCC  scripts/dtc/treesource.o
+  HOSTLD  arch/x86/tools/relocs
+  SYSHDR  arch/x86/include/generated/asm/unistd_32_ia32.h
+  SYSHDR  arch/x86/include/generated/asm/unistd_64_x32.h
+  SYSTBL  arch/x86/include/generated/asm/syscalls_64.h
+  HOSTCC  scripts/dtc/srcpos.o
+  HOSTCC  scripts/dtc/checks.o
+  HOSTCC  scripts/dtc/util.o
+  SYSTBL  arch/x86/include/generated/asm/syscalls_x32.h
+  LEX     scripts/dtc/dtc-lexer.lex.c
+  DESCEND objtool
+  HYPERCALLS arch/x86/include/generated/asm/xen-hypercalls.h
+  YACC    scripts/dtc/dtc-parser.tab.[ch]
+  HOSTCC  scripts/dtc/libfdt/fdt.o
+  HOSTCC  scripts/dtc/libfdt/fdt_ro.o
+  HOSTCC  scripts/dtc/libfdt/fdt_wip.o
+  HOSTCC  scripts/dtc/libfdt/fdt_sw.o
+  HOSTCC  scripts/dtc/libfdt/fdt_rw.o
+  HOSTCC  scripts/dtc/libfdt/fdt_strerror.o
+  HOSTCC  scripts/dtc/libfdt/fdt_empty_tree.o
+  HOSTCC  scripts/dtc/libfdt/fdt_addresses.o
+  HOSTCC  scripts/dtc/libfdt/fdt_overlay.o
+  HOSTCC  scripts/dtc/fdtoverlay.o
+  HOSTCC  scripts/dtc/dtc-lexer.lex.o
+  HOSTCC  scripts/dtc/dtc-parser.tab.o
+  HOSTLD  scripts/dtc/dtc
+  HOSTLD  scripts/dtc/fdtoverlay
+  HOSTCC  scripts/bin2c
+  HOSTCC  scripts/kallsyms
+  HOSTCC  scripts/sorttable
+  HOSTCC  scripts/asn1_compiler
+  HOSTCC  scripts/sign-file
+  HOSTCC  scripts/extract-cert
+  HOSTCC  scripts/selinux/genheaders/genheaders
+make[5]: *** No rule to make target '/usr/lib/gcc/x86_64-linux-gnu/8/include/stddef.h', needed by '/var/lib/jenkins/workspace/linux-media@2/arm64_yes/tools/objtool/fixdep.o'.  Stop.
+make[4]: *** [Makefile:47: /var/lib/jenkins/workspace/linux-media@2/arm64_yes/tools/objtool/fixdep-in.o] Error 2
+make[3]: *** [/var/lib/jenkins/workspace/linux-media@2/tools/build/Makefile.include:5: fixdep] Error 2
+make[2]: *** [Makefile:69: objtool] Error 2
+make[1]: *** [/var/lib/jenkins/workspace/linux-media@2/Makefile:1355: tools/objtool] Error 2
+make[1]: *** Waiting for unfinished jobs....
+  HOSTCC  scripts/insert-sys-cert
+  HOSTCC  scripts/selinux/mdp/mdp
+  UPD     include/config/kernel.release
+make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/arm64_yes'
+make: *** [Makefile:220: __sub-make] Error 2
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+Failed in branch arm/aarch64 (builtin)
+[Pipeline] // parallel
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] step
