@@ -2,119 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C59363F2E2D
-	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 16:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 443443F2E78
+	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 17:02:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240798AbhHTOgz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Aug 2021 10:36:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36316 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231706AbhHTOgy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Aug 2021 10:36:54 -0400
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF92DC061575
-        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 07:36:16 -0700 (PDT)
-Received: by mail-qv1-xf2c.google.com with SMTP id v1so5591885qva.7
-        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 07:36:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=ycQWIFkOQSdrncAv0rFvSdUheMYtmO0A/J65XFFGClw=;
-        b=oFJG2Y7wCq4/VmmHHiFN88HP+xRId6sbMgdrPVTPaItLHwW/dUB4TnjHwKG9bjVVbI
-         ZCURQBkPHsgo5nvTEEbq0/oWjacPphAOGeL1G/avp7sHQEs5lM6kX6tCQCWSbBYAZwmy
-         cEAYfFvsE6oybBr81x2p4wKTxlhWvnwG1ev8SLWmyewhZ0B9F2hphV299i6zrKOm5InH
-         70cWVLfDpotd8oIvHRGL8rFMNxhmxbNYTxyvZo/OrcCCkZNflhXzDydJq7N/MS1tqCuD
-         Z6sY3qg+KUEApw9EjzOh2RxidusjNMGFUidbFJpxF3xy4pbefbve/3k0NY09m+VGWcEh
-         Pc/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ycQWIFkOQSdrncAv0rFvSdUheMYtmO0A/J65XFFGClw=;
-        b=SXEA5xO3CbyzOhtVksi2nGISy0XwN1RH9IaR3NR6bkVkdwWqseS5gVLpV5GBM6mr+r
-         GYviVExoPk7xwh0NkegJUsyrouYD21R09dLTy4pWvkzpV3Yf6pmELkOrzz+0QSZog3E/
-         umQ7+/8ySP7apINEFK1AERCaxyKJiLCCyjaYuIMCa8aZy84xH/wx2eJ+mqo9cKyqcg29
-         FeFwuUdKA5Dkfs5j99KbbJnjhTP3bYZ7nj7tqxsodI3XS39eMpYK+4DRex7NcRBlD/qk
-         k5qd+W+tP3fD8A4c5EtfxqPXxXtoKL1RIN5kDgSn8ZAuLZJGaRW2Ga5nCnOXhpnxcr3Z
-         YucQ==
-X-Gm-Message-State: AOAM533/VjO0tUsc4o/QQqXsf8j2QuvpivoNdQ5bjNhKTnLIYp+3Mh/0
-        ryr54HwGK15z6GwRIBLvmQobIpXq2ASkmQ==
-X-Google-Smtp-Source: ABdhPJzVLOBgFCecit90Bv4FKwRBKEQiGNTHmj8eTxilIpBQDh/tUWc6X5NXnXPVkmAgMR3jSkU/Fw==
-X-Received: by 2002:a05:6214:15c1:: with SMTP id p1mr20936990qvz.9.1629470176082;
-        Fri, 20 Aug 2021 07:36:16 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id j18sm3356960qkg.31.2021.08.20.07.36.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 07:36:15 -0700 (PDT)
-Message-ID: <19177965855edd38822ca5dc1eb70594f0bd11b5.camel@ndufresne.ca>
-Subject: Re: media: videobuf2: Fails to scale H264 1080p video on 1920x1080
- screen
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     trung1.dothanh@toshiba.co.jp, linux-media@vger.kernel.org
-Date:   Fri, 20 Aug 2021 10:36:14 -0400
-In-Reply-To: <OSAPR01MB3346DCCEBC794AD473F5D9EC93C19@OSAPR01MB3346.jpnprd01.prod.outlook.com>
-References: <OSAPR01MB3346DCCEBC794AD473F5D9EC93C19@OSAPR01MB3346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        id S240607AbhHTPDX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Aug 2021 11:03:23 -0400
+Received: from mga02.intel.com ([134.134.136.20]:61999 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229772AbhHTPDX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 20 Aug 2021 11:03:23 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10082"; a="203983320"
+X-IronPort-AV: E=Sophos;i="5.84,337,1620716400"; 
+   d="scan'208";a="203983320"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2021 08:02:45 -0700
+X-IronPort-AV: E=Sophos;i="5.84,337,1620716400"; 
+   d="scan'208";a="463409322"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2021 08:02:43 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 92E68201C5;
+        Fri, 20 Aug 2021 18:02:41 +0300 (EEST)
+Date:   Fri, 20 Aug 2021 18:02:41 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Fabian =?iso-8859-1?Q?W=FCthrich?= <me@fabwu.ch>,
+        linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
+        Dan Scally <djrscally@gmail.com>
+Subject: Re: [PATCH v4] ipu3-cio2: Parse sensor orientation and rotation
+Message-ID: <20210820150241.GC3@paasikivi.fi.intel.com>
+References: <20210414083022.25453-3-me@fabwu.ch>
+ <20210712090326.7064-1-me@fabwu.ch>
+ <20210820131207.GB3@paasikivi.fi.intel.com>
+ <CAHp75Vf=1aKx=SN60rGpUpgvXEryq9w1R7NRi0nCG49jWWzefg@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75Vf=1aKx=SN60rGpUpgvXEryq9w1R7NRi0nCG49jWWzefg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 20 août 2021 à 08:55 +0000, trung1.dothanh@toshiba.co.jp a écrit :
-> Hello,
-> 
-> I am trying to play video with Gstreamer  on a fullHD monitor. The board I’m using is Apalis iMX6.
-> Playing video works great with v4l2h264dec:
-> 
-> 	gst-launch-1.0 filesrc location=1080.mkv ! matroskademux ! h264parse \
->                           ! v4l2h264dec capture-io-mode=dmabuf \
->                           ! kmssink
-> 
-> However, it fails to scale video to 720p with v4l2convert:
-> 
-> 	gst-launch-1.0 filesrc location=1080.mkv ! matroskademux ! h264parse \
->                           ! v4l2h264dec capture-io-mode=dmabuf \
->                           ! v4l2convert output-io-mode=dmabuf-import \
->                           ! video/x-raw,width=1280,height=720 \
->                           ! kmssink
-> 
-> Added some debugs and I found that it failed at 'drivers/media/common/videobuf2/videobuf2-v4l2.c:__verify_length()'.
-> 
-> 	length = (b->memory == VB2_MEMORY_USERPTR)
+Hi Andy,
 
-Wrong snippet ? You are using VB2_MEMORY_DMABUF according to your GStreamer
-pipeline.
-
-> 		? b->length : vb->planes[0].length;
-> 	if (b->bytesused > length)
-> 		return -EINVAL;
+On Fri, Aug 20, 2021 at 04:25:15PM +0300, Andy Shevchenko wrote:
+> On Fri, Aug 20, 2021 at 4:12 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> > On Mon, Jul 12, 2021 at 11:03:26AM +0200, Fabian W�thrich wrote:
+> > > The sensor orientation is read from the _PLC ACPI buffer and converted to a v4l2
+> > > format.
+> > >
+> > > The sensor rotation is read from the SSDB ACPI buffer and converted into
+> > > degrees.
+> > >
+> > > Signed-off-by: Fabian W�thrich <me@fabwu.ch>
+> > > Reviewed-by: Daniel Scally <djrscally@gmail.com>
+> > > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> >
+> > It's in my tree now.
 > 
-> The “b->byteused” is 4177920 (= 2 x 1920 x 1088), while plane length is just 4147200 (= 2 x 1920 x 1080).
-> The actual frame size of H264 video is 1920x1088, so I added  a bypass for this case and video can be scaled,
-> but that may not a correct way to fix this problem.
-> 
-> Is this a bug or I need to do extra steps before scale video?
+> Do you know what's going on with
+> https://lore.kernel.org/linux-media/20210726084055.54887-1-andriy.shevchenko@linux.intel.com/
+> ?
 
-I'm not fully certain of what has gone wrong, since this call was added
-(1.18.0), this code path is supposed to work:
+I thought you'd be merging that through the other tree where the other
+patch was merged.
 
-https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/blob/master/sys/v4l2/gstv4l2transform.c#L905
+I can also take it through the media tree. I guess by now it'll be the next
+version in any case.
 
-GStreamer will update the driver FMT to padded width/height before calling
-streamon and S_SELECTION is used to tell the scaler which part is to be used in
-the scaling process.
+-- 
+Kind regards,
 
-> 
-> Packages version in my environment are:
-> * Kernel: 5.10.19
-> * Gstreamer: 1.18.4
-> 
-> Thank you,
-> Trung
-> 
-
-
+Sakari Ailus
