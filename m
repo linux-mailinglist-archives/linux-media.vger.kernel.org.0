@@ -2,73 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0EA03F2FE6
-	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 17:45:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6D823F34A4
+	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 21:24:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241141AbhHTPpr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Aug 2021 11:45:47 -0400
-Received: from mail-il1-f197.google.com ([209.85.166.197]:43539 "EHLO
-        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241187AbhHTPpp (ORCPT
+        id S238061AbhHTTYe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Aug 2021 15:24:34 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:38586 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229923AbhHTTYd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Aug 2021 11:45:45 -0400
-Received: by mail-il1-f197.google.com with SMTP id v5-20020a92ab050000b02902223cc2accaso5595967ilh.10
-        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 08:45:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=C/764d47f9BqIhAgXfMN7s6wRczQbgVQBUoxA/nuXAk=;
-        b=uNKfzDTq/MsdUHWO+KAGDtr2TBtBLuqSwtldqAiQ7xl55xmsgqhd5LO7sq2BUajHJw
-         CEQNFJfX77lfGRSuQ1Y7RzrWL791n8ws/jq49jSe/GYp7hsFqJVvUnZHT39lJxeIOLFa
-         yIoaLUUMB+71dE3khWyLyaXaIZ0AvocRD4FTiDQBM73BWt5QRBi8od0ddhNFk1qu506a
-         6oYfFD0NLbWboXW16Yi6LnecPAYtrt3SvbGoIUcCndMBCXdofmv9LnZwYxXUiEHsOM1Y
-         S/I03H+RzoRJqHti4/dFYbzhB03lVy8sySdF3Et0yucpIcCXIJ8SzfkIHBC7LliZLPXq
-         JJHQ==
-X-Gm-Message-State: AOAM5304MYj9Sc6oiej611CuOjMQ3JGKe430DXaPLLrGSdp/TbBanqyf
-        CekuW831HFc/JYfHGcqAF//1gbGrArMCXIbUdU1xrW2yWUMV
-X-Google-Smtp-Source: ABdhPJyIdR2IpSoaS+ZJXlVx5Fzsmf7Slk+cMg4U2DAEwIy+JEtW6jamlvFI5GIp6I8WEWSshVAwBFPRLSFLcMM3VHUgcDZ7hNq0
-MIME-Version: 1.0
-X-Received: by 2002:a92:dd82:: with SMTP id g2mr14479298iln.279.1629474307681;
- Fri, 20 Aug 2021 08:45:07 -0700 (PDT)
-Date:   Fri, 20 Aug 2021 08:45:07 -0700
-In-Reply-To: <0000000000008a7a1c05c9e53c87@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000047b52b05c9ff8d0b@google.com>
-Subject: Re: [syzbot] WARNING in drm_gem_shmem_vm_open
-From:   syzbot <syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com>
-To:     airlied@linux.ie, christian.koenig@amd.com, daniel.vetter@ffwll.ch,
+        Fri, 20 Aug 2021 15:24:33 -0400
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id BC5512016A;
+        Fri, 20 Aug 2021 19:23:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1629487433; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=J/ZTHYspJWems3grCDvjCH9V3Hhhi4avlqSwNlHDseY=;
+        b=w715AXDNp3TIRo7tdKvLhrjp59r1bQccQ1zHmXeFvTGAP9S90SGPYX8yANzkrJVdT+dBTI
+        FDHMWAcwUI1kA/5bqDad5ERYL9B32IMDohhBSGMvzigj7h+aDi4IwKhEUQexe75ZD8aNuy
+        9uff1GLGaUIN8OrT8YzJapgrItfqMCo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1629487433;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=J/ZTHYspJWems3grCDvjCH9V3Hhhi4avlqSwNlHDseY=;
+        b=3dduTyFnRRIIKMQglkFUGeRkDtPYvK25MBhk7tvpM1DR1tm08KlCLiqDtrNdUizOWaBZoO
+        vh686/xKzNjcXuDw==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 5600D13BE5;
+        Fri, 20 Aug 2021 19:23:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap1.suse-dmz.suse.de with ESMTPSA
+        id 2dEQE0kBIGGIXgAAGKfGzw
+        (envelope-from <tzimmermann@suse.de>); Fri, 20 Aug 2021 19:23:53 +0000
+To:     syzbot <syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com>,
+        airlied@linux.ie, christian.koenig@amd.com, daniel.vetter@ffwll.ch,
         daniel.vetter@intel.com, daniel@ffwll.ch,
         dri-devel@lists.freedesktop.org,
         linaro-mm-sig-owner@lists.linaro.org,
         linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com,
         melissa.srw@gmail.com, mripard@kernel.org, sumit.semwal@linaro.org,
-        syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
+        syzkaller-bugs@googlegroups.com
+References: <00000000000047b52b05c9ff8d0b@google.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [syzbot] WARNING in drm_gem_shmem_vm_open
+Message-ID: <dc7ca5ae-afc1-f840-8dfc-3f2361cd4360@suse.de>
+Date:   Fri, 20 Aug 2021 21:23:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
+MIME-Version: 1.0
+In-Reply-To: <00000000000047b52b05c9ff8d0b@google.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="9BSk7OnrvXIspcoyXpuha4Szaal3Vonnh"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot has bisected this issue to:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--9BSk7OnrvXIspcoyXpuha4Szaal3Vonnh
+Content-Type: multipart/mixed; boundary="RFSfHUaXVAmGRzteq89QyZAcdgd27yXDG";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: syzbot <syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com>,
+ airlied@linux.ie, christian.koenig@amd.com, daniel.vetter@ffwll.ch,
+ daniel.vetter@intel.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig-owner@lists.linaro.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, melissa.srw@gmail.com,
+ mripard@kernel.org, sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
+Message-ID: <dc7ca5ae-afc1-f840-8dfc-3f2361cd4360@suse.de>
+Subject: Re: [syzbot] WARNING in drm_gem_shmem_vm_open
+References: <00000000000047b52b05c9ff8d0b@google.com>
+In-Reply-To: <00000000000047b52b05c9ff8d0b@google.com>
 
-commit ea40d7857d5250e5400f38c69ef9e17321e9c4a2
-Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Fri Oct 9 23:21:56 2020 +0000
+--RFSfHUaXVAmGRzteq89QyZAcdgd27yXDG
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-    drm/vkms: fbdev emulation support
+Hi
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11c31d55300000
-start commit:   614cb2751d31 Merge tag 'trace-v5.14-rc6' of git://git.kern..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=13c31d55300000
-console output: https://syzkaller.appspot.com/x/log.txt?x=15c31d55300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=96f0602203250753
-dashboard link: https://syzkaller.appspot.com/bug?extid=91525b2bd4b5dff71619
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=122bce0e300000
+Am 20.08.21 um 17:45 schrieb syzbot:
+> syzbot has bisected this issue to:
 
-Reported-by: syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com
-Fixes: ea40d7857d52 ("drm/vkms: fbdev emulation support")
+Good bot!
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+>=20
+> commit ea40d7857d5250e5400f38c69ef9e17321e9c4a2
+> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Date:   Fri Oct 9 23:21:56 2020 +0000
+>=20
+>      drm/vkms: fbdev emulation support
+
+Here's a guess.
+
+GEM SHMEM + fbdev emulation requires that=20
+(drm_mode_config.prefer_shadow_fbdev =3D true). Otherwise, deferred I/O=20
+and SHMEM conflict over the use of page flags IIRC.
+
+ From a quick grep, vkms doesn't set prefer_shadow_fbdev and an alarming =
+
+amount of SHMEM-based drivers don't do either.
+
+Best regards
+Thomas
+
+>=20
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D11c31d55=
+300000
+> start commit:   614cb2751d31 Merge tag 'trace-v5.14-rc6' of git://git.k=
+ern..
+> git tree:       upstream
+> final oops:     https://syzkaller.appspot.com/x/report.txt?x=3D13c31d55=
+300000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=3D15c31d55300=
+000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D96f06022032=
+50753
+> dashboard link: https://syzkaller.appspot.com/bug?extid=3D91525b2bd4b5d=
+ff71619
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D122bce0e3=
+00000
+>=20
+> Reported-by: syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com
+> Fixes: ea40d7857d52 ("drm/vkms: fbdev emulation support")
+>=20
+> For information about bisection process see: https://goo.gl/tpsmEJ#bise=
+ction
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--RFSfHUaXVAmGRzteq89QyZAcdgd27yXDG--
+
+--9BSk7OnrvXIspcoyXpuha4Szaal3Vonnh
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmEgAUgFAwAAAAAACgkQlh/E3EQov+Ca
+QhAAkZ31x5M00jNSVFt6zSFPz7zsmP1+pIfZD9wsS8TkIJGxUsHyfbh9a/eIijkh/e8zNqQ9JP1P
+HOscLUH/AgY9d+/RCrU062w/5zKJEOhodrt+9FzVqGeavOM3csDR5ll6bPv2oo0eSpnttEJ2w6SG
+1urAbMBvUbIRvWN+vmdYIqp4ezHHj7izBuRoFeRWQNn7t8AQjaqnduIhip9takLa2nLd2zIOYAev
+vVdgtw9+JI/2ZJCnbFedn/CvDJ4A8VPLfeSQcgG8Ksqw+VHjRBrd5sS+Z7K9RFTNqi5Ec7klHdei
+JrnvVmLWoezYdjoDjVWLINuEk2r7L6GAhoF0oDhZq1kVv7K33xfDIdQB2p8JqTY9o22Rthjq0Kkc
+zg5vhhr/CBZ2H7gACKGybG86UqcO5e0z2PVlmlZvVRdgC5x0ZGGxMe79e2GVwUbCuDBepAwet/fq
+XbdBZ1JmDxdRnODXB7A6LvqDyDiCjAKI4pcTB/9OjUZ9CUSk1XXc52WJV2btzfGPSDaSMRRg6l6C
+eFKIlD/Gk9kXHttN3F6+OZeK46oFRodhgQ2ooaf1jRetNa1xd6d+b8m6UFerDQplYGiR1F3jnwvv
+3GOzP8qg0PP9tgr9/7ozH50m1IUEcNuX2iCVwVs/dkuBYH+OIQbZtmZqizDWKx3DvNg+341m4EA4
+kvA=
+=gavY
+-----END PGP SIGNATURE-----
+
+--9BSk7OnrvXIspcoyXpuha4Szaal3Vonnh--
