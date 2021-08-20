@@ -2,293 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A7193F2CFC
-	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 15:16:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 692BD3F2D19
+	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 15:25:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240600AbhHTNRG convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 20 Aug 2021 09:17:06 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:42988 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240444AbhHTNRF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Aug 2021 09:17:05 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mH4Nm-007QWT-Vx; Fri, 20 Aug 2021 13:16:27 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mH4Nl-00DQjH-Rv; Fri, 20 Aug 2021 13:16:25 +0000
-Date:   Fri, 20 Aug 2021 13:16:24 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <2129787446.0.1629465384761@builder.linuxtv.org>
-Subject: Build failed in Jenkins: linux-media #241
+        id S231796AbhHTN0e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Aug 2021 09:26:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48312 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229707AbhHTN0d (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 20 Aug 2021 09:26:33 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAB3BC061575
+        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 06:25:55 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id 18so8605117pfh.9
+        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 06:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=D0yBQYj8kDGeryGAJ6TnsU0Ad7mB9G/mlfTiF5xNtPY=;
+        b=iyQ2JabY+IUjJ7DeSIDaNi88Eycu1H1EM+p9GdQXZoe+3OYGbAnwMriIWnnwZfFRcl
+         ulKIypR7Xbuzq/ZjeB8bPvBUFe4qzH7aP+BidAC/Wred3JosUPtfXWCQJJIn+Tmr0JTc
+         GxwdwPAJCbfjozoFKEBuMnPPTeqjohpxVNlNsGPoJYnmn9R6+OwzbppoevrPB7C3biwh
+         7Jq6B6f4YoZ6+6ZgQKUa9LFszkd9MbOl3ch/cIq566xKsK65Rj6pZXioO8E7pZQPGrhL
+         +68Px97Wde++URaaDqhG8dOVqP6iIe/qpYmnLMXVvcM/PsM44zT0QWEe/3hq5/+iaL5i
+         8OmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=D0yBQYj8kDGeryGAJ6TnsU0Ad7mB9G/mlfTiF5xNtPY=;
+        b=p+a94UDgdTn3qPVIHTjovHbeZOo4hBEpvqYoKOZR4fvbCxDA6RKw0Msz+0TOHtt/0G
+         GpZr9m0o8976wvYf6qCPMQ0Vbq3BLtlLPvqLvSN8l6+5JDFq4b3ZvzC5AAK/4Zspvdha
+         HNCwUMYJR3eoQf+AfipCdOzlgrLtaTO0vkv9euDfWV0fyzQv0kpNcMboNlLWHTldooim
+         dqTnBCoiPBEyGmxoygnKzW+URtZhvgGagVkMjTr9f3cz7sTF0HS85hX3F0uAUkTGp1Hz
+         S+aMVBoYqQUevsGpkceoYFss28m+k5XJCvPAqzOCECP9OHrqx8x6UQ/z0sHhePhJwBEc
+         hEEw==
+X-Gm-Message-State: AOAM533+Hkwmgfs8yYCillF/bgnQI0Tw4bxft40f+fyX/bLaQro0/oTf
+        0bzPnUeo1duEMfSnVEQNFAY8XvwYbM/MXPRsILM=
+X-Google-Smtp-Source: ABdhPJwGWrRjz4R78+HR46dFKCi4RTIZfkTPh2+HgR+bPyOR2fw3sTEZ6SuJl8/K5V2a2lVJWHOUsb4QzXPnOs4AeeA=
+X-Received: by 2002:a05:6a00:d41:b0:3e1:3316:2ef with SMTP id
+ n1-20020a056a000d4100b003e1331602efmr20028910pfv.40.1629465954998; Fri, 20
+ Aug 2021 06:25:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: linux-media
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+References: <20210414083022.25453-3-me@fabwu.ch> <20210712090326.7064-1-me@fabwu.ch>
+ <20210820131207.GB3@paasikivi.fi.intel.com>
+In-Reply-To: <20210820131207.GB3@paasikivi.fi.intel.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 20 Aug 2021 16:25:15 +0300
+Message-ID: <CAHp75Vf=1aKx=SN60rGpUpgvXEryq9w1R7NRi0nCG49jWWzefg@mail.gmail.com>
+Subject: Re: [PATCH v4] ipu3-cio2: Parse sensor orientation and rotation
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     =?UTF-8?Q?Fabian_W=C3=BCthrich?= <me@fabwu.ch>,
+        linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
+        Dan Scally <djrscally@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/linux-media/241/display/redirect>
+On Fri, Aug 20, 2021 at 4:12 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+> On Mon, Jul 12, 2021 at 11:03:26AM +0200, Fabian W=C3=BCthrich wrote:
+> > The sensor orientation is read from the _PLC ACPI buffer and converted =
+to a v4l2
+> > format.
+> >
+> > The sensor rotation is read from the SSDB ACPI buffer and converted int=
+o
+> > degrees.
+> >
+> > Signed-off-by: Fabian W=C3=BCthrich <me@fabwu.ch>
+> > Reviewed-by: Daniel Scally <djrscally@gmail.com>
+> > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+>
+> It's in my tree now.
 
-Changes:
+Do you know what's going on with
+https://lore.kernel.org/linux-media/20210726084055.54887-1-andriy.shevchenk=
+o@linux.intel.com/
+?
 
-
-------------------------------------------
-[...truncated 84424 lines...]
-  CC      arch/x86/boot/video-mode.o
-  CC      arch/x86/boot/version.o
-  CC      arch/x86/boot/video-vga.o
-  CC      arch/x86/boot/video-vesa.o
-  CC      arch/x86/boot/video-bios.o
-  LDS     arch/x86/boot/compressed/vmlinux.lds
-  AS      arch/x86/boot/compressed/kernel_info.o
-  AS      arch/x86/boot/compressed/head_64.o
-  VOFFSET arch/x86/boot/compressed/../voffset.h
-  CC      arch/x86/boot/compressed/string.o
-  CC      arch/x86/boot/compressed/cmdline.o
-  CC      arch/x86/boot/compressed/error.o
-  OBJCOPY arch/x86/boot/compressed/vmlinux.bin
-  RELOCS  arch/x86/boot/compressed/vmlinux.relocs
-  CC      arch/x86/boot/compressed/cpuflags.o
-  CC      arch/x86/boot/compressed/early_serial_console.o
-  CC      arch/x86/boot/compressed/kaslr.o
-  CC      arch/x86/boot/compressed/ident_map_64.o
-  CC      arch/x86/boot/compressed/idt_64.o
-  AS      arch/x86/boot/compressed/idt_handlers_64.o
-  AS      arch/x86/boot/compressed/mem_encrypt.o
-  CC      arch/x86/boot/compressed/pgtable_64.o
-  CC      arch/x86/boot/compressed/sev.o
-  CC      arch/x86/boot/compressed/acpi.o
-  AS      arch/x86/boot/compressed/efi_thunk_64.o
-  CC      arch/x86/boot/compressed/misc.o
-  GZIP    arch/x86/boot/compressed/vmlinux.bin.gz
-  GEN     Module.symvers
-  CC [M]  arch/x86/mm/testmmiotrace.mod.o
-  CC [M]  drivers/accessibility/speakup/speakup_decpc.mod.o
-  CC [M]  drivers/base/test/test_async_driver_probe.mod.o
-  CC [M]  drivers/i2c/i2c-stub.mod.o
-  CC [M]  drivers/mtd/tests/mtd_nandbiterrs.mod.o
-  CC [M]  drivers/mtd/tests/mtd_nandecctest.mod.o
-  CC [M]  drivers/mtd/tests/mtd_oobtest.mod.o
-  CC [M]  drivers/mtd/tests/mtd_pagetest.mod.o
-  CC [M]  drivers/mtd/tests/mtd_readtest.mod.o
-  CC [M]  drivers/mtd/tests/mtd_speedtest.mod.o
-  CC [M]  drivers/mtd/tests/mtd_stresstest.mod.o
-  CC [M]  drivers/mtd/tests/mtd_subpagetest.mod.o
-  CC [M]  drivers/mtd/tests/mtd_torturetest.mod.o
-  CC [M]  drivers/ntb/hw/epf/ntb_hw_epf.mod.o
-  CC [M]  drivers/nvdimm/../../tools/testing/nvdimm/test/iomap.mod.o
-  CC [M]  drivers/scsi/mpi3mr/mpi3mr.mod.o
-  CC [M]  drivers/scsi/pcmcia/aha152x_cs.mod.o
-  CC [M]  drivers/scsi/pcmcia/fdomain_cs.mod.o
-  CC [M]  drivers/scsi/pcmcia/nsp_cs.mod.o
-  CC [M]  drivers/scsi/pcmcia/qlogic_cs.mod.o
-  CC [M]  drivers/scsi/pcmcia/sym53c500_cs.mod.o
-  CC [M]  drivers/scsi/qlogicfas408.mod.o
-  CC [M]  drivers/spi/spi-loopback-test.mod.o
-  CC [M]  drivers/staging/gdm724x/gdmtty.mod.o
-  CC [M]  drivers/staging/gdm724x/gdmulte.mod.o
-  CC [M]  drivers/staging/rtl8188eu/r8188eu.mod.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/r8192e_pci.mod.o
-  CC [M]  drivers/staging/rtl8192e/rtllib.mod.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_crypt_ccmp.mod.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_crypt_tkip.mod.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_crypt_wep.mod.o
-  CC [M]  drivers/staging/rtl8192u/r8192u_usb.mod.o
-  CC [M]  drivers/staging/rtl8723bs/r8723bs.mod.o
-  CC [M]  drivers/staging/vt6655/vt6655_stage.mod.o
-  CC [M]  drivers/staging/vt6656/vt6656_stage.mod.o
-  CC [M]  kernel/trace/preemptirq_delay_test.mod.o
-  CC [M]  lib/livepatch/test_klp_atomic_replace.mod.o
-  CC [M]  lib/livepatch/test_klp_callbacks_busy.mod.o
-  CC [M]  lib/livepatch/test_klp_callbacks_demo.mod.o
-  CC [M]  lib/livepatch/test_klp_callbacks_demo2.mod.o
-  CC [M]  lib/livepatch/test_klp_callbacks_mod.mod.o
-  CC [M]  lib/livepatch/test_klp_livepatch.mod.o
-  CC [M]  lib/livepatch/test_klp_shadow_vars.mod.o
-  CC [M]  lib/livepatch/test_klp_state.mod.o
-  CC [M]  lib/livepatch/test_klp_state2.mod.o
-  CC [M]  lib/livepatch/test_klp_state3.mod.o
-  CC [M]  lib/percpu_test.mod.o
-  CC [M]  lib/test_bitops.mod.o
-  CC [M]  lib/test_blackhole_dev.mod.o
-  CC [M]  lib/test_bpf.mod.o
-  CC [M]  lib/test_kasan_module.mod.o
-  CC [M]  lib/test_kmod.mod.o
-  CC [M]  lib/test_lockup.mod.o
-  CC [M]  lib/test_module.mod.o
-  CC [M]  lib/test_static_key_base.mod.o
-  CC [M]  lib/test_static_keys.mod.o
-  CC [M]  lib/test_ubsan.mod.o
-  CC [M]  lib/test_user_copy.mod.o
-  CC [M]  lib/test_vmalloc.mod.o
-  CC [M]  samples/configfs/configfs_sample.mod.o
-  CC [M]  samples/connector/cn_test.mod.o
-  CC [M]  samples/ftrace/ftrace-direct-modify.mod.o
-  CC [M]  samples/ftrace/ftrace-direct-too.mod.o
-  CC [M]  samples/ftrace/ftrace-direct.mod.o
-  CC [M]  samples/ftrace/sample-trace-array.mod.o
-  CC [M]  samples/hw_breakpoint/data_breakpoint.mod.o
-  CC [M]  samples/kdb/kdb_hello.mod.o
-  CC [M]  samples/kfifo/bytestream-example.mod.o
-  CC [M]  samples/kfifo/dma-example.mod.o
-  CC [M]  samples/kfifo/inttype-example.mod.o
-  CC [M]  samples/kfifo/record-example.mod.o
-  CC [M]  samples/kmemleak/kmemleak-test.mod.o
-  CC [M]  samples/kprobes/kprobe_example.mod.o
-  CC [M]  samples/kprobes/kretprobe_example.mod.o
-  CC [M]  samples/livepatch/livepatch-callbacks-busymod.mod.o
-  CC [M]  samples/livepatch/livepatch-callbacks-demo.mod.o
-  CC [M]  samples/livepatch/livepatch-callbacks-mod.mod.o
-  CC [M]  samples/livepatch/livepatch-sample.mod.o
-  CC [M]  samples/livepatch/livepatch-shadow-fix1.mod.o
-  CC [M]  samples/livepatch/livepatch-shadow-fix2.mod.o
-  CC [M]  samples/livepatch/livepatch-shadow-mod.mod.o
-  CC [M]  samples/rpmsg/rpmsg_client_sample.mod.o
-  CC [M]  samples/trace_events/trace-events-sample.mod.o
-  CC [M]  samples/trace_printk/trace-printk.mod.o
-  CC [M]  samples/vfio-mdev/mbochs.mod.o
-  CC [M]  samples/vfio-mdev/mdpy-fb.mod.o
-  CC [M]  samples/vfio-mdev/mdpy.mod.o
-  CC [M]  samples/vfio-mdev/mtty.mod.o
-  LD [M]  arch/x86/mm/testmmiotrace.ko
-  LD [M]  drivers/accessibility/speakup/speakup_decpc.ko
-  LD [M]  drivers/base/test/test_async_driver_probe.ko
-  LD [M]  drivers/i2c/i2c-stub.ko
-  LD [M]  drivers/mtd/tests/mtd_nandbiterrs.ko
-  LD [M]  drivers/mtd/tests/mtd_nandecctest.ko
-  LD [M]  drivers/mtd/tests/mtd_oobtest.ko
-  LD [M]  drivers/mtd/tests/mtd_pagetest.ko
-  LD [M]  drivers/mtd/tests/mtd_readtest.ko
-  LD [M]  drivers/mtd/tests/mtd_speedtest.ko
-  LD [M]  drivers/mtd/tests/mtd_stresstest.ko
-  LD [M]  drivers/mtd/tests/mtd_subpagetest.ko
-  LD [M]  drivers/mtd/tests/mtd_torturetest.ko
-  LD [M]  drivers/ntb/hw/epf/ntb_hw_epf.ko
-  LD [M]  drivers/nvdimm/../../tools/testing/nvdimm/test/iomap.ko
-  LD [M]  drivers/scsi/mpi3mr/mpi3mr.ko
-  LD [M]  drivers/scsi/pcmcia/aha152x_cs.ko
-  LD [M]  drivers/scsi/pcmcia/fdomain_cs.ko
-  LD [M]  drivers/scsi/pcmcia/nsp_cs.ko
-  LD [M]  drivers/scsi/pcmcia/qlogic_cs.ko
-  LD [M]  drivers/scsi/pcmcia/sym53c500_cs.ko
-  LD [M]  drivers/scsi/qlogicfas408.ko
-  LD [M]  drivers/spi/spi-loopback-test.ko
-  LD [M]  drivers/staging/gdm724x/gdmtty.ko
-  LD [M]  drivers/staging/gdm724x/gdmulte.ko
-  LD [M]  drivers/staging/rtl8188eu/r8188eu.ko
-  LD [M]  drivers/staging/rtl8192e/rtl8192e/r8192e_pci.ko
-  LD [M]  drivers/staging/rtl8192e/rtllib.ko
-  LD [M]  drivers/staging/rtl8192e/rtllib_crypt_ccmp.ko
-  LD [M]  drivers/staging/rtl8192e/rtllib_crypt_tkip.ko
-  LD [M]  drivers/staging/rtl8192e/rtllib_crypt_wep.ko
-  LD [M]  drivers/staging/rtl8192u/r8192u_usb.ko
-  LD [M]  drivers/staging/rtl8723bs/r8723bs.ko
-  LD [M]  drivers/staging/vt6655/vt6655_stage.ko
-  LD [M]  drivers/staging/vt6656/vt6656_stage.ko
-  LD [M]  kernel/trace/preemptirq_delay_test.ko
-  LD [M]  lib/livepatch/test_klp_atomic_replace.ko
-  LD [M]  lib/livepatch/test_klp_callbacks_busy.ko
-  LD [M]  lib/livepatch/test_klp_callbacks_demo.ko
-  LD [M]  lib/livepatch/test_klp_callbacks_demo2.ko
-  LD [M]  lib/livepatch/test_klp_callbacks_mod.ko
-  LD [M]  lib/livepatch/test_klp_livepatch.ko
-  LD [M]  lib/livepatch/test_klp_shadow_vars.ko
-  LD [M]  lib/livepatch/test_klp_state.ko
-  LD [M]  lib/livepatch/test_klp_state2.ko
-  LD [M]  lib/livepatch/test_klp_state3.ko
-  LD [M]  lib/percpu_test.ko
-  LD [M]  lib/test_bitops.ko
-  LD [M]  lib/test_blackhole_dev.ko
-  LD [M]  lib/test_bpf.ko
-  LD [M]  lib/test_kasan_module.ko
-  LD [M]  lib/test_kmod.ko
-  LD [M]  lib/test_lockup.ko
-  LD [M]  lib/test_module.ko
-  LD [M]  lib/test_static_key_base.ko
-  LD [M]  lib/test_ubsan.ko
-  LD [M]  lib/test_static_keys.ko
-  LD [M]  lib/test_user_copy.ko
-  LD [M]  lib/test_vmalloc.ko
-  LD [M]  samples/configfs/configfs_sample.ko
-  LD [M]  samples/connector/cn_test.ko
-  LD [M]  samples/ftrace/ftrace-direct-modify.ko
-  LD [M]  samples/ftrace/ftrace-direct-too.ko
-  LD [M]  samples/ftrace/sample-trace-array.ko
-  LD [M]  samples/ftrace/ftrace-direct.ko
-  LD [M]  samples/hw_breakpoint/data_breakpoint.ko
-  LD [M]  samples/kfifo/bytestream-example.ko
-  LD [M]  samples/kdb/kdb_hello.ko
-  LD [M]  samples/kfifo/dma-example.ko
-  LD [M]  samples/kfifo/inttype-example.ko
-  LD [M]  samples/kfifo/record-example.ko
-  LD [M]  samples/kmemleak/kmemleak-test.ko
-  LD [M]  samples/kprobes/kprobe_example.ko
-  LD [M]  samples/kprobes/kretprobe_example.ko
-  LD [M]  samples/livepatch/livepatch-callbacks-busymod.ko
-  LD [M]  samples/livepatch/livepatch-callbacks-mod.ko
-  LD [M]  samples/livepatch/livepatch-sample.ko
-  LD [M]  samples/livepatch/livepatch-callbacks-demo.ko
-  LD [M]  samples/livepatch/livepatch-shadow-fix1.ko
-  LD [M]  samples/livepatch/livepatch-shadow-fix2.ko
-  LD [M]  samples/livepatch/livepatch-shadow-mod.ko
-  LD [M]  samples/rpmsg/rpmsg_client_sample.ko
-  LD [M]  samples/trace_events/trace-events-sample.ko
-  LD [M]  samples/trace_printk/trace-printk.ko
-  LD [M]  samples/vfio-mdev/mbochs.ko
-  LD [M]  samples/vfio-mdev/mdpy-fb.ko
-  LD [M]  samples/vfio-mdev/mtty.ko
-  LD [M]  samples/vfio-mdev/mdpy.ko
-  MKPIGGY arch/x86/boot/compressed/piggy.S
-  AS      arch/x86/boot/compressed/piggy.o
-  LD      arch/x86/boot/compressed/vmlinux
-  ZOFFSET arch/x86/boot/zoffset.h
-  OBJCOPY arch/x86/boot/vmlinux.bin
-  AS      arch/x86/boot/header.o
-  LD      arch/x86/boot/setup.elf
-  OBJCOPY arch/x86/boot/setup.bin
-  BUILD   arch/x86/boot/bzImage
-Kernel: arch/x86/boot/bzImage is ready  (#17)
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Resuming build at Wed Aug 18 03:14:39 UTC 2021 after Jenkins restart
-Waiting to resume part of linux-media #241: ‘slave0’ is offline
-Waiting to resume part of linux-media #241: ‘slave0’ is offline
-Ready to run at Wed Aug 18 03:14:45 UTC 2021
-Resuming build at Thu Aug 19 03:14:56 UTC 2021 after Jenkins restart
-Waiting to resume part of linux-media #241: ‘slave0’ is offline
-Waiting to resume part of linux-media #241: ‘slave0’ is offline
-Waiting to resume part of linux-media #241: ‘slave0’ is offline
-‘slave1’ doesn’t have label ‘slave0’
-‘slave2’ doesn’t have label ‘slave0’
-Ready to run at Thu Aug 19 03:15:06 UTC 2021
-Resuming build at Fri Aug 20 03:15:54 UTC 2021 after Jenkins restart
-Waiting to resume part of linux-media #241: ‘slave0’ is offline
-Waiting to resume part of linux-media #241: ‘slave0’ is offline
-Waiting to resume part of linux-media #241: ‘slave0’ is offline
-‘slave1’ doesn’t have label ‘slave0’
-‘slave2’ doesn’t have label ‘slave0’
-Ready to run at Fri Aug 20 03:16:03 UTC 2021
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch arm/aarch64 (builtin)
-[Pipeline] // parallel
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Declarative: Post Actions)
-[Pipeline] step
+--=20
+With Best Regards,
+Andy Shevchenko
