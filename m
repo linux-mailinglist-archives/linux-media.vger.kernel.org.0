@@ -2,105 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08E703F2EA0
-	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 17:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0EA03F2FE6
+	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 17:45:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240986AbhHTPNz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Aug 2021 11:13:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44856 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235928AbhHTPNz (ORCPT
+        id S241141AbhHTPpr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Aug 2021 11:45:47 -0400
+Received: from mail-il1-f197.google.com ([209.85.166.197]:43539 "EHLO
+        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241187AbhHTPpp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Aug 2021 11:13:55 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51BBCC061575;
-        Fri, 20 Aug 2021 08:13:17 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id o2so9475794pgr.9;
-        Fri, 20 Aug 2021 08:13:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ZLsQBmbYPy6TkjNymlou640ZLna2BWSi56DTvRZ7JDI=;
-        b=MbzDdKH7+C0WQP7+AdNCxPK0vlRWRMmtPT+Em7Ps/ooufmAqDcZUY0sk3UawUAGAs+
-         Mr/h1dZC7EsiDKDhFiut+9P/4ilY5Wg4lTX2RQTTwOHUZGDyM+Xg5Lms5mZzAtfBqxq3
-         yigCNhLWKqU2GdPoc/pdePjfnfZrNZIpQRUe1/EPX+fJiGFTgg283/QA9kbb74bVkGbb
-         g3FSBjD2UyVr7u+Qlv05oZorzfo+zdbUxs8DwetYbxkIaSaVnS9Z/u2OweB81wTOQ5KQ
-         iTTl542GhLhDTucMFXIZMl3rxmQwGmEqs0/NAH+vPmgJ/+LS3qMyCcVBRPoxvnD4DWOJ
-         UELA==
+        Fri, 20 Aug 2021 11:45:45 -0400
+Received: by mail-il1-f197.google.com with SMTP id v5-20020a92ab050000b02902223cc2accaso5595967ilh.10
+        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 08:45:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ZLsQBmbYPy6TkjNymlou640ZLna2BWSi56DTvRZ7JDI=;
-        b=Sb279YXuUNitXMFH9M1qGNUFJxlXjoO5j6DPRBxfdXUVq+IEQ4OB4oCd84YNulOjwx
-         cFUesrqlXVBNQ3zRe1sswmiliEMwq/Qb1Hz2AdUtF8AcpnZ6fo8Vk7NsUfLQfxFNtbeT
-         OpNM3sRQaeJx13LXRKn5rGQendrIyyMSEWkVbaGsbN5i1aDpvirxdV3nl/Geb6HVuc6C
-         Z5sZi2f4tkvlG6+/DMupZQBnwt/6fGs1p+A/h6bELPn8SddQ/od+Oyb4rVUDntEeqKOe
-         0lfxRZXg19LFop0Yr23KWk5n2/h/qfwZgpLlyfBxUQvVDs4TRi5oU8rUdK/gfEwMKnHT
-         SQOA==
-X-Gm-Message-State: AOAM5308FmHAlSkyWu9stVe9PaTzNeIs6/gBdX7o2LuWYS/g3Ip9Vhzn
-        SUUM81x/h1JE0P+8EBSPGFcgZYLK6OJMqIw0uCLs/ZbB8XQ=
-X-Google-Smtp-Source: ABdhPJxbmIqRf1r08fp79EQIOZACHUYpl9unVHIHWEk04df8kienN+545VPNB0DJ7XYasXxcs021C7JxIhNqC6jEEVE=
-X-Received: by 2002:a65:63d6:: with SMTP id n22mr17071651pgv.74.1629472396869;
- Fri, 20 Aug 2021 08:13:16 -0700 (PDT)
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=C/764d47f9BqIhAgXfMN7s6wRczQbgVQBUoxA/nuXAk=;
+        b=uNKfzDTq/MsdUHWO+KAGDtr2TBtBLuqSwtldqAiQ7xl55xmsgqhd5LO7sq2BUajHJw
+         CEQNFJfX77lfGRSuQ1Y7RzrWL791n8ws/jq49jSe/GYp7hsFqJVvUnZHT39lJxeIOLFa
+         yIoaLUUMB+71dE3khWyLyaXaIZ0AvocRD4FTiDQBM73BWt5QRBi8od0ddhNFk1qu506a
+         6oYfFD0NLbWboXW16Yi6LnecPAYtrt3SvbGoIUcCndMBCXdofmv9LnZwYxXUiEHsOM1Y
+         S/I03H+RzoRJqHti4/dFYbzhB03lVy8sySdF3Et0yucpIcCXIJ8SzfkIHBC7LliZLPXq
+         JJHQ==
+X-Gm-Message-State: AOAM5304MYj9Sc6oiej611CuOjMQ3JGKe430DXaPLLrGSdp/TbBanqyf
+        CekuW831HFc/JYfHGcqAF//1gbGrArMCXIbUdU1xrW2yWUMV
+X-Google-Smtp-Source: ABdhPJyIdR2IpSoaS+ZJXlVx5Fzsmf7Slk+cMg4U2DAEwIy+JEtW6jamlvFI5GIp6I8WEWSshVAwBFPRLSFLcMM3VHUgcDZ7hNq0
 MIME-Version: 1.0
-References: <20210414083022.25453-3-me@fabwu.ch> <20210712090326.7064-1-me@fabwu.ch>
- <20210820131207.GB3@paasikivi.fi.intel.com> <CAHp75Vf=1aKx=SN60rGpUpgvXEryq9w1R7NRi0nCG49jWWzefg@mail.gmail.com>
- <20210820150241.GC3@paasikivi.fi.intel.com>
-In-Reply-To: <20210820150241.GC3@paasikivi.fi.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 20 Aug 2021 18:12:37 +0300
-Message-ID: <CAHp75VdBLaiW=G+BaPHX7-wMoVHqQ1mfC5ijCUTyRckDz2EV6Q@mail.gmail.com>
-Subject: Re: [PATCH v4] ipu3-cio2: Parse sensor orientation and rotation
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org
-Cc:     =?UTF-8?Q?Fabian_W=C3=BCthrich?= <me@fabwu.ch>,
-        linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
-        Dan Scally <djrscally@gmail.com>
+X-Received: by 2002:a92:dd82:: with SMTP id g2mr14479298iln.279.1629474307681;
+ Fri, 20 Aug 2021 08:45:07 -0700 (PDT)
+Date:   Fri, 20 Aug 2021 08:45:07 -0700
+In-Reply-To: <0000000000008a7a1c05c9e53c87@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000047b52b05c9ff8d0b@google.com>
+Subject: Re: [syzbot] WARNING in drm_gem_shmem_vm_open
+From:   syzbot <syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com>
+To:     airlied@linux.ie, christian.koenig@amd.com, daniel.vetter@ffwll.ch,
+        daniel.vetter@intel.com, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org,
+        linaro-mm-sig-owner@lists.linaro.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+        melissa.srw@gmail.com, mripard@kernel.org, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Aug 20, 2021 at 6:02 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
-> On Fri, Aug 20, 2021 at 04:25:15PM +0300, Andy Shevchenko wrote:
-> > On Fri, Aug 20, 2021 at 4:12 PM Sakari Ailus
-> > <sakari.ailus@linux.intel.com> wrote:
-> > > On Mon, Jul 12, 2021 at 11:03:26AM +0200, Fabian W=C3=BCthrich wrote:
-> > > > The sensor orientation is read from the _PLC ACPI buffer and conver=
-ted to a v4l2
-> > > > format.
-> > > >
-> > > > The sensor rotation is read from the SSDB ACPI buffer and converted=
- into
-> > > > degrees.
-> > > >
-> > > > Signed-off-by: Fabian W=C3=BCthrich <me@fabwu.ch>
-> > > > Reviewed-by: Daniel Scally <djrscally@gmail.com>
-> > > > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > >
-> > > It's in my tree now.
-> >
-> > Do you know what's going on with
-> > https://lore.kernel.org/linux-media/20210726084055.54887-1-andriy.shevc=
-henko@linux.intel.com/
-> > ?
->
-> I thought you'd be merging that through the other tree where the other
-> patch was merged.
+syzbot has bisected this issue to:
 
-Ah, okay, let's ask Rafael if he can take this for v5.14 cycle.
+commit ea40d7857d5250e5400f38c69ef9e17321e9c4a2
+Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Fri Oct 9 23:21:56 2020 +0000
 
-Rafael, I can resubmit a new version with Sakari's ACK. Or you may
-retrieve this by message ID from lore. What do you prefer?
+    drm/vkms: fbdev emulation support
 
-> I can also take it through the media tree. I guess by now it'll be the ne=
-xt
-> version in any case.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11c31d55300000
+start commit:   614cb2751d31 Merge tag 'trace-v5.14-rc6' of git://git.kern..
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=13c31d55300000
+console output: https://syzkaller.appspot.com/x/log.txt?x=15c31d55300000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=96f0602203250753
+dashboard link: https://syzkaller.appspot.com/bug?extid=91525b2bd4b5dff71619
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=122bce0e300000
 
---
-With Best Regards,
-Andy Shevchenko
+Reported-by: syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com
+Fixes: ea40d7857d52 ("drm/vkms: fbdev emulation support")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
