@@ -2,154 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C9C13F28FC
-	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 11:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B28343F29C5
+	for <lists+linux-media@lfdr.de>; Fri, 20 Aug 2021 12:03:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232844AbhHTJPR convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 20 Aug 2021 05:15:17 -0400
-Received: from mo-csw-fb1116.securemx.jp ([210.130.202.175]:35874 "EHLO
-        mo-csw-fb.securemx.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232380AbhHTJPQ (ORCPT
+        id S232659AbhHTKEI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Aug 2021 06:04:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58080 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232244AbhHTKEG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Aug 2021 05:15:16 -0400
-X-Greylist: delayed 1121 seconds by postgrey-1.27 at vger.kernel.org; Fri, 20 Aug 2021 05:15:16 EDT
-Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1116) id 17K8twCb017815; Fri, 20 Aug 2021 17:55:58 +0900
-Received: by mo-csw.securemx.jp (mx-mo-csw1114) id 17K8tvfv022865; Fri, 20 Aug 2021 17:55:57 +0900
-X-Iguazu-Qid: 2wHHmJkRoz21BjIAiL
-X-Iguazu-QSIG: v=2; s=0; t=1629449756; q=2wHHmJkRoz21BjIAiL; m=E+DyDMf/lBpAkIioUj6/m7srFejP9gFPZ6kFhCJLHto=
-Received: from imx12-a.toshiba.co.jp (imx12-a.toshiba.co.jp [61.202.160.135])
-        by relay.securemx.jp (mx-mr1113) id 17K8tuHm023413
-        (version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-        Fri, 20 Aug 2021 17:55:56 +0900
-Received: from enc02.toshiba.co.jp (enc02.toshiba.co.jp [61.202.160.51])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by imx12-a.toshiba.co.jp (Postfix) with ESMTPS id 6F6FE10012F
-        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 17:55:56 +0900 (JST)
-Received: from hop101.toshiba.co.jp ([133.199.85.107])
-        by enc02.toshiba.co.jp  with ESMTP id 17K8tuTp019841
-        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 17:55:56 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YHMYnqUcqwm6ux2kSgTP6jUvB5F41Ugs6mYl5Pa5NwkHbxEEMTHyWnKkVqmmc5FHHWSf+aerKBbnQYZv0WEYTHGVY6xbd+e62TiZnB+VZYJWEzyaP7RrcilcR+hIGy0ALs7RpQciWXIJImDhwmnDmdVWwreNkwLRzkcTnJtYgYgJkPY/5DmxkXed5/OujhtuTf9oSxLicM9PUBhc14WpZ3pb6nH5x6C4nYkRpaCXhzQTDDf7yROQXAq2W/0s9ZTfQvBu08nByS17RsiYY9asA9Dn+DUxhh79WivlKVh/J2BbOzZtgM0vblFI3ewBRTFeF3togYrRc14ruA6gKC7u3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3zzHab+uTWxdP2oX8s2MsP+jxXA80fEuHGVmSo4sQJA=;
- b=g8U59sA8k0X9InG1FJW9qDI09aR2QiKsn1MjwYikBL7YfiyU95N0U4ijpWxDVL8K/hLkx5oC/MpExjXfsC5k6uh2vC3UPjm2q1RvcipWokMiLBiKBoBrpUs4NPK2aMesGmSLrpq+bOQHpGH7t/fPQRYzudN1kX4yAauSs62VSymyWp4eucW8BGOXd/CYVik7T8AALsFqBd6cGeCEWiSmBP4oznEJ3qeXhbUCOQzMoGsQ0A8tCacTvOfkDRELlO/7aErAXSmlQe3Pv4kfG6G9PLr1gi3UvM/clMALgho0f5uT4WqV0tN1kmYHrUouPrhjwSEypOAqFMoTLmkhD9Ks8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=toshiba.co.jp; dmarc=pass action=none
- header.from=toshiba.co.jp; dkim=pass header.d=toshiba.co.jp; arc=none
-From:   <trung1.dothanh@toshiba.co.jp>
-To:     <linux-media@vger.kernel.org>
-Subject: media: videobuf2: Fails to scale H264 1080p video on 1920x1080 screen
-Thread-Topic: media: videobuf2: Fails to scale H264 1080p video on 1920x1080
- screen
-Thread-Index: AdeVoJe9docn7NNNS8iXibN+hg0QZA==
-Date:   Fri, 20 Aug 2021 08:55:53 +0000
-X-TSB-HOP: ON
-Message-ID: <OSAPR01MB3346DCCEBC794AD473F5D9EC93C19@OSAPR01MB3346.jpnprd01.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-authentication-results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none
- header.from=toshiba.co.jp;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 82073ca4-0b70-41f0-7e95-08d963b85110
-x-ms-traffictypediagnostic: OSBPR01MB2280:
-x-microsoft-antispam-prvs: <OSBPR01MB2280202F4D532E03DA01897193C19@OSBPR01MB2280.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: gdaxoQ9fPDptMor4dzFyAI6CzUdBuC3Ydb12sKySCWXTrCA/2Xkl5d+lGFDj1Fa1Hc4Na2c9ggaequIqoUf61WafuBsQWSKQm4dWFErGSCyT4BaW4dhmZIfVpHegdGizELgALd5My/N98dCOStVLV7tIRxtx4mktZbZtVQM97U4lBGRaU5wuNDAF4pg/hYdH0QfUPA+TQfhJjb494vETrXuwOsESGg3nCjykqKniFZwsDvruQ6kGdNfJKB4IvhFJadtOydoKYPBlrbA/l4sSh/VMkW5rEXFHwu2Occ4WGrljlHoXMHnGJw5mWK/SS0KaGLmtjD7zMTe4tkeSxz9Bo5xDbUcS+jZQGtrTYNlgnDs940mFPweJh3X6BuFNOh33mOasZf5QzDWOdsdYf9VY5TNAlC3rdDWGLEbO8DmvtKRRVIkJOlvQApzKtUqXShEh6lLYzZqZirv25RNZM9Okt0W7vf2k6yX7qZWJ0HDsvYFaQupvIl1f3dR/6Uuc6JxJvHwXSTSiTBKvjFUaBehJ3bowZg0m2KdRu/kEsFpSnTr/BzgD5sj4VifQGkQL1yZYR3hhzzjsCLTa0fbRw3eDjkexM5AS6iSxQvXwTYfZLPkEKUjH01fx01TKvcxdAmdjwVfyDqwd1F5k768Blllud5eO4om8AlZyXEV4vkbKZlk8Lo3qvIRYIKsKkD0IKrzjApWvrIXKttNdgu/zAsZnPg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB3346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(39860400002)(366004)(396003)(136003)(5660300002)(76116006)(33656002)(186003)(38100700002)(478600001)(9686003)(6506007)(26005)(316002)(83380400001)(52536014)(64756008)(66946007)(71200400001)(66446008)(2906002)(66476007)(86362001)(7696005)(122000001)(8936002)(8676002)(6916009)(55016002)(38070700005)(66556008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-2022-jp?B?b2tkZDQ1YWwxd1VqaUFMOTBNVkhYb1hIMkMrM2FDZFdlUmxyY3I1VVdl?=
- =?iso-2022-jp?B?QmZETEJBTDZCNjhZM2o3NCtnSkJSUE1TRFlpZER0UmZienlSU2dZVzgr?=
- =?iso-2022-jp?B?ek9mTk15ZnorZE5VYjRMUUlzZFVFL0tyTzFHZlpMQytocUg4bk1BWFNS?=
- =?iso-2022-jp?B?YnZweFdtN1h4WGZXNzRGWE9UNFI0ZEFRenM4UGxCT3ZHTG84VktlcDky?=
- =?iso-2022-jp?B?WXYyRUg2d3dsZmtNWXNyeHNrVHZWSzRQMEdzZ2Q4QXIycnExakFXWktl?=
- =?iso-2022-jp?B?V3ovWjUrWDVMWFdXMWZhdGxmTFY4ZFpnRjEyTFRYUzRBcC9CS0R4cVBJ?=
- =?iso-2022-jp?B?VnpWNXVFSUdNb1ArbFdoOXRvVzlSczBDWkZoMnE0a2o4Nkl4YWh6Z2VJ?=
- =?iso-2022-jp?B?QVAraUhTOEQyWUpyS0lXYXJUVHNjM3hrdkJHOGJoYzZlS1d3WlFjYjN6?=
- =?iso-2022-jp?B?bVNDcFRZN2NXcUVScTcwRDZGYXBEQk1iNTVCSkhEUnRlVU4rNjMzRG40?=
- =?iso-2022-jp?B?Y3NaT1ZNL1pyWWgybDl6Sm5FYzE4V1Aza0xTNUtVUXJhUGhEY0xXK05r?=
- =?iso-2022-jp?B?bHhLeE15ZGFGUkpBNXVaNFh4WmdSVUhxMXlHMzA0T0RMNU1yaWtCR0NV?=
- =?iso-2022-jp?B?UDRGZnBuL2svSXltMnZ0YzJJN3JHRFo4ZkdBTnNod0lIYVo3Y1ZId2g1?=
- =?iso-2022-jp?B?WU5YRVo0bkdUZW9heURzalBXdEZHeVVWMXNSdTJuRkN0MlNEWVZBemYx?=
- =?iso-2022-jp?B?T2NrUlBtbnAwRnVCUDVScWtpV2oraHlkN1E3ZExqQ3FURUdEb1pRVmVJ?=
- =?iso-2022-jp?B?aG4xTXM0c25TT0lzcHB1b1YrWUdtdFFzQzA2Z1VYbkxQQ1ZXNzRQVWRT?=
- =?iso-2022-jp?B?U05XNHNXUUhJR3ozVy9jQlA4Uy96dWtlQVdrUGl0QUFUSHZxWE4wSHhP?=
- =?iso-2022-jp?B?Z0RYZEp3WE44dDFZUlM3d0V0RkE2UlBDZXBsSEx6RGFWQUJsa0VPc3BP?=
- =?iso-2022-jp?B?djY5RGV5cHpIZ2hOSzMyK1FCVTR5ZnR4OTNhYm9NNXpNR21HcnU2VGJv?=
- =?iso-2022-jp?B?c3hOdUVHbklTNDdBQWFxTHpKTklrSXZsUWZrdVZaNjVISTh3dkdWMCtW?=
- =?iso-2022-jp?B?SmRUU0plY3AvSWRoeGk1ZEM4NitzY0ZoNkVNMk5PSnVxUHY5TGdLMjYr?=
- =?iso-2022-jp?B?U0xuaHkvQWoyWER6VkUyNzkrRUovSEgrK01zVmN0NTdMNGtveDJ0VjUw?=
- =?iso-2022-jp?B?cjNEYnJrbHRmL1VYRHB2b01KNmJkUkFiNHFqRWtFMmE2RzFXV0ZjclFG?=
- =?iso-2022-jp?B?ZzFwemEwWStNOVl5dlhjNWFFL21OMy82MTRFRlBKZ3RmKzRkaHU4d3JI?=
- =?iso-2022-jp?B?SGlaT0FBdTM4M3NpekVnNlp4eFFPK0RoemtuS2VaTFgxMERQdEUwV1hp?=
- =?iso-2022-jp?B?cHplN2FDbmtENjhDMHFMZXNYWDcveWUxZTZ3U1Z4ZWMzdDlYdnhHZlcr?=
- =?iso-2022-jp?B?TTFBMDM2U2VGTWZtMkdPSTZGMlRyQm5YZ3FRM1NFVkhWaUpwaHRDTW5o?=
- =?iso-2022-jp?B?MHJ5UE03VGlQbEszT081eUFISzBRRTRJQk4vTWFaOGpINTU0WXp6UDZB?=
- =?iso-2022-jp?B?K0JZSU5UVHNNZ1pYdFhuN3FtazRWNVBkVmluYzRZbWRvaW8vbTZXMGF4?=
- =?iso-2022-jp?B?VFQ5RHdyNEtrODRiR2Z4Wk9zTEFXZUhCVmYvK0d5RkdvUTdpOUtHbDZu?=
- =?iso-2022-jp?B?Yk85bjI3d0UzS1VReEJtVHZkUzdMVXcwL1JiakhVTTlobG13d2tHM0hW?=
- =?iso-2022-jp?B?blRsSmczb1BqQ2J5RklWbTVOeVljdDQ1bkdoWkF5anBvcTdsOUtuTGRR?=
- =?iso-2022-jp?B?aWdERTJmRTVNSVZENW1wV3R6OUR3PQ==?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: 8BIT
+        Fri, 20 Aug 2021 06:04:06 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 551DDC061575;
+        Fri, 20 Aug 2021 03:03:29 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id oa17so6999198pjb.1;
+        Fri, 20 Aug 2021 03:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bUKxomWQZ5QxIYFDsb+klHkUJT56TTMlo6NJBPgwDTw=;
+        b=XQIzz6ucLOTQp2DzVHYZkL6sgdA78JVrYg5osuKw9srS4VYeK+4UG5Ocu2rjdGl72K
+         hozy0pXafCIL3DzoAGv1/Ynts0t1R95UT4eRGw8efB1QbFsTMQZcZzNzVsRTrIG8Jjsx
+         T8XGwXtDc6W1lq8IAGR67sSlxVxx5EVaKUDjyTWi9PWFB78PE35CBfisPfwjL5ZGOqIz
+         I3jWnfUS86KLf9vU9Kc1KZ2TAw1LjhjPGp1branPwgmPnlTWP17YOW4FMxOb6Une8Jga
+         qPm9GimVgYFG94rKXQtAimPIneqpt2CG69j+fuCneS+OnoCnAwijNwLS1/8pxSTsjEtr
+         pP6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bUKxomWQZ5QxIYFDsb+klHkUJT56TTMlo6NJBPgwDTw=;
+        b=bcVEfSkROB2EmLH8G9gMHQzoJ9ZIy0EaD25WYwO5BbTRCIxeYv+giaYhtsuMOSkESF
+         emwMW2M+P7SczSKVxE+CwRYmXGP7Cj4G0/fYpf3aLe32vvS74Uug25UwoK0sePWFxZt4
+         aFDLR5pf/+KVAnQNVT7+15atWWlsmOG57wunP49pyOmj+2Zl/RlFz+oLQjYXEE1ux73B
+         WLrt04Kzps/qgEzPT/ZqB05hUnuX5Jnqchd70klE/THhpU5ubn7FvFuu16jAtKPyIgdU
+         gfRb0q1AsuoeaH5E+bJ63BNeKq5yHPdOWSl9JXtWtkRiPZ5idsgDY/f6YSAV1eLVd5Uq
+         CCag==
+X-Gm-Message-State: AOAM531JD/oZQQztF/l4DK54FcKz/Vv+V+P30nr+B/JQjmNt1BuQu3ZF
+        ntyabirA9QfA1uDHPhBDkks=
+X-Google-Smtp-Source: ABdhPJyVUBpUuyiz1RaVzTh1c7byc8ylmZizw2oW+a4dWyMXQewAPos+qDRZ0N0on3UDesmH/00SKQ==
+X-Received: by 2002:a17:90a:d791:: with SMTP id z17mr3743696pju.203.1629453808880;
+        Fri, 20 Aug 2021 03:03:28 -0700 (PDT)
+Received: from localhost.localdomain ([118.200.190.93])
+        by smtp.gmail.com with ESMTPSA id i8sm6503876pfo.117.2021.08.20.03.03.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Aug 2021 03:03:28 -0700 (PDT)
+From:   Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, christian.koenig@amd.com
+Cc:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
+        gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v4 0/5] drm: update locking for modesetting
+Date:   Fri, 20 Aug 2021 18:02:46 +0800
+Message-Id: <20210820100251.448346-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB3346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82073ca4-0b70-41f0-7e95-08d963b85110
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2021 08:55:53.3714
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f109924e-fb71-4ba0-b2cc-65dcdf6fbe4f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +AoRqNQ4irymmXnachwgCRuBO7VIx6G+u9Ft2uE+NvFmLFkQJRi5JgNRxHDfVzc03dEgTlDePyV/SjvgrRD7yetPZaQy5cQ7UTDGwrIrBR4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB2280
-MSSCP.TransferMailToMossAgent: 103
-X-OriginatorOrg: toshiba.co.jp
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi,
 
-I am trying to play video with Gstreamer  on a fullHD monitor. The board I’m using is Apalis iMX6.
-Playing video works great with v4l2h264dec:
+Thanks for all the helpful feedback on the previous version.
 
-	gst-launch-1.0 filesrc location=1080.mkv ! matroskademux ! h264parse \
-                          ! v4l2h264dec capture-io-mode=dmabuf \
-                          ! kmssink
+Taking all the suggestions together, this series now converts
+drm_device.master_mutex into master_rwsem, and also attempts to remove
+drm_file.master_lookup_lock. There might still be lock inversions
+lurking, so the output from Intel-gfx CI should be interesting to see.
 
-However, it fails to scale video to 720p with v4l2convert:
+Overall, this series makes the following changes:
 
-	gst-launch-1.0 filesrc location=1080.mkv ! matroskademux ! h264parse \
-                          ! v4l2h264dec capture-io-mode=dmabuf \
-                          ! v4l2convert output-io-mode=dmabuf-import \
-                          ! video/x-raw,width=1280,height=720 \
-                          ! kmssink
+- Patch 1: Fix a potential null ptr dereference in drm_master_release
 
-Added some debugs and I found that it failed at 'drivers/media/common/videobuf2/videobuf2-v4l2.c:__verify_length()'.
+- Patch 2: Convert master_mutex into rwsem (avoids creating a new lock)
 
-	length = (b->memory == VB2_MEMORY_USERPTR)
-		? b->length : vb->planes[0].length;
-	if (b->bytesused > length)
-		return -EINVAL;
+- Patch 3: Update global mutex locking in the ioctl handler (avoids
+deadlock when grabbing read lock on master_rwsem in drm_ioctl_kernel)
 
-The “b->byteused” is 4177920 (= 2 x 1920 x 1088), while plane length is just 4147200 (= 2 x 1920 x 1080).
-The actual frame size of H264 video is 1920x1088, so I added  a bypass for this case and video can be scaled,
-but that may not a correct way to fix this problem.
+- Patch 4: Plug races with drm modesetting rights
 
-Is this a bug or I need to do extra steps before scale video?
+- Patch 5: Replace master_lookup_lock with master_rwsem by untangling
+remaining lock hierarchy inversions
 
-Packages version in my environment are:
-* Kernel: 5.10.19
-* Gstreamer: 1.18.4
+v3 -> v4 (suggested by Daniel Vetter):
+- Drop a patch that added an unnecessary master_lookup_lock in
+drm_master_release (previously patch 2)
+- Drop a patch that addressed a non-existent race in
+drm_is_current_master_locked (previously patch 3)
+- Remove fixes for non-existent null ptr dereferences (previous patch 4)
+- Protect drm_master.magic_map,unique{_len} with master_rwsem instead of
+master_lookup_lock (dropped previous patch 5)
+- Drop the patch that moved master_lookup_lock into struct drm_device
+(previously patch 1)
+- Drop a patch to export task_work_add (previously patch 8)
+- Revert the check for the global mutex in the ioctl handler to use
+drm_core_check_feature instead of drm_dev_needs_global_mutex
+- Push down master_rwsem locking for selected ioctls to avoid lock
+hierarchy inversions, and to allow us to hold write locks on
+master_rwsem instead of flushing readers
+- Remove master_lookup_lock by replacing it with master_rwsem
 
-Thank you,
-Trung
+v2 -> v3:
+- Unexport drm_master_flush, as suggested by Daniel Vetter.
+- Merge master_mutex and master_rwsem, as suggested by Daniel Vetter.
+- Export task_work_add, reported by kernel test robot.
+- Make master_flush static, reported by kernel test robot.
+- Move master_lookup_lock into struct drm_device.
+- Add a missing lock on master_lookup_lock in drm_master_release.
+- Fix a potential race in drm_is_current_master_locked.
+- Fix potential null ptr dereferences in drm_{auth, ioctl}.
+- Protect magic_map,unique{_len} with  master_lookup_lock.
+- Convert master_mutex into a rwsem.
+- Update global mutex locking in the ioctl handler.
+
+v1 -> v2 (suggested by Daniel Vetter):
+- Address an additional race when drm_open runs.
+- Switch from SRCU to rwsem to synchronise readers and writers.
+- Implement drm_master_flush with task_work so that flushes can be
+queued to run before returning to userspace without creating a new
+DRM_MASTER_FLUSH ioctl flag.
+
+Best wishes,
+Desmond
+
+Desmond Cheong Zhi Xi (5):
+  drm: fix null ptr dereference in drm_master_release
+  drm: convert drm_device.master_mutex into a rwsem
+  drm: lock drm_global_mutex earlier in the ioctl handler
+  drm: avoid races with modesetting rights
+  drm: remove drm_file.master_lookup_lock
+
+ drivers/gpu/drm/drm_auth.c        | 54 ++++++++++++------------
+ drivers/gpu/drm/drm_debugfs.c     |  4 +-
+ drivers/gpu/drm/drm_drv.c         |  3 +-
+ drivers/gpu/drm/drm_file.c        |  7 ++--
+ drivers/gpu/drm/drm_internal.h    |  1 +
+ drivers/gpu/drm/drm_ioctl.c       | 48 ++++++++++++---------
+ drivers/gpu/drm/drm_lease.c       | 69 ++++++++++++++-----------------
+ drivers/gpu/drm/drm_mode_object.c | 14 +++++--
+ include/drm/drm_auth.h            |  6 +--
+ include/drm/drm_device.h          | 15 +++++--
+ include/drm/drm_file.h            | 17 +++-----
+ include/drm/drm_lease.h           |  2 +-
+ 12 files changed, 125 insertions(+), 115 deletions(-)
+
+-- 
+2.25.1
 
