@@ -2,66 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A657C3F385B
-	for <lists+linux-media@lfdr.de>; Sat, 21 Aug 2021 05:47:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C84AD3F3862
+	for <lists+linux-media@lfdr.de>; Sat, 21 Aug 2021 05:50:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233055AbhHUDr5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Aug 2021 23:47:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46406 "EHLO
+        id S232746AbhHUDvV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Aug 2021 23:51:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbhHUDr4 (ORCPT
+        with ESMTP id S229610AbhHUDvU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Aug 2021 23:47:56 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB56AC061575;
-        Fri, 20 Aug 2021 20:47:17 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id f22so3337244qkm.5;
-        Fri, 20 Aug 2021 20:47:17 -0700 (PDT)
+        Fri, 20 Aug 2021 23:51:20 -0400
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03D17C061575;
+        Fri, 20 Aug 2021 20:50:42 -0700 (PDT)
+Received: by mail-qt1-x82f.google.com with SMTP id d2so9157167qto.6;
+        Fri, 20 Aug 2021 20:50:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=RhNvjC5FbjNYONwOawMoFPjO3QiHvU6DiO/UBhQ5dKA=;
-        b=IaobpgR+fgGfoE4JtceBoeSJVKme2DRf/ab1fwPCBbyifezuYtetDYNa3HL0vwxUeT
-         FPsjRYBvXPNq0OqunTCkIPxlzpcx4OVErwM9X79z7QjhOV75eNrk9N3WltQOq5FxgD4w
-         H4X22k4Yj/3JZ1I+unrG6NSKaxys361+Nej7o9jaIe2/wJB4QwkePFKHJRdB2g+66miW
-         HTzTHcZjDxmqE6o3n2EeCBlW2kd0c3CCBfChNe+1lrn4h8g0/X49wwJ28l+2wjok2UT3
-         OQuoBHXVzwsKHZQhzVcIPJsSQ7jUaGMUVn59Z6DBJ0wOrNIjVu40TSwxjelWldarIJlu
-         cQYg==
+        bh=3qJEeSvfeYR4GpQzmxAjuhDRVR/g1i3gAXvBM9dIcHY=;
+        b=fPnRf6Ok2ou/v0WrM3AraBvPxv4tq0xxdh6lKZEGrhOlrdOXJtzQg9eTl00ccZAKMy
+         YYYmws/mzSI8V0HNS2Ph6WpzrTBrdPK09ODNnNELJuoR1P8pQPhX1lVlnxfqghEoaVIm
+         zxnJ3XlD7QfHXblmH+rYJ+2pzKTeNpmsGLiF+DYkA5ssYeHI51oPPbRjO/No+Gifbcx5
+         ghtg8n0GaFuanJCNCs+nkwr3qrt788l8fPbcF53YFrCTFElfdbk5GnEsLyvFqR7UHo3N
+         rPUQFoSEOILeJdrIlW7OqINVAv1Cnruc+vy4fzDgNUaTL2W5npFFpUBDnlIx53/+KEgD
+         GCGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=RhNvjC5FbjNYONwOawMoFPjO3QiHvU6DiO/UBhQ5dKA=;
-        b=VLQ74r+AsSksD+cfLRpAr3RXWczjeTFtCgNn3nA/v8axNdq1BfJnS54X3Z3p97SkQr
-         x6/boWkTfa+haxjKYKsSgzKyNxzDoFQDcnd0TtThhrwQJsDeO51keB0AvzSWPGWbmRNr
-         9bajF1KxYq+KWQ3MCWq73C+hEiwJHOavelzdbMWjp3Owxstbn90FMIXpz1JPrAOJd4rV
-         OZfQiIr0o73ykBNA7WC9XWB/Qlerqk5OvtpZqsZ87tm73YoVIb7rxfZiWE2sWa8lI45L
-         2P/MFqRMoWsOX/tF3eqq4iJK/3NjtwZAafyhCZAI5Oz53LRsQpQJFT4HmRRNGA0lUZ6n
-         HYqw==
-X-Gm-Message-State: AOAM5303UB3lgE+iRWNIFRy167NROxkgUp3K583KDMiweQBorfhiUOB8
-        Ho/E/IXnT9cjq0WtsNxs8kg=
-X-Google-Smtp-Source: ABdhPJwTc5lmnPDsB/8XGFL2k+dfYCuGkf+alRAXrKme1xV5LgukTboJwN2oBoworvB9t1l+EKyYqg==
-X-Received: by 2002:a37:681:: with SMTP id 123mr11901233qkg.53.1629517636953;
-        Fri, 20 Aug 2021 20:47:16 -0700 (PDT)
+        bh=3qJEeSvfeYR4GpQzmxAjuhDRVR/g1i3gAXvBM9dIcHY=;
+        b=EJFdsG1dj1/vnsZojNJfQOx4FAizN6NkuOoXSyd2RR4sTuS9ZRhacnmh1UeKmR2zw7
+         vcCPMopiZPTgj/TYukdFygDujm+BnA15RFy6i/zg1BmW4/QBeyxVxLMrFB0yAXmfvO/4
+         Xk85DLQGxfAMemraXkGuY0u6qixJ3MQ3HtOtZPSg0zEcsVPeC/kVRk7IYGyP5p0mV0PX
+         6jbDIsZys5451H9q9Dw2xALOjYCGQgAAwctGOnV4R0f95s6IeXt/1yBVKyfLhygozRkA
+         wT23p1SYok8X2qLM0Q4rgyAvTA5QsyGDqM5PzgWQT0ztVeQj3XlNm72/e02V2WugVBNg
+         UnAQ==
+X-Gm-Message-State: AOAM531IXEfG0pbOCR7w16Ba2GM6NBwnkK8EFvW23IyP4/sxCGivDJgL
+        6FRSYRfnKdEuvKeIqlSgJe4=
+X-Google-Smtp-Source: ABdhPJz8E0hCoCre+vuDt2dUQ81tAwcPRbcOHkTt63jkFmjvjnjYIEJw2Q1P4KyojF3fwBZLZBW64Q==
+X-Received: by 2002:ac8:5744:: with SMTP id 4mr21136410qtx.326.1629517841270;
+        Fri, 20 Aug 2021 20:50:41 -0700 (PDT)
 Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id h4sm4072652qkp.86.2021.08.20.20.47.13
+        by smtp.gmail.com with ESMTPSA id f2sm3366249qth.11.2021.08.20.20.50.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 20:47:16 -0700 (PDT)
+        Fri, 20 Aug 2021 20:50:41 -0700 (PDT)
 From:   CGEL <cgel.zte@gmail.com>
 X-Google-Original-From: CGEL <jing.yangyang@zte.com.cn>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
+To:     Sean Young <sean@mess.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
         jing yangyang <jing.yangyang@zte.com.cn>,
         Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH linux-next] ipu3: use flexible-array member instead of zero-length array
-Date:   Fri, 20 Aug 2021 20:47:09 -0700
-Message-Id: <20210821034709.28061-1-jing.yangyang@zte.com.cn>
+Subject: [PATCH linux-next] media:meson-ir-tx: fix platform_no_drv_owner.cocci warnings
+Date:   Fri, 20 Aug 2021 20:50:33 -0700
+Message-Id: <20210821035033.28210-1-jing.yangyang@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -72,29 +73,30 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: jing yangyang <jing.yangyang@zte.com.cn>
 
-Fix the following coccicheck warning:
-./drivers/staging/media/ipu3/ipu3-css-fw.h:174:21-34:i
-WARNING: use flexible-array member instead
+./drivers/media/rc/meson-ir-tx.c:398:3-8: No need to set .owner here. The core will do it.
+
+Remove .owner field if calls are used which set it automatically
+
+Generated by: scripts/coccinelle/api/platform_no_drv_owner.cocci
 
 Reported-by: Zeal Robot <zealci@zte.com.cn>
 Signed-off-by: jing yangyang <jing.yangyang@zte.com.cn>
 ---
- drivers/staging/media/ipu3/ipu3-css-fw.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/rc/meson-ir-tx.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/media/ipu3/ipu3-css-fw.h b/drivers/staging/media/ipu3/ipu3-css-fw.h
-index 3c078f1..c0bc57f 100644
---- a/drivers/staging/media/ipu3/ipu3-css-fw.h
-+++ b/drivers/staging/media/ipu3/ipu3-css-fw.h
-@@ -171,7 +171,7 @@ struct imgu_fw_bi_file_h {
- 
- struct imgu_fw_header {
- 	struct imgu_fw_bi_file_h file_header;
--	struct imgu_fw_info binary_header[1];	/* binary_nr items */
-+	struct imgu_fw_info binary_header[];	/* binary_nr items */
+diff --git a/drivers/media/rc/meson-ir-tx.c b/drivers/media/rc/meson-ir-tx.c
+index 3055f8e..c22cd26 100644
+--- a/drivers/media/rc/meson-ir-tx.c
++++ b/drivers/media/rc/meson-ir-tx.c
+@@ -395,7 +395,6 @@ static int meson_irtx_remove(struct platform_device *pdev)
+ 	.remove = meson_irtx_remove,
+ 	.driver = {
+ 		.name = DRIVER_NAME,
+-		.owner  = THIS_MODULE,
+ 		.of_match_table = meson_irtx_dt_match,
+ 	},
  };
- 
- /******************* Firmware functions *******************/
 -- 
 1.8.3.1
 
