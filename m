@@ -2,133 +2,427 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 432A63F3BD5
-	for <lists+linux-media@lfdr.de>; Sat, 21 Aug 2021 19:46:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C94593F3C99
+	for <lists+linux-media@lfdr.de>; Sat, 21 Aug 2021 23:58:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbhHURqk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Aug 2021 13:46:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60008 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229882AbhHURqj (ORCPT
+        id S231236AbhHUV6r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Aug 2021 17:58:47 -0400
+Received: from smtp09.smtpout.orange.fr ([80.12.242.131]:45380 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230343AbhHUV6r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Aug 2021 13:46:39 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44F8DC061575;
-        Sat, 21 Aug 2021 10:45:59 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id o1so9488502lft.9;
-        Sat, 21 Aug 2021 10:45:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=IUNZGcwEvLiT98uruvqOHnHGgaNyFWtPLETI2dPthCw=;
-        b=p08OD/GPPXR4tm7RkNA9toKvQsVUl8L8J4oVZmC67OE0wZNQVqTaUco2HrwrnDiQ5w
-         YuB7XIX+XHBkQHFFdAzLyF2BxZCm+jSnFq4FsCUAM2T1sDn/9oxf4t2nPY94dg8ZOy02
-         4ifXdf59PODf4caGN1F1ErdH+dIo7YXjnB5cY+HfdftEYqOCt2+nTokc6UD388Ko2qxo
-         MvhYOSvGDT1/FsQM/l16oRX1i1OGSNP7dXhT5bdzGaUHSnydnyQWWVAxmDtcpnGU6hl9
-         akWPj9WfjbxtYLM0nKZbQdHyelXHGLCzov3c1u9xeUbYJI6bez6nJO7fiBHU51tlE3bJ
-         Ui+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=IUNZGcwEvLiT98uruvqOHnHGgaNyFWtPLETI2dPthCw=;
-        b=qqFGmoBoIw84QNZ9w88K4/RJ31ckx4Fv0oQTXBKAmJgvZBIx520WQnH53m+dcuOfow
-         l4jjnfsh9La0yoDydZFbJNof+kY6C7mB/KkwOrkXOyn4m3MhTQwyb7K7aXua6nSp31nt
-         fXDz3XHmPB6bOkRQFYFMIfgQBZwpVv43xstG9x/0l5dU75UV4F7hipo+eLJ6SJU+itG8
-         0d5KA4JFCP/EV6KbbSnO5CLIsbHfGbeAr2L1to4LcBwCKT/joG8TF03QJPQQvAR/NK4N
-         AiuJiCD3iKgnsNVfk2RNROsGZxETVAQSG1UL7T3kLR1DDEEm2KRrAOfhjg4Ic3xi2Aua
-         7NgA==
-X-Gm-Message-State: AOAM530X5LPERNJHDJISktdFwMhxChVRZ1j9RTmncw0zOXhisUuMj4b8
-        YF3i435PqXVHywY0Xy+76Z3248zVuEA=
-X-Google-Smtp-Source: ABdhPJwQTUwfeBc8x+Qc/XgoFvNgZwRj7DA1ImLYu2aN3NoNJ/vJapVfLwS/Dwin1R3kajnXi5wLGA==
-X-Received: by 2002:ac2:4839:: with SMTP id 25mr19053893lft.455.1629567957530;
-        Sat, 21 Aug 2021 10:45:57 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-120-72.dynamic.spd-mgts.ru. [46.138.120.72])
-        by smtp.googlemail.com with ESMTPSA id e19sm868158ljj.28.2021.08.21.10.45.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Aug 2021 10:45:56 -0700 (PDT)
-Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
-To:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        DTML <devicetree@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-8-digetx@gmail.com> <YR0UBi/ejy+oF4Hm@orome.fritz.box>
- <da7356cb-05ee-ba84-8a7c-6e69d853a805@gmail.com>
- <YR04YHGEluqLIZeo@orome.fritz.box>
- <ad99db08-4696-1636-5829-5260f93dc681@gmail.com>
- <YR6Mvips3HAntDy0@orome.fritz.box>
- <e17bbe8d-7c0f-fc3d-03c7-d75c54c24a43@gmail.com>
- <YR+VDZzTihmpENp6@orome.fritz.box>
- <CAPDyKFpJ+TK0w1GZEA7G=rtAjq5ipmVR4P0wy7uHiEGVWRk5yA@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <89ea1694-be9e-7654-abeb-22de0ca5255a@gmail.com>
-Date:   Sat, 21 Aug 2021 20:45:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Sat, 21 Aug 2021 17:58:47 -0400
+Received: from pop-os.home ([90.126.253.178])
+        by mwinf5d69 with ME
+        id kMy2250043riaq203My2cS; Sat, 21 Aug 2021 23:58:05 +0200
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 21 Aug 2021 23:58:05 +0200
+X-ME-IP: 90.126.253.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     awalls@md.metrocast.net, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: pci/ivtv: switch from 'pci_' to 'dma_' API
+Date:   Sat, 21 Aug 2021 23:54:22 +0200
+Message-Id: <e8e7cdaa0a439f913c5e40abb673d608046ba4e7.1629582801.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFpJ+TK0w1GZEA7G=rtAjq5ipmVR4P0wy7uHiEGVWRk5yA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-20.08.2021 16:08, Ulf Hansson пишет:
-...
->> I suppose if there's really no good way of doing this other than
->> providing a struct device, then so be it. I think the cleaned up sysfs
->> shown in the summary above looks much better than what the original
->> would've looked like.
->>
->> Perhaps an additional tweak to that would be to not create platform
->> devices. Instead, just create struct device. Those really have
->> everything you need (.of_node, and can be used with RPM and GENPD). As I
->> mentioned earlier, platform device implies a CPU-memory-mapped bus,
->> which this clearly isn't. It's kind of a separate "bus" if you want, so
->> just using struct device directly seems more appropriate.
-> 
-> Just a heads up. If you don't use a platform device or have a driver
-> associated with it for probing, you need to manage the attachment to
-> genpd yourself. That means calling one of the dev_pm_domain_attach*()
-> APIs, but that's perfectly fine, ofcourse.
-> 
->>
->> We did something similar for XUSB pads, see drivers/phy/tegra/xusb.[ch]
->> for an example of how that was done. I think you can do something
->> similar here.
+The wrappers in include/linux/pci-dma-compat.h should go away.
 
-We need a platform device because we have a platform device driver that
-must be bound to the device, otherwise PMC driver state won't be synced
-since it it's synced after all drivers of devices that reference PMC
-node in DT are probed.
+The patch has been generated with the coccinelle script below.
+It has been compile tested.
+
+No memory allocation in involved in this patch, so no GFP_ tweak is needed.
+
+@@ @@
+-    PCI_DMA_BIDIRECTIONAL
++    DMA_BIDIRECTIONAL
+
+@@ @@
+-    PCI_DMA_TODEVICE
++    DMA_TO_DEVICE
+
+@@ @@
+-    PCI_DMA_FROMDEVICE
++    DMA_FROM_DEVICE
+
+@@ @@
+-    PCI_DMA_NONE
++    DMA_NONE
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_alloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_zalloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_free_consistent(e1, e2, e3, e4)
++    dma_free_coherent(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_single(e1, e2, e3, e4)
++    dma_map_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_single(e1, e2, e3, e4)
++    dma_unmap_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4, e5;
+@@
+-    pci_map_page(e1, e2, e3, e4, e5)
++    dma_map_page(&e1->dev, e2, e3, e4, e5)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_page(e1, e2, e3, e4)
++    dma_unmap_page(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_sg(e1, e2, e3, e4)
++    dma_map_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_sg(e1, e2, e3, e4)
++    dma_unmap_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
++    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_device(e1, e2, e3, e4)
++    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
++    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
++    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2;
+@@
+-    pci_dma_mapping_error(e1, e2)
++    dma_mapping_error(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_dma_mask(e1, e2)
++    dma_set_mask(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_consistent_dma_mask(e1, e2)
++    dma_set_coherent_mask(&e1->dev, e2)
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+If needed, see post from Christoph Hellwig on the kernel-janitors ML:
+   https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
+---
+ drivers/media/pci/ivtv/ivtv-driver.c  |  2 +-
+ drivers/media/pci/ivtv/ivtv-queue.c   | 18 ++++++++++--------
+ drivers/media/pci/ivtv/ivtv-streams.c | 22 +++++++++++-----------
+ drivers/media/pci/ivtv/ivtv-udma.c    | 19 ++++++++++++-------
+ drivers/media/pci/ivtv/ivtv-yuv.c     | 10 +++++++---
+ 5 files changed, 41 insertions(+), 30 deletions(-)
+
+diff --git a/drivers/media/pci/ivtv/ivtv-driver.c b/drivers/media/pci/ivtv/ivtv-driver.c
+index 8ebc97ebf1a2..57d4d5485d7a 100644
+--- a/drivers/media/pci/ivtv/ivtv-driver.c
++++ b/drivers/media/pci/ivtv/ivtv-driver.c
+@@ -837,7 +837,7 @@ static int ivtv_setup_pci(struct ivtv *itv, struct pci_dev *pdev,
+ 		IVTV_ERR("Can't enable device!\n");
+ 		return -EIO;
+ 	}
+-	if (pci_set_dma_mask(pdev, DMA_BIT_MASK(32))) {
++	if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(32))) {
+ 		IVTV_ERR("No suitable DMA available.\n");
+ 		return -EIO;
+ 	}
+diff --git a/drivers/media/pci/ivtv/ivtv-queue.c b/drivers/media/pci/ivtv/ivtv-queue.c
+index 7ac4615e92ea..f9b192ab7e7c 100644
+--- a/drivers/media/pci/ivtv/ivtv-queue.c
++++ b/drivers/media/pci/ivtv/ivtv-queue.c
+@@ -188,7 +188,7 @@ int ivtv_stream_alloc(struct ivtv_stream *s)
+ 		return 0;
+ 
+ 	IVTV_DEBUG_INFO("Allocate %s%s stream: %d x %d buffers (%dkB total)\n",
+-		s->dma != PCI_DMA_NONE ? "DMA " : "",
++		s->dma != DMA_NONE ? "DMA " : "",
+ 		s->name, s->buffers, s->buf_size, s->buffers * s->buf_size / 1024);
+ 
+ 	s->sg_pending = kzalloc(SGsize, GFP_KERNEL|__GFP_NOWARN);
+@@ -218,8 +218,9 @@ int ivtv_stream_alloc(struct ivtv_stream *s)
+ 		return -ENOMEM;
+ 	}
+ 	if (ivtv_might_use_dma(s)) {
+-		s->sg_handle = pci_map_single(itv->pdev, s->sg_dma,
+-				sizeof(struct ivtv_sg_element), PCI_DMA_TODEVICE);
++		s->sg_handle = dma_map_single(&itv->pdev->dev, s->sg_dma,
++					      sizeof(struct ivtv_sg_element),
++					      DMA_TO_DEVICE);
+ 		ivtv_stream_sync_for_cpu(s);
+ 	}
+ 
+@@ -237,7 +238,7 @@ int ivtv_stream_alloc(struct ivtv_stream *s)
+ 		}
+ 		INIT_LIST_HEAD(&buf->list);
+ 		if (ivtv_might_use_dma(s)) {
+-			buf->dma_handle = pci_map_single(s->itv->pdev,
++			buf->dma_handle = dma_map_single(&s->itv->pdev->dev,
+ 				buf->buf, s->buf_size + 256, s->dma);
+ 			ivtv_buf_sync_for_cpu(s, buf);
+ 		}
+@@ -260,8 +261,8 @@ void ivtv_stream_free(struct ivtv_stream *s)
+ 	/* empty q_free */
+ 	while ((buf = ivtv_dequeue(s, &s->q_free))) {
+ 		if (ivtv_might_use_dma(s))
+-			pci_unmap_single(s->itv->pdev, buf->dma_handle,
+-				s->buf_size + 256, s->dma);
++			dma_unmap_single(&s->itv->pdev->dev, buf->dma_handle,
++					 s->buf_size + 256, s->dma);
+ 		kfree(buf->buf);
+ 		kfree(buf);
+ 	}
+@@ -269,8 +270,9 @@ void ivtv_stream_free(struct ivtv_stream *s)
+ 	/* Free SG Array/Lists */
+ 	if (s->sg_dma != NULL) {
+ 		if (s->sg_handle != IVTV_DMA_UNMAPPED) {
+-			pci_unmap_single(s->itv->pdev, s->sg_handle,
+-				 sizeof(struct ivtv_sg_element), PCI_DMA_TODEVICE);
++			dma_unmap_single(&s->itv->pdev->dev, s->sg_handle,
++					 sizeof(struct ivtv_sg_element),
++					 DMA_TO_DEVICE);
+ 			s->sg_handle = IVTV_DMA_UNMAPPED;
+ 		}
+ 		kfree(s->sg_pending);
+diff --git a/drivers/media/pci/ivtv/ivtv-streams.c b/drivers/media/pci/ivtv/ivtv-streams.c
+index f04ee84bab5f..6e455948cc77 100644
+--- a/drivers/media/pci/ivtv/ivtv-streams.c
++++ b/drivers/media/pci/ivtv/ivtv-streams.c
+@@ -100,7 +100,7 @@ static struct {
+ 	{	/* IVTV_ENC_STREAM_TYPE_MPG */
+ 		"encoder MPG",
+ 		VFL_TYPE_VIDEO, 0,
+-		PCI_DMA_FROMDEVICE, 0,
++		DMA_FROM_DEVICE, 0,
+ 		V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_TUNER |
+ 			V4L2_CAP_AUDIO | V4L2_CAP_READWRITE,
+ 		&ivtv_v4l2_enc_fops
+@@ -108,7 +108,7 @@ static struct {
+ 	{	/* IVTV_ENC_STREAM_TYPE_YUV */
+ 		"encoder YUV",
+ 		VFL_TYPE_VIDEO, IVTV_V4L2_ENC_YUV_OFFSET,
+-		PCI_DMA_FROMDEVICE, 0,
++		DMA_FROM_DEVICE, 0,
+ 		V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_TUNER |
+ 			V4L2_CAP_AUDIO | V4L2_CAP_READWRITE,
+ 		&ivtv_v4l2_enc_fops
+@@ -116,7 +116,7 @@ static struct {
+ 	{	/* IVTV_ENC_STREAM_TYPE_VBI */
+ 		"encoder VBI",
+ 		VFL_TYPE_VBI, 0,
+-		PCI_DMA_FROMDEVICE, 0,
++		DMA_FROM_DEVICE, 0,
+ 		V4L2_CAP_VBI_CAPTURE | V4L2_CAP_SLICED_VBI_CAPTURE | V4L2_CAP_TUNER |
+ 			V4L2_CAP_AUDIO | V4L2_CAP_READWRITE,
+ 		&ivtv_v4l2_enc_fops
+@@ -124,42 +124,42 @@ static struct {
+ 	{	/* IVTV_ENC_STREAM_TYPE_PCM */
+ 		"encoder PCM",
+ 		VFL_TYPE_VIDEO, IVTV_V4L2_ENC_PCM_OFFSET,
+-		PCI_DMA_FROMDEVICE, 0,
++		DMA_FROM_DEVICE, 0,
+ 		V4L2_CAP_TUNER | V4L2_CAP_AUDIO | V4L2_CAP_READWRITE,
+ 		&ivtv_v4l2_enc_fops
+ 	},
+ 	{	/* IVTV_ENC_STREAM_TYPE_RAD */
+ 		"encoder radio",
+ 		VFL_TYPE_RADIO, 0,
+-		PCI_DMA_NONE, 1,
++		DMA_NONE, 1,
+ 		V4L2_CAP_RADIO | V4L2_CAP_TUNER,
+ 		&ivtv_v4l2_radio_fops
+ 	},
+ 	{	/* IVTV_DEC_STREAM_TYPE_MPG */
+ 		"decoder MPG",
+ 		VFL_TYPE_VIDEO, IVTV_V4L2_DEC_MPG_OFFSET,
+-		PCI_DMA_TODEVICE, 0,
++		DMA_TO_DEVICE, 0,
+ 		V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_AUDIO | V4L2_CAP_READWRITE,
+ 		&ivtv_v4l2_dec_fops
+ 	},
+ 	{	/* IVTV_DEC_STREAM_TYPE_VBI */
+ 		"decoder VBI",
+ 		VFL_TYPE_VBI, IVTV_V4L2_DEC_VBI_OFFSET,
+-		PCI_DMA_NONE, 1,
++		DMA_NONE, 1,
+ 		V4L2_CAP_SLICED_VBI_CAPTURE | V4L2_CAP_READWRITE,
+ 		&ivtv_v4l2_enc_fops
+ 	},
+ 	{	/* IVTV_DEC_STREAM_TYPE_VOUT */
+ 		"decoder VOUT",
+ 		VFL_TYPE_VBI, IVTV_V4L2_DEC_VOUT_OFFSET,
+-		PCI_DMA_NONE, 1,
++		DMA_NONE, 1,
+ 		V4L2_CAP_SLICED_VBI_OUTPUT | V4L2_CAP_AUDIO | V4L2_CAP_READWRITE,
+ 		&ivtv_v4l2_dec_fops
+ 	},
+ 	{	/* IVTV_DEC_STREAM_TYPE_YUV */
+ 		"decoder YUV",
+ 		VFL_TYPE_VIDEO, IVTV_V4L2_DEC_YUV_OFFSET,
+-		PCI_DMA_TODEVICE, 0,
++		DMA_TO_DEVICE, 0,
+ 		V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_AUDIO | V4L2_CAP_READWRITE,
+ 		&ivtv_v4l2_dec_fops
+ 	}
+@@ -179,7 +179,7 @@ static void ivtv_stream_init(struct ivtv *itv, int type)
+ 	s->caps = ivtv_stream_info[type].v4l2_caps;
+ 
+ 	if (ivtv_stream_info[type].pio)
+-		s->dma = PCI_DMA_NONE;
++		s->dma = DMA_NONE;
+ 	else
+ 		s->dma = ivtv_stream_info[type].dma;
+ 	s->buf_size = itv->stream_buf_size[type];
+@@ -217,7 +217,7 @@ static int ivtv_prep_dev(struct ivtv *itv, int type)
+ 
+ 	/* User explicitly selected 0 buffers for these streams, so don't
+ 	   create them. */
+-	if (ivtv_stream_info[type].dma != PCI_DMA_NONE &&
++	if (ivtv_stream_info[type].dma != DMA_NONE &&
+ 	    itv->options.kilobytes[type] == 0) {
+ 		IVTV_INFO("Disabled %s device\n", ivtv_stream_info[type].name);
+ 		return 0;
+diff --git a/drivers/media/pci/ivtv/ivtv-udma.c b/drivers/media/pci/ivtv/ivtv-udma.c
+index 0d8372cc364a..210be8290f24 100644
+--- a/drivers/media/pci/ivtv/ivtv-udma.c
++++ b/drivers/media/pci/ivtv/ivtv-udma.c
+@@ -81,8 +81,10 @@ void ivtv_udma_alloc(struct ivtv *itv)
+ {
+ 	if (itv->udma.SG_handle == 0) {
+ 		/* Map DMA Page Array Buffer */
+-		itv->udma.SG_handle = pci_map_single(itv->pdev, itv->udma.SGarray,
+-			   sizeof(itv->udma.SGarray), PCI_DMA_TODEVICE);
++		itv->udma.SG_handle = dma_map_single(&itv->pdev->dev,
++						     itv->udma.SGarray,
++						     sizeof(itv->udma.SGarray),
++						     DMA_TO_DEVICE);
+ 		ivtv_udma_sync_for_cpu(itv);
+ 	}
+ }
+@@ -135,7 +137,8 @@ int ivtv_udma_setup(struct ivtv *itv, unsigned long ivtv_dest_addr,
+ 	}
+ 
+ 	/* Map SG List */
+-	dma->SG_length = pci_map_sg(itv->pdev, dma->SGlist, dma->page_count, PCI_DMA_TODEVICE);
++	dma->SG_length = dma_map_sg(&itv->pdev->dev, dma->SGlist,
++				    dma->page_count, DMA_TO_DEVICE);
+ 
+ 	/* Fill SG Array with new values */
+ 	ivtv_udma_fill_sg_array (dma, ivtv_dest_addr, 0, -1);
+@@ -159,7 +162,8 @@ void ivtv_udma_unmap(struct ivtv *itv)
+ 
+ 	/* Unmap Scatterlist */
+ 	if (dma->SG_length) {
+-		pci_unmap_sg(itv->pdev, dma->SGlist, dma->page_count, PCI_DMA_TODEVICE);
++		dma_unmap_sg(&itv->pdev->dev, dma->SGlist, dma->page_count,
++			     DMA_TO_DEVICE);
+ 		dma->SG_length = 0;
+ 	}
+ 	/* sync DMA */
+@@ -175,13 +179,14 @@ void ivtv_udma_free(struct ivtv *itv)
+ 
+ 	/* Unmap SG Array */
+ 	if (itv->udma.SG_handle) {
+-		pci_unmap_single(itv->pdev, itv->udma.SG_handle,
+-			 sizeof(itv->udma.SGarray), PCI_DMA_TODEVICE);
++		dma_unmap_single(&itv->pdev->dev, itv->udma.SG_handle,
++				 sizeof(itv->udma.SGarray), DMA_TO_DEVICE);
+ 	}
+ 
+ 	/* Unmap Scatterlist */
+ 	if (itv->udma.SG_length) {
+-		pci_unmap_sg(itv->pdev, itv->udma.SGlist, itv->udma.page_count, PCI_DMA_TODEVICE);
++		dma_unmap_sg(&itv->pdev->dev, itv->udma.SGlist,
++			     itv->udma.page_count, DMA_TO_DEVICE);
+ 	}
+ 
+ 	for (i = 0; i < IVTV_DMA_SG_OSD_ENT; i++) {
+diff --git a/drivers/media/pci/ivtv/ivtv-yuv.c b/drivers/media/pci/ivtv/ivtv-yuv.c
+index 5f7dc9771f8d..e79e8a5a744a 100644
+--- a/drivers/media/pci/ivtv/ivtv-yuv.c
++++ b/drivers/media/pci/ivtv/ivtv-yuv.c
+@@ -113,7 +113,8 @@ static int ivtv_yuv_prep_user_dma(struct ivtv *itv, struct ivtv_user_dma *dma,
+ 		dma->page_count = 0;
+ 		return -ENOMEM;
+ 	}
+-	dma->SG_length = pci_map_sg(itv->pdev, dma->SGlist, dma->page_count, PCI_DMA_TODEVICE);
++	dma->SG_length = dma_map_sg(&itv->pdev->dev, dma->SGlist,
++				    dma->page_count, DMA_TO_DEVICE);
+ 
+ 	/* Fill SG Array with new values */
+ 	ivtv_udma_fill_sg_array(dma, y_buffer_offset, uv_buffer_offset, y_size);
+@@ -920,7 +921,9 @@ static void ivtv_yuv_init(struct ivtv *itv)
+ 	/* We need a buffer for blanking when Y plane is offset - non-fatal if we can't get one */
+ 	yi->blanking_ptr = kzalloc(720 * 16, GFP_ATOMIC|__GFP_NOWARN);
+ 	if (yi->blanking_ptr) {
+-		yi->blanking_dmaptr = pci_map_single(itv->pdev, yi->blanking_ptr, 720*16, PCI_DMA_TODEVICE);
++		yi->blanking_dmaptr = dma_map_single(&itv->pdev->dev,
++						     yi->blanking_ptr,
++						     720 * 16, DMA_TO_DEVICE);
+ 	} else {
+ 		yi->blanking_dmaptr = 0;
+ 		IVTV_DEBUG_WARN("Failed to allocate yuv blanking buffer\n");
+@@ -1264,7 +1267,8 @@ void ivtv_yuv_close(struct ivtv *itv)
+ 	if (yi->blanking_ptr) {
+ 		kfree(yi->blanking_ptr);
+ 		yi->blanking_ptr = NULL;
+-		pci_unmap_single(itv->pdev, yi->blanking_dmaptr, 720*16, PCI_DMA_TODEVICE);
++		dma_unmap_single(&itv->pdev->dev, yi->blanking_dmaptr,
++				 720 * 16, DMA_TO_DEVICE);
+ 	}
+ 
+ 	/* Invalidate the old dimension information */
+-- 
+2.30.2
+
