@@ -2,102 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C84AD3F3862
-	for <lists+linux-media@lfdr.de>; Sat, 21 Aug 2021 05:50:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96B233F38E8
+	for <lists+linux-media@lfdr.de>; Sat, 21 Aug 2021 07:53:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232746AbhHUDvV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Aug 2021 23:51:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47184 "EHLO
+        id S231516AbhHUFy0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Aug 2021 01:54:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbhHUDvU (ORCPT
+        with ESMTP id S230319AbhHUFyX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Aug 2021 23:51:20 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03D17C061575;
-        Fri, 20 Aug 2021 20:50:42 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id d2so9157167qto.6;
-        Fri, 20 Aug 2021 20:50:41 -0700 (PDT)
+        Sat, 21 Aug 2021 01:54:23 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 956CBC061575
+        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 22:53:39 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id e7so11354180pgk.2
+        for <linux-media@vger.kernel.org>; Fri, 20 Aug 2021 22:53:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3qJEeSvfeYR4GpQzmxAjuhDRVR/g1i3gAXvBM9dIcHY=;
-        b=fPnRf6Ok2ou/v0WrM3AraBvPxv4tq0xxdh6lKZEGrhOlrdOXJtzQg9eTl00ccZAKMy
-         YYYmws/mzSI8V0HNS2Ph6WpzrTBrdPK09ODNnNELJuoR1P8pQPhX1lVlnxfqghEoaVIm
-         zxnJ3XlD7QfHXblmH+rYJ+2pzKTeNpmsGLiF+DYkA5ssYeHI51oPPbRjO/No+Gifbcx5
-         ghtg8n0GaFuanJCNCs+nkwr3qrt788l8fPbcF53YFrCTFElfdbk5GnEsLyvFqR7UHo3N
-         rPUQFoSEOILeJdrIlW7OqINVAv1Cnruc+vy4fzDgNUaTL2W5npFFpUBDnlIx53/+KEgD
-         GCGQ==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=n5/Fdihjp+sDSxDi7gnmgBq3lW7NxjDo15wwIp1cvr8=;
+        b=jxnHy9tw+uPx9gLCPBuo2eIbIpbfLs5GKdg+q+UXapZoMdQphbEG7j/tREfxRG73OB
+         SMWtJ0ITPEg4cOqbhT2q65n0qQve0xXezqIsrltEEXfOUnSEA0/gmXbVVP9eYrgf2etD
+         RVl0Q81t1zmKq8SW7wDArG67dNTELuMQoqXrs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3qJEeSvfeYR4GpQzmxAjuhDRVR/g1i3gAXvBM9dIcHY=;
-        b=EJFdsG1dj1/vnsZojNJfQOx4FAizN6NkuOoXSyd2RR4sTuS9ZRhacnmh1UeKmR2zw7
-         vcCPMopiZPTgj/TYukdFygDujm+BnA15RFy6i/zg1BmW4/QBeyxVxLMrFB0yAXmfvO/4
-         Xk85DLQGxfAMemraXkGuY0u6qixJ3MQ3HtOtZPSg0zEcsVPeC/kVRk7IYGyP5p0mV0PX
-         6jbDIsZys5451H9q9Dw2xALOjYCGQgAAwctGOnV4R0f95s6IeXt/1yBVKyfLhygozRkA
-         wT23p1SYok8X2qLM0Q4rgyAvTA5QsyGDqM5PzgWQT0ztVeQj3XlNm72/e02V2WugVBNg
-         UnAQ==
-X-Gm-Message-State: AOAM531IXEfG0pbOCR7w16Ba2GM6NBwnkK8EFvW23IyP4/sxCGivDJgL
-        6FRSYRfnKdEuvKeIqlSgJe4=
-X-Google-Smtp-Source: ABdhPJz8E0hCoCre+vuDt2dUQ81tAwcPRbcOHkTt63jkFmjvjnjYIEJw2Q1P4KyojF3fwBZLZBW64Q==
-X-Received: by 2002:ac8:5744:: with SMTP id 4mr21136410qtx.326.1629517841270;
-        Fri, 20 Aug 2021 20:50:41 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id f2sm3366249qth.11.2021.08.20.20.50.37
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=n5/Fdihjp+sDSxDi7gnmgBq3lW7NxjDo15wwIp1cvr8=;
+        b=a3cEpA8ufefzn2cIKRn4OlfH5yaHqL+psuSS1PWilNe76FcAapSIbOKgRHaNn2BiIa
+         BVg3jp94BBiXHOX4KjKnI97vtkMawIoYUuB9apCilgKL/HgVtHThy0J940c83VqWJDtu
+         a0Lb36UmTZ+MTlQQe9FQLrc2Pvo3XnELskjXClCNnsqUuK7Y6U6/vbuPBEPuuKZ7frfr
+         t8a3IrbdVvaxsqP3NkAVBCMPlQEUNbSngvTDJbw6rbPsqTCG56SosVSYWZPY9SHKRnPa
+         ZBQKgiF5c0ebLv29cHeYXsJzGaBSpSkqzpc4z6TT/3a/GY+sdbKjE2lse2il2FqBowFH
+         m95w==
+X-Gm-Message-State: AOAM530E+UcDtWWZMwGaduRSIAINimnKYQzos8PUBs5hUI5HthhpH8Ap
+        jdgd/vlslCuehrW9DCvelR/5MQ==
+X-Google-Smtp-Source: ABdhPJyskjxZyotgOIKyGsFoHq5YHJFwfaG3QKD/1U0ag0cbf6kv2IpN7RrgEwlMDFLSbey+tudoeA==
+X-Received: by 2002:a65:6701:: with SMTP id u1mr21890145pgf.138.1629525219086;
+        Fri, 20 Aug 2021 22:53:39 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id d13sm8666004pfn.136.2021.08.20.22.53.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 20:50:41 -0700 (PDT)
-From:   CGEL <cgel.zte@gmail.com>
-X-Google-Original-From: CGEL <jing.yangyang@zte.com.cn>
-To:     Sean Young <sean@mess.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        jing yangyang <jing.yangyang@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH linux-next] media:meson-ir-tx: fix platform_no_drv_owner.cocci warnings
-Date:   Fri, 20 Aug 2021 20:50:33 -0700
-Message-Id: <20210821035033.28210-1-jing.yangyang@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        Fri, 20 Aug 2021 22:53:38 -0700 (PDT)
+Date:   Fri, 20 Aug 2021 22:53:37 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Arnd Bergmann <arnd@kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Pavel Skripkin <paskripkin@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: restore missing 'return' statement
+Message-ID: <202108202251.F3033355C@keescook>
+References: <20210802143820.1150099-1-arnd@kernel.org>
+ <202108130937.7848F6B318@keescook>
+ <CAHp75VdkAO+fiiCVs=dyc2C83mZuLCQCvqs9C+6PF6JnhKDxCA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VdkAO+fiiCVs=dyc2C83mZuLCQCvqs9C+6PF6JnhKDxCA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: jing yangyang <jing.yangyang@zte.com.cn>
+On Thu, Aug 19, 2021 at 08:24:11PM +0300, Andy Shevchenko wrote:
+> On Fri, Aug 13, 2021 at 7:39 PM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > On Mon, Aug 02, 2021 at 04:38:14PM +0200, Arnd Bergmann wrote:
+> > > From: Arnd Bergmann <arnd@arndb.de>
+> > >
+> > > The input_system_configure_channel_sensor() function lost its final
+> > > return code in a previous patch:
+> > >
+> > > drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function 'input_system_configure_channel_sensor':
+> > > drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
+> > >
+> > > Restore what was there originally.
+> > >
+> > > Fixes: 728a5c64ae5f ("media: atomisp: remove dublicate code")
+> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> >
+> > I hit this too. Thanks!
+> >
+> > Reviewed-by: Kees Cook <keescook@chromium.org>
+> 
+> Me too,
+> Tested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-./drivers/media/rc/meson-ir-tx.c:398:3-8: No need to set .owner here. The core will do it.
+Mauro, are you able to get this into your tree, please? Or Greg? It's in
+staging. :) This is breaking the build.
 
-Remove .owner field if calls are used which set it automatically
-
-Generated by: scripts/coccinelle/api/platform_no_drv_owner.cocci
-
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: jing yangyang <jing.yangyang@zte.com.cn>
----
- drivers/media/rc/meson-ir-tx.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/media/rc/meson-ir-tx.c b/drivers/media/rc/meson-ir-tx.c
-index 3055f8e..c22cd26 100644
---- a/drivers/media/rc/meson-ir-tx.c
-+++ b/drivers/media/rc/meson-ir-tx.c
-@@ -395,7 +395,6 @@ static int meson_irtx_remove(struct platform_device *pdev)
- 	.remove = meson_irtx_remove,
- 	.driver = {
- 		.name = DRIVER_NAME,
--		.owner  = THIS_MODULE,
- 		.of_match_table = meson_irtx_dt_match,
- 	},
- };
 -- 
-1.8.3.1
-
-
+Kees Cook
