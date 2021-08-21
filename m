@@ -2,159 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64E9F3F385A
-	for <lists+linux-media@lfdr.de>; Sat, 21 Aug 2021 05:45:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A657C3F385B
+	for <lists+linux-media@lfdr.de>; Sat, 21 Aug 2021 05:47:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240642AbhHUDp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Aug 2021 23:45:28 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:50913 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229610AbhHUDp2 (ORCPT
+        id S233055AbhHUDr5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Aug 2021 23:47:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46406 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229610AbhHUDr4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Aug 2021 23:45:28 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id HHw5mrUDRCu83HHw7mNWfi; Sat, 21 Aug 2021 05:44:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1629517488; bh=J0KPDIGpRWlU9DH0y/L5B8l8gckmUWPKLPQCi5irfhI=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=BjIXWi2fiG7s6Owh4pDJnRRo4bRObss/naakSUnaL5vNpIXPHxMRLieCIrPejp9u9
-         wz9a0FtVfdnRl9qiToVvtW0Ix9rmxoM2wmYKyqNWtNuhdQfuN29G2W5VEdcQ3A6it+
-         F2UnaiCHCfvRHLRpuzaZq3hN7UGeHnXKiQeQjFgwNFIRYlHfFstvTWa/7vU6BqteCz
-         lmbaXWhgLM4LYccxnjNfCYALvRWs7M8liyTeQ3kddxgWcAQJ/t5fAa0qCS+5uayEBe
-         +rGVrY0jAZzmwhfymzLLfro9ltPHenSOxzcYMDL4Niu1o3mIBsyWj/7p2CRo/XSvv9
-         75i2X0Kfwq6cQ==
-Message-ID: <866a450056984741f315e8c9402b4508@smtp-cloud7.xs4all.net>
-Date:   Sat, 21 Aug 2021 05:44:45 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfAf7OOlNwKAMMLSe5GccomQ+EmISACcGc/JU8Mf03yAiaR2tdTjlt+LJNkXVsMAvLgv5XFtPaFUGFPHRjFbaxb+EvxV22muDtKIIZOY0TRHT3by7grKv
- T0UecXHyETRh9Z9iqadObxbHcxnx2JuqpHoRG8O+90U3C/DsV4YNXqeYNgr5VhfG2KX44fH8oUPflYoL+cOyIhfd9aMxxrOrshiMpyewGRLxrUV9Wkvy/uXj
- mwiln9EbArbrJWqZFfNTow==
+        Fri, 20 Aug 2021 23:47:56 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB56AC061575;
+        Fri, 20 Aug 2021 20:47:17 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id f22so3337244qkm.5;
+        Fri, 20 Aug 2021 20:47:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RhNvjC5FbjNYONwOawMoFPjO3QiHvU6DiO/UBhQ5dKA=;
+        b=IaobpgR+fgGfoE4JtceBoeSJVKme2DRf/ab1fwPCBbyifezuYtetDYNa3HL0vwxUeT
+         FPsjRYBvXPNq0OqunTCkIPxlzpcx4OVErwM9X79z7QjhOV75eNrk9N3WltQOq5FxgD4w
+         H4X22k4Yj/3JZ1I+unrG6NSKaxys361+Nej7o9jaIe2/wJB4QwkePFKHJRdB2g+66miW
+         HTzTHcZjDxmqE6o3n2EeCBlW2kd0c3CCBfChNe+1lrn4h8g0/X49wwJ28l+2wjok2UT3
+         OQuoBHXVzwsKHZQhzVcIPJsSQ7jUaGMUVn59Z6DBJ0wOrNIjVu40TSwxjelWldarIJlu
+         cQYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RhNvjC5FbjNYONwOawMoFPjO3QiHvU6DiO/UBhQ5dKA=;
+        b=VLQ74r+AsSksD+cfLRpAr3RXWczjeTFtCgNn3nA/v8axNdq1BfJnS54X3Z3p97SkQr
+         x6/boWkTfa+haxjKYKsSgzKyNxzDoFQDcnd0TtThhrwQJsDeO51keB0AvzSWPGWbmRNr
+         9bajF1KxYq+KWQ3MCWq73C+hEiwJHOavelzdbMWjp3Owxstbn90FMIXpz1JPrAOJd4rV
+         OZfQiIr0o73ykBNA7WC9XWB/Qlerqk5OvtpZqsZ87tm73YoVIb7rxfZiWE2sWa8lI45L
+         2P/MFqRMoWsOX/tF3eqq4iJK/3NjtwZAafyhCZAI5Oz53LRsQpQJFT4HmRRNGA0lUZ6n
+         HYqw==
+X-Gm-Message-State: AOAM5303UB3lgE+iRWNIFRy167NROxkgUp3K583KDMiweQBorfhiUOB8
+        Ho/E/IXnT9cjq0WtsNxs8kg=
+X-Google-Smtp-Source: ABdhPJwTc5lmnPDsB/8XGFL2k+dfYCuGkf+alRAXrKme1xV5LgukTboJwN2oBoworvB9t1l+EKyYqg==
+X-Received: by 2002:a37:681:: with SMTP id 123mr11901233qkg.53.1629517636953;
+        Fri, 20 Aug 2021 20:47:16 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id h4sm4072652qkp.86.2021.08.20.20.47.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Aug 2021 20:47:16 -0700 (PDT)
+From:   CGEL <cgel.zte@gmail.com>
+X-Google-Original-From: CGEL <jing.yangyang@zte.com.cn>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        jing yangyang <jing.yangyang@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH linux-next] ipu3: use flexible-array member instead of zero-length array
+Date:   Fri, 20 Aug 2021 20:47:09 -0700
+Message-Id: <20210821034709.28061-1-jing.yangyang@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: jing yangyang <jing.yangyang@zte.com.cn>
 
-Results of the daily build of media_tree:
+Fix the following coccicheck warning:
+./drivers/staging/media/ipu3/ipu3-css-fw.h:174:21-34:i
+WARNING: use flexible-array member instead
 
-date:			Sat Aug 21 05:00:11 CEST 2021
-media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
-media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
-v4l-utils git hash:	58f4f974944c182890a09d040418dafa9a431e45
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7532-gde99456f6
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
-host hardware:		x86_64
-host os:		5.13.1-marune
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: jing yangyang <jing.yangyang@zte.com.cn>
+---
+ drivers/staging/media/ipu3/ipu3-css-fw.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2989, Succeeded: 2987, Failed: 2, Warnings: 0
-virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+diff --git a/drivers/staging/media/ipu3/ipu3-css-fw.h b/drivers/staging/media/ipu3/ipu3-css-fw.h
+index 3c078f1..c0bc57f 100644
+--- a/drivers/staging/media/ipu3/ipu3-css-fw.h
++++ b/drivers/staging/media/ipu3/ipu3-css-fw.h
+@@ -171,7 +171,7 @@ struct imgu_fw_bi_file_h {
+ 
+ struct imgu_fw_header {
+ 	struct imgu_fw_bi_file_h file_header;
+-	struct imgu_fw_info binary_header[1];	/* binary_nr items */
++	struct imgu_fw_info binary_header[];	/* binary_nr items */
+ };
+ 
+ /******************* Firmware functions *******************/
+-- 
+1.8.3.1
 
-Detailed results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
