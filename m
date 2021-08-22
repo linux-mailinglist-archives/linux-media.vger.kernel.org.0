@@ -2,47 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4755B3F4269
-	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 01:40:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF14A3F4270
+	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 01:52:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233176AbhHVXl1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Aug 2021 19:41:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54162 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229969AbhHVXl0 (ORCPT
+        id S233841AbhHVXx1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Aug 2021 19:53:27 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:59848 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229969AbhHVXx1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Aug 2021 19:41:26 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30DF7C061575;
-        Sun, 22 Aug 2021 16:40:45 -0700 (PDT)
+        Sun, 22 Aug 2021 19:53:27 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A5BBE4A3;
-        Mon, 23 Aug 2021 01:40:43 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7F33A4A3;
+        Mon, 23 Aug 2021 01:52:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1629675643;
-        bh=WV6CUoKtKPNTO37eAv9So3B3tYUu9tZ/uxw3Yf1fpls=;
+        s=mail; t=1629676364;
+        bh=uTvF0Z+/xHcqsMHpeCVHC+kzKOuDEi7+FThzLimDamg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nqbeyIhAzGFeZuafXR1UZEhLv+iihuUOYb3ATs0x6o4zYhz0q6M8r+fPlyjUQHtMC
-         Gyly7cs92MJTsZ+a5U0GqNAMW7SHJ8KOb4BMh7Kg6+xHLF/hajFA9F/LMeKHPttecu
-         VKcuiOmNcRTWmUgaVSPhLgLsTmMePdrio0FEetCg=
-Date:   Mon, 23 Aug 2021 02:40:34 +0300
+        b=EsgQNR/qgCps43XEiZ1Vg+boH2QTwIRvCo/4s3nJAEx8FVRKQJs/8bn85PvB1kL65
+         6n28+ozgVLi9Jt61jsqTnE6o5Auz1nHasOmK/25svDlx+96g9ZZJXbr8gKaaqv8UiJ
+         2fBXWWJv/PWITeZB0jKWkaacih0+ZiM1yYikM8TA=
+Date:   Mon, 23 Aug 2021 02:52:34 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Ricardo Ribalda <ribalda@chromium.org>
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Subject: Re: [PATCH v10 17/21] uvcvideo: uvc_ctrl_is_accessible: check for
- INACTIVE
-Message-ID: <YSLgcmfOuCmnZOf8@pendragon.ideasonboard.com>
+        tfiga@chromium.org, Hans Verkuil <hans.verkuil@cisco.com>
+Subject: Re: [PATCH v10 18/21] uvcvideo: improve error handling in
+ uvc_query_ctrl()
+Message-ID: <YSLjQqzmR2ZqN6+p@pendragon.ideasonboard.com>
 References: <20210618122923.385938-1-ribalda@chromium.org>
- <20210618122923.385938-18-ribalda@chromium.org>
+ <20210618122923.385938-19-ribalda@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210618122923.385938-18-ribalda@chromium.org>
+In-Reply-To: <20210618122923.385938-19-ribalda@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -51,123 +47,113 @@ Hi Ricardo and Hans,
 
 Thank you for the patch.
 
-On Fri, Jun 18, 2021 at 02:29:19PM +0200, Ricardo Ribalda wrote:
-> From: Hans Verkuil <hverkuil@xs4all.nl>
-> 
-> Check for inactive controls in uvc_ctrl_is_accessible().
-> Use the new value for the master_id controls if present,
-> otherwise use the existing value to determine if it is OK
-> to set the control. Doing this here avoids attempting to
-> set an inactive control, which will return an error from the
-> USB device.
+Please add a "media: " prefix to the subject line. Same for the other
+patches in the series that are missing this.
 
-Could you please explain in the commit message why this is better than
-handling the error ?
+On Fri, Jun 18, 2021 at 02:29:20PM +0200, Ricardo Ribalda wrote:
+> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> 
+> - If __uvc_query_ctrl() failed with a non-EPIPE error, then
+>   report that with dev_err. If an error code is obtained, then
+>   report that with dev_dbg.
+> 
+> - For error 2 (Wrong state) return -EACCES instead of -EILSEQ.
+>   EACCES is a much more appropriate error code. EILSEQ will return
+>   "Invalid or incomplete multibyte or wide character." in strerror(),
+>   which is a *very* confusing message.
+
+I would still have split the patch in two :-)
 
 > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 > Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
 > ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 28 +++++++++++++++++++++++++++-
->  drivers/media/usb/uvc/uvc_v4l2.c |  4 ++--
->  drivers/media/usb/uvc/uvcvideo.h |  3 ++-
->  3 files changed, 31 insertions(+), 4 deletions(-)
+>  drivers/media/usb/uvc/uvc_video.c | 38 ++++++++++++++++++-------------
+>  1 file changed, 22 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index dd6ebcc7344a..11c25d4b5c20 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1043,10 +1043,18 @@ static int uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
->  }
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index daba5fe352ea..00488f15cdbf 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -79,15 +79,11 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+>  	if (likely(ret == size))
+>  		return 0;
 >  
+> -	dev_err(&dev->udev->dev,
+> -		"Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+> -		uvc_query_name(query), cs, unit, ret, size);
+> -
+> -	if (ret != -EPIPE)
+> -		return ret;
+> +	if (ret < 0 && ret != -EPIPE)
 
-As this function is starting to get large and do many things, a short
-comment here to document it would be useful (it doesn't need to be
-kerneldoc).
+What if ret >= 0 ? There's a change of behaviour here that isn't
+documented in the commit message. It shouldn't happen, but it would be
+nice to handle it correctly.
 
->  int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
-> -			   bool read)
-> +			   const struct v4l2_ext_controls *ctrls,
-> +			   unsigned long ioctl)
->  {
-> +	struct uvc_control_mapping *master_map = NULL;
-> +	struct uvc_control *master_ctrl = NULL;
->  	struct uvc_control_mapping *mapping;
->  	struct uvc_control *ctrl;
-> +	bool read = ioctl == VIDIOC_G_EXT_CTRLS;
-> +	bool try = ioctl == VIDIOC_TRY_EXT_CTRLS;
-> +	s32 val;
-> +	int ret;
-> +	int i;
+> +		goto err;
 >  
->  	if (__uvc_query_v4l2_class(chain, v4l2_id, 0) >= 0)
->  		return -EACCES;
-> @@ -1061,6 +1069,24 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
->  	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR) && !read)
->  		return -EACCES;
+> +	/* reuse data[0] to request the error code. */
+>  	tmp = *(u8 *)data;
+> -
+>  	ret = __uvc_query_ctrl(dev, UVC_GET_CUR, 0, intfnum,
+>  			       UVC_VC_REQUEST_ERROR_CODE_CONTROL, data, 1,
+>  			       UVC_CTRL_CONTROL_TIMEOUT);
+> @@ -95,19 +91,21 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+>  	error = *(u8 *)data;
+>  	*(u8 *)data = tmp;
 >  
-> +	if (read || try || !mapping->master_id)
-> +		return 0;
-> +
-> +	for (i = ctrls->count - 1; i >= 0; i--)
+> -	if (ret != 1)
+> -		return ret < 0 ? ret : -EPIPE;
+> +	if (ret != 1) {
+> +		ret = ret < 0 ? ret : -EPIPE;
+> +		goto err;
 
-Is there a particular reason to iterate backwards ? If so, please add a
-comment to explain why.
+This will print an error message that doesn't match the error.
 
-> +		if (ctrls->controls[i].id == mapping->master_id)
-> +			return ctrls->controls[i].value ==
-> +					mapping->master_manual ? 0 : -EACCES;
+> +	}
+>  
+> -	uvc_dbg(dev, CONTROL, "Control error %u\n", error);
+> +	if (error >=1 && error <=8)
 
-Curly braces for the for loop would be nice.
+Missing space before 1 and 8.
 
-If I understand this correctly, this allows setting a manual control if
-the same VIDIOC_S_EXT_CTRLS call sets the master control to manual mode,
-regardless of the current value. Does the driver guarantee that the
-master control will be set in the device before the manual control ?
-Otherwise the device will still return an error.
-
-> +
-> +	__uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
-> +			   &master_ctrl, 0);
-> +
-> +	if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
-> +		return 0;
-> +
-> +	ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-> +	if (ret >= 0 && val != mapping->master_manual)
+> +		uvc_dbg(dev, CONTROL,
+> +			"Failed to query (%s) UVC control %u on unit %u: got error %u.\n",
+> +			uvc_query_name(query), cs, unit, error);
+>  
+>  	switch (error) {
+> -	case 0:
+> -		/* Cannot happen - we received a STALL */
+> -		return -EPIPE;
+>  	case 1: /* Not ready */
+>  		return -EBUSY;
+>  	case 2: /* Wrong state */
+> -		return -EILSEQ;
 > +		return -EACCES;
+>  	case 3: /* Power */
+>  		return -EREMOTE;
+>  	case 4: /* Out of range */
+> @@ -123,10 +121,18 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+>  	case 8: /* Invalid value within range */
+>  		return -EINVAL;
+>  	default: /* reserved or unknown */
+> -		break;
+> +		dev_err(&dev->udev->dev,
+> +			"Failed to query (%s) UVC control %u on unit %u: got error %u.\n",
+> +			uvc_query_name(query), cs, unit, error);
+> +		return -EPIPE;
+>  	}
+>  
+> -	return -EPIPE;
+> +err:
+> +	dev_err(&dev->udev->dev,
+> +		"Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+> +		uvc_query_name(query), cs, unit, ret, size);
 > +
->  	return 0;
+> +	return ret;
 >  }
 >  
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 8d8b12a4db34..0f4d893eff46 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -1000,8 +1000,8 @@ static int uvc_ctrl_check_access(struct uvc_video_chain *chain,
->  	int ret = 0;
->  
->  	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
-> -		ret = uvc_ctrl_is_accessible(chain, ctrl->id,
-> -					    ioctl == VIDIOC_G_EXT_CTRLS);
-> +		ret = uvc_ctrl_is_accessible(chain, ctrl->id, ctrls,
-> +					    ioctl);
->  		if (ret)
->  			break;
->  	}
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 2e5366143b81..fd4f5ef47dfb 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -900,7 +900,8 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
->  int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl);
->  int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
->  int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
-> -			   bool read);
-> +			   const struct v4l2_ext_controls *ctrls,
-> +			   unsigned long ioctl);
->  
->  int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
->  		      struct uvc_xu_control_query *xqry);
+>  static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
 
 -- 
 Regards,
