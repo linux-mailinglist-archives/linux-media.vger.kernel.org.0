@@ -2,147 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45BF63F51E9
-	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 22:16:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DA7E3F51FE
+	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 22:24:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232206AbhHWURZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Aug 2021 16:17:25 -0400
-Received: from mout.web.de ([212.227.15.3]:35221 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231377AbhHWURY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Aug 2021 16:17:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1629749797;
-        bh=Hcg9gj7QbmnGiqotkFyybAzljUDNsZpHDuc4YWVtb/Q=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=kF9oqlsNrBpey3wPQoTBSmuT5eOTWWwQSz36uLxgqG0CmBPn/OdyTPLTHKgqY7/OA
-         HB9/WWYpoUjgBODeezJcEYmkisBh/VAsWFLOBifPbekNmTPnsivker3S1a11btqK4J
-         TI3yUkNrflvvzN/vAk658u3BfFe5GHqsTPtChlwE=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.27] ([78.55.218.194]) by smtp.web.de (mrweb001
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0Md4V8-1maTkE3ea2-00IGt1; Mon, 23
- Aug 2021 22:16:36 +0200
-Subject: Re: [Regression 5.14] media: dvb userspace api
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        id S232243AbhHWUYu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Aug 2021 16:24:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55894 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231773AbhHWUYt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 23 Aug 2021 16:24:49 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36D14C061575;
+        Mon, 23 Aug 2021 13:24:06 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id l18so26085801lji.12;
+        Mon, 23 Aug 2021 13:24:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=J41x529VlTspZMrpThFHJLBr2g65jbs1WO5P40LCen4=;
+        b=okYdM6r/OEM+GpVMmndUDSUnFuATe7k+UqV9Xd6SnEB6FCQnedxeMEPVsABonqs4N4
+         bW0CUVBYgP/wVgNhvKRjjJZHkQWqjAfdAXHaWOprlSkmDVUGTjWH0QHqHe/JDzPhBYMW
+         VS78dI9TbqWyfxbPdEd9M68PCp/85z5U4mMqUTiCNVQcQnpHeloJ5A8DDCAgG+UndNk2
+         4AMRro0QimKicKoXkXK7fx6Xlty7DPO0Rz/T7e7AYrMNjr1lsW8oLXtit6l5wdRItw9Y
+         0sCrelfgm2KgdesCrJhygLOJ6k4XDHAPdBtXpSk4O9XXGH416S+WsJAn5UMZlTogyo6e
+         LVmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=J41x529VlTspZMrpThFHJLBr2g65jbs1WO5P40LCen4=;
+        b=c+Ki09WAWpKNHn30pEOohRcuBryKZ0oCZWnRlMYsf/BXv1d1PQ7vY5h1oBC5GOEkx1
+         +LcEp8GxfNVQvcGut3e77LMHJE703NvsNAc7n7308uonXnsMrGbcsyp+GVVDjoumUtzJ
+         UeBb12Zviuj0fEt1oY9K635IndZgO/Alj/sfjZ+ogj4P5koJvkfFttQT1SN2/ppjU2lB
+         i9fJz1FrDzvxU3FxVE5V0imh8JlsFHX24toC2WdyeHg/mGPDn+XuKkeEe79B+CIf5cKI
+         OypbQ7a6cyk5mNg/8e0NueNILDiJVq0f2S46SuwL/Tr5qKWScbeKvG7D7uJdFH/YWPiw
+         ZwCA==
+X-Gm-Message-State: AOAM532YQShkJEaZg1Jyr68J2f0ggt4AyDAnUDX7sD222MIs27Y8LN4S
+        EXWB12X/GIhvyqCFa1uXdmNNgp+ym84=
+X-Google-Smtp-Source: ABdhPJwqnW4H12JkFByYZki5F25wX7CFl/4OxdrLQBKSJLK7Hp+HrjfGNLOpxwFObeZey6c6a7G84A==
+X-Received: by 2002:a2e:a4db:: with SMTP id p27mr29314648ljm.161.1629750244353;
+        Mon, 23 Aug 2021 13:24:04 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-120-72.dynamic.spd-mgts.ru. [46.138.120.72])
+        by smtp.googlemail.com with ESMTPSA id r2sm854722ljj.14.2021.08.23.13.24.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Aug 2021 13:24:03 -0700 (PDT)
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+To:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <4e3e0d40-df4a-94f8-7c2d-85010b0873c4@web.de>
- <20210819133128.45ef4353@coco.lan>
- <c56ec571-2278-95e9-2028-990e03159c3f@web.de>
- <20210822194709.4b9d33d4@coco.lan>
- <be6ac929-2443-ff55-3e11-6a86d6472e0e@web.de>
- <CAHk-=wjSadWPfzQ_hOqbjq6c_xwJs8GLHTyznhXRvDF5Yrs4FA@mail.gmail.com>
-From:   Soeren Moch <smoch@web.de>
-Message-ID: <04f2071d-e0fd-d7a2-2ddf-caa10662dfda@web.de>
-Date:   Mon, 23 Aug 2021 22:16:36 +0200
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        DTML <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+References: <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
+ <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+ <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+ <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+ <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+ <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+ <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
+ <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
+ <CAPDyKFpg8ixT4AEjzVLTwQR7Nn9CctjnLCDS5GwkOrAERquyxw@mail.gmail.com>
+ <20210820051843.5mueqpnjbqt3zdzc@vireshk-i7>
+ <CAPDyKFo0rzHT4AhueWjyz9k2ZqUy8N6Od5pbr8sL_m0Jf2AwUg@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <085d1a2e-57b0-222e-c569-12f3c6bc8161@gmail.com>
+Date:   Mon, 23 Aug 2021 23:24:02 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAHk-=wjSadWPfzQ_hOqbjq6c_xwJs8GLHTyznhXRvDF5Yrs4FA@mail.gmail.com>
+In-Reply-To: <CAPDyKFo0rzHT4AhueWjyz9k2ZqUy8N6Od5pbr8sL_m0Jf2AwUg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-GB
-X-Provags-ID: V03:K1:NjPtixl4mkzBjLi5tW7bXDU3Gcc2jKNgl+LaLiCdPamLALtzq5J
- tU8Wb4+GMo7pMkwlJ6nIuZpm9/ZaHVUZ7PolMF8xwcUuZRKL+tWe2ztbrThIxajrOqGMKOA
- 8udWWzWfymoU9E/dn0K3OoDwR4Xlk2KYVxtnH/jTV5TX+EV0Ax1hk5Pg863KOCFQ2omW+Wd
- F3iDazwO4s9U4z22BjDQg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jHD/jojTxas=:0iDse52vSFJEEMGF6Xg+pm
- 5g2EPR6pfFIdQ1CyAcrF90Rs3gEXYZmteLXlhBrRQJVshzOWPxFz/Zgz2wmiwktVm+4b54nRw
- 5uPMskpIs4naEiRFSQnoGXJ7EuMn/7kjkwm3SVdQHDLdIyiQV7XsMXlN7jxedPxDJfRG0MYas
- 0yV7PKw12GLxxjLd/9ZZI7UHhF5dSBNqAG8LJY7SqiBm6I+DIcE+oZi7l6Pd+UX0vSgXdhx9T
- /+z0j8OW+wTXKoc0JoHnzNNCChqJr3rtx2llUwjQqWbvufJJaqfKPfpznbmVgQVtieeSx0GEn
- Kp0GZJc80VU8UQcTCkUwAqYoc0rXRr7RycqXlMaJCR3b587WPEqXzFwBrQkqwoDTjl8lluMpN
- XjBwGNUWjMMZI6cK9Hcn+8QmV2zCxvoGhaTknMOuDVsrqcyBB7Q6GO+mQb2aJ8NjlJFQyir++
- eMffD1s5T0XF4036rjgKYjcQGlnoZ5Ee1Ia+0R+s/2iYCee9ZUjznL7r6YPxRRWgY6yroVApW
- u0tW1CqBkceJSd5sVO6LnZghNrwN6ExoSQL3Lm+w2UF3Aygq+bE5z+CEJ0QyWP+LE4Kk4acqR
- bq/CkPun0Whhzcw2Kuah+T27+sBMZKkrpsmmrc/r5c+mLRTttbV+pVzk2pL8sp7+YS7NxpxdU
- ymzJou0Q6k/4xW9A0eDcd1/LdCifG8Yb2POI0Z0BMyjosINv4/WcXcriMMRJO9Fv3XNpFlqPf
- sXqtHpM69Vy7ANxKOADVA5qXnup9yeh5PXYFQRuJGK7ZW2MBiyqzDn7u2B7ahkBVeylTtl9+3
- 5ZznbO/MTf2tS7SIm2y4x0ZtRN9m1889pqvXXeFL6/95hPIQ5PRE2k6v28hJ07DHXmbeXFRcf
- nHhmXYZnchGQBB4rAS8trrTB7+rFHU+vz7b0spJLJ7jJr6jgDs5/PVQTCgXxN7eUBdApXdQY9
- rHYusEtmaTS6RWwuLQIiQo8ZGfAhEe1NAyWqIIOHvcna1g53qrE7ure+ShJ88mr5OtdvewPbt
- OhYTAYdHc7sXxdZ+FFQwm5x8DNkIHp7A69YolpdI7Q2GxV1fNdArPI8XPL3rwZodHj2PPl2B0
- EnU5r11AcbLQLWG6AM4Dh19DVYuT3BUJvG6
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23.08.21 18:58, Linus Torvalds wrote:
-> On Mon, Aug 23, 2021 at 7:59 AM Soeren Moch <smoch@web.de> wrote:
->> Linus,
->>
->> Is what I described directly above the new linux maintenance policy?  O=
-r
->> is linux media a private kingdom where the community should keep away?
->> Is this a place where the subsystem maintainer is on a mission to
->> destroy everything instead of maintaining and improving it? Please tell
->> me what I understood wrong here.
-Thanks for your quick answer.
-> So technically, the regression policy for the kernel is purely about
-> the ABI - the _binary_ interface. That seems to not have broken - old
-> programs continue to work.
-OK, as long as the related driver lives at least in staging. Without the
-driver of course the hardware and userspace will not work any longer
-with new kernel versions.
-> We very much try to discourage user space applications from using the
-> kernel header files directly - even projects like glibc etc are
-> supposed to _copy_ them, not include the kernel headers.
-OK, thanks for pointing to this policy.
-> Exactly because re-organization and changes to the kernel tree
-> shouldn't be something that then causes random problems elsewhere that
-> are so hard to test - and synchronize - from the kernel standpoint (or
-> from the standpoint of the other end).
->
-> That clearly doesn't seem to be the case in this situation. Which is
-> annoying as heck.
->
-> Mauro: there clearly _are_ users of those header files, and even
-> apparently that one old driver out there. And those headers were in
-> the 'uapi' directory, so while it is annoying how user space programs
-> used them this way, I think it's also not entirely unreasonable.
->
-> I have reverted the header file move. But I would also heartily
-> recommend that whatever user program includes those headers (VDR -
-> anything else?) should take snapshots of these specific kernel
-> headers.
-I will try to modify the related userspace accordingly, but it will take
-time until this ripples through to distributions.
-I'm not aware of other applications than VDR (especially 2 Plugins)
-using these 3 header files.
-> I'm not convinced that it makes sense to move the av7110 driver back
-> from staging - it may continue to work, but it _is_ old and there is
-> no maintenance -
-It is old, but there are users out there - including me - that still use
-such card and driver. I would be happy to maintain this driver, if I'm
-allowed to do so. I already offered this for several years.
+20.08.2021 15:57, Ulf Hansson пишет:
+...
+>> We already have similar APIs, so that won't be a problem. We also have
+>> a mechanism inside the OPP core, frequency based, which is used to
+>> guess the current OPP. Maybe we can enhance and use that directly
+>> here.
+> 
+> After reading the last reply from Dmitry, I am starting to think that
+> the problem he is facing can be described and solved in a much easier
+> way.
+> 
+> If I am correct, it looks like we don't need to add APIs to get OPPs
+> for a clock rate or set initial performance state values according to
+> the HW in genpd.
+> 
+> See my other response to Dmitry, let's see where that leads us.
 
-How long can this driver stay in staging? Would you move the driver back
-from staging when I do proper maintenance for it? Is it normal linux
-policy to remove drivers after a certain period of time, even if a
-driver still has users and someone that volunteers to maintain it?
-> and I would certainly suggest that any other
-> out-of-tree driver that uses these old interfaces that nothing else
-> implements shouldn't do so, considering that nothing else implements
-> them.
-The hardware of these so called full-featured DVB cards is very special.
-It is a Satellite-/Cable-TV Set-Top-Box on a PCI/PCIe card. Since only
-two generations of these cards exist (the first generation in many
-variants), only two drivers implement the full DVB API. There are no
-other drivers for similar hardware, nothing uses other APIs for this
-type of hardware.
+I'm going to start preparing v9 with GENPD performance state syncing moved into driver's probe where appropriate.
 
-Given that all drivers for this type of hardware use the API in
-question, would you accept the second driver for the second generation
-of full-featured DVB cards (saa716x) [1] to be pulled into mainline linux?
-> So the only thing I did was move the header files back, and mark that
-> move to be backported to 5.13 stable.
-Thanks for moving the header files back. In 5.13.12 the API files are
-still there at the old position.
+It's not clear to me whether it will be okay to add a generic OPP syncing by clock rate or should it be a Tegra-specific helper. Viresh, what do you think about this generic OPP helper:
 
-Best regards,
-Soeren
+/**
+ * dev_pm_opp_sync_with_clk_rate() - Sync OPP state with clock rate
+ * @dev:	device for which we do this operation
+ *
+ * Sync OPP table state with the current clock rate of device.
+ *
+ * Return: 0 on success or a negative error value.
+ */
+int dev_pm_opp_sync_with_clk_rate(struct device *dev)
+{
+	struct opp_table *opp_table;
+	int ret = 0;
 
-[1] https://github.com/s-moch/linux-saa716x
+	/* Device may not have OPP table */
+	opp_table = _find_opp_table(dev);
+	if (IS_ERR(opp_table))
+		return 0;
 
+	/* Device may not use clock */
+	if (IS_ERR(opp_table->clk))
+		goto put_table;
+
+	/* Device may have empty OPP table */
+	if (!_get_opp_count(opp_table))
+		goto put_table;
+
+	ret = dev_pm_opp_set_rate(dev, clk_get_rate(opp_table->clk));
+put_table:
+	/* Drop reference taken by _find_opp_table() */
+	dev_pm_opp_put_opp_table(opp_table);
+
+	return ret;
+}
+EXPORT_SYMBOL_GPL(dev_pm_opp_sync_with_clk_rate);
