@@ -2,61 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1DFB3F4644
-	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 10:00:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3C653F465D
+	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 10:06:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235288AbhHWIBC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Aug 2021 04:01:02 -0400
-Received: from mga11.intel.com ([192.55.52.93]:2441 "EHLO mga11.intel.com"
+        id S235373AbhHWIHO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Aug 2021 04:07:14 -0400
+Received: from mga17.intel.com ([192.55.52.151]:32888 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235226AbhHWIBB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Aug 2021 04:01:01 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10084"; a="213926185"
+        id S235353AbhHWIHN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 23 Aug 2021 04:07:13 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10084"; a="197305812"
 X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; 
-   d="scan'208";a="213926185"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2021 01:00:19 -0700
+   d="scan'208";a="197305812"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2021 01:06:31 -0700
 X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; 
-   d="scan'208";a="683089408"
+   d="scan'208";a="454711699"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2021 01:00:14 -0700
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2021 01:06:28 -0700
 Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id C11312051E;
-        Mon, 23 Aug 2021 11:00:12 +0300 (EEST)
-Date:   Mon, 23 Aug 2021 11:00:12 +0300
+        by paasikivi.fi.intel.com (Postfix) with SMTP id E51D42051E;
+        Mon, 23 Aug 2021 11:06:25 +0300 (EEST)
+Date:   Mon, 23 Aug 2021 11:06:25 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
-        awalls@md.metrocast.net, yong.zhi@intel.com, bingbu.cao@intel.com,
-        djrscally@gmail.com, tian.shu.qiu@intel.com, serjk@netup.ru,
-        aospan@netup.ru, tskd08@gmail.com, maintainers@bluecherrydvr.com,
-        anton@corp.bluecherry.net, andrey.utkin@corp.bluecherry.net,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: switch from 'pci_' to 'dma_' API
-Message-ID: <20210823080012.GD3@paasikivi.fi.intel.com>
-References: <71a7e0029ce28ec748eb045c8381d354011cebe6.1629623093.git.christophe.jaillet@wanadoo.fr>
+To:     CGEL <cgel.zte@gmail.com>
+Cc:     Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        jing yangyang <jing.yangyang@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: Re: [PATCH linux-next] ipu3: use flexible-array member instead of
+ zero-length array
+Message-ID: <20210823080625.GE3@paasikivi.fi.intel.com>
+References: <20210821034709.28061-1-jing.yangyang@zte.com.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <71a7e0029ce28ec748eb045c8381d354011cebe6.1629623093.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20210821034709.28061-1-jing.yangyang@zte.com.cn>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks, Christophe.
+Hi Jing,
 
-On Sun, Aug 22, 2021 at 11:30:08AM +0200, Christophe JAILLET wrote:
-> The wrappers in include/linux/pci-dma-compat.h should go away.
+On Fri, Aug 20, 2021 at 08:47:09PM -0700, CGEL wrote:
+> From: jing yangyang <jing.yangyang@zte.com.cn>
 > 
-> The patch has been generated with the coccinelle script below.
+> Fix the following coccicheck warning:
+> ./drivers/staging/media/ipu3/ipu3-css-fw.h:174:21-34:i
+> WARNING: use flexible-array member instead
 > 
-> It has been compile tested.
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: jing yangyang <jing.yangyang@zte.com.cn>
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Thanks for the patch.
+
+Gustavo Silva's patch "media: staging/intel-ipu3: css: Fix wrong size
+comparison imgu_css_fw_init" has addressed this, and fixed another problem
+as well. In other words, removing array entries from structs can have side
+effects.
 
 -- 
+Kind regards,
+
 Sakari Ailus
