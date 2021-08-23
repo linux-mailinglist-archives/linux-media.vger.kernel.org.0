@@ -2,178 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07F643F49E7
-	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 13:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C80253F4A11
+	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 13:50:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236118AbhHWLgO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Aug 2021 07:36:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46338 "EHLO
+        id S236269AbhHWLvT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Aug 2021 07:51:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235011AbhHWLgN (ORCPT
+        with ESMTP id S235337AbhHWLvT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Aug 2021 07:36:13 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D452C061575
-        for <linux-media@vger.kernel.org>; Mon, 23 Aug 2021 04:35:30 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id q11-20020a7bce8b0000b02902e6880d0accso13844133wmj.0
-        for <linux-media@vger.kernel.org>; Mon, 23 Aug 2021 04:35:30 -0700 (PDT)
+        Mon, 23 Aug 2021 07:51:19 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1CE9C061575;
+        Mon, 23 Aug 2021 04:50:36 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id e15so9983832plh.8;
+        Mon, 23 Aug 2021 04:50:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:references:in-reply-to
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Dc7A45rdd8EAHtZ/uscRkJGY6bCmxk+2XNFv95tjVRM=;
-        b=TUwniGW/Xte7lz7XZgquinAMkpiywSnUrpHTnHQcMRkbFVLMbfiNjuA000k7DB4w2f
-         935M0pJyJM6/cRl7wixLeLt5n3Xsm5TaN6hmZaCh0Z4UFQFwENTOqvvNIid+vKXLH3/O
-         WQ67Qb7k/lAGPxSdIzWvueVQhEYAHDeDT+vMWg6MFHC+B3eYiBGX2QDrVrLDfFmhdBT7
-         LTIz0WswO+Gs6XBAwsAILr33fYvR3T8aV1AXhpBkHt5N/0Iokv7KxHjkjDVSDZLlSDxi
-         +Y01uz47CLRazaAOO4O2KRKTj20VenmiLHmHt6lIWI+7JC0RmVT4G5aQ3xes9o+GNMu5
-         4i5Q==
+        d=gmail.com; s=20161025;
+        h=from:subject:to:cc:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language;
+        bh=O5DM1sJkMAZ9pupJ/zl5vudKhULLO2p/SdJWZo+B+eo=;
+        b=PJvNXb8mSnm9cemZbK+4j70aWxx4Lee2OayaWVuYrLvVhGvzVf0+35TDcdzhEkKyiC
+         thE3GiTXw8a8tWqL5XAZbWFES6Q7ZfET23jlCT7QrOXtoxXRQJdBaH9Kdr0u4VG9KqV8
+         1z8yyYn+rPrIKImrryJUbeZNy6e9fUeyKcUwisAoAxxBLhD5zdqURfMVxKyyDXqvGBUq
+         j8RVMJoTNRhuzYEWXpb/qVn8/TUhYYUzn+tewG6e+f0/69GTNzkCWEhm9Kd6p+43TXfL
+         uzAtO5RxSlYKjiHKikc9VzfzZk6mddt3QeT+lkAsoJ/lYwvHBD2bF0HsHVP74P5BkFsW
+         lRVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
-         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
-        bh=Dc7A45rdd8EAHtZ/uscRkJGY6bCmxk+2XNFv95tjVRM=;
-        b=DkfmW0QjhZOSNDqpefKGfCBife+zwv2Kst0+I9SQji/mpB0BUZWiBHqxvF6ZZNv42q
-         J37rwfJKHZtVoniEa1N/Q2T2Alr+jzmaSJL+Q+jszlh/pkUsEZ80bLVqtFbp8N58z05s
-         wb40Smsiuw8o+i+6IP6o6VKAxW7S1ZvQ6q9LTGTdo9nHSVA1W9CcFg2g0aKtATUu0N/R
-         01btm0hsU4NhKkC45pR2K8o6zG7sPPY6W0O9ka+SidJz2GjQLXc3ITZj3Nm+XO5Gpgcy
-         H4a8+DDYS9cFIAouOv/g33jCK994GbqlsM/98y6+4V4w3ojxGzf1lNSxz+otANYCzlol
-         I85w==
-X-Gm-Message-State: AOAM532Bh1rHx4Tj1njGYQub5wsbEd1MZ/RzqpRyfZRD6rKbRj4Qx8Aw
-        Q+xDtQ/oZnEp/IN/a1X+ozyQBg==
-X-Google-Smtp-Source: ABdhPJxfbLN6S/zmNSodR02DWJULMgKN7V3T4Tq9vwgy9MuQxoZBNiJPauxGJyVegRCVnPY+zfFuNg==
-X-Received: by 2002:a05:600c:21d7:: with SMTP id x23mr15794742wmj.10.1629718529082;
-        Mon, 23 Aug 2021 04:35:29 -0700 (PDT)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id h16sm14978446wre.52.2021.08.23.04.35.28
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Mon, 23 Aug 2021 04:35:28 -0700 (PDT)
-From:   John Cox <jc@kynesim.co.uk>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-Subject: Re: [PATCH] media: hevc: fix pictures lists type
-Date:   Mon, 23 Aug 2021 12:35:28 +0100
-Message-ID: <i917ig582epdnpkmjdtvtnap6u8c032c1r@4ax.com>
-References: <20210823082949.237716-1-benjamin.gaignard@collabora.com> <02r6ig176o0lqc52nm8rhta7cn5bfn04in@4ax.com> <e1df8e77-b4d1-481c-0f4b-4a20f42d5c9e@collabora.com>
-In-Reply-To: <e1df8e77-b4d1-481c-0f4b-4a20f42d5c9e@collabora.com>
-User-Agent: ForteAgent/8.00.32.1272
+        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
+         :mime-version:content-transfer-encoding:content-language;
+        bh=O5DM1sJkMAZ9pupJ/zl5vudKhULLO2p/SdJWZo+B+eo=;
+        b=oboj3uN+u8qAAxbk+8EqY6IFtE4SHLzQxnl2okJ2wuoWDNwoODZa94O9DDCSWVD5J5
+         JVna4xo+dnD29jWEPPzx/Aqu4Z6rhaQLeFJMtJNpA1bpz+zIToA6Fp7F+jwKdFUxURGX
+         bKS2vIpwzqqEPMw+T3Z8Ea/+0NpcvDERx1KvIbb8fTdTLdELOypjnTxmkX3wWF8pwzL7
+         aUk7NMM0sdOkeU23xeoWn7WW4Ufsuuxw8WfEsFATjAuR8IPNeUjw9YhE7U0OegG/C8jQ
+         Z0Fq9h0vkKT+iwcCVNC6peWA05CkKdDgPDBQIST1330mbFfXVZe9eg90D8sHYT5L5VmN
+         u78g==
+X-Gm-Message-State: AOAM532kz+4RTqlNgkubvhBJbABzFFkO+q/OrvafoNLXuzQgp6IQSOGb
+        cTp+8B8MUZITw5SMVgvNN+ExSwDvXog=
+X-Google-Smtp-Source: ABdhPJyoKd8/N5yLCg/VKSt+JpWXIGEWPIPoRYiqsQg1ld8auxvdPPOsCmXasF0S+D02ad5sc+tvHQ==
+X-Received: by 2002:a17:902:6b47:b0:12f:6c5f:ab4f with SMTP id g7-20020a1709026b4700b0012f6c5fab4fmr20997699plt.17.1629719436043;
+        Mon, 23 Aug 2021 04:50:36 -0700 (PDT)
+Received: from [10.136.0.70] ([45.145.248.194])
+        by smtp.gmail.com with ESMTPSA id n30sm15965384pfv.87.2021.08.23.04.50.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Aug 2021 04:50:35 -0700 (PDT)
+From:   Jia-Ju Bai <baijiaju1990@gmail.com>
+Subject: [BUG] media: platform: qcom: venus: possible ABBA deadlock in
+ venus_event_notify() and venus_helper_vb2_buf_queue()
+To:     stanimir.varbanov@linaro.org, agross@kernel.org,
+        bjorn.andersson@linaro.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Message-ID: <b5c2a28b-9c67-05d1-0bed-eac8af508d07@gmail.com>
+Date:   Mon, 23 Aug 2021 19:50:31 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Hello,
 
->Le 23/08/2021 =C3=A0 11:50, John Cox a =C3=A9crit=C2=A0:
->>> The lists embedded Picture Order Count values which are s32 so their =
-type
->>> most be s32 and not u8.
->> I'm not convinced that you can't calculate all of those lists from the
->> info already contained in the DPB array so this is probably redundant
->> info though I grant that having the list pre-calced might make your =
-life
->> easier, and the userland side will have calculated the lists to
->> calculate other required things so it isn't much extra work for it.
->
->Yes the userland have already compute these lists and the number of =
-items
->in each of them.
->Build them in the kernel would means to also compute the values of =
-NumPocStCurrBefore,
->NumPocStCurrAfter, NumPocLtCurr, NumPocStCurrAfter, NumPocStCurrBefore =
-and NumPocLtCurr
->and that requires information (NumNegativePics, NumPositivePics...) not =
-provided to the kernel.
->Since it have to be done in userland anyway, I'm reluctant to modify the=
- API to redo in the kernel.
+My static analysis tool reports a possible ABBA deadlock in the venus 
+driver in Linux 5.10:
 
-Well, fair enough, I'm not going to argue
+venus_event_notify()
+   mutex_lock(&core->lock); --> line 37 (Lock A)
+   vdec_event_notify() --> via a function pointer 
+"inst->ops->event_notify(...)"
+   vdec_event_change()
+     mutex_lock(&inst->lock); --> line 1301 (Lock B)
 
->> Even if you do need the lists wouldn't it be a better idea to have =
-them
->> as indices into the DPB (you can't have a frame in any of those lists
->> that isn't in the DPB) which already contains POCs then it will still
->> fit into u8 and be smaller?
->
->Hantro HW works with indexes but I think it is more simple to send PoC =
-rather than indexes.
+venus_helper_vb2_buf_queue()
+   mutex_lock(&inst->lock); --> line 1346 (Lock B)
+   session_process_buf()
+     venus_pm_load_scale()
+       load_scale_v4() via a function pointer 
+"core->pm_ops->load_scale(...)"
+         mutex_lock(&core->lock); --> line 966 (Lock A)
 
-I'd disagree but as I don't use the info I'm not concerned. Though I
-think I should point out that when Hantro converts the POCs to indicies
-it compares the now s32 POC in these lists with the u16 POC in the DPB
-so you might need to fix that too; by std (8.3.1) no POC diff can be
-outside s16 so you can mask & compare or use u16 POCs in the lists or
-s32 in the DPB.
+Besides, if "core->pm_ops->load_scale(...)" is load_scale_v1():
+load_scale_v1()
+   load_per_type()
+     mutex_lock(&core->lock); --> line 150 (Lock A)
 
-Regards
+When venus_event_notify() and venus_helper_vb2_buf_queue() are 
+concurrently executed, the deadlock can occur.
 
-John Cox
+I am not quite sure whether this possible deadlock is real and how to 
+fix it if it is real.
+Any feedback would be appreciated, thanks
 
->Benjamin
->
->>
->> Full disclosure: Pi decode doesn't use this info at all so I'm only
->> arguing from a theoretical point of view - I think it is only relevant
->> if your h/w is parsing the reference list setups.
->>
->> Regards
->>
->> John Cox
->>
->>> Reported-by: John Cox <jc@kynesim.co.uk>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>> ---
->>> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 6 +++---
->>> include/media/hevc-ctrls.h                                | 6 +++---
->>> 2 files changed, 6 insertions(+), 6 deletions(-)
->>>
->>> diff --git =
-a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
-b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> index 976d34445a24..db9859ddc8b2 100644
->>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> @@ -3323,15 +3323,15 @@ enum =
-v4l2_mpeg_video_hevc_size_of_length_field -
->>>      * - __u8
->>>        - ``num_poc_lt_curr``
->>>        - The number of reference pictures in the long-term set.
->>> -    * - __u8
->>> +    * - __s32
->>>        - ``poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
->>>        - PocStCurrBefore as described in section 8.3.2 "Decoding =
-process for reference
->>>          picture set.
->>> -    * - __u8
->>> +    * - __s32
->>>        - ``poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
->>>        - PocStCurrAfter as described in section 8.3.2 "Decoding =
-process for reference
->>>          picture set.
->>> -    * - __u8
->>> +    * - __s32
->>>        - ``poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
->>>        - PocLtCurr as described in section 8.3.2 "Decoding process =
-for reference
->>>          picture set.
->>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->>> index 781371bff2ad..04cd62e77f25 100644
->>> --- a/include/media/hevc-ctrls.h
->>> +++ b/include/media/hevc-ctrls.h
->>> @@ -219,9 +219,9 @@ struct v4l2_ctrl_hevc_decode_params {
->>> 	__u8	num_poc_st_curr_before;
->>> 	__u8	num_poc_st_curr_after;
->>> 	__u8	num_poc_lt_curr;
->>> -	__u8	poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->>> -	__u8	poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->>> -	__u8	poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->>> +	__s32	poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->>> +	__s32	poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->>> +	__s32	poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->>> 	__u64	flags;
->>> };
->>>
+Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+
+
+Best wishes,
+Jia-Ju Bai
