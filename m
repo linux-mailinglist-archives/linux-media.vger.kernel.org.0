@@ -2,206 +2,244 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88FD03F481D
-	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 12:02:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 006963F484C
+	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 12:10:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235897AbhHWKC3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Aug 2021 06:02:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52236 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233389AbhHWKC3 (ORCPT
+        id S235872AbhHWKKX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Aug 2021 06:10:23 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37434 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235921AbhHWKKW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Aug 2021 06:02:29 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED04AC061575
-        for <linux-media@vger.kernel.org>; Mon, 23 Aug 2021 03:01:46 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id j4-20020a17090a734400b0018f6dd1ec97so969426pjs.3
-        for <linux-media@vger.kernel.org>; Mon, 23 Aug 2021 03:01:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=a83R/B9Lm/qgVoAlx8qnij+Ld74e3iDN4AlBrXWn3Xk=;
-        b=YZAtljkGqZOJTdpRv6gq3v0m2WWXbAf3uPSSoPDrKNT7qchBAg69QpaFsao25+MF+w
-         HtHHW7Xa3yHKhgbPyYjKcjpcuIY67qgVoPIzkF+0JqcXxgMhml9BkAsrUVsEi3Hvr/Yw
-         ghdLNA3EoSYqVEhybvndDhd3KlSRoZ9Ctz7bZQJa4arwFKkUbcwzvwto9nAuG4oNm9sb
-         U8Ln9GL1z6ZUsb3QdhRRTO5kqRTyf9FVQg/n+4XuaLKkZYzDbGN50oWhWdoDDT+5QYXG
-         K2qKN2aKdOwgp6ik/5WSHkHQsbvQSBjSfbAXPs4dbrsrD2J+gdq+fzTXW9ESrBIurWGT
-         Uu3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=a83R/B9Lm/qgVoAlx8qnij+Ld74e3iDN4AlBrXWn3Xk=;
-        b=B8c0tElzTJOmNTEM19SPEob3WOwtE9olfHqTfbDXgK2gJxc19ePTALtE3R4RN/2xT5
-         8wFiKXdKNQIz7B1zyuIuP8ff2S7OszdjIoyr6ySP0Du5+S1SJz0zQIE/CDBv0YdW929u
-         YHD4ejgMK5csOH4LeFzc4SWwBYeCLAXINI/2kYUuWLcLx7mIEtNJnaI/AjNkL+1vsec1
-         ZHVALIreP4oPCtyz1ydi7Nqd2ZMQroAhkFK6QHcwkpL4K0xotptURVb5EWExlZ6dDFJy
-         oLVVuFgaojZX6Bf5QmKY39wybk3q1LsS6m8zhsF8vHbhHI9NxNxESVg9CuIHJzgVjbWT
-         2aQw==
-X-Gm-Message-State: AOAM533TxTZK5zX8sAGZsIyXQt1e3L3yG8dwybE78gcEo1c4wWbJlwFx
-        2J6hl8cOc+UtUpWDbKW8z73t7g==
-X-Google-Smtp-Source: ABdhPJz+hz17o/gcGS8iJUfbpeh537f4BVJ+xiYeyWgkJMD344jXhdt++YyEDBEi6/n1J0b8QZSPZQ==
-X-Received: by 2002:a17:90a:4584:: with SMTP id v4mr19165244pjg.169.1629712906127;
-        Mon, 23 Aug 2021 03:01:46 -0700 (PDT)
-Received: from google.com ([2401:fa00:1:10:bc5a:af6a:3f08:a084])
-        by smtp.gmail.com with ESMTPSA id g13sm15458871pfo.53.2021.08.23.03.01.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Aug 2021 03:01:45 -0700 (PDT)
-Date:   Mon, 23 Aug 2021 18:01:40 +0800
-From:   Tzung-Bi Shih <tzungbi@google.com>
-To:     Irui Wang <irui.wang@mediatek.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>, Yong Wu <yong.wu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH 2/9] media: mtk-vcodec: Use component framework to manage
- encoder hardware
-Message-ID: <YSNyBE4yF6VDt3cC@google.com>
-References: <20210816105934.28265-1-irui.wang@mediatek.com>
- <20210816105934.28265-3-irui.wang@mediatek.com>
+        Mon, 23 Aug 2021 06:10:22 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8EBB92A5;
+        Mon, 23 Aug 2021 12:09:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1629713378;
+        bh=fRSoM9J3cNHTNTzilYusa7GtOU7JN0C+adhq7vqVydg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PPuR71FhPRRAAw3lBDJFwmL2iyPMsc3qAFRd4yYVDamMeHicPBVY9pkXMZFoGODoj
+         BUvINVkt54onpyKZIuMhVC/KTFEcGpu2zAFo4UJmukE78ztSeKefD1ttWyVhcNm6UH
+         9AfplSfp9TFc2MAaZoBlMGDEv3BV9d/mr7cIPCMk=
+Date:   Mon, 23 Aug 2021 13:09:29 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: uvcvideo: Quirk for hardware with invalid sof
+Message-ID: <YSNz2TY1G6uShovP@pendragon.ideasonboard.com>
+References: <20210818203502.269889-1-ribalda@chromium.org>
+ <YR2INUYJSZCnBiC0@pendragon.ideasonboard.com>
+ <CANiDSCuP3OS7Z9UmHApPMmt0X3yrAoKVShEZgZ1oCvPgYshUSA@mail.gmail.com>
+ <YR4yRfEmMvsAXRfu@pendragon.ideasonboard.com>
+ <CANiDSCvStwDkkW7FLwTmogsH45292gugAvZfuoss3aJ9RzOAQw@mail.gmail.com>
+ <YR5nhmF3MXdjtCvs@pendragon.ideasonboard.com>
+ <CANiDSCtPGCnQNuGUxDbbQPgtj3a_6eOtaABXk=39Y7b-03gQNA@mail.gmail.com>
+ <YSL/q9A5F7W9r92E@pendragon.ideasonboard.com>
+ <CANiDSCtYFRNzUio8vujd_Pppz=WUZTj4sYrJwwXwRuewWEMasw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210816105934.28265-3-irui.wang@mediatek.com>
+In-Reply-To: <CANiDSCtYFRNzUio8vujd_Pppz=WUZTj4sYrJwwXwRuewWEMasw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 16, 2021 at 06:59:27PM +0800, Irui Wang wrote:
-> +static struct component_match *mtk_venc_match_add(struct mtk_vcodec_dev *dev)
-> +{
-> +	struct platform_device *pdev = dev->plat_dev;
-> +	struct component_match *match = NULL;
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(mtk_venc_comp_ids); i++) {
-> +		enum mtk_venc_hw_id comp_idx;
-> +		struct device_node *comp_node;
-> +		const struct of_device_id *of_id;
-To be neat, prefer to define the variables outside of the loop (i.e. at the beginning of the function).
+On Mon, Aug 23, 2021 at 11:56:43AM +0200, Ricardo Ribalda wrote:
+> On Mon, 23 Aug 2021 at 03:54, Laurent Pinchart wrote:
+> > On Thu, Aug 19, 2021 at 04:46:38PM +0200, Ricardo Ribalda wrote:
+> > > On Thu, 19 Aug 2021 at 16:15, Laurent Pinchart wrote:
+> > > > On Thu, Aug 19, 2021 at 01:31:32PM +0200, Ricardo Ribalda wrote:
+> > > > > On Thu, 19 Aug 2021 at 12:28, Laurent Pinchart wrote:
+> > > > > > On Thu, Aug 19, 2021 at 08:27:00AM +0200, Ricardo Ribalda wrote:
+> > > > > > > On Thu, 19 Aug 2021 at 00:22, Laurent Pinchart wrote:
+> > > > > > > > On Wed, Aug 18, 2021 at 10:35:02PM +0200, Ricardo Ribalda wrote:
+> > > > > > > > > The hardware timestamping code has the assumption than the device_sof
+> > > > > > > > > and the host_sof run at the same frequency (1 KHz).
+> > > > > > > > >
+> > > > > > > > > Unfortunately, this is not the case for all the hardware. Add a quirk to
+> > > > > > > > > support such hardware.
+> > > > > > > > >
+> > > > > > > > > Note on how to identify such hardware:
+> > > > > > > > > When running with "yavta -c /dev/videoX" Look for periodic jumps of the
+> > > > > > > > > fps. Eg:
+> > > > > > > > >
+> > > > > > > > > 30 (6) [-] none 30 614400 B 21.245557 21.395214 34.133 fps ts mono/SoE
+> > > > > > > > > 31 (7) [-] none 31 614400 B 21.275327 21.427246 33.591 fps ts mono/SoE
+> > > > > > > > > 32 (0) [-] none 32 614400 B 21.304739 21.459256 34.000 fps ts mono/SoE
+> > > > > > > > > 33 (1) [-] none 33 614400 B 21.334324 21.495274 33.801 fps ts mono/SoE
+> > > > > > > > > 34 (2) [-] none 34 614400 B 21.529237 21.527297 5.130 fps ts mono/SoE
+> > > > > > > > > 35 (3) [-] none 35 614400 B 21.649416 21.559306 8.321 fps ts mono/SoE
+> > > > > > > > > 36 (4) [-] none 36 614400 B 21.678789 21.595320 34.045 fps ts mono/SoE
+> > > > > > > > > ...
+> > > > > > > > > 99 (3) [-] none 99 614400 B 23.542226 23.696352 33.541 fps ts mono/SoE
+> > > > > > > > > 100 (4) [-] none 100 614400 B 23.571578 23.728404 34.069 fps ts mono/SoE
+> > > > > > > > > 101 (5) [-] none 101 614400 B 23.601425 23.760420 33.504 fps ts mono/SoE
+> > > > > > > > > 102 (6) [-] none 102 614400 B 23.798324 23.796428 5.079 fps ts mono/SoE
+> > > > > > > > > 103 (7) [-] none 103 614400 B 23.916271 23.828450 8.478 fps ts mono/SoE
+> > > > > > > > > 104 (0) [-] none 104 614400 B 23.945720 23.860479 33.957 fps ts mono/SoE
+> > > > > > > > >
+> > > > > > > > > They happen because the delta_sof calculated at
+> > > > > > > > > uvc_video_clock_host_sof(), wraps periodically, as both clocks drift.
+> > > > > > > >
+> > > > > > > > That looks plain wrong. First of all, the whole purpose of the SOF clock
+> > > > > > > > is to have a shared clock between the host and the device. It makes no
+> > > > > > > > sense for a device to have a free-running "SOF" clock. Given the log
+> > > > > > > > above, the issue occurs so quickly that it doesn't seem to be a mere
+> > > > > > > > drift of a free running clock. Could you investigate this more carefully
+> > > > > > > > ?
+> > > > > > >
+> > > > > > > In my test the dev_sof runs at 887.91Hz and the dev_sof at 1000.35Hz.
+> > > > > > > If I plot the difference of both clocks host_sof - (dev_sof % 2048), I
+> > > > > > > get this nice graph https://imgur.com/a/5fQnKa7
+> > > > > > >
+> > > > > > > I agree that it makes not sense to have a free-running "SOF", but the
+> > > > > > > manufacturer thinks otherwise :)
+> > > > > >
+> > > > > > In that case there's no common clock between the device and the host,
+> > > > > > which means that clock recovery is impossible. The whole timestamp
+> > > > > > computation should be bypassed, and the driver should use the system
+> > > > > > timestamp instead.
+> > > > >
+> > > > > Or said differently. The clock recovery is susceptible to the jitter
+> > > > > in the frame acquisition.
+> > > > >
+> > > > > If you have no jitter, the clock recovered will match the reality, and
+> > > > > if you have bad jitter, it will be as bad as system timestamp.
+> > > >
+> > > > The whole point of the clock recovery code is to convert a precise
+> > > > timestamp, expressed using a device clock that the host has no access
+> > > > to, to a system clock. This can only be done if the relationship between
+> > > > the two clocks can be inferred, and the UVC specifies a mechanism to
+> > > > allow this by using a common clock, in the form of the SOF counter. If
+> > > > we don't have that, we're essentially screwed, and can't use the
+> > > > algorithm implemented in the driver at all. I'd much rather skip is
+> > > > completely in that case, instead of trying to hack the algorithm itself.
+> > >
+> > > Considering T(f) as the time between the usb package (f) is received
+> > > and uvc_video_clock_decode()
+> > > If the jitter between the different T(f)s is under one unit of our
+> > > clock (1 msec) the accuracy of the "hacked" algorithm and the real
+> > > algorithm is exactly the same.
+> > >
+> > > We can agree that 1 msec is a "lot" of time. And if our system has a
+> > > worse latency than that, the hacked algorithm will not be worse than
+> > > system timestamping.
+> > >
+> > > So in most of the situations this patch will produce better timestamps
+> > > than the current code and never worse than now...
+> >
+> > How can it produce better timestamps if it's missing the crucial
+> > information that provides the correlation of timestamps between the
+> > device and host side ?
+> 
+> Because in a system with a latency jitter under 1msec sof_device and
+> sof_host you already know that information: sof_host = sof_device
 
-> +
-> +		comp_node = of_find_compatible_node(NULL, NULL,
-> +			mtk_venc_comp_ids[i].compatible);
-> +		if (!comp_node)
-> +			continue;
-> +
-> +		of_id = of_match_node(mtk_venc_comp_ids, comp_node);
-> +		if (!of_id) {
-> +			dev_err(&pdev->dev, "Failed to get match node\n");
-Need to call of_node_put() actually, but see comment below.
+Only (100 - jitter/1ms) % of the time.
 
-> +			return ERR_PTR(-EINVAL);
-> +		}
-> +
-> +		comp_idx = (enum mtk_venc_hw_id)of_id->data;
-For getting the comp_idx, mtk_venc_comp_ids[i].data should be sufficient.  If so, of_match_node() can be removed so that the error handling path won't need to call of_node_put().
+Given that the kernel implementation of the clock recovery is known to
+cause timestamps to jump back in time once in a while (with devices that
+behave properly), and that this should be implemented in userspace, I'd
+rather bypass the kernel-side clock recovery completely when the device
+doesn't behave. Then, we'll discuss whether it shuold be bypassed in
+userspace too for this device, based on mathematical evidence :-)
 
-> @@ -239,6 +314,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->  	phandle rproc_phandle;
->  	enum mtk_vcodec_fw_type fw_type;
->  	int ret;
-> +	struct component_match *match = NULL;
-It doesn't need to be initialized.
+> It is a special case of the general problem.
+> 
+> > > Anyway, I have tried to ping the vendor to see if there is something
+> > > that I could be doing wrong, lets see what they reply.
+> > >
+> > > > On a side note, I think the whole clock recovery implementation should
+> > > > move from the uvcvideo driver to userspace, where we'll have the ability
+> > > > to perform floating point computation. The kernel implementation is
+> > > > crude, it should be replaced with a linear regression.
+> > >
+> > > Agree, but instead of a linear regression, a resampling algorithm.
+> >
+> > A linear regression is likely a good enough resampling algorithm in this
+> > case, but I'd be curious to see if someone could do better.
+> >
+> > > > > So this patch will still be better than nothing.
+> > > > >
+> > > > > > I still find it hard to believe that a Logitech camera would get this
+> > > > > > wrong.
+> > > > >
+> > > > > I guess I can send you a device, or give you access to mine remotely
+> > > > > if you do not believe me :)
+> > > > >
+> > > > > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > > > > > > ---
+> > > > > > > > > v2: Fix typo in frequency
+> > > > > > > > >
+> > > > > > > > >  drivers/media/usb/uvc/uvc_driver.c |  9 +++++++++
+> > > > > > > > >  drivers/media/usb/uvc/uvc_video.c  | 11 +++++++++--
+> > > > > > > > >  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
+> > > > > > > > >  3 files changed, 20 insertions(+), 2 deletions(-)
+> > > > > > > > >
+> > > > > > > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > > > > > > > index 9a791d8ef200..d1e6cba10b15 100644
+> > > > > > > > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > > > > > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > > > > > > > @@ -2771,6 +2771,15 @@ static const struct usb_device_id uvc_ids[] = {
+> > > > > > > > >         .bInterfaceSubClass   = 1,
+> > > > > > > > >         .bInterfaceProtocol   = 0,
+> > > > > > > > >         .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
+> > > > > > > > > +     /* Logitech HD Pro Webcam C922 */
+> > > > > > > > > +     { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > > > > > > > > +                             | USB_DEVICE_ID_MATCH_INT_INFO,
+> > > > > > > > > +       .idVendor             = 0x046d,
+> > > > > > > > > +       .idProduct            = 0x085c,
+> > > > > > > > > +       .bInterfaceClass      = USB_CLASS_VIDEO,
+> > > > > > > > > +       .bInterfaceSubClass   = 1,
+> > > > > > > > > +       .bInterfaceProtocol   = 0,
+> > > > > > > > > +       .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_INVALID_DEVICE_SOF) },
+> > > > > > > > >       /* Chicony CNF7129 (Asus EEE 100HE) */
+> > > > > > > > >       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > > > > > > > >                               | USB_DEVICE_ID_MATCH_INT_INFO,
+> > > > > > > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > > > > > > > index 6d0e474671a2..760ab015cf9c 100644
+> > > > > > > > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > > > > > > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > > > > > > > @@ -518,13 +518,20 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+> > > > > > > > >       /* To limit the amount of data, drop SCRs with an SOF identical to the
+> > > > > > > > >        * previous one.
+> > > > > > > > >        */
+> > > > > > > > > -     dev_sof = get_unaligned_le16(&data[header_size - 2]);
+> > > > > > > > > +     if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
+> > > > > > > > > +             dev_sof = usb_get_current_frame_number(stream->dev->udev);
+> > > > > > > > > +     else
+> > > > > > > > > +             dev_sof = get_unaligned_le16(&data[header_size - 2]);
+> > > > > > > > > +
+> > > > > > > > >       if (dev_sof == stream->clock.last_sof)
+> > > > > > > > >               return;
+> > > > > > > > >
+> > > > > > > > >       stream->clock.last_sof = dev_sof;
+> > > > > > > > >
+> > > > > > > > > -     host_sof = usb_get_current_frame_number(stream->dev->udev);
+> > > > > > > > > +     if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
+> > > > > > > > > +             host_sof = dev_sof;
+> > > > > > > > > +     else
+> > > > > > > > > +             host_sof = usb_get_current_frame_number(stream->dev->udev);
+> > > > > > > > >       time = uvc_video_get_time();
+> > > > > > > > >
+> > > > > > > > >       /* The UVC specification allows device implementations that can't obtain
+> > > > > > > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > > > > > > > index cce5e38133cd..89d909661915 100644
+> > > > > > > > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > > > > > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > > > > > > > @@ -209,6 +209,8 @@
+> > > > > > > > >  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT      0x00000400
+> > > > > > > > >  #define UVC_QUIRK_FORCE_Y8           0x00000800
+> > > > > > > > >  #define UVC_QUIRK_FORCE_BPP          0x00001000
+> > > > > > > > > +#define UVC_QUIRK_INVALID_DEVICE_SOF 0x00002000
+> > > > > > > > > +
+> > > > > > > > >
+> > > > > > > > >  /* Format flags */
+> > > > > > > > >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
 
-> -	res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-> -	if (res == NULL) {
-> -		dev_err(&pdev->dev, "failed to get irq resource");
-> -		ret = -ENOENT;
-> -		goto err_res;
-> -	}
-> +		res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-> +		if (!res) {
-> +			dev_err(&pdev->dev, "failed to get irq resource");
-> +			ret = -ENOENT;
-> +			goto err_res;
-> +		}
-res is not used.  Can be removed in next version or in another patch.
+-- 
+Regards,
 
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_hw.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_hw.c
-> new file mode 100644
-> index 000000000000..4e6a8a81ff67
-> --- /dev/null
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_hw.c
-> @@ -0,0 +1,179 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2021 MediaTek Inc.
-> + */
-> +
-> +#include <linux/pm_runtime.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/irq.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/module.h>
-Would be better to maintain an order.
-
-> +#include "mtk_vcodec_enc_hw.h"
-> +#include "mtk_vcodec_enc.h"
-Would be better to maintain an order.
-
-> +static irqreturn_t mtk_enc_comp_irq_handler(int irq, void *priv)
-> +{
-> +	struct mtk_venc_comp_dev *dev = priv;
-> +	struct mtk_vcodec_ctx *ctx;
-> +	unsigned long flags;
-> +	void __iomem *addr;
-> +
-> +	spin_lock_irqsave(&dev->master_dev->irqlock, flags);
-> +	ctx = dev->curr_ctx;
-> +	spin_unlock_irqrestore(&dev->master_dev->irqlock, flags);
-> +	if (!ctx)
-> +		return IRQ_HANDLED;
-Here is a read lock for the curr_ctx.  The patch doesn't contain the write lock part.
-
-I am not sure if the following situation would be happened:
-1. curr_ctx is not NULL.
-2. mtk_enc_comp_irq_handler() gets the curr_ctx.
-3. The curr_ctx has been destroyed somewhere.
-4. mtk_enc_comp_irq_handler() finds the ctx is not NULL so that it continues to execute.
-5. Something wrong in latter mtk_enc_comp_irq_handler() because the ctx has been destroyed.
-
-Does it make more sense to set curr_ctx to NULL to indicate the ownership has been transferred to mtk_enc_comp_irq_handler()?  For example:
-
-spin_lock_irqsave(...);
-ctx = dev->curr_ctx;
-dev->curr_ctx = NULL;
-spin_unlock_irqrestore(...);
-
-> +static int mtk_venc_comp_bind(struct device *dev,
-> +			      struct device *master, void *data)
-> +{
-> +	struct mtk_venc_comp_dev *comp_dev = dev_get_drvdata(dev);
-> +	struct mtk_vcodec_dev *master_dev = data;
-> +	int i;
-> +
-> +	for (i = 0; i < MTK_VENC_HW_MAX; i++) {
-> +		if (dev->of_node != master_dev->enc_comp_node[i])
-> +			continue;
-> +
-> +		/*add component device by order*/
-> +		if (comp_dev->core_id == MTK_VENC_CORE0)
-> +			master_dev->enc_comp_dev[MTK_VENC_CORE0] = comp_dev;
-> +		else if (comp_dev->core_id == MTK_VENC_CORE1)
-> +			master_dev->enc_comp_dev[MTK_VENC_CORE1] = comp_dev;
-> +		else
-> +			return -EINVAL;
-if (comp_dev->core_id < 0 || comp_dev->core_id >= MTK_VENC_HW_MAX)
-    return -EINVAL;
-
-master_dev->enc_comp_dev[comp_dev->core_id] = comp_dev;
+Laurent Pinchart
