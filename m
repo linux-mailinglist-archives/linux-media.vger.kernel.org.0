@@ -2,107 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B97DF3F48A9
-	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 12:29:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 311293F48D0
+	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 12:43:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236157AbhHWKag (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Aug 2021 06:30:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58980 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236186AbhHWKaf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Aug 2021 06:30:35 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 294DEC0613C1
-        for <linux-media@vger.kernel.org>; Mon, 23 Aug 2021 03:29:52 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id mq2-20020a17090b3802b0290178911d298bso11829322pjb.1
-        for <linux-media@vger.kernel.org>; Mon, 23 Aug 2021 03:29:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=TOLTokCzMJhrS4yVrsvWA7I6iBUF0+poQl+b02sEUsU=;
-        b=d9NEFEsJvNYuoSyxsZify90/61cU0ZWsqGqoaLu3c/SUinZZoaJcAChNdiUafs14Nv
-         N3KqQ1KblO+pmVxCokfC7ZdftZMq7xlJGPht149Gw9/q+RpW+bM9wjB87l8ayQVeFADe
-         BFKdmTC2z4eDlJw0XWNRyVZ1bTu3DpAHkrhwg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=TOLTokCzMJhrS4yVrsvWA7I6iBUF0+poQl+b02sEUsU=;
-        b=dqzXoRCqSd3NcFy8VunU+gnRo7vwNOxxla9FCx0kvpfu7vm1rg10WvAxpZUCinaAh2
-         VwMJwNmpA2ocLz5rbnR/+4jBDTvdLSqfri6YuugpnoQW5qCqhlh63ulw9cPC/4vatesS
-         V4Wyt8t1wBvzN80ceosXV6sSEcN//i201A7YTFJqOTmLgK0slceZu6AsULfNNfaoC5HL
-         4GsSgBwoyi9sxw1jp57AKX/zBvBZaaWjsTEUJf5ZYn53hn7v3uU5paqifXMq6qgh2UY6
-         d18XJckbWV0FrltiAjyf+vV6f5H/+Zzr9cVSaxEkgF/XWTeJfBnTv3QOJ2zvduERK1XH
-         cSmw==
-X-Gm-Message-State: AOAM533OuGIxIg8pWZD4xV1DUZjm18GHIvSMLZEgZNImGsWP/JEOI+15
-        GmgG6kKxwtzKjFot+O0OeyuQOg==
-X-Google-Smtp-Source: ABdhPJwinUyVdRudwqM9L+o/iJXQT+DwNhl+fEJx9YyCPD1iQFkfLjFX8pEzBY8SNHQBcPV/LthnDA==
-X-Received: by 2002:a17:90a:cc8:: with SMTP id 8mr19829798pjt.194.1629714591769;
-        Mon, 23 Aug 2021 03:29:51 -0700 (PDT)
-Received: from google.com ([2409:10:2e40:5100:8821:8b2f:2912:f9e4])
-        by smtp.gmail.com with ESMTPSA id z11sm15397918pfn.69.2021.08.23.03.29.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Aug 2021 03:29:51 -0700 (PDT)
-Date:   Mon, 23 Aug 2021 19:29:46 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv4 8/8] videobuf2: handle non-contiguous DMA allocations
-Message-ID: <YSN4ms1VoJO2CWNp@google.com>
-References: <20210727070517.443167-1-senozhatsky@chromium.org>
- <20210727070517.443167-9-senozhatsky@chromium.org>
- <fd1e8bbe-4cbe-9586-7c8f-0896af043d4a@xs4all.nl>
+        id S234155AbhHWKoB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Aug 2021 06:44:01 -0400
+Received: from mail-bn7nam10on2077.outbound.protection.outlook.com ([40.107.92.77]:13761
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233589AbhHWKoB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 23 Aug 2021 06:44:01 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cqgFNr/bZX4SiKes6zbGB7/THYKNmNkCNaAMM+r6saZA5QpcXMayvfN910mXldoAx8uNWZBiMuQWDoP9TQHgZm/Ea4Xj5JuMnr2KpxXmjbJQVjhrpuhOFIvxpGTDjmDmNzyEbVvZNjTMsABiDYtsNtNs1A3AxfPUVSJoYN4jLdVoNtSYrfERkmTbXEjbss7NBri0P0pjfN2xYChzlGo/S5RnJi9TQ65Fe3ESr+Ztt0HXhi4BzpbR/tAsBx+5zyPpr49uBbSvHR6jcq6xN38Z8QEmRsm7wD+2eeUdnhO6XXZr8WeqKf4eo1YpoRPv2pVfb1whkhyJRfR9i1UYbQxZZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l9S4l15mVr5rUvsKt+b+6yxc9h8iYJDpmesZTkVI7B8=;
+ b=M+newe5oKanAWVhcpD22DHhPsxippLqzGn/hHibPfO0lf4nKxbZGf8xXnG+ovx+b1aXymkNp3ZPJaIOayHrnWYndWaN/WlUwfLfMrQYDupoA0r/CSdVada3QfthphGLsr+Z6d5SPyN6vkPryhcfau/Ue+YSXhO4yjfJS6YKyvBMARaU3eysYFlthNbePGYb8HImocl67pO2zDrBGbQMzHGw0aH7Qc1y/+zma2DPLVGgEwkewj97xJPJBbjCVC9xCDNbBYfr9q5gq0oVqtXWa7TSxaqNmdyy+rV8fsWAmu7w7wdlUWVoNQ4cDsJJFTO/ZpfleUp0F3fTWxz6KQbu22w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l9S4l15mVr5rUvsKt+b+6yxc9h8iYJDpmesZTkVI7B8=;
+ b=FzA0J5IOo5DXnTaw4EPhPacIb2NOcd1Fr1m/iXI6t92L4hKoCSPCFilVhsBh2Y0x88gkap0JmcSUJny6witfmmOHMmv1fhfm/HsITyWGBUYch0RjcPKcmHy/6WaWxASnpWfwvMkY3miiAnnpqWEavindFro8DuGdCrbaJxs1r1c=
+Authentication-Results: nvidia.com; dkim=none (message not signed)
+ header.d=none;nvidia.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4239.namprd12.prod.outlook.com (2603:10b6:208:1d2::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Mon, 23 Aug
+ 2021 10:43:17 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4436.024; Mon, 23 Aug 2021
+ 10:43:16 +0000
+Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
+To:     Gal Pressman <galpress@amazon.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Doug Ledford <dledford@redhat.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Oded Gabbay <ogabbay@habana.ai>,
+        Tomer Tayar <ttayar@habana.ai>,
+        Yossi Leybovich <sleybo@amazon.com>,
+        Alexander Matushevsky <matua@amazon.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Jianxin Xiong <jianxin.xiong@intel.com>,
+        John Hubbard <jhubbard@nvidia.com>
+References: <20210818074352.29950-1-galpress@amazon.com>
+ <CAKMK7uGZ_eX+XfYJU6EkKEOVrHz3q6QMxaEbyyD3_1iqj9YSjw@mail.gmail.com>
+ <20210819230602.GU543798@ziepe.ca>
+ <CAKMK7uGgQWcs4Va6TGN9akHSSkmTs1i0Kx+6WpeiXWhJKpasLA@mail.gmail.com>
+ <20210820123316.GV543798@ziepe.ca>
+ <0fc94ac0-2bb9-4835-62b8-ea14f85fe512@amazon.com>
+ <20210820143248.GX543798@ziepe.ca>
+ <da6364b7-9621-a384-23b0-9aa88ae232e5@amazon.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <fa124990-ee0c-7401-019e-08109e338042@amd.com>
+Date:   Mon, 23 Aug 2021 12:43:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <da6364b7-9621-a384-23b0-9aa88ae232e5@amazon.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: AM0PR04CA0017.eurprd04.prod.outlook.com
+ (2603:10a6:208:122::30) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fd1e8bbe-4cbe-9586-7c8f-0896af043d4a@xs4all.nl>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.178.21] (91.14.161.181) by AM0PR04CA0017.eurprd04.prod.outlook.com (2603:10a6:208:122::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Mon, 23 Aug 2021 10:43:14 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ffbc018c-619b-4572-2441-08d96622d0b3
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4239:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4239D4E00E5BF89B42E176CB83C49@MN2PR12MB4239.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YVC+pNkg7VJxv6v4k01z12k9Naq8qgBfG64JEVQFtko4+rdt8eLZ4RHShtmE5bggSNjp2E2dblBvqj3cinrhgAp4tprdwYoUzLgK8ASVHsvJHwmzgJ/rqh+2i/tdt9KhkVEuE59/djcIvcZof6gaoRU8Tqg6gkIgCRbT2gP5PT4pCr9J2yjuEVUTGxXWiRNsiNGpecxludEYbYKAyYXFOi6qelhoDyT3rDj05LyQDpI2GsJj21vVVBosKm88KEixmMhSExz2jEgFx7BQD6IDtaOCppPcTN6f1vzuSS+MBjWNKGvUP9BAe9aT5MJUZTRgK5iROQCLOcVFybTrxhW+Q8ncfYGgGTPvpYr7WFa2Ozv28b+HyMoCuYIMugx9x+jDLdvsVHLmlDpx53ZSXgVWiaK2wqAXm4aEQxlE3e1qyqqkkbWRerJchRTvvF/2owpZ37c7DPWX6xy3wNm+tm/Y5bYMN2iFtS3i9sahGtzU4f65sv3drObi+TCk8cx5ni0dWwA07WHBiIRKI8jwYEp3g1fglK47GWdl1fpQvENSa5BQsExppX6XF5+eCgXJqUkv3BIvGG0xy1Skv94/0/k//qi2AnpOW48EwIRYKP1cIrtYYBrtqrYPg83QB72syjX3uzIuVSIn/HYbMJCzw54Hq/UTvvwkHd0MD7+CKn8ZBitvaM60twjJIm3hRRrvHZSVFebL75E0Dz9BrpVYva++xPdHp668lgV35uYcIrxili4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(366004)(396003)(136003)(346002)(8936002)(478600001)(36756003)(26005)(53546011)(6486002)(110136005)(86362001)(186003)(83380400001)(6666004)(316002)(956004)(16576012)(31686004)(2616005)(2906002)(38100700002)(8676002)(4326008)(66476007)(66946007)(66556008)(7416002)(5660300002)(54906003)(31696002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aVczUEd3ejZ3a3o3Y1hsNzVxeHBQSk9idzNkcm5FMkd1VHZ6ZkhvMjZ2dllI?=
+ =?utf-8?B?VElHUG1Kb1Nxd2ZjQ1FUNjVOQzlpbklDRHlRWXdPSWtHb0dxbjBhZ0U0eldR?=
+ =?utf-8?B?NXpuZjI3T2o4WnNSbVFIdXd0VEtrcHpCeTk0NWJnR0gzTWJMaTU2UzVmVTN1?=
+ =?utf-8?B?d203WjVZbHdLSDRUUndqUjdqWWlBOW9MaVM4eTJpN3AxR1RxV2xDQWJpanVq?=
+ =?utf-8?B?S01NRUhXU0RpVzNuK05DeVI5b2FKQUVXMHhHNFY4WG5ZdFRWNW9zNCt6MVVK?=
+ =?utf-8?B?ajNpOEdWK1M0NXFvRkg3elFTbXp1WUR3dFZhRkNoQ3FWRmoxcGMwaERydW5M?=
+ =?utf-8?B?YW4rZk5ONnYrbFpSUDFyMjJpOGtXOEYzeDMvWWpHTDgyTThaLzFQTm8rVU5X?=
+ =?utf-8?B?cGNDMENrNDdJV2NabzJOOFE3RnZORThWaVUzMEZzYTErSEdZbndDdzFPblVZ?=
+ =?utf-8?B?NDNOTnRTT3ZPOGtZNFVHNmhoY1J1NTFQV0doTXBxSG1OSWhHQ1ltRHVBazdl?=
+ =?utf-8?B?NWY2RnF0WUJJTnp5TzN6Z3U1MENscWtwTzM2cXd5OHlyRDcrN01UUlNOdmVN?=
+ =?utf-8?B?MS9TVjdZcy94TXVpWjhhNVEwZW9GdDVta2hWRzBNcUx4eEs0bEcrWm91eXJ1?=
+ =?utf-8?B?UE40dW1ob3dIMEp6MUN4RkpKQ2JkUmUxelo5dWFDd29acGhETUFvYXRINWZZ?=
+ =?utf-8?B?bkxYdE1EWUk2TVZQQSsreTdHRnBYVnFQVlUrUVBob2dlM2JEcFU3cVlHTDVt?=
+ =?utf-8?B?cnZtSzEwTlZGMkxGblFYME84Nm50NHRWNGtDd0M3Y0JpUnRqVUZiQkVzVEdP?=
+ =?utf-8?B?VnJZczFBME91ZXh3S2dsVnZNVSt4RjBOb0NTWjd2MkVCWGR2T0ZRTXlpUXdx?=
+ =?utf-8?B?c201MmNyQ1U0MFNlTmV1Q2szZEVvN2JiMDVPbDBnWlhqcHhqalZ3WFRzWElk?=
+ =?utf-8?B?RFAzT3NPQ291Z0RuVndCM1ZDZEwyU3BtL28vWUtrUGRQYzNzd2ZMNFh5Qmxr?=
+ =?utf-8?B?VnBpaFhFYUVaWTcrenh3UWliTTZ3S1Q1VXBQcS9JRGZHNGpIdmFnZFlRRU1x?=
+ =?utf-8?B?M1JFeS93ZzdscFVCN280RTk1SWhSTVRPKzY3NWFOaGR5b2hBK0NlSTJaZlBh?=
+ =?utf-8?B?Z09rbU1iQ1JkeVRFd3VLeHRzY282SmpwSGUzb3c5eXRlcmczYnUxWGV4MDBq?=
+ =?utf-8?B?UEwyUWMyNzkzMFl0MlBSUmx3SVl2ZkJ0ZDZpVm1Id0VHaklrNFJ5ZnhLcDIv?=
+ =?utf-8?B?MVlwREJtU05uMEI4em91VFBRalVpQnJOZHIvcGRVV0lQSU83SWNXUnZGSmxY?=
+ =?utf-8?B?dTNQVjhLZkEwN3lDUm10cGdGMFlYSzRSMkk5bnR2SHIvRjdTbVZrcXJQNEdL?=
+ =?utf-8?B?c3VzV0JuNW5vK3JqVnFrTUFDajN3NnFKZm1oUTRmVEVKQTQwOFhDaWV6MWVE?=
+ =?utf-8?B?ejY4REZaVkpxV1Z2bkU3THFwUzVUZ2l0UVc5d29rZnJqRCt2YUNRZTA3QnJn?=
+ =?utf-8?B?RTEwZGN5RUd1dkw3Zm5NUnNFVzVicHl1WmYrNlZMekNRZEtlWE9HYkczT1Uy?=
+ =?utf-8?B?T2k5WjQxalVsRDgrcmZyLzF6Vm1HazdSVzQ0dzF0ZDBWZGhpL1hROVQ3SFJz?=
+ =?utf-8?B?UHJCNXJxc2d1YzgwZXNnMDIrRk9YKzk4cnFyaE5BQkpNenFxaXg5K3QvWVZJ?=
+ =?utf-8?B?a1k4SFhibUZLc2F6R2NjZExhaDVjenJ0Ym1sMUZydnNIcXk5UmVNZmFwM0lO?=
+ =?utf-8?Q?GSEaQuvkj7ZG3lrj7bT899stx0g9RX5vsx+rf5y?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ffbc018c-619b-4572-2441-08d96622d0b3
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2021 10:43:16.8706
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bk0iPlq5mXEdhxGPktLItuIIgVFg4/5SL0IHHT2yP+7j/TSbIQ+SOf+HT2fSEhC/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4239
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (21/08/03 12:15), Hans Verkuil wrote:
-> >  static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
-> >  {
-> >  	struct vb2_dc_buf *buf = buf_priv;
-> > -	struct dma_buf_map map;
-> > -	int ret;
-> >  
-> > -	if (!buf->vaddr && buf->db_attach) {
-> > -		ret = dma_buf_vmap(buf->db_attach->dmabuf, &map);
-> > -		buf->vaddr = ret ? NULL : map.vaddr;
-> > +	if (buf->vaddr)
-> > +		return buf->vaddr;
-> > +
-> > +	if (buf->db_attach) {
-> > +		struct dma_buf_map map;
-> > +
-> > +		if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
-> > +			buf->vaddr = map.vaddr;
-> > +
-> > +		return buf->vaddr;
-> >  	}
-> >  
-> > +	if (!buf->coherent_mem)
-> > +		buf->vaddr = dma_vmap_noncontiguous(buf->dev, buf->size,
-> > +						    buf->dma_sgt);
-> >  	return buf->vaddr;
-> >  }
-> 
-> This function really needs a bunch of comments.
-> 
-> What I want to see here specifically is under which circumstances this function
-> can return NULL.
-> 
-> - dma_buf_vmap returns an error
-> - for non-coherent memory dma_vmap_noncontiguous returns an error
-> - coherent memory with DMA_ATTR_NO_KERNEL_MAPPING set.
+Am 21.08.21 um 11:16 schrieb Gal Pressman:
+> On 20/08/2021 17:32, Jason Gunthorpe wrote:
+>> On Fri, Aug 20, 2021 at 03:58:33PM +0300, Gal Pressman wrote:
+>>
+>>> Though it would've been nicer if we could agree on a solution that could work
+>>> for more than 1-2 RDMA devices, using the existing tools the RDMA subsystem has.
+>> I don't think it can really be done, revoke is necessary, and isn't a
+>> primitive we have today.
+>>
+>> Revoke is sort of like rereg MR, but with a guaranteed no-change to
+>> the lkey/rkey
+>>
+>> Then there is the locking complexity of linking the mr creation and
+>> destruction to the lifecycle of the pages, which is messy and maybe
+>> not general. For instance mlx5 would call its revoke_mr, disconnect
+>> the dmabuf then destroy the mkey - but this is only safe because mlx5
+>> HW can handle concurrent revokes.
+> Thanks, that makes sense.
+>
+>>> That's why I tried to approach this by denying such attachments for non-ODP
+>>> importers instead of exposing a "limited" dynamic importer.
+>> That is fine if there is no revoke - once revoke exists we must have
+>> driver and HW support.
+> Agree.
+> IIUC, we're talking about three different exporter "types":
+> - Dynamic with move_notify (requires ODP)
+> - Dynamic with revoke_notify
+> - Static
+>
+> Which changes do we need to make the third one work?
 
-Done.
+Basically none at all in the framework.
+
+You just need to properly use the dma_buf_pin() function when you start 
+using a buffer (e.g. before you create an attachment) and the 
+dma_buf_unpin() function after you are done with the DMA-buf.
+
+Regards,
+Christian.
