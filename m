@@ -2,224 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16CC03F4BF7
-	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 15:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 047BC3F4C6A
+	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 16:33:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbhHWN5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Aug 2021 09:57:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50988 "EHLO
+        id S230060AbhHWOdt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Aug 2021 10:33:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbhHWN5S (ORCPT
+        with ESMTP id S229726AbhHWOdt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Aug 2021 09:57:18 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0F7FC061575;
-        Mon, 23 Aug 2021 06:56:35 -0700 (PDT)
-Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:648a:6e9d:d5af:13ed])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6C4471F426ED;
-        Mon, 23 Aug 2021 14:56:31 +0100 (BST)
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     mchehab@kernel.org, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH] media: hantro: Trace hevc hw cycles performance register
-Date:   Mon, 23 Aug 2021 15:56:06 +0200
-Message-Id: <20210823135606.633052-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 23 Aug 2021 10:33:49 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79958C061575;
+        Mon, 23 Aug 2021 07:33:06 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id q11-20020a7bce8b0000b02902e6880d0accso14275161wmj.0;
+        Mon, 23 Aug 2021 07:33:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=kKNTgN3mFZPjHxMm9PJkyaGLg0UeM0w5/suyeTcMCds=;
+        b=Ez/HiDH3tFmVC4uKBvHgtFzVhf5NyUU42y+5Lk7iQk7CbnDkPYMGOlaMnc0A7HLBJw
+         eWugtLu8U4/9o5aEJf48iw+G6cKxrmqxzYQvyXaTFxF/VLYSaCfpeh/+AGmp8SBxu1lB
+         qm3zidvf28w2SRNDLu8OhnQzo5muVjjRhaIGvozxNPOQrjNBvXf8nq85yo6HQzlBKLmU
+         nzja6sHIhvGl2u+EqnRtgSQJl/7h2YONt5JGKSF2dBwOkwinufFPGqE+7KXbsWH7nTD8
+         XY3kngutJ1H7lJa8xJhpA6dHcDU3twBm/CLhiMZ/5aYAACW7FswYmospyPXglG3MHnPd
+         fAnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kKNTgN3mFZPjHxMm9PJkyaGLg0UeM0w5/suyeTcMCds=;
+        b=rDtbzYDFMVsFnjXCieQ4cdWvmM7zUm7mAEtu7ImVM7zmvTv67kriqvSr5O/0zWV8d2
+         jAalhv/L1snUONg+A2zewcAeD4PVcJYTqYVG+bI+SH666caSWi0K961y4wT/RMQRnuTi
+         wh53F7lJ/AAleyMAjP9+gITzLAK49B4D+uvhvvqD+I7LQWtkPscycSsZcWZEYacOweqX
+         fItgMygJnPyXf/d9b9yuWHO4lCXtEj4EvJkysMdj+aGnk4a52obsGhrfHRm/+wnTi6MZ
+         A5qsJmhCHgeT8qhdjZAFiYDx/5tggPEDI7BclB/Up5cZYawz395JjGtr0PbIC1y6Twvd
+         rOrA==
+X-Gm-Message-State: AOAM531PRWTDcpOsE5f4gZFA3JUKvlXU7GvZRKKb6GQ6W/QfidFssnMV
+        58iuJAMB3+7CX3GUviVGCyk=
+X-Google-Smtp-Source: ABdhPJxBq4Nvsa0gnzzH4WFHk2SbkxyCPoHtvepGuqxwqRXVQN0QX9rC0+5h+ZD3D695iv58bgjotw==
+X-Received: by 2002:a05:600c:2189:: with SMTP id e9mr16739221wme.125.1629729185109;
+        Mon, 23 Aug 2021 07:33:05 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+        by smtp.gmail.com with ESMTPSA id w18sm16192391wrg.68.2021.08.23.07.33.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Aug 2021 07:33:03 -0700 (PDT)
+Date:   Mon, 23 Aug 2021 16:33:02 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        DTML <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
+Message-ID: <YSOxnqiia+FqfOX6@orome.fritz.box>
+References: <20210817012754.8710-8-digetx@gmail.com>
+ <YR0UBi/ejy+oF4Hm@orome.fritz.box>
+ <da7356cb-05ee-ba84-8a7c-6e69d853a805@gmail.com>
+ <YR04YHGEluqLIZeo@orome.fritz.box>
+ <ad99db08-4696-1636-5829-5260f93dc681@gmail.com>
+ <YR6Mvips3HAntDy0@orome.fritz.box>
+ <e17bbe8d-7c0f-fc3d-03c7-d75c54c24a43@gmail.com>
+ <YR+VDZzTihmpENp6@orome.fritz.box>
+ <CAPDyKFpJ+TK0w1GZEA7G=rtAjq5ipmVR4P0wy7uHiEGVWRk5yA@mail.gmail.com>
+ <89ea1694-be9e-7654-abeb-22de0ca5255a@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="PvC9h3QplaOMl/PL"
+Content-Disposition: inline
+In-Reply-To: <89ea1694-be9e-7654-abeb-22de0ca5255a@gmail.com>
+User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After each hevc decoded frame trace the hardware performance.
-It provides the number of hw cycles spend per decoded macroblock.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- Documentation/admin-guide/media/hantro.rst    | 14 +++++++
- .../admin-guide/media/v4l-drivers.rst         |  1 +
- drivers/staging/media/hantro/hantro_drv.c     |  3 ++
- .../staging/media/hantro/hantro_g2_hevc_dec.c | 16 ++++++++
- drivers/staging/media/hantro/hantro_g2_regs.h |  1 +
- drivers/staging/media/hantro/hantro_hw.h      |  1 +
- drivers/staging/media/hantro/hantro_trace.h   | 41 +++++++++++++++++++
- drivers/staging/media/hantro/imx8m_vpu_hw.c   |  1 +
- 8 files changed, 78 insertions(+)
- create mode 100644 Documentation/admin-guide/media/hantro.rst
- create mode 100644 drivers/staging/media/hantro/hantro_trace.h
+--PvC9h3QplaOMl/PL
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/admin-guide/media/hantro.rst b/Documentation/admin-guide/media/hantro.rst
-new file mode 100644
-index 000000000000..6cb552a5dfcb
---- /dev/null
-+++ b/Documentation/admin-guide/media/hantro.rst
-@@ -0,0 +1,14 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=================
-+The hantro driver
-+=================
-+
-+Trace
-+~~~~~
-+
-+You can trace the hardware decoding performances by using event tracing::
-+
-+    # echo hantro_hevc_perf >> /sys/kernel/debug/tracing/set_event
-+
-+That will keep a log of the number of hardware cycles spend per decoded macroblock
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index 9c7ebe2ca3bd..4f2f72a2b3b5 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -15,6 +15,7 @@ Video4Linux (V4L) driver-specific documentation
- 	cx88
- 	davinci-vpbe
- 	fimc
-+        hantro
- 	imx
- 	imx7
- 	ipu3
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 8a2edd67f2c6..236160c51e59 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -28,6 +28,9 @@
- #include "hantro.h"
- #include "hantro_hw.h"
- 
-+#define CREATE_TRACE_POINTS
-+#include "hantro_trace.h"
-+
- #define DRIVER_NAME "hantro-vpu"
- 
- int hantro_debug;
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index 340efb57fd18..fef16d1724da 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -7,6 +7,7 @@
- 
- #include "hantro_hw.h"
- #include "hantro_g2_regs.h"
-+#include "hantro_trace.h"
- 
- #define HEVC_DEC_MODE	0xC
- 
-@@ -22,6 +23,21 @@ static inline void hantro_write_addr(struct hantro_dev *vpu,
- 	vdpu_write(vpu, addr & 0xffffffff, offset);
- }
- 
-+void hantro_g2_hevc_dec_done(struct hantro_ctx *ctx)
-+{
-+	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
-+	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
-+	struct hantro_dev *vpu = ctx->dev;
-+	u32 hw_cycles = 0;
-+	u32 mbs = (sps->pic_width_in_luma_samples *
-+		   sps->pic_height_in_luma_samples) >> 8;
-+
-+	if (mbs)
-+		hw_cycles = vdpu_read(vpu, G2_HW_PERFORMANCE) / mbs;
-+
-+	trace_hantro_hevc_perf(ctx, hw_cycles);
-+}
-+
- static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
-diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
-index bb22fa921914..17d84ec9c5c2 100644
---- a/drivers/staging/media/hantro/hantro_g2_regs.h
-+++ b/drivers/staging/media/hantro/hantro_g2_regs.h
-@@ -177,6 +177,7 @@
- #define G2_REG_CONFIG_DEC_CLK_GATE_E		BIT(16)
- #define G2_REG_CONFIG_DEC_CLK_GATE_IDLE_E	BIT(17)
- 
-+#define G2_HW_PERFORMANCE	(G2_SWREG(63))
- #define G2_ADDR_DST		(G2_SWREG(65))
- #define G2_REG_ADDR_REF(i)	(G2_SWREG(67)  + ((i) * 0x8))
- #define G2_ADDR_DST_CHR		(G2_SWREG(99))
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index df7b5e3a57b9..ab6f379354cc 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -250,6 +250,7 @@ void hantro_h264_dec_exit(struct hantro_ctx *ctx);
- int hantro_hevc_dec_init(struct hantro_ctx *ctx);
- void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
- int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
-+void hantro_g2_hevc_dec_done(struct hantro_ctx *ctx);
- int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
- dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
- void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
-diff --git a/drivers/staging/media/hantro/hantro_trace.h b/drivers/staging/media/hantro/hantro_trace.h
-new file mode 100644
-index 000000000000..fa8fec26fa3c
---- /dev/null
-+++ b/drivers/staging/media/hantro/hantro_trace.h
-@@ -0,0 +1,41 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#if !defined(__HANTRO_TRACE_H__) || defined(TRACE_HEADER_MULTI_READ)
-+#define __HANTRO_TRACE_H__
-+
-+#include <linux/tracepoint.h>
-+#include <media/videobuf2-v4l2.h>
-+
-+#include "hantro.h"
-+
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM hantro
-+#define TRACE_INCLUDE_FILE hantro_trace
-+
-+TRACE_EVENT(hantro_hevc_perf,
-+	TP_PROTO(struct hantro_ctx *ctx, u32 hw_cycles),
-+
-+	TP_ARGS(ctx, hw_cycles),
-+
-+	TP_STRUCT__entry(
-+		__field(int, minor)
-+		__field(struct v4l2_fh *, fh)
-+		__field(u32, hw_cycles)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->minor = ctx->fh.vdev->minor;
-+		__entry->fh = &ctx->fh;
-+		__entry->hw_cycles = hw_cycles;
-+	),
-+
-+	TP_printk("minor = %d, fh = %p, %8d cycles / mb",
-+		  __entry->minor, __entry->fh, __entry->hw_cycles)
-+);
-+
-+#endif /* __HANTRO_TRACE_H__ */
-+
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH ../../drivers/staging/media/hantro
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
-diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-index ea919bfb9891..7e9e24bb5057 100644
---- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-+++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-@@ -239,6 +239,7 @@ static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
- 		.reset = imx8m_vpu_g2_reset,
- 		.init = hantro_hevc_dec_init,
- 		.exit = hantro_hevc_dec_exit,
-+		.done = hantro_g2_hevc_dec_done,
- 	},
- };
- 
--- 
-2.25.1
+On Sat, Aug 21, 2021 at 08:45:54PM +0300, Dmitry Osipenko wrote:
+> 20.08.2021 16:08, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+> >> I suppose if there's really no good way of doing this other than
+> >> providing a struct device, then so be it. I think the cleaned up sysfs
+> >> shown in the summary above looks much better than what the original
+> >> would've looked like.
+> >>
+> >> Perhaps an additional tweak to that would be to not create platform
+> >> devices. Instead, just create struct device. Those really have
+> >> everything you need (.of_node, and can be used with RPM and GENPD). As=
+ I
+> >> mentioned earlier, platform device implies a CPU-memory-mapped bus,
+> >> which this clearly isn't. It's kind of a separate "bus" if you want, so
+> >> just using struct device directly seems more appropriate.
+> >=20
+> > Just a heads up. If you don't use a platform device or have a driver
+> > associated with it for probing, you need to manage the attachment to
+> > genpd yourself. That means calling one of the dev_pm_domain_attach*()
+> > APIs, but that's perfectly fine, ofcourse.
+> >=20
+> >>
+> >> We did something similar for XUSB pads, see drivers/phy/tegra/xusb.[ch]
+> >> for an example of how that was done. I think you can do something
+> >> similar here.
+>=20
+> We need a platform device because we have a platform device driver that
+> must be bound to the device, otherwise PMC driver state won't be synced
+> since it it's synced after all drivers of devices that reference PMC
+> node in DT are probed.
 
+I think the causality is the wrong way around. It's more likely that you
+added the platform driver because you have a platform device that you
+want to bind against.
+
+You can have drivers bind to other types of devices, although it's a bit
+more work than abusing platform devices for it.
+
+There's the "auxiliary" bus that seems like it would be a somewhat
+better fit (see Documentation/driver-api/auxiliary_bus.rst), though it
+doesn't look like this fits the purpose exactly. I think a custom bus
+(or perhaps something that could be deployed more broadly across CCF)
+would be more appropriate.
+
+Looking around, it seems like clk/imx and clk/samsung abuse the platform
+bus in a similar way, so they would benefit from a "clk" bus as well.
+
+Thierry
+
+--PvC9h3QplaOMl/PL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEjsZsACgkQ3SOs138+
+s6HWKw//TNblAAi6ou9PE5WJAlqkp8eN3KFkESiKa0yzPJmK4PheTbR+7TxztdtD
+v78kTE37Wr/vLdqlIV3gfL9ZjFiYhBJinwopw7zGhYIru1NVclli3In+/nQdUoGe
+vqQOmq0yycyituaGXERlH9HrODsY9IG3DP4XqTd9bBz1JfexxnEVxHvXdzWmoQ/i
+pHg7547O5QhpmEMurZ+anNAFCw9J9QhltISWXBSZdl1HDXBF7u7yABLXLggp6RFm
+xJN7I3DdVVYkB091DX8wfW19TXaDcZ4eOtNQ1PdpfL1FgeRhLm48VYhB1CQhSWcs
++uyGzqS2dROvSyoUCXqUxYr4NdijJX17VOpO8BVWcpJMQo97EDNxa6Ga92TmXAV4
+o+NEivB2893mE0b268rDZ128qhimB7qfM9UT8XFuOWTHiwtGanWBQ/OQ0VYBDVvn
+qArreV+6jLdYLjqAiq6DYDoT3s9gVp/xvWfp9F+PW6YlUPldiEUx0eTDK31T4nx2
+xRnoASYIbUDfcHvOQWTmwFm1YLxDad/c+oNuCuFjNtG1P8EzRmmkwz4FU0J4uLGd
+kTxIyxpRrHp1A2gFthkPvtvrucMlVXW/pTMMCSZtPafWNdhQgCohiy0wnW6pI9sg
+v4qJ6n+ieKZRQw1RlSLliu81UJk/CcANuJDeI3CknDm79oVZQDA=
+=YrRu
+-----END PGP SIGNATURE-----
+
+--PvC9h3QplaOMl/PL--
