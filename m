@@ -2,107 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C80253F4A11
-	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 13:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C03233F4A49
+	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 14:05:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236269AbhHWLvT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Aug 2021 07:51:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49858 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235337AbhHWLvT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Aug 2021 07:51:19 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1CE9C061575;
-        Mon, 23 Aug 2021 04:50:36 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id e15so9983832plh.8;
-        Mon, 23 Aug 2021 04:50:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:cc:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=O5DM1sJkMAZ9pupJ/zl5vudKhULLO2p/SdJWZo+B+eo=;
-        b=PJvNXb8mSnm9cemZbK+4j70aWxx4Lee2OayaWVuYrLvVhGvzVf0+35TDcdzhEkKyiC
-         thE3GiTXw8a8tWqL5XAZbWFES6Q7ZfET23jlCT7QrOXtoxXRQJdBaH9Kdr0u4VG9KqV8
-         1z8yyYn+rPrIKImrryJUbeZNy6e9fUeyKcUwisAoAxxBLhD5zdqURfMVxKyyDXqvGBUq
-         j8RVMJoTNRhuzYEWXpb/qVn8/TUhYYUzn+tewG6e+f0/69GTNzkCWEhm9Kd6p+43TXfL
-         uzAtO5RxSlYKjiHKikc9VzfzZk6mddt3QeT+lkAsoJ/lYwvHBD2bF0HsHVP74P5BkFsW
-         lRVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
-         :mime-version:content-transfer-encoding:content-language;
-        bh=O5DM1sJkMAZ9pupJ/zl5vudKhULLO2p/SdJWZo+B+eo=;
-        b=oboj3uN+u8qAAxbk+8EqY6IFtE4SHLzQxnl2okJ2wuoWDNwoODZa94O9DDCSWVD5J5
-         JVna4xo+dnD29jWEPPzx/Aqu4Z6rhaQLeFJMtJNpA1bpz+zIToA6Fp7F+jwKdFUxURGX
-         bKS2vIpwzqqEPMw+T3Z8Ea/+0NpcvDERx1KvIbb8fTdTLdELOypjnTxmkX3wWF8pwzL7
-         aUk7NMM0sdOkeU23xeoWn7WW4Ufsuuxw8WfEsFATjAuR8IPNeUjw9YhE7U0OegG/C8jQ
-         Z0Fq9h0vkKT+iwcCVNC6peWA05CkKdDgPDBQIST1330mbFfXVZe9eg90D8sHYT5L5VmN
-         u78g==
-X-Gm-Message-State: AOAM532kz+4RTqlNgkubvhBJbABzFFkO+q/OrvafoNLXuzQgp6IQSOGb
-        cTp+8B8MUZITw5SMVgvNN+ExSwDvXog=
-X-Google-Smtp-Source: ABdhPJyoKd8/N5yLCg/VKSt+JpWXIGEWPIPoRYiqsQg1ld8auxvdPPOsCmXasF0S+D02ad5sc+tvHQ==
-X-Received: by 2002:a17:902:6b47:b0:12f:6c5f:ab4f with SMTP id g7-20020a1709026b4700b0012f6c5fab4fmr20997699plt.17.1629719436043;
-        Mon, 23 Aug 2021 04:50:36 -0700 (PDT)
-Received: from [10.136.0.70] ([45.145.248.194])
-        by smtp.gmail.com with ESMTPSA id n30sm15965384pfv.87.2021.08.23.04.50.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Aug 2021 04:50:35 -0700 (PDT)
-From:   Jia-Ju Bai <baijiaju1990@gmail.com>
-Subject: [BUG] media: platform: qcom: venus: possible ABBA deadlock in
- venus_event_notify() and venus_helper_vb2_buf_queue()
-To:     stanimir.varbanov@linaro.org, agross@kernel.org,
-        bjorn.andersson@linaro.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Message-ID: <b5c2a28b-9c67-05d1-0bed-eac8af508d07@gmail.com>
-Date:   Mon, 23 Aug 2021 19:50:31 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S235117AbhHWMGe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Aug 2021 08:06:34 -0400
+Received: from mx20.baidu.com ([111.202.115.85]:46234 "EHLO baidu.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233755AbhHWMGd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 23 Aug 2021 08:06:33 -0400
+Received: from BC-Mail-HQEx02.internal.baidu.com (unknown [172.31.51.58])
+        by Forcepoint Email with ESMTPS id C9E0917B1871147F860D;
+        Mon, 23 Aug 2021 20:05:46 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BC-Mail-HQEx02.internal.baidu.com (172.31.51.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Mon, 23 Aug 2021 20:05:46 +0800
+Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Mon, 23 Aug 2021 20:05:46 +0800
+From:   Cai Huoqing <caihuoqing@baidu.com>
+To:     <jasmin@anw.at>, <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>, Cai Huoqing <caihuoqing@baidu.com>
+Subject: [PATCH] media: dvb-frontends/cxd2099: Remove repeated verbose license text
+Date:   Mon, 23 Aug 2021 20:05:40 +0800
+Message-ID: <20210823120540.500-1-caihuoqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BC-Mail-Ex31.internal.baidu.com (172.31.51.25) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+remove it because SPDX-License-Identifier is already used
 
-My static analysis tool reports a possible ABBA deadlock in the venus 
-driver in Linux 5.10:
+Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+---
+ drivers/media/dvb-frontends/cxd2099.c | 9 ---------
+ drivers/media/dvb-frontends/cxd2099.h | 9 ---------
+ 2 files changed, 18 deletions(-)
 
-venus_event_notify()
-   mutex_lock(&core->lock); --> line 37 (Lock A)
-   vdec_event_notify() --> via a function pointer 
-"inst->ops->event_notify(...)"
-   vdec_event_change()
-     mutex_lock(&inst->lock); --> line 1301 (Lock B)
+diff --git a/drivers/media/dvb-frontends/cxd2099.c b/drivers/media/dvb-frontends/cxd2099.c
+index f88b5355493e..1c8207ab8988 100644
+--- a/drivers/media/dvb-frontends/cxd2099.c
++++ b/drivers/media/dvb-frontends/cxd2099.c
+@@ -3,15 +3,6 @@
+  * cxd2099.c: Driver for the Sony CXD2099AR Common Interface Controller
+  *
+  * Copyright (C) 2010-2013 Digital Devices GmbH
+- *
+- * This program is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU General Public License
+- * version 2 only, as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+  */
+ 
+ #include <linux/slab.h>
+diff --git a/drivers/media/dvb-frontends/cxd2099.h b/drivers/media/dvb-frontends/cxd2099.h
+index 0c101bdef01d..5d4060007c46 100644
+--- a/drivers/media/dvb-frontends/cxd2099.h
++++ b/drivers/media/dvb-frontends/cxd2099.h
+@@ -3,15 +3,6 @@
+  * cxd2099.h: Driver for the Sony CXD2099AR Common Interface Controller
+  *
+  * Copyright (C) 2010-2011 Digital Devices GmbH
+- *
+- * This program is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU General Public License
+- * version 2 only, as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+  */
+ 
+ #ifndef _CXD2099_H_
+-- 
+2.25.1
 
-venus_helper_vb2_buf_queue()
-   mutex_lock(&inst->lock); --> line 1346 (Lock B)
-   session_process_buf()
-     venus_pm_load_scale()
-       load_scale_v4() via a function pointer 
-"core->pm_ops->load_scale(...)"
-         mutex_lock(&core->lock); --> line 966 (Lock A)
-
-Besides, if "core->pm_ops->load_scale(...)" is load_scale_v1():
-load_scale_v1()
-   load_per_type()
-     mutex_lock(&core->lock); --> line 150 (Lock A)
-
-When venus_event_notify() and venus_helper_vb2_buf_queue() are 
-concurrently executed, the deadlock can occur.
-
-I am not quite sure whether this possible deadlock is real and how to 
-fix it if it is real.
-Any feedback would be appreciated, thanks
-
-Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
-
-
-Best wishes,
-Jia-Ju Bai
