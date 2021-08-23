@@ -2,229 +2,292 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2284B3F4333
-	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 03:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FB9B3F434B
+	for <lists+linux-media@lfdr.de>; Mon, 23 Aug 2021 04:07:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234762AbhHWByk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Aug 2021 21:54:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55490 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234539AbhHWByk (ORCPT
+        id S229466AbhHWCHo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Aug 2021 22:07:44 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33336 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234648AbhHWCHn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Aug 2021 21:54:40 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62E07C061575;
-        Sun, 22 Aug 2021 18:53:58 -0700 (PDT)
+        Sun, 22 Aug 2021 22:07:43 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C935B2A5;
-        Mon, 23 Aug 2021 03:53:56 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA03D2A5;
+        Mon, 23 Aug 2021 04:07:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1629683637;
-        bh=UkiflwZ7FeuKZeUpt1aTclg35N/m2teIKGoptH3mt2c=;
+        s=mail; t=1629684420;
+        bh=aoHVwET0PuFbnusl1rAmHy+QbDL0NIDiNV2r/IuJeL0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vliUvZeg/BVXCvnubnMpSz39F7XYb99tF5xkIBKFeeAUQcut1y7OoN2gJmomwpzig
-         8VyNbEcwtJt5qKGyB1yvLiGDaYNYGFoWRZNVdk4UySGk/nRn3UrMLuzTnJFdvkLI11
-         o21og2cO0JXyUtpEsjeX8L+qOzdwd7U88Y5uQg1c=
-Date:   Mon, 23 Aug 2021 04:53:47 +0300
+        b=ZaCVrWCGbeCV9prOOqrzJW0tpeLAp6v8V5RwXgJWlFfSYxwjbM9y+VoPTe0lAXai7
+         GPTU6X6CFbpy2YqFg4q+PfaBqILt92O5uS9C5uQKjQHLqSLYja8ytMPgljycxaGXUN
+         RAlDY2s09M+jBriJm0QvuFhMlZi8SLJo7Rd4y+5A=
+Date:   Mon, 23 Aug 2021 05:06:51 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: uvcvideo: Quirk for hardware with invalid sof
-Message-ID: <YSL/q9A5F7W9r92E@pendragon.ideasonboard.com>
-References: <20210818203502.269889-1-ribalda@chromium.org>
- <YR2INUYJSZCnBiC0@pendragon.ideasonboard.com>
- <CANiDSCuP3OS7Z9UmHApPMmt0X3yrAoKVShEZgZ1oCvPgYshUSA@mail.gmail.com>
- <YR4yRfEmMvsAXRfu@pendragon.ideasonboard.com>
- <CANiDSCvStwDkkW7FLwTmogsH45292gugAvZfuoss3aJ9RzOAQw@mail.gmail.com>
- <YR5nhmF3MXdjtCvs@pendragon.ideasonboard.com>
- <CANiDSCtPGCnQNuGUxDbbQPgtj3a_6eOtaABXk=39Y7b-03gQNA@mail.gmail.com>
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Thomas NIZAN <tnizan@witekio.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [RFC 0/5] media: i2c: Add MAX9271 subdevice driver
+Message-ID: <YSMCu1zQ0xOkj7/y@pendragon.ideasonboard.com>
+References: <20210817072703.1167-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CANiDSCtPGCnQNuGUxDbbQPgtj3a_6eOtaABXk=39Y7b-03gQNA@mail.gmail.com>
+In-Reply-To: <20210817072703.1167-1-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+Hi Jacopo,
 
-On Thu, Aug 19, 2021 at 04:46:38PM +0200, Ricardo Ribalda wrote:
-> On Thu, 19 Aug 2021 at 16:15, Laurent Pinchart wrote:
-> > On Thu, Aug 19, 2021 at 01:31:32PM +0200, Ricardo Ribalda wrote:
-> > > On Thu, 19 Aug 2021 at 12:28, Laurent Pinchart wrote:
-> > > > On Thu, Aug 19, 2021 at 08:27:00AM +0200, Ricardo Ribalda wrote:
-> > > > > On Thu, 19 Aug 2021 at 00:22, Laurent Pinchart wrote:
-> > > > > > On Wed, Aug 18, 2021 at 10:35:02PM +0200, Ricardo Ribalda wrote:
-> > > > > > > The hardware timestamping code has the assumption than the device_sof
-> > > > > > > and the host_sof run at the same frequency (1 KHz).
-> > > > > > >
-> > > > > > > Unfortunately, this is not the case for all the hardware. Add a quirk to
-> > > > > > > support such hardware.
-> > > > > > >
-> > > > > > > Note on how to identify such hardware:
-> > > > > > > When running with "yavta -c /dev/videoX" Look for periodic jumps of the
-> > > > > > > fps. Eg:
-> > > > > > >
-> > > > > > > 30 (6) [-] none 30 614400 B 21.245557 21.395214 34.133 fps ts mono/SoE
-> > > > > > > 31 (7) [-] none 31 614400 B 21.275327 21.427246 33.591 fps ts mono/SoE
-> > > > > > > 32 (0) [-] none 32 614400 B 21.304739 21.459256 34.000 fps ts mono/SoE
-> > > > > > > 33 (1) [-] none 33 614400 B 21.334324 21.495274 33.801 fps ts mono/SoE
-> > > > > > > 34 (2) [-] none 34 614400 B 21.529237 21.527297 5.130 fps ts mono/SoE
-> > > > > > > 35 (3) [-] none 35 614400 B 21.649416 21.559306 8.321 fps ts mono/SoE
-> > > > > > > 36 (4) [-] none 36 614400 B 21.678789 21.595320 34.045 fps ts mono/SoE
-> > > > > > > ...
-> > > > > > > 99 (3) [-] none 99 614400 B 23.542226 23.696352 33.541 fps ts mono/SoE
-> > > > > > > 100 (4) [-] none 100 614400 B 23.571578 23.728404 34.069 fps ts mono/SoE
-> > > > > > > 101 (5) [-] none 101 614400 B 23.601425 23.760420 33.504 fps ts mono/SoE
-> > > > > > > 102 (6) [-] none 102 614400 B 23.798324 23.796428 5.079 fps ts mono/SoE
-> > > > > > > 103 (7) [-] none 103 614400 B 23.916271 23.828450 8.478 fps ts mono/SoE
-> > > > > > > 104 (0) [-] none 104 614400 B 23.945720 23.860479 33.957 fps ts mono/SoE
-> > > > > > >
-> > > > > > > They happen because the delta_sof calculated at
-> > > > > > > uvc_video_clock_host_sof(), wraps periodically, as both clocks drift.
-> > > > > >
-> > > > > > That looks plain wrong. First of all, the whole purpose of the SOF clock
-> > > > > > is to have a shared clock between the host and the device. It makes no
-> > > > > > sense for a device to have a free-running "SOF" clock. Given the log
-> > > > > > above, the issue occurs so quickly that it doesn't seem to be a mere
-> > > > > > drift of a free running clock. Could you investigate this more carefully
-> > > > > > ?
-> > > > >
-> > > > > In my test the dev_sof runs at 887.91Hz and the dev_sof at 1000.35Hz.
-> > > > > If I plot the difference of both clocks host_sof - (dev_sof % 2048), I
-> > > > > get this nice graph https://imgur.com/a/5fQnKa7
-> > > > >
-> > > > > I agree that it makes not sense to have a free-running "SOF", but the
-> > > > > manufacturer thinks otherwise :)
-> > > >
-> > > > In that case there's no common clock between the device and the host,
-> > > > which means that clock recovery is impossible. The whole timestamp
-> > > > computation should be bypassed, and the driver should use the system
-> > > > timestamp instead.
-> > >
-> > > Or said differently. The clock recovery is susceptible to the jitter
-> > > in the frame acquisition.
-> > >
-> > > If you have no jitter, the clock recovered will match the reality, and
-> > > if you have bad jitter, it will be as bad as system timestamp.
-> >
-> > The whole point of the clock recovery code is to convert a precise
-> > timestamp, expressed using a device clock that the host has no access
-> > to, to a system clock. This can only be done if the relationship between
-> > the two clocks can be inferred, and the UVC specifies a mechanism to
-> > allow this by using a common clock, in the form of the SOF counter. If
-> > we don't have that, we're essentially screwed, and can't use the
-> > algorithm implemented in the driver at all. I'd much rather skip is
-> > completely in that case, instead of trying to hack the algorithm itself.
+On Tue, Aug 17, 2021 at 09:26:58AM +0200, Jacopo Mondi wrote:
+> Hello,
+>    as noticed during the inclusion of the RDACM20/21 cameras, their driver make
+> use of a library driver that exports functions to control the MAX9271 GMSL
+> serializer embedded in the camera module.
 > 
-> Considering T(f) as the time between the usb package (f) is received
-> and uvc_video_clock_decode()
-> If the jitter between the different T(f)s is under one unit of our
-> clock (1 msec) the accuracy of the "hacked" algorithm and the real
-> algorithm is exactly the same.
+> This series attempts to create an i2c subdevice driver for the MAX9271
+> serializer, to support the camera module operations using the v4l2 subdev
+> operations.
 > 
-> We can agree that 1 msec is a "lot" of time. And if our system has a
-> worse latency than that, the hacked algorithm will not be worse than
-> system timestamping.
+> The series is based on the currently in-review:
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=5847
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=5949
 > 
-> So in most of the situations this patch will produce better timestamps
-> than the current code and never worse than now...
+> The series:
+> 1) Introduced an i2c subdev driver for the MAX9271 GMSL serializer
+> 2) Adapt the RDACM20 driver by removing the MAX9271 handling from there
+> 3) Modify the DTS layout to describe the MAX9271 chip and the camera module
+>    separately
+> 
+> To be done:
+> - bindings
+> - handling of reset lines between max9271 and image sensor
+> - the camera module drivers could be made sensor drivers
+> 
+> However I'm not fully convinced this really brings any benefit as the serializer
+> and the image sensor are actually packed together in the same camera module
+> and are tightly coupled.
 
-How can it produce better timestamps if it's missing the crucial
-information that provides the correlation of timestamps between the
-device and host side ?
+I'm not convinced either. More than that, I think it will make it
+impossible to handle more complex camera topologies.
 
-> Anyway, I have tried to ping the vendor to see if there is something
-> that I could be doing wrong, lets see what they reply.
+> The biggest issue I'm facing, and for which I would be happy to receive pointers
+> to is the following one.
 > 
-> > On a side note, I think the whole clock recovery implementation should
-> > move from the uvcvideo driver to userspace, where we'll have the ability
-> > to perform floating point computation. The kernel implementation is
-> > crude, it should be replaced with a linear regression.
+> The new DTS layout now looks like
 > 
-> Agree, but instead of a linear regression, a resampling algorithm.
+> 	max9286 {
+> 
+> 		i2c-mux {
+> 			i2c@0 {
+> 				max9271 {
+> 				}
+> 
+> 				rdacm20{
+> 				}
+> 			}
+> 		}
+> 	}
+> 
+> If I do rely on the probe sequence implemented by the instantiation of the
+> i2c-mux child nodes:
+> 
+> 	- max9286
+> 		-max9271
+> 		-sensor
+> 
+> 		-max9271
+> 		-sensor
+> 
+> 		...
+> 
+> As per each i2c-mux subnode the max9271 and the connected sensor are probed once
+> after the other.
+> 
+> This unfortunately doesn't play well with the requirements of GMSL bus, for
+> which the post_register operation is being introduced. With the current
+> RDACM20/21 drivers and post_register in place with two cameras connected to the
+> system, the desired initialization sequence looks like:
+> 
+>             MAX9286                  RDACM20/21
+> 
+>             probe()
+>                |
+>                ---------------------> |
+>                                       camera 1 probe() {
+>                                          enable_threshold()
+>                                       }
+>                |<--------------------|
+>             v4l2 async bound {
+> 		completed = no
+>                |
+>                ---------------------> |
+>                                       camera 2 probe() {
+>                                          enable_threshold()
+>                                       }
+>                |<--------------------|
+> 		completed = yes
+> 
+>                 compensate_amplitude()
+> 
+>                 call post_register()
+>                |-------------------->|
+>                                      camera 1 post_register()
+>                                          access camera registers()
+>                                     }
+>                |<-------------------
+>                |-------------------->|
+>                                      camera 2 post_register()
+>                                          access camera registers()
+>                                     }
+>                |<-------------------
+>             }
+> 
+> Which guarantees that the bulk access to the camera registers happens after the
+> deserializer has compensated the channel amplitude.
+> 
+> With the new model I do have a race between the sensor probe and the
+> post_register() of the serializer in case a single camera is connected.
+> 
+> What happes is that as soon as the max9271 registers its async subdev the
+> max9286 notifier completes an call max9271->post_register(). But at that time
+> the sensor subdev has not probed yet, so there is no subdev on which to call
+> post_register in the max9271
+> 
+> following:
+> 
+>     MAX9286                  MAX9271			SENSOR
+> 
+>     probe()
+>        |
+>        ---------------------> |
+> 			      probe() {
+> 				 enable_threshold()
+> 			      }
+>       }
+>        |<--------------------|
+>     v4l2 async bound {
+> 	completed = yes
+>  	subdev->post_register()
+>        |-------------------->|
+> 			     post_register()
+> 				gmsl_bus_config()
+> 				subdev->post_register(NULL)
+> 				segfault
+> 			    }
+> 							probe()
+>     }
+> 
+> If I instead do not use post_register() between the max9271 and the sensor,
+> then the model works for a single camera only (as it is implemented in this
+> version)
+> 
+>     MAX9286                  MAX9271			SENSOR
+> 
+>     probe()
+>        |
+>        ---------------------> |
+> 			      probe() {
+> 				 enable_threshold()
+> 			      }
+>       }
+>        |<--------------------|
+>     v4l2 async bound {
+> 	completed = no
+>        |-------------------->|
+> 							probe() {
+> 							   i2c writes to
+> 							   the sensor without
+> 							   GMSL configuration
+> 							}
+>     }
+> 
+> So, my question is: are there examples on how to have the max9271 driver
+> control the probe time the connected sensor without relying on the probe
+> sequence of the I2C-mux device nodes ? If I could do so, what I would like to
+> realize looks like
 
-A linear regression is likely a good enough resampling algorithm in this
-case, but I'd be curious to see if someone could do better.
+How about making the sensor a child of the max9271 in DT ?
 
-> > > So this patch will still be better than nothing.
-> > >
-> > > > I still find it hard to believe that a Logitech camera would get this
-> > > > wrong.
-> > >
-> > > I guess I can send you a device, or give you access to mine remotely
-> > > if you do not believe me :)
-> > >
-> > > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > > > ---
-> > > > > > > v2: Fix typo in frequency
-> > > > > > >
-> > > > > > >  drivers/media/usb/uvc/uvc_driver.c |  9 +++++++++
-> > > > > > >  drivers/media/usb/uvc/uvc_video.c  | 11 +++++++++--
-> > > > > > >  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
-> > > > > > >  3 files changed, 20 insertions(+), 2 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > > index 9a791d8ef200..d1e6cba10b15 100644
-> > > > > > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > > @@ -2771,6 +2771,15 @@ static const struct usb_device_id uvc_ids[] = {
-> > > > > > >         .bInterfaceSubClass   = 1,
-> > > > > > >         .bInterfaceProtocol   = 0,
-> > > > > > >         .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
-> > > > > > > +     /* Logitech HD Pro Webcam C922 */
-> > > > > > > +     { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> > > > > > > +                             | USB_DEVICE_ID_MATCH_INT_INFO,
-> > > > > > > +       .idVendor             = 0x046d,
-> > > > > > > +       .idProduct            = 0x085c,
-> > > > > > > +       .bInterfaceClass      = USB_CLASS_VIDEO,
-> > > > > > > +       .bInterfaceSubClass   = 1,
-> > > > > > > +       .bInterfaceProtocol   = 0,
-> > > > > > > +       .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_INVALID_DEVICE_SOF) },
-> > > > > > >       /* Chicony CNF7129 (Asus EEE 100HE) */
-> > > > > > >       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> > > > > > >                               | USB_DEVICE_ID_MATCH_INT_INFO,
-> > > > > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > > > > > > index 6d0e474671a2..760ab015cf9c 100644
-> > > > > > > --- a/drivers/media/usb/uvc/uvc_video.c
-> > > > > > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > > > > > > @@ -518,13 +518,20 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
-> > > > > > >       /* To limit the amount of data, drop SCRs with an SOF identical to the
-> > > > > > >        * previous one.
-> > > > > > >        */
-> > > > > > > -     dev_sof = get_unaligned_le16(&data[header_size - 2]);
-> > > > > > > +     if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
-> > > > > > > +             dev_sof = usb_get_current_frame_number(stream->dev->udev);
-> > > > > > > +     else
-> > > > > > > +             dev_sof = get_unaligned_le16(&data[header_size - 2]);
-> > > > > > > +
-> > > > > > >       if (dev_sof == stream->clock.last_sof)
-> > > > > > >               return;
-> > > > > > >
-> > > > > > >       stream->clock.last_sof = dev_sof;
-> > > > > > >
-> > > > > > > -     host_sof = usb_get_current_frame_number(stream->dev->udev);
-> > > > > > > +     if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
-> > > > > > > +             host_sof = dev_sof;
-> > > > > > > +     else
-> > > > > > > +             host_sof = usb_get_current_frame_number(stream->dev->udev);
-> > > > > > >       time = uvc_video_get_time();
-> > > > > > >
-> > > > > > >       /* The UVC specification allows device implementations that can't obtain
-> > > > > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > > > index cce5e38133cd..89d909661915 100644
-> > > > > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > > > @@ -209,6 +209,8 @@
-> > > > > > >  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT      0x00000400
-> > > > > > >  #define UVC_QUIRK_FORCE_Y8           0x00000800
-> > > > > > >  #define UVC_QUIRK_FORCE_BPP          0x00001000
-> > > > > > > +#define UVC_QUIRK_INVALID_DEVICE_SOF 0x00002000
-> > > > > > > +
-> > > > > > >
-> > > > > > >  /* Format flags */
-> > > > > > >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
+> 
+>     MAX9286                  MAX9271			SENSOR
+> 
+>     probe()
+>        |
+>        ---------------------> |
+> 			      camera 1 probe() {
+> 				--------------------->|
+> 							 sensor probe()
+> 				 enable_threshold()
+> 			      }
+>       }
+>        |<--------------------|
+>     v4l2 async bound {
+> 	completed = no
+>        |-------------------->|
+> 			     camera 2 probe() {
+> 				--------------------->|
+> 							sensor probe()
+> 				 enable_threshold()
+> 			      }
+>        |<--------------------|
+> 	completed = yes
+> 
+> 	compensate_amplitude()
+> 	for (subdev)
+> 	   subdev->post_register()
+>           |----------------->|
+> 			     camera 1 post_register()
+> 				subdev->post_register()
+> 				--------------------->|
+> 							post_register()
+> 								i2c writes
+> 	   subdev->post_register()
+>           |----------------->|
+> 			     camera 2 post_register()
+> 				subdev->post_register()
+> 				--------------------->|
+> 							post_register()
+> 								i2c writes
+>     }
+> 
+> 
+> I recall Mauro pointed me to an example when he first suggested to make the
+> MAX9271 library a proper i2c subdevice driver. Do you happen to recall which one
+> was it ?
+> 
+> Thanks
+>    j
+> 
+> Jacopo Mondi (5):
+>   media: i2c: max9271: Rename max9271 library driver
+>   media: i2c: Add MAX9271 I2C driver
+>   media: i2c: rdacm20: Adapt to work with MAX9271
+>   media: i2c: max9286: Fetch PIXEL_RATE in s_stream
+>   arm64: dts: GMSL: Adapt to the use max9271 driver
+> 
+>  MAINTAINERS                                   |  17 +-
+>  arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi |  34 +-
+>  .../arm64/boot/dts/renesas/r8a77970-eagle.dts |   6 +-
+>  drivers/media/i2c/Kconfig                     |  12 +
+>  drivers/media/i2c/Makefile                    |   3 +-
+>  drivers/media/i2c/max9271-lib.c               | 374 +++++++++++++
+>  .../media/i2c/{max9271.h => max9271-lib.h}    |   0
+>  drivers/media/i2c/max9271.c                   | 528 +++++++++++++++---
+>  drivers/media/i2c/max9286.c                   |   6 +-
+>  drivers/media/i2c/rdacm20.c                   | 139 +----
+>  drivers/media/i2c/rdacm21.c                   |   2 +-
+>  11 files changed, 917 insertions(+), 204 deletions(-)
+>  create mode 100644 drivers/media/i2c/max9271-lib.c
+>  rename drivers/media/i2c/{max9271.h => max9271-lib.h} (100%)
 
 -- 
 Regards,
