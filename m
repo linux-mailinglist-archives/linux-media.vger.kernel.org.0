@@ -2,269 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4044F3F5FE0
-	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 16:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97A813F6206
+	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 17:51:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237710AbhHXOHc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Aug 2021 10:07:32 -0400
-Received: from mga02.intel.com ([134.134.136.20]:60138 "EHLO mga02.intel.com"
+        id S238432AbhHXPwT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Aug 2021 11:52:19 -0400
+Received: from mga17.intel.com ([192.55.52.151]:12636 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237545AbhHXOHc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Aug 2021 10:07:32 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10085"; a="204514508"
+        id S238287AbhHXPwR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Aug 2021 11:52:17 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="197586992"
 X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; 
-   d="scan'208";a="204514508"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 07:06:48 -0700
-X-ExtLoop1: 1
+   d="scan'208";a="197586992"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 08:51:29 -0700
 X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; 
-   d="scan'208";a="685377314"
-Received: from lkp-server02.sh.intel.com (HELO 181e7be6f509) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 24 Aug 2021 07:06:46 -0700
-Received: from kbuild by 181e7be6f509 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mIX4g-0000bN-1D; Tue, 24 Aug 2021 14:06:46 +0000
-Date:   Tue, 24 Aug 2021 22:05:46 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-next] BUILD SUCCESS
- d62cd4d277cc711f781a7bdec4109c6148529b25
-Message-ID: <6124fcba.uNwMoExCFdfKIB+K%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+   d="scan'208";a="443843603"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 08:51:27 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 87B3B2021A;
+        Tue, 24 Aug 2021 18:51:25 +0300 (EEST)
+Date:   Tue, 24 Aug 2021 18:51:25 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        andriy.shevchenko@linux.intel.com, rafael@kernel.org
+Subject: Re: [RFC 1/3] imx258: Defer probing on ident register read fail (on
+ ACPI)
+Message-ID: <20210824155125.GJ3@paasikivi.fi.intel.com>
+References: <20210819201936.7390-1-sakari.ailus@linux.intel.com>
+ <20210819201936.7390-2-sakari.ailus@linux.intel.com>
+ <YR7Mu76nlw4kKwE5@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YR7Mu76nlw4kKwE5@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-next
-branch HEAD: d62cd4d277cc711f781a7bdec4109c6148529b25  media: uvcvideo: Remove unused including <linux/version.h>
+Hi Laurent,
 
-possible Warning in current branch (please contact us if interested):
+On Fri, Aug 20, 2021 at 12:27:23AM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Aug 19, 2021 at 11:19:34PM +0300, Sakari Ailus wrote:
+> > Return -EPROBE_DEFER if probing the device fails because of the I²C
+> > transaction (-EIO only). This generally happens when the power on sequence
+> > of the device has not been fully performed yet due to later probing of
+> > other drivers.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/i2c/imx258.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> > 
+> > diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+> > index c249507aa2db..2751c12b6029 100644
+> > --- a/drivers/media/i2c/imx258.c
+> > +++ b/drivers/media/i2c/imx258.c
+> > @@ -1109,6 +1109,14 @@ static int imx258_identify_module(struct imx258 *imx258)
+> >  
+> >  	ret = imx258_read_reg(imx258, IMX258_REG_CHIP_ID,
+> >  			      IMX258_REG_VALUE_16BIT, &val);
+> > +	if (ret == -EIO && is_acpi_device_node(dev_fwnode(&client->dev))) {
+> > +		/*
+> > +		 * If we get -EIO here and it's an ACPI device, there's a fair
+> > +		 * likelihood it's because the drivers required to power this
+> > +		 * device on have not probed yet. Thus return -EPROBE_DEFER.
+> > +		 */
+> > +		return -EPROBE_DEFER;
+> 
+> That's really a hack :-( The driver shouldn't have to deal with this. If
+> power management is handled transparently for the driver, which is
+> what's meant to happen with ACPI, then it should be fully transparent.
+> An -EIO error may mean a real communication issue, turning it into
+> infinite probe deferring isn't right. The ACPI subsystem should figure
+> this out and not probe the driver until all the required resources that
+> are managed transparently for the driver are available.
+> 
+> If this was a one-off hack I may be able to pretend I haven't noticed,
+> but this would need to be copied to every single sensor driver, even
+> every single I2C device driver. It should be fixed properly in the ACPI
+> subsystem instead.
 
-drivers/media/rc/meson-ir-tx.c:327:2-9: line 327 is redundant because platform_get_irq() already prints an error
-drivers/media/rc/meson-ir-tx.c:398:3-8: No need to set .owner here. The core will do it.
+In practice such communication issues are rare and trying an I²C access
+isn't expensive. The patch does solve two practical issues, namely
+correctly probing a driver and making it possible to build more things as
+modules.
 
-Warning ids grouped by kconfigs:
+That said, I agree with with you that ideally a driver would know whether a
+device has been fully powered up or not. There could also be adverse side
+effects as there have been no such checks previously.
 
-gcc_recent_errors
-`-- sparc64-randconfig-c024-20210822
-    |-- drivers-media-rc-meson-ir-tx.c:No-need-to-set-.owner-here.-The-core-will-do-it.
-    `-- drivers-media-rc-meson-ir-tx.c:line-is-redundant-because-platform_get_irq()-already-prints-an-error
+-- 
+Regards,
 
-elapsed time: 4645m
-
-configs tested: 199
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20210824
-arm                         cm_x300_defconfig
-alpha                            alldefconfig
-m68k                         apollo_defconfig
-powerpc                      pmac32_defconfig
-sh                           se7751_defconfig
-arm                       aspeed_g5_defconfig
-sh                          sdk7786_defconfig
-m68k                          sun3x_defconfig
-sh                             shx3_defconfig
-sh                        sh7757lcr_defconfig
-powerpc                   bluestone_defconfig
-arm                         lpc18xx_defconfig
-arc                                 defconfig
-arm                       multi_v4t_defconfig
-s390                                defconfig
-mips                        bcm63xx_defconfig
-xtensa                         virt_defconfig
-mips                      bmips_stb_defconfig
-sh                   secureedge5410_defconfig
-sparc                       sparc32_defconfig
-mips                      maltasmvp_defconfig
-arm                        spear6xx_defconfig
-mips                malta_qemu_32r6_defconfig
-xtensa                       common_defconfig
-arm                         at91_dt_defconfig
-riscv             nommu_k210_sdcard_defconfig
-powerpc                 mpc837x_mds_defconfig
-sh                           se7206_defconfig
-mips                           jazz_defconfig
-arm                       spear13xx_defconfig
-arm                          pxa910_defconfig
-m68k                                defconfig
-powerpc                     akebono_defconfig
-powerpc                      tqm8xx_defconfig
-mips                         db1xxx_defconfig
-mips                          ath25_defconfig
-m68k                           sun3_defconfig
-mips                         tb0287_defconfig
-powerpc                 mpc832x_mds_defconfig
-mips                            e55_defconfig
-microblaze                      mmu_defconfig
-arm                         nhk8815_defconfig
-arm                     davinci_all_defconfig
-mips                           ip32_defconfig
-arm                        multi_v7_defconfig
-riscv                            alldefconfig
-mips                            gpr_defconfig
-h8300                               defconfig
-powerpc                     stx_gp3_defconfig
-arm                            mps2_defconfig
-powerpc                  mpc866_ads_defconfig
-mips                           gcw0_defconfig
-powerpc64                           defconfig
-mips                           mtx1_defconfig
-m68k                         amcore_defconfig
-powerpc                      katmai_defconfig
-powerpc                          g5_defconfig
-arc                        vdk_hs38_defconfig
-powerpc                 mpc8313_rdb_defconfig
-mips                          rb532_defconfig
-ia64                      gensparse_defconfig
-mips                         cobalt_defconfig
-powerpc                    amigaone_defconfig
-powerpc                 mpc8540_ads_defconfig
-arc                         haps_hs_defconfig
-arm                         s5pv210_defconfig
-nios2                            allyesconfig
-powerpc                     sbc8548_defconfig
-arm                        mini2440_defconfig
-arm                          lpd270_defconfig
-powerpc                 mpc8272_ads_defconfig
-arc                      axs103_smp_defconfig
-sh                ecovec24-romimage_defconfig
-arm                          badge4_defconfig
-sh                     sh7710voipgw_defconfig
-arc                 nsimosci_hs_smp_defconfig
-powerpc                 mpc837x_rdb_defconfig
-arm                       imx_v4_v5_defconfig
-sh                         ap325rxa_defconfig
-powerpc                     sequoia_defconfig
-h8300                    h8300h-sim_defconfig
-mips                        nlm_xlp_defconfig
-arm                            zeus_defconfig
-powerpc               mpc834x_itxgp_defconfig
-powerpc                  storcenter_defconfig
-s390                             alldefconfig
-mips                        workpad_defconfig
-arm                          moxart_defconfig
-arm                           corgi_defconfig
-xtensa                  audio_kc705_defconfig
-mips                   sb1250_swarm_defconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a005-20210822
-x86_64               randconfig-a006-20210822
-x86_64               randconfig-a001-20210822
-x86_64               randconfig-a003-20210822
-x86_64               randconfig-a004-20210822
-x86_64               randconfig-a002-20210822
-x86_64               randconfig-a005-20210824
-x86_64               randconfig-a006-20210824
-x86_64               randconfig-a001-20210824
-x86_64               randconfig-a003-20210824
-x86_64               randconfig-a004-20210824
-x86_64               randconfig-a002-20210824
-i386                 randconfig-a006-20210822
-i386                 randconfig-a001-20210822
-i386                 randconfig-a002-20210822
-i386                 randconfig-a005-20210822
-i386                 randconfig-a003-20210822
-i386                 randconfig-a004-20210822
-i386                 randconfig-a006-20210824
-i386                 randconfig-a001-20210824
-i386                 randconfig-a002-20210824
-i386                 randconfig-a005-20210824
-i386                 randconfig-a003-20210824
-i386                 randconfig-a004-20210824
-x86_64               randconfig-a014-20210821
-x86_64               randconfig-a016-20210821
-x86_64               randconfig-a015-20210821
-x86_64               randconfig-a013-20210821
-x86_64               randconfig-a012-20210821
-x86_64               randconfig-a011-20210821
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-i386                 randconfig-c001-20210822
-s390                 randconfig-c005-20210822
-arm                  randconfig-c002-20210822
-riscv                randconfig-c006-20210822
-powerpc              randconfig-c003-20210822
-x86_64               randconfig-c007-20210822
-mips                 randconfig-c004-20210822
-x86_64               randconfig-a005-20210821
-x86_64               randconfig-a001-20210821
-x86_64               randconfig-a006-20210821
-x86_64               randconfig-a003-20210821
-x86_64               randconfig-a004-20210821
-x86_64               randconfig-a002-20210821
-x86_64               randconfig-a014-20210822
-x86_64               randconfig-a016-20210822
-x86_64               randconfig-a015-20210822
-x86_64               randconfig-a013-20210822
-x86_64               randconfig-a012-20210822
-x86_64               randconfig-a011-20210822
-i386                 randconfig-a011-20210822
-i386                 randconfig-a016-20210822
-i386                 randconfig-a012-20210822
-i386                 randconfig-a014-20210822
-i386                 randconfig-a013-20210822
-i386                 randconfig-a015-20210822
-hexagon              randconfig-r041-20210822
-hexagon              randconfig-r045-20210822
-riscv                randconfig-r042-20210822
-s390                 randconfig-r044-20210822
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Sakari Ailus
