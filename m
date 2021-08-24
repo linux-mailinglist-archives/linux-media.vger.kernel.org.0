@@ -2,175 +2,416 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DB483F67F4
-	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 19:40:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEB613F68A8
+	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 20:03:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241772AbhHXRiw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Aug 2021 13:38:52 -0400
-Received: from mail-dm6nam12on2057.outbound.protection.outlook.com ([40.107.243.57]:21796
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S241631AbhHXRgp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Aug 2021 13:36:45 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C65z136P1B1bguvEokk0B5JWd7Pf7LjymwOGq9zQxqHODeKgCVnlosdaH2Zm5oLmYGHNAHbyK91/Xt7E777GKWUmeLPmv9aslhqms/7WSDAb9IEROlB4yZN5VvgutpaEsLlsw1MJOYZ33Du4qkXcYZbkRq+YhMyMQl8cDg+Ocn8ME9XLxzsryuGslnJk8jQ34z85evqaS2Kfi/bSI40V99qBpujePpEnFmzRd5rCdl8XSXhYeHMrrCjd/oZcHiRv7YIi9m8viY2v2tlRtpQibuJsxF6NIAVIKi/Tol8fyXjVnZSnW7McsJZODRIzlaEhsylilqY8616Jg5JTvsTH6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JqrMqXGW3k7lyXx6xxiJ85q4YgI6iQzpgxpkx54miu4=;
- b=PeIphueFRq6aM9G4R1R9hySpxpBwrl9zrZRskWFH6ixZ4bsy6T9LR1lCmyqGKRY4iAtRCncG8KR5RIY6wS3VpcqrdKIqGIFmoh4P24rx8zkPaylQK4Ob3a6X1lquo9rO5qtIzBl/EcIeBFhYOnsMv0G4Mr1M9fKuA2taAliwgI9zRxFNK7UQbx8da0RBGE/CXzd5gB19qQKtKGvrHzcNulnSZXIP+YpsXcqCoeeti7TpnI25UCNgNB+WOW+wWxo0mTdRFt12VydrYGQzcFfVC2+JCG9cjr2CtFyzMOw3pw7m9rVSSU12DvLsybTqoW53ehO+b9MQDQRp4dwAac5Hvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JqrMqXGW3k7lyXx6xxiJ85q4YgI6iQzpgxpkx54miu4=;
- b=XeEPR+DHNY8zUOPJrKxOTbot7z8cgr8lIP7waifOqP/21sJDlMyxq721cPkCeUtH3gGc7zonT7wpsf44a9WEwkZT2SGulYSuJW+B9CUej5KQWznR3spzhc0Z6E8M1q+DJ9s8vlqxTnVFOYoLomabDml4e7DB9CgQe2bDIRw/Y6s222Uqr1WT9jUA5MbH8fnjHzWvlkNh15/vEC8ZJuQzYAAb+DePXM8xMWj1TMfdgtk1+XUGizjAHQ3L/O3zCkPnjWnT8ODF7eY4ez79F7IUOnfSfbu8v4TNW71yKLqxyY5jA9cIcbnqfE8W+ACYwdXfWBTyxYytga5Z/jY5n47pwQ==
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BY5PR12MB4130.namprd12.prod.outlook.com (2603:10b6:a03:20b::16)
- by BYAPR12MB2678.namprd12.prod.outlook.com (2603:10b6:a03:71::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Tue, 24 Aug
- 2021 17:35:59 +0000
-Received: from BY5PR12MB4130.namprd12.prod.outlook.com
- ([fe80::c557:5e37:2390:beb8]) by BY5PR12MB4130.namprd12.prod.outlook.com
- ([fe80::c557:5e37:2390:beb8%7]) with mapi id 15.20.4436.019; Tue, 24 Aug 2021
- 17:35:59 +0000
-Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Doug Ledford <dledford@redhat.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Oded Gabbay <ogabbay@habana.ai>,
-        Tomer Tayar <ttayar@habana.ai>,
-        Yossi Leybovich <sleybo@amazon.com>,
-        Alexander Matushevsky <matua@amazon.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Jianxin Xiong <jianxin.xiong@intel.com>
-References: <20210819230602.GU543798@ziepe.ca>
- <CAKMK7uGgQWcs4Va6TGN9akHSSkmTs1i0Kx+6WpeiXWhJKpasLA@mail.gmail.com>
- <20210820123316.GV543798@ziepe.ca>
- <0fc94ac0-2bb9-4835-62b8-ea14f85fe512@amazon.com>
- <20210820143248.GX543798@ziepe.ca>
- <da6364b7-9621-a384-23b0-9aa88ae232e5@amazon.com>
- <fa124990-ee0c-7401-019e-08109e338042@amd.com>
- <e2c47256-de89-7eaa-e5c2-5b96efcec834@amazon.com>
- <6b819064-feda-b70b-ea69-eb0a4fca6c0c@amd.com>
- <a9604a39-d08f-6263-4c5b-a2bc9a70583d@nvidia.com>
- <20210824173228.GE543798@ziepe.ca>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <1d1bd2d0-f467-4808-632b-1cca1174cfd9@nvidia.com>
-Date:   Tue, 24 Aug 2021 10:35:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <20210824173228.GE543798@ziepe.ca>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY5PR03CA0010.namprd03.prod.outlook.com
- (2603:10b6:a03:1e0::20) To BY5PR12MB4130.namprd12.prod.outlook.com
- (2603:10b6:a03:20b::16)
+        id S238585AbhHXSDs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Aug 2021 14:03:48 -0400
+Received: from mail-ot1-f44.google.com ([209.85.210.44]:39529 "EHLO
+        mail-ot1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231863AbhHXSDm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Aug 2021 14:03:42 -0400
+Received: by mail-ot1-f44.google.com with SMTP id m7-20020a9d4c87000000b0051875f56b95so48350698otf.6;
+        Tue, 24 Aug 2021 11:02:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=uNMRYMllxWL8XGJk3ETIsCnQBUzMHoUdrT2h5SkH/6Y=;
+        b=oZSww1SfBYuf9Gbq8uNnuKhNj5qhaHEQ5ihj4QA83GFSpuuntUm7k3AjSUZsOSnRsj
+         A3X8ZvduNYSdNIGgc1+hKdDdOkQ6gHR8lkuMg3K94ndin69YZefLoC7qFAD0T/TBIYhd
+         98bYv4B8VW6PKLKBA/yVMrofwDhDRIsM9tuQXQ2ZYkaVTfCOXE8GaVOUOzmRuHx7TJYG
+         3FIeltBc59yAsLXAfrspfip8/66ukUaZqFG6fBAdgJ+gnnBQzVdFyW48j8Zr3JLkLvFQ
+         fdhFBxrpSe5rgMQbtSeSp4TtjoEr0qiuZlkBi9JTLsMOTgd1sbDmGhS8iJnt/mMxcEL3
+         nhcA==
+X-Gm-Message-State: AOAM531XUeZ7GeGrXvv90LJkPEkHvWs8Ec3d0CeWHm5mQ1FimSN5XRlI
+        ZnR0Lva67j3HvUyUksKxGQ==
+X-Google-Smtp-Source: ABdhPJx7GMzxBvvweeX3MRXjWRK901bURfGJIMnVZwwutLazSpJSraaQ0ZU64MXeBUVS/xase701ng==
+X-Received: by 2002:aca:d06:: with SMTP id 6mr3707372oin.105.1629828176982;
+        Tue, 24 Aug 2021 11:02:56 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id t1sm4702931otp.9.2021.08.24.11.02.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 11:02:56 -0700 (PDT)
+Received: (nullmailer pid 725482 invoked by uid 1000);
+        Tue, 24 Aug 2021 18:02:54 -0000
+Date:   Tue, 24 Aug 2021 13:02:54 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Moudy Ho <moudy.ho@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org, drinkcat@chromium.org, acourbot@chromium.org,
+        pihsun@chromium.org, menghui.lin@mediatek.com,
+        sj.huang@mediatek.com, ben.lok@mediatek.com, randy.wu@mediatek.com,
+        srv_heupstream@mediatek.com, hsinyi@google.com
+Subject: Re: [PATCH v7 3/5] dt-binding: mt8183: Add Mediatek MDP3 dt-bindings
+Message-ID: <YSU0TrfFCsaI1TqV@robh.at.kernel.org>
+References: <20210824100027.25989-1-moudy.ho@mediatek.com>
+ <20210824100027.25989-4-moudy.ho@mediatek.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.2.54.195] (216.228.112.22) by BY5PR03CA0010.namprd03.prod.outlook.com (2603:10b6:a03:1e0::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Tue, 24 Aug 2021 17:35:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e3e4ddb9-719b-4edb-c304-08d96725a292
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2678:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR12MB2678E79325D07CE7D5F8112BA8C59@BYAPR12MB2678.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: byf9b2XDry4nSzz637gTsG0ynJtigJKad0ldPUIDcRBhLDkxov9jF/Oic1/FGl00o23qCkcfdCt4csQYC/uXu7ygCrLBrVNbrrlNwFjRPXmoC2Wrj4NY4IRqat0rU6pd0VyVUyTTWKCB4DPLA9OYXD4qgSpZWqMnOoQDk39QM6BpG6IUbpYatBNTt1DS8ZxFLwq38yVjzViPx6E888PgnTBfhrb4S2f60ktRDGwrl/2TuhdlDR4QL0rBEH7KEqs473br+T549hSFaTSnsjro4ZsVdCqUuaNv65oZjD7CtBu4ItNbzfQavg33R7qiYJnCZwRiTZ4M/osOcnT/UXx16qrK6ntPyilDhE72+WehsUiV2+mFfVVOEXUz292AF7VGzbH8FYng+8WTbC+H6eE0AFJ5Phv1eNg/9336wCIgZIJe9Pi5uDdQxj+kMzxymhaEGHBNV5PgdTK08qOEoSTCd1k8yeLeNAOOCh1bfNL3dztVqdFbXnOyJxaxI/oOS+3NcedXxBKGqWTthjo7sR5SdTWDNX0T1NnMdRjF7Q/E1WtTzoJfyGr25pTosXf6be+usVBAHEQLcXDO+aOML1/UEs1UdMBYPUT8qNjW6z0MR5e+waogMrodZ+NomugOVBDEd8d+GbS2TfT/oBY4duCtxI+1PONPSwcqsRelXXFHB8DH+tBTFFq1sw1fsH//LdHqBU216BxRbwp1kOnm8GMEc2WXgML+VRbNjjJV1n5HdU4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4130.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(376002)(366004)(136003)(346002)(16576012)(7416002)(6916009)(316002)(478600001)(54906003)(2906002)(4326008)(66476007)(38100700002)(8676002)(5660300002)(53546011)(31696002)(86362001)(31686004)(36756003)(26005)(2616005)(956004)(6486002)(8936002)(66946007)(83380400001)(66556008)(186003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YmwwL0VBU245SXRkU0RWSFB0SWdkRW5GV3pUNXdWenJLNnI4dzRlM0V0WFRD?=
- =?utf-8?B?Y0V1YTVlWGNSTkFnWGlQejBHYUppVnBUelFla0JzYkUxWXRTMWJ2SEcxdk9n?=
- =?utf-8?B?aktYVDIrT0dUczYwdEticGhpQ25obklpeTJ2R0V1bC9LM1NBUUZZcjJrcDds?=
- =?utf-8?B?TVkxbGRQT1pUbmFCVHpIdzhyMkllZ2lqWjNGYzFoUzQrcU1CNHJYZnpNczRi?=
- =?utf-8?B?NHE4NTc0OGdXam9pWGhrTWlTVk0wMWhvOUVCaTY2YXFOdTQ3M3pWTzljM2cw?=
- =?utf-8?B?eE1lK2l6SUdjSmwweVZDeTViYXhxdnJzMjZIVUd4V1BQM25GcEM3RlJiWGNs?=
- =?utf-8?B?NkVSQ1J2VVM4b3RqR01VK2Zqd3NBeHozeThsWHpzZ1BmNDhGaGNzQUJyWFA3?=
- =?utf-8?B?eEFSa2M4MTg0bTkvWlRocHZnYnZHcnl4YTFlWXhIZTJ2bjUwdlB0bzh6SHlX?=
- =?utf-8?B?N2FPS3ZhcjVJa1lOUXh4ei9ZeHMralZHYkZ5bi9PaTJOWml6M1IrMUhmNmsr?=
- =?utf-8?B?cjM1RlFaSEJXQ1pscFJoUVd4b3ZKOUgyNy9KNndsZlFMbitCdFNnV0hvWXht?=
- =?utf-8?B?b25kVzllelVUWnI3aGwwcnRkYWNycS9vMmdNVHJFcSsrVzY0S0JlTCtEcTkr?=
- =?utf-8?B?QlBsZHhZVkNzRVJVZjdzNVErRlFuRUh1NU9relVISUl4S2VoU1dKQTRSOGNY?=
- =?utf-8?B?MUxQWG9mU0EzUFo5UFpOTkN0VnBQUDBUSWg2S3lmbzBnMTFCT1R3WTMxNGY2?=
- =?utf-8?B?bld2TVFxdnlyc3RZRi9uVFNtUmZQZENZdkVlMVpuNklSbDJZYktwUFAvY2NM?=
- =?utf-8?B?ZDlSZ05YQWVhQkx5L0hYcjBtWTNDME1iMWNad0VIUC9tV1AyUEg4MjdsZ3Vr?=
- =?utf-8?B?MjI0eHJRUzhzOFlqbEdCSGVBVWlPVEpUQzlQc0hqd0x0THFnY3N1N3hSakJi?=
- =?utf-8?B?YzJvSDNKQ2tOdmh6WExWY3dIbU56OGNyUXU0RVk5RVRIRjhDbFlKY0JZYjB2?=
- =?utf-8?B?R3BiMkxuK0hGUi9xT0dodE82djJWMHcvZHhlTE9YNzBSWmRDU1lmOE45ZDBw?=
- =?utf-8?B?Njd1VlRXOHdZUUNNZmQ4S0FITHZRaDhpS0owTENSN2ZkMFlObWl2TUNER2t3?=
- =?utf-8?B?eWVNaW9NWVBYNmozUU5vZ3h1TUNvNkZ4Wi9ia3Jxc1JiZ2hnMlBGTXMrYjJl?=
- =?utf-8?B?dGVGdjBxUmZNb3BGb09VL2FUNEpweklMV1pFTVAwLzJ3ZU00TUZKVXZlQmNJ?=
- =?utf-8?B?MzZKcVpNTUJJZWh6YUJzR3B2SmlCU2dFWC9lWFNpL2YzWWZwekQxWHcwYjdY?=
- =?utf-8?B?di8vZ1VTUVpRRDgvbVRlQmc1cGozdHBaVEt0WC91YWVTZmdMcktVUkh4YlFW?=
- =?utf-8?B?NzIxRlh2YWdsalE0cmUrVEhFbFVWVG5BaUhjOU53R1FlQlR4L3BDWXZxT3Nz?=
- =?utf-8?B?UHBNdXdrZTFmVVV4MGY2SFdQS0dZa3NXQlFQdUNOSGFVQ21XTlRlQy8rWXlY?=
- =?utf-8?B?bmJiNjZvZmxuM215SHdvdHRJeWJXbTRDNlQzNlJFaGNhUmJMUW9Gem5XWDJn?=
- =?utf-8?B?NVhmUWM2c0xjT2MreWM1YWgwMEt5MjgxTm1vTUtLbzFtZFlUeURDTlFKNEhi?=
- =?utf-8?B?bDJGU2p0L0N0Nkw2eGppeWM0cjVVZm0xcm9pcmVyMmE5WWNma0ZsbkdlamhI?=
- =?utf-8?B?NXNkVVRkMmNCenNzRVRlQjc1SlFZcEtwVlpJa3ZORTJQeitHeEpyUzF4RktC?=
- =?utf-8?Q?ewHAjzIOLuPH3YBaFbcIc0g9f66MmOqBD+L2PRs?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3e4ddb9-719b-4edb-c304-08d96725a292
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4130.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 17:35:59.0804
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zFwjtVyEbOPxYB2D6GEXYLWQ+4s8B8+m14hMJqCVoLUtwbSyghO0u0IZjAJYqIJywBhvNSO+0U+CvPXwUlTZpQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2678
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210824100027.25989-4-moudy.ho@mediatek.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/24/21 10:32 AM, Jason Gunthorpe wrote:
-...
->>> And yes at least for the amdgpu driver we migrate the memory to host
->>> memory as soon as it is pinned and I would expect that other GPU drivers
->>> do something similar.
->>
->> Well...for many topologies, migrating to host memory will result in a
->> dramatically slower p2p setup. For that reason, some GPU drivers may
->> want to allow pinning of video memory in some situations.
->>
->> Ideally, you've got modern ODP devices and you don't even need to pin.
->> But if not, and you still hope to do high performance p2p between a GPU
->> and a non-ODP Infiniband device, then you would need to leave the pinned
->> memory in vidmem.
->>
->> So I think we don't want to rule out that behavior, right? Or is the
->> thinking more like, "you're lucky that this old non-ODP setup works at
->> all, and we'll make it work by routing through host/cpu memory, but it
->> will be slow"?
+On Tue, Aug 24, 2021 at 06:00:25PM +0800, Moudy Ho wrote:
+> This patch adds DT binding document for Media Data Path 3 (MDP3)
+> a unit in multimedia system used for scaling and color format convert.
 > 
-> I think it depends on the user, if the user creates memory which is
-> permanently located on the GPU then it should be pinnable in this way
-> without force migration. But if the memory is inherently migratable
-> then it just cannot be pinned in the GPU at all as we can't
-> indefinately block migration from happening eg if the CPU touches it
-> later or something.
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> ---
+>  .../bindings/media/mediatek,mdp3-ccorr.yaml   |  57 +++++
+>  .../bindings/media/mediatek,mdp3-rdma.yaml    | 207 ++++++++++++++++++
+>  .../bindings/media/mediatek,mdp3-rsz.yaml     |  65 ++++++
+>  .../bindings/media/mediatek,mdp3-wdma.yaml    |  71 ++++++
+>  .../bindings/media/mediatek,mdp3-wrot.yaml    |  71 ++++++
+>  5 files changed, 471 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-ccorr.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-wdma.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
 > 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-ccorr.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-ccorr.yaml
+> new file mode 100644
+> index 000000000000..59fd68b46022
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-ccorr.yaml
+> @@ -0,0 +1,57 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-ccorr.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Mediatek Media Data Path 3 CCORR Device Tree Bindings
+> +
+> +maintainers:
+> +  - Daoyuan Huang <daoyuan.huang@mediatek.com>
+> +  - Moudy Ho <moudy.ho@mediatek.com>
+> +
+> +description: |
+> +  One of Media Data Path 3 (MDP3) components used to do color correction with 3X3 matrix.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +        - mediatek,mt8183-mdp3-ccorr
+> +
+> +  mediatek,mdp3-id:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    maxItems: 1
+> +    description: |
+> +      HW index to distinguish same functionality modules.
 
-OK. I just want to avoid creating any API-level assumptions that dma_buf_pin()
-necessarily implies or requires migrating to host memory.
+If we wanted h/w indexes in DT, we'd have a standard property. Why do 
+you need this?
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+> +
+> +  reg:
+> +    description: |
+> +      Physical base address and length of the function block
+> +      register space, the number aligns with the component
+> +      and its own subcomponent.
+
+Drop and add 'maxItems: 1'
+
+> +
+> +  mediatek,gce-client-reg:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description: |
+> +      sub-system id corresponding to the global command engine (GCE)
+
+You mean 'phandle to GCE and sub-system id'?
+
+> +      register address.
+> +      $ref: /schemas/mailbox/mtk-gce.txt
+
+Kind of looks like jsonschema but in the description and to a .txt 
+file...
+
+> +
+> +  clocks:
+> +    minItems: 1
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8183-clk.h>
+> +    #include <dt-bindings/gce/mt8183-gce.h>
+> +
+> +    mdp3_ccorr: mdp3_ccorr@1401c000 {
+> +      compatible = "mediatek,mt8183-mdp3-ccorr";
+> +      mediatek,mdp3-id = <0>;
+> +      reg = <0x1401c000 0x1000>;
+> +      mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0xc000 0x1000>;
+> +      clocks = <&mmsys CLK_MM_MDP_CCORR>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> new file mode 100644
+> index 000000000000..b355d7fe791e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> @@ -0,0 +1,207 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Mediatek Media Data Path 3 Device Tree Bindings
+> +
+> +maintainers:
+> +  - Daoyuan Huang <daoyuan.huang@mediatek.com>
+> +  - Moudy Ho <moudy.ho@mediatek.com>
+> +
+> +description: |
+> +  One of Media Data Path 3 (MDP3) components used to do read DMA.
+> +  RDMA0 is also used to be a controller node containing MMSYS,
+> +  MUTEX, GCE and SCP settings.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +        - enum:
+
+Should be indented 2 more spaces. Install yamllint and check with 'make 
+dt_binding_check'.
+
+> +          # controller node
+> +          - mediatek,mt8183-mdp3
+
+And then 2 more here.
+
+> +        - enum:
+> +          - mediatek,mt8183-mdp3-rdma
+> +
+> +      - items:
+> +        - enum:
+> +          # read DMA
+> +          - mediatek,mt8183-mdp3-rdma
+> +
+> +  mediatek,scp:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    maxItems: 1
+> +    description: |
+> +      The node of system control processor (SCP), using
+> +      the remoteproc & rpmsg framework.
+> +      $ref: /schemas/remoteproc/mtk,scp.yaml
+> +
+> +  mediatek,mdp3-id:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    maxItems: 1
+> +    description: |
+> +      In MDP3, it can allocate multiple identical modules for
+> +      different data path selection or multi-pipeline execution.
+> +      This node is used to indicate the ID of each module.
+> +
+> +  mdp3-comps:
+> +    $ref: /schemas/types.yaml#/definitions/string-array
+> +    items:
+> +        - enum:
+
+And this is 2 too many spaces...
+
+> +          # MDP direct-link input path selection, create a
+> +          # component for path connectedness of HW pipe control
+> +          - mediatek,mt8183-mdp3-dl1
+> +        - enum:
+> +          - mediatek,mt8183-mdp3-dl2
+> +        - enum:
+> +          # MDP direct-link output path selection, create a
+> +          # component for path connectedness of HW pipe control
+> +          - mediatek,mt8183-mdp3-path1
+> +        - enum:
+> +          - mediatek,mt8183-mdp3-path2
+> +        - enum:
+> +          # Input DMA of ISP PASS2 (DIP) module for raw image input
+> +          - mediatek,mt8183-mdp3-imgi
+> +        - enum:
+> +          # Output DMA of ISP PASS2 (DIP) module for YUV image output
+> +          - mediatek,mt8183-mdp3-exto
+> +
+> +  mdp3-comp-ids:
+> +    maxItems: 1
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+
+If only a single item, then it's a 'uint32' not an array.
+
+> +    description: |
+> +      Pipeline ID of MDP direct-link or DIP.
+> +
+> +  reg:
+> +    description: |
+> +      Physical base address and length of the function block
+> +      register space, the number aligns with the component
+> +      and its own subcomponent.
+> +
+> +  mediatek,gce-client-reg:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description: |
+> +      sub-system id corresponding to the global command engine (GCE)
+> +      register address.
+> +      $ref: /schemas/mailbox/mtk-gce.txt
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 6
+
+Need to define what they are.
+
+> +
+> +  iommus:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+
+iommus already has a type definition.
+
+> +    description: |
+> +      Should point to the respective IOMMU block with master
+> +      port as argument.
+> +      $ref: /schemas/iommu/mediatek,iommu.yaml
+
+No. Drop (the whole description because you don't need generic 
+descriptions for common properties).
+
+What's needed is how many entries (maxItems: 1).
+
+> +
+> +  mediatek,mmsys:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    maxItems: 1
+> +    description: |
+> +      The node of mux(multiplexer) controller for HW connections.
+> +
+> +  mediatek,mm-mutex:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    maxItems: 1
+> +    description: |
+> +      The node of sof(start of frame) signal controller.
+> +
+> +  mediatek,mailbox-gce:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      The node of global command engine (GCE), used to read/write
+> +      registers with critical time limitation.
+> +      $ref: /schemas/mailbox/mtk-gce.txt
+> +
+> +  mboxes:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description: |
+> +      $ref: /schemas/mailbox/mailbox.txt
+> +
+> +  gce-subsys:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description: |
+> +      sub-system id corresponding to the global command engine (GCE)
+> +      register address.
+> +      $ref: /schemas/mailbox/mtk-gce.txt
+> +
+> +if:
+> +  properties:
+> +    compatible:
+> +      items:
+> +        - enum:
+> +          - mediatek,mt8183-mdp3
+> +        - enum:
+> +          - mediatek,mt8183-mdp3-rdma
+
+Normally, you want to use 'contains' for if/then schemas:
+
+compatible:
+  contains:
+    const: mediatek,mt8183-mdp3
+
+> +
+> +then:
+> +  required:
+> +    - mediatek,scp
+> +    - mediatek,mmsys
+> +    - mediatek,mm-mutex
+> +    - mediatek,mailbox-gce
+> +    - mboxes
+> +    - gce-subsys
+> +
+> +required:
+> +  - compatible
+> +  - mediatek,mdp3-id
+> +  - reg
+> +  - clocks
+> +  - mediatek,gce-client-reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8183-clk.h>
+> +    #include <dt-bindings/gce/mt8183-gce.h>
+> +    #include <dt-bindings/power/mt8183-power.h>
+> +    #include <dt-bindings/memory/mt8183-larb-port.h>
+> +
+> +    mdp3_rdma0: mdp3_rdma0@14001000 {
+> +      compatible = "mediatek,mt8183-mdp3",
+> +                   "mediatek,mt8183-mdp3-rdma";
+> +      mediatek,scp = <&scp>;
+> +      mediatek,mdp3-id = <0>;
+> +      mdp3-comps = "mediatek,mt8183-mdp3-dl1", "mediatek,mt8183-mdp3-dl2",
+> +                   "mediatek,mt8183-mdp3-path1", "mediatek,mt8183-mdp3-path2",
+> +                   "mediatek,mt8183-mdp3-imgi", "mediatek,mt8183-mdp3-exto";
+> +      mdp3-comp-ids = <0 1 0 1 0 1>;
+> +      reg = <0x14001000 0x1000>,
+> +            <0x14000000 0x1000>,
+> +            <0x14005000 0x1000>,
+> +            <0x14006000 0x1000>,
+> +            <0x15020000 0x1000>;
+> +      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x1000 0x1000>,
+> +                                <&gce SUBSYS_1400XXXX 0 0x1000>,
+> +                                <&gce SUBSYS_1400XXXX 0x5000 0x1000>,
+> +                                <&gce SUBSYS_1400XXXX 0x6000 0x1000>,
+> +                                <&gce SUBSYS_1502XXXX 0 0x1000>;
+> +      power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
+> +      clocks = <&mmsys CLK_MM_MDP_RDMA0>,
+> +               <&mmsys CLK_MM_MDP_RSZ1>,
+> +               <&mmsys CLK_MM_MDP_DL_TXCK>,
+> +               <&mmsys CLK_MM_MDP_DL_RX>,
+> +               <&mmsys CLK_MM_IPU_DL_TXCK>,
+> +               <&mmsys CLK_MM_IPU_DL_RX>;
+> +      iommus = <&iommu>;
+> +      mediatek,mmsys = <&mmsys>;
+> +      mediatek,mm-mutex = <&mutex>;
+> +      mediatek,mailbox-gce = <&gce>;
+> +      mboxes = <&gce 20 CMDQ_THR_PRIO_LOWEST 0>,
+> +               <&gce 21 CMDQ_THR_PRIO_LOWEST 0>,
+> +               <&gce 22 CMDQ_THR_PRIO_LOWEST 0>,
+> +               <&gce 23 CMDQ_THR_PRIO_LOWEST 0>;
+> +      gce-subsys = <&gce 0x14000000 SUBSYS_1400XXXX>,
+> +                   <&gce 0x14010000 SUBSYS_1401XXXX>,
+> +                   <&gce 0x14020000 SUBSYS_1402XXXX>,
+> +                   <&gce 0x15020000 SUBSYS_1502XXXX>;
+> +    };
+> \ No newline at end of file
+
+Fix this.
+
+Similar comments on the rest.
+
+Rob
