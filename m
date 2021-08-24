@@ -2,147 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 021983F69DF
-	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 21:30:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87FA53F69F6
+	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 21:39:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234586AbhHXTbj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Aug 2021 15:31:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35704 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234287AbhHXTbj (ORCPT
+        id S234956AbhHXTkD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Aug 2021 15:40:03 -0400
+Received: from smtp12.smtpout.orange.fr ([80.12.242.134]:56198 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234287AbhHXTj7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Aug 2021 15:31:39 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C43C1C0613C1
-        for <linux-media@vger.kernel.org>; Tue, 24 Aug 2021 12:30:54 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id u21so14841331qtw.8
-        for <linux-media@vger.kernel.org>; Tue, 24 Aug 2021 12:30:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nISK/DnSMLsPKL33eQfrjbTBgFhp/AOhrSTXl8tgvVY=;
-        b=BBZ/DdRgt5H9lez5WzLUWLJI8CSm49bjqG/ijHPqdU//5r21+B/V9LDmau1ile99vj
-         ihXEXykNbCWxBdSt1o+/OBIH3V6JByVsYZzFSIvZZA9pAuP1aGsZD1dx/JOQtpO2F070
-         xkmZBbOZYa2jF9TmJTfo46ih/34THHx3HNpZ200z1wfuD2NUWKDUtHpXhSoZiVJ79CK4
-         WIqvRnCwVSMZ5qqvSTkaScBbjOjAUluNvFDFs3ao3V2i0DYaiCk5S344s1rEeQWfzGoH
-         0kL2BPZBmWJzrZdjhRM7ZGEbilknKYgR2dlZRPL8wNh4i3BfXwj7Z6qyQkxhunknYZvn
-         2hdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nISK/DnSMLsPKL33eQfrjbTBgFhp/AOhrSTXl8tgvVY=;
-        b=ejUBPavRWpEmRb8EIf6tF9CbBddajEplrV+OxGJWH/Lu/0ZVkyx9Gw09CPUjw9x7o1
-         Kd6GT27bEYaklArmBrvuoBWOqKINYVQMWH58J7PBdQZjOjDBELVatFrlA6NJM9v9eK5M
-         +RbW9cKrm8x0CLdxdkRobqwcpmTCKNn2WtJDTZ4ky0b9WqnnXOPkIAr8Yf/Py24RLCSs
-         4vT91Nz+2jHacxYDyTSKRrANAEmnsqMYATE2IZN+j8rRTGPZUovLgMYTj6v1bZKdtq7V
-         Yf4gXohACw0tb4WtxJae54keIxHCcO4z9l+xyurZYkvEuenaI630GOVYbn43LgrHBi+c
-         64Bw==
-X-Gm-Message-State: AOAM533PCa9GKll+gZce3I1GMCCsLrCU4n2WmV1VE2m8KM7+r+tgWoFZ
-        0wk3TftGZnZ3cHSqG26NC3Wvxg==
-X-Google-Smtp-Source: ABdhPJxXjfrAKQzkOvCMB0CeoOhrejCp5dMuDkaR5tjrmjOC+w0vSyChN42xlzQjduZni77z8K57jg==
-X-Received: by 2002:ac8:dc9:: with SMTP id t9mr35660938qti.293.1629833453961;
-        Tue, 24 Aug 2021 12:30:53 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id q22sm6382139qtr.95.2021.08.24.12.30.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 12:30:53 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1mIc8K-004ZMK-M2; Tue, 24 Aug 2021 16:30:52 -0300
-Date:   Tue, 24 Aug 2021 16:30:52 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Dave Airlie <airlied@gmail.com>
-Cc:     John Hubbard <jhubbard@nvidia.com>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Doug Ledford <dledford@redhat.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Oded Gabbay <ogabbay@habana.ai>,
-        Tomer Tayar <ttayar@habana.ai>,
-        Yossi Leybovich <sleybo@amazon.com>,
-        Alexander Matushevsky <matua@amazon.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Jianxin Xiong <jianxin.xiong@intel.com>
-Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
-Message-ID: <20210824193052.GF543798@ziepe.ca>
-References: <0fc94ac0-2bb9-4835-62b8-ea14f85fe512@amazon.com>
- <20210820143248.GX543798@ziepe.ca>
- <da6364b7-9621-a384-23b0-9aa88ae232e5@amazon.com>
- <fa124990-ee0c-7401-019e-08109e338042@amd.com>
- <e2c47256-de89-7eaa-e5c2-5b96efcec834@amazon.com>
- <6b819064-feda-b70b-ea69-eb0a4fca6c0c@amd.com>
- <a9604a39-d08f-6263-4c5b-a2bc9a70583d@nvidia.com>
- <20210824173228.GE543798@ziepe.ca>
- <1d1bd2d0-f467-4808-632b-1cca1174cfd9@nvidia.com>
- <CAPM=9txd71fisvZ1Es5Fv2mwR2vWfHJarya7oeKOm2aq6tH0HQ@mail.gmail.com>
+        Tue, 24 Aug 2021 15:39:59 -0400
+Received: from [192.168.1.18] ([90.126.253.178])
+        by mwinf5d35 with ME
+        id lXfC2500Q3riaq203XfC8y; Tue, 24 Aug 2021 21:39:13 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 24 Aug 2021 21:39:13 +0200
+X-ME-IP: 90.126.253.178
+Subject: Re: [PATCH] parisc/parport_gsc: switch from 'pci_' to 'dma_' API
+To:     Robin Murphy <robin.murphy@arm.com>,
+        James.Bottomley@HansenPartnership.com, deller@gmx.de,
+        sudipm.mukherjee@gmail.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com
+Cc:     linux-parisc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <93b21629db55629ec3d384e8184c4a9dd0270c11.1629754126.git.christophe.jaillet@wanadoo.fr>
+ <1a6f5b12-7cf2-cdb8-7a60-20c2d2ee38f3@arm.com>
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Message-ID: <c9d650ba-686a-7813-b0a1-eaef4eef612e@wanadoo.fr>
+Date:   Tue, 24 Aug 2021 21:39:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPM=9txd71fisvZ1Es5Fv2mwR2vWfHJarya7oeKOm2aq6tH0HQ@mail.gmail.com>
+In-Reply-To: <1a6f5b12-7cf2-cdb8-7a60-20c2d2ee38f3@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 25, 2021 at 05:15:52AM +1000, Dave Airlie wrote:
-> On Wed, 25 Aug 2021 at 03:36, John Hubbard <jhubbard@nvidia.com> wrote:
-> >
-> > On 8/24/21 10:32 AM, Jason Gunthorpe wrote:
-> > ...
-> > >>> And yes at least for the amdgpu driver we migrate the memory to host
-> > >>> memory as soon as it is pinned and I would expect that other GPU drivers
-> > >>> do something similar.
-> > >>
-> > >> Well...for many topologies, migrating to host memory will result in a
-> > >> dramatically slower p2p setup. For that reason, some GPU drivers may
-> > >> want to allow pinning of video memory in some situations.
-> > >>
-> > >> Ideally, you've got modern ODP devices and you don't even need to pin.
-> > >> But if not, and you still hope to do high performance p2p between a GPU
-> > >> and a non-ODP Infiniband device, then you would need to leave the pinned
-> > >> memory in vidmem.
-> > >>
-> > >> So I think we don't want to rule out that behavior, right? Or is the
-> > >> thinking more like, "you're lucky that this old non-ODP setup works at
-> > >> all, and we'll make it work by routing through host/cpu memory, but it
-> > >> will be slow"?
-> > >
-> > > I think it depends on the user, if the user creates memory which is
-> > > permanently located on the GPU then it should be pinnable in this way
-> > > without force migration. But if the memory is inherently migratable
-> > > then it just cannot be pinned in the GPU at all as we can't
-> > > indefinately block migration from happening eg if the CPU touches it
-> > > later or something.
-> > >
-> >
-> > OK. I just want to avoid creating any API-level assumptions that dma_buf_pin()
-> > necessarily implies or requires migrating to host memory.
+Le 24/08/2021 à 12:24, Robin Murphy a écrit :
+> On 2021-08-23 22:30, Christophe JAILLET wrote:
+>> The wrappers in include/linux/pci-dma-compat.h should go away.
+>>
+>> The patch has been generated with the coccinelle script below.
+>>
+>> @@
+>> expression e1, e2, e3, e4;
+>> @@
+>> -    pci_free_consistent(e1, e2, e3, e4)
+>> +    dma_free_coherent(&e1->dev, e2, e3, e4)
+>>
+>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>> ---
+>> If needed, see post from Christoph Hellwig on the kernel-janitors ML:
+>>     https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
+>>
+>> This has *NOT* been compile tested because I don't have the needed
+>> configuration.
+>> ssdfs
+>> ---
+>>   drivers/parport/parport_gsc.c | 5 ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/parport/parport_gsc.c 
+>> b/drivers/parport/parport_gsc.c
+>> index 1e43b3f399a8..db912fa6b6df 100644
+>> --- a/drivers/parport/parport_gsc.c
+>> +++ b/drivers/parport/parport_gsc.c
+>> @@ -390,9 +390,8 @@ static int __exit parport_remove_chip(struct 
+>> parisc_device *dev)
+>>           if (p->irq != PARPORT_IRQ_NONE)
+>>               free_irq(p->irq, p);
+>>           if (priv->dma_buf)
+>> -            pci_free_consistent(priv->dev, PAGE_SIZE,
+>> -                        priv->dma_buf,
+>> -                        priv->dma_handle);
+>> +            dma_free_coherent(&priv->dev->dev, PAGE_SIZE,
+>> +                      priv->dma_buf, priv->dma_handle);
 > 
-> I'm not sure we should be allowing dma_buf_pin at all on
-> non-migratable memory, what's to stop someone just pinning all the
-> VRAM and making the GPU unuseable?
+> Hmm, seeing a free on its own made me wonder where the corresponding 
+> alloc was, but on closer inspection it seems there isn't one. AFAICS 
+> priv->dma_buf is only ever assigned with NULL (and priv->dev doesn't 
+> seem to be assigned at all), so this could likely just be removed. In 
+> fact it looks like all the references to DMA in this driver are just 
+> copy-paste from parport_pc and unused.
+> 
+> Robin.
+> 
 
-IMHO the same thinking that prevents pining all of system ram and
-making the system unusable? GPU isn't so special here. The main
-restriction is the pinned memory ulimit. For most out-of-the-box cases
-this is set to something like 64k
+Agreed. I had the same reaction, but as the patch should basically be a 
+no-op, it looked safe, even if non-optimal.
 
-For the single-user HPC use cases it is made unlimited.
+Looking at parport_gsc_private, pword, readIntrThreshold and 
+writeIntrThreshold also look unused.
 
-> My impression from this is we've designed hardware that didn't
-> consider the problem, and now to let us use that hardware in horrible
-> ways we should just allow it to pin all the things.
+My own goal is to remove the 'pci_free_consistent()' call in order to 
+remove a deprecated API.
 
-It is more complex than that, HW that can support dynamic memory under
-*everything* is complicated (and in some cases slow!). As there is
-only a weak rational to do this, we don't see it in often in the
-market.
+As said, I can not compile this driver.
+I could send a blind fix that axes 'pci_free_consistent()' and remove 
+some fields in parport_gsc_private, but I'm not sure that it is the best 
+way to go.
 
-Jason
+Do you prefer to look at it by yourself or do you prefer to compile test 
+my trials?
+
+
+CJ
+
+
+
+>>           kfree (p->private_data);
+>>           parport_put_port(p);
+>>           kfree (ops); /* hope no-one cached it */
+>>
+> 
+
