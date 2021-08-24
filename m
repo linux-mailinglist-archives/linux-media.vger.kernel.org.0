@@ -2,258 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F197C3F59B5
-	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 10:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97B0D3F5A6B
+	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 11:06:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234997AbhHXINO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Aug 2021 04:13:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45722 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234936AbhHXINN (ORCPT
+        id S235509AbhHXJHN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Aug 2021 05:07:13 -0400
+Received: from smtp-fw-9103.amazon.com ([207.171.188.200]:9239 "EHLO
+        smtp-fw-9103.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230159AbhHXJHK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Aug 2021 04:13:13 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47825C061757
-        for <linux-media@vger.kernel.org>; Tue, 24 Aug 2021 01:12:29 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id g135so2903662wme.5
-        for <linux-media@vger.kernel.org>; Tue, 24 Aug 2021 01:12:29 -0700 (PDT)
+        Tue, 24 Aug 2021 05:07:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:references:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=5TlPvtMSTybxbMv0JTA/P3ma0mYuHcljD7aP7GqZqlQ=;
-        b=kMBB3z91YbVbX/JHfl5F8oF+HtBWNwP7jK6c9TumOix8RC/mZ8Koy+1pWgNdbIylFB
-         lJDr1eioqe1gyahKorAQmbYRVoQwBWd6+I6v+31fs/RX7tkN9OMpOxbDUaBldx7SyeV4
-         LN2zuG0nuao8dLWiMNsWBhurjr6GiibSQl9ws0b+G7c6x2vE6z4EgkeW/jNcJNa6Jti6
-         SAIbJz9UurpNss0AR/WHYpHFvCSfU6MYsB7wApN5riPrYuPo5rVVcNwbKY0uMQNaMhCk
-         YryAn7pVArQKu4fEaHINS87be1thNvxlSf8CSOewARCeXtc5bUjgmRGgDfE/JNvVq3pc
-         f5gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=5TlPvtMSTybxbMv0JTA/P3ma0mYuHcljD7aP7GqZqlQ=;
-        b=t6MrvS+J7BHn31i8imDlvrBBA7bUZQ5Nc1F22kbxZT9WwbGXggGFBY0984cfH7hwbN
-         vK/rSa4HgIwLZ3aZJRul1dCexi49G2KnLS2Edd9o5jyuQOATiq/ONvTOjOytiqBYe1yv
-         v/zGfyEnzgPpsxjdAIwF8ySImWTVqZLEqqahPXYofqBjYjT6gxaiH3ZxiA1DY8hz5ujg
-         c2iD+9wARo9Sfnl6fcr9SZpeM+sky+4YxPfadsK5BKmDGSMuySnvInFScPpPv/iX1wND
-         Vppfsz7vCWB9/kDSfqziAm999X2zdAP5dNOy+FORQ8ak3PphOF8t38SCvbhFBr2snTo+
-         KwyQ==
-X-Gm-Message-State: AOAM532U1hm5FMmgeWvMoBJcWnJ5juEKPlWNtqw4k0oJi4muKAdWkUv8
-        0SJK0GmWKFjhX6KTbYusX38=
-X-Google-Smtp-Source: ABdhPJweHyRCwYvrWskmr+1eNvP1lrnMQtSpENx/wI/OVJV2iQVCtSSO6DB/ds9/MTLQwRkerDYeTw==
-X-Received: by 2002:a7b:c148:: with SMTP id z8mr2862262wmi.147.1629792747617;
-        Tue, 24 Aug 2021 01:12:27 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id k12sm18117771wrd.75.2021.08.24.01.12.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Aug 2021 01:12:26 -0700 (PDT)
-Subject: Re: [PATCH 1/2] dma-buf: nuke DMA_FENCE_TRACE macros v2
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-To:     hridya@google.com, john.stultz@linaro.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        gustavo@padovan.org, linux-media@vger.kernel.org,
-        adelva@google.com, sspatil@google.com, daniel@ffwll.ch
-References: <20210818105443.1578-1-christian.koenig@amd.com>
-Message-ID: <015fd5ed-9255-9c28-44f3-3c8dde90ebad@gmail.com>
-Date:   Tue, 24 Aug 2021 10:12:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1629795986; x=1661331986;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=rnUhlHPoIJ2Phd42u7TjZjB5NMBB69P1r79MOcj/MTY=;
+  b=PqZtOs1BBeDI2ajiL2U13PCv0cbPnEhAsnmMlFjsW/opFIeIMA87CXWp
+   8QhoB9H802isljSpB+oTknIWK3ikPwincD40Xc2uLURqyYGR4Azys0MQo
+   VoJvo36pZKdwSY1+dily67wCmOMfEa96x1pNaUXyB1NsUyRmjQcxcdXOo
+   E=;
+X-IronPort-AV: E=Sophos;i="5.84,346,1620691200"; 
+   d="scan'208";a="952569221"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-1e-28209b7b.us-east-1.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-9103.sea19.amazon.com with ESMTP; 24 Aug 2021 09:06:18 +0000
+Received: from EX13D19EUB003.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+        by email-inbound-relay-1e-28209b7b.us-east-1.amazon.com (Postfix) with ESMTPS id 3FB57BFD9A;
+        Tue, 24 Aug 2021 09:06:12 +0000 (UTC)
+Received: from 8c85908914bf.ant.amazon.com (10.43.162.216) by
+ EX13D19EUB003.ant.amazon.com (10.43.166.69) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.23; Tue, 24 Aug 2021 09:06:05 +0000
+Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>
+CC:     Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Doug Ledford <dledford@redhat.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Oded Gabbay <ogabbay@habana.ai>,
+        Tomer Tayar <ttayar@habana.ai>,
+        Yossi Leybovich <sleybo@amazon.com>,
+        Alexander Matushevsky <matua@amazon.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Jianxin Xiong <jianxin.xiong@intel.com>,
+        John Hubbard <jhubbard@nvidia.com>
+References: <20210818074352.29950-1-galpress@amazon.com>
+ <CAKMK7uGZ_eX+XfYJU6EkKEOVrHz3q6QMxaEbyyD3_1iqj9YSjw@mail.gmail.com>
+ <20210819230602.GU543798@ziepe.ca>
+ <CAKMK7uGgQWcs4Va6TGN9akHSSkmTs1i0Kx+6WpeiXWhJKpasLA@mail.gmail.com>
+ <20210820123316.GV543798@ziepe.ca>
+ <0fc94ac0-2bb9-4835-62b8-ea14f85fe512@amazon.com>
+ <20210820143248.GX543798@ziepe.ca>
+ <da6364b7-9621-a384-23b0-9aa88ae232e5@amazon.com>
+ <fa124990-ee0c-7401-019e-08109e338042@amd.com>
+From:   Gal Pressman <galpress@amazon.com>
+Message-ID: <e2c47256-de89-7eaa-e5c2-5b96efcec834@amazon.com>
+Date:   Tue, 24 Aug 2021 12:06:00 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210818105443.1578-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <fa124990-ee0c-7401-019e-08109e338042@amd.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.43.162.216]
+X-ClientProxiedBy: EX13D10UWA003.ant.amazon.com (10.43.160.248) To
+ EX13D19EUB003.ant.amazon.com (10.43.166.69)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Just a gentle ping. Daniel any more comments on this?
+On 23/08/2021 13:43, Christian König wrote:
+> Am 21.08.21 um 11:16 schrieb Gal Pressman:
+>> On 20/08/2021 17:32, Jason Gunthorpe wrote:
+>>> On Fri, Aug 20, 2021 at 03:58:33PM +0300, Gal Pressman wrote:
+>>>
+>>>> Though it would've been nicer if we could agree on a solution that could work
+>>>> for more than 1-2 RDMA devices, using the existing tools the RDMA subsystem
+>>>> has.
+>>> I don't think it can really be done, revoke is necessary, and isn't a
+>>> primitive we have today.
+>>>
+>>> Revoke is sort of like rereg MR, but with a guaranteed no-change to
+>>> the lkey/rkey
+>>>
+>>> Then there is the locking complexity of linking the mr creation and
+>>> destruction to the lifecycle of the pages, which is messy and maybe
+>>> not general. For instance mlx5 would call its revoke_mr, disconnect
+>>> the dmabuf then destroy the mkey - but this is only safe because mlx5
+>>> HW can handle concurrent revokes.
+>> Thanks, that makes sense.
+>>
+>>>> That's why I tried to approach this by denying such attachments for non-ODP
+>>>> importers instead of exposing a "limited" dynamic importer.
+>>> That is fine if there is no revoke - once revoke exists we must have
+>>> driver and HW support.
+>> Agree.
+>> IIUC, we're talking about three different exporter "types":
+>> - Dynamic with move_notify (requires ODP)
+>> - Dynamic with revoke_notify
+>> - Static
+>>
+>> Which changes do we need to make the third one work?
+> 
+> Basically none at all in the framework.
+> 
+> You just need to properly use the dma_buf_pin() function when you start using a
+> buffer (e.g. before you create an attachment) and the dma_buf_unpin() function
+> after you are done with the DMA-buf.
 
-I'm not sure if the second patch will cause trouble with any unit test, 
-but I'm willing to try it. We can always trivial revert it.
-
-Thanks,
-Christian.
-
-Am 18.08.21 um 12:54 schrieb Christian König:
-> Only the DRM GPU scheduler, radeon and amdgpu where using them and they depend
-> on a non existing config option to actually emit some code.
->
-> v2: keep the signal path as is for now
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 10 +---------
->   drivers/gpu/drm/radeon/radeon_fence.c     | 24 ++++-------------------
->   drivers/gpu/drm/scheduler/sched_fence.c   | 18 ++---------------
->   include/linux/dma-fence.h                 | 22 ---------------------
->   4 files changed, 7 insertions(+), 67 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> index 0b1c48590c43..c65994e382bd 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> @@ -246,7 +246,6 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->   	struct amdgpu_fence_driver *drv = &ring->fence_drv;
->   	struct amdgpu_device *adev = ring->adev;
->   	uint32_t seq, last_seq;
-> -	int r;
->   
->   	do {
->   		last_seq = atomic_read(&ring->fence_drv.last_seq);
-> @@ -278,12 +277,7 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->   		if (!fence)
->   			continue;
->   
-> -		r = dma_fence_signal(fence);
-> -		if (!r)
-> -			DMA_FENCE_TRACE(fence, "signaled from irq context\n");
-> -		else
-> -			BUG();
-> -
-> +		dma_fence_signal(fence);
->   		dma_fence_put(fence);
->   		pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
->   		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> @@ -639,8 +633,6 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
->   	if (!timer_pending(&ring->fence_drv.fallback_timer))
->   		amdgpu_fence_schedule_fallback(ring);
->   
-> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", ring->idx);
-> -
->   	return true;
->   }
->   
-> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
-> index 18f2c2e0dfb3..3f351d222cbb 100644
-> --- a/drivers/gpu/drm/radeon/radeon_fence.c
-> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
-> @@ -176,18 +176,11 @@ static int radeon_fence_check_signaled(wait_queue_entry_t *wait, unsigned mode,
->   	 */
->   	seq = atomic64_read(&fence->rdev->fence_drv[fence->ring].last_seq);
->   	if (seq >= fence->seq) {
-> -		int ret = dma_fence_signal_locked(&fence->base);
-> -
-> -		if (!ret)
-> -			DMA_FENCE_TRACE(&fence->base, "signaled from irq context\n");
-> -		else
-> -			DMA_FENCE_TRACE(&fence->base, "was already signaled\n");
-> -
-> +		dma_fence_signal_locked(&fence->base);
->   		radeon_irq_kms_sw_irq_put(fence->rdev, fence->ring);
->   		__remove_wait_queue(&fence->rdev->fence_queue, &fence->fence_wake);
->   		dma_fence_put(&fence->base);
-> -	} else
-> -		DMA_FENCE_TRACE(&fence->base, "pending\n");
-> +	}
->   	return 0;
->   }
->   
-> @@ -422,8 +415,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
->   	fence->fence_wake.func = radeon_fence_check_signaled;
->   	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
->   	dma_fence_get(f);
-> -
-> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", fence->ring);
->   	return true;
->   }
->   
-> @@ -441,11 +432,7 @@ bool radeon_fence_signaled(struct radeon_fence *fence)
->   		return true;
->   
->   	if (radeon_fence_seq_signaled(fence->rdev, fence->seq, fence->ring)) {
-> -		int ret;
-> -
-> -		ret = dma_fence_signal(&fence->base);
-> -		if (!ret)
-> -			DMA_FENCE_TRACE(&fence->base, "signaled from radeon_fence_signaled\n");
-> +		dma_fence_signal(&fence->base);
->   		return true;
->   	}
->   	return false;
-> @@ -550,7 +537,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->   {
->   	uint64_t seq[RADEON_NUM_RINGS] = {};
->   	long r;
-> -	int r_sig;
->   
->   	/*
->   	 * This function should not be called on !radeon fences.
-> @@ -567,9 +553,7 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->   		return r;
->   	}
->   
-> -	r_sig = dma_fence_signal(&fence->base);
-> -	if (!r_sig)
-> -		DMA_FENCE_TRACE(&fence->base, "signaled from fence_wait\n");
-> +	dma_fence_signal(&fence->base);
->   	return r;
->   }
->   
-> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> index 69de2c76731f..3736746c47bd 100644
-> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> @@ -50,26 +50,12 @@ static void __exit drm_sched_fence_slab_fini(void)
->   
->   void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
->   {
-> -	int ret = dma_fence_signal(&fence->scheduled);
-> -
-> -	if (!ret)
-> -		DMA_FENCE_TRACE(&fence->scheduled,
-> -				"signaled from irq context\n");
-> -	else
-> -		DMA_FENCE_TRACE(&fence->scheduled,
-> -				"was already signaled\n");
-> +	dma_fence_signal(&fence->scheduled);
->   }
->   
->   void drm_sched_fence_finished(struct drm_sched_fence *fence)
->   {
-> -	int ret = dma_fence_signal(&fence->finished);
-> -
-> -	if (!ret)
-> -		DMA_FENCE_TRACE(&fence->finished,
-> -				"signaled from irq context\n");
-> -	else
-> -		DMA_FENCE_TRACE(&fence->finished,
-> -				"was already signaled\n");
-> +	dma_fence_signal(&fence->finished);
->   }
->   
->   static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 6ffb4b2c6371..4cc119ab272f 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -590,26 +590,4 @@ struct dma_fence *dma_fence_get_stub(void);
->   struct dma_fence *dma_fence_allocate_private_stub(void);
->   u64 dma_fence_context_alloc(unsigned num);
->   
-> -#define DMA_FENCE_TRACE(f, fmt, args...) \
-> -	do {								\
-> -		struct dma_fence *__ff = (f);				\
-> -		if (IS_ENABLED(CONFIG_DMA_FENCE_TRACE))			\
-> -			pr_info("f %llu#%llu: " fmt,			\
-> -				__ff->context, __ff->seqno, ##args);	\
-> -	} while (0)
-> -
-> -#define DMA_FENCE_WARN(f, fmt, args...) \
-> -	do {								\
-> -		struct dma_fence *__ff = (f);				\
-> -		pr_warn("f %llu#%llu: " fmt, __ff->context, __ff->seqno,\
-> -			 ##args);					\
-> -	} while (0)
-> -
-> -#define DMA_FENCE_ERR(f, fmt, args...) \
-> -	do {								\
-> -		struct dma_fence *__ff = (f);				\
-> -		pr_err("f %llu#%llu: " fmt, __ff->context, __ff->seqno,	\
-> -			##args);					\
-> -	} while (0)
-> -
->   #endif /* __LINUX_DMA_FENCE_H */
-
+I replied to your previous mail, but I'll ask again.
+Doesn't the pin operation migrate the memory to host memory?
