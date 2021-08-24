@@ -2,168 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 134323F5777
-	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 07:02:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C14AF3F5958
+	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 09:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbhHXFDT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Aug 2021 01:03:19 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:43082 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229709AbhHXFDS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Aug 2021 01:03:18 -0400
-X-UUID: a33b0a67c7f0424eb4801a777972e657-20210824
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=0texKuvZteNxt9wEtesBFIUFqL8ARY8YyhEvugrvtV0=;
-        b=RhaQJSOw0AJ1agMDllI9i8YlrAfkRs8SDUwjbPgAaVSeFB5G4rCj04EdeVWh1HYuw7YtdnI29BtuDh5iP9cxt8gHUnM307mc94jWmmIA4bK3AR8Kp3q+A02N2A/SS6gNuXb4tceQJP5yzmE/EXi7BxIvKlj0SGMtbLH6N81NWz4=;
-X-UUID: a33b0a67c7f0424eb4801a777972e657-20210824
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-        (envelope-from <ck.hu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 2033969587; Tue, 24 Aug 2021 13:02:33 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 24 Aug 2021 13:02:31 +0800
-Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 24 Aug 2021 13:02:31 +0800
-Message-ID: <1629781351.32243.3.camel@mtksdaap41>
-Subject: Re: [PATCH v6 4/5] dts: arm64: mt8183: Add Mediatek MDP3 nodes
-From:   CK Hu <ck.hu@mediatek.com>
-To:     Moudy Ho <moudy.ho@mediatek.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <tfiga@chromium.org>,
-        <drinkcat@chromium.org>, <acourbot@chromium.org>,
-        <pihsun@chromium.org>, <menghui.lin@mediatek.com>,
-        <sj.huang@mediatek.com>, <ben.lok@mediatek.com>,
-        <randy.wu@mediatek.com>, <srv_heupstream@mediatek.com>,
-        <hsinyi@google.com>
-Date:   Tue, 24 Aug 2021 13:02:31 +0800
-In-Reply-To: <20210819070954.16679-5-moudy.ho@mediatek.com>
-References: <20210819070954.16679-1-moudy.ho@mediatek.com>
-         <20210819070954.16679-5-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        id S234732AbhHXHsu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Aug 2021 03:48:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48654 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234618AbhHXHst (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Aug 2021 03:48:49 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2E0D061183;
+        Tue, 24 Aug 2021 07:48:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629791285;
+        bh=KgbcpAcVlKxkKPGLwIaqYxCZnA9LBhYWX45e1GRD3p8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=oUMAgzI/pFM9ctDnnM6eYGOcKD/LYVTiF/AmevfMdxjhpISQ5uWEOMEkfZWdlgD/i
+         HVXX50N4XuR5IpDAmWUpgpn/TQ0Lgj6sz/PjM3tXiD3cGi/16nRO4iUrBLWt+ciiHS
+         +wjv3MKh7lAbAuwlnCWCJ7ggEuiw36ZcvYP77dg+drS7W6NPWVmJn8nEnOiXQl+nHg
+         zzjrmUlDzFuFHwezgRJ45ubvaJtAuSeawQt17XBK79lNndbVlhsShyipacDn8uyaju
+         I5ecsdcECw8OKpvjN9YTvoiwqqPkkJRLjP1XWB436M9zdDf24dt4qOklvMEhVq5YWv
+         iRqJ5k/knR7oA==
+Date:   Tue, 24 Aug 2021 09:47:54 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Soeren Moch <smoch@web.de>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [Regression 5.14] media: dvb userspace api
+Message-ID: <20210824094754.32ad5eab@coco.lan>
+In-Reply-To: <CAHk-=wjSadWPfzQ_hOqbjq6c_xwJs8GLHTyznhXRvDF5Yrs4FA@mail.gmail.com>
+References: <4e3e0d40-df4a-94f8-7c2d-85010b0873c4@web.de>
+        <20210819133128.45ef4353@coco.lan>
+        <c56ec571-2278-95e9-2028-990e03159c3f@web.de>
+        <20210822194709.4b9d33d4@coco.lan>
+        <be6ac929-2443-ff55-3e11-6a86d6472e0e@web.de>
+        <CAHk-=wjSadWPfzQ_hOqbjq6c_xwJs8GLHTyznhXRvDF5Yrs4FA@mail.gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGksIE1vdWR5Og0KDQpPbiBUaHUsIDIwMjEtMDgtMTkgYXQgMTU6MDkgKzA4MDAsIE1vdWR5IEhv
-IHdyb3RlOg0KPiBBZGQgZGV2aWNlIG5vZGVzIGZvciBNZWRpYSBEYXRhIFBhdGggMyAoTURQMykg
-bW9kdWxlcy4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFBpbmctSHN1biBXdSA8cGluZy1oc3VuLnd1
-QG1lZGlhdGVrLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogZGFveXVhbiBodWFuZyA8ZGFveXVhbi5o
-dWFuZ0BtZWRpYXRlay5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IE1vdWR5IEhvIDxtb3VkeS5ob0Bt
-ZWRpYXRlay5jb20+DQo+IC0tLQ0KPiAgYXJjaC9hcm02NC9ib290L2R0cy9tZWRpYXRlay9tdDgx
-ODMuZHRzaSB8IDExMCArKysrKysrKysrKysrKysrKysrKysrKw0KPiAgMSBmaWxlIGNoYW5nZWQs
-IDExMCBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9ib290L2R0
-cy9tZWRpYXRlay9tdDgxODMuZHRzaSBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvbWVkaWF0ZWsvbXQ4
-MTgzLmR0c2kNCj4gaW5kZXggZjkwZGY2NDM5YzA4Li43Y2IxZmNmZWVmYjYgMTAwNjQ0DQo+IC0t
-LSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvbWVkaWF0ZWsvbXQ4MTgzLmR0c2kNCj4gKysrIGIvYXJj
-aC9hcm02NC9ib290L2R0cy9tZWRpYXRlay9tdDgxODMuZHRzaQ0KPiBAQCAtMTIzMiw2ICsxMjMy
-LDEwOCBAQA0KPiAgCQkJbWVkaWF0ZWssZ2NlLWNsaWVudC1yZWcgPSA8JmdjZSBTVUJTWVNfMTQw
-MFhYWFggMCAweDEwMDA+Ow0KPiAgCQl9Ow0KPiAgDQo+ICsJCW1kcDNfcmRtYTA6IG1kcDNfcmRt
-YTBAMTQwMDEwMDAgew0KPiArCQkJY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxODMtbWRwMyIs
-DQo+ICsJCQkJICAgICAibWVkaWF0ZWssbXQ4MTgzLW1kcDMtcmRtYSI7DQo+ICsJCQltZWRpYXRl
-ayxzY3AgPSA8JnNjcD47DQo+ICsJCQltZWRpYXRlayxtZHAzLWlkID0gPDA+Ow0KPiArCQkJbWRw
-My1jb21wcyA9ICJtZWRpYXRlayxtdDgxODMtbWRwMy1kbDEiLCAibWVkaWF0ZWssbXQ4MTgzLW1k
-cDMtZGwyIiwNCj4gKwkJCQkgICAgICJtZWRpYXRlayxtdDgxODMtbWRwMy1wYXRoMSIsICJtZWRp
-YXRlayxtdDgxODMtbWRwMy1wYXRoMiIsDQo+ICsJCQkJICAgICAibWVkaWF0ZWssbXQ4MTgzLW1k
-cDMtaW1naSIsICJtZWRpYXRlayxtdDgxODMtbWRwMy1leHRvIjsNCj4gKwkJCW1kcDMtY29tcC1p
-ZHMgPSA8MCAxIDAgMSAwIDE+Ow0KPiArCQkJcmVnID0gPDAgMHgxNDAwMTAwMCAwIDB4MTAwMD4s
-DQo+ICsJCQkgICAgICA8MCAweDE0MDAwMDAwIDAgMHgxMDAwPiwNCj4gKwkJCSAgICAgIDwwIDB4
-MTQwMDUwMDAgMCAweDEwMDA+LA0KPiArCQkJICAgICAgPDAgMHgxNDAwNjAwMCAwIDB4MTAwMD4s
-DQo+ICsJCQkgICAgICA8MCAweDE1MDIwMDAwIDAgMHgxMDAwPjsNCj4gKwkJCW1lZGlhdGVrLGdj
-ZS1jbGllbnQtcmVnID0gPCZnY2UgU1VCU1lTXzE0MDBYWFhYIDB4MTAwMCAweDEwMDA+LA0KPiAr
-CQkJCQkJICA8JmdjZSBTVUJTWVNfMTQwMFhYWFggMCAweDEwMDA+LA0KPiArCQkJCQkJICA8Jmdj
-ZSBTVUJTWVNfMTQwMFhYWFggMHg1MDAwIDB4MTAwMD4sDQo+ICsJCQkJCQkgIDwmZ2NlIFNVQlNZ
-U18xNDAwWFhYWCAweDYwMDAgMHgxMDAwPiwNCj4gKwkJCQkJCSAgPCZnY2UgU1VCU1lTXzE1MDJY
-WFhYIDAgMHgxMDAwPjsNCj4gKwkJCXBvd2VyLWRvbWFpbnMgPSA8JnNwbSBNVDgxODNfUE9XRVJf
-RE9NQUlOX0RJU1A+Ow0KPiArCQkJY2xvY2tzID0gPCZtbXN5cyBDTEtfTU1fTURQX1JETUEwPiwN
-Cj4gKwkJCQkgPCZtbXN5cyBDTEtfTU1fTURQX1JTWjE+LA0KPiArCQkJCSA8Jm1tc3lzIENMS19N
-TV9NRFBfRExfVFhDSz4sDQo+ICsJCQkJIDwmbW1zeXMgQ0xLX01NX01EUF9ETF9SWD4sDQo+ICsJ
-CQkJIDwmbW1zeXMgQ0xLX01NX0lQVV9ETF9UWENLPiwNCj4gKwkJCQkgPCZtbXN5cyBDTEtfTU1f
-SVBVX0RMX1JYPjsNCj4gKwkJCWlvbW11cyA9IDwmaW9tbXUgTTRVX1BPUlRfTURQX1JETUEwPjsN
-Cj4gKwkJCW1lZGlhdGVrLG1tc3lzID0gPCZtbXN5cz47DQo+ICsJCQltZWRpYXRlayxtbS1tdXRl
-eCA9IDwmbXV0ZXg+Ow0KPiArCQkJbWVkaWF0ZWssbWFpbGJveC1nY2UgPSA8JmdjZT47DQo+ICsJ
-CQltYm94ZXMgPSA8JmdjZSAyMCBDTURRX1RIUl9QUklPX0xPV0VTVCAwPiwNCj4gKwkJCQkgPCZn
-Y2UgMjEgQ01EUV9USFJfUFJJT19MT1dFU1QgMD4sDQo+ICsJCQkJIDwmZ2NlIDIyIENNRFFfVEhS
-X1BSSU9fTE9XRVNUIDA+LA0KPiArCQkJCSA8JmdjZSAyMyBDTURRX1RIUl9QUklPX0xPV0VTVCAw
-PjsNCj4gKwkJCWdjZS1zdWJzeXMgPSA8JmdjZSAweDE0MDAwMDAwIFNVQlNZU18xNDAwWFhYWD4s
-DQo+ICsJCQkJICAgICA8JmdjZSAweDE0MDEwMDAwIFNVQlNZU18xNDAxWFhYWD4sDQo+ICsJCQkJ
-ICAgICA8JmdjZSAweDE0MDIwMDAwIFNVQlNZU18xNDAyWFhYWD4sDQo+ICsJCQkJICAgICA8Jmdj
-ZSAweDE1MDIwMDAwIFNVQlNZU18xNTAyWFhYWD47DQo+ICsJCQltZWRpYXRlayxnY2UtZXZlbnRz
-ID0gPENNRFFfRVZFTlRfTURQX1JETUEwX1NPRj4sDQo+ICsJCQkJCSAgICAgIDxDTURRX0VWRU5U
-X01EUF9SRE1BMF9FT0Y+LA0KPiArCQkJCQkgICAgICA8Q01EUV9FVkVOVF9NRFBfUlNaMF9TT0Y+
-LA0KDQpDTURRX0VWRU5UX01EUF9SU1owX1NPRiBpcyBzZW50IGZyb20gcnN6MCB0byBnY2UsIHNv
-IG1vdmUgdGhpcyBldmVudCB0bw0KcnN6MC4NCg0KUmVnYXJkcywNCkNLDQoNCj4gKwkJCQkJICAg
-ICAgPENNRFFfRVZFTlRfTURQX1JTWjFfU09GPiwNCj4gKwkJCQkJICAgICAgPENNRFFfRVZFTlRf
-TURQX1REU0hQX1NPRj4sDQo+ICsJCQkJCSAgICAgIDxDTURRX0VWRU5UX01EUF9XUk9UMF9TT0Y+
-LA0KPiArCQkJCQkgICAgICA8Q01EUV9FVkVOVF9NRFBfV1JPVDBfRU9GPiwNCj4gKwkJCQkJICAg
-ICAgPENNRFFfRVZFTlRfTURQX1dETUEwX1NPRj4sDQo+ICsJCQkJCSAgICAgIDxDTURRX0VWRU5U
-X01EUF9XRE1BMF9FT0Y+LA0KPiArCQkJCQkgICAgICA8Q01EUV9FVkVOVF9JU1BfRlJBTUVfRE9O
-RV9QMl8wPiwNCj4gKwkJCQkJICAgICAgPENNRFFfRVZFTlRfSVNQX0ZSQU1FX0RPTkVfUDJfMT4s
-DQo+ICsJCQkJCSAgICAgIDxDTURRX0VWRU5UX0lTUF9GUkFNRV9ET05FX1AyXzI+LA0KPiArCQkJ
-CQkgICAgICA8Q01EUV9FVkVOVF9JU1BfRlJBTUVfRE9ORV9QMl8zPiwNCj4gKwkJCQkJICAgICAg
-PENNRFFfRVZFTlRfSVNQX0ZSQU1FX0RPTkVfUDJfND4sDQo+ICsJCQkJCSAgICAgIDxDTURRX0VW
-RU5UX0lTUF9GUkFNRV9ET05FX1AyXzU+LA0KPiArCQkJCQkgICAgICA8Q01EUV9FVkVOVF9JU1Bf
-RlJBTUVfRE9ORV9QMl82PiwNCj4gKwkJCQkJICAgICAgPENNRFFfRVZFTlRfSVNQX0ZSQU1FX0RP
-TkVfUDJfNz4sDQo+ICsJCQkJCSAgICAgIDxDTURRX0VWRU5UX0lTUF9GUkFNRV9ET05FX1AyXzg+
-LA0KPiArCQkJCQkgICAgICA8Q01EUV9FVkVOVF9JU1BfRlJBTUVfRE9ORV9QMl85PiwNCj4gKwkJ
-CQkJICAgICAgPENNRFFfRVZFTlRfSVNQX0ZSQU1FX0RPTkVfUDJfMTA+LA0KPiArCQkJCQkgICAg
-ICA8Q01EUV9FVkVOVF9JU1BfRlJBTUVfRE9ORV9QMl8xMT4sDQo+ICsJCQkJCSAgICAgIDxDTURR
-X0VWRU5UX0lTUF9GUkFNRV9ET05FX1AyXzEyPiwNCj4gKwkJCQkJICAgICAgPENNRFFfRVZFTlRf
-SVNQX0ZSQU1FX0RPTkVfUDJfMTM+LA0KPiArCQkJCQkgICAgICA8Q01EUV9FVkVOVF9JU1BfRlJB
-TUVfRE9ORV9QMl8xND4sDQo+ICsJCQkJCSAgICAgIDxDTURRX0VWRU5UX1dQRV9BX0RPTkU+LA0K
-PiArCQkJCQkgICAgICA8Q01EUV9FVkVOVF9TUEVfQl9ET05FPjsNCj4gKwkJfTsNCj4gKw0KPiAr
-CQltZHAzX3JzejA6IG1kcDNfcnN6MEAxNDAwMzAwMCB7DQo+ICsJCQljb21wYXRpYmxlID0gIm1l
-ZGlhdGVrLG10ODE4My1tZHAzLXJzeiI7DQo+ICsJCQltZWRpYXRlayxtZHAzLWlkID0gPDA+Ow0K
-PiArCQkJcmVnID0gPDAgMHgxNDAwMzAwMCAwIDB4MTAwMD47DQo+ICsJCQltZWRpYXRlayxnY2Ut
-Y2xpZW50LXJlZyA9IDwmZ2NlIFNVQlNZU18xNDAwWFhYWCAweDMwMDAgMHgxMDAwPjsNCj4gKwkJ
-CWNsb2NrcyA9IDwmbW1zeXMgQ0xLX01NX01EUF9SU1owPjsNCj4gKwkJfTsNCj4gKw0KPiArCQlt
-ZHAzX3JzejE6IG1kcDNfcnN6MUAxNDAwNDAwMCB7DQo+ICsJCQljb21wYXRpYmxlID0gIm1lZGlh
-dGVrLG10ODE4My1tZHAzLXJzeiI7DQo+ICsJCQltZWRpYXRlayxtZHAzLWlkID0gPDE+Ow0KPiAr
-CQkJcmVnID0gPDAgMHgxNDAwNDAwMCAwIDB4MTAwMD47DQo+ICsJCQltZWRpYXRlayxnY2UtY2xp
-ZW50LXJlZyA9IDwmZ2NlIFNVQlNZU18xNDAwWFhYWCAweDQwMDAgMHgxMDAwPjsNCj4gKwkJCWNs
-b2NrcyA9IDwmbW1zeXMgQ0xLX01NX01EUF9SU1oxPjsNCj4gKwkJfTsNCj4gKw0KPiArCQltZHAz
-X3dyb3QwOiBtZHAzX3dyb3QwQDE0MDA1MDAwIHsNCj4gKwkJCWNvbXBhdGlibGUgPSAibWVkaWF0
-ZWssbXQ4MTgzLW1kcDMtd3JvdCI7DQo+ICsJCQltZWRpYXRlayxtZHAzLWlkID0gPDA+Ow0KPiAr
-CQkJcmVnID0gPDAgMHgxNDAwNTAwMCAwIDB4MTAwMD47DQo+ICsJCQltZWRpYXRlayxnY2UtY2xp
-ZW50LXJlZyA9IDwmZ2NlIFNVQlNZU18xNDAwWFhYWCAweDUwMDAgMHgxMDAwPjsNCj4gKwkJCXBv
-d2VyLWRvbWFpbnMgPSA8JnNwbSBNVDgxODNfUE9XRVJfRE9NQUlOX0RJU1A+Ow0KPiArCQkJY2xv
-Y2tzID0gPCZtbXN5cyBDTEtfTU1fTURQX1dST1QwPjsNCj4gKwkJCWlvbW11cyA9IDwmaW9tbXUg
-TTRVX1BPUlRfTURQX1dST1QwPjsNCj4gKwkJfTsNCj4gKw0KPiArCQltZHAzX3dkbWE6IG1kcDNf
-d2RtYUAxNDAwNjAwMCB7DQo+ICsJCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE4My1tZHAz
-LXdkbWEiOw0KPiArCQkJbWVkaWF0ZWssbWRwMy1pZCA9IDwwPjsNCj4gKwkJCXJlZyA9IDwwIDB4
-MTQwMDYwMDAgMCAweDEwMDA+Ow0KPiArCQkJbWVkaWF0ZWssZ2NlLWNsaWVudC1yZWcgPSA8Jmdj
-ZSBTVUJTWVNfMTQwMFhYWFggMHg2MDAwIDB4MTAwMD47DQo+ICsJCQlwb3dlci1kb21haW5zID0g
-PCZzcG0gTVQ4MTgzX1BPV0VSX0RPTUFJTl9ESVNQPjsNCj4gKwkJCWNsb2NrcyA9IDwmbW1zeXMg
-Q0xLX01NX01EUF9XRE1BMD47DQo+ICsJCQlpb21tdXMgPSA8JmlvbW11IE00VV9QT1JUX01EUF9X
-RE1BMD47DQo+ICsJCX07DQo+ICsNCj4gIAkJb3ZsMDogb3ZsQDE0MDA4MDAwIHsNCj4gIAkJCWNv
-bXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTgzLWRpc3Atb3ZsIjsNCj4gIAkJCXJlZyA9IDwwIDB4
-MTQwMDgwMDAgMCAweDEwMDA+Ow0KPiBAQCAtMTM3OCw2ICsxNDgwLDE0IEBADQo+ICAJCQlwb3dl
-ci1kb21haW5zID0gPCZzcG0gTVQ4MTgzX1BPV0VSX0RPTUFJTl9ESVNQPjsNCj4gIAkJfTsNCj4g
-IA0KPiArCQltZHAzX2Njb3JyOiBtZHAzX2Njb3JyQDE0MDFjMDAwIHsNCj4gKwkJCWNvbXBhdGli
-bGUgPSAibWVkaWF0ZWssbXQ4MTgzLW1kcDMtY2NvcnIiOw0KPiArCQkJbWVkaWF0ZWssbWRwMy1p
-ZCA9IDwwPjsNCj4gKwkJCXJlZyA9IDwwIDB4MTQwMWMwMDAgMCAweDEwMDA+Ow0KPiArCQkJbWVk
-aWF0ZWssZ2NlLWNsaWVudC1yZWcgPSA8JmdjZSBTVUJTWVNfMTQwMVhYWFggMHhjMDAwIDB4MTAw
-MD47DQo+ICsJCQljbG9ja3MgPSA8Jm1tc3lzIENMS19NTV9NRFBfQ0NPUlI+Ow0KPiArCQl9Ow0K
-PiArDQo+ICAJCWltZ3N5czogc3lzY29uQDE1MDIwMDAwIHsNCj4gIAkJCWNvbXBhdGlibGUgPSAi
-bWVkaWF0ZWssbXQ4MTgzLWltZ3N5cyIsICJzeXNjb24iOw0KPiAgCQkJcmVnID0gPDAgMHgxNTAy
-MDAwMCAwIDB4MTAwMD47DQoNCg==
+Em Mon, 23 Aug 2021 09:58:00 -0700
+Linus Torvalds <torvalds@linux-foundation.org> escreveu:
 
+> On Mon, Aug 23, 2021 at 7:59 AM Soeren Moch <smoch@web.de> wrote:
+> >
+> > Linus,
+> >
+> > Is what I described directly above the new linux maintenance policy?  Or
+> > is linux media a private kingdom where the community should keep away?
+> > Is this a place where the subsystem maintainer is on a mission to
+> > destroy everything instead of maintaining and improving it? Please tell
+> > me what I understood wrong here.  
+> 
+> So technically, the regression policy for the kernel is purely about
+> the ABI - the _binary_ interface. That seems to not have broken - old
+> programs continue to work.
+> 
+> We very much try to discourage user space applications from using the
+> kernel header files directly - even projects like glibc etc are
+> supposed to _copy_ them, not include the kernel headers.
+
+Unfortunately, media APIs aren't part of projects like glibc. Almost all
+open source media apps keep their own copies of the uAPI header files.
+
+As far as I'm aware, the "full-feat" API is implemented only by some
+modules of VDR. I don't know any other open source application using
+such headers.
+
+> Exactly because re-organization and changes to the kernel tree
+> shouldn't be something that then causes random problems elsewhere that
+> are so hard to test - and synchronize - from the kernel standpoint (or
+> from the standpoint of the other end).
+> 
+> That clearly doesn't seem to be the case in this situation. Which is
+> annoying as heck.
+> 
+> Mauro: there clearly _are_ users of those header files, and even
+> apparently that one old driver out there. And those headers were in
+> the 'uapi' directory, so while it is annoying how user space programs
+> used them this way, I think it's also not entirely unreasonable.
+> 
+> I have reverted the header file move. But I would also heartily
+> recommend that whatever user program includes those headers (VDR -
+> anything else?) should take snapshots of these specific kernel
+> headers.
+> 
+> I'm not convinced that it makes sense to move the av7110 driver back
+> from staging - it may continue to work, but it _is_ old and there is
+> no maintenance - and I would certainly suggest that any other
+> out-of-tree driver that uses these old interfaces that nothing else
+> implements shouldn't do so, considering that nothing else implements
+> them.
+> 
+> So the only thing I did was move the header files back, and mark that
+> move to be backported to 5.13 stable.
+
+Ok.
+
+Thanks,
+Mauro
