@@ -2,625 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D92193F5AA1
-	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 11:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FA443F5B22
+	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 11:32:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235666AbhHXJNc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Aug 2021 05:13:32 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:48291 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232653AbhHXJNc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Aug 2021 05:13:32 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id ISU9mfJ1eUWyVISUAmxOCY; Tue, 24 Aug 2021 11:12:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1629796367; bh=Hg0eXiBrk45/lSkV8ixa1sRg2KoS7Gpqk3wzuV1o+4M=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=kvcU1q6OVO7cJobxuCjjp27izIOuKZz2Bdhc6HZPNrCZrpRDxWXJBvHYup1xpLSVW
-         2/0VjKiV3sbWYUlG2VsYGrV/lzPHqZiU/GLk7Fjfq0/KOofMa+sjKHAbPaOIwOEACe
-         vluOH665NFgXZjuQ+iilZJwnNwOKFtLl6GXUPI/lYNddWc9nrF21ELnzuYezzCI6+p
-         6OEhTKg1GHoh8mex0DpBUytSVlIkvw8F5/+Ud/bChHRHka+WTqvf++tJdmoJWFKUSc
-         U5HlYVUQDt4MZChhOwzKC64J71uI3ZUH/2vc2Ou29mlTlDqwAc3T1ZHYQoO/jdRbQx
-         JFrVjFuE4C15w==
-Subject: Re: [PATCH] media: vivid: add signal-free time for cec message xfer
-To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     jaffe1@gmail.com
-References: <20210824042920.23655-1-deborahbrouwer3563@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6b122a0d-0860-da20-3cfb-3a3fbf10259c@xs4all.nl>
-Date:   Tue, 24 Aug 2021 11:12:45 +0200
+        id S235698AbhHXJdH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Aug 2021 05:33:07 -0400
+Received: from mail-mw2nam08on2086.outbound.protection.outlook.com ([40.107.101.86]:20705
+        "EHLO NAM04-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S235566AbhHXJdE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Aug 2021 05:33:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FFaGpzWNbSvt0KivUzhnD9OL33IpVt1f89M+/PSm0O6NoLKyj5g/mZyCwWAZPLMWqAyDw2C2yCdt5M5YJEkhaelFzs8+upgd61Zk2QZlY54i3sqMdzVGQ6bQ4HqT7liqCRLBIEry2hfUqRP/icuO4oZ9Nv2xHnAChfoEPL32pZ1M3ok1TdD2bFRBhYhTKn+H5YR7ln1mH5UWzMm/4YfDzdqHN41R+qF1UnUkpF0S8NslitdodeiDVEyI3C6ySjeITbwmLyuO9r0lNyg8+4nIDLwul9rOdMlS+/m/wM7ju4ywhym+Uc03kaLjVl6KVCwvNvN9/RL3qxRe1ugM0OzRXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bOeiYRBCzBxyNhuqTb9CBYv+aKewpdS1QI0NTSg0mAE=;
+ b=d0eJXmlvpspnrTi/tV0VMH7cwYnt8BANsF7lCRUutVZTSNO7vZFukvFo7UemhGRs2nobfO8aYnIs683nw1VsZK5ELbnMXkwzVTs9luLKvuA5EdDBA1t7CTpNIcCPtGeGbkmwI3hVPVeuE8Be/b1GyA1WAm2/4fbDG6wNTPKJLh5i5i4LYKIf3gPvxO+p+AB+OJ4iRLJ0NfYLCxY947aXsV2JW3wEIF0nw9mJE+/blp/FTzln3pv3QlHROPVnR5cGMnrZm4sc8TArfiuAlr42mZ9QKH+SRxW+xUWsI/FyGQOJykIb9p3lMfigoXMbVED2DWQOBj4jUOA8S22aMW4bVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bOeiYRBCzBxyNhuqTb9CBYv+aKewpdS1QI0NTSg0mAE=;
+ b=UhZ2TOZR+orzz9Satg8/sdV5GwLueWlEUJ+KZk8Pm8PtyMo8SppeGbHg/6vA6MHFl0gTMAclEctwtDcPTV85Drs0/kqj+/iGCNBtU4BuQnKKA2t7BURQ/Kpu4XarWtz5gDGsvd1HGmEN4/GS51BH2hqIIL2lMHqBP++BHuU0ABQ=
+Authentication-Results: nvidia.com; dkim=none (message not signed)
+ header.d=none;nvidia.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4705.namprd12.prod.outlook.com (2603:10b6:208:88::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.21; Tue, 24 Aug
+ 2021 09:32:17 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4436.024; Tue, 24 Aug 2021
+ 09:32:17 +0000
+Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
+To:     Gal Pressman <galpress@amazon.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Doug Ledford <dledford@redhat.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Oded Gabbay <ogabbay@habana.ai>,
+        Tomer Tayar <ttayar@habana.ai>,
+        Yossi Leybovich <sleybo@amazon.com>,
+        Alexander Matushevsky <matua@amazon.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Jianxin Xiong <jianxin.xiong@intel.com>,
+        John Hubbard <jhubbard@nvidia.com>
+References: <20210818074352.29950-1-galpress@amazon.com>
+ <CAKMK7uGZ_eX+XfYJU6EkKEOVrHz3q6QMxaEbyyD3_1iqj9YSjw@mail.gmail.com>
+ <20210819230602.GU543798@ziepe.ca>
+ <CAKMK7uGgQWcs4Va6TGN9akHSSkmTs1i0Kx+6WpeiXWhJKpasLA@mail.gmail.com>
+ <20210820123316.GV543798@ziepe.ca>
+ <0fc94ac0-2bb9-4835-62b8-ea14f85fe512@amazon.com>
+ <20210820143248.GX543798@ziepe.ca>
+ <da6364b7-9621-a384-23b0-9aa88ae232e5@amazon.com>
+ <fa124990-ee0c-7401-019e-08109e338042@amd.com>
+ <e2c47256-de89-7eaa-e5c2-5b96efcec834@amazon.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <6b819064-feda-b70b-ea69-eb0a4fca6c0c@amd.com>
+Date:   Tue, 24 Aug 2021 11:32:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210824042920.23655-1-deborahbrouwer3563@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <e2c47256-de89-7eaa-e5c2-5b96efcec834@amazon.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfEYWSd1XOt28Aoei8RMFQJwFQMTbzO4HGrImEsngcZbUw7+EuoXgMPEGr6Rj/sEcCcIdgog3OGsktM/hLFf4VbJ01lm2ot9BqbZAj4hd9/urpJ/ar8Fz
- UPBrUtaBSOdqT3dpCzauLbxNFrpZh23ijj8tYZJ1Rt1OBHJ+psKRw6W3wvTTWdQOp9+hnFvVOL+1GqrBgnAivAeL221YuGt5hYQ07P08xnfWsPXOQM8/GNWJ
- LZeeEMoDx6NbLn4D2x31w9+0ErkOcoit1TDKyO90XxG1wZ1rVfW+iOG2sFSQwmNJPRUFkNR8pNWxyXyUxQyNbf3Q26r1xhqbJ+b6JnCMdmD+3fSGPGUAEQzP
- u61A7pFB
+X-ClientProxiedBy: AM4PR0501CA0064.eurprd05.prod.outlook.com
+ (2603:10a6:200:68::32) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.178.21] (91.14.161.181) by AM4PR0501CA0064.eurprd05.prod.outlook.com (2603:10a6:200:68::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Tue, 24 Aug 2021 09:32:14 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ef97a955-ab73-405b-c26e-08d966e2104b
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4705:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB4705DC1A49021423A51FCBDC83C59@BL0PR12MB4705.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Pnovsyteir3JGeJstel5HlFyx2FUozMOfYXYmWyB/joQYcI/JOfkSoshE0IQY3PNxtB3CVDQjkD3EX59FRtUbNhncvDKFvRqd+6R96eWTg1AFtAdbuVixAaqDZssNI0zs9u0fixehC9b/ytMwRCh+UQ1dUk7ngmg9Imdj0/6gU/PG5dp7gXeZxosjFnqQl+rUC3riGLsIyfDreK7rXz369FNXZgmIvWmTgweJPzcZ1tD0cD3e9h94B2XDnHR9iUL3GBJEtrI3DVhU5Ko9wIy2RsQjhfP46G+tuwGsQzlOb59FgfsLng6yJnCuhYq+SWF5HCsEyPhw3MZmT4oXlSMBeKiqzd3XiRooHpSGUyXjQ9SqfBf0YgnQ0V/BDNm12TVAlj7aaRzRf+SHDMYgDjJ9PNb1ZS/or1SaeQqj5NXonHJcF1/Vj73ZmkIh88gjQ6BE93RaIR4+vBKGetlm1hDvp+s3ZsyhZa7GtDmmTdqB+e5GybMYfX/K6zNkZSjX9w9YInwS8hk9j+Ab4yKkeEwVcNhGLi9LoBmD1cyZ8xndIhOKS2KTX37MAdFdM0eXM0cI8p8ufy0857e/OAvCdgNR7IIbp3y47QTlCLbjkOwaQ6ak3Cd1nNZ5bPpUzOZVso4cPibQ7wrbstn32NVAZrx1DUACnUqGEaJYXRvWTb0cGgO1w6BPlTviaF5lc+wnMcfw3exvBlhfWyNj4Yrg3LQ9zoDn5+1bqoEDKFatPsY5P4MblHhn6NKqWG6NN6RpyT0
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(376002)(366004)(39860400002)(136003)(16576012)(31696002)(316002)(66556008)(26005)(6666004)(83380400001)(8676002)(956004)(66946007)(66476007)(186003)(4326008)(31686004)(2616005)(7416002)(66574015)(86362001)(36756003)(8936002)(6486002)(2906002)(5660300002)(53546011)(54906003)(110136005)(38100700002)(478600001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T3NlTmZtQ3grWHBySSsrUFAwOHZCMysrcVRvSllYLy85WUlWb0xkVCsrNWR0?=
+ =?utf-8?B?WVZUKzBjU1dhUEpMVERPM2hLWkVvNzZOeHlmMG5mVS9qbWlKa1VEdDVBOUoy?=
+ =?utf-8?B?VlZJWHh4ZkwybHFNZkJJTHR6cVI3bkFWUGZPcy85K1RiSSsyTmdCamxGdWFo?=
+ =?utf-8?B?bmNiTnN0REJ6RFg3aXBFbTNJWHFxM3ZqazhqdFJkNWtURkdVY1pVMHBVNjNK?=
+ =?utf-8?B?WXFUeEN1UkdTd0FGMVpOVVJZeGdteG5FSXRvaWkrMEkyUHlDdTJtVThvOGVQ?=
+ =?utf-8?B?YkpWZVdvaTNWSjZ2OEdOekZLR0FqZEh3Rk1ZTmY3OFJUdjNHTWg3enhiVXQx?=
+ =?utf-8?B?M3R1THhBKzR3MTRPUXFwTHFxcVFuM1JqM3dOWURNZzBxTTlwTllVMG5qZCs4?=
+ =?utf-8?B?ekt5b1l5WHJOcis2UnY1RHoyUVVlVHZMZC9lMzFoa01ORUUvUXdhU2VwUC85?=
+ =?utf-8?B?djZxVVJpQ25NdFRHTXF4QUZGN3lELzZqeVhoTWozdjI4d053UUw4Q0hLNWxP?=
+ =?utf-8?B?RFhWSGlkWW9BU1ZBMjU0MzMzaGRHVHM4QXdnVENrYTJqWW9hZnl0NmVUM3py?=
+ =?utf-8?B?K1FlL0lkOGdMYW9RVzBmcm9yUWcxcDgxTjQvaktWTG1XTCtFQmdpb1pTcStw?=
+ =?utf-8?B?dEdCOVJSYWwrQVlqYUN3bGQxaFRDSFNiOWdjMTB6QjQzNEV2M29vZEQvakJD?=
+ =?utf-8?B?R0pFNW1yYVRUaG4xR04vbGlyRjBLazZGR1VGNTBab3JMV3lKT0ZoNEZpM0V0?=
+ =?utf-8?B?Z1VoOHRJMzgxUzdOL3A5Z01ZUFE5UDRIanRMaXFyV0NVNGlXWFd1QktQS09R?=
+ =?utf-8?B?TUZqU1ZjcWhGYndrZFRaR01lcTc2aGlOWDRGd3I5QWg0Zmw4YjFXSUJoM1M4?=
+ =?utf-8?B?K0g2YTR2YlJLYk9ReHFKL0QvWUR2Q0pRcXpBQmZVTjkyaURrdW05b2Rjc2NX?=
+ =?utf-8?B?cUgyNmY0T3BCUDN5RXhKR3JEb2RPKy9abHVhY3gxQjJWOFdHVUczR3JQS25T?=
+ =?utf-8?B?blRKbnBNQ3RYb1lZMU5yZWtDVUNZSVpYemhwMzF6WkxFY3h1WTlyQXoxOXlC?=
+ =?utf-8?B?KzBIbjU2bC9SMHgzRld2QjNpb0VuVVlPdFFrM0hFRVNWVE5sLyt4dVV6MUlJ?=
+ =?utf-8?B?Qk01UkJDVUlOV2dqVll3OGtCcmQ4dW5WdVVxS0VpUDF1c2hYeDVsSzMraHpm?=
+ =?utf-8?B?aWpuVjM1UTZwT1l6dUtGdGZySEY1c3FzMXhPa29ZZUdMWHlkOWZDYURZL2g2?=
+ =?utf-8?B?ODhHZWJmOG8xQi9BSWZuVUhPcS92eStIVzltbkhrOEVXTi80R2MvZ0d6SnRE?=
+ =?utf-8?B?OHEwUlcxSmUwUzVGWUJFK2dxWjdXeWk3UFV5ZHcyU2VzMWZXa2l4b3hsTWpV?=
+ =?utf-8?B?b1hydmw3WWVpeFlqOGhLZXZ4RWY2bkE3T3lTRjloOEt4aDZaYkY0d3o3bGxu?=
+ =?utf-8?B?WmZPWkIvUFlKUnRVUmVoTStta2ZFK2l0TWE4eFpUeVN4K0I2Q1gvcjJXUHVG?=
+ =?utf-8?B?bXplWGJteVVONVFuTmFVMjFrTm1JMmhoVFV6Y2ZHcnllZUVCVmIvcWdOakcz?=
+ =?utf-8?B?bGRmODZBbkJUeDZnVGdIZkNHcGxRL3J0K3BKUEFlYmpYZGRZVW5NYzJiODNm?=
+ =?utf-8?B?NWJoY3BXRkprYUMxVUtLbXRqdjl2Nzc4YytsWXdpU2tDeGRObXNnMzZIS1dr?=
+ =?utf-8?B?aER3TWpvWHA1eGx3M3Zta2ZydVQxVUlDWGpGL1JJcnlTd3lzSTJOSHNGNjMx?=
+ =?utf-8?Q?RT1O6bkIPDGAJKmglSA4PrswnXE3g6KA5G4AP0s?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef97a955-ab73-405b-c26e-08d966e2104b
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 09:32:17.3897
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: x2DCVbFID/JtYo4NuOICEc7aqFc0uMyedsy6XpkNdHVFMfgddq0wCAuxYfant4Cx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4705
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Deb,
+Am 24.08.21 um 11:06 schrieb Gal Pressman:
+> On 23/08/2021 13:43, Christian König wrote:
+>> Am 21.08.21 um 11:16 schrieb Gal Pressman:
+>>> On 20/08/2021 17:32, Jason Gunthorpe wrote:
+>>>> On Fri, Aug 20, 2021 at 03:58:33PM +0300, Gal Pressman wrote:
+>>>>
+>>>>> Though it would've been nicer if we could agree on a solution that could work
+>>>>> for more than 1-2 RDMA devices, using the existing tools the RDMA subsystem
+>>>>> has.
+>>>> I don't think it can really be done, revoke is necessary, and isn't a
+>>>> primitive we have today.
+>>>>
+>>>> Revoke is sort of like rereg MR, but with a guaranteed no-change to
+>>>> the lkey/rkey
+>>>>
+>>>> Then there is the locking complexity of linking the mr creation and
+>>>> destruction to the lifecycle of the pages, which is messy and maybe
+>>>> not general. For instance mlx5 would call its revoke_mr, disconnect
+>>>> the dmabuf then destroy the mkey - but this is only safe because mlx5
+>>>> HW can handle concurrent revokes.
+>>> Thanks, that makes sense.
+>>>
+>>>>> That's why I tried to approach this by denying such attachments for non-ODP
+>>>>> importers instead of exposing a "limited" dynamic importer.
+>>>> That is fine if there is no revoke - once revoke exists we must have
+>>>> driver and HW support.
+>>> Agree.
+>>> IIUC, we're talking about three different exporter "types":
+>>> - Dynamic with move_notify (requires ODP)
+>>> - Dynamic with revoke_notify
+>>> - Static
+>>>
+>>> Which changes do we need to make the third one work?
+>> Basically none at all in the framework.
+>>
+>> You just need to properly use the dma_buf_pin() function when you start using a
+>> buffer (e.g. before you create an attachment) and the dma_buf_unpin() function
+>> after you are done with the DMA-buf.
+> I replied to your previous mail, but I'll ask again.
+> Doesn't the pin operation migrate the memory to host memory?
 
-Some comments below:
+Sorry missed your previous reply.
 
-On 24/08/2021 06:29, Deborah Brouwer wrote:
-> Currently, the vivid emulation of cec message transmission does not force
-> adapters to wait until the cec bus has been signal-free for a certain
-> number of bit periods before transmitting or re-transmitting a message.
-> Without enforcing the signal-free time requirements, adapters do not share
-> the bus very well and some messages are sent too quickly while other
-> messages are lost. By emulating a signal-free time and forcing adapters
-> to wait their turn to transmit, the vivid emulation of cec transmission
-> is much more reliable.
-> 
-> Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
-> ---
->  drivers/media/test-drivers/vivid/vivid-cec.c  | 332 ++++++++++--------
->  drivers/media/test-drivers/vivid/vivid-cec.h  |   9 +-
->  drivers/media/test-drivers/vivid/vivid-core.c |  37 +-
->  drivers/media/test-drivers/vivid/vivid-core.h |  22 +-
->  4 files changed, 209 insertions(+), 191 deletions(-)
-> 
-> diff --git a/drivers/media/test-drivers/vivid/vivid-cec.c b/drivers/media/test-drivers/vivid/vivid-cec.c
-> index 4d2413e87730..a832cdac941c 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-cec.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-cec.c
-> @@ -5,40 +5,23 @@
->   * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
->   */
->  
-> +#include <linux/delay.h>
->  #include <media/cec.h>
->  
->  #include "vivid-core.h"
->  #include "vivid-cec.h"
->  
-> -#define CEC_TIM_START_BIT_TOTAL		4500
-> -#define CEC_TIM_START_BIT_LOW		3700
-> -#define CEC_TIM_START_BIT_HIGH		800
-> -#define CEC_TIM_DATA_BIT_TOTAL		2400
-> -#define CEC_TIM_DATA_BIT_0_LOW		1500
-> -#define CEC_TIM_DATA_BIT_0_HIGH		900
-> -#define CEC_TIM_DATA_BIT_1_LOW		600
-> -#define CEC_TIM_DATA_BIT_1_HIGH		1800
-> +#define CEC_START_BIT_US		4500
-> +#define CEC_DATA_BIT_US			2400
-> +#define CEC_MARGIN_US			350
->  
-> -void vivid_cec_bus_free_work(struct vivid_dev *dev)
-> -{
-> -	spin_lock(&dev->cec_slock);
-> -	while (!list_empty(&dev->cec_work_list)) {
-> -		struct vivid_cec_work *cw =
-> -			list_first_entry(&dev->cec_work_list,
-> -					 struct vivid_cec_work, list);
-> -
-> -		spin_unlock(&dev->cec_slock);
-> -		cancel_delayed_work_sync(&cw->work);
-> -		spin_lock(&dev->cec_slock);
-> -		list_del(&cw->list);
-> -		cec_transmit_attempt_done(cw->adap, CEC_TX_STATUS_LOW_DRIVE);
-> -		kfree(cw);
-> -	}
-> -	spin_unlock(&dev->cec_slock);
-> -}
-> +struct xfer_on_bus {
-> +	struct cec_adapter	*adap;
-> +	u8			status;
-> +};
->  
-> -static bool vivid_cec_find_dest_adap(struct vivid_dev *dev,
-> -				     struct cec_adapter *adap, u8 dest)
-> +static bool find_dest_adap(struct vivid_dev *dev,
-> +			   struct cec_adapter *adap, u8 dest)
->  {
->  	unsigned int i;
->  
-> @@ -61,116 +44,186 @@ static bool vivid_cec_find_dest_adap(struct vivid_dev *dev,
->  	return false;
->  }
->  
-> -static void vivid_cec_pin_adap_events(struct cec_adapter *adap, ktime_t ts,
-> -				      const struct cec_msg *msg, bool nacked)
-> +static bool xfer_ready(struct vivid_dev *dev)
->  {
-> -	unsigned int len = nacked ? 1 : msg->len;
->  	unsigned int i;
-> -	bool bit;
-> +	bool ready = false;
->  
-> -	if (adap == NULL)
-> -		return;
-> -
-> -	/*
-> -	 * Suffix ULL on constant 10 makes the expression
-> -	 * CEC_TIM_START_BIT_TOTAL + 10ULL * len * CEC_TIM_DATA_BIT_TOTAL
-> -	 * to be evaluated using 64-bit unsigned arithmetic (u64), which
-> -	 * is what ktime_sub_us expects as second argument.
-> -	 */
-> -	ts = ktime_sub_us(ts, CEC_TIM_START_BIT_TOTAL +
-> -			       10ULL * len * CEC_TIM_DATA_BIT_TOTAL);
-> -	cec_queue_pin_cec_event(adap, false, false, ts);
-> -	ts = ktime_add_us(ts, CEC_TIM_START_BIT_LOW);
-> -	cec_queue_pin_cec_event(adap, true, false, ts);
-> -	ts = ktime_add_us(ts, CEC_TIM_START_BIT_HIGH);
-> -
-> -	for (i = 0; i < 10 * len; i++) {
-> -		switch (i % 10) {
-> -		case 0 ... 7:
-> -			bit = msg->msg[i / 10] & (0x80 >> (i % 10));
-> -			break;
-> -		case 8: /* EOM */
-> -			bit = i / 10 == msg->len - 1;
-> -			break;
-> -		case 9: /* ACK */
-> -			bit = cec_msg_is_broadcast(msg) ^ nacked;
-> +	spin_lock(&dev->cec_xfers_slock);
-> +	for (i = 0; i < ARRAY_SIZE(dev->xfers); i++) {
-> +		if (dev->xfers[i].sft &&
-> +		    dev->xfers[i].sft <= dev->cec_sft) {
-> +			ready = true;
->  			break;
->  		}
-> -		cec_queue_pin_cec_event(adap, false, false, ts);
-> -		if (bit)
-> -			ts = ktime_add_us(ts, CEC_TIM_DATA_BIT_1_LOW);
-> -		else
-> -			ts = ktime_add_us(ts, CEC_TIM_DATA_BIT_0_LOW);
-> -		cec_queue_pin_cec_event(adap, true, false, ts);
-> -		if (bit)
-> -			ts = ktime_add_us(ts, CEC_TIM_DATA_BIT_1_HIGH);
-> -		else
-> -			ts = ktime_add_us(ts, CEC_TIM_DATA_BIT_0_HIGH);
->  	}
-> -}
-> -
-> -static void vivid_cec_pin_events(struct vivid_dev *dev,
-> -				 const struct cec_msg *msg, bool nacked)
-> -{
-> -	ktime_t ts = ktime_get();
-> -	unsigned int i;
-> +	spin_unlock(&dev->cec_xfers_slock);
->  
-> -	vivid_cec_pin_adap_events(dev->cec_rx_adap, ts, msg, nacked);
-> -	for (i = 0; i < MAX_OUTPUTS; i++)
-> -		vivid_cec_pin_adap_events(dev->cec_tx_adap[i], ts, msg, nacked);
-> +	return ready;
->  }
->  
-> -static void vivid_cec_xfer_done_worker(struct work_struct *work)
-> +/*
-> + * If an adapter tries to send successive messages, it must wait for the
-> + * longest signal-free time between its transmissions. But, if another
-> + * adapter sends a message in the interim, then the wait can be reduced
-> + * because the messages are no longer successive. Make these adjustments
-> + * if necessary.
-> + */
-> +static void adjust_sfts(struct vivid_dev *dev, u8 last_initiator)
->  {
-> -	struct vivid_cec_work *cw =
-> -		container_of(work, struct vivid_cec_work, work.work);
-> -	struct vivid_dev *dev = cw->dev;
-> -	struct cec_adapter *adap = cw->adap;
-> -	u8 dest = cec_msg_destination(&cw->msg);
-> -	bool valid_dest;
->  	unsigned int i;
-> +	u8 initiator;
->  
-> -	valid_dest = cec_msg_is_broadcast(&cw->msg);
-> -	if (!valid_dest)
-> -		valid_dest = vivid_cec_find_dest_adap(dev, adap, dest);
-> -
-> -	cw->tx_status = valid_dest ? CEC_TX_STATUS_OK : CEC_TX_STATUS_NACK;
-> -	spin_lock(&dev->cec_slock);
-> -	dev->cec_xfer_time_jiffies = 0;
-> -	dev->cec_xfer_start_jiffies = 0;
-> -	list_del(&cw->list);
-> -	spin_unlock(&dev->cec_slock);
-> -	vivid_cec_pin_events(dev, &cw->msg, !valid_dest);
-> -	cec_transmit_attempt_done(cw->adap, cw->tx_status);
-> -
-> -	/* Broadcast message */
-> -	if (adap != dev->cec_rx_adap)
-> -		cec_received_msg(dev->cec_rx_adap, &cw->msg);
-> -	for (i = 0; i < MAX_OUTPUTS && dev->cec_tx_adap[i]; i++)
-> -		if (adap != dev->cec_tx_adap[i])
-> -			cec_received_msg(dev->cec_tx_adap[i], &cw->msg);
-> -	kfree(cw);
-> +	spin_lock(&dev->cec_xfers_slock);
-> +	for (i = 0; i < ARRAY_SIZE(dev->xfers); i++) {
-> +		if (dev->xfers[i].sft <= CEC_SIGNAL_FREE_TIME_RETRY)
-> +			continue;
-> +		initiator = dev->xfers[i].msg[0] >> 4;
-> +		if (initiator == last_initiator)
-> +			dev->xfers[i].sft = CEC_SIGNAL_FREE_TIME_NEXT_XFER;
-> +		else
-> +			dev->xfers[i].sft = CEC_SIGNAL_FREE_TIME_NEW_INITIATOR;
-> +	}
-> +	spin_unlock(&dev->cec_xfers_slock);
->  }
->  
-> -static void vivid_cec_xfer_try_worker(struct work_struct *work)
-> +/*
-> + * The main emulation of the bus on which CEC adapters attempt to send
-> + * messages to each other. The bus keeps track of how long it has been
-> + * signal-free and accepts a pending transmission only if the state of
-> + * the bus matches the transmission's signal-free requirements. It calls
-> + * cec_transmit_attempt_done() for all transmits that enter the bus and
-> + * cec_received_msg() for successful transmits.
-> + */
-> +int vivid_cec_bus_thread(void *_dev)
->  {
-> -	struct vivid_cec_work *cw =
-> -		container_of(work, struct vivid_cec_work, work.work);
-> -	struct vivid_dev *dev = cw->dev;
-> -
-> -	spin_lock(&dev->cec_slock);
-> -	if (dev->cec_xfer_time_jiffies) {
-> -		list_del(&cw->list);
-> -		spin_unlock(&dev->cec_slock);
-> -		cec_transmit_attempt_done(cw->adap, CEC_TX_STATUS_ARB_LOST);
-> -		kfree(cw);
-> -	} else {
-> -		INIT_DELAYED_WORK(&cw->work, vivid_cec_xfer_done_worker);
-> -		dev->cec_xfer_start_jiffies = jiffies;
-> -		dev->cec_xfer_time_jiffies = usecs_to_jiffies(cw->usecs);
-> -		spin_unlock(&dev->cec_slock);
-> -		schedule_delayed_work(&cw->work, dev->cec_xfer_time_jiffies);
-> +	u32 last_sft;
-> +	unsigned int i;
-> +	unsigned int dest;
-> +	u8 last_initiator;
-> +	ktime_t start, end;
-> +	s64 delta_us, retry_us;
-> +	unsigned int first_idx;
-> +	unsigned int first_status;
-> +	struct vivid_dev *dev = _dev;
-> +
-> +	dev->cec_sft = CEC_SIGNAL_FREE_TIME_NEXT_XFER;
-> +	for (;;) {
-> +		bool first = true;
-> +		int wait_xfer_us = 0;
-> +		bool valid_dest = false;
-> +		int wait_arb_lost_us = 0;
-> +		struct cec_msg first_msg = {};
-> +		struct xfer_on_bus xfers_on_bus[MAX_OUTPUTS] = {};
-> +
-> +		wait_event_interruptible(dev->kthread_waitq_cec, xfer_ready(dev) ||
-> +					 kthread_should_stop());
-> +		if (kthread_should_stop())
-> +			break;
-> +		last_sft = dev->cec_sft;
-> +		dev->cec_sft = 0;
-> +		/*
-> +		 * Move the messages that are ready onto the bus. The adapter with
-> +		 * the most leading zeros will win control of the bus and any other
-> +		 * adapters will lose arbitration.
-> +		 */
-> +		spin_lock(&dev->cec_xfers_slock);
-> +		for (i = 0; i < ARRAY_SIZE(dev->xfers); i++) {
-> +			if (!dev->xfers[i].sft || dev->xfers[i].sft > last_sft)
-> +				continue;
-> +			if (first) {
-> +				first = false;
-> +				first_idx = i;
-> +				xfers_on_bus[first_idx].adap = dev->xfers[i].adap;
-> +				memcpy(first_msg.msg, dev->xfers[i].msg, CEC_MAX_MSG_SIZE);
+And yes at least for the amdgpu driver we migrate the memory to host 
+memory as soon as it is pinned and I would expect that other GPU drivers 
+do something similar.
 
-Instead of MAX_MSG_SIZE you can use the actual length.
+This is intentional since we don't want any P2P to video memory with 
+pinned objects and want to avoid to run into a situation where one 
+device is doing P2P to video memory while another device needs the 
+DMA-buf in host memory.
 
-> +				first_msg.len = dev->xfers[i].len;
-> +			} else {
-> +				xfers_on_bus[i].adap = dev->xfers[i].adap;
-> +				xfers_on_bus[i].status = CEC_TX_STATUS_ARB_LOST;
-> +				/*
-> +				 * For simplicity wait for all 4 bits of the initiator's
-> +				 * address even though HDMI specification uses bit-level
-> +				 * precision.
-> +				 */
-> +				wait_arb_lost_us = 4 * CEC_DATA_BIT_US + CEC_START_BIT_US;
-> +			}
-> +			dev->xfers[i].sft = 0;
-> +		}
+You can still do P2P with pinned object, it's just up to the exporting 
+driver if it is allowed or not.
 
-You can update the last_initiator state information here (see comments below) and call
-adjust_sfts(). Since adjust_sfts() is called with the spinlock held, you can drop the
-locking in that function.
-
-> +		spin_unlock(&dev->cec_xfers_slock);
-> +
-> +		dest = cec_msg_destination(&first_msg);
-> +		valid_dest = cec_msg_is_broadcast(&first_msg);
-> +		if (!valid_dest)
-> +			valid_dest = find_dest_adap(dev, xfers_on_bus[first_idx].adap, dest);
-> +		if (valid_dest) {
-> +			first_status = CEC_TX_STATUS_OK;
-> +			/*
-> +			 * Message length is in bytes, but each byte is transmitted in
-> +			 * a block of 10 bits.
-> +			 */
-> +			wait_xfer_us = first_msg.len * 10 * CEC_DATA_BIT_US;
-> +		} else {
-> +			first_status = CEC_TX_STATUS_NACK;
-> +			/*
-> +			 * A message that is not acknowledged stops transmitting after
-> +			 * the header block of 10 bits.
-> +			 */
-> +			wait_xfer_us = 10 * CEC_DATA_BIT_US;
-> +		}
-> +		wait_xfer_us += CEC_START_BIT_US;
-> +		xfers_on_bus[first_idx].status = first_status;
-> +
-> +		/* Sleep as if sending messages on a real hardware bus. */
-> +		start = ktime_get();
-> +		if (wait_arb_lost_us) {
-> +			usleep_range(wait_arb_lost_us - CEC_MARGIN_US, wait_arb_lost_us);
-> +			for (i = 0; i < ARRAY_SIZE(xfers_on_bus); i++) {
-> +				if (xfers_on_bus[i].status != CEC_TX_STATUS_ARB_LOST)
-> +					continue;
-> +				cec_transmit_attempt_done(xfers_on_bus[i].adap,
-> +							  CEC_TX_STATUS_ARB_LOST);
-> +			}
-
-Check for kthread_should_stop() here...
-
-> +		}
-> +		wait_xfer_us -= wait_arb_lost_us;
-> +		usleep_range(wait_xfer_us - CEC_MARGIN_US, wait_xfer_us);
-> +		cec_transmit_attempt_done(xfers_on_bus[first_idx].adap, first_status);
-
-and here.
-
-> +		if (first_status == CEC_TX_STATUS_OK) {
-> +			if (xfers_on_bus[first_idx].adap != dev->cec_rx_adap)
-> +				cec_received_msg(dev->cec_rx_adap, &first_msg);
-> +			for (i = 0; i < MAX_OUTPUTS && dev->cec_tx_adap[i]; i++)
-> +				if (xfers_on_bus[first_idx].adap != dev->cec_tx_adap[i])
-> +					cec_received_msg(dev->cec_tx_adap[i], &first_msg);
-> +		}
-> +		end = ktime_get();
-> +		/*
-> +		 * If the emulated transfer took more or less time than it should
-> +		 * have, then compensate by adjusting the wait time needed for the
-> +		 * bus to be signal-free for 3 bit periods (the retry time).
-> +		 */
-> +		delta_us = (end - start) / 1000ULL;
-> +		delta_us -= wait_xfer_us + wait_arb_lost_us;
-> +		retry_us = CEC_SIGNAL_FREE_TIME_RETRY * CEC_DATA_BIT_US - delta_us;
-> +		if (retry_us > CEC_MARGIN_US)
-> +			usleep_range(retry_us - CEC_MARGIN_US, retry_us);
-> +		dev->cec_sft = CEC_SIGNAL_FREE_TIME_RETRY;
-> +		last_initiator = cec_msg_initiator(&first_msg);
-
-Shouldn't adjust_sfts() be called here before entering the while-loop?
-
-Also, as pointed out above, you know the last_initiator earlier, so you can do
-this as soon as it is known.
-
-I think the last_initiator should also be stored in the vivid state, so adap_transmit
-can use it as well (see my comment below).
-
-> +		/*
-> +		 * If there are no messages that need to be retried, check if any
-> +		 * adapters that did not just transmit a message are ready to
-> +		 * transmit. If none of these adapters are ready, then increase
-> +		 * the signal-free time so that the bus is available to all
-> +		 * adapters and go back to waiting for a transmission.
-> +		 */
-> +		while (dev->cec_sft >= CEC_SIGNAL_FREE_TIME_RETRY &&
-> +		       dev->cec_sft < CEC_SIGNAL_FREE_TIME_NEXT_XFER &&
-> +		       !xfer_ready(dev)) {
-
-Check for kthread_should_stop() as well.
-
-> +			adjust_sfts(dev, last_initiator);
-> +			usleep_range(2 * CEC_DATA_BIT_US - CEC_MARGIN_US,
-> +				     2 * CEC_DATA_BIT_US);
-> +			dev->cec_sft += 2;
-> +		}
->  	}
-> +	return 0;
->  }
->  
->  static int vivid_cec_adap_enable(struct cec_adapter *adap, bool enable)
-> @@ -184,41 +237,20 @@ static int vivid_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
->  	return 0;
->  }
->  
-> -/*
-> - * One data bit takes 2400 us, each byte needs 10 bits so that's 24000 us
-> - * per byte.
-> - */
-> -#define USECS_PER_BYTE 24000
-> -
->  static int vivid_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
->  				   u32 signal_free_time, struct cec_msg *msg)
->  {
->  	struct vivid_dev *dev = cec_get_drvdata(adap);
-> -	struct vivid_cec_work *cw = kzalloc(sizeof(*cw), GFP_KERNEL);
-> -	long delta_jiffies = 0;
-> +	u8 idx = cec_msg_initiator(msg);
->  
-> -	if (cw == NULL)
-> -		return -ENOMEM;
-> -	cw->dev = dev;
-> -	cw->adap = adap;
-> -	cw->usecs = CEC_FREE_TIME_TO_USEC(signal_free_time) +
-> -		    msg->len * USECS_PER_BYTE;
-> -	cw->msg = *msg;
-> +	spin_lock(&dev->cec_xfers_slock);
-> +	dev->xfers[idx].adap = adap;
-> +	memcpy(dev->xfers[idx].msg, msg->msg, CEC_MAX_MSG_SIZE);
-> +	dev->xfers[idx].len = msg->len;
-> +	dev->xfers[idx].sft = signal_free_time;
-
-This is directly using the signal_free_time passed in from the framework.
-
-But if the last_initiator as seen by the emulated CEC bus is stored in the vivid
-state, then this function can take that into account. Basically if signal_free_time
-is > RETRY, then use the last_initiator information to set the sft to NEXT_XFER or
-NEW_INITIATOR. The bus emulation has better information about this than the framework.
-
-> +	spin_unlock(&dev->cec_xfers_slock);
-> +	wake_up_interruptible(&dev->kthread_waitq_cec);
->  
-> -	spin_lock(&dev->cec_slock);
-> -	list_add(&cw->list, &dev->cec_work_list);
-> -	if (dev->cec_xfer_time_jiffies == 0) {
-> -		INIT_DELAYED_WORK(&cw->work, vivid_cec_xfer_done_worker);
-> -		dev->cec_xfer_start_jiffies = jiffies;
-> -		dev->cec_xfer_time_jiffies = usecs_to_jiffies(cw->usecs);
-> -		delta_jiffies = dev->cec_xfer_time_jiffies;
-> -	} else {
-> -		INIT_DELAYED_WORK(&cw->work, vivid_cec_xfer_try_worker);
-> -		delta_jiffies = dev->cec_xfer_start_jiffies +
-> -			dev->cec_xfer_time_jiffies - jiffies;
-> -	}
-> -	spin_unlock(&dev->cec_slock);
-> -	schedule_delayed_work(&cw->work, delta_jiffies < 0 ? 0 : delta_jiffies);
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/test-drivers/vivid/vivid-cec.h b/drivers/media/test-drivers/vivid/vivid-cec.h
-> index 7524ed48a914..b2bcddb50b83 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-cec.h
-> +++ b/drivers/media/test-drivers/vivid/vivid-cec.h
-> @@ -9,12 +9,5 @@
->  struct cec_adapter *vivid_cec_alloc_adap(struct vivid_dev *dev,
->  					 unsigned int idx,
->  					 bool is_source);
-> -void vivid_cec_bus_free_work(struct vivid_dev *dev);
-> -
-> -#else
-> -
-> -static inline void vivid_cec_bus_free_work(struct vivid_dev *dev)
-> -{
-> -}
-> -
-> +int vivid_cec_bus_thread(void *_dev);
->  #endif
-> diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-> index d2bd2653cf54..1973e08953ab 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-core.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-core.c
-> @@ -1878,18 +1878,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  	INIT_LIST_HEAD(&dev->meta_out_active);
->  	INIT_LIST_HEAD(&dev->touch_cap_active);
->  
-> -	INIT_LIST_HEAD(&dev->cec_work_list);
-> -	spin_lock_init(&dev->cec_slock);
-> -	/*
-> -	 * Same as create_singlethread_workqueue, but now I can use the
-> -	 * string formatting of alloc_ordered_workqueue.
-> -	 */
-> -	dev->cec_workqueue = alloc_ordered_workqueue("vivid-%03d-cec",
-> -						     WQ_MEM_RECLAIM, inst);
-> -	if (!dev->cec_workqueue) {
-> -		ret = -ENOMEM;
-> -		goto unreg_dev;
-> -	}
-> +	spin_lock_init(&dev->cec_xfers_slock);
->  
->  	if (allocators[inst] == 1)
->  		dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-> @@ -1929,6 +1918,18 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  			cec_tx_bus_cnt++;
->  		}
->  	}
-> +
-> +	if (dev->cec_rx_adap || cec_tx_bus_cnt) {
-> +		init_waitqueue_head(&dev->kthread_waitq_cec);
-> +		dev->kthread_cec = kthread_run(vivid_cec_bus_thread, dev,
-> +					       "vivid_cec-%s", dev->v4l2_dev.name);
-> +		if (IS_ERR(dev->kthread_cec)) {
-> +			dev->kthread_cec = NULL;
-> +			v4l2_err(&dev->v4l2_dev, "kernel_thread() failed\n");
-> +			goto unreg_dev;
-> +		}
-> +	}
-> +
->  #endif
->  
->  	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vid_cap);
-> @@ -1968,10 +1969,8 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  	cec_unregister_adapter(dev->cec_rx_adap);
->  	for (i = 0; i < MAX_OUTPUTS; i++)
->  		cec_unregister_adapter(dev->cec_tx_adap[i]);
-> -	if (dev->cec_workqueue) {
-> -		vivid_cec_bus_free_work(dev);
-> -		destroy_workqueue(dev->cec_workqueue);
-> -	}
-> +	if (dev->kthread_cec)
-> +		kthread_stop(dev->kthread_cec);
->  free_dev:
->  	v4l2_device_put(&dev->v4l2_dev);
->  	return ret;
-> @@ -2093,10 +2092,8 @@ static int vivid_remove(struct platform_device *pdev)
->  		cec_unregister_adapter(dev->cec_rx_adap);
->  		for (j = 0; j < MAX_OUTPUTS; j++)
->  			cec_unregister_adapter(dev->cec_tx_adap[j]);
-> -		if (dev->cec_workqueue) {
-> -			vivid_cec_bus_free_work(dev);
-> -			destroy_workqueue(dev->cec_workqueue);
-> -		}
-> +		if (dev->kthread_cec)
-> +			kthread_stop(dev->kthread_cec);
->  		v4l2_device_put(&dev->v4l2_dev);
->  		vivid_devs[i] = NULL;
->  	}
-> diff --git a/drivers/media/test-drivers/vivid/vivid-core.h b/drivers/media/test-drivers/vivid/vivid-core.h
-> index 1e3c4f5a9413..19e70c5cccc8 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-core.h
-> +++ b/drivers/media/test-drivers/vivid/vivid-core.h
-> @@ -110,15 +110,11 @@ enum vivid_colorspace {
->  #define VIVID_INVALID_SIGNAL(mode) \
->  	((mode) == NO_SIGNAL || (mode) == NO_LOCK || (mode) == OUT_OF_RANGE)
->  
-> -struct vivid_cec_work {
-> -	struct list_head	list;
-> -	struct delayed_work	work;
-> +struct vivid_cec_xfer {
->  	struct cec_adapter	*adap;
-> -	struct vivid_dev	*dev;
-> -	unsigned int		usecs;
-> -	unsigned int		timeout_ms;
-> -	u8			tx_status;
-> -	struct cec_msg		msg;
-> +	u8			msg[CEC_MAX_MSG_SIZE];
-> +	u32			len;
-> +	u32			sft;
->  };
->  
->  struct vivid_dev {
-> @@ -560,12 +556,12 @@ struct vivid_dev {
->  	/* CEC */
->  	struct cec_adapter		*cec_rx_adap;
->  	struct cec_adapter		*cec_tx_adap[MAX_OUTPUTS];
-> -	struct workqueue_struct		*cec_workqueue;
-> -	spinlock_t			cec_slock;
-> -	struct list_head		cec_work_list;
-> -	unsigned int			cec_xfer_time_jiffies;
-> -	unsigned long			cec_xfer_start_jiffies;
->  	u8				cec_output2bus_map[MAX_OUTPUTS];
-> +	struct task_struct		*kthread_cec;
-> +	wait_queue_head_t		kthread_waitq_cec;
-> +	struct vivid_cec_xfer	xfers[MAX_OUTPUTS];
-> +	spinlock_t			cec_xfers_slock; /* read and write cec messages */
-> +	u32				cec_sft; /* bus signal free time, in bit periods */
->  
->  	/* CEC OSD String */
->  	char				osd[14];
-> 
+The other option is what Daniel suggested that we have some kind of 
+revoke. This is essentially what our KFD is doing as well when doing 
+interop with 3D GFX, but from Jasons responses I have a bit of doubt 
+that this will actually work on the hardware level for RDMA.
 
 Regards,
-
-	Hans
+Christian.
