@@ -2,185 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E4DD3F69AF
-	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 21:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 021983F69DF
+	for <lists+linux-media@lfdr.de>; Tue, 24 Aug 2021 21:30:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234424AbhHXTVd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Aug 2021 15:21:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33330 "EHLO
+        id S234586AbhHXTbj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Aug 2021 15:31:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234287AbhHXTVa (ORCPT
+        with ESMTP id S234287AbhHXTbj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Aug 2021 15:21:30 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF39AC061757
-        for <linux-media@vger.kernel.org>; Tue, 24 Aug 2021 12:20:45 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id 28-20020a17090a031cb0290178dcd8a4d1so2539563pje.0
-        for <linux-media@vger.kernel.org>; Tue, 24 Aug 2021 12:20:45 -0700 (PDT)
+        Tue, 24 Aug 2021 15:31:39 -0400
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C43C1C0613C1
+        for <linux-media@vger.kernel.org>; Tue, 24 Aug 2021 12:30:54 -0700 (PDT)
+Received: by mail-qt1-x82f.google.com with SMTP id u21so14841331qtw.8
+        for <linux-media@vger.kernel.org>; Tue, 24 Aug 2021 12:30:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=ziepe.ca; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=mVPoYVWoIvb5FZ8mV7/5paxx0nV7NsVnW/KlyUCKuhA=;
-        b=ItO9aTgPCLyylgqQH5P4MQ6LZ82koN27g+C017e7/xl7kVMH5aX3KWis8yt4wUVkjz
-         wXxAZo1Q8eLMiOAddoLWaM84tLRf81rhbCmAohc/2+/UwUqeEdhOAiL2+G12JlKhzbpH
-         ekC6QRzWvElQU52222Pns750NpbfIXJVUjyIbd4tPpOEExnSXybjVvgl56ljNmeLDmUN
-         esoFzVFtQVpkl3aOw9YJyy9pQN97CxAds/fk+M8Q7QfvwMGmer7737do2vcvZU5l+FuF
-         DbHrw2ZIHuglgesi++0vAVfK3geqR/zo/P07zpo8GBT95HUJApgtaMVW1g0nSBFqGu82
-         wQag==
+        bh=nISK/DnSMLsPKL33eQfrjbTBgFhp/AOhrSTXl8tgvVY=;
+        b=BBZ/DdRgt5H9lez5WzLUWLJI8CSm49bjqG/ijHPqdU//5r21+B/V9LDmau1ile99vj
+         ihXEXykNbCWxBdSt1o+/OBIH3V6JByVsYZzFSIvZZA9pAuP1aGsZD1dx/JOQtpO2F070
+         xkmZBbOZYa2jF9TmJTfo46ih/34THHx3HNpZ200z1wfuD2NUWKDUtHpXhSoZiVJ79CK4
+         WIqvRnCwVSMZ5qqvSTkaScBbjOjAUluNvFDFs3ao3V2i0DYaiCk5S344s1rEeQWfzGoH
+         0kL2BPZBmWJzrZdjhRM7ZGEbilknKYgR2dlZRPL8wNh4i3BfXwj7Z6qyQkxhunknYZvn
+         2hdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=mVPoYVWoIvb5FZ8mV7/5paxx0nV7NsVnW/KlyUCKuhA=;
-        b=YsgJvVEgy40tOVD08gOdt0VFRPZRHYkN0ZuSO1FF1S7ewdrLDcs5L3PAixr5yp+Wda
-         Sx/54TgSc2a5CBkwLZQN3WwGmwwnPPrLIgiHLiFnpkfg88SLCKg1EmL+Ta6r0o4SDiVQ
-         GrERp6JbbCRm6SPduutT/VHKYqVoFDp8b9aDC5cQkJMUdUXke7ZEBIKee0BoLB0Ea0UG
-         yS1sFZH/WHXUJmvjXEzdNLXx1ynW1beCvNdMey/mIKksW6bYnbBnNBW3kseLV4U6QwLN
-         bVhDVDtp31rpezMaLpkHFXQluosfNWpuuSZckgQHG3nTuOptl9BFQkth/FNasN14phgj
-         X2nA==
-X-Gm-Message-State: AOAM5303RWScMNd4V119eqCxibpp3saEKnuTN3miDMwZo46wwJA/g5/5
-        Eo/HsnDVMsNSykHFSIKaK8aGbA==
-X-Google-Smtp-Source: ABdhPJzSrMM4MxmIH6A8jSFtIdKi3nUJc7HYA8i2icWXwYCfSIFFuVlTcRtN6GWtJN/aAKArKjaNiw==
-X-Received: by 2002:a17:902:e0cc:b0:134:7191:f39 with SMTP id e12-20020a170902e0cc00b0013471910f39mr10468342pla.36.1629832844892;
-        Tue, 24 Aug 2021 12:20:44 -0700 (PDT)
-Received: from google.com ([2401:fa00:1:10:4a93:46f4:da9a:4371])
-        by smtp.gmail.com with ESMTPSA id 22sm23515422pgn.88.2021.08.24.12.20.40
+        bh=nISK/DnSMLsPKL33eQfrjbTBgFhp/AOhrSTXl8tgvVY=;
+        b=ejUBPavRWpEmRb8EIf6tF9CbBddajEplrV+OxGJWH/Lu/0ZVkyx9Gw09CPUjw9x7o1
+         Kd6GT27bEYaklArmBrvuoBWOqKINYVQMWH58J7PBdQZjOjDBELVatFrlA6NJM9v9eK5M
+         +RbW9cKrm8x0CLdxdkRobqwcpmTCKNn2WtJDTZ4ky0b9WqnnXOPkIAr8Yf/Py24RLCSs
+         4vT91Nz+2jHacxYDyTSKRrANAEmnsqMYATE2IZN+j8rRTGPZUovLgMYTj6v1bZKdtq7V
+         Yf4gXohACw0tb4WtxJae54keIxHCcO4z9l+xyurZYkvEuenaI630GOVYbn43LgrHBi+c
+         64Bw==
+X-Gm-Message-State: AOAM533PCa9GKll+gZce3I1GMCCsLrCU4n2WmV1VE2m8KM7+r+tgWoFZ
+        0wk3TftGZnZ3cHSqG26NC3Wvxg==
+X-Google-Smtp-Source: ABdhPJxXjfrAKQzkOvCMB0CeoOhrejCp5dMuDkaR5tjrmjOC+w0vSyChN42xlzQjduZni77z8K57jg==
+X-Received: by 2002:ac8:dc9:: with SMTP id t9mr35660938qti.293.1629833453961;
+        Tue, 24 Aug 2021 12:30:53 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
+        by smtp.gmail.com with ESMTPSA id q22sm6382139qtr.95.2021.08.24.12.30.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 12:20:44 -0700 (PDT)
-Date:   Wed, 25 Aug 2021 03:20:39 +0800
-From:   Tzung-Bi Shih <tzungbi@google.com>
-To:     Irui Wang <irui.wang@mediatek.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>, Yong Wu <yong.wu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH 7/9] media: mtk-vcodec: Add frame racing mode encode
- process
-Message-ID: <YSVGh0/6mAgHFmPb@google.com>
-References: <20210816105934.28265-1-irui.wang@mediatek.com>
- <20210816105934.28265-8-irui.wang@mediatek.com>
+        Tue, 24 Aug 2021 12:30:53 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1mIc8K-004ZMK-M2; Tue, 24 Aug 2021 16:30:52 -0300
+Date:   Tue, 24 Aug 2021 16:30:52 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Dave Airlie <airlied@gmail.com>
+Cc:     John Hubbard <jhubbard@nvidia.com>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Gal Pressman <galpress@amazon.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Doug Ledford <dledford@redhat.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Oded Gabbay <ogabbay@habana.ai>,
+        Tomer Tayar <ttayar@habana.ai>,
+        Yossi Leybovich <sleybo@amazon.com>,
+        Alexander Matushevsky <matua@amazon.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Jianxin Xiong <jianxin.xiong@intel.com>
+Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
+Message-ID: <20210824193052.GF543798@ziepe.ca>
+References: <0fc94ac0-2bb9-4835-62b8-ea14f85fe512@amazon.com>
+ <20210820143248.GX543798@ziepe.ca>
+ <da6364b7-9621-a384-23b0-9aa88ae232e5@amazon.com>
+ <fa124990-ee0c-7401-019e-08109e338042@amd.com>
+ <e2c47256-de89-7eaa-e5c2-5b96efcec834@amazon.com>
+ <6b819064-feda-b70b-ea69-eb0a4fca6c0c@amd.com>
+ <a9604a39-d08f-6263-4c5b-a2bc9a70583d@nvidia.com>
+ <20210824173228.GE543798@ziepe.ca>
+ <1d1bd2d0-f467-4808-632b-1cca1174cfd9@nvidia.com>
+ <CAPM=9txd71fisvZ1Es5Fv2mwR2vWfHJarya7oeKOm2aq6tH0HQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210816105934.28265-8-irui.wang@mediatek.com>
+In-Reply-To: <CAPM=9txd71fisvZ1Es5Fv2mwR2vWfHJarya7oeKOm2aq6tH0HQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 16, 2021 at 06:59:32PM +0800, Irui Wang wrote:
-> The frame_racing mode encoding is try to use the two venc cores:
-s/is try/tries/
+On Wed, Aug 25, 2021 at 05:15:52AM +1000, Dave Airlie wrote:
+> On Wed, 25 Aug 2021 at 03:36, John Hubbard <jhubbard@nvidia.com> wrote:
+> >
+> > On 8/24/21 10:32 AM, Jason Gunthorpe wrote:
+> > ...
+> > >>> And yes at least for the amdgpu driver we migrate the memory to host
+> > >>> memory as soon as it is pinned and I would expect that other GPU drivers
+> > >>> do something similar.
+> > >>
+> > >> Well...for many topologies, migrating to host memory will result in a
+> > >> dramatically slower p2p setup. For that reason, some GPU drivers may
+> > >> want to allow pinning of video memory in some situations.
+> > >>
+> > >> Ideally, you've got modern ODP devices and you don't even need to pin.
+> > >> But if not, and you still hope to do high performance p2p between a GPU
+> > >> and a non-ODP Infiniband device, then you would need to leave the pinned
+> > >> memory in vidmem.
+> > >>
+> > >> So I think we don't want to rule out that behavior, right? Or is the
+> > >> thinking more like, "you're lucky that this old non-ODP setup works at
+> > >> all, and we'll make it work by routing through host/cpu memory, but it
+> > >> will be slow"?
+> > >
+> > > I think it depends on the user, if the user creates memory which is
+> > > permanently located on the GPU then it should be pinnable in this way
+> > > without force migration. But if the memory is inherently migratable
+> > > then it just cannot be pinned in the GPU at all as we can't
+> > > indefinately block migration from happening eg if the CPU touches it
+> > > later or something.
+> > >
+> >
+> > OK. I just want to avoid creating any API-level assumptions that dma_buf_pin()
+> > necessarily implies or requires migrating to host memory.
+> 
+> I'm not sure we should be allowing dma_buf_pin at all on
+> non-migratable memory, what's to stop someone just pinning all the
+> VRAM and making the GPU unuseable?
 
-> frame#0 use core#0, frame#1 use core#1, frame#2 use core#0...,
-s/use/uses/g
+IMHO the same thinking that prevents pining all of system ram and
+making the system unusable? GPU isn't so special here. The main
+restriction is the pinned memory ulimit. For most out-of-the-box cases
+this is set to something like 64k
 
-> Lock the device and enabe the clock by used core, for sequence
-s/enabe/enable/
+For the single-user HPC use cases it is made unlimited.
 
-> header encoding, it always used core#0.
-s/used/uses/
+> My impression from this is we've designed hardware that didn't
+> consider the problem, and now to let us use that hardware in horrible
+> ways we should just allow it to pin all the things.
 
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> @@ -273,6 +273,7 @@ struct vdec_pic_info {
->   * @decoded_frame_cnt: number of decoded frames
->   * @lock: protect variables accessed by V4L2 threads and worker thread such as
->   *	  mtk_video_dec_buf.
-> + * @enc_idx: used to record encoded frame count
->   */
->  struct mtk_vcodec_ctx {
->  	enum mtk_instance_type type;
-> @@ -313,6 +314,8 @@ struct mtk_vcodec_ctx {
->  	int decoded_frame_cnt;
->  	struct mutex lock;
->  
-> +	int hw_id;
-> +	int enc_idx;
-hw_id lacks of kerneldoc which could introduce smatch warning.
+It is more complex than that, HW that can support dynamic memory under
+*everything* is complicated (and in some cases slow!). As there is
+only a weak rational to do this, we don't see it in often in the
+market.
 
-> --- a/drivers/media/platform/mtk-vcodec/venc_drv_if.c
-> +++ b/drivers/media/platform/mtk-vcodec/venc_drv_if.c
-> @@ -15,6 +15,7 @@
->  
->  #include "mtk_vcodec_enc.h"
->  #include "mtk_vcodec_enc_pm.h"
-> +#include "mtk_vcodec_enc_hw.h"
-Please try to maintain the order.
-
-> @@ -34,9 +35,9 @@ int venc_if_init(struct mtk_vcodec_ctx *ctx, unsigned int fourcc)
->  		return -EINVAL;
->  	}
->  
-> -	mtk_venc_lock(ctx);
-> +	mtk_venc_lock(ctx, 0);
-Does it make more sense to use ctx->hw_id instead 0 (even if it is always 0 in the path)?
-
->  	ret = ctx->enc_if->init(ctx);
-> -	mtk_venc_unlock(ctx);
-> +	mtk_venc_unlock(ctx, 0);
-Same.
-
-> @@ -46,9 +47,9 @@ int venc_if_set_param(struct mtk_vcodec_ctx *ctx,
->  {
->  	int ret = 0;
->  
-> -	mtk_venc_lock(ctx);
-> +	mtk_venc_lock(ctx, 0);
-Same.
-
->  	ret = ctx->enc_if->set_param(ctx->drv_handle, type, in);
-> -	mtk_venc_unlock(ctx);
-> +	mtk_venc_unlock(ctx, 0);
-Same.
-
-> @@ -87,11 +76,67 @@ int venc_if_deinit(struct mtk_vcodec_ctx *ctx)
->  	if (!ctx->drv_handle)
->  		return 0;
->  
-> -	mtk_venc_lock(ctx);
-> +	mtk_venc_lock(ctx, 0);
-Same.
-
->  	ret = ctx->enc_if->deinit(ctx->drv_handle);
-> -	mtk_venc_unlock(ctx);
-> +	mtk_venc_unlock(ctx, 0);
-Same.
-
-> +void venc_encode_unprepare(struct mtk_vcodec_ctx *ctx,
-> +			   enum venc_start_opt opt)
-> +{
-> +	unsigned long flags;
-> +	struct mtk_venc_comp_dev *venc;
-> +
-> +	/*clock off and unlock after irq done*/
-> +	if (ctx->dev->venc_pdata->hw_mode == VENC_FRAME_RACING_MODE) {
-> +		if (opt == VENC_START_OPT_ENCODE_SEQUENCE_HEADER) {
-> +			mtk_vcodec_enc_clock_off(ctx->dev, ctx->hw_id);
-> +			spin_lock_irqsave(&ctx->dev->irqlock, flags);
-> +			venc = ctx->dev->enc_comp_dev[ctx->hw_id];
-> +			venc->curr_ctx = NULL;
-> +			spin_unlock_irqrestore(&ctx->dev->irqlock, flags);
-> +			mtk_venc_unlock(ctx, ctx->hw_id);
-> +		}
-> +	} else {
-> +		mtk_vcodec_enc_clock_off(ctx->dev, ctx->hw_id);
-> +		spin_lock_irqsave(&ctx->dev->irqlock, flags);
-> +		ctx->dev->curr_ctx = NULL;
-> +		spin_unlock_irqrestore(&ctx->dev->irqlock, flags);
-> +		mtk_venc_unlock(ctx, ctx->hw_id);
-The few statements are identical.  Should try to reuse them.
+Jason
