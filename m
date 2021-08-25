@@ -2,110 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2537D3F70D3
-	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 10:00:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 263F13F70D9
+	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 10:04:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235663AbhHYIBi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Aug 2021 04:01:38 -0400
-Received: from mga12.intel.com ([192.55.52.136]:18239 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229503AbhHYIBi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Aug 2021 04:01:38 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="197045274"
-X-IronPort-AV: E=Sophos;i="5.84,349,1620716400"; 
-   d="scan'208";a="197045274"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2021 01:00:34 -0700
-X-IronPort-AV: E=Sophos;i="5.84,349,1620716400"; 
-   d="scan'208";a="527121596"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2021 01:00:28 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 34CF1201ED;
-        Wed, 25 Aug 2021 11:00:26 +0300 (EEST)
-Date:   Wed, 25 Aug 2021 11:00:26 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Dan Scally <djrscally@gmail.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v1 1/3] lib/sort: Split out choose_swap_func() local
- helper
-Message-ID: <20210825080026.GM3@paasikivi.fi.intel.com>
-References: <20210824133351.88179-1-andriy.shevchenko@linux.intel.com>
+        id S231975AbhHYIFE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Aug 2021 04:05:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35764 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229503AbhHYIFC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Aug 2021 04:05:02 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B40DC061757
+        for <linux-media@vger.kernel.org>; Wed, 25 Aug 2021 01:04:17 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58E306EE;
+        Wed, 25 Aug 2021 10:04:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1629878654;
+        bh=KFXROVBEOOlJgIb6lW7yZEOcoS40FPEBKbK/Zo5Yjh4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gFaTvhF9vvY68mXVqJc/CD52gwQkpPwR11d3KMSeF4+P3OjmaT6m+gKHqonJNDsGy
+         ESlaQ7JOKtNUAxQz/sb76lIEA2qMfnuJCPt/09UIfV2ZUXElVWfK8HpkCnWB+jRTjM
+         nb531T7kgB37GCMAjywmwrICtBed8XOy8/utzxRk=
+Date:   Wed, 25 Aug 2021 11:04:02 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Daniel Scally <djrscally@gmail.com>, paul.kocialkowski@bootlin.com,
+        ezequiel@collabora.com, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org, yong.zhi@intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
+        kevin.lhopital@bootlin.com, yang.lee@linux.alibaba.com,
+        andy.shevchenko@gmail.com, kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v2 05/12] media: i2c: Add .get_selection() support to
+ ov8865
+Message-ID: <YSX5cvNxTgA2Wugd@pendragon.ideasonboard.com>
+References: <20210809225845.916430-1-djrscally@gmail.com>
+ <20210809225845.916430-6-djrscally@gmail.com>
+ <20210810133821.GC3@paasikivi.fi.intel.com>
+ <bf35ebbd-3c85-18c5-cbe8-43b6d5398533@gmail.com>
+ <20210825071602.GL3@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210824133351.88179-1-andriy.shevchenko@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210825071602.GL3@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
-
-Thanks for the set.
-
-On Tue, Aug 24, 2021 at 04:33:49PM +0300, Andy Shevchenko wrote:
-> In some new code we may need the same functionality as provided by
-> newly introduced choose_swap_func() helper.
+On Wed, Aug 25, 2021 at 10:16:02AM +0300, Sakari Ailus wrote:
+> On Wed, Aug 25, 2021 at 12:17:15AM +0100, Daniel Scally wrote:
+> > Hi Sakari - sorry delayed reply
+> > 
+> > On 10/08/2021 14:38, Sakari Ailus wrote:
+> > > Hi Daniel,
+> > >
+> > > On Mon, Aug 09, 2021 at 11:58:38PM +0100, Daniel Scally wrote:
+> > >> The ov8865 driver's v4l2_subdev_pad_ops currently does not include
+> > >> .get_selection() - add support for that callback.
+> > > Could you use the same for .set_selection()? Even if it doesn't change
+> > > anything.
+> > 
+> > You mean do the same? Or use the same function?
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  lib/sort.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
-> 
-> diff --git a/lib/sort.c b/lib/sort.c
-> index aa18153864d2..d9b2f5b73620 100644
-> --- a/lib/sort.c
-> +++ b/lib/sort.c
-> @@ -151,6 +151,18 @@ static int do_cmp(const void *a, const void *b, cmp_r_func_t cmp, const void *pr
->  	return cmp(a, b, priv);
->  }
->  
-> +static swap_func_t choose_swap_func(swap_func_t swap_func, void *base, size_t size)
+> The same function. If the selection isn't changeable anyway, the
+> functionality is the same for both.
 
-Over 80, please wrap.
-
-> +{
-> +	if (swap_func)
-> +		return swap_func;
-> +
-> +	if (is_aligned(base, size, 8))
-> +		return SWAP_WORDS_64;
-> +	if (is_aligned(base, size, 4))
-> +		return SWAP_WORDS_32;
-
-A newline here would be nice.
-
-> +	return SWAP_BYTES;
-> +}
-> +
->  /**
->   * parent - given the offset of the child, find the offset of the parent.
->   * @i: the offset of the heap element whose parent is sought.  Non-zero.
-> @@ -208,14 +220,7 @@ void sort_r(void *base, size_t num, size_t size,
->  	if (!a)		/* num < 2 || size == 0 */
->  		return;
->  
-> -	if (!swap_func) {
-> -		if (is_aligned(base, size, 8))
-> -			swap_func = SWAP_WORDS_64;
-> -		else if (is_aligned(base, size, 4))
-> -			swap_func = SWAP_WORDS_32;
-> -		else
-> -			swap_func = SWAP_BYTES;
-> -	}
-> +	swap_func = choose_swap_func(swap_func, base, size);
->  
->  	/*
->  	 * Loop invariants:
+Except that .s_selection() should return an error if you try to set the
+bounds or default rectangles.
 
 -- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
