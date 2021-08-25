@@ -2,863 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 515B33F7C03
-	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 20:07:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D6123F7C32
+	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 20:31:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234511AbhHYSIT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Aug 2021 14:08:19 -0400
-Received: from mail-lj1-f178.google.com ([209.85.208.178]:41527 "EHLO
-        mail-lj1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231231AbhHYSIS (ORCPT
+        id S236730AbhHYSbv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Aug 2021 14:31:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41630 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231341AbhHYSbu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Aug 2021 14:08:18 -0400
-Received: by mail-lj1-f178.google.com with SMTP id m4so178697ljq.8;
-        Wed, 25 Aug 2021 11:07:31 -0700 (PDT)
+        Wed, 25 Aug 2021 14:31:50 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C3DBC061757
+        for <linux-media@vger.kernel.org>; Wed, 25 Aug 2021 11:31:04 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id qe12-20020a17090b4f8c00b00179321cbae7so443966pjb.2
+        for <linux-media@vger.kernel.org>; Wed, 25 Aug 2021 11:31:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qfk6BSvcgBI7Pc/jE3YW7xZmx9KCBB6EdbOOmvrD6Qc=;
+        b=o/kwIS9r/jytIoTEBqNyRfm1IR4OcGddRWAo+yF9fpQLIb+9crwAo912mpdNTPka7k
+         jEua+cYFJcUHhwXbdudbENPFHXpuVrdJGkBWbMgP8Yv3O9J1NT+qE4YQBsMDrHss0aZZ
+         mATbCEQd0H2F5LDvP/Q+3vnLxXjVKghXtt5BkXNTr5o5yFTuj94hQvHvGCIfSZVCb4mK
+         0ADz6SCGJEbjL0NoMsqBC2DXVteR88Zr8uklUMYOT1vFoR1QGC+VhR9OuTG6p8+OIto0
+         BtmIqhLO9WQ4QLXP+gcM1TbJmvC7qhoC8xFqXKlb3PObbxREqOe3oodksIkkajQ6e2ku
+         nR+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oPM+r4CkH1CecGXCxByaChlbrVS1B6t/l1ljzWAywmc=;
-        b=F6a+dMT49h53ACl1V4VDgd7/8aZAN6VdYGoG7IsbNQOYX6vNj/nHJKOoYHqK9LX7uA
-         hxctpPe0mlJ3LYlNLkF2iRboVgC5aEMLEFJ343r2DcGKPtDNERVlaSbuqf0e7GnAd4Zz
-         xhmfe2P2qywZS3NQU1rYhzW4gDtX6yoN0qY0gb0HfOslV8qTHel2zegX0kjNgf22ztFq
-         Ja54VlddIp0wLykn+I8aJbfyrVxfkUbH0ZANN0O9JV7mFDGTRcAQWQ68aIXx41ny+/XZ
-         dSRMAoDj7t/1ClgUXVfa3dMn0OmXzxlDtKRaJA5xHTCcuGM/KhOZj+8155w3LWv+gqVO
-         PxFg==
-X-Gm-Message-State: AOAM532Y03tEG9wXaN+kcy7TILV2atzNEv3oQRraI7zhn0JfZ22bX3fM
-        gedq4o+22W15W3cHWhwugl3IqBGyUmDssrA4
-X-Google-Smtp-Source: ABdhPJwlh6udKvvDVIo0eQCBKDy3vHEWgxJ3cKTiRVa/rxoHeCLgX1gc1qi8HkCAGgDo4kP5jTL0Aw==
-X-Received: by 2002:a2e:8107:: with SMTP id d7mr37947225ljg.68.1629914850945;
-        Wed, 25 Aug 2021 11:07:30 -0700 (PDT)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
-        by smtp.gmail.com with ESMTPSA id n25sm76564ljj.42.2021.08.25.11.07.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Aug 2021 11:07:30 -0700 (PDT)
-Received: by mail-lj1-f182.google.com with SMTP id c12so202759ljr.5;
-        Wed, 25 Aug 2021 11:07:30 -0700 (PDT)
-X-Received: by 2002:a2e:99c8:: with SMTP id l8mr37765013ljj.178.1629914850123;
- Wed, 25 Aug 2021 11:07:30 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qfk6BSvcgBI7Pc/jE3YW7xZmx9KCBB6EdbOOmvrD6Qc=;
+        b=Dq1PvWT83OzkS+maZxVteTP1F4O07nkLdlqxB+NO/odEsevLfZ/gMj1Q73p0jP4kJ8
+         VG1ZrL39PTY93YpQAIkPmGTNzBd9QUAVk+lvPujmZsulXywAwW6rwACmeUR+IlmMroCg
+         VXmq/7ggIbWeCx0tGvsKA+05sOllY2ELjFWVDKkg+L5tsV/q0zuO43i4Ryq7HDwvOpzR
+         vJQU+Ze/RD5yc0ym1BL6DoaeXsIQLoz4mtEl1ABJe6a7BEAUH8skrgrORfIqBlHNU/Q8
+         jVNNX+Weq0OGg0hEqXyrZVL28L6R8h5MtoVKwRD+OftrOyV/ZcGT43CiMvP3jS0HweAF
+         Xa+Q==
+X-Gm-Message-State: AOAM530pW8HEg8ZHkodqnSVquAku1IMCJa6KeMGCuy1tBZvthtvbvML1
+        RBT9sb0ggBbRH4nYRPXTxbz2Fw==
+X-Google-Smtp-Source: ABdhPJxVRQSxOVe/2e9Ph5nzkeeO5xcy1nbYxdf35mJm41j0UOFiUOzNVz5K4WJ/FtwIgoSYLxNmiA==
+X-Received: by 2002:a17:90a:eb0d:: with SMTP id j13mr10470703pjz.163.1629916263928;
+        Wed, 25 Aug 2021 11:31:03 -0700 (PDT)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+        by smtp.gmail.com with ESMTPSA id x20sm382813pfh.188.2021.08.25.11.31.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Aug 2021 11:31:03 -0700 (PDT)
+From:   John Stultz <john.stultz@linaro.org>
+To:     lkml <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>, Leo Yan <leo.yan@linaro.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [RFC][PATCH] dma-buf: system_heap: Avoid warning on mid-order allocations
+Date:   Wed, 25 Aug 2021 18:30:59 +0000
+Message-Id: <20210825183059.1085561-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210809023202.68763-1-pedro@terraco.de> <YR7a1bBlpJVdrNQ+@pendragon.ideasonboard.com>
-In-Reply-To: <YR7a1bBlpJVdrNQ+@pendragon.ideasonboard.com>
-From:   Pedro Terra Delboni <pedro@terraco.de>
-Date:   Wed, 25 Aug 2021 15:07:18 -0300
-X-Gmail-Original-Message-ID: <CAHKDPP-GsxL47A4=TSUQZ4SyfTVxwJfbhsoJucyX7NUUt_aZ8A@mail.gmail.com>
-Message-ID: <CAHKDPP-GsxL47A4=TSUQZ4SyfTVxwJfbhsoJucyX7NUUt_aZ8A@mail.gmail.com>
-Subject: Re: [PATCH] [PATCH v5] media: vimc: Enable set resolution at the
- scaler src pad
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lkcamp@lists.libreplanetbr.org,
-        Gabriela Bittencourt <gabrielabittencourt00@gmail.com>,
-        Gabriel Francisco Mandaji <gfmandaji@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+When trying to do mid-order allocations, set __GFP_NOWARN to
+avoid warning messages if the allocation fails, as we will
+still fall back to single page allocatitions in that case.
+This is the similar to what we already do for large order
+allocations.
 
-Thanks a lot for the reply and feedback.
-I have made the proposed changes and would like to verify some things
-before sending the next version.
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: Daniel Mentz <danielmentz@google.com>
+Cc: Ørjan Eide <orjan.eide@arm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Ezequiel Garcia <ezequiel@collabora.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: James Jones <jajones@nvidia.com>
+Cc: Leo Yan <leo.yan@linaro.org>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+---
+ drivers/dma-buf/heaps/system_heap.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-On Thu, Aug 19, 2021 at 7:27 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Pedro,
->
-> Thank you for the patch.
->
-> On Sun, Aug 08, 2021 at 11:32:02PM -0300, Pedro Terra wrote:
-> > Modify the scaler subdevice to accept setting the resolution of the source
-> > pad (previously the source resolution would always be 3 times the sink for
-> > both dimensions). Now any resolution can be set at src (even smaller ones)
-> > and the sink video will be scaled to match it.
-> >
-> > Test example: With the vimc module up (using the default vimc topology)
-> > media-ctl -d /dev/media0 -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
-> > media-ctl -d /dev/media0 -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
-> > media-ctl -d /dev/media0 -V '"Scaler":0[fmt:RGB888_1X24/640x480]'
-> > media-ctl -d /dev/media0 -V '"Scaler":0[crop:(100,50)/400x150]'
-> > media-ctl -d /dev/media0 -V '"Scaler":1[fmt:RGB888_1X24/300x700]'
-> > v4l2-ctl -d /dev/video2 -v width=300,height=700
-> > v4l2-ctl -d /dev/video0 -v pixelformat=BA81
->
-> Did you mean video2 here ? Not the exact device matters much as it
-> depends on the video devices present in the system, but being consistent
-> is best. But even better, I'd write
->
-> v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" ...
->
-> to avoid depending on a particular device number. Same for the line
-> below. Similarly, the '-d /dev/media0' argument to media-ctl could be
-> replaced with '-d platform:vimc'.
->
-> > v4l2-ctl --stream-mmap --stream-count=10 -d /dev/video2 \
-> >       --stream-to=test.raw
-> >
-> > The result will be a cropped stream that can be checked with the command
-> > ffplay -loglevel warning -v info -f rawvideo -pixel_format rgb24 \
-> >       -video_size "300x700" test.raw
-> >
-> > Co-developed-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-> > Signed-off-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-> > Co-developed-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
-> > Signed-off-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
-> > Signed-off-by: Pedro "pirate" Terra <pirate@terraco.de>
-> >
-> > ---
-> >
-> > Changes in V5:
-> > * Fixed code aliment mistake
-> > * Renamed some variables to make the code more readable
-> > * Propagate sink pad formatting to src resetting the 1:1 scaling ratio.
-> >       (the crop is also reset when this is done).
-> >
-> > Changes in V4:
-> > * Rebased with media/master
-> > * Scaling is now compatible with crop
-> > * Updated test example at the commit message
-> > * Add vimc prefix to the pad enumeration
-> >
-> > Changes in V3:
-> > * Corrections suggested by Hans:
-> >       - Default scaling factor is now 1 (we removed the define and
-> >         set the source format equals the sink).
-> >       - Removed SCA_COUNT (enum that represents the number of pads)
-> >         as there always 2
-> >       - Swapped the per byte pixel copy to memcpy.
-> > * Corrections suggested by Dafna:
-> >       - Removed from the documentation the old scaler parameter which
-> >         isn't necessary anymore.
-> > * Added a thank you note at the end of the email
-> >
-> > Changes in V2:
-> > * Patch was not sent to media list mail for some reason (even though it
-> > was on the Cc list), trying again.
-> > * Updating documentation.
-> >
-> > Running
-> > /usr/local/bin/v4l2-compliance -m /dev/media0
-> > Gave the following result:
-> > v4l2-compliance SHA: c86aab9cc7f1 2021-07-28 11:52:45
-> > Grand Total for vimc device /dev/media0: 473, Succeeded: 473, Failed: 0, Warnings: 0
-> > ---
-> >  Documentation/admin-guide/media/vimc.rst      |  18 +-
-> >  drivers/media/test-drivers/vimc/vimc-scaler.c | 287 +++++++-----------
-> >  2 files changed, 115 insertions(+), 190 deletions(-)
->
-> I like the diffstat :-)
->
-> > diff --git a/Documentation/admin-guide/media/vimc.rst b/Documentation/admin-guide/media/vimc.rst
-> > index 211cc8972410..b6a123e22544 100644
-> > --- a/Documentation/admin-guide/media/vimc.rst
-> > +++ b/Documentation/admin-guide/media/vimc.rst
-> > @@ -65,6 +65,11 @@ vimc-scaler:
-> >          1920x1440 image. (this value can be configured, see at
-> >          `Module options`_).
-> >       Exposes:
-> > +     Re-size the image to meet the source pad resolution. E.g.: if the sync pad
-> > +is configured to 360x480 and the source to 1280x720, the image will be stretched
-> > +to fit the source resolution. Works for any resolution within the vimc
-> > +limitations (even shrinking the image if necessary).
-> > +Exposes:
->
-> This doesn't look right. Were you trying to replace the existing text
-> instead ?
->
-> >
-> >       * 1 Pad sink
-> >       * 1 Pad source
-> > @@ -75,16 +80,3 @@ vimc-capture:
-> >
-> >       * 1 Pad sink
-> >       * 1 Pad source
-> > -
-> > -
-> > -Module options
-> > ---------------
-> > -
-> > -Vimc has a module parameter to configure the driver.
-> > -
-> > -* ``sca_mult=<unsigned int>``
-> > -
-> > -        Image size multiplier factor to be used to multiply both width and
-> > -        height, so the image size will be ``sca_mult^2`` bigger than the
-> > -        original one. Currently, only supports scaling up (the default value
-> > -        is 3).
-> > diff --git a/drivers/media/test-drivers/vimc/vimc-scaler.c b/drivers/media/test-drivers/vimc/vimc-scaler.c
-> > index 06880dd0b6ac..745316a50459 100644
-> > --- a/drivers/media/test-drivers/vimc/vimc-scaler.c
-> > +++ b/drivers/media/test-drivers/vimc/vimc-scaler.c
-> > @@ -6,6 +6,7 @@
-> >   */
-> >
-> >  #include <linux/moduleparam.h>
-> > +#include <linux/string.h>
-> >  #include <linux/vmalloc.h>
-> >  #include <linux/v4l2-mediabus.h>
-> >  #include <media/v4l2-rect.h>
-> > @@ -13,11 +14,11 @@
-> >
-> >  #include "vimc-common.h"
-> >
-> > -static unsigned int sca_mult = 3;
-> > -module_param(sca_mult, uint, 0000);
-> > -MODULE_PARM_DESC(sca_mult, " the image size multiplier");
-> > -
-> > -#define MAX_ZOOM     8
-> > +/* Pad identifier */
-> > +enum vic_sca_pad {
-> > +     VIMC_SCA_SINK = 0,
-> > +     VIMC_SCA_SRC = 1,
-> > +};
-> >
-> >  #define VIMC_SCA_FMT_WIDTH_DEFAULT  640
-> >  #define VIMC_SCA_FMT_HEIGHT_DEFAULT 480
-> > @@ -25,14 +26,11 @@ MODULE_PARM_DESC(sca_mult, " the image size multiplier");
-> >  struct vimc_sca_device {
-> >       struct vimc_ent_device ved;
-> >       struct v4l2_subdev sd;
-> > -     /* NOTE: the source fmt is the same as the sink
-> > -      * with the width and hight multiplied by mult
-> > -      */
-> > -     struct v4l2_mbus_framefmt sink_fmt;
-> >       struct v4l2_rect crop_rect;
-> > +     /* Frame format for both sink and src pad */
-> > +     struct v4l2_mbus_framefmt fmt[2];
-> >       /* Values calculated when the stream starts */
-> >       u8 *src_frame;
-> > -     unsigned int src_line_size;
-> >       unsigned int bpp;
-> >       struct media_pad pads[2];
-> >  };
-> > @@ -72,17 +70,6 @@ vimc_sca_get_crop_bound_sink(const struct v4l2_mbus_framefmt *sink_fmt)
-> >       return r;
-> >  }
-> >
-> > -static void vimc_sca_adjust_sink_crop(struct v4l2_rect *r,
-> > -                                   const struct v4l2_mbus_framefmt *sink_fmt)
-> > -{
-> > -     const struct v4l2_rect sink_rect =
-> > -             vimc_sca_get_crop_bound_sink(sink_fmt);
-> > -
-> > -     /* Disallow rectangles smaller than the minimal one. */
-> > -     v4l2_rect_set_min_size(r, &crop_rect_min);
-> > -     v4l2_rect_map_inside(r, &sink_rect);
-> > -}
-> > -
-> >  static int vimc_sca_init_cfg(struct v4l2_subdev *sd,
-> >                            struct v4l2_subdev_state *sd_state)
-> >  {
-> > @@ -90,17 +77,15 @@ static int vimc_sca_init_cfg(struct v4l2_subdev *sd,
-> >       struct v4l2_rect *r;
-> >       unsigned int i;
-> >
-> > -     mf = v4l2_subdev_get_try_format(sd, sd_state, 0);
-> > +     mf = v4l2_subdev_get_try_format(sd, sd_state, VIMC_SCA_SINK);
-> >       *mf = sink_fmt_default;
-> >
-> > -     r = v4l2_subdev_get_try_crop(sd, sd_state, 0);
-> > +     r = v4l2_subdev_get_try_crop(sd, sd_state, VIMC_SCA_SINK);
-> >       *r = crop_rect_default;
-> >
-> >       for (i = 1; i < sd->entity.num_pads; i++) {
-> >               mf = v4l2_subdev_get_try_format(sd, sd_state, i);
-> >               *mf = sink_fmt_default;
-> > -             mf->width = mf->width * sca_mult;
-> > -             mf->height = mf->height * sca_mult;
-> >       }
->
-> I think you can simplify this as
->
->         for (i = 0; i < sd->entity.num_pads; i++) {
->                 mf = v4l2_subdev_get_try_format(sd, sd_state, i);
->                 *mf = sink_fmt_default;
->         }
->
->         r = v4l2_subdev_get_try_crop(sd, sd_state, VIMC_SCA_SINK);
->         *r = crop_rect_default;
->
-> By the way, sink_fmt_default should be renamed to fmt_default as it's
-> not about the sink pad only anymore.
->
-> >
-> >       return 0;
-> > @@ -144,13 +129,8 @@ static int vimc_sca_enum_frame_size(struct v4l2_subdev *sd,
-> >       fse->min_width = VIMC_FRAME_MIN_WIDTH;
-> >       fse->min_height = VIMC_FRAME_MIN_HEIGHT;
-> >
-> > -     if (VIMC_IS_SINK(fse->pad)) {
-> > -             fse->max_width = VIMC_FRAME_MAX_WIDTH;
-> > -             fse->max_height = VIMC_FRAME_MAX_HEIGHT;
-> > -     } else {
-> > -             fse->max_width = VIMC_FRAME_MAX_WIDTH * MAX_ZOOM;
-> > -             fse->max_height = VIMC_FRAME_MAX_HEIGHT * MAX_ZOOM;
-> > -     }
-> > +     fse->max_width = VIMC_FRAME_MAX_WIDTH;
-> > +     fse->max_height = VIMC_FRAME_MAX_HEIGHT;
-> >
-> >       return 0;
-> >  }
-> > @@ -160,94 +140,82 @@ static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
-> >                           struct v4l2_subdev_format *format)
-> >  {
-> >       struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
-> > -     struct v4l2_rect *crop_rect;
-> > -
-> > -     /* Get the current sink format */
-> > -     if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
-> > -             format->format = *v4l2_subdev_get_try_format(sd, sd_state, 0);
-> > -             crop_rect = v4l2_subdev_get_try_crop(sd, sd_state, 0);
-> > -     } else {
-> > -             format->format = vsca->sink_fmt;
-> > -             crop_rect = &vsca->crop_rect;
-> > -     }
-> >
-> > -     /* Scale the frame size for the source pad */
-> > -     if (VIMC_IS_SRC(format->pad)) {
-> > -             format->format.width = crop_rect->width * sca_mult;
-> > -             format->format.height = crop_rect->height * sca_mult;
-> > -     }
-> > +     if (format->which == V4L2_SUBDEV_FORMAT_TRY)
-> > +             format->format = *v4l2_subdev_get_try_format(sd, sd_state,
-> > +                                                          format->pad);
-> > +     else
-> > +             format->format = vsca->fmt[format->pad];
-> >
-> >       return 0;
-> >  }
-> >
-> > -static void vimc_sca_adjust_sink_fmt(struct v4l2_mbus_framefmt *fmt)
-> > +static void vimc_sca_adjust_fmt(struct v4l2_mbus_framefmt *fmt[], __u32 pad)
->
-> s/__u32/u32/ (the former is used for userspace-facing code in
-> include/uapi/ to avoid collisions, inside the kernel we use the latter).
->
-> >  {
-> > -     const struct vimc_pix_map *vpix;
-> > +     unsigned int src_width, src_height;
-> >
-> > -     /* Only accept code in the pix map table in non bayer format */
-> > -     vpix = vimc_pix_map_by_code(fmt->code);
-> > -     if (!vpix || vpix->bayer)
-> > -             fmt->code = sink_fmt_default.code;
-> > +     if (pad == VIMC_SCA_SINK) {
-> > +             const struct vimc_pix_map *vpix;
-> >
-> > -     fmt->width = clamp_t(u32, fmt->width, VIMC_FRAME_MIN_WIDTH,
-> > -                          VIMC_FRAME_MAX_WIDTH) & ~1;
-> > -     fmt->height = clamp_t(u32, fmt->height, VIMC_FRAME_MIN_HEIGHT,
-> > -                           VIMC_FRAME_MAX_HEIGHT) & ~1;
-> > +             /* Only accept code in the pix map table in non bayer format */
-> > +             vpix = vimc_pix_map_by_code(fmt[VIMC_SCA_SINK]->code);
-> > +             if (!vpix || vpix->bayer)
-> > +                     fmt[VIMC_SCA_SINK]->code = sink_fmt_default.code;
-> > +             if (fmt[VIMC_SCA_SINK]->field == V4L2_FIELD_ANY)
-> > +                     fmt[VIMC_SCA_SINK]->field = sink_fmt_default.field;
-> > +
-> > +             vimc_colorimetry_clamp(fmt[VIMC_SCA_SINK]);
-> > +     }
-> >
-> > -     if (fmt->field == V4L2_FIELD_ANY)
-> > -             fmt->field = sink_fmt_default.field;
-> > +     fmt[pad]->width = clamp_t(u32, fmt[pad]->width, VIMC_FRAME_MIN_WIDTH,
-> > +                               VIMC_FRAME_MAX_WIDTH) & ~1;
-> > +     fmt[pad]->height = clamp_t(u32, fmt[pad]->height, VIMC_FRAME_MIN_HEIGHT,
-> > +                                VIMC_FRAME_MAX_HEIGHT) & ~1;
-> >
-> > -     vimc_colorimetry_clamp(fmt);
-> > +     /* Resets the src pad to match the sink, then restore dimensions if
-> > +      * the pad formatted was the src one
-> > +      */
-> > +     src_width = fmt[pad]->width;
-> > +     src_height = fmt[pad]->height;
-> > +     *fmt[VIMC_SCA_SRC] = *fmt[VIMC_SCA_SINK];
-> > +     fmt[VIMC_SCA_SRC]->width = src_width;
-> > +     fmt[VIMC_SCA_SRC]->height = src_height;
->
-> This is hard to follow, I wonder if we could do better. Please see below
-> for a proposal.
-Indeed, it was. Thanks a lot for the proposal.
->
-> >  }
-> >
-> >  static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
-> >                           struct v4l2_subdev_state *sd_state,
-> > -                         struct v4l2_subdev_format *fmt)
-> > +                         struct v4l2_subdev_format *format)
-> >  {
-> >       struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
-> > -     struct v4l2_mbus_framefmt *sink_fmt;
-> > +     struct v4l2_mbus_framefmt *fmt[2];
-> >       struct v4l2_rect *crop_rect;
-> >
-> > -     if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > +     if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> >               /* Do not change the format while stream is on */
-> >               if (vsca->src_frame)
-> >                       return -EBUSY;
-> >
-> > -             sink_fmt = &vsca->sink_fmt;
-> > +             fmt[VIMC_SCA_SINK] = &vsca->fmt[VIMC_SCA_SINK];
-> > +             fmt[VIMC_SCA_SRC] = &vsca->fmt[VIMC_SCA_SRC];
-> >               crop_rect = &vsca->crop_rect;
-> >       } else {
-> > -             sink_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
-> > -             crop_rect = v4l2_subdev_get_try_crop(sd, sd_state, 0);
-> > +             fmt[VIMC_SCA_SINK] = v4l2_subdev_get_try_format(sd, sd_state,
-> > +                                                             VIMC_SCA_SINK);
-> > +             fmt[VIMC_SCA_SRC] = v4l2_subdev_get_try_format(sd, sd_state,
-> > +                                                            VIMC_SCA_SRC);
-> > +             crop_rect = v4l2_subdev_get_try_crop(sd, sd_state, VIMC_SCA_SINK);
-> >       }
-> >
-> > -     /*
-> > -      * Do not change the format of the source pad,
-> > -      * it is propagated from the sink
-> > -      */
-> > -     if (VIMC_IS_SRC(fmt->pad)) {
-> > -             fmt->format = *sink_fmt;
-> > -             fmt->format.width = crop_rect->width * sca_mult;
-> > -             fmt->format.height = crop_rect->height * sca_mult;
-> > -     } else {
-> > -             /* Set the new format in the sink pad */
-> > -             vimc_sca_adjust_sink_fmt(&fmt->format);
-> > -
-> > -             dev_dbg(vsca->ved.dev, "%s: sink format update: "
-> > -                     "old:%dx%d (0x%x, %d, %d, %d, %d) "
-> > -                     "new:%dx%d (0x%x, %d, %d, %d, %d)\n", vsca->sd.name,
-> > -                     /* old */
-> > -                     sink_fmt->width, sink_fmt->height, sink_fmt->code,
-> > -                     sink_fmt->colorspace, sink_fmt->quantization,
-> > -                     sink_fmt->xfer_func, sink_fmt->ycbcr_enc,
-> > -                     /* new */
-> > -                     fmt->format.width, fmt->format.height, fmt->format.code,
-> > -                     fmt->format.colorspace, fmt->format.quantization,
-> > -                     fmt->format.xfer_func, fmt->format.ycbcr_enc);
-> > -
-> > -             *sink_fmt = fmt->format;
-> > +     *fmt[format->pad] = format->format;
-> > +     vimc_sca_adjust_fmt(fmt, format->pad);
-> > +     format->format = *fmt[format->pad];
-> >
-> > -             /* Do the crop, but respect the current bounds */
-> > -             vimc_sca_adjust_sink_crop(crop_rect, sink_fmt);
-> > +     if (format->pad == VIMC_SCA_SINK) {
-> > +             /* Reset the crop to match the sink pad */
-> > +             crop_rect->width = fmt[VIMC_SCA_SINK]->width;
-> > +             crop_rect->height = fmt[VIMC_SCA_SINK]->height;
-> > +             crop_rect->top = 0;
-> > +             crop_rect->left = 0;
-> >       }
-> >
-> >       return 0;
->
-> Here's the proposal:
->
-> struct v4l2_mbus_framefmt *
-> vimc_sca_pad_format(struct vimc_sca_device *vsca,
->                     struct v4l2_subdev_state *sd_state, u32 pad,
->                     enum v4l2_subdev_format_whence which)
-> {
->         if (which == V4L2_SUBDEV_FORMAT_TRY)
->                 return v4l2_subdev_get_try_format(&vsca->sd, sd_state, pad);
->         else
->                 return &vsca->fmt[pad];
-> }
->
-> struct v4l2_rect *
-> vimc_sca_pad_crop(struct vimc_sca_device *vsca,
->                   struct v4l2_subdev_state *sd_state,
->                   enum v4l2_subdev_format_whence which)
-> {
->         if (which == V4L2_SUBDEV_FORMAT_TRY)
->                 return v4l2_subdev_get_try_crop(&vsca->sd, sd_state,
->                                                 VIMC_SCA_SINK);
->         else
->                 return &vsca->crop_rect;
-> }
->
-> static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
->                             struct v4l2_subdev_state *sd_state,
->                             struct v4l2_subdev_format *format)
-> {
->         struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
->         struct v4l2_mbus_framefmt *fmt;
->
->         /* Do not change the active format while stream is on. */
->         if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
->                 if (vsca->src_frame)
->                         return -EBUSY;
->         }
->
->         fmt = vimc_sca_pad_format(vsca, sd_state, format->pad, format->which);
->
->         /*
->          * The media bus code and colorspace can only be changed on the sink
->          * pad, the source pad only follows.
->          */
->         if (format->pad == VIMC_SCA_SINK) {
->                 const struct vimc_pix_map *vpix;
->
->                 /* Only accept code in the pix map table in non bayer format. */
->                 vpix = vimc_pix_map_by_code(format->format.code);
->                 if (vpix && !vpix->bayer)
->                         fmt->code = format->format.code;
->                 else
->                         fmt->code = sink_fmt_default.code;
->
->                 /* Clamp the colorspace to valid values. */
->                 fmt->colorspace = format->format.colorspace;
->                 fmt->ycbcr_enc = format->format.ycbcr_enc;
->                 fmt->quantization = format->format.quantization;
->                 fmt->xfer_func = format->format.xfer_func;
->                 vimc_colorimetry_clamp(fmt);
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 23a7e74ef966..f57a39ddd063 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -40,11 +40,12 @@ struct dma_heap_attachment {
+ 	bool mapped;
+ };
+ 
++#define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO | __GFP_COMP)
++#define MID_ORDER_GFP (LOW_ORDER_GFP | __GFP_NOWARN)
+ #define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
+ 				| __GFP_NORETRY) & ~__GFP_RECLAIM) \
+ 				| __GFP_COMP)
+-#define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO | __GFP_COMP)
+-static gfp_t order_flags[] = {HIGH_ORDER_GFP, LOW_ORDER_GFP, LOW_ORDER_GFP};
++static gfp_t order_flags[] = {HIGH_ORDER_GFP, MID_ORDER_GFP, LOW_ORDER_GFP};
+ /*
+  * The selection of the orders used for allocation (1MB, 64K, 4K) is designed
+  * to match with the sizes often found in IOMMUs. Using order 4 pages instead
+-- 
+2.25.1
 
-I was instructed that copying the whole structure would be good in
-order to propagate any eventual
-extensions in it, and then change only the necessary fields like:
-
-*fmt = format->format;
-vimc_colorimetry_clamp(fmt);
-
-I do see that this would make redundant writes at fmt->width and
-fmt->height, as they are assigned right in the following lines.
-
-Should I keep the assignments of the structure fields instead of the
-whole struct?
-
->         }
->
->         /* Clamp and align the width and height. */
->         fmt->width = clamp_t(u32, format->format.width, VIMC_FRAME_MIN_WIDTH,
->                              VIMC_FRAME_MAX_WIDTH) & ~1;
->         fmt->height = clamp_t(u32, format->format.height, VIMC_FRAME_MIN_HEIGHT,
->                               VIMC_FRAME_MAX_HEIGHT) & ~1;
->
->         /*
->          * Propagate the sink pad format to the crop rectangle and the source
->          * pad.
->          */
->         if (format->pad == VIMC_SCA_SINK) {
->                 struct v4l2_mbus_framefmt *src_fmt;
->                 struct v4l2_rect *crop;
->
->                 crop = vimc_sca_pad_crop(vsca, sd_state, format->which);
->                 crop->width = fmt->width;
->                 crop->height = fmt->height;
->                 crop->top = 0;
->                 crop->left = 0;
->
->                 src_fmt = vimc_sca_pad_format(vsca, sd_state, VIMC_SCA_SRC,
->                                               format->which);
->                 *src_fmt = *fmt;
->         }
->
->         format->format = *fmt;
->
->         return 0;
-> }
->
-> And vimc_sca_get_fmt() could be simplified as
->
-> static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
->                             struct v4l2_subdev_state *sd_state,
->                             struct v4l2_subdev_format *format)
-> {
->         struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
->
->         format->format = *vimc_sca_pad_format(vsca, sd_state, format->pad,
->                                               format->which);
->         return 0;
-> }
->
-> > @@ -265,11 +233,13 @@ static int vimc_sca_get_selection(struct v4l2_subdev *sd,
-> >               return -EINVAL;
-> >
-> >       if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > -             sink_fmt = &vsca->sink_fmt;
-> > +             sink_fmt = &vsca->fmt[VIMC_SCA_SINK];
-> >               crop_rect = &vsca->crop_rect;
-> >       } else {
-> > -             sink_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
-> > -             crop_rect = v4l2_subdev_get_try_crop(sd, sd_state, 0);
-> > +             sink_fmt = v4l2_subdev_get_try_format(sd, sd_state,
-> > +                                                   VIMC_SCA_SINK);
-> > +             crop_rect = v4l2_subdev_get_try_crop(sd, sd_state,
-> > +                                                  VIMC_SCA_SINK);
-> >       }
-> >
-> >       switch (sel->target) {
->
-> And then, with the helper functions introduced above,
->
-> static int vimc_sca_get_selection(struct v4l2_subdev *sd,
->                                   struct v4l2_subdev_state *sd_state,
->                                   struct v4l2_subdev_selection *sel)
-> {
->         struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
->         struct v4l2_mbus_framefmt *sink_fmt;
->
->         if (VIMC_IS_SRC(sel->pad))
->                 return -EINVAL;
->
->         switch (sel->target) {
->         case V4L2_SEL_TGT_CROP:
->                 sel->r = *vimc_sca_pad_crop(vsca, sd_state, sel->which);
->                 break;
->         case V4L2_SEL_TGT_CROP_BOUNDS:
->                 sink_fmt = vimc_sca_pad_format(vsca, sd_state, VIMC_SCA_SINK,
->                                                sel->which);
->                 sel->r = vimc_sca_get_crop_bound_sink(sink_fmt);
->                 break;
->         default:
->                 return -EINVAL;
->         }
->
->         return 0;
-> }
->
-> > @@ -286,6 +256,17 @@ static int vimc_sca_get_selection(struct v4l2_subdev *sd,
-> >       return 0;
-> >  }
-> >
-> > +static void vimc_sca_adjust_sink_crop(struct v4l2_rect *r,
-> > +                                   const struct v4l2_mbus_framefmt *sink_fmt)
-> > +{
-> > +     const struct v4l2_rect sink_rect =
-> > +             vimc_sca_get_crop_bound_sink(sink_fmt);
-> > +
-> > +     /* Disallow rectangles smaller than the minimal one. */
-> > +     v4l2_rect_set_min_size(r, &crop_rect_min);
-> > +     v4l2_rect_map_inside(r, &sink_rect);
-> > +}
-> > +
-> >  static int vimc_sca_set_selection(struct v4l2_subdev *sd,
-> >                                 struct v4l2_subdev_state *sd_state,
-> >                                 struct v4l2_subdev_selection *sel)
-> > @@ -303,10 +284,12 @@ static int vimc_sca_set_selection(struct v4l2_subdev *sd,
-> >                       return -EBUSY;
->
-> The check here should be removed, as we should support digital zoom.
-> This can come in a separate patch though.
-
-Would it be troublesome if I removed the check in this patch already?
->
-> >
-> >               crop_rect = &vsca->crop_rect;
-> > -             sink_fmt = &vsca->sink_fmt;
-> > +             sink_fmt = &vsca->fmt[VIMC_SCA_SINK];
-> >       } else {
-> > -             crop_rect = v4l2_subdev_get_try_crop(sd, sd_state, 0);
-> > -             sink_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
-> > +             crop_rect = v4l2_subdev_get_try_crop(sd, sd_state,
-> > +                                                  VIMC_SCA_SINK);
-> > +             sink_fmt = v4l2_subdev_get_try_format(sd, sd_state,
-> > +                                                   VIMC_SCA_SINK);
-> >       }
->
-> This can also be simplified as
->
->         sink_fmt = vimc_sca_pad_format(vsca, sd_state, VIMC_SCA_SINK,
->                                        sel->which);
->         crop_rect = vimc_sca_pad_crop(vsca, sd_state, sel->which);
->
-> and maybe the switch/case below could be removed, replaced with a
->
->         if (self->target != V4L2_SEL_TGT_CROP)
->                 return -EINVAL;
->
-> at the beginning of the function, just keeping
->
->         /* Do the crop, but respect the current bounds */
->         vimc_sca_adjust_sink_crop(&sel->r, sink_fmt);
->         *crop_rect = sel->r;
->
-> below.
->
-I have joined this check with the VIMC_IS_SRC(sel->pad) one, as they
-return the same error, like so:
-
-if (VIMC_IS_SRC(sel->pad) | | (sel->target != V4L2_SEL_TGT_CROP))
-        return -EINVAL;
-
-Is that alright?
-
-> >
-> >       switch (sel->target) {
-> > @@ -344,16 +327,12 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
-> >                       return 0;
-> >
-> >               /* Save the bytes per pixel of the sink */
-> > -             vpix = vimc_pix_map_by_code(vsca->sink_fmt.code);
-> > +             vpix = vimc_pix_map_by_code(vsca->fmt[VIMC_SCA_SINK].code);
-> >               vsca->bpp = vpix->bpp;
-> >
-> > -             /* Calculate the width in bytes of the src frame */
-> > -             vsca->src_line_size = vsca->crop_rect.width *
-> > -                                   sca_mult * vsca->bpp;
-> > -
-> >               /* Calculate the frame size of the source pad */
-> > -             frame_size = vsca->src_line_size * vsca->crop_rect.height *
-> > -                          sca_mult;
-> > +             frame_size = vsca->fmt[VIMC_SCA_SRC].width
-> > +                          * vsca->fmt[VIMC_SCA_SRC].height * vsca->bpp;
->
-> Could you align * under = ?
->
-> >
-> >               /* Allocate the frame buffer. Use vmalloc to be able to
-> >                * allocate a large amount of memory
-> > @@ -382,77 +361,30 @@ static const struct v4l2_subdev_ops vimc_sca_ops = {
-> >       .video = &vimc_sca_video_ops,
-> >  };
-> >
-> > -static void vimc_sca_fill_pix(u8 *const ptr,
-> > -                           const u8 *const pixel,
-> > -                           const unsigned int bpp)
-> > -{
-> > -     unsigned int i;
-> > -
-> > -     /* copy the pixel to the pointer */
-> > -     for (i = 0; i < bpp; i++)
-> > -             ptr[i] = pixel[i];
-> > -}
-> > -
-> > -static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
-> > -                            unsigned int lin, unsigned int col,
-> > -                            const u8 *const sink_frame)
-> > -{
-> > -     const struct v4l2_rect crop_rect = vsca->crop_rect;
-> > -     unsigned int i, j, index;
-> > -     const u8 *pixel;
-> > -
-> > -     /* Point to the pixel value in position (lin, col) in the sink frame */
-> > -     index = VIMC_FRAME_INDEX(lin, col,
-> > -                              vsca->sink_fmt.width,
-> > -                              vsca->bpp);
-> > -     pixel = &sink_frame[index];
-> > -
-> > -     dev_dbg(vsca->ved.dev,
-> > -             "sca: %s: --- scale_pix sink pos %dx%d, index %d ---\n",
-> > -             vsca->sd.name, lin, col, index);
-> > -
-> > -     /* point to the place we are going to put the first pixel
-> > -      * in the scaled src frame
-> > -      */
-> > -     lin -= crop_rect.top;
-> > -     col -= crop_rect.left;
-> > -     index = VIMC_FRAME_INDEX(lin * sca_mult, col * sca_mult,
-> > -                              crop_rect.width * sca_mult, vsca->bpp);
-> > -
-> > -     dev_dbg(vsca->ved.dev, "sca: %s: scale_pix src pos %dx%d, index %d\n",
-> > -             vsca->sd.name, lin * sca_mult, col * sca_mult, index);
-> > -
-> > -     /* Repeat this pixel mult times */
-> > -     for (i = 0; i < sca_mult; i++) {
-> > -             /* Iterate through each beginning of a
-> > -              * pixel repetition in a line
-> > -              */
-> > -             for (j = 0; j < sca_mult * vsca->bpp; j += vsca->bpp) {
-> > -                     dev_dbg(vsca->ved.dev,
-> > -                             "sca: %s: sca: scale_pix src pos %d\n",
-> > -                             vsca->sd.name, index + j);
-> > -
-> > -                     /* copy the pixel to the position index + j */
-> > -                     vimc_sca_fill_pix(&vsca->src_frame[index + j],
-> > -                                       pixel, vsca->bpp);
-> > -             }
-> > -
-> > -             /* move the index to the next line */
-> > -             index += vsca->src_line_size;
-> > -     }
-> > -}
-> > -
-> >  static void vimc_sca_fill_src_frame(const struct vimc_sca_device *const vsca,
-> >                                   const u8 *const sink_frame)
-> >  {
-> > -     const struct v4l2_rect r = vsca->crop_rect;
-> > -     unsigned int i, j;
-> > -
-> > -     /* Scale each pixel from the original sink frame */
-> > -     /* TODO: implement scale down, only scale up is supported for now */
-> > -     for (i = r.top; i < r.top + r.height; i++)
-> > -             for (j = r.left; j < r.left + r.width; j++)
-> > -                     vimc_sca_scale_pix(vsca, i, j, sink_frame);
-> > +     const struct v4l2_mbus_framefmt *src_fmt = &vsca->fmt[VIMC_SCA_SRC];
-> > +     const struct v4l2_rect *r = &vsca->crop_rect;
-> > +     unsigned int snk_width = vsca->fmt[VIMC_SCA_SINK].width;
-> > +     unsigned int src_lin, src_col;
->
-> You could name those variables y and x respectively, it's widely used as
-> coordinates, and could keep lines shorter below.
->
-> > +     u8 *walker = vsca->src_frame;
-> > +
-> > +     /* Set each pixel at the src_frame to its sink_frame equivalent */
-> > +     for (src_lin = 0; src_lin < src_fmt->height; src_lin++) {
-> > +             for (src_col = 0; src_col < src_fmt->width; src_col++) {
-> > +                     unsigned int snk_lin, snk_col, index;
-> > +
-> > +                     snk_lin = (src_lin * r->height) / src_fmt->height
-> > +                               + r->top;
->
-> This line doesn't depend on src_col, so you can move it outside of the
-> inner loop.
->
-> > +                     snk_col = (src_col * r->width) / src_fmt->width
-> > +                               + r->left;
-> > +                     index = VIMC_FRAME_INDEX(snk_lin, snk_col, snk_width,
-> > +                                              vsca->bpp);
->
-> This can probably also be optimized by splitting the calculation behind
-> the VIMC_FRAME_INDEX macro into the part that doesn't depend on the
-> column, and moving that outside of the inner loop, but that's also a
-> candidate for a separate patch.
-
-I have done so, and if you'd like I can include it in this patch.
->
-> > +                     memcpy(walker, &sink_frame[index], vsca->bpp);
-> > +                     walker += vsca->bpp;
-> > +             }
-> > +     }
-> >  }
-> >
-> >  static void *vimc_sca_process_frame(struct vimc_ent_device *ved,
-> > @@ -492,8 +424,8 @@ static struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
-> >               return ERR_PTR(-ENOMEM);
-> >
-> >       /* Initialize ved and sd */
-> > -     vsca->pads[0].flags = MEDIA_PAD_FL_SINK;
-> > -     vsca->pads[1].flags = MEDIA_PAD_FL_SOURCE;
-> > +     vsca->pads[VIMC_SCA_SINK].flags = MEDIA_PAD_FL_SINK;
-> > +     vsca->pads[VIMC_SCA_SRC].flags = MEDIA_PAD_FL_SOURCE;
-> >
-> >       ret = vimc_ent_sd_register(&vsca->ved, &vsca->sd, v4l2_dev,
-> >                                  vcfg_name,
-> > @@ -508,7 +440,8 @@ static struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
-> >       vsca->ved.dev = vimc->mdev.dev;
-> >
-> >       /* Initialize the frame format */
-> > -     vsca->sink_fmt = sink_fmt_default;
-> > +     vsca->fmt[VIMC_SCA_SINK] = sink_fmt_default;
-> > +     vsca->fmt[VIMC_SCA_SRC] = sink_fmt_default;
-> >
-> >       /* Initialize the crop selection */
-> >       vsca->crop_rect = crop_rect_default;
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-Thanks a lot for the feedback!
-
-Pedro
