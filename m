@@ -2,615 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99DCA3F7137
-	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 10:41:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06CBE3F713A
+	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 10:43:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236512AbhHYIlz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Aug 2021 04:41:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44158 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232454AbhHYIly (ORCPT
+        id S239458AbhHYIoS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Aug 2021 04:44:18 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:52962 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S239359AbhHYIoL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Aug 2021 04:41:54 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31E62C061757
-        for <linux-media@vger.kernel.org>; Wed, 25 Aug 2021 01:41:09 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id w6so13892902plg.9
-        for <linux-media@vger.kernel.org>; Wed, 25 Aug 2021 01:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ctYChPDwei8e0XWHjaegXZZ7+pDX1X549aayNrDAlLs=;
-        b=h1Awn5X0fduqJkLt11NZoG/ouX6Px0luxi5/S8OTWLENakD6YfGalI3DAHO0/2snuP
-         GW/PbxLd8vkwirU+qi3ARCwWrAQdMNN4gUFx49nxZV5q7IEnxoNeKbWoyEyZGYO0qZFT
-         dUjubc+hDw3pR4j+1o64Gnb74IqSK3ifyZg4NUJaw6vErvtZvtaPouHjwobrlhpHLcFY
-         hRv8wSUI/740a7Ybs3V1o22kmCFKkPXyh0ZmOWYm52rl7abN5k6SIJbdQHDXCM6zPfFK
-         /cuCx1JryoExBBP0g0ajie78pM+pNPjlSlS7jfmeAre2daRH34dbctG4pC43xS+U55AJ
-         sHmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ctYChPDwei8e0XWHjaegXZZ7+pDX1X549aayNrDAlLs=;
-        b=dkY1wmxs5OAPhul2v2Fek/++A1j1Wz3gbo5SIYbmTqA8Wd8eANLCyFegbgYkbSTXJY
-         bcO+500f29ajBw+JwowSVRkblFtE9EBMzHQRYLsy1jIGVrkqRpsENY9fX/h62unIK4f1
-         2dplzPGFGGKOMRPXgIaVKnY7ev9tmwUosuwSzyeT0qIrq6HBTd5/QGl2diEx0xTS9B84
-         PxkWkWvS5e+E4vyJvf5eqobYBIbOjmFMU9OFEj83ZBLzWvALDQPk6ZwNSKvGZWgIGwgp
-         ZJ2xGacT/z4+Y3xb5CJSoz86lIdds+vQYnXfMzilLjo7CdVABMHQRhayTzevb8MpQkLw
-         WNzA==
-X-Gm-Message-State: AOAM5330faWYRjQpffQlmARp7cwovuw516Cy47uXupDYRQ4IEq+rLnnA
-        12KaU8NVu/rTsUFZ+s3JgymQNJccZoQgqQ==
-X-Google-Smtp-Source: ABdhPJzVX3HWk7+WO8ZLM8zcBmUjZbR5THPMuPByc5YtTY+hN8K2ZXFQEd16Xc2GEprWmMr4xa8+NA==
-X-Received: by 2002:a17:902:a513:b029:11a:9be6:f1b9 with SMTP id s19-20020a170902a513b029011a9be6f1b9mr36668168plq.55.1629880868425;
-        Wed, 25 Aug 2021 01:41:08 -0700 (PDT)
-Received: from dbcomp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
-        by smtp.gmail.com with ESMTPSA id o6sm1199362pjk.4.2021.08.25.01.41.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Aug 2021 01:41:07 -0700 (PDT)
-From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, jaffe1@gmail.com,
-        Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: [PATCH v2] media: vivid: add signal-free time for cec message xfer
-Date:   Wed, 25 Aug 2021 01:41:04 -0700
-Message-Id: <20210825084104.8387-1-deborahbrouwer3563@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 25 Aug 2021 04:44:11 -0400
+X-UUID: 91292bd3971c49d79c649f9484d5e5f2-20210825
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=sTZz7ZKn8O09yh6tsqaYsnMZlQTmk/rfPalD4e6KLvg=;
+        b=JhfCZv+ddUWMVak3+44wGH6ianKqOv7r5y+SClp4VQk4PQie+T5orFv223QjvbPpeTC/7r2hznsI1tDgaQG+hNJA8sXUzfTRn/Wkselu7033C9PK1gXZMPvZKklaB+74AUJxhd9etUiGa46pIIj18mOA2eulLPwD74Xky0ypdxY=;
+X-UUID: 91292bd3971c49d79c649f9484d5e5f2-20210825
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+        (envelope-from <houlong.wei@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 661326129; Wed, 25 Aug 2021 16:43:23 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs05n2.mediatek.inc
+ (172.21.101.140) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 25 Aug
+ 2021 16:43:21 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 25 Aug 2021 16:43:19 +0800
+Message-ID: <1629880999.12893.17.camel@mhfsdcap03>
+Subject: Re: [PATCH v7 7/7] media: mtk-mdp: use mdp-rdma0 alias to point to
+ MDP master
+From:   houlong wei <houlong.wei@mediatek.com>
+To:     Eizan Miyamoto <eizan@chromium.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+        Yong Wu =?UTF-8?Q?=28=E5=90=B4=E5=8B=87=29?= 
+        <Yong.Wu@mediatek.com>, "wenst@chromium.org" <wenst@chromium.org>,
+        "CK Hu =?UTF-8?Q?=28=E8=83=A1=E4=BF=8A=E5=85=89=29?=" 
+        <ck.hu@mediatek.com>,
+        "enric.balletbo@collabora.com" <enric.balletbo@collabora.com>,
+        "Yongqiang Niu =?UTF-8?Q?=28=E7=89=9B=E6=B0=B8=E5=BC=BA=29?=" 
+        <yongqiang.niu@mediatek.com>,
+        "Andrew-CT Chen =?UTF-8?Q?=28=E9=99=B3=E6=99=BA=E8=BF=AA=29?=" 
+        <Andrew-CT.Chen@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Minghsiu Tsai =?UTF-8?Q?=28=E8=94=A1=E6=98=8E=E4=BF=AE=29?=" 
+        <Minghsiu.Tsai@mediatek.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>, <houlong.wei@mediatek.com>
+Date:   Wed, 25 Aug 2021 16:43:19 +0800
+In-Reply-To: <20210825163247.v7.7.I2049e180dca12e0d1b3178bfc7292dcf9e05ac28@changeid>
+References: <20210825063323.3607738-1-eizan@chromium.org>
+         <20210825163247.v7.7.I2049e180dca12e0d1b3178bfc7292dcf9e05ac28@changeid>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently, the vivid emulation of cec message transmission does not force
-adapters to wait until the cec bus has been signal-free for a certain
-number of bit periods before transmitting or re-transmitting a message.
-Without enforcing the signal-free time requirements, adapters do not share
-the bus very well and some messages are sent too quickly while other
-messages are lost. By emulating a signal-free time and forcing adapters
-to wait their turn to transmit, the vivid emulation of cec transmission
-is much more reliable.
-
-Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
----
-Changes since v1:
-- use actual message length instead of max when copying
-- check for kthread_stop() within bus
-- store the last_initiator in the vivid state
-- update the last_initiator as soon as it is known and adjust sfts
-- use last_initiator to assign sft when transmit is called
-- use function for division
-
- drivers/media/test-drivers/vivid/vivid-cec.c  | 341 ++++++++++--------
- drivers/media/test-drivers/vivid/vivid-cec.h  |   9 +-
- drivers/media/test-drivers/vivid/vivid-core.c |  37 +-
- drivers/media/test-drivers/vivid/vivid-core.h |  23 +-
- 4 files changed, 218 insertions(+), 192 deletions(-)
-
-diff --git a/drivers/media/test-drivers/vivid/vivid-cec.c b/drivers/media/test-drivers/vivid/vivid-cec.c
-index 4d2413e87730..d97da4f10ad7 100644
---- a/drivers/media/test-drivers/vivid/vivid-cec.c
-+++ b/drivers/media/test-drivers/vivid/vivid-cec.c
-@@ -5,40 +5,23 @@
-  * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
-  */
- 
-+#include <linux/delay.h>
- #include <media/cec.h>
- 
- #include "vivid-core.h"
- #include "vivid-cec.h"
- 
--#define CEC_TIM_START_BIT_TOTAL		4500
--#define CEC_TIM_START_BIT_LOW		3700
--#define CEC_TIM_START_BIT_HIGH		800
--#define CEC_TIM_DATA_BIT_TOTAL		2400
--#define CEC_TIM_DATA_BIT_0_LOW		1500
--#define CEC_TIM_DATA_BIT_0_HIGH		900
--#define CEC_TIM_DATA_BIT_1_LOW		600
--#define CEC_TIM_DATA_BIT_1_HIGH		1800
-+#define CEC_START_BIT_US		4500
-+#define CEC_DATA_BIT_US			2400
-+#define CEC_MARGIN_US			350
- 
--void vivid_cec_bus_free_work(struct vivid_dev *dev)
--{
--	spin_lock(&dev->cec_slock);
--	while (!list_empty(&dev->cec_work_list)) {
--		struct vivid_cec_work *cw =
--			list_first_entry(&dev->cec_work_list,
--					 struct vivid_cec_work, list);
--
--		spin_unlock(&dev->cec_slock);
--		cancel_delayed_work_sync(&cw->work);
--		spin_lock(&dev->cec_slock);
--		list_del(&cw->list);
--		cec_transmit_attempt_done(cw->adap, CEC_TX_STATUS_LOW_DRIVE);
--		kfree(cw);
--	}
--	spin_unlock(&dev->cec_slock);
--}
-+struct xfer_on_bus {
-+	struct cec_adapter	*adap;
-+	u8			status;
-+};
- 
--static bool vivid_cec_find_dest_adap(struct vivid_dev *dev,
--				     struct cec_adapter *adap, u8 dest)
-+static bool find_dest_adap(struct vivid_dev *dev,
-+			   struct cec_adapter *adap, u8 dest)
- {
- 	unsigned int i;
- 
-@@ -61,116 +44,187 @@ static bool vivid_cec_find_dest_adap(struct vivid_dev *dev,
- 	return false;
- }
- 
--static void vivid_cec_pin_adap_events(struct cec_adapter *adap, ktime_t ts,
--				      const struct cec_msg *msg, bool nacked)
-+static bool xfer_ready(struct vivid_dev *dev)
- {
--	unsigned int len = nacked ? 1 : msg->len;
- 	unsigned int i;
--	bool bit;
--
--	if (adap == NULL)
--		return;
-+	bool ready = false;
- 
--	/*
--	 * Suffix ULL on constant 10 makes the expression
--	 * CEC_TIM_START_BIT_TOTAL + 10ULL * len * CEC_TIM_DATA_BIT_TOTAL
--	 * to be evaluated using 64-bit unsigned arithmetic (u64), which
--	 * is what ktime_sub_us expects as second argument.
--	 */
--	ts = ktime_sub_us(ts, CEC_TIM_START_BIT_TOTAL +
--			       10ULL * len * CEC_TIM_DATA_BIT_TOTAL);
--	cec_queue_pin_cec_event(adap, false, false, ts);
--	ts = ktime_add_us(ts, CEC_TIM_START_BIT_LOW);
--	cec_queue_pin_cec_event(adap, true, false, ts);
--	ts = ktime_add_us(ts, CEC_TIM_START_BIT_HIGH);
--
--	for (i = 0; i < 10 * len; i++) {
--		switch (i % 10) {
--		case 0 ... 7:
--			bit = msg->msg[i / 10] & (0x80 >> (i % 10));
--			break;
--		case 8: /* EOM */
--			bit = i / 10 == msg->len - 1;
--			break;
--		case 9: /* ACK */
--			bit = cec_msg_is_broadcast(msg) ^ nacked;
-+	spin_lock(&dev->cec_xfers_slock);
-+	for (i = 0; i < ARRAY_SIZE(dev->xfers); i++) {
-+		if (dev->xfers[i].sft &&
-+		    dev->xfers[i].sft <= dev->cec_sft) {
-+			ready = true;
- 			break;
- 		}
--		cec_queue_pin_cec_event(adap, false, false, ts);
--		if (bit)
--			ts = ktime_add_us(ts, CEC_TIM_DATA_BIT_1_LOW);
--		else
--			ts = ktime_add_us(ts, CEC_TIM_DATA_BIT_0_LOW);
--		cec_queue_pin_cec_event(adap, true, false, ts);
--		if (bit)
--			ts = ktime_add_us(ts, CEC_TIM_DATA_BIT_1_HIGH);
--		else
--			ts = ktime_add_us(ts, CEC_TIM_DATA_BIT_0_HIGH);
- 	}
--}
-+	spin_unlock(&dev->cec_xfers_slock);
- 
--static void vivid_cec_pin_events(struct vivid_dev *dev,
--				 const struct cec_msg *msg, bool nacked)
--{
--	ktime_t ts = ktime_get();
--	unsigned int i;
--
--	vivid_cec_pin_adap_events(dev->cec_rx_adap, ts, msg, nacked);
--	for (i = 0; i < MAX_OUTPUTS; i++)
--		vivid_cec_pin_adap_events(dev->cec_tx_adap[i], ts, msg, nacked);
-+	return ready;
- }
- 
--static void vivid_cec_xfer_done_worker(struct work_struct *work)
-+/*
-+ * If an adapter tries to send successive messages, it must wait for the
-+ * longest signal-free time between its transmissions. But, if another
-+ * adapter sends a message in the interim, then the wait can be reduced
-+ * because the messages are no longer successive. Make these adjustments
-+ * if necessary. Should be called holding cec_xfers_slock.
-+ */
-+static void adjust_sfts(struct vivid_dev *dev)
- {
--	struct vivid_cec_work *cw =
--		container_of(work, struct vivid_cec_work, work.work);
--	struct vivid_dev *dev = cw->dev;
--	struct cec_adapter *adap = cw->adap;
--	u8 dest = cec_msg_destination(&cw->msg);
--	bool valid_dest;
- 	unsigned int i;
-+	u8 initiator;
- 
--	valid_dest = cec_msg_is_broadcast(&cw->msg);
--	if (!valid_dest)
--		valid_dest = vivid_cec_find_dest_adap(dev, adap, dest);
--
--	cw->tx_status = valid_dest ? CEC_TX_STATUS_OK : CEC_TX_STATUS_NACK;
--	spin_lock(&dev->cec_slock);
--	dev->cec_xfer_time_jiffies = 0;
--	dev->cec_xfer_start_jiffies = 0;
--	list_del(&cw->list);
--	spin_unlock(&dev->cec_slock);
--	vivid_cec_pin_events(dev, &cw->msg, !valid_dest);
--	cec_transmit_attempt_done(cw->adap, cw->tx_status);
--
--	/* Broadcast message */
--	if (adap != dev->cec_rx_adap)
--		cec_received_msg(dev->cec_rx_adap, &cw->msg);
--	for (i = 0; i < MAX_OUTPUTS && dev->cec_tx_adap[i]; i++)
--		if (adap != dev->cec_tx_adap[i])
--			cec_received_msg(dev->cec_tx_adap[i], &cw->msg);
--	kfree(cw);
-+	for (i = 0; i < ARRAY_SIZE(dev->xfers); i++) {
-+		if (dev->xfers[i].sft <= CEC_SIGNAL_FREE_TIME_RETRY)
-+			continue;
-+		initiator = dev->xfers[i].msg[0] >> 4;
-+		if (initiator == dev->last_initiator)
-+			dev->xfers[i].sft = CEC_SIGNAL_FREE_TIME_NEXT_XFER;
-+		else
-+			dev->xfers[i].sft = CEC_SIGNAL_FREE_TIME_NEW_INITIATOR;
-+	}
- }
- 
--static void vivid_cec_xfer_try_worker(struct work_struct *work)
-+/*
-+ * The main emulation of the bus on which CEC adapters attempt to send
-+ * messages to each other. The bus keeps track of how long it has been
-+ * signal-free and accepts a pending transmission only if the state of
-+ * the bus matches the transmission's signal-free requirements. It calls
-+ * cec_transmit_attempt_done() for all transmits that enter the bus and
-+ * cec_received_msg() for successful transmits.
-+ */
-+int vivid_cec_bus_thread(void *_dev)
- {
--	struct vivid_cec_work *cw =
--		container_of(work, struct vivid_cec_work, work.work);
--	struct vivid_dev *dev = cw->dev;
--
--	spin_lock(&dev->cec_slock);
--	if (dev->cec_xfer_time_jiffies) {
--		list_del(&cw->list);
--		spin_unlock(&dev->cec_slock);
--		cec_transmit_attempt_done(cw->adap, CEC_TX_STATUS_ARB_LOST);
--		kfree(cw);
--	} else {
--		INIT_DELAYED_WORK(&cw->work, vivid_cec_xfer_done_worker);
--		dev->cec_xfer_start_jiffies = jiffies;
--		dev->cec_xfer_time_jiffies = usecs_to_jiffies(cw->usecs);
--		spin_unlock(&dev->cec_slock);
--		schedule_delayed_work(&cw->work, dev->cec_xfer_time_jiffies);
-+	u32 last_sft;
-+	unsigned int i;
-+	unsigned int dest;
-+	ktime_t start, end;
-+	s64 delta_us, retry_us;
-+	unsigned int first_idx;
-+	unsigned int first_status;
-+	struct vivid_dev *dev = _dev;
-+
-+	dev->cec_sft = CEC_SIGNAL_FREE_TIME_NEXT_XFER;
-+	for (;;) {
-+		bool first = true;
-+		int wait_xfer_us = 0;
-+		bool valid_dest = false;
-+		int wait_arb_lost_us = 0;
-+		struct cec_msg first_msg = {};
-+		struct xfer_on_bus xfers_on_bus[MAX_OUTPUTS] = {};
-+
-+		wait_event_interruptible(dev->kthread_waitq_cec, xfer_ready(dev) ||
-+					 kthread_should_stop());
-+		if (kthread_should_stop())
-+			break;
-+		last_sft = dev->cec_sft;
-+		dev->cec_sft = 0;
-+		/*
-+		 * Move the messages that are ready onto the bus. The adapter with
-+		 * the most leading zeros will win control of the bus and any other
-+		 * adapters will lose arbitration.
-+		 */
-+		spin_lock(&dev->cec_xfers_slock);
-+		for (i = 0; i < ARRAY_SIZE(dev->xfers); i++) {
-+			if (!dev->xfers[i].sft || dev->xfers[i].sft > last_sft)
-+				continue;
-+			if (first) {
-+				first = false;
-+				first_idx = i;
-+				xfers_on_bus[first_idx].adap = dev->xfers[i].adap;
-+				memcpy(first_msg.msg, dev->xfers[i].msg, dev->xfers[i].len);
-+				first_msg.len = dev->xfers[i].len;
-+			} else {
-+				xfers_on_bus[i].adap = dev->xfers[i].adap;
-+				xfers_on_bus[i].status = CEC_TX_STATUS_ARB_LOST;
-+				/*
-+				 * For simplicity wait for all 4 bits of the initiator's
-+				 * address even though HDMI specification uses bit-level
-+				 * precision.
-+				 */
-+				wait_arb_lost_us = 4 * CEC_DATA_BIT_US + CEC_START_BIT_US;
-+			}
-+			dev->xfers[i].sft = 0;
-+		}
-+		dev->last_initiator = cec_msg_initiator(&first_msg);
-+		adjust_sfts(dev);
-+		spin_unlock(&dev->cec_xfers_slock);
-+
-+		dest = cec_msg_destination(&first_msg);
-+		valid_dest = cec_msg_is_broadcast(&first_msg);
-+		if (!valid_dest)
-+			valid_dest = find_dest_adap(dev, xfers_on_bus[first_idx].adap, dest);
-+		if (valid_dest) {
-+			first_status = CEC_TX_STATUS_OK;
-+			/*
-+			 * Message length is in bytes, but each byte is transmitted in
-+			 * a block of 10 bits.
-+			 */
-+			wait_xfer_us = first_msg.len * 10 * CEC_DATA_BIT_US;
-+		} else {
-+			first_status = CEC_TX_STATUS_NACK;
-+			/*
-+			 * A message that is not acknowledged stops transmitting after
-+			 * the header block of 10 bits.
-+			 */
-+			wait_xfer_us = 10 * CEC_DATA_BIT_US;
-+		}
-+		wait_xfer_us += CEC_START_BIT_US;
-+		xfers_on_bus[first_idx].status = first_status;
-+
-+		/* Sleep as if sending messages on a real hardware bus. */
-+		start = ktime_get();
-+		if (wait_arb_lost_us) {
-+			usleep_range(wait_arb_lost_us - CEC_MARGIN_US, wait_arb_lost_us);
-+			for (i = 0; i < ARRAY_SIZE(xfers_on_bus); i++) {
-+				if (xfers_on_bus[i].status != CEC_TX_STATUS_ARB_LOST)
-+					continue;
-+				cec_transmit_attempt_done(xfers_on_bus[i].adap,
-+							  CEC_TX_STATUS_ARB_LOST);
-+			}
-+			if (kthread_should_stop())
-+				break;
-+		}
-+		wait_xfer_us -= wait_arb_lost_us;
-+		usleep_range(wait_xfer_us - CEC_MARGIN_US, wait_xfer_us);
-+		cec_transmit_attempt_done(xfers_on_bus[first_idx].adap, first_status);
-+		if (kthread_should_stop())
-+			break;
-+		if (first_status == CEC_TX_STATUS_OK) {
-+			if (xfers_on_bus[first_idx].adap != dev->cec_rx_adap)
-+				cec_received_msg(dev->cec_rx_adap, &first_msg);
-+			for (i = 0; i < MAX_OUTPUTS && dev->cec_tx_adap[i]; i++)
-+				if (xfers_on_bus[first_idx].adap != dev->cec_tx_adap[i])
-+					cec_received_msg(dev->cec_tx_adap[i], &first_msg);
-+		}
-+		end = ktime_get();
-+		/*
-+		 * If the emulated transfer took more or less time than it should
-+		 * have, then compensate by adjusting the wait time needed for the
-+		 * bus to be signal-free for 3 bit periods (the retry time).
-+		 */
-+		delta_us = div_s64(end - start, 1000);
-+		delta_us -= wait_xfer_us + wait_arb_lost_us;
-+		retry_us = CEC_SIGNAL_FREE_TIME_RETRY * CEC_DATA_BIT_US - delta_us;
-+		if (retry_us > CEC_MARGIN_US)
-+			usleep_range(retry_us - CEC_MARGIN_US, retry_us);
-+		dev->cec_sft = CEC_SIGNAL_FREE_TIME_RETRY;
-+		/*
-+		 * If there are no messages that need to be retried, check if any
-+		 * adapters that did not just transmit a message are ready to
-+		 * transmit. If none of these adapters are ready, then increase
-+		 * the signal-free time so that the bus is available to all
-+		 * adapters and go back to waiting for a transmission.
-+		 */
-+		while (dev->cec_sft >= CEC_SIGNAL_FREE_TIME_RETRY &&
-+		       dev->cec_sft < CEC_SIGNAL_FREE_TIME_NEXT_XFER &&
-+		       !xfer_ready(dev) && !kthread_should_stop()) {
-+			usleep_range(2 * CEC_DATA_BIT_US - CEC_MARGIN_US,
-+				     2 * CEC_DATA_BIT_US);
-+			dev->cec_sft += 2;
-+		}
- 	}
-+	return 0;
- }
- 
- static int vivid_cec_adap_enable(struct cec_adapter *adap, bool enable)
-@@ -184,41 +238,26 @@ static int vivid_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
- 	return 0;
- }
- 
--/*
-- * One data bit takes 2400 us, each byte needs 10 bits so that's 24000 us
-- * per byte.
-- */
--#define USECS_PER_BYTE 24000
--
- static int vivid_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
- 				   u32 signal_free_time, struct cec_msg *msg)
- {
- 	struct vivid_dev *dev = cec_get_drvdata(adap);
--	struct vivid_cec_work *cw = kzalloc(sizeof(*cw), GFP_KERNEL);
--	long delta_jiffies = 0;
--
--	if (cw == NULL)
--		return -ENOMEM;
--	cw->dev = dev;
--	cw->adap = adap;
--	cw->usecs = CEC_FREE_TIME_TO_USEC(signal_free_time) +
--		    msg->len * USECS_PER_BYTE;
--	cw->msg = *msg;
--
--	spin_lock(&dev->cec_slock);
--	list_add(&cw->list, &dev->cec_work_list);
--	if (dev->cec_xfer_time_jiffies == 0) {
--		INIT_DELAYED_WORK(&cw->work, vivid_cec_xfer_done_worker);
--		dev->cec_xfer_start_jiffies = jiffies;
--		dev->cec_xfer_time_jiffies = usecs_to_jiffies(cw->usecs);
--		delta_jiffies = dev->cec_xfer_time_jiffies;
--	} else {
--		INIT_DELAYED_WORK(&cw->work, vivid_cec_xfer_try_worker);
--		delta_jiffies = dev->cec_xfer_start_jiffies +
--			dev->cec_xfer_time_jiffies - jiffies;
-+	u8 idx = cec_msg_initiator(msg);
-+
-+	spin_lock(&dev->cec_xfers_slock);
-+	dev->xfers[idx].adap = adap;
-+	memcpy(dev->xfers[idx].msg, msg->msg, CEC_MAX_MSG_SIZE);
-+	dev->xfers[idx].len = msg->len;
-+	dev->xfers[idx].sft = CEC_SIGNAL_FREE_TIME_RETRY;
-+	if (signal_free_time > CEC_SIGNAL_FREE_TIME_RETRY) {
-+		if (idx == dev->last_initiator)
-+			dev->xfers[idx].sft = CEC_SIGNAL_FREE_TIME_NEXT_XFER;
-+		else
-+			dev->xfers[idx].sft = CEC_SIGNAL_FREE_TIME_NEW_INITIATOR;
- 	}
--	spin_unlock(&dev->cec_slock);
--	schedule_delayed_work(&cw->work, delta_jiffies < 0 ? 0 : delta_jiffies);
-+	spin_unlock(&dev->cec_xfers_slock);
-+	wake_up_interruptible(&dev->kthread_waitq_cec);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/media/test-drivers/vivid/vivid-cec.h b/drivers/media/test-drivers/vivid/vivid-cec.h
-index 7524ed48a914..b2bcddb50b83 100644
---- a/drivers/media/test-drivers/vivid/vivid-cec.h
-+++ b/drivers/media/test-drivers/vivid/vivid-cec.h
-@@ -9,12 +9,5 @@
- struct cec_adapter *vivid_cec_alloc_adap(struct vivid_dev *dev,
- 					 unsigned int idx,
- 					 bool is_source);
--void vivid_cec_bus_free_work(struct vivid_dev *dev);
--
--#else
--
--static inline void vivid_cec_bus_free_work(struct vivid_dev *dev)
--{
--}
--
-+int vivid_cec_bus_thread(void *_dev);
- #endif
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index d2bd2653cf54..1973e08953ab 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.c
-+++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -1878,18 +1878,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
- 	INIT_LIST_HEAD(&dev->meta_out_active);
- 	INIT_LIST_HEAD(&dev->touch_cap_active);
- 
--	INIT_LIST_HEAD(&dev->cec_work_list);
--	spin_lock_init(&dev->cec_slock);
--	/*
--	 * Same as create_singlethread_workqueue, but now I can use the
--	 * string formatting of alloc_ordered_workqueue.
--	 */
--	dev->cec_workqueue = alloc_ordered_workqueue("vivid-%03d-cec",
--						     WQ_MEM_RECLAIM, inst);
--	if (!dev->cec_workqueue) {
--		ret = -ENOMEM;
--		goto unreg_dev;
--	}
-+	spin_lock_init(&dev->cec_xfers_slock);
- 
- 	if (allocators[inst] == 1)
- 		dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-@@ -1929,6 +1918,18 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
- 			cec_tx_bus_cnt++;
- 		}
- 	}
-+
-+	if (dev->cec_rx_adap || cec_tx_bus_cnt) {
-+		init_waitqueue_head(&dev->kthread_waitq_cec);
-+		dev->kthread_cec = kthread_run(vivid_cec_bus_thread, dev,
-+					       "vivid_cec-%s", dev->v4l2_dev.name);
-+		if (IS_ERR(dev->kthread_cec)) {
-+			dev->kthread_cec = NULL;
-+			v4l2_err(&dev->v4l2_dev, "kernel_thread() failed\n");
-+			goto unreg_dev;
-+		}
-+	}
-+
- #endif
- 
- 	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vid_cap);
-@@ -1968,10 +1969,8 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
- 	cec_unregister_adapter(dev->cec_rx_adap);
- 	for (i = 0; i < MAX_OUTPUTS; i++)
- 		cec_unregister_adapter(dev->cec_tx_adap[i]);
--	if (dev->cec_workqueue) {
--		vivid_cec_bus_free_work(dev);
--		destroy_workqueue(dev->cec_workqueue);
--	}
-+	if (dev->kthread_cec)
-+		kthread_stop(dev->kthread_cec);
- free_dev:
- 	v4l2_device_put(&dev->v4l2_dev);
- 	return ret;
-@@ -2093,10 +2092,8 @@ static int vivid_remove(struct platform_device *pdev)
- 		cec_unregister_adapter(dev->cec_rx_adap);
- 		for (j = 0; j < MAX_OUTPUTS; j++)
- 			cec_unregister_adapter(dev->cec_tx_adap[j]);
--		if (dev->cec_workqueue) {
--			vivid_cec_bus_free_work(dev);
--			destroy_workqueue(dev->cec_workqueue);
--		}
-+		if (dev->kthread_cec)
-+			kthread_stop(dev->kthread_cec);
- 		v4l2_device_put(&dev->v4l2_dev);
- 		vivid_devs[i] = NULL;
- 	}
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.h b/drivers/media/test-drivers/vivid/vivid-core.h
-index 1e3c4f5a9413..45f96706edde 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.h
-+++ b/drivers/media/test-drivers/vivid/vivid-core.h
-@@ -110,15 +110,11 @@ enum vivid_colorspace {
- #define VIVID_INVALID_SIGNAL(mode) \
- 	((mode) == NO_SIGNAL || (mode) == NO_LOCK || (mode) == OUT_OF_RANGE)
- 
--struct vivid_cec_work {
--	struct list_head	list;
--	struct delayed_work	work;
-+struct vivid_cec_xfer {
- 	struct cec_adapter	*adap;
--	struct vivid_dev	*dev;
--	unsigned int		usecs;
--	unsigned int		timeout_ms;
--	u8			tx_status;
--	struct cec_msg		msg;
-+	u8			msg[CEC_MAX_MSG_SIZE];
-+	u32			len;
-+	u32			sft;
- };
- 
- struct vivid_dev {
-@@ -560,12 +556,13 @@ struct vivid_dev {
- 	/* CEC */
- 	struct cec_adapter		*cec_rx_adap;
- 	struct cec_adapter		*cec_tx_adap[MAX_OUTPUTS];
--	struct workqueue_struct		*cec_workqueue;
--	spinlock_t			cec_slock;
--	struct list_head		cec_work_list;
--	unsigned int			cec_xfer_time_jiffies;
--	unsigned long			cec_xfer_start_jiffies;
- 	u8				cec_output2bus_map[MAX_OUTPUTS];
-+	struct task_struct		*kthread_cec;
-+	wait_queue_head_t		kthread_waitq_cec;
-+	struct vivid_cec_xfer	xfers[MAX_OUTPUTS];
-+	spinlock_t			cec_xfers_slock; /* read and write cec messages */
-+	u32				cec_sft; /* bus signal free time, in bit periods */
-+	u8				last_initiator;
- 
- 	/* CEC OSD String */
- 	char				osd[14];
--- 
-2.20.1
+SGkgRWl6YW4sDQoNClRoYW5rcyBmb3IgeW91IHBhdGNoLiBJIGhhdmUgaW5saW5lIGNvbW1lbnQg
+YmVsb3cuDQoNClJlZ2FyZHMsDQpIb3Vsb25nDQoNCk9uIFdlZCwgMjAyMS0wOC0yNSBhdCAxNDoz
+MyArMDgwMCwgRWl6YW4gTWl5YW1vdG8gd3JvdGU6DQo+IC4uLiBJbnN0ZWFkIG9mIGRlcGVuZGlu
+ZyBvbiB0aGUgcHJlc2VuY2Ugb2YgYSBtZWRpYXRlayx2cHUgcHJvcGVydHkgaW4NCj4gdGhlIGRl
+dmljZSBub2RlLg0KPiANCj4gVGhhdCBwcm9wZXJ0eSB3YXMgb3JpZ2luYWxseSBhZGRlZCB0byBs
+aW5rIHRvIHRoZSB2cHUgbm9kZSBzbyB0aGF0IHRoZQ0KPiBtdGtfbWRwX2NvcmUgZHJpdmVyIGNv
+dWxkIHBhc3MgdGhlIHJpZ2h0IGRldmljZSB0bw0KPiB2cHVfd2R0X3JlZ19oYW5kbGVyKCkuIEhv
+d2V2ZXIgaW4gYSBwcmV2aW91cyBwYXRjaCBpbiB0aGlzIHNlcmllcywNCj4gdGhlIGRyaXZlciBo
+YXMgYmVlbiBtb2RpZmllZCB0byBzZWFyY2ggdGhlIGRldmljZSB0cmVlIGZvciB0aGF0IG5vZGUN
+Cj4gaW5zdGVhZC4NCj4gDQo+IFRoYXQgcHJvcGVydHkgd2FzIGFsc28gdXNlZCB0byBpbmRpY2F0
+ZSB0aGUgcHJpbWFyeSBNRFAgZGV2aWNlLCBzbyB0aGF0DQo+IGl0IGNhbiBiZSBwYXNzZWQgdG8g
+dGhlIFY0TDIgc3Vic3lzdGVtIGFzIHdlbGwgYXMgcmVnaXN0ZXIgaXQgdG8gYmUNCj4gdXNlZCB3
+aGVuIHNldHRpbmcgdXAgcXVldWVzIGluIHRoZSBvcGVuKCkgY2FsbGJhY2sgZm9yIHRoZSBmaWxl
+c3lzdGVtDQo+IGRldmljZSBub2RlIHRoYXQgaXMgY3JlYXRlZC4gSW4gdGhpcyBjYXNlLCBhc3N1
+bWluZyB0aGF0IHRoZSBwcmltYXJ5DQo+IE1EUCBkZXZpY2UgaXMgdGhlIG9uZSB3aXRoIGEgc3Bl
+Y2lmaWMgYWxpYXMgc2VlbXMgdXNlYWJsZSBiZWNhdXNlIHRoZQ0KPiBhbHRlcm5hdGl2ZSBpcyB0
+byBhZGQgYSBwcm9wZXJ0eSB0byB0aGUgZGV2aWNlIHRyZWUgd2hpY2ggZG9lc24ndA0KPiBhY3R1
+YWxseSByZXByZXNlbnQgYW55IGZhY2V0IG9mIGhhcmR3YXJlIChpLmUuLCB0aGlzIGJlaW5nIHRo
+ZSBwcmltYXJ5DQo+IE1EUCBkZXZpY2UgaXMgYSBzb2Z0d2FyZSBkZWNpc2lvbikuIEluIG90aGVy
+IHdvcmRzLCB0aGlzIHNvbHV0aW9uIGlzDQo+IGVxdWFsbHkgYXMgYXJiaXRyYXJ5LCBidXQgYXQg
+bGVhc3QgaXQgZG9lc24ndCBhZGQgYSBwcm9wZXJ0eSB0byBhDQo+IGRldmljZSBub2RlIHdoZXJl
+IHNhaWQgcHJvcGVydHkgaXMgdW5yZWxhdGVkIHRvIHRoZSBoYXJkd2FyZSBwcmVzZW50Lg0KPiAN
+Cj4gU2lnbmVkLW9mZi1ieTogRWl6YW4gTWl5YW1vdG8gPGVpemFuQGNocm9taXVtLm9yZz4NCj4g
+UmV2aWV3ZWQtYnk6IEVucmljIEJhbGxldGJvIGkgU2VycmEgPGVucmljLmJhbGxldGJvQGNvbGxh
+Ym9yYS5jb20+DQo+IC0tLQ0KPiANCj4gKG5vIGNoYW5nZXMgc2luY2UgdjEpDQo+IA0KPiAgZHJp
+dmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstbWRwL210a19tZHBfY29tcC5jIHwgNTYgKysrKysrKysr
+KysrKy0tLS0tLQ0KPiAgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstbWRwL210a19tZHBfY29y
+ZS5jIHwgMzYgKysrKysrKystLS0tDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDY0IGluc2VydGlvbnMo
+KyksIDI4IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxh
+dGZvcm0vbXRrLW1kcC9tdGtfbWRwX2NvbXAuYyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRr
+LW1kcC9tdGtfbWRwX2NvbXAuYw0KPiBpbmRleCA4NWVmMjc0ODQxYTMuLjk1Mjc2NDlkZTk4ZSAx
+MDA2NDQNCj4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstbWRwL210a19tZHBfY29t
+cC5jDQo+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLW1kcC9tdGtfbWRwX2NvbXAu
+Yw0KPiBAQCAtMTUxLDI5ICsxNTEsNTAgQEAgdm9pZCBtdGtfbWRwX2NvbXBfY2xvY2tfb2ZmKHN0
+cnVjdCBtdGtfbWRwX2NvbXAgKmNvbXApDQo+ICAJCW10a19zbWlfbGFyYl9wdXQoY29tcC0+bGFy
+Yl9kZXYpOw0KPiAgfQ0KPiAgDQo+IC1zdGF0aWMgaW50IG10a19tZHBfY29tcF9iaW5kKHN0cnVj
+dCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLCB2b2lkICpkYXRhKQ0KPiArLyoN
+Cj4gKyAqIFRoZSBNRFAgbWFzdGVyIGRldmljZSBub2RlIGlzIGlkZW50aWZpZWQgYnkgdGhlIGRl
+dmljZSB0cmVlIGFsaWFzDQo+ICsgKiAibWRwLXJkbWEwIi4NCj4gKyAqLw0KPiArc3RhdGljIGJv
+b2wgaXNfbWRwX21hc3RlcihzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+ICt7DQo+ICsJc3RydWN0IGRl
+dmljZV9ub2RlICphbGlhc2VzLCAqbWRwX3JkbWEwX25vZGU7DQo+ICsJY29uc3QgY2hhciAqbWRw
+X3JkbWEwX3BhdGg7DQo+ICsNCj4gKwlpZiAoIWRldi0+b2Zfbm9kZSkNCj4gKwkJcmV0dXJuIGZh
+bHNlOw0KPiArDQo+ICsJYWxpYXNlcyA9IG9mX2ZpbmRfbm9kZV9ieV9wYXRoKCIvYWxpYXNlcyIp
+Ow0KPiArCWlmICghYWxpYXNlcykgew0KPiArCQlkZXZfZXJyKGRldiwgIm5vIGFsaWFzZXMgZm91
+bmQgZm9yIG1kcC1yZG1hMCIpOw0KPiArCQlyZXR1cm4gZmFsc2U7DQo+ICsJfQ0KPiArDQo+ICsJ
+bWRwX3JkbWEwX3BhdGggPSBvZl9nZXRfcHJvcGVydHkoYWxpYXNlcywgIm1kcC1yZG1hMCIsIE5V
+TEwpOw0KPiArCWlmICghbWRwX3JkbWEwX3BhdGgpIHsNCj4gKwkJZGV2X2VycihkZXYsICJnZXQg
+bWRwLXJkbWEwIHByb3BlcnR5IG9mIC9hbGlhc2VzIGZhaWxlZCIpOw0KPiArCQlyZXR1cm4gZmFs
+c2U7DQo+ICsJfQ0KPiArDQo+ICsJbWRwX3JkbWEwX25vZGUgPSBvZl9maW5kX25vZGVfYnlfcGF0
+aChtZHBfcmRtYTBfcGF0aCk7DQo+ICsJaWYgKCFtZHBfcmRtYTBfbm9kZSkgew0KPiArCQlkZXZf
+ZXJyKGRldiwgInBhdGggcmVzb2x1dGlvbiBmYWlsZWQgZm9yICVzIiwgbWRwX3JkbWEwX3BhdGgp
+Ow0KPiArCQlyZXR1cm4gZmFsc2U7DQo+ICsJfQ0KPiArDQo+ICsJcmV0dXJuIGRldi0+b2Zfbm9k
+ZSA9PSBtZHBfcmRtYTBfbm9kZTsNCg0KDQpBYm91dCBob3cgdG8gZGV0ZXJtaW5lIHRoZSBtYXN0
+ZXIgbWRwIGRyaXZlciwgd2UgYWxzbyBjYW4NCmp1ZGdlIHRoZSBjb21wb25lbnQgdHlwZS4gVGhl
+IGNvbXBvbmVudCB0eXBlIGNhbiBiZSBnb3R0ZW4gYnkgY2FsbGluZw0Kb2ZfZGV2aWNlX2dldF9t
+YXRjaF9kYXRhKGRldikuIElmIHRoZSBjb21wb25lbnQgaXMgTVRLX01EUF9SRE1BLCBpdCBpcw0K
+dGhlIG1hc3RlciBkcml2ZXIuIE5vIG1hdHRlciBpdCBpcyBtZHBfcmRtYTAgb3IgbWRwX3JkbWEx
+Lg0KaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvcGlwZXJtYWlsL2xpbnV4LW1lZGlhdGVrLzIw
+MjEtQXVndXN0LzAyODUzMy5odG1sDQoNCklNTywganVkZ2luZyBpdCBieSBjb21wb25lbnQgdHlw
+ZSBpcyBtb3JlIGZsZXhpYmxlIGJlY2F1c2UgaXQgZG9lcyBub3QNCmxpbWl0IHRvICdtZHBfcmRt
+YTAnLg0KDQo+ICt9DQo+ICsNCj4gK3N0YXRpYyBpbnQgbXRrX21kcF9jb21wX2JpbmQoc3RydWN0
+IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsDQo+ICsJCQl2b2lkICpkYXRhKQ0K
+PiAgew0KPiAgCXN0cnVjdCBtdGtfbWRwX2NvbXAgKmNvbXAgPSBkZXZfZ2V0X2RydmRhdGEoZGV2
+KTsNCj4gIAlzdHJ1Y3QgbXRrX21kcF9kZXYgKm1kcCA9IGRhdGE7DQo+IC0Jc3RydWN0IGRldmlj
+ZV9ub2RlICp2cHVfbm9kZTsNCj4gIA0KPiAgCW10a19tZHBfcmVnaXN0ZXJfY29tcG9uZW50KG1k
+cCwgY29tcCk7DQo+ICANCj4gLQkvKg0KPiAtCSAqIElmIHRoaXMgY29tcG9uZW50IGhhcyBhICJt
+ZWRpYXRlay12cHUiIHByb3BlcnR5LCBpdCBpcyByZXNwb25zaWJsZSBmb3INCj4gLQkgKiBub3Rp
+ZnlpbmcgdGhlIG1kcCBtYXN0ZXIgZHJpdmVyIGFib3V0IGl0IHNvIGl0IGNhbiBiZSBmdXJ0aGVy
+IGluaXRpYWxpemVkDQo+IC0JICogbGF0ZXIuDQo+IC0JICovDQo+IC0JdnB1X25vZGUgPSBvZl9w
+YXJzZV9waGFuZGxlKGRldi0+b2Zfbm9kZSwgIm1lZGlhdGVrLHZwdSIsIDApOw0KPiAtCWlmICh2
+cHVfbm9kZSkgew0KPiArCWlmIChpc19tZHBfbWFzdGVyKGRldikpIHsNCj4gIAkJaW50IHJldDsN
+Cj4gIA0KPiAtCQltZHAtPnZwdV9kZXYgPSBvZl9maW5kX2RldmljZV9ieV9ub2RlKHZwdV9ub2Rl
+KTsNCj4gLQkJaWYgKFdBUk5fT04oIW1kcC0+dnB1X2RldikpIHsNCj4gLQkJCWRldl9lcnIoZGV2
+LCAidnB1IHBkZXYgZmFpbGVkXG4iKTsNCj4gLQkJCW9mX25vZGVfcHV0KHZwdV9ub2RlKTsNCj4g
+LQkJfQ0KPiAtDQo+ICAJCXJldCA9IHY0bDJfZGV2aWNlX3JlZ2lzdGVyKGRldiwgJm1kcC0+djRs
+Ml9kZXYpOw0KPiAgCQlpZiAocmV0KSB7DQo+ICAJCQlkZXZfZXJyKGRldiwgIkZhaWxlZCB0byBy
+ZWdpc3RlciB2NGwyIGRldmljZVxuIik7DQo+IEBAIC0xODcsOSArMjA4LDggQEAgc3RhdGljIGlu
+dCBtdGtfbWRwX2NvbXBfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2UgKm1h
+c3Rlciwgdm9pZCAqZGENCj4gIAkJfQ0KPiAgDQo+ICAJCS8qDQo+IC0JCSAqIHByZXNlbmNlIG9m
+IHRoZSAibWVkaWF0ZWssdnB1IiBwcm9wZXJ0eSBpbiBhIGRldmljZSBub2RlDQo+IC0JCSAqIGlu
+ZGljYXRlcyB0aGF0IGl0IGlzIHRoZSBwcmltYXJ5IE1EUCByZG1hIGRldmljZSBhbmQgTURQIERN
+QQ0KPiAtCQkgKiBvcHMgc2hvdWxkIGJlIGhhbmRsZWQgYnkgaXRzIERNQSBjYWxsYmFja3MuDQo+
+ICsJCSAqIE1EUCBETUEgb3BzIHdpbGwgYmUgaGFuZGxlZCBieSB0aGUgRE1BIGNhbGxiYWNrcyBh
+c3NvY2lhdGVkIHdpdGggdGhpcw0KPiArCQkgKiBkZXZpY2U7DQo+ICAJCSAqLw0KPiAgCQltZHAt
+PnJkbWFfZGV2ID0gZGV2Ow0KPiAgCX0NCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxh
+dGZvcm0vbXRrLW1kcC9tdGtfbWRwX2NvcmUuYyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRr
+LW1kcC9tdGtfbWRwX2NvcmUuYw0KPiBpbmRleCA1MGVhZmNjOTk5M2QuLjZhNzc1NDYzMzk5YyAx
+MDA2NDQNCj4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstbWRwL210a19tZHBfY29y
+ZS5jDQo+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLW1kcC9tdGtfbWRwX2NvcmUu
+Yw0KPiBAQCAtMTUwLDggKzE1MCw5IEBAIHN0YXRpYyB2b2lkIHJlbGVhc2Vfb2Yoc3RydWN0IGRl
+dmljZSAqZGV2LCB2b2lkICpkYXRhKQ0KPiAgDQo+ICBzdGF0aWMgaW50IG10a19tZHBfbWFzdGVy
+X2JpbmQoc3RydWN0IGRldmljZSAqZGV2KQ0KPiAgew0KPiAtCWludCBzdGF0dXM7DQo+ICAJc3Ry
+dWN0IG10a19tZHBfZGV2ICptZHAgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4gKwlzdHJ1Y3Qg
+ZGV2aWNlX25vZGUgKnZwdV9ub2RlOw0KPiArCWludCBzdGF0dXM7DQo+ICANCj4gIAlzdGF0dXMg
+PSBjb21wb25lbnRfYmluZF9hbGwoZGV2LCBtZHApOw0KPiAgCWlmIChzdGF0dXMpIHsNCj4gQEAg
+LTE1OSwxNSArMTYwLDMwIEBAIHN0YXRpYyBpbnQgbXRrX21kcF9tYXN0ZXJfYmluZChzdHJ1Y3Qg
+ZGV2aWNlICpkZXYpDQo+ICAJCWdvdG8gZXJyX2NvbXBvbmVudF9iaW5kX2FsbDsNCj4gIAl9DQo+
+ICANCj4gLQlpZiAobWRwLT52cHVfZGV2KSB7DQo+IC0JCWludCByZXQgPSB2cHVfd2R0X3JlZ19o
+YW5kbGVyKG1kcC0+dnB1X2RldiwgbXRrX21kcF9yZXNldF9oYW5kbGVyLCBtZHAsDQo+IC0JCQkJ
+CSAgVlBVX1JTVF9NRFApOw0KPiAtCQlpZiAocmV0KSB7DQo+IC0JCQlkZXZfZXJyKGRldiwgIkZh
+aWxlZCB0byByZWdpc3RlciByZXNldCBoYW5kbGVyXG4iKTsNCj4gLQkJCWdvdG8gZXJyX3dkdF9y
+ZWc7DQo+IC0JCX0NCj4gLQl9IGVsc2Ugew0KPiAtCQlkZXZfZXJyKGRldiwgIm5vIHZwdV9kZXYg
+Zm91bmRcbiIpOw0KPiArCWlmIChtZHAtPnJkbWFfZGV2ID09IE5VTEwpIHsNCj4gKwkJZGV2X2Vy
+cihkZXYsICJQcmltYXJ5IE1EUCBkZXZpY2Ugbm90IGZvdW5kIik7DQo+ICsJCXN0YXR1cyA9IC1F
+Tk9ERVY7DQo+ICsJCWdvdG8gZXJyX2NvbXBvbmVudF9iaW5kX2FsbDsNCj4gKwl9DQo+ICsNCj4g
+Kwl2cHVfbm9kZSA9IG9mX2ZpbmRfbm9kZV9ieV9uYW1lKE5VTEwsICJ2cHUiKTsNCj4gKwlpZiAo
+IXZwdV9ub2RlKSB7DQo+ICsJCWRldl9lcnIoZGV2LCAidW5hYmxlIHRvIGZpbmQgdnB1IG5vZGUi
+KTsNCj4gKwkJc3RhdHVzID0gLUVOT0RFVjsNCj4gKwkJZ290byBlcnJfd2R0X3JlZzsNCj4gKwl9
+DQo+ICsNCj4gKwltZHAtPnZwdV9kZXYgPSBvZl9maW5kX2RldmljZV9ieV9ub2RlKHZwdV9ub2Rl
+KTsNCg0KVGhlICd2cHVfbm9kZScgc2hvdWxkIGJlIHB1dCBieSBjYWxsaW5nICdvZl9ub2RlX3B1
+dCh2cHVfbm9kZSknIHdoZW4gaXQNCmlzIG5vdCB1c2VkLg0KDQo+ICsJaWYgKCFtZHAtPnZwdV9k
+ZXYpIHsNCj4gKwkJZGV2X2VycihkZXYsICJ1bmFibGUgdG8gZmluZCB2cHUgZGV2aWNlIik7DQo+
+ICsJCXN0YXR1cyA9IC1FTk9ERVY7DQo+ICsJCWdvdG8gZXJyX3dkdF9yZWc7DQo+ICsJfQ0KPiAr
+DQo+ICsJc3RhdHVzID0gdnB1X3dkdF9yZWdfaGFuZGxlcihtZHAtPnZwdV9kZXYsIG10a19tZHBf
+cmVzZXRfaGFuZGxlciwgbWRwLCBWUFVfUlNUX01EUCk7DQo+ICsJaWYgKHN0YXR1cykgew0KPiAr
+CQlkZXZfZXJyKGRldiwgIkZhaWxlZCB0byByZWdpc3RlciByZXNldCBoYW5kbGVyXG4iKTsNCj4g
+KwkJZ290byBlcnJfd2R0X3JlZzsNCj4gIAl9DQo+ICANCj4gIAlzdGF0dXMgPSBtdGtfbWRwX3Jl
+Z2lzdGVyX20ybV9kZXZpY2UobWRwKTsNCg0K
 
