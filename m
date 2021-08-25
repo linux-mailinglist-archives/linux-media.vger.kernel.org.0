@@ -2,140 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC6333F7D63
-	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 22:55:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 143ED3F7EE9
+	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 01:11:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234250AbhHYU4O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Aug 2021 16:56:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57070 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230025AbhHYU4N (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Aug 2021 16:56:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 221C76108E;
-        Wed, 25 Aug 2021 20:55:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629924926;
-        bh=gjZeZMGJIoheKp31xKi7pLwU9TfiEyPpquQWCgvZtE4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y9boM9pg89jRKmwouT/QTKTfP6cnbbCCCS7xmR/j11WJTKQOoI8xp/F9tCG875w14
-         t6ZHgrFxWueYM1Y92Rl7sM+t1APG8oB3pawMogJMmlk55scB1wpiiS9VEVKHn2TSfQ
-         v6b9DHSD8GG1ExHf6HWDK/0ILsqf5kdC4LZvW8txDVi7va9/vzSeyJvT19soF4LTaO
-         UhE+SSACe6K2tgwjuD324QiY1xyoXVmyl0z/7jdZ80aCjvvWDXLZHJ4EY3w0hYaMuh
-         LCtCQKRsN60dvSDuUXJopL0P8Y23dbW9YmOT36artHj8pWjc7htojIylo/VltN2sRE
-         hShhViV80NumQ==
-Date:   Wed, 25 Aug 2021 22:55:21 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vinod Koul <vkoul@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Vignesh R <vigneshr@ti.com>, Marc Zyngier <maz@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-spi@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Use 'enum' instead of 'oneOf' plus 'const'
- entries
-Message-ID: <YSauOeE4lBfeDiGw@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>, Vignesh R <vigneshr@ti.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-spi@vger.kernel.org
-References: <20210824202014.978922-1-robh@kernel.org>
+        id S233270AbhHYXMP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Aug 2021 19:12:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48556 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232935AbhHYXMP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Aug 2021 19:12:15 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB6A8C0613CF
+        for <linux-media@vger.kernel.org>; Wed, 25 Aug 2021 16:11:28 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id 28-20020a17090a031cb0290178dcd8a4d1so4814275pje.0
+        for <linux-media@vger.kernel.org>; Wed, 25 Aug 2021 16:11:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=auQsiU026YRcUJDBrDCigbKQFMyBdgrRl4yQyRusVVE=;
+        b=KsYDraaCmX1B7uNInfhFu+xYYZW0V2Gz972uL5UYRPpWaK5WAawbOGfWtd42arLjEY
+         JpjHKQMIyUD72LoPfBoxBSL5ZwOG4UAebUC7GIlLE+GJbw9Nn17615fqWok1AV8s+UKa
+         WyyEcIlgtbE1M0DSpXT7BY7BWrBqMg6HwcqlQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=auQsiU026YRcUJDBrDCigbKQFMyBdgrRl4yQyRusVVE=;
+        b=ETvkpv4yNFmnAd2jR2fflF+GXW0iFfEocJg2ncG7ts/TGUPh9AMFby0k1f7Js+/mY9
+         qvNguaO7NLGBokZiH3Qz/WemSGeFa4VRLSFcvQKgm8JoyYJVT1eXFPqMekW4gR90u8+i
+         M70XQJB4EOhleuOSpBmEwOhKYIWA/HIRo/nm2aIF+zupRSzKjodVHa6vs78R6eLUpUdg
+         uEgMqu15Y0lDvvhi8E8wSbVrEy6QL+uBss36vXFRvTCVy6H/LAOi1M/SGDlbxKxoMUQ1
+         MiRxV9qxIQGC3C+FQI8T1um8/1Rl+u4dUmlAKpowUkkTswuCH1s04rhYLv8xb2eu4bZb
+         tiIw==
+X-Gm-Message-State: AOAM533ep4GBzErFLwJSXmJMhkqsT0c8Ws97JG6usrTZumHofHBRPuYm
+        qkpR9kaizXmSM6zWzBQf2WVjzL7S70cZo37nBk3QEw==
+X-Google-Smtp-Source: ABdhPJzNUEKVFIv6N8mYQAYQ3A0+DYTB+NOni0Zp//TmiXJA3uI7jGbvj5rAJzumaKzWnPD9VN5+tmK5NYMi16924hc=
+X-Received: by 2002:a17:90a:8801:: with SMTP id s1mr755065pjn.166.1629933088041;
+ Wed, 25 Aug 2021 16:11:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="l25l+0aqVZr4EHUF"
-Content-Disposition: inline
-In-Reply-To: <20210824202014.978922-1-robh@kernel.org>
+References: <20210825084434.32309-1-mansur@codeaurora.org>
+In-Reply-To: <20210825084434.32309-1-mansur@codeaurora.org>
+From:   Nathan Hebert <nhebert@chromium.org>
+Date:   Wed, 25 Aug 2021 16:11:17 -0700
+Message-ID: <CANHAJhE4h+WPL+uRCqZ=CdaqWr9SVuLtK9SXnP3PTkk-A0rZZQ@mail.gmail.com>
+Subject: Re: [PATCH] venus: vdec: update output buffer size during vdec_s_fmt()
+To:     Mansur Alisha Shaik <mansur@codeaurora.org>
+Cc:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, dikshita@codeaurora.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Mansur,
 
---l25l+0aqVZr4EHUF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I tested the patch on kernel 5.4 on an Acer Chromebook Spin 513 based
+on the Qualcomm Snapdragon 7c platform.
 
-On Tue, Aug 24, 2021 at 03:20:14PM -0500, Rob Herring wrote:
-> 'enum' is equivalent to 'oneOf' with a list of 'const' entries, but 'enum'
-> is more concise and yields better error messages.
->=20
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Vignesh R <vigneshr@ti.com>
-> Cc: Marc Zyngier <maz@kernel.org>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Kishon Vijay Abraham I <kishon@ti.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: dmaengine@vger.kernel.org
-> Cc: linux-i2c@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: netdev@vger.kernel.org
-> Cc: linux-pci@vger.kernel.org
-> Cc: linux-phy@lists.infradead.org
-> Cc: linux-serial@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-spi@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
+VP8 test vectors [0] were able to be decoded and decoded picture MD5's
+matched the vpxdec reference decoder. Prior to this patch, three files
+failed to decode. I didn't see any regressions with VP9 Profile 0
+(8-bit) test vectors [1] using the same decode and checksum test
+methods.
 
-Acked-by: Wolfram Sang <wsa@kernel.org> # for I2C
+[0] https://chromium.googlesource.com/webm/vp8-test-vectors
+[1] https://www.webmproject.org/vp9/levels/#test-bitstreams
 
-Thanks!
+Tested-by: Nathan Hebert <nhebert@chromium.org>
 
+Best regards,
+Nathan Hebert
 
---l25l+0aqVZr4EHUF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmEmrjQACgkQFA3kzBSg
-KbZM6Q//Y9REdiq/zJ83ZpDra3byCGjog62qLvRAGT4bIWJksXDHZQIAI+VT4f6T
-bcW/EdAoYI1thOwyeO0PFXFAocKX3YZqx8y3bUw/vQXhQmDi3lhbeA3nmGlGl5zF
-DJoaMXH/hK7uuwmdyeoHFpedIP5M+gHnvDyC4ZarCzeWuZBWMf4fwFyOgVS4PtHw
-nRqm4E9bfQNCveZ/YxIQdbJFg8x419pJ49q3xqnLPweEAPs0h27mIG45IrPwHw8A
-aVOGhHDvGqA3HduEiFmcLZWL7Ud3ariS19SSiHwdcdTPXtYBI+JPJh+arDDaJ2JF
-8sgn/OSkymL9JZa0mg5Y3O9+FczVUlHALdrC+eSxkOlfXNR3xOJzetBC12vBlH44
-6gBxucO3QoyujUTd7gsfaVIn5XqssAsWn2BYD9iM5j0D74Quyb2t1m10e6wMRWVv
-/wSiWLnsC6dSO2jpulphC/G/Fyw+YcPfmvm402PlgOY5tzsY6sVS6eqyegvMReUP
-oc26QyGtdxBy9Ksr54/s3N8WV14vcJm/mjCLH3ejKPrtBvOyu9sXEFmyV6lhB9r2
-pEr0igI5TSC1J9EHQyvT10B56KbKlz4ZLB44daIOAYCvAIrlVRd+Yn/Nnmvk0mbs
-7bnP+mB18KKgKC6GdNtfMyyZFCetGmhPLp1n1JUeoTlACwJF++Q=
-=9C1H
------END PGP SIGNATURE-----
-
---l25l+0aqVZr4EHUF--
+On Wed, Aug 25, 2021 at 1:44 AM Mansur Alisha Shaik
+<mansur@codeaurora.org> wrote:
+>
+> Video driver maintains an internal context for the output buffer size.
+> During S_fmt() on capture plane, the output buffer size is not updated
+> in driver context. As a result, during buf_prepare(), the size of the
+> vb2_plane and internal size of the buffer, as maintained by the driver,
+> does not match. This leads to buf_prepare() failure.
+> Update the instance context for the output buffer size during s_fmt().
+>
+> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+> ---
+>  drivers/media/platform/qcom/venus/vdec.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 198e47eb63f4..c129b061a325 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -332,8 +332,11 @@ static int vdec_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>
+>         if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+>                 inst->fmt_out = fmt;
+> -       else if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+> +       else if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+>                 inst->fmt_cap = fmt;
+> +               inst->output2_buf_size =
+> +                       venus_helper_get_framesz(pixfmt_cap, orig_pixmp.width, orig_pixmp.height);
+> +       }
+>
+>         return 0;
+>  }
+> --
+> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+> of Code Aurora Forum, hosted by The Linux Foundation
+>
