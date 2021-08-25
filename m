@@ -2,246 +2,391 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF6C73F781D
-	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 17:18:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 596D43F793F
+	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 17:41:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241028AbhHYPTK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Aug 2021 11:19:10 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:60932 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S237968AbhHYPTG (ORCPT
+        id S240668AbhHYPml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Aug 2021 11:42:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231995AbhHYPmk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Aug 2021 11:19:06 -0400
-X-UUID: 232abbacc72143919fd6bbc527f269dc-20210825
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=AvZ/1szMK7QPpc3wUkxkUpWTIZXC+pUg9drjZUKq8Jc=;
-        b=uwYTQkR21g/Kt750m8J0sJkhwmwj+zsOuM55g7W7u+IScjCwFhKAKuxzYSvO5MqHMvV4tJpTpW4ns8R8y6BFww0I3FSYibfgopC/Yn+wKPh4dkdNj8Oqb1+kWNJ8sE08mx9YcA/+WFxkPUP2G+6JIbHEOo9ET9CMtKf/BGDj9ss=;
-X-UUID: 232abbacc72143919fd6bbc527f269dc-20210825
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-        (envelope-from <houlong.wei@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 703267072; Wed, 25 Aug 2021 23:18:20 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs05n2.mediatek.inc
- (172.21.101.140) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 25 Aug
- 2021 23:18:18 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 25 Aug 2021 23:18:17 +0800
-Message-ID: <1629904697.15752.11.camel@mhfsdcap03>
-Subject: Re: [PATCH v7 7/7] media: mtk-mdp: use mdp-rdma0 alias to point to
- MDP master
-From:   houlong wei <houlong.wei@mediatek.com>
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-CC:     Eizan Miyamoto <eizan@chromium.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
-        Yong Wu =?UTF-8?Q?=28=E5=90=B4=E5=8B=87=29?= 
-        <Yong.Wu@mediatek.com>, "wenst@chromium.org" <wenst@chromium.org>,
-        "CK Hu =?UTF-8?Q?=28=E8=83=A1=E4=BF=8A=E5=85=89=29?=" 
-        <ck.hu@mediatek.com>,
-        "Yongqiang Niu =?UTF-8?Q?=28=E7=89=9B=E6=B0=B8=E5=BC=BA=29?=" 
-        <yongqiang.niu@mediatek.com>,
-        "Andrew-CT Chen =?UTF-8?Q?=28=E9=99=B3=E6=99=BA=E8=BF=AA=29?=" 
-        <Andrew-CT.Chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        Wed, 25 Aug 2021 11:42:40 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A160DC061757;
+        Wed, 25 Aug 2021 08:41:54 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id y34so53838911lfa.8;
+        Wed, 25 Aug 2021 08:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Jh8WQ9yiN9zpRyuwMdWH53fKRiHl78imM33rFUTmvQc=;
+        b=VXTFuvzR5bLNZdHnuy92VMQKovkT2EzOUb9OcN3psg2tkN1i5/AsTKc7AKSGtEXF85
+         Kv3LG6+Tn57EqgqQdIFu7fcyD00uYC3VVRasNFaW2hIC3i/hNcdl5MBDtJB3kzhxdCet
+         wVwD4YkAEaQHK7uISBdatlDIYJE880IZdnG6G02/xPA2tk5n2zH3MPPJXANijDrbhcYx
+         17tod+tgRF+2C8YFqB6X18apDZJm9NiAVIa6wfWKXbvUt4khhVeaLLmRBxhXOo+nP5HW
+         B7+AKTu9GxrwBwjGazKwKUpgLJM7aheacozAFUxo3uu0zy3pZvy+b3kjVm+63moLaebu
+         VFDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Jh8WQ9yiN9zpRyuwMdWH53fKRiHl78imM33rFUTmvQc=;
+        b=oO2e8BxBoQ3IZxeiTU8K2wUnky3tUt0zWHOKCh7yma82NUNDzMEyfc454nNDyxBceu
+         gW6XkPpNBFTwAFQcCkU/YF5i3j8yKky0Nukp+tw0xMRuQFUfYe1RLv7vu/jCLUzPdKzN
+         BmUDlM9p+v4XsRGfjruDwBHso8fY6yJ5418LgjXiI4LvgK/cjYwCEtTLXdbXBDpNxaug
+         mILqfgeJJvsc+VvyaT+nibXvoToW65JOklYxL9BN5PAVovbZRuwgxlvM8gmf4yBml9RD
+         a4agahU1xr3WqXB2VfPzUzslip+I/m8Eb0Par8FymCFa4AR29TPtn0iKCij2gg05cIND
+         4pOg==
+X-Gm-Message-State: AOAM531gvhQlN+wiNNPgAvNkeQdgsEY9SHHyY6wIV5RxJMYIIcR7iJox
+        ocoWtg6NNR8vunVy+uUA1YncWtvqvug=
+X-Google-Smtp-Source: ABdhPJynPPjKhDfBdRrXu4deYFfQEOhUbJJoP2KAxKZEnwK6Q+6Z6UDmYAY47Ok5OqvkDNllzN7VAQ==
+X-Received: by 2002:ac2:592c:: with SMTP id v12mr27667572lfi.249.1629906112733;
+        Wed, 25 Aug 2021 08:41:52 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-17-251.dynamic.spd-mgts.ru. [94.29.17.251])
+        by smtp.googlemail.com with ESMTPSA id j14sm33529lfe.203.2021.08.25.08.41.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Aug 2021 08:41:52 -0700 (PDT)
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        Adrian Hunter <adrian.hunter@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Minghsiu Tsai =?UTF-8?Q?=28=E8=94=A1=E6=98=8E=E4=BF=AE=29?=" 
-        <Minghsiu.Tsai@mediatek.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>, <houlong.wei@mediatek.com>
-Date:   Wed, 25 Aug 2021 23:18:17 +0800
-In-Reply-To: <0c9fa482-57dd-d4ef-c65b-01f137c57359@collabora.com>
-References: <20210825063323.3607738-1-eizan@chromium.org>
-         <20210825163247.v7.7.I2049e180dca12e0d1b3178bfc7292dcf9e05ac28@changeid>
-         <1629880999.12893.17.camel@mhfsdcap03>
-         <0c9fa482-57dd-d4ef-c65b-01f137c57359@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        DTML <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+References: <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
+ <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+ <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+ <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+ <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+ <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+ <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
+ <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
+ <CAPDyKFpg8ixT4AEjzVLTwQR7Nn9CctjnLCDS5GwkOrAERquyxw@mail.gmail.com>
+ <20210820051843.5mueqpnjbqt3zdzc@vireshk-i7>
+ <b887de8c-a40b-a62e-8abf-698e67cdb70c@gmail.com>
+Message-ID: <ed70e422-e0e9-8c2a-7ce6-e39cb6fd8108@gmail.com>
+Date:   Wed, 25 Aug 2021 18:41:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+In-Reply-To: <b887de8c-a40b-a62e-8abf-698e67cdb70c@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gV2VkLCAyMDIxLTA4LTI1IGF0IDE3OjA3ICswODAwLCBFbnJpYyBCYWxsZXRibyBpIFNlcnJh
-IHdyb3RlOg0KPiBIaSBIb3Vsb25nLA0KPiANCj4gVGhhbmsgeW91IGZvciBmb2xsb3dpbmcgdXAg
-dGhpcyBwYXRjaHNldC4gSSBoYXZlIHNvbWUgcXVlc3Rpb25zIHRvIHRyeSB0bw0KPiB1bmRlcnN0
-YW5kIGJldHRlciB0aGUgaGFyZHdhcmUgdGhvdWdoLg0KPiANCj4gT24gMjUvOC8yMSAxMDo0Mywg
-aG91bG9uZyB3ZWkgd3JvdGU6DQo+ID4gSGkgRWl6YW4sDQo+ID4gDQo+ID4gVGhhbmtzIGZvciB5
-b3UgcGF0Y2guIEkgaGF2ZSBpbmxpbmUgY29tbWVudCBiZWxvdy4NCj4gPiANCj4gPiBSZWdhcmRz
-LA0KPiA+IEhvdWxvbmcNCj4gPiANCj4gPiBPbiBXZWQsIDIwMjEtMDgtMjUgYXQgMTQ6MzMgKzA4
-MDAsIEVpemFuIE1peWFtb3RvIHdyb3RlOg0KPiA+PiAuLi4gSW5zdGVhZCBvZiBkZXBlbmRpbmcg
-b24gdGhlIHByZXNlbmNlIG9mIGEgbWVkaWF0ZWssdnB1IHByb3BlcnR5IGluDQo+ID4+IHRoZSBk
-ZXZpY2Ugbm9kZS4NCj4gPj4NCj4gPj4gVGhhdCBwcm9wZXJ0eSB3YXMgb3JpZ2luYWxseSBhZGRl
-ZCB0byBsaW5rIHRvIHRoZSB2cHUgbm9kZSBzbyB0aGF0IHRoZQ0KPiA+PiBtdGtfbWRwX2NvcmUg
-ZHJpdmVyIGNvdWxkIHBhc3MgdGhlIHJpZ2h0IGRldmljZSB0bw0KPiA+PiB2cHVfd2R0X3JlZ19o
-YW5kbGVyKCkuIEhvd2V2ZXIgaW4gYSBwcmV2aW91cyBwYXRjaCBpbiB0aGlzIHNlcmllcywNCj4g
-Pj4gdGhlIGRyaXZlciBoYXMgYmVlbiBtb2RpZmllZCB0byBzZWFyY2ggdGhlIGRldmljZSB0cmVl
-IGZvciB0aGF0IG5vZGUNCj4gPj4gaW5zdGVhZC4NCj4gPj4NCj4gPj4gVGhhdCBwcm9wZXJ0eSB3
-YXMgYWxzbyB1c2VkIHRvIGluZGljYXRlIHRoZSBwcmltYXJ5IE1EUCBkZXZpY2UsIHNvIHRoYXQN
-Cj4gPj4gaXQgY2FuIGJlIHBhc3NlZCB0byB0aGUgVjRMMiBzdWJzeXN0ZW0gYXMgd2VsbCBhcyBy
-ZWdpc3RlciBpdCB0byBiZQ0KPiA+PiB1c2VkIHdoZW4gc2V0dGluZyB1cCBxdWV1ZXMgaW4gdGhl
-IG9wZW4oKSBjYWxsYmFjayBmb3IgdGhlIGZpbGVzeXN0ZW0NCj4gPj4gZGV2aWNlIG5vZGUgdGhh
-dCBpcyBjcmVhdGVkLiBJbiB0aGlzIGNhc2UsIGFzc3VtaW5nIHRoYXQgdGhlIHByaW1hcnkNCj4g
-Pj4gTURQIGRldmljZSBpcyB0aGUgb25lIHdpdGggYSBzcGVjaWZpYyBhbGlhcyBzZWVtcyB1c2Vh
-YmxlIGJlY2F1c2UgdGhlDQo+ID4+IGFsdGVybmF0aXZlIGlzIHRvIGFkZCBhIHByb3BlcnR5IHRv
-IHRoZSBkZXZpY2UgdHJlZSB3aGljaCBkb2Vzbid0DQo+ID4+IGFjdHVhbGx5IHJlcHJlc2VudCBh
-bnkgZmFjZXQgb2YgaGFyZHdhcmUgKGkuZS4sIHRoaXMgYmVpbmcgdGhlIHByaW1hcnkNCj4gPj4g
-TURQIGRldmljZSBpcyBhIHNvZnR3YXJlIGRlY2lzaW9uKS4gSW4gb3RoZXIgd29yZHMsIHRoaXMg
-c29sdXRpb24gaXMNCj4gPj4gZXF1YWxseSBhcyBhcmJpdHJhcnksIGJ1dCBhdCBsZWFzdCBpdCBk
-b2Vzbid0IGFkZCBhIHByb3BlcnR5IHRvIGENCj4gPj4gZGV2aWNlIG5vZGUgd2hlcmUgc2FpZCBw
-cm9wZXJ0eSBpcyB1bnJlbGF0ZWQgdG8gdGhlIGhhcmR3YXJlIHByZXNlbnQuDQo+ID4+DQo+ID4+
-IFNpZ25lZC1vZmYtYnk6IEVpemFuIE1peWFtb3RvIDxlaXphbkBjaHJvbWl1bS5vcmc+DQo+ID4+
-IFJldmlld2VkLWJ5OiBFbnJpYyBCYWxsZXRibyBpIFNlcnJhIDxlbnJpYy5iYWxsZXRib0Bjb2xs
-YWJvcmEuY29tPg0KPiA+PiAtLS0NCj4gPj4NCj4gPj4gKG5vIGNoYW5nZXMgc2luY2UgdjEpDQo+
-ID4+DQo+ID4+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay1tZHAvbXRrX21kcF9jb21wLmMg
-fCA1NiArKysrKysrKysrKysrLS0tLS0tDQo+ID4+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL210
-ay1tZHAvbXRrX21kcF9jb3JlLmMgfCAzNiArKysrKysrKy0tLS0NCj4gPj4gIDIgZmlsZXMgY2hh
-bmdlZCwgNjQgaW5zZXJ0aW9ucygrKSwgMjggZGVsZXRpb25zKC0pDQo+ID4+DQo+ID4+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay1tZHAvbXRrX21kcF9jb21wLmMgYi9k
-cml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay1tZHAvbXRrX21kcF9jb21wLmMNCj4gPj4gaW5kZXgg
-ODVlZjI3NDg0MWEzLi45NTI3NjQ5ZGU5OGUgMTAwNjQ0DQo+ID4+IC0tLSBhL2RyaXZlcnMvbWVk
-aWEvcGxhdGZvcm0vbXRrLW1kcC9tdGtfbWRwX2NvbXAuYw0KPiA+PiArKysgYi9kcml2ZXJzL21l
-ZGlhL3BsYXRmb3JtL210ay1tZHAvbXRrX21kcF9jb21wLmMNCj4gPj4gQEAgLTE1MSwyOSArMTUx
-LDUwIEBAIHZvaWQgbXRrX21kcF9jb21wX2Nsb2NrX29mZihzdHJ1Y3QgbXRrX21kcF9jb21wICpj
-b21wKQ0KPiA+PiAgCQltdGtfc21pX2xhcmJfcHV0KGNvbXAtPmxhcmJfZGV2KTsNCj4gPj4gIH0N
-Cj4gPj4gIA0KPiA+PiAtc3RhdGljIGludCBtdGtfbWRwX2NvbXBfYmluZChzdHJ1Y3QgZGV2aWNl
-ICpkZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3Rlciwgdm9pZCAqZGF0YSkNCj4gPj4gKy8qDQo+ID4+
-ICsgKiBUaGUgTURQIG1hc3RlciBkZXZpY2Ugbm9kZSBpcyBpZGVudGlmaWVkIGJ5IHRoZSBkZXZp
-Y2UgdHJlZSBhbGlhcw0KPiA+PiArICogIm1kcC1yZG1hMCIuDQo+ID4+ICsgKi8NCj4gPj4gK3N0
-YXRpYyBib29sIGlzX21kcF9tYXN0ZXIoc3RydWN0IGRldmljZSAqZGV2KQ0KPiA+PiArew0KPiA+
-PiArCXN0cnVjdCBkZXZpY2Vfbm9kZSAqYWxpYXNlcywgKm1kcF9yZG1hMF9ub2RlOw0KPiA+PiAr
-CWNvbnN0IGNoYXIgKm1kcF9yZG1hMF9wYXRoOw0KPiA+PiArDQo+ID4+ICsJaWYgKCFkZXYtPm9m
-X25vZGUpDQo+ID4+ICsJCXJldHVybiBmYWxzZTsNCj4gPj4gKw0KPiA+PiArCWFsaWFzZXMgPSBv
-Zl9maW5kX25vZGVfYnlfcGF0aCgiL2FsaWFzZXMiKTsNCj4gPj4gKwlpZiAoIWFsaWFzZXMpIHsN
-Cj4gPj4gKwkJZGV2X2VycihkZXYsICJubyBhbGlhc2VzIGZvdW5kIGZvciBtZHAtcmRtYTAiKTsN
-Cj4gPj4gKwkJcmV0dXJuIGZhbHNlOw0KPiA+PiArCX0NCj4gPj4gKw0KPiA+PiArCW1kcF9yZG1h
-MF9wYXRoID0gb2ZfZ2V0X3Byb3BlcnR5KGFsaWFzZXMsICJtZHAtcmRtYTAiLCBOVUxMKTsNCj4g
-Pj4gKwlpZiAoIW1kcF9yZG1hMF9wYXRoKSB7DQo+ID4+ICsJCWRldl9lcnIoZGV2LCAiZ2V0IG1k
-cC1yZG1hMCBwcm9wZXJ0eSBvZiAvYWxpYXNlcyBmYWlsZWQiKTsNCj4gPj4gKwkJcmV0dXJuIGZh
-bHNlOw0KPiA+PiArCX0NCj4gPj4gKw0KPiA+PiArCW1kcF9yZG1hMF9ub2RlID0gb2ZfZmluZF9u
-b2RlX2J5X3BhdGgobWRwX3JkbWEwX3BhdGgpOw0KPiA+PiArCWlmICghbWRwX3JkbWEwX25vZGUp
-IHsNCj4gPj4gKwkJZGV2X2VycihkZXYsICJwYXRoIHJlc29sdXRpb24gZmFpbGVkIGZvciAlcyIs
-IG1kcF9yZG1hMF9wYXRoKTsNCj4gPj4gKwkJcmV0dXJuIGZhbHNlOw0KPiA+PiArCX0NCj4gPj4g
-Kw0KPiA+PiArCXJldHVybiBkZXYtPm9mX25vZGUgPT0gbWRwX3JkbWEwX25vZGU7DQo+ID4gDQo+
-ID4gDQo+ID4gQWJvdXQgaG93IHRvIGRldGVybWluZSB0aGUgbWFzdGVyIG1kcCBkcml2ZXIsIHdl
-IGFsc28gY2FuDQo+ID4ganVkZ2UgdGhlIGNvbXBvbmVudCB0eXBlLiBUaGUgY29tcG9uZW50IHR5
-cGUgY2FuIGJlIGdvdHRlbiBieSBjYWxsaW5nDQo+ID4gb2ZfZGV2aWNlX2dldF9tYXRjaF9kYXRh
-KGRldikuIElmIHRoZSBjb21wb25lbnQgaXMgTVRLX01EUF9SRE1BLCBpdCBpcw0KPiA+IHRoZSBt
-YXN0ZXIgZHJpdmVyLiBObyBtYXR0ZXIgaXQgaXMgbWRwX3JkbWEwIG9yIG1kcF9yZG1hMS4NCj4g
-DQo+IA0KPiBJJ20gY29uZnVzZWQsIHlvdSBtZWFuIHRoYXQgdGhlIGNvbXBvbmVudCB0eXBlLCBh
-a2EgTVRLX01EUF9SRE1BIGlzIG9ubHkgc2V0IGZvcg0KPiBtdGtfbWRwX3JkbWEwPyBpc24ndCBt
-dGtfZG1wX3JkbWExIGFsc28gYSBNVEtfTURQX1JETUEgdHlwZT8gQmVjYXVzZSBsb29rcyB3ZWly
-ZA0KPiB0byBtZSB0aGF0IHR3byByZG1hIGhhdmUgZGlmZmVudCB0eXBlcy4NCj4gDQpIaSBFbnJp
-YywNCg0KSSBjYW4gdW5kZXJzdGFuZCB5b3VyIGRvdWJ0cy4gRm9yIG10ay1tZHAgZGlydmVyLCBp
-dCBpcyByZWFsbHkgZGlmZmljdWx0DQp0byB1bmRlcnN0YW5kIHRoZSByZWxhdGlvbnNoaXAgYW1v
-bmcgdGhlIGNvbXBvbmVudHMuIEJlY2F1c2UgdGhlIE1EUA0KaGFyZHdhcmUgcGF0aCBpcyBjb25m
-aWd1cmVkIGFuZCBjb25uZWN0ZWQgaW4gdGhlIFZQVSBmaXJtd2FyZS4NCkZvciBNVDgxNzMsIHRo
-ZSBjb21wb25lbnQgdHlwZSBvZiBtdGtfbWRwX3JkbWEwIGFuZCBtdGtfbWRwX3JkbWExIGFyZQ0K
-Ym90aCBNVEtfTURQX1JETUEuIEV2ZW4gdGhvdWdoIHRoZSBtdGstbWRwIGRyaXZlcidzIGNvbXBv
-bmVudCBsaXN0DQpjb250YWlucyBib3RoIG9mIHRoZW0sIG9ubHkgb25lIGNvcnJlc3BvbmRpbmcg
-aGFyZHdhcmUgY29tcG9uZW50IHRha2VzDQplZmZlY3QgZHVyaW5nIHRoZSBwcm9jZXNzaW5nIG9m
-IGEgZnJhbWUsIHRoZSBWUFUgZGVjaWRlcyBpdC4NCg0KUmVnYXJkcywNCkhvdWxvbmcNCj4gDQo+
-ID4gaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvcGlwZXJtYWlsL2xpbnV4LW1lZGlhdGVrLzIw
-MjEtQXVndXN0LzAyODUzMy5odG1sDQo+ID4gDQo+ID4gSU1PLCBqdWRnaW5nIGl0IGJ5IGNvbXBv
-bmVudCB0eXBlIGlzIG1vcmUgZmxleGlibGUgYmVjYXVzZSBpdCBkb2VzIG5vdA0KPiA+IGxpbWl0
-IHRvICdtZHBfcmRtYTAnLg0KPiA+IA0KPiANCj4gVXNpbmcgYW4gYWxpYXMgbGlrZSBFaXphbiBk
-aWQgaXMgYWxzbyBmbGV4aWJsZSwgeW91IG9ubHkgbmVlZCB0byBzZXQgbWRwLXJkbWEwDQo+IHRv
-IHBvaW50IHRoZSBtZHBfcmRtYTEgbm9kZS4NCj4gDQo+IFdoYXQgSSBhbSByZWFsbHkgaW50ZXJl
-c3RlZCB0byBrbm93IGlzIHRoZSBkaWZmZXJlbmNlcyBiZXR3ZWVuIHRoZSBwbGF0Zm9ybXMgdG8N
-Cj4gdW5kZXJzdGFuZCBpZiB0aGlzIGlzIHJlYWxseSBhIHBsYXRmb3JtIGhhcmR3YXJlIHByb3Bl
-cnR5IG9yIGEgc29mdHdhcmUNCj4gY29uZmlndXJhYmxlIHRoaW5nLCBzbyB3b3VsZCBoZWxwIGlm
-IHlvdSBjYW4gZ2l2ZSB1c2UgdGhlIGRpZmZlcmVudCB1c2UgY2FzZXMNCj4gZm9yIGRpZmZlcmVu
-dCBTb0NzLg0KPiANCj4gRm9yIE1UODE3MyB3aGljaCBpcyB0aGUgbWFzdGVyIGRldmljZT8gaXMg
-X2Fsd2F5c18gcmRtYTAgb3IgY2FuIGFsc28gYmUgcmRtYTE/DQo+IA0KPiBPciBtYXliZSB3aGF0
-IGlzIG5vdCBjbGVhciBoZXJlIGlzIHdoYXQgZXhhY3RseSBtZWFucyBiZSBhIG1hc3RlciBkZXZp
-Y2U/DQo+IA0KPiBXaGF0IGFib3V0IE1UODE4MyBhbmQgb3RoZXIgU29Dcz8NCj4gDQo+IFRoYW5r
-cywNCj4gICBFbnJpYw0KPiANCkhpIEVucmljLA0KDQpCZWZvcmUgYW5zd2VyIHlvdXIgcXVlc3Rp
-b25zLCBsZXQncyB1bmlmeSB0aGUgY29uY2VwdCBvZiB0aGUgbWFzdGVyDQpkZXZpY2UuSWYgYW4g
-TURQIGRldmljZS10cmVlIG5vZGUgY2FuIG5vdCBvbmx5IGdlbmVyYXRlIGEgL2Rldi92aWRlbw0K
-ZGV2aWNlIG5vZGUsIGJ1dCBhbHNvIGNhbiBnZW5lcmF0ZSBhIG10ayBjb21wb25lbnQgZGV2aWNl
-IG5vZGUsIHRoZW4NCnRoaXMgY29tcG9uZW50IGRldmljZSBpcyB0aGUgbWFzdGVyIGRldmljZS4N
-CkZyb20gdGhlIHBlcnNwZWN0aXZlIG9mIHRoZSBkZXZpY2UgdHJlZSBub2RlLCB0aGUgY29tcGF0
-aWJsZSBvZiBhIE1EUA0KZGV2aWNlIHRyZWUgbm9kZSBjb250YWlucyBib3RoICJtZWRpYXRlayxt
-dDgxNzMtbWRwLXJkbWEiIGFuZA0KIm1lZGlhdGVrLG10ODE3My1tZHAiLCB0aGVuIGl0cyBjb3Jy
-ZXNwb25kaW5nIG10ayBjb21wb25lbnQgZGV2aWNlIGlzDQp0aGUgbWFzdGVyIGRldmljZS4NClNp
-bmNlIHRoaXMgY29uY2VwdCBjb21lcyBmcm9tIEVpemFuJ3MgcGF0Y2hlcywgaWYgbXkgdW5kZXJz
-dGFuZGluZyBpcw0KZGlmZmVyZW50IGZyb20geW91cnMsIHBsZWFzZSBsZXQgbWUga25vdywgdGhh
-bmtzLg0KDQpJZiB0aGVyZSBpcyBvbmx5IG9uZSBtYXN0ZXIgZGV2aWNlLCBJIGZ1bGx5IGFncmVl
-IHdpdGggeW91LiBGb3IgTVQ4MTczLA0KYm90aCBtZHBfcmRtYTAgYW5kIG1kcF9yZG1hMSBjYW4g
-YmUgbWFzdGVyIGRldmljZSBhdCB0aGUgc2FtZSB0aW1lLg0KQnV0IG5vdyBvbmx5IG1kcF9yZG1h
-MCB0YWtlcyB0aGlzIHJvbGUsIHBlcmhhcHMgYmVjYXVzZSBvbmUgTURQIGhhcmR3YXJlDQpwYXRo
-IGNvdWxkIG1lZXQgdGhlIHByb2plY3QncyB0aGUgcmVxdWlyZW1lbnQgc2l4IHllYXJzIGFnby4N
-CkluIHNvbWUgcHJvamVjdCwgd2UgaGF2ZSB0d28gb3IgbW9yZSBNRFAgaGFyZHdhcmUgcGF0aHMs
-IHdlIGNhbg0KY29uZmlndXJlIGFsbCB0aGUgbWRwX3JkbWEgY29tcG9uZW50cyBhcyBtYXN0ZXIg
-ZGV2aWNlcywgYW5kIHRoZXJlIHdpbGwNCmJlIHNldmVyYWwgL2Rldi92aWRlbyBkZXZpY2Ugbm9k
-ZXMuIFRoZSB1c2VyIGNhbiBjb250cm9sIHRoZW0NCmNvbmN1cnJlbnRseS4NCg0KUmVnYXJkcywN
-CkhvdWxvbmcNCg0KPiANCj4gPj4gK30NCj4gPj4gKw0KPiA+PiArc3RhdGljIGludCBtdGtfbWRw
-X2NvbXBfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3RlciwNCj4g
-Pj4gKwkJCXZvaWQgKmRhdGEpDQo+ID4+ICB7DQo+ID4+ICAJc3RydWN0IG10a19tZHBfY29tcCAq
-Y29tcCA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOw0KPiA+PiAgCXN0cnVjdCBtdGtfbWRwX2RldiAq
-bWRwID0gZGF0YTsNCj4gPj4gLQlzdHJ1Y3QgZGV2aWNlX25vZGUgKnZwdV9ub2RlOw0KPiA+PiAg
-DQo+ID4+ICAJbXRrX21kcF9yZWdpc3Rlcl9jb21wb25lbnQobWRwLCBjb21wKTsNCj4gPj4gIA0K
-PiA+PiAtCS8qDQo+ID4+IC0JICogSWYgdGhpcyBjb21wb25lbnQgaGFzIGEgIm1lZGlhdGVrLXZw
-dSIgcHJvcGVydHksIGl0IGlzIHJlc3BvbnNpYmxlIGZvcg0KPiA+PiAtCSAqIG5vdGlmeWluZyB0
-aGUgbWRwIG1hc3RlciBkcml2ZXIgYWJvdXQgaXQgc28gaXQgY2FuIGJlIGZ1cnRoZXIgaW5pdGlh
-bGl6ZWQNCj4gPj4gLQkgKiBsYXRlci4NCj4gPj4gLQkgKi8NCj4gPj4gLQl2cHVfbm9kZSA9IG9m
-X3BhcnNlX3BoYW5kbGUoZGV2LT5vZl9ub2RlLCAibWVkaWF0ZWssdnB1IiwgMCk7DQo+ID4+IC0J
-aWYgKHZwdV9ub2RlKSB7DQo+ID4+ICsJaWYgKGlzX21kcF9tYXN0ZXIoZGV2KSkgew0KPiA+PiAg
-CQlpbnQgcmV0Ow0KPiA+PiAgDQo+ID4+IC0JCW1kcC0+dnB1X2RldiA9IG9mX2ZpbmRfZGV2aWNl
-X2J5X25vZGUodnB1X25vZGUpOw0KPiA+PiAtCQlpZiAoV0FSTl9PTighbWRwLT52cHVfZGV2KSkg
-ew0KPiA+PiAtCQkJZGV2X2VycihkZXYsICJ2cHUgcGRldiBmYWlsZWRcbiIpOw0KPiA+PiAtCQkJ
-b2Zfbm9kZV9wdXQodnB1X25vZGUpOw0KPiA+PiAtCQl9DQo+ID4+IC0NCj4gPj4gIAkJcmV0ID0g
-djRsMl9kZXZpY2VfcmVnaXN0ZXIoZGV2LCAmbWRwLT52NGwyX2Rldik7DQo+ID4+ICAJCWlmIChy
-ZXQpIHsNCj4gPj4gIAkJCWRldl9lcnIoZGV2LCAiRmFpbGVkIHRvIHJlZ2lzdGVyIHY0bDIgZGV2
-aWNlXG4iKTsNCj4gPj4gQEAgLTE4Nyw5ICsyMDgsOCBAQCBzdGF0aWMgaW50IG10a19tZHBfY29t
-cF9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLCB2b2lkICpk
-YQ0KPiA+PiAgCQl9DQo+ID4+ICANCj4gPj4gIAkJLyoNCj4gPj4gLQkJICogcHJlc2VuY2Ugb2Yg
-dGhlICJtZWRpYXRlayx2cHUiIHByb3BlcnR5IGluIGEgZGV2aWNlIG5vZGUNCj4gPj4gLQkJICog
-aW5kaWNhdGVzIHRoYXQgaXQgaXMgdGhlIHByaW1hcnkgTURQIHJkbWEgZGV2aWNlIGFuZCBNRFAg
-RE1BDQo+ID4+IC0JCSAqIG9wcyBzaG91bGQgYmUgaGFuZGxlZCBieSBpdHMgRE1BIGNhbGxiYWNr
-cy4NCj4gPj4gKwkJICogTURQIERNQSBvcHMgd2lsbCBiZSBoYW5kbGVkIGJ5IHRoZSBETUEgY2Fs
-bGJhY2tzIGFzc29jaWF0ZWQgd2l0aCB0aGlzDQo+ID4+ICsJCSAqIGRldmljZTsNCj4gPj4gIAkJ
-ICovDQo+ID4+ICAJCW1kcC0+cmRtYV9kZXYgPSBkZXY7DQo+ID4+ICAJfQ0KPiA+PiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstbWRwL210a19tZHBfY29yZS5jIGIvZHJp
-dmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstbWRwL210a19tZHBfY29yZS5jDQo+ID4+IGluZGV4IDUw
-ZWFmY2M5OTkzZC4uNmE3NzU0NjMzOTljIDEwMDY0NA0KPiA+PiAtLS0gYS9kcml2ZXJzL21lZGlh
-L3BsYXRmb3JtL210ay1tZHAvbXRrX21kcF9jb3JlLmMNCj4gPj4gKysrIGIvZHJpdmVycy9tZWRp
-YS9wbGF0Zm9ybS9tdGstbWRwL210a19tZHBfY29yZS5jDQo+ID4+IEBAIC0xNTAsOCArMTUwLDkg
-QEAgc3RhdGljIHZvaWQgcmVsZWFzZV9vZihzdHJ1Y3QgZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEp
-DQo+ID4+ICANCj4gPj4gIHN0YXRpYyBpbnQgbXRrX21kcF9tYXN0ZXJfYmluZChzdHJ1Y3QgZGV2
-aWNlICpkZXYpDQo+ID4+ICB7DQo+ID4+IC0JaW50IHN0YXR1czsNCj4gPj4gIAlzdHJ1Y3QgbXRr
-X21kcF9kZXYgKm1kcCA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOw0KPiA+PiArCXN0cnVjdCBkZXZp
-Y2Vfbm9kZSAqdnB1X25vZGU7DQo+ID4+ICsJaW50IHN0YXR1czsNCj4gPj4gIA0KPiA+PiAgCXN0
-YXR1cyA9IGNvbXBvbmVudF9iaW5kX2FsbChkZXYsIG1kcCk7DQo+ID4+ICAJaWYgKHN0YXR1cykg
-ew0KPiA+PiBAQCAtMTU5LDE1ICsxNjAsMzAgQEAgc3RhdGljIGludCBtdGtfbWRwX21hc3Rlcl9i
-aW5kKHN0cnVjdCBkZXZpY2UgKmRldikNCj4gPj4gIAkJZ290byBlcnJfY29tcG9uZW50X2JpbmRf
-YWxsOw0KPiA+PiAgCX0NCj4gPj4gIA0KPiA+PiAtCWlmIChtZHAtPnZwdV9kZXYpIHsNCj4gPj4g
-LQkJaW50IHJldCA9IHZwdV93ZHRfcmVnX2hhbmRsZXIobWRwLT52cHVfZGV2LCBtdGtfbWRwX3Jl
-c2V0X2hhbmRsZXIsIG1kcCwNCj4gPj4gLQkJCQkJICBWUFVfUlNUX01EUCk7DQo+ID4+IC0JCWlm
-IChyZXQpIHsNCj4gPj4gLQkJCWRldl9lcnIoZGV2LCAiRmFpbGVkIHRvIHJlZ2lzdGVyIHJlc2V0
-IGhhbmRsZXJcbiIpOw0KPiA+PiAtCQkJZ290byBlcnJfd2R0X3JlZzsNCj4gPj4gLQkJfQ0KPiA+
-PiAtCX0gZWxzZSB7DQo+ID4+IC0JCWRldl9lcnIoZGV2LCAibm8gdnB1X2RldiBmb3VuZFxuIik7
-DQo+ID4+ICsJaWYgKG1kcC0+cmRtYV9kZXYgPT0gTlVMTCkgew0KPiA+PiArCQlkZXZfZXJyKGRl
-diwgIlByaW1hcnkgTURQIGRldmljZSBub3QgZm91bmQiKTsNCj4gPj4gKwkJc3RhdHVzID0gLUVO
-T0RFVjsNCj4gPj4gKwkJZ290byBlcnJfY29tcG9uZW50X2JpbmRfYWxsOw0KPiA+PiArCX0NCj4g
-Pj4gKw0KPiA+PiArCXZwdV9ub2RlID0gb2ZfZmluZF9ub2RlX2J5X25hbWUoTlVMTCwgInZwdSIp
-Ow0KPiA+PiArCWlmICghdnB1X25vZGUpIHsNCj4gPj4gKwkJZGV2X2VycihkZXYsICJ1bmFibGUg
-dG8gZmluZCB2cHUgbm9kZSIpOw0KPiA+PiArCQlzdGF0dXMgPSAtRU5PREVWOw0KPiA+PiArCQln
-b3RvIGVycl93ZHRfcmVnOw0KPiA+PiArCX0NCj4gPj4gKw0KPiA+PiArCW1kcC0+dnB1X2RldiA9
-IG9mX2ZpbmRfZGV2aWNlX2J5X25vZGUodnB1X25vZGUpOw0KPiA+IA0KPiA+IFRoZSAndnB1X25v
-ZGUnIHNob3VsZCBiZSBwdXQgYnkgY2FsbGluZyAnb2Zfbm9kZV9wdXQodnB1X25vZGUpJyB3aGVu
-IGl0DQo+ID4gaXMgbm90IHVzZWQuDQo+ID4gDQo+ID4+ICsJaWYgKCFtZHAtPnZwdV9kZXYpIHsN
-Cj4gPj4gKwkJZGV2X2VycihkZXYsICJ1bmFibGUgdG8gZmluZCB2cHUgZGV2aWNlIik7DQo+ID4+
-ICsJCXN0YXR1cyA9IC1FTk9ERVY7DQo+ID4+ICsJCWdvdG8gZXJyX3dkdF9yZWc7DQo+ID4+ICsJ
-fQ0KPiA+PiArDQo+ID4+ICsJc3RhdHVzID0gdnB1X3dkdF9yZWdfaGFuZGxlcihtZHAtPnZwdV9k
-ZXYsIG10a19tZHBfcmVzZXRfaGFuZGxlciwgbWRwLCBWUFVfUlNUX01EUCk7DQo+ID4+ICsJaWYg
-KHN0YXR1cykgew0KPiA+PiArCQlkZXZfZXJyKGRldiwgIkZhaWxlZCB0byByZWdpc3RlciByZXNl
-dCBoYW5kbGVyXG4iKTsNCj4gPj4gKwkJZ290byBlcnJfd2R0X3JlZzsNCj4gPj4gIAl9DQo+ID4+
-ICANCj4gPj4gIAlzdGF0dXMgPSBtdGtfbWRwX3JlZ2lzdGVyX20ybV9kZXZpY2UobWRwKTsNCj4g
-PiANCg0K
+22.08.2021 21:35, Dmitry Osipenko пишет:
+> 20.08.2021 08:18, Viresh Kumar пишет:
+>> On 19-08-21, 16:55, Ulf Hansson wrote:
+>>> Right, that sounds reasonable.
+>>>
+>>> We already have pm_genpd_opp_to_performance_state() which translates
+>>> an OPP to a performance state. This function invokes the
+>>> ->opp_to_performance_state() for a genpd. Maybe we need to allow a
+>>> genpd to not have ->opp_to_performance_state() callback assigned
+>>> though, but continue up in the hierarchy to see if the parent has the
+>>> callback assigned, to make this work for Tegra?
+>>>
+>>> Perhaps we should add an API dev_pm_genpd_opp_to_performance_state(),
+>>> allowing us to pass the device instead of the genpd. But that's a
+>>> minor thing.
+>>
+>> I am not concerned a lot about how it gets implemented, and am not
+>> sure as well, as I haven't looked into these details since sometime.
+>> Any reasonable thing will be accepted, as simple as that.
+>>
+>>> Finally, the precondition to use the above, is to first get a handle
+>>> to an OPP table. This is where I am struggling to find a generic
+>>> solution, because I guess that would be platform or even consumer
+>>> driver specific for how to do this. And at what point should we do
+>>> this?
+> 
+> GENPD core can't get OPP table handle, setting up OPP table is a platform/driver specific operation.
+> 
+>> Hmm, I am not very clear with the whole picture at this point of time.
+>>
+>> Dmitry, can you try to frame a sequence of events/calls/etc that will
+>> define what kind of devices we are looking at here, and how this can
+>> be made to work ?
+> 
+> Could you please clarify what do you mean by a "kind of devices"?
+> 
+> I made hack based on the recent discussions and it partially works. Getting clock rate involves resuming device which backs the clock and it also may use GENPD, so lockings are becoming complicated. It doesn't work at all if device uses multiple domains because virtual domain device doesn't have OPP table.
+> 
+> Setting up the performance state from a consumer driver is a cleaner variant so far. 
+
+Thinking a bit more about this, I got a nicer variant which actually works in all cases for Tegra.
+
+Viresh / Ulf, what do you think about this:
+
+diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
+index 3a13a942d012..814b0f7a1909 100644
+--- a/drivers/base/power/domain.c
++++ b/drivers/base/power/domain.c
+@@ -2700,15 +2700,28 @@ static int __genpd_dev_pm_attach(struct device *dev, struct device *base_dev,
+ 		goto err;
+ 	} else if (pstate > 0) {
+ 		ret = dev_pm_genpd_set_performance_state(dev, pstate);
+-		if (ret)
++		if (ret) {
++			dev_err(dev, "failed to set required performance state for power-domain %s: %d\n",
++				pd->name, ret);
+ 			goto err;
++		}
+ 		dev_gpd_data(dev)->default_pstate = pstate;
+ 	}
++
++	if (pd->get_performance_state) {
++		ret = pd->get_performance_state(pd, base_dev);
++		if (ret < 0) {
++			dev_err(dev, "failed to get performance state for power-domain %s: %d\n",
++				pd->name, ret);
++			goto err;
++		}
++
++		dev_gpd_data(dev)->rpm_pstate = ret;
++	}
++
+ 	return 1;
+ 
+ err:
+-	dev_err(dev, "failed to set required performance state for power-domain %s: %d\n",
+-		pd->name, ret);
+ 	genpd_remove_device(pd, dev);
+ 	return ret;
+ }
+diff --git a/drivers/opp/core.c b/drivers/opp/core.c
+index 2f1da33c2cd5..5f045030879b 100644
+--- a/drivers/opp/core.c
++++ b/drivers/opp/core.c
+@@ -2136,7 +2136,7 @@ struct opp_table *dev_pm_opp_set_clkname(struct device *dev, const char *name)
+ 	}
+ 
+ 	/* clk shouldn't be initialized at this point */
+-	if (WARN_ON(opp_table->clk)) {
++	if (WARN_ON(!IS_ERR_OR_NULL(opp_table->clk))) {
+ 		ret = -EBUSY;
+ 		goto err;
+ 	}
+@@ -2967,3 +2967,33 @@ int dev_pm_opp_sync(struct device *dev)
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(dev_pm_opp_sync);
++
++/**
++ * dev_pm_opp_from_clk_rate() - Get OPP from current clock rate
++ * @dev:	device for which we do this operation
++ *
++ * Get OPP which corresponds to the current clock rate of a device.
++ *
++ * Return: pointer to 'struct dev_pm_opp' on success and errorno otherwise.
++ */
++struct dev_pm_opp *dev_pm_opp_from_clk_rate(struct device *dev)
++{
++	struct dev_pm_opp *opp = ERR_PTR(-ENODEV);
++	struct opp_table *opp_table;
++	unsigned long freq;
++
++	opp_table = _find_opp_table(dev);
++	if (IS_ERR(opp_table))
++		return ERR_CAST(opp_table);
++
++	if (!IS_ERR(opp_table->clk)) {
++		freq = clk_get_rate(opp_table->clk);
++		opp = _find_freq_ceil(opp_table, &freq);
++	}
++
++	/* Drop reference taken by _find_opp_table() */
++	dev_pm_opp_put_opp_table(opp_table);
++
++	return opp;
++}
++EXPORT_SYMBOL_GPL(dev_pm_opp_from_clk_rate);
+diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+index 7c9bc93147f1..fc863d84f8d5 100644
+--- a/drivers/soc/tegra/pmc.c
++++ b/drivers/soc/tegra/pmc.c
+@@ -506,6 +506,96 @@ static void tegra_pmc_scratch_writel(struct tegra_pmc *pmc, u32 value,
+ 		writel(value, pmc->scratch + offset);
+ }
+ 
++static const char * const tegra_pd_no_perf_compats[] = {
++	"nvidia,tegra20-sclk",
++	"nvidia,tegra30-sclk",
++	"nvidia,tegra30-pllc",
++	"nvidia,tegra30-plle",
++	"nvidia,tegra30-pllm",
++	"nvidia,tegra20-dc",
++	"nvidia,tegra30-dc",
++	"nvidia,tegra20-emc",
++	"nvidia,tegra30-emc",
++	NULL,
++};
++
++static int tegra_pmc_pd_get_performance_state(struct generic_pm_domain *genpd,
++					      struct device *dev)
++{
++	struct opp_table *hw_opp_table, *clk_opp_table;
++	struct dev_pm_opp *opp;
++	u32 hw_version;
++	int ret;
++
++	/*
++	 * Tegra114+ SocS don't support OPP yet.  But if they will get OPP
++	 * support, then we want to skip OPP for older kernels to preserve
++	 * compatibility of newer DTBs with older kernels.
++	 */
++	if (!pmc->soc->supports_core_domain)
++		return 0;
++
++	/*
++	 * The EMC devices are a special case because we have a protection
++	 * from non-EMC drivers getting clock handle before EMC driver is
++	 * fully initialized.  The goal of the protection is to prevent
++	 * devfreq driver from getting failures if it will try to change
++	 * EMC clock rate until clock is fully initialized.  The EMC drivers
++	 * will initialize the performance state by themselves.
++	 *
++	 * Display controller also is a special case because only controller
++	 * driver could get the clock rate based on configuration of internal
++	 * divider.
++	 *
++	 * Clock driver uses its own state syncing.
++	 */
++	if (of_device_compatible_match(dev->of_node, tegra_pd_no_perf_compats))
++		return 0;
++
++	if (of_machine_is_compatible("nvidia,tegra20"))
++		hw_version = BIT(tegra_sku_info.soc_process_id);
++	else
++		hw_version = BIT(tegra_sku_info.soc_speedo_id);
++
++	hw_opp_table = dev_pm_opp_set_supported_hw(dev, &hw_version, 1);
++	if (IS_ERR(hw_opp_table)){
++		dev_err(dev, "failed to set OPP supported HW: %pe\n",
++			hw_opp_table);
++		return PTR_ERR(hw_opp_table);
++	}
++
++	clk_opp_table = dev_pm_opp_set_clkname(dev, NULL);
++	if (IS_ERR(clk_opp_table)){
++		dev_err(dev, "failed to set OPP clk: %pe\n", clk_opp_table);
++		ret = PTR_ERR(clk_opp_table);
++		goto put_hw;
++	}
++
++	ret = devm_pm_opp_of_add_table(dev);
++	if (ret) {
++		dev_err(dev, "failed to add OPP table: %d\n", ret);
++		goto put_clk;
++	}
++
++	opp = dev_pm_opp_from_clk_rate(dev);
++	if (IS_ERR(opp)) {
++		dev_err(&genpd->dev, "failed to get current OPP for %s: %pe\n",
++			dev_name(dev), opp);
++		ret = PTR_ERR(opp);
++	} else {
++		ret = dev_pm_opp_get_required_pstate(opp, 0);
++		dev_pm_opp_put(opp);
++	}
++
++	dev_pm_opp_of_remove_table(dev);
++put_clk:
++	dev_pm_opp_put_clkname(clk_opp_table);
++put_hw:
++	dev_pm_opp_put_supported_hw(hw_opp_table);
++
++	return ret;
++}
++
+ /*
+  * TODO Figure out a way to call this with the struct tegra_pmc * passed in.
+  * This currently doesn't work because readx_poll_timeout() can only operate
+@@ -1238,6 +1328,7 @@ static int tegra_powergate_add(struct tegra_pmc *pmc, struct device_node *np)
+ 
+ 	pg->id = id;
+ 	pg->genpd.name = np->name;
++	pg->genpd.get_performance_state = tegra_pmc_pd_get_performance_state;
+ 	pg->genpd.power_off = tegra_genpd_power_off;
+ 	pg->genpd.power_on = tegra_genpd_power_on;
+ 	pg->pmc = pmc;
+@@ -1354,6 +1445,7 @@ static int tegra_pmc_core_pd_add(struct tegra_pmc *pmc, struct device_node *np)
+ 		return -ENOMEM;
+ 
+ 	genpd->name = "core";
++	genpd->get_performance_state = tegra_pmc_pd_get_performance_state;
+ 	genpd->set_performance_state = tegra_pmc_core_pd_set_performance_state;
+ 	genpd->opp_to_performance_state = tegra_pmc_core_pd_opp_to_performance_state;
+ 
+diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
+index 67017c9390c8..abe33be9828f 100644
+--- a/include/linux/pm_domain.h
++++ b/include/linux/pm_domain.h
+@@ -133,6 +133,8 @@ struct generic_pm_domain {
+ 						 struct dev_pm_opp *opp);
+ 	int (*set_performance_state)(struct generic_pm_domain *genpd,
+ 				     unsigned int state);
++	int (*get_performance_state)(struct generic_pm_domain *genpd,
++				     struct device *dev);
+ 	struct gpd_dev_ops dev_ops;
+ 	s64 max_off_time_ns;	/* Maximum allowed "suspended" time. */
+ 	ktime_t next_wakeup;	/* Maintained by the domain governor */
+diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
+index 686122b59935..e7fd0dd493ca 100644
+--- a/include/linux/pm_opp.h
++++ b/include/linux/pm_opp.h
+@@ -169,6 +169,7 @@ void dev_pm_opp_remove_table(struct device *dev);
+ void dev_pm_opp_cpumask_remove_table(const struct cpumask *cpumask);
+ int dev_pm_opp_sync_regulators(struct device *dev);
+ int dev_pm_opp_sync(struct device *dev);
++struct dev_pm_opp *dev_pm_opp_from_clk_rate(struct device *dev);
+ #else
+ static inline struct opp_table *dev_pm_opp_get_opp_table(struct device *dev)
+ {
+@@ -440,6 +441,11 @@ static inline int dev_pm_opp_sync(struct device *dev)
+ 	return -EOPNOTSUPP;
+ }
+ 
++static struct inline dev_pm_opp *dev_pm_opp_from_clk_rate(struct device *dev)
++{
++	return ERR_PTR(-EOPNOTSUPP);
++}
++
+ #endif		/* CONFIG_PM_OPP */
+ 
+ #if defined(CONFIG_PM_OPP) && defined(CONFIG_OF)
 
