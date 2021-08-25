@@ -2,76 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 263F13F70D9
-	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 10:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F1DC3F70E3
+	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 10:08:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231975AbhHYIFE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Aug 2021 04:05:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35764 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbhHYIFC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Aug 2021 04:05:02 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B40DC061757
-        for <linux-media@vger.kernel.org>; Wed, 25 Aug 2021 01:04:17 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58E306EE;
-        Wed, 25 Aug 2021 10:04:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1629878654;
-        bh=KFXROVBEOOlJgIb6lW7yZEOcoS40FPEBKbK/Zo5Yjh4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gFaTvhF9vvY68mXVqJc/CD52gwQkpPwR11d3KMSeF4+P3OjmaT6m+gKHqonJNDsGy
-         ESlaQ7JOKtNUAxQz/sb76lIEA2qMfnuJCPt/09UIfV2ZUXElVWfK8HpkCnWB+jRTjM
-         nb531T7kgB37GCMAjywmwrICtBed8XOy8/utzxRk=
-Date:   Wed, 25 Aug 2021 11:04:02 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Daniel Scally <djrscally@gmail.com>, paul.kocialkowski@bootlin.com,
-        ezequiel@collabora.com, hverkuil-cisco@xs4all.nl,
-        linux-media@vger.kernel.org, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        kevin.lhopital@bootlin.com, yang.lee@linux.alibaba.com,
-        andy.shevchenko@gmail.com, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v2 05/12] media: i2c: Add .get_selection() support to
- ov8865
-Message-ID: <YSX5cvNxTgA2Wugd@pendragon.ideasonboard.com>
-References: <20210809225845.916430-1-djrscally@gmail.com>
- <20210809225845.916430-6-djrscally@gmail.com>
- <20210810133821.GC3@paasikivi.fi.intel.com>
- <bf35ebbd-3c85-18c5-cbe8-43b6d5398533@gmail.com>
- <20210825071602.GL3@paasikivi.fi.intel.com>
+        id S235922AbhHYIJf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Aug 2021 04:09:35 -0400
+Received: from mga01.intel.com ([192.55.52.88]:60512 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229542AbhHYIJb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Aug 2021 04:09:31 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="239654055"
+X-IronPort-AV: E=Sophos;i="5.84,349,1620716400"; 
+   d="scan'208";a="239654055"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2021 01:08:36 -0700
+X-IronPort-AV: E=Sophos;i="5.84,349,1620716400"; 
+   d="scan'208";a="684440179"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2021 01:08:34 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 83959201ED;
+        Wed, 25 Aug 2021 11:08:32 +0300 (EEST)
+Date:   Wed, 25 Aug 2021 11:08:32 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yong Zhi <yong.zhi@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Dan Scally <djrscally@gmail.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v1 2/3] lib/sort: Introduce rotate() to circular shift an
+ array of elements
+Message-ID: <20210825080832.GN3@paasikivi.fi.intel.com>
+References: <20210824133351.88179-1-andriy.shevchenko@linux.intel.com>
+ <20210824133351.88179-2-andriy.shevchenko@linux.intel.com>
+ <4078b7a3-2ec2-ba87-d23c-b8daed7386fe@rasmusvillemoes.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210825071602.GL3@paasikivi.fi.intel.com>
+In-Reply-To: <4078b7a3-2ec2-ba87-d23c-b8daed7386fe@rasmusvillemoes.dk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 25, 2021 at 10:16:02AM +0300, Sakari Ailus wrote:
-> On Wed, Aug 25, 2021 at 12:17:15AM +0100, Daniel Scally wrote:
-> > Hi Sakari - sorry delayed reply
-> > 
-> > On 10/08/2021 14:38, Sakari Ailus wrote:
-> > > Hi Daniel,
-> > >
-> > > On Mon, Aug 09, 2021 at 11:58:38PM +0100, Daniel Scally wrote:
-> > >> The ov8865 driver's v4l2_subdev_pad_ops currently does not include
-> > >> .get_selection() - add support for that callback.
-> > > Could you use the same for .set_selection()? Even if it doesn't change
-> > > anything.
-> > 
-> > You mean do the same? Or use the same function?
-> 
-> The same function. If the selection isn't changeable anyway, the
-> functionality is the same for both.
+Hi Rasmus, Andy,
 
-Except that .s_selection() should return an error if you try to set the
-bounds or default rectangles.
+On Wed, Aug 25, 2021 at 09:05:19AM +0200, Rasmus Villemoes wrote:
+> On 24/08/2021 15.33, Andy Shevchenko wrote:
+> > In some cases we want to circular shift an array of elements.
+> > Introduce rotate() helper for that.
+> > 
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > ---
+> >  include/linux/sort.h |  3 +++
+> >  lib/sort.c           | 61 ++++++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 64 insertions(+)
+> > 
+> > diff --git a/include/linux/sort.h b/include/linux/sort.h
+> > index b5898725fe9d..c881acb12ffc 100644
+> > --- a/include/linux/sort.h
+> > +++ b/include/linux/sort.h
+> > @@ -13,4 +13,7 @@ void sort(void *base, size_t num, size_t size,
+> >  	  cmp_func_t cmp_func,
+> >  	  swap_func_t swap_func);
+> >  
+> > +void rotate(void *base, size_t num, size_t size, size_t by,
+> > +	    swap_func_t swap_func);
+> > +
+> >  #endif
+> > diff --git a/lib/sort.c b/lib/sort.c
+> > index d9b2f5b73620..b9243f8db34b 100644
+> > --- a/lib/sort.c
+> > +++ b/lib/sort.c
+> > @@ -14,6 +14,7 @@
+> >  
+> >  #include <linux/types.h>
+> >  #include <linux/export.h>
+> > +#include <linux/minmax.h>
+> >  #include <linux/sort.h>
+> >  
+> >  /**
+> > @@ -275,3 +276,63 @@ void sort(void *base, size_t num, size_t size,
+> >  	return sort_r(base, num, size, _CMP_WRAPPER, swap_func, cmp_func);
+> >  }
+> >  EXPORT_SYMBOL(sort);
+> > +
+> > +/**
+> > + * rotate - rotate an array of elements by a number of elements
+> > + * @base: pointer to data to sort
+> 
+> sort?
+> 
+> > + * @num: number of elements
+> > + * @size: size of each element
+> > + * @by: number of elements to rotate by
+> 
+> Perhaps add (0 <= @by < @num) or something like that, and/or start the
+> implementation with "if (num <= 1) return; if (by >= num) by %= num;"
+
+The latter could be done unconditionally.
+
+> 
+> > + * @swap_func: pointer to swap function or NULL
+> > + *
+> > + * Helper function to advance all the elements of a circular buffer by
+> > + * @by positions.
+> > + */
+> > +void rotate(void *base, size_t num, size_t size, size_t by,
+> > +	    swap_func_t swap_func)
+> > +{
+> > +	struct {
+> > +		size_t begin, end;
+> > +	} arr[2] = {
+> > +		{ .begin = 0, .end = by - 1 },
+> > +		{ .begin = by, .end = num - 1 },
+> > +	};
+> 
+> I see you just copied-and-adapted, but I think the code would be much
+> easier to read without all those plus/minus ones all over.
+
+Now that I think about it, they can be just removed. In that case end
+refers to the element following end, rather than the last element.
+
+> 
+> > +	swap_func = choose_swap_func(swap_func, base, size);
+> > +
+> > +#define CHUNK_SIZE(a) ((a)->end - (a)->begin + 1)
+> > +
+> > +	/* Loop as long as we have out-of-place entries */
+> > +	while (CHUNK_SIZE(&arr[0]) && CHUNK_SIZE(&arr[1])) {
+> > +		size_t size0, i;
+> > +
+> > +		/*
+> > +		 * Find the number of entries that can be arranged on this
+> > +		 * iteration.
+> > +		 */
+> > +		size0 = min(CHUNK_SIZE(&arr[0]), CHUNK_SIZE(&arr[1]));
+> > +
+> > +		/* Swap the entries in two parts of the array */
+> > +		for (i = 0; i < size0; i++) {
+> > +			void *a = base + size * (arr[0].begin + i);
+> > +			void *b = base + size * (arr[1].begin + i);
+> > +
+> > +			do_swap(a, b, size, swap_func);
+> > +		}
+> > +
+> > +		if (CHUNK_SIZE(&arr[0]) > CHUNK_SIZE(&arr[1])) {
+> > +			/* The end of the first array remains unarranged */
+> > +			arr[0].begin += size0;
+> > +		} else {
+> > +			/*
+> > +			 * The first array is fully arranged so we proceed
+> > +			 * handling the next one.
+> > +			 */
+> > +			arr[0].begin = arr[1].begin;
+> > +			arr[0].end = arr[1].begin + size0 - 1;
+> > +			arr[1].begin += size0;
+> > +		}
+> > +	}
+> 
+> Perhaps add a small self-test, it's not at all obvious how this works
+> (perhaps it's some standard CS101 algorithm for rotating in-place, I
+> don't know, but even then an implementation can have off-by-ones and
+> corner cases).
+
+I don't know, I wrote this to fix a bug in the ipu3-cio2 driver. ;-) The
+hardware, and so the arguments, were static. Nice to see it would be useful
+elsewhere almost as-is.
+
+> 
+> for (len = 1; len < 15; ++len) {
+>   for (by = 0; by <= len; ++by) {
+>     for (i = 0; i < len; ++i)
+>       arr[i] = i;
+>     rotate(arr, len, sizeof(int), by);
+>     for (i = 0; i < len; ++i)
+>       if (arr[i] != (i + by) % len)
+>         error();
+>   }
+> }
+
+Makes sense to add something like that.
+
+After addressing the comments, for patches from 1 to 3:
+
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
