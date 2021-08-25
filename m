@@ -2,159 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DEF503F6DBC
-	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 05:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 604943F6DE7
+	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 05:50:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236643AbhHYDph (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Aug 2021 23:45:37 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:35895 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230285AbhHYDph (ORCPT
+        id S238894AbhHYDvJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Aug 2021 23:51:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34538 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237863AbhHYDuk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Aug 2021 23:45:37 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id IjqKmIXhJhPtjIjqMmKdc6; Wed, 25 Aug 2021 05:44:50 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1629863090; bh=Ye81fa8rQ45Mz1diKFmfDT3MOz+sz8vrbv/TUv1YKFU=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=RTEqy13ItVQiNhEFX74VdU52OL5ly8qY1o+ATxA/GmmZphnWpVY1aXnPCZnSTD1N+
-         EoyfqxohJHK3nqJOXLRSbGAZ40nLUdFBqg6EIZg3mAPWcna1BN8mn5PtPZKwkP7knR
-         72pWFk+yxJmMjK6g01zsq4BMFs10ZBzevsU/YuqfB7l0TdOf1md0+7jWo8hzOp6oHJ
-         xTZ6VKZ8MtoOwwdZbirFbWGEW8N+94B6K1/ytyWnNFJMWBhQtG+iXJj3LESsT/N4RK
-         CUMe6ShyHoVaIHl2y+aZ1ezOx0FaR3J0y+voBMtKmk9NE5XFPDzoGXVyYs7QqtHZWp
-         tYQHcHrQ+2ayQ==
-Message-ID: <deae5dc91b06eae66b517b6bd5f9f608@smtp-cloud7.xs4all.net>
-Date:   Wed, 25 Aug 2021 05:44:48 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfIFq5+RJx+dxqZAsGZrNp84XZdhpune4EptqL4DrQKsvgBbm9BWiTNzZHzBxCnWvTMZQkx7QTjriDNiKSWjc3Be2ljXcXxi/Rx7SX6zC3swOi3jgzE1F
- Dt4dKhOIvdQcgX8FZfqxF66ozAUTHSsxAKzX/t+xIdp8j2wN62/lK0mD9OF2fAIUaWuAGXK7Kp8ziPqDLPEwDOu0Lc5/6ya4q6F+QI/LZsRKjlUqrHy+WdwA
- FoeE6zZRjxHJwEGSI1k8Aw==
+        Tue, 24 Aug 2021 23:50:40 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA6A0C061757
+        for <linux-media@vger.kernel.org>; Tue, 24 Aug 2021 20:49:54 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id d6so34939374edt.7
+        for <linux-media@vger.kernel.org>; Tue, 24 Aug 2021 20:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=3kZXI1vtvS0Yvb6slBFRI9pS9XAeJXzQm2yXW938Umo=;
+        b=rYLlw4fbNP1HTkXasUqH8ZRD7nxcL0P7KPGpLdqgwnOWslAsIhC9jnsZlxrx5otqpo
+         0N0Z+R3+Qd9VBsJP0pp/X6mjgcKX3uDeXXaB5/YKqIdbBniid8BqTFbbBMuUFH7VRQ2T
+         Gzc7ZpquX6irb4GDSnakgLUYLUbs6xRt4YJIpJX+XMSY3x77cXB6jDgxNm+O18zr5b8A
+         kTeVsXIQ2igplvXzF6erSAKUInYqMD2njfkNLSEu8YQh/71OI4SqC48mpwOC+CZoa+ol
+         I86mqWiZk1OM2fNoHpEGJrBm8W8vMZr1pSS/ixy3CwCqtxKi/Hz96FMuVoW6m/o4UpRv
+         PLHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=3kZXI1vtvS0Yvb6slBFRI9pS9XAeJXzQm2yXW938Umo=;
+        b=m67FGrPwKowRxM49ixSQQGnd0rUCrktbE6hjKXl8Co6//LA0XeZFnKNkORct76wwg9
+         dy/Ti1NpAwyAxEyIWxBlK3gb57BWgJ3OKTxTpWDUq8d9X/N7SKok0Lb6TMzM2evyG9tv
+         M3Mkt9mFAlM7ziWh37/xy0gSFAZ6bMhmNZu7OKF3FQ0zzwH+wddTUDNsxX+zBu+j38uL
+         S/r6Pmf7T91Tj2UjBFf0qw+ZRbzjklvpoqn3/rMXOuhrMb7ySnOITNo+dp1gq5/bkxdR
+         vr504kuW9pGBRSY84G8HbnOPj2tA1mfSABr45pQ2VIOG8B4bu9BVKHmxGYhHl5T+b2Xd
+         16Ig==
+X-Gm-Message-State: AOAM533kvTDPeYWCU7A0bF+oBO8RiJG0UWDvyvL8PjG/ZNvEB1EZRqF9
+        TqFva/01TG4xKYorXQNhkxfvGhqkzQhlzlx5v0TKGQ==
+X-Google-Smtp-Source: ABdhPJz6WxJB9n9R0lhxCYrp90OGkbSPfI3upiI7vUcraPT3a8lXeVRKeYJ+3pLVzsidvy6f73vg7LbF70pb18gBPoI=
+X-Received: by 2002:a05:6402:693:: with SMTP id f19mr20106726edy.213.1629863393359;
+ Tue, 24 Aug 2021 20:49:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210816105934.28265-1-irui.wang@mediatek.com>
+ <20210816105934.28265-2-irui.wang@mediatek.com> <CAAEAJfDoSW3F85bFKTRvvGZXTZbCBRpUwZzEyx3zhrA6psiZfA@mail.gmail.com>
+ <6efbfdbac55c5c8175168be96d3a2e63b4ac0f07.camel@mediatek.com>
+In-Reply-To: <6efbfdbac55c5c8175168be96d3a2e63b4ac0f07.camel@mediatek.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Wed, 25 Aug 2021 00:49:41 -0300
+Message-ID: <CAAEAJfBvWDqtb8oqxx9zosEbBhFVMiszG2cu=Y7OXx3-T4gAOQ@mail.gmail.com>
+Subject: Re: [PATCH 1/9] dt-bindings: media: mtk-vcodec: Add binding for
+ MT8195 two venc cores
+To:     =?UTF-8?B?SXJ1aSBXYW5nICjnjovnkZ4p?= <Irui.Wang@mediatek.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        =?UTF-8?B?TG9uZ2ZlaSBXYW5nICjnjovpvpnpo54p?= 
+        <Longfei.Wang@mediatek.com>,
+        =?UTF-8?B?VGlmZmFueSBMaW4gKOael+aFp+ePiik=?= 
+        <tiffany.lin@mediatek.com>,
+        "frkoenig@chromium.org" <frkoenig@chromium.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        =?UTF-8?B?TWFvZ3VhbmcgTWVuZyAo5a2f5q+b5bm/KQ==?= 
+        <Maoguang.Meng@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "tzungbi@chromium.org" <tzungbi@chromium.org>,
+        =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= 
+        <Yunfei.Dong@mediatek.com>,
+        =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "tfiga@google.com" <tfiga@google.com>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "hsinyi@chromium.org" <hsinyi@chromium.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Project_Global_Chrome_Upstream_Group 
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        =?UTF-8?B?QW5kcmV3LUNUIENoZW4gKOmZs+aZuui/qik=?= 
+        <Andrew-CT.Chen@mediatek.com>,
+        "acourbot@chromium.org" <acourbot@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, 24 Aug 2021 at 23:04, Irui Wang (=E7=8E=8B=E7=91=9E) <Irui.Wang@med=
+iatek.com> wrote:
+>
+> Hi,Ezequiel,
+>
+> Thanks for your reviewing.
+>
+> On Tue, 2021-08-24 at 08:02 -0300, Ezequiel Garcia wrote:
+> > Hi Irui,
+> >
+> > On Mon, 16 Aug 2021 at 08:00, Irui Wang <irui.wang@mediatek.com>
+> > wrote:
+> > >
+> > > Enable MT8195 two H.264 venc cores, updates vcodec binding
+> > > document.
+> > >
+> > > Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+> > > ---
+> > >  Documentation/devicetree/bindings/media/mediatek-vcodec.txt | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/mediatek-
+> > > vcodec.txt b/Documentation/devicetree/bindings/media/mediatek-
+> > > vcodec.txt
+> > > index de961699ba0a..eb2e24c32426 100644
+> > > --- a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+> > > +++ b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+> > > @@ -11,6 +11,8 @@ Required properties:
+> > >    "mediatek,mt8173-vcodec-dec" for MT8173 decoder.
+> > >    "mediatek,mt8192-vcodec-enc" for MT8192 encoder.
+> > >    "mediatek,mt8195-vcodec-enc" for MT8195 encoder.
+> > > +  "mediatek,mtk-venc-core0" for MT8195 avc core0 device.
+> > > +  "mediatek,mtk-venc-core1" for MT8195 avc core1 device.
+> >
+> > What is the difference between core0 and core1?
+> >
+> > Thanks,
+> > Ezequiel
+>
+> Both core0 and core1 are H264 encoder hardware, they have their own
+> hardware register base, used power-domains/clocks/irqs. We can use any
+> of them for H.264 encoding, but the two cores can work together for
+> higher performance, it's called "frame racing", a hardware encoding
+> mode, control flow just like in the commit messages:
+>
+> core0 frame#0.frame#2.frame#4...
+> core1    frame#1.frame#3.frame#5...
+>
 
-Results of the daily build of media_tree:
+If they are two encoder cores, why do you need different compatible strings=
+?
 
-date:			Wed Aug 25 05:00:12 CEST 2021
-media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
-media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
-v4l-utils git hash:	58f4f974944c182890a09d040418dafa9a431e45
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7532-gde99456f6
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
-host hardware:		x86_64
-host os:		5.13.11-marune
+It would be interesting to see a device tree which shows how this should
+be used in the real world, but from the looks of it, it seems you don't
+need a separate compatible.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+It seems this series is somewhat related to Yunfei's "[PATCH v5,
+00/15] Using component framework to support multi hardware decode",
+but I don't see a device tree patch either in that series.
 
-Detailed results are available here:
+Given this is a complex architecture, I don't know if it
+makes sense to discuss decoder and encoder independently.
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+If you guys unify the two series, and add the device tree patches for it,
+or at least for the most complex cases, maybe that will surface the
+architecture more clearly and come up with an easier solution that
+doesn't involve
+an async framework to pull in the parts together.
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Thanks,
+Ezequiel
