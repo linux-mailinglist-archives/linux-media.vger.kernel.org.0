@@ -2,110 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B66513F6D91
-	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 04:56:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEF503F6DBC
+	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 05:44:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237089AbhHYC4x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Aug 2021 22:56:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50978 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230021AbhHYC4w (ORCPT
+        id S236643AbhHYDph (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Aug 2021 23:45:37 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:35895 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230285AbhHYDph (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Aug 2021 22:56:52 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BABDC061757;
-        Tue, 24 Aug 2021 19:56:07 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id f15so16717597ybg.3;
-        Tue, 24 Aug 2021 19:56:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pxKw4tRuZtKuPCdNSY/EysbIdH1gs3HBF9BpV8F9Ogk=;
-        b=uehHByBLfMYSppbrT9JQ0EwN0xsr9EgnNqtXsWJh3aLa9jBY5ujxZPtkifnmn9E0Zv
-         HqsVTK4+yq+OZFCkN4gfmZKCqObAeSNuf+iwltqG64kNLM8SZdE4TEl1gQgXBklysRVo
-         E5jQNY1blHfLIJUoocRLbbyhV3L1BW5ZBmig2d6n+qnvGvSCXgqQbChh8p6xicVqqlYS
-         3Wazq/nHOPZAqNcYkEzs2dqAR3XYMk0X3WU8zQYBaHW8MuhPteP1BacykT8h/0fZgo3d
-         7W3iof1VMY1lOsqYYF9bU/+3DvY17ZM3+F8h3CDz5QH1UCB8qm/aabof0ELAagNhUNUm
-         cICA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pxKw4tRuZtKuPCdNSY/EysbIdH1gs3HBF9BpV8F9Ogk=;
-        b=dJP/REluS6Wrvld1iIJHlXwE4VMGkKtCARX7gg2XdFKg2yPlRxHXOiXnW928JEIMzg
-         tK0RGj2yFU+95U91gOWyn/a3iWpQ83U8GoF7yx1/Ov8+8KehrlZPR+RqsEyroGk4P1+7
-         nBR+R2LfT3EnQvA9TwamXf3yeV4Sqr/Nj0iGB8AXDrBnkRYF6iGVID60S2P/l1K88lnU
-         66PpBMEojKd2P4t/+UI/gzX+NqAZ1B8+Ngbr0b1FHiOEVVu8n39VFmCecKFOQQWe8yYp
-         9bf/vvVy5ZGdeM9Hv0iGXOJL6VOHQ2Kpj2mO0JwoFRS9Y5e2PhJ4strW/f/b9PGePjLW
-         W5yA==
-X-Gm-Message-State: AOAM532H3/kr+9+H7eER40KKgx2jW9AdpCtBoL31mkgbIYtzvka8iWB9
-        QOy/uOy5VsU3oXcoP3huD5zEP9udT4gjhSRJga4=
-X-Google-Smtp-Source: ABdhPJxttWTWhhNXOIbqVzytpGheVCCSEsWFn7/PRD/Jddj1cGxqcjzcvdDAGEM5a3XBv7NjRt7J6cgkEvbpasBjXHk=
-X-Received: by 2002:a25:b991:: with SMTP id r17mr27740903ybg.92.1629860166328;
- Tue, 24 Aug 2021 19:56:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <4e3e0d40-df4a-94f8-7c2d-85010b0873c4@web.de> <20210819133128.45ef4353@coco.lan>
- <c56ec571-2278-95e9-2028-990e03159c3f@web.de> <20210822194709.4b9d33d4@coco.lan>
- <be6ac929-2443-ff55-3e11-6a86d6472e0e@web.de> <CAHk-=wjSadWPfzQ_hOqbjq6c_xwJs8GLHTyznhXRvDF5Yrs4FA@mail.gmail.com>
-In-Reply-To: <CAHk-=wjSadWPfzQ_hOqbjq6c_xwJs8GLHTyznhXRvDF5Yrs4FA@mail.gmail.com>
-From:   Manu Abraham <abraham.manu@gmail.com>
-Date:   Wed, 25 Aug 2021 08:25:57 +0530
-Message-ID: <CAHFNz9L29LK+L8LjqyTyqq3LsvzeA6iYFHwP9n3uNBbqbbm1bg@mail.gmail.com>
-Subject: Re: [Regression 5.14] media: dvb userspace api
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Soeren Moch <smoch@web.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 24 Aug 2021 23:45:37 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id IjqKmIXhJhPtjIjqMmKdc6; Wed, 25 Aug 2021 05:44:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1629863090; bh=Ye81fa8rQ45Mz1diKFmfDT3MOz+sz8vrbv/TUv1YKFU=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=RTEqy13ItVQiNhEFX74VdU52OL5ly8qY1o+ATxA/GmmZphnWpVY1aXnPCZnSTD1N+
+         EoyfqxohJHK3nqJOXLRSbGAZ40nLUdFBqg6EIZg3mAPWcna1BN8mn5PtPZKwkP7knR
+         72pWFk+yxJmMjK6g01zsq4BMFs10ZBzevsU/YuqfB7l0TdOf1md0+7jWo8hzOp6oHJ
+         xTZ6VKZ8MtoOwwdZbirFbWGEW8N+94B6K1/ytyWnNFJMWBhQtG+iXJj3LESsT/N4RK
+         CUMe6ShyHoVaIHl2y+aZ1ezOx0FaR3J0y+voBMtKmk9NE5XFPDzoGXVyYs7QqtHZWp
+         tYQHcHrQ+2ayQ==
+Message-ID: <deae5dc91b06eae66b517b6bd5f9f608@smtp-cloud7.xs4all.net>
+Date:   Wed, 25 Aug 2021 05:44:48 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfIFq5+RJx+dxqZAsGZrNp84XZdhpune4EptqL4DrQKsvgBbm9BWiTNzZHzBxCnWvTMZQkx7QTjriDNiKSWjc3Be2ljXcXxi/Rx7SX6zC3swOi3jgzE1F
+ Dt4dKhOIvdQcgX8FZfqxF66ozAUTHSsxAKzX/t+xIdp8j2wN62/lK0mD9OF2fAIUaWuAGXK7Kp8ziPqDLPEwDOu0Lc5/6ya4q6F+QI/LZsRKjlUqrHy+WdwA
+ FoeE6zZRjxHJwEGSI1k8Aw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 23, 2021 at 10:30 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> I have reverted the header file move. But I would also heartily
-> recommend that whatever user program includes those headers (VDR -
-> anything else?) should take snapshots of these specific kernel
-> headers.
->
-> I'm not convinced that it makes sense to move the av7110 driver back
-> from staging - it may continue to work, but it _is_ old and there is
-> no maintenance - and I would certainly suggest that any other
-> out-of-tree driver that uses these old interfaces that nothing else
-> implements shouldn't do so, considering that nothing else implements
-> them.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Sorry for barging in between your discussion, but it seemed like you really
-missed some perspective and hence.
+Results of the daily build of media_tree:
 
-My 2 cents worth:
-* Revert the header changes.
+date:			Wed Aug 25 05:00:12 CEST 2021
+media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
+media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
+v4l-utils git hash:	58f4f974944c182890a09d040418dafa9a431e45
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7532-gde99456f6
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
+host hardware:		x86_64
+host os:		5.13.11-marune
 
-* Let someone else with knowledge of it take over the maintenance
-of the av7110 driver.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13.1-i686: OK
+linux-5.13.1-x86_64: OK
+linux-5.14-rc1-i686: OK
+linux-5.14-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-  - This would allow other hardware also to be easily accommodated
-in a similar manner.
+Detailed results are available here:
 
-* Pull the out of tree drivers and allocate maintenance of those, to
-someone who understands them. Don't you want more hardware to be
-supported out of the box ?
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
-Should there be no driver for those DVB output hardware, but only for
-V4L2 output devices ?
+Detailed regression test results are available here:
 
-There exists other hardware which As a person who worked on another
-av7110 like driver (saa716x based s2 6400), which I can confirm.
-The API is supposed to simplify life, not make it even more complex.
-These devices would need lot of workarounds to work with the API that
-which Mauro advocates, which might even break those drivers given
-their complexity and size.
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
 
-It would make life a lot easier for the users, Mauro himself and
-this long never ending discussion can be put to rest.
+Full logs are available here:
 
-Thanks,
-MA
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
