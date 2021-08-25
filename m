@@ -2,139 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB2A03F71B6
-	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 11:29:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 707DE3F7224
+	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 11:45:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239405AbhHYJaB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Aug 2021 05:30:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55264 "EHLO
+        id S239656AbhHYJpx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Aug 2021 05:45:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233076AbhHYJaB (ORCPT
+        with ESMTP id S236314AbhHYJpu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Aug 2021 05:30:01 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B50FC0613C1
-        for <linux-media@vger.kernel.org>; Wed, 25 Aug 2021 02:29:15 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id s3so42447220ljp.11
-        for <linux-media@vger.kernel.org>; Wed, 25 Aug 2021 02:29:15 -0700 (PDT)
+        Wed, 25 Aug 2021 05:45:50 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74419C0613C1;
+        Wed, 25 Aug 2021 02:45:04 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id g13so51592399lfj.12;
+        Wed, 25 Aug 2021 02:45:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
+        d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=J2/OQEffn/ha/SHF1AP1mfEI0+u4GaQpxzyiwpPvr08=;
-        b=HgnFsVv3taOdV0Fwq/Gg1EnGRV5idZHsFWLEzxJQs2i3eqnAirD/0prcm+4Z0uJQ4n
-         C4cYOQh246/Ec6+zrhFhMl04DJ2tAbNoPi1TCYbZi6IYhjvvlsI02UtvUJ/VPx67l9lR
-         oRVrRPAwyMg9+MbM5wzBmnGRncsDS+KNKYh6A=
+        bh=E7cNoLLVAVafjNCc4brMRUN01zZAHm0abXpnMpPuTt4=;
+        b=XcByKSJRdga/HRYU9DdYIrJkJ5aCKCn6sFPQhJpp+zqLBFptssdthmbwTTqrJU2O1y
+         Fh9T4cOSANuA0NBWqKrxyE6rpE3VUg9YurSVTT9N3ewKp/QELYAgj+C6HkBCJMlVTiOb
+         M7DocgSIXf8gWx7DP6hz+XSoX32UueKJZitZdD1fhIKA/N5U6YwHLEpd41Qt4bCHL0G4
+         ZtJc+vpaJ07T3DdXx/qHSdSN5QI3+K4IqS5ki+/rdR5v1sPFOYpfj0rw4qkKgMj2ioo3
+         hQKDnoVXbW3M/+9DGxJ8r4dLnR6TG4RgZNyl3L7PnWj5GlgkD82og3xcltkjAKoMzhav
+         ZUNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=J2/OQEffn/ha/SHF1AP1mfEI0+u4GaQpxzyiwpPvr08=;
-        b=PoR9A3gRkbOBfWxLOic30kugLDMbQQRo/EBuP0siqxs6YU+nbE/kMl2zUMMcaqOr9F
-         K/RWg0eSi9r0/S6gTrWr5g2F28CpZLKJSaG1gZfvtE7q6XUR/ojzujhafr4bhdks58cD
-         VWJ+iWWQkX6CZBarNxI4WIjBvepfQ9fQpavFetaHYasIEyrqLU2wvrRnZTchzXbG3GlG
-         V6KoD9KbtW4iwV21e/3aDF6W0sAi2M8B+7i/cw1SVte6Fo4B3jM3N/LcsZEUS3NjrkW7
-         IoiMSgiYs4kNQbvK04k3VPQ5LaRJsugWb/ald4ywob2rs1Kh66qihtj3AefYfF6Kck5F
-         qt8Q==
-X-Gm-Message-State: AOAM531U15NzuF7SNgUOaZnONTbUT9/Quot7F5JY8+WymmsBHM1R3l0A
-        x9OAKxP5YaFJN1iTthqqSvKaBA==
-X-Google-Smtp-Source: ABdhPJzJ03y84acKkitqDj2TH2dOhiplmNOK5xQOC2FECadNDLsegJ9CbL4G62c7gZ/OWtbS34L71A==
-X-Received: by 2002:a2e:7005:: with SMTP id l5mr22066141ljc.355.1629883753790;
-        Wed, 25 Aug 2021 02:29:13 -0700 (PDT)
-Received: from [172.16.11.1] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id u20sm490639lfr.272.2021.08.25.02.29.12
+        bh=E7cNoLLVAVafjNCc4brMRUN01zZAHm0abXpnMpPuTt4=;
+        b=kX4mhi2MEArMqlWwXAvwxKRSEGu+orZ+Tb20DbE0/SOUaNzKWrsE/Cfehguc/rRhAx
+         5wg+NHNHglmQxJ/xrBtTAa6NKP6vSBhpeOYYAna1nYPg8RJPLP9VwIFWyfByBDZ8bWT1
+         qIGnMJpK/7dNAliMmJWJ4MjLjoc/dCHFg9i2BEwNUjkL45XqirzVQXiFLAnybxVFBbE0
+         BtuMCnZ9i+BhxsXFlDe2MmFHhaaBT8ShJQP23ucacRTknPY93RcwHNL1j4lLNbWRLFDp
+         DpY5qorjFG/sdu3Yjd3mYpe4j+WqkBHXrHibLHIOiXEuChK8vvobOqMiMSIjiX7t6NCr
+         dcQA==
+X-Gm-Message-State: AOAM531C/U/yonuXTKSRver+ew/62xRu4iNGbFSP/+qgAQLozoW8b3KW
+        Cv2O9UMmJdQ27ENyPf+g4NIBuVpHmus=
+X-Google-Smtp-Source: ABdhPJxxgQwWKc4KlfaiaB2F9L+jo3PpEaZtT5gXKDmMvuZmO5i5+f3TfZJ4xZuLO6DnWagwNOSZkQ==
+X-Received: by 2002:a05:6512:3190:: with SMTP id i16mr32170681lfe.340.1629884702691;
+        Wed, 25 Aug 2021 02:45:02 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-17-251.dynamic.spd-mgts.ru. [94.29.17.251])
+        by smtp.googlemail.com with ESMTPSA id z13sm2103349ljj.43.2021.08.25.02.45.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Aug 2021 02:29:13 -0700 (PDT)
-Subject: Re: [PATCH v1 2/3] lib/sort: Introduce rotate() to circular shift an
- array of elements
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Dan Scally <djrscally@gmail.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20210824133351.88179-1-andriy.shevchenko@linux.intel.com>
- <20210824133351.88179-2-andriy.shevchenko@linux.intel.com>
- <4078b7a3-2ec2-ba87-d23c-b8daed7386fe@rasmusvillemoes.dk>
- <20210825080832.GN3@paasikivi.fi.intel.com>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <8bc8d977-5204-6f5b-8a1c-f2338c141993@rasmusvillemoes.dk>
-Date:   Wed, 25 Aug 2021 11:29:12 +0200
+        Wed, 25 Aug 2021 02:45:02 -0700 (PDT)
+Subject: Re: [PATCH v8 20/34] mmc: sdhci-tegra: Add runtime PM and OPP support
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-21-digetx@gmail.com> <YR6O9Om+HzMMG8AR@orome.fritz.box>
+ <05b7ff28-4c01-fb56-deeb-595a5797394b@gmail.com>
+ <YR+TgfCHKOPS3Ng8@orome.fritz.box>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <5a15647c-bc6a-294d-61c8-91efa33c681e@gmail.com>
+Date:   Wed, 25 Aug 2021 12:45:01 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210825080832.GN3@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <YR+TgfCHKOPS3Ng8@orome.fritz.box>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/08/2021 10.08, Sakari Ailus wrote:
-> Hi Rasmus, Andy,
-> 
-
->>> + * @num: number of elements
->>> + * @size: size of each element
->>> + * @by: number of elements to rotate by
+20.08.2021 14:35, Thierry Reding пишет:
+> On Fri, Aug 20, 2021 at 01:37:13AM +0300, Dmitry Osipenko wrote:
+>> 19.08.2021 20:03, Thierry Reding пишет:
+>>> On Tue, Aug 17, 2021 at 04:27:40AM +0300, Dmitry Osipenko wrote:
+>>>> The SDHCI on Tegra belongs to the core power domain and we're going to
+>>>> enable GENPD support for the core domain. Now SDHCI must be resumed using
+>>>> runtime PM API in order to initialize the SDHCI power state. The SDHCI
+>>>> clock rate must be changed using OPP API that will reconfigure the power
+>>>> domain performance state in accordance to the rate. Add runtime PM and OPP
+>>>> support to the SDHCI driver.
+>>>>
+>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>>> ---
+>>>>  drivers/mmc/host/sdhci-tegra.c | 146 ++++++++++++++++++++++++---------
+>>>>  1 file changed, 105 insertions(+), 41 deletions(-)
+>>>>
+>>>> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+>>>> index 387ce9cdbd7c..a3583359c972 100644
+>>>> --- a/drivers/mmc/host/sdhci-tegra.c
+>>>> +++ b/drivers/mmc/host/sdhci-tegra.c
+>>>> @@ -15,6 +15,8 @@
+>>>>  #include <linux/of.h>
+>>>>  #include <linux/of_device.h>
+>>>>  #include <linux/pinctrl/consumer.h>
+>>>> +#include <linux/pm_opp.h>
+>>>> +#include <linux/pm_runtime.h>
+>>>>  #include <linux/regulator/consumer.h>
+>>>>  #include <linux/reset.h>
+>>>>  #include <linux/mmc/card.h>
+>>>> @@ -24,6 +26,8 @@
+>>>>  #include <linux/gpio/consumer.h>
+>>>>  #include <linux/ktime.h>
+>>>>  
+>>>> +#include <soc/tegra/common.h>
+>>>> +
+>>>>  #include "sdhci-pltfm.h"
+>>>>  #include "cqhci.h"
+>>>>  
+>>>> @@ -123,6 +127,12 @@
+>>>>  					 SDHCI_TRNS_BLK_CNT_EN | \
+>>>>  					 SDHCI_TRNS_DMA)
+>>>>  
+>>>> +enum {
+>>>> +	TEGRA_CLK_BULK_SDHCI,
+>>>> +	TEGRA_CLK_BULK_TMCLK,
+>>>> +	TEGRA_CLK_BULK_NUM,
+>>>> +};
+>>>> +
+>>>>  struct sdhci_tegra_soc_data {
+>>>>  	const struct sdhci_pltfm_data *pdata;
+>>>>  	u64 dma_mask;
+>>>> @@ -171,6 +181,8 @@ struct sdhci_tegra {
+>>>>  	bool enable_hwcq;
+>>>>  	unsigned long curr_clk_rate;
+>>>>  	u8 tuned_tap_delay;
+>>>> +
+>>>> +	struct clk_bulk_data clocks[TEGRA_CLK_BULK_NUM];
+>>>
+>>> This doesn't seem worth it to me. There's a lot of churn in this driver
+>>> that's only needed to convert this to the clk_bulk API and it makes the
+>>> code a lot more difficult to read, in my opinion.
+>>>
+>>> It looks like the only benefit that this gives us is that runtime
+>>> suspend and resume become a few lines shorter.
 >>
->> Perhaps add (0 <= @by < @num) or something like that, and/or start the
->> implementation with "if (num <= 1) return; if (by >= num) by %= num;"
+>> The driver probe code looks cleaner with that. You should be looking at
+>> the final result and not at the patch to see it.
 > 
-> The latter could be done unconditionally.
+> I did look at the final result and didn't find it cleaner at all. =)
 
-Yes (provided num is tested at least for being non-zero first, but then
-it's mostly free to check <= 1 instead), but in the vast majority of
-cases the caller would pass a sane value of by, and an unconditional %=
-would thus waste 100+ clock cycles for nothing.
-
->>> +	struct {
->>> +		size_t begin, end;
->>> +	} arr[2] = {
->>> +		{ .begin = 0, .end = by - 1 },
->>> +		{ .begin = by, .end = num - 1 },
->>> +	};
->>
->> I see you just copied-and-adapted, but I think the code would be much
->> easier to read without all those plus/minus ones all over.
-> 
-> Now that I think about it, they can be just removed. In that case end
-> refers to the element following end, rather than the last element.
-
-Yes, as we almost always do array indexing in C... the math simply ends
-up coming out more naturally that way in the majority of cases.
-
->> Perhaps add a small self-test, it's not at all obvious how this works
->> (perhaps it's some standard CS101 algorithm for rotating in-place, I
->> don't know, but even then an implementation can have off-by-ones and
->> corner cases).
-> 
-> I don't know, I wrote this to fix a bug in the ipu3-cio2 driver. ;-) The
-> hardware, and so the arguments, were static. Nice to see it would be useful
-> elsewhere almost as-is.
-
-Well, Andy hasn't actually shown that it would be useful anywhere else.
-I think I'd like to see another user. Just doing "move this helper to
-lib/ because we can reuse choose-a-proper-swap-func and thus implement
-this perhaps a tiny bit faster" without considering whether it's even
-performance-critical in the sole user is not a good idea IMO.
-
-Especially since it can affect code generation of the much more
-important (at least, has many more users) sort() function - the
-do_swap() function grows another user, so could make the compiler end up
-choosing not to inline it anymore.
-
-There's another slightly simpler way to implement rotate(), which might
-end up having more users (though I can't find any currently): Add a
-reverse() helper, then rotate() can be done as reverse(a, 0, n);
-reverse(a, 0, k); reverse(a, k, n-k);. If my math is right, the current
-suggested rotate() ends up doing n-gcd(n,k) swaps, while the
-implementation in terms of a reverse() would do n-1 if either n or k is
-odd, otherwise n, calls to swap().
-
-Rasmus
+There is UAF bug in this patch that was spotted by kasan. The
+sdhci_tegra_soc_data isn't resource-managed, but clk_bulk_data is. I'm
+now thinking that it should be okay to keep tmclk always-on, so I'll
+replace the bulk clks back with the sdhci clk in v9.
