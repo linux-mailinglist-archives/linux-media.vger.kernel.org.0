@@ -2,282 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C4183F7175
-	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 11:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB2A03F71B6
+	for <lists+linux-media@lfdr.de>; Wed, 25 Aug 2021 11:29:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239483AbhHYJIv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Aug 2021 05:08:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50346 "EHLO
+        id S239405AbhHYJaB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Aug 2021 05:30:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239389AbhHYJIu (ORCPT
+        with ESMTP id S233076AbhHYJaB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Aug 2021 05:08:50 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36ADFC061757;
-        Wed, 25 Aug 2021 02:08:04 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id A6D1A1F43274
-Subject: Re: [PATCH v7 7/7] media: mtk-mdp: use mdp-rdma0 alias to point to
- MDP master
-To:     houlong wei <houlong.wei@mediatek.com>,
-        Eizan Miyamoto <eizan@chromium.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
-        =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
-        "wenst@chromium.org" <wenst@chromium.org>,
-        =?UTF-8?B?Q0sgSHUgKOiDoeS/ig==?= =?UTF-8?B?5YWJKQ==?= 
-        <ck.hu@mediatek.com>,
-        =?UTF-8?B?WW9uZ3FpYW5nIE5pdSAo54mb5rC45by6KQ==?= 
-        <yongqiang.niu@mediatek.com>,
-        =?UTF-8?B?QW5kcmV3LUNUIENoZW4gKOmZs+aZuui/qik=?= 
-        <Andrew-CT.Chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?B?TWluZ2hzaXUgVHNhaSAo6JSh5piO5L+uKQ==?= 
-        <Minghsiu.Tsai@mediatek.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>
-References: <20210825063323.3607738-1-eizan@chromium.org>
- <20210825163247.v7.7.I2049e180dca12e0d1b3178bfc7292dcf9e05ac28@changeid>
- <1629880999.12893.17.camel@mhfsdcap03>
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <0c9fa482-57dd-d4ef-c65b-01f137c57359@collabora.com>
-Date:   Wed, 25 Aug 2021 11:07:59 +0200
+        Wed, 25 Aug 2021 05:30:01 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B50FC0613C1
+        for <linux-media@vger.kernel.org>; Wed, 25 Aug 2021 02:29:15 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id s3so42447220ljp.11
+        for <linux-media@vger.kernel.org>; Wed, 25 Aug 2021 02:29:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=J2/OQEffn/ha/SHF1AP1mfEI0+u4GaQpxzyiwpPvr08=;
+        b=HgnFsVv3taOdV0Fwq/Gg1EnGRV5idZHsFWLEzxJQs2i3eqnAirD/0prcm+4Z0uJQ4n
+         C4cYOQh246/Ec6+zrhFhMl04DJ2tAbNoPi1TCYbZi6IYhjvvlsI02UtvUJ/VPx67l9lR
+         oRVrRPAwyMg9+MbM5wzBmnGRncsDS+KNKYh6A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=J2/OQEffn/ha/SHF1AP1mfEI0+u4GaQpxzyiwpPvr08=;
+        b=PoR9A3gRkbOBfWxLOic30kugLDMbQQRo/EBuP0siqxs6YU+nbE/kMl2zUMMcaqOr9F
+         K/RWg0eSi9r0/S6gTrWr5g2F28CpZLKJSaG1gZfvtE7q6XUR/ojzujhafr4bhdks58cD
+         VWJ+iWWQkX6CZBarNxI4WIjBvepfQ9fQpavFetaHYasIEyrqLU2wvrRnZTchzXbG3GlG
+         V6KoD9KbtW4iwV21e/3aDF6W0sAi2M8B+7i/cw1SVte6Fo4B3jM3N/LcsZEUS3NjrkW7
+         IoiMSgiYs4kNQbvK04k3VPQ5LaRJsugWb/ald4ywob2rs1Kh66qihtj3AefYfF6Kck5F
+         qt8Q==
+X-Gm-Message-State: AOAM531U15NzuF7SNgUOaZnONTbUT9/Quot7F5JY8+WymmsBHM1R3l0A
+        x9OAKxP5YaFJN1iTthqqSvKaBA==
+X-Google-Smtp-Source: ABdhPJzJ03y84acKkitqDj2TH2dOhiplmNOK5xQOC2FECadNDLsegJ9CbL4G62c7gZ/OWtbS34L71A==
+X-Received: by 2002:a2e:7005:: with SMTP id l5mr22066141ljc.355.1629883753790;
+        Wed, 25 Aug 2021 02:29:13 -0700 (PDT)
+Received: from [172.16.11.1] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id u20sm490639lfr.272.2021.08.25.02.29.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Aug 2021 02:29:13 -0700 (PDT)
+Subject: Re: [PATCH v1 2/3] lib/sort: Introduce rotate() to circular shift an
+ array of elements
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yong Zhi <yong.zhi@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Dan Scally <djrscally@gmail.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20210824133351.88179-1-andriy.shevchenko@linux.intel.com>
+ <20210824133351.88179-2-andriy.shevchenko@linux.intel.com>
+ <4078b7a3-2ec2-ba87-d23c-b8daed7386fe@rasmusvillemoes.dk>
+ <20210825080832.GN3@paasikivi.fi.intel.com>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <8bc8d977-5204-6f5b-8a1c-f2338c141993@rasmusvillemoes.dk>
+Date:   Wed, 25 Aug 2021 11:29:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1629880999.12893.17.camel@mhfsdcap03>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210825080832.GN3@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Houlong,
+On 25/08/2021 10.08, Sakari Ailus wrote:
+> Hi Rasmus, Andy,
+> 
 
-Thank you for following up this patchset. I have some questions to try to
-understand better the hardware though.
-
-On 25/8/21 10:43, houlong wei wrote:
-> Hi Eizan,
-> 
-> Thanks for you patch. I have inline comment below.
-> 
-> Regards,
-> Houlong
-> 
-> On Wed, 2021-08-25 at 14:33 +0800, Eizan Miyamoto wrote:
->> ... Instead of depending on the presence of a mediatek,vpu property in
->> the device node.
+>>> + * @num: number of elements
+>>> + * @size: size of each element
+>>> + * @by: number of elements to rotate by
 >>
->> That property was originally added to link to the vpu node so that the
->> mtk_mdp_core driver could pass the right device to
->> vpu_wdt_reg_handler(). However in a previous patch in this series,
->> the driver has been modified to search the device tree for that node
->> instead.
+>> Perhaps add (0 <= @by < @num) or something like that, and/or start the
+>> implementation with "if (num <= 1) return; if (by >= num) by %= num;"
+> 
+> The latter could be done unconditionally.
+
+Yes (provided num is tested at least for being non-zero first, but then
+it's mostly free to check <= 1 instead), but in the vast majority of
+cases the caller would pass a sane value of by, and an unconditional %=
+would thus waste 100+ clock cycles for nothing.
+
+>>> +	struct {
+>>> +		size_t begin, end;
+>>> +	} arr[2] = {
+>>> +		{ .begin = 0, .end = by - 1 },
+>>> +		{ .begin = by, .end = num - 1 },
+>>> +	};
 >>
->> That property was also used to indicate the primary MDP device, so that
->> it can be passed to the V4L2 subsystem as well as register it to be
->> used when setting up queues in the open() callback for the filesystem
->> device node that is created. In this case, assuming that the primary
->> MDP device is the one with a specific alias seems useable because the
->> alternative is to add a property to the device tree which doesn't
->> actually represent any facet of hardware (i.e., this being the primary
->> MDP device is a software decision). In other words, this solution is
->> equally as arbitrary, but at least it doesn't add a property to a
->> device node where said property is unrelated to the hardware present.
->>
->> Signed-off-by: Eizan Miyamoto <eizan@chromium.org>
->> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
->> ---
->>
->> (no changes since v1)
->>
->>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 56 +++++++++++++------
->>  drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 36 ++++++++----
->>  2 files changed, 64 insertions(+), 28 deletions(-)
->>
->> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
->> index 85ef274841a3..9527649de98e 100644
->> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
->> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
->> @@ -151,29 +151,50 @@ void mtk_mdp_comp_clock_off(struct mtk_mdp_comp *comp)
->>  		mtk_smi_larb_put(comp->larb_dev);
->>  }
->>  
->> -static int mtk_mdp_comp_bind(struct device *dev, struct device *master, void *data)
->> +/*
->> + * The MDP master device node is identified by the device tree alias
->> + * "mdp-rdma0".
->> + */
->> +static bool is_mdp_master(struct device *dev)
->> +{
->> +	struct device_node *aliases, *mdp_rdma0_node;
->> +	const char *mdp_rdma0_path;
->> +
->> +	if (!dev->of_node)
->> +		return false;
->> +
->> +	aliases = of_find_node_by_path("/aliases");
->> +	if (!aliases) {
->> +		dev_err(dev, "no aliases found for mdp-rdma0");
->> +		return false;
->> +	}
->> +
->> +	mdp_rdma0_path = of_get_property(aliases, "mdp-rdma0", NULL);
->> +	if (!mdp_rdma0_path) {
->> +		dev_err(dev, "get mdp-rdma0 property of /aliases failed");
->> +		return false;
->> +	}
->> +
->> +	mdp_rdma0_node = of_find_node_by_path(mdp_rdma0_path);
->> +	if (!mdp_rdma0_node) {
->> +		dev_err(dev, "path resolution failed for %s", mdp_rdma0_path);
->> +		return false;
->> +	}
->> +
->> +	return dev->of_node == mdp_rdma0_node;
+>> I see you just copied-and-adapted, but I think the code would be much
+>> easier to read without all those plus/minus ones all over.
 > 
+> Now that I think about it, they can be just removed. In that case end
+> refers to the element following end, rather than the last element.
+
+Yes, as we almost always do array indexing in C... the math simply ends
+up coming out more naturally that way in the majority of cases.
+
+>> Perhaps add a small self-test, it's not at all obvious how this works
+>> (perhaps it's some standard CS101 algorithm for rotating in-place, I
+>> don't know, but even then an implementation can have off-by-ones and
+>> corner cases).
 > 
-> About how to determine the master mdp driver, we also can
-> judge the component type. The component type can be gotten by calling
-> of_device_get_match_data(dev). If the component is MTK_MDP_RDMA, it is
-> the master driver. No matter it is mdp_rdma0 or mdp_rdma1.
+> I don't know, I wrote this to fix a bug in the ipu3-cio2 driver. ;-) The
+> hardware, and so the arguments, were static. Nice to see it would be useful
+> elsewhere almost as-is.
 
+Well, Andy hasn't actually shown that it would be useful anywhere else.
+I think I'd like to see another user. Just doing "move this helper to
+lib/ because we can reuse choose-a-proper-swap-func and thus implement
+this perhaps a tiny bit faster" without considering whether it's even
+performance-critical in the sole user is not a good idea IMO.
 
-I'm confused, you mean that the component type, aka MTK_MDP_RDMA is only set for
-mtk_mdp_rdma0? isn't mtk_dmp_rdma1 also a MTK_MDP_RDMA type? Because looks weird
-to me that two rdma have diffent types.
+Especially since it can affect code generation of the much more
+important (at least, has many more users) sort() function - the
+do_swap() function grows another user, so could make the compiler end up
+choosing not to inline it anymore.
 
+There's another slightly simpler way to implement rotate(), which might
+end up having more users (though I can't find any currently): Add a
+reverse() helper, then rotate() can be done as reverse(a, 0, n);
+reverse(a, 0, k); reverse(a, k, n-k);. If my math is right, the current
+suggested rotate() ends up doing n-gcd(n,k) swaps, while the
+implementation in terms of a reverse() would do n-1 if either n or k is
+odd, otherwise n, calls to swap().
 
-> http://lists.infradead.org/pipermail/linux-mediatek/2021-August/028533.html
-> 
-> IMO, judging it by component type is more flexible because it does not
-> limit to 'mdp_rdma0'.
-> 
-
-Using an alias like Eizan did is also flexible, you only need to set mdp-rdma0
-to point the mdp_rdma1 node.
-
-What I am really interested to know is the differences between the platforms to
-understand if this is really a platform hardware property or a software
-configurable thing, so would help if you can give use the different use cases
-for different SoCs.
-
-For MT8173 which is the master device? is _always_ rdma0 or can also be rdma1?
-
-Or maybe what is not clear here is what exactly means be a master device?
-
-What about MT8183 and other SoCs?
-
-Thanks,
-  Enric
-
-
->> +}
->> +
->> +static int mtk_mdp_comp_bind(struct device *dev, struct device *master,
->> +			void *data)
->>  {
->>  	struct mtk_mdp_comp *comp = dev_get_drvdata(dev);
->>  	struct mtk_mdp_dev *mdp = data;
->> -	struct device_node *vpu_node;
->>  
->>  	mtk_mdp_register_component(mdp, comp);
->>  
->> -	/*
->> -	 * If this component has a "mediatek-vpu" property, it is responsible for
->> -	 * notifying the mdp master driver about it so it can be further initialized
->> -	 * later.
->> -	 */
->> -	vpu_node = of_parse_phandle(dev->of_node, "mediatek,vpu", 0);
->> -	if (vpu_node) {
->> +	if (is_mdp_master(dev)) {
->>  		int ret;
->>  
->> -		mdp->vpu_dev = of_find_device_by_node(vpu_node);
->> -		if (WARN_ON(!mdp->vpu_dev)) {
->> -			dev_err(dev, "vpu pdev failed\n");
->> -			of_node_put(vpu_node);
->> -		}
->> -
->>  		ret = v4l2_device_register(dev, &mdp->v4l2_dev);
->>  		if (ret) {
->>  			dev_err(dev, "Failed to register v4l2 device\n");
->> @@ -187,9 +208,8 @@ static int mtk_mdp_comp_bind(struct device *dev, struct device *master, void *da
->>  		}
->>  
->>  		/*
->> -		 * presence of the "mediatek,vpu" property in a device node
->> -		 * indicates that it is the primary MDP rdma device and MDP DMA
->> -		 * ops should be handled by its DMA callbacks.
->> +		 * MDP DMA ops will be handled by the DMA callbacks associated with this
->> +		 * device;
->>  		 */
->>  		mdp->rdma_dev = dev;
->>  	}
->> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
->> index 50eafcc9993d..6a775463399c 100644
->> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
->> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
->> @@ -150,8 +150,9 @@ static void release_of(struct device *dev, void *data)
->>  
->>  static int mtk_mdp_master_bind(struct device *dev)
->>  {
->> -	int status;
->>  	struct mtk_mdp_dev *mdp = dev_get_drvdata(dev);
->> +	struct device_node *vpu_node;
->> +	int status;
->>  
->>  	status = component_bind_all(dev, mdp);
->>  	if (status) {
->> @@ -159,15 +160,30 @@ static int mtk_mdp_master_bind(struct device *dev)
->>  		goto err_component_bind_all;
->>  	}
->>  
->> -	if (mdp->vpu_dev) {
->> -		int ret = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
->> -					  VPU_RST_MDP);
->> -		if (ret) {
->> -			dev_err(dev, "Failed to register reset handler\n");
->> -			goto err_wdt_reg;
->> -		}
->> -	} else {
->> -		dev_err(dev, "no vpu_dev found\n");
->> +	if (mdp->rdma_dev == NULL) {
->> +		dev_err(dev, "Primary MDP device not found");
->> +		status = -ENODEV;
->> +		goto err_component_bind_all;
->> +	}
->> +
->> +	vpu_node = of_find_node_by_name(NULL, "vpu");
->> +	if (!vpu_node) {
->> +		dev_err(dev, "unable to find vpu node");
->> +		status = -ENODEV;
->> +		goto err_wdt_reg;
->> +	}
->> +
->> +	mdp->vpu_dev = of_find_device_by_node(vpu_node);
-> 
-> The 'vpu_node' should be put by calling 'of_node_put(vpu_node)' when it
-> is not used.
-> 
->> +	if (!mdp->vpu_dev) {
->> +		dev_err(dev, "unable to find vpu device");
->> +		status = -ENODEV;
->> +		goto err_wdt_reg;
->> +	}
->> +
->> +	status = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp, VPU_RST_MDP);
->> +	if (status) {
->> +		dev_err(dev, "Failed to register reset handler\n");
->> +		goto err_wdt_reg;
->>  	}
->>  
->>  	status = mtk_mdp_register_m2m_device(mdp);
-> 
+Rasmus
