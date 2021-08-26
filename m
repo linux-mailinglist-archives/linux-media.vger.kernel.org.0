@@ -2,159 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3073F3F8141
-	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 05:44:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFDE53F8293
+	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 08:42:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238112AbhHZDpb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Aug 2021 23:45:31 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:52709 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238100AbhHZDpb (ORCPT
+        id S239539AbhHZGnC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Aug 2021 02:43:02 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:41954 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S239112AbhHZGnB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Aug 2021 23:45:31 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id J6Jem5ONqJWNeJ6Jkm3Lbo; Thu, 26 Aug 2021 05:44:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1629949480; bh=ojvLht0CnvCmqt1xFwKFe9oXUpRttVif12tp8qV8+IU=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=VG21eiEHKpLDnD0zhAWfQjgm7wwztXPGRp01VVstHEvkpNxAlCFp9K7PtQ3BLQ+oK
-         +GHrgJykUHHk+Al4mrQoVnaTRXI/BVuPlalzuMg4Kf3F340GMk1FQxg2sDjZti7n2l
-         YLR1SZle7JEReiCIH6FWqsMr4f+bVY3ZSV7KIL6SDfsTPEqnu/dWZ+9AcULgl4fI46
-         6w7X5tuSTHb6hQ45sSWbgET8fNSLyO9QuzrNopp015JHg86xZvx0Y4mQaFs7Dj9cKe
-         uj6zCUc3o25nFBqLZ+1Pelu8u/HHDQLbsn02R9wJNOAp+Ymhkyq+uK50++DeVpSQUi
-         /7RFr19VM02PQ==
-Message-ID: <54856196db839dbc7d10f7dc9127043d@smtp-cloud8.xs4all.net>
-Date:   Thu, 26 Aug 2021 05:44:34 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfAy7V6xtkAQvDo5SzJktNr8628jSpbYfm/8d1/AhlL23jeOj2nJnpud+bUTyvzgQqcyqOuYs/JnH5iYVuh9xKceltDS4K3Ag28v+hEL6jACz/DvA1S84
- QC/Xu4Z0O6iIooJ3tu3LLr0KbajIA4HjVbLKgo8TZhmmeoZH5tLfg/LBGPzwMNy8XME37877nHIrAgJ/Rg7STDYFrKheG17G65RLfA+zSN24OH5nvMRKIx0X
- TtXhpsRcQrgPf5Zyt0PmNQ==
+        Thu, 26 Aug 2021 02:43:01 -0400
+X-UUID: 9a2fa85659084850ac874e9b1200f1ba-20210826
+X-UUID: 9a2fa85659084850ac874e9b1200f1ba-20210826
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+        (envelope-from <guangming.cao@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 529553239; Thu, 26 Aug 2021 14:42:11 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 26 Aug 2021 14:42:10 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ MTKCAS06.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 26 Aug 2021 14:42:09 +0800
+From:   <guangming.cao@mediatek.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "open list:DMA-BUF HEAPS FRAMEWORK" <linux-media@vger.kernel.org>,
+        "open list:DMA-BUF HEAPS FRAMEWORK" <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA-BUF HEAPS FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+CC:     <wsd_upstream@mediatek.com>, <isaacm@codeaurora.org>,
+        <sspatil@google.com>, <hridya@google.com>,
+        Guangming Cao <Guangming.Cao@mediatek.com>
+Subject: [PATCH] dma-buf: Add support for mapping buffers with DMA attributes
+Date:   Thu, 26 Aug 2021 14:42:33 +0800
+Message-ID: <20210826064233.69217-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210810020254.103134-1-guangming.cao@mediatek.com>
+References: <20210810020254.103134-1-guangming.cao@mediatek.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: Guangming Cao <Guangming.Cao@mediatek.com>
 
-Results of the daily build of media_tree:
+When mapping the memory represented by a dma-buf into a device's
+address space, it might be desireable to map the memory with
+certain DMA attributes. Thus, introduce the dma_mapping_attrs
+field in the dma_buf_attachment structure so that when
+the memory is mapped with dma_buf_map_attachment, it is mapped
+with the desired DMA attributes.
 
-date:			Thu Aug 26 05:00:09 CEST 2021
-media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
-media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
-v4l-utils git hash:	22466798f9a9044fa20ae3bb367d9fc29d37e054
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-349-gb21d5e09
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7532-gde99456f6
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
-host hardware:		x86_64
-host os:		5.13.11-marune
+Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
+Signed-off-by: Sandeep Patil <sspatil@google.com>
+Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+---
+ drivers/dma-buf/heaps/cma_heap.c    | 6 ++++--
+ drivers/dma-buf/heaps/system_heap.c | 6 ++++--
+ include/linux/dma-buf.h             | 3 +++
+ 3 files changed, 11 insertions(+), 4 deletions(-)
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13.1-i686: OK
-linux-5.13.1-x86_64: OK
-linux-5.14-rc1-i686: OK
-linux-5.14-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 1
-virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 0c05b79870f9..2c9feb3bfc3e 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -99,9 +99,10 @@ static struct sg_table *cma_heap_map_dma_buf(struct dma_buf_attachment *attachme
+ {
+ 	struct dma_heap_attachment *a = attachment->priv;
+ 	struct sg_table *table = &a->table;
++	int attrs = attachment->dma_map_attrs;
+ 	int ret;
+ 
+-	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
++	ret = dma_map_sgtable(attachment->dev, table, direction, attrs);
+ 	if (ret)
+ 		return ERR_PTR(-ENOMEM);
+ 	a->mapped = true;
+@@ -113,9 +114,10 @@ static void cma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
+ 				   enum dma_data_direction direction)
+ {
+ 	struct dma_heap_attachment *a = attachment->priv;
++	int attrs = attachment->dma_map_attrs;
+ 
+ 	a->mapped = false;
+-	dma_unmap_sgtable(attachment->dev, table, direction, 0);
++	dma_unmap_sgtable(attachment->dev, table, direction, attrs);
+ }
+ 
+ static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 23a7e74ef966..fc7b1e02988e 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -130,9 +130,10 @@ static struct sg_table *system_heap_map_dma_buf(struct dma_buf_attachment *attac
+ {
+ 	struct dma_heap_attachment *a = attachment->priv;
+ 	struct sg_table *table = a->table;
++	int attrs = attachment->dma_map_attrs;
+ 	int ret;
+ 
+-	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
++	ret = dma_map_sgtable(attachment->dev, table, direction, attrs);
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
+@@ -145,9 +146,10 @@ static void system_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
+ 				      enum dma_data_direction direction)
+ {
+ 	struct dma_heap_attachment *a = attachment->priv;
++	int attrs = attachment->dma_map_attrs;
+ 
+ 	a->mapped = false;
+-	dma_unmap_sgtable(attachment->dev, table, direction, 0);
++	dma_unmap_sgtable(attachment->dev, table, direction, attrs);
+ }
+ 
+ static int system_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index efdc56b9d95f..4d650731766e 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -379,6 +379,8 @@ struct dma_buf_attach_ops {
+  * @importer_ops: importer operations for this attachment, if provided
+  * dma_buf_map/unmap_attachment() must be called with the dma_resv lock held.
+  * @importer_priv: importer specific attachment data.
++ * @dma_map_attrs: DMA attributes to be used when the exporter maps the buffer
++ * through dma_buf_map_attachment.
+  *
+  * This structure holds the attachment information between the dma_buf buffer
+  * and its user device(s). The list contains one attachment struct per device
+@@ -399,6 +401,7 @@ struct dma_buf_attachment {
+ 	const struct dma_buf_attach_ops *importer_ops;
+ 	void *importer_priv;
+ 	void *priv;
++	unsigned long dma_map_attrs;
+ };
+ 
+ /**
+-- 
+2.17.1
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
