@@ -2,258 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 508DC3F83FC
-	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 10:55:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C1223F8442
+	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 11:14:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240500AbhHZI4h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Aug 2021 04:56:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38194 "EHLO
+        id S240962AbhHZJPA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Aug 2021 05:15:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229785AbhHZI4g (ORCPT
+        with ESMTP id S240937AbhHZJO7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Aug 2021 04:56:36 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AFA7C061757
-        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 01:55:49 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id v10so3839160wrd.4
-        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 01:55:49 -0700 (PDT)
+        Thu, 26 Aug 2021 05:14:59 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5F51C061757
+        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 02:14:11 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 79-20020a1c0452000000b002e6cf79e572so6377210wme.1
+        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 02:14:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=uvYP2dCmI1ZUBL+P6N9qqPEMMyNG7Xmed98Q3LoPhRc=;
-        b=jv4Bz0Zaxnsu8hjawyPrPAoUn4/jYp4IFJUqRDi9BdtuLq5Df/VFFwla0qeWUTWgen
-         AISCTl0BLkfMkjZpzCyfK6k2i22j38ulsJH7Ho90nLj7EP8tF6q7Cwmr5Dmc/vSmMPqV
-         WecCQ5NY8yfZ7sG/GerTWaZivj8Dz28n99H7I=
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ubJENgQIOzugIH6aIzu4aa5SOJeA5cH0TBu7UkdkwRo=;
+        b=eWRM7qqism/66evB0/Z4A1uCvrnvkvTzAGwtb+rUwe1sPIN2AMyEYIn4BzeKGJqUoC
+         JGhvessjn+k+1RDfzALVQ7b/43qoTxbHmhrfxabjnYDh33tDAFwtHDmh+cc99/k9KK+t
+         5e/Btgkaw0RYWxCnueUGZR0K4Rlqxa35b/K5k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
          :in-reply-to;
-        bh=uvYP2dCmI1ZUBL+P6N9qqPEMMyNG7Xmed98Q3LoPhRc=;
-        b=G+VbU65q2NreMgUd+7S5JrJGwOW612W0IHNOuz3oVfOvhBUEVt43Ht/hAxQdPICHo4
-         NIxwU1qaiVEQlBZcMKKXtMXKA1HYaPkSw8Nv7/0sOf1a7CBZxh9PTGkqRYklRmv6GD7T
-         j2LT5cyJ5MF5INDpoHzAIDkDKfIRIvZbiWRb6t7PhrDZLQMC1SUZJ55ZzSEoW7ZuMHDB
-         012eSqhR3tG6m1tw9gCR6xp3rD2WO1A7sr75jDik7ZN5bFwGbVZbHjhX15HkaLPsURka
-         66gFuzleCbVilMg2UriSNDrpdtdi2sBZtXLt8er6wWR0iCauYWeZbIvbDF1nsuddD4Y6
-         Q7qQ==
-X-Gm-Message-State: AOAM53078LvSFJEi1UmatWHIdCF882xAzvgXYIo/zcjPUYKIlTkNfj4+
-        fMXTf/S6dmPuz0dXVBzueo8GKUXwrcWnWA==
-X-Google-Smtp-Source: ABdhPJzocerqJcZsWtTMJhS3BxNMKI6t/XE2uaviKPeY5HpRKnKDaqdKUEnvXnYbV1H3JH0+Q+V4zQ==
-X-Received: by 2002:a5d:5983:: with SMTP id n3mr2548866wri.227.1629968147888;
-        Thu, 26 Aug 2021 01:55:47 -0700 (PDT)
+        bh=ubJENgQIOzugIH6aIzu4aa5SOJeA5cH0TBu7UkdkwRo=;
+        b=jdZUNXm2Kl6fk8mnK1uCFY5H7ATZx4KQl20TMNe+b9m0nL+Yua1jRcv79VZr4e30mH
+         oZOmfDqabDOeTlVTB6iDLcPGSkesXLYmHa5TXAqyO6Tspr2v5irtfqKczQmqNMEOZhCK
+         7Bi7MMxX63XOaauTk4NG9bMbAJNOIDwpP5kyoqK2M4q4ELbE6q8NeawZCQQZqVMRVjpM
+         unxS+bYpJjs+/CP4fDOwEuhfBeVbrRY4iiXIZ5yDHP3GrZY9ZgKNd3HkphO9QTIvx07f
+         DIp1jBZZmPz+i2jDFt9B+DvQVeJrlAowcxoD90P9BnqkLgrDM1uuF5fwNxhr84rimMJ4
+         o3uA==
+X-Gm-Message-State: AOAM533zpMe90VEBrIGdkGQkQS4WuYAcM3bbQZO9T9fmytXlbyUHQQnu
+        NwixP5hlcTjejv0gjmqxjOBgLQ==
+X-Google-Smtp-Source: ABdhPJykiq+3RMvVzHhR2iD4afcW8Q8OoeIr3XVAh723gjD1Rvwc9Ym8gi6QoDtjdhPbP2Ip1lCUVg==
+X-Received: by 2002:a1c:a903:: with SMTP id s3mr2538905wme.171.1629969250495;
+        Thu, 26 Aug 2021 02:14:10 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id v21sm2608329wra.92.2021.08.26.01.55.46
+        by smtp.gmail.com with ESMTPSA id z137sm7917167wmc.14.2021.08.26.02.14.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 01:55:47 -0700 (PDT)
-Date:   Thu, 26 Aug 2021 10:55:45 +0200
+        Thu, 26 Aug 2021 02:14:09 -0700 (PDT)
+Date:   Thu, 26 Aug 2021 11:14:07 +0200
 From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     hridya@google.com, john.stultz@linaro.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        gustavo@padovan.org, linux-media@vger.kernel.org,
-        adelva@google.com, sspatil@google.com, daniel@ffwll.ch
-Subject: Re: [PATCH 1/2] dma-buf: nuke DMA_FENCE_TRACE macros v2
-Message-ID: <YSdXEaBDpijEBx/6@phenom.ffwll.local>
-References: <20210818105443.1578-1-christian.koenig@amd.com>
- <015fd5ed-9255-9c28-44f3-3c8dde90ebad@gmail.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        George Sun <george.sun@mediatek.com>
+Subject: Re: [PATCH v5, 00/15] Using component framework to support multi
+ hardware decode
+Message-ID: <YSdbXzCJRsj/jsnl@phenom.ffwll.local>
+Mail-Followup-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        George Sun <george.sun@mediatek.com>
+References: <20210811025801.21597-1-yunfei.dong@mediatek.com>
+ <CAAEAJfDWOzCJxZFNtxeT7Cvr2pWbYrfz-YnA81sVNs-rM=8n4Q@mail.gmail.com>
+ <CAKMK7uFW3Z=Up=OCJO4dNR9ffaTdFjHwoND9CrUw6LHmQ4t_AQ@mail.gmail.com>
+ <CAAEAJfB3CoTU7bZe08wYEfTTm6=6UPOae9u39AtdbJ9saYknBA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <015fd5ed-9255-9c28-44f3-3c8dde90ebad@gmail.com>
+In-Reply-To: <CAAEAJfB3CoTU7bZe08wYEfTTm6=6UPOae9u39AtdbJ9saYknBA@mail.gmail.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 24, 2021 at 10:12:24AM +0200, Christian König wrote:
-> Just a gentle ping. Daniel any more comments on this?
-
-Still haven't seen a patch set to nuke the sw_sync igt tests. Otherwise
-this is just going to cause fails and reboots in our ci (we reboot on
-taints).
-
-> I'm not sure if the second patch will cause trouble with any unit test, but
-> I'm willing to try it. We can always trivial revert it.
-
-See above, remove the igts and we should be fine I think. I don't think
-there's any selftests or kselftests, but checking that should be a quick
-grep at most.
--Daniel
-
+On Sun, Aug 22, 2021 at 02:57:15PM -0300, Ezequiel Garcia wrote:
+> On Sun, 22 Aug 2021 at 13:50, Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Wed, Aug 18, 2021 at 4:12 PM Ezequiel Garcia
+> > <ezequiel@vanguardiasur.com.ar> wrote:
+> > >
+> > > +danvet
+> > >
+> > > Hi,
+> > >
+> > > On Tue, 10 Aug 2021 at 23:58, Yunfei Dong <yunfei.dong@mediatek.com> wrote:
+> > > >
+> > > > This series adds support for multi hardware decode into mtk-vcodec, by first
+> > > > adding component framework to manage each hardware information: interrupt,
+> > > > clock, register bases and power. Secondly add core thread to deal with core
+> > > > hardware message, at the same time, add msg queue for different hardware
+> > > > share messages. Lastly, the architecture of different specs are not the same,
+> > > > using specs type to separate them.
+> > > >
+> > >
+> > > I don't think it's a good idea to introduce the component API in the
+> > > media subsystem. It doesn't seem to be maintained, IRC there's not even
+> > > a maintainer for it, and it has some issues that were never addressed.
+> >
+> > Defacto dri-devel folks are maintainer component.c, but also I'm not
+> > aware of anything missing there?
+> >
 > 
-> Thanks,
-> Christian.
+> A while ago, I tried to fix a crash in the Rockchip DRM driver
+> (I was then told there can be similar issues on the IMX driver too,
+> but I forgot the details of that).
 > 
-> Am 18.08.21 um 12:54 schrieb Christian König:
-> > Only the DRM GPU scheduler, radeon and amdgpu where using them and they depend
-> > on a non existing config option to actually emit some code.
-> > 
-> > v2: keep the signal path as is for now
-> > 
-> > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 10 +---------
-> >   drivers/gpu/drm/radeon/radeon_fence.c     | 24 ++++-------------------
-> >   drivers/gpu/drm/scheduler/sched_fence.c   | 18 ++---------------
-> >   include/linux/dma-fence.h                 | 22 ---------------------
-> >   4 files changed, 7 insertions(+), 67 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > index 0b1c48590c43..c65994e382bd 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > @@ -246,7 +246,6 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
-> >   	struct amdgpu_fence_driver *drv = &ring->fence_drv;
-> >   	struct amdgpu_device *adev = ring->adev;
-> >   	uint32_t seq, last_seq;
-> > -	int r;
-> >   	do {
-> >   		last_seq = atomic_read(&ring->fence_drv.last_seq);
-> > @@ -278,12 +277,7 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
-> >   		if (!fence)
-> >   			continue;
-> > -		r = dma_fence_signal(fence);
-> > -		if (!r)
-> > -			DMA_FENCE_TRACE(fence, "signaled from irq context\n");
-> > -		else
-> > -			BUG();
-> > -
-> > +		dma_fence_signal(fence);
-> >   		dma_fence_put(fence);
-> >   		pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-> >   		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> > @@ -639,8 +633,6 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
-> >   	if (!timer_pending(&ring->fence_drv.fallback_timer))
-> >   		amdgpu_fence_schedule_fallback(ring);
-> > -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", ring->idx);
-> > -
-> >   	return true;
-> >   }
-> > diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
-> > index 18f2c2e0dfb3..3f351d222cbb 100644
-> > --- a/drivers/gpu/drm/radeon/radeon_fence.c
-> > +++ b/drivers/gpu/drm/radeon/radeon_fence.c
-> > @@ -176,18 +176,11 @@ static int radeon_fence_check_signaled(wait_queue_entry_t *wait, unsigned mode,
-> >   	 */
-> >   	seq = atomic64_read(&fence->rdev->fence_drv[fence->ring].last_seq);
-> >   	if (seq >= fence->seq) {
-> > -		int ret = dma_fence_signal_locked(&fence->base);
-> > -
-> > -		if (!ret)
-> > -			DMA_FENCE_TRACE(&fence->base, "signaled from irq context\n");
-> > -		else
-> > -			DMA_FENCE_TRACE(&fence->base, "was already signaled\n");
-> > -
-> > +		dma_fence_signal_locked(&fence->base);
-> >   		radeon_irq_kms_sw_irq_put(fence->rdev, fence->ring);
-> >   		__remove_wait_queue(&fence->rdev->fence_queue, &fence->fence_wake);
-> >   		dma_fence_put(&fence->base);
-> > -	} else
-> > -		DMA_FENCE_TRACE(&fence->base, "pending\n");
-> > +	}
-> >   	return 0;
-> >   }
-> > @@ -422,8 +415,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
-> >   	fence->fence_wake.func = radeon_fence_check_signaled;
-> >   	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
-> >   	dma_fence_get(f);
-> > -
-> > -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", fence->ring);
-> >   	return true;
-> >   }
-> > @@ -441,11 +432,7 @@ bool radeon_fence_signaled(struct radeon_fence *fence)
-> >   		return true;
-> >   	if (radeon_fence_seq_signaled(fence->rdev, fence->seq, fence->ring)) {
-> > -		int ret;
-> > -
-> > -		ret = dma_fence_signal(&fence->base);
-> > -		if (!ret)
-> > -			DMA_FENCE_TRACE(&fence->base, "signaled from radeon_fence_signaled\n");
-> > +		dma_fence_signal(&fence->base);
-> >   		return true;
-> >   	}
-> >   	return false;
-> > @@ -550,7 +537,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
-> >   {
-> >   	uint64_t seq[RADEON_NUM_RINGS] = {};
-> >   	long r;
-> > -	int r_sig;
-> >   	/*
-> >   	 * This function should not be called on !radeon fences.
-> > @@ -567,9 +553,7 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
-> >   		return r;
-> >   	}
-> > -	r_sig = dma_fence_signal(&fence->base);
-> > -	if (!r_sig)
-> > -		DMA_FENCE_TRACE(&fence->base, "signaled from fence_wait\n");
-> > +	dma_fence_signal(&fence->base);
-> >   	return r;
-> >   }
-> > diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> > index 69de2c76731f..3736746c47bd 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> > @@ -50,26 +50,12 @@ static void __exit drm_sched_fence_slab_fini(void)
-> >   void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
-> >   {
-> > -	int ret = dma_fence_signal(&fence->scheduled);
-> > -
-> > -	if (!ret)
-> > -		DMA_FENCE_TRACE(&fence->scheduled,
-> > -				"signaled from irq context\n");
-> > -	else
-> > -		DMA_FENCE_TRACE(&fence->scheduled,
-> > -				"was already signaled\n");
-> > +	dma_fence_signal(&fence->scheduled);
-> >   }
-> >   void drm_sched_fence_finished(struct drm_sched_fence *fence)
-> >   {
-> > -	int ret = dma_fence_signal(&fence->finished);
-> > -
-> > -	if (!ret)
-> > -		DMA_FENCE_TRACE(&fence->finished,
-> > -				"signaled from irq context\n");
-> > -	else
-> > -		DMA_FENCE_TRACE(&fence->finished,
-> > -				"was already signaled\n");
-> > +	dma_fence_signal(&fence->finished);
-> >   }
-> >   static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
-> > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> > index 6ffb4b2c6371..4cc119ab272f 100644
-> > --- a/include/linux/dma-fence.h
-> > +++ b/include/linux/dma-fence.h
-> > @@ -590,26 +590,4 @@ struct dma_fence *dma_fence_get_stub(void);
-> >   struct dma_fence *dma_fence_allocate_private_stub(void);
-> >   u64 dma_fence_context_alloc(unsigned num);
-> > -#define DMA_FENCE_TRACE(f, fmt, args...) \
-> > -	do {								\
-> > -		struct dma_fence *__ff = (f);				\
-> > -		if (IS_ENABLED(CONFIG_DMA_FENCE_TRACE))			\
-> > -			pr_info("f %llu#%llu: " fmt,			\
-> > -				__ff->context, __ff->seqno, ##args);	\
-> > -	} while (0)
-> > -
-> > -#define DMA_FENCE_WARN(f, fmt, args...) \
-> > -	do {								\
-> > -		struct dma_fence *__ff = (f);				\
-> > -		pr_warn("f %llu#%llu: " fmt, __ff->context, __ff->seqno,\
-> > -			 ##args);					\
-> > -	} while (0)
-> > -
-> > -#define DMA_FENCE_ERR(f, fmt, args...) \
-> > -	do {								\
-> > -		struct dma_fence *__ff = (f);				\
-> > -		pr_err("f %llu#%llu: " fmt, __ff->context, __ff->seqno,	\
-> > -			##args);					\
-> > -	} while (0)
-> > -
-> >   #endif /* __LINUX_DMA_FENCE_H */
+> I sent a patchset trying to address it and got total silence back.
+> Although you could argue the issue is in how drivers use the component
+> API, AFAICR the abuse is spreaded across a few drivers, so it felt
+> more reasonable to improve the component API itself, instead of changing
+> all the drivers.
 > 
+> See below:
+> 
+> https://patchwork.kernel.org/project/linux-rockchip/cover/20200120170602.3832-1-ezequiel@collabora.com/
 
+Patches get lost on the mailing list, and rockchip is one of the lesser
+maintained drivers. You need to ping this stuff.
+
+For bridge/panel I still think we should work towards removing component.c
+use from them.
+
+> > There has been discussions that in various drm subsystems like
+> > drm_bridge or drm_panel a few things are missing, which prevent
+> > drivers from moving _away_ from component.c to the more specific
+> > solutions for panel/bridges. But nothing that's preventing them from
+> > using component.c itself.
+> >
+> > I'm happy to merge a MAINTAINERS patch to clarify the situation if
+> > that's needed.
+> 
+> Indeed, that would be good.
+
+Ok I'm going to type something.
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
