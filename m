@@ -2,388 +2,626 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E31373F88AF
-	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 15:21:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 513B53F8987
+	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 15:58:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242493AbhHZNWa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Aug 2021 09:22:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44158 "EHLO
+        id S242760AbhHZN7B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Aug 2021 09:59:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241790AbhHZNWX (ORCPT
+        with ESMTP id S242755AbhHZN7A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Aug 2021 09:22:23 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 343ACC061757
-        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 06:21:35 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id q17so4677012edv.2
-        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 06:21:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=TxfiEIe6eIG99L/9AfDBHVmVBkfgPglsSXR5sODEUTM=;
-        b=JeZOpMBPrMFqAhCIHrdE90EhgIdrglp/6vUOYgkpJ8dcO5EvdeP+JRsxzCiretUvYB
-         9fBKkWS6luEYYVwIAfMLJk2FuYqqCtPEr4K4/mlNXtxS5xRUTlU635eDOZUytQaE5Oic
-         0+bfMhgqgVtdFiXm2ee0mhYwLBANl23Z0k2Bk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=TxfiEIe6eIG99L/9AfDBHVmVBkfgPglsSXR5sODEUTM=;
-        b=nAiLO+SNszCum7Sp35kEVaJ+5Po0Mgvmyq5/YM7h+iUfkQb9fcmUswbMZW6y8vIcSv
-         PdG6xjp4HOOlJs4RbPjnpBQZEeBUfE0sNrvHMZr8iEz3qGSVDqR+akRym4U3fkAE84Xg
-         wYiRCfGfg+UWycmDsfEMKjmf321ec97h7JWv80rd+49ZuPQVg2fwgNKrTksxng2v8ErB
-         LhJd4NhouVqF6EQfgLhQ5jsg+cgDwWgdDw5nOHGBMP8ssA5GA5vXddukdHTjKnWKrl2T
-         VbG0OvTc6pPkdya7ykYFuzsRNqtpKaq4/1NbVQ8Ja0wHJpQXLAtSxf8wJPYsAnpuNR/A
-         x2wQ==
-X-Gm-Message-State: AOAM531F8vmfscsaN+gDhBDK7SyfSxAW39c8QYFMVhpvvmlfKOcgzmfx
-        EXFpd5WkfM6inavAWJR0rCuxjQ==
-X-Google-Smtp-Source: ABdhPJxuBt63i76/FDDuggib/5nLGVpCybrV6wO6DOs0AajcC01292l/57ybcAJi0zvvjurHX4GNLQ==
-X-Received: by 2002:aa7:d40b:: with SMTP id z11mr4171030edq.224.1629984093722;
-        Thu, 26 Aug 2021 06:21:33 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id m24sm1360160ejr.41.2021.08.26.06.21.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 06:21:32 -0700 (PDT)
-Date:   Thu, 26 Aug 2021 15:21:30 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
-        rodrigo.vivi@intel.com, chris@chris-wilson.co.uk,
-        ville.syrjala@linux.intel.com, matthew.auld@intel.com,
-        dan.carpenter@oracle.com, tvrtko.ursulin@intel.com,
-        matthew.d.roper@intel.com, lucas.demarchi@intel.com,
-        karthik.b.s@intel.com, jose.souza@intel.com,
-        manasi.d.navare@intel.com, airlied@redhat.com,
-        aditya.swarup@intel.com, andrescj@chromium.org,
-        linux-graphics-maintainer@vmware.com, zackr@vmware.com,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
-        gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v8 7/7] drm: remove drm_file.master_lookup_lock
-Message-ID: <YSeVWivR6p9spRQn@phenom.ffwll.local>
-Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, jani.nikula@linux.intel.com,
-        joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
-        chris@chris-wilson.co.uk, ville.syrjala@linux.intel.com,
-        matthew.auld@intel.com, dan.carpenter@oracle.com,
-        tvrtko.ursulin@intel.com, matthew.d.roper@intel.com,
-        lucas.demarchi@intel.com, karthik.b.s@intel.com,
-        jose.souza@intel.com, manasi.d.navare@intel.com, airlied@redhat.com,
-        aditya.swarup@intel.com, andrescj@chromium.org,
-        linux-graphics-maintainer@vmware.com, zackr@vmware.com,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
-        gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20210826020122.1488002-1-desmondcheongzx@gmail.com>
- <20210826020122.1488002-8-desmondcheongzx@gmail.com>
+        Thu, 26 Aug 2021 09:59:00 -0400
+X-Greylist: delayed 36809 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 26 Aug 2021 06:58:12 PDT
+Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::1b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F328CC061757
+        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 06:58:12 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id JFtRm7q9vJWNeJFtSm4WFq; Thu, 26 Aug 2021 15:58:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1629986290; bh=X8pT8NrVewT+Nwav5MvaypotwK3nmEA0/yEWWuaMYNc=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=L6Wyvf751e4Aa4hm7Kqw8pwTnH5jzX3SX+ozbPBJ5yjDF2yp4H4VXYeZiQld1O+Yd
+         MZOjLLHbm9qxCDGTuMK2ZmmmiTRYO5RA6FfEkCeDUm9OcoT15b4jxvNvxDibkPCeo4
+         PJHyZ89U4EzqiFBWw5lbyLERcjyBjpWxuNGikl0SyIMNAsAv/36SgFeMn20OVO8uHx
+         Z/X2cCnl5d4cugvFKRbQcG5dv+ucbr8UD7hfr3MRxVoTAsNEbqM2B1M6cemIUPPnxi
+         SByYHa1MOCrzy/wqrmOpA22Q8RvgEGT0+C0iiw3MNEmTB/1E9r8CPDN/z5tx0z229U
+         CweMmPdRgKsRg==
+Subject: Re: [PATCH v3] media: vivid: add signal-free time for cec message
+ xfer
+To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     jaffe1@gmail.com
+References: <20210826034411.281998-1-deborahbrouwer3563@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <f07c8ed9-75bd-ac07-6c45-26c28648f41b@xs4all.nl>
+Date:   Thu, 26 Aug 2021 15:58:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210826020122.1488002-8-desmondcheongzx@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <20210826034411.281998-1-deborahbrouwer3563@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfNxlB0Wgqcv6e+vtHKmdLNPUrZvPWIC5ium65DuaM+WAz695+e4feQ/pbkfu3cBfcW1A9vTB5/V9QOrh7klaJpbXJoEmIzpRDwsrfNcDivJqsYUKFCF5
+ rrFgE/8TEdRsMmPkxphv4pAF+T21omqTzWhLup9zM9ILN+ciOPQrFWYjQo2cpKXURooHsGANB1rtWQnlfgOhH1khDTcUmoy0ycE7d2rqm1Wvlm2A6njyDJvs
+ ubFvo+qNvd03GVsIwcgdMwodn2ZqRZSPiq/0UO8fVYPNVi5kk12NE8GjUxn+Bg3NlfOBj6dZzwMf5RfeqS4u8IfInOK+yBemmPep2ZmqeyjjRerxC7qDD4AU
+ KsQaFN9x
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 26, 2021 at 10:01:22AM +0800, Desmond Cheong Zhi Xi wrote:
-> Previously, master_lookup_lock was introduced in
-> commit 0b0860a3cf5e ("drm: serialize drm_file.master with a new
-> spinlock") to serialize accesses to drm_file.master. This then allowed
-> us to write drm_file_get_master in commit 56f0729a510f ("drm: protect
-> drm_master pointers in drm_lease.c").
+Hi Deb,
+
+This patch looks good, and I'll add it to a pull request for v5.16 next week.
+
+I've been testing it overnight with the CEC regression tests and I had no more
+errors, so this is now much more accurate than the old implementation.
+
+Thank you very much for working on this as part of the Outreachy project, it's
+been great working on this with you, and I hope you'll continue working (for fun)
+on some of the other open vivid volunteer tasks.
+
+Thank you!
+
+	Hans
+
+On 26/08/2021 05:44, Deborah Brouwer wrote:
+> Currently, the vivid emulation of cec message transmission does not force
+> adapters to wait until the cec bus has been signal-free for a certain
+> number of bit periods before transmitting or re-transmitting a message.
+> Without enforcing the signal-free time requirements, adapters do not share
+> the bus very well and some messages are sent too quickly while other
+> messages are lost. By emulating a signal-free time and forcing adapters
+> to wait their turn to transmit, the vivid emulation of cec transmission
+> is much more reliable.
 > 
-> The rationale behind introducing a new spinlock at the time was that
-> the other lock that could have been used (drm_device.master_mutex) was
-> the outermost lock, so embedding calls to drm_file_get_master and
-> drm_is_current_master in various functions easily caused us to invert
-> the lock hierarchy.
-> 
-> Following the conversion of master_mutex into a rwsem, and its use to
-> plug races with modesetting rights, we've untangled some lock
-> hierarchies and removed the need for using drm_file_get_master and the
-> unlocked version of drm_is_current_master in multiple places.
-> 
-> Hence, we can take this opportunity to clean up the locking design by
-> replacing master_lookup_lock with drm_device.master_rwsem.
-> 
-> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
 > ---
->  drivers/gpu/drm/drm_auth.c     | 19 +++++++------------
->  drivers/gpu/drm/drm_file.c     |  1 -
->  drivers/gpu/drm/drm_internal.h |  1 +
->  drivers/gpu/drm/drm_ioctl.c    |  4 ++--
->  drivers/gpu/drm/drm_lease.c    | 18 ++++++++----------
->  include/drm/drm_file.h         |  9 +--------
->  6 files changed, 19 insertions(+), 33 deletions(-)
+> Changes since v2:
+> - initialize first_idx and first_status and move inside bus loop
+> - properly return error code
 > 
-> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-> index f2b2f197052a..232416119407 100644
-> --- a/drivers/gpu/drm/drm_auth.c
-> +++ b/drivers/gpu/drm/drm_auth.c
-> @@ -61,10 +61,9 @@
->   * trusted clients.
+> Changes since v1:
+> - use actual message length instead of max when copying
+> - check for kthread_stop() within bus
+> - store the last_initiator in the vivid state
+> - update the last_initiator as soon as it is known and adjust sfts
+> - use last_initiator to assign sft when transmit is called
+> - use function for division
+> 
+>  drivers/media/test-drivers/vivid/vivid-cec.c  | 341 ++++++++++--------
+>  drivers/media/test-drivers/vivid/vivid-cec.h  |   9 +-
+>  drivers/media/test-drivers/vivid/vivid-core.c |  38 +-
+>  drivers/media/test-drivers/vivid/vivid-core.h |  23 +-
+>  4 files changed, 219 insertions(+), 192 deletions(-)
+> 
+> diff --git a/drivers/media/test-drivers/vivid/vivid-cec.c b/drivers/media/test-drivers/vivid/vivid-cec.c
+> index 4d2413e87730..d6d7dbcb8437 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-cec.c
+> +++ b/drivers/media/test-drivers/vivid/vivid-cec.c
+> @@ -5,40 +5,23 @@
+>   * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
 >   */
 >  
-> -static bool drm_is_current_master_locked(struct drm_file *fpriv)
-> +bool drm_is_current_master_locked(struct drm_file *fpriv)
->  {
-> -	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
-> -			    lockdep_is_held(&fpriv->minor->dev->master_rwsem));
-> +	lockdep_assert_held_once(&fpriv->minor->dev->master_rwsem);
+> +#include <linux/delay.h>
+>  #include <media/cec.h>
 >  
->  	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
->  }
-> @@ -83,9 +82,9 @@ bool drm_is_current_master(struct drm_file *fpriv)
->  {
->  	bool ret;
+>  #include "vivid-core.h"
+>  #include "vivid-cec.h"
 >  
-> -	spin_lock(&fpriv->master_lookup_lock);
-> +	down_read(&fpriv->minor->dev->master_rwsem);
-
-Looking at the 3 patches and the need to have a locked version of pretty
-much everything I'm wondering: Can't we just drop the spinlock completely,
-and everywhere we've taking it thus far replace it with a
-lockdep_assert_held_once?
-
-The thing is, if there's any path left that doesn't hold the rwsem in at
-least read mode we have a bug. And the right way to fix such a bug is to
-grab the rwsem sufficiently high up in the callchain. That way I think we
-should be able to avoid all these tedious changes to everything, including
-touching i915 and vmwgfx drivers.
-
-Or am I missing something big time?
--Daniel
-
->  	ret = drm_is_current_master_locked(fpriv);
-> -	spin_unlock(&fpriv->master_lookup_lock);
-> +	up_read(&fpriv->minor->dev->master_rwsem);
+> -#define CEC_TIM_START_BIT_TOTAL		4500
+> -#define CEC_TIM_START_BIT_LOW		3700
+> -#define CEC_TIM_START_BIT_HIGH		800
+> -#define CEC_TIM_DATA_BIT_TOTAL		2400
+> -#define CEC_TIM_DATA_BIT_0_LOW		1500
+> -#define CEC_TIM_DATA_BIT_0_HIGH		900
+> -#define CEC_TIM_DATA_BIT_1_LOW		600
+> -#define CEC_TIM_DATA_BIT_1_HIGH		1800
+> +#define CEC_START_BIT_US		4500
+> +#define CEC_DATA_BIT_US			2400
+> +#define CEC_MARGIN_US			350
 >  
->  	return ret;
->  }
-> @@ -120,7 +119,7 @@ int drm_authmagic(struct drm_device *dev, void *data,
->  	DRM_DEBUG("%u\n", auth->magic);
->  
->  	down_write(&dev->master_rwsem);
-> -	if (unlikely(!drm_is_current_master(file_priv))) {
-> +	if (unlikely(!drm_is_current_master_locked(file_priv))) {
->  		up_write(&dev->master_rwsem);
->  		return -EACCES;
->  	}
-> @@ -178,9 +177,7 @@ static int drm_new_set_master(struct drm_device *dev, struct drm_file *fpriv)
->  	new_master = drm_master_create(dev);
->  	if (!new_master)
->  		return -ENOMEM;
-> -	spin_lock(&fpriv->master_lookup_lock);
->  	fpriv->master = new_master;
-> -	spin_unlock(&fpriv->master_lookup_lock);
->  
->  	fpriv->is_master = 1;
->  	fpriv->authenticated = 1;
-> @@ -343,9 +340,7 @@ int drm_master_open(struct drm_file *file_priv)
->  	if (!dev->master) {
->  		ret = drm_new_set_master(dev, file_priv);
->  	} else {
-> -		spin_lock(&file_priv->master_lookup_lock);
->  		file_priv->master = drm_master_get(dev->master);
-> -		spin_unlock(&file_priv->master_lookup_lock);
->  	}
->  	up_write(&dev->master_rwsem);
->  
-> @@ -413,13 +408,13 @@ struct drm_master *drm_file_get_master(struct drm_file *file_priv)
->  	if (!file_priv)
->  		return NULL;
->  
-> -	spin_lock(&file_priv->master_lookup_lock);
-> +	down_read(&file_priv->minor->dev->master_rwsem);
->  	if (!file_priv->master)
->  		goto unlock;
->  	master = drm_master_get(file_priv->master);
->  
->  unlock:
-> -	spin_unlock(&file_priv->master_lookup_lock);
-> +	up_read(&file_priv->minor->dev->master_rwsem);
->  	return master;
->  }
->  EXPORT_SYMBOL(drm_file_get_master);
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index 90b62f360da1..8c846e0179d7 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -176,7 +176,6 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
->  	init_waitqueue_head(&file->event_wait);
->  	file->event_space = 4096; /* set aside 4k for event buffer */
->  
-> -	spin_lock_init(&file->master_lookup_lock);
->  	mutex_init(&file->event_read_lock);
->  
->  	if (drm_core_check_feature(dev, DRIVER_GEM))
-> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-> index 17f3548c8ed2..5d421f749a17 100644
-> --- a/drivers/gpu/drm/drm_internal.h
-> +++ b/drivers/gpu/drm/drm_internal.h
-> @@ -132,6 +132,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
->  				  struct drm_file *filp);
->  
->  /* drm_auth.c */
-> +bool drm_is_current_master_locked(struct drm_file *fpriv);
->  int drm_getmagic(struct drm_device *dev, void *data,
->  		 struct drm_file *file_priv);
->  int drm_authmagic(struct drm_device *dev, void *data,
-> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index 8bea39ffc5c0..c728437466c3 100644
-> --- a/drivers/gpu/drm/drm_ioctl.c
-> +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -386,7 +386,7 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
->  	int if_version, retcode = 0;
->  
->  	down_write(&dev->master_rwsem);
-> -	if (unlikely(!drm_is_current_master(file_priv))) {
-> +	if (unlikely(!drm_is_current_master_locked(file_priv))) {
->  		retcode = -EACCES;
->  		goto unlock;
->  	}
-> @@ -540,7 +540,7 @@ static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
->  
->  	/* MASTER is only for master or control clients */
->  	if (unlikely((flags & DRM_MASTER) &&
-> -		     !drm_is_current_master(file_priv)))
-> +		     !drm_is_current_master_locked(file_priv)))
->  		return -EACCES;
->  
->  	/* Render clients must be explicitly allowed */
-> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-> index 15bf3a3c76d1..0eecf320b1ab 100644
-> --- a/drivers/gpu/drm/drm_lease.c
-> +++ b/drivers/gpu/drm/drm_lease.c
-> @@ -498,12 +498,12 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  		return PTR_ERR(lessee_file);
->  
->  	down_read(&dev->master_rwsem);
-> -	if (unlikely(!drm_is_current_master(lessor_priv))) {
-> +	if (unlikely(!drm_is_current_master_locked(lessor_priv))) {
->  		ret = -EACCES;
->  		goto out_file;
->  	}
->  
-> -	lessor = drm_file_get_master(lessor_priv);
-> +	lessor = lessor_priv->master;
->  	/* Do not allow sub-leases */
->  	if (lessor->lessor) {
->  		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
-> @@ -565,7 +565,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  	/* Hook up the fd */
->  	fd_install(fd, lessee_file);
->  
-> -	drm_master_put(&lessor);
->  	up_read(&dev->master_rwsem);
->  	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
->  	return 0;
-> @@ -600,7 +599,8 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> -	lessor = drm_file_get_master(lessor_priv);
-> +	lockdep_assert_held_once(&dev->master_rwsem);
-> +	lessor = lessor_priv->master;
->  	DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
->  
->  	mutex_lock(&dev->mode_config.idr_mutex);
-> @@ -624,7 +624,6 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
->  		arg->count_lessees = count;
->  
->  	mutex_unlock(&dev->mode_config.idr_mutex);
-> -	drm_master_put(&lessor);
->  
->  	return ret;
->  }
-> @@ -650,7 +649,8 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> -	lessee = drm_file_get_master(lessee_priv);
-> +	lockdep_assert_held_once(&dev->master_rwsem);
-> +	lessee = lessee_priv->master;
->  	DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
->  
->  	mutex_lock(&dev->mode_config.idr_mutex);
-> @@ -678,7 +678,6 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
->  		arg->count_objects = count;
->  
->  	mutex_unlock(&dev->mode_config.idr_mutex);
-> -	drm_master_put(&lessee);
->  
->  	return ret;
->  }
-> @@ -703,11 +702,11 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
->  		return -EOPNOTSUPP;
->  
->  	down_write(&dev->master_rwsem);
-> -	if (unlikely(!drm_is_current_master(lessor_priv))) {
-> +	if (unlikely(!drm_is_current_master_locked(lessor_priv))) {
->  		ret = -EACCES;
->  		goto unlock;
->  	}
-> -	lessor = drm_file_get_master(lessor_priv);
-> +	lessor = lessor_priv->master;
->  	mutex_lock(&dev->mode_config.idr_mutex);
->  
->  	lessee = _drm_find_lessee(lessor, arg->lessee_id);
-> @@ -728,7 +727,6 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
->  
->  fail:
->  	mutex_unlock(&dev->mode_config.idr_mutex);
-> -	drm_master_put(&lessor);
->  
->  unlock:
->  	up_write(&dev->master_rwsem);
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index d12bb2ba7814..e2d49fe3e32d 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -227,16 +227,12 @@ struct drm_file {
->  	 * @master:
->  	 *
->  	 * Master this node is currently associated with. Protected by struct
-> -	 * &drm_device.master_rwsem, and serialized by @master_lookup_lock.
-> +	 * &drm_device.master_rwsem.
->  	 *
->  	 * Only relevant if drm_is_primary_client() returns true. Note that
->  	 * this only matches &drm_device.master if the master is the currently
->  	 * active one.
->  	 *
-> -	 * To update @master, both &drm_device.master_rwsem and
-> -	 * @master_lookup_lock need to be held, therefore holding either of
-> -	 * them is safe and enough for the read side.
-> -	 *
->  	 * When dereferencing this pointer, either hold struct
->  	 * &drm_device.master_rwsem for the duration of the pointer's use, or
->  	 * use drm_file_get_master() if struct &drm_device.master_rwsem is not
-> @@ -248,9 +244,6 @@ struct drm_file {
->  	 */
->  	struct drm_master *master;
->  
-> -	/** @master_lock: Serializes @master. */
-> -	spinlock_t master_lookup_lock;
+> -void vivid_cec_bus_free_work(struct vivid_dev *dev)
+> -{
+> -	spin_lock(&dev->cec_slock);
+> -	while (!list_empty(&dev->cec_work_list)) {
+> -		struct vivid_cec_work *cw =
+> -			list_first_entry(&dev->cec_work_list,
+> -					 struct vivid_cec_work, list);
 > -
->  	/** @pid: Process that opened this file. */
->  	struct pid *pid;
+> -		spin_unlock(&dev->cec_slock);
+> -		cancel_delayed_work_sync(&cw->work);
+> -		spin_lock(&dev->cec_slock);
+> -		list_del(&cw->list);
+> -		cec_transmit_attempt_done(cw->adap, CEC_TX_STATUS_LOW_DRIVE);
+> -		kfree(cw);
+> -	}
+> -	spin_unlock(&dev->cec_slock);
+> -}
+> +struct xfer_on_bus {
+> +	struct cec_adapter	*adap;
+> +	u8			status;
+> +};
 >  
-> -- 
-> 2.25.1
+> -static bool vivid_cec_find_dest_adap(struct vivid_dev *dev,
+> -				     struct cec_adapter *adap, u8 dest)
+> +static bool find_dest_adap(struct vivid_dev *dev,
+> +			   struct cec_adapter *adap, u8 dest)
+>  {
+>  	unsigned int i;
+>  
+> @@ -61,116 +44,187 @@ static bool vivid_cec_find_dest_adap(struct vivid_dev *dev,
+>  	return false;
+>  }
+>  
+> -static void vivid_cec_pin_adap_events(struct cec_adapter *adap, ktime_t ts,
+> -				      const struct cec_msg *msg, bool nacked)
+> +static bool xfer_ready(struct vivid_dev *dev)
+>  {
+> -	unsigned int len = nacked ? 1 : msg->len;
+>  	unsigned int i;
+> -	bool bit;
+> -
+> -	if (adap == NULL)
+> -		return;
+> +	bool ready = false;
+>  
+> -	/*
+> -	 * Suffix ULL on constant 10 makes the expression
+> -	 * CEC_TIM_START_BIT_TOTAL + 10ULL * len * CEC_TIM_DATA_BIT_TOTAL
+> -	 * to be evaluated using 64-bit unsigned arithmetic (u64), which
+> -	 * is what ktime_sub_us expects as second argument.
+> -	 */
+> -	ts = ktime_sub_us(ts, CEC_TIM_START_BIT_TOTAL +
+> -			       10ULL * len * CEC_TIM_DATA_BIT_TOTAL);
+> -	cec_queue_pin_cec_event(adap, false, false, ts);
+> -	ts = ktime_add_us(ts, CEC_TIM_START_BIT_LOW);
+> -	cec_queue_pin_cec_event(adap, true, false, ts);
+> -	ts = ktime_add_us(ts, CEC_TIM_START_BIT_HIGH);
+> -
+> -	for (i = 0; i < 10 * len; i++) {
+> -		switch (i % 10) {
+> -		case 0 ... 7:
+> -			bit = msg->msg[i / 10] & (0x80 >> (i % 10));
+> -			break;
+> -		case 8: /* EOM */
+> -			bit = i / 10 == msg->len - 1;
+> -			break;
+> -		case 9: /* ACK */
+> -			bit = cec_msg_is_broadcast(msg) ^ nacked;
+> +	spin_lock(&dev->cec_xfers_slock);
+> +	for (i = 0; i < ARRAY_SIZE(dev->xfers); i++) {
+> +		if (dev->xfers[i].sft &&
+> +		    dev->xfers[i].sft <= dev->cec_sft) {
+> +			ready = true;
+>  			break;
+>  		}
+> -		cec_queue_pin_cec_event(adap, false, false, ts);
+> -		if (bit)
+> -			ts = ktime_add_us(ts, CEC_TIM_DATA_BIT_1_LOW);
+> -		else
+> -			ts = ktime_add_us(ts, CEC_TIM_DATA_BIT_0_LOW);
+> -		cec_queue_pin_cec_event(adap, true, false, ts);
+> -		if (bit)
+> -			ts = ktime_add_us(ts, CEC_TIM_DATA_BIT_1_HIGH);
+> -		else
+> -			ts = ktime_add_us(ts, CEC_TIM_DATA_BIT_0_HIGH);
+>  	}
+> -}
+> +	spin_unlock(&dev->cec_xfers_slock);
+>  
+> -static void vivid_cec_pin_events(struct vivid_dev *dev,
+> -				 const struct cec_msg *msg, bool nacked)
+> -{
+> -	ktime_t ts = ktime_get();
+> -	unsigned int i;
+> -
+> -	vivid_cec_pin_adap_events(dev->cec_rx_adap, ts, msg, nacked);
+> -	for (i = 0; i < MAX_OUTPUTS; i++)
+> -		vivid_cec_pin_adap_events(dev->cec_tx_adap[i], ts, msg, nacked);
+> +	return ready;
+>  }
+>  
+> -static void vivid_cec_xfer_done_worker(struct work_struct *work)
+> +/*
+> + * If an adapter tries to send successive messages, it must wait for the
+> + * longest signal-free time between its transmissions. But, if another
+> + * adapter sends a message in the interim, then the wait can be reduced
+> + * because the messages are no longer successive. Make these adjustments
+> + * if necessary. Should be called holding cec_xfers_slock.
+> + */
+> +static void adjust_sfts(struct vivid_dev *dev)
+>  {
+> -	struct vivid_cec_work *cw =
+> -		container_of(work, struct vivid_cec_work, work.work);
+> -	struct vivid_dev *dev = cw->dev;
+> -	struct cec_adapter *adap = cw->adap;
+> -	u8 dest = cec_msg_destination(&cw->msg);
+> -	bool valid_dest;
+>  	unsigned int i;
+> +	u8 initiator;
+>  
+> -	valid_dest = cec_msg_is_broadcast(&cw->msg);
+> -	if (!valid_dest)
+> -		valid_dest = vivid_cec_find_dest_adap(dev, adap, dest);
+> -
+> -	cw->tx_status = valid_dest ? CEC_TX_STATUS_OK : CEC_TX_STATUS_NACK;
+> -	spin_lock(&dev->cec_slock);
+> -	dev->cec_xfer_time_jiffies = 0;
+> -	dev->cec_xfer_start_jiffies = 0;
+> -	list_del(&cw->list);
+> -	spin_unlock(&dev->cec_slock);
+> -	vivid_cec_pin_events(dev, &cw->msg, !valid_dest);
+> -	cec_transmit_attempt_done(cw->adap, cw->tx_status);
+> -
+> -	/* Broadcast message */
+> -	if (adap != dev->cec_rx_adap)
+> -		cec_received_msg(dev->cec_rx_adap, &cw->msg);
+> -	for (i = 0; i < MAX_OUTPUTS && dev->cec_tx_adap[i]; i++)
+> -		if (adap != dev->cec_tx_adap[i])
+> -			cec_received_msg(dev->cec_tx_adap[i], &cw->msg);
+> -	kfree(cw);
+> +	for (i = 0; i < ARRAY_SIZE(dev->xfers); i++) {
+> +		if (dev->xfers[i].sft <= CEC_SIGNAL_FREE_TIME_RETRY)
+> +			continue;
+> +		initiator = dev->xfers[i].msg[0] >> 4;
+> +		if (initiator == dev->last_initiator)
+> +			dev->xfers[i].sft = CEC_SIGNAL_FREE_TIME_NEXT_XFER;
+> +		else
+> +			dev->xfers[i].sft = CEC_SIGNAL_FREE_TIME_NEW_INITIATOR;
+> +	}
+>  }
+>  
+> -static void vivid_cec_xfer_try_worker(struct work_struct *work)
+> +/*
+> + * The main emulation of the bus on which CEC adapters attempt to send
+> + * messages to each other. The bus keeps track of how long it has been
+> + * signal-free and accepts a pending transmission only if the state of
+> + * the bus matches the transmission's signal-free requirements. It calls
+> + * cec_transmit_attempt_done() for all transmits that enter the bus and
+> + * cec_received_msg() for successful transmits.
+> + */
+> +int vivid_cec_bus_thread(void *_dev)
+>  {
+> -	struct vivid_cec_work *cw =
+> -		container_of(work, struct vivid_cec_work, work.work);
+> -	struct vivid_dev *dev = cw->dev;
+> -
+> -	spin_lock(&dev->cec_slock);
+> -	if (dev->cec_xfer_time_jiffies) {
+> -		list_del(&cw->list);
+> -		spin_unlock(&dev->cec_slock);
+> -		cec_transmit_attempt_done(cw->adap, CEC_TX_STATUS_ARB_LOST);
+> -		kfree(cw);
+> -	} else {
+> -		INIT_DELAYED_WORK(&cw->work, vivid_cec_xfer_done_worker);
+> -		dev->cec_xfer_start_jiffies = jiffies;
+> -		dev->cec_xfer_time_jiffies = usecs_to_jiffies(cw->usecs);
+> -		spin_unlock(&dev->cec_slock);
+> -		schedule_delayed_work(&cw->work, dev->cec_xfer_time_jiffies);
+> +	u32 last_sft;
+> +	unsigned int i;
+> +	unsigned int dest;
+> +	ktime_t start, end;
+> +	s64 delta_us, retry_us;
+> +	struct vivid_dev *dev = _dev;
+> +
+> +	dev->cec_sft = CEC_SIGNAL_FREE_TIME_NEXT_XFER;
+> +	for (;;) {
+> +		bool first = true;
+> +		int wait_xfer_us = 0;
+> +		bool valid_dest = false;
+> +		int wait_arb_lost_us = 0;
+> +		unsigned int first_idx = 0;
+> +		unsigned int first_status = 0;
+> +		struct cec_msg first_msg = {};
+> +		struct xfer_on_bus xfers_on_bus[MAX_OUTPUTS] = {};
+> +
+> +		wait_event_interruptible(dev->kthread_waitq_cec, xfer_ready(dev) ||
+> +					 kthread_should_stop());
+> +		if (kthread_should_stop())
+> +			break;
+> +		last_sft = dev->cec_sft;
+> +		dev->cec_sft = 0;
+> +		/*
+> +		 * Move the messages that are ready onto the bus. The adapter with
+> +		 * the most leading zeros will win control of the bus and any other
+> +		 * adapters will lose arbitration.
+> +		 */
+> +		spin_lock(&dev->cec_xfers_slock);
+> +		for (i = 0; i < ARRAY_SIZE(dev->xfers); i++) {
+> +			if (!dev->xfers[i].sft || dev->xfers[i].sft > last_sft)
+> +				continue;
+> +			if (first) {
+> +				first = false;
+> +				first_idx = i;
+> +				xfers_on_bus[first_idx].adap = dev->xfers[i].adap;
+> +				memcpy(first_msg.msg, dev->xfers[i].msg, dev->xfers[i].len);
+> +				first_msg.len = dev->xfers[i].len;
+> +			} else {
+> +				xfers_on_bus[i].adap = dev->xfers[i].adap;
+> +				xfers_on_bus[i].status = CEC_TX_STATUS_ARB_LOST;
+> +				/*
+> +				 * For simplicity wait for all 4 bits of the initiator's
+> +				 * address even though HDMI specification uses bit-level
+> +				 * precision.
+> +				 */
+> +				wait_arb_lost_us = 4 * CEC_DATA_BIT_US + CEC_START_BIT_US;
+> +			}
+> +			dev->xfers[i].sft = 0;
+> +		}
+> +		dev->last_initiator = cec_msg_initiator(&first_msg);
+> +		adjust_sfts(dev);
+> +		spin_unlock(&dev->cec_xfers_slock);
+> +
+> +		dest = cec_msg_destination(&first_msg);
+> +		valid_dest = cec_msg_is_broadcast(&first_msg);
+> +		if (!valid_dest)
+> +			valid_dest = find_dest_adap(dev, xfers_on_bus[first_idx].adap, dest);
+> +		if (valid_dest) {
+> +			first_status = CEC_TX_STATUS_OK;
+> +			/*
+> +			 * Message length is in bytes, but each byte is transmitted in
+> +			 * a block of 10 bits.
+> +			 */
+> +			wait_xfer_us = first_msg.len * 10 * CEC_DATA_BIT_US;
+> +		} else {
+> +			first_status = CEC_TX_STATUS_NACK;
+> +			/*
+> +			 * A message that is not acknowledged stops transmitting after
+> +			 * the header block of 10 bits.
+> +			 */
+> +			wait_xfer_us = 10 * CEC_DATA_BIT_US;
+> +		}
+> +		wait_xfer_us += CEC_START_BIT_US;
+> +		xfers_on_bus[first_idx].status = first_status;
+> +
+> +		/* Sleep as if sending messages on a real hardware bus. */
+> +		start = ktime_get();
+> +		if (wait_arb_lost_us) {
+> +			usleep_range(wait_arb_lost_us - CEC_MARGIN_US, wait_arb_lost_us);
+> +			for (i = 0; i < ARRAY_SIZE(xfers_on_bus); i++) {
+> +				if (xfers_on_bus[i].status != CEC_TX_STATUS_ARB_LOST)
+> +					continue;
+> +				cec_transmit_attempt_done(xfers_on_bus[i].adap,
+> +							  CEC_TX_STATUS_ARB_LOST);
+> +			}
+> +			if (kthread_should_stop())
+> +				break;
+> +		}
+> +		wait_xfer_us -= wait_arb_lost_us;
+> +		usleep_range(wait_xfer_us - CEC_MARGIN_US, wait_xfer_us);
+> +		cec_transmit_attempt_done(xfers_on_bus[first_idx].adap, first_status);
+> +		if (kthread_should_stop())
+> +			break;
+> +		if (first_status == CEC_TX_STATUS_OK) {
+> +			if (xfers_on_bus[first_idx].adap != dev->cec_rx_adap)
+> +				cec_received_msg(dev->cec_rx_adap, &first_msg);
+> +			for (i = 0; i < MAX_OUTPUTS && dev->cec_tx_adap[i]; i++)
+> +				if (xfers_on_bus[first_idx].adap != dev->cec_tx_adap[i])
+> +					cec_received_msg(dev->cec_tx_adap[i], &first_msg);
+> +		}
+> +		end = ktime_get();
+> +		/*
+> +		 * If the emulated transfer took more or less time than it should
+> +		 * have, then compensate by adjusting the wait time needed for the
+> +		 * bus to be signal-free for 3 bit periods (the retry time).
+> +		 */
+> +		delta_us = div_s64(end - start, 1000);
+> +		delta_us -= wait_xfer_us + wait_arb_lost_us;
+> +		retry_us = CEC_SIGNAL_FREE_TIME_RETRY * CEC_DATA_BIT_US - delta_us;
+> +		if (retry_us > CEC_MARGIN_US)
+> +			usleep_range(retry_us - CEC_MARGIN_US, retry_us);
+> +		dev->cec_sft = CEC_SIGNAL_FREE_TIME_RETRY;
+> +		/*
+> +		 * If there are no messages that need to be retried, check if any
+> +		 * adapters that did not just transmit a message are ready to
+> +		 * transmit. If none of these adapters are ready, then increase
+> +		 * the signal-free time so that the bus is available to all
+> +		 * adapters and go back to waiting for a transmission.
+> +		 */
+> +		while (dev->cec_sft >= CEC_SIGNAL_FREE_TIME_RETRY &&
+> +		       dev->cec_sft < CEC_SIGNAL_FREE_TIME_NEXT_XFER &&
+> +		       !xfer_ready(dev) && !kthread_should_stop()) {
+> +			usleep_range(2 * CEC_DATA_BIT_US - CEC_MARGIN_US,
+> +				     2 * CEC_DATA_BIT_US);
+> +			dev->cec_sft += 2;
+> +		}
+>  	}
+> +	return 0;
+>  }
+>  
+>  static int vivid_cec_adap_enable(struct cec_adapter *adap, bool enable)
+> @@ -184,41 +238,26 @@ static int vivid_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
+>  	return 0;
+>  }
+>  
+> -/*
+> - * One data bit takes 2400 us, each byte needs 10 bits so that's 24000 us
+> - * per byte.
+> - */
+> -#define USECS_PER_BYTE 24000
+> -
+>  static int vivid_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+>  				   u32 signal_free_time, struct cec_msg *msg)
+>  {
+>  	struct vivid_dev *dev = cec_get_drvdata(adap);
+> -	struct vivid_cec_work *cw = kzalloc(sizeof(*cw), GFP_KERNEL);
+> -	long delta_jiffies = 0;
+> -
+> -	if (cw == NULL)
+> -		return -ENOMEM;
+> -	cw->dev = dev;
+> -	cw->adap = adap;
+> -	cw->usecs = CEC_FREE_TIME_TO_USEC(signal_free_time) +
+> -		    msg->len * USECS_PER_BYTE;
+> -	cw->msg = *msg;
+> -
+> -	spin_lock(&dev->cec_slock);
+> -	list_add(&cw->list, &dev->cec_work_list);
+> -	if (dev->cec_xfer_time_jiffies == 0) {
+> -		INIT_DELAYED_WORK(&cw->work, vivid_cec_xfer_done_worker);
+> -		dev->cec_xfer_start_jiffies = jiffies;
+> -		dev->cec_xfer_time_jiffies = usecs_to_jiffies(cw->usecs);
+> -		delta_jiffies = dev->cec_xfer_time_jiffies;
+> -	} else {
+> -		INIT_DELAYED_WORK(&cw->work, vivid_cec_xfer_try_worker);
+> -		delta_jiffies = dev->cec_xfer_start_jiffies +
+> -			dev->cec_xfer_time_jiffies - jiffies;
+> +	u8 idx = cec_msg_initiator(msg);
+> +
+> +	spin_lock(&dev->cec_xfers_slock);
+> +	dev->xfers[idx].adap = adap;
+> +	memcpy(dev->xfers[idx].msg, msg->msg, CEC_MAX_MSG_SIZE);
+> +	dev->xfers[idx].len = msg->len;
+> +	dev->xfers[idx].sft = CEC_SIGNAL_FREE_TIME_RETRY;
+> +	if (signal_free_time > CEC_SIGNAL_FREE_TIME_RETRY) {
+> +		if (idx == dev->last_initiator)
+> +			dev->xfers[idx].sft = CEC_SIGNAL_FREE_TIME_NEXT_XFER;
+> +		else
+> +			dev->xfers[idx].sft = CEC_SIGNAL_FREE_TIME_NEW_INITIATOR;
+>  	}
+> -	spin_unlock(&dev->cec_slock);
+> -	schedule_delayed_work(&cw->work, delta_jiffies < 0 ? 0 : delta_jiffies);
+> +	spin_unlock(&dev->cec_xfers_slock);
+> +	wake_up_interruptible(&dev->kthread_waitq_cec);
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/media/test-drivers/vivid/vivid-cec.h b/drivers/media/test-drivers/vivid/vivid-cec.h
+> index 7524ed48a914..b2bcddb50b83 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-cec.h
+> +++ b/drivers/media/test-drivers/vivid/vivid-cec.h
+> @@ -9,12 +9,5 @@
+>  struct cec_adapter *vivid_cec_alloc_adap(struct vivid_dev *dev,
+>  					 unsigned int idx,
+>  					 bool is_source);
+> -void vivid_cec_bus_free_work(struct vivid_dev *dev);
+> -
+> -#else
+> -
+> -static inline void vivid_cec_bus_free_work(struct vivid_dev *dev)
+> -{
+> -}
+> -
+> +int vivid_cec_bus_thread(void *_dev);
+>  #endif
+> diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+> index d2bd2653cf54..53feecba962d 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-core.c
+> +++ b/drivers/media/test-drivers/vivid/vivid-core.c
+> @@ -1878,18 +1878,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  	INIT_LIST_HEAD(&dev->meta_out_active);
+>  	INIT_LIST_HEAD(&dev->touch_cap_active);
+>  
+> -	INIT_LIST_HEAD(&dev->cec_work_list);
+> -	spin_lock_init(&dev->cec_slock);
+> -	/*
+> -	 * Same as create_singlethread_workqueue, but now I can use the
+> -	 * string formatting of alloc_ordered_workqueue.
+> -	 */
+> -	dev->cec_workqueue = alloc_ordered_workqueue("vivid-%03d-cec",
+> -						     WQ_MEM_RECLAIM, inst);
+> -	if (!dev->cec_workqueue) {
+> -		ret = -ENOMEM;
+> -		goto unreg_dev;
+> -	}
+> +	spin_lock_init(&dev->cec_xfers_slock);
+>  
+>  	if (allocators[inst] == 1)
+>  		dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+> @@ -1929,6 +1918,19 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  			cec_tx_bus_cnt++;
+>  		}
+>  	}
+> +
+> +	if (dev->cec_rx_adap || cec_tx_bus_cnt) {
+> +		init_waitqueue_head(&dev->kthread_waitq_cec);
+> +		dev->kthread_cec = kthread_run(vivid_cec_bus_thread, dev,
+> +					       "vivid_cec-%s", dev->v4l2_dev.name);
+> +		if (IS_ERR(dev->kthread_cec)) {
+> +			dev->kthread_cec = NULL;
+> +			v4l2_err(&dev->v4l2_dev, "kernel_thread() failed\n");
+> +			ret = PTR_ERR(dev->kthread_cec);
+> +			goto unreg_dev;
+> +		}
+> +	}
+> +
+>  #endif
+>  
+>  	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vid_cap);
+> @@ -1968,10 +1970,8 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  	cec_unregister_adapter(dev->cec_rx_adap);
+>  	for (i = 0; i < MAX_OUTPUTS; i++)
+>  		cec_unregister_adapter(dev->cec_tx_adap[i]);
+> -	if (dev->cec_workqueue) {
+> -		vivid_cec_bus_free_work(dev);
+> -		destroy_workqueue(dev->cec_workqueue);
+> -	}
+> +	if (dev->kthread_cec)
+> +		kthread_stop(dev->kthread_cec);
+>  free_dev:
+>  	v4l2_device_put(&dev->v4l2_dev);
+>  	return ret;
+> @@ -2093,10 +2093,8 @@ static int vivid_remove(struct platform_device *pdev)
+>  		cec_unregister_adapter(dev->cec_rx_adap);
+>  		for (j = 0; j < MAX_OUTPUTS; j++)
+>  			cec_unregister_adapter(dev->cec_tx_adap[j]);
+> -		if (dev->cec_workqueue) {
+> -			vivid_cec_bus_free_work(dev);
+> -			destroy_workqueue(dev->cec_workqueue);
+> -		}
+> +		if (dev->kthread_cec)
+> +			kthread_stop(dev->kthread_cec);
+>  		v4l2_device_put(&dev->v4l2_dev);
+>  		vivid_devs[i] = NULL;
+>  	}
+> diff --git a/drivers/media/test-drivers/vivid/vivid-core.h b/drivers/media/test-drivers/vivid/vivid-core.h
+> index 1e3c4f5a9413..45f96706edde 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-core.h
+> +++ b/drivers/media/test-drivers/vivid/vivid-core.h
+> @@ -110,15 +110,11 @@ enum vivid_colorspace {
+>  #define VIVID_INVALID_SIGNAL(mode) \
+>  	((mode) == NO_SIGNAL || (mode) == NO_LOCK || (mode) == OUT_OF_RANGE)
+>  
+> -struct vivid_cec_work {
+> -	struct list_head	list;
+> -	struct delayed_work	work;
+> +struct vivid_cec_xfer {
+>  	struct cec_adapter	*adap;
+> -	struct vivid_dev	*dev;
+> -	unsigned int		usecs;
+> -	unsigned int		timeout_ms;
+> -	u8			tx_status;
+> -	struct cec_msg		msg;
+> +	u8			msg[CEC_MAX_MSG_SIZE];
+> +	u32			len;
+> +	u32			sft;
+>  };
+>  
+>  struct vivid_dev {
+> @@ -560,12 +556,13 @@ struct vivid_dev {
+>  	/* CEC */
+>  	struct cec_adapter		*cec_rx_adap;
+>  	struct cec_adapter		*cec_tx_adap[MAX_OUTPUTS];
+> -	struct workqueue_struct		*cec_workqueue;
+> -	spinlock_t			cec_slock;
+> -	struct list_head		cec_work_list;
+> -	unsigned int			cec_xfer_time_jiffies;
+> -	unsigned long			cec_xfer_start_jiffies;
+>  	u8				cec_output2bus_map[MAX_OUTPUTS];
+> +	struct task_struct		*kthread_cec;
+> +	wait_queue_head_t		kthread_waitq_cec;
+> +	struct vivid_cec_xfer	xfers[MAX_OUTPUTS];
+> +	spinlock_t			cec_xfers_slock; /* read and write cec messages */
+> +	u32				cec_sft; /* bus signal free time, in bit periods */
+> +	u8				last_initiator;
+>  
+>  	/* CEC OSD String */
+>  	char				osd[14];
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
