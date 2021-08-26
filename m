@@ -2,176 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C1223F8442
-	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 11:14:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAEBF3F849C
+	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 11:33:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240962AbhHZJPA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Aug 2021 05:15:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42470 "EHLO
+        id S241082AbhHZJe3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Aug 2021 05:34:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240937AbhHZJO7 (ORCPT
+        with ESMTP id S240827AbhHZJe2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Aug 2021 05:14:59 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5F51C061757
-        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 02:14:11 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id 79-20020a1c0452000000b002e6cf79e572so6377210wme.1
-        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 02:14:11 -0700 (PDT)
+        Thu, 26 Aug 2021 05:34:28 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88343C0613C1
+        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 02:33:41 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id d22-20020a1c1d16000000b002e7777970f0so6389345wmd.3
+        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 02:33:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ubJENgQIOzugIH6aIzu4aa5SOJeA5cH0TBu7UkdkwRo=;
-        b=eWRM7qqism/66evB0/Z4A1uCvrnvkvTzAGwtb+rUwe1sPIN2AMyEYIn4BzeKGJqUoC
-         JGhvessjn+k+1RDfzALVQ7b/43qoTxbHmhrfxabjnYDh33tDAFwtHDmh+cc99/k9KK+t
-         5e/Btgkaw0RYWxCnueUGZR0K4Rlqxa35b/K5k=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=JJwF0PYPmqolDQLzp/yyP0Yq0kNRDALRe2iRCTul0qQ=;
+        b=SH0mRD4lFXjf5zfnArdRmdr/H92IkTiRG83+lu46nthRk6g7hsBLFtgm+PlV987nZb
+         8qS0NSbfSQEVvJHrd9UuRQQZyRYMk9Om3DXftZgrjCWaMM58LLL7moZvaOPhHV2P6OQY
+         zlQ0dHofnwILHwlhcoYEc4vFcvIjxdR6txsQc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=ubJENgQIOzugIH6aIzu4aa5SOJeA5cH0TBu7UkdkwRo=;
-        b=jdZUNXm2Kl6fk8mnK1uCFY5H7ATZx4KQl20TMNe+b9m0nL+Yua1jRcv79VZr4e30mH
-         oZOmfDqabDOeTlVTB6iDLcPGSkesXLYmHa5TXAqyO6Tspr2v5irtfqKczQmqNMEOZhCK
-         7Bi7MMxX63XOaauTk4NG9bMbAJNOIDwpP5kyoqK2M4q4ELbE6q8NeawZCQQZqVMRVjpM
-         unxS+bYpJjs+/CP4fDOwEuhfBeVbrRY4iiXIZ5yDHP3GrZY9ZgKNd3HkphO9QTIvx07f
-         DIp1jBZZmPz+i2jDFt9B+DvQVeJrlAowcxoD90P9BnqkLgrDM1uuF5fwNxhr84rimMJ4
-         o3uA==
-X-Gm-Message-State: AOAM533zpMe90VEBrIGdkGQkQS4WuYAcM3bbQZO9T9fmytXlbyUHQQnu
-        NwixP5hlcTjejv0gjmqxjOBgLQ==
-X-Google-Smtp-Source: ABdhPJykiq+3RMvVzHhR2iD4afcW8Q8OoeIr3XVAh723gjD1Rvwc9Ym8gi6QoDtjdhPbP2Ip1lCUVg==
-X-Received: by 2002:a1c:a903:: with SMTP id s3mr2538905wme.171.1629969250495;
-        Thu, 26 Aug 2021 02:14:10 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=JJwF0PYPmqolDQLzp/yyP0Yq0kNRDALRe2iRCTul0qQ=;
+        b=Q+Yzh2z7nFRI5r8Q2oTU6XsjkxiC4y+55qHYWJL1f/G8HhT+VkI88aqOrKR25Oe1IX
+         NgXFHAbGcBAepbiC7aNSAlnZwoXaxinoepAfMV6OWddXnnXhkVevSb324vUppF3Y8NSk
+         GH1GIf3XKcIPfZyruvpF5wH+6qmSgR8Fr/568QCH/U/NMXxNDjZbwMzj39pvv/fn4TZt
+         vP2mL5X907beVanrj97Fzspj2HPHOkjL+g+jz1jjXRYAUcCsEIqFxKoI0ij0XGsQNUgC
+         yr4O/JwpIKxVa3Z+g4pVhx8yvRNW94zKRzpa4Y/szvgQ6fmGmrSCYmEaOXGiqaI5p4Pf
+         tCGg==
+X-Gm-Message-State: AOAM531/Y2Glfq/4DTdFadXwXGPmu8fl6O/BnvAYG13fQAsK8M76D20z
+        hBlBqgbmH0VMtk3X+bDSmYhTjw==
+X-Google-Smtp-Source: ABdhPJzc23DuJoTC8nNJ25VQNbiKhhUYQ5XEsHa4ESe0XB/c1un0JqfR7O83A2HYXCq/etCBggdOqg==
+X-Received: by 2002:a05:600c:1d27:: with SMTP id l39mr2677127wms.146.1629970420205;
+        Thu, 26 Aug 2021 02:33:40 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id z137sm7917167wmc.14.2021.08.26.02.14.09
+        by smtp.gmail.com with ESMTPSA id z6sm2088220wmp.1.2021.08.26.02.33.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 02:14:09 -0700 (PDT)
-Date:   Thu, 26 Aug 2021 11:14:07 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        George Sun <george.sun@mediatek.com>
-Subject: Re: [PATCH v5, 00/15] Using component framework to support multi
- hardware decode
-Message-ID: <YSdbXzCJRsj/jsnl@phenom.ffwll.local>
-Mail-Followup-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        George Sun <george.sun@mediatek.com>
-References: <20210811025801.21597-1-yunfei.dong@mediatek.com>
- <CAAEAJfDWOzCJxZFNtxeT7Cvr2pWbYrfz-YnA81sVNs-rM=8n4Q@mail.gmail.com>
- <CAKMK7uFW3Z=Up=OCJO4dNR9ffaTdFjHwoND9CrUw6LHmQ4t_AQ@mail.gmail.com>
- <CAAEAJfB3CoTU7bZe08wYEfTTm6=6UPOae9u39AtdbJ9saYknBA@mail.gmail.com>
+        Thu, 26 Aug 2021 02:33:39 -0700 (PDT)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Rob Clark <robdclark@chromium.org>,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: [PATCH] drm/msm: Improve drm/sched point of no return rules
+Date:   Thu, 26 Aug 2021 11:33:34 +0200
+Message-Id: <20210826093334.1117944-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210817085308.3557257-1-daniel.vetter@ffwll.ch>
+References: <20210817085308.3557257-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAEAJfB3CoTU7bZe08wYEfTTm6=6UPOae9u39AtdbJ9saYknBA@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Aug 22, 2021 at 02:57:15PM -0300, Ezequiel Garcia wrote:
-> On Sun, 22 Aug 2021 at 13:50, Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Wed, Aug 18, 2021 at 4:12 PM Ezequiel Garcia
-> > <ezequiel@vanguardiasur.com.ar> wrote:
-> > >
-> > > +danvet
-> > >
-> > > Hi,
-> > >
-> > > On Tue, 10 Aug 2021 at 23:58, Yunfei Dong <yunfei.dong@mediatek.com> wrote:
-> > > >
-> > > > This series adds support for multi hardware decode into mtk-vcodec, by first
-> > > > adding component framework to manage each hardware information: interrupt,
-> > > > clock, register bases and power. Secondly add core thread to deal with core
-> > > > hardware message, at the same time, add msg queue for different hardware
-> > > > share messages. Lastly, the architecture of different specs are not the same,
-> > > > using specs type to separate them.
-> > > >
-> > >
-> > > I don't think it's a good idea to introduce the component API in the
-> > > media subsystem. It doesn't seem to be maintained, IRC there's not even
-> > > a maintainer for it, and it has some issues that were never addressed.
-> >
-> > Defacto dri-devel folks are maintainer component.c, but also I'm not
-> > aware of anything missing there?
-> >
-> 
-> A while ago, I tried to fix a crash in the Rockchip DRM driver
-> (I was then told there can be similar issues on the IMX driver too,
-> but I forgot the details of that).
-> 
-> I sent a patchset trying to address it and got total silence back.
-> Although you could argue the issue is in how drivers use the component
-> API, AFAICR the abuse is spreaded across a few drivers, so it felt
-> more reasonable to improve the component API itself, instead of changing
-> all the drivers.
-> 
-> See below:
-> 
-> https://patchwork.kernel.org/project/linux-rockchip/cover/20200120170602.3832-1-ezequiel@collabora.com/
+Originally drm_sched_job_init was the point of no return, after which
+drivers really should submit a job. I've split that up, which allows
+us to fix this issue pretty easily.
 
-Patches get lost on the mailing list, and rockchip is one of the lesser
-maintained drivers. You need to ping this stuff.
+Only thing we have to take care of is to not skip to error paths after
+that. Other drivers do this the same for out-fence and similar things.
 
-For bridge/panel I still think we should work towards removing component.c
-use from them.
+v2: It's not really a bugfix, just an improvement, since all
+drm_sched_job_arm does is reserve the fence number. And gaps should be
+fine, as long as the drm_sched_job doesn't escape anywhere at all.
 
-> > There has been discussions that in various drm subsystems like
-> > drm_bridge or drm_panel a few things are missing, which prevent
-> > drivers from moving _away_ from component.c to the more specific
-> > solutions for panel/bridges. But nothing that's preventing them from
-> > using component.c itself.
-> >
-> > I'm happy to merge a MAINTAINERS patch to clarify the situation if
-> > that's needed.
-> 
-> Indeed, that would be good.
+For robustness it's still better to align with other drivers here and
+not bail out after job_arm().
 
-Ok I'm going to type something.
+v3: I misplaced drm_sched_job_arm by _one_ line! Thanks to Rob for
+testing and debug help.
+
+Cc: Rob Clark <robdclark@chromium.org>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ drivers/gpu/drm/msm/msm_gem_submit.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 4d1c4d5f6a2a..71b8c8f752a3 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -52,8 +52,6 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
+ 		return ERR_PTR(ret);
+ 	}
+ 
+-	drm_sched_job_arm(&job->base);
+-
+ 	xa_init_flags(&submit->deps, XA_FLAGS_ALLOC);
+ 
+ 	kref_init(&submit->ref);
+@@ -880,6 +878,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 
+ 	submit->nr_cmds = i;
+ 
++	drm_sched_job_arm(&submit->base);
++
+ 	submit->user_fence = dma_fence_get(&submit->base.s_fence->finished);
+ 
+ 	/*
+@@ -891,17 +891,16 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	if (submit->fence_id < 0) {
+ 		ret = submit->fence_id = 0;
+ 		submit->fence_id = 0;
+-		goto out;
+ 	}
+ 
+-	if (args->flags & MSM_SUBMIT_FENCE_FD_OUT) {
++	if (ret == 0 && args->flags & MSM_SUBMIT_FENCE_FD_OUT) {
+ 		struct sync_file *sync_file = sync_file_create(submit->user_fence);
+ 		if (!sync_file) {
+ 			ret = -ENOMEM;
+-			goto out;
++		} else {
++			fd_install(out_fence_fd, sync_file->file);
++			args->fence_fd = out_fence_fd;
+ 		}
+-		fd_install(out_fence_fd, sync_file->file);
+-		args->fence_fd = out_fence_fd;
+ 	}
+ 
+ 	submit_attach_object_fences(submit);
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.32.0
+
