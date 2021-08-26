@@ -2,74 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCA7C3F8DF2
-	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 20:39:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C2083F909E
+	for <lists+linux-media@lfdr.de>; Fri, 27 Aug 2021 01:00:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243303AbhHZSjb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Aug 2021 14:39:31 -0400
-Received: from phobos.denx.de ([85.214.62.61]:47824 "EHLO phobos.denx.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243298AbhHZSja (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Aug 2021 14:39:30 -0400
-Received: from localhost.localdomain (unknown [IPv6:2804:14c:485:504a:f5aa:2721:8538:a2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: festevam@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 62070831C2;
-        Thu, 26 Aug 2021 20:38:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1630003122;
-        bh=3RMqqhwjI/w1J7UJT3+gYaUdlRjH0BAWwkkc9Ww0GME=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WoJPQhFUPgPZjRbjseqGQjMj/bSSmGDtotkqn0ZT5ad5cdoRRfw02xKg5CINMsYox
-         ZGomc1qZ1bwHzKobsHTuAqb5uoOXhAnKgkGBSHCS4jo2+8+nve+iYSSqmXK6zUZLgG
-         0cOUNBEH4vFVlQ4Wf7aeZpovdzPDX791maW7ed/mj/PbN998ApcuoT4/dr1/u/A5N6
-         ujdmXgqO55QmsaZnE7R65HSMhuUP4B8K6mFBhAkrCejRIEBk+R9NKkEsULhf2OXxfk
-         eUdLAzVnBv9msBXWhS/aHe0JgmHDf9a/9C//PqnBJ4SB5cgLb+AmYhc3hWuDfULUtE
-         dAN0ndZwM5plw==
-From:   Fabio Estevam <festevam@denx.de>
-To:     hverkuil-cisco@xs4all.nl
-Cc:     mchehab+huawei@kernel.org, rmfrfs@gmail.com,
-        laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
-        sebastien.szymanski@armadeus.com, Fabio Estevam <festevam@denx.de>
-Subject: [PATCH 2/2] media: imx: TODO: Remove items that are already supported
-Date:   Thu, 26 Aug 2021 15:38:19 -0300
-Message-Id: <20210826183819.105804-2-festevam@denx.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210826183819.105804-1-festevam@denx.de>
-References: <20210826183819.105804-1-festevam@denx.de>
+        id S243770AbhHZWTf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Aug 2021 18:19:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55112 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243700AbhHZWTf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 26 Aug 2021 18:19:35 -0400
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 749F0C061757
+        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 15:18:47 -0700 (PDT)
+Received: by mail-qv1-xf2c.google.com with SMTP id u18so18532qvq.3
+        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 15:18:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=YW0dJB0GxlKkJJ2iXNPtVdzfPiVyY6xuXvK8l2+/UE8=;
+        b=IyFatxEiQGYyh1ZAHfM8j+P8uZvjk+7XvS7oCn3u05byVMXFtV/SbFkXg2JgYBpKnt
+         9n26soVoVheTypJYn07KViKvqFP0+j8+SSxmt2uyqgoOUhhAhIQIoLannDOymjr7B5uF
+         SPcVurrhuykW+agWWijJzWy5hrRwN0V4LEJz5q3v7vsx4rYTWxJiJa8uAuCA46ZLo1fa
+         vE6DWYu0IU237g5WR9Qq0iVKtk1VIeF5qWilJYHelSIRS59cGj8ilbxrPmiltBlzJCtH
+         lSH8/UicnEPQBib7gsVa04gpjJjLV/7SKnKQWNDPYACLxxxP8ju80uHHqtcxyGmm6egT
+         smTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=YW0dJB0GxlKkJJ2iXNPtVdzfPiVyY6xuXvK8l2+/UE8=;
+        b=VfR7PqbAteVjJf+17ApdhCJU5HXm2nmweNkakI98R6REZ/vuMwoEiZaicuOTFDGZYm
+         uzIHLqgW202fX1W9dpHDrUjkB7+0zgGLaeBLbKxQsztyNZexyGcW6tCAxu2x6Dxt81NY
+         ETeeMoWdhEiXcsJhpZKBnR5F9pSGP9HB3pP0LSEhC+bAATL9re/PdHP4B5eUFLHSJh8x
+         TT1+Qy3f1io1imhTGdmPS46I7TtlHcbEFJk6JIYPyhz97wmVpw13bDhy+e7p6WElmNix
+         DT5OPNL/0AnZNySrjtnHN9WY5G7FsK0gpLYfBmHeeKiZueoTo1f0hNkyDRTpfEneqyGQ
+         LFFA==
+X-Gm-Message-State: AOAM533oo4nnyF5xgT6r3t+G4/VG/5cq4jcdHBlHH4lJ7jd6sEHkcrSe
+        H0FPonqKDlQgnNMHYCI48CaLNfd2ig0nmKhAhW4=
+X-Google-Smtp-Source: ABdhPJzYw2Wvcj95Dr6iIgon7KTZZYoLojYoxaRDbf/kXiKSwir4WIky70gSyC0/qif9pylLJXyynHETBjL5/HkMAoo=
+X-Received: by 2002:a05:6214:312:: with SMTP id i18mr6675171qvu.48.1630016326650;
+ Thu, 26 Aug 2021 15:18:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Received: by 2002:a0c:d64d:0:0:0:0:0 with HTTP; Thu, 26 Aug 2021 15:18:45
+ -0700 (PDT)
+Reply-To: changyingfeng5@gmail.com
+From:   Changying Feng <pmary5381@gmail.com>
+Date:   Fri, 27 Aug 2021 06:18:45 +0800
+Message-ID: <CALdzOYpE6sMTv6+3gCaLdh44anu+SMP9Qykieser9NXcGiREGA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Video capture has been successfully tested using an OV5640 parallel
-sensor on a imx6ull-evk board at a 640x480 resolution and UYVY8_2X8
-format.
-
-Remove the two items that are no longer pending.
-
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- drivers/staging/media/imx/TODO | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
-index 2384f4c6b09d..06c94f20ecf8 100644
---- a/drivers/staging/media/imx/TODO
-+++ b/drivers/staging/media/imx/TODO
-@@ -27,8 +27,3 @@
- - i.MX7: all of the above, since it uses the imx media core
- 
- - i.MX7: use Frame Interval Monitor
--
--- i.MX7: runtime testing with parallel sensor, links setup and streaming
--
--- i.MX7: runtime testing with different formats, for the time only 10-bit bayer
--  is tested
 -- 
-2.25.1
+Hello,
 
+Compliments of the day. My Name is  Chanyging Fengs , I am a senior Staff with a
+public Bank here in Wing Hang Bank, Hong Kong, , I am contacting you
+regarding a confidential business Proposal that will be of great
+mutual benefit to both of us ,If you are interested Kindly Contact me
+on my private email address for more details: changyingfeng5@gmail.com .
+I look forward to hearing from you soon.
+
+Regards,
+
+Miss Chanyging Fengs
