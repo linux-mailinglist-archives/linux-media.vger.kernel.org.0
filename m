@@ -2,211 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4DFF3F8B8D
-	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 18:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C3C03F8B88
+	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 18:08:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243026AbhHZQJy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Aug 2021 12:09:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54948 "EHLO
+        id S242968AbhHZQIv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Aug 2021 12:08:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231732AbhHZQJy (ORCPT
+        with ESMTP id S231732AbhHZQIv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Aug 2021 12:09:54 -0400
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A091C061757
-        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 09:09:06 -0700 (PDT)
-Received: by mail-io1-xd2f.google.com with SMTP id n24so4394065ion.10
-        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 09:09:06 -0700 (PDT)
+        Thu, 26 Aug 2021 12:08:51 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96990C0613CF;
+        Thu, 26 Aug 2021 09:08:03 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id n5so5848504wro.12;
+        Thu, 26 Aug 2021 09:08:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=obE600IesKQmDmwyD821NNK+F6//3iLV39WLIJL6Ks8=;
-        b=K5JLzsqcj6/HourX2pXPIWYBju/il2qywAfLw92UpfYVrk2cT2aoWtLLl7cXumooxt
-         KC4zn1QYAGG7OEC5OnLDCTry/ST1QAP1Fw/POBwjf9dAVUeNjh3qk+kerRUFmN4BeW6v
-         xshViRVMIDUypF/pK/R1ERDZ1njR8lao+IiQ197Id3oao0Ta++NSHhpxQMUkYregCseJ
-         JpRVzKXcPrNfddcYnZAV/GVxI9eOa/JB8LJRj4OBERweGI6SGIo3odF6W5A8xPja3G8I
-         ccRaWcAThLLTm0nx9JM7ch5Qz8CTsLLOVgu+i+RJ7ThrhzqK+JEegIMd5YTcRMGW+92z
-         X7eg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=4P77TwOPdHVoIP43EVGu36WwTX3449lDutu56CYSjjI=;
+        b=IIMsONKwMj2Q0i/dKhcqnhE1+axnJPRhRgJSsjaFOo8Fi301W7IyIU/vvC0kIZ8bgu
+         Je8GdZqD8Q+N5ptSmRVGI3epIzsZDcDnm/k++bXrc9tMepWA8tbXMxHqk3RQHTK/HDQM
+         avf10fHLSNVM9n97yiDhZ8mQdjq02j6mqSNwWVdIBjaMFbU2sJSgr4fzt+qpGFIq8dpl
+         SFShP3yZA9ShUK1nVbF6Ea+PmQApjEJW3IG30Nk5QCLV2eL6THX4rLDjXuzBoV/rs6Uk
+         ZNRM13LILVQwTEdkszgBpPzHc+HSb57pJNc7f25Xv0tkpu5YML8YaKsR8f2Um7NOAGrO
+         0Oxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=obE600IesKQmDmwyD821NNK+F6//3iLV39WLIJL6Ks8=;
-        b=Kqhnx390D9NKv+iDzRlzipZIPhAfpUIi24AEvsPvtsjmEYCrkXr9jgw5Ni+iA5sYG7
-         nvJpfIS+NN1bMMxC/JhdNYTr0lUlS1qOr4ULLISjFVrMCLJfD8CWR6YdS/LOGHRCsT+4
-         gvx6upTfX+NMfpVjek4YYahbwM13QwFo7ALutOuuiAUvwSufy9OFwVf0r2qMHIU/iZCw
-         VOiS/YtyanbqAqdWWmaws8GRSFqayZmeH4CxaJTc1FxEMZWab0AkUGc3NvSTD1h3rXfV
-         YKJU6SM8VjbmLwBfYsPzkDMccshTGZLz/TEcigF0U5g6zDG9CQEHPzFNCyu8gfHW+YtW
-         m4mQ==
-X-Gm-Message-State: AOAM5338pK6SdlA37P/cb4ow8v9ReiZFsH9fhwNnGI2w7uSaevczCny6
-        OIeZbYSkPTSsYXWwxHKiEPtzgsVWhM+aQw==
-X-Google-Smtp-Source: ABdhPJz+5ImupLkQ5rD06tciHcP63UZK1AdzLCI3qXvZ1K5BCgBaMRiJMBP8cSRJNeOzW6eZ2Ktt9A==
-X-Received: by 2002:a02:a81a:: with SMTP id f26mr4059049jaj.79.1629994145935;
-        Thu, 26 Aug 2021 09:09:05 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id b16sm1944829ila.1.2021.08.26.09.09.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 09:09:05 -0700 (PDT)
-Message-ID: <9d6336fff6f122a9a4510a111387a000c65f797b.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: hevc: fix pictures lists type
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     John Cox <jc@kynesim.co.uk>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-Date:   Thu, 26 Aug 2021 12:09:03 -0400
-In-Reply-To: <i917ig582epdnpkmjdtvtnap6u8c032c1r@4ax.com>
-References: <20210823082949.237716-1-benjamin.gaignard@collabora.com>
-         <02r6ig176o0lqc52nm8rhta7cn5bfn04in@4ax.com>
-         <e1df8e77-b4d1-481c-0f4b-4a20f42d5c9e@collabora.com>
-         <i917ig582epdnpkmjdtvtnap6u8c032c1r@4ax.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=4P77TwOPdHVoIP43EVGu36WwTX3449lDutu56CYSjjI=;
+        b=ZuBd6aD3R0aa1n8c/JwMLEuH4PS1Mh7rwoiGpTyZTjPQazbKQtCNinFcO/rVSrn3vY
+         KD3m5N2uz6IswKOMRXAi340l5AJK31TOyAqjJbC7yk1dOPNXdDbc2WJkQSJ8ZDFV4N+S
+         slTm9sEiXLYyohi4roxYZyVBuGK4cyOf9yTa2+YhOpkD7SNHEfUqtap55Wa4HgnXjEeS
+         oQVsbnix9Stpq2wFB2FyTV/WWLvl82gqV9QC0t8ZCT/JduIY9KuoylvqIP9cFxJ4iSry
+         Ov/uHIfHcm6pe72Q71Mhuq9UmZ0adiNil0eFyJvm3rOsdVweHEdWM7pULEhf77tg0nIb
+         W8gA==
+X-Gm-Message-State: AOAM533UaH79UN6r3jtdsT9Ih359wGLSmuGJ00xodSR6opBSJt9kNSJL
+        /v+Xb/UxueM3FXdCCQli/JpC5/TrwNy83smkBG8=
+X-Google-Smtp-Source: ABdhPJwLEP2d6R9vXs1Mn5jrbDqd3fYAXN3EKb1gwE4cg5t3k5Lj8O18agn2DnUySbO35LQra3OhJpgNFQKmONRXbZA=
+X-Received: by 2002:adf:f90e:: with SMTP id b14mr5170152wrr.28.1629994082123;
+ Thu, 26 Aug 2021 09:08:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210805104705.862416-1-daniel.vetter@ffwll.ch> <20210805104705.862416-13-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210805104705.862416-13-daniel.vetter@ffwll.ch>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Thu, 26 Aug 2021 09:12:21 -0700
+Message-ID: <CAF6AEGs2yxBe2oW_wPkodL80jkFNPhrrAtmuc60=pzV_dp=igg@mail.gmail.com>
+Subject: Re: [PATCH v5 12/20] drm/msm: Use scheduler dependency handling
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sean Paul <sean@poorly.run>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        freedreno <freedreno@lists.freedesktop.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 23 août 2021 à 12:35 +0100, John Cox a écrit :
-> Hi
-> 
-> > Le 23/08/2021 à 11:50, John Cox a écrit :
-> > > > The lists embedded Picture Order Count values which are s32 so their type
-> > > > most be s32 and not u8.
-> > > I'm not convinced that you can't calculate all of those lists from the
-> > > info already contained in the DPB array so this is probably redundant
-> > > info though I grant that having the list pre-calced might make your life
-> > > easier, and the userland side will have calculated the lists to
-> > > calculate other required things so it isn't much extra work for it.
-> > 
-> > Yes the userland have already compute these lists and the number of items
-> > in each of them.
-> > Build them in the kernel would means to also compute the values of NumPocStCurrBefore,
-> > NumPocStCurrAfter, NumPocLtCurr, NumPocStCurrAfter, NumPocStCurrBefore and NumPocLtCurr
-> > and that requires information (NumNegativePics, NumPositivePics...) not provided to the kernel.
-> > Since it have to be done in userland anyway, I'm reluctant to modify the API to redo in the kernel.
-> 
-> Well, fair enough, I'm not going to argue
-> 
-> > > Even if you do need the lists wouldn't it be a better idea to have them
-> > > as indices into the DPB (you can't have a frame in any of those lists
-> > > that isn't in the DPB) which already contains POCs then it will still
-> > > fit into u8 and be smaller?
-> > 
-> > Hantro HW works with indexes but I think it is more simple to send PoC rather than indexes.
-> 
-> I'd disagree but as I don't use the info I'm not concerned. Though I
-> think I should point out that when Hantro converts the POCs to indicies
-> it compares the now s32 POC in these lists with the u16 POC in the DPB
-> so you might need to fix that too; by std (8.3.1) no POC diff can be
-> outside s16 so you can mask & compare or use u16 POCs in the lists or
-> s32 in the DPB.
+On Thu, Aug 5, 2021 at 3:47 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote=
+:
+>
+> drm_sched_job_init is already at the right place, so this boils down
+> to deleting code.
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: freedreno@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
 
-Fun fact, my interpretation with the API when I drafted GStreamer support was
-that it was DPB indexes:
+r-b
 
-https://gitlab.freedesktop.org/ndufresne/gst-plugins-bad/-/blob/hevc_wip/sys/v4l2codecs/gstv4l2codech265dec.c#L850
-
-It felt quite natural to be, since this is also how we pass references for l0/l1
-(unused by hantro I guess).
-
-Looking at old rkvdec code as a refresher:
-
-  for (j = 0; j < run->num_slices; j++) {
-                sl_params = &run->slices_params[j];
-                dpb = sl_params->dpb;
-
-                hw_ps = &priv_tbl->rps[j];
-                memset(hw_ps, 0, sizeof(*hw_ps));
-
-                for (i = 0; i <= sl_params->num_ref_idx_l0_active_minus1; i++) {
-                        WRITE_RPS(!!(dpb[sl_params->ref_idx_l0[i]].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR),
-                                  REF_PIC_LONG_TERM_L0(i));
-                        WRITE_RPS(sl_params->ref_idx_l0[i], REF_PIC_IDX_L0(i));
-                }
-
-                for (i = 0; i <= sl_params->num_ref_idx_l1_active_minus1; i++) {
-                        WRITE_RPS(!!(dpb[sl_params->ref_idx_l1[i]].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR),
-                                  REF_PIC_LONG_TERM_L1(i));
-                        WRITE_RPS(sl_params->ref_idx_l1[i], REF_PIC_IDX_L1(i));
-                }
-
-
-This is code is clearly unsafe, but now I remember that dpb_entry has a flag
-"rps". So we know from the DPB in which of the list the reference lives, if any.
-In the case of RKVDEC the HW only cares to know if this is long term or not.
-
-So without looking at the spec, is that dpb represention enough to reconstruct
-these array ? If we pass these array, shall we keep the rps flag ? I think a
-little step back and cleanup will be needed. I doubt there is a single answer,
-perhaps list what others do (VA, DXVA, NVDEC, Khronos, etc) and we can
-collectively decide were we want V4L2 to sit ?
-
-> 
-> Regards
-> 
-> John Cox
-> 
-> > Benjamin
-> > 
-> > > 
-> > > Full disclosure: Pi decode doesn't use this info at all so I'm only
-> > > arguing from a theoretical point of view - I think it is only relevant
-> > > if your h/w is parsing the reference list setups.
-> > > 
-> > > Regards
-> > > 
-> > > John Cox
-> > > 
-> > > > Reported-by: John Cox <jc@kynesim.co.uk>
-> > > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > > > ---
-> > > > Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 6 +++---
-> > > > include/media/hevc-ctrls.h                                | 6 +++---
-> > > > 2 files changed, 6 insertions(+), 6 deletions(-)
-> > > > 
-> > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > index 976d34445a24..db9859ddc8b2 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > @@ -3323,15 +3323,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-> > > >      * - __u8
-> > > >        - ``num_poc_lt_curr``
-> > > >        - The number of reference pictures in the long-term set.
-> > > > -    * - __u8
-> > > > +    * - __s32
-> > > >        - ``poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-> > > >        - PocStCurrBefore as described in section 8.3.2 "Decoding process for reference
-> > > >          picture set.
-> > > > -    * - __u8
-> > > > +    * - __s32
-> > > >        - ``poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-> > > >        - PocStCurrAfter as described in section 8.3.2 "Decoding process for reference
-> > > >          picture set.
-> > > > -    * - __u8
-> > > > +    * - __s32
-> > > >        - ``poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-> > > >        - PocLtCurr as described in section 8.3.2 "Decoding process for reference
-> > > >          picture set.
-> > > > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> > > > index 781371bff2ad..04cd62e77f25 100644
-> > > > --- a/include/media/hevc-ctrls.h
-> > > > +++ b/include/media/hevc-ctrls.h
-> > > > @@ -219,9 +219,9 @@ struct v4l2_ctrl_hevc_decode_params {
-> > > > 	__u8	num_poc_st_curr_before;
-> > > > 	__u8	num_poc_st_curr_after;
-> > > > 	__u8	num_poc_lt_curr;
-> > > > -	__u8	poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> > > > -	__u8	poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> > > > -	__u8	poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> > > > +	__s32	poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> > > > +	__s32	poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> > > > +	__s32	poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> > > > 	__u64	flags;
-> > > > };
-> > > > 
-
-
+> ---
+>  drivers/gpu/drm/msm/msm_gem.h        |  5 -----
+>  drivers/gpu/drm/msm/msm_gem_submit.c | 19 +++++--------------
+>  drivers/gpu/drm/msm/msm_ringbuffer.c | 12 ------------
+>  3 files changed, 5 insertions(+), 31 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.=
+h
+> index f9e3ffb2309a..8bf0ac707fd7 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.h
+> +++ b/drivers/gpu/drm/msm/msm_gem.h
+> @@ -312,11 +312,6 @@ struct msm_gem_submit {
+>         struct ww_acquire_ctx ticket;
+>         uint32_t seqno;         /* Sequence number of the submit on the r=
+ing */
+>
+> -       /* Array of struct dma_fence * to block on before submitting this=
+ job.
+> -        */
+> -       struct xarray deps;
+> -       unsigned long last_dep;
+> -
+>         /* Hw fence, which is created when the scheduler executes the job=
+, and
+>          * is signaled when the hw finishes (via seqno write from cmdstre=
+am)
+>          */
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/m=
+sm_gem_submit.c
+> index 96cea0ba4cfd..fb5a2eab27a2 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -52,8 +52,6 @@ static struct msm_gem_submit *submit_create(struct drm_=
+device *dev,
+>                 return ERR_PTR(ret);
+>         }
+>
+> -       xa_init_flags(&submit->deps, XA_FLAGS_ALLOC);
+> -
+>         kref_init(&submit->ref);
+>         submit->dev =3D dev;
+>         submit->aspace =3D queue->ctx->aspace;
+> @@ -72,8 +70,6 @@ void __msm_gem_submit_destroy(struct kref *kref)
+>  {
+>         struct msm_gem_submit *submit =3D
+>                         container_of(kref, struct msm_gem_submit, ref);
+> -       unsigned long index;
+> -       struct dma_fence *fence;
+>         unsigned i;
+>
+>         if (submit->fence_id) {
+> @@ -82,12 +78,6 @@ void __msm_gem_submit_destroy(struct kref *kref)
+>                 mutex_unlock(&submit->queue->lock);
+>         }
+>
+> -       xa_for_each (&submit->deps, index, fence) {
+> -               dma_fence_put(fence);
+> -       }
+> -
+> -       xa_destroy(&submit->deps);
+> -
+>         dma_fence_put(submit->user_fence);
+>         dma_fence_put(submit->hw_fence);
+>
+> @@ -343,8 +333,9 @@ static int submit_fence_sync(struct msm_gem_submit *s=
+ubmit, bool no_implicit)
+>                 if (no_implicit)
+>                         continue;
+>
+> -               ret =3D drm_gem_fence_array_add_implicit(&submit->deps, o=
+bj,
+> -                       write);
+> +               ret =3D drm_sched_job_add_implicit_dependencies(&submit->=
+base,
+> +                                                             obj,
+> +                                                             write);
+>                 if (ret)
+>                         break;
+>         }
+> @@ -588,7 +579,7 @@ static struct drm_syncobj **msm_parse_deps(struct msm=
+_gem_submit *submit,
+>                 if (ret)
+>                         break;
+>
+> -               ret =3D drm_gem_fence_array_add(&submit->deps, fence);
+> +               ret =3D drm_sched_job_add_dependency(&submit->base, fence=
+);
+>                 if (ret)
+>                         break;
+>
+> @@ -798,7 +789,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void=
+ *data,
+>                         goto out_unlock;
+>                 }
+>
+> -               ret =3D drm_gem_fence_array_add(&submit->deps, in_fence);
+> +               ret =3D drm_sched_job_add_dependency(&submit->base, in_fe=
+nce);
+>                 if (ret)
+>                         goto out_unlock;
+>         }
+> diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/m=
+sm_ringbuffer.c
+> index bd54c1412649..652b1dedd7c1 100644
+> --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
+> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
+> @@ -11,17 +11,6 @@ static uint num_hw_submissions =3D 8;
+>  MODULE_PARM_DESC(num_hw_submissions, "The max # of jobs to write into ri=
+ngbuffer (default 8)");
+>  module_param(num_hw_submissions, uint, 0600);
+>
+> -static struct dma_fence *msm_job_dependency(struct drm_sched_job *job,
+> -               struct drm_sched_entity *s_entity)
+> -{
+> -       struct msm_gem_submit *submit =3D to_msm_submit(job);
+> -
+> -       if (!xa_empty(&submit->deps))
+> -               return xa_erase(&submit->deps, submit->last_dep++);
+> -
+> -       return NULL;
+> -}
+> -
+>  static struct dma_fence *msm_job_run(struct drm_sched_job *job)
+>  {
+>         struct msm_gem_submit *submit =3D to_msm_submit(job);
+> @@ -52,7 +41,6 @@ static void msm_job_free(struct drm_sched_job *job)
+>  }
+>
+>  const struct drm_sched_backend_ops msm_sched_ops =3D {
+> -       .dependency =3D msm_job_dependency,
+>         .run_job =3D msm_job_run,
+>         .free_job =3D msm_job_free
+>  };
+> --
+> 2.32.0
+>
