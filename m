@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7B173F84DE
-	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 11:55:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C17C3F84ED
+	for <lists+linux-media@lfdr.de>; Thu, 26 Aug 2021 11:58:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241088AbhHZJ4J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Aug 2021 05:56:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51924 "EHLO
+        id S241228AbhHZJ7J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Aug 2021 05:59:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241067AbhHZJ4I (ORCPT
+        with ESMTP id S241275AbhHZJ7F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Aug 2021 05:56:08 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF87AC0613C1
-        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 02:55:21 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id d22-20020a1c1d16000000b002e7777970f0so6432799wmd.3
-        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 02:55:21 -0700 (PDT)
+        Thu, 26 Aug 2021 05:59:05 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F1C3C0617AE
+        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 02:58:16 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id u9so4073905wrg.8
+        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 02:58:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:mail-followup-to:references
          :mime-version:content-disposition:in-reply-to;
-        bh=qy0kCeaWJ/iVBGXNdtf+HIZzfuLE8Aw9Sas3eoKAYNQ=;
-        b=HD1r+jOVuCPSdgCPen3iZ0bwdi2fmd1QSBVWuu7PpffXpus4uiosfvCT95ICVHLZlx
-         aKdabwSPluCIDIxq7BVdWJ3W+LvG2k8fpd+tQvu8YqEdTb+5h1JNlmvNtlUO99k+Pz+0
-         6KhrMsIJtwQebHBkAW42mW6ayqRJ1Si1SqcLc=
+        bh=K6u0Zu5YEr8y4W3P37RoD4zOuM0xcePf+NAf5fjmYUY=;
+        b=OYntDdruYT6QL81TNNqsV14R7lpWMhP5RNvBBtu2FU/YaAjcMa/NOOsp/utPM+YdQo
+         iAuUtfEyiPHywQWdOkUzyiLsNGFBqBEh/kpLbm/8ZWRZimxDXWEkTPdStN1CRJyB+2L+
+         ess4YxVwDk5SZGgcAAgBLRdOtUeFSgGL2pR80=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id
          :mail-followup-to:references:mime-version:content-disposition
          :in-reply-to;
-        bh=qy0kCeaWJ/iVBGXNdtf+HIZzfuLE8Aw9Sas3eoKAYNQ=;
-        b=UTq9Kp6wnVsoNSDb61PShIdpTk/hecnXxVx6z8Ky9gJSdQQFrd2ftjSBWzXVkGfWCK
-         g0e+RJI6IGziPYJUX7LqkcQcBFJjGBdhiSaou3BWPpD4vahMq+2PrXk4dMYBy1XTtEtS
-         KHESY+emZOfD1fmFoMCY9DaicDjh7v6LCGas2TRZd/KGzvJk67AtyI3wNKRTJPPttHRf
-         Uk4S80OpbCSaC4TTKlpyHokMmcKk0g9BgDQK9Z66r81GeXTueZHReGWyci0TrtSyvi23
-         aK9/4S2Hch4Yndm4prN+DPap+8UK200FIW25TDPbu30ip2xu8WP0cNR/KQvuiQo2BVji
-         /hMA==
-X-Gm-Message-State: AOAM531pcpQUidUl6cakB89EzQPduYuUu8ARTDInBYwp+8N9rbgYkid4
-        u+8gRn1iTiAn/aaDDAlIKf9jwA==
-X-Google-Smtp-Source: ABdhPJz0pg6sAf9ioH0PxsqwtwukFpMskaL6Ihxtx/wS7W3ep1ddxVt7uF7PxqVlewIB72/s3kZGeA==
-X-Received: by 2002:a05:600c:1c11:: with SMTP id j17mr13241597wms.138.1629971720052;
-        Thu, 26 Aug 2021 02:55:20 -0700 (PDT)
+        bh=K6u0Zu5YEr8y4W3P37RoD4zOuM0xcePf+NAf5fjmYUY=;
+        b=lXMFVfRyfQ3Fy9XbAFcvRrhqY8j/Sl7SEBqrEQnSYXYY/StvcGFsJABszPyGcIs4Vq
+         /e/40F0RGacPKdDP5knEuLVPJo9131FKLBFOEHONifvS+hE+l91Wx8FzoBvGgkNbSAEq
+         8x3ezYV6jwjU87tgpSpxamYUe7IzpEGVSjePb+4iwb8CRzHpSd9LQPNHCJkc+8n+/uxw
+         J1C4gFyyx6LVAvVJo1UOOjQzm27f9jTSlULGWwxB5e5CrIcmdt7FJ1RYPAzGDY6Vh27X
+         bgQHu5BXFZURoPAU/rr823mDH5ituwHcEY0WWANBSS1yWV6Pu7jyhJzJWiwYkyZdMHON
+         ddCA==
+X-Gm-Message-State: AOAM530baDadt54WpYtFgCBApzxIydUVUcRpt5dR5Hv0LEQzQTVAAbFh
+        KDr7FcX5mFNZSz02IFKu8MRnyg==
+X-Google-Smtp-Source: ABdhPJyy1AIu+N6Qrm0z0c8isGbaksnKSxYxmVOligV+SnW4ABRlEHb7NKPuhCyurRIGXrKY/cYmRg==
+X-Received: by 2002:adf:b741:: with SMTP id n1mr1668981wre.120.1629971894987;
+        Thu, 26 Aug 2021 02:58:14 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id g11sm2554304wrx.30.2021.08.26.02.55.18
+        by smtp.gmail.com with ESMTPSA id m4sm7986290wml.28.2021.08.26.02.58.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 02:55:19 -0700 (PDT)
-Date:   Thu, 26 Aug 2021 11:55:17 +0200
+        Thu, 26 Aug 2021 02:58:14 -0700 (PDT)
+Date:   Thu, 26 Aug 2021 11:58:12 +0200
 From:   Daniel Vetter <daniel@ffwll.ch>
 To:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
@@ -66,8 +66,9 @@ Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
         linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
         gregkh@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v8 2/7] drm: convert drm_device.master_mutex into a rwsem
-Message-ID: <YSdlBf1Q4TYufFtB@phenom.ffwll.local>
+Subject: Re: [PATCH v8 3/7] drm: lock drm_global_mutex earlier in the ioctl
+ handler
+Message-ID: <YSdltHVQnIr+vkTn@phenom.ffwll.local>
 Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
         maarten.lankhorst@linux.intel.com, mripard@kernel.org,
         tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
@@ -86,380 +87,69 @@ Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
         gregkh@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org
 References: <20210826020122.1488002-1-desmondcheongzx@gmail.com>
- <20210826020122.1488002-3-desmondcheongzx@gmail.com>
+ <20210826020122.1488002-4-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210826020122.1488002-3-desmondcheongzx@gmail.com>
+In-Reply-To: <20210826020122.1488002-4-desmondcheongzx@gmail.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 26, 2021 at 10:01:17AM +0800, Desmond Cheong Zhi Xi wrote:
-> drm_device.master_mutex currently protects the following:
-> - drm_device.master
-> - drm_file.master
-> - drm_file.was_master
-> - drm_file.is_master
-> - drm_master.unique
-> - drm_master.unique_len
-> - drm_master.magic_map
+On Thu, Aug 26, 2021 at 10:01:18AM +0800, Desmond Cheong Zhi Xi wrote:
+> In a future patch, a read lock on drm_device.master_rwsem is
+> held in the ioctl handler before the check for ioctl
+> permissions. However, this inverts the lock hierarchy of
+> drm_global_mutex --> master_rwsem.
 > 
-> There is a clear separation between functions that read or change
-> these attributes. Hence, convert master_mutex into a rwsem to enable
-> concurrent readers.
+> To avoid this, we do some prep work to grab the drm_global_mutex
+> before checking for ioctl permissions.
 > 
 > Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
 > ---
->  drivers/gpu/drm/drm_auth.c    | 35 ++++++++++++++++++-----------------
->  drivers/gpu/drm/drm_debugfs.c |  4 ++--
->  drivers/gpu/drm/drm_drv.c     |  3 +--
->  drivers/gpu/drm/drm_ioctl.c   | 10 +++++-----
->  include/drm/drm_auth.h        |  6 +++---
->  include/drm/drm_device.h      | 10 ++++++----
->  include/drm/drm_file.h        | 12 ++++++------
->  7 files changed, 41 insertions(+), 39 deletions(-)
+>  drivers/gpu/drm/drm_ioctl.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-> index 60a6b21474b1..73ade0513ccb 100644
-> --- a/drivers/gpu/drm/drm_auth.c
-> +++ b/drivers/gpu/drm/drm_auth.c
-> @@ -64,7 +64,7 @@
->  static bool drm_is_current_master_locked(struct drm_file *fpriv)
->  {
->  	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
-> -			    lockdep_is_held(&fpriv->minor->dev->master_mutex));
-> +			    lockdep_is_held(&fpriv->minor->dev->master_rwsem));
->  
->  	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
->  }
-> @@ -96,7 +96,7 @@ int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
->  	struct drm_auth *auth = data;
->  	int ret = 0;
->  
-> -	mutex_lock(&dev->master_mutex);
-> +	down_write(&dev->master_rwsem);
->  	if (!file_priv->magic) {
->  		ret = idr_alloc(&file_priv->master->magic_map, file_priv,
->  				1, 0, GFP_KERNEL);
-> @@ -104,7 +104,7 @@ int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
->  			file_priv->magic = ret;
->  	}
->  	auth->magic = file_priv->magic;
-> -	mutex_unlock(&dev->master_mutex);
-> +	up_write(&dev->master_rwsem);
->  
->  	DRM_DEBUG("%u\n", auth->magic);
->  
-> @@ -119,13 +119,13 @@ int drm_authmagic(struct drm_device *dev, void *data,
->  
->  	DRM_DEBUG("%u\n", auth->magic);
->  
-> -	mutex_lock(&dev->master_mutex);
-> +	down_write(&dev->master_rwsem);
->  	file = idr_find(&file_priv->master->magic_map, auth->magic);
->  	if (file) {
->  		file->authenticated = 1;
->  		idr_replace(&file_priv->master->magic_map, NULL, auth->magic);
->  	}
-> -	mutex_unlock(&dev->master_mutex);
-> +	up_write(&dev->master_rwsem);
->  
->  	return file ? 0 : -EINVAL;
->  }
-> @@ -167,7 +167,7 @@ static int drm_new_set_master(struct drm_device *dev, struct drm_file *fpriv)
->  	struct drm_master *old_master;
->  	struct drm_master *new_master;
->  
-> -	lockdep_assert_held_once(&dev->master_mutex);
-> +	lockdep_assert_held_once(&dev->master_rwsem);
->  
->  	WARN_ON(fpriv->is_master);
->  	old_master = fpriv->master;
-> @@ -249,7 +249,7 @@ int drm_setmaster_ioctl(struct drm_device *dev, void *data,
->  {
->  	int ret;
->  
-> -	mutex_lock(&dev->master_mutex);
-> +	down_write(&dev->master_rwsem);
->  
->  	ret = drm_master_check_perm(dev, file_priv);
->  	if (ret)
-> @@ -281,7 +281,7 @@ int drm_setmaster_ioctl(struct drm_device *dev, void *data,
->  
->  	drm_set_master(dev, file_priv, false);
->  out_unlock:
-> -	mutex_unlock(&dev->master_mutex);
-> +	up_write(&dev->master_rwsem);
->  	return ret;
->  }
->  
-> @@ -298,7 +298,7 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
->  {
->  	int ret;
->  
-> -	mutex_lock(&dev->master_mutex);
-> +	down_write(&dev->master_rwsem);
->  
->  	ret = drm_master_check_perm(dev, file_priv);
->  	if (ret)
-> @@ -321,8 +321,9 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
->  	}
->  
->  	drm_drop_master(dev, file_priv);
-> +
->  out_unlock:
-> -	mutex_unlock(&dev->master_mutex);
-> +	up_write(&dev->master_rwsem);
->  	return ret;
->  }
->  
-> @@ -334,7 +335,7 @@ int drm_master_open(struct drm_file *file_priv)
->  	/* if there is no current master make this fd it, but do not create
->  	 * any master object for render clients
->  	 */
-> -	mutex_lock(&dev->master_mutex);
-> +	down_write(&dev->master_rwsem);
->  	if (!dev->master) {
->  		ret = drm_new_set_master(dev, file_priv);
->  	} else {
-> @@ -342,7 +343,7 @@ int drm_master_open(struct drm_file *file_priv)
->  		file_priv->master = drm_master_get(dev->master);
->  		spin_unlock(&file_priv->master_lookup_lock);
->  	}
-> -	mutex_unlock(&dev->master_mutex);
-> +	up_write(&dev->master_rwsem);
->  
->  	return ret;
->  }
-> @@ -352,7 +353,7 @@ void drm_master_release(struct drm_file *file_priv)
->  	struct drm_device *dev = file_priv->minor->dev;
->  	struct drm_master *master;
->  
-> -	mutex_lock(&dev->master_mutex);
-> +	down_write(&dev->master_rwsem);
->  	master = file_priv->master;
->  	if (file_priv->magic)
->  		idr_remove(&file_priv->master->magic_map, file_priv->magic);
-> @@ -375,7 +376,7 @@ void drm_master_release(struct drm_file *file_priv)
->  	/* drop the master reference held by the file priv */
->  	if (file_priv->master)
->  		drm_master_put(&file_priv->master);
-> -	mutex_unlock(&dev->master_mutex);
-> +	up_write(&dev->master_rwsem);
->  }
->  
->  /**
-> @@ -450,9 +451,9 @@ EXPORT_SYMBOL(drm_master_put);
->  /* Used by drm_client and drm_fb_helper */
->  bool drm_master_internal_acquire(struct drm_device *dev)
->  {
-> -	mutex_lock(&dev->master_mutex);
-> +	down_read(&dev->master_rwsem);
->  	if (dev->master) {
-> -		mutex_unlock(&dev->master_mutex);
-> +		up_read(&dev->master_rwsem);
->  		return false;
->  	}
->  
-> @@ -463,6 +464,6 @@ EXPORT_SYMBOL(drm_master_internal_acquire);
->  /* Used by drm_client and drm_fb_helper */
->  void drm_master_internal_release(struct drm_device *dev)
->  {
-> -	mutex_unlock(&dev->master_mutex);
-> +	up_read(&dev->master_rwsem);
->  }
->  EXPORT_SYMBOL(drm_master_internal_release);
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index b0a826489488..b34c9c263188 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -55,7 +55,7 @@ static int drm_name_info(struct seq_file *m, void *data)
->  	struct drm_device *dev = minor->dev;
->  	struct drm_master *master;
->  
-> -	mutex_lock(&dev->master_mutex);
-> +	down_read(&dev->master_rwsem);
->  	master = dev->master;
->  	seq_printf(m, "%s", dev->driver->name);
->  	if (dev->dev)
-> @@ -65,7 +65,7 @@ static int drm_name_info(struct seq_file *m, void *data)
->  	if (dev->unique)
->  		seq_printf(m, " unique=%s", dev->unique);
->  	seq_printf(m, "\n");
-> -	mutex_unlock(&dev->master_mutex);
-> +	up_read(&dev->master_rwsem);
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 7a5097467ba5..4556bf42954c 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -570,7 +570,6 @@ static void drm_dev_init_release(struct drm_device *dev, void *res)
->  	/* Prevent use-after-free in drm_managed_release when debugging is
->  	 * enabled. Slightly awkward, but can't really be helped. */
->  	dev->dev = NULL;
-> -	mutex_destroy(&dev->master_mutex);
->  	mutex_destroy(&dev->clientlist_mutex);
->  	mutex_destroy(&dev->filelist_mutex);
->  	mutex_destroy(&dev->struct_mutex);
-> @@ -611,7 +610,7 @@ static int drm_dev_init(struct drm_device *dev,
->  	mutex_init(&dev->struct_mutex);
->  	mutex_init(&dev->filelist_mutex);
->  	mutex_init(&dev->clientlist_mutex);
-> -	mutex_init(&dev->master_mutex);
-> +	init_rwsem(&dev->master_rwsem);
->  
->  	ret = drmm_add_action(dev, drm_dev_init_release, NULL);
->  	if (ret)
 > diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index 26f3a9ede8fe..d25713b09b80 100644
+> index d25713b09b80..158629d88319 100644
 > --- a/drivers/gpu/drm/drm_ioctl.c
 > +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -119,16 +119,16 @@ int drm_getunique(struct drm_device *dev, void *data,
->  	struct drm_unique *u = data;
->  	struct drm_master *master;
+> @@ -772,19 +772,19 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
+>  	if (drm_dev_is_unplugged(dev))
+>  		return -ENODEV;
 >  
-> -	mutex_lock(&dev->master_mutex);
-> +	down_read(&dev->master_rwsem);
->  	master = file_priv->master;
->  	if (u->unique_len >= master->unique_len) {
->  		if (copy_to_user(u->unique, master->unique, master->unique_len)) {
-> -			mutex_unlock(&dev->master_mutex);
-> +			up_read(&dev->master_rwsem);
->  			return -EFAULT;
->  		}
->  	}
->  	u->unique_len = master->unique_len;
-> -	mutex_unlock(&dev->master_mutex);
-> +	up_read(&dev->master_rwsem);
+> +	/* Enforce sane locking for modern driver ioctls. */
+> +	if (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)) && !(flags & DRM_UNLOCKED))
+
+Maybe have a local bool locked_ioctl for this so it's extremely clear it's
+the same condition in both?
+
+Either way: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> +		mutex_lock(&drm_global_mutex);
+> +
+>  	retcode = drm_ioctl_permit(flags, file_priv);
+>  	if (unlikely(retcode))
+> -		return retcode;
+> +		goto out;
 >  
->  	return 0;
->  }
-> @@ -385,7 +385,7 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
->  	struct drm_set_version *sv = data;
->  	int if_version, retcode = 0;
->  
-> -	mutex_lock(&dev->master_mutex);
-> +	down_write(&dev->master_rwsem);
->  	if (sv->drm_di_major != -1) {
->  		if (sv->drm_di_major != DRM_IF_MAJOR ||
->  		    sv->drm_di_minor < 0 || sv->drm_di_minor > DRM_IF_MINOR) {
-> @@ -420,7 +420,7 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
->  	sv->drm_di_minor = DRM_IF_MINOR;
->  	sv->drm_dd_major = dev->driver->major;
->  	sv->drm_dd_minor = dev->driver->minor;
-> -	mutex_unlock(&dev->master_mutex);
-> +	up_write(&dev->master_rwsem);
->  
+> -	/* Enforce sane locking for modern driver ioctls. */
+> -	if (likely(!drm_core_check_feature(dev, DRIVER_LEGACY)) ||
+> -	    (flags & DRM_UNLOCKED))
+> -		retcode = func(dev, kdata, file_priv);
+> -	else {
+> -		mutex_lock(&drm_global_mutex);
+> -		retcode = func(dev, kdata, file_priv);
+> +	retcode = func(dev, kdata, file_priv);
+> +
+> +out:
+> +	if (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)) && !(flags & DRM_UNLOCKED))
+>  		mutex_unlock(&drm_global_mutex);
+> -	}
 >  	return retcode;
 >  }
-> diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
-> index ba248ca8866f..f0a89e5fcaad 100644
-> --- a/include/drm/drm_auth.h
-> +++ b/include/drm/drm_auth.h
-> @@ -67,17 +67,17 @@ struct drm_master {
->  	struct drm_device *dev;
->  	/**
->  	 * @unique: Unique identifier: e.g. busid. Protected by
-> -	 * &drm_device.master_mutex.
-> +	 * &drm_device.master_rwsem.
->  	 */
->  	char *unique;
->  	/**
->  	 * @unique_len: Length of unique field. Protected by
-> -	 * &drm_device.master_mutex.
-> +	 * &drm_device.master_rwsem.
->  	 */
->  	int unique_len;
->  	/**
->  	 * @magic_map: Map of used authentication tokens. Protected by
-> -	 * &drm_device.master_mutex.
-> +	 * &drm_device.master_rwsem.
->  	 */
->  	struct idr magic_map;
->  	void *driver_priv;
-> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-> index 604b1d1b2d72..142fb2f6e74d 100644
-> --- a/include/drm/drm_device.h
-> +++ b/include/drm/drm_device.h
-> @@ -107,7 +107,7 @@ struct drm_device {
->  	 * @master:
->  	 *
->  	 * Currently active master for this device.
-> -	 * Protected by &master_mutex
-> +	 * Protected by &master_rwsem
->  	 */
->  	struct drm_master *master;
->  
-> @@ -146,11 +146,13 @@ struct drm_device {
->  	struct mutex struct_mutex;
->  
->  	/**
-> -	 * @master_mutex:
-> +	 * @master_rwsem:
->  	 *
-> -	 * Lock for &drm_minor.master and &drm_file.is_master
-> +	 * Lock for &drm_device.master, &drm_file.was_master,
-> +	 * &drm_file.is_master, &drm_file.master, &drm_master.unique,
-> +	 * &drm_master.unique_len, and &drm_master.magic_map.
->  	 */
-> -	struct mutex master_mutex;
-> +	struct rw_semaphore master_rwsem;
->  
->  	/**
->  	 * @open_count:
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index a3acb7ac3550..d12bb2ba7814 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -205,7 +205,7 @@ struct drm_file {
->  	 * @was_master:
->  	 *
->  	 * This client has or had, master capability. Protected by struct
-> -	 * &drm_device.master_mutex.
-> +	 * &drm_device.master_rwsem.
->  	 *
->  	 * This is used to ensure that CAP_SYS_ADMIN is not enforced, if the
->  	 * client is or was master in the past.
-> @@ -216,7 +216,7 @@ struct drm_file {
->  	 * @is_master:
->  	 *
->  	 * This client is the creator of @master. Protected by struct
-> -	 * &drm_device.master_mutex.
-> +	 * &drm_device.master_rwsem.
->  	 *
->  	 * See also the :ref:`section on primary nodes and authentication
->  	 * <drm_primary_node>`.
-> @@ -227,19 +227,19 @@ struct drm_file {
->  	 * @master:
->  	 *
->  	 * Master this node is currently associated with. Protected by struct
-> -	 * &drm_device.master_mutex, and serialized by @master_lookup_lock.
-> +	 * &drm_device.master_rwsem, and serialized by @master_lookup_lock.
->  	 *
->  	 * Only relevant if drm_is_primary_client() returns true. Note that
->  	 * this only matches &drm_device.master if the master is the currently
->  	 * active one.
->  	 *
-> -	 * To update @master, both &drm_device.master_mutex and
-> +	 * To update @master, both &drm_device.master_rwsem and
->  	 * @master_lookup_lock need to be held, therefore holding either of
->  	 * them is safe and enough for the read side.
->  	 *
->  	 * When dereferencing this pointer, either hold struct
-> -	 * &drm_device.master_mutex for the duration of the pointer's use, or
-> -	 * use drm_file_get_master() if struct &drm_device.master_mutex is not
-> +	 * &drm_device.master_rwsem for the duration of the pointer's use, or
-> +	 * use drm_file_get_master() if struct &drm_device.master_rwsem is not
->  	 * currently held and there is no other need to hold it. This prevents
->  	 * @master from being freed during use.
->  	 *
+>  EXPORT_SYMBOL(drm_ioctl_kernel);
 > -- 
 > 2.25.1
 > 
