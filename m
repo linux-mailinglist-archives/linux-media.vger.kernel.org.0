@@ -2,153 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 752523F9BB2
-	for <lists+linux-media@lfdr.de>; Fri, 27 Aug 2021 17:27:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A1F13F9E85
+	for <lists+linux-media@lfdr.de>; Fri, 27 Aug 2021 20:08:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245454AbhH0P1I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Aug 2021 11:27:08 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:56358 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245428AbhH0P1H (ORCPT
+        id S229749AbhH0SIu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Aug 2021 14:08:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43182 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229617AbhH0SIu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Aug 2021 11:27:07 -0400
-Received: from [IPv6:2a01:e0a:4cb:a870:de4d:a9ab:fdfa:6660] (unknown [IPv6:2a01:e0a:4cb:a870:de4d:a9ab:fdfa:6660])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 190421F44BB0;
-        Fri, 27 Aug 2021 16:26:17 +0100 (BST)
-Subject: Re: [PATCH] media: hevc: fix pictures lists type
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        John Cox <jc@kynesim.co.uk>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Collabora Kernel ML <kernel@collabora.com>
-References: <20210823082949.237716-1-benjamin.gaignard@collabora.com>
- <02r6ig176o0lqc52nm8rhta7cn5bfn04in@4ax.com>
- <e1df8e77-b4d1-481c-0f4b-4a20f42d5c9e@collabora.com>
- <i917ig582epdnpkmjdtvtnap6u8c032c1r@4ax.com>
- <9d6336fff6f122a9a4510a111387a000c65f797b.camel@ndufresne.ca>
- <da18a240-22bd-54d2-6306-f39f10a05b22@collabora.com>
- <r4ehigheq602qijsnjd8govhl4f1dpnr35@4ax.com>
- <b5ae0ebe-de90-5ebb-5e69-ea66ae0e0639@collabora.com>
- <mdmhigh3ubgs6r89061v19iagjs0il9b89@4ax.com>
- <CAAEAJfA68tTeGgRHS2=hs5tQw2_3RhPgdXq6+k4GDX=0LMMBxQ@mail.gmail.com>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <ec12d297-26ae-a214-59bc-619a925a79bc@collabora.com>
-Date:   Fri, 27 Aug 2021 17:26:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <CAAEAJfA68tTeGgRHS2=hs5tQw2_3RhPgdXq6+k4GDX=0LMMBxQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+        Fri, 27 Aug 2021 14:08:50 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D00DAC061757
+        for <linux-media@vger.kernel.org>; Fri, 27 Aug 2021 11:08:00 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id t15so5483166wrg.7
+        for <linux-media@vger.kernel.org>; Fri, 27 Aug 2021 11:08:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:content-transfer-encoding:date:message-id:cc:subject
+         :from:to:references:in-reply-to;
+        bh=1yhNd9/9NyWZq8d6yHzeBEDq6L4k0k4KPBj27gnvAko=;
+        b=XjjfO/dDKlfJBKZQ5tdQuDaz1D/j47f7T6az87iaZ8XhE6mvt5/ANK1n92RJ63i6Wg
+         aF2ejJrF+s49Q9xpc8dXkusWMrcJlbnqplE67YnejOg7jsoUlVJfdtuvVueNluDiWTZ2
+         nToAmYz7KryM6q1tR/ggKbGCPKcwpntxHNU2En1/sYlfmKlZHQRMuL/5SOykaCXsuRJ/
+         zJkOHS4/Yd947MCJvMU9N1QGKQOGnYpj+XAgiTrkK8vHF/Ga4vwi63cdzMGSaBQrPQGM
+         VG3psldpFQZ8v27DGROXSfQ9J+49cgPEPnOhH5C3O0n28O6xCZ2LSEwnYnF0djqNPFAI
+         dQTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding:date
+         :message-id:cc:subject:from:to:references:in-reply-to;
+        bh=1yhNd9/9NyWZq8d6yHzeBEDq6L4k0k4KPBj27gnvAko=;
+        b=oQXq5Og4Qz/X2gjri+8EVNLaxXxn7suWN770v07qHJsTBMlIzOsArfRwgv7A4x2wQM
+         MTGZiQ4ryfZ2uUlHQWAAAiHt7Ty92W13ovkHGJxu/xrSGX86Pt0xm6b2KEmp95FurqF6
+         pxC3UGpbiYw8dvR8QpvSHbZ5wftYghfSpHZEj2zWgtEckP2IW1k3TjS6HTYfdYOGdo6E
+         7mC5HBmE5KK9wJq8Erctha+Gly8OGJu7EUYs9wLJvy81obKf/y6zzekfr9F6nkiAlQYC
+         yVzuW20HjRFYq/rt+5xuDk7M/LEgIfml+HVL/fL0vYC+67GrO0tiXpkcB+1PA9SKEnIj
+         KvHA==
+X-Gm-Message-State: AOAM531riUl6H9ugq3+yFBaE5OvtUdIR7kaVytD8QWwbdKZlj2bvjh2j
+        ZXEpmdYEbecAGdipoPPT5KXSkYGcGEI=
+X-Google-Smtp-Source: ABdhPJxfbQHhW1/58pMkJC7mHQDwA9JcjT4Sq0oXAcIlz6LCyM/A2hJ31Bl/ywGeNh3w75cmovwjfQ==
+X-Received: by 2002:a5d:690b:: with SMTP id t11mr11687522wru.182.1630087678664;
+        Fri, 27 Aug 2021 11:07:58 -0700 (PDT)
+Received: from localhost (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id r16sm2559268wrg.71.2021.08.27.11.07.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Aug 2021 11:07:58 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Fri, 27 Aug 2021 19:07:57 +0100
+Message-Id: <CDUHUSW8IBR3.14C3XLWUHI9U0@arch-thunder>
+Cc:     <mchehab+huawei@kernel.org>, <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <sebastien.szymanski@armadeus.com>
+Subject: Re: [PATCH 1/2] media: imx7.rst: Provide an example for imx6ull-evk
+ capture
+From:   "Rui Miguel Silva" <rmfrfs@gmail.com>
+To:     "Fabio Estevam" <festevam@denx.de>, <hverkuil-cisco@xs4all.nl>
+References: <20210826183819.105804-1-festevam@denx.de>
+In-Reply-To: <20210826183819.105804-1-festevam@denx.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Oi Fabio,
+On Thu Aug 26, 2021 at 7:38 PM WEST, Fabio Estevam wrote:
 
-Le 27/08/2021 à 14:40, Ezequiel Garcia a écrit :
-> On Fri, 27 Aug 2021 at 09:36, John Cox <jc@kynesim.co.uk> wrote:
->>> Le 27/08/2021 à 12:10, John Cox a écrit :
->>>>> Le 26/08/2021 à 18:09, Nicolas Dufresne a écrit :
->>>>>> Le lundi 23 août 2021 à 12:35 +0100, John Cox a écrit :
->>>>>>> Hi
->>>>>>>
->>>>>>>> Le 23/08/2021 à 11:50, John Cox a écrit :
->>>>>>>>>> The lists embedded Picture Order Count values which are s32 so their type
->>>>>>>>>> most be s32 and not u8.
->>>>>>>>> I'm not convinced that you can't calculate all of those lists from the
->>>>>>>>> info already contained in the DPB array so this is probably redundant
->>>>>>>>> info though I grant that having the list pre-calced might make your life
->>>>>>>>> easier, and the userland side will have calculated the lists to
->>>>>>>>> calculate other required things so it isn't much extra work for it.
->>>>>>>> Yes the userland have already compute these lists and the number of items
->>>>>>>> in each of them.
->>>>>>>> Build them in the kernel would means to also compute the values of NumPocStCurrBefore,
->>>>>>>> NumPocStCurrAfter, NumPocLtCurr, NumPocStCurrAfter, NumPocStCurrBefore and NumPocLtCurr
->>>>>>>> and that requires information (NumNegativePics, NumPositivePics...) not provided to the kernel.
->>>>>>>> Since it have to be done in userland anyway, I'm reluctant to modify the API to redo in the kernel.
->>>>>>> Well, fair enough, I'm not going to argue
->>>>>>>
->>>>>>>>> Even if you do need the lists wouldn't it be a better idea to have them
->>>>>>>>> as indices into the DPB (you can't have a frame in any of those lists
->>>>>>>>> that isn't in the DPB) which already contains POCs then it will still
->>>>>>>>> fit into u8 and be smaller?
->>>>>>>> Hantro HW works with indexes but I think it is more simple to send PoC rather than indexes.
->>>>>>> I'd disagree but as I don't use the info I'm not concerned. Though I
->>>>>>> think I should point out that when Hantro converts the POCs to indicies
->>>>>>> it compares the now s32 POC in these lists with the u16 POC in the DPB
->>>>>>> so you might need to fix that too; by std (8.3.1) no POC diff can be
->>>>>>> outside s16 so you can mask & compare or use u16 POCs in the lists or
->>>>>>> s32 in the DPB.
->>>>>> Fun fact, my interpretation with the API when I drafted GStreamer support was
->>>>>> that it was DPB indexes:
->>>>>>
->>>>>> https://gitlab.freedesktop.org/ndufresne/gst-plugins-bad/-/blob/hevc_wip/sys/v4l2codecs/gstv4l2codech265dec.c#L850
->>>>>>
->>>>>> It felt quite natural to be, since this is also how we pass references for l0/l1
->>>>>> (unused by hantro I guess).
->>>>>>
->>>>>> Looking at old rkvdec code as a refresher:
->>>>>>
->>>>>>      for (j = 0; j < run->num_slices; j++) {
->>>>>>                    sl_params = &run->slices_params[j];
->>>>>>                    dpb = sl_params->dpb;
->>>>>>
->>>>>>                    hw_ps = &priv_tbl->rps[j];
->>>>>>                    memset(hw_ps, 0, sizeof(*hw_ps));
->>>>>>
->>>>>>                    for (i = 0; i <= sl_params->num_ref_idx_l0_active_minus1; i++) {
->>>>>>                            WRITE_RPS(!!(dpb[sl_params->ref_idx_l0[i]].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR),
->>>>>>                                      REF_PIC_LONG_TERM_L0(i));
->>>>>>                            WRITE_RPS(sl_params->ref_idx_l0[i], REF_PIC_IDX_L0(i));
->>>>>>                    }
->>>>>>
->>>>>>                    for (i = 0; i <= sl_params->num_ref_idx_l1_active_minus1; i++) {
->>>>>>                            WRITE_RPS(!!(dpb[sl_params->ref_idx_l1[i]].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR),
->>>>>>                                      REF_PIC_LONG_TERM_L1(i));
->>>>>>                            WRITE_RPS(sl_params->ref_idx_l1[i], REF_PIC_IDX_L1(i));
->>>>>>                    }
->>>>>>
->>>>>>
->>>>>> This is code is clearly unsafe, but now I remember that dpb_entry has a flag
->>>>>> "rps". So we know from the DPB in which of the list the reference lives, if any.
->>>>>> In the case of RKVDEC the HW only cares to know if this is long term or not.
->>>>>>
->>>>>> So without looking at the spec, is that dpb represention enough to reconstruct
->>>>>> these array ? If we pass these array, shall we keep the rps flag ? I think a
->>>>>> little step back and cleanup will be needed. I doubt there is a single answer,
->>>>>> perhaps list what others do (VA, DXVA, NVDEC, Khronos, etc) and we can
->>>>>> collectively decide were we want V4L2 to sit ?
->>>>> I have done some tests with Hantro driver and look at the spec, the order of the PoC
->>>>> in the reference lists matters. You can deducted the order for DPB rps flags.
->>>>> I would suggest to remove rps flags to avoid information duplication.
->>>> I want the DPB rps member for long term reference marking.  I don't care
->>>> about before / after, but LTR can't be deduced from PoC and if you are
->>>> going to keep the member you might as well keep before / after.
->>> Ok so keep like it is.
->>> In this case my patch is enough, right ?
-> The problem with the patch is that it breaks existing userspace.
-> Currently, there's no upstreamed userspace so this is not a huge
-> deal.
+> imx6ull-evk has a parallel OV5640 sensor.
 >
-> However, it's definitely not a good practice. Even if these are
-> staging controls, I think a proper action item is to start discussing
-> what's missing on the HEVC interface as a whole, so it can be
-> moved to stable.
-
-I do agree I think it could the time to talk about moving the API to stable.
-My plan is to get this patch merge before sending a RFC to move the API.
-
-Benjamin
-
+> Provide an example for imx6ull-evk capture to improve the document.
 >
-> Otherwise, it almost feels like bikeshading.
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
+
+Glad it worked for you and thanks for documenting this here.
+
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+
+Cheers,
+   Rui
+
+> ---
+>  Documentation/admin-guide/media/imx7.rst | 60 ++++++++++++++++++++++++
+>  1 file changed, 60 insertions(+)
 >
-> Thanks,
-> Ezequiel
+> diff --git a/Documentation/admin-guide/media/imx7.rst b/Documentation/adm=
+in-guide/media/imx7.rst
+> index 1e442c97da47..4785ae8ac978 100644
+> --- a/Documentation/admin-guide/media/imx7.rst
+> +++ b/Documentation/admin-guide/media/imx7.rst
+> @@ -155,6 +155,66 @@ the resolutions supported by the sensor.
+>  	                [fmt:SBGGR10_1X10/800x600@1/30 field:none colorspace:sr=
+gb]
+>  	                -> "imx7-mipi-csis.0":0 [ENABLED]
+> =20
+> +i.MX6ULL-EVK with OV5640
+> +------------------------
+> +
+> +On this platform a parallel OV5640 sensor is connected to the CSI port.
+> +The following example configures a video capture pipeline with an output
+> +of 640x480 and UYVY8_2X8 format:
+> +
+> +.. code-block:: none
+> +
+> +   # Setup links
+> +   media-ctl -l "'ov5640 1-003c':0 -> 'csi':0[1]"
+> +   media-ctl -l "'csi':1 -> 'csi capture':0[1]"
+> +
+> +   # Configure pads for pipeline
+> +   media-ctl -v -V "'ov5640 1-003c':0 [fmt:UYVY8_2X8/640x480 field:none]=
+"
+> +
+> +After this streaming can start:
+> +
+> +.. code-block:: none
+> +
+> +   gst-launch-1.0 -v v4l2src device=3D/dev/video1 ! video/x-raw,format=
+=3DUYVY,width=3D640,height=3D480 ! v4l2convert ! fbdevsink
+> +
+> +.. code-block:: none
+> +
+> +	# media-ctl -p
+> +	Media controller API version 5.14.0
+> +
+> +	Media device information
+> +	------------------------
+> +	driver          imx7-csi
+> +	model           imx-media
+> +	serial
+> +	bus info
+> +	hw revision     0x0
+> +	driver version  5.14.0
+> +
+> +	Device topology
+> +	- entity 1: csi (2 pads, 2 links)
+> +	            type V4L2 subdev subtype Unknown flags 0
+> +	            device node name /dev/v4l-subdev0
+> +	        pad0: Sink
+> +	                [fmt:UYVY8_2X8/640x480 field:none colorspace:srgb xfer:=
+srgb ycbcr:601 quantization:full-range]
+> +	                <- "ov5640 1-003c":0 [ENABLED,IMMUTABLE]
+> +	        pad1: Source
+> +	                [fmt:UYVY8_2X8/640x480 field:none colorspace:srgb xfer:=
+srgb ycbcr:601 quantization:full-range]
+> +	                -> "csi capture":0 [ENABLED,IMMUTABLE]
+> +
+> +	- entity 4: csi capture (1 pad, 1 link)
+> +	            type Node subtype V4L flags 0
+> +	            device node name /dev/video1
+> +	        pad0: Sink
+> +	                <- "csi":1 [ENABLED,IMMUTABLE]
+> +
+> +	- entity 10: ov5640 1-003c (1 pad, 1 link)
+> +	             type V4L2 subdev subtype Sensor flags 0
+> +	             device node name /dev/v4l-subdev1
+> +	        pad0: Source
+> +	                [fmt:UYVY8_2X8/640x480@1/30 field:none colorspace:srgb =
+xfer:srgb ycbcr:601 quantization:full-range]
+> +	                -> "csi":0 [ENABLED,IMMUTABLE]
+> +
+>  References
+>  ----------
+> =20
+> --=20
+> 2.25.1
+
+
+
