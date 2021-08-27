@@ -2,73 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7F443F92C8
-	for <lists+linux-media@lfdr.de>; Fri, 27 Aug 2021 05:18:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98DD33F9304
+	for <lists+linux-media@lfdr.de>; Fri, 27 Aug 2021 05:44:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244182AbhH0DPG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Aug 2021 23:15:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36658 "EHLO
+        id S244089AbhH0Dpa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Aug 2021 23:45:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244178AbhH0DPF (ORCPT
+        with ESMTP id S232359AbhH0Dp3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Aug 2021 23:15:05 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8C45C06179A
-        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 20:14:16 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id o10so11297030lfr.11
-        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 20:14:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=JcCnNkxtHweN6ApEPCItRB3oqJyAr4ORMY/4f0Zly6Y=;
-        b=cC0BxLFnUKz0c21HrubnssCYDr5nVrznnJUoINLXL5MirOvjUsn5TwAoYnqZX8lkyO
-         o4/+tmHutbBZwWfiz97dgnaUo9Ghq6ikB203epgjrOuEQm6q415jvLtf3kq7KdHN1OWD
-         xqj0T1a65ktqryCgCqacNsLxexVhl7mULDVdQhDBaTnmFoP6WhkBXo6QPbwuDi8S2NKJ
-         iL+BCA8VvVguE8cqeCUqUlCa48hZ5qiN2ijRYPVKk83get6ZlORbsO/eTRcfuwCVcVbL
-         7uCQR3TKzJNsrAIeDOD4cPVjyMvSpZ3ssVje9XISQzIlHNXSqiiWPkjmCVB5pJYADYvd
-         fF4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=JcCnNkxtHweN6ApEPCItRB3oqJyAr4ORMY/4f0Zly6Y=;
-        b=jQFDRN1ZNbUM+fQQ/gudKPn4wjtgov5XWfRKiW86AON/+nKbd9/tEOSU2R5TUkzGKM
-         prBsYImXm0o84ghM+LBidk4Hzt3zTlIFwW+gGmdYFGWxggZVYmKEcsrbPN65ht30OIhI
-         a1q0SR6b6EE652Cu6Z98t+jS+8vQylf1ByScXG6/fv+jqlDjT0OBipEKzeAv/iIAaDU+
-         JOsZNajfWp/JTRg7CdXhD0wngNwCr6RMlpw8w0yM9kgYUMJ2QH30SY7n6wEFOrzyD+rp
-         SyoLms/vBhuo/eYCvllmTPUE13F83kkdTgmMlzTgHSOneg5YO+xVYYzPh7pXKinvMCsp
-         wOcA==
-X-Gm-Message-State: AOAM5309QHL+5RxArwWm0cuXfHjNc22LmXCbxHa2YqQaHJBhI3v9XtVL
-        NOpGdFBENDRgTIfcoYa5wqLShroKNNSY+6YqOGU=
-X-Google-Smtp-Source: ABdhPJzylVQGhzLLivtDEtlwvz+iZmloeTwC9KlmU8ABRPrKlwIu0iWmx40epdvWF5eA3kUXnpHt9DtyZt+6efb8tJE=
-X-Received: by 2002:a05:6512:3fa8:: with SMTP id x40mr5454556lfa.345.1630034054852;
- Thu, 26 Aug 2021 20:14:14 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a2e:7304:0:0:0:0:0 with HTTP; Thu, 26 Aug 2021 20:14:14
- -0700 (PDT)
-From:   john williams <jw3340082@gmail.com>
-Date:   Thu, 26 Aug 2021 15:14:14 -1200
-Message-ID: <CAEoBN-hJRxDC4NPMHoaX75dL7YHCDOKNeRiyERwXoZJapGNpeA@mail.gmail.com>
-Subject: CONFIRM YOUR DETAILS TO ENABLE US START,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        Thu, 26 Aug 2021 23:45:29 -0400
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38F84C061757
+        for <linux-media@vger.kernel.org>; Thu, 26 Aug 2021 20:44:41 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id JSnEmAWMjJWNeJSnFm5Qli; Fri, 27 Aug 2021 05:44:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1630035877; bh=mUmZ/x9ZAUneIbrwLk70eOebi2LdCvH/TAK2k06mIJk=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=mo9pRRBLNSWSp3XcrTXbA5mOyDbK+t02U82v8zQ6cls3+j5qTGEi0D7bz5QxoMd/R
+         JdXLyhPXTnFDlHD+/QIe+PTs2tEq0sX51cglo+rYPK4G3g0BDxch/ZchQPhQhH0BQL
+         i/LrtH6Mm5HEPNHOEGQDrC4WrIm+PXymQ8hMRDoiKiVSRaP+dpWWGcCZIXJc0q7M+g
+         hIzKQeehP2ezpmFMRgSfPmsEzVD0r3QKCvm+bz0bwxDK//eYXaMqC+mHiKnEL1R1Gp
+         G27o43GLu9MFsRvq8MbrBIw/1D8/1jYUIWTW1q1bFPXS+n7oeLEnEBhL5UNs4Wtp02
+         xiO2wxUpDyG5Q==
+Message-ID: <bf2b190ca759043939e5d2090e6a7ee7@smtp-cloud8.xs4all.net>
+Date:   Fri, 27 Aug 2021 05:44:36 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfFLNmTquE+o9NzLEqgAcHe+/m9Z3EYLN5WKbYRDx9Owm6mhMzd9vZwg8A1H+foX1tcOpSEI/tCnNCrEI8/FiSi2ncmF9l0wVhf6iGfwrYKelxez4fQCc
+ 0y+7KAbOYj3kF+z5da3uUyBL+7TWjoKpNCJ+7umxQQuy0wWsL2iNrO0+LshRH8R3RYGC+r2mjOQEJJ5MXbD0jLPfsp6lJa7bn0xYETJBUnC91uQCrU9wc+go
+ CnviRmL9O8F34yeczess6A==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Beneficiary,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Following your pending fund for years and the delay you imposed in
-receiving it,We have called back your fund to this office as directed
-by the Finance Office and we will be paying you directly through the
-BANK OF AMERICA.(BOA) NEW YORK BRANCH AND ALL YOU NEED NOW IS TO
-RE-CONFIRM YOUR BANKING DETAILS FOR THE TRANSFER IMMEDIATELY WITHOUT
-ANY FURTHER DELAY.
+Results of the daily build of media_tree:
 
-NOTE THAT WE WILL PAY ALL THE EXPENSES INVOLVED FOR YOU TO RECEIVE
-THIS FUND AND ALL WE NEED FROM YOU IS YOUR CO-OPERATION.
+date:			Fri Aug 27 05:00:10 CEST 2021
+media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
+media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
+v4l-utils git hash:	22466798f9a9044fa20ae3bb367d9fc29d37e054
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7532-gde99456f6
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6703700d637a73d66e094bc62d34c826f353efaa
+host hardware:		x86_64
+host os:		5.13.11-marune
 
-Send your full details with Banking details to enable us commence the
-transfer process immediately through the BOA BANK IN NEW YORK,USA OR
-DO YOU WANT TO RECEIVE THIS FUND VIA ATM CARD ????????.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13.1-i686: OK
+linux-5.13.1-x86_64: OK
+linux-5.14-rc1-i686: OK
+linux-5.14-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-John O.Williams.
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
