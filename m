@@ -2,270 +2,259 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54CD93F96A4
-	for <lists+linux-media@lfdr.de>; Fri, 27 Aug 2021 11:08:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 094C23F97DB
+	for <lists+linux-media@lfdr.de>; Fri, 27 Aug 2021 12:10:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244543AbhH0JIv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Aug 2021 05:08:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60176 "EHLO
+        id S244720AbhH0KLM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Aug 2021 06:11:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232048AbhH0JIv (ORCPT
+        with ESMTP id S244708AbhH0KLH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Aug 2021 05:08:51 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82366C061757
-        for <linux-media@vger.kernel.org>; Fri, 27 Aug 2021 02:08:02 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id b6so9285944wrh.10
-        for <linux-media@vger.kernel.org>; Fri, 27 Aug 2021 02:08:02 -0700 (PDT)
+        Fri, 27 Aug 2021 06:11:07 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95457C0613CF
+        for <linux-media@vger.kernel.org>; Fri, 27 Aug 2021 03:10:18 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 79-20020a1c0452000000b002e6cf79e572so8835060wme.1
+        for <linux-media@vger.kernel.org>; Fri, 27 Aug 2021 03:10:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=3oh1QpE0WrFfn3uQpDReWIUFo/u8YO7Ue3ewWkgWFFI=;
-        b=e4AzkdnWBESEnlsx67SUEm+CzQYDw7R7w35P9Olv0rntHSyJ1TEDlh3Iw58OLhP3UG
-         hWJGU8FUWdNIqDQ6mv4kZvkKiNGbepD4fdU7qfWVcTOKt0dWMqGCb3EpYRxpJzB4TXqQ
-         82X/s3lW4bTDKtl9xU42bFoVnRCYs2PIL94Pfh6xSmn5DYIx/nGufPHVaWspjSicm0uk
-         3bW0W0AHU6//qmgzZsf8tP7CCYyZXhtpsqqzuHTC6FqenqLsBEPI0ABRmHHUoZLk9m4S
-         V7ouyHtW+DrzOhMlUEugXiR52t7xcOSSI1ZMeuioB0y+XBaqawY2V65vlFXZj6JK2sHH
-         vKQg==
+        d=kynesim-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:references:in-reply-to
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=QRu0sljBE9ysTyFayHwaQU7jPGyUADUtgHAXX2iFUdk=;
+        b=RuxfHBzyGz4/D2+xOIqKr51RTKuNBqS03+yDgU9oaJgB06pbqRvOh0LuE7oLYJEQM/
+         F1FN+mzfSPATJqLBuTzm4GSHYUbfaBGuEq38tpaerNmecfEW6mdSjsVSNihAw+oVp/JK
+         QQ9uKZXErBdPRQDBMyiOKcpOUpxWueuoxglfXjhxWR1FXxwJVdfBDZ5IO6iJk7O6qtEV
+         bDYumQNkusnKYS8bO9S5PaM3yELNxUFMmVisMwkx5Xe4ZTzLA9kIRsf7Z1IykEJp6+dL
+         POvL+fvZeuFwAv35DPUCpMtuIOlXYS/+Qq2ffqtvzXW4l+uYo2IFDhc+K6ecPAYVe1tg
+         28iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=3oh1QpE0WrFfn3uQpDReWIUFo/u8YO7Ue3ewWkgWFFI=;
-        b=TBxk6sgJCNT1cwD5jspaJRKZPEERFIDpzs8TM/g5mRosftbYsTwdoh2o7YZ4LPqD3u
-         Z9hu/U7aP69RPf0gmQ0Mv2Lia3NxqHUqyviFTdJdqVec7UzERkpG4VCXYnOz2lBLjGdg
-         S2MStnZDa6Q4T3Dh+u5w9vmV+04/0OUswOVBmMfHGcgy8mCrX0W5tcQX2++DBYbSL/rE
-         uWYxz4HDuPLmq4VE2bxH6FoT1F0rBtE/ZF2x2/voxlkbZJ0ADIk5IlFZ+RoEGBSNKJMi
-         KZNDKAGkwLEy0fFnAQjbIE0u3Al2tpwMVp7PqjCBSN6Zhb0hejvkZRoqggkKUgrOI8/F
-         KBjQ==
-X-Gm-Message-State: AOAM530RM2m6eLuL1wopNthYD2oF8yQos1CpQxAt+/4tzzzvfcwfK+Sh
-        2cb+e+4vZYzIOC8K6CL2BO0=
-X-Google-Smtp-Source: ABdhPJyQU+kDRvvbKupvLtP6M9g/82QVH4Ecli/dOu3tgnvEgdAsF0HzB9Ep+2BQEDNazBnWxOToog==
-X-Received: by 2002:adf:816f:: with SMTP id 102mr8887416wrm.368.1630055281098;
-        Fri, 27 Aug 2021 02:08:01 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id p9sm10840196wmq.40.2021.08.27.02.07.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Aug 2021 02:08:00 -0700 (PDT)
-Subject: Re: [PATCH 1/2] dma-buf: nuke DMA_FENCE_TRACE macros v2
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     hridya@google.com, john.stultz@linaro.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        gustavo@padovan.org, linux-media@vger.kernel.org,
-        adelva@google.com, sspatil@google.com
-References: <20210818105443.1578-1-christian.koenig@amd.com>
- <015fd5ed-9255-9c28-44f3-3c8dde90ebad@gmail.com>
- <YSdXEaBDpijEBx/6@phenom.ffwll.local>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <0c150724-032f-b566-4f61-b4771bafe7a8@gmail.com>
-Date:   Fri, 27 Aug 2021 11:07:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
+         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
+        bh=QRu0sljBE9ysTyFayHwaQU7jPGyUADUtgHAXX2iFUdk=;
+        b=VE46yzYh3HJJb9pOcMBhvAs0+vmWVYTcbf0bUHlOgHA5bxpYclaPvsO5F+ZkGD1WYx
+         qrizGiPLnYTd78LArPyy1xVrnw1zYc1aifDJoj0CJJONVPCjSJuvwamxjK7DOUV6frEF
+         TbT7/8eauWIuaRyg3hZo76jtXr82vBi9cRHF+IXG5CUqJ3q0vrXpxMQVtEZfAcOGav0/
+         h8Be1MqbyxdWstdS4o6F9Dvm4phtw6r1VfGCb3BW2XUx4zDEXzBgOMhh1zwgmDWXJZLU
+         FKQkVN1hmq433HXKyCzzdXBYHEx3EOSCwLIbuy1kOy5AkHW53+hIUyVgIsWNuOZ+BBhq
+         KqlQ==
+X-Gm-Message-State: AOAM532eEGUNYKthbKvfvqGmv6gUg4IaVEQ+FkZyJDykS+vDVmMnTsUC
+        9h0EZlUTbvghUR4q5ZXaad/KSdb8pp4Pcw==
+X-Google-Smtp-Source: ABdhPJxSf5NIqQu1WYgqT7fldC5yg4K274ZlXqE/iJfWX9dKMxQLZhFTrEEARiVJLJaCGXXuN6C6tw==
+X-Received: by 2002:a7b:c933:: with SMTP id h19mr6702353wml.120.1630059017071;
+        Fri, 27 Aug 2021 03:10:17 -0700 (PDT)
+Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
+        by smtp.gmail.com with ESMTPSA id m24sm7820071wrb.18.2021.08.27.03.10.16
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Fri, 27 Aug 2021 03:10:16 -0700 (PDT)
+From:   John Cox <jc@kynesim.co.uk>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH] media: hevc: fix pictures lists type
+Date:   Fri, 27 Aug 2021 11:10:17 +0100
+Message-ID: <r4ehigheq602qijsnjd8govhl4f1dpnr35@4ax.com>
+References: <20210823082949.237716-1-benjamin.gaignard@collabora.com> <02r6ig176o0lqc52nm8rhta7cn5bfn04in@4ax.com> <e1df8e77-b4d1-481c-0f4b-4a20f42d5c9e@collabora.com> <i917ig582epdnpkmjdtvtnap6u8c032c1r@4ax.com> <9d6336fff6f122a9a4510a111387a000c65f797b.camel@ndufresne.ca> <da18a240-22bd-54d2-6306-f39f10a05b22@collabora.com>
+In-Reply-To: <da18a240-22bd-54d2-6306-f39f10a05b22@collabora.com>
+User-Agent: ForteAgent/8.00.32.1272
 MIME-Version: 1.0
-In-Reply-To: <YSdXEaBDpijEBx/6@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 26.08.21 um 10:55 schrieb Daniel Vetter:
-> On Tue, Aug 24, 2021 at 10:12:24AM +0200, Christian König wrote:
->> Just a gentle ping. Daniel any more comments on this?
-> Still haven't seen a patch set to nuke the sw_sync igt tests. Otherwise
-> this is just going to cause fails and reboots in our ci (we reboot on
-> taints).
-
-*sigh* can I at least print a warning without breaking the igt tests?
-
->
->> I'm not sure if the second patch will cause trouble with any unit test, but
->> I'm willing to try it. We can always trivial revert it.
-> See above, remove the igts and we should be fine I think. I don't think
-> there's any selftests or kselftests, but checking that should be a quick
-> grep at most.
-
-Yeah, we don't have any selftests as far as I can see but this stuff is 
-so interweaved with igt that it will be hard to remove I think.
-
-A good bunch of the igt code seems to have been moved to using VGEM 
-instead, but as far as I can see there is still plenty left relying on this.
-
-Alternatively could we make the config option depend on CONFIG_DEBUG?
-
-Christian.
-
-> -Daniel
->
->> Thanks,
->> Christian.
+>Le 26/08/2021 =C3=A0 18:09, Nicolas Dufresne a =C3=A9crit=C2=A0:
+>> Le lundi 23 ao=C3=BBt 2021 =C3=A0 12:35 +0100, John Cox a =
+=C3=A9crit=C2=A0:
+>>> Hi
+>>>
+>>>> Le 23/08/2021 =C3=A0 11:50, John Cox a =C3=A9crit=C2=A0:
+>>>>>> The lists embedded Picture Order Count values which are s32 so =
+their type
+>>>>>> most be s32 and not u8.
+>>>>> I'm not convinced that you can't calculate all of those lists from =
+the
+>>>>> info already contained in the DPB array so this is probably =
+redundant
+>>>>> info though I grant that having the list pre-calced might make your=
+ life
+>>>>> easier, and the userland side will have calculated the lists to
+>>>>> calculate other required things so it isn't much extra work for it.
+>>>> Yes the userland have already compute these lists and the number of =
+items
+>>>> in each of them.
+>>>> Build them in the kernel would means to also compute the values of =
+NumPocStCurrBefore,
+>>>> NumPocStCurrAfter, NumPocLtCurr, NumPocStCurrAfter, =
+NumPocStCurrBefore and NumPocLtCurr
+>>>> and that requires information (NumNegativePics, NumPositivePics...) =
+not provided to the kernel.
+>>>> Since it have to be done in userland anyway, I'm reluctant to modify=
+ the API to redo in the kernel.
+>>> Well, fair enough, I'm not going to argue
+>>>
+>>>>> Even if you do need the lists wouldn't it be a better idea to have =
+them
+>>>>> as indices into the DPB (you can't have a frame in any of those =
+lists
+>>>>> that isn't in the DPB) which already contains POCs then it will =
+still
+>>>>> fit into u8 and be smaller?
+>>>> Hantro HW works with indexes but I think it is more simple to send =
+PoC rather than indexes.
+>>> I'd disagree but as I don't use the info I'm not concerned. Though I
+>>> think I should point out that when Hantro converts the POCs to =
+indicies
+>>> it compares the now s32 POC in these lists with the u16 POC in the =
+DPB
+>>> so you might need to fix that too; by std (8.3.1) no POC diff can be
+>>> outside s16 so you can mask & compare or use u16 POCs in the lists or
+>>> s32 in the DPB.
+>> Fun fact, my interpretation with the API when I drafted GStreamer =
+support was
+>> that it was DPB indexes:
 >>
->> Am 18.08.21 um 12:54 schrieb Christian König:
->>> Only the DRM GPU scheduler, radeon and amdgpu where using them and they depend
->>> on a non existing config option to actually emit some code.
->>>
->>> v2: keep the signal path as is for now
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>    drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 10 +---------
->>>    drivers/gpu/drm/radeon/radeon_fence.c     | 24 ++++-------------------
->>>    drivers/gpu/drm/scheduler/sched_fence.c   | 18 ++---------------
->>>    include/linux/dma-fence.h                 | 22 ---------------------
->>>    4 files changed, 7 insertions(+), 67 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>> index 0b1c48590c43..c65994e382bd 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>> @@ -246,7 +246,6 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->>>    	struct amdgpu_fence_driver *drv = &ring->fence_drv;
->>>    	struct amdgpu_device *adev = ring->adev;
->>>    	uint32_t seq, last_seq;
->>> -	int r;
->>>    	do {
->>>    		last_seq = atomic_read(&ring->fence_drv.last_seq);
->>> @@ -278,12 +277,7 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->>>    		if (!fence)
->>>    			continue;
->>> -		r = dma_fence_signal(fence);
->>> -		if (!r)
->>> -			DMA_FENCE_TRACE(fence, "signaled from irq context\n");
->>> -		else
->>> -			BUG();
->>> -
->>> +		dma_fence_signal(fence);
->>>    		dma_fence_put(fence);
->>>    		pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
->>>    		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
->>> @@ -639,8 +633,6 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
->>>    	if (!timer_pending(&ring->fence_drv.fallback_timer))
->>>    		amdgpu_fence_schedule_fallback(ring);
->>> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", ring->idx);
->>> -
->>>    	return true;
->>>    }
->>> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
->>> index 18f2c2e0dfb3..3f351d222cbb 100644
->>> --- a/drivers/gpu/drm/radeon/radeon_fence.c
->>> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
->>> @@ -176,18 +176,11 @@ static int radeon_fence_check_signaled(wait_queue_entry_t *wait, unsigned mode,
->>>    	 */
->>>    	seq = atomic64_read(&fence->rdev->fence_drv[fence->ring].last_seq);
->>>    	if (seq >= fence->seq) {
->>> -		int ret = dma_fence_signal_locked(&fence->base);
->>> -
->>> -		if (!ret)
->>> -			DMA_FENCE_TRACE(&fence->base, "signaled from irq context\n");
->>> -		else
->>> -			DMA_FENCE_TRACE(&fence->base, "was already signaled\n");
->>> -
->>> +		dma_fence_signal_locked(&fence->base);
->>>    		radeon_irq_kms_sw_irq_put(fence->rdev, fence->ring);
->>>    		__remove_wait_queue(&fence->rdev->fence_queue, &fence->fence_wake);
->>>    		dma_fence_put(&fence->base);
->>> -	} else
->>> -		DMA_FENCE_TRACE(&fence->base, "pending\n");
->>> +	}
->>>    	return 0;
->>>    }
->>> @@ -422,8 +415,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
->>>    	fence->fence_wake.func = radeon_fence_check_signaled;
->>>    	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
->>>    	dma_fence_get(f);
->>> -
->>> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", fence->ring);
->>>    	return true;
->>>    }
->>> @@ -441,11 +432,7 @@ bool radeon_fence_signaled(struct radeon_fence *fence)
->>>    		return true;
->>>    	if (radeon_fence_seq_signaled(fence->rdev, fence->seq, fence->ring)) {
->>> -		int ret;
->>> -
->>> -		ret = dma_fence_signal(&fence->base);
->>> -		if (!ret)
->>> -			DMA_FENCE_TRACE(&fence->base, "signaled from radeon_fence_signaled\n");
->>> +		dma_fence_signal(&fence->base);
->>>    		return true;
->>>    	}
->>>    	return false;
->>> @@ -550,7 +537,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->>>    {
->>>    	uint64_t seq[RADEON_NUM_RINGS] = {};
->>>    	long r;
->>> -	int r_sig;
->>>    	/*
->>>    	 * This function should not be called on !radeon fences.
->>> @@ -567,9 +553,7 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->>>    		return r;
->>>    	}
->>> -	r_sig = dma_fence_signal(&fence->base);
->>> -	if (!r_sig)
->>> -		DMA_FENCE_TRACE(&fence->base, "signaled from fence_wait\n");
->>> +	dma_fence_signal(&fence->base);
->>>    	return r;
->>>    }
->>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->>> index 69de2c76731f..3736746c47bd 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>> @@ -50,26 +50,12 @@ static void __exit drm_sched_fence_slab_fini(void)
->>>    void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
->>>    {
->>> -	int ret = dma_fence_signal(&fence->scheduled);
->>> -
->>> -	if (!ret)
->>> -		DMA_FENCE_TRACE(&fence->scheduled,
->>> -				"signaled from irq context\n");
->>> -	else
->>> -		DMA_FENCE_TRACE(&fence->scheduled,
->>> -				"was already signaled\n");
->>> +	dma_fence_signal(&fence->scheduled);
->>>    }
->>>    void drm_sched_fence_finished(struct drm_sched_fence *fence)
->>>    {
->>> -	int ret = dma_fence_signal(&fence->finished);
->>> -
->>> -	if (!ret)
->>> -		DMA_FENCE_TRACE(&fence->finished,
->>> -				"signaled from irq context\n");
->>> -	else
->>> -		DMA_FENCE_TRACE(&fence->finished,
->>> -				"was already signaled\n");
->>> +	dma_fence_signal(&fence->finished);
->>>    }
->>>    static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
->>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->>> index 6ffb4b2c6371..4cc119ab272f 100644
->>> --- a/include/linux/dma-fence.h
->>> +++ b/include/linux/dma-fence.h
->>> @@ -590,26 +590,4 @@ struct dma_fence *dma_fence_get_stub(void);
->>>    struct dma_fence *dma_fence_allocate_private_stub(void);
->>>    u64 dma_fence_context_alloc(unsigned num);
->>> -#define DMA_FENCE_TRACE(f, fmt, args...) \
->>> -	do {								\
->>> -		struct dma_fence *__ff = (f);				\
->>> -		if (IS_ENABLED(CONFIG_DMA_FENCE_TRACE))			\
->>> -			pr_info("f %llu#%llu: " fmt,			\
->>> -				__ff->context, __ff->seqno, ##args);	\
->>> -	} while (0)
->>> -
->>> -#define DMA_FENCE_WARN(f, fmt, args...) \
->>> -	do {								\
->>> -		struct dma_fence *__ff = (f);				\
->>> -		pr_warn("f %llu#%llu: " fmt, __ff->context, __ff->seqno,\
->>> -			 ##args);					\
->>> -	} while (0)
->>> -
->>> -#define DMA_FENCE_ERR(f, fmt, args...) \
->>> -	do {								\
->>> -		struct dma_fence *__ff = (f);				\
->>> -		pr_err("f %llu#%llu: " fmt, __ff->context, __ff->seqno,	\
->>> -			##args);					\
->>> -	} while (0)
->>> -
->>>    #endif /* __LINUX_DMA_FENCE_H */
+>> =
+https://gitlab.freedesktop.org/ndufresne/gst-plugins-bad/-/blob/hevc_wip/=
+sys/v4l2codecs/gstv4l2codech265dec.c#L850
+>>
+>> It felt quite natural to be, since this is also how we pass references=
+ for l0/l1
+>> (unused by hantro I guess).
+>>
+>> Looking at old rkvdec code as a refresher:
+>>
+>>    for (j =3D 0; j < run->num_slices; j++) {
+>>                  sl_params =3D &run->slices_params[j];
+>>                  dpb =3D sl_params->dpb;
+>>
+>>                  hw_ps =3D &priv_tbl->rps[j];
+>>                  memset(hw_ps, 0, sizeof(*hw_ps));
+>>
+>>                  for (i =3D 0; i <=3D =
+sl_params->num_ref_idx_l0_active_minus1; i++) {
+>>                          =
+WRITE_RPS(!!(dpb[sl_params->ref_idx_l0[i]].rps =3D=3D =
+V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR),
+>>                                    REF_PIC_LONG_TERM_L0(i));
+>>                          WRITE_RPS(sl_params->ref_idx_l0[i], =
+REF_PIC_IDX_L0(i));
+>>                  }
+>>
+>>                  for (i =3D 0; i <=3D =
+sl_params->num_ref_idx_l1_active_minus1; i++) {
+>>                          =
+WRITE_RPS(!!(dpb[sl_params->ref_idx_l1[i]].rps =3D=3D =
+V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR),
+>>                                    REF_PIC_LONG_TERM_L1(i));
+>>                          WRITE_RPS(sl_params->ref_idx_l1[i], =
+REF_PIC_IDX_L1(i));
+>>                  }
+>>
+>>
+>> This is code is clearly unsafe, but now I remember that dpb_entry has =
+a flag
+>> "rps". So we know from the DPB in which of the list the reference =
+lives, if any.
+>> In the case of RKVDEC the HW only cares to know if this is long term =
+or not.
+>>
+>> So without looking at the spec, is that dpb represention enough to =
+reconstruct
+>> these array ? If we pass these array, shall we keep the rps flag ? I =
+think a
+>> little step back and cleanup will be needed. I doubt there is a single=
+ answer,
+>> perhaps list what others do (VA, DXVA, NVDEC, Khronos, etc) and we can
+>> collectively decide were we want V4L2 to sit ?
+>
+>I have done some tests with Hantro driver and look at the spec, the =
+order of the PoC
+>in the reference lists matters. You can deducted the order for DPB rps =
+flags.
+>I would suggest to remove rps flags to avoid information duplication.
 
+I want the DPB rps member for long term reference marking.  I don't care
+about before / after, but LTR can't be deduced from PoC and if you are
+going to keep the member you might as well keep before / after.
+
+John Cox
+
+>Benjamin
+>
+>>
+>>> Regards
+>>>
+>>> John Cox
+>>>
+>>>> Benjamin
+>>>>
+>>>>> Full disclosure: Pi decode doesn't use this info at all so I'm only
+>>>>> arguing from a theoretical point of view - I think it is only =
+relevant
+>>>>> if your h/w is parsing the reference list setups.
+>>>>>
+>>>>> Regards
+>>>>>
+>>>>> John Cox
+>>>>>
+>>>>>> Reported-by: John Cox <jc@kynesim.co.uk>
+>>>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>>>>> ---
+>>>>>> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 6 =
++++---
+>>>>>> include/media/hevc-ctrls.h                                | 6 =
++++---
+>>>>>> 2 files changed, 6 insertions(+), 6 deletions(-)
+>>>>>>
+>>>>>> diff --git =
+a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
+b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>>>>> index 976d34445a24..db9859ddc8b2 100644
+>>>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>>>>> @@ -3323,15 +3323,15 @@ enum =
+v4l2_mpeg_video_hevc_size_of_length_field -
+>>>>>>       * - __u8
+>>>>>>         - ``num_poc_lt_curr``
+>>>>>>         - The number of reference pictures in the long-term set.
+>>>>>> -    * - __u8
+>>>>>> +    * - __s32
+>>>>>>         - ``poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+>>>>>>         - PocStCurrBefore as described in section 8.3.2 "Decoding =
+process for reference
+>>>>>>           picture set.
+>>>>>> -    * - __u8
+>>>>>> +    * - __s32
+>>>>>>         - ``poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+>>>>>>         - PocStCurrAfter as described in section 8.3.2 "Decoding =
+process for reference
+>>>>>>           picture set.
+>>>>>> -    * - __u8
+>>>>>> +    * - __s32
+>>>>>>         - ``poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+>>>>>>         - PocLtCurr as described in section 8.3.2 "Decoding =
+process for reference
+>>>>>>           picture set.
+>>>>>> diff --git a/include/media/hevc-ctrls.h =
+b/include/media/hevc-ctrls.h
+>>>>>> index 781371bff2ad..04cd62e77f25 100644
+>>>>>> --- a/include/media/hevc-ctrls.h
+>>>>>> +++ b/include/media/hevc-ctrls.h
+>>>>>> @@ -219,9 +219,9 @@ struct v4l2_ctrl_hevc_decode_params {
+>>>>>> 	__u8	num_poc_st_curr_before;
+>>>>>> 	__u8	num_poc_st_curr_after;
+>>>>>> 	__u8	num_poc_lt_curr;
+>>>>>> -	__u8	poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>>>>>> -	__u8	poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>>>>>> -	__u8	poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>>>>>> +	__s32	poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>>>>>> +	__s32	poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>>>>>> +	__s32	poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>>>>>> 	__u64	flags;
+>>>>>> };
+>>>>>>
+>>
