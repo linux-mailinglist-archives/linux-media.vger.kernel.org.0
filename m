@@ -2,151 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6E383FBDD6
-	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 23:04:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5D973FBDFC
+	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 23:12:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236279AbhH3VFK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Aug 2021 17:05:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56240 "EHLO
+        id S237384AbhH3VM7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Aug 2021 17:12:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236009AbhH3VFJ (ORCPT
+        with ESMTP id S236566AbhH3VM6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Aug 2021 17:05:09 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29234C061575;
-        Mon, 30 Aug 2021 14:04:15 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id fs6so10351146pjb.4;
-        Mon, 30 Aug 2021 14:04:15 -0700 (PDT)
+        Mon, 30 Aug 2021 17:12:58 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B673DC061575;
+        Mon, 30 Aug 2021 14:12:03 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id a25so34024151ejv.6;
+        Mon, 30 Aug 2021 14:12:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=DR2Bm1R7YKSILao3MIz9gdsriioL6L4Hdgm+Hq95yfk=;
-        b=ah+4CA5h+kOwFd9qrEibSKfYAPfYPA83e3z19xKkl0kEPGZHX9BjvNNIlNCmuCTkXX
-         OmMkgnLYCbXJFPMl/uNwnZ7tGJd9XFnyVK5rD+PPYOjgk9EhpGul2WjEs/kNX+h2CQix
-         bDevhwEQZAchriHqTe8K2o7x4pbEeMPBILP1vLOOSXFb8wGKzXjRJHqqB591CppFPJpS
-         7k7ACVFs9omrP3aTjkTx3K4LwCNocbanA6eC7hRPlw0/8xD6o2t3uJnBfKBeXbGJ1cEL
-         JvjGWRXh76BC39zDasi/DXiNmZwP/TCyXDbjekiUeEikZJrcl1u3AKpJbERDh9fuopj6
-         /92g==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=r14IiUeFZsOa+p44jC0mJ6Q1pyznNHnGwx/JXCHjfMU=;
+        b=U9eeA+tpY9hAdaxImu/QageaS5SOYiXQ0IClfAZDAQ9YmF/AVksSLDwVIcGUYtLfV2
+         9UgHpkNh3bLECyFovm+bzkkRyizWNofxP/KKyhQFohWoY4QXbxiYUftmcxbrXuCkP3Yc
+         HeMI8Pz8a7gdORWLHcmDnNMQF4QJ4CxRz4QPlzHF7W8RLHbnwv7K3kXVfNeTgt6i5Xsc
+         onQq/dTvuYn6Pqps01hbfwnQF++BUO0SizEY+SpAkJoO/YVeMh0BaN2vXk0RmMJpwemV
+         Nxcufx7sgM6IJD1Feob/2Zhr1ciXAhBg7CWdpYUSHjUiRdxEKRPTExSlTjFepP005nKG
+         vCxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=DR2Bm1R7YKSILao3MIz9gdsriioL6L4Hdgm+Hq95yfk=;
-        b=Qbv3t7Sp2ECZNr5WOA8FwEQK8OwTbwAOeLs4Ana1rDnrlaNHqyxEjjWXryZky6GG7w
-         Lkg66gQruRvBLLLdHunfXL3FPFAU6Mfl9cFD/2jApUC4LP23P6vdWlANXX179XUoSejS
-         mW/1aXnnmJDqFUmlrjthpepiMDwQ6XwLa4SqZ0mLPxynAZOwgbb+GjBcDkifeliZhqYG
-         WnAwBWzrQn9cWd5PO9hJOlWdi1ThtavTXeloTe0USQJt3bYWe0IYI/2G0yG+GZOomlPE
-         pBDDm8mJlxMsGs6P7/HjQnOFGqklE3WFlbPH9Lzv6RzRvhnU1ysu7cB5en5cU7CbtttP
-         9VKg==
-X-Gm-Message-State: AOAM530P+S/pkYyZj81BTRlQ5exokh5mUc/vsphmH+vh4Oxetaf9gzzc
-        N8hkmlD9h30MQfBsoYbeOtU=
-X-Google-Smtp-Source: ABdhPJyRz3j8yhGjQruBYt5HogHLyYwlaJCVaG/s7Dn3Fl+divZ4zxqIxw55Rs0lx0A5X/d1yV/xyQ==
-X-Received: by 2002:a17:902:9682:b0:138:e2f9:720d with SMTP id n2-20020a170902968200b00138e2f9720dmr1366038plp.57.1630357454505;
-        Mon, 30 Aug 2021 14:04:14 -0700 (PDT)
-Received: from [10.80.16.166] ([103.137.210.137])
-        by smtp.gmail.com with ESMTPSA id w4sm362753pjj.15.2021.08.30.14.04.06
+        bh=r14IiUeFZsOa+p44jC0mJ6Q1pyznNHnGwx/JXCHjfMU=;
+        b=DbL7XRyItztS/Tm8WgIOGBCAksteTfMEpFDPr2A44dZQmzEMyJvJdSRFgt16uGKvQX
+         ho04UJ1yp92TMlS8LQXi4aYWQ80GYiMvkYjcVt6glDtpS3j4HirwXWhDJmfdLSGwyGS9
+         cmuOx1llJPuU+FpHw5cP1gru377EZx1QxWc/3WzTQV3rDryco45xvB/FVgcqxK/1XmvE
+         uYUt7DieZBPYvUiVeoJSL8rcgGK7kLv1/AO6TvxuOGM0Sa8v1dJWXFxBXIdZ3sb5GbJo
+         fip9AZvg1g2ynL5YJvPnhmLhIRzGiwuMBOOFsm9ubw+/h4hL4J5BVADmpYvMPsi9E0Zr
+         cPtQ==
+X-Gm-Message-State: AOAM530DZ5CnMAGQ1gT6CnYn9l9Zx9lqLhZG4s+y7bwQGqSOLXr0AXKw
+        eWsqInHEhk0cElV/kJO1wyw46b/InpeZ2A2D
+X-Google-Smtp-Source: ABdhPJwYEmJoPiRFTWYAuDsvHNKG/YGAhFBEJdj8AsW1rXIr/Au3+LJksV7du9M4yA9hD0PBaeNBdw==
+X-Received: by 2002:a17:906:a044:: with SMTP id bg4mr27248742ejb.312.1630357922315;
+        Mon, 30 Aug 2021 14:12:02 -0700 (PDT)
+Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
+        by smtp.gmail.com with ESMTPSA id p8sm7215142ejo.2.2021.08.30.14.12.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Aug 2021 14:04:13 -0700 (PDT)
-Subject: Re: [PATCH v8 3/7] drm: lock drm_global_mutex earlier in the ioctl
- handler
-To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, jani.nikula@linux.intel.com,
-        joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
-        chris@chris-wilson.co.uk, ville.syrjala@linux.intel.com,
-        matthew.auld@intel.com, dan.carpenter@oracle.com,
-        tvrtko.ursulin@intel.com, matthew.d.roper@intel.com,
-        lucas.demarchi@intel.com, karthik.b.s@intel.com,
-        jose.souza@intel.com, manasi.d.navare@intel.com,
-        airlied@redhat.com, aditya.swarup@intel.com, andrescj@chromium.org,
-        linux-graphics-maintainer@vmware.com, zackr@vmware.com,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
-        gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Daniel Vetter <daniel@ffwll.ch>
-References: <20210826020122.1488002-1-desmondcheongzx@gmail.com>
- <20210826020122.1488002-4-desmondcheongzx@gmail.com>
- <YSdltHVQnIr+vkTn@phenom.ffwll.local>
-From:   Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <c9e08f10-035f-63dd-698c-faa93c935cd6@gmail.com>
-Date:   Tue, 31 Aug 2021 05:04:04 +0800
+        Mon, 30 Aug 2021 14:12:01 -0700 (PDT)
+Subject: Re: [PATCH v1 5/5] arm64: dts: rockchip: add mipi-dphy-tx1rx1 for
+ rk3399
+To:     Mikhail Rudenko <mike.rudenko@gmail.com>,
+        linux-phy@lists.infradead.org
+Cc:     linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Elaine Zhang <zhangqing@rock-chips.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20210830180758.251390-1-mike.rudenko@gmail.com>
+ <20210830180758.251390-6-mike.rudenko@gmail.com>
+From:   Johan Jonker <jbx6244@gmail.com>
+Message-ID: <ac38a6ce-19f6-8d30-6070-55b78cc082e2@gmail.com>
+Date:   Mon, 30 Aug 2021 23:12:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YSdltHVQnIr+vkTn@phenom.ffwll.local>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <20210830180758.251390-6-mike.rudenko@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/8/21 5:58 pm, Daniel Vetter wrote:
-> On Thu, Aug 26, 2021 at 10:01:18AM +0800, Desmond Cheong Zhi Xi wrote:
->> In a future patch, a read lock on drm_device.master_rwsem is
->> held in the ioctl handler before the check for ioctl
->> permissions. However, this inverts the lock hierarchy of
->> drm_global_mutex --> master_rwsem.
->>
->> To avoid this, we do some prep work to grab the drm_global_mutex
->> before checking for ioctl permissions.
->>
->> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
->> ---
->>   drivers/gpu/drm/drm_ioctl.c | 18 +++++++++---------
->>   1 file changed, 9 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
->> index d25713b09b80..158629d88319 100644
->> --- a/drivers/gpu/drm/drm_ioctl.c
->> +++ b/drivers/gpu/drm/drm_ioctl.c
->> @@ -772,19 +772,19 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
->>   	if (drm_dev_is_unplugged(dev))
->>   		return -ENODEV;
->>   
->> +	/* Enforce sane locking for modern driver ioctls. */
->> +	if (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)) && !(flags & DRM_UNLOCKED))
-> 
-> Maybe have a local bool locked_ioctl for this so it's extremely clear it's
-> the same condition in both?
-> 
-> Either way: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
+Hi Mikhail,
 
-Thanks for the suggestion and review. Sounds good, I'll update and send 
-out a new version.
-
-(Sorry for delays, been busy with moving)
-
->> +		mutex_lock(&drm_global_mutex);
->> +
->>   	retcode = drm_ioctl_permit(flags, file_priv);
->>   	if (unlikely(retcode))
->> -		return retcode;
->> +		goto out;
->>   
->> -	/* Enforce sane locking for modern driver ioctls. */
->> -	if (likely(!drm_core_check_feature(dev, DRIVER_LEGACY)) ||
->> -	    (flags & DRM_UNLOCKED))
->> -		retcode = func(dev, kdata, file_priv);
->> -	else {
->> -		mutex_lock(&drm_global_mutex);
->> -		retcode = func(dev, kdata, file_priv);
->> +	retcode = func(dev, kdata, file_priv);
->> +
->> +out:
->> +	if (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)) && !(flags & DRM_UNLOCKED))
->>   		mutex_unlock(&drm_global_mutex);
->> -	}
->>   	return retcode;
->>   }
->>   EXPORT_SYMBOL(drm_ioctl_kernel);
->> -- 
->> 2.25.1
->>
+On 8/30/21 8:07 PM, Mikhail Rudenko wrote:
+> Add DT node for RX mode of RK3399 TX1RX1 D-PHY.
 > 
+> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+> ---
+>  arch/arm64/boot/dts/rockchip/rk3399.dtsi | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3399.dtsi b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
+> index 3871c7fd83b0..2e4513275a87 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3399.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
+> @@ -1902,6 +1902,21 @@ mipi1_in_vopl: endpoint@1 {
+>  		};
+>  	};
+>  
+> +	mipi_dphy_tx1rx1: mipi-dphy-tx1rx1@ff968000 {
+> +		compatible = "rockchip,rk3399-mipi-dphy-tx1rx1";
+> +		reg = <0x0 0xff968000 0x0 0x8000>;
 
+> +		clocks = <&cru SCLK_MIPIDPHY_REF>,
+> +			<&cru SCLK_DPHY_TX1RX1_CFG>,
+> +			<&cru PCLK_VIO_GRF>,
+> +			<&cru PCLK_MIPI_DSI1>;
+> +		clock-names = "dphy-ref", "dphy-cfg",
+> +			"grf", "dsi";
+
+Could you fix the alignment a bit with extra spaces?
+
+> +		rockchip,grf = <&grf>;
+> +		power-domains = <&power RK3399_PD_VIO>;
+
+Sort in alphabetical order.
+
+> +		#phy-cells = <0>;
+> +		status = "disabled";
+> +	};
+> +
+>  	edp: edp@ff970000 {
+>  		compatible = "rockchip,rk3399-edp";
+>  		reg = <0x0 0xff970000 0x0 0x8000>;
+> 
