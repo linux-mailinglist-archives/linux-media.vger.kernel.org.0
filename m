@@ -2,712 +2,366 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C22E43FBE41
-	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 23:28:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A5BA3FBE63
+	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 23:36:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238468AbhH3V3D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Aug 2021 17:29:03 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:59232 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232579AbhH3V2w (ORCPT
+        id S237447AbhH3VhF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Aug 2021 17:37:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35640 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234916AbhH3VhE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Aug 2021 17:28:52 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 772B55A7;
-        Mon, 30 Aug 2021 23:27:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1630358876;
-        bh=DlDSRKKcLYduk8V/FSpfrseWsY9ju0UYWHWDvlbWEUo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZYuSS7yaumqb2FUHjaB0eVvp9GJDqvOxXEvxxkvKKhNxoPwZgcnw/gQxcS+ma0iMa
-         euVWFwgvjyswvfdIfDZahw8DdQ491Ii7Ssdb/AQ89Pg69Ci86MKdPjSPBnA6IWAmKd
-         rco7Z9kmUcUptqeEhAhF2lXocNM582BkASFleoec=
-Date:   Tue, 31 Aug 2021 00:27:42 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Pedro Terra <pedro@terraco.de>
-Cc:     hverkuil-cisco@xs4all.nl, dafna.hirschfeld@collabora.com,
-        mchehab@kernel.org, skhan@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        gabrielabittencourt00@gmail.com, gfmandaji@gmail.com
-Subject: Re: [PATCH v6] media: vimc: Enable set resolution at the scaler src
- pad
-Message-ID: <YS1NToAvQqHSLIm6@pendragon.ideasonboard.com>
-References: <20210826174115.28943-1-pedro@terraco.de>
+        Mon, 30 Aug 2021 17:37:04 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D21AEC061575;
+        Mon, 30 Aug 2021 14:36:10 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id j10-20020a17090a94ca00b00181f17b7ef7so458588pjw.2;
+        Mon, 30 Aug 2021 14:36:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=DMMYAGt2GH0X98sAMhF1FSTdctWjP57ulHoYd0K0xrI=;
+        b=oC31nqZkJV1IGAALOzqECLMTZaE7nI1abl+g2EWtBNYjs7Ia5gpCO1fjrn0jZEEKc0
+         MjjaWPXOuhqeQ9PK0aYvJJY0xAxCbETmGyJk+G0LsMZV0FzMUtrMi50Gkwa9kbJaIVL0
+         JQcSqg4cZLol31nA4BLL3b7difdp/moQztt1iiyKzOOBuaWmsliGWCnBr97EBxA/uc6a
+         2p82dMZOo7iLTVaqhVxPFm3EcmvmnK72hf7ntlFpzUeRrOFORZO7oyB8mq5h17iS9qFP
+         fElI7XuPALxMX7imt+/auxKd5qauhX8PkHWYQNks29As9a0K6d9chc/ics/QBuqWEDbP
+         2Vtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=DMMYAGt2GH0X98sAMhF1FSTdctWjP57ulHoYd0K0xrI=;
+        b=qQmB29GLtXTT0RWZRO1M5JH53I11+Y2L+tM2vCH6Xqjh09Htv7hY94vryjhLIWUCWI
+         zppUmciEX8ILFUlytTS/IxktPVc9qwyB0H26n4dQraITMdT6JH8MQ4UBa2Xh221lMRnn
+         +aoSOMxWiBa/dSipzqsYCBBMR6vFumiAjz1/hLru4FfZWnpUDnZd4Dy73eAlWulfisPS
+         hM1cuWc+OyxjgeUQ9FSeXVvTKy0NJO1MTMNwHb2Ra5iUX0YTiZLbHQyEP9f7d28Ikn+K
+         5fZzel6Luj+T4bD/hAEIp3WRDSHOlY3mCTlQ4F+UPLoaby7tZqIz1gzedujh1jGRWgqf
+         XLuQ==
+X-Gm-Message-State: AOAM532afCx9m/IBzQ9KV0SA4v/tdBj0KBG7D56SfohjpWr9/CBbSg/9
+        oc50ccIDvgjrMiu2iuELzfQ=
+X-Google-Smtp-Source: ABdhPJz8FL6dF8XDeUBqOqLr1kDGNXgoxA9KJIgP1cHX3mHETqAJbW4/zbQuZGooY5guCAfh3Wblwg==
+X-Received: by 2002:a17:90a:312:: with SMTP id 18mr1286240pje.178.1630359370225;
+        Mon, 30 Aug 2021 14:36:10 -0700 (PDT)
+Received: from [10.80.16.166] ([103.137.210.137])
+        by smtp.gmail.com with ESMTPSA id u3sm14653138pfg.58.2021.08.30.14.36.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Aug 2021 14:36:09 -0700 (PDT)
+Subject: Re: [PATCH v8 4/7] drm: avoid races with modesetting rights
+To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, jani.nikula@linux.intel.com,
+        joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+        chris@chris-wilson.co.uk, ville.syrjala@linux.intel.com,
+        matthew.auld@intel.com, dan.carpenter@oracle.com,
+        tvrtko.ursulin@intel.com, matthew.d.roper@intel.com,
+        lucas.demarchi@intel.com, karthik.b.s@intel.com,
+        jose.souza@intel.com, manasi.d.navare@intel.com,
+        airlied@redhat.com, aditya.swarup@intel.com, andrescj@chromium.org,
+        linux-graphics-maintainer@vmware.com, zackr@vmware.com,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
+        gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <20210826020122.1488002-1-desmondcheongzx@gmail.com>
+ <20210826020122.1488002-5-desmondcheongzx@gmail.com>
+ <YSeQHvagpTjlifpX@phenom.ffwll.local>
+From:   Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Message-ID: <d8ba4b21-a04f-1bd9-f986-ffc894bd50fd@gmail.com>
+Date:   Tue, 31 Aug 2021 05:36:01 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210826174115.28943-1-pedro@terraco.de>
+In-Reply-To: <YSeQHvagpTjlifpX@phenom.ffwll.local>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Pedro,
-
-Thank you for the patch.
-
-On Thu, Aug 26, 2021 at 02:41:15PM -0300, Pedro Terra wrote:
-> Modify the scaler subdevice to accept setting the resolution of the source
-> pad (previously the source resolution would always be 3 times the sink for
-> both dimensions). Now any resolution can be set at src (even smaller ones)
-> and the sink video will be scaled to match it.
+On 26/8/21 8:59 pm, Daniel Vetter wrote:
+> On Thu, Aug 26, 2021 at 10:01:19AM +0800, Desmond Cheong Zhi Xi wrote:
+>> In drm_client_modeset.c and drm_fb_helper.c,
+>> drm_master_internal_{acquire,release} are used to avoid races with DRM
+>> userspace. These functions hold onto drm_device.master_rwsem while
+>> committing, and bail if there's already a master.
+>>
+>> However, there are other places where modesetting rights can race. A
+>> time-of-check-to-time-of-use error can occur if an ioctl that changes
+>> the modeset has its rights revoked after it validates its permissions,
+>> but before it completes.
+>>
+>> There are four places where modesetting permissions can change:
+>>
+>> - DROP_MASTER ioctl removes rights for a master and its leases
+>>
+>> - REVOKE_LEASE ioctl revokes rights for a specific lease
+>>
+>> - SET_MASTER ioctl sets the device master if the master role hasn't
+>> been acquired yet
+>>
+>> - drm_open which can create a new master for a device if one does not
+>> currently exist
+>>
+>> These races can be avoided using drm_device.master_rwsem: users that
+>> perform modesetting should hold a read lock on the new
+>> drm_device.master_rwsem, and users that change these permissions
+>> should hold a write lock.
+>>
+>> To avoid deadlocks with master_rwsem, for ioctls that need to check
+>> for modesetting permissions, but also need to hold a write lock on
+>> master_rwsem to protect some other attribute (or recurses to some
+>> function that holds a write lock, like drm_mode_create_lease_ioctl
+>> which eventually calls drm_master_open), we remove the DRM_MASTER flag
+>> and push the master_rwsem lock and permissions check into the ioctl.
+>>
+>> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+>> ---
+>>   drivers/gpu/drm/drm_auth.c  |  4 ++++
+>>   drivers/gpu/drm/drm_ioctl.c | 20 +++++++++++++++-----
+>>   drivers/gpu/drm/drm_lease.c | 35 ++++++++++++++++++++++++-----------
+>>   include/drm/drm_device.h    |  5 +++++
+>>   4 files changed, 48 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+>> index 73ade0513ccb..65065f7e1499 100644
+>> --- a/drivers/gpu/drm/drm_auth.c
+>> +++ b/drivers/gpu/drm/drm_auth.c
+>> @@ -120,6 +120,10 @@ int drm_authmagic(struct drm_device *dev, void *data,
+>>   	DRM_DEBUG("%u\n", auth->magic);
+>>   
+>>   	down_write(&dev->master_rwsem);
+>> +	if (unlikely(!drm_is_current_master(file_priv))) {
+>> +		up_write(&dev->master_rwsem);
+>> +		return -EACCES;
+>> +	}
+>>   	file = idr_find(&file_priv->master->magic_map, auth->magic);
+>>   	if (file) {
+>>   		file->authenticated = 1;
+>> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+>> index 158629d88319..8bea39ffc5c0 100644
+>> --- a/drivers/gpu/drm/drm_ioctl.c
+>> +++ b/drivers/gpu/drm/drm_ioctl.c
+>> @@ -386,6 +386,10 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
+>>   	int if_version, retcode = 0;
+>>   
+>>   	down_write(&dev->master_rwsem);
+>> +	if (unlikely(!drm_is_current_master(file_priv))) {
+>> +		retcode = -EACCES;
+>> +		goto unlock;
+>> +	}
+>>   	if (sv->drm_di_major != -1) {
+>>   		if (sv->drm_di_major != DRM_IF_MAJOR ||
+>>   		    sv->drm_di_minor < 0 || sv->drm_di_minor > DRM_IF_MINOR) {
+>> @@ -420,8 +424,9 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
+>>   	sv->drm_di_minor = DRM_IF_MINOR;
+>>   	sv->drm_dd_major = dev->driver->major;
+>>   	sv->drm_dd_minor = dev->driver->minor;
+>> -	up_write(&dev->master_rwsem);
+>>   
+>> +unlock:
+>> +	up_write(&dev->master_rwsem);
+>>   	return retcode;
+>>   }
+>>   
+>> @@ -574,12 +579,12 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+>>   	DRM_IOCTL_DEF(DRM_IOCTL_GET_STATS, drm_getstats, 0),
+>>   	DRM_IOCTL_DEF(DRM_IOCTL_GET_CAP, drm_getcap, DRM_RENDER_ALLOW),
+>>   	DRM_IOCTL_DEF(DRM_IOCTL_SET_CLIENT_CAP, drm_setclientcap, 0),
+>> -	DRM_IOCTL_DEF(DRM_IOCTL_SET_VERSION, drm_setversion, DRM_MASTER),
+>> +	DRM_IOCTL_DEF(DRM_IOCTL_SET_VERSION, drm_setversion, 0),
 > 
-> Test example: With the vimc module up (using the default vimc topology)
-> media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
-> media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
-> media-ctl -d platform:vimc -V '"Scaler":0[fmt:RGB888_1X24/640x480]'
-> media-ctl -d platform:vimc -V '"Scaler":0[crop:(100,50)/400x150]'
-> media-ctl -d platform:vimc -V '"Scaler":1[fmt:RGB888_1X24/300x700]'
-> v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=300,height=700
-> v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
-> v4l2-ctl --stream-mmap --stream-count=10 -z platform:vimc -d "RGB/YUV Capture" \
-> |-----stream-to=test.raw
-
-This looks weird, I think you meant
-
-	--stream-to=test.raw
-
-> The result will be a cropped stream that can be checked with the command
-> ffplay -loglevel warning -v info -f rawvideo -pixel_format rgb24 \
-> 	-video_size "300x700" test.raw
+> Random bikeshed, if you're bored: In newer code we've given ioctl
+> callbacks an _ioctl suffix, so they'r easier to spot. Could do that in a
+> follow-up if you want.
 > 
-> Co-developed-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-> Signed-off-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-> Co-developed-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
-> Signed-off-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
-> Signed-off-by: Pedro "pirate" Terra <pirate@terraco.de>
+
+Makes sense, this was a small pain point when auditing the ioctl 
+functions. I'll do this on a rainier day.
+
+>>   
+>>   	DRM_IOCTL_DEF(DRM_IOCTL_SET_UNIQUE, drm_invalid_op, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+>>   	DRM_IOCTL_DEF(DRM_IOCTL_BLOCK, drm_noop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+>>   	DRM_IOCTL_DEF(DRM_IOCTL_UNBLOCK, drm_noop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+>> -	DRM_IOCTL_DEF(DRM_IOCTL_AUTH_MAGIC, drm_authmagic, DRM_MASTER),
+>> +	DRM_IOCTL_DEF(DRM_IOCTL_AUTH_MAGIC, drm_authmagic, 0),
+>>   
+>>   	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_ADD_MAP, drm_legacy_addmap_ioctl, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+>>   	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_RM_MAP, drm_legacy_rmmap_ioctl, DRM_AUTH),
+>> @@ -706,10 +711,10 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+>>   		      DRM_RENDER_ALLOW),
+>>   	DRM_IOCTL_DEF(DRM_IOCTL_CRTC_GET_SEQUENCE, drm_crtc_get_sequence_ioctl, 0),
+>>   	DRM_IOCTL_DEF(DRM_IOCTL_CRTC_QUEUE_SEQUENCE, drm_crtc_queue_sequence_ioctl, 0),
+>> -	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_LEASE, drm_mode_create_lease_ioctl, DRM_MASTER),
+>> +	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_LEASE, drm_mode_create_lease_ioctl, 0),
+>>   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_LIST_LESSEES, drm_mode_list_lessees_ioctl, DRM_MASTER),
+>>   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GET_LEASE, drm_mode_get_lease_ioctl, DRM_MASTER),
+>> -	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, DRM_MASTER),
+>> +	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, 0),
+>>   };
+>>   
+>>   #define DRM_CORE_IOCTL_COUNT	ARRAY_SIZE( drm_ioctls )
+>> @@ -776,6 +781,9 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
+>>   	if (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)) && !(flags & DRM_UNLOCKED))
+>>   		mutex_lock(&drm_global_mutex);
+>>   
+>> +	if (unlikely(flags & DRM_MASTER))
+>> +		down_read(&dev->master_rwsem);
+>> +
+>>   	retcode = drm_ioctl_permit(flags, file_priv);
+>>   	if (unlikely(retcode))
+>>   		goto out;
+>> @@ -783,6 +791,8 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
+>>   	retcode = func(dev, kdata, file_priv);
+>>   
+>>   out:
+>> +	if (unlikely(flags & DRM_MASTER))
+>> +		up_read(&dev->master_rwsem);
+>>   	if (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)) && !(flags & DRM_UNLOCKED))
+>>   		mutex_unlock(&drm_global_mutex);
+>>   	return retcode;
+>> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+>> index dee4f24a1808..bed6f7636cbe 100644
+>> --- a/drivers/gpu/drm/drm_lease.c
+>> +++ b/drivers/gpu/drm/drm_lease.c
+>> @@ -500,6 +500,18 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>>   		return -EINVAL;
+>>   	}
+>>   
+>> +	/* Clone the lessor file to create a new file for us */
+>> +	DRM_DEBUG_LEASE("Allocating lease file\n");
+>> +	lessee_file = file_clone_open(lessor_file);
+>> +	if (IS_ERR(lessee_file))
+>> +		return PTR_ERR(lessee_file);
+>> +
+>> +	down_read(&dev->master_rwsem);
+>> +	if (unlikely(!drm_is_current_master(lessor_priv))) {
+>> +		ret = -EACCES;
+>> +		goto out_file;
+>> +	}
+>> +
+>>   	lessor = drm_file_get_master(lessor_priv);
+>>   	/* Do not allow sub-leases */
+>>   	if (lessor->lessor) {
+>> @@ -547,14 +559,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>>   		goto out_leases;
+>>   	}
+>>   
+>> -	/* Clone the lessor file to create a new file for us */
+>> -	DRM_DEBUG_LEASE("Allocating lease file\n");
+>> -	lessee_file = file_clone_open(lessor_file);
+>> -	if (IS_ERR(lessee_file)) {
+>> -		ret = PTR_ERR(lessee_file);
+>> -		goto out_lessee;
+>> -	}
+>> -
+>>   	lessee_priv = lessee_file->private_data;
+>>   	/* Change the file to a master one */
+>>   	drm_master_put(&lessee_priv->master);
+>> @@ -571,17 +575,19 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>>   	fd_install(fd, lessee_file);
+>>   
+>>   	drm_master_put(&lessor);
 > 
-> ---
+> Hm if we're unlucky this might be the last reference (against nasty
+> userspace only), and that could then perhaps collide with us still holding
+> the lock. It looks like we're fine, the only thing that drm_master_put
+> might be locking is
 > 
-> Changes in V6:
-> * Corrections proposed by Laurent:
-> 	- Corrected commit example to become file independent.
-> 	- Cleaned unnecessary code inserted at vimc_sca_init_cfg
-> 	- s/__u32/u32/
-> 	- Refactored vimc_sca_(set/get)_fmt and vimc_sca_(get/set)_selection
-> 		as suggested to make it more readable.
-> 	- Corrected code alignment.
-> 	- Cleaned and optimized vimc_sca_fill_src_frame
+> 	mutex_lock(&dev->mode_config.idr_mutex);
 > 
-> Changes in V5:
-> * Fixed code aliment mistake
-> * Renamed some variables to make the code more readable
-> * Propagate sink pad formatting to src resetting the 1:1 scaling ratio.
-> 	(the crop is also reset when this is done).
+> through drm_lease_destroy(). We don't care about legacy drivers and hence
+> the dev->struct_mutex (plus that lock is a complete mess anyway).
 > 
-> Changes in V4:
-> * Rebased with media/master
-> * Scaling is now compatible with crop
-> * Updated test example at the commit message
-> * Add vimc prefix to the pad enumeration
+> Maybe another patch to add a might_lock to drm_master_put, just to be
+> safe?
 > 
-> Changes in V3:
-> * Corrections suggested by Hans:
-> 	- Default scaling factor is now 1 (we removed the define and
-> 	  set the source format equals the sink).
-> 	- Removed SCA_COUNT (enum that represents the number of pads)
-> 	  as there always 2
-> 	- Swapped the per byte pixel copy to memcpy.
-> * Corrections suggested by Dafna:
-> 	- Removed from the documentation the old scaler parameter which
-> 	  isn't necessary anymore.
-> * Added a thank you note at the end of the email
+
+Sounds good.
+
+I agree that we should be safe for now, since we're taking efforts to 
+make master_rwsem an outer lock, especially after we take your later 
+suggestion to remove the lock from drm_file_get_master and 
+drm_is_current_master.
+
+>> +	up_read(&dev->master_rwsem);
+>>   	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
+>>   	return 0;
+>>   
+>> -out_lessee:
+>> -	drm_master_put(&lessee);
+>> -
+>>   out_leases:
+>>   	put_unused_fd(fd);
+>>   
+>>   out_lessor:
+>>   	drm_master_put(&lessor);
+>> +
+>> +out_file:
+>> +	up_read(&dev->master_rwsem);
+>> +	fput(lessee_file);
+>>   	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
+>>   	return ret;
+>>   }
+>> @@ -705,6 +711,11 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+>>   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>>   		return -EOPNOTSUPP;
+>>   
+>> +	down_write(&dev->master_rwsem);
+>> +	if (unlikely(!drm_is_current_master(lessor_priv))) {
+>> +		ret = -EACCES;
+>> +		goto unlock;
+>> +	}
+>>   	lessor = drm_file_get_master(lessor_priv);
+>>   	mutex_lock(&dev->mode_config.idr_mutex);
+>>   
+>> @@ -728,5 +739,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+>>   	mutex_unlock(&dev->mode_config.idr_mutex);
+>>   	drm_master_put(&lessor);
+>>   
+>> +unlock:
+>> +	up_write(&dev->master_rwsem);
+>>   	return ret;
+>>   }
+>> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+>> index 142fb2f6e74d..7d32bb69e6db 100644
+>> --- a/include/drm/drm_device.h
+>> +++ b/include/drm/drm_device.h
+>> @@ -151,6 +151,11 @@ struct drm_device {
+>>   	 * Lock for &drm_device.master, &drm_file.was_master,
+>>   	 * &drm_file.is_master, &drm_file.master, &drm_master.unique,
+>>   	 * &drm_master.unique_len, and &drm_master.magic_map.
+>> +	 *
+>> +	 * Additionally, synchronizes modesetting rights between multiple users.
 > 
-> Changes in V2:
-> * Patch was not sent to media list mail for some reason (even though it
-> was on the Cc list), trying again.
-> * Updating documentation.
+> Current modern drives only use this for modesetting rights, but this is
+> about anything which is exclusively owned by the drm_master. So maybe
+> reword to "synchronizes access rights to exclusive resources like
+> modesetting access".
 > 
-> Running
-> /usr/local/bin/v4l2-compliance -m /dev/media0
-> Gave the following result:
-> v4l2-compliance SHA: c86aab9cc7f1 2021-07-28 11:52:45
-> Grand Total for vimc device /dev/media0: 473, Succeeded: 473, Failed: 0, Warnings: 0
-> ---
->  Documentation/admin-guide/media/vimc.rst      |  22 +-
->  drivers/media/test-drivers/vimc/vimc-scaler.c | 368 +++++++-----------
->  2 files changed, 150 insertions(+), 240 deletions(-)
+
+Right, will do.
+
+> With that clarified:
 > 
-> diff --git a/Documentation/admin-guide/media/vimc.rst b/Documentation/admin-guide/media/vimc.rst
-> index 211cc8972410..34de709e9f8e 100644
-> --- a/Documentation/admin-guide/media/vimc.rst
-> +++ b/Documentation/admin-guide/media/vimc.rst
-> @@ -61,10 +61,11 @@ vimc-debayer:
->  	* 1 Pad source
->  
->  vimc-scaler:
-> -	Scale up the image by a factor of 3. E.g.: a 640x480 image becomes a
-> -        1920x1440 image. (this value can be configured, see at
-> -        `Module options`_).
-> -	Exposes:
-> +	Re-size the image to meet the source pad resolution. E.g.: if the sync pad
-> +is configured to 360x480 and the source to 1280x720, the image will be stretched
-> +to fit the source resolution. Works for any resolution within the vimc
-> +limitations (even shrinking the image if necessary).
-> +Exposes:
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> 
+> The other suggestions are for follow-up patches, if you feel like.
+> -Daniel
+> 
+>> +	 * Users that can change the modeset or display state must hold a read
+>> +	 * lock on @master_rwsem, and users that change modesetting rights
+>> +	 * should hold a write lock.
+>>   	 */
+>>   	struct rw_semaphore master_rwsem;
+>>   
+>> -- 
+>> 2.25.1
+>>
+> 
 
-Indentation is important, this will cause a documentation build warning:
-
-Documentation/admin-guide/media/vimc.rst:65: WARNING: Definition list ends without a blank line; unexpected unindent.
-
-It should be written
-
-	Re-size the image to meet the source pad resolution. E.g.: if the sync
-	pad is configured to 360x480 and the source to 1280x720, the image will
-	be stretched to fit the source resolution. Works for any resolution
-	within the vimc limitations (even shrinking the image if necessary).
-	Exposes:
-
->  
->  	* 1 Pad sink
->  	* 1 Pad source
-> @@ -75,16 +76,3 @@ vimc-capture:
->  
->  	* 1 Pad sink
->  	* 1 Pad source
-> -
-> -
-> -Module options
-> ---------------
-> -
-> -Vimc has a module parameter to configure the driver.
-> -
-> -* ``sca_mult=<unsigned int>``
-> -
-> -        Image size multiplier factor to be used to multiply both width and
-> -        height, so the image size will be ``sca_mult^2`` bigger than the
-> -        original one. Currently, only supports scaling up (the default value
-> -        is 3).
-> diff --git a/drivers/media/test-drivers/vimc/vimc-scaler.c b/drivers/media/test-drivers/vimc/vimc-scaler.c
-> index 06880dd0b6ac..13adad8d03c5 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-scaler.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-scaler.c
-> @@ -6,6 +6,7 @@
->   */
->  
->  #include <linux/moduleparam.h>
-> +#include <linux/string.h>
->  #include <linux/vmalloc.h>
->  #include <linux/v4l2-mediabus.h>
->  #include <media/v4l2-rect.h>
-> @@ -13,11 +14,11 @@
->  
->  #include "vimc-common.h"
->  
-> -static unsigned int sca_mult = 3;
-> -module_param(sca_mult, uint, 0000);
-> -MODULE_PARM_DESC(sca_mult, " the image size multiplier");
-> -
-> -#define MAX_ZOOM	8
-> +/* Pad identifier */
-> +enum vic_sca_pad {
-> +	VIMC_SCA_SINK = 0,
-> +	VIMC_SCA_SRC = 1,
-> +};
->  
->  #define VIMC_SCA_FMT_WIDTH_DEFAULT  640
->  #define VIMC_SCA_FMT_HEIGHT_DEFAULT 480
-> @@ -25,19 +26,16 @@ MODULE_PARM_DESC(sca_mult, " the image size multiplier");
->  struct vimc_sca_device {
->  	struct vimc_ent_device ved;
->  	struct v4l2_subdev sd;
-> -	/* NOTE: the source fmt is the same as the sink
-> -	 * with the width and hight multiplied by mult
-> -	 */
-> -	struct v4l2_mbus_framefmt sink_fmt;
->  	struct v4l2_rect crop_rect;
-> +	/* Frame format for both sink and src pad */
-> +	struct v4l2_mbus_framefmt fmt[2];
->  	/* Values calculated when the stream starts */
->  	u8 *src_frame;
-> -	unsigned int src_line_size;
->  	unsigned int bpp;
->  	struct media_pad pads[2];
->  };
->  
-> -static const struct v4l2_mbus_framefmt sink_fmt_default = {
-> +static const struct v4l2_mbus_framefmt fmt_default = {
->  	.width = VIMC_SCA_FMT_WIDTH_DEFAULT,
->  	.height = VIMC_SCA_FMT_HEIGHT_DEFAULT,
->  	.code = MEDIA_BUS_FMT_RGB888_1X24,
-> @@ -72,17 +70,6 @@ vimc_sca_get_crop_bound_sink(const struct v4l2_mbus_framefmt *sink_fmt)
->  	return r;
->  }
->  
-> -static void vimc_sca_adjust_sink_crop(struct v4l2_rect *r,
-> -				      const struct v4l2_mbus_framefmt *sink_fmt)
-> -{
-> -	const struct v4l2_rect sink_rect =
-> -		vimc_sca_get_crop_bound_sink(sink_fmt);
-> -
-> -	/* Disallow rectangles smaller than the minimal one. */
-> -	v4l2_rect_set_min_size(r, &crop_rect_min);
-> -	v4l2_rect_map_inside(r, &sink_rect);
-> -}
-> -
->  static int vimc_sca_init_cfg(struct v4l2_subdev *sd,
->  			     struct v4l2_subdev_state *sd_state)
->  {
-> @@ -90,19 +77,14 @@ static int vimc_sca_init_cfg(struct v4l2_subdev *sd,
->  	struct v4l2_rect *r;
->  	unsigned int i;
->  
-> -	mf = v4l2_subdev_get_try_format(sd, sd_state, 0);
-> -	*mf = sink_fmt_default;
-> -
-> -	r = v4l2_subdev_get_try_crop(sd, sd_state, 0);
-> -	*r = crop_rect_default;
-> -
->  	for (i = 1; i < sd->entity.num_pads; i++) {
-
-Shouldn't the loop start at index 0 ?
-
->  		mf = v4l2_subdev_get_try_format(sd, sd_state, i);
-> -		*mf = sink_fmt_default;
-> -		mf->width = mf->width * sca_mult;
-> -		mf->height = mf->height * sca_mult;
-> +		*mf = fmt_default;
->  	}
->  
-> +	r = v4l2_subdev_get_try_crop(sd, sd_state, VIMC_SCA_SINK);
-> +	*r = crop_rect_default;
-> +
->  	return 0;
->  }
->  
-> @@ -144,112 +126,108 @@ static int vimc_sca_enum_frame_size(struct v4l2_subdev *sd,
->  	fse->min_width = VIMC_FRAME_MIN_WIDTH;
->  	fse->min_height = VIMC_FRAME_MIN_HEIGHT;
->  
-> -	if (VIMC_IS_SINK(fse->pad)) {
-> -		fse->max_width = VIMC_FRAME_MAX_WIDTH;
-> -		fse->max_height = VIMC_FRAME_MAX_HEIGHT;
-> -	} else {
-> -		fse->max_width = VIMC_FRAME_MAX_WIDTH * MAX_ZOOM;
-> -		fse->max_height = VIMC_FRAME_MAX_HEIGHT * MAX_ZOOM;
-> -	}
-> +	fse->max_width = VIMC_FRAME_MAX_WIDTH;
-> +	fse->max_height = VIMC_FRAME_MAX_HEIGHT;
->  
->  	return 0;
->  }
->  
-> -static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
-> +static struct v4l2_mbus_framefmt *
-> +vimc_sca_pad_format(struct vimc_sca_device *vsca,
-> +		    struct v4l2_subdev_state *sd_state, u32 pad,
-> +		    enum v4l2_subdev_format_whence which)
-> +{
-> +	if (which == V4L2_SUBDEV_FORMAT_TRY)
-> +		return v4l2_subdev_get_try_format(&vsca->sd, sd_state, pad);
-> +	else
-> +		return &vsca->fmt[pad];
-> +}
-> +
-> +static struct v4l2_rect *
-> +vimc_sca_pad_crop(struct vimc_sca_device *vsca,
-> +		  struct v4l2_subdev_state *sd_state,
-> +		  enum v4l2_subdev_format_whence which)
-> +{
-> +	if (which == V4L2_SUBDEV_FORMAT_TRY)
-> +		return v4l2_subdev_get_try_crop(&vsca->sd, sd_state,
-> +						VIMC_SCA_SINK);
-> +	else
-> +		return &vsca->crop_rect;
-> +}
-> +
-> +static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
->  			    struct v4l2_subdev_state *sd_state,
->  			    struct v4l2_subdev_format *format)
->  {
->  	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
-> -	struct v4l2_rect *crop_rect;
-> +	struct v4l2_mbus_framefmt *fmt;
->  
-> -	/* Get the current sink format */
-> -	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
-> -		format->format = *v4l2_subdev_get_try_format(sd, sd_state, 0);
-> -		crop_rect = v4l2_subdev_get_try_crop(sd, sd_state, 0);
-> -	} else {
-> -		format->format = vsca->sink_fmt;
-> -		crop_rect = &vsca->crop_rect;
-> -	}
-> +	/* Do not change the active format while stream is on */
-> +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE && vsca->src_frame)
-> +		return -EBUSY;
->  
-> -	/* Scale the frame size for the source pad */
-> -	if (VIMC_IS_SRC(format->pad)) {
-> -		format->format.width = crop_rect->width * sca_mult;
-> -		format->format.height = crop_rect->height * sca_mult;
-> -	}
-> +	fmt = vimc_sca_pad_format(vsca, sd_state, format->pad, format->which);
->  
-> -	return 0;
-> -}
-> -
-> -static void vimc_sca_adjust_sink_fmt(struct v4l2_mbus_framefmt *fmt)
-> -{
-> -	const struct vimc_pix_map *vpix;
-> +	/*
-> +	 * The media bus code and colorspace can only be changed on the sink
-> +	 * pad, the source pad only follows.
-> +	 */
-> +	if (format->pad == VIMC_SCA_SINK) {
-> +		const struct vimc_pix_map *vpix;
->  
-> -	/* Only accept code in the pix map table in non bayer format */
-> -	vpix = vimc_pix_map_by_code(fmt->code);
-> -	if (!vpix || vpix->bayer)
-> -		fmt->code = sink_fmt_default.code;
-> +		/* Only accept code in the pix map table in non bayer format. */
-> +		vpix = vimc_pix_map_by_code(format->format.code);
-> +		if (vpix && !vpix->bayer)
-> +			fmt->code = format->format.code;
-> +		else
-> +			fmt->code = fmt_default.code;
-> +
-> +		/* Clamp the colorspace to valid values. */
-> +		fmt->colorspace = format->format.colorspace;
-> +		fmt->ycbcr_enc = format->format.ycbcr_enc;
-> +		fmt->quantization = format->format.quantization;
-> +		fmt->xfer_func = format->format.xfer_func;
-> +		vimc_colorimetry_clamp(fmt);
-> +	}
->  
-> -	fmt->width = clamp_t(u32, fmt->width, VIMC_FRAME_MIN_WIDTH,
-> +	/* Clamp and align the width and height */
-> +	fmt->width = clamp_t(u32, format->format.width, VIMC_FRAME_MIN_WIDTH,
->  			     VIMC_FRAME_MAX_WIDTH) & ~1;
-> -	fmt->height = clamp_t(u32, fmt->height, VIMC_FRAME_MIN_HEIGHT,
-> +	fmt->height = clamp_t(u32, format->format.height, VIMC_FRAME_MIN_HEIGHT,
->  			      VIMC_FRAME_MAX_HEIGHT) & ~1;
->  
-> -	if (fmt->field == V4L2_FIELD_ANY)
-> -		fmt->field = sink_fmt_default.field;
-> +	/*
-> +	 * Propagate the sink pad format to the crop rectangle and the source
-> +	 * pad.
-> +	 */
-> +	if (format->pad == VIMC_SCA_SINK) {
-> +		struct v4l2_mbus_framefmt *src_fmt;
-> +		struct v4l2_rect *crop;
-> +
-> +		crop = vimc_sca_pad_crop(vsca, sd_state, format->which);
-> +		crop->width = fmt->width;
-> +		crop->height = fmt->height;
-> +		crop->top = 0;
-> +		crop->left = 0;
-> +
-> +		src_fmt = vimc_sca_pad_format(vsca, sd_state, VIMC_SCA_SRC,
-> +					      format->which);
-> +		*src_fmt = *fmt;
-> +	}
->  
-> -	vimc_colorimetry_clamp(fmt);
-> +	format->format = *fmt;
-> +
-> +	return 0;
->  }
->  
-> -static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
-> +static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
->  			    struct v4l2_subdev_state *sd_state,
-> -			    struct v4l2_subdev_format *fmt)
-> +			    struct v4l2_subdev_format *format)
->  {
->  	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
-> -	struct v4l2_mbus_framefmt *sink_fmt;
-> -	struct v4l2_rect *crop_rect;
-> -
-> -	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> -		/* Do not change the format while stream is on */
-> -		if (vsca->src_frame)
-> -			return -EBUSY;
-> -
-> -		sink_fmt = &vsca->sink_fmt;
-> -		crop_rect = &vsca->crop_rect;
-> -	} else {
-> -		sink_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
-> -		crop_rect = v4l2_subdev_get_try_crop(sd, sd_state, 0);
-> -	}
-> -
-> -	/*
-> -	 * Do not change the format of the source pad,
-> -	 * it is propagated from the sink
-> -	 */
-> -	if (VIMC_IS_SRC(fmt->pad)) {
-> -		fmt->format = *sink_fmt;
-> -		fmt->format.width = crop_rect->width * sca_mult;
-> -		fmt->format.height = crop_rect->height * sca_mult;
-> -	} else {
-> -		/* Set the new format in the sink pad */
-> -		vimc_sca_adjust_sink_fmt(&fmt->format);
-> -
-> -		dev_dbg(vsca->ved.dev, "%s: sink format update: "
-> -			"old:%dx%d (0x%x, %d, %d, %d, %d) "
-> -			"new:%dx%d (0x%x, %d, %d, %d, %d)\n", vsca->sd.name,
-> -			/* old */
-> -			sink_fmt->width, sink_fmt->height, sink_fmt->code,
-> -			sink_fmt->colorspace, sink_fmt->quantization,
-> -			sink_fmt->xfer_func, sink_fmt->ycbcr_enc,
-> -			/* new */
-> -			fmt->format.width, fmt->format.height, fmt->format.code,
-> -			fmt->format.colorspace,	fmt->format.quantization,
-> -			fmt->format.xfer_func, fmt->format.ycbcr_enc);
-> -
-> -		*sink_fmt = fmt->format;
-> -
-> -		/* Do the crop, but respect the current bounds */
-> -		vimc_sca_adjust_sink_crop(crop_rect, sink_fmt);
-> -	}
->  
-> +	format->format = *vimc_sca_pad_format(vsca, sd_state, format->pad,
-> +					      format->which);
->  	return 0;
->  }
-
-I'd place vimc_sca_get_fmt() before vimc_sca_set_fmt() as that's the
-order in which they're set in the v4l2_subdev_pad_ops structure (and it
-would also match the existing order), but that's a small issue.
-
->  
-> @@ -259,24 +237,17 @@ static int vimc_sca_get_selection(struct v4l2_subdev *sd,
->  {
->  	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
->  	struct v4l2_mbus_framefmt *sink_fmt;
-> -	struct v4l2_rect *crop_rect;
->  
->  	if (VIMC_IS_SRC(sel->pad))
->  		return -EINVAL;
->  
-> -	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> -		sink_fmt = &vsca->sink_fmt;
-> -		crop_rect = &vsca->crop_rect;
-> -	} else {
-> -		sink_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
-> -		crop_rect = v4l2_subdev_get_try_crop(sd, sd_state, 0);
-> -	}
-> -
->  	switch (sel->target) {
->  	case V4L2_SEL_TGT_CROP:
-> -		sel->r = *crop_rect;
-> +		sel->r = *vimc_sca_pad_crop(vsca, sd_state, sel->which);
->  		break;
->  	case V4L2_SEL_TGT_CROP_BOUNDS:
-> +		sink_fmt = vimc_sca_pad_format(vsca, sd_state, VIMC_SCA_SINK,
-> +					       sel->which);
->  		sel->r = vimc_sca_get_crop_bound_sink(sink_fmt);
->  		break;
->  	default:
-> @@ -286,6 +257,17 @@ static int vimc_sca_get_selection(struct v4l2_subdev *sd,
->  	return 0;
->  }
->  
-> +static void vimc_sca_adjust_sink_crop(struct v4l2_rect *r,
-> +				      const struct v4l2_mbus_framefmt *sink_fmt)
-> +{
-> +	const struct v4l2_rect sink_rect =
-> +		vimc_sca_get_crop_bound_sink(sink_fmt);
-> +
-> +	/* Disallow rectangles smaller than the minimal one. */
-> +	v4l2_rect_set_min_size(r, &crop_rect_min);
-> +	v4l2_rect_map_inside(r, &sink_rect);
-> +}
-> +
->  static int vimc_sca_set_selection(struct v4l2_subdev *sd,
->  				  struct v4l2_subdev_state *sd_state,
->  				  struct v4l2_subdev_selection *sel)
-> @@ -294,30 +276,18 @@ static int vimc_sca_set_selection(struct v4l2_subdev *sd,
->  	struct v4l2_mbus_framefmt *sink_fmt;
->  	struct v4l2_rect *crop_rect;
->  
-> -	if (VIMC_IS_SRC(sel->pad))
-> +	/* Only support setting the crop of the sink pad */
-> +	if (VIMC_IS_SRC(sel->pad) || sel->target != V4L2_SEL_TGT_CROP)
->  		return -EINVAL;
->  
-> -	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> -		/* Do not change the format while stream is on */
-> -		if (vsca->src_frame)
-> -			return -EBUSY;
-> +	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE && vsca->src_frame)
-> +		return -EBUSY;
->  
-> -		crop_rect = &vsca->crop_rect;
-> -		sink_fmt = &vsca->sink_fmt;
-> -	} else {
-> -		crop_rect = v4l2_subdev_get_try_crop(sd, sd_state, 0);
-> -		sink_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
-> -	}
-> -
-> -	switch (sel->target) {
-> -	case V4L2_SEL_TGT_CROP:
-> -		/* Do the crop, but respect the current bounds */
-> -		vimc_sca_adjust_sink_crop(&sel->r, sink_fmt);
-> -		*crop_rect = sel->r;
-> -		break;
-> -	default:
-> -		return -EINVAL;
-> -	}
-> +	crop_rect = vimc_sca_pad_crop(vsca, sd_state, sel->which);
-> +	sink_fmt = vimc_sca_pad_format(vsca, sd_state, VIMC_SCA_SINK,
-> +				       sel->which);
-> +	vimc_sca_adjust_sink_crop(&sel->r, sink_fmt);
-> +	*crop_rect = sel->r;
->  
->  	return 0;
->  }
-> @@ -344,16 +314,12 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
->  			return 0;
->  
->  		/* Save the bytes per pixel of the sink */
-> -		vpix = vimc_pix_map_by_code(vsca->sink_fmt.code);
-> +		vpix = vimc_pix_map_by_code(vsca->fmt[VIMC_SCA_SINK].code);
->  		vsca->bpp = vpix->bpp;
->  
-> -		/* Calculate the width in bytes of the src frame */
-> -		vsca->src_line_size = vsca->crop_rect.width *
-> -				      sca_mult * vsca->bpp;
-> -
->  		/* Calculate the frame size of the source pad */
-> -		frame_size = vsca->src_line_size * vsca->crop_rect.height *
-> -			     sca_mult;
-> +		frame_size = vsca->fmt[VIMC_SCA_SRC].width
-> +			   * vsca->fmt[VIMC_SCA_SRC].height * vsca->bpp;
->  
->  		/* Allocate the frame buffer. Use vmalloc to be able to
->  		 * allocate a large amount of memory
-> @@ -382,77 +348,32 @@ static const struct v4l2_subdev_ops vimc_sca_ops = {
->  	.video = &vimc_sca_video_ops,
->  };
->  
-> -static void vimc_sca_fill_pix(u8 *const ptr,
-> -			      const u8 *const pixel,
-> -			      const unsigned int bpp)
-> -{
-> -	unsigned int i;
-> -
-> -	/* copy the pixel to the pointer */
-> -	for (i = 0; i < bpp; i++)
-> -		ptr[i] = pixel[i];
-> -}
-> -
-> -static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
-> -			       unsigned int lin, unsigned int col,
-> -			       const u8 *const sink_frame)
-> -{
-> -	const struct v4l2_rect crop_rect = vsca->crop_rect;
-> -	unsigned int i, j, index;
-> -	const u8 *pixel;
-> -
-> -	/* Point to the pixel value in position (lin, col) in the sink frame */
-> -	index = VIMC_FRAME_INDEX(lin, col,
-> -				 vsca->sink_fmt.width,
-> -				 vsca->bpp);
-> -	pixel = &sink_frame[index];
-> -
-> -	dev_dbg(vsca->ved.dev,
-> -		"sca: %s: --- scale_pix sink pos %dx%d, index %d ---\n",
-> -		vsca->sd.name, lin, col, index);
-> -
-> -	/* point to the place we are going to put the first pixel
-> -	 * in the scaled src frame
-> -	 */
-> -	lin -= crop_rect.top;
-> -	col -= crop_rect.left;
-> -	index = VIMC_FRAME_INDEX(lin * sca_mult, col * sca_mult,
-> -				 crop_rect.width * sca_mult, vsca->bpp);
-> -
-> -	dev_dbg(vsca->ved.dev, "sca: %s: scale_pix src pos %dx%d, index %d\n",
-> -		vsca->sd.name, lin * sca_mult, col * sca_mult, index);
-> -
-> -	/* Repeat this pixel mult times */
-> -	for (i = 0; i < sca_mult; i++) {
-> -		/* Iterate through each beginning of a
-> -		 * pixel repetition in a line
-> -		 */
-> -		for (j = 0; j < sca_mult * vsca->bpp; j += vsca->bpp) {
-> -			dev_dbg(vsca->ved.dev,
-> -				"sca: %s: sca: scale_pix src pos %d\n",
-> -				vsca->sd.name, index + j);
-> -
-> -			/* copy the pixel to the position index + j */
-> -			vimc_sca_fill_pix(&vsca->src_frame[index + j],
-> -					  pixel, vsca->bpp);
-> -		}
-> -
-> -		/* move the index to the next line */
-> -		index += vsca->src_line_size;
-> -	}
-> -}
-> -
->  static void vimc_sca_fill_src_frame(const struct vimc_sca_device *const vsca,
->  				    const u8 *const sink_frame)
->  {
-> -	const struct v4l2_rect r = vsca->crop_rect;
-> -	unsigned int i, j;
-> -
-> -	/* Scale each pixel from the original sink frame */
-> -	/* TODO: implement scale down, only scale up is supported for now */
-> -	for (i = r.top; i < r.top + r.height; i++)
-> -		for (j = r.left; j < r.left + r.width; j++)
-> -			vimc_sca_scale_pix(vsca, i, j, sink_frame);
-> +	const struct v4l2_mbus_framefmt *src_fmt = &vsca->fmt[VIMC_SCA_SRC];
-> +	const struct v4l2_rect *r = &vsca->crop_rect;
-> +	unsigned int snk_width = vsca->fmt[VIMC_SCA_SINK].width;
-> +	unsigned int src_x, src_y;
-> +	u8 *walker = vsca->src_frame;
-> +
-> +	/* Set each pixel at the src_frame to its sink_frame equivalent */
-> +	for (src_y = 0; src_y < src_fmt->height; src_y++) {
-> +		unsigned int snk_y, col_offset;
-> +
-> +		snk_y = (src_y * r->height) / src_fmt->height + r->top;
-> +		col_offset = snk_y * snk_width * vsca->bpp;
-
-Isn't this the line offset ? Or do you mean column offset as vertical
-offset within a column ? Maybe naming the variable y_offset (and
-x_offset) below could lift the ambiguity.
-
-Those are minor issues, I think v7 could well be the last one :-)
-
-> +
-> +		for (src_x = 0; src_x < src_fmt->width; src_x++) {
-> +			unsigned int snk_x, lin_offset, index;
-> +
-> +			snk_x = (src_x * r->width) / src_fmt->width + r->left;
-> +			lin_offset = snk_x * vsca->bpp;
-> +			index = col_offset + lin_offset;
-> +			memcpy(walker, &sink_frame[index], vsca->bpp);
-> +			walker += vsca->bpp;
-> +		}
-> +	}
->  }
->  
->  static void *vimc_sca_process_frame(struct vimc_ent_device *ved,
-> @@ -492,8 +413,8 @@ static struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
->  		return ERR_PTR(-ENOMEM);
->  
->  	/* Initialize ved and sd */
-> -	vsca->pads[0].flags = MEDIA_PAD_FL_SINK;
-> -	vsca->pads[1].flags = MEDIA_PAD_FL_SOURCE;
-> +	vsca->pads[VIMC_SCA_SINK].flags = MEDIA_PAD_FL_SINK;
-> +	vsca->pads[VIMC_SCA_SRC].flags = MEDIA_PAD_FL_SOURCE;
->  
->  	ret = vimc_ent_sd_register(&vsca->ved, &vsca->sd, v4l2_dev,
->  				   vcfg_name,
-> @@ -508,7 +429,8 @@ static struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
->  	vsca->ved.dev = vimc->mdev.dev;
->  
->  	/* Initialize the frame format */
-> -	vsca->sink_fmt = sink_fmt_default;
-> +	vsca->fmt[VIMC_SCA_SINK] = fmt_default;
-> +	vsca->fmt[VIMC_SCA_SRC] = fmt_default;
->  
->  	/* Initialize the crop selection */
->  	vsca->crop_rect = crop_rect_default;
-
--- 
-Regards,
-
-Laurent Pinchart
