@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 677493FB44E
+	by mail.lfdr.de (Postfix) with ESMTP id D46C03FB44F
 	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 13:04:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236534AbhH3LDj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S236537AbhH3LDj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Mon, 30 Aug 2021 07:03:39 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43936 "EHLO
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43892 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236505AbhH3LDc (ORCPT
+        with ESMTP id S236507AbhH3LDc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 30 Aug 2021 07:03:32 -0400
 Received: from deskari.lan (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B3A63237E;
-        Mon, 30 Aug 2021 13:02:35 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92086146F;
+        Mon, 30 Aug 2021 13:02:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1630321356;
-        bh=zJ6zupZ20SJEAwDDZfm9lvG5CMwc9AYBmK3WeT9+rIs=;
+        s=mail; t=1630321357;
+        bh=Kdf3da2fMbLmRAXhbg5z4fZfZo36UQWwd8a84GIbNZg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=j7pVswcq6KB0NidE67XJRXgovb+zM3783/ZXu+LaPnxgBwS0OU0ZkGbkhjSmGJdEw
-         Oh/5V7b/KcKVnhk6xbn8vEIVMpglCOV5Q+n9Z2MTelrFFIDW/vyoFPZZb8W2RbyypK
-         MfTCjeJZdeYr4BAWiyV901ojwSvh69mG/FPAOd5I=
+        b=XTPRy+gxM/zYz+xLqIJEmWY+5eyjvKgsijcDrR6FnAZbFawCsBqT0r8WnevdMMG7T
+         59G27uflua3o2lASIXaNRlqjbR7sZ5IpJ+u7c0YUkMDB29JNgGnpGa6KIxSH8VMlWE
+         NlxqnEew5y3P0vytfW478uhrcM24Ii/gigM5bXmQ=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -32,9 +32,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>
-Subject: [PATCH v8 29/36] media: subdev: add v4l2_subdev_has_route()
-Date:   Mon, 30 Aug 2021 14:01:09 +0300
-Message-Id: <20210830110116.488338-30-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v8 30/36] media: subdev: add v4l2_subdev_set_routing helper()
+Date:   Mon, 30 Aug 2021 14:01:10 +0300
+Message-Id: <20210830110116.488338-31-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
 References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
@@ -44,83 +44,79 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a v4l2_subdev_has_route() helper function which can be used for
-media_entity_operations.has_route op.
+Add a helper function to set the subdev routing. The helper can be used
+from subdev driver's set_routing op to store the routing table.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 30 +++++++++++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-subdev.c | 31 +++++++++++++++++++++++++++
  include/media/v4l2-subdev.h           | 16 ++++++++++++++
- 2 files changed, 46 insertions(+)
+ 2 files changed, 47 insertions(+)
 
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 0e1f325b3159..7497ad0f6024 100644
+index 7497ad0f6024..eb1103afbfbc 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -999,6 +999,36 @@ int v4l2_subdev_link_validate(struct media_link *link)
+@@ -1155,3 +1155,34 @@ void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
+ 	mutex_unlock(&state->lock);
  }
- EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
- 
-+bool v4l2_subdev_has_route(struct media_entity *entity, unsigned int pad0, unsigned int pad1)
+ EXPORT_SYMBOL_GPL(v4l2_subdev_unlock_state);
++
++int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
++			    struct v4l2_subdev_state *state,
++			    struct v4l2_subdev_krouting *routing)
 +{
-+	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
-+	struct v4l2_subdev_krouting *routing;
-+	unsigned int i;
-+	struct v4l2_subdev_state *state;
++	struct v4l2_subdev_krouting *dst = &state->routing;
++	const struct v4l2_subdev_krouting *src = routing;
 +
-+	state = v4l2_subdev_lock_active_state(sd);
++	lockdep_assert_held(&state->lock);
 +
-+	routing = &state->routing;
++	kvfree(dst->routes);
++	dst->routes = NULL;
++	dst->num_routes = 0;
 +
-+	for (i = 0; i < routing->num_routes; ++i) {
-+		struct v4l2_subdev_route *route = &routing->routes[i];
++	if (src->num_routes == 0) {
++		dst->which = src->which;
++	} else {
++		dst->routes = kvmalloc_array(src->num_routes, sizeof(*src->routes),
++					     GFP_KERNEL);
++		if (!dst->routes)
++			return -ENOMEM;
 +
-+		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-+			continue;
-+
-+		if ((route->sink_pad == pad0 && route->source_pad == pad1) ||
-+		    (route->source_pad == pad0 && route->sink_pad == pad1)) {
-+			v4l2_subdev_unlock_state(state);
-+			return true;
-+		}
++		memcpy(dst->routes, src->routes,
++		       src->num_routes * sizeof(*src->routes));
++		dst->num_routes = src->num_routes;
++		dst->which = src->which;
 +	}
 +
-+	v4l2_subdev_unlock_state(state);
-+
-+	return false;
++	return 0;
 +}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_has_route);
-+
- struct v4l2_subdev_state *
- __v4l2_alloc_subdev_state(struct v4l2_subdev *sd,
- 			  enum v4l2_subdev_format_whence which,
++EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing);
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index cd6aad21ae0c..858e18aa5b20 100644
+index 858e18aa5b20..90e9fda6babb 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -1213,6 +1213,22 @@ int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
-  */
- int v4l2_subdev_link_validate(struct media_link *link);
+@@ -1436,4 +1436,20 @@ v4l2_subdev_validate_and_lock_state(struct v4l2_subdev *sd,
+ 	return state;
+ }
  
 +/**
-+ * v4l2_subdev_has_route - MC has_route implementation for subdevs
++ * v4l2_subdev_set_routing() - Set given routing to subdev state
++ * @sd: The subdevice
++ * @state: The subdevice state
++ * @routing: Routing that will be copied to subdev state
 + *
-+ * @entity: pointer to &struct media_entity
-+ * @pad0: pad number for the first pad
-+ * @pad1: pad number for the second pad
++ * This will release old routing table (if any) from the state, allocate
++ * enough space for the given routing, and copy the routing.
 + *
-+ * This function looks at the routing in subdev's active state and returns if
-+ * there is a route connecting pad0 and pad1.
-+ *
-+ * This function can be used as implementation for
-+ * media_entity_operations.has_route.
++ * This can be used from the subdev driver's set_routing op, after validating
++ * the routing.
 + */
-+bool v4l2_subdev_has_route(struct media_entity *entity, unsigned int pad0,
-+			   unsigned int pad1);
++int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
++			    struct v4l2_subdev_state *state,
++			    struct v4l2_subdev_krouting *routing);
 +
- /**
-  * v4l2_alloc_subdev_state - allocate v4l2_subdev_state
-  *
+ #endif
 -- 
 2.25.1
 
