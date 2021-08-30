@@ -2,187 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70B7E3FBD8E
-	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 22:45:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 436AE3FBDCC
+	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 23:00:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234509AbhH3UqD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Aug 2021 16:46:03 -0400
-Received: from gloria.sntech.de ([185.11.138.130]:36424 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229708AbhH3UqC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Aug 2021 16:46:02 -0400
-Received: from ip5f5a6e92.dynamic.kabel-deutschland.de ([95.90.110.146] helo=diego.localnet)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1mKo9Q-0001Q1-8y; Mon, 30 Aug 2021 22:45:04 +0200
-From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To:     linux-phy@lists.infradead.org,
-        Mikhail Rudenko <mike.rudenko@gmail.com>
+        id S236258AbhH3VBP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Aug 2021 17:01:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55324 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234509AbhH3VBO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 30 Aug 2021 17:01:14 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CAB3C061575;
+        Mon, 30 Aug 2021 14:00:20 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id u14so33859620ejf.13;
+        Mon, 30 Aug 2021 14:00:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=KWiHNXS+3DcOlsVpnDVjQ/m3C1IyjZ5owtbI17urlSs=;
+        b=bls3vPsE9/mpAehw9h8f0bfIKo/ur5D3gapsk6ABlwMpjeNlxnNftLg5NnlgKbrS4J
+         /sKHmCpb2siio/kdCeNycUZ/YaVbk+xwo5ZfnVTuL1OsnztQ4y3HVsto7kYb0mDWWMfq
+         8WvxYIJTIg9sE0Cfxp8919Ne5mZ0AxMthoZinPZFWWUC00ZrTYoNt8QeXuqlqGirttHG
+         k+ZwbnF6G40YvyJTJXblgBwpSjnNY3tWBrKGzhYGJRP8X2ebVIFiUH+zW4cD75T377Xz
+         la5A1p6W1yPx/RLEbxQqKeK2sbulJg1f+x+IjRuzhp187q928KQ6NyqQGyxu+URoxBD7
+         Su9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=KWiHNXS+3DcOlsVpnDVjQ/m3C1IyjZ5owtbI17urlSs=;
+        b=QyWx7lxddHyrmJJ1pgY/la0FPXouMksveAZZSrU6c2/qoW7O5RdPEVz6vwGoZPc2vA
+         c5ckT7OXYEVUwpi9d1kLvaaB9CuMJIy8Zi6UJMqmA+e4enhwcJinZzKxjr0BD2GahG3K
+         nMEnQF4U+B/BXCcGlyCP+qdaB9u5q6WM4tYg++WPtGaLhq7qLXysGnjFlUlLiMoIwYAF
+         ctWcTuI/UPh8JR6I6pjVb++V/Oyhi6HPvPM17IDirjkiXwCTxegQZlA0CGX7X9mmuAPf
+         LlzpTyni/m1N3Ta+CciOu71QTz0NnMTDMRdQeq+5aKD5L9CF7hPYevrF8fp/eZB2YaEI
+         QDQw==
+X-Gm-Message-State: AOAM530cyMuS748lHKcthIyovnXqigJChCnO30v/8UQAFQF/lQzT9a2q
+        hqipw9Hf7SwmK2im6JRIFQG2ji7iHwmcmyYc
+X-Google-Smtp-Source: ABdhPJwhD4PkYb6968XTC6ESe+L5tvt2UaX2SD+FMpytvd38l0rgpOZLeQtVZrtL5iuFcKST3zh7Iw==
+X-Received: by 2002:a17:906:1451:: with SMTP id q17mr27376832ejc.214.1630357219217;
+        Mon, 30 Aug 2021 14:00:19 -0700 (PDT)
+Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
+        by smtp.gmail.com with ESMTPSA id dk6sm8164992edb.14.2021.08.30.14.00.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Aug 2021 14:00:18 -0700 (PDT)
+Subject: Re: [PATCH v1 4/5] dt-bindings: phy: phy-rockchip-dphy-rx0: add
+ support for tx1rx1 phy
+To:     Mikhail Rudenko <mike.rudenko@gmail.com>,
+        linux-phy@lists.infradead.org
 Cc:     linux-media@vger.kernel.org,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
         Kishon Vijay Abraham I <kishon@ti.com>,
         Vinod Koul <vkoul@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Helen Koike <helen.koike@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/5] phy: phy-rockchip-dphy-rx0: refactor for tx1rx1 addition
-Date:   Mon, 30 Aug 2021 22:45:03 +0200
-Message-ID: <6474995.6kXVAnRFRJ@diego>
-In-Reply-To: <20210830180758.251390-2-mike.rudenko@gmail.com>
-References: <20210830180758.251390-1-mike.rudenko@gmail.com> <20210830180758.251390-2-mike.rudenko@gmail.com>
+References: <20210830180758.251390-1-mike.rudenko@gmail.com>
+ <20210830180758.251390-5-mike.rudenko@gmail.com>
+From:   Johan Jonker <jbx6244@gmail.com>
+Message-ID: <60aa055c-d872-3e5c-3c85-09300215a60e@gmail.com>
+Date:   Mon, 30 Aug 2021 23:00:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20210830180758.251390-5-mike.rudenko@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Mikhail,
 
-Am Montag, 30. August 2021, 20:07:50 CEST schrieb Mikhail Rudenko:
-> In order to accommodate for rk3399 tx1rx1 addition, make
-> enable/disable function calls indirect via function pointers in
-> rk_dphy_drv_data. Also rename rk_dphy_write and rk_dphy_enable to
-> avoid naming clashes.
+Some comments below. Have a look if it is useful.
 
-You're a bit too late to the party :-( .
-
-The tx1rx1 dphy is living _inside_ the 2nd DSI controller and is
-configured through it. 
-
-So having the same peripheral in the dts with different compatibles
-does break the devicetree-describes-hardware-not-Linux-implementation-details
-paradigm.
-
-Therefore my approach was to handle the switch between tx and rx modes
-inside the dsi driver. This got merged for 5.15 as well, see [0] [1].
-
-So sadly this series is somewhat obsolete, but you should find the
-building blocks for camera support in linux-next already.
-
-
-Regards
-Heiko
-
-
-
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=71f68fe7f12182ed968cfbbd1ef018721e4dee30
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=68e0277204c733dff19073686e2ac48239b06fbc
-
-
+On 8/30/21 8:07 PM, Mikhail Rudenko wrote:
+> RK3399 TX1RX1 D-PHY is not a child of GRF and uses reg, thus add
+> corresponding properties conditionally. It also requires DSI clock to
+> operate, so check for it. Since we now support both rx0 and tx1rx1,
+> rename the schema to rockchip-mipi-dphy-rx.yaml.
 > 
 > Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
 > ---
->  drivers/phy/rockchip/phy-rockchip-dphy-rx0.c | 38 +++++++++++++-------
->  1 file changed, 25 insertions(+), 13 deletions(-)
+>  ...hy-rx0.yaml => rockchip-mipi-dphy-rx.yaml} | 39 +++++++++++++++++--
+>  1 file changed, 35 insertions(+), 4 deletions(-)
+>  rename Documentation/devicetree/bindings/phy/{rockchip-mipi-dphy-rx0.yaml => rockchip-mipi-dphy-rx.yaml} (65%)
 > 
-> diff --git a/drivers/phy/rockchip/phy-rockchip-dphy-rx0.c b/drivers/phy/rockchip/phy-rockchip-dphy-rx0.c
-> index 4df9476ef2a9..72145cdfb036 100644
-> --- a/drivers/phy/rockchip/phy-rockchip-dphy-rx0.c
-> +++ b/drivers/phy/rockchip/phy-rockchip-dphy-rx0.c
-> @@ -138,12 +138,17 @@ static const struct dphy_reg rk3399_grf_dphy_regs[] = {
->  	[GRF_DPHY_RX0_TESTDOUT] = PHY_REG(RK3399_GRF_SOC_STATUS1, 8, 0),
->  };
+> diff --git a/Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml b/Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx.yaml
+> similarity index 65%
+> rename from Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml
+> rename to Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx.yaml
+> index 7d888d358823..f42319448fc9 100644
+> --- a/Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml
+> +++ b/Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx.yaml
+> @@ -1,10 +1,10 @@
+>  # SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  %YAML 1.2
+>  ---
+> -$id: http://devicetree.org/schemas/phy/rockchip-mipi-dphy-rx0.yaml#
+> +$id: http://devicetree.org/schemas/phy/rockchip-mipi-dphy-rx.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
 >  
-> +struct rk_dphy;
+> -title: Rockchip SoC MIPI RX0 D-PHY Device Tree Bindings
+> +title: Rockchip SoC MIPI RX0/TX1RX1 D-PHY Device Tree Bindings
+>  
+>  maintainers:
+>    - Helen Koike <helen.koike@collabora.com>
+> @@ -16,19 +16,28 @@ description: |
+>  
+>  properties:
+>    compatible:
+> -    const: rockchip,rk3399-mipi-dphy-rx0
+> +    enum:
+> +      - rockchip,rk3399-mipi-dphy-rx0
+> +      - rockchip,rk3399-mipi-dphy-tx1rx1
 > +
->  struct rk_dphy_drv_data {
->  	const char * const *clks;
->  	unsigned int num_clks;
->  	const struct hsfreq_range *hsfreq_ranges;
->  	unsigned int num_hsfreq_ranges;
->  	const struct dphy_reg *regs;
+
+> +  reg:
+> +    maxItems: 1
+
+This allows every node to have a reg property.
+
+>  
+>    clocks:
+> +    minItems: 3
+>      items:
+>        - description: MIPI D-PHY ref clock
+> -      - description: MIPI D-PHY RX0 cfg clock
+> +      - description: MIPI D-PHY RX0/TX1RX1 cfg clock
+>        - description: Video in/out general register file clock
+> +      - description: MIPI D-PHY DSI clock
+>  
+>    clock-names:
+> +    minItems: 3
+>      items:
+>        - const: dphy-ref
+>        - const: dphy-cfg
+>        - const: grf
+> +      - const: dsi
+>  
+>    '#phy-cells':
+>      const: 0
+> @@ -37,6 +46,12 @@ properties:
+>      description: Video in/out power domain.
+>      maxItems: 1
+>  
+
+> +  rockchip,grf:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      The phandle of the syscon node for the general register file
+> +      (GRF), required for TX1RX1 MIPI D-PHY on RK3399.
+
+This allows every node to have a rockchip,grf property.
+
 > +
-> +	void (*enable)(struct rk_dphy *priv);
-> +	void (*disable)(struct rk_dphy *priv);
->  };
+>  required:
+>    - compatible
+>    - clocks
+> @@ -44,6 +59,22 @@ required:
+>    - '#phy-cells'
+>    - power-domains
 >  
->  struct rk_dphy {
-> @@ -170,7 +175,7 @@ static inline void rk_dphy_write_grf(struct rk_dphy *priv,
->  	regmap_write(priv->grf, reg->offset, val);
->  }
->  
-> -static void rk_dphy_write(struct rk_dphy *priv, u8 test_code, u8 test_data)
-> +static void rk_dphy_write_mipi_rx(struct rk_dphy *priv, u8 test_code, u8 test_data)
->  {
->  	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TESTDIN, test_code);
->  	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TESTEN, 1);
-> @@ -186,7 +191,7 @@ static void rk_dphy_write(struct rk_dphy *priv, u8 test_code, u8 test_data)
->  	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TESTCLK, 1);
->  }
->  
-> -static void rk_dphy_enable(struct rk_dphy *priv)
-> +static void rk_dphy_enable_rx(struct rk_dphy *priv)
->  {
->  	rk_dphy_write_grf(priv, GRF_DPHY_RX0_FORCERXMODE, 0);
->  	rk_dphy_write_grf(priv, GRF_DPHY_RX0_FORCETXSTOPMODE, 0);
-> @@ -206,22 +211,27 @@ static void rk_dphy_enable(struct rk_dphy *priv)
->  	usleep_range(100, 150);
->  
->  	/* set clock lane */
-> -	/* HS hsfreq_range & lane 0  settle bypass */
-> -	rk_dphy_write(priv, CLOCK_LANE_HS_RX_CONTROL, 0);
-> +	/* HS hsfreq_range & lane 0	 settle bypass */
-> +	rk_dphy_write_mipi_rx(priv, CLOCK_LANE_HS_RX_CONTROL, 0);
->  	/* HS RX Control of lane0 */
-> -	rk_dphy_write(priv, LANE0_HS_RX_CONTROL, priv->hsfreq << 1);
-> +	rk_dphy_write_mipi_rx(priv, LANE0_HS_RX_CONTROL, priv->hsfreq << 1);
->  	/* HS RX Control of lane1 */
-> -	rk_dphy_write(priv, LANE1_HS_RX_CONTROL, priv->hsfreq << 1);
-> +	rk_dphy_write_mipi_rx(priv, LANE1_HS_RX_CONTROL, priv->hsfreq << 1);
->  	/* HS RX Control of lane2 */
-> -	rk_dphy_write(priv, LANE2_HS_RX_CONTROL, priv->hsfreq << 1);
-> +	rk_dphy_write_mipi_rx(priv, LANE2_HS_RX_CONTROL, priv->hsfreq << 1);
->  	/* HS RX Control of lane3 */
-> -	rk_dphy_write(priv, LANE3_HS_RX_CONTROL, priv->hsfreq << 1);
-> +	rk_dphy_write_mipi_rx(priv, LANE3_HS_RX_CONTROL, priv->hsfreq << 1);
->  	/* HS RX Data Lanes Settle State Time Control */
-> -	rk_dphy_write(priv, LANES_THS_SETTLE_CONTROL,
-> -		      THS_SETTLE_COUNTER_THRESHOLD);
-> +	rk_dphy_write_mipi_rx(priv, LANES_THS_SETTLE_CONTROL,
-> +			  THS_SETTLE_COUNTER_THRESHOLD);
->  
->  	/* Normal operation */
-> -	rk_dphy_write(priv, 0x0, 0);
-> +	rk_dphy_write_mipi_rx(priv, 0x0, 0);
-> +}
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +          const: rockchip,rk3399-mipi-dphy-tx1rx1
+> +then:
+
+> +  required:
+
+Move/swap the properties section above the required section.
+
+> +    - reg
+> +    - rockchip,grf
 > +
-> +static void rk_dphy_disable_rx(struct rk_dphy *priv)
-> +{
-> +	rk_dphy_write_grf(priv, GRF_DPHY_RX0_ENABLE, 0);
->  }
+> +  properties:
+
+  reg:
+    maxItems: 1
+
+> +    clocks:
+> +      minItems: 4
+> +    clock-names:
+> +      minItems: 4
+
+  rockchip,grf:
+    $ref: /schemas/types.yaml#/definitions/phandle
+    description:
+      The phandle of the syscon node for the general register file(GRF).
+
+
+", required for TX1RX1 MIPI D-PHY on RK3399."
+
+This phrase is already said/done with the "required:" section above
+
+>  additionalProperties: false
 >  
->  static int rk_dphy_configure(struct phy *phy, union phy_configure_opts *opts)
-> @@ -266,7 +276,7 @@ static int rk_dphy_power_on(struct phy *phy)
->  	if (ret)
->  		return ret;
->  
-> -	rk_dphy_enable(priv);
-> +	priv->drv_data->enable(priv);
->  
->  	return 0;
->  }
-> @@ -275,7 +285,7 @@ static int rk_dphy_power_off(struct phy *phy)
->  {
->  	struct rk_dphy *priv = phy_get_drvdata(phy);
->  
-> -	rk_dphy_write_grf(priv, GRF_DPHY_RX0_ENABLE, 0);
-> +	priv->drv_data->disable(priv);
->  	clk_bulk_disable(priv->drv_data->num_clks, priv->clks);
->  	return 0;
->  }
-> @@ -310,6 +320,8 @@ static const struct rk_dphy_drv_data rk3399_mipidphy_drv_data = {
->  	.hsfreq_ranges = rk3399_mipidphy_hsfreq_ranges,
->  	.num_hsfreq_ranges = ARRAY_SIZE(rk3399_mipidphy_hsfreq_ranges),
->  	.regs = rk3399_grf_dphy_regs,
-> +	.enable = rk_dphy_enable_rx,
-> +	.disable = rk_dphy_disable_rx,
->  };
->  
->  static const struct of_device_id rk_dphy_dt_ids[] = {
+>  examples:
 > 
-
-
-
-
