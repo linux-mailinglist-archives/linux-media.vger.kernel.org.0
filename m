@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBF913FB43B
-	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 13:04:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10A203FB43C
+	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 13:04:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236466AbhH3LDZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S236470AbhH3LDZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Mon, 30 Aug 2021 07:03:25 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43936 "EHLO
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43892 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236459AbhH3LDW (ORCPT
+        with ESMTP id S236462AbhH3LDW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 30 Aug 2021 07:03:22 -0400
 Received: from deskari.lan (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DB92B7E;
-        Mon, 30 Aug 2021 13:02:19 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E05AB9C;
+        Mon, 30 Aug 2021 13:02:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1630321340;
-        bh=7fR4JzssU6ZybYXSvkIfq8QlK5WtaQGH821wAcaAfzo=;
+        s=mail; t=1630321341;
+        bh=61dap9zqutL5mt0qTjlPX+iadUGRqz29iP2NJxjjFAU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=q4gpbMReBGX4655NEPFC0E5DTw70IKIcjHuCKJkB1gnfb6NmkVbTU0BkaU5kO9Lyf
-         vipdun1pnag7rdrfiSrceAf+uJgUmIG6zFbJI/rBupziGiG7YGEuPhSXektiW/OMHD
-         Oohb5RZP3d3PKX5VsqaDVEHNN5vSsv8M1cs0f3dI=
+        b=K5K3VZiiJs2jFcUEPE+pYekc4a0WigaY5a0WElCdmHZ3BvUKGd3jj6kJd2tYuwbH1
+         HS77KSgR0q5L4iHFt86sZedISLuFbB4ibAXo2QAWap5TKVBpG4KIIvplCHTnJzW13Q
+         F2C2EUgaLzUou3DgzGrBSOfGXa0oXFbqKyIjMrvw=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -32,121 +32,128 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>
-Subject: [PATCH v8 11/36] media: mc: Start walk from a specific pad in use count calculation
-Date:   Mon, 30 Aug 2021 14:00:51 +0300
-Message-Id: <20210830110116.488338-12-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v8 12/36] media: entity: Add iterator helper for entity pads
+Date:   Mon, 30 Aug 2021 14:00:52 +0300
+Message-Id: <20210830110116.488338-13-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
 References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+From: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-With the addition of the recent has_route() media entity op, the pads of a
-media entity are no longer all interconnected. This has to be taken into
-account in power management.
+Add an iterator helper to easily cycle through all pads in an entity and
+use it in media-entity and media-device code where appropriate.
 
-Prepare for the addition of a helper function supporting S_ROUTING.
-
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-mc.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ drivers/media/mc/mc-device.c | 13 ++++++-------
+ drivers/media/mc/mc-entity.c | 11 ++++++-----
+ include/media/media-entity.h | 12 ++++++++++++
+ 3 files changed, 24 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-mc.c b/drivers/media/v4l2-core/v4l2-mc.c
-index cbeb580c6754..35d18ed89fa5 100644
---- a/drivers/media/v4l2-core/v4l2-mc.c
-+++ b/drivers/media/v4l2-core/v4l2-mc.c
-@@ -427,17 +427,16 @@ EXPORT_SYMBOL_GPL(v4l2_create_fwnode_links);
+diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+index cf5e459b1d96..cb569beab99e 100644
+--- a/drivers/media/mc/mc-device.c
++++ b/drivers/media/mc/mc-device.c
+@@ -581,7 +581,7 @@ static void __media_device_unregister_entity(struct media_entity *entity)
+ 	struct media_device *mdev = entity->graph_obj.mdev;
+ 	struct media_link *link, *tmp;
+ 	struct media_interface *intf;
+-	unsigned int i;
++	struct media_pad *iter;
  
- /*
-  * pipeline_pm_use_count - Count the number of users of a pipeline
-- * @entity: The entity
-+ * @pad: Any pad along the pipeline
-  *
-  * Return the total number of users of all video device nodes in the pipeline.
-  */
--static int pipeline_pm_use_count(struct media_entity *entity,
--	struct media_graph *graph)
-+static int pipeline_pm_use_count(struct media_pad *pad,
-+				 struct media_graph *graph)
+ 	ida_free(&mdev->entity_internal_idx, entity->internal_idx);
+ 
+@@ -597,8 +597,8 @@ static void __media_device_unregister_entity(struct media_entity *entity)
+ 	__media_entity_remove_links(entity);
+ 
+ 	/* Remove all pads that belong to this entity */
+-	for (i = 0; i < entity->num_pads; i++)
+-		media_gobj_destroy(&entity->pads[i].graph_obj);
++	media_entity_for_each_pad(entity, iter)
++		media_gobj_destroy(&iter->graph_obj);
+ 
+ 	/* Remove the entity */
+ 	media_gobj_destroy(&entity->graph_obj);
+@@ -617,7 +617,7 @@ int __must_check media_device_register_entity(struct media_device *mdev,
+ 					      struct media_entity *entity)
  {
--	struct media_pad *pad;
- 	int use = 0;
+ 	struct media_entity_notify *notify, *next;
+-	unsigned int i;
++	struct media_pad *iter;
+ 	int ret;
  
--	media_graph_walk_start(graph, entity->pads);
-+	media_graph_walk_start(graph, pad);
+ 	if (entity->function == MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN ||
+@@ -646,9 +646,8 @@ int __must_check media_device_register_entity(struct media_device *mdev,
+ 	media_gobj_create(mdev, MEDIA_GRAPH_ENTITY, &entity->graph_obj);
  
- 	while ((pad = media_graph_walk_next(graph))) {
- 		if (is_media_entity_v4l2_video_device(pad->entity))
-@@ -483,7 +482,7 @@ static int pipeline_pm_power_one(struct media_entity *entity, int change)
+ 	/* Initialize objects at the pads */
+-	for (i = 0; i < entity->num_pads; i++)
+-		media_gobj_create(mdev, MEDIA_GRAPH_PAD,
+-			       &entity->pads[i].graph_obj);
++	media_entity_for_each_pad(entity, iter)
++		media_gobj_create(mdev, MEDIA_GRAPH_PAD, &iter->graph_obj);
  
- /*
-  * pipeline_pm_power - Apply power change to all entities in a pipeline
-- * @entity: The entity
-+ * @pad: Any pad along the pipeline
-  * @change: Use count change
-  *
-  * Walk the pipeline to update the use count and the power state of all non-node
-@@ -491,16 +490,16 @@ static int pipeline_pm_power_one(struct media_entity *entity, int change)
-  *
-  * Return 0 on success or a negative error code on failure.
-  */
--static int pipeline_pm_power(struct media_entity *entity, int change,
--	struct media_graph *graph)
-+static int pipeline_pm_power(struct media_pad *pad, int change,
-+			     struct media_graph *graph)
+ 	/* invoke entity_notify callbacks */
+ 	list_for_each_entry_safe(notify, next, &mdev->entity_notify, list)
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index 06147f38ce2e..2b438c481812 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -198,7 +198,8 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+ 			   struct media_pad *pads)
  {
--	struct media_pad *tmp_pad, *pad;
-+	struct media_pad *tmp_pad, *first = pad;
- 	int ret = 0;
+ 	struct media_device *mdev = entity->graph_obj.mdev;
+-	unsigned int i;
++	struct media_pad *iter;
++	unsigned int i = 0;
  
- 	if (!change)
- 		return 0;
+ 	if (num_pads >= MEDIA_ENTITY_MAX_PADS)
+ 		return -E2BIG;
+@@ -209,12 +210,12 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+ 	if (mdev)
+ 		mutex_lock(&mdev->graph_mutex);
  
--	media_graph_walk_start(graph, entity->pads);
-+	media_graph_walk_start(graph, pad);
+-	for (i = 0; i < num_pads; i++) {
+-		pads[i].entity = entity;
+-		pads[i].index = i;
++	media_entity_for_each_pad(entity, iter) {
++		iter->entity = entity;
++		iter->index = i++;
+ 		if (mdev)
+ 			media_gobj_create(mdev, MEDIA_GRAPH_PAD,
+-					&entity->pads[i].graph_obj);
++					&iter->graph_obj);
+ 	}
  
- 	while (!ret && (pad = media_graph_walk_next(graph)))
- 		if (is_media_entity_v4l2_subdev(pad->entity))
-@@ -509,7 +508,7 @@ static int pipeline_pm_power(struct media_entity *entity, int change,
- 	if (!ret)
- 		return ret;
+ 	if (mdev)
+diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+index 926fd201eae3..5f6eed24e63f 100644
+--- a/include/media/media-entity.h
++++ b/include/media/media-entity.h
+@@ -1107,3 +1107,15 @@ void media_remove_intf_links(struct media_interface *intf);
+ 	 (entity)->ops->operation((entity) , ##args) : -ENOIOCTLCMD)
  
--	media_graph_walk_start(graph, entity->pads);
-+	media_graph_walk_start(graph, first);
- 
- 	while ((tmp_pad = media_graph_walk_next(graph)) && tmp_pad != pad)
- 		if (is_media_entity_v4l2_subdev(tmp_pad->entity))
-@@ -531,7 +530,7 @@ static int v4l2_pipeline_pm_use(struct media_entity *entity, unsigned int use)
- 	WARN_ON(entity->use_count < 0);
- 
- 	/* Apply power change to connected non-nodes. */
--	ret = pipeline_pm_power(entity, change, &mdev->pm_count_walk);
-+	ret = pipeline_pm_power(entity->pads, change, &mdev->pm_count_walk);
- 	if (ret < 0)
- 		entity->use_count -= change;
- 
-@@ -557,8 +556,8 @@ int v4l2_pipeline_link_notify(struct media_link *link, u32 flags,
- 			      unsigned int notification)
- {
- 	struct media_graph *graph = &link->graph_obj.mdev->pm_count_walk;
--	struct media_entity *source = link->source->entity;
--	struct media_entity *sink = link->sink->entity;
-+	struct media_pad *source = link->source;
-+	struct media_pad *sink = link->sink;
- 	int source_use;
- 	int sink_use;
- 	int ret = 0;
+ #endif
++
++/**
++ * media_entity_for_each_pad - Iterate on all pads in an entity
++ * @entity: The entity the pads belong to
++ * @iter: The iterator pad
++ *
++ * Iterate on all pads in a media entity.
++ */
++#define media_entity_for_each_pad(entity, iter)			\
++	for (iter = (entity)->pads;				\
++	     iter < &(entity)->pads[(entity)->num_pads];	\
++	     ++iter)
 -- 
 2.25.1
 
