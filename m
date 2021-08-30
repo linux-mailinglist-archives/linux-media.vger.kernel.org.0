@@ -2,293 +2,251 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F29663FB136
-	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 08:32:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3284A3FB1DB
+	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 09:22:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232862AbhH3G3s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Aug 2021 02:29:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50534 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231911AbhH3G3r (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Aug 2021 02:29:47 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E070CC061575
-        for <linux-media@vger.kernel.org>; Sun, 29 Aug 2021 23:28:53 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id k20-20020a05600c0b5400b002e87ad6956eso8638539wmr.1
-        for <linux-media@vger.kernel.org>; Sun, 29 Aug 2021 23:28:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=/8bxOlo74rRVYf26aZTCGP8ojUZakctlijGZ8qjNPZ8=;
-        b=odb9VMvPQWEaLk9fyZ4W3/9GSA+xOdgL21tpw2eW/o86y/uda1Oj2+DXU3WxhAAFn7
-         y22gk7MSSJzsWz3WWnk/dHulSU/8DrYJw7pS4nu2fltQC4SpQu5iDil21Tlq/fUfUdTy
-         WnOOPG3ffGJIfZ5gx1U0qZt184eY/mjIJn5AfLvo1mbvBPaHwfzPCEM0oOpgEbMgVjYZ
-         xC9QLSWZD18mkac1ovd99tHEhdJhB3TYYuU8Rf9gcujKxVi2ykIgb7NGZ7Ht0yqFclge
-         VqHvexFoMY3QaF87AiyP7blcvKCJ6UY6pECh5lxvfPy9DXd8YsO+rlv7igQEfQjg3V9q
-         jGrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=/8bxOlo74rRVYf26aZTCGP8ojUZakctlijGZ8qjNPZ8=;
-        b=rSTZbbkmm+aNqXSWSELa9IoK56rlv7cqrNA/KB0JqhmiZyYmchLXoex2ECUzfa+X1T
-         /P6SllgwdlN+T039o2p5bRsQDFIuWL/RGDFaMJc5G73GAlAG1Z+lOVNlkKQyoCfezMEK
-         mYwkAkLCm7iH9vJD0jxOGbi9/+ohgFLQy87SFYqZu8yqlu1LOKdGZJWFZeISe1RTZwZK
-         f0k7VNyMqWTzhEhzk2beJ2phu6A3r72om/IhT2yVrCXCFh5cT9wYy07U3kBq+rGXEsG8
-         tvb1OTi0WkJeJp6+43V0iRZ1oIQkx5v2fmpsX1fQBinkrCa8+8Qe6EC8obJq7aowR40Z
-         kSxQ==
-X-Gm-Message-State: AOAM531Ybm0BwA3X9pbAJMSiDZe9Qpx3FkWhnxoNxYPBBYGcH06JNCah
-        OzTwI9V0JkZAtaHfTT3b3XRMs55E/XY0b1Gk
-X-Google-Smtp-Source: ABdhPJzy5grAK8C6bCUR1/Objp2EznfMAKV49i+Ld/e35kaOC8p6G5W/e9Wyf3JwFNm2+numr5vmkw==
-X-Received: by 2002:a1c:7d06:: with SMTP id y6mr20400089wmc.7.1630304932307;
-        Sun, 29 Aug 2021 23:28:52 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id y15sm14167509wrw.64.2021.08.29.23.28.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Aug 2021 23:28:51 -0700 (PDT)
-Subject: Re: [PATCH 1/2] dma-buf: nuke DMA_FENCE_TRACE macros v2
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     hridya@google.com, john.stultz@linaro.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        gustavo@padovan.org, linux-media@vger.kernel.org,
-        adelva@google.com, sspatil@google.com
-References: <20210818105443.1578-1-christian.koenig@amd.com>
- <015fd5ed-9255-9c28-44f3-3c8dde90ebad@gmail.com>
- <YSdXEaBDpijEBx/6@phenom.ffwll.local>
- <0c150724-032f-b566-4f61-b4771bafe7a8@gmail.com>
- <YSlJwX0lNBSdj880@phenom.ffwll.local>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <d41b682d-f4ec-b050-8f45-78b9a9ce944d@gmail.com>
-Date:   Mon, 30 Aug 2021 08:28:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S233751AbhH3HXQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Aug 2021 03:23:16 -0400
+Received: from ni.piap.pl ([195.187.100.5]:47826 "EHLO ni.piap.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233598AbhH3HXP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 30 Aug 2021 03:23:15 -0400
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        by ni.piap.pl (Postfix) with ESMTPSA id D0617C3F3EF0;
+        Mon, 30 Aug 2021 09:22:17 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl D0617C3F3EF0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1630308138; bh=SCGmbcYdJKVCBdyQvoAWHAybI7KZLG7qGpNVJpT7pe4=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=fxMGG3bvGjXIIsjmFahtwEw5lKnaA3vreNR+rqzLs9kcYPfnoqkNJKT3Wt5ZAKUQ8
+         InVFMZyRibz4c8y6B/Rtg0xGDsxE7X9LVjBLan0l6nqAlVCvEJcEk746yPczP5NX1b
+         rlWxkRaPia7VsXEtNlv0Ks6bpOguEJI4LeaBmzwA=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v4] Driver for ON Semi AR0521 camera sensor
+References: <m3im0s9rks.fsf@t19.piap.pl>
+        <YR01VfIM5o1PmcWY@valkosipuli.retiisi.eu>
+Sender: khalasa@piap.pl
+Date:   Mon, 30 Aug 2021 09:22:17 +0200
+In-Reply-To: <YR01VfIM5o1PmcWY@valkosipuli.retiisi.eu> (Sakari Ailus's message
+        of "Wed, 18 Aug 2021 19:29:09 +0300")
+Message-ID: <m3y28jwg5y.fsf@t19.piap.pl>
 MIME-Version: 1.0
-In-Reply-To: <YSlJwX0lNBSdj880@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, license restriction
+X-KLMS-AntiPhishing: not scanned, license restriction
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, license restriction
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 27.08.21 um 22:23 schrieb Daniel Vetter:
-> On Fri, Aug 27, 2021 at 11:07:58AM +0200, Christian König wrote:
->> Am 26.08.21 um 10:55 schrieb Daniel Vetter:
->>> On Tue, Aug 24, 2021 at 10:12:24AM +0200, Christian König wrote:
->>>> Just a gentle ping. Daniel any more comments on this?
->>> Still haven't seen a patch set to nuke the sw_sync igt tests. Otherwise
->>> this is just going to cause fails and reboots in our ci (we reboot on
->>> taints).
->> *sigh* can I at least print a warning without breaking the igt tests?
-> CI watches dmesg too ... it just doesn't force a reboot (which hurts run
-> rate really badly).
+Hi Sakari,
+
+thanks for looking at the patch.
+
+Sakari Ailus <sakari.ailus@iki.fi> writes:
+
+> Over 80, please wrap. The same applies to the rest of the driver.
+
+Thought this limit was finally lifted, after all those years?
+Didn't it waste everyone's screen space?
+
+>> +#define be		cpu_to_be16
 >
->>>> I'm not sure if the second patch will cause trouble with any unit test, but
->>>> I'm willing to try it. We can always trivial revert it.
->>> See above, remove the igts and we should be fine I think. I don't think
->>> there's any selftests or kselftests, but checking that should be a quick
->>> grep at most.
->> Yeah, we don't have any selftests as far as I can see but this stuff is so
->> interweaved with igt that it will be hard to remove I think.
->>
->> A good bunch of the igt code seems to have been moved to using VGEM instead,
->> but as far as I can see there is still plenty left relying on this.
->>
->> Alternatively could we make the config option depend on CONFIG_DEBUG?
-> Hm I thought it was just down to sw_sync igt testcase, and everything else
-> is moved to vgem. Do we have more, or has more landed since I looked a
-> while ago?
+> I think you could as well use the original macro.
 
-The code under lib/sw_sync.c uses this and based on that 
-lib/igt_dummyload.c defines an IGT_CORK_FENCE which is then used by at 
-least:
+There are lots of it, and - especially with the 80-column restriction -
+it would be much much less readable. The readability is important, yes?
 
-tests/i915/gem_exec_fence.c
-tests/i915/gem_eio.c
-tests/i915/gem_exec_schedule.c
-tests/i915/gem_exec_balancer.c
-tests/i915/gem_ctx_shared.c
-tests/kms_busy.c
-
-After that I've stoped looking deeper into it.
-
-Christian.
-
-> -Daniel
+>> +
+>> +// regulator supplies
 >
->> Christian.
->>
->>> -Daniel
->>>
->>>> Thanks,
->>>> Christian.
->>>>
->>>> Am 18.08.21 um 12:54 schrieb Christian König:
->>>>> Only the DRM GPU scheduler, radeon and amdgpu where using them and they depend
->>>>> on a non existing config option to actually emit some code.
->>>>>
->>>>> v2: keep the signal path as is for now
->>>>>
->>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>>> ---
->>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 10 +---------
->>>>>     drivers/gpu/drm/radeon/radeon_fence.c     | 24 ++++-------------------
->>>>>     drivers/gpu/drm/scheduler/sched_fence.c   | 18 ++---------------
->>>>>     include/linux/dma-fence.h                 | 22 ---------------------
->>>>>     4 files changed, 7 insertions(+), 67 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>>> index 0b1c48590c43..c65994e382bd 100644
->>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>>> @@ -246,7 +246,6 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->>>>>     	struct amdgpu_fence_driver *drv = &ring->fence_drv;
->>>>>     	struct amdgpu_device *adev = ring->adev;
->>>>>     	uint32_t seq, last_seq;
->>>>> -	int r;
->>>>>     	do {
->>>>>     		last_seq = atomic_read(&ring->fence_drv.last_seq);
->>>>> @@ -278,12 +277,7 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->>>>>     		if (!fence)
->>>>>     			continue;
->>>>> -		r = dma_fence_signal(fence);
->>>>> -		if (!r)
->>>>> -			DMA_FENCE_TRACE(fence, "signaled from irq context\n");
->>>>> -		else
->>>>> -			BUG();
->>>>> -
->>>>> +		dma_fence_signal(fence);
->>>>>     		dma_fence_put(fence);
->>>>>     		pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
->>>>>     		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
->>>>> @@ -639,8 +633,6 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
->>>>>     	if (!timer_pending(&ring->fence_drv.fallback_timer))
->>>>>     		amdgpu_fence_schedule_fallback(ring);
->>>>> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", ring->idx);
->>>>> -
->>>>>     	return true;
->>>>>     }
->>>>> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
->>>>> index 18f2c2e0dfb3..3f351d222cbb 100644
->>>>> --- a/drivers/gpu/drm/radeon/radeon_fence.c
->>>>> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
->>>>> @@ -176,18 +176,11 @@ static int radeon_fence_check_signaled(wait_queue_entry_t *wait, unsigned mode,
->>>>>     	 */
->>>>>     	seq = atomic64_read(&fence->rdev->fence_drv[fence->ring].last_seq);
->>>>>     	if (seq >= fence->seq) {
->>>>> -		int ret = dma_fence_signal_locked(&fence->base);
->>>>> -
->>>>> -		if (!ret)
->>>>> -			DMA_FENCE_TRACE(&fence->base, "signaled from irq context\n");
->>>>> -		else
->>>>> -			DMA_FENCE_TRACE(&fence->base, "was already signaled\n");
->>>>> -
->>>>> +		dma_fence_signal_locked(&fence->base);
->>>>>     		radeon_irq_kms_sw_irq_put(fence->rdev, fence->ring);
->>>>>     		__remove_wait_queue(&fence->rdev->fence_queue, &fence->fence_wake);
->>>>>     		dma_fence_put(&fence->base);
->>>>> -	} else
->>>>> -		DMA_FENCE_TRACE(&fence->base, "pending\n");
->>>>> +	}
->>>>>     	return 0;
->>>>>     }
->>>>> @@ -422,8 +415,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
->>>>>     	fence->fence_wake.func = radeon_fence_check_signaled;
->>>>>     	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
->>>>>     	dma_fence_get(f);
->>>>> -
->>>>> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", fence->ring);
->>>>>     	return true;
->>>>>     }
->>>>> @@ -441,11 +432,7 @@ bool radeon_fence_signaled(struct radeon_fence *fence)
->>>>>     		return true;
->>>>>     	if (radeon_fence_seq_signaled(fence->rdev, fence->seq, fence->ring)) {
->>>>> -		int ret;
->>>>> -
->>>>> -		ret = dma_fence_signal(&fence->base);
->>>>> -		if (!ret)
->>>>> -			DMA_FENCE_TRACE(&fence->base, "signaled from radeon_fence_signaled\n");
->>>>> +		dma_fence_signal(&fence->base);
->>>>>     		return true;
->>>>>     	}
->>>>>     	return false;
->>>>> @@ -550,7 +537,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->>>>>     {
->>>>>     	uint64_t seq[RADEON_NUM_RINGS] = {};
->>>>>     	long r;
->>>>> -	int r_sig;
->>>>>     	/*
->>>>>     	 * This function should not be called on !radeon fences.
->>>>> @@ -567,9 +553,7 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->>>>>     		return r;
->>>>>     	}
->>>>> -	r_sig = dma_fence_signal(&fence->base);
->>>>> -	if (!r_sig)
->>>>> -		DMA_FENCE_TRACE(&fence->base, "signaled from fence_wait\n");
->>>>> +	dma_fence_signal(&fence->base);
->>>>>     	return r;
->>>>>     }
->>>>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->>>>> index 69de2c76731f..3736746c47bd 100644
->>>>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>>>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>>>> @@ -50,26 +50,12 @@ static void __exit drm_sched_fence_slab_fini(void)
->>>>>     void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
->>>>>     {
->>>>> -	int ret = dma_fence_signal(&fence->scheduled);
->>>>> -
->>>>> -	if (!ret)
->>>>> -		DMA_FENCE_TRACE(&fence->scheduled,
->>>>> -				"signaled from irq context\n");
->>>>> -	else
->>>>> -		DMA_FENCE_TRACE(&fence->scheduled,
->>>>> -				"was already signaled\n");
->>>>> +	dma_fence_signal(&fence->scheduled);
->>>>>     }
->>>>>     void drm_sched_fence_finished(struct drm_sched_fence *fence)
->>>>>     {
->>>>> -	int ret = dma_fence_signal(&fence->finished);
->>>>> -
->>>>> -	if (!ret)
->>>>> -		DMA_FENCE_TRACE(&fence->finished,
->>>>> -				"signaled from irq context\n");
->>>>> -	else
->>>>> -		DMA_FENCE_TRACE(&fence->finished,
->>>>> -				"was already signaled\n");
->>>>> +	dma_fence_signal(&fence->finished);
->>>>>     }
->>>>>     static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
->>>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->>>>> index 6ffb4b2c6371..4cc119ab272f 100644
->>>>> --- a/include/linux/dma-fence.h
->>>>> +++ b/include/linux/dma-fence.h
->>>>> @@ -590,26 +590,4 @@ struct dma_fence *dma_fence_get_stub(void);
->>>>>     struct dma_fence *dma_fence_allocate_private_stub(void);
->>>>>     u64 dma_fence_context_alloc(unsigned num);
->>>>> -#define DMA_FENCE_TRACE(f, fmt, args...) \
->>>>> -	do {								\
->>>>> -		struct dma_fence *__ff = (f);				\
->>>>> -		if (IS_ENABLED(CONFIG_DMA_FENCE_TRACE))			\
->>>>> -			pr_info("f %llu#%llu: " fmt,			\
->>>>> -				__ff->context, __ff->seqno, ##args);	\
->>>>> -	} while (0)
->>>>> -
->>>>> -#define DMA_FENCE_WARN(f, fmt, args...) \
->>>>> -	do {								\
->>>>> -		struct dma_fence *__ff = (f);				\
->>>>> -		pr_warn("f %llu#%llu: " fmt, __ff->context, __ff->seqno,\
->>>>> -			 ##args);					\
->>>>> -	} while (0)
->>>>> -
->>>>> -#define DMA_FENCE_ERR(f, fmt, args...) \
->>>>> -	do {								\
->>>>> -		struct dma_fence *__ff = (f);				\
->>>>> -		pr_err("f %llu#%llu: " fmt, __ff->context, __ff->seqno,	\
->>>>> -			##args);					\
->>>>> -	} while (0)
->>>>> -
->>>>>     #endif /* __LINUX_DMA_FENCE_H */
+> Please use C comments outside SPDX tags. This comment is redundant
+> though.
 
+Thought // comments are now finally allowed (and encouraged when they
+make sense)?
+
+>> +static int debug;
+>> +module_param(debug, int, 0644);
+>> +MODULE_PARM_DESC(debug, "Debug level 0-3");
+>
+> Could you rely on dynamic debug instead?
+
+I will look at it.
+
+>> +static int ar0521_set_gains(struct ar0521_dev *sensor)
+>> +{
+>> +	int green =3D sensor->ctrls.gain->val;
+>> +	int red =3D max(green + sensor->ctrls.red_balance->val, 0);
+>> +	int blue =3D max(green + sensor->ctrls.blue_balance->val, 0);
+>> +	unsigned int gain =3D min(red, min(green, blue));
+>> +	unsigned int analog =3D min(gain, 64u); // range is 0 - 127
+>> +	__be16 regs[5];
+>> +
+>> +	v4l2_dbg(2, debug, &sensor->sd, "%s()\n", __func__);
+>> +
+>> +	red   =3D min(red   - analog + 64, 511u);
+>> +	green =3D min(green - analog + 64, 511u);
+>> +	blue  =3D min(blue  - analog + 64, 511u);
+>> +	regs[0] =3D be(AR0521_REG_GREEN1_GAIN);
+>> +	regs[1] =3D be(green << 7 | analog);
+>> +	regs[2] =3D be(blue  << 7 | analog);
+>> +	regs[3] =3D be(red   << 7 | analog);
+>> +	regs[4] =3D be(green << 7 | analog);
+>
+> I think I'd use u16 for red, green and blue. Shifting signed integers can
+> result in undefined behaviour (MSB).
+
+I think you mean signed ints could be negative. However, in this case, a
+negative value would be a bug, shifted or not, and copied into u16 or
+staying in ordinary int. Shifting a (non-negative and in range) signed
+int is a defined behaviour, though.
+
+Let's see if any of them can be negative.
+G, R and B are originally non-negative (control ranges).
+Gain is the minimum of them (and is unsigned) thus non-negative.
+Analog is min(gain, 64) thus non-negative as well (range is 0 to 64).
+(- analog + 64) is thus non-negative, and so are final R G B.
+
+I could use some cast here, yes. However I don't think it would serve
+a useful purpose - either the original value is valid and non-negative
+(so the shift is not a problem) or it's negative and the u16 isn't going
+to help.
+
+> Could you simply print the frequency in Hz?
+
+I could, but I consider it much less readable.
+Compare 24 MHz with 24000000 Hz.
+I can put stuff like this in my private branch, though.
+
+>> +#define DIV 4
+>
+> What does DIV signify?
+
+It's a divider in the PLL. IIRC it's fixed at 4 for 8-bit sensor mode
+but would need to be changed to 5 and 6 in 10- and 12-bit modes (which
+the driver doesn't support ATM).
+
+>> +		// try to reduce the numbers a bit
+>> +		for (cnt =3D 2; cnt * cnt < denom; cnt++)
+>
+> Braces would be nice here.
+
+You mean (cnt * cnt) < denom?
+Are you sure?
+
+Or perhaps you mean the following?
+>> +			while (num % cnt =3D=3D 0 && denom % cnt =3D=3D 0) {
+
+
+>> +static int ar0521_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_st=
+ate *sd_state,
+>> +			  struct v4l2_subdev_format *format)
+>> +{
+>> +	struct ar0521_dev *sensor =3D to_ar0521_dev(sd);
+>> +	struct v4l2_mbus_framefmt *fmt;
+>> +
+>> +	if (format->pad)
+>> +		return -EINVAL;
+>
+> The caller has already checked for this as I understand you have a single
+> pad only (0).
+
+I do. Didn't know it's already checked.
+
+>> +static void ar0521_power_off(struct ar0521_dev *sensor)
+>> +{
+>> +	int i;
+>
+> unsigned int?
+
+The variable goes negative eventually:
+
+>> +	for (i =3D AR0521_NUM_SUPPLIES - 1; i >=3D 0; i--) {
+                                          ^^^^^^^^^^^
+>> +	if (on) {
+>> +		if (!sensor->power_count++) {
+>> +			int ret =3D ar0521_power_on(sensor);
+>
+> Could you instead use runtime PM? See e.g. the imx319 driver for an
+> example.
+
+Will have a look.
+
+> Virtually all new sensor drivers use the blanking controls to configure t=
+he
+> frame rate. Could you do the same?
+
+I do :-)
+However, it apparently isn't as flexible as *frame_interval() -
+I can't control the precise timings:
+- the V4L2_CID_PIXEL_RATE is discrete and R/O (i.e. the application
+  can't control it)
+- even if I could somehow control pixel rate, frame interval is
+  calculated as (width + h_blanking) * (height + v_blanking) /
+  pixel_rate, which may be a bit coarse for precise video.
+  With *frame_interval(), I compensate with per-frame "extra" delay
+  (in single pixels, not whole H or V lines).
+
+If the (userspace) application can control pixel rate and the "extra"
+timing (well maybe pixel rate and the total number of pixels including
+blanking and "extra") then I would be more than happy dropping
+frame_interval().
+
+I guess I could easily do that myself, if there is consensus about it.
+
+E.g. V4L2_CID_PIXEL_RATE would not be forced R/O (and discrete) anymore
+and I would invent a V4L2_CID_TOTAL_PIXELS or something.
+
+The V4L2_CID_PIXEL_RATE issue may be somehow offset by the
+V4L2_CID_LINK_FREQ, but the latter is "menu" type and thus not very
+useful (am I to populate it with 250 values 1 MHz apart?).
+
+Perhaps the receiver could publish it's input frequency range instead,
+then the transmitter would set a fixed value? I don't know. And this
+doesn't cover a case where the user needs a slower rate than max(tx, rx)
+for some reason.
+
+We should decide something about this, though.
+
+>> +	sensor->extclk_freq =3D clk_get_rate(sensor->extclk);
+>> +
+>> +	if (sensor->extclk_freq < AR0521_EXTCLK_MIN ||
+>> +	    sensor->extclk_freq > AR0521_EXTCLK_MAX) {
+>
+> This is obviously the frequency range the device supports, but what is
+> assumed in the register lists? In other words, you should check for a
+> specific frequency.
+
+Not sure what do you mean. Nothing is assumed, AR0521_EXTCLK_RATE
+(27 MHz) is requested first, and the resulting value (different than
+27 MHz on my system) is checked to see if it's supported by the chip.
+Then the actual value is used for calculations.
+
+Now I wonder if the clock rate can change after the driver is
+initialized (because some other driver wants a different clock and they
+are shared somehow)?
+
+>> +	dev_info(dev, "AR0521 driver initialized, master clock frequency: %s M=
+Hz, %u MIPI data lanes\n",
+>> +		 mhz(sensor->extclk_freq), nlanes);
+>
+> I'd use dev_dbg(), if anything.
+
+I need some regular feedback from the driver here, but I can keep it in
+my private trivial branch.
+
+Thanks,
+and looking forward for your comments.
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
