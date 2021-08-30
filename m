@@ -2,209 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 436AE3FBDCC
-	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 23:00:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6E383FBDD6
+	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 23:04:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236258AbhH3VBP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Aug 2021 17:01:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55324 "EHLO
+        id S236279AbhH3VFK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Aug 2021 17:05:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234509AbhH3VBO (ORCPT
+        with ESMTP id S236009AbhH3VFJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Aug 2021 17:01:14 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CAB3C061575;
-        Mon, 30 Aug 2021 14:00:20 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id u14so33859620ejf.13;
-        Mon, 30 Aug 2021 14:00:20 -0700 (PDT)
+        Mon, 30 Aug 2021 17:05:09 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29234C061575;
+        Mon, 30 Aug 2021 14:04:15 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id fs6so10351146pjb.4;
+        Mon, 30 Aug 2021 14:04:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KWiHNXS+3DcOlsVpnDVjQ/m3C1IyjZ5owtbI17urlSs=;
-        b=bls3vPsE9/mpAehw9h8f0bfIKo/ur5D3gapsk6ABlwMpjeNlxnNftLg5NnlgKbrS4J
-         /sKHmCpb2siio/kdCeNycUZ/YaVbk+xwo5ZfnVTuL1OsnztQ4y3HVsto7kYb0mDWWMfq
-         8WvxYIJTIg9sE0Cfxp8919Ne5mZ0AxMthoZinPZFWWUC00ZrTYoNt8QeXuqlqGirttHG
-         k+ZwbnF6G40YvyJTJXblgBwpSjnNY3tWBrKGzhYGJRP8X2ebVIFiUH+zW4cD75T377Xz
-         la5A1p6W1yPx/RLEbxQqKeK2sbulJg1f+x+IjRuzhp187q928KQ6NyqQGyxu+URoxBD7
-         Su9g==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=DR2Bm1R7YKSILao3MIz9gdsriioL6L4Hdgm+Hq95yfk=;
+        b=ah+4CA5h+kOwFd9qrEibSKfYAPfYPA83e3z19xKkl0kEPGZHX9BjvNNIlNCmuCTkXX
+         OmMkgnLYCbXJFPMl/uNwnZ7tGJd9XFnyVK5rD+PPYOjgk9EhpGul2WjEs/kNX+h2CQix
+         bDevhwEQZAchriHqTe8K2o7x4pbEeMPBILP1vLOOSXFb8wGKzXjRJHqqB591CppFPJpS
+         7k7ACVFs9omrP3aTjkTx3K4LwCNocbanA6eC7hRPlw0/8xD6o2t3uJnBfKBeXbGJ1cEL
+         JvjGWRXh76BC39zDasi/DXiNmZwP/TCyXDbjekiUeEikZJrcl1u3AKpJbERDh9fuopj6
+         /92g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=KWiHNXS+3DcOlsVpnDVjQ/m3C1IyjZ5owtbI17urlSs=;
-        b=QyWx7lxddHyrmJJ1pgY/la0FPXouMksveAZZSrU6c2/qoW7O5RdPEVz6vwGoZPc2vA
-         c5ckT7OXYEVUwpi9d1kLvaaB9CuMJIy8Zi6UJMqmA+e4enhwcJinZzKxjr0BD2GahG3K
-         nMEnQF4U+B/BXCcGlyCP+qdaB9u5q6WM4tYg++WPtGaLhq7qLXysGnjFlUlLiMoIwYAF
-         ctWcTuI/UPh8JR6I6pjVb++V/Oyhi6HPvPM17IDirjkiXwCTxegQZlA0CGX7X9mmuAPf
-         LlzpTyni/m1N3Ta+CciOu71QTz0NnMTDMRdQeq+5aKD5L9CF7hPYevrF8fp/eZB2YaEI
-         QDQw==
-X-Gm-Message-State: AOAM530cyMuS748lHKcthIyovnXqigJChCnO30v/8UQAFQF/lQzT9a2q
-        hqipw9Hf7SwmK2im6JRIFQG2ji7iHwmcmyYc
-X-Google-Smtp-Source: ABdhPJwhD4PkYb6968XTC6ESe+L5tvt2UaX2SD+FMpytvd38l0rgpOZLeQtVZrtL5iuFcKST3zh7Iw==
-X-Received: by 2002:a17:906:1451:: with SMTP id q17mr27376832ejc.214.1630357219217;
-        Mon, 30 Aug 2021 14:00:19 -0700 (PDT)
-Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id dk6sm8164992edb.14.2021.08.30.14.00.18
+        bh=DR2Bm1R7YKSILao3MIz9gdsriioL6L4Hdgm+Hq95yfk=;
+        b=Qbv3t7Sp2ECZNr5WOA8FwEQK8OwTbwAOeLs4Ana1rDnrlaNHqyxEjjWXryZky6GG7w
+         Lkg66gQruRvBLLLdHunfXL3FPFAU6Mfl9cFD/2jApUC4LP23P6vdWlANXX179XUoSejS
+         mW/1aXnnmJDqFUmlrjthpepiMDwQ6XwLa4SqZ0mLPxynAZOwgbb+GjBcDkifeliZhqYG
+         WnAwBWzrQn9cWd5PO9hJOlWdi1ThtavTXeloTe0USQJt3bYWe0IYI/2G0yG+GZOomlPE
+         pBDDm8mJlxMsGs6P7/HjQnOFGqklE3WFlbPH9Lzv6RzRvhnU1ysu7cB5en5cU7CbtttP
+         9VKg==
+X-Gm-Message-State: AOAM530P+S/pkYyZj81BTRlQ5exokh5mUc/vsphmH+vh4Oxetaf9gzzc
+        N8hkmlD9h30MQfBsoYbeOtU=
+X-Google-Smtp-Source: ABdhPJyRz3j8yhGjQruBYt5HogHLyYwlaJCVaG/s7Dn3Fl+divZ4zxqIxw55Rs0lx0A5X/d1yV/xyQ==
+X-Received: by 2002:a17:902:9682:b0:138:e2f9:720d with SMTP id n2-20020a170902968200b00138e2f9720dmr1366038plp.57.1630357454505;
+        Mon, 30 Aug 2021 14:04:14 -0700 (PDT)
+Received: from [10.80.16.166] ([103.137.210.137])
+        by smtp.gmail.com with ESMTPSA id w4sm362753pjj.15.2021.08.30.14.04.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Aug 2021 14:00:18 -0700 (PDT)
-Subject: Re: [PATCH v1 4/5] dt-bindings: phy: phy-rockchip-dphy-rx0: add
- support for tx1rx1 phy
-To:     Mikhail Rudenko <mike.rudenko@gmail.com>,
-        linux-phy@lists.infradead.org
-Cc:     linux-media@vger.kernel.org,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Helen Koike <helen.koike@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20210830180758.251390-1-mike.rudenko@gmail.com>
- <20210830180758.251390-5-mike.rudenko@gmail.com>
-From:   Johan Jonker <jbx6244@gmail.com>
-Message-ID: <60aa055c-d872-3e5c-3c85-09300215a60e@gmail.com>
-Date:   Mon, 30 Aug 2021 23:00:17 +0200
+        Mon, 30 Aug 2021 14:04:13 -0700 (PDT)
+Subject: Re: [PATCH v8 3/7] drm: lock drm_global_mutex earlier in the ioctl
+ handler
+To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, jani.nikula@linux.intel.com,
+        joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+        chris@chris-wilson.co.uk, ville.syrjala@linux.intel.com,
+        matthew.auld@intel.com, dan.carpenter@oracle.com,
+        tvrtko.ursulin@intel.com, matthew.d.roper@intel.com,
+        lucas.demarchi@intel.com, karthik.b.s@intel.com,
+        jose.souza@intel.com, manasi.d.navare@intel.com,
+        airlied@redhat.com, aditya.swarup@intel.com, andrescj@chromium.org,
+        linux-graphics-maintainer@vmware.com, zackr@vmware.com,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
+        gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Daniel Vetter <daniel@ffwll.ch>
+References: <20210826020122.1488002-1-desmondcheongzx@gmail.com>
+ <20210826020122.1488002-4-desmondcheongzx@gmail.com>
+ <YSdltHVQnIr+vkTn@phenom.ffwll.local>
+From:   Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Message-ID: <c9e08f10-035f-63dd-698c-faa93c935cd6@gmail.com>
+Date:   Tue, 31 Aug 2021 05:04:04 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210830180758.251390-5-mike.rudenko@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <YSdltHVQnIr+vkTn@phenom.ffwll.local>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mikhail,
-
-Some comments below. Have a look if it is useful.
-
-On 8/30/21 8:07 PM, Mikhail Rudenko wrote:
-> RK3399 TX1RX1 D-PHY is not a child of GRF and uses reg, thus add
-> corresponding properties conditionally. It also requires DSI clock to
-> operate, so check for it. Since we now support both rx0 and tx1rx1,
-> rename the schema to rockchip-mipi-dphy-rx.yaml.
+On 26/8/21 5:58 pm, Daniel Vetter wrote:
+> On Thu, Aug 26, 2021 at 10:01:18AM +0800, Desmond Cheong Zhi Xi wrote:
+>> In a future patch, a read lock on drm_device.master_rwsem is
+>> held in the ioctl handler before the check for ioctl
+>> permissions. However, this inverts the lock hierarchy of
+>> drm_global_mutex --> master_rwsem.
+>>
+>> To avoid this, we do some prep work to grab the drm_global_mutex
+>> before checking for ioctl permissions.
+>>
+>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+>> ---
+>>   drivers/gpu/drm/drm_ioctl.c | 18 +++++++++---------
+>>   1 file changed, 9 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+>> index d25713b09b80..158629d88319 100644
+>> --- a/drivers/gpu/drm/drm_ioctl.c
+>> +++ b/drivers/gpu/drm/drm_ioctl.c
+>> @@ -772,19 +772,19 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
+>>   	if (drm_dev_is_unplugged(dev))
+>>   		return -ENODEV;
+>>   
+>> +	/* Enforce sane locking for modern driver ioctls. */
+>> +	if (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)) && !(flags & DRM_UNLOCKED))
 > 
-> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
-> ---
->  ...hy-rx0.yaml => rockchip-mipi-dphy-rx.yaml} | 39 +++++++++++++++++--
->  1 file changed, 35 insertions(+), 4 deletions(-)
->  rename Documentation/devicetree/bindings/phy/{rockchip-mipi-dphy-rx0.yaml => rockchip-mipi-dphy-rx.yaml} (65%)
+> Maybe have a local bool locked_ioctl for this so it's extremely clear it's
+> the same condition in both?
 > 
-> diff --git a/Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml b/Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx.yaml
-> similarity index 65%
-> rename from Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml
-> rename to Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx.yaml
-> index 7d888d358823..f42319448fc9 100644
-> --- a/Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml
-> +++ b/Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx.yaml
-> @@ -1,10 +1,10 @@
->  # SPDX-License-Identifier: (GPL-2.0+ OR MIT)
->  %YAML 1.2
->  ---
-> -$id: http://devicetree.org/schemas/phy/rockchip-mipi-dphy-rx0.yaml#
-> +$id: http://devicetree.org/schemas/phy/rockchip-mipi-dphy-rx.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: Rockchip SoC MIPI RX0 D-PHY Device Tree Bindings
-> +title: Rockchip SoC MIPI RX0/TX1RX1 D-PHY Device Tree Bindings
->  
->  maintainers:
->    - Helen Koike <helen.koike@collabora.com>
-> @@ -16,19 +16,28 @@ description: |
->  
->  properties:
->    compatible:
-> -    const: rockchip,rk3399-mipi-dphy-rx0
-> +    enum:
-> +      - rockchip,rk3399-mipi-dphy-rx0
-> +      - rockchip,rk3399-mipi-dphy-tx1rx1
-> +
-
-> +  reg:
-> +    maxItems: 1
-
-This allows every node to have a reg property.
-
->  
->    clocks:
-> +    minItems: 3
->      items:
->        - description: MIPI D-PHY ref clock
-> -      - description: MIPI D-PHY RX0 cfg clock
-> +      - description: MIPI D-PHY RX0/TX1RX1 cfg clock
->        - description: Video in/out general register file clock
-> +      - description: MIPI D-PHY DSI clock
->  
->    clock-names:
-> +    minItems: 3
->      items:
->        - const: dphy-ref
->        - const: dphy-cfg
->        - const: grf
-> +      - const: dsi
->  
->    '#phy-cells':
->      const: 0
-> @@ -37,6 +46,12 @@ properties:
->      description: Video in/out power domain.
->      maxItems: 1
->  
-
-> +  rockchip,grf:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      The phandle of the syscon node for the general register file
-> +      (GRF), required for TX1RX1 MIPI D-PHY on RK3399.
-
-This allows every node to have a rockchip,grf property.
-
-> +
->  required:
->    - compatible
->    - clocks
-> @@ -44,6 +59,22 @@ required:
->    - '#phy-cells'
->    - power-domains
->  
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +          const: rockchip,rk3399-mipi-dphy-tx1rx1
-> +then:
-
-> +  required:
-
-Move/swap the properties section above the required section.
-
-> +    - reg
-> +    - rockchip,grf
-> +
-> +  properties:
-
-  reg:
-    maxItems: 1
-
-> +    clocks:
-> +      minItems: 4
-> +    clock-names:
-> +      minItems: 4
-
-  rockchip,grf:
-    $ref: /schemas/types.yaml#/definitions/phandle
-    description:
-      The phandle of the syscon node for the general register file(GRF).
-
-
-", required for TX1RX1 MIPI D-PHY on RK3399."
-
-This phrase is already said/done with the "required:" section above
-
->  additionalProperties: false
->  
->  examples:
+> Either way: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > 
+
+Thanks for the suggestion and review. Sounds good, I'll update and send 
+out a new version.
+
+(Sorry for delays, been busy with moving)
+
+>> +		mutex_lock(&drm_global_mutex);
+>> +
+>>   	retcode = drm_ioctl_permit(flags, file_priv);
+>>   	if (unlikely(retcode))
+>> -		return retcode;
+>> +		goto out;
+>>   
+>> -	/* Enforce sane locking for modern driver ioctls. */
+>> -	if (likely(!drm_core_check_feature(dev, DRIVER_LEGACY)) ||
+>> -	    (flags & DRM_UNLOCKED))
+>> -		retcode = func(dev, kdata, file_priv);
+>> -	else {
+>> -		mutex_lock(&drm_global_mutex);
+>> -		retcode = func(dev, kdata, file_priv);
+>> +	retcode = func(dev, kdata, file_priv);
+>> +
+>> +out:
+>> +	if (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)) && !(flags & DRM_UNLOCKED))
+>>   		mutex_unlock(&drm_global_mutex);
+>> -	}
+>>   	return retcode;
+>>   }
+>>   EXPORT_SYMBOL(drm_ioctl_kernel);
+>> -- 
+>> 2.25.1
+>>
+> 
+
