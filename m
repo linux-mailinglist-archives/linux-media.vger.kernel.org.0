@@ -2,112 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEADE3FB455
-	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 13:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E28AC3FB6BB
+	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 15:07:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236542AbhH3LDo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Aug 2021 07:03:44 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43892 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236530AbhH3LDg (ORCPT
+        id S236767AbhH3NHj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Aug 2021 09:07:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57686 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231536AbhH3NHj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Aug 2021 07:03:36 -0400
-Received: from deskari.lan (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D088D1924;
-        Mon, 30 Aug 2021 13:02:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1630321362;
-        bh=pXHztcgMvIT5+m/DmHgFSB8IHvRQ4N3y2ytWJ/20IXw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DjSslXd5CIDhg29utY3asR86EkmRdlCuorNZAoNtCPBoaYUhG40DuqUHgFUwFneF0
-         FYJ/eqB9EGK36HGOspw7pjSYlZSYk0CxAPzFglEKlaciHkA7ZilNsJmqCJ7fNWduda
-         zSj6ut8JcOC3IVPpAx+FPT9q+5537Z8t8I+o4kuQ=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: [PATCH v8 36/36] media: subdev: add v4l2_routing_simple_verify() helper
-Date:   Mon, 30 Aug 2021 14:01:16 +0300
-Message-Id: <20210830110116.488338-37-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
-References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
+        Mon, 30 Aug 2021 09:07:39 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C12EC06175F
+        for <linux-media@vger.kernel.org>; Mon, 30 Aug 2021 06:06:45 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id dm15so21504276edb.10
+        for <linux-media@vger.kernel.org>; Mon, 30 Aug 2021 06:06:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=pc6JyOcjVRQca0OWFNDzP7P/fgENAxEB6LfMCdWNY2U=;
+        b=Xjwvtk5DS7Kgnzu4TIrDGVIZBgapiYtUhRPs8sCqFT3ycbt+wPkI3xIqQ0ha4Knino
+         CoshLXTH//bEj4gkilPdCr6WKJddj/yEVj8q2DmwoVzQu8jqWrWPoHgP3dwhsTIe0Bwu
+         Ee7K1sm+QOAcr0DadOgcXYJk1SLRv01i9SGeTWedz8uEpfPK8iIlberCbf2EQZcGkeH4
+         Mtsdbm1/Mol9HvmDFabpQ2AVhntClgNCQf7xqmF2VMJGv9iul9+kUv0lR1HbZuq5hTiP
+         //CP+66+JL5o1bAMhJYIWxG1fS1HqAwwha0S5B2r+vFHTJOWcHluN28lp+zsGfNB7pB9
+         beow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=pc6JyOcjVRQca0OWFNDzP7P/fgENAxEB6LfMCdWNY2U=;
+        b=fv3Wd8/IQMfNwOT/2GahjVbEUGN2CCY6IT173HCRW7SfDJOa0DLqa3/VV5ouv6K5ql
+         exQgmO6RDaWo4TGUM9ksUtxTAbwaLoXp9sHc9OprWUY8Hi8b0lbU8Z5x8L2fsxSwCHfe
+         cZ3eKUrGE2HeOmQ+IkpRD8PsjVEZpQtdwF+jqeUYh8Cmj2874uRGWXWEdfngYFgzMzJa
+         PR0ty+mdWyzFq8pzumk08vIQT0uprYuF3WUy1xJEIQiVySJYg/uLPEot0CyLmP1CrcBq
+         aps1yFaMI3dmEMSyRrE3ELMZpG+zcse96MuWiY3DFPmNA+vYEYG/1bIWgywfmh10kOIo
+         SJTA==
+X-Gm-Message-State: AOAM532+ooTvIjTjzmF74fKz87FMoH4x6Ky55kRiJmyDEDNLnVSmpS/w
+        sNPqDkAsjYSnQD+zQvMuiFtQla94WEeQQVJkRp4=
+X-Google-Smtp-Source: ABdhPJyIiZu+OcPcwMymsBxMckrlGwZdUE9q4Xg7o0wpEoRc4WAw297efA4obgF6vZzYttAIj39g4wlcOxjAxmmthNM=
+X-Received: by 2002:a05:6402:1d56:: with SMTP id dz22mr24100871edb.69.1630328803962;
+ Mon, 30 Aug 2021 06:06:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a17:906:1811:0:0:0:0 with HTTP; Mon, 30 Aug 2021 06:06:43
+ -0700 (PDT)
+Reply-To: dabereaminata@gmail.com
+From:   Aminata Debare <chioudaragou@gmail.com>
+Date:   Mon, 30 Aug 2021 15:06:43 +0200
+Message-ID: <CA+QGEbcKWKUTWxvUWFqSFus+WS64epMCnTJvBxuxgQ7c-2E3XA@mail.gmail.com>
+Subject: Good Morning and win today
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a helper for verifying routing for the common case of
-non-overlapping 1-to-1 streams.
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/media/v4l2-core/v4l2-subdev.c | 24 ++++++++++++++++++++++++
- include/media/v4l2-subdev.h           | 14 ++++++++++++++
- 2 files changed, 38 insertions(+)
-
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 83fa87e88bce..e3a7793157db 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1572,3 +1572,27 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
-+
-+int v4l2_routing_simple_verify(const struct v4l2_subdev_krouting *routing)
-+{
-+	unsigned int i, j;
-+
-+	for (i = 0; i < routing->num_routes; ++i) {
-+		const struct v4l2_subdev_route *route = &routing->routes[i];
-+
-+		for (j = i + 1; j < routing->num_routes; ++j) {
-+			const struct v4l2_subdev_route *r = &routing->routes[j];
-+
-+			if (route->sink_pad == r->sink_pad &&
-+			    route->sink_stream == r->sink_stream)
-+				return -EINVAL;
-+
-+			if (route->source_pad == r->source_pad &&
-+			    route->source_stream == r->source_stream)
-+				return -EINVAL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_routing_simple_verify);
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 3f72c500ff6e..476d797ecc68 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1562,4 +1562,18 @@ v4l2_state_get_opposite_stream_format(struct v4l2_subdev_state *state, u32 pad,
- int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
- 			struct v4l2_subdev_format *format);
- 
-+/**
-+ * v4l2_routing_simple_verify() - Verify that all streams are non-overlapping
-+ * 				  1-to-1 streams
-+ * @routing: routing to verify
-+ *
-+ * This verifies that the given routing contains only non-overlapping 1-to-1
-+ * streams. In other words, no two streams have the same source or sink
-+ * stream ID on a single pad. This is the most common case of routing
-+ * supported by devices.
-+ *
-+ * Returns 0 on success, error value otherwise.
-+ */
-+int v4l2_routing_simple_verify(const struct v4l2_subdev_krouting *routing);
-+
- #endif
 -- 
-2.25.1
+Hello,
+I am a relatives of a politically exposed person (PEP) that is in
+financial regulation. Due to my present health condition, I'd decided
+to write through this email for the security reason. Therefore, kindly
+treat this as top secret for the security reason. I'd after fasting
+and prayer choose to write not you particularly but I believing in
+probability of you being a confidant chosen by chance; luck to help
+and share in this noble cause. I need your assistant to conduct secret
+transfers of family's funds worth $18.5 millions Dollar. It was
+deposited in bank clandestinely.
 
+I am in grave condition and i expect death anytime because of  the
+political situation my families are into since, so i seek your help in
+transferring the fund for our mutual benefit and i want to donate of
+some  the fund to less privilege and you will be rewarded with
+reasonable percentage of the fund, if you can assist .Thanking you in
+advance.
+
+Yours truly,
+Aminata Dabere
