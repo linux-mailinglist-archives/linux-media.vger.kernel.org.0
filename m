@@ -2,29 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B123D3FB438
-	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 13:04:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05C3B3FB439
+	for <lists+linux-media@lfdr.de>; Mon, 30 Aug 2021 13:04:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236441AbhH3LDX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S236457AbhH3LDX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Mon, 30 Aug 2021 07:03:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236448AbhH3LDM (ORCPT
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43936 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236449AbhH3LDN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Aug 2021 07:03:12 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9DA1C061764
-        for <linux-media@vger.kernel.org>; Mon, 30 Aug 2021 04:02:18 -0700 (PDT)
+        Mon, 30 Aug 2021 07:03:13 -0400
 Received: from deskari.lan (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D8EBA5A7;
-        Mon, 30 Aug 2021 13:02:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C249B8AD;
+        Mon, 30 Aug 2021 13:02:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1630321337;
-        bh=2PHsxmwR3MHZUDL03a60jsqmdnIZr74QvlxS7er1i4Q=;
+        s=mail; t=1630321338;
+        bh=LGq2o/zj47uebcoiZENm8LikE4EuFX892IA21bSPMy8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iooAkZCUUcVWxp5e/wiGu2ZVVGupTko8dcskzPfXB9KJcQI3XcxYJLxCzgpcqj6yH
-         I5mwgR7uSMSwLK9VY0kTZD9ptV8cSm4n7VB4oHO4dRWhVtEW1VFpNpDl+PlIgf1ZR0
-         srDDvqjt2gjHJ75s0Gx5tw3nGp8v1e5zgtVsIs64=
+        b=sy90Tk37u7c58sGfH25ymKkvV5UVa9VVQIEz1Nf3I+MlFU4C8CpWi66L4rD9ql2PO
+         EQN1GTOw8LdCAh9kY/SkXOW09LTr1fKtGWv9Q2cIU9tB4tBDmZIbsd2TVLCX5UcLOJ
+         9XwbUHFXfH+8FJkgl8TtPQMwiKNH35/HdWamV9TA=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -35,9 +32,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>
-Subject: [PATCH v8 08/36] media: entity: Use pad as a starting point for graph walk
-Date:   Mon, 30 Aug 2021 14:00:48 +0300
-Message-Id: <20210830110116.488338-9-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v8 09/36] media: entity: Use pads instead of entities in the media graph walk stack
+Date:   Mon, 30 Aug 2021 14:00:49 +0300
+Message-Id: <20210830110116.488338-10-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
 References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
@@ -50,244 +47,178 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-With the upcoming use of the recently added has_route() media entity op, all
-the pads in an entity will no longer be considered interconnected. This has
-an effect where the media graph is traversed: the starting pad does make a
-difference.
-
-Prepare for this change by using pad instead of the entity as an argument
-for the graph walk operations. The actual graph traversal algorithm change
-is in further patches.
+Change the media graph walk stack structure to use media pads instead of
+using media entities. In addition to the entity, the pad contains the
+information which pad in the entity are being dealt with.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- Documentation/driver-api/media/mc-core.rst    |  2 +-
- drivers/media/mc/mc-entity.c                  | 17 ++++++++---------
- drivers/media/platform/exynos4-is/media-dev.c |  4 ++--
- drivers/media/platform/omap3isp/ispvideo.c    |  2 +-
- drivers/media/platform/vsp1/vsp1_video.c      |  2 +-
- drivers/media/platform/xilinx/xilinx-dma.c    |  2 +-
- drivers/media/v4l2-core/v4l2-mc.c             |  6 +++---
- drivers/staging/media/omap4iss/iss_video.c    |  4 ++--
- include/media/media-entity.h                  | 10 ++++------
- 9 files changed, 23 insertions(+), 26 deletions(-)
+ drivers/media/mc/mc-entity.c | 55 ++++++++++++++++++------------------
+ include/media/media-entity.h |  8 +++---
+ 2 files changed, 31 insertions(+), 32 deletions(-)
 
-diff --git a/Documentation/driver-api/media/mc-core.rst b/Documentation/driver-api/media/mc-core.rst
-index 57b5bbba944e..ba0aee982124 100644
---- a/Documentation/driver-api/media/mc-core.rst
-+++ b/Documentation/driver-api/media/mc-core.rst
-@@ -167,7 +167,7 @@ Drivers initiate a graph traversal by calling
- :c:func:`media_graph_walk_start()`
- 
- The graph structure, provided by the caller, is initialized to start graph
--traversal at the given entity.
-+traversal at the given pad in an entity.
- 
- Drivers can then retrieve the next entity by calling
- :c:func:`media_graph_walk_next()`
 diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index f40f41977142..47cdaa301838 100644
+index 47cdaa301838..e3a932ab9abd 100644
 --- a/drivers/media/mc/mc-entity.c
 +++ b/drivers/media/mc/mc-entity.c
-@@ -291,17 +291,16 @@ void media_graph_walk_cleanup(struct media_graph *graph)
- }
- EXPORT_SYMBOL_GPL(media_graph_walk_cleanup);
+@@ -228,40 +228,39 @@ EXPORT_SYMBOL_GPL(media_entity_pads_init);
+  * Graph traversal
+  */
  
--void media_graph_walk_start(struct media_graph *graph,
--			    struct media_entity *entity)
-+void media_graph_walk_start(struct media_graph *graph, struct media_pad *pad)
+-static struct media_entity *
+-media_entity_other(struct media_entity *entity, struct media_link *link)
++static struct media_pad *
++media_pad_other(struct media_pad *pad, struct media_link *link)
  {
- 	media_entity_enum_zero(&graph->ent_enum);
--	media_entity_enum_set(&graph->ent_enum, entity);
-+	media_entity_enum_set(&graph->ent_enum, pad->entity);
+-	if (link->source->entity == entity)
+-		return link->sink->entity;
++	if (link->source == pad)
++		return link->sink;
+ 	else
+-		return link->source->entity;
++		return link->source;
+ }
+ 
+ /* push an entity to traversal stack */
+-static void stack_push(struct media_graph *graph,
+-		       struct media_entity *entity)
++static void stack_push(struct media_graph *graph, struct media_pad *pad)
+ {
+ 	if (graph->top == MEDIA_ENTITY_ENUM_MAX_DEPTH - 1) {
+ 		WARN_ON(1);
+ 		return;
+ 	}
+ 	graph->top++;
+-	graph->stack[graph->top].link = entity->links.next;
+-	graph->stack[graph->top].entity = entity;
++	graph->stack[graph->top].link = pad->entity->links.next;
++	graph->stack[graph->top].pad = pad;
+ }
+ 
+-static struct media_entity *stack_pop(struct media_graph *graph)
++static struct media_pad *stack_pop(struct media_graph *graph)
+ {
+-	struct media_entity *entity;
++	struct media_pad *pad;
+ 
+-	entity = graph->stack[graph->top].entity;
++	pad = graph->stack[graph->top].pad;
+ 	graph->top--;
+ 
+-	return entity;
++	return pad;
+ }
+ 
+ #define link_top(en)	((en)->stack[(en)->top].link)
+-#define stack_top(en)	((en)->stack[(en)->top].entity)
++#define stack_top(en)	((en)->stack[(en)->top].pad)
+ 
+ /**
+  * media_graph_walk_init - Allocate resources for graph walk
+@@ -297,8 +296,8 @@ void media_graph_walk_start(struct media_graph *graph, struct media_pad *pad)
+ 	media_entity_enum_set(&graph->ent_enum, pad->entity);
  
  	graph->top = 0;
- 	graph->stack[graph->top].entity = NULL;
--	stack_push(graph, entity);
--	dev_dbg(entity->graph_obj.mdev->dev,
--		"begin graph walk at '%s'\n", entity->name);
-+	stack_push(graph, pad->entity);
-+	dev_dbg(pad->graph_obj.mdev->dev,
-+		"begin graph walk at '%s':%u\n", pad->entity->name, pad->index);
+-	graph->stack[graph->top].entity = NULL;
+-	stack_push(graph, pad->entity);
++	graph->stack[graph->top].pad = NULL;
++	stack_push(graph, pad);
+ 	dev_dbg(pad->graph_obj.mdev->dev,
+ 		"begin graph walk at '%s':%u\n", pad->entity->name, pad->index);
  }
- EXPORT_SYMBOL_GPL(media_graph_walk_start);
+@@ -306,16 +305,16 @@ EXPORT_SYMBOL_GPL(media_graph_walk_start);
  
-@@ -420,7 +419,7 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
- 			goto error_graph_walk_start;
- 	}
- 
--	media_graph_walk_start(&pipe->graph, entity);
-+	media_graph_walk_start(&pipe->graph, entity->pads);
- 
- 	while ((entity = media_graph_walk_next(graph))) {
- 		DECLARE_BITMAP(active, MEDIA_ENTITY_MAX_PADS);
-@@ -504,7 +503,7 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
- 	 * Link validation on graph failed. We revert what we did and
- 	 * return the error.
- 	 */
--	media_graph_walk_start(graph, entity_err);
-+	media_graph_walk_start(graph, entity_err->pads);
- 
- 	while ((entity_err = media_graph_walk_next(graph))) {
- 		/* Sanity check for negative stream_count */
-@@ -555,7 +554,7 @@ void __media_pipeline_stop(struct media_entity *entity)
- 	if (WARN_ON(!pipe))
- 		return;
- 
--	media_graph_walk_start(graph, entity);
-+	media_graph_walk_start(graph, entity->pads);
- 
- 	while ((entity = media_graph_walk_next(graph))) {
- 		/* Sanity check for negative stream_count */
-diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
-index fa648721eaab..4ec7f7a6b0f6 100644
---- a/drivers/media/platform/exynos4-is/media-dev.c
-+++ b/drivers/media/platform/exynos4-is/media-dev.c
-@@ -1173,7 +1173,7 @@ static int __fimc_md_modify_pipelines(struct media_entity *entity, bool enable,
- 	 * through active links. This is needed as we cannot power on/off the
- 	 * subdevs in random order.
- 	 */
--	media_graph_walk_start(graph, entity);
-+	media_graph_walk_start(graph, entity->pads);
- 
- 	while ((entity = media_graph_walk_next(graph))) {
- 		if (!is_media_entity_v4l2_video_device(entity))
-@@ -1188,7 +1188,7 @@ static int __fimc_md_modify_pipelines(struct media_entity *entity, bool enable,
- 	return 0;
- 
- err:
--	media_graph_walk_start(graph, entity_err);
-+	media_graph_walk_start(graph, entity_err->pads);
- 
- 	while ((entity_err = media_graph_walk_next(graph))) {
- 		if (!is_media_entity_v4l2_video_device(entity_err))
-diff --git a/drivers/media/platform/omap3isp/ispvideo.c b/drivers/media/platform/omap3isp/ispvideo.c
-index 8811d6dd4ee7..3c1485d59404 100644
---- a/drivers/media/platform/omap3isp/ispvideo.c
-+++ b/drivers/media/platform/omap3isp/ispvideo.c
-@@ -234,7 +234,7 @@ static int isp_video_get_graph_data(struct isp_video *video,
- 		return ret;
- 	}
- 
--	media_graph_walk_start(&graph, entity);
-+	media_graph_walk_start(&graph, entity->pads);
- 
- 	while ((entity = media_graph_walk_next(&graph))) {
- 		struct isp_video *__video;
-diff --git a/drivers/media/platform/vsp1/vsp1_video.c b/drivers/media/platform/vsp1/vsp1_video.c
-index 044eb5778820..61e4fbaba7b7 100644
---- a/drivers/media/platform/vsp1/vsp1_video.c
-+++ b/drivers/media/platform/vsp1/vsp1_video.c
-@@ -569,7 +569,7 @@ static int vsp1_video_pipeline_build(struct vsp1_pipeline *pipe,
- 	if (ret)
- 		return ret;
- 
--	media_graph_walk_start(&graph, entity);
-+	media_graph_walk_start(&graph, entity->pads);
- 
- 	while ((entity = media_graph_walk_next(&graph))) {
- 		struct v4l2_subdev *subdev;
-diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
-index 338c3661d809..af0d55ab6c15 100644
---- a/drivers/media/platform/xilinx/xilinx-dma.c
-+++ b/drivers/media/platform/xilinx/xilinx-dma.c
-@@ -189,7 +189,7 @@ static int xvip_pipeline_validate(struct xvip_pipeline *pipe,
- 		return ret;
- 	}
- 
--	media_graph_walk_start(&graph, entity);
-+	media_graph_walk_start(&graph, entity->pads);
- 
- 	while ((entity = media_graph_walk_next(&graph))) {
- 		struct xvip_dma *dma;
-diff --git a/drivers/media/v4l2-core/v4l2-mc.c b/drivers/media/v4l2-core/v4l2-mc.c
-index b01474717dca..d215fe31b9a2 100644
---- a/drivers/media/v4l2-core/v4l2-mc.c
-+++ b/drivers/media/v4l2-core/v4l2-mc.c
-@@ -436,7 +436,7 @@ static int pipeline_pm_use_count(struct media_entity *entity,
+ static void media_graph_walk_iter(struct media_graph *graph)
  {
- 	int use = 0;
+-	struct media_entity *entity = stack_top(graph);
++	struct media_pad *pad = stack_top(graph);
+ 	struct media_link *link;
+-	struct media_entity *next;
++	struct media_pad *next;
  
--	media_graph_walk_start(graph, entity);
-+	media_graph_walk_start(graph, entity->pads);
+ 	link = list_entry(link_top(graph), typeof(*link), list);
  
- 	while ((entity = media_graph_walk_next(graph))) {
- 		if (is_media_entity_v4l2_video_device(entity))
-@@ -499,7 +499,7 @@ static int pipeline_pm_power(struct media_entity *entity, int change,
- 	if (!change)
- 		return 0;
- 
--	media_graph_walk_start(graph, entity);
-+	media_graph_walk_start(graph, entity->pads);
- 
- 	while (!ret && (entity = media_graph_walk_next(graph)))
- 		if (is_media_entity_v4l2_subdev(entity))
-@@ -508,7 +508,7 @@ static int pipeline_pm_power(struct media_entity *entity, int change,
- 	if (!ret)
- 		return ret;
- 
--	media_graph_walk_start(graph, first);
-+	media_graph_walk_start(graph, first->pads);
- 
- 	while ((first = media_graph_walk_next(graph))
- 	       && first != entity)
-diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
-index d0da083deed5..760cd0ab1feb 100644
---- a/drivers/staging/media/omap4iss/iss_video.c
-+++ b/drivers/staging/media/omap4iss/iss_video.c
-@@ -217,7 +217,7 @@ iss_video_far_end(struct iss_video *video)
- 		return NULL;
+ 	/* The link is not enabled so we do not follow. */
+ 	if (!(link->flags & MEDIA_LNK_FL_ENABLED)) {
+ 		link_top(graph) = link_top(graph)->next;
+-		dev_dbg(entity->graph_obj.mdev->dev,
++		dev_dbg(pad->graph_obj.mdev->dev,
+ 			"walk: skipping disabled link '%s':%u -> '%s':%u\n",
+ 			link->source->entity->name, link->source->index,
+ 			link->sink->entity->name, link->sink->index);
+@@ -323,23 +322,23 @@ static void media_graph_walk_iter(struct media_graph *graph)
  	}
  
--	media_graph_walk_start(&graph, entity);
-+	media_graph_walk_start(&graph, entity->pads);
+ 	/* Get the entity at the other end of the link. */
+-	next = media_entity_other(entity, link);
++	next = media_pad_other(pad, link);
  
- 	while ((entity = media_graph_walk_next(&graph))) {
- 		if (entity == &video->video.entity)
-@@ -892,7 +892,7 @@ iss_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
- 		goto err_media_pipeline_start;
+ 	/* Has the entity already been visited? */
+-	if (media_entity_enum_test_and_set(&graph->ent_enum, next)) {
++	if (media_entity_enum_test_and_set(&graph->ent_enum, next->entity)) {
+ 		link_top(graph) = link_top(graph)->next;
+-		dev_dbg(entity->graph_obj.mdev->dev,
++		dev_dbg(pad->graph_obj.mdev->dev,
+ 			"walk: skipping entity '%s' (already seen)\n",
+-			next->name);
++			next->entity->name);
+ 		return;
+ 	}
  
- 	mutex_lock(&mdev->graph_mutex);
--	media_graph_walk_start(&graph, entity);
-+	media_graph_walk_start(&graph, entity->pads);
- 	while ((entity = media_graph_walk_next(&graph)))
- 		media_entity_enum_set(&pipe->ent_enum, entity);
- 	mutex_unlock(&mdev->graph_mutex);
+ 	/* Push the new entity to stack and start over. */
+ 	link_top(graph) = link_top(graph)->next;
+ 	stack_push(graph, next);
+-	dev_dbg(entity->graph_obj.mdev->dev, "walk: pushing '%s' on stack\n",
+-		next->name);
+-	lockdep_assert_held(&entity->graph_obj.mdev->graph_mutex);
++	dev_dbg(next->graph_obj.mdev->dev, "walk: pushing '%s':%u on stack\n",
++		next->entity->name, next->index);
++	lockdep_assert_held(&next->graph_obj.mdev->graph_mutex);
+ }
+ 
+ struct media_entity *media_graph_walk_next(struct media_graph *graph)
+@@ -354,10 +353,10 @@ struct media_entity *media_graph_walk_next(struct media_graph *graph)
+ 	 * top of the stack until no more entities on the level can be
+ 	 * found.
+ 	 */
+-	while (link_top(graph) != &stack_top(graph)->links)
++	while (link_top(graph) != &stack_top(graph)->entity->links)
+ 		media_graph_walk_iter(graph);
+ 
+-	entity = stack_pop(graph);
++	entity = stack_pop(graph)->entity;
+ 	dev_dbg(entity->graph_obj.mdev->dev,
+ 		"walk: returning entity '%s'\n", entity->name);
+ 
 diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-index 09737b47881f..b9bfcf34eb0a 100644
+index b9bfcf34eb0a..5b55d6179e13 100644
 --- a/include/media/media-entity.h
 +++ b/include/media/media-entity.h
-@@ -902,22 +902,20 @@ __must_check int media_graph_walk_init(
- void media_graph_walk_cleanup(struct media_graph *graph);
- 
- /**
-- * media_graph_walk_start - Start walking the media graph at a
-- *	given entity
-+ * media_graph_walk_start - Start walking the media graph at a given pad
+@@ -78,16 +78,16 @@ struct media_entity_enum {
+  * struct media_graph - Media graph traversal state
   *
-  * @graph: Media graph structure that will be used to walk the graph
-- * @entity: Starting entity
-+ * @pad: Starting pad
-  *
-  * Before using this function, media_graph_walk_init() must be
-  * used to allocate resources used for walking the graph. This
-  * function initializes the graph traversal structure to walk the
-- * entities graph starting at the given entity. The traversal
-+ * entities graph starting at the given pad. The traversal
-  * structure must not be modified by the caller during graph
-  * traversal. After the graph walk, the resources must be released
-  * using media_graph_walk_cleanup().
+  * @stack:		Graph traversal stack; the stack contains information
+- *			on the path the media entities to be walked and the
+- *			links through which they were reached.
+- * @stack.entity:	pointer to &struct media_entity at the graph.
++ *			on the media pads to be walked and the links through
++ *			which they were reached.
++ * @stack.pad:		pointer to &struct media_pad at the graph.
+  * @stack.link:		pointer to &struct list_head.
+  * @ent_enum:		Visited entities
+  * @top:		The top of the stack
   */
--void media_graph_walk_start(struct media_graph *graph,
--			    struct media_entity *entity);
-+void media_graph_walk_start(struct media_graph *graph, struct media_pad *pad);
+ struct media_graph {
+ 	struct {
+-		struct media_entity *entity;
++		struct media_pad *pad;
+ 		struct list_head *link;
+ 	} stack[MEDIA_ENTITY_ENUM_MAX_DEPTH];
  
- /**
-  * media_graph_walk_next - Get the next entity in the graph
 -- 
 2.25.1
 
