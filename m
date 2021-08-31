@@ -2,193 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF51E3FC2CB
-	for <lists+linux-media@lfdr.de>; Tue, 31 Aug 2021 08:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D179A3FC3A9
+	for <lists+linux-media@lfdr.de>; Tue, 31 Aug 2021 10:22:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234113AbhHaGc1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Aug 2021 02:32:27 -0400
-Received: from mail-dm6nam11on2045.outbound.protection.outlook.com ([40.107.223.45]:21728
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232885AbhHaGc0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Aug 2021 02:32:26 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hx94KWhkUN2o3QMnYmfCKT1ry96j8+gBWeoQvkoGyfpF3z9iI16Zk1Rbx06cCLLK679p84qcQ4jDxUJlJd+Mc04bRzrDDT8PPMZZGwsBm6iUJQ0qrQkXMrcleCcwjYWHm2r+fxGdPpMbKsgImrsOFYl7g7WjbMDHiWMVClfpX/7vCrOuKvgE9SzypIMi497WbbbgZoI736wYEeeRBtoXgLSYnyZ/Sy0uz8vlobtK03Lp1Hs2AjBzvgraIbmL5xdvatAjEvJFIZGyO92BhyqekXJg7hG9td1dgk7XfbLJA621UxYMID3J2GuOnFaDyI/40qw2/AA2W5uR2Bha3XsGlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FzSNFFZs4c99WXVPwgImMnSgH3KfmFLUi53AAFh/hK0=;
- b=ACM7FJDmAZnId45ttItYSAzXxb/sK4DC2HCboHqw1lPbExPjmdlbp7aO3zztRHik+60WOmLg4GrPuhFlGFnf/lkg3aBt8LlxP03Pn2ifMYGwu+SWmW00g0ufGRm66l2UXHsNynJwChZAplKnNjyGA3wq0oxaHcjOnFX7FCUDgAflVwEmoh5O9FmETrllmyNDUKEotaSYrWoWH4Bq2x5UJXN55wndETmW76WoOm8kt8zhkXMnt0fh22g/3H2x4rVmTST5PRcdEuWt4VlDCXflo6vk1HHNy3aWFbGFz1SrbBztvpbtJqw6puRnQMVPYPWrjf53k6urxIFcZI4wXlI5bw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FzSNFFZs4c99WXVPwgImMnSgH3KfmFLUi53AAFh/hK0=;
- b=im3KkEjY9Z5GHGHZpYjaQ2N9H/Ukdhg2ee4Fn67m9Fr1kPHXIcFUZuALkxO/tQBR6eSyUazr57BoQ94+vN8r5y9vNLTJDwvkPWJxNQYzgf8ELJ2GuaOi/V6cSYnJM7hnERTM+aqaNKgcD6EmFEAmua6CVgH1HMjP+QssCsHp5Yk=
-Authentication-Results: mediatek.com; dkim=none (message not signed)
- header.d=none;mediatek.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3903.namprd12.prod.outlook.com (2603:10b6:208:15a::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.24; Tue, 31 Aug
- 2021 06:31:29 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4457.024; Tue, 31 Aug 2021
- 06:31:29 +0000
-Subject: Re: [PATCH] dma-buf: heaps: remove duplicated cache sync
-To:     guangming.cao@mediatek.com
-Cc:     Brian.Starkey@arm.com, benjamin.gaignard@linaro.org,
-        dri-devel@lists.freedesktop.org, john.stultz@linaro.org,
-        labbott@redhat.com, linaro-mm-sig@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        lmark@codeaurora.org, matthias.bgg@gmail.com,
-        sumit.semwal@linaro.org, wsd_upstream@mediatek.com
-References: <dd5ba603-8c9d-f6a0-cbcc-dfb353fb6701@amd.com>
- <20210831034405.41916-1-guangming.cao@mediatek.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <0b48df29-a20f-65f6-bc4c-6c0a7522ecd7@amd.com>
-Date:   Tue, 31 Aug 2021 08:31:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210831034405.41916-1-guangming.cao@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR02CA0181.eurprd02.prod.outlook.com
- (2603:10a6:20b:28e::18) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+        id S239942AbhHaH0Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Aug 2021 03:26:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53766 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239937AbhHaH0V (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 31 Aug 2021 03:26:21 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56FFDC06175F;
+        Tue, 31 Aug 2021 00:25:26 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id g13-20020a17090a3c8d00b00196286963b9so1304337pjc.3;
+        Tue, 31 Aug 2021 00:25:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JNsb6x1cQWvzMyudhFnNtCYBKN16JRWCSincvM+uOoY=;
+        b=jxGI0ujHdl0N9GyGT2D3gCCB89vXr6ZHaDLYSvDAb0ZPJwcEXuX0JTOEampQTrFjnT
+         R26DUsjxGUV2bNbq11XYxHiYUTV/uhTyuRaSRpftAlhLNY+PZYIOzUIExnRbFTF5Rnrq
+         n7liC6CH5fsoUMhY6V6BKI3bZpqEPdZersNF3QuTd3yaxx6NO1Hx39aiwKeZuszeHUHv
+         EX1SNZbPUwkQUarOBZmOPveUMleCesg2Zdur/+YXj4VfUkMN0TcSZ1kJJ4f1zDAZrLk+
+         MGLPPd80FAOi/Irzp/mnPQkGHNpv58wKjPpEb29iiC4LBAZch9D8LBW54yjgya0qO7Pd
+         Djuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JNsb6x1cQWvzMyudhFnNtCYBKN16JRWCSincvM+uOoY=;
+        b=Nq1J7aCPJYkytedD7dmLcqXF7VPhOhwOtOQgx/HN6t8ceUDs/u1Db7pBxShYjA5bPW
+         zAxtX1uyHuVfnxfguwELO6s5lP3KnEB4F8n/NrM3NTy/U+AbOVVLH35/kNJA50ckJGVD
+         zb1d8IOWvBpk3SwifTDkXGBGg0aHkYIJkdsMqOPMBTeL6+h0H63jOkQoW0jMNXfs3fIb
+         A0P0rGzohYLp2m0DZm0I3uwrEaxbzmVjuETCKlC0bkEz7OtE+UMTpkVCxks6dddXqiDk
+         NQ6oAme+tlgU2kIrsLJVzVDJmiMXcz53wxC73XATbstn3d3Gl4yaztp+PQMseL8OK0oN
+         H1HQ==
+X-Gm-Message-State: AOAM533B+kqgDieG/NDystbRUQQqhmDhcVHMD2QeT6+UJ6kguKE3ydXL
+        HvIAdKzR2s7DEBs5Pl1uM4M=
+X-Google-Smtp-Source: ABdhPJyXMfL4c3g1dgTRJF/g+KwCIJImavM64F0XKUZcJVbQKi+4eCx2e6aSpaHBso5IjMGSKotQkA==
+X-Received: by 2002:a17:902:c101:b0:138:f219:b0a0 with SMTP id 1-20020a170902c10100b00138f219b0a0mr393100pli.1.1630394725844;
+        Tue, 31 Aug 2021 00:25:25 -0700 (PDT)
+Received: from sanitydock.wifi-cloud.jp ([210.160.217.69])
+        by smtp.gmail.com with ESMTPSA id m11sm1720724pjn.2.2021.08.31.00.25.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Aug 2021 00:25:25 -0700 (PDT)
+From:   Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, christian.koenig@amd.com
+Cc:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, skhan@linuxfoundation.org,
+        gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v10 0/4] drm: update locking for modesetting
+Date:   Tue, 31 Aug 2021 15:24:57 +0800
+Message-Id: <20210831072501.184211-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.178.21] (91.14.161.181) by AM0PR02CA0181.eurprd02.prod.outlook.com (2603:10a6:20b:28e::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.21 via Frontend Transport; Tue, 31 Aug 2021 06:31:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6205f434-79cc-466d-18da-08d96c48f705
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3903:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3903F9AF510AEB4E2E88CBF083CC9@MN2PR12MB3903.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8salqPox4/I0Ive1XqPQ7ftCdr1TP1CDhvMk+ZSxTMq972c5/tyO5/+GXa8Z81VjK8z8liawVHRvNka40xMkU8h5y98PRyZGfg+SZKj8oCNrwlry/xYtJh/ESxaWDSYD/WqR4usFzqF82ZVUWKXt8gSN9hIPTtXHPe+FBfNL7I6j/r5PUD8FwAPzB4fj6ukdIHeSAzeU2NTxlrjS0moJRq3kW6eHv0VQLLQJ1VlmtOuYjLZnSCvu5zXC431J033/xOFN0+4xXWro4Jv+KNi8Abi8KyziVkFvfID//OpHNKalQ4Sdtw56i61fS+RIBqRH9eA64ijyfJ8LliVYtLNVQsp4pDt1fsjIn6FthZ2nwjgy+pfX2gxJq2ke5yrQFmNmfKpRxgXfRjqfx4bYbOLWX/2eWI8xOo9hzLPzxjsfSk8F2lXHe9zdIMRdIdBTXyYrVQv04Dad1aBfNTKCiwmBSb+N3E/RVe4tls+JGj4vP6MSC1MKQ9nOf53gWUlAO05V5TIzg2XXc8mopwL2pR1aqbvyCJIPTacp1LJUydQUgeGw3pBktT18z7QOHrUrLGBFdVFj9ynJy3IGi4qUJaobaIXZgaFeQNABeOFKZ6X/YwLn+8WK3AvkIEE2w8UU0rrEYsi2ZR3QGMFWLbE/rsWvFe4ts0Fk1MjCY4TFcMKdDPqMRU/QGupV+N99nC2A8sOf2XEQciPyE6diScGwda/TNbuh+cs1yghXkycCDchbDRQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(366004)(346002)(39860400002)(376002)(4326008)(6666004)(6916009)(86362001)(83380400001)(66556008)(66946007)(6486002)(5660300002)(66476007)(36756003)(2906002)(16576012)(31686004)(478600001)(38100700002)(2616005)(316002)(26005)(8936002)(31696002)(8676002)(956004)(7416002)(186003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TmhoQXlpSU9mUlByNmw3d0tKSUk1cFZ3a2xKY1RPVjY1TTZNeGpRcU5pWWJh?=
- =?utf-8?B?ckFYMWtIZnphYW1rUGpHci9EM09mbFdpWW1rYXp6aXgvaDd1SGYvOEwzZFVv?=
- =?utf-8?B?UzFvd2hTdEx3a2d2RnhzZ0NuemZWWUIxN2NCR1JEMkZDVGdBYVdHRFZJRGZr?=
- =?utf-8?B?WHhIWlNUNHJzbTBUSmFDQUNuWHVMazFoTC9GT2FmTmpRTmJQOVUwZExjUHFp?=
- =?utf-8?B?TXRsV2RVaE4zbW1TZnUvZzdJZWM4bUxNMDhIb3p1SEp3SzZhSjVJUTl5VHAv?=
- =?utf-8?B?QnVqQWR1SUEvcGtvTlc2bUQzNVAxVnBwcmJlTWlHWW9JdUpreDJVT0I0RWhq?=
- =?utf-8?B?RTB2aGtRR2dWTU1NNjVaNWh2R05uVG91REFHaUZ1U0dZU2JkZlhrVmd5R3o2?=
- =?utf-8?B?c3VuZE1mc2JKMjl0LzdncHA4eEFna1BZSFNVb2VOVm1iY094R2U2ckJYMnEw?=
- =?utf-8?B?ZlBhVnlxc3FleHhvUXIxTDdCZ3FreDZvbkxBNml6ZTZ6dXFrNVFWZldId29x?=
- =?utf-8?B?b01nWkcrWXFlY04yNjlzMWtTdVBXTDU3N2VGVjZ0UFJrMnp1ZDNOMTZFZG1i?=
- =?utf-8?B?Zi94bU5DaW1oeWoyeW4zVjQzaUY3bWxmN3BCb3hLbWV5NkR3ditDVmdnQmdU?=
- =?utf-8?B?c2dhT0VyU2JJbk94TUFYNFRaTEQxZkd6S3Z2U3BoOVlpUk95QkNVbjNKbjhr?=
- =?utf-8?B?QVJLTVhyZ0luVXYvK3lZUTIyMm9kd3A5cHNXZTVTdkoxdkZ0Y0w5cUVyN2U3?=
- =?utf-8?B?bHBEVlBxcUZzbCt1YUN3K2tvWGtEWXNCRFVaT1J5VVNJZ1ZPRDhMQ085RUd2?=
- =?utf-8?B?eVJpZ0NmRkYzZFJ6MlU0b2NKeS9LMzR3ZG5DaXRFRXdpbkZhK2I0aTFPWk8x?=
- =?utf-8?B?ckwwWEhoaktpZGI5YnNKMWhkZXJKMnczNlFOYVB6OFhQYkxTOVJrTkNYc1RG?=
- =?utf-8?B?aXN6RTF2WmVMVkY2d2k2S2x5dC9VRE96OFZBQ0FtR2Y1YUN1VkpLWkg5R0ts?=
- =?utf-8?B?NmpvUlNteWxubFpqWWtvSDdXOGRSY2l1ZGw2MzJSOHFFSHdidnBnNjI2RnVH?=
- =?utf-8?B?a2VEek82WnFsbHNOY200b0g4c25CS3lzSEpjRzVicXN1MFJ5TEk1TTlRY1RU?=
- =?utf-8?B?MkJHMS96Y0F1bHFpQ1paY2lBN05uODROckZxaVNzVmUva2RaYVdEamVPYWVz?=
- =?utf-8?B?Z0JMQnlBellPZStkdUxmSmN2T1ZPZHRoVVZjMlVwckhrQzI2ZDFPMkZjcVov?=
- =?utf-8?B?cEV5SisyK3VEdXhTZ0pXc3RycStUbFV3UkI1VFJmV3Q2b2RienZ2UkprenVG?=
- =?utf-8?B?eVUrRWx5aGRPTm5teCthb0E0aCs2N2JkUE1ucmVYZHlOaTRYMjRldTNGblVK?=
- =?utf-8?B?WkFKaUZLc0p0TEJxQ3dON29scmhOa3Z5eUlYV2V1T1RnN3JYUm1lOGU2ekln?=
- =?utf-8?B?V0FGaDQrK1ZaaTV4OXNENGF5Rk8ycWJWM1A0YjVHMzAycnAyY2gwU0dGOWlp?=
- =?utf-8?B?WWZHdlVXU1pWaHZWb3BXU3B3SkR1MW1uSUNScjFTemY3czJIVkhudkRYc3da?=
- =?utf-8?B?V1Jhd1p0S2dwZzNZeTdCUDN4MVhUbFM3WG1QR05KdktLZnhPbGtBZHJJYmcx?=
- =?utf-8?B?SlUwbkR4dEpYeFlueVdlR1I4bGlESU52NUpBenVjb3NBRGRYV1VRVEIxUnhX?=
- =?utf-8?B?dHNOdWpHak9VVUpibEs5UGdkL3FBKzc0TkIzbjQxQWFwSVB3eC9HUUFlcndq?=
- =?utf-8?Q?UgwkTAq+AKtr8dnGoQ/LBZ5tJcDnMaAgC+Zz/At?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6205f434-79cc-466d-18da-08d96c48f705
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2021 06:31:29.7341
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qte71PpFY1gxU8vMv8x0qnu6OwUUq0AvQ9HlP8BiczGzU3JwZY6upp6ixCef9jv0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3903
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 31.08.21 um 05:44 schrieb guangming.cao@mediatek.com:
-> From: Guangming Cao <Guangming.Cao@mediatek.com>
->
->> Am 30.08.21 um 12:01 schrieb guangming.cao@mediatek.com:
->>> From: Guangming Cao <Guangming.Cao@mediatek.com>
->>>
->>> Current flow, one dmabuf maybe call cache sync many times if
->>> it has beed mapped more than one time.
->> Well I'm not an expert on DMA heaps, but this will most likely not work
->> correctly.
->>
-> All attachments of one dmabuf will add into a list, I think it means dmabuf
-> supports map more than one time. Could you tell me more about it?
+Sorry for the noise, rebasing on top of drm-misc-next. Please ignore the
+v9 series.
 
-Yes, that's correct and all of those needs to be synced as far as I know.
+Hi,
 
-See the dma_sync_sgtable_for_cpu() is intentionally for each SG table 
-given out.
+I updated the patch set with some suggestions by Daniel Vetter, and
+dropped the patches after patch 4 so that we can stick the landing for
+avoiding races with modesetting rights before dealing with the tricky
+spinlock.
 
->>> Is there any case that attachments of one dmabuf will points to
->>> different memory? If not, seems do sync only one time is more better.
->> I think that this can happen, yes.
->>
->> Christian.
->>
-> Seems it's a very special case on Android, if you don't mind, could you
-> tell me more about it?
+Overall, this series fixes races with modesetting rights, and converts
+drm_device.master_mutex into master_rwsem.
 
-That might be the case, nevertheless this change here is illegal from 
-the DMA API point of view as far as I can see.
+- Patch 1: Fix a potential null ptr dereference in drm_master_release
 
-Regards,
-Christian.
+- Patch 2: Convert master_mutex into rwsem (avoids creating a new lock)
 
->
->>> Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
->>> ---
->>>    drivers/dma-buf/heaps/system_heap.c | 14 ++++++++------
->>>    1 file changed, 8 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
->>> index 23a7e74ef966..909ef652a8c8 100644
->>> --- a/drivers/dma-buf/heaps/system_heap.c
->>> +++ b/drivers/dma-buf/heaps/system_heap.c
->>> @@ -162,9 +162,10 @@ static int system_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
->>>    		invalidate_kernel_vmap_range(buffer->vaddr, buffer->len);
->>>    
->>>    	list_for_each_entry(a, &buffer->attachments, list) {
->>> -		if (!a->mapped)
->>> -			continue;
->>> -		dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
->>> +		if (a->mapped) {
->>> +			dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
->>> +			break;
->>> +		}
->>>    	}
->>>    	mutex_unlock(&buffer->lock);
->>>    
->>> @@ -183,9 +184,10 @@ static int system_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
->>>    		flush_kernel_vmap_range(buffer->vaddr, buffer->len);
->>>    
->>>    	list_for_each_entry(a, &buffer->attachments, list) {
->>> -		if (!a->mapped)
->>> -			continue;
->>> -		dma_sync_sgtable_for_device(a->dev, a->table, direction);
->>> +		if (!a->mapped) {
->>> +			dma_sync_sgtable_for_device(a->dev, a->table, direction);
->>> +			break;
->>> +		}
->>>    	}
->>>    	mutex_unlock(&buffer->lock);
->>>    
+- Patch 3: Update global mutex locking in the ioctl handler (avoids
+deadlock when grabbing read lock on master_rwsem in drm_ioctl_kernel)
+
+- Patch 4: Plug races with drm modesetting rights
+
+v9 -> v10:
+- Rebase on top of drm-misc-next, caught by Intel-gfx CI
+
+v8 -> v9 (suggested by Daniel Vetter):
+- Drop patches 5-7 to handle it in another series
+- Add the appropriate Fixes: tag for the null ptr dereference fix
+(patch 1)
+- Create a locked_ioctl bool to clarify locking/unlocking patterns in
+the ioctl handler (patch 3)
+- Clarify the kernel doc for master_rwsem (patch 4)
+
+v7 -> v8:
+- Avoid calling drm_lease_held in drm_mode_setcrtc and
+drm_wait_vblank_ioctl, caught by Intel-gfx CI
+
+v6 -> v7:
+- Export __drm_mode_object_find for loadable modules, caught by the
+Intel-gfx CI
+
+v5 -> v6:
+- Fix recursive locking on master_rwsem, caught by the Intel-gfx CI
+
+v4 -> v5:
+- Avoid calling drm_file_get_master while holding on to the modeset
+mutex, caught by the Intel-gfx CI
+
+v3 -> v4 (suggested by Daniel Vetter):
+- Drop a patch that added an unnecessary master_lookup_lock in
+drm_master_release
+- Drop a patch that addressed a non-existent race in
+drm_is_current_master_locked
+- Remove fixes for non-existent null ptr dereferences
+- Protect drm_master.magic_map,unique{_len} with master_rwsem instead of
+master_lookup_lock
+- Drop the patch that moved master_lookup_lock into struct drm_device
+- Drop a patch to export task_work_add
+- Revert the check for the global mutex in the ioctl handler to use
+drm_core_check_feature instead of drm_dev_needs_global_mutex
+- Push down master_rwsem locking for selected ioctls to avoid lock
+hierarchy inversions, and to allow us to hold write locks on
+master_rwsem instead of flushing readers
+- Remove master_lookup_lock by replacing it with master_rwsem
+
+v2 -> v3:
+- Unexport drm_master_flush, as suggested by Daniel Vetter.
+- Merge master_mutex and master_rwsem, as suggested by Daniel Vetter.
+- Export task_work_add, reported by kernel test robot.
+- Make master_flush static, reported by kernel test robot.
+- Move master_lookup_lock into struct drm_device.
+- Add a missing lock on master_lookup_lock in drm_master_release.
+- Fix a potential race in drm_is_current_master_locked.
+- Fix potential null ptr dereferences in drm_{auth, ioctl}.
+- Protect magic_map,unique{_len} with  master_lookup_lock.
+- Convert master_mutex into a rwsem.
+- Update global mutex locking in the ioctl handler.
+
+v1 -> v2 (suggested by Daniel Vetter):
+- Address an additional race when drm_open runs.
+- Switch from SRCU to rwsem to synchronise readers and writers.
+- Implement drm_master_flush with task_work so that flushes can be
+queued to run before returning to userspace without creating a new
+DRM_MASTER_FLUSH ioctl flag.
+
+Best wishes,
+Desmond
+
+Desmond Cheong Zhi Xi (4):
+  drm: fix null ptr dereference in drm_master_release
+  drm: convert drm_device.master_mutex into a rwsem
+  drm: lock drm_global_mutex earlier in the ioctl handler
+  drm: avoid races with modesetting rights
+
+ drivers/gpu/drm/drm_auth.c    | 39 ++++++++++++++++------------
+ drivers/gpu/drm/drm_debugfs.c |  4 +--
+ drivers/gpu/drm/drm_drv.c     |  3 +--
+ drivers/gpu/drm/drm_file.c    |  6 ++---
+ drivers/gpu/drm/drm_ioctl.c   | 49 ++++++++++++++++++++++-------------
+ drivers/gpu/drm/drm_lease.c   | 35 +++++++++++++++++--------
+ include/drm/drm_auth.h        |  6 ++---
+ include/drm/drm_device.h      | 16 +++++++++---
+ include/drm/drm_file.h        | 12 ++++-----
+ 9 files changed, 104 insertions(+), 66 deletions(-)
+
+-- 
+2.25.1
 
