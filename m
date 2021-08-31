@@ -2,200 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9D0F3FCD96
-	for <lists+linux-media@lfdr.de>; Tue, 31 Aug 2021 21:21:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2814D3FCDA2
+	for <lists+linux-media@lfdr.de>; Tue, 31 Aug 2021 21:21:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240389AbhHaTMk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Aug 2021 15:12:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46918 "EHLO
+        id S240449AbhHaTUU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Aug 2021 15:20:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239523AbhHaTMj (ORCPT
+        with ESMTP id S231453AbhHaTUT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Aug 2021 15:12:39 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C0DBC061760
-        for <linux-media@vger.kernel.org>; Tue, 31 Aug 2021 12:11:44 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id 2so116379pfo.8
-        for <linux-media@vger.kernel.org>; Tue, 31 Aug 2021 12:11:44 -0700 (PDT)
+        Tue, 31 Aug 2021 15:20:19 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12C39C061760
+        for <linux-media@vger.kernel.org>; Tue, 31 Aug 2021 12:19:24 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id b7so187323iob.4
+        for <linux-media@vger.kernel.org>; Tue, 31 Aug 2021 12:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZeXlIpviTzn5ex9dkffQ1j3818rQ1ctd2HbBkClIb6k=;
-        b=q2errspj+rUwbMG3M4gEBlmMaQ4UI6DwAr4wXRkbNHSXUbDaLDNp85bw2JUGTw73JN
-         bZu2zPml28k1pFsdzFv9ZpLc3QQqc7b8/QjKOmbann965/3inH12U0UprgAdmHLYakxk
-         0u5uwnTobJpRh9mslGMW7169VY3XwbESfIhh+DjOLhWC+uCX+jkW+fT5aBuYwXbuMlcU
-         YDf64UcaOmr5jzQwdtSsYtyhwh5etMWVM/fvQc8rzAmlNnW6Bqtq6gemNaJEIa0mrvc4
-         kCCoT+/Uakm0v4R2vxil07KlXvLFjRMfJw0kxHcW5HJl2yYZI3ybSGemYo6WHe7S6mzk
-         Mn7A==
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=BnfnduHx3i2X80cz742KibQtwDjAziOnxR1dEDNguNQ=;
+        b=k8Uq/xSxlaLj3DJmwHqi3zi23+XTDI345vnvhN5QS8pnpgx8a0Q49xhD5D4KS8+DLC
+         gtYdQDcKGi80NEfOReWj/tPYUGw6JOZLDane/KBJPXnNoHM9WB2/1f+riot8p/HOeB7G
+         u8BARTX9hRBylvw5eZW2vgu6vn4Si0ptrSmEEckvMh4M/81RefCoqC1u5cM7rBtbBLNs
+         z5Hpha8wYRq/8xulDm1+MfqK4W0ggyxAhzcul7WLDxCMRZq6YH10Lb4hjPT1rOlWa6Nc
+         WC0yq2hPUZ3DtgBpKPenD7oBZyvF3EX39LxtgC0rOpCGm8b2Itupimky3nERNn1xhvv/
+         A1zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZeXlIpviTzn5ex9dkffQ1j3818rQ1ctd2HbBkClIb6k=;
-        b=TLritB03oxXEvJakZIV6Ip3mxdRs2w0KHKc0Uf7nYw95/9X6zZXiP3QLlW7K9FNovt
-         6PHl97k70RJxw466yruZ1rSHrs+yYP4GAXIfaGhKD6CBO4c3x3PTaVhDYlj8cpEZJkri
-         aNQPhTk1ARj7toV+U2Sx4XsA0FTwX2ANsLXkwQMNJJhpNQW3rBkJ48wMN9PJEHbzeNd/
-         c1R40wTWUPr1bClbQwF13pHabUFongwkfEU9zx32wq8uknDTOPEYUkd9qF1GaRIU7BuT
-         5vXsCXMpRlw9QSSdr367hxVpcZlejoSZYSWTXZnUmjA59QZvIqyMjgQcbUwWhurUA1B2
-         GBzQ==
-X-Gm-Message-State: AOAM533RiFj59UXxcWseEhe0lOSiAao/ftdzbrQ7KGsgmn5hwZAO6rqq
-        EyNPX5QwPseUOwnMTaxYHHAbzhXC8kUo4zrPixec6g==
-X-Google-Smtp-Source: ABdhPJx42wOD1ke2NsPZdxHBJWqBaSeUsMlqEovH1j3bO/yBfYt79Ud7ZMMJ2OUK+3gXgh78iKg1PRcE9fm4pgcmT9U=
-X-Received: by 2002:a62:8287:0:b0:3ec:f6dc:9672 with SMTP id
- w129-20020a628287000000b003ecf6dc9672mr29649670pfd.65.1630437103517; Tue, 31
- Aug 2021 12:11:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210818194105.1400766-1-trix@redhat.com>
-In-Reply-To: <20210818194105.1400766-1-trix@redhat.com>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Tue, 31 Aug 2021 21:11:32 +0200
-Message-ID: <CAG3jFyu9QoXAsAxXx-YWhBCxk_jHOWKc10rL7o051Ehav+e4Kg@mail.gmail.com>
-Subject: Re: [PATCH] media: camss: vfe: simplify vfe_get_wm_sizes()
-To:     trix@redhat.com
-Cc:     Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        MSM <linux-arm-msm@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=BnfnduHx3i2X80cz742KibQtwDjAziOnxR1dEDNguNQ=;
+        b=sccWVfqfWpGqlfUYtJqTK1hdGu4372MWIx0uUERZhA9UqJFpk6MZwXS4XKBUTwUNJX
+         fgtueQcJBMYgAac/FRx4biMlnI5uRrAMYgpMMYbbly9eiOd/DlLDF8iNgBpVvQ/H6Df2
+         hIeP85c3D2vjNpSXrNyuBIk6A9ZE3hAaX9HLnfbGZnZnsWbSwtf4fYApv1DEJSWS/4jh
+         6tZ1psFF+06aiwTDT0WPrKkszqU/VwJNG2GUuqYEFepRjwrywg94BVgAdOuQ7H2ddELJ
+         S8Yc1zi6XP2Da+AYCgQXyMCQMwl7lchzRQUjvGQwlZTIC1K8sH9ESToAsvDNlvOql7Fw
+         Bb5w==
+X-Gm-Message-State: AOAM533y8+r1CfoIbNb/c4HrzPx5OXJS9c0G6X56lFGyz01IfWFmIW0P
+        1DW6VES2dHl0X/iNjOHZwvmAFQ==
+X-Google-Smtp-Source: ABdhPJzLpm8haUqn3kfzyuXtg4CiQZwskLDtRsRbptxnszVRu77+8NA0/wO490W6qNwD3GPt10CQDw==
+X-Received: by 2002:a02:2348:: with SMTP id u69mr4216099jau.141.1630437562446;
+        Tue, 31 Aug 2021 12:19:22 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
+        by smtp.gmail.com with ESMTPSA id c23sm10143469ioi.31.2021.08.31.12.19.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Aug 2021 12:19:21 -0700 (PDT)
+Message-ID: <1484b5ebb9c943c72d7d7a0481c1a2cd9899705b.camel@ndufresne.ca>
+Subject: Re: [PATCH 0/2] media: HEVC: RPS clean up
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl,
+        jc@kynesim.co.uk, ezequiel@vanguardiasur.com.ar
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Date:   Tue, 31 Aug 2021 15:19:19 -0400
+In-Reply-To: <20210831094900.203283-1-benjamin.gaignard@collabora.com>
+References: <20210831094900.203283-1-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Tom,
+As per discussion with Ezequiel, I think this patch should perhaps be made an
+RFC titled "media: uapi: clean and make HEVC uAPI public". Keep it RFC until we
+have collected all the needed changes.
 
-Thanks for the patch!
+Opinion ?
 
-On Wed, 18 Aug 2021 at 21:41, <trix@redhat.com> wrote:
->
-> From: Tom Rix <trix@redhat.com>
->
-> Static analysis reports this representative problem
-> camss-vfe-4-1.c:333: The result of the left shift is undefined because
->   the left operand is negative
->   reg |= (height - 1) << 4;
-> ~~~~~~~~~ ^
->
-> The is a false positive.  height is set in vfe_get_wm_sizes() which
-> has a switch statement without a default.
->
-> Reviewing the switch, the cases contain redundant assignments.
-> So simplify to assignments.
->
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  .../media/platform/qcom/camss/camss-vfe-4-1.c | 20 ++++++-------------
->  .../media/platform/qcom/camss/camss-vfe-4-7.c | 10 +++-------
->  .../media/platform/qcom/camss/camss-vfe-4-8.c |  9 +++------
->  3 files changed, 12 insertions(+), 27 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-> index 7b7c9a0aaab282..42047b11ba529e 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-> @@ -290,22 +290,14 @@ static void vfe_wm_frame_based(struct vfe_device *vfe, u8 wm, u8 enable)
->  static void vfe_get_wm_sizes(struct v4l2_pix_format_mplane *pix, u8 plane,
->                              u16 *width, u16 *height, u16 *bytesperline)
->  {
-> -       switch (pix->pixelformat) {
-> -       case V4L2_PIX_FMT_NV12:
-> -       case V4L2_PIX_FMT_NV21:
-> -               *width = pix->width;
-> -               *height = pix->height;
-> -               *bytesperline = pix->plane_fmt[0].bytesperline;
-> +       *width = pix->width;
-> +       *height = pix->height;
-> +       *bytesperline = pix->plane_fmt[0].bytesperline;
-> +
-> +       if (pix->pixelformat == V4L2_PIX_FMT_NV12 ||
-> +           pix->pixelformat == V4L2_PIX_FMT_NV21)
->                 if (plane == 1)
->                         *height /= 2;
-> -               break;
-> -       case V4L2_PIX_FMT_NV16:
-> -       case V4L2_PIX_FMT_NV61:
-> -               *width = pix->width;
-> -               *height = pix->height;
-> -               *bytesperline = pix->plane_fmt[0].bytesperline;
-> -               break;
-> -       }
->  }
->
->  static void vfe_wm_line_based(struct vfe_device *vfe, u32 wm,
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-7.c b/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
-> index 2836b12ec98915..ab2d57bdf5e71c 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
-> @@ -370,30 +370,26 @@ static int vfe_word_per_line_by_bytes(u32 bytes_per_line)
->  static void vfe_get_wm_sizes(struct v4l2_pix_format_mplane *pix, u8 plane,
->                              u16 *width, u16 *height, u16 *bytesperline)
->  {
-> +       *width = pix->width;
-> +       *height = pix->height;
-> +
->         switch (pix->pixelformat) {
->         case V4L2_PIX_FMT_NV12:
->         case V4L2_PIX_FMT_NV21:
-> -               *width = pix->width;
-> -               *height = pix->height;
->                 *bytesperline = pix->plane_fmt[0].bytesperline;
->                 if (plane == 1)
->                         *height /= 2;
->                 break;
->         case V4L2_PIX_FMT_NV16:
->         case V4L2_PIX_FMT_NV61:
-> -               *width = pix->width;
-> -               *height = pix->height;
->                 *bytesperline = pix->plane_fmt[0].bytesperline;
->                 break;
->         case V4L2_PIX_FMT_YUYV:
->         case V4L2_PIX_FMT_YVYU:
->         case V4L2_PIX_FMT_VYUY:
->         case V4L2_PIX_FMT_UYVY:
-> -               *width = pix->width;
-> -               *height = pix->height;
->                 *bytesperline = pix->plane_fmt[plane].bytesperline;
->                 break;
-> -
->         }
->  }
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-8.c b/drivers/media/platform/qcom/camss/camss-vfe-4-8.c
-> index 19519234f727c1..7e6b62c930ac8a 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe-4-8.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-4-8.c
-> @@ -343,27 +343,24 @@ static int vfe_word_per_line_by_bytes(u32 bytes_per_line)
->  static void vfe_get_wm_sizes(struct v4l2_pix_format_mplane *pix, u8 plane,
->                              u16 *width, u16 *height, u16 *bytesperline)
->  {
-> +       *width = pix->width;
-> +       *height = pix->height;
-> +
->         switch (pix->pixelformat) {
->         case V4L2_PIX_FMT_NV12:
->         case V4L2_PIX_FMT_NV21:
-> -               *width = pix->width;
-> -               *height = pix->height;
->                 *bytesperline = pix->plane_fmt[0].bytesperline;
->                 if (plane == 1)
->                         *height /= 2;
->                 break;
->         case V4L2_PIX_FMT_NV16:
->         case V4L2_PIX_FMT_NV61:
-> -               *width = pix->width;
-> -               *height = pix->height;
->                 *bytesperline = pix->plane_fmt[0].bytesperline;
->                 break;
->         case V4L2_PIX_FMT_YUYV:
->         case V4L2_PIX_FMT_YVYU:
->         case V4L2_PIX_FMT_VYUY:
->         case V4L2_PIX_FMT_UYVY:
-> -               *width = pix->width;
-> -               *height = pix->height;
->                 *bytesperline = pix->plane_fmt[plane].bytesperline;
->                 break;
->         }
+Le mardi 31 août 2021 à 11:48 +0200, Benjamin Gaignard a écrit :
+> This series aims to clean up Reference Picture Set usage and flags.
+> 
+> Long term flag was named with RPS prefix while it is not used for RPS
+> but for mark long term references in DBP. Remane it and remove the two
+> other useless RPS flags.
+> 
+> Clarify documentation about RPS lists content and make sure that Hantro
+> driver use them correctly (i.e without look up in DBP).
+> 
+> Benjamin
+> 
+> Benjamin Gaignard (2):
+>   media: hevc: Remove RPS named flags
+>   media: hevc: Embedded indexes in RPS
+> 
+>  .../media/v4l/ext-ctrls-codec.rst             | 12 ++++-----
+>  .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++++--------------
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+>  include/media/hevc-ctrls.h                    |  4 +--
+>  4 files changed, 14 insertions(+), 31 deletions(-)
+> 
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+
