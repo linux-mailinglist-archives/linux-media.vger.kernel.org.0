@@ -2,388 +2,299 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E33F3FC73E
-	for <lists+linux-media@lfdr.de>; Tue, 31 Aug 2021 14:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E9E03FC749
+	for <lists+linux-media@lfdr.de>; Tue, 31 Aug 2021 14:31:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230159AbhHaM3u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Aug 2021 08:29:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36732 "EHLO
+        id S230082AbhHaMb7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Aug 2021 08:31:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230192AbhHaM3s (ORCPT
+        with ESMTP id S230175AbhHaMb6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Aug 2021 08:29:48 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62DA4C061575
-        for <linux-media@vger.kernel.org>; Tue, 31 Aug 2021 05:28:52 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id 79-20020a1c0452000000b002e6cf79e572so1962310wme.1
-        for <linux-media@vger.kernel.org>; Tue, 31 Aug 2021 05:28:52 -0700 (PDT)
+        Tue, 31 Aug 2021 08:31:58 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6739BC06175F
+        for <linux-media@vger.kernel.org>; Tue, 31 Aug 2021 05:31:03 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id d26so27514590wrc.0
+        for <linux-media@vger.kernel.org>; Tue, 31 Aug 2021 05:31:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6MPFXzK83t9FgGtVMImyk0Ejkh7szMb7S/WlAcYLALg=;
-        b=FK95izfC9AFF5hYJUt5pv25p/NfuDa2uCmbR098bx8IdgxWcUNJDWE5GGYM4ICqFW4
-         gS3KDdxWzPnDkfCnvrq21gFjMuPm5Wt26VUd2yhGxUQlK0g4quWVRFvihYO4LbxW8DOZ
-         7h9jVtQ2egNvxO58/qJmt9bO+UxjKfD4EAiEw=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=dPwVBmG2R68kYDTd5e1DRAQ5mYgkRgUgo/flpsQBqBA=;
+        b=EjJ4fYuZiKjFmDYK2CU/cTC6uLVhZ45TGNl2Er7x9+OcW1v6Mz3g1l9KWbKKdqE/c2
+         Ic3nvWiGGSCihpL/g+6Hs7LtrDLSn45G+nDiBnd3k/FetQSSkc0W1KKXD09I6Hv+6a18
+         xPqMYcJmziEYmh+4wHQ3u5BB7JoHXJMllzyL0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=6MPFXzK83t9FgGtVMImyk0Ejkh7szMb7S/WlAcYLALg=;
-        b=Zac1V1vwFeinfn02gIBoqWWNCJ2AVQ/4pfGSYINcFhaX1PU7StpPYN+MeDTUvCC/u4
-         3xRLLt026TsEWkIvl7EOfsdbk9Lw/DTFQ/wHce1z/UTYUDZr7c6CAO+/Ccw6WbZ0qebr
-         +0yqzqyUMNvCwAAoO5UTIBhJmVRkFnDumbTppBXjP7yK5vnYNf99jIBR9h2qWv6s+BKa
-         OhXM2q9PYsFyFrE2mNMmwVjUM/kVJmHA4Ufot6ovoPQQdf4Cdcc3D0sUfVaOk0bJFWqX
-         73afJfqP704Mq5y3KWnA/yk3cXPDR4tSytOXGPchLDDItSiOeZuMzbatuNdzuzOm54kO
-         MDAw==
-X-Gm-Message-State: AOAM531epb7jj9l6RgDEzIciwWN/Ftsp7FMD8JReOBr3qpNK40d3xW8j
-        RoDRdhTx3DBR2pOabNYVwWNyfw==
-X-Google-Smtp-Source: ABdhPJzu279Mgbuj3kGrOHxkqtmMEM7lBNz+N0cH4alHeHk08xfFeKVtvnjbcF1It7I4/ht8fu49dA==
-X-Received: by 2002:a05:600c:1d0d:: with SMTP id l13mr4030997wms.100.1630412930860;
-        Tue, 31 Aug 2021 05:28:50 -0700 (PDT)
+        bh=dPwVBmG2R68kYDTd5e1DRAQ5mYgkRgUgo/flpsQBqBA=;
+        b=JTVH0y1xGa/b6LNUS+ujkGApBu9zqhlsFf0TPP2ihAzqnsh5ZNVgyPK/U5xlJWo0jx
+         o0bzDZhKcfLJxgwSE1b4TqeOXoyuCWC4JoCNvPw/vllrn0f2UHW87rkq5IiTBWuVrRXp
+         iDiT58pv5gwTa+gA+RJlSU4nh5jwXlBf8hJd3H9o/jKpe0HlZpODL5W+ligkpy8AK5ew
+         Woqu9Zjuo/sfQBYXt0u4MkIV9Yo0ynzcgvl/sARvECa6GuPghom8ZWatfMigMZUKrv5A
+         jEyRT9anLjKZhUaE0Lh/6iIUSq7GCchhgjD76+4doa/w0w9gBWvOpZA4vEX96wC8GOKX
+         /Tmg==
+X-Gm-Message-State: AOAM531nL8WOrUlQLx+5raLyEWD+xyrAXX+1B1JdhAHSS/KPDwIPLi/2
+        tEKIS/cOTmT93B6lT/yzU3Iw5Q==
+X-Google-Smtp-Source: ABdhPJxPSiHNW7YrPxrI+TKBRL1m2i726z6KB5RhokOwT56lUrRbv2OjxbIw3/vuoRigSASfnIv65w==
+X-Received: by 2002:a5d:440d:: with SMTP id z13mr30931640wrq.216.1630413061982;
+        Tue, 31 Aug 2021 05:31:01 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id y11sm22017864wru.0.2021.08.31.05.28.49
+        by smtp.gmail.com with ESMTPSA id m4sm2387901wml.28.2021.08.31.05.30.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Aug 2021 05:28:50 -0700 (PDT)
-Date:   Tue, 31 Aug 2021 14:28:47 +0200
+        Tue, 31 Aug 2021 05:31:00 -0700 (PDT)
+Date:   Tue, 31 Aug 2021 14:30:58 +0200
 From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, jani.nikula@linux.intel.com,
-        joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
-        chris@chris-wilson.co.uk, ville.syrjala@linux.intel.com,
-        matthew.auld@intel.com, dan.carpenter@oracle.com,
-        tvrtko.ursulin@intel.com, matthew.d.roper@intel.com,
-        lucas.demarchi@intel.com, karthik.b.s@intel.com,
-        jose.souza@intel.com, manasi.d.navare@intel.com,
-        airlied@redhat.com, aditya.swarup@intel.com, andrescj@chromium.org,
-        linux-graphics-maintainer@vmware.com, zackr@vmware.com,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
-        gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v8 7/7] drm: remove drm_file.master_lookup_lock
-Message-ID: <YS4gf+dN2cbsyj78@phenom.ffwll.local>
-Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, jani.nikula@linux.intel.com,
-        joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
-        chris@chris-wilson.co.uk, ville.syrjala@linux.intel.com,
-        matthew.auld@intel.com, dan.carpenter@oracle.com,
-        tvrtko.ursulin@intel.com, matthew.d.roper@intel.com,
-        lucas.demarchi@intel.com, karthik.b.s@intel.com,
-        jose.souza@intel.com, manasi.d.navare@intel.com, airlied@redhat.com,
-        aditya.swarup@intel.com, andrescj@chromium.org,
-        linux-graphics-maintainer@vmware.com, zackr@vmware.com,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
-        gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20210826020122.1488002-1-desmondcheongzx@gmail.com>
- <20210826020122.1488002-8-desmondcheongzx@gmail.com>
- <YSeVWivR6p9spRQn@phenom.ffwll.local>
- <deadae07-ff1c-538c-9f59-a72ff8367c75@gmail.com>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, hridya@google.com,
+        john.stultz@linaro.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, gustavo@padovan.org,
+        linux-media@vger.kernel.org, adelva@google.com, sspatil@google.com
+Subject: Re: [PATCH 1/2] dma-buf: nuke DMA_FENCE_TRACE macros v2
+Message-ID: <YS4hAhVPlyAWdX/n@phenom.ffwll.local>
+References: <20210818105443.1578-1-christian.koenig@amd.com>
+ <015fd5ed-9255-9c28-44f3-3c8dde90ebad@gmail.com>
+ <YSdXEaBDpijEBx/6@phenom.ffwll.local>
+ <0c150724-032f-b566-4f61-b4771bafe7a8@gmail.com>
+ <YSlJwX0lNBSdj880@phenom.ffwll.local>
+ <d41b682d-f4ec-b050-8f45-78b9a9ce944d@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <deadae07-ff1c-538c-9f59-a72ff8367c75@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d41b682d-f4ec-b050-8f45-78b9a9ce944d@gmail.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 31, 2021 at 02:02:39PM +0800, Desmond Cheong Zhi Xi wrote:
-> On 26/8/21 9:21 pm, Daniel Vetter wrote:
-> > On Thu, Aug 26, 2021 at 10:01:22AM +0800, Desmond Cheong Zhi Xi wrote:
-> > > Previously, master_lookup_lock was introduced in
-> > > commit 0b0860a3cf5e ("drm: serialize drm_file.master with a new
-> > > spinlock") to serialize accesses to drm_file.master. This then allowed
-> > > us to write drm_file_get_master in commit 56f0729a510f ("drm: protect
-> > > drm_master pointers in drm_lease.c").
-> > > 
-> > > The rationale behind introducing a new spinlock at the time was that
-> > > the other lock that could have been used (drm_device.master_mutex) was
-> > > the outermost lock, so embedding calls to drm_file_get_master and
-> > > drm_is_current_master in various functions easily caused us to invert
-> > > the lock hierarchy.
-> > > 
-> > > Following the conversion of master_mutex into a rwsem, and its use to
-> > > plug races with modesetting rights, we've untangled some lock
-> > > hierarchies and removed the need for using drm_file_get_master and the
-> > > unlocked version of drm_is_current_master in multiple places.
-> > > 
-> > > Hence, we can take this opportunity to clean up the locking design by
-> > > replacing master_lookup_lock with drm_device.master_rwsem.
-> > > 
-> > > Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-> > > ---
-> > >   drivers/gpu/drm/drm_auth.c     | 19 +++++++------------
-> > >   drivers/gpu/drm/drm_file.c     |  1 -
-> > >   drivers/gpu/drm/drm_internal.h |  1 +
-> > >   drivers/gpu/drm/drm_ioctl.c    |  4 ++--
-> > >   drivers/gpu/drm/drm_lease.c    | 18 ++++++++----------
-> > >   include/drm/drm_file.h         |  9 +--------
-> > >   6 files changed, 19 insertions(+), 33 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-> > > index f2b2f197052a..232416119407 100644
-> > > --- a/drivers/gpu/drm/drm_auth.c
-> > > +++ b/drivers/gpu/drm/drm_auth.c
-> > > @@ -61,10 +61,9 @@
-> > >    * trusted clients.
-> > >    */
-> > > -static bool drm_is_current_master_locked(struct drm_file *fpriv)
-> > > +bool drm_is_current_master_locked(struct drm_file *fpriv)
-> > >   {
-> > > -	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
-> > > -			    lockdep_is_held(&fpriv->minor->dev->master_rwsem));
-> > > +	lockdep_assert_held_once(&fpriv->minor->dev->master_rwsem);
-> > >   	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
-> > >   }
-> > > @@ -83,9 +82,9 @@ bool drm_is_current_master(struct drm_file *fpriv)
-> > >   {
-> > >   	bool ret;
-> > > -	spin_lock(&fpriv->master_lookup_lock);
-> > > +	down_read(&fpriv->minor->dev->master_rwsem);
+On Mon, Aug 30, 2021 at 08:28:49AM +0200, Christian König wrote:
+> Am 27.08.21 um 22:23 schrieb Daniel Vetter:
+> > On Fri, Aug 27, 2021 at 11:07:58AM +0200, Christian König wrote:
+> > > Am 26.08.21 um 10:55 schrieb Daniel Vetter:
+> > > > On Tue, Aug 24, 2021 at 10:12:24AM +0200, Christian König wrote:
+> > > > > Just a gentle ping. Daniel any more comments on this?
+> > > > Still haven't seen a patch set to nuke the sw_sync igt tests. Otherwise
+> > > > this is just going to cause fails and reboots in our ci (we reboot on
+> > > > taints).
+> > > *sigh* can I at least print a warning without breaking the igt tests?
+> > CI watches dmesg too ... it just doesn't force a reboot (which hurts run
+> > rate really badly).
 > > 
-> > Looking at the 3 patches and the need to have a locked version of pretty
-> > much everything I'm wondering: Can't we just drop the spinlock completely,
-> > and everywhere we've taking it thus far replace it with a
-> > lockdep_assert_held_once?
-> > 
-> > The thing is, if there's any path left that doesn't hold the rwsem in at
-> > least read mode we have a bug. And the right way to fix such a bug is to
-> > grab the rwsem sufficiently high up in the callchain. That way I think we
-> > should be able to avoid all these tedious changes to everything, including
-> > touching i915 and vmwgfx drivers.
-> > 
-> > Or am I missing something big time?
-> > -Daniel
-> > 
+> > > > > I'm not sure if the second patch will cause trouble with any unit test, but
+> > > > > I'm willing to try it. We can always trivial revert it.
+> > > > See above, remove the igts and we should be fine I think. I don't think
+> > > > there's any selftests or kselftests, but checking that should be a quick
+> > > > grep at most.
+> > > Yeah, we don't have any selftests as far as I can see but this stuff is so
+> > > interweaved with igt that it will be hard to remove I think.
+> > > 
+> > > A good bunch of the igt code seems to have been moved to using VGEM instead,
+> > > but as far as I can see there is still plenty left relying on this.
+> > > 
+> > > Alternatively could we make the config option depend on CONFIG_DEBUG?
+> > Hm I thought it was just down to sw_sync igt testcase, and everything else
+> > is moved to vgem. Do we have more, or has more landed since I looked a
+> > while ago?
 > 
-> Thanks for taking a look at all the patches and for the suggestions, Daniel.
+> The code under lib/sw_sync.c uses this and based on that lib/igt_dummyload.c
+> defines an IGT_CORK_FENCE which is then used by at least:
 > 
-> Just my two cents. I think it makes sense to replace the lock with the
-> lockdep assertion. This avoids the weirdness with the lock being taken both
-> as an outer lock and sometimes as a deeply embedded inner lock.
+> tests/i915/gem_exec_fence.c
+> tests/i915/gem_eio.c
+> tests/i915/gem_exec_schedule.c
+> tests/i915/gem_exec_balancer.c
+> tests/i915/gem_ctx_shared.c
+> tests/kms_busy.c
 > 
-> But we'll probably have to fix some stuff because I don't think we always
-> hold the rwsem in the places where the spinlock is grabbed (i.e. when
-> drm_is_current_master or drm_file_get_master is called).
+> After that I've stoped looking deeper into it.
 
-Yeah right I forgot about that again when coming up with this idea. All
-the ioctl that read kms state need a read lock too. Maybe those ioctl
-could just grab the master rwsem themselves? This should work now that
-we've untangled the drm_global_mutex situation I think.
-
-> I'll split the series as suggested so we can test things up to PATCH 4
-> ("drm: avoid races with modesetting rights"). For the rest of the series to
-> remove the spinlock, I'll take a closer look and probably send out a patch
-> later this week.
-
-Sounds great!
+Uh crap, I totally missed this. This is a rather messy area of igt with a
+pile of questionable tests and stuff ... No idea when we'll get around to
+cleaning that up with all the other fires going on :-(
 -Daniel
 
-
 > 
-> Best wishes,
-> Desmond
+> Christian.
 > 
-> > >   	ret = drm_is_current_master_locked(fpriv);
-> > > -	spin_unlock(&fpriv->master_lookup_lock);
-> > > +	up_read(&fpriv->minor->dev->master_rwsem);
-> > >   	return ret;
-> > >   }
-> > > @@ -120,7 +119,7 @@ int drm_authmagic(struct drm_device *dev, void *data,
-> > >   	DRM_DEBUG("%u\n", auth->magic);
-> > >   	down_write(&dev->master_rwsem);
-> > > -	if (unlikely(!drm_is_current_master(file_priv))) {
-> > > +	if (unlikely(!drm_is_current_master_locked(file_priv))) {
-> > >   		up_write(&dev->master_rwsem);
-> > >   		return -EACCES;
-> > >   	}
-> > > @@ -178,9 +177,7 @@ static int drm_new_set_master(struct drm_device *dev, struct drm_file *fpriv)
-> > >   	new_master = drm_master_create(dev);
-> > >   	if (!new_master)
-> > >   		return -ENOMEM;
-> > > -	spin_lock(&fpriv->master_lookup_lock);
-> > >   	fpriv->master = new_master;
-> > > -	spin_unlock(&fpriv->master_lookup_lock);
-> > >   	fpriv->is_master = 1;
-> > >   	fpriv->authenticated = 1;
-> > > @@ -343,9 +340,7 @@ int drm_master_open(struct drm_file *file_priv)
-> > >   	if (!dev->master) {
-> > >   		ret = drm_new_set_master(dev, file_priv);
-> > >   	} else {
-> > > -		spin_lock(&file_priv->master_lookup_lock);
-> > >   		file_priv->master = drm_master_get(dev->master);
-> > > -		spin_unlock(&file_priv->master_lookup_lock);
-> > >   	}
-> > >   	up_write(&dev->master_rwsem);
-> > > @@ -413,13 +408,13 @@ struct drm_master *drm_file_get_master(struct drm_file *file_priv)
-> > >   	if (!file_priv)
-> > >   		return NULL;
-> > > -	spin_lock(&file_priv->master_lookup_lock);
-> > > +	down_read(&file_priv->minor->dev->master_rwsem);
-> > >   	if (!file_priv->master)
-> > >   		goto unlock;
-> > >   	master = drm_master_get(file_priv->master);
-> > >   unlock:
-> > > -	spin_unlock(&file_priv->master_lookup_lock);
-> > > +	up_read(&file_priv->minor->dev->master_rwsem);
-> > >   	return master;
-> > >   }
-> > >   EXPORT_SYMBOL(drm_file_get_master);
-> > > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> > > index 90b62f360da1..8c846e0179d7 100644
-> > > --- a/drivers/gpu/drm/drm_file.c
-> > > +++ b/drivers/gpu/drm/drm_file.c
-> > > @@ -176,7 +176,6 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
-> > >   	init_waitqueue_head(&file->event_wait);
-> > >   	file->event_space = 4096; /* set aside 4k for event buffer */
-> > > -	spin_lock_init(&file->master_lookup_lock);
-> > >   	mutex_init(&file->event_read_lock);
-> > >   	if (drm_core_check_feature(dev, DRIVER_GEM))
-> > > diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-> > > index 17f3548c8ed2..5d421f749a17 100644
-> > > --- a/drivers/gpu/drm/drm_internal.h
-> > > +++ b/drivers/gpu/drm/drm_internal.h
-> > > @@ -132,6 +132,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
-> > >   				  struct drm_file *filp);
-> > >   /* drm_auth.c */
-> > > +bool drm_is_current_master_locked(struct drm_file *fpriv);
-> > >   int drm_getmagic(struct drm_device *dev, void *data,
-> > >   		 struct drm_file *file_priv);
-> > >   int drm_authmagic(struct drm_device *dev, void *data,
-> > > diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> > > index 8bea39ffc5c0..c728437466c3 100644
-> > > --- a/drivers/gpu/drm/drm_ioctl.c
-> > > +++ b/drivers/gpu/drm/drm_ioctl.c
-> > > @@ -386,7 +386,7 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
-> > >   	int if_version, retcode = 0;
-> > >   	down_write(&dev->master_rwsem);
-> > > -	if (unlikely(!drm_is_current_master(file_priv))) {
-> > > +	if (unlikely(!drm_is_current_master_locked(file_priv))) {
-> > >   		retcode = -EACCES;
-> > >   		goto unlock;
-> > >   	}
-> > > @@ -540,7 +540,7 @@ static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
-> > >   	/* MASTER is only for master or control clients */
-> > >   	if (unlikely((flags & DRM_MASTER) &&
-> > > -		     !drm_is_current_master(file_priv)))
-> > > +		     !drm_is_current_master_locked(file_priv)))
-> > >   		return -EACCES;
-> > >   	/* Render clients must be explicitly allowed */
-> > > diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-> > > index 15bf3a3c76d1..0eecf320b1ab 100644
-> > > --- a/drivers/gpu/drm/drm_lease.c
-> > > +++ b/drivers/gpu/drm/drm_lease.c
-> > > @@ -498,12 +498,12 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
-> > >   		return PTR_ERR(lessee_file);
-> > >   	down_read(&dev->master_rwsem);
-> > > -	if (unlikely(!drm_is_current_master(lessor_priv))) {
-> > > +	if (unlikely(!drm_is_current_master_locked(lessor_priv))) {
-> > >   		ret = -EACCES;
-> > >   		goto out_file;
-> > >   	}
-> > > -	lessor = drm_file_get_master(lessor_priv);
-> > > +	lessor = lessor_priv->master;
-> > >   	/* Do not allow sub-leases */
-> > >   	if (lessor->lessor) {
-> > >   		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
-> > > @@ -565,7 +565,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
-> > >   	/* Hook up the fd */
-> > >   	fd_install(fd, lessee_file);
-> > > -	drm_master_put(&lessor);
-> > >   	up_read(&dev->master_rwsem);
-> > >   	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
-> > >   	return 0;
-> > > @@ -600,7 +599,8 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
-> > >   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
-> > >   		return -EOPNOTSUPP;
-> > > -	lessor = drm_file_get_master(lessor_priv);
-> > > +	lockdep_assert_held_once(&dev->master_rwsem);
-> > > +	lessor = lessor_priv->master;
-> > >   	DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
-> > >   	mutex_lock(&dev->mode_config.idr_mutex);
-> > > @@ -624,7 +624,6 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
-> > >   		arg->count_lessees = count;
-> > >   	mutex_unlock(&dev->mode_config.idr_mutex);
-> > > -	drm_master_put(&lessor);
-> > >   	return ret;
-> > >   }
-> > > @@ -650,7 +649,8 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
-> > >   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
-> > >   		return -EOPNOTSUPP;
-> > > -	lessee = drm_file_get_master(lessee_priv);
-> > > +	lockdep_assert_held_once(&dev->master_rwsem);
-> > > +	lessee = lessee_priv->master;
-> > >   	DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
-> > >   	mutex_lock(&dev->mode_config.idr_mutex);
-> > > @@ -678,7 +678,6 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
-> > >   		arg->count_objects = count;
-> > >   	mutex_unlock(&dev->mode_config.idr_mutex);
-> > > -	drm_master_put(&lessee);
-> > >   	return ret;
-> > >   }
-> > > @@ -703,11 +702,11 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
-> > >   		return -EOPNOTSUPP;
-> > >   	down_write(&dev->master_rwsem);
-> > > -	if (unlikely(!drm_is_current_master(lessor_priv))) {
-> > > +	if (unlikely(!drm_is_current_master_locked(lessor_priv))) {
-> > >   		ret = -EACCES;
-> > >   		goto unlock;
-> > >   	}
-> > > -	lessor = drm_file_get_master(lessor_priv);
-> > > +	lessor = lessor_priv->master;
-> > >   	mutex_lock(&dev->mode_config.idr_mutex);
-> > >   	lessee = _drm_find_lessee(lessor, arg->lessee_id);
-> > > @@ -728,7 +727,6 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
-> > >   fail:
-> > >   	mutex_unlock(&dev->mode_config.idr_mutex);
-> > > -	drm_master_put(&lessor);
-> > >   unlock:
-> > >   	up_write(&dev->master_rwsem);
-> > > diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> > > index d12bb2ba7814..e2d49fe3e32d 100644
-> > > --- a/include/drm/drm_file.h
-> > > +++ b/include/drm/drm_file.h
-> > > @@ -227,16 +227,12 @@ struct drm_file {
-> > >   	 * @master:
-> > >   	 *
-> > >   	 * Master this node is currently associated with. Protected by struct
-> > > -	 * &drm_device.master_rwsem, and serialized by @master_lookup_lock.
-> > > +	 * &drm_device.master_rwsem.
-> > >   	 *
-> > >   	 * Only relevant if drm_is_primary_client() returns true. Note that
-> > >   	 * this only matches &drm_device.master if the master is the currently
-> > >   	 * active one.
-> > >   	 *
-> > > -	 * To update @master, both &drm_device.master_rwsem and
-> > > -	 * @master_lookup_lock need to be held, therefore holding either of
-> > > -	 * them is safe and enough for the read side.
-> > > -	 *
-> > >   	 * When dereferencing this pointer, either hold struct
-> > >   	 * &drm_device.master_rwsem for the duration of the pointer's use, or
-> > >   	 * use drm_file_get_master() if struct &drm_device.master_rwsem is not
-> > > @@ -248,9 +244,6 @@ struct drm_file {
-> > >   	 */
-> > >   	struct drm_master *master;
-> > > -	/** @master_lock: Serializes @master. */
-> > > -	spinlock_t master_lookup_lock;
-> > > -
-> > >   	/** @pid: Process that opened this file. */
-> > >   	struct pid *pid;
-> > > -- 
-> > > 2.25.1
-> > > 
+> > -Daniel
 > > 
+> > > Christian.
+> > > 
+> > > > -Daniel
+> > > > 
+> > > > > Thanks,
+> > > > > Christian.
+> > > > > 
+> > > > > Am 18.08.21 um 12:54 schrieb Christian König:
+> > > > > > Only the DRM GPU scheduler, radeon and amdgpu where using them and they depend
+> > > > > > on a non existing config option to actually emit some code.
+> > > > > > 
+> > > > > > v2: keep the signal path as is for now
+> > > > > > 
+> > > > > > Signed-off-by: Christian König <christian.koenig@amd.com>
+> > > > > > ---
+> > > > > >     drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 10 +---------
+> > > > > >     drivers/gpu/drm/radeon/radeon_fence.c     | 24 ++++-------------------
+> > > > > >     drivers/gpu/drm/scheduler/sched_fence.c   | 18 ++---------------
+> > > > > >     include/linux/dma-fence.h                 | 22 ---------------------
+> > > > > >     4 files changed, 7 insertions(+), 67 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> > > > > > index 0b1c48590c43..c65994e382bd 100644
+> > > > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> > > > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> > > > > > @@ -246,7 +246,6 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
+> > > > > >     	struct amdgpu_fence_driver *drv = &ring->fence_drv;
+> > > > > >     	struct amdgpu_device *adev = ring->adev;
+> > > > > >     	uint32_t seq, last_seq;
+> > > > > > -	int r;
+> > > > > >     	do {
+> > > > > >     		last_seq = atomic_read(&ring->fence_drv.last_seq);
+> > > > > > @@ -278,12 +277,7 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
+> > > > > >     		if (!fence)
+> > > > > >     			continue;
+> > > > > > -		r = dma_fence_signal(fence);
+> > > > > > -		if (!r)
+> > > > > > -			DMA_FENCE_TRACE(fence, "signaled from irq context\n");
+> > > > > > -		else
+> > > > > > -			BUG();
+> > > > > > -
+> > > > > > +		dma_fence_signal(fence);
+> > > > > >     		dma_fence_put(fence);
+> > > > > >     		pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+> > > > > >     		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+> > > > > > @@ -639,8 +633,6 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
+> > > > > >     	if (!timer_pending(&ring->fence_drv.fallback_timer))
+> > > > > >     		amdgpu_fence_schedule_fallback(ring);
+> > > > > > -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", ring->idx);
+> > > > > > -
+> > > > > >     	return true;
+> > > > > >     }
+> > > > > > diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
+> > > > > > index 18f2c2e0dfb3..3f351d222cbb 100644
+> > > > > > --- a/drivers/gpu/drm/radeon/radeon_fence.c
+> > > > > > +++ b/drivers/gpu/drm/radeon/radeon_fence.c
+> > > > > > @@ -176,18 +176,11 @@ static int radeon_fence_check_signaled(wait_queue_entry_t *wait, unsigned mode,
+> > > > > >     	 */
+> > > > > >     	seq = atomic64_read(&fence->rdev->fence_drv[fence->ring].last_seq);
+> > > > > >     	if (seq >= fence->seq) {
+> > > > > > -		int ret = dma_fence_signal_locked(&fence->base);
+> > > > > > -
+> > > > > > -		if (!ret)
+> > > > > > -			DMA_FENCE_TRACE(&fence->base, "signaled from irq context\n");
+> > > > > > -		else
+> > > > > > -			DMA_FENCE_TRACE(&fence->base, "was already signaled\n");
+> > > > > > -
+> > > > > > +		dma_fence_signal_locked(&fence->base);
+> > > > > >     		radeon_irq_kms_sw_irq_put(fence->rdev, fence->ring);
+> > > > > >     		__remove_wait_queue(&fence->rdev->fence_queue, &fence->fence_wake);
+> > > > > >     		dma_fence_put(&fence->base);
+> > > > > > -	} else
+> > > > > > -		DMA_FENCE_TRACE(&fence->base, "pending\n");
+> > > > > > +	}
+> > > > > >     	return 0;
+> > > > > >     }
+> > > > > > @@ -422,8 +415,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
+> > > > > >     	fence->fence_wake.func = radeon_fence_check_signaled;
+> > > > > >     	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
+> > > > > >     	dma_fence_get(f);
+> > > > > > -
+> > > > > > -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", fence->ring);
+> > > > > >     	return true;
+> > > > > >     }
+> > > > > > @@ -441,11 +432,7 @@ bool radeon_fence_signaled(struct radeon_fence *fence)
+> > > > > >     		return true;
+> > > > > >     	if (radeon_fence_seq_signaled(fence->rdev, fence->seq, fence->ring)) {
+> > > > > > -		int ret;
+> > > > > > -
+> > > > > > -		ret = dma_fence_signal(&fence->base);
+> > > > > > -		if (!ret)
+> > > > > > -			DMA_FENCE_TRACE(&fence->base, "signaled from radeon_fence_signaled\n");
+> > > > > > +		dma_fence_signal(&fence->base);
+> > > > > >     		return true;
+> > > > > >     	}
+> > > > > >     	return false;
+> > > > > > @@ -550,7 +537,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
+> > > > > >     {
+> > > > > >     	uint64_t seq[RADEON_NUM_RINGS] = {};
+> > > > > >     	long r;
+> > > > > > -	int r_sig;
+> > > > > >     	/*
+> > > > > >     	 * This function should not be called on !radeon fences.
+> > > > > > @@ -567,9 +553,7 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
+> > > > > >     		return r;
+> > > > > >     	}
+> > > > > > -	r_sig = dma_fence_signal(&fence->base);
+> > > > > > -	if (!r_sig)
+> > > > > > -		DMA_FENCE_TRACE(&fence->base, "signaled from fence_wait\n");
+> > > > > > +	dma_fence_signal(&fence->base);
+> > > > > >     	return r;
+> > > > > >     }
+> > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+> > > > > > index 69de2c76731f..3736746c47bd 100644
+> > > > > > --- a/drivers/gpu/drm/scheduler/sched_fence.c
+> > > > > > +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+> > > > > > @@ -50,26 +50,12 @@ static void __exit drm_sched_fence_slab_fini(void)
+> > > > > >     void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
+> > > > > >     {
+> > > > > > -	int ret = dma_fence_signal(&fence->scheduled);
+> > > > > > -
+> > > > > > -	if (!ret)
+> > > > > > -		DMA_FENCE_TRACE(&fence->scheduled,
+> > > > > > -				"signaled from irq context\n");
+> > > > > > -	else
+> > > > > > -		DMA_FENCE_TRACE(&fence->scheduled,
+> > > > > > -				"was already signaled\n");
+> > > > > > +	dma_fence_signal(&fence->scheduled);
+> > > > > >     }
+> > > > > >     void drm_sched_fence_finished(struct drm_sched_fence *fence)
+> > > > > >     {
+> > > > > > -	int ret = dma_fence_signal(&fence->finished);
+> > > > > > -
+> > > > > > -	if (!ret)
+> > > > > > -		DMA_FENCE_TRACE(&fence->finished,
+> > > > > > -				"signaled from irq context\n");
+> > > > > > -	else
+> > > > > > -		DMA_FENCE_TRACE(&fence->finished,
+> > > > > > -				"was already signaled\n");
+> > > > > > +	dma_fence_signal(&fence->finished);
+> > > > > >     }
+> > > > > >     static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
+> > > > > > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> > > > > > index 6ffb4b2c6371..4cc119ab272f 100644
+> > > > > > --- a/include/linux/dma-fence.h
+> > > > > > +++ b/include/linux/dma-fence.h
+> > > > > > @@ -590,26 +590,4 @@ struct dma_fence *dma_fence_get_stub(void);
+> > > > > >     struct dma_fence *dma_fence_allocate_private_stub(void);
+> > > > > >     u64 dma_fence_context_alloc(unsigned num);
+> > > > > > -#define DMA_FENCE_TRACE(f, fmt, args...) \
+> > > > > > -	do {								\
+> > > > > > -		struct dma_fence *__ff = (f);				\
+> > > > > > -		if (IS_ENABLED(CONFIG_DMA_FENCE_TRACE))			\
+> > > > > > -			pr_info("f %llu#%llu: " fmt,			\
+> > > > > > -				__ff->context, __ff->seqno, ##args);	\
+> > > > > > -	} while (0)
+> > > > > > -
+> > > > > > -#define DMA_FENCE_WARN(f, fmt, args...) \
+> > > > > > -	do {								\
+> > > > > > -		struct dma_fence *__ff = (f);				\
+> > > > > > -		pr_warn("f %llu#%llu: " fmt, __ff->context, __ff->seqno,\
+> > > > > > -			 ##args);					\
+> > > > > > -	} while (0)
+> > > > > > -
+> > > > > > -#define DMA_FENCE_ERR(f, fmt, args...) \
+> > > > > > -	do {								\
+> > > > > > -		struct dma_fence *__ff = (f);				\
+> > > > > > -		pr_err("f %llu#%llu: " fmt, __ff->context, __ff->seqno,	\
+> > > > > > -			##args);					\
+> > > > > > -	} while (0)
+> > > > > > -
+> > > > > >     #endif /* __LINUX_DMA_FENCE_H */
 > 
 
 -- 
