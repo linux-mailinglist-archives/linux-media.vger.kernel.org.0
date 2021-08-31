@@ -2,102 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2814D3FCDA2
-	for <lists+linux-media@lfdr.de>; Tue, 31 Aug 2021 21:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A778E3FCF2E
+	for <lists+linux-media@lfdr.de>; Tue, 31 Aug 2021 23:34:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240449AbhHaTUU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Aug 2021 15:20:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48682 "EHLO
+        id S239795AbhHaVfM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Aug 2021 17:35:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231453AbhHaTUT (ORCPT
+        with ESMTP id S235079AbhHaVfL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Aug 2021 15:20:19 -0400
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12C39C061760
-        for <linux-media@vger.kernel.org>; Tue, 31 Aug 2021 12:19:24 -0700 (PDT)
-Received: by mail-io1-xd31.google.com with SMTP id b7so187323iob.4
-        for <linux-media@vger.kernel.org>; Tue, 31 Aug 2021 12:19:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=BnfnduHx3i2X80cz742KibQtwDjAziOnxR1dEDNguNQ=;
-        b=k8Uq/xSxlaLj3DJmwHqi3zi23+XTDI345vnvhN5QS8pnpgx8a0Q49xhD5D4KS8+DLC
-         gtYdQDcKGi80NEfOReWj/tPYUGw6JOZLDane/KBJPXnNoHM9WB2/1f+riot8p/HOeB7G
-         u8BARTX9hRBylvw5eZW2vgu6vn4Si0ptrSmEEckvMh4M/81RefCoqC1u5cM7rBtbBLNs
-         z5Hpha8wYRq/8xulDm1+MfqK4W0ggyxAhzcul7WLDxCMRZq6YH10Lb4hjPT1rOlWa6Nc
-         WC0yq2hPUZ3DtgBpKPenD7oBZyvF3EX39LxtgC0rOpCGm8b2Itupimky3nERNn1xhvv/
-         A1zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=BnfnduHx3i2X80cz742KibQtwDjAziOnxR1dEDNguNQ=;
-        b=sccWVfqfWpGqlfUYtJqTK1hdGu4372MWIx0uUERZhA9UqJFpk6MZwXS4XKBUTwUNJX
-         fgtueQcJBMYgAac/FRx4biMlnI5uRrAMYgpMMYbbly9eiOd/DlLDF8iNgBpVvQ/H6Df2
-         hIeP85c3D2vjNpSXrNyuBIk6A9ZE3hAaX9HLnfbGZnZnsWbSwtf4fYApv1DEJSWS/4jh
-         6tZ1psFF+06aiwTDT0WPrKkszqU/VwJNG2GUuqYEFepRjwrywg94BVgAdOuQ7H2ddELJ
-         S8Yc1zi6XP2Da+AYCgQXyMCQMwl7lchzRQUjvGQwlZTIC1K8sH9ESToAsvDNlvOql7Fw
-         Bb5w==
-X-Gm-Message-State: AOAM533y8+r1CfoIbNb/c4HrzPx5OXJS9c0G6X56lFGyz01IfWFmIW0P
-        1DW6VES2dHl0X/iNjOHZwvmAFQ==
-X-Google-Smtp-Source: ABdhPJzLpm8haUqn3kfzyuXtg4CiQZwskLDtRsRbptxnszVRu77+8NA0/wO490W6qNwD3GPt10CQDw==
-X-Received: by 2002:a02:2348:: with SMTP id u69mr4216099jau.141.1630437562446;
-        Tue, 31 Aug 2021 12:19:22 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id c23sm10143469ioi.31.2021.08.31.12.19.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Aug 2021 12:19:21 -0700 (PDT)
-Message-ID: <1484b5ebb9c943c72d7d7a0481c1a2cd9899705b.camel@ndufresne.ca>
-Subject: Re: [PATCH 0/2] media: HEVC: RPS clean up
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl,
-        jc@kynesim.co.uk, ezequiel@vanguardiasur.com.ar
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Date:   Tue, 31 Aug 2021 15:19:19 -0400
-In-Reply-To: <20210831094900.203283-1-benjamin.gaignard@collabora.com>
-References: <20210831094900.203283-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        Tue, 31 Aug 2021 17:35:11 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42F46C061575
+        for <linux-media@vger.kernel.org>; Tue, 31 Aug 2021 14:34:16 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C020324F;
+        Tue, 31 Aug 2021 23:34:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1630445653;
+        bh=d47x4zuW86UcTJ7H1votfVUHx/PgtGhIq7pIlgXR4iQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YQaXtLi7pEkhGa+Ea+ILsNqTDNTnbCayDTj8LLiX1qqNJOsWplXz/HjHJmHUR2d2t
+         5H0VzSvvDmqBEZu3vF0/D6nUepvxL0KMmNqs1zAgBq03DeJ1oC6BVl35vDh3lgQbvH
+         mEPSL4+imVJDsFqRtSeF/eKVYaMeG1BOS4suuwAo=
+Date:   Wed, 1 Sep 2021 00:33:59 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        bingbu.cao@intel.com, Tian Shu Qiu <tian.shu.qiu@intel.com>
+Subject: Re: [RFC PATCH] media: staging: ipu3-imgu: add the AWB memory layout
+Message-ID: <YS6gR2YSWPSftCO0@pendragon.ideasonboard.com>
+References: <20210831185140.77400-1-jeanmichel.hautbois@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210831185140.77400-1-jeanmichel.hautbois@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As per discussion with Ezequiel, I think this patch should perhaps be made an
-RFC titled "media: uapi: clean and make HEVC uAPI public". Keep it RFC until we
-have collected all the needed changes.
+Hi Jean-Michel,
 
-Opinion ?
+Just replying to CC Tian Shu as well.
 
-Le mardi 31 août 2021 à 11:48 +0200, Benjamin Gaignard a écrit :
-> This series aims to clean up Reference Picture Set usage and flags.
+On Tue, Aug 31, 2021 at 08:51:40PM +0200, Jean-Michel Hautbois wrote:
+> While parsing the RAW AWB metadata, the AWB layout was missing to fully
+> understand which byte corresponds to which feature. Make the field names
+> and usage explicit, as it is used by the userspace applications.
 > 
-> Long term flag was named with RPS prefix while it is not used for RPS
-> but for mark long term references in DBP. Remane it and remove the two
-> other useless RPS flags.
+> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> ---
+> This structure layout is defined in CrOs:
+> https://chromium.googlesource.com/chromiumos/platform/arc-camera/+/refs/heads/master/hal/intel/include/ia_imaging/awb_public.h
 > 
-> Clarify documentation about RPS lists content and make sure that Hantro
-> driver use them correctly (i.e without look up in DBP).
+> There are a few things not really understood right now:
+> - Is sat_ratio a full scale ratio (I can't get more than some values out
+>   of it, is it a ratio of 25%, 50%, 75%, 100% ?)
+> - What are the real minimum and maximum values for the grid size ? From
+>   CrOs it appears to be [16, 80] for width and [16, 60] for height while
+>   in this file it seems to be [16, 160] for width and not really defined
+>   for height AFAICT ?
+> - Same for the block_width_log2 and block_height_log2 which are [3, 7]
+>   in this file and [3, 6] in the awb_public.h header ?
 > 
-> Benjamin
+>  .../media/ipu3/include/uapi/intel-ipu3.h      | 38 ++++++++++++++-----
+>  1 file changed, 29 insertions(+), 9 deletions(-)
 > 
-> Benjamin Gaignard (2):
->   media: hevc: Remove RPS named flags
->   media: hevc: Embedded indexes in RPS
-> 
->  .../media/v4l/ext-ctrls-codec.rst             | 12 ++++-----
->  .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++++--------------
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
->  include/media/hevc-ctrls.h                    |  4 +--
->  4 files changed, 14 insertions(+), 31 deletions(-)
-> 
+> diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+> index fa3d6ee5adf2..83191aff2ddd 100644
+> --- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+> +++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+> @@ -61,20 +61,40 @@ struct ipu3_uapi_grid_config {
+>  	__u16 y_end;
+>  } __packed;
+>  
+> +/**
+> + * struct ipu3_uapi_awb_raw_buffer - Memory layout for each cell in AWB
+> + *
+> + * @Gr_avg:	Green average for red lines in the cell.
+> + * @R_avg:	Red average in the cell.
+> + * @B_avg:	Blue average in the cell.
+> + * @Gb_avg:	Green average for blue lines in the cell.
+> + * @sat_ratio:  Saturation ratio in the cell.
+> + * @padding0:   Unused byte for padding.
+> + * @padding1:   Unused byte for padding.
+> + * @padding2:   Unused byte for padding.
+> + */
+> +struct ipu3_uapi_awb_raw_buffer {
+> +    unsigned char Gr_avg;
+> +    unsigned char R_avg;
+> +    unsigned char B_avg;
+> +    unsigned char Gb_avg;
+> +    unsigned char sat_ratio;
+> +    unsigned char padding0;
+> +    unsigned char padding1;
+> +    unsigned char padding2;
+> +} __packed;
+> +
+>  /*
+>   * The grid based data is divided into "slices" called set, each slice of setX
+>   * refers to ipu3_uapi_grid_config width * height_per_slice.
+>   */
+>  #define IPU3_UAPI_AWB_MAX_SETS				60
+> -/* Based on grid size 80 * 60 and cell size 16 x 16 */
+> -#define IPU3_UAPI_AWB_SET_SIZE				1280
+> -#define IPU3_UAPI_AWB_MD_ITEM_SIZE			8
+> -#define IPU3_UAPI_AWB_SPARE_FOR_BUBBLES \
+> -	(IPU3_UAPI_MAX_BUBBLE_SIZE * IPU3_UAPI_MAX_STRIPES * \
+> -	 IPU3_UAPI_AWB_MD_ITEM_SIZE)
+> +#define AWB_PUBLIC_NUM_OF_ITEMS_IN_SET			160
+> +/* Based on max grid height + Spare for bubbles */
+> +#define AWB_PUBLIC_NUM_OF_SETS_IN_BUFFER IPU3_UAPI_AWB_MAX_SETS + \
+> +	(IPU3_UAPI_MAX_BUBBLE_SIZE * IPU3_UAPI_MAX_STRIPES)
+>  #define IPU3_UAPI_AWB_MAX_BUFFER_SIZE \
+> -	(IPU3_UAPI_AWB_MAX_SETS * \
+> -	 (IPU3_UAPI_AWB_SET_SIZE + IPU3_UAPI_AWB_SPARE_FOR_BUBBLES))
+> +        AWB_PUBLIC_NUM_OF_SETS_IN_BUFFER * AWB_PUBLIC_NUM_OF_ITEMS_IN_SET
+>  
+>  /**
+>   * struct ipu3_uapi_awb_raw_buffer - AWB raw buffer
+> @@ -83,7 +103,7 @@ struct ipu3_uapi_grid_config {
+>   *		the average values for each color channel.
+>   */
+>  struct ipu3_uapi_awb_raw_buffer {
+> -	__u8 meta_data[IPU3_UAPI_AWB_MAX_BUFFER_SIZE]
+> +	struct ipu3_uapi_awb_raw_buffer meta_data[IPU3_UAPI_AWB_MAX_BUFFER_SIZE]
+>  		__attribute__((aligned(32)));
+>  } __packed;
+>  
 
+-- 
+Regards,
 
+Laurent Pinchart
