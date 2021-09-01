@@ -2,91 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A7D13FE209
-	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 20:11:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D7CC3FE23F
+	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 20:16:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346741AbhIASMe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Sep 2021 14:12:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53700 "EHLO
+        id S1345027AbhIASQ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Sep 2021 14:16:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344435AbhIASMY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 14:12:24 -0400
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 826C0C061140
-        for <linux-media@vger.kernel.org>; Wed,  1 Sep 2021 11:11:23 -0700 (PDT)
-Received: by mail-qv1-xf36.google.com with SMTP id 4so327776qvp.3
-        for <linux-media@vger.kernel.org>; Wed, 01 Sep 2021 11:11:23 -0700 (PDT)
+        with ESMTP id S1344645AbhIASQ5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 14:16:57 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C8CC061575
+        for <linux-media@vger.kernel.org>; Wed,  1 Sep 2021 11:15:59 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id m4so530211ljq.8
+        for <linux-media@vger.kernel.org>; Wed, 01 Sep 2021 11:15:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
-        b=LD3mpzy1s09M3e/Eheelu/QMtbN6lrYJQ+S1BsYhmG4zP9OQuKOeD1zHV2lZaK7Hdt
-         vXoBMumPRACuZhnwd8TYAFIvdImPe0Zn4DA41GnzHGsnpDZPE0wUFWVFNzgpxF6bh6D8
-         CVxTiiIN7w8BVpPirFLytZKK2cFqqV6q9qR8cw4XmdYYgGZs+MdnDeP+neEr/SbnLI2h
-         mwT6gqJ8+HvNCQei5Zu6b3U+/YcUOepEDfVn6t0IkNG5YzxTV8mH8IqZ4zEsqBchdgxI
-         E/zGH3KCiuS7UdfEMBVKPbpzhhPyh4quLRALvE4iCHtswqSZDgWUuzksodIw8OWwGR1Z
-         0RlA==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=4k3zWyUEL5AN2tG7xoJkJdor5LE2O/9hbbNwLvToM/k=;
+        b=SXSuA4Z2KSJWgSEDMpoOIQVvONtLLv+2kaWAupmQbPqxaVcxRZEQ69Hr4G2Q1cEaIy
+         A+c+aPK3Sllcep7lmnXU9b0Sy62KlFnOK6JJsC/OPOx4RHQMOTNvCoC2fAmeA81EmcPX
+         frinTWwu6w2eXHJ0oCsaqsvWEVObcAxSnNQSCdFCe53OGfWpSyN6uuZuQ3U6WW08ZIYF
+         CpK714alSJ+deTXBdUQI0ZdmNE0P60+dk+FMG+Vy5snH3tQ00hGD7s1iEx+9QGWUAKxN
+         y9j6IrqC7zcil5EBf5hFw8Jj3zBxPMMWWyycr1l/j6SGe6BJiDraAOhpDYb9oKVd8M2A
+         4nSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
-        b=Bpeb6SavVBSFyzeAKS5qUvOCDVJXiz6nWVgOupS7Pz13BTP1krL3eJoCKx3XhE4gQO
-         7s2DeywUyVTnt6V+vMCtHw7xWwvxDB7a57V2uFF+ozUS1EyCTVAIOnyjKVc7gT4jG9fF
-         schEvE6abgNc+Zn4tQPpSwTjPd5fOopxl+5Qain3qCpjH5eNvVtHZn3op5cJD3kSk/ll
-         g7C7nYT7/bQidHyUYwX2bKf3u7a0lGnn4lz/fSx/GCGXIMSpAdD8/uAd1tVkAg8Yu1Yu
-         IpqMIr1tOZlKJg/Z0VKPbZXNZQVpM218x9us3M+zD9+Myrod2IfJhYbgYKZRp1xqQZT2
-         X4iw==
-X-Gm-Message-State: AOAM530O6VJkZSTWnjg32c16VVU60Qq8Njex5GpQI8nwpRu/DwjZFOlD
-        MQAUbBaJYApbYhDasBmfBFedMopAB1Kz8GOXqU3F+AVsAnyeSw==
-X-Google-Smtp-Source: ABdhPJwbbBYGjUEQSS3Bb7EfYk34O3AVuG22pVIF78fkATQG8c+PQmeHgcc35+YrriS74Wl5STB8JbzOasp+8kCVBlk=
-X-Received: by 2002:a67:8c5:: with SMTP id 188mr1017695vsi.4.1630519870726;
- Wed, 01 Sep 2021 11:11:10 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=4k3zWyUEL5AN2tG7xoJkJdor5LE2O/9hbbNwLvToM/k=;
+        b=TUjjXz19kIhZ48xRjktVY6vBoNY3RXdW6sG3PcANbjnIoxSBfmJqqV+/JGaU8NS+2g
+         SwIHMsOrQIatZ/4E+QKqLkMlHDQRzD0DjmyXemZIfvLXgiwIS1gtcg/Z4LfKZ61p6F2x
+         zZOyzsmci0x5ElGCxM9g5jGhLQsviHpj86IOfvmoPbqQ8eEMbVsvPsWdK9yG2vIfYkyv
+         uWpOSQM1Chwx5GXRaTKfjVrBBKYm3alarDDk45hHCYWSf3EHro79N9muEHtw34oGKzsZ
+         6neWkqb6CHg4IABJojniOMQXdvTiy6TX7x5qLTG9wsYyRcKJeVN71jbq0cGXsngs0jQb
+         2hGQ==
+X-Gm-Message-State: AOAM5335Z4A2Ul/caNUA6GNt8vkm9CWk9+GIb6CTsptlzef6OZEWt1q7
+        LurNS7KH34Pp8fXIX13cCGWOtw==
+X-Google-Smtp-Source: ABdhPJxmg44jwR9K8A2Q0l7UYT3Cqb5yecouenQ+7/QsbzoyfARFCYohz/9j8covPbprCfASfeKthQ==
+X-Received: by 2002:a2e:910f:: with SMTP id m15mr778961ljg.275.1630520158257;
+        Wed, 01 Sep 2021 11:15:58 -0700 (PDT)
+Received: from localhost ([185.224.57.161])
+        by smtp.gmail.com with ESMTPSA id h13sm22492lfv.62.2021.09.01.11.15.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Sep 2021 11:15:57 -0700 (PDT)
+Date:   Wed, 1 Sep 2021 20:15:55 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Cai Huoqing <caihuoqing@baidu.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-csi2: Make use of the helper function
+ devm_platform_ioremap_resource()
+Message-ID: <YS/DW7GbhVjV9//8@wyvern>
+References: <20210901055510.7279-1-caihuoqing@baidu.com>
 MIME-Version: 1.0
-Received: by 2002:ab0:740d:0:0:0:0:0 with HTTP; Wed, 1 Sep 2021 11:11:10 -0700 (PDT)
-From:   CorisBank International <corisbankintlbf@gmail.com>
-Date:   Wed, 1 Sep 2021 11:11:10 -0700
-Message-ID: <CA+25hwzjLgVdtDXYWeuqFBTvAbpc4oxK0dW54s7tjGNyU_m0ow@mail.gmail.com>
-Subject: CORISBANK INTERNATIONAL OFFICIAL NOTIFICATION
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210901055510.7279-1-caihuoqing@baidu.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Att: Client
+Hello Cai,
 
+Thanks for your work.
 
-CORISBANK INTERNATIONAL URGENT NOTIFICATION
+On 2021-09-01 13:55:09 +0800, Cai Huoqing wrote:
+> Use the devm_platform_ioremap_resource() helper instead of
+> calling platform_get_resource() and devm_ioremap_resource()
+> separately
+> 
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
-Notification / Notification/ Notification
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Note, We are writing to inform you officially that Finally the Central
-Bank Financial Authority have approved to transfer your $8.2Million
-which was signed by late Mrs Rose Banneth the COVID.19 victim to
-transfer to you, Late Mrs Rose Banneth the France Lady contacted us to
-transfer her fund in our bank to you for Orphanage work before she
-died by the COVID.19
-and as it is now, you will receive your fund through our corresponding
-bank in Dubai [Emirate Investment Bank ] for security reason. Please
-you should reconfirm your details to receive the $8.2Million.
+> ---
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index 711b52ba42b5..a4952711b7b1 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -1238,11 +1238,9 @@ static const struct media_entity_operations rcar_csi2_entity_ops = {
+>  static int rcsi2_probe_resources(struct rcar_csi2 *priv,
+>  				 struct platform_device *pdev)
+>  {
+> -	struct resource *res;
+>  	int irq, ret;
+>  
+> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	priv->base = devm_ioremap_resource(&pdev->dev, res);
+> +	priv->base = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(priv->base))
+>  		return PTR_ERR(priv->base);
+>  
+> -- 
+> 2.25.1
+> 
 
-Name, Country, Address, occupations, Age, Telephone number, account
-Details so that we can immediately forward to the World Bank to
-transfer the fund.
-You are advised to comply on timely manner to permit this esteem bank
-transfer your fund as scheduled.
-
-We look forward to serving you better
-Your Financial Comfort Is A Priority
-Thank you for choosing Corisbank International.
-
-Sincerely,
-
-----
-
-Mr Diakarya Ouattara
-Managing Director
-Bank Coris
-Burkina Faso
-+226 556 163 37
-financial_bf_info@accountant.com
+-- 
+Regards,
+Niklas Söderlund
