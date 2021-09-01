@@ -2,108 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AFF43FD544
-	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 10:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFB773FD56F
+	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 10:32:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243047AbhIAIV3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Sep 2021 04:21:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56098 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243005AbhIAIV3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 04:21:29 -0400
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4094C061575
-        for <linux-media@vger.kernel.org>; Wed,  1 Sep 2021 01:20:32 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id LLTumbxEylQKhLLTvmHxed; Wed, 01 Sep 2021 10:20:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1630484430; bh=GfCHqSZv2nZlr8KsNnFiMZi9+oWhMPoyCqpwjG+OdiE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=cevdEFABsVf5kVrWj4kTmLhuAArUTVho1wy+fLzKmWs63SXLDvGQwrAyVtVDNHE08
-         NbJxU7ydFxjX8MfoNyolX2QvEMOXIkWasr+PeFdtnmcGAE48blnE8HVoiuZS8xNLos
-         Socp/WsGnBRArsGpcXUwwqpk/391O4MT3IXrIdaE6itCG3i9UABvInj5a+i+3n6eTS
-         uivaZKfWMipq3NoYlxpAjWFsYBSNSda0OJ6QvIFB0W7c9JZMgUqbP8sxczsaCrqADy
-         1482EOrWQYiuiIX3QJ7nAlvO+Zenvb3DIGq3QdJ7BVwGPklDUvE9cEYFDGg8x3ZAMZ
-         YaIWuBiFE37lA==
-Subject: Re: [PATCH] media: sti/c8sectpfe: Make use of the helper function
- devm_platform_ioremap_resource_byname()
-To:     Cai Huoqing <caihuoqing@baidu.com>
-Cc:     Patrice Chotard <patrice.chotard@foss.st.com>,
+        id S243192AbhIAIdT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Sep 2021 04:33:19 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:42780 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S242943AbhIAIdS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 04:33:18 -0400
+X-UUID: 856cffb399cb400ba9538a58177eca88-20210901
+X-UUID: 856cffb399cb400ba9538a58177eca88-20210901
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1573207313; Wed, 01 Sep 2021 16:32:20 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkexhb01.mediatek.inc (172.21.101.102) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 1 Sep 2021 16:32:19 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Wed, 1 Sep 2021 16:32:18 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 1 Sep 2021 16:32:17 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Tzung-Bi Shih" <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210901055631.7829-1-caihuoqing@baidu.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <91245ea5-215f-5e60-0a97-7c29ceb7c3a9@xs4all.nl>
-Date:   Wed, 1 Sep 2021 10:20:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        "Fritz Koenig" <frkoenig@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v6, 00/15] Using component framework to support multi hardware decode
+Date:   Wed, 1 Sep 2021 16:32:00 +0800
+Message-ID: <20210901083215.25984-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <20210901055631.7829-1-caihuoqing@baidu.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfJRoayrIqmcHfdDz2ck/bNwHScVxGGQWvquTGIyrIs576AcabdctUNUbGEj+i494562eYjGHj0UVa70tJWJuO4uud54+g/wh83pgODOiGDexGiuBjZtO
- nMkD4naXo1NJR9paGA7PLOzwL+EwM0v0onjBBBs4Idu0huK9cyQT2OE5TzFADN11hscON0n2uglKXcknJWvzGeQ+7LPT171ViNY9XFR0TgFqoZ59AEfHYr/z
- dPn1Bnfks5usPN4SVihU2fH6JH2lFsNHL6n5lWWZwwNYJL/OuT8owx2rpzr8A1Q9Q13z0nvmYOsGCU2q3Tkhn4L1DTqMz/CLLCLHA0GcC+szcwSSw4NwvL+3
- u88IE8f99yhumFwJXnQ4N+zwkBxgBkyHj0KpEm7g6Edd53zgXZOKzNmHndDYnm1jM6Sk8gyqEEhrIdqEsiJ7qgqZL7ErY2Api+QjQmz6yOfEPGyijIQZlwAj
- 1Rdqg+R7kn3AVMoR
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/09/2021 07:56, Cai Huoqing wrote:
-> Use the devm_platform_ioremap_resource_byname() helper instead of
-> calling platform_get_resource_byname() and devm_ioremap_resource()
-> separately
-> 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> ---
->  drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
-> index 02dc78bd7fab..9f05984f711a 100644
-> --- a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
-> +++ b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
-> @@ -665,7 +665,6 @@ static int c8sectpfe_probe(struct platform_device *pdev)
->  	struct device *dev = &pdev->dev;
->  	struct device_node *child, *np = dev->of_node;
->  	struct c8sectpfei *fei;
-> -	struct resource *res;
->  	int ret, index = 0;
->  	struct channel_info *tsin;
->  
-> @@ -676,14 +675,11 @@ static int c8sectpfe_probe(struct platform_device *pdev)
->  
->  	fei->dev = dev;
->  
-> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "c8sectpfe");
-> -	fei->io = devm_ioremap_resource(dev, res);
-> +	fei->io = devm_platform_ioremap_resource_byname(pdev, "c8sectpfe");
->  	if (IS_ERR(fei->io))
->  		return PTR_ERR(fei->io);
->  
-> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
-> -					"c8sectpfe-ram");
-> -	fei->sram = devm_ioremap_resource(dev, res);
-> +	fei->sram = devm_platform_ioremap_resource_byname(pdev, "c8sectpfe-ram");
->  	if (IS_ERR(fei->sram))
->  		return PTR_ERR(fei->sram);
->  
-> 
+This series adds support for multi hardware decode into mtk-vcodec, by first
+adding component framework to manage each hardware information: interrupt,
+clock, register bases and power. Secondly add core thread to deal with core
+hardware message, at the same time, add msg queue for different hardware
+share messages. Lastly, the architecture of different specs are not the same,
+using specs type to separate them.
 
-Compile error:
+This series has been tested with both MT8183 and MT8173. Decoding was working
+for both chips.
 
-drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: In function ‘c8sectpfe_probe’:
-drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c:686:33: error: ‘res’ undeclared (first use in this function); did you mean ‘ret’?
-  686 |  fei->sram_size = resource_size(res);
-      |                                 ^~~
-      |                                 ret
-drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c:686:33: note: each undeclared identifier is reported only once for each function it appears in
+Patches 1~3 rewrite get register bases and power on/off interface.
 
-Regards,
+Patch 4 add component framework to support multi hardware.
 
-	Hans
+Patch 5 separate video encoder and decoder document
+
+Patches 6-15 add interfaces to support core hardware.
+----
+This patch dependents on : "media: mtk-vcodec: support for MT8183 decoder"[1] and
+"Mediatek MT8192 clock support"[2].
+
+1: Multi hardware decode is based on stateless decoder, MT8183 is the first time
+to add stateless decoder. Otherwise it will cause conflict. This patch will be
+accepted in 5.15[1].
+
+2: The definition of decoder clocks are in mt8192-clk.h, this patch already in clk tree[2].
+
+[1]https://patchwork.linuxtv.org/project/linux-media/list/?series=5826
+[2]https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?h=clk-next&id=f35f1a23e0e12e3173e9e9dedbc150d139027189
+----
+Changes compared with v5:
+-Add decoder hardware block diagram for patch 13/15
+
+Changes compared with v4:
+- Fix comments for patch 4/15
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  Fix platform_set_drvdata.
+- Fix build error for patch 9/15
+- Add depend patch in case of error header file for patch 13/15
+
+Changes compared with v3:
+- Fix return value for patch 1/15
+- Fix comments for patch 4/15
+  > Looking up "mediatek,mtk-vcodec-core" to determine if it uses component framwork sounds like...
+  Add prameter in pdata, for all platform will use compoent after mt8183
+
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  > + Has asked the same question in [1].  Why it removes the
+  > +platform_set_drvdata() above?  mtk_vcodec_init_master() also calls platform_set_drvdata().
+  Must call component_master_add_with_match after platform_set_drvdata for component architecture.
+- Fix yaml files check fail for patch 5/15
+- Fix yaml file check fail for patch 14/15
+
+Changes compared with v1:
+- Fix many comments for patch 3/14
+- Remove unnecessary code for patch 4/14
+- Using enum mtk_vdec_hw_count instead of magic numbers for patch 6/14
+- Reconstructed get/put lat buffer for lat and core hardware for patch 7/14
+- Using yaml format to instead of txt file for patch 12/14
+
+Yunfei Dong (15):
+  media: mtk-vcodec: Get numbers of register bases from DT
+  media: mtk-vcodec: Align vcodec wake up interrupt interface
+  media: mtk-vcodec: Refactor vcodec pm interface
+  media: mtk-vcodec: Use component framework to manage each hardware
+    information
+  dt-bindings: media: mtk-vcodec: Separate video encoder and decoder
+    dt-bindings
+  media: mtk-vcodec: Use pure single core for MT8183
+  media: mtk-vcodec: Add irq interface for multi hardware
+  media: mtk-vcodec: Add msg queue feature for lat and core architecture
+  media: mtk-vcodec: Generalize power and clock on/off interfaces
+  media: mtk-vcodec: Add new interface to lock different hardware
+  media: mtk-vcodec: Add core thread
+  media: mtk-vcodec: Support 34bits dma address for vdec
+  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8192
+  media: mtk-vcodec: Add core dec and dec end ipi msg
+  media: mtk-vcodec: Use codec type to separate different hardware
+
+ .../media/mediatek,vcodec-comp-decoder.yaml   | 192 ++++++++++++
+ .../media/mediatek,vcodec-decoder.yaml        | 175 +++++++++++
+ .../media/mediatek,vcodec-encoder.yaml        | 185 +++++++++++
+ .../bindings/media/mediatek-vcodec.txt        | 130 --------
+ drivers/media/platform/mtk-vcodec/Makefile    |   2 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.h      |   1 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 276 ++++++++++++++---
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 184 +++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  53 ++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  98 ++++--
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  13 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   2 +
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |   2 +
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  71 ++++-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  12 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |   1 -
+ .../platform/mtk-vcodec/mtk_vcodec_intr.c     |  27 +-
+ .../platform/mtk-vcodec/mtk_vcodec_intr.h     |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_util.c     |  87 +++++-
+ .../platform/mtk-vcodec/mtk_vcodec_util.h     |   8 +-
+ .../platform/mtk-vcodec/vdec/vdec_h264_if.c   |   2 +-
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    |   2 +-
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |  21 +-
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  16 +-
+ .../platform/mtk-vcodec/vdec_msg_queue.c      | 290 ++++++++++++++++++
+ .../platform/mtk-vcodec/vdec_msg_queue.h      | 157 ++++++++++
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  46 ++-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  22 ++
+ .../platform/mtk-vcodec/venc/venc_h264_if.c   |   2 +-
+ .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   2 +-
+ 33 files changed, 1812 insertions(+), 279 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
+
+-- 
+2.25.1
+
