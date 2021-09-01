@@ -2,157 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 245203FDE3E
-	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 17:07:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A7473FE141
+	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 19:39:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245699AbhIAPIv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Sep 2021 11:08:51 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39316 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S245659AbhIAPIt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 1 Sep 2021 11:08:49 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 181F3E6h109346;
-        Wed, 1 Sep 2021 11:07:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=WubeIqV+bNHaxDT9oH2jQj2VFae/G2tEpJEEH2xmuRA=;
- b=jK0ZvE9bXuPpXwyCuebtRZGkn9REAU23/RgbFFYuiUHRJDD0wDke2ED3RAIRTlCzTdua
- 8xHmCBdWKwQLnWkxttctC9iG7C+A1gb11u9H/bqRrqA4WnipDPakPB+gkf2J0uwN4+vX
- txv6ZpNYbk9AYHVftdIAq6SF2nYKw1moB2NFBS+Og26r6PwyJ2jY3OsAyAb+X6Kj7SlK
- JzZN9BKCxOMqg8pFrhTnySZ2BddmziQqO6WClF7zwsZL6lsnvojZzWzvWRN5n04d7KVP
- RkdgP5g463yZ8xK4I6gv9NPEM3HZ0XpRpLk5WpVDzXSV8foIovMZoa2/NqQttIGX8ZRb iQ== 
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3atafaax55-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 01 Sep 2021 11:07:30 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
-        by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 181F4Zgu028916;
-        Wed, 1 Sep 2021 15:07:29 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com [9.57.198.24])
-        by ppma03dal.us.ibm.com with ESMTP id 3aqcsdpjdc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 01 Sep 2021 15:07:29 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 181F7S9t31326684
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 1 Sep 2021 15:07:28 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 44C41B201A;
-        Wed,  1 Sep 2021 15:07:28 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A4008B2014;
-        Wed,  1 Sep 2021 15:07:26 +0000 (GMT)
-Received: from v0005c16 (unknown [9.163.14.239])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Wed,  1 Sep 2021 15:07:26 +0000 (GMT)
-Message-ID: <46edf81d60a38747f7d2511f840253a1c6867652.camel@linux.ibm.com>
-Subject: Re: [PATCH v3] media: aspeed-video: ignore interrupts that aren't
- enabled
-From:   Eddie James <eajames@linux.ibm.com>
-To:     Zev Weiss <zev@bewilderbeest.net>
-Cc:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Ryan Chen <ryan_chen@aspeedtech.com>,
-        linux-aspeed@lists.ozlabs.org, Andrew Jeffery <andrew@aj.id.au>,
-        openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Date:   Wed, 01 Sep 2021 10:07:24 -0500
-In-Reply-To: <20210617220229.7352-1-zev@bewilderbeest.net>
-References: <20210617220229.7352-1-zev@bewilderbeest.net>
-Organization: IBM
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: zdqbiPxpgkzQjwtL_Sk62UEYgccaUkzp
-X-Proofpoint-GUID: zdqbiPxpgkzQjwtL_Sk62UEYgccaUkzp
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-09-01_05:2021-09-01,2021-09-01 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
- priorityscore=1501 bulkscore=0 adultscore=0 impostorscore=0 spamscore=0
- suspectscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2109010087
+        id S1344721AbhIARkO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Sep 2021 13:40:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39074 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S245390AbhIARkF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Sep 2021 13:40:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id C15BB6101B;
+        Wed,  1 Sep 2021 17:39:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1630517948;
+        bh=nSohzaiG1ChUPwc4Y2kHM8jk6O9DZ8nBLdH8HgbRBac=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=NvtvqrSggcbB9JFAbElo5PAmKqpNUE2yZ/q1xo9zFh8l1/lmoe8PUgyobQUyfwKyT
+         nxmvWXgmIh8dn+KSv52nESYDMC4MmgivH2tpP/RuZSQli6eY3Gc9ZtdlfyUkXy1+fq
+         VhkAd2PKCYrSndhBV+mKKaPf0IVTHHuOwqYEU5GO95v1DCAjIL7r1ZdYSuSxEh/fLQ
+         ZYfbkqzOXWsI16P775J8AJg+Yob6M3BWxj3vfmo3+I/FxcTmJBvwkHJYPeyBoYljro
+         kQyTJMNnpZzC6Fo7P7zNjrQE9+WmhA6OJm8v8bkOtfW8bKyzVKGCIDrz9JCt2kUhlE
+         fPsvSrXLI3KPQ==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id B75DD6098E;
+        Wed,  1 Sep 2021 17:39:08 +0000 (UTC)
+Subject: Re: [GIT PULL for v5.15-rc1] media updates
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20210901094428.441b12c5@coco.lan>
+References: <20210901094428.441b12c5@coco.lan>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20210901094428.441b12c5@coco.lan>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.15-1
+X-PR-Tracked-Commit-Id: 9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 835d31d319d9c8c4eb6cac074643360ba0ecab10
+Message-Id: <163051794874.15355.5028945702046472160.pr-tracker-bot@kernel.org>
+Date:   Wed, 01 Sep 2021 17:39:08 +0000
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2021-06-17 at 17:02 -0500, Zev Weiss wrote:
-> As partially addressed in commit 65d270acb2d6 ("media: aspeed: clear
-> garbage interrupts"), the ASpeed video engine sometimes asserts
-> interrupts that the driver hasn't enabled.  In addition to the
-> CAPTURE_COMPLETE and FRAME_COMPLETE interrupts dealt with in that
-> patch, COMP_READY has also been observed.  Instead of playing
-> whack-a-mole with each one individually, we can instead just blanket
-> ignore everything we haven't explicitly enabled.
+The pull request you sent on Wed, 1 Sep 2021 09:44:28 +0200:
 
-Suspect this will fix an intermittent problem on AST2500 with
-screensaver. Change looks good, thanks!
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.15-1
 
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/835d31d319d9c8c4eb6cac074643360ba0ecab10
 
-> 
-> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
-> ---
-> 
-> Changes since v2 [1]:
->  - minor commit message improvements
-> 
-> Changes since v1 [0]:
->  - dropped error message
->  - switched to a blanket-ignore approach as suggested by Ryan
-> 
-> [0] 
-> https://lore.kernel.org/linux-arm-kernel/20201215024542.18888-1-zev@bewilderbeest.net/
-> [1] 
-> https://lore.kernel.org/openbmc/20210506234048.3214-1-zev@bewilderbeest.net/
-> 
->  drivers/media/platform/aspeed-video.c | 16 ++++++----------
->  1 file changed, 6 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/platform/aspeed-video.c
-> b/drivers/media/platform/aspeed-video.c
-> index 7bb6babdcade..77611c296a25 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -563,6 +563,12 @@ static irqreturn_t aspeed_video_irq(int irq,
-> void *arg)
->  	struct aspeed_video *video = arg;
->  	u32 sts = aspeed_video_read(video, VE_INTERRUPT_STATUS);
->  
-> +	/*
-> +	 * Hardware sometimes asserts interrupts that we haven't
-> actually
-> +	 * enabled; ignore them if so.
-> +	 */
-> +	sts &= aspeed_video_read(video, VE_INTERRUPT_CTRL);
-> +
->  	/*
->  	 * Resolution changed or signal was lost; reset the engine and
->  	 * re-initialize
-> @@ -629,16 +635,6 @@ static irqreturn_t aspeed_video_irq(int irq,
-> void *arg)
->  			aspeed_video_start_frame(video);
->  	}
->  
-> -	/*
-> -	 * CAPTURE_COMPLETE and FRAME_COMPLETE interrupts come even
-> when these
-> -	 * are disabled in the VE_INTERRUPT_CTRL register so clear them
-> to
-> -	 * prevent unnecessary interrupt calls.
-> -	 */
-> -	if (sts & VE_INTERRUPT_CAPTURE_COMPLETE)
-> -		sts &= ~VE_INTERRUPT_CAPTURE_COMPLETE;
-> -	if (sts & VE_INTERRUPT_FRAME_COMPLETE)
-> -		sts &= ~VE_INTERRUPT_FRAME_COMPLETE;
-> -
->  	return sts ? IRQ_NONE : IRQ_HANDLED;
->  }
->  
+Thank you!
 
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
