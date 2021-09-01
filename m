@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD2AB3FD59E
-	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 10:34:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BE6E3FD597
+	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 10:34:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243381AbhIAId4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Sep 2021 04:33:56 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:43370 "EHLO
+        id S243362AbhIAIdl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Sep 2021 04:33:41 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:43360 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S243305AbhIAIdg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 04:33:36 -0400
-X-UUID: 145919c5bf884c09bb44cf065c520b1d-20210901
-X-UUID: 145919c5bf884c09bb44cf065c520b1d-20210901
+        with ESMTP id S243358AbhIAIdf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 04:33:35 -0400
+X-UUID: 41a033590e39428d92f64b0d4a8ff05b-20210901
+X-UUID: 41a033590e39428d92f64b0d4a8ff05b-20210901
 Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
         (envelope-from <yunfei.dong@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1015915197; Wed, 01 Sep 2021 16:32:34 +0800
+        with ESMTP id 1757956000; Wed, 01 Sep 2021 16:32:36 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 1 Sep 2021 16:32:33 +0800
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 1 Sep 2021 16:32:34 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 1 Sep 2021 16:32:32 +0800
+ Transport; Wed, 1 Sep 2021 16:32:33 +0800
 From:   Yunfei Dong <yunfei.dong@mediatek.com>
 To:     Yunfei Dong <yunfei.dong@mediatek.com>,
         Alexandre Courbot <acourbot@chromium.org>,
@@ -46,9 +46,9 @@ CC:     Daniel Vetter <daniel@ffwll.ch>,
         <srv_heupstream@mediatek.com>,
         <linux-mediatek@lists.infradead.org>,
         <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v6, 10/15] media: mtk-vcodec: Add new interface to lock different hardware
-Date:   Wed, 1 Sep 2021 16:32:10 +0800
-Message-ID: <20210901083215.25984-11-yunfei.dong@mediatek.com>
+Subject: [PATCH v6, 11/15] media: mtk-vcodec: Add core thread
+Date:   Wed, 1 Sep 2021 16:32:11 +0800
+Message-ID: <20210901083215.25984-12-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210901083215.25984-1-yunfei.dong@mediatek.com>
 References: <20210901083215.25984-1-yunfei.dong@mediatek.com>
@@ -59,73 +59,131 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For add new hardware, not only need to lock lat hardware, also
-need to lock core hardware in case of different instance start
-to decoder at the same time.
+Core thread:
+1. Gets lat_buf from core msg queue.
+2. Proceeds core decode.
+3. Puts the lat_buf back to lat msg queue.
+
+Both H264 and VP9 rely on the core thread.
 
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c     | 4 ++--
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c | 6 +++---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h     | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 12 +++++++
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  7 ++++
+ .../platform/mtk-vcodec/vdec_msg_queue.c      | 32 +++++++++++++++++++
+ .../platform/mtk-vcodec/vdec_msg_queue.h      |  6 ++++
+ 4 files changed, 57 insertions(+)
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-index 2b334a8a81c6..130ecef2e766 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-@@ -105,12 +105,12 @@ static int vidioc_decoder_cmd(struct file *file, void *priv,
- 
- void mtk_vdec_unlock(struct mtk_vcodec_ctx *ctx)
- {
--	mutex_unlock(&ctx->dev->dec_mutex);
-+	mutex_unlock(&ctx->dev->dec_mutex[ctx->hw_id]);
- }
- 
- void mtk_vdec_lock(struct mtk_vcodec_ctx *ctx)
- {
--	mutex_lock(&ctx->dev->dec_mutex);
-+	mutex_lock(&ctx->dev->dec_mutex[ctx->hw_id]);
- }
- 
- void mtk_vcodec_dec_release(struct mtk_vcodec_ctx *ctx)
 diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-index 109f7de126a1..e448cb238c7f 100644
+index e448cb238c7f..002352fcf8de 100644
 --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
 +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-@@ -373,7 +373,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 	struct video_device *vfd_dec;
- 	phandle rproc_phandle;
- 	enum mtk_vcodec_fw_type fw_type;
--	int ret;
-+	int i, ret;
- 
- 	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
- 	if (!dev)
-@@ -405,8 +405,8 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+@@ -405,6 +405,18 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
  		goto err_dec_pm;
  	}
  
--	mutex_init(&dev->dec_mutex);
--	mutex_init(&dev->dev_mutex);
-+	for (i = 0; i < MTK_VDEC_HW_MAX; i++)
-+		mutex_init(&dev->dec_mutex[i]);
++	if (VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch)) {
++		vdec_msg_queue_init_ctx(&dev->msg_queue_core_ctx,
++			MTK_VDEC_CORE);
++		dev->kthread_core = kthread_run(vdec_msg_queue_core_thead, dev,
++			"mtk-%s", "core");
++		if (IS_ERR(dev->kthread_core)) {
++			dev_err(&pdev->dev, "Failed to create core thread");
++			ret = PTR_ERR(dev->kthread_core);
++			goto err_res;
++		}
++	}
++
+ 	for (i = 0; i < MTK_VDEC_HW_MAX; i++)
+ 		mutex_init(&dev->dec_mutex[i]);
  	spin_lock_init(&dev->irqlock);
- 
- 	snprintf(dev->v4l2_dev.name, sizeof(dev->v4l2_dev.name), "%s",
 diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-index a8242389ad24..f1e63acaec76 100644
+index f1e63acaec76..b6f030a6e55f 100644
 --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
 +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-@@ -496,7 +496,7 @@ struct mtk_vcodec_dev {
- 	int dec_irq;
- 	int enc_irq;
+@@ -27,6 +27,7 @@
+ #define MTK_VCODEC_MAX_PLANES	3
+ #define MTK_V4L2_BENCHMARK	0
+ #define WAIT_INTR_TIMEOUT_MS	1000
++#define VDEC_LAT_ARCH(hw_arch) ((hw_arch) >= MTK_VDEC_LAT_SINGLE_CORE)
  
--	struct mutex dec_mutex;
-+	struct mutex dec_mutex[MTK_VDEC_HW_MAX];
- 	struct mutex enc_mutex;
+ /*
+  * enum mtk_hw_reg_idx - MTK hw register base index
+@@ -465,6 +466,9 @@ struct mtk_vcodec_enc_pdata {
+  *
+  * @comp_dev: component hardware device
+  * @component_node: component node
++ *
++ * @kthread_core: thread used for core hardware decode
++ * @msg_queue_core_ctx: msg queue context used for core thread
+  */
+ struct mtk_vcodec_dev {
+ 	struct v4l2_device v4l2_dev;
+@@ -505,6 +509,9 @@ struct mtk_vcodec_dev {
  
- 	struct mtk_vcodec_pm pm;
+ 	void *comp_dev[MTK_VDEC_HW_MAX];
+ 	struct device_node *component_node[MTK_VDEC_HW_MAX];
++
++	struct task_struct *kthread_core;
++	struct vdec_msg_queue_ctx msg_queue_core_ctx;
+ };
+ 
+ static inline struct mtk_vcodec_ctx *fh_to_ctx(struct v4l2_fh *fh)
+diff --git a/drivers/media/platform/mtk-vcodec/vdec_msg_queue.c b/drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+index d66ed98c79a9..665f571eab4b 100644
+--- a/drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
++++ b/drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+@@ -256,3 +256,35 @@ void vdec_msg_queue_deinit(
+ 			kfree(lat_buf->private_data);
+ 	}
+ }
++
++int vdec_msg_queue_core_thead(void *data)
++{
++	struct mtk_vcodec_dev *dev = data;
++	struct vdec_lat_buf *lat_buf;
++	struct mtk_vcodec_ctx *ctx;
++
++	set_freezable();
++	for (;;) {
++		try_to_freeze();
++		if (kthread_should_stop())
++			break;
++
++		lat_buf = vdec_msg_queue_dqbuf(&dev->msg_queue_core_ctx);
++		if (!lat_buf)
++			continue;
++
++		ctx = lat_buf->ctx;
++		mtk_vcodec_set_curr_ctx(dev, ctx, MTK_VDEC_CORE);
++
++		if (!lat_buf->core_decode)
++			mtk_v4l2_err("Core decode callback func is NULL");
++		else
++			lat_buf->core_decode(lat_buf);
++
++		mtk_vcodec_set_curr_ctx(dev, NULL, MTK_VDEC_CORE);
++		vdec_msg_queue_qbuf(&ctx->msg_queue.lat_ctx, lat_buf);
++	}
++
++	mtk_v4l2_debug(3, "Video Capture Thread End");
++	return 0;
++}
+diff --git a/drivers/media/platform/mtk-vcodec/vdec_msg_queue.h b/drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
+index 1905ce713592..b5745b144140 100644
+--- a/drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
++++ b/drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
+@@ -148,4 +148,10 @@ void vdec_msg_queue_deinit(
+ 	struct vdec_msg_queue *msg_queue,
+ 	struct mtk_vcodec_ctx *ctx);
+ 
++/**
++ * vdec_msg_queue_core_thead - used for core decoder.
++ * @data: private data used for each codec
++ */
++int vdec_msg_queue_core_thead(void *data);
++
+ #endif
 -- 
 2.25.1
 
