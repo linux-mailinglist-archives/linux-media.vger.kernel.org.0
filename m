@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F41BF3FD930
-	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 14:03:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48FD43FD931
+	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 14:03:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243873AbhIAMDr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Sep 2021 08:03:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51566 "EHLO
+        id S243968AbhIAMDs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Sep 2021 08:03:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243926AbhIAMDp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 08:03:45 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62244C061760
-        for <linux-media@vger.kernel.org>; Wed,  1 Sep 2021 05:02:48 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id d26so4230695wrc.0
-        for <linux-media@vger.kernel.org>; Wed, 01 Sep 2021 05:02:48 -0700 (PDT)
+        with ESMTP id S243965AbhIAMDq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 08:03:46 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41F72C061764
+        for <linux-media@vger.kernel.org>; Wed,  1 Sep 2021 05:02:49 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id v10so4123360wrd.4
+        for <linux-media@vger.kernel.org>; Wed, 01 Sep 2021 05:02:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kvjkshBsZL+MRjib8570PI/tuRb4iFlF0PaMehLZjJ4=;
-        b=dzSvn4RHJttKFOSm64mEroR9IRoIt9UyaGH17DQXq7LbKzUI44YaM4wVrBG4fUM76S
-         V9WFpFC6vjx5iF4Wn21HwjhrbT1YgPr8EpBw4TZWvNmD+4E65GjR1IQ6pJtLYclnt80u
-         Qr1ebxChCighqupPu5X32f6XSuKwrZ84IpgHwh41vcvkxRPwViQnwF5ufaIY6wnGqqg8
-         5IKo6JQ4AZoyhczqpjlPRRmDGNX16SNKabaInV4ozPj+wRuLtLukddB8mUQXLjWQBGkf
-         jeDuQn4hp6dmCOmxeg7w7q0VkXXQElXCDwVu2cv1tGIGafl7bsGxK33y5esn5gQBkORC
-         A/rA==
+        bh=t19VNYD7z90zjqfUtw8wZympFk0WCxWbJcimp6O0h0E=;
+        b=G6ETOEwW1DPJao3SNyHPhkWySxellpwcrOanOx+H/U7C60K1lguHGdZmCJRhXBf3wf
+         DBTcqxD2TEZNZSpFgA2EDgdJQU2E86xO5+toACv95jPAd5le/2TG6Vy1WGZJs+gH8kGh
+         ek7/eCwhfvaygdmXw+kUt35t/X6Dr8xxXyg2RzH7xXSvxXi0kVpusUS2v3NW6rkMmgU/
+         bxMvFO6cbDpiMe6jPWR5ZjG2TRrT2r+PxeAK2jBwsBILg+CM2IZ2sBusluOmYs83rD6f
+         s4WH4X2oNm2nxupCldljLiylGJhtgBKgqjCKSXoVB2x7OIsXE+gh0TYAGmA3VVA42Ft1
+         o4Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kvjkshBsZL+MRjib8570PI/tuRb4iFlF0PaMehLZjJ4=;
-        b=k1MZfCoeKRfeBTSGZ3SgJNZQ2DJLIo+F2a2EILVXtBd2AVqK1CWPFmKDMkwEGpdX5E
-         qiGZQwIqmom1Xk7L+gSY0NzynY2GcXufiXqbPu0nwOnoiIHP4+bgPvaHGy5EqsKH/ZY8
-         qInyYNNpFTdvOlcoRxt7Z9suM+9U+DUaeKFCQcfYeTlcAfnCPQQXNz5y1FE3mwRlJJUh
-         dA3NxYfOE23htH0mpUmBXhzf3jLUHvd47s0ejHi2mnhrtMhKxW9wd4RcFMd1tOfVzUEu
-         T02/RfQpRU0zQZnGZd8Cp366DvCiQnjj/IRbMIDfd9f1SBSv8aztBGvQK4UsFQabeJWg
-         YuJw==
-X-Gm-Message-State: AOAM5312XSZjYQVvOxesJKOHY3zxr3oIhXBVlMamnHw8bnluQNHzYrLn
-        Jr3lOoUjNHHS6ui2qa3bbVU=
-X-Google-Smtp-Source: ABdhPJxLTeJ8VsgxsRlNO8XS7iVSjRXV9946sSFr+9mkf0DaEKe11SupLqOFNweo1Y+23uPd10G1Vg==
-X-Received: by 2002:adf:9151:: with SMTP id j75mr37560030wrj.68.1630497767071;
+        bh=t19VNYD7z90zjqfUtw8wZympFk0WCxWbJcimp6O0h0E=;
+        b=VFJSBLWvwLDH2u0XGWkaV/zWfH2qFm78wvK/46IALtJ1pN2lAIowXnKP6PMAtT6wqG
+         TBesSR5Ik7NkwImYcsYILDl+nTI308pkCBBzXmPI3xdhjAgSF8vcKnQHkZPVg1Bd27lA
+         jIKcK7ZPFR39ZnDHxWhBIM9WOON2EcX0t6IhUX5K1Gm1gI/jbPu+zIqspjv/KTtnPTbg
+         0G/V8IcfTpusBAzNI/br50xrsNcCa8+DvmHMgKCttS59lhvSIDUBsJ/ibpG9N/NfZWs6
+         6syDnoBni8NABi2jYwun0Fq1QUBTANHXkJSiyLUxfZ9zpK/mhd2rppVejB1ixfolH/3X
+         1Obg==
+X-Gm-Message-State: AOAM53103zH8/tu8nQnyoxYopCEMWbYMbCdmB3ITksLLcSG4Z7b2WW0P
+        2DSIu3CVSABEJ0LvTCawuf4=
+X-Google-Smtp-Source: ABdhPJwwDwe3tgn7MblJIyLmFJyjf2zJInaWT7+HVsxQIqE9k+Ba7sN30IGAwqd20tWoBoVKXpyneA==
+X-Received: by 2002:adf:90d0:: with SMTP id i74mr36369414wri.185.1630497767938;
         Wed, 01 Sep 2021 05:02:47 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id l7sm5641336wmj.9.2021.09.01.05.02.46
+        by smtp.gmail.com with ESMTPSA id l7sm5641336wmj.9.2021.09.01.05.02.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Sep 2021 05:02:46 -0700 (PDT)
+        Wed, 01 Sep 2021 05:02:47 -0700 (PDT)
 From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
         <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 To:     dri-devel@lists.freedesktop.org
 Cc:     daniel@ffwll.ch, linux-media@vger.kernel.org,
         linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 1/2] dma-buf: clarify dma_fence_ops->wait documentation
-Date:   Wed,  1 Sep 2021 14:02:39 +0200
-Message-Id: <20210901120240.7339-2-christian.koenig@amd.com>
+Subject: [PATCH 2/2] dma-buf: clarify dma_fence_add_callback documentation
+Date:   Wed,  1 Sep 2021 14:02:40 +0200
+Message-Id: <20210901120240.7339-3-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210901120240.7339-1-christian.koenig@amd.com>
 References: <20210901120240.7339-1-christian.koenig@amd.com>
@@ -66,42 +66,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This callback is pretty much deprecated and should not be used by new implementations.
+That the caller doesn't need to keep a reference is rather
+risky and not defensive at all.
 
-Clarify that in the documentation as well.
+Especially dma_buf_poll got that horrible wrong, so better
+remove that sentence and also clarify that the callback
+might be called in atomic or interrupt context.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- include/linux/dma-fence.h | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/dma-buf/dma-fence.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 6ffb4b2c6371..a44e42b86c2a 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -214,19 +214,15 @@ struct dma_fence_ops {
- 	 * Custom wait implementation, defaults to dma_fence_default_wait() if
- 	 * not set.
- 	 *
--	 * The dma_fence_default_wait implementation should work for any fence, as long
--	 * as @enable_signaling works correctly. This hook allows drivers to
--	 * have an optimized version for the case where a process context is
--	 * already available, e.g. if @enable_signaling for the general case
--	 * needs to set up a worker thread.
-+	 * Deprecated and should not be used by new implementations. Only used
-+	 * by existing implementations which need special handling for their
-+	 * hardware reset procedure.
- 	 *
- 	 * Must return -ERESTARTSYS if the wait is intr = true and the wait was
- 	 * interrupted, and remaining jiffies if fence has signaled, or 0 if wait
- 	 * timed out. Can also return other error values on custom implementations,
- 	 * which should be treated as if the fence is signaled. For example a hardware
- 	 * lockup could be reported like that.
--	 *
--	 * This callback is optional.
- 	 */
- 	signed long (*wait)(struct dma_fence *fence,
- 			    bool intr, signed long timeout);
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index ce0f5eff575d..1e82ecd443fa 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -616,20 +616,17 @@ EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
+  * @cb: the callback to register
+  * @func: the function to call
+  *
++ * Add a software callback to the fence. The caller should keep a reference to
++ * the fence.
++ *
+  * @cb will be initialized by dma_fence_add_callback(), no initialization
+  * by the caller is required. Any number of callbacks can be registered
+  * to a fence, but a callback can only be registered to one fence at a time.
+  *
+- * Note that the callback can be called from an atomic context.  If
+- * fence is already signaled, this function will return -ENOENT (and
++ * If fence is already signaled, this function will return -ENOENT (and
+  * *not* call the callback).
+  *
+- * Add a software callback to the fence. Same restrictions apply to
+- * refcount as it does to dma_fence_wait(), however the caller doesn't need to
+- * keep a refcount to fence afterward dma_fence_add_callback() has returned:
+- * when software access is enabled, the creator of the fence is required to keep
+- * the fence alive until after it signals with dma_fence_signal(). The callback
+- * itself can be called from irq context.
++ * Note that the callback can be called from an atomic context or irq context.
+  *
+  * Returns 0 in case of success, -ENOENT if the fence is already signaled
+  * and -EINVAL in case of error.
 -- 
 2.25.1
 
