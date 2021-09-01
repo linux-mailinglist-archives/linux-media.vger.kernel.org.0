@@ -2,251 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 397293FD8D5
-	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 13:34:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA31A3FD8DC
+	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 13:37:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243809AbhIALfA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Sep 2021 07:35:00 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35334 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234678AbhIALe7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 07:34:59 -0400
-Received: from [IPv6:2a01:e0a:4cb:a870:7491:e42a:441d:8852] (unknown [IPv6:2a01:e0a:4cb:a870:7491:e42a:441d:8852])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8D3FE1F4132A;
-        Wed,  1 Sep 2021 12:33:55 +0100 (BST)
-Subject: Re: [PATCH] media: hantro: Trace hevc hw cycles performance register
-To:     Hans Verkuil <hverkuil@xs4all.nl>, mchehab@kernel.org,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
-        Ezequiel Garcia <elezegarcia@gmail.com>
-References: <20210823135606.633052-1-benjamin.gaignard@collabora.com>
- <f9edaa49-31cb-b98f-1c79-13b151513077@xs4all.nl>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <9e973cfd-5c12-26e9-d28e-0305cae1c5c5@collabora.com>
-Date:   Wed, 1 Sep 2021 13:33:52 +0200
+        id S243753AbhIALi3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Sep 2021 07:38:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45684 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243737AbhIALi2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 07:38:28 -0400
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18CFBC061575
+        for <linux-media@vger.kernel.org>; Wed,  1 Sep 2021 04:37:31 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id LOYbmJoGs0e6wLOYcmQHGl; Wed, 01 Sep 2021 13:37:30 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1630496250; bh=BMJwXxcYkRJkpKaGwc2kbHAlTfuJLXlXscdxpZtp1UE=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=DuQdFB6BBHUaWbQht90QBzQl3DC27/S89dvlvqvOhxRH+VDcU/+KktD4WXpBm+uuK
+         4CNQ8B4AW3qEeZsqp7u3RnAusEKoZX0/HOxTwJjGrMJJ9mmdeIKPnJ9mDWdx8PBWCT
+         AGTWbTNB+mp52JFwXmLb+xxY+Kl+E/J1vxjgoG8wtVi3qoRHkeXgub+8tIR1qHOFCD
+         I/34Ez/f5Zs6WiSBJZMg1j6wmM2oQszekSoL7dPACGZoBsz56poiVP8dzK9+ocw+vR
+         Ng9s/oWCB4J9aFqnTMlokTSoxtMig6qahJVnIokAM5IGKM4iwJSBEHZ97YNRCCMHTo
+         Qe1s38l3Gwa5A==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.16] Various fixes
+Message-ID: <7151eb26-7cea-aff8-24e5-587266b700c0@xs4all.nl>
+Date:   Wed, 1 Sep 2021 13:37:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <f9edaa49-31cb-b98f-1c79-13b151513077@xs4all.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfB3agM7kdNC70GFOIOydBVz60zyr8l8zJqrhczHB9IXa6kW5ljfsI8QkgJMiNbYfGiFmYoOEcUQ3tJuP+nD2atNnUxos1SfDpr5l70xUk6LA+LZWeMn8
+ 9S2bS+THRt3PzFWeLnLZ1k27yHUKo6MVHKyxDIuAf2UyWcS8AU+a7M5Ymm1Bnvnqx7fp7R98c8ewGa4u2p0jt/RUwCFw5D9+RLl4IZKwVBStHTGIyJUHFC/4
+ DSSg4/tdx4XRzD3Vn1+xECc3MFf+89FsOFP9bSg7tUh5Hna+AtSuQQDJta/MPVmM
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The following changes since commit d62cd4d277cc711f781a7bdec4109c6148529b25:
 
-Le 01/09/2021 à 13:27, Hans Verkuil a écrit :
-> Hi Benjamin,
->
-> I'm confused: this is also part of '[PATCH v4 0/9] Additional features for Hantro HEVC', so
-> do you want to merge this independently from that series? Are there differences between v4 1/9
-> and this patch, or are they identical?
+  media: uvcvideo: Remove unused including <linux/version.h> (2021-08-21 09:11:04 +0200)
 
-Hi Hans,
+are available in the Git repository at:
 
-I thought that the series was to big so I decide to split it on smallest independent pieces.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.16c
 
->
-> In any case, I'd like to have a Reviewed-by or Acked-by from Ezequiel before merging this.
+for you to fetch changes up to 1ff8a1958e10f52762323ab98ad84bd417c4bd24:
 
-Get Ezequiel feedback is definitively need :-)
+  gspca: Limit frame size to sizeimage. (2021-09-01 13:29:39 +0200)
 
-Regards,
+----------------------------------------------------------------
+Tag branch
 
-Benjamin
+----------------------------------------------------------------
+Cai Huoqing (3):
+      media: smsusb: Use usb_get_dev() for the reference count of udev
+      media: videobuf2: Convert to SPDX identifier
+      media: vim2m: Remove repeated verbose license text
 
->
-> Regards,
->
-> 	Hans
->
-> On 23/08/2021 15:56, Benjamin Gaignard wrote:
->> After each hevc decoded frame trace the hardware performance.
->> It provides the number of hw cycles spend per decoded macroblock.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>   Documentation/admin-guide/media/hantro.rst    | 14 +++++++
->>   .../admin-guide/media/v4l-drivers.rst         |  1 +
->>   drivers/staging/media/hantro/hantro_drv.c     |  3 ++
->>   .../staging/media/hantro/hantro_g2_hevc_dec.c | 16 ++++++++
->>   drivers/staging/media/hantro/hantro_g2_regs.h |  1 +
->>   drivers/staging/media/hantro/hantro_hw.h      |  1 +
->>   drivers/staging/media/hantro/hantro_trace.h   | 41 +++++++++++++++++++
->>   drivers/staging/media/hantro/imx8m_vpu_hw.c   |  1 +
->>   8 files changed, 78 insertions(+)
->>   create mode 100644 Documentation/admin-guide/media/hantro.rst
->>   create mode 100644 drivers/staging/media/hantro/hantro_trace.h
->>
->> diff --git a/Documentation/admin-guide/media/hantro.rst b/Documentation/admin-guide/media/hantro.rst
->> new file mode 100644
->> index 000000000000..6cb552a5dfcb
->> --- /dev/null
->> +++ b/Documentation/admin-guide/media/hantro.rst
->> @@ -0,0 +1,14 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +=================
->> +The hantro driver
->> +=================
->> +
->> +Trace
->> +~~~~~
->> +
->> +You can trace the hardware decoding performances by using event tracing::
->> +
->> +    # echo hantro_hevc_perf >> /sys/kernel/debug/tracing/set_event
->> +
->> +That will keep a log of the number of hardware cycles spend per decoded macroblock
->> diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
->> index 9c7ebe2ca3bd..4f2f72a2b3b5 100644
->> --- a/Documentation/admin-guide/media/v4l-drivers.rst
->> +++ b/Documentation/admin-guide/media/v4l-drivers.rst
->> @@ -15,6 +15,7 @@ Video4Linux (V4L) driver-specific documentation
->>   	cx88
->>   	davinci-vpbe
->>   	fimc
->> +        hantro
->>   	imx
->>   	imx7
->>   	ipu3
->> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
->> index 8a2edd67f2c6..236160c51e59 100644
->> --- a/drivers/staging/media/hantro/hantro_drv.c
->> +++ b/drivers/staging/media/hantro/hantro_drv.c
->> @@ -28,6 +28,9 @@
->>   #include "hantro.h"
->>   #include "hantro_hw.h"
->>   
->> +#define CREATE_TRACE_POINTS
->> +#include "hantro_trace.h"
->> +
->>   #define DRIVER_NAME "hantro-vpu"
->>   
->>   int hantro_debug;
->> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> index 340efb57fd18..fef16d1724da 100644
->> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> @@ -7,6 +7,7 @@
->>   
->>   #include "hantro_hw.h"
->>   #include "hantro_g2_regs.h"
->> +#include "hantro_trace.h"
->>   
->>   #define HEVC_DEC_MODE	0xC
->>   
->> @@ -22,6 +23,21 @@ static inline void hantro_write_addr(struct hantro_dev *vpu,
->>   	vdpu_write(vpu, addr & 0xffffffff, offset);
->>   }
->>   
->> +void hantro_g2_hevc_dec_done(struct hantro_ctx *ctx)
->> +{
->> +	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
->> +	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
->> +	struct hantro_dev *vpu = ctx->dev;
->> +	u32 hw_cycles = 0;
->> +	u32 mbs = (sps->pic_width_in_luma_samples *
->> +		   sps->pic_height_in_luma_samples) >> 8;
->> +
->> +	if (mbs)
->> +		hw_cycles = vdpu_read(vpu, G2_HW_PERFORMANCE) / mbs;
->> +
->> +	trace_hantro_hevc_perf(ctx, hw_cycles);
->> +}
->> +
->>   static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
->>   {
->>   	struct hantro_dev *vpu = ctx->dev;
->> diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
->> index bb22fa921914..17d84ec9c5c2 100644
->> --- a/drivers/staging/media/hantro/hantro_g2_regs.h
->> +++ b/drivers/staging/media/hantro/hantro_g2_regs.h
->> @@ -177,6 +177,7 @@
->>   #define G2_REG_CONFIG_DEC_CLK_GATE_E		BIT(16)
->>   #define G2_REG_CONFIG_DEC_CLK_GATE_IDLE_E	BIT(17)
->>   
->> +#define G2_HW_PERFORMANCE	(G2_SWREG(63))
->>   #define G2_ADDR_DST		(G2_SWREG(65))
->>   #define G2_REG_ADDR_REF(i)	(G2_SWREG(67)  + ((i) * 0x8))
->>   #define G2_ADDR_DST_CHR		(G2_SWREG(99))
->> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
->> index df7b5e3a57b9..ab6f379354cc 100644
->> --- a/drivers/staging/media/hantro/hantro_hw.h
->> +++ b/drivers/staging/media/hantro/hantro_hw.h
->> @@ -250,6 +250,7 @@ void hantro_h264_dec_exit(struct hantro_ctx *ctx);
->>   int hantro_hevc_dec_init(struct hantro_ctx *ctx);
->>   void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
->>   int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
->> +void hantro_g2_hevc_dec_done(struct hantro_ctx *ctx);
->>   int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
->>   dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
->>   void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
->> diff --git a/drivers/staging/media/hantro/hantro_trace.h b/drivers/staging/media/hantro/hantro_trace.h
->> new file mode 100644
->> index 000000000000..fa8fec26fa3c
->> --- /dev/null
->> +++ b/drivers/staging/media/hantro/hantro_trace.h
->> @@ -0,0 +1,41 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +#if !defined(__HANTRO_TRACE_H__) || defined(TRACE_HEADER_MULTI_READ)
->> +#define __HANTRO_TRACE_H__
->> +
->> +#include <linux/tracepoint.h>
->> +#include <media/videobuf2-v4l2.h>
->> +
->> +#include "hantro.h"
->> +
->> +#undef TRACE_SYSTEM
->> +#define TRACE_SYSTEM hantro
->> +#define TRACE_INCLUDE_FILE hantro_trace
->> +
->> +TRACE_EVENT(hantro_hevc_perf,
->> +	TP_PROTO(struct hantro_ctx *ctx, u32 hw_cycles),
->> +
->> +	TP_ARGS(ctx, hw_cycles),
->> +
->> +	TP_STRUCT__entry(
->> +		__field(int, minor)
->> +		__field(struct v4l2_fh *, fh)
->> +		__field(u32, hw_cycles)
->> +	),
->> +
->> +	TP_fast_assign(
->> +		__entry->minor = ctx->fh.vdev->minor;
->> +		__entry->fh = &ctx->fh;
->> +		__entry->hw_cycles = hw_cycles;
->> +	),
->> +
->> +	TP_printk("minor = %d, fh = %p, %8d cycles / mb",
->> +		  __entry->minor, __entry->fh, __entry->hw_cycles)
->> +);
->> +
->> +#endif /* __HANTRO_TRACE_H__ */
->> +
->> +#undef TRACE_INCLUDE_PATH
->> +#define TRACE_INCLUDE_PATH ../../drivers/staging/media/hantro
->> +
->> +/* This part must be outside protection */
->> +#include <trace/define_trace.h>
->> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
->> index ea919bfb9891..7e9e24bb5057 100644
->> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
->> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
->> @@ -239,6 +239,7 @@ static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
->>   		.reset = imx8m_vpu_g2_reset,
->>   		.init = hantro_hevc_dec_init,
->>   		.exit = hantro_hevc_dec_exit,
->> +		.done = hantro_g2_hevc_dec_done,
->>   	},
->>   };
->>   
->>
+Chad Fraleigh (1):
+      gspca: Limit frame size to sizeimage.
+
+Christophe JAILLET (4):
+      media: mtk-vpu: Fix a resource leak in the error handling path of 'mtk_vpu_probe()'
+      media: imx-jpeg: Fix the error handling path of 'mxc_jpeg_probe()'
+      media: pci/ivtv: switch from 'pci_' to 'dma_' API
+      media: switch from 'pci_' to 'dma_' API
+
+Dafna Hirschfeld (1):
+      media: mtk-vcodec: venc: fix return value when start_streaming fails
+
+Dan Carpenter (1):
+      media: firewire: firedtv-avc: fix a buffer overflow in avc_ca_pmt()
+
+Deborah Brouwer (1):
+      media: vivid: add signal-free time for cec message xfer
+
+Evgeny Novikov (1):
+      media: vidtv: Fix memory leak in remove
+
+Ezequiel Garcia (1):
+      media: Request API is no longer experimental
+
+Fabio Estevam (2):
+      media: imx7.rst: Provide an example for imx6ull-evk capture
+      media: imx: TODO: Remove items that are already supported
+
+Hans Verkuil (1):
+      cec-pin: fix off-by-one SFT check
+
+Liu Shixin (1):
+      media: pvrusb2: Replaced simple_strtol() with kstrtoint()
+
+Nadezda Lutovinova (1):
+      media: s5p-mfc: Add checking to s5p_mfc_probe().
+
+Nil Yi (1):
+      media: usb: airspy: clean the freed pointer and counter
+
+Tom Rix (2):
+      media: TDA1997x: handle short reads of hdmi info frame.
+      media: camss: vfe: simplify vfe_get_wm_sizes()
+
+Tuo Li (1):
+      media: s5p-mfc: fix possible null-pointer dereference in s5p_mfc_probe()
+
+Zev Weiss (1):
+      media: aspeed-video: ignore interrupts that aren't enabled
+
+lijian (1):
+      media: via-camera: deleted these redundant semicolons
+
+ Documentation/admin-guide/media/imx7.rst              |  60 +++++++++
+ drivers/media/cec/core/cec-pin.c                      |   4 +-
+ drivers/media/common/videobuf2/videobuf2-core.c       |   5 +-
+ drivers/media/common/videobuf2/videobuf2-dma-contig.c |   5 +-
+ drivers/media/common/videobuf2/videobuf2-dma-sg.c     |   5 +-
+ drivers/media/common/videobuf2/videobuf2-memops.c     |   5 +-
+ drivers/media/common/videobuf2/videobuf2-v4l2.c       |   5 +-
+ drivers/media/common/videobuf2/videobuf2-vmalloc.c    |   5 +-
+ drivers/media/firewire/firedtv-avc.c                  |  14 +-
+ drivers/media/firewire/firedtv-ci.c                   |   2 +
+ drivers/media/i2c/tda1997x.c                          |   8 +-
+ drivers/media/mc/Kconfig                              |   8 --
+ drivers/media/pci/cobalt/cobalt-driver.c              |   4 +-
+ drivers/media/pci/cx18/cx18-driver.c                  |   2 +-
+ drivers/media/pci/cx18/cx18-queue.c                   |  13 +-
+ drivers/media/pci/cx18/cx18-streams.c                 |  16 +--
+ drivers/media/pci/ddbridge/ddbridge-main.c            |   4 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c         |   2 +-
+ drivers/media/pci/ivtv/ivtv-driver.c                  |   2 +-
+ drivers/media/pci/ivtv/ivtv-queue.c                   |  18 +--
+ drivers/media/pci/ivtv/ivtv-streams.c                 |  22 ++--
+ drivers/media/pci/ivtv/ivtv-udma.c                    |  19 ++-
+ drivers/media/pci/ivtv/ivtv-yuv.c                     |  10 +-
+ drivers/media/pci/netup_unidvb/netup_unidvb_core.c    |   2 +-
+ drivers/media/pci/pluto2/pluto2.c                     |  20 +--
+ drivers/media/pci/pt1/pt1.c                           |   2 +-
+ drivers/media/pci/tw5864/tw5864-core.c                |   2 +-
+ drivers/media/platform/aspeed-video.c                 |  16 +--
+ drivers/media/platform/imx-jpeg/mxc-jpeg.c            |   2 +
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c    |   8 +-
+ drivers/media/platform/mtk-vpu/mtk_vpu.c              |   5 +-
+ drivers/media/platform/qcom/camss/camss-vfe-4-1.c     |  20 +--
+ drivers/media/platform/qcom/camss/camss-vfe-4-7.c     |  10 +-
+ drivers/media/platform/qcom/camss/camss-vfe-4-8.c     |   9 +-
+ drivers/media/platform/s5p-mfc/s5p_mfc.c              |   6 +-
+ drivers/media/platform/via-camera.c                   |   6 +-
+ drivers/media/test-drivers/vidtv/vidtv_bridge.c       |   1 +
+ drivers/media/test-drivers/vim2m.c                    |   5 -
+ drivers/media/test-drivers/vivid/vivid-cec.c          | 341 +++++++++++++++++++++++++++----------------------
+ drivers/media/test-drivers/vivid/vivid-cec.h          |   9 +-
+ drivers/media/test-drivers/vivid/vivid-core.c         |  38 +++---
+ drivers/media/test-drivers/vivid/vivid-core.h         |  23 ++--
+ drivers/media/usb/airspy/airspy.c                     |   5 +-
+ drivers/media/usb/gspca/gspca.c                       |   2 +
+ drivers/media/usb/pvrusb2/pvrusb2-ctrl.c              |  25 +---
+ drivers/media/usb/siano/smsusb.c                      |   3 +-
+ drivers/staging/media/imx/TODO                        |   5 -
+ 47 files changed, 426 insertions(+), 377 deletions(-)
