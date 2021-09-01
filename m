@@ -2,62 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A7473FE141
-	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 19:39:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A7D13FE209
+	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 20:11:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344721AbhIARkO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Sep 2021 13:40:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39074 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S245390AbhIARkF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 1 Sep 2021 13:40:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id C15BB6101B;
-        Wed,  1 Sep 2021 17:39:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1630517948;
-        bh=nSohzaiG1ChUPwc4Y2kHM8jk6O9DZ8nBLdH8HgbRBac=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=NvtvqrSggcbB9JFAbElo5PAmKqpNUE2yZ/q1xo9zFh8l1/lmoe8PUgyobQUyfwKyT
-         nxmvWXgmIh8dn+KSv52nESYDMC4MmgivH2tpP/RuZSQli6eY3Gc9ZtdlfyUkXy1+fq
-         VhkAd2PKCYrSndhBV+mKKaPf0IVTHHuOwqYEU5GO95v1DCAjIL7r1ZdYSuSxEh/fLQ
-         ZYfbkqzOXWsI16P775J8AJg+Yob6M3BWxj3vfmo3+I/FxcTmJBvwkHJYPeyBoYljro
-         kQyTJMNnpZzC6Fo7P7zNjrQE9+WmhA6OJm8v8bkOtfW8bKyzVKGCIDrz9JCt2kUhlE
-         fPsvSrXLI3KPQ==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id B75DD6098E;
-        Wed,  1 Sep 2021 17:39:08 +0000 (UTC)
-Subject: Re: [GIT PULL for v5.15-rc1] media updates
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20210901094428.441b12c5@coco.lan>
-References: <20210901094428.441b12c5@coco.lan>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20210901094428.441b12c5@coco.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.15-1
-X-PR-Tracked-Commit-Id: 9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 835d31d319d9c8c4eb6cac074643360ba0ecab10
-Message-Id: <163051794874.15355.5028945702046472160.pr-tracker-bot@kernel.org>
-Date:   Wed, 01 Sep 2021 17:39:08 +0000
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        id S1346741AbhIASMe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Sep 2021 14:12:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53700 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344435AbhIASMY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 14:12:24 -0400
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 826C0C061140
+        for <linux-media@vger.kernel.org>; Wed,  1 Sep 2021 11:11:23 -0700 (PDT)
+Received: by mail-qv1-xf36.google.com with SMTP id 4so327776qvp.3
+        for <linux-media@vger.kernel.org>; Wed, 01 Sep 2021 11:11:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
+        b=LD3mpzy1s09M3e/Eheelu/QMtbN6lrYJQ+S1BsYhmG4zP9OQuKOeD1zHV2lZaK7Hdt
+         vXoBMumPRACuZhnwd8TYAFIvdImPe0Zn4DA41GnzHGsnpDZPE0wUFWVFNzgpxF6bh6D8
+         CVxTiiIN7w8BVpPirFLytZKK2cFqqV6q9qR8cw4XmdYYgGZs+MdnDeP+neEr/SbnLI2h
+         mwT6gqJ8+HvNCQei5Zu6b3U+/YcUOepEDfVn6t0IkNG5YzxTV8mH8IqZ4zEsqBchdgxI
+         E/zGH3KCiuS7UdfEMBVKPbpzhhPyh4quLRALvE4iCHtswqSZDgWUuzksodIw8OWwGR1Z
+         0RlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
+        b=Bpeb6SavVBSFyzeAKS5qUvOCDVJXiz6nWVgOupS7Pz13BTP1krL3eJoCKx3XhE4gQO
+         7s2DeywUyVTnt6V+vMCtHw7xWwvxDB7a57V2uFF+ozUS1EyCTVAIOnyjKVc7gT4jG9fF
+         schEvE6abgNc+Zn4tQPpSwTjPd5fOopxl+5Qain3qCpjH5eNvVtHZn3op5cJD3kSk/ll
+         g7C7nYT7/bQidHyUYwX2bKf3u7a0lGnn4lz/fSx/GCGXIMSpAdD8/uAd1tVkAg8Yu1Yu
+         IpqMIr1tOZlKJg/Z0VKPbZXNZQVpM218x9us3M+zD9+Myrod2IfJhYbgYKZRp1xqQZT2
+         X4iw==
+X-Gm-Message-State: AOAM530O6VJkZSTWnjg32c16VVU60Qq8Njex5GpQI8nwpRu/DwjZFOlD
+        MQAUbBaJYApbYhDasBmfBFedMopAB1Kz8GOXqU3F+AVsAnyeSw==
+X-Google-Smtp-Source: ABdhPJwbbBYGjUEQSS3Bb7EfYk34O3AVuG22pVIF78fkATQG8c+PQmeHgcc35+YrriS74Wl5STB8JbzOasp+8kCVBlk=
+X-Received: by 2002:a67:8c5:: with SMTP id 188mr1017695vsi.4.1630519870726;
+ Wed, 01 Sep 2021 11:11:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:740d:0:0:0:0:0 with HTTP; Wed, 1 Sep 2021 11:11:10 -0700 (PDT)
+From:   CorisBank International <corisbankintlbf@gmail.com>
+Date:   Wed, 1 Sep 2021 11:11:10 -0700
+Message-ID: <CA+25hwzjLgVdtDXYWeuqFBTvAbpc4oxK0dW54s7tjGNyU_m0ow@mail.gmail.com>
+Subject: CORISBANK INTERNATIONAL OFFICIAL NOTIFICATION
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pull request you sent on Wed, 1 Sep 2021 09:44:28 +0200:
+Att: Client
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.15-1
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/835d31d319d9c8c4eb6cac074643360ba0ecab10
+CORISBANK INTERNATIONAL URGENT NOTIFICATION
 
-Thank you!
+Notification / Notification/ Notification
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Note, We are writing to inform you officially that Finally the Central
+Bank Financial Authority have approved to transfer your $8.2Million
+which was signed by late Mrs Rose Banneth the COVID.19 victim to
+transfer to you, Late Mrs Rose Banneth the France Lady contacted us to
+transfer her fund in our bank to you for Orphanage work before she
+died by the COVID.19
+and as it is now, you will receive your fund through our corresponding
+bank in Dubai [Emirate Investment Bank ] for security reason. Please
+you should reconfirm your details to receive the $8.2Million.
+
+Name, Country, Address, occupations, Age, Telephone number, account
+Details so that we can immediately forward to the World Bank to
+transfer the fund.
+You are advised to comply on timely manner to permit this esteem bank
+transfer your fund as scheduled.
+
+We look forward to serving you better
+Your Financial Comfort Is A Priority
+Thank you for choosing Corisbank International.
+
+Sincerely,
+
+----
+
+Mr Diakarya Ouattara
+Managing Director
+Bank Coris
+Burkina Faso
++226 556 163 37
+financial_bf_info@accountant.com
