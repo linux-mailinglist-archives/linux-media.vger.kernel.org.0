@@ -2,110 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D7CC3FE23F
-	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 20:16:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 259D43FE539
+	for <lists+linux-media@lfdr.de>; Thu,  2 Sep 2021 00:06:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345027AbhIASQ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Sep 2021 14:16:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54948 "EHLO
+        id S243133AbhIAWHE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Sep 2021 18:07:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344645AbhIASQ5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 14:16:57 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C8CC061575
-        for <linux-media@vger.kernel.org>; Wed,  1 Sep 2021 11:15:59 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id m4so530211ljq.8
-        for <linux-media@vger.kernel.org>; Wed, 01 Sep 2021 11:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=4k3zWyUEL5AN2tG7xoJkJdor5LE2O/9hbbNwLvToM/k=;
-        b=SXSuA4Z2KSJWgSEDMpoOIQVvONtLLv+2kaWAupmQbPqxaVcxRZEQ69Hr4G2Q1cEaIy
-         A+c+aPK3Sllcep7lmnXU9b0Sy62KlFnOK6JJsC/OPOx4RHQMOTNvCoC2fAmeA81EmcPX
-         frinTWwu6w2eXHJ0oCsaqsvWEVObcAxSnNQSCdFCe53OGfWpSyN6uuZuQ3U6WW08ZIYF
-         CpK714alSJ+deTXBdUQI0ZdmNE0P60+dk+FMG+Vy5snH3tQ00hGD7s1iEx+9QGWUAKxN
-         y9j6IrqC7zcil5EBf5hFw8Jj3zBxPMMWWyycr1l/j6SGe6BJiDraAOhpDYb9oKVd8M2A
-         4nSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=4k3zWyUEL5AN2tG7xoJkJdor5LE2O/9hbbNwLvToM/k=;
-        b=TUjjXz19kIhZ48xRjktVY6vBoNY3RXdW6sG3PcANbjnIoxSBfmJqqV+/JGaU8NS+2g
-         SwIHMsOrQIatZ/4E+QKqLkMlHDQRzD0DjmyXemZIfvLXgiwIS1gtcg/Z4LfKZ61p6F2x
-         zZOyzsmci0x5ElGCxM9g5jGhLQsviHpj86IOfvmoPbqQ8eEMbVsvPsWdK9yG2vIfYkyv
-         uWpOSQM1Chwx5GXRaTKfjVrBBKYm3alarDDk45hHCYWSf3EHro79N9muEHtw34oGKzsZ
-         6neWkqb6CHg4IABJojniOMQXdvTiy6TX7x5qLTG9wsYyRcKJeVN71jbq0cGXsngs0jQb
-         2hGQ==
-X-Gm-Message-State: AOAM5335Z4A2Ul/caNUA6GNt8vkm9CWk9+GIb6CTsptlzef6OZEWt1q7
-        LurNS7KH34Pp8fXIX13cCGWOtw==
-X-Google-Smtp-Source: ABdhPJxmg44jwR9K8A2Q0l7UYT3Cqb5yecouenQ+7/QsbzoyfARFCYohz/9j8covPbprCfASfeKthQ==
-X-Received: by 2002:a2e:910f:: with SMTP id m15mr778961ljg.275.1630520158257;
-        Wed, 01 Sep 2021 11:15:58 -0700 (PDT)
-Received: from localhost ([185.224.57.161])
-        by smtp.gmail.com with ESMTPSA id h13sm22492lfv.62.2021.09.01.11.15.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Sep 2021 11:15:57 -0700 (PDT)
-Date:   Wed, 1 Sep 2021 20:15:55 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Cai Huoqing <caihuoqing@baidu.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: rcar-csi2: Make use of the helper function
- devm_platform_ioremap_resource()
-Message-ID: <YS/DW7GbhVjV9//8@wyvern>
-References: <20210901055510.7279-1-caihuoqing@baidu.com>
+        with ESMTP id S233019AbhIAWHD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 18:07:03 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42FA3C061575;
+        Wed,  1 Sep 2021 15:06:06 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 40BF5340;
+        Thu,  2 Sep 2021 00:06:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1630533963;
+        bh=INlq+Ig68fWfZ6nm6heB4TWPIjU6TUkGZkd51MRz/rs=;
+        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
+        b=wLB70EAFB1wEc5BuP7geZ+fUCFsEDfy9v3KzGcoWwWNhAUjzz5ue5pPSNCH8xDVSN
+         UyGImbFVfTjLu86GClQgzZFPwlP7lAhK1lQoBLELOGXeotYFSWU1E7+ubYItJt0Epu
+         8wkywrpoy/T9ZnpFiXDEsdKkcY0TaeZcOL/1Gp0g=
+Subject: Re: [PATCH] media: vsp1: Fix WPF macro names
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+References: <20210618161041.444987-1-kieran.bingham@ideasonboard.com>
+ <YMzIGSYHrYV2tTQ7@pendragon.ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <3e68b84d-c8c5-9518-b5a6-c7a98adc7ef0@ideasonboard.com>
+Date:   Wed, 1 Sep 2021 23:06:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210901055510.7279-1-caihuoqing@baidu.com>
+In-Reply-To: <YMzIGSYHrYV2tTQ7@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Cai,
+Hi Laurent,
 
-Thanks for your work.
-
-On 2021-09-01 13:55:09 +0800, Cai Huoqing wrote:
-> Use the devm_platform_ioremap_resource() helper instead of
-> calling platform_get_resource() and devm_ioremap_resource()
-> separately
+On 18/06/2021 17:21, Laurent Pinchart wrote:
+> Hi Kieran,
 > 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+> Thank you for the patch.
 > 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index 711b52ba42b5..a4952711b7b1 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -1238,11 +1238,9 @@ static const struct media_entity_operations rcar_csi2_entity_ops = {
->  static int rcsi2_probe_resources(struct rcar_csi2 *priv,
->  				 struct platform_device *pdev)
->  {
-> -	struct resource *res;
->  	int irq, ret;
->  
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	priv->base = devm_ioremap_resource(&pdev->dev, res);
-> +	priv->base = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(priv->base))
->  		return PTR_ERR(priv->base);
->  
-> -- 
-> 2.25.1
+> On Fri, Jun 18, 2021 at 05:10:41PM +0100, Kieran Bingham wrote:
+>> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>
+>> The WPF IRQ enable and status macros have been incorrectly named WFP.
+>> Fix them accordingly, and update all uses of the macros.
+>>
+>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> Wow, and all this time it has escaped our eyes.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Feel free to push. Oh, wait... I'm too used to libcamera :-)
+
+Has this been collected anywhere?
+
+I don't see it progressing.
+--
+Kieran
+
+
+
+
+> 
+>> ---
+>>  drivers/media/platform/vsp1/vsp1_drv.c  | 4 ++--
+>>  drivers/media/platform/vsp1/vsp1_regs.h | 8 ++++----
+>>  drivers/media/platform/vsp1/vsp1_wpf.c  | 2 +-
+>>  3 files changed, 7 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
+>> index de442d6c9926..1018786d0437 100644
+>> --- a/drivers/media/platform/vsp1/vsp1_drv.c
+>> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
+>> @@ -44,7 +44,7 @@
+>>  
+>>  static irqreturn_t vsp1_irq_handler(int irq, void *data)
+>>  {
+>> -	u32 mask = VI6_WFP_IRQ_STA_DFE | VI6_WFP_IRQ_STA_FRE;
+>> +	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE;
+>>  	struct vsp1_device *vsp1 = data;
+>>  	irqreturn_t ret = IRQ_NONE;
+>>  	unsigned int i;
+>> @@ -59,7 +59,7 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
+>>  		status = vsp1_read(vsp1, VI6_WPF_IRQ_STA(i));
+>>  		vsp1_write(vsp1, VI6_WPF_IRQ_STA(i), ~status & mask);
+>>  
+>> -		if (status & VI6_WFP_IRQ_STA_DFE) {
+>> +		if (status & VI6_WPF_IRQ_STA_DFE) {
+>>  			vsp1_pipeline_frame_end(wpf->entity.pipe);
+>>  			ret = IRQ_HANDLED;
+>>  		}
+>> diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
+>> index fe3130db1fa2..97942436868c 100644
+>> --- a/drivers/media/platform/vsp1/vsp1_regs.h
+>> +++ b/drivers/media/platform/vsp1/vsp1_regs.h
+>> @@ -32,12 +32,12 @@
+>>  #define VI6_STATUS_SYS_ACT(n)		BIT((n) + 8)
+>>  
+>>  #define VI6_WPF_IRQ_ENB(n)		(0x0048 + (n) * 12)
+>> -#define VI6_WFP_IRQ_ENB_DFEE		BIT(1)
+>> -#define VI6_WFP_IRQ_ENB_FREE		BIT(0)
+>> +#define VI6_WPF_IRQ_ENB_DFEE		BIT(1)
+>> +#define VI6_WPF_IRQ_ENB_FREE		BIT(0)
+>>  
+>>  #define VI6_WPF_IRQ_STA(n)		(0x004c + (n) * 12)
+>> -#define VI6_WFP_IRQ_STA_DFE		BIT(1)
+>> -#define VI6_WFP_IRQ_STA_FRE		BIT(0)
+>> +#define VI6_WPF_IRQ_STA_DFE		BIT(1)
+>> +#define VI6_WPF_IRQ_STA_FRE		BIT(0)
+>>  
+>>  #define VI6_DISP_IRQ_ENB(n)		(0x0078 + (n) * 60)
+>>  #define VI6_DISP_IRQ_ENB_DSTE		BIT(8)
+>> diff --git a/drivers/media/platform/vsp1/vsp1_wpf.c b/drivers/media/platform/vsp1/vsp1_wpf.c
+>> index 208498fa6ed7..94e91d7bb56c 100644
+>> --- a/drivers/media/platform/vsp1/vsp1_wpf.c
+>> +++ b/drivers/media/platform/vsp1/vsp1_wpf.c
+>> @@ -342,7 +342,7 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
+>>  	/* Enable interrupts. */
+>>  	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_STA(index), 0);
+>>  	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_ENB(index),
+>> -			   VI6_WFP_IRQ_ENB_DFEE);
+>> +			   VI6_WPF_IRQ_ENB_DFEE);
+>>  
+>>  	/*
+>>  	 * Configure writeback for display pipelines (the wpf writeback flag is
 > 
 
--- 
-Regards,
-Niklas Söderlund
