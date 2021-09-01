@@ -2,83 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81C883FDDFD
-	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 16:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 245203FDE3E
+	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 17:07:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231893AbhIAOue (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Sep 2021 10:50:34 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47826 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229748AbhIAOue (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 10:50:34 -0400
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9CD32559;
-        Wed,  1 Sep 2021 16:49:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1630507775;
-        bh=SzJdlaBw2o7qjms5gbWvAmffcgZIJGKBfa2wvQ36ybo=;
-        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
-        b=GguQUHRQF3m6G/R2aRSuo5pWJdzg7h85XeSNFzMO4vv722B3f1LfuB8b0uzuRPWLd
-         6Zsgl+AOXAU4lBAJj1Vxykgz/R5ioEk4Y87AbiIKhQ+YDecPCXzxfXODQe6dh6hD4G
-         +DY1EqJcl8BcMkSIuq+Qfz4pLNGEYs9+eqkY6q0M=
-Subject: Re: [PATCH v4] media: rcar_drif: Make use of the helper function
- devm_platform_get_and_ioremap_resource()
-To:     Cai Huoqing <caihuoqing@baidu.com>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        id S245699AbhIAPIv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Sep 2021 11:08:51 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39316 "EHLO
+        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S245659AbhIAPIt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Sep 2021 11:08:49 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 181F3E6h109346;
+        Wed, 1 Sep 2021 11:07:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=WubeIqV+bNHaxDT9oH2jQj2VFae/G2tEpJEEH2xmuRA=;
+ b=jK0ZvE9bXuPpXwyCuebtRZGkn9REAU23/RgbFFYuiUHRJDD0wDke2ED3RAIRTlCzTdua
+ 8xHmCBdWKwQLnWkxttctC9iG7C+A1gb11u9H/bqRrqA4WnipDPakPB+gkf2J0uwN4+vX
+ txv6ZpNYbk9AYHVftdIAq6SF2nYKw1moB2NFBS+Og26r6PwyJ2jY3OsAyAb+X6Kj7SlK
+ JzZN9BKCxOMqg8pFrhTnySZ2BddmziQqO6WClF7zwsZL6lsnvojZzWzvWRN5n04d7KVP
+ RkdgP5g463yZ8xK4I6gv9NPEM3HZ0XpRpLk5WpVDzXSV8foIovMZoa2/NqQttIGX8ZRb iQ== 
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3atafaax55-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 01 Sep 2021 11:07:30 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+        by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 181F4Zgu028916;
+        Wed, 1 Sep 2021 15:07:29 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com [9.57.198.24])
+        by ppma03dal.us.ibm.com with ESMTP id 3aqcsdpjdc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 01 Sep 2021 15:07:29 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 181F7S9t31326684
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 1 Sep 2021 15:07:28 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 44C41B201A;
+        Wed,  1 Sep 2021 15:07:28 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A4008B2014;
+        Wed,  1 Sep 2021 15:07:26 +0000 (GMT)
+Received: from v0005c16 (unknown [9.163.14.239])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Wed,  1 Sep 2021 15:07:26 +0000 (GMT)
+Message-ID: <46edf81d60a38747f7d2511f840253a1c6867652.camel@linux.ibm.com>
+Subject: Re: [PATCH v3] media: aspeed-video: ignore interrupts that aren't
+ enabled
+From:   Eddie James <eajames@linux.ibm.com>
+To:     Zev Weiss <zev@bewilderbeest.net>
+Cc:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+        Ryan Chen <ryan_chen@aspeedtech.com>,
+        linux-aspeed@lists.ozlabs.org, Andrew Jeffery <andrew@aj.id.au>,
+        openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210901114459.31493-1-caihuoqing@baidu.com>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <7c75aa3a-8b1f-2d63-4c30-2c638d60e2c6@ideasonboard.com>
-Date:   Wed, 1 Sep 2021 15:49:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210901114459.31493-1-caihuoqing@baidu.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Date:   Wed, 01 Sep 2021 10:07:24 -0500
+In-Reply-To: <20210617220229.7352-1-zev@bewilderbeest.net>
+References: <20210617220229.7352-1-zev@bewilderbeest.net>
+Organization: IBM
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: zdqbiPxpgkzQjwtL_Sk62UEYgccaUkzp
+X-Proofpoint-GUID: zdqbiPxpgkzQjwtL_Sk62UEYgccaUkzp
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-09-01_05:2021-09-01,2021-09-01 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
+ priorityscore=1501 bulkscore=0 adultscore=0 impostorscore=0 spamscore=0
+ suspectscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2109010087
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/09/2021 12:44, Cai Huoqing wrote:
-> Use the devm_platform_get_and_ioremap_resource() helper instead of
-> calling platform_get_resource() and devm_ioremap_resource()
-> separately.
+On Thu, 2021-06-17 at 17:02 -0500, Zev Weiss wrote:
+> As partially addressed in commit 65d270acb2d6 ("media: aspeed: clear
+> garbage interrupts"), the ASpeed video engine sometimes asserts
+> interrupts that the driver hasn't enabled.  In addition to the
+> CAPTURE_COMPLETE and FRAME_COMPLETE interrupts dealt with in that
+> patch, COMP_READY has also been observed.  Instead of playing
+> whack-a-mole with each one individually, we can instead just blanket
+> ignore everything we haven't explicitly enabled.
+
+Suspect this will fix an intermittent problem on AST2500 with
+screensaver. Change looks good, thanks!
+
+Reviewed-by: Eddie James <eajames@linux.ibm.com>
+
 > 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
+> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
 > ---
-> v1->v2:
-> Use devm_platform_get_and_ioremap_resource() instead of
-> devm_platform_ioremap_resource().
-> v2->v3:
-> Update commit message.
-> v3->v4:
-> Remove the change - "struct resource *res"
->  
->  drivers/media/platform/rcar_drif.c | 3 +--
->  1 file changed, 1 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
-> index a505d991548b..e50673276d93 100644
-> --- a/drivers/media/platform/rcar_drif.c
-> +++ b/drivers/media/platform/rcar_drif.c
-> @@ -1395,8 +1395,7 @@ static int rcar_drif_probe(struct platform_device *pdev)
+> Changes since v2 [1]:
+>  - minor commit message improvements
+> 
+> Changes since v1 [0]:
+>  - dropped error message
+>  - switched to a blanket-ignore approach as suggested by Ryan
+> 
+> [0] 
+> https://lore.kernel.org/linux-arm-kernel/20201215024542.18888-1-zev@bewilderbeest.net/
+> [1] 
+> https://lore.kernel.org/openbmc/20210506234048.3214-1-zev@bewilderbeest.net/
+> 
+>  drivers/media/platform/aspeed-video.c | 16 ++++++----------
+>  1 file changed, 6 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/aspeed-video.c
+> b/drivers/media/platform/aspeed-video.c
+> index 7bb6babdcade..77611c296a25 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -563,6 +563,12 @@ static irqreturn_t aspeed_video_irq(int irq,
+> void *arg)
+>  	struct aspeed_video *video = arg;
+>  	u32 sts = aspeed_video_read(video, VE_INTERRUPT_STATUS);
+>  
+> +	/*
+> +	 * Hardware sometimes asserts interrupts that we haven't
+> actually
+> +	 * enabled; ignore them if so.
+> +	 */
+> +	sts &= aspeed_video_read(video, VE_INTERRUPT_CTRL);
+> +
+>  	/*
+>  	 * Resolution changed or signal was lost; reset the engine and
+>  	 * re-initialize
+> @@ -629,16 +635,6 @@ static irqreturn_t aspeed_video_irq(int irq,
+> void *arg)
+>  			aspeed_video_start_frame(video);
 >  	}
 >  
->  	/* Register map */
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	ch->base = devm_ioremap_resource(&pdev->dev, res);
-> +	ch->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
->  	if (IS_ERR(ch->base))
->  		return PTR_ERR(ch->base);
+> -	/*
+> -	 * CAPTURE_COMPLETE and FRAME_COMPLETE interrupts come even
+> when these
+> -	 * are disabled in the VE_INTERRUPT_CTRL register so clear them
+> to
+> -	 * prevent unnecessary interrupt calls.
+> -	 */
+> -	if (sts & VE_INTERRUPT_CAPTURE_COMPLETE)
+> -		sts &= ~VE_INTERRUPT_CAPTURE_COMPLETE;
+> -	if (sts & VE_INTERRUPT_FRAME_COMPLETE)
+> -		sts &= ~VE_INTERRUPT_FRAME_COMPLETE;
+> -
+>  	return sts ? IRQ_NONE : IRQ_HANDLED;
+>  }
 >  
-> 
 
