@@ -2,75 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C0EC3FDCD4
-	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 15:19:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACBC73FDC68
+	for <lists+linux-media@lfdr.de>; Wed,  1 Sep 2021 15:19:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345077AbhIAMxi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Sep 2021 08:53:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34048 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345693AbhIAMvZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 08:51:25 -0400
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EDEDC03541D
-        for <linux-media@vger.kernel.org>; Wed,  1 Sep 2021 05:32:16 -0700 (PDT)
-Received: by mail-vs1-xe44.google.com with SMTP id l9so2255307vsb.8
-        for <linux-media@vger.kernel.org>; Wed, 01 Sep 2021 05:32:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=UWVukDYpnouo2TmAsoiK3YFI/UCntBVDF8OdhEqH+sQ=;
-        b=gWG9PhRugmM5DPv4025IS4w2rGjSWIhxKgBo3ivSU8t1alG+AmqIiNPOyO/2sPtT78
-         /mQeY2JHbpzvcM9LCU0RLHXXbldo8XG3yUceCC6fH5Tdd/cMM4AHwC8KOwlnlgC+mv9T
-         mjwMme4Qp7Qc3bb8Z3YCWwnoo2M6+Gq7Z2z/RddjTEw+2DO+TyKTDeJBJc2zsyRBgJPp
-         rOcVSAI6i4fketJRS7LbHzeOjmNJgOSNOdRzmff8mRSLb0W61DM6qFFRkhTG+bGUnDBX
-         lMBJpnrVsB/RMzaGDNl5wP5Oh/v0V4Z6fJIuHX8XrK5VfADp8KkvyRYGf3rRJc8sX5uS
-         dx1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=UWVukDYpnouo2TmAsoiK3YFI/UCntBVDF8OdhEqH+sQ=;
-        b=DOEOfRLBsP9E11Jd5lXqu+N1A1yT+2W7OAhFJyrx3KwR2b7OiqQh6fT2P2xVdd7oSp
-         +tnc4+JiN+kkaIfn8MhHiADY9sSOw2kTudyCU6O80uGgVdKXhhT64D+OGoO1WWmzlAt0
-         texMzwfr/wXFxbHd3XczAB1ACM4xEIqQoXzxNq0H+LSUcpuiMd4fx9qIl3HjZqtNT3+R
-         EN0SwHoqE+fFupiUnHqgNvFA7Uep98uOcBrK8DRU0P/mPbNgpRIXQ2vUYcquKsSblU02
-         shPcG1L/6PaBrDkREGqOuRb0gsDR5G56ZY0PXIGf4eQn8rQfh6mT2VTggasBs5cIeiFi
-         xkjA==
-X-Gm-Message-State: AOAM532Sdh12ZwnX88rX858/J8y+zIY0u/0HT9O/fffcIEpMtZhkI6kx
-        sTodNlNUvUNlF3sWLzcdoNw8B7A551g18CwxmUs=
-X-Google-Smtp-Source: ABdhPJwlFX3CbGosev7vJNi3rofNWw6AdDZZ8f95KsCABSyWGDO/DAv1wgzwzzfzyBlBbQrC5u5U6NBRxPQIZzFm54A=
-X-Received: by 2002:a67:df0c:: with SMTP id s12mr23490970vsk.0.1630499534964;
- Wed, 01 Sep 2021 05:32:14 -0700 (PDT)
+        id S1344446AbhIAMuq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Sep 2021 08:50:46 -0400
+Received: from mx20.baidu.com ([111.202.115.85]:43616 "EHLO baidu.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1345514AbhIAMrz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Sep 2021 08:47:55 -0400
+Received: from BC-Mail-Ex22.internal.baidu.com (unknown [172.31.51.16])
+        by Forcepoint Email with ESMTPS id 9975EBDFBB94475CD40E;
+        Wed,  1 Sep 2021 20:46:56 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BC-Mail-Ex22.internal.baidu.com (172.31.51.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2242.12; Wed, 1 Sep 2021 20:46:56 +0800
+Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Wed, 1 Sep 2021 20:46:56 +0800
+From:   Cai Huoqing <caihuoqing@baidu.com>
+To:     <caihuoqing@baidu.com>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3] usb: stkwebcam: Update the reference count of the usb device structure
+Date:   Wed, 1 Sep 2021 20:46:49 +0800
+Message-ID: <20210901124650.31653-1-caihuoqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Reply-To: aliuhuadams@gmail.com
-Sender: drabidibelloid@gmail.com
-Received: by 2002:a59:ddcb:0:b029:1fe:e2b4:9e14 with HTTP; Wed, 1 Sep 2021
- 05:32:14 -0700 (PDT)
-From:   Aliuhu Adams <aliuhuadamss@gmail.com>
-Date:   Wed, 1 Sep 2021 12:32:14 +0000
-X-Google-Sender-Auth: Ga70x3k7PvIsFZc7h8NI3_P7C38
-Message-ID: <CAJ3yozLtW=CNdBNkYiz0wrex5W1Kua=BbZi5Eurwj7DzssV1HQ@mail.gmail.com>
-Subject: From Aliuhu Adams
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BJHW-Mail-Ex07.internal.baidu.com (10.127.64.17) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Use usb_get_dev() to increment the reference count of the usb device
+structure in order to avoid releasing the structure while it is still in
+use. And use usb_put_dev() to decrement the reference count and thus,
+when it will be equal to 0 the structure will be released.
+
+Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+---
+v2->v3:
+*call usb_put_dev() in the error path of stk_camera_probe
+*move v4l2_ctrl_handler_free/v4l2_device_unregister/kfree(dev)
+ from stk_camera_disconnect() to stk_v4l_dev_release()
+ 
+drivers/media/usb/stkwebcam/stk-webcam.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c b/drivers/media/usb/stkwebcam/stk-webcam.c
+index 0e231e576dc3..9f445e6ab5fa 100644
+--- a/drivers/media/usb/stkwebcam/stk-webcam.c
++++ b/drivers/media/usb/stkwebcam/stk-webcam.c
+@@ -1234,6 +1234,11 @@ static void stk_v4l_dev_release(struct video_device *vd)
+ 	if (dev->sio_bufs != NULL || dev->isobufs != NULL)
+ 		pr_err("We are leaking memory\n");
+ 	usb_put_intf(dev->interface);
++	usb_put_dev(dev->udev);
++
++	v4l2_ctrl_handler_free(&dev->hdl);
++	v4l2_device_unregister(&dev->v4l2_dev);
++	kfree(dev);
+ }
+ 
+ static const struct video_device stk_v4l_data = {
+@@ -1309,7 +1314,7 @@ static int stk_camera_probe(struct usb_interface *interface,
+ 	init_waitqueue_head(&dev->wait_frame);
+ 	dev->first_init = 1; /* webcam LED management */
+ 
+-	dev->udev = udev;
++	dev->udev = usb_get_dev(udev);
+ 	dev->interface = interface;
+ 	usb_get_intf(interface);
+ 
+@@ -1365,6 +1370,7 @@ static int stk_camera_probe(struct usb_interface *interface,
+ 
+ error_put:
+ 	usb_put_intf(interface);
++	usb_put_dev(dev->udev);
+ error:
+ 	v4l2_ctrl_handler_free(hdl);
+ 	v4l2_device_unregister(&dev->v4l2_dev);
+@@ -1385,9 +1391,6 @@ static void stk_camera_disconnect(struct usb_interface *interface)
+ 		video_device_node_name(&dev->vdev));
+ 
+ 	video_unregister_device(&dev->vdev);
+-	v4l2_ctrl_handler_free(&dev->hdl);
+-	v4l2_device_unregister(&dev->v4l2_dev);
+-	kfree(dev);
+ }
+ 
+ #ifdef CONFIG_PM
 -- 
-From Aliuhu Adams,
+2.25.1
 
-My name is Aliuhu Adams, from Burkina Faso
-
-Please, I am contacting you for urgent assistance to help me move my
-inheritance to your country and help me to invest in your country.
-
-The amount is 14 million dollars and I want this money to be moved to your
-country urgently with me because of the fear of the killer of my parents.
-
-I shall give you more details when I hear from you.
-
-Thank you,
-
-Aliuhu Adams
