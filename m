@@ -2,134 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A2A63FE547
-	for <lists+linux-media@lfdr.de>; Thu,  2 Sep 2021 00:09:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AB553FE820
+	for <lists+linux-media@lfdr.de>; Thu,  2 Sep 2021 05:44:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245276AbhIAWKN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Sep 2021 18:10:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52522 "EHLO
+        id S242286AbhIBDpx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Sep 2021 23:45:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245049AbhIAWKN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 18:10:13 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 995A0C061575;
-        Wed,  1 Sep 2021 15:09:15 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38F94340;
-        Thu,  2 Sep 2021 00:09:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1630534154;
-        bh=F9fPuOKBc56QfixHGw2D7/gcoS/6ATrxXzfntuIGcF8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X6+ofViUI0zQiP5XA/5dbDiwRNRa30p++ggAhOccNH2F8bRltnO6Vze9sg7hiRMUK
-         DC9JQz865VSPcGue7Ok3uzf3knub+s/moh54MK1sEHbNNGBYFHvVUzgqYL3qnpaAFs
-         opdtFMJtljxtagAFBej5gcWr//adKbD9l/xfYc2A=
-Date:   Thu, 2 Sep 2021 01:08:58 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: vsp1: Fix WPF macro names
-Message-ID: <YS/5+iNKQsuRFvPJ@pendragon.ideasonboard.com>
-References: <20210618161041.444987-1-kieran.bingham@ideasonboard.com>
- <YMzIGSYHrYV2tTQ7@pendragon.ideasonboard.com>
- <3e68b84d-c8c5-9518-b5a6-c7a98adc7ef0@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3e68b84d-c8c5-9518-b5a6-c7a98adc7ef0@ideasonboard.com>
+        with ESMTP id S233122AbhIBDpw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Sep 2021 23:45:52 -0400
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B44B5C061575
+        for <linux-media@vger.kernel.org>; Wed,  1 Sep 2021 20:44:54 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id LdeemOojr0e6wLdekmSyjZ; Thu, 02 Sep 2021 05:44:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1630554290; bh=1ekWCGWzDTpwYw1kuSKfeM7UdarSlasv/k+JqTagQq8=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=vSszmuySiaOCaKRxTGv3de6SyxKdp+C+/7IUz9KUoBiPf427lGo5U08u1oTPwLM8E
+         BwUTfaITAdNkaCLXEGgDweNRh8KqUxH2/tdLK5MkZGv7oBBtWpFmIM3qOiqgXkUhiu
+         xBaruzhuWXjXpSa9dhevuTxe5o7Md8/yTmzJvmugdV0js0F/DRdhD8k4mVm10c8c26
+         MUXsnukgBGKf+2/akDhJEbOF9+o/jzn6z0+u41gQO8ePLI/48ruYWOdpiXHKVqjDZ+
+         KKAtD1ukwSsrhCbYwk5T0aY/Ydi+iO5t7M97VxcsIyunDR15GrA8/bb8aKHvsoErSi
+         G9q3pPYKQwYQA==
+Message-ID: <6973a658148a8da2fbf15a43e5fdfd9c@smtp-cloud7.xs4all.net>
+Date:   Thu, 02 Sep 2021 05:44:44 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfLmY2MzNIen326qDM6LDMoKS761fxq9vaHMy5NG99z5bKV4bfcWZzVGZuhnUM10LDRYlN0UHHxeYLTuYtHmJ2SIPXiw4DvwnmX4uWm9KVZMtGY1TIZaM
+ kUd2viMS6jufJ5o8wC5vii5+AWn6lVKiEqr1flg/VCNoAvQtWNyAmOUBle7jmDRC2kA78/WLeUEi6n/PxRLvBLZeshvcGfa7bKKB0A5ec58Ii2aulVFByEJw
+ 1WN+NHhTrKBjAxvl7NdAjg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Wed, Sep 01, 2021 at 11:06:00PM +0100, Kieran Bingham wrote:
-> On 18/06/2021 17:21, Laurent Pinchart wrote:
-> > On Fri, Jun 18, 2021 at 05:10:41PM +0100, Kieran Bingham wrote:
-> >> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> >>
-> >> The WPF IRQ enable and status macros have been incorrectly named WFP.
-> >> Fix them accordingly, and update all uses of the macros.
-> >>
-> >> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > 
-> > Wow, and all this time it has escaped our eyes.
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > Feel free to push. Oh, wait... I'm too used to libcamera :-)
-> 
-> Has this been collected anywhere?
+Results of the daily build of media_tree:
 
-It has now.
+date:			Thu Sep  2 05:00:17 CEST 2021
+media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
+media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
+v4l-utils git hash:	7c1f86e3a70c1074929a10c0379f6a7a71a8a000
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7561-gd7ccaee39
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 80366ea83ab91c34699bd40c75258b1ce76d0fdb
+host hardware:		x86_64
+host os:		5.13.11-marune
 
-> I don't see it progressing.
-> 
-> >> ---
-> >>  drivers/media/platform/vsp1/vsp1_drv.c  | 4 ++--
-> >>  drivers/media/platform/vsp1/vsp1_regs.h | 8 ++++----
-> >>  drivers/media/platform/vsp1/vsp1_wpf.c  | 2 +-
-> >>  3 files changed, 7 insertions(+), 7 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-> >> index de442d6c9926..1018786d0437 100644
-> >> --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> >> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> >> @@ -44,7 +44,7 @@
-> >>  
-> >>  static irqreturn_t vsp1_irq_handler(int irq, void *data)
-> >>  {
-> >> -	u32 mask = VI6_WFP_IRQ_STA_DFE | VI6_WFP_IRQ_STA_FRE;
-> >> +	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE;
-> >>  	struct vsp1_device *vsp1 = data;
-> >>  	irqreturn_t ret = IRQ_NONE;
-> >>  	unsigned int i;
-> >> @@ -59,7 +59,7 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
-> >>  		status = vsp1_read(vsp1, VI6_WPF_IRQ_STA(i));
-> >>  		vsp1_write(vsp1, VI6_WPF_IRQ_STA(i), ~status & mask);
-> >>  
-> >> -		if (status & VI6_WFP_IRQ_STA_DFE) {
-> >> +		if (status & VI6_WPF_IRQ_STA_DFE) {
-> >>  			vsp1_pipeline_frame_end(wpf->entity.pipe);
-> >>  			ret = IRQ_HANDLED;
-> >>  		}
-> >> diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
-> >> index fe3130db1fa2..97942436868c 100644
-> >> --- a/drivers/media/platform/vsp1/vsp1_regs.h
-> >> +++ b/drivers/media/platform/vsp1/vsp1_regs.h
-> >> @@ -32,12 +32,12 @@
-> >>  #define VI6_STATUS_SYS_ACT(n)		BIT((n) + 8)
-> >>  
-> >>  #define VI6_WPF_IRQ_ENB(n)		(0x0048 + (n) * 12)
-> >> -#define VI6_WFP_IRQ_ENB_DFEE		BIT(1)
-> >> -#define VI6_WFP_IRQ_ENB_FREE		BIT(0)
-> >> +#define VI6_WPF_IRQ_ENB_DFEE		BIT(1)
-> >> +#define VI6_WPF_IRQ_ENB_FREE		BIT(0)
-> >>  
-> >>  #define VI6_WPF_IRQ_STA(n)		(0x004c + (n) * 12)
-> >> -#define VI6_WFP_IRQ_STA_DFE		BIT(1)
-> >> -#define VI6_WFP_IRQ_STA_FRE		BIT(0)
-> >> +#define VI6_WPF_IRQ_STA_DFE		BIT(1)
-> >> +#define VI6_WPF_IRQ_STA_FRE		BIT(0)
-> >>  
-> >>  #define VI6_DISP_IRQ_ENB(n)		(0x0078 + (n) * 60)
-> >>  #define VI6_DISP_IRQ_ENB_DSTE		BIT(8)
-> >> diff --git a/drivers/media/platform/vsp1/vsp1_wpf.c b/drivers/media/platform/vsp1/vsp1_wpf.c
-> >> index 208498fa6ed7..94e91d7bb56c 100644
-> >> --- a/drivers/media/platform/vsp1/vsp1_wpf.c
-> >> +++ b/drivers/media/platform/vsp1/vsp1_wpf.c
-> >> @@ -342,7 +342,7 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
-> >>  	/* Enable interrupts. */
-> >>  	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_STA(index), 0);
-> >>  	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_ENB(index),
-> >> -			   VI6_WFP_IRQ_ENB_DFEE);
-> >> +			   VI6_WPF_IRQ_ENB_DFEE);
-> >>  
-> >>  	/*
-> >>  	 * Configure writeback for display pipelines (the wpf writeback flag is
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13.1-i686: OK
+linux-5.13.1-x86_64: OK
+linux-5.14-rc1-i686: OK
+linux-5.14-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
--- 
-Regards,
+Detailed results are available here:
 
-Laurent Pinchart
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
