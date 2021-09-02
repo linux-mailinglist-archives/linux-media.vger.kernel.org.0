@@ -2,86 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 925193FEC81
-	for <lists+linux-media@lfdr.de>; Thu,  2 Sep 2021 12:54:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A64753FEC84
+	for <lists+linux-media@lfdr.de>; Thu,  2 Sep 2021 12:54:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233445AbhIBKzT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Sep 2021 06:55:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39238 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231133AbhIBKzT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 2 Sep 2021 06:55:19 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C968C60F91;
-        Thu,  2 Sep 2021 10:54:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1630580060;
-        bh=q0GNvNblP6lxsGan6KTY29HU10SRkr+7SoHSRmhQuD8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tU5zJblbO0vmpIY7OfTkrTXk4AzIk6NN/0g6+WOd6GtrHSpfu7XUvVy6IPpdoOOXG
-         8ahHHMv/HlC78ooogIA/xsH9yPZHV+Uy/Upzp1NFGHqeOVU43yJypQWlnX/GkZB6d5
-         7kgroJp8X9yktEckGusw3lQ5AsTGacD0YsFEqE1NQ6YHnSc5wi7YQT8XIutobc5emL
-         e3znvaZsXOce/ZEbYNJbLreX1u8Vze9AEYWvA/JOW+Xnc/oUh4tc6rkMiia6ZP5I89
-         WNCdqi9eyJWRgaBnVXeMAsLnbhjMmQhoLWmCBV0ZYGx4ZtBvgSBybXlbI93l9Zqyr0
-         4faQ3kVMnHaBw==
-Date:   Thu, 2 Sep 2021 12:54:16 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
-        linux-media@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH] media: usb: fix memory leak in stk_camera_probe
-Message-ID: <20210902125416.1ad73fad@coco.lan>
-In-Reply-To: <YTCp6d1umr7AXRZW@kroah.com>
-References: <20210714032340.504836-1-mudongliangabcd@gmail.com>
-        <CAD-N9QXWHeNvR06wyg3Pym8xUb27TsuFKKKG=tZ0-x5ZGCr-Hw@mail.gmail.com>
-        <CAD-N9QWj8w-xVAni2cGHyEei78iKEX_V0a00r0x3We7tfFGZjw@mail.gmail.com>
-        <YTCp6d1umr7AXRZW@kroah.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S231133AbhIBKzd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Sep 2021 06:55:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55376 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242730AbhIBKzc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Sep 2021 06:55:32 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E480C061757;
+        Thu,  2 Sep 2021 03:54:28 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4A0645E;
+        Thu,  2 Sep 2021 12:54:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1630580066;
+        bh=lCdeDpUD1dQO0LCEAhNuQFiGzSwF87Eu3scwphNrJcw=;
+        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
+        b=S7x23e5QYy9HOPrHStEBkEhXNtTCf5jYOV49yggoqZawguZVuYF7pQWreOlFXYBu8
+         dS0iqnVY6d4YqG2V753PYnPtUvwcW4iW+YCrc5mRNuOOxctozl9rhd7uphkclSMIl/
+         hioOcw5y29lUqU1MyowewXqC5sGvJ14T7bapzQIM=
+Subject: Re: [PATCH] media: rcar_jpu: Make use of the helper function
+ devm_platform_ioremap_resource()
+To:     Cai Huoqing <caihuoqing@baidu.com>
+Cc:     Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20210901055532.7429-1-caihuoqing@baidu.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <f55b3276-a628-804f-b686-64dd0afcfab4@ideasonboard.com>
+Date:   Thu, 2 Sep 2021 11:54:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20210901055532.7429-1-caihuoqing@baidu.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 2 Sep 2021 12:39:37 +0200
-Greg KH <gregkh@linuxfoundation.org> escreveu:
++Cc linux-renesas-soc
 
-> On Thu, Sep 02, 2021 at 06:23:36PM +0800, Dongliang Mu wrote:
-> > On Fri, Jul 23, 2021 at 6:11 PM Dongliang Mu <mudongliangabcd@gmail.com> wrote:  
-> > >
-> > > On Wed, Jul 14, 2021 at 11:23 AM Dongliang Mu <mudongliangabcd@gmail.com> wrote:  
-> > > >
-> > > > stk_camera_probe mistakenly execute usb_get_intf and increase the
-> > > > refcount of interface->dev.
-> > > >
-> > > > Fix this by removing the execution of usb_get_intf.  
-> > >
-> > > Any idea about this patch?  
-> > 
-> > +cc Dan Carpenter, gregkh
-> > 
-> > There is no reply in this thread in one month. Can someone give some
-> > feedback on this patch?  
+On 01/09/2021 06:55, Cai Huoqing wrote:
+> Use the devm_platform_ioremap_resource() helper instead of
+> calling platform_get_resource() and devm_ioremap_resource()
+> separately
 > 
-> This is the media developers domain, not much I can do here.
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
-There is a high volume of patches for the media subsystem. Anyway,
-as your patch is at our patchwork instance:
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-	https://patchwork.linuxtv.org/project/linux-media/patch/20210714032340.504836-1-mudongliangabcd@gmail.com/
 
-It should be properly tracked, and likely handled after the end of
-the merge window.
+> ---
+>  drivers/media/platform/rcar_jpu.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar_jpu.c b/drivers/media/platform/rcar_jpu.c
+> index f57158bf2b11..56bb464629ed 100644
+> --- a/drivers/media/platform/rcar_jpu.c
+> +++ b/drivers/media/platform/rcar_jpu.c
+> @@ -1590,7 +1590,6 @@ MODULE_DEVICE_TABLE(of, jpu_dt_ids);
+>  static int jpu_probe(struct platform_device *pdev)
+>  {
+>  	struct jpu *jpu;
+> -	struct resource *res;
+>  	int ret;
+>  	unsigned int i;
+>  
+> @@ -1603,8 +1602,7 @@ static int jpu_probe(struct platform_device *pdev)
+>  	jpu->dev = &pdev->dev;
+>  
+>  	/* memory-mapped registers */
+> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	jpu->regs = devm_ioremap_resource(&pdev->dev, res);
+> +	jpu->regs = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(jpu->regs))
+>  		return PTR_ERR(jpu->regs);
+>  
+> 
 
-> > > > Reported-by: Dongliang Mu <mudongliangabcd@gmail.com>
-> > > > Fixes: 0aa77f6c2954 ("[media] move the remaining USB drivers to drivers/media/usb")
-> > > > Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
-
-If you're the author of the patch, it doesn't make much sense to
-add a "Reported-by:" tag there. We only use it in order to give
-someone's else credit to report an issue.
-
-Thanks,
-Mauro
