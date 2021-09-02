@@ -2,106 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B0273FE98A
-	for <lists+linux-media@lfdr.de>; Thu,  2 Sep 2021 08:52:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 087063FE994
+	for <lists+linux-media@lfdr.de>; Thu,  2 Sep 2021 08:57:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242374AbhIBGxw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Sep 2021 02:53:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40384 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233363AbhIBGxv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 2 Sep 2021 02:53:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E9F3F60C3E;
-        Thu,  2 Sep 2021 06:52:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1630565573;
-        bh=Tv65ZWVxn/+fMQglBkEG2bViohQl6I7pMD5PRiDb/OY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=zkCACKOHW+/1wPgjnLO9CWoKRkNWPwCBuFETWGmgqgHMfYAokbL91qIXIRaeMLZX6
-         QHK7uMeRtgBzHAe1Mha1kFZ9Dr8aV2+aPFvT5+fax8HqXBuClP644379CI4V9H4WmQ
-         nY2AnuWhX1xuIsKoBemem4jhbTuFu8wiLukApgr0=
-Date:   Thu, 2 Sep 2021 08:52:45 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Cai Huoqing <caihuoqing@baidu.com>
-Cc:     rafael@kernel.org, patrice.chotard@foss.st.com, mchehab@kernel.org,
-        ryder.lee@mediatek.com, jianjun.wang@mediatek.com,
-        lorenzo.pieralisi@arm.com, robh@kernel.org, kw@linux.com,
-        bhelgaas@google.com, matthias.bgg@gmail.com,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 1/3] driver core: platform: Add the helper function
- devm_platform_get_and_ioremap_resource_byname()
-Message-ID: <YTB0vegl2YFfaWzM@kroah.com>
-References: <20210902063702.32066-1-caihuoqing@baidu.com>
- <20210902063702.32066-2-caihuoqing@baidu.com>
+        id S242535AbhIBG6O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Sep 2021 02:58:14 -0400
+Received: from smtp-fw-80007.amazon.com ([99.78.197.218]:35200 "EHLO
+        smtp-fw-80007.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242135AbhIBG6O (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Sep 2021 02:58:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1630565837; x=1662101837;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=XBXHWrVSJO9nDb98gdSK+8+MX1E89cWhhkrCj5FfjoM=;
+  b=sqbXDH4bk6CjE89I/6roygexM24wzPPTXoszYX76lAknjnBWhgZNR5GX
+   S+EAQxTAwM87mymzQaEonParZr6aktdu2AixZ8JRGWEkLeGOYPn4kSWnE
+   9HQkNQa9HbYQ0FHdFhHGP69Pi+Fw1Eev+AokQcNVimCTPt8WTKgOSeuhe
+   I=;
+X-IronPort-AV: E=Sophos;i="5.84,371,1620691200"; 
+   d="scan'208";a="23868928"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-1e-42f764a0.us-east-1.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP; 02 Sep 2021 06:57:09 +0000
+Received: from EX13D19EUB003.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+        by email-inbound-relay-1e-42f764a0.us-east-1.amazon.com (Postfix) with ESMTPS id 68570C00DC;
+        Thu,  2 Sep 2021 06:57:04 +0000 (UTC)
+Received: from 8c85908914bf.ant.amazon.com (10.43.162.216) by
+ EX13D19EUB003.ant.amazon.com (10.43.166.69) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.23; Thu, 2 Sep 2021 06:56:55 +0000
+Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>
+CC:     Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Doug Ledford <dledford@redhat.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Oded Gabbay <ogabbay@habana.ai>,
+        Tomer Tayar <ttayar@habana.ai>,
+        Yossi Leybovich <sleybo@amazon.com>,
+        Alexander Matushevsky <matua@amazon.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Jianxin Xiong <jianxin.xiong@intel.com>
+References: <20210819230602.GU543798@ziepe.ca>
+ <CAKMK7uGgQWcs4Va6TGN9akHSSkmTs1i0Kx+6WpeiXWhJKpasLA@mail.gmail.com>
+ <20210820123316.GV543798@ziepe.ca>
+ <0fc94ac0-2bb9-4835-62b8-ea14f85fe512@amazon.com>
+ <20210820143248.GX543798@ziepe.ca>
+ <da6364b7-9621-a384-23b0-9aa88ae232e5@amazon.com>
+ <fa124990-ee0c-7401-019e-08109e338042@amd.com>
+ <e2c47256-de89-7eaa-e5c2-5b96efcec834@amazon.com>
+ <6b819064-feda-b70b-ea69-eb0a4fca6c0c@amd.com>
+ <a9604a39-d08f-6263-4c5b-a2bc9a70583d@nvidia.com>
+ <20210824173228.GE543798@ziepe.ca>
+ <b961e093-b14c-fcdc-e2fc-6ca00cde000c@amazon.com>
+ <98463545-c27a-77e6-0a5c-a658743ce86e@amd.com>
+From:   Gal Pressman <galpress@amazon.com>
+Message-ID: <fc0e7327-a669-9870-b325-f7940ad912ee@amazon.com>
+Date:   Thu, 2 Sep 2021 09:56:50 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210902063702.32066-2-caihuoqing@baidu.com>
+In-Reply-To: <98463545-c27a-77e6-0a5c-a658743ce86e@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.43.162.216]
+X-ClientProxiedBy: EX13D32UWA001.ant.amazon.com (10.43.160.4) To
+ EX13D19EUB003.ant.amazon.com (10.43.166.69)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 02, 2021 at 02:37:00PM +0800, Cai Huoqing wrote:
-> Since provide the helper function devm_platform_ioremap_resource_byname()
-> which is wrap platform_get_resource_byname() and devm_ioremap_resource().
-> But sometimes, many drivers still need to use the resource variables
-> obtained by platform_get_resource(). In these cases, provide this helper
-> function devm_platform_get_and_ioremap_resource_byname().
+On 01/09/2021 14:24, Christian König wrote:
 > 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> ---
-> v1->v2: Resend this patch as part of a patch series that uses
-> 	the new function. 
 > 
->  drivers/base/platform.c         | 30 ++++++++++++++++++++++++++----
->  include/linux/platform_device.h |  3 +++
->  2 files changed, 29 insertions(+), 4 deletions(-)
+> Am 01.09.21 um 13:20 schrieb Gal Pressman:
+>> On 24/08/2021 20:32, Jason Gunthorpe wrote:
+>>> On Tue, Aug 24, 2021 at 10:27:23AM -0700, John Hubbard wrote:
+>>>> On 8/24/21 2:32 AM, Christian König wrote:
+>>>>> Am 24.08.21 um 11:06 schrieb Gal Pressman:
+>>>>>> On 23/08/2021 13:43, Christian König wrote:
+>>>>>>> Am 21.08.21 um 11:16 schrieb Gal Pressman:
+>>>>>>>> On 20/08/2021 17:32, Jason Gunthorpe wrote:
+>>>>>>>>> On Fri, Aug 20, 2021 at 03:58:33PM +0300, Gal Pressman wrote:
+>>>> ...
+>>>>>>>> IIUC, we're talking about three different exporter "types":
+>>>>>>>> - Dynamic with move_notify (requires ODP)
+>>>>>>>> - Dynamic with revoke_notify
+>>>>>>>> - Static
+>>>>>>>>
+>>>>>>>> Which changes do we need to make the third one work?
+>>>>>>> Basically none at all in the framework.
+>>>>>>>
+>>>>>>> You just need to properly use the dma_buf_pin() function when you start
+>>>>>>> using a
+>>>>>>> buffer (e.g. before you create an attachment) and the dma_buf_unpin()
+>>>>>>> function
+>>>>>>> after you are done with the DMA-buf.
+>>>>>> I replied to your previous mail, but I'll ask again.
+>>>>>> Doesn't the pin operation migrate the memory to host memory?
+>>>>> Sorry missed your previous reply.
+>>>>>
+>>>>> And yes at least for the amdgpu driver we migrate the memory to host
+>>>>> memory as soon as it is pinned and I would expect that other GPU drivers
+>>>>> do something similar.
+>>>> Well...for many topologies, migrating to host memory will result in a
+>>>> dramatically slower p2p setup. For that reason, some GPU drivers may
+>>>> want to allow pinning of video memory in some situations.
+>>>>
+>>>> Ideally, you've got modern ODP devices and you don't even need to pin.
+>>>> But if not, and you still hope to do high performance p2p between a GPU
+>>>> and a non-ODP Infiniband device, then you would need to leave the pinned
+>>>> memory in vidmem.
+>>>>
+>>>> So I think we don't want to rule out that behavior, right? Or is the
+>>>> thinking more like, "you're lucky that this old non-ODP setup works at
+>>>> all, and we'll make it work by routing through host/cpu memory, but it
+>>>> will be slow"?
+>>> I think it depends on the user, if the user creates memory which is
+>>> permanently located on the GPU then it should be pinnable in this way
+>>> without force migration. But if the memory is inherently migratable
+>>> then it just cannot be pinned in the GPU at all as we can't
+>>> indefinately block migration from happening eg if the CPU touches it
+>>> later or something.
+>> So are we OK with exporters implementing dma_buf_pin() without migrating the
+>> memory?
 > 
-> diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-> index 652531f67135..34bb581338d9 100644
-> --- a/drivers/base/platform.c
-> +++ b/drivers/base/platform.c
-> @@ -124,6 +124,31 @@ void __iomem *devm_platform_ioremap_resource(struct platform_device *pdev,
->  }
->  EXPORT_SYMBOL_GPL(devm_platform_ioremap_resource);
->  
-> +/**
-> + * devm_platform_get_and_ioremap_resource_byname - call devm_ioremap_resource() for a
-> + *						   platform device and get resource
-> + *
-> + * @pdev: platform device to use both for memory resource lookup as well as
-> + *        resource management
-> + * @name: name of the resource
-> + * @res: optional output parameter to store a pointer to the obtained resource.
-> + *
-> + * Return: a pointer to the remapped memory or an ERR_PTR() encoded error code
-> + * on failure.
-> + */
-> +void __iomem *
-> +devm_platform_get_and_ioremap_resource_byname(struct platform_device *pdev,
-> +					      const char *name, struct resource **res)
-> +{
-> +	struct resource *r;
-> +
-> +	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, name);
-> +	if (res)
-> +		*res = r;
+> I think so, yes.
+> 
+>> If so, do we still want a move_notify callback for non-dynamic importers? A noop?
+> 
+> Well we could make the move_notify callback optional, e.g. so that you get the
+> new locking approach but still pin the buffers manually with dma_buf_pin().
 
-You forgot to check the return value of this call :(
-
-Which means you did not test this?  Why not?
-
-But step back, _WHY_ is this needed at all?  How deep are we going to
-get with the "devm_platform_get_and_do_this_and_that_and_that" type
-functions here?
-
-You show 2 users of this call, and they save what, 1-2 lines of code
-here?
-
-What is the real need for this?
-
-thanks,
-
-greg k-h
+Thanks Christian!
+So the end result will look similar to the original patch I posted, where
+peer2peer can be enabled without providing move_notify, correct?
