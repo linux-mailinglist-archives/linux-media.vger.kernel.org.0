@@ -2,65 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EC773FED1C
-	for <lists+linux-media@lfdr.de>; Thu,  2 Sep 2021 13:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 558D93FED30
+	for <lists+linux-media@lfdr.de>; Thu,  2 Sep 2021 13:53:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245278AbhIBLrv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Sep 2021 07:47:51 -0400
-Received: from mx21.baidu.com ([220.181.3.85]:54712 "EHLO baidu.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234165AbhIBLru (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 2 Sep 2021 07:47:50 -0400
-Received: from BJHW-Mail-Ex01.internal.baidu.com (unknown [10.127.64.11])
-        by Forcepoint Email with ESMTPS id 6C2EFBB550F61E7F595A;
-        Thu,  2 Sep 2021 19:46:47 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BJHW-Mail-Ex01.internal.baidu.com (10.127.64.11) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 2 Sep 2021 19:46:47 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 2 Sep 2021 19:46:46 +0800
-From:   Cai Huoqing <caihuoqing@baidu.com>
-To:     <mikhail.ulyanov@cogentembedded.com>, <mchehab@kernel.org>,
-        <kieran.bingham+renesas@ideasonboard.com>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        Cai Huoqing <caihuoqing@baidu.com>
-Subject: [PATCH] MAINTAINERS: Add  linux-renesas-soc mailing list to renesas JPU
-Date:   Thu, 2 Sep 2021 19:46:41 +0800
-Message-ID: <20210902114641.32370-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+        id S245183AbhIBLx6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Sep 2021 07:53:58 -0400
+Received: from mail-vs1-f43.google.com ([209.85.217.43]:46038 "EHLO
+        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234069AbhIBLxz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Sep 2021 07:53:55 -0400
+Received: by mail-vs1-f43.google.com with SMTP id a21so1175805vsp.12;
+        Thu, 02 Sep 2021 04:52:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=s5u8fbmiYbgPdIpDQg3crMwUtNYfjRbmwSaVQsWY1oM=;
+        b=DgPTE6qca4P3EgOMcRcMBfv1nXesZ41smhsXyc5Dll49z+TV6XMaeleoTToBqjREIO
+         WOnoyq7e+2EIqJKVZ4EdWNHER7Z7xgue6PeW1e1PQJUC7ef3GbTsLGpaeKLwDSU8wy5k
+         iJY44jd5Q+SwT8XhxeupfAOA0Lz8OjNkCmJPQHQa41xFyD6Px+hGAP1ylG/4sG8+81v5
+         Ho8zD6EJjHXpEyKlxXdH5SDORTYa7pCNoxDzytwjs/tKwPmQkfD6oQ5iz/Wdq1bwDG/5
+         fvhE3CevuetDW4ckopIqmOKwtWuaYR+IxauQDRi2q9+PnGvKB4+hSb4Vaa8N4QaHx+aB
+         Gt/A==
+X-Gm-Message-State: AOAM532Y0l9t9nfUrvsUesF23FwmqRu4XR2CzV14sUg3uzi593gvzNuO
+        8kT7C0F3DGp279bBl9g4tUj6rqv44gaxRFobzwA=
+X-Google-Smtp-Source: ABdhPJzrCJB+pGoTiggeVf31kTRMhI2i9RZDg13fzg+0T5RSO5BvVbACLYeBbRKhNO23EIIRyzaD46D25wmDzeNZY9Q=
+X-Received: by 2002:a67:cb0a:: with SMTP id b10mr1535432vsl.9.1630583576886;
+ Thu, 02 Sep 2021 04:52:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BJHW-Mail-Ex09.internal.baidu.com (10.127.64.32) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+References: <20210902114641.32370-1-caihuoqing@baidu.com>
+In-Reply-To: <20210902114641.32370-1-caihuoqing@baidu.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 2 Sep 2021 13:52:45 +0200
+Message-ID: <CAMuHMdXkcf1F5yLb6JWOA+R-SUtPBLkNZZiAbaYxhtQE7gY8Bg@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Add linux-renesas-soc mailing list to
+ renesas JPU
+To:     Cai Huoqing <caihuoqing@baidu.com>
+Cc:     Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-'linux-renesas-soc' is the mailing list for renesas SOC driver,
-so add it to renesas JPU driver info.
+On Thu, Sep 2, 2021 at 1:47 PM Cai Huoqing <caihuoqing@baidu.com> wrote:
+> 'linux-renesas-soc' is the mailing list for renesas SOC driver,
+> so add it to renesas JPU driver info.
+>
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9de648f49591..3581939fd679 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10042,6 +10042,7 @@ F:	include/linux/jbd2.h
- JPU V4L2 MEM2MEM DRIVER FOR RENESAS
- M:	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
- L:	linux-media@vger.kernel.org
-+L:	linux-renesas-soc@vger.kernel.org
- S:	Maintained
- F:	drivers/media/platform/rcar_jpu.c
- 
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
