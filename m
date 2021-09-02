@@ -2,192 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C0283FF7E7
-	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 01:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95B783FF806
+	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 01:46:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345734AbhIBXda (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Sep 2021 19:33:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41806 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1345458AbhIBXdU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 2 Sep 2021 19:33:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C7848610A1;
-        Thu,  2 Sep 2021 23:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1630625541;
-        bh=GA+AjqeSDCMykVukDLkZcSq4WcK7pD/aBcJsuedYksc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=s/+04C7t67KD1oG/KwSDWU00s5MUQy4g4uRK3IHnaWC07ifQquiLbK2upmY3IHvAo
-         e/q2VuygnBfxNMPkYWu7v9l8qa9/uDTGCri4M+4nOQ080OOnpb+w9RfG7hC+A7VAdO
-         PN5Lz35UHLEP5BVOI5RGoc1hYJ2oUVh/Abips89rgJasyvrhxd9kdp1/i9ULEMVGvv
-         dNuaaNVrpe/HvaA42AykZaA1YyMwp5h0n02UtJd1BREnqpbJuD8Lo9XchkBN5171sM
-         NgLasAowEdufp+Asaegop1S9jL7aXwOByYL62n4JE92DVDGX1caI116UxuXcWzid7G
-         BpQpq7TmQADig==
-Received: by mail-ed1-f52.google.com with SMTP id q3so5363565edt.5;
-        Thu, 02 Sep 2021 16:32:21 -0700 (PDT)
-X-Gm-Message-State: AOAM531pmf+b6cnWRl5wAykcwmqLikYJGyUb6EHnF7HkvXmwOTPr3Isv
-        D4Zn2g/EZZRC6Qb71uLnTN/HpKRa2xNrqUDY1A==
-X-Google-Smtp-Source: ABdhPJycLgYARkg/m3hOc4WHpsXYKVG0oQ2LR7ICSZMV1BjFzJrqx7nH9R3KSEgDZ135ljqbSAxTS7LGdqw0PpvXpm4=
-X-Received: by 2002:aa7:d351:: with SMTP id m17mr863165edr.72.1630625540273;
- Thu, 02 Sep 2021 16:32:20 -0700 (PDT)
+        id S1344217AbhIBXr0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Sep 2021 19:47:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37370 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1343725AbhIBXrX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Sep 2021 19:47:23 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A283C061575;
+        Thu,  2 Sep 2021 16:46:24 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id ia27so8200376ejc.10;
+        Thu, 02 Sep 2021 16:46:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uUf+JWeZbHFab9pkUWeRbxdnVOJKI+sj2SLxpfTX21M=;
+        b=eo0zYnqGWAEmfut+g12fbTjlB01IxOxtCd+UpVfFwRcxjjke+JOjQH17//XgwedXf9
+         QXMXoBvCbYg0OihyGVvtj0oEsUjWrPsewLcURvuu4yoYGCAb+ahhORAn9OsZ5T99H59N
+         oai8kgjoYrWxlPBg7doOZRZOLoNZpR/1ezn2pwVYKSUIXpmK7RS8YChvEPknxaNDYXN0
+         x3K6Aa25iTrijwol68SnJm0VEVxfY9oIG6iHpx7qwloCKZcP7QnXjXKQciXOPBMVwnEN
+         80Mi0mJlW/tZSCcaBr2ekQPROLUE0GAI1iG3iHGV9++vA7qxTd19vO/lSAl064Z3pbWX
+         /muw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uUf+JWeZbHFab9pkUWeRbxdnVOJKI+sj2SLxpfTX21M=;
+        b=WYJOZYa5sAvKVwnlGP9cLBeCREi2j/wKg0Tzh1oMWDYozy+9cQi38hvljbN5T3ptPr
+         WRcC3SGO0cUoXVOibgELwZym19eixPnuQV7+2dzqd0rv48AP+OSqqtJohdU/BMkOq/QI
+         8se+RU7P4VT6vyiQ6vKA/vyC1tCtTbrIc8pBcOcCtTDhhTcxkSXw/HmxWKcO8IrLnHJF
+         7EUx9mle2IgWTqq6Ym432+Lw0hKC8xUMWfMCZuNtbZelehWvZ3ZlAcK/AqcW9Wy1msyn
+         PRP602ZqIXP3Kc8Ckpz7zP32TIDxhj2lwhdRHokseHS4oc+mhmmRKd9Jq1t6rNgCmNA7
+         +ipw==
+X-Gm-Message-State: AOAM532jJyhiC+81wWyyqrUNxj5Jc2v4qTAhyuablNURLxjlt+GLGvbn
+        AkJQp62pv3aDiZRf/v64JaPCydLyrZwlmY2gJFQ=
+X-Google-Smtp-Source: ABdhPJybZeCeGWrYHAOIPRAUlYAG9ZRq1QLjGCmXrCzBZoWnEikcFuxPh8qX3KW7jtTPGBftRcDxh5NCLCutKUYozBo=
+X-Received: by 2002:a17:907:3393:: with SMTP id zj19mr762816ejb.535.1630626382997;
+ Thu, 02 Sep 2021 16:46:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210824100027.25989-1-moudy.ho@mediatek.com> <20210824100027.25989-4-moudy.ho@mediatek.com>
- <YSU0TrfFCsaI1TqV@robh.at.kernel.org> <0092244acd520acac81208b8863b15fba58f4193.camel@mediatek.com>
- <CAL_JsqJ_cProt35pdd2MjoHsSKtd+0n1Dwq6ooV+CJH5sfOFWg@mail.gmail.com>
-In-Reply-To: <CAL_JsqJ_cProt35pdd2MjoHsSKtd+0n1Dwq6ooV+CJH5sfOFWg@mail.gmail.com>
-From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date:   Fri, 3 Sep 2021 07:32:09 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9ztP2c3qeF4cGBujdBWwdNrk-k14EPjD_yukH73L11qw@mail.gmail.com>
-Message-ID: <CAAOTY_9ztP2c3qeF4cGBujdBWwdNrk-k14EPjD_yukH73L11qw@mail.gmail.com>
-Subject: Re: [PATCH v7 3/5] dt-binding: mt8183: Add Mediatek MDP3 dt-bindings
-To:     Rob Herring <robh@kernel.org>
-Cc:     moudy ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Pi-Hsun Shih <pihsun@chromium.org>, menghui.lin@mediatek.com,
-        Sj Huang <sj.huang@mediatek.com>, ben.lok@mediatek.com,
-        randy.wu@mediatek.com,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@google.com>
+References: <20210714032340.504836-1-mudongliangabcd@gmail.com>
+ <CAD-N9QXWHeNvR06wyg3Pym8xUb27TsuFKKKG=tZ0-x5ZGCr-Hw@mail.gmail.com>
+ <CAD-N9QWj8w-xVAni2cGHyEei78iKEX_V0a00r0x3We7tfFGZjw@mail.gmail.com> <20210902141745.GD2129@kadam>
+In-Reply-To: <20210902141745.GD2129@kadam>
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+Date:   Fri, 3 Sep 2021 07:45:56 +0800
+Message-ID: <CAD-N9QUD_H9R=gZyZ9YAx7h7bzNncGxZuivp=MKXmTtvDvXyAQ@mail.gmail.com>
+Subject: Re: [PATCH] media: usb: fix memory leak in stk_camera_probe
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Rob:
-
-Rob Herring <robh@kernel.org> =E6=96=BC 2021=E5=B9=B48=E6=9C=8830=E6=97=A5 =
-=E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=8811:06=E5=AF=AB=E9=81=93=EF=BC=9A
+On Thu, Sep 2, 2021 at 10:18 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
 >
-> On Mon, Aug 30, 2021 at 2:58 AM moudy ho <moudy.ho@mediatek.com> wrote:
+> On Thu, Sep 02, 2021 at 06:23:36PM +0800, Dongliang Mu wrote:
+> > On Fri, Jul 23, 2021 at 6:11 PM Dongliang Mu <mudongliangabcd@gmail.com> wrote:
+> > >
+> > > On Wed, Jul 14, 2021 at 11:23 AM Dongliang Mu <mudongliangabcd@gmail.com> wrote:
+> > > >
+> > > > stk_camera_probe mistakenly execute usb_get_intf and increase the
+> > > > refcount of interface->dev.
+> > > >
+> > > > Fix this by removing the execution of usb_get_intf.
+> > >
+> > > Any idea about this patch?
 > >
-> > On Tue, 2021-08-24 at 13:02 -0500, Rob Herring wrote:
-> > > On Tue, Aug 24, 2021 at 06:00:25PM +0800, Moudy Ho wrote:
-> > > > This patch adds DT binding document for Media Data Path 3 (MDP3)
-> > > > a unit in multimedia system used for scaling and color format
-> > > > convert.
+> > +cc Dan Carpenter, gregkh
+> >
+> > There is no reply in this thread in one month. Can someone give some
+> > feedback on this patch?
+> >
+> > >
 > > > >
-> > > > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> > > > Reported-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> > > > Fixes: 0aa77f6c2954 ("[media] move the remaining USB drivers to drivers/media/usb")
+> > > > Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
 > > > > ---
-> > > >  .../bindings/media/mediatek,mdp3-ccorr.yaml   |  57 +++++
-> > > >  .../bindings/media/mediatek,mdp3-rdma.yaml    | 207
-> > > > ++++++++++++++++++
-> > > >  .../bindings/media/mediatek,mdp3-rsz.yaml     |  65 ++++++
-> > > >  .../bindings/media/mediatek,mdp3-wdma.yaml    |  71 ++++++
-> > > >  .../bindings/media/mediatek,mdp3-wrot.yaml    |  71 ++++++
-> > > >  5 files changed, 471 insertions(+)
-> > > >  create mode 100644
-> > > > Documentation/devicetree/bindings/media/mediatek,mdp3-ccorr.yaml
-> > > >  create mode 100644
-> > > > Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
-> > > >  create mode 100644
-> > > > Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
-> > > >  create mode 100644
-> > > > Documentation/devicetree/bindings/media/mediatek,mdp3-wdma.yaml
-> > > >  create mode 100644
-> > > > Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
+> > > >  drivers/media/usb/stkwebcam/stk-webcam.c | 1 -
+> > > >  1 file changed, 1 deletion(-)
 > > > >
-> > > > diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-
-> > > > ccorr.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-
-> > > > ccorr.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..59fd68b46022
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-
-> > > > ccorr.yaml
-> > > > @@ -0,0 +1,57 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id:
-> > > > https://urldefense.com/v3/__http://devicetree.org/schemas/media/med=
-iatek,mdp3-ccorr.yaml*__;Iw!!CTRNKA9wMg0ARbw!1C0ChLqzi7Zq8D2d4_S4IqCEei4GXd=
-gy3_VCQg8MdsJP7n8TlxbGyajipusfH8hi$
+> > > > diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c b/drivers/media/usb/stkwebcam/stk-webcam.c
+> > > > index a45d464427c4..5bd8e85b9452 100644
+> > > > --- a/drivers/media/usb/stkwebcam/stk-webcam.c
+> > > > +++ b/drivers/media/usb/stkwebcam/stk-webcam.c
+> > > > @@ -1311,7 +1311,6 @@ static int stk_camera_probe(struct usb_interface *interface,
 > > > >
-> > > > +$schema:
-> > > > https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core=
-.yaml*__;Iw!!CTRNKA9wMg0ARbw!1C0ChLqzi7Zq8D2d4_S4IqCEei4GXdgy3_VCQg8MdsJP7n=
-8TlxbGyajipi-OInix$
-> > > >
-> > > > +
-> > > > +title: Mediatek Media Data Path 3 CCORR Device Tree Bindings
-> > > > +
-> > > > +maintainers:
-> > > > +  - Daoyuan Huang <daoyuan.huang@mediatek.com>
-> > > > +  - Moudy Ho <moudy.ho@mediatek.com>
-> > > > +
-> > > > +description: |
-> > > > +  One of Media Data Path 3 (MDP3) components used to do color
-> > > > correction with 3X3 matrix.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    items:
-> > > > +      - enum:
-> > > > +        - mediatek,mt8183-mdp3-ccorr
-> > > > +
-> > > > +  mediatek,mdp3-id:
-> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > > +    maxItems: 1
-> > > > +    description: |
-> > > > +      HW index to distinguish same functionality modules.
-> > >
-> > > If we wanted h/w indexes in DT, we'd have a standard property. Why
-> > > do
-> > > you need this?
-> > >
-> > I'm sorry not quite sure what HW indexes means (something like
-> > aliases?)
+> > > >         dev->udev = udev;
+> > > >         dev->interface = interface;
+> > > > -       usb_get_intf(interface);
 >
-> It means whatever you said in your description.
 >
-> And no, I'm not suggesting you use aliases.
+> The patch is wrong.  We're storing a reference to "interface".
+>
+>         dev->interface = interface;
+>
+> So we need to boost the refcount of interface.  Pavel Skripkin was on
+> the right patch but you need to add a:
+>
+>         usb_put_intf(interface);
+>
+> to the stk_camera_disconnect() function as you sort of mentioned.
+> That's the correct fix.
 
-Because mediatek drm driver has the same problem with mdp driver, and
-it has already use the aliases [1]. No matter what is the conclusion
-for mdp driver, I think mediatek drm driver should align to this
-conclusion. If the conclusion is to remove aliases, should I modify
-the dts which has already upstreamed? Should mediatek drm driver be
-backward-compatible with down stream dts which use aliases?
+Thanks for your explanation, Dan. It's really helpful.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/arch/arm64/boot/dts/mediatek/mt8173.dtsi?h=3Dv5.14
+I sent the inquiry email in this thread because I did not receive the
+notification of patchwork to mark my patch as obsolete and did not
+notice Pavel had sent one patch before.
 
-Regards,
-Chun-Kuang.
+Now, this patch is marked as obsolete. Let's ignore it now.
 
 >
-> > It was originally used to mark multiple identical modules in the MDP
-> > data path algorithm, so that appropriate paths can be dynamically
-> > dispatched.
->
-> If they are identical, then why do you need to distinguish them in DT?
-> If there's some difference you need to know about such as connections
-> to other blocks, then describe that. Another common example is needing
-> to know what bits/registers to access in a syscon phandle. For that,
-> make the register offset or bits be args to the phandle property.
->
-> Rob
->
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+> regards,
+> dan carpenter
