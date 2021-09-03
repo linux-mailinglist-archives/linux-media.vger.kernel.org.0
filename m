@@ -2,344 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A513A4005F5
-	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 21:39:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1728340064F
+	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 22:07:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349426AbhICTkK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Sep 2021 15:40:10 -0400
-Received: from mail-ot1-f42.google.com ([209.85.210.42]:46665 "EHLO
-        mail-ot1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348976AbhICTkK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Sep 2021 15:40:10 -0400
-Received: by mail-ot1-f42.google.com with SMTP id v33-20020a0568300921b0290517cd06302dso304394ott.13;
-        Fri, 03 Sep 2021 12:39:10 -0700 (PDT)
+        id S235923AbhICUIC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Sep 2021 16:08:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60470 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234379AbhICUIB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Sep 2021 16:08:01 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D2F4C061575;
+        Fri,  3 Sep 2021 13:07:01 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so289112pjr.1;
+        Fri, 03 Sep 2021 13:07:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=7SKmff0zrrH1w49z5jJaIN6IY4jJPGhaALSgqxYy2W8=;
+        b=GhOo0mI6+aIftk1kdtC9L9hRp9VGV9ngkX8L7KZCmXvM8Ik0zwIRHShuiVEbJSWyBN
+         KGC9cYvWrT3iy6qsvsawu4mxxscqTQqKZ3ZYRnyFklJrIE5Q+ITQJpHA9yeOaUO/0/kM
+         qpEerGanmaieNCbxOevKQuCBU8fvJPnFgIar/Cy+g/R/Gx1llDx2+uqncS+s2M0cp3oA
+         3CWP+4KtI91RuxASC806HuzTU5jEBuBFX5IzXXvIYYrGYGwC7Uz25rykszb+dP06vxlX
+         yE5lhQHS/uWRt5MJ4z0JuhX4BEXDnHzn1sEB2sPhVvbvPD0a+sOudYo8Vo1hNOlyfoDM
+         d7Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=vxZ7/IKrYvf4sUb2KR1Kn4kmKcTB6a6zAmQiBxZJvPI=;
-        b=qwoP63LCsXGkqGdS1U0ZCaHRQouTUW2Y1uFRgVrZfelLi6z2atsU79Kn1pRvQvmtfC
-         kvahrwZ1lbdaNseSgNHyks2ixQxT/ysYMabcR97jr65DiJE6L5ILlZW10NrCVqMPoeW5
-         ZAzmwQJdxw975xDKQzr4wHksIpYArQZrOP2Tp00foEe9Jyohg5HbiWg3A5cxH5ktsn+F
-         N18gFeia4LENzFZy/xh+Q7LEa+IS56LDtIUg0DSw88ODluSHM8SySE0aYujZ3eVXaZav
-         huPr/XSW724m2XtiAPdeCY4A3nEs6hB2Lr/d8Ln+VywG976QtPioEhJQ9xnIOnEr4R2+
-         Z80A==
-X-Gm-Message-State: AOAM5328Ce1l9xyxjbTWcOt4RloM9Wh6fJh0HpSz+Nxcc3IhRkwLne4+
-        k4PAYdW115akBo3+WI5b6Q==
-X-Google-Smtp-Source: ABdhPJw289gJj0AxbR/U4vPg1x2vnJnuLUfNi/ZoXa1/Ea0jhSY6OEDLdCxXKDBhd4uMjneW5xEv2Q==
-X-Received: by 2002:a05:6830:70d:: with SMTP id y13mr606742ots.278.1630697949687;
-        Fri, 03 Sep 2021 12:39:09 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id y26sm67318oih.2.2021.09.03.12.39.08
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=7SKmff0zrrH1w49z5jJaIN6IY4jJPGhaALSgqxYy2W8=;
+        b=JpJNe8AsEvGF38FrJEhPu2bTEhdml4kgvsH8hfQDNAeSAk9gFz6VqH5hVeQDG91TNh
+         qfVFNCFtdAJANorQzYgQrGfwAJbArm0UkaGc3DUtirIrLSS+j8S2/0jBsptrUgLcjjNh
+         RX0RRnyrJX+c9m95d11Q5wbgicgp7G+w8FFODHNQCCOQRl/ZuE5O0mWqDsomQDMoQv24
+         QWAToTcBOManBOdzhR8Ffzo+CoKcpVLq+tRRZJEmepAEWoRRMAdkYVCTKqPLnK0VPai4
+         hd8508/FCFZS+0/YYMkWlogpRqItkLQHR1czYEnpZOzM7cixZNeza/1AezgqC40VZH5j
+         UjGw==
+X-Gm-Message-State: AOAM532dj1OGEufLhBff9DM1TOq+nPD98xGykm2USRU/lGfSUP0lCvxF
+        lsEXNM9SJvUOUq8sXwC/giM=
+X-Google-Smtp-Source: ABdhPJxdP3BhrYU5mYB8C0xEj7WZ7NjtPgFTcQBAfduPgBrOo1qOE0A6WfrTqKRyUWKWL0iDePFb4A==
+X-Received: by 2002:a17:902:7e4d:b0:13a:8f:42d4 with SMTP id a13-20020a1709027e4d00b0013a008f42d4mr535689pln.62.1630699620704;
+        Fri, 03 Sep 2021 13:07:00 -0700 (PDT)
+Received: from ip-172-31-53-182.us-west-2.compute.internal (ec2-44-242-40-232.us-west-2.compute.amazonaws.com. [44.242.40.232])
+        by smtp.gmail.com with ESMTPSA id b69sm209965pfb.64.2021.09.03.13.06.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 12:39:09 -0700 (PDT)
-Received: (nullmailer pid 3331121 invoked by uid 1000);
-        Fri, 03 Sep 2021 19:39:08 -0000
-Date:   Fri, 3 Sep 2021 14:39:08 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-Subject: Re: [PATCH v2 27/52] dt-bindings: media: Convert OV5640 binding to a
- schema
-Message-ID: <YTJ53KbAeoO9sKEk@robh.at.kernel.org>
-References: <20210901091852.479202-1-maxime@cerno.tech>
- <20210901091852.479202-28-maxime@cerno.tech>
+        Fri, 03 Sep 2021 13:07:00 -0700 (PDT)
+Date:   Fri, 3 Sep 2021 20:06:58 +0000
+From:   Alakesh Haloi <alakesh.haloi@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pavel Skripkin <paskripkin@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: staging: media: atomisp: fix return value
+Message-ID: <20210903200658.GA552296@ip-172-31-53-182.us-west-2.compute.internal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210901091852.479202-28-maxime@cerno.tech>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 01, 2021 at 11:18:27AM +0200, Maxime Ripard wrote:
-> The Omnivision OV5640 is supported by Linux thanks to its device tree
-> binding.
-> 
-> Now that we have the DT validation in place, let's convert the device
-> tree bindings for that driver over to a YAML schema.
-> 
-> Cc: linux-media@vger.kernel.org
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Steve Longerbeam <slongerbeam@gmail.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  .../devicetree/bindings/media/i2c/ov5640.txt  |  92 -----------
->  .../bindings/media/i2c/ovti,ov5640.yaml       | 154 ++++++++++++++++++
->  2 files changed, 154 insertions(+), 92 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.txt b/Documentation/devicetree/bindings/media/i2c/ov5640.txt
-> deleted file mode 100644
-> index c97c2f2da12d..000000000000
-> --- a/Documentation/devicetree/bindings/media/i2c/ov5640.txt
-> +++ /dev/null
-> @@ -1,92 +0,0 @@
-> -* Omnivision OV5640 MIPI CSI-2 / parallel sensor
-> -
-> -Required Properties:
-> -- compatible: should be "ovti,ov5640"
-> -- clocks: reference to the xclk input clock.
-> -- clock-names: should be "xclk".
-> -- DOVDD-supply: Digital I/O voltage supply, 1.8 volts
-> -- AVDD-supply: Analog voltage supply, 2.8 volts
-> -- DVDD-supply: Digital core voltage supply, 1.5 volts
-> -
-> -Optional Properties:
-> -- reset-gpios: reference to the GPIO connected to the reset pin, if any.
-> -	       This is an active low signal to the OV5640.
-> -- powerdown-gpios: reference to the GPIO connected to the powerdown pin,
-> -		   if any. This is an active high signal to the OV5640.
-> -- rotation: as defined in
-> -	    Documentation/devicetree/bindings/media/video-interfaces.txt,
-> -	    valid values are 0 (sensor mounted upright) and 180 (sensor
-> -	    mounted upside down).
-> -
-> -The device node must contain one 'port' child node for its digital output
-> -video port, in accordance with the video interface bindings defined in
-> -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> -
-> -OV5640 can be connected to a MIPI CSI-2 bus or a parallel bus endpoint.
-> -
-> -Endpoint node required properties for CSI-2 connection are:
-> -- remote-endpoint: a phandle to the bus receiver's endpoint node.
-> -- clock-lanes: should be set to <0> (clock lane on hardware lane 0)
-> -- data-lanes: should be set to <1> or <1 2> (one or two CSI-2 lanes supported)
-> -
-> -Endpoint node required properties for parallel connection are:
-> -- remote-endpoint: a phandle to the bus receiver's endpoint node.
-> -- bus-width: shall be set to <8> for 8 bits parallel bus
-> -	     or <10> for 10 bits parallel bus
-> -- data-shift: shall be set to <2> for 8 bits parallel bus
-> -	      (lines 9:2 are used) or <0> for 10 bits parallel bus
-> -- hsync-active: active state of the HSYNC signal, 0/1 for LOW/HIGH respectively.
-> -- vsync-active: active state of the VSYNC signal, 0/1 for LOW/HIGH respectively.
-> -- pclk-sample: sample data on rising (1) or falling (0) edge of the pixel clock
-> -	       signal.
-> -
-> -Examples:
-> -
-> -&i2c1 {
-> -	ov5640: camera@3c {
-> -		compatible = "ovti,ov5640";
-> -		pinctrl-names = "default";
-> -		pinctrl-0 = <&pinctrl_ov5640>;
-> -		reg = <0x3c>;
-> -		clocks = <&clks IMX6QDL_CLK_CKO>;
-> -		clock-names = "xclk";
-> -		DOVDD-supply = <&vgen4_reg>; /* 1.8v */
-> -		AVDD-supply = <&vgen3_reg>;  /* 2.8v */
-> -		DVDD-supply = <&vgen2_reg>;  /* 1.5v */
-> -		powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-> -		reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-> -		rotation = <180>;
-> -
-> -		port {
-> -			/* MIPI CSI-2 bus endpoint */
-> -			ov5640_to_mipi_csi2: endpoint {
-> -				remote-endpoint = <&mipi_csi2_from_ov5640>;
-> -				clock-lanes = <0>;
-> -				data-lanes = <1 2>;
-> -			};
-> -		};
-> -	};
-> -};
-> -
-> -&i2c1 {
-> -	ov5640: camera@3c {
-> -		compatible = "ovti,ov5640";
-> -		pinctrl-names = "default";
-> -		pinctrl-0 = <&pinctrl_ov5640>;
-> -		reg = <0x3c>;
-> -		clocks = <&clk_ext_camera>;
-> -		clock-names = "xclk";
-> -
-> -		port {
-> -			/* Parallel bus endpoint */
-> -			ov5640_to_parallel: endpoint {
-> -				remote-endpoint = <&parallel_from_ov5640>;
-> -				bus-width = <8>;
-> -				data-shift = <2>; /* lines 9:2 are used */
-> -				hsync-active = <0>;
-> -				vsync-active = <0>;
-> -				pclk-sample = <1>;
-> -			};
-> -		};
-> -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> new file mode 100644
-> index 000000000000..0283b1895a75
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> @@ -0,0 +1,154 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5640.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: OmniVision OV5640 Image Sensor Device Tree Bindings
-> +
-> +maintainers:
-> +  - Steve Longerbeam <slongerbeam@gmail.com>
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: ovti,ov5640
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description: XCLK Input Clock
-> +
-> +  clock-names:
-> +    const: xclk
-> +
-> +  AVDD-supply:
-> +    description: Analog voltage supply, 2.8 volts
-> +
-> +  DVDD-supply:
-> +    description: Digital core voltage supply, 1.5 volts
-> +
-> +  DOVDD-supply:
-> +    description: Digital I/O voltage supply, 1.8 volts
-> +
-> +  powerdown-gpios:
-> +    maxItems: 1
-> +    description: >
-> +      Reference to the GPIO connected to the powerdown pin, if any.
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: >
-> +      Reference to the GPIO connected to the reset pin, if any.
-> +
-> +  rotation:
-> +    enum: 
-> +      - 0
-> +      - 180
-> +
-> +  port:
-> +    description: Digital Output Port
-> +    $ref: /schemas/graph.yaml#/properties/port
+This fixes following error seen during module build
+error: control reaches end of non-void function [-Werror=return-type]
 
-This needs to be /schemas/graph.yaml#/$defs/port-base
+Signed-off-by: Alakesh Haloi <alakesh.haloi@gmail.com>
+---
+ .../media/atomisp/pci/hive_isp_css_common/host/input_system.c    | 1 +
+ 1 file changed, 1 insertion(+)
 
-Otherwise, it will fail when we start checking unevaluatedProperties.
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+index 8e085dda0c18..5d088d6fb01f 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+@@ -1646,6 +1646,7 @@ static input_system_err_t input_system_configure_channel_sensor(
+ 	default:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+ 	}
++	return status;
+ }
+ 
+ // Test flags and set structure.
+-- 
+2.25.1
 
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          clock-lanes:
-> +            const: 0
-> +
-> +          data-lanes:
-> +            minItems: 1
-> +            maxItems: 2
-> +            items:
-> +              enum: [1, 2]
-> +
-> +          bus-width:
-> +            enum: [8, 10]
-> +
-> +          data-shift:
-> +            enum: [0, 2]
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - AVDD-supply
-> +  - DVDD-supply
-> +  - DOVDD-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +      #include <dt-bindings/clock/imx6qdl-clock.h>
-> +      #include <dt-bindings/gpio/gpio.h>
-> +
-> +      i2c {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          camera@3c {
-> +              compatible = "ovti,ov5640";
-> +              pinctrl-names = "default";
-> +              pinctrl-0 = <&pinctrl_ov5640>;
-> +              reg = <0x3c>;
-> +              clocks = <&clks IMX6QDL_CLK_CKO>;
-> +              clock-names = "xclk";
-> +              DOVDD-supply = <&vgen4_reg>; /* 1.8v */
-> +              AVDD-supply = <&vgen3_reg>;  /* 2.8v */
-> +              DVDD-supply = <&vgen2_reg>;  /* 1.5v */
-> +              powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-> +              reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-> +              rotation = <180>;
-> +
-> +              port {
-> +                  /* MIPI CSI-2 bus endpoint */
-> +                  ov5640_to_mipi_csi2: endpoint {
-> +                      remote-endpoint = <&mipi_csi2_from_ov5640>;
-> +                      clock-lanes = <0>;
-> +                      data-lanes = <1 2>;
-> +                  };
-> +              };
-> +          };
-> +      };
-> +
-> +  - |
-> +      i2c {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          camera@3c {
-> +              compatible = "ovti,ov5640";
-> +              pinctrl-names = "default";
-> +              pinctrl-0 = <&pinctrl_ov5640>;
-> +              reg = <0x3c>;
-> +              clocks = <&clk_ext_camera>;
-> +              clock-names = "xclk";
-> +              DOVDD-supply = <&vgen4_reg>; /* 1.8v */
-> +              AVDD-supply = <&vgen3_reg>;  /* 2.8v */
-> +              DVDD-supply = <&vgen2_reg>;  /* 1.5v */
-> +
-> +              port {
-> +                  /* Parallel bus endpoint */
-> +                  ov5640_to_parallel: endpoint {
-> +                      remote-endpoint = <&parallel_from_ov5640>;
-> +                      bus-width = <8>;
-> +                      data-shift = <2>; /* lines 9:2 are used */
-> +                      hsync-active = <0>;
-> +                      vsync-active = <0>;
-> +                      pclk-sample = <1>;
-> +                  };
-> +              };
-> +          };
-> +      };
-> +
-> +...
-> -- 
-> 2.31.1
-> 
-> 
