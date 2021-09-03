@@ -2,114 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F120D3FFF87
-	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 14:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 399F33FFFB7
+	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 14:26:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348791AbhICMFc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Sep 2021 08:05:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36822 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235253AbhICMFb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 3 Sep 2021 08:05:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C145A610A1;
-        Fri,  3 Sep 2021 12:04:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1630670671;
-        bh=TV60G71330gY2zfcvnThkkfaUu41BxT5Wk4/0mYH3eM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=l6wTcDN8IuynfV4RLR3cWA1nB/STMdvaNKZY4NBaAijyl9nj8ddxl45GDA5aGXNDV
-         vLUwjyw8vmlsom0Y5v9mbAJqmx97n+R8vdyg2lu7Y8LzKDTkih3acqC5pbgme/NsAL
-         10taWYbdycj3BYmWk4WTbcmSoFA1dI41t5qhNbG5VVI/01bbbx8SxTQ97C/AxK5wYv
-         zViIpEGeZA1MC2tce1uNvGP/IO4NZWvU4bweJhY343TclntwmdYP8yhvPQbpp/cgaQ
-         UnEqRw0ol+tI+5k5huP+Ewqg8S9gv4QeCEuDwnGTdXEN4PuU3UgbJKgV2/2fJdbaIT
-         QRUQyiZvdpBhw==
-Date:   Fri, 3 Sep 2021 14:04:27 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [GIT PULL FOR v5.16] uvcvideo v4l2-compliance fixes
-Message-ID: <20210903140421.1b021b6f@coco.lan>
-In-Reply-To: <YSNsXylafQPuKH4H@pendragon.ideasonboard.com>
-References: <YSNsXylafQPuKH4H@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S1349275AbhICM1r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Sep 2021 08:27:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38712 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230005AbhICM1r (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Sep 2021 08:27:47 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E64CC061575;
+        Fri,  3 Sep 2021 05:26:47 -0700 (PDT)
+Received: from [IPv6:2a01:e0a:4cb:a870:921c:7ea9:49a9:5125] (unknown [IPv6:2a01:e0a:4cb:a870:921c:7ea9:49a9:5125])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 348751F449D7;
+        Fri,  3 Sep 2021 13:26:44 +0100 (BST)
+Subject: Re: [PATCH V2 00/13] soc: imx: gpcv2: support i.MX8MM
+To:     Lucas Stach <l.stach@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>, krzk@kernel.org,
+        agx@sigxcpu.org, Marek Vasut <marex@denx.de>,
+        andrew.smirnov@gmail.com, devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ping.bai@nxp.com, frieder.schrempf@kontron.de, aford173@gmail.com,
+        abel.vesa@nxp.com, Peng Fan <peng.fan@nxp.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+References: <20210506010440.7016-1-peng.fan@oss.nxp.com>
+ <CAAEAJfDfjkHF164x2qRnZg3e5JRN0pHjxyAq+d5+-3JFYwEEOQ@mail.gmail.com>
+ <d19d35e8a90ece7124d06855b9f2b226b73c8f6e.camel@pengutronix.de>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <3558be1f-7c27-cad8-2802-cc2d27ee62eb@collabora.com>
+Date:   Fri, 3 Sep 2021 14:26:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <d19d35e8a90ece7124d06855b9f2b226b73c8f6e.camel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 23 Aug 2021 12:37:35 +0300
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-> Hi Mauro,
-> 
-> The following changes since commit d62cd4d277cc711f781a7bdec4109c6148529b25:
-> 
->   media: uvcvideo: Remove unused including <linux/version.h> (2021-08-21 09:11:04 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/pinchartl/media.git tags/uvc-next-20210823
-> 
-> for you to fetch changes up to 2bc2b78476b4bc5690186c2b9a4dd565be6a9913:
-> 
->   media: uvcvideo: Don't spam the log in uvc_ctrl_restore_values() (2021-08-23 12:31:04 +0300)
-> 
-> This contains a subset of "[PATCH v10 00/21] Fix v4l2-compliance errors"
-> as 17 out of the 21 patches are ready to go and don't need to be
-> delayed.
-> 
-> ----------------------------------------------------------------
-> - uvcvideo v4l2-compliance fixes
-> 
-> ----------------------------------------------------------------
-> Hans Verkuil (1):
->       media: uvcvideo: Don't spam the log in uvc_ctrl_restore_values()
-> 
-> Ricardo Ribalda (16):
->       media: v4l2-ioctl: Fix check_ext_ctrls
->       media: pvrusb2: Do not check for V4L2_CTRL_WHICH_DEF_VAL
->       media: uvcvideo: Do not check for V4L2_CTRL_WHICH_DEF_VAL
->       media: v4l2-ioctl: S_CTRL output the right value
->       media: uvcvideo: Remove s_ctrl and g_ctrl
->       media: uvcvideo: Set capability in s_param
->       media: uvcvideo: Return -EIO for control errors
->       media: uvcvideo: refactor __uvc_ctrl_add_mapping
->       media: uvcvideo: Add support for V4L2_CTRL_TYPE_CTRL_CLASS
->       media: uvcvideo: Use dev->name for querycap()
->       media: uvcvideo: Set unique vdev name based in type
->       media: uvcvideo: Increase the size of UVC_METADATA_BUF_SIZE
+Le 09/08/2021 à 10:15, Lucas Stach a écrit :
+> Hi Ezequiel,
+>
+> Am Mittwoch, dem 04.08.2021 um 11:30 -0300 schrieb Ezequiel Garcia:
+>> Hi Peng, Lucas,
+>>
+>> On Wed, 5 May 2021 at 21:32, Peng Fan (OSS) <peng.fan@oss.nxp.com> wrote:
+>>> From: Peng Fan <peng.fan@nxp.com>
+>>>
+>>>
+>>> V2:
+>>>   - Add R-b/A-b tag
+>>>   - Merge V1 patch 13 to V2 patch 6
+>>>   - Drop V1 patch 15
+>>>   - Merge V1 patch 16 to V2 patch 5 and add comments in patch 5 to explain
+>>>   details
+>>>   - Add explaination in patch 8 for "why the resets are not defined"
+>>>
+>>> This patchset is a pick up Lucas's gpcv2 work for i.MX8MM and several
+>>> minor changes from me to make it could work with i.MX BLK-CTL driver.
+>>>
+>>> Thanks for Lucas's work and suggestion, Frieder Schrempf for collecting
+>>> all the patches, Jacky Bai on help debug issues.
+>>>
+>>> Lucas Stach (12):
+>>>    soc: imx: gpcv2: move to more ideomatic error handling in probe
+>>>    soc: imx: gpcv2: move domain mapping to domain driver probe
+>>>    soc: imx: gpcv2: switch to clk_bulk_* API
+>>>    soc: imx: gpcv2: split power up and power down sequence control
+>>>    soc: imx: gpcv2: wait for ADB400 handshake
+>>>    soc: imx: gpcv2: add runtime PM support for power-domains
+>>>    soc: imx: gpcv2: allow domains without power-sequence control
+>>>    dt-bindings: imx: gpcv2: add support for optional resets
+>>>    soc: imx: gpcv2: add support for optional resets
+>>>    dt-bindings: power: add defines for i.MX8MM power domains
+>>>    soc: imx: gpcv2: add support for i.MX8MM power domains
+>>>    soc: imx: gpcv2: Add support for missing i.MX8MM VPU/DISPMIX power
+>>>      domains
+>>>
+>> It's nice to see this finally moving forward!
+>>
+>> As you know, Hantro G2 support for i.MX8MQ (and i.MX8MP, i.MX8MM) is currently
+>> blocked, as you have requested:
+>>
+>> https://lore.kernel.org/driverdev-devel/5aa5700b862234895a7a6eb251ca3c80fdc1a6d3.camel@collabora.com/
+>>
+>> So, I think we really need to include i.MX8MP and i.MX8MQ on this series.
+>> It's been quite a while and we really need to have that. To be honest,
+>> I fear that
+>> if we merge this series as-is, MX8MP and MX8MP support will fall in
+>> the oblivion,
+>> and Hantro G2 VPU will remain unusable.
+>>
+>> We are planning to submit Hantro G2 VP9 support soon, and we've been testing
+>> on various platforms, but it will also be blocked by lack of power-domains.
+>>
+>> In the future, please Cc the linux-media mailing list, as well as
+>> Benjamin, Andrzej and myself, so we can follow this.
+> Please take a look at [1], which is the current state of this work. I
+> intend to add both i.MX8MQ and i.MX8MP support to the series now, as it
+> seems that there have been no big objections to my approach over the
+> last 2 weeks, where I was on vacation. ;)
 
-Patches applied.
+Hi Lucas,
 
->       media: uvcvideo: Use control names from framework
->       media: uvcvideo: Check controls flags before accessing them
->       media: uvcvideo: Set error_idx during ctrl_commit errors
+I have tried to implement the block control driver for imx8mq.
+I didn't manage to get it working.
+My implementation is here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/IMX8MQ_BLK_CTRL
 
-I didn't apply those three. The first one seems to be causing
-memory leaks, and the other two are dependent on the first one.
+While you have the same in IMX8MM do you have also made changes in Hantro driver ?
+If it is that can you share these changes ? I have include mine in the above branch.
 
-So, I opted to skip them when merging this PR. This way, Ricardo
-can just re-submit 3 patches instead of the hole series.
+Regards,
+Benjamin
 
-
->       media: docs: Document the behaviour of uvcvideo driver
-
-Patches applied.
-
-> 
->  .../userspace-api/media/v4l/vidioc-g-ctrl.rst      |   3 +
->  .../userspace-api/media/v4l/vidioc-g-ext-ctrls.rst |   3 +
->  drivers/media/usb/pvrusb2/pvrusb2-v4l2.c           |   4 -
->  drivers/media/usb/uvc/uvc_ctrl.c                   | 260 ++++++++++++++++-----
->  drivers/media/usb/uvc/uvc_driver.c                 |  15 +-
->  drivers/media/usb/uvc/uvc_metadata.c               |   2 +-
->  drivers/media/usb/uvc/uvc_v4l2.c                   | 105 ++++-----
->  drivers/media/usb/uvc/uvc_video.c                  |   5 +
->  drivers/media/usb/uvc/uvcvideo.h                   |  17 +-
->  drivers/media/v4l2-core/v4l2-ioctl.c               |  67 ++++--
->  10 files changed, 317 insertions(+), 164 deletions(-)
-
-Thanks,
-Mauro
+>
+> Regards,
+> Lucas
+>
+> [1]
+> https://lore.kernel.org/linux-arm-kernel/20210716232916.3572966-14-l.stach@pengutronix.de/T/#m43cbf6b8615b2a37ff2abb0346e7e7f6594976d1
+>
+>
