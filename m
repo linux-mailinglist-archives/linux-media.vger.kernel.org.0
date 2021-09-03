@@ -2,36 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D2FA4000DA
-	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 15:58:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E892400125
+	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 16:21:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235407AbhICN7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Sep 2021 09:59:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57824 "EHLO mail.kernel.org"
+        id S235691AbhICOWQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Sep 2021 10:22:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33018 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235169AbhICN7F (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 3 Sep 2021 09:59:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3777C61059;
-        Fri,  3 Sep 2021 13:58:05 +0000 (UTC)
+        id S234951AbhICOWP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 3 Sep 2021 10:22:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C939A601FF;
+        Fri,  3 Sep 2021 14:21:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1630677486;
-        bh=Ie27Yl3ZTx6LojNklmkouDamASPvjv+y/SLNj2SNiKA=;
+        s=k20201202; t=1630678875;
+        bh=HydASXwy+OG7t06UydQL58Z+NYESzA/qxRca/WKmqm8=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=eQa+aMbGZ9fylpbX4qNtCUG2QCRPEWjwC4IjhFwqEws9TjSpepeC977bwHGMNMXTc
-         WRYC/J7TjUwYrJoi9h5iZuSdX227XyXfxr20A7cMdYWctToz2b6RImV8pLWSpBaUpL
-         OqeHxaGzpd5YlpHkJ+Xu7UR2goWxNOcEMFpNXv8gCAnCRm61P9WcX+k2s6QR3i8e8u
-         hsdj2qgINF1mDb/kHFf2oi8aTK58xMdpnIjxz0//U585+pItchRWnrkpBmZ7j1efOy
-         ZB+o8A2ayyK8dhdJeAiOikwA4197VNS0ClvZdXEFF/R9BFBn+PFFc7ElhH1A5DQXA2
-         KdJPRi/CeUUbQ==
-Date:   Fri, 3 Sep 2021 15:58:02 +0200
+        b=fWB4hpRyMwTxRsz5N1yAGb2CAovyLLRtOtfHktsdzklzbOFbXqcSpfpHUlQ16cGiE
+         0WusgNdrvpJa9HXWuX0Dbpek/65thQzCGMW7zL1WgHVFrgYTd4VJx1QKGkEzmwf+mz
+         wiaCyX3kYrnnWucJEHzJbjKYOlsAW9ZzIiqTjWuGzeFxRLkFHI0bMgTiHojHtqgAzN
+         vjC4zsNUmooNgw2yMRJUFwGOEZV/oCyaTtNdzaE1r+foBWPyYYSJBt/p3ZP2HNwm1p
+         LPoakjI8SYur8iCE17q1iQ1GgPqT7Q643QAULo35PFj6o0EtbO9faJsewlja4Mjlbx
+         /xHy65gLFQ3ZA==
+Date:   Fri, 3 Sep 2021 16:21:12 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Cai Huoqing <caihuoqing@baidu.com>
-Subject: Re: [GIT PULL FOR v5.16] v2: Various fixes
-Message-ID: <20210903155757.4fc280f3@coco.lan>
-In-Reply-To: <127b030c-97ac-ef34-db13-60b1bfc49916@xs4all.nl>
-References: <127b030c-97ac-ef34-db13-60b1bfc49916@xs4all.nl>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [GIT PULL FOR v5.16] uvcvideo v4l2-compliance fixes
+Message-ID: <20210903162112.2cc752ed@coco.lan>
+In-Reply-To: <YTIX8oXT8KOQlT2C@pendragon.ideasonboard.com>
+References: <YSNsXylafQPuKH4H@pendragon.ideasonboard.com>
+        <20210903140421.1b021b6f@coco.lan>
+        <YTIX8oXT8KOQlT2C@pendragon.ideasonboard.com>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,103 +41,66 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 3 Sep 2021 10:24:24 +0200
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+Em Fri, 3 Sep 2021 15:41:22 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-> This supersedes the v1 pull request:
+> Hi Mauro, 
 > 
-> https://patchwork.linuxtv.org/project/linux-media/patch/7151eb26-7cea-aff8-24e5-587266b700c0@xs4all.nl/
+> On Fri, Sep 03, 2021 at 02:04:27PM +0200, Mauro Carvalho Chehab wrote:
+> > Em Mon, 23 Aug 2021 12:37:35 +0300
+> > Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+> >   
+> > > Hi Mauro,
+> > > 
+> > > The following changes since commit d62cd4d277cc711f781a7bdec4109c6148529b25:
+> > > 
+> > >   media: uvcvideo: Remove unused including <linux/version.h> (2021-08-21 09:11:04 +0200)
+> > > 
+> > > are available in the Git repository at:
+> > > 
+> > >   git://linuxtv.org/pinchartl/media.git tags/uvc-next-20210823
+> > > 
+> > > for you to fetch changes up to 2bc2b78476b4bc5690186c2b9a4dd565be6a9913:
+> > > 
+> > >   media: uvcvideo: Don't spam the log in uvc_ctrl_restore_values() (2021-08-23 12:31:04 +0300)
+> > > 
+> > > This contains a subset of "[PATCH v10 00/21] Fix v4l2-compliance errors"
+> > > as 17 out of the 21 patches are ready to go and don't need to be
+> > > delayed.
+> > > 
+> > > ----------------------------------------------------------------
+> > > - uvcvideo v4l2-compliance fixes
+> > > 
+> > > ----------------------------------------------------------------
+> > > Hans Verkuil (1):
+> > >       media: uvcvideo: Don't spam the log in uvc_ctrl_restore_values()
+> > > 
+> > > Ricardo Ribalda (16):
+> > >       media: v4l2-ioctl: Fix check_ext_ctrls
+> > >       media: pvrusb2: Do not check for V4L2_CTRL_WHICH_DEF_VAL
+> > >       media: uvcvideo: Do not check for V4L2_CTRL_WHICH_DEF_VAL
+> > >       media: v4l2-ioctl: S_CTRL output the right value
+> > >       media: uvcvideo: Remove s_ctrl and g_ctrl
+> > >       media: uvcvideo: Set capability in s_param
+> > >       media: uvcvideo: Return -EIO for control errors
+> > >       media: uvcvideo: refactor __uvc_ctrl_add_mapping
+> > >       media: uvcvideo: Add support for V4L2_CTRL_TYPE_CTRL_CLASS
+> > >       media: uvcvideo: Use dev->name for querycap()
+> > >       media: uvcvideo: Set unique vdev name based in type
+> > >       media: uvcvideo: Increase the size of UVC_METADATA_BUF_SIZE  
+> > 
+> > Patches applied.
+> >   
+> > >       media: uvcvideo: Use control names from framework
+> > >       media: uvcvideo: Check controls flags before accessing them
+> > >       media: uvcvideo: Set error_idx during ctrl_commit errors  
+> > 
+> > I didn't apply those three. The first one seems to be causing
+> > memory leaks, and the other two are dependent on the first one.  
 > 
-> Only change: dropped one patch:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/patch/20210802065924.1163-1-caihuoqing@baidu.com/
-> 
-> due to a kernel test robot report for that patch.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> The following changes since commit d62cd4d277cc711f781a7bdec4109c6148529b25:
-> 
->   media: uvcvideo: Remove unused including <linux/version.h> (2021-08-21 09:11:04 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.16c
-> 
-> for you to fetch changes up to 318afc9d4da02bbf31b14e1d3459f25812f91469:
-> 
->   gspca: Limit frame size to sizeimage. (2021-09-03 10:20:16 +0200)
-> 
-> ----------------------------------------------------------------
-> Tag branch
-> 
-> ----------------------------------------------------------------
-> Cai Huoqing (2):
->       media: videobuf2: Convert to SPDX identifier
+> Ricardo has replied to your review.
 
-Didn't apply this one, as the license tag seems wrong.
-
->       media: vim2m: Remove repeated verbose license text
-> 
-> Chad Fraleigh (1):
->       gspca: Limit frame size to sizeimage.
-> 
-> Christophe JAILLET (4):
->       media: mtk-vpu: Fix a resource leak in the error handling path of 'mtk_vpu_probe()'
->       media: imx-jpeg: Fix the error handling path of 'mxc_jpeg_probe()'
->       media: pci/ivtv: switch from 'pci_' to 'dma_' API
->       media: switch from 'pci_' to 'dma_' API
-> 
-> Dafna Hirschfeld (1):
->       media: mtk-vcodec: venc: fix return value when start_streaming fails
-> 
-> Dan Carpenter (1):
->       media: firewire: firedtv-avc: fix a buffer overflow in avc_ca_pmt()
-> 
-> Deborah Brouwer (1):
->       media: vivid: add signal-free time for cec message xfer
-> 
-> Evgeny Novikov (1):
->       media: vidtv: Fix memory leak in remove
-> 
-> Ezequiel Garcia (1):
->       media: Request API is no longer experimental
-> 
-> Fabio Estevam (2):
->       media: imx7.rst: Provide an example for imx6ull-evk capture
->       media: imx: TODO: Remove items that are already supported
-> 
-> Hans Verkuil (1):
->       cec-pin: fix off-by-one SFT check
-> 
-> Liu Shixin (1):
->       media: pvrusb2: Replaced simple_strtol() with kstrtoint()
-> 
-> Nadezda Lutovinova (1):
->       media: s5p-mfc: Add checking to s5p_mfc_probe().
-> 
-> Nil Yi (1):
->       media: usb: airspy: clean the freed pointer and counter
-> 
-> Tom Rix (2):
->       media: TDA1997x: handle short reads of hdmi info frame.
->       media: camss: vfe: simplify vfe_get_wm_sizes()
-> 
-> Tuo Li (1):
->       media: s5p-mfc: fix possible null-pointer dereference in s5p_mfc_probe()
-> 
-> Zev Weiss (1):
->       media: aspeed-video: ignore interrupts that aren't enabled
-> 
-> lijian (1):
->       media: via-camera: deleted these redundant semicolons
-
-All other patches applied.
-
-Regards,
-Mauro
+OK. Patches applied.
 
 
 Thanks,
