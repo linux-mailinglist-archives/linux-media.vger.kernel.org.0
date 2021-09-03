@@ -2,119 +2,301 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 409463FFFE8
-	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 14:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21A383FFFEA
+	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 14:42:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348076AbhICMmk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Sep 2021 08:42:40 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53054 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234950AbhICMmk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Sep 2021 08:42:40 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 224B9BBE;
-        Fri,  3 Sep 2021 14:41:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1630672899;
-        bh=QOPX6TpFLQi1VKTAjH6sCizzUCvDw2ev468GmWhDDDg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Nbly8hy626xirceQMRLYMCNmCBsYo9n3H6KBa9G8Ep4ana55UmM778SktH1Sdc3OY
-         sIR2mhx+G/Dmftm/tlHz981ev3mSFGyk2jv2oTCbVX8qEaCXP3/HozfDFMdIHnZIeo
-         U7+nnAHGhyotYzINZ7a9LkeEmPYxlehmpVDUZN2o=
-Date:   Fri, 3 Sep 2021 15:41:22 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-media@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [GIT PULL FOR v5.16] uvcvideo v4l2-compliance fixes
-Message-ID: <YTIX8oXT8KOQlT2C@pendragon.ideasonboard.com>
-References: <YSNsXylafQPuKH4H@pendragon.ideasonboard.com>
- <20210903140421.1b021b6f@coco.lan>
+        id S1348432AbhICMnS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Sep 2021 08:43:18 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37774 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234950AbhICMnR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Sep 2021 08:43:17 -0400
+Received: from [IPv6:2a02:810a:880:f54:14f0:9e83:10c6:d1a4] (unknown [IPv6:2a02:810a:880:f54:14f0:9e83:10c6:d1a4])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 860A91F44E0E;
+        Fri,  3 Sep 2021 13:42:15 +0100 (BST)
+Subject: Re: [PATCH v6, 15/15] media: mtk-vcodec: Use codec type to separate
+ different hardware
+To:     "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20210901083215.25984-1-yunfei.dong@mediatek.com>
+ <20210901083215.25984-16-yunfei.dong@mediatek.com>
+ <cf57148f-430b-2023-5f62-b57b12a960b7@collabora.com>
+ <5d53649c1fe2d6d6942e1dd31cdf7a0def46acab.camel@mediatek.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <0100e846-7ab0-347e-c737-aa6d86fde4af@collabora.com>
+Date:   Fri, 3 Sep 2021 14:42:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210903140421.1b021b6f@coco.lan>
+In-Reply-To: <5d53649c1fe2d6d6942e1dd31cdf7a0def46acab.camel@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro, 
 
-On Fri, Sep 03, 2021 at 02:04:27PM +0200, Mauro Carvalho Chehab wrote:
-> Em Mon, 23 Aug 2021 12:37:35 +0300
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
-> 
-> > Hi Mauro,
-> > 
-> > The following changes since commit d62cd4d277cc711f781a7bdec4109c6148529b25:
-> > 
-> >   media: uvcvideo: Remove unused including <linux/version.h> (2021-08-21 09:11:04 +0200)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   git://linuxtv.org/pinchartl/media.git tags/uvc-next-20210823
-> > 
-> > for you to fetch changes up to 2bc2b78476b4bc5690186c2b9a4dd565be6a9913:
-> > 
-> >   media: uvcvideo: Don't spam the log in uvc_ctrl_restore_values() (2021-08-23 12:31:04 +0300)
-> > 
-> > This contains a subset of "[PATCH v10 00/21] Fix v4l2-compliance errors"
-> > as 17 out of the 21 patches are ready to go and don't need to be
-> > delayed.
-> > 
-> > ----------------------------------------------------------------
-> > - uvcvideo v4l2-compliance fixes
-> > 
-> > ----------------------------------------------------------------
-> > Hans Verkuil (1):
-> >       media: uvcvideo: Don't spam the log in uvc_ctrl_restore_values()
-> > 
-> > Ricardo Ribalda (16):
-> >       media: v4l2-ioctl: Fix check_ext_ctrls
-> >       media: pvrusb2: Do not check for V4L2_CTRL_WHICH_DEF_VAL
-> >       media: uvcvideo: Do not check for V4L2_CTRL_WHICH_DEF_VAL
-> >       media: v4l2-ioctl: S_CTRL output the right value
-> >       media: uvcvideo: Remove s_ctrl and g_ctrl
-> >       media: uvcvideo: Set capability in s_param
-> >       media: uvcvideo: Return -EIO for control errors
-> >       media: uvcvideo: refactor __uvc_ctrl_add_mapping
-> >       media: uvcvideo: Add support for V4L2_CTRL_TYPE_CTRL_CLASS
-> >       media: uvcvideo: Use dev->name for querycap()
-> >       media: uvcvideo: Set unique vdev name based in type
-> >       media: uvcvideo: Increase the size of UVC_METADATA_BUF_SIZE
-> 
-> Patches applied.
-> 
-> >       media: uvcvideo: Use control names from framework
-> >       media: uvcvideo: Check controls flags before accessing them
-> >       media: uvcvideo: Set error_idx during ctrl_commit errors
-> 
-> I didn't apply those three. The first one seems to be causing
-> memory leaks, and the other two are dependent on the first one.
 
-Ricardo has replied to your review.
+On 02.09.21 08:05, yunfei.dong@mediatek.com wrote:
+> On Wed, 2021-09-01 at 14:17 +0200, Dafna Hirschfeld wrote:
+> Hi Dafna,
+> 
+> Thanks for your suggestion.
+>> Hi
+>>
+>> On 01.09.21 10:32, Yunfei Dong wrote:
+>>> There are just one core thread, in order to separeate different
+>>> hardware, using codec type to separeate it in scp driver.
+>>
+>> this code seems to relate to the vpu driver not the scp driver.
+>> Is there a corresponding code added to the vpu driver that test the
+>> codec_type?
+>>
+> Vpu is video processor unit, used to connect with micro processor.
+> In mt8173: vdec_vpu_if.c -> mtk_vpu.c -> micro processor
+> In mt8192/mt8183: vdec_vpu_if.c -> mtk_scp.c ->micro processor
+> 
+> This init/dec start/dec_end interfaces are the same for vpu and scp.
+>>>
+>>> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+>>> ---
+>>>    .../media/platform/mtk-vcodec/vdec_ipi_msg.h  | 12 ++++---
+>>>    .../media/platform/mtk-vcodec/vdec_vpu_if.c   | 34
+>>> ++++++++++++++++---
+>>>    .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  4 +++
+>>>    3 files changed, 41 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
+>>> b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
+>>> index 9d8079c4f976..c488f0c40190 100644
+>>> --- a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
+>>> +++ b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
+>>> @@ -35,6 +35,8 @@ enum vdec_ipi_msgid {
+>>>     * @msg_id	: vdec_ipi_msgid
+>>>     * @vpu_inst_addr : VPU decoder instance address. Used if ABI
+>>> version < 2.
+>>>     * @inst_id     : instance ID. Used if the ABI version >= 2.
+>>> + * @codec_type	: Codec fourcc
+>>> + * @reserved	: reserved param
+>>>     */
+>>>    struct vdec_ap_ipi_cmd {
+>>>    	uint32_t msg_id;
+>>> @@ -42,6 +44,8 @@ struct vdec_ap_ipi_cmd {
+>>>    		uint32_t vpu_inst_addr;
+>>>    		uint32_t inst_id;
+>>>    	};
+>>> +	uint32_t codec_type;
+>>> +	uint32_t reserved;
+>>>    };
+>>>    
+>>>    /**
+>>> @@ -59,12 +63,12 @@ struct vdec_vpu_ipi_ack {
+>>>    /**
+>>>     * struct vdec_ap_ipi_init - for AP_IPIMSG_DEC_INIT
+>>>     * @msg_id	: AP_IPIMSG_DEC_INIT
+>>> - * @reserved	: Reserved field
+>>> + * @codec_type	: Codec fourcc
+>>>     * @ap_inst_addr	: AP video decoder instance address
+>>>     */
+>>>    struct vdec_ap_ipi_init {
+>>>    	uint32_t msg_id;
+>>> -	uint32_t reserved;
+>>> +	uint32_t codec_type;
+>>>    	uint64_t ap_inst_addr;
+>>>    };
+>>>    
+>>> @@ -77,7 +81,7 @@ struct vdec_ap_ipi_init {
+>>>     *	H264 decoder [0]:buf_sz [1]:nal_start
+>>>     *	VP8 decoder  [0]:width/height
+>>>     *	VP9 decoder  [0]:profile, [1][2] width/height
+>>> - * @reserved	: Reserved field
+>>> + * @codec_type	: Codec fourcc
+>>>     */
+>>>    struct vdec_ap_ipi_dec_start {
+>>>    	uint32_t msg_id;
+>>> @@ -86,7 +90,7 @@ struct vdec_ap_ipi_dec_start {
+>>>    		uint32_t inst_id;
+>>>    	};
+>>>    	uint32_t data[3];
+>>> -	uint32_t reserved;
+>>> +	uint32_t codec_type;
+>>>    };
+>>>    
+>>>    /**
+>>> diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
+>>> b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
+>>> index bfd8e87dceff..c84fac52fe26 100644
+>>> --- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
+>>> +++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
+>>> @@ -100,18 +100,29 @@ static void vpu_dec_ipi_handler(void *data,
+>>> unsigned int len, void *priv)
+>>>    
+>>>    static int vcodec_vpu_send_msg(struct vdec_vpu_inst *vpu, void
+>>> *msg, int len)
+>>>    {
+>>> -	int err;
+>>> +	int err, id, msgid;
+>>>    
+>>> -	mtk_vcodec_debug(vpu, "id=%X", *(uint32_t *)msg);
+>>> +	msgid = *(uint32_t *)msg;
+>>> +	mtk_vcodec_debug(vpu, "id=%X", msgid);
+>>>    
+>>>    	vpu->failure = 0;
+>>>    	vpu->signaled = 0;
+>>>    
+>>> -	err = mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, vpu-
+>>>> id, msg,
+>>> +	if (vpu->ctx->dev->vdec_pdata->hw_arch ==
+>>> MTK_VDEC_LAT_SINGLE_CORE) {
+>>> +		if (msgid == AP_IPIMSG_DEC_CORE ||
+>>> +			msgid == AP_IPIMSG_DEC_CORE_END)
+>>> +			id = vpu->core_id;
+>>> +		else
+>>> +			id = vpu->id;
+>>> +	} else {
+>>> +		id = vpu->id;
+>>> +	}
+>>> +
+>>> +	err = mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, id,
+>>> msg,
+>>>    				     len, 2000);
+>>
+>> so
+>>>    	if (err) {
+>>>    		mtk_vcodec_err(vpu, "send fail vpu_id=%d msg_id=%X
+>>> status=%d",
+>>> -			       vpu->id, *(uint32_t *)msg, err);
+>>> +			       id, msgid, err);
+>>>    		return err;
+>>>    	}
+>>>    
+>>> @@ -131,6 +142,7 @@ static int vcodec_send_ap_ipi(struct
+>>> vdec_vpu_inst *vpu, unsigned int msg_id)
+>>>    		msg.vpu_inst_addr = vpu->inst_addr;
+>>>    	else
+>>>    		msg.inst_id = vpu->inst_id;
+>>> +	msg.codec_type = vpu->codec_type;
+>>>    
+>>>    	err = vcodec_vpu_send_msg(vpu, &msg, sizeof(msg));
+>>>    	mtk_vcodec_debug(vpu, "- id=%X ret=%d", msg_id, err);
+>>> @@ -149,14 +161,25 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
+>>>    
+>>>    	err = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler,
+>>> vpu->id,
+>>>    					 vpu->handler, "vdec", NULL);
+>>> -	if (err != 0) {
+>>> +	if (err) {
+>>
+>> could be nice to send a patch with other such fixes,
+>> anyway it is better to send unrelated fixes in a separate patch
+>>
+> will fix in next patch.
+>>>    		mtk_vcodec_err(vpu, "vpu_ipi_register fail status=%d",
+>>> err);
+>>>    		return err;
+>>>    	}
+>>>    
+>>> +	if (vpu->ctx->dev->vdec_pdata->hw_arch ==
+>>> MTK_VDEC_LAT_SINGLE_CORE) {
+>>> +		err = mtk_vcodec_fw_ipi_register(vpu->ctx->dev-
+>>>> fw_handler,
+>>> +					 vpu->core_id, vpu->handler,
+>>> +					 "vdec", NULL);
+>>> +		if (err) {
+>>> +			mtk_vcodec_err(vpu, "vpu_ipi_register core fail
+>>> status=%d", err);
+>>> +			return err;
+>>> +		}
+>>> +	}
+>>> +
+>>>    	memset(&msg, 0, sizeof(msg));
+>>>    	msg.msg_id = AP_IPIMSG_DEC_INIT;
+>>>    	msg.ap_inst_addr = (unsigned long)vpu;
+>>> +	msg.codec_type = vpu->codec_type;
+>>>    
+>>>    	mtk_vcodec_debug(vpu, "vdec_inst=%p", vpu);
+>>>    
+>>> @@ -187,6 +210,7 @@ int vpu_dec_start(struct vdec_vpu_inst *vpu,
+>>> uint32_t *data, unsigned int len)
+>>>    
+>>>    	for (i = 0; i < len; i++)
+>>>    		msg.data[i] = data[i];
+>>> +	msg.codec_type = vpu->codec_type;
+>>
+>> I don't see where is the vpu->codec_type initialzied
+>>
+> This patch just add interface to support core hardware decode, in next
+> serial patches based on these will used codec type to separate after
+> these base patches are stable.
 
-> So, I opted to skip them when merging this PR. This way, Ricardo
-> can just re-submit 3 patches instead of the hole series.
-> 
-> 
-> >       media: docs: Document the behaviour of uvcvideo driver
-> 
-> Patches applied.
-> 
-> > 
-> >  .../userspace-api/media/v4l/vidioc-g-ctrl.rst      |   3 +
-> >  .../userspace-api/media/v4l/vidioc-g-ext-ctrls.rst |   3 +
-> >  drivers/media/usb/pvrusb2/pvrusb2-v4l2.c           |   4 -
-> >  drivers/media/usb/uvc/uvc_ctrl.c                   | 260 ++++++++++++++++-----
-> >  drivers/media/usb/uvc/uvc_driver.c                 |  15 +-
-> >  drivers/media/usb/uvc/uvc_metadata.c               |   2 +-
-> >  drivers/media/usb/uvc/uvc_v4l2.c                   | 105 ++++-----
-> >  drivers/media/usb/uvc/uvc_video.c                  |   5 +
-> >  drivers/media/usb/uvc/uvcvideo.h                   |  17 +-
-> >  drivers/media/v4l2-core/v4l2-ioctl.c               |  67 ++++--
-> >  10 files changed, 317 insertions(+), 164 deletions(-)
+Then why not send it on the same series?
 
--- 
-Regards,
+Thanks,
+Dafna
 
-Laurent Pinchart
+>> Thanks,
+>> Dafna
+>>
+> Thanks
+> Yunfei Dong
+>>>    
+>>>    	err = vcodec_vpu_send_msg(vpu, (void *)&msg, sizeof(msg));
+>>>    	mtk_vcodec_debug(vpu, "- ret=%d", err);
+>>> diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+>>> b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+>>> index ae24b75d1649..802660770a87 100644
+>>> --- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+>>> +++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+>>> @@ -14,6 +14,7 @@ struct mtk_vcodec_ctx;
+>>>    /**
+>>>     * struct vdec_vpu_inst - VPU instance for video codec
+>>>     * @id          : ipi msg id for each decoder
+>>> + * @core_id     : core id used to separate different hardware
+>>>     * @vsi         : driver structure allocated by VPU side and
+>>> shared to AP side
+>>>     *                for control and info share
+>>>     * @failure     : VPU execution result status, 0: success,
+>>> others: fail
+>>> @@ -26,9 +27,11 @@ struct mtk_vcodec_ctx;
+>>>     * @dev		: platform device of VPU
+>>>     * @wq          : wait queue to wait VPU message ack
+>>>     * @handler     : ipi handler for each decoder
+>>> + * @codec_type     : used codec type to separate different codecs
+>>>     */
+>>>    struct vdec_vpu_inst {
+>>>    	int id;
+>>> +	int core_id;
+>>>    	void *vsi;
+>>>    	int32_t failure;
+>>>    	uint32_t inst_addr;
+>>> @@ -38,6 +41,7 @@ struct vdec_vpu_inst {
+>>>    	struct mtk_vcodec_ctx *ctx;
+>>>    	wait_queue_head_t wq;
+>>>    	mtk_vcodec_ipi_handler handler;
+>>> +	unsigned int codec_type;
+>>>    };
+>>>    
+>>>    /**
+>>>
