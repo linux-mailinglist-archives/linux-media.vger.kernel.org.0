@@ -2,301 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A383FFFEA
-	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 14:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABD144000BC
+	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 15:47:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348432AbhICMnS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Sep 2021 08:43:18 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37774 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234950AbhICMnR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Sep 2021 08:43:17 -0400
-Received: from [IPv6:2a02:810a:880:f54:14f0:9e83:10c6:d1a4] (unknown [IPv6:2a02:810a:880:f54:14f0:9e83:10c6:d1a4])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 860A91F44E0E;
-        Fri,  3 Sep 2021 13:42:15 +0100 (BST)
-Subject: Re: [PATCH v6, 15/15] media: mtk-vcodec: Use codec type to separate
- different hardware
-To:     "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20210901083215.25984-1-yunfei.dong@mediatek.com>
- <20210901083215.25984-16-yunfei.dong@mediatek.com>
- <cf57148f-430b-2023-5f62-b57b12a960b7@collabora.com>
- <5d53649c1fe2d6d6942e1dd31cdf7a0def46acab.camel@mediatek.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <0100e846-7ab0-347e-c737-aa6d86fde4af@collabora.com>
-Date:   Fri, 3 Sep 2021 14:42:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S235264AbhICNsg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Sep 2021 09:48:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56352 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235096AbhICNs2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 3 Sep 2021 09:48:28 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E4F84610CC;
+        Fri,  3 Sep 2021 13:47:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1630676849;
+        bh=4hGkSGG5SzQQLF6h5zq5Zpw9BmvJshTdI2otkQm+cZg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=gq6cJryncnxviLRLy8mhJeIShtvpC0uyyD78x0vZzwNEnd1dH6yP8SF3+K0GoHrcA
+         0deJLvUjNTa41ApZAssYsSqXKkQ3fZerDv5R29T4pzvh/FIhZP0Ywciruv/m2MwU/v
+         Zwg88CVGIi2rYOO15AV8jt64jPagbY+3+b9u38PWVFuaRuxFcrH+zqOy3jGKK38Ved
+         po6GfwtWoTFKURCJQxt8Hssg+9AjYq/gI2TkJEoSJzRYfEJ20JVO+geWOtOFDV5jJk
+         oZd96rQc9vAHc1QH5VRM77LRrXSdBR0JDM+EnaHT54We0KveWNSrLruOed3fvz3p9S
+         N3w8GR1yJ0E1Q==
+Date:   Fri, 3 Sep 2021 15:47:25 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Cai Huoqing <caihuoqing@baidu.com>
+Cc:     <tfiga@chromium.org>, <m.szyprowski@samsung.com>,
+        <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH] media: videobuf2: Convert to SPDX identifier
+Message-ID: <20210903154707.48e26478@coco.lan>
+In-Reply-To: <20210822042730.1360-1-caihuoqing@baidu.com>
+References: <20210822042730.1360-1-caihuoqing@baidu.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <5d53649c1fe2d6d6942e1dd31cdf7a0def46acab.camel@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Em Sun, 22 Aug 2021 12:27:30 +0800
+Cai Huoqing <caihuoqing@baidu.com> escreveu:
 
+> +// SPDX-License-Identifier: GPL-1.0+
+>  /*
+>   * videobuf2-vmalloc.c - vmalloc memory allocator for videobuf2
+>   *
+>   * Copyright (C) 2010 Samsung Electronics
+>   *
+>   * Author: Pawel Osciak <pawel@osciak.com>
+> - *
+> - * This program is free software; you can redistribute it and/or modify
+> - * it under the terms of the GNU General Public License as published by
+> - * the Free Software Foundation.
+>   */
 
-On 02.09.21 08:05, yunfei.dong@mediatek.com wrote:
-> On Wed, 2021-09-01 at 14:17 +0200, Dafna Hirschfeld wrote:
-> Hi Dafna,
-> 
-> Thanks for your suggestion.
->> Hi
->>
->> On 01.09.21 10:32, Yunfei Dong wrote:
->>> There are just one core thread, in order to separeate different
->>> hardware, using codec type to separeate it in scp driver.
->>
->> this code seems to relate to the vpu driver not the scp driver.
->> Is there a corresponding code added to the vpu driver that test the
->> codec_type?
->>
-> Vpu is video processor unit, used to connect with micro processor.
-> In mt8173: vdec_vpu_if.c -> mtk_vpu.c -> micro processor
-> In mt8192/mt8183: vdec_vpu_if.c -> mtk_scp.c ->micro processor
-> 
-> This init/dec start/dec_end interfaces are the same for vpu and scp.
->>>
->>> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
->>> ---
->>>    .../media/platform/mtk-vcodec/vdec_ipi_msg.h  | 12 ++++---
->>>    .../media/platform/mtk-vcodec/vdec_vpu_if.c   | 34
->>> ++++++++++++++++---
->>>    .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  4 +++
->>>    3 files changed, 41 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
->>> b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
->>> index 9d8079c4f976..c488f0c40190 100644
->>> --- a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
->>> +++ b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
->>> @@ -35,6 +35,8 @@ enum vdec_ipi_msgid {
->>>     * @msg_id	: vdec_ipi_msgid
->>>     * @vpu_inst_addr : VPU decoder instance address. Used if ABI
->>> version < 2.
->>>     * @inst_id     : instance ID. Used if the ABI version >= 2.
->>> + * @codec_type	: Codec fourcc
->>> + * @reserved	: reserved param
->>>     */
->>>    struct vdec_ap_ipi_cmd {
->>>    	uint32_t msg_id;
->>> @@ -42,6 +44,8 @@ struct vdec_ap_ipi_cmd {
->>>    		uint32_t vpu_inst_addr;
->>>    		uint32_t inst_id;
->>>    	};
->>> +	uint32_t codec_type;
->>> +	uint32_t reserved;
->>>    };
->>>    
->>>    /**
->>> @@ -59,12 +63,12 @@ struct vdec_vpu_ipi_ack {
->>>    /**
->>>     * struct vdec_ap_ipi_init - for AP_IPIMSG_DEC_INIT
->>>     * @msg_id	: AP_IPIMSG_DEC_INIT
->>> - * @reserved	: Reserved field
->>> + * @codec_type	: Codec fourcc
->>>     * @ap_inst_addr	: AP video decoder instance address
->>>     */
->>>    struct vdec_ap_ipi_init {
->>>    	uint32_t msg_id;
->>> -	uint32_t reserved;
->>> +	uint32_t codec_type;
->>>    	uint64_t ap_inst_addr;
->>>    };
->>>    
->>> @@ -77,7 +81,7 @@ struct vdec_ap_ipi_init {
->>>     *	H264 decoder [0]:buf_sz [1]:nal_start
->>>     *	VP8 decoder  [0]:width/height
->>>     *	VP9 decoder  [0]:profile, [1][2] width/height
->>> - * @reserved	: Reserved field
->>> + * @codec_type	: Codec fourcc
->>>     */
->>>    struct vdec_ap_ipi_dec_start {
->>>    	uint32_t msg_id;
->>> @@ -86,7 +90,7 @@ struct vdec_ap_ipi_dec_start {
->>>    		uint32_t inst_id;
->>>    	};
->>>    	uint32_t data[3];
->>> -	uint32_t reserved;
->>> +	uint32_t codec_type;
->>>    };
->>>    
->>>    /**
->>> diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
->>> b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
->>> index bfd8e87dceff..c84fac52fe26 100644
->>> --- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
->>> +++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
->>> @@ -100,18 +100,29 @@ static void vpu_dec_ipi_handler(void *data,
->>> unsigned int len, void *priv)
->>>    
->>>    static int vcodec_vpu_send_msg(struct vdec_vpu_inst *vpu, void
->>> *msg, int len)
->>>    {
->>> -	int err;
->>> +	int err, id, msgid;
->>>    
->>> -	mtk_vcodec_debug(vpu, "id=%X", *(uint32_t *)msg);
->>> +	msgid = *(uint32_t *)msg;
->>> +	mtk_vcodec_debug(vpu, "id=%X", msgid);
->>>    
->>>    	vpu->failure = 0;
->>>    	vpu->signaled = 0;
->>>    
->>> -	err = mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, vpu-
->>>> id, msg,
->>> +	if (vpu->ctx->dev->vdec_pdata->hw_arch ==
->>> MTK_VDEC_LAT_SINGLE_CORE) {
->>> +		if (msgid == AP_IPIMSG_DEC_CORE ||
->>> +			msgid == AP_IPIMSG_DEC_CORE_END)
->>> +			id = vpu->core_id;
->>> +		else
->>> +			id = vpu->id;
->>> +	} else {
->>> +		id = vpu->id;
->>> +	}
->>> +
->>> +	err = mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, id,
->>> msg,
->>>    				     len, 2000);
->>
->> so
->>>    	if (err) {
->>>    		mtk_vcodec_err(vpu, "send fail vpu_id=%d msg_id=%X
->>> status=%d",
->>> -			       vpu->id, *(uint32_t *)msg, err);
->>> +			       id, msgid, err);
->>>    		return err;
->>>    	}
->>>    
->>> @@ -131,6 +142,7 @@ static int vcodec_send_ap_ipi(struct
->>> vdec_vpu_inst *vpu, unsigned int msg_id)
->>>    		msg.vpu_inst_addr = vpu->inst_addr;
->>>    	else
->>>    		msg.inst_id = vpu->inst_id;
->>> +	msg.codec_type = vpu->codec_type;
->>>    
->>>    	err = vcodec_vpu_send_msg(vpu, &msg, sizeof(msg));
->>>    	mtk_vcodec_debug(vpu, "- id=%X ret=%d", msg_id, err);
->>> @@ -149,14 +161,25 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
->>>    
->>>    	err = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler,
->>> vpu->id,
->>>    					 vpu->handler, "vdec", NULL);
->>> -	if (err != 0) {
->>> +	if (err) {
->>
->> could be nice to send a patch with other such fixes,
->> anyway it is better to send unrelated fixes in a separate patch
->>
-> will fix in next patch.
->>>    		mtk_vcodec_err(vpu, "vpu_ipi_register fail status=%d",
->>> err);
->>>    		return err;
->>>    	}
->>>    
->>> +	if (vpu->ctx->dev->vdec_pdata->hw_arch ==
->>> MTK_VDEC_LAT_SINGLE_CORE) {
->>> +		err = mtk_vcodec_fw_ipi_register(vpu->ctx->dev-
->>>> fw_handler,
->>> +					 vpu->core_id, vpu->handler,
->>> +					 "vdec", NULL);
->>> +		if (err) {
->>> +			mtk_vcodec_err(vpu, "vpu_ipi_register core fail
->>> status=%d", err);
->>> +			return err;
->>> +		}
->>> +	}
->>> +
->>>    	memset(&msg, 0, sizeof(msg));
->>>    	msg.msg_id = AP_IPIMSG_DEC_INIT;
->>>    	msg.ap_inst_addr = (unsigned long)vpu;
->>> +	msg.codec_type = vpu->codec_type;
->>>    
->>>    	mtk_vcodec_debug(vpu, "vdec_inst=%p", vpu);
->>>    
->>> @@ -187,6 +210,7 @@ int vpu_dec_start(struct vdec_vpu_inst *vpu,
->>> uint32_t *data, unsigned int len)
->>>    
->>>    	for (i = 0; i < len; i++)
->>>    		msg.data[i] = data[i];
->>> +	msg.codec_type = vpu->codec_type;
->>
->> I don't see where is the vpu->codec_type initialzied
->>
-> This patch just add interface to support core hardware decode, in next
-> serial patches based on these will used codec type to separate after
-> these base patches are stable.
+That doesn't sound right.
 
-Then why not send it on the same series?
+See, all code at the Kernel is under GPLv2, as stated at the global
+Kernel licensing files. Btw, a driver with just:
+
+	MODULE_LICENSE("GPL")
+
+is actually under GPLv2 (eventually: or later and/or dual-licensed).
+
+There's nothing in the text implying GPLv2 or later. So, using a
+GPL-x.x+ doesn't fit here.
+
+Ok, one might argue that the code is GPL 1.0 to 2.0, but VB2 is
+a derivative work from VB1, which was originally written with
+GPL v2 or later:
+
+	https://linuxtv.org/cgi-bin/viewvc.cgi/video4linux/video-buf.h?view=markup&revision=1.9&root=v4l
+
+So, the only license that fits here is GPLv2.
+
+On other words, except if all VB2 authors explicitly send their
+SoB to change the licensing terms (with should likely include
+also VB1 authors) to allow dual-licensing it or to extend it
+to other GPL versions, the right license here is, instead, just
+GPLv2, e. g.:
+
+	SPDX-License-Identifier: GPL-2.0
 
 Thanks,
-Dafna
-
->> Thanks,
->> Dafna
->>
-> Thanks
-> Yunfei Dong
->>>    
->>>    	err = vcodec_vpu_send_msg(vpu, (void *)&msg, sizeof(msg));
->>>    	mtk_vcodec_debug(vpu, "- ret=%d", err);
->>> diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
->>> b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
->>> index ae24b75d1649..802660770a87 100644
->>> --- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
->>> +++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
->>> @@ -14,6 +14,7 @@ struct mtk_vcodec_ctx;
->>>    /**
->>>     * struct vdec_vpu_inst - VPU instance for video codec
->>>     * @id          : ipi msg id for each decoder
->>> + * @core_id     : core id used to separate different hardware
->>>     * @vsi         : driver structure allocated by VPU side and
->>> shared to AP side
->>>     *                for control and info share
->>>     * @failure     : VPU execution result status, 0: success,
->>> others: fail
->>> @@ -26,9 +27,11 @@ struct mtk_vcodec_ctx;
->>>     * @dev		: platform device of VPU
->>>     * @wq          : wait queue to wait VPU message ack
->>>     * @handler     : ipi handler for each decoder
->>> + * @codec_type     : used codec type to separate different codecs
->>>     */
->>>    struct vdec_vpu_inst {
->>>    	int id;
->>> +	int core_id;
->>>    	void *vsi;
->>>    	int32_t failure;
->>>    	uint32_t inst_addr;
->>> @@ -38,6 +41,7 @@ struct vdec_vpu_inst {
->>>    	struct mtk_vcodec_ctx *ctx;
->>>    	wait_queue_head_t wq;
->>>    	mtk_vcodec_ipi_handler handler;
->>> +	unsigned int codec_type;
->>>    };
->>>    
->>>    /**
->>>
+Mauro
