@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F1D940052C
-	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 20:44:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87B8340052F
+	for <lists+linux-media@lfdr.de>; Fri,  3 Sep 2021 20:44:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350492AbhICSp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Sep 2021 14:45:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41348 "EHLO
+        id S1350503AbhICSpj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Sep 2021 14:45:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350355AbhICSpS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Sep 2021 14:45:18 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72643C061760;
-        Fri,  3 Sep 2021 11:44:18 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id j10-20020a17090a94ca00b00181f17b7ef7so161517pjw.2;
-        Fri, 03 Sep 2021 11:44:18 -0700 (PDT)
+        with ESMTP id S1350478AbhICSp0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Sep 2021 14:45:26 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2068C0613A3;
+        Fri,  3 Sep 2021 11:44:20 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id n4so67338plh.9;
+        Fri, 03 Sep 2021 11:44:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=31jt7QK/9p5C4ADlv88LMXP5EVEdNDb9tmwFIJMLC4k=;
-        b=qDJrFouyCfFeLGnUbBR95iExuYEIHyianFD6naRgO7dfxR2y9NADfeSqdQuNE+FJP9
-         E0Sm4AaAcVXgb7ItBoEq1Iue3+aYiFwCDfaXrcFO+hJ+CTd1JP1+v4GAaP7dlMdtXzo6
-         sCevxf1S8rW69vkzS4YlO32nzt2EwbQhNUeHTi6KmHcz6lpGQq9QYzEYx5ZwcsPS4eYn
-         b5eZur8Smg2NtgeTQXEDS2Zq7A5VrbBKomXnqtw96gjnrH5SY/tJD6jSk6HnTtqOi3rX
-         QJv3DWZde2p64pTjBa1sKF0dNN3uEeMz/nsLOotmS46dBO2qtWO6ZK+KgQiEMO0DKB/X
-         D9kg==
+        bh=9nem1cpi4gOKpKGLCYjoRtQFtt8o9c5PZTImpcjZKvE=;
+        b=LKAD83XB0VEg3l7w8sZ06HeYmjxV4js1ItmdE2f6y9JO4gI4Xl5oHH3qBHQbkY2e7Z
+         kAA0mTLeqAxRybRes1bdaXCG8rrkjhf24fd+1uue33AfpYxDEBl9iMJSEehC4iIF7JcL
+         PLogSYquqHGPPXzsLfP8RFJkjganM0XByZB/87im5Z60WzZqXz0EvZ6x1g82MSWj0xRO
+         EkPjxSCyuDI8J7efwTyhQoxGg9Af+BA/93HQLJAlJKWEgzQUJ2sUXxfJbjg9t5/WA6lC
+         YMxzBQFB7wEkVgSQlzGM/sg+MHzCAI9Ny2/b+3D14+W5oAw8kUoCQWrr0cRBhzLZzs5g
+         pOlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=31jt7QK/9p5C4ADlv88LMXP5EVEdNDb9tmwFIJMLC4k=;
-        b=gtxoF25cMO3iiMuNUfeV8KWz7TVkSscEvgH9OcBdTMCXhoQ9HR0MiXORpPfm79RQue
-         OIkEj/+4g3xcBtI8l9lC6BXUGVQLArCvQXogwihhANbpq9MQsNruTs/Fl4yfPsiptbHS
-         fY2pPFn/QH1Y+Y51ORf1/4SyZy/j8wyOGHsalSWFDQVVBtxkez9+OvB6EcWwWPNHnTk5
-         C0e4D0GG4HCIV0maFHXkHGh6CwYD68aYtJpJD3Zekp8gfE9fkYOy6bDHTrVCpla/HZJU
-         ljlC1RbyVkiZ42sOpbtdzQwS4QmrCgByLRLdluC4au+Ti4nfx8YSy0ifTU3LiZCrKWrP
-         KCDw==
-X-Gm-Message-State: AOAM533BeHcALfDik2QbHxnrIIb0tVG0N4EP3EO3BxRf4Keqfmy9VZEx
-        fHoJAWoC28Br+uPu1BTizM8=
-X-Google-Smtp-Source: ABdhPJz6kyvVGuIf5Nqgp1yrWhHs6MzCixB5+jjmT64dNTD7WkrgEvidF5J/wT0yLD8G5WTB+b3pag==
-X-Received: by 2002:a17:90a:1904:: with SMTP id 4mr317144pjg.217.1630694657983;
-        Fri, 03 Sep 2021 11:44:17 -0700 (PDT)
+        bh=9nem1cpi4gOKpKGLCYjoRtQFtt8o9c5PZTImpcjZKvE=;
+        b=BeXJH+rC7q1jR27XaweLXv7ku5W8k94HshupAVXgLNb9ysJ3IkeWO2ZXQwGtVfFExj
+         siy2bJsARl8uCbsbDdbx+nPoYbJLBUPUr90UvkNicT3HZzvEvh0gJgoIzPtPX+z7R0aY
+         eVn2kbyBXLrQGv1aUtyIcXyXhcznNxm7SgmMgJxSog3+RaaVesFjBqXAKZ/ZWYMsztgJ
+         CRUgkGYhaRLb1IAY1vQUksdIh+5uSjw2E8EFwQUqDrldnpizCF1CikM42uQ8BCoBG60W
+         QLNp6VcBVYCsYLNRr1QhLKXZX+r5cp9nXHfEnuCp2SsKWu1c5Vxtx3LIirxB0QQC9eXj
+         Z+5g==
+X-Gm-Message-State: AOAM533sKgxjQZwweJwqFH0ELJmUafFt8FFrKZMGqW17epwJSuFewV4a
+        TWQG+dAgL1Z6aZtP4kJN1Ws=
+X-Google-Smtp-Source: ABdhPJyGjeGwkXqEh5bQxSbpscn/Ym2q9Q5yOoGAKWphqGneFJ1WnxAItza/IWMRqPXAEWacgfqekA==
+X-Received: by 2002:a17:902:e801:b0:138:8b70:b374 with SMTP id u1-20020a170902e80100b001388b70b374mr239531plg.0.1630694660413;
+        Fri, 03 Sep 2021 11:44:20 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
-        by smtp.gmail.com with ESMTPSA id h24sm113360pfn.180.2021.09.03.11.44.16
+        by smtp.gmail.com with ESMTPSA id t186sm126836pfb.53.2021.09.03.11.44.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 11:44:17 -0700 (PDT)
+        Fri, 03 Sep 2021 11:44:19 -0700 (PDT)
 From:   Rob Clark <robdclark@gmail.com>
 To:     dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 Cc:     Daniel Vetter <daniel@ffwll.ch>,
@@ -60,9 +60,9 @@ Cc:     Daniel Vetter <daniel@ffwll.ch>,
         =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         linux-media@vger.kernel.org (open list:SYNC FILE FRAMEWORK),
         linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3 7/9] dma-buf/fence-chain: Add fence deadline support
-Date:   Fri,  3 Sep 2021 11:47:58 -0700
-Message-Id: <20210903184806.1680887-8-robdclark@gmail.com>
+Subject: [PATCH v3 8/9] dma-buf/sync_file: Add SET_DEADLINE ioctl
+Date:   Fri,  3 Sep 2021 11:47:59 -0700
+Message-Id: <20210903184806.1680887-9-robdclark@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903184806.1680887-1-robdclark@gmail.com>
 References: <20210903184806.1680887-1-robdclark@gmail.com>
@@ -74,42 +74,89 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Rob Clark <robdclark@chromium.org>
 
+The initial purpose is for igt tests, but this would also be useful for
+compositors that wait until close to vblank deadline to make decisions
+about which frame to show.
+
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/dma-buf/dma-fence-chain.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/dma-buf/sync_file.c    | 19 +++++++++++++++++++
+ include/uapi/linux/sync_file.h | 20 ++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
-index 1b4cb3e5cec9..736a9ad3ea6d 100644
---- a/drivers/dma-buf/dma-fence-chain.c
-+++ b/drivers/dma-buf/dma-fence-chain.c
-@@ -208,6 +208,18 @@ static void dma_fence_chain_release(struct dma_fence *fence)
- 	dma_fence_free(fence);
+diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+index 394e6e1e9686..f295772d5169 100644
+--- a/drivers/dma-buf/sync_file.c
++++ b/drivers/dma-buf/sync_file.c
+@@ -459,6 +459,22 @@ static long sync_file_ioctl_fence_info(struct sync_file *sync_file,
+ 	return ret;
  }
  
-+
-+static void dma_fence_chain_set_deadline(struct dma_fence *fence,
-+					 ktime_t deadline)
++static int sync_file_ioctl_set_deadline(struct sync_file *sync_file,
++					unsigned long arg)
 +{
-+	dma_fence_chain_for_each(fence, fence) {
-+		struct dma_fence_chain *chain = to_dma_fence_chain(fence);
-+		struct dma_fence *f = chain ? chain->fence : fence;
++	struct sync_set_deadline ts;
 +
-+		dma_fence_set_deadline(f, deadline);
-+	}
++	if (copy_from_user(&ts, (void __user *)arg, sizeof(ts)))
++		return -EFAULT;
++
++	if (ts.pad)
++		return -EINVAL;
++
++	dma_fence_set_deadline(sync_file->fence, ktime_set(ts.tv_sec, ts.tv_nsec));
++
++	return 0;
 +}
 +
- const struct dma_fence_ops dma_fence_chain_ops = {
- 	.use_64bit_seqno = true,
- 	.get_driver_name = dma_fence_chain_get_driver_name,
-@@ -215,6 +227,7 @@ const struct dma_fence_ops dma_fence_chain_ops = {
- 	.enable_signaling = dma_fence_chain_enable_signaling,
- 	.signaled = dma_fence_chain_signaled,
- 	.release = dma_fence_chain_release,
-+	.set_deadline = dma_fence_chain_set_deadline,
- };
- EXPORT_SYMBOL(dma_fence_chain_ops);
+ static long sync_file_ioctl(struct file *file, unsigned int cmd,
+ 			    unsigned long arg)
+ {
+@@ -471,6 +487,9 @@ static long sync_file_ioctl(struct file *file, unsigned int cmd,
+ 	case SYNC_IOC_FILE_INFO:
+ 		return sync_file_ioctl_fence_info(sync_file, arg);
  
++	case SYNC_IOC_SET_DEADLINE:
++		return sync_file_ioctl_set_deadline(sync_file, arg);
++
+ 	default:
+ 		return -ENOTTY;
+ 	}
+diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
+index ee2dcfb3d660..f67d4ffe7566 100644
+--- a/include/uapi/linux/sync_file.h
++++ b/include/uapi/linux/sync_file.h
+@@ -67,6 +67,18 @@ struct sync_file_info {
+ 	__u64	sync_fence_info;
+ };
+ 
++/**
++ * struct sync_set_deadline - set a deadline on a fence
++ * @tv_sec:	seconds elapsed since epoch
++ * @tv_nsec:	nanoseconds elapsed since the time given by the tv_sec
++ * @pad:	must be zero
++ */
++struct sync_set_deadline {
++	__s64	tv_sec;
++	__s32	tv_nsec;
++	__u32	pad;
++};
++
+ #define SYNC_IOC_MAGIC		'>'
+ 
+ /**
+@@ -95,4 +107,12 @@ struct sync_file_info {
+  */
+ #define SYNC_IOC_FILE_INFO	_IOWR(SYNC_IOC_MAGIC, 4, struct sync_file_info)
+ 
++
++/**
++ * DOC: SYNC_IOC_SET_DEADLINE - set a deadline on a fence
++ *
++ * Allows userspace to set a deadline on a fence, see dma_fence_set_deadline()
++ */
++#define SYNC_IOC_SET_DEADLINE	_IOW(SYNC_IOC_MAGIC, 5, struct sync_set_deadline)
++
+ #endif /* _UAPI_LINUX_SYNC_H */
 -- 
 2.31.1
 
