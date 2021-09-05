@@ -2,112 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06851401181
-	for <lists+linux-media@lfdr.de>; Sun,  5 Sep 2021 22:22:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 014E84011DC
+	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 00:21:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238131AbhIEUX3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Sep 2021 16:23:29 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:41914 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238014AbhIEUX2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Sep 2021 16:23:28 -0400
-Received: by mail-io1-f70.google.com with SMTP id s22-20020a5e98160000b02905afde383110so3699257ioj.8
-        for <linux-media@vger.kernel.org>; Sun, 05 Sep 2021 13:22:25 -0700 (PDT)
+        id S238374AbhIEVnF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Sep 2021 17:43:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60822 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235179AbhIEVnE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Sep 2021 17:43:04 -0400
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3996C061575;
+        Sun,  5 Sep 2021 14:42:00 -0700 (PDT)
+Received: by mail-yb1-xb2c.google.com with SMTP id j195so9703930ybg.6;
+        Sun, 05 Sep 2021 14:42:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fLPDiE8CZvkoCrImaKutyqrEpwa9EFeafz6QJChKxx0=;
+        b=W7wdmAgPGrUp9rWIL9HyeQum+z9sjOUqay0sTDDXzSoM+/8wbn0843i3WN0kFpD0dL
+         PpUdtMZfkyWtg2sLsmHIO9OPRWajg1Bo9u9FIBODbP+n01Eg1sCsjFPoF00EksoEvRms
+         LXI1pK5fAkJO85AmENJdJA8ebZlZ0f4rPpD2LO2vqO7v/KW+J/qpHHWjHGx2Vr54hXS4
+         JrYmdvOBksq5Th3CLWILYFpUdgV78gVofh8H61CNM49jgGSOArNfzr5DE4kktcI35B/o
+         8O7jJyoSt/wdvtbEgTlq0gmlxp+iRmJIjwjR8R5oXv233IUMl8ED6hN3sf+88doVf7vE
+         35kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=II+59FLqtMznEdE3o2/0rips7/eUPlc7AU99q2eipqQ=;
-        b=RXsvGaj3We3pBn1XV1aSO6PW0gwJFLmJQuoWPnIeokbKQRXkzRG+hCrn5boqKbQcRn
-         cf1RS0zWYJFYMfUX/hWG//u9Ugy33CeoOTFywCufbv8VqGKmWIhVPQ4i0i+9/SmVLs48
-         es0u4z/Ss7V6e1wN2xzARpT3S1IiMeCiEHAHqiMo7GD1y3N9kr0Ty7No8+lVWz3ILh+k
-         K53kRdfgDPdjYVIsX6PL7MmBennAuCaKTCBkrlYBNJ92rymAa5459FNVoSc+zZ/fOCEv
-         nUIgUgJb62H9UOVsZzh+9/74Hv1vf29R7rNcOCZMIn7JsGtU/0dP973xTtmPDuqlFjRS
-         EAmA==
-X-Gm-Message-State: AOAM5312hdnq6+ydMBGg+CgUztwvoye47QqOi7+rqjP7kQp4sl0DdDNY
-        z8pc1ugek8poqdJ/2/a1n75ehCfV6rXgW0moVilSNGsbXSUu
-X-Google-Smtp-Source: ABdhPJwKR559ncBeYJWrQDGC5mOcPwjKzCnUHKYE8PIH4bjQeXosLoHG3/hym29xSFsXbsOQ9UvGFhPDtfW4jrW9yQ/v4F0oa0B9
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fLPDiE8CZvkoCrImaKutyqrEpwa9EFeafz6QJChKxx0=;
+        b=lRkl3DpI84hzKg+2OFmFt8CqQaWeiNNdXir2OU9UY/EFfzYhA955BwTLOCAQ/mZIL5
+         bXIi9IS970ABesLasECZeEV3uzXKmv1Q/u1E/dpsXnwSMFyt3YXnbzpH3Wkih+2hPOqb
+         Mlpkq/FTChQLDXsHT1toBAYb+TLN2ngpZzsKaiA2TC69AeW/JG7dplVuQb9/i3HpDn/D
+         Rh1Dw6mWrQFRNhu4MNaaQT9J/FtfLKYUcmO8K4nwB13VEaAZc38NDUU+XfxaBaa8IdWc
+         BJPUtfQGl/BZfgxGMldnKIrqMld8zdFr5Lj8rzqeZ4n8LDSvJGdVgR6n2U63I49okOi9
+         /2VA==
+X-Gm-Message-State: AOAM532d4qeC8JIx/GE8nbz8JdTCLOF0WyvQTnpADmpzcyIo3loCfAqx
+        nEhGKoaXqipT9UyTvrDPWT9hkBQG6Raa449tc0OEMJYL1XGmlQ==
+X-Google-Smtp-Source: ABdhPJwml1Bv0RknX+GLd6OGBvDW05FHDc9dZ5cOxR1+LSqRMp7d4+T9itE82gq7xAyTm8kiv9xGA4Cor2c2EgyYh2M=
+X-Received: by 2002:a25:38ce:: with SMTP id f197mr12348099yba.254.1630878120239;
+ Sun, 05 Sep 2021 14:42:00 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a5e:d70a:: with SMTP id v10mr7334472iom.10.1630873344882;
- Sun, 05 Sep 2021 13:22:24 -0700 (PDT)
-Date:   Sun, 05 Sep 2021 13:22:24 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000065419205cb454ac4@google.com>
-Subject: [syzbot] KASAN: vmalloc-out-of-bounds Write in tpg_fill_plane_buffer (2)
-From:   syzbot <syzbot+272ce7abd8e49c0ddf42@syzkaller.appspotmail.com>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+References: <20210904232808.25638-1-rdunlap@infradead.org>
+In-Reply-To: <20210904232808.25638-1-rdunlap@infradead.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sun, 5 Sep 2021 22:41:34 +0100
+Message-ID: <CA+V-a8u7NC5+2k051EP_V_HLn638X5Fzwj_UcM83ZV24qES0uQ@mail.gmail.com>
+Subject: Re: [PATCH] media: i2c: ths8200 needs V4L2_ASYNC
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Randy,
 
-syzbot found the following issue on:
+Thank you for the patch.
 
-HEAD commit:    f1583cb1be35 Merge tag 'linux-kselftest-next-5.15-rc1' of ..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1495987d300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9c582b69de20dde2
-dashboard link: https://syzkaller.appspot.com/bug?extid=272ce7abd8e49c0ddf42
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.1
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14f79ecd300000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1489a4c9300000
+On Sun, Sep 5, 2021 at 12:28 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Fix the build errors reported by the kernel test robot by
+> selecting V4L2_ASYNC:
+>
+> mips-linux-ld: drivers/media/i2c/ths8200.o: in function `ths8200_remove':
+> ths8200.c:(.text+0x1ec): undefined reference to `v4l2_async_unregister_subdev'
+> mips-linux-ld: drivers/media/i2c/ths8200.o: in function `ths8200_probe':
+> ths8200.c:(.text+0x404): undefined reference to `v4l2_async_register_subdev'
+>
+> Fixes: ed29f89497006 ("media: i2c: ths8200: support asynchronous probing")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Ezequiel Garcia <ezequiel@collabora.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> ---
+>  drivers/media/i2c/Kconfig |    1 +
+>  1 file changed, 1 insertion(+)
+>
+Reviewed-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
 
-Bisection is inconclusive: the issue happens on the oldest tested release.
+Cheers,
+Prabhakar
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11c072a5300000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=13c072a5300000
-console output: https://syzkaller.appspot.com/x/log.txt?x=15c072a5300000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+272ce7abd8e49c0ddf42@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: vmalloc-out-of-bounds in memcpy include/linux/fortify-string.h:191 [inline]
-BUG: KASAN: vmalloc-out-of-bounds in tpg_fill_plane_pattern drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:2545 [inline]
-BUG: KASAN: vmalloc-out-of-bounds in tpg_fill_plane_buffer+0x1325/0x38e0 drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:2626
-Write of size 128 at addr ffffc9000dbe2fe0 by task vivid-001-vid-c/14838
-
-CPU: 0 PID: 14838 Comm: vivid-001-vid-c Not tainted 5.14.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:105
- print_address_description.constprop.0.cold+0xf/0x309 mm/kasan/report.c:256
- __kasan_report mm/kasan/report.c:442 [inline]
- kasan_report.cold+0x83/0xdf mm/kasan/report.c:459
- check_region_inline mm/kasan/generic.c:183 [inline]
- kasan_check_range+0x13d/0x180 mm/kasan/generic.c:189
- memcpy+0x39/0x60 mm/kasan/shadow.c:66
- memcpy include/linux/fortify-string.h:191 [inline]
- tpg_fill_plane_pattern drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:2545 [inline]
- tpg_fill_plane_buffer+0x1325/0x38e0 drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:2626
- vivid_fillbuff+0x1ac1/0x3f00 drivers/media/test-drivers/vivid/vivid-kthread-cap.c:469
- vivid_thread_vid_cap_tick+0x88b/0x2360 drivers/media/test-drivers/vivid/vivid-kthread-cap.c:729
- vivid_thread_vid_cap+0x5d2/0xaf0 drivers/media/test-drivers/vivid/vivid-kthread-cap.c:868
- kthread+0x3e5/0x4d0 kernel/kthread.c:319
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
-
-
-Memory state around the buggy address:
- ffffc9000dbe2f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffffc9000dbe2f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffffc9000dbe3000: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-                   ^
- ffffc9000dbe3080: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
- ffffc9000dbe3100: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+> --- linux-next-20210903.orig/drivers/media/i2c/Kconfig
+> +++ linux-next-20210903/drivers/media/i2c/Kconfig
+> @@ -597,6 +597,7 @@ config VIDEO_AK881X
+>  config VIDEO_THS8200
+>         tristate "Texas Instruments THS8200 video encoder"
+>         depends on VIDEO_V4L2 && I2C
+> +       select V4L2_ASYNC
+>         help
+>           Support for the Texas Instruments THS8200 video encoder.
+>
