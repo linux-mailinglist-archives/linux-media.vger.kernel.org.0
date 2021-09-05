@@ -2,106 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 014E84011DC
-	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 00:21:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C2244011E1
+	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 00:21:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238374AbhIEVnF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Sep 2021 17:43:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60822 "EHLO
+        id S238283AbhIEVuh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Sep 2021 17:50:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235179AbhIEVnE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Sep 2021 17:43:04 -0400
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3996C061575;
-        Sun,  5 Sep 2021 14:42:00 -0700 (PDT)
-Received: by mail-yb1-xb2c.google.com with SMTP id j195so9703930ybg.6;
-        Sun, 05 Sep 2021 14:42:00 -0700 (PDT)
+        with ESMTP id S235142AbhIEVug (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Sep 2021 17:50:36 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36134C061575;
+        Sun,  5 Sep 2021 14:49:33 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id f15so9752785ybg.3;
+        Sun, 05 Sep 2021 14:49:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fLPDiE8CZvkoCrImaKutyqrEpwa9EFeafz6QJChKxx0=;
-        b=W7wdmAgPGrUp9rWIL9HyeQum+z9sjOUqay0sTDDXzSoM+/8wbn0843i3WN0kFpD0dL
-         PpUdtMZfkyWtg2sLsmHIO9OPRWajg1Bo9u9FIBODbP+n01Eg1sCsjFPoF00EksoEvRms
-         LXI1pK5fAkJO85AmENJdJA8ebZlZ0f4rPpD2LO2vqO7v/KW+J/qpHHWjHGx2Vr54hXS4
-         JrYmdvOBksq5Th3CLWILYFpUdgV78gVofh8H61CNM49jgGSOArNfzr5DE4kktcI35B/o
-         8O7jJyoSt/wdvtbEgTlq0gmlxp+iRmJIjwjR8R5oXv233IUMl8ED6hN3sf+88doVf7vE
-         35kQ==
+        bh=NwQdXnAL/L2wqj03cB02tipih39S6IhR8GqXOW+Ly4E=;
+        b=KcQs13uHPX0Bc0O+J1qgG2YRqOa6Mha/i5r9DQBuRVHTaeOErcMJCrW/+jzqDyEqSg
+         RUCABjVaUIHkwRTrn67QefTFheSyxT8VWqGw1x4ldoKC3/1fvjZrOcn/ah74pZBFehqo
+         mdQeeEJFSZJZRyPgAlQzkONG0MQaE0Lg4ZsQUydqg8JfXFv90NDm6i7pN6ZL6WRKteDI
+         +JMPff7Z7bH5Ip9nwMbQdozhPegeKcR1ypcLKXOAi0MRCK2Ioiv6RaOBH+9qy8zaEO58
+         b1VxYeLVjJBrNHgf201ULKQd9L8QH+4TnxA0WNbzNhlU3GUEewRKqL05bOfTnhe79N70
+         3Pcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fLPDiE8CZvkoCrImaKutyqrEpwa9EFeafz6QJChKxx0=;
-        b=lRkl3DpI84hzKg+2OFmFt8CqQaWeiNNdXir2OU9UY/EFfzYhA955BwTLOCAQ/mZIL5
-         bXIi9IS970ABesLasECZeEV3uzXKmv1Q/u1E/dpsXnwSMFyt3YXnbzpH3Wkih+2hPOqb
-         Mlpkq/FTChQLDXsHT1toBAYb+TLN2ngpZzsKaiA2TC69AeW/JG7dplVuQb9/i3HpDn/D
-         Rh1Dw6mWrQFRNhu4MNaaQT9J/FtfLKYUcmO8K4nwB13VEaAZc38NDUU+XfxaBaa8IdWc
-         BJPUtfQGl/BZfgxGMldnKIrqMld8zdFr5Lj8rzqeZ4n8LDSvJGdVgR6n2U63I49okOi9
-         /2VA==
-X-Gm-Message-State: AOAM532d4qeC8JIx/GE8nbz8JdTCLOF0WyvQTnpADmpzcyIo3loCfAqx
-        nEhGKoaXqipT9UyTvrDPWT9hkBQG6Raa449tc0OEMJYL1XGmlQ==
-X-Google-Smtp-Source: ABdhPJwml1Bv0RknX+GLd6OGBvDW05FHDc9dZ5cOxR1+LSqRMp7d4+T9itE82gq7xAyTm8kiv9xGA4Cor2c2EgyYh2M=
-X-Received: by 2002:a25:38ce:: with SMTP id f197mr12348099yba.254.1630878120239;
- Sun, 05 Sep 2021 14:42:00 -0700 (PDT)
+        bh=NwQdXnAL/L2wqj03cB02tipih39S6IhR8GqXOW+Ly4E=;
+        b=G5IUuKK3gRd5aEKUBZZajtZtofOmw9BNEcVCTdQ4w3CFGrW1qkTH/vYbY7qJJAcvbx
+         TPbDO9BR2zgvW8aqrWxuYiVJmO1aXmdhBR4PfFHFzY3IXF9prKpxs2KXWD7gkoQhtN3K
+         R3NEOxKt6kp3PvmaTetvS6kjKdNl0fOLozmPR/6VQsbw1baGDPRSB4ZyToU3bP61xfoT
+         JUj2e4pLBDyx8259Oh9XmMALRw3mlTXzT51Zk+ZGLGnjVsDs3LVN3x/6Jx7GVcyffmRS
+         nR6SYZiUCahFgi7NVwGR3dlLSFEcnzfMrlb7XWpVFHosZ/uzVpwDgd7WsjjjGsVPZNCe
+         U+dQ==
+X-Gm-Message-State: AOAM531rkR4dqnzCn8DE2rP0jZGEf8QTwv9Q3nsNGzm/kwXaQeUm+R3X
+        irMMdEjlWSYzIiNlVlz5uiqyy79AqZTSuLLpfow=
+X-Google-Smtp-Source: ABdhPJyIXx8bes+RI4fZGapRDLqwoE0/4nhmXZGIZ8KotmhNJ+8Ppvale+u+coh0eaOpKpuCR5RdYwpH21vcQx0sJgI=
+X-Received: by 2002:a05:6902:1101:: with SMTP id o1mr12262132ybu.218.1630878572538;
+ Sun, 05 Sep 2021 14:49:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210904232808.25638-1-rdunlap@infradead.org>
-In-Reply-To: <20210904232808.25638-1-rdunlap@infradead.org>
+References: <20210901050725.5273-1-caihuoqing@baidu.com>
+In-Reply-To: <20210901050725.5273-1-caihuoqing@baidu.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Sun, 5 Sep 2021 22:41:34 +0100
-Message-ID: <CA+V-a8u7NC5+2k051EP_V_HLn638X5Fzwj_UcM83ZV24qES0uQ@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: ths8200 needs V4L2_ASYNC
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>
+Date:   Sun, 5 Sep 2021 22:49:06 +0100
+Message-ID: <CA+V-a8sw+r_7py40021J5Snep_hChwHiBEOPKZ4Vu=6vXUJ4eQ@mail.gmail.com>
+Subject: Re: [PATCH] media: am437x: Make use of the helper function devm_platform_ioremap_resource()
+To:     Cai Huoqing <caihuoqing@baidu.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Randy,
+Hi Cai,
 
 Thank you for the patch.
 
-On Sun, Sep 5, 2021 at 12:28 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+On Wed, Sep 1, 2021 at 6:10 AM Cai Huoqing <caihuoqing@baidu.com> wrote:
 >
-> Fix the build errors reported by the kernel test robot by
-> selecting V4L2_ASYNC:
+> Use the devm_platform_ioremap_resource() helper instead of
+> calling platform_get_resource() and devm_ioremap_resource()
+> separately
 >
-> mips-linux-ld: drivers/media/i2c/ths8200.o: in function `ths8200_remove':
-> ths8200.c:(.text+0x1ec): undefined reference to `v4l2_async_unregister_subdev'
-> mips-linux-ld: drivers/media/i2c/ths8200.o: in function `ths8200_probe':
-> ths8200.c:(.text+0x404): undefined reference to `v4l2_async_register_subdev'
->
-> Fixes: ed29f89497006 ("media: i2c: ths8200: support asynchronous probing")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Ezequiel Garcia <ezequiel@collabora.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 > ---
->  drivers/media/i2c/Kconfig |    1 +
->  1 file changed, 1 insertion(+)
+>  drivers/media/platform/am437x/am437x-vpfe.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 >
 Reviewed-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
 
 Cheers,
 Prabhakar
 
-> --- linux-next-20210903.orig/drivers/media/i2c/Kconfig
-> +++ linux-next-20210903/drivers/media/i2c/Kconfig
-> @@ -597,6 +597,7 @@ config VIDEO_AK881X
->  config VIDEO_THS8200
->         tristate "Texas Instruments THS8200 video encoder"
->         depends on VIDEO_V4L2 && I2C
-> +       select V4L2_ASYNC
->         help
->           Support for the Texas Instruments THS8200 video encoder.
+> diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
+> index 48bb0c93729c..2dfae9bc0bba 100644
+> --- a/drivers/media/platform/am437x/am437x-vpfe.c
+> +++ b/drivers/media/platform/am437x/am437x-vpfe.c
+> @@ -2393,7 +2393,6 @@ static int vpfe_probe(struct platform_device *pdev)
+>         struct vpfe_config *vpfe_cfg;
+>         struct vpfe_device *vpfe;
+>         struct vpfe_ccdc *ccdc;
+> -       struct resource *res;
+>         int ret;
+>
+>         vpfe = devm_kzalloc(&pdev->dev, sizeof(*vpfe), GFP_KERNEL);
+> @@ -2411,8 +2410,7 @@ static int vpfe_probe(struct platform_device *pdev)
+>         vpfe->cfg = vpfe_cfg;
+>         ccdc = &vpfe->ccdc;
+>
+> -       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -       ccdc->ccdc_cfg.base_addr = devm_ioremap_resource(&pdev->dev, res);
+> +       ccdc->ccdc_cfg.base_addr = devm_platform_ioremap_resource(pdev, 0);
+>         if (IS_ERR(ccdc->ccdc_cfg.base_addr)) {
+>                 ret = PTR_ERR(ccdc->ccdc_cfg.base_addr);
+>                 goto probe_out_cleanup;
+> --
+> 2.25.1
 >
