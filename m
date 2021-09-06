@@ -2,114 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4325401A4F
-	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 13:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFE94401ABB
+	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 13:47:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236260AbhIFLFE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Sep 2021 07:05:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43116 "EHLO
+        id S241425AbhIFLsc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Sep 2021 07:48:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231511AbhIFLFD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Sep 2021 07:05:03 -0400
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0918C061575;
-        Mon,  6 Sep 2021 04:03:58 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id NCPsm6vHllQKhNCPtmQzSN; Mon, 06 Sep 2021 13:03:57 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1630926237; bh=mDvtFV9UjP+KgBf+7q8PbDmYnyjvS8LhvtNWmmO4/Uk=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=h7YHvb1CK1GEjunBsOYuF/d6z4r+chqjsNh4lVpvYcvwoggkr4d9tYKnqKfINSEkt
-         oo+pfgRxAFKClLK8f7S5Cxmb+6WBbilsxULb2HqKSrdzNG2S4OPrqQhobmFdiJ76XA
-         UjIEQnAOGIIRaiKIs1IMMxISszv0m84Hmrpg0g3u+g9oRRIRjpW3Hs6qUHrzadWh/r
-         M1BMshXgsVbw6VB0fcF2oKPxtmysahQJ7qv2zXi0XQBOyFCnZ3Krl7G3yHkpjF463j
-         F7l655g6L9dcZQ5xWMWXvEm+Ra7SahOoRKdIqsBfr+N+Rlsy9Whja/YFCR6NYZG+8h
-         M2tVIjrgQSzKw==
-Subject: Re: [PATCH 0/8] staging: media: zoran: fusion in one module
-To:     Corentin Labbe <clabbe@baylibre.com>, gregkh@linuxfoundation.org,
-        mchehab@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-References: <20210903191540.3052775-1-clabbe@baylibre.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <efe035cc-1839-210f-c0d4-4d58801aa65c@xs4all.nl>
-Date:   Mon, 6 Sep 2021 13:03:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        with ESMTP id S241342AbhIFLsc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Sep 2021 07:48:32 -0400
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A778C061575;
+        Mon,  6 Sep 2021 04:47:27 -0700 (PDT)
+Received: by mail-qv1-xf2b.google.com with SMTP id e18so1810157qvl.4;
+        Mon, 06 Sep 2021 04:47:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ydkSeattX7pqtmLuoMARpH6s/V85guG4/Y69kcyoKjI=;
+        b=DP9qLeF/ReuP+/BRT604rMJmBYUser8C7kY0DRQwQSMF57xyB43PcaW+L7jArum/3z
+         YfbhrnPDs2trWpYG8QQ0trqcIEOWSI+JAlaQtyo7TozwxxB8MpRiyvxwfgRfcH3D00K6
+         FW8SxuXScr8jrkSt8P469DkDgLJAojMkby6lg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ydkSeattX7pqtmLuoMARpH6s/V85guG4/Y69kcyoKjI=;
+        b=bs0vPWNhptBqAMRL9z3esrfZht7OGQd4WMMbLvBwBzjYQFH9TOoOUvnGDqTCKLS1GL
+         e8no2PqRQw++c0lXQk+Pqd2Xryml6Db6854uZ+LWMoQ7UF0GJPfbM5g+cHnvXfZaV62O
+         FbZ053nF2WirJuFeI6nUoAvKPbBqOMip7gWQHvm9GXHkSZ4xzlFxEErTrmXh7QFE/zBG
+         iQQwzCwS7Gm2xx/o9zVAbX1Hy9kjU45y3vDUl+KvlSXbDCIh8JpV/7OPYQQoYn82yOYb
+         Iin3Z00EZgRPrq+0Ydgf+g8X4dUAFQnDZ2uIgqRGTVPSYLv84VwythUka11K9LxJ6Eq9
+         jHww==
+X-Gm-Message-State: AOAM533pOWkBv5G4G2qARr/MVCyoxq6QrAeHy2ETJgQaQjd7Cv3bcuyC
+        WtPt6O4mC1NPyLYE9w1v0Uh7MjCIvb84QQ3I9j8=
+X-Google-Smtp-Source: ABdhPJxPQH0wBMCr0pExnt7qJRixTkXQl+3Qg1d8UOcjWp23ojc7rVeaEtT0MVyZnZngr+ytTVe6IXgeNlYpnps2dW0=
+X-Received: by 2002:ad4:5cc2:: with SMTP id iu2mr11555814qvb.41.1630928846389;
+ Mon, 06 Sep 2021 04:47:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210903191540.3052775-1-clabbe@baylibre.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJIXL08RwQgMNMzOYbe0M0VJlLntr2uNqP+LLvSAcYVjylm6uej9Wx4ry4BYBNOsaxT/1woOlqCnq/HGjhbnPEot+2QLc9CggTOnJLFl8Io7omw+8BB8
- mGgN2mJrKsxT1QWv3Wav2WvQeSKCDOjGtPVjZnxkcKCCloHzN+HUPdkEvciFs2VX5enEbb6BWK8b/XtG/JijRKRwyEnC+2WP4a7GNmjxAHPzHnvgbUKbsAaU
- vKgmsnxUXksAcIfM/GlTYRh2XqsWniIpRrHkYMBkYkBjwHmud7iu53p5qNvfwluIkJn//RrJXHrZ/opgKXK5lDFXfDhGI/XzP5QQSAv3y9zEbta4h2+XKEJr
- qGItXiPM+S8oWacsLHcDVlW2TNlzCYyQoqzsNmgNRbBazbvAESHGyA5StVfaACqcpndLDGaVkBRjX6xe/tY380px5hnViikZFiieqbsW6JZ3g54H6K0jEvMz
- 9nJcfvc1bcJ9S9QjAnMQq8c3KsyLj4i0Irt470PW/ozYNJ1yZf2nxW0P7Q8=
+References: <20210617220229.7352-1-zev@bewilderbeest.net> <46edf81d60a38747f7d2511f840253a1c6867652.camel@linux.ibm.com>
+ <HK0PR06MB338081E134AA6F43ECBCBA4DF2D29@HK0PR06MB3380.apcprd06.prod.outlook.com>
+In-Reply-To: <HK0PR06MB338081E134AA6F43ECBCBA4DF2D29@HK0PR06MB3380.apcprd06.prod.outlook.com>
+From:   Joel Stanley <joel@jms.id.au>
+Date:   Mon, 6 Sep 2021 11:47:14 +0000
+Message-ID: <CACPK8XfE6zB9BWYq7e8WbXkPFp2Cicwv2x2dc8h6jNaR2qZV0g@mail.gmail.com>
+Subject: Re: [PATCH v3] media: aspeed-video: ignore interrupts that aren't enabled
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Eddie James <eajames@linux.ibm.com>,
+        Zev Weiss <zev@bewilderbeest.net>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Ryan Chen <ryan_chen@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Corentin,
+Hi Mauro,
 
-I finally had the opportunity to test the staging zoran driver.
+On Mon, 6 Sept 2021 at 10:10, Ryan Chen <ryan_chen@aspeedtech.com> wrote:
+> > Subject: Re: [PATCH v3] media: aspeed-video: ignore interrupts that aren't
+> > enabled
+> >
+> > On Thu, 2021-06-17 at 17:02 -0500, Zev Weiss wrote:
+> > > As partially addressed in commit 65d270acb2d6 ("media: aspeed: clear
+> > > garbage interrupts"), the ASpeed video engine sometimes asserts
+> > > interrupts that the driver hasn't enabled.  In addition to the
+> > > CAPTURE_COMPLETE and FRAME_COMPLETE interrupts dealt with in that
+> > > patch, COMP_READY has also been observed.  Instead of playing
+> > > whack-a-mole with each one individually, we can instead just blanket
+> > > ignore everything we haven't explicitly enabled.
+> >
+> > Suspect this will fix an intermittent problem on AST2500 with screensaver.
+> > Change looks good, thanks!
+> >
+> > Reviewed-by: Eddie James <eajames@linux.ibm.com>
+> >
+> Reviewed-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> > >
+> > > Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
 
-I found several issues when running v4l2-compliance -s (I posted a patch
-for that), but more seriously is the fact that trying to capture MJPG
-at resolutions 384x288 or less just hangs my PC. It works OK with 768x576.
+I notice this wasn't merged in the pull request you sent for v5.15.
+Would you be able to ensure it makes it in the next pull request you
+send?
 
-I discovered this when running 'v4l2-compliance -s -a -f'.
+It can have some fixes tags too:
 
-BTW, why isn't the initial format equal to MJPG 768x576?
-I would expect that for these boards that should be the default format.
+Fixes: 65d270acb2d6 ("media: aspeed: clear garbage interrupts")
+Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
+Acked-by: Joel Stanley <joel@jms.id.au>
 
-Another issue is that the TODO should mention that for video output there
-should be a second video device node. And that's really something that
-has to be done before the zoran driver can be moved out of staging.
+Cheers,
 
-It shouldn't be that hard to implement, I think.
+Joel
 
-Right now it is impossible to run the compliance test for the output, since
-it doesn't even see it as an output.
-
-Regards,
-
-	Hans
-
-On 03/09/2021 21:15, Corentin Labbe wrote:
-> Hello
-> 
-> The main change of this serie is to fusion all zoran related modules in
-> one.
-> This fixes the load order problem when everything is built-in.
-> 
-> Regards
-> 
-> Corentin Labbe (8):
->   staging: media: zoran: move module parameter checks to zoran_probe
->   staging: media: zoran: use module_pci_driver
->   staging: media: zoran: rename debug module parameter
->   staging: media: zoran: add debugfs
->   staging: media: zoran: videocode: remove procfs
->   staging: media: zoran: fusion all modules
->   staging: media: zoran: remove vidmem
->   staging: media: zoran: move videodev alloc
-> 
->  drivers/staging/media/zoran/Kconfig        |  24 +-
->  drivers/staging/media/zoran/Makefile       |   8 +-
->  drivers/staging/media/zoran/videocodec.c   |  60 +----
->  drivers/staging/media/zoran/videocodec.h   |   5 +
->  drivers/staging/media/zoran/zoran.h        |   7 +-
->  drivers/staging/media/zoran/zoran_card.c   | 259 +++++++++++++--------
->  drivers/staging/media/zoran/zoran_driver.c |   5 +-
->  drivers/staging/media/zoran/zr36016.c      |  23 +-
->  drivers/staging/media/zoran/zr36016.h      |   2 +
->  drivers/staging/media/zoran/zr36050.c      |  20 +-
->  drivers/staging/media/zoran/zr36050.h      |   2 +
->  drivers/staging/media/zoran/zr36060.c      |  20 +-
->  drivers/staging/media/zoran/zr36060.h      |   2 +
->  13 files changed, 229 insertions(+), 208 deletions(-)
-> 
-
+> > > ---
+> > >
+> > > Changes since v2 [1]:
+> > >  - minor commit message improvements
+> > >
+> > > Changes since v1 [0]:
+> > >  - dropped error message
+> > >  - switched to a blanket-ignore approach as suggested by Ryan
+> > >
+> > > [0]
+> > > https://lore.kernel.org/linux-arm-kernel/20201215024542.18888-1-zev@be
+> > > wilderbeest.net/
+> > > [1]
+> > >
+> > https://lore.kernel.org/openbmc/20210506234048.3214-1-zev@bewilderbees
+> > > t.net/
+> > >
+> > >  drivers/media/platform/aspeed-video.c | 16 ++++++----------
+> > >  1 file changed, 6 insertions(+), 10 deletions(-)
+> > >
+> > > diff --git a/drivers/media/platform/aspeed-video.c
+> > > b/drivers/media/platform/aspeed-video.c
+> > > index 7bb6babdcade..77611c296a25 100644
+> > > --- a/drivers/media/platform/aspeed-video.c
+> > > +++ b/drivers/media/platform/aspeed-video.c
+> > > @@ -563,6 +563,12 @@ static irqreturn_t aspeed_video_irq(int irq, void
+> > > *arg)
+> > >     struct aspeed_video *video = arg;
+> > >     u32 sts = aspeed_video_read(video, VE_INTERRUPT_STATUS);
+> > >
+> > > +   /*
+> > > +    * Hardware sometimes asserts interrupts that we haven't
+> > > actually
+> > > +    * enabled; ignore them if so.
+> > > +    */
+> > > +   sts &= aspeed_video_read(video, VE_INTERRUPT_CTRL);
+> > > +
+> > >     /*
+> > >      * Resolution changed or signal was lost; reset the engine and
+> > >      * re-initialize
+> > > @@ -629,16 +635,6 @@ static irqreturn_t aspeed_video_irq(int irq, void
+> > > *arg)
+> > >                     aspeed_video_start_frame(video);
+> > >     }
+> > >
+> > > -   /*
+> > > -    * CAPTURE_COMPLETE and FRAME_COMPLETE interrupts come even
+> > > when these
+> > > -    * are disabled in the VE_INTERRUPT_CTRL register so clear them
+> > > to
+> > > -    * prevent unnecessary interrupt calls.
+> > > -    */
+> > > -   if (sts & VE_INTERRUPT_CAPTURE_COMPLETE)
+> > > -           sts &= ~VE_INTERRUPT_CAPTURE_COMPLETE;
+> > > -   if (sts & VE_INTERRUPT_FRAME_COMPLETE)
+> > > -           sts &= ~VE_INTERRUPT_FRAME_COMPLETE;
+> > > -
+> > >     return sts ? IRQ_NONE : IRQ_HANDLED;  }
+> > >
+>
