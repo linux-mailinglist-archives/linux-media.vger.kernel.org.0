@@ -2,256 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 101AF401619
-	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 07:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEAEC40169D
+	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 08:52:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239146AbhIFF4L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Sep 2021 01:56:11 -0400
-Received: from woodpecker.gentoo.org ([140.211.166.183]:38754 "EHLO
-        smtp.gentoo.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239140AbhIFF4J (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Sep 2021 01:56:09 -0400
-X-Greylist: delayed 511 seconds by postgrey-1.27 at vger.kernel.org; Mon, 06 Sep 2021 01:56:09 EDT
-From:   Matthias Schwarzott <zzam@gentoo.org>
-Subject: Re: Fwd: Experimental additions dvb-usb-v2 rtl28xxu to support Delock
- 61959 V2
-To:     Oliver Kleinecke <kleinecke.oliver@googlemail.com>,
-        linux-media@vger.kernel.org
-References: <CAFi-X+WyqNv5ZcDdTH0ZXgWa7o+eT5EE2UsGnemKjeSiGRHyeQ@mail.gmail.com>
- <CAFi-X+WpLfDqW+2KWf6FPxZ0rHiMkatw1N427XUoP2A_qV-Zag@mail.gmail.com>
-Message-ID: <a65620fe-82aa-0f08-c7c2-d53beb372f57@gentoo.org>
-Date:   Mon, 6 Sep 2021 07:46:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S239599AbhIFGxF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Sep 2021 02:53:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36354 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239400AbhIFGxE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 6 Sep 2021 02:53:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CF49860F21;
+        Mon,  6 Sep 2021 06:51:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1630911120;
+        bh=h0WT/Jjj8wKQYQF+5gwJkPL2TfNqu98BCj64BgayA7M=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=FulvDIvLkR5PGRPFP547Bt52CBBwmIth2844DXgVb6XXg68tZk8keaPt6YHDBf2uA
+         5zxS0C6YIL4AHINEw4PgNj30YY6cCH0PGM0slvrYtVxA7p1/hDdFwdcWSHl7R6AlmN
+         t2NuD/XgYqZxt0/rLYaOz7EASBGRJLc3g3MPWDinA7qqn5phbB4HwwWoQTicUbyk4X
+         aL1u4mXeT864zX6iAL5uRbCsZKtBWZrHL98MsHH0n6qom2SvF3NhzJ3srZB6W5tftW
+         9An3xv6TfdIuRzklCZErXZIgjFBMkgSNqvS809r+bYOh46D34M76TzNx+CT9FfIW6q
+         ONhzS+UWH2qIQ==
+Date:   Mon, 6 Sep 2021 08:51:53 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
+        linux-media@vger.kernel.org,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] media: s5p-jpeg: change "RST" to "RSET" to fix build
+ warnings
+Message-ID: <20210906085153.58edc116@coco.lan>
+In-Reply-To: <20210905235715.12154-1-rdunlap@infradead.org>
+References: <20210905235715.12154-1-rdunlap@infradead.org>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAFi-X+WpLfDqW+2KWf6FPxZ0rHiMkatw1N427XUoP2A_qV-Zag@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 29.08.21 um 12:13 schrieb Oliver Kleinecke:
- > Hi everybody !
- >
-Hi Oliver,
+Em Sun,  5 Sep 2021 16:57:15 -0700
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
- > While trying to get a usb dvb-c/t stick running, which I own, I was
- > able to make a biot of progress and I hope it is enough to ask for
- > further help with tidying up my noobish poc code and help me to fix an
- > I2C problem I am unable to fix myself actually.
- >
- > The device is a  Delock USB 2.0 DVB-T/DVB-C Receiver (Version 2.0) -
- > V1 is fully supported, V2 currently not.
- > This device is nearly identical to the (already fully mainline-kernel
- > supported) GotView  MasterHD3 except it uses a different slave demod -
- > the SI2165 instead of SI2168.
- >
- > Current status for the device with my unprofessional additions: dvb-c
- > running with regular continuity errors and FE-Read errors. Dvb-T is
- > fully untested, as I have no signal in my area here.
+> The use of a macro named 'RST' conflicts with one of the same name
+> in arch/mips/include/asm/mach-rc32434/rb.h. This causes build
+> warnings on some MIPS builds.
+> 
+> Change the use of RST to the name RSET.
+> 
+> Fixes these build warnings:
+> 
+> In file included from ../drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.c:14:
+> ../drivers/media/platform/s5p-jpeg/jpeg-core.h:43: warning: "RST" redefined
+>    43 | #define RST                             0xd0
+>       | 
+> ../arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
+>    13 | #define RST             (1 << 15)
+> 
+> In file included from ../drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.c:13:
+> ../drivers/media/platform/s5p-jpeg/jpeg-core.h:43: warning: "RST" redefined
+>    43 | #define RST                             0xd0
+> ../arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
+>    13 | #define RST             (1 << 15)
+> 
+> In file included from ../drivers/media/platform/s5p-jpeg/jpeg-hw-exynos4.c:12:
+> ../drivers/media/platform/s5p-jpeg/jpeg-core.h:43: warning: "RST" redefined
+>    43 | #define RST                             0xd0
+> ../arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
+>    13 | #define RST             (1 << 15)
+> 
+> In file included from ../drivers/media/platform/s5p-jpeg/jpeg-core.c:31:
+> ../drivers/media/platform/s5p-jpeg/jpeg-core.h:43: warning: "RST" redefined
+>    43 | #define RST                             0xd0
+> ../arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
+>    13 | #define RST             (1 << 15)
+> 
+> Fixes: bb677f3ac434 ("[media] Exynos4 JPEG codec v4l2 driver")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+>  drivers/media/platform/s5p-jpeg/jpeg-core.c |    2 +-
+>  drivers/media/platform/s5p-jpeg/jpeg-core.h |    2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> --- linux-next-20210903.orig/drivers/media/platform/s5p-jpeg/jpeg-core.c
+> +++ linux-next-20210903/drivers/media/platform/s5p-jpeg/jpeg-core.c
+> @@ -1203,7 +1203,7 @@ static bool s5p_jpeg_parse_hdr(struct s5
+>  			break;
+>  
+>  		/* skip payload-less markers */
+> -		case RST ... RST + 7:
+> +		case RSET ... RSET + 7:
+>  		case SOI:
+>  		case EOI:
+>  		case TEM:
+> --- linux-next-20210903.orig/drivers/media/platform/s5p-jpeg/jpeg-core.h
+> +++ linux-next-20210903/drivers/media/platform/s5p-jpeg/jpeg-core.h
+> @@ -40,7 +40,7 @@
+>  #define TEM				0x01
+>  #define SOF0				0xc0
+>  #define DHT				0xc4
+> -#define RST				0xd0
+> +#define RSET				0xd0
+>  #define SOI				0xd8
+>  #define EOI				0xd9
+>  #define	SOS				0xda
 
-With an Hauppauge stick I had the same issue. DVB-C had permanent 
-issues. Channel lock was fine, but the data was having missing parts. 
-This was fixed by Brad Love in commit 
-8b1ca8a0363efdfa63358f598a2cadda2e514ab7 (media: cx231xx: Increase USB 
-bridge bandwidth).
-Maybe a similar fix could be applied to RTL2832P chip.
-According to your log the continuity errors do not appear each second, 
-but with intervals of ~10s. So it might be a different issue that just 
-requires some fine-tuning of parameters.
+I don't like this change, for a couple reasons:
 
- >
- > The patch with my own additions is attached as well as a log showing
- > the full usb-registering and load of fw files. Any help on debugging
- > mentioned continuity errors / FE errors would be very much
- > appreciated, I am willing to apply testing patches & provide
- > additional debug info, if necessary.
+1. the JPEG marker is "RST" (actually, "RST0") instead of "RSET" 
+   (see pag. 36 https://www.w3.org/Graphics/JPEG/itu-t81.pdf). The
+   close it sticks with the JPEG standard, the better;
 
-Please put patches into the body of the mail and not as attachment.
-I copied your patch here to comment on it. See comments inline.
-The patch is a good start.
+2. better to add a namespace here, as other JPEG markers like SOS,
+   SOI and EOI seems to have a high chance of happening somewhere
+   else on other kernel headers in the future.
 
-Regards
-Matthias
+So, IMO, the best would be to rename all those markers as a hole, with
+something similar to:
 
+	$ for i in TEM SOF0 DHT RST SOI EOI SOS DQT DHP; do sed "s,\b$i\b,JPEG_MARKER_$i,g" -i drivers/media/platform/s5p-jpeg/*.[ch]; done
 
-I had a look at the patch:
- > --- a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c    2021-08-29 
-11:52:57.046097064 +0200
- > +++ b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c    2021-08-29 
-11:58:54.903816166 +0200
- > @@ -594,6 +594,13 @@
- >              dev->slave_demod = SLAVE_DEMOD_SI2168;
- >              goto demod_found;
- >          }
- > +        /* TODO: check Si2165 ID register; reg=23 val=07 assumed but 
-doesnt work
+and manually adjust the patch, as at least this hunk could be
+improved:
 
-According to your comment you tried to read the ID register from here. 
-But this does not work as long as si2165 is in standby. To wake it up 
-you need to write to REG_CHIP_MODE (0x0000). Then you are able to read 
-other registers besides 0x0000 and 0x0001, e.g. the ID and revision. And 
-after that you should send it back to standby.
+	@@ -187,11 +187,11 @@ struct s5p_jpeg_marker {
+	  * @fmt:       driver-specific format of this queue
+	  * @w:         image width
+	  * @h:         image height
+	- * @sos:       SOS marker's position relative to the buffer beginning
+	- * @dht:       DHT markers' positions relative to the buffer beginning
+	- * @dqt:       DQT markers' positions relative to the buffer beginning
+	- * @sof:       SOF0 marker's position relative to the buffer beginning
+	- * @sof_len:   SOF0 marker's payload length (without length field itself)
+	+ * @sos:       JPEG_MARKER_SOS marker's position relative to the buffer beginning
+	+ * @dht:       JPEG_MARKER_DHT markers' positions relative to the buffer beginning
+	+ * @dqt:       JPEG_MARKER_DQT markers' positions relative to the buffer beginning
+	+ * @sof:       JPEG_MARKER_SOF0 marker's position relative to the buffer beginning
+	+ * @sof_len:   JPEG_MARKER_SOF0 marker's payload length (without length field itself)
+	  * @size:      image buffer size in bytes
+	  */
 
-Compare the probe function of si2165: 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/dvb-frontends/si2165.c#n1200
+to avoid repeating the word marker.
 
-
- > +        terrible hack here for PoC */
- > +                else {
- > +                        dev_dbg(&d->intf->dev, "Si2165 found\n");
- > +                        dev->slave_demod = SLAVE_DEMOD_SI2165;
- > +                        goto demod_found;
- > +                }
- >      }
- >
- >  demod_found:
- > @@ -1010,33 +1017,65 @@
- >                  goto err_slave_demod_failed;
- >              adap->fe[1]->id = 1;
- >              dev->i2c_client_slave_demod = NULL;
- > -        } else {
- > -            struct si2168_config si2168_config = {};
- > -            struct i2c_adapter *adapter;
- > -
- > -            si2168_config.i2c_adapter = &adapter;
- > -            si2168_config.fe = &adap->fe[1];
- > -            si2168_config.ts_mode = SI2168_TS_SERIAL;
- > -            si2168_config.ts_clock_inv = false;
- > -            si2168_config.ts_clock_gapped = true;
- > -            strscpy(info.type, "si2168", I2C_NAME_SIZE);
- > -            info.addr = 0x64;
- > -            info.platform_data = &si2168_config;
- > -            request_module(info.type);
- > -            client = i2c_new_client_device(&d->i2c_adap, &info);
- > -            if (!i2c_client_has_driver(client))
- > -                goto err_slave_demod_failed;
- > -
- > -            if (!try_module_get(client->dev.driver->owner)) {
- > -                i2c_unregister_device(client);
- > -                goto err_slave_demod_failed;
- > -            }
- > -
- > -            dev->i2c_client_slave_demod = client;
- > -
- > -            /* for Si2168 devices use only new I2C write method */
- > -            dev->new_i2c_write = true;
- > -        }
- > +        } else if (dev->slave_demod == SLAVE_DEMOD_SI2168) {
- > +                        struct si2168_config si2168_config = {};
- > +                        struct i2c_adapter *adapter;
- > +
- > +                        si2168_config.i2c_adapter = &adapter;
- > +                        si2168_config.fe = &adap->fe[1];
- > +                        si2168_config.ts_mode = SI2168_TS_SERIAL;
- > +                        si2168_config.ts_clock_inv = false;
- > +                        si2168_config.ts_clock_gapped = true;
- > +                        strscpy(info.type, "si2168", I2C_NAME_SIZE);
- > +                        info.addr = 0x64;
- > +                        info.platform_data = &si2168_config;
- > +                        request_module(info.type);
- > +                        client = i2c_new_client_device(&d->i2c_adap, 
-&info);
- > +                        if (!i2c_client_has_driver(client)) {
- > +                                dev->slave_demod = SLAVE_DEMOD_NONE;
- > +                                goto err_slave_demod_failed;
- > +                        }
- > +
- > +                        if 
-(!try_module_get(client->dev.driver->owner)) {
- > +                                i2c_unregister_device(client);
- > +                                dev->slave_demod = SLAVE_DEMOD_NONE;
- > +                                goto err_slave_demod_failed;
- > +                        }
- > +
- > +                        dev->i2c_client_slave_demod = client;
- > +
- > +                        /* for Si2168 devices use only new I2C write 
-method */
- > +                        dev->new_i2c_write = true;
- > +                } else if (dev->slave_demod == SLAVE_DEMOD_SI2165) {
- > +                        struct si2165_platform_data 
-si2165_platform_data = {};
- > +                        si2165_platform_data.fe = &adap->fe[1];
- > +                        si2165_platform_data.chip_mode = 
-SI2165_MODE_PLL_XTAL;
- > +                        si2165_platform_data.ref_freq_hz = 24000000;
- > +                        si2165_platform_data.inversion = false;
- > +                        strscpy(info.type, "si2165", I2C_NAME_SIZE);
- > +                        info.addr = 0x64;
- > +                        info.platform_data = &si2165_platform_data;
- > +                        request_module(info.type);
- > +                        client = i2c_new_client_device(&d->i2c_adap, 
-&info);
- > +                        if (!i2c_client_has_driver(client)) {
- > +                                dev->slave_demod = SLAVE_DEMOD_NONE;
- > +                                goto err_slave_demod_failed;
- > +
- > +                        }
- > +
- > +                        if 
-(!try_module_get(client->dev.driver->owner)) {
- > +                                i2c_unregister_device(client);
- > +                                dev->slave_demod = SLAVE_DEMOD_NONE;
- > +                                goto err_slave_demod_failed;
- > +                        }
-
-This part could be switched to dvb_module_probe. But I do not know if 
-this conversion can be done for single frontends at a time. Or if it 
-need to be done for all supported devices (of rt28xxu) together.
-
- > +
- > +                        dev->i2c_client_slave_demod = client;
- > +                        dev->new_i2c_write = true;
- > +                } else {
- > +                        /* Unknown demodulator */
- > +                        dev->slave_demod = SLAVE_DEMOD_NONE;
- > +                        goto err_slave_demod_failed;
- > +                }
- >      }
- >      return 0;
- >
- > @@ -1969,6 +2008,8 @@
- >          RC_MAP_ASTROMETA_T2HYBRID) },
- >      { DVB_USB_DEVICE(0x5654, 0xca42,
- >          &rtl28xxu_props, "GoTView MasterHD 3", NULL) },
- > +    { DVB_USB_DEVICE(0x1b80, 0xd3b1,
- > +                &rtl28xxu_props, "Delock 61959 v2", NULL) },
- >      { }
- >  };
- >  MODULE_DEVICE_TABLE(usb, rtl28xxu_id_table);
- > --- a/drivers/media/usb/dvb-usb-v2/rtl28xxu.h    2021-08-29 
-11:36:06.034933825 +0200
- > +++ b/drivers/media/usb/dvb-usb-v2/rtl28xxu.h    2021-08-11 
-17:40:13.625130749 +0200
- > @@ -29,6 +29,7 @@
- >  #include "fc2580.h"
- >  #include "tua9001.h"
- >  #include "r820t.h"
- > +#include "si2165.h"
- >  #include "si2168.h"
- >  #include "si2157.h"
- >
- > @@ -76,6 +77,7 @@
- >      #define SLAVE_DEMOD_MN88473        2
- >      #define SLAVE_DEMOD_SI2168         3
- >      #define SLAVE_DEMOD_CXD2837ER      4
- > +    #define SLAVE_DEMOD_SI2165         5
- >      unsigned int slave_demod:3;
- >      union {
- >          struct rtl2830_platform_data rtl2830_platform_data;
- > --- a/drivers/media/usb/dvb-usb-v2/Kconfig    2021-08-29 
-11:37:01.364542549 +0200
- > +++ b/drivers/media/usb/dvb-usb-v2/Kconfig    2021-08-11 
-16:26:00.294109619 +0200
- > @@ -138,6 +138,7 @@
- >      select DVB_RTL2830
- >      select DVB_RTL2832
- >      select DVB_RTL2832_SDR if (MEDIA_SUBDRV_AUTOSELECT && 
-MEDIA_SDR_SUPPORT && VIDEO_V4L2)
- > +    select DVB_SI2165 if MEDIA_SUBDRV_AUTOSELECT
- >      select DVB_SI2168 if MEDIA_SUBDRV_AUTOSELECT
- >      select MEDIA_TUNER_E4000 if (MEDIA_SUBDRV_AUTOSELECT && VIDEO_V4L2)
- >      select MEDIA_TUNER_FC0012 if MEDIA_SUBDRV_AUTOSELECT
+Thanks,
+Mauro
