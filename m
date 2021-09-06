@@ -2,68 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFA7D401EF4
-	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 19:10:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87140401F26
+	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 19:29:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243809AbhIFRLd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Sep 2021 13:11:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41208 "EHLO
+        id S240979AbhIFRaN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Sep 2021 13:30:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243723AbhIFRLc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Sep 2021 13:11:32 -0400
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64144C06175F
-        for <linux-media@vger.kernel.org>; Mon,  6 Sep 2021 10:10:26 -0700 (PDT)
-Received: by mail-vs1-xe42.google.com with SMTP id x137so6112096vsx.1
-        for <linux-media@vger.kernel.org>; Mon, 06 Sep 2021 10:10:26 -0700 (PDT)
+        with ESMTP id S231274AbhIFRaN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Sep 2021 13:30:13 -0400
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72F49C061575
+        for <linux-media@vger.kernel.org>; Mon,  6 Sep 2021 10:29:07 -0700 (PDT)
+Received: by mail-ot1-x32a.google.com with SMTP id c19-20020a9d6153000000b0051829acbfc7so9509667otk.9
+        for <linux-media@vger.kernel.org>; Mon, 06 Sep 2021 10:29:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=gPWXiaNTPVTv8v8NJ16SYW6dYjSrDpzV61pQz3V3yPU=;
-        b=E3Vj8tFM3oaNkSxAciwWF7bviT0F6jf5FgCaeSSSEFUulwczVgWSChEiBzxUXWRkLz
-         DOJT2xrMKHse+pHjrAC1N+EhDprz2mU5Wiw6FgvBv3Jzyh+GDZY6kcSVoKm5qoxsf1oE
-         cHmAKkSITVkS1h+63G86K0bztxNW6BIvxE/n8YNaR9g+GpPqeod+YXE6Rs4n5e83s4Ke
-         4/kHz1kT6y2SlkidSPfwj5KyAiT15o9nwGInEmmj6n/y90zwfI4UlxZfKGjJjo4zmYRs
-         +SzQH+Y5kOKcchRHvyrJHQYIPiHbBS8uEg2OSXkYZ8j8pAANxnZIjQwY2at4acXOmcVr
-         FpMQ==
+        bh=YHFRI4SdpBoymU4BKcV96/uNlvhTitXsWavf7KXfu8k=;
+        b=kM9X7Kf67dXUq5fs9LmMgMie34XGJO14D00qVA5hERshSdgF/CtGObRIT+vvz8f5jZ
+         Rp82J3+oa6k6Z06nyT6at6EIlZMcBmIYOtyjE7mNWwSFv+mc/loPIfuAOTo3iqiabfUR
+         CQVtzHfu5+z4ZZGxPNHfJe78d6neU87ngyc/bo78Q20SUWFY42ZCQRWukfbLh58u/bOi
+         JmFqB1qPfjfrpZB2SgKo0yLCXCQ+EDXBN6bI2eG9Pzk9pJPmyrQaHrqghQgks3QN3YeX
+         myQDL3DSBDhpOsPoX+O9/DNR2sDhEZduZDyr35EM9VR1lDuXuXMhi7xadBtPzrxHX3UN
+         5Tnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=gPWXiaNTPVTv8v8NJ16SYW6dYjSrDpzV61pQz3V3yPU=;
-        b=GyCHqfeFQS/aOyrrGl4QGgFQLuTDBKWAA2LZuSKsJJLeVWrMXlmppw2JB8O0r0yYKX
-         zuxsEdUjVYmREfj9lTSred+ZJFW1CyM0Qeu7MzaqKTQUH2lPd0Jy/3nYy2GjqLNZioN7
-         ELkzciylY7uad4DnxAxA0pCeMyabfHQUjrDVE446Y7ksCnE4EyhXUPHDSJMkJ0CKXrPY
-         Y3S2blKXMWsrIee8KPYRyAKeTttzIkXxHUpIH30p1VptEoDQz5rmGbipbnvOJuE19yf2
-         TkJYKsR+DGeyyXw3y/oiy6C2n2XwD4uLQe2WQ7VTn1BA6Hrk2+Qo+hO6rgkUMlBVZSlt
-         PeBA==
-X-Gm-Message-State: AOAM532sUuSCEOCYmmA2Btv+9BJ74WE5U4pC70VBOkUv88xk1sIarS31
-        DYKQtc8W5hnPNB3tsKnYu/8lGKk4K9Uigo+Jhlk=
-X-Google-Smtp-Source: ABdhPJyzHhwvF+isdxxoB8YzVq5YmZwkDWqUtavxucpZ2oHig2dHn4DOkhIve7MzsYDs7iuwcJVgXpY4aEgq/k3Ct5E=
-X-Received: by 2002:a05:6102:7a4:: with SMTP id x4mr6600372vsg.10.1630948225484;
- Mon, 06 Sep 2021 10:10:25 -0700 (PDT)
+        bh=YHFRI4SdpBoymU4BKcV96/uNlvhTitXsWavf7KXfu8k=;
+        b=G/INQf3dIDCZrmxUmB0KgvYJayXfGl0K8btubgs69fxBfFQIqQ/EFPybuy6hetVbDr
+         9lhvO3WvxBDLZ4kfB2u+FlnKOW/vRnfEBT+NxUmzntSH/2E+x6sF/B2H4ggBZ/rchvPH
+         K24vtG+Hui7nO44yBFZ3O/Jg1qSjzADmajIITLyqgldbsLTq5h+b1ctsBeSPADiYITOv
+         5t58Mn7GFWwtLx5QEhu1CbT8DwiUBze3d6/qomYUg3fVNfwwz+nZq0F6hpx7A0qorIQc
+         njGQAXroqiy9OavG6tjMBw+yRibj0JF1/3bKCWygikfjZaMQdHUt9WHThHZZaeiqbF3q
+         y7NQ==
+X-Gm-Message-State: AOAM533EDIJXO2n+qB/CWdnRSsWdg85rvMhN8dQVeJuiGo3iKjIfB5ZK
+        BCBj1pcKLqc48z7TZbqn6ourlRoPRG9IXu4AgLs=
+X-Google-Smtp-Source: ABdhPJxPFIW/sTQEcgLalSTx30HVYyfkP6otgmuFpZlGSyvRw34or0Y1FEhADx091ffY7pD48TctaS8fZpsMs774Cm4=
+X-Received: by 2002:a9d:71c6:: with SMTP id z6mr11406845otj.382.1630949346656;
+ Mon, 06 Sep 2021 10:29:06 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:2a08:0:0:0:0:0 with HTTP; Mon, 6 Sep 2021 10:10:24 -0700 (PDT)
-Reply-To: geomic123@yahoo.com
-From:   George <georgefox277@gmail.com>
-Date:   Mon, 6 Sep 2021 18:10:24 +0100
-Message-ID: <CADSebuQ_1CVEomO636rbdzt99xuHSAD9XpM2Gu9UBNRxVy2OCQ@mail.gmail.com>
-Subject: Read My Mail
+Received: by 2002:a4a:98ac:0:0:0:0:0 with HTTP; Mon, 6 Sep 2021 10:29:06 -0700 (PDT)
+Reply-To: akaego1999@gmail.com
+From:   Barrister Josh Veloso <afidakuku1@gmail.com>
+Date:   Mon, 6 Sep 2021 10:29:06 -0700
+Message-ID: <CAONYedO4Z=a7mc_g1RKq7zT_ntpifW3UzuQC0ro1eWfmSNCTuQ@mail.gmail.com>
+Subject: Greetings
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-Dear Sir/Madam
+Dear Friend,
 
-My name is Mr George Michael,i am the Personal Aid to former
-President Baba Yahya Abdul-Aziz Jemus Jammeh the Republic of Gambia in
-west Africa, who is currently in exile with his farmily. I have been
-trying on how to get in touch with you over an important issue
-concerning a project that will be profitable . I anticipate hearing
-from you for more details.
+I am Barrister Josh Veloso and my purpose of contacting you is for
+your consent and / or help to secure and claim the funds left behind by
+my late client to avoid its confiscation or declaration as non
+serviceable by the bank. The fund is valued at $ 5.5 Million Dollars.
+I know you may not actually be in any way related to him (my late
+client) but for sharing the same country with him makes it easy to get
+the funds to your name and / or have it moved to your account for your
+access, our division and utility. Get back to me for more details.
 
-Yours faithfully
-Mr George Michael
+Best regards,
+Barrister Josh Veloso
