@@ -2,158 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEAEC40169D
-	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 08:52:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 683BB4016AE
+	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 09:00:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239599AbhIFGxF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Sep 2021 02:53:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36354 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239400AbhIFGxE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 6 Sep 2021 02:53:04 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CF49860F21;
-        Mon,  6 Sep 2021 06:51:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1630911120;
-        bh=h0WT/Jjj8wKQYQF+5gwJkPL2TfNqu98BCj64BgayA7M=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=FulvDIvLkR5PGRPFP547Bt52CBBwmIth2844DXgVb6XXg68tZk8keaPt6YHDBf2uA
-         5zxS0C6YIL4AHINEw4PgNj30YY6cCH0PGM0slvrYtVxA7p1/hDdFwdcWSHl7R6AlmN
-         t2NuD/XgYqZxt0/rLYaOz7EASBGRJLc3g3MPWDinA7qqn5phbB4HwwWoQTicUbyk4X
-         aL1u4mXeT864zX6iAL5uRbCsZKtBWZrHL98MsHH0n6qom2SvF3NhzJ3srZB6W5tftW
-         9An3xv6TfdIuRzklCZErXZIgjFBMkgSNqvS809r+bYOh46D34M76TzNx+CT9FfIW6q
-         ONhzS+UWH2qIQ==
-Date:   Mon, 6 Sep 2021 08:51:53 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
-        linux-media@vger.kernel.org,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] media: s5p-jpeg: change "RST" to "RSET" to fix build
- warnings
-Message-ID: <20210906085153.58edc116@coco.lan>
-In-Reply-To: <20210905235715.12154-1-rdunlap@infradead.org>
-References: <20210905235715.12154-1-rdunlap@infradead.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S239597AbhIFHBb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Sep 2021 03:01:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43294 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238906AbhIFHB2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Sep 2021 03:01:28 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DB4FC061575;
+        Mon,  6 Sep 2021 00:00:22 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id 8so5830511pga.7;
+        Mon, 06 Sep 2021 00:00:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Mx3nDhHb+cYhtgK78HeCOT8qRwLpEWC5Qetf1O8Tuw8=;
+        b=iyGJFiG+erqh1x40HUTRMuDlfwZEmK40x94VbarencMHIO8m9WEtig5OPGoAdqwkN8
+         Bw23SEFku3SVufdK+WF1Fyt0iQc3VGBl6K1jmxDjCfQIQNsM0++7Y5ibbSMS/LFN6g7V
+         9VfGiV1ZldsC1mOTFW7/GhqjfrB8daaHlY1icR9YL083R7rsxiFO10fvCBWQ8I5h6xrW
+         4PYplxoJExPZ0+hVgk0w7F5Dcpx+5v47y7V1pAsi2B3YtOgsMll1JmoKKLXh1W31Ih6y
+         R8x2Sf0Xzf22tI0AXzT21DgsaenRy1BxPjcsMdJ2gaYDJ+fIdUl1kxG1Z4rkg5RiC6XQ
+         s3vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Mx3nDhHb+cYhtgK78HeCOT8qRwLpEWC5Qetf1O8Tuw8=;
+        b=WJ8rWSDJJ2+8hQRlO75sMMm67AwPDFFByoGUsP6G9W4pUNLDovqr9+did+3EfY+1C/
+         a/tz5ipi1N1yGA+DZJx7RXXcc7O7+ncu9kXOBHqDfoyV4nx8D/BQD7XGHMygEKe5/4aR
+         nPs84TaCMUOU+BRv4nMPTfxPv6s6FGYcZhfROcoWkFCX2qdmdFv9DKZ7PfU73R2VLuQF
+         sn2a4lISeKIiO87pdAwvsd2ZKAFbkpTWiPDx4Vw9LDI0OjLCc9sf9RVhbH8MQZY/ZPu+
+         hY6QJYvetzK4PnDhXj6C6IoSYFos0mdMOcH7geatqjoHXiic1QAhNGpPCkP3JQ20OG1Z
+         BeeA==
+X-Gm-Message-State: AOAM533cn4APp9w6AHVGopPbLzScx5WndBcEMSU/jMbp3GtUudLpHdsl
+        lbhNQtIJ4iyvocfOuH/+HeE=
+X-Google-Smtp-Source: ABdhPJxTmLde5whEnuajU/+gqaTHbvSiU5HaX7lFpiYl9/hN/9S/fhqzrXjRd8CamopoFbVVB44d3A==
+X-Received: by 2002:a62:3342:0:b029:3b7:6395:a93 with SMTP id z63-20020a6233420000b02903b763950a93mr10627850pfz.71.1630911622352;
+        Mon, 06 Sep 2021 00:00:22 -0700 (PDT)
+Received: from localhost.localdomain ([124.126.19.250])
+        by smtp.gmail.com with ESMTPSA id u21sm8045403pgk.57.2021.09.06.00.00.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Sep 2021 00:00:22 -0700 (PDT)
+From:   zhaoxiao <long870912@gmail.com>
+To:     mchehab@kernel.org, khilman@baylibre.com
+Cc:     narmstrong@baylibre.com, gregkh@linuxfoundation.org,
+        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        zhaoxiao <long870912@gmail.com>
+Subject: [PATCH] Media: meson: vdec: Use devm_platform_ioremap_resource_byname()
+Date:   Mon,  6 Sep 2021 15:00:13 +0800
+Message-Id: <20210906070013.7362-1-long870912@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sun,  5 Sep 2021 16:57:15 -0700
-Randy Dunlap <rdunlap@infradead.org> escreveu:
+Use the devm_platform_ioremap_resource_byname() helper instead of
+calling platform_get_resource_byname() and devm_ioremap_resource()
+separately.
 
-> The use of a macro named 'RST' conflicts with one of the same name
-> in arch/mips/include/asm/mach-rc32434/rb.h. This causes build
-> warnings on some MIPS builds.
-> 
-> Change the use of RST to the name RSET.
-> 
-> Fixes these build warnings:
-> 
-> In file included from ../drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.c:14:
-> ../drivers/media/platform/s5p-jpeg/jpeg-core.h:43: warning: "RST" redefined
->    43 | #define RST                             0xd0
->       | 
-> ../arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
->    13 | #define RST             (1 << 15)
-> 
-> In file included from ../drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.c:13:
-> ../drivers/media/platform/s5p-jpeg/jpeg-core.h:43: warning: "RST" redefined
->    43 | #define RST                             0xd0
-> ../arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
->    13 | #define RST             (1 << 15)
-> 
-> In file included from ../drivers/media/platform/s5p-jpeg/jpeg-hw-exynos4.c:12:
-> ../drivers/media/platform/s5p-jpeg/jpeg-core.h:43: warning: "RST" redefined
->    43 | #define RST                             0xd0
-> ../arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
->    13 | #define RST             (1 << 15)
-> 
-> In file included from ../drivers/media/platform/s5p-jpeg/jpeg-core.c:31:
-> ../drivers/media/platform/s5p-jpeg/jpeg-core.h:43: warning: "RST" redefined
->    43 | #define RST                             0xd0
-> ../arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
->    13 | #define RST             (1 << 15)
-> 
-> Fixes: bb677f3ac434 ("[media] Exynos4 JPEG codec v4l2 driver")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
-> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
->  drivers/media/platform/s5p-jpeg/jpeg-core.c |    2 +-
->  drivers/media/platform/s5p-jpeg/jpeg-core.h |    2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> --- linux-next-20210903.orig/drivers/media/platform/s5p-jpeg/jpeg-core.c
-> +++ linux-next-20210903/drivers/media/platform/s5p-jpeg/jpeg-core.c
-> @@ -1203,7 +1203,7 @@ static bool s5p_jpeg_parse_hdr(struct s5
->  			break;
->  
->  		/* skip payload-less markers */
-> -		case RST ... RST + 7:
-> +		case RSET ... RSET + 7:
->  		case SOI:
->  		case EOI:
->  		case TEM:
-> --- linux-next-20210903.orig/drivers/media/platform/s5p-jpeg/jpeg-core.h
-> +++ linux-next-20210903/drivers/media/platform/s5p-jpeg/jpeg-core.h
-> @@ -40,7 +40,7 @@
->  #define TEM				0x01
->  #define SOF0				0xc0
->  #define DHT				0xc4
-> -#define RST				0xd0
-> +#define RSET				0xd0
->  #define SOI				0xd8
->  #define EOI				0xd9
->  #define	SOS				0xda
+Signed-off-by: zhaoxiao <long870912@gmail.com>
+---
+ drivers/staging/media/meson/vdec/vdec.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-I don't like this change, for a couple reasons:
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index e51d69c4729d..8549d95be0f2 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -994,7 +994,6 @@ static int vdec_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct video_device *vdev;
+ 	struct amvdec_core *core;
+-	struct resource *r;
+ 	const struct of_device_id *of_id;
+ 	int irq;
+ 	int ret;
+@@ -1006,13 +1005,11 @@ static int vdec_probe(struct platform_device *pdev)
+ 	core->dev = dev;
+ 	platform_set_drvdata(pdev, core);
+ 
+-	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dos");
+-	core->dos_base = devm_ioremap_resource(dev, r);
++	core->dos_base = devm_platform_ioremap_resource_byname(pdev, "dos");
+ 	if (IS_ERR(core->dos_base))
+ 		return PTR_ERR(core->dos_base);
+ 
+-	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "esparser");
+-	core->esparser_base = devm_ioremap_resource(dev, r);
++	core->esparser_base = devm_platform_ioremap_resource_byname(pdev, "esparser");
+ 	if (IS_ERR(core->esparser_base))
+ 		return PTR_ERR(core->esparser_base);
+ 
+-- 
+2.20.1
 
-1. the JPEG marker is "RST" (actually, "RST0") instead of "RSET" 
-   (see pag. 36 https://www.w3.org/Graphics/JPEG/itu-t81.pdf). The
-   close it sticks with the JPEG standard, the better;
-
-2. better to add a namespace here, as other JPEG markers like SOS,
-   SOI and EOI seems to have a high chance of happening somewhere
-   else on other kernel headers in the future.
-
-So, IMO, the best would be to rename all those markers as a hole, with
-something similar to:
-
-	$ for i in TEM SOF0 DHT RST SOI EOI SOS DQT DHP; do sed "s,\b$i\b,JPEG_MARKER_$i,g" -i drivers/media/platform/s5p-jpeg/*.[ch]; done
-
-and manually adjust the patch, as at least this hunk could be
-improved:
-
-	@@ -187,11 +187,11 @@ struct s5p_jpeg_marker {
-	  * @fmt:       driver-specific format of this queue
-	  * @w:         image width
-	  * @h:         image height
-	- * @sos:       SOS marker's position relative to the buffer beginning
-	- * @dht:       DHT markers' positions relative to the buffer beginning
-	- * @dqt:       DQT markers' positions relative to the buffer beginning
-	- * @sof:       SOF0 marker's position relative to the buffer beginning
-	- * @sof_len:   SOF0 marker's payload length (without length field itself)
-	+ * @sos:       JPEG_MARKER_SOS marker's position relative to the buffer beginning
-	+ * @dht:       JPEG_MARKER_DHT markers' positions relative to the buffer beginning
-	+ * @dqt:       JPEG_MARKER_DQT markers' positions relative to the buffer beginning
-	+ * @sof:       JPEG_MARKER_SOF0 marker's position relative to the buffer beginning
-	+ * @sof_len:   JPEG_MARKER_SOF0 marker's payload length (without length field itself)
-	  * @size:      image buffer size in bytes
-	  */
-
-to avoid repeating the word marker.
-
-Thanks,
-Mauro
