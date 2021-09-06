@@ -2,106 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 683BB4016AE
-	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 09:00:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A596F4016C1
+	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 09:11:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239597AbhIFHBb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Sep 2021 03:01:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43294 "EHLO
+        id S239895AbhIFHKr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Sep 2021 03:10:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238906AbhIFHB2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Sep 2021 03:01:28 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DB4FC061575;
-        Mon,  6 Sep 2021 00:00:22 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id 8so5830511pga.7;
-        Mon, 06 Sep 2021 00:00:22 -0700 (PDT)
+        with ESMTP id S238731AbhIFHKq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Sep 2021 03:10:46 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E863C061575
+        for <linux-media@vger.kernel.org>; Mon,  6 Sep 2021 00:09:42 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id g9so7448570ioq.11
+        for <linux-media@vger.kernel.org>; Mon, 06 Sep 2021 00:09:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mx3nDhHb+cYhtgK78HeCOT8qRwLpEWC5Qetf1O8Tuw8=;
-        b=iyGJFiG+erqh1x40HUTRMuDlfwZEmK40x94VbarencMHIO8m9WEtig5OPGoAdqwkN8
-         Bw23SEFku3SVufdK+WF1Fyt0iQc3VGBl6K1jmxDjCfQIQNsM0++7Y5ibbSMS/LFN6g7V
-         9VfGiV1ZldsC1mOTFW7/GhqjfrB8daaHlY1icR9YL083R7rsxiFO10fvCBWQ8I5h6xrW
-         4PYplxoJExPZ0+hVgk0w7F5Dcpx+5v47y7V1pAsi2B3YtOgsMll1JmoKKLXh1W31Ih6y
-         R8x2Sf0Xzf22tI0AXzT21DgsaenRy1BxPjcsMdJ2gaYDJ+fIdUl1kxG1Z4rkg5RiC6XQ
-         s3vA==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t6hG9tjceGU3kqViByrG+996KWcAe362teOFSdA60G4=;
+        b=jSxDw3iEBpqW+qFNyYXJtKA0bpHj6GXzxG3qcwsmRo6dXmDQ2kSqURUZxgnfOczqi7
+         6NuJ5GGZKkyRgg9nECZ08OiJi4xT+yRsTtOvo3WJJcHEQiqICpLq/CuS29QUNhS1AMWQ
+         9TLsFanGHWEF5U/9caJd5zGEUYH6iPeTQO6Bc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mx3nDhHb+cYhtgK78HeCOT8qRwLpEWC5Qetf1O8Tuw8=;
-        b=WJ8rWSDJJ2+8hQRlO75sMMm67AwPDFFByoGUsP6G9W4pUNLDovqr9+did+3EfY+1C/
-         a/tz5ipi1N1yGA+DZJx7RXXcc7O7+ncu9kXOBHqDfoyV4nx8D/BQD7XGHMygEKe5/4aR
-         nPs84TaCMUOU+BRv4nMPTfxPv6s6FGYcZhfROcoWkFCX2qdmdFv9DKZ7PfU73R2VLuQF
-         sn2a4lISeKIiO87pdAwvsd2ZKAFbkpTWiPDx4Vw9LDI0OjLCc9sf9RVhbH8MQZY/ZPu+
-         hY6QJYvetzK4PnDhXj6C6IoSYFos0mdMOcH7geatqjoHXiic1QAhNGpPCkP3JQ20OG1Z
-         BeeA==
-X-Gm-Message-State: AOAM533cn4APp9w6AHVGopPbLzScx5WndBcEMSU/jMbp3GtUudLpHdsl
-        lbhNQtIJ4iyvocfOuH/+HeE=
-X-Google-Smtp-Source: ABdhPJxTmLde5whEnuajU/+gqaTHbvSiU5HaX7lFpiYl9/hN/9S/fhqzrXjRd8CamopoFbVVB44d3A==
-X-Received: by 2002:a62:3342:0:b029:3b7:6395:a93 with SMTP id z63-20020a6233420000b02903b763950a93mr10627850pfz.71.1630911622352;
-        Mon, 06 Sep 2021 00:00:22 -0700 (PDT)
-Received: from localhost.localdomain ([124.126.19.250])
-        by smtp.gmail.com with ESMTPSA id u21sm8045403pgk.57.2021.09.06.00.00.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Sep 2021 00:00:22 -0700 (PDT)
-From:   zhaoxiao <long870912@gmail.com>
-To:     mchehab@kernel.org, khilman@baylibre.com
-Cc:     narmstrong@baylibre.com, gregkh@linuxfoundation.org,
-        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        zhaoxiao <long870912@gmail.com>
-Subject: [PATCH] Media: meson: vdec: Use devm_platform_ioremap_resource_byname()
-Date:   Mon,  6 Sep 2021 15:00:13 +0800
-Message-Id: <20210906070013.7362-1-long870912@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t6hG9tjceGU3kqViByrG+996KWcAe362teOFSdA60G4=;
+        b=S6Irio4ppN6gRnPLoVMjxOeLtCneKX3rqftCIp5SzkmlKy1Pi19qoYazoA7wodxy4T
+         isbqtfctVroBQJEJjtdN1zuN1lIFVlX0Ppk5Vo7RRqiGjIZUIaktPcuRZEZiMJss9E5G
+         tBIh5VzrY5fsqxwDhvVBIb4hpcNccgfq0RLrja2Mu2A9qyHjyTnqmVnTkuRFW7erBQSa
+         fp1WM8wDQxc+fk+fV1kSygMyN+uzP2rktU3t7HBISrnJuiR/7B8b0rUdOeu9icflwQ+V
+         mFzeF4abyqifW6fAj1uJfrAjzvWdd033KNZ4sIyMX6EfD/yRZInTf9Cqg+JIeAeQ95do
+         MF4w==
+X-Gm-Message-State: AOAM532unTl4xdABT0HiMpCMiWAX19gsJ8TPAuDFKSNI3Xluaz2YLlJF
+        uqp8jow406QLiiUrG2SdMdNoSqO0hKuJOw==
+X-Google-Smtp-Source: ABdhPJyBZOjmdpNGMv0CNL3pYOb7gJj2lawpZyehxJ3fBFKC6IXkDvrH8g1xYpQSCx0jRUu+kHudDA==
+X-Received: by 2002:a05:6638:2257:: with SMTP id m23mr9943519jas.137.1630912181227;
+        Mon, 06 Sep 2021 00:09:41 -0700 (PDT)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com. [209.85.166.50])
+        by smtp.gmail.com with ESMTPSA id u17sm4152944iln.81.2021.09.06.00.09.39
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Sep 2021 00:09:40 -0700 (PDT)
+Received: by mail-io1-f50.google.com with SMTP id a13so7469231iol.5
+        for <linux-media@vger.kernel.org>; Mon, 06 Sep 2021 00:09:39 -0700 (PDT)
+X-Received: by 2002:a6b:f610:: with SMTP id n16mr8835657ioh.139.1630912179530;
+ Mon, 06 Sep 2021 00:09:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <4c96691f21293dea1c3584f80a58138e2a2f9219.1630736273.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <4c96691f21293dea1c3584f80a58138e2a2f9219.1630736273.git.christophe.jaillet@wanadoo.fr>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Mon, 6 Sep 2021 09:09:28 +0200
+X-Gmail-Original-Message-ID: <CANiDSCsJB-WMPwrfLK2i_oZHnS4Oo+WBx_inPDOfnDSXcAhhPg@mail.gmail.com>
+Message-ID: <CANiDSCsJB-WMPwrfLK2i_oZHnS4Oo+WBx_inPDOfnDSXcAhhPg@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Fix a memory leak in error handling code
+ in 'uvc_gpio_parse()'
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the devm_platform_ioremap_resource_byname() helper instead of
-calling platform_get_resource_byname() and devm_ioremap_resource()
-separately.
+Hi Christophe
 
-Signed-off-by: zhaoxiao <long870912@gmail.com>
----
- drivers/staging/media/meson/vdec/vdec.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Indeed, there is a bug, uvc_delete will not free the entity because it
+has not been added yet.
 
-diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index e51d69c4729d..8549d95be0f2 100644
---- a/drivers/staging/media/meson/vdec/vdec.c
-+++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -994,7 +994,6 @@ static int vdec_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct video_device *vdev;
- 	struct amvdec_core *core;
--	struct resource *r;
- 	const struct of_device_id *of_id;
- 	int irq;
- 	int ret;
-@@ -1006,13 +1005,11 @@ static int vdec_probe(struct platform_device *pdev)
- 	core->dev = dev;
- 	platform_set_drvdata(pdev, core);
- 
--	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dos");
--	core->dos_base = devm_ioremap_resource(dev, r);
-+	core->dos_base = devm_platform_ioremap_resource_byname(pdev, "dos");
- 	if (IS_ERR(core->dos_base))
- 		return PTR_ERR(core->dos_base);
- 
--	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "esparser");
--	core->esparser_base = devm_ioremap_resource(dev, r);
-+	core->esparser_base = devm_platform_ioremap_resource_byname(pdev, "esparser");
- 	if (IS_ERR(core->esparser_base))
- 		return PTR_ERR(core->esparser_base);
- 
+Thanks for catching it up.
+
+Reviewed by: Ricardo Ribalda <ribalda@chromium.org>
+
+On Sat, 4 Sept 2021 at 08:20, Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+>
+> Memory allocated in 'uvc_alloc_entity()' should be freed if an error
+> occurs after it.
+>
+> Reorder the code in order to avoid the leak.
+>
+> Fixes: 2886477ff987 ("media: uvcvideo: Implement UVC_EXT_GPIO_UNIT")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index b1b055784f8d..a4c45424ba7e 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -1533,10 +1533,6 @@ static int uvc_gpio_parse(struct uvc_device *dev)
+>         if (IS_ERR_OR_NULL(gpio_privacy))
+>                 return PTR_ERR_OR_ZERO(gpio_privacy);
+>
+> -       unit = uvc_alloc_entity(UVC_EXT_GPIO_UNIT, UVC_EXT_GPIO_UNIT_ID, 0, 1);
+> -       if (!unit)
+> -               return -ENOMEM;
+> -
+>         irq = gpiod_to_irq(gpio_privacy);
+>         if (irq < 0) {
+>                 if (irq != EPROBE_DEFER)
+> @@ -1545,6 +1541,10 @@ static int uvc_gpio_parse(struct uvc_device *dev)
+>                 return irq;
+>         }
+>
+> +       unit = uvc_alloc_entity(UVC_EXT_GPIO_UNIT, UVC_EXT_GPIO_UNIT_ID, 0, 1);
+> +       if (!unit)
+> +               return -ENOMEM;
+> +
+>         unit->gpio.gpio_privacy = gpio_privacy;
+>         unit->gpio.irq = irq;
+>         unit->gpio.bControlSize = 1;
+> --
+> 2.30.2
+>
+
+
 -- 
-2.20.1
-
+Ricardo Ribalda
