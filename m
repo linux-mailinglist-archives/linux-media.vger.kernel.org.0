@@ -2,161 +2,256 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2C23401547
-	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 05:44:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 101AF401619
+	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 07:56:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238728AbhIFDpU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Sep 2021 23:45:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56264 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233556AbhIFDpS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Sep 2021 23:45:18 -0400
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23660C061575
-        for <linux-media@vger.kernel.org>; Sun,  5 Sep 2021 20:44:13 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id N5YGmrYgA0e6wN5YImhKTx; Mon, 06 Sep 2021 05:44:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1630899850; bh=mNYGDkg69TZLO59tqkEMkvJHbYeNVmoMfyCO9JYdNJY=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=TQSHwJPkXBqMwAsznGXD8gz3lTWgV2oJTNutES/UDm9nhQye4sM7M3CVOV42eJzts
-         MPw69wRjGQBzd6/cKhE0wHojdWJxbQskGYiREfcaj3T7IHYXEKyEbsJ4DxBh26wr3p
-         EyUQKZ/QeM4IophKvZkv7uEYQPIHUQrtq+Q2pB1m1AFPjCLz6I+x62hHlG9Z7bTF+g
-         IC4LYSWN7rGXZXpqIUhKS1cRrC/kLNml+F8yzZIu0TAyIGoAPlqkbVenIiG5WyMgzo
-         q7pPPVwndiwQhRB7VNMqjZ9KiMbsNTd1FpzlWLiA/Of2i3Sd6Lh/cFnJe3yHpUJyyj
-         7nak4pBm07S5Q==
-Message-ID: <2e0f26c49671121815cd06804ec81dc3@smtp-cloud7.xs4all.net>
-Date:   Mon, 06 Sep 2021 05:44:08 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfPWdnW/4QF+SijBrpeprRLf3DzfmWba03vRFU6BiUD+asYklahHwF0z76ttJEq11z7/wKWxXKtADe0MDlxlQbMB3/1ERVKuA8QxzYX9XzUI6WkJEiiAo
- E19iwfC6c0CVlzJDkGxC4bFrDBPAeYzYuAz3mgsrs0yGRsL6nQ9WzrBjbRm8zsrOwUbI8s9S2KMLd5896+N6F4IhNbwW5DpT3hvO2dIt944IDPs2ELT5imBV
- lgtltibqqy3f1ycJUoOPvA==
+        id S239146AbhIFF4L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Sep 2021 01:56:11 -0400
+Received: from woodpecker.gentoo.org ([140.211.166.183]:38754 "EHLO
+        smtp.gentoo.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239140AbhIFF4J (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Sep 2021 01:56:09 -0400
+X-Greylist: delayed 511 seconds by postgrey-1.27 at vger.kernel.org; Mon, 06 Sep 2021 01:56:09 EDT
+From:   Matthias Schwarzott <zzam@gentoo.org>
+Subject: Re: Fwd: Experimental additions dvb-usb-v2 rtl28xxu to support Delock
+ 61959 V2
+To:     Oliver Kleinecke <kleinecke.oliver@googlemail.com>,
+        linux-media@vger.kernel.org
+References: <CAFi-X+WyqNv5ZcDdTH0ZXgWa7o+eT5EE2UsGnemKjeSiGRHyeQ@mail.gmail.com>
+ <CAFi-X+WpLfDqW+2KWf6FPxZ0rHiMkatw1N427XUoP2A_qV-Zag@mail.gmail.com>
+Message-ID: <a65620fe-82aa-0f08-c7c2-d53beb372f57@gentoo.org>
+Date:   Mon, 6 Sep 2021 07:46:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <CAFi-X+WpLfDqW+2KWf6FPxZ0rHiMkatw1N427XUoP2A_qV-Zag@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Am 29.08.21 um 12:13 schrieb Oliver Kleinecke:
+ > Hi everybody !
+ >
+Hi Oliver,
 
-Results of the daily build of media_tree:
+ > While trying to get a usb dvb-c/t stick running, which I own, I was
+ > able to make a biot of progress and I hope it is enough to ask for
+ > further help with tidying up my noobish poc code and help me to fix an
+ > I2C problem I am unable to fix myself actually.
+ >
+ > The device is a  Delock USB 2.0 DVB-T/DVB-C Receiver (Version 2.0) -
+ > V1 is fully supported, V2 currently not.
+ > This device is nearly identical to the (already fully mainline-kernel
+ > supported) GotView  MasterHD3 except it uses a different slave demod -
+ > the SI2165 instead of SI2168.
+ >
+ > Current status for the device with my unprofessional additions: dvb-c
+ > running with regular continuity errors and FE-Read errors. Dvb-T is
+ > fully untested, as I have no signal in my area here.
 
-date:			Mon Sep  6 05:00:12 CEST 2021
-media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
-media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
-v4l-utils git hash:	05a468e033af0e4c775aaa10fe4d02c45de698ae
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-349-gb21d5e09
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7593-g7f4b93661
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8f230e7be768cbdfab869697ba0a2c622a4a0cae
-host hardware:		x86_64
-host os:		5.13.11-marune
+With an Hauppauge stick I had the same issue. DVB-C had permanent 
+issues. Channel lock was fine, but the data was having missing parts. 
+This was fixed by Brad Love in commit 
+8b1ca8a0363efdfa63358f598a2cadda2e514ab7 (media: cx231xx: Increase USB 
+bridge bandwidth).
+Maybe a similar fix could be applied to RTL2832P chip.
+According to your log the continuity errors do not appear each second, 
+but with intervals of ~10s. So it might be a different issue that just 
+requires some fine-tuning of parameters.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+ >
+ > The patch with my own additions is attached as well as a log showing
+ > the full usb-registering and load of fw files. Any help on debugging
+ > mentioned continuity errors / FE errors would be very much
+ > appreciated, I am willing to apply testing patches & provide
+ > additional debug info, if necessary.
 
-Detailed results are available here:
+Please put patches into the body of the mail and not as attachment.
+I copied your patch here to comment on it. See comments inline.
+The patch is a good start.
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
+Regards
+Matthias
 
-Detailed regression test results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+I had a look at the patch:
+ > --- a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c    2021-08-29 
+11:52:57.046097064 +0200
+ > +++ b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c    2021-08-29 
+11:58:54.903816166 +0200
+ > @@ -594,6 +594,13 @@
+ >              dev->slave_demod = SLAVE_DEMOD_SI2168;
+ >              goto demod_found;
+ >          }
+ > +        /* TODO: check Si2165 ID register; reg=23 val=07 assumed but 
+doesnt work
 
-Full logs are available here:
+According to your comment you tried to read the ID register from here. 
+But this does not work as long as si2165 is in standby. To wake it up 
+you need to write to REG_CHIP_MODE (0x0000). Then you are able to read 
+other registers besides 0x0000 and 0x0001, e.g. the ID and revision. And 
+after that you should send it back to standby.
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+Compare the probe function of si2165: 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/dvb-frontends/si2165.c#n1200
 
-The Media Infrastructure API from this daily build is here:
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+ > +        terrible hack here for PoC */
+ > +                else {
+ > +                        dev_dbg(&d->intf->dev, "Si2165 found\n");
+ > +                        dev->slave_demod = SLAVE_DEMOD_SI2165;
+ > +                        goto demod_found;
+ > +                }
+ >      }
+ >
+ >  demod_found:
+ > @@ -1010,33 +1017,65 @@
+ >                  goto err_slave_demod_failed;
+ >              adap->fe[1]->id = 1;
+ >              dev->i2c_client_slave_demod = NULL;
+ > -        } else {
+ > -            struct si2168_config si2168_config = {};
+ > -            struct i2c_adapter *adapter;
+ > -
+ > -            si2168_config.i2c_adapter = &adapter;
+ > -            si2168_config.fe = &adap->fe[1];
+ > -            si2168_config.ts_mode = SI2168_TS_SERIAL;
+ > -            si2168_config.ts_clock_inv = false;
+ > -            si2168_config.ts_clock_gapped = true;
+ > -            strscpy(info.type, "si2168", I2C_NAME_SIZE);
+ > -            info.addr = 0x64;
+ > -            info.platform_data = &si2168_config;
+ > -            request_module(info.type);
+ > -            client = i2c_new_client_device(&d->i2c_adap, &info);
+ > -            if (!i2c_client_has_driver(client))
+ > -                goto err_slave_demod_failed;
+ > -
+ > -            if (!try_module_get(client->dev.driver->owner)) {
+ > -                i2c_unregister_device(client);
+ > -                goto err_slave_demod_failed;
+ > -            }
+ > -
+ > -            dev->i2c_client_slave_demod = client;
+ > -
+ > -            /* for Si2168 devices use only new I2C write method */
+ > -            dev->new_i2c_write = true;
+ > -        }
+ > +        } else if (dev->slave_demod == SLAVE_DEMOD_SI2168) {
+ > +                        struct si2168_config si2168_config = {};
+ > +                        struct i2c_adapter *adapter;
+ > +
+ > +                        si2168_config.i2c_adapter = &adapter;
+ > +                        si2168_config.fe = &adap->fe[1];
+ > +                        si2168_config.ts_mode = SI2168_TS_SERIAL;
+ > +                        si2168_config.ts_clock_inv = false;
+ > +                        si2168_config.ts_clock_gapped = true;
+ > +                        strscpy(info.type, "si2168", I2C_NAME_SIZE);
+ > +                        info.addr = 0x64;
+ > +                        info.platform_data = &si2168_config;
+ > +                        request_module(info.type);
+ > +                        client = i2c_new_client_device(&d->i2c_adap, 
+&info);
+ > +                        if (!i2c_client_has_driver(client)) {
+ > +                                dev->slave_demod = SLAVE_DEMOD_NONE;
+ > +                                goto err_slave_demod_failed;
+ > +                        }
+ > +
+ > +                        if 
+(!try_module_get(client->dev.driver->owner)) {
+ > +                                i2c_unregister_device(client);
+ > +                                dev->slave_demod = SLAVE_DEMOD_NONE;
+ > +                                goto err_slave_demod_failed;
+ > +                        }
+ > +
+ > +                        dev->i2c_client_slave_demod = client;
+ > +
+ > +                        /* for Si2168 devices use only new I2C write 
+method */
+ > +                        dev->new_i2c_write = true;
+ > +                } else if (dev->slave_demod == SLAVE_DEMOD_SI2165) {
+ > +                        struct si2165_platform_data 
+si2165_platform_data = {};
+ > +                        si2165_platform_data.fe = &adap->fe[1];
+ > +                        si2165_platform_data.chip_mode = 
+SI2165_MODE_PLL_XTAL;
+ > +                        si2165_platform_data.ref_freq_hz = 24000000;
+ > +                        si2165_platform_data.inversion = false;
+ > +                        strscpy(info.type, "si2165", I2C_NAME_SIZE);
+ > +                        info.addr = 0x64;
+ > +                        info.platform_data = &si2165_platform_data;
+ > +                        request_module(info.type);
+ > +                        client = i2c_new_client_device(&d->i2c_adap, 
+&info);
+ > +                        if (!i2c_client_has_driver(client)) {
+ > +                                dev->slave_demod = SLAVE_DEMOD_NONE;
+ > +                                goto err_slave_demod_failed;
+ > +
+ > +                        }
+ > +
+ > +                        if 
+(!try_module_get(client->dev.driver->owner)) {
+ > +                                i2c_unregister_device(client);
+ > +                                dev->slave_demod = SLAVE_DEMOD_NONE;
+ > +                                goto err_slave_demod_failed;
+ > +                        }
+
+This part could be switched to dvb_module_probe. But I do not know if 
+this conversion can be done for single frontends at a time. Or if it 
+need to be done for all supported devices (of rt28xxu) together.
+
+ > +
+ > +                        dev->i2c_client_slave_demod = client;
+ > +                        dev->new_i2c_write = true;
+ > +                } else {
+ > +                        /* Unknown demodulator */
+ > +                        dev->slave_demod = SLAVE_DEMOD_NONE;
+ > +                        goto err_slave_demod_failed;
+ > +                }
+ >      }
+ >      return 0;
+ >
+ > @@ -1969,6 +2008,8 @@
+ >          RC_MAP_ASTROMETA_T2HYBRID) },
+ >      { DVB_USB_DEVICE(0x5654, 0xca42,
+ >          &rtl28xxu_props, "GoTView MasterHD 3", NULL) },
+ > +    { DVB_USB_DEVICE(0x1b80, 0xd3b1,
+ > +                &rtl28xxu_props, "Delock 61959 v2", NULL) },
+ >      { }
+ >  };
+ >  MODULE_DEVICE_TABLE(usb, rtl28xxu_id_table);
+ > --- a/drivers/media/usb/dvb-usb-v2/rtl28xxu.h    2021-08-29 
+11:36:06.034933825 +0200
+ > +++ b/drivers/media/usb/dvb-usb-v2/rtl28xxu.h    2021-08-11 
+17:40:13.625130749 +0200
+ > @@ -29,6 +29,7 @@
+ >  #include "fc2580.h"
+ >  #include "tua9001.h"
+ >  #include "r820t.h"
+ > +#include "si2165.h"
+ >  #include "si2168.h"
+ >  #include "si2157.h"
+ >
+ > @@ -76,6 +77,7 @@
+ >      #define SLAVE_DEMOD_MN88473        2
+ >      #define SLAVE_DEMOD_SI2168         3
+ >      #define SLAVE_DEMOD_CXD2837ER      4
+ > +    #define SLAVE_DEMOD_SI2165         5
+ >      unsigned int slave_demod:3;
+ >      union {
+ >          struct rtl2830_platform_data rtl2830_platform_data;
+ > --- a/drivers/media/usb/dvb-usb-v2/Kconfig    2021-08-29 
+11:37:01.364542549 +0200
+ > +++ b/drivers/media/usb/dvb-usb-v2/Kconfig    2021-08-11 
+16:26:00.294109619 +0200
+ > @@ -138,6 +138,7 @@
+ >      select DVB_RTL2830
+ >      select DVB_RTL2832
+ >      select DVB_RTL2832_SDR if (MEDIA_SUBDRV_AUTOSELECT && 
+MEDIA_SDR_SUPPORT && VIDEO_V4L2)
+ > +    select DVB_SI2165 if MEDIA_SUBDRV_AUTOSELECT
+ >      select DVB_SI2168 if MEDIA_SUBDRV_AUTOSELECT
+ >      select MEDIA_TUNER_E4000 if (MEDIA_SUBDRV_AUTOSELECT && VIDEO_V4L2)
+ >      select MEDIA_TUNER_FC0012 if MEDIA_SUBDRV_AUTOSELECT
