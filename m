@@ -2,117 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DF5E40122E
-	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 01:57:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2C23401547
+	for <lists+linux-media@lfdr.de>; Mon,  6 Sep 2021 05:44:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238456AbhIEX6X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Sep 2021 19:58:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33860 "EHLO
+        id S238728AbhIFDpU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Sep 2021 23:45:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238448AbhIEX6V (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Sep 2021 19:58:21 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BEEEC061575;
-        Sun,  5 Sep 2021 16:57:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=hIb2nK0ItXTa5MRBxU9bPeawp9abmfaSM4x8huD2VSA=; b=GXGM4Jvsk2qMYQ5VnE4ZZ7t07g
-        SEaI2u4ex+d0rQLu8QOZlrcEaAm3nr86+DJPuebN9K/hDwIDeWNzsA01iJ3Uc7m+9VK0QZPEuAWid
-        IYqrkWmMGNF5ghED9nFrNAA7396tM5mg+Y+nLr0mQecsMl9FGW/HGNrPIEqpY3bh/fwL4ks2Qg7IA
-        d9v6YqZKsQlStMnrhMWiF5utMreLS1ht2rU0hkSKRBFmLsy8V4d5Aopyr5tPITfxjqT1W/f1CQrEI
-        ya792/EM4ZZqCpRPmsNKRRsc9m692YQRkOo0TbR1ATYh5OnSzFV/mMtty8Ng7svLMHp2jq70MWGdl
-        lyPhwTqg==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mN20i-00Glc5-7z; Sun, 05 Sep 2021 23:57:16 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] media: s5p-jpeg: change "RST" to "RSET" to fix build warnings
-Date:   Sun,  5 Sep 2021 16:57:15 -0700
-Message-Id: <20210905235715.12154-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S233556AbhIFDpS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Sep 2021 23:45:18 -0400
+Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23660C061575
+        for <linux-media@vger.kernel.org>; Sun,  5 Sep 2021 20:44:13 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id N5YGmrYgA0e6wN5YImhKTx; Mon, 06 Sep 2021 05:44:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1630899850; bh=mNYGDkg69TZLO59tqkEMkvJHbYeNVmoMfyCO9JYdNJY=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=TQSHwJPkXBqMwAsznGXD8gz3lTWgV2oJTNutES/UDm9nhQye4sM7M3CVOV42eJzts
+         MPw69wRjGQBzd6/cKhE0wHojdWJxbQskGYiREfcaj3T7IHYXEKyEbsJ4DxBh26wr3p
+         EyUQKZ/QeM4IophKvZkv7uEYQPIHUQrtq+Q2pB1m1AFPjCLz6I+x62hHlG9Z7bTF+g
+         IC4LYSWN7rGXZXpqIUhKS1cRrC/kLNml+F8yzZIu0TAyIGoAPlqkbVenIiG5WyMgzo
+         q7pPPVwndiwQhRB7VNMqjZ9KiMbsNTd1FpzlWLiA/Of2i3Sd6Lh/cFnJe3yHpUJyyj
+         7nak4pBm07S5Q==
+Message-ID: <2e0f26c49671121815cd06804ec81dc3@smtp-cloud7.xs4all.net>
+Date:   Mon, 06 Sep 2021 05:44:08 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfPWdnW/4QF+SijBrpeprRLf3DzfmWba03vRFU6BiUD+asYklahHwF0z76ttJEq11z7/wKWxXKtADe0MDlxlQbMB3/1ERVKuA8QxzYX9XzUI6WkJEiiAo
+ E19iwfC6c0CVlzJDkGxC4bFrDBPAeYzYuAz3mgsrs0yGRsL6nQ9WzrBjbRm8zsrOwUbI8s9S2KMLd5896+N6F4IhNbwW5DpT3hvO2dIt944IDPs2ELT5imBV
+ lgtltibqqy3f1ycJUoOPvA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The use of a macro named 'RST' conflicts with one of the same name
-in arch/mips/include/asm/mach-rc32434/rb.h. This causes build
-warnings on some MIPS builds.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Change the use of RST to the name RSET.
+Results of the daily build of media_tree:
 
-Fixes these build warnings:
+date:			Mon Sep  6 05:00:12 CEST 2021
+media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
+media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
+v4l-utils git hash:	05a468e033af0e4c775aaa10fe4d02c45de698ae
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8f230e7be768cbdfab869697ba0a2c622a4a0cae
+host hardware:		x86_64
+host os:		5.13.11-marune
 
-In file included from ../drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.c:14:
-../drivers/media/platform/s5p-jpeg/jpeg-core.h:43: warning: "RST" redefined
-   43 | #define RST                             0xd0
-      | 
-../arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
-   13 | #define RST             (1 << 15)
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-In file included from ../drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.c:13:
-../drivers/media/platform/s5p-jpeg/jpeg-core.h:43: warning: "RST" redefined
-   43 | #define RST                             0xd0
-../arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
-   13 | #define RST             (1 << 15)
+Detailed results are available here:
 
-In file included from ../drivers/media/platform/s5p-jpeg/jpeg-hw-exynos4.c:12:
-../drivers/media/platform/s5p-jpeg/jpeg-core.h:43: warning: "RST" redefined
-   43 | #define RST                             0xd0
-../arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
-   13 | #define RST             (1 << 15)
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
 
-In file included from ../drivers/media/platform/s5p-jpeg/jpeg-core.c:31:
-../drivers/media/platform/s5p-jpeg/jpeg-core.h:43: warning: "RST" redefined
-   43 | #define RST                             0xd0
-../arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
-   13 | #define RST             (1 << 15)
+Detailed regression test results are available here:
 
-Fixes: bb677f3ac434 ("[media] Exynos4 JPEG codec v4l2 driver")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Cc: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
-Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
-Cc: linux-arm-kernel@lists.infradead.org
----
- drivers/media/platform/s5p-jpeg/jpeg-core.c |    2 +-
- drivers/media/platform/s5p-jpeg/jpeg-core.h |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
 
---- linux-next-20210903.orig/drivers/media/platform/s5p-jpeg/jpeg-core.c
-+++ linux-next-20210903/drivers/media/platform/s5p-jpeg/jpeg-core.c
-@@ -1203,7 +1203,7 @@ static bool s5p_jpeg_parse_hdr(struct s5
- 			break;
- 
- 		/* skip payload-less markers */
--		case RST ... RST + 7:
-+		case RSET ... RSET + 7:
- 		case SOI:
- 		case EOI:
- 		case TEM:
---- linux-next-20210903.orig/drivers/media/platform/s5p-jpeg/jpeg-core.h
-+++ linux-next-20210903/drivers/media/platform/s5p-jpeg/jpeg-core.h
-@@ -40,7 +40,7 @@
- #define TEM				0x01
- #define SOF0				0xc0
- #define DHT				0xc4
--#define RST				0xd0
-+#define RSET				0xd0
- #define SOI				0xd8
- #define EOI				0xd9
- #define	SOS				0xda
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
