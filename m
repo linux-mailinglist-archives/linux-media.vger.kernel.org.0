@@ -2,140 +2,340 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68F03402684
-	for <lists+linux-media@lfdr.de>; Tue,  7 Sep 2021 11:52:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82D65402811
+	for <lists+linux-media@lfdr.de>; Tue,  7 Sep 2021 13:53:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243618AbhIGJxY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Sep 2021 05:53:24 -0400
-Received: from mail-vi1eur05on2069.outbound.protection.outlook.com ([40.107.21.69]:36412
-        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S243223AbhIGJxI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Sep 2021 05:53:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b0uLa2RRDwqs5LIzuno7m1RPn3AvyldyntXB2epfTQNxKZBexO6jzaf/CeWPN1Z+1NX/R9j/IvFI9qEzDyHGvu2iPGlNYbDG4fTV2Ijgn9mKxc/72Rtzz0iHQqnKrBjMor9fQYKAY1X7cVrUB/H3Sfq9kNW7rvdW5bihAO3FBYQWWPRzqGtyob2B/27K7syhWxyhKtx1z+KTVQCs7Ol2sgD54qHT0r7flOwNM+3HpQIG+5S17ujBvP8kM0jIe6CkpJoCGj995w2BJJjsEArquVEQLPo2l6O52W7k0DA3Q3BBNm9HyApSkNKUHYTQD7zDU15bkmyNeZF82ePSKIFAkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=C6pkhLLdtqW4u1qnfQrHg3GgbsFuZ6fP41Am6PRTQZw=;
- b=Rz+AKBRzTUJxXmEKA7oNIeaF4Ltwd1MM6LfQ1YSzmblNhl0AFiljoVnPjXrNc+rXGGqpyPWF4MFv95/ocrV2IXC0PlfQc1X3kuftMevaZuDOvTlgGc3T5PSLifY8qJpgihl5kIBvsr78zCHUJ084w3dNApUD+ZWtgt1Z74SZbVCI0lqZvdfi3f/xVOp7T+e0Xsm05Mc0ZJkzGUp7GN+EjFbd9dF28KErWpNPhj32iigkXOyGFNuVIgMJVLtHJdy2rW8FKY9AkcDNnl0zVCXsBiM1PT06Z4Y6W+D/Jmbo7QvTlgH7bK17FJV23NLxLm1enjS1qqC/8kX6Fa0yvWpb1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C6pkhLLdtqW4u1qnfQrHg3GgbsFuZ6fP41Am6PRTQZw=;
- b=Liiqe2ssiK/p908Mh+dslsVv/5yUV1gO8Sr3iYxEBc4V4OrvCBQGLEq4qeg1TmThM3g1cw91kpmamtqI0LanUIbQmXdnVCk6nPd0Pz3hjLy1FPZ1yg58ls1Sn6Mka//WmSaeli7/Sm0cQlaKm6hLbGFiyFI/bpB6jSiluobUfe8=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by AM5PR0402MB2772.eurprd04.prod.outlook.com (2603:10a6:203:99::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.21; Tue, 7 Sep
- 2021 09:50:51 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::998c:7f25:6d75:d5f4]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::998c:7f25:6d75:d5f4%7]) with mapi id 15.20.4478.025; Tue, 7 Sep 2021
- 09:50:51 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
-        s.hauer@pengutronix.de
-Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v8 15/15] MAINTAINERS: add AMPHION VPU CODEC V4L2 driver entry
-Date:   Tue,  7 Sep 2021 17:49:22 +0800
-Message-Id: <485a302f1a0c1027629c331050b1d7cd027275ca.1631002447.git.ming.qian@nxp.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <cover.1631002447.git.ming.qian@nxp.com>
-References: <cover.1631002447.git.ming.qian@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0097.apcprd02.prod.outlook.com
- (2603:1096:4:92::13) To AM6PR04MB6341.eurprd04.prod.outlook.com
- (2603:10a6:20b:d8::14)
+        id S245607AbhIGLyG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Sep 2021 07:54:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35026 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244992AbhIGLyF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Sep 2021 07:54:05 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F3DDC061575;
+        Tue,  7 Sep 2021 04:52:59 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id q26so13062185wrc.7;
+        Tue, 07 Sep 2021 04:52:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:cc
+         :references:from:subject:in-reply-to:content-transfer-encoding;
+        bh=/wAt6Xe+WJv/2BBsBfv7Vtp4QcHzU3Af1LPP3LPYfEI=;
+        b=mVCY/zdq5DbtLgvC60ZOt7bnagQv2UGYF4+KS84uQqimfo0wDJ6jl2Qq/MEFOx9mdF
+         C/QUpslvb+JtyHZ/8k9F8Uph5t2MiTCL6kjMWoKkBDNariNNHINoUwv1O2D2C3Wb5Sng
+         qGuJbOnNl1IV9mUVmmhjfB3p5DGs7ZmcCn04Shr24OuqiwV8xeDBFU0ooBg/x6N/1ujO
+         YGczxBOEx/yVQciWwdnI/ndTbwIpG979gFOms9oWo8syvSyFJmJvDeM0CQKOVMPaJ+fk
+         HM9ngl6MrgBEH7Xdlm2rxcCnOTYFh0lAx3df7zd0JJ1HChyZXnUCT6CvRnNzOvPyW+6c
+         xdJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:subject:in-reply-to
+         :content-transfer-encoding;
+        bh=/wAt6Xe+WJv/2BBsBfv7Vtp4QcHzU3Af1LPP3LPYfEI=;
+        b=NRKkoZz9nR5wJIT+jaYYMT8+uPzjkeXS77de1oPT9r6+Bv77Q4WTF30X9rg8DKf0n+
+         dDawn4b+1aqSPvNJyMRpFNV2QtuaWNdE/+jtoEvMmbQ5Ba9ZVnnFF1sG3R8/RRPaFw+P
+         Uy33hmobd7whXlNlS2yC3C6qj6xCqol3bsU3djZA8V6BQjr04eeNNPjcxwpg6kEwRv+z
+         UFEY+HLym5foMmrn+WWC6H9h1Ie0yrWCdEkwTPfoFBLu2BpjCBQLGlhuZvCZ4H32VUDp
+         L4tyLy2VFEsnDsb9UWq3OMC1Kuh9Lgaj9Lw68KisZsmq7BVvfwVE73RahExfN5vKOQ/+
+         4OtQ==
+X-Gm-Message-State: AOAM5318ZPk6fzHZ0svYPSJX+iXS+ehXUT6JcQJutsMim3pzhkqMZsen
+        HUyK7XWVCQgW5knt66sz4uE=
+X-Google-Smtp-Source: ABdhPJxLcc8obN45A+hGgPEc7Vf7WsTsRCbcfbUWNeS9QkDB38DQqjT1v7UoDGypwMUzRtEbqPvgZw==
+X-Received: by 2002:adf:f2c5:: with SMTP id d5mr17694984wrp.223.1631015577780;
+        Tue, 07 Sep 2021 04:52:57 -0700 (PDT)
+Received: from [192.168.1.145] ([206.204.151.164])
+        by smtp.gmail.com with ESMTPSA id o7sm2069024wmq.36.2021.09.07.04.52.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Sep 2021 04:52:57 -0700 (PDT)
+Message-ID: <01e4d221-0c77-fdcb-0e01-540e315481d8@gmail.com>
+Date:   Tue, 7 Sep 2021 13:52:55 +0200
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from lsv11149.swis.cn-sha01.nxp.com (119.31.174.70) by SG2PR02CA0097.apcprd02.prod.outlook.com (2603:1096:4:92::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19 via Frontend Transport; Tue, 7 Sep 2021 09:50:47 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b6e4b188-a600-4219-e75c-08d971e4fa32
-X-MS-TrafficTypeDiagnostic: AM5PR0402MB2772:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0402MB2772E66725C5DA27D045B2EFE7D39@AM5PR0402MB2772.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:296;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cjKWM2BiDbQqlELyTtb9v4p3Qt1jyYSYAWrk5H3xFn0mgWG5zDCdYhSN2NSUV2r17tzUlrYtgKKmG4PTBhuG9A3HnYwZyEFEf8qbR8ucY+ufCxWwEp26tZpnFBV7hYOGeakUScHXsZe87UWsWFg6xJ7lrwr/9ftA8UD0LDSsyZi4RoaHPA+cY5B4WMfU1zg6h7UhKWwYsoUEVW0IB1G+GLTOlRuJUS4WvteucKmM+4hqROz15h6EmuM2Vbpi+tMzjB/8I/T/QV1ZsKSKql/jSkdAYIY8VTyvA3njl9j7Wcw0FWM6RfQzEAXXC8iC20G2MVxTaF5hpRHLvYXK6j573qx0RQqS3E/KXOhUOOrSQsbKJbIYK6DAhmq5p2uvQnAyCY19Ucf2qWq2YRfNLhY0pa43sWbFZLajjSrl6xHa2W8rDBdQljHM4+rZd2YFjBpFl/N3uCl0d8Pu1G7TtVfj4sQGpFF694MB+pH7KRYUggY/0V0+2vZaLP7Xg4/2mDVWKdu1InWdnhLAbZr1pcNvAEdUGMiu71MgiS/8JBsrVEGqq6kE9NdMoiTKAydkW81BZH+/y7Rhw+gxW8zVRhu/36lXlL3oA526WskLvSkulaVvnu54dpWqmqw0WbUj1tIyPF+sR/tGgQ6sg1MeeDW/BBXmcuCYmJ6EX69Pf9ZgflETZYoGy8eA0hAdVoyQiWBhxtYP+LEqyoN3R60JOVGICA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(39860400002)(346002)(396003)(376002)(7696005)(52116002)(6666004)(66476007)(66556008)(44832011)(2616005)(86362001)(8676002)(66946007)(4744005)(956004)(26005)(38350700002)(38100700002)(6486002)(4326008)(8936002)(186003)(36756003)(316002)(478600001)(7416002)(2906002)(5660300002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?s4+hWFFKf+V4CF6HslXO4Y1xgqoOzJZS4a1IpR8Y18biPqWYcdnkxNKPJV+R?=
- =?us-ascii?Q?UBbF55TWrK2pobBFqHbit1ejTh+WZT8eFwkjzu6101vdSjqbBSbwIOYGEYY3?=
- =?us-ascii?Q?KsQQt8KuXqNbeFaoQh2PW3nbAv1Ozgm5u7H+62Cdleacm99WLhFoMo0Bqthn?=
- =?us-ascii?Q?XrapnkDnSxcmpcYU6hqaWz5M1VYy6ZyYeo6DmQEokakg1yIjT3qozJtNNzHx?=
- =?us-ascii?Q?676yskRSDcz1NRyWC9cwzev4AzPJfRg3gcwRWqiytkSErBKGZIaRAqJrA0lz?=
- =?us-ascii?Q?GU6glqDRIfVTFYbxgGvFOBvyvUV+RAJygmIWN3bgj4BVX+yK2KhluVISvpul?=
- =?us-ascii?Q?v0qhMjBus9aTqoyGusmh2ld3rxmbtg/V7WvnIAYV5twf+UEl8qgdV6XXAPZg?=
- =?us-ascii?Q?Z+kZ2PnjD+2XMecelicdEagfgymNGQ1Qyb04cpzmzGOkiBzgjx8kgJXlPZ2c?=
- =?us-ascii?Q?xhj4eg/fBhQwZsl0xvE1iB5VOPRGaFbvyGIMO71Nb+9AXej+QPbb4p2LUIi0?=
- =?us-ascii?Q?qGY94kDzBzWycD5Ff6BiPHavbGLmP8zDXr9I2WHGzYIoqnbFpLEvviSn++6l?=
- =?us-ascii?Q?etZpLLo0No4a9FZFRF4auWkqb6Sn/EEzFD72JDx2wzaOMqeKp8iFF5HZbyGu?=
- =?us-ascii?Q?Gj1bMMIeBFqCk7IHXsl8TSAR01GfjgaHv0pEqg0B/0HbABd0SJqIJ+k258aQ?=
- =?us-ascii?Q?YVqrLzzipDy/Q6diRyV+4sAwGsTsYwTU67D1tMwO0gufoG60NBxWFYcnjb9R?=
- =?us-ascii?Q?iWuu3YqY9xNlFGD1WTil1CFJe0g2UlJKWwCympc4lCALU7CIexdRGL2rmK8j?=
- =?us-ascii?Q?DFPemu5/QoJZW2abXhsOVnaujLv85uShsahxvc22Yg3rSoEVkMrjMxKYo1wj?=
- =?us-ascii?Q?O3LAABRgRV6UAj4dedTRt7ecS8eac4wnjfm1QzpA2ZudMGqttXl+D9DbPVB2?=
- =?us-ascii?Q?QQaPFWOBCnTuQ4J2iDuvTg5plqN/610WS4RJqoDJgMF2yn0Sh1krUlzJiNlN?=
- =?us-ascii?Q?CRyEskxi09U47aZ7jkhnn27p+zg96drpqsJp44ydSwacCfbay2RG1mJrqfYC?=
- =?us-ascii?Q?611XpwIM7wvbS3GtC6JgK7z8FwVbn6n3FIV0u1CL+s+UyR1BpCC7ocGNE2JE?=
- =?us-ascii?Q?IN3/mYEG0WiRgit7uiI3vxJ7Aod3tQ+gTezX/5MkSphnYOoibo6HwIwAH2qy?=
- =?us-ascii?Q?XfS0a2TWvtzXrr2cyQYdm691gVOnWd40pXX6ku4WCF/LHAXvz3XU5lO01yv2?=
- =?us-ascii?Q?r5M+EhbInmLUoWbfozpvVzhuPkqid+xneSzszJssoCX74dmpiS4vaz6x88o5?=
- =?us-ascii?Q?Vyxe41TTCurK5TolurROGACa?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6e4b188-a600-4219-e75c-08d971e4fa32
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2021 09:50:51.6676
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xdL7u8/cjjQGREnGtJq/4GALdkD90G7ZdsCcPsdI4UorB7zH7AjrZ1bWpeMvQixGvo4BDSTkhoXwYcIOAKkFuw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0402MB2772
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.3
+Content-Language: en-US
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     Maoguang Meng <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org, drinkcat@chromium.org, acourbot@chromium.org,
+        pihsun@chromium.org, menghui.lin@mediatek.com,
+        sj.huang@mediatek.com, ben.lok@mediatek.com, randy.wu@mediatek.com,
+        srv_heupstream@mediatek.com, hsinyi@google.com
+References: <20210824100027.25989-1-moudy.ho@mediatek.com>
+ <20210824100027.25989-2-moudy.ho@mediatek.com>
+From:   Matthias Brugger <matthias.bgg@gmail.com>
+Subject: Re: [PATCH v7 1/5] soc: mediatek: mutex: add support for MDP
+In-Reply-To: <20210824100027.25989-2-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add AMPHION VPU CODEC v4l2 driver entry
 
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
-Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
-Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 524eabe50d79..757272bb8395 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13416,6 +13416,15 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/media/imx8-jpeg.yaml
- F:	drivers/media/platform/imx-jpeg
- 
-+AMPHION VPU CODEC V4L2 DRIVER
-+M:	Ming Qian <ming.qian@nxp.com>
-+M:	Shijie Qin <shijie.qin@nxp.com>
-+M:	Zhou Peng <eagle.zhou@nxp.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/media/amphion,vpu.yaml
-+F:	drivers/media/platform/amphion/
-+
- NZXT-KRAKEN2 HARDWARE MONITORING DRIVER
- M:	Jonas Malaco <jonas@protocubo.io>
- L:	linux-hwmon@vger.kernel.org
--- 
-2.32.0
+On 24/08/2021 12:00, Moudy Ho wrote:
+> Add functions to support MDP:
+>    1. Get mutex function
+>    2. Enable/disable mutex
+>    3. Enable MDP's modules
+>    4. Write register via CMDQ
+> 
+> Add MDP related settings for 8183 SoC
+>    1. Register settings
+> 
 
+Please write some good commit message.
+
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> ---
+>   drivers/soc/mediatek/mtk-mutex.c       | 106 +++++++++++++++++++++++--
+>   include/linux/soc/mediatek/mtk-mutex.h |   8 ++
+>   2 files changed, 108 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
+> index 2e4bcc300576..935f2849a094 100644
+> --- a/drivers/soc/mediatek/mtk-mutex.c
+> +++ b/drivers/soc/mediatek/mtk-mutex.c
+> @@ -7,9 +7,11 @@
+>   #include <linux/iopoll.h>
+>   #include <linux/module.h>
+>   #include <linux/of_device.h>
+> +#include <linux/of_address.h>
+>   #include <linux/platform_device.h>
+>   #include <linux/regmap.h>
+>   #include <linux/soc/mediatek/mtk-mmsys.h>
+> +#include <linux/soc/mediatek/mtk-cmdq.h>
+>   #include <linux/soc/mediatek/mtk-mutex.h>
+>   
+>   #define MT2701_MUTEX0_MOD0			0x2c
+> @@ -107,6 +109,10 @@
+>   #define MT8183_MUTEX_EOF_DSI0			(MT8183_MUTEX_SOF_DSI0 << 6)
+>   #define MT8183_MUTEX_EOF_DPI0			(MT8183_MUTEX_SOF_DPI0 << 6)
+>   
+> +#define MT8183_MUTEX_MDP_START			5
+> +#define MT8183_MUTEX_MDP_MOD_MASK		0x07FFFFFF
+> +#define MT8183_MUTEX_MDP_SOF_MASK		0x00000007
+> +
+>   struct mtk_mutex {
+>   	int id;
+>   	bool claimed;
+> @@ -123,11 +129,14 @@ enum mtk_mutex_sof_id {
+>   };
+>   
+>   struct mtk_mutex_data {
+> -	const unsigned int *mutex_mod;
+> -	const unsigned int *mutex_sof;
+> -	const unsigned int mutex_mod_reg;
+> -	const unsigned int mutex_sof_reg;
+> -	const bool no_clk;
+> +	const unsigned int	*mutex_mod;
+> +	const unsigned int	*mutex_sof;
+> +	const unsigned int	mutex_mod_reg;
+> +	const unsigned int	mutex_sof_reg;
+> +	const unsigned int	*mutex_mdp_offset;
+> +	const unsigned int	mutex_mdp_mod_mask;
+> +	const unsigned int	mutex_mdp_sof_mask;
+> +	const bool		no_clk;
+
+Not needed, please drop.
+
+>   };
+>   
+>   struct mtk_mutex_ctx {
+> @@ -136,6 +145,8 @@ struct mtk_mutex_ctx {
+>   	void __iomem			*regs;
+>   	struct mtk_mutex		mutex[10];
+>   	const struct mtk_mutex_data	*data;
+> +	phys_addr_t			addr;
+> +	u8				subsys_id;
+>   };
+>   
+>   static const unsigned int mt2701_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+> @@ -238,6 +249,14 @@ static const unsigned int mt8183_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
+>   	[MUTEX_SOF_DPI0] = MT8183_MUTEX_SOF_DPI0 | MT8183_MUTEX_EOF_DPI0,
+>   };
+>   
+> +/* indicate which mutex is used by each pipepline */
+> +static const unsigned int mt8183_mutex_mdp_offset[MDP_PIPE_MAX] = {
+
+Does this code even compile?
+There is some basic rules for patches, for example that they have to compile, 
+don't break anything etc.
+Please read the documentation and stick to it, before submitting patches:
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+
+Regards,
+Matthias
+
+> +	[MDP_PIPE_IMGI] = MT8183_MUTEX_MDP_START,
+> +	[MDP_PIPE_RDMA0] = MT8183_MUTEX_MDP_START + 1,
+> +	[MDP_PIPE_WPEI] = MT8183_MUTEX_MDP_START + 2,
+> +	[MDP_PIPE_WPEI2] = MT8183_MUTEX_MDP_START + 3
+> +};
+> +
+>   static const struct mtk_mutex_data mt2701_mutex_driver_data = {
+>   	.mutex_mod = mt2701_mutex_mod,
+>   	.mutex_sof = mt2712_mutex_sof,
+> @@ -272,6 +291,9 @@ static const struct mtk_mutex_data mt8183_mutex_driver_data = {
+>   	.mutex_sof = mt8183_mutex_sof,
+>   	.mutex_mod_reg = MT8183_MUTEX0_MOD0,
+>   	.mutex_sof_reg = MT8183_MUTEX0_SOF0,
+> +	.mutex_mdp_offset = mt8183_mutex_mdp_offset,
+> +	.mutex_mdp_mod_mask = MT8183_MUTEX_MDP_MOD_MASK,
+> +	.mutex_mdp_sof_mask = MT8183_MUTEX_MDP_SOF_MASK,
+>   	.no_clk = true,
+>   };
+>   
+> @@ -290,6 +312,21 @@ struct mtk_mutex *mtk_mutex_get(struct device *dev)
+>   }
+>   EXPORT_SYMBOL_GPL(mtk_mutex_get);
+>   
+> +struct mtk_mutex *mtk_mutex_mdp_get(struct device *dev,
+> +				    enum mtk_mdp_pipe_id id)
+> +{
+> +	struct mtk_mutex_ctx *mtx = dev_get_drvdata(dev);
+> +	int i = mtx->data->mutex_mdp_offset[id];
+> +
+> +	if (!mtx->mutex[i].claimed) {
+> +		mtx->mutex[i].claimed = true;
+> +		return &mtx->mutex[i];
+> +	}
+> +
+> +	return ERR_PTR(-EBUSY);
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_mutex_mdp_get);
+> +
+>   void mtk_mutex_put(struct mtk_mutex *mutex)
+>   {
+>   	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
+> @@ -369,6 +406,25 @@ void mtk_mutex_add_comp(struct mtk_mutex *mutex,
+>   }
+>   EXPORT_SYMBOL_GPL(mtk_mutex_add_comp);
+>   
+> +void mtk_mutex_add_mdp_mod(struct mtk_mutex *mutex, u32 mod,
+> +			   struct mmsys_cmdq_cmd *cmd)
+> +{
+> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
+> +						 mutex[mutex->id]);
+> +	unsigned int offset;
+> +
+> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
+> +
+> +	offset = DISP_REG_MUTEX_MOD(mtx->data->mutex_mod_reg, mutex->id);
+> +	cmdq_pkt_write_mask(cmd->pkt, mtx->subsys_id, mtx->addr + offset,
+> +			    mod, mtx->data->mutex_mdp_mod_mask);
+> +
+> +	offset = DISP_REG_MUTEX_SOF(mtx->data->mutex_sof_reg, mutex->id);
+> +	cmdq_pkt_write_mask(cmd->pkt, mtx->subsys_id, mtx->addr + offset,
+> +			    0, mtx->data->mutex_mdp_sof_mask);
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_mutex_add_mdp_mod);
+> +
+>   void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
+>   			   enum mtk_ddp_comp_id id)
+>   {
+> @@ -420,6 +476,20 @@ void mtk_mutex_enable(struct mtk_mutex *mutex)
+>   }
+>   EXPORT_SYMBOL_GPL(mtk_mutex_enable);
+>   
+> +void mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex,
+> +			      struct mmsys_cmdq_cmd *cmd)
+> +{
+> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
+> +						 mutex[mutex->id]);
+> +
+> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
+> +
+> +	cmdq_pkt_write_mask(cmd->pkt, mtx->subsys_id,
+> +			    mtx->addr + DISP_REG_MUTEX_EN(mutex->id),
+> +			    0x1, 0x00000001);
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_mutex_enable_by_cmdq);
+> +
+>   void mtk_mutex_disable(struct mtk_mutex *mutex)
+>   {
+>   	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
+> @@ -431,6 +501,20 @@ void mtk_mutex_disable(struct mtk_mutex *mutex)
+>   }
+>   EXPORT_SYMBOL_GPL(mtk_mutex_disable);
+>   
+> +void mtk_mutex_disable_by_cmdq(struct mtk_mutex *mutex,
+> +			       struct mmsys_cmdq_cmd *cmd)
+> +{
+> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
+> +						 mutex[mutex->id]);
+> +
+> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
+> +
+> +	cmdq_pkt_write_mask(cmd->pkt, mtx->subsys_id,
+> +			    mtx->addr + DISP_REG_MUTEX_EN(mutex->id),
+> +			    0x0, 0x00000001);
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_mutex_disable_by_cmdq);
+> +
+>   void mtk_mutex_acquire(struct mtk_mutex *mutex)
+>   {
+>   	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
+> @@ -458,7 +542,8 @@ static int mtk_mutex_probe(struct platform_device *pdev)
+>   {
+>   	struct device *dev = &pdev->dev;
+>   	struct mtk_mutex_ctx *mtx;
+> -	struct resource *regs;
+> +	struct cmdq_client_reg cmdq_reg;
+> +	struct resource *regs, addr;
+>   	int i;
+>   
+>   	mtx = devm_kzalloc(dev, sizeof(*mtx), GFP_KERNEL);
+> @@ -479,6 +564,15 @@ static int mtk_mutex_probe(struct platform_device *pdev)
+>   		}
+>   	}
+>   
+> +	if (of_address_to_resource(dev->of_node, 0, &addr) < 0)
+> +		mtx->addr = 0L;
+> +	else
+> +		mtx->addr = addr.start;
+> +
+> +	if (cmdq_dev_get_client_reg(dev, &cmdq_reg, 0) != 0)
+> +		dev_info(dev, "cmdq subsys id has not been set\n");
+> +	mtx->subsys_id = cmdq_reg.subsys;
+> +
+>   	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>   	mtx->regs = devm_ioremap_resource(dev, regs);
+>   	if (IS_ERR(mtx->regs)) {
+> diff --git a/include/linux/soc/mediatek/mtk-mutex.h b/include/linux/soc/mediatek/mtk-mutex.h
+> index 6fe4ffbde290..d08b98419dd9 100644
+> --- a/include/linux/soc/mediatek/mtk-mutex.h
+> +++ b/include/linux/soc/mediatek/mtk-mutex.h
+> @@ -11,11 +11,19 @@ struct device;
+>   struct mtk_mutex;
+>   
+>   struct mtk_mutex *mtk_mutex_get(struct device *dev);
+> +struct mtk_mutex *mtk_mutex_mdp_get(struct device *dev,
+> +				    enum mtk_mdp_pipe_id id);
+>   int mtk_mutex_prepare(struct mtk_mutex *mutex);
+>   void mtk_mutex_add_comp(struct mtk_mutex *mutex,
+>   			enum mtk_ddp_comp_id id);
+> +void mtk_mutex_add_mdp_mod(struct mtk_mutex *mutex, u32 mod,
+> +			   struct mmsys_cmdq_cmd *cmd);
+>   void mtk_mutex_enable(struct mtk_mutex *mutex);
+> +void mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex,
+> +			      struct mmsys_cmdq_cmd *cmd);
+>   void mtk_mutex_disable(struct mtk_mutex *mutex);
+> +void mtk_mutex_disable_by_cmdq(struct mtk_mutex *mutex,
+> +			       struct mmsys_cmdq_cmd *cmd);
+>   void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
+>   			   enum mtk_ddp_comp_id id);
+>   void mtk_mutex_unprepare(struct mtk_mutex *mutex);
+> 
