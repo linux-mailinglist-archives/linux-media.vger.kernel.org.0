@@ -2,40 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0BFA40265C
-	for <lists+linux-media@lfdr.de>; Tue,  7 Sep 2021 11:50:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9969C40265F
+	for <lists+linux-media@lfdr.de>; Tue,  7 Sep 2021 11:50:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242955AbhIGJvG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Sep 2021 05:51:06 -0400
-Received: from mail-eopbgr30047.outbound.protection.outlook.com ([40.107.3.47]:18390
+        id S243285AbhIGJvP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Sep 2021 05:51:15 -0400
+Received: from mail-eopbgr30072.outbound.protection.outlook.com ([40.107.3.72]:27145
         "EHLO EUR03-AM5-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S242772AbhIGJvE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Sep 2021 05:51:04 -0400
+        id S243115AbhIGJvO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 7 Sep 2021 05:51:14 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LfeITNZdVORuf2y/f6hG0G5pF8qVCejocw/clcgb+LbXPc6wv8RGIDisux00QdoHeGiN+PuLKdIMrj0QxvX1g/rb8OMsxTLqTJxe4NJuXsT5YDqD+63mCp21no8fuhtW2PipDu+K6CeXGPKRHWmkfBE9BLSst2dExxvsemPwu8bjpbub66zieneeBFqiIZfvTES/NGXamhnyYcHm7fTpTOpJg0K4CJkrQ0EQxdEEbz1qO1l/ZTSpVH4hDRIRjFJVOcVYBN6NBVlafB/m0+10ambz27vj7Pff7ylvDKNVQOXG547TKI9MP3TbOhW6IefRyuIOIbBWHQNtjXRV6yKZlg==
+ b=FLLtZNq/j6hR1+CtabLZ5z2VOQnAuCZ9Pue5PYMJbHXIiMdPURyZyBibxWyeUUCoh9nHobbNfxpUCBGDY8xaUMHJLeKY33K3/mIOxNW3ACyHtadEhpsHdTC4d7ugn/23xfPp0Gvm1/XmJn3iMVzmENBpe08Yr7d1DWazW2Q6D3TLVgq+dLfHepPA8FjpxwiqUvUqvWhhP6D5O75t1gLCz1AOcH5ZjQgc6x7G0NqOWDKSzTLJVJrWA9RVJsctgvMLG2PspKZu0sf+yiuOuwC/v4WeU/KqNLZ1Zv6ETVui140HpFjZprpCB8La32hjIATbS71ydtKd83g3ggKg7Jed5Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=OhxRUPnEwlV4CgYdBTvE2xDk5TIbD3YkypRNoc0XgM4=;
- b=cnsdtedxVUmcqu7vDFK6OGDCZ9myrvxB/HIWqAQPqyw28+nAcp1JYLEnV4D0tcMwihGwwBUHbkuo+BE+xXKIxw9PAnBWA/BLfH05pcxEeDXfagaEyc+d7ePEsoSSymcGGvxaEyW/BJqw/aHFaUaf1GPfwBSOrfom69EBktbQ5mJ1a925xmeM126yMkgv7hZB1Rm3G2kHPHzKGpjr/XiFNuCOIo/D5udsYQZoMU6ul0WnRopWE/+sEbgG2PijG4+B09UqQpteZXOjmSJS5H5B4gQo54Touc72YoBIv08u8Zs8lzj6xj1jM0U7I3E+zU7Cyxu5azoeanMx8++JMbnzJg==
+ bh=nuGAhvg+ZR0HNx8MmJlLyP+rZrtnojGtIfP4DZRJkyo=;
+ b=npj35V3hqsgpJUNEoWk+6bu4QSezEvGK7WEJ4SGjolXG3K14N58wIKwXVepKvDqNQojTwe1iAHRtUCTIDWmQzE479d7RCvzNEPvEO5eJSDP3c8T7S9EbfzlsOoC1CraqLdVEE9cfNdLfLZ2r6/t3ubYRUJiSP2TOCAos/wwlLMndBNajAKWWrZNm3bxloAV/zUF9e11s6czvstyMuVS47RUzEYiouYEQdUWNjYmFOBs3FIvsviJajJgwosbQaXmxhHn0LkL2RSS4DOyWdAD2FKVnFkvVzEvnF9kKff9C8rrXIlAfvFOaZ56H6tc4AwPPcHspoB7Nz2R6cAXFgZoJFQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OhxRUPnEwlV4CgYdBTvE2xDk5TIbD3YkypRNoc0XgM4=;
- b=jF5GiOebZqR++Wb8qmzAfeT1XNVx8hDzoGiRkpBb2uW4W2yMco4fYFFLJYBBrkpsmwODQ5pdQeWBGGBbA/njs1VQgOH0n/U0yw+x3jDzS7pttbqPuFUaQUez7nwJ/PvHx0jq+YV2p2F+1eO5vNDzYBTyJ9jCsxPjqG1p7uSxzwY=
+ bh=nuGAhvg+ZR0HNx8MmJlLyP+rZrtnojGtIfP4DZRJkyo=;
+ b=EJl9wzT8zmny3h+G0ce7v0mBggB2qwtFG0/5xx+zNBa1cMTIEvT0sT8YMu/sW8tc9QmsIG7nWBy4cSyELtWd0X1jqaJ6FUhw/Z56PVAx88KveOhSyGAYJwZW1V33diQh3mVo0JckcFg0wfNRqIs1rWWP0muav5cPOB6IwlUZXyU=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
  by AS8PR04MB7767.eurprd04.prod.outlook.com (2603:10a6:20b:288::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14; Tue, 7 Sep
- 2021 09:49:56 +0000
+ 2021 09:50:05 +0000
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::998c:7f25:6d75:d5f4]) by AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::998c:7f25:6d75:d5f4%7]) with mapi id 15.20.4478.025; Tue, 7 Sep 2021
- 09:49:56 +0000
+ 09:50:00 +0000
 From:   Ming Qian <ming.qian@nxp.com>
 To:     mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
         s.hauer@pengutronix.de
@@ -43,9 +43,9 @@ Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
         festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v8 02/15] media:Add nt8 and nt10 video format.
-Date:   Tue,  7 Sep 2021 17:49:09 +0800
-Message-Id: <ed68bb2ba3d3491ff508cce482303ad9485b8c09.1631002447.git.ming.qian@nxp.com>
+Subject: [PATCH v8 03/15] media:Add v4l2 buf flag codec data.
+Date:   Tue,  7 Sep 2021 17:49:10 +0800
+Message-Id: <7ef1840137417c33f5ef7ca611c90fc274926851.1631002447.git.ming.qian@nxp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1631002447.git.ming.qian@nxp.com>
 References: <cover.1631002447.git.ming.qian@nxp.com>
@@ -56,131 +56,100 @@ X-ClientProxiedBy: SG2PR02CA0097.apcprd02.prod.outlook.com
  (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from lsv11149.swis.cn-sha01.nxp.com (119.31.174.70) by SG2PR02CA0097.apcprd02.prod.outlook.com (2603:1096:4:92::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19 via Frontend Transport; Tue, 7 Sep 2021 09:49:52 +0000
+Received: from lsv11149.swis.cn-sha01.nxp.com (119.31.174.70) by SG2PR02CA0097.apcprd02.prod.outlook.com (2603:1096:4:92::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19 via Frontend Transport; Tue, 7 Sep 2021 09:49:56 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c5fcc56f-137a-46fe-1d89-08d971e4d927
+X-MS-Office365-Filtering-Correlation-Id: 545d7e14-64ff-4ad2-944a-08d971e4db9b
 X-MS-TrafficTypeDiagnostic: AS8PR04MB7767:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR04MB7767B4889B2455293C3B420DE7D39@AS8PR04MB7767.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Microsoft-Antispam-PRVS: <AS8PR04MB7767E5D56097108DE3E683EDE7D39@AS8PR04MB7767.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mLiosQ/yyTo9Ml8CDc49Gt+9EzJSp6/5doKDjZY1vHrAFPDqZ4iXXV9O2ZYZj+yVLvW5WW2ECg0TdfMIVaupUwJfzzEr8cGB8CrIiXVhCwxhsjsCu32/ERPG2agW1qCnVbI32zZdiHelgKlr/6zfDREi009I45GvvJxpz74sLQ4TRolB9AHrLE2T3wCgk7yrygmvTTvEM69ldhLTdeqdTSl6zf/aILL+14sWESXUe1oWOvPuAtevZ9YnDDDhmPQ4TmU9NznVrTAnuhZSuffSvjrCVTVpnpeRvLAtAYkCrLdc04kLpy7fO7BVP87ndGJAuP6ZhMz5VjouGm8z9AaE1Y4X6VC3lq2ms0AtY/WesOUpFFGgmJeTSETOn0NauxSq8DQggAxcMKDW5AV3ZYlCOaWLFzedrngC/rbSIi3RO+nWOiwhvFdl9LVSGHT1SzZzXSUUZTYjq37Jbn/1aOC/QbgS3ZPmWuZT7S1EfaKdT3OD8x4v3m6H9rLIQvuatZf/AVzKbeDdXG7HJxuaYV+Ml3rIDZfpR5FeAPGSdGk/td81D98sW1qx/yy14zHlIuvWCYH2Dt/4zt7P8e0YCWcjh+fd1qpQMA0+rZTmy2FCsAdS5v7iMd5VPrr94ri7ii6IShUfyn3kn8lcXB1BCLb1pg0Kx81ngT/nmilcCcuWNwuQvSrB2vGXt8SWQvMi+Y521bHmAOVVrjUFBQGY0VdyyGRi1z14qA8NsASQwMxqGFUjbCjaM5blc8dJtclkfVTfTJEE7tXhgp6ENo28u20y4T0LPaPdjavPsO2q1NBYIMo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(366004)(376002)(136003)(39860400002)(4326008)(186003)(86362001)(7416002)(316002)(8936002)(478600001)(8676002)(6666004)(36756003)(966005)(44832011)(83380400001)(2616005)(956004)(38100700002)(2906002)(38350700002)(26005)(52116002)(66476007)(66556008)(6486002)(5660300002)(7696005)(66946007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: VYvssJcrppMKv7YR6ci8IOn2X9qVmIIyUBRxnKPLOoW2VOVacvLdMycUD6ToLfPl1YkW1Q9i/rIk54/7tJ6o3/1iHCI8meLjIv7dZ/+OiduRrQr420zHxwsl5ozbr52TR8S0LG0npwJWDFgsdfo3yxxD+Rmw6l92ucP1A26M97f7WeUQWyZt6R2gZEuCqIiWro2nH61hMERZXxIJlyv6of2Te1+eauvKwPgh+iCIzjIszRqPhPj80W9TWvXzY4/d9dCHdx7Of0aSj6prjLt87zim3zYdSxWLeXB79tdQScmtuTz6YRjnsKF+WjOzLq8zL72tJ6ZaYMB9x1dlWzgrN3CfkKf9llSAk1hMQNO+JBC9MMvIYG+LBj7aGigVTk+BiRfrLuLD0OKw4YpGncSYNuNHLbC/lT1T/hAuzN/TNkHHhwoCQpwToSypctWhKQLGBnmV5BG6prx7QNYQBKuyYKLgFaOoQIiXt4OAc/F+Z4jRUgLURkG25fj0+di4t8Ha87JKKuJskesaDRX0lNFeBi7CxRGohgATF3KxvHzH6GdxEKL/cmwiITj4ISC+Xa2HIa/xntpxSoHlRjPEfToulZQAaedj6cwIaz4pU4Wcx8wi+Ynwmr6sh73+WdCRmkG2FntRMmUwU44Nz9Ycpg4UE8GM3TJFgXjBf9qGcPf19QFa6IJutEbjGBiDdmoWXcOjYhGNBKsZLoB6BY/wCW8r1A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(366004)(376002)(136003)(39860400002)(4326008)(186003)(86362001)(7416002)(316002)(8936002)(478600001)(8676002)(6666004)(36756003)(44832011)(83380400001)(2616005)(956004)(38100700002)(2906002)(38350700002)(26005)(52116002)(66476007)(66556008)(6486002)(5660300002)(7696005)(66946007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EKjcIDb7Q606oqHJMhHsn7tWlqZby5PEdoviIyoz2UqEl/M+LlcLqatn1QkV?=
- =?us-ascii?Q?aJotFzL8YPtvBqadNGwY+wYsP2XGUqDFlSeeGxNWEkDoqjm0a7CirnTpB5Tm?=
- =?us-ascii?Q?wwE9Asq64i7HZz8cl0YDVFodlAR5kzp2gnmlVmLtfSPfryphP1gSD+NKTJbF?=
- =?us-ascii?Q?gr/9zBlDpvtayIrur7zE73DOMVh1r+G2/6a4yPek0nqMdyKmA0mTKAIxjyY7?=
- =?us-ascii?Q?mBSRSaTrAHOCF8Owu+E1kwKYq8H+iBlnAYpjDLNYLbXUkUe+7aMATe3H7zoM?=
- =?us-ascii?Q?FzBASvpOrD9EsXnIb7BpmyIY+zuyfFPNd+X/6YUW1z1PQFFxG81b6oeLyVi4?=
- =?us-ascii?Q?bDiaWMd/Le+QWnKFPxZmFLqi3b7JUntvWnQEfdIbVRaRMHgdUAE6ClbruyCZ?=
- =?us-ascii?Q?fPj6oNdYrgng5Xwj5e0hays3o69ZhWx0D7ltxzvjQgys4ick3X9vvmAqjE2R?=
- =?us-ascii?Q?lK/D3MwsqnzGiMYQsGzTAlv1p9mI4ASlqnaFYCs7hd9yqO/gjLZmTlETnLSi?=
- =?us-ascii?Q?NKdOYPEm/A9s3WV8JN1btm7BQFSS+V+yffN2M9whvsANGeXSj78Z7Vo3qnw/?=
- =?us-ascii?Q?nmRydAOddXu4OXwQE/eQDcCBhKKcZA56iGl1gHn78q2fVbFOQHb0E0AR2/zZ?=
- =?us-ascii?Q?6Q6YS/PoprrGyTV3ELNfRW/xbb2JbWRIBuwN9aScGb+NnTPOhIAfZWlsyiXL?=
- =?us-ascii?Q?/dUAv1lEKXwu2WMkvgZtQNkC+llgvTWF3pxkUO/hzzHq09MOwotgDSheiubn?=
- =?us-ascii?Q?LMcKGldnbC77emgVvqedpsOtuG114Y8NRitjl1SrrvUJsnm3fshy2wXZxsPP?=
- =?us-ascii?Q?liNFRtCHPvHwbktsYhhWmgJUtDOgeunSdeN9eCdsXO68RiTJpSmX7mMUdysb?=
- =?us-ascii?Q?7rmZcMkhtSVm/EfQfJZGuBsTCMSdjMJpYa/caSQvkoeQWLPaayAfWy/SUO+V?=
- =?us-ascii?Q?ewkuxm5XHphOH5IIqTU70zGBXRfwpLtIPt15Q9V6uVWTrucUCzLoBOBUxsl9?=
- =?us-ascii?Q?qwDdDUXHUJ60iK7W1h7WYvcBJeYSnsUDi5LyyFoqDlD8FZgMWQHpq7l567yp?=
- =?us-ascii?Q?oo6ABQD/C5ey2kK3+1if+VdA9WurHN7HapRdcoCYQ7mfi7aqEV6qXCuygfmp?=
- =?us-ascii?Q?1+jVKEoC0OLPpfazjIEYtzltCYZFNNC6CTUA5W38pRJP1v+trbrHvsgpgSXs?=
- =?us-ascii?Q?5dKXtmQRMPMZcYDZdJs0mI+UJ/kBRpOVehGz9JdknvFIDHY7UUeq7OHcXy8y?=
- =?us-ascii?Q?4NGIvnnjiArKFDDZ+ThHwYbuEet/W4b0LKLibdKRw6EMYCHvNBpYsjq652pV?=
- =?us-ascii?Q?QFvN/qPUt+HcIq5jspjCOBzI?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?N8nH+9JU+RM8axSkuGP/GwmmM7OHnWNFwUtL02FFgwjZqpHB0FCsjb/bM84h?=
+ =?us-ascii?Q?cR6uBsvaPO0OB+3D+X4RDXQML/HqXY2lpk3bWvLSiZHXrzgHmZweptm5qeof?=
+ =?us-ascii?Q?QwGWkFPBDFT29xtx8OJ/B69vk3jzVCps58YySU5WmMiTsMXierL4raZrjicI?=
+ =?us-ascii?Q?Xh06dLQTS1GDw89PbAmKH80gg8XZK3RbNas+VcEsZTFgLnmMvR/ZhwItUooH?=
+ =?us-ascii?Q?3DYZIkNS1lXnkdLasBDzfi5HarPryejQUOxroiaeavTEtscz+Jz6933WKL/c?=
+ =?us-ascii?Q?RAz6ga0uNlFTw4reto8L1BVtGFVvSjAPuMgr8pslbPHPaVpxhgQ2Z3CB921+?=
+ =?us-ascii?Q?LCsF1gAvNfaDeI9JVnixPUHL4zVGTX0hT9KSqeuabz/g4OF4IOlmF9Y2YG9w?=
+ =?us-ascii?Q?QU8KV1I6S9ojnlP0jyNWnldOQhaM/QrD8DZ3mVdYR3NLt0y+dDvr2q0XOTRX?=
+ =?us-ascii?Q?uRGLcfFvtndrEcPeoaCwNVVhFSYKa1tUOlIc/mtLnEULmdX9jpBkQgtn1yxk?=
+ =?us-ascii?Q?rVFlPDSy6bt5jOFO6DeR9UJ/0vWhD5E9QnIx11AuLKp9nmBR9dH0ljldukB+?=
+ =?us-ascii?Q?V4muIoKyHJAC+o9Aq1YYAPCykeIYwqSe5CmlHoQkRXg2mza7gWzHbWOz+FUN?=
+ =?us-ascii?Q?PyQlybmMfJm5UhEZZyq+mDmZkOXZg1kSa3abDINONDAAaDUaYkA2SiNVFeR4?=
+ =?us-ascii?Q?Kd0ED/PjrK21lPyCbmAbePV3noN45CuO+m8HwqGSZiW5c3OyozCL5zgqacC7?=
+ =?us-ascii?Q?F2vFXig2PS5GFGJUqYcyKvMCwck5mJwunhJYtKx2MuDQlqMTkGChleWod/JL?=
+ =?us-ascii?Q?3dHyZ63w5Rkllx4qJuBF/5//YWo4sDfGxtB32R3MzVzfy6bYSLKi1OyCFmNd?=
+ =?us-ascii?Q?vGLh8dzgceZMMCABnP2iEyYdSIRXinHzkjTIaxXSe5+foD/CJpWLg9EowF2C?=
+ =?us-ascii?Q?ZIuXzL3MIX7OV9ygU9FEpFp3OG+lXnMslbTkIwyK9Vuq4gaBzyf3EHLmqXNP?=
+ =?us-ascii?Q?C0bQ1CzNZqiYNVwL/mrhktkfCV25i7s4Ws5pinpT+eVsqsBtIOUcDrw9qVmW?=
+ =?us-ascii?Q?pP7ELv7MV6Ke/asfxA6s3zb1lpSRKMvbIc/SpSr6CZBKAwI7ii2YGJFOV3t9?=
+ =?us-ascii?Q?wQbis7TeVYXKiJx4OBJnV6DTS+O8Q4LktuTrrnIpBOu25wLF2so7FW9D5uAf?=
+ =?us-ascii?Q?pyEdhBfwQOSZnff4RnkOwwp3sHH+8smfHDGeMis4OHED6IbMkgrmXAxDFNzP?=
+ =?us-ascii?Q?Z7JfG7MSQI0h5GRHGsantWMG81VdRQNQPx/FxYtm9BNQOufexm02cZy1Y467?=
+ =?us-ascii?Q?CGbkbYBWGPJDGrOWhab5oqrr?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5fcc56f-137a-46fe-1d89-08d971e4d927
+X-MS-Exchange-CrossTenant-Network-Message-Id: 545d7e14-64ff-4ad2-944a-08d971e4db9b
 X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2021 09:49:56.1516
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2021 09:50:00.2613
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cctXQjXjIZbfPe5hUaFUCpgFYG5UsZLE9Lzricr3bVKaS/EYsDTHbqG4IMPfHTEy1KeaTW012uCLGgiEKwrWKg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: d8B6Q1jHr3aPUI6Ok3VDVPjv/PZrx0QKGxXgjLi/bPUBynIkpgkWad9Mn1m5XSr6vb1J5iPR5y07+3FB2S35IA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7767
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-NT8 is 8-bit tiled nv12 format used by amphion decoder.
-NT10 is 10-bit tiled format used by amphion decoder.
-The tile size is 8x128
+In some decoing scenarios, application may queue a buffer
+that only contains codec config data, and the driver needs to
+know whether is it a frame or not.
+So we add a buf flag to tell this case.
 
 Signed-off-by: Ming Qian <ming.qian@nxp.com>
 Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
 Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
 ---
- .../userspace-api/media/v4l/pixfmt-yuv-planar.rst | 15 +++++++++++++++
- drivers/media/v4l2-core/v4l2-ioctl.c              |  2 ++
- include/uapi/linux/videodev2.h                    |  4 ++++
- 3 files changed, 21 insertions(+)
+ Documentation/userspace-api/media/v4l/buffer.rst | 7 +++++++
+ include/uapi/linux/videodev2.h                   | 1 +
+ 2 files changed, 8 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-index 090c091affd2..ce3419d95691 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-@@ -254,6 +254,8 @@ of the luma plane.
- 
- .. _V4L2-PIX-FMT-NV12MT:
- .. _V4L2-PIX-FMT-NV12MT-16X16:
-+.. _V4L2_PIX_FMT_NV12_8L128:
-+.. _V4L2_PIX_FMT_NV12_10BE_8L128:
- 
- NV12MT and MV12MT_16X16
- -----------------------
-@@ -276,6 +278,19 @@ If the vertical resolution is an odd number of macroblocks, the last row of
- macroblocks is stored in linear order. The layouts of the luma and chroma
- planes are identical.
- 
-+``V4L2_PIX_FMT_NV12_8L128`` stores pixel in 2D 8x128 tiles, and stores
-+tiles linearly in memory. The line stride must be aligned to a multiple of 256.
-+The image height must be aligned to a multiple of 128. The layouts of the
-+luma and chroma planes are identical.
+diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+index e991ba73d873..11013bcf8a41 100644
+--- a/Documentation/userspace-api/media/v4l/buffer.rst
++++ b/Documentation/userspace-api/media/v4l/buffer.rst
+@@ -607,6 +607,13 @@ Buffer Flags
+ 	the format. Any subsequent call to the
+ 	:ref:`VIDIOC_DQBUF <VIDIOC_QBUF>` ioctl will not block anymore,
+ 	but return an ``EPIPE`` error code.
++    * .. _`V4L2-BUF-FLAG-CODECCONFIG`:
 +
-+``V4L2_PIX_FMT_NV12_10BE_8L128`` stores 10 bits pixel in 2D 8x128 tiles,
-+and stores tiles linearly in memory. the data is arranged at the big end.
-+The line stride must be aligned to a multiple of 256 bytes.  The image
-+height must be aligned to a multiple of 128.  The layouts of the luma
-+and chroma planes are identical. Note the tile size is 8bytes multiplied
-+by 128 bytes, it means that the low bits and high bits of one pixel
-+may be in differnt tiles.
-+
- .. _nv12mt:
++      - ``V4L2_BUF_FLAG_CODECCONFIG``
++      - 0x00200000
++      - The buffer only contains codec config data, eg. sps and pps.
++    Applications can set this bit when ``type`` refers to an output
++    stream, this flag is usually used by v4l2 decoder.
+     * .. _`V4L2-BUF-FLAG-REQUEST-FD`:
  
- .. kernel-figure:: nv12mt.svg
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 05d5db3d85e5..22f97a1cfbeb 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1367,6 +1367,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
- 	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
- 	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
-+	case V4L2_PIX_FMT_NV12_8L128:		descr = "Y/CbCr 4:2:0 (8x128 Linear)"; break;
-+	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "Y/CbCr 4:2:0 10BE(8x128 Linear)"; break;
- 
- 	default:
- 		/* Compressed formats */
+       - ``V4L2_BUF_FLAG_REQUEST_FD``
 diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 9260791b8438..167c0e40ec06 100644
+index 167c0e40ec06..5bb0682b4a23 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
-@@ -627,6 +627,10 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_YUV444M v4l2_fourcc('Y', 'M', '2', '4') /* 24  YUV444 planar */
- #define V4L2_PIX_FMT_YVU444M v4l2_fourcc('Y', 'M', '4', '2') /* 24  YVU444 planar */
+@@ -1119,6 +1119,7 @@ static inline __u64 v4l2_timeval_to_ns(const struct timeval *tv)
+ #define V4L2_BUF_FLAG_TSTAMP_SRC_SOE		0x00010000
+ /* mem2mem encoder/decoder */
+ #define V4L2_BUF_FLAG_LAST			0x00100000
++#define V4L2_BUF_FLAG_CODECCONFIG		0x00200000
+ /* request_fd is valid */
+ #define V4L2_BUF_FLAG_REQUEST_FD		0x00800000
  
-+/* Tiled YUV formats */
-+#define V4L2_PIX_FMT_NV12_8L128      v4l2_fourcc('N', 'A', '1', '2') /* Y/CbCr 4:2:0 8x128 tiles */
-+#define V4L2_PIX_FMT_NV12_10BE_8L128 v4l2_fourcc('N', 'T', '1', '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
-+
- /* Bayer formats - see http://www.siliconimaging.com/RGB%20Bayer.htm */
- #define V4L2_PIX_FMT_SBGGR8  v4l2_fourcc('B', 'A', '8', '1') /*  8  BGBG.. GRGR.. */
- #define V4L2_PIX_FMT_SGBRG8  v4l2_fourcc('G', 'B', 'R', 'G') /*  8  GBGB.. RGRG.. */
 -- 
 2.32.0
 
