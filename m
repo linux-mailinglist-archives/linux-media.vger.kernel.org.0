@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6121403A47
+	by mail.lfdr.de (Postfix) with ESMTP id EFC9E403A48
 	for <lists+linux-media@lfdr.de>; Wed,  8 Sep 2021 15:04:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347055AbhIHNFS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Sep 2021 09:05:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40312 "EHLO
+        id S1351792AbhIHNFX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Sep 2021 09:05:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238393AbhIHNFI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Sep 2021 09:05:08 -0400
+        with ESMTP id S234530AbhIHNFJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Sep 2021 09:05:09 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E48A2C0613C1
-        for <linux-media@vger.kernel.org>; Wed,  8 Sep 2021 06:03:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1158DC061575
+        for <linux-media@vger.kernel.org>; Wed,  8 Sep 2021 06:04:01 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1mNxF7-00055A-5A; Wed, 08 Sep 2021 15:03:57 +0200
+        id 1mNxF9-0005CF-Dn; Wed, 08 Sep 2021 15:03:59 +0200
 Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1mNxF6-0004Tf-LC; Wed, 08 Sep 2021 15:03:56 +0200
+        id 1mNxF8-0004Tn-Ln; Wed, 08 Sep 2021 15:03:58 +0200
 Received: from mtr by dude03.red.stw.pengutronix.de with local (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1mNxF5-00DpIj-Js; Wed, 08 Sep 2021 15:03:55 +0200
+        id 1mNxF5-00DpIr-KG; Wed, 08 Sep 2021 15:03:55 +0200
 From:   Michael Tretter <m.tretter@pengutronix.de>
 To:     linux-media@vger.kernel.org, mchehab@kernel.org,
         hverkuil-cisco@xs4all.nl
 Cc:     kernel@pengutronix.de, m.tretter@pengutronix.de
-Subject: [PATCH 5/7] media: allegro: write correct colorspace into SPS
-Date:   Wed,  8 Sep 2021 15:03:53 +0200
-Message-Id: <20210908130355.3295403-6-m.tretter@pengutronix.de>
+Subject: [PATCH 6/7] media: allegro: nal-hevc: implement generator for vui
+Date:   Wed,  8 Sep 2021 15:03:54 +0200
+Message-Id: <20210908130355.3295403-7-m.tretter@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210908130355.3295403-1-m.tretter@pengutronix.de>
 References: <20210908130355.3295403-1-m.tretter@pengutronix.de>
@@ -46,192 +46,165 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently, the driver always writes PAL as video format into the SPS of
-the encoded stream.
-
-Set the video format to the default value 5 (unspecified) and use the
-color description that is already configured on the channel as color
-space. This fixes the color space definition in the coded data to
-reflect the configured color space of the video data that is encoded.
-
-Add lookup functions to convert the color primaries, transfer function
-and matrix coefficients from the V4L2 control values to the values
-specified in the h.264 standard.
+The NAL unit generator for HEVC does not support the generation of vui
+parameters. Implement it to allow drivers to set the vui parameters in
+the coded video stream.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
- .../media/platform/allegro-dvt/allegro-core.c |  14 +-
- drivers/media/platform/allegro-dvt/nal-h264.h | 123 ++++++++++++++++++
- 2 files changed, 132 insertions(+), 5 deletions(-)
+ drivers/media/platform/allegro-dvt/nal-hevc.c | 132 +++++++++++++++++-
+ 1 file changed, 131 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
-index f0c6673f5af1..74c1a48d711a 100644
---- a/drivers/media/platform/allegro-dvt/allegro-core.c
-+++ b/drivers/media/platform/allegro-dvt/allegro-core.c
-@@ -1539,13 +1539,17 @@ static ssize_t allegro_h264_write_sps(struct allegro_channel *channel,
- 	sps->vui_parameters_present_flag = 1;
- 	sps->vui.aspect_ratio_info_present_flag = 0;
- 	sps->vui.overscan_info_present_flag = 0;
-+
- 	sps->vui.video_signal_type_present_flag = 1;
--	sps->vui.video_format = 1;
--	sps->vui.video_full_range_flag = 0;
-+	sps->vui.video_format = 5; /* unspecified */
-+	sps->vui.video_full_range_flag = nal_h264_full_range(channel->quantization);
- 	sps->vui.colour_description_present_flag = 1;
--	sps->vui.colour_primaries = 5;
--	sps->vui.transfer_characteristics = 5;
--	sps->vui.matrix_coefficients = 5;
-+	sps->vui.colour_primaries = nal_h264_color_primaries(channel->colorspace);
-+	sps->vui.transfer_characteristics =
-+		nal_h264_transfer_characteristics(channel->colorspace, channel->xfer_func);
-+	sps->vui.matrix_coefficients =
-+		nal_h264_matrix_coeffs(channel->colorspace, channel->ycbcr_enc);
-+
- 	sps->vui.chroma_loc_info_present_flag = 1;
- 	sps->vui.chroma_sample_loc_type_top_field = 0;
- 	sps->vui.chroma_sample_loc_type_bottom_field = 0;
-diff --git a/drivers/media/platform/allegro-dvt/nal-h264.h b/drivers/media/platform/allegro-dvt/nal-h264.h
-index e03505593ec2..34db07cda652 100644
---- a/drivers/media/platform/allegro-dvt/nal-h264.h
-+++ b/drivers/media/platform/allegro-dvt/nal-h264.h
-@@ -12,6 +12,7 @@
- #include <linux/kernel.h>
- #include <linux/types.h>
- #include <linux/v4l2-controls.h>
-+#include <linux/videodev2.h>
- 
- /*
-  * struct nal_h264_hrd_parameters - HRD parameters
-@@ -263,6 +264,128 @@ static inline int nal_h264_level(enum v4l2_mpeg_video_h264_level level)
- 	}
+diff --git a/drivers/media/platform/allegro-dvt/nal-hevc.c b/drivers/media/platform/allegro-dvt/nal-hevc.c
+index 0999a2bdc812..9cdf2756e0a3 100644
+--- a/drivers/media/platform/allegro-dvt/nal-hevc.c
++++ b/drivers/media/platform/allegro-dvt/nal-hevc.c
+@@ -207,6 +207,136 @@ static void nal_hevc_rbsp_vps(struct rbsp *rbsp, struct nal_hevc_vps *vps)
+ 		rbsp_unsupported(rbsp);
  }
  
-+/**
-+ * nal_h264_full_range() - Get video_full_range_flag for v4l2 quantization
-+ * @quantization: the quantization type as &enum v4l2_quantization
-+ *
-+ * Convert the &enum v4l2_quantization to video_full_range_flag as specified in
-+ * Rec. ITU-T H.264 (04/2017) E.2.1.
-+ *
-+ * Return: the video_full_range_flag value for the passed quantization
-+ */
-+static inline int nal_h264_full_range(enum v4l2_quantization quantization)
++static void nal_hevc_rbsp_sub_layer_hrd_parameters(struct rbsp *rbsp,
++						   struct nal_hevc_sub_layer_hrd_parameters *hrd)
 +{
-+	switch (quantization) {
-+	case V4L2_QUANTIZATION_FULL_RANGE:
-+		return 1;
-+	case V4L2_QUANTIZATION_LIM_RANGE:
-+		return 0;
-+	default:
-+		break;
-+	}
++	unsigned int i;
++	unsigned int cpb_cnt = 1;
 +
-+	return 0;
-+}
-+
-+/**
-+ * nal_h264_color_primaries() - Get color_primaries for v4l2 colorspace
-+ * @colorspace: the color space as &enum v4l2_colorspace
-+ *
-+ * Convert the &enum v4l2_colorspace to color_primaries as specified in
-+ * Rec. ITU-T H.264 (04/2017) E.2.1.
-+ *
-+ * Return: the color_primaries value for the passed colorspace
-+ */
-+static inline int nal_h264_color_primaries(enum v4l2_colorspace colorspace)
-+{
-+	switch (colorspace) {
-+	case V4L2_COLORSPACE_SMPTE170M:
-+		return 6;
-+	case V4L2_COLORSPACE_SMPTE240M:
-+		return 7;
-+	case V4L2_COLORSPACE_REC709:
-+		return 1;
-+	case V4L2_COLORSPACE_470_SYSTEM_M:
-+		return 4;
-+	case V4L2_COLORSPACE_JPEG:
-+	case V4L2_COLORSPACE_SRGB:
-+	case V4L2_COLORSPACE_470_SYSTEM_BG:
-+		return 5;
-+	case V4L2_COLORSPACE_BT2020:
-+		return 9;
-+	case V4L2_COLORSPACE_DEFAULT:
-+	case V4L2_COLORSPACE_OPRGB:
-+	case V4L2_COLORSPACE_RAW:
-+	case V4L2_COLORSPACE_DCI_P3:
-+	default:
-+		return 2;
++	for (i = 0; i < cpb_cnt; i++) {
++		rbsp_uev(rbsp, &hrd->bit_rate_value_minus1[i]);
++		rbsp_uev(rbsp, &hrd->cpb_size_value_minus1[i]);
++		rbsp_bit(rbsp, &hrd->cbr_flag[i]);
 +	}
 +}
 +
-+/**
-+ * nal_h264_transfer_characteristics() - Get transfer_characteristics for v4l2 xfer_func
-+ * @colorspace: the color space as &enum v4l2_colorspace
-+ * @xfer_func: the transfer function as &enum v4l2_xfer_func
-+ *
-+ * Convert the &enum v4l2_xfer_func to transfer_characteristics as specified in
-+ * Rec. ITU-T H.264 (04/2017) E.2.1.
-+ *
-+ * Return: the transfer_characteristics value for the passed transfer function
-+ */
-+static inline int nal_h264_transfer_characteristics(enum v4l2_colorspace colorspace,
-+						    enum v4l2_xfer_func xfer_func)
++static void nal_hevc_rbsp_hrd_parameters(struct rbsp *rbsp,
++					 struct nal_hevc_hrd_parameters *hrd)
 +{
-+	if (xfer_func == V4L2_XFER_FUNC_DEFAULT)
-+		xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(colorspace);
++	unsigned int i;
++	unsigned int max_num_sub_layers_minus_1 = 0;
 +
-+	switch (xfer_func) {
-+	case V4L2_XFER_FUNC_709:
-+		return 6;
-+	case V4L2_XFER_FUNC_SMPTE2084:
-+		return 16;
-+	case V4L2_XFER_FUNC_SRGB:
-+	case V4L2_XFER_FUNC_OPRGB:
-+	case V4L2_XFER_FUNC_NONE:
-+	case V4L2_XFER_FUNC_DCI_P3:
-+	case V4L2_XFER_FUNC_SMPTE240M:
-+	default:
-+		return 2;
++	rbsp_bit(rbsp, &hrd->nal_hrd_parameters_present_flag);
++	rbsp_bit(rbsp, &hrd->vcl_hrd_parameters_present_flag);
++	if (hrd->nal_hrd_parameters_present_flag || hrd->vcl_hrd_parameters_present_flag) {
++		rbsp_bit(rbsp, &hrd->sub_pic_hrd_params_present_flag);
++		if (hrd->sub_pic_hrd_params_present_flag) {
++			rbsp_bits(rbsp, 8, &hrd->tick_divisor_minus2);
++			rbsp_bits(rbsp, 5, &hrd->du_cpb_removal_delay_increment_length_minus1);
++			rbsp_bit(rbsp, &hrd->sub_pic_cpb_params_in_pic_timing_sei_flag);
++			rbsp_bits(rbsp, 5, &hrd->dpb_output_delay_du_length_minus1);
++		}
++		rbsp_bits(rbsp, 4, &hrd->bit_rate_scale);
++		rbsp_bits(rbsp, 4, &hrd->cpb_size_scale);
++		if (hrd->sub_pic_hrd_params_present_flag)
++			rbsp_bits(rbsp, 4, &hrd->cpb_size_du_scale);
++		rbsp_bits(rbsp, 5, &hrd->initial_cpb_removal_delay_length_minus1);
++		rbsp_bits(rbsp, 5, &hrd->au_cpb_removal_delay_length_minus1);
++		rbsp_bits(rbsp, 5, &hrd->dpb_output_delay_length_minus1);
++	}
++	for (i = 0; i <= max_num_sub_layers_minus_1; i++) {
++		rbsp_bit(rbsp, &hrd->fixed_pic_rate_general_flag[i]);
++		if (!hrd->fixed_pic_rate_general_flag[i])
++			rbsp_bit(rbsp, &hrd->fixed_pic_rate_within_cvs_flag[i]);
++		if (hrd->fixed_pic_rate_within_cvs_flag[i])
++			rbsp_uev(rbsp, &hrd->elemental_duration_in_tc_minus1[i]);
++		else
++			rbsp_bit(rbsp, &hrd->low_delay_hrd_flag[i]);
++		if (!hrd->low_delay_hrd_flag[i])
++			rbsp_uev(rbsp, &hrd->cpb_cnt_minus1[i]);
++		if (hrd->nal_hrd_parameters_present_flag)
++			nal_hevc_rbsp_sub_layer_hrd_parameters(rbsp, &hrd->vcl_hrd[i]);
++		if (hrd->vcl_hrd_parameters_present_flag)
++			nal_hevc_rbsp_sub_layer_hrd_parameters(rbsp, &hrd->vcl_hrd[i]);
 +	}
 +}
 +
-+/**
-+ * nal_h264_matrix_coeffs() - Get matrix_coefficients for v4l2 v4l2_ycbcr_encoding
-+ * @colorspace: the color space as &enum v4l2_colorspace
-+ * @ycbcr_encoding: the ycbcr encoding as &enum v4l2_ycbcr_encoding
-+ *
-+ * Convert the &enum v4l2_ycbcr_encoding to matrix_coefficients as specified in
-+ * Rec. ITU-T H.264 (04/2017) E.2.1.
-+ *
-+ * Return: the matrix_coefficients value for the passed encoding
-+ */
-+static inline int nal_h264_matrix_coeffs(enum v4l2_colorspace colorspace,
-+					 enum v4l2_ycbcr_encoding ycbcr_encoding)
++static void nal_hevc_rbsp_vui_parameters(struct rbsp *rbsp,
++					 struct nal_hevc_vui_parameters *vui)
 +{
-+	if (ycbcr_encoding == V4L2_YCBCR_ENC_DEFAULT)
-+		ycbcr_encoding = V4L2_MAP_YCBCR_ENC_DEFAULT(colorspace);
++	if (!vui) {
++		rbsp->error = -EINVAL;
++		return;
++	}
 +
-+	switch (ycbcr_encoding) {
-+	case V4L2_YCBCR_ENC_601:
-+	case V4L2_YCBCR_ENC_XV601:
-+		return 5;
-+	case V4L2_YCBCR_ENC_709:
-+	case V4L2_YCBCR_ENC_XV709:
-+		return 1;
-+	case V4L2_YCBCR_ENC_BT2020:
-+		return 9;
-+	case V4L2_YCBCR_ENC_BT2020_CONST_LUM:
-+		return 10;
-+	case V4L2_YCBCR_ENC_SMPTE240M:
-+	default:
-+		return 2;
++	rbsp_bit(rbsp, &vui->aspect_ratio_info_present_flag);
++	if (vui->aspect_ratio_info_present_flag) {
++		rbsp_bits(rbsp, 8, &vui->aspect_ratio_idc);
++		if (vui->aspect_ratio_idc == 255) {
++			rbsp_bits(rbsp, 16, &vui->sar_width);
++			rbsp_bits(rbsp, 16, &vui->sar_height);
++		}
++	}
++
++	rbsp_bit(rbsp, &vui->overscan_info_present_flag);
++	if (vui->overscan_info_present_flag)
++		rbsp_bit(rbsp, &vui->overscan_appropriate_flag);
++
++	rbsp_bit(rbsp, &vui->video_signal_type_present_flag);
++	if (vui->video_signal_type_present_flag) {
++		rbsp_bits(rbsp, 3, &vui->video_format);
++		rbsp_bit(rbsp, &vui->video_full_range_flag);
++
++		rbsp_bit(rbsp, &vui->colour_description_present_flag);
++		if (vui->colour_description_present_flag) {
++			rbsp_bits(rbsp, 8, &vui->colour_primaries);
++			rbsp_bits(rbsp, 8, &vui->transfer_characteristics);
++			rbsp_bits(rbsp, 8, &vui->matrix_coeffs);
++		}
++	}
++
++	rbsp_bit(rbsp, &vui->chroma_loc_info_present_flag);
++	if (vui->chroma_loc_info_present_flag) {
++		rbsp_uev(rbsp, &vui->chroma_sample_loc_type_top_field);
++		rbsp_uev(rbsp, &vui->chroma_sample_loc_type_bottom_field);
++	}
++
++	rbsp_bit(rbsp, &vui->neutral_chroma_indication_flag);
++	rbsp_bit(rbsp, &vui->field_seq_flag);
++	rbsp_bit(rbsp, &vui->frame_field_info_present_flag);
++	rbsp_bit(rbsp, &vui->default_display_window_flag);
++	if (vui->default_display_window_flag) {
++		rbsp_uev(rbsp, &vui->def_disp_win_left_offset);
++		rbsp_uev(rbsp, &vui->def_disp_win_right_offset);
++		rbsp_uev(rbsp, &vui->def_disp_win_top_offset);
++		rbsp_uev(rbsp, &vui->def_disp_win_bottom_offset);
++	}
++
++	rbsp_bit(rbsp, &vui->vui_timing_info_present_flag);
++	if (vui->vui_timing_info_present_flag) {
++		rbsp_bits(rbsp, 32, &vui->vui_num_units_in_tick);
++		rbsp_bits(rbsp, 32, &vui->vui_time_scale);
++		rbsp_bit(rbsp, &vui->vui_poc_proportional_to_timing_flag);
++		if (vui->vui_poc_proportional_to_timing_flag)
++			rbsp_uev(rbsp, &vui->vui_num_ticks_poc_diff_one_minus1);
++		rbsp_bit(rbsp, &vui->vui_hrd_parameters_present_flag);
++		if (vui->vui_hrd_parameters_present_flag)
++			nal_hevc_rbsp_hrd_parameters(rbsp, &vui->nal_hrd_parameters);
++	}
++
++	rbsp_bit(rbsp, &vui->bitstream_restriction_flag);
++	if (vui->bitstream_restriction_flag) {
++		rbsp_bit(rbsp, &vui->tiles_fixed_structure_flag);
++		rbsp_bit(rbsp, &vui->motion_vectors_over_pic_boundaries_flag);
++		rbsp_bit(rbsp, &vui->restricted_ref_pic_lists_flag);
++		rbsp_uev(rbsp, &vui->min_spatial_segmentation_idc);
++		rbsp_uev(rbsp, &vui->max_bytes_per_pic_denom);
++		rbsp_uev(rbsp, &vui->max_bits_per_min_cu_denom);
++		rbsp_uev(rbsp, &vui->log2_max_mv_length_horizontal);
++		rbsp_uev(rbsp, &vui->log2_max_mv_length_vertical);
 +	}
 +}
 +
- ssize_t nal_h264_write_sps(const struct device *dev,
- 			   void *dest, size_t n, struct nal_h264_sps *sps);
- ssize_t nal_h264_read_sps(const struct device *dev,
+ static void nal_hevc_rbsp_sps(struct rbsp *rbsp, struct nal_hevc_sps *sps)
+ {
+ 	unsigned int i;
+@@ -275,7 +405,7 @@ static void nal_hevc_rbsp_sps(struct rbsp *rbsp, struct nal_hevc_sps *sps)
+ 	rbsp_bit(rbsp, &sps->strong_intra_smoothing_enabled_flag);
+ 	rbsp_bit(rbsp, &sps->vui_parameters_present_flag);
+ 	if (sps->vui_parameters_present_flag)
+-		rbsp_unsupported(rbsp);
++		nal_hevc_rbsp_vui_parameters(rbsp, &sps->vui);
+ 
+ 	rbsp_bit(rbsp, &sps->extension_present_flag);
+ 	if (sps->extension_present_flag) {
 -- 
 2.30.2
 
