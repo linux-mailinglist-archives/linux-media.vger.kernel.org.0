@@ -2,96 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E653404099
-	for <lists+linux-media@lfdr.de>; Wed,  8 Sep 2021 23:42:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48229404117
+	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 00:37:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234941AbhIHVnH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Sep 2021 17:43:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45222 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233502AbhIHVnG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Sep 2021 17:43:06 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15929C061575
-        for <linux-media@vger.kernel.org>; Wed,  8 Sep 2021 14:41:58 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id g21so4889999edw.4
-        for <linux-media@vger.kernel.org>; Wed, 08 Sep 2021 14:41:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8l9J1CZcA1+c+q5qGgiKd78GEd6eEjP9WF5NOkb266c=;
-        b=QeXEXrG5RA9S1O7Q35LBdLmcEhPeR6HUZo/VnzbGPHiB66zHv7l+QXEUP7RT+wItqc
-         Lx8C2S1fZAdYRg1XCzcNITDhhwY3WwHSdwGgpcNTyJ2ggIYTrZrtrz8ToWNfO6N6MLgO
-         fgjM29tD9zsS2ZLDBjgIzVnHC23sAwnwLDHC1OE+15k+W3Hutg3iu+F8mBMuHTXaIRRF
-         kmZol/r/1qsFRvWk9abSqQmo/wmqbM1NBQycCr7fE/EXoT5ZY4qi66oih59BRFVnWO3k
-         f6CLSuYXNZ4ELV3PNMLK9XDLR8cpZ9rPDpEWLHt/QIRdE7eRzvqt4Di2owfoifby7USC
-         Gk/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8l9J1CZcA1+c+q5qGgiKd78GEd6eEjP9WF5NOkb266c=;
-        b=R7t8DsNUgRv5nwY2bVX9I/Ur8T6WRQJ+e819uwEx6q9sQoIUPjQ2Sp0D5OkWHreQXr
-         5NH2e93s9ToLjeglgqQwtzU3jAStBSGK2E2QgFB4UaOqq2f+lEL+/hEkPAAZ/Yu9ZMWZ
-         O5V2cn6zEAEShECTx2HEYQxMfPM1HnhdsF/WtM0RLgYA/kXmDZK/M2w0vtTFu/2Pw+aJ
-         SOEhmhUHRg8lQFpdjZvIgHbgDcVs8jWVo8HLCpizvMd3/y/tdDbXTFeGift5s2XvPYF0
-         Z4ns60TqA0wZBAZarkK+2JlU3zJOmj/94hoGeeuvdv5KlHsxyPQDVB4DUpdLnZ6IVIgm
-         +Khw==
-X-Gm-Message-State: AOAM530HNmlX8CJkytNahXipJmgiwcxNQ4T0XIL3J9GxGrmnDSi8LgQ6
-        rHchlY7tHRFy7IaCLE2tx4gTL++Fp3WKbGInm/MI9w==
-X-Google-Smtp-Source: ABdhPJztqzpQz2HTTEXV/2dRmg79Ewo2SWDdk0EoVY0M45DJ8Mxj2SMAzWJiRpVu2JWLHCo7bPPsjltBvmghjZu7tzU=
-X-Received: by 2002:aa7:db10:: with SMTP id t16mr336962eds.357.1631137316633;
- Wed, 08 Sep 2021 14:41:56 -0700 (PDT)
+        id S243521AbhIHWim (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Sep 2021 18:38:42 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:48436 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242689AbhIHWim (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Sep 2021 18:38:42 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33B7E883;
+        Thu,  9 Sep 2021 00:37:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1631140652;
+        bh=1bGvqSulJnZHe9TfBwp2sU+A8oEVgTU8e0GgVdcU/ws=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cef2d0qWc8/lv1lki7yGSBS6cZX5fhhyJWDWBDSt4oq6beKouAYBKJzPayLQxOM/9
+         31dAAad6plu2+pKQWCvzlYuR1nhBraJfy7JRu6F2fAajaiLYHoTaqPbXkjYu5HEMQk
+         hNf/pqe830GoTcdoHx7+bjaYR3JlEeSM0ETYTP8E=
+Date:   Thu, 9 Sep 2021 01:37:11 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: imx: set a media_device bus_info string
+Message-ID: <YTk7F+UTZmpeXzHj@pendragon.ideasonboard.com>
+References: <20210908084746.243359-1-martin.kepplinger@puri.sm>
 MIME-Version: 1.0
-References: <cecdec24-d3ed-1bab-5144-018f685b9374@xs4all.nl>
-In-Reply-To: <cecdec24-d3ed-1bab-5144-018f685b9374@xs4all.nl>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Wed, 8 Sep 2021 18:41:45 -0300
-Message-ID: <CAAEAJfCWA6785TTSDweFFWGkCmxjx7JS-OJ1tOcMu21j35+V0A@mail.gmail.com>
-Subject: Re: [RFC] Move meson/vdec out of staging?
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210908084746.243359-1-martin.kepplinger@puri.sm>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans, Neil,
+Hi Martin,
 
-On Fri, 30 Apr 2021 at 03:52, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> Hi Neil,
->
-> Is there anything still keeping meson/vdec in staging? The TODO says:
->
-> "This driver is in staging until the V4L2 documentation about stateful video
-> decoders is finalized, as well as the corresponding compliance tests.
->
-> It is at the moment not guaranteed to work properly with a userspace
-> stack that follows the latest version of the specification, especially
-> with compression standards like MPEG1/2 where the driver does not support
-> dynamic resolution switching, including the first one used to determine coded
-> resolution."
->
-> Certainly the first part is done, so what is the status of the second part?
->
-> It would be nice to move this out of staging, or, if that is not possible,
-> at least update the TODO file and ideally have someone work on the remaining
-> issues.
->
+Thank you for the patch.
 
-Is dynamic resolution switching really a reason for the driver to remain
-in staging?
+On Wed, Sep 08, 2021 at 10:47:46AM +0200, Martin Kepplinger wrote:
+> some tools like v4l2-compliance let users select a media device based
 
-AFAIK, the stateful decoder API is now finished, there are a couple
-drivers that implement it, do we have reasons to believe meson is not
-at the same level?
+s/some/Some/
 
-I don't have Amlogic hardware but I suspect the driver is now
-mature for the promotion.
+I'll fix then when applying the patch to my tree.
 
-Thanks,
-Ezequiel
+> on the bus_info string which can be quite convenient. Use a unique
+> string for that.
+> 
+> This also fixes the following v4l2-compliance warning:
+> warn: v4l2-test-media.cpp(52): empty bus_info
+> 
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/staging/media/imx/imx-media-dev-common.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/staging/media/imx/imx-media-dev-common.c b/drivers/staging/media/imx/imx-media-dev-common.c
+> index d006e961d8f4..80b69a9a752c 100644
+> --- a/drivers/staging/media/imx/imx-media-dev-common.c
+> +++ b/drivers/staging/media/imx/imx-media-dev-common.c
+> @@ -367,6 +367,8 @@ struct imx_media_dev *imx_media_dev_init(struct device *dev,
+>  	imxmd->v4l2_dev.notify = imx_media_notify;
+>  	strscpy(imxmd->v4l2_dev.name, "imx-media",
+>  		sizeof(imxmd->v4l2_dev.name));
+> +	snprintf(imxmd->md.bus_info, sizeof(imxmd->md.bus_info),
+> +		 "platform:%s", dev_name(imxmd->md.dev));
+>  
+>  	media_device_init(&imxmd->md);
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
