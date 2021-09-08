@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A0EB403A38
+	by mail.lfdr.de (Postfix) with ESMTP id 6326F403A39
 	for <lists+linux-media@lfdr.de>; Wed,  8 Sep 2021 15:03:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232010AbhIHNEb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Sep 2021 09:04:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40158 "EHLO
+        id S232704AbhIHNEc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Sep 2021 09:04:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238011AbhIHNE0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Sep 2021 09:04:26 -0400
+        with ESMTP id S238143AbhIHNE1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Sep 2021 09:04:27 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CBF9C0613CF
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E068CC0613D9
         for <linux-media@vger.kernel.org>; Wed,  8 Sep 2021 06:03:18 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1mNxES-0004mK-L7; Wed, 08 Sep 2021 15:03:16 +0200
+        id 1mNxET-0004n7-8V; Wed, 08 Sep 2021 15:03:17 +0200
 Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1mNxER-0004SG-N2; Wed, 08 Sep 2021 15:03:15 +0200
+        id 1mNxES-0004SM-NO; Wed, 08 Sep 2021 15:03:16 +0200
 Received: from mtr by dude03.red.stw.pengutronix.de with local (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1mNxER-00DpGB-MC; Wed, 08 Sep 2021 15:03:15 +0200
+        id 1mNxER-00DpGI-MZ; Wed, 08 Sep 2021 15:03:15 +0200
 From:   Michael Tretter <m.tretter@pengutronix.de>
 To:     linux-media@vger.kernel.org, mchehab@kernel.org,
         hverkuil-cisco@xs4all.nl
 Cc:     kernel@pengutronix.de, m.tretter@pengutronix.de
-Subject: [PATCH 4/6] media: allegro: add pm_runtime support
-Date:   Wed,  8 Sep 2021 15:03:13 +0200
-Message-Id: <20210908130315.3295253-5-m.tretter@pengutronix.de>
+Subject: [PATCH 5/6] media: allegro: add encoder buffer support
+Date:   Wed,  8 Sep 2021 15:03:14 +0200
+Message-Id: <20210908130315.3295253-6-m.tretter@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210908130315.3295253-1-m.tretter@pengutronix.de>
 References: <20210908130315.3295253-1-m.tretter@pengutronix.de>
@@ -46,185 +46,237 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The allegro driver must ensure that the mcu and core clocks are enabled
-and set to the expected clock rate before trying to load the firmware
-and to reset the MCU.
+The encoder buffer serves as a cache for reference frames during the
+encoding process. The encoder buffer significantly reduces the bandwidth
+requirement for read accesses on the AXI ports of the VCU, but slightly
+reduces the quality of the encoded video.
 
-Up until now, the driver assumed that the clocks are always enabled in
-the PL (programming logic), because the xlnx_vcu driver did not export
-the clocks to other drivers. This has changed and by explicitly enabling
-the clocks in the driver, this assumption can be dropped.
+The encoder buffer must be configured as a whole during the firmware
+initialization and later explicitly enabled for every channel that shall
+use the encoder buffer.
 
-It might even be possible to disable the clocks for the encoder if the
-encoder is not used. However, the behavior is not documented and it
-might be necessary to reinitialize the encoder after deactivating the
-clocks. Play it safe by sticking to the current behavior.
+Prior to firmware version 2019.2, it was necessary to explicitly set the
+size of the encoder buffer for every channel. Since 2019.2 it is
+sufficient to enable the encoder buffer and leave the rest to the
+firmware. Therefore, only support the encoder buffer for firmware 2019.2
+and later.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
- .../media/platform/allegro-dvt/allegro-core.c | 85 ++++++++++++++++++-
- 1 file changed, 84 insertions(+), 1 deletion(-)
+ .../media/platform/allegro-dvt/allegro-core.c | 83 +++++++++++++++++--
+ .../media/platform/allegro-dvt/allegro-mail.c | 19 ++---
+ .../media/platform/allegro-dvt/allegro-mail.h | 10 ++-
+ 3 files changed, 90 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
-index 2663d9da0522..3deece8176eb 100644
+index 3deece8176eb..cb42b6e3d85a 100644
 --- a/drivers/media/platform/allegro-dvt/allegro-core.c
 +++ b/drivers/media/platform/allegro-dvt/allegro-core.c
-@@ -6,6 +6,7 @@
-  */
+@@ -129,6 +129,13 @@ struct allegro_mbox {
+ 	struct mutex lock;
+ };
  
- #include <linux/bits.h>
-+#include <linux/clk.h>
- #include <linux/firmware.h>
- #include <linux/gcd.h>
- #include <linux/interrupt.h>
-@@ -18,6 +19,7 @@
- #include <linux/of.h>
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
- #include <linux/regmap.h>
- #include <linux/sizes.h>
- #include <linux/slab.h>
-@@ -140,6 +142,9 @@ struct allegro_dev {
- 	struct regmap *sram;
- 	struct regmap *settings;
- 
-+	struct clk *clk_core;
-+	struct clk *clk_mcu;
++struct allegro_encoder_buffer {
++	unsigned int size;
++	unsigned int color_depth;
++	unsigned int num_cores;
++	unsigned int clk_rate;
++};
 +
+ struct allegro_dev {
+ 	struct v4l2_device v4l2_dev;
+ 	struct video_device video_dev;
+@@ -148,6 +155,8 @@ struct allegro_dev {
  	const struct fw_info *fw_info;
  	struct allegro_buffer firmware;
  	struct allegro_buffer suballocator;
-@@ -3604,11 +3609,16 @@ static void allegro_fw_callback(const struct firmware *fw, void *context)
- 	v4l2_info(&dev->v4l2_dev,
- 		  "using mcu firmware version '%s'\n", dev->fw_info->version);
++	bool has_encoder_buffer;
++	struct allegro_encoder_buffer encoder_buffer;
  
-+	pm_runtime_enable(&dev->plat_dev->dev);
-+	err = pm_runtime_resume_and_get(&dev->plat_dev->dev);
-+	if (err)
-+		goto err_release_firmware_codec;
-+
- 	/* Ensure that the mcu is sleeping at the reset vector */
- 	err = allegro_mcu_reset(dev);
- 	if (err) {
- 		v4l2_err(&dev->v4l2_dev, "failed to reset mcu\n");
--		goto err_release_firmware_codec;
-+		goto err_suspend;
- 	}
- 
- 	allegro_copy_firmware(dev, fw->data, fw->size);
-@@ -3650,6 +3660,9 @@ static void allegro_fw_callback(const struct firmware *fw, void *context)
- 	allegro_mcu_hw_deinit(dev);
- err_free_fw_codec:
- 	allegro_free_fw_codec(dev);
-+err_suspend:
-+	pm_runtime_put(&dev->plat_dev->dev);
-+	pm_runtime_disable(&dev->plat_dev->dev);
- err_release_firmware_codec:
- 	release_firmware(fw_codec);
- err_release_firmware:
-@@ -3728,6 +3741,14 @@ static int allegro_probe(struct platform_device *pdev)
- 	if (IS_ERR(dev->settings))
- 		dev_warn(&pdev->dev, "failed to open settings\n");
- 
-+	dev->clk_core = devm_clk_get(&pdev->dev, "core_clk");
-+	if (IS_ERR(dev->clk_core))
-+		return PTR_ERR(dev->clk_core);
-+
-+	dev->clk_mcu = devm_clk_get(&pdev->dev, "mcu_clk");
-+	if (IS_ERR(dev->clk_mcu))
-+		return PTR_ERR(dev->clk_mcu);
-+
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0)
- 		return irq;
-@@ -3768,11 +3789,67 @@ static int allegro_remove(struct platform_device *pdev)
- 		allegro_free_fw_codec(dev);
- 	}
- 
-+	pm_runtime_put(&dev->plat_dev->dev);
-+	pm_runtime_disable(&dev->plat_dev->dev);
-+
- 	v4l2_device_unregister(&dev->v4l2_dev);
- 
- 	return 0;
+ 	struct completion init_complete;
+ 	bool initialized;
+@@ -930,6 +939,52 @@ static void allegro_mbox_notify(struct allegro_mbox *mbox)
+ 	kfree(msg);
  }
  
-+static int allegro_runtime_resume(struct device *device)
++static int allegro_encoder_buffer_init(struct allegro_dev *dev,
++				       struct allegro_encoder_buffer *buffer)
 +{
-+	struct allegro_dev *dev = dev_get_drvdata(device);
-+	struct regmap *settings = dev->settings;
-+	unsigned int clk_mcu;
-+	unsigned int clk_core;
 +	int err;
++	struct regmap *settings = dev->settings;
++	unsigned int supports_10_bit;
++	unsigned int memory_depth;
++	unsigned int num_cores;
++	unsigned int color_depth;
++	unsigned long clk_rate;
++
++	/* We don't support the encoder buffer pre Firmware version 2019.2 */
++	if (dev->fw_info->mailbox_version < MCU_MSG_VERSION_2019_2)
++		return -ENODEV;
 +
 +	if (!settings)
 +		return -EINVAL;
 +
-+#define MHZ_TO_HZ(freq) ((freq) * 1000 * 1000)
-+
-+	err = regmap_read(settings, VCU_CORE_CLK, &clk_core);
++	err = regmap_read(settings, VCU_ENC_COLOR_DEPTH, &supports_10_bit);
 +	if (err < 0)
 +		return err;
-+	err = clk_set_rate(dev->clk_core, MHZ_TO_HZ(clk_core));
++	err = regmap_read(settings, VCU_MEMORY_DEPTH, &memory_depth);
 +	if (err < 0)
 +		return err;
-+	err = clk_prepare_enable(dev->clk_core);
-+	if (err)
++	err = regmap_read(settings, VCU_NUM_CORE, &num_cores);
++	if (err < 0)
 +		return err;
 +
-+	err = regmap_read(settings, VCU_MCU_CLK, &clk_mcu);
-+	if (err < 0)
-+		goto disable_clk_core;
-+	err = clk_set_rate(dev->clk_mcu, MHZ_TO_HZ(clk_mcu));
-+	if (err < 0)
-+		goto disable_clk_core;
-+	err = clk_prepare_enable(dev->clk_mcu);
-+	if (err)
-+		goto disable_clk_core;
++	clk_rate = clk_get_rate(dev->clk_core);
++	if (clk_rate == 0)
++		return -EINVAL;
 +
-+#undef MHZ_TO_HZ
++	color_depth = supports_10_bit ? 10 : 8;
++	/* The firmware expects the encoder buffer size in bits. */
++	buffer->size = color_depth * 32 * memory_depth;
++	buffer->color_depth = color_depth;
++	buffer->num_cores = num_cores;
++	buffer->clk_rate = clk_rate;
 +
-+	return 0;
-+
-+disable_clk_core:
-+	clk_disable_unprepare(dev->clk_core);
-+
-+	return err;
-+}
-+
-+static int allegro_runtime_suspend(struct device *device)
-+{
-+	struct allegro_dev *dev = dev_get_drvdata(device);
-+
-+	clk_disable_unprepare(dev->clk_mcu);
-+	clk_disable_unprepare(dev->clk_core);
++	v4l2_dbg(1, debug, &dev->v4l2_dev,
++		 "using %d bits encoder buffer with %d-bit color depth\n",
++		 buffer->size, color_depth);
 +
 +	return 0;
 +}
 +
- static const struct of_device_id allegro_dt_ids[] = {
- 	{ .compatible = "allegro,al5e-1.1" },
- 	{ /* sentinel */ }
-@@ -3780,12 +3857,18 @@ static const struct of_device_id allegro_dt_ids[] = {
+ static void allegro_mcu_send_init(struct allegro_dev *dev,
+ 				  dma_addr_t suballoc_dma, size_t suballoc_size)
+ {
+@@ -943,10 +998,17 @@ static void allegro_mcu_send_init(struct allegro_dev *dev,
+ 	msg.suballoc_dma = to_mcu_addr(dev, suballoc_dma);
+ 	msg.suballoc_size = to_mcu_size(dev, suballoc_size);
  
- MODULE_DEVICE_TABLE(of, allegro_dt_ids);
+-	/* disable L2 cache */
+-	msg.l2_cache[0] = -1;
+-	msg.l2_cache[1] = -1;
+-	msg.l2_cache[2] = -1;
++	if (dev->has_encoder_buffer) {
++		msg.encoder_buffer_size = dev->encoder_buffer.size;
++		msg.encoder_buffer_color_depth = dev->encoder_buffer.color_depth;
++		msg.num_cores = dev->encoder_buffer.num_cores;
++		msg.clk_rate = dev->encoder_buffer.clk_rate;
++	} else {
++		msg.encoder_buffer_size = -1;
++		msg.encoder_buffer_color_depth = -1;
++		msg.num_cores = -1;
++		msg.clk_rate = -1;
++	}
  
-+static const struct dev_pm_ops allegro_pm_ops = {
-+	.runtime_resume = allegro_runtime_resume,
-+	.runtime_suspend = allegro_runtime_suspend,
-+};
+ 	allegro_mbox_send(dev->mbox_command, &msg);
+ }
+@@ -1193,9 +1255,8 @@ static int fill_create_channel_param(struct allegro_channel *channel,
+ 	param->max_transfo_depth_intra = channel->max_transfo_depth_intra;
+ 	param->max_transfo_depth_inter = channel->max_transfo_depth_inter;
+ 
+-	param->prefetch_auto = 0;
+-	param->prefetch_mem_offset = 0;
+-	param->prefetch_mem_size = 0;
++	param->encoder_buffer_enabled = channel->dev->has_encoder_buffer;
++	param->encoder_buffer_offset = 0;
+ 
+ 	param->rate_control_mode = channel->frame_rc_enable ?
+ 		v4l2_bitrate_mode_to_mcu_mode(bitrate_mode) : 0;
+@@ -1320,6 +1381,7 @@ static int allegro_mcu_send_encode_frame(struct allegro_dev *dev,
+ 					 u64 src_handle)
+ {
+ 	struct mcu_msg_encode_frame msg;
++	bool use_encoder_buffer = channel->dev->has_encoder_buffer;
+ 
+ 	memset(&msg, 0, sizeof(msg));
+ 
+@@ -1328,6 +1390,8 @@ static int allegro_mcu_send_encode_frame(struct allegro_dev *dev,
+ 
+ 	msg.channel_id = channel->mcu_channel_id;
+ 	msg.encoding_options = AL_OPT_FORCE_LOAD;
++	if (use_encoder_buffer)
++		msg.encoding_options |= AL_OPT_USE_L2;
+ 	msg.pps_qp = 26; /* qp are relative to 26 */
+ 	msg.user_param = 0; /* copied to mcu_msg_encode_frame_response */
+ 	/* src_handle is copied to mcu_msg_encode_frame_response */
+@@ -3522,6 +3586,11 @@ static int allegro_mcu_hw_init(struct allegro_dev *dev,
+ 		return -EIO;
+ 	}
+ 
++	err = allegro_encoder_buffer_init(dev, &dev->encoder_buffer);
++	dev->has_encoder_buffer = (err == 0);
++	if (!dev->has_encoder_buffer)
++		v4l2_info(&dev->v4l2_dev, "encoder buffer not available\n");
 +
- static struct platform_driver allegro_driver = {
- 	.probe = allegro_probe,
- 	.remove = allegro_remove,
- 	.driver = {
- 		.name = "allegro",
- 		.of_match_table = of_match_ptr(allegro_dt_ids),
-+		.pm = &allegro_pm_ops,
- 	},
+ 	allegro_mcu_enable_interrupts(dev);
+ 
+ 	/* The mcu sends INIT after reset. */
+diff --git a/drivers/media/platform/allegro-dvt/allegro-mail.c b/drivers/media/platform/allegro-dvt/allegro-mail.c
+index 7e08c5050f2e..d81fae3ed3e4 100644
+--- a/drivers/media/platform/allegro-dvt/allegro-mail.c
++++ b/drivers/media/platform/allegro-dvt/allegro-mail.c
+@@ -49,11 +49,11 @@ allegro_enc_init(u32 *dst, struct mcu_msg_init_request *msg)
+ 	dst[i++] = msg->reserved0;
+ 	dst[i++] = msg->suballoc_dma;
+ 	dst[i++] = msg->suballoc_size;
+-	dst[i++] = msg->l2_cache[0];
+-	dst[i++] = msg->l2_cache[1];
+-	dst[i++] = msg->l2_cache[2];
++	dst[i++] = msg->encoder_buffer_size;
++	dst[i++] = msg->encoder_buffer_color_depth;
++	dst[i++] = msg->num_cores;
+ 	if (version >= MCU_MSG_VERSION_2019_2) {
+-		dst[i++] = -1;
++		dst[i++] = msg->clk_rate;
+ 		dst[i++] = 0;
+ 	}
+ 
+@@ -146,13 +146,10 @@ allegro_encode_config_blob(u32 *dst, struct create_channel_param *param)
+ 		   FIELD_PREP(GENMASK(7, 0), param->tc_offset);
+ 	dst[i++] = param->unknown11;
+ 	dst[i++] = param->unknown12;
+-	if (version >= MCU_MSG_VERSION_2019_2)
+-		dst[i++] = param->num_slices;
+-	else
+-		dst[i++] = FIELD_PREP(GENMASK(31, 16), param->prefetch_auto) |
+-			   FIELD_PREP(GENMASK(15, 0), param->num_slices);
+-	dst[i++] = param->prefetch_mem_offset;
+-	dst[i++] = param->prefetch_mem_size;
++	dst[i++] = param->num_slices;
++	dst[i++] = param->encoder_buffer_offset;
++	dst[i++] = param->encoder_buffer_enabled;
++
+ 	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->clip_vrt_range) |
+ 		   FIELD_PREP(GENMASK(15, 0), param->clip_hrz_range);
+ 	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->me_range[1]) |
+diff --git a/drivers/media/platform/allegro-dvt/allegro-mail.h b/drivers/media/platform/allegro-dvt/allegro-mail.h
+index 2c7bc509eac3..a5686058d754 100644
+--- a/drivers/media/platform/allegro-dvt/allegro-mail.h
++++ b/drivers/media/platform/allegro-dvt/allegro-mail.h
+@@ -37,7 +37,10 @@ struct mcu_msg_init_request {
+ 	u32 reserved0;		/* maybe a unused channel id */
+ 	u32 suballoc_dma;
+ 	u32 suballoc_size;
+-	s32 l2_cache[3];
++	s32 encoder_buffer_size;
++	s32 encoder_buffer_color_depth;
++	s32 num_cores;
++	s32 clk_rate;
  };
  
+ struct mcu_msg_init_response {
+@@ -79,9 +82,8 @@ struct create_channel_param {
+ 	u32 unknown11;
+ 	u32 unknown12;
+ 	u16 num_slices;
+-	u16 prefetch_auto;
+-	u32 prefetch_mem_offset;
+-	u32 prefetch_mem_size;
++	u32 encoder_buffer_offset;
++	u32 encoder_buffer_enabled;
+ 	u16 clip_hrz_range;
+ 	u16 clip_vrt_range;
+ 	u16 me_range[4];
 -- 
 2.30.2
 
