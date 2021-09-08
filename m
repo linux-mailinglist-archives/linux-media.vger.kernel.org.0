@@ -2,274 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F78C40312B
-	for <lists+linux-media@lfdr.de>; Wed,  8 Sep 2021 00:44:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FD4840330C
+	for <lists+linux-media@lfdr.de>; Wed,  8 Sep 2021 05:44:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345710AbhIGWpY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Sep 2021 18:45:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44462 "EHLO
+        id S242586AbhIHDpe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Sep 2021 23:45:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230070AbhIGWpX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Sep 2021 18:45:23 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65D6DC061575
-        for <linux-media@vger.kernel.org>; Tue,  7 Sep 2021 15:44:15 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id n7-20020a05600c3b8700b002f8ca941d89so87285wms.2
-        for <linux-media@vger.kernel.org>; Tue, 07 Sep 2021 15:44:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=14eWcdo4ahHMkDTDEHqDyUI0FGyIoQKZxiIenkW0axc=;
-        b=ff0w1o/ZvxhzvnF6IigIv5Fv4qM5wX39l8bCu3yb5NOtIRunE3PhSdhx4bqQSPqUA6
-         1djFnEqdmyPYVFtpFtreDfWk0eti9yFdCTaElKd3xWM7EPaeXTaus++8UsbOVOeoNiYH
-         WST9bao1BspZ9qkuuwxb3GZNEg2wCQ3XPpBlFtpZ+LyHZjjZLuD1UY523ZufrCDbjv73
-         gOieJc+O6oLv6T/olEQ5K/ngypc1YP7DNWMZ0/6yCXy4Hc1I/+IH0OBvNWohAAEPQXrJ
-         jtvv65oM+D1q7M5pMldhDlTzjU/8mzxxDkXXmCAMOFir15vGSZuat8VJPdRak3LEfFTH
-         OvFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=14eWcdo4ahHMkDTDEHqDyUI0FGyIoQKZxiIenkW0axc=;
-        b=olwT2uzu4trIfyAJQoQnwkPGr4Gt6eluIzFLyGguimFPu8dw8yyZBAjLZxZnIZM4U/
-         P52KLWXUnBP6JS41vq6pV6yVbciArAecTcrhVPcDu/1gnAKTmAH46p/O4aWGIql7g/Kk
-         JNLa3Lr9obDq1dQBT6s3VL6ZPmeHIgjPq6ozvFtyib90o1HhvtIiWGV8lXCUTKE5qEni
-         be4N9ialtZ4ZyiK3kRdPjKTMiPKMYFhU3rQlHe/b35yNJPfouXun33nqMcPe+vOOfzsx
-         28KpZ4dDK7wuCGElEYKsbdN3mxoHlu7CLmuQRCfvnXknyLJ7k7UKchtDu7YX4O40mUd4
-         1Wug==
-X-Gm-Message-State: AOAM5328GBC7eG+1vtPgJt9QmsuicYvqaTxgwtaAXxd5Zp2Sd6Yvh5ta
-        EN2FNjcflPJN6z4Cfe5c35U=
-X-Google-Smtp-Source: ABdhPJxwuEwN4gFT4jZfWOXdywr7P+JfW0LsVW+UtWOWBBaom4reC2WsQd6xlEKPbNb6EL20R40ccw==
-X-Received: by 2002:a05:600c:210a:: with SMTP id u10mr483033wml.127.1631054654035;
-        Tue, 07 Sep 2021 15:44:14 -0700 (PDT)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id p5sm318223wrd.25.2021.09.07.15.44.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Sep 2021 15:44:13 -0700 (PDT)
-Subject: Re: [PATCH v2 04/12] media: i2c: Support 19.2MHz input clock in
- ov8865
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     paul.kocialkowski@bootlin.com, ezequiel@collabora.com,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        yong.zhi@intel.com, bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        kevin.lhopital@bootlin.com, yang.lee@linux.alibaba.com,
-        andy.shevchenko@gmail.com, laurent.pinchart@ideasonboard.com,
-        kieran.bingham@ideasonboard.com
-References: <20210809225845.916430-1-djrscally@gmail.com>
- <20210809225845.916430-5-djrscally@gmail.com>
- <20210810133426.GB3@paasikivi.fi.intel.com>
- <711e4f6d-f539-0a69-fe78-d5e32eecb673@gmail.com>
- <20210810214918.GL3@paasikivi.fi.intel.com>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <ad1de4f2-dd07-9214-6e28-98cc421377b6@gmail.com>
-Date:   Tue, 7 Sep 2021 23:44:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210810214918.GL3@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+        with ESMTP id S230055AbhIHDpd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Sep 2021 23:45:33 -0400
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E427C061575
+        for <linux-media@vger.kernel.org>; Tue,  7 Sep 2021 20:44:26 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id NoVUmH2SslQKhNoVbmUDTY; Wed, 08 Sep 2021 05:44:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1631072663; bh=kew6U/ZCaphesQD4eQC6cJPbX//rl2zqfEMwm3t/f54=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=jiaY7Fw35NRhDDhe6+kxNRltU/RHC9w/CRpVazni638fyJcjy7sY8V/1Do1/OjmxX
+         3saYE25p00C9h1ViXiWIQ1FlJhfos10vrVCQt8rMernfFZpGkvXiIaiQzwrFgqDhM/
+         lv/WA+zByh0Kz7haeBSNIJw3I1jlur5Mp+jahUKUiyOXNFz09JIQCk9sos+2tKCcSi
+         kDad0gTtDVYRrdROv8VNKN8w3g/n4ucO/O8O0wRXPrw0nHKc/f9ZJ5bk6q+4wrn3ld
+         vtYg44Ln4DYs7R5UzYY4q+0Gyr7OsocEggwU212tSL5hqBqU88nHIU/4O1/SaIk+lM
+         1l5/+zyPE2Saw==
+Message-ID: <797781eeb450f83bec2b3da1516c6a29@smtp-cloud9.xs4all.net>
+Date:   Wed, 08 Sep 2021 05:44:16 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfLx2z2ouLSKnT7WEpZIeK8wC7O/KJeU1uaTeyG1PZi0felCSMe7v1GqpuFCmX0TAnHbGvaE/cDZe66zXyqQHmfr9WVaKIrgBk6YY+QRXRQM1gVwHH0yp
+ e6e7bJzY1i9M28B8T+J02VA10J7xGdvnZhRr8AqQCkDvOof+x1i6y2Db6yWy7yktFTMat33tWGtLdaKsLIqZss5Ca5sYWA/Prnm/kWEeKyhzAx6X7W7/DdE8
+ Ec0vCG7KAk03692AlD4gpw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On 10/08/2021 22:49, Sakari Ailus wrote:
-> On Tue, Aug 10, 2021 at 10:37:35PM +0100, Daniel Scally wrote:
->> Hi Sakari - thanks for all the comments
-> You're welcome!
->
-> Nice patches btw.
+Results of the daily build of media_tree:
 
+date:			Wed Sep  8 05:00:14 CEST 2021
+media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
+media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
+v4l-utils git hash:	05a468e033af0e4c775aaa10fe4d02c45de698ae
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8f230e7be768cbdfab869697ba0a2c622a4a0cae
+host hardware:		x86_64
+host os:		5.13.11-marune
 
-Thanks!
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
->
->> On 10/08/2021 14:34, Sakari Ailus wrote:
->>> Hi Daniel,
->>>
->>> Thanks for the set.
->>>
->>> On Mon, Aug 09, 2021 at 11:58:37PM +0100, Daniel Scally wrote:
->>>> The ov8865 driver as written expects a 24MHz input clock, but the sensor
->>>> is sometimes found on x86 platforms with a 19.2MHz input clock supplied.
->>>> Add a set of PLL configurations to the driver to support that rate too.
->>>> As ACPI doesn't auto-configure the clock rate, check for a clock-frequency
->>>> during probe and set that rate if one is found.
->>>>
->>>> Signed-off-by: Daniel Scally <djrscally@gmail.com>
->>>> ---
->>>> Changes in v2:
->>>>
->>>> 	- Added an enum defining the possible frequency rates to index the
->>>> 	  array (Andy)
->>>>
->>>>  drivers/media/i2c/ov8865.c | 164 +++++++++++++++++++++++++++----------
->>>>  1 file changed, 121 insertions(+), 43 deletions(-)
->>>>
->>>> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
->>>> index fe700787bfb9..1382b16d1a09 100644
->>>> --- a/drivers/media/i2c/ov8865.c
->>>> +++ b/drivers/media/i2c/ov8865.c
->>>> @@ -21,10 +21,6 @@
->>>>  #include <media/v4l2-image-sizes.h>
->>>>  #include <media/v4l2-mediabus.h>
->>>>  
->>>> -/* Clock rate */
->>>> -
->>>> -#define OV8865_EXTCLK_RATE			24000000
->>>> -
->>>>  /* Register definitions */
->>>>  
->>>>  /* System */
->>>> @@ -567,6 +563,19 @@ struct ov8865_sclk_config {
->>>>  	unsigned int sclk_div;
->>>>  };
->>>>  
->>>> +/* Clock rate */
->>>> +
->>>> +enum extclk_rate {
->>>> +	OV8865_19_2_MHZ,
->>>> +	OV8865_24_MHZ,
->>>> +	OV8865_NUM_SUPPORTED_RATES,
->>>> +};
->>>> +
->>>> +static const unsigned long supported_extclk_rates[] = {
->>>> +	[OV8865_19_2_MHZ] = 19200000,
->>>> +	[OV8865_24_MHZ] = 24000000,
->>>> +};
->>>> +
->>>>  /*
->>>>   * General formulas for (array-centered) mode calculation:
->>>>   * - photo_array_width = 3296
->>>> @@ -665,6 +674,9 @@ struct ov8865_sensor {
->>>>  	struct regulator *avdd;
->>>>  	struct regulator *dvdd;
->>>>  	struct regulator *dovdd;
->>>> +
->>>> +	unsigned long extclk_rate;
->>>> +	enum extclk_rate extclk_rate_idx;
->>>>  	struct clk *extclk;
->>>>  
->>>>  	struct v4l2_fwnode_endpoint endpoint;
->>>> @@ -680,49 +692,83 @@ struct ov8865_sensor {
->>>>  /* Static definitions */
->>>>  
->>>>  /*
->>>> - * EXTCLK = 24 MHz
->>>>   * PHY_SCLK = 720 MHz
->>>>   * MIPI_PCLK = 90 MHz
->>>>   */
->>>> -static const struct ov8865_pll1_config ov8865_pll1_config_native = {
->>>> -	.pll_pre_div_half	= 1,
->>>> -	.pll_pre_div		= 0,
->>>> -	.pll_mul		= 30,
->>>> -	.m_div			= 1,
->>>> -	.mipi_div		= 3,
->>>> -	.pclk_div		= 1,
->>>> -	.sys_pre_div		= 1,
->>>> -	.sys_div		= 2,
->>>> +
->>>> +static const struct ov8865_pll1_config ov8865_pll1_configs_native[] = {
->>>> +	{ /* 19.2 MHz input clock */
->>>> +		.pll_pre_div_half	= 1,
->>>> +		.pll_pre_div		= 2,
->>>> +		.pll_mul		= 75,
->>>> +		.m_div			= 1,
->>>> +		.mipi_div		= 3,
->>>> +		.pclk_div		= 1,
->>>> +		.sys_pre_div		= 1,
->>>> +		.sys_div		= 2,
->>>> +	},
->>>> +	{ /* 24MHz input clock */
->>>> +		.pll_pre_div_half	= 1,
->>>> +		.pll_pre_div		= 0,
->>>> +		.pll_mul		= 30,
->>>> +		.m_div			= 1,
->>>> +		.mipi_div		= 3,
->>>> +		.pclk_div		= 1,
->>>> +		.sys_pre_div		= 1,
->>>> +		.sys_div		= 2,
->>>> +	},
->>> Could you instead add a struct specific to the clock frequency with
->>> pointers to these? See e.g. the ov8856 driver how this could otherwise end
->>> up...I thin
->>
->> You mean something like
->>
->>
->> static struct ov8865_pll_configs_19_2_mhz {
->>
->>     .pll1_config_native = &ov8865_pll1_config_native,
->>
->>     ...
->>
->> };
->>
->>
->>
->> static struct ov8865_pll_configs_24_mhz {
->>
->>     .pll1_config_native = &ov8865_pll1_config_native,
->>
->>     ...
->>
->> };
->>
->>
->> or am I misunderstanding?
-> Yes, please --- ov8865_pll1_config_native above is thus the PLL
-> configuration for the 24 MHz clock.
+Detailed results are available here:
 
-I'm not sure about this actually. There's two versions of
-ov8865_pll2_config, native and binning, so it becomes something like this:
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
+Detailed regression test results are available here:
 
-struct ov8865_pll_configs {
-    struct ov8865_pll1_config *pll1_config;
-    struct ov8865_pll2_config *pll2_config_native;
-    struct ov8865_pll2_config *pll2_config_binning;
-};
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
 
-static struct ov8865_pll_configs ov8865_pll_configs_19_2mhz = {
-    .pll1_config = &ov8865_pll1_config_native_19_2mhz,
-    .pll2_config_native = &ov8865_pll2_config_native_19_2mhz,
-    .pll2_config_binning = &ov8865_pll2_config_binning_19_2mhz,
-};
+Full logs are available here:
 
-static struct ov8865_pll_configs ov8865_pll_configs_24mhz = {
-    .pll1_config = &ov8865_pll1_config_native_24mhz,
-    .pll2_config_native = &ov8865_pll2_config_native_24mhz,
-    .pll2_config_binning = &ov8865_pll2_config_binning_24mhz,
-};
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
 
+The Media Infrastructure API from this daily build is here:
 
-Now because a mode might use either the native or binning version of the
-pll2 configs, currently they're actually against the struct for a
-particular mode like so:
-
-
-struct ov8865_mode ov8865_modes[] = {
-
-    {
-
-        <snip>
-
-        .pll1_config            = &ov8865_pll1_config_native,
-        .pll2_config            = &ov8865_pll2_config_binning,
-        .sclk_config            = &ov8865_sclk_config_native,
-
-    }
-
-};
-
-
-The problem I'm having is that I can't really see a clean way to store
-against the _mode_ whether it should access .pll2_config_native or
-.pll2_config_binning, from the new struct ov8865_pll_configs. Do you
-have any ideas about a way to do that?
-
+http://www.xs4all.nl/~hverkuil/spec/index.html
