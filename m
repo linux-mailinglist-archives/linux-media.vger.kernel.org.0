@@ -2,165 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EBD2403ABD
-	for <lists+linux-media@lfdr.de>; Wed,  8 Sep 2021 15:33:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 275ED403E78
+	for <lists+linux-media@lfdr.de>; Wed,  8 Sep 2021 19:45:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235502AbhIHNdt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Sep 2021 09:33:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46972 "EHLO
+        id S1349252AbhIHRqe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Sep 2021 13:46:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230326AbhIHNds (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Sep 2021 09:33:48 -0400
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD50BC061757
-        for <linux-media@vger.kernel.org>; Wed,  8 Sep 2021 06:32:40 -0700 (PDT)
-Received: by mail-il1-x136.google.com with SMTP id x5so2327029ill.3
-        for <linux-media@vger.kernel.org>; Wed, 08 Sep 2021 06:32:40 -0700 (PDT)
+        with ESMTP id S233375AbhIHRqd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Sep 2021 13:46:33 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1864C061575
+        for <linux-media@vger.kernel.org>; Wed,  8 Sep 2021 10:45:25 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id i6so4050225edu.1
+        for <linux-media@vger.kernel.org>; Wed, 08 Sep 2021 10:45:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=RdtzwNEFqLqA3tpIdS51MoWtiiUaFHn6z50ywUjaYAI=;
-        b=KgC13npi+zwcXid32lVaYsQ1vd3Jl6q7wyBIRD7SyD0k4FvGDHQkzENbsI4+f0YGYp
-         SufQXj+/B5q4fdS3YtotpnLoKCpBQilv3cigQWEBuctprs5qNVQTxHIPMw4odKIcKxjv
-         GpXeiF13AcZdvAUsHGqKnCWL77EkRZW1KLoH1Rd4O0927dLM+YwLXBPtBu4N8ZFAGd7j
-         I+6m2D+5nTVYVdoCduudOJYPKIEobqjuN0rP8buOX9EW54MkdUBKuXctVUvAc0N4Q089
-         X1gJwwrpzP9+kLtVtBrSiKUMxeZajw4i42aP4QAKmBGyRbq6JA8HNukzcj3vWYiv0wX8
-         Ny1w==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+xEb27PMFQUN6a8DcLn87Q6DnS83FJhxmti0I/5v+c8=;
+        b=NApzBmW3UHVNrriG9leoqpe0UPqlSwGG+HHEvMS6VrsAJ8Zk61JcNe2wN49FhKPnoj
+         xp7yb2mjOQAw38ZaLHutQYGOZjV0CSU9Qo0X5R7hEJ23bnK8V9iPe1bEWcndMu/3PFf1
+         W9pHkI/23al4QTNYhOthpUxC7jqfJ3l2jmHWI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=RdtzwNEFqLqA3tpIdS51MoWtiiUaFHn6z50ywUjaYAI=;
-        b=H1IndmVti76+e3YasMgbcXH8fO3O0qrlnjz9LQDvsc9M+oBYeAQBjfqJ/29E8IZunn
-         NKu3yVPaC/392QRQiQdHv/eY1OQu2LAXiTPTXDs72pubTuQYRbhq4Il1pqeTLakddTZ1
-         SUhe6CWoFwCk+IKc2shzD2A05baYE5tk9YYEKXBNqd6zrLhMR8Xc0L4wVcATVyqFVkYx
-         HJZT2BUvKmUOex0yCC5JssIc2FkVQHRJu1gMCjNFzPhahwviL2ONC6hnZ7KGhQN1ndLj
-         IEX2IyRY/AByTSEyugT8o9D/zqMVvlYYBOadyoV3nrPkbeSI/2QYHL7aKPyUYoLgcxSs
-         MMTg==
-X-Gm-Message-State: AOAM531o4EeqDQ2pBdvZf99yJDQauW5rXkLR78f0AD/5TIezFWe+jJ9X
-        juQmWfcm4J5hcy0semg5r/KsiA==
-X-Google-Smtp-Source: ABdhPJypjj0Fuf0YV+dNeiT3WvoCwsJ6BXbv+eL/GK8pGmGiwddvFk8jnVNo6gydzyj4IVms5ylF+A==
-X-Received: by 2002:a92:bf0b:: with SMTP id z11mr2704894ilh.117.1631107960320;
-        Wed, 08 Sep 2021 06:32:40 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id u13sm1093530iot.29.2021.09.08.06.32.38
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=+xEb27PMFQUN6a8DcLn87Q6DnS83FJhxmti0I/5v+c8=;
+        b=sI13ghHx+pZVwlYT+4YO7Ghj3/WX+ABnmbfuEx9Fi7e4vcQxMnlEn1V99vaK/duFhj
+         2IHx19NFZKazWtk+09U3AJtqx9lg00WPm9KSZczmWvaTd/rrQ9DXHkqMvR8tahW7/g6O
+         N4fc3BV1AbM8GULvrsNwh/ctZ6uC4mYQ5buv3tvvl3RndrsWp1uP5mZLdOxw+DPhbdhy
+         z5eD9XxOWu6nfVg8QDbhpmblIrApLGiWN1ZAks6A1/TTWhHQnmc5E1MnmkfNAytHWDgW
+         aQEZ/3g7JYLwjFcvVaO+YyApITcuJLHHc4Dki05ZUoua/zwKlcVuNVdgU+qVVZBoRyx5
+         qF2w==
+X-Gm-Message-State: AOAM531KNPE/Pxq3X+3YQAnV44FgWvE296ypFLebMkP9HQfHEtQKe1k5
+        9KzPueM/ixIi8I6tPACByBKAfw9oHE9SfA==
+X-Google-Smtp-Source: ABdhPJxNTQqMjSZn5VxSobt+K12XzbD5osKL3cKE0pBWdtZGzMzii+9hy1LRcgB0zMHvtfaOFvXhoQ==
+X-Received: by 2002:a50:d0d1:: with SMTP id g17mr2357446edf.96.1631123124210;
+        Wed, 08 Sep 2021 10:45:24 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id r6sm1352603ejb.119.2021.09.08.10.45.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Sep 2021 06:32:39 -0700 (PDT)
-Message-ID: <fffd24d3374ecb2fbfafa9b85fa0ef8012fc7efa.camel@ndufresne.ca>
-Subject: Re: [PATCH v8 04/15] media:Add v4l2 event codec_error and skip
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de
-Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Date:   Wed, 08 Sep 2021 09:32:38 -0400
-In-Reply-To: <647f84c1e7c2a48d6492d38fa4f06586235500b8.1631002447.git.ming.qian@nxp.com>
-References: <cover.1631002447.git.ming.qian@nxp.com>
-         <647f84c1e7c2a48d6492d38fa4f06586235500b8.1631002447.git.ming.qian@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        Wed, 08 Sep 2021 10:45:23 -0700 (PDT)
+Date:   Wed, 8 Sep 2021 19:45:21 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
+        Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Rob Clark <robdclark@chromium.org>,
+        David Airlie <airlied@linux.ie>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Steven Price <steven.price@arm.com>,
+        Melissa Wen <mwen@igalia.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Jack Zhang <Jack.Zhang1@amd.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v3 4/9] drm/scheduler: Add fence deadline support
+Message-ID: <YTj2scNdCHAdF+cl@phenom.ffwll.local>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Steven Price <steven.price@arm.com>, Melissa Wen <mwen@igalia.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Jack Zhang <Jack.Zhang1@amd.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+References: <20210903184806.1680887-1-robdclark@gmail.com>
+ <20210903184806.1680887-5-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210903184806.1680887-5-robdclark@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ming,
-
-more API only review.
-
-Le mardi 07 septembre 2021 à 17:49 +0800, Ming Qian a écrit :
-> The codec_error event can tell client that
-> there are some error occurs in the decoder engine.
+On Fri, Sep 03, 2021 at 11:47:55AM -0700, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> The skip event can tell the client that
-> there are a frame has been decoded,
-> but it won't be outputed.
+> As the finished fence is the one that is exposed to userspace, and
+> therefore the one that other operations, like atomic update, would
+> block on, we need to propagate the deadline from from the finished
+> fence to the actual hw fence.
 > 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
-> Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
+> v2: Split into drm_sched_fence_set_parent() (ckoenig)
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 > ---
->  .../userspace-api/media/v4l/vidioc-dqevent.rst       | 12 ++++++++++++
->  include/uapi/linux/videodev2.h                       |  2 ++
->  2 files changed, 14 insertions(+)
+>  drivers/gpu/drm/scheduler/sched_fence.c | 34 +++++++++++++++++++++++++
+>  drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
+>  include/drm/gpu_scheduler.h             |  8 ++++++
+>  3 files changed, 43 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> index 6eb40073c906..87d40ad25604 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> @@ -182,6 +182,18 @@ call.
->  	the regions changes. This event has a struct
->  	:c:type:`v4l2_event_motion_det`
->  	associated with it.
-> +    * - ``V4L2_EVENT_CODEC_ERROR``
-> +      - 7
-> +      - This event is triggered when some error occurs inside the codec engine,
-> +	usually it can be replaced by a POLLERR event, but in some cases, the POLLERR
-> +	may cause the application to exit, but this event can allow the application to
-> +	handle the codec error without exiting.
-
-Events are sent to userspace in a separate queue from the VB2 queue. Which means
-it's impossible for userspace to know where this error actually took place.
-Userspace may endup discarding valid frames from the VB queue, as it does not
-know which one are good, and which one are bad.
-
-There is likely a bit of spec work to be done here for non-fatal decode errors,
-but I think the right approach is to use V4L2_BUF_FLAG_ERROR. What we expect
-from decoders is that for each frame, a CAPTURE buffer is assigned. If decoding
-that frame was not possible but the error is recoverable (corrupted bitstream,
-missing reference, etc.), then the failing frame get marked with FLAG_ERROR and
-decoding continues as usual.
-
-What isn't documented is that you can set bytesused to 0, meaning there is
-nothing useful in that frame, or a valid bytesused when you know only some
-blocks are broken (e.g. missing 1 ref). Though, GStreamer might be the only
-implementation of that, and byteused 0 may confuse some existing userspace.
-
-> +    * - ``V4L2_EVENT_SKIP``
-> +      - 8
-> +      - This event is triggered when one frame is decoded, but it won't be outputed
-> +	to the display. So the application can't get this frame, and the input frame count
-> +	is dismatch with the output frame count. And this evevt is telling the client to
-> +	handle this case.
-
-Similar to my previous comment, this event is flawed, since userspace cannot
-know were the skip is located in the queued buffers. Currently, all decoders are
-mandated to support V4L2_BUF_FLAG_TIMESTAMP_COPY. The timestamp must NOT be
-interpreted by the driver and must be reproduce as-is in the associated CAPTURE
-buffer. It is possible to "garbage" collect skipped frames with this method,
-though tedious.
-
-An alternative, and I think it would be much nicer then this, would be to use
-the v4l2_buffer.sequence counter, and just make it skip 1 on skips. Though, the
-down side is that userspace must also know how to reorder frames (a driver job
-for stateless codecs) in order to identify which frame was skipped. So this is
-perhaps not that useful, other then knowing something was skipped in the past.
-
-A third option would be to introduce V4L2_BUF_FLAG_SKIPPED. This way the driver
-could return an empty payload (bytesused = 0) buffer with this flag set, and the
-proper timestamp properly copied. This would let the driver communicate skipped
-frames in real-time. Note that this could break with existing userspace, so it
-would need to be opted-in somehow (a control or some flags).
-
->      * - ``V4L2_EVENT_PRIVATE_START``
->        - 0x08000000
->        - Base event number for driver-private events.
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 5bb0682b4a23..c56640d42dc5 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -2369,6 +2369,8 @@ struct v4l2_streamparm {
->  #define V4L2_EVENT_FRAME_SYNC			4
->  #define V4L2_EVENT_SOURCE_CHANGE		5
->  #define V4L2_EVENT_MOTION_DET			6
-> +#define V4L2_EVENT_CODEC_ERROR			7
-> +#define V4L2_EVENT_SKIP				8
->  #define V4L2_EVENT_PRIVATE_START		0x08000000
+> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+> index bcea035cf4c6..4fc41a71d1c7 100644
+> --- a/drivers/gpu/drm/scheduler/sched_fence.c
+> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+> @@ -128,6 +128,30 @@ static void drm_sched_fence_release_finished(struct dma_fence *f)
+>  	dma_fence_put(&fence->scheduled);
+>  }
 >  
->  /* Payload for V4L2_EVENT_VSYNC */
+> +static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
+> +						  ktime_t deadline)
+> +{
+> +	struct drm_sched_fence *fence = to_drm_sched_fence(f);
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&fence->lock, flags);
+> +
+> +	/* If we already have an earlier deadline, keep it: */
+> +	if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
+> +	    ktime_before(fence->deadline, deadline)) {
+> +		spin_unlock_irqrestore(&fence->lock, flags);
+> +		return;
+> +	}
+> +
+> +	fence->deadline = deadline;
+> +	set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
+> +
+> +	spin_unlock_irqrestore(&fence->lock, flags);
+> +
+> +	if (fence->parent)
+> +		dma_fence_set_deadline(fence->parent, deadline);
+> +}
+> +
+>  static const struct dma_fence_ops drm_sched_fence_ops_scheduled = {
+>  	.get_driver_name = drm_sched_fence_get_driver_name,
+>  	.get_timeline_name = drm_sched_fence_get_timeline_name,
+> @@ -138,6 +162,7 @@ static const struct dma_fence_ops drm_sched_fence_ops_finished = {
+>  	.get_driver_name = drm_sched_fence_get_driver_name,
+>  	.get_timeline_name = drm_sched_fence_get_timeline_name,
+>  	.release = drm_sched_fence_release_finished,
+> +	.set_deadline = drm_sched_fence_set_deadline_finished,
+>  };
+>  
+>  struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
+> @@ -152,6 +177,15 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
+>  }
+>  EXPORT_SYMBOL(to_drm_sched_fence);
+>  
+> +void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
+> +				struct dma_fence *fence)
+> +{
+> +	s_fence->parent = dma_fence_get(fence);
+> +	if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
+> +		     &s_fence->finished.flags))
 
+Don't you need the spinlock here too to avoid races? test_bit is very
+unordered, so guarantees nothing. Spinlock would need to be both around
+->parent = and the test_bit.
 
+Entirely aside, but there's discussions going on to preallocate the hw
+fence somehow. If we do that we could make the deadline forwarding
+lockless here. Having a spinlock just to set the parent is a bit annoying
+...
+
+Alternative is that you do this locklessly with barriers and a _lot_ of
+comments. Would be good to benchmark whether the overhead matters though
+first.
+-Daniel
+
+> +		dma_fence_set_deadline(fence, s_fence->deadline);
+> +}
+> +
+>  struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
+>  					      void *owner)
+>  {
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 595e47ff7d06..27bf0ac0625f 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -978,7 +978,7 @@ static int drm_sched_main(void *param)
+>  		drm_sched_fence_scheduled(s_fence);
+>  
+>  		if (!IS_ERR_OR_NULL(fence)) {
+> -			s_fence->parent = dma_fence_get(fence);
+> +			drm_sched_fence_set_parent(s_fence, fence);
+>  			r = dma_fence_add_callback(fence, &sched_job->cb,
+>  						   drm_sched_job_done_cb);
+>  			if (r == -ENOENT)
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 7f77a455722c..158ddd662469 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -238,6 +238,12 @@ struct drm_sched_fence {
+>           */
+>  	struct dma_fence		finished;
+>  
+> +	/**
+> +	 * @deadline: deadline set on &drm_sched_fence.finished which
+> +	 * potentially needs to be propagated to &drm_sched_fence.parent
+> +	 */
+> +	ktime_t				deadline;
+> +
+>          /**
+>           * @parent: the fence returned by &drm_sched_backend_ops.run_job
+>           * when scheduling the job on hardware. We signal the
+> @@ -505,6 +511,8 @@ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
+>  				   enum drm_sched_priority priority);
+>  bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
+>  
+> +void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
+> +				struct dma_fence *fence);
+>  struct drm_sched_fence *drm_sched_fence_alloc(
+>  	struct drm_sched_entity *s_entity, void *owner);
+>  void drm_sched_fence_init(struct drm_sched_fence *fence,
+> -- 
+> 2.31.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
