@@ -2,53 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75D64405D9F
-	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 21:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D4CF405DC9
+	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 21:54:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245712AbhIITmE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Sep 2021 15:42:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60154 "EHLO
+        id S1344990AbhIITzc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Sep 2021 15:55:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344386AbhIITmC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Sep 2021 15:42:02 -0400
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 046D3C061757
-        for <linux-media@vger.kernel.org>; Thu,  9 Sep 2021 12:40:40 -0700 (PDT)
-Received: by mail-io1-xd2a.google.com with SMTP id a15so3834178iot.2
-        for <linux-media@vger.kernel.org>; Thu, 09 Sep 2021 12:40:39 -0700 (PDT)
+        with ESMTP id S237617AbhIITzb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Sep 2021 15:55:31 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78690C061575
+        for <linux-media@vger.kernel.org>; Thu,  9 Sep 2021 12:54:21 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id u17so3147254ilm.13
+        for <linux-media@vger.kernel.org>; Thu, 09 Sep 2021 12:54:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=omHK5HDlzER183cyZkTKOzYYGUkHjw3w9hbfK4BYqz0=;
-        b=m1cL1vnBIh5hnME0fLf/03QSDVpxtl/TeC8w1p53SYW3s3nbsQPmBzZNswhGPCD2cL
-         uLw1epWGDYSTZ5MpekGlW6RbfG4AwAVq18FYKH6S3cgvisBWC9LtJfPjY/20E+SrmE6O
-         JkQC+qtWTyOXOmnFd+Zg/hoJ6zJN+jDJYBaa9zvwgkx4fDYJTeFUbbMX0/WQBPgOPKoe
-         /aogc93dSPCcoi8508bkUXFv+MP86oB72+wZoMiZSx7lhumVGBO6WnDgzNGy+TC6TTaJ
-         b0IrQ3QY7P1K1l7nrievNvoAPSgnNtEf+rI4ft3P3fV+TmisPIHPcO3uANjijPWY927g
-         T9vg==
+        bh=iShYJ32xDiHcWLhTqCfK1ZR1yO9OyaBO2PNbhBqcZuI=;
+        b=N7LMKwrD3cNfSvYn8EIm4d5qB6L335/PfR90mOpYMcYrFTkTjOvgUlTh2va3EDJwdT
+         Ix3JJLKXmHK/hsoQhUFlrjElUniI9op0HHuRYHKQeO84n3Dq4j/Hl/S7h7p06RH64cEC
+         9NjeAD4Sz4tp/0lrZWY6acmbqUmFzA5kKc4gjgzvED2Qb3THD5tTW4MwoAkJGxKNcgeK
+         KDsxHCkRmDiUzrInKnM0f+1QtX6G52kHP5EVKaciwAZk4ahcn6gIxpXBXUFYVbYpug9j
+         XxhkDR27odsSKEyVmYQtka6tE8ModF/pCt96k3wtHJDe3yxaCetUp4FmfKYyvtISqkpt
+         NaYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=omHK5HDlzER183cyZkTKOzYYGUkHjw3w9hbfK4BYqz0=;
-        b=OC0iz7qtu1XCyRzQoeyJBbZOBz4a8qxzbhKJoIUPBE2BfRkZ5jTVbXLQJMUq8Tn7l0
-         z61aq1EQ4suB2Rw2wZNQlaLqsBJKFmEZdTHwDXOEaTPLnx8M2Wqe55ZWO5vtVngsAce8
-         5Ya5Jvu1bWN+RgIF4QsluvJBVZQWJSmfXiutzR/DtMDVP+Ix40ciP0Hrqed95EDiFzCd
-         dnZ0RKc2Y4l6irisPqj1C+m5rgF847oPI3/Q+oqggZ4RTDuf9wJJm8hWkU590e344EGg
-         XZE+OPPPFJ63CBzRdXebk1pmoN2EbZM39tXxunRZXhV793SokxGdEquWa4frKfsG3fA7
-         TB5g==
-X-Gm-Message-State: AOAM533QNYdlt4Hbl1xzEmwuK6zh9az6ejCMEIkZy1Oj5H/2rx6HX2wP
-        Lm+j553YIB+X2Y4jSmcCaKt5kA==
-X-Google-Smtp-Source: ABdhPJz3q1yp02+FGGk5xwLhMqLsGzDcW4RGE53wuluHkd/aRR5dQvYKpwpZHY70k2BEVHmCJPkPmg==
-X-Received: by 2002:a02:85c2:: with SMTP id d60mr1313582jai.85.1631216439428;
-        Thu, 09 Sep 2021 12:40:39 -0700 (PDT)
+        bh=iShYJ32xDiHcWLhTqCfK1ZR1yO9OyaBO2PNbhBqcZuI=;
+        b=PjGyl5DFwfvJoYuYiqK/o3I0WotVf7nLBSHh9B23pCeS3UPzIYNaHVJx65Ra5RPh72
+         Bt3ZJRPYfdDzjlF5T9oL/3hNpkUh5Q/YP1Vx7JkXER4TM3L+ba4zKg5XkkKv/FF2ruSE
+         zvXbZwyU/PmShyOZp/jxAJPNd2Lb6Mmi2JgDfo+jxBCKLnVJ54PL4H1i0FuuYXKzMc7/
+         mj0q/MYJui+hkEmuQwMaR+nhXd4LsI/6h67uQeY9jshZ3DHt2kUwkFv7S/KKW5Nu4rk5
+         2ZEfRRVRQO1iOM1FFJWdCYyhqBKpWwoiEPtjAtMd4JXZNUitMsqtyasz8Xe52svtuVxw
+         ILeA==
+X-Gm-Message-State: AOAM530c531CCKqOm/gy0Qb+QBy6GI3dZ8J+t55x0vh+EhxCrh/5EuKr
+        h6LjN7USeclkiqxHjGTILgsbHA==
+X-Google-Smtp-Source: ABdhPJwWTj/Ia+wX7Pghcp8pPPi9/rjwpGl2OLF79WALTgqqHh66LAtzAUief2+m8D+/vAqzNvLz9A==
+X-Received: by 2002:a05:6e02:1b08:: with SMTP id i8mr3580902ilv.161.1631217260825;
+        Thu, 09 Sep 2021 12:54:20 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id m26sm1333222ioj.54.2021.09.09.12.40.37
+        by smtp.gmail.com with ESMTPSA id a16sm1399414ili.64.2021.09.09.12.54.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 12:40:38 -0700 (PDT)
-Message-ID: <868c17e24e0789838871167b008baf81b9876ef7.camel@ndufresne.ca>
-Subject: Re: [EXT] Re: [PATCH v8 03/15] media:Add v4l2 buf flag codec data.
+        Thu, 09 Sep 2021 12:54:20 -0700 (PDT)
+Message-ID: <8984f8a3c0dfd3a5f83fb5cc7b0357dca4787274.camel@ndufresne.ca>
+Subject: Re: [EXT] Re: [PATCH v8 04/15] media:Add v4l2 event codec_error and
+ skip
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
 To:     Ming Qian <ming.qian@nxp.com>,
         "mchehab@kernel.org" <mchehab@kernel.org>,
@@ -65,12 +66,12 @@ Cc:     "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>
-Date:   Thu, 09 Sep 2021 15:40:36 -0400
-In-Reply-To: <AM6PR04MB6341540B142F744B2E6F3379E7D59@AM6PR04MB6341.eurprd04.prod.outlook.com>
+Date:   Thu, 09 Sep 2021 15:54:18 -0400
+In-Reply-To: <AM6PR04MB634124118288EC775F05AFC3E7D59@AM6PR04MB6341.eurprd04.prod.outlook.com>
 References: <cover.1631002447.git.ming.qian@nxp.com>
-         <7ef1840137417c33f5ef7ca611c90fc274926851.1631002447.git.ming.qian@nxp.com>
-         <79cdfe0af999f574642314289e1734df5e2032eb.camel@ndufresne.ca>
-         <AM6PR04MB6341540B142F744B2E6F3379E7D59@AM6PR04MB6341.eurprd04.prod.outlook.com>
+         <647f84c1e7c2a48d6492d38fa4f06586235500b8.1631002447.git.ming.qian@nxp.com>
+         <fffd24d3374ecb2fbfafa9b85fa0ef8012fc7efa.camel@ndufresne.ca>
+         <AM6PR04MB634124118288EC775F05AFC3E7D59@AM6PR04MB6341.eurprd04.prod.outlook.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
@@ -79,136 +80,226 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 09 septembre 2021 à 02:20 +0000, Ming Qian a écrit :
+Le jeudi 09 septembre 2021 à 03:13 +0000, Ming Qian a écrit :
 > > -----Original Message-----
 > > From: Nicolas Dufresne [mailto:nicolas@ndufresne.ca]
-> > Sent: Wednesday, September 8, 2021 9:15 PM
+> > Sent: Wednesday, September 8, 2021 9:33 PM
 > > To: Ming Qian <ming.qian@nxp.com>; mchehab@kernel.org;
 > > shawnguo@kernel.org; robh+dt@kernel.org; s.hauer@pengutronix.de
 > > Cc: hverkuil-cisco@xs4all.nl; kernel@pengutronix.de; festevam@gmail.com;
 > > dl-linux-imx <linux-imx@nxp.com>; Aisheng Dong <aisheng.dong@nxp.com>;
 > > linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
 > > devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org
-> > Subject: [EXT] Re: [PATCH v8 03/15] media:Add v4l2 buf flag codec data.
+> > Subject: [EXT] Re: [PATCH v8 04/15] media:Add v4l2 event codec_error and
+> > skip
 > > 
 > > Caution: EXT Email
 > > 
 > > Hi Ming,
 > > 
-> > thanks for the patch. I'm doing a first pass review of the new APIs you are
-> > introducing.
+> > more API only review.
 > > 
 > > Le mardi 07 septembre 2021 à 17:49 +0800, Ming Qian a écrit :
-> > > In some decoing scenarios, application may queue a buffer that only
-> > > contains codec config data, and the driver needs to know whether is it
-> > > a frame or not.
-> > > So we add a buf flag to tell this case.
+> > > The codec_error event can tell client that there are some error occurs
+> > > in the decoder engine.
+> > > 
+> > > The skip event can tell the client that there are a frame has been
+> > > decoded, but it won't be outputed.
 > > > 
 > > > Signed-off-by: Ming Qian <ming.qian@nxp.com>
 > > > Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
 > > > Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
 > > > ---
-> > >  Documentation/userspace-api/media/v4l/buffer.rst | 7 +++++++
-> > >  include/uapi/linux/videodev2.h                   | 1 +
-> > >  2 files changed, 8 insertions(+)
+> > >  .../userspace-api/media/v4l/vidioc-dqevent.rst       | 12 ++++++++++++
+> > >  include/uapi/linux/videodev2.h                       |  2 ++
+> > >  2 files changed, 14 insertions(+)
 > > > 
-> > > diff --git a/Documentation/userspace-api/media/v4l/buffer.rst
-> > > b/Documentation/userspace-api/media/v4l/buffer.rst
-> > > index e991ba73d873..11013bcf8a41 100644
-> > > --- a/Documentation/userspace-api/media/v4l/buffer.rst
-> > > +++ b/Documentation/userspace-api/media/v4l/buffer.rst
-> > > @@ -607,6 +607,13 @@ Buffer Flags
-> > >       the format. Any subsequent call to the
-> > >       :ref:`VIDIOC_DQBUF <VIDIOC_QBUF>` ioctl will not block anymore,
-> > >       but return an ``EPIPE`` error code.
-> > > +    * .. _`V4L2-BUF-FLAG-CODECCONFIG`:
-> > > +
-> > > +      - ``V4L2_BUF_FLAG_CODECCONFIG``
-> > > +      - 0x00200000
-> > > +      - The buffer only contains codec config data, eg. sps and pps.
-> > > +    Applications can set this bit when ``type`` refers to an output
-> > > +    stream, this flag is usually used by v4l2 decoder.
+> > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+> > > b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+> > > index 6eb40073c906..87d40ad25604 100644
+> > > --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+> > > @@ -182,6 +182,18 @@ call.
+> > >       the regions changes. This event has a struct
+> > >       :c:type:`v4l2_event_motion_det`
+> > >       associated with it.
+> > > +    * - ``V4L2_EVENT_CODEC_ERROR``
+> > > +      - 7
+> > > +      - This event is triggered when some error occurs inside the codec
+> > engine,
+> > > +     usually it can be replaced by a POLLERR event, but in some cases,
+> > > the
+> > POLLERR
+> > > +     may cause the application to exit, but this event can allow the
+> > application to
+> > > +     handle the codec error without exiting.
 > > 
-> > Currently, the bottom line is that all decoders needs a frame or field
-> > accompanied with the headers (only Annex B. being defined and supported for
-> > now). Decoders can be more flexible (and some are). The documentation here
-> > is not clear enough, remember that we must not break compatibility.
+> > Events are sent to userspace in a separate queue from the VB2 queue. Which
+> > means it's impossible for userspace to know where this error actually took
+> > place.
+> > Userspace may endup discarding valid frames from the VB queue, as it does
+> > not know which one are good, and which one are bad.
 > > 
-> > I think you have to clarify the intention. This flag exist in OMX and have
-> > been
-> > source of confusion and inter-operability since the start.
+> > There is likely a bit of spec work to be done here for non-fatal decode
+> > errors,
+> > but I think the right approach is to use V4L2_BUF_FLAG_ERROR. What we
+> > expect from decoders is that for each frame, a CAPTURE buffer is assigned.
+> > If
+> > decoding that frame was not possible but the error is recoverable (corrupted
+> > bitstream, missing reference, etc.), then the failing frame get marked with
+> > FLAG_ERROR and decoding continues as usual.
 > > 
-> > - If this flag is entirely optional, and is just an optimization, then
-> > adding it this
-> > way is fine, but the documentation should be updated.
+> > What isn't documented is that you can set bytesused to 0, meaning there is
+> > nothing useful in that frame, or a valid bytesused when you know only some
+> > blocks are broken (e.g. missing 1 ref). Though, GStreamer might be the only
+> > implementation of that, and byteused 0 may confuse some existing userspace.
 > > 
-> > - If this flag is required only when the header is split, then this flag
-> > need to be
-> > accompanied with a V4L2_BUF_CAP_SUPPORTS_SPLIT_CODECCONFIG (or
-> > similar name, shorter could be nice). This is so that userspace can detect
-> > if that
-> > feature is supported or not.
-> > 
-> > - If having split codecconfig is strictly needed for your driver, then this
-> > flag is
-> > not the proper solution. The only solution I'd see for that, would be to use
-> > something else then V4L2_PIX_FMT_H264 so that existing userspace are not
-> > tricked into trying to use your driver the wrong way. I think such header
-> > could
-> > make sense with H264_NO_SC (though not super clear what this is exactly,
-> > it's
-> > not really used), or a clearer new format H264_AVCC/AVCC3
 > 
 > Hi Nicolas,
-> 
->     This flag is optional, and in fact, our driver doesn't want to receive a
-> splited header,
-> It's best that every buffer contains a frame.
->     But in some case, the client may enqueue some buffer that only contains
-> the header data without any frame data.
-> And our driver need to know this case, for this type of buffer, we have two
-> cases to handle.
->     1. ignore the timestamp.
-> 	2. the amphion decoder needs a ring buffer for decoding, driver will
-> copy the coded data to the ring buffer, and update the write pointer, then
-> pass a frame count to firmware, firmware will use the frame count to determine
-> whether starting decoding a frame or not, if the frame count is incorrect, it
-> may led to vpu hang. So for this type of buffer, we won't increase the frame
-> count.
-> 
->     The flag is required only when the header is split, I agree with you that
-> it's better to add a capability flag. Actually our driver doesn't want meet
-> this case, but this situation does exist in some applications, I add this flag
-> to help handle it.
->     Currently we meet this case in android platform.
+>     We don't use this event to tell userspace which frame is broken. Actually
+> it tries to tell userspace that 
+> the decoder is abnormal and there will be no more frames output. The usersapce
+> shouldn't wait, it can reset the decoder instance if it wants to continue
+> decoding more frames, or it can exit directly.
+>     Usually there will no capture buffer can be dequeued, so we can't set a
+> V4L2_BUF_FLAG_ERROR flag to a capture buffer.
 
-Thanks, that clarify were this comes from. Perhaps you could drop this from your
-initial patchset, and we can handle this separatly ?
+That is not logical, if userspace asked to decode a buffer, but didn't queue
+back any CAPTURE buffer, you are expected to just sit there and wait.
 
-I remain a bit worried about the possible VPU hang, as the door is still wide
-open to DoS on this HW from random streams. Have you considered raising this
-issue to Amphion ? Perhaps there is a different way you could deal with partial
-frames ?
+>     In my opinion, setting bytesused to 0 means eos, and as you say, it may
+> confuse some existing userspace.
+
+Byteused 0 only mean EOS for one specific driver, MFC. That behaviour was kept
+to avoid breaking existing userspace. In fact, you have to opt in, the framework
+will prevent you from using it for that purpose.
+
+>     I think it can be replaced by POLLERR in most of case, but we meet some
+> applications who prefer to use this event instead of pollerr
+
+In general, recoverable errors should be handled without the need for userspace
+to reset. This looks more like you have a bug in your error handling and deffer
+it to userspace. Most userspace will just abort and report to users, I doubt
+this is really what you expect.
+
+What matters for recoverable errors is that you keep consuming OUTPUT buffers.
+And userspace should be happy with never getting anything from the CAPTURE till
+the propblem was recovered by the driver. Of course, userspace should probably
+garbage collect the metadata it might be holding, chromium does that with a
+leaky queue of 16 metadata buffer notably
+
+My recommandation would be to drop this for now, and just try to not stall on
+errors (or make it a hard failure for now, pollerr, or ioctl errors).
+
+> 
+> 
+> > > +    * - ``V4L2_EVENT_SKIP``
+> > > +      - 8
+> > > +      - This event is triggered when one frame is decoded, but it won't
+> > > be
+> > outputed
+> > > +     to the display. So the application can't get this frame, and the
+> > > input
+> > frame count
+> > > +     is dismatch with the output frame count. And this evevt is telling
+> > > the
+> > client to
+> > > +     handle this case.
+> > 
+> > Similar to my previous comment, this event is flawed, since userspace cannot
+> > know were the skip is located in the queued buffers. Currently, all decoders
+> > are
+> > mandated to support V4L2_BUF_FLAG_TIMESTAMP_COPY. The timestamp
+> > must NOT be interpreted by the driver and must be reproduce as-is in the
+> > associated CAPTURE buffer. It is possible to "garbage" collect skipped
+> > frames
+> > with this method, though tedious.
+> > 
+> > An alternative, and I think it would be much nicer then this, would be to
+> > use
+> > the v4l2_buffer.sequence counter, and just make it skip 1 on skips. Though,
+> > the
+> > down side is that userspace must also know how to reorder frames (a driver
+> > job for stateless codecs) in order to identify which frame was skipped. So
+> > this
+> > is perhaps not that useful, other then knowing something was skipped in the
+> > past.
+> > 
+> > A third option would be to introduce V4L2_BUF_FLAG_SKIPPED. This way the
+> > driver could return an empty payload (bytesused = 0) buffer with this flag
+> > set,
+> > and the proper timestamp properly copied. This would let the driver
+> > communicate skipped frames in real-time. Note that this could break with
+> > existing userspace, so it would need to be opted-in somehow (a control or
+> > some flags).
+> 
+> Hi Nicolas,
+>    The problem we meet is that userspace doesn't care which frame is skipped,
+> it just need to know that there are a frame is skipped, the driver should
+> promise the input frame count is equals to the output frame count.
+>     Your first method is possible in theory, but we find the timestamp may be
+> unreliable, we meet many timestamp issues that userspace may enqueue invalid
+> timestamp or repeated timestamp and so on, so we can't accept this solution.
+
+The driver should not interpret the provided timestamp, so it should not be able
+to say if the timestamp is valid or not, this is not the driver's task.
+
+The driver task is to match the timestamp to the CAPTURE buffer (if that buffer
+was produced), and reproduce it exactly.
+
+>     I think your second option is better. And there are only 1 question, we
+> find some application prefer to use the V4L2_EVENT_EOS to check the eos, not
+> checking the empty buffer, if we use this method to check skipped frame, the
+
+Checking the empty buffer is a legacy method, only available in Samsung MFC
+driver. The spec says that the last buffer should be flagged with _LAST, and any
+further attempt to poll should unblock and DQBUF return EPIPE.
+
+> application should check empty buffer instead of V4L2_EVENT_EOS, otherwise if
+> the last frame is skipped, the application will miss it. Of course this is not
+> a problem, it just increases the complexity of the userspace implementation
+
+The EPIPE mechanism covers this issue, which we initially had with the LAST
+flag.
+
+>     I don't think your third method is feasible, the reasons are as below
+> 		1. usually the empty payload means eos, and as you say, it
+> may introduce confusion.
+>     	2. The driver may not have the opportunity to return an empty payload
+> during decoding, in our driver, driver will pass the capture buffer to
+> firmware, and when some frame is skipped, the firmware won't return the
+> buffer, driver may not find an available capture buffer to return to
+> userspace.
+> 
+>    The requirement is that userspace need to match the input frame count and
+> output frame count. It doesn't care which frame is skipped, so the
+> V4L2_EVENT_SKIP is the easiest way for driver and userspace.
+>    If you think this event is really inappropriate, I prefer to adopt your
+> second option
+
+Please, drop SKIP from you driver and this patchset and fix your draining
+process handling to follow the spec. The Samsung OMX component is irrelevant to
+mainline submission, the OMX code should be updated to follow the spec.
 
 > 
 > > 
-> > >      * .. _`V4L2-BUF-FLAG-REQUEST-FD`:
-> > > 
-> > >        - ``V4L2_BUF_FLAG_REQUEST_FD``
+> > >      * - ``V4L2_EVENT_PRIVATE_START``
+> > >        - 0x08000000
+> > >        - Base event number for driver-private events.
 > > > diff --git a/include/uapi/linux/videodev2.h
-> > > b/include/uapi/linux/videodev2.h index 167c0e40ec06..5bb0682b4a23
+> > > b/include/uapi/linux/videodev2.h index 5bb0682b4a23..c56640d42dc5
 > > > 100644
 > > > --- a/include/uapi/linux/videodev2.h
 > > > +++ b/include/uapi/linux/videodev2.h
-> > > @@ -1119,6 +1119,7 @@ static inline __u64 v4l2_timeval_to_ns(const
-> > struct timeval *tv)
-> > >  #define V4L2_BUF_FLAG_TSTAMP_SRC_SOE         0x00010000
-> > >  /* mem2mem encoder/decoder */
-> > >  #define V4L2_BUF_FLAG_LAST                   0x00100000
-> > > +#define V4L2_BUF_FLAG_CODECCONFIG            0x00200000
-> > >  /* request_fd is valid */
-> > >  #define V4L2_BUF_FLAG_REQUEST_FD             0x00800000
+> > > @@ -2369,6 +2369,8 @@ struct v4l2_streamparm {
+> > >  #define V4L2_EVENT_FRAME_SYNC                        4
+> > >  #define V4L2_EVENT_SOURCE_CHANGE             5
+> > >  #define V4L2_EVENT_MOTION_DET                        6
+> > > +#define V4L2_EVENT_CODEC_ERROR                       7
+> > > +#define V4L2_EVENT_SKIP                              8
+> > >  #define V4L2_EVENT_PRIVATE_START             0x08000000
 > > > 
+> > >  /* Payload for V4L2_EVENT_VSYNC */
 > > 
 > 
 
