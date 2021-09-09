@@ -2,133 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBB1B404335
-	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 03:49:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EAD4404386
+	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 04:20:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349503AbhIIBrs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Sep 2021 21:47:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39862 "EHLO mail.kernel.org"
+        id S1348431AbhIICVf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Sep 2021 22:21:35 -0400
+Received: from mga03.intel.com ([134.134.136.65]:39019 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1349433AbhIIBrp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 Sep 2021 21:47:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 29D5761166;
-        Thu,  9 Sep 2021 01:46:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631151997;
-        bh=sQlpCIQOIZc/1gWnMmczeaTUI9JHZ8cwU8Uv5hxetBk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=swbu3TTJ6MgtIkcHmm76a0DHLOqTf+2Hz6Wmw137X31Gwhf/MJAMkIziMd8RqB4ou
-         H4Vh4X0R6btRjNo/G+ZjDmpa77aLeaiP1PdclX/cawE8eGehW3n1RdH9KmTdIM4C78
-         iAcGrCvJhekTuIvb/0wrTol5KI+X/mDl5mVKJU+6Sz+Qquj30I5y8yK4njtlr0I8Ep
-         +22gP84R6p8cO2D/2TlT8Ff7bLajdrkvPvntgsL84tuK0dFNskDoQ2HKbLX7x80+6c
-         YGnrOuUYfvvdUsp/Wl4PvBZn6sdDKjkKdEkSYnS+DOg3WufC7I35h2LLlxqPC0Yr4M
-         q9xt8/uovnHzg==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.14 010/252] dma-buf: fix dma_resv_test_signaled test_all handling v2
-Date:   Wed,  8 Sep 2021 21:42:20 -0400
-Message-Id: <20210909014623.128976-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909014623.128976-1-sashal@kernel.org>
-References: <20210909014623.128976-1-sashal@kernel.org>
+        id S242062AbhIICVe (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 8 Sep 2021 22:21:34 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="220704800"
+X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; 
+   d="scan'208";a="220704800"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2021 19:20:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; 
+   d="scan'208";a="548248414"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.202]) ([10.238.232.202])
+  by fmsmga002.fm.intel.com with ESMTP; 08 Sep 2021 19:20:21 -0700
+Subject: Re: [RFC PATCH] media: staging: ipu3-imgu: add the AWB memory layout
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        bingbu.cao@intel.com, Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        sakari.ailus@linux.intel.com
+Cc:     linux-media@vger.kernel.org,
+        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        Tomasz Figa <tfiga@google.com>
+References: <20210831185140.77400-1-jeanmichel.hautbois@ideasonboard.com>
+ <YS6gR2YSWPSftCO0@pendragon.ideasonboard.com>
+ <YThxnoukNwJjSUOr@pendragon.ideasonboard.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <bf225374-13bf-e531-f794-d0a22a382cfa@linux.intel.com>
+Date:   Thu, 9 Sep 2021 10:19:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YThxnoukNwJjSUOr@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Christian König <christian.koenig@amd.com>
+Jean-Michel,
 
-[ Upstream commit 9d38814d1e346ea37a51cbf31f4424c9d059459e ]
+Thanks for your patch.
 
-As the name implies if testing all fences is requested we
-should indeed test all fences and not skip the exclusive
-one because we see shared ones.
+On 9/8/21 4:17 PM, Laurent Pinchart wrote:
+> Hello,
+> 
+> (CC'ing Tomasz)
+> 
+> Gentle ping.
+> 
+> On Wed, Sep 01, 2021 at 12:34:00AM +0300, Laurent Pinchart wrote:
+>> On Tue, Aug 31, 2021 at 08:51:40PM +0200, Jean-Michel Hautbois wrote:
+>>> While parsing the RAW AWB metadata, the AWB layout was missing to fully
+>>> understand which byte corresponds to which feature. Make the field names
+>>> and usage explicit, as it is used by the userspace applications.
+>>>
+>>> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+>>> ---
+>>> This structure layout is defined in CrOs:
+>>> https://chromium.googlesource.com/chromiumos/platform/arc-camera/+/refs/heads/master/hal/intel/include/ia_imaging/awb_public.h
+>>>
+>>> There are a few things not really understood right now:
+>>> - Is sat_ratio a full scale ratio (I can't get more than some values out
+>>>   of it, is it a ratio of 25%, 50%, 75%, 100% ?)
+>>> - What are the real minimum and maximum values for the grid size ? From
+>>>   CrOs it appears to be [16, 80] for width and [16, 60] for height while
+>>>   in this file it seems to be [16, 160] for width and not really defined
+>>>   for height AFAICT ?
+>>> - Same for the block_width_log2 and block_height_log2 which are [3, 7]
+>>>   in this file and [3, 6] in the awb_public.h header ?
+>>>
+>>>  .../media/ipu3/include/uapi/intel-ipu3.h      | 38 ++++++++++++++-----
+>>>  1 file changed, 29 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+>>> index fa3d6ee5adf2..83191aff2ddd 100644
+>>> --- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+>>> +++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+>>> @@ -61,20 +61,40 @@ struct ipu3_uapi_grid_config {
+>>>  	__u16 y_end;
+>>>  } __packed;
+>>>  
+>>> +/**
+>>> + * struct ipu3_uapi_awb_raw_buffer - Memory layout for each cell in AWB
+>>> + *
+>>> + * @Gr_avg:	Green average for red lines in the cell.
+>>> + * @R_avg:	Red average in the cell.
+>>> + * @B_avg:	Blue average in the cell.
+>>> + * @Gb_avg:	Green average for blue lines in the cell.
+>>> + * @sat_ratio:  Saturation ratio in the cell.
+>>> + * @padding0:   Unused byte for padding.
+>>> + * @padding1:   Unused byte for padding.
+>>> + * @padding2:   Unused byte for padding.
+>>> + */
+>>> +struct ipu3_uapi_awb_raw_buffer {
+>>> +    unsigned char Gr_avg;
+>>> +    unsigned char R_avg;
+>>> +    unsigned char B_avg;
+>>> +    unsigned char Gb_avg;
+>>> +    unsigned char sat_ratio;
+>>> +    unsigned char padding0;
+>>> +    unsigned char padding1;
+>>> +    unsigned char padding2;
 
-v2: fix logic once more
+It is fine for me to define and exposure the awb memory layout in uAPI.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210702111642.17259-3-christian.koenig@amd.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/dma-buf/dma-resv.c | 33 ++++++++++++---------------------
- 1 file changed, 12 insertions(+), 21 deletions(-)
+nit: use __u8 here?
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index f26c71747d43..e744fd87c63c 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -615,25 +615,21 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
-  */
- bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
- {
--	unsigned int seq, shared_count;
-+	struct dma_fence *fence;
-+	unsigned int seq;
- 	int ret;
- 
- 	rcu_read_lock();
- retry:
- 	ret = true;
--	shared_count = 0;
- 	seq = read_seqcount_begin(&obj->seq);
- 
- 	if (test_all) {
- 		struct dma_resv_list *fobj = dma_resv_shared_list(obj);
--		unsigned int i;
--
--		if (fobj)
--			shared_count = fobj->shared_count;
-+		unsigned int i, shared_count;
- 
-+		shared_count = fobj ? fobj->shared_count : 0;
- 		for (i = 0; i < shared_count; ++i) {
--			struct dma_fence *fence;
--
- 			fence = rcu_dereference(fobj->shared[i]);
- 			ret = dma_resv_test_signaled_single(fence);
- 			if (ret < 0)
-@@ -641,24 +637,19 @@ bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
- 			else if (!ret)
- 				break;
- 		}
--
--		if (read_seqcount_retry(&obj->seq, seq))
--			goto retry;
- 	}
- 
--	if (!shared_count) {
--		struct dma_fence *fence_excl = dma_resv_excl_fence(obj);
--
--		if (fence_excl) {
--			ret = dma_resv_test_signaled_single(fence_excl);
--			if (ret < 0)
--				goto retry;
-+	fence = dma_resv_excl_fence(obj);
-+	if (ret && fence) {
-+		ret = dma_resv_test_signaled_single(fence);
-+		if (ret < 0)
-+			goto retry;
- 
--			if (read_seqcount_retry(&obj->seq, seq))
--				goto retry;
--		}
- 	}
- 
-+	if (read_seqcount_retry(&obj->seq, seq))
-+		goto retry;
-+
- 	rcu_read_unlock();
- 	return ret;
- }
+>>> +} __packed;
+>>> +
+>>>  /*
+>>>   * The grid based data is divided into "slices" called set, each slice of setX
+>>>   * refers to ipu3_uapi_grid_config width * height_per_slice.
+>>>   */
+>>>  #define IPU3_UAPI_AWB_MAX_SETS				60
+>>> -/* Based on grid size 80 * 60 and cell size 16 x 16 */
+>>> -#define IPU3_UAPI_AWB_SET_SIZE				1280
+>>> -#define IPU3_UAPI_AWB_MD_ITEM_SIZE			8
+>>> -#define IPU3_UAPI_AWB_SPARE_FOR_BUBBLES \
+>>> -	(IPU3_UAPI_MAX_BUBBLE_SIZE * IPU3_UAPI_MAX_STRIPES * \
+>>> -	 IPU3_UAPI_AWB_MD_ITEM_SIZE)
+>>> +#define AWB_PUBLIC_NUM_OF_ITEMS_IN_SET			160
+>>> +/* Based on max grid height + Spare for bubbles */
+>>> +#define AWB_PUBLIC_NUM_OF_SETS_IN_BUFFER IPU3_UAPI_AWB_MAX_SETS + \
+>>> +	(IPU3_UAPI_MAX_BUBBLE_SIZE * IPU3_UAPI_MAX_STRIPES)
+>>>  #define IPU3_UAPI_AWB_MAX_BUFFER_SIZE \
+>>> -	(IPU3_UAPI_AWB_MAX_SETS * \
+>>> -	 (IPU3_UAPI_AWB_SET_SIZE + IPU3_UAPI_AWB_SPARE_FOR_BUBBLES))
+>>> +        AWB_PUBLIC_NUM_OF_SETS_IN_BUFFER * AWB_PUBLIC_NUM_OF_ITEMS_IN_SET
+
+It's better to update the name of 'IPU3_UAPI_AWB_MAX_BUFFER_SIZE' to align current
+definition.
+
+>>>  
+>>>  /**
+>>>   * struct ipu3_uapi_awb_raw_buffer - AWB raw buffer
+>>> @@ -83,7 +103,7 @@ struct ipu3_uapi_grid_config {
+>>>   *		the average values for each color channel.
+>>>   */
+>>>  struct ipu3_uapi_awb_raw_buffer {
+>>> -	__u8 meta_data[IPU3_UAPI_AWB_MAX_BUFFER_SIZE]
+>>> +	struct ipu3_uapi_awb_raw_buffer meta_data[IPU3_UAPI_AWB_MAX_BUFFER_SIZE]
+>>>  		__attribute__((aligned(32)));
+>>>  } __packed;
+>>>  
+> 
+
 -- 
-2.30.2
-
+Best regards,
+Bingbu Cao
