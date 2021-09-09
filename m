@@ -2,87 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A96A40595A
-	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 16:42:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31D1C40595E
+	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 16:42:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347730AbhIIOnF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Sep 2021 10:43:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47476 "EHLO
+        id S244822AbhIIOn1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Sep 2021 10:43:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347520AbhIIOnB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Sep 2021 10:43:01 -0400
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EFDEC0775BE
-        for <linux-media@vger.kernel.org>; Thu,  9 Sep 2021 07:11:02 -0700 (PDT)
-Received: by mail-io1-xd32.google.com with SMTP id j18so2437068ioj.8
-        for <linux-media@vger.kernel.org>; Thu, 09 Sep 2021 07:11:02 -0700 (PDT)
+        with ESMTP id S1347838AbhIIOnL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Sep 2021 10:43:11 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3100CC0386EB
+        for <linux-media@vger.kernel.org>; Thu,  9 Sep 2021 07:14:28 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id r4so4176769ybp.4
+        for <linux-media@vger.kernel.org>; Thu, 09 Sep 2021 07:14:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=7oTEU0E4xx+wFYWqhqzgm4aEcDBxaGZEX1bAEoxzgGo=;
-        b=hFy8hNZR5Xl21j4vmOPczW1WaO8/voqC8VL9j1B9Dip52IrxcMlq1QE6/q28jjPWvf
-         LxY/0B42Sm0LOFFkThuk6ePGTrIM8NKFNEAJttnrgrQAtEQR7Gr1jph7osahWEOOVYVX
-         KeOZSeSI2DZdtp/E5ud8nTHNiTin/8VEgOpEVm4QEJqC/jicpLx3TcPKfnGGiEPD4CjK
-         9rCoJI6AyhtxS0fKoSETPZwyamw0EJ/RQ5lHP0DaI6B3QYYav1CkJAPR+kB7uN3H6Wxl
-         kj0aZ73vO1uEYdCOAdqAsmTkq72m8QFYicFaBm0KAnhEhoymXuZc3e0rMscjH5n4UxG7
-         zUOQ==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=wGJzo7ZtP4JPO+7D4nHcoR3oECgSLY1lVuVzrXuORkQ=;
+        b=ZUWlrlnjxSqB2IueegoI8KbRHv7HHRWWiGXrznJt5M6To4o04Uz6gf88Wu2kvfepCh
+         RYy5tc7RnMiD8UHME5xeqwvCKG1ECfF4lWTrxMhsU7Q/pUJuP5ieQAD7VQ4WyqBGhRQj
+         bxT51MhPmbZoH8VaGy3bk8CPhqJM8ss4tK4mOgUC5jfA2nQq4Gh4Zo1BYzMOsFJ/55fZ
+         y9ErEXtWPmTNayxOvkArl8BlV9hunFDti9yDNwmLKQrfAFuHplrYlmDfcQDfNDl8Pe2U
+         D8SIMNubI6iOnxeL5TrHrBfd88fRbhjfn7sQJPr9hkxz6IW4MHKCxFEMw11vbhqGX0/5
+         yuNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=7oTEU0E4xx+wFYWqhqzgm4aEcDBxaGZEX1bAEoxzgGo=;
-        b=pG6Sv9biIs3DrM/oBxZPwRTSCOGJPp0dWF2nHQCwG/4hqyfm+oi2RyVxHK2zw1XiKf
-         zWgUTGk24QSGD2j5qUUEgzp47qFsKVjh6JWrO9bqKJ08KIVBBLnI9FtDnoN93RyrXxlH
-         PWZ0+CoeK5UIIldYyQn0ncBgvUM5Z46RaEfCgCCVz6EKlab5hm40s5T9ZAmC//zHTDWt
-         +noM4lG17DswOQU8Rz0nYNCtW4SdcWJFKIT4et2ThUnXL9+Lt6VY1+x1yRV7FXrQdA5K
-         dzjY0zkXFgAR4d1jTSQiXybkRT355i9HIwfy52JDFbUj6WqDETRFccY3bkfFsfkIIilN
-         lixA==
-X-Gm-Message-State: AOAM533w+ucV8f/Ofcbdt3mpgYAKtb6PLkWxKwn6S6UB3O+F8hZc7FHu
-        HHMFPBU7P0p/58T2RwOhK+WpdXVuLAEtInLnSiU=
-X-Google-Smtp-Source: ABdhPJyfnJJG0RutmTT3tEsBw6vseHjCvc8EAj7S7Zyqdpq4Yy1l6iSRMZaD2YyOMKBEAw9iglBDrGQoXtt0WRrBFqg=
-X-Received: by 2002:a5e:a81a:: with SMTP id c26mr2870073ioa.15.1631196661923;
- Thu, 09 Sep 2021 07:11:01 -0700 (PDT)
+         :subject:to:content-transfer-encoding;
+        bh=wGJzo7ZtP4JPO+7D4nHcoR3oECgSLY1lVuVzrXuORkQ=;
+        b=4ikcVuDIxATHGIYirTOsVdCD5hV1BBcnk0Q61zEM9Yu29PqQXlSdXXI4AVtKk7tzTe
+         c0/9INoGgUwxs7t0/VGY3A5dELXKpXtEwBEDFgKn+W3hcGvVd0M+YtmaA8E0+MUY+Ztq
+         G+T9F/SPMlqj/bhMagbvzp2XnsPSpmB3WU1/ewjrboT6c41JShZ3cG5xUCdW2uZGqkce
+         wA7V0FAw6LWsvoWL79cfzae77SAzu7T+E/XOKf6u4BmmTGreeb5bwLns5ukFWr3F1tjs
+         UDTZniTPLIfViObONd+4AE+sVwrKDPoISqIE574vcYViLtoSnQ8ODh9nm4KoVEsQCmLj
+         h84Q==
+X-Gm-Message-State: AOAM531iB7va7HYNLUCQFg5F9guP4uwhKniKmaejCSHktGf9WGlB+il/
+        SIuQR7fK1zyn73ZVu17RREcKVxkfdsHIjrk2g4k=
+X-Google-Smtp-Source: ABdhPJxm70mUAnepQKSqSY2ShLukldKGHsSl+riqEPvpblAQ0rfGyQ9gmym9O9wlrAT0iTwj89XeK1bpPrkxtEO/NGc=
+X-Received: by 2002:a25:5945:: with SMTP id n66mr4099726ybb.436.1631196867239;
+ Thu, 09 Sep 2021 07:14:27 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6602:1201:0:0:0:0 with HTTP; Thu, 9 Sep 2021 07:11:01
- -0700 (PDT)
-Reply-To: jennehkandeh@yahoo.com
-From:   Jenneh Kandeh <ayenijohnolatunde@gmail.com>
-Date:   Thu, 9 Sep 2021 07:11:01 -0700
-Message-ID: <CAJ7+8MEZx2WFzVYZYDi82RqZvnO731F+e4sB8ua_LY0vG=r-1Q@mail.gmail.com>
-Subject: Re: Regarding Of My Late Father's Fund $10,500,000
+Received: by 2002:a05:7110:9295:b0:f5:26b6:1bd with HTTP; Thu, 9 Sep 2021
+ 07:14:26 -0700 (PDT)
+Reply-To: mr.luisfernando5050@gmail.com
+From:   =?UTF-8?B?TXIuIEx1aXMgRmVybmFuZG/igJlz?= 
+        <edithssofiadecima@gmail.com>
+Date:   Thu, 9 Sep 2021 07:14:26 -0700
+Message-ID: <CAObhTa=tsH6oiMHBcKW7HqEKd06gDOqBV0+hV+XR4D8ka2=Lkw@mail.gmail.com>
+Subject: GOOD DAY
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-dear,
+I am Mr. Luis Fernando=E2=80=99s
 
-I got your contact through the internet due to serious searching for a
-reliable personality. I am Jenneh Kandeh from FreeTown Capital of
-Sierra Leone. Time of opposed to the government of President Ahmad
-Tejan Kebbah the ex-leader. l have been on exile in the Porto-Novo
-Benin. since 21st November, 2005 But I am current residing in
-Porto-Novo Benin due to war of my country, my mother killed on
-04/01/2002 for Sierra Leone civilian war my father decided to change
-another residence country with me because I am only child for my
-family bad news that my father passed away on 25/11/2018.
-
-During the war, My father made a lot of money through the illegal
-sales of Diamonds. To the tune of $10,200,000. This money is currently
-and secretly kept in ECOWAS security company here in Benin, but
-because of the political turmoil which still exists here in Africa, I
-can not invest the money by myself, hence am soliciting your help to
-help me take these funds into your custody and also advise me on how
-to invest it.
-
-And I want to add here that if agreed 35% of the total worth of the
-fund will be yours minus your total expenses incurred during the
-clearing of the fund in
-Porto Novo Benin that 35% is a $3,570,000 (Three Million Five Hundred
-And Seventy Thousand United State Dollars) I would like to invest on
-heavy duty agricultural equipment and earth moving machines to enable
-me go into a full scale mechanized farming. l think that will help me
-to ameliorate hunger in the sub-Saharan Africa.
-
-While l wait to hear from you soon, my warm regards to you and your family
+Hi Friend I am a bank director of the UBA Bank Plc bf .I want to
+transfer an abandoned sum of 27.5 millions USD  to you through ATM
+VISA CARD .50% will be for you. No risk involved. Contact me for more
+details. Kindly reply me back to my alternative email
+address(mr.luisfernando5050@gmail.com) Mr. Luis Fernando=E2=80=99s
