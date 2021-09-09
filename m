@@ -2,37 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01FC4405138
-	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 14:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF6AE40582B
+	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 15:56:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353101AbhIIMeZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Sep 2021 08:34:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33430 "EHLO mail.kernel.org"
+        id S1354698AbhIINro (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Sep 2021 09:47:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38684 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1353994AbhIIM1Q (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:27:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D6A8161B28;
-        Thu,  9 Sep 2021 11:52:03 +0000 (UTC)
+        id S1354455AbhIIMbA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:31:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7ADB861B51;
+        Thu,  9 Sep 2021 11:52:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188324;
-        bh=vJf/hOLRbSjBB5md0JjqiGgNpfTuhUqJ4jPhXj65f/0=;
+        s=k20201202; t=1631188372;
+        bh=WGAUroMp2YiF3aYdHx/k1oTKR3AUnrywzRgf7Y2IgZc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gjDwOQol4jsJrYqQDjQAoGY0ThdvtXv79CfxUNIpTZI9GFcB01sIH5df7iUGhHSPM
-         PRVuv3UeLIKzowIH0h1kb1qf7agVE812sP/59g/WTl7tDv69zAk6iqCF5JaHTF8wN5
-         bbblfM2R5AUcEDMBi4oX7THho1LrCsem4I2LYh4iHTxttGmAs3CaFvo3F1WbiVw7kp
-         jj4sLTtQTyLwWmpd3kgXvT1NS8n8kAma/YT0VgTtzfuGBj/aBVs2AZEpMvc2jomi4x
-         BLcuUFVXKknrSQrTXLaSekf3h78Aa6RvijabuEL1uihfHMS6EN9mmVFH7zLUPdOwX8
-         HsITrDeQnGoMQ==
+        b=LHOaCReG4fT9ku4fGsfKSYRNdNMgMZTsTKGj9pacvTngkvgh9P59suD3EdaFvsGs9
+         J99tf9o0L1P2H9YWWooAT5LYv5g0GEPJZfYgvG7Jb2zD8j8u2a4WhB3cKXA8raehQj
+         LCq4CPOOAYrnkcV+Le7LOSxjcuUCjfXsB7BaPCKSBxOK+uCJLn0pdk+9JUfMdeqYsV
+         ODXwpgJlsrCibFLDS07YWEK76rphij5B4qQyrV8hB7TctM+9/O0XoXkVkVN+a+3QwM
+         N2TCzLDuxMJAHq8ywi4DHy+wVUUSActbgBnNPouaoaRyQiwPWv/+MpsP8mfDslST+J
+         ECKmZ7rVjCDTA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Yang Yingliang <yangyingliang@huawei.com>,
-        Hulk Robot <hulkci@huawei.com>,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Umang Jain <umang.jain@ideasonboard.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 036/176] media: atomisp: pci: fix error return code in atomisp_pci_probe()
-Date:   Thu,  9 Sep 2021 07:48:58 -0400
-Message-Id: <20210909115118.146181-36-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 073/176] media: imx258: Rectify mismatch of VTS value
+Date:   Thu,  9 Sep 2021 07:49:35 -0400
+Message-Id: <20210909115118.146181-73-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909115118.146181-1-sashal@kernel.org>
 References: <20210909115118.146181-1-sashal@kernel.org>
@@ -44,36 +45,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Yang Yingliang <yangyingliang@huawei.com>
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-[ Upstream commit d14e272958bdfdc40dcafb827d24ba6fdafa9d52 ]
+[ Upstream commit 51f93add3669f1b1f540de1cf397815afbd4c756 ]
 
-If init_atomisp_wdts() fails, atomisp_pci_probe() need return
-error code.
+The frame_length_lines (0x0340) registers are hard-coded as follows:
 
-Link: https://lore.kernel.org/linux-media/20210617072329.1233662-1-yangyingliang@huawei.com
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+- 4208x3118
+  frame_length_lines = 0x0c50
+
+- 2104x1560
+  frame_length_lines = 0x0638
+
+- 1048x780
+  frame_length_lines = 0x034c
+
+The driver exposes the V4L2_CID_VBLANK control in read-only mode and
+sets its value to vts_def - height, where vts_def is a mode-dependent
+value coming from the supported_modes array. It is set using one of
+the following macros defined in the driver:
+
+  #define IMX258_VTS_30FPS                0x0c98
+  #define IMX258_VTS_30FPS_2K             0x0638
+  #define IMX258_VTS_30FPS_VGA            0x034c
+
+There's a clear mismatch in the value for the full resolution mode i.e.
+IMX258_VTS_30FPS. Fix it by rectifying the macro with the value set for
+the frame_length_lines register as stated above.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/i2c/imx258.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 02f774ed80c8..fa1bd99cd6f1 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1763,7 +1763,8 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 	if (err < 0)
- 		goto register_entities_fail;
- 	/* init atomisp wdts */
--	if (init_atomisp_wdts(isp) != 0)
-+	err = init_atomisp_wdts(isp);
-+	if (err != 0)
- 		goto wdt_work_queue_fail;
+diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+index ccb55fd1d506..c0a691a73ec9 100644
+--- a/drivers/media/i2c/imx258.c
++++ b/drivers/media/i2c/imx258.c
+@@ -22,7 +22,7 @@
+ #define IMX258_CHIP_ID			0x0258
  
- 	/* save the iunit context only once after all the values are init'ed. */
+ /* V_TIMING internal */
+-#define IMX258_VTS_30FPS		0x0c98
++#define IMX258_VTS_30FPS		0x0c50
+ #define IMX258_VTS_30FPS_2K		0x0638
+ #define IMX258_VTS_30FPS_VGA		0x034c
+ #define IMX258_VTS_MAX			0xffff
 -- 
 2.30.2
 
