@@ -2,83 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48229404117
-	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 00:37:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBB1B404335
+	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 03:49:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243521AbhIHWim (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Sep 2021 18:38:42 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48436 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242689AbhIHWim (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Sep 2021 18:38:42 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33B7E883;
-        Thu,  9 Sep 2021 00:37:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1631140652;
-        bh=1bGvqSulJnZHe9TfBwp2sU+A8oEVgTU8e0GgVdcU/ws=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cef2d0qWc8/lv1lki7yGSBS6cZX5fhhyJWDWBDSt4oq6beKouAYBKJzPayLQxOM/9
-         31dAAad6plu2+pKQWCvzlYuR1nhBraJfy7JRu6F2fAajaiLYHoTaqPbXkjYu5HEMQk
-         hNf/pqe830GoTcdoHx7+bjaYR3JlEeSM0ETYTP8E=
-Date:   Thu, 9 Sep 2021 01:37:11 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: imx: set a media_device bus_info string
-Message-ID: <YTk7F+UTZmpeXzHj@pendragon.ideasonboard.com>
-References: <20210908084746.243359-1-martin.kepplinger@puri.sm>
+        id S1349503AbhIIBrs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Sep 2021 21:47:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39862 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1349433AbhIIBrp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 8 Sep 2021 21:47:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 29D5761166;
+        Thu,  9 Sep 2021 01:46:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631151997;
+        bh=sQlpCIQOIZc/1gWnMmczeaTUI9JHZ8cwU8Uv5hxetBk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=swbu3TTJ6MgtIkcHmm76a0DHLOqTf+2Hz6Wmw137X31Gwhf/MJAMkIziMd8RqB4ou
+         H4Vh4X0R6btRjNo/G+ZjDmpa77aLeaiP1PdclX/cawE8eGehW3n1RdH9KmTdIM4C78
+         iAcGrCvJhekTuIvb/0wrTol5KI+X/mDl5mVKJU+6Sz+Qquj30I5y8yK4njtlr0I8Ep
+         +22gP84R6p8cO2D/2TlT8Ff7bLajdrkvPvntgsL84tuK0dFNskDoQ2HKbLX7x80+6c
+         YGnrOuUYfvvdUsp/Wl4PvBZn6sdDKjkKdEkSYnS+DOg3WufC7I35h2LLlxqPC0Yr4M
+         q9xt8/uovnHzg==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH AUTOSEL 5.14 010/252] dma-buf: fix dma_resv_test_signaled test_all handling v2
+Date:   Wed,  8 Sep 2021 21:42:20 -0400
+Message-Id: <20210909014623.128976-10-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210909014623.128976-1-sashal@kernel.org>
+References: <20210909014623.128976-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210908084746.243359-1-martin.kepplinger@puri.sm>
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+From: Christian König <christian.koenig@amd.com>
 
-Thank you for the patch.
+[ Upstream commit 9d38814d1e346ea37a51cbf31f4424c9d059459e ]
 
-On Wed, Sep 08, 2021 at 10:47:46AM +0200, Martin Kepplinger wrote:
-> some tools like v4l2-compliance let users select a media device based
+As the name implies if testing all fences is requested we
+should indeed test all fences and not skip the exclusive
+one because we see shared ones.
 
-s/some/Some/
+v2: fix logic once more
 
-I'll fix then when applying the patch to my tree.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210702111642.17259-3-christian.koenig@amd.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/dma-buf/dma-resv.c | 33 ++++++++++++---------------------
+ 1 file changed, 12 insertions(+), 21 deletions(-)
 
-> on the bus_info string which can be quite convenient. Use a unique
-> string for that.
-> 
-> This also fixes the following v4l2-compliance warning:
-> warn: v4l2-test-media.cpp(52): empty bus_info
-> 
-> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/staging/media/imx/imx-media-dev-common.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/staging/media/imx/imx-media-dev-common.c b/drivers/staging/media/imx/imx-media-dev-common.c
-> index d006e961d8f4..80b69a9a752c 100644
-> --- a/drivers/staging/media/imx/imx-media-dev-common.c
-> +++ b/drivers/staging/media/imx/imx-media-dev-common.c
-> @@ -367,6 +367,8 @@ struct imx_media_dev *imx_media_dev_init(struct device *dev,
->  	imxmd->v4l2_dev.notify = imx_media_notify;
->  	strscpy(imxmd->v4l2_dev.name, "imx-media",
->  		sizeof(imxmd->v4l2_dev.name));
-> +	snprintf(imxmd->md.bus_info, sizeof(imxmd->md.bus_info),
-> +		 "platform:%s", dev_name(imxmd->md.dev));
->  
->  	media_device_init(&imxmd->md);
->  
-
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index f26c71747d43..e744fd87c63c 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -615,25 +615,21 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
+  */
+ bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
+ {
+-	unsigned int seq, shared_count;
++	struct dma_fence *fence;
++	unsigned int seq;
+ 	int ret;
+ 
+ 	rcu_read_lock();
+ retry:
+ 	ret = true;
+-	shared_count = 0;
+ 	seq = read_seqcount_begin(&obj->seq);
+ 
+ 	if (test_all) {
+ 		struct dma_resv_list *fobj = dma_resv_shared_list(obj);
+-		unsigned int i;
+-
+-		if (fobj)
+-			shared_count = fobj->shared_count;
++		unsigned int i, shared_count;
+ 
++		shared_count = fobj ? fobj->shared_count : 0;
+ 		for (i = 0; i < shared_count; ++i) {
+-			struct dma_fence *fence;
+-
+ 			fence = rcu_dereference(fobj->shared[i]);
+ 			ret = dma_resv_test_signaled_single(fence);
+ 			if (ret < 0)
+@@ -641,24 +637,19 @@ bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
+ 			else if (!ret)
+ 				break;
+ 		}
+-
+-		if (read_seqcount_retry(&obj->seq, seq))
+-			goto retry;
+ 	}
+ 
+-	if (!shared_count) {
+-		struct dma_fence *fence_excl = dma_resv_excl_fence(obj);
+-
+-		if (fence_excl) {
+-			ret = dma_resv_test_signaled_single(fence_excl);
+-			if (ret < 0)
+-				goto retry;
++	fence = dma_resv_excl_fence(obj);
++	if (ret && fence) {
++		ret = dma_resv_test_signaled_single(fence);
++		if (ret < 0)
++			goto retry;
+ 
+-			if (read_seqcount_retry(&obj->seq, seq))
+-				goto retry;
+-		}
+ 	}
+ 
++	if (read_seqcount_retry(&obj->seq, seq))
++		goto retry;
++
+ 	rcu_read_unlock();
+ 	return ret;
+ }
 -- 
-Regards,
+2.30.2
 
-Laurent Pinchart
