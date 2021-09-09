@@ -2,40 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94BB040513A
-	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 14:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50E1C40535A
+	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 14:51:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353177AbhIIMea (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Sep 2021 08:34:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38732 "EHLO mail.kernel.org"
+        id S1354035AbhIIMva (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Sep 2021 08:51:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56650 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1354468AbhIIMbE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:31:04 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B39A961B55;
-        Thu,  9 Sep 2021 11:52:56 +0000 (UTC)
+        id S1347679AbhIIMlS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:41:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D52756103D;
+        Thu,  9 Sep 2021 11:55:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188377;
-        bh=Mgk6zcJV3cp/1FnKDc4HTUGsqHEyT0cD/bodCBNyz7k=;
+        s=k20201202; t=1631188511;
+        bh=gB9z9wL68N4zA6j+tsmo/QkfIMZQNo6VHD+mttTBms0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YcUU9ARKd0x33gVzN690Gqss1NWcVlYqkYeUzQllKesYjQ66A3NKA5K9C2J1ihnnS
-         MAGQ4nv2lZAgRfonJuAE2e2jO8baojKx9V0rSeksxyKa3Wb3tGMQSIFSK4wiJlV999
-         /WCdW8PGfgKfixPQo6Nn2kn14Ilj58gmlGWiSoNeMBoxhnvYY4VZ8pI0PmdS3wzD0f
-         gv4qsrP90Zxbwikb1uJHFufuFd1oIn5Leit5ZlqfZHHexx0RfvP+oK4NTKnWDvVD2U
-         mr7B3Ey7hlLgn9Ln4aqs0KdGMhUwCPTjWnH+ibS0APDxQHWu1qA8amaBN5Sd47I+2X
-         kT9fyflmUf4ZQ==
+        b=NensyPIafXteNXueRBM+VClI41yH2+GUfgIny9Ak/qMTQYi75B7eelyZ7c6ZZJfwY
+         mQoBgtP7RpluGtKgDyNDOc5JIhFZ9wttYF6ABRGVIzeNG+RldzKoOvOZXfYYyvFl1u
+         CnNnvEsvacul6iKcjgqpuvkNvfS6ceywA3hbuPvmysdE7UlA9+rVNhxV5QDZs/fP9D
+         LLXwapiPYLyT7IBu5dUUeT60+hx2gIvpZKOyM1qnveF+SwfW8b7SdESkOecDqzc8Py
+         +D7AVxmw29rAaKVglmNsRf14K4d1Dzc5UpnU6KbcPrCgH+UeQkv1yMmE1E6f5hATK+
+         /mYa0PClEt/Ww==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Evgeny Novikov <novikov@ispras.ru>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 077/176] media: tegra-cec: Handle errors of clk_prepare_enable()
-Date:   Thu,  9 Sep 2021 07:49:39 -0400
-Message-Id: <20210909115118.146181-77-sashal@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 003/109] media: dib8000: rewrite the init prbs logic
+Date:   Thu,  9 Sep 2021 07:53:20 -0400
+Message-Id: <20210909115507.147917-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909115118.146181-1-sashal@kernel.org>
-References: <20210909115118.146181-1-sashal@kernel.org>
+In-Reply-To: <20210909115507.147917-1-sashal@kernel.org>
+References: <20210909115507.147917-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,51 +41,137 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Evgeny Novikov <novikov@ispras.ru>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-[ Upstream commit 38367073c796a37a61549b1f66a71b3adb03802d ]
+[ Upstream commit 8db11aebdb8f93f46a8513c22c9bd52fa23263aa ]
 
-tegra_cec_probe() and tegra_cec_resume() ignored possible errors of
-clk_prepare_enable(). The patch fixes this.
+The logic at dib8000_get_init_prbs() has a few issues:
 
-Found by Linux Driver Verification project (linuxtesting.org).
+1. the tables used there has an extra unused value at the beginning;
+2. the dprintk() message doesn't write the right value when
+   transmission mode is not 8K;
+3. the array overflow validation is done by the callers.
 
-Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Rewrite the code to fix such issues.
+
+This should also shut up those smatch warnings:
+
+	drivers/media/dvb-frontends/dib8000.c:2125 dib8000_get_init_prbs() error: buffer overflow 'lut_prbs_8k' 14 <= 14
+	drivers/media/dvb-frontends/dib8000.c:2129 dib8000_get_init_prbs() error: buffer overflow 'lut_prbs_2k' 14 <= 14
+	drivers/media/dvb-frontends/dib8000.c:2131 dib8000_get_init_prbs() error: buffer overflow 'lut_prbs_4k' 14 <= 14
+	drivers/media/dvb-frontends/dib8000.c:2134 dib8000_get_init_prbs() error: buffer overflow 'lut_prbs_8k' 14 <= 14
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/cec/platform/tegra/tegra_cec.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/media/dvb-frontends/dib8000.c | 58 +++++++++++++++++++--------
+ 1 file changed, 41 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/media/cec/platform/tegra/tegra_cec.c b/drivers/media/cec/platform/tegra/tegra_cec.c
-index 1ac0c70a5981..5e907395ca2e 100644
---- a/drivers/media/cec/platform/tegra/tegra_cec.c
-+++ b/drivers/media/cec/platform/tegra/tegra_cec.c
-@@ -366,7 +366,11 @@ static int tegra_cec_probe(struct platform_device *pdev)
- 		return -ENOENT;
- 	}
- 
--	clk_prepare_enable(cec->clk);
-+	ret = clk_prepare_enable(cec->clk);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Unable to prepare clock for CEC\n");
-+		return ret;
-+	}
- 
- 	/* set context info. */
- 	cec->dev = &pdev->dev;
-@@ -446,9 +450,7 @@ static int tegra_cec_resume(struct platform_device *pdev)
- 
- 	dev_notice(&pdev->dev, "Resuming\n");
- 
--	clk_prepare_enable(cec->clk);
--
--	return 0;
-+	return clk_prepare_enable(cec->clk);
+diff --git a/drivers/media/dvb-frontends/dib8000.c b/drivers/media/dvb-frontends/dib8000.c
+index 082796534b0a..bb02354a48b8 100644
+--- a/drivers/media/dvb-frontends/dib8000.c
++++ b/drivers/media/dvb-frontends/dib8000.c
+@@ -2107,32 +2107,55 @@ static void dib8000_load_ana_fe_coefs(struct dib8000_state *state, const s16 *an
+ 			dib8000_write_word(state, 117 + mode, ana_fe[mode]);
  }
- #endif
  
+-static const u16 lut_prbs_2k[14] = {
+-	0, 0x423, 0x009, 0x5C7, 0x7A6, 0x3D8, 0x527, 0x7FF, 0x79B, 0x3D6, 0x3A2, 0x53B, 0x2F4, 0x213
++static const u16 lut_prbs_2k[13] = {
++	0x423, 0x009, 0x5C7,
++	0x7A6, 0x3D8, 0x527,
++	0x7FF, 0x79B, 0x3D6,
++	0x3A2, 0x53B, 0x2F4,
++	0x213
+ };
+-static const u16 lut_prbs_4k[14] = {
+-	0, 0x208, 0x0C3, 0x7B9, 0x423, 0x5C7, 0x3D8, 0x7FF, 0x3D6, 0x53B, 0x213, 0x029, 0x0D0, 0x48E
++
++static const u16 lut_prbs_4k[13] = {
++	0x208, 0x0C3, 0x7B9,
++	0x423, 0x5C7, 0x3D8,
++	0x7FF, 0x3D6, 0x53B,
++	0x213, 0x029, 0x0D0,
++	0x48E
+ };
+-static const u16 lut_prbs_8k[14] = {
+-	0, 0x740, 0x069, 0x7DD, 0x208, 0x7B9, 0x5C7, 0x7FF, 0x53B, 0x029, 0x48E, 0x4C4, 0x367, 0x684
++
++static const u16 lut_prbs_8k[13] = {
++	0x740, 0x069, 0x7DD,
++	0x208, 0x7B9, 0x5C7,
++	0x7FF, 0x53B, 0x029,
++	0x48E, 0x4C4, 0x367,
++	0x684
+ };
+ 
+ static u16 dib8000_get_init_prbs(struct dib8000_state *state, u16 subchannel)
+ {
+ 	int sub_channel_prbs_group = 0;
++	int prbs_group;
+ 
+-	sub_channel_prbs_group = (subchannel / 3) + 1;
+-	dprintk("sub_channel_prbs_group = %d , subchannel =%d prbs = 0x%04x\n", sub_channel_prbs_group, subchannel, lut_prbs_8k[sub_channel_prbs_group]);
++	sub_channel_prbs_group = subchannel / 3;
++	if (sub_channel_prbs_group >= ARRAY_SIZE(lut_prbs_2k))
++		return 0;
+ 
+ 	switch (state->fe[0]->dtv_property_cache.transmission_mode) {
+ 	case TRANSMISSION_MODE_2K:
+-			return lut_prbs_2k[sub_channel_prbs_group];
++		prbs_group = lut_prbs_2k[sub_channel_prbs_group];
++		break;
+ 	case TRANSMISSION_MODE_4K:
+-			return lut_prbs_4k[sub_channel_prbs_group];
++		prbs_group =  lut_prbs_4k[sub_channel_prbs_group];
++		break;
+ 	default:
+ 	case TRANSMISSION_MODE_8K:
+-			return lut_prbs_8k[sub_channel_prbs_group];
++		prbs_group = lut_prbs_8k[sub_channel_prbs_group];
+ 	}
++
++	dprintk("sub_channel_prbs_group = %d , subchannel =%d prbs = 0x%04x\n",
++		sub_channel_prbs_group, subchannel, prbs_group);
++
++	return prbs_group;
+ }
+ 
+ static void dib8000_set_13seg_channel(struct dib8000_state *state)
+@@ -2409,10 +2432,8 @@ static void dib8000_set_isdbt_common_channel(struct dib8000_state *state, u8 seq
+ 	/* TSB or ISDBT ? apply it now */
+ 	if (c->isdbt_sb_mode) {
+ 		dib8000_set_sb_channel(state);
+-		if (c->isdbt_sb_subchannel < 14)
+-			init_prbs = dib8000_get_init_prbs(state, c->isdbt_sb_subchannel);
+-		else
+-			init_prbs = 0;
++		init_prbs = dib8000_get_init_prbs(state,
++						  c->isdbt_sb_subchannel);
+ 	} else {
+ 		dib8000_set_13seg_channel(state);
+ 		init_prbs = 0xfff;
+@@ -3004,6 +3025,7 @@ static int dib8000_tune(struct dvb_frontend *fe)
+ 
+ 	unsigned long *timeout = &state->timeout;
+ 	unsigned long now = jiffies;
++	u16 init_prbs;
+ #ifdef DIB8000_AGC_FREEZE
+ 	u16 agc1, agc2;
+ #endif
+@@ -3302,8 +3324,10 @@ static int dib8000_tune(struct dvb_frontend *fe)
+ 		break;
+ 
+ 	case CT_DEMOD_STEP_11:  /* 41 : init prbs autosearch */
+-		if (state->subchannel <= 41) {
+-			dib8000_set_subchannel_prbs(state, dib8000_get_init_prbs(state, state->subchannel));
++		init_prbs = dib8000_get_init_prbs(state, state->subchannel);
++
++		if (init_prbs) {
++			dib8000_set_subchannel_prbs(state, init_prbs);
+ 			*tune_state = CT_DEMOD_STEP_9;
+ 		} else {
+ 			*tune_state = CT_DEMOD_STOP;
 -- 
 2.30.2
 
