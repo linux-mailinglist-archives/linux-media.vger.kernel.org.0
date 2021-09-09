@@ -2,41 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D67A404983
-	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 13:41:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F69E40498F
+	for <lists+linux-media@lfdr.de>; Thu,  9 Sep 2021 13:41:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236489AbhIILme (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Sep 2021 07:42:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45760 "EHLO mail.kernel.org"
+        id S236460AbhIILmp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Sep 2021 07:42:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45714 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236303AbhIILm3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 9 Sep 2021 07:42:29 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 920C361186;
-        Thu,  9 Sep 2021 11:41:19 +0000 (UTC)
+        id S236506AbhIILme (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 9 Sep 2021 07:42:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F1A58611C0;
+        Thu,  9 Sep 2021 11:41:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631187680;
-        bh=sQlpCIQOIZc/1gWnMmczeaTUI9JHZ8cwU8Uv5hxetBk=;
+        s=k20201202; t=1631187685;
+        bh=gB9z9wL68N4zA6j+tsmo/QkfIMZQNo6VHD+mttTBms0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YCS3GE+/i3ZMLCH/8H6Pu8OXrp/U6Bk86aMJ+Mw+q0xj6UeUurpsAxT9GCTaWqywN
-         JOH25THMcnqHISenY8eJmt/7aKj48sxzusMbnHUjA31oVK8gVyoZbskXlyDNN6WKjU
-         O5OqCZHVVWVCLhsgXhkYcDiGOYxjB1lBKqByaU+YoguIJoUMywQniOSyr+JBkryMrH
-         jeAJBVGivRelE93h+fH7e2G5lVNNBAZeZCK8mbJF+Kq5Pyj+aCvRQoFS6tWN+yDL/i
-         TYhpIRGkLjQdxzaLe4jz08N28t+ZNLzbHG40wCcXLZcehxmMICKmw35u7eHvYwasHr
-         Gna7XmHxTzHHA==
+        b=OSr/Gg9mcxgYW0GswcN38jNvKMLiG3CfCTZYYv0V/Ml/vvmbhERIfQATeC1la9G1f
+         C8UFmighvPgkVlIkHQCKmraQBQURTHgqijUDm4pzcFzOiY8VAnj7LL3oelqflLAReT
+         y+3wAOUle/2uxXe3d5JaZJqRDOEXW0SPu89rwDW62EKN37iL2Q1tmfB9AzCpfavt32
+         7BrkAZuXXGVumaAH4RFHReaupNRyDWLFPgd+wBDF5/t3PcAKlqmgw3AqLkgud92erS
+         2/L633H9YbGMEZCfRspcZXV144ccDlsDAjKP9dBZ7PrKL5CR4MixaSwtDaOjFR4xD+
+         I7R9RdGVpgxlA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.14 010/252] dma-buf: fix dma_resv_test_signaled test_all handling v2
-Date:   Thu,  9 Sep 2021 07:37:04 -0400
-Message-Id: <20210909114106.141462-10-sashal@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.14 014/252] media: dib8000: rewrite the init prbs logic
+Date:   Thu,  9 Sep 2021 07:37:08 -0400
+Message-Id: <20210909114106.141462-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -44,91 +41,137 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Christian König <christian.koenig@amd.com>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-[ Upstream commit 9d38814d1e346ea37a51cbf31f4424c9d059459e ]
+[ Upstream commit 8db11aebdb8f93f46a8513c22c9bd52fa23263aa ]
 
-As the name implies if testing all fences is requested we
-should indeed test all fences and not skip the exclusive
-one because we see shared ones.
+The logic at dib8000_get_init_prbs() has a few issues:
 
-v2: fix logic once more
+1. the tables used there has an extra unused value at the beginning;
+2. the dprintk() message doesn't write the right value when
+   transmission mode is not 8K;
+3. the array overflow validation is done by the callers.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210702111642.17259-3-christian.koenig@amd.com
+Rewrite the code to fix such issues.
+
+This should also shut up those smatch warnings:
+
+	drivers/media/dvb-frontends/dib8000.c:2125 dib8000_get_init_prbs() error: buffer overflow 'lut_prbs_8k' 14 <= 14
+	drivers/media/dvb-frontends/dib8000.c:2129 dib8000_get_init_prbs() error: buffer overflow 'lut_prbs_2k' 14 <= 14
+	drivers/media/dvb-frontends/dib8000.c:2131 dib8000_get_init_prbs() error: buffer overflow 'lut_prbs_4k' 14 <= 14
+	drivers/media/dvb-frontends/dib8000.c:2134 dib8000_get_init_prbs() error: buffer overflow 'lut_prbs_8k' 14 <= 14
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/dma-buf/dma-resv.c | 33 ++++++++++++---------------------
- 1 file changed, 12 insertions(+), 21 deletions(-)
+ drivers/media/dvb-frontends/dib8000.c | 58 +++++++++++++++++++--------
+ 1 file changed, 41 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index f26c71747d43..e744fd87c63c 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -615,25 +615,21 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
-  */
- bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
- {
--	unsigned int seq, shared_count;
-+	struct dma_fence *fence;
-+	unsigned int seq;
- 	int ret;
- 
- 	rcu_read_lock();
- retry:
- 	ret = true;
--	shared_count = 0;
- 	seq = read_seqcount_begin(&obj->seq);
- 
- 	if (test_all) {
- 		struct dma_resv_list *fobj = dma_resv_shared_list(obj);
--		unsigned int i;
--
--		if (fobj)
--			shared_count = fobj->shared_count;
-+		unsigned int i, shared_count;
- 
-+		shared_count = fobj ? fobj->shared_count : 0;
- 		for (i = 0; i < shared_count; ++i) {
--			struct dma_fence *fence;
--
- 			fence = rcu_dereference(fobj->shared[i]);
- 			ret = dma_resv_test_signaled_single(fence);
- 			if (ret < 0)
-@@ -641,24 +637,19 @@ bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
- 			else if (!ret)
- 				break;
- 		}
--
--		if (read_seqcount_retry(&obj->seq, seq))
--			goto retry;
- 	}
- 
--	if (!shared_count) {
--		struct dma_fence *fence_excl = dma_resv_excl_fence(obj);
--
--		if (fence_excl) {
--			ret = dma_resv_test_signaled_single(fence_excl);
--			if (ret < 0)
--				goto retry;
-+	fence = dma_resv_excl_fence(obj);
-+	if (ret && fence) {
-+		ret = dma_resv_test_signaled_single(fence);
-+		if (ret < 0)
-+			goto retry;
- 
--			if (read_seqcount_retry(&obj->seq, seq))
--				goto retry;
--		}
- 	}
- 
-+	if (read_seqcount_retry(&obj->seq, seq))
-+		goto retry;
-+
- 	rcu_read_unlock();
- 	return ret;
+diff --git a/drivers/media/dvb-frontends/dib8000.c b/drivers/media/dvb-frontends/dib8000.c
+index 082796534b0a..bb02354a48b8 100644
+--- a/drivers/media/dvb-frontends/dib8000.c
++++ b/drivers/media/dvb-frontends/dib8000.c
+@@ -2107,32 +2107,55 @@ static void dib8000_load_ana_fe_coefs(struct dib8000_state *state, const s16 *an
+ 			dib8000_write_word(state, 117 + mode, ana_fe[mode]);
  }
+ 
+-static const u16 lut_prbs_2k[14] = {
+-	0, 0x423, 0x009, 0x5C7, 0x7A6, 0x3D8, 0x527, 0x7FF, 0x79B, 0x3D6, 0x3A2, 0x53B, 0x2F4, 0x213
++static const u16 lut_prbs_2k[13] = {
++	0x423, 0x009, 0x5C7,
++	0x7A6, 0x3D8, 0x527,
++	0x7FF, 0x79B, 0x3D6,
++	0x3A2, 0x53B, 0x2F4,
++	0x213
+ };
+-static const u16 lut_prbs_4k[14] = {
+-	0, 0x208, 0x0C3, 0x7B9, 0x423, 0x5C7, 0x3D8, 0x7FF, 0x3D6, 0x53B, 0x213, 0x029, 0x0D0, 0x48E
++
++static const u16 lut_prbs_4k[13] = {
++	0x208, 0x0C3, 0x7B9,
++	0x423, 0x5C7, 0x3D8,
++	0x7FF, 0x3D6, 0x53B,
++	0x213, 0x029, 0x0D0,
++	0x48E
+ };
+-static const u16 lut_prbs_8k[14] = {
+-	0, 0x740, 0x069, 0x7DD, 0x208, 0x7B9, 0x5C7, 0x7FF, 0x53B, 0x029, 0x48E, 0x4C4, 0x367, 0x684
++
++static const u16 lut_prbs_8k[13] = {
++	0x740, 0x069, 0x7DD,
++	0x208, 0x7B9, 0x5C7,
++	0x7FF, 0x53B, 0x029,
++	0x48E, 0x4C4, 0x367,
++	0x684
+ };
+ 
+ static u16 dib8000_get_init_prbs(struct dib8000_state *state, u16 subchannel)
+ {
+ 	int sub_channel_prbs_group = 0;
++	int prbs_group;
+ 
+-	sub_channel_prbs_group = (subchannel / 3) + 1;
+-	dprintk("sub_channel_prbs_group = %d , subchannel =%d prbs = 0x%04x\n", sub_channel_prbs_group, subchannel, lut_prbs_8k[sub_channel_prbs_group]);
++	sub_channel_prbs_group = subchannel / 3;
++	if (sub_channel_prbs_group >= ARRAY_SIZE(lut_prbs_2k))
++		return 0;
+ 
+ 	switch (state->fe[0]->dtv_property_cache.transmission_mode) {
+ 	case TRANSMISSION_MODE_2K:
+-			return lut_prbs_2k[sub_channel_prbs_group];
++		prbs_group = lut_prbs_2k[sub_channel_prbs_group];
++		break;
+ 	case TRANSMISSION_MODE_4K:
+-			return lut_prbs_4k[sub_channel_prbs_group];
++		prbs_group =  lut_prbs_4k[sub_channel_prbs_group];
++		break;
+ 	default:
+ 	case TRANSMISSION_MODE_8K:
+-			return lut_prbs_8k[sub_channel_prbs_group];
++		prbs_group = lut_prbs_8k[sub_channel_prbs_group];
+ 	}
++
++	dprintk("sub_channel_prbs_group = %d , subchannel =%d prbs = 0x%04x\n",
++		sub_channel_prbs_group, subchannel, prbs_group);
++
++	return prbs_group;
+ }
+ 
+ static void dib8000_set_13seg_channel(struct dib8000_state *state)
+@@ -2409,10 +2432,8 @@ static void dib8000_set_isdbt_common_channel(struct dib8000_state *state, u8 seq
+ 	/* TSB or ISDBT ? apply it now */
+ 	if (c->isdbt_sb_mode) {
+ 		dib8000_set_sb_channel(state);
+-		if (c->isdbt_sb_subchannel < 14)
+-			init_prbs = dib8000_get_init_prbs(state, c->isdbt_sb_subchannel);
+-		else
+-			init_prbs = 0;
++		init_prbs = dib8000_get_init_prbs(state,
++						  c->isdbt_sb_subchannel);
+ 	} else {
+ 		dib8000_set_13seg_channel(state);
+ 		init_prbs = 0xfff;
+@@ -3004,6 +3025,7 @@ static int dib8000_tune(struct dvb_frontend *fe)
+ 
+ 	unsigned long *timeout = &state->timeout;
+ 	unsigned long now = jiffies;
++	u16 init_prbs;
+ #ifdef DIB8000_AGC_FREEZE
+ 	u16 agc1, agc2;
+ #endif
+@@ -3302,8 +3324,10 @@ static int dib8000_tune(struct dvb_frontend *fe)
+ 		break;
+ 
+ 	case CT_DEMOD_STEP_11:  /* 41 : init prbs autosearch */
+-		if (state->subchannel <= 41) {
+-			dib8000_set_subchannel_prbs(state, dib8000_get_init_prbs(state, state->subchannel));
++		init_prbs = dib8000_get_init_prbs(state, state->subchannel);
++
++		if (init_prbs) {
++			dib8000_set_subchannel_prbs(state, init_prbs);
+ 			*tune_state = CT_DEMOD_STEP_9;
+ 		} else {
+ 			*tune_state = CT_DEMOD_STOP;
 -- 
 2.30.2
 
