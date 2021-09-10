@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 568DE407132
+	by mail.lfdr.de (Postfix) with ESMTP id E9D9A407134
 	for <lists+linux-media@lfdr.de>; Fri, 10 Sep 2021 20:42:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232490AbhIJSnu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Sep 2021 14:43:50 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:46671 "EHLO
+        id S232949AbhIJSnv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Sep 2021 14:43:51 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:56767 "EHLO
         relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232588AbhIJSnl (ORCPT
+        with ESMTP id S232603AbhIJSnm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Sep 2021 14:43:41 -0400
+        Fri, 10 Sep 2021 14:43:42 -0400
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 6C89A240008;
-        Fri, 10 Sep 2021 18:42:27 +0000 (UTC)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id F04F024000E;
+        Fri, 10 Sep 2021 18:42:28 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
@@ -32,10 +32,11 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Helen Koike <helen.koike@collabora.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH 09/22] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
-Date:   Fri, 10 Sep 2021 20:41:34 +0200
-Message-Id: <20210910184147.336618-10-paul.kocialkowski@bootlin.com>
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH 10/22] dt-bindings: media: Add Allwinner A83T MIPI CSI-2 bindings documentation
+Date:   Fri, 10 Sep 2021 20:41:35 +0200
+Message-Id: <20210910184147.336618-11-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
 References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
@@ -45,115 +46,155 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-MIPI CSI-2 is supported on the V3s with an A31-based MIPI CSI-2 bridge
-controller. The controller uses a separate D-PHY, which is the same
-that is otherwise used for MIPI DSI, but used in Rx mode.
-
-On the V3s, the CSI0 controller is dedicated to MIPI CSI-2 as it does
-not have access to any parallel interface pins.
-
-Add all the necessary nodes (CSI0, MIPI CSI-2 bridge and D-PHY) to
-support the MIPI CSI-2 interface.
-
-Note that a fwnode graph link is created between CSI0 and MIPI CSI-2
-even when no sensor is connected. This will result in a probe failure
-for the controller as long as no sensor is connected but this is fine
-since no other interface is available.
+This introduces YAML bindings documentation for the Allwinner A83T
+MIPI CSI-2 controller.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- arch/arm/boot/dts/sun8i-v3s.dtsi | 72 ++++++++++++++++++++++++++++++++
- 1 file changed, 72 insertions(+)
+ .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 133 ++++++++++++++++++
+ 1 file changed, 133 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
 
-diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
-index a77b63362a1d..ec7fa6459547 100644
---- a/arch/arm/boot/dts/sun8i-v3s.dtsi
-+++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-@@ -612,6 +612,34 @@ spi0: spi@1c68000 {
- 			#size-cells = <0>;
- 		};
- 
-+		csi0: camera@1cb0000 {
-+			compatible = "allwinner,sun8i-v3s-csi";
-+			reg = <0x01cb0000 0x1000>;
-+			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_CSI1_SCLK>,
-+				 <&ccu CLK_DRAM_CSI>;
-+			clock-names = "bus", "mod", "ram";
-+			resets = <&ccu RST_BUS_CSI>;
-+			status = "disabled";
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+new file mode 100644
+index 000000000000..0d41681bb8b2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+@@ -0,0 +1,133 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/allwinner,sun8i-a83t-mipi-csi2.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+			assigned-clocks = <&ccu CLK_CSI1_SCLK>;
-+			assigned-clock-parents = <&ccu CLK_PLL_ISP>;
++title: Allwinner A83T MIPI CSI-2 Device Tree Bindings
 +
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
++maintainers:
++  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 +
-+				port@1 {
-+					reg = <1>;
++properties:
++  compatible:
++    const: allwinner,sun8i-a83t-mipi-csi2
 +
-+					csi0_in_mipi_csi2: endpoint {
-+						remote-endpoint = <&mipi_csi2_out_csi0>;
-+					};
-+				};
-+			};
-+		};
++  reg:
++    maxItems: 1
 +
- 		csi1: camera@1cb4000 {
- 			compatible = "allwinner,sun8i-v3s-csi";
- 			reg = <0x01cb4000 0x3000>;
-@@ -637,5 +665,49 @@ gic: interrupt-controller@1c81000 {
- 			#interrupt-cells = <3>;
- 			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
- 		};
++  interrupts:
++    maxItems: 1
 +
-+		mipi_csi2: csi@1cb1000 {
-+			compatible = "allwinner,sun8i-v3s-mipi-csi2",
-+				     "allwinner,sun6i-a31-mipi-csi2";
-+			reg = <0x01cb1000 0x1000>;
-+			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_CSI1_SCLK>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_CSI>;
-+			status = "disabled";
++  clocks:
++    items:
++      - description: Bus Clock
++      - description: Module Clock
++      - description: MIPI-specific Clock
++      - description: Misc CSI Clock
 +
-+			phys = <&dphy>;
-+			phy-names = "dphy";
++  clock-names:
++    items:
++      - const: bus
++      - const: mod
++      - const: mipi
++      - const: misc
 +
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
++  resets:
++    maxItems: 1
 +
-+				mipi_csi2_in: port@0 {
-+					reg = <0>;
-+				};
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
 +
-+				mipi_csi2_out: port@1 {
-+					reg = <1>;
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        description: Input port, connect to a MIPI CSI-2 sensor
 +
-+					mipi_csi2_out_csi0: endpoint {
-+						remote-endpoint = <&csi0_in_mipi_csi2>;
-+					};
-+				};
-+			};
-+		};
++        properties:
++          reg:
++            const: 0
 +
-+		dphy: d-phy@1cb2000 {
-+			compatible = "allwinner,sun6i-a31-mipi-dphy";
-+			reg = <0x01cb2000 0x1000>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_MIPI_CSI>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_CSI>;
-+			allwinner,direction = "rx";
-+			status = "disabled";
-+			#phy-cells = <0>;
-+		};
- 	};
- };
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              clock-lanes:
++                maxItems: 1
++
++              data-lanes:
++                minItems: 1
++                maxItems: 4
++
++            required:
++              - data-lanes
++
++        additionalProperties: false
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        description: Output port, connect to a CSI controller
++
++        properties:
++          reg:
++            const: 1
++
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++        additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/sun8i-a83t-ccu.h>
++    #include <dt-bindings/reset/sun8i-a83t-ccu.h>
++
++    mipi_csi2: csi@1cb1000 {
++        compatible = "allwinner,sun8i-a83t-mipi-csi2";
++        reg = <0x01cb1000 0x1000>;
++        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&ccu CLK_BUS_CSI>,
++                 <&ccu CLK_CSI_SCLK>,
++                 <&ccu CLK_MIPI_CSI>,
++                 <&ccu CLK_CSI_MISC>;
++        clock-names = "bus", "mod", "mipi", "misc";
++        resets = <&ccu RST_BUS_CSI>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            mipi_csi2_in: port@0 {
++                reg = <0>;
++
++                mipi_csi2_in_ov8865: endpoint {
++                    data-lanes = <1 2 3 4>;
++
++                    remote-endpoint = <&ov8865_out_mipi_csi2>;
++                };
++            };
++
++            mipi_csi2_out: port@1 {
++                reg = <1>;
++
++                mipi_csi2_out_csi: endpoint {
++                    remote-endpoint = <&csi_in_mipi_csi2>;
++                };
++            };
++        };
++    };
++
++...
 -- 
 2.32.0
 
