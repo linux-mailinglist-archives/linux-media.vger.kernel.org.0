@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C189407112
-	for <lists+linux-media@lfdr.de>; Fri, 10 Sep 2021 20:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22C20407116
+	for <lists+linux-media@lfdr.de>; Fri, 10 Sep 2021 20:42:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232361AbhIJSn3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Sep 2021 14:43:29 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:36727 "EHLO
+        id S232509AbhIJSnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Sep 2021 14:43:33 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:43721 "EHLO
         relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230489AbhIJSn2 (ORCPT
+        with ESMTP id S232346AbhIJSna (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Sep 2021 14:43:28 -0400
+        Fri, 10 Sep 2021 14:43:30 -0400
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 24D2D240004;
-        Fri, 10 Sep 2021 18:42:14 +0000 (UTC)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id B6AEE240006;
+        Fri, 10 Sep 2021 18:42:15 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
@@ -33,9 +33,9 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Helen Koike <helen.koike@collabora.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH 01/22] clk: sunxi-ng: v3s: Make the ISP PLL clock public
-Date:   Fri, 10 Sep 2021 20:41:26 +0200
-Message-Id: <20210910184147.336618-2-paul.kocialkowski@bootlin.com>
+Subject: [PATCH 02/22] ARM: dts: sun8i: v3s: Parent the CSI module clock to the ISP PLL
+Date:   Fri, 10 Sep 2021 20:41:27 +0200
+Message-Id: <20210910184147.336618-3-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
 References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
@@ -45,43 +45,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In order to reparent the CSI module clock to the ISP PLL via
-device-tree, export the ISP PLL clock declaration in the public
-device-tree header.
+At reset time, the CSI module clock is parented to the video PLL, which
+is used by the display engine. While the CSI module clock needs to be
+clocked at precisely 297 MHz, the display engine will need to adjust its
+clock usage depending on the display pixel rate.
 
-Details regarding why the CSI module clock is best parented to the ISP
-PLL are provided in the related commit.
+As a result, the video PLL may be reconfigured to fit the need of the
+display engine, which will break the CSI hardware.
+
+A good way to work around this is to reparent the CSI module clock to
+the ISP PLL (like it is done in the Allwinner SDK). Do this using the
+device-tree assigned-clock properties.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- drivers/clk/sunxi-ng/ccu-sun8i-v3s.h      | 1 -
- include/dt-bindings/clock/sun8i-v3s-ccu.h | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/boot/dts/sun8i-v3s.dtsi | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
-index 108eeeedcbf7..48e7e2b9fcf8 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
-@@ -23,7 +23,6 @@
- #define CLK_PLL_DDR0		8
- #define CLK_PLL_PERIPH0		9
- #define CLK_PLL_PERIPH0_2X	10
--#define CLK_PLL_ISP		11
- #define CLK_PLL_PERIPH1		12
- /* Reserve one number for not implemented and not used PLL_DDR1 */
+diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+index 776913b3f85f..a77b63362a1d 100644
+--- a/arch/arm/boot/dts/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+@@ -622,6 +622,9 @@ csi1: camera@1cb4000 {
+ 			clock-names = "bus", "mod", "ram";
+ 			resets = <&ccu RST_BUS_CSI>;
+ 			status = "disabled";
++
++			assigned-clocks = <&ccu CLK_CSI1_SCLK>;
++			assigned-clock-parents = <&ccu CLK_PLL_ISP>;
+ 		};
  
-diff --git a/include/dt-bindings/clock/sun8i-v3s-ccu.h b/include/dt-bindings/clock/sun8i-v3s-ccu.h
-index 014ac6123d17..75f15e2d5404 100644
---- a/include/dt-bindings/clock/sun8i-v3s-ccu.h
-+++ b/include/dt-bindings/clock/sun8i-v3s-ccu.h
-@@ -46,6 +46,7 @@
- #ifndef _DT_BINDINGS_CLK_SUN8I_V3S_H_
- #define _DT_BINDINGS_CLK_SUN8I_V3S_H_
- 
-+#define CLK_PLL_ISP		11
- #define CLK_CPU			14
- 
- #define CLK_BUS_CE		20
+ 		gic: interrupt-controller@1c81000 {
 -- 
 2.32.0
 
