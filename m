@@ -2,119 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DC68406863
-	for <lists+linux-media@lfdr.de>; Fri, 10 Sep 2021 10:27:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC5FF40696A
+	for <lists+linux-media@lfdr.de>; Fri, 10 Sep 2021 12:01:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231815AbhIJI20 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Sep 2021 04:28:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60796 "EHLO
+        id S232209AbhIJKCY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Sep 2021 06:02:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231805AbhIJI2W (ORCPT
+        with ESMTP id S232191AbhIJKCX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Sep 2021 04:28:22 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF8CC061574
-        for <linux-media@vger.kernel.org>; Fri, 10 Sep 2021 01:27:11 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id u16so1450126wrn.5
-        for <linux-media@vger.kernel.org>; Fri, 10 Sep 2021 01:27:11 -0700 (PDT)
+        Fri, 10 Sep 2021 06:02:23 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E5A0C061756
+        for <linux-media@vger.kernel.org>; Fri, 10 Sep 2021 03:01:12 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id dc3so3088632ejb.10
+        for <linux-media@vger.kernel.org>; Fri, 10 Sep 2021 03:01:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=R6hl7Kj0yqQ18nUKlg1tjNnt1DaG6v6UQcKSpcEHFSE=;
-        b=AF9j13vF2C40YiZF8YnlmkRI+2y0Zgx5gxsyI8poos90I9FQMyjQftYcu/PQQbKRid
-         qbgd2bSNKqUg3uORGqVR3m7f44omguz6cGmpda84jTegLUf6kT9iGnfiiMCKVxGpozGt
-         4DkOkj8JqIxYhcy+Rr+gGXH4WA060kafbhcNNdhGWWVehKlZ9gj/F8BgSvTTUyTPsQe5
-         V2k5ZBmi2Rg2/UiszoM7SXqfPfEp1yQVwjHSCgWMRZjh8ZMnmEuNrI3xnBZxt3f7DFRD
-         yv8Chc8CTkXgJgzEe9h+eMgYid1dfBUqacTAw9N4IkxYm0gzfAl1auYyqd4X66ZoZHkn
-         o4Hg==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QAz0PRehc9psyfyZMa6l+L0qrVAxjGHmAKvCjO5mIfI=;
+        b=VtpLDTlPj53qzEVmIiHQDF5veditbzC39li94eqwuxd0HpaSIqPsAS/tQmL7JyNaAy
+         kCLvp84CinhsbF+SEaIENJ7jJwTkg4gw/ViHABydmoRPncxnY1Hlj4njBDO8lUHzRPKy
+         KbVZKOe7xo2FuWt4jwBV6zHZj6vCC7ltokGyk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=R6hl7Kj0yqQ18nUKlg1tjNnt1DaG6v6UQcKSpcEHFSE=;
-        b=rCayaOyXAN8DJE3UhEUkreQuJChY3RVVR/HjV67hwLj9cQ/sgnBoG3tSwz5DWObGNg
-         2nEHJOoF281mMBIc1uxKxGvyCksYnEUuv2TiiKDysPF/hWUsq9itWqFXBrBgAylyejCH
-         eFMJo0XhFXEF/bWb/l+TqT0eDNOegOWjDt6tL2YkJeSHCVdeYrZ/6WT30c9lhpUHrmN/
-         Dtr9FYMXaDvKy2Rwu0lAUTd6aSdS+HO0wlDXijB4eD2O9Hv3fgrBnct2rfS26vH28yhX
-         Xr32YeZAUzD5C10kreeoifzOkZuncD84SVv2KqW1jAhaVJVudXRd7ZxCQ77coSeEnY9M
-         8pQQ==
-X-Gm-Message-State: AOAM5306xCnm3rbnXCBZhICrNl7SMHGcJE5sR0zD0I19MESUA8JS+uud
-        t4jPyGlYyVjiJ8CWTYu+QwI=
-X-Google-Smtp-Source: ABdhPJwY9+avZrDVp15kV3L6A7ao2zBHMwJf/F8q7CwTgO/k1/czo3Esq+RiUn9i7G+1GaBzEM4rZA==
-X-Received: by 2002:adf:f08d:: with SMTP id n13mr8365190wro.339.1631262430440;
-        Fri, 10 Sep 2021 01:27:10 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id l10sm4429756wrg.50.2021.09.10.01.27.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 01:27:09 -0700 (PDT)
-From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
-        <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org
-Cc:     daniel@ffwll.ch
-Subject: [PATCH 14/14] drm/radeon: use new iterator in radeon_sync_resv
-Date:   Fri, 10 Sep 2021 10:26:55 +0200
-Message-Id: <20210910082655.82168-14-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210910082655.82168-1-christian.koenig@amd.com>
-References: <20210910082655.82168-1-christian.koenig@amd.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QAz0PRehc9psyfyZMa6l+L0qrVAxjGHmAKvCjO5mIfI=;
+        b=PS7YRarmoy4OepFJxX6JrmPU2cUXa0+UyusAp2n/JdUEfZlnE5t1SYVyTYYonAPZcM
+         7fkUTtiXzbxtNDshjNmiqMa1AkVYInJ7C9dnQHKIC2fBQHrEq03iyz16PI+mZdJ0EWoT
+         0R111cc6ZezbuV5jxzr+vpsEXavy/sqkVBQ/x3nGvvFnDh5POX7TFWerCEt8bsn/Ax3P
+         0lIdQUaBdSrrG/bt3OIowbem6q3zBkmlVWFq2Peluu9JQxKc6BDjWbYsXfLl/edGwz8k
+         02xvgpiQTdfCmPL7o0tdR2N9ZyEQVwz+tQZvDqwL6RQ6iO89UKXowQFJLtDDWvYAKO+o
+         7Oyw==
+X-Gm-Message-State: AOAM533CC9UPl6KGdEfFOgs8ylGh1A3cd59sx36tWajSk9jBjRP/40qX
+        AP0sVbg8kOtIJgFPmWW1DgHuwafAXk8ZIQ==
+X-Google-Smtp-Source: ABdhPJytQft+guS5x92uBFsA2xG/cs5nhLMWm0+xJ6X5Hwg3Xv23suuHvES4m/dGILyfYtRL/10f3A==
+X-Received: by 2002:a17:906:32c9:: with SMTP id k9mr8664175ejk.218.1631268070279;
+        Fri, 10 Sep 2021 03:01:10 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com. [209.85.221.43])
+        by smtp.gmail.com with ESMTPSA id s26sm2466988edt.41.2021.09.10.03.01.09
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Sep 2021 03:01:09 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id d6so1788086wrc.11
+        for <linux-media@vger.kernel.org>; Fri, 10 Sep 2021 03:01:09 -0700 (PDT)
+X-Received: by 2002:adf:ea90:: with SMTP id s16mr8772371wrm.235.1631268068593;
+ Fri, 10 Sep 2021 03:01:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210909112430.61243-1-senozhatsky@chromium.org>
+In-Reply-To: <20210909112430.61243-1-senozhatsky@chromium.org>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 10 Sep 2021 19:00:57 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5D9fgq7WGydXR344fscHSgKMCgwpotSMRszR_v2kX8q0A@mail.gmail.com>
+Message-ID: <CAAFQd5D9fgq7WGydXR344fscHSgKMCgwpotSMRszR_v2kX8q0A@mail.gmail.com>
+Subject: Re: [PATCHv6 0/8] videobuf2: support new noncontiguous DMA API
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Simplifying the code a bit.
+Hi Sergey,
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/radeon/radeon_sync.c | 22 +++-------------------
- 1 file changed, 3 insertions(+), 19 deletions(-)
+On Thu, Sep 9, 2021 at 8:24 PM Sergey Senozhatsky
+<senozhatsky@chromium.org> wrote:
+>
+> Hello,
+>
+>         The series adds support for noncontiguous DMA API and
+> V4L2_MEMORY_FLAG_NON_COHERENT UAPI.
+>
+> v5:
+>
+> https://lore.kernel.org/lkml/20210823122235.116189-1-senozhatsky@chromium.org/
+>
+> -- addressed feedback (Tomasz)
+> -- reworked prepare/finish functions (Tomasz)
+>
+> Sergey Senozhatsky (8):
+>   videobuf2: rework vb2_mem_ops API
+>   videobuf2: inverse buffer cache_hints flags
+>   videobuf2: split buffer cache_hints initialisation
+>   videobuf2: move cache_hints handling to allocators
+>   videobuf2: add V4L2_MEMORY_FLAG_NON_COHERENT flag
+>   videobuf2: add queue memory coherency parameter
+>   videobuf2: handle V4L2_MEMORY_FLAG_NON_COHERENT flag
+>   videobuf2: handle non-contiguous DMA allocations
+>
+>  .../userspace-api/media/v4l/buffer.rst        |  40 +++-
+>  .../media/v4l/vidioc-create-bufs.rst          |   7 +-
+>  .../media/v4l/vidioc-reqbufs.rst              |  16 +-
+>  .../media/common/videobuf2/videobuf2-core.c   | 126 +++++++----
+>  .../common/videobuf2/videobuf2-dma-contig.c   | 195 ++++++++++++++----
+>  .../media/common/videobuf2/videobuf2-dma-sg.c |  39 ++--
+>  .../media/common/videobuf2/videobuf2-v4l2.c   |  59 +++---
+>  .../common/videobuf2/videobuf2-vmalloc.c      |  30 +--
+>  drivers/media/dvb-core/dvb_vb2.c              |   2 +-
+>  drivers/media/v4l2-core/v4l2-compat-ioctl32.c |   9 +-
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
+>  include/media/videobuf2-core.h                |  59 +++---
+>  include/uapi/linux/videodev2.h                |  11 +-
+>  13 files changed, 411 insertions(+), 186 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_sync.c b/drivers/gpu/drm/radeon/radeon_sync.c
-index 9257b60144c4..14a4d8135bad 100644
---- a/drivers/gpu/drm/radeon/radeon_sync.c
-+++ b/drivers/gpu/drm/radeon/radeon_sync.c
-@@ -91,33 +91,17 @@ int radeon_sync_resv(struct radeon_device *rdev,
- 		     struct dma_resv *resv,
- 		     bool shared)
- {
--	struct dma_resv_list *flist;
--	struct dma_fence *f;
-+	struct dma_resv_cursor cursor;
- 	struct radeon_fence *fence;
--	unsigned i;
-+	struct dma_fence *f;
- 	int r = 0;
- 
--	/* always sync to the exclusive fence */
--	f = dma_resv_excl_fence(resv);
--	fence = f ? to_radeon_fence(f) : NULL;
--	if (fence && fence->rdev == rdev)
--		radeon_sync_fence(sync, fence);
--	else if (f)
--		r = dma_fence_wait(f, true);
--
--	flist = dma_resv_shared_list(resv);
--	if (shared || !flist || r)
--		return r;
--
--	for (i = 0; i < flist->shared_count; ++i) {
--		f = rcu_dereference_protected(flist->shared[i],
--					      dma_resv_held(resv));
-+	dma_resv_for_each_fence(resv, &cursor, shared, f) {
- 		fence = to_radeon_fence(f);
- 		if (fence && fence->rdev == rdev)
- 			radeon_sync_fence(sync, fence);
- 		else
- 			r = dma_fence_wait(f, true);
--
- 		if (r)
- 			break;
- 	}
--- 
-2.25.1
+Thanks a lot for working on this. This version looks good to me.
 
+Acked-by: Tomasz Figa <tfiga@chromium.org>
+
+Best regards,
+Tomasz
