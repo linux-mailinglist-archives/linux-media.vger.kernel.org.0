@@ -2,134 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 375344074AA
-	for <lists+linux-media@lfdr.de>; Sat, 11 Sep 2021 04:37:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 708E74074C0
+	for <lists+linux-media@lfdr.de>; Sat, 11 Sep 2021 04:54:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235166AbhIKCiK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Sep 2021 22:38:10 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:40805 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231864AbhIKCiJ (ORCPT
+        id S235212AbhIKCzW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Sep 2021 22:55:22 -0400
+Received: from mail-lf1-f43.google.com ([209.85.167.43]:39497 "EHLO
+        mail-lf1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231864AbhIKCzV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Sep 2021 22:38:09 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.nyi.internal (Postfix) with ESMTP id A282B580D33;
-        Fri, 10 Sep 2021 22:36:50 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Fri, 10 Sep 2021 22:36:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        subject:to:cc:references:from:message-id:date:mime-version
-        :in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=M
-        ZwiB4t7cgLqvScVDIZR9A1Mim4fiTt+M7GI7d73zms=; b=H+LiH3zHq89scv+vN
-        aIu0hc/isLfU5jfa+wOyLj6+jVyHhqfJex9qqP7MH6RG5fNK67JTj+kTPIJ8rVxT
-        T1bV3pU6M2GBvAlyuugBwmAcrzQM88BnjsARCPwEfUB7GJDbnZsPbN/L0hozartO
-        /PW3VExwPTn3SK16C1ji+OWrBrXOk9mlwOHhBkc5qh6mIr2kVsUNxi6C/vBISVuY
-        tvnbOmByEQPBjsT2jOThZL6HxbVKnsIo44GLENjuKeWOg9F/7M5YsCQojR03dA37
-        grnQ98ctpMennqgG40d9fxCWhcA8oROqpKTYgdmDQe7oLXyZkkU9gydTSMqBnPIK
-        AMybA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=MZwiB4t7cgLqvScVDIZR9A1Mim4fiTt+M7GI7d73z
-        ms=; b=YXpDWxOIL/8VZ5yfptuuZalKkr1XSXs1Ypl4qX+K5Zkau7Cw3lH2epp+J
-        /Uf8/czE9XuucaN9l/YiKt6iLgve29+SAyOQ2XyFiBlc/LzwhJqMu1ami5F/AWsS
-        zmuv0clVpDsq7LZngC5vy4J7jYoWKdQb/IWo61/y58SYFCcWXnDyqhXRREdgubGk
-        DVH5jWstr0URoSracLG8scY5xoKoMpA37qLPtHwKW2I+yNVbxK04ksXjTrTdMxf4
-        FO1XDBpA8MqEiHOvKQziKqzYYP2rJtHzIhS9UQ44jMSB5DBvUOk/e2iaB70k/2bQ
-        RkzC10gHm7oyEABsyR2VHqMx6glUQ==
-X-ME-Sender: <xms:PxY8YRkCQ7DagY8flMijoDh0kUEacLL8-g-XKlZTnynF7w27LzgPuA>
-    <xme:PxY8Yc12bCUDxNlESx3VPqZBgMcim5ec5mb-2TwFxFXtrY6n47KuYhcTziKgFXSrF
-    X84qANXbrFG1Dp1yA>
-X-ME-Received: <xmr:PxY8YXobR6QHdlmHycSQ_Ct8ec7r1H00G5LB8_TmmIzx9aLgpBRRqGE5f-91-Lied0XH5OHfdMdHyvFncdgXqJTzsSXJDCKB2RNiJPJkWpbMSxiUz1X63SffkA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegvddgheejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepgfevffetleehffejueekvdekvdeitdehveegfeekheeuieeiueet
-    uefgtedtgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:PxY8YRm7UToxuHcOCZJF75VSYqkqUiw3BkiEkjlsdthsC7HzDhZHCg>
-    <xmx:PxY8Yf3jNKjkn_NjdHFFEyOex0ONUpP9E4QCgVzvZLbbIeZ22KhPTg>
-    <xmx:PxY8YQv9fDerYHtCaDWaujYoO-8AbcyE7xEPDU9WyYqKjFU-xoqgIw>
-    <xmx:QhY8YU6gs5pimeqB1fWChGZG99tFP0P6cI2KunVIcCdsMwaIVhlvKw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Sep 2021 22:36:47 -0400 (EDT)
-Subject: Re: [PATCH 19/22] soc: sunxi: mbus: Add A31 ISP compatibles to the
- list
+        Fri, 10 Sep 2021 22:55:21 -0400
+Received: by mail-lf1-f43.google.com with SMTP id i25so4060745lfg.6;
+        Fri, 10 Sep 2021 19:54:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=HrzUj2kOKfp3nelOA5Rh3JYBH3kW210KP3kKzozo3hQ=;
+        b=kgm4E0OyVEQndM7D0SAxVtMvYCKl3CHDQ7rpkWckfK22kHk7v7+4tnKTsVR+tPWZP2
+         KlONujkQc9kEGaoWfjtSKq4BEM8Ov3hhgOphWEjaarAH1oQI7NbkSMkLve2Q0dwggrhu
+         twD3qfF6dhQp/Brk8MELjBKKg8jKsCGNZC3hEcfib12dIjajxQX90GG+Q9y/c8TLcXnU
+         uscfFwZky2GtEgNMiKyiWW5dmp1FfHJhp/sMBhd8yGLeyBRrFP0kQEpJPyeEFmW6vf0M
+         r4T3lAaumoMQIVcs1fwaXXuUQdWWSp//+JZ5JMZG9PsTB/jOw7VcpjU/S+AlElcTWbj9
+         e8EQ==
+X-Gm-Message-State: AOAM532huNCmXfLUgFuB64t7XySLZNABobOpnxKv8BX5+UIURc1VKLNO
+        0pbJfba4S0VEK+J9OrQ4hP0MdrY2/c3PFQ==
+X-Google-Smtp-Source: ABdhPJznoZHw/vwCHNuPc4k4BJNc28bbs1F15FpEepcfJrowI2o6C4Yzr+WbvxxpNh7xII40KyMj8g==
+X-Received: by 2002:a05:6512:6cd:: with SMTP id u13mr564262lff.184.1631328847818;
+        Fri, 10 Sep 2021 19:54:07 -0700 (PDT)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
+        by smtp.gmail.com with ESMTPSA id b28sm44043ljf.101.2021.09.10.19.54.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Sep 2021 19:54:07 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id s10so7999726lfr.11;
+        Fri, 10 Sep 2021 19:54:07 -0700 (PDT)
+X-Received: by 2002:ac2:482d:: with SMTP id 13mr583877lft.120.1631328846840;
+ Fri, 10 Sep 2021 19:54:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com> <20210910184147.336618-14-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20210910184147.336618-14-paul.kocialkowski@bootlin.com>
+Reply-To: wens@csie.org
+From:   Chen-Yu Tsai <wens@csie.org>
+Date:   Sat, 11 Sep 2021 10:53:55 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66OHJREEg1Djkk=VyY0yUr5JE8Fp+xsb40wCk6E56bH8A@mail.gmail.com>
+Message-ID: <CAGb2v66OHJREEg1Djkk=VyY0yUr5JE8Fp+xsb40wCk6E56bH8A@mail.gmail.com>
+Subject: Re: [PATCH NOT FOR MERGE 13/22] ARM: dts: sun8i: a83t: Add MIPI CSI-2
+ controller node
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Yong Deng <yong.deng@magewell.com>,
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-sunxi@lists.linux.dev,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-phy@lists.infradead.org,
+        linux-clk <linux-clk@vger.kernel.org>,
+        linux-staging@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Maxime Ripard <mripard@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Helen Koike <helen.koike@collabora.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-20-paul.kocialkowski@bootlin.com>
-From:   Samuel Holland <samuel@sholland.org>
-Message-ID: <208239ba-01b1-451e-6030-894bd25770c3@sholland.org>
-Date:   Fri, 10 Sep 2021 21:36:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
-MIME-Version: 1.0
-In-Reply-To: <20210910184147.336618-20-paul.kocialkowski@bootlin.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/10/21 1:41 PM, Paul Kocialkowski wrote:
-> The A31 ISP sits on the mbus and requires the usual bus address
-> adaptation. Add its compatibles to the list.
+Hi,
 
-My understanding is that this driver only exists to work around old DT
-bindings where the interconnects/interconnect-names = "dma-mem"
-properties are not required (and so they are historically missing from
-the device trees).
-
-For new bindings, it would be better to use those properties and not add
-to this list.
-
-Regards,
-Samuel
-
+On Sat, Sep 11, 2021 at 2:42 AM Paul Kocialkowski
+<paul.kocialkowski@bootlin.com> wrote:
+>
+> MIPI CSI-2 is supported on the A83T with a dedicated controller that
+> covers both the protocol and D-PHY. It can be connected to the CSI
+> interface as a V4L2 subdev through the fwnode graph.
+>
+> This is not done by default since connecting the bridge without a
+> subdev attached to it will cause a failure on the CSI driver.
+>
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  drivers/soc/sunxi/sunxi_mbus.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/soc/sunxi/sunxi_mbus.c b/drivers/soc/sunxi/sunxi_mbus.c
-> index d90e4a264b6f..7f0079ea30b1 100644
-> --- a/drivers/soc/sunxi/sunxi_mbus.c
-> +++ b/drivers/soc/sunxi/sunxi_mbus.c
-> @@ -37,6 +37,7 @@ static const char * const sunxi_mbus_devices[] = {
->  	"allwinner,sun5i-a13-video-engine",
->  	"allwinner,sun6i-a31-csi",
->  	"allwinner,sun6i-a31-display-backend",
-> +	"allwinner,sun6i-a31-isp",
->  	"allwinner,sun7i-a20-csi0",
->  	"allwinner,sun7i-a20-display-backend",
->  	"allwinner,sun7i-a20-display-frontend",
-> @@ -50,6 +51,7 @@ static const char * const sunxi_mbus_devices[] = {
->  	"allwinner,sun8i-h3-csi",
->  	"allwinner,sun8i-h3-video-engine",
->  	"allwinner,sun8i-v3s-csi",
-> +	"allwinner,sun8i-v3s-isp",
->  	"allwinner,sun9i-a80-display-backend",
->  	"allwinner,sun50i-a64-csi",
->  	"allwinner,sun50i-a64-video-engine",
-> 
 
+I believe you tagged the wrong patch to not be merged? AFAICT it
+should be the next patch that hooks up OV8865, not this one.
+
+> ---
+>  arch/arm/boot/dts/sun8i-a83t.dtsi | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
+> index ac97eac91349..1fa51f7ef063 100644
+> --- a/arch/arm/boot/dts/sun8i-a83t.dtsi
+> +++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
+> @@ -1064,6 +1064,32 @@ csi: camera@1cb0000 {
+>                         status = "disabled";
+>                 };
+>
+> +               mipi_csi2: csi@1cb1000 {
+> +                       compatible = "allwinner,sun8i-a83t-mipi-csi2";
+> +                       reg = <0x01cb1000 0x1000>;
+> +                       interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&ccu CLK_BUS_CSI>,
+> +                                <&ccu CLK_CSI_SCLK>,
+> +                                <&ccu CLK_MIPI_CSI>,
+> +                                <&ccu CLK_CSI_MISC>;
+> +                       clock-names = "bus", "mod", "mipi", "misc";
+> +                       resets = <&ccu RST_BUS_CSI>;
+> +                       status = "disabled";
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               mipi_csi2_in: port@0 {
+> +                                       reg = <0>;
+> +                               };
+> +
+> +                               mipi_csi2_out: port@1 {
+> +                                       reg = <1>;
+> +                               };
+> +                       };
+> +               };
+> +
+>                 hdmi: hdmi@1ee0000 {
+>                         compatible = "allwinner,sun8i-a83t-dw-hdmi";
+>                         reg = <0x01ee0000 0x10000>;
+> --
+> 2.32.0
+>
+>
