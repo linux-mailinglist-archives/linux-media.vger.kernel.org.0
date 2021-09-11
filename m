@@ -2,92 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D25640736E
-	for <lists+linux-media@lfdr.de>; Sat, 11 Sep 2021 00:37:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E53CA4074A6
+	for <lists+linux-media@lfdr.de>; Sat, 11 Sep 2021 04:33:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232013AbhIJWiP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Sep 2021 18:38:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54556 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231376AbhIJWiP (ORCPT
+        id S235184AbhIKCeW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Sep 2021 22:34:22 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:53763 "EHLO
+        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235128AbhIKCeV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Sep 2021 18:38:15 -0400
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61545C061756
-        for <linux-media@vger.kernel.org>; Fri, 10 Sep 2021 15:37:03 -0700 (PDT)
-Received: by mail-io1-xd2f.google.com with SMTP id b10so4266868ioq.9
-        for <linux-media@vger.kernel.org>; Fri, 10 Sep 2021 15:37:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IFaDdxqmF/T13hXPY+icTVWA4xnaWqbUGckikX+9UCU=;
-        b=KApiJDO81GVjSe/Z5tZbiWT7xBq6x+evwNXRfNs5RxZEPC2ify4IT0CqzG77T4ST0Q
-         X6scXMZl6SsRESo/jZKRhAjsAtrYu3UdNdWj6DxiySx8DrSs2E+wmVvV0gMTCVP4gbDd
-         AQGB/Mp3fziOhTu8BRTusYT07k4kOvvMt0+JY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IFaDdxqmF/T13hXPY+icTVWA4xnaWqbUGckikX+9UCU=;
-        b=zjndaeQcWQvi/dInlxg6MTONdzbYI8W+DptMiiNL2Z3nGI4w6ukDBMv8c+Wz9c6LcV
-         pgQ2eSwVHF1/5k0VzoMknhLAlMS1YgUNtoo+dy1QH4P9fWU3LEhrUaRwapbwQduySuSB
-         W4Vv43EoFN52vmcFMmNiCVvOy+8du3ER/Wz5Z+XrwOfnaBMNFantCrK/w6iSXiiNDaYT
-         smq5EC3EVWZfp9XH9f+Kd582eJuvy73RYYRvkMzNiEg+QGgt59muwMrO3U91bVa4XvFG
-         0bnYEVAk3qkReyoi3mVSAfKmTHrtrJkIaNv0oEwxCjaDDSGGsjL407EnKyU1f1awJT3F
-         mDvg==
-X-Gm-Message-State: AOAM533QnaX3iyfKk739/+v4l/U7ZivDW+kTlg6OQqKFiEhKDTTG7cMZ
-        jS49C13ItVF1a4xM0zOBy4vV/g==
-X-Google-Smtp-Source: ABdhPJyo1Zzq8WZa3h6TAc80j+2p7KisrmCeonOgHtXV/Hhm9GdGRLW7KTmjd6/XBPFJGcOPMU6sWg==
-X-Received: by 2002:a05:6638:d1:: with SMTP id w17mr46388jao.33.1631313422678;
-        Fri, 10 Sep 2021 15:37:02 -0700 (PDT)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id c23sm21623ioi.31.2021.09.10.15.37.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 15:37:02 -0700 (PDT)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        gregkh@linuxfoundation.org, paskripkin@gmail.com
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: atomisp: fix control reaches end of non-void function error
-Date:   Fri, 10 Sep 2021 16:37:00 -0600
-Message-Id: <20210910223700.32494-1-skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+        Fri, 10 Sep 2021 22:34:21 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 44C92580D36;
+        Fri, 10 Sep 2021 22:32:53 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Fri, 10 Sep 2021 22:32:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        subject:to:cc:references:from:message-id:date:mime-version
+        :in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=9
+        wn7RP7Sux9NYgDDcEExp5Udsa+3BvnVWNaKgQ+xtco=; b=C54qrA6kMQY/5XFcT
+        HMkZjs6lh0FZRguVrhwIIxrnEospagqHftUvoYjDpwCm52GukttO6NgXCKLjCWd4
+        IPQ3HnUc0sspZBvEeG11N3NxPIxPAELxHPmDPkzwN3D+a7y2U4Ymnf6kKO0tEzpv
+        /T/jlT9JM4ZHHQMfm51jRmmRJM+2NUJGu+dVVMSR/EnecBMYkKm0Ot+TNRo2fmM3
+        8Ss6bNrbFwpdFdmjxPq8cgRIepxZ9WZcFZMurqPQFuOCLKhn7jkwsw3i+L/oBHvd
+        YQXYsWdsYjxJCqUVq1BUAVjMV41QYSVZ4zuYmE114hVUuAozGtptkODL8ggpSKn9
+        XLh9g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=9wn7RP7Sux9NYgDDcEExp5Udsa+3BvnVWNaKgQ+xt
+        co=; b=qtYIC427B9zI8tzmC3wd15AoaBFHpEDOC4H603KsCIB0FiBofs4wkvwg7
+        uS9gkqjTxxsnurrBUh9uTLiFVU5y/AU2WqyvWkXFQhqXH9SSjNvCFrzXfYDv80zD
+        Dbjd2JwpGgoW3IfzTZd41DZ0DI+/8emaVG65seFbSczgiZoiO7LGDmtkP61nGiNO
+        q29dU+yrnOCwwDHmCcS1rC/Q004jB9wAxkp0Jvt6Aq4/6Pg9a5cQCOG0tJaXKWwm
+        piUEidBdJvly9SUKPlltO/LYrX7RUGfolQSptC905Qh01jToxPFZNY+rO2jnFMQS
+        5lAtst/0U/MIehzGvTp8tBGhbfKkA==
+X-ME-Sender: <xms:UhU8YdLgdDXoWKC5WM2HQdQzOWdceZhNFSM4ZDIHW6NksC96cac9SQ>
+    <xme:UhU8YZKBTmqsKcPVzbIpFt3Yxh47OT_TXobfh9KV4CulVI2nzLQsjQCI3W3wZXy7w
+    JGzunryDsbkl61_ow>
+X-ME-Received: <xmr:UhU8YVuvztFyxK92St4z7JM8euPi079MLna5__K8AbtHxfeDfOc6Zt95nHudd6fSdDF6DSaxsOn2at7cJ1owmDaQcN290xAoXC-DMGRMN1IRWRpVWg83Sp9V5A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegvddgheejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepgfevffetleehffejueekvdekvdeitdehveegfeekheeuieeiueet
+    uefgtedtgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:UhU8YebXU91bKJe0VzOMREaX9RL4z3XY_MEMKJXqUxxdu3mFSIg-dA>
+    <xmx:UhU8YUZV90hxitD4BKT3lUTXoRgZFq4zPto02grRmhBVZSp61WGIrw>
+    <xmx:UhU8YSDPWhl62RYdMbH_U3KEA4Rr7McORTS2QeDVX2eLVn4djGBtdw>
+    <xmx:VRU8YUMXGyMvhK50DVWRrnQwwYX_iPnsyiYrYSDrtx6K3yINWpvIZw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 10 Sep 2021 22:32:49 -0400 (EDT)
+Subject: Re: [PATCH 09/22] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2
+ support
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
+ <20210910184147.336618-10-paul.kocialkowski@bootlin.com>
+From:   Samuel Holland <samuel@sholland.org>
+Message-ID: <483288cb-d9fa-4581-7986-d15c4aa27769@sholland.org>
+Date:   Fri, 10 Sep 2021 21:32:48 -0500
+User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210910184147.336618-10-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix the following build error with -Werror=return-type enabled. Fix
-input_system_configure_channel_sensor() to return status when control
-reaches the end.
+On 9/10/21 1:41 PM, Paul Kocialkowski wrote:
+> MIPI CSI-2 is supported on the V3s with an A31-based MIPI CSI-2 bridge
+> controller. The controller uses a separate D-PHY, which is the same
+> that is otherwise used for MIPI DSI, but used in Rx mode.
+> 
+> On the V3s, the CSI0 controller is dedicated to MIPI CSI-2 as it does
+> not have access to any parallel interface pins.
+> 
+> Add all the necessary nodes (CSI0, MIPI CSI-2 bridge and D-PHY) to
+> support the MIPI CSI-2 interface.
+> 
+> Note that a fwnode graph link is created between CSI0 and MIPI CSI-2
+> even when no sensor is connected. This will result in a probe failure
+> for the controller as long as no sensor is connected but this is fine
+> since no other interface is available.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  arch/arm/boot/dts/sun8i-v3s.dtsi | 72 ++++++++++++++++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+> index a77b63362a1d..ec7fa6459547 100644
+> --- a/arch/arm/boot/dts/sun8i-v3s.dtsi
+> +++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+> @@ -612,6 +612,34 @@ spi0: spi@1c68000 {
+>  			#size-cells = <0>;
+>  		};
+>  
+> +		csi0: camera@1cb0000 {
+> +			compatible = "allwinner,sun8i-v3s-csi";
+> +			reg = <0x01cb0000 0x1000>;
+> +			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_CSI>,
+> +				 <&ccu CLK_CSI1_SCLK>,
+> +				 <&ccu CLK_DRAM_CSI>;
+> +			clock-names = "bus", "mod", "ram";
+> +			resets = <&ccu RST_BUS_CSI>;
+> +			status = "disabled";
+> +
+> +			assigned-clocks = <&ccu CLK_CSI1_SCLK>;
+> +			assigned-clock-parents = <&ccu CLK_PLL_ISP>;
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +
+> +					csi0_in_mipi_csi2: endpoint {
+> +						remote-endpoint = <&mipi_csi2_out_csi0>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+>  		csi1: camera@1cb4000 {
+>  			compatible = "allwinner,sun8i-v3s-csi";
+>  			reg = <0x01cb4000 0x3000>;
 
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.o
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function ‘input_system_configure_channel_sensor’:
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
- 1649 | }
+All of the new nodes should be added above this one, to maintain unit
+address order.
 
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- .../media/atomisp/pci/hive_isp_css_common/host/input_system.c    | 1 +
- 1 file changed, 1 insertion(+)
+Regards,
+Samuel
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-index 8e085dda0c18..5d088d6fb01f 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-@@ -1646,6 +1646,7 @@ static input_system_err_t input_system_configure_channel_sensor(
- 	default:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
- 	}
-+	return status;
- }
- 
- // Test flags and set structure.
--- 
-2.30.2
+> @@ -637,5 +665,49 @@ gic: interrupt-controller@1c81000 {
+>  			#interrupt-cells = <3>;
+>  			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
+>  		};
+> +
+> +		mipi_csi2: csi@1cb1000 {
+> +			compatible = "allwinner,sun8i-v3s-mipi-csi2",
+> +				     "allwinner,sun6i-a31-mipi-csi2";
+> +			reg = <0x01cb1000 0x1000>;
+> +			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_CSI>,
+> +				 <&ccu CLK_CSI1_SCLK>;
+> +			clock-names = "bus", "mod";
+> +			resets = <&ccu RST_BUS_CSI>;
+> +			status = "disabled";
+> +
+> +			phys = <&dphy>;
+> +			phy-names = "dphy";
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				mipi_csi2_in: port@0 {
+> +					reg = <0>;
+> +				};
+> +
+> +				mipi_csi2_out: port@1 {
+> +					reg = <1>;
+> +
+> +					mipi_csi2_out_csi0: endpoint {
+> +						remote-endpoint = <&csi0_in_mipi_csi2>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		dphy: d-phy@1cb2000 {
+> +			compatible = "allwinner,sun6i-a31-mipi-dphy";
+> +			reg = <0x01cb2000 0x1000>;
+> +			clocks = <&ccu CLK_BUS_CSI>,
+> +				 <&ccu CLK_MIPI_CSI>;
+> +			clock-names = "bus", "mod";
+> +			resets = <&ccu RST_BUS_CSI>;
+> +			allwinner,direction = "rx";
+> +			status = "disabled";
+> +			#phy-cells = <0>;
+> +		};
+>  	};
+>  };
+> 
 
