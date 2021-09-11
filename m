@@ -2,78 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16E5F40769A
-	for <lists+linux-media@lfdr.de>; Sat, 11 Sep 2021 14:55:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C9A340784B
+	for <lists+linux-media@lfdr.de>; Sat, 11 Sep 2021 15:29:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235755AbhIKM4P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Sep 2021 08:56:15 -0400
-Received: from mga04.intel.com ([192.55.52.120]:60242 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230249AbhIKM4P (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Sep 2021 08:56:15 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10103"; a="219425403"
-X-IronPort-AV: E=Sophos;i="5.85,285,1624345200"; 
-   d="scan'208";a="219425403"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2021 05:55:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,285,1624345200"; 
-   d="scan'208";a="470958122"
-Received: from lkp-server01.sh.intel.com (HELO 730d49888f40) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 11 Sep 2021 05:55:00 -0700
-Received: from kbuild by 730d49888f40 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mP2X6-0005Ro-1X; Sat, 11 Sep 2021 12:55:00 +0000
-Date:   Sat, 11 Sep 2021 20:54:18 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>, linaro-mm-sig@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, daniel@ffwll.ch
-Subject: [PATCH] dma-buf: fix noderef.cocci warnings
-Message-ID: <20210911125418.GA43370@6494e1c1ac26>
-References: <20210910082655.82168-4-christian.koenig@amd.com>
+        id S238396AbhIKNaP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Sep 2021 09:30:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48916 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238631AbhIKN3V (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 11 Sep 2021 09:29:21 -0400
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C9E5C0613AC
+        for <linux-media@vger.kernel.org>; Sat, 11 Sep 2021 06:27:59 -0700 (PDT)
+Received: by mail-il1-x12c.google.com with SMTP id h29so5083518ila.2
+        for <linux-media@vger.kernel.org>; Sat, 11 Sep 2021 06:27:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=wLwU2RMsaoxCtNPTnRbKPbretu8LRibpMTqg+kTqxHs=;
+        b=HU9Cl4c5R6tOZMRiMrU7huapOXlxlsEkHAf4Yf7J9lOXu+tBABspAxgrauMou+Us5F
+         +5GExdhdQ6TJocYRpFEMsGZUPjHZpgn5btkrrDbWiKeX3ZlGhs/edT39pD7KBaBH0EZg
+         FRAOsfWemYIgeL6QwVEgMl7+1b5PrB+15xxZDM9+wmTuAY9NOyM+HQEUSSvBdpltafS2
+         /AaZfxVczaLrx290798fmrmsRaGmNJUYnAirgYr8wpaod3DN3FJ2ExC2BTnHNyI8jd8t
+         6lYB4w07uc5MrWG8W2FN/zZ/fMwh08bUmX0KxX87hsOdVYkZyDpXvNIT+2a5IJVDkySk
+         u5xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=wLwU2RMsaoxCtNPTnRbKPbretu8LRibpMTqg+kTqxHs=;
+        b=bpdtbirXS8x73qW6Egniy7Vlkxm+fYV/GOOT8lZzxwhFPmBS1KQMBzQ3N8QJgUspju
+         6OjU5K7p2Tw95TvsJdjuxYhhiBsnnNZmx3xavDt02SQ23zI8lJvuYotcbi2VJcsUQdcI
+         YVkuscws/T7MQppzlH13LMLBPT9CKVSges2JviStbYpW2r3G2+/Hu3S9ljcSqY7zB9qt
+         TfKMcxTqKqBrYsiMIEZegVXTZViiVU1jM/+HZNEKtfTE8fa6feS4j/NknSxC237BB/8v
+         KTR4KHcWUFCTv1Ushz+GFqG6F1pIfU2lIDJU4rWquSlhafY6iJc2in1w6ziuWUmNgYnm
+         1rLA==
+X-Gm-Message-State: AOAM5326O6xzx/nfI+2e/TTbDEXYlZz+lGUR5Zl3gcoxcGm7JMXkkRkw
+        CZR9rcvRCFilLnR3Bon8RmmLMluwwxcVRltPu8Sd/6uookE=
+X-Google-Smtp-Source: ABdhPJwekGbtKiTqvCvl/ONDYwThe4WQd+yckggq1fRwIJY6Kh4/LJFtvkTchSwikgqoyy54PSnbXGO7aUNIo2qzF0s=
+X-Received: by 2002:a92:bf01:: with SMTP id z1mr1706814ilh.155.1631366878918;
+ Sat, 11 Sep 2021 06:27:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210910082655.82168-4-christian.koenig@amd.com>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a4f:b91c:0:0:0:0:0 with HTTP; Sat, 11 Sep 2021 06:27:58
+ -0700 (PDT)
+From:   Daniels Alexander <danielsalexander222@gmail.com>
+Date:   Sat, 11 Sep 2021 21:27:58 +0800
+Message-ID: <CANV_nGrbbA7r7HW7diNQB=OK+j7V+C3u3hPA3SJa7CDmo7keWA@mail.gmail.com>
+Subject: Hello, how are you doing?
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: kernel test robot <lkp@intel.com>
-
-drivers/dma-buf/dma-resv.c:525:7-13: ERROR: application of sizeof to pointer
-
- sizeof when applied to a pointer typed expression gives the size of
- the pointer
-
-Generated by: scripts/coccinelle/misc/noderef.cocci
-
-CC: Christian König <ckoenig.leichtzumerken@gmail.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: kernel test robot <lkp@intel.com>
----
-
-url:    https://github.com/0day-ci/linux/commits/Christian-K-nig/dma-buf-add-dma_resv_for_each_fence_unlocked/20210910-163040
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-:::::: branch date: 28 hours ago
-:::::: commit date: 28 hours ago
-
- dma-resv.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -522,7 +522,7 @@ int dma_resv_get_fences(struct dma_resv
- 
- 			/* Eventually re-allocate the array */
- 			*shared = krealloc_array(*shared, count,
--						 sizeof(*shared),
-+						 sizeof(**shared),
- 						 GFP_KERNEL);
- 			if (count && !*shared)
- 				return -ENOMEM;
+I haven't heard from you, did you receive my previous email? if not
+kindly get back to me on my private email
+abdulla.abdulrahman222@gmail.com
