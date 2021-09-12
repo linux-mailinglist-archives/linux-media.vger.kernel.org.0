@@ -2,117 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDE1E407D83
-	for <lists+linux-media@lfdr.de>; Sun, 12 Sep 2021 15:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E8FB407E22
+	for <lists+linux-media@lfdr.de>; Sun, 12 Sep 2021 17:49:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235228AbhILNPj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Sep 2021 09:15:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47884 "EHLO
+        id S234355AbhILPvK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Sep 2021 11:51:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235178AbhILNPi (ORCPT
+        with ESMTP id S232231AbhILPvJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Sep 2021 09:15:38 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA650C061574
-        for <linux-media@vger.kernel.org>; Sun, 12 Sep 2021 06:14:23 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id m9so10249639wrb.1
-        for <linux-media@vger.kernel.org>; Sun, 12 Sep 2021 06:14:23 -0700 (PDT)
+        Sun, 12 Sep 2021 11:51:09 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4878BC061574;
+        Sun, 12 Sep 2021 08:49:55 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id g1so4078888lfj.12;
+        Sun, 12 Sep 2021 08:49:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=KONq3UZZZiM1/nT2K9APaDzai47fBmYG1LLlmoJmq/w=;
-        b=dJZGnF8CY/GpRQ4PySpwP8EsVBTNYIDocIU6rUzd+Fg3PVcQT4SG3tw4BjbOwy2dUd
-         NtDv1pb5gYqVvhtGfZJRnespSFh7WuQkXDXfuYSPIxAuGQk9EjVtdvN3tpWFoqNXiOkL
-         N4q8RkSbO0gTACkqp6bBHiWB+abRprVhW53uhDHXuKKIR9UgQvs+gIptOz05T7fhJQsV
-         ltrDntzARDM9yAd4RMhQWsmPb/TwNDRoLljw1qe3NHr2yrWV9Z3Axq3IhcAC7AdGx3ui
-         5M1PhRsBKlQgFFsFNnodYo3H4OAKzIQtNwjUF5kKABAiKSYhx2LssRXusPsnisMseGKr
-         0FWA==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=EmaR3mw88t9sUDxC5TH9IKso00i9J8FNQ4ju9r70OL8=;
+        b=i4cmIAukr7uGSEzMdzDm9CwZ0hsI/H6HtVgnePYg3MnNYGvzCZWE1It1f97QlvZyrF
+         /iJBr/qB2UUJPrn2pOmjaNSYv465/HlrsiOyARDEAcIBz/JALJkSP8n6amFoSKUTxnts
+         bV6zRN09eJiTcHcO78o43oAwtjkokreVEV8MDL9CbSY/Foaf87za17Rlrp81C4SLQhDI
+         onYU+FSvTDsC2HYu4AQOCnlJwI11LvnkAfup2wSz2puVsPYdXrc7lstPo5hEuHrmIzzv
+         Czn7jyET3SR2P7OTyBDG5nCDNddn9KowWwtSeptacq0mUAvVvT9ak/xRAPk3jfn2aQWu
+         fDwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=KONq3UZZZiM1/nT2K9APaDzai47fBmYG1LLlmoJmq/w=;
-        b=UoQUCHy14VqmTBvpIO9fGXlhGD7ZM5ofcIFKYBQse3AuizvNTvWXzxjO+kVxDhaApZ
-         3if36GMcPUzz64etznhndFMT4M4jGCnulZ6ZsoWCOglCfGtLay+y17phvfUlhOZuDQGm
-         ZJYFIWs8En6biXiDz5bacB1CtNm+e/etKPNAlFGN37xhWWyVO35qc8+U1HtKw6Ft4u21
-         tK29mqGyhFBkB+hiYU9wHPKaagBb0eBbDL0ijcoOqctD7FCgO/6HDgpjXpyrEirimhhZ
-         EJv76xnkXtUyUmvYar8Br4PNvNYyLPfCgBKAy8UOsLNSqDzLY8IDDOb3NXO/iQcWcbAO
-         Q3ag==
-X-Gm-Message-State: AOAM530eX82EaTh2tgce4onII2m4zDjf2buxUa4kryscTEIW6bFIPkPq
-        yGJfGcfJ+B/EpYHoOjVXUks=
-X-Google-Smtp-Source: ABdhPJzWyhM/BAFC2nE2/yuZ6lqcU927l9cVa/6KluFiCffJdhXykpZPGoMQdJoG6PhRgg5osv4Lzw==
-X-Received: by 2002:adf:d185:: with SMTP id v5mr7511893wrc.378.1631452462529;
-        Sun, 12 Sep 2021 06:14:22 -0700 (PDT)
-Received: from eldamar (80-218-24-251.dclient.hispeed.ch. [80.218.24.251])
-        by smtp.gmail.com with ESMTPSA id j18sm4372587wro.1.2021.09.12.06.14.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Sep 2021 06:14:21 -0700 (PDT)
-Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
-Date:   Sun, 12 Sep 2021 15:14:20 +0200
-From:   Salvatore Bonaccorso <carnil@debian.org>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Luo Likang <luolikang@nsfocus.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        Yang Yanchao <yangyanchao6@huawei.com>, security@kernel.org,
-        linux-distros@vs.openwall.org
-Subject: Re: [PATCH v2 RESEND] media: firewire: firedtv-avc: fix a buffer
- overflow in avc_ca_pmt()
-Message-ID: <YT39LBTgGL/b/V5N@eldamar.lan>
-References: <YRoNTX3Krtw9NdkI@eldamar.lan>
- <20210816072721.GA10534@kili>
- <20210901104026.GB2129@kadam>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=EmaR3mw88t9sUDxC5TH9IKso00i9J8FNQ4ju9r70OL8=;
+        b=nceE8H/qavIz14Pcb4tpbhahYvfOn7TM9i5TiG3p/eNpSvXKtRpKVjqfJedtZnCiTL
+         I/flEMIGRueMQL+By7DEFZXAIEOb4dKrNl7PPynlgdQQrzf6hZCdiJw6rNRZ9CO34WQh
+         2lRtIPRj8XBiNU9ZnSxB+OAuNSyLGb5BaAcX2Mij2oTB/inQuSPLGraY5cAiLDdK7lO4
+         bXSN9RvmiwV3jIWeXWwU+CwOLj/Oet1pMLeX1uCoYF50E2dnZKu+AZhBlGL1Mrg9Ho0E
+         YnRn8DOQf6IAne6QW4EO5QEpARMgBQKlV5OIhMtZroO8Q0Xe73ty3T65G9kIewK3xBQI
+         7yNA==
+X-Gm-Message-State: AOAM531M4StCOWH+r3i47L5GzDCV4yfI8SkxlCnf7ZKB1rsEXxGm6TkA
+        uuX8zrMYDCNSgtppkPG8rBg=
+X-Google-Smtp-Source: ABdhPJyZghj0UBqn34NGnjP1+doKihi0Muaw4yMqq8Rw4blefC+7AD17b7xTmBpEWT3cLwCN6vvJsw==
+X-Received: by 2002:ac2:4185:: with SMTP id z5mr5901276lfh.391.1631461793597;
+        Sun, 12 Sep 2021 08:49:53 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.70])
+        by smtp.gmail.com with ESMTPSA id j1sm547304lfe.153.2021.09.12.08.49.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Sep 2021 08:49:53 -0700 (PDT)
+Message-ID: <c1c0d250-afa1-254e-421a-d35790688c60@gmail.com>
+Date:   Sun, 12 Sep 2021 18:49:52 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210901104026.GB2129@kadam>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.3
+Subject: Re: [PATCH v3] media: mxl111sf: change mutex_init() location
+Content-Language: en-US
+To:     mkrufky@linuxtv.org, mchehab@kernel.org, crope@iki.fi,
+        sean@mess.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzbot+5ca0bf339f13c4243001@syzkaller.appspotmail.com
+References: <20210819103859.17498-1-paskripkin@gmail.com>
+ <20210819104221.27122-1-paskripkin@gmail.com>
+From:   Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20210819104221.27122-1-paskripkin@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-[linux-distros list dropped as not anymore relevant for embargo]
-
-On Wed, Sep 01, 2021 at 01:40:26PM +0300, Dan Carpenter wrote:
-> On Mon, Aug 16, 2021 at 10:27:22AM +0300, Dan Carpenter wrote:
-> > The bounds checking in avc_ca_pmt() is not strict enough.  It should
-> > be checking "read_pos + 4" because it's reading 5 bytes.  If the
-> > "es_info_length" is non-zero then it reads a 6th byte so there needs to
-> > be an additional check for that.
-> > 
-> > I also added checks for the "write_pos".  I don't think these are
-> > required because "read_pos" and "write_pos" are tied together so
-> > checking one ought to be enough.  But they make the code easier to
-> > understand for me.  The check on write_pos is:
-> > 
-> > 	if (write_pos + 4 >= sizeof(c->operand) - 4) {
-> > 
-> > The first "+ 4" is because we're writing 5 bytes and the last " - 4"
-> > is to leave space for the CRC.
-> > 
-> > The other problem is that "length" can be invalid.  It comes from
-> > "data_length" in fdtv_ca_pmt().  Added a check in fdtv_ca_pmt() to
-> > prevent that.
-> > 
-> > Cc: stable@vger.kernel.org
-> > Reported-by: Luo Likang <luolikang@nsfocus.com>
-> > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > ---
-> > RESEND: this patch got lost somehow.
-> > 
+On 8/19/21 13:42, Pavel Skripkin wrote:
+> Syzbot reported, that mxl111sf_ctrl_msg() uses uninitialized
+> mutex. The problem was in wrong mutex_init() location.
 > 
-> What the heck?  Someone on patchwork just marked this patch as obsolete
-> again!!!
+> Previous mutex_init(&state->msg_lock) call was in ->init() function, but
+> dvb_usbv2_init() has this order of calls:
 > 
-> Mauro can you figure out who's doing that and what's going on?  The
-> first time it was marked as obsolete then I asked about it twice, Greg
-> asked about it, and Salvatore Bonaccorso asked about it.  But all we
-> get are anonymous notifications from patchwork.  It's a bit frustrating.
+> 	dvb_usbv2_init()
+> 	  dvb_usbv2_adapter_init()
+> 	    dvb_usbv2_adapter_frontend_init()
+> 	      props->frontend_attach()
+> 
+> 	  props->init()
+> 
+> Since mxl111sf_* devices call mxl111sf_ctrl_msg() in ->frontend_attach()
+> internally we need to initialize state->msg_lock before
+> frontend_attach(). To achieve it, ->probe() call added to all mxl111sf_*
+> devices, which will simply initiaize mutex.
+> 
+> Reported-and-tested-by: syzbot+5ca0bf339f13c4243001@syzkaller.appspotmail.com
+> Fixes: 8572211842af ("[media] mxl111sf: convert to new DVB USB")
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 
-Someone knows what is going on here, i.e. what is the problem?
+Hi, Sean!
 
-Regards,
-Salvatore
+Did you have a chance to review this patch? Thank you :)
+
+
+With regards,
+Pavel Skripkin
