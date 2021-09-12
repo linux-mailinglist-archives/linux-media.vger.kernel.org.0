@@ -2,106 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25050407A3D
-	for <lists+linux-media@lfdr.de>; Sat, 11 Sep 2021 21:20:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0A3E407B6A
+	for <lists+linux-media@lfdr.de>; Sun, 12 Sep 2021 05:44:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233673AbhIKTVZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Sep 2021 15:21:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42646 "EHLO
+        id S234976AbhILDpa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Sep 2021 23:45:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233539AbhIKTVY (ORCPT
+        with ESMTP id S231939AbhILDp3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Sep 2021 15:21:24 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F2B3C061757
-        for <linux-media@vger.kernel.org>; Sat, 11 Sep 2021 12:20:11 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id j17-20020a05600c1c1100b002e754875260so3668361wms.4
-        for <linux-media@vger.kernel.org>; Sat, 11 Sep 2021 12:20:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zZ0XD7mm87qUJaHuITbMVG4HWCUP1XkKnasqAUw7UPU=;
-        b=ur6x98D2JLCbt0CY8lUr9w/oiyo8s3uF9mgwn4J4BW3UplzV95Njh7ex8HTXSy3Eag
-         QZHe+z5To4zJMTa5ETQ1rGM8mK3vA1VPSrTpnLVNbfGbFhkwkIs21flxS20LZdc46ooL
-         zQmixwO6ZYrNFGka/h1WbmmzhExM9RMQPqd1YVHk4ldIxCfz4gld+k2xSk4ClHDs2uLn
-         EuT2d0UFgsyIQmI+ae+WPJRQwuceblMsXsGpl0YRilyvFGPq1ulCQZGzDFnNGNA+U5Qh
-         SnBD+MVap9Zm51TO1ync/SnpMOe14z8CVv+Tu8Hf4uLusvF0xukX/NvMdwBqvdOCq7/D
-         ocng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zZ0XD7mm87qUJaHuITbMVG4HWCUP1XkKnasqAUw7UPU=;
-        b=U5p9QFI1+K6NptDFdy2nM0Aj8cpVJZ1VV/U7+GPKELzHLcp8kvcKAP3qKn1lhjBb40
-         wyCki3ztzccBAXENgwel1c0bkyPfLFh1zYx2PIzK70z5jbAjqCEZtgjEKlUgljSwVRE9
-         VvhxWFxuHbUIUCp1des2+M1gezsomgi0FIVIanpOKAi1nQ+8rYYXa1r86YS6N5uQZnax
-         HVcofyXJ7qSj8e1AG/RZ0T8VwP6hkexRwKr84ADzt0GKCilCEE216bb6IMZVpEHHXzfw
-         a8fBxbTM22Tar5lCgcBjYbv7ZcCdX7dVQ4eqGpozl3f3+oHSFZq4q6/6TOGAOq9Rrdp8
-         3ufQ==
-X-Gm-Message-State: AOAM5332KK5VxBngDN4n3z/5E+irRnpULwZ8HdAx9hWOqTvzSJiAaBLD
-        9HyxUfr229PV24Lvl93TKvCEOg==
-X-Google-Smtp-Source: ABdhPJywQ7J+ekP7HDUo0Ih5pJx5sA3x//a3aOdNS8vXvXm1dyJuhq/EDeR3cLsTqlh30mGsdsJhbg==
-X-Received: by 2002:a7b:c0c5:: with SMTP id s5mr3886368wmh.126.1631388010112;
-        Sat, 11 Sep 2021 12:20:10 -0700 (PDT)
-Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
-        by smtp.googlemail.com with ESMTPSA id k22sm2469909wrd.59.2021.09.11.12.20.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Sep 2021 12:20:09 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] media: rcar-vin: Use user proved buffers when starting
-Date:   Sat, 11 Sep 2021 21:19:58 +0200
-Message-Id: <20210911191958.1547743-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.33.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Sat, 11 Sep 2021 23:45:29 -0400
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03BA7C061574
+        for <linux-media@vger.kernel.org>; Sat, 11 Sep 2021 20:44:15 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id PGPVmLfMvpQdWPGPbmxphM; Sun, 12 Sep 2021 05:44:11 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1631418251; bh=ie/ikiM3nOZUUoxqfWYSXllCkciqdyzz3p1iAB6Stmg=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=LJsTt8U9DtLjCYeTcsKxvAE1uCIFce92x36Dv07Qs/IoqH0bDgHPmCwSXowQfgCPB
+         LHfgtvr0SFYPlj/myTY8DCB47GhcWrUHGnCG5CV689t1QTm6f9wIvhK9d4XMmKl8D+
+         bjEdcupzhRCLwnM7WLOAoOu3SpYzqPIVLMuv6uA/1cIvUdsY7byBbooc0/pH7UIdR+
+         mpASWyAAVWxi+sT/rEp/ht+kbRkmbyKzmoeVJaYqcbvFXOf8tvciTfYxfJuuSdH7Ft
+         E7+5LzKYKNvsd2TyRs3wFAzHyFQOchMgcZArm+yzS7HdDICF0Lf4u03emBJl/R94D7
+         BlOCW9g/VAAVQ==
+Message-ID: <f8c5006ed75614a22646c1c3d02f0d0c@smtp-cloud7.xs4all.net>
+Date:   Sun, 12 Sep 2021 05:44:05 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfN4/sh33NY9hL1eakac6aNIFbkyuAfXvhm5XYBvgF+t/+rLamt3NDz2Z+39h9foo/5/Vy4uLsnLN2lI456EzdHts/eXyCHgkpwxvdNLZMM7mcWZyC5CM
+ 58niop01RXDKAOWlX3adZOwRceVGliED9G9p8rKF9fGaSG8zSHGDuBImJYGv3+vkPtGFgXamez/pknyWxNXWDHuKGnpCaByTcyG2OJeNqCtPHuvpFJfQq6X/
+ c3Q6a17mwuYVpne3RWMR9Q==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When adding an internal scratch buffer to improve buffer handling when
-stopping it was also erroneously used when syncing at capture start.
-This lead to that the first three buffers captured where always dropped
-as they where captured in the scratch buffer instead of in a buffer
-provided by the user.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Allow the hardware to be given user provided buffers when preparing for
-captured in the stopped state. This still allows the driver to sync with
-the hardware and always completes the buffers to user-space in the
-correct order as no buffers is completed before the sync is complete.
-This changes improves the driver as buffers are completed and given to
-the user three frames earlier then before.
+Results of the daily build of media_tree:
 
-The change also fixes a warning produced by v4l2-compliance,
+date:			Sun Sep 12 05:00:11 CEST 2021
+media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
+media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
+v4l-utils git hash:	05a468e033af0e4c775aaa10fe4d02c45de698ae
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8f230e7be768cbdfab869697ba0a2c622a4a0cae
+host hardware:		x86_64
+host os:		5.13.11-marune
 
-    warn: v4l2-test-buffers.cpp(448): got sequence number 3, expected 0
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 2
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-dma.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Detailed results are available here:
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index 58718e52ae541a87..e5162bf42bd0e3ab 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -906,7 +906,8 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin, int slot)
- 				vin->format.sizeimage / 2;
- 			break;
- 		}
--	} else if (vin->state != RUNNING || list_empty(&vin->buf_list)) {
-+	} else if ((vin->state != STOPPED && vin->state != RUNNING) ||
-+		   list_empty(&vin->buf_list)) {
- 		vin->buf_hw[slot].buffer = NULL;
- 		vin->buf_hw[slot].type = FULL;
- 		phys_addr = vin->scratch_phys;
--- 
-2.33.0
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
