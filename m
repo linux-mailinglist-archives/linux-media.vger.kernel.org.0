@@ -2,162 +2,328 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0A3E407B6A
-	for <lists+linux-media@lfdr.de>; Sun, 12 Sep 2021 05:44:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44969407C02
+	for <lists+linux-media@lfdr.de>; Sun, 12 Sep 2021 08:08:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234976AbhILDpa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Sep 2021 23:45:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38228 "EHLO
+        id S231701AbhILGJh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Sep 2021 02:09:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231939AbhILDp3 (ORCPT
+        with ESMTP id S229512AbhILGJc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Sep 2021 23:45:29 -0400
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03BA7C061574
-        for <linux-media@vger.kernel.org>; Sat, 11 Sep 2021 20:44:15 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id PGPVmLfMvpQdWPGPbmxphM; Sun, 12 Sep 2021 05:44:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1631418251; bh=ie/ikiM3nOZUUoxqfWYSXllCkciqdyzz3p1iAB6Stmg=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=LJsTt8U9DtLjCYeTcsKxvAE1uCIFce92x36Dv07Qs/IoqH0bDgHPmCwSXowQfgCPB
-         LHfgtvr0SFYPlj/myTY8DCB47GhcWrUHGnCG5CV689t1QTm6f9wIvhK9d4XMmKl8D+
-         bjEdcupzhRCLwnM7WLOAoOu3SpYzqPIVLMuv6uA/1cIvUdsY7byBbooc0/pH7UIdR+
-         mpASWyAAVWxi+sT/rEp/ht+kbRkmbyKzmoeVJaYqcbvFXOf8tvciTfYxfJuuSdH7Ft
-         E7+5LzKYKNvsd2TyRs3wFAzHyFQOchMgcZArm+yzS7HdDICF0Lf4u03emBJl/R94D7
-         BlOCW9g/VAAVQ==
-Message-ID: <f8c5006ed75614a22646c1c3d02f0d0c@smtp-cloud7.xs4all.net>
-Date:   Sun, 12 Sep 2021 05:44:05 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfN4/sh33NY9hL1eakac6aNIFbkyuAfXvhm5XYBvgF+t/+rLamt3NDz2Z+39h9foo/5/Vy4uLsnLN2lI456EzdHts/eXyCHgkpwxvdNLZMM7mcWZyC5CM
- 58niop01RXDKAOWlX3adZOwRceVGliED9G9p8rKF9fGaSG8zSHGDuBImJYGv3+vkPtGFgXamez/pknyWxNXWDHuKGnpCaByTcyG2OJeNqCtPHuvpFJfQq6X/
- c3Q6a17mwuYVpne3RWMR9Q==
+        Sun, 12 Sep 2021 02:09:32 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9759EC061574;
+        Sat, 11 Sep 2021 23:08:17 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id x6so9178638wrv.13;
+        Sat, 11 Sep 2021 23:08:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2b0QQQ7CPhwoViMwtx6MrWV4wVLkUJmIGI9NDCIwvDE=;
+        b=OlUEupp7syy5KY2hw6eif8AyPbJUMvDQNBxUlwBc9o9p3pntfnn8uaig0FUND3uJuv
+         M9XPlp9HWO5DXnI+TBYtC6tr4Asd0OVaPi9gBljKoNZKCIPsgFaUOKtv7DYD08cHDZ+X
+         FnfLdILDlWvKZqaS4MmOZnvpwKjjI0EIaT21Pv2wWv3JmeIsrPm3sTb6fZvnm5F7+2VP
+         jk7YW4eh9JsU+EBqZoNdBP6prLHSdlPIKe8MPIoCejJjFcRup78vNCUU6y1ChSmdm6xJ
+         XHpMaf4e+pclnLmH33twYWW+xp5QeXFfjRPJKw2g/0vT4iYOQqoGyvTguiL/K+Y91Av5
+         o5PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2b0QQQ7CPhwoViMwtx6MrWV4wVLkUJmIGI9NDCIwvDE=;
+        b=S1oDLhCOu5xl/Li3V37c4ve9/Hx6vFaPWW1mmpofcG6SI5+dvDEELF/qp+lcCM9bWh
+         jNSDL4gNGdPYtH0IRrO36fk/ttOh+PVXFF1wGYJMK7ZvCodVTp0/bHFTMjQMopP6Gbg6
+         MrwNCbMUzbB94W+A4kx8IIZtPHAM4/xh3DIreU/Ocfo/GBnzrHHMZoJfCVgLfGEcFHUA
+         hOJt3Rhq1Ty/5xqfUGzVDXBlH9mXFZUICmLd/DVG4AMGQMX8Mb0WI7KdRo/ppcrhf7eL
+         9PM01dshwiafsJO68jltH2U1Ec+Q8pGYupvGFn3B1in8H6XOiGOnQz+Vg4aYKfhpPdgw
+         yEVA==
+X-Gm-Message-State: AOAM531yiqzwOAKLU9BrgFrsqQ/uxlMb5qhScz+0NdHPrIeQWYArL00D
+        M4mtystl/nmLMZtxx5iAAgM=
+X-Google-Smtp-Source: ABdhPJwC0ICL2AIM5cFZkPLZVmihz5W3Zbe9NIPxet1PtO4HEcnsyLctFyOwtX4KkPw6n6TtNhwXpA==
+X-Received: by 2002:adf:fe82:: with SMTP id l2mr1004661wrr.268.1631426896210;
+        Sat, 11 Sep 2021 23:08:16 -0700 (PDT)
+Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id s7sm3545150wra.75.2021.09.11.23.08.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Sep 2021 23:08:15 -0700 (PDT)
+From:   Jernej Skrabec <jernej.skrabec@gmail.com>
+To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
+Cc:     wens@csie.org, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] media: cedrus: Don't kernel map most buffers
+Date:   Sun, 12 Sep 2021 08:08:12 +0200
+Message-Id: <20210912060812.222996-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.33.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Except VP8 probability coefficients buffer, all other buffers are never
+accessed by CPU. That allows us to mark them with DMA_ATTR_NO_KERNEL_MAPPING
+flag. This helps with decoding big (like 4k) videos on 32-bit ARM
+platforms where default vmalloc size is relatively small - 240 MiB.
+Since auxiliary buffer are not yet efficiently allocated, this can be
+easily exceeded. Even if allocation is optimized, 4k videos will still
+often exceed this limit.
 
-Results of the daily build of media_tree:
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ .../staging/media/sunxi/cedrus/cedrus_h264.c  | 102 ++++++++++--------
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  28 ++---
+ .../staging/media/sunxi/cedrus/cedrus_video.c |   2 +
+ 3 files changed, 73 insertions(+), 59 deletions(-)
 
-date:			Sun Sep 12 05:00:11 CEST 2021
-media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
-media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
-v4l-utils git hash:	05a468e033af0e4c775aaa10fe4d02c45de698ae
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-349-gb21d5e09
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7593-g7f4b93661
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8f230e7be768cbdfab869697ba0a2c622a4a0cae
-host hardware:		x86_64
-host os:		5.13.11-marune
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+index de7442d4834d..6e38b37d9fe1 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+@@ -538,23 +538,23 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+ 
+ 	ctx->codec.h264.pic_info_buf_size = pic_info_size;
+ 	ctx->codec.h264.pic_info_buf =
+-		dma_alloc_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
+-				   &ctx->codec.h264.pic_info_buf_dma,
+-				   GFP_KERNEL);
++		dma_alloc_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
++				&ctx->codec.h264.pic_info_buf_dma,
++				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+ 	if (!ctx->codec.h264.pic_info_buf)
+ 		return -ENOMEM;
+ 
+ 	/*
+ 	 * That buffer is supposed to be 16kiB in size, and be aligned
+-	 * on 16kiB as well. However, dma_alloc_coherent provides the
++	 * on 16kiB as well. However, dma_alloc_attrs provides the
+ 	 * guarantee that we'll have a CPU and DMA address aligned on
+ 	 * the smallest page order that is greater to the requested
+ 	 * size, so we don't have to overallocate.
+ 	 */
+ 	ctx->codec.h264.neighbor_info_buf =
+-		dma_alloc_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+-				   &ctx->codec.h264.neighbor_info_buf_dma,
+-				   GFP_KERNEL);
++		dma_alloc_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
++				&ctx->codec.h264.neighbor_info_buf_dma,
++				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+ 	if (!ctx->codec.h264.neighbor_info_buf) {
+ 		ret = -ENOMEM;
+ 		goto err_pic_buf;
+@@ -582,10 +582,11 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+ 
+ 	mv_col_size = field_size * 2 * CEDRUS_H264_FRAME_NUM;
+ 	ctx->codec.h264.mv_col_buf_size = mv_col_size;
+-	ctx->codec.h264.mv_col_buf = dma_alloc_coherent(dev->dev,
+-							ctx->codec.h264.mv_col_buf_size,
+-							&ctx->codec.h264.mv_col_buf_dma,
+-							GFP_KERNEL);
++	ctx->codec.h264.mv_col_buf =
++		dma_alloc_attrs(dev->dev,
++				ctx->codec.h264.mv_col_buf_size,
++				&ctx->codec.h264.mv_col_buf_dma,
++				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+ 	if (!ctx->codec.h264.mv_col_buf) {
+ 		ret = -ENOMEM;
+ 		goto err_neighbor_buf;
+@@ -600,10 +601,10 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+ 		ctx->codec.h264.deblk_buf_size =
+ 			ALIGN(ctx->src_fmt.width, 32) * 12;
+ 		ctx->codec.h264.deblk_buf =
+-			dma_alloc_coherent(dev->dev,
+-					   ctx->codec.h264.deblk_buf_size,
+-					   &ctx->codec.h264.deblk_buf_dma,
+-					   GFP_KERNEL);
++			dma_alloc_attrs(dev->dev,
++					ctx->codec.h264.deblk_buf_size,
++					&ctx->codec.h264.deblk_buf_dma,
++					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+ 		if (!ctx->codec.h264.deblk_buf) {
+ 			ret = -ENOMEM;
+ 			goto err_mv_col_buf;
+@@ -616,10 +617,10 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+ 		ctx->codec.h264.intra_pred_buf_size =
+ 			ALIGN(ctx->src_fmt.width, 64) * 5 * 2;
+ 		ctx->codec.h264.intra_pred_buf =
+-			dma_alloc_coherent(dev->dev,
+-					   ctx->codec.h264.intra_pred_buf_size,
+-					   &ctx->codec.h264.intra_pred_buf_dma,
+-					   GFP_KERNEL);
++			dma_alloc_attrs(dev->dev,
++					ctx->codec.h264.intra_pred_buf_size,
++					&ctx->codec.h264.intra_pred_buf_dma,
++					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+ 		if (!ctx->codec.h264.intra_pred_buf) {
+ 			ret = -ENOMEM;
+ 			goto err_deblk_buf;
+@@ -629,24 +630,28 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+ 	return 0;
+ 
+ err_deblk_buf:
+-	dma_free_coherent(dev->dev, ctx->codec.h264.deblk_buf_size,
+-			  ctx->codec.h264.deblk_buf,
+-			  ctx->codec.h264.deblk_buf_dma);
++	dma_free_attrs(dev->dev, ctx->codec.h264.deblk_buf_size,
++		       ctx->codec.h264.deblk_buf,
++		       ctx->codec.h264.deblk_buf_dma,
++		       DMA_ATTR_NO_KERNEL_MAPPING);
+ 
+ err_mv_col_buf:
+-	dma_free_coherent(dev->dev, ctx->codec.h264.mv_col_buf_size,
+-			  ctx->codec.h264.mv_col_buf,
+-			  ctx->codec.h264.mv_col_buf_dma);
++	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
++		       ctx->codec.h264.mv_col_buf,
++		       ctx->codec.h264.mv_col_buf_dma,
++		       DMA_ATTR_NO_KERNEL_MAPPING);
+ 
+ err_neighbor_buf:
+-	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+-			  ctx->codec.h264.neighbor_info_buf,
+-			  ctx->codec.h264.neighbor_info_buf_dma);
++	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
++		       ctx->codec.h264.neighbor_info_buf,
++		       ctx->codec.h264.neighbor_info_buf_dma,
++		       DMA_ATTR_NO_KERNEL_MAPPING);
+ 
+ err_pic_buf:
+-	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
+-			  ctx->codec.h264.pic_info_buf,
+-			  ctx->codec.h264.pic_info_buf_dma);
++	dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
++		       ctx->codec.h264.pic_info_buf,
++		       ctx->codec.h264.pic_info_buf_dma,
++		       DMA_ATTR_NO_KERNEL_MAPPING);
+ 	return ret;
+ }
+ 
+@@ -654,23 +659,28 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
+ {
+ 	struct cedrus_dev *dev = ctx->dev;
+ 
+-	dma_free_coherent(dev->dev, ctx->codec.h264.mv_col_buf_size,
+-			  ctx->codec.h264.mv_col_buf,
+-			  ctx->codec.h264.mv_col_buf_dma);
+-	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+-			  ctx->codec.h264.neighbor_info_buf,
+-			  ctx->codec.h264.neighbor_info_buf_dma);
+-	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
+-			  ctx->codec.h264.pic_info_buf,
+-			  ctx->codec.h264.pic_info_buf_dma);
++	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
++		       ctx->codec.h264.mv_col_buf,
++		       ctx->codec.h264.mv_col_buf_dma,
++		       DMA_ATTR_NO_KERNEL_MAPPING);
++	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
++		       ctx->codec.h264.neighbor_info_buf,
++		       ctx->codec.h264.neighbor_info_buf_dma,
++		       DMA_ATTR_NO_KERNEL_MAPPING);
++	dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
++		       ctx->codec.h264.pic_info_buf,
++		       ctx->codec.h264.pic_info_buf_dma,
++		       DMA_ATTR_NO_KERNEL_MAPPING);
+ 	if (ctx->codec.h264.deblk_buf_size)
+-		dma_free_coherent(dev->dev, ctx->codec.h264.deblk_buf_size,
+-				  ctx->codec.h264.deblk_buf,
+-				  ctx->codec.h264.deblk_buf_dma);
++		dma_free_attrs(dev->dev, ctx->codec.h264.deblk_buf_size,
++			       ctx->codec.h264.deblk_buf,
++			       ctx->codec.h264.deblk_buf_dma,
++			       DMA_ATTR_NO_KERNEL_MAPPING);
+ 	if (ctx->codec.h264.intra_pred_buf_size)
+-		dma_free_coherent(dev->dev, ctx->codec.h264.intra_pred_buf_size,
+-				  ctx->codec.h264.intra_pred_buf,
+-				  ctx->codec.h264.intra_pred_buf_dma);
++		dma_free_attrs(dev->dev, ctx->codec.h264.intra_pred_buf_size,
++			       ctx->codec.h264.intra_pred_buf,
++			       ctx->codec.h264.intra_pred_buf_dma,
++			       DMA_ATTR_NO_KERNEL_MAPPING);
+ }
+ 
+ static void cedrus_h264_trigger(struct cedrus_ctx *ctx)
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+index 3d9561d4aadb..bb7eb56106c5 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+@@ -351,10 +351,10 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+ 			ctx->codec.h265.mv_col_buf_unit_size;
+ 
+ 		ctx->codec.h265.mv_col_buf =
+-			dma_alloc_coherent(dev->dev,
+-					   ctx->codec.h265.mv_col_buf_size,
+-					   &ctx->codec.h265.mv_col_buf_addr,
+-					   GFP_KERNEL);
++			dma_alloc_attrs(dev->dev,
++					ctx->codec.h265.mv_col_buf_size,
++					&ctx->codec.h265.mv_col_buf_addr,
++					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+ 		if (!ctx->codec.h265.mv_col_buf) {
+ 			ctx->codec.h265.mv_col_buf_size = 0;
+ 			// TODO: Abort the process here.
+@@ -668,9 +668,9 @@ static int cedrus_h265_start(struct cedrus_ctx *ctx)
+ 	ctx->codec.h265.mv_col_buf_size = 0;
+ 
+ 	ctx->codec.h265.neighbor_info_buf =
+-		dma_alloc_coherent(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+-				   &ctx->codec.h265.neighbor_info_buf_addr,
+-				   GFP_KERNEL);
++		dma_alloc_attrs(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
++				&ctx->codec.h265.neighbor_info_buf_addr,
++				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+ 	if (!ctx->codec.h265.neighbor_info_buf)
+ 		return -ENOMEM;
+ 
+@@ -682,16 +682,18 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
+ 	struct cedrus_dev *dev = ctx->dev;
+ 
+ 	if (ctx->codec.h265.mv_col_buf_size > 0) {
+-		dma_free_coherent(dev->dev, ctx->codec.h265.mv_col_buf_size,
+-				  ctx->codec.h265.mv_col_buf,
+-				  ctx->codec.h265.mv_col_buf_addr);
++		dma_free_attrs(dev->dev, ctx->codec.h265.mv_col_buf_size,
++			       ctx->codec.h265.mv_col_buf,
++			       ctx->codec.h265.mv_col_buf_addr,
++			       DMA_ATTR_NO_KERNEL_MAPPING);
+ 
+ 		ctx->codec.h265.mv_col_buf_size = 0;
+ 	}
+ 
+-	dma_free_coherent(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+-			  ctx->codec.h265.neighbor_info_buf,
+-			  ctx->codec.h265.neighbor_info_buf_addr);
++	dma_free_attrs(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
++		       ctx->codec.h265.neighbor_info_buf,
++		       ctx->codec.h265.neighbor_info_buf_addr,
++		       DMA_ATTR_NO_KERNEL_MAPPING);
+ }
+ 
+ static void cedrus_h265_trigger(struct cedrus_ctx *ctx)
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+index 66714609b577..800ffa5382de 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+@@ -568,6 +568,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
+ 
+ 	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+ 	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
++	src_vq->dma_attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+ 	src_vq->drv_priv = ctx;
+ 	src_vq->buf_struct_size = sizeof(struct cedrus_buffer);
+ 	src_vq->ops = &cedrus_qops;
+@@ -584,6 +585,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
+ 
+ 	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+ 	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
++	src_vq->dma_attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+ 	dst_vq->drv_priv = ctx;
+ 	dst_vq->buf_struct_size = sizeof(struct cedrus_buffer);
+ 	dst_vq->ops = &cedrus_qops;
+-- 
+2.33.0
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 2
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
