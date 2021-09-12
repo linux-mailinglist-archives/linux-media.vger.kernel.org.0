@@ -2,112 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1D12407F67
-	for <lists+linux-media@lfdr.de>; Sun, 12 Sep 2021 20:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99AE0407FE5
+	for <lists+linux-media@lfdr.de>; Sun, 12 Sep 2021 22:09:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234185AbhILS1p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Sep 2021 14:27:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59526 "EHLO
+        id S236162AbhILUKt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Sep 2021 16:10:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232959AbhILS1p (ORCPT
+        with ESMTP id S231560AbhILUKt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Sep 2021 14:27:45 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AC85C061574
-        for <linux-media@vger.kernel.org>; Sun, 12 Sep 2021 11:26:30 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id g14so12981586ljk.5
-        for <linux-media@vger.kernel.org>; Sun, 12 Sep 2021 11:26:30 -0700 (PDT)
+        Sun, 12 Sep 2021 16:10:49 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43E53C061574;
+        Sun, 12 Sep 2021 13:09:34 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id b6so11289521wrh.10;
+        Sun, 12 Sep 2021 13:09:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=F+afOWtVRu3Y6MbtiEQhJ1O4o34THJRuSUm2FoLGYhQ=;
-        b=dJiEKU6U5HlUY0/fZxvMQ0MwVcQgZ9mHD49wijwJ7g8WQIt+oEEanwybXhL+gMnV2h
-         rdGbi3TcU9sHXbgl7bYFZLadVKxgiTt9JF7A1HIUOfy896/tfkJXRrg7hC5KxeDv1rlh
-         Z5zEFBTqf1Fs6wJeryPCuUaOMixNyfobh7DGk=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fiqPbDCwFmlbxuuQ8fWiazbK8+HJRDKZSDH45j5yDS4=;
+        b=THwDQW5aW0tqS6hx7IbEh4k3R6LOg61YJp4dnkYQ0rdPvyVHzJXXIOpL2+LusxvMfe
+         a4wrGLBOOr3Diq7eVvzWwFTfU9NRkOXi4vbtd8Qpke8OuPNPvFTR2y6y3CuEfRrI5oC9
+         uTm7qvw6IKca1gnycpnH/2kw1QRLZCrc8lDSyol8PKdMJ+qDBw912wpsyS9H8SF79xZ5
+         4ecuFobb7f4TheRTr7knx28d+twYQ8LzYcwQY/i/Ji6/N75JZwhhgeHtILkg7bH4aG29
+         udp1ydDMxBKGq/VR7UnS9J5xRZHrPvHiJDNbzZK3mdc3ZVE24yGr8nKj/lusGr1/KDmj
+         Fbeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=F+afOWtVRu3Y6MbtiEQhJ1O4o34THJRuSUm2FoLGYhQ=;
-        b=t5RM0inMGd69+BamNcyHdixRQa13eR1eZTZCQbxd/PPb/q0X+1Aa+yCid9dVXaGuhD
-         brPeO79DhbKWlFQaPZfJbsfZFXnCg9bGS71m9Ey55EWK9xllj3CL9ZDmoLRHt6C1lyEX
-         h0pQZzrehl1CZnuvNfFtT2eiMyg6Gk/jsYMbff6c2kRtDV6bS9HVexMmeTZjs9qIMFl+
-         ryEMiP0t8PEKwkcAreh/0W40PvoU+3TryVAVWWgOaUF0/x6GHwLA9Wtkj4nN6Y17iGZH
-         wVXNczFsb85eJ8945fdAN84f0RlYvschPmXMsYgqZxjEXPziPgk9W5JDHQZ4ffgz8DJs
-         JQyw==
-X-Gm-Message-State: AOAM533g7oDIWgbuofHkfw/hgubAv33PZlIO/DwK4CI1+1cxeCuYZBm3
-        vvJJgYhzimrcbh7YZDbz4pplr2tc9b+IYGdUxco=
-X-Google-Smtp-Source: ABdhPJz1niobgFBQdKDh/6v/Bi9+8YjG3mNaWNcsetIhbHVms2/mHtKhhrCdbAA3dQDQzdRxTDi1sg==
-X-Received: by 2002:a05:651c:10ba:: with SMTP id k26mr6815737ljn.319.1631471188114;
-        Sun, 12 Sep 2021 11:26:28 -0700 (PDT)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
-        by smtp.gmail.com with ESMTPSA id bi7sm582782lfb.86.2021.09.12.11.26.26
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Sep 2021 11:26:26 -0700 (PDT)
-Received: by mail-lj1-f178.google.com with SMTP id j12so12977041ljg.10
-        for <linux-media@vger.kernel.org>; Sun, 12 Sep 2021 11:26:26 -0700 (PDT)
-X-Received: by 2002:a2e:8107:: with SMTP id d7mr7284623ljg.68.1631471186006;
- Sun, 12 Sep 2021 11:26:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <YRoNTX3Krtw9NdkI@eldamar.lan> <20210816072721.GA10534@kili>
- <20210901104026.GB2129@kadam> <YT39LBTgGL/b/V5N@eldamar.lan>
-In-Reply-To: <YT39LBTgGL/b/V5N@eldamar.lan>
-From:   Linus Torvalds <torvalds@linuxfoundation.org>
-Date:   Sun, 12 Sep 2021 11:26:10 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjOW3Fx8td1Snezd1_9sf8q7KuQx8TyQNR0ypS2rVBHtg@mail.gmail.com>
-Message-ID: <CAHk-=wjOW3Fx8td1Snezd1_9sf8q7KuQx8TyQNR0ypS2rVBHtg@mail.gmail.com>
-Subject: Re: [PATCH v2 RESEND] media: firewire: firedtv-avc: fix a buffer
- overflow in avc_ca_pmt()
-To:     Salvatore Bonaccorso <carnil@debian.org>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Luo Likang <luolikang@nsfocus.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fiqPbDCwFmlbxuuQ8fWiazbK8+HJRDKZSDH45j5yDS4=;
+        b=aEtnTOUR4rS5bSXcGAqX6RBTtAwUhYDs3ftbt16dajbdaPqcbTwg48/Aq3iBmgfXGl
+         4izULWrX3rVdrqW+6u1I9BWwGwkSMDUjulGkM2/myzLEaZYz1lELNoBIE7pkfIZSAdq5
+         ZdIngFiHDsL38TI4XuZDenFcMFr5gCwDenI6N9mbeqaOghiRsoe4gZcD8aXT4/X1Yd+C
+         3sANwljdrfmrlWpn5mR3uzxxhpJSZmGe91moBXOOO1ulTgBO/qbmygb4S26/ggyM5qW9
+         YLu6u/F65NBVnrjjv5qNiHU3jXeVmXLWyVPAVPgZAivV99o230Pli3nWVMVIHfeelEg6
+         SkGQ==
+X-Gm-Message-State: AOAM531Oc0P7RU00K4RNCHS4l4CH7d6gGj9IXlu95XzYRBvu6BvtHadg
+        Xb3WLM1s/ubYU/o8dGmw+nM=
+X-Google-Smtp-Source: ABdhPJx+cwbh1xTxO952gJLAARzpJGlg4ZSY4Z/pn0vStAUvtPTnJq1wrXO//SEeNwlkWFML1MlvyQ==
+X-Received: by 2002:adf:ef92:: with SMTP id d18mr8944757wro.264.1631477372674;
+        Sun, 12 Sep 2021 13:09:32 -0700 (PDT)
+Received: from localhost.localdomain (46-138-83-36.dynamic.spd-mgts.ru. [46.138.83.36])
+        by smtp.gmail.com with ESMTPSA id v10sm5463476wrg.15.2021.09.12.13.09.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Sep 2021 13:09:32 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        Adrian Hunter <adrian.hunter@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux1394-devel@lists.sourceforge.net,
-        Yang Yanchao <yangyanchao6@huawei.com>,
-        Security Officers <security@kernel.org>,
-        linux-distros@vs.openwall.org
-Content-Type: text/plain; charset="UTF-8"
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>
+Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: [PATCH v11 00/34] NVIDIA Tegra power management patches for 5.16
+Date:   Sun, 12 Sep 2021 23:07:58 +0300
+Message-Id: <20210912200832.12312-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Sep 12, 2021 at 6:14 AM Salvatore Bonaccorso <carnil@debian.org> wrote:
->
-> On Wed, Sep 01, 2021 at 01:40:26PM +0300, Dan Carpenter wrote:
-> > On Mon, Aug 16, 2021 at 10:27:22AM +0300, Dan Carpenter wrote:
-> > > The bounds checking in avc_ca_pmt() is not strict enough.  It should
-> > > be checking "read_pos + 4" because it's reading 5 bytes.  If the
-> > > "es_info_length" is non-zero then it reads a 6th byte so there needs to
-> > > be an additional check for that.
-> > >
-> > > I also added checks for the "write_pos".  I don't think these are
-> > > required because "read_pos" and "write_pos" are tied together so
-> > > checking one ought to be enough.
+This series adds runtime PM support to Tegra drivers and enables core
+voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
 
-They may be in sync at a fixed offset, but the buffer length of the
-read ("int length") is not in sync with the buffer length for the
-write ("sizeof(c->operand)").
+All patches in this series are interdependent and should go via Tegra tree.
 
-So I do think the write pos limit checking is actually necessary and needed.
+Changelog:
 
-> > > RESEND: this patch got lost somehow.
-> >
-> > What the heck?  Someone on patchwork just marked this patch as obsolete
-> > again!!!
+v11: - Added acks and r-b from Rob Herring, Mark Brown and Miquel Raynal
+       that were given to v8.
 
-Can we please make sure patchwork has some logging so that that kind
-of thing shows _who_ did this?
+     - Corrected order of the new memory controller reset entry in
+       device-trees and host1x DT binding patch, which was requested by
+       Rob Herring.
 
-> Someone knows what is going on here, i.e. what is the problem?
+     - Switched consumer drivers to use power domain state syncing done
+       by new Tegra's common OPP-initialization helper.
 
-Dan, can you just send that fix to me directly, with the fixed commit
-message (see above), and we can close this.
+     - Made use of new devm_pm_runtime_enable() helper that was added to
+       v5.15 kernel, where appropriate.
 
-That still leaves the "who closes things on patchwork" question, but
-that's something I can't do anything about.
+     - Added "fuse: Use resource-managed helpers" patch.
 
-                Linus
+     - Converted Tegra20/30 clk drivers to a proper platform drivers,
+       which was requested by Thierry Reding.
+
+     - Removed clk-bulk API usage from the MMC patch, which was requested
+       by Thierry Reding.
+
+     - Changed CORE power domain name to "core" in a new patch
+       "Change name of core power domain".
+
+     - Misc small fixes for problems that I found since v8, like couple
+       typos in error code paths and restored working RPM for Tegra DRM
+       UAPI v1 that was removed in v8 by accident.
+
+v9-v10: Figured out remaining GENPD API changes with Ulf Hansson and
+        Viresh Kumar. The OPP-sync helper that was used in v8 isn't needed
+        anymore because GENPD API now allows consumer drivers to
+        init rpm_pstate of power domains.
+
+v8: - Added new generic dev_pm_opp_sync() helper that syncs OPP state with
+      hardware. All drivers changed to use it. This replaces GENPD attach_dev
+      callback hacks that were used in v7.
+
+    - Added new patch patch "soc/tegra: regulators: Prepare for suspend"
+      that fixes dying Tegra20 SoC after enabling VENC power domain during
+      resume from suspend. It matches to what downstream kernel does on
+      suspend/resume.
+
+    - After a second thought, I dropped patches which added RPM to memory
+      drivers since hardware is always-on and RPM not needed.
+
+    - Replaced the "dummy host1x driver" patch with new "Disable unused
+      host1x hardware" patch, since it's a cleaner solution.
+
+Dmitry Osipenko (34):
+  opp: Change type of dev_pm_opp_attach_genpd(names) argument
+  soc/tegra: Add devm_tegra_core_dev_init_opp_table_common()
+  soc/tegra: pmc: Disable PMC state syncing
+  soc/tegra: Don't print error message when OPPs not available
+  dt-bindings: clock: tegra-car: Document new clock sub-nodes
+  clk: tegra: Support runtime PM and power domain
+  dt-bindings: host1x: Document OPP and power domain properties
+  dt-bindings: host1x: Document Memory Client resets of Host1x, GR2D and
+    GR3D
+  gpu: host1x: Add runtime PM and OPP support
+  gpu: host1x: Add host1x_channel_stop()
+  drm/tegra: dc: Support OPP and SoC core voltage scaling
+  drm/tegra: hdmi: Add OPP support
+  drm/tegra: gr2d: Support generic power domain and runtime PM
+  drm/tegra: gr3d: Support generic power domain and runtime PM
+  drm/tegra: vic: Support system suspend
+  usb: chipidea: tegra: Add runtime PM and OPP support
+  bus: tegra-gmi: Add runtime PM and OPP support
+  pwm: tegra: Add runtime PM and OPP support
+  mmc: sdhci-tegra: Add runtime PM and OPP support
+  mtd: rawnand: tegra: Add runtime PM and OPP support
+  spi: tegra20-slink: Add OPP support
+  media: dt: bindings: tegra-vde: Convert to schema
+  media: dt: bindings: tegra-vde: Document OPP and power domain
+  media: staging: tegra-vde: Support generic power domain
+  soc/tegra: fuse: Reset hardware
+  soc/tegra: fuse: Use resource-managed helpers
+  soc/tegra: regulators: Prepare for suspend
+  soc/tegra: pmc: Change name of core power domain
+  soc/tegra: pmc: Enable core domain support for Tegra20 and Tegra30
+  ARM: tegra: Add OPP tables and power domains to Tegra20 device-trees
+  ARM: tegra: Add OPP tables and power domains to Tegra30 device-trees
+  ARM: tegra: Add Memory Client resets to Tegra20 GR2D, GR3D and Host1x
+  ARM: tegra: Add Memory Client resets to Tegra30 GR2D, GR3D and Host1x
+  ARM: tegra20/30: Disable unused host1x hardware
+
+ .../bindings/clock/nvidia,tegra20-car.yaml    |   37 +
+ .../display/tegra/nvidia,tegra20-host1x.txt   |   53 +
+ .../bindings/media/nvidia,tegra-vde.txt       |   64 -
+ .../bindings/media/nvidia,tegra-vde.yaml      |  119 ++
+ .../boot/dts/tegra20-acer-a500-picasso.dts    |    1 +
+ arch/arm/boot/dts/tegra20-colibri.dtsi        |    3 +-
+ arch/arm/boot/dts/tegra20-harmony.dts         |    3 +-
+ arch/arm/boot/dts/tegra20-paz00.dts           |    1 +
+ .../arm/boot/dts/tegra20-peripherals-opp.dtsi |  941 +++++++++++
+ arch/arm/boot/dts/tegra20-seaboard.dts        |    3 +-
+ arch/arm/boot/dts/tegra20-tamonten.dtsi       |    3 +-
+ arch/arm/boot/dts/tegra20-trimslice.dts       |    9 +
+ arch/arm/boot/dts/tegra20-ventana.dts         |    1 +
+ arch/arm/boot/dts/tegra20.dtsi                |  116 +-
+ .../tegra30-asus-nexus7-grouper-common.dtsi   |    1 +
+ arch/arm/boot/dts/tegra30-beaver.dts          |    1 +
+ arch/arm/boot/dts/tegra30-cardhu.dtsi         |    1 +
+ arch/arm/boot/dts/tegra30-colibri.dtsi        |   17 +-
+ arch/arm/boot/dts/tegra30-ouya.dts            |    1 +
+ .../arm/boot/dts/tegra30-peripherals-opp.dtsi | 1412 +++++++++++++++++
+ arch/arm/boot/dts/tegra30.dtsi                |  175 +-
+ drivers/bus/tegra-gmi.c                       |   52 +-
+ drivers/clk/tegra/Makefile                    |    1 +
+ drivers/clk/tegra/clk-device.c                |  222 +++
+ drivers/clk/tegra/clk-pll.c                   |    2 +-
+ drivers/clk/tegra/clk-super.c                 |    2 +-
+ drivers/clk/tegra/clk-tegra20.c               |   77 +-
+ drivers/clk/tegra/clk-tegra30.c               |  116 +-
+ drivers/clk/tegra/clk.c                       |   75 +-
+ drivers/clk/tegra/clk.h                       |    2 +
+ drivers/gpu/drm/tegra/dc.c                    |   74 +
+ drivers/gpu/drm/tegra/dc.h                    |    2 +
+ drivers/gpu/drm/tegra/gr2d.c                  |  155 +-
+ drivers/gpu/drm/tegra/gr3d.c                  |  388 ++++-
+ drivers/gpu/drm/tegra/hdmi.c                  |   16 +-
+ drivers/gpu/drm/tegra/vic.c                   |    4 +
+ drivers/gpu/host1x/channel.c                  |    8 +
+ drivers/gpu/host1x/debug.c                    |   15 +
+ drivers/gpu/host1x/dev.c                      |  151 +-
+ drivers/gpu/host1x/dev.h                      |    3 +-
+ drivers/gpu/host1x/hw/channel_hw.c            |   44 +-
+ drivers/gpu/host1x/intr.c                     |    3 -
+ drivers/gpu/host1x/syncpt.c                   |    5 +-
+ drivers/mmc/host/sdhci-tegra.c                |   82 +-
+ drivers/mtd/nand/raw/tegra_nand.c             |   55 +-
+ drivers/opp/core.c                            |    6 +-
+ drivers/pwm/pwm-tegra.c                       |   88 +-
+ drivers/soc/tegra/common.c                    |    4 +-
+ drivers/soc/tegra/fuse/fuse-tegra.c           |   51 +-
+ drivers/soc/tegra/fuse/fuse-tegra20.c         |   33 +-
+ drivers/soc/tegra/fuse/fuse.h                 |    1 +
+ drivers/soc/tegra/pmc.c                       |   19 +-
+ drivers/soc/tegra/regulators-tegra20.c        |   99 ++
+ drivers/soc/tegra/regulators-tegra30.c        |  122 ++
+ drivers/spi/spi-tegra20-slink.c               |   10 +-
+ drivers/staging/media/tegra-vde/vde.c         |   57 +-
+ drivers/usb/chipidea/ci_hdrc_tegra.c          |   53 +-
+ include/linux/host1x.h                        |    1 +
+ include/linux/pm_opp.h                        |    8 +-
+ include/soc/tegra/common.h                    |   24 +
+ 60 files changed, 4739 insertions(+), 353 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/nvidia,tegra-vde.txt
+ create mode 100644 Documentation/devicetree/bindings/media/nvidia,tegra-vde.yaml
+ create mode 100644 drivers/clk/tegra/clk-device.c
+
+-- 
+2.32.0
+
