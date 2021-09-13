@@ -2,95 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9148C40893D
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 12:41:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98CE8408999
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 12:56:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239019AbhIMKm1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 06:42:27 -0400
-Received: from mga06.intel.com ([134.134.136.31]:59829 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238472AbhIMKm0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 06:42:26 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10105"; a="282637415"
-X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; 
-   d="scan'208";a="282637415"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2021 03:41:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; 
-   d="scan'208";a="481270026"
-Received: from ipu5-build.bj.intel.com ([10.238.232.202])
-  by orsmga008.jf.intel.com with ESMTP; 13 Sep 2021 03:41:08 -0700
-From:   Bingbu Cao <bingbu.cao@intel.com>
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com
-Cc:     senozhatsky@chromium.org, bingbu.cao@intel.com,
-        bingbu.cao@linux.intel.com, qingwu.zhang@intel.com
-Subject: [PATCH] media: imx208: support adjust range of exposure per VBLANK control
-Date:   Mon, 13 Sep 2021 18:39:59 +0800
-Message-Id: <1631529599-2276-1-git-send-email-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.7.4
+        id S238366AbhIMK55 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 06:57:57 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:51677 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238266AbhIMK54 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 13 Sep 2021 06:57:56 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id E9336100006;
+        Mon, 13 Sep 2021 10:56:36 +0000 (UTC)
+Date:   Mon, 13 Sep 2021 12:57:23 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+Subject: Re: [PATCH v8 02/36] media: subdev: add active state to struct
+ v4l2_subdev
+Message-ID: <20210913105723.dppl2uwcnyzas77d@uno.localdomain>
+References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
+ <20210830110116.488338-3-tomi.valkeinen@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210830110116.488338-3-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Qingwu Zhang <qingwu.zhang@intel.com>
+Hi Tomi,
 
-Current the max value of imx208 exposure time was hardcoded to 15ms,
-it will cause the sensor can not support longer exposure time such as
-30ms and 66ms, this patch add support of setting the VBLANK control to
-increase the exposure range to meet expected longer exposure.
+On Mon, Aug 30, 2021 at 02:00:42PM +0300, Tomi Valkeinen wrote:
+> Add a new 'state' field to struct v4l2_subdev to which we can store the
+> active state of a subdev. This will place the subdev configuration into
+> a known place, allowing us to use the state directly from the v4l2
+> framework, thus simplifying the drivers.
+>
+> We also add v4l2_subdev_alloc_state() and v4l2_subdev_free_state(),
+> which need to be used by the drivers that support subdev state in struct
+> v4l2_subdev.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 21 ++++++++++++++++
+>  include/media/v4l2-subdev.h           | 36 +++++++++++++++++++++++++++
+>  2 files changed, 57 insertions(+)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 26a34a8e3d37..e1a794f69815 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -943,3 +943,24 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+>  	v4l2_subdev_notify(sd, V4L2_DEVICE_NOTIFY_EVENT, (void *)ev);
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
+> +
+> +int v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
+> +{
+> +	struct v4l2_subdev_state *state;
+> +
+> +	state = v4l2_alloc_subdev_state(sd);
+> +	if (IS_ERR(state))
+> +		return PTR_ERR(state);
+> +
+> +	sd->state = state;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_alloc_state);
+> +
+> +void v4l2_subdev_free_state(struct v4l2_subdev *sd)
+> +{
+> +	v4l2_free_subdev_state(sd->state);
+> +	sd->state = NULL;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_free_state);
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 8701d2e7d893..ecaf040ead57 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -898,6 +898,8 @@ struct v4l2_subdev_platform_data {
+>   * @subdev_notifier: A sub-device notifier implicitly registered for the sub-
+>   *		     device using v4l2_async_register_subdev_sensor().
+>   * @pdata: common part of subdevice platform data
+> + * @state: active state for the subdev (NULL for subdevs tracking the state
+> + * 	   internally)
+>   *
+>   * Each instance of a subdev driver should create this struct, either
+>   * stand-alone or embedded in a larger struct.
+> @@ -929,6 +931,7 @@ struct v4l2_subdev {
+>  	struct v4l2_async_notifier *notifier;
+>  	struct v4l2_async_notifier *subdev_notifier;
+>  	struct v4l2_subdev_platform_data *pdata;
+> +	struct v4l2_subdev_state *state;
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-Signed-off-by: Qingwu Zhang <qingwu.zhang@intel.com>
----
- drivers/media/i2c/imx208.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+Is there anything preventing state from being a struct member and only
+allocate the required number of v4l2_subdev_pad_config entries ?
 
-diff --git a/drivers/media/i2c/imx208.c b/drivers/media/i2c/imx208.c
-index 6f3d9c1b5879..83d581967c6d 100644
---- a/drivers/media/i2c/imx208.c
-+++ b/drivers/media/i2c/imx208.c
-@@ -277,6 +277,7 @@ struct imx208 {
- 	struct v4l2_ctrl *pixel_rate;
- 	struct v4l2_ctrl *vblank;
- 	struct v4l2_ctrl *hblank;
-+	struct v4l2_ctrl *exposure;
- 	struct v4l2_ctrl *vflip;
- 	struct v4l2_ctrl *hflip;
- 
-@@ -432,8 +433,17 @@ static int imx208_set_ctrl(struct v4l2_ctrl *ctrl)
- 	struct imx208 *imx208 =
- 		container_of(ctrl->handler, struct imx208, ctrl_handler);
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx208->sd);
-+	s64 max;
- 	int ret;
- 
-+	if (ctrl->id == V4L2_CID_VBLANK) {
-+		/* Update max exposure while meeting expected vblanking */
-+		max = imx208->cur_mode->height + ctrl->val - 8;
-+		__v4l2_ctrl_modify_range(imx208->exposure,
-+					 imx208->exposure->minimum,
-+					 max, imx208->exposure->step, max);
-+	}
-+
- 	/*
- 	 * Applying V4L2 control value only happens
- 	 * when power is up for streaming
-@@ -914,9 +924,11 @@ static int imx208_init_controls(struct imx208 *imx208)
- 		imx208->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
- 	exposure_max = imx208->cur_mode->vts_def - 8;
--	v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops, V4L2_CID_EXPOSURE,
--			  IMX208_EXPOSURE_MIN, exposure_max,
--			  IMX208_EXPOSURE_STEP, IMX208_EXPOSURE_DEFAULT);
-+	imx208->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops,
-+					     V4L2_CID_EXPOSURE,
-+					     IMX208_EXPOSURE_MIN, exposure_max,
-+					     IMX208_EXPOSURE_STEP,
-+					     IMX208_EXPOSURE_DEFAULT);
- 
- 	imx208->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops,
- 					  V4L2_CID_HFLIP, 0, 1, 1, 0);
--- 
-2.7.4
+>  };
+>
+>
+> @@ -1217,4 +1220,37 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
+>  void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+>  			      const struct v4l2_event *ev);
+>
+> +/**
+> + * v4l2_subdev_alloc_state() - Allocate active subdev state for subdevice
+> + * @sd: The subdev for which the state is allocated
+> + *
+> + * This will allocate a subdev state and store it to
+> + * &struct v4l2_subdev->state.
+> + *
+> + * Must call v4l2_subdev_free_state() when the state is no longer needed.
+> + */
+> +int v4l2_subdev_alloc_state(struct v4l2_subdev *sd);
+> +
+> +/**
+> + * v4l2_subdev_free_state() - Free the active subdev state for subdevice
+> + * @sd: The subdevice
+> + *
+> + * This will free the subdev's state and set
+> + * &struct v4l2_subdev->state to NULL.
+> + */
+> +void v4l2_subdev_free_state(struct v4l2_subdev *sd);
+> +
+> +/**
+> + * v4l2_subdev_get_active_state() - Return the active subdev state for subdevice
+> + * @sd: The subdevice
+> + *
+> + * Return the active state for the subdevice, or NULL if the subdev does not
+> + * support active state.
+> + */
+> +static inline struct v4l2_subdev_state *
+> +v4l2_subdev_get_active_state(struct v4l2_subdev *sd)
+> +{
+> +	return sd->state;
+> +}
 
+It would also make safer to access sd->state, as if a driver doesn't
+allocate a state but calls this function it would get back a NULL
+pointer.
+
+Also, the name 'active' suggests there will be a non-active state ?
+
+Thanks
+   j
+
+> +
+>  #endif
+> --
+> 2.25.1
+>
