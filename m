@@ -2,76 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D2FB4096C0
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 17:08:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC28940973F
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 17:26:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244386AbhIMPJQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 11:09:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53410 "EHLO
+        id S233779AbhIMP1y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 11:27:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346698AbhIMPJJ (ORCPT
+        with ESMTP id S229685AbhIMP1o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 11:09:09 -0400
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C61FBC1A3066
-        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 06:49:01 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id q11-20020a9d4b0b000000b0051acbdb2869so13365583otf.2
-        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 06:49:01 -0700 (PDT)
+        Mon, 13 Sep 2021 11:27:44 -0400
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D22C0FA0B3
+        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 07:24:53 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id m11so12299167ioo.6
+        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 07:24:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=dXOe28ovPQcvcLQExeU4VA9hkTOVarYdT83A5rnv51M=;
-        b=JkDzlvlDKfQ36bzZftdORETWME0NGZI8z0qTyNFC9Nwj6gKYh8/ZGNzJocJ/sv/2sm
-         iAhCBfH87w9hzjHT5fX0SSVsykJLkK0rbTtmPHPT1p0u8upEJaWaOsn5/baUsPADemME
-         U8rMhJKZwpQjGBbGqbn1t2PNEUz4xUzz3jg73wKgg3cGRVUkJUuQepyaA5WueoaBa0Sy
-         hiwaFnyyeqaHUuGGyweMmTXC1UzB9IsVvABJPTjFh+CHCo4WUWgKHdWI6cqC94SF1m+1
-         TpHkSOs8zH0xQ5dnSYryzsvp00HNoXx4Y1ysIhwP7xDItketdrDvGG9ilS5eLVJ9lAZM
-         JiaA==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=y4Lq9CmvVcXXhPkYqU8poyyam6g50FxqVLy0oSkOGwo=;
+        b=cr3Szu2PZkLNoOgq0/pNUQ7Fj5694Bo2qV8vrVedRjJCfzgGVXOzeEYVheg4ZPxGEv
+         3aCVgAf9I5Kz+XUoyOocmaSYPYPnbuPvwm8fGpvMCuWC0o+1E+mXMACJtVgk0uIJUU9h
+         t/yXY9ZSwWjKUjFKgM4E6NRaTZTBoBrpKixGs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=dXOe28ovPQcvcLQExeU4VA9hkTOVarYdT83A5rnv51M=;
-        b=Ccjz2M2osh42EyX/yLduBEurQLxSiaaSXYu9YZcxsSRSGJDjjNt/bA92TmthV+ylQD
-         y7Ak8AZ4nuSAVhf3423V0Uxx5pyPzDbzg+pagoA0p/uUL1KEz+rGxrU8fUQKICre5SBD
-         Z9bBfYPJEF9bC9hrDj/c26DdYj4sRVzo1AcsX8cioUaDmuOjrPN4+Hj+dZfA7XCDIzJF
-         k7ANIw1LCQ7U07ElkjnIjXeotSToBLnCgdJNjeMLTbbnq+1VD9cafK7GIVElwAIFLyFc
-         o1YkrIi291LZPHwV3FV9Gi6feXcd9TU5XP9kmCv+ksUYf1zDzATrw5HrV62KF5oZZuO5
-         DrEA==
-X-Gm-Message-State: AOAM533oppZn63UbiBO3VyjbNxdcKKJSupx6PkW6Xf19aRdtWbCc8aTy
-        H8o0mV2lfLQRkrDvIduL6FgvC2qCuaKdx/YvrQ==
-X-Google-Smtp-Source: ABdhPJy+beL6TwFD2tlMjuD0YE8Cx9J6FZGTEJPxtgNhahU+1/OBGcIpuLzHgiOTBboI3CvkAxcjAo/cqPLA8E4dHzQ=
-X-Received: by 2002:a05:6830:40cb:: with SMTP id h11mr9766946otu.40.1631540941177;
- Mon, 13 Sep 2021 06:49:01 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=y4Lq9CmvVcXXhPkYqU8poyyam6g50FxqVLy0oSkOGwo=;
+        b=tTBH+VoXAdiLteaoImIna1O8FNYt0a/ubBbolKTtNXt3QS6Kh1qQS0N/haYjzgyxR5
+         6qjKKtiYIBhf0iy5Vu5OlPG92USM+No2MVeA1+dNyax3MqcuvhcXMJXKk/WO/T0HEMeK
+         wVqhoTE1nWSw8AJrMf8B2Mcsbmar+ptdIRrZyggW95ZvT1/fFmsWbjdVPobmIH1Gxa9p
+         ZymNjmOq+s7s+E9ZhfRe9cuGGeVVUXWgM7lxVMjOdQiJB4zAZJ0Qm+kmia5caMBDRXBM
+         hqSb5d7cAiurDi74MTrbQA1EOSuhZCYqDD8Z9ln7s7TU8X8hhtGYrhxxkRxtiDwnrM9D
+         NlZw==
+X-Gm-Message-State: AOAM5305hfaefb6L6ffV5J3Xx/q5jg8DQ/UOh9bS6qARlbKSKjoU/tA4
+        r6Uonusw2GOqPod0Ic74Mw82ZQ==
+X-Google-Smtp-Source: ABdhPJx/eqqIB4vBAz8lHgsBf/5IFCa6nkTSnkdfc1eI2EY+xn1/EEl30qUR5S0dnd5MPZmncifOqg==
+X-Received: by 2002:a05:6638:1301:: with SMTP id r1mr10200622jad.32.1631543093348;
+        Mon, 13 Sep 2021 07:24:53 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id w3sm4899283ilc.23.2021.09.13.07.24.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Sep 2021 07:24:52 -0700 (PDT)
+Subject: Re: [PATCH] media: atomisp: fix control reaches end of non-void
+ function error
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        gregkh@linuxfoundation.org, paskripkin@gmail.com,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20210910223700.32494-1-skhan@linuxfoundation.org>
+ <20210913084102.GF7203@kadam>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <7f1c09f9-49e1-718b-329c-aae9d2f69266@linuxfoundation.org>
+Date:   Mon, 13 Sep 2021 08:24:51 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Received: by 2002:a05:6830:2691:0:0:0:0 with HTTP; Mon, 13 Sep 2021 06:49:00
- -0700 (PDT)
-Reply-To: mrschantalawrence75@gmail.com
-From:   mrs chantal <mr.salimsumala@gmail.com>
-Date:   Mon, 13 Sep 2021 06:49:00 -0700
-Message-ID: <CAK86LUN2yBnTUqNfcZEPrj8tPqAZ2Bv6M84pDaymhQdxL5ZstA@mail.gmail.com>
-Subject: My Dear Beloved
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210913084102.GF7203@kadam>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
+On 9/13/21 2:41 AM, Dan Carpenter wrote:
+> On Fri, Sep 10, 2021 at 04:37:00PM -0600, Shuah Khan wrote:
+>> Fix the following build error with -Werror=return-type enabled. Fix
+>> input_system_configure_channel_sensor() to return status when control
+>> reaches the end.
+>>
+>> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.o
+>> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function ‘input_system_configure_channel_sensor’:
+>> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
+>>   1649 | }
+>>
+>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> 
+> Hi Shuah,
+> 
+> You're the third person to send this patch recently but it was fixed on
+> Aug 2 in staging-next in commit 05344a1d2ea7 ("media: atomisp: restore
+> missing 'return' statement").  What tree are you working against?  It
+> seems like it needs to be backported somewhere.
+> 
 
+I am working on Linux 5.15 - should have checked staging next though before
+sending the patch :)
 
--- 
-hello....
+thanks,
+-- Shuah
 
-
-You have been compensated with the sum of 6.2 million dollars
-
-in this united nation the payment will be issue into atm visa card and
-
-send to you from the santander bank we need your address and your
-
-whatsapp
-number
-
-
-here is my email address   mrschantalawrence75@gmail.com
