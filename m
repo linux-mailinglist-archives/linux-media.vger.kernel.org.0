@@ -2,107 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D26B04082F6
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 04:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A76B6408331
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 05:44:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237011AbhIMCvq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Sep 2021 22:51:46 -0400
-Received: from ozlabs.org ([203.11.71.1]:33189 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236949AbhIMCvm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Sep 2021 22:51:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1631501426;
-        bh=CAV4NOXlEMwGjvPVzT2IjuVrKKEzT0HbuXN0U00IH28=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=c7EMRka50jfxf/moIeEpLtNLGH8uYYvzFr1HhBusVv+KsyrgP5rYlgDZnRdMmeEE3
-         8convlPjKAFsuX3DZrUy8DklGyK5Ff7RMgyR/FE86aZMbgUBL4cglJ4ENTRNeRaHV1
-         fB3S30VO5fIw5+86gFTdcpWxhLQJUKKs1cOBCme2vvn09BomEpXg0dTPK2A3khIFW4
-         Y6/+Mo0jmmWH47E1Nor1wFwLY7fYuUoltVDXqPhwX8pypfOoSnH3mD9Z1V1cCWdY09
-         qwtJyGJhkbggaPyPL7rFM8LrZ64XGEbfG30wWffZVv2D/QBYMzXhi1P9awv+l4mVPU
-         crxd6NX7djhgg==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4H79vN4njgz9sW5;
-        Mon, 13 Sep 2021 12:50:24 +1000 (AEST)
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Linus Torvalds <torvalds@linuxfoundation.org>,
-        Salvatore Bonaccorso <carnil@debian.org>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Luo Likang <luolikang@nsfocus.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux1394-devel@lists.sourceforge.net,
-        Yang Yanchao <yangyanchao6@huawei.com>,
-        Security Officers <security@kernel.org>
-Subject: Re: [PATCH v2 RESEND] media: firewire: firedtv-avc: fix a buffer
- overflow in avc_ca_pmt()
-In-Reply-To: <CAHk-=wjOW3Fx8td1Snezd1_9sf8q7KuQx8TyQNR0ypS2rVBHtg@mail.gmail.com>
-References: <YRoNTX3Krtw9NdkI@eldamar.lan> <20210816072721.GA10534@kili>
- <20210901104026.GB2129@kadam> <YT39LBTgGL/b/V5N@eldamar.lan>
- <CAHk-=wjOW3Fx8td1Snezd1_9sf8q7KuQx8TyQNR0ypS2rVBHtg@mail.gmail.com>
-Date:   Mon, 13 Sep 2021 12:50:19 +1000
-Message-ID: <87pmtdkx3o.fsf@mpe.ellerman.id.au>
-MIME-Version: 1.0
-Content-Type: text/plain
+        id S238327AbhIMDpc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Sep 2021 23:45:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39616 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235475AbhIMDpb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 12 Sep 2021 23:45:31 -0400
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2F85C061574
+        for <linux-media@vger.kernel.org>; Sun, 12 Sep 2021 20:44:16 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id Pct5mUpffpQdWPctBm19LE; Mon, 13 Sep 2021 05:44:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1631504653; bh=+UkEbPZedw1NDmbpIzvWKv6/6ACrhwYtccC02vndLec=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=sgmwNcT7Y20zWhqQxAIoHpADBTrY44561Iy0LZmUOVZ3Rf1AVARMi1BAslTnq4/nc
+         ZEjMRDzLZRuW8kL+VGX+3aeQBh3G5G/uGPtDSqGnWKOr65zcoP/fAAF2E4pUAasAbt
+         GapaXTAqTI5RAWIWxW7Zq0BJPxWPmV53JOJqUFm5dHt4wxvaVeDUBO0HxrcyMueXd1
+         FDtuVu5zhcxKp4j06vy6N1ALYigy1KaIMCtCreeeGnO8aR6aMteEI3oIIKTSFLwpbY
+         4BLpVx72Zl4fsQnTtjlMslzWVnCmRIh9GeDNXE3qeOu2s6XcbWMUlT4eAWXK4ndpUR
+         aDDIo/q6SKmuQ==
+Message-ID: <f02cd007d19d49c0cc00519d17a9ae7f@smtp-cloud7.xs4all.net>
+Date:   Mon, 13 Sep 2021 05:44:07 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfLXw9GQdTQkIkeg49YVPBmdHDZRNtAEiMoETSZOXNWlc9QqdAMHHmlcSm3VKVZybNX+leykAhBGZx32YpJMgYl1T6tZyRgz+3guPSMm3i04fYwyoJUVu
+ mzU9KpBIPMNTdjn8G5DUWKmsSUkJu1GCEjV2FFimT3Yck06x0Q5PkHNG9RX1SNJdYpcKqA91ZzwlwOa/3vITzjJiKiuILevZ/gyKr8Qf/lLjTEwj3JZc/mtr
+ b0V7CsTF7Z9hLtBzCTtLaw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Linus Torvalds <torvalds@linuxfoundation.org> writes:
-> On Sun, Sep 12, 2021 at 6:14 AM Salvatore Bonaccorso <carnil@debian.org> wrote:
->>
->> On Wed, Sep 01, 2021 at 01:40:26PM +0300, Dan Carpenter wrote:
->> > On Mon, Aug 16, 2021 at 10:27:22AM +0300, Dan Carpenter wrote:
->> > > The bounds checking in avc_ca_pmt() is not strict enough.  It should
->> > > be checking "read_pos + 4" because it's reading 5 bytes.  If the
->> > > "es_info_length" is non-zero then it reads a 6th byte so there needs to
->> > > be an additional check for that.
->> > >
->> > > I also added checks for the "write_pos".  I don't think these are
->> > > required because "read_pos" and "write_pos" are tied together so
->> > > checking one ought to be enough.
->
-> They may be in sync at a fixed offset, but the buffer length of the
-> read ("int length") is not in sync with the buffer length for the
-> write ("sizeof(c->operand)").
->
-> So I do think the write pos limit checking is actually necessary and needed.
->
->> > > RESEND: this patch got lost somehow.
->> >
->> > What the heck?  Someone on patchwork just marked this patch as obsolete
->> > again!!!
->
-> Can we please make sure patchwork has some logging so that that kind
-> of thing shows _who_ did this?
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-It's not easily visible in the web UI, but patchwork does log that sort
-of info.
+Results of the daily build of media_tree:
 
-The v2 RESEND is:
+date:			Mon Sep 13 05:00:11 CEST 2021
+media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
+media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
+v4l-utils git hash:	05a468e033af0e4c775aaa10fe4d02c45de698ae
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8f230e7be768cbdfab869697ba0a2c622a4a0cae
+host hardware:		x86_64
+host os:		5.13.11-marune
 
- https://patchwork.linuxtv.org/project/linux-media/patch/20210816072721.GA10534@kili/
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-In the top right is the patch id (76352), you can then get the list of
-events for that patch at:
+Detailed results are available here:
 
-  https://patchwork.linuxtv.org/api/events/?patch=76352
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
 
-Which shows that hverkuil changed it to obsolete on 2021-09-01T10:16:43.
+Detailed regression test results are available here:
 
-Presumably because they picked up the non-resend version, which was
-marked as under-review around the same time:
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
 
-  https://patchwork.linuxtv.org/api/events/?patch=74849
+Full logs are available here:
 
-And then also visible on the above page, it was marked as accepted by
-mchehab on 2021-09-03T13:06:16.
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
 
-But I don't see the patch in linux-next, or in linux-media.git, so I'm
-not sure where it's been accepted to?
+The Media Infrastructure API from this daily build is here:
 
-cheers
+http://www.xs4all.nl/~hverkuil/spec/index.html
