@@ -2,51 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A80D2409741
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 17:27:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4EA24097B4
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 17:44:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245137AbhIMP2s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 11:28:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57926 "EHLO
+        id S244194AbhIMPpy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 11:45:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242555AbhIMP2p (ORCPT
+        with ESMTP id S235050AbhIMPpl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 11:28:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91AECC103306
-        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 07:26:51 -0700 (PDT)
-Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 077E8499;
-        Mon, 13 Sep 2021 16:26:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1631543208;
-        bh=JCTCjOQ9Lvhd0rscd4odkC9//wF+Cr1BI8X5JRzcpXM=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=k06He77dZfWMP3Odv6tVOzKJCDIIc78aRIbydcM+bndrlIM6x1A+iyzjGC5F54Ulz
-         ffK4sQUlFz1L44nULio0X5IWtECoFcTVjLo6yqFNfNPRBZq8ki/yJ1b7PMLKyvkp7n
-         zW4fHcslNAbeGn8o3i8Kd/HyWcLOotyfaRujL8RA=
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
- <20210830110116.488338-4-tomi.valkeinen@ideasonboard.com>
- <20210913114154.ovffxjoghgdud4js@uno.localdomain>
- <0733ae28-bcd9-6dc8-fb6a-0fa43beb1191@ideasonboard.com>
- <20210913133841.nck65h2ft4hfnbg5@uno.localdomain>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v8 03/36] media: subdev: add 'which' to subdev state
-Message-ID: <656577a3-b783-0272-4809-20169b84e891@ideasonboard.com>
-Date:   Mon, 13 Sep 2021 17:26:45 +0300
+        Mon, 13 Sep 2021 11:45:41 -0400
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6071CC03649A;
+        Mon, 13 Sep 2021 08:11:59 -0700 (PDT)
+Received: by mail-qt1-x832.google.com with SMTP id w17so8364674qta.9;
+        Mon, 13 Sep 2021 08:11:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/68DbtBLx5V+nXRwscL0ZmePqlEX5wd2E1J1HdhlKCg=;
+        b=pLidyfTS9kCgEehDXg+DMffci4uMhGRMZ1//2oDRipqQE328Ckl3G57IoRc+UeqXNx
+         gPeZKHcDz2mM5LLToOOLcQfFDZK6Py5KqeH6JyR8gSaP1fMlngZtkUMDLHhmW5Itc8l1
+         TNM8eDTAJ8TOxgHVuNNhK1gxfW5WvpK7CmskDDRwdlAm53jcEamXXh4PnlWI2hJUoJBH
+         0hb9xaLtd+tbGU+UYfBibRRPx1dzggVEovDu0eZxK5G2I5ExLXzW76K0psXpTlKMLFQz
+         61fjE0rSzuPjMML+n14LQj6/ZgjZaSss1B3wBn0MiS3JrsjLj2X4piWTPlB+TItgkubI
+         DLag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/68DbtBLx5V+nXRwscL0ZmePqlEX5wd2E1J1HdhlKCg=;
+        b=cVItbK520BtwuER40wxlQbdUvptssRIWnwxu0qv2W8INt0gaNyqFD2fXH+LwDvLaLI
+         I4c2WbwRujmPMppaliZHDgO8VrjoBcabCn+/uYlRv1IFI7AZ99QKoHrq6YSRCOfPSmMe
+         ypw2VkfK92bTQX/MSC+Bgge5RQobcud5dsBoKA7gzC1kbofqnFZ7N6wuO3XkP83xhOSX
+         DCltsm+wbmiqWlCVHcvUCpO723JhF5JvHIyg5UtG/y9AiMdODmYVmp0kBoVVJDiG2BaC
+         UWIJKD0PVXMzL0kV7sLhuxX10xZdionFUZlXPubaJ4l0HSWACKHHlCd9kESx5SSt7K9g
+         poBQ==
+X-Gm-Message-State: AOAM532j9x6bvYv/+xuPsFG5AsTsW7Ir31mbQGvZzcnaO/9keK1EA6gT
+        dn2d4GTYdprZox+aETy7WWY=
+X-Google-Smtp-Source: ABdhPJw2sBDZ+AH36BJLzbxihE5a3ct5t+a+Ludqkpvd5tG9ECbik443KSFvdoAuzSz+OmqajfMaHw==
+X-Received: by 2002:ac8:6681:: with SMTP id d1mr64592qtp.87.1631545918354;
+        Mon, 13 Sep 2021 08:11:58 -0700 (PDT)
+Received: from [192.168.15.5] ([186.204.255.226])
+        by smtp.gmail.com with ESMTPSA id a24sm4272209qto.18.2021.09.13.08.11.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Sep 2021 08:11:58 -0700 (PDT)
+Subject: Re: [PATCH v6] media: em28xx: Fix race condition between open and
+ init function
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+        skhan@linuxfoundation.org, hdanton@sina.com
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        kernel test robot <lkp@intel.com>,
+        syzbot+b2391895514ed9ef4a8e@syzkaller.appspotmail.com
+References: <20210614195230.28691-1-igormtorrente@gmail.com>
+ <0763c5bc-b7f7-b0da-e48c-d61c61fc5499@xs4all.nl>
+From:   Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+Message-ID: <463f2e15-179c-7047-9803-e7103e7c2d9a@gmail.com>
+Date:   Mon, 13 Sep 2021 12:11:54 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210913133841.nck65h2ft4hfnbg5@uno.localdomain>
+In-Reply-To: <0763c5bc-b7f7-b0da-e48c-d61c61fc5499@xs4all.nl>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -54,343 +72,541 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 13/09/2021 16:38, Jacopo Mondi wrote:
-> Hi Tomi,
-> 
-> On Mon, Sep 13, 2021 at 03:17:01PM +0300, Tomi Valkeinen wrote:
->> On 13/09/2021 14:41, Jacopo Mondi wrote:
->>> Hi Tomi,
->>>
->>> On Mon, Aug 30, 2021 at 02:00:43PM +0300, Tomi Valkeinen wrote:
->>>> The subdev state is passed to functions in the media drivers, and
->>>> usually either V4L2_SUBDEV_FORMAT_ACTIVE or V4L2_SUBDEV_FORMAT_TRY is
->>>> also given to the function in one way or another.
->>>>
->>>> One op where this is not the case is v4l2_subdev_pad_ops.init_cfg. One
->>>> could argue that the initialization of the state should be the same for
->>>> both ACTIVE and TRY cases, but unfortunately that is not the case:
->>>>
->>>> - Some drivers do also other things than just touch the state when
->>>> dealing with ACTIVE, e.g. if there is extra state outside the standard
->>>> subdev state.
->>>> - Some drivers might need to create, say, struct v4l2_subdev_format
->>>> which has 'which' field, and that needs to be filled with either ACTIVE
->>>> or TRY.
->>>>
->>>> Currently init_cfg is only called for TRY case from the v4l2 framework,
->>>> passing the TRY state. Some drivers call their own init_cfg, passing
->>>> NULL as the state, which is used to indicate ACTIVE case.
->>>>
->>>> In the future we want to pass subdev's active state from the v4l2
->>>> framework side, so we need a solution to this.
->>>>
->>>> We could change the init_cfg() to include the TRY/ACTIVE value, which
->>>> would require changing more or less all the drivers. Instead, I have
->>>> added 'which' field to the subdev state itself, filled at state
->>>> allocation time, which only requires changes to the drivers that
->>>> allocate a state themselves.
->>>>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>> ---
->>>>    drivers/media/platform/rcar-vin/rcar-v4l2.c |  2 +-
->>>>    drivers/media/platform/vsp1/vsp1_entity.c   |  2 +-
->>>>    drivers/media/v4l2-core/v4l2-subdev.c       | 10 +++++++---
->>>>    drivers/staging/media/tegra-video/vi.c      |  2 +-
->>>>    include/media/v4l2-subdev.h                 |  7 ++++++-
->>>>    5 files changed, 16 insertions(+), 7 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
->>>> index 5f4fa8c48f68..1de30d5b437f 100644
->>>> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
->>>> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
->>>> @@ -252,7 +252,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
->>>>    	u32 width, height;
->>>>    	int ret;
->>>>
->>>> -	sd_state = v4l2_alloc_subdev_state(sd);
->>>> +	sd_state = v4l2_alloc_subdev_state(sd, V4L2_SUBDEV_FORMAT_ACTIVE);
->>>
->>> Shouldn't the 'which' parameters be used to decide if either ACTIVE or
->>> TRY have to be used ? this function is also used to set TRY formats,
->>> in example...
->>>
->>> Oh, maybe I got how it works, the state's which is not
->>> relevant but the v4l2_subdev_format's which is, as it will be used in
->>> the next patch to decide if the subdev's state of the file-handle's
->>> state should be passed to the ioctl.
+Hi Hans,
+
+On 9/13/21 6:35 AM, Hans Verkuil wrote:
+> On 14/06/2021 21:52, Igor Matheus Andrade Torrente wrote:
+>> Fixes a race condition - for lack of a more precise term - between
+>> em28xx_v4l2_open and em28xx_v4l2_init, by managing the em28xx_v4l2
+>> and v4l2_dev life-time with the v4l2_dev->release() callback.
 >>
->> Yes. It's messy, but it's how it worked before also.
+>> The race happens when a thread[1] - containing the em28xx_v4l2_init()
+>> code - calls the v4l2_mc_create_media_graph(), and it return a error,
+>> if a thread[2] - running v4l2_open() - pass the verification point
+>> and reaches the em28xx_v4l2_open() before the thread[1] finishes
+>> the deregistration of v4l2 subsystem, the thread[1] will free all
+>> resources before the em28xx_v4l2_open() can process their things,
+>> because the em28xx_v4l2_init() has the dev->lock. And all this lead
+>> the thread[2] to cause a user-after-free.
 >>
->> The drivers can't really allocate TRY state as it must come from the core,
->> based on the filehandle. Now as I say that, makes me wonder why even expose
->> the option to drivers. Maybe v4l2_alloc_subdev_state() should take just the
->> sd parameter, and always allocate ACTIVE state, and the v4l2 core can use
->> another way to create the TRY state.
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Reported-and-tested-by: syzbot+b2391895514ed9ef4a8e@syzkaller.appspotmail.com
+>> Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+>> ---
+>>
+>> V2: Add v4l2_i2c_new_subdev null check
+>>      Deal with v4l2 subdevs dependencies
+>>
+>> V3: Fix link error when compiled as a module
+>>
+>> V4: Remove duplicated v4l2_device_disconnect
+>>      in the em28xx_v4l2_fini
+>>
+>> V5: Move all the v4l2 resources management
+>>      to the v4l2_dev->release() callback.
+>>
+>> V6: Address some Hans comments regarding
+>>      video_unregister_device and struct v4l2_device
+>>      inside the struct v4l2_device.
+>>
+>>      I'm sending this v6 that way but I'm totally open
+>>      to the Hilt approach, if it is a more desirable
+>>      way to fix this issue.
+>> ---
+>>   drivers/media/usb/em28xx/em28xx-cards.c |   3 +-
+>>   drivers/media/usb/em28xx/em28xx-video.c | 232 +++++++++++++++---------
+>>   drivers/media/usb/em28xx/em28xx.h       |   1 -
+>>   3 files changed, 151 insertions(+), 85 deletions(-)
+>>
+>> diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
+>> index ba9292e2a587..6e67cf0a1e04 100644
+>> --- a/drivers/media/usb/em28xx/em28xx-cards.c
+>> +++ b/drivers/media/usb/em28xx/em28xx-cards.c
+>> @@ -4120,7 +4120,6 @@ static void em28xx_usb_disconnect(struct usb_interface *intf)
+>>   	struct em28xx *dev;
+>>   
+>>   	dev = usb_get_intfdata(intf);
+>> -	usb_set_intfdata(intf, NULL);
+>>   
+>>   	if (!dev)
+>>   		return;
+>> @@ -4148,6 +4147,8 @@ static void em28xx_usb_disconnect(struct usb_interface *intf)
+>>   		dev->dev_next = NULL;
+>>   	}
+>>   	kref_put(&dev->ref, em28xx_free_device);
+>> +
+>> +	usb_set_intfdata(intf, NULL);
+>>   }
+>>   
+>>   static int em28xx_usb_suspend(struct usb_interface *intf,
+>> diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
+>> index 6b84c3413e83..abf9b325eae4 100644
+>> --- a/drivers/media/usb/em28xx/em28xx-video.c
+>> +++ b/drivers/media/usb/em28xx/em28xx-video.c
+>> @@ -1897,7 +1897,7 @@ static int vidioc_g_chip_info(struct file *file, void *priv,
+>>   		strscpy(chip->name, "ac97", sizeof(chip->name));
+>>   	else
+>>   		strscpy(chip->name,
+>> -			dev->v4l2->v4l2_dev.name, sizeof(chip->name));
+>> +			dev->v4l2->v4l2_dev->name, sizeof(chip->name));
+>>   	return 0;
+>>   }
+>>   
+>> @@ -2113,21 +2113,6 @@ static int radio_s_tuner(struct file *file, void *priv,
+>>   	return 0;
+>>   }
+>>   
+>> -/*
+>> - * em28xx_free_v4l2() - Free struct em28xx_v4l2
+>> - *
+>> - * @ref: struct kref for struct em28xx_v4l2
+>> - *
+>> - * Called when all users of struct em28xx_v4l2 are gone
+>> - */
+>> -static void em28xx_free_v4l2(struct kref *ref)
+>> -{
+>> -	struct em28xx_v4l2 *v4l2 = container_of(ref, struct em28xx_v4l2, ref);
+>> -
+>> -	v4l2->dev->v4l2 = NULL;
+>> -	kfree(v4l2);
+>> -}
+>> -
+>>   /*
+>>    * em28xx_v4l2_open()
+>>    * inits the device and starts isoc transfer
+>> @@ -2153,12 +2138,21 @@ static int em28xx_v4l2_open(struct file *filp)
+>>   		return -EINVAL;
+>>   	}
+>>   
+>> +	/* To prevent the case when the v4l2_device_put() has already being called,
+>> +	 * the ref is now 0, we call a v4l2_device_get, and end up accessing freed
+>> +	 * resources. Or straigth accessing a freed v4l2.
+>> +	 */
+>> +	if (!v4l2 || !kref_get_unless_zero(&v4l2->v4l2_dev.ref))
+>> +		return -ENODEV;
+>> +
+> 
+> This should not be needed: once the video devices are unregistered, it is no longer
+> possible to open the video device. So this can't happen.
+If a thread[1] with the `open` syscall pass verification point at 
+v4l2_open() before the deregistration in the `em28xx_v4l2_fini`.
+
+And If for some reason (e.g page fault) the thread[1] get stuck and 
+can't get the `dev->lock` before the thread[2](which is in 
+`em28xx_v4l2_dev_release`).*
+
+The thread[1] will end up accessing freed resources.
+
+Thread[1]                                                     |
+Open()                                                        |
+                                                               | Time
+Thread[1]                  Thread[2]                          |
+if(vdev==NULL...           em28xx_v4l2_fini(em28xx_v4l2_fini) |
+                                                               ▽
+Thread[1]                  Thread[2]
+em28xx_v4l2_open(...)      b2_video_unregister_device(...)
+
+Thread[1]                  Thread[2]
+PAGE-FAULT                 v4l2_device_put(&v4l2->v4l2_dev)
+
+Thread[1]                  Thread[2]
+PAGE-FAULT                 if (refcount_dec_and_test(...))
+
+Thread[1]                  Thread[2]
+PAGE-FAULT                 em28xx_v4l2_dev_release(...)
+
+Thread[1]                  Thread[2]
+PAGE-FAULT                 mutex_lock(&dev->lock);
+
+Thread[1]                  Thread[2]
+mutex_lock_interruptible() em28xx_v4l2_dev_unregistr(dev);
+
+Thread[1]                  Thread[2]
+mutex_lock_interruptible() mutex_unlock(&dev->lock)0
+
+Thread[1]                  Thread[2]
+access freed resources     kref_put(&dev->ref, em28xx_free_device)
+
+The case above is possible, isn't it?
+
+> 
+>>   	em28xx_videodbg("open dev=%s type=%s users=%d\n",
+>>   			video_device_node_name(vdev), v4l2_type_names[fh_type],
+>>   			v4l2->users);
+>>   
+>> -	if (mutex_lock_interruptible(&dev->lock))
+>> +	if (mutex_lock_interruptible(&dev->lock)) {
+>> +		v4l2_device_put(&v4l2->v4l2_dev);
+> 
+> So this is also not needed...
+> 
+>>   		return -ERESTARTSYS;
+>> +	}
+>>   
+>>   	ret = v4l2_fh_open(filp);
+>>   	if (ret) {
+>> @@ -2166,6 +2160,7 @@ static int em28xx_v4l2_open(struct file *filp)
+>>   			"%s: v4l2_fh_open() returned error %d\n",
+>>   		       __func__, ret);
+>>   		mutex_unlock(&dev->lock);
+>> +		v4l2_device_put(&v4l2->v4l2_dev);
+> 
+> ...and neither is this.
+> 
+>>   		return ret;
+>>   	}
+>>   
+>> @@ -2187,8 +2182,6 @@ static int em28xx_v4l2_open(struct file *filp)
+>>   		v4l2_device_call_all(&v4l2->v4l2_dev, 0, tuner, s_radio);
+>>   	}
+>>   
+>> -	kref_get(&dev->ref);
+>> -	kref_get(&v4l2->ref);
+>>   	v4l2->users++;
+>>   
+>>   	mutex_unlock(&dev->lock);
+>> @@ -2222,36 +2215,30 @@ static int em28xx_v4l2_fini(struct em28xx *dev)
+>>   
+>>   	mutex_lock(&dev->lock);
+>>   
+>> -	v4l2_device_disconnect(&v4l2->v4l2_dev);
+>> -
+>>   	em28xx_uninit_usb_xfer(dev, EM28XX_ANALOG_MODE);
+>>   
+>> -	em28xx_v4l2_media_release(dev);
+>> -
+>>   	if (video_is_registered(&v4l2->radio_dev)) {
+>> -		dev_info(&dev->intf->dev, "V4L2 device %s deregistered\n",
+>> +		dev_info(&dev->intf->dev,
+>> +			 "V4L2 device %s deregistered\n",
+>>   			 video_device_node_name(&v4l2->radio_dev));
+>> -		video_unregister_device(&v4l2->radio_dev);
+>> +		vb2_video_unregister_device(&v4l2->radio_dev);
+>>   	}
+>>   	if (video_is_registered(&v4l2->vbi_dev)) {
+>> -		dev_info(&dev->intf->dev, "V4L2 device %s deregistered\n",
+>> +		dev_info(&dev->intf->dev,
+>> +			 "V4L2 device %s deregistered\n",
+>>   			 video_device_node_name(&v4l2->vbi_dev));
+>> -		video_unregister_device(&v4l2->vbi_dev);
+>> +		vb2_video_unregister_device(&v4l2->vbi_dev);
+>>   	}
+>>   	if (video_is_registered(&v4l2->vdev)) {
+>> -		dev_info(&dev->intf->dev, "V4L2 device %s deregistered\n",
+>> +		dev_info(&dev->intf->dev,
+>> +			 "V4L2 device %s deregistered\n",
+>>   			 video_device_node_name(&v4l2->vdev));
+>> -		video_unregister_device(&v4l2->vdev);
+>> +		vb2_video_unregister_device(&v4l2->vdev);
+>>   	}
+>>   
+>> -	v4l2_ctrl_handler_free(&v4l2->ctrl_handler);
+>> -	v4l2_device_unregister(&v4l2->v4l2_dev);
+>> -
+>> -	kref_put(&v4l2->ref, em28xx_free_v4l2);
+>> -
+>>   	mutex_unlock(&dev->lock);
+>>   
+>> -	kref_put(&dev->ref, em28xx_free_device);
+>> +	v4l2_device_put(&v4l2->v4l2_dev);
+>>   
+>>   	return 0;
+>>   }
+>> @@ -2323,9 +2310,8 @@ static int em28xx_v4l2_close(struct file *filp)
+>>   
+>>   exit:
+>>   	v4l2->users--;
+>> -	kref_put(&v4l2->ref, em28xx_free_v4l2);
+>>   	mutex_unlock(&dev->lock);
+>> -	kref_put(&dev->ref, em28xx_free_device);
+>> +	v4l2_device_put(&v4l2->v4l2_dev);
+> 
+> ...and neither is this v4l2_device_put.
+> 
+>>   
+>>   	return 0;
+>>   }
+>> @@ -2517,6 +2503,28 @@ static void em28xx_tuner_setup(struct em28xx *dev, unsigned short tuner_addr)
+>>   	v4l2_device_call_all(v4l2_dev, 0, tuner, s_frequency, &f);
+>>   }
+>>   
+>> +static void em28xx_v4l2_dev_unregister(struct em28xx *dev)
+>> +{
+>> +	struct em28xx_v4l2 *v4l2 = dev->v4l2;
+>> +
+>> +	v4l2_device_unregister(&v4l2->v4l2_dev);
+>> +	em28xx_v4l2_media_release(dev);
+>> +	v4l2_ctrl_handler_free(&v4l2->ctrl_handler);
+>> +}
+>> +
+>> +static void em28xx_v4l2_dev_release(struct v4l2_device *v4l2_dev)
+>> +{
+>> +	struct em28xx *dev = v4l2_dev->dev->driver_data;
+>> +
+>> +	mutex_lock(&dev->lock);
+>> +	em28xx_v4l2_dev_unregister(dev);
+>> +	kfree(dev->v4l2);
+>> +	dev->v4l2 = NULL;
+>> +	mutex_unlock(&dev->lock);
+>> +
+>> +	kref_put(&dev->ref, em28xx_free_device);
+>> +}
+>> +
+>>   static int em28xx_v4l2_init(struct em28xx *dev)
+>>   {
+>>   	u8 val;
+>> @@ -2524,6 +2532,7 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+>>   	unsigned int maxw;
+>>   	struct v4l2_ctrl_handler *hdl;
+>>   	struct em28xx_v4l2 *v4l2;
+>> +	struct v4l2_subdev *sd;
+>>   
+>>   	if (dev->is_audio_only) {
+>>   		/* Shouldn't initialize IR for this interface */
+>> @@ -2541,12 +2550,13 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+>>   
+>>   	v4l2 = kzalloc(sizeof(*v4l2), GFP_KERNEL);
+>>   	if (!v4l2) {
+>> -		mutex_unlock(&dev->lock);
+>> -		return -ENOMEM;
+>> +		ret = -ENOMEM;
+>> +		goto err;
+>>   	}
+>> -	kref_init(&v4l2->ref);
+>> +
+>>   	v4l2->dev = dev;
+>>   	dev->v4l2 = v4l2;
+>> +	v4l2->v4l2_dev.release = em28xx_v4l2_dev_release;
+>>   
+>>   #ifdef CONFIG_MEDIA_CONTROLLER
+>>   	v4l2->v4l2_dev.mdev = dev->media_dev;
+>> @@ -2555,7 +2565,7 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+>>   	if (ret < 0) {
+>>   		dev_err(&dev->intf->dev,
+>>   			"Call to v4l2_device_register() failed!\n");
+>> -		goto err;
+>> +		goto free_v4l2;
+>>   	}
+>>   
+>>   	hdl = &v4l2->ctrl_handler;
+>> @@ -2574,25 +2584,53 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+>>   
+>>   	/* request some modules */
+>>   
+>> -	if (dev->has_msp34xx)
+>> -		v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> -				    &dev->i2c_adap[dev->def_i2c_bus],
+>> -				    "msp3400", 0, msp3400_addrs);
+>> +	if (dev->has_msp34xx) {
+>> +		sd = v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> +					 &dev->i2c_adap[dev->def_i2c_bus],
+>> +					 "msp3400", 0, msp3400_addrs);
+>> +		if (!sd) {
+>> +			dev_err(&dev->intf->dev,
+>> +				"Error while registering 'msp34xx' v4l2 subdevice!\n");
+>> +			ret = -EINVAL;
+>> +			goto unregister_dev;
+>> +		}
+>> +	}
+>>   
+>> -	if (dev->board.decoder == EM28XX_SAA711X)
+>> -		v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> -				    &dev->i2c_adap[dev->def_i2c_bus],
+>> -				    "saa7115_auto", 0, saa711x_addrs);
+>> +	if (dev->board.decoder == EM28XX_SAA711X) {
+>> +		sd = v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> +					 &dev->i2c_adap[dev->def_i2c_bus],
+>> +					 "saa7115_auto", 0, saa711x_addrs);
+>> +		if (!sd) {
+>> +			dev_err(&dev->intf->dev,
+>> +				"Error while registering 'EM28XX_SAA711X' v4l2 subdevice!\n");
+>> +			ret = -EINVAL;
+>> +			goto unregister_dev;
+>> +		}
+>> +	}
+>>   
+>> -	if (dev->board.decoder == EM28XX_TVP5150)
+>> -		v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> -				    &dev->i2c_adap[dev->def_i2c_bus],
+>> -				    "tvp5150", 0, tvp5150_addrs);
+>> +	if (dev->board.decoder == EM28XX_TVP5150) {
+>> +		sd = v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> +					 &dev->i2c_adap[dev->def_i2c_bus],
+>> +					 "tvp5150", 0, tvp5150_addrs);
+>> +		if (!sd) {
+>> +			dev_err(&dev->intf->dev,
+>> +				"Error while registering 'EM28XX_TVP5150' v4l2 subdevice!\n");
+>> +			ret = -EINVAL;
+>> +			goto unregister_dev;
+>> +		}
+>> +	}
+>>   
+>> -	if (dev->board.adecoder == EM28XX_TVAUDIO)
+>> -		v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> -				    &dev->i2c_adap[dev->def_i2c_bus],
+>> -				    "tvaudio", dev->board.tvaudio_addr, NULL);
+>> +	if (dev->board.adecoder == EM28XX_TVAUDIO) {
+>> +		sd = v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> +					 &dev->i2c_adap[dev->def_i2c_bus],
+>> +					 "tvaudio", dev->board.tvaudio_addr, NULL);
+>> +		if (!sd) {
+>> +			dev_err(&dev->intf->dev,
+>> +				"Error while registering 'EM28XX_TVAUDIO' v4l2 subdevice!\n");
+>> +			ret = -EINVAL;
+>> +			goto unregister_dev;
+>> +		}
+>> +	}
+>>   
+>>   	/* Initialize tuner and camera */
+>>   
+>> @@ -2600,33 +2638,63 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+>>   		unsigned short tuner_addr = dev->board.tuner_addr;
+>>   		int has_demod = (dev->board.tda9887_conf & TDA9887_PRESENT);
+>>   
+>> -		if (dev->board.radio.type)
+>> -			v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> -					    &dev->i2c_adap[dev->def_i2c_bus],
+>> -					    "tuner", dev->board.radio_addr,
+>> -					    NULL);
+>> -
+>> -		if (has_demod)
+>> -			v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> -					    &dev->i2c_adap[dev->def_i2c_bus],
+>> -					    "tuner", 0,
+>> -					    v4l2_i2c_tuner_addrs(ADDRS_DEMOD));
+>> +		if (dev->board.radio.type) {
+>> +			sd = v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> +						 &dev->i2c_adap[dev->def_i2c_bus],
+>> +						 "tuner", dev->board.radio_addr,
+>> +						 NULL);
+>> +			if (!sd) {
+>> +				dev_err(&dev->intf->dev,
+>> +					"Error while registering '%s' v4l2 subdevice!\n",
+>> +					 dev->board.name);
+>> +				ret = -EINVAL;
+>> +				goto unregister_dev;
+>> +			}
+>> +		}
+>> +
+>> +		if (has_demod) {
+>> +			sd = v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> +						 &dev->i2c_adap[dev->def_i2c_bus],
+>> +						 "tuner", 0,
+>> +						 v4l2_i2c_tuner_addrs(ADDRS_DEMOD));
+>> +			if (!sd) {
+>> +				dev_err(&dev->intf->dev,
+>> +					"Error while registering '%s' v4l2 subdevice!\n",
+>> +					 dev->i2c_adap[dev->def_i2c_bus].name);
+>> +				ret = -EINVAL;
+>> +				goto unregister_dev;
+>> +			}
+>> +		}
+>> +
+>>   		if (tuner_addr == 0) {
+>>   			enum v4l2_i2c_tuner_type type =
+>>   				has_demod ? ADDRS_TV_WITH_DEMOD : ADDRS_TV;
+>> -			struct v4l2_subdev *sd;
+>>   
+>>   			sd = v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>>   						 &dev->i2c_adap[dev->def_i2c_bus],
+>>   						 "tuner", 0,
+>>   						 v4l2_i2c_tuner_addrs(type));
+>> -
+>> -			if (sd)
+>> +			if (sd) {
+>>   				tuner_addr = v4l2_i2c_subdev_addr(sd);
+>> +			} else {
+>> +				dev_err(&dev->intf->dev,
+>> +					"Error while registering '%s' v4l2 subdevice!\n",
+>> +					 dev->i2c_adap[dev->def_i2c_bus].name);
+>> +				ret = -EINVAL;
+>> +				goto unregister_dev;
+>> +			}
+>> +
+>>   		} else {
+>> -			v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> -					    &dev->i2c_adap[dev->def_i2c_bus],
+>> -					    "tuner", tuner_addr, NULL);
+>> +			sd = v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
+>> +						 &dev->i2c_adap[dev->def_i2c_bus],
+>> +						 "tuner", tuner_addr, NULL);
+>> +			if (!sd) {
+>> +				dev_err(&dev->intf->dev,
+>> +					"Error while registering '%s' v4l2 subdevice!\n",
+>> +					 dev->i2c_adap[dev->def_i2c_bus].name);
+>> +				ret = -EINVAL;
+>> +				goto unregister_dev;
+>> +			}
+>>   		}
+>>   
+>>   		em28xx_tuner_setup(dev, tuner_addr);
+>> @@ -2755,7 +2823,6 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+>>   	if (ret)
+>>   		goto unregister_dev;
+>>   
+>> -	/* allocate and fill video video_device struct */
+>>   	em28xx_vdev_init(dev, &v4l2->vdev, &em28xx_video_template, "video");
+>>   	mutex_init(&v4l2->vb_queue_lock);
+>>   	mutex_init(&v4l2->vb_vbi_queue_lock);
+>> @@ -2768,7 +2835,6 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+>>   	if (dev->tuner_type != TUNER_ABSENT)
+>>   		v4l2->vdev.device_caps |= V4L2_CAP_TUNER;
+>>   
+>> -
+>>   	/* disable inapplicable ioctls */
+>>   	if (dev->is_webcam) {
+>>   		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_QUERYSTD);
+>> @@ -2889,26 +2955,26 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+>>   		dev_info(&dev->intf->dev,
+>>   			 "V4L2 device %s deregistered\n",
+>>   			 video_device_node_name(&v4l2->radio_dev));
+>> -		video_unregister_device(&v4l2->radio_dev);
+>> +		vb2_video_unregister_device(&v4l2->radio_dev);
+>>   	}
+>>   	if (video_is_registered(&v4l2->vbi_dev)) {
+>>   		dev_info(&dev->intf->dev,
+>>   			 "V4L2 device %s deregistered\n",
+>>   			 video_device_node_name(&v4l2->vbi_dev));
+>> -		video_unregister_device(&v4l2->vbi_dev);
+>> +		vb2_video_unregister_device(&v4l2->vbi_dev);
+>>   	}
+>>   	if (video_is_registered(&v4l2->vdev)) {
+>>   		dev_info(&dev->intf->dev,
+>>   			 "V4L2 device %s deregistered\n",
+>>   			 video_device_node_name(&v4l2->vdev));
+>> -		video_unregister_device(&v4l2->vdev);
+>> +		vb2_video_unregister_device(&v4l2->vdev);
+>>   	}
+>>   
+>> -	v4l2_ctrl_handler_free(&v4l2->ctrl_handler);
+>> -	v4l2_device_unregister(&v4l2->v4l2_dev);
+>> -err:
+>> +	em28xx_v4l2_dev_unregister(dev);
+>> +free_v4l2:
+>> +	kfree(v4l2);
+>>   	dev->v4l2 = NULL;
+>> -	kref_put(&v4l2->ref, em28xx_free_v4l2);
+>> +err:
+>>   	mutex_unlock(&dev->lock);
+>>   	return ret;
+>>   }
+>> diff --git a/drivers/media/usb/em28xx/em28xx.h b/drivers/media/usb/em28xx/em28xx.h
+>> index ab167cd1f400..666b7eff55f4 100644
+>> --- a/drivers/media/usb/em28xx/em28xx.h
+>> +++ b/drivers/media/usb/em28xx/em28xx.h
+>> @@ -549,7 +549,6 @@ struct em28xx_eeprom {
+>>   #define EM28XX_RESOURCE_VBI   0x02
+>>   
+>>   struct em28xx_v4l2 {
+>> -	struct kref ref;
+>>   	struct em28xx *dev;
+>>   
+>>   	struct v4l2_device v4l2_dev;
 >>
 > 
-> init_cfg() as well as other operations used to received an
-> array of per fh's pad_configs, and the sd pointer itself. The fh's pad
-> configs were allocated by the core, as well as the core now allocates
-> the per-fh's state.
+> With the suggested changes it should be ready (pending testing on my side).
 > 
-> Before the introduction of 'state', if the 'which' flags was set to
-> TRY then information were stored/retrieved/initialized in the per-fh
-> pad_config, otherwise the active configuration (usually stored in the
-> driver main structure) was used.
+> Regards,
 > 
-> So we had a clear separation of per-fh information and the active
-> state. The core didn't care afaict, and passed in both, then driver had
-> to deal with them doing the right thing by inspecting the 'which' flag.
+> 	Hans
 > 
-> The typical pattern was:
-> 
->          static int subdev_ops(sd, pad_cfg, which)
->          {
->                  if (which == TRY)
->                          /* Operate on config stored in pad_cfg */
-> 
->                  else
->                          /*
->                           * Operate on config stored in subdev (and
->                           * applied to HW)
->                           */
->          }
-> 
-> Or am I overlooking some cases or do you agree with my understanding
-> so far ?
-
-More or less, yes. I think there are (used to be) three kinds of ops:
-
-- Ops that get pad_cfg and 'which' in an op specific struct. E.g. 
-set_fmt. The pad_cfg is TRY pad_config, even if 'which' == ACTIVE.
-
-- Ops that don't get pad_cfg, like s_stream. 'which' is implicitly ACTIVE.
-
-- init_cfg which gets pad_cfg, but no which (as 'which' is always 
-implicitly TRY)
-
-So pad_cfg was TRY state. Drivers could use pad_configs internally to 
-track ACTIVE state, but the core had no knowledge about this.
-
-> Now we have a 'state' that holds the array of pad_configs and along
-> the continuation of the series will end up holding per-pad
-> configurations.
-> 
-> We now also have one 'state' per file-handle, and one
-> per-subdev. As I see this, it would be natual for drivers to receive
-> one state without knowing where it comes from. In the next patch you
-
-Note that only subdev's that explicitly support the new state code, and 
-allocate the state, have the subdev active state. Which means only the 
-drivers in my work branch.
-
-The "old" drivers work like they used to: they get the state 
-(essentially repackaged pad_cfg) for TRY cases, NULL otherwise.
-
-And yes, it would be natural to just get a state, but the subdev drivers 
-need to know if the context is TRY/ACTIVE. As you can see from the 
-bullet list above, the driver knows this in all the other places except 
-init_cfg.
-
-> instrument the core to do exactly this: inspect the which flag and
-> pass in the 'right' state. Ofc drivers need to have access to 'which'
-> to know if they have to apply settings to the HW or not.
-> 
-> Looking ahead in your series I see these structures:
-> 
->          struct v4l2_subdev_pad_config {
->                  struct v4l2_mbus_framefmt try_fmt;
->                  struct v4l2_rect try_crop;
->                  struct v4l2_rect try_compose;
->          };
-> 
->          struct v4l2_subdev_stream_config {
->                  u32 pad;
->                  u32 stream;
-> 
->                  struct v4l2_mbus_framefmt fmt;
->                  struct v4l2_rect crop;
->                  struct v4l2_rect compose;
->          };
-> 
->          struct v4l2_subdev_stream_configs {
->                  u32 num_configs;
->                  struct v4l2_subdev_stream_config *configs;
->          };
-> 
-> All of them part of state:
-> 
-> struct v4l2_subdev_state {
-> 	struct mutex lock;
-> 	u32 which;
-> 	struct v4l2_subdev_pad_config *pads;
-> 	struct v4l2_subdev_krouting routing;
-> 	struct v4l2_subdev_stream_configs stream_configs;
-> };
-> 
-> So 'state' will hold 'TRY' information (only used for 'state'
-> instances allocated in the fh) and 'ACTIVE' ones (used for states
-> allocated in the sd).
-
-Right.
-
-> Looking at 'v4l2_subdev_pad_config' and 'v4l2_subdev_stream_config' they
-> seem to describe more or less the same things: fmt, crop and compose
-> (per pad-stream in case of stream_config). I wonder if those shouldn't
-> be unified so that:
-> 
-> 1) Drivers receive one state: the core passes in the 'correct' one
-> (per-fh or per-sd) as you do in next patch
-
-Yes. But note that "old" drivers don't have active state.
-
-> 2) The 'which' information is not stored in the state but it's only
-> 'contextual' (as in a parameter to the subdev operation) so that
-> drivers inspect it to know if they have to apply settings to hw or not
-
-Yes, except we have init_cfg...
-
-> 3) v4l2_subdev_pad_config can be re-used and expanded, to maintain per-pad
-> configurations regardless if they're ACTIVE or TRY, as this only depends
-> on where the state is stored.
-
-pad_config is a static array of per-pad configs. stream_configs is a 
-dynamic per-stream config. stream_configs is a super-set of pad-configs, 
-so we could drop pad_configs, but it would require changing all the 
-drivers in non-trivial ways.
-
-v4l2_subdev_pad_config is not used or even allocated by the "new" 
-drivers. And routing & stream_configs are not used by the "old" drivers.
-
-> As I immagine it a subdev pad operation could look like:
-> 
->          static int subdev_op(sd, pad, state, which, ...)
->          {
->                  /* Doesn't matter if state is per-fh or the sd one. */
->                  state->pads[pad].fmt = ....;
-> 
->                  if (which == TRY)
->                          return;
-> 
->                  /* Apply to the HW. */
->          }
-> 
-> Does it make any sense to you ? I might have missed some reason why
-> this is not possible.
-
-It makes sense, but there are the buts =). I've tried to explain these 
-in the commit messages, but it's kind of confusing.
-
-One but I haven't mentioned in the emails is that when subdev drivers 
-call ops in other subdev drivers they pass NULL in the state. This is 
-fine for the "old" drivers, as they expect a state only for TRY case. 
-However, the "new" drivers unfortunately expect to get a state on both 
-TRY and ACTIVE cases, and the only sensible way I figured out to handle 
-this was the v4l2_subdev_validate_state() function (patch 6).
-
-So, all this could be much neater, but would require modifying all 
-subdev drivers in non-trivial ways. I think this is something that can 
-be done slowly in the future.
-
->>>>    	if (IS_ERR(sd_state))
->>>>    		return PTR_ERR(sd_state);
->>>>
->>>> diff --git a/drivers/media/platform/vsp1/vsp1_entity.c b/drivers/media/platform/vsp1/vsp1_entity.c
->>>> index e40bca254b8b..63ea5e472c33 100644
->>>> --- a/drivers/media/platform/vsp1/vsp1_entity.c
->>>> +++ b/drivers/media/platform/vsp1/vsp1_entity.c
->>>> @@ -675,7 +675,7 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
->>>>    	 * Allocate the pad configuration to store formats and selection
->>>>    	 * rectangles.
->>>>    	 */
->>>> -	entity->config = v4l2_alloc_subdev_state(&entity->subdev);
->>>> +	entity->config = v4l2_alloc_subdev_state(&entity->subdev, V4L2_SUBDEV_FORMAT_ACTIVE);
->>>>    	if (IS_ERR(entity->config)) {
->>>>    		media_entity_cleanup(&entity->subdev.entity);
->>>>    		return PTR_ERR(entity->config);
->>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->>>> index e1a794f69815..04ad319fb150 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->>>> @@ -28,7 +28,7 @@ static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
->>>>    {
->>>>    	struct v4l2_subdev_state *state;
->>>>
->>>> -	state = v4l2_alloc_subdev_state(sd);
->>>> +	state = v4l2_alloc_subdev_state(sd, V4L2_SUBDEV_FORMAT_TRY);
->>>
->>> At the same time I'm not sure I get the purpose of this. Don't
->>> init_cfg() callback implementations deal with try formats themeselves
->>> ? I mean, it's not a fixed rule, they can as well initialize their
->>> default 'active' formats, but what matters is that they initialize
->>> their per-fh try states ?
->>
->> That is what they do currently. init_cfg() only deals with TRY state, as
->> that's the only "state" (i.e. pad_config) there used to be from v4l2 core's
->> perspective.
->>
->>> Shouldn't init_cfg receive the fh's state so that it can initialize
->>> it, and just in case they need to, access their subdev's state and
->>> initialize them ? I'm missing what the purpose of the flag is tbh.
->>
->> Now we have (a possibility to have) state for both TRY and ACTIVE on the
->> v4l2 core side. The active state has to be initialized also, and a logical
->> way to do that is to use the init_cfg().
-> 
-> The 'ACTIVE' state is stored in the subdev, to which init_cfg() has
-> access, and it receives the 'TRY' state as a parameter.
-
-No, init_cfg gets either ACTIVE or TRY state, whichever is being 
-allocated. For "old" drivers, ACTIVE state is never allocated so they 
-don't get init_cfg calls for ACTIVE at all.
-
-Aaand while writing that, I realized that some drivers manually do 
-allocate ACTIVE state temporarily, which would cause init_cfg with 
-ACTIVE state to be called. I wonder if they explode... Need to check.
-
-> It is possible to access both states and initialize them properly if
-> I'm not mistaken.
-> 
->>
->> So now, for drivers that support the new active state, init_cfg() can get
->> either TRY or ACTIVE state. And if you want to call, say, the driver's
->> set_routing() to setup the routing in the state, you have to set the 'which'
->> in the routing struct to a value. So somehow init_cfg needs to know if it's
->> initializing an ACTIVE or TRY state.
-> 
-> I'm not sure I got this part. set_routing() as other ops will receive
-> a state and 'which'. If my proposal above makes sensem where the state
-
-Yes, but if it's init_cfg calling set_routing, init_cfg has to figure 
-out the 'which' from somewhere.
-
-E.g. init_cfg from ub913 driver:
-
-static int ub913_init_cfg(struct v4l2_subdev *sd,
-			  struct v4l2_subdev_state *state)
-{
-	u32 which = state->which;
-
-	struct v4l2_subdev_route routes[] = {
-		{
-			.sink_pad = 0,
-			.sink_stream = 0,
-			.source_pad = 1,
-			.source_stream = 0,
-			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-		},
-	};
-
-	struct v4l2_subdev_krouting routing = {
-		.which = which,
-		.num_routes = ARRAY_SIZE(routes),
-		.routes = routes,
-	};
-
-	return ub913_set_routing(sd, state, &routing);
-}
-
-It uses set_routing to setup a default routing (and set_routing in turn 
-also initializes the formats), but set_routing needs 'which'.
-
-  Tomi
