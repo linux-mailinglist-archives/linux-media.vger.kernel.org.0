@@ -2,318 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A99C4085E9
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 09:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F17CB4085F3
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 10:00:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237722AbhIMH7q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 03:59:46 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:57173 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235914AbhIMH7q (ORCPT
+        id S237801AbhIMIBb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 04:01:31 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:48185 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237775AbhIMIB2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 03:59:46 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id A38EF24000B;
-        Mon, 13 Sep 2021 07:58:26 +0000 (UTC)
-Date:   Mon, 13 Sep 2021 09:59:13 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Mon, 13 Sep 2021 04:01:28 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.nyi.internal (Postfix) with ESMTP id D68ED580BA6;
+        Mon, 13 Sep 2021 04:00:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Mon, 13 Sep 2021 04:00:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=5KctZymCVDfBbbqZeIg1vSzdvRQ
+        cUgB6DsYANohsJVA=; b=mXWyWuAp48xiZDzrTAc2Ci/voVfMr7DycEpE6nHqN+7
+        SyskAgtRGUO8uVeQ0uS3oSEsbzfgkDVEdNmrYxm87McNyl/qKn779f8fJka3sVDe
+        QMuW8OG8L7qqPy+WJvB1bKMAIrvnuJkh1XYFzVw3A8cTEVl9lknGUBBTmPLaCPX/
+        SG/c6CVKUaiN0OU8CnCkRoo4KnH7lkbm4vYPz6wkt6YxcKgrn0PgHrFlUgMCg8li
+        wKyWbNW1rlSLW9REhH3ij/wkEOHQvu64FF3dfu2wHbRzUMZwLEs6zTezfguM2uOM
+        XfuN9yVMBlqCEzJDz1sz1SsfH/XsHHc1kh5ApiiEr/w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=5KctZy
+        mCVDfBbbqZeIg1vSzdvRQcUgB6DsYANohsJVA=; b=ZV2H732J1iScZT6gd2qLJd
+        K7MUyXL8qOcss7510l55l7uPTwO4+AFPtKt2sRV0fFAEV741ylaKp1D1yC7lJ5Pb
+        xx6cj+oYyerS3svLfFF5UDMq6QphpFoGpOMUe8ew66Ut8mAabf/Vy/uwOCGcN2Ew
+        kdLP2qvawkDp/sT3zhNwsshm/l9QJzfKmq1bTBvUPYratAq/k/wncjT77MgU8oFb
+        4+tg/0aJCUv77jFkWeYEk/zoCcJ+gAzm4hqEbPHBwTN7GUoruYdXoT0tAJKiGp0v
+        5L8zIf2LpmgCh2O+G9nD75AfDcC9fyClmb2HFdsh7Z6ySCxL1Hl+BtRz9ZGgTJWg
+        ==
+X-ME-Sender: <xms:CgU_YdHVc2uZZS6ApachfUIYHUEWPXTNLf-c8E2xyThpaT823nR_qw>
+    <xme:CgU_YSXsDXWShgxT9v4CuT6IZ8M9alySpM6BUOkOcDL1kuD-JExiQ08AEIpwqO5Gr
+    2gIBtJCwmI3znqzwZQ>
+X-ME-Received: <xmr:CgU_YfIhkxjOoO9wQ_0GBFuw9h_BCkIYtgaqkjkJ8656SxbMPpzElHOj0L8Q9qouBVM2oUi8BJ3fuahSg7OWmb7AkvvjbrRirbr9>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegiedguddviecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+    heegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:CgU_YTFMIBNInP6m7pR-wQMuI11dsD0UVSr2MuRh5CAiHSqwHQc5Xw>
+    <xmx:CgU_YTU7pCBouPuWRkvt6X6GPYwCpCIOi_Cu5Zj0LLag8fSC4gKdFA>
+    <xmx:CgU_YeNv4X7zgFTu5QOOh9soN3DJkY5HwLxERuGaXyiKBaskv5U0aA>
+    <xmx:DAU_YaOr_cXyZCSyz5X8pgt0Gs5uIcvPvKW7vWF7tbUUI1eYITVeaQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 13 Sep 2021 04:00:10 -0400 (EDT)
+Date:   Mon, 13 Sep 2021 10:00:08 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+        Yong Deng <yong.deng@magewell.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Thomas NIZAN <tnizan@witekio.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [RFC 0/5] media: i2c: Add MAX9271 subdevice driver
-Message-ID: <20210913075913.njn7vymrqtizpxl4@uno.localdomain>
-References: <20210817072703.1167-1-jacopo+renesas@jmondi.org>
- <YSMCu1zQ0xOkj7/y@pendragon.ideasonboard.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 03/22] dt-bindings: sun6i-a31-mipi-dphy: Add optional
+ direction property
+Message-ID: <20210913080008.2rxa22ifisuu3dwn@gilmour>
+References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
+ <20210910184147.336618-4-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="plwlvxpmeueswtsh"
 Content-Disposition: inline
-In-Reply-To: <YSMCu1zQ0xOkj7/y@pendragon.ideasonboard.com>
+In-Reply-To: <20210910184147.336618-4-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
 
-On Mon, Aug 23, 2021 at 05:06:51AM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> On Tue, Aug 17, 2021 at 09:26:58AM +0200, Jacopo Mondi wrote:
-> > Hello,
-> >    as noticed during the inclusion of the RDACM20/21 cameras, their driver make
-> > use of a library driver that exports functions to control the MAX9271 GMSL
-> > serializer embedded in the camera module.
-> >
-> > This series attempts to create an i2c subdevice driver for the MAX9271
-> > serializer, to support the camera module operations using the v4l2 subdev
-> > operations.
-> >
-> > The series is based on the currently in-review:
-> > https://patchwork.linuxtv.org/project/linux-media/list/?series=5847
-> > https://patchwork.linuxtv.org/project/linux-media/list/?series=5949
-> >
-> > The series:
-> > 1) Introduced an i2c subdev driver for the MAX9271 GMSL serializer
-> > 2) Adapt the RDACM20 driver by removing the MAX9271 handling from there
-> > 3) Modify the DTS layout to describe the MAX9271 chip and the camera module
-> >    separately
-> >
-> > To be done:
-> > - bindings
-> > - handling of reset lines between max9271 and image sensor
-> > - the camera module drivers could be made sensor drivers
-> >
-> > However I'm not fully convinced this really brings any benefit as the serializer
-> > and the image sensor are actually packed together in the same camera module
-> > and are tightly coupled.
->
-> I'm not convinced either. More than that, I think it will make it
-> impossible to handle more complex camera topologies.
->
-> > The biggest issue I'm facing, and for which I would be happy to receive pointers
-> > to is the following one.
-> >
-> > The new DTS layout now looks like
-> >
-> > 	max9286 {
-> >
-> > 		i2c-mux {
-> > 			i2c@0 {
-> > 				max9271 {
-> > 				}
-> >
-> > 				rdacm20{
-> > 				}
-> > 			}
-> > 		}
-> > 	}
-> >
-> > If I do rely on the probe sequence implemented by the instantiation of the
-> > i2c-mux child nodes:
-> >
-> > 	- max9286
-> > 		-max9271
-> > 		-sensor
-> >
-> > 		-max9271
-> > 		-sensor
-> >
-> > 		...
-> >
-> > As per each i2c-mux subnode the max9271 and the connected sensor are probed once
-> > after the other.
-> >
-> > This unfortunately doesn't play well with the requirements of GMSL bus, for
-> > which the post_register operation is being introduced. With the current
-> > RDACM20/21 drivers and post_register in place with two cameras connected to the
-> > system, the desired initialization sequence looks like:
-> >
-> >             MAX9286                  RDACM20/21
-> >
-> >             probe()
-> >                |
-> >                ---------------------> |
-> >                                       camera 1 probe() {
-> >                                          enable_threshold()
-> >                                       }
-> >                |<--------------------|
-> >             v4l2 async bound {
-> > 		completed = no
-> >                |
-> >                ---------------------> |
-> >                                       camera 2 probe() {
-> >                                          enable_threshold()
-> >                                       }
-> >                |<--------------------|
-> > 		completed = yes
-> >
-> >                 compensate_amplitude()
-> >
-> >                 call post_register()
-> >                |-------------------->|
-> >                                      camera 1 post_register()
-> >                                          access camera registers()
-> >                                     }
-> >                |<-------------------
-> >                |-------------------->|
-> >                                      camera 2 post_register()
-> >                                          access camera registers()
-> >                                     }
-> >                |<-------------------
-> >             }
-> >
-> > Which guarantees that the bulk access to the camera registers happens after the
-> > deserializer has compensated the channel amplitude.
-> >
-> > With the new model I do have a race between the sensor probe and the
-> > post_register() of the serializer in case a single camera is connected.
-> >
-> > What happes is that as soon as the max9271 registers its async subdev the
-> > max9286 notifier completes an call max9271->post_register(). But at that time
-> > the sensor subdev has not probed yet, so there is no subdev on which to call
-> > post_register in the max9271
-> >
-> > following:
-> >
-> >     MAX9286                  MAX9271			SENSOR
-> >
-> >     probe()
-> >        |
-> >        ---------------------> |
-> > 			      probe() {
-> > 				 enable_threshold()
-> > 			      }
-> >       }
-> >        |<--------------------|
-> >     v4l2 async bound {
-> > 	completed = yes
-> >  	subdev->post_register()
-> >        |-------------------->|
-> > 			     post_register()
-> > 				gmsl_bus_config()
-> > 				subdev->post_register(NULL)
-> > 				segfault
-> > 			    }
-> > 							probe()
-> >     }
-> >
-> > If I instead do not use post_register() between the max9271 and the sensor,
-> > then the model works for a single camera only (as it is implemented in this
-> > version)
-> >
-> >     MAX9286                  MAX9271			SENSOR
-> >
-> >     probe()
-> >        |
-> >        ---------------------> |
-> > 			      probe() {
-> > 				 enable_threshold()
-> > 			      }
-> >       }
-> >        |<--------------------|
-> >     v4l2 async bound {
-> > 	completed = no
-> >        |-------------------->|
-> > 							probe() {
-> > 							   i2c writes to
-> > 							   the sensor without
-> > 							   GMSL configuration
-> > 							}
-> >     }
-> >
-> > So, my question is: are there examples on how to have the max9271 driver
-> > control the probe time the connected sensor without relying on the probe
-> > sequence of the I2C-mux device nodes ? If I could do so, what I would like to
-> > realize looks like
->
-> How about making the sensor a child of the max9271 in DT ?
+--plwlvxpmeueswtsh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think that would ideally be feasible and it would match the actual
-HW, as max9271 is actually an i2c multiplexer.
+On Fri, Sep 10, 2021 at 08:41:28PM +0200, Paul Kocialkowski wrote:
+> The Allwinner A31 MIPI D-PHY block supports both tx and rx directions,
+> although each instance of the block is meant to be used in one
+> direction only. There will typically be one instance for MIPI DSI and
+> one for MIPI CSI-2 (it seems unlikely to ever see a shared instance).
+>=20
+> Describe the direction with a new allwinner,direction property.
+> For backwards compatibility, the property is optional and tx mode
+> should be assumed by default.
+>=20
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml  | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mi=
+pi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mi=
+pi-dphy.yaml
+> index d0b541a461f3..303bbaf3b915 100644
+> --- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy=
+=2Eyaml
+> +++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy=
+=2Eyaml
+> @@ -37,6 +37,18 @@ properties:
+>    resets:
+>      maxItems: 1
+> =20
+> +  allwinner,direction:
+> +    $ref: '/schemas/types.yaml#/definitions/string'
+> +    description: |
+> +      Direction of the D-PHY:
+> +      - "rx" for receiving (e.g. when used with MIPI CSI-2);
+> +      - "tx" for transmitting (e.g. when used with MIPI DSI).
+> +
+> +      When the property is missing, "tx" direction is assumed.
 
-But is something like
+You can provide this using default
 
- 	max9286 {
- 		i2c-mux {
- 			i2c@0 {
- 				max9271@51 {
-                                        i2c-mux {
-                                                i2c@0 {
-                                                        ov13858@61 {
+> +    oneOf:
+> +      - const: tx
+> +      - const: rx
+> +
 
-                                                        }
-                                                }
-                                        }
- 				}
+enum?
 
- 			}
- 		}
- 	}
+Maxime
 
-Acceptable as a DT layout ??
+--plwlvxpmeueswtsh
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
->
-> >
-> >     MAX9286                  MAX9271			SENSOR
-> >
-> >     probe()
-> >        |
-> >        ---------------------> |
-> > 			      camera 1 probe() {
-> > 				--------------------->|
-> > 							 sensor probe()
-> > 				 enable_threshold()
-> > 			      }
-> >       }
-> >        |<--------------------|
-> >     v4l2 async bound {
-> > 	completed = no
-> >        |-------------------->|
-> > 			     camera 2 probe() {
-> > 				--------------------->|
-> > 							sensor probe()
-> > 				 enable_threshold()
-> > 			      }
-> >        |<--------------------|
-> > 	completed = yes
-> >
-> > 	compensate_amplitude()
-> > 	for (subdev)
-> > 	   subdev->post_register()
-> >           |----------------->|
-> > 			     camera 1 post_register()
-> > 				subdev->post_register()
-> > 				--------------------->|
-> > 							post_register()
-> > 								i2c writes
-> > 	   subdev->post_register()
-> >           |----------------->|
-> > 			     camera 2 post_register()
-> > 				subdev->post_register()
-> > 				--------------------->|
-> > 							post_register()
-> > 								i2c writes
-> >     }
-> >
-> >
-> > I recall Mauro pointed me to an example when he first suggested to make the
-> > MAX9271 library a proper i2c subdevice driver. Do you happen to recall which one
-> > was it ?
-> >
-> > Thanks
-> >    j
-> >
-> > Jacopo Mondi (5):
-> >   media: i2c: max9271: Rename max9271 library driver
-> >   media: i2c: Add MAX9271 I2C driver
-> >   media: i2c: rdacm20: Adapt to work with MAX9271
-> >   media: i2c: max9286: Fetch PIXEL_RATE in s_stream
-> >   arm64: dts: GMSL: Adapt to the use max9271 driver
-> >
-> >  MAINTAINERS                                   |  17 +-
-> >  arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi |  34 +-
-> >  .../arm64/boot/dts/renesas/r8a77970-eagle.dts |   6 +-
-> >  drivers/media/i2c/Kconfig                     |  12 +
-> >  drivers/media/i2c/Makefile                    |   3 +-
-> >  drivers/media/i2c/max9271-lib.c               | 374 +++++++++++++
-> >  .../media/i2c/{max9271.h => max9271-lib.h}    |   0
-> >  drivers/media/i2c/max9271.c                   | 528 +++++++++++++++---
-> >  drivers/media/i2c/max9286.c                   |   6 +-
-> >  drivers/media/i2c/rdacm20.c                   | 139 +----
-> >  drivers/media/i2c/rdacm21.c                   |   2 +-
-> >  11 files changed, 917 insertions(+), 204 deletions(-)
-> >  create mode 100644 drivers/media/i2c/max9271-lib.c
-> >  rename drivers/media/i2c/{max9271.h => max9271-lib.h} (100%)
->
-> --
-> Regards,
->
-> Laurent Pinchart
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYT8FCAAKCRDj7w1vZxhR
+xTNDAQCPDHJy9LqbeRURRvet4O2w4sY/pZRkFMEFBTWRcJx96wEAwyE5qCAE+Raj
+2amKab2gQdIlMNDalPPxP/cPci2YlwY=
+=fgQq
+-----END PGP SIGNATURE-----
+
+--plwlvxpmeueswtsh--
