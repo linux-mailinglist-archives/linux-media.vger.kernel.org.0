@@ -2,129 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49B7640858E
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 09:45:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FEC0408594
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 09:46:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237725AbhIMHqo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 03:46:44 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:43281 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235185AbhIMHqn (ORCPT
+        id S237748AbhIMHrc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 03:47:32 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:53263 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237732AbhIMHr1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 03:46:43 -0400
+        Mon, 13 Sep 2021 03:47:27 -0400
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id EAB981BF209;
-        Mon, 13 Sep 2021 07:45:22 +0000 (UTC)
-Date:   Mon, 13 Sep 2021 09:45:22 +0200
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 24A0C100007;
+        Mon, 13 Sep 2021 07:45:59 +0000 (UTC)
+Date:   Mon, 13 Sep 2021 09:45:59 +0200
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Yong Deng <yong.deng@magewell.com>,
+To:     Chen-Yu Tsai <wens@csie.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-sunxi@lists.linux.dev,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-phy@lists.infradead.org,
+        linux-clk <linux-clk@vger.kernel.org>,
+        linux-staging@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Maxime Ripard <mripard@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Helen Koike <helen.koike@collabora.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 19/22] soc: sunxi: mbus: Add A31 ISP compatibles to the
- list
-Message-ID: <YT8BkjAZUGGYTR9l@aptenodytes>
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH NOT FOR MERGE 13/22] ARM: dts: sun8i: a83t: Add MIPI
+ CSI-2 controller node
+Message-ID: <YT8Bt3Fmakn97vi9@aptenodytes>
 References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-20-paul.kocialkowski@bootlin.com>
- <208239ba-01b1-451e-6030-894bd25770c3@sholland.org>
+ <20210910184147.336618-14-paul.kocialkowski@bootlin.com>
+ <CAGb2v66OHJREEg1Djkk=VyY0yUr5JE8Fp+xsb40wCk6E56bH8A@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="47pajI10N0kGx3V3"
+        protocol="application/pgp-signature"; boundary="a3BeDpyJol7qXzGn"
 Content-Disposition: inline
-In-Reply-To: <208239ba-01b1-451e-6030-894bd25770c3@sholland.org>
+In-Reply-To: <CAGb2v66OHJREEg1Djkk=VyY0yUr5JE8Fp+xsb40wCk6E56bH8A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---47pajI10N0kGx3V3
+--a3BeDpyJol7qXzGn
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Samuel,
+Hi Chen-Yu,
 
-On Fri 10 Sep 21, 21:36, Samuel Holland wrote:
-> On 9/10/21 1:41 PM, Paul Kocialkowski wrote:
-> > The A31 ISP sits on the mbus and requires the usual bus address
-> > adaptation. Add its compatibles to the list.
+On Sat 11 Sep 21, 10:53, Chen-Yu Tsai wrote:
+> Hi,
 >=20
-> My understanding is that this driver only exists to work around old DT
-> bindings where the interconnects/interconnect-names =3D "dma-mem"
-> properties are not required (and so they are historically missing from
-> the device trees).
+> On Sat, Sep 11, 2021 at 2:42 AM Paul Kocialkowski
+> <paul.kocialkowski@bootlin.com> wrote:
+> >
+> > MIPI CSI-2 is supported on the A83T with a dedicated controller that
+> > covers both the protocol and D-PHY. It can be connected to the CSI
+> > interface as a V4L2 subdev through the fwnode graph.
+> >
+> > This is not done by default since connecting the bridge without a
+> > subdev attached to it will cause a failure on the CSI driver.
+> >
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 >=20
-> For new bindings, it would be better to use those properties and not add
-> to this list.
+> I believe you tagged the wrong patch to not be merged? AFAICT it
+> should be the next patch that hooks up OV8865, not this one.
 
-Oh okay, I didn't really look into it and just did the same thing that was
-done for the CSI controller. Thanks for the heads up!
+Yes you are definitely right, this patch is good for merge and the next
+one is not.
+
+Thanks,
 
 Paul
 
-> Regards,
-> Samuel
->=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > > ---
-> >  drivers/soc/sunxi/sunxi_mbus.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >=20
-> > diff --git a/drivers/soc/sunxi/sunxi_mbus.c b/drivers/soc/sunxi/sunxi_m=
-bus.c
-> > index d90e4a264b6f..7f0079ea30b1 100644
-> > --- a/drivers/soc/sunxi/sunxi_mbus.c
-> > +++ b/drivers/soc/sunxi/sunxi_mbus.c
-> > @@ -37,6 +37,7 @@ static const char * const sunxi_mbus_devices[] =3D {
-> >  	"allwinner,sun5i-a13-video-engine",
-> >  	"allwinner,sun6i-a31-csi",
-> >  	"allwinner,sun6i-a31-display-backend",
-> > +	"allwinner,sun6i-a31-isp",
-> >  	"allwinner,sun7i-a20-csi0",
-> >  	"allwinner,sun7i-a20-display-backend",
-> >  	"allwinner,sun7i-a20-display-frontend",
-> > @@ -50,6 +51,7 @@ static const char * const sunxi_mbus_devices[] =3D {
-> >  	"allwinner,sun8i-h3-csi",
-> >  	"allwinner,sun8i-h3-video-engine",
-> >  	"allwinner,sun8i-v3s-csi",
-> > +	"allwinner,sun8i-v3s-isp",
-> >  	"allwinner,sun9i-a80-display-backend",
-> >  	"allwinner,sun50i-a64-csi",
-> >  	"allwinner,sun50i-a64-video-engine",
-> >=20
->=20
+> >  arch/arm/boot/dts/sun8i-a83t.dtsi | 26 ++++++++++++++++++++++++++
+> >  1 file changed, 26 insertions(+)
+> >
+> > diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8=
+i-a83t.dtsi
+> > index ac97eac91349..1fa51f7ef063 100644
+> > --- a/arch/arm/boot/dts/sun8i-a83t.dtsi
+> > +++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
+> > @@ -1064,6 +1064,32 @@ csi: camera@1cb0000 {
+> >                         status =3D "disabled";
+> >                 };
+> >
+> > +               mipi_csi2: csi@1cb1000 {
+> > +                       compatible =3D "allwinner,sun8i-a83t-mipi-csi2";
+> > +                       reg =3D <0x01cb1000 0x1000>;
+> > +                       interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > +                       clocks =3D <&ccu CLK_BUS_CSI>,
+> > +                                <&ccu CLK_CSI_SCLK>,
+> > +                                <&ccu CLK_MIPI_CSI>,
+> > +                                <&ccu CLK_CSI_MISC>;
+> > +                       clock-names =3D "bus", "mod", "mipi", "misc";
+> > +                       resets =3D <&ccu RST_BUS_CSI>;
+> > +                       status =3D "disabled";
+> > +
+> > +                       ports {
+> > +                               #address-cells =3D <1>;
+> > +                               #size-cells =3D <0>;
+> > +
+> > +                               mipi_csi2_in: port@0 {
+> > +                                       reg =3D <0>;
+> > +                               };
+> > +
+> > +                               mipi_csi2_out: port@1 {
+> > +                                       reg =3D <1>;
+> > +                               };
+> > +                       };
+> > +               };
+> > +
+> >                 hdmi: hdmi@1ee0000 {
+> >                         compatible =3D "allwinner,sun8i-a83t-dw-hdmi";
+> >                         reg =3D <0x01ee0000 0x10000>;
+> > --
+> > 2.32.0
+> >
+> >
 
 --=20
 Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---47pajI10N0kGx3V3
+--a3BeDpyJol7qXzGn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmE/AZIACgkQ3cLmz3+f
-v9HI1wf/b/uiL/LNM4ar7LYjzQX7BdaBGjb90aD2mdIi3U+jTM2QjcnvDcWrmKXa
-KtNwOdxKB+9/l5qoOzNJgoddBs0EMS//K1kcsr/m0s/+bX32+x+IzZlf3JNp5CUp
-gO8q2V1PznhOppOajF1ozaBa9O7XXY1HLy3aoxrOQGziWF/OuQKp0K0qag59avxi
-jR6bJdBimD2FNMN4vGooXfCfXEKlVgFe1danPQKA9R0Zos7qQSXO4qbEB1PH5NXJ
-kNkPyZpLsYbEFH1o7dnzlxKaqmw8uwLsQy8Vy9KkrKgEyMbrchBM86nyPfVcZZPL
-FuWgSOGqcL/+uN5VONdKyYxwYU4i6Q==
-=ligS
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmE/AbcACgkQ3cLmz3+f
+v9GBrgf9HSUZdAaK36cq9m6svkBM+jphy40Yx1unln6fFfLoQoLluNFl8vwi5iKc
+Gb42Npg4NojviHDFxq71JtZiURP/pz9HiqmE7eOB0c9rdxL+SDXE9zzK8BfOXOwi
+1oySmXYcP2zbseeQHZ5VCCUzMZBcGWtnZTq+IJuYktq1F0448cYzUC1h7sdI0dbs
+yuEb9x2Xz0HtlLd5GuY8G3azwmyZxNdEotTP3LcFJ2mHbjxBvu6butmych9IOanN
+wnIPiULd3YFmoJ9khRL1KfKZ0N7WkZRLZBTlbhKrv5PIeQNjTWIIFjNN7y/gvEOZ
+omUKtZSmJY9vCNYwFHoATT43SX7uyA==
+=MNI6
 -----END PGP SIGNATURE-----
 
---47pajI10N0kGx3V3--
+--a3BeDpyJol7qXzGn--
