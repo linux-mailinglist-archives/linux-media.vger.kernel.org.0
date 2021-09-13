@@ -2,120 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B53BB408553
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 09:26:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE093408582
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 09:41:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237618AbhIMH2G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 03:28:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60946 "EHLO
+        id S237703AbhIMHmw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 03:42:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237561AbhIMH2G (ORCPT
+        with ESMTP id S237653AbhIMHmv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 03:28:06 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB449C061574;
-        Mon, 13 Sep 2021 00:26:50 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 31A49C6050; Mon, 13 Sep 2021 08:26:49 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1631518009; bh=qS2vbOcvUK+v/bTcb/OiamyjIe5gw+PCQXTQRWWRAo0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VpAx3H7NmEOsBiTVBzp91UvXgVzpEHGMrlCGx4wG9KZR2juVXyZHxaWoXiLNPfcgL
-         xkt2qHm+7qQmMVyKGD1mA5gKN6xZehIWik4IGk5cCiW9Kj7ZvZaUriLxPu698cEHTy
-         BGekNkFVue1KS7V0/hfiW6PG05+YiKcCt9/SYR7+XIXXv2YP67csQ6pwc0d95Fnink
-         LtXUugTPV4c0Edy3QN9MNtMToOJXIp9IWHnX7tTVMzOTxf3pyQsq6GLWYjpzdAuCn4
-         QkCYSH5YqiE1ZHdtjvZZLr4dvQSIWEbJemBOHTZQmtRWawGXbG33BDHTYg23UJkhga
-         esAfHTmhct9yw==
-Date:   Mon, 13 Sep 2021 08:26:49 +0100
-From:   Sean Young <sean@mess.org>
-To:     =?iso-8859-1?Q?Joaqu=EDn_Alberto_Calder=F3n?= Pozo 
-        <kini_calderon@hotmail.com>
-Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
-        "christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: linux-image-5.10.0-8-amd64: Hauppauge WinTV-HVR1110 DVB-T/Hybrid
- bug 125 ms polling on ir-kbd-i2c.ko bad DEFAULT_POLLING_INTERVAL
-Message-ID: <20210913072649.GB2393@gofer.mess.org>
-References: <CH2PR04MB6679933D6BEE6C51BE6BEF9889D89@CH2PR04MB6679.namprd04.prod.outlook.com>
+        Mon, 13 Sep 2021 03:42:51 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2738C061574
+        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 00:41:35 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id 6so12912236oiy.8
+        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 00:41:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=+xis++iP1cf+iLoqXe2mOcEArpbUTK16jTIPVdM5D6w=;
+        b=CHZgUAK5MJUQiptqPtWGNDVztVsyCobd3Y2SDu/SbP0+W//53oGJmkq1e8REjE+HhU
+         GszRkFpPYl597+8WQF4RqF7z2PoDJjgSNz11zPM70KxeI5xll67CkDQTNrVkDdmuB9TG
+         FssXlLqfEK7LbdjE6CMUJwW3PBVQr32zHke7zhwC7kvvuOElxbcmLvu1lZMtt/Ayq5ZS
+         Lnt2WmwrevomPzeMDty7ZShZRMY3XLh0G6fgRARspRe+gnAF8Qdhj9vkGuwkPvxBWgxn
+         /k5V3C6D8E2x37c+NAeje62vDA8kLZRFlLVM+1m+a8EzrpwlIxI7s9TIGn3y0kF4Py4F
+         nyTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=+xis++iP1cf+iLoqXe2mOcEArpbUTK16jTIPVdM5D6w=;
+        b=1KjOEeX0wKXT0N/Sr7TSfVh2uY21Yr186CMzP9SmlB8+mISpcv9SBDVsOyJORS+9QD
+         pxwzUqm8EFECh/+mPQzRLONFfAiocXj9x2/xQaGD7lZXPYmeuTVAOESsSWlxah3oJ0Ia
+         RAybRLGSBr0FrgBrhvd+LgbOrrnnaGOwoLiAQCbRGBTIMd0Zmv56aOQFn8lGtWAq43Dm
+         hM3YgaqQIjSbWGIuaoKmIwomrWcZ874jK2HltJrtzbKXo8E4u95V6uu3jkNY1EoqNCuH
+         GgZymzPLR3QliCnPFs/+C54kQkCrnzyrRCLu9Yvt7N2GeedlmY39LTnQR0E4xp47h2yj
+         Fy2w==
+X-Gm-Message-State: AOAM533JZzey0uZtp2SZ7IoSirKzec65NtwKxdmSDYnZDl++uzhhdqL1
+        hNkpjATc3xA2WmqP68aQ+CQZiXdAjFkzESdDRAY=
+X-Google-Smtp-Source: ABdhPJznQwuCLbBm9BBM7vxfefaSpPqbdvVoSCFQ/8f11WbrneuNGNJi6ZO9j3gQiccgyI5p34z7PMnIiX/a9djafb4=
+X-Received: by 2002:aca:4b85:: with SMTP id y127mr6834850oia.169.1631518895028;
+ Mon, 13 Sep 2021 00:41:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CH2PR04MB6679933D6BEE6C51BE6BEF9889D89@CH2PR04MB6679.namprd04.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a05:6830:2482:0:0:0:0 with HTTP; Mon, 13 Sep 2021 00:41:34
+ -0700 (PDT)
+Reply-To: lisacoulibaly023@gmail.com
+From:   Miss Lisa Ibrahim Coulibaly <alikantou52@gmail.com>
+Date:   Mon, 13 Sep 2021 00:41:34 -0700
+Message-ID: <CAAaSjX7Fj593d7i1omDvGzBmEXd-CdbEpwdPWYQ0qvmjgwEHOg@mail.gmail.com>
+Subject: Hello Dearest
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Sep 12, 2021 at 10:15:31PM +0000, Joaquín Alberto Calderón Pozo wrote:
-> Mantainers of the ir-kbd-i2c, althought I sent it to the debian bug report team, I consider to sent you also this patch (if it's the right way) to solve this bug.
-> 
-> Thanks
-> 
-> Package: src:linux
-> X-Debbugs-Cc: kini_calderon@hotmail.com
-> Version: 5.10.46-4
-> Severity: important
-> Tags: patch
-> 
-> Although I have a very old pci (not express) Hauppauge WinTV-HVR1110 DVB-T/Hybrid TV card with a remote control, I am still using it because has fully support and functionallity and it's hardware capable of play DVB-T HD streams.
-> 
-> It has a very strange behaviour:
-> 
-> -One is it has a slow response when I push a key, has a delay, and sometimes even no key response, nothing happens, as if never push a key.
-> -Other is when you hold a key, it start to begin the repeat key (characters like numerical) appears in the test app (kwrite) then, has a pause, stops to write characters, and begin the sequence again, writes some sequence, then stops... and so on. Even I noticed the repeat speed is a bit slow, compared to a keyboard key hold on.
-> 
-> So... I began to investigates the causes and after two weeks of research, searchs on the web, I found the module affected and a solution.
-> 
-> The module affected is ir-kbd-i2c.ko, this remote (rc5 protocol) uses this module as uinput (devinput) device, in resume as like an attatched keyboard. Resulting investigation in get noticed that this remote with rc5 protocol has 8hz of time frame when receiving the air gap code (rc5 procotol timing).
-> 
-> Investigating the sources files in the kernel sources for try and fall, re-compiling the modules, get me to get noticed that the polling ir remote interval is 100ms which is 5hz, forcing this value to 125ms, re-compiling the module causes the remote to work normally as expecte, the response is like a real keyboard and the repeat sequence not only as speedy as a normal keyboard, but also hasn't got a pause in repetition. In resume, the problem is solved.
-> 
-> Here is the patch:
-> 
-> --- ir-kbd-i2c.original.c       2021-09-08 23:45:23.723210301 +0200
-> +++ ir-kbd-i2c.hauppauge.patched.c      2021-09-10 03:55:28.003529072 +0200
-> @@ -742,7 +742,7 @@
->                 return -ENOMEM;
-> 
->         ir->c = client;
-> -       ir->polling_interval = DEFAULT_POLLING_INTERVAL;
-> +       ir->polling_interval = 125;
->         i2c_set_clientdata(client, ir);
-> 
->         switch(addr) {
-> 
-> I am a experienced user, but not an experienced developer, also in editing/submitting bugs, I don't know if this is the right way to solve this, If the rest of brand remotes are affected for my solution, but for me, solved my problem in this particular case.
-> 
-> I don't know where the value DEFAULT_POLLING_INTERVAL is get stablished or a way when detect a Hauppauge WinTV-HVR1110 DVB-T/Hybrid TV card to stablish 125ms instead of 100ms. As I said, I'm not an expert but experienced user.
+Hello Dearest,
 
-This change looks right to me, but it needs some changes:
+I know this mail will come to you as a surprise since we haven't known or
+come across each other before considering the fact that I sourced your
+email contact through the Internet in search of a trusted person who can
+assist me.
 
- - The change needs to be made Hauppauge/Zilog specific by adding a line
-   under the "case 0x71:" line below which sets the polling interval to 125.
- - The patch should be against current media kernel, not 5.10
- - Follow https://www.kernel.org/doc/html/latest/process/submitting-patches.html
- - Add "Cc: stable@vger.kernel.org" and the patch will trickle down into 
-   5.10.
+I am Miss Lisa Ibrahim Coulibaly 24 years old female from the Republic of
+Ivory Coast, West Africa, am the Daughter of Late Chief Sgt. Warlord
+Ibrahim Coulibaly (a.k.a General IB). My late father was a well known Ivory
+Coast militia leader. He died on Thursday 28 April 2011 following a fight
+with the Republican Forces of Ivory Coast (FRCI). I am constrained to
+contact you because of the maltreatment which I am receiving from my step
+mother, you can read more about my late Father death through the below
+links:
 
-Thanks
 
-Sean
+https://www.theguardian.com/world/2011/apr/28/ivory-coast-renegade-warlord-ibrahim-coulibaly
+.
 
-> 
-> I don't know if this is the right package to post this bug. Thanks.
-> 
 
-> --- ir-kbd-i2c.original.c	2021-09-08 23:45:23.723210301 +0200
-> +++ ir-kbd-i2c.hauppauge.patched.c	2021-09-10 03:55:28.003529072 +0200
-> @@ -742,7 +742,7 @@
->  		return -ENOMEM;
->  
->  	ir->c = client;
-> -	ir->polling_interval = DEFAULT_POLLING_INTERVAL;
-> +	ir->polling_interval = 125;
->  	i2c_set_clientdata(client, ir);
->  
->  	switch(addr) {
+My step Mother planned to take away all my late father's treasury and
+properties from me since the unexpected death of my beloved Father.
+Meanwhile I wanted to travel to Europe, but she hides away my international
+passport and other valuable documents. Luckily she did not discover where I
+kept my father's File which contained important documents. Now I am
+presently staying in the Mission Camp in Burkina Faso.
 
+I am seeking a long term relationship and investment assistance. My father
+of blessed memory deposited the sum of US$ 9.5 Million in one bank in
+Burkina Faso with my name as the next of kin. I had contacted the Bank to
+clear the deposit but the Branch Manager told me that my status according
+to the law does not authorize me to carry out the operation. However, he
+advised me to provide a trustee who will stand on my behalf. I had wanted
+to inform my stepmother about this deposit but I am afraid that she will
+not offer me anything after the release of the money.
+
+Therefore, I decide to seek your help in transferring the money into your
+bank account while I will relocate to your country and settle down with
+you. As you indicated your interest to help me I will give you the account
+number and the contact of the bank where my late beloved father deposited
+the money with my name as the next of kin. It is my intention to compensate
+you with 20% of the total money for your assistance and the balance shall
+be my investment in any profitable venture which you will recommend to me
+as I have no any idea about foreign investment. Please all communications
+should be through this email address for confidential purposes.
+
+Please all communications should be through this email address for
+confidential purposes. (lisacoulibaly023@gmail.com)
+
+Thanking you a lot in anticipation of your quick response. I will give you
+details in my next mail after receiving your acceptance mail to help me,
+
+Yours sincerely
+Miss Lisa Ibrahim Coulibaly
+(lisacoulibaly023@gmail.com)
