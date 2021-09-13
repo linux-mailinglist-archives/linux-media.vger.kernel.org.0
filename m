@@ -2,228 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1D9D40892B
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 12:37:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9148C40893D
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 12:41:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239182AbhIMKjL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 06:39:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48942 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239033AbhIMKjK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 06:39:10 -0400
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8310C061574;
-        Mon, 13 Sep 2021 03:37:52 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id PjLTmYAZ2pQdWPjLUm2WW1; Mon, 13 Sep 2021 12:37:52 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1631529472; bh=HwcwZOckR6uo2ELf6S9P6ET08CoHQZG30MzfynjPP1Y=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=MCo+PzmKRi0SRrGtOM416IzQJO6AITQ9txiJczYZUT2j1PLalRU5sK8brIPH68/BR
-         B3lcGsKHyhVPUUqtDzn17BIpuZKLYersfu6bK+ej4ovGjl5ezSmiN7ZRhCy46TAkJV
-         RKkBNmtqCBhL/53Xyhi6PBCAAw2Nx/ZNiPdnyCLll9Zce0gKMhDyxm4ktoP3m04jbC
-         03y6FOJQJwSWHwtax2zsZOz/Vft7XxEbjTc5n23eR13MHr7YH7kNrbK76lhbF8QW3p
-         9Xm4EWH0dpVZE6WlSc6DMQmOibPuklbGJ+jHvg+newaIYoFnFcJLSPOqfxVEnhkG9A
-         lvwHvL3X9CS1Q==
-Subject: Re: [PATCH v11 24/34] media: staging: tegra-vde: Support generic
- power domain
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>
-Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20210912200832.12312-1-digetx@gmail.com>
- <20210912200832.12312-25-digetx@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <77d205ef-469d-cfa3-f742-b009b2b05992@xs4all.nl>
-Date:   Mon, 13 Sep 2021 12:37:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <20210912200832.12312-25-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfC0UR8EPsGu9scFXo/XyGQ+zclz4oYZK7ebAu7LkFSvn1ZSZql+X7aMfNk2HSIv/6FmtrmYKiCEiTasQtOArrwJIB9K/cvmo41OrNVaccz9t4pz4xFSP
- j4RW9XR1UXUNkZjiB50fmOTEVHWZQEEL0LCboGmfgPr5tPA1jHo+Fuobmb+0K/MLvwhlRfiHLXPOigMyMug4DAUy9DCMyYAMmHUGJHv08xsy7IjWw38ZjMxo
- aw3wUIyWLem1d/zZmaf0LubaeQEZUwSFtGIFmi2F++I5O/GnY6GkKzmSCgXAmFtLzjbSwYUQcEkSadgl1N7ZZVdyjkKvJJ0aYYeoMQSEFJa2Ep+OIUZDntf6
- P0TpfOPh+oHT4OaPgd5wX0Ui1jmXaNQKW7aiar3zaCLkiYfmnX+F0vULqbIoZ6Ijdo2bKxDHce1DUd2BDXddvwEDjjcvmwNJfaoskXKVJRBqdLmaxUjUx/V/
- 09sbugSxdQhoVzwFzLT3DKHkZy+ewtdafWnzzxHv+4stixNxPyyAI2h9as2uXoPgPxclbWBSsYP7l1szZCwtKGYT00s5EQOcBeWGELKehjEPZU7UIzo4bx5t
- XspkFLAEM2gYpZFyIvFS0wY3UCtb68z5Upk6evtPpZgIKEGtBIR0GgSrn7PajKK7ZSa59x+FBQCKHR7D/w+1WFcdtzWbiWZOPpgBrSmqc5/wwoyS/xNwqSXF
- BHINYcJu8Lxzm6X6B3Wp4XpYRHwQpR9JFJbMR3ymDzApxAEXHL9uemBkl0o1h+BGgsC5F6aokDy9tX4L8IDLFBHNYT2Pwvd9HUCEeoNPS5jx3YXabGxXfyrQ
- 3lGRLo/HkRWNr7PLHtJZ77cSpQDrR1R8NmTfiJxEgg6UzcAvgVLxfI1g38BX4vUe9ce3WZipyz82IsYvAd0E8qEeYNBf9cQqiSeduAEs0J8jFmDQMF/bnM8z
- oWi6YfJ+OqDe8iZ4iXmiBCynBsD9Pj/M4Dr61pK7Za58Lls8qeutMD/e4s56bLQcns/C35b1daKF009MnInB6c47cKlaoofOh8sc48nwDtnjAt+BGY6mbExF
- IL2eHWyz5KtrWh9bHowFYh63JcVKotwFmpQvQS5tfc/TOmUHpsuFEof+PXhXy3lLgluHHHaxnVE4rlKDqdQrJ7o8l2UjrEt9sudgUNRzDBKqKaIFDZUhe1R9
- Vhd0WP8g6IGkYe28njn8Mx/bA9RWRZFruTXvFVTegHNR4Ei/fa7tFwYD0ocofy0eAHQz5WooS/WLrsh/CJH+pSHt5I98Ogi2Ahridm3lxQF/JsQi+G8N54Cd
- hQtFam3Yh78FeXR5vuY6rDO4iey1wjaobPOJepuclTuligKEfwZaFmsF1+QE5Dg/h7h6wtbe1VhmaUAmLnObMknumKX2VDfPdRJIBlr8yRolNNpw2M8qIZi9
- 0DND+x88qIRDteuXO11Vz6gw6Zo8nTyoyKWBuw==
+        id S239019AbhIMKm1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 06:42:27 -0400
+Received: from mga06.intel.com ([134.134.136.31]:59829 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238472AbhIMKm0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 13 Sep 2021 06:42:26 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10105"; a="282637415"
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; 
+   d="scan'208";a="282637415"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2021 03:41:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; 
+   d="scan'208";a="481270026"
+Received: from ipu5-build.bj.intel.com ([10.238.232.202])
+  by orsmga008.jf.intel.com with ESMTP; 13 Sep 2021 03:41:08 -0700
+From:   Bingbu Cao <bingbu.cao@intel.com>
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com
+Cc:     senozhatsky@chromium.org, bingbu.cao@intel.com,
+        bingbu.cao@linux.intel.com, qingwu.zhang@intel.com
+Subject: [PATCH] media: imx208: support adjust range of exposure per VBLANK control
+Date:   Mon, 13 Sep 2021 18:39:59 +0800
+Message-Id: <1631529599-2276-1-git-send-email-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/09/2021 22:08, Dmitry Osipenko wrote:
-> Currently driver supports legacy power domain API, this patch adds generic
-> power domain support. This allows us to utilize a modern GENPD API for
-> newer device-trees.
-> 
-> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
-> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
-> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+From: Qingwu Zhang <qingwu.zhang@intel.com>
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Current the max value of imx208 exposure time was hardcoded to 15ms,
+it will cause the sensor can not support longer exposure time such as
+30ms and 66ms, this patch add support of setting the VBLANK control to
+increase the exposure range to meet expected longer exposure.
 
-Regards,
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Qingwu Zhang <qingwu.zhang@intel.com>
+---
+ drivers/media/i2c/imx208.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-	Hans
-
-> ---
->  drivers/staging/media/tegra-vde/vde.c | 57 +++++++++++++++++++++------
->  1 file changed, 46 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
-> index ed4c1250b303..bb3079a2c0b5 100644
-> --- a/drivers/staging/media/tegra-vde/vde.c
-> +++ b/drivers/staging/media/tegra-vde/vde.c
-> @@ -20,6 +20,7 @@
->  #include <linux/slab.h>
->  #include <linux/uaccess.h>
->  
-> +#include <soc/tegra/common.h>
->  #include <soc/tegra/pmc.h>
->  
->  #include "uapi.h"
-> @@ -920,13 +921,17 @@ static __maybe_unused int tegra_vde_runtime_suspend(struct device *dev)
->  	struct tegra_vde *vde = dev_get_drvdata(dev);
->  	int err;
->  
-> -	err = tegra_powergate_power_off(TEGRA_POWERGATE_VDEC);
-> -	if (err) {
-> -		dev_err(dev, "Failed to power down HW: %d\n", err);
-> -		return err;
-> +	if (!dev->pm_domain) {
-> +		err = tegra_powergate_power_off(TEGRA_POWERGATE_VDEC);
-> +		if (err) {
-> +			dev_err(dev, "Failed to power down HW: %d\n", err);
-> +			return err;
-> +		}
->  	}
->  
->  	clk_disable_unprepare(vde->clk);
-> +	reset_control_release(vde->rst);
-> +	reset_control_release(vde->rst_mc);
->  
->  	return 0;
->  }
-> @@ -936,14 +941,41 @@ static __maybe_unused int tegra_vde_runtime_resume(struct device *dev)
->  	struct tegra_vde *vde = dev_get_drvdata(dev);
->  	int err;
->  
-> -	err = tegra_powergate_sequence_power_up(TEGRA_POWERGATE_VDEC,
-> -						vde->clk, vde->rst);
-> +	err = reset_control_acquire(vde->rst_mc);
->  	if (err) {
-> -		dev_err(dev, "Failed to power up HW : %d\n", err);
-> +		dev_err(dev, "Failed to acquire mc reset: %d\n", err);
->  		return err;
->  	}
->  
-> +	err = reset_control_acquire(vde->rst);
-> +	if (err) {
-> +		dev_err(dev, "Failed to acquire reset: %d\n", err);
-> +		goto release_mc_reset;
-> +	}
-> +
-> +	if (!dev->pm_domain) {
-> +		err = tegra_powergate_sequence_power_up(TEGRA_POWERGATE_VDEC,
-> +							vde->clk, vde->rst);
-> +		if (err) {
-> +			dev_err(dev, "Failed to power up HW : %d\n", err);
-> +			goto release_reset;
-> +		}
-> +	}
-> +
-> +	err = clk_prepare_enable(vde->clk);
-> +	if (err) {
-> +		dev_err(dev, "Failed to enable clock: %d\n", err);
-> +		goto release_reset;
-> +	}
-> +
->  	return 0;
-> +
-> +release_reset:
-> +	reset_control_release(vde->rst);
-> +release_mc_reset:
-> +	reset_control_release(vde->rst_mc);
-> +
-> +	return err;
->  }
->  
->  static int tegra_vde_probe(struct platform_device *pdev)
-> @@ -1001,14 +1033,14 @@ static int tegra_vde_probe(struct platform_device *pdev)
->  		return err;
->  	}
->  
-> -	vde->rst = devm_reset_control_get(dev, NULL);
-> +	vde->rst = devm_reset_control_get_exclusive_released(dev, NULL);
->  	if (IS_ERR(vde->rst)) {
->  		err = PTR_ERR(vde->rst);
->  		dev_err(dev, "Could not get VDE reset %d\n", err);
->  		return err;
->  	}
->  
-> -	vde->rst_mc = devm_reset_control_get_optional(dev, "mc");
-> +	vde->rst_mc = devm_reset_control_get_optional_exclusive_released(dev, "mc");
->  	if (IS_ERR(vde->rst_mc)) {
->  		err = PTR_ERR(vde->rst_mc);
->  		dev_err(dev, "Could not get MC reset %d\n", err);
-> @@ -1066,6 +1098,10 @@ static int tegra_vde_probe(struct platform_device *pdev)
->  	pm_runtime_use_autosuspend(dev);
->  	pm_runtime_set_autosuspend_delay(dev, 300);
->  
-> +	err = devm_tegra_core_dev_init_opp_table_common(dev);
-> +	if (err)
-> +		goto err_pm_runtime;
-> +
->  	/*
->  	 * VDE partition may be left ON after bootloader, hence let's
->  	 * power-cycle it in order to put hardware into a predictable lower
-> @@ -1133,8 +1169,7 @@ static void tegra_vde_shutdown(struct platform_device *pdev)
->  	 * On some devices bootloader isn't ready to a power-gated VDE on
->  	 * a warm-reboot, machine will hang in that case.
->  	 */
-> -	if (pm_runtime_status_suspended(&pdev->dev))
-> -		tegra_vde_runtime_resume(&pdev->dev);
-> +	pm_runtime_get_sync(&pdev->dev);
->  }
->  
->  static __maybe_unused int tegra_vde_pm_suspend(struct device *dev)
-> 
+diff --git a/drivers/media/i2c/imx208.c b/drivers/media/i2c/imx208.c
+index 6f3d9c1b5879..83d581967c6d 100644
+--- a/drivers/media/i2c/imx208.c
++++ b/drivers/media/i2c/imx208.c
+@@ -277,6 +277,7 @@ struct imx208 {
+ 	struct v4l2_ctrl *pixel_rate;
+ 	struct v4l2_ctrl *vblank;
+ 	struct v4l2_ctrl *hblank;
++	struct v4l2_ctrl *exposure;
+ 	struct v4l2_ctrl *vflip;
+ 	struct v4l2_ctrl *hflip;
+ 
+@@ -432,8 +433,17 @@ static int imx208_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	struct imx208 *imx208 =
+ 		container_of(ctrl->handler, struct imx208, ctrl_handler);
+ 	struct i2c_client *client = v4l2_get_subdevdata(&imx208->sd);
++	s64 max;
+ 	int ret;
+ 
++	if (ctrl->id == V4L2_CID_VBLANK) {
++		/* Update max exposure while meeting expected vblanking */
++		max = imx208->cur_mode->height + ctrl->val - 8;
++		__v4l2_ctrl_modify_range(imx208->exposure,
++					 imx208->exposure->minimum,
++					 max, imx208->exposure->step, max);
++	}
++
+ 	/*
+ 	 * Applying V4L2 control value only happens
+ 	 * when power is up for streaming
+@@ -914,9 +924,11 @@ static int imx208_init_controls(struct imx208 *imx208)
+ 		imx208->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 
+ 	exposure_max = imx208->cur_mode->vts_def - 8;
+-	v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops, V4L2_CID_EXPOSURE,
+-			  IMX208_EXPOSURE_MIN, exposure_max,
+-			  IMX208_EXPOSURE_STEP, IMX208_EXPOSURE_DEFAULT);
++	imx208->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops,
++					     V4L2_CID_EXPOSURE,
++					     IMX208_EXPOSURE_MIN, exposure_max,
++					     IMX208_EXPOSURE_STEP,
++					     IMX208_EXPOSURE_DEFAULT);
+ 
+ 	imx208->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops,
+ 					  V4L2_CID_HFLIP, 0, 1, 1, 0);
+-- 
+2.7.4
 
