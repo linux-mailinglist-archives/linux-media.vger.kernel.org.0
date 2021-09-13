@@ -2,115 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB409408C9E
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 15:19:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3223408E2C
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 15:31:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240524AbhIMNUt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 09:20:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58258 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240270AbhIMNUW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 09:20:22 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 504F4C0617AB
-        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 06:17:46 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id g16so14685683wrb.3
-        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 06:17:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=FH+1Y8etpSt7hl5BvOARvtVNTQnEKf9GJ8OSstB4GW0=;
-        b=IRBEB/Z+uCUNNkQZrfkgIhbJIwP2pgNtoD3UDZYc9GFrjVoQemzgAWzQdNEiefvCsz
-         m+RqoK9rB+6LydBB1G3ol89TFYhzaY7Bb4sa64uo8qbrvDefpdvIsxUzX3ZIEfsThCA5
-         ek5ExJ2wiqx56JaMtXcPYSTx/Aw4FNMYlT0j5MryEIkdVskf5OJfvtRNYw44LkB8l42t
-         7XV3py4qEvmh+Y0Jgzrp887rBfbHzMqPUPHHqZqofhp113bYW6ArPbRTfgWGfoL2weGh
-         cohH5f3H0eB9Amw5/roZlGNzi7lIWlKHktTiOqbBZB2OaTE0gVdDa81MH8PvGeYLgdKP
-         02Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FH+1Y8etpSt7hl5BvOARvtVNTQnEKf9GJ8OSstB4GW0=;
-        b=b/IT0Z8dmnkeBD8Xdns/5XsaD59HI41q0fGcefQtRxIM+yGmE+6tBleSbRDa8W9bod
-         wtdxm9F2UA2IMtuTeMjQLGj3r9FhPSl8e/ED7rhOoZEiDuX1pLDxRfmqa/zIokNxKMlG
-         rkazafsX3mkIiVC78Xy3V3uLy0JZUfuFxqMsymutArAss+XELgpeG1Bkda7DqoELRS9E
-         pKqgTOqcThiEaAlxirFbA9ZUmR7mwM1eM7wYRtC9kgpFhxujLzhZYYjQdOzLPUoEDV0U
-         vNRQh3cRO9wJsOB84UOp3XlqdHn3KYU2Br2pLq8Sh9cLGwkAUkY/Md8m7+15bhXExQYy
-         v+gw==
-X-Gm-Message-State: AOAM533FOxlHmvk093RmqmVJg852jjlVkccMjyBz9sboeNiB0TzMrLeK
-        owgCkXZWRA4JCO0Z9odgnZGPHPUTCQ2hL8Vl
-X-Google-Smtp-Source: ABdhPJzDBDz9n7p6FviVglwiX9to5ht8Ev+V3kXammh1L6gotOGiN99UxVy/CWUMpe7mH0cAtrMT0A==
-X-Received: by 2002:adf:8b52:: with SMTP id v18mr7251297wra.1.1631539065006;
-        Mon, 13 Sep 2021 06:17:45 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id h18sm7602834wrb.33.2021.09.13.06.17.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Sep 2021 06:17:44 -0700 (PDT)
-From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
-        <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org
-Cc:     daniel@ffwll.ch, intel-gfx@lists.freedesktop.org
-Subject: [PATCH 26/26] dma-buf: nuke dma_resv_get_excl_unlocked
-Date:   Mon, 13 Sep 2021 15:17:07 +0200
-Message-Id: <20210913131707.45639-27-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210913131707.45639-1-christian.koenig@amd.com>
-References: <20210913131707.45639-1-christian.koenig@amd.com>
+        id S241701AbhIMNbw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 09:31:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46802 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242167AbhIMN1p (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 13 Sep 2021 09:27:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 961EB61251;
+        Mon, 13 Sep 2021 13:23:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631539387;
+        bh=0GBD29h7Rxj8HKWi9tSrb3Jx9r9Q9O70ZgEuvKuXwa0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=jR4SWzfQM+dKAWTuApLA3POa+pCpJ3wdhTlIXTnBHFiTsdWpmawkLr0Vq5bLFXbWL
+         RS9j4FVqUD5BokQpPyPJxQRcQpdHhnDZhKY8zjHsEJjkCNdxprK/k40oQLqAF1UnmV
+         r/CmbpyS9ztddIaoMHWrMyz3q7B15Ma2y/kxzAOCTkVP0I1gRC5XPi+Q8vA7wE9Hvr
+         Mp4+cvUgVKOOOZ2msOIeD+CppGEf5EgkUVh1wcRJjc/I7B5xToHvcSuWKEt7Cy3Bj8
+         zkvj566KT4WsSeloaMJoA4Qjl5sb5tujuSOLoUE0nMeF+qkehs5gpp/DxIW//E2mGs
+         YvkuK9SQEw90g==
+Date:   Mon, 13 Sep 2021 15:23:02 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linus Torvalds <torvalds@linuxfoundation.org>
+Cc:     Salvatore Bonaccorso <carnil@debian.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Luo Likang <luolikang@nsfocus.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux1394-devel@lists.sourceforge.net,
+        Yang Yanchao <yangyanchao6@huawei.com>,
+        Security Officers <security@kernel.org>,
+        linux-distros@vs.openwall.org
+Subject: Re: [PATCH v2 RESEND] media: firewire: firedtv-avc: fix a buffer
+ overflow in avc_ca_pmt()
+Message-ID: <20210913152302.76d57784@coco.lan>
+In-Reply-To: <CAHk-=wjOW3Fx8td1Snezd1_9sf8q7KuQx8TyQNR0ypS2rVBHtg@mail.gmail.com>
+References: <YRoNTX3Krtw9NdkI@eldamar.lan>
+        <20210816072721.GA10534@kili>
+        <20210901104026.GB2129@kadam>
+        <YT39LBTgGL/b/V5N@eldamar.lan>
+        <CAHk-=wjOW3Fx8td1Snezd1_9sf8q7KuQx8TyQNR0ypS2rVBHtg@mail.gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Heureka, that's finally not used any more.
+Em Sun, 12 Sep 2021 11:26:10 -0700
+Linus Torvalds <torvalds@linuxfoundation.org> escreveu:
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- include/linux/dma-resv.h | 26 --------------------------
- 1 file changed, 26 deletions(-)
+> On Sun, Sep 12, 2021 at 6:14 AM Salvatore Bonaccorso <carnil@debian.org> wrote:
+> >
+> > On Wed, Sep 01, 2021 at 01:40:26PM +0300, Dan Carpenter wrote:  
+> > > On Mon, Aug 16, 2021 at 10:27:22AM +0300, Dan Carpenter wrote:  
+> > > > The bounds checking in avc_ca_pmt() is not strict enough.  It should
+> > > > be checking "read_pos + 4" because it's reading 5 bytes.  If the
+> > > > "es_info_length" is non-zero then it reads a 6th byte so there needs to
+> > > > be an additional check for that.
+> > > >
+> > > > I also added checks for the "write_pos".  I don't think these are
+> > > > required because "read_pos" and "write_pos" are tied together so
+> > > > checking one ought to be enough.  
+> 
+> They may be in sync at a fixed offset, but the buffer length of the
+> read ("int length") is not in sync with the buffer length for the
+> write ("sizeof(c->operand)").
+> 
+> So I do think the write pos limit checking is actually necessary and needed.
+> 
+> > > > RESEND: this patch got lost somehow.  
+> > >
+> > > What the heck?  Someone on patchwork just marked this patch as obsolete
+> > > again!!!  
+> 
+> Can we please make sure patchwork has some logging so that that kind
+> of thing shows _who_ did this?
 
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index 6f9bb7e4c538..90c15cbe7d92 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -370,32 +370,6 @@ dma_resv_excl_fence(struct dma_resv *obj)
- 	return rcu_dereference_check(obj->fence_excl, dma_resv_held(obj));
- }
- 
--/**
-- * dma_resv_get_excl_unlocked - get the reservation object's
-- * exclusive fence, without lock held.
-- * @obj: the reservation object
-- *
-- * If there is an exclusive fence, this atomically increments it's
-- * reference count and returns it.
-- *
-- * RETURNS
-- * The exclusive fence or NULL if none
-- */
--static inline struct dma_fence *
--dma_resv_get_excl_unlocked(struct dma_resv *obj)
--{
--	struct dma_fence *fence;
--
--	if (!rcu_access_pointer(obj->fence_excl))
--		return NULL;
--
--	rcu_read_lock();
--	fence = dma_fence_get_rcu_safe(&obj->fence_excl);
--	rcu_read_unlock();
--
--	return fence;
--}
--
- /**
-  * dma_resv_shared_list - get the reservation object's shared fence list
-  * @obj: the reservation object
--- 
-2.25.1
+I've been wanting a feature like that on patchwork for years. Basically,
+when there's more then a single person capable of accessing a patchwork
+instance, there's no way to log who changed the status, nor to control who
+can delegate a patch to someone else or not.
 
+At least for me, touching patchwork is very hard, as the the entire login
+logic, as well as the database model itself, is abstracted by Django. So,
+I can't simply change a SQL insert clause there to add something else to
+their logs nor to change the sent email that it is pushed when a patch
+status changed.
+
+I ended adding an internal log to indicate when I do some changes on my
+patchwork instance via script a couple of years ago.
+
+> > Someone knows what is going on here, i.e. what is the problem?  
+> 
+> Dan, can you just send that fix to me directly, with the fixed commit
+> message (see above), and we can close this.
+
+Feel free to add my:
+
+	Acked-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+> 
+> That still leaves the "who closes things on patchwork" question, but
+> that's something I can't do anything about.
+
+I'll double-check my scripts in order to identify if this came from
+my side, and if so, fix them.
+
+Thanks,
+Mauro
