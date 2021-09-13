@@ -2,238 +2,308 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDE974088DA
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 12:18:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 353174088F4
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 12:24:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238961AbhIMKTy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 06:19:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44482 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238366AbhIMKTx (ORCPT
+        id S239048AbhIMKZt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 06:25:49 -0400
+Received: from esa.microchip.iphmx.com ([68.232.153.233]:55126 "EHLO
+        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235168AbhIMKZt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 06:19:53 -0400
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93D43C061574;
-        Mon, 13 Sep 2021 03:18:37 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Pj2mmXzqZpQdWPj2nm2Rwq; Mon, 13 Sep 2021 12:18:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1631528314; bh=U9rwsvsk+lp1ng7UE9A2xr54tmhMcS057yaNCbWEa40=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=fBhH8XcwzE1a7BcGacoQ5jo9TyL8TLMUbry9hn/tLem44Y3wNi1EUYfjHpeEIRbpn
-         LYQqCp0wT/A/ysO6PJUkGuKmuVC/hNanIf0vuEz2MGmn22LvxJL4Q1RL9+Xqhz+yxK
-         m0mQpqUg2ChT1pf3WA5rqbxGEBI3poHsWJnMpuuWM2b3Le3Lbx+wNhodqgWyhd6e/1
-         hsNwt0ISHDSsKGKDeXn3RJnt8DeVImMpHr4vTJHBYGoQHbae0Tirl1Dgwu7FNG+Qpy
-         eyQTSw/+AHPNRaILs/Kz3cMlf6g5EMU36l0kG0gf705/6VSjirZWsI3K7RQg6VlWPq
-         CvNXp7DDVIe6Q==
-Subject: Re: [PATCH v3] media: vivid: drop FB dependency with new
- VIDEO_VIVID_FB
-To:     Guillaume Tucker <guillaume.tucker@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com, Michael Tretter <m.tretter@pengutronix.de>
-References: <f73a55a64521093e535efb5c0a64348f8c825005.1630682380.git.guillaume.tucker@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <9086d131-06c8-c91c-4658-9e94afeccbc4@xs4all.nl>
-Date:   Mon, 13 Sep 2021 12:18:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Mon, 13 Sep 2021 06:25:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1631528673; x=1663064673;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=LXY3tevlq2YZeyO3RhjMeO4/OcvgVWditq9VKBRV+Ek=;
+  b=dPdjO86ZC+ceJAgBdrs9gzbepEzQEYVrGx8S0G8HlR1Fq9Kh6eJzzuOs
+   Rcw2Aj74LLqDUMlYWhHPn6Zx3Z0R2Xr8IqpiGHUfvJya5v9J1yH+nXfqG
+   Cpw+9m97/+sz6NPDFX9NgStRY12WlxWCIJFFFreINoGBUuPG/KFHFEoUE
+   MWR6sIWdvGtEw/zQ/hk9bvQIcJwA/zeqDqzKMWT24Q3wXye/ut29BWGiY
+   0tOWxzmRQJ4tbSEnAiLNRenKRuAeehOTiUOoI1YOZq6mTsSLxClP4EhKO
+   OuJ2OURbjyL+5PMUYQc8+dTDa9fggY/WxPa2kBvwT8+pbkqNVaSzKhzxd
+   A==;
+IronPort-SDR: 2X1ID3r21phUw+LeWwyMph+JWmbZzl9/CiiqacZPPXLSQXqD0tZ9k52awUOL9168jD2WG74AXz
+ Qg56sgZfH0XWCcj0re42zEcDyP5gjcOYiCW+T9vwoXu9aFtLLORFUv9ZbwXocVLllTSomQYn8T
+ 4cvxtxzmDz0bzez0A0iGaa5+m6nD9WaLWLF/3K0rSgM5+l7UFXwXxOAHgE0F/ufpFqsF2JEDub
+ decg0AeHJlYFKqwqKjpydECwd9OePmVbmfRvt6G4hDZNjFmlGKRgBjqO/7azZdRQoWTsXP80cW
+ /KrzZ3DcEdXtV4gO+86bXL5w
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; 
+   d="scan'208";a="143860533"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Sep 2021 03:24:33 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Mon, 13 Sep 2021 03:24:33 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
+ 15.1.2176.14 via Frontend Transport; Mon, 13 Sep 2021 03:24:31 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <hverkuil-cisco@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH] media: atmel: fix the ispck initialization
+Date:   Mon, 13 Sep 2021 13:22:54 +0300
+Message-ID: <20210913102254.108638-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <f73a55a64521093e535efb5c0a64348f8c825005.1630682380.git.guillaume.tucker@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfNIp5t7UFrGyoJi5d+FMPSgAkVCO+VNbuI99RSj2LJb4WlgOcZE4Pydr4l4+PVfbhehqJJuOumQNUpsDrF6uKCHsscWKldhhO+fgu9E+BHU8y2LMGoP0
- sgtwP7xsWX17FbYEmReheksihPpFkN+8XoEA5eOB0dIcvH+4kw24zjW+ReXS/a5AZ7BHyvEgwrcfzwehUy7+Wz15PuChPF6WmME89YpWBCsk84uDUsAp3G5P
- F5Ygj6w2cX3kLOENRDY3Tuc46jl/NcSVFCHv3zrk9iVXicGAdxEQE6ATFIwdgsV6AL+hBpWc+QbnrVd+WnPlWksffkyWvGFgpEVO6UFo9l0+Bdwiwsbt33OI
- UNOtn73L/PdqdQixZM165D3aBNgfYBNWfpvcs9Vu9P/LMhSDQT7zGkHZo3nREgbsnmWhKgSCococqkITDoLe5cI7xVWOIOSgGNmM28fsObk+rALE1kyZKgjE
- ZReh7MzSYHABhPRm
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Guillaume,
+The runtime enabling of the ISPCK (internally clocks the pipeline inside the
+ISC) has to be done after the pm_runtime for the ISC dev has been started.
 
-On 03/09/2021 17:24, Guillaume Tucker wrote:
-> Drop the vivid dependency on CONFIG_FB by introducing a new
-> CONFIG_VIDEO_VIVID_FB option which depends on CONFIG_FB instead and
-> selects the generic CFB options when enabled.  Compile out parts of
-> the code that make use of the framebuffer API when not enabled.  This
-> is particularly useful as CONFIG_FB is not selected by
-> CONFIG_DRM_FBDEV_EMULATION any more.
+After the commit by Mauro:
+Fixes: dd97908ee350 ("media: atmel: properly get pm_runtime")
+the ISC failed to probe with the error:
 
-As reported by the kernel test robot, this will fail if CONFIG_FB=m but
-CONFIG_VIDEO_VIVID=y.
+atmel-sama5d2-isc f0008000.isc: failed to enable ispck: -13
+atmel-sama5d2-isc: probe of f0008000.isc failed with error -13
 
-So this needs a bit more work.
+This is because the enabling of the ispck is done too early in the probe, and
+the PM runtime returns invalid request.
+Thus, moved this clock enabling after pm_runtime_idle is called.
 
-Regards,
+The ISPCK is required only for sama5d2 type of ISC.
+Thus, add a bool inside the isc struct that is platform dependent.
+For the sama7g5-isc, the enabling of the ISPCK is wrong and does not make
+sense. Removed it from the sama7g5 probe. In sama7g5-isc, there is only
+one clock, the MCK, which also clocks the internal pipeline of the ISC.
 
-	Hans
+Adapted the clk_prepare and clk_unprepare to request the runtime PM
+for both clocks (MCK and ISPCK) in case of sama5d2-isc, and the single clock
+(MCK) in case of sama7g5-isc.
 
-> 
-> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Signed-off-by: Guillaume Tucker <guillaume.tucker@collabora.com>
-> ---
-> 
-> Notes:
->     Changes in v3:
->     * use CONFIG_VIDEO_VIVID_FB instead of CONFIG_FB
->     * select CFB options to fix linkage issue
->     
->     Changes in v2:
->     * fix Makefile conditional for when CONFIG_FB=m
->     * compile-out bit 16 (framebuffer) when no CONFIG_FB
-> 
->  drivers/media/test-drivers/vivid/Kconfig       | 16 ++++++++++++----
->  drivers/media/test-drivers/vivid/Makefile      |  5 ++++-
->  drivers/media/test-drivers/vivid/vivid-core.c  |  9 +++++++++
->  drivers/media/test-drivers/vivid/vivid-ctrls.c |  4 ++++
->  4 files changed, 29 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/test-drivers/vivid/Kconfig b/drivers/media/test-drivers/vivid/Kconfig
-> index c3abde2986b2..7cadaefea010 100644
-> --- a/drivers/media/test-drivers/vivid/Kconfig
-> +++ b/drivers/media/test-drivers/vivid/Kconfig
-> @@ -1,13 +1,10 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  config VIDEO_VIVID
->  	tristate "Virtual Video Test Driver"
-> -	depends on VIDEO_DEV && VIDEO_V4L2 && !SPARC32 && !SPARC64 && FB
-> +	depends on VIDEO_DEV && VIDEO_V4L2 && !SPARC32 && !SPARC64
->  	depends on HAS_DMA
->  	select FONT_SUPPORT
->  	select FONT_8x16
-> -	select FB_CFB_FILLRECT
-> -	select FB_CFB_COPYAREA
-> -	select FB_CFB_IMAGEBLIT
->  	select VIDEOBUF2_VMALLOC
->  	select VIDEOBUF2_DMA_CONTIG
->  	select VIDEO_V4L2_TPG
-> @@ -41,3 +38,14 @@ config VIDEO_VIVID_MAX_DEVS
->  	help
->  	  This allows you to specify the maximum number of devices supported
->  	  by the vivid driver.
-> +
-> +config VIDEO_VIVID_FB
-> +	bool "Enable framebuffer for testing overlays"
-> +	depends on VIDEO_VIVID
-> +	depends on FB
-> +	select FB_CFB_FILLRECT
-> +	select FB_CFB_COPYAREA
-> +	select FB_CFB_IMAGEBLIT
-> +	default y
-> +	help
-> +	  Enable vivid framebuffer support for testing overlays.
-> diff --git a/drivers/media/test-drivers/vivid/Makefile b/drivers/media/test-drivers/vivid/Makefile
-> index b12ad0152a3e..b48bd13239f5 100644
-> --- a/drivers/media/test-drivers/vivid/Makefile
-> +++ b/drivers/media/test-drivers/vivid/Makefile
-> @@ -3,10 +3,13 @@ vivid-objs := vivid-core.o vivid-ctrls.o vivid-vid-common.o vivid-vbi-gen.o \
->  		vivid-vid-cap.o vivid-vid-out.o vivid-kthread-cap.o vivid-kthread-out.o \
->  		vivid-radio-rx.o vivid-radio-tx.o vivid-radio-common.o \
->  		vivid-rds-gen.o vivid-sdr-cap.o vivid-vbi-cap.o vivid-vbi-out.o \
-> -		vivid-osd.o vivid-meta-cap.o vivid-meta-out.o \
-> +		vivid-meta-cap.o vivid-meta-out.o \
->  		vivid-kthread-touch.o vivid-touch-cap.o
->  ifeq ($(CONFIG_VIDEO_VIVID_CEC),y)
->    vivid-objs += vivid-cec.o
->  endif
-> +ifeq ($(CONFIG_VIDEO_VIVID_FB),y)
-> +  vivid-objs += vivid-osd.o
-> +endif
->  
->  obj-$(CONFIG_VIDEO_VIVID) += vivid.o
-> diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-> index 87f27c7524ec..3e785c6ce5dd 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-core.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-core.c
-> @@ -126,7 +126,9 @@ MODULE_PARM_DESC(node_types, " node types, default is 0xe1d3d. Bitmask with the
->  			     "\t\t    bit 8: Video Output node\n"
->  			     "\t\t    bit 10-11: VBI Output node: 0 = none, 1 = raw vbi, 2 = sliced vbi, 3 = both\n"
->  			     "\t\t    bit 12: Radio Transmitter node\n"
-> +#if IS_ENABLED(CONFIG_VIDEO_VIVID_FB)
->  			     "\t\t    bit 16: Framebuffer for testing overlays\n"
-> +#endif
->  			     "\t\t    bit 17: Metadata Capture node\n"
->  			     "\t\t    bit 18: Metadata Output node\n"
->  			     "\t\t    bit 19: Touch Capture node\n");
-> @@ -1031,9 +1033,11 @@ static int vivid_detect_feature_set(struct vivid_dev *dev, int inst,
->  	/* do we have a modulator? */
->  	*has_modulator = dev->has_radio_tx;
->  
-> +#if IS_ENABLED(CONFIG_VIDEO_VIVID_FB)
->  	if (dev->has_vid_cap)
->  		/* do we have a framebuffer for overlay testing? */
->  		dev->has_fb = node_type & 0x10000;
-> +#endif
->  
->  	/* can we do crop/compose/scaling while capturing? */
->  	if (no_error_inj && *ccs_cap == -1)
-> @@ -1365,6 +1369,7 @@ static int vivid_create_queues(struct vivid_dev *dev)
->  			return ret;
->  	}
->  
-> +#if IS_ENABLED(CONFIG_VIDEO_VIVID_FB)
->  	if (dev->has_fb) {
->  		/* Create framebuffer for testing capture/output overlay */
->  		ret = vivid_fb_init(dev);
-> @@ -1373,6 +1378,8 @@ static int vivid_create_queues(struct vivid_dev *dev)
->  		v4l2_info(&dev->v4l2_dev, "Framebuffer device registered as fb%d\n",
->  			  dev->fb_info.node);
->  	}
-> +#endif
-> +
->  	return 0;
->  }
->  
-> @@ -2079,12 +2086,14 @@ static int vivid_remove(struct platform_device *pdev)
->  				video_device_node_name(&dev->radio_tx_dev));
->  			video_unregister_device(&dev->radio_tx_dev);
->  		}
-> +#if IS_ENABLED(CONFIG_VIDEO_VIVID_FB)
->  		if (dev->has_fb) {
->  			v4l2_info(&dev->v4l2_dev, "unregistering fb%d\n",
->  				dev->fb_info.node);
->  			unregister_framebuffer(&dev->fb_info);
->  			vivid_fb_release_buffers(dev);
->  		}
-> +#endif
->  		if (dev->has_meta_cap) {
->  			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
->  				  video_device_node_name(&dev->meta_cap_dev));
-> diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> index 8dc50fe22972..6cfd4808b38c 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> @@ -305,6 +305,7 @@ static const struct v4l2_ctrl_config vivid_ctrl_ro_int32 = {
->  
->  /* Framebuffer Controls */
->  
-> +#if IS_ENABLED(CONFIG_VIDEO_VIVID_FB)
->  static int vivid_fb_s_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct vivid_dev *dev = container_of(ctrl->handler,
-> @@ -328,6 +329,7 @@ static const struct v4l2_ctrl_config vivid_ctrl_clear_fb = {
->  	.name = "Clear Framebuffer",
->  	.type = V4L2_CTRL_TYPE_BUTTON,
->  };
-> +#endif /* IS_ENABLED(CONFIG_VIDEO_VIVID_FB) */
->  
->  
->  /* Video User Controls */
-> @@ -1761,8 +1763,10 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
->  	    (dev->has_vbi_cap && dev->has_vbi_out))
->  		v4l2_ctrl_new_custom(hdl_loop_cap, &vivid_ctrl_loop_video, NULL);
->  
-> +#if IS_ENABLED(CONFIG_VIDEO_VIVID_FB)
->  	if (dev->has_fb)
->  		v4l2_ctrl_new_custom(hdl_fb, &vivid_ctrl_clear_fb, NULL);
-> +#endif
->  
->  	if (dev->has_radio_rx) {
->  		v4l2_ctrl_new_custom(hdl_radio_rx, &vivid_ctrl_radio_hw_seek_mode, NULL);
-> 
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+---
+
+Hi,
+
+This fixes the probe problem in 5.15 kernel for the ISC driver.
+
+Eugen
+
+ drivers/media/platform/atmel/atmel-isc-base.c | 25 ++++++------
+ drivers/media/platform/atmel/atmel-isc.h      |  2 +
+ .../media/platform/atmel/atmel-sama5d2-isc.c  | 39 ++++++++++---------
+ .../media/platform/atmel/atmel-sama7g5-isc.c  | 22 ++---------
+ 4 files changed, 38 insertions(+), 50 deletions(-)
+
+diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
+index 136ab7cf36ed..ebf264b980f9 100644
+--- a/drivers/media/platform/atmel/atmel-isc-base.c
++++ b/drivers/media/platform/atmel/atmel-isc-base.c
+@@ -123,11 +123,9 @@ static int isc_clk_prepare(struct clk_hw *hw)
+ 	struct isc_clk *isc_clk = to_isc_clk(hw);
+ 	int ret;
+ 
+-	if (isc_clk->id == ISC_ISPCK) {
+-		ret = pm_runtime_resume_and_get(isc_clk->dev);
+-		if (ret < 0)
+-			return ret;
+-	}
++	ret = pm_runtime_resume_and_get(isc_clk->dev);
++	if (ret < 0)
++		return ret;
+ 
+ 	return isc_wait_clk_stable(hw);
+ }
+@@ -138,8 +136,7 @@ static void isc_clk_unprepare(struct clk_hw *hw)
+ 
+ 	isc_wait_clk_stable(hw);
+ 
+-	if (isc_clk->id == ISC_ISPCK)
+-		pm_runtime_put_sync(isc_clk->dev);
++	pm_runtime_put_sync(isc_clk->dev);
+ }
+ 
+ static int isc_clk_enable(struct clk_hw *hw)
+@@ -186,16 +183,13 @@ static int isc_clk_is_enabled(struct clk_hw *hw)
+ 	u32 status;
+ 	int ret;
+ 
+-	if (isc_clk->id == ISC_ISPCK) {
+-		ret = pm_runtime_resume_and_get(isc_clk->dev);
+-		if (ret < 0)
+-			return 0;
+-	}
++	ret = pm_runtime_resume_and_get(isc_clk->dev);
++	if (ret < 0)
++		return 0;
+ 
+ 	regmap_read(isc_clk->regmap, ISC_CLKSR, &status);
+ 
+-	if (isc_clk->id == ISC_ISPCK)
+-		pm_runtime_put_sync(isc_clk->dev);
++	pm_runtime_put_sync(isc_clk->dev);
+ 
+ 	return status & ISC_CLK(isc_clk->id) ? 1 : 0;
+ }
+@@ -325,6 +319,9 @@ static int isc_clk_register(struct isc_device *isc, unsigned int id)
+ 	const char *parent_names[3];
+ 	int num_parents;
+ 
++	if (id == ISC_ISPCK && !isc->ispck_required)
++		return 0;
++
+ 	num_parents = of_clk_get_parent_count(np);
+ 	if (num_parents < 1 || num_parents > 3)
+ 		return -EINVAL;
+diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
+index 19cc60dfcbe0..2bfcb135ef13 100644
+--- a/drivers/media/platform/atmel/atmel-isc.h
++++ b/drivers/media/platform/atmel/atmel-isc.h
+@@ -178,6 +178,7 @@ struct isc_reg_offsets {
+  * @hclock:		Hclock clock input (refer datasheet)
+  * @ispck:		iscpck clock (refer datasheet)
+  * @isc_clks:		ISC clocks
++ * @ispck_required:	ISC requires ISP Clock initialization
+  * @dcfg:		DMA master configuration, architecture dependent
+  *
+  * @dev:		Registered device driver
+@@ -252,6 +253,7 @@ struct isc_device {
+ 	struct clk		*hclock;
+ 	struct clk		*ispck;
+ 	struct isc_clk		isc_clks[2];
++	bool			ispck_required;
+ 	u32			dcfg;
+ 
+ 	struct device		*dev;
+diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+index b66f1d174e9d..e29a9193bac8 100644
+--- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
++++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+@@ -454,6 +454,9 @@ static int atmel_isc_probe(struct platform_device *pdev)
+ 	/* sama5d2-isc - 8 bits per beat */
+ 	isc->dcfg = ISC_DCFG_YMBSIZE_BEATS8 | ISC_DCFG_CMBSIZE_BEATS8;
+ 
++	/* sama5d2-isc : ISPCK is required and mandatory */
++	isc->ispck_required = true;
++
+ 	ret = isc_pipeline_init(isc);
+ 	if (ret)
+ 		return ret;
+@@ -476,22 +479,6 @@ static int atmel_isc_probe(struct platform_device *pdev)
+ 		dev_err(dev, "failed to init isc clock: %d\n", ret);
+ 		goto unprepare_hclk;
+ 	}
+-
+-	isc->ispck = isc->isc_clks[ISC_ISPCK].clk;
+-
+-	ret = clk_prepare_enable(isc->ispck);
+-	if (ret) {
+-		dev_err(dev, "failed to enable ispck: %d\n", ret);
+-		goto unprepare_hclk;
+-	}
+-
+-	/* ispck should be greater or equal to hclock */
+-	ret = clk_set_rate(isc->ispck, clk_get_rate(isc->hclock));
+-	if (ret) {
+-		dev_err(dev, "failed to set ispck rate: %d\n", ret);
+-		goto unprepare_clk;
+-	}
+-
+ 	ret = v4l2_device_register(dev, &isc->v4l2_dev);
+ 	if (ret) {
+ 		dev_err(dev, "unable to register v4l2 device.\n");
+@@ -545,19 +532,35 @@ static int atmel_isc_probe(struct platform_device *pdev)
+ 	pm_runtime_enable(dev);
+ 	pm_request_idle(dev);
+ 
++	isc->ispck = isc->isc_clks[ISC_ISPCK].clk;
++
++	ret = clk_prepare_enable(isc->ispck);
++	if (ret) {
++		dev_err(dev, "failed to enable ispck: %d\n", ret);
++		goto cleanup_subdev;
++	}
++
++	/* ispck should be greater or equal to hclock */
++	ret = clk_set_rate(isc->ispck, clk_get_rate(isc->hclock));
++	if (ret) {
++		dev_err(dev, "failed to set ispck rate: %d\n", ret);
++		goto unprepare_clk;
++	}
++
+ 	regmap_read(isc->regmap, ISC_VERSION + isc->offsets.version, &ver);
+ 	dev_info(dev, "Microchip ISC version %x\n", ver);
+ 
+ 	return 0;
+ 
++unprepare_clk:
++	clk_disable_unprepare(isc->ispck);
++
+ cleanup_subdev:
+ 	isc_subdev_cleanup(isc);
+ 
+ unregister_v4l2_device:
+ 	v4l2_device_unregister(&isc->v4l2_dev);
+ 
+-unprepare_clk:
+-	clk_disable_unprepare(isc->ispck);
+ unprepare_hclk:
+ 	clk_disable_unprepare(isc->hclock);
+ 
+diff --git a/drivers/media/platform/atmel/atmel-sama7g5-isc.c b/drivers/media/platform/atmel/atmel-sama7g5-isc.c
+index f2785131ff56..9c05acafd072 100644
+--- a/drivers/media/platform/atmel/atmel-sama7g5-isc.c
++++ b/drivers/media/platform/atmel/atmel-sama7g5-isc.c
+@@ -447,6 +447,9 @@ static int microchip_xisc_probe(struct platform_device *pdev)
+ 	/* sama7g5-isc RAM access port is full AXI4 - 32 bits per beat */
+ 	isc->dcfg = ISC_DCFG_YMBSIZE_BEATS32 | ISC_DCFG_CMBSIZE_BEATS32;
+ 
++	/* sama7g5-isc : ISPCK does not exist, ISC is clocked by MCK */
++	isc->ispck_required = false;
++
+ 	ret = isc_pipeline_init(isc);
+ 	if (ret)
+ 		return ret;
+@@ -470,25 +473,10 @@ static int microchip_xisc_probe(struct platform_device *pdev)
+ 		goto unprepare_hclk;
+ 	}
+ 
+-	isc->ispck = isc->isc_clks[ISC_ISPCK].clk;
+-
+-	ret = clk_prepare_enable(isc->ispck);
+-	if (ret) {
+-		dev_err(dev, "failed to enable ispck: %d\n", ret);
+-		goto unprepare_hclk;
+-	}
+-
+-	/* ispck should be greater or equal to hclock */
+-	ret = clk_set_rate(isc->ispck, clk_get_rate(isc->hclock));
+-	if (ret) {
+-		dev_err(dev, "failed to set ispck rate: %d\n", ret);
+-		goto unprepare_clk;
+-	}
+-
+ 	ret = v4l2_device_register(dev, &isc->v4l2_dev);
+ 	if (ret) {
+ 		dev_err(dev, "unable to register v4l2 device.\n");
+-		goto unprepare_clk;
++		goto unprepare_hclk;
+ 	}
+ 
+ 	ret = xisc_parse_dt(dev, isc);
+@@ -549,8 +537,6 @@ static int microchip_xisc_probe(struct platform_device *pdev)
+ unregister_v4l2_device:
+ 	v4l2_device_unregister(&isc->v4l2_dev);
+ 
+-unprepare_clk:
+-	clk_disable_unprepare(isc->ispck);
+ unprepare_hclk:
+ 	clk_disable_unprepare(isc->hclock);
+ 
+-- 
+2.25.1
 
