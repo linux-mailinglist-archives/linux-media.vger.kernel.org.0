@@ -2,92 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10E254089BF
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 13:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EA284089D5
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 13:04:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239316AbhIMLCN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 07:02:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54502 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239199AbhIMLCN (ORCPT
+        id S239337AbhIMLFb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 07:05:31 -0400
+Received: from smtp-relay-canonical-1.canonical.com ([185.125.188.121]:56600
+        "EHLO smtp-relay-canonical-1.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239171AbhIMLFa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 07:02:13 -0400
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 908EEC061574;
-        Mon, 13 Sep 2021 04:00:57 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id PjhmmYP8EpQdWPjhnm2dc0; Mon, 13 Sep 2021 13:00:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1631530855; bh=cm4tx5E2BMsTJ0Uz8+lXiGq9cjmJ24vFtRs50dHXAxI=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=qLjkwpaGG8Dyqcmi2ZZZsEBn64tHzuCTK3vVSpY44P8mpSN7AY7EzaVbtGML1eMcJ
-         j00YGk2wAWPyEonPYY94TOcDEOpya8O4jSXpPFsPm0wULyhu/SjXS3jl+3K5uLfvnq
-         oqHMYHYIF7g0cuox4r1aIoxY1dG4lWz07HzP0R91Hs1ZQSftrOxRMuvuvcB8MtbiRk
-         wrHXXOoto5XPj+N795ObgAjH9hJeclZDlHfoGoMS6rQvDlQCgWWoJZY02zYIl8gdAu
-         XL0O5X4ok9otMWoieYykBa/nHPsSoLPKffX838/fGLQ8k18iwScLrqSCjvbGtWjvYb
-         ygGkUUnKpyQJQ==
+        Mon, 13 Sep 2021 07:05:30 -0400
+Received: from [10.172.193.212] (1.general.cking.uk.vpn [10.172.193.212])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 405923F0FD;
+        Mon, 13 Sep 2021 11:04:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1631531046;
+        bh=Yp56eiOhuJUOUSqsC9RhQCuTloHI269gSNPewoOCijQ=;
+        h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+         In-Reply-To:Content-Type;
+        b=s5+mrK//ZMln/SBpO/yONeaqyQoZZmMgw/0GOGHg2oaTT9P7YGwD0gJn7JA3cMAQ1
+         cLj796ZUvSysl6jCFRT/v8sQAYrcc1AQxdPR+067rB7erjFTs7/3NeQRN/wa3F4vF8
+         bnA8rpo8GrwNaSYixNUbmeVzZUGnDcdCFPeYqzvHDy+sdhOjclUHLG99Kot1pS7ixJ
+         2wqH2qy/9/EuWCzNQtK+9oIJiGPkgUq7cKjxmejX1mov6O/KUr+JlHQa4wiD4TUMEL
+         28y6buim+az8LVka27XCz1fqg1JW/y4AkOY0Y7i9osNXauMFesyuIP3HZJIMrHBYVs
+         guztRDCSpEf9Q==
 Subject: Re: NAK: [PATCH][next] media: pvrusb2: add newline between two
  statements
-To:     Colin Ian King <colin.king@canonical.com>,
-        Mike Isely <isely@pobox.com>,
+To:     Hans Verkuil <hverkuil@xs4all.nl>, Mike Isely <isely@pobox.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
 Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20210902220112.55824-1-colin.king@canonical.com>
  <52c324ad-2467-9edc-c386-bc5a086cecbc@canonical.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <82d125bd-9d16-803d-754b-48aa79fde06c@xs4all.nl>
-Date:   Mon, 13 Sep 2021 13:00:54 +0200
+ <82d125bd-9d16-803d-754b-48aa79fde06c@xs4all.nl>
+From:   Colin Ian King <colin.king@canonical.com>
+Message-ID: <8b4c86dd-a7d5-ce0d-3ba6-03eba28c0288@canonical.com>
+Date:   Mon, 13 Sep 2021 12:04:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <52c324ad-2467-9edc-c386-bc5a086cecbc@canonical.com>
+In-Reply-To: <82d125bd-9d16-803d-754b-48aa79fde06c@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfBeyTGiasCGZOBOFh6cvtajmiKhRwxPqolSr9CzM0/PjMgMxmpoUM8fOyt9kwNb6N+e9+eigom8z+HBX3CLrt9r4LCccjw1nufd7Er92cNlRaiB6hzOh
- pXD/MyPDAKRg7jwEoGdQJ0Ff9+1kK5yHRMJH9Qh8zlLrudY6a25nbSnqbmaSp+BgDSuhrvna5gCvJ4sN0E7J0Yi8mXDxLdeJF8FL4LTaAaNpNoE2a1LiVNxA
- qcNpplKTbLMaAOJqTrMV172xOx+ZuyieC7CQ+BMzVp1rVKklUwOnlZgFDglh8bXCacMwJwZwvfkMl7XPC+M5VRzD868NyqVviL5yR0Fj9TC7iFuvA2XmNykc
- ILseXcHiSvb/BmwydQOed/tbg7coLEvO5f4wHdHBE/hYELvc3ZQHOGsqe2VaORhTcoT+mfyxgBdabnHxcubY3JGNqdYuUYCQyD92MAfYCFDXiIR7M88NedOQ
- /QGR8IpUTQvAva4D
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/09/2021 00:02, Colin Ian King wrote:
-> On 02/09/2021 23:01, Colin King wrote:
->> From: Colin Ian King <colin.king@canonical.com>
+On 13/09/2021 12:00, Hans Verkuil wrote:
+> On 03/09/2021 00:02, Colin Ian King wrote:
+>> On 02/09/2021 23:01, Colin King wrote:
+>>> From: Colin Ian King <colin.king@canonical.com>
+>>>
+>>> There are two statements on the same line, add a newline to clean
+>>> this up.
+>>>
+>>> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+>>> ---
+>>>  drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 3 ++-
+>>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+>>> index d38dee1792e4..ca00b7fe1e7f 100644
+>>> --- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+>>> +++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+>>> @@ -1727,7 +1727,8 @@ int pvr2_hdw_set_streaming(struct pvr2_hdw *hdw,int enable_flag)
+>>>  				   enable_flag ? "enable" : "disable");
+>>>  		}
+>>>  		pvr2_hdw_state_sched(hdw);
+>>> -	} while (0); LOCK_GIVE(hdw->big_lock);
+>>> +	} while (0);
+>>> +	LOCK_GIVE(hdw->big_lock);
+>>>  	if ((ret = pvr2_hdw_wait(hdw,0)) < 0) return ret;
+>>>  	if (enable_flag) {
+>>>  		while ((st = hdw->master_state) != PVR2_STATE_RUN) {
+>>>
 >>
->> There are two statements on the same line, add a newline to clean
->> this up.
->>
->> Signed-off-by: Colin Ian King <colin.king@canonical.com>
->> ---
->>  drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
->> index d38dee1792e4..ca00b7fe1e7f 100644
->> --- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
->> +++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
->> @@ -1727,7 +1727,8 @@ int pvr2_hdw_set_streaming(struct pvr2_hdw *hdw,int enable_flag)
->>  				   enable_flag ? "enable" : "disable");
->>  		}
->>  		pvr2_hdw_state_sched(hdw);
->> -	} while (0); LOCK_GIVE(hdw->big_lock);
->> +	} while (0);
->> +	LOCK_GIVE(hdw->big_lock);
->>  	if ((ret = pvr2_hdw_wait(hdw,0)) < 0) return ret;
->>  	if (enable_flag) {
->>  		while ((st = hdw->master_state) != PVR2_STATE_RUN) {
->>
+>> ignore, V2 being sent in a moment.
 > 
-> ignore, V2 being sent in a moment.
+> I haven't seen a V2 yet... In any case, I've rejected this patch in patchwork.
 
-I haven't seen a V2 yet... In any case, I've rejected this patch in patchwork.
+After looking at all the unconventional code style issues I chose not to
+clean this up.
 
-Regards,
+> 
+> Regards,
+> 
+> 	Hans
+> 
 
-	Hans
