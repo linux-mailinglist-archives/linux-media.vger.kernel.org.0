@@ -2,153 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FEC0408594
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 09:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A70BD4085DF
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 09:54:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237748AbhIMHrc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 03:47:32 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:53263 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237732AbhIMHr1 (ORCPT
+        id S237995AbhIMHzo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 03:55:44 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:41885 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237748AbhIMHzh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 03:47:27 -0400
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 24A0C100007;
-        Mon, 13 Sep 2021 07:45:59 +0000 (UTC)
-Date:   Mon, 13 Sep 2021 09:45:59 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Chen-Yu Tsai <wens@csie.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-sunxi@lists.linux.dev,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-phy@lists.infradead.org,
-        linux-clk <linux-clk@vger.kernel.org>,
-        linux-staging@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
+        Mon, 13 Sep 2021 03:55:37 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id BCC0E580B19;
+        Mon, 13 Sep 2021 03:54:21 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Mon, 13 Sep 2021 03:54:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=H8iC8iHH15qxrWE5p36hpaSNhVm
+        Drj/cFBvDF2mQy2E=; b=UCfz2XtPhqhQXdFg6bLxKSpWTWtfkqIOg2guL+fXvKA
+        Wcj8/ouyHsRZ2ZHZXxWkf5xBKf6EX71bJkf/399vs4ctj0s/vD6p8TP8Zo9cKfMb
+        f8nQ9kMWaVKfaR2dBzFZQ77Yz7VSXQ59S5mqjLEslbHo9VllCnLshbv+ynNle7gU
+        5lI7nAKGcFk3gYj1IAVs+bOBKjuFm+UdM/9NrwmlLSggIMQY85+wvmsyvY99uujL
+        OVIg0EZjOko0OZthW8+bfP2kHkKZhMfGEfpJmIn38C4ntfryqB/xb99J0v8ENOyL
+        6x9/xDWbxYkqOf/PkLeTqtT1WFyZTDkCeWL/a2wE6ng==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=H8iC8i
+        HH15qxrWE5p36hpaSNhVmDrj/cFBvDF2mQy2E=; b=nELtx7Ev2gebBVUNhEEN+m
+        Cf5eZIoXUV3lQ+EMzuH94Xo8HlKTUEf1mYwKaoooBH0CPzaUvEygsKgbnTAA2Tme
+        I9lKc6uP7dQOawMGp6kE0RZ5RofgBbeVyUva8j+3HAyqZxSfx1qui0km3xyxOhct
+        qgstkYSYWcQNiJFcNX8Af4EGFVrcmteFwJLud30Qn54AJw1StUl2fLymPUpyq4q/
+        TFMqaoDjUWjTQG9WgS+a7+09XD+LmaRU460/QhcXrExjRmg6G9rXlVi08urHV47x
+        Cd+zIvrQYIEeja0zJAQ3lQzjdyTwvMKd3wS8QTCqjB4Wl1wF5EKGfQecfo8k2Kdg
+        ==
+X-ME-Sender: <xms:qwM_YSb2_yyHGTFILvfkS5qEZ5gNxUFrH039nCy2LqcC94W4CjxBGw>
+    <xme:qwM_YVYOIEfRBp5oXNHGQD5K7RT7jlhmJGRxrsEzWk_M2lEsx-G-Ja-8Ahq6pjfYx
+    43GcNOII36jP8RTXkM>
+X-ME-Received: <xmr:qwM_Yc-2L9iHoeRfv2AuUXDhCod8wYzL8UCI77i4J9LNVbs1yCzQlKwig1sstlUeehRMupesSZjpxl8y44EDuyA5qbelzGeO7LzY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegiedguddvgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+    heegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:qwM_YUo8RjhvzG1itXj-wb4NbexHe3mO6PZO9nrUu3St7r4v1NPFKQ>
+    <xmx:qwM_YdrrjQxCRyoocyi3XVLb1LVaZ8rWke5r3pYhH0dXc59CODjplA>
+    <xmx:qwM_YSTkMdTh6OyqL4MyRtkEwblNxGRqtOrTll-QHrlCFe96Qgvg8w>
+    <xmx:rQM_YSiHQeCrBXAszl-g_7wRnf5eToxq8Xy16SfZF1xTIf-eFYQsJA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 13 Sep 2021 03:54:18 -0400 (EDT)
+Date:   Mon, 13 Sep 2021 09:54:17 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+        Yong Deng <yong.deng@magewell.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hans.verkuil@cisco.com>,
+        Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Helen Koike <helen.koike@collabora.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH NOT FOR MERGE 13/22] ARM: dts: sun8i: a83t: Add MIPI
- CSI-2 controller node
-Message-ID: <YT8Bt3Fmakn97vi9@aptenodytes>
+Subject: Re: [PATCH 01/22] clk: sunxi-ng: v3s: Make the ISP PLL clock public
+Message-ID: <20210913075417.ampb2jt4quftpqzj@gilmour>
 References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-14-paul.kocialkowski@bootlin.com>
- <CAGb2v66OHJREEg1Djkk=VyY0yUr5JE8Fp+xsb40wCk6E56bH8A@mail.gmail.com>
+ <20210910184147.336618-2-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="a3BeDpyJol7qXzGn"
+        protocol="application/pgp-signature"; boundary="3eyvvraksbaukjuq"
 Content-Disposition: inline
-In-Reply-To: <CAGb2v66OHJREEg1Djkk=VyY0yUr5JE8Fp+xsb40wCk6E56bH8A@mail.gmail.com>
+In-Reply-To: <20210910184147.336618-2-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---a3BeDpyJol7qXzGn
-Content-Type: text/plain; charset=utf-8
+--3eyvvraksbaukjuq
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Chen-Yu,
+On Fri, Sep 10, 2021 at 08:41:26PM +0200, Paul Kocialkowski wrote:
+> In order to reparent the CSI module clock to the ISP PLL via
+> device-tree, export the ISP PLL clock declaration in the public
+> device-tree header.
 
-On Sat 11 Sep 21, 10:53, Chen-Yu Tsai wrote:
-> Hi,
->=20
-> On Sat, Sep 11, 2021 at 2:42 AM Paul Kocialkowski
-> <paul.kocialkowski@bootlin.com> wrote:
-> >
-> > MIPI CSI-2 is supported on the A83T with a dedicated controller that
-> > covers both the protocol and D-PHY. It can be connected to the CSI
-> > interface as a V4L2 subdev through the fwnode graph.
-> >
-> > This is not done by default since connecting the bridge without a
-> > subdev attached to it will cause a failure on the CSI driver.
-> >
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
->=20
-> I believe you tagged the wrong patch to not be merged? AFAICT it
-> should be the next patch that hooks up OV8865, not this one.
+You use clk_set_rate_exclusive in the ISP driver on the module clock so
+it should prevent what you're mentioning from happening.
 
-Yes you are definitely right, this patch is good for merge and the next
-one is not.
+If it doesn't, then clk_set_rate_exclusive has a bug and should be
+fixed.
 
-Thanks,
+Either way, using assigned-clock-parents is not a good solution here
+either, it only makes sure that this is the case when probe is run.
 
-Paul
+> Details regarding why the CSI module clock is best parented to the ISP
+> PLL are provided in the related commit.
 
-> > ---
-> >  arch/arm/boot/dts/sun8i-a83t.dtsi | 26 ++++++++++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> >
-> > diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8=
-i-a83t.dtsi
-> > index ac97eac91349..1fa51f7ef063 100644
-> > --- a/arch/arm/boot/dts/sun8i-a83t.dtsi
-> > +++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
-> > @@ -1064,6 +1064,32 @@ csi: camera@1cb0000 {
-> >                         status =3D "disabled";
-> >                 };
-> >
-> > +               mipi_csi2: csi@1cb1000 {
-> > +                       compatible =3D "allwinner,sun8i-a83t-mipi-csi2";
-> > +                       reg =3D <0x01cb1000 0x1000>;
-> > +                       interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> > +                       clocks =3D <&ccu CLK_BUS_CSI>,
-> > +                                <&ccu CLK_CSI_SCLK>,
-> > +                                <&ccu CLK_MIPI_CSI>,
-> > +                                <&ccu CLK_CSI_MISC>;
-> > +                       clock-names =3D "bus", "mod", "mipi", "misc";
-> > +                       resets =3D <&ccu RST_BUS_CSI>;
-> > +                       status =3D "disabled";
-> > +
-> > +                       ports {
-> > +                               #address-cells =3D <1>;
-> > +                               #size-cells =3D <0>;
-> > +
-> > +                               mipi_csi2_in: port@0 {
-> > +                                       reg =3D <0>;
-> > +                               };
-> > +
-> > +                               mipi_csi2_out: port@1 {
-> > +                                       reg =3D <1>;
-> > +                               };
-> > +                       };
-> > +               };
-> > +
-> >                 hdmi: hdmi@1ee0000 {
-> >                         compatible =3D "allwinner,sun8i-a83t-dw-hdmi";
-> >                         reg =3D <0x01ee0000 0x10000>;
-> > --
-> > 2.32.0
-> >
-> >
+This is relevant to this commit too and "the related commit" is far too
+blurry when you consider the entire Linux git history.
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Maxime
 
---a3BeDpyJol7qXzGn
+--3eyvvraksbaukjuq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmE/AbcACgkQ3cLmz3+f
-v9GBrgf9HSUZdAaK36cq9m6svkBM+jphy40Yx1unln6fFfLoQoLluNFl8vwi5iKc
-Gb42Npg4NojviHDFxq71JtZiURP/pz9HiqmE7eOB0c9rdxL+SDXE9zzK8BfOXOwi
-1oySmXYcP2zbseeQHZ5VCCUzMZBcGWtnZTq+IJuYktq1F0448cYzUC1h7sdI0dbs
-yuEb9x2Xz0HtlLd5GuY8G3azwmyZxNdEotTP3LcFJ2mHbjxBvu6butmych9IOanN
-wnIPiULd3YFmoJ9khRL1KfKZ0N7WkZRLZBTlbhKrv5PIeQNjTWIIFjNN7y/gvEOZ
-omUKtZSmJY9vCNYwFHoATT43SX7uyA==
-=MNI6
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYT8DqQAKCRDj7w1vZxhR
+xTZvAQCBM99MGd6qVMOuUH5pAUXkNRCjmqWYffeGxv1bEMviLgEA9/VMtVKq1DGw
+cYRuC53YO5a08nIT5L/y26XC1yd/CAg=
+=3hm0
 -----END PGP SIGNATURE-----
 
---a3BeDpyJol7qXzGn--
+--3eyvvraksbaukjuq--
