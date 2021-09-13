@@ -2,101 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66A1E408583
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 09:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18BEC40858A
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 09:44:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237653AbhIMHnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 03:43:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36402 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237568AbhIMHnc (ORCPT
+        id S237717AbhIMHpw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 03:45:52 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:45969 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237599AbhIMHpv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 03:43:32 -0400
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D4DC061574
-        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 00:42:16 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id PgbSmWawopQdWPgbTm1pK2; Mon, 13 Sep 2021 09:42:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1631518933; bh=CYDupfBiELasArrXgz/nUAe5qjVajVV5s9Gjrj6V3BU=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=s8SILm86afmwUm7R/cNcDtfIgdG5eaIvqi4ogm8x66Z3yIn15ulNU1rAbis1KaQWQ
-         c7d9PCpDx5up4ArODX3wwlafuVJGlhB/dEuHlXFgJtJk3W+XJgHJU/HTKwho8C/sSa
-         sGJXXLk8Xq09RekBvC9aITnzl5laMyPqd1QwCqVEtKefjlGHRFK73eIjvl/bpdXId3
-         tyxZaEcl8vNgSOBzwS2w/RZXNwAMMJvcx5eqf9ss3jlDFM5F2jR3ixo72GLuaAjnfo
-         AKwe60I+mc80G1pt9MNx6kOTM4tmOUm5uryBiZ+IH8HoUGdtQGsydusIevx9g3R+jz
-         hRcc/dM9cQRfQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.16] videobuf2: support new noncontiguous DMA API
-Message-ID: <4d2efa85-5801-092e-f3ca-c6053f612891@xs4all.nl>
-Date:   Mon, 13 Sep 2021 09:42:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Mon, 13 Sep 2021 03:45:51 -0400
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 6AD0F100018;
+        Mon, 13 Sep 2021 07:44:23 +0000 (UTC)
+Date:   Mon, 13 Sep 2021 09:44:22 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 09/22] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2
+ support
+Message-ID: <YT8BVo61qL1jq/er@aptenodytes>
+References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
+ <20210910184147.336618-10-paul.kocialkowski@bootlin.com>
+ <483288cb-d9fa-4581-7986-d15c4aa27769@sholland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfDYL3YHAwdMg6bVEnsqSNTGAzhuIOd/+VPZWpm2Xjh6ejWpeQ4EiBos31DBM0c9LnltukMbqXGGmccDN1ddAuWglxQ2tn9ZCq11G3S0iSUikbNtcfew0
- HSZeKPUT62lxAooa+LBUnR2DeivTd+UsHLkEQsB34bVFgO6PKmzSEDK10ZsOBhRF5X+520FrAmZ1f9P+zPD0OM72HGdeNOJgIPOIlpDlxnom5q/Tm9b6kXqV
- DbYG3AmhdthPzL1JdLPvMc/3r0DnES7QLFs57wFE+EjYckCn02c4H3kGsZuSUpo/X8U68XimQwlhdnbACkatLY4TIWwHr8EbAosFtmpoZSM=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="QZVQzP+VTAJydr5U"
+Content-Disposition: inline
+In-Reply-To: <483288cb-d9fa-4581-7986-d15c4aa27769@sholland.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
 
-This patch series that adds support for V4L2_MEMORY_FLAG_NON_COHERENT.
+--QZVQzP+VTAJydr5U
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Once merged, this patch for v4l2-compliance will be applied as well:
+Hi Samuel,
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20210913023546.905914-1-senozhatsky@chromium.org/
+On Fri 10 Sep 21, 21:32, Samuel Holland wrote:
+> On 9/10/21 1:41 PM, Paul Kocialkowski wrote:
+> > MIPI CSI-2 is supported on the V3s with an A31-based MIPI CSI-2 bridge
+> > controller. The controller uses a separate D-PHY, which is the same
+> > that is otherwise used for MIPI DSI, but used in Rx mode.
+> >=20
+> > On the V3s, the CSI0 controller is dedicated to MIPI CSI-2 as it does
+> > not have access to any parallel interface pins.
+> >=20
+> > Add all the necessary nodes (CSI0, MIPI CSI-2 bridge and D-PHY) to
+> > support the MIPI CSI-2 interface.
+> >=20
+> > Note that a fwnode graph link is created between CSI0 and MIPI CSI-2
+> > even when no sensor is connected. This will result in a probe failure
+> > for the controller as long as no sensor is connected but this is fine
+> > since no other interface is available.
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > ---
+> >  arch/arm/boot/dts/sun8i-v3s.dtsi | 72 ++++++++++++++++++++++++++++++++
+> >  1 file changed, 72 insertions(+)
+> >=20
+> > diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i=
+-v3s.dtsi
+> > index a77b63362a1d..ec7fa6459547 100644
+> > --- a/arch/arm/boot/dts/sun8i-v3s.dtsi
+> > +++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+> > @@ -612,6 +612,34 @@ spi0: spi@1c68000 {
+> >  			#size-cells =3D <0>;
+> >  		};
+> > =20
+> > +		csi0: camera@1cb0000 {
+> > +			compatible =3D "allwinner,sun8i-v3s-csi";
+> > +			reg =3D <0x01cb0000 0x1000>;
+> > +			interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > +			clocks =3D <&ccu CLK_BUS_CSI>,
+> > +				 <&ccu CLK_CSI1_SCLK>,
+> > +				 <&ccu CLK_DRAM_CSI>;
+> > +			clock-names =3D "bus", "mod", "ram";
+> > +			resets =3D <&ccu RST_BUS_CSI>;
+> > +			status =3D "disabled";
+> > +
+> > +			assigned-clocks =3D <&ccu CLK_CSI1_SCLK>;
+> > +			assigned-clock-parents =3D <&ccu CLK_PLL_ISP>;
+> > +
+> > +			ports {
+> > +				#address-cells =3D <1>;
+> > +				#size-cells =3D <0>;
+> > +
+> > +				port@1 {
+> > +					reg =3D <1>;
+> > +
+> > +					csi0_in_mipi_csi2: endpoint {
+> > +						remote-endpoint =3D <&mipi_csi2_out_csi0>;
+> > +					};
+> > +				};
+> > +			};
+> > +		};
+> > +
+> >  		csi1: camera@1cb4000 {
+> >  			compatible =3D "allwinner,sun8i-v3s-csi";
+> >  			reg =3D <0x01cb4000 0x3000>;
+>=20
+> All of the new nodes should be added above this one, to maintain unit
+> address order.
 
-Regards,
+Good catch, this was an overlook on my side.
 
-	Hans
+Thanks,
 
+Paul
 
-The following changes since commit d62cd4d277cc711f781a7bdec4109c6148529b25:
+> Regards,
+> Samuel
+>=20
+> > @@ -637,5 +665,49 @@ gic: interrupt-controller@1c81000 {
+> >  			#interrupt-cells =3D <3>;
+> >  			interrupts =3D <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_=
+HIGH)>;
+> >  		};
+> > +
+> > +		mipi_csi2: csi@1cb1000 {
+> > +			compatible =3D "allwinner,sun8i-v3s-mipi-csi2",
+> > +				     "allwinner,sun6i-a31-mipi-csi2";
+> > +			reg =3D <0x01cb1000 0x1000>;
+> > +			interrupts =3D <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
+> > +			clocks =3D <&ccu CLK_BUS_CSI>,
+> > +				 <&ccu CLK_CSI1_SCLK>;
+> > +			clock-names =3D "bus", "mod";
+> > +			resets =3D <&ccu RST_BUS_CSI>;
+> > +			status =3D "disabled";
+> > +
+> > +			phys =3D <&dphy>;
+> > +			phy-names =3D "dphy";
+> > +
+> > +			ports {
+> > +				#address-cells =3D <1>;
+> > +				#size-cells =3D <0>;
+> > +
+> > +				mipi_csi2_in: port@0 {
+> > +					reg =3D <0>;
+> > +				};
+> > +
+> > +				mipi_csi2_out: port@1 {
+> > +					reg =3D <1>;
+> > +
+> > +					mipi_csi2_out_csi0: endpoint {
+> > +						remote-endpoint =3D <&csi0_in_mipi_csi2>;
+> > +					};
+> > +				};
+> > +			};
+> > +		};
+> > +
+> > +		dphy: d-phy@1cb2000 {
+> > +			compatible =3D "allwinner,sun6i-a31-mipi-dphy";
+> > +			reg =3D <0x01cb2000 0x1000>;
+> > +			clocks =3D <&ccu CLK_BUS_CSI>,
+> > +				 <&ccu CLK_MIPI_CSI>;
+> > +			clock-names =3D "bus", "mod";
+> > +			resets =3D <&ccu RST_BUS_CSI>;
+> > +			allwinner,direction =3D "rx";
+> > +			status =3D "disabled";
+> > +			#phy-cells =3D <0>;
+> > +		};
+> >  	};
+> >  };
+> >=20
+>=20
 
-  media: uvcvideo: Remove unused including <linux/version.h> (2021-08-21 09:11:04 +0200)
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-are available in the Git repository at:
+--QZVQzP+VTAJydr5U
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.16d
+-----BEGIN PGP SIGNATURE-----
 
-for you to fetch changes up to fa03153716a3e6bf10d8611515fdcf440673557a:
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmE/AVYACgkQ3cLmz3+f
+v9EFwAgAlLhO92v/X6G6gs1EKL/Ve3k5WVgSYDcp38cxhVkn9TYIx+u97xSfyDLC
+P5PABn2O8tERf6e7U1NBmqr64vSzvziaRmeLo6co6sdLEJuNvk4wrp3/9U7+dp/Q
+9Pp/tPxadAO4SKID7BW5UKTEzWqzGlsGJf/6p83oKzwWtBCTBXTfK0PjkmESPFy8
+kTX1gqi9/Pe0oiWH0PRZJIZzPYDP8PpRNPQNxhPlXivuSnDLFwNAhaSXrMvqOnl2
+/Y+tpSRPXTKGPqjIAzRn3G2fTveiHMw0fTLwVgcZqqNIK4dACeQLJYNdSxjTMORZ
+J1xWZQdStHkESCp9DRxlxV8TLbiItg==
+=95oz
+-----END PGP SIGNATURE-----
 
-  videobuf2: handle non-contiguous DMA allocations (2021-09-10 12:06:25 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Sergey Senozhatsky (8):
-      videobuf2: rework vb2_mem_ops API
-      videobuf2: inverse buffer cache_hints flags
-      videobuf2: split buffer cache_hints initialisation
-      videobuf2: move cache_hints handling to allocators
-      videobuf2: add V4L2_MEMORY_FLAG_NON_COHERENT flag
-      videobuf2: add queue memory coherency parameter
-      videobuf2: handle V4L2_MEMORY_FLAG_NON_COHERENT flag
-      videobuf2: handle non-contiguous DMA allocations
-
- Documentation/userspace-api/media/v4l/buffer.rst             |  40 ++++++++-
- Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst |   7 +-
- Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst     |  16 ++--
- drivers/media/common/videobuf2/videobuf2-core.c              | 126 +++++++++++++++++----------
- drivers/media/common/videobuf2/videobuf2-dma-contig.c        | 195 +++++++++++++++++++++++++++++++++---------
- drivers/media/common/videobuf2/videobuf2-dma-sg.c            |  39 +++++----
- drivers/media/common/videobuf2/videobuf2-v4l2.c              |  59 ++++++-------
- drivers/media/common/videobuf2/videobuf2-vmalloc.c           |  30 ++++---
- drivers/media/dvb-core/dvb_vb2.c                             |   2 +-
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c                |   9 +-
- drivers/media/v4l2-core/v4l2-ioctl.c                         |   4 +-
- include/media/videobuf2-core.h                               |  59 +++++++------
- include/uapi/linux/videodev2.h                               |  11 ++-
- 13 files changed, 411 insertions(+), 186 deletions(-)
+--QZVQzP+VTAJydr5U--
