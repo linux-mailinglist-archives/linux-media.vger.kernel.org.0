@@ -2,112 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA317409A40
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 19:01:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07420409C36
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 20:30:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241396AbhIMRCq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 13:02:46 -0400
-Received: from mail-lf1-f42.google.com ([209.85.167.42]:37416 "EHLO
-        mail-lf1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238966AbhIMRCp (ORCPT
+        id S240000AbhIMSbj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 14:31:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45676 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239877AbhIMSbj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 13:02:45 -0400
-Received: by mail-lf1-f42.google.com with SMTP id i4so5371323lfv.4;
-        Mon, 13 Sep 2021 10:01:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=d+e1KGdaTcArSitzpQ5kAkfchGna7Wslk+nX3KrALFo=;
-        b=ki+ASjI1vAiV/VUCJ+3cKhQGgQdXL3Uk3DnvzxPIQjherERLDuAHdKA3UsaM97Fp4Q
-         A0EN3/Xv74aWwXG3PKzHm+6p+NuhOBDJYFTEFxGjYMqfEbn6hbj50Pli3MgKfxVNByOJ
-         KWm8rNM1lWBa8QV+glINd3OURpt/cvho623WLsfzC3qeJugXx0DCcP4HUY+GzYp+wbwf
-         NffSaeq1F+1P8fNX4BgZbld3ZuEec/g+aFVjRlYW70uZOKDKlruW6yJ2HvUcfpZ49IFq
-         2ACnVVzzOxy7WLQ9KdajWfPWrp052nfdX95QZ5UENUq6/DUWlkzlNe0HKIFTZ4nCK3lY
-         aRFQ==
-X-Gm-Message-State: AOAM531jy+D7Dm9/nKzbsGUu9aTxYjq5yNcaZf6LmGL7q+TC4d7GJYcD
-        LCvUuqRkR7kYQvE5pfOvQjgzuot6LSNoqQ==
-X-Google-Smtp-Source: ABdhPJwkTIRR0cDCPKbF2wqWn3ZUKN+3HxROqq4XRGtjmqDM38T0f/Gwj0bF5puD1mheNeEBXenWlg==
-X-Received: by 2002:a05:6512:118b:: with SMTP id g11mr9474546lfr.205.1631552487726;
-        Mon, 13 Sep 2021 10:01:27 -0700 (PDT)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
-        by smtp.gmail.com with ESMTPSA id d19sm380605lfa.252.2021.09.13.10.01.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Sep 2021 10:01:27 -0700 (PDT)
-Received: by mail-lf1-f49.google.com with SMTP id i4so5371198lfv.4;
-        Mon, 13 Sep 2021 10:01:27 -0700 (PDT)
-X-Received: by 2002:a05:6512:3d94:: with SMTP id k20mr9560866lfv.633.1631552486991;
- Mon, 13 Sep 2021 10:01:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210831174822.83870-1-pedro@terraco.de> <8e7ff5a2-0629-228f-c9d5-35d39bf92ce2@xs4all.nl>
-In-Reply-To: <8e7ff5a2-0629-228f-c9d5-35d39bf92ce2@xs4all.nl>
-From:   Pedro Terra Delboni <pedro@terraco.de>
-Date:   Mon, 13 Sep 2021 14:01:15 -0300
-X-Gmail-Original-Message-ID: <CAHKDPP9J9Y1O2LDp1MYFtbuLGBcYcbJ2v9mP-H41e3zE0feFPw@mail.gmail.com>
-Message-ID: <CAHKDPP9J9Y1O2LDp1MYFtbuLGBcYcbJ2v9mP-H41e3zE0feFPw@mail.gmail.com>
-Subject: Re: [PATCH v7] media: vimc: Enable set resolution at the scaler src pad
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Mon, 13 Sep 2021 14:31:39 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34094C061574;
+        Mon, 13 Sep 2021 11:30:23 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 7C1FA1F42465
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev
+Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Fabio Estevam <festevam@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Gabriela Bittencourt <gabrielabittencourt00@gmail.com>,
-        Gabriel Francisco Mandaji <gfmandaji@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com
+Subject: [PATCH v4 00/10] VP9 codec V4L2 control interface
+Date:   Mon, 13 Sep 2021 20:30:03 +0200
+Message-Id: <20210913183013.19616-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Hans,
+Dear all,
 
-On Mon, Sep 13, 2021 at 5:28 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> Hi Pedro,
->
-> Your 'From' email is Pedro Terra <pedro@terraco.de>, but...
->
-> On 31/08/2021 19:48, Pedro Terra wrote:
-> > Modify the scaler subdevice to accept setting the resolution of the source
-> > pad (previously the source resolution would always be 3 times the sink for
-> > both dimensions). Now any resolution can be set at src (even smaller ones)
-> > and the sink video will be scaled to match it.
-> >
-> > Test example: With the vimc module up (using the default vimc topology)
-> > media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
-> > media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
-> > media-ctl -d platform:vimc -V '"Scaler":0[fmt:RGB888_1X24/640x480]'
-> > media-ctl -d platform:vimc -V '"Scaler":0[crop:(100,50)/400x150]'
-> > media-ctl -d platform:vimc -V '"Scaler":1[fmt:RGB888_1X24/300x700]'
-> > v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=300,height=700
-> > v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
-> > v4l2-ctl --stream-mmap --stream-count=10 -z platform:vimc -d "RGB/YUV Capture" \
-> >       -stream-to=test.raw
-> >
-> > The result will be a cropped stream that can be checked with the command
-> > ffplay -loglevel warning -v info -f rawvideo -pixel_format rgb24 \
-> >       -video_size "300x700" test.raw
-> >
-> > Co-developed-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-> > Signed-off-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-> > Co-developed-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
-> > Signed-off-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
-> > Signed-off-by: Pedro "pirate" Terra <pirate@terraco.de>
->
-> ... that differs from what is used in this Signed-off-by.
->
-> checkpatch.pl complains about that.
->
-> Which of the two should I use? I can fix it myself in the pull request,
-> but I need to know which one I should use.
-I would like to stay with pedro@terraco.de.
->
-> For future patches, please use consistent email addresses.
-I will, sorry for the trouble.
->
-> Regards,
->
->         Hans
+This patch series adds VP9 codec V4L2 control interface and two drivers
+using the new controls. It is a follow-up of previous v3 series [1].
 
-Thank you very much,
-Pedro
+In this new iteration, we've implemented VP9 hardware decoding on two devices:
+Rockchip VDEC and Hantro G2, and tested on RK3399, i.MX8MQ and i.MX8MP.
+The i.MX8M driver needs proper power domains support, though, which is a
+subject of a different effort, but in all 3 cases we were able to run the
+drivers.
+
+GStreamer support is also available, the needed changes have been submitted
+by Daniel Almeida [2]. This MR is ready to be merged, and just needs the
+VP9 V4L2 controls to be merged and released.
+
+Both rkvdec and hantro drivers are passing a significant number of VP9 tests
+using Fluster[3]. There are still a few tests that are not passing, due to
+dynamic frame resize (not yet supported by V4L2) and small size videos
+(due to IP block limitations).
+
+The series adds the VP9 codec V4L2 control API as uAPI, so it aims at being
+merged without passing through staging, as agreed[4]. The ABI has been checked
+for padding and verified to contain no holes.
+
+[1] https://www.spinics.net/lists/arm-kernel/msg913433.html
+[2] https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/merge_requests/2144
+[3] https://github.com/fluendo/fluster
+[4] https://lore.kernel.org/linux-media/b8f83c93-67fd-09f5-9314-15746cbfdc61@xs4all.nl/
+
+Changes related to v3:
+
+Apply suggestions from Jernej's review (thanks, Jernej):
+- renamed a control and two structs:
+	V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR_PROBS =>
+		V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR
+	v4l2_ctrl_vp9_compressed_hdr_probs =>
+		v4l2_ctrl_vp9_compressed_hdr
+	v4l2_vp9_mv_compressed_hdr_probs => v4l2_vp9_mv_probs
+- moved tx_mode to v4l2_ctrl_vp9_compressed_hdr
+- fixed enum v4l2_vp9_ref_frame_sign_bias values (which are used to test a bitfield)
+- explicitly assigned values to all other vp9 enums
+
+Apply suggestion from Nicolas's review (thanks, Nicolas):
+- explicitly stated that the v4l2_ctrl_vp9_compressed_hdr control is optional
+and implemented only by drivers which need it
+
+Changes related to the RFC v2:
+
+- added another driver including a postprocessor to de-tile
+        codec-specific tiling
+- reworked uAPI structs layout to follow VP8 style
+- changed validation of loop filter params
+- changed validation of segmentation params
+- changed validation of VP9 frame params
+- removed level lookup array from loop filter struct
+        (can be computed by drivers)
+- renamed some enum values to match the spec more closely
+- V4L2 VP9 library changed the 'eob' member of
+        'struct v4l2_vp9_frame_symbol_counts' so that it is an array
+        of pointers instead of an array of pointers to arrays
+        (IPs such as g2 creatively pass parts of the 'eob' counts in
+        the 'coeff' counts)
+- factored out several repeated portions of code
+- minor nitpicks and cleanups
+
+The series depends on the YUV tiled format support prepared by Ezequiel:
+https://www.spinics.net/lists/linux-media/msg197047.html
+
+Rebased onto latest media_tree.
+
+
+Andrzej Pietrasiewicz (4):
+  media: uapi: Add VP9 stateless decoder controls
+  media: Add VP9 v4l2 library
+  media: hantro: Prepare for other G2 codecs
+  media: hantro: Support VP9 on the G2 core
+
+Boris Brezillon (1):
+  media: rkvdec: Add the VP9 backend
+
+Ezequiel Garcia (5):
+  hantro: postproc: Fix motion vector space size
+  hantro: postproc: Introduce struct hantro_postproc_ops
+  hantro: Simplify postprocessor
+  hantro: Add quirk for NV12/NV12_4L4 capture format
+  media: hantro: Support NV12 on the G2 core
+
+ .../userspace-api/media/v4l/biblio.rst        |   10 +
+ .../media/v4l/ext-ctrls-codec-stateless.rst   |  545 +++++
+ .../media/v4l/pixfmt-compressed.rst           |   15 +
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |    8 +
+ .../media/v4l/vidioc-queryctrl.rst            |   12 +
+ .../media/videodev2.h.rst.exceptions          |    2 +
+ drivers/media/v4l2-core/Kconfig               |    4 +
+ drivers/media/v4l2-core/Makefile              |    1 +
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     |  180 ++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |    8 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+ drivers/media/v4l2-core/v4l2-vp9.c            | 1850 +++++++++++++++++
+ drivers/staging/media/hantro/Kconfig          |    1 +
+ drivers/staging/media/hantro/Makefile         |    7 +-
+ drivers/staging/media/hantro/hantro.h         |   40 +-
+ drivers/staging/media/hantro/hantro_drv.c     |   18 +-
+ drivers/staging/media/hantro/hantro_g2.c      |   27 +
+ .../staging/media/hantro/hantro_g2_hevc_dec.c |   31 -
+ drivers/staging/media/hantro/hantro_g2_regs.h |  104 +
+ .../staging/media/hantro/hantro_g2_vp9_dec.c  |  978 +++++++++
+ drivers/staging/media/hantro/hantro_hw.h      |   83 +-
+ .../staging/media/hantro/hantro_postproc.c    |   79 +-
+ drivers/staging/media/hantro/hantro_v4l2.c    |   20 +
+ drivers/staging/media/hantro/hantro_vp9.c     |  240 +++
+ drivers/staging/media/hantro/hantro_vp9.h     |  103 +
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   |   38 +-
+ .../staging/media/hantro/rockchip_vpu_hw.c    |    7 +-
+ .../staging/media/hantro/sama5d4_vdec_hw.c    |    3 +-
+ drivers/staging/media/rkvdec/Kconfig          |    1 +
+ drivers/staging/media/rkvdec/Makefile         |    2 +-
+ drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1078 ++++++++++
+ drivers/staging/media/rkvdec/rkvdec.c         |   52 +-
+ drivers/staging/media/rkvdec/rkvdec.h         |   12 +-
+ include/media/v4l2-ctrls.h                    |    4 +
+ include/media/v4l2-vp9.h                      |  182 ++
+ include/uapi/linux/v4l2-controls.h            |  437 ++++
+ include/uapi/linux/videodev2.h                |    6 +
+ 37 files changed, 6118 insertions(+), 71 deletions(-)
+ create mode 100644 drivers/media/v4l2-core/v4l2-vp9.c
+ create mode 100644 drivers/staging/media/hantro/hantro_g2.c
+ create mode 100644 drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+ create mode 100644 drivers/staging/media/hantro/hantro_vp9.c
+ create mode 100644 drivers/staging/media/hantro/hantro_vp9.h
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
+ create mode 100644 include/media/v4l2-vp9.h
+
+
+base-commit: ee49938e86dab00e884fd2675d5004999dc467c7
+-- 
+2.17.1
+
