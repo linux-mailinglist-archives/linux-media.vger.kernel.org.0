@@ -2,195 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66B7D40819E
-	for <lists+linux-media@lfdr.de>; Sun, 12 Sep 2021 22:45:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1187240826E
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 02:51:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236411AbhILUqf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Sep 2021 16:46:35 -0400
-Received: from mail-il1-f197.google.com ([209.85.166.197]:38830 "EHLO
-        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236387AbhILUqd (ORCPT
+        id S236589AbhIMAwY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Sep 2021 20:52:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58616 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231303AbhIMAwX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Sep 2021 16:46:33 -0400
-Received: by mail-il1-f197.google.com with SMTP id w10-20020a056e021c8a00b0023180044c90so3479726ill.5
-        for <linux-media@vger.kernel.org>; Sun, 12 Sep 2021 13:45:18 -0700 (PDT)
+        Sun, 12 Sep 2021 20:52:23 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDF6CC061574
+        for <linux-media@vger.kernel.org>; Sun, 12 Sep 2021 17:51:08 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id gp20-20020a17090adf1400b00196b761920aso5263977pjb.3
+        for <linux-media@vger.kernel.org>; Sun, 12 Sep 2021 17:51:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:mime-version;
+        bh=kLuWHR7bCOYKQxk1fDmFlW98MF7qGE+UvsNoqzvqNGs=;
+        b=ebD3XSBcw5QKoHyE8DSbOeSztymAP+xL0nFaYZESwOdyTyKko3FDr/+0FiDe1DhTMz
+         5WxD55kiS4n5bRnsxosGqxKg4AQXhN0l7etDvarhiGKPU2hLjMd0h10mBBwFZ9BwqsS4
+         0yX1GIUEonqWN9hCTN0t6cM5sM8Si2E9wMwBliVkkvFbU3wsBKXpDJqK6SZNRb8tZG1x
+         wsfJYYKVcnJ4aWoaJYgK/UiNaJYI+2n/Tq3kQptfH0LKneKPOoi3KviDadNtPjhOoGRv
+         HRI1pNPwVCaXN9EQsbOeAEZDv4gUhTIIXS0Twq0hKU98hfmsgXWBgx8O5PJ73ay8uOFt
+         nfbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=A0ZJRQdrrI6i3EJq4A72ZBHVin46xW5YDF0++94fM7g=;
-        b=zqKBuuNFxOE482FomuDXU+1t8sr2fFeXudbZV1iz3lisW50ldBEX5x0/7pB+yMsXqf
-         c2cpOLOQoxhojEwD6jKzRKxbQwz9XfR4bSAQOd19zgtikSNwknq3fSLBIwqBdBQpiYDT
-         eZDgLvfphEJnDduZjhYYgQWWW/xfNEIOju9l9Lr1PI4A65KmwJDqVq7jAhhQ1XudfYVa
-         mBasIE76eXIBIPUlNV4Ox8VQ2HuYXHMDMd5ck4thhV8ZBzK9ZGzNUUPlfde2Q78LFPwl
-         RQ9KYcUuqrOALqHOCInTBIvWtzWqyD2L5M9MGVhS+wbncSMpK2aXH5WasZhUf/msNZo9
-         pW2g==
-X-Gm-Message-State: AOAM5301XxZf6I5+pPRSUROc5VC8O9Z3DtyqciNI9rLeEvyr76comRXB
-        kwatJxUIrb3qZOkZnL2jMZoF8X6lJhrXRvIXb1mYChdMkKvU
-X-Google-Smtp-Source: ABdhPJwC7T9Ggku58kyMUew9xg4gCYGyo71rL1HEDhi2O3cmJ5XlEK8CUKoGYFnbtQ/mjNxpTb6uZWhvn8gtQwKY/w17SDz6aWC/
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mime-version;
+        bh=kLuWHR7bCOYKQxk1fDmFlW98MF7qGE+UvsNoqzvqNGs=;
+        b=hEctQmNccjnI6yZuiQdtOsclvQSkFYtPmRPFxASaITxdxSFwLyizAtRUJi5+2YiQM6
+         GWkgjGuO5IWB8WAqbi/6TCzBHPksN21gW8fKab2RC8vJwZ0XtfsPrXa1/exSpa7nAsRK
+         amX3rUBZjLJ2BjOA5JwabUcEegGSEfc7Pl6CEmaBOkDS34Oe3XwSIPPDldRmd/nZ/m5J
+         cJQNI4sZj7FtyJnFv3Y5mkmU47HaEvBg6LhaT34QFm22aArBAD86c+juiz8XEzWLOH6e
+         HIjPxIH5ANBcvxnl6NklIZNz8CrEjB175eIKYY4xx7S0bK8iYIqz7NSm/9MWiNmsxRin
+         A39w==
+X-Gm-Message-State: AOAM532ES7y9iAxwMhFjz/Ph4vnE/EX3pc+1fGyQuzDPxlKTkNEHIW8L
+        yw7YoLalKoynxmF+Ptu5yDcjGOB1waE=
+X-Google-Smtp-Source: ABdhPJw4WLRXctnjRzEFn2WzUDSXB5eXHA5vQG8XbEz2fApV7xdbcXElJKzFwtbf3C6E26AWURXxrQ==
+X-Received: by 2002:a17:902:be0f:b0:13a:95e:a51 with SMTP id r15-20020a170902be0f00b0013a095e0a51mr8103923pls.44.1631494268236;
+        Sun, 12 Sep 2021 17:51:08 -0700 (PDT)
+Received: from darkskies.za.net ([2601:647:5a00:8f4:1e4b:d6ff:feba:b9ef])
+        by smtp.gmail.com with ESMTPSA id t15sm5735988pgi.80.2021.09.12.17.51.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Sep 2021 17:51:07 -0700 (PDT)
+Sender: Norman Rasmussen <normanr@gmail.com>
+Received: from norman (helo=localhost)
+        by darkskies.za.net with local-esmtp (Exim 4.94.2)
+        (envelope-from <norman@rasmussen.co.za>)
+        id 1mPaBe-0003Fc-Ex; Sun, 12 Sep 2021 17:51:06 -0700
+Date:   Sun, 12 Sep 2021 17:51:06 -0700 (PDT)
+From:   Norman Rasmussen <norman@rasmussen.co.za>
+To:     Sean Young <sean@mess.org>
+cc:     linux-media@vger.kernel.org
+Subject: [PATCH] ir-ctl: increase the size of the buffer used to read raw
+ files
+Message-ID: <436115bb-9f0-1e7-1682-a87c733312ad@darkskies.za.net>
 MIME-Version: 1.0
-X-Received: by 2002:a92:c6d1:: with SMTP id v17mr5274901ilm.302.1631479518430;
- Sun, 12 Sep 2021 13:45:18 -0700 (PDT)
-Date:   Sun, 12 Sep 2021 13:45:18 -0700
-In-Reply-To: <0000000000000f73a805afeb9be8@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000278d5105cbd26d28@google.com>
-Subject: Re: [syzbot] BUG: spinlock bad magic in synchronize_srcu
-From:   syzbot <syzbot+05017ad275a64a3246f8@syzkaller.appspotmail.com>
-To:     bcm-kernel-feedback-list@broadcom.com, bhelgaas@google.com,
-        bp@alien8.de, devel@driverdev.osuosl.org, f.fainelli@gmail.com,
-        gregkh@linuxfoundation.org, hpa@zytor.com, jmattson@google.com,
-        joro@8bytes.org, kvm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org, lorenzo.pieralisi@arm.com,
-        mchehab@kernel.org, mingo@redhat.com, nsaenzjulienne@suse.de,
-        pbonzini@redhat.com, robh@kernel.org,
-        sean.j.christopherson@intel.com, seanjc@google.com,
-        sfr@canb.auug.org.au, syzkaller-bugs@googlegroups.com,
-        tglx@linutronix.de, vkuznets@redhat.com, wanpengli@tencent.com,
-        x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot has found a reproducer for the following issue on:
+Air conditioner codes typically have 100 pulse/space pairs (12 bytes +
+headers). The resulting raw IR line length is 1063, which exceeds the
+current 1024 byte buffer, and results in an error trying to parse the
+line.
 
-HEAD commit:    78e709522d2c Merge tag 'for_linus' of git://git.kernel.org..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=16131d2b300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2150ebd7e72fa695
-dashboard link: https://syzkaller.appspot.com/bug?extid=05017ad275a64a3246f8
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.1
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10b72895300000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14c42853300000
+The buffers used to read pulse/space files are significantly larger than
+needed so this decreases their size, and allocates the difference to the
+buffer used to read raw IR files in order to keep the total size of
+buffers the same.
 
-The issue was bisected to:
+Signed-off-by: Norman Rasmussen <norman@rasmussen.co.za>
+---
+  utils/ir-ctl/ir-ctl.c | 6 +++---
+  1 file changed, 3 insertions(+), 3 deletions(-)
 
-commit 5c313e22d61f8c27ab001ec40f823d2a19cd5e68
-Author: Stephen Rothwell <sfr@canb.auug.org.au>
-Date:   Thu Oct 8 05:26:39 2020 +0000
+diff --git a/utils/ir-ctl/ir-ctl.c b/utils/ir-ctl/ir-ctl.c
+index 3c3bcca1..46fe12d9 100644
+--- a/utils/ir-ctl/ir-ctl.c
++++ b/utils/ir-ctl/ir-ctl.c
+@@ -211,7 +211,7 @@ static struct send *read_file_pulse_space(struct arguments 
+*args, const char *fn
+  {
+  	bool expect_pulse = true;
+  	int lineno = 0, lastspace = 0;
+-	char line[1024];
++	char line[512];
+  	int len = 0;
+  	static const char whitespace[] = " \n\r\t";
+  	struct send *f;
+@@ -380,7 +380,7 @@ static struct send *read_file_pulse_space(struct arguments 
+*args, const char *fn
+  static struct send *read_file_raw(struct arguments *args, const char *fname, 
+FILE *input)
+  {
+  	int lineno = 0, lastspace = 0;
+-	char line[1024];
++	char line[2048];
+  	int len = 0;
+  	static const char whitespace[] = " \n\r\t,";
+  	struct send *f;
+@@ -474,7 +474,7 @@ static struct send *read_file_raw(struct arguments *args, 
+const char *fname, FIL
+  static struct send *read_file(struct arguments *args, const char *fname)
+  {
+  	FILE *input = fopen(fname, "r");
+-	char line[1024];
++	char line[512];
 
-    Merge remote-tracking branch 'usb/usb-next' into master
+  	if (!input) {
+  		fprintf(stderr, _("%s: could not open: %m\n"), fname);
+-- 
+2.30.2
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=15864a10500000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=17864a10500000
-console output: https://syzkaller.appspot.com/x/log.txt?x=13864a10500000
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+05017ad275a64a3246f8@syzkaller.appspotmail.com
-Fixes: 5c313e22d61f ("Merge remote-tracking branch 'usb/usb-next' into master")
-
-BUG: spinlock bad magic on CPU#0, syz-executor959/7639
- lock: 0xffff8880b9c00040, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
-CPU: 0 PID: 7639 Comm: syz-executor959 Not tainted 5.14.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- debug_spin_lock_before kernel/locking/spinlock_debug.c:85 [inline]
- do_raw_spin_lock+0x216/0x2b0 kernel/locking/spinlock_debug.c:114
- __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:117 [inline]
- _raw_spin_lock_irqsave+0x41/0x50 kernel/locking/spinlock.c:162
- srcu_might_be_idle kernel/rcu/srcutree.c:767 [inline]
- synchronize_srcu+0x4f/0x1c0 kernel/rcu/srcutree.c:1008
- kvm_mmu_uninit_vm+0x18/0x30 arch/x86/kvm/mmu/mmu.c:5711
- kvm_arch_destroy_vm+0x4e7/0x680 arch/x86/kvm/x86.c:11331
- kvm_create_vm arch/x86/kvm/../../../virt/kvm/kvm_main.c:1094 [inline]
- kvm_dev_ioctl_create_vm arch/x86/kvm/../../../virt/kvm/kvm_main.c:4583 [inline]
- kvm_dev_ioctl+0x12e3/0x1ac0 arch/x86/kvm/../../../virt/kvm/kvm_main.c:4638
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:874 [inline]
- __se_sys_ioctl fs/ioctl.c:860 [inline]
- __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x4458f9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 11 15 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fb1165fa278 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00000000004ca410 RCX: 00000000004458f9
-RDX: 0000000000000000 RSI: 000000000000ae01 RDI: 0000000000000003
-RBP: 00000000004ca41c R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 000000000049a0ac
-R13: 00007fb1165fa280 R14: 6d766b2f7665642f R15: 00000000004ca418
-general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] PREEMPT SMP KASAN
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-CPU: 1 PID: 7639 Comm: syz-executor959 Not tainted 5.14.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-RIP: 0010:rcu_segcblist_enqueue+0xb9/0x130 kernel/rcu/rcu_segcblist.c:348
-Code: 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 75 4e 48 b8 00 00 00 00 00 fc ff df 48 8b 6b 20 48 89 ea 48 c1 ea 03 <80> 3c 02 00 75 21 48 89 75 00 48 89 73 20 48 83 c4 08 5b 5d c3 48
-RSP: 0018:ffffc90003287be0 EFLAGS: 00010046
-RAX: dffffc0000000000 RBX: ffff8880b9d00080 RCX: ffffffff815bd1d0
-RDX: 0000000000000000 RSI: ffffc90003287cc8 RDI: ffff8880b9d000a0
-RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000003
-R10: fffff52000650f6e R11: 0000000000000000 R12: ffffc90003287cc8
-R13: ffff8880b9d00080 R14: 0000000000000000 R15: ffff8880b9d00040
-FS:  00007fb1165fa700(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fb1165d9718 CR3: 000000006ab6b000 CR4: 00000000001526e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- srcu_gp_start_if_needed+0x116/0xbc0 kernel/rcu/srcutree.c:823
- __call_srcu kernel/rcu/srcutree.c:883 [inline]
- __synchronize_srcu+0x21f/0x290 kernel/rcu/srcutree.c:929
- kvm_mmu_uninit_vm+0x18/0x30 arch/x86/kvm/mmu/mmu.c:5711
- kvm_arch_destroy_vm+0x4e7/0x680 arch/x86/kvm/x86.c:11331
- kvm_create_vm arch/x86/kvm/../../../virt/kvm/kvm_main.c:1094 [inline]
- kvm_dev_ioctl_create_vm arch/x86/kvm/../../../virt/kvm/kvm_main.c:4583 [inline]
- kvm_dev_ioctl+0x12e3/0x1ac0 arch/x86/kvm/../../../virt/kvm/kvm_main.c:4638
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:874 [inline]
- __se_sys_ioctl fs/ioctl.c:860 [inline]
- __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x4458f9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 11 15 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fb1165fa278 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00000000004ca410 RCX: 00000000004458f9
-RDX: 0000000000000000 RSI: 000000000000ae01 RDI: 0000000000000003
-RBP: 00000000004ca41c R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 000000000049a0ac
-R13: 00007fb1165fa280 R14: 6d766b2f7665642f R15: 00000000004ca418
-Modules linked in:
----[ end trace 3a47816aa768583b ]---
-RIP: 0010:rcu_segcblist_enqueue+0xb9/0x130 kernel/rcu/rcu_segcblist.c:348
-Code: 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 75 4e 48 b8 00 00 00 00 00 fc ff df 48 8b 6b 20 48 89 ea 48 c1 ea 03 <80> 3c 02 00 75 21 48 89 75 00 48 89 73 20 48 83 c4 08 5b 5d c3 48
-RSP: 0018:ffffc90003287be0 EFLAGS: 00010046
-RAX: dffffc0000000000 RBX: ffff8880b9d00080 RCX: ffffffff815bd1d0
-RDX: 0000000000000000 RSI: ffffc90003287cc8 RDI: ffff8880b9d000a0
-RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000003
-R10: fffff52000650f6e R11: 0000000000000000 R12: ffffc90003287cc8
-R13: ffff8880b9d00080 R14: 0000000000000000 R15: ffff8880b9d00040
-FS:  00007fb1165fa700(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fb1165d9718 CR3: 000000006ab6b000 CR4: 00000000001526e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess), 7 bytes skipped:
-   0:	df 48 89             	fisttps -0x77(%rax)
-   3:	fa                   	cli
-   4:	48 c1 ea 03          	shr    $0x3,%rdx
-   8:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
-   c:	75 4e                	jne    0x5c
-   e:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  15:	fc ff df
-  18:	48 8b 6b 20          	mov    0x20(%rbx),%rbp
-  1c:	48 89 ea             	mov    %rbp,%rdx
-  1f:	48 c1 ea 03          	shr    $0x3,%rdx
-* 23:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
-  27:	75 21                	jne    0x4a
-  29:	48 89 75 00          	mov    %rsi,0x0(%rbp)
-  2d:	48 89 73 20          	mov    %rsi,0x20(%rbx)
-  31:	48 83 c4 08          	add    $0x8,%rsp
-  35:	5b                   	pop    %rbx
-  36:	5d                   	pop    %rbp
-  37:	c3                   	retq
-  38:	48                   	rex.W
-
+-- 
+- Norman Rasmussen
+  - Email: norman@rasmussen.co.za
+  - Home page: http://norman.rasmussen.co.za/
