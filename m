@@ -2,163 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98CE8408999
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 12:56:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10E254089BF
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 13:01:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238366AbhIMK55 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 06:57:57 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:51677 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238266AbhIMK54 (ORCPT
+        id S239316AbhIMLCN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 07:02:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54502 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239199AbhIMLCN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 06:57:56 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id E9336100006;
-        Mon, 13 Sep 2021 10:56:36 +0000 (UTC)
-Date:   Mon, 13 Sep 2021 12:57:23 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
+        Mon, 13 Sep 2021 07:02:13 -0400
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 908EEC061574;
+        Mon, 13 Sep 2021 04:00:57 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id PjhmmYP8EpQdWPjhnm2dc0; Mon, 13 Sep 2021 13:00:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1631530855; bh=cm4tx5E2BMsTJ0Uz8+lXiGq9cjmJ24vFtRs50dHXAxI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=qLjkwpaGG8Dyqcmi2ZZZsEBn64tHzuCTK3vVSpY44P8mpSN7AY7EzaVbtGML1eMcJ
+         j00YGk2wAWPyEonPYY94TOcDEOpya8O4jSXpPFsPm0wULyhu/SjXS3jl+3K5uLfvnq
+         oqHMYHYIF7g0cuox4r1aIoxY1dG4lWz07HzP0R91Hs1ZQSftrOxRMuvuvcB8MtbiRk
+         wrHXXOoto5XPj+N795ObgAjH9hJeclZDlHfoGoMS6rQvDlQCgWWoJZY02zYIl8gdAu
+         XL0O5X4ok9otMWoieYykBa/nHPsSoLPKffX838/fGLQ8k18iwScLrqSCjvbGtWjvYb
+         ygGkUUnKpyQJQ==
+Subject: Re: NAK: [PATCH][next] media: pvrusb2: add newline between two
+ statements
+To:     Colin Ian King <colin.king@canonical.com>,
+        Mike Isely <isely@pobox.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: Re: [PATCH v8 02/36] media: subdev: add active state to struct
- v4l2_subdev
-Message-ID: <20210913105723.dppl2uwcnyzas77d@uno.localdomain>
-References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
- <20210830110116.488338-3-tomi.valkeinen@ideasonboard.com>
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210902220112.55824-1-colin.king@canonical.com>
+ <52c324ad-2467-9edc-c386-bc5a086cecbc@canonical.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <82d125bd-9d16-803d-754b-48aa79fde06c@xs4all.nl>
+Date:   Mon, 13 Sep 2021 13:00:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <52c324ad-2467-9edc-c386-bc5a086cecbc@canonical.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210830110116.488338-3-tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfBeyTGiasCGZOBOFh6cvtajmiKhRwxPqolSr9CzM0/PjMgMxmpoUM8fOyt9kwNb6N+e9+eigom8z+HBX3CLrt9r4LCccjw1nufd7Er92cNlRaiB6hzOh
+ pXD/MyPDAKRg7jwEoGdQJ0Ff9+1kK5yHRMJH9Qh8zlLrudY6a25nbSnqbmaSp+BgDSuhrvna5gCvJ4sN0E7J0Yi8mXDxLdeJF8FL4LTaAaNpNoE2a1LiVNxA
+ qcNpplKTbLMaAOJqTrMV172xOx+ZuyieC7CQ+BMzVp1rVKklUwOnlZgFDglh8bXCacMwJwZwvfkMl7XPC+M5VRzD868NyqVviL5yR0Fj9TC7iFuvA2XmNykc
+ ILseXcHiSvb/BmwydQOed/tbg7coLEvO5f4wHdHBE/hYELvc3ZQHOGsqe2VaORhTcoT+mfyxgBdabnHxcubY3JGNqdYuUYCQyD92MAfYCFDXiIR7M88NedOQ
+ /QGR8IpUTQvAva4D
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+On 03/09/2021 00:02, Colin Ian King wrote:
+> On 02/09/2021 23:01, Colin King wrote:
+>> From: Colin Ian King <colin.king@canonical.com>
+>>
+>> There are two statements on the same line, add a newline to clean
+>> this up.
+>>
+>> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+>> ---
+>>  drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+>> index d38dee1792e4..ca00b7fe1e7f 100644
+>> --- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+>> +++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+>> @@ -1727,7 +1727,8 @@ int pvr2_hdw_set_streaming(struct pvr2_hdw *hdw,int enable_flag)
+>>  				   enable_flag ? "enable" : "disable");
+>>  		}
+>>  		pvr2_hdw_state_sched(hdw);
+>> -	} while (0); LOCK_GIVE(hdw->big_lock);
+>> +	} while (0);
+>> +	LOCK_GIVE(hdw->big_lock);
+>>  	if ((ret = pvr2_hdw_wait(hdw,0)) < 0) return ret;
+>>  	if (enable_flag) {
+>>  		while ((st = hdw->master_state) != PVR2_STATE_RUN) {
+>>
+> 
+> ignore, V2 being sent in a moment.
 
-On Mon, Aug 30, 2021 at 02:00:42PM +0300, Tomi Valkeinen wrote:
-> Add a new 'state' field to struct v4l2_subdev to which we can store the
-> active state of a subdev. This will place the subdev configuration into
-> a known place, allowing us to use the state directly from the v4l2
-> framework, thus simplifying the drivers.
->
-> We also add v4l2_subdev_alloc_state() and v4l2_subdev_free_state(),
-> which need to be used by the drivers that support subdev state in struct
-> v4l2_subdev.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 21 ++++++++++++++++
->  include/media/v4l2-subdev.h           | 36 +++++++++++++++++++++++++++
->  2 files changed, 57 insertions(+)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 26a34a8e3d37..e1a794f69815 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -943,3 +943,24 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
->  	v4l2_subdev_notify(sd, V4L2_DEVICE_NOTIFY_EVENT, (void *)ev);
->  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
-> +
-> +int v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
-> +{
-> +	struct v4l2_subdev_state *state;
-> +
-> +	state = v4l2_alloc_subdev_state(sd);
-> +	if (IS_ERR(state))
-> +		return PTR_ERR(state);
-> +
-> +	sd->state = state;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_alloc_state);
-> +
-> +void v4l2_subdev_free_state(struct v4l2_subdev *sd)
-> +{
-> +	v4l2_free_subdev_state(sd->state);
-> +	sd->state = NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_free_state);
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 8701d2e7d893..ecaf040ead57 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -898,6 +898,8 @@ struct v4l2_subdev_platform_data {
->   * @subdev_notifier: A sub-device notifier implicitly registered for the sub-
->   *		     device using v4l2_async_register_subdev_sensor().
->   * @pdata: common part of subdevice platform data
-> + * @state: active state for the subdev (NULL for subdevs tracking the state
-> + * 	   internally)
->   *
->   * Each instance of a subdev driver should create this struct, either
->   * stand-alone or embedded in a larger struct.
-> @@ -929,6 +931,7 @@ struct v4l2_subdev {
->  	struct v4l2_async_notifier *notifier;
->  	struct v4l2_async_notifier *subdev_notifier;
->  	struct v4l2_subdev_platform_data *pdata;
-> +	struct v4l2_subdev_state *state;
+I haven't seen a V2 yet... In any case, I've rejected this patch in patchwork.
 
-Is there anything preventing state from being a struct member and only
-allocate the required number of v4l2_subdev_pad_config entries ?
+Regards,
 
->  };
->
->
-> @@ -1217,4 +1220,37 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
->  void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
->  			      const struct v4l2_event *ev);
->
-> +/**
-> + * v4l2_subdev_alloc_state() - Allocate active subdev state for subdevice
-> + * @sd: The subdev for which the state is allocated
-> + *
-> + * This will allocate a subdev state and store it to
-> + * &struct v4l2_subdev->state.
-> + *
-> + * Must call v4l2_subdev_free_state() when the state is no longer needed.
-> + */
-> +int v4l2_subdev_alloc_state(struct v4l2_subdev *sd);
-> +
-> +/**
-> + * v4l2_subdev_free_state() - Free the active subdev state for subdevice
-> + * @sd: The subdevice
-> + *
-> + * This will free the subdev's state and set
-> + * &struct v4l2_subdev->state to NULL.
-> + */
-> +void v4l2_subdev_free_state(struct v4l2_subdev *sd);
-> +
-> +/**
-> + * v4l2_subdev_get_active_state() - Return the active subdev state for subdevice
-> + * @sd: The subdevice
-> + *
-> + * Return the active state for the subdevice, or NULL if the subdev does not
-> + * support active state.
-> + */
-> +static inline struct v4l2_subdev_state *
-> +v4l2_subdev_get_active_state(struct v4l2_subdev *sd)
-> +{
-> +	return sd->state;
-> +}
-
-It would also make safer to access sd->state, as if a driver doesn't
-allocate a state but calls this function it would get back a NULL
-pointer.
-
-Also, the name 'active' suggests there will be a non-active state ?
-
-Thanks
-   j
-
-> +
->  #endif
-> --
-> 2.25.1
->
+	Hans
