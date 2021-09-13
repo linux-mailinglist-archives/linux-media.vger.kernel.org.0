@@ -2,162 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A76B6408331
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 05:44:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C2B440852C
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 09:16:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238327AbhIMDpc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Sep 2021 23:45:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39616 "EHLO
+        id S237590AbhIMHRj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 03:17:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235475AbhIMDpb (ORCPT
+        with ESMTP id S237578AbhIMHRh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Sep 2021 23:45:31 -0400
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2F85C061574
-        for <linux-media@vger.kernel.org>; Sun, 12 Sep 2021 20:44:16 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Pct5mUpffpQdWPctBm19LE; Mon, 13 Sep 2021 05:44:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1631504653; bh=+UkEbPZedw1NDmbpIzvWKv6/6ACrhwYtccC02vndLec=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=sgmwNcT7Y20zWhqQxAIoHpADBTrY44561Iy0LZmUOVZ3Rf1AVARMi1BAslTnq4/nc
-         ZEjMRDzLZRuW8kL+VGX+3aeQBh3G5G/uGPtDSqGnWKOr65zcoP/fAAF2E4pUAasAbt
-         GapaXTAqTI5RAWIWxW7Zq0BJPxWPmV53JOJqUFm5dHt4wxvaVeDUBO0HxrcyMueXd1
-         FDtuVu5zhcxKp4j06vy6N1ALYigy1KaIMCtCreeeGnO8aR6aMteEI3oIIKTSFLwpbY
-         4BLpVx72Zl4fsQnTtjlMslzWVnCmRIh9GeDNXE3qeOu2s6XcbWMUlT4eAWXK4ndpUR
-         aDDIo/q6SKmuQ==
-Message-ID: <f02cd007d19d49c0cc00519d17a9ae7f@smtp-cloud7.xs4all.net>
-Date:   Mon, 13 Sep 2021 05:44:07 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfLXw9GQdTQkIkeg49YVPBmdHDZRNtAEiMoETSZOXNWlc9QqdAMHHmlcSm3VKVZybNX+leykAhBGZx32YpJMgYl1T6tZyRgz+3guPSMm3i04fYwyoJUVu
- mzU9KpBIPMNTdjn8G5DUWKmsSUkJu1GCEjV2FFimT3Yck06x0Q5PkHNG9RX1SNJdYpcKqA91ZzwlwOa/3vITzjJiKiuILevZ/gyKr8Qf/lLjTEwj3JZc/mtr
- b0V7CsTF7Z9hLtBzCTtLaw==
+        Mon, 13 Sep 2021 03:17:37 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58FB7C061574
+        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 00:16:22 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 30A97C6050; Mon, 13 Sep 2021 08:16:19 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1631517379; bh=Yzf1akP2aRjFIElVdEr27Pvql0XEdfkU7pVgxo6QHTE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rD5RPAWtSaHWBxDqx+g09ZSaum+DROkx9boqcvUVsUfhDKcM1zGvMuNijdOgeV7Tq
+         5GykamWt1PDZeJAc7bre+p3rJdUDSirlPpscIXwGAQvK3I4az/nHHbHZAGGiyGtYkE
+         fn6GI7vpQ59o8LZLyXGegxgv+GIczoRZZmV5paAChJ7B/uUCygGP2XAiNHgtjb8OLy
+         05+mQ9TUgrklWMlkOnkwdatihAx4mXbmDPd3s52pySqeICHkWZE8y8ksuUK8xdZQcY
+         efLOY4HCBh53e5XN/U/s/k9PrRV/JLegxgvOFL9eaEVHdSBMdeA7csuqC5zS6qzSQO
+         kmpK7w3RebmRA==
+Date:   Mon, 13 Sep 2021 08:16:19 +0100
+From:   Sean Young <sean@mess.org>
+To:     Norman Rasmussen <norman@rasmussen.co.za>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH] ir-ctl: increase the size of the buffer used to read raw
+ files
+Message-ID: <20210913071618.GA2393@gofer.mess.org>
+References: <436115bb-9f0-1e7-1682-a87c733312ad@darkskies.za.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <436115bb-9f0-1e7-1682-a87c733312ad@darkskies.za.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Sun, Sep 12, 2021 at 05:51:06PM -0700, Norman Rasmussen wrote:
+> Air conditioner codes typically have 100 pulse/space pairs (12 bytes +
+> headers). The resulting raw IR line length is 1063, which exceeds the
+> current 1024 byte buffer, and results in an error trying to parse the
+> line.
 
-Results of the daily build of media_tree:
+Right, thanks for catching that.
 
-date:			Mon Sep 13 05:00:11 CEST 2021
-media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
-media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
-v4l-utils git hash:	05a468e033af0e4c775aaa10fe4d02c45de698ae
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-349-gb21d5e09
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7593-g7f4b93661
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8f230e7be768cbdfab869697ba0a2c622a4a0cae
-host hardware:		x86_64
-host os:		5.13.11-marune
+> The buffers used to read pulse/space files are significantly larger than
+> needed so this decreases their size, and allocates the difference to the
+> buffer used to read raw IR files in order to keep the total size of
+> buffers the same.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Decreasing the other sizes is not necessary, and is probably a bad thing. If
+anything, I would say all of them can be increased. Something like 4096.
+ir-ctl uses very little stack space so increasing them won't do any harm,
+but will prevent others running into problems if their lines are too long.
 
-Detailed results are available here:
+Thanks,
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
+Sean
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> 
+> Signed-off-by: Norman Rasmussen <norman@rasmussen.co.za>
+> ---
+>  utils/ir-ctl/ir-ctl.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/utils/ir-ctl/ir-ctl.c b/utils/ir-ctl/ir-ctl.c
+> index 3c3bcca1..46fe12d9 100644
+> --- a/utils/ir-ctl/ir-ctl.c
+> +++ b/utils/ir-ctl/ir-ctl.c
+> @@ -211,7 +211,7 @@ static struct send *read_file_pulse_space(struct
+> arguments *args, const char *fn
+>  {
+>  	bool expect_pulse = true;
+>  	int lineno = 0, lastspace = 0;
+> -	char line[1024];
+> +	char line[512];
+>  	int len = 0;
+>  	static const char whitespace[] = " \n\r\t";
+>  	struct send *f;
+> @@ -380,7 +380,7 @@ static struct send *read_file_pulse_space(struct
+> arguments *args, const char *fn
+>  static struct send *read_file_raw(struct arguments *args, const char
+> *fname, FILE *input)
+>  {
+>  	int lineno = 0, lastspace = 0;
+> -	char line[1024];
+> +	char line[2048];
+>  	int len = 0;
+>  	static const char whitespace[] = " \n\r\t,";
+>  	struct send *f;
+> @@ -474,7 +474,7 @@ static struct send *read_file_raw(struct arguments
+> *args, const char *fname, FIL
+>  static struct send *read_file(struct arguments *args, const char *fname)
+>  {
+>  	FILE *input = fopen(fname, "r");
+> -	char line[1024];
+> +	char line[512];
+> 
+>  	if (!input) {
+>  		fprintf(stderr, _("%s: could not open: %m\n"), fname);
+> -- 
+> 2.30.2
+> 
+> 
+> -- 
+> - Norman Rasmussen
+>  - Email: norman@rasmussen.co.za
+>  - Home page: http://norman.rasmussen.co.za/
