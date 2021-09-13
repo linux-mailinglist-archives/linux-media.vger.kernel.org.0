@@ -2,121 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0764040879C
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 10:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B9834087A7
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 10:57:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238056AbhIMIzM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 04:55:12 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:62893 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237801AbhIMIzL (ORCPT
+        id S238315AbhIMI6Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 04:58:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54366 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238275AbhIMI6Y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 04:55:11 -0400
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 5001B40003;
-        Mon, 13 Sep 2021 08:53:52 +0000 (UTC)
-Date:   Mon, 13 Sep 2021 10:53:51 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-        Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 01/22] clk: sunxi-ng: v3s: Make the ISP PLL clock public
-Message-ID: <YT8RnzVqLebtPMD+@aptenodytes>
-References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-2-paul.kocialkowski@bootlin.com>
- <20210913075417.ampb2jt4quftpqzj@gilmour>
+        Mon, 13 Sep 2021 04:58:24 -0400
+Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D39A1C061574
+        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 01:57:08 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id PhlwmXFQfpQdWPhlxm27Yg; Mon, 13 Sep 2021 10:57:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1631523426; bh=e1q0iZ/zGLx8pSviNJW/K58+CMoCtTP9qUvC4xQHudM=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=gv4smLiPjAxIaqQykrLcM4uf0AVhsJDpJtionI28NRE0771+SZzt01XYvJUzD0RmR
+         k44C/7xHnkeJnzshw7UteNcahA1bCr3MEUb9bJAZfhaH1Yedr/HrCF7JWEvI28Hmlo
+         CjgJuyMcGWNnJxXbITZ1tdFAug0PUwlSEewVRP4HC+uaQjtEftL8w/eaXbP0NjZQc5
+         eHhkw5O8shbrNGvLCYSe6iIEXlf/Ssp+Bd8D/UdVKsxVXbXy2vv1JlDSmaNuHJx41E
+         c5aFsbC3uxUfNxzSqqw5ro+ZDcrQ8DkHEo9BeW2OIcEUz0+2mH/d04C4qwTXp2c0X3
+         YN9fsvFpmA8/w==
+Subject: Re: [PATCH v3 2/2] media: video-i2c: append register data on
+ MLX90640's frame
+To:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Seongyong Park <euphoriccatface@gmail.com>
+Cc:     linux-media@vger.kernel.org,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20210608152451.14730-1-euphoriccatface@gmail.com>
+ <20210608152451.14730-3-euphoriccatface@gmail.com>
+ <20210805145504.GC3@valkosipuli.retiisi.eu>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <4f18b09b-993b-6fc7-6ee2-59e2b738d21f@xs4all.nl>
+Date:   Mon, 13 Sep 2021 10:57:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="jDKl5hLx33khB+zy"
-Content-Disposition: inline
-In-Reply-To: <20210913075417.ampb2jt4quftpqzj@gilmour>
+In-Reply-To: <20210805145504.GC3@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfF5ToQ+pMLtKR7mUvPAd7fXw7wALZ5zzGQEMU+5bY2ebHSMg92iovZg+vTXSQ9vlIuHaFwcP1zd5hAiOd/cbsLs1z8WnCqdUv7h9WjAvFhxwmu1JIC4f
+ TL4dC53vgVtuzqPK17XFMkx9bD5YiDDhEODUpbr+ru12/rd87quhHuxZopm96ZqqyrShSV99tiU/r7rBwucSX3Ay+Jo5Lle/w7kfulQQ0YoBfmM8kn7/VlJ7
+ /DP4woNiqcQRxms6TZC2oa2N7VgxperCbh5OpEMdXOH/8+kxCkx1tWeiOhgqZfLG9kvmB/XM4EpZrSWcwAdmVWjRyEewh7obF6zuw/svKmZV9O9y+L1YKuZx
+ Qx4pr50AwlxdqNX51kan2b19LVbE1TUD/p4tNkmRfOzzgwWiTfI5DFhMKHyaVvE/psZXY0GW9K6OGdWFl2VUyRXsG/mvXw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 05/08/2021 16:55, Sakari Ailus wrote:
+> Hi Seongyong,
+> 
+> On Wed, Jun 09, 2021 at 12:24:51AM +0900, Seongyong Park wrote:
+>> On MLX90640, Each measurement step updates half of the pixels in the frame
+>> (every other pixel in default "chess mode", and every other row
+>> in "interleave mode"), while additional coefficient data (25th & 26th row)
+>> updates every step. The compensational coefficient data only corresponds
+>> with the pixels updated in the same step.
+>>
+>> Only way to know which "subpage" was updated on the last step is to read
+>> "status register" on address 0x8000. Without this data,
+>> compensation calculation may be able to detect which sets of pixels have
+>> been updated, but it will have to make assumptions when frame skip happens,
+>> and there is no way to do it correctly when the host simply cannot
+>> keep up with refresh rate.
+>>
+>> Signed-off-by: Seongyong Park <euphoriccatface@gmail.com>
+>> ---
+>>  drivers/media/i2c/video-i2c.c | 13 +++++++++----
+>>  1 file changed, 9 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
+>> index 64ba96329..2b50a76f3 100644
+>> --- a/drivers/media/i2c/video-i2c.c
+>> +++ b/drivers/media/i2c/video-i2c.c
+>> @@ -74,7 +74,8 @@ static const struct v4l2_fmtdesc mlx90640_format = {
+>>  
+>>  static const struct v4l2_frmsize_discrete mlx90640_size = {
+>>  	.width = 32,
+>> -	.height = 26, /* 24 lines of pixel data + 2 lines of processing data */
+>> +	.height = 27,
+>> +	/* 24 lines of pixel data + 2 lines of processing data + 1 line of registers */
+> 
+> This device should actually use a multi-plane format as the data isn't
+> Y16_BE as the driver declares. That said, the format would be device
+> specific and using one would require specific support from applications.
+> 
+> I might just declare it produces fewer lines while an application that
+> knows the device could access the extra data close to the end of the
+> buffer.
+> 
+> An alternative would be to use that multi-plane format and keep driver
+> support for the plain Y16_BE as well. But I think this would be a bit
+> heavy-weight solution.
+> 
+> I wonder what Hans thinks.
 
---jDKl5hLx33khB+zy
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think it is a bit overkill as well.
 
-Hi,
+Wouldn't it be better to just add a new pixel format for this device, and
+document it properly? I would keep the existing Y16_BE as it was to avoid
+breaking userspace (since adding the extra line breaks the ABI IMHO), and
+add a new format that properly documents how to parse the contents of the
+buffer, which includes the last line with the status register.
 
-On Mon 13 Sep 21, 09:54, Maxime Ripard wrote:
-> On Fri, Sep 10, 2021 at 08:41:26PM +0200, Paul Kocialkowski wrote:
-> > In order to reparent the CSI module clock to the ISP PLL via
-> > device-tree, export the ISP PLL clock declaration in the public
-> > device-tree header.
->=20
-> You use clk_set_rate_exclusive in the ISP driver on the module clock so
-> it should prevent what you're mentioning from happening.
+Sorry for the late reply, it looks like an attempt was made to CC me, but
+the email address was wrong, so I never received it. I only noticed this
+when I started to review this patch.
 
-It does, but then it breaks display support entirely (because the DRM
-driver doesn't use clk_set_rate_exclusive).
+Regards,
 
-The bottomline is that using the same PLL for both display and camera
-easily results in conflicts.
+	Hans
 
-> If it doesn't, then clk_set_rate_exclusive has a bug and should be
-> fixed.
->=20
-> Either way, using assigned-clock-parents is not a good solution here
-> either, it only makes sure that this is the case when probe is run.
+> 
+>>  };
+>>  
+>>  static const struct regmap_config amg88xx_regmap_config = {
+>> @@ -168,8 +169,12 @@ static int amg88xx_xfer(struct video_i2c_data *data, char *buf)
+>>  
+>>  static int mlx90640_xfer(struct video_i2c_data *data, char *buf)
+>>  {
+>> -	return regmap_bulk_read(data->regmap, 0x400, buf,
+>> -				data->chip->buffer_size);
+>> +	int ret = regmap_bulk_read(data->regmap, 0x400, buf,
+>> +				   data->chip->buffer_size - 64);
+>> +	if (ret)
+>> +		return ret;
+>> +	return regmap_bulk_read(data->regmap, 0x8000, buf + (data->chip->buffer_size - 64),
+> 
+> Please wrap before 80 (unless there's a reason to do otherwise).
+> 
+>> +				64);
+>>  }
+>>  
+> 
 
-I'm not sure what could provide better guarantees. There is a clock
-parenting API (in the clock framework) which may, but this implies
-providing the parent clock to the driver which seems way out of line
-since this is a platform-specific matter that should certainly not
-be handled by the driver.
-
-I also tried hardcoding the reparenting bit in the CCU driver, but
-this felt less clean than doing it in device-tree.
-
-What do you think?
-
-> > Details regarding why the CSI module clock is best parented to the ISP
-> > PLL are provided in the related commit.
->=20
-> This is relevant to this commit too and "the related commit" is far too
-> blurry when you consider the entire Linux git history.
-
-Fair enough!
-
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---jDKl5hLx33khB+zy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmE/EZ8ACgkQ3cLmz3+f
-v9GAXgf/WonaK8RTTtsz/x2Qh5N5DUQf8yAr5T68Jmx1Vo0uTy0bCi81Er1mcels
-4i6fI+7VeDZT5eopMWHisHVtgCj0u9mACqHgNnH6izOCei7WU1I9NANeIqDDZeow
-QVK16HSwIMpe5Be5UTu/tloyf8WGxcmEXTLyAhYSW3wynlegWFx7qe0GpSby7SCW
-moBvtsHEQ9k3FlvvRtwnZEuUWuBFf5eWN/o0dHy69BL92MYCA0D4lDg0phCrZzru
-ru41/xE+7fKLDTcOUCoVoKQX4Sh23iymP7dzk+YDbXjN8httuTe0HjZiC89sMDX/
-NMsXWS3qM/Owy4KyJP7K4dfSLylwQQ==
-=Rhfu
------END PGP SIGNATURE-----
-
---jDKl5hLx33khB+zy--
