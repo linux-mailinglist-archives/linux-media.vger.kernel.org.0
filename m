@@ -2,224 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAD7340864E
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 10:18:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EC9F40867C
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 10:28:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237877AbhIMIT2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 04:19:28 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:49859 "EHLO
-        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234575AbhIMIT1 (ORCPT
+        id S237811AbhIMIaA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 04:30:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47436 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234575AbhIMI37 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 04:19:27 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 75DDC580B92;
-        Mon, 13 Sep 2021 04:18:11 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 13 Sep 2021 04:18:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=Q/fC65yGDoBYl/ELDK8wk321UEy
-        fRbfkHgYZ5KDCjxY=; b=e0eGQYPcf6km0clE+c4JZyfbBuHvc+/sI1gzIK2u/O+
-        oyZTNIa3xl+5C/GvUyEh/oKL8LjwsZoKb3oAAp9NZrFpwg55aDD0MxVYMSU4+EPB
-        fiUBphzo66ihLjuucm3kLUENH+2DC8Hg6R287Q10/2OvgQa4KYkCBdfdQT+O6wCl
-        8rFtPo5onnUfuPgmfLXlYbtFz/kZyxfHK2zs/Gu2DrFwRdb5ZRHnm/plEpDwno0c
-        Fkk608VBqgulakZELGkMiaugPBfMQT7lnT0yanBtEGesDkrbxq4UcHCmFZEuv79a
-        9j30jDlg/FoMmQdDPSk+WN2sWXmexwQFnQZU347f1fQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Q/fC65
-        yGDoBYl/ELDK8wk321UEyfRbfkHgYZ5KDCjxY=; b=bhkwBWZhT9SOr4FP+7+/Vg
-        ikaOhf2LCqXTfz9gfQiAHhQOZXNgH3JUYMf/Pi4iixbEDDrr2hQaa3MTAWyUxt6e
-        AJdke3UAPKYbiHalULWw5LILqHzlNHsvAWW7zN4INRb8GY0boDcyydAnhAw2gkNx
-        QTHbFw78lrHXPWKL9xQSX+J2aFPfJW/4TdhDujdo0b9UARvpiEhmB6Bpaa7mkTM0
-        KWlqPONTWGMBhDNDSFtCCbx3Kjm0iK6yPBCq/cDQXp513KjV7KAMi/TmetNQrWvT
-        V+KBrKlZpS2CGuyF+uExuXhuKHbFfQYAp3kpq3glQt8rKjZ0wD1ecbS1rFWbqJdA
-        ==
-X-ME-Sender: <xms:QQk_YZApqI9u_gMm4YDL7mszIB5KWw_Z4h0zfxjaB7WiMy-xWwDieA>
-    <xme:QQk_YXgup7juhc-JRaIbSUh2h9h_wzb2hHzToWX8M2q81lqfqBf9FH1MEatpw2FGc
-    WuB8DUasBH7h5BqQ6Q>
-X-ME-Received: <xmr:QQk_YUnx7rDXyXiV2Fz5SiXioOzanNKHqUwGHGo1_KkeBKYFATROuCvGQGmYK-DbfuwUx5rqGJdaZh0Gei3fjD9Bg7nO2rVIpaN4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegjedgtdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepffetteevieejteeuhfffgeektefghfeileehhedtuddutefhhfejtddvtddu
-    ledvnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
-    thgvtghh
-X-ME-Proxy: <xmx:QQk_YTy-swT6w_J21NltbLyuzhxusHfhdfA2bef4dBeq5i5i3Bc_3A>
-    <xmx:QQk_YeSrBSF8VsmAdhJvMUcFGeFzxJmzeeeFdxxGhDGeDsXKyvc8Ew>
-    <xmx:QQk_YWak79bYYtVayOBteIWq7L_TPxmD6VE9Zxx7dpvxDzDN4Tp73w>
-    <xmx:Qwk_YfLk3cKWbpX1j1vfj3mwE681eu_9kOMCs64CnG1imQ8CKP1JIA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Sep 2021 04:18:09 -0400 (EDT)
-Date:   Mon, 13 Sep 2021 10:18:08 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-        Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 17/22] dt-bindings: media: Add Allwinner A31 ISP bindings
- documentation
-Message-ID: <20210913081808.esgqvz4eeatp4hkp@gilmour>
-References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-18-paul.kocialkowski@bootlin.com>
+        Mon, 13 Sep 2021 04:29:59 -0400
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA6E9C061574;
+        Mon, 13 Sep 2021 01:28:43 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id PhKSmX09LpQdWPhKTm2149; Mon, 13 Sep 2021 10:28:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1631521722; bh=SmlXkz21F796HiS0hIs7UPuMWQV0q/28QQ/BSGKfs88=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=hCnV0ImDZNx6HyI3GiUjIjH9COV9b0GCHs96JvbgW1y57lepDj44aZVT61OiTw7JK
+         KO1H+RZ713v+vGYpiqRduFWP5cPQk4GL0YO8YrxaoPShJ5lCZ5UfTExvAU1xMsd6B9
+         4l/0jKqd4h7mCkImDfuCEOtgltGMhUpakNyoTJFhKT2ID+kxxYmqXBe0Wd/rjbpeWY
+         lY25GiptrOzHO+1VFp1+Jq07U3MEpaiqDX9rvVrYvYZOE9yud8crlaIjKhItuugmRS
+         yy3Ko+zXQoWZXpbE3ap3GKL6DTDs2RxYIMINIIj6crUfmfHfMtA9eKhZOXtDYpEmFC
+         T25qOBYvuCkHg==
+Subject: Re: [PATCH v7] media: vimc: Enable set resolution at the scaler src
+ pad
+To:     Pedro Terra <pedro@terraco.de>, dafna.hirschfeld@collabora.com,
+        mchehab@kernel.org, skhan@linuxfoundation.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        gabrielabittencourt00@gmail.com, gfmandaji@gmail.com,
+        laurent.pinchart@ideasonboard.com
+References: <20210831174822.83870-1-pedro@terraco.de>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <8e7ff5a2-0629-228f-c9d5-35d39bf92ce2@xs4all.nl>
+Date:   Mon, 13 Sep 2021 10:28:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="menbmu3mm5gvaxqx"
-Content-Disposition: inline
-In-Reply-To: <20210910184147.336618-18-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20210831174822.83870-1-pedro@terraco.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfKEJlOpp9rKLnhiR17qfIUdbnYLF/O1EQlrCIaQX7cndpSZve5lF8HIGaEu8jJN1eb51T1TBz3JfMVg3jUcHzdH8JkUiXy3AtiQSnyVZFgDyhB776fNN
+ HAKf3oZtYJU+Dk8MWRHtBveW5a7ZgaDmlzwn/ypYrYmzikAOJj3r7YYntjU9jvNjQbfu4rObkQvSGoEi6KHcbfa2xN9OYGNNZEUGj7Hw3mUvd11zpaY5iEU/
+ hAOiCLfswtcTV9V80k5slvWyO5RPI6+/CwanKzG/Wwlppehxd3UEK1Kf5r4LZQcepUQIFEjZCVqsCfG/tu73l/kQca7GBhRpC7ZoumG62qBOjoEX/dTYtGkq
+ slOYlSNtoqO3xrq6LOu9Q+x0lXvfPRgcj757PwkTaEI0fJH9gcauT0j39rYYaJKIwKDcaTxZ7WfvZNc8HnHvidcCmlVMobixqOo8tCBexXsXk+NEyI0YDWAw
+ LggARhnAtS1SB4gg9gd9yGyh79WnYSIzfhXeEnduaeiZ2QvNYlNUVI2anEw7NYMSDfIFxFKggIQGS+pLzWmZaCUpD/3wdktDGLnBvwzHCgI9+2Uni/xtkoq8
+ j9rMQ4gfMtsxgRIU4IPyhpdZ
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Pedro,
 
---menbmu3mm5gvaxqx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Your 'From' email is Pedro Terra <pedro@terraco.de>, but...
 
-On Fri, Sep 10, 2021 at 08:41:42PM +0200, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the Allwinner A31 Image
-> Signal Processor (ISP).
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../media/allwinner,sun6i-a31-csi.yaml        |   2 +-
->  .../media/allwinner,sun6i-a31-isp.yaml        | 111 ++++++++++++++++++
->  2 files changed, 112 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun=
-6i-a31-isp.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-=
-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.=
-yaml
-> index f4a686b77a38..c60f6b5403fa 100644
-> --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> @@ -1,4 +1,4 @@
-> -# SPDX-License-Identifier: GPL-2.0
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->  %YAML 1.2
->  ---
->  $id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-csi.yaml#
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-=
-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.=
-yaml
-> new file mode 100644
-> index 000000000000..a0f82f150e90
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> @@ -0,0 +1,111 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bin=
-dings
-> +
-> +maintainers:
-> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - allwinner,sun6i-a31-isp
-> +      - allwinner,sun8i-v3s-isp
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus Clock
-> +      - description: Module Clock
-> +      - description: DRAM Clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: mod
-> +      - const: ram
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: CSI0 input port
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +        additionalProperties: false
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: CSI1 input port
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +        additionalProperties: false
+On 31/08/2021 19:48, Pedro Terra wrote:
+> Modify the scaler subdevice to accept setting the resolution of the source
+> pad (previously the source resolution would always be 3 times the sink for
+> both dimensions). Now any resolution can be set at src (even smaller ones)
+> and the sink video will be scaled to match it.
+> 
+> Test example: With the vimc module up (using the default vimc topology)
+> media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
+> media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+> media-ctl -d platform:vimc -V '"Scaler":0[fmt:RGB888_1X24/640x480]'
+> media-ctl -d platform:vimc -V '"Scaler":0[crop:(100,50)/400x150]'
+> media-ctl -d platform:vimc -V '"Scaler":1[fmt:RGB888_1X24/300x700]'
+> v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=300,height=700
+> v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
+> v4l2-ctl --stream-mmap --stream-count=10 -z platform:vimc -d "RGB/YUV Capture" \
+> 	-stream-to=test.raw
+> 
+> The result will be a cropped stream that can be checked with the command
+> ffplay -loglevel warning -v info -f rawvideo -pixel_format rgb24 \
+> 	-video_size "300x700" test.raw
+> 
+> Co-developed-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
+> Signed-off-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
+> Co-developed-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
+> Signed-off-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
+> Signed-off-by: Pedro "pirate" Terra <pirate@terraco.de>
 
-port@0 and port@1 required?
+... that differs from what is used in this Signed-off-by.
 
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - resets
+checkpatch.pl complains about that.
 
-ports required?
+Which of the two should I use? I can fix it myself in the pull request,
+but I need to know which one I should use.
 
-Maxime
+For future patches, please use consistent email addresses.
 
---menbmu3mm5gvaxqx
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYT8JQAAKCRDj7w1vZxhR
-xZNAAP46Yko6Ls0D9aw1lxu7i05pPd3ZqX3GT6b9KfjUV53/eAEA3V+K3VWujOkc
-i9uv/M1/MIUThJ7WBSs2tuSEBCcS9AM=
-=2NXq
------END PGP SIGNATURE-----
-
---menbmu3mm5gvaxqx--
+	Hans
