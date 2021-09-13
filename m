@@ -2,114 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE093408582
-	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 09:41:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66A1E408583
+	for <lists+linux-media@lfdr.de>; Mon, 13 Sep 2021 09:42:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237703AbhIMHmw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Sep 2021 03:42:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36252 "EHLO
+        id S237653AbhIMHnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Sep 2021 03:43:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237653AbhIMHmv (ORCPT
+        with ESMTP id S237568AbhIMHnc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Sep 2021 03:42:51 -0400
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2738C061574
-        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 00:41:35 -0700 (PDT)
-Received: by mail-oi1-x244.google.com with SMTP id 6so12912236oiy.8
-        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 00:41:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=+xis++iP1cf+iLoqXe2mOcEArpbUTK16jTIPVdM5D6w=;
-        b=CHZgUAK5MJUQiptqPtWGNDVztVsyCobd3Y2SDu/SbP0+W//53oGJmkq1e8REjE+HhU
-         GszRkFpPYl597+8WQF4RqF7z2PoDJjgSNz11zPM70KxeI5xll67CkDQTNrVkDdmuB9TG
-         FssXlLqfEK7LbdjE6CMUJwW3PBVQr32zHke7zhwC7kvvuOElxbcmLvu1lZMtt/Ayq5ZS
-         Lnt2WmwrevomPzeMDty7ZShZRMY3XLh0G6fgRARspRe+gnAF8Qdhj9vkGuwkPvxBWgxn
-         /k5V3C6D8E2x37c+NAeje62vDA8kLZRFlLVM+1m+a8EzrpwlIxI7s9TIGn3y0kF4Py4F
-         nyTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=+xis++iP1cf+iLoqXe2mOcEArpbUTK16jTIPVdM5D6w=;
-        b=1KjOEeX0wKXT0N/Sr7TSfVh2uY21Yr186CMzP9SmlB8+mISpcv9SBDVsOyJORS+9QD
-         pxwzUqm8EFECh/+mPQzRLONFfAiocXj9x2/xQaGD7lZXPYmeuTVAOESsSWlxah3oJ0Ia
-         RAybRLGSBr0FrgBrhvd+LgbOrrnnaGOwoLiAQCbRGBTIMd0Zmv56aOQFn8lGtWAq43Dm
-         hM3YgaqQIjSbWGIuaoKmIwomrWcZ874jK2HltJrtzbKXo8E4u95V6uu3jkNY1EoqNCuH
-         GgZymzPLR3QliCnPFs/+C54kQkCrnzyrRCLu9Yvt7N2GeedlmY39LTnQR0E4xp47h2yj
-         Fy2w==
-X-Gm-Message-State: AOAM533JZzey0uZtp2SZ7IoSirKzec65NtwKxdmSDYnZDl++uzhhdqL1
-        hNkpjATc3xA2WmqP68aQ+CQZiXdAjFkzESdDRAY=
-X-Google-Smtp-Source: ABdhPJznQwuCLbBm9BBM7vxfefaSpPqbdvVoSCFQ/8f11WbrneuNGNJi6ZO9j3gQiccgyI5p34z7PMnIiX/a9djafb4=
-X-Received: by 2002:aca:4b85:: with SMTP id y127mr6834850oia.169.1631518895028;
- Mon, 13 Sep 2021 00:41:35 -0700 (PDT)
+        Mon, 13 Sep 2021 03:43:32 -0400
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D4DC061574
+        for <linux-media@vger.kernel.org>; Mon, 13 Sep 2021 00:42:16 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id PgbSmWawopQdWPgbTm1pK2; Mon, 13 Sep 2021 09:42:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1631518933; bh=CYDupfBiELasArrXgz/nUAe5qjVajVV5s9Gjrj6V3BU=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=s8SILm86afmwUm7R/cNcDtfIgdG5eaIvqi4ogm8x66Z3yIn15ulNU1rAbis1KaQWQ
+         c7d9PCpDx5up4ArODX3wwlafuVJGlhB/dEuHlXFgJtJk3W+XJgHJU/HTKwho8C/sSa
+         sGJXXLk8Xq09RekBvC9aITnzl5laMyPqd1QwCqVEtKefjlGHRFK73eIjvl/bpdXId3
+         tyxZaEcl8vNgSOBzwS2w/RZXNwAMMJvcx5eqf9ss3jlDFM5F2jR3ixo72GLuaAjnfo
+         AKwe60I+mc80G1pt9MNx6kOTM4tmOUm5uryBiZ+IH8HoUGdtQGsydusIevx9g3R+jz
+         hRcc/dM9cQRfQ==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.16] videobuf2: support new noncontiguous DMA API
+Message-ID: <4d2efa85-5801-092e-f3ca-c6053f612891@xs4all.nl>
+Date:   Mon, 13 Sep 2021 09:42:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Received: by 2002:a05:6830:2482:0:0:0:0 with HTTP; Mon, 13 Sep 2021 00:41:34
- -0700 (PDT)
-Reply-To: lisacoulibaly023@gmail.com
-From:   Miss Lisa Ibrahim Coulibaly <alikantou52@gmail.com>
-Date:   Mon, 13 Sep 2021 00:41:34 -0700
-Message-ID: <CAAaSjX7Fj593d7i1omDvGzBmEXd-CdbEpwdPWYQ0qvmjgwEHOg@mail.gmail.com>
-Subject: Hello Dearest
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfDYL3YHAwdMg6bVEnsqSNTGAzhuIOd/+VPZWpm2Xjh6ejWpeQ4EiBos31DBM0c9LnltukMbqXGGmccDN1ddAuWglxQ2tn9ZCq11G3S0iSUikbNtcfew0
+ HSZeKPUT62lxAooa+LBUnR2DeivTd+UsHLkEQsB34bVFgO6PKmzSEDK10ZsOBhRF5X+520FrAmZ1f9P+zPD0OM72HGdeNOJgIPOIlpDlxnom5q/Tm9b6kXqV
+ DbYG3AmhdthPzL1JdLPvMc/3r0DnES7QLFs57wFE+EjYckCn02c4H3kGsZuSUpo/X8U68XimQwlhdnbACkatLY4TIWwHr8EbAosFtmpoZSM=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Dearest,
+Hi Mauro,
 
-I know this mail will come to you as a surprise since we haven't known or
-come across each other before considering the fact that I sourced your
-email contact through the Internet in search of a trusted person who can
-assist me.
+This patch series that adds support for V4L2_MEMORY_FLAG_NON_COHERENT.
 
-I am Miss Lisa Ibrahim Coulibaly 24 years old female from the Republic of
-Ivory Coast, West Africa, am the Daughter of Late Chief Sgt. Warlord
-Ibrahim Coulibaly (a.k.a General IB). My late father was a well known Ivory
-Coast militia leader. He died on Thursday 28 April 2011 following a fight
-with the Republican Forces of Ivory Coast (FRCI). I am constrained to
-contact you because of the maltreatment which I am receiving from my step
-mother, you can read more about my late Father death through the below
-links:
+Once merged, this patch for v4l2-compliance will be applied as well:
+
+https://patchwork.linuxtv.org/project/linux-media/patch/20210913023546.905914-1-senozhatsky@chromium.org/
+
+Regards,
+
+	Hans
 
 
-https://www.theguardian.com/world/2011/apr/28/ivory-coast-renegade-warlord-ibrahim-coulibaly
-.
+The following changes since commit d62cd4d277cc711f781a7bdec4109c6148529b25:
 
+  media: uvcvideo: Remove unused including <linux/version.h> (2021-08-21 09:11:04 +0200)
 
-My step Mother planned to take away all my late father's treasury and
-properties from me since the unexpected death of my beloved Father.
-Meanwhile I wanted to travel to Europe, but she hides away my international
-passport and other valuable documents. Luckily she did not discover where I
-kept my father's File which contained important documents. Now I am
-presently staying in the Mission Camp in Burkina Faso.
+are available in the Git repository at:
 
-I am seeking a long term relationship and investment assistance. My father
-of blessed memory deposited the sum of US$ 9.5 Million in one bank in
-Burkina Faso with my name as the next of kin. I had contacted the Bank to
-clear the deposit but the Branch Manager told me that my status according
-to the law does not authorize me to carry out the operation. However, he
-advised me to provide a trustee who will stand on my behalf. I had wanted
-to inform my stepmother about this deposit but I am afraid that she will
-not offer me anything after the release of the money.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.16d
 
-Therefore, I decide to seek your help in transferring the money into your
-bank account while I will relocate to your country and settle down with
-you. As you indicated your interest to help me I will give you the account
-number and the contact of the bank where my late beloved father deposited
-the money with my name as the next of kin. It is my intention to compensate
-you with 20% of the total money for your assistance and the balance shall
-be my investment in any profitable venture which you will recommend to me
-as I have no any idea about foreign investment. Please all communications
-should be through this email address for confidential purposes.
+for you to fetch changes up to fa03153716a3e6bf10d8611515fdcf440673557a:
 
-Please all communications should be through this email address for
-confidential purposes. (lisacoulibaly023@gmail.com)
+  videobuf2: handle non-contiguous DMA allocations (2021-09-10 12:06:25 +0200)
 
-Thanking you a lot in anticipation of your quick response. I will give you
-details in my next mail after receiving your acceptance mail to help me,
+----------------------------------------------------------------
+Tag branch
 
-Yours sincerely
-Miss Lisa Ibrahim Coulibaly
-(lisacoulibaly023@gmail.com)
+----------------------------------------------------------------
+Sergey Senozhatsky (8):
+      videobuf2: rework vb2_mem_ops API
+      videobuf2: inverse buffer cache_hints flags
+      videobuf2: split buffer cache_hints initialisation
+      videobuf2: move cache_hints handling to allocators
+      videobuf2: add V4L2_MEMORY_FLAG_NON_COHERENT flag
+      videobuf2: add queue memory coherency parameter
+      videobuf2: handle V4L2_MEMORY_FLAG_NON_COHERENT flag
+      videobuf2: handle non-contiguous DMA allocations
+
+ Documentation/userspace-api/media/v4l/buffer.rst             |  40 ++++++++-
+ Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst |   7 +-
+ Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst     |  16 ++--
+ drivers/media/common/videobuf2/videobuf2-core.c              | 126 +++++++++++++++++----------
+ drivers/media/common/videobuf2/videobuf2-dma-contig.c        | 195 +++++++++++++++++++++++++++++++++---------
+ drivers/media/common/videobuf2/videobuf2-dma-sg.c            |  39 +++++----
+ drivers/media/common/videobuf2/videobuf2-v4l2.c              |  59 ++++++-------
+ drivers/media/common/videobuf2/videobuf2-vmalloc.c           |  30 ++++---
+ drivers/media/dvb-core/dvb_vb2.c                             |   2 +-
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c                |   9 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c                         |   4 +-
+ include/media/videobuf2-core.h                               |  59 +++++++------
+ include/uapi/linux/videodev2.h                               |  11 ++-
+ 13 files changed, 411 insertions(+), 186 deletions(-)
