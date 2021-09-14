@@ -2,81 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AE7040A742
-	for <lists+linux-media@lfdr.de>; Tue, 14 Sep 2021 09:21:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFD5040A7A0
+	for <lists+linux-media@lfdr.de>; Tue, 14 Sep 2021 09:36:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240231AbhINHWr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Sep 2021 03:22:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50958 "EHLO
+        id S240910AbhINHhM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Sep 2021 03:37:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239423AbhINHWq (ORCPT
+        with ESMTP id S241254AbhINHgl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Sep 2021 03:22:46 -0400
-Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C317C061764
-        for <linux-media@vger.kernel.org>; Tue, 14 Sep 2021 00:21:29 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Q2kvmLWOteJ0cQ2kxmnBgB; Tue, 14 Sep 2021 09:21:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1631604087; bh=RJI7Jy7BCHZHfPYSiBFKj1abQw7y320Lwq/0VwCiuik=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=VKxNfjV25UGdNuMNN/+/BKcf4MNZFdZghPx5RUPp+mKWRwd2bJoI3ralSgBmcxmQF
-         EnNq8MrfAZPRBr00KJUfHKaYWSaZ6hvMag9o4Rmdweag3FmL139PLJbhqrPT74hVGx
-         6i3t1CyWJtMPQYDbF7xxIapSj1xUi1Kr9K5mFXp2N6RadK2/IrUge3MGLTmoQuEnC0
-         mrAinDIsJaXTroP2r/dtUeAJfLoEdiltUSBDQNoVofFLB8q2TFZVT1c2r6sETimaIc
-         NfKeOjDFLeaeAY7R5ltNLh4aOi8xUKBQTHwhlSaTeLrmDtw83MsNXI7V/qhCJSorvR
-         Bv1gcTLUSEIIQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] vidtv: move kfree(dvb) to vidtv_bridge_dev_release()
-Message-ID: <d33fd5c2-6254-9761-b44c-9bdfd32efea3@xs4all.nl>
-Date:   Tue, 14 Sep 2021 09:21:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Tue, 14 Sep 2021 03:36:41 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 851BFC0613E4
+        for <linux-media@vger.kernel.org>; Tue, 14 Sep 2021 00:34:40 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id z94so12178262ede.8
+        for <linux-media@vger.kernel.org>; Tue, 14 Sep 2021 00:34:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=zOGlSIy8B1vp56lzBYiSh7wZlv/SSop9d8aF2dsc3fc=;
+        b=bbqq9a86z3BraCK/E7usWjrW2UseW+Pi1OGLm0uKjF5Z4mZQ5Zz52DydQQWM0+vl4S
+         bve9nGpUUFNdJUGU5CaOJfgLBlOGnxdzq2onug9936NrL81vB/uG6U1CAXEyfvj1Dgsb
+         YFWl/IilXv1hcS7/Gr3Wn0JQ5KfPyABjR+GYR2qOZ+Bf0t6reyJ+xy+NNSnXsKK4RxZF
+         nZCbG1jI4pPCTuEfa4zcLuFJQotM8BpFSZENEFzAYzC2tRGcu6XZcotKPW9nHtTs5mhj
+         9mXRw9lhZf54VssZTSGj9wWC/sXWige9nZdKEFdpPl7+UUhKQjmpOWl4FU3ejA4SNftM
+         Qgug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=zOGlSIy8B1vp56lzBYiSh7wZlv/SSop9d8aF2dsc3fc=;
+        b=pkTie48YbQMyIfbagVoSV00ZxqbCTAJueMJsWPxT9IlrPD5bX8e4Rkuq4Q3yn04MCo
+         c4OMlKD1cOsPvRg7j/U/z4GLdpJXXLD0pEGk8lJX0r57bXTZWPCiMIYfnN8yDq1KXH88
+         ygLLX0fh/DQfT5Z9BXFhH6eXeVTBh5ltb/czaf3eVtvoYfhMMkVBz9zXTqUYRv9PjZbn
+         6y8IxyVXzpi2HXmFAh4XjvI7ZTHTGFuylMYkahDsdqR1QpI/r5EnzXV2Jf4RrLuBQ9Ff
+         +VmOzOyyrf5KBfXzHrxvimNI3lRLxTfxHXb/Xp8NnPxBEWQqyN/8IX0ecODaDjPz+1QM
+         aFjg==
+X-Gm-Message-State: AOAM532o6riPGFwzPfqxpqaHmG1n2SAPnZxnwg5eS3CGI9E5n8GT2h3X
+        BqKicg74bNxCkquwwf6wvUsq6I4EbKQpdsnjk5632F79E5M=
+X-Google-Smtp-Source: ABdhPJxi35xx21VmeSBicU3yyaBd4SOe6m9e0gNFEYhtxBlJvmgrDrPh/HMDaBgTt0sxPGF52wNMaE+ZFyQdNebpyAk=
+X-Received: by 2002:a05:6402:897:: with SMTP id e23mr17757411edy.366.1631604878992;
+ Tue, 14 Sep 2021 00:34:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfPGVVHSpBQCiXCa9Jk0GjouToY8nBOytdrSo4F5Pbja0nY/MuMv/rsRhO7gF7AU8mcy/ggLT49bvOU3PhChNz+yBzsqiRPWG2ZgHjbcyMsISPn8caOMg
- O17dDglacBqoP9Bs9O9ptzZ8Q5RQoeTOFpFSF5fl5AxDiRE1rea3mzjDZYFYMpWyTqFMA9niL1JzA03rZR+iRZPgQrzNrKog6oaG53ZHpwvMD7ODTvQE+IHM
- L/df6OFyveJhpFF7G0AUymRmxPMTjEEQnZqZ7JF3sYJq4d5RmB+e9XrBY5pL/ZOlbYnN8nLzwBUGGd2KWDh5W0+6rMxQbi375z3/79Iyf54=
+From:   Chuck Ritola <cjritola@gmail.com>
+Date:   Tue, 14 Sep 2021 03:34:03 -0400
+Message-ID: <CA+RexfHjBZzFst=x6OEhBn-d_J=JCTy7tPyemd-g=b=J=sVVZw@mail.gmail.com>
+Subject: dvbv5-based DiseqC 1.2 dish rotor control from command line
+To:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adding kfree(dvb) to vidtv_bridge_remove() will remove the memory
-too soon: if an application still has an open filehandle to the device
-when the driver is unloaded, then when that filehandle is closed, a
-use-after-free access takes place to the freed memory.
+Hello, I have a few questions involving the dvbv5 tools:
 
-Move the kfree(dvb) to vidtv_bridge_dev_release() instead.
+How would one send DiSEqC 1.2+ rotor control commands using the
+command line? I found an old discussion
+(https://www.linuxtv.org/pipermail/linux-dvb/2006-October/013435.html)
+suggesting xdipo, however I get a build error about unrecognized
+symbol involving XSync. Before continuing to try and fix it I
+considered that ilinux-media has changed a lot since 2006 and the
+application might not even work.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Fixes: 28bcf7de1bfd ("media: vidtv: Fix memory leak in remove")
----
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-index 0f6d998d18dc..82620613d56b 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-@@ -557,7 +557,6 @@ static int vidtv_bridge_remove(struct platform_device *pdev)
- 	dvb_dmxdev_release(&dvb->dmx_dev);
- 	dvb_dmx_release(&dvb->demux);
- 	dvb_unregister_adapter(&dvb->adapter);
--	kfree(dvb);
- 	dev_info(&pdev->dev, "Successfully removed vidtv\n");
+In dvbv5-zap, does the -S option described as "Satellite number" in
+the help mean the operation  of a DiSEqC LNB switcher? Is there
+rotator support?
 
- 	return 0;
-@@ -565,6 +564,10 @@ static int vidtv_bridge_remove(struct platform_device *pdev)
+Am I correct that the physical layers of DiSEqC 1.0 and 1.2 are
+effectively the same, and that the difference is in the commands sent
+over said layers from software? I'm using a Hauppauge PCTV 461e, which
+is advertised to have DiSEqC 1.0 support only. However, its board has
+a Montage Technology M88DS3103, which, according to linuxtv, is
+capable of 2.0+. I haven't found a datasheet for the chip. Perhaps the
+advertised limitation has to do with the windows software that came
+with the stick?
 
- static void vidtv_bridge_dev_release(struct device *dev)
- {
-+	struct vidtv_dvb *dvb;
-+
-+	dvb = dev_get_drvdata(dev);
-+	kfree(dvb);
- }
-
- static struct platform_device vidtv_bridge_dev = {
+I'm trying to automatically turn a DiSEqC rotor and control the 461e
+using dvbv5-zap via a script. It's all going fine except I haven't
+figured out how to send the DiSEqC to turn the rotor.
