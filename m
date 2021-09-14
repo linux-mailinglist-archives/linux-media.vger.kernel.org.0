@@ -2,20 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5944740A8A5
-	for <lists+linux-media@lfdr.de>; Tue, 14 Sep 2021 09:50:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E18940A8CF
+	for <lists+linux-media@lfdr.de>; Tue, 14 Sep 2021 10:07:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230007AbhINHwJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Sep 2021 03:52:09 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:34523 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231547AbhINHwD (ORCPT
+        id S229620AbhINIJF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Sep 2021 04:09:05 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:57155 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230384AbhINIGT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Sep 2021 03:52:03 -0400
+        Tue, 14 Sep 2021 04:06:19 -0400
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 07B6E4000C;
-        Tue, 14 Sep 2021 07:50:41 +0000 (UTC)
-Date:   Tue, 14 Sep 2021 09:50:41 +0200
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 7D13424000B;
+        Tue, 14 Sep 2021 08:04:26 +0000 (UTC)
+Date:   Tue, 14 Sep 2021 10:04:25 +0200
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     Maxime Ripard <maxime@cerno.tech>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -33,80 +33,120 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Helen Koike <helen.koike@collabora.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 20/22] staging: media: Add support for the Allwinner A31
- ISP
-Message-ID: <YUBUUQxBaGUkjzMP@aptenodytes>
+Subject: Re: [PATCH 15/22] media: sunxi: Remove the sun6i-csi driver
+ implementation
+Message-ID: <YUBXiSrQjccLoa8b@aptenodytes>
 References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-21-paul.kocialkowski@bootlin.com>
- <20210913083135.v7q7joux2xckat62@gilmour>
+ <20210910184147.336618-16-paul.kocialkowski@bootlin.com>
+ <20210913081707.3pjcfuwan46pbdep@gilmour>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="N+QqgaOnVGg+nb5A"
+        protocol="application/pgp-signature"; boundary="4F826WXvoEFTgwkk"
 Content-Disposition: inline
-In-Reply-To: <20210913083135.v7q7joux2xckat62@gilmour>
+In-Reply-To: <20210913081707.3pjcfuwan46pbdep@gilmour>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---N+QqgaOnVGg+nb5A
+--4F826WXvoEFTgwkk
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Mon 13 Sep 21, 10:31, Maxime Ripard wrote:
-> On Fri, Sep 10, 2021 at 08:41:45PM +0200, Paul Kocialkowski wrote:
-> > Some Allwinner platforms come with an Image Signal Processor, which
-> > supports various features in order to enhance and transform data
-> > received by image sensors into good-looking pictures. In most cases,
-> > the data is raw bayer, which gets internally converted to RGB and
-> > finally YUV, which is what the hardware produces.
+On Mon 13 Sep 21, 10:17, Maxime Ripard wrote:
+> On Fri, Sep 10, 2021 at 08:41:40PM +0200, Paul Kocialkowski wrote:
+> > As described in the commit adding support for the new sun6i-csi driver,
+> > a complete rewrite was necessary to support the Allwinner A31 ISP as
+> > well as fix a number of issues with the current implementation.
 > >=20
-> > This driver supports ISPs that are similar to the A31 ISP, which was
-> > the first standalone ISP found in Allwinner platforms. Simpler ISP
-> > blocks were found in the A10 and A20, where they are tied to a CSI
-> > controller. Newer generations of Allwinner SoCs (starting with the
-> > H6, H616, etc) come with a new camera subsystem and revised ISP.
-> > Even though these previous and next-generation ISPs are somewhat
-> > similar to the A31 ISP, they have enough significant differences to
-> > be out of the scope of this driver.
+> > Farewell and thanks for all the pixels!
 > >=20
-> > While the ISP supports many features, including 3A and many
-> > enhancement blocks, this implementation is limited to the following:
-> > - V3s (V3/S3) platform support;
-> > - Bayer media bus formats as input;
-> > - Semi-planar YUV (NV12/NV21) as output;
-> > - Debayering with per-component gain and offset configuration;
-> > - 2D noise filtering with configurable coefficients.
-> >=20
-> > Since many features are missing from the associated uAPI, the driver
-> > is aimed to integrate staging until all features are properly
-> > described.
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 >=20
-> We can add new features/interfaces to a !staging driver. Why do you
-> think staging is required?
-
-This is true for the driver but not so much for the uAPI, so it seems that
-the uAPI must be added to staging in some way. Then I'm not sure it makes s=
-ense
-to have a !staging driver that depends on a staging uAPI.
-
-Besides that, I added it to staging because that's the process that was
-followed by rkisp1, which is a very similar case.
-
-> > On the technical side, it uses the v4l2 and media controller APIs,
-> > with a video node for capture, a processor subdev and a video node
-> > for parameters submission. A specific uAPI structure and associated
-> > v4l2 meta format are used to configure parameters of the supported
-> > modules.
+> For completeness, this is what the other commit log mentions:
 >=20
-> This meta format needs to be documented
+> > While adapting the sun6i-csi driver for MIPI CSI-2 support was
+> > possible, it became clear that adding support for the ISP required
+> > very heavy changes to the driver which were quite hard to break down
+> > into a series of subsequent changes.
+>=20
+> > The first major difficulty comes from the lack of v4l2 subdev that
+> > acts a bridge, separate from the video node representing the DMA
+> > engine. To support the ISP, only parts of the hardware must be
+> > configured (excluding aspects related to the DMA output), which made
+> > the separation a hard requirement.
+>=20
+> > Another significant difficulty was the specific dance that is required
+> > to have both the ISP and CSI device be part of the same media device.
+> > Because the ISP and CSI are two different hardware blocks, they have
+> > two distinct drivers that will each try to register their own v4l2
+> > and media devices, resulting in two distinct pipelines. When the ISP
+> > is in use, we actually want the CSI driver to register with the ISP's
+> > v4l2 and media devices while keeping the ability to register its own
+> > when the ISP is not in use. This is done by:
+> > 1. Having the CSI driver check whether the ISP is available, using
+> >    sun6i_csi_isp_detect();
+> > 2. If not, it can register when its own async subdevs are ready, using
+> >    sun6i_csi_v4l2_complete();
+> > 3. If so, it will register its bridge as an async subdev which will
+> >    be picked-up by the ISP driver (from the fwnode graph link);
+> > 4. When the subdev becomes bound to the ISP's v4l2 device, we can
+> >    then access that device (and the associated media device) to
+> >    complete registration of the capture video node, using
+> >    sun6i_csi_isp_complete();
+> > Besides the logic rework, other issues were identified and resolved:
+> > - The sync mechanism for buffer flipping was based on the frame done
+> >   interrupt, which is too late (next frame is already being processed).
+> >   This lead to requiring 3 buffers to start and writing two addresses
+> >   when starting. Using vsync as a sync point seems to be the correct
+> >   approach and allows using only two buffers without tearing;
+> > - Using devm_regmap_init_mmio_clk was incorrect since the reset also
+> >   comes into play;
+> > - Some register definitions were inverted compared to their actual
+> >   effect (which was inherited from the Allwinner documentation and
+> >   code): comments were added where relevant;
+> > - The deprecated v4l2_async_notifier_parse_fwnode_endpoints() helper
+> >   is no longer used by the driver;
+>=20
+> With that being said, NAK.
+>=20
+> Having heavy changes to a driver is completely fine, and is kind of
+> expected really with such a big change. Breaking all possibility of
+> bisection and throwing away years of stabilization and maintenance
+> isn't.
+>=20
+> And all those small bug fixes you mention at the end are just that:
+> small bug fixes that can be done on the current driver just fine too.
 
-You're right, there should probably be a pixfmt-meta-sun6i-isp.rst
-documentation file. I guess it should live along in the staging driver
-directory for now and be destaged later.
+I understand that this looks like we're trashing all the work that was
+done previously by removing the current driver and adding the new one
+but the logic for deciding what to write into registers was carefully
+preserved from the original driver to make sure that the works of
+stabilization and maintenance are not lost.
+
+However I would understand that my good promise on this is not enough,
+so perhaps I could provide a combinatory verification that the same set
+of mbus/pixel formats end up with the same thing being written into
+registers.
+
+In addition I understand that it will be necessary to split the changes
+up into small commits to clarify the transition path between the two
+drivers. So I will do my best to split things up.
+
+Does that seem like an agreeable plan or do you see other things that
+would be blockers?
+
+My initial thought was that it would be much easier to review the driver as=
+ a
+rewrite, but I'm not too surprised I was wrong. To be honest it was nearly
+impossible to actually have the initial development happen as sequential st=
+eps
+and I preferred to allocate my time on other tasks than splitting the chang=
+es
+into these sequential steps.
 
 Cheers,
 
@@ -117,19 +157,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---N+QqgaOnVGg+nb5A
+--4F826WXvoEFTgwkk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmFAVFEACgkQ3cLmz3+f
-v9FMhAf/bAGGMJm3PCVKPQFBMmTnl7dcHX2eA24BUWY8e+zsCMmd7A74imEjZUXg
-xURaGLaWc3WVje8tq2idWiyGMIZOLPwlJBI2mhTnZaJiMhTxBN4NvURssuHyu+e6
-lnvOUXXALN2oJPBoBVaTYuqMyECYxsWCjUjZG5XgASjlSIHZDH0jDkGAqfuOeRlB
-r8dVEMjS/sWtBlLOp6Mw1Z1Rc8w3fEj5++D5bXd/aOGYavZeo2/2yn6cOoVsRsf3
-abhdRCEy7tVL5hyb6HGD4CPkIcZtMcvVvxomiX5f7fVCba5iuexjdgzaugg/fsYi
-0IMX9Lr/PmNJ9/5VNbHg7nfhhZcF/g==
-=3ZW0
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmFAV4kACgkQ3cLmz3+f
+v9EieQf/XPAbDZuMl6e9vh2/5Nk+xAsVjNUg2fI21tKCjVq3m//gtD27CcUkhInC
+/G37OLndkoQ/8UhNaymnU7ld3rKjsn+xU/DN8dySK2QXx+MCeEP0Ffni9mDuXy4b
+AOc+1/s1HUOLwkRpQ0HgeCjEkYAbSwe8QV3RR7QCMG+qqFiKmfWPZgserIZKKjFz
+VxyI/KP3M3BRr5eXJrpUaKkar+7iXmv2nrPBpdIeLpOYC62oIVg+24nvNrAC7NG4
+8J28VSDGgprknJQn8eHEycrX4LfSQJNhjiVWnpsO3HDXaDggSYs3Ev9w+IoJy+Mf
+9N31yTCNwZS9MT4W296c4FMLFekjKA==
+=oC/H
 -----END PGP SIGNATURE-----
 
---N+QqgaOnVGg+nb5A--
+--4F826WXvoEFTgwkk--
