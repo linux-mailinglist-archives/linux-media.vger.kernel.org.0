@@ -2,92 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 998B340AD5E
-	for <lists+linux-media@lfdr.de>; Tue, 14 Sep 2021 14:18:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3E9640AD5B
+	for <lists+linux-media@lfdr.de>; Tue, 14 Sep 2021 14:18:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232896AbhINMUB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Sep 2021 08:20:01 -0400
-Received: from omta001.cacentral1.a.cloudfilter.net ([3.97.99.32]:43889 "EHLO
+        id S232801AbhINMT7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Sep 2021 08:19:59 -0400
+Received: from omta001.cacentral1.a.cloudfilter.net ([3.97.99.32]:57301 "EHLO
         omta001.cacentral1.a.cloudfilter.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232644AbhINMT6 (ORCPT
+        by vger.kernel.org with ESMTP id S232631AbhINMT6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 14 Sep 2021 08:19:58 -0400
+X-Greylist: delayed 430 seconds by postgrey-1.27 at vger.kernel.org; Tue, 14 Sep 2021 08:19:58 EDT
 Received: from shw-obgw-4003a.ext.cloudfilter.net ([10.228.9.183])
         by cmsmtp with ESMTP
-        id PpJUmKtuFczbLQ7Hhmm22d; Tue, 14 Sep 2021 12:11:33 +0000
+        id PqodmL4uWczbLQ7Himm22j; Tue, 14 Sep 2021 12:11:34 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
-        t=1631621493; bh=eSZBmfR7iMhmYMt/uRP2guSSw/SqR7cPD/XEmYdVEaQ=;
+        t=1631621494; bh=DAbD8Je9xqbVKhf8rihFPcGAUd77SdVWkTcvlYbjWlI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=sTJFjSegR8leu1kYV+QzaVgHOuRXyeFzHeQtzcyxC4ThNZWnS+ceoHa1o4H4YfMW/
-         atEERGxRkn/JtlssP63byajY1gBhSLbINfPz2I6d5rpgS9nUPC3LQydr8CaWvxtFac
-         o872uY+o0vjAmgSxHzdtRM1W3aHElSRC2RY0oh+4OgJR1mjWLsI/vzrJFFzHLlQzBU
-         IekFrHQrmyopo6adW8HmaXozex0/YDXFBWguSUolhBj3LcW3bOEKU1RBtcwvaHOqA3
-         NrqeokqfX5C6aSDOnbqW3B12aXE0pZswMsUbB28RIF+kso5WVq1a80jFLYun60jx/0
-         dZlseFMo/4ZVw==
+        b=fmdp1I/IWFy11GKmTrSB8ZSAq+CffbfcSA2Jjk5/KfAHbv0Hpra/lmwqfxdyoiEUn
+         V1OrHKsA5FkhzuIL8mF3SpUdhreE8jdhXUkrIvoGIm70LaOtWaiUFPiXEBFoIC8gIP
+         EcHPggs1n8eQMHJkO5I0US9nZbGXVRBUCL1B+exqnzHVKK9RUxQ8ry5ku8yMqDRD48
+         EO4GdYq48oj6pIiXPI1GnLDcBliViFMG/sbaN5juQKjBy/ea1mnbuEXWp45K36t8v6
+         vgG6qLO+DASXUxjwCHPVxzS5mU9LYRN1JwvSSWchb87WTryK3d56gEn8++PFseCSnM
+         HWB3ulD81aguw==
 Received: from shaw.ca ([70.71.78.228])
         by cmsmtp with ESMTPA
-        id Q7Hdmcu7dcHSBQ7Hgmpv0S; Tue, 14 Sep 2021 12:11:33 +0000
+        id Q7Hdmcu7dcHSBQ7Hhmpv0a; Tue, 14 Sep 2021 12:11:34 +0000
 Authentication-Results: ; auth=pass (LOGIN) smtp.auth=joevt@shaw.ca
-X-Authority-Analysis: v=2.4 cv=I4EG+Psg c=1 sm=1 tr=0 ts=61409175
+X-Authority-Analysis: v=2.4 cv=I4EG+Psg c=1 sm=1 tr=0 ts=61409176
  a=qDatE6m/3wxSEG8Wq7h0zQ==:117 a=qDatE6m/3wxSEG8Wq7h0zQ==:17 a=_Dj-zB-qAAAA:8
- a=iSQrim1fHST801TFj4cA:9 a=c-cOe7UV8MviEfHuAVEQ:22
+ a=O8lNxtBUwQlDx__LHswA:9 a=c-cOe7UV8MviEfHuAVEQ:22
 From:   joevt <joevt@shaw.ca>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     linux-media@vger.kernel.org
-Subject: [PATCH 03/11] edid-decode: change install directories for macOS
-Date:   Tue, 14 Sep 2021 05:11:21 -0700
-Message-Id: <20210914121129.51451-4-joevt@shaw.ca>
+Subject: [PATCH 04/11] edid-decode: add bounds checking
+Date:   Tue, 14 Sep 2021 05:11:22 -0700
+Message-Id: <20210914121129.51451-5-joevt@shaw.ca>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20210914121129.51451-1-joevt@shaw.ca>
 References: <20210914121129.51451-1-joevt@shaw.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfMzUkSJUL90VP3BDFNNJwYbXNjPfWwfLrZEjJBQ1KqkE6go3lBDfGxVvb5td5ujMdyseqfVfjwp6b4AaIOkpC7Le+JvooqR0lCKSH1a/PohxzrDb246T
- dISicgkp2fmoBg3YHiH0F9QGKISDeB1lRRyKxoSE1Sofq3KVAAhcs1H94qKv0jnQkN81kGAhamOSRvovMJJJHm26RtjqpPXmLYQ=
+X-CMAE-Envelope: MS4xfGNgsy3UaltUbouhe8WgPYFBvOGJS9DNYYGgmGOoFpgsVjFzQ2PmoE62ACfwzcm2G0vwahbgEwMwf3vbf/Ay8NqOQkA1ddBfPlTtY/0Q8epgK/d5PmD7
+ NdXPdP4sZtfCEpA/M46a9PiUzpWuPShUVTtV0jLCwEh+SKH0gFlFvh8k0dIQY4hgAx71B8mlfUiw9Xhmb5sPQsIFmHWMg7h8+eA=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In macOS, /usr/bin and /usr/share/man belong to root:wheel so install to /usr/local/bin and /usr/local/share/man instead.
-
 Signed-off-by: Joe van Tunen <joevt@shaw.ca>
 ---
- Makefile | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+ parse-vtb-ext-block.cpp | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 287b72d..adf6123 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1,11 +1,23 @@
--bindir ?= /usr/bin
--mandir ?= /usr/share/man
-+ifeq ($(OS),Windows_NT)
-+	bindir ?= /usr/bin
-+	mandir ?= /usr/share/man
-+else
-+	UNAME_S := $(shell uname -s)
-+	ifeq ($(UNAME_S),Darwin)
-+		bindir ?= /usr/local/sbin
-+		mandir ?= /usr/local/share/man
-+	else
-+		bindir ?= /usr/bin
-+		mandir ?= /usr/share/man
-+	endif
-+endif
+diff --git a/parse-vtb-ext-block.cpp b/parse-vtb-ext-block.cpp
+index 05d54f4..edfe887 100644
+--- a/parse-vtb-ext-block.cpp
++++ b/parse-vtb-ext-block.cpp
+@@ -17,16 +17,21 @@ void edid_state::parse_vtb_ext_block(const unsigned char *x)
+ 	unsigned num_cvt = x[3];
+ 	unsigned num_st = x[4];
  
- EMXX ?= em++
- 
--SOURCES = edid-decode.cpp parse-base-block.cpp parse-cta-block.cpp \
--	  parse-displayid-block.cpp parse-ls-ext-block.cpp \
--	  parse-di-ext-block.cpp parse-vtb-ext-block.cpp calc-gtf-cvt.cpp
-+SOURCES = \
-+	edid-decode.cpp parse-base-block.cpp parse-cta-block.cpp \
-+	parse-displayid-block.cpp parse-ls-ext-block.cpp \
-+	parse-di-ext-block.cpp parse-vtb-ext-block.cpp calc-gtf-cvt.cpp
- WARN_FLAGS = -Wall -Wextra -Wno-missing-field-initializers -Wno-unused-parameter
- 
- all: edid-decode
++	const unsigned char *y = x + 0x7f;
+ 	x += 5;
+ 	if (num_dtd) {
+ 		printf("  Detailed Timing Descriptors:\n");
+-		for (unsigned i = 0; i < num_dtd; i++, x += 18)
++		for (unsigned i = 0; i < num_dtd; i++, x += 18) {
++			if (x + 18 > y) { fail("Not enough bytes remain for more DTBs in the VTB-EXT\n"); return; }
+ 			detailed_timings("    ", x, false);
++		}
+ 	}
+ 	if (num_cvt) {
+ 		printf("  Coordinated Video Timings:\n");
+-		for (unsigned i = 0; i < num_cvt; i++, x += 3)
++		for (unsigned i = 0; i < num_cvt; i++, x += 3) {
++			if (x + 3 > y) { fail("Not enough bytes remain for more CVTs in the VTB-EXT\n"); return; }
+ 			detailed_cvt_descriptor("    ", x, false);
++		}
+ 	}
+ 	if (num_st) {
+ 		// Note: the VTB-EXT standard has a mistake in the example EDID
+@@ -36,7 +41,9 @@ void edid_state::parse_vtb_ext_block(const unsigned char *x)
+ 		//
+ 		// The documentation itself is correct, though.
+ 		printf("  Standard Timings:\n");
+-		for (unsigned i = 0; i < num_st; i++, x += 2)
++		for (unsigned i = 0; i < num_st; i++, x += 2) {
++			if (x + 2 > y) { fail("Not enough bytes remain for more STs in the VTB-EXT\n"); return; }
+ 			print_standard_timing("    ", x[0], x[1], true);
++		}
+ 	}
+ }
 -- 
 2.24.3 (Apple Git-128)
 
