@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7E2C40AD63
-	for <lists+linux-media@lfdr.de>; Tue, 14 Sep 2021 14:18:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F79740AD64
+	for <lists+linux-media@lfdr.de>; Tue, 14 Sep 2021 14:18:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232904AbhINMUE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S232905AbhINMUE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 14 Sep 2021 08:20:04 -0400
-Received: from omta001.cacentral1.a.cloudfilter.net ([3.97.99.32]:43889 "EHLO
-        omta001.cacentral1.a.cloudfilter.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232888AbhINMUB (ORCPT
+Received: from omta002.cacentral1.a.cloudfilter.net ([3.97.99.33]:37605 "EHLO
+        omta002.cacentral1.a.cloudfilter.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232884AbhINMUB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 14 Sep 2021 08:20:01 -0400
 Received: from shw-obgw-4003a.ext.cloudfilter.net ([10.228.9.183])
         by cmsmtp with ESMTP
-        id PxdsmLnQJczbLQ7Hkmm238; Tue, 14 Sep 2021 12:11:36 +0000
+        id Q4EUm0M5Rps7PQ7HkmGPV8; Tue, 14 Sep 2021 12:11:36 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
-        t=1631621496; bh=zacBV0bc/DtvEOc9L6XQdhBONBZA8Ee+ewbXscUp9gA=;
+        t=1631621496; bh=SctABPA34YBxBrr/4QVTApaycLX0mMdsaOxib+u1UxY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=VrLsO5QwSEyoJUlONrcvNpwMN7LAhDO7512iaghyDipphHnp0ADUHev1bI5oK8idX
-         oGHy8NgdZhwz+9acC5HdK8H+ZgvAwVYykbg1kzY7IwFt4j34K3sp5VmA6Z81gwo5q+
-         re3YGo+jylt6YQ5I9b8vBImqsJ/Ud0JMGXzeiDsVf9xulvvB7ufldimd/ACc3O1d7C
-         iox9NvP1SiqKJq3cviu3R5XjcuXbfV55QQxj9KQ4UCdbqf5wdtwZ7aUXrnhtuxYv/g
-         mjaEIqDGYqyg7Pxzk+hwfwj+DM8GvC5kYsRseq9G7aHO7Pa8UZZ03zXX8TOHPNl0ll
-         hkEHh/+ynFC1w==
+        b=VL8+7j9GWRvaaH4SEmHhqEJAtyhd1qfUFr+Ed95NUVbCDFNFzmWTVpENsobxstgET
+         hurhrHJ7Z6oq8V+QLae5vNEEHlkiXY3ZAq/Fvs3/o4s6Vbvh2oVszyZaKt1eTfZ+zB
+         gAf1c+saxT4w5pgwhbzGuem/wE+i+Se25rzxlo8lyAi1XN4Boo10Sbollmm6Gn+rTC
+         Z3a8jYqO4UD5GXyi3Z+YV9ISGZJtLTPhgFntoeTQXg/Z6WD8oc/T4emvObMayAm1El
+         CVXDHIBd1HWGzQf6CobuWHIluIkDjzH3+grOqy8SXiwDvYfQgssHEvM6nNsObFFjvF
+         UtLKuEZAIiEOg==
 Received: from shaw.ca ([70.71.78.228])
         by cmsmtp with ESMTPA
-        id Q7Hdmcu7dcHSBQ7Hkmpv1K; Tue, 14 Sep 2021 12:11:36 +0000
+        id Q7Hdmcu7dcHSBQ7Hkmpv1P; Tue, 14 Sep 2021 12:11:36 +0000
 Authentication-Results: ; auth=pass (LOGIN) smtp.auth=joevt@shaw.ca
 X-Authority-Analysis: v=2.4 cv=I4EG+Psg c=1 sm=1 tr=0 ts=61409178
  a=qDatE6m/3wxSEG8Wq7h0zQ==:117 a=qDatE6m/3wxSEG8Wq7h0zQ==:17 a=_Dj-zB-qAAAA:8
- a=gUsYxTUpQvwOvGqYgzEA:9 a=c-cOe7UV8MviEfHuAVEQ:22
+ a=77ANNSRXFWH3LhZW9EwA:9 a=c-cOe7UV8MviEfHuAVEQ:22
 From:   joevt <joevt@shaw.ca>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     linux-media@vger.kernel.org
-Subject: [PATCH 09/11] edid-decode: allow undefined aspect ratio
-Date:   Tue, 14 Sep 2021 05:11:27 -0700
-Message-Id: <20210914121129.51451-10-joevt@shaw.ca>
+Subject: [PATCH 10/11] edid-decode: add warnings to VESA VSDB
+Date:   Tue, 14 Sep 2021 05:11:28 -0700
+Message-Id: <20210914121129.51451-11-joevt@shaw.ca>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20210914121129.51451-1-joevt@shaw.ca>
 References: <20210914121129.51451-1-joevt@shaw.ca>
@@ -48,51 +48,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Distinguish between "undefined" and "reserved" aspect ratios. See examples apple-xdr-6k-tile0, lg-ultrafine-5k-v1-thunderbolt-dp1-tile0, asus-xg438q-dp
-"undefined" is for an aspect ratio that doesn't exist in the list of known aspect ratios. This does not deserve a fail.
-"reserved" should not be used and still deserves the fail.
+Add warnings for VESA vendor specific datablock (bits that should be zero and reserved values).
 
 Signed-off-by: Joe van Tunen <joevt@shaw.ca>
 ---
- parse-displayid-block.cpp | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ parse-displayid-block.cpp | 33 ++++++++++++++++++++++++---------
+ 1 file changed, 24 insertions(+), 9 deletions(-)
 
 diff --git a/parse-displayid-block.cpp b/parse-displayid-block.cpp
-index 9713c46..8f4e366 100644
+index 8f4e366..5c81294 100644
 --- a/parse-displayid-block.cpp
 +++ b/parse-displayid-block.cpp
-@@ -270,10 +270,12 @@ void edid_state::parse_displayid_type_1_7_timing(const unsigned char *x,
- 		t.hratio = 256;
- 		t.vratio = 135;
- 		break;
--	default:
-+	case 8:
- 		s += "undefined";
--		if ((x[3] & 0xf) > (dispid.version <= 0x12 ? 7 : 8))
--			fail("Unknown aspect 0x%02x.\n", x[3] & 0xf);
-+		break;
-+	default:
-+		s += "reserved";
-+		fail("Unknown aspect 0x%02x.\n", x[3] & 0xf);
- 		break;
+@@ -1461,22 +1461,37 @@ void edid_state::parse_displayid_vesa(const unsigned char *x)
+ 	unsigned len = x[2];
+ 	x += 6;
+ 	printf("    Data Structure Type: ");
+-	switch (x[0] & 0x07) {
+-	case 0x00: printf("eDP\n"); break;
+-	case 0x01: printf("DP\n"); break;
+-	default: printf("Reserved\n"); break;
++	switch (x[0] & 7) {
++	case 0: printf("eDP\n"); break;
++	case 1: printf("DP\n"); break;
++	default: printf("Reserved (%d)\n", x[0] & 7); break;
  	}
- 	switch ((x[3] >> 5) & 0x3) {
-@@ -455,10 +457,12 @@ void edid_state::parse_displayid_type_3_timing(const unsigned char *x)
- 		t.hratio = 256;
- 		t.vratio = 135;
- 		break;
--	default:
-+	case 8:
- 		s += "undefined";
--		if ((x[3] & 0xf) > (dispid.version <= 0x12 ? 7 : 8))
--			fail("Unknown aspect 0x%02x.\n", x[3] & 0xf);
-+		break;
-+	default:
-+		s += "reserved";
-+		fail("Unknown aspect 0x%02x.\n", x[0] & 0xf);
- 		break;
++
++	if ((x[0] >> 3) & 15)
++		warn("Reserved bits 6:3 (%d) are not 0.\n", (x[0] >> 3) & 15);
++
+ 	printf("    Default Colorspace and EOTF Handling: %s\n",
+ 	       (x[0] & 0x80) ? "Native as specified in the Display Parameters DB" : "sRGB");
++
+ 	printf("    Number of Pixels in Hor Pix Cnt Overlapping an Adjacent Panel: %u\n",
+ 	       x[1] & 0xf);
++	if ((x[1] & 0xf) > 8)
++		warn("Number of Pixels in Hor Pix Cnt Overlapping an Adjacent Panel exceeds 8.\n");
++
++	if ((x[1] >> 4) & 1)
++		warn("Reserved bit 4 is not 0.\n");
++
+ 	printf("    Multi-SST Operation: ");
+-	switch ((x[1] >> 5) & 0x03) {
+-	case 0x00: printf("Not Supported\n"); break;
+-	case 0x01: printf("Two Streams (number of links shall be 2 or 4)\n"); break;
+-	case 0x02: printf("Four Streams (number of links shall be 4)\n"); break;
+-	case 0x03: printf("Reserved\n"); break;
++	switch ((x[1] >> 5) & 3) {
++	case 0: printf("Not Supported\n"); break;
++	case 1: printf("Two Streams (number of links shall be 2 or 4)\n"); break;
++	case 2: printf("Four Streams (number of links shall be 4)\n"); break;
++	case 3: printf("Reserved\n"); warn("Invalid option for Multi-SST Operation.\n"); break;
  	}
- 
++
++	if ((x[1] >> 7) & 1)
++		warn("Reserved bit 7 is not 0.\n");
++
+ 	if (len >= 7) {
+ 		double bpp = (x[2] & 0x3f) + (x[3] & 0x0f) / 16.0;
+ 		printf("    Pass through timing's target DSC bits per pixel: %.4f\n", bpp);
 -- 
 2.24.3 (Apple Git-128)
 
