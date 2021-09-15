@@ -2,97 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1045740CBE3
-	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 19:45:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 380FF40CC5F
+	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 20:12:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbhIORqr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Sep 2021 13:46:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49428 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbhIORqr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Sep 2021 13:46:47 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 196AFC061574
-        for <linux-media@vger.kernel.org>; Wed, 15 Sep 2021 10:45:28 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 778F0C63A9; Wed, 15 Sep 2021 18:45:26 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1631727926; bh=5v3Pmn5fRyTznPaJMKk3WoOyRDcvsKbiSLuAiLMLXO4=;
-        h=Date:From:To:Subject:From;
-        b=O3IxPvNbQTLMrcFfNNyEHWjqVnrgbtGML3yLyh51QlXHpAfDbbZ2FDWmEUq5dOUbc
-         heIEOGgOjTC3HB/E2iio9JhsljfWxbRBzYcCh28kdY6T2kbxOoEVpO+Z3suWT9QX8V
-         Xsr5V5FweAD/amWUXBBQIuHZL0y6UMQ5hoN6x4y9SN8a/8M/JJ/bsRlI5CDdHUaCVM
-         WrG2lc5u1hzooROGXUxqQ+xcEfELzRf0oqiExGoVAUl0BDhdwDOj0tzqRM57ImB0Fc
-         dQG64BGD5pFpeDpuKmTEe3nHA+06ZKmzRkrTaDJZsGJ5JiUb6zVsvhMLryRkNMzFav
-         bMWJYuba3gHig==
-Date:   Wed, 15 Sep 2021 18:45:26 +0100
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.16] First batch
-Message-ID: <20210915174526.GA19504@gofer.mess.org>
+        id S229862AbhIOSNX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Sep 2021 14:13:23 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:56240 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229479AbhIOSNW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Sep 2021 14:13:22 -0400
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mQZO5-00BbOw-Vt; Wed, 15 Sep 2021 18:12:01 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mQZO3-00BXJy-Ua; Wed, 15 Sep 2021 18:11:59 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.16] First batch (#77035)
+Date:   Wed, 15 Sep 2021 18:11:59 +0000
+Message-Id: <20210915181159.2749648-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210915174526.GA19504@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 826a9903fab5f7404265ddccd0bb4f240382e825:
+From: builder@linuxtv.org
 
-  media: camss: vfe: Don't call hw_version() before its dependencies are met (2021-09-06 09:40:05 +0200)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210915174526.GA19504@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/139664/
+Build time: 00:20:01
+Link: https://lore.kernel.org/linux-media/20210915174526.GA19504@gofer.mess.org
 
-are available in the Git repository at:
+gpg: Signature made Wed 15 Sep 2021 05:01:38 PM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: A624 251A 2608 4A9E D9E4  C8B6 425F 639D 3960 FA9E
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.16a
+Summary: got 3/12 patches with issues, being 2 at build time
 
-for you to fetch changes up to f507435c1731c7c5871efad78fd15c9152dd0245:
+Error/warnings:
 
-  media: dvb-frontends/cxd2099: Remove repeated verbose license text (2021-09-15 18:01:34 +0100)
+patches/0001-media-ir-kbd-i2c-improve-responsiveness-of-hauppauge.patch:
 
-----------------------------------------------------------------
-v5.16a
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-----------------------------------------------------------------
-Cai Huoqing (5):
-      media: dvb-frontend/mxl692: Remove repeated verbose license text
-      media: dvb-frontend/mxl5xx: Remove repeated verbose license text
-      media: dvb-frontends/stv6111: Remove repeated verbose license text
-      media: dvb-frontends/stv0910: Remove repeated verbose license text
-      media: dvb-frontends/cxd2099: Remove repeated verbose license text
+    allyesconfig: return code #0:
+	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-Pavel Skripkin (1):
-      media: mxl111sf: change mutex_init() location
+patches/0005-media-meson-ir-tx-fix-platform_no_drv_owner.cocci-wa.patch:
 
-Rajat Asthana (1):
-      media: mceusb: return without resubmitting URB in case of -EPROTO error.
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
 
-Sean Young (4):
-      media: ir-kbd-i2c: improve responsiveness of hauppauge zilog receivers
-      media: ir_toy: print firmware version in correct format
-      media: ir_toy: deal with residual irdata before expected response
-      media: ir_toy: do not resubmit broken urb
+patches/0006-media-mxl111sf-change-mutex_init-location.patch:
 
-jing yangyang (1):
-      media: meson-ir-tx: fix platform_no_drv_owner.cocci warnings
+   checkpatch.pl:
+	$ cat patches/0006-media-mxl111sf-change-mutex_init-location.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:24: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
- drivers/media/dvb-frontends/cxd2099.c     |  9 ---------
- drivers/media/dvb-frontends/cxd2099.h     |  9 ---------
- drivers/media/dvb-frontends/mxl5xx.c      |  9 ---------
- drivers/media/dvb-frontends/mxl5xx.h      |  9 ---------
- drivers/media/dvb-frontends/mxl5xx_defs.h |  4 ----
- drivers/media/dvb-frontends/mxl5xx_regs.h | 10 ----------
- drivers/media/dvb-frontends/mxl692.c      |  9 ---------
- drivers/media/dvb-frontends/mxl692.h      |  9 ---------
- drivers/media/dvb-frontends/mxl692_defs.h |  9 ---------
- drivers/media/dvb-frontends/stv0910.c     |  9 ---------
- drivers/media/dvb-frontends/stv0910.h     |  9 ---------
- drivers/media/dvb-frontends/stv6111.c     |  9 ---------
- drivers/media/dvb-frontends/stv6111.h     |  9 ---------
- drivers/media/i2c/ir-kbd-i2c.c            |  1 +
- drivers/media/rc/ir_toy.c                 | 27 +++++++++++++++++----------
- drivers/media/rc/mceusb.c                 |  1 +
- drivers/media/rc/meson-ir-tx.c            |  1 -
- drivers/media/usb/dvb-usb-v2/mxl111sf.c   | 16 ++++++++++++++--
- 18 files changed, 33 insertions(+), 126 deletions(-)
