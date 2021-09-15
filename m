@@ -2,82 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9196B40CB4A
-	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 18:56:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1045740CBE3
+	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 19:45:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229692AbhIOQ6C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Sep 2021 12:58:02 -0400
-Received: from gofer.mess.org ([88.97.38.141]:35195 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229465AbhIOQ6B (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Sep 2021 12:58:01 -0400
+        id S230097AbhIORqr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Sep 2021 13:46:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49428 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229479AbhIORqr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Sep 2021 13:46:47 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 196AFC061574
+        for <linux-media@vger.kernel.org>; Wed, 15 Sep 2021 10:45:28 -0700 (PDT)
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 7598BC63A9; Wed, 15 Sep 2021 17:56:41 +0100 (BST)
+        id 778F0C63A9; Wed, 15 Sep 2021 18:45:26 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1631725001; bh=qmMPbXTEEBd+l8VZiHEik6mxVAqlkqu6hfi4tBFy7zw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OybuUbikCRLMaHMzS0iJShIqAoCQkHTTKy1h9f++Jos7CYs0r7NtSSkkvAYxxxOyy
-         AniCAfp8UUlJN+ZfUCGZ175F0F42yFd6UTEvk3CRtEKCrFrj7UL7zVJXpBBvJM+Xx4
-         OJHEBODv+YTsAa/PS9W9aqvYQrhAO0wLks8uSQJ0VRPLmFLLHWPqCCF/gi2orymVNk
-         mMOvUTVJQQM+zPexWrJ5JEOV2aPXYE58gc5L/6eRa99bUAJaHY5AUmtcOsQOcmG8gD
-         qnv9tJWLlrO2tyOh/rx6O5VZJww81m59tm07YgJYX6kDNQ3egtgjqzFaz6uKpZdVGK
-         quCX4fzU3kM4A==
-Date:   Wed, 15 Sep 2021 17:56:41 +0100
+        t=1631727926; bh=5v3Pmn5fRyTznPaJMKk3WoOyRDcvsKbiSLuAiLMLXO4=;
+        h=Date:From:To:Subject:From;
+        b=O3IxPvNbQTLMrcFfNNyEHWjqVnrgbtGML3yLyh51QlXHpAfDbbZ2FDWmEUq5dOUbc
+         heIEOGgOjTC3HB/E2iio9JhsljfWxbRBzYcCh28kdY6T2kbxOoEVpO+Z3suWT9QX8V
+         Xsr5V5FweAD/amWUXBBQIuHZL0y6UMQ5hoN6x4y9SN8a/8M/JJ/bsRlI5CDdHUaCVM
+         WrG2lc5u1hzooROGXUxqQ+xcEfELzRf0oqiExGoVAUl0BDhdwDOj0tzqRM57ImB0Fc
+         dQG64BGD5pFpeDpuKmTEe3nHA+06ZKmzRkrTaDJZsGJ5JiUb6zVsvhMLryRkNMzFav
+         bMWJYuba3gHig==
+Date:   Wed, 15 Sep 2021 18:45:26 +0100
 From:   Sean Young <sean@mess.org>
-To:     Cai Huoqing <caihuoqing@baidu.com>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: b2c2: flexcop: Convert to SPDX identifier
-Message-ID: <20210915165641.GC18319@gofer.mess.org>
-References: <20210822040339.1837-1-caihuoqing@baidu.com>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.16] First batch
+Message-ID: <20210915174526.GA19504@gofer.mess.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210822040339.1837-1-caihuoqing@baidu.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Aug 22, 2021 at 12:03:39PM +0800, Cai Huoqing wrote:
-> use SPDX-License-Identifier instead of a verbose license text
-> 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> ---
->  drivers/media/common/b2c2/flexcop.c | 11 +----------
->  1 file changed, 1 insertion(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/common/b2c2/flexcop.c b/drivers/media/common/b2c2/flexcop.c
-> index cbaa61f10d5f..2eaff1316952 100644
-> --- a/drivers/media/common/b2c2/flexcop.c
-> +++ b/drivers/media/common/b2c2/flexcop.c
-> @@ -1,3 +1,4 @@
-> +// SPDX-License-Identifier: GPL-2.0+
->  /*
->   * Linux driver for digital TV devices equipped with B2C2 FlexcopII(b)/III
->   * flexcop.c - main module part
-> @@ -15,16 +16,6 @@
->   *   Uwe Bugla, uwe.bugla at gmx.de (doing tests, restyling code, writing docu)
->   *   Niklas Peinecke, peinecke at gdv.uni-hannover.de (hardware pid/mac
->   *               filtering)
-> - *
-> - * This program is free software; you can redistribute it and/or
-> - * modify it under the terms of the GNU Lesser General Public License
-> - * as published by the Free Software Foundation; either version 2.1
-> - * of the License, or (at your option) any later version.
+The following changes since commit 826a9903fab5f7404265ddccd0bb4f240382e825:
 
-That's LGPL 2.1, not GPL 2.0+.
+  media: camss: vfe: Don't call hw_version() before its dependencies are met (2021-09-06 09:40:05 +0200)
 
-> - *
-> - * This program is distributed in the hope that it will be useful,
-> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> - * GNU General Public License for more details.
->   */
->  
->  #include "flexcop.h"
-> -- 
-> 2.25.1
+are available in the Git repository at:
 
-Thanks
+  git://linuxtv.org/syoung/media_tree.git tags/v5.16a
 
-Sean
+for you to fetch changes up to f507435c1731c7c5871efad78fd15c9152dd0245:
+
+  media: dvb-frontends/cxd2099: Remove repeated verbose license text (2021-09-15 18:01:34 +0100)
+
+----------------------------------------------------------------
+v5.16a
+
+----------------------------------------------------------------
+Cai Huoqing (5):
+      media: dvb-frontend/mxl692: Remove repeated verbose license text
+      media: dvb-frontend/mxl5xx: Remove repeated verbose license text
+      media: dvb-frontends/stv6111: Remove repeated verbose license text
+      media: dvb-frontends/stv0910: Remove repeated verbose license text
+      media: dvb-frontends/cxd2099: Remove repeated verbose license text
+
+Pavel Skripkin (1):
+      media: mxl111sf: change mutex_init() location
+
+Rajat Asthana (1):
+      media: mceusb: return without resubmitting URB in case of -EPROTO error.
+
+Sean Young (4):
+      media: ir-kbd-i2c: improve responsiveness of hauppauge zilog receivers
+      media: ir_toy: print firmware version in correct format
+      media: ir_toy: deal with residual irdata before expected response
+      media: ir_toy: do not resubmit broken urb
+
+jing yangyang (1):
+      media: meson-ir-tx: fix platform_no_drv_owner.cocci warnings
+
+ drivers/media/dvb-frontends/cxd2099.c     |  9 ---------
+ drivers/media/dvb-frontends/cxd2099.h     |  9 ---------
+ drivers/media/dvb-frontends/mxl5xx.c      |  9 ---------
+ drivers/media/dvb-frontends/mxl5xx.h      |  9 ---------
+ drivers/media/dvb-frontends/mxl5xx_defs.h |  4 ----
+ drivers/media/dvb-frontends/mxl5xx_regs.h | 10 ----------
+ drivers/media/dvb-frontends/mxl692.c      |  9 ---------
+ drivers/media/dvb-frontends/mxl692.h      |  9 ---------
+ drivers/media/dvb-frontends/mxl692_defs.h |  9 ---------
+ drivers/media/dvb-frontends/stv0910.c     |  9 ---------
+ drivers/media/dvb-frontends/stv0910.h     |  9 ---------
+ drivers/media/dvb-frontends/stv6111.c     |  9 ---------
+ drivers/media/dvb-frontends/stv6111.h     |  9 ---------
+ drivers/media/i2c/ir-kbd-i2c.c            |  1 +
+ drivers/media/rc/ir_toy.c                 | 27 +++++++++++++++++----------
+ drivers/media/rc/mceusb.c                 |  1 +
+ drivers/media/rc/meson-ir-tx.c            |  1 -
+ drivers/media/usb/dvb-usb-v2/mxl111sf.c   | 16 ++++++++++++++--
+ 18 files changed, 33 insertions(+), 126 deletions(-)
