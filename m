@@ -2,120 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 093A040BDEF
-	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 04:57:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32C1440BE68
+	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 05:44:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229888AbhIOC6h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Sep 2021 22:58:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42984 "EHLO
+        id S236078AbhIODpx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Sep 2021 23:45:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235103AbhIOC6d (ORCPT
+        with ESMTP id S234150AbhIODpt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Sep 2021 22:58:33 -0400
-Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E837EC061764
-        for <linux-media@vger.kernel.org>; Tue, 14 Sep 2021 19:57:14 -0700 (PDT)
-Received: by mail-yb1-xb44.google.com with SMTP id s11so2608069yba.11
-        for <linux-media@vger.kernel.org>; Tue, 14 Sep 2021 19:57:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=mzEGGH8rjhvJOU6+U/0pjj4Nbyetpq5Zp+CJAv5Ib1k=;
-        b=mqRLDj5MrrAcA9f5+iOndehR8fzXujvNzeTLqJcf4A9h20EIZhqHTLlroFPPDXwbZ4
-         NshAmzzgNkAc80qpCtTKrdfHmVdDT/MhzPTUKUEkFskN0eRy3UJ25hWHqncSZK/b4wM8
-         78+PTr0WjhXsbUWuT4ZR+al1rC+gK0zqgoPWcYVZIG7u25OftpbsnAZ/mhHVj30mUoHY
-         XajMqNDCRlTdpeJOzuOv31We9wsWqVhv0jLECOPtBexJx3HCtti68tfm4pvXYIjrR4gQ
-         fJFDyRtl2A0glqUGiwkYrJSreBZZbW7Ma/S44opKO2rK000UZpzXdkMB/P5BxsNmL4lO
-         Mq5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=mzEGGH8rjhvJOU6+U/0pjj4Nbyetpq5Zp+CJAv5Ib1k=;
-        b=DsMYMZabAef7NThw+c9mKbICF5LQhQZeZRv9VEg3vIfTbA8nUDLv3/Plso89wFHXQz
-         XO0FG83DmNoy0jSt2vUGXU1THfEGpS6SixkFZW5z6cCF9hLRyGE0rCbKqGj4BeqL/690
-         JECQw06bmqnTB60YutwJ9fAZ12syz9eONu/sqBzNtZzH0DwexoIQVTsjBRx8Dpq3BZg4
-         V069IqSgLd3f/nl7yZPXzGGH0SmsAbZLWIdYE32QUKxCtDgOuKx8947phoFSxcv6wixg
-         zHpaf+jVptfXINDWEXVMx+1pXGT2y6oSWpwxE4LRTpta80nm7qEL8etaBE294QA6NPf1
-         HI2A==
-X-Gm-Message-State: AOAM530keJuqEtCYNkOHJLutNaHads1ySMrI3vrpd2BbwtAwdff4L6+G
-        h4eeu/D84+AD398qRdRCf4dHD4oyJ5pB0ZPJcxc=
-X-Google-Smtp-Source: ABdhPJyUDu2y3Vz8/0QFAyNFKcxeJVs+9h1DEFpfga2bykPJ1tAhBJ2lmMtNY63Sp4pbSfwDu+dZ5ZdaXQbXeksGXhk=
-X-Received: by 2002:a25:2cd5:: with SMTP id s204mr3233855ybs.137.1631674634025;
- Tue, 14 Sep 2021 19:57:14 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a05:7000:25c8:0:0:0:0 with HTTP; Tue, 14 Sep 2021 19:57:13
- -0700 (PDT)
-Reply-To: mrdavidmorris90@gmail.com
-From:   MR DAVID MORRIS <carllynx575@gmail.com>
-Date:   Tue, 14 Sep 2021 19:57:13 -0700
-Message-ID: <CAAWHKbPrx-YXjORABvJpHckoNoLGeCQ_uOqvp4Rbf=cQcnePeQ@mail.gmail.com>
-Subject: SHIPMENT
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 14 Sep 2021 23:45:49 -0400
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D73AC061574
+        for <linux-media@vger.kernel.org>; Tue, 14 Sep 2021 20:44:31 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id QLqQmofprpQdWQLqWm9uty; Wed, 15 Sep 2021 05:44:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1631677468; bh=1XgCo9Q1mrf8XHGF86gWmPdIn0z5LkMwIs4EWsab9Ic=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=rRAmTg0TOs/TGC5b4hYl30cmmRpsOXSI2iRV82DWweP9L/aRtHQZDaOOOeIGIqIW8
+         rBz8aNH0HVLZ7VLYlWKgu5i/1CwVwEw98ul+DF/D7OAaWavqU7DqjKsWAwsbuWl9qq
+         SaCWZJ9XtVwcZtvMI0/NXvAFojc2+bi73DojAxQKqEKanVJBoDoVQMabeR2NOam1Gv
+         ShHiiCROJ7G08Suh0nYXjDb7Zh7FZtlad6SBQfWqAcKuOC5oOuq+Bndw03q7zBSxkU
+         GtvN8UM4HgYEFh9pbA+NysO3alyXqU+If//dHFNNM8i2a4UT4xDt3PJY97TUgCOsxB
+         SA/5dmu3j5v2Q==
+Message-ID: <c4390beffc53fbe727027f21e03888b9@smtp-cloud7.xs4all.net>
+Date:   Wed, 15 Sep 2021 05:44:22 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfNoxPfmBgfCgDanqqR5lYIVMDAT5t0Y7yANC5f/DxHyv1uhq5FXMo1kGXKGFvdbXL+I6losaX2V01Gm++12hNZ0d63/sNMZ8iC/vTMva/yBRCq8rrCRI
+ /O0GSHtgGczE3bEfVQqo8FG2xyALl44r7NIzFLHnXYf9LfWzg3DRYkFBiEYI+H2EeUoUmbwj3xBY9cFXErN594C77hIFjw+/XSi1YmBcYRE6TOMvw8LU4Zc+
+ XjQozQeoNnbU2X78cZcdxg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-From the office of
- MR DAVID MORRIS
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
- Administration Officer
+Results of the daily build of media_tree:
 
- United Nations Inspection Services
+date:			Wed Sep 15 05:00:11 CEST 2021
+media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
+media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
+v4l-utils git hash:	05a468e033af0e4c775aaa10fe4d02c45de698ae
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8f230e7be768cbdfab869697ba0a2c622a4a0cae
+host hardware:		x86_64
+host os:		5.13.11-marune
 
- Atlanta, Georgia USA
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15-rc1-i686: ERRORS
+linux-5.15-rc1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 2
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
+Detailed results are available here:
 
-Hello;
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
+Detailed regression test results are available here:
 
-Our agency has in possession a parcel shipped from a government agency
-of the United Kingdom. During transport the package was damaged and
-the label became almost illegible. What we have deciphered appears to
-be your name.
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
 
-In events such as this we have no choice but to turn these packages
-over to the closest match on the shipping address. This is required by
-law. And this is why we are contacting you.
+Full logs are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
 
-These packages have been scanned and x-rayed in hopes to find any
-information to surrender them to the rightful owner.
+The Media Infrastructure API from this daily build is here:
 
-
-We discovered, while x-raying these packages, that they contain a
-large amount of United States currency. We assume this was a
-transaction or transfer to you and that you are probably still
-expecting the delivery. (The total estimated sum is close to $8M)
-
-
-Again, we are required by law to turn this package over to the
-rightful owner and since your name appears on the shipping label, that
-owner is probably you.
-
-
-We would like you to forward this parcel to you but we need to verify
-your full name, proper shipping address and a telephone number so we
-may begin processing this claim.
-
-
-There is a limited time required by law to claim
-lost/damaged/illegible packages. Once this time expires we must turn
-the package over to the United States Government who disperses the
-contents to charities. Any unclaimed money is sent to the US Treasury
-Office where it is destroyed.
-
-
-If you feel that you should claim this money please reply with the
-information above and we can release it to you.
-
-
-CONTACT.... mrdavidmorris90@gmail.com
-
-
-Thank you for your help in this matter;
-
-
-MR DAVID MORRIS
+http://www.xs4all.nl/~hverkuil/spec/index.html
