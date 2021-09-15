@@ -2,166 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8C8740CC88
-	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 20:27:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2586940CC8A
+	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 20:28:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229935AbhIOS3R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Sep 2021 14:29:17 -0400
+        id S229935AbhIOS3t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Sep 2021 14:29:49 -0400
 Received: from omta001.cacentral1.a.cloudfilter.net ([3.97.99.32]:58148 "EHLO
         omta001.cacentral1.a.cloudfilter.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229466AbhIOS3Q (ORCPT
+        by vger.kernel.org with ESMTP id S229466AbhIOS3s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Sep 2021 14:29:16 -0400
-Received: from shw-obgw-4003a.ext.cloudfilter.net ([10.228.9.183])
+        Wed, 15 Sep 2021 14:29:48 -0400
+Received: from shw-obgw-4001a.ext.cloudfilter.net ([10.228.9.142])
         by cmsmtp with ESMTP
-        id QVeTmOKuCczbLQZdVms1tk; Wed, 15 Sep 2021 18:27:57 +0000
+        id QVMfmOJJNczbLQZe1ms23b; Wed, 15 Sep 2021 18:28:29 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
-        t=1631730477; bh=b9j7ZVSws7jN1zwb4nb9QRY/vqDgL/Fha9lKLj13OTU=;
+        t=1631730509; bh=mg8kMobbjQdvg3S3Z5/XoPxpqUN8VcpVxX4iRrA05TA=;
         h=Date:Subject:From:To:CC:References:In-Reply-To;
-        b=ipGGgBq+LJE1OxfY0yrMRGgdCTEFL018qj90yzoh51FLUajMaxIgRGa7ybFP2EaaR
-         yWpncY8zBY1Dx0tZTS8E39mVv4pL6nZR1fvHbCtQBc5VgMpCFN+wMqKhBdTyrIbL/B
-         GbN/Gs7TovTssncDnfzdnIJD/6bp8xO84c0Hpv/RxjPPdswoMTe3oTkhrnmF98QfVW
-         SMb6M/I+JZiNvNkII+OdcIR99LNkaRpGwDfU+4quRUkyjBUaZ+iOWvw6l2GfPv2czN
-         RRaVz1RoV2jS0YAYpkEl/Q75jOKvFOBOMM1Ey6XdJqSCEmj82nSQI6s6ai73WiH9Dl
-         GeAdFjoGrbvWw==
+        b=Ard088DvtyBTS3mAbetaRGyLxKxoV4zM5FqriAsq4URp/TsApMF/JljFCjnlGOjTu
+         zzRQD6V9uSunv7TNlVQRBrxNju+2aJ09FQKgMyq1HAll+rabBVsD2V5rZmKnk0HktD
+         ujB6biSnNgPMAXcEsyMrEmx51Z4WRMks+vpfH3XQ0t6zXVLnY9iz0TYGRs8nFNz1gN
+         S7topvScxs/Vgq7wYqPyJ9BY7aGt+OCVzl//LFRyHJeKXvvs9X0FxVaA7Gnhe6yKfm
+         jZqTZnb2Mw5jNC/mICRRxBQDbj1a+8MAlrJGx4o6XIEZ8Jjj++VyqejqzaeH7YGxOZ
+         mI4PdBVXThUkg==
 Received: from [192.168.0.100] ([70.71.78.228])
         by cmsmtp with ESMTPA
-        id QZdTmoeSWcHSBQZdUmvuah; Wed, 15 Sep 2021 18:27:57 +0000
+        id QZe0mewHmU9pxQZe1mvSWO; Wed, 15 Sep 2021 18:28:29 +0000
 Authentication-Results: ; auth=pass (LOGIN) smtp.auth=joevt@shaw.ca
-X-Authority-Analysis: v=2.4 cv=I4EG+Psg c=1 sm=1 tr=0 ts=61423b2d
+X-Authority-Analysis: v=2.4 cv=Bbi7bph2 c=1 sm=1 tr=0 ts=61423b4d
  a=qDatE6m/3wxSEG8Wq7h0zQ==:117 a=qDatE6m/3wxSEG8Wq7h0zQ==:17
- a=IkcTkHD0fZMA:10 a=_Dj-zB-qAAAA:8 a=xOd6jRPJAAAA:8 a=_Hv29zpPPXLx2p5k5VQA:9
- a=QEXdDO2ut3YA:10 a=c-cOe7UV8MviEfHuAVEQ:22 a=p2IOnBAzwV8vXciPbnnL:22
+ a=IkcTkHD0fZMA:10 a=xOd6jRPJAAAA:8 a=_Dj-zB-qAAAA:8 a=ywt57WX9DDL8cH32plEA:9
+ a=QEXdDO2ut3YA:10 a=p2IOnBAzwV8vXciPbnnL:22 a=c-cOe7UV8MviEfHuAVEQ:22
 User-Agent: Microsoft-MacOutlook/16.52.21080801
-Date:   Wed, 15 Sep 2021 11:27:53 -0700
-Subject: Re: [PATCH 07/11] edid-decode: always linefeed after hex_block
+Date:   Wed, 15 Sep 2021 11:28:27 -0700
+Subject: Re: [PATCH 05/11] edid-decode: fix standard timing vertical pixels
 From:   Joe van Tunen <joevt@shaw.ca>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 CC:     <linux-media@vger.kernel.org>
-Message-ID: <3B7DF45A-B3B2-4335-99CE-FD1A19B4814D@shaw.ca>
-Thread-Topic: [PATCH 07/11] edid-decode: always linefeed after hex_block
+Message-ID: <C0E330D8-607E-4406-8B84-E9D760311117@shaw.ca>
+Thread-Topic: [PATCH 05/11] edid-decode: fix standard timing vertical pixels
 References: <20210914121129.51451-1-joevt@shaw.ca>
- <20210914121129.51451-8-joevt@shaw.ca>
- <2025be72-7f3e-b63d-51c4-33a9720f65fe@xs4all.nl>
- <F9B610CB-8B8D-4D68-B7AB-7BABF52BBDA3@shaw.ca>
-In-Reply-To: <F9B610CB-8B8D-4D68-B7AB-7BABF52BBDA3@shaw.ca>
+ <20210914121129.51451-6-joevt@shaw.ca>
+ <075b28bd-35a0-5acb-3cc2-383c8533c031@xs4all.nl>
+ <95b0735e-da3a-09d4-78fd-c36db5791912@xs4all.nl>
+In-Reply-To: <95b0735e-da3a-09d4-78fd-c36db5791912@xs4all.nl>
 Mime-version: 1.0
 Content-type: text/plain;
         charset="UTF-8"
 Content-transfer-encoding: quoted-printable
-X-CMAE-Envelope: MS4xfIC4YEjx+QnKWVTbhvH5geoYmvttfteTRc0SUXkHFpehFamckUl6wt3fd0bLB79z/RBctTp10uQqmIoW9uo/yl9bs1UI5yNYaoEzdHwLJLhP3MsJBil6
- /HNH9NkZ+MTBY0445FMoVpMq4+7IK3rPzNNM/06j9rxgBalCpK7AWvlaSoULPqoHylUCoN5eohF3mZQSyUPM+S46pOt+Fr19++T6o8tzAFqTr4nbzZkw4l2/
+X-CMAE-Envelope: MS4xfO1JKqyf6OBQKQ/Wk7O3iX0yMp3rHyIViP2A7WGpvLGlr0Q0xhcRUtR73ZhDz75cjlbjykOCGG+4J7KXzyl0Adwe7X4jzolinKQtgOtNOQKNZOFh1VtG
+ 9941c16tIsnAWoLMeKS4ZnIqfY54Qf3kk3XxYPJOj68Rt/9eTebqctR4GALg5bqwoDU49Ab3Mdy1L5zsSveb0hxw1s9GpC3CZCa8TWpvziVpwz3xfACjV/Br
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I found no place that requires this change to hex_block.
-This patch should be ignored.
+Good find. I agree with that warning.
 
-I did find one call to hex_block that should be modified:
-cta_hdr10plus outputs hex on the same line as the "Application Version: %u"=
-.
+=EF=BB=BFOn 2021-09-15, 4:10 AM, "Hans Verkuil" <hverkuil@xs4all.nl> wrote:
 
-It either needs to always output a linefeed before calling hex_block like t=
-his:
+    On 15/09/2021 12:08, Hans Verkuil wrote:
+    > On 14/09/2021 14:11, joevt wrote:
+    >> Don't do ceiling to nearest 8 pixels for active vertical lines. See =
+examples elo-4600l-hdmi and kogan-kaled24144f-hdmi.
+    >>
+    >> Section 3.9 and 3.10.3.6 of EDID 1.4 does not say vertical lines mus=
+t be a multiple of 8.  This line of code appears to have been added to satis=
+fy the 3rd example in VTB-EXT spec but that example has an incorrect HAP ind=
+icator decimal value so it cannot be trusted. Also, all 3 examples have an i=
+ncorrect vertical refresh value as noted in parse-vtb-ext-block.cpp. The VES=
+A DMT spec has the following examples that are not a multiple of 8 lines whi=
+ch support this change:
+    >> 1400x1050 4:3
+    >> 1440x900 16:10
+    >> 1600x900 16:9
+    >> 1680x1050 16:10
+    >>
+    >> Signed-off-by: Joe van Tunen <joevt@shaw.ca>
+    >> ---
+    >>  parse-base-block.cpp | 1 -
+    >>  1 file changed, 1 deletion(-)
+    >>
+    >> diff --git a/parse-base-block.cpp b/parse-base-block.cpp
+    >> index e2901a6..32d2079 100644
+    >> --- a/parse-base-block.cpp
+    >> +++ b/parse-base-block.cpp
+    >> @@ -573,7 +573,6 @@ void edid_state::print_standard_timing(const cha=
+r *prefix, unsigned char b1, uns
+    >>  		break;
+    >>  	}
+    >>  	vact =3D (double)hact * vratio / hratio;
+    >> -	vact =3D 8 * ((vact + 7) / 8);
+    >=20
+    > I need to look closer at this. I think it was added to help with 1360=
+x768, which without
+    > this line maps to 1360x765.
+    >=20
+    > I'll get back to you on this.
 
-	printf("    Application Version: %u\n", x[0]);
-	hex_block("    ", x + 1, length - 1);
+    I did some more reading on this, and appendix D of the EDID 1.4 spec
+    says this (D-8):
 
-Or it needs to set step to the same value as length, like this:
+    "If calculated aspect ratio is not 16 : 10 AR, 4 : 3 AR, 5 : 4 AR or 16=
+ : 9 AR
+     what timing description should be used?"
 
-	printf("    Application Version: %u", x[0]);
-	if (length > 1)
-		hex_block("  ", x + 1, length - 1, true, length - 1);
-	else
-		printf("\n");
+    "Ref.: Section 3.9 (E-EDID Standard Release A, Revision 2)
+     The Standard Timings Identification code may not be used to
+     identify timings which do not match one of these standard aspect
+     ratios. Support for such timings must be indicated elsewhere,
+     e.g., by use of a Detailed Timing Descriptor."
 
-Those are probably the only acceptable ways to call hex_block (first is mul=
-ti-line or no-line, second is one-line)
+    So you are correct with your change, but I think it would make
+    sense to add a new check:
 
-It should also probably check the length:
+    // See also Ref. D-8 in the EDID-1.4 spec
+    if (vact & 1)
+    	warn("Standard Timing %ux%u has a dubious odd vertical resolution.\n",=
+ hact, vact);
 
-	if (length =3D=3D 0) {
-		fail("Empty Data Block with length %u.\n", length);
-		return;
-	}
+    So that way an attempt to use ST to describe 1360x768 will result in a =
+warning.
 
+    Regards,
 
-=EF=BB=BFOn 2021-09-15, 8:43 AM, "Joe van Tunen" <joevt@shaw.ca> wrote:
+    	Hans
 
-    Yes, that's ugly. I will do a search for the EDID that prompted me to m=
-ake this change. Maybe it's not a problem anymore.
-    ...
-    Seems like the problem I had was fixed in cta_hdr10plus. I'll do more c=
-hecking and testing with other calls to hex_block.
-
-
-    =EF=BB=BFOn 2021-09-15, 3:10 AM, "Hans Verkuil" <hverkuil@xs4all.nl> wrote:
-
-        On 14/09/2021 14:11, joevt wrote:
-        > hex_block should not return without printing a newline (which occ=
-urs when the length is zero). This causes a missing newline after "Applicati=
-on Version: 1" with cta_hdr10plus for an EDID I have.
-        > Any place that calls hex_block will have the same problem if it's=
- possible for the length to be zero.
-        >=20
-        > In other words, a hex_block needs to have a linefeed even if it h=
-as zero length, because the caller assumes it will go to the next line as it=
- does when the hex block is not zero length.
-        >=20
-        > Signed-off-by: Joe van Tunen <joevt@shaw.ca>
-        > ---
-        >  edid-decode.cpp | 4 +++-
-        >  1 file changed, 3 insertions(+), 1 deletion(-)
-        >=20
-        > diff --git a/edid-decode.cpp b/edid-decode.cpp
-        > index 2316abc..6aa93fb 100644
-        > --- a/edid-decode.cpp
-        > +++ b/edid-decode.cpp
-        > @@ -698,8 +698,10 @@ void hex_block(const char *prefix, const uns=
-igned char *x,
-        >  {
-        >  	unsigned i, j;
-        > =20
-        > -	if (!length)
-        > +	if (!length) {
-        > +		printf("\n");
-        >  		return;
-        > +	}
-
-        Hmm, with this change I get this:
-
-        edid-decode -c Digital/Acer/ACR0282/B12D637C1F12 with the linuxhw d=
-atabase:
-
-          Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
-            Source physical address: 2.0.0.0
-          Unknown CTA-861 tag 0x00, length 0
-
-          Unknown CTA-861 tag 0x00, length 0
-
-          Unknown CTA-861 tag 0x00, length 0
-
-          Unknown CTA-861 tag 0x00, length 0
-
-          Unknown CTA-861 tag 0x00, length 0
-
-          Unknown CTA-861 tag 0x00, length 0
-
-          Unknown CTA-861 tag 0x00, length 0
-
-        That looks pretty ugly.
-
-        Regards,
-
-        	Hans
-
-        > =20
-        >  	for (i =3D 0; i < length; i +=3D step) {
-        >  		unsigned len =3D min(step, length - i);
-        >=20
-
-
+    >=20
+    > Regards,
+    >=20
+    > 	Hans
+    >=20
+    >>  	refresh =3D (b2 & 0x3f) + 60;
+    >> =20
+    >>  	formula.hact =3D hact;
+    >>
+    >=20
 
 
 
