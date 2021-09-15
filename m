@@ -2,103 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 930F640CD4E
-	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 21:39:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF75F40CD7D
+	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 21:52:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231585AbhIOTlE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Sep 2021 15:41:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47252 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231490AbhIOTlD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Sep 2021 15:41:03 -0400
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 254BFC061766
-        for <linux-media@vger.kernel.org>; Wed, 15 Sep 2021 12:39:44 -0700 (PDT)
-Received: by mail-ot1-x32d.google.com with SMTP id q11-20020a9d4b0b000000b0051acbdb2869so5143054otf.2
-        for <linux-media@vger.kernel.org>; Wed, 15 Sep 2021 12:39:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=IGGDgeo7WVVIlkSnWinltsDGGWd6kdeJ2zJ+aw6R/WI=;
-        b=GUS2hAMgT2THzzdYiJDLOPPpMXHleJehii5HTQQ8sTxAHOW276rxND6LOK2QvQFA4u
-         ZusSgHiBg4JbNncoByRn6RQIMW7b2PVv0+wOets/2UphEYO0SohUOndszuIkFXFb2oRk
-         RDrFneIDQXgKYs2QmPxLhVGbi/W+xAtXFEH1Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=IGGDgeo7WVVIlkSnWinltsDGGWd6kdeJ2zJ+aw6R/WI=;
-        b=TgT+MamSLWiQGBhwU+pkh7zxypj1GrIVb7I9VwKjugSVR41jYHPiTeMlnpATITnSB2
-         RtfJ0kESW4IPJJFpR3sEIZalytZilvv/oNagZqGzSxDDn1ZYkniD1gg37HFK/zKecmCk
-         /uKttH9vIlabM5FAK3XpB/DqBKn11ptlmI8W65PO8uiG9yE9VKjXE89wQFjBFf9e8jNy
-         ne+0d1LBSCR4dH24kxS/BxWp89Y7micQxAhi0wXcpLk4YmdVOADlzWHJtvgKmo9s54cp
-         0jg+y9/xbL8eOWWhXtWZtt6bwbciHHtfQlqu3zSOIdWtbIJ0/Va75wqXdAIBGIG8V20b
-         59Wg==
-X-Gm-Message-State: AOAM533SykcdA3mnbVl0xqmOMpqRwdtsE+EA/TLgz1At+NEujNd1DtGO
-        ETo4AZ/8HJO+GDK941giJpPtClRmpFqbOAs5dHItGQ==
-X-Google-Smtp-Source: ABdhPJwsc6oh2VNX6ThYRfgqXtiKBP0iz/QFxANVi8LRNsPwLNxkHfTkcMXQQuSYqUHwc8WaTZ7U+OC7MPE57NeeQlE=
-X-Received: by 2002:a05:6830:1212:: with SMTP id r18mr1440354otp.159.1631734783359;
- Wed, 15 Sep 2021 12:39:43 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 15 Sep 2021 12:39:42 -0700
-MIME-Version: 1.0
-In-Reply-To: <8c1fdf2d0807f07ec57b232497b405f1@codeaurora.org>
-References: <20200730095350.13925-1-stanimir.varbanov@linaro.org>
- <20200730095350.13925-3-stanimir.varbanov@linaro.org> <159718256557.1360974.458611240360821676@swboyd.mtv.corp.google.com>
- <8c1fdf2d0807f07ec57b232497b405f1@codeaurora.org>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date:   Wed, 15 Sep 2021 12:39:42 -0700
-Message-ID: <CAE-0n53T-RoOvR=s9nHiXAriMgKvBfDqfBfoGKX5Ju5YF3Tcqw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/3] venus: Add a debugfs file for SSR trigger
-To:     dikshita@codeaurora.org
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, jim.cromie@gmail.com,
-        Joe Perches <joe@perches.com>, Jason Baron <jbaron@akamai.com>,
+        id S231652AbhIOTxU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Sep 2021 15:53:20 -0400
+Received: from mga05.intel.com ([192.55.52.43]:19949 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229732AbhIOTxT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Sep 2021 15:53:19 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="307963041"
+X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
+   d="scan'208";a="307963041"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 12:52:00 -0700
+X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
+   d="scan'208";a="482468324"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 12:51:55 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 42E0920656; Wed, 15 Sep 2021 22:51:53 +0300 (EEST)
+Date:   Wed, 15 Sep 2021 22:51:53 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
+        linux-staging@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media-owner@vger.kernel.org,
-        Akinobu Mita <akinobu.mita@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Helen Koike <helen.koike@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 15/22] media: sunxi: Remove the sun6i-csi driver
+ implementation
+Message-ID: <YUJO2cG/46vOkuBe@paasikivi.fi.intel.com>
+References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
+ <20210910184147.336618-16-paul.kocialkowski@bootlin.com>
+ <20210913081707.3pjcfuwan46pbdep@gilmour>
+ <YUBXiSrQjccLoa8b@aptenodytes>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YUBXiSrQjccLoa8b@aptenodytes>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting dikshita@codeaurora.org (2021-09-15 02:13:09)
-> Hi Stephen,
->
-> Reviving the discussion on this change as we need to pull this in.
->
-> As per your suggestion, I explored the fault injection framework to
-> implement this functionality.
-> But I don't think that meets our requirements.
->
-> We need a way to trigger subsystem restart from the client-side, it's
-> not derived from the driver.
+Hi Paul, Maxime,
 
-Just to confirm, this is all for debugging purposes right?
+On Tue, Sep 14, 2021 at 10:04:25AM +0200, Paul Kocialkowski wrote:
+> Hi,
+> 
+> On Mon 13 Sep 21, 10:17, Maxime Ripard wrote:
+> > On Fri, Sep 10, 2021 at 08:41:40PM +0200, Paul Kocialkowski wrote:
+> > > As described in the commit adding support for the new sun6i-csi driver,
+> > > a complete rewrite was necessary to support the Allwinner A31 ISP as
+> > > well as fix a number of issues with the current implementation.
+> > > 
+> > > Farewell and thanks for all the pixels!
+> > > 
+> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > 
+> > For completeness, this is what the other commit log mentions:
+> > 
+> > > While adapting the sun6i-csi driver for MIPI CSI-2 support was
+> > > possible, it became clear that adding support for the ISP required
+> > > very heavy changes to the driver which were quite hard to break down
+> > > into a series of subsequent changes.
+> > 
+> > > The first major difficulty comes from the lack of v4l2 subdev that
+> > > acts a bridge, separate from the video node representing the DMA
+> > > engine. To support the ISP, only parts of the hardware must be
+> > > configured (excluding aspects related to the DMA output), which made
+> > > the separation a hard requirement.
+> > 
+> > > Another significant difficulty was the specific dance that is required
+> > > to have both the ISP and CSI device be part of the same media device.
+> > > Because the ISP and CSI are two different hardware blocks, they have
+> > > two distinct drivers that will each try to register their own v4l2
+> > > and media devices, resulting in two distinct pipelines. When the ISP
+> > > is in use, we actually want the CSI driver to register with the ISP's
+> > > v4l2 and media devices while keeping the ability to register its own
+> > > when the ISP is not in use. This is done by:
+> > > 1. Having the CSI driver check whether the ISP is available, using
+> > >    sun6i_csi_isp_detect();
+> > > 2. If not, it can register when its own async subdevs are ready, using
+> > >    sun6i_csi_v4l2_complete();
+> > > 3. If so, it will register its bridge as an async subdev which will
+> > >    be picked-up by the ISP driver (from the fwnode graph link);
+> > > 4. When the subdev becomes bound to the ISP's v4l2 device, we can
+> > >    then access that device (and the associated media device) to
+> > >    complete registration of the capture video node, using
+> > >    sun6i_csi_isp_complete();
+> > > Besides the logic rework, other issues were identified and resolved:
+> > > - The sync mechanism for buffer flipping was based on the frame done
+> > >   interrupt, which is too late (next frame is already being processed).
+> > >   This lead to requiring 3 buffers to start and writing two addresses
+> > >   when starting. Using vsync as a sync point seems to be the correct
+> > >   approach and allows using only two buffers without tearing;
+> > > - Using devm_regmap_init_mmio_clk was incorrect since the reset also
+> > >   comes into play;
+> > > - Some register definitions were inverted compared to their actual
+> > >   effect (which was inherited from the Allwinner documentation and
+> > >   code): comments were added where relevant;
+> > > - The deprecated v4l2_async_notifier_parse_fwnode_endpoints() helper
+> > >   is no longer used by the driver;
+> > 
+> > With that being said, NAK.
+> > 
+> > Having heavy changes to a driver is completely fine, and is kind of
+> > expected really with such a big change. Breaking all possibility of
+> > bisection and throwing away years of stabilization and maintenance
+> > isn't.
+> > 
+> > And all those small bug fixes you mention at the end are just that:
+> > small bug fixes that can be done on the current driver just fine too.
+> 
+> I understand that this looks like we're trashing all the work that was
+> done previously by removing the current driver and adding the new one
+> but the logic for deciding what to write into registers was carefully
+> preserved from the original driver to make sure that the works of
+> stabilization and maintenance are not lost.
+> 
+> However I would understand that my good promise on this is not enough,
+> so perhaps I could provide a combinatory verification that the same set
+> of mbus/pixel formats end up with the same thing being written into
+> registers.
+> 
+> In addition I understand that it will be necessary to split the changes
+> up into small commits to clarify the transition path between the two
+> drivers. So I will do my best to split things up.
+> 
+> Does that seem like an agreeable plan or do you see other things that
+> would be blockers?
 
->
-> while fault injection framework enables the driver to trigger an
-> injection
-> when a specific event occurs for eg: page allocation failure or memory
-> access failure.
->
-> So, IMO, we will have to use custom debugfs only.
+Please do refactor the patches into reviewable chunks that make sense on
+their own. I'd see the result being the same driver but with additional
+patches fixing bugs, doing some or more refactoring and adding new
+functionality. Please use -C100 -M100 if there's a need to rename files,
+and preferrably do so in separate patches.
 
-Can you use DECLARE_FAULT_ATTR()? Or you need it to be active instead of
-passive, i.e. it shouldn't wait for should_fail() to return true, but
-actively trigger something on the remoteproc?
+See e.g. patches to the smiapp driver that turned it into a CCS driver:
 
->
-> Please feel free to correct me in case my understanding of the framework
-> is wrong.
->
+	git log 2db8166f739e75c1269d7e8afe8da68e70098810..b24cc2a18c50e4e315abc76a86b26b4c49652f79~ -- drivers/media/i2c/smiapp
+	git log drivers/media/i2c/ccs
 
-I presume the fault injection framework could get a new feature that
-lets the fault be injected immediately upon writing the debugfs file.
-My goal is to consolidate this sort of logic into one place and then put
-it behind some config option that distros can disable so the kernel
-isn't bloated with debug features that end users will never care about.
+Usually bugfixes are best put first.
+
+> 
+> My initial thought was that it would be much easier to review the driver as a
+> rewrite, but I'm not too surprised I was wrong. To be honest it was nearly
+> impossible to actually have the initial development happen as sequential steps
+> and I preferred to allocate my time on other tasks than splitting the changes
+> into these sequential steps.
+
+This isn't really unusual when you're changing an existing driver:
+sometimes you have to implement what you want to achieve in whole, and only
+then figure out how to split it into something that can be reviewed. Often
+the end result will look different than what you arrived with on the first
+time.
+
+-- 
+Kind regards,
+
+Sakari Ailus
