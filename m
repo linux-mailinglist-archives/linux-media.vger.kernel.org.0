@@ -2,81 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BF1F40CA7E
-	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 18:40:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C4B740CB49
+	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 18:56:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229528AbhIOQlX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Sep 2021 12:41:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34070 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229465AbhIOQlW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Sep 2021 12:41:22 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B24ACC061574;
-        Wed, 15 Sep 2021 09:40:03 -0700 (PDT)
+        id S229690AbhIOQ5k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Sep 2021 12:57:40 -0400
+Received: from gofer.mess.org ([88.97.38.141]:41201 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229465AbhIOQ5k (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Sep 2021 12:57:40 -0400
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 9CAF4C63A9; Wed, 15 Sep 2021 17:40:01 +0100 (BST)
+        id 08753C63A9; Wed, 15 Sep 2021 17:56:19 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1631724001; bh=IABfhztGnlMXEpsxQ8v8A8fnBNDV0RiYcWT+0iLBunM=;
+        t=1631724980; bh=VMstnmZT3s/Xx1M7BmRDFtjl0F92ortvP9S5FHSZZZA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YQWDQbcXIwUcRTKBnNaeKY7Ecsb+XVDNlE8p6thv3jpib8s1h5WwxaNpll/wjDUSE
-         1qcOxWZh+hNye5YjGETQ5sbR/tY3dq+OGMAgDv56xnYv6Nk1VowQGcEy6L4IOmvHBJ
-         Sfwk20ghziigp2RPQ79ngPw6vDNcbCcNAe1xDErUz18w0VPNLMbbd2QkudS2CQaRFB
-         QN3dh73mLveDsdSAsxIsm7iFy+HbimA6juBlKrA2W+PkUtSakTZkq1tuQSYtIxQDq1
-         NVjO02vcNdP5I8A/++wu5vcDNQA3iag5BQZE1N0ccmzaWlEsGZotivwKRY67ZNblMP
-         4vOTdJKbvnrrQ==
-Date:   Wed, 15 Sep 2021 17:40:01 +0100
+        b=D6sNkhCpm0enmcvmUeFPEgfHVD0DTjhJaAhjhIWvFQemVo9zNuAesuOL7SFjXR0is
+         zStfR15EKMuRtLTjQbpZX0CeG16+mvx/TlPFpsOY32iKF9Y+xFuOZ+Po85Y0GTJ7/X
+         B6PKSgC3Tnp+gyDczI/aNb7ND6KsORfD2DpH6uig8G6yLP3z6jssaYmCUkg8xpnezy
+         My+O6ClWwTxrZU8e60gx7gWdxaziPHxezSExL3DH6hFk5Y9XIDkyGGhO+6iO9X2DcA
+         ciFFnIQDYowbTkKpIpSUKX0Ywk1WHkc0e8u2rWnA70zS0x/9Wfil2viTsESbNXaYv4
+         MMpxqFol7RiYQ==
+Date:   Wed, 15 Sep 2021 17:56:19 +0100
 From:   Sean Young <sean@mess.org>
-To:     Pavel Skripkin <paskripkin@gmail.com>
-Cc:     mkrufky@linuxtv.org, mchehab@kernel.org, crope@iki.fi,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzbot+5ca0bf339f13c4243001@syzkaller.appspotmail.com
-Subject: Re: [PATCH v3] media: mxl111sf: change mutex_init() location
-Message-ID: <20210915164001.GA18319@gofer.mess.org>
-References: <20210819103859.17498-1-paskripkin@gmail.com>
- <20210819104221.27122-1-paskripkin@gmail.com>
- <c1c0d250-afa1-254e-421a-d35790688c60@gmail.com>
+To:     Cai Huoqing <caihuoqing@baidu.com>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: dvb-core: Convert to SPDX identifier
+Message-ID: <20210915165619.GB18319@gofer.mess.org>
+References: <20210822040625.1190-1-caihuoqing@baidu.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c1c0d250-afa1-254e-421a-d35790688c60@gmail.com>
+In-Reply-To: <20210822040625.1190-1-caihuoqing@baidu.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Sep 12, 2021 at 06:49:52PM +0300, Pavel Skripkin wrote:
-> On 8/19/21 13:42, Pavel Skripkin wrote:
-> > Syzbot reported, that mxl111sf_ctrl_msg() uses uninitialized
-> > mutex. The problem was in wrong mutex_init() location.
-> > 
-> > Previous mutex_init(&state->msg_lock) call was in ->init() function, but
-> > dvb_usbv2_init() has this order of calls:
-> > 
-> > 	dvb_usbv2_init()
-> > 	  dvb_usbv2_adapter_init()
-> > 	    dvb_usbv2_adapter_frontend_init()
-> > 	      props->frontend_attach()
-> > 
-> > 	  props->init()
-> > 
-> > Since mxl111sf_* devices call mxl111sf_ctrl_msg() in ->frontend_attach()
-> > internally we need to initialize state->msg_lock before
-> > frontend_attach(). To achieve it, ->probe() call added to all mxl111sf_*
-> > devices, which will simply initiaize mutex.
-> > 
-> > Reported-and-tested-by: syzbot+5ca0bf339f13c4243001@syzkaller.appspotmail.com
-> > Fixes: 8572211842af ("[media] mxl111sf: convert to new DVB USB")
-> > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+On Sun, Aug 22, 2021 at 12:06:25PM +0800, Cai Huoqing wrote:
+> use SPDX-License-Identifier instead of a verbose license text
+> and remove verbose license text.
 > 
-> Hi, Sean!
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+> ---
+>  drivers/media/dvb-core/dmxdev.c    | 12 +-----------
+>  drivers/media/dvb-core/dvb_demux.c | 12 +-----------
+>  drivers/media/dvb-core/dvb_vb2.c   |  4 ----
+>  drivers/media/dvb-core/dvbdev.c    | 12 +-----------
+>  4 files changed, 3 insertions(+), 37 deletions(-)
 > 
-> Did you have a chance to review this patch? Thank you :)
+> diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
+> index 5d5a48475a54..e94ae9427fdb 100644
+> --- a/drivers/media/dvb-core/dmxdev.c
+> +++ b/drivers/media/dvb-core/dmxdev.c
+> @@ -1,19 +1,9 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+>  /*
+>   * dmxdev.c - DVB demultiplexer device
+>   *
+>   * Copyright (C) 2000 Ralph Metzler & Marcus Metzler
+>   *		      for convergence integrated media GmbH
+> - *
+> - * This program is free software; you can redistribute it and/or
+> - * modify it under the terms of the GNU Lesser General Public License
+> - * as published by the Free Software Foundation; either version 2.1
+> - * of the License, or (at your option) any later version.
 
-Sorry during the merge window (from -rc6 to -rc1) I don't tend to look
-at patches. Looks good to me, I'll merge it.
+That's LGPL 2.1, not GPL 2.0+.
+
+> - *
+> - * This program is distributed in the hope that it will be useful,
+> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> - * GNU General Public License for more details.
+> - *
+>   */
+>  
+>  #define pr_fmt(fmt) "dmxdev: " fmt
+> diff --git a/drivers/media/dvb-core/dvb_demux.c b/drivers/media/dvb-core/dvb_demux.c
+> index 5fde1d38b3e3..c7a145bfbc55 100644
+> --- a/drivers/media/dvb-core/dvb_demux.c
+> +++ b/drivers/media/dvb-core/dvb_demux.c
+> @@ -1,20 +1,10 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+>  /*
+>   * dvb_demux.c - DVB kernel demux API
+>   *
+>   * Copyright (C) 2000-2001 Ralph  Metzler <ralph@convergence.de>
+>   *		       & Marcus Metzler <marcus@convergence.de>
+>   *			 for convergence integrated media GmbH
+> - *
+> - * This program is free software; you can redistribute it and/or
+> - * modify it under the terms of the GNU Lesser General Public License
+> - * as published by the Free Software Foundation; either version 2.1
+> - * of the License, or (at your option) any later version.
+
+That's LGPL 2.1, not GPL 2.0+.
+
+> - *
+> - * This program is distributed in the hope that it will be useful,
+> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> - * GNU General Public License for more details.
+> - *
+>   */
+>  
+>  #define pr_fmt(fmt) "dvb_demux: " fmt
+> diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
+> index 6974f1731529..602bbc52bd22 100644
+> --- a/drivers/media/dvb-core/dvb_vb2.c
+> +++ b/drivers/media/dvb-core/dvb_vb2.c
+> @@ -5,10 +5,6 @@
+>   * Copyright (C) 2015 Samsung Electronics
+>   *
+>   * Author: jh1009.sung@samsung.com
+> - *
+> - * This program is free software; you can redistribute it and/or modify
+> - * it under the terms of the GNU General Public License as published by
+> - * the Free Software Foundation.
+>   */
+>  
+>  #include <linux/err.h>
+> diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+> index 795d9bfaba5c..d7c341bfcca1 100644
+> --- a/drivers/media/dvb-core/dvbdev.c
+> +++ b/drivers/media/dvb-core/dvbdev.c
+> @@ -1,20 +1,10 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+>  /*
+>   * dvbdev.c
+>   *
+>   * Copyright (C) 2000 Ralph  Metzler <ralph@convergence.de>
+>   *                  & Marcus Metzler <marcus@convergence.de>
+>   *                    for convergence integrated media GmbH
+> - *
+> - * This program is free software; you can redistribute it and/or
+> - * modify it under the terms of the GNU Lesser General Public License
+> - * as published by the Free Software Foundation; either version 2.1
+> - * of the License, or (at your option) any later version.
+
+That's LGPL 2.1, not GPL 2.0+.
+
+> - *
+> - * This program is distributed in the hope that it will be useful,
+> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> - * GNU General Public License for more details.
+> - *
+>   */
+>  
+>  #define pr_fmt(fmt) "dvbdev: " fmt
+> -- 
+> 2.25.1
 
 Thanks
-
 Sean
