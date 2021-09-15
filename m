@@ -2,184 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62C6240C2E6
-	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 11:43:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6735540C2E8
+	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 11:45:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232073AbhIOJoj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Sep 2021 05:44:39 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:58931 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232046AbhIOJoj (ORCPT
+        id S232077AbhIOJqt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Sep 2021 05:46:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50724 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231860AbhIOJqq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Sep 2021 05:44:39 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 7E4CA4000E;
-        Wed, 15 Sep 2021 09:43:17 +0000 (UTC)
-Date:   Wed, 15 Sep 2021 11:44:03 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: Re: [PATCH v8 02/36] media: subdev: add active state to struct
- v4l2_subdev
-Message-ID: <20210915094403.cazj7bjampnes4ba@uno.localdomain>
-References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
- <20210830110116.488338-3-tomi.valkeinen@ideasonboard.com>
+        Wed, 15 Sep 2021 05:46:46 -0400
+Received: from out1.migadu.com (out1.migadu.com [IPv6:2001:41d0:2:863f::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14B63C061574;
+        Wed, 15 Sep 2021 02:45:28 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1631699126;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=08s6py4AmQdEpi5YfVEl+wG4NagSCRIxVMPXktX/crM=;
+        b=t4/Q8rSn7Bc+OWxyIkPKJpbRYMWHgnvoF+4WNXe8xL+74ZVHbKC71VeQC5c6JzUGZd8AT3
+        IK+dfeWt/1SVg4plMvphnDYgKUY3wQ934E/w+TxBoN/zspIUbuvWHboq9umQ8HwdkadW6B
+        B02z27ChlVYY+Got+ERH8g/s+Nqw0OM=
+From:   Yajun Deng <yajun.deng@linux.dev>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yajun Deng <yajun.deng@linux.dev>
+Subject: [PATCH] media: v4l2-dev.h: move open brace after struct video_device
+Date:   Wed, 15 Sep 2021 17:45:09 +0800
+Message-Id: <20210915094509.17985-1-yajun.deng@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210830110116.488338-3-tomi.valkeinen@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: yajun.deng@linux.dev
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+The open brace should be after a struct of define, that's good
+for searching.
 
-On Mon, Aug 30, 2021 at 02:00:42PM +0300, Tomi Valkeinen wrote:
-> Add a new 'state' field to struct v4l2_subdev to which we can store the
-> active state of a subdev. This will place the subdev configuration into
-> a known place, allowing us to use the state directly from the v4l2
-> framework, thus simplifying the drivers.
->
-> We also add v4l2_subdev_alloc_state() and v4l2_subdev_free_state(),
-> which need to be used by the drivers that support subdev state in struct
-> v4l2_subdev.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 21 ++++++++++++++++
->  include/media/v4l2-subdev.h           | 36 +++++++++++++++++++++++++++
->  2 files changed, 57 insertions(+)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 26a34a8e3d37..e1a794f69815 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -943,3 +943,24 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
->  	v4l2_subdev_notify(sd, V4L2_DEVICE_NOTIFY_EVENT, (void *)ev);
->  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
-> +
-> +int v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
-> +{
-> +	struct v4l2_subdev_state *state;
-> +
-> +	state = v4l2_alloc_subdev_state(sd);
+Signed-off-by: Yajun Deng <yajun.deng@linux.dev>
+---
+ include/media/v4l2-dev.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-So, I think this is one source of confusion about init_cfg.
+diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+index 6a4afd4a7df2..5cf1edefb822 100644
+--- a/include/media/v4l2-dev.h
++++ b/include/media/v4l2-dev.h
+@@ -260,8 +260,7 @@ struct v4l2_file_operations {
+  *	Only set @dev_parent if that can't be deduced from @v4l2_dev.
+  */
+ 
+-struct video_device
+-{
++struct video_device {
+ #if defined(CONFIG_MEDIA_CONTROLLER)
+ 	struct media_entity entity;
+ 	struct media_intf_devnode *intf_devnode;
+-- 
+2.32.0
 
-v4l2_alloc_subdev_state() calls init_cfg() and 'state-aware' driver
-are now supposed to allocate their state by calling
-v4l2_subdev_alloc_state(), in the same way as the core does for the
-file-handle ones.
-
-This will lead to init_cfg to be called for the 'active' (ie owned by
-the subdev) state, and then you need to add context to the state (by
-adding a 'which' field) to know what state you're dealing with.
-
-According to the init_cfg() documentation
-
- * @init_cfg: initialize the pad config to default values
-
-the op has to be called in order to initialize the per-file-handle
-context, not the active one.
-
-I would rather just embed 'struct v4l2_subdev_state' in 'struct
-v4l2_subdev', have the core going through the
-'v4l2_subdev_alloc_state()' to initialize the per-fh state, but have
-drivers initialize their own state at probe time. If they need for
-some reason to access their 'active' state at init_cfg() time, they
-caan fish it from their subdev.
-
-If I'm not mistaken this will remove the need to have a which filed in
-the state, as I think the 'context' should be inferred from the
-'which' argument embedded in the ops-specific structures, and not held
-in the state itself.
-
-Thanks
-   j
-
-
-> +	if (IS_ERR(state))
-> +		return PTR_ERR(state);
-> +
-> +	sd->state = state;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_alloc_state);
-> +
-> +void v4l2_subdev_free_state(struct v4l2_subdev *sd)
-> +{
-> +	v4l2_free_subdev_state(sd->state);
-> +	sd->state = NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_free_state);
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 8701d2e7d893..ecaf040ead57 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -898,6 +898,8 @@ struct v4l2_subdev_platform_data {
->   * @subdev_notifier: A sub-device notifier implicitly registered for the sub-
->   *		     device using v4l2_async_register_subdev_sensor().
->   * @pdata: common part of subdevice platform data
-> + * @state: active state for the subdev (NULL for subdevs tracking the state
-> + * 	   internally)
->   *
->   * Each instance of a subdev driver should create this struct, either
->   * stand-alone or embedded in a larger struct.
-> @@ -929,6 +931,7 @@ struct v4l2_subdev {
->  	struct v4l2_async_notifier *notifier;
->  	struct v4l2_async_notifier *subdev_notifier;
->  	struct v4l2_subdev_platform_data *pdata;
-> +	struct v4l2_subdev_state *state;
->  };
->
->
-> @@ -1217,4 +1220,37 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
->  void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
->  			      const struct v4l2_event *ev);
->
-> +/**
-> + * v4l2_subdev_alloc_state() - Allocate active subdev state for subdevice
-> + * @sd: The subdev for which the state is allocated
-> + *
-> + * This will allocate a subdev state and store it to
-> + * &struct v4l2_subdev->state.
-> + *
-> + * Must call v4l2_subdev_free_state() when the state is no longer needed.
-> + */
-> +int v4l2_subdev_alloc_state(struct v4l2_subdev *sd);
-> +
-> +/**
-> + * v4l2_subdev_free_state() - Free the active subdev state for subdevice
-> + * @sd: The subdevice
-> + *
-> + * This will free the subdev's state and set
-> + * &struct v4l2_subdev->state to NULL.
-> + */
-> +void v4l2_subdev_free_state(struct v4l2_subdev *sd);
-> +
-> +/**
-> + * v4l2_subdev_get_active_state() - Return the active subdev state for subdevice
-> + * @sd: The subdevice
-> + *
-> + * Return the active state for the subdevice, or NULL if the subdev does not
-> + * support active state.
-> + */
-> +static inline struct v4l2_subdev_state *
-> +v4l2_subdev_get_active_state(struct v4l2_subdev *sd)
-> +{
-> +	return sd->state;
-> +}
-> +
->  #endif
-> --
-> 2.25.1
->
