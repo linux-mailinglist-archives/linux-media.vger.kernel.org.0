@@ -2,164 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32C1440BE68
-	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 05:44:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AE7340C0BF
+	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 09:46:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236078AbhIODpx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Sep 2021 23:45:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53646 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234150AbhIODpt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Sep 2021 23:45:49 -0400
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D73AC061574
-        for <linux-media@vger.kernel.org>; Tue, 14 Sep 2021 20:44:31 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id QLqQmofprpQdWQLqWm9uty; Wed, 15 Sep 2021 05:44:28 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1631677468; bh=1XgCo9Q1mrf8XHGF86gWmPdIn0z5LkMwIs4EWsab9Ic=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=rRAmTg0TOs/TGC5b4hYl30cmmRpsOXSI2iRV82DWweP9L/aRtHQZDaOOOeIGIqIW8
-         rBz8aNH0HVLZ7VLYlWKgu5i/1CwVwEw98ul+DF/D7OAaWavqU7DqjKsWAwsbuWl9qq
-         SaCWZJ9XtVwcZtvMI0/NXvAFojc2+bi73DojAxQKqEKanVJBoDoVQMabeR2NOam1Gv
-         ShHiiCROJ7G08Suh0nYXjDb7Zh7FZtlad6SBQfWqAcKuOC5oOuq+Bndw03q7zBSxkU
-         GtvN8UM4HgYEFh9pbA+NysO3alyXqU+If//dHFNNM8i2a4UT4xDt3PJY97TUgCOsxB
-         SA/5dmu3j5v2Q==
-Message-ID: <c4390beffc53fbe727027f21e03888b9@smtp-cloud7.xs4all.net>
-Date:   Wed, 15 Sep 2021 05:44:22 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfNoxPfmBgfCgDanqqR5lYIVMDAT5t0Y7yANC5f/DxHyv1uhq5FXMo1kGXKGFvdbXL+I6losaX2V01Gm++12hNZ0d63/sNMZ8iC/vTMva/yBRCq8rrCRI
- /O0GSHtgGczE3bEfVQqo8FG2xyALl44r7NIzFLHnXYf9LfWzg3DRYkFBiEYI+H2EeUoUmbwj3xBY9cFXErN594C77hIFjw+/XSi1YmBcYRE6TOMvw8LU4Zc+
- XjQozQeoNnbU2X78cZcdxg==
+        id S236719AbhIOHrX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Sep 2021 03:47:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43058 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231364AbhIOHrW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Sep 2021 03:47:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B7DFB61244;
+        Wed, 15 Sep 2021 07:46:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631691963;
+        bh=4Gj6JwM2F9z6+WV2U6hPIi4DFT6zybwQImEaoQLcouc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=AIASKWCON1uBRCw4lAutBlPVeVE65cDnrLnCYFJ4bYNeSqoXUQggPgg4mg+gC6V/Y
+         TflBPO0hKUGz9p2WxA8dSD1fgu0AIf+InGEhgq8eP3nmJ/fz4JxPSouhcsxb8loBAQ
+         OmPg4ua8EDvhAZsigTuPNJa3td6pXkt2UKphCKj4B3g5FGlTxwszpw5w5WUxrHjztu
+         yeLDXvPTeqE89v+A+Gd7x6/OkVHo0FrUiGsvLqWNSuWQ+aWuOpx5SB4G/ihr8FwUC6
+         94HI38H82GHVZnLCMLyqxcbtnzOYDZKu8h1ChJhTGa8L9P6LUnl5mMcOCnFyE+CDJj
+         4TNYDr1HCbL2w==
+Received: by mail-oi1-f177.google.com with SMTP id y128so3069997oie.4;
+        Wed, 15 Sep 2021 00:46:03 -0700 (PDT)
+X-Gm-Message-State: AOAM532xNkwkXAt7sVx3JA82pXVogUcJLanpvm7gQNH8JfJz7QEVUHj3
+        a+iGqgUPLnih/bry3d6sY0AFGjbRegQNEkyyECs=
+X-Google-Smtp-Source: ABdhPJyHocVXnd3M7L44M5L0AEYg/MpqQyOEEu1IKwGTC02GHRHM6QQpVi8UIKUKfi6BBVVodwZ/vjYKKu1/Inl/D7Q=
+X-Received: by 2002:aca:230f:: with SMTP id e15mr4339173oie.154.1631691962997;
+ Wed, 15 Sep 2021 00:46:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210912165309.98695-1-ogabbay@kernel.org> <YUCvNzpyC091KeaJ@phenom.ffwll.local>
+ <20210914161218.GF3544071@ziepe.ca>
+In-Reply-To: <20210914161218.GF3544071@ziepe.ca>
+From:   Oded Gabbay <ogabbay@kernel.org>
+Date:   Wed, 15 Sep 2021 10:45:36 +0300
+X-Gmail-Original-Message-ID: <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
+Message-ID: <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
+Subject: Re: [PATCH v6 0/2] Add p2p via dmabuf to habanalabs
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Gal Pressman <galpress@amazon.com>,
+        Yossi Leybovich <sleybo@amazon.com>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Dave Airlie <airlied@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Christoph Hellwig <hch@lst.de>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, Sep 14, 2021 at 7:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Tue, Sep 14, 2021 at 04:18:31PM +0200, Daniel Vetter wrote:
+> > On Sun, Sep 12, 2021 at 07:53:07PM +0300, Oded Gabbay wrote:
+> > > Hi,
+> > > Re-sending this patch-set following the release of our user-space TPC
+> > > compiler and runtime library.
+> > >
+> > > I would appreciate a review on this.
+> >
+> > I think the big open we have is the entire revoke discussions. Having the
+> > option to let dma-buf hang around which map to random local memory ranges,
+> > without clear ownership link and a way to kill it sounds bad to me.
+> >
+> > I think there's a few options:
+> > - We require revoke support. But I've heard rdma really doesn't like that,
+> >   I guess because taking out an MR while holding the dma_resv_lock would
+> >   be an inversion, so can't be done. Jason, can you recap what exactly the
+> >   hold-up was again that makes this a no-go?
+>
+> RDMA HW can't do revoke.
+>
+> So we have to exclude almost all the HW and several interesting use
+> cases to enable a revoke operation.
+>
+> >   - For non-revokable things like these dma-buf we'd keep a drm_master
+> >     reference around. This would prevent the next open to acquire
+> >     ownership rights, which at least prevents all the nasty potential
+> >     problems.
+>
+> This is what I generally would expect, the DMABUF FD and its DMA
+> memory just floats about until the unrevokable user releases it, which
+> happens when the FD that is driving the import eventually gets closed.
+This is exactly what we are doing in the driver. We make sure
+everything is valid until the unrevokable user releases it and that
+happens only when the dmabuf fd gets closed.
+And the user can't close it's fd of the device until he performs the
+above, so there is no leakage between users.
 
-Results of the daily build of media_tree:
-
-date:			Wed Sep 15 05:00:11 CEST 2021
-media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
-media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
-v4l-utils git hash:	05a468e033af0e4c775aaa10fe4d02c45de698ae
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-349-gb21d5e09
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7593-g7f4b93661
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8f230e7be768cbdfab869697ba0a2c622a4a0cae
-host hardware:		x86_64
-host os:		5.13.11-marune
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15-rc1-i686: ERRORS
-linux-5.15-rc1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 2
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+>
+> I still don't think any of the complexity is needed, pinnable memory
+> is a thing in Linux, just account for it in mlocked and that is
+> enough.
+>
+> Jason
