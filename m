@@ -2,99 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 728F440C292
-	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 11:13:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62C6240C2E6
+	for <lists+linux-media@lfdr.de>; Wed, 15 Sep 2021 11:43:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237341AbhIOJOk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Sep 2021 05:14:40 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:26457 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237349AbhIOJOh (ORCPT
+        id S232073AbhIOJoj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Sep 2021 05:44:39 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:58931 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232046AbhIOJoj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Sep 2021 05:14:37 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1631697199; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=mKHLpEcdN44klLDGi4B+FJ2Yr0gWuE7N1GO6uzZKeIg=;
- b=I+O3fjm6/HbZUsihtbWeYRmNtg+QurjaRpk9fef3ZzRrVJeloC+9rZkB/2gabgyFmc+q1PSX
- ygsApDOQajI34+Ieil6csaoo4dDZs5J9JFK7M5hTwBGflm6FaR83b/ArR77RjzkX0Zx2HbC+
- /v+GxdFBuhl8zHwDus7YLIzIeJg=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 6141b926ec62f57c9a31402f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 15 Sep 2021 09:13:10
- GMT
-Sender: dikshita=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id C4CC4C4361A; Wed, 15 Sep 2021 09:13:09 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: dikshita)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 25005C4338F;
-        Wed, 15 Sep 2021 09:13:09 +0000 (UTC)
+        Wed, 15 Sep 2021 05:44:39 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 7E4CA4000E;
+        Wed, 15 Sep 2021 09:43:17 +0000 (UTC)
+Date:   Wed, 15 Sep 2021 11:44:03 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+Subject: Re: [PATCH v8 02/36] media: subdev: add active state to struct
+ v4l2_subdev
+Message-ID: <20210915094403.cazj7bjampnes4ba@uno.localdomain>
+References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
+ <20210830110116.488338-3-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 15 Sep 2021 14:43:09 +0530
-From:   dikshita@codeaurora.org
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, jim.cromie@gmail.com,
-        Joe Perches <joe@perches.com>, Jason Baron <jbaron@akamai.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media-owner@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] venus: Add a debugfs file for SSR trigger
-In-Reply-To: <159718256557.1360974.458611240360821676@swboyd.mtv.corp.google.com>
-References: <20200730095350.13925-1-stanimir.varbanov@linaro.org>
- <20200730095350.13925-3-stanimir.varbanov@linaro.org>
- <159718256557.1360974.458611240360821676@swboyd.mtv.corp.google.com>
-Message-ID: <8c1fdf2d0807f07ec57b232497b405f1@codeaurora.org>
-X-Sender: dikshita@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210830110116.488338-3-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stephen,
+Hi Tomi,
 
-Reviving the discussion on this change as we need to pull this in.
+On Mon, Aug 30, 2021 at 02:00:42PM +0300, Tomi Valkeinen wrote:
+> Add a new 'state' field to struct v4l2_subdev to which we can store the
+> active state of a subdev. This will place the subdev configuration into
+> a known place, allowing us to use the state directly from the v4l2
+> framework, thus simplifying the drivers.
+>
+> We also add v4l2_subdev_alloc_state() and v4l2_subdev_free_state(),
+> which need to be used by the drivers that support subdev state in struct
+> v4l2_subdev.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 21 ++++++++++++++++
+>  include/media/v4l2-subdev.h           | 36 +++++++++++++++++++++++++++
+>  2 files changed, 57 insertions(+)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 26a34a8e3d37..e1a794f69815 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -943,3 +943,24 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+>  	v4l2_subdev_notify(sd, V4L2_DEVICE_NOTIFY_EVENT, (void *)ev);
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
+> +
+> +int v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
+> +{
+> +	struct v4l2_subdev_state *state;
+> +
+> +	state = v4l2_alloc_subdev_state(sd);
 
-As per your suggestion, I explored the fault injection framework to 
-implement this functionality.
-But I don't think that meets our requirements.
+So, I think this is one source of confusion about init_cfg.
 
-We need a way to trigger subsystem restart from the client-side, it's 
-not derived from the driver.
+v4l2_alloc_subdev_state() calls init_cfg() and 'state-aware' driver
+are now supposed to allocate their state by calling
+v4l2_subdev_alloc_state(), in the same way as the core does for the
+file-handle ones.
 
-while fault injection framework enables the driver to trigger an 
-injection
-when a specific event occurs for eg: page allocation failure or memory 
-access failure.
+This will lead to init_cfg to be called for the 'active' (ie owned by
+the subdev) state, and then you need to add context to the state (by
+adding a 'which' field) to know what state you're dealing with.
 
-So, IMO, we will have to use custom debugfs only.
+According to the init_cfg() documentation
 
-Please feel free to correct me in case my understanding of the framework 
-is wrong.
+ * @init_cfg: initialize the pad config to default values
 
-Thanks,
-Dikshita
+the op has to be called in order to initialize the per-file-handle
+context, not the active one.
 
-On 2020-08-12 03:19, Stephen Boyd wrote:
-> Quoting Stanimir Varbanov (2020-07-30 02:53:49)
->> The SSR (SubSystem Restart) is used to simulate an error on FW
->> side of Venus. We support following type of triggers - fatal error,
->> div by zero and watchdog IRQ.
-> 
-> Can this use the fault injection framework instead of custom debugfs?
-> See Documentation/fault-injection/.
+I would rather just embed 'struct v4l2_subdev_state' in 'struct
+v4l2_subdev', have the core going through the
+'v4l2_subdev_alloc_state()' to initialize the per-fh state, but have
+drivers initialize their own state at probe time. If they need for
+some reason to access their 'active' state at init_cfg() time, they
+caan fish it from their subdev.
+
+If I'm not mistaken this will remove the need to have a which filed in
+the state, as I think the 'context' should be inferred from the
+'which' argument embedded in the ops-specific structures, and not held
+in the state itself.
+
+Thanks
+   j
+
+
+> +	if (IS_ERR(state))
+> +		return PTR_ERR(state);
+> +
+> +	sd->state = state;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_alloc_state);
+> +
+> +void v4l2_subdev_free_state(struct v4l2_subdev *sd)
+> +{
+> +	v4l2_free_subdev_state(sd->state);
+> +	sd->state = NULL;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_free_state);
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 8701d2e7d893..ecaf040ead57 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -898,6 +898,8 @@ struct v4l2_subdev_platform_data {
+>   * @subdev_notifier: A sub-device notifier implicitly registered for the sub-
+>   *		     device using v4l2_async_register_subdev_sensor().
+>   * @pdata: common part of subdevice platform data
+> + * @state: active state for the subdev (NULL for subdevs tracking the state
+> + * 	   internally)
+>   *
+>   * Each instance of a subdev driver should create this struct, either
+>   * stand-alone or embedded in a larger struct.
+> @@ -929,6 +931,7 @@ struct v4l2_subdev {
+>  	struct v4l2_async_notifier *notifier;
+>  	struct v4l2_async_notifier *subdev_notifier;
+>  	struct v4l2_subdev_platform_data *pdata;
+> +	struct v4l2_subdev_state *state;
+>  };
+>
+>
+> @@ -1217,4 +1220,37 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
+>  void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+>  			      const struct v4l2_event *ev);
+>
+> +/**
+> + * v4l2_subdev_alloc_state() - Allocate active subdev state for subdevice
+> + * @sd: The subdev for which the state is allocated
+> + *
+> + * This will allocate a subdev state and store it to
+> + * &struct v4l2_subdev->state.
+> + *
+> + * Must call v4l2_subdev_free_state() when the state is no longer needed.
+> + */
+> +int v4l2_subdev_alloc_state(struct v4l2_subdev *sd);
+> +
+> +/**
+> + * v4l2_subdev_free_state() - Free the active subdev state for subdevice
+> + * @sd: The subdevice
+> + *
+> + * This will free the subdev's state and set
+> + * &struct v4l2_subdev->state to NULL.
+> + */
+> +void v4l2_subdev_free_state(struct v4l2_subdev *sd);
+> +
+> +/**
+> + * v4l2_subdev_get_active_state() - Return the active subdev state for subdevice
+> + * @sd: The subdevice
+> + *
+> + * Return the active state for the subdevice, or NULL if the subdev does not
+> + * support active state.
+> + */
+> +static inline struct v4l2_subdev_state *
+> +v4l2_subdev_get_active_state(struct v4l2_subdev *sd)
+> +{
+> +	return sd->state;
+> +}
+> +
+>  #endif
+> --
+> 2.25.1
+>
