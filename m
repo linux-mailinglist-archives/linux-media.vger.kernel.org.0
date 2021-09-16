@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1603740D8B8
+	by mail.lfdr.de (Postfix) with ESMTP id 82FBE40D8B9
 	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 13:31:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238185AbhIPLcZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Sep 2021 07:32:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34614 "EHLO
+        id S238229AbhIPLc0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Sep 2021 07:32:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238199AbhIPLcY (ORCPT
+        with ESMTP id S238256AbhIPLcZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Sep 2021 07:32:24 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A3A2C061574
-        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 04:31:04 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id l18-20020a05600c4f1200b002f8cf606262so7119394wmq.1
-        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 04:31:04 -0700 (PDT)
+        Thu, 16 Sep 2021 07:32:25 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A510C061574
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 04:31:05 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id i23so8959640wrb.2
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 04:31:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=S9Hd2E/Qpw61lQsH4cIVU2nxOsEUFiGZ/6cSSR0b+MQ=;
-        b=UNyJUqywH99MZUewMqfuHAyRR9k0ZDG2hlA54YvbD1BFn7IuWO7Hk/VawAuA8tgOK8
-         RaDxZ1olqGN2esx0aeHkP38wv+cVnzrsaycL7aZ86g7aRhsRxG/CyQa9netS/JwZ0Nbe
-         fZ17s0rdh91VWhhUarazp43XFF6svifzFvdZ2KyLfKV55nNd4K+fMr0fU0FaSPBYixJo
-         SZ4nuhd/HWgUiRPEnKttRyINO6POyW7LXVl9y5OAO7WL8AA3cNH7NNp2wQZ6QTeqQ3u+
-         l6Q40E7spPkd0z7TOIa+b8acjY3KjiR+K8XZm+rlB7GlI5mmlwlZKpdtDapUbBhUaSb1
-         R3oQ==
+        bh=9NhP0KemkDYjvJFJ1qOIIarsOUWVW1ocIDtArvNA068=;
+        b=P54eRNRDIILCiWfnHFMaUtJoPi/+1chXerdoAKRheG5qRgJSm27QG+fFzoTdKUnDg7
+         0a5ICJiheo1lcAdbXf/YTdLwxtdQC3a4syLbG0OvUvfMcLqxJcKIYPlvT+G6UHKKwg2H
+         rodUnd97bSnySzg+j/9R3TNtXnxSHU+/ubzGWRbVPaBWNOC3tTaPYECcDVw+05e3Fo0C
+         iUHa3oPuAfeUAHGSW/rg5JyUBIEa0Iqyg9OZDO2gymyCeEXh0WgpAbtQ6G0M961YwVWo
+         gUVep6XXi7LNVCi7wKZ6XhBmgrBxjL28R3Q3Gs50HogNNeMjb8j7bequaPsXiHIQAgSk
+         C/wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=S9Hd2E/Qpw61lQsH4cIVU2nxOsEUFiGZ/6cSSR0b+MQ=;
-        b=OHlx72rMWc5Ew/cHT0C6n5CS5Rwose3zkjhHYqIT6Nnn//vMDKN7Pno2djecxa00w0
-         SNaPPbn55049PncbBGRWZiIWnWDDq/WIDKGP+jESwfpcjHv/GLwvlmMegzy7UdiDT890
-         3QmFCIZj6eaNtK8SM0rTE/f/Mr7wifa7PXnLYZN9PHUVA3qE0PvVaswXADpYC9G8pFik
-         lhPkDA8Xa0xeRzQnQjikSjN0bylftCcrNTtn6Vk5itC2sGwDlsrNRDX1nUUFJmP+spK7
-         AXht7dKXJCSOusN57IPducGYZMuKeT90VoIWFe/2HPGTm/Wozb3Q38xvsnahxxmArX8+
-         +Eyw==
-X-Gm-Message-State: AOAM532DFb0fHJZUrJABsP/Awtgl/GLiuN1QD4S6tI2JgE2Rsd39WX7K
-        AcTcPhTLQicKIVhnXW96Hd8=
-X-Google-Smtp-Source: ABdhPJw+n/81+bpgY1iJPJEdQb0d1AjWt4CwW29ZoleJlOjQCEcaCayiyhG72d8upanpa4b3XJHf+g==
-X-Received: by 2002:a1c:1dcd:: with SMTP id d196mr4409956wmd.9.1631791862891;
-        Thu, 16 Sep 2021 04:31:02 -0700 (PDT)
+        bh=9NhP0KemkDYjvJFJ1qOIIarsOUWVW1ocIDtArvNA068=;
+        b=OLxCFUayd3pJj8FE6gJK1l3JxxamgCLQV9DBN+sjyL+93h2s8WjYtbhTwumVPf54I7
+         0d6RyQl+SsQDyAT79sr0Gie9uxtI0Op/hjVaO6b/DKoOffiRoP2utRauJqOsxUcB9cXE
+         lLozh2jE+833S2UByzHIZC+WDuTERudeLQfLiViU2KwPSs40/oJUilIkusqcO9W3w3n6
+         SHOaefbU3+njicUmf9Ze423IeotEyHRiVoM7uWYVV4eOYlaHVVVzmAL3xa+mmOTVD2ij
+         DvyvkhOsdf58Ds1o+inonANCNsQKaEb178BlrDaqzxMS+HXt6Eay6uvqC3wZeZSWRm7d
+         KiMw==
+X-Gm-Message-State: AOAM530GGghAbsJBkv8roXyaQDeSLyaxa9bZcjbH4OFfOQ5WM+qJMJlW
+        YZ2HM18GjmM84Z+vXUiRmbU=
+X-Google-Smtp-Source: ABdhPJwrkyAg3w90rMzWPvNlNb8unGCndntK/rO+r83tG4dJ1qU//0NAk8tLvxnaagiUmcZ3mzAcSg==
+X-Received: by 2002:a5d:568a:: with SMTP id f10mr5516399wrv.314.1631791863816;
+        Thu, 16 Sep 2021 04:31:03 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id c17sm3803674wrn.54.2021.09.16.04.31.02
+        by smtp.gmail.com with ESMTPSA id c17sm3803674wrn.54.2021.09.16.04.31.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 04:31:02 -0700 (PDT)
+        Thu, 16 Sep 2021 04:31:03 -0700 (PDT)
 From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
         <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 To:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc:     daniel@ffwll.ch, tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 19/26] drm/i915: use new cursor in intel_prepare_plane_fb v2
-Date:   Thu, 16 Sep 2021 13:30:35 +0200
-Message-Id: <20210916113042.3631-20-christian.koenig@amd.com>
+Subject: [PATCH 20/26] drm: use new iterator in drm_gem_fence_array_add_implicit v2
+Date:   Thu, 16 Sep 2021 13:30:36 +0200
+Message-Id: <20210916113042.3631-21-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210916113042.3631-1-christian.koenig@amd.com>
 References: <20210916113042.3631-1-christian.koenig@amd.com>
@@ -69,44 +69,62 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Simplifying the code a bit.
 
-v2: add rcu_read_lock()/unlock()
+v2: add missing rcu_read_lock()/unlock()
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_gem.c | 36 +++++++++++++-----------------------
+ 1 file changed, 13 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 134a6acbd8fb..fa73a6754373 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -11290,6 +11290,7 @@ intel_prepare_plane_fb(struct drm_plane *_plane,
- 	i915_gem_object_flush_frontbuffer(obj, ORIGIN_DIRTYFB);
- 
- 	if (!new_plane_state->uapi.fence) { /* implicit fencing */
-+		struct dma_resv_iter cursor;
- 		struct dma_fence *fence;
- 
- 		ret = i915_sw_fence_await_reservation(&state->commit_ready,
-@@ -11300,12 +11301,15 @@ intel_prepare_plane_fb(struct drm_plane *_plane,
- 		if (ret < 0)
- 			goto unpin_fb;
- 
--		fence = dma_resv_get_excl_unlocked(obj->base.resv);
--		if (fence) {
-+		rcu_read_lock();
-+		dma_resv_for_each_fence_unlocked(obj->base.resv, &cursor, false,
-+						 fence) {
-+			rcu_read_unlock();
- 			add_rps_boost_after_vblank(new_plane_state->hw.crtc,
- 						   fence);
--			dma_fence_put(fence);
-+			rcu_read_lock();
- 		}
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 09c820045859..8c3ff098e49e 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -1340,31 +1340,21 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
+ 				     struct drm_gem_object *obj,
+ 				     bool write)
+ {
+-	int ret;
+-	struct dma_fence **fences;
+-	unsigned int i, fence_count;
+-
+-	if (!write) {
+-		struct dma_fence *fence =
+-			dma_resv_get_excl_unlocked(obj->resv);
+-
+-		return drm_gem_fence_array_add(fence_array, fence);
+-	}
+-
+-	ret = dma_resv_get_fences(obj->resv, NULL,
+-						&fence_count, &fences);
+-	if (ret || !fence_count)
+-		return ret;
+-
+-	for (i = 0; i < fence_count; i++) {
+-		ret = drm_gem_fence_array_add(fence_array, fences[i]);
+-		if (ret)
++	struct dma_resv_iter cursor;
++	struct dma_fence *fence;
++	int ret = 0;
++
++	rcu_read_lock();
++	dma_resv_for_each_fence_unlocked(obj->resv, &cursor, write, fence) {
 +		rcu_read_unlock();
- 	} else {
- 		add_rps_boost_after_vblank(new_plane_state->hw.crtc,
- 					   new_plane_state->uapi.fence);
++		ret = drm_gem_fence_array_add(fence_array, fence);
++		rcu_read_lock();
++		if (ret) {
++			dma_fence_put(fence);
+ 			break;
++		}
+ 	}
+-
+-	for (; i < fence_count; i++)
+-		dma_fence_put(fences[i]);
+-	kfree(fences);
++	rcu_read_unlock();
+ 	return ret;
+ }
+ EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
 -- 
 2.25.1
 
