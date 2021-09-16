@@ -2,149 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1DC840D193
-	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 04:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53FF440D188
+	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 04:05:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233745AbhIPCRF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Sep 2021 22:17:05 -0400
-Received: from mx22.baidu.com ([220.181.50.185]:59732 "EHLO baidu.com"
+        id S233745AbhIPCG6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Sep 2021 22:06:58 -0400
+Received: from mx22.baidu.com ([220.181.50.185]:48896 "EHLO baidu.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231674AbhIPCRE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Sep 2021 22:17:04 -0400
-Received: from BJHW-Mail-Ex07.internal.baidu.com (unknown [10.127.64.17])
-        by Forcepoint Email with ESMTPS id 52B023AD492C2AC3DCDC;
-        Thu, 16 Sep 2021 10:00:24 +0800 (CST)
+        id S233648AbhIPCG5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Sep 2021 22:06:57 -0400
+X-Greylist: delayed 310 seconds by postgrey-1.27 at vger.kernel.org; Wed, 15 Sep 2021 22:06:57 EDT
+Received: from BC-Mail-Ex25.internal.baidu.com (unknown [172.31.51.19])
+        by Forcepoint Email with ESMTPS id F2F124D29AA6BCE8E3D2;
+        Thu, 16 Sep 2021 10:05:34 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BJHW-Mail-Ex07.internal.baidu.com (10.127.64.17) with Microsoft SMTP Server
+ BC-Mail-Ex25.internal.baidu.com (172.31.51.19) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 10:00:24 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 10:00:23 +0800
-From:   Cai Huoqing <caihuoqing@baidu.com>
-To:     <caihuoqing@baidu.com>
+ 15.1.2242.12; Thu, 16 Sep 2021 10:05:34 +0800
+Received: from BJHW-MAIL-EX27.internal.baidu.com ([169.254.58.247]) by
+ BJHW-MAIL-EX27.internal.baidu.com ([169.254.58.247]) with mapi id
+ 15.01.2308.014; Thu, 16 Sep 2021 10:05:34 +0800
+From:   "Cai,Huoqing" <caihuoqing@baidu.com>
+To:     Sean Young <sean@mess.org>
 CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] media: dvb-core: Convert to SPDX identifier
-Date:   Thu, 16 Sep 2021 10:00:18 +0800
-Message-ID: <20210916020018.8550-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2] media: dvb-core: Convert to SPDX identifier
+Thread-Topic: [PATCH v2] media: dvb-core: Convert to SPDX identifier
+Thread-Index: AQHXqp6cSXFj2sFOREeY84iLXbdeBKul6PvQ
+Date:   Thu, 16 Sep 2021 02:05:34 +0000
+Message-ID: <7f6536e8d1d4478ba507a80b0e5888a6@baidu.com>
+References: <20210916020018.8550-1-caihuoqing@baidu.com>
+In-Reply-To: <20210916020018.8550-1-caihuoqing@baidu.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.12.45.132]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BJHW-Mail-Ex11.internal.baidu.com (10.127.64.34) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
-X-Baidu-BdMsfe-DateCheck: 1_BJHW-Mail-Ex07_2021-09-16 10:00:24:261
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-use SPDX-License-Identifier instead of a verbose license text
-and remove verbose license text.
-
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
-v1->v2: Change license from GPL-2.0+ to LGPL-2.1-or-later
-
- drivers/media/dvb-core/dmxdev.c    | 12 +-----------
- drivers/media/dvb-core/dvb_demux.c | 12 +-----------
- drivers/media/dvb-core/dvb_vb2.c   |  4 ----
- drivers/media/dvb-core/dvbdev.c    | 12 +-----------
- 4 files changed, 3 insertions(+), 37 deletions(-)
-
-diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
-index 5d5a48475a54..e94ae9427fdb 100644
---- a/drivers/media/dvb-core/dmxdev.c
-+++ b/drivers/media/dvb-core/dmxdev.c
-@@ -1,19 +1,9 @@
-+// SPDX-License-Identifier: LGPL-2.1-or-later
- /*
-  * dmxdev.c - DVB demultiplexer device
-  *
-  * Copyright (C) 2000 Ralph Metzler & Marcus Metzler
-  *		      for convergence integrated media GmbH
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public License
-- * as published by the Free Software Foundation; either version 2.1
-- * of the License, or (at your option) any later version.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-- *
-  */
- 
- #define pr_fmt(fmt) "dmxdev: " fmt
-diff --git a/drivers/media/dvb-core/dvb_demux.c b/drivers/media/dvb-core/dvb_demux.c
-index 5fde1d38b3e3..c7a145bfbc55 100644
---- a/drivers/media/dvb-core/dvb_demux.c
-+++ b/drivers/media/dvb-core/dvb_demux.c
-@@ -1,20 +1,10 @@
-+// SPDX-License-Identifier: LGPL-2.1-or-later
- /*
-  * dvb_demux.c - DVB kernel demux API
-  *
-  * Copyright (C) 2000-2001 Ralph  Metzler <ralph@convergence.de>
-  *		       & Marcus Metzler <marcus@convergence.de>
-  *			 for convergence integrated media GmbH
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public License
-- * as published by the Free Software Foundation; either version 2.1
-- * of the License, or (at your option) any later version.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-- *
-  */
- 
- #define pr_fmt(fmt) "dvb_demux: " fmt
-diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
-index 6974f1731529..602bbc52bd22 100644
---- a/drivers/media/dvb-core/dvb_vb2.c
-+++ b/drivers/media/dvb-core/dvb_vb2.c
-@@ -5,10 +5,6 @@
-  * Copyright (C) 2015 Samsung Electronics
-  *
-  * Author: jh1009.sung@samsung.com
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License as published by
-- * the Free Software Foundation.
-  */
- 
- #include <linux/err.h>
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 795d9bfaba5c..d7c341bfcca1 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -1,20 +1,10 @@
-+// SPDX-License-Identifier: LGPL-2.1-or-later
- /*
-  * dvbdev.c
-  *
-  * Copyright (C) 2000 Ralph  Metzler <ralph@convergence.de>
-  *                  & Marcus Metzler <marcus@convergence.de>
-  *                    for convergence integrated media GmbH
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public License
-- * as published by the Free Software Foundation; either version 2.1
-- * of the License, or (at your option) any later version.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-- *
-  */
- 
- #define pr_fmt(fmt) "dvbdev: " fmt
--- 
-2.25.1
-
+SGVsbG8sDQorQ2MgU2VhbiBZb3VuZyA8c2VhbkBtZXNzLm9yZz4NCg0KPiAtLS0tLU9yaWdpbmFs
+IE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBDYWksSHVvcWluZyA8Y2FpaHVvcWluZ0BiYWlkdS5jb20+
+DQo+IFNlbnQ6IDIwMjHE6jnUwjE2yNUgMTA6MDANCj4gVG86IENhaSxIdW9xaW5nDQo+IENjOiBN
+YXVybyBDYXJ2YWxobyBDaGVoYWI7IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZzsgbGludXgt
+DQo+IGtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVjdDogW1BBVENIIHYyXSBtZWRpYTog
+ZHZiLWNvcmU6IENvbnZlcnQgdG8gU1BEWCBpZGVudGlmaWVyDQo+IA0KPiB1c2UgU1BEWC1MaWNl
+bnNlLUlkZW50aWZpZXIgaW5zdGVhZCBvZiBhIHZlcmJvc2UgbGljZW5zZSB0ZXh0DQo+IGFuZCBy
+ZW1vdmUgdmVyYm9zZSBsaWNlbnNlIHRleHQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBDYWkgSHVv
+cWluZyA8Y2FpaHVvcWluZ0BiYWlkdS5jb20+DQo+IC0tLQ0KPiB2MS0+djI6IENoYW5nZSBsaWNl
+bnNlIGZyb20gR1BMLTIuMCsgdG8gTEdQTC0yLjEtb3ItbGF0ZXINCj4gDQo+ICBkcml2ZXJzL21l
+ZGlhL2R2Yi1jb3JlL2RteGRldi5jICAgIHwgMTIgKy0tLS0tLS0tLS0tDQo+ICBkcml2ZXJzL21l
+ZGlhL2R2Yi1jb3JlL2R2Yl9kZW11eC5jIHwgMTIgKy0tLS0tLS0tLS0tDQo+ICBkcml2ZXJzL21l
+ZGlhL2R2Yi1jb3JlL2R2Yl92YjIuYyAgIHwgIDQgLS0tLQ0KPiAgZHJpdmVycy9tZWRpYS9kdmIt
+Y29yZS9kdmJkZXYuYyAgICB8IDEyICstLS0tLS0tLS0tLQ0KPiAgNCBmaWxlcyBjaGFuZ2VkLCAz
+IGluc2VydGlvbnMoKyksIDM3IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvbWVkaWEvZHZiLWNvcmUvZG14ZGV2LmMgYi9kcml2ZXJzL21lZGlhL2R2Yi0NCj4gY29yZS9k
+bXhkZXYuYw0KPiBpbmRleCA1ZDVhNDg0NzVhNTQuLmU5NGFlOTQyN2ZkYiAxMDA2NDQNCj4gLS0t
+IGEvZHJpdmVycy9tZWRpYS9kdmItY29yZS9kbXhkZXYuYw0KPiArKysgYi9kcml2ZXJzL21lZGlh
+L2R2Yi1jb3JlL2RteGRldi5jDQo+IEBAIC0xLDE5ICsxLDkgQEANCj4gKy8vIFNQRFgtTGljZW5z
+ZS1JZGVudGlmaWVyOiBMR1BMLTIuMS1vci1sYXRlcg0KPiAgLyoNCj4gICAqIGRteGRldi5jIC0g
+RFZCIGRlbXVsdGlwbGV4ZXIgZGV2aWNlDQo+ICAgKg0KPiAgICogQ29weXJpZ2h0IChDKSAyMDAw
+IFJhbHBoIE1ldHpsZXIgJiBNYXJjdXMgTWV0emxlcg0KPiAgICoJCSAgICAgIGZvciBjb252ZXJn
+ZW5jZSBpbnRlZ3JhdGVkIG1lZGlhIEdtYkgNCj4gLSAqDQo+IC0gKiBUaGlzIHByb2dyYW0gaXMg
+ZnJlZSBzb2Z0d2FyZTsgeW91IGNhbiByZWRpc3RyaWJ1dGUgaXQgYW5kL29yDQo+IC0gKiBtb2Rp
+ZnkgaXQgdW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljIExp
+Y2Vuc2UNCj4gLSAqIGFzIHB1Ymxpc2hlZCBieSB0aGUgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9u
+OyBlaXRoZXIgdmVyc2lvbiAyLjENCj4gLSAqIG9mIHRoZSBMaWNlbnNlLCBvciAoYXQgeW91ciBv
+cHRpb24pIGFueSBsYXRlciB2ZXJzaW9uLg0KPiAtICoNCj4gLSAqIFRoaXMgcHJvZ3JhbSBpcyBk
+aXN0cmlidXRlZCBpbiB0aGUgaG9wZSB0aGF0IGl0IHdpbGwgYmUgdXNlZnVsLA0KPiAtICogYnV0
+IFdJVEhPVVQgQU5ZIFdBUlJBTlRZOyB3aXRob3V0IGV2ZW4gdGhlIGltcGxpZWQgd2FycmFudHkg
+b2YNCj4gLSAqIE1FUkNIQU5UQUJJTElUWSBvciBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVS
+UE9TRS4gIFNlZSB0aGUNCj4gLSAqIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3Jl
+IGRldGFpbHMuDQo+IC0gKg0KPiAgICovDQo+IA0KPiAgI2RlZmluZSBwcl9mbXQoZm10KSAiZG14
+ZGV2OiAiIGZtdA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9kdmItY29yZS9kdmJfZGVt
+dXguYyBiL2RyaXZlcnMvbWVkaWEvZHZiLQ0KPiBjb3JlL2R2Yl9kZW11eC5jDQo+IGluZGV4IDVm
+ZGUxZDM4YjNlMy4uYzdhMTQ1YmZiYzU1IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL21lZGlhL2R2
+Yi1jb3JlL2R2Yl9kZW11eC5jDQo+ICsrKyBiL2RyaXZlcnMvbWVkaWEvZHZiLWNvcmUvZHZiX2Rl
+bXV4LmMNCj4gQEAgLTEsMjAgKzEsMTAgQEANCj4gKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVy
+OiBMR1BMLTIuMS1vci1sYXRlcg0KPiAgLyoNCj4gICAqIGR2Yl9kZW11eC5jIC0gRFZCIGtlcm5l
+bCBkZW11eCBBUEkNCj4gICAqDQo+ICAgKiBDb3B5cmlnaHQgKEMpIDIwMDAtMjAwMSBSYWxwaCAg
+TWV0emxlciA8cmFscGhAY29udmVyZ2VuY2UuZGU+DQo+ICAgKgkJICAgICAgICYgTWFyY3VzIE1l
+dHpsZXIgPG1hcmN1c0Bjb252ZXJnZW5jZS5kZT4NCj4gICAqCQkJIGZvciBjb252ZXJnZW5jZSBp
+bnRlZ3JhdGVkIG1lZGlhIEdtYkgNCj4gLSAqDQo+IC0gKiBUaGlzIHByb2dyYW0gaXMgZnJlZSBz
+b2Z0d2FyZTsgeW91IGNhbiByZWRpc3RyaWJ1dGUgaXQgYW5kL29yDQo+IC0gKiBtb2RpZnkgaXQg
+dW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljIExpY2Vuc2UN
+Cj4gLSAqIGFzIHB1Ymxpc2hlZCBieSB0aGUgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uOyBlaXRo
+ZXIgdmVyc2lvbiAyLjENCj4gLSAqIG9mIHRoZSBMaWNlbnNlLCBvciAoYXQgeW91ciBvcHRpb24p
+IGFueSBsYXRlciB2ZXJzaW9uLg0KPiAtICoNCj4gLSAqIFRoaXMgcHJvZ3JhbSBpcyBkaXN0cmli
+dXRlZCBpbiB0aGUgaG9wZSB0aGF0IGl0IHdpbGwgYmUgdXNlZnVsLA0KPiAtICogYnV0IFdJVEhP
+VVQgQU5ZIFdBUlJBTlRZOyB3aXRob3V0IGV2ZW4gdGhlIGltcGxpZWQgd2FycmFudHkgb2YNCj4g
+LSAqIE1FUkNIQU5UQUJJTElUWSBvciBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRS4g
+IFNlZSB0aGUNCj4gLSAqIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3JlIGRldGFp
+bHMuDQo+IC0gKg0KPiAgICovDQo+IA0KPiAgI2RlZmluZSBwcl9mbXQoZm10KSAiZHZiX2RlbXV4
+OiAiIGZtdA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9kdmItY29yZS9kdmJfdmIyLmMg
+Yi9kcml2ZXJzL21lZGlhL2R2Yi0NCj4gY29yZS9kdmJfdmIyLmMNCj4gaW5kZXggNjk3NGYxNzMx
+NTI5Li42MDJiYmM1MmJkMjIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvbWVkaWEvZHZiLWNvcmUv
+ZHZiX3ZiMi5jDQo+ICsrKyBiL2RyaXZlcnMvbWVkaWEvZHZiLWNvcmUvZHZiX3ZiMi5jDQo+IEBA
+IC01LDEwICs1LDYgQEANCj4gICAqIENvcHlyaWdodCAoQykgMjAxNSBTYW1zdW5nIEVsZWN0cm9u
+aWNzDQo+ICAgKg0KPiAgICogQXV0aG9yOiBqaDEwMDkuc3VuZ0BzYW1zdW5nLmNvbQ0KPiAtICoN
+Cj4gLSAqIFRoaXMgcHJvZ3JhbSBpcyBmcmVlIHNvZnR3YXJlOyB5b3UgY2FuIHJlZGlzdHJpYnV0
+ZSBpdCBhbmQvb3IgbW9kaWZ5DQo+IC0gKiBpdCB1bmRlciB0aGUgdGVybXMgb2YgdGhlIEdOVSBH
+ZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGFzIHB1Ymxpc2hlZCBieQ0KPiAtICogdGhlIEZyZWUgU29m
+dHdhcmUgRm91bmRhdGlvbi4NCj4gICAqLw0KPiANCj4gICNpbmNsdWRlIDxsaW51eC9lcnIuaD4N
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvZHZiLWNvcmUvZHZiZGV2LmMgYi9kcml2ZXJz
+L21lZGlhL2R2Yi0NCj4gY29yZS9kdmJkZXYuYw0KPiBpbmRleCA3OTVkOWJmYWJhNWMuLmQ3YzM0
+MWJmY2NhMSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9tZWRpYS9kdmItY29yZS9kdmJkZXYuYw0K
+PiArKysgYi9kcml2ZXJzL21lZGlhL2R2Yi1jb3JlL2R2YmRldi5jDQo+IEBAIC0xLDIwICsxLDEw
+IEBADQo+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogTEdQTC0yLjEtb3ItbGF0ZXINCj4g
+IC8qDQo+ICAgKiBkdmJkZXYuYw0KPiAgICoNCj4gICAqIENvcHlyaWdodCAoQykgMjAwMCBSYWxw
+aCAgTWV0emxlciA8cmFscGhAY29udmVyZ2VuY2UuZGU+DQo+ICAgKiAgICAgICAgICAgICAgICAg
+ICYgTWFyY3VzIE1ldHpsZXIgPG1hcmN1c0Bjb252ZXJnZW5jZS5kZT4NCj4gICAqICAgICAgICAg
+ICAgICAgICAgICBmb3IgY29udmVyZ2VuY2UgaW50ZWdyYXRlZCBtZWRpYSBHbWJIDQo+IC0gKg0K
+PiAtICogVGhpcyBwcm9ncmFtIGlzIGZyZWUgc29mdHdhcmU7IHlvdSBjYW4gcmVkaXN0cmlidXRl
+IGl0IGFuZC9vcg0KPiAtICogbW9kaWZ5IGl0IHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgR05VIExl
+c3NlciBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlDQo+IC0gKiBhcyBwdWJsaXNoZWQgYnkgdGhlIEZy
+ZWUgU29mdHdhcmUgRm91bmRhdGlvbjsgZWl0aGVyIHZlcnNpb24gMi4xDQo+IC0gKiBvZiB0aGUg
+TGljZW5zZSwgb3IgKGF0IHlvdXIgb3B0aW9uKSBhbnkgbGF0ZXIgdmVyc2lvbi4NCj4gLSAqDQo+
+IC0gKiBUaGlzIHByb2dyYW0gaXMgZGlzdHJpYnV0ZWQgaW4gdGhlIGhvcGUgdGhhdCBpdCB3aWxs
+IGJlIHVzZWZ1bCwNCj4gLSAqIGJ1dCBXSVRIT1VUIEFOWSBXQVJSQU5UWTsgd2l0aG91dCBldmVu
+IHRoZSBpbXBsaWVkIHdhcnJhbnR5IG9mDQo+IC0gKiBNRVJDSEFOVEFCSUxJVFkgb3IgRklUTkVT
+UyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UuICBTZWUgdGhlDQo+IC0gKiBHTlUgR2VuZXJhbCBQ
+dWJsaWMgTGljZW5zZSBmb3IgbW9yZSBkZXRhaWxzLg0KPiAtICoNCj4gICAqLw0KPiANCj4gICNk
+ZWZpbmUgcHJfZm10KGZtdCkgImR2YmRldjogIiBmbXQNCj4gLS0NCj4gMi4yNS4xDQoNCg==
