@@ -2,126 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C83A40D31E
-	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 08:17:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BD3D40D33F
+	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 08:29:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234524AbhIPGTK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Sep 2021 02:19:10 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58226 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234527AbhIPGTI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Sep 2021 02:19:08 -0400
-Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D7DED2A5;
-        Thu, 16 Sep 2021 08:17:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1631773066;
-        bh=iYCPuib0MItJiRSPhtg5wHxL/ZiTUmi3/zxckQ6Q/ww=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=kWpZmfMm+JAP5EYEHZIl9WirfGFULX1NQXQmBdf28x+b8n+oqa31+vyNwuL5//Sor
-         RDpinWnf+NAE8Zg84T8Vz0gk43UrUG0AJbcHuQ4g5WbdmZAE1oy0YoWBBchs/6LjSA
-         LL+NVoNhzx8oOW+zZ9oX4+jZyFXp0cKpHHtxVfko=
-Subject: Re: [PATCH v8 02/36] media: subdev: add active state to struct
- v4l2_subdev
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
- <20210830110116.488338-3-tomi.valkeinen@ideasonboard.com>
- <20210915094403.cazj7bjampnes4ba@uno.localdomain>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <8e322af6-c010-f906-f733-6d3f770a48fc@ideasonboard.com>
-Date:   Thu, 16 Sep 2021 09:17:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S234568AbhIPGbA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Sep 2021 02:31:00 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:39146 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234496AbhIPGa7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Sep 2021 02:30:59 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1631773779; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=14otI/FRn3T6TCrE2iGF/EbKmUQaHDuaRWzxyWGJRJI=;
+ b=DKuz09QZiDh+R/KZ4nnmlYodzNeL42eDZViJa22UOf7CgjKNaxjemlktxVqBY4zolHJi8aH1
+ qaTgUTsW+YH8Cd8EehIfjQ/ljWByBKuTHpjJkawGJ4tZLpSW1nE9Wel/xquBFBtxbGJ1C4uO
+ ZaL8i2RFVJj5Z5o8xYpJTfSpQ10=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 6142e451b585cc7d2466e0ae (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 16 Sep 2021 06:29:37
+ GMT
+Sender: dikshita=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id B0627C43616; Thu, 16 Sep 2021 06:29:37 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: dikshita)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id D2D0AC4338F;
+        Thu, 16 Sep 2021 06:29:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210915094403.cazj7bjampnes4ba@uno.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
+Date:   Thu, 16 Sep 2021 11:59:36 +0530
+From:   dikshita@codeaurora.org
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, jim.cromie@gmail.com,
+        Joe Perches <joe@perches.com>, Jason Baron <jbaron@akamai.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media-owner@vger.kernel.org,
+        Akinobu Mita <akinobu.mita@gmail.com>
+Subject: Re: [PATCH v5 2/3] venus: Add a debugfs file for SSR trigger
+In-Reply-To: <CAE-0n53T-RoOvR=s9nHiXAriMgKvBfDqfBfoGKX5Ju5YF3Tcqw@mail.gmail.com>
+References: <20200730095350.13925-1-stanimir.varbanov@linaro.org>
+ <20200730095350.13925-3-stanimir.varbanov@linaro.org>
+ <159718256557.1360974.458611240360821676@swboyd.mtv.corp.google.com>
+ <8c1fdf2d0807f07ec57b232497b405f1@codeaurora.org>
+ <CAE-0n53T-RoOvR=s9nHiXAriMgKvBfDqfBfoGKX5Ju5YF3Tcqw@mail.gmail.com>
+Message-ID: <53a38a24cca0b6f1c2a3120f14dfc865@codeaurora.org>
+X-Sender: dikshita@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On 2021-09-16 01:09, Stephen Boyd wrote:
+> Quoting dikshita@codeaurora.org (2021-09-15 02:13:09)
+>> Hi Stephen,
+>> 
+>> Reviving the discussion on this change as we need to pull this in.
+>> 
+>> As per your suggestion, I explored the fault injection framework to
+>> implement this functionality.
+>> But I don't think that meets our requirements.
+>> 
+>> We need a way to trigger subsystem restart from the client-side, it's
+>> not derived from the driver.
+> 
+> Just to confirm, this is all for debugging purposes right?
+> 
+yes, correct. this is for debugging purposes. We need this to simulate 
+an error on FW side.
+In a normal scenario, when FW runs into error, sys error is triggered 
+from FW as result of which
+a sequence of commands are followed for restarting the system.
+using this feature, we are trying to simulate this error on FW i.e we 
+are forcing the FW to run into an error.
+>> 
+>> while fault injection framework enables the driver to trigger an
+>> injection
+>> when a specific event occurs for eg: page allocation failure or memory
+>> access failure.
+>> 
+>> So, IMO, we will have to use custom debugfs only.
+> 
+> Can you use DECLARE_FAULT_ATTR()? Or you need it to be active instead 
+> of
+> passive, i.e. it shouldn't wait for should_fail() to return true, but
+> actively trigger something on the remoteproc?
+> 
 
-On 15/09/2021 12:44, Jacopo Mondi wrote:
-> Hi Tomi,
-> 
-> On Mon, Aug 30, 2021 at 02:00:42PM +0300, Tomi Valkeinen wrote:
->> Add a new 'state' field to struct v4l2_subdev to which we can store the
->> active state of a subdev. This will place the subdev configuration into
->> a known place, allowing us to use the state directly from the v4l2
->> framework, thus simplifying the drivers.
->>
->> We also add v4l2_subdev_alloc_state() and v4l2_subdev_free_state(),
->> which need to be used by the drivers that support subdev state in struct
->> v4l2_subdev.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/v4l2-core/v4l2-subdev.c | 21 ++++++++++++++++
->>   include/media/v4l2-subdev.h           | 36 +++++++++++++++++++++++++++
->>   2 files changed, 57 insertions(+)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index 26a34a8e3d37..e1a794f69815 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -943,3 +943,24 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
->>   	v4l2_subdev_notify(sd, V4L2_DEVICE_NOTIFY_EVENT, (void *)ev);
->>   }
->>   EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
->> +
->> +int v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
->> +{
->> +	struct v4l2_subdev_state *state;
->> +
->> +	state = v4l2_alloc_subdev_state(sd);
-> 
-> So, I think this is one source of confusion about init_cfg.
-> 
-> v4l2_alloc_subdev_state() calls init_cfg() and 'state-aware' driver
-> are now supposed to allocate their state by calling
-> v4l2_subdev_alloc_state(), in the same way as the core does for the
-> file-handle ones.
-> 
-> This will lead to init_cfg to be called for the 'active' (ie owned by
-> the subdev) state, and then you need to add context to the state (by
-> adding a 'which' field) to know what state you're dealing with.
-> 
-> According to the init_cfg() documentation
-> 
->   * @init_cfg: initialize the pad config to default values
-> 
-> the op has to be called in order to initialize the per-file-handle
-> context, not the active one.
+yes, it doesn't need to wait for should_fail() to return true.
+the client/user should be able to trigger this subsystem restart(SSR) at 
+any point of time
+when a session is running. It's totally client-driven.
 
-I have missed updating the documentation there =).
-
-> I would rather just embed 'struct v4l2_subdev_state' in 'struct
-> v4l2_subdev', have the core going through the
-
-Why would embedding the state change anything?
-
-> 'v4l2_subdev_alloc_state()' to initialize the per-fh state, but have
-> drivers initialize their own state at probe time. If they need for
-> some reason to access their 'active' state at init_cfg() time, they
-> caan fish it from their subdev.
+>> 
+>> Please feel free to correct me in case my understanding of the 
+>> framework
+>> is wrong.
+>> 
 > 
-> If I'm not mistaken this will remove the need to have a which filed in
-> the state, as I think the 'context' should be inferred from the
-> 'which' argument embedded in the ops-specific structures, and not held
-> in the state itself.
-
-I'll comment on these in the next reply, as your second mail covered the 
-same topics.
-
-  Tomi
+> I presume the fault injection framework could get a new feature that
+> lets the fault be injected immediately upon writing the debugfs file.
+> My goal is to consolidate this sort of logic into one place and then 
+> put
+> it behind some config option that distros can disable so the kernel
+> isn't bloated with debug features that end users will never care about.
