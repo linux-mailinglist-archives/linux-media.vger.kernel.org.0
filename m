@@ -2,83 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D13140DA0D
-	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 14:38:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 377E740DA3D
+	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 14:44:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239612AbhIPMjv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Sep 2021 08:39:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50402 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239561AbhIPMju (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Sep 2021 08:39:50 -0400
-Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F009C061574
-        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 05:38:30 -0700 (PDT)
-Received: by mail-ua1-x936.google.com with SMTP id r8so3870345uap.0
-        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 05:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0x0f.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0vConzKPLEXeSY5isEj44b9ioB3WiTKXOOeH8M/qhMg=;
-        b=ZOd3cKON6cosT+oUHSUoX8lYXRB1ivz8ksbhrz2g13ab681NxxqUYouzoyOdApRjHN
-         9C7G3gkXybIsaQK6CR0OXJbCoityPI/bsDx9cxeBDryg0SrTlJdsGYQHAjRZcFqHNnep
-         w8T/bY5gwyKErMCiBenZMnLf2a/1lO38d9s9o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0vConzKPLEXeSY5isEj44b9ioB3WiTKXOOeH8M/qhMg=;
-        b=wZwiwqwXRpjJM66ENarwGvPDVCVjRbcV0bXt0yhQ8KVzUygb6JpSfoLZctoqoEDbuq
-         TspM7g4eiCnfy8vWH2cAjv0W8/VS9KDzCYh8AoNVUiySAuWi/SMDRCI1tHehvnFmYmze
-         iVcuRKwMLeG7TjjvaI18k6byyimuHr7U4OWLXkm80beWI+Cg8IoCO/A1hOZy0fh5L4oH
-         K5qDCzD4f0XwX9dZjKXxDgOF82cT4AWyR1/DGoxA+g9mPVWvwGUFvQslT68fBCBjq+PK
-         MGmoeZSZgXhNCsJzb2sHvvzcpSsXW8AubNtf1tYMUq+yMoYSjlIgx7vDby9Oso/BWMVY
-         hK9w==
-X-Gm-Message-State: AOAM531jSuWdNjGzPV3Smiu3wsF9+3ULK0qgrGDMEkuOEaAv819ndwlX
-        IYdeBVvxX0S/qyE9Xlk2tIomQBPpPTkKUB2Sbkvp/JQItbh2Qw==
-X-Google-Smtp-Source: ABdhPJwWiK0lSKm+XTwl96Bf3/5KQdNtghCcUqgRmYvdz8qjWXlQJhdlhbS1vXZu/Mk2fnAln2bQsGBTgBZfLDmB4Dg=
-X-Received: by 2002:ab0:10f:: with SMTP id 15mr3588186uak.113.1631795908405;
- Thu, 16 Sep 2021 05:38:28 -0700 (PDT)
+        id S239584AbhIPMqO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Sep 2021 08:46:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47234 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230299AbhIPMqN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Sep 2021 08:46:13 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EBF4761108;
+        Thu, 16 Sep 2021 12:44:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631796293;
+        bh=KLzBiW3VVJ+O27eDAUHuH818CfcF0FIggjnNJ955TqI=;
+        h=References:In-Reply-To:From:Date:Subject:To:From;
+        b=Ufylq44NB1rynFax2+iP0pEyc1lFGZxtmemt4XTmxqqQXVkOF9rYMFRXt5I6zC1jY
+         2eYV6JOxKPkcQUuAeumz6QOIM6NJBa8ziT9lFeDqMlyL1Ycvtyb3U9GmCbHBkhpZMx
+         EXB5Eq7occlceD/WiPQ2kPhoTBl7twxT+nFovEAE9QE4/pAtCmwA33rUowdoPMCI+F
+         ZeVevgvTXw21w3Eo3TslI1jqLMAoybOMV2ihcZGyKgbOimzwSYxuy+4RYMOTE5g/t2
+         c/Tx7icnJShaG/sQHI8DazpmhP0/GIoOMYQSGAkyVNOLb7f7f/iu9071Hqjmd5RpK6
+         so0eXkmFZge8w==
+Received: by mail-ot1-f54.google.com with SMTP id 97-20020a9d006a000000b00545420bff9eso1217864ota.8;
+        Thu, 16 Sep 2021 05:44:52 -0700 (PDT)
+X-Gm-Message-State: AOAM530x00I2kdKGpggE8AKliBULgRyIwUrGvMep5brVQmFssuqzsBW9
+        eLgvZa5WIBBF+xv8hSw8aDP9uk/PnTl6JPpcUlo=
+X-Google-Smtp-Source: ABdhPJzYLUSJZsh0jo8CcdLUrWa60FoaIm/wgPz4w5rfGXbsO/CMqYBIPFe4um0VFr4rFpmdHQF7TW4xUd8HJFD8LqY=
+X-Received: by 2002:a05:6830:12d7:: with SMTP id a23mr4519312otq.102.1631796292308;
+ Thu, 16 Sep 2021 05:44:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210915162324.25513-1-dafna.hirschfeld@collabora.com>
-In-Reply-To: <20210915162324.25513-1-dafna.hirschfeld@collabora.com>
-From:   Daniel Palmer <daniel@0x0f.com>
-Date:   Thu, 16 Sep 2021 21:38:17 +0900
-Message-ID: <CAFr9PXkpEDfa_P_UfTCwrBHOMsqyGm8MQgOsY=_OjFGc4+ApAQ@mail.gmail.com>
-Subject: Re: [PATCH 0/6] staging: media: wave5: add wave5 codec driver
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+References: <20210912165309.98695-1-ogabbay@kernel.org> <YUCvNzpyC091KeaJ@phenom.ffwll.local>
+ <20210914161218.GF3544071@ziepe.ca> <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
+ <YUM5JoMMK7gceuKZ@phenom.ffwll.local>
+In-Reply-To: <YUM5JoMMK7gceuKZ@phenom.ffwll.local>
+From:   Oded Gabbay <ogabbay@kernel.org>
+Date:   Thu, 16 Sep 2021 15:44:25 +0300
+X-Gmail-Original-Message-ID: <CAFCwf10MnK5KPBaeWar4tALGz9n8+-B8toXnqurcebZ8Y_Jjpw@mail.gmail.com>
+Message-ID: <CAFCwf10MnK5KPBaeWar4tALGz9n8+-B8toXnqurcebZ8Y_Jjpw@mail.gmail.com>
+Subject: Re: [PATCH v6 0/2] Add p2p via dmabuf to habanalabs
+To:     Oded Gabbay <ogabbay@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        open list <linux-kernel@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        bob.beckett@collabora.com, kiril.bicevski@collabora.com,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        lafley.kim@chipsnmedia.com, scott.woo@chipsnmedia.com,
-        olivier.crete@collabora.com
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Gal Pressman <galpress@amazon.com>,
+        Yossi Leybovich <sleybo@amazon.com>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Dave Airlie <airlied@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Christoph Hellwig <hch@lst.de>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
-
-On Thu, 16 Sept 2021 at 01:23, Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
+On Thu, Sep 16, 2021 at 3:31 PM Daniel Vetter <daniel@ffwll.ch> wrote:
 >
-> The wave5 codec is a stateful encoder/decoder.
-> It is found on the JH7100 SoC.
+> On Wed, Sep 15, 2021 at 10:45:36AM +0300, Oded Gabbay wrote:
+> > On Tue, Sep 14, 2021 at 7:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > >
+> > > On Tue, Sep 14, 2021 at 04:18:31PM +0200, Daniel Vetter wrote:
+> > > > On Sun, Sep 12, 2021 at 07:53:07PM +0300, Oded Gabbay wrote:
+> > > > > Hi,
+> > > > > Re-sending this patch-set following the release of our user-space TPC
+> > > > > compiler and runtime library.
+> > > > >
+> > > > > I would appreciate a review on this.
+> > > >
+> > > > I think the big open we have is the entire revoke discussions. Having the
+> > > > option to let dma-buf hang around which map to random local memory ranges,
+> > > > without clear ownership link and a way to kill it sounds bad to me.
+> > > >
+> > > > I think there's a few options:
+> > > > - We require revoke support. But I've heard rdma really doesn't like that,
+> > > >   I guess because taking out an MR while holding the dma_resv_lock would
+> > > >   be an inversion, so can't be done. Jason, can you recap what exactly the
+> > > >   hold-up was again that makes this a no-go?
+> > >
+> > > RDMA HW can't do revoke.
 >
+> Like why? I'm assuming when the final open handle or whatever for that MR
+> is closed, you do clean up everything? Or does that MR still stick around
+> forever too?
+>
+> > > So we have to exclude almost all the HW and several interesting use
+> > > cases to enable a revoke operation.
+> > >
+> > > >   - For non-revokable things like these dma-buf we'd keep a drm_master
+> > > >     reference around. This would prevent the next open to acquire
+> > > >     ownership rights, which at least prevents all the nasty potential
+> > > >     problems.
+> > >
+> > > This is what I generally would expect, the DMABUF FD and its DMA
+> > > memory just floats about until the unrevokable user releases it, which
+> > > happens when the FD that is driving the import eventually gets closed.
+> > This is exactly what we are doing in the driver. We make sure
+> > everything is valid until the unrevokable user releases it and that
+> > happens only when the dmabuf fd gets closed.
+> > And the user can't close it's fd of the device until he performs the
+> > above, so there is no leakage between users.
+>
+> Maybe I got the device security model all wrong, but I thought Guadi is
+> single user, and the only thing it protects is the system against the
+> Gaudi device trhough iommu/device gart. So roughly the following can
+> happen:
+>
+> 1. User A opens gaudi device, sets up dma-buf export
+>
+> 2. User A registers that with RDMA, or anything else that doesn't support
+> revoke.
+>
+> 3. User A closes gaudi device
+This can not happen without User A closing the FD of the dma-buf it exported.
+We prevent User A from closing the device because when it exported the
+dma-buf, the driver's code took a refcnt of the user's private
+structure. You can see that in export_dmabuf_common() in the 2nd
+patch. There is a call there to hl_ctx_get.
+So even if User A calls close(device_fd), the driver won't let any
+other user open the device until User A closes the fd of the dma-buf
+object.
 
-For what it's worth; I think this is also the video decoder block on
-the SigmaStar SSD201/SSD202D (32bit ARM..) that have some limited
-support in mainline.
+Moreover, once User A will close the dma-buf fd and the device is
+released, the driver will scrub the device memory (this is optional
+for systems who care about security).
 
-Cheers,
+And AFAIK, User A can't close the dma-buf fd once it registered it
+with RDMA, without doing unregister.
+This can be seen in ib_umem_dmabuf_get() which calls dma_buf_get()
+which does fget(fd)
 
-Daniel
+
+>
+> 4. User B opens gaudi device, assumes that it has full control over the
+> device and uploads some secrets, which happen to end up in the dma-buf
+> region user A set up
+>
+> 5. User B extracts secrets.
+>
+> > > I still don't think any of the complexity is needed, pinnable memory
+> > > is a thing in Linux, just account for it in mlocked and that is
+> > > enough.
+>
+> It's not mlocked memory, it's mlocked memory and I can exfiltrate it.
+> Mlock is fine, exfiltration not so much. It's mlock, but a global pool and
+> if you didn't munlock then the next mlock from a completely different user
+> will alias with your stuff.
+>
+> Or is there something that prevents that? Oded at least explain that gaudi
+> works like a gpu from 20 years ago, single user, no security at all within
+> the device.
+> -Daniel
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
