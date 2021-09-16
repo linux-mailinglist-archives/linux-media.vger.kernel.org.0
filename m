@@ -2,26 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 621A840D35C
-	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 08:44:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6915240D378
+	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 08:52:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234505AbhIPGps (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Sep 2021 02:45:48 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58400 "EHLO
+        id S234686AbhIPGyH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Sep 2021 02:54:07 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58506 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230332AbhIPGpr (ORCPT
+        with ESMTP id S232254AbhIPGyH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Sep 2021 02:45:47 -0400
+        Thu, 16 Sep 2021 02:54:07 -0400
 Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9C5AD2A5;
-        Thu, 16 Sep 2021 08:44:25 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 70CBD2A5;
+        Thu, 16 Sep 2021 08:52:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1631774666;
-        bh=/e2Ret+dNCzMAD2RqhAxpX44bupxu+mPTptZIcga27k=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=wM2OnINiwSVC7Tyum1iwmeoOWJe1zsuPEkpltx7Yct6vOzVG+PT02ugQ2iYthIwsz
-         RAxeCgHchb4oZY+u8aG05ug2NNxsbI7j1sa6d9JpBUA3D71scO2UYJUdNIE1Ely/aa
-         qcSLyLRDlntVkQetHXQiDiOKYmN3hRr3CIC0KDj8=
+        s=mail; t=1631775166;
+        bh=CcXkUo4YTxyP9sW4nUPseHW6XxnvGt4sYFzB/P2PKn0=;
+        h=From:To:Cc:References:Subject:Date:In-Reply-To:From;
+        b=C6TSjYa8NGMaV7raUdJpLg/doddBoVhNlcduifsk1MbrJCp8MNY2TjdcTKLziSdPr
+         3XlVLsNGxE3Pc24HyD11RKBppnNQrEADoZqQHBu+1PJkPZWliuAjL41M7D+Ckc44Tm
+         nhvyky2wt9t2UvxRQM+AMDw9YMPWw/zFtgNZLV8c=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -32,17 +33,17 @@ Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>
 References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
- <20210830110116.488338-5-tomi.valkeinen@ideasonboard.com>
- <20210915101747.edpyp6k4sos7jh66@uno.localdomain>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v8 04/36] media: subdev: pass also the active state to
- subdevs from ioctls
-Message-ID: <0d8e9c9d-c5f6-c653-7ee3-f94bd417c525@ideasonboard.com>
-Date:   Thu, 16 Sep 2021 09:44:23 +0300
+ <20210830110116.488338-3-tomi.valkeinen@ideasonboard.com>
+ <20210915094403.cazj7bjampnes4ba@uno.localdomain>
+ <8e322af6-c010-f906-f733-6d3f770a48fc@ideasonboard.com>
+Subject: Re: [PATCH v8 02/36] media: subdev: add active state to struct
+ v4l2_subdev
+Message-ID: <f0f4bc4b-7594-28ab-8e8a-2819ce82df47@ideasonboard.com>
+Date:   Thu, 16 Sep 2021 09:52:42 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210915101747.edpyp6k4sos7jh66@uno.localdomain>
+In-Reply-To: <8e322af6-c010-f906-f733-6d3f770a48fc@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -50,228 +51,99 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 15/09/2021 13:17, Jacopo Mondi wrote:
-> Hi Tomi
+On 16/09/2021 09:17, Tomi Valkeinen wrote:
+> Hi,
 > 
-> On Mon, Aug 30, 2021 at 02:00:44PM +0300, Tomi Valkeinen wrote:
->> At the moment when a subdev op is called, the TRY subdev state
->> (subdev_fh->state) is passed as a parameter even for ACTIVE case, or
->> alternatively a NULL can be passed for ACTIVE case. This used to make
->> sense, as the ACTIVE state was handled internally by the subdev drivers.
+> On 15/09/2021 12:44, Jacopo Mondi wrote:
+>> Hi Tomi,
 >>
->> We now have a state for ACTIVE case in a standard place, and can pass
->> that alto to the drivers. This patch changes the subdev ioctls to either
->> pass the TRY or ACTIVE state to the subdev.
+>> On Mon, Aug 30, 2021 at 02:00:42PM +0300, Tomi Valkeinen wrote:
+>>> Add a new 'state' field to struct v4l2_subdev to which we can store the
+>>> active state of a subdev. This will place the subdev configuration into
+>>> a known place, allowing us to use the state directly from the v4l2
+>>> framework, thus simplifying the drivers.
+>>>
+>>> We also add v4l2_subdev_alloc_state() and v4l2_subdev_free_state(),
+>>> which need to be used by the drivers that support subdev state in struct
+>>> v4l2_subdev.
+>>>
+>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>> ---
+>>>   drivers/media/v4l2-core/v4l2-subdev.c | 21 ++++++++++++++++
+>>>   include/media/v4l2-subdev.h           | 36 +++++++++++++++++++++++++++
+>>>   2 files changed, 57 insertions(+)
+>>>
+>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c 
+>>> b/drivers/media/v4l2-core/v4l2-subdev.c
+>>> index 26a34a8e3d37..e1a794f69815 100644
+>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>>> @@ -943,3 +943,24 @@ void v4l2_subdev_notify_event(struct v4l2_subdev 
+>>> *sd,
+>>>       v4l2_subdev_notify(sd, V4L2_DEVICE_NOTIFY_EVENT, (void *)ev);
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
+>>> +
+>>> +int v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
+>>> +{
+>>> +    struct v4l2_subdev_state *state;
+>>> +
+>>> +    state = v4l2_alloc_subdev_state(sd);
+
+Replying to this again, as the second email didn't actually cover all 
+the topics...
+
+>> So, I think this is one source of confusion about init_cfg.
 >>
->> Unfortunately many drivers call ops from other subdevs, and implicitly
->> pass NULL as the state, so this is just a partial solution. A coccinelle
->> spatch could perhaps be created which fixes the drivers' subdev calls.
+>> v4l2_alloc_subdev_state() calls init_cfg() and 'state-aware' driver
+>> are now supposed to allocate their state by calling
+>> v4l2_subdev_alloc_state(), in the same way as the core does for the
+>> file-handle ones.
 >>
->> For all current upstream drivers this doesn't matter, as they do not
->> expect to get a valid state for ACTIVE case. But future drivers which
->> support multiplexed streaming and routing will depend on getting a state
->> for both active and try cases, and the simplest way to avoid this
->> problem is to introduce a helper function, used by the new drivers,
->> which makes sure the driver has either the TRY or ACTIVE state. This
->> helper will be introduced in a follow-up patch.
+>> This will lead to init_cfg to be called for the 'active' (ie owned by
+>> the subdev) state, and then you need to add context to the state (by
+>> adding a 'which' field) to know what state you're dealing with.
 >>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/v4l2-core/v4l2-subdev.c | 73 +++++++++++++++++++++++----
->>   1 file changed, 63 insertions(+), 10 deletions(-)
+>> According to the init_cfg() documentation
 >>
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index 04ad319fb150..b3637cddca58 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -353,6 +353,53 @@ const struct v4l2_subdev_ops v4l2_subdev_call_wrappers = {
->>   EXPORT_SYMBOL(v4l2_subdev_call_wrappers);
+>>   * @init_cfg: initialize the pad config to default values
 >>
->>   #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
->> +
->> +static struct v4l2_subdev_state *
->> +subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
->> +		       unsigned int cmd, void *arg)
->> +{
->> +	u32 which;
->> +
->> +	switch (cmd) {
->> +	default:
->> +		return NULL;
->> +
->> +	case VIDIOC_SUBDEV_G_FMT:
->> +	case VIDIOC_SUBDEV_S_FMT: {
->> +		which = ((struct v4l2_subdev_format *)arg)->which;
->> +		break;
->> +	}
->> +	case VIDIOC_SUBDEV_G_CROP:
->> +	case VIDIOC_SUBDEV_S_CROP: {
->> +		which = ((struct v4l2_subdev_crop *)arg)->which;
->> +		break;
->> +	}
->> +	case VIDIOC_SUBDEV_ENUM_MBUS_CODE: {
->> +		which = ((struct v4l2_subdev_mbus_code_enum *)arg)->which;
->> +		break;
->> +	}
->> +	case VIDIOC_SUBDEV_ENUM_FRAME_SIZE: {
->> +		which = ((struct v4l2_subdev_frame_size_enum *)arg)->which;
->> +		break;
->> +	}
->> +
->> +	case VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: {
->> +		which = ((struct v4l2_subdev_frame_interval_enum *)arg)->which;
->> +		break;
->> +	}
->> +
->> +	case VIDIOC_SUBDEV_G_SELECTION:
->> +	case VIDIOC_SUBDEV_S_SELECTION: {
->> +		which = ((struct v4l2_subdev_selection *)arg)->which;
->> +		break;
->> +	}
->> +	}
->> +
->> +	return which == V4L2_SUBDEV_FORMAT_TRY ?
->> +			     subdev_fh->state :
->> +			     v4l2_subdev_get_active_state(sd);
+>> the op has to be called in order to initialize the per-file-handle
+>> context, not the active one.
 > 
-> Why this additional indirection layer ?
+> I have missed updating the documentation there =).
+
+The documentation above doesn't imply per-file-handle context or TRY 
+case, afaics. It just says "initialize state to default". Unless "pad 
+config" always means TRY, which I think it doesn't as the drivers have 
+internally been using pad configs.
+
+But it's true that so far init_cfg has only been called for TRY case, 
+and perhaps that's enough of a reason to keep it so.
+
+>> I would rather just embed 'struct v4l2_subdev_state' in 'struct
+>> v4l2_subdev', have the core going through the
 > 
-> v4l2_subdev_get_active_state(struct v4l2_subdev *sd)
-> {
->      return sd->state;
-> }
-
-I wanted to hide all direct accesses to the state to make it easier to 
-figure out how and where the state is accessed.
-
-> I understand you want to have the core to fish the 'right' state for
-> the drivers, but this then requires to protect against bridge drivers
-> calling an op through v4l2_subdev_call() with a NULL state by using
-> one more indirection like
+> Why would embedding the state change anything?
 > 
-> 	state = v4l2_subdev_validate_state(sd, state);
-> 
->          static inline struct v4l2_subdev_state *
->          v4l2_subdev_validate_state(struct v4l2_subdev *sd,
->                                     struct v4l2_subdev_state *state)
->          {
->                  return state ? state : sd->state;
->          }
-> 
-> Which I very much don't like as it implicitly changes what state the
-> driver receives to work-around a design flaw (the fact that even if
-> the core tries to, there's no gurantee state is valid).
+>> 'v4l2_subdev_alloc_state()' to initialize the per-fh state, but have
+>> drivers initialize their own state at probe time. If they need for
+>> some reason to access their 'active' state at init_cfg() time, they
+>> caan fish it from their subdev.
+>>
+>> If I'm not mistaken this will remove the need to have a which filed in
+>> the state, as I think the 'context' should be inferred from the
+>> 'which' argument embedded in the ops-specific structures, and not held
+>> in the state itself.
 
-I don't like it either. My idea was that in the future the subdevs would 
-always get the correct state. In other words, all the subdev drivers 
-calling ops in other subdevs would be changed to pass the state 
-correctly. Thus the v4l2_subdev_validate_state() is a helper for the 
-transition period, which can easily be dropped when the drivers work 
-correctly.
+It's true that the state's which field is mainly (probably only) needed 
+for handling the init_cfg. It could be solved in other ways too:
 
-> If feel like it would be much simpler if:
-> 
-> 1) The core passes in a state which always come from the fh (the
->     try_state) when it do_ioctl()
-> 
-> 2) Drivers use their 'active' states embedded in the subdev or the
->     'try' state passed in as parameter and decide
->     which one to use based on the context. It's a pattern we have
->     everywere already when using the per-fh try formats
-> 
-> 	switch (which) {
-> 	case V4L2_SUBDEV_FORMAT_TRY:
-> 		return v4l2_subdev_get_try_format(&sd, sd_state, pad);
-> 	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> 		return &sd->fmt;
-> 	default:
-> 		return NULL;
-> 	}
+- New subdev op to initialize active state
+- New subdev op which gets 'which' as a parameter, to initialize both 
+states (state-aware drivers wouldn't need to implement the old init_cfg)
+- Coccinelle to change init_cfg to get the which as a parameter
 
-This is possible, of course. We could do this if we decide we don't want 
-the subdev drivers to pass the state properly in the future.
-
-However, if, in my series, I currently call this in a subdev driver:
-
-state = v4l2_subdev_validate_state(sd, state);
-
-With the change you suggest I'd just do (possibly with a helper):
-
-state = which == V4L2_SUBDEV_FORMAT_TRY ? state : sd->state;
-
-Is it any better?
-
-> I liked the idea to have the core pass in a state without the driver
-> having to care where it comes from, but it requires too many
-> indirections and implicities like the above shown
-> v4l2_subdev_validate_state().
-> 
-> One middle-ground could be to have the core pass in the 'correct' state as it
-> does in your series, and default it to sd->state if a bridge driver
-> calls an op through v4l2_subdev_call() with a NULL state, as the
-> format is implicitly ACTIVE in that case.
-
-If you mean changing all the bridge drivers so that they would give the 
-state properly, yes, that was my plan (I think I mentioned it in a 
-commit desc, perhaps). It's not a trivial change, though, as 
-v4l2_subdev_call() cannot handle this at the moment.
-
-I believe it should be doable with coccinelle. Maybe add a new macro, 
-v4l2_subdev_call_state() or such, which gives the active state in the 
-second parameter (looks like all the ops have the state as the second 
-param). Then use coccinelle to find all the v4l2_subdev_call uses which 
-call ops that get a state, verify that the current caller uses NULL as 
-the state, and change v4l2_subdev_call to v4l2_subdev_call_state.
-
-> This ofc requires the state to be embedded (ie it's always there) and
-> that state-aware drivers to have properly initialized it, but that's a
-> given.
-
-Why does the state need to be embedded? If the subdev driver is not 
-state-aware, it does not expect to get a state except for the TRY case. 
-Passing NULL for those drivers should be fine.
-
-> Nonetheless, this considerations do not defeat the purpose of having a
-> 'state', as currently we have
-> 
-> struct v4l2_subdev_state {
->          struct v4l2_subdev_krouting; /* Use for TRY and ACTIVE */
->          struct v4l2_stream_configs; /* Use for ACTIVE */
-
-stream_configs is used for TRY also.
-
->          struct v4l2_pad_configs; /* Used for TRY */
-
-Probably no point in this, but this _could_ also be used for ACTIVE. We 
-could have state aware drivers that don't use routing or streams, and 
-use just a plain old pad_configs array. This would allow moving the 
-ACTIVE pad_configs from the driver to the core.
-
-But, as you suggest, probably a better direction is to try to get rid of 
-pad_configs instead.
-
-> };
-> 
-> and v4l2_stream_configs is a super-set of v4l2_pad_configs
-> 
-> If we could get to
-> 
-> struct v4l2_subdev_state {
->          struct v4l2_subdev_krouting; /* Use for TRY and ACTIVE */
->          struct v4l2_stream_configs; /* Use for TRY and ACTIVE */
-> };
-> 
-> This could turn out to be pretty neat, as it allows 'new' drivers to
-> maintain their current formats and routings in a subdev 'state'
-> instead of scattering those information in the driver-wide structure
-> as they currently do for formats, crops and whatnot. This can ofc go
-> on top.
-
-Yes, that's the long term plan, but it's a huge change. And when I say 
-plan, I don't mean I'm planning to change all the current drivers, I'm 
-just saying my series is designed so that it allows these to be done in 
-the future.
+Without doing any deep thinking, the middle one sounds best to me.
 
   Tomi
