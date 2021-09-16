@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFF7340D8C1
-	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 13:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F93440D8C3
+	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 13:31:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238315AbhIPLcb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Sep 2021 07:32:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34642 "EHLO
+        id S238303AbhIPLcc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Sep 2021 07:32:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238298AbhIPLc3 (ORCPT
+        with ESMTP id S238299AbhIPLca (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Sep 2021 07:32:29 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68F26C061574
-        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 04:31:09 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id l7-20020a1c2507000000b002e6be5d86b3so4232930wml.3
-        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 04:31:09 -0700 (PDT)
+        Thu, 16 Sep 2021 07:32:30 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42373C061764
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 04:31:10 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id q26so8906697wrc.7
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 04:31:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vDNZbZcYoW7IFr6lQi88QIbXjkbY+ZD5EoDTFjlvddA=;
-        b=YGi6nayBrATbkCwhODb20MMXGtroMBuKFMKiHSpJJV84T7YPBMkg7CwT9yPOmEzaMY
-         trLLjeu0tg/oH00K/7iQvk8em2sGrsXzPB4IBR3t8l+Dd69D8w21E33PhiV4gQhBmjzy
-         Jph7qutv+y2T98vsrK7Uo7w/nfNrugX8T5RmkYuye9s8Ak6lH5VFKB6o8jqn8puOwlEz
-         8Q15+fJQdkq6urpvV6xJJ9VeyzP3TnE50YOUCXdy9EHKIZp92aNx2WY5sNW6hK54QFC9
-         DnTzwBkF1fSezE/3okJ1u8g/dwnIbJAWe/5l6yaoEEz+69FFK6GtWy5iAWe9USzWdV18
-         mAEQ==
+        bh=OelJOhuMSDpOCxseF7sOKocHejnff6bn9jvwNAWVN9c=;
+        b=Iijq6Cm9Ej0SprjX1K9K5PvirqlrIaG6Y4k5CZcUa44rtXLi6ZhPbe1PQH4VWAwTmW
+         mib7IISdNwrwpqo8C4wGcU/OMCxOvG/zhYKQJM0K2d0Zzt7nWqP05N9nIWatWhkwqmeN
+         CtIs15zkBdLQJp/UlpAEIO9ouCgJueWdcdvkl9IT2Wl9OmUNmdyZlmJ7OJX8yzD5bk6O
+         WNs98qv8SfYCauWiPIDihMRyKawOTr5Dbvv2RGaUb+m+9Z1zwliJC/vzOTCEtATuIBel
+         DYYFKeUefV0Dv8y7Pr47mBHjXFVFfa9diSyRU77nnAD9beIqDCJ/VI3Nbg20SKqxdniu
+         wRmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vDNZbZcYoW7IFr6lQi88QIbXjkbY+ZD5EoDTFjlvddA=;
-        b=adoYRaf2ifhYbIIDaGZAwDmxGljkyqKSXxevlrhGLh6rlQCKNVjOZtVbw3FO8Hv1DK
-         mchY2quypZExkZ/iz7WhIx55qR2pi4svQ0mRX/ifqyspwHTD5LKOYmgNpfWoLBm6uxHo
-         Pe/wgrp9FEG3Cxa+tQSd8aVzifg49DQxnwFPypQKs2ZAYg1GWRJEb1q4XKUsq0NuGfSP
-         yeqtra2/1UnVFjZ8psVvO2s4rZwwGEJrRsIHefrRNneB1D061Aq23l4VezA7YS1Irco9
-         2vJaG3UHskKUY5dhrhbClnjUjT+R2eMv+xM3sCoYeN858Dp6pOKFpitsK3jt9/L0X8Mm
-         zh+w==
-X-Gm-Message-State: AOAM530rT8a2vhrY29OcNI3+WKx2Ce31lBXM6rlFmTbMgC/rJ7+oGpWZ
-        vectxXWO/6Jhi8g1DfnhqU8=
-X-Google-Smtp-Source: ABdhPJwJty66BSyg38f1izgxVMtOw1rMBUp0M6VJ3qfJd8Pw1yVyfa9N0AZ9pcJVuwFRWddvkeyNxw==
-X-Received: by 2002:a05:600c:4fd3:: with SMTP id o19mr4499247wmq.131.1631791868032;
+        bh=OelJOhuMSDpOCxseF7sOKocHejnff6bn9jvwNAWVN9c=;
+        b=A6YEM72izIhe/3fnKt/TZknQgts9b+jSr+ePW33Xgc1L7LhTFFgWARQex+z+XXgMGv
+         8g5DzjM5yS6SKx4uBArj7VmQ3cTyafYMv7isKE6BEJagMIesttOqKOiA10Gd2gLNw3MT
+         gPAaDHSM7Q2mLJvnpNWtSr6Hyb2ujAuY98Gka7FVTCBexPB1wCztL7qagSD5XRnOpYd4
+         r780sDyy+55ZcnwodPHX6X5Ngf8Jyg4lQ7uszyAidDakJAJN+0fhygXzQnamxK9L6e51
+         vstnKtWNOWBPBrKW1ZWP2Au5uZRx2EIDyGln2ClQ3MM23FI8P+9xyXkR0Wsgd0k1MbVK
+         e/FA==
+X-Gm-Message-State: AOAM5335oYf/dHbC/0nBVb2tHcdohlUHzisE4sCwjvBWHItAu2jfGCSx
+        kRsdBz4lzt4svNuR7PvaKkg=
+X-Google-Smtp-Source: ABdhPJyyjNUHgeRlxAAv+2S4iFRKdiR8A03xaRO6uw/CnwGHfvRgcRffoM7u+ZLJtG1P/cJT31/PRA==
+X-Received: by 2002:a05:6000:184e:: with SMTP id c14mr3236805wri.301.1631791868953;
         Thu, 16 Sep 2021 04:31:08 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id c17sm3803674wrn.54.2021.09.16.04.31.07
+        by smtp.gmail.com with ESMTPSA id c17sm3803674wrn.54.2021.09.16.04.31.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 04:31:07 -0700 (PDT)
+        Thu, 16 Sep 2021 04:31:08 -0700 (PDT)
 From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
         <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 To:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc:     daniel@ffwll.ch, tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 25/26] drm/etnaviv: replace dma_resv_get_excl_unlocked
-Date:   Thu, 16 Sep 2021 13:30:41 +0200
-Message-Id: <20210916113042.3631-26-christian.koenig@amd.com>
+Subject: [PATCH 26/26] dma-buf: nuke dma_resv_get_excl_unlocked
+Date:   Thu, 16 Sep 2021 13:30:42 +0200
+Message-Id: <20210916113042.3631-27-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210916113042.3631-1-christian.koenig@amd.com>
 References: <20210916113042.3631-1-christian.koenig@amd.com>
@@ -67,26 +67,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We certainly hold the reservation lock here, no need for the RCU dance.
+Heureka, that's finally not used any more.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/dma-resv.h | 26 --------------------------
+ 1 file changed, 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index 4dd7d9d541c0..7e17bc2b5df1 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -195,7 +195,7 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
- 			if (ret)
- 				return ret;
- 		} else {
--			bo->excl = dma_resv_get_excl_unlocked(robj);
-+			bo->excl = dma_fence_get(dma_resv_excl_fence(robj));
- 		}
+diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+index 6761512ba662..3e6ffba0af70 100644
+--- a/include/linux/dma-resv.h
++++ b/include/linux/dma-resv.h
+@@ -384,32 +384,6 @@ dma_resv_excl_fence(struct dma_resv *obj)
+ 	return rcu_dereference_check(obj->fence_excl, dma_resv_held(obj));
+ }
  
- 	}
+-/**
+- * dma_resv_get_excl_unlocked - get the reservation object's
+- * exclusive fence, without lock held.
+- * @obj: the reservation object
+- *
+- * If there is an exclusive fence, this atomically increments it's
+- * reference count and returns it.
+- *
+- * RETURNS
+- * The exclusive fence or NULL if none
+- */
+-static inline struct dma_fence *
+-dma_resv_get_excl_unlocked(struct dma_resv *obj)
+-{
+-	struct dma_fence *fence;
+-
+-	if (!rcu_access_pointer(obj->fence_excl))
+-		return NULL;
+-
+-	rcu_read_lock();
+-	fence = dma_fence_get_rcu_safe(&obj->fence_excl);
+-	rcu_read_unlock();
+-
+-	return fence;
+-}
+-
+ /**
+  * dma_resv_shared_list - get the reservation object's shared fence list
+  * @obj: the reservation object
 -- 
 2.25.1
 
