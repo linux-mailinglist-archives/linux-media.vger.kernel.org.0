@@ -2,177 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F128E40D9F1
-	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 14:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D13140DA0D
+	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 14:38:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239363AbhIPMdA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Sep 2021 08:33:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48782 "EHLO
+        id S239612AbhIPMjv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Sep 2021 08:39:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235767AbhIPMc7 (ORCPT
+        with ESMTP id S239561AbhIPMju (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Sep 2021 08:32:59 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA860C061574
-        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 05:31:38 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id t18so9291718wrb.0
-        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 05:31:38 -0700 (PDT)
+        Thu, 16 Sep 2021 08:39:50 -0400
+Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F009C061574
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 05:38:30 -0700 (PDT)
+Received: by mail-ua1-x936.google.com with SMTP id r8so3870345uap.0
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 05:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=yVn4bOUftTP0XsVCYOhP2MVjOD5RXLBjZ2je0UhYRc0=;
-        b=UllxjW1pQN4AmYZEbLg7VrErGUqD+1ja2ihP7bNIWt/uTZGlmL71/XP9jjO6KhmKY0
-         fiRtXpVcCH1hQKOY2jdfchmwYGS0XP4lfMRLycLsW6+OfxpIvDESU51aAUOmrcst/rON
-         qWFSoQtqfz711rHCKql1DqY94oNcjEZ2J6WVI=
+        d=0x0f.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0vConzKPLEXeSY5isEj44b9ioB3WiTKXOOeH8M/qhMg=;
+        b=ZOd3cKON6cosT+oUHSUoX8lYXRB1ivz8ksbhrz2g13ab681NxxqUYouzoyOdApRjHN
+         9C7G3gkXybIsaQK6CR0OXJbCoityPI/bsDx9cxeBDryg0SrTlJdsGYQHAjRZcFqHNnep
+         w8T/bY5gwyKErMCiBenZMnLf2a/1lO38d9s9o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=yVn4bOUftTP0XsVCYOhP2MVjOD5RXLBjZ2je0UhYRc0=;
-        b=ry/LjwarDgw9NXDJ3TRTO7Wbm4z2I+RdpOl2W9nT3Yg43f19yua+EXD13O88rkx+mb
-         ppJU5c1MD38kl5DcEB3+W3zXUrw+6q4BS+Da084MXjknsXbq2+Focj88ujRGuleysdC8
-         U33bZLgXswVY+Y8RziGlUGh7xYkv1kkm9kyr/sZEm/mu2jP26gWdLNcDLnNukUUhz9aP
-         9kK+4Xq98rTFuUqAK9bh6NtzvRcG6L2/ZTksQV+UHGkkPeFoW9p3L5dVlnAd2kqj6Yae
-         QQF8EsfDrp1X+FKnqktpCLKiNTVA2ceax/M5PfGalWcEKcq8ga1FGpBVRr5nAvB9H5sQ
-         BJYA==
-X-Gm-Message-State: AOAM5330cKCObj69GNIgvLQmU/VRyGcm734zc48Y7Wc/FiLsdFT0fHwx
-        NV4aiq5oYhU/w82vOqMpPGkFzw==
-X-Google-Smtp-Source: ABdhPJyNeVVi6f4gVXn8CFkrZVMl66WAIJsG4jZYF2OG8FsFOYQQOCNHITS4sqBQA+1lZuWg++BXfA==
-X-Received: by 2002:a5d:6da9:: with SMTP id u9mr5766027wrs.155.1631795497459;
-        Thu, 16 Sep 2021 05:31:37 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id g5sm3285526wrq.80.2021.09.16.05.31.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 05:31:36 -0700 (PDT)
-Date:   Thu, 16 Sep 2021 14:31:34 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Oded Gabbay <ogabbay@kernel.org>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>,
-        Yossi Leybovich <sleybo@amazon.com>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Dave Airlie <airlied@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v6 0/2] Add p2p via dmabuf to habanalabs
-Message-ID: <YUM5JoMMK7gceuKZ@phenom.ffwll.local>
-Mail-Followup-To: Oded Gabbay <ogabbay@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>,
-        Yossi Leybovich <sleybo@amazon.com>,
-        Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Doug Ledford <dledford@redhat.com>, Dave Airlie <airlied@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
-References: <20210912165309.98695-1-ogabbay@kernel.org>
- <YUCvNzpyC091KeaJ@phenom.ffwll.local>
- <20210914161218.GF3544071@ziepe.ca>
- <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0vConzKPLEXeSY5isEj44b9ioB3WiTKXOOeH8M/qhMg=;
+        b=wZwiwqwXRpjJM66ENarwGvPDVCVjRbcV0bXt0yhQ8KVzUygb6JpSfoLZctoqoEDbuq
+         TspM7g4eiCnfy8vWH2cAjv0W8/VS9KDzCYh8AoNVUiySAuWi/SMDRCI1tHehvnFmYmze
+         iVcuRKwMLeG7TjjvaI18k6byyimuHr7U4OWLXkm80beWI+Cg8IoCO/A1hOZy0fh5L4oH
+         K5qDCzD4f0XwX9dZjKXxDgOF82cT4AWyR1/DGoxA+g9mPVWvwGUFvQslT68fBCBjq+PK
+         MGmoeZSZgXhNCsJzb2sHvvzcpSsXW8AubNtf1tYMUq+yMoYSjlIgx7vDby9Oso/BWMVY
+         hK9w==
+X-Gm-Message-State: AOAM531jSuWdNjGzPV3Smiu3wsF9+3ULK0qgrGDMEkuOEaAv819ndwlX
+        IYdeBVvxX0S/qyE9Xlk2tIomQBPpPTkKUB2Sbkvp/JQItbh2Qw==
+X-Google-Smtp-Source: ABdhPJwWiK0lSKm+XTwl96Bf3/5KQdNtghCcUqgRmYvdz8qjWXlQJhdlhbS1vXZu/Mk2fnAln2bQsGBTgBZfLDmB4Dg=
+X-Received: by 2002:ab0:10f:: with SMTP id 15mr3588186uak.113.1631795908405;
+ Thu, 16 Sep 2021 05:38:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20210915162324.25513-1-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20210915162324.25513-1-dafna.hirschfeld@collabora.com>
+From:   Daniel Palmer <daniel@0x0f.com>
+Date:   Thu, 16 Sep 2021 21:38:17 +0900
+Message-ID: <CAFr9PXkpEDfa_P_UfTCwrBHOMsqyGm8MQgOsY=_OjFGc4+ApAQ@mail.gmail.com>
+Subject: Re: [PATCH 0/6] staging: media: wave5: add wave5 codec driver
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        open list <linux-kernel@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        bob.beckett@collabora.com, kiril.bicevski@collabora.com,
+        Nas Chung <nas.chung@chipsnmedia.com>,
+        lafley.kim@chipsnmedia.com, scott.woo@chipsnmedia.com,
+        olivier.crete@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 15, 2021 at 10:45:36AM +0300, Oded Gabbay wrote:
-> On Tue, Sep 14, 2021 at 7:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Tue, Sep 14, 2021 at 04:18:31PM +0200, Daniel Vetter wrote:
-> > > On Sun, Sep 12, 2021 at 07:53:07PM +0300, Oded Gabbay wrote:
-> > > > Hi,
-> > > > Re-sending this patch-set following the release of our user-space TPC
-> > > > compiler and runtime library.
-> > > >
-> > > > I would appreciate a review on this.
-> > >
-> > > I think the big open we have is the entire revoke discussions. Having the
-> > > option to let dma-buf hang around which map to random local memory ranges,
-> > > without clear ownership link and a way to kill it sounds bad to me.
-> > >
-> > > I think there's a few options:
-> > > - We require revoke support. But I've heard rdma really doesn't like that,
-> > >   I guess because taking out an MR while holding the dma_resv_lock would
-> > >   be an inversion, so can't be done. Jason, can you recap what exactly the
-> > >   hold-up was again that makes this a no-go?
-> >
-> > RDMA HW can't do revoke.
+Hi Dafna,
 
-Like why? I'm assuming when the final open handle or whatever for that MR
-is closed, you do clean up everything? Or does that MR still stick around
-forever too?
+On Thu, 16 Sept 2021 at 01:23, Dafna Hirschfeld
+<dafna.hirschfeld@collabora.com> wrote:
+>
+> The wave5 codec is a stateful encoder/decoder.
+> It is found on the JH7100 SoC.
+>
 
-> > So we have to exclude almost all the HW and several interesting use
-> > cases to enable a revoke operation.
-> >
-> > >   - For non-revokable things like these dma-buf we'd keep a drm_master
-> > >     reference around. This would prevent the next open to acquire
-> > >     ownership rights, which at least prevents all the nasty potential
-> > >     problems.
-> >
-> > This is what I generally would expect, the DMABUF FD and its DMA
-> > memory just floats about until the unrevokable user releases it, which
-> > happens when the FD that is driving the import eventually gets closed.
-> This is exactly what we are doing in the driver. We make sure
-> everything is valid until the unrevokable user releases it and that
-> happens only when the dmabuf fd gets closed.
-> And the user can't close it's fd of the device until he performs the
-> above, so there is no leakage between users.
+For what it's worth; I think this is also the video decoder block on
+the SigmaStar SSD201/SSD202D (32bit ARM..) that have some limited
+support in mainline.
 
-Maybe I got the device security model all wrong, but I thought Guadi is
-single user, and the only thing it protects is the system against the
-Gaudi device trhough iommu/device gart. So roughly the following can
-happen:
+Cheers,
 
-1. User A opens gaudi device, sets up dma-buf export
-
-2. User A registers that with RDMA, or anything else that doesn't support
-revoke.
-
-3. User A closes gaudi device
-
-4. User B opens gaudi device, assumes that it has full control over the
-device and uploads some secrets, which happen to end up in the dma-buf
-region user A set up
-
-5. User B extracts secrets.
-
-> > I still don't think any of the complexity is needed, pinnable memory
-> > is a thing in Linux, just account for it in mlocked and that is
-> > enough.
-
-It's not mlocked memory, it's mlocked memory and I can exfiltrate it.
-Mlock is fine, exfiltration not so much. It's mlock, but a global pool and
-if you didn't munlock then the next mlock from a completely different user
-will alias with your stuff.
-
-Or is there something that prevents that? Oded at least explain that gaudi
-works like a gpu from 20 years ago, single user, no security at all within
-the device.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Daniel
