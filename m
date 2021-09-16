@@ -2,84 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AB6140D18C
-	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 04:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08D1140D222
+	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 05:46:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233865AbhIPCHv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Sep 2021 22:07:51 -0400
-Received: from mx24.baidu.com ([111.206.215.185]:49932 "EHLO baidu.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233809AbhIPCHu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Sep 2021 22:07:50 -0400
-X-Greylist: delayed 368 seconds by postgrey-1.27 at vger.kernel.org; Wed, 15 Sep 2021 22:07:50 EDT
-Received: from Bc-Mail-Ex13.internal.baidu.com (unknown [172.31.51.53])
-        by Forcepoint Email with ESMTPS id 2B74F308AEF8BAE180B3;
-        Thu, 16 Sep 2021 10:06:29 +0800 (CST)
-Received: from BJHW-MAIL-EX28.internal.baidu.com (10.127.64.43) by
- Bc-Mail-Ex13.internal.baidu.com (172.31.51.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Thu, 16 Sep 2021 10:06:28 +0800
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BJHW-MAIL-EX28.internal.baidu.com (10.127.64.43) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 10:06:28 +0800
-Received: from BJHW-MAIL-EX27.internal.baidu.com ([169.254.58.247]) by
- BJHW-MAIL-EX27.internal.baidu.com ([169.254.58.247]) with mapi id
- 15.01.2308.014; Thu, 16 Sep 2021 10:06:28 +0800
-From:   "Cai,Huoqing" <caihuoqing@baidu.com>
-To:     Sean Young <sean@mess.org>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2] media: b2c2: flexcop: Convert to SPDX identifier
-Thread-Topic: [PATCH v2] media: b2c2: flexcop: Convert to SPDX identifier
-Thread-Index: AQHXqp6YKLlLTRa+3UOAGkVQbN03Vaul6XWg
-Date:   Thu, 16 Sep 2021 02:06:28 +0000
-Message-ID: <de095ae62b4a4e3196ccd96857049870@baidu.com>
-References: <20210916020006.8497-1-caihuoqing@baidu.com>
-In-Reply-To: <20210916020006.8497-1-caihuoqing@baidu.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.12.45.132]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
+        id S234242AbhIPDrt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Sep 2021 23:47:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42750 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232541AbhIPDrt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Sep 2021 23:47:49 -0400
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EEA1C061574
+        for <linux-media@vger.kernel.org>; Wed, 15 Sep 2021 20:46:29 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id QiLxmSYT8cSrkQiLym0fMe; Thu, 16 Sep 2021 05:46:26 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1631763986; bh=zwBpwE7mUaeAZv7DT7NpznAqf9CR9ipa/qwBAq9pjcU=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=LiZ8wq4aTGuExPiUOQr11ArhcABEIK7S8xiJErxXTTJH02hiHlNInR0euwVlo1MPM
+         Wj1/Pry/HxAgXOyHHSHyBMWSaYoI8uJspCJiItDgTG9EQEwEB6EpXN/1uonicEn5+1
+         1zRjkko+I4an5gxub0VUDRIdN6m9+m+aXsMNSDesnEF8d1eCAETaVTF9MSqYWp0MmN
+         dHizC0c2aLSfBrfTXeOmPLYOm8YotZGjtzMUISl5n3brnZAcSJCJz3fhcKcpYhB7/5
+         4fQz8Slgx4cCQbyN9HlvI6l4mlGFuWalO/WvtfaDp40eMpReZ7AQYjN2pstZUUi14C
+         s0SY4+RHcLzOg==
+Message-ID: <71f54ab1f24c5f51bfddedcde4cc9cf5@smtp-cloud9.xs4all.net>
+Date:   Thu, 16 Sep 2021 05:46:25 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfMyUAYNfIu6pz09KpMsCNS/hNVelMtvfXqO21VZstfjXekPQxyWtPkBMjU+nllRp/3VQM23YP5XRUqHNeecLKoHy6rTR2KlsRpifwBqhY/r1aRUe9u34
+ 1OFoZeYtCKDybH4YWsm3yVGBN/Gb02/QvdytGXjavfWWhFoDC2HHV2yPCBTvkz0RQDyp4o8U0MDCTWmCNEqWq/P2OS0SWfuA4EGocZJFThJ+TMOVJnJBf2A0
+ lPbrAGW6unC9AoU0WNktSQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGVsbG8sDQorQ2MgU2VhbiBZb3VuZyA8c2VhbkBtZXNzLm9yZz4NCg0KPiAtLS0tLU9yaWdpbmFs
-IE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBDYWksSHVvcWluZyA8Y2FpaHVvcWluZ0BiYWlkdS5jb20+
-DQo+IFNlbnQ6IDIwMjHE6jnUwjE2yNUgMTA6MDANCj4gVG86IENhaSxIdW9xaW5nDQo+IENjOiBN
-YXVybyBDYXJ2YWxobyBDaGVoYWI7IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZzsgbGludXgt
-DQo+IGtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVjdDogW1BBVENIIHYyXSBtZWRpYTog
-YjJjMjogZmxleGNvcDogQ29udmVydCB0byBTUERYIGlkZW50aWZpZXINCj4gDQo+IHVzZSBTUERY
-LUxpY2Vuc2UtSWRlbnRpZmllciBpbnN0ZWFkIG9mIGEgdmVyYm9zZSBsaWNlbnNlIHRleHQNCj4g
-DQo+IFNpZ25lZC1vZmYtYnk6IENhaSBIdW9xaW5nIDxjYWlodW9xaW5nQGJhaWR1LmNvbT4NCj4g
-LS0tDQo+IHYxLT52MjogQ2hhbmdlIGxpY2Vuc2UgZnJvbSBHUEwtMi4wKyB0byBMR1BMLTIuMS1v
-ci1sYXRlcg0KPiANCj4gIGRyaXZlcnMvbWVkaWEvY29tbW9uL2IyYzIvZmxleGNvcC5jIHwgMTEg
-Ky0tLS0tLS0tLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMTAgZGVsZXRp
-b25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9jb21tb24vYjJjMi9mbGV4
-Y29wLmMNCj4gYi9kcml2ZXJzL21lZGlhL2NvbW1vbi9iMmMyL2ZsZXhjb3AuYw0KPiBpbmRleCBj
-YmFhNjFmMTBkNWYuLjJlYWZmMTMxNjk1MiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9tZWRpYS9j
-b21tb24vYjJjMi9mbGV4Y29wLmMNCj4gKysrIGIvZHJpdmVycy9tZWRpYS9jb21tb24vYjJjMi9m
-bGV4Y29wLmMNCj4gQEAgLTEsMyArMSw0IEBADQo+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmll
-cjogTEdQTC0yLjEtb3ItbGF0ZXINCj4gIC8qDQo+ICAgKiBMaW51eCBkcml2ZXIgZm9yIGRpZ2l0
-YWwgVFYgZGV2aWNlcyBlcXVpcHBlZCB3aXRoIEIyQzIgRmxleGNvcElJKGIpL0lJSQ0KPiAgICog
-ZmxleGNvcC5jIC0gbWFpbiBtb2R1bGUgcGFydA0KPiBAQCAtMTUsMTYgKzE2LDYgQEANCj4gICAq
-ICAgVXdlIEJ1Z2xhLCB1d2UuYnVnbGEgYXQgZ214LmRlIChkb2luZyB0ZXN0cywgcmVzdHlsaW5n
-IGNvZGUsIHdyaXRpbmcgZG9jdSkNCj4gICAqICAgTmlrbGFzIFBlaW5lY2tlLCBwZWluZWNrZSBh
-dCBnZHYudW5pLWhhbm5vdmVyLmRlIChoYXJkd2FyZSBwaWQvbWFjDQo+ICAgKiAgICAgICAgICAg
-ICAgIGZpbHRlcmluZykNCj4gLSAqDQo+IC0gKiBUaGlzIHByb2dyYW0gaXMgZnJlZSBzb2Z0d2Fy
-ZTsgeW91IGNhbiByZWRpc3RyaWJ1dGUgaXQgYW5kL29yDQo+IC0gKiBtb2RpZnkgaXQgdW5kZXIg
-dGhlIHRlcm1zIG9mIHRoZSBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljIExpY2Vuc2UNCj4gLSAq
-IGFzIHB1Ymxpc2hlZCBieSB0aGUgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uOyBlaXRoZXIgdmVy
-c2lvbiAyLjENCj4gLSAqIG9mIHRoZSBMaWNlbnNlLCBvciAoYXQgeW91ciBvcHRpb24pIGFueSBs
-YXRlciB2ZXJzaW9uLg0KPiAtICoNCj4gLSAqIFRoaXMgcHJvZ3JhbSBpcyBkaXN0cmlidXRlZCBp
-biB0aGUgaG9wZSB0aGF0IGl0IHdpbGwgYmUgdXNlZnVsLA0KPiAtICogYnV0IFdJVEhPVVQgQU5Z
-IFdBUlJBTlRZOyB3aXRob3V0IGV2ZW4gdGhlIGltcGxpZWQgd2FycmFudHkgb2YNCj4gLSAqIE1F
-UkNIQU5UQUJJTElUWSBvciBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRS4gIFNlZSB0
-aGUNCj4gLSAqIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3JlIGRldGFpbHMuDQo+
-ICAgKi8NCj4gDQo+ICAjaW5jbHVkZSAiZmxleGNvcC5oIg0KPiAtLQ0KPiAyLjI1LjENCg0K
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
+
+Results of the daily build of media_tree:
+
+date:			Thu Sep 16 05:00:09 CEST 2021
+media-tree git hash:	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
+media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
+v4l-utils git hash:	05a468e033af0e4c775aaa10fe4d02c45de698ae
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8f230e7be768cbdfab869697ba0a2c622a4a0cae
+host hardware:		x86_64
+host os:		5.13.11-marune
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15-rc1-i686: ERRORS
+linux-5.15-rc1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 6
+virtme-32: ERRORS: Final Summary: 3100, Succeeded: 3099, Failed: 1, Warnings: 5
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
