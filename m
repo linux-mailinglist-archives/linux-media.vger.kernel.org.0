@@ -2,154 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 622A840E1FE
-	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 19:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC5AF40E535
+	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 19:26:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243269AbhIPQdh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Sep 2021 12:33:37 -0400
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:51859 "EHLO
-        wnew2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S243454AbhIPQba (ORCPT
+        id S1344139AbhIPRJC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Sep 2021 13:09:02 -0400
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:54124
+        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1345292AbhIPRGa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Sep 2021 12:31:30 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.west.internal (Postfix) with ESMTP id B62142B00B18;
-        Thu, 16 Sep 2021 12:30:07 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Thu, 16 Sep 2021 12:30:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=Lqt0we4A/T0SHYBhw0ZBiteVrFa
-        e9rbK0EPrRuFl3oY=; b=LnIWuareiS2jP4nnsunZoVLeH91/ijKlwjtNs0JMLTq
-        W5SkajmnGWk707CsLe1azxnZa8myH4n+bFwA8ckwnQjA8EphQZ0JCTbh4Y6K4n92
-        g2g1F/E53xOP06kQjsn+JOMXRyEu2S88ZzuGGJQxDVYZTatLErit5ewiKV6u2BdI
-        lsdp1cZ5a3HMBapmFj07mGRW4hl42aMEFuzE7fU2OxArRkU7uz0Iikxns502WK2A
-        VurLq8I/YfExtRjENhb9CeCKHxLmcZVIj9cZsKuRCnd2TZcIYlaMPv+7tJ16zeKO
-        lv+MK8f24hm/KgC6L9xe5JnBP56ZQ7rQAeA2NIPzziw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Lqt0we
-        4A/T0SHYBhw0ZBiteVrFae9rbK0EPrRuFl3oY=; b=hzcmiTskzfJ0LpViQyTC36
-        ukeBnRV3kVOlWsu8LkC8k3TIb0V6CrrFJkdx5Op//6RBN8W6uLa83Op2gJZ5M6bA
-        5CKZYAMI8pT3jB91IQObI/Zwdf7H9RY3lcqQvuTZhmouwzJmpjnAINJFQk9RZqCP
-        oU/PuigbRr66lGhsqy7F+GrdxXBtRVpmg3VbU/sccLOyqg5GIWO6uiqOk+75rKvi
-        GRDXS8VgLCMv6LllYt39AjMMPv/a9ZRqCUaBNHwX4nrPHQB95LHjWGSY5fpeEy9C
-        I78PdIa9tVQJn/iwGijd8nj+guRXbXSpCIkz5ojHdqqkHjRo0hnQ5vsB7RyPdKEA
-        ==
-X-ME-Sender: <xms:DHFDYefc5hj8gi4dxWD0LPwIZ-7eCAuChRgl45hXKphK3maJmwnwXg>
-    <xme:DHFDYYO0rUPS9nmSFSqwpcxqfQ_pQUfnIXBaWh_gKPlov19Nv09H08sl9fMbW8jej
-    x4FLS8PBE-WDjuxu1Q>
-X-ME-Received: <xmr:DHFDYfjlR9vtTu4VW1DUC-1go9vAGAgiu4mdYnnLPoc-sg8jUE3667OYC6LwQ6eKgLK2bp65AsiHYahP4-YRGqqoixLRb-JI6Ggs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgleeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:DHFDYb8mvUuKkKkddxegg6gItiZ5TjT8Cc64Qf7pAUHPtYmMU-xSjA>
-    <xmx:DHFDYavdsMaQrdk1zzZdfVtKrlwD3fDdTKdBvT-bzXktew1v5aVQpw>
-    <xmx:DHFDYSGgAKXuaQV93QNJ2A44fGIJFswzUnmo5pe6HbLIx8qSeTi1UA>
-    <xmx:D3FDYVkgEXJK3xiJFUwFzoVSyYi_MlOVvwBGpewYBcsbvogO0Rptf9nzLW8>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Sep 2021 12:30:03 -0400 (EDT)
-Date:   Thu, 16 Sep 2021 18:30:00 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-        Yong Deng <yong.deng@magewell.com>,
+        Thu, 16 Sep 2021 13:06:30 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 4520440293
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 17:05:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1631811908;
+        bh=iLBqEScFScgxWKcmf9ZOnKkcn3SW2EPjpclUhT/HEPQ=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+        b=wKgX6tHpMJQhbfgh0pUH437exTtcEL5knjJJUqWu6ka3oorKQwOLl4lvEweH3YUFg
+         9dbqW3A32cuWUrkCcRGpM/OFCDYjGqkIjDQlZht9g0CwTPkZSYOPqbccmAueDpbmdc
+         JVjOf99jUnCy93jiFUFad5bclDeegrzmX0w9J/pdvt8Lq+uLq7jO54ujMKbJWiFMRJ
+         /Ip2P9XAq5REpRJoffvhz/aLjjwj12pNeMJRWjxW8Ghi9U62IAQLip+gj4CI5mmg2L
+         NolOQR7A/hq/yi9WeTqLnU7GmJuyYsZa28CKHXLnK7NOc8KkTbu0B/NLSO2ix2CB6S
+         dkJ7Yq23/t7rg==
+Received: by mail-wm1-f71.google.com with SMTP id m4-20020a05600c3b0400b00303b904380dso2804900wms.6
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 10:05:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iLBqEScFScgxWKcmf9ZOnKkcn3SW2EPjpclUhT/HEPQ=;
+        b=MJE6bTV0Y1582BP1GobzfjjhCrTY9qMu4lLJ6dqAJpaeGEyKfDUxBo3l+aP9D4udHy
+         FgfU5b35aSSI536p7PfoxNddWh14FmOmCooGruwUeCzD1dxhRjPP/7NtBBMnV95yUW7Y
+         CtUTehk8KGH32W1RKIU/FBwfz4O7qd5dR/LFt4ivx8agNxnkWDN8qzHr9MCGBDT8Bwk2
+         KYkd3pdlccPSFwSj9NLvfnj1CDgOtIj8nXzSqFv3ffkw2xMyGIcIoiG0YJK31zJypFuO
+         OVfAYkJetx6WEdaNfUUgHTU7e9fvoBMBPPSUt1oELHuY3RreNdvp5/BjSRmzDy8HFlQL
+         L+KA==
+X-Gm-Message-State: AOAM533w/RfzOWYC+jPNsYRZ8XuvJMhXfBHmRZhHPe6/DxMy+/RuzmCd
+        GMAltQ7lnmBAaOVJ36wVK/Z3a9rK5/fDPq4jAJR7XRMAZsnpAfrB3M6vReJvE1A0M7bXpQ6y47n
+        rXC6/L3v4Rtkw2CuSN/iQK+qLGA600x+1dn4IvcRl
+X-Received: by 2002:a1c:9a8e:: with SMTP id c136mr11043284wme.191.1631811907603;
+        Thu, 16 Sep 2021 10:05:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFoPVpcbs+WRaVV7dRF1QA4InnI52r35X3w7JnJnSdjjA+61N6godLhYSuzpSl7b5GhJi+DQ==
+X-Received: by 2002:a1c:9a8e:: with SMTP id c136mr11043255wme.191.1631811907375;
+        Thu, 16 Sep 2021 10:05:07 -0700 (PDT)
+Received: from kozik-lap.lan (lk.84.20.244.219.dc.cable.static.lj-kabel.net. [84.20.244.219])
+        by smtp.gmail.com with ESMTPSA id d8sm4278794wrv.20.2021.09.16.10.05.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Sep 2021 10:05:06 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 01/22] clk: sunxi-ng: v3s: Make the ISP PLL clock public
-Message-ID: <20210916163000.6ezo6muhq23bewyi@gilmour>
-References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-2-paul.kocialkowski@bootlin.com>
- <20210913075417.ampb2jt4quftpqzj@gilmour>
- <YT8RnzVqLebtPMD+@aptenodytes>
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: imx: drop unneeded MODULE_ALIAS
+Date:   Thu, 16 Sep 2021 19:05:03 +0200
+Message-Id: <20210916170503.137757-1-krzysztof.kozlowski@canonical.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="6h7nudibxh245pvl"
-Content-Disposition: inline
-In-Reply-To: <YT8RnzVqLebtPMD+@aptenodytes>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The MODULE_DEVICE_TABLE already creates proper alias for platform
+driver.  Having another MODULE_ALIAS causes the alias to be duplicated.
 
---6h7nudibxh245pvl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ drivers/staging/media/imx/imx-media-csi.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Salut Paul,
+diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+index 45f9d797b9da..3daa636b67db 100644
+--- a/drivers/staging/media/imx/imx-media-csi.c
++++ b/drivers/staging/media/imx/imx-media-csi.c
+@@ -2081,4 +2081,3 @@ module_platform_driver(imx_csi_driver);
+ MODULE_DESCRIPTION("i.MX CSI subdev driver");
+ MODULE_AUTHOR("Steve Longerbeam <steve_longerbeam@mentor.com>");
+ MODULE_LICENSE("GPL");
+-MODULE_ALIAS("platform:imx-ipuv3-csi");
+-- 
+2.30.2
 
-On Mon, Sep 13, 2021 at 10:53:51AM +0200, Paul Kocialkowski wrote:
-> On Mon 13 Sep 21, 09:54, Maxime Ripard wrote:
-> > On Fri, Sep 10, 2021 at 08:41:26PM +0200, Paul Kocialkowski wrote:
-> > > In order to reparent the CSI module clock to the ISP PLL via
-> > > device-tree, export the ISP PLL clock declaration in the public
-> > > device-tree header.
-> >=20
-> > You use clk_set_rate_exclusive in the ISP driver on the module clock so
-> > it should prevent what you're mentioning from happening.
->=20
-> It does, but then it breaks display support entirely (because the DRM
-> driver doesn't use clk_set_rate_exclusive).
->=20
-> The bottomline is that using the same PLL for both display and camera
-> easily results in conflicts.
-
-The commit log should reflect that then
-
-> > If it doesn't, then clk_set_rate_exclusive has a bug and should be
-> > fixed.
-> >=20
-> > Either way, using assigned-clock-parents is not a good solution here
-> > either, it only makes sure that this is the case when probe is run.
->=20
-> I'm not sure what could provide better guarantees. There is a clock
-> parenting API (in the clock framework) which may, but this implies
-> providing the parent clock to the driver which seems way out of line
-> since this is a platform-specific matter that should certainly not
-> be handled by the driver.
->=20
-> I also tried hardcoding the reparenting bit in the CCU driver, but
-> this felt less clean than doing it in device-tree.
->=20
-> What do you think?
-
-This is essentially policy, and putting it in the DT fails for the
-reason we already discussed, but also if we ever want to change it for
-example to optimize it a bit. In this case, we would have to deal with
-the old and new DT, and the possible consequences.
-
-So yeah, hardcoding it in the clock driver seems like a more sensible
-choice.
-
-Maxime
-
---6h7nudibxh245pvl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUNxCAAKCRDj7w1vZxhR
-xTHSAP94s1QU8mIU0mn77banRpkH0ZGKIUjPYygrvhOgdlCSegD/UryBgzqTDNlY
-omqVVtLWlYLTj9NQE+yJaYV+lXE3oQo=
-=K8KU
------END PGP SIGNATURE-----
-
---6h7nudibxh245pvl--
