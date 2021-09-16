@@ -2,268 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25B6140D4CA
-	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 10:43:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E51340D50B
+	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 10:50:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235219AbhIPIoo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Sep 2021 04:44:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52080 "EHLO
+        id S235160AbhIPIwG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Sep 2021 04:52:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233866AbhIPIon (ORCPT
+        with ESMTP id S233866AbhIPIwG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Sep 2021 04:44:43 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55CAFC061574
-        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 01:43:23 -0700 (PDT)
-Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5F5772A5;
-        Thu, 16 Sep 2021 10:43:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1631781801;
-        bh=6SE1qxZifSm8iFAceUG/lgkte3dFbIsoL1hv8bud55E=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=iQH69ObcRFulwNYMjJFIdWWbgGM8Tq3GLV0edGwSa6/Myc5X7xOXBk+K5ktTrd25i
-         V8hzrFOhoqGhJcigpzcaD29iqks1G+ET5nBG8qaRsUVStp5nEwbaKOGx+MzlYXorlQ
-         k1FFdhkzWjW0qrsmpDXcUJpyYiT+kR4o8H6SF/5E=
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
- <20210830110116.488338-5-tomi.valkeinen@ideasonboard.com>
- <20210915101747.edpyp6k4sos7jh66@uno.localdomain>
- <0d8e9c9d-c5f6-c653-7ee3-f94bd417c525@ideasonboard.com>
- <20210916080231.pz5zmpck3qa24awh@uno.localdomain>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v8 04/36] media: subdev: pass also the active state to
- subdevs from ioctls
-Message-ID: <4427a997-62d5-3adb-ef55-4987ba4c9519@ideasonboard.com>
-Date:   Thu, 16 Sep 2021 11:43:17 +0300
+        Thu, 16 Sep 2021 04:52:06 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4096C061574
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 01:50:45 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id z184-20020a1c7ec1000000b003065f0bc631so6829190wmc.0
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 01:50:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=PilEIyPDzJ/vHkRNW8mWcn0rY279xvGJ8VytXsNfdxg=;
+        b=BEQZaN/YqxYSBySdLFlA2Qt4YezIWKWr++O7tI096wOBIoAYslO7e3oJijcEr3BPSE
+         W53E16slPNvKxvG7h6jVCT1Y18g4Bkb6IJ9noH7bny55Jc63J2DMJ7+6iwoT3a7pmjGi
+         t/iEyOHP1+HjEiaZtS1v5GdQmPNh7zo/DcGVHOg8VEnFUkczptYkEkwhCQlpVv+SRNzQ
+         EBqa18L0KWVVSz9FsEK4agb1LVc368+WyHWCHuoOkWX/jNuMmKAaFy4z9nNqNR2bvCES
+         L/mNScwDewQQSQhVF4OOl5BuYySbd4NIV1db7C7q3kxgwyJ9L5KIejPDbtcPHGQbg0zi
+         STWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=PilEIyPDzJ/vHkRNW8mWcn0rY279xvGJ8VytXsNfdxg=;
+        b=cwa3o5YnG0n3bl00urmzKNLu4YlkcLlqB6+ihc2f6n4QaV0vzqMZqareGdSxWaXuzm
+         QadzCM9zHaCyqHhmPAxN3P6P6mC/Cu5jEhnEbOcIbD22+TAu7KevA70X2oNSHVPX8uD3
+         VfxVwkG4fdmIrd3wslU6UxZlBBjMsf+Kg7Ti3DvUSrCzazlnOzV2YuSiSG4JWu6X8pp2
+         zHluSsiZuCueiiIZIODcmue2UUbnf93EbAweAP87JeVTz0bDZHduq3ihxmNO5Vy8A2X7
+         zGbh3Ai8M1KkWRUUjy1wht1ovWxyIxY5/CBTwffxdenB8ZZEuuJPjcrbNZEUAHrFYE0d
+         KrTg==
+X-Gm-Message-State: AOAM530P5tyrMPWsZubkimxsVIhoLDHHF/sE2cgAVm5ajtqbIurqL+ii
+        1bVrbVnS3ASHKsyMTzMTjtTVuEKJn6ID9pTD
+X-Google-Smtp-Source: ABdhPJzNh4a8/BNBtpIRKBCZ7NOCUkwleKD7LJGru4SwOhtzfKVf91HqvZFkEVD2V5oUcIZQQM6lsg==
+X-Received: by 2002:a1c:210a:: with SMTP id h10mr3784909wmh.165.1631782244304;
+        Thu, 16 Sep 2021 01:50:44 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
+        by smtp.gmail.com with ESMTPSA id c15sm2678522wrc.83.2021.09.16.01.50.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Sep 2021 01:50:43 -0700 (PDT)
+Subject: Re: [PATCH 01/14] dma-buf: add dma_resv_for_each_fence_unlocked
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org
+References: <20210910082655.82168-1-christian.koenig@amd.com>
+ <YUDWHw19iUMfFr7K@phenom.ffwll.local>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <26f766c9-9a3c-3894-9256-e07090655dc2@gmail.com>
+Date:   Thu, 16 Sep 2021 10:50:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210916080231.pz5zmpck3qa24awh@uno.localdomain>
+In-Reply-To: <YUDWHw19iUMfFr7K@phenom.ffwll.local>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 16/09/2021 11:02, Jacopo Mondi wrote:
-
->> I don't like it either. My idea was that in the future the subdevs would
->> always get the correct state. In other words, all the subdev drivers calling
->> ops in other subdevs would be changed to pass the state correctly. Thus the
->> v4l2_subdev_validate_state() is a helper for the transition period, which
->> can easily be dropped when the drivers work correctly.
-> 
-> Most of the drivers that call v4l2_subdev_call() with a NULL state are
-> bridge drivers operating in the ACTIVE use case. Even if we get to a
-> point where we remove all calls passing in a NULL state, what are the
-> bridges expected to provide as a state to the subdev they call
-> operations on ? The subdev's state as well ? something like
-> 
->          v4l2_subdev_call(sd, pad, set_fmt, sd->state, ...)
-
-Yes. Although we should hide it, so that when calling ops that support 
-state, the subdev drivers do:
-
-v4l2_subdev_call_state(sd, pad, set_fmt, ...)
-
-and v4l2_subdev_call_state macro (maybe needs a better name...) uses 
-sd->state as the second parameter to the op.
-
-> With your current dynamicaly allocated state, sd->state could very well
-> be NULL.
-
-Yes, that sounds logical to me. The subdev drivers don't have active 
-state, and th driver code doesn't use it, so they get NULL.
-
-> I still think this could be way simpler if we assume that the state
-> received as parameter is the file-handle's one (like it was for
-> pad_configs) and in the active case we let driver use their own
-> sd->state.
-
-I'm kind of okay-ish with that too.
-
-It doesn't feel logical to me, and afaik the drivers should not touch 
-the file-handle's state when dealing with active case so passing it is 
-kind of wrong, but I agree that it is how things have been.
-
-I don't think it's any simpler, though. This change wouldn't affect the 
-old drivers, and the new drivers would just use another helper instead 
-of v4l2_subdev_validate_state. And if we change the v4l2_subdev_call() 
-call as discussed above, the new drivers can drop the 
-v4l2_subdev_validate_state().
-
-So I would argue that the new approach is (will be) simpler, but it's 
-different than what we have now.
-
->>> If feel like it would be much simpler if:
->>>
->>> 1) The core passes in a state which always come from the fh (the
->>>      try_state) when it do_ioctl()
->>>
->>> 2) Drivers use their 'active' states embedded in the subdev or the
->>>      'try' state passed in as parameter and decide
->>>      which one to use based on the context. It's a pattern we have
->>>      everywere already when using the per-fh try formats
->>>
->>> 	switch (which) {
->>> 	case V4L2_SUBDEV_FORMAT_TRY:
->>> 		return v4l2_subdev_get_try_format(&sd, sd_state, pad);
->>> 	case V4L2_SUBDEV_FORMAT_ACTIVE:
->>> 		return &sd->fmt;
->>> 	default:
->>> 		return NULL;
->>> 	}
+Am 14.09.21 um 19:04 schrieb Daniel Vetter:
+> On Fri, Sep 10, 2021 at 10:26:42AM +0200, Christian König wrote:
+>> Abstract the complexity of iterating over all the fences
+>> in a dma_resv object.
 >>
->> This is possible, of course. We could do this if we decide we don't want the
->> subdev drivers to pass the state properly in the future.
+>> The new loop handles the whole RCU and retry dance and
+>> returns only fences where we can be sure we grabbed the
+>> right one.
 >>
->> However, if, in my series, I currently call this in a subdev driver:
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/dma-buf/dma-resv.c | 63 ++++++++++++++++++++++++++++++++++++++
+>>   include/linux/dma-resv.h   | 36 ++++++++++++++++++++++
+>>   2 files changed, 99 insertions(+)
 >>
->> state = v4l2_subdev_validate_state(sd, state);
+>> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+>> index 84fbe60629e3..213a9b7251ca 100644
+>> --- a/drivers/dma-buf/dma-resv.c
+>> +++ b/drivers/dma-buf/dma-resv.c
+>> @@ -323,6 +323,69 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+>>   }
+>>   EXPORT_SYMBOL(dma_resv_add_excl_fence);
+>>   
+>> +/**
+>> + * dma_resv_walk_unlocked - walk over fences in a dma_resv obj
+>> + * @obj: the dma_resv object
+>> + * @cursor: cursor to record the current position
+>> + * @all_fences: true returns also the shared fences
+>> + * @first: if we should start over
+>> + *
+>> + * Return all the fences in the dma_resv object which are not yet signaled.
+>> + * The returned fence has an extra local reference so will stay alive.
+>> + * If a concurrent modify is detected the whole iterator is started over again.
+>> + */
+>> +struct dma_fence *dma_resv_walk_unlocked(struct dma_resv *obj,
+>> +					 struct dma_resv_cursor *cursor,
+>> +					 bool all_fences, bool first)
+>> +{
+>> +	struct dma_fence *fence = NULL;
+>> +
+>> +	do {
+>> +		/* Drop the reference from the previous round */
+>> +		dma_fence_put(fence);
+>> +
+>> +		cursor->is_first = first;
+>> +		if (first) {
+>> +			cursor->seq = read_seqcount_begin(&obj->seq);
+>> +			cursor->index = -1;
+>> +			cursor->fences = dma_resv_shared_list(obj);
+>> +			cursor->is_exclusive = true;
+>> +
+>> +			fence = dma_resv_excl_fence(obj);
+>> +			if (fence && test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+>> +					      &fence->flags))
+>> +				fence = NULL;
+>> +		} else {
+>> +			fence = NULL;
+>> +		}
+>> +
+>> +		if (fence) {
+>> +			fence = dma_fence_get_rcu(fence);
+>> +		} else if (all_fences && cursor->fences) {
+>> +			struct dma_resv_list *fences = cursor->fences;
+>> +
+>> +			cursor->is_exclusive = false;
+>> +			while (++cursor->index < fences->shared_count) {
+>> +				fence = rcu_dereference(fences->shared[
+>> +							cursor->index]);
+>> +				if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+>> +					      &fence->flags))
+>> +					break;
+>> +			}
+>> +			if (cursor->index < fences->shared_count)
+>> +				fence = dma_fence_get_rcu(fence);
+>> +			else
+>> +				fence = NULL;
+>> +		}
+>> +
+>> +		/* For the eventually next round */
+>> +		first = true;
+>> +	} while (read_seqcount_retry(&obj->seq, cursor->seq));
+>> +
+>> +	return fence;
+>> +}
+>> +EXPORT_SYMBOL_GPL(dma_resv_walk_unlocked);
+>> +
+>>   /**
+>>    * dma_resv_copy_fences - Copy all fences from src to dst.
+>>    * @dst: the destination reservation object
+>> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+>> index 9100dd3dc21f..f5b91c292ee0 100644
+>> --- a/include/linux/dma-resv.h
+>> +++ b/include/linux/dma-resv.h
+>> @@ -149,6 +149,39 @@ struct dma_resv {
+>>   	struct dma_resv_list __rcu *fence;
+>>   };
+>>   
+>> +/**
+>> + * struct dma_resv_cursor - current position into the dma_resv fences
+>> + * @seq: sequence number to check
+>> + * @index: index into the shared fences
+>> + * @shared: the shared fences
+>> + * @is_first: true if this is the first returned fence
+>> + * @is_exclusive: if the current fence is the exclusive one
+>> + */
+>> +struct dma_resv_cursor {
+>> +	unsigned int seq;
+>> +	unsigned int index;
+>> +	struct dma_resv_list *fences;
+>> +	bool is_first;
+>> +	bool is_exclusive;
+>> +};
+> A bit a bikeshed, but I think I'd be nice to align this with the other
+> iterators we have, e.g. for the drm_connector list.
+>
+> So struct dma_resv_fence_iter, dma_resv_fence_iter_begin/next/end().
+
+I've renamed the structure to dma_resv_iter.
+
+> Also I think the for_each macro must not include begin/end calls. If we
+> include that then it saves 2 lines of code at the cost of a pile of
+> awkward bugs because people break; out of the loop or return early  (only
+> continue is safe) and we leak a fence. Or worse.
+>
+> Explicit begin/end is much more robust at a very marginal cost imo.
+
+The key point is that this makes it quite a bunch more complicated to 
+implement. See those functions are easiest when you centralize them and 
+try to not spread the functionality into begin/end.
+
+The only thing I could see in the end function would be to drop the 
+reference for the dma_fence and that is not really something I would 
+like to do because we actually need to keep that reference in a bunch of 
+cases.
+
+Regards,
+Christian.
+
+>
+> Otherwise I think this fence iterator is a solid concept that yeah we
+> should roll out everywhere.
+> -Daniel
+>
+>> +
+>> +/**
+>> + * dma_resv_for_each_fence_unlocked - fence iterator
+>> + * @obj: a dma_resv object pointer
+>> + * @cursor: a struct dma_resv_cursor pointer
+>> + * @all_fences: true if all fences should be returned
+>> + * @fence: the current fence
+>> + *
+>> + * Iterate over the fences in a struct dma_resv object without holding the
+>> + * dma_resv::lock. The RCU read side lock must be hold when using this, but can
+>> + * be dropped and re-taken as necessary inside the loop. @all_fences controls
+>> + * if the shared fences are returned as well.
+>> + */
+>> +#define dma_resv_for_each_fence_unlocked(obj, cursor, all_fences, fence)    \
+>> +	for (fence = dma_resv_walk_unlocked(obj, cursor, all_fences, true); \
+>> +	     fence; dma_fence_put(fence),				    \
+>> +	     fence = dma_resv_walk_unlocked(obj, cursor, all_fences, false))
+>> +
+>>   #define dma_resv_held(obj) lockdep_is_held(&(obj)->lock.base)
+>>   #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
+>>   
+>> @@ -366,6 +399,9 @@ void dma_resv_fini(struct dma_resv *obj);
+>>   int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
+>>   void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
+>>   void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
+>> +struct dma_fence *dma_resv_walk_unlocked(struct dma_resv *obj,
+>> +					 struct dma_resv_cursor *cursor,
+>> +					 bool first, bool all_fences);
+>>   int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
+>>   			unsigned *pshared_count, struct dma_fence ***pshared);
+>>   int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
+>> -- 
+>> 2.25.1
 >>
->> With the change you suggest I'd just do (possibly with a helper):
->>
->> state = which == V4L2_SUBDEV_FORMAT_TRY ? state : sd->state;
->>
->> Is it any better?
->>
->>> I liked the idea to have the core pass in a state without the driver
->>> having to care where it comes from, but it requires too many
->>> indirections and implicities like the above shown
->>> v4l2_subdev_validate_state().
->>>
->>> One middle-ground could be to have the core pass in the 'correct' state as it
->>> does in your series, and default it to sd->state if a bridge driver
->>> calls an op through v4l2_subdev_call() with a NULL state, as the
->>> format is implicitly ACTIVE in that case.
->>
->> If you mean changing all the bridge drivers so that they would give the
->> state properly, yes, that was my plan (I think I mentioned it in a commit
->> desc, perhaps). It's not a trivial change, though, as v4l2_subdev_call()
->> cannot handle this at the moment.
-> 
-> Unfortunately this cannot be done automatically in v4l2_subdev_call(),
-> at least not easily.
-> 
->>
->> I believe it should be doable with coccinelle. Maybe add a new macro,
->> v4l2_subdev_call_state() or such, which gives the active state in the second
->> parameter (looks like all the ops have the state as the second param). Then
->> use coccinelle to find all the v4l2_subdev_call uses which call ops that get
->> a state, verify that the current caller uses NULL as the state, and change
->> v4l2_subdev_call to v4l2_subdev_call_state.
-> 
-> 
-> Even if we beautify it, I think bridge drivers passing as parameter to
-> a subdev operation a subdev attribute, like in the above shown
-> 
->          v4l2_subdev_call(sd, pad, set_fmt, sd->state, ...)
-> 
-> is unecessary and a possible source of confusion, with the subdev
-> driver having to infer where the state comes from and the possibility
 
-Why do the drivers need to infer where the state comes from? Except for 
-the init_cfg case, but that can be fixed other ways
-
-> of it being NULL anyway if the bridge operates with a non-state aware
-> subdev which has not allocated a state (which is harmelss now, as they
-> won't be interested in 'state').
-
-Yes, it can be NULL, but it can be NULL already now, and as you say, 
-it's harmless.
-
-> It could be made easier if we clearly say drivers "if it's TRY, expect
-> a state, if is ACTIVE use your own one (if you want to)". This seems
-> impossible to get wrong to me for subdev drivers.
-
-We can write such a clear statement for this new approach also.
-
->>> This ofc requires the state to be embedded (ie it's always there) and
->>> that state-aware drivers to have properly initialized it, but that's a
->>> given.
->>
->> Why does the state need to be embedded? If the subdev driver is not
->> state-aware, it does not expect to get a state except for the TRY case.
->> Passing NULL for those drivers should be fine.
->>
-> 
-> It doesn't -need- to be, I just think it avoids allocation and
-> releasing at run-time and offers a place where to store subdev-wide
-> configurations to all drivers as an opt-in feature.
-
-They do have that option already, they just need to manually allocate 
-the state. If we embed the state, the subdev drivers need to manually 
-initialize the state. It doesn't really change much, except now we have 
-a clear indication (sd->state != NULL) that the driver is state aware. 
-And also, 99% of the drivers don't need the state, which might have some 
-memory use impact.
-
-And the reason for the subdev drivers having to manually allocate/init 
-the state is that there's no place in core to do that. Maybe the various 
-v4l2_*_register_subdev might do it, but it wasn't clear to me if it 
-would work in practice or not.
-
-So at the moment you have to call the v4l2_subdev_alloc_state() after 
-media_entity_pads_init() but before registering the subdev (or possibly 
-before registering an async notifier).
-
-> Of course we pay a little price in the size of the subdev, but it's
-> all in-kernel stuff and going forward the state could very wel just
-> become the standard 'subdev_config'
-> 
->          struct v4l2_subdev {
->                  ....
-> 
->                  struct v4l2_subdev_config {
->                          struct v4l2_subdev_routing routes;
->                          struct v4l2_subdev_streams streams;
->                  } config;
->          };
-> 
-> But yeah, allocated or embedded is tangential and I defer this call to
-> maintainers which know better than me for sure.
-
-With the wrapper functions, subdev drivers never touch the sd->state 
-directly, and thus changing it from allocated to embedded in the future 
-should be trivial.
-
->>> Nonetheless, this considerations do not defeat the purpose of having a
->>> 'state', as currently we have
->>>
->>> struct v4l2_subdev_state {
->>>           struct v4l2_subdev_krouting; /* Use for TRY and ACTIVE */
->>>           struct v4l2_stream_configs; /* Use for ACTIVE */
->>
->> stream_configs is used for TRY also.
->>
->>>           struct v4l2_pad_configs; /* Used for TRY */
->>
->> Probably no point in this, but this _could_ also be used for ACTIVE. We
->> could have state aware drivers that don't use routing or streams, and use
->> just a plain old pad_configs array. This would allow moving the ACTIVE
->> pad_configs from the driver to the core.
-> 
-> That would be nice, but it would be better is stream_configs could be
-> used for pad-only drivers (it's just about assuming stream = 0 for all
-> of them, right ?). But yes, my point is about trying to centralize the
-> subdev configuration in one place. But that's probably for later
-> indeed.
-
-The stream configs require routing to be set first, as routing defines 
-the number of stream configs. There are probably ways to hide the 
-routing part for simple drivers that don't really need routing but would 
-still want to use stream configs.
-
-  Tomi
