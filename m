@@ -2,310 +2,430 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0142F40DA4E
-	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 14:49:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE30B40DAAE
+	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 15:07:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239747AbhIPMuv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Sep 2021 08:50:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53110 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239737AbhIPMuu (ORCPT
+        id S239858AbhIPNIb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Sep 2021 09:08:31 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:55799 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239495AbhIPNIb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Sep 2021 08:50:50 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCAA2C061574
-        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 05:49:29 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id t8so9321761wrq.4
-        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 05:49:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=xan4JHyE1sQXPeWAfMc8biRg66/q6tOFxECti70ntsw=;
-        b=Y/6hSIJGKB2yj2ulvtSJ1g8B8E2aOlT6uu8IO+blZPM3mYV9x8OsiFFi7jqGN/gzCb
-         khmzRJ3hTARljDY+eg0E6RZGEfVXxf6sI5hqrr08DN6VvFhToRoZGmfCMflQGcpquCmb
-         ZLYGpKF6bpNKZZ8/Itujjj4DPNXxNVy2JIwJo0c+NgHKgOWhhlIvEhoi8m8lPv6GSh4e
-         hSelmfJbVYMCfCgPts4XWGLt1HRQM+AEPjXVrEx+WxfvfYXMrf49KzM13E5mzHXtP39j
-         PiBjH1DU9EgnuRSu532dJivkF4OARMwzPH+kO+KXTK0JhB2a0xA5595M303pHR7iNlBr
-         GxAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=xan4JHyE1sQXPeWAfMc8biRg66/q6tOFxECti70ntsw=;
-        b=f/f1o0l4UZPyVHadtkqKiva3rc53gbuvooFkR9BaFBvxv/221KIkxnAQu1iP+cFHQ6
-         9zBhVERa/DW19aXQKE8ytgjnPwqmVbPH9wMC+NRkcBaOh47ZA9zNXMD7sBd12i5seWZX
-         ioBsANwiGF/nlzY6kYtXQCeQC+/YS+dAwkdZPInbUs1AfM2C7qHGskD7kSitViMNLHt0
-         gWZBjaOdcYI2UPUhkxTAzYPjOdZnguVrkLEHD0XyL8nkT/em1jqxRFA5ZHEJsSy0lS/P
-         oeXi7pdbd10dDND36+xUjdZimskjQeOnIf9H5rwvmN/+IBZURasKb2v4cHWGv2eO3B6s
-         kV3g==
-X-Gm-Message-State: AOAM531RlftIE2PMufITeerwN7tH19O1mgj6679uRcRLv6JQiihmgrXL
-        K4RCSFrnzgr2lA1LhGN+Ph2pz1wJvFdTBl8Z
-X-Google-Smtp-Source: ABdhPJxwL9EJly9TltpWDFEwDzb96el5ousEYklUg6qHOydF4JRL/8er+s/2Rc0TcdKNTOyJEjIDOw==
-X-Received: by 2002:adf:fb07:: with SMTP id c7mr5730765wrr.399.1631796568344;
-        Thu, 16 Sep 2021 05:49:28 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id j21sm3488536wmj.40.2021.09.16.05.49.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Sep 2021 05:49:27 -0700 (PDT)
-Subject: Re: [PATCH 01/14] dma-buf: add dma_resv_for_each_fence_unlocked
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-References: <20210910082655.82168-1-christian.koenig@amd.com>
- <YUDWHw19iUMfFr7K@phenom.ffwll.local>
- <26f766c9-9a3c-3894-9256-e07090655dc2@gmail.com>
- <CAKMK7uFcU-Dh8kMDrfY1rigVf0J-_R8GJ-d+C-iYNmOWx57W7Q@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <0bc024c5-a54c-eb3c-4c88-3eb7fbf77261@gmail.com>
-Date:   Thu, 16 Sep 2021 14:49:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Thu, 16 Sep 2021 09:08:31 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 05D8E1C000D;
+        Thu, 16 Sep 2021 13:07:06 +0000 (UTC)
+Date:   Thu, 16 Sep 2021 15:07:52 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+Subject: Re: [PATCH v8 03/36] media: subdev: add 'which' to subdev state
+Message-ID: <20210916130752.bsdhq3xpsatdfl4a@uno.localdomain>
+References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
+ <20210830110116.488338-4-tomi.valkeinen@ideasonboard.com>
+ <20210913114154.ovffxjoghgdud4js@uno.localdomain>
+ <0733ae28-bcd9-6dc8-fb6a-0fa43beb1191@ideasonboard.com>
+ <20210913133841.nck65h2ft4hfnbg5@uno.localdomain>
+ <656577a3-b783-0272-4809-20169b84e891@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFcU-Dh8kMDrfY1rigVf0J-_R8GJ-d+C-iYNmOWx57W7Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <656577a3-b783-0272-4809-20169b84e891@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 16.09.21 um 14:14 schrieb Daniel Vetter:
-> On Thu, Sep 16, 2021 at 10:50 AM Christian König <ckoenig.leichtzumerken@gmail.com> wrote:
->> Am 14.09.21 um 19:04 schrieb Daniel Vetter:
->>> On Fri, Sep 10, 2021 at 10:26:42AM +0200, Christian König wrote:
->>>> Abstract the complexity of iterating over all the fences
->>>> in a dma_resv object.
->>>>
->>>> The new loop handles the whole RCU and retry dance and
->>>> returns only fences where we can be sure we grabbed the
->>>> right one.
->>>>
->>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>> ---
->>>>    drivers/dma-buf/dma-resv.c | 63 ++++++++++++++++++++++++++++++++++++++
->>>>    include/linux/dma-resv.h   | 36 ++++++++++++++++++++++
->>>>    2 files changed, 99 insertions(+)
->>>>
->>>> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
->>>> index 84fbe60629e3..213a9b7251ca 100644
->>>> --- a/drivers/dma-buf/dma-resv.c
->>>> +++ b/drivers/dma-buf/dma-resv.c
->>>> @@ -323,6 +323,69 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
->>>>    }
->>>>    EXPORT_SYMBOL(dma_resv_add_excl_fence);
->>>>   
->>>> +/**
->>>> + * dma_resv_walk_unlocked - walk over fences in a dma_resv obj
->>>> + * @obj: the dma_resv object
->>>> + * @cursor: cursor to record the current position
->>>> + * @all_fences: true returns also the shared fences
->>>> + * @first: if we should start over
->>>> + *
->>>> + * Return all the fences in the dma_resv object which are not yet signaled.
->>>> + * The returned fence has an extra local reference so will stay alive.
->>>> + * If a concurrent modify is detected the whole iterator is started over again.
->>>> + */
->>>> +struct dma_fence *dma_resv_walk_unlocked(struct dma_resv *obj,
->>>> +                                     struct dma_resv_cursor *cursor,
->>>> +                                     bool all_fences, bool first)
->>>> +{
->>>> +    struct dma_fence *fence = NULL;
->>>> +
->>>> +    do {
->>>> +            /* Drop the reference from the previous round */
->>>> +            dma_fence_put(fence);
->>>> +
->>>> +            cursor->is_first = first;
->>>> +            if (first) {
->>>> +                    cursor->seq = read_seqcount_begin(&obj->seq);
->>>> +                    cursor->index = -1;
->>>> +                    cursor->fences = dma_resv_shared_list(obj);
->>>> +                    cursor->is_exclusive = true;
->>>> +
->>>> +                    fence = dma_resv_excl_fence(obj);
->>>> +                    if (fence && test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->>>> +                                          &fence->flags))
->>>> +                            fence = NULL;
->>>> +            } else {
->>>> +                    fence = NULL;
->>>> +            }
->>>> +
->>>> +            if (fence) {
->>>> +                    fence = dma_fence_get_rcu(fence);
->>>> +            } else if (all_fences && cursor->fences) {
->>>> +                    struct dma_resv_list *fences = cursor->fences;
->>>> +
->>>> +                    cursor->is_exclusive = false;
->>>> +                    while (++cursor->index < fences->shared_count) {
->>>> +                            fence = rcu_dereference(fences->shared[
->>>> +                                                    cursor->index]);
->>>> +                            if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->>>> +                                          &fence->flags))
->>>> +                                    break;
->>>> +                    }
->>>> +                    if (cursor->index < fences->shared_count)
->>>> +                            fence = dma_fence_get_rcu(fence);
->>>> +                    else
->>>> +                            fence = NULL;
->>>> +            }
->>>> +
->>>> +            /* For the eventually next round */
->>>> +            first = true;
->>>> +    } while (read_seqcount_retry(&obj->seq, cursor->seq));
->>>> +
->>>> +    return fence;
->>>> +}
->>>> +EXPORT_SYMBOL_GPL(dma_resv_walk_unlocked);
->>>> +
->>>>    /**
->>>>     * dma_resv_copy_fences - Copy all fences from src to dst.
->>>>     * @dst: the destination reservation object
->>>> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
->>>> index 9100dd3dc21f..f5b91c292ee0 100644
->>>> --- a/include/linux/dma-resv.h
->>>> +++ b/include/linux/dma-resv.h
->>>> @@ -149,6 +149,39 @@ struct dma_resv {
->>>>       struct dma_resv_list __rcu *fence;
->>>>    };
->>>>   
->>>> +/**
->>>> + * struct dma_resv_cursor - current position into the dma_resv fences
->>>> + * @seq: sequence number to check
->>>> + * @index: index into the shared fences
->>>> + * @shared: the shared fences
->>>> + * @is_first: true if this is the first returned fence
->>>> + * @is_exclusive: if the current fence is the exclusive one
->>>> + */
->>>> +struct dma_resv_cursor {
->>>> +    unsigned int seq;
->>>> +    unsigned int index;
->>>> +    struct dma_resv_list *fences;
->>>> +    bool is_first;
->>>> +    bool is_exclusive;
->>>> +};
->>> A bit a bikeshed, but I think I'd be nice to align this with the other
->>> iterators we have, e.g. for the drm_connector list.
->>>
->>> So struct dma_resv_fence_iter, dma_resv_fence_iter_begin/next/end().
->> I've renamed the structure to dma_resv_iter.
->>
->>> Also I think the for_each macro must not include begin/end calls. If we
->>> include that then it saves 2 lines of code at the cost of a pile of
->>> awkward bugs because people break; out of the loop or return early  (only
->>> continue is safe) and we leak a fence. Or worse.
->>>
->>> Explicit begin/end is much more robust at a very marginal cost imo.
->> The key point is that this makes it quite a bunch more complicated to
->> implement. See those functions are easiest when you centralize them and
->> try to not spread the functionality into begin/end.
->>
->> The only thing I could see in the end function would be to drop the
->> reference for the dma_fence and that is not really something I would
->> like to do because we actually need to keep that reference in a bunch of
->> cases.
-> Yeah but it's extremely fragile. See with drm_connector_iter we also have
-> the need to grab a reference to that connector in a few place, and I do
-> think that open-code that is much clearer instead of inheriting a
-> reference that the for_each macro acquired for you, and which you cleverly
-> leaked through a break; Compare
+Hi Tomi,
+
+On Mon, Sep 13, 2021 at 05:26:45PM +0300, Tomi Valkeinen wrote:
+> On 13/09/2021 16:38, Jacopo Mondi wrote:
+> > Hi Tomi,
+> >
+> > On Mon, Sep 13, 2021 at 03:17:01PM +0300, Tomi Valkeinen wrote:
+> > > On 13/09/2021 14:41, Jacopo Mondi wrote:
+> > > > Hi Tomi,
+> > > >
+> > > > On Mon, Aug 30, 2021 at 02:00:43PM +0300, Tomi Valkeinen wrote:
+> > > > > The subdev state is passed to functions in the media drivers, and
+> > > > > usually either V4L2_SUBDEV_FORMAT_ACTIVE or V4L2_SUBDEV_FORMAT_TRY is
+> > > > > also given to the function in one way or another.
+> > > > >
+> > > > > One op where this is not the case is v4l2_subdev_pad_ops.init_cfg. One
+> > > > > could argue that the initialization of the state should be the same for
+> > > > > both ACTIVE and TRY cases, but unfortunately that is not the case:
+> > > > >
+> > > > > - Some drivers do also other things than just touch the state when
+> > > > > dealing with ACTIVE, e.g. if there is extra state outside the standard
+> > > > > subdev state.
+> > > > > - Some drivers might need to create, say, struct v4l2_subdev_format
+> > > > > which has 'which' field, and that needs to be filled with either ACTIVE
+> > > > > or TRY.
+> > > > >
+> > > > > Currently init_cfg is only called for TRY case from the v4l2 framework,
+> > > > > passing the TRY state. Some drivers call their own init_cfg, passing
+> > > > > NULL as the state, which is used to indicate ACTIVE case.
+> > > > >
+> > > > > In the future we want to pass subdev's active state from the v4l2
+> > > > > framework side, so we need a solution to this.
+> > > > >
+> > > > > We could change the init_cfg() to include the TRY/ACTIVE value, which
+> > > > > would require changing more or less all the drivers. Instead, I have
+> > > > > added 'which' field to the subdev state itself, filled at state
+> > > > > allocation time, which only requires changes to the drivers that
+> > > > > allocate a state themselves.
+> > > > >
+> > > > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > > > ---
+> > > > >    drivers/media/platform/rcar-vin/rcar-v4l2.c |  2 +-
+> > > > >    drivers/media/platform/vsp1/vsp1_entity.c   |  2 +-
+> > > > >    drivers/media/v4l2-core/v4l2-subdev.c       | 10 +++++++---
+> > > > >    drivers/staging/media/tegra-video/vi.c      |  2 +-
+> > > > >    include/media/v4l2-subdev.h                 |  7 ++++++-
+> > > > >    5 files changed, 16 insertions(+), 7 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > > > > index 5f4fa8c48f68..1de30d5b437f 100644
+> > > > > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > > > > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > > > > @@ -252,7 +252,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+> > > > >    	u32 width, height;
+> > > > >    	int ret;
+> > > > >
+> > > > > -	sd_state = v4l2_alloc_subdev_state(sd);
+> > > > > +	sd_state = v4l2_alloc_subdev_state(sd, V4L2_SUBDEV_FORMAT_ACTIVE);
+> > > >
+> > > > Shouldn't the 'which' parameters be used to decide if either ACTIVE or
+> > > > TRY have to be used ? this function is also used to set TRY formats,
+> > > > in example...
+> > > >
+> > > > Oh, maybe I got how it works, the state's which is not
+> > > > relevant but the v4l2_subdev_format's which is, as it will be used in
+> > > > the next patch to decide if the subdev's state of the file-handle's
+> > > > state should be passed to the ioctl.
+> > >
+> > > Yes. It's messy, but it's how it worked before also.
+> > >
+> > > The drivers can't really allocate TRY state as it must come from the core,
+> > > based on the filehandle. Now as I say that, makes me wonder why even expose
+> > > the option to drivers. Maybe v4l2_alloc_subdev_state() should take just the
+> > > sd parameter, and always allocate ACTIVE state, and the v4l2 core can use
+> > > another way to create the TRY state.
+> > >
+> >
+> > init_cfg() as well as other operations used to received an
+> > array of per fh's pad_configs, and the sd pointer itself. The fh's pad
+> > configs were allocated by the core, as well as the core now allocates
+> > the per-fh's state.
+> >
+> > Before the introduction of 'state', if the 'which' flags was set to
+> > TRY then information were stored/retrieved/initialized in the per-fh
+> > pad_config, otherwise the active configuration (usually stored in the
+> > driver main structure) was used.
+> >
+> > So we had a clear separation of per-fh information and the active
+> > state. The core didn't care afaict, and passed in both, then driver had
+> > to deal with them doing the right thing by inspecting the 'which' flag.
+> >
+> > The typical pattern was:
+> >
+> >          static int subdev_ops(sd, pad_cfg, which)
+> >          {
+> >                  if (which == TRY)
+> >                          /* Operate on config stored in pad_cfg */
+> >
+> >                  else
+> >                          /*
+> >                           * Operate on config stored in subdev (and
+> >                           * applied to HW)
+> >                           */
+> >          }
+> >
+> > Or am I overlooking some cases or do you agree with my understanding
+> > so far ?
 >
-> for_each_fence(fence) {
-> 	if (fence) {
-> 		found_fence = fence;
-> 		break;
-> 	}
+> More or less, yes. I think there are (used to be) three kinds of ops:
+>
+> - Ops that get pad_cfg and 'which' in an op specific struct. E.g. set_fmt.
+> The pad_cfg is TRY pad_config, even if 'which' == ACTIVE.
+>
+> - Ops that don't get pad_cfg, like s_stream. 'which' is implicitly ACTIVE.
+
+Also note that operations like s_stream do not take a state as
+parameter. The driver has to fetch it from the subdev anyway
+(this in reply to the idea of having the active state as parameter vs
+retrieving it from the subdev if ACTIVE)
+
+While porting the R-Car drivers on top of this series I found myself
+in the need to (in the s_stream call chain)
+
+static int rcsi2_start_receiver(struct rcar_csi2 *priv)
+{
+	const struct v4l2_subdev_state *state = priv->subdev.state;
+	const struct v4l2_subdev_stream_configs *configs = &state->stream_configs;
+
+        ...
+
+	/*
+	 * Configure field handling inspecting the formats of the
+	 * single sink pad streams.
+	 */
+	for (i = 0; i < configs->num_configs; ++i) {
+		const struct v4l2_subdev_stream_config *config = configs->configs;
+		if (config->pad != RCAR_CSI2_SINK)
+			continue;
+
+		if (config->fmt.field != V4L2_FIELD_ALTERNATE)
+			continue;
+
+		fld |= FLD_DET_SEL(1);
+		fld |= FLD_FLD_EN(config->stream);
+
+		/* PAL vs NTSC. */
+		if (config->fmt.height == 240)
+			fld |= FLD_FLD_NUM(0);
+		else
+			fld |= FLD_FLD_NUM(1);
+	}
+
+        ...
+
+}
+
+Am I doing it wrong, or is this a case for the subdev to have to
+directly access sd->state ?
+
+>
+> - init_cfg which gets pad_cfg, but no which (as 'which' is always implicitly
+> TRY)
+>
+> So pad_cfg was TRY state. Drivers could use pad_configs internally to track
+> ACTIVE state, but the core had no knowledge about this.
+>
+> > Now we have a 'state' that holds the array of pad_configs and along
+> > the continuation of the series will end up holding per-pad
+> > configurations.
+> >
+> > We now also have one 'state' per file-handle, and one
+> > per-subdev. As I see this, it would be natual for drivers to receive
+> > one state without knowing where it comes from. In the next patch you
+>
+> Note that only subdev's that explicitly support the new state code, and
+> allocate the state, have the subdev active state. Which means only the
+> drivers in my work branch.
+>
+> The "old" drivers work like they used to: they get the state (essentially
+> repackaged pad_cfg) for TRY cases, NULL otherwise.
+>
+> And yes, it would be natural to just get a state, but the subdev drivers
+> need to know if the context is TRY/ACTIVE. As you can see from the bullet
+> list above, the driver knows this in all the other places except init_cfg.
+>
+> > instrument the core to do exactly this: inspect the which flag and
+> > pass in the 'right' state. Ofc drivers need to have access to 'which'
+> > to know if they have to apply settings to the HW or not.
+> >
+> > Looking ahead in your series I see these structures:
+> >
+> >          struct v4l2_subdev_pad_config {
+> >                  struct v4l2_mbus_framefmt try_fmt;
+> >                  struct v4l2_rect try_crop;
+> >                  struct v4l2_rect try_compose;
+> >          };
+> >
+> >          struct v4l2_subdev_stream_config {
+> >                  u32 pad;
+> >                  u32 stream;
+> >
+> >                  struct v4l2_mbus_framefmt fmt;
+> >                  struct v4l2_rect crop;
+> >                  struct v4l2_rect compose;
+> >          };
+> >
+> >          struct v4l2_subdev_stream_configs {
+> >                  u32 num_configs;
+> >                  struct v4l2_subdev_stream_config *configs;
+> >          };
+> >
+> > All of them part of state:
+> >
+> > struct v4l2_subdev_state {
+> > 	struct mutex lock;
+> > 	u32 which;
+> > 	struct v4l2_subdev_pad_config *pads;
+> > 	struct v4l2_subdev_krouting routing;
+> > 	struct v4l2_subdev_stream_configs stream_configs;
+> > };
+> >
+> > So 'state' will hold 'TRY' information (only used for 'state'
+> > instances allocated in the fh) and 'ACTIVE' ones (used for states
+> > allocated in the sd).
+>
+> Right.
+>
+> > Looking at 'v4l2_subdev_pad_config' and 'v4l2_subdev_stream_config' they
+> > seem to describe more or less the same things: fmt, crop and compose
+> > (per pad-stream in case of stream_config). I wonder if those shouldn't
+> > be unified so that:
+> >
+> > 1) Drivers receive one state: the core passes in the 'correct' one
+> > (per-fh or per-sd) as you do in next patch
+>
+> Yes. But note that "old" drivers don't have active state.
+>
+> > 2) The 'which' information is not stored in the state but it's only
+> > 'contextual' (as in a parameter to the subdev operation) so that
+> > drivers inspect it to know if they have to apply settings to hw or not
+>
+> Yes, except we have init_cfg...
+>
+> > 3) v4l2_subdev_pad_config can be re-used and expanded, to maintain per-pad
+> > configurations regardless if they're ACTIVE or TRY, as this only depends
+> > on where the state is stored.
+>
+> pad_config is a static array of per-pad configs. stream_configs is a dynamic
+> per-stream config. stream_configs is a super-set of pad-configs, so we could
+> drop pad_configs, but it would require changing all the drivers in
+> non-trivial ways.
+>
+> v4l2_subdev_pad_config is not used or even allocated by the "new" drivers.
+> And routing & stream_configs are not used by the "old" drivers.
+>
+> > As I immagine it a subdev pad operation could look like:
+> >
+> >          static int subdev_op(sd, pad, state, which, ...)
+> >          {
+> >                  /* Doesn't matter if state is per-fh or the sd one. */
+> >                  state->pads[pad].fmt = ....;
+> >
+> >                  if (which == TRY)
+> >                          return;
+> >
+> >                  /* Apply to the HW. */
+> >          }
+> >
+> > Does it make any sense to you ? I might have missed some reason why
+> > this is not possible.
+>
+> It makes sense, but there are the buts =). I've tried to explain these in
+> the commit messages, but it's kind of confusing.
+>
+> One but I haven't mentioned in the emails is that when subdev drivers call
+> ops in other subdev drivers they pass NULL in the state. This is fine for
+> the "old" drivers, as they expect a state only for TRY case. However, the
+> "new" drivers unfortunately expect to get a state on both TRY and ACTIVE
+> cases, and the only sensible way I figured out to handle this was the
+> v4l2_subdev_validate_state() function (patch 6).
+>
+> So, all this could be much neater, but would require modifying all subdev
+> drivers in non-trivial ways. I think this is something that can be done
+> slowly in the future.
+>
+> > > > >    	if (IS_ERR(sd_state))
+> > > > >    		return PTR_ERR(sd_state);
+> > > > >
+> > > > > diff --git a/drivers/media/platform/vsp1/vsp1_entity.c b/drivers/media/platform/vsp1/vsp1_entity.c
+> > > > > index e40bca254b8b..63ea5e472c33 100644
+> > > > > --- a/drivers/media/platform/vsp1/vsp1_entity.c
+> > > > > +++ b/drivers/media/platform/vsp1/vsp1_entity.c
+> > > > > @@ -675,7 +675,7 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
+> > > > >    	 * Allocate the pad configuration to store formats and selection
+> > > > >    	 * rectangles.
+> > > > >    	 */
+> > > > > -	entity->config = v4l2_alloc_subdev_state(&entity->subdev);
+> > > > > +	entity->config = v4l2_alloc_subdev_state(&entity->subdev, V4L2_SUBDEV_FORMAT_ACTIVE);
+> > > > >    	if (IS_ERR(entity->config)) {
+> > > > >    		media_entity_cleanup(&entity->subdev.entity);
+> > > > >    		return PTR_ERR(entity->config);
+> > > > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > > index e1a794f69815..04ad319fb150 100644
+> > > > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > > @@ -28,7 +28,7 @@ static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
+> > > > >    {
+> > > > >    	struct v4l2_subdev_state *state;
+> > > > >
+> > > > > -	state = v4l2_alloc_subdev_state(sd);
+> > > > > +	state = v4l2_alloc_subdev_state(sd, V4L2_SUBDEV_FORMAT_TRY);
+> > > >
+> > > > At the same time I'm not sure I get the purpose of this. Don't
+> > > > init_cfg() callback implementations deal with try formats themeselves
+> > > > ? I mean, it's not a fixed rule, they can as well initialize their
+> > > > default 'active' formats, but what matters is that they initialize
+> > > > their per-fh try states ?
+> > >
+> > > That is what they do currently. init_cfg() only deals with TRY state, as
+> > > that's the only "state" (i.e. pad_config) there used to be from v4l2 core's
+> > > perspective.
+> > >
+> > > > Shouldn't init_cfg receive the fh's state so that it can initialize
+> > > > it, and just in case they need to, access their subdev's state and
+> > > > initialize them ? I'm missing what the purpose of the flag is tbh.
+> > >
+> > > Now we have (a possibility to have) state for both TRY and ACTIVE on the
+> > > v4l2 core side. The active state has to be initialized also, and a logical
+> > > way to do that is to use the init_cfg().
+> >
+> > The 'ACTIVE' state is stored in the subdev, to which init_cfg() has
+> > access, and it receives the 'TRY' state as a parameter.
+>
+> No, init_cfg gets either ACTIVE or TRY state, whichever is being allocated.
+> For "old" drivers, ACTIVE state is never allocated so they don't get
+> init_cfg calls for ACTIVE at all.
+>
+> Aaand while writing that, I realized that some drivers manually do allocate
+> ACTIVE state temporarily, which would cause init_cfg with ACTIVE state to be
+> called. I wonder if they explode... Need to check.
+>
+> > It is possible to access both states and initialize them properly if
+> > I'm not mistaken.
+> >
+> > >
+> > > So now, for drivers that support the new active state, init_cfg() can get
+> > > either TRY or ACTIVE state. And if you want to call, say, the driver's
+> > > set_routing() to setup the routing in the state, you have to set the 'which'
+> > > in the routing struct to a value. So somehow init_cfg needs to know if it's
+> > > initializing an ACTIVE or TRY state.
+> >
+> > I'm not sure I got this part. set_routing() as other ops will receive
+> > a state and 'which'. If my proposal above makes sensem where the state
+>
+> Yes, but if it's init_cfg calling set_routing, init_cfg has to figure out
+> the 'which' from somewhere.
+>
+> E.g. init_cfg from ub913 driver:
+>
+> static int ub913_init_cfg(struct v4l2_subdev *sd,
+> 			  struct v4l2_subdev_state *state)
+> {
+> 	u32 which = state->which;
+>
+> 	struct v4l2_subdev_route routes[] = {
+> 		{
+> 			.sink_pad = 0,
+> 			.sink_stream = 0,
+> 			.source_pad = 1,
+> 			.source_stream = 0,
+> 			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> 		},
+> 	};
+>
+> 	struct v4l2_subdev_krouting routing = {
+> 		.which = which,
+> 		.num_routes = ARRAY_SIZE(routes),
+> 		.routes = routes,
+> 	};
+>
+> 	return ub913_set_routing(sd, state, &routing);
 > }
 >
-> /* do some itneresting stuff with found_fence */
+> It uses set_routing to setup a default routing (and set_routing in turn also
+> initializes the formats), but set_routing needs 'which'.
 >
-> dma_fence_put(found_fence); /* wtf, where is this fence reference from */
->
-> Versus what I'm proposing:
->
-> fence_iter_init(&fence_iter)
-> for_each_fence(fence, &fence_iter) {
-> 	if (fence) {
-> 		found_fence = fence;
-> 		dma_fence_get(found_fence);
-> 		break;
-> 	}
-> }
-> fence_iter_end(&fence_iter)
->
-> /* do some itneresting stuff with found_fence */
->
-> dma_fence_put(found_fence); /* 100% clear which reference we're putting here */
->
-> One of these patterns is maintainable and clear, at the cost of 3 more
-> lines. The other one is frankly just clever but fragile nonsense.
->
-> So yeah I really think we need the iter_init/end/next triple of functions
-> here. Too clever is no good at all. And yes that version means you have an
-> additional kref_get/put in there for the found fence, but I really don't
-> think that matters in any of these paths here.
-
-Yeah, that's what I've pondered on as well but I thought that avoiding 
-the extra get/put dance would be more important to avoid.
-
-Anyway, going to change that to make clear what happens here.
-
-But question is can you go over the patch set and see if we can replace 
-some more dma_fence_for_each_fence_unlock() with 
-dma_fence_for_each_fence() because the lock is either held or can be 
-taken? I would have a much better feeling to avoid the unlocked access 
-in the first place.
-
-Thanks,
-Christian.
-
->
-> Cheers, Daniel
->
->> Regards,
->> Christian.
->>
->>> Otherwise I think this fence iterator is a solid concept that yeah we
->>> should roll out everywhere.
->>> -Daniel
->>>
->>>> +
->>>> +/**
->>>> + * dma_resv_for_each_fence_unlocked - fence iterator
->>>> + * @obj: a dma_resv object pointer
->>>> + * @cursor: a struct dma_resv_cursor pointer
->>>> + * @all_fences: true if all fences should be returned
->>>> + * @fence: the current fence
->>>> + *
->>>> + * Iterate over the fences in a struct dma_resv object without holding the
->>>> + * dma_resv::lock. The RCU read side lock must be hold when using this, but can
->>>> + * be dropped and re-taken as necessary inside the loop. @all_fences controls
->>>> + * if the shared fences are returned as well.
->>>> + */
->>>> +#define dma_resv_for_each_fence_unlocked(obj, cursor, all_fences, fence)    \
->>>> +    for (fence = dma_resv_walk_unlocked(obj, cursor, all_fences, true); \
->>>> +         fence; dma_fence_put(fence),                                   \
->>>> +         fence = dma_resv_walk_unlocked(obj, cursor, all_fences, false))
->>>> +
->>>>    #define dma_resv_held(obj) lockdep_is_held(&(obj)->lock.base)
->>>>    #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
->>>>   
->>>> @@ -366,6 +399,9 @@ void dma_resv_fini(struct dma_resv *obj);
->>>>    int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
->>>>    void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
->>>>    void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
->>>> +struct dma_fence *dma_resv_walk_unlocked(struct dma_resv *obj,
->>>> +                                     struct dma_resv_cursor *cursor,
->>>> +                                     bool first, bool all_fences);
->>>>    int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
->>>>                       unsigned *pshared_count, struct dma_fence ***pshared);
->>>>    int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
->>>> --
->>>> 2.25.1
->>>>
->
-
+>  Tomi
