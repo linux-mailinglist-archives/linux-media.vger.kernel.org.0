@@ -2,430 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE30B40DAAE
-	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 15:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98ACD40DABF
+	for <lists+linux-media@lfdr.de>; Thu, 16 Sep 2021 15:10:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239858AbhIPNIb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Sep 2021 09:08:31 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:55799 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239495AbhIPNIb (ORCPT
+        id S239934AbhIPNLi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Sep 2021 09:11:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58002 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239920AbhIPNLh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Sep 2021 09:08:31 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 05D8E1C000D;
-        Thu, 16 Sep 2021 13:07:06 +0000 (UTC)
-Date:   Thu, 16 Sep 2021 15:07:52 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: Re: [PATCH v8 03/36] media: subdev: add 'which' to subdev state
-Message-ID: <20210916130752.bsdhq3xpsatdfl4a@uno.localdomain>
-References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
- <20210830110116.488338-4-tomi.valkeinen@ideasonboard.com>
- <20210913114154.ovffxjoghgdud4js@uno.localdomain>
- <0733ae28-bcd9-6dc8-fb6a-0fa43beb1191@ideasonboard.com>
- <20210913133841.nck65h2ft4hfnbg5@uno.localdomain>
- <656577a3-b783-0272-4809-20169b84e891@ideasonboard.com>
+        Thu, 16 Sep 2021 09:11:37 -0400
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72067C061766
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 06:10:17 -0700 (PDT)
+Received: by mail-qt1-x82b.google.com with SMTP id u4so5434618qta.2
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 06:10:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=J1aPRVnPtvaDDmo3fez14oc8rYGiEsDWBCXDH/Wat7k=;
+        b=SCLGmpBOIX1LyEWjCtTQu5NsbhW1Y4X5/DmQl1XQ9jzusvOLM7zvEkOwz6LOAv+Yok
+         sIWQ6uZy+RXJ3cFeYjVefKkQH0Bt0fEt6Hxm02pQYIdfhNmnfHNX2wDQS3f9HxEUckLT
+         uEUNakxQ26CbdQlN/sagwI+fXugp4FI45KUk2U0+TghLUrgqPs4hSAaLgC+UJKOxxT4E
+         Mc+H12o6j9K7ZldUlePbIj3QazJSlLYL+zG9bxUEh82jSSu4c3hLfm8TlsPXKZBK8Vfn
+         QyTQKfWMizwsKJYk7EULgbEvpNxSTjzFuIhJlbPIm2aqRKQQZUDbcvQh309a66LJBzjd
+         rwyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=J1aPRVnPtvaDDmo3fez14oc8rYGiEsDWBCXDH/Wat7k=;
+        b=QCcAtbt+ab5NaPPojOC9TfZYdbIOzlEkdZIC4g1lI05kggBwoBG/9WHMS53qnU65AC
+         8+iATJyJuYvNEQU6uEFaWg+Z9EWEUL4avzfctq+XE3i+hqH8upOuJMHrWMke3pQOOaPl
+         oSef1MqbR65TNYeMo01SVPwvHYM/flMykgSGHGXxG1a2zaIqo/dic/LFhtSMZfIjMfJg
+         /hsi1Pkde/t5YJKJMLBCI3g7Mq3WRzrBa/Erer12WQBll4Qgp2fV/DRgYF1mNo4Niy1y
+         doIWu8DDh0/BjaDIdljeKZJBdzT70LBWoZnzCMmQEiGvFTOp6KRnNsBa969xcdNmS9t3
+         qKAA==
+X-Gm-Message-State: AOAM530KpNCeViLEbpZBC7NdnIq99uG8HtEJK4RqPxTf67jgyJ52OYLn
+        4n09I89XPpcaWFoM4WbayxWSjA==
+X-Google-Smtp-Source: ABdhPJwoUHOat0GVnmJtcI3QwOrvQdDqw4k+r1J+CwosMJhqmF7+hz2G8rRCHLhPrxcT6+12hGdkXg==
+X-Received: by 2002:ac8:7d42:: with SMTP id h2mr4861309qtb.220.1631797816616;
+        Thu, 16 Sep 2021 06:10:16 -0700 (PDT)
+Received: from ziepe.ca ([206.223.160.26])
+        by smtp.gmail.com with ESMTPSA id r23sm1992140qtp.60.2021.09.16.06.10.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Sep 2021 06:10:15 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1mQr9a-001MiL-Tq; Thu, 16 Sep 2021 10:10:14 -0300
+Date:   Thu, 16 Sep 2021 10:10:14 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Oded Gabbay <ogabbay@kernel.org>,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Gal Pressman <galpress@amazon.com>,
+        Yossi Leybovich <sleybo@amazon.com>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Dave Airlie <airlied@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Christoph Hellwig <hch@lst.de>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH v6 0/2] Add p2p via dmabuf to habanalabs
+Message-ID: <20210916131014.GK3544071@ziepe.ca>
+References: <20210912165309.98695-1-ogabbay@kernel.org>
+ <YUCvNzpyC091KeaJ@phenom.ffwll.local>
+ <20210914161218.GF3544071@ziepe.ca>
+ <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
+ <YUM5JoMMK7gceuKZ@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <656577a3-b783-0272-4809-20169b84e891@ideasonboard.com>
+In-Reply-To: <YUM5JoMMK7gceuKZ@phenom.ffwll.local>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
-
-On Mon, Sep 13, 2021 at 05:26:45PM +0300, Tomi Valkeinen wrote:
-> On 13/09/2021 16:38, Jacopo Mondi wrote:
-> > Hi Tomi,
-> >
-> > On Mon, Sep 13, 2021 at 03:17:01PM +0300, Tomi Valkeinen wrote:
-> > > On 13/09/2021 14:41, Jacopo Mondi wrote:
-> > > > Hi Tomi,
+On Thu, Sep 16, 2021 at 02:31:34PM +0200, Daniel Vetter wrote:
+> On Wed, Sep 15, 2021 at 10:45:36AM +0300, Oded Gabbay wrote:
+> > On Tue, Sep 14, 2021 at 7:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > >
+> > > On Tue, Sep 14, 2021 at 04:18:31PM +0200, Daniel Vetter wrote:
+> > > > On Sun, Sep 12, 2021 at 07:53:07PM +0300, Oded Gabbay wrote:
+> > > > > Hi,
+> > > > > Re-sending this patch-set following the release of our user-space TPC
+> > > > > compiler and runtime library.
+> > > > >
+> > > > > I would appreciate a review on this.
 > > > >
-> > > > On Mon, Aug 30, 2021 at 02:00:43PM +0300, Tomi Valkeinen wrote:
-> > > > > The subdev state is passed to functions in the media drivers, and
-> > > > > usually either V4L2_SUBDEV_FORMAT_ACTIVE or V4L2_SUBDEV_FORMAT_TRY is
-> > > > > also given to the function in one way or another.
-> > > > >
-> > > > > One op where this is not the case is v4l2_subdev_pad_ops.init_cfg. One
-> > > > > could argue that the initialization of the state should be the same for
-> > > > > both ACTIVE and TRY cases, but unfortunately that is not the case:
-> > > > >
-> > > > > - Some drivers do also other things than just touch the state when
-> > > > > dealing with ACTIVE, e.g. if there is extra state outside the standard
-> > > > > subdev state.
-> > > > > - Some drivers might need to create, say, struct v4l2_subdev_format
-> > > > > which has 'which' field, and that needs to be filled with either ACTIVE
-> > > > > or TRY.
-> > > > >
-> > > > > Currently init_cfg is only called for TRY case from the v4l2 framework,
-> > > > > passing the TRY state. Some drivers call their own init_cfg, passing
-> > > > > NULL as the state, which is used to indicate ACTIVE case.
-> > > > >
-> > > > > In the future we want to pass subdev's active state from the v4l2
-> > > > > framework side, so we need a solution to this.
-> > > > >
-> > > > > We could change the init_cfg() to include the TRY/ACTIVE value, which
-> > > > > would require changing more or less all the drivers. Instead, I have
-> > > > > added 'which' field to the subdev state itself, filled at state
-> > > > > allocation time, which only requires changes to the drivers that
-> > > > > allocate a state themselves.
-> > > > >
-> > > > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > > > > ---
-> > > > >    drivers/media/platform/rcar-vin/rcar-v4l2.c |  2 +-
-> > > > >    drivers/media/platform/vsp1/vsp1_entity.c   |  2 +-
-> > > > >    drivers/media/v4l2-core/v4l2-subdev.c       | 10 +++++++---
-> > > > >    drivers/staging/media/tegra-video/vi.c      |  2 +-
-> > > > >    include/media/v4l2-subdev.h                 |  7 ++++++-
-> > > > >    5 files changed, 16 insertions(+), 7 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > > > index 5f4fa8c48f68..1de30d5b437f 100644
-> > > > > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > > > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > > > @@ -252,7 +252,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
-> > > > >    	u32 width, height;
-> > > > >    	int ret;
-> > > > >
-> > > > > -	sd_state = v4l2_alloc_subdev_state(sd);
-> > > > > +	sd_state = v4l2_alloc_subdev_state(sd, V4L2_SUBDEV_FORMAT_ACTIVE);
+> > > > I think the big open we have is the entire revoke discussions. Having the
+> > > > option to let dma-buf hang around which map to random local memory ranges,
+> > > > without clear ownership link and a way to kill it sounds bad to me.
 > > > >
-> > > > Shouldn't the 'which' parameters be used to decide if either ACTIVE or
-> > > > TRY have to be used ? this function is also used to set TRY formats,
-> > > > in example...
-> > > >
-> > > > Oh, maybe I got how it works, the state's which is not
-> > > > relevant but the v4l2_subdev_format's which is, as it will be used in
-> > > > the next patch to decide if the subdev's state of the file-handle's
-> > > > state should be passed to the ioctl.
+> > > > I think there's a few options:
+> > > > - We require revoke support. But I've heard rdma really doesn't like that,
+> > > >   I guess because taking out an MR while holding the dma_resv_lock would
+> > > >   be an inversion, so can't be done. Jason, can you recap what exactly the
+> > > >   hold-up was again that makes this a no-go?
 > > >
-> > > Yes. It's messy, but it's how it worked before also.
-> > >
-> > > The drivers can't really allocate TRY state as it must come from the core,
-> > > based on the filehandle. Now as I say that, makes me wonder why even expose
-> > > the option to drivers. Maybe v4l2_alloc_subdev_state() should take just the
-> > > sd parameter, and always allocate ACTIVE state, and the v4l2 core can use
-> > > another way to create the TRY state.
-> > >
-> >
-> > init_cfg() as well as other operations used to received an
-> > array of per fh's pad_configs, and the sd pointer itself. The fh's pad
-> > configs were allocated by the core, as well as the core now allocates
-> > the per-fh's state.
-> >
-> > Before the introduction of 'state', if the 'which' flags was set to
-> > TRY then information were stored/retrieved/initialized in the per-fh
-> > pad_config, otherwise the active configuration (usually stored in the
-> > driver main structure) was used.
-> >
-> > So we had a clear separation of per-fh information and the active
-> > state. The core didn't care afaict, and passed in both, then driver had
-> > to deal with them doing the right thing by inspecting the 'which' flag.
-> >
-> > The typical pattern was:
-> >
-> >          static int subdev_ops(sd, pad_cfg, which)
-> >          {
-> >                  if (which == TRY)
-> >                          /* Operate on config stored in pad_cfg */
-> >
-> >                  else
-> >                          /*
-> >                           * Operate on config stored in subdev (and
-> >                           * applied to HW)
-> >                           */
-> >          }
-> >
-> > Or am I overlooking some cases or do you agree with my understanding
-> > so far ?
->
-> More or less, yes. I think there are (used to be) three kinds of ops:
->
-> - Ops that get pad_cfg and 'which' in an op specific struct. E.g. set_fmt.
-> The pad_cfg is TRY pad_config, even if 'which' == ACTIVE.
->
-> - Ops that don't get pad_cfg, like s_stream. 'which' is implicitly ACTIVE.
+> > > RDMA HW can't do revoke.
+> 
+> Like why? I'm assuming when the final open handle or whatever for that MR
+> is closed, you do clean up everything? Or does that MR still stick around
+> forever too?
 
-Also note that operations like s_stream do not take a state as
-parameter. The driver has to fetch it from the subdev anyway
-(this in reply to the idea of having the active state as parameter vs
-retrieving it from the subdev if ACTIVE)
+It is a combination of uAPI and HW specification.
 
-While porting the R-Car drivers on top of this series I found myself
-in the need to (in the s_stream call chain)
+revoke here means you take a MR object and tell it to stop doing DMA
+without causing the MR object to be destructed.
 
-static int rcsi2_start_receiver(struct rcar_csi2 *priv)
-{
-	const struct v4l2_subdev_state *state = priv->subdev.state;
-	const struct v4l2_subdev_stream_configs *configs = &state->stream_configs;
+All the drivers can of course destruct the MR, but doing such a
+destruction without explicit synchronization with user space opens
+things up to a serious use-after potential that could be a security
+issue.
 
-        ...
+When the open handle closes the userspace is synchronized with the
+kernel and we can destruct the HW objects safely.
 
-	/*
-	 * Configure field handling inspecting the formats of the
-	 * single sink pad streams.
-	 */
-	for (i = 0; i < configs->num_configs; ++i) {
-		const struct v4l2_subdev_stream_config *config = configs->configs;
-		if (config->pad != RCAR_CSI2_SINK)
-			continue;
+So, the special HW feature required is 'stop doing DMA but keep the
+object in an error state' which isn't really implemented, and doesn't
+extend very well to other object types beyond simple MRs.
 
-		if (config->fmt.field != V4L2_FIELD_ALTERNATE)
-			continue;
+> 1. User A opens gaudi device, sets up dma-buf export
+> 
+> 2. User A registers that with RDMA, or anything else that doesn't support
+> revoke.
+> 
+> 3. User A closes gaudi device
+> 
+> 4. User B opens gaudi device, assumes that it has full control over the
+> device and uploads some secrets, which happen to end up in the dma-buf
+> region user A set up
 
-		fld |= FLD_DET_SEL(1);
-		fld |= FLD_FLD_EN(config->stream);
+I would expect this is blocked so long as the DMABUF exists - eg the
+DMABUF will hold a fget on the FD of #1 until the DMABUF is closed, so
+that #3 can't actually happen.
 
-		/* PAL vs NTSC. */
-		if (config->fmt.height == 240)
-			fld |= FLD_FLD_NUM(0);
-		else
-			fld |= FLD_FLD_NUM(1);
-	}
+> It's not mlocked memory, it's mlocked memory and I can exfiltrate
+> it.
 
-        ...
+That's just bug, don't make buggy drivers :)
 
-}
-
-Am I doing it wrong, or is this a case for the subdev to have to
-directly access sd->state ?
-
->
-> - init_cfg which gets pad_cfg, but no which (as 'which' is always implicitly
-> TRY)
->
-> So pad_cfg was TRY state. Drivers could use pad_configs internally to track
-> ACTIVE state, but the core had no knowledge about this.
->
-> > Now we have a 'state' that holds the array of pad_configs and along
-> > the continuation of the series will end up holding per-pad
-> > configurations.
-> >
-> > We now also have one 'state' per file-handle, and one
-> > per-subdev. As I see this, it would be natual for drivers to receive
-> > one state without knowing where it comes from. In the next patch you
->
-> Note that only subdev's that explicitly support the new state code, and
-> allocate the state, have the subdev active state. Which means only the
-> drivers in my work branch.
->
-> The "old" drivers work like they used to: they get the state (essentially
-> repackaged pad_cfg) for TRY cases, NULL otherwise.
->
-> And yes, it would be natural to just get a state, but the subdev drivers
-> need to know if the context is TRY/ACTIVE. As you can see from the bullet
-> list above, the driver knows this in all the other places except init_cfg.
->
-> > instrument the core to do exactly this: inspect the which flag and
-> > pass in the 'right' state. Ofc drivers need to have access to 'which'
-> > to know if they have to apply settings to the HW or not.
-> >
-> > Looking ahead in your series I see these structures:
-> >
-> >          struct v4l2_subdev_pad_config {
-> >                  struct v4l2_mbus_framefmt try_fmt;
-> >                  struct v4l2_rect try_crop;
-> >                  struct v4l2_rect try_compose;
-> >          };
-> >
-> >          struct v4l2_subdev_stream_config {
-> >                  u32 pad;
-> >                  u32 stream;
-> >
-> >                  struct v4l2_mbus_framefmt fmt;
-> >                  struct v4l2_rect crop;
-> >                  struct v4l2_rect compose;
-> >          };
-> >
-> >          struct v4l2_subdev_stream_configs {
-> >                  u32 num_configs;
-> >                  struct v4l2_subdev_stream_config *configs;
-> >          };
-> >
-> > All of them part of state:
-> >
-> > struct v4l2_subdev_state {
-> > 	struct mutex lock;
-> > 	u32 which;
-> > 	struct v4l2_subdev_pad_config *pads;
-> > 	struct v4l2_subdev_krouting routing;
-> > 	struct v4l2_subdev_stream_configs stream_configs;
-> > };
-> >
-> > So 'state' will hold 'TRY' information (only used for 'state'
-> > instances allocated in the fh) and 'ACTIVE' ones (used for states
-> > allocated in the sd).
->
-> Right.
->
-> > Looking at 'v4l2_subdev_pad_config' and 'v4l2_subdev_stream_config' they
-> > seem to describe more or less the same things: fmt, crop and compose
-> > (per pad-stream in case of stream_config). I wonder if those shouldn't
-> > be unified so that:
-> >
-> > 1) Drivers receive one state: the core passes in the 'correct' one
-> > (per-fh or per-sd) as you do in next patch
->
-> Yes. But note that "old" drivers don't have active state.
->
-> > 2) The 'which' information is not stored in the state but it's only
-> > 'contextual' (as in a parameter to the subdev operation) so that
-> > drivers inspect it to know if they have to apply settings to hw or not
->
-> Yes, except we have init_cfg...
->
-> > 3) v4l2_subdev_pad_config can be re-used and expanded, to maintain per-pad
-> > configurations regardless if they're ACTIVE or TRY, as this only depends
-> > on where the state is stored.
->
-> pad_config is a static array of per-pad configs. stream_configs is a dynamic
-> per-stream config. stream_configs is a super-set of pad-configs, so we could
-> drop pad_configs, but it would require changing all the drivers in
-> non-trivial ways.
->
-> v4l2_subdev_pad_config is not used or even allocated by the "new" drivers.
-> And routing & stream_configs are not used by the "old" drivers.
->
-> > As I immagine it a subdev pad operation could look like:
-> >
-> >          static int subdev_op(sd, pad, state, which, ...)
-> >          {
-> >                  /* Doesn't matter if state is per-fh or the sd one. */
-> >                  state->pads[pad].fmt = ....;
-> >
-> >                  if (which == TRY)
-> >                          return;
-> >
-> >                  /* Apply to the HW. */
-> >          }
-> >
-> > Does it make any sense to you ? I might have missed some reason why
-> > this is not possible.
->
-> It makes sense, but there are the buts =). I've tried to explain these in
-> the commit messages, but it's kind of confusing.
->
-> One but I haven't mentioned in the emails is that when subdev drivers call
-> ops in other subdev drivers they pass NULL in the state. This is fine for
-> the "old" drivers, as they expect a state only for TRY case. However, the
-> "new" drivers unfortunately expect to get a state on both TRY and ACTIVE
-> cases, and the only sensible way I figured out to handle this was the
-> v4l2_subdev_validate_state() function (patch 6).
->
-> So, all this could be much neater, but would require modifying all subdev
-> drivers in non-trivial ways. I think this is something that can be done
-> slowly in the future.
->
-> > > > >    	if (IS_ERR(sd_state))
-> > > > >    		return PTR_ERR(sd_state);
-> > > > >
-> > > > > diff --git a/drivers/media/platform/vsp1/vsp1_entity.c b/drivers/media/platform/vsp1/vsp1_entity.c
-> > > > > index e40bca254b8b..63ea5e472c33 100644
-> > > > > --- a/drivers/media/platform/vsp1/vsp1_entity.c
-> > > > > +++ b/drivers/media/platform/vsp1/vsp1_entity.c
-> > > > > @@ -675,7 +675,7 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
-> > > > >    	 * Allocate the pad configuration to store formats and selection
-> > > > >    	 * rectangles.
-> > > > >    	 */
-> > > > > -	entity->config = v4l2_alloc_subdev_state(&entity->subdev);
-> > > > > +	entity->config = v4l2_alloc_subdev_state(&entity->subdev, V4L2_SUBDEV_FORMAT_ACTIVE);
-> > > > >    	if (IS_ERR(entity->config)) {
-> > > > >    		media_entity_cleanup(&entity->subdev.entity);
-> > > > >    		return PTR_ERR(entity->config);
-> > > > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > > > index e1a794f69815..04ad319fb150 100644
-> > > > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > > > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > > > @@ -28,7 +28,7 @@ static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
-> > > > >    {
-> > > > >    	struct v4l2_subdev_state *state;
-> > > > >
-> > > > > -	state = v4l2_alloc_subdev_state(sd);
-> > > > > +	state = v4l2_alloc_subdev_state(sd, V4L2_SUBDEV_FORMAT_TRY);
-> > > >
-> > > > At the same time I'm not sure I get the purpose of this. Don't
-> > > > init_cfg() callback implementations deal with try formats themeselves
-> > > > ? I mean, it's not a fixed rule, they can as well initialize their
-> > > > default 'active' formats, but what matters is that they initialize
-> > > > their per-fh try states ?
-> > >
-> > > That is what they do currently. init_cfg() only deals with TRY state, as
-> > > that's the only "state" (i.e. pad_config) there used to be from v4l2 core's
-> > > perspective.
-> > >
-> > > > Shouldn't init_cfg receive the fh's state so that it can initialize
-> > > > it, and just in case they need to, access their subdev's state and
-> > > > initialize them ? I'm missing what the purpose of the flag is tbh.
-> > >
-> > > Now we have (a possibility to have) state for both TRY and ACTIVE on the
-> > > v4l2 core side. The active state has to be initialized also, and a logical
-> > > way to do that is to use the init_cfg().
-> >
-> > The 'ACTIVE' state is stored in the subdev, to which init_cfg() has
-> > access, and it receives the 'TRY' state as a parameter.
->
-> No, init_cfg gets either ACTIVE or TRY state, whichever is being allocated.
-> For "old" drivers, ACTIVE state is never allocated so they don't get
-> init_cfg calls for ACTIVE at all.
->
-> Aaand while writing that, I realized that some drivers manually do allocate
-> ACTIVE state temporarily, which would cause init_cfg with ACTIVE state to be
-> called. I wonder if they explode... Need to check.
->
-> > It is possible to access both states and initialize them properly if
-> > I'm not mistaken.
-> >
-> > >
-> > > So now, for drivers that support the new active state, init_cfg() can get
-> > > either TRY or ACTIVE state. And if you want to call, say, the driver's
-> > > set_routing() to setup the routing in the state, you have to set the 'which'
-> > > in the routing struct to a value. So somehow init_cfg needs to know if it's
-> > > initializing an ACTIVE or TRY state.
-> >
-> > I'm not sure I got this part. set_routing() as other ops will receive
-> > a state and 'which'. If my proposal above makes sensem where the state
->
-> Yes, but if it's init_cfg calling set_routing, init_cfg has to figure out
-> the 'which' from somewhere.
->
-> E.g. init_cfg from ub913 driver:
->
-> static int ub913_init_cfg(struct v4l2_subdev *sd,
-> 			  struct v4l2_subdev_state *state)
-> {
-> 	u32 which = state->which;
->
-> 	struct v4l2_subdev_route routes[] = {
-> 		{
-> 			.sink_pad = 0,
-> 			.sink_stream = 0,
-> 			.source_pad = 1,
-> 			.source_stream = 0,
-> 			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-> 		},
-> 	};
->
-> 	struct v4l2_subdev_krouting routing = {
-> 		.which = which,
-> 		.num_routes = ARRAY_SIZE(routes),
-> 		.routes = routes,
-> 	};
->
-> 	return ub913_set_routing(sd, state, &routing);
-> }
->
-> It uses set_routing to setup a default routing (and set_routing in turn also
-> initializes the formats), but set_routing needs 'which'.
->
->  Tomi
+Jason
