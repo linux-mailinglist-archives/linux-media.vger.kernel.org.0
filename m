@@ -2,115 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 354CE40F7C6
-	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 14:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B32440F872
+	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 14:58:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244311AbhIQMhD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Sep 2021 08:37:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38106 "EHLO
+        id S244801AbhIQM7T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Sep 2021 08:59:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244280AbhIQMhB (ORCPT
+        with ESMTP id S244821AbhIQM7S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Sep 2021 08:37:01 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E57FC061574
-        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 05:35:39 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id g16so14931025wrb.3
-        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 05:35:39 -0700 (PDT)
+        Fri, 17 Sep 2021 08:59:18 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DEF3C061767
+        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 05:57:56 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id g16so15035167wrb.3
+        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 05:57:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=15+uJTFQ+0nCVkT4/mZ7IrPmRTAjcaW6IMKjQRnhGys=;
-        b=GnEDY2QZZLVo3N6y/3h/jMG/Fl//rb8DWsmVdxMaNQCfKakz2pqp4y4QJfHGQZrlev
-         DHCXwHbKJvJqven9s8MIZUTJh/hAYNA18hmlD9sDYep0iAfAWtY4onOhOVlfDOEiW26W
-         eldwTPDvHkWwz74bKWWdLE+Oo1C+nwZgWH3J1W2485DT89bccoqn1Gp1N33chZm1WTAf
-         rYlMbRmmWTlNlCBAl912AD+HuCKiyKb5bLfgTYMVxgLXr1vOTwL62BQwIz/kT8jtQk71
-         bCNuiBb8aZqR6hDQIy5NHDVBiMUh+++jut+tYNZhALAE+ulGCo+sC1O/d1l6zjlMRCgl
-         70Lw==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TmSUd1g256AwM6GPkCVL8KzZlMuiVA8rcald4HgLdWY=;
+        b=Vojsq/qATfqaLlBx4GBlzY1M3WQZBkET3/mYiL3HkeYBMyHzWtJbjHthyfck3N2imY
+         cOchlbwuXK/iJL6FTVNRR4N6LsDzg5ueKC6Q/busloEZbIggqb55XCgGJc5u+W6/q1Sc
+         C3F2brFPLgR81rImVQ/fzY1R8cBgz8gBVfsLVqJeh3G9HxBG0VqAwdbdGikzpDS42CE9
+         ofZWBpM1Dyv1TFNfej7D0ZCxUYMFOKLR0gPEgxl3cicBjY9FSggM8IL0jVct8KiT/Ctm
+         6Dr2o3sqhUQ9wRKHM2Se+EoGr+ehAxcbcAFY6nNObaZgFuVZTxRftv90jKjlNW6Xwtc/
+         fmig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=15+uJTFQ+0nCVkT4/mZ7IrPmRTAjcaW6IMKjQRnhGys=;
-        b=2+GUEb9LlmkHsvnIqo1Laot73hHgfGzOBk8285Y/6Ef2XTy7WBY5IhOdmSUlKaPr94
-         z33M85WylbfxFzQdtROBikF02D2enV8FmXCP91NypiYTrQqp4jpKmYTyE7wvgNrnO3/B
-         QrEkp5dueE7QLG59latWVTFXB2ec+39KwQvVuX+OPLTywr7iztQEcQUKCva7owW8C45z
-         2Hc9BAf/nrIvQGq7+ktsoT96WFoI5fqnYLdH8isEbX3nTinW7iq/JIIl5IJD8QG3ZJE3
-         c21SmVXujaDe6TnNeMVyJSOHobyyJ3gggqqj2eAt0440nwkffb7TsbJHNsmaJtUx16p0
-         55mQ==
-X-Gm-Message-State: AOAM531VZNJb/YeCtqrZ7f4+iWJnOeG6wxipJA2pIRq8XPaLGAVm5XnV
-        8wnsTOfRE7H5Y7irjmpWhp0=
-X-Google-Smtp-Source: ABdhPJzdTXHakNF50MDsYEldBoA37kWhAHaVU9uOM525IrV+75dybxQfkaNHiR6FU0vQleGYfhuaXA==
-X-Received: by 2002:adf:f48e:: with SMTP id l14mr12138630wro.109.1631882138177;
-        Fri, 17 Sep 2021 05:35:38 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id l21sm6122049wmh.31.2021.09.17.05.35.37
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TmSUd1g256AwM6GPkCVL8KzZlMuiVA8rcald4HgLdWY=;
+        b=r6ot0Rkv8bNbPPnbJyL5WfuijTo9szVKCd7dR/7bjoIPsdmzwJCBq964b5UuROYGl2
+         Tl5/TDB+CVkfDXsG/KHklJF399AZcYFzijMJS8JIprtvT1saM+XYmzExe06SHZMEaFib
+         IRmysSBpFbJTnbb3F8hQbxOYY5byJT1SZu67wSnmgzePYOyPjtxov4jjFFutQN4J3N+9
+         jZcewYodFj2yd7RbbcXt4N6r2Z/OZ7uNAn4kSDYmZ+fe1RA1AvLXnqEnqnGWlQbXF7BG
+         y3iQzJfx+YjlmkHGCgO22X8o+JayWoDLVgQxtPk2MceXpgEOAu4qYJ3Ka8WYxn2FS2zC
+         +dbQ==
+X-Gm-Message-State: AOAM531tVF89u87P0DCjbQN526GppgyjhyZQkSWN0pXJVS4yzmc8BQit
+        8dDtWzBCbhsErmNQRFCGMCcBWg==
+X-Google-Smtp-Source: ABdhPJwUld7Y82YW6Rc8Pz69DPxiv4IUt7DfWDhYwTVj5a1Rbt107Ifh+5ZTcTCPWcgP4Ahl8EgU4Q==
+X-Received: by 2002:adf:b781:: with SMTP id s1mr11968492wre.165.1631883474593;
+        Fri, 17 Sep 2021 05:57:54 -0700 (PDT)
+Received: from localhost.baylibre.local (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id f3sm6358636wmj.28.2021.09.17.05.57.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 05:35:37 -0700 (PDT)
-From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
-        <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc:     daniel@ffwll.ch
-Subject: [PATCH 26/26] dma-buf: nuke dma_resv_get_excl_unlocked
-Date:   Fri, 17 Sep 2021 14:35:13 +0200
-Message-Id: <20210917123513.1106-27-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210917123513.1106-1-christian.koenig@amd.com>
-References: <20210917123513.1106-1-christian.koenig@amd.com>
+        Fri, 17 Sep 2021 05:57:53 -0700 (PDT)
+From:   Alexandre Bailon <abailon@baylibre.com>
+To:     airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+        matthias.bgg@gmail.com, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de, ohad@wizery.com,
+        bjorn.andersson@linaro.org, mathieu.poirier@linaro.org,
+        sumit.semwal@linaro.org
+Cc:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, khilman@baylibre.com,
+        gpain@baylibre.com, Alexandre Bailon <abailon@baylibre.com>
+Subject: [RFC PATCH 0/4]  Add a DRM driver to support AI Processing Unit (APU)
+Date:   Fri, 17 Sep 2021 14:59:41 +0200
+Message-Id: <20210917125945.620097-1-abailon@baylibre.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Heureka, that's finally not used any more.
+This adds a DRM driver that implements communication between the CPU and an
+APU.
+This uses VirtIO buffer to exchange messages.
+For the data, we allocate a GEM object and map it using IOMMU to make it
+available to the APU.
+The driver is relatively generic, and should work with any SoC implementing
+hardware accelerator for AI if they use support remoteproc and VirtIO.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- include/linux/dma-resv.h | 26 --------------------------
- 1 file changed, 26 deletions(-)
+For the people interested by the firmware or userspace library,
+the sources are available here:
+https://github.com/BayLibre/open-amp/tree/v2020.01-mtk/apps/examples/apu
 
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index 8c968f8c9d33..f42ca254acb5 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -423,32 +423,6 @@ dma_resv_excl_fence(struct dma_resv *obj)
- 	return rcu_dereference_check(obj->fence_excl, dma_resv_held(obj));
- }
- 
--/**
-- * dma_resv_get_excl_unlocked - get the reservation object's
-- * exclusive fence, without lock held.
-- * @obj: the reservation object
-- *
-- * If there is an exclusive fence, this atomically increments it's
-- * reference count and returns it.
-- *
-- * RETURNS
-- * The exclusive fence or NULL if none
-- */
--static inline struct dma_fence *
--dma_resv_get_excl_unlocked(struct dma_resv *obj)
--{
--	struct dma_fence *fence;
--
--	if (!rcu_access_pointer(obj->fence_excl))
--		return NULL;
--
--	rcu_read_lock();
--	fence = dma_fence_get_rcu_safe(&obj->fence_excl);
--	rcu_read_unlock();
--
--	return fence;
--}
--
- /**
-  * dma_resv_shared_list - get the reservation object's shared fence list
-  * @obj: the reservation object
+This RFC is a rewrite of a previous RFC that was not using DRM:
+https://patchwork.kernel.org/project/linux-remoteproc/cover/20200930115350.5272-1-abailon@baylibre.com/
+
+Alexandre Bailon (4):
+  dt-bindings: Add bidings for mtk,apu-drm
+  DRM: Add support of AI Processor Unit (APU)
+  rpmsg: Add support of AI Processor Unit (APU)
+  ARM64: mt8183-pumpkin: Add the APU DRM device
+
+ .../devicetree/bindings/gpu/mtk,apu-drm.yaml  |  38 ++
+ .../boot/dts/mediatek/mt8183-pumpkin.dts      |   6 +
+ drivers/gpu/drm/Kconfig                       |   2 +
+ drivers/gpu/drm/Makefile                      |   1 +
+ drivers/gpu/drm/apu/Kconfig                   |  10 +
+ drivers/gpu/drm/apu/Makefile                  |   7 +
+ drivers/gpu/drm/apu/apu_drm_drv.c             | 238 +++++++
+ drivers/gpu/drm/apu/apu_gem.c                 | 232 +++++++
+ drivers/gpu/drm/apu/apu_internal.h            |  89 +++
+ drivers/gpu/drm/apu/apu_sched.c               | 634 ++++++++++++++++++
+ drivers/rpmsg/Kconfig                         |  10 +
+ drivers/rpmsg/Makefile                        |   1 +
+ drivers/rpmsg/apu_rpmsg.c                     | 184 +++++
+ include/drm/apu_drm.h                         |  59 ++
+ include/uapi/drm/apu_drm.h                    | 106 +++
+ 15 files changed, 1617 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+ create mode 100644 drivers/gpu/drm/apu/Kconfig
+ create mode 100644 drivers/gpu/drm/apu/Makefile
+ create mode 100644 drivers/gpu/drm/apu/apu_drm_drv.c
+ create mode 100644 drivers/gpu/drm/apu/apu_gem.c
+ create mode 100644 drivers/gpu/drm/apu/apu_internal.h
+ create mode 100644 drivers/gpu/drm/apu/apu_sched.c
+ create mode 100644 drivers/rpmsg/apu_rpmsg.c
+ create mode 100644 include/drm/apu_drm.h
+ create mode 100644 include/uapi/drm/apu_drm.h
+
 -- 
-2.25.1
+2.31.1
 
