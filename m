@@ -2,162 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8815E40F065
-	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 05:28:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFDFE40F077
+	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 05:42:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243964AbhIQD3g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Sep 2021 23:29:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55316 "EHLO
+        id S244078AbhIQDoH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Sep 2021 23:44:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230044AbhIQD3g (ORCPT
+        with ESMTP id S242037AbhIQDoH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Sep 2021 23:29:36 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDA42C061574
-        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 20:28:14 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id d42so5451029lfv.10
-        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 20:28:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gjv2HeYE57kIcDMfqRZm5PHUioM6h8++UzjAgDIu0yg=;
-        b=PBT2LR/aZSe4my27hRK5DRn2Cs2+TP/oa2m2GqxAjxzDzQIRarazbM8W6urunZISi+
-         Z3KnU9jrIdJDDcsSvpKHzKTNG/vXMf1xeATisFT/gej70uWT5XNEZS5EeYsL8rVG4aEl
-         VPbKbhp7HoTjq58Bjzm9dGToKo8iEensi5CErzOgF0LLmlOUrqbdUS4T2sI2zORVq3uS
-         9tTNUBjzxiNMFh0R4eb05uN8HBrn1igHZq+rGtARPkOHwowzVghlzM3e/Yvo/28V6Ixm
-         OlwIAJ15qkCbee18C4xwPYoTnH9F5ZHpSNWrOsOwlRJlmycvYB3VmCeK8gyvxdJvmcJW
-         1R/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gjv2HeYE57kIcDMfqRZm5PHUioM6h8++UzjAgDIu0yg=;
-        b=cs+y0YIPONaS2DooN2nVPrQ0LODRbSw28tRhabOGbzUHHj1W8Rmepw9NPCnDSbcHwq
-         GtkrqTTFwbPNu1ohgnAXaatxeqc2alLnebKsXVD9VbhCIfcHlM2a1NBKiNIzQrUwL45n
-         Hxb8Bv0+DUivd1krdXDZJxkC8KfcmxL1dALtTYQ/tB4Yh3uF0DJsKnzIqU1Pv9vvMojQ
-         fNhI2Acko7I26DDqUPJrNmh8Q/LaiPaBoXjuQVdZgkAUK3jIdSjP+ExYnxixe8mb2CiK
-         VZbUKOBMp/6I3ytgqFeC7D3va8ILb+ySbQsAKKmSXGI/ke8vayglcdruqO0b3UFzF+j/
-         5M6A==
-X-Gm-Message-State: AOAM532SVMkXYhUneW77urPCWd6ePeJeMKeCNUruLeznsIwEY3q15PBb
-        1Fp288XQetY2DqRbhrloynu7GSQDEidKRihuifYntfhT1G4=
-X-Google-Smtp-Source: ABdhPJwxaVJMRM/pz0TyTKGslxKxB/N79S2296QFk9fGAJDOFeaVn7M82Gx8+p2i68GJGF3cHtOJKdTWP7IOMq4rjAE=
-X-Received: by 2002:ac2:5f1b:: with SMTP id 27mr6799517lfq.79.1631849293119;
- Thu, 16 Sep 2021 20:28:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210827130150.909695-1-festevam@gmail.com> <20210913085942.zmhv5pmo5nzqunuj@uno.localdomain>
- <CAOMZO5B-BRfuPoGFyYQk4HdwaX45zxL9=gKTXKDHSxNwBDO-2g@mail.gmail.com>
- <CAOMZO5BzK5VtRUn7rqb+b84HoyiDy34e35aJ196J0TpCvL4vtA@mail.gmail.com>
- <CE93P5UJVABP.3TTVALU1H36DR@arch-thunder> <CAOMZO5C0NtrYxa-45ma-MoSKqzbdbiSO-2riXJnaH8eC2ZjnXg@mail.gmail.com>
- <CEBNF9DXWSZV.8SKHYF4QGS18@arch-thunder>
-In-Reply-To: <CEBNF9DXWSZV.8SKHYF4QGS18@arch-thunder>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Fri, 17 Sep 2021 00:28:01 -0300
-Message-ID: <CAOMZO5Be-eB-2jzmsdwruQyz7kc9JDhjSq4bCk=PDBCHhvKXsg@mail.gmail.com>
-Subject: Re: [RFC 1/3] media: tw9910: Allow to probe from device tree
-To:     Rui Miguel Silva <rui.silva@linaro.org>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media <linux-media@vger.kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Content-Type: text/plain; charset="UTF-8"
+        Thu, 16 Sep 2021 23:44:07 -0400
+Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE36DC061574
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 20:42:45 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id R4lrmZ8fLcSrkR4ltm3JF7; Fri, 17 Sep 2021 05:42:41 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1631850161; bh=YseiUVt03p7sEY6zv+Hz25WbYW0+oiL3TPRh2Hc4Y1I=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=NlqJO2HAvR2FK2T3KwDKk34doJ1KWcA2q1tVOAORU+c29Xeu8Dz0ua7wSYJMSRPib
+         kNB7v5Om8B2sYt0A8r0FKRMoeXYON0QrbOmzF5kJvVspxhvn4IDbiOuEDWDM/F/hVZ
+         tyAARk+PPLWTJ1b3uIoEWCBkZmxIHLwm77gW6+gPkwe8aujOmSfcbrtcH2fkkab/YG
+         TjrgoWZGLnE7xDHHOBtzEu0JtXpRGi0mfSlalj/HoetYxxcmnl14zBv3uQjidUg9pk
+         SN8p5+H/3P5t1ihYkPhQpeF3YQSfE68iV74mO8LhcK/hFEhqAU0fTwMAYycMMN4jla
+         mJG6TuxwWkZlw==
+Message-ID: <a71efc1538b63d4ca0f0f9ebd78c9d55@smtp-cloud9.xs4all.net>
+Date:   Fri, 17 Sep 2021 05:42:39 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfEPqHqQ4bpxpU64JCmThw3Lh+XvYValy6jUd7+foA+RdjTusbCigroBWQcx+Ho9+07MLLZJ9yg5KuXtOZhXA8/M0PuIflBACUsfUYRIwOjnbiPlaLQTz
+ sqIf4U2tFDRueQdNjYrCzzIa5b1oh5C7Tqv38ncp4Tf/EOBsyrZGj8yE6LBuX8czXlkCdzDVIHda+vQcj+esS/dbBrWzv77JXX7WEJAih3OZ0q9wJe0q/x3S
+ S4ReVcpgnik/205ffrQYWw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rui,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Thu, Sep 16, 2021 at 7:05 PM Rui Miguel Silva <rui.silva@linaro.org> wrote:
+Results of the daily build of media_tree:
 
-> So, it seems like it is not configuring the pads, don't you need to do
-> a media-ctl -V in the csi:0?
+date:			Fri Sep 17 05:00:14 CEST 2021
+media-tree git hash:	6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f
+media_build git hash:	7253675c65ed84dc294ef25e2af873e8092be48b
+v4l-utils git hash:	1874b2d0dfbb8a38b0c8b75a23a4b9a60e52fd6a
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8f230e7be768cbdfab869697ba0a2c622a4a0cae
+host hardware:		x86_64
+host os:		5.13.11-marune
 
-Thanks for the suggestion. I tried passing media-ctl -V to csi:0:
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm64: ERRORS
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: ERRORS
+linux-4.4.283-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.246-i686: ERRORS
+linux-4.9.246-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.246-i686: ERRORS
+linux-4.14.246-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.206-i686: ERRORS
+linux-4.19.206-x86_64: ERRORS
+linux-4.20.17-i686: ERRORS
+linux-4.20.17-x86_64: ERRORS
+linux-5.0.21-i686: ERRORS
+linux-5.0.21-x86_64: ERRORS
+linux-5.1.21-i686: ERRORS
+linux-5.1.21-x86_64: ERRORS
+linux-5.2.21-i686: ERRORS
+linux-5.2.21-x86_64: ERRORS
+linux-5.3.18-i686: ERRORS
+linux-5.3.18-x86_64: ERRORS
+linux-5.4.144-i686: ERRORS
+linux-5.4.144-x86_64: ERRORS
+linux-5.5.19-i686: ERRORS
+linux-5.5.19-x86_64: ERRORS
+linux-5.6.19-i686: ERRORS
+linux-5.6.19-x86_64: ERRORS
+linux-5.7.19-i686: ERRORS
+linux-5.7.19-x86_64: ERRORS
+linux-5.8.18-i686: ERRORS
+linux-5.8.18-x86_64: ERRORS
+linux-5.9.16-i686: ERRORS
+linux-5.9.16-x86_64: ERRORS
+linux-5.10.62-i686: ERRORS
+linux-5.10.62-x86_64: ERRORS
+linux-5.11.22-i686: ERRORS
+linux-5.11.22-x86_64: ERRORS
+linux-5.12.19-i686: ERRORS
+linux-5.12.19-x86_64: ERRORS
+linux-5.13.14-i686: ERRORS
+linux-5.13.14-x86_64: ERRORS
+linux-5.14.1-i686: ERRORS
+linux-5.14.1-x86_64: ERRORS
+linux-5.15-rc1-i686: OK
+linux-5.15-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-# v4l2-ctl --device /dev/v4l-subdev1 --set-standard PAL
-Standard set to 000000ff
-# media-ctl -l "'tw9910 2-0044':0 -> 'csi':0[1]"
-# media-ctl -l "'csi':1 -> 'csi capture':0[1]"
-# media-ctl -v -V "'tw9910 2-0044':0 [fmt:UYVY8_2X8/720x576
-field:interlaced-bt]"
-# media-ctl -v -V "'csi':0 [fmt:UYVY8_2X8/720x576 field:interlaced-bt]"
+Detailed results are available here:
 
-Does this look correct?
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
 
-Opening media device /dev/media0
-Enumerating entities
-Found 3 entities
-Enumerating pads and links
-Setting up format UYVY8_2X8 720x576 on pad tw9910 2-0044/0
-Format set: UYVY8_2X8 720x576
-Setting up format UYVY8_2X8 720x576 on pad csi/0
-Format set: UYVY8_2X8 720x576
-Opening media device /dev/media0
-Enumerating entities
-Found 3 entities
-Enumerating pads and links
-Setting up format UYVY8_2X8 720x576 on pad csi/0
-Format set: UYVY8_2X8 720x576
+Detailed regression test results are available here:
 
-# v4l2-ctl --stream-mmap -d /dev/video1
-[   50.969910] priv->vdev.compose.width is 640
-[   50.974685] fmt_src.format.width is 720
-[   50.978659] priv->vdev.compose.height is 480
-[   50.983208] compose.height is 576
-[   50.986646] imx7-csi 2214000.csi: capture format not valid
-VIDIOC_STREAMON returned -1 (Broken pipe)
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
 
-but still getting the width/height mismatch.
+Full logs are available here:
 
-# media-ctl -p
-Media controller API version 5.15.0
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
 
-Media device information
-------------------------
-driver          imx7-csi
-model           imx-media
-serial
-bus info
-hw revision     0x0
-driver version  5.15.0
+The Media Infrastructure API from this daily build is here:
 
-Device topology
-- entity 1: csi (2 pads, 2 links)
-            type V4L2 subdev subtype Unknown flags 0
-            device node name /dev/v4l-subdev0
-pad0: Sink
-[fmt:UYVY8_2X8/720x576 field:none colorspace:srgb xfer:srgb ycbcr:601
-quantization:lim-range]
-<- "tw9910 2-0044":0 [ENABLED,IMMUTABLE]
-pad1: Source
-[fmt:UYVY8_2X8/720x576 field:none colorspace:srgb xfer:srgb ycbcr:601
-quantization:lim-range]
--> "csi capture":0 [ENABLED,IMMUTABLE]
-
-- entity 4: csi capture (1 pad, 1 link)
-            type Node subtype V4L flags 0
-            device node name /dev/video1
-pad0: Sink
-<- "csi":1 [ENABLED,IMMUTABLE]
-
-- entity 10: tw9910 2-0044 (1 pad, 1 link)
-             type V4L2 subdev subtype Decoder flags 0
-             device node name /dev/v4l-subdev1
-pad0: Source
-[fmt:UYVY8_2X8/720x576 field:interlaced-bt colorspace:smpte170m
-crop.bounds:(0,0)/768x576
-crop:(0,0)/768x576]
--> "csi":0 [ENABLED,IMMUTABLE]
-
-Thanks
-
-
-
-> or maybe dump the output of media-ctl -p and check the links and pads
-> configurations.
->
-> Hope this helps.
->
-> Cheers,
->    Rui
+http://www.xs4all.nl/~hverkuil/spec/index.html
