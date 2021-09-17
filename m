@@ -2,206 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50D7040FA40
-	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 16:35:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8322540FA71
+	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 16:40:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243045AbhIQOgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Sep 2021 10:36:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37670 "EHLO
+        id S1343539AbhIQOlo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Sep 2021 10:41:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241700AbhIQOgs (ORCPT
+        with ESMTP id S242867AbhIQOl1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Sep 2021 10:36:48 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D970AC061574
-        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 07:35:25 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id u18so13812949wrg.5
-        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 07:35:25 -0700 (PDT)
+        Fri, 17 Sep 2021 10:41:27 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31EDDC061797
+        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 07:39:35 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id g16so15562287wrb.3
+        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 07:39:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=qUsEEoXzY2X8rmoz2snm6FddyjyVftZB08rOLj8eGPk=;
-        b=V69LD8XNFIK2pA5BGDgFz22fu1vZAC6dxuDh0z+ZAwT/+011bsa2C4OfgYKtSznaZy
-         sQoc/4fK9UNRReXachSizIL7ICC3VLi5NxOqzeKTx0sAPQoLqWhHUCk+9sZwgsCjEFs0
-         zUhCfZc+JsS7rwUGMQw6BqhIYA3l4rqZADzcA=
+        bh=rONnp94F7a6Lw/Ny2EjsCmoV0di2gM6/LbUVHOGlfd0=;
+        b=dUD1I07v914rFkrFMs+i+NhM+PtyoilHyl1bXVlNPKlJlZE1YCIxEAexHS9ldrzcDL
+         tDJJKkLod8QwkTfCiRQwoaZVNBOS3CA7WkvI4INkGYPkfEIcqoYEaOEx8ljrI3EMWx+c
+         Jb2l9UHXbXp4ROUXna5KCWojZDZiW+APlIETI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=qUsEEoXzY2X8rmoz2snm6FddyjyVftZB08rOLj8eGPk=;
-        b=rySeOeSGXIpnuu/9DSycrX4I/k63OmiEfOhglJno6PKUUinFIzpiYEayrdfuja3n6Y
-         sy4gNKm1UDD7w/7G7cyAzrOuKf/nonRbWfZ1NoYixlarPEQugj7WBtvtp49xJ/5l/L84
-         5ixqnz8yIkJ+uRhyo873gnmerlvCbmjm3I9IhD07Mu2/dWYRgi+PdKsoR8dw3MwjTxVc
-         kPAZUP4f1rtMP93A92ZvUwReOG9+Z2G+Eh7hKxadxyG3v2GmYnBoxf2fOqisSyKh0AZK
-         O86uRw3O//a6fzRauKDlZrSPHvR8JWmTcrkAGHsAFRbY8IuOdp1D8abZ6jpcVW3bD4qY
-         ox+Q==
-X-Gm-Message-State: AOAM530PWkUEGwLm7JuLwsN6yUlnKfkUQmDN5n1dTs7x7sbzMcsQSC+X
-        ZfTaggK8bKqSDI0J5VOC9X3lDQ==
-X-Google-Smtp-Source: ABdhPJwsHUAz1Ud7ieLF8h6emjPzljHMSSKQjwl95CP1FZbeae+6NCR/kaILhhfvihuz8brhiisDzQ==
-X-Received: by 2002:a5d:554e:: with SMTP id g14mr12646627wrw.48.1631889324502;
-        Fri, 17 Sep 2021 07:35:24 -0700 (PDT)
+        bh=rONnp94F7a6Lw/Ny2EjsCmoV0di2gM6/LbUVHOGlfd0=;
+        b=HjZpgoHlTaGoAUvgOqM2NFAwIQjzvWKbwTfIxsI3rf4qYyBuCSinxTY/X4pktyNLMW
+         LMvvd4zEUJ33EjAFVF/TyJUFPoLqr8mWVUMiDp/efznqvohsbwNjC11xL4W2dfhKwKzI
+         kg3JXF8+hsezTXPzuxeSHafHuDtI0vzYjS2dHZJkh6sRtaQJyo7+Q86E3GvPavJmYfa2
+         Wr88S0sRUSt8RygXXiGGs8/cxKWnV9oaZ/N1xwHE6wAsKNu/F8fi8hHDBmn4qky0L9QT
+         PRII8mtF2OaKwWSu42aq/TwWG4iv44PmO8JSEeYI1YaJUIlMBxJ5Gk7xHfmH5Q6CyjkK
+         wDzw==
+X-Gm-Message-State: AOAM531VWKsR0lU1w2hzwkyz5YZ6RMxll/6Zeb8EIZirUBZ5Z3NbK3l/
+        9EpxPbmnV8p5A4ixAcIx3ybsiA==
+X-Google-Smtp-Source: ABdhPJyF4RuufOYUUPIfCz/Wk2FC3WxYXmSstOWulS9PiJ/VeoLBGIGhCGokxOI6E13WRoA7PQ+u1Q==
+X-Received: by 2002:adf:fe0e:: with SMTP id n14mr12680874wrr.236.1631889573748;
+        Fri, 17 Sep 2021 07:39:33 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id v17sm6813802wrr.69.2021.09.17.07.35.23
+        by smtp.gmail.com with ESMTPSA id r27sm6948211wrr.70.2021.09.17.07.39.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 07:35:23 -0700 (PDT)
-Date:   Fri, 17 Sep 2021 16:35:22 +0200
+        Fri, 17 Sep 2021 07:39:33 -0700 (PDT)
+Date:   Fri, 17 Sep 2021 16:39:31 +0200
 From:   Daniel Vetter <daniel@ffwll.ch>
 To:     Christian =?iso-8859-1?Q?K=F6nig?= 
         <ckoenig.leichtzumerken@gmail.com>
 Cc:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
         daniel@ffwll.ch
-Subject: Re: [PATCH 03/26] dma-buf: use new iterator in dma_resv_copy_fences
-Message-ID: <YUSnqqsMjXOPNB6W@phenom.ffwll.local>
+Subject: Re: [PATCH 04/26] dma-buf: use new iterator in dma_resv_get_fences v2
+Message-ID: <YUSoo3Vrl9BrEEhV@phenom.ffwll.local>
 References: <20210917123513.1106-1-christian.koenig@amd.com>
- <20210917123513.1106-4-christian.koenig@amd.com>
+ <20210917123513.1106-5-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210917123513.1106-4-christian.koenig@amd.com>
+In-Reply-To: <20210917123513.1106-5-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 17, 2021 at 02:34:50PM +0200, Christian König wrote:
+On Fri, Sep 17, 2021 at 02:34:51PM +0200, Christian König wrote:
 > This makes the function much simpler since the complex
-> retry logic is now handled else where.
+> retry logic is now handled elsewhere.
+> 
+> v2: use sizeof(void*) instead
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
 > ---
->  drivers/dma-buf/dma-resv.c | 86 ++++++++++++++++----------------------
->  1 file changed, 35 insertions(+), 51 deletions(-)
+>  drivers/dma-buf/dma-resv.c | 112 +++++++++++++------------------------
+>  1 file changed, 40 insertions(+), 72 deletions(-)
 > 
 > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index a3c79a99fb44..406150dea5e4 100644
+> index 406150dea5e4..9b90bd9ac018 100644
 > --- a/drivers/dma-buf/dma-resv.c
 > +++ b/drivers/dma-buf/dma-resv.c
-> @@ -426,74 +426,58 @@ EXPORT_SYMBOL_GPL(dma_resv_iter_walk);
+> @@ -487,99 +487,67 @@ EXPORT_SYMBOL(dma_resv_copy_fences);
+>   * dma_resv_get_fences - Get an object's shared and exclusive
+>   * fences without update side lock held
+>   * @obj: the reservation object
+> - * @pfence_excl: the returned exclusive fence (or NULL)
+> - * @pshared_count: the number of shared fences returned
+> - * @pshared: the array of shared fence ptrs returned (array is krealloc'd to
+> + * @fence_excl: the returned exclusive fence (or NULL)
+> + * @shared_count: the number of shared fences returned
+> + * @shared: the array of shared fence ptrs returned (array is krealloc'd to
+>   * the required size, and must be freed by caller)
+>   *
+>   * Retrieve all fences from the reservation object. If the pointer for the
+>   * exclusive fence is not specified the fence is put into the array of the
+>   * shared fences as well. Returns either zero or -ENOMEM.
 >   */
->  int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
+> -int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
+> -			unsigned int *pshared_count,
+> -			struct dma_fence ***pshared)
+> +int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **fence_excl,
+> +			unsigned int *shared_count, struct dma_fence ***shared)
 >  {
-> -	struct dma_resv_list *src_list, *dst_list;
-> -	struct dma_fence *old, *new;
-> -	unsigned int i;
-> +	struct dma_resv_iter cursor;
-> +	struct dma_resv_list *list;
-> +	struct dma_fence *f, *excl;
->  
->  	dma_resv_assert_held(dst);
->  
-> -	rcu_read_lock();
-> -	src_list = dma_resv_shared_list(src);
+> -	struct dma_fence **shared = NULL;
+> -	struct dma_fence *fence_excl;
+> -	unsigned int shared_count;
+> -	int ret = 1;
 > -
-> -retry:
-> -	if (src_list) {
-> -		unsigned int shared_count = src_list->shared_count;
+> -	do {
+> -		struct dma_resv_list *fobj;
+> -		unsigned int i, seq;
+> -		size_t sz = 0;
 > -
-> -		rcu_read_unlock();
-> +	list = NULL;
-> +	excl = NULL;
->  
-> -		dst_list = dma_resv_list_alloc(shared_count);
-> -		if (!dst_list)
-> -			return -ENOMEM;
-> +	rcu_read_lock();
-> +	dma_resv_iter_begin(&cursor, src, true);
-> +	dma_resv_for_each_fence_unlocked(&cursor, f) {
->  
+> -		shared_count = i = 0;
+> -
 > -		rcu_read_lock();
-> -		src_list = dma_resv_shared_list(src);
-> -		if (!src_list || src_list->shared_count > shared_count) {
-> -			kfree(dst_list);
-> -			goto retry;
-> -		}
+> -		seq = read_seqcount_begin(&obj->seq);
+> +	struct dma_resv_iter cursor;
+> +	struct dma_fence *fence;
+>  
+> -		fence_excl = dma_resv_excl_fence(obj);
+> -		if (fence_excl && !dma_fence_get_rcu(fence_excl))
+> -			goto unlock;
+> +	*shared_count = 0;
+> +	*shared = NULL;
+>  
+> -		fobj = dma_resv_shared_list(obj);
+> -		if (fobj)
+> -			sz += sizeof(*shared) * fobj->shared_max;
+> +	if (fence_excl)
+> +		*fence_excl = NULL;
+>  
+> -		if (!pfence_excl && fence_excl)
+> -			sz += sizeof(*shared);
+> +	rcu_read_lock();
+> +	dma_resv_iter_begin(&cursor, obj, true);
+> +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+>  
+> -		if (sz) {
+> -			struct dma_fence **nshared;
 > +		if (cursor.is_first) {
 
-Maybe have a wrapper for this, like dma_resv_iter_is_reset or is_first or
-is_restart (my preference) with some nice docs that this returns true
-everytime we had to restart the sequence?
+Yeah with the second one here I definitely think we need a
+dma_resv_iter_is_restart() helper. I'm not sure whether that should have
+is_first or restart_only semantics, but I guess gcc wont see through the
+maze anyway, and hence initializing everything to NULL/0 is required.
 
-Otherwise I fully agree, this is so much better with all the hairy
-restarting and get_rcu and test_bit shovelled away somewhere.
+Also is_first is a bit confusing naming imo. You mean "is this the first
+fence" but readers could equally read this as "is this the first time
+we're in the loop", which is rather confusing. Hence why I think an
+iter_is_restart() or maybe iter_restarted() naming is a notch clearer.
 
-Either way (but I much prefer a wrapper for is_first):
+
+> +			unsigned int count;
+>  
+> -			nshared = krealloc(shared, sz,
+> -					   GFP_NOWAIT | __GFP_NOWARN);
+> -			if (!nshared) {
+> -				rcu_read_unlock();
+> +			while (*shared_count)
+> +				dma_fence_put((*shared)[--(*shared_count)]);
+>  
+> -				dma_fence_put(fence_excl);
+> -				fence_excl = NULL;
+> +			if (fence_excl)
+> +				dma_fence_put(*fence_excl);
+>  
+> -				nshared = krealloc(shared, sz, GFP_KERNEL);
+> -				if (nshared) {
+> -					shared = nshared;
+> -					continue;
+> -				}
+> +			count = cursor.fences ? cursor.fences->shared_count : 0;
+> +			count += fence_excl ? 0 : 1;
+> +			rcu_read_unlock();
+>  
+> -				ret = -ENOMEM;
+> -				break;
+> -			}
+> -			shared = nshared;
+> -			shared_count = fobj ? fobj->shared_count : 0;
+> -			for (i = 0; i < shared_count; ++i) {
+> -				shared[i] = rcu_dereference(fobj->shared[i]);
+> -				if (!dma_fence_get_rcu(shared[i]))
+> -					break;
+> +			/* Eventually re-allocate the array */
+> +			*shared = krealloc_array(*shared, count,
+> +						 sizeof(void *),
+> +						 GFP_KERNEL);
+> +			if (count && !*shared) {
+> +				dma_resv_iter_end(&cursor);
+> +				return -ENOMEM;
+>  			}
+> +			rcu_read_lock();
+>  		}
+>  
+> -		if (i != shared_count || read_seqcount_retry(&obj->seq, seq)) {
+> -			while (i--)
+> -				dma_fence_put(shared[i]);
+> -			dma_fence_put(fence_excl);
+> -			goto unlock;
+> -		}
+> -
+> -		ret = 0;
+> -unlock:
+> -		rcu_read_unlock();
+> -	} while (ret);
+> -
+> -	if (pfence_excl)
+> -		*pfence_excl = fence_excl;
+> -	else if (fence_excl)
+> -		shared[shared_count++] = fence_excl;
+> +		if (dma_resv_iter_is_exclusive(&cursor) && fence_excl)
+> +			*fence_excl = fence;
+> +		else
+> +			(*shared)[(*shared_count)++] = fence;
+>  
+> -	if (!shared_count) {
+> -		kfree(shared);
+> -		shared = NULL;
+> +		/* Don't drop the reference */
+> +		fence = NULL;
+>  	}
+> +	dma_resv_iter_end(&cursor);
+> +	rcu_read_unlock();
+>  
+> -	*pshared_count = shared_count;
+> -	*pshared = shared;
+> -	return ret;
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(dma_resv_get_fences);
+
+With the wrapper I'd like to have:
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> +			dma_resv_list_free(list);
-> +			dma_fence_put(excl);
 >  
-> -		dst_list->shared_count = 0;
-> -		for (i = 0; i < src_list->shared_count; ++i) {
-> -			struct dma_fence __rcu **dst;
-> -			struct dma_fence *fence;
-> +			if (cursor.fences) {
-> +				unsigned int cnt = cursor.fences->shared_count;
->  
-> -			fence = rcu_dereference(src_list->shared[i]);
-> -			if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-> -				     &fence->flags))
-> -				continue;
-> +				rcu_read_unlock();
-> +				list = dma_resv_list_alloc(cnt);
-> +				if (!list) {
-> +					dma_resv_iter_end(&cursor);
-> +					return -ENOMEM;
-> +				}
->  
-> -			if (!dma_fence_get_rcu(fence)) {
-> -				dma_resv_list_free(dst_list);
-> -				src_list = dma_resv_shared_list(src);
-> -				goto retry;
-> -			}
-> +				list->shared_count = 0;
-> +				rcu_read_lock();
->  
-> -			if (dma_fence_is_signaled(fence)) {
-> -				dma_fence_put(fence);
-> -				continue;
-> +			} else {
-> +				list = NULL;
->  			}
-> -
-> -			dst = &dst_list->shared[dst_list->shared_count++];
-> -			rcu_assign_pointer(*dst, fence);
-> +			excl = NULL;
->  		}
-> -	} else {
-> -		dst_list = NULL;
-> -	}
->  
-> -	new = dma_fence_get_rcu_safe(&src->fence_excl);
-> +		dma_fence_get(f);
-> +		if (dma_resv_iter_is_exclusive(&cursor))
-> +			excl = f;
-> +		else
-> +			RCU_INIT_POINTER(list->shared[list->shared_count++], f);
-> +	}
-> +	dma_resv_iter_end(&cursor);
->  	rcu_read_unlock();
->  
-> -	src_list = dma_resv_shared_list(dst);
-> -	old = dma_resv_excl_fence(dst);
-> -
->  	write_seqcount_begin(&dst->seq);
-> -	/* write_seqcount_begin provides the necessary memory barrier */
-> -	RCU_INIT_POINTER(dst->fence_excl, new);
-> -	RCU_INIT_POINTER(dst->fence, dst_list);
-> +	excl = rcu_replace_pointer(dst->fence_excl, excl, dma_resv_held(dst));
-> +	list = rcu_replace_pointer(dst->fence, list, dma_resv_held(dst));
->  	write_seqcount_end(&dst->seq);
->  
-> -	dma_resv_list_free(src_list);
-> -	dma_fence_put(old);
-> +	dma_resv_list_free(list);
-> +	dma_fence_put(excl);
->  
->  	return 0;
->  }
 > -- 
 > 2.25.1
 > 
