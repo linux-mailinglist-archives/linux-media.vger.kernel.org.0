@@ -2,359 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA65740EEB0
-	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 03:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8815E40F065
+	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 05:28:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237647AbhIQBZB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Sep 2021 21:25:01 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:43468 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232222AbhIQBZA (ORCPT
+        id S243964AbhIQD3g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Sep 2021 23:29:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55316 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230044AbhIQD3g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Sep 2021 21:25:00 -0400
-X-UUID: 3fe0887dc5174655a9317812a8c572ad-20210917
-X-UUID: 3fe0887dc5174655a9317812a8c572ad-20210917
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-        (envelope-from <moudy.ho@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 398700776; Fri, 17 Sep 2021 09:23:34 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 17 Sep 2021 09:23:32 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 17 Sep 2021 09:23:32 +0800
-Message-ID: <e42db754228d577979833657a5c2d8c32a20d47e.camel@mediatek.com>
-Subject: Re: [PATCH v7 1/5] soc: mediatek: mutex: add support for MDP
-From:   moudy ho <moudy.ho@mediatek.com>
-To:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <tfiga@chromium.org>,
-        <drinkcat@chromium.org>, <acourbot@chromium.org>,
-        <pihsun@chromium.org>, <menghui.lin@mediatek.com>,
-        <sj.huang@mediatek.com>, <ben.lok@mediatek.com>,
-        <randy.wu@mediatek.com>, <srv_heupstream@mediatek.com>,
-        <hsinyi@google.com>
-Date:   Fri, 17 Sep 2021 09:23:32 +0800
-In-Reply-To: <01e4d221-0c77-fdcb-0e01-540e315481d8@gmail.com>
-References: <20210824100027.25989-1-moudy.ho@mediatek.com>
-         <20210824100027.25989-2-moudy.ho@mediatek.com>
-         <01e4d221-0c77-fdcb-0e01-540e315481d8@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Thu, 16 Sep 2021 23:29:36 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDA42C061574
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 20:28:14 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id d42so5451029lfv.10
+        for <linux-media@vger.kernel.org>; Thu, 16 Sep 2021 20:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gjv2HeYE57kIcDMfqRZm5PHUioM6h8++UzjAgDIu0yg=;
+        b=PBT2LR/aZSe4my27hRK5DRn2Cs2+TP/oa2m2GqxAjxzDzQIRarazbM8W6urunZISi+
+         Z3KnU9jrIdJDDcsSvpKHzKTNG/vXMf1xeATisFT/gej70uWT5XNEZS5EeYsL8rVG4aEl
+         VPbKbhp7HoTjq58Bjzm9dGToKo8iEensi5CErzOgF0LLmlOUrqbdUS4T2sI2zORVq3uS
+         9tTNUBjzxiNMFh0R4eb05uN8HBrn1igHZq+rGtARPkOHwowzVghlzM3e/Yvo/28V6Ixm
+         OlwIAJ15qkCbee18C4xwPYoTnH9F5ZHpSNWrOsOwlRJlmycvYB3VmCeK8gyvxdJvmcJW
+         1R/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gjv2HeYE57kIcDMfqRZm5PHUioM6h8++UzjAgDIu0yg=;
+        b=cs+y0YIPONaS2DooN2nVPrQ0LODRbSw28tRhabOGbzUHHj1W8Rmepw9NPCnDSbcHwq
+         GtkrqTTFwbPNu1ohgnAXaatxeqc2alLnebKsXVD9VbhCIfcHlM2a1NBKiNIzQrUwL45n
+         Hxb8Bv0+DUivd1krdXDZJxkC8KfcmxL1dALtTYQ/tB4Yh3uF0DJsKnzIqU1Pv9vvMojQ
+         fNhI2Acko7I26DDqUPJrNmh8Q/LaiPaBoXjuQVdZgkAUK3jIdSjP+ExYnxixe8mb2CiK
+         VZbUKOBMp/6I3ytgqFeC7D3va8ILb+ySbQsAKKmSXGI/ke8vayglcdruqO0b3UFzF+j/
+         5M6A==
+X-Gm-Message-State: AOAM532SVMkXYhUneW77urPCWd6ePeJeMKeCNUruLeznsIwEY3q15PBb
+        1Fp288XQetY2DqRbhrloynu7GSQDEidKRihuifYntfhT1G4=
+X-Google-Smtp-Source: ABdhPJwxaVJMRM/pz0TyTKGslxKxB/N79S2296QFk9fGAJDOFeaVn7M82Gx8+p2i68GJGF3cHtOJKdTWP7IOMq4rjAE=
+X-Received: by 2002:ac2:5f1b:: with SMTP id 27mr6799517lfq.79.1631849293119;
+ Thu, 16 Sep 2021 20:28:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
+References: <20210827130150.909695-1-festevam@gmail.com> <20210913085942.zmhv5pmo5nzqunuj@uno.localdomain>
+ <CAOMZO5B-BRfuPoGFyYQk4HdwaX45zxL9=gKTXKDHSxNwBDO-2g@mail.gmail.com>
+ <CAOMZO5BzK5VtRUn7rqb+b84HoyiDy34e35aJ196J0TpCvL4vtA@mail.gmail.com>
+ <CE93P5UJVABP.3TTVALU1H36DR@arch-thunder> <CAOMZO5C0NtrYxa-45ma-MoSKqzbdbiSO-2riXJnaH8eC2ZjnXg@mail.gmail.com>
+ <CEBNF9DXWSZV.8SKHYF4QGS18@arch-thunder>
+In-Reply-To: <CEBNF9DXWSZV.8SKHYF4QGS18@arch-thunder>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Fri, 17 Sep 2021 00:28:01 -0300
+Message-ID: <CAOMZO5Be-eB-2jzmsdwruQyz7kc9JDhjSq4bCk=PDBCHhvKXsg@mail.gmail.com>
+Subject: Re: [RFC 1/3] media: tw9910: Allow to probe from device tree
+To:     Rui Miguel Silva <rui.silva@linaro.org>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media <linux-media@vger.kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2021-09-07 at 13:52 +0200, Matthias Brugger wrote:
-> 
-> On 24/08/2021 12:00, Moudy Ho wrote:
-> > Add functions to support MDP:
-> >    1. Get mutex function
-> >    2. Enable/disable mutex
-> >    3. Enable MDP's modules
-> >    4. Write register via CMDQ
-> > 
-> > Add MDP related settings for 8183 SoC
-> >    1. Register settings
-> > 
-> 
-> Please write some good commit message.
-> 
-> > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> > ---
-> >   drivers/soc/mediatek/mtk-mutex.c       | 106
-> > +++++++++++++++++++++++--
-> >   include/linux/soc/mediatek/mtk-mutex.h |   8 ++
-> >   2 files changed, 108 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/soc/mediatek/mtk-mutex.c
-> > b/drivers/soc/mediatek/mtk-mutex.c
-> > index 2e4bcc300576..935f2849a094 100644
-> > --- a/drivers/soc/mediatek/mtk-mutex.c
-> > +++ b/drivers/soc/mediatek/mtk-mutex.c
-> > @@ -7,9 +7,11 @@
-> >   #include <linux/iopoll.h>
-> >   #include <linux/module.h>
-> >   #include <linux/of_device.h>
-> > +#include <linux/of_address.h>
-> >   #include <linux/platform_device.h>
-> >   #include <linux/regmap.h>
-> >   #include <linux/soc/mediatek/mtk-mmsys.h>
-> > +#include <linux/soc/mediatek/mtk-cmdq.h>
-> >   #include <linux/soc/mediatek/mtk-mutex.h>
-> >   
-> >   #define MT2701_MUTEX0_MOD0			0x2c
-> > @@ -107,6 +109,10 @@
-> >   #define MT8183_MUTEX_EOF_DSI0			(MT8183_MUTEX_S
-> > OF_DSI0 << 6)
-> >   #define MT8183_MUTEX_EOF_DPI0			(MT8183_MUTEX_S
-> > OF_DPI0 << 6)
-> >   
-> > +#define MT8183_MUTEX_MDP_START			5
-> > +#define MT8183_MUTEX_MDP_MOD_MASK		0x07FFFFFF
-> > +#define MT8183_MUTEX_MDP_SOF_MASK		0x00000007
-> > +
-> >   struct mtk_mutex {
-> >   	int id;
-> >   	bool claimed;
-> > @@ -123,11 +129,14 @@ enum mtk_mutex_sof_id {
-> >   };
-> >   
-> >   struct mtk_mutex_data {
-> > -	const unsigned int *mutex_mod;
-> > -	const unsigned int *mutex_sof;
-> > -	const unsigned int mutex_mod_reg;
-> > -	const unsigned int mutex_sof_reg;
-> > -	const bool no_clk;
-> > +	const unsigned int	*mutex_mod;
-> > +	const unsigned int	*mutex_sof;
-> > +	const unsigned int	mutex_mod_reg;
-> > +	const unsigned int	mutex_sof_reg;
-> > +	const unsigned int	*mutex_mdp_offset;
-> > +	const unsigned int	mutex_mdp_mod_mask;
-> > +	const unsigned int	mutex_mdp_sof_mask;
-> > +	const bool		no_clk;
-> 
-> Not needed, please drop.
-> 
-> >   };
-> >   
-> >   struct mtk_mutex_ctx {
-> > @@ -136,6 +145,8 @@ struct mtk_mutex_ctx {
-> >   	void __iomem			*regs;
-> >   	struct mtk_mutex		mutex[10];
-> >   	const struct mtk_mutex_data	*data;
-> > +	phys_addr_t			addr;
-> > +	u8				subsys_id;
-> >   };
-> >   
-> >   static const unsigned int mt2701_mutex_mod[DDP_COMPONENT_ID_MAX]
-> > = {
-> > @@ -238,6 +249,14 @@ static const unsigned int
-> > mt8183_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
-> >   	[MUTEX_SOF_DPI0] = MT8183_MUTEX_SOF_DPI0 |
-> > MT8183_MUTEX_EOF_DPI0,
-> >   };
-> >   
-> > +/* indicate which mutex is used by each pipepline */
-> > +static const unsigned int mt8183_mutex_mdp_offset[MDP_PIPE_MAX] =
-> > {
-> 
-> Does this code even compile?
-> There is some basic rules for patches, for example that they have to
-> compile, 
-> don't break anything etc.
-> Please read the documentation and stick to it, before submitting
-> patches:
-> 
-https://urldefense.com/v3/__https://www.kernel.org/doc/html/latest/process/submitting-patches.html__;!!CTRNKA9wMg0ARbw!ydpwywaE1_wrjDqXOQ2N-a98Tw2kejngWaJOgZAWmh-y8tBOW0M_BRXfuhKHSZQ9$
->  
-> 
-> Regards,
-> Matthias
+Hi Rui,
 
-Hi Matthias,
+On Thu, Sep 16, 2021 at 7:05 PM Rui Miguel Silva <rui.silva@linaro.org> wrote:
 
-I shouldn't have applied patches directly after chip compatibility
-testing in internal codebase that it had to resolve some conflict and
-been recorded automatically by GIT.
-Sorry for the inconvenience, those redundant codes that cause
-compilation errors will be removed and confirmed in future versions.
+> So, it seems like it is not configuring the pads, don't you need to do
+> a media-ctl -V in the csi:0?
 
-Thanks & Regards,
-Moudy Ho
-> 
-> > +	[MDP_PIPE_IMGI] = MT8183_MUTEX_MDP_START,
-> > +	[MDP_PIPE_RDMA0] = MT8183_MUTEX_MDP_START + 1,
-> > +	[MDP_PIPE_WPEI] = MT8183_MUTEX_MDP_START + 2,
-> > +	[MDP_PIPE_WPEI2] = MT8183_MUTEX_MDP_START + 3
-> > +};
-> > +
-> >   static const struct mtk_mutex_data mt2701_mutex_driver_data = {
-> >   	.mutex_mod = mt2701_mutex_mod,
-> >   	.mutex_sof = mt2712_mutex_sof,
-> > @@ -272,6 +291,9 @@ static const struct mtk_mutex_data
-> > mt8183_mutex_driver_data = {
-> >   	.mutex_sof = mt8183_mutex_sof,
-> >   	.mutex_mod_reg = MT8183_MUTEX0_MOD0,
-> >   	.mutex_sof_reg = MT8183_MUTEX0_SOF0,
-> > +	.mutex_mdp_offset = mt8183_mutex_mdp_offset,
-> > +	.mutex_mdp_mod_mask = MT8183_MUTEX_MDP_MOD_MASK,
-> > +	.mutex_mdp_sof_mask = MT8183_MUTEX_MDP_SOF_MASK,
-> >   	.no_clk = true,
-> >   };
-> >   
-> > @@ -290,6 +312,21 @@ struct mtk_mutex *mtk_mutex_get(struct device
-> > *dev)
-> >   }
-> >   EXPORT_SYMBOL_GPL(mtk_mutex_get);
-> >   
-> > +struct mtk_mutex *mtk_mutex_mdp_get(struct device *dev,
-> > +				    enum mtk_mdp_pipe_id id)
-> > +{
-> > +	struct mtk_mutex_ctx *mtx = dev_get_drvdata(dev);
-> > +	int i = mtx->data->mutex_mdp_offset[id];
-> > +
-> > +	if (!mtx->mutex[i].claimed) {
-> > +		mtx->mutex[i].claimed = true;
-> > +		return &mtx->mutex[i];
-> > +	}
-> > +
-> > +	return ERR_PTR(-EBUSY);
-> > +}
-> > +EXPORT_SYMBOL_GPL(mtk_mutex_mdp_get);
-> > +
-> >   void mtk_mutex_put(struct mtk_mutex *mutex)
-> >   {
-> >   	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> > mtk_mutex_ctx,
-> > @@ -369,6 +406,25 @@ void mtk_mutex_add_comp(struct mtk_mutex
-> > *mutex,
-> >   }
-> >   EXPORT_SYMBOL_GPL(mtk_mutex_add_comp);
-> >   
-> > +void mtk_mutex_add_mdp_mod(struct mtk_mutex *mutex, u32 mod,
-> > +			   struct mmsys_cmdq_cmd *cmd)
-> > +{
-> > +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> > mtk_mutex_ctx,
-> > +						 mutex[mutex->id]);
-> > +	unsigned int offset;
-> > +
-> > +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-> > +
-> > +	offset = DISP_REG_MUTEX_MOD(mtx->data->mutex_mod_reg, mutex-
-> > >id);
-> > +	cmdq_pkt_write_mask(cmd->pkt, mtx->subsys_id, mtx->addr +
-> > offset,
-> > +			    mod, mtx->data->mutex_mdp_mod_mask);
-> > +
-> > +	offset = DISP_REG_MUTEX_SOF(mtx->data->mutex_sof_reg, mutex-
-> > >id);
-> > +	cmdq_pkt_write_mask(cmd->pkt, mtx->subsys_id, mtx->addr +
-> > offset,
-> > +			    0, mtx->data->mutex_mdp_sof_mask);
-> > +}
-> > +EXPORT_SYMBOL_GPL(mtk_mutex_add_mdp_mod);
-> > +
-> >   void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
-> >   			   enum mtk_ddp_comp_id id)
-> >   {
-> > @@ -420,6 +476,20 @@ void mtk_mutex_enable(struct mtk_mutex *mutex)
-> >   }
-> >   EXPORT_SYMBOL_GPL(mtk_mutex_enable);
-> >   
-> > +void mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex,
-> > +			      struct mmsys_cmdq_cmd *cmd)
-> > +{
-> > +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> > mtk_mutex_ctx,
-> > +						 mutex[mutex->id]);
-> > +
-> > +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-> > +
-> > +	cmdq_pkt_write_mask(cmd->pkt, mtx->subsys_id,
-> > +			    mtx->addr + DISP_REG_MUTEX_EN(mutex->id),
-> > +			    0x1, 0x00000001);
-> > +}
-> > +EXPORT_SYMBOL_GPL(mtk_mutex_enable_by_cmdq);
-> > +
-> >   void mtk_mutex_disable(struct mtk_mutex *mutex)
-> >   {
-> >   	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> > mtk_mutex_ctx,
-> > @@ -431,6 +501,20 @@ void mtk_mutex_disable(struct mtk_mutex
-> > *mutex)
-> >   }
-> >   EXPORT_SYMBOL_GPL(mtk_mutex_disable);
-> >   
-> > +void mtk_mutex_disable_by_cmdq(struct mtk_mutex *mutex,
-> > +			       struct mmsys_cmdq_cmd *cmd)
-> > +{
-> > +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> > mtk_mutex_ctx,
-> > +						 mutex[mutex->id]);
-> > +
-> > +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-> > +
-> > +	cmdq_pkt_write_mask(cmd->pkt, mtx->subsys_id,
-> > +			    mtx->addr + DISP_REG_MUTEX_EN(mutex->id),
-> > +			    0x0, 0x00000001);
-> > +}
-> > +EXPORT_SYMBOL_GPL(mtk_mutex_disable_by_cmdq);
-> > +
-> >   void mtk_mutex_acquire(struct mtk_mutex *mutex)
-> >   {
-> >   	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> > mtk_mutex_ctx,
-> > @@ -458,7 +542,8 @@ static int mtk_mutex_probe(struct
-> > platform_device *pdev)
-> >   {
-> >   	struct device *dev = &pdev->dev;
-> >   	struct mtk_mutex_ctx *mtx;
-> > -	struct resource *regs;
-> > +	struct cmdq_client_reg cmdq_reg;
-> > +	struct resource *regs, addr;
-> >   	int i;
-> >   
-> >   	mtx = devm_kzalloc(dev, sizeof(*mtx), GFP_KERNEL);
-> > @@ -479,6 +564,15 @@ static int mtk_mutex_probe(struct
-> > platform_device *pdev)
-> >   		}
-> >   	}
-> >   
-> > +	if (of_address_to_resource(dev->of_node, 0, &addr) < 0)
-> > +		mtx->addr = 0L;
-> > +	else
-> > +		mtx->addr = addr.start;
-> > +
-> > +	if (cmdq_dev_get_client_reg(dev, &cmdq_reg, 0) != 0)
-> > +		dev_info(dev, "cmdq subsys id has not been set\n");
-> > +	mtx->subsys_id = cmdq_reg.subsys;
-> > +
-> >   	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> >   	mtx->regs = devm_ioremap_resource(dev, regs);
-> >   	if (IS_ERR(mtx->regs)) {
-> > diff --git a/include/linux/soc/mediatek/mtk-mutex.h
-> > b/include/linux/soc/mediatek/mtk-mutex.h
-> > index 6fe4ffbde290..d08b98419dd9 100644
-> > --- a/include/linux/soc/mediatek/mtk-mutex.h
-> > +++ b/include/linux/soc/mediatek/mtk-mutex.h
-> > @@ -11,11 +11,19 @@ struct device;
-> >   struct mtk_mutex;
-> >   
-> >   struct mtk_mutex *mtk_mutex_get(struct device *dev);
-> > +struct mtk_mutex *mtk_mutex_mdp_get(struct device *dev,
-> > +				    enum mtk_mdp_pipe_id id);
-> >   int mtk_mutex_prepare(struct mtk_mutex *mutex);
-> >   void mtk_mutex_add_comp(struct mtk_mutex *mutex,
-> >   			enum mtk_ddp_comp_id id);
-> > +void mtk_mutex_add_mdp_mod(struct mtk_mutex *mutex, u32 mod,
-> > +			   struct mmsys_cmdq_cmd *cmd);
-> >   void mtk_mutex_enable(struct mtk_mutex *mutex);
-> > +void mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex,
-> > +			      struct mmsys_cmdq_cmd *cmd);
-> >   void mtk_mutex_disable(struct mtk_mutex *mutex);
-> > +void mtk_mutex_disable_by_cmdq(struct mtk_mutex *mutex,
-> > +			       struct mmsys_cmdq_cmd *cmd);
-> >   void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
-> >   			   enum mtk_ddp_comp_id id);
-> >   void mtk_mutex_unprepare(struct mtk_mutex *mutex);
-> > 
+Thanks for the suggestion. I tried passing media-ctl -V to csi:0:
 
+# v4l2-ctl --device /dev/v4l-subdev1 --set-standard PAL
+Standard set to 000000ff
+# media-ctl -l "'tw9910 2-0044':0 -> 'csi':0[1]"
+# media-ctl -l "'csi':1 -> 'csi capture':0[1]"
+# media-ctl -v -V "'tw9910 2-0044':0 [fmt:UYVY8_2X8/720x576
+field:interlaced-bt]"
+# media-ctl -v -V "'csi':0 [fmt:UYVY8_2X8/720x576 field:interlaced-bt]"
+
+Does this look correct?
+
+Opening media device /dev/media0
+Enumerating entities
+Found 3 entities
+Enumerating pads and links
+Setting up format UYVY8_2X8 720x576 on pad tw9910 2-0044/0
+Format set: UYVY8_2X8 720x576
+Setting up format UYVY8_2X8 720x576 on pad csi/0
+Format set: UYVY8_2X8 720x576
+Opening media device /dev/media0
+Enumerating entities
+Found 3 entities
+Enumerating pads and links
+Setting up format UYVY8_2X8 720x576 on pad csi/0
+Format set: UYVY8_2X8 720x576
+
+# v4l2-ctl --stream-mmap -d /dev/video1
+[   50.969910] priv->vdev.compose.width is 640
+[   50.974685] fmt_src.format.width is 720
+[   50.978659] priv->vdev.compose.height is 480
+[   50.983208] compose.height is 576
+[   50.986646] imx7-csi 2214000.csi: capture format not valid
+VIDIOC_STREAMON returned -1 (Broken pipe)
+
+but still getting the width/height mismatch.
+
+# media-ctl -p
+Media controller API version 5.15.0
+
+Media device information
+------------------------
+driver          imx7-csi
+model           imx-media
+serial
+bus info
+hw revision     0x0
+driver version  5.15.0
+
+Device topology
+- entity 1: csi (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+pad0: Sink
+[fmt:UYVY8_2X8/720x576 field:none colorspace:srgb xfer:srgb ycbcr:601
+quantization:lim-range]
+<- "tw9910 2-0044":0 [ENABLED,IMMUTABLE]
+pad1: Source
+[fmt:UYVY8_2X8/720x576 field:none colorspace:srgb xfer:srgb ycbcr:601
+quantization:lim-range]
+-> "csi capture":0 [ENABLED,IMMUTABLE]
+
+- entity 4: csi capture (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video1
+pad0: Sink
+<- "csi":1 [ENABLED,IMMUTABLE]
+
+- entity 10: tw9910 2-0044 (1 pad, 1 link)
+             type V4L2 subdev subtype Decoder flags 0
+             device node name /dev/v4l-subdev1
+pad0: Source
+[fmt:UYVY8_2X8/720x576 field:interlaced-bt colorspace:smpte170m
+crop.bounds:(0,0)/768x576
+crop:(0,0)/768x576]
+-> "csi":0 [ENABLED,IMMUTABLE]
+
+Thanks
+
+
+
+> or maybe dump the output of media-ctl -p and check the links and pads
+> configurations.
+>
+> Hope this helps.
+>
+> Cheers,
+>    Rui
