@@ -2,137 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0E0940FAD4
-	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 16:53:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 057CE40FADB
+	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 16:55:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234107AbhIQOy7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Sep 2021 10:54:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41954 "EHLO
+        id S235836AbhIQO5Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Sep 2021 10:57:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234100AbhIQOy6 (ORCPT
+        with ESMTP id S234267AbhIQO5P (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Sep 2021 10:54:58 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C2D2C061574
-        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 07:53:36 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id v22so26752870edd.11
-        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 07:53:35 -0700 (PDT)
+        Fri, 17 Sep 2021 10:57:15 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D28DC061574
+        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 07:55:53 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id j13so31086110edv.13
+        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 07:55:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=i7wK8PAy0pTln1Ij7WUju223Tboi1RO9p+q6y08OLdQ=;
-        b=UUlDPJH5THY/fyLkI2T7gaCqZRXS3ctAzfWpLsWlez/mGxf+1bKjUyVjIelTu+4raQ
-         ie843+Jb4jSnRKKXHBzpaTEKWlrvs5yqOUZk+4FksFw9KMVm2OKu5zCtfIRe2zZ0u7tr
-         dxk43ymJdoEHjaFGj9tOPTHm6xUKu+/uGoAQU=
+        bh=C3fVriQhyhLcrcdu/qOBtJVaOvb8K1d7euQOmBJPamw=;
+        b=OAMIjxM70eMdm+wOTlV6mJ5g0YFIqjwqNt9rw3/ZrVUF58MR0n8mZiii1VSbnWTYyd
+         HWC94C7HwwBCXhKKQXpBwRzXQoORyN+ZPVDYmXqLDr/lsZ27SxhgdrXbU/zgj1PaPYDe
+         2KW9KGDMU3N2Bdl8+WvyQbf0sjbgRKx0AlkVk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=i7wK8PAy0pTln1Ij7WUju223Tboi1RO9p+q6y08OLdQ=;
-        b=Pi197YIOO+ASG8qXycG22GPWDAirt3iFF8nht3v4gwGWP7Jul+pJJOJ9K66dix3l4q
-         LoDYwcRKp74M+zb3PjNzYkq/dQPR3JX9oh84zj1zpmKpYuUrIbWVAPKgphQO3vMxXKg0
-         qXwH1vmwdmOT6TKO6e/0HSHHJvNx4rrfjMrRmJpyZSs8ZR61XBqYZIGaMuA4MLaMly1G
-         JdYQONx3+D3lts14tLr80As/vVX/CCdcU1ul27uiWq7mh8AVgjOmPOZT6N0BMWc9oTEP
-         vr6TTVoPsqH68yhGVyY51WilLRF5o7yWqgCHKP2oaOv9krZVFA5A6Jz3/QRphIHW9ieB
-         SH/A==
-X-Gm-Message-State: AOAM531M03ET812GQv6fmBcCRjeEQPXt+JRzq1Nau5Ld4XwbZqcA5INP
-        Cn3nr461g43ozQ0JeKOaGvFsHw==
-X-Google-Smtp-Source: ABdhPJz8wdHWvCd01v4kCjRcWM6KPrx/VnjgO/KDJQJBvz9h1g3363BbbrSpXMNQj/pYRAh1e1Vezw==
-X-Received: by 2002:a17:906:3fd7:: with SMTP id k23mr12397223ejj.176.1631890414444;
-        Fri, 17 Sep 2021 07:53:34 -0700 (PDT)
+        bh=C3fVriQhyhLcrcdu/qOBtJVaOvb8K1d7euQOmBJPamw=;
+        b=lZ5yGYQV+NGg8POJm9YrG32HTvGXSyIB7S+hmSKrbIeTRX+kwxgLG1VMdUQ+e66JNq
+         aX9vhNjLlFNpK8GxxyBcjPapx0mKHlSKeG9d+a5nVIhZcX63g0dNHw4dQMRunq9Jyfo2
+         4hrOpoX4Udw+eQkjHJDW8pQTmczePQYmoZ3XnC6IgXw0i7+xZkkrvyYiB00L2hRV63Af
+         gxohbFCEZIDwSUGn7pYZid7LmDKe8g//CSLS6ycJ+HBIklbH4CYkTvEK8AwGPM6sZ2P1
+         0Mu1iw7ATuvoTdDxIKvbDW87KKBohdIvZ3z5+7Mnolluv20/ut/YmjJ4GkwtHAEZkkDn
+         WRzw==
+X-Gm-Message-State: AOAM5325/P1qENPAvQv1UW7RcOG6Ir1z0dUdm9bWmq75uuCLZ+f0vTBw
+        wPRVLRTX+2fcfIKOMMvM1k4xsg==
+X-Google-Smtp-Source: ABdhPJy84j69je6oUuVzQ8QL7Dd0rshCTE9DeszWKX/tqoJPbBlAp/hxVJJanqu6suLVrlakwZ1ZrA==
+X-Received: by 2002:a17:907:7844:: with SMTP id lb4mr12598077ejc.381.1631890552068;
+        Fri, 17 Sep 2021 07:55:52 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id ml12sm2429067ejb.29.2021.09.17.07.53.33
+        by smtp.gmail.com with ESMTPSA id r26sm2397972ejd.85.2021.09.17.07.55.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 07:53:34 -0700 (PDT)
-Date:   Fri, 17 Sep 2021 16:53:32 +0200
+        Fri, 17 Sep 2021 07:55:51 -0700 (PDT)
+Date:   Fri, 17 Sep 2021 16:55:49 +0200
 From:   Daniel Vetter <daniel@ffwll.ch>
 To:     Christian =?iso-8859-1?Q?K=F6nig?= 
         <ckoenig.leichtzumerken@gmail.com>
 Cc:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
         daniel@ffwll.ch
-Subject: Re: [PATCH 20/26] drm: use new iterator in
- drm_gem_fence_array_add_implicit v2
-Message-ID: <YUSr7AN3vv6kpreo@phenom.ffwll.local>
+Subject: Re: [PATCH 21/26] drm: use new iterator in
+ drm_gem_plane_helper_prepare_fb v2
+Message-ID: <YUSsdbTxvJwaRv9x@phenom.ffwll.local>
 References: <20210917123513.1106-1-christian.koenig@amd.com>
- <20210917123513.1106-21-christian.koenig@amd.com>
+ <20210917123513.1106-22-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210917123513.1106-21-christian.koenig@amd.com>
+In-Reply-To: <20210917123513.1106-22-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 17, 2021 at 02:35:07PM +0200, Christian König wrote:
-> Simplifying the code a bit.
+On Fri, Sep 17, 2021 at 02:35:08PM +0200, Christian König wrote:
+> Makes the handling a bit more complex, but avoids the use of
+> dma_resv_get_excl_unlocked().
 > 
 > v2: add missing rcu_read_lock()/unlock()
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
-
-This will be gone as soon as I can land the last conversion patches. Plus
-it's always called with dma_resv_lock held.
-
-I wouldn't bother tbh.
--Daniel
-
 > ---
->  drivers/gpu/drm/drm_gem.c | 34 ++++++++++++----------------------
->  1 file changed, 12 insertions(+), 22 deletions(-)
+>  drivers/gpu/drm/drm_gem_atomic_helper.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 09c820045859..c2c41b668f40 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1340,31 +1340,21 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
->  				     struct drm_gem_object *obj,
->  				     bool write)
+> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
+> index e570398abd78..d8f9c6432544 100644
+> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+> @@ -143,6 +143,7 @@
+>   */
+>  int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
 >  {
-> -	int ret;
-> -	struct dma_fence **fences;
-> -	unsigned int i, fence_count;
-> -
-> -	if (!write) {
-> -		struct dma_fence *fence =
-> -			dma_resv_get_excl_unlocked(obj->resv);
-> -
-> -		return drm_gem_fence_array_add(fence_array, fence);
-> -	}
-> -
-> -	ret = dma_resv_get_fences(obj->resv, NULL,
-> -						&fence_count, &fences);
-> -	if (ret || !fence_count)
-> -		return ret;
-> -
-> -	for (i = 0; i < fence_count; i++) {
-> -		ret = drm_gem_fence_array_add(fence_array, fences[i]);
 > +	struct dma_resv_iter cursor;
-> +	struct dma_fence *fence;
-> +	int ret = 0;
-> +
+>  	struct drm_gem_object *obj;
+>  	struct dma_fence *fence;
+>  
+> @@ -150,9 +151,18 @@ int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_st
+>  		return 0;
+>  
+>  	obj = drm_gem_fb_get_obj(state->fb, 0);
+> -	fence = dma_resv_get_excl_unlocked(obj->resv);
+> -	drm_atomic_set_fence_for_plane(state, fence);
 > +	rcu_read_lock();
-> +	dma_resv_iter_begin(&cursor, obj->resv, write);
+> +	dma_resv_iter_begin(&cursor, obj->resv, false);
 > +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
 > +		rcu_read_unlock();
-> +		ret = drm_gem_fence_array_add(fence_array, fence);
-> +		rcu_read_lock();
->  		if (ret)
->  			break;
->  	}
-> -
-> -	for (; i < fence_count; i++)
-> -		dma_fence_put(fences[i]);
-> -	kfree(fences);
+> +		/* TODO: We only use the first write fence here */
+> +		drm_atomic_set_fence_for_plane(state, fence);
+
+Yeah I wonder whether we should/need to collate them all together. But I
+guesss whomever hits that first with their funny multi-plane yuv or
+whatever gets to do that. Or I'm not clear on what exactly your TODO here
+means?
+
+> +		return 0;
+> +	}
 > +	dma_resv_iter_end(&cursor);
 > +	rcu_read_unlock();
->  	return ret;
+
+Imo we should do full dma_resv_lock here. atomic helpers are designed to
+allow this, and it simplifies things. Also it really doesn't matter for
+atomic, we should be able to do 60fps*a few planes easily :-)
+-Daniel
+
+>  
+> +	drm_atomic_set_fence_for_plane(state, NULL);
+>  	return 0;
 >  }
->  EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
+>  EXPORT_SYMBOL_GPL(drm_gem_plane_helper_prepare_fb);
 > -- 
 > 2.25.1
 > 
