@@ -2,77 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEA0140FD88
-	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 18:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3777E410008
+	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 21:50:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235311AbhIQQIb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Sep 2021 12:08:31 -0400
-Received: from smtp-relay-canonical-0.canonical.com ([185.125.188.120]:34012
-        "EHLO smtp-relay-canonical-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229890AbhIQQIa (ORCPT
+        id S1344883AbhIQTvs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Sep 2021 15:51:48 -0400
+Received: from mail-oi1-f178.google.com ([209.85.167.178]:37433 "EHLO
+        mail-oi1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241886AbhIQTuZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Sep 2021 12:08:30 -0400
-Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id E68203F051;
-        Fri, 17 Sep 2021 16:07:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1631894823;
-        bh=iUtHqxPq9B+ifZrfPidy+MCJ7BqhWrjpXrwNQk04dbg=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
-        b=rlHwHaZnxjUVJV0vu3eiRz7Y198XqXL1lELqg26Ycenrhwat4DWDEo8muAlFKz4Br
-         VkGteijAnyTdz9Kd4W52/OvVK+gfeP5qmEVcvkeQJ5e0vwYyC5L51rCXlgtcgmLO37
-         4rl034JsFAOWDOoucB+l87xe4THtQcKPc+vjK2z5t/aVFfsaWQvPnlGi+pm8DDc1DL
-         D8A8+fb/zd93nZT1ZlCMt6X6MiXGLlVJYW3sQ3osRIF0ITbmxzz6Q+QfPnTqC390Pj
-         VYFM92nwzOt2WbSwO9ZOqNyj4H7XrNFve8KUZjRwcqnInLtNMBWuCSWh4kLKSje3oz
-         XiO8CYD9cFvmQ==
-From:   Colin King <colin.king@canonical.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ira Krufky <mkrufky@linuxtv.org>,
-        Brad Love <brad@nextdimension.cc>, linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: em28xx: Don't use ops->suspend if it is NULL
-Date:   Fri, 17 Sep 2021 17:07:02 +0100
-Message-Id: <20210917160702.76961-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Fri, 17 Sep 2021 15:50:25 -0400
+Received: by mail-oi1-f178.google.com with SMTP id w206so3843406oiw.4;
+        Fri, 17 Sep 2021 12:49:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=pE+4bnzWEy5M45GFHsCRmVHyw6zJKyXPFQ+Hy8/7q2k=;
+        b=HnzsyYoxMNpa7A4m94LMoDIoTEZosSZei7GzcphUyFgmkEu2BZrjO9rDTALeKyJbFh
+         yr9+nvc41qh/xQvtk2Ac9Ib9hmnb0sruypwdpd1IGS5NHvN0CbkvBl6esodlkuXk0Q8N
+         e7yOCuf4cMpd6EMhFfjkoVdKMYIscy1nmREpnCGepL2JHLMamljGB67l1MeQEnAxMs4N
+         /3WJ9J7PtFpqshuIYmLicqZt5YIV6tPD096rYScVhwF/QNJ8eu7ZopCtkmSBG0gdaQVi
+         EyNIMZR2QnIjTb+ZlMJhMdygk3/CV1/aUJ2xZdbkztnL/pvqR5qCNb7jbi41RC13d0NG
+         gsdA==
+X-Gm-Message-State: AOAM531Uf/qmP0fdWB/28k2TLwzAvct9/ojVDZ13XzUgIljuz2g+DJxG
+        QyVjO91ONWOrffThyUwxDA==
+X-Google-Smtp-Source: ABdhPJw33RfJFXipWnsomu5OMJbVFalUdObkurEitpoBWQS/R7QjuAoRiC8fBREZ7YS1JypZmiMHIw==
+X-Received: by 2002:a05:6808:bc2:: with SMTP id o2mr5488000oik.73.1631908142931;
+        Fri, 17 Sep 2021 12:49:02 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id v11sm1805276oto.22.2021.09.17.12.49.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Sep 2021 12:49:01 -0700 (PDT)
+Received: (nullmailer pid 2025335 invoked by uid 1000);
+        Fri, 17 Sep 2021 19:48:54 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Alexandre Bailon <abailon@baylibre.com>
+Cc:     bjorn.andersson@linaro.org, daniel@ffwll.ch, ohad@wizery.com,
+        linux-kernel@vger.kernel.org, tzimmermann@suse.de,
+        robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, airlied@linux.ie,
+        gpain@baylibre.com, mathieu.poirier@linaro.org,
+        christian.koenig@amd.com, devicetree@vger.kernel.org,
+        maarten.lankhorst@linux.intel.com, khilman@baylibre.com,
+        linux-media@vger.kernel.org, mripard@kernel.org,
+        matthias.bgg@gmail.com, linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, sumit.semwal@linaro.org,
+        linux-remoteproc@vger.kernel.org
+In-Reply-To: <20210917125945.620097-2-abailon@baylibre.com>
+References: <20210917125945.620097-1-abailon@baylibre.com> <20210917125945.620097-2-abailon@baylibre.com>
+Subject: Re: [RFC PATCH 1/4] dt-bindings: Add bidings for mtk,apu-drm
+Date:   Fri, 17 Sep 2021 14:48:54 -0500
+Message-Id: <1631908134.342766.2025334.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+On Fri, 17 Sep 2021 14:59:42 +0200, Alexandre Bailon wrote:
+> This adds the device tree bindings for the APU DRM driver.
+> 
+> Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
+> ---
+>  .../devicetree/bindings/gpu/mtk,apu-drm.yaml  | 38 +++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+> 
 
-The call to ops->suspend for the dev->dev_next case can currently
-trigger a call on a null function pointer if ops->suspend is null.
-Skip over the use of function ops->suspend if it is null.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Addresses-Coverity: ("Dereference after null check")
-Fixes: be7fd3c3a8c5 ("media: em28xx: Hauppauge DualHD second tuner functionality")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/media/usb/em28xx/em28xx-core.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+yamllint warnings/errors:
 
-diff --git a/drivers/media/usb/em28xx/em28xx-core.c b/drivers/media/usb/em28xx/em28xx-core.c
-index 584fa400cd7d..92a39fcee206 100644
---- a/drivers/media/usb/em28xx/em28xx-core.c
-+++ b/drivers/media/usb/em28xx/em28xx-core.c
-@@ -1154,8 +1154,9 @@ int em28xx_suspend_extension(struct em28xx *dev)
- 	dev_info(&dev->intf->dev, "Suspending extensions\n");
- 	mutex_lock(&em28xx_devlist_mutex);
- 	list_for_each_entry(ops, &em28xx_extension_devlist, next) {
--		if (ops->suspend)
--			ops->suspend(dev);
-+		if (!ops->suspend)
-+			continue;
-+		ops->suspend(dev);
- 		if (dev->dev_next)
- 			ops->suspend(dev->dev_next);
- 	}
--- 
-2.32.0
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml: 'maintainers' is a required property
+	hint: Metaschema for devicetree binding documentation
+	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+./Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml: $id: relative path/filename doesn't match actual path or filename
+	expected: http://devicetree.org/schemas/gpu/mtk,apu-drm.yaml#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml: ignoring, error in schema: 
+warning: no schema found in file: ./Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+Documentation/devicetree/bindings/gpu/mtk,apu-drm.example.dts:19.15-23.11: Warning (unit_address_vs_reg): /example-0/apu@0: node has a unit name, but no reg or ranges property
+Documentation/devicetree/bindings/gpu/mtk,apu-drm.example.dt.yaml:0:0: /example-0/apu@0: failed to match any schema with compatible: ['mediatek,apu-drm']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1529388
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
