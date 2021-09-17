@@ -2,149 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09EA8410042
-	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 22:15:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EF82410062
+	for <lists+linux-media@lfdr.de>; Fri, 17 Sep 2021 22:47:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343875AbhIQUQu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Sep 2021 16:16:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59406 "EHLO
+        id S240600AbhIQUso (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Sep 2021 16:48:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241879AbhIQUQt (ORCPT
+        with ESMTP id S229771AbhIQUsn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Sep 2021 16:16:49 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DD92C061574
-        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 13:15:26 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id z94so34053674ede.8
-        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 13:15:26 -0700 (PDT)
+        Fri, 17 Sep 2021 16:48:43 -0400
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D20DC061574
+        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 13:47:20 -0700 (PDT)
+Received: by mail-ot1-x341.google.com with SMTP id 97-20020a9d006a000000b00545420bff9eso7643241ota.8
+        for <linux-media@vger.kernel.org>; Fri, 17 Sep 2021 13:47:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GmDcVXPgmbW1hz5V6+iirYSuZ4onaGTcqoNUhw3X2zE=;
-        b=jPtfWVobP5xm+1Qz31db8oCkccOJhnSP/HI7t//+x/jsmUiy/qi4+5bgCiERaXZ1bt
-         Xblc2KPLNSWZIfYgrSmUyfhJYuHQVD7D77yj6bHVbpS0sblJn5cCIFAVDPgYMQVfp1Mm
-         FOBPtzBE0nVK547S9fZssR1KoVhsLBD+xg1y4=
+        bh=hQf9L3//XnW9O9ontzu6BRk4OWW06kVzWb9hiQ/48sw=;
+        b=IjALyIwlorwiVJsUOh4MNWfO2g2ftvWMcMFMIpK5ABp/u5uPv1PGKGn8ODs2WbJPEk
+         fJrL35VRjkVr0OrPU5bsob2VAWJnM6Kb3q64Gbx5m0BzlZGqaycT7HLWuKWWNeBMPXh0
+         mFBh2X2999Hd37IpFxXbooXKt13+KewqkwCQhT46atcqpdhlYcwWv/akniF1n6a5Bpcv
+         ozutfPJMmQwlQKP+T3FGuAK+lNioVnKPHp28q36rl8DJJ8VZhEPUmFWNm5i/vfUNycq4
+         r0fSsiXZKBK0BwxXpqjCfxGp1uUCjsI9PicKwmDsxokKHddHYOjnrvOUGukXD68ASAsS
+         cSCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GmDcVXPgmbW1hz5V6+iirYSuZ4onaGTcqoNUhw3X2zE=;
-        b=rZ0FnO1InJxOHUwfrDAPPIEMiAShsoIaLKnCBdKUs4sOcJ5VEYEOhPlhw3EFbQyqrX
-         ybDeXTKHdwZvDYRMuHbfy/Wyj8bBA/MfJ7iLXOdwtL+vDEP6zbB5/O4jI27mBnY2EEjJ
-         tseFo62y6YDHD9RhKo9PgScSvi++853qucsKh/NXvRUSKzq4hPZYAXJJOG5ZWuIHlkCf
-         /Xj2gu5Bti0LGnreJf+6Nxxr4FN2iQlglWx8KmkQ/KsdBZJ4Yb66nPjUL68HbwDBKcff
-         hXhjFMLqxNjMpwNT+YCE/Ok9FuGzTbPx75uqNepCy5hpYjkM1hjE1k3sbcnYLmo1RVn4
-         C+sA==
-X-Gm-Message-State: AOAM533EQlnB5s6o+OOJTbKhGcuV5yKZ7T7fUR7qKJV9J93gMlpOZt3K
-        C5MTJ4c08+5DqNSjzTsKYIsNaA==
-X-Google-Smtp-Source: ABdhPJyUK2tAB59YYyo+0xUEflC6jz0k2dbYFI5yo5pUr+//KMDXfqr+MDHCqX9i20kZsGeNWVVH7A==
-X-Received: by 2002:a17:907:76e7:: with SMTP id kg7mr14434143ejc.344.1631909724983;
-        Fri, 17 Sep 2021 13:15:24 -0700 (PDT)
-Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id mq25sm2682647ejc.71.2021.09.17.13.15.24
+        bh=hQf9L3//XnW9O9ontzu6BRk4OWW06kVzWb9hiQ/48sw=;
+        b=qQ1b/9XMAhDP1fm4QUsOWI7ZFrNVLCDzkcnnBGCG5NZ14EIgCN99GE6eNSonWjzuQb
+         xSKa09MfGVCIVeaaZQh7sD6sV3Obs4zTWN/eQPMEyjDo0sw7CyYSWDkHc5u+bYY/nwa8
+         PvW5chnIkWF3zBKIyfBGTT4PnQIGMkOEbcAjERs0EB5YUfVd2p5aobgc0rlZ3tNyQbAD
+         7bqAc1yB+yVGyJiJcsk7yH4ite7IYS6B11hpU0h+tN718c/uoE+KssEJ/d6wbauO10re
+         tojD++AEwKS7wOUGwNpOkSJ/vyAsPKQr/A8FFYISvYp78atVhl5VN/7ygIlSJfi87ZuP
+         rNbg==
+X-Gm-Message-State: AOAM531A/UIDK5T0Q0Fsz8dJHSbtvv2Y6sTf5oZeDm48Z28V5YCRUEOZ
+        9TCTmvI8ssWAVppQrrViKvWzdepB69t2
+X-Google-Smtp-Source: ABdhPJxqqr7RDfwWeH3go0z9W0PxNZ3ojaXyslvlWSnIzDJaf16dKUNA9MKbYRyWHl9MQeI4OaHrDg==
+X-Received: by 2002:a05:6830:20c2:: with SMTP id z2mr11406035otq.285.1631911639747;
+        Fri, 17 Sep 2021 13:47:19 -0700 (PDT)
+Received: from localhost.localdomain ([181.197.204.212])
+        by smtp.gmail.com with ESMTPSA id x8sm1730026ooq.41.2021.09.17.13.47.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 13:15:24 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org, Colin King <colin.king@canonical.com>
-Subject: [PATCH][next] media: uvcvideo: Fix memory leak if uvc_ctrl_add_mapping fails
-Date:   Fri, 17 Sep 2021 22:15:21 +0200
-Message-Id: <20210917201521.592586-1-ribalda@chromium.org>
-X-Mailer: git-send-email 2.33.0.464.g1972c5931b-goog
+        Fri, 17 Sep 2021 13:47:19 -0700 (PDT)
+From:   Jorge Maidana <jorgem.seq@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil-cisco@xs4all.nl, Jorge Maidana <jorgem.seq@gmail.com>
+Subject: [PATCH] qv4l2: enable the play action on non-streaming radio rx
+Date:   Fri, 17 Sep 2021 17:47:15 -0300
+Message-Id: <20210917204715.3663-1-jorgem.seq@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the mapping fails, the name field is not freed on exit.
-Take the same approach as with the menu_info and have two different
-allocations with two different life cycles.
+The commit 37f42eb35d87 ("qv4l2: reorganize colorspace handling")
+disabled the play action on non-streaming devices.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+This patch enables the play action 'm_capStartAct' on non-streaming
+radio rx (audio-only) devices, assuming that 'isCapture' should exclude
+radio tx. In addition, it also disables the step-frame action
+'m_capStepAct' on radio devices.
+
+Signed-off-by: Jorge Maidana <jorgem.seq@gmail.com>
 ---
-To be applied after [PATCH][next] media: uvcvideo: Fix memory leak of object map on error exit path
+ utils/qv4l2/qv4l2.cpp | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- drivers/media/usb/uvc/uvc_ctrl.c | 10 ++++++++++
- drivers/media/usb/uvc/uvc_v4l2.c | 10 +++++++---
- 2 files changed, 17 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 30bfe9069a1f..625d241b2c41 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -2188,11 +2188,21 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
- 	if (map == NULL)
- 		return -ENOMEM;
- 
-+	/* For UVCIOC_CTRL_MAP custom controls */
-+	if (mapping->name) {
-+		map->name = kmemdup(mapping->name, strlen(mapping->name) + 1, GFP_KERNEL);
-+		if (!map->name) {
-+			kfree(map);
-+			return -ENOMEM;
-+		}
-+	}
-+
- 	INIT_LIST_HEAD(&map->ev_subs);
- 
- 	size = sizeof(*mapping->menu_info) * mapping->menu_count;
- 	map->menu_info = kmemdup(mapping->menu_info, size, GFP_KERNEL);
- 	if (map->menu_info == NULL) {
-+		kfree(map->name);
- 		kfree(map);
- 		return -ENOMEM;
- 	}
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 711556d13d03..5bf33056ec1b 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -48,6 +48,8 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
- 			ret = -ENOMEM;
- 			goto free_map;
- 		}
-+		/* Make sure there is a terminating null byte */
-+		map->name[sizeof(xmap->name) - 1] = '\0';
- 	}
- 	memcpy(map->entity, xmap->entity, sizeof(map->entity));
- 	map->selector = xmap->selector;
-@@ -69,14 +71,14 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
- 		if (xmap->menu_count == 0 ||
- 		    xmap->menu_count > UVC_MAX_CONTROL_MENU_ENTRIES) {
- 			ret = -EINVAL;
--			goto free_map;
-+			goto free_map_name;
- 		}
- 
- 		size = xmap->menu_count * sizeof(*map->menu_info);
- 		map->menu_info = memdup_user(xmap->menu_info, size);
- 		if (IS_ERR(map->menu_info)) {
- 			ret = PTR_ERR(map->menu_info);
--			goto free_map;
-+			goto free_map_name;
- 		}
- 
- 		map->menu_count = xmap->menu_count;
-@@ -86,12 +88,14 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
- 		uvc_dbg(chain->dev, CONTROL,
- 			"Unsupported V4L2 control type %u\n", xmap->v4l2_type);
- 		ret = -ENOTTY;
--		goto free_map;
-+		goto free_map_name;
- 	}
- 
- 	ret = uvc_ctrl_add_mapping(chain, map);
- 
- 	kfree(map->menu_info);
-+free_map_name:
-+	kfree(map->name);
- free_map:
- 	kfree(map);
- 
+diff --git a/utils/qv4l2/qv4l2.cpp b/utils/qv4l2/qv4l2.cpp
+index b57178e4..d9141ad1 100644
+--- a/utils/qv4l2/qv4l2.cpp
++++ b/utils/qv4l2/qv4l2.cpp
+@@ -456,9 +456,9 @@ void ApplicationWindow::setDevice(const QString &device, bool rawOpen)
+ 	else
+ 		m_convertData = v4lconvert_create(g_fd());
+ 	bool canStream = has_rw() || has_streaming();
+-	bool isCapture = v4l_type_is_capture(g_type());
+-	m_capStartAct->setEnabled(canStream);
+-	m_capStepAct->setEnabled(canStream && isCapture);
++	bool isCapture = v4l_type_is_capture(g_type()) && !has_radio_tx();
++	m_capStartAct->setEnabled(canStream || isCapture);
++	m_capStepAct->setEnabled(canStream && isCapture && !has_radio_rx());
+ 	m_saveRawAct->setEnabled(canStream && has_vid_cap());
+ 	m_snapshotAct->setEnabled(canStream && has_vid_cap());
+ 	m_capMenu->setEnabled(canStream && isCapture && !has_radio_rx());
 -- 
-2.33.0.464.g1972c5931b-goog
+2.30.2
 
