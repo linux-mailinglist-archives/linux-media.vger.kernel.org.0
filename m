@@ -2,119 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6F81410778
-	for <lists+linux-media@lfdr.de>; Sat, 18 Sep 2021 17:55:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ED0C4107B5
+	for <lists+linux-media@lfdr.de>; Sat, 18 Sep 2021 19:06:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239984AbhIRP4q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Sep 2021 11:56:46 -0400
-Received: from mail-il1-f200.google.com ([209.85.166.200]:37429 "EHLO
-        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239977AbhIRP4q (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Sep 2021 11:56:46 -0400
-Received: by mail-il1-f200.google.com with SMTP id f10-20020a92b50a000000b002412aa49d44so24429671ile.4
-        for <linux-media@vger.kernel.org>; Sat, 18 Sep 2021 08:55:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=XMxetvyBy6RpfXzI/o6mtRK4n4vUfY7++UdwikUvFsw=;
-        b=07AoEHSOM9+TiKkSIWkrjwsA5jW3t4d4r6a+zORrMyVMOwRK+Zbpl5I1LL7zfAqZhj
-         W5lsd0M1qUxV7fFsQP8qn1XUN52s3tTd9Jz4wCi9BUKJVQgXArd2vYfhIgotMwPfXR1r
-         YKJGIJf7Slc+z7xzFBvQkC3U7tOf+HsgkGwfjpQnRDTOdAWC6JPob2146liBRdeN8fG6
-         bAvHqqpqQhe0y8T6o2ISVKocNec0vZhlreuUVZ06XNvwDnRHYCQBlF6y3w+M0FYGSY2z
-         edW69KbRd4eJcVRzREE6YMHNENgbGJpZcIPV4OhjQYNaImFNG0xTUjtoS5Zxf0lp7IXD
-         tOUg==
-X-Gm-Message-State: AOAM530348uNL8+hdiOMZ9sonnz7FYdSGkJJ3L+VCSnv2lI+DHslg1Zu
-        7TfzFlSryGDxMztzic9ACpSv+540kjfBhs5hme4arib7rf53
-X-Google-Smtp-Source: ABdhPJxI/Osky+DPZVWKJ/FxBMXlSNNAWN8E4vrFXWNoBIBvWBo4DYsZeQDGGphRTDLILgtfqQERIw5zLOG1zu4eF+Amf6/OkzUY
+        id S237884AbhIRRHs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Sep 2021 13:07:48 -0400
+Received: from mail-oln040093003015.outbound.protection.outlook.com ([40.93.3.15]:4559
+        "EHLO na01-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233210AbhIRRHo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 18 Sep 2021 13:07:44 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EzYtJ6ZJEZF4X6Kd6HcT0jFs6OZgzrBzv9QlZ9e/gFU5VuWyH3TzWgVmFQNo/lvdM8sqU8C6q6MsTf4RbpN9ZF2UVkj5GC7Eyaw31yLfYTSvQWJJPaIUBGoVEFzrEuS3ejaulhJs2HDLXkJSpk8vdLQOwbOVnzEDS2OhhbqbpGQOoryRrtgSiAYpc5ckBdsm7QeqYrroAN4P8dU4rCJmi0XhyuAow0a+sAw3fdBA8hmJSL2ogTXFZdEgw7FqL3XU9r8UaPYAsPACK/yvq7wDE8zuGR8jCBUh8gDTKFYCDDoQ7ob+4b5MFsQ6ASpr7HCfVUfvfiyioDQ+g46ju4E3aA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=XO/weqKAmKC2sogCtXWVk1NVPOtDM6CB+7KbNm4DiGw=;
+ b=OAqZcN4itxyFlueL8gS7zopBI4XY1FXbJMd/7gnKvp377zqBsmwo8eX06JsxhJ9e8n8SQSKqO9lyef3uGvycM44OkJV05SAFFLqDVZvcIETN72jjiu1hk7yAHUeRf/KbOZh1EWpX8LN+t8FCxoP72l9Mtdx5zV2zDwi2iKkMZ25f1wxgNStXp4HFDLXwL2fU7NO0YvzVSJV5vJzVDM0wnQYDzCcXehsW3HK+N7+HjI6WhQyokhF/lIz9reoea79qSUKm3ZS4tRN+3BO1w6TqGT46oZJoArlyZejbl+pqJVa50tzL8xHfeQeYcn6Gm+PvAHJoWbi+46l0QhFhMsxA6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XO/weqKAmKC2sogCtXWVk1NVPOtDM6CB+7KbNm4DiGw=;
+ b=NunsGhn3H62eBbxXz3W0INPY29LV/N67oGtMhURLNjvTrQvpkvXfV6/QMXYggSv5hvpWXyLkeDbfLNU2aFiOFg0KnEmaoJ9zyx0h9C4r/wlgJ1+Y6ao1RJzexaFgo3e49kbhjPEi0g+5UuiL1cuWFVCyfPy1mN8wu/v141M+7ok=
+Received: from BYAPR21MB1270.namprd21.prod.outlook.com (2603:10b6:a03:105::15)
+ by BYAPR21MB1142.namprd21.prod.outlook.com (2603:10b6:a03:102::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.9; Sat, 18 Sep
+ 2021 17:06:17 +0000
+Received: from BYAPR21MB1270.namprd21.prod.outlook.com
+ ([fe80::e56b:9b01:9633:78c0]) by BYAPR21MB1270.namprd21.prod.outlook.com
+ ([fe80::e56b:9b01:9633:78c0%7]) with mapi id 15.20.4544.011; Sat, 18 Sep 2021
+ 17:06:16 +0000
+From:   Dexuan Cui <decui@microsoft.com>
+To:     Len Baker <len.baker@gmx.com>, KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
+        Kees Cook <keescook@chromium.org>
+CC:     Colin Ian King <colin.king@canonical.com>,
+        "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>
+Subject: RE: [PATCH] net: mana: Prefer struct_size over open coded arithmetic
+Thread-Topic: [PATCH] net: mana: Prefer struct_size over open coded arithmetic
+Thread-Index: AQHXrI/1VJuJVYedPEudSKeULZsdEKuqBYFA
+Date:   Sat, 18 Sep 2021 17:06:16 +0000
+Message-ID: <BYAPR21MB1270797B518555DF5DC87871BFDE9@BYAPR21MB1270.namprd21.prod.outlook.com>
+References: <20210911102818.3804-1-len.baker@gmx.com>
+ <20210918132010.GA15999@titan>
+In-Reply-To: <20210918132010.GA15999@titan>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=7f8b8111-1a02-4b74-b775-c4b2eac605e3;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-09-18T17:05:00Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f4abae2d-1ce2-42cf-2acb-08d97ac6a0b6
+x-ms-traffictypediagnostic: BYAPR21MB1142:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR21MB114246C70ED794714AFEB6CEBFDE9@BYAPR21MB1142.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:257;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VD/G3To4uTnw8rnJvDjYKA5A+WGouct77MFHuuEq3hu28oV850Nt8w9W6CM6PzzYbsZNeiI//i2Q6ZiMJz9im/nJyLTei+juLPEd6NaCVJqw3CTkZ2rnH0NyKvPgDxB+vvNGXvdcwK6GlnxWElg66Fo27fld977SOmCeeSSaPNModti3CPH0A7xYT+U6VCvd4KO1xofGmpHIEmzDesjoT20s3ck2aSA5M9OzpX2nJQ4jyibrp4ugcgdcVpe5BeqVUT9zNoXfIV0RCiDe58Clh4ARTfpVbApedQkVbGXtaC9f4WyUVzNqQ9FyMG2kNB1/b2nBiNyVOhLbjkMMCyQ/gRnQODdynqkha/cDq6mS/soAB4NFxCqZFwzR2mGvNZA6vyopxDfXmtamplz4BcWkcrv+/RqNvMCsCOVLzPojhipgAuFhDNvShmv2An5R1V4WEjlv1TnzD8FowIw79q9xjwbmhZEr/5h7UxbQOhBx1HDam0/Ntw304wkXRPfxSZNPll3yEwhu394JtVuRxB+C+U4vH/xiJy0JcAs30IDtEolF4jXBd4wabOXyP1FT6JcDHc2LUMbisXaD9qs5S1zBA48Di2eHoQYEQKSVbkc6JKDiLXxjbaFsG+zbTqnl3gh64kC20y9PdrGOGPpA4RFMd7IrOAlqtJLO0AELH7ExlG/xA0Icb8qGsrRNq9n7uLh81HYs8rl7a7xLPyaC8y47ex9EaCWOt3ryYxPnheo2pvJpW+MvFcW4Ee8D4Q/34tfiUWPnzAYfoD4zwyKKYEUx0GcYvdR2nanx4fFa5lPHpEGYWjoNBYCAr/iPawOXY9xG
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR21MB1270.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(4744005)(316002)(8936002)(9686003)(26005)(66446008)(55016002)(8990500004)(4326008)(8676002)(66946007)(7416002)(38070700005)(71200400001)(54906003)(7696005)(64756008)(66476007)(66556008)(6506007)(110136005)(2906002)(10290500003)(966005)(76116006)(52536014)(921005)(86362001)(508600001)(122000001)(186003)(82960400001)(33656002)(82950400001)(5660300002)(38100700002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?fgKLOm0FDaNO33FytolhtJVqpkmk4aEDBn4BIZj0ikyjT49KcCLUBM9tKu?=
+ =?iso-8859-1?Q?T63AA3SAHY3/qOxHXS4XyAhxFh+RyTp1vveVsOqcc04ECX/LtL4hVsLVjO?=
+ =?iso-8859-1?Q?9jM0LWao8a0HnKdjNah3aY95M0FIpTxqxaRyCJ3bQeRaz4LOhalr9AdOkP?=
+ =?iso-8859-1?Q?kujqVJityVh/BpACmuPbjWMk41mQO3GTifhfGXkIdEdD8FGVqTHiYJS4tw?=
+ =?iso-8859-1?Q?kRp6LaINPT5HWTC9Deyb/i1LafMve7y54b13dh4suiBJcotq7cINHhUp1b?=
+ =?iso-8859-1?Q?tRSsuOrWtcmK4b4JbjdUBHEntsqHwUgVeS426tbXe6UfHABe1kLJli9yqS?=
+ =?iso-8859-1?Q?f3BVymziVYUkd7VMqdEIKSOvIN2QJnjigyqw2XEKp3vBAxwpSgwngqz4fL?=
+ =?iso-8859-1?Q?/5tffWDjkeS85lMgjlX4yyFzp9eR0azhaVy480bVaXABQXyxeK1BP0CieE?=
+ =?iso-8859-1?Q?hLF72SlGhhUmBFwqPFMYK+d4mAmiFuXkQ7fGPnOB46ApAECG1CAD/xJAuw?=
+ =?iso-8859-1?Q?ikx6PF31ThYG5MgjcoH3lyMhHO5+f95GnsxXDDkiFcnVDzMbdSCehA2sVx?=
+ =?iso-8859-1?Q?5om9ySHcuoKPmgTxslX3aoUyhdIrwuVZ6eCieoPUeKZD24JyuArOpO/Gdy?=
+ =?iso-8859-1?Q?tzsCdIkndnBNE/X164KmSz7zUFySIzMdb/qF98KevIAvWq47lDTntZLeGG?=
+ =?iso-8859-1?Q?wGyQsTSOZoEBnnyzIz3CInzgX4g2dL9LXoVHC0xeh0MKKfV3p9ZSmRVXCQ?=
+ =?iso-8859-1?Q?T5n7riJLL0+NY1Zm1wBgPbP64VKJ1krjo+PESpYk8Lqm63pCj7sxMP2MG+?=
+ =?iso-8859-1?Q?wKk0BHaTtTsOSAK+ylDiOA08m+M8xeEyufZCO+h92Ur8VNeKmmvjKovt2N?=
+ =?iso-8859-1?Q?6tw5hQtWdsZaw1F/8k93yx2z3X001/GmUHiGN2Nq1o0lFXpDfbtAsS1UEv?=
+ =?iso-8859-1?Q?YOmEAUyMDkOd4yWZThSzfrFGTCYf2Xk9PiCS+FpZPZgCKnX3NnKhEkI458?=
+ =?iso-8859-1?Q?gCkOSnRuLBQKi/UPPfILvYR7emcqzzsRtE+PwcyxlWZfa2UbG0Y5Y+4f7P?=
+ =?iso-8859-1?Q?GqVxMX6fMdQXdy9vpSUW1rGLKeTa4p3gVGq9ydS654qUptWpN4i4XN9tKN?=
+ =?iso-8859-1?Q?d056yjmNiByK3mi+0rXwUn35xO4dIjx5gOXnvg35L/b87FPad4PUkvNt4A?=
+ =?iso-8859-1?Q?lz0XlxQtNWmzq8CQP1KzYqarVLVDgXhOXE8KUtKJ1d+qXWU3y/vptB5Qba?=
+ =?iso-8859-1?Q?6Z5jpn8hlLytkg0YCzxGs0tj/ktfduek2kfY6LKXbCGTCA9ipkUOx/Koor?=
+ =?iso-8859-1?Q?GzwmbzJr3+yyaA9CdwEzG+KV849kto1cgbDs6OH3nAmoAOJgBfqPUc8KZP?=
+ =?iso-8859-1?Q?ou4Xcg2e9M?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:130f:: with SMTP id r15mr251077jad.141.1631980522116;
- Sat, 18 Sep 2021 08:55:22 -0700 (PDT)
-Date:   Sat, 18 Sep 2021 08:55:22 -0700
-In-Reply-To: <000000000000fe7dd005cc2d77c0@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000004d23aa05cc471360@google.com>
-Subject: Re: [syzbot] kernel BUG in vmf_insert_pfn_prot
-From:   syzbot <syzbot+2d4f8693f438d2bd4bdb@syzkaller.appspotmail.com>
-To:     airlied@linux.ie, christian.koenig@amd.com, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org,
-        linaro-mm-sig-owner@lists.linaro.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, sumit.semwal@linaro.org,
-        syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR21MB1270.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4abae2d-1ce2-42cf-2acb-08d97ac6a0b6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2021 17:06:16.6043
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EQl2uMC5qrAZ/iENv2zUWc8Q2LISpyYvPuUOIf6mxZA33uwkbVnlqdtqMqRNtFZq+Fjf91ktU29mYk1E8ndVmA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR21MB1142
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot has found a reproducer for the following issue on:
+> From: Len Baker <len.baker@gmx.com>
+> Sent: Saturday, September 18, 2021 6:20 AM
+>  ...
+> I have received a email from the linux-media subsystem telling that this
+> patch is not applicable. The email is the following:
+>=20
+> Regards,
+> Len
 
-HEAD commit:    9004fd387338 Add linux-next specific files for 20210917
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=11e1691d300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=45d5ac72f31f29f3
-dashboard link: https://syzkaller.appspot.com/bug?extid=2d4f8693f438d2bd4bdb
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13ad5527300000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13beef77300000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+2d4f8693f438d2bd4bdb@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-kernel BUG at mm/memory.c:2103!
-invalid opcode: 0000 [#1] PREEMPT SMP KASAN
-CPU: 1 PID: 6537 Comm: syz-executor894 Not tainted 5.15.0-rc1-next-20210917-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-RIP: 0010:vmf_insert_pfn_prot+0x248/0x450 mm/memory.c:2103
-Code: 0f 0b e8 6b d0 ca ff 4d 89 f7 bf 20 00 00 00 41 83 e7 28 4c 89 fe e8 b7 d5 ca ff 49 83 ff 20 0f 85 a5 fe ff ff e8 48 d0 ca ff <0f> 0b 49 be ff ff ff ff ff ff 0f 00 e8 37 d0 ca ff 4d 21 ee 4c 89
-RSP: 0000:ffffc90002c5fbd0 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: 1ffff9200058bf7c RCX: 0000000000000000
-RDX: ffff888014d81c80 RSI: ffffffff81ab3e18 RDI: 0000000000000003
-RBP: ffff88806ec18318 R08: 0000000000000020 R09: ffffc90002c5fbb7
-R10: ffffffff81ab3e09 R11: 0000000000000000 R12: 0000000020000000
-R13: 000000000001a305 R14: 0000000008140476 R15: 0000000000000020
-FS:  00007fd624da5700(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000020000600 CR3: 000000006e41e000 CR4: 00000000001506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- drm_gem_shmem_fault+0x1e3/0x290 drivers/gpu/drm/drm_gem_shmem_helper.c:564
- __do_fault+0x10d/0x4d0 mm/memory.c:3848
- do_cow_fault mm/memory.c:4184 [inline]
- do_fault mm/memory.c:4285 [inline]
- handle_pte_fault mm/memory.c:4541 [inline]
- __handle_mm_fault+0x370e/0x5120 mm/memory.c:4676
- handle_mm_fault+0x1c8/0x790 mm/memory.c:4774
- do_user_addr_fault+0x48b/0x11c0 arch/x86/mm/fault.c:1390
- handle_page_fault arch/x86/mm/fault.c:1475 [inline]
- exc_page_fault+0x9e/0x180 arch/x86/mm/fault.c:1531
- asm_exc_page_fault+0x1e/0x30 arch/x86/include/asm/idtentry.h:568
-RIP: 0033:0x7fd624db0238
-Code: c0 75 63 48 8d 75 0c b9 40 42 0f 00 ba 81 00 00 00 c7 45 0c 01 00 00 00 bf ca 00 00 00 31 c0 e8 0e 2a 04 00 eb 85 0f 1f 40 00 <4c> 89 24 25 00 06 00 20 45 31 c0 31 c9 31 c0 c6 04 25 08 06 00 20
-RSP: 002b:00007fd624da5320 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 00007fd624e7b3e8 RCX: 00007fd624df2c59
-RDX: 0000000000000000 RSI: 0000000000000080 RDI: 00007fd624e7b3e8
-RBP: 00007fd624e7b3e0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 3162662f7665642f
-R13: 00007ffe82f363ff R14: 00007fd624da5400 R15: 0000000000022000
-Modules linked in:
----[ end trace 0e8bfa618299b282 ]---
-RIP: 0010:vmf_insert_pfn_prot+0x248/0x450 mm/memory.c:2103
-Code: 0f 0b e8 6b d0 ca ff 4d 89 f7 bf 20 00 00 00 41 83 e7 28 4c 89 fe e8 b7 d5 ca ff 49 83 ff 20 0f 85 a5 fe ff ff e8 48 d0 ca ff <0f> 0b 49 be ff ff ff ff ff ff 0f 00 e8 37 d0 ca ff 4d 21 ee 4c 89
-RSP: 0000:ffffc90002c5fbd0 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: 1ffff9200058bf7c RCX: 0000000000000000
-RDX: ffff888014d81c80 RSI: ffffffff81ab3e18 RDI: 0000000000000003
-RBP: ffff88806ec18318 R08: 0000000000000020 R09: ffffc90002c5fbb7
-R10: ffffffff81ab3e09 R11: 0000000000000000 R12: 0000000020000000
-R13: 000000000001a305 R14: 0000000008140476 R15: 0000000000000020
-FS:  00007fd624da5700(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f27acc516c0 CR3: 000000006e41e000 CR4: 00000000001506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-
+The patch is already in the net-next tree:
+https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/=
+?id=3Df11ee2ad25b22c2ee587045dd6999434375532f7
