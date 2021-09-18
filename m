@@ -2,171 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D4804107C2
-	for <lists+linux-media@lfdr.de>; Sat, 18 Sep 2021 19:12:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C95041087B
+	for <lists+linux-media@lfdr.de>; Sat, 18 Sep 2021 21:58:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238181AbhIRRNp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Sep 2021 13:13:45 -0400
-Received: from mout.gmx.net ([212.227.15.19]:44729 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233210AbhIRRNo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Sep 2021 13:13:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1631985125;
-        bh=HaaOH1N5B34fUsGwuYxHkOP8Bmo2FI+Nxh0L4luHKr8=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=VB7DZQsSQo3NdthY+tY5Lzk2zptqyURBOMmdUSo5Agucie2GLm8aROBoioKi0lKvD
-         Ld0DnLhHissWEqrg7drrzOVbytBJyYGOyLxJ3qg2tzLEjpw/pEc89piEVlG0qFH81L
-         TTNjPM3g0mTe/KElMKvOXjWbqSwUF9dVX+7en8AU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1M8hV5-1mWIaL2lUX-004l1v; Sat, 18
- Sep 2021 19:12:04 +0200
-Date:   Sat, 18 Sep 2021 19:11:47 +0200
-From:   Len Baker <len.baker@gmx.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Len Baker <len.baker@gmx.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        linux-hardening@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH] net: mana: Prefer struct_size over open coded arithmetic
-Message-ID: <20210918152604.GB15999@titan>
-References: <20210911102818.3804-1-len.baker@gmx.com>
- <20210918132010.GA15999@titan>
- <D81D1EE2-92A0-42D5-9238-9B05E4BDE230@chromium.org>
+        id S238898AbhIRT7e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Sep 2021 15:59:34 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:48811 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234876AbhIRT7b (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 18 Sep 2021 15:59:31 -0400
+Received: by mail-io1-f69.google.com with SMTP id z26-20020a05660200da00b005b86e36a1f4so27675214ioe.15
+        for <linux-media@vger.kernel.org>; Sat, 18 Sep 2021 12:58:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=ivh/Frp5TC2qWcIkr/BnJSK/kFt1+2bIZQL24hbwT64=;
+        b=RV8ThKnHez77RRgG+kqqA5lkA0TiKkLSxh5cyD4N3R8Mg/6//MHXMl0/TMLAc2ZmR/
+         N8DMwT9077xCkuKPPOaIo0rWZLONJ6eS3HLtU0L8HKvCs7ariJjw4hC4SCIoNJcaQTLi
+         X//Fa41jZIIUjOJlajUH9MiWgDqiic+VJ6ojXPyecOHJNGG7fBA97OIDcCVY7IYECZ8Z
+         f8K2jcX9QIF8ir7+gQrJQljQLkVThDqNxst0d/apDvJXwy5j+mlCXDQYnyOkffPNIJEZ
+         zqZvHdqXlOcR5gPWvDzo+Ths29DTsDflD2XQuKoB1rSA2yJYDxAPl2RVSTw0VZ3DWbdZ
+         4bRA==
+X-Gm-Message-State: AOAM531WqtkSA6rjvczNzi2+lziodQx/q7kuSMI0ZQtuHS95HrF+jblY
+        6SqXZ3yF/BJx7oSgLG81X9BdBRvcWrqXAUU9OWWLvpOr+yfG
+X-Google-Smtp-Source: ABdhPJzgs6ARQpi5xrqA8t2HeKzas+2uSX6PdE7YGSaYgxMRzN33nmneQgyfAzSK2loGTkvCoPd75fBvS4XdGFR4xW6TboTeWQui
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D81D1EE2-92A0-42D5-9238-9B05E4BDE230@chromium.org>
-X-Provags-ID: V03:K1:/jOFZgiazp1Mu4q1yJZMZHCqZguWrTCVgOiUcRwDstkREyaTGYs
- UBQwp8eIVfvNPaQRfAJFF6LevZRZFI3xZ7MwzMmBLXd1W+g/m5XnL7waXh0U0kTdndpmAi0
- ep8beAtJmIfSZXxkf5ZwEUPtSYRTGnVO38vTd3E9Hlc/eloGCAHpZj4eeqnyIixDxUm7vwb
- h6tbGt6bwtugEagOhPyqw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4M+R8W0zYpQ=:FygVzFs7OR1agH0Yq+kqbo
- 4yXp3xJ45NY4137+M42bmwT+MbhbJ0gdkcvFzqOqph1/eLu8KfjQNG6U4FE9XtJiC1sSCxdNW
- EaufVRWhjFaqnoorFfuL9EVRZH7P7TkwnjcfrDZFLcu/1h1zopwG6y4FkcZOZkxk0juI65Y4A
- WjzLJj+NfCR10KLu37ov9IZGJ+Q/30nFgC0dQ/gQXYcMxe9e784tPXZN0/kdwrjB0nfu6XRXQ
- 2ZuzQIcW7PNfpl+RwMalhB8F+zffRXsJKZPc32CwByUD9+FLsMRUWEJv1IK3VdZzjXFL0mhBD
- U9be7KyiyTTldxEjrJPDRSgWcNLDb/zr5cpMo827V1uzexubCxYgrbX5+gigQQ/p0cBfUs421
- qvxH+F10bxectyJ9DisLbsYTx04tO36WbLKZ1dtN4QvcbzMeDsiUTVcTWBzPEM93Il2ERzZDN
- 93wmvaFCe3p38Ihg6h+E75ndNbMScdzS1PInTaJ7GAh0rsxMqdUuc27M7qzsqJcWFV0LAis+V
- TWXqh1Uf7wk6dQ9rpiAHZjsfZrO9bTkD5a/faEQbpkH1vC4AHtydAbNzwTY5uubOj8uLZ9MbY
- 6anjM+JsE0XYCGgvaxeQoFkdbW+TP3LO6i6NeQ4ifONktoaMAjW8D+8hGzSIuyoYJ9SHgRLc/
- VIyr/mORl/sE1edb5tClgyOVEyaXz6/pHdD5QjpzT91ISUXJdtMsqpEsX24DQaO/Jhh/7m2Rt
- tmNp3MoQeutCBpKxwWBjy1mTBUnPkG1lHUiWWpC3vm9mZPgsVoHTuC7RkZ0h2XcqE82B3mOOV
- cfRegKZakpuFCCJ4vtOe6Pm7Q68C5wFFCRmPnfQcprgnnIECvazOq2VEaS/YEtctIV+08BSjs
- 1FOxrecBbk0+gCKqzDR2w8D+2kvagp+vz+VJvR2+LwWRPjHgJW+Q/JjylBMEK8Bj56dNMkydi
- TBKvRa7/lp1mUKg4Aak9PeyvqUFz/GZK1sYg3JAnmEyKgADMCV3MSyW6KWijB9lxp9fJtI+bZ
- 2Z3i4YDjxzyt+SfTI18TVMJ8NW2ti2a1PussYNfR0/ZxbZteypJI16nT5m5IGWPzZJi4l0o8A
- ze7E3OPLoamLG0=
-Content-Transfer-Encoding: quoted-printable
+X-Received: by 2002:a6b:610a:: with SMTP id v10mr6389678iob.167.1631995087634;
+ Sat, 18 Sep 2021 12:58:07 -0700 (PDT)
+Date:   Sat, 18 Sep 2021 12:58:07 -0700
+In-Reply-To: <000000000000fe7dd005cc2d77c0@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000079478a05cc4a7730@google.com>
+Subject: Re: [syzbot] kernel BUG in vmf_insert_pfn_prot
+From:   syzbot <syzbot+2d4f8693f438d2bd4bdb@syzkaller.appspotmail.com>
+To:     airlied@linux.ie, christian.koenig@amd.com, daniel.vetter@ffwll.ch,
+        daniel.vetter@intel.com, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org,
+        linaro-mm-sig-owner@lists.linaro.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kees,
+syzbot has bisected this issue to:
 
-On Sat, Sep 18, 2021 at 06:51:51AM -0700, Kees Cook wrote:
->
->
-> On September 18, 2021 6:20:10 AM PDT, Len Baker <len.baker@gmx.com> wrot=
-e:
-> >Hi,
-> >
-> >On Sat, Sep 11, 2021 at 12:28:18PM +0200, Len Baker wrote:
-> >> As noted in the "Deprecated Interfaces, Language Features, Attributes=
-,
-> >> and Conventions" documentation [1], size calculations (especially
-> >> multiplication) should not be performed in memory allocator (or simil=
-ar)
-> >> function arguments due to the risk of them overflowing. This could le=
-ad
-> >> to values wrapping around and a smaller allocation being made than th=
-e
-> >> caller was expecting. Using those allocations could lead to linear
-> >> overflows of heap memory and other misbehaviors.
-> >>
-> >> So, use the struct_size() helper to do the arithmetic instead of the
-> >> argument "size + count * size" in the kzalloc() function.
-> >>
-> >> [1] https://www.kernel.org/doc/html/v5.14/process/deprecated.html#ope=
-n-coded-arithmetic-in-allocator-arguments
-> >>
-> >> Signed-off-by: Len Baker <len.baker@gmx.com>
-> >> ---
-> >>  drivers/net/ethernet/microsoft/mana/hw_channel.c | 4 +---
-> >>  1 file changed, 1 insertion(+), 3 deletions(-)
-> >>
-> >> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drive=
-rs/net/ethernet/microsoft/mana/hw_channel.c
-> >> index 1a923fd99990..0efdc6c3c32a 100644
-> >> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
-> >> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-> >> @@ -398,9 +398,7 @@ static int mana_hwc_alloc_dma_buf(struct hw_chann=
-el_context *hwc, u16 q_depth,
-> >>  	int err;
-> >>  	u16 i;
-> >>
-> >> -	dma_buf =3D kzalloc(sizeof(*dma_buf) +
-> >> -			  q_depth * sizeof(struct hwc_work_request),
-> >> -			  GFP_KERNEL);
-> >> +	dma_buf =3D kzalloc(struct_size(dma_buf, reqs, q_depth), GFP_KERNEL=
-);
-> >>  	if (!dma_buf)
-> >>  		return -ENOMEM;
-> >>
-> >> --
-> >> 2.25.1
-> >>
-> >
-> >I have received a email from the linux-media subsystem telling that thi=
-s
-> >patch is not applicable. The email is the following:
-> >
-> >Hello,
-> >
-> >The following patch (submitted by you) has been updated in Patchwork:
-> >
-> > * linux-media: net: mana: Prefer struct_size over open coded arithmeti=
-c
-> >     - http://patchwork.linuxtv.org/project/linux-media/patch/202109111=
-02818.3804-1-len.baker@gmx.com/
-> >     - for: Linux Media kernel patches
-> >    was: New
-> >    now: Not Applicable
-> >
-> >This email is a notification only - you do not need to respond.
-> >
-> >The question is: Why it is not applicable?. I have no received any bad =
-comment
-> >and a "Reviewed-by:" tag from Haiyang Zhang. So, what is the reason for=
- the
-> >"Not Applicable" state?.
->
-> That is the "Media" subsystem patch tracker. The patch appears to be for=
- networking, so the Media tracker has marked it as "not applicable [to the=
- media subsystem]".
->
-> The CC list for this patch seems rather wide (media, dri). I would have =
-expected only netdev. Were you using scripts/get_maintainer.pl for getting=
- addresses?
+commit 8b93d1d7dbd578fd296e70008b29c0f62d09d7cb
+Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Thu Aug 12 13:14:10 2021 +0000
 
-Yes, my workflow is scripts/checkpatch.pl and then scripts/get_maintainer.=
-pl
-before sending any patch :)
+    drm/shmem-helper: Switch to vmf_insert_pfn
 
-Regards,
-Len
->
-> -Kees
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1277054f300000
+start commit:   9004fd387338 Add linux-next specific files for 20210917
+git tree:       linux-next
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=1177054f300000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1677054f300000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=45d5ac72f31f29f3
+dashboard link: https://syzkaller.appspot.com/bug?extid=2d4f8693f438d2bd4bdb
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13ad5527300000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13beef77300000
+
+Reported-by: syzbot+2d4f8693f438d2bd4bdb@syzkaller.appspotmail.com
+Fixes: 8b93d1d7dbd5 ("drm/shmem-helper: Switch to vmf_insert_pfn")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
