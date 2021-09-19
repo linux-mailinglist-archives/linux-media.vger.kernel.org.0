@@ -2,97 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFD39410ABF
-	for <lists+linux-media@lfdr.de>; Sun, 19 Sep 2021 10:27:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65429410CBF
+	for <lists+linux-media@lfdr.de>; Sun, 19 Sep 2021 19:56:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230139AbhISI27 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 Sep 2021 04:28:59 -0400
-Received: from mout.gmx.net ([212.227.15.15]:36979 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229576AbhISI26 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 Sep 2021 04:28:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1632040038;
-        bh=bhpnsaGrv1Np5DCcjaML4H7Oxy9P1u6fnD5PIt2nVJE=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=BJoNlmIpWvL93Ez43cKMHRjF33O5J5CmJnSxXc3wRAb6X+RvTeDzKSXDpRDfmubDb
-         rvgwifMccIi4fCRuhbs5njatCvfgrKOLEyFt0L/t+CK+oVYjpRga2hrn5D3XKm2j9i
-         fEecdnN2+Vo6NmoMPr2z5xAk64umomxs8dvIL8mE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MJE2D-1mC8pq469b-00KeCc; Sun, 19
- Sep 2021 10:27:18 +0200
-Date:   Sun, 19 Sep 2021 10:27:05 +0200
-From:   Len Baker <len.baker@gmx.com>
-To:     Dexuan Cui <decui@microsoft.com>
-Cc:     Kees Cook <keescook@chromium.org>, Len Baker <len.baker@gmx.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        linux-hardening@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH] net: mana: Prefer struct_size over open coded arithmetic
-Message-ID: <20210918171519.GA2141@titan>
-References: <20210911102818.3804-1-len.baker@gmx.com>
- <20210918132010.GA15999@titan>
- <BYAPR21MB1270797B518555DF5DC87871BFDE9@BYAPR21MB1270.namprd21.prod.outlook.com>
+        id S229846AbhISR6M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 Sep 2021 13:58:12 -0400
+Received: from imsva.erbakan.edu.tr ([95.183.198.89]:45766 "EHLO
+        imsva.erbakan.edu.tr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229517AbhISR6M (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 19 Sep 2021 13:58:12 -0400
+X-Greylist: delayed 1190 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Sep 2021 13:58:11 EDT
+Received: from imsva.erbakan.edu.tr (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B281812490F;
+        Sun, 19 Sep 2021 20:28:57 +0300 (+03)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=erbakan.edu.tr;
+        s=dkim; t=1632072537;
+        bh=GF0kCZVzMAbL+zC2eGZ6bprg0BK693Z+UfWbMwtUgEs=; h=Date:From:To;
+        b=n4hjaV27ttunJIa21KLGUtONCDRq8waqC/C0N3+iJGjlRHjR0Xg4V0nsUrxiauzIQ
+         MXV+gEIJEiyBRV0EaVYaSfBX7wVDC8twvZSsK9g7TOH4nndxS0ywJ/jHS0nDqBg8lv
+         F7dJLaWN5lOtSgiP4cc0RFd84iDu9j7+8dCkhoCw=
+Received: from imsva.erbakan.edu.tr (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9D9D612490D;
+        Sun, 19 Sep 2021 20:28:57 +0300 (+03)
+Received: from eposta.erbakan.edu.tr (unknown [172.42.40.30])
+        by imsva.erbakan.edu.tr (Postfix) with ESMTPS;
+        Sun, 19 Sep 2021 20:28:57 +0300 (+03)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by eposta.erbakan.edu.tr (Postfix) with ESMTP id 47D851217BB7E;
+        Sun, 19 Sep 2021 20:36:42 +0300 (+03)
+Received: from eposta.erbakan.edu.tr ([127.0.0.1])
+        by localhost (eposta.erbakan.edu.tr [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id wtp9dEPy57R1; Sun, 19 Sep 2021 20:36:40 +0300 (+03)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by eposta.erbakan.edu.tr (Postfix) with ESMTP id 58A731217BB6F;
+        Sun, 19 Sep 2021 20:36:33 +0300 (+03)
+DKIM-Filter: OpenDKIM Filter v2.10.3 eposta.erbakan.edu.tr 58A731217BB6F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=erbakan.edu.tr;
+        s=9A114B22-0D17-11E9-AE7D-5CB170D0BDE7; t=1632072997;
+        bh=UE+6Rh6p+D/Q/qnCC1rilRTfAwcozVy4J0wYoa1QJws=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=EyA6BzG7IGR5gku5c2zM/5BjceotVOM3v6MC+Is94B78ce+gjSJAs7z4YPXONrWRS
+         YRRCsAy5S7FlVrS258gWjGBzGjm2bAqbwvpK4KxUGtOGm7uApt8lxFxbdqWZu76ELQ
+         r66TvFN/LPp92itOqf1Zf6xuZk+0LwPG1y1OlhxCYpONVlEZYTUNhGC/VN54SCQ+Z/
+         OLb2RMDhbjUJndcqEAj5XDnw0ACk+EvV8JBgorpx7RwZsNKvgqZZ/b1wqEwHeIZ6QX
+         hjrKwfks75RYic2Sav+Iuu+F8h4BN8t2ZScq7MmFtGmb5YJ9+tYMzgGS69fvpjcMb2
+         o57SXfB/k9WGQ==
+X-Virus-Scanned: amavisd-new at eposta.erbakan.edu.tr
+Received: from eposta.erbakan.edu.tr ([127.0.0.1])
+        by localhost (eposta.erbakan.edu.tr [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id oBaPQgyvZCZ0; Sun, 19 Sep 2021 20:36:28 +0300 (+03)
+Received: from eposta.erbakan.edu.tr (eposta.konya.edu.tr [172.42.44.72])
+        by eposta.erbakan.edu.tr (Postfix) with ESMTP id 7EB281217BB06;
+        Sun, 19 Sep 2021 20:36:25 +0300 (+03)
+Date:   Sun, 19 Sep 2021 20:36:23 +0300 (EET)
+From:   =?utf-8?B?eWFyxLHFn21h?= gsf <yarismagsf@erbakan.edu.tr>
+Reply-To: =?utf-8?B?eWFyxLHFn21h?= gsf <oasisportfb@gmail.com>
+Message-ID: <390000657.524466.1632072983607.JavaMail.zimbra@erbakan.edu.tr>
+Subject: Re: Quick loan
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BYAPR21MB1270797B518555DF5DC87871BFDE9@BYAPR21MB1270.namprd21.prod.outlook.com>
-X-Provags-ID: V03:K1:0Usx9DIb/dE6r4AgA5bj+2H9ipZynWUT6G16cuQBnHsNr+kBZoR
- +l/jfqBdlR3QmD0jTX6WNa8vHjJkdzf2bXDDPykHodB/1mrO1nUJ6AZLVl0NgXVz0gtGISk
- jJ+kwAH1QYzowbUo0nJ0gygeIJkKK7eUPjsvlQ4Z6FH7rISeES9ue7+jK9zDavetLczc1FT
- V4vqf4e+YebRTYGD58maw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/o2y+7uZsWk=:i/6c2zo8lB/CxbdCkH5RA9
- NQsyuIZxvE/yGV1swzX6YJsbVmi+DPQweOyxQkuR1oSGzmYtrIM0jVspuno6MXmIsiFDve7fE
- jhJswVHO2qnR8+5ytzSIcdVPc11h5iw+p9oTg0GGqK22cWPc5qfTAsisPXetdfHkaDsSDJGMT
- dkZFNw8yCxreLE/4T2L7EXINbcCmYrXyo9cyHOJGTxbUQwctT3g9pNJByOf0K7k+N4Jfa7R4U
- TnNuSSIjhY3M5y2Cd+pE7akPSo7u9oRNEiwbRZg3kS59GaZVQCCzcw9A0w0sQjg7hJT7F6DrN
- 7WHFJGGSXTDhnqkpwLLfzg4bdehL2r4rUN61xmnifuq0GzdLqiV/mTucoaUFXpvaXkarM1kvH
- PXTbFhzsVK8YO4Nbx3TcifN1Wv/f95j6Fcc1V9iNMQbGxZZ/Kmr+VcacyTJ6uK///k6PJSa5r
- 6udijW033Ntc9RjBOgJwQzMXndp9FtYrRx6ID5KSzLbon3K5l64RUK9ZuTwPAtr3eJmpghSiw
- bdO3YIiFNqklJoSwf6HuLPY67gYQJYfdnQtoVAoy79mwhPLyBtbXoNic/ICj8tv0wxjORRpHV
- k2L3c12zEhQYo3T2j+TtyGGzyHw0gKk1GO0txkS01nyrmUH9liqqhplSN2dBTul+280nwyrDd
- CnjCE/iaRtKodvNswDp+Cm59tyGYQ1YUraeAgBi64giLKIngZLxrxqDJeFtB10TfmWJh5vTvj
- Z+jkPJUkx6RQwM5ABGSzoJXH+VCrxpvaYx+1ukhe6a1ocjZVZ64oNGmiwVT50G/N62uQqrILN
- 0gQ8IjrDzkkhcSlQTtA13Ot28Ij6ptU5ID0TA3eg336hQFoevTbQF+IM2s/8Tz6hs9i6ByOuK
- lQg67WHcWTycJ1PBTfDkwJis4osh8bkRAIuSekP9DyFa0JgLxSFiMwYw71x+hWnUOVKL54uqd
- jnF8z5Yfp13dnERAiUKiIyuR7eJ58hGCvtF0M61E4BpYh9kSyD6W7XfAVl0WmcKfYTWwtLVQ7
- mVXi3v8OUtczsCkLCmE8HjGwVuuaepVm9KCYYde0i8EFhFsMkkjFIfXvDDA2g5KWYtvE69SgA
- lReoUDAC/jsw2M=
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: Zimbra 8.8.11_GA_3799 (ZimbraWebClient - GC92 (Win)/8.8.11_GA_3787)
+Thread-Index: 8gws71bxw7x/cE3wMq8fURTAwh/Mig==
+Thread-Topic: Quick loan
+To:     undisclosed-recipients:;
+X-TM-AS-GCONF: 00
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dexuan,
-
-On Sat, Sep 18, 2021 at 05:06:16PM +0000, Dexuan Cui wrote:
-> > From: Len Baker <len.baker@gmx.com>
-> > Sent: Saturday, September 18, 2021 6:20 AM
-> >  ...
-> > I have received a email from the linux-media subsystem telling that th=
-is
-> > patch is not applicable. The email is the following:
-> >
-> > Regards,
-> > Len
->
-> The patch is already in the net-next tree:
-> https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/comm=
-it/?id=3Df11ee2ad25b22c2ee587045dd6999434375532f7
-
-Thanks for the info.
-
-Regards,
-Len
+Oasis is offering quick loans, without credit check to old and new customers. We give Short or long term loan with a relatively low interest rate of about 0.2% on Instant approval.
+Oasis Fintech a onetime solution to all your financial need.
+Contact us today via email, oasisportfb@gmail.com,  and complete the loan form below....
+Your Full Name:
+Amount Required:
+Contact Phone #:
+Occupation:
+Loan Duration:
+Purpose:
+Location:
+ 
+Ms. Bauer
+Contact us via: email:  oasisportfb@gmail.com
