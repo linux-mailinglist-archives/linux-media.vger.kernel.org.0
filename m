@@ -2,139 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42F0C4108D5
-	for <lists+linux-media@lfdr.de>; Sun, 19 Sep 2021 00:27:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01997410995
+	for <lists+linux-media@lfdr.de>; Sun, 19 Sep 2021 05:44:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240349AbhIRW2f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Sep 2021 18:28:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34916 "EHLO
+        id S236301AbhISDqG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Sep 2021 23:46:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232125AbhIRW2e (ORCPT
+        with ESMTP id S235586AbhISDqC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Sep 2021 18:28:34 -0400
-X-Greylist: delayed 132 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 18 Sep 2021 15:27:10 PDT
-Received: from SpacedOut.fries.net (SpacedOut.fries.net [IPv6:2001:470:3832:200::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A5B0C061574
-        for <linux-media@vger.kernel.org>; Sat, 18 Sep 2021 15:27:10 -0700 (PDT)
-Received: from SpacedOut.fries.net (ip6-localhost [IPv6:0:0:0:0:0:0:0:1])
-        by SpacedOut.fries.net (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTPS id 18IMOuMN018810
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-        for <linux-media@vger.kernel.org>; Sat, 18 Sep 2021 17:24:56 -0500
-Received: (from david@localhost)
-        by SpacedOut.fries.net (8.15.2/8.15.2/Submit) id 18IMOucH018809
-        for linux-media@vger.kernel.org; Sat, 18 Sep 2021 17:24:56 -0500
-Date:   Sat, 18 Sep 2021 17:24:56 -0500
-From:   David Fries <David@Fries.net>
+        Sat, 18 Sep 2021 23:46:02 -0400
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F3C6C061574
+        for <linux-media@vger.kernel.org>; Sat, 18 Sep 2021 20:44:36 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id RnkkmNwIOpQdWRnknmOsAq; Sun, 19 Sep 2021 05:44:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1632023073; bh=+tOOV2Su2KZ07qkrELlMuqKDfcIzxtIACV1jtDJGiWg=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=o+MpUVphKSx753SKlb7gftXIDC02R/Dughbc5HriQqE+ZqC33RcLKEqGdnk9ZcniR
+         86vq1KRXVnNA60wTtgSLSdNqGSg81StxxP8HiSUAbx6ljNAjRW65DqfTBfXJ1tylJD
+         OztJNNxFzCsdDbMfzU6PVlEBqIrJmu7N/Z6i2S0L12CbBrwa6z4FHl4rgdHBwVGcde
+         c9MDTGp94muxvGyH7b4hmlWJm+7mBpsKhzqgv8eoVr1No7TM+Q2JRudoGnGyxRJXR3
+         vMz5LPltjauHfzZ4VbPyB0KrTwYqYgkc/RROZdaGRe4EH+/Z6rhHvZ7SmU1p02aig+
+         QkyQTsMY7WT7A==
+Message-ID: <0ddbda94147b7ad09362607e868f2093@smtp-cloud7.xs4all.net>
+Date:   Sun, 19 Sep 2021 05:44:30 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH] qv4l2: Add capture toggle and close hotkeys to CaptureWin
-Message-ID: <20210918222456.GA18760@spacedout.fries.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Greylist: Sender passed SPF test, not delayed by milter-greylist-4.5.11 (SpacedOut.fries.net [IPv6:::1]); Sat, 18 Sep 2021 17:24:56 -0500 (CDT)
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfJR/BmosvHfxaHswMz+SoE5ZGeTvVLtuIJvATzu1m6/dJsVIa52wu9Hx/3oVi2hPsNTqnIYKp+LbdWXmLdZ8kmI62fHRQkshMDNEvU0lKx4Dv58K0mgq
+ Mpse4SxNRfZ00vDM98x+biw7AjcTGjPpPNWPkzs0e6IcUju+jNS2uibxDw5ceIu8w3K6voqa0Fg/pphxtESb1E5+1zlB5YIZzQD0zhxUKNyi18dUSf08sKH/
+ qHSmdn351OnbZmuL0z9Vvw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It can be inconvenient to stop or start the stream when the capture
-window obscures most or all of the application window.  Register the
-current application window stream toggle QAction to the capture
-window as well.  Register a more standard Control-W to close the
-window.  Add both to the context menu to allow them to be visible and
-discovered.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: David Fries <David@Fries.net>
----
- utils/qv4l2/capture-win.cpp | 23 +++++++++++++++++++----
- utils/qv4l2/capture-win.h   |  2 +-
- 2 files changed, 20 insertions(+), 5 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/utils/qv4l2/capture-win.cpp b/utils/qv4l2/capture-win.cpp
-index 5667e7e7..8add18f8 100644
---- a/utils/qv4l2/capture-win.cpp
-+++ b/utils/qv4l2/capture-win.cpp
-@@ -44,9 +44,6 @@ CaptureWin::CaptureWin(ApplicationWindow *aw) :
- 	m_appWin(aw)
- {
- 	setWindowTitle("V4L2 Capture");
--	m_hotkeyClose = new QShortcut(Qt::CTRL+Qt::Key_W, this);
--	connect(m_hotkeyClose, SIGNAL(activated()), this, SLOT(close()));
--	connect(new QShortcut(Qt::Key_Q, this), SIGNAL(activated()), this, SLOT(close()));
- 	m_hotkeyScaleReset = new QShortcut(Qt::CTRL+Qt::Key_F, this);
- 	connect(m_hotkeyScaleReset, SIGNAL(activated()), this, SLOT(resetSize()));
- 	connect(aw->m_resetScalingAct, SIGNAL(triggered()), this, SLOT(resetSize()));
-@@ -55,9 +52,25 @@ CaptureWin::CaptureWin(ApplicationWindow *aw) :
- 	m_hotkeyToggleFullscreen = new QShortcut(Qt::Key_F, this);
- 	connect(m_hotkeyToggleFullscreen, SIGNAL(activated()), aw->m_makeFullScreenAct, SLOT(toggle()));
- 	m_exitFullScreen = new QAction(QIcon(":/fullscreenexit.png"), "Exit Fullscreen", this);
-+	m_exitFullScreen->setShortcut(m_hotkeyToggleFullscreen->key());
- 	connect(m_exitFullScreen, SIGNAL(triggered()), this, SLOT(escape()));
- 	m_enterFullScreen = new QAction(QIcon(":/fullscreen.png"), "Show Fullscreen", this);
-+	m_enterFullScreen ->setShortcut(m_hotkeyToggleFullscreen->key());
- 	connect(m_enterFullScreen, SIGNAL(triggered()), this, SLOT(fullScreen()));
-+	// Add the action to allow the hotkey to start/stop the stream
-+	addAction(m_appWin->m_capStartAct);
-+
-+	m_closeWindowAct = new QAction(QIcon(":/fileclose.png"), "&Close Window", this);
-+	m_closeWindowAct->setStatusTip("Close");
-+	QList<QKeySequence> shortcuts;
-+	// More standard close window shortcut
-+	shortcuts << Qt::CTRL+Qt::Key_W;
-+	// Historic qv4l2 shortcut
-+	shortcuts << Qt::Key_Q;
-+	m_closeWindowAct->setShortcuts(shortcuts);
-+	addAction(m_closeWindowAct);
-+	connect(m_closeWindowAct, SIGNAL(triggered()), this, SLOT(close()));
-+
- 	m_frame.format = 0;
- 	m_frame.size.setWidth(0);
- 	m_frame.size.setHeight(0);
-@@ -84,7 +97,6 @@ CaptureWin::~CaptureWin()
- 
- 	layout()->removeWidget(this);
- 	delete layout();
--	delete m_hotkeyClose;
- 	delete m_hotkeyScaleReset;
- }
- 
-@@ -365,6 +377,8 @@ void CaptureWin::customMenuRequested(QPoint pos)
- 		menu->addAction(m_enterFullScreen);
- 	}
- 	
-+	menu->addAction(m_appWin->m_capStartAct);
-+	menu->addAction(m_appWin->m_capStepAct);
- 	menu->addAction(m_appWin->m_resetScalingAct);
- 	if (m_appWin->m_useBlendingAct)
- 		menu->addAction(m_appWin->m_useBlendingAct);
-@@ -376,6 +390,7 @@ void CaptureWin::customMenuRequested(QPoint pos)
- 	menu->addMenu(m_appWin->m_overrideXferFuncMenu);
- 	menu->addMenu(m_appWin->m_overrideYCbCrEncMenu);
- 	menu->addMenu(m_appWin->m_overrideQuantizationMenu);
-+	menu->addAction(m_closeWindowAct);
- 	
- 	menu->popup(mapToGlobal(pos));
- }
-diff --git a/utils/qv4l2/capture-win.h b/utils/qv4l2/capture-win.h
-index c16fa7ce..f6ca6f2b 100644
---- a/utils/qv4l2/capture-win.h
-+++ b/utils/qv4l2/capture-win.h
-@@ -78,6 +78,7 @@ public:
- 	void makeFullScreen(bool);
- 	QAction *m_exitFullScreen;
- 	QAction *m_enterFullScreen;
-+	QAction *m_closeWindowAct;
- 
- 	/**
- 	 * @brief Set a frame into the capture window.
-@@ -214,7 +215,6 @@ private:
- 	ApplicationWindow *m_appWin;
- 	static double m_pixelAspectRatio;
- 	static CropMethod m_cropMethod;
--	QShortcut *m_hotkeyClose;
- 	QShortcut *m_hotkeyScaleReset;
- 	QShortcut *m_hotkeyExitFullscreen;
- 	QShortcut *m_hotkeyToggleFullscreen;
--- 
-2.20.1
+date:			Sun Sep 19 05:00:11 CEST 2021
+media-tree git hash:	6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f
+media_build git hash:	19d143dfd9cef88837caca87c456c8776cb0cbed
+v4l-utils git hash:	1874b2d0dfbb8a38b0c8b75a23a4b9a60e52fd6a
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 87e556f547947b56d66732146b55b1913a11cb41
+host hardware:		x86_64
+host os:		5.13.11-marune
 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15-rc1-i686: OK
+linux-5.15-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
