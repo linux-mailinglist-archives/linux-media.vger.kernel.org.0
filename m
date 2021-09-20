@@ -2,92 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C0A7412AAC
-	for <lists+linux-media@lfdr.de>; Tue, 21 Sep 2021 03:44:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74381412AAD
+	for <lists+linux-media@lfdr.de>; Tue, 21 Sep 2021 03:44:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235186AbhIUBqL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Sep 2021 21:46:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59100 "EHLO
+        id S235216AbhIUBqP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Sep 2021 21:46:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232577AbhIUBjo (ORCPT
+        with ESMTP id S232680AbhIUBkB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Sep 2021 21:39:44 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0BFCC04709C;
-        Mon, 20 Sep 2021 13:02:16 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id b15so54023393lfe.7;
-        Mon, 20 Sep 2021 13:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DA2UKuLK2u92CFl87mNPANcMsuKDJqU2qIFoERzDd/w=;
-        b=BhK92otjhD3xaxoPKxq8dGARgg4mm1Yl/hJdJw4FaYlMMMUDh8XYYkLIXLlRrUcvEa
-         SpiIDnHHH2Ts8FQYlgNsK31m5lrpwXsD7w3YX+67a320Ssw9eVrDeE3yDFLOm2qsbiuc
-         nOUcfuxp7d/0tJuU9ufuJTd4soHpkSLMMumM4rTCSfo3GixbMtiMqQ5qrjmRQLglj21Z
-         rZNEu0yyPj3f1tmgHCaFD1BxhRfUz93JIe2BAwANsdzvZOrKd86sRxAzwK3Afqwu22Ql
-         9as/7e5rXVAyoPUA97+wwxJzBDvZq0x+slm1de5IDNIHUDJ6H101EDmLTLenOdFcaV8j
-         IElw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DA2UKuLK2u92CFl87mNPANcMsuKDJqU2qIFoERzDd/w=;
-        b=xNOp/QSnUiHkEjHrmSgQbSs/OE4O93OF8P+cHDM4JOR2Wyd4zVbV/vdUFzte5zCQ/f
-         2DC2t+j3WZvCjyBqPr5jK8VUyDVsS8AFYEcDaTXX5QF9IzfJVn1TNbzk56CT0vlN61/4
-         4pyEew7riyj6e0lZsQiZZX5f7q3hbEeAuaKL0jYhAKY2iuFVbU4W/UOrPFnAoTTgxT72
-         W9DTBU0oeKFi8LGKOC5lIJVRe6QIIrHNhq86biLKXrW49nFjQCmiwBVgGaQm3+uylyoR
-         DJcE0tFRdjT+rNrRLmK47HNltukZt4rnvpy/IDU8bBbmPhzODVTCDKbk8+qw2iWBq3fC
-         IqSA==
-X-Gm-Message-State: AOAM5331TreQ4iUeNHf2Xgbqsn4XDuSL22cBuHEXsh26gJxXrrVSJzaU
-        h5doCE3vvH9v3DjI49QNXgq8uw/QW5w=
-X-Google-Smtp-Source: ABdhPJzzUtG5jeCmlfMAoFe1F0K0Lo3jMvKyIPC3Q9gD9Q2yW5gij6hetl6DT3481fOrP1F4wLtLSw==
-X-Received: by 2002:a2e:5442:: with SMTP id y2mr22916242ljd.436.1632168135294;
-        Mon, 20 Sep 2021 13:02:15 -0700 (PDT)
-Received: from localhost.localdomain (h-98-128-228-193.NA.cust.bahnhof.se. [98.128.228.193])
-        by smtp.gmail.com with ESMTPSA id u3sm1350862lft.149.2021.09.20.13.02.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 13:02:14 -0700 (PDT)
-From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mon, 20 Sep 2021 21:40:01 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0B6FC061D78;
+        Mon, 20 Sep 2021 13:31:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=JLhSqax26+J0GW/Co2tVaizBoPDQ4xYs1QjiJCsCNrk=; b=DALxwl8wwX/1GRP29oGH9hKlsU
+        wRmqdyfWwDiS2YE8NzQmHXLu/1kc/PB2r0nR2lL6IhOu+XqA/30xBiC6PYp49d+TFNVcJPPQM4TJy
+        VZfHneCS0ZsjXGzyvSUTgOH+mP7eVYlhFpI3lcyFrcTqkhTIbq/Wd4VaR5tPpKwVLS2b/02C6dWa8
+        +9JdUMV2dhGKReLhYmwr9s+ePh1sOpfl5V4N1t6XAg2myyRHTqooQ0vYhJDYcpXqH4g6YLSbF6kYG
+        2hxMl8rqX6dC/34j5nhwsY/119YivGOJABZqoQCOKFQcVPqJzg2FLrc7VaM9CVgIAhjdThLXoamDP
+        q8QsrNKA==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mSPx8-0032fd-Ne; Mon, 20 Sep 2021 20:31:50 +0000
+Subject: Re: [PATCH] media: i2c: select V4L2_ASYNC where needed
+To:     Arnd Bergmann <arnd@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Subject: [PATCH] media: hantro: Constify static struct v4l2_m2m_ops
-Date:   Mon, 20 Sep 2021 22:02:10 +0200
-Message-Id: <20210920200210.18935-1-rikard.falkeborn@gmail.com>
-X-Mailer: git-send-email 2.33.0
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Martina Krasteva <martinax.krasteva@intel.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210920095830.1259051-1-arnd@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <387f295c-69e4-76f2-5f7d-29be6a801639@infradead.org>
+Date:   Mon, 20 Sep 2021 13:31:49 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210920095830.1259051-1-arnd@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The only usage of vpu_m2m_ops is to pass its address to v4l2_m2m_init()
-which has a pointer to const struct v4l2_m2m_ops as argument. Make it
-const to allow the compiler to put it in read-only memory.
+On 9/20/21 2:58 AM, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> I came across a link failure from randconfig builds:
+> 
+> x86_64-linux-ld: drivers/media/i2c/ths8200.o: in function `ths8200_remove':
+> ths8200.c:(.text+0x491): undefined reference to `v4l2_async_unregister_subdev'
+> x86_64-linux-ld: drivers/media/i2c/ths8200.o: in function `ths8200_probe':
+> ths8200.c:(.text+0xe49): undefined reference to `v4l2_async_register_subdev'
 
-Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
----
- drivers/staging/media/hantro/hantro_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ths8200 is already fixed.
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index f23fc14b3562..fb82b9297a2b 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -179,7 +179,7 @@ static void device_run(void *priv)
- 	hantro_job_finish_no_pm(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
- }
- 
--static struct v4l2_m2m_ops vpu_m2m_ops = {
-+static const struct v4l2_m2m_ops vpu_m2m_ops = {
- 	.device_run = device_run,
- };
- 
+> x86_64-linux-ld: drivers/media/i2c/tw9910.o: in function `tw9910_remove':
+> tw9910.c:(.text+0x467): undefined reference to `v4l2_async_unregister_subdev'
+> x86_64-linux-ld: drivers/media/i2c/tw9910.o: in function `tw9910_probe':
+> tw9910.c:(.text+0x1123): undefined reference to `v4l2_async_register_subdev'
+> 
+> These clearly lack a 'select' statement, but I don't know why
+> this started happening only now. I had a bit of a look around to find
+> other configs that have the same problem, but could not come up with
+> a reliable way and found nothing else through experimentation.
+> It is likely that other symbols like these exist that need an extra
+> select.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   drivers/media/i2c/Kconfig | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 08feb3e8c1bf..d49eecc4fe33 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -450,6 +450,7 @@ config VIDEO_TW9906
+>   config VIDEO_TW9910
+>   	tristate "Techwell TW9910 video decoder"
+>   	depends on VIDEO_V4L2 && I2C
+> +	select V4L2_ASYNC
+>   	help
+>   	  Support for Techwell TW9910 NTSC/PAL/SECAM video decoder.
+>   
+> @@ -597,6 +598,7 @@ config VIDEO_AK881X
+>   config VIDEO_THS8200
+>   	tristate "Texas Instruments THS8200 video encoder"
+>   	depends on VIDEO_V4L2 && I2C
+> +	select V4L2_ASYNC
+>   	help
+>   	  Support for the Texas Instruments THS8200 video encoder.
+>   
+> 
+
+Thanks.
 -- 
-2.33.0
-
+~Randy
