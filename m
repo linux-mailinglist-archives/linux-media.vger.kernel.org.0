@@ -2,103 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4393D412A50
-	for <lists+linux-media@lfdr.de>; Tue, 21 Sep 2021 03:33:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C0A7412AAC
+	for <lists+linux-media@lfdr.de>; Tue, 21 Sep 2021 03:44:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229665AbhIUBer (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Sep 2021 21:34:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57944 "EHLO
+        id S235186AbhIUBqL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Sep 2021 21:46:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230054AbhIUBe0 (ORCPT
+        with ESMTP id S232577AbhIUBjo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Sep 2021 21:34:26 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5076DC034020
-        for <linux-media@vger.kernel.org>; Mon, 20 Sep 2021 11:07:58 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id 5so11613367plo.5
-        for <linux-media@vger.kernel.org>; Mon, 20 Sep 2021 11:07:58 -0700 (PDT)
+        Mon, 20 Sep 2021 21:39:44 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0BFCC04709C;
+        Mon, 20 Sep 2021 13:02:16 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id b15so54023393lfe.7;
+        Mon, 20 Sep 2021 13:02:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pathpartnertech.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=IqSMwR4a24hMxIKCSGAPEfZhxYKFpQxhDLhmb/v1kic=;
-        b=lGaqqIVdZjx5cV8e5OybW+DS38hiLCzay1UiikAkJg8Cd2sT2Lj1Fteq27KWe6/pBW
-         99TU/DeuIqc8IkFHgAiHxM8ILsJsMNKMiGNfLGhDd3fghZxixuLfIyLgiHSPcyaosMph
-         8daH7/50//CxeOIf4dWveOo74yFR/ew/WBkjD6lwHaTi6aq4A1Tu0hXYvoaIYPifuw+S
-         jw1Uf6JfUuF0wXy/jh0mOeCMMiEx6MykjYYoKc5Defesnq1IxpcISxr9Z/M4+YlrPz3+
-         Slqj1u/f1EirUmxSBEV0C9LLtKbWDdqGWOnlbt8tBZOrSiCqjMCejI7TX0znftcghjB0
-         4YCQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DA2UKuLK2u92CFl87mNPANcMsuKDJqU2qIFoERzDd/w=;
+        b=BhK92otjhD3xaxoPKxq8dGARgg4mm1Yl/hJdJw4FaYlMMMUDh8XYYkLIXLlRrUcvEa
+         SpiIDnHHH2Ts8FQYlgNsK31m5lrpwXsD7w3YX+67a320Ssw9eVrDeE3yDFLOm2qsbiuc
+         nOUcfuxp7d/0tJuU9ufuJTd4soHpkSLMMumM4rTCSfo3GixbMtiMqQ5qrjmRQLglj21Z
+         rZNEu0yyPj3f1tmgHCaFD1BxhRfUz93JIe2BAwANsdzvZOrKd86sRxAzwK3Afqwu22Ql
+         9as/7e5rXVAyoPUA97+wwxJzBDvZq0x+slm1de5IDNIHUDJ6H101EDmLTLenOdFcaV8j
+         IElw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=IqSMwR4a24hMxIKCSGAPEfZhxYKFpQxhDLhmb/v1kic=;
-        b=a0yX2VmMtSqVyPbyJte0RW1u7XL1jZk+6Fix48/pjMaxbzEoA6yCn/Jf8QcNAQDaUh
-         o0imF9Ci1vtnX7+s5wKmHLPz7MgRMgDPY3VIroYIs681rxHHUcPxJbaIBNbTLEJq13O3
-         wls+maklkbYAgSL/We3CGai0O8efSkikDvPBmcFGxnDDIErhP0aUZ00OEOTLTrVSNOat
-         97gnlJoVAL3xfocQwn3vrSU5Y3iC+aRgHu9zdagO+nAnzIwu9SG2SzWru8gbAM5eiQf3
-         XECwo4nc/cSoXdSraJ08RUijlyixm0aMZXA2wdwoEHbqpqeMRZiXAIaLQNoY4DVtM4AA
-         jFwA==
-X-Gm-Message-State: AOAM533graXkQvi0GQMfLPNAVBgrPFaIr6qliFCULWXub5Ua/FiOGhWk
-        ydkxMJHzfFy/7jl4VUcL/yW6OA==
-X-Google-Smtp-Source: ABdhPJwVPpE27E6o3XpzAEQHtvhWnZk0mAbE5+OIGrFfrMv1SidHQPlf67DPYKEz3QForL3HqmbO2g==
-X-Received: by 2002:a17:90b:3447:: with SMTP id lj7mr354324pjb.112.1632161277584;
-        Mon, 20 Sep 2021 11:07:57 -0700 (PDT)
-Received: from sidraya-laptopU ([49.207.203.250])
-        by smtp.gmail.com with ESMTPSA id g15sm2797784pfu.155.2021.09.20.11.07.54
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 20 Sep 2021 11:07:57 -0700 (PDT)
-Date:   Mon, 20 Sep 2021 23:37:51 +0530
-From:   Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DA2UKuLK2u92CFl87mNPANcMsuKDJqU2qIFoERzDd/w=;
+        b=xNOp/QSnUiHkEjHrmSgQbSs/OE4O93OF8P+cHDM4JOR2Wyd4zVbV/vdUFzte5zCQ/f
+         2DC2t+j3WZvCjyBqPr5jK8VUyDVsS8AFYEcDaTXX5QF9IzfJVn1TNbzk56CT0vlN61/4
+         4pyEew7riyj6e0lZsQiZZX5f7q3hbEeAuaKL0jYhAKY2iuFVbU4W/UOrPFnAoTTgxT72
+         W9DTBU0oeKFi8LGKOC5lIJVRe6QIIrHNhq86biLKXrW49nFjQCmiwBVgGaQm3+uylyoR
+         DJcE0tFRdjT+rNrRLmK47HNltukZt4rnvpy/IDU8bBbmPhzODVTCDKbk8+qw2iWBq3fC
+         IqSA==
+X-Gm-Message-State: AOAM5331TreQ4iUeNHf2Xgbqsn4XDuSL22cBuHEXsh26gJxXrrVSJzaU
+        h5doCE3vvH9v3DjI49QNXgq8uw/QW5w=
+X-Google-Smtp-Source: ABdhPJzzUtG5jeCmlfMAoFe1F0K0Lo3jMvKyIPC3Q9gD9Q2yW5gij6hetl6DT3481fOrP1F4wLtLSw==
+X-Received: by 2002:a2e:5442:: with SMTP id y2mr22916242ljd.436.1632168135294;
+        Mon, 20 Sep 2021 13:02:15 -0700 (PDT)
+Received: from localhost.localdomain (h-98-128-228-193.NA.cust.bahnhof.se. [98.128.228.193])
+        by smtp.gmail.com with ESMTPSA id u3sm1350862lft.149.2021.09.20.13.02.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Sep 2021 13:02:14 -0700 (PDT)
+From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        prashanth.ka@pathpartnertech.com, praneeth@ti.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        praveen.ap@pathpartnertech.com
-Subject: Re: [PATCH 03/30] v4l: vxd-dec: Create vxd_dec Mem Manager helper
- library
-Message-ID: <20210920180749.uibnx6y2ktk4l4jv@sidraya-laptopU>
-References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
- <20210818141037.19990-4-sidraya.bj@pathpartnertech.com>
- <20210824133438.GO1931@kadam>
- <20210914034032.orctp5ov5oc33vag@sidraya-laptopU>
- <YUAmeLYf/fvbCHo3@kroah.com>
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Subject: [PATCH] media: hantro: Constify static struct v4l2_m2m_ops
+Date:   Mon, 20 Sep 2021 22:02:10 +0200
+Message-Id: <20210920200210.18935-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YUAmeLYf/fvbCHo3@kroah.com>
-User-Agent: NeoMutt/20171215
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 14, 2021 at 06:35:04AM +0200, Greg KH wrote:
-> On Tue, Sep 14, 2021 at 09:10:37AM +0530, Sidraya Jayagond wrote:
-> > This
-> > message contains confidential information and is intended only 
-> > for the
-> > individual(s) named. If you are not the intended
-> > recipient, you are 
-> > notified that disclosing, copying, distributing or taking any
-> > action in 
-> > reliance on the contents of this mail and attached file/s is strictly
-> > prohibited. Please notify the
-> > sender immediately and delete this e-mail 
-> > from your system. E-mail transmission
-> > cannot be guaranteed to be secured or 
-> > error-free as information could be
-> > intercepted, corrupted, lost, destroyed, 
-> > arrive late or incomplete, or contain
-> > viruses. The sender therefore does 
-> > not accept liability for any errors or
-> > omissions in the contents of this 
-> > message, which arise as a result of e-mail
-> > transmission.
-> > 
-> 
-> Now deleted, this is not ok for kernel development mailing lists, sorry.
+The only usage of vpu_m2m_ops is to pass its address to v4l2_m2m_init()
+which has a pointer to const struct v4l2_m2m_ops as argument. Make it
+const to allow the compiler to put it in read-only memory.
 
-We are able resolve and removed confidentiality signature for my
-email-id.
-I apologize for the inconvenience.
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+---
+ drivers/staging/media/hantro/hantro_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index f23fc14b3562..fb82b9297a2b 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -179,7 +179,7 @@ static void device_run(void *priv)
+ 	hantro_job_finish_no_pm(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
+ }
+ 
+-static struct v4l2_m2m_ops vpu_m2m_ops = {
++static const struct v4l2_m2m_ops vpu_m2m_ops = {
+ 	.device_run = device_run,
+ };
+ 
+-- 
+2.33.0
+
