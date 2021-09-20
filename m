@@ -2,109 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3239C410F60
-	for <lists+linux-media@lfdr.de>; Mon, 20 Sep 2021 07:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9421E410FE1
+	for <lists+linux-media@lfdr.de>; Mon, 20 Sep 2021 09:15:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233023AbhITFuG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Sep 2021 01:50:06 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:34987 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231250AbhITFuF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Sep 2021 01:50:05 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1632116919; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=5nlyLyKja5pQmPUhb5irf4OKc7ipwfbDP9VsHRmIz/M=;
- b=Xa4lbS8BIGzN6PJgaUwxnFGQPE+7geZrD7nixInS+hrVaUTIdgfGtqwFTRGhD0UwzVIR31zT
- YuzUJWtnaK9Bcwar7/IrMiAKszz9jT55kox20W3ged/UE8WyKG8emQhon5apE99gFy5QJsSe
- q/C4QGuxyZYDSqmLhQDhNPuuieQ=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 614820b4b585cc7d2488d87f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 20 Sep 2021 05:48:36
- GMT
-Sender: dikshita=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 85376C4360C; Mon, 20 Sep 2021 05:48:36 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: dikshita)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id A85B4C4338F;
-        Mon, 20 Sep 2021 05:48:35 +0000 (UTC)
+        id S234683AbhITHQ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Sep 2021 03:16:57 -0400
+Received: from mx1.tq-group.com ([93.104.207.81]:32772 "EHLO mx1.tq-group.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234571AbhITHQ4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 Sep 2021 03:16:56 -0400
+X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 Sep 2021 03:16:56 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1632122130; x=1663658130;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-id:content-transfer-encoding;
+  bh=pcskR+AXsFiTVlXyusN6C6reiKLyH/73loxhkbl2iO0=;
+  b=guJRDLKrgnQh5gme7OobDmfqL2Te9oRdDG6MmkzaSdJ/JYxbVzy96smA
+   iMUZpx6oklH5Gzbxl3ikRrX8mrwGJ5JtoQ48kWguyvfBbWo7O90DRDMy/
+   Gfe16nqtBxQoAuZlrvGR/C/2khE3H6zeLYuJDPG8Ip0xsEYKEbXwG9yYo
+   6fcFTEsUbfKsfcDRTB3VSHilp3sVRaug7s0pt1hZJMlCb1na+2ky7ChEy
+   AIUzLFyHZB6pKK0ajUEH4BrXH7ZAm3iRW/C31MvDHQHsBBC44QYVEQ+MI
+   VUREHAvPQn7yuUMzJERMh1a14AV9Kq301F156aTYEW8ULIlUFFqZhm5uZ
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.85,307,1624312800"; 
+   d="scan'208";a="19591006"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 20 Sep 2021 09:08:18 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 20 Sep 2021 09:08:21 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 20 Sep 2021 09:08:21 +0200
+X-IronPort-AV: E=Sophos;i="5.85,307,1624312800"; 
+   d="scan'208";a="19591005"
+Received: from vmail02.tq-net.de ([10.150.72.12])
+  by mx1.tq-group.com with ESMTP; 20 Sep 2021 09:08:18 +0200
+Received: from vmail01.tq-net.de (10.150.72.11) by vmail02.tq-net.de
+ (10.150.72.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 20 Sep
+ 2021 09:08:18 +0200
+Received: from vmail01.tq-net.de ([10.150.72.11]) by vmail01.tq-net.de
+ ([10.150.72.11]) with mapi id 15.01.2308.014; Mon, 20 Sep 2021 09:08:18 +0200
+From:   "Stein, Alexander" <Alexander.Stein@tq-group.com>
+To:     "mani@kernel.org" <mani@kernel.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Sony IMX290 link frequency
+Thread-Topic: Sony IMX290 link frequency
+Thread-Index: AQHXre5JzF/aKpNWCk+hzVQ71Sk0Gw==
+Date:   Mon, 20 Sep 2021 07:08:18 +0000
+Message-ID: <01d4c7efb1ef900c499fda6af2c5a19ce923dc15.camel@tq-group.com>
+Accept-Language: de-DE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.150.72.21]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 20 Sep 2021 11:18:35 +0530
-From:   dikshita@codeaurora.org
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, jim.cromie@gmail.com,
-        Joe Perches <joe@perches.com>, Jason Baron <jbaron@akamai.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media-owner@vger.kernel.org,
-        Akinobu Mita <akinobu.mita@gmail.com>
-Subject: Re: [PATCH v5 2/3] venus: Add a debugfs file for SSR trigger
-In-Reply-To: <CAE-0n51Pxs7stTdJ5AO3i+Xm=q1R_EUcueR2+_-gFAa7iqUypg@mail.gmail.com>
-References: <20200730095350.13925-1-stanimir.varbanov@linaro.org>
- <20200730095350.13925-3-stanimir.varbanov@linaro.org>
- <159718256557.1360974.458611240360821676@swboyd.mtv.corp.google.com>
- <8c1fdf2d0807f07ec57b232497b405f1@codeaurora.org>
- <CAE-0n53T-RoOvR=s9nHiXAriMgKvBfDqfBfoGKX5Ju5YF3Tcqw@mail.gmail.com>
- <53a38a24cca0b6f1c2a3120f14dfc865@codeaurora.org>
- <CAE-0n51Pxs7stTdJ5AO3i+Xm=q1R_EUcueR2+_-gFAa7iqUypg@mail.gmail.com>
-Message-ID: <be092edc127a5c8d99394740c518d756@codeaurora.org>
-X-Sender: dikshita@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <27669FF8B7540B4F8CEC9EE6DFD6C304@tq-group.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2021-09-17 11:48, Stephen Boyd wrote:
-> Quoting dikshita@codeaurora.org (2021-09-15 23:29:36)
->> On 2021-09-16 01:09, Stephen Boyd wrote:
->> > Quoting dikshita@codeaurora.org (2021-09-15 02:13:09)
->> >>
->> >> So, IMO, we will have to use custom debugfs only.
->> >
->> > Can you use DECLARE_FAULT_ATTR()? Or you need it to be active instead
->> > of
->> > passive, i.e. it shouldn't wait for should_fail() to return true, but
->> > actively trigger something on the remoteproc?
->> >
->> 
->> yes, it doesn't need to wait for should_fail() to return true.
->> the client/user should be able to trigger this subsystem restart(SSR) 
->> at
->> any point of time
->> when a session is running. It's totally client-driven.
->> 
->> >>
->> >> Please feel free to correct me in case my understanding of the
->> >> framework
->> >> is wrong.
->> >>
->> >
->> > I presume the fault injection framework could get a new feature that
->> > lets the fault be injected immediately upon writing the debugfs file.
->> > My goal is to consolidate this sort of logic into one place and then
->> > put
->> > it behind some config option that distros can disable so the kernel
->> > isn't bloated with debug features that end users will never care about.
-> 
-> So you can modify fault injection framework to support direct injection
-> instead of statistical failures?
-
-I am not sure how to do that. Could you pls give me more info?
-Also, how is this beneficial than using debugfs?
+SGVsbG8sDQoNCnRoZSBpbXgyOTAgZHJpdmVyIHNwZWNpZmllcyAyIHRhYmxlcyBvZiBsaW5rIGZy
+ZXF1ZW5jaWVzLCBkZXBlbmRpbmcgb24NCm51bWJlciBvZiBsYW5lcyBhbmQgdGhlIHZlcnRpY2Fs
+IHJlc29sdXRpb24uDQpUaGVzZSBudW1iZXJzIHZhcnkgZnJvbSAxNDguNSBNSHogdXAgdG8gNDQ1
+LjUgTUh6Lg0KSSdtIHdvbmRlcmluZyB3aGVyZSB0aGVzZSBudW1iZXIgY29tZSBmcm9tLCBpdCdz
+IG5vdCBjbGVhciBmb3IgbWUuIEFsc28NCnNob3VsZG4ndCB0aG9zZSBudW1iZXJzIGFsc28gZGVw
+ZW5kIGluIGJpdHMgcGVyIHBpeGVsIGFuZCB0aGUgZnJhbWVzDQpwZXIgc2Vjb25kPw0KSSBzdXNw
+ZWN0IHRoYXQgdGhlIHJldHVybmVkIGxpbmsgZnJlcXVlbmN5IGlzIG5vdCBjb3JyZWN0IHdoaWNo
+IGJyZWFrcw0KdGhpbmdzIGZ1cnRoZXIgZG93biB1c2luZyB2NGwyX2dldF9saW5rX2ZyZXEoKS4N
+Cg0KQmVzdCByZWdhcmRzDQpBbGV4YW5kZXINCi0tIA0KaS5BLiBBbGV4YW5kZXIgU3RlaW4NCkVu
+dHdpY2tsdW5nIFN0YW5kb3J0IENoZW1uaXR6DQpUZWwuICs0OSAzNzEgNDMzMTUxLTAsIEZheCAr
+NDkgMzcxIDQzMzE1MS0yMg0KWndpY2thdWVyIFN0cmHDn2UgMTczLCAwOTExNiBDaGVtbml0eg0K
+bWFpbHRvOiBBbGV4YW5kZXIuU3RlaW5AdHEtZ3JvdXAuY29tDQogDQpUUS1TeXN0ZW1zIEdtYkgN
+Ck3DvGhsc3RyYcOfZSAyLCBHdXQgRGVsbGluZywgODIyMjkgU2VlZmVsZA0KQW10c2dlcmljaHQg
+TcO8bmNoZW4sIEhSQiAxMDUwMTgNClNpdHogZGVyIEdlc2VsbHNjaGFmdDogU2VlZmVsZA0KR2Vz
+Y2jDpGZ0c2bDvGhyZXI6IERldGxlZiBTY2huZWlkZXIsIFLDvGRpZ2VyIFN0YWhsLCBTdGVmYW4g
+U2NobmVpZGVyDQp3d3cudHEtZ3JvdXAuY29tDQo=
