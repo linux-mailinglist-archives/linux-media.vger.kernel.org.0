@@ -2,68 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E9FB411018
-	for <lists+linux-media@lfdr.de>; Mon, 20 Sep 2021 09:31:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0110411023
+	for <lists+linux-media@lfdr.de>; Mon, 20 Sep 2021 09:35:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234628AbhITHci (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Sep 2021 03:32:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40018 "EHLO
+        id S231184AbhITHgv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Sep 2021 03:36:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234126AbhITHch (ORCPT
+        with ESMTP id S229529AbhITHgu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Sep 2021 03:32:37 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23DA5C061574
-        for <linux-media@vger.kernel.org>; Mon, 20 Sep 2021 00:31:11 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id g19-20020a1c9d13000000b003075062d4daso11383784wme.0
-        for <linux-media@vger.kernel.org>; Mon, 20 Sep 2021 00:31:11 -0700 (PDT)
+        Mon, 20 Sep 2021 03:36:50 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DDFEC061574
+        for <linux-media@vger.kernel.org>; Mon, 20 Sep 2021 00:35:24 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id q26so27126594wrc.7
+        for <linux-media@vger.kernel.org>; Mon, 20 Sep 2021 00:35:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=C+nvY/BAbTa7xL9nvPKJe3AuiPmfIWaUColu4UW3xMk=;
-        b=OqISqpoYcxBujvtx67SbnL8TeOJWntq93m8yGSJ6KZnynG+H0m+xeFBQSlif5WL4qh
-         XF7NuDJqOFkeK+rK5yq6EwJDSxRV3qHHN/h/cfndtwgqXCNhP0+GXqiPiNyvIjVI4jHp
-         uKyps+vByGX2yGwVsHmtSG+zgKfYgo94OUt1e2AqugJnZzV76z9SitUrmT1JEiauO+r2
-         gc3hHS0/dQ4ZQm0HKVdJNY03YC6rjVAl1M1zxMIsguatxqtO8tNCrIZnEQar7LINrTKb
-         dX6MD/OxdGeHkrEgztYQKqsG3Sn0F8XBMG4c2H27Xu4rvpyW78TinhI2DqMxTX7HxiDH
-         i8GQ==
+        bh=4P1io5nUKE9cYx4NjlZE02ncCC38OG0LveUarkFjV+4=;
+        b=g1ECzyspCR1I5FXZUYHtyQjmn0g8obadz/rLTIBlDOnrWeK1lYdb3dq8fXweE8pgIm
+         zeVqQxIrvocx0hYvxeUpUllzbjdMRJquTTNHCMqST+4ZUYhooFzm/It2BrdYC3HMLDnO
+         CKvNyRc7uAY1bxU2Vac1ZSZySnmvoSB+UE4idjXKpjIEPn+fj0MfP4nPTwQWB/hJ+iKn
+         2IAkDl8Wcz3jsqN1ck9SIn6J9NExLt/oGu9FfacfJqQwBghvkiGSAmbQ8+Sinn16cHj6
+         JYMDp3ZC+4aP32H2XE2MPv2eqZGjXRM9J0pYcAF21RBHbCWTxF3rDxSFXMZZHnFTBbqG
+         B0pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=C+nvY/BAbTa7xL9nvPKJe3AuiPmfIWaUColu4UW3xMk=;
-        b=M9zULYkzFKDMOuIVbieyjxbQZkY0BL67y4KdkOQaP095qEmRGOn3/aDGXD7WB9iGws
-         dKlx9YNn587xf+nYpTKF2vQd7S6PFAsUJSey/bXB1RUpJGMtESb7iEP+c2I1vyqMMlUn
-         qzg2PTXhbGb3DRqKFTdxJQQSDm/0WINa2Ig0A0LMu3LSKX+rWN/YhqDcfGHeYtd/Sn4d
-         7c4Z9eXoun4cAammuifrtLL/WsDEvijT1ZoQ/kSGu8GaTIE9a4BCZIj+vcBn7jc/MEy5
-         oLG4savA0cwejY2xm8zNpGisBlqIYbvZ30ZVAgr+K0jHOFNLXLFbeUSrigE2NB1lMjGO
-         8exg==
-X-Gm-Message-State: AOAM532ooM9jpTCa9aMrUWGKiAN3+SbjAyq1FYHHxjcARnO2mvWLDKdi
-        PuZAI4ipQj432pRNHZ965qmxjIFvCYk=
-X-Google-Smtp-Source: ABdhPJw/Ntw29LRKB7ZUkAUXnJ/6trbaxzAp6Mj1XsFXISe1P5uJ0g4pHAgvCS/BPgom+xqmNI6JzQ==
-X-Received: by 2002:a7b:c3d2:: with SMTP id t18mr22858196wmj.33.1632123069769;
-        Mon, 20 Sep 2021 00:31:09 -0700 (PDT)
+        bh=4P1io5nUKE9cYx4NjlZE02ncCC38OG0LveUarkFjV+4=;
+        b=vczQtX33NkE5KQLgWcc3hD7C4ZDCSI71w2opG9bWF7njbN9LAoS20V1ujsb3wkut/3
+         Ve68wgTlqEOiryHYw+TutgZZamAThQBpSjQMHewArJ0XYGaahsFcMwnvL4XjFTilCwtA
+         H6Q9TcWPwG/GLdPCcOahsg30E6aitocRub/MUbIsTaMVmt3+vpH9QNJwtR3idJXZrkJD
+         ryAZI1otHZeapHGJ865gLrVf2MK3eTv4Bcrbj3OcQSaDY80dmh6Cstflwq9/jg+yCYSQ
+         Bvi2FxRht9crwJ5GW+oXuE5FwKlduVYQ6S79YukVGaYR2C+o6H3nZvun6HoFK2R0fpuk
+         JX2Q==
+X-Gm-Message-State: AOAM533q++a3cefvu2YliTNMzjp0r71MbvRSv/+uE0f98w04i4M3UrlZ
+        BMbwxgcoIuFVazydEYIEUqXt+TtydvM=
+X-Google-Smtp-Source: ABdhPJypvNSGDrPpIVDHLrykJEmmH/dwdyUKHUY1DGVerjxgk4VaBJNzEgJNAkRV7PORtSTG0FxAig==
+X-Received: by 2002:adf:ed92:: with SMTP id c18mr26101944wro.86.1632123322752;
+        Mon, 20 Sep 2021 00:35:22 -0700 (PDT)
 Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id h18sm15204382wmq.23.2021.09.20.00.31.09
+        by smtp.gmail.com with ESMTPSA id q11sm14805870wrn.65.2021.09.20.00.35.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Sep 2021 00:31:09 -0700 (PDT)
-Subject: Re: [PATCH 20/26] drm: use new iterator in
- drm_gem_fence_array_add_implicit v2
+        Mon, 20 Sep 2021 00:35:22 -0700 (PDT)
+Subject: Re: [PATCH 21/26] drm: use new iterator in
+ drm_gem_plane_helper_prepare_fb v2
 To:     Daniel Vetter <daniel@ffwll.ch>
 Cc:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 References: <20210917123513.1106-1-christian.koenig@amd.com>
- <20210917123513.1106-21-christian.koenig@amd.com>
- <YUSr7AN3vv6kpreo@phenom.ffwll.local>
+ <20210917123513.1106-22-christian.koenig@amd.com>
+ <YUSsdbTxvJwaRv9x@phenom.ffwll.local>
 From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <0ed5793b-7b24-dede-cb89-deda082dde5b@gmail.com>
-Date:   Mon, 20 Sep 2021 09:31:08 +0200
+Message-ID: <2ded7e42-e1f3-72fb-5de6-810c000255be@gmail.com>
+Date:   Mon, 20 Sep 2021 09:35:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YUSr7AN3vv6kpreo@phenom.ffwll.local>
+In-Reply-To: <YUSsdbTxvJwaRv9x@phenom.ffwll.local>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -71,78 +71,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 17.09.21 um 16:53 schrieb Daniel Vetter:
-> On Fri, Sep 17, 2021 at 02:35:07PM +0200, Christian König wrote:
->> Simplifying the code a bit.
+Am 17.09.21 um 16:55 schrieb Daniel Vetter:
+> On Fri, Sep 17, 2021 at 02:35:08PM +0200, Christian König wrote:
+>> Makes the handling a bit more complex, but avoids the use of
+>> dma_resv_get_excl_unlocked().
 >>
 >> v2: add missing rcu_read_lock()/unlock()
 >>
 >> Signed-off-by: Christian König <christian.koenig@amd.com>
-> This will be gone as soon as I can land the last conversion patches. Plus
-> it's always called with dma_resv_lock held.
+>> ---
+>>   drivers/gpu/drm/drm_gem_atomic_helper.c | 14 ++++++++++++--
+>>   1 file changed, 12 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
+>> index e570398abd78..d8f9c6432544 100644
+>> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+>> @@ -143,6 +143,7 @@
+>>    */
+>>   int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+>>   {
+>> +	struct dma_resv_iter cursor;
+>>   	struct drm_gem_object *obj;
+>>   	struct dma_fence *fence;
+>>   
+>> @@ -150,9 +151,18 @@ int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_st
+>>   		return 0;
+>>   
+>>   	obj = drm_gem_fb_get_obj(state->fb, 0);
+>> -	fence = dma_resv_get_excl_unlocked(obj->resv);
+>> -	drm_atomic_set_fence_for_plane(state, fence);
+>> +	rcu_read_lock();
+>> +	dma_resv_iter_begin(&cursor, obj->resv, false);
+>> +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+>> +		rcu_read_unlock();
+>> +		/* TODO: We only use the first write fence here */
+>> +		drm_atomic_set_fence_for_plane(state, fence);
+> Yeah I wonder whether we should/need to collate them all together. But I
+> guesss whomever hits that first with their funny multi-plane yuv or
+> whatever gets to do that. Or I'm not clear on what exactly your TODO here
+> means?
 
-Yeah, already thought so as well. I will just keep that around to get 
-rid of dma_resv_get_excl_unlocked() for now until your patch lands.
+Yeah, exactly that. Basically we have use cases where where we have more 
+than one fence to wait for.
+
+The TODO is here because adding that to the atomic helper is just not my 
+construction site at the moment.
 
 Regards,
 Christian.
 
 >
-> I wouldn't bother tbh.
-> -Daniel
->
->> ---
->>   drivers/gpu/drm/drm_gem.c | 34 ++++++++++++----------------------
->>   1 file changed, 12 insertions(+), 22 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->> index 09c820045859..c2c41b668f40 100644
->> --- a/drivers/gpu/drm/drm_gem.c
->> +++ b/drivers/gpu/drm/drm_gem.c
->> @@ -1340,31 +1340,21 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
->>   				     struct drm_gem_object *obj,
->>   				     bool write)
->>   {
->> -	int ret;
->> -	struct dma_fence **fences;
->> -	unsigned int i, fence_count;
->> -
->> -	if (!write) {
->> -		struct dma_fence *fence =
->> -			dma_resv_get_excl_unlocked(obj->resv);
->> -
->> -		return drm_gem_fence_array_add(fence_array, fence);
->> -	}
->> -
->> -	ret = dma_resv_get_fences(obj->resv, NULL,
->> -						&fence_count, &fences);
->> -	if (ret || !fence_count)
->> -		return ret;
->> -
->> -	for (i = 0; i < fence_count; i++) {
->> -		ret = drm_gem_fence_array_add(fence_array, fences[i]);
->> +	struct dma_resv_iter cursor;
->> +	struct dma_fence *fence;
->> +	int ret = 0;
->> +
->> +	rcu_read_lock();
->> +	dma_resv_iter_begin(&cursor, obj->resv, write);
->> +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
->> +		rcu_read_unlock();
->> +		ret = drm_gem_fence_array_add(fence_array, fence);
->> +		rcu_read_lock();
->>   		if (ret)
->>   			break;
->>   	}
->> -
->> -	for (; i < fence_count; i++)
->> -		dma_fence_put(fences[i]);
->> -	kfree(fences);
+>> +		return 0;
+>> +	}
 >> +	dma_resv_iter_end(&cursor);
 >> +	rcu_read_unlock();
->>   	return ret;
+> Imo we should do full dma_resv_lock here. atomic helpers are designed to
+> allow this, and it simplifies things. Also it really doesn't matter for
+> atomic, we should be able to do 60fps*a few planes easily :-)
+> -Daniel
+>
+>>   
+>> +	drm_atomic_set_fence_for_plane(state, NULL);
+>>   	return 0;
 >>   }
->>   EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
+>>   EXPORT_SYMBOL_GPL(drm_gem_plane_helper_prepare_fb);
 >> -- 
 >> 2.25.1
 >>
