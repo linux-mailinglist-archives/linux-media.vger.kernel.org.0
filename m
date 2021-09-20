@@ -2,189 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FFC84112BE
-	for <lists+linux-media@lfdr.de>; Mon, 20 Sep 2021 12:14:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 753954112C8
+	for <lists+linux-media@lfdr.de>; Mon, 20 Sep 2021 12:20:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234311AbhITKQL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Sep 2021 06:16:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48920 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230266AbhITKQL (ORCPT
+        id S235714AbhITKV0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Sep 2021 06:21:26 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:40680 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235702AbhITKV0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Sep 2021 06:16:11 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65D80C061574
-        for <linux-media@vger.kernel.org>; Mon, 20 Sep 2021 03:14:44 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id w29so28018253wra.8
-        for <linux-media@vger.kernel.org>; Mon, 20 Sep 2021 03:14:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=+apC5JxraIi9XnUbenkB6zsj+jT1AkPdAZhfDaY0/v0=;
-        b=UU5S0gXMkaLgT22FL8u7q7ClemU+rsXCqmg08b57Lq39L1VejhAjRb6zljx7QdAZZh
-         zxAg64pHaQO4y6OTgp5uARWIQq3mnLiU9mRR9B15QNXMtU3XIt/6olcCOdat5K4g7i1m
-         Q8s4GpiM3WdaNYflS+o/a6P7rMoQeggLekVKLUWZs9KXIix1+rsGLjNkJWsyMt0dGM3j
-         AbriRT7fFda6QkaQcMoB5MxrnT1BRfzGzxk8Xfmyf6D9TlYH9eMrlILzkrBilvVkyuVC
-         7JrdPFg6KhAiFwkc2QnqPwjPuFGMI2IJWHOjyeDKJGwn598ieFoz0PWkp8hNl+AQfh+5
-         IpGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=+apC5JxraIi9XnUbenkB6zsj+jT1AkPdAZhfDaY0/v0=;
-        b=CRiF7HkeV5m2FCAZhIorwctjOGlR6H43AQIePuXe9xHu8v3HqChPHag6yvphv4nFa7
-         B4TmGOV1Sb9OH31FYWS/M6Uabo5YOW0lyudWW+uiJmPmwXMWOweEA3I8Pl2NYiJ7fzSl
-         QoPIPzseNHRFOtUvFOe09VAx99v4eF/O4EgKQsIt/wec9dc7HeefnVIqfwTuchG3mhoC
-         Zv2HPInTt+hIl2y71xQyqfHRZnKuff3Y0lD3/wm/jmoccuQgrU8LwIxBZ2GxdYHlCKoe
-         FtomrNPl/v8pu+10+dxyAnZOx9bY9glmDK+gZW2Ou26tKyh2YPUXRgdBEzoKO+DmBR9m
-         uGHg==
-X-Gm-Message-State: AOAM532yAhBfMDe3r2ReX7I4BZgc1408Ke4f0BlKsEXnmWbcsIuCjQIi
-        zkUMAIFyMrVmMn4CSToHTnADeJ87q5c=
-X-Google-Smtp-Source: ABdhPJzOGMrZWZx0h8K8o0iVBQ2Hv8r57sd/+E+hm7Ot4KkLG7Ct2SBV+DbPgKDuKkPBBUjH/z4+qg==
-X-Received: by 2002:a1c:22c3:: with SMTP id i186mr23905344wmi.145.1632132883040;
-        Mon, 20 Sep 2021 03:14:43 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id l124sm19159561wml.8.2021.09.20.03.14.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Sep 2021 03:14:42 -0700 (PDT)
-Subject: Re: [Intel-gfx] [PATCH 14/26] drm/i915: use the new iterator in
- i915_sw_fence_await_reservation v3
-To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc:     daniel@ffwll.ch
-References: <20210917123513.1106-1-christian.koenig@amd.com>
- <20210917123513.1106-15-christian.koenig@amd.com>
- <93b93f00-7ad3-9ea3-e947-77297b4552c9@linux.intel.com>
- <60595ff8-7935-c0a4-7c0f-2a4c3a1d62b9@linux.intel.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <3a029992-a648-7684-235e-b5bc53391d5d@gmail.com>
-Date:   Mon, 20 Sep 2021 12:14:41 +0200
+        Mon, 20 Sep 2021 06:21:26 -0400
+Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 887B5E57;
+        Mon, 20 Sep 2021 12:19:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1632133198;
+        bh=S0fKGKnREKdgh/cjiD94ihtcUyNtvSPMf1a0l7a09fs=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=al8L9XPGdjhYkqwdy8yVuE9YaeQCoxjDc/2Uag8r4+hDRH/MOK5rUzu2le64vV+LI
+         MQpJdlM2m08Ac9EnDoesC8sgDxJhmzWq1h52DL+RNPQCg/ATW/cL5sCMaDrqjYu0Kq
+         mBdT/GGIOPEqLMgbtiGIZMhAQiKN5GE78AsCgsX0=
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v8 00/36] v4l: subdev internal routing and streams
+Message-ID: <9b47fd13-ef1f-450f-869d-4220702479e5@ideasonboard.com>
+Date:   Mon, 20 Sep 2021 13:19:54 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <60595ff8-7935-c0a4-7c0f-2a4c3a1d62b9@linux.intel.com>
+In-Reply-To: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 20.09.21 um 10:47 schrieb Tvrtko Ursulin:
->
-> On 20/09/2021 09:45, Tvrtko Ursulin wrote:
->>
->> On 17/09/2021 13:35, Christian König wrote:
->>> Simplifying the code a bit.
->>>
->>> v2: use dma_resv_for_each_fence instead, according to Tvrtko the 
->>> lock is
->>>      held here anyway.
->>> v3: back to using dma_resv_for_each_fence_unlocked.
->>
->> It did not work out - what happened?
-> Wait, my suggestion to try the locked iterator was against 
-> i915_request_await_object. I haven't looked at this one at the time or 
-> even now.
+Hi all,
 
-Exactly! I've mixed the two up and this one here is really called 
-without holding a lock.
+On 30/08/2021 14:00, Tomi Valkeinen wrote:
+> Hi,
+> 
+> This is v8 of the multiplexed streams series. v7 can be found from:
+> 
+> https://lore.kernel.org/linux-media/20210524104408.599645-1-tomi.valkeinen@ideasonboard.com/
+> 
+> The main change in this version is the implementation and use of
+> centralized active state for subdevs.
+> 
+> I have pushed my work branch to:
+> 
+> git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git multistream/work-v8
+> 
+> which contains the patches in this series, along with subdev drivers
+> using multiplexed streams.
+> 
+> Both this series and the branch above are based on top of today's
+> git://linuxtv.org/media_tree.git master.
+> 
+> The documentation still needs improving, but I hope the docs in this
+> series, and the drivers in the work branch, are enough to give the
+> reviewers enough information to do a review.
+> 
+> As can be guessed from the work branch, I have been testing this series
+> with TI's FPDLink setup. I have also done a "backwards compatibility"
+> test by dropping all multiplexed streams patches from the CAL driver
+> (the CSI-2 RX on the TI SoC), and using the FPDLink drivers with
+> single-stream configuration.
 
-Regards,
-Christian.
+We've had good discussions with Jacopo about this series.
 
->
-> Regards,
->
-> Tvrtko
->
->
->> Regards,
->>
->> Tvrtko
->>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>   drivers/gpu/drm/i915/i915_sw_fence.c | 57 
->>> ++++++++--------------------
->>>   1 file changed, 15 insertions(+), 42 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c 
->>> b/drivers/gpu/drm/i915/i915_sw_fence.c
->>> index c589a681da77..7635b0478ea5 100644
->>> --- a/drivers/gpu/drm/i915/i915_sw_fence.c
->>> +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
->>> @@ -572,56 +572,29 @@ int i915_sw_fence_await_reservation(struct 
->>> i915_sw_fence *fence,
->>>                       unsigned long timeout,
->>>                       gfp_t gfp)
->>>   {
->>> -    struct dma_fence *excl;
->>> +    struct dma_resv_iter cursor;
->>> +    struct dma_fence *f;
->>>       int ret = 0, pending;
->>>       debug_fence_assert(fence);
->>>       might_sleep_if(gfpflags_allow_blocking(gfp));
->>> -    if (write) {
->>> -        struct dma_fence **shared;
->>> -        unsigned int count, i;
->>> -
->>> -        ret = dma_resv_get_fences(resv, &excl, &count, &shared);
->>> -        if (ret)
->>> -            return ret;
->>> -
->>> -        for (i = 0; i < count; i++) {
->>> -            if (shared[i]->ops == exclude)
->>> -                continue;
->>> -
->>> -            pending = i915_sw_fence_await_dma_fence(fence,
->>> -                                shared[i],
->>> -                                timeout,
->>> -                                gfp);
->>> -            if (pending < 0) {
->>> -                ret = pending;
->>> -                break;
->>> -            }
->>> -
->>> -            ret |= pending;
->>> -        }
->>> -
->>> -        for (i = 0; i < count; i++)
->>> -            dma_fence_put(shared[i]);
->>> -        kfree(shared);
->>> -    } else {
->>> -        excl = dma_resv_get_excl_unlocked(resv);
->>> -    }
->>> -
->>> -    if (ret >= 0 && excl && excl->ops != exclude) {
->>> -        pending = i915_sw_fence_await_dma_fence(fence,
->>> -                            excl,
->>> -                            timeout,
->>> +    rcu_read_lock();
->>> +    dma_resv_iter_begin(&cursor, resv, write);
->>> +    dma_resv_for_each_fence_unlocked(&cursor, f) {
->>> +        rcu_read_unlock();
->>> +        pending = i915_sw_fence_await_dma_fence(fence, f, timeout,
->>>                               gfp);
->>> -        if (pending < 0)
->>> +        rcu_read_lock();
->>> +        if (pending < 0) {
->>>               ret = pending;
->>> -        else
->>> -            ret |= pending;
->>> -    }
->>> -
->>> -    dma_fence_put(excl);
->>> +            break;
->>> +        }
->>> +        ret |= pending;
->>> +    }
->>> +    dma_resv_iter_end(&cursor);
->>> +    rcu_read_unlock();
->>>       return ret;
->>>   }
->>>
+I chose the approaches in this series based on what I think the API 
+should be, even if the API has behaved differently before. And I think 
+I'm also leaning forward a bit, in the sense that the full benefit of 
+the API can only be had after more changes to the core and subdev 
+drivers (changes which may or may not happen).
 
+If I understood Jacopo correctly, his comments were essentially that my 
+approach is different than the current one, and as the current drivers 
+anyway do things the old way, this is very confusing. Basically I create 
+two different kinds of subdev drivers: the old and new ones, which 
+manage state differently.
+
+I want to summarize two particular topics:
+
+1) Active state & subdev ops
+
+In upstream we have v4l2_subdev_state which contains only the pad_config 
+array. This state is "try" state, it's allocated per file-handle, and 
+passed to the subdev drivers when executing subdev ioctls in try-mode 
+(which == V4L2_SUBDEV_FORMAT_TRY). This try-state is sometimes also 
+passed to the subdev drivers when executing in active-mode 
+(V4L2_SUBDEV_FORMAT_ACTIVE), but the drivers are supposed to ignore it.
+
+There is also an active-state, but it's driver-specific and 
+driver-internal. The drivers check the 'which' value, and either use the 
+passed try-state, or the internal state.
+
+What I did in this series aims to have both try- and active-states in 
+v4l2 core, and passing the correct state to subdevs so that they don't 
+(necessarily) need any internal state. There are some issues with it, 
+which have been discussed, but I believe those issues can be fixed.
+
+The subdev drivers need to be written to use this new active-state, so 
+it doesn't affect the current drivers.
+
+The question is, do we want to go that way? We could as well keep the 
+current behavior of subdev drivers only getting the try-state as a 
+parameter, and the drivers digging out the active state manually. This 
+active state could either be internal to the driver, or it could be in 
+the base struct v4l2_subdev (see also topic 2).
+
+2) Shared subdev active-state
+
+The try-state is specific to a file-handle, and afaics have no real 
+race-issues as it's not really shared. Although I guess in theory an 
+application could call subdev ioctls from multiple threads using the 
+same fd.
+
+In upstream the subdev drivers' internal state is managed fully by the 
+subdev drivers. The drivers are expected to handle necessary locking in 
+their subdev ops and interrupt handlers. If, say, v4l2 core needs to get 
+a format from the subdev, it calls a subdev op to get it.
+
+In my series I aimed to a shared active-state. The state is located in a 
+known place, struct v4l2_subdev, and can be accessed without the subdev 
+driver's help. This requires locking, which I have implemented.
+
+At the moment the only real benefit with this is reading the routing 
+table while doing pipeline validation: Instead of having to dynamically 
+allocate memory and call the subdev op to create a copy of the routing 
+table (for each subdev, possibly multiple times), the validator can just 
+lock the state, and use it. And, in fact, there is no get_routing subdev 
+op at all.
+
+But this means that the subdev drivers that support this new 
+active-state have to handle locking for the active state, and the 
+"mindset" is different than previously.
+
+So the question is, do we want to go that way? We could as well mandate 
+that the active-state can only be accessed via subdev's ops (and add the 
+get-routing, of course), and the subdev manages the locking internally.
+
+  Tomi
