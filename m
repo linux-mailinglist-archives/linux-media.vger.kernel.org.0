@@ -2,153 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12F194112E4
-	for <lists+linux-media@lfdr.de>; Mon, 20 Sep 2021 12:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E6C041136D
+	for <lists+linux-media@lfdr.de>; Mon, 20 Sep 2021 13:21:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231318AbhITKet (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Sep 2021 06:34:49 -0400
-Received: from mga01.intel.com ([192.55.52.88]:57475 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230510AbhITKet (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Sep 2021 06:34:49 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10112"; a="245508309"
-X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; 
-   d="scan'208";a="245508309"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2021 03:33:22 -0700
-X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; 
-   d="scan'208";a="473549879"
-Received: from gbradyx-mobl2.ger.corp.intel.com (HELO [10.213.235.119]) ([10.213.235.119])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2021 03:33:20 -0700
-Subject: Re: [Intel-gfx] [PATCH 13/26] drm/i915: use the new iterator in
- i915_gem_busy_ioctl
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc:     daniel@ffwll.ch
-References: <20210917123513.1106-1-christian.koenig@amd.com>
- <20210917123513.1106-14-christian.koenig@amd.com>
- <6fbaca09-ec51-c44e-708c-334ef8be8595@linux.intel.com>
- <368e8495-f4de-cbb2-3584-e022a5937885@gmail.com>
-From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <563bb7c3-f956-212d-6085-b1b88292887c@linux.intel.com>
-Date:   Mon, 20 Sep 2021 11:33:17 +0100
+        id S234732AbhITLWc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Sep 2021 07:22:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35374 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236497AbhITLWN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 Sep 2021 07:22:13 -0400
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96F0CC061574;
+        Mon, 20 Sep 2021 04:19:52 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id SHKtmv90WcSrkSHKumAXcF; Mon, 20 Sep 2021 13:19:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1632136789; bh=HXMTp7CaoqOdcgMbLwjsoBfZrna7G+6Y5/y+9DvzrT0=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=rp63vtbkq6rrVDqH/aryOXf9o74TLOEmWuv/ux+LrnA8Ii1C0cjOtSq0LBYxrkwcx
+         L5dS5l7h71mnzM5mY9iV4Ak+lceAANt02NvXZ+E8OrBmqdvjQg+KZrl1/YQBCKTpxM
+         IqRVWE/4LyiXweyttGmL3eyauutZLaeB9Uz8vvZGrq4GU4xAXJEX2IQ52X4Gz5POxA
+         HjLe6uBnMzd+Sw4qRo6aRCS3RIrV/+DXPHkGBAd2WnfHGfm++/zqL6+KgXRBgqiKyB
+         EFHiwc0OhLfYUxmhYmK/XiPMMTwAslRkPCC5uGvPWV50twzzvXF+CwnCNeD3ISlRw/
+         kxnjJrcRdubSg==
+Subject: Re: [PATCH] media: rc and cec: keep all menu entries together
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <20210822000450.27329-1-rdunlap@infradead.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <a2367e5c-015a-3731-fcf2-0c448af83fed@xs4all.nl>
+Date:   Mon, 20 Sep 2021 13:19:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <368e8495-f4de-cbb2-3584-e022a5937885@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210822000450.27329-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfH35zTwZa8AZtNwGL1tdd01x5+N5PMKYtMBlZ6rV/gAwdj6q15h14GrFdjhwOzLO/He5+N8A/T3tOhp/m5tHNnS94v0lRNg37mIIc95JEkPiAfnsZAgn
+ 1KOL5hsWn9LEaMlC1leJLjNv3eL9p8FtJx0NO6V2XBpcX78OSLOqtGtz0lpFp4tZoIfnHPTFLKButi1CiBp4eVoV4yTeQ84rEsy94wsWxbN78B3qcTUMy2q0
+ CAwcqDlSka0MlDsCAEhu+G/M8946eHy5TO25ZspFGN9KWCOVh9OBh1XJDPutzb5G5YzgIgpfHpy7k9/8paHUaQDmAF93SnZMm7aRcUj5zgVOXPYs4Ix1sPcz
+ bnJZ89MqlLgn2p+qRevgG2hBa4zQfwKmfNAklvoInjcFdhlRZZVgwN1XpIlyppIbO48H9DegOijC+fdFn5q99vfqHJWSsA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Randy,
 
-On 20/09/2021 11:13, Christian König wrote:
-> Am 20.09.21 um 10:45 schrieb Tvrtko Ursulin:
->>
->> On 17/09/2021 13:35, Christian König wrote:
->>> This makes the function much simpler since the complex
->>> retry logic is now handled else where.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>   drivers/gpu/drm/i915/gem/i915_gem_busy.c | 32 ++++++++----------------
->>>   1 file changed, 11 insertions(+), 21 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c 
->>> b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
->>> index 6234e17259c1..b1cb7ba688da 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
->>> @@ -82,8 +82,8 @@ i915_gem_busy_ioctl(struct drm_device *dev, void 
->>> *data,
->>>   {
->>>       struct drm_i915_gem_busy *args = data;
->>>       struct drm_i915_gem_object *obj;
->>> -    struct dma_resv_list *list;
->>> -    unsigned int seq;
->>> +    struct dma_resv_iter cursor;
->>> +    struct dma_fence *fence;
->>>       int err;
->>>         err = -ENOENT;
->>> @@ -109,27 +109,17 @@ i915_gem_busy_ioctl(struct drm_device *dev, 
->>> void *data,
->>>        * to report the overall busyness. This is what the wait-ioctl 
->>> does.
->>>        *
->>>        */
->>> -retry:
->>> -    seq = raw_read_seqcount(&obj->base.resv->seq);
->>> -
->>> -    /* Translate the exclusive fence to the READ *and* WRITE engine */
->>> -    args->busy = 
->>> busy_check_writer(dma_resv_excl_fence(obj->base.resv));
->>> -
->>> -    /* Translate shared fences to READ set of engines */
->>> -    list = dma_resv_shared_list(obj->base.resv);
->>> -    if (list) {
->>> -        unsigned int shared_count = list->shared_count, i;
->>> -
->>> -        for (i = 0; i < shared_count; ++i) {
->>> -            struct dma_fence *fence =
->>> -                rcu_dereference(list->shared[i]);
->>> -
->>> +    args->busy = false;
->>> +    dma_resv_iter_begin(&cursor, obj->base.resv, true);
->>> +    dma_resv_for_each_fence_unlocked(&cursor, fence) {
->>
->> You did not agree with my suggestion to reset args->busy on restart 
->> and so preserve current behaviour?
+On 22/08/2021 02:04, Randy Dunlap wrote:
+> Keep all of the Remote Controller and CEC menu entries grouped
+> together. This is most relevant to 'make xconfig', where the
+> entries for "HDMI CEC RC integration" and "Enable CEC error injection
+> support" are not displayed (presented) anywhere near the other
+> Remote Controller support options.
+> By grouping all of these menu entries inside a menu/endmenu block,
+> they are forced to be kept together.
 > 
-> No, I want to keep the restart behavior internally to the dma_resv 
-> object and as far as I can see it should not make a difference here.
+> Fixes: 46d2a3b964dd ("media: place CEC menu before MEDIA_SUPPORT")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Sean Young <sean@mess.org>
+> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Cc: linux-media@vger.kernel.org
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/media/Kconfig |    2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> --- linux-next-20210820.orig/drivers/media/Kconfig
+> +++ linux-next-20210820/drivers/media/Kconfig
+> @@ -6,8 +6,10 @@
+>  #
+>  # NOTE: CEC and Remote Controller support should not depend on MEDIA_SUPPORT
+>  #
+> +menu "Remote Controller and CEC support"
+>  source "drivers/media/rc/Kconfig"
+>  source "drivers/media/cec/Kconfig"
+> +endmenu
 
-To be clear, on paper difference between old and new implementation is 
-if the restart happens while processing the shared fences.
+Remote control and CEC really have very little to do with one another, except
+for "HDMI CEC RC integration", which is a feature of CEC.
 
-Old implementation unconditionally goes to "args->busy =
- >>> busy_check_writer(dma_resv_excl_fence(obj->base.resv));" and so 
-overwrites the set of flags returned to userspace.
+It would make more sense IMHO to make a "CEC support" menu and move the
+CEC drivers and "HDMI CEC RC integration" and "Enable CEC error injection
+support" to that new menu. It's a bit odd that those two CEC options are
+directly under the Device Drivers menu.
 
-New implementation can merge new read flags to the old set of flags and 
-so return a composition of past and current fences.
-
-Maybe it does not matter hugely in this case, depends if userspace 
-typically just restarts until flags are clear. But I am not sure.
-
-On the higher level - what do you mean with wanting to keep the restart 
-behaviour internal? Not providing iterators users means of detecting it? 
-I think it has to be provided.
+Would that work for you?
 
 Regards,
 
-Tvrtko
+	Hans
 
-> Regards,
-> Christian.
+>  
+>  menuconfig MEDIA_SUPPORT
+>  	tristate "Multimedia support"
 > 
->>
->> Regards,
->>
->> Tvrtko
->>
->>> +        if (dma_resv_iter_is_exclusive(&cursor))
->>> +            /* Translate the exclusive fence to the READ *and* WRITE 
->>> engine */
->>> +            args->busy = busy_check_writer(fence);
->>> +        else
->>> +            /* Translate shared fences to READ set of engines */
->>>               args->busy |= busy_check_reader(fence);
->>> -        }
->>>       }
->>> -
->>> -    if (args->busy && read_seqcount_retry(&obj->base.resv->seq, seq))
->>> -        goto retry;
->>> +    dma_resv_iter_end(&cursor);
->>>         err = 0;
->>>   out:
->>>
-> 
+
