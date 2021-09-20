@@ -2,44 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 753954112C8
-	for <lists+linux-media@lfdr.de>; Mon, 20 Sep 2021 12:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 873AE4112D7
+	for <lists+linux-media@lfdr.de>; Mon, 20 Sep 2021 12:26:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235714AbhITKV0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Sep 2021 06:21:26 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:40680 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235702AbhITKV0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Sep 2021 06:21:26 -0400
-Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 887B5E57;
-        Mon, 20 Sep 2021 12:19:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1632133198;
-        bh=S0fKGKnREKdgh/cjiD94ihtcUyNtvSPMf1a0l7a09fs=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=al8L9XPGdjhYkqwdy8yVuE9YaeQCoxjDc/2Uag8r4+hDRH/MOK5rUzu2le64vV+LI
-         MQpJdlM2m08Ac9EnDoesC8sgDxJhmzWq1h52DL+RNPQCg/ATW/cL5sCMaDrqjYu0Kq
-         mBdT/GGIOPEqLMgbtiGIZMhAQiKN5GE78AsCgsX0=
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v8 00/36] v4l: subdev internal routing and streams
-Message-ID: <9b47fd13-ef1f-450f-869d-4220702479e5@ideasonboard.com>
-Date:   Mon, 20 Sep 2021 13:19:54 +0300
+        id S235869AbhITK2A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Sep 2021 06:28:00 -0400
+Received: from mga14.intel.com ([192.55.52.115]:49483 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232132AbhITK2A (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 Sep 2021 06:28:00 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10112"; a="222751438"
+X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; 
+   d="scan'208";a="222751438"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2021 03:26:33 -0700
+X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; 
+   d="scan'208";a="473548268"
+Received: from gbradyx-mobl2.ger.corp.intel.com (HELO [10.213.235.119]) ([10.213.235.119])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2021 03:26:31 -0700
+Subject: Re: [Intel-gfx] [PATCH 01/26] dma-buf: add
+ dma_resv_for_each_fence_unlocked v2
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+References: <20210917123513.1106-1-christian.koenig@amd.com>
+ <20210917123513.1106-2-christian.koenig@amd.com>
+ <YUSWzm+TjD7GHHO5@phenom.ffwll.local>
+ <8268d2e8-8a37-0ff1-7065-c8aaf5c8672b@linux.intel.com>
+ <e4aa2e1e-753e-655c-423f-93a0bb853b9d@gmail.com>
+From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <ae6b83cd-927f-3050-f95f-9c351e98ec80@linux.intel.com>
+Date:   Mon, 20 Sep 2021 11:26:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <e4aa2e1e-753e-655c-423f-93a0bb853b9d@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -47,110 +46,166 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
 
-On 30/08/2021 14:00, Tomi Valkeinen wrote:
-> Hi,
+On 20/09/2021 11:09, Christian König wrote:
+> Am 20.09.21 um 10:43 schrieb Tvrtko Ursulin:
+>> On 17/09/2021 14:23, Daniel Vetter wrote:
+>>> On Fri, Sep 17, 2021 at 02:34:48PM +0200, Christian König wrote:
+>>>> Abstract the complexity of iterating over all the fences
+>>>> in a dma_resv object.
+>>>>
+>>>> The new loop handles the whole RCU and retry dance and
+>>>> returns only fences where we can be sure we grabbed the
+>>>> right one.
+>>>>
+>>>> v2: fix accessing the shared fences while they might be freed,
+>>>>      improve kerneldoc, rename _cursor to _iter, add
+>>>>      dma_resv_iter_is_exclusive, add dma_resv_iter_begin/end
+>>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> ---
+>>>>   drivers/dma-buf/dma-resv.c | 61 +++++++++++++++++++++++++++
+>>>>   include/linux/dma-resv.h   | 84 
+>>>> ++++++++++++++++++++++++++++++++++++++
+>>>>   2 files changed, 145 insertions(+)
+>>>>
+>>>> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+>>>> index 84fbe60629e3..3e77cad2c9d4 100644
+>>>> --- a/drivers/dma-buf/dma-resv.c
+>>>> +++ b/drivers/dma-buf/dma-resv.c
+>>>> @@ -323,6 +323,67 @@ void dma_resv_add_excl_fence(struct dma_resv 
+>>>> *obj, struct dma_fence *fence)
+>>>>   }
+>>>>   EXPORT_SYMBOL(dma_resv_add_excl_fence);
+>>>>   +/**
+>>>> + * dma_resv_iter_walk_unlocked - walk over fences in a dma_resv obj
+>>>> + * @cursor: cursor to record the current position
+>>>> + * @first: if we should start over
+>>>> + *
+>>>> + * Return all the fences in the dma_resv object which are not yet 
+>>>> signaled.
+>>>> + * The returned fence has an extra local reference so will stay alive.
+>>>> + * If a concurrent modify is detected the whole iterration is 
+>>>> started over again.
+>>>> + */
+>>>> +struct dma_fence *dma_resv_iter_walk_unlocked(struct dma_resv_iter 
+>>>> *cursor,
+>>>
+>>> Bit ocd, but I'd still just call that iter_next.
+>>>
+>>>> +                          bool first)
+>>>
+>>> Hm I'd put all the init code into iter_begin ...
+>>
+>> @Christian:
+>>
+>> Could you engineer something in here which would, at least in debug 
+>> builds, catch failures to call "iter begin" before using the iterator 
+>> macro?
 > 
-> This is v8 of the multiplexed streams series. v7 can be found from:
+> Yeah, I've already played with the thought of somehow teaching lockdep 
+> that. But then abandoned this as abusive of lockdep.
+
+Yes probably not lockdep but would need to be a separate build time 
+option akin to DEBUG_WW_MUTEXES and similar.
+
+>>
+>>>
+>>>> +{
+>>>> +    struct dma_resv *obj = cursor->obj;
+>>>
+>>> Aren't we missing rcu_read_lock() around the entire thing here?
+>>>
+>>>> +
+>>>> +    first |= read_seqcount_retry(&obj->seq, cursor->seq);
+>>>> +    do {
+>>>> +        /* Drop the reference from the previous round */
+>>>> +        dma_fence_put(cursor->fence);
+>>>> +
+>>>> +        cursor->is_first = first;
+>>>> +        if (first) {
+>>>> +            cursor->seq = read_seqcount_begin(&obj->seq);
+>>>> +            cursor->index = -1;
+>>>> +            cursor->fences = dma_resv_shared_list(obj);
+>>>
+>>> And then also call iter_begin from here. That way we guarantee that
+>>> read_seqcount_begin is always called before _retry(). It's not a problem
+>>> with the seqcount implementation (I think at least), but it definitely
+>>> looks funny.
+>>>
+>>> Calling iter_begin here also makes it clear that we're essentially
+>>> restarting.
+>>>
+>>>> +
+>>>> +            cursor->fence = dma_resv_excl_fence(obj);
+>>>> +            if (cursor->fence &&
+>>>> +                test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+>>>
+>>> Please use the right dma_fence wrapper here for this and don't look 
+>>> at the
+>>> bits/flags outside of dma_fence.[hc] code. I just realized that we don't
+>>> have the right amount of barriers in there for the fastpath, i.e. if we
+>>> have:
+>>>
+>>> x = 0; /* static initializer */
+>>>
+>>> thread a
+>>>     x = 1;
+>>>     dma_fence_signal(fence);
+>>>
+>>>
+>>> thread b;
+>>>     if (dma_fence_is_signalled(fence))
+>>>         printk("%i\n", x);
+>>>
+>>> Then you might actually be able to observe x == 0 in thread b. Which is
+>>> not what we want at all.
+>>
+>> @Daniel:
+>>
+>> What do you mean here - in terms of if 'x' is "external" (not part of 
+>> dma-fence), then are you suggesting dma-fence code should serialise it 
+>> by using barriers?
+>>
+>> That would sound incorrect to me, or in other words, I think it's fine 
+>> if x == 0 is observed in your example thread B since that code is 
+>> mixing external data with dma-fence.
 > 
-> https://lore.kernel.org/linux-media/20210524104408.599645-1-tomi.valkeinen@ideasonboard.com/
+> No, Daniel is right. The problem is that on architectures other than x86 
+> barriers are per memory address (or rather cache line in practice).
 > 
-> The main change in this version is the implementation and use of
-> centralized active state for subdevs.
+> So you need to be really careful that you see the fully consistent state 
+> and not just one variable but others in the old state.
+
+I don't see it yet - what are the variables we are talking about here? 
+Ordering relating to the iterator code in here or something truly external?
+
+Iterator can obviously race and "return" and already signaled fence 
+(transitioned from unsignaled to signaled between iterator checking and 
+deciding to walk it). But that I don't think you can, or plan to, fix.
+
 > 
-> I have pushed my work branch to:
+> But this was buggy before as well. I'm just pulling the existing test 
+> into the new iterator.
+
+Okay.
+
 > 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git multistream/work-v8
+>>
+>> Hm also, there is that annoying bit where by using 
+>> dma_fence_is_signaled any code becomes a fence signaling critical 
+>> path, which I never bought into. There should be a way to test the 
+>> signaled status without actually doing the signaling. Or I am 
+>> misunderstanding something so badly that is really really has to be 
+>> like this?
 > 
-> which contains the patches in this series, along with subdev drivers
-> using multiplexed streams.
-> 
-> Both this series and the branch above are based on top of today's
-> git://linuxtv.org/media_tree.git master.
-> 
-> The documentation still needs improving, but I hope the docs in this
-> series, and the drivers in the work branch, are enough to give the
-> reviewers enough information to do a review.
-> 
-> As can be guessed from the work branch, I have been testing this series
-> with TI's FPDLink setup. I have also done a "backwards compatibility"
-> test by dropping all multiplexed streams patches from the CAL driver
-> (the CSI-2 RX on the TI SoC), and using the FPDLink drivers with
-> single-stream configuration.
+> You are mixing things up. Testing is unproblematic, signaling is the 
+> problematic one.
 
-We've had good discussions with Jacopo about this series.
+I was pointing out dma_fence_is_signaled can call dma_fence_signal. And 
+that has in the past, AFAIR at least, caused some fence annotation 
+splats which IMO are questionable.
 
-I chose the approaches in this series based on what I think the API 
-should be, even if the API has behaved differently before. And I think 
-I'm also leaning forward a bit, in the sense that the full benefit of 
-the API can only be had after more changes to the core and subdev 
-drivers (changes which may or may not happen).
+Regards,
 
-If I understood Jacopo correctly, his comments were essentially that my 
-approach is different than the current one, and as the current drivers 
-anyway do things the old way, this is very confusing. Basically I create 
-two different kinds of subdev drivers: the old and new ones, which 
-manage state differently.
-
-I want to summarize two particular topics:
-
-1) Active state & subdev ops
-
-In upstream we have v4l2_subdev_state which contains only the pad_config 
-array. This state is "try" state, it's allocated per file-handle, and 
-passed to the subdev drivers when executing subdev ioctls in try-mode 
-(which == V4L2_SUBDEV_FORMAT_TRY). This try-state is sometimes also 
-passed to the subdev drivers when executing in active-mode 
-(V4L2_SUBDEV_FORMAT_ACTIVE), but the drivers are supposed to ignore it.
-
-There is also an active-state, but it's driver-specific and 
-driver-internal. The drivers check the 'which' value, and either use the 
-passed try-state, or the internal state.
-
-What I did in this series aims to have both try- and active-states in 
-v4l2 core, and passing the correct state to subdevs so that they don't 
-(necessarily) need any internal state. There are some issues with it, 
-which have been discussed, but I believe those issues can be fixed.
-
-The subdev drivers need to be written to use this new active-state, so 
-it doesn't affect the current drivers.
-
-The question is, do we want to go that way? We could as well keep the 
-current behavior of subdev drivers only getting the try-state as a 
-parameter, and the drivers digging out the active state manually. This 
-active state could either be internal to the driver, or it could be in 
-the base struct v4l2_subdev (see also topic 2).
-
-2) Shared subdev active-state
-
-The try-state is specific to a file-handle, and afaics have no real 
-race-issues as it's not really shared. Although I guess in theory an 
-application could call subdev ioctls from multiple threads using the 
-same fd.
-
-In upstream the subdev drivers' internal state is managed fully by the 
-subdev drivers. The drivers are expected to handle necessary locking in 
-their subdev ops and interrupt handlers. If, say, v4l2 core needs to get 
-a format from the subdev, it calls a subdev op to get it.
-
-In my series I aimed to a shared active-state. The state is located in a 
-known place, struct v4l2_subdev, and can be accessed without the subdev 
-driver's help. This requires locking, which I have implemented.
-
-At the moment the only real benefit with this is reading the routing 
-table while doing pipeline validation: Instead of having to dynamically 
-allocate memory and call the subdev op to create a copy of the routing 
-table (for each subdev, possibly multiple times), the validator can just 
-lock the state, and use it. And, in fact, there is no get_routing subdev 
-op at all.
-
-But this means that the subdev drivers that support this new 
-active-state have to handle locking for the active state, and the 
-"mindset" is different than previously.
-
-So the question is, do we want to go that way? We could as well mandate 
-that the active-state can only be accessed via subdev's ops (and add the 
-get-routing, of course), and the subdev manages the locking internally.
-
-  Tomi
+Tvrtko
