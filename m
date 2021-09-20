@@ -2,113 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E27EC41279A
-	for <lists+linux-media@lfdr.de>; Mon, 20 Sep 2021 22:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4393D412A50
+	for <lists+linux-media@lfdr.de>; Tue, 21 Sep 2021 03:33:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237427AbhITU7a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Sep 2021 16:59:30 -0400
-Received: from mail-ot1-f48.google.com ([209.85.210.48]:37402 "EHLO
-        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232273AbhITU52 (ORCPT
+        id S229665AbhIUBer (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Sep 2021 21:34:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57944 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230054AbhIUBe0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Sep 2021 16:57:28 -0400
-Received: by mail-ot1-f48.google.com with SMTP id w64-20020a9d3646000000b0054716b40005so4354396otb.4;
-        Mon, 20 Sep 2021 13:56:01 -0700 (PDT)
+        Mon, 20 Sep 2021 21:34:26 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5076DC034020
+        for <linux-media@vger.kernel.org>; Mon, 20 Sep 2021 11:07:58 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id 5so11613367plo.5
+        for <linux-media@vger.kernel.org>; Mon, 20 Sep 2021 11:07:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pathpartnertech.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=IqSMwR4a24hMxIKCSGAPEfZhxYKFpQxhDLhmb/v1kic=;
+        b=lGaqqIVdZjx5cV8e5OybW+DS38hiLCzay1UiikAkJg8Cd2sT2Lj1Fteq27KWe6/pBW
+         99TU/DeuIqc8IkFHgAiHxM8ILsJsMNKMiGNfLGhDd3fghZxixuLfIyLgiHSPcyaosMph
+         8daH7/50//CxeOIf4dWveOo74yFR/ew/WBkjD6lwHaTi6aq4A1Tu0hXYvoaIYPifuw+S
+         jw1Uf6JfUuF0wXy/jh0mOeCMMiEx6MykjYYoKc5Defesnq1IxpcISxr9Z/M4+YlrPz3+
+         Slqj1u/f1EirUmxSBEV0C9LLtKbWDdqGWOnlbt8tBZOrSiCqjMCejI7TX0znftcghjB0
+         4YCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=XPatjUnaHnEphbp45Tc3T1p6HiP/lC6r/ygiKd/wpQg=;
-        b=4sVdTosKadXX3KtrcrwH9j6y6JcY0LwWOWRnfV1nXsYF+fifima1D6usBz8GRq5DvR
-         l8NAjJpTuvKn74eh2FjFplzK3I8dU0Q2uVa3lan5SiVKGpOG08S1a8fmUQPtrmQvzyCb
-         oYNr+mWO5W+Mql9n3P1tIKLeTK0AycDrQtZF8iCeivausuM0S4UC0fADLEZmjNvDxrd0
-         DKwWnJhroHTsXPlTOILQYUdnMdGLPg21Wex2iDWxoXkHbsk7fRekcT/w8HfpOX0836mp
-         Y8rYQQmF9gpMKAlLVKEoYQPwCxXMrNx3ME7PiUzSwtGpDGw23n1R5zBNuqbdOMgi86a4
-         DjLQ==
-X-Gm-Message-State: AOAM531aDo8WSR8bWzNaVUwJ6KG8AalyZ2j6u9fZEsMzcGbMqEwdwgca
-        lXm4Q81HHqAqNqStvquncg==
-X-Google-Smtp-Source: ABdhPJw0Ubx9PITUcYUz1zNNca0q8nJ7I3Nn2f8OSxbuj/hwXREco2J/I6rnExb8fxBIFDz9aO3PRg==
-X-Received: by 2002:a9d:4681:: with SMTP id z1mr23005506ote.42.1632171360541;
-        Mon, 20 Sep 2021 13:56:00 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id x192sm2337226oix.9.2021.09.20.13.55.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 13:55:59 -0700 (PDT)
-Received: (nullmailer pid 744183 invoked by uid 1000);
-        Mon, 20 Sep 2021 20:55:58 -0000
-Date:   Mon, 20 Sep 2021 15:55:58 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Alexandre Bailon <abailon@baylibre.com>
-Cc:     airlied@linux.ie, daniel@ffwll.ch, matthias.bgg@gmail.com,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, ohad@wizery.com, bjorn.andersson@linaro.org,
-        mathieu.poirier@linaro.org, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, khilman@baylibre.com,
-        gpain@baylibre.com
-Subject: Re: [RFC PATCH 1/4] dt-bindings: Add bidings for mtk,apu-drm
-Message-ID: <YUj1XnBbyNEqrV2g@robh.at.kernel.org>
-References: <20210917125945.620097-1-abailon@baylibre.com>
- <20210917125945.620097-2-abailon@baylibre.com>
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=IqSMwR4a24hMxIKCSGAPEfZhxYKFpQxhDLhmb/v1kic=;
+        b=a0yX2VmMtSqVyPbyJte0RW1u7XL1jZk+6Fix48/pjMaxbzEoA6yCn/Jf8QcNAQDaUh
+         o0imF9Ci1vtnX7+s5wKmHLPz7MgRMgDPY3VIroYIs681rxHHUcPxJbaIBNbTLEJq13O3
+         wls+maklkbYAgSL/We3CGai0O8efSkikDvPBmcFGxnDDIErhP0aUZ00OEOTLTrVSNOat
+         97gnlJoVAL3xfocQwn3vrSU5Y3iC+aRgHu9zdagO+nAnzIwu9SG2SzWru8gbAM5eiQf3
+         XECwo4nc/cSoXdSraJ08RUijlyixm0aMZXA2wdwoEHbqpqeMRZiXAIaLQNoY4DVtM4AA
+         jFwA==
+X-Gm-Message-State: AOAM533graXkQvi0GQMfLPNAVBgrPFaIr6qliFCULWXub5Ua/FiOGhWk
+        ydkxMJHzfFy/7jl4VUcL/yW6OA==
+X-Google-Smtp-Source: ABdhPJwVPpE27E6o3XpzAEQHtvhWnZk0mAbE5+OIGrFfrMv1SidHQPlf67DPYKEz3QForL3HqmbO2g==
+X-Received: by 2002:a17:90b:3447:: with SMTP id lj7mr354324pjb.112.1632161277584;
+        Mon, 20 Sep 2021 11:07:57 -0700 (PDT)
+Received: from sidraya-laptopU ([49.207.203.250])
+        by smtp.gmail.com with ESMTPSA id g15sm2797784pfu.155.2021.09.20.11.07.54
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 20 Sep 2021 11:07:57 -0700 (PDT)
+Date:   Mon, 20 Sep 2021 23:37:51 +0530
+From:   Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        prashanth.ka@pathpartnertech.com, praneeth@ti.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        praveen.ap@pathpartnertech.com
+Subject: Re: [PATCH 03/30] v4l: vxd-dec: Create vxd_dec Mem Manager helper
+ library
+Message-ID: <20210920180749.uibnx6y2ktk4l4jv@sidraya-laptopU>
+References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
+ <20210818141037.19990-4-sidraya.bj@pathpartnertech.com>
+ <20210824133438.GO1931@kadam>
+ <20210914034032.orctp5ov5oc33vag@sidraya-laptopU>
+ <YUAmeLYf/fvbCHo3@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210917125945.620097-2-abailon@baylibre.com>
+In-Reply-To: <YUAmeLYf/fvbCHo3@kroah.com>
+User-Agent: NeoMutt/20171215
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 17, 2021 at 02:59:42PM +0200, Alexandre Bailon wrote:
-> This adds the device tree bindings for the APU DRM driver.
+On Tue, Sep 14, 2021 at 06:35:04AM +0200, Greg KH wrote:
+> On Tue, Sep 14, 2021 at 09:10:37AM +0530, Sidraya Jayagond wrote:
+> > This
+> > message contains confidential information and is intended only 
+> > for the
+> > individual(s) named. If you are not the intended
+> > recipient, you are 
+> > notified that disclosing, copying, distributing or taking any
+> > action in 
+> > reliance on the contents of this mail and attached file/s is strictly
+> > prohibited. Please notify the
+> > sender immediately and delete this e-mail 
+> > from your system. E-mail transmission
+> > cannot be guaranteed to be secured or 
+> > error-free as information could be
+> > intercepted, corrupted, lost, destroyed, 
+> > arrive late or incomplete, or contain
+> > viruses. The sender therefore does 
+> > not accept liability for any errors or
+> > omissions in the contents of this 
+> > message, which arise as a result of e-mail
+> > transmission.
+> > 
 > 
-> Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
-> ---
->  .../devicetree/bindings/gpu/mtk,apu-drm.yaml  | 38 +++++++++++++++++++
->  1 file changed, 38 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
-> new file mode 100644
-> index 0000000000000..6f432d3ea478c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
-> @@ -0,0 +1,38 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/gpu/mediatek,apu-drm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: AI Processor Unit DRM
+> Now deleted, this is not ok for kernel development mailing lists, sorry.
 
-DRM is a linux thing, not h/w.
-
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,apu-drm
-> +
-> +  remoteproc:
-
-So is remoteproc.
-
-Why don't you have the remoteproc driver create the DRM device?
-
-> +    maxItems: 2
-> +    description:
-> +      Handle to remoteproc devices controlling the APU
-> +
-> +  iova:
-> +    maxItems: 1
-> +    description:
-> +      Address and size of virtual memory that could used by the APU
-
-Why does this need to be in DT? If you need to reserve certain VAs, then 
-this discussion[1] might be of interest.
-
-Rob
-
-[1] https://lore.kernel.org/all/YUIPCxnyRutMS47%2F@orome.fritz.box/
+We are able resolve and removed confidentiality signature for my
+email-id.
+I apologize for the inconvenience.
