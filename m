@@ -2,142 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B892410CF3
-	for <lists+linux-media@lfdr.de>; Sun, 19 Sep 2021 20:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29CB4410ED8
+	for <lists+linux-media@lfdr.de>; Mon, 20 Sep 2021 05:45:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230453AbhISSrM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 Sep 2021 14:47:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43748 "EHLO
+        id S229968AbhITDqk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 Sep 2021 23:46:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbhISSrL (ORCPT
+        with ESMTP id S229517AbhITDqj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 Sep 2021 14:47:11 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12965C061574
-        for <linux-media@vger.kernel.org>; Sun, 19 Sep 2021 11:45:46 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id x6so24620423wrv.13
-        for <linux-media@vger.kernel.org>; Sun, 19 Sep 2021 11:45:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=drpg7YBGnaAbRmge+cSF4APeRN+YB14Bio0RJmTeKiE=;
-        b=e9yPuOmNpAtBJM74zJ3YRSCpfRfzCiUoc/zMId+AK7rR/dkQiQyS5W4ZTiXNA7wqhv
-         xUQBrLgsPG+kWO7aCZ9R0VoxXB2hZOPKO507z35Tf/T8l3P11BgXwWwXOkwlLktsUw7s
-         wkFjinQ+fVbd7Wtn0OAKWNxX0kux1YlMX2y0xB0Umgb54tUyGG4gQ+7vyjA64zmSq8WG
-         XulG0ItL65f3FZk/NWFBzz4/nvzKBwRyHH0JZVEy3ylVdAFYswBZaWtcDzs0TWqg4Ta9
-         V6y59R8qQrKfpUmTL3+Lhc72SAorTMWxVKfEhos0bKnbO9EwYcV+JNPnuUF6McJhio0u
-         L5DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=drpg7YBGnaAbRmge+cSF4APeRN+YB14Bio0RJmTeKiE=;
-        b=FsOwJmfblukm45VuST8Z2XE9ustzV4sPA9fWmUGZDcyAV2imVWhazuhnCkiMQQyBDJ
-         b/mzndY2Uiit5ZENB5Ap5HqFDPOwye1bvMqPWEpWDDiusxs+BMXZSX1jhhQL2lH3gZ16
-         rpYw7RNVC/dkI5TlV/YEQK3X2UbkzR/R/71TOTRLwBJSylqEsFPnB6MkwoDExiyNquh/
-         Utb0dQpCHzMUURHqcSorlaB6y7aObLUSESXflsLbG2AQ3PCrVik0sv5cgWANmm5aYwPF
-         O5dhZjYJ+nEv/sALvfsmscNroczBa870smyKWZtdohMHsv0RoPCUbVzQi/jPvccHSGg5
-         RTIg==
-X-Gm-Message-State: AOAM5300EhOd2zjILIf1849m7ozJdksqDg+GqVc6vVJpXJ9IhzcEB4/u
-        FD8lGqy7sooAm+3OTUNked0=
-X-Google-Smtp-Source: ABdhPJz3J51kUFsnP8NZfoISrBZzFItEHv99BVdITaYtwfEFcRPm4ztgOjzExMcF1EQwKlFT3pINuw==
-X-Received: by 2002:adf:b781:: with SMTP id s1mr23863177wre.319.1632077144509;
-        Sun, 19 Sep 2021 11:45:44 -0700 (PDT)
-Received: from eldamar (80-218-24-251.dclient.hispeed.ch. [80.218.24.251])
-        by smtp.gmail.com with ESMTPSA id m1sm12492048wmq.10.2021.09.19.11.45.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Sep 2021 11:45:43 -0700 (PDT)
-Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
-Date:   Sun, 19 Sep 2021 20:45:42 +0200
-From:   Salvatore Bonaccorso <carnil@debian.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Luo Likang <luolikang@nsfocus.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux1394-devel@lists.sourceforge.net,
-        Yang Yanchao <yangyanchao6@huawei.com>,
-        Security Officers <security@kernel.org>
-Subject: Re: [PATCH v2 RESEND] media: firewire: firedtv-avc: fix a buffer
- overflow in avc_ca_pmt()
-Message-ID: <YUeFVpGsWFpSPUsM@eldamar.lan>
-References: <YRoNTX3Krtw9NdkI@eldamar.lan>
- <20210816072721.GA10534@kili>
- <20210901104026.GB2129@kadam>
- <YT39LBTgGL/b/V5N@eldamar.lan>
- <CAHk-=wjOW3Fx8td1Snezd1_9sf8q7KuQx8TyQNR0ypS2rVBHtg@mail.gmail.com>
- <20210913152302.76d57784@coco.lan>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210913152302.76d57784@coco.lan>
+        Sun, 19 Sep 2021 23:46:39 -0400
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 646E3C061574
+        for <linux-media@vger.kernel.org>; Sun, 19 Sep 2021 20:45:13 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id SAEumsawIcSrkSAEwm9ZBl; Mon, 20 Sep 2021 05:45:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1632109510; bh=EAhUrqEbxcjIU7sjaYR4ot+N6VF0cETZ8T9fSlVwEPw=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=ZJzgoAB/6hU+RLHognp+zBo43ZZwmldjN+Ojh372TN3TjnbiXvZ9Vt2R3j38Kfivm
+         c+A7emtEh8Mit3/TQ9PPtj35ObZYYKfPhJCLfxTkfGqGliLlyVpx2Fr25p2zNjB6OM
+         Q563Ge2vDhqtCmGMbYgxU8M+rVmSUEeru9lenWk6jG3zBDB+vfgS1qAZQjVD/81uvx
+         /l44cqTML3O9rcWaFQ5Z/USYySv297KQrRXzkdWOpAOZFEOyxM06favjJIb8Hbs7xT
+         c/002a1dyjVAUu/eMxU9VZVrQ9l60C5GeU8rw3tKX/XCVza0dgkWqRjR3mgdu0tcay
+         53hTPj2DQQ7Bw==
+Message-ID: <aaee6bb40850f5c6bb3e2c32f45bff2a@smtp-cloud9.xs4all.net>
+Date:   Mon, 20 Sep 2021 05:45:06 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfNzTTfofpF8s5mOtLPNukr/rmBaV9357G3nHf+cimVE42VPuX5mdRA7Krv6km7dMbjsCYrfwvosWdIAYTcKwrFnO+rcP0EW1j3Vpaaro32IBJdnSea3Q
+ T61lMEH1VMH2/qT6OJBZ9EEfAQ1gUCkt3BVTGbXdrGJFa5z5Niv5JV2NGEbykiqftnDdYxJF56pR30tkx0ml3Ao9O63onJx7P5fknLUh5yemfjHi3NW9KaDo
+ iPgWNhrDYoJnyP90xPuGrA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Mon, Sep 13, 2021 at 03:23:02PM +0200, Mauro Carvalho Chehab wrote:
-> Em Sun, 12 Sep 2021 11:26:10 -0700
-> Linus Torvalds <torvalds@linuxfoundation.org> escreveu:
-> 
-> > On Sun, Sep 12, 2021 at 6:14 AM Salvatore Bonaccorso <carnil@debian.org> wrote:
-> > >
-> > > On Wed, Sep 01, 2021 at 01:40:26PM +0300, Dan Carpenter wrote:  
-> > > > On Mon, Aug 16, 2021 at 10:27:22AM +0300, Dan Carpenter wrote:  
-> > > > > The bounds checking in avc_ca_pmt() is not strict enough.  It should
-> > > > > be checking "read_pos + 4" because it's reading 5 bytes.  If the
-> > > > > "es_info_length" is non-zero then it reads a 6th byte so there needs to
-> > > > > be an additional check for that.
-> > > > >
-> > > > > I also added checks for the "write_pos".  I don't think these are
-> > > > > required because "read_pos" and "write_pos" are tied together so
-> > > > > checking one ought to be enough.  
-> > 
-> > They may be in sync at a fixed offset, but the buffer length of the
-> > read ("int length") is not in sync with the buffer length for the
-> > write ("sizeof(c->operand)").
-> > 
-> > So I do think the write pos limit checking is actually necessary and needed.
-> > 
-> > > > > RESEND: this patch got lost somehow.  
-> > > >
-> > > > What the heck?  Someone on patchwork just marked this patch as obsolete
-> > > > again!!!  
-> > 
-> > Can we please make sure patchwork has some logging so that that kind
-> > of thing shows _who_ did this?
-> 
-> I've been wanting a feature like that on patchwork for years. Basically,
-> when there's more then a single person capable of accessing a patchwork
-> instance, there's no way to log who changed the status, nor to control who
-> can delegate a patch to someone else or not.
-> 
-> At least for me, touching patchwork is very hard, as the the entire login
-> logic, as well as the database model itself, is abstracted by Django. So,
-> I can't simply change a SQL insert clause there to add something else to
-> their logs nor to change the sent email that it is pushed when a patch
-> status changed.
-> 
-> I ended adding an internal log to indicate when I do some changes on my
-> patchwork instance via script a couple of years ago.
-> 
-> > > Someone knows what is going on here, i.e. what is the problem?  
-> > 
-> > Dan, can you just send that fix to me directly, with the fixed commit
-> > message (see above), and we can close this.
-> 
-> Feel free to add my:
-> 
-> 	Acked-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Results of the daily build of media_tree:
 
-I'm sorry for prodding again, I guess I'm becoming a bit annoying :-/
+date:			Mon Sep 20 05:00:17 CEST 2021
+media-tree git hash:	6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f
+media_build git hash:	19d143dfd9cef88837caca87c456c8776cb0cbed
+v4l-utils git hash:	636224902ae1f3c4cee53a0ade62cf508b6b7777
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 87e556f547947b56d66732146b55b1913a11cb41
+host hardware:		x86_64
+host os:		5.13.11-marune
 
-Dan, could you sent the patch with the above to Linus directly so it
-can show up in at least 5.15-rc3? I guess it's now to late for
-5.15-rc2.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15-rc1-i686: OK
+linux-5.15-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-Regards,
-Salvatore
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
