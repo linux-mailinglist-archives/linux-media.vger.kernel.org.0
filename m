@@ -2,335 +2,218 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42FF5412BB6
-	for <lists+linux-media@lfdr.de>; Tue, 21 Sep 2021 04:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6784C412D79
+	for <lists+linux-media@lfdr.de>; Tue, 21 Sep 2021 05:31:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238337AbhIUC0J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Sep 2021 22:26:09 -0400
-Received: from mailrelay4-3.pub.mailoutpod1-cph3.one.com ([46.30.212.13]:55448
-        "EHLO mailrelay4-3.pub.mailoutpod1-cph3.one.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1347269AbhIUCUI (ORCPT
+        id S230319AbhIUDcf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Sep 2021 23:32:35 -0400
+Received: from mail-io1-f71.google.com ([209.85.166.71]:53211 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231341AbhIUDOo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Sep 2021 22:20:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mida.se; s=20191106;
-        h=content-transfer-encoding:content-type:mime-version:date:message-id:subject:
-         from:to:from;
-        bh=5ONa+kUWa0Qdx5TbsBRV23ynQOXLygQ8NFt9QwKEb0c=;
-        b=gLbenNdcf8tGCzxCn/X3NclMSl1mW4utYIg9vY2KdsOwdZ1jyBUNZQ/dQBLtO18PRibhW+oe+1lYt
-         fQRHdZn0nDO6cVXEq8HY13G70Fw2Rkxiweuh5gmRDSw8gmBJ4Evn0r46XILfbe43XFOpV39qxUf4w7
-         t4xz2j2dJywuDMEaUjooyU5628tE3IGbHy8LJxtkAmKtG25yDdFVhROBmlmFfdN7YH6CeFppsqV7Sy
-         O8xY/LKyQiehPUT+jFIKptG3SMYRYtEM2Mvc9/tsuZpqA64PsWi8JuJI80yT5B4VfhJq4AlsUib7q5
-         DHYb8SBc669tSzxnWHT/QqyLRkTXukw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mida.se; s=rsa1;
-        h=content-transfer-encoding:content-type:mime-version:date:message-id:subject:
-         from:to:from;
-        bh=5ONa+kUWa0Qdx5TbsBRV23ynQOXLygQ8NFt9QwKEb0c=;
-        b=X/UBbWD/tODQjBPVzTl+1nM6sdMM7MNfuLcfNlfn7q0s/L/KxMUDlAJZDAh/mQQUoqp+qB4aBBUkX
-         pcZ4M41TU0JP92f67bCkb9TzrCzbvANbDcP/DRLfsWHKu9xL3M3h9aNCGUfQ+npXfEA896pvott1BB
-         KsNT2eTuOKZ/fZo1TV0/DiIsMSXJWf/mweP1I7J2SjXHgTlq2gQlh7J4k0wvqDwUG7xR8oSOaDFyjd
-         1f6xhz6k50vbTNn53aYGGpkHO3Ow/mHRizPY4MFxSoZQZfvFQ6LQFIu8Fdmfl+BbArxeYkFuctm239
-         LFiRxPfWI8+7OG9AjQigfVMjg4UOd0w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-        d=mida.se; s=ed1;
-        h=content-transfer-encoding:content-type:mime-version:date:message-id:subject:
-         from:to:from;
-        bh=5ONa+kUWa0Qdx5TbsBRV23ynQOXLygQ8NFt9QwKEb0c=;
-        b=RtSAHGxGVSmP0m12/KwTtdAtbr6N54xqNslMH/b6l+QqGzF9futhehXmDe8Y8TYx+HdOvx0AHAQRm
-         lsKhGRwCw==
-X-HalOne-Cookie: 4840cff84d55f9ba1c07070c2e6c05717792bb0e
-X-HalOne-ID: 39131147-1a82-11ec-adfc-d0431ea8bb10
-Received: from [192.168.1.108] (2.64.99.63.mobile.tre.se [2.64.99.63])
-        by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-        id 39131147-1a82-11ec-adfc-d0431ea8bb10;
-        Tue, 21 Sep 2021 02:18:35 +0000 (UTC)
-To:     linux-media@vger.kernel.org
-From:   rkardell <rkardell@mida.se>
-Subject: Error Terratec Cinergy T2 after USB disconnect or sleep
-Message-ID: <500b3efc-5937-8ac4-bf7b-669b9ebc029a@mida.se>
-Date:   Tue, 21 Sep 2021 04:18:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Mon, 20 Sep 2021 23:14:44 -0400
+Received: by mail-io1-f71.google.com with SMTP id n6-20020a056602340600b005d56a34dea8so27628462ioz.19
+        for <linux-media@vger.kernel.org>; Mon, 20 Sep 2021 20:13:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=FoMjj9x1b7xRh3tjIQSuOrHN7zv+x7JHpjy0oNos388=;
+        b=6QYNc0Yngu6wyDWIsejihcHEubXDSOubynnjAf5eRdmgWpbdlWNJIMHbMUt1GMZB9Y
+         N4osnlYhPLOlrCwZuYR3s8HXe12wQZ4pCFz9969DjWqsLW5hA53B2FF2/HHsbcdu/dkm
+         T5i0d9D6Bi0U1J7dNKnAR8M+j4sD4fw8i+/nIROqWjfq7gpRrw4Nvx9i8CTszl7peene
+         0o2pXPupa2mmEr2FuUAYuhTyxOyAWvfBz0kTvKaskuDCL2KgbznhA56k4BBjm1Jd9ZvW
+         YR5q0v+bxlfIYhnv3kageQWptg5HqiX6hJmbd/MdnAry3lbybVXUHLje+iQ4zCE7MZlk
+         l6vQ==
+X-Gm-Message-State: AOAM531KYkpO+9qgIrVK/U0cA+tYC91Fe7cSVmKBP1i2Xw0tm9WLfdln
+        xjm1LVt95hdP4Yf1p/fADgZMWIqj7g7/KCEqm9ef/jUmZVLW
+X-Google-Smtp-Source: ABdhPJwG9jdMY/jARxewwQepv2UVSfGdAQrQ47REzLEbMobLfbFsBYwJOxKF+qAsCrpPGSYRPeICvUadd0w8qNz3bq7HAlLQ/CBS
 MIME-Version: 1.0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: sv-FI
+X-Received: by 2002:a02:601f:: with SMTP id i31mr13833201jac.80.1632193996117;
+ Mon, 20 Sep 2021 20:13:16 -0700 (PDT)
+Date:   Mon, 20 Sep 2021 20:13:16 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000057e05c05cc78c7be@google.com>
+Subject: [syzbot] KASAN: slab-out-of-bounds Read in v4l2_compat_put_array_args
+From:   syzbot <syzbot+414020f76775cfa73bd5@syzkaller.appspotmail.com>
+To:     arnd@arndb.de, hverkuil-cisco@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Terratec Cinergy T2 driver leaves lsmod used cnt at -1, after sleep or 
-usb reconnect.
-Driver can’t be removed with rmmod and modprobe -r crashes kernel.
-After reconnect or wake up after sleep, cinergyt2 seems to be properly 
-initialized, but can’t be used by kaffeine. The system must be restarted 
-to be able to use the CinergyT2 again.
-The only way to avoid this is to manually stop the driver with rmmod 
-before disconnect or sleep.
-Tested on Thinkpad X131e Ubuntu Mate 21.04 5.11.0-34-generic x86_64
-and several other.
-The only reference to the problem that I have found is this: 
-https://linuxtv.org/pipermail/linux-dvb/2007-November/021577.html
-Anyone have any ideas how to solve the problem or how to proceed?
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    ff1ffd71d5f0 Merge tag 'hyperv-fixes-signed-20210915' of g..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1460b72d300000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6d93fe4341f98704
+dashboard link: https://syzkaller.appspot.com/bug?extid=414020f76775cfa73bd5
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: i386
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+414020f76775cfa73bd5@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: slab-out-of-bounds in instrument_copy_to_user include/linux/instrumented.h:118 [inline]
+BUG: KASAN: slab-out-of-bounds in _copy_to_user lib/usercopy.c:32 [inline]
+BUG: KASAN: slab-out-of-bounds in _copy_to_user+0xc7/0x150 lib/usercopy.c:26
+Read of size 16 at addr ffff88807df42418 by task syz-executor.4/4509
+
+CPU: 0 PID: 4509 Comm: syz-executor.4 Not tainted 5.15.0-rc1-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+ print_address_description.constprop.0.cold+0x6c/0x309 mm/kasan/report.c:256
+ __kasan_report mm/kasan/report.c:442 [inline]
+ kasan_report.cold+0x83/0xdf mm/kasan/report.c:459
+ check_region_inline mm/kasan/generic.c:183 [inline]
+ kasan_check_range+0x13d/0x180 mm/kasan/generic.c:189
+ instrument_copy_to_user include/linux/instrumented.h:118 [inline]
+ _copy_to_user lib/usercopy.c:32 [inline]
+ _copy_to_user+0xc7/0x150 lib/usercopy.c:26
+ copy_to_user include/linux/uaccess.h:200 [inline]
+ v4l2_compat_put_array_args+0x480/0x830 drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1152
+ video_usercopy+0xc65/0x16b0 drivers/media/v4l2-core/v4l2-ioctl.c:3317
+ v4l2_ioctl+0x1b3/0x250 drivers/media/v4l2-core/v4l2-dev.c:364
+ v4l2_compat_ioctl32+0x216/0x2c0 drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1251
+ __do_compat_sys_ioctl+0x1c7/0x290 fs/ioctl.c:972
+ do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
+ __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
+ do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:203
+ entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+RIP: 0023:0xf6f5a549
+Code: 03 74 c0 01 10 05 03 74 b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
+RSP: 002b:00000000f45545fc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00000000c0cc5604
+RDX: 0000000020000180 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+
+Allocated by task 4509:
+ kasan_save_stack+0x1b/0x40 mm/kasan/common.c:38
+ kasan_set_track mm/kasan/common.c:46 [inline]
+ set_alloc_info mm/kasan/common.c:434 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:513 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:472 [inline]
+ __kasan_kmalloc+0xa4/0xd0 mm/kasan/common.c:522
+ kmalloc_node include/linux/slab.h:614 [inline]
+ kvmalloc_node+0x61/0x120 mm/util.c:587
+ kvmalloc include/linux/mm.h:805 [inline]
+ video_usercopy+0x72b/0x16b0 drivers/media/v4l2-core/v4l2-ioctl.c:3281
+ v4l2_ioctl+0x1b3/0x250 drivers/media/v4l2-core/v4l2-dev.c:364
+ v4l2_compat_ioctl32+0x216/0x2c0 drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1251
+ __do_compat_sys_ioctl+0x1c7/0x290 fs/ioctl.c:972
+ do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
+ __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
+ do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:203
+ entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+
+The buggy address belongs to the object at ffff88807df42400
+ which belongs to the cache kmalloc-32 of size 32
+The buggy address is located 24 bytes inside of
+ 32-byte region [ffff88807df42400, ffff88807df42420)
+The buggy address belongs to the page:
+page:ffffea0001f7d080 refcount:1 mapcount:0 mapping:0000000000000000 index:0xffff88807df429c0 pfn:0x7df42
+flags: 0xfff00000000200(slab|node=0|zone=1|lastcpupid=0x7ff)
+raw: 00fff00000000200 ffffea000079e580 0000000f0000000f ffff888010c41500
+raw: ffff88807df429c0 000000008040002f 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x12cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY), pid 1, ts 17452416960, free_ts 13762209776
+ prep_new_page mm/page_alloc.c:2424 [inline]
+ get_page_from_freelist+0xa72/0x2f80 mm/page_alloc.c:4153
+ __alloc_pages+0x1b2/0x500 mm/page_alloc.c:5375
+ alloc_pages+0x1a7/0x300 mm/mempolicy.c:2197
+ alloc_slab_page mm/slub.c:1763 [inline]
+ allocate_slab mm/slub.c:1900 [inline]
+ new_slab+0x319/0x490 mm/slub.c:1963
+ ___slab_alloc+0x921/0xfe0 mm/slub.c:2994
+ __slab_alloc.constprop.0+0x4d/0xa0 mm/slub.c:3081
+ slab_alloc_node mm/slub.c:3172 [inline]
+ slab_alloc mm/slub.c:3214 [inline]
+ __kmalloc_track_caller+0x2f1/0x310 mm/slub.c:4905
+ kstrdup+0x36/0x70 mm/util.c:60
+ kstrdup_const+0x53/0x80 mm/util.c:83
+ __kernfs_new_node+0x9d/0x8b0 fs/kernfs/dir.c:581
+ kernfs_new_node fs/kernfs/dir.c:647 [inline]
+ kernfs_create_dir_ns+0x9c/0x220 fs/kernfs/dir.c:984
+ kernfs_create_dir include/linux/kernfs.h:566 [inline]
+ cgroup_create kernel/cgroup/cgroup.c:5307 [inline]
+ cgroup_mkdir+0x43e/0x10f0 kernel/cgroup/cgroup.c:5440
+ kernfs_iop_mkdir+0x146/0x1d0 fs/kernfs/dir.c:1142
+ vfs_mkdir+0x1ce/0x3f0 fs/namei.c:3885
+ do_mkdirat+0x285/0x300 fs/namei.c:3911
+ __do_sys_mkdir fs/namei.c:3931 [inline]
+ __se_sys_mkdir fs/namei.c:3929 [inline]
+ __x64_sys_mkdir+0xf2/0x140 fs/namei.c:3929
+page last free stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1338 [inline]
+ free_pcp_prepare+0x2c5/0x780 mm/page_alloc.c:1389
+ free_unref_page_prepare mm/page_alloc.c:3315 [inline]
+ free_unref_page+0x19/0x690 mm/page_alloc.c:3394
+ free_contig_range+0xa8/0xf0 mm/page_alloc.c:9254
+ destroy_args+0xa8/0x646 mm/debug_vm_pgtable.c:1016
+ debug_vm_pgtable+0x295b/0x29ed mm/debug_vm_pgtable.c:1329
+ do_one_initcall+0x103/0x650 init/main.c:1303
+ do_initcall_level init/main.c:1376 [inline]
+ do_initcalls init/main.c:1392 [inline]
+ do_basic_setup init/main.c:1411 [inline]
+ kernel_init_freeable+0x6b1/0x73a init/main.c:1614
+ kernel_init+0x1a/0x1d0 init/main.c:1505
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+
+Memory state around the buggy address:
+ ffff88807df42300: 00 00 00 fc fc fc fc fc fb fb fb fb fc fc fc fc
+ ffff88807df42380: fa fb fb fb fc fc fc fc 00 00 00 fc fc fc fc fc
+>ffff88807df42400: 00 00 00 fc fc fc fc fc fa fb fb fb fc fc fc fc
+                            ^
+ ffff88807df42480: 00 00 00 fc fc fc fc fc 00 00 00 fc fc fc fc fc
+ ffff88807df42500: 00 00 00 fc fc fc fc fc fa fb fb fb fc fc fc fc
+==================================================================
+----------------
+Code disassembly (best guess):
+   0:	03 74 c0 01          	add    0x1(%rax,%rax,8),%esi
+   4:	10 05 03 74 b8 01    	adc    %al,0x1b87403(%rip)        # 0x1b8740d
+   a:	10 06                	adc    %al,(%rsi)
+   c:	03 74 b4 01          	add    0x1(%rsp,%rsi,4),%esi
+  10:	10 07                	adc    %al,(%rdi)
+  12:	03 74 b0 01          	add    0x1(%rax,%rsi,4),%esi
+  16:	10 08                	adc    %cl,(%rax)
+  18:	03 74 d8 01          	add    0x1(%rax,%rbx,8),%esi
+  1c:	00 00                	add    %al,(%rax)
+  1e:	00 00                	add    %al,(%rax)
+  20:	00 51 52             	add    %dl,0x52(%rcx)
+  23:	55                   	push   %rbp
+  24:	89 e5                	mov    %esp,%ebp
+  26:	0f 34                	sysenter
+  28:	cd 80                	int    $0x80
+* 2a:	5d                   	pop    %rbp <-- trapping instruction
+  2b:	5a                   	pop    %rdx
+  2c:	59                   	pop    %rcx
+  2d:	c3                   	retq
+  2e:	90                   	nop
+  2f:	90                   	nop
+  30:	90                   	nop
+  31:	90                   	nop
+  32:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
+  39:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
 
 
-Dmesg after connect
-  1882.116982] usb 1-1.2: new high-speed USB device number 3 using ehci-pci
-[ 1882.225758] usb 1-1.2: config 1 interface 0 altsetting 0 bulk 
-endpoint 0x1 has invalid maxpacket 64
-[ 1882.225772] usb 1-1.2: config 1 interface 0 altsetting 0 bulk 
-endpoint 0x81 has invalid maxpacket 64
-[ 1882.226486] usb 1-1.2: New USB device found, idVendor=0ccd, 
-idProduct=0038, bcdDevice= 1.06
-[ 1882.226497] usb 1-1.2: New USB device strings: Mfr=1, Product=2, 
-SerialNumber=0
-[ 1882.226501] usb 1-1.2: Product: Cinergy T²
-[ 1882.226504] usb 1-1.2: Manufacturer: TerraTec GmbH
-[ 1882.406083] dvb-usb: found a 'Mod TerraTec/qanu USB2.0 Highspeed 
-DVB-T Receiver' in warm state.
-[ 1882.409674] dvb-usb: will pass the complete MPEG2 transport stream to 
-the software demuxer.
-[ 1882.410117] dvbdev: DVB: registering new adapter (Mod TerraTec/qanu 
-USB2.0 Highspeed DVB-T Receiver)
-[ 1882.410127] usb 1-1.2: media controller created
-[ 1882.410554] dvbdev: dvb_create_media_entity: media entity 'dvb-demux' 
-registered.
-[ 1882.411406] usb 1-1.2: DVB: registering adapter 0 frontend 0 
-(TerraTec/qanu USB2.0 Highspeed DVB-T Receiver)...
-[ 1882.411413] dvbdev: dvb_create_media_entity: media entity 
-'TerraTec/qanu USB2.0 Highspeed DVB-T Receiver' registered.
-[ 1882.412361] input: IR-receiver inside an USB DVB receiver as 
-/devices/pci0000:00/0000:00:1a.0/usb1/1-1/1-1.2/input/input26
-[ 1882.412475] dvb-usb: schedule remote query interval to 50 msecs.
-[ 1882.415543] dvb-usb: Mod TerraTec/qanu USB2.0 Highspeed DVB-T 
-Receiver successfully initialized and connected.
-[ 1882.415644] usbcore: registered new interface driver cinergyT2
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-lsmod after connect
-Module                  Size  Used by
-dvb_usb_cinergyT2      20480  0
-dvb_usb                28672  1 dvb_usb_cinergyT2
-dvb_core              139264  1 dvb_usb
-
-lsusb -v after connect
-Bus 001 Device 003: ID 0ccd:0038 TerraTec Electronic GmbH Cinergy T² 
-DVB-T Receiver
-Device Descriptor:
-   bLength                18
-   bDescriptorType         1
-   bcdUSB               2.00
-   bDeviceClass          255 Vendor Specific Class
-   bDeviceSubClass       255 Vendor Specific Subclass
-   bDeviceProtocol       255 Vendor Specific Protocol
-   bMaxPacketSize0        64
-   idVendor           0x0ccd TerraTec Electronic GmbH
-   idProduct          0x0038 Cinergy T² DVB-T Receiver
-   bcdDevice            1.06
-   iManufacturer           1 TerraTec GmbH
-   iProduct                2 Cinergy T²
-   iSerial                 0
-   bNumConfigurations      1
-   Configuration Descriptor:
-     bLength                 9
-     bDescriptorType         2
-     wTotalLength       0x0027
-     bNumInterfaces          1
-     bConfigurationValue     1
-     iConfiguration          0
-     bmAttributes         0x80
-       (Bus Powered)
-     MaxPower              476mA
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        0
-       bAlternateSetting       0
-       bNumEndpoints           3
-       bInterfaceClass       255 Vendor Specific Class
-       bInterfaceSubClass    255 Vendor Specific Subclass
-       bInterfaceProtocol      0
-       iInterface              3 Highspeed Bulk Transfer
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x01  EP 1 OUT
-         bmAttributes            2
-           Transfer Type            Bulk
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0040  1x 64 bytes
-         bInterval               0
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x81  EP 1 IN
-         bmAttributes            2
-           Transfer Type            Bulk
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0040  1x 64 bytes
-         bInterval               0
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x82  EP 2 IN
-         bmAttributes            2
-           Transfer Type            Bulk
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0200  1x 512 bytes
-         bInterval               0
-Device Qualifier (for other device speed):
-   bLength                10
-   bDescriptorType         6
-   bcdUSB               2.00
-   bDeviceClass          255 Vendor Specific Class
-   bDeviceSubClass       255 Vendor Specific Subclass
-   bDeviceProtocol       255 Vendor Specific Protocol
-   bMaxPacketSize0        64
-   bNumConfigurations      1
-can't get debug descriptor: Resource temporarily unavailable
-cannot read device status, Resource temporarily unavailable (11)
-
-dmesg after sleep
-  2085.595303] PM: suspend entry (deep)
-[ 2086.182808] Filesystems sync: 0.587 seconds
-[ 2086.317346] Freezing user space processes ... (elapsed 0.003 seconds) 
-done.
-[ 2086.321013] OOM killer disabled.
-[ 2086.321015] Freezing remaining freezable tasks ... (elapsed 0.023 
-seconds) done.
-[ 2086.344118] printk: Suspending console(s) (use no_console_suspend to 
-debug)
-[ 2086.349168] dvb-usb: Mod TerraTec/qanu USB2.0 Highspeed DVB- 
-successfully deinitialized and disconnected.
-
-Dmesg after wake up
-[ 2089.580989] usb 1-1.2: reset high-speed USB device number 3 using 
-ehci-pci
-[ 2089.690369] PM: dpm_run_callback(): usb_dev_resume+0x0/0x20 returns -5
-[ 2089.690387] PM: Device 1-1.2 failed to resume async: error -5
-[ 2090.029351] OOM killer enabled.
-[ 2090.029359] Restarting tasks ...
-[ 2090.033135] usb 1-1.2: USB disconnect, device number 3
-[ 2090.060292] done.
-[ 2090.113373] usb 1-1.2: new high-speed USB device number 4 using ehci-pci
-[ 2090.229368] usb 1-1.2: config 1 interface 0 altsetting 0 bulk 
-endpoint 0x1 has invalid maxpacket 64
-[ 2090.229378] usb 1-1.2: config 1 interface 0 altsetting 0 bulk 
-endpoint 0x81 has invalid maxpacket 64
-[ 2090.229865] usb 1-1.2: New USB device found, idVendor=0ccd, 
-idProduct=0038, bcdDevice= 1.06
-[ 2090.229870] usb 1-1.2: New USB device strings: Mfr=1, Product=2, 
-SerialNumber=0
-[ 2090.229872] usb 1-1.2: Product: Cinergy T²
-[ 2090.229875] usb 1-1.2: Manufacturer: TerraTec GmbH
-[ 2090.230563] dvb-usb: found a 'Mod TerraTec/qanu USB2.0 Highspeed 
-DVB-T Receiver' in warm state.
-[ 2090.234126] dvb-usb: will pass the complete MPEG2 transport stream to 
-the software demuxer.
-[ 2090.234250] dvbdev: DVB: registering new adapter (Mod TerraTec/qanu 
-USB2.0 Highspeed DVB-T Receiver)
-[ 2090.234258] usb 1-1.2: media controller created
-[ 2090.234851] dvbdev: dvb_create_media_entity: media entity 'dvb-demux' 
-registered.
-[ 2090.235745] usb 1-1.2: DVB: registering adapter 0 frontend 0 
-(TerraTec/qanu USB2.0 Highspeed DVB-T Receiver)...
-[ 2090.235757] dvbdev: dvb_create_media_entity: media entity 
-'TerraTec/qanu USB2.0 Highspeed DVB-T Receiver' registered.
-[ 2090.236844] input: IR-receiver inside an USB DVB receiver as 
-/devices/pci0000:00/0000:00:1a.0/usb1/1-1/1-1.2/input/input30
-[ 2090.237399] dvb-usb: schedule remote query interval to 50 msecs.
-[ 2090.239994] dvb-usb: Mod TerraTec/qanu USB2.0 Highspeed DVB-T 
-Receiver successfully initialized and connected.
-[ 2090.571073] PM: suspend exit
-
-lsmod after wake up
-Module                  Size  Used by
-dvb_usb_cinergyT2      20480  -1
-dvb_usb                28672  1 dvb_usb_cinergyT2
-dvb_core              139264  1 dvb_usb
-
-lsusb -v after wake up
-Bus 001 Device 004: ID 0ccd:0038 TerraTec Electronic GmbH Cinergy T² 
-DVB-T Receiver
-Device Descriptor:
-   bLength                18
-   bDescriptorType         1
-   bcdUSB               2.00
-   bDeviceClass          255 Vendor Specific Class
-   bDeviceSubClass       255 Vendor Specific Subclass
-   bDeviceProtocol       255 Vendor Specific Protocol
-   bMaxPacketSize0        64
-   idVendor           0x0ccd TerraTec Electronic GmbH
-   idProduct          0x0038 Cinergy T² DVB-T Receiver
-   bcdDevice            1.06
-   iManufacturer           1 TerraTec GmbH
-   iProduct                2 Cinergy T²
-   iSerial                 0
-   bNumConfigurations      1
-   Configuration Descriptor:
-     bLength                 9
-     bDescriptorType         2
-     wTotalLength       0x0027
-     bNumInterfaces          1
-     bConfigurationValue     1
-     iConfiguration          0
-     bmAttributes         0x80
-       (Bus Powered)
-     MaxPower              476mA
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        0
-       bAlternateSetting       0
-       bNumEndpoints           3
-       bInterfaceClass       255 Vendor Specific Class
-       bInterfaceSubClass    255 Vendor Specific Subclass
-       bInterfaceProtocol      0
-       iInterface              3 Highspeed Bulk Transfer
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x01  EP 1 OUT
-         bmAttributes            2
-           Transfer Type            Bulk
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0040  1x 64 bytes
-         bInterval               0
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x81  EP 1 IN
-         bmAttributes            2
-           Transfer Type            Bulk
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0040  1x 64 bytes
-         bInterval               0
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x82  EP 2 IN
-         bmAttributes            2
-           Transfer Type            Bulk
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0200  1x 512 bytes
-         bInterval               0
-Device Qualifier (for other device speed):
-   bLength                10
-   bDescriptorType         6
-   bcdUSB               2.00
-   bDeviceClass          255 Vendor Specific Class
-   bDeviceSubClass       255 Vendor Specific Subclass
-   bDeviceProtocol       255 Vendor Specific Protocol
-   bMaxPacketSize0        64
-   bNumConfigurations      1
-can't get debug descriptor: Resource temporarily unavailable
-cannot read device status, Resource temporarily unavailable (11)
-
-
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
