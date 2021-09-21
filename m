@@ -2,238 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4B414137C1
-	for <lists+linux-media@lfdr.de>; Tue, 21 Sep 2021 18:45:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3F0F413868
+	for <lists+linux-media@lfdr.de>; Tue, 21 Sep 2021 19:36:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229624AbhIUQq4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Sep 2021 12:46:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40084 "EHLO
+        id S231160AbhIURh2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Sep 2021 13:37:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbhIUQq4 (ORCPT
+        with ESMTP id S231126AbhIURhZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Sep 2021 12:46:56 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2915EC061575;
-        Tue, 21 Sep 2021 09:45:27 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id g16so41090094wrb.3;
-        Tue, 21 Sep 2021 09:45:27 -0700 (PDT)
+        Tue, 21 Sep 2021 13:37:25 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5599C061574
+        for <linux-media@vger.kernel.org>; Tue, 21 Sep 2021 10:35:56 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id u15so41542436wru.6
+        for <linux-media@vger.kernel.org>; Tue, 21 Sep 2021 10:35:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=psah4mHG63/C/YPiZyFBat1C3NjyW//LGn21+usYHtw=;
-        b=apg4iNAPkMRjbTHDnxklU3DtM2FeQe30oU4kls0o3t1pHC85QuX0WLJ6f9KN93AKZ1
-         Cu28Z5ztqWaRvI65HxOIpma8BRbpyVXoF8DvdKIIioUxmYufSLn55233hlm8XIFIy4Xt
-         rKLLqxn+eDRBQNmlWK/ts5exHbF6hyd0yawkyVwlj8ygwAskxIOtFFm/1B9UVuq2eyT7
-         PIxkJ13w1gMrXbVaA13TCEdrYZkxbNYb7ViHVFerheC7hkf61/kzoVUvnyNsrIKAoUhA
-         D5x+vzBEbSBv6VFHKuEDCEz8c8055ceQnOOwoYuIUnuyeHtZ2ZXcBUlr/1/I7ZjdJpwQ
-         wwAA==
+        bh=pjqKqzaBO9YyQO367dYMB1dDo+YYIgVSgR/HrzoDvi8=;
+        b=VAWOp3vu7I9NZWj+CDh0Uq6VZIkinG4zw2HMbEZHawTH16JcaVUQsPRjvliVWnXV3+
+         hnugVB9+23rO1xEwveQtykl4KJALqNGkJFBqrDEe0xeS5LDIqC1DM+4Tnsmw9a3XWfFx
+         Kp9CWeis9kXuzWbVGhlIpATvazFfzDTzp5bEt0Bl08GNEJdSepDebs2ykaJJTRaoq8Ra
+         pfZgcun+poAF6cHb3uQ15ZAhvEs3sqUptn/HTzwM5Roxr1hKR5NYYz1xOYZiViJw7K75
+         CB23B33OiBOu7rmPnGhLvCwbSAl6FWxMQjR5WQeZ528P6+WyjkhbCLF4Ju44R40QSwxZ
+         4itA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=psah4mHG63/C/YPiZyFBat1C3NjyW//LGn21+usYHtw=;
-        b=dnfQ9EzZZzLSgQsHP4tzxBjypPDMPkjm5SHiTHOV5eltrZJt+LPftP3fFYRG2Y3R7Y
-         t0C1bdm2SghOn44/5XaL37f2Y/Pc94PO+J896pb06sRx4x/qO59c8gk0gRtjn0cLyokT
-         iL5DAgeia9TUozqHb1rWqfIhRC+VDXeCnzaVUgA50G66do17E1AXTPL4vDrlnMZQJDpd
-         nA3kM7nJO3a6VSLNw9TWd90LxkLZKBM2VHWxlkMrRba3EsPpywMIFAZlt+qq1t2NlpZY
-         CBY5AmrhnUct5YEt6oQl/NTQYN9VFO1LuXOCYGUlxr9rcFddewtZ6b4wgtnsfxdqyAtp
-         5Gcw==
-X-Gm-Message-State: AOAM530sSnN0017qPt9gOGITe9Oker5QUI1ZPEqXi0OaiUIBNkB7Yj1L
-        Ob/eBkHwC/WpcL+v8Y60u04=
-X-Google-Smtp-Source: ABdhPJwHSTny3aPg3jViUGKYIGDXq4r8qQK8G+oHUdJX8m5t1m0SttTS1F8nF+oVfcXhfDtFt/950A==
-X-Received: by 2002:a1c:4d17:: with SMTP id o23mr5763965wmh.125.1632242725728;
-        Tue, 21 Sep 2021 09:45:25 -0700 (PDT)
+        bh=pjqKqzaBO9YyQO367dYMB1dDo+YYIgVSgR/HrzoDvi8=;
+        b=D/0PRjz+WzMKb2yJwYxVmLNbrIzsGqe0knSPFwmWsZFq+lW2ZSQ5CjtKQ6AHXir4kS
+         6UXvuSQbhXtluS2j9+q10ogYWl2XTVinqlPzHdkjStXM4ipA/VF/eoCd92Ug+6C0uBv9
+         24osZoufvWh6UwVv0TVrjMuD70ckllaX+hFvt2bwy5S0ztLpJzo51GVFCOTfgMzotBKL
+         GdaK9zAabAbyJezc8ZWQqXteZdGN8b8tk2xIZZJ4sN/6MuZPJiMOs17PQEAVWSMJ2Bt9
+         PbyZpOfZ09m9/Wdeh8Y12e0M26s6IvVbsnk/3kK3EqW3GkzHznmyVVE+9yIJ3OEkgYVH
+         +0fA==
+X-Gm-Message-State: AOAM533u+lkoWusXNZkgZ6u1irWo6xvYkUHkQQ1KHsr9DF1XuAkx9Jmy
+        ZsGrIR8d26Yav6gaNjqkDMs=
+X-Google-Smtp-Source: ABdhPJwJWQCDHc22GOt0rL6e5r9tsPU6MOyCstVOccOTTCM2dqPsA7Oo/iRnbKWpSF53M64HeTWEwA==
+X-Received: by 2002:a1c:7201:: with SMTP id n1mr5964375wmc.19.1632245755419;
+        Tue, 21 Sep 2021 10:35:55 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:e90f:ea29:b3d5:61cf? ([2a02:908:1252:fb60:e90f:ea29:b3d5:61cf])
-        by smtp.gmail.com with ESMTPSA id l19sm20306963wrc.16.2021.09.21.09.45.24
+        by smtp.gmail.com with ESMTPSA id g13sm3359161wmh.20.2021.09.21.10.35.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Sep 2021 09:45:25 -0700 (PDT)
-Subject: Re: [PATCH v3 4/9] drm/scheduler: Add fence deadline support
-To:     Rob Clark <robdclark@gmail.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        David Airlie <airlied@linux.ie>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Steven Price <steven.price@arm.com>,
-        Melissa Wen <mwen@igalia.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Jack Zhang <Jack.Zhang1@amd.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>
-References: <20210903184806.1680887-1-robdclark@gmail.com>
- <20210903184806.1680887-5-robdclark@gmail.com>
- <YTj2scNdCHAdF+cl@phenom.ffwll.local>
- <CAF6AEGvHQHbOP65jq53WEuJc9uxReOFMyXUN--JjjcB1FxHSCw@mail.gmail.com>
- <CAF6AEGve2LN2Us56e15rZrec7xXHrBhGT9NuPaOiQeiWrACbLw@mail.gmail.com>
+        Tue, 21 Sep 2021 10:35:54 -0700 (PDT)
+Subject: Re: [Intel-gfx] [PATCH 16/26] drm/i915: use new iterator in
+ i915_gem_object_wait_reservation v2
+To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Cc:     daniel@ffwll.ch
+References: <20210917123513.1106-1-christian.koenig@amd.com>
+ <20210917123513.1106-17-christian.koenig@amd.com>
+ <e0954bdd-2183-f662-8192-c44f931c602b@linux.intel.com>
 From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <51311182-b06e-7fcf-ec20-b9657d866bbc@gmail.com>
-Date:   Tue, 21 Sep 2021 18:45:24 +0200
+Message-ID: <e66dd0dc-02a6-7437-ab98-dff4e8ff8de3@gmail.com>
+Date:   Tue, 21 Sep 2021 19:35:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <CAF6AEGve2LN2Us56e15rZrec7xXHrBhGT9NuPaOiQeiWrACbLw@mail.gmail.com>
+In-Reply-To: <e0954bdd-2183-f662-8192-c44f931c602b@linux.intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 21.09.21 um 18:35 schrieb Rob Clark:
-> On Tue, Sep 21, 2021 at 8:57 AM Rob Clark <robdclark@gmail.com> wrote:
->> On Wed, Sep 8, 2021 at 10:45 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->>> On Fri, Sep 03, 2021 at 11:47:55AM -0700, Rob Clark wrote:
->>>> From: Rob Clark <robdclark@chromium.org>
->>>>
->>>> As the finished fence is the one that is exposed to userspace, and
->>>> therefore the one that other operations, like atomic update, would
->>>> block on, we need to propagate the deadline from from the finished
->>>> fence to the actual hw fence.
->>>>
->>>> v2: Split into drm_sched_fence_set_parent() (ckoenig)
->>>>
->>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
->>>> ---
->>>>   drivers/gpu/drm/scheduler/sched_fence.c | 34 +++++++++++++++++++++++++
->>>>   drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
->>>>   include/drm/gpu_scheduler.h             |  8 ++++++
->>>>   3 files changed, 43 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->>>> index bcea035cf4c6..4fc41a71d1c7 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>>> @@ -128,6 +128,30 @@ static void drm_sched_fence_release_finished(struct dma_fence *f)
->>>>        dma_fence_put(&fence->scheduled);
->>>>   }
->>>>
->>>> +static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
->>>> +                                               ktime_t deadline)
->>>> +{
->>>> +     struct drm_sched_fence *fence = to_drm_sched_fence(f);
->>>> +     unsigned long flags;
->>>> +
->>>> +     spin_lock_irqsave(&fence->lock, flags);
->>>> +
->>>> +     /* If we already have an earlier deadline, keep it: */
->>>> +     if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
->>>> +         ktime_before(fence->deadline, deadline)) {
->>>> +             spin_unlock_irqrestore(&fence->lock, flags);
->>>> +             return;
->>>> +     }
->>>> +
->>>> +     fence->deadline = deadline;
->>>> +     set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
->>>> +
->>>> +     spin_unlock_irqrestore(&fence->lock, flags);
->>>> +
->>>> +     if (fence->parent)
->>>> +             dma_fence_set_deadline(fence->parent, deadline);
->>>> +}
->>>> +
->>>>   static const struct dma_fence_ops drm_sched_fence_ops_scheduled = {
->>>>        .get_driver_name = drm_sched_fence_get_driver_name,
->>>>        .get_timeline_name = drm_sched_fence_get_timeline_name,
->>>> @@ -138,6 +162,7 @@ static const struct dma_fence_ops drm_sched_fence_ops_finished = {
->>>>        .get_driver_name = drm_sched_fence_get_driver_name,
->>>>        .get_timeline_name = drm_sched_fence_get_timeline_name,
->>>>        .release = drm_sched_fence_release_finished,
->>>> +     .set_deadline = drm_sched_fence_set_deadline_finished,
->>>>   };
->>>>
->>>>   struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
->>>> @@ -152,6 +177,15 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
->>>>   }
->>>>   EXPORT_SYMBOL(to_drm_sched_fence);
->>>>
->>>> +void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
->>>> +                             struct dma_fence *fence)
->>>> +{
->>>> +     s_fence->parent = dma_fence_get(fence);
->>>> +     if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
->>>> +                  &s_fence->finished.flags))
->>> Don't you need the spinlock here too to avoid races? test_bit is very
->>> unordered, so guarantees nothing. Spinlock would need to be both around
->>> ->parent = and the test_bit.
->>>
->>> Entirely aside, but there's discussions going on to preallocate the hw
->>> fence somehow. If we do that we could make the deadline forwarding
->>> lockless here. Having a spinlock just to set the parent is a bit annoying
->>> ...
->>>
->>> Alternative is that you do this locklessly with barriers and a _lot_ of
->>> comments. Would be good to benchmark whether the overhead matters though
->>> first.
->> So, my thinking is that very few (well no) guarantees are made to the
->> fence implementor that their ->set_deadline() is not called multiple
->> times, from multiple threads, etc.  And no guarantee that a later
->> deadline is set after an earlier deadline has been set.  It is all up
->> to the set_deadline() implementation to deal with these cases.
+Am 20.09.21 um 12:00 schrieb Tvrtko Ursulin:
+>
+> On 17/09/2021 13:35, Christian König wrote:
+>> Simplifying the code a bit.
 >>
->> So that means we just need the appropriate barrier-fu to ensure
->> another thread calling drm_sched_fence_set_deadline_finished() sees
->> fence->parent set before the test_bit.  It could mean that the backend
->> implementation sees the same deadline set twice, but that is fine.
+>> v2: add missing rcu read unlock.
 >>
-> something like:
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/i915/gem/i915_gem_wait.c | 57 ++++++------------------
+>>   1 file changed, 14 insertions(+), 43 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c 
+>> b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+>> index f909aaa09d9c..e416cf528635 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+>> @@ -37,55 +37,26 @@ i915_gem_object_wait_reservation(struct dma_resv 
+>> *resv,
+>>                    unsigned int flags,
+>>                    long timeout)
+>>   {
+>> -    struct dma_fence *excl;
+>> -    bool prune_fences = false;
+>> -
+>> -    if (flags & I915_WAIT_ALL) {
+>> -        struct dma_fence **shared;
+>> -        unsigned int count, i;
+>> -        int ret;
+>> -
+>> -        ret = dma_resv_get_fences(resv, &excl, &count, &shared);
+>> -        if (ret)
+>> -            return ret;
+>> -
+>> -        for (i = 0; i < count; i++) {
+>> -            timeout = i915_gem_object_wait_fence(shared[i],
+>> -                                 flags, timeout);
+>> -            if (timeout < 0)
+>> -                break;
+>> -
+>> -            dma_fence_put(shared[i]);
+>> -        }
+>> -
+>> -        for (; i < count; i++)
+>> -            dma_fence_put(shared[i]);
+>> -        kfree(shared);
+>> -
+>> -        /*
+>> -         * If both shared fences and an exclusive fence exist,
+>> -         * then by construction the shared fences must be later
+>> -         * than the exclusive fence. If we successfully wait for
+>> -         * all the shared fences, we know that the exclusive fence
+>> -         * must all be signaled. If all the shared fences are
+>> -         * signaled, we can prune the array and recover the
+>> -         * floating references on the fences/requests.
+>> -         */
+>> -        prune_fences = count && timeout >= 0;
+>> -    } else {
+>> -        excl = dma_resv_get_excl_unlocked(resv);
+>> +    struct dma_resv_iter cursor;
+>> +    struct dma_fence *fence;
+>> +
+>> +    rcu_read_lock();
+>> +    dma_resv_iter_begin(&cursor, resv, flags & I915_WAIT_ALL);
+>> +    dma_resv_for_each_fence_unlocked(&cursor, fence) {
+>> +        rcu_read_unlock();
+>> +        timeout = i915_gem_object_wait_fence(fence, flags, timeout);
+>
+> Converting this one could be problematic. It's the wait ioctl which 
+> used to grab an atomic snapshot and wait for that rendering to 
+> complete. With this change I think it has the potential to run forever 
+> keeps catching new activity against the same object.
+>
+> I am not sure whether or not the difference is relevant for how 
+> userspace uses it but I think needs discussion.
 
-Of hand I think that this should work.
+It was years ago, but IIRC we had the same discussion for the 
+dma_resv_wait_timeout() function and the result was that this is not a 
+valid use case and waiting forever if you see new work over and over 
+again is a valid result.
 
-Or rather say I can't see anything wrong with that.
+Let me double check the history of this code here as well.
 
+> Hm actually there are internal callers as well, and at least some of 
+> those have the object locked. Would a wider refactoring to separate 
+> those into buckets (locked vs unlocked) make sense?
+
+Yes definitely.
+
+Regards,
 Christian.
 
 >
-> -----
-> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c
-> b/drivers/gpu/drm/scheduler/sched_fence.c
-> index 4fc41a71d1c7..7f2af6d1777c 100644
-> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> @@ -132,6 +132,7 @@ static void
-> drm_sched_fence_set_deadline_finished(struct dma_fence *f,
->      ktime_t deadline)
->   {
->    struct drm_sched_fence *fence = to_drm_sched_fence(f);
-> + struct dma_fence *parent;
->    unsigned long flags;
+> Regards,
 >
->    spin_lock_irqsave(&fence->lock, flags);
-> @@ -148,8 +149,9 @@ static void
-> drm_sched_fence_set_deadline_finished(struct dma_fence *f,
+> Tvrtko
 >
->    spin_unlock_irqrestore(&fence->lock, flags);
 >
-> - if (fence->parent)
-> - dma_fence_set_deadline(fence->parent, deadline);
-> + parent = smp_load_acquire(&fence->parent);
-> + if (parent)
-> + dma_fence_set_deadline(parent, deadline);
->   }
->
->   static const struct dma_fence_ops drm_sched_fence_ops_scheduled = {
-> @@ -180,7 +182,7 @@ EXPORT_SYMBOL(to_drm_sched_fence);
->   void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
->    struct dma_fence *fence)
->   {
-> - s_fence->parent = dma_fence_get(fence);
-> + smp_store_release(&s_fence->parent, dma_fence_get(fence));
->    if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
->         &s_fence->finished.flags))
->    dma_fence_set_deadline(fence, s_fence->deadline);
-> -----
->
-> BR,
-> -R
+>> +        rcu_read_lock();
+>> +        if (timeout < 0)
+>> +            break;
+>>       }
+>> -
+>> -    if (excl && timeout >= 0)
+>> -        timeout = i915_gem_object_wait_fence(excl, flags, timeout);
+>> -
+>> -    dma_fence_put(excl);
+>> +    dma_resv_iter_end(&cursor);
+>> +    rcu_read_unlock();
+>>         /*
+>>        * Opportunistically prune the fences iff we know they have 
+>> *all* been
+>>        * signaled.
+>>        */
+>> -    if (prune_fences)
+>> +    if (timeout > 0)
+>>           dma_resv_prune(resv);
+>>         return timeout;
+>>
 
