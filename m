@@ -2,1731 +2,224 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58497413097
-	for <lists+linux-media@lfdr.de>; Tue, 21 Sep 2021 11:11:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8900B4130A8
+	for <lists+linux-media@lfdr.de>; Tue, 21 Sep 2021 11:19:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231268AbhIUJM5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Sep 2021 05:12:57 -0400
-Received: from mga18.intel.com ([134.134.136.126]:6300 "EHLO mga18.intel.com"
+        id S231310AbhIUJUm convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 21 Sep 2021 05:20:42 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:56662 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229533AbhIUJMy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Sep 2021 05:12:54 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="210395177"
-X-IronPort-AV: E=Sophos;i="5.85,310,1624345200"; 
-   d="scan'208";a="210395177"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 02:11:26 -0700
-X-IronPort-AV: E=Sophos;i="5.85,310,1624345200"; 
-   d="scan'208";a="435814947"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 02:11:23 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id B963C201C5; Tue, 21 Sep 2021 12:11:21 +0300 (EEST)
-Date:   Tue, 21 Sep 2021 12:11:21 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        yong.zhi@intel.com, bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        kieran.bingham@ideasonboard.com,
-        jeanmichel.hautbois@ideasonboard.com
-Subject: Re: [PATCH v3 2/2] media: i2c: Add support for ov5693 sensor
-Message-ID: <YUmhuYiFoSL21bj4@paasikivi.fi.intel.com>
-References: <20210920225422.42618-1-djrscally@gmail.com>
- <20210920225422.42618-3-djrscally@gmail.com>
+        id S230508AbhIUJUm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Sep 2021 05:20:42 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mSbvl-001iA2-2W; Tue, 21 Sep 2021 09:19:13 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mSbvj-002Tez-NS; Tue, 21 Sep 2021 09:19:11 +0000
+Date:   Tue, 21 Sep 2021 09:19:10 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <220787145.1.1632215950643@builder.linuxtv.org>
+In-Reply-To: <656726190.0.1632214170111@builder.linuxtv.org>
+References: <656726190.0.1632214170111@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3637
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210920225422.42618-3-djrscally@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+See <https://builder.linuxtv.org/job/media-build/3637/display/redirect>
 
-Thanks for the patch.
+Changes:
 
-On Mon, Sep 20, 2021 at 11:54:22PM +0100, Daniel Scally wrote:
-> The OV5693 is a 5 Mpx CMOS image sensor, connected via MIPI CSI-2. The
-> chip is capable of a single lane configuration, but currently only two
-> lanes are supported.
-> 
-> Most of the sensor's features are supported, with the main exception
-> being the lens correction algorithm.
-> 
-> The driver provides all mandatory, optional and recommended V4L2 controls
-> for maximum compatibility with libcamera.
-> 
-> Signed-off-by: Daniel Scally <djrscally@gmail.com>
-> ---
->  MAINTAINERS                |    7 +
->  drivers/media/i2c/Kconfig  |   11 +
->  drivers/media/i2c/Makefile |    1 +
->  drivers/media/i2c/ov5693.c | 1558 ++++++++++++++++++++++++++++++++++++
->  4 files changed, 1577 insertions(+)
->  create mode 100644 drivers/media/i2c/ov5693.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ca6d6fde85cf..83b4523ef899 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13855,6 +13855,13 @@ S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
->  F:	drivers/media/i2c/ov5675.c
->  
-> +OMNIVISION OV5693 SENSOR DRIVER
-> +M:	Daniel Scally <djrscally@gmail.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	drivers/media/i2c/ov5693.c
-> +
->  OMNIVISION OV5695 SENSOR DRIVER
->  M:	Shunqian Zheng <zhengsq@rock-chips.com>
->  L:	linux-media@vger.kernel.org
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 08feb3e8c1bf..82d5c9b7f540 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1042,6 +1042,17 @@ config VIDEO_OV5675
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called ov5675.
->  
-> +config VIDEO_OV5693
-> +	tristate "OmniVision OV5693 sensor support"
-> +	depends on I2C && VIDEO_V4L2
-> +	select V4L2_FWNODE
-> +	help
-> +	  This is a Video4Linux2 sensor driver for the OmniVision
-> +	  OV5693 camera.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called ov5693.
-> +
->  config VIDEO_OV5695
->  	tristate "OmniVision OV5695 sensor support"
->  	depends on I2C && VIDEO_V4L2
-> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> index 83268f20aa3a..6b910ba2dde2 100644
-> --- a/drivers/media/i2c/Makefile
-> +++ b/drivers/media/i2c/Makefile
-> @@ -75,6 +75,7 @@ obj-$(CONFIG_VIDEO_OV5647) += ov5647.o
->  obj-$(CONFIG_VIDEO_OV5648) += ov5648.o
->  obj-$(CONFIG_VIDEO_OV5670) += ov5670.o
->  obj-$(CONFIG_VIDEO_OV5675) += ov5675.o
-> +obj-$(CONFIG_VIDEO_OV5693) += ov5693.o
->  obj-$(CONFIG_VIDEO_OV5695) += ov5695.o
->  obj-$(CONFIG_VIDEO_OV6650) += ov6650.o
->  obj-$(CONFIG_VIDEO_OV7251) += ov7251.o
-> diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
-> new file mode 100644
-> index 000000000000..1e5c465112c5
-> --- /dev/null
-> +++ b/drivers/media/i2c/ov5693.c
-> @@ -0,0 +1,1558 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2013 Intel Corporation. All Rights Reserved.
 
-Are there any other copyrights? I'm just noting this, not necessarily
-requesting them.
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 64b8ee617dce0c3a7ea317ee8fa63af0670d777d (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 64b8ee617dce0c3a7ea317ee8fa63af0670d777d # timeout=10
+Commit message: "Add backports/v4.9_vivid_ktime.patch"
+ > git rev-list --no-walk 64b8ee617dce0c3a7ea317ee8fa63af0670d777d # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 64b8ee617dce0c3a7ea317ee8fa63af0670d777d^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
+[GitCheckoutListener] Found previous build 'media-build #3636' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '64b8ee6'
+[GitCheckoutListener] -> Using head commit '64b8ee6' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@2fe8a037'
+[GitCheckoutListener] -> No new commits found
+[media-build] $ /bin/sh -xe /tmp/jenkins5245853133096085022.sh
++ rm v4l/.version
++ ./build
+Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
+Needed package dependencies are met.
 
-> + *
-> + * Adapted from the atomisp-ov5693 driver, with contributions from:
-> + *
-> + * Daniel Scally
-> + * Jean-Michel Hautbois
-> + * Fabian Wuthrich
-> + * Tsuchiya Yuto
-> + * Jordan Hand
-> + * Jake Day
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
 
-Well done!
+Not aborted. It means that the licence was agreed. Proceeding...
 
-> + */
-> +
-> +#include <asm/unaligned.h>
-> +#include <linux/acpi.h>
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/device.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/slab.h>
-> +#include <linux/types.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-fwnode.h>
-> +
-> +/* System Control */
-> +#define OV5693_SW_RESET_REG			0x0103
-> +#define OV5693_SW_STREAM_REG			0x0100
-> +#define OV5693_START_STREAMING			0x01
-> +#define OV5693_STOP_STREAMING			0x00
-> +#define OV5693_SW_RESET				0x01
-> +
-> +#define OV5693_REG_CHIP_ID_H			0x300a
-> +#define OV5693_REG_CHIP_ID_L			0x300b
-> +/* Yes, this is right. The datasheet for the OV5693 gives its ID as 0x5690 */
-> +#define OV5693_CHIP_ID				0x5690
-> +
-> +/* Exposure */
-> +#define OV5693_EXPOSURE_L_CTRL_HH_REG		0x3500
-> +#define OV5693_EXPOSURE_L_CTRL_H_REG		0x3501
-> +#define OV5693_EXPOSURE_L_CTRL_L_REG		0x3502
-> +#define OV5693_EXPOSURE_CTRL_HH(v)		(((v) & GENMASK(14, 12)) >> 12)
-> +#define OV5693_EXPOSURE_CTRL_H(v)		(((v) & GENMASK(11, 4)) >> 4)
-> +#define OV5693_EXPOSURE_CTRL_L(v)		(((v) & GENMASK(3, 0)) << 4)
-> +#define OV5693_INTEGRATION_TIME_MARGIN		8
-> +#define OV5693_EXPOSURE_MIN			1
-> +#define OV5693_EXPOSURE_STEP			1
-> +
-> +/* Analogue Gain */
-> +#define OV5693_GAIN_CTRL_H_REG			0x350a
-> +#define OV5693_GAIN_CTRL_H(v)			(((v) >> 4) & GENMASK(2, 0))
-> +#define OV5693_GAIN_CTRL_L_REG			0x350b
-> +#define OV5693_GAIN_CTRL_L(v)			(((v) << 4) & GENMASK(7, 4))
-> +#define OV5693_GAIN_MIN				1
-> +#define OV5693_GAIN_MAX				127
-> +#define OV5693_GAIN_DEF				8
-> +#define OV5693_GAIN_STEP			1
-> +
-> +/* Digital Gain */
-> +#define OV5693_MWB_RED_GAIN_H_REG		0x3400
-> +#define OV5693_MWB_RED_GAIN_L_REG		0x3401
-> +#define OV5693_MWB_GREEN_GAIN_H_REG		0x3402
-> +#define OV5693_MWB_GREEN_GAIN_L_REG		0x3403
-> +#define OV5693_MWB_BLUE_GAIN_H_REG		0x3404
-> +#define OV5693_MWB_BLUE_GAIN_L_REG		0x3405
-> +#define OV5693_MWB_GAIN_H_CTRL(v)		(((v) >> 8) & GENMASK(3, 0))
-> +#define OV5693_MWB_GAIN_L_CTRL(v)		((v) & GENMASK(7, 0))
-> +#define OV5693_MWB_GAIN_MAX			0x0fff
-> +#define OV5693_DIGITAL_GAIN_MIN			1
-> +#define OV5693_DIGITAL_GAIN_MAX			4095
-> +#define OV5693_DIGITAL_GAIN_DEF			1024
-> +#define OV5693_DIGITAL_GAIN_STEP		1
-> +
-> +/* Timing and Format */
-> +#define OV5693_CROP_START_X_H_REG		0x3800
-> +#define OV5693_CROP_START_X_H(v)		(((v) & GENMASK(12, 8)) >> 8)
-> +#define OV5693_CROP_START_X_L_REG		0x3801
-> +#define OV5693_CROP_START_X_L(v)		((v) & GENMASK(7, 0))
-> +
-> +#define OV5693_CROP_START_Y_H_REG		0x3802
-> +#define OV5693_CROP_START_Y_H(v)		(((v) & GENMASK(11, 8)) >> 8)
-> +#define OV5693_CROP_START_Y_L_REG		0x3803
-> +#define OV5693_CROP_START_Y_L(v)		((v) & GENMASK(7, 0))
-> +
-> +#define OV5693_CROP_END_X_H_REG			0x3804
-> +#define OV5693_CROP_END_X_H(v)			(((v) & GENMASK(12, 8)) >> 8)
-> +#define OV5693_CROP_END_X_L_REG			0x3805
-> +#define OV5693_CROP_END_X_L(v)			((v) & GENMASK(7, 0))
-> +
-> +#define OV5693_CROP_END_Y_H_REG			0x3806
-> +#define OV5693_CROP_END_Y_H(v)			(((v) & GENMASK(11, 8)) >> 8)
-> +#define OV5693_CROP_END_Y_L_REG			0x3807
-> +#define OV5693_CROP_END_Y_L(v)			((v) & GENMASK(7, 0))
-> +
-> +#define OV5693_OUTPUT_SIZE_X_H_REG		0x3808
-> +#define OV5693_OUTPUT_SIZE_X_H(v)		(((v) & GENMASK(15, 8)) >> 8)
-> +#define OV5693_OUTPUT_SIZE_X_L_REG		0x3809
-> +#define OV5693_OUTPUT_SIZE_X_L(v)		((v) & GENMASK(7, 0))
-> +
-> +#define OV5693_OUTPUT_SIZE_Y_H_REG		0x380a
-> +#define OV5693_OUTPUT_SIZE_Y_H(v)		(((v) & GENMASK(15, 8)) >> 8)
-> +#define OV5693_OUTPUT_SIZE_Y_L_REG		0x380b
-> +#define OV5693_OUTPUT_SIZE_Y_L(v)		((v) & GENMASK(7, 0))
-> +
-> +#define OV5693_TIMING_HTS_H_REG			0x380c
-> +#define OV5693_TIMING_HTS_H(v)			(((v) & GENMASK(15, 8)) >> 8)
-> +#define OV5693_TIMING_HTS_L_REG			0x380d
-> +#define OV5693_TIMING_HTS_L(v)			((v) & GENMASK(7, 0))
-> +#define OV5693_FIXED_PPL			2688U
-> +
-> +#define OV5693_TIMING_VTS_H_REG			0x380e
-> +#define OV5693_TIMING_VTS_H(v)			(((v) & GENMASK(15, 8)) >> 8)
-> +#define OV5693_TIMING_VTS_L_REG			0x380f
-> +#define OV5693_TIMING_VTS_L(v)			((v) & GENMASK(7, 0))
-> +#define OV5693_TIMING_MAX_VTS			0xffff
-> +#define OV5693_TIMING_MIN_VTS			0x04
-> +
-> +#define OV5693_OFFSET_START_X_H_REG		0x3810
-> +#define OV5693_OFFSET_START_X_H(v)		(((v) & GENMASK(15, 8)) >> 8)
-> +#define OV5693_OFFSET_START_X_L_REG		0x3811
-> +#define OV5693_OFFSET_START_X_L(v)		((v) & GENMASK(7, 0))
-> +
-> +#define OV5693_OFFSET_START_Y_H_REG		0x3812
-> +#define OV5693_OFFSET_START_Y_H(v)		(((v) & GENMASK(15, 8)) >> 8)
-> +#define OV5693_OFFSET_START_Y_L_REG		0x3813
-> +#define OV5693_OFFSET_START_Y_L(v)		((v) & GENMASK(7, 0))
-> +
-> +#define OV5693_SUB_INC_X_REG			0x3814
-> +#define OV5693_SUB_INC_Y_REG			0x3815
-> +
-> +#define OV5693_FORMAT1_REG			0x3820
-> +#define OV5693_FORMAT1_FLIP_VERT_ISP_EN		BIT(6)
-> +#define OV5693_FORMAT1_FLIP_VERT_SENSOR_EN	BIT(1)
-> +#define OV5693_FORMAT1_VBIN_EN			BIT(0)
-> +#define OV5693_FORMAT2_REG			0x3821
-> +#define OV5693_FORMAT2_HDR_EN			BIT(7)
-> +#define OV5693_FORMAT2_FLIP_HORZ_ISP_EN		BIT(2)
-> +#define OV5693_FORMAT2_FLIP_HORZ_SENSOR_EN	BIT(1)
-> +#define OV5693_FORMAT2_HBIN_EN			BIT(0)
-> +
-> +#define OV5693_ISP_CTRL2_REG			0x5002
-> +#define OV5693_ISP_SCALE_ENABLE			BIT(7)
-> +
-> +/* Pixel Array */
-> +#define OV5693_NATIVE_WIDTH			2624
-> +#define OV5693_NATIVE_HEIGHT			1956
-> +#define OV5693_NATIVE_START_LEFT		0
-> +#define OV5693_NATIVE_START_TOP			0
-> +#define OV5693_ACTIVE_WIDTH			2592
-> +#define OV5693_ACTIVE_HEIGHT			1944
-> +#define OV5693_ACTIVE_START_LEFT		16
-> +#define OV5693_ACTIVE_START_TOP			6
-> +#define OV5693_MIN_CROP_WIDTH			2
-> +#define OV5693_MIN_CROP_HEIGHT			2
-> +
-> +/* Test Pattern */
-> +#define OV5693_TEST_PATTERN_REG			0x5e00
-> +#define OV5693_TEST_PATTERN_ENABLE		BIT(7)
-> +#define OV5693_TEST_PATTERN_ROLLING		BIT(6)
-> +#define OV5693_TEST_PATTERN_RANDOM		0x01
-> +#define OV5693_TEST_PATTERN_BARS		0x00
-> +
-> +/* System Frequencies */
-> +#define OV5693_XVCLK_FREQ			19200000
-> +#define OV5693_LINK_FREQ_419_2MHZ		419200000
-> +#define OV5693_PIXEL_RATE			167680000
-> +
-> +/* Miscellaneous */
-> +#define OV5693_NUM_SUPPLIES			2
-> +
-> +#define to_ov5693_sensor(x) container_of(x, struct ov5693_device, sd)
-> +
-> +struct ov5693_reg {
-> +	u16 reg;
-> +	u8 val;
-> +};
-> +
-> +struct ov5693_reg_list {
-> +	u32 num_regs;
-> +	const struct ov5693_reg *regs;
-> +};
-> +
-> +struct ov5693_device {
-> +	struct i2c_client *client;
-> +	struct device *dev;
-> +
-> +	/* Protect against concurrent changes to controls */
-> +	struct mutex lock;
-> +
-> +	struct gpio_desc *reset;
-> +	struct gpio_desc *powerdown;
-> +	struct regulator_bulk_data supplies[OV5693_NUM_SUPPLIES];
-> +	struct clk *clk;
-> +
-> +	struct ov5693_mode {
-> +		struct v4l2_rect crop;
-> +		struct v4l2_mbus_framefmt format;
-> +		bool binning_x;
-> +		bool binning_y;
-> +		unsigned int inc_x_odd;
-> +		unsigned int inc_y_odd;
-> +		unsigned int vts;
-> +	} mode;
-> +	bool streaming;
-> +
-> +	struct v4l2_subdev sd;
-> +	struct media_pad pad;
-> +
-> +	struct ov5693_v4l2_ctrls {
-> +		struct v4l2_ctrl_handler handler;
-> +		struct v4l2_ctrl *link_freq;
-> +		struct v4l2_ctrl *pixel_rate;
-> +		struct v4l2_ctrl *exposure;
-> +		struct v4l2_ctrl *analogue_gain;
-> +		struct v4l2_ctrl *digital_gain;
-> +		struct v4l2_ctrl *hflip;
-> +		struct v4l2_ctrl *vflip;
-> +		struct v4l2_ctrl *hblank;
-> +		struct v4l2_ctrl *vblank;
-> +		struct v4l2_ctrl *test_pattern;
-> +	} ctrls;
-> +};
-> +
-> +static const struct ov5693_reg ov5693_global_regs[] = {
-> +	{0x3016, 0xf0},
-> +	{0x3017, 0xf0},
-> +	{0x3018, 0xf0},
-> +	{0x3022, 0x01},
-> +	{0x3028, 0x44},
-> +	{0x3098, 0x02},
-> +	{0x3099, 0x19},
-> +	{0x309a, 0x02},
-> +	{0x309b, 0x01},
-> +	{0x309c, 0x00},
-> +	{0x30a0, 0xd2},
-> +	{0x30a2, 0x01},
-> +	{0x30b2, 0x00},
-> +	{0x30b3, 0x83},
-> +	{0x30b4, 0x03},
-> +	{0x30b5, 0x04},
-> +	{0x30b6, 0x01},
-> +	{0x3080, 0x01},
-> +	{0x3104, 0x21},
-> +	{0x3106, 0x00},
-> +	{0x3406, 0x01},
-> +	{0x3503, 0x07},
-> +	{0x350b, 0x40},
-> +	{0x3601, 0x0a},
-> +	{0x3602, 0x38},
-> +	{0x3612, 0x80},
-> +	{0x3620, 0x54},
-> +	{0x3621, 0xc7},
-> +	{0x3622, 0x0f},
-> +	{0x3625, 0x10},
-> +	{0x3630, 0x55},
-> +	{0x3631, 0xf4},
-> +	{0x3632, 0x00},
-> +	{0x3633, 0x34},
-> +	{0x3634, 0x02},
-> +	{0x364d, 0x0d},
-> +	{0x364f, 0xdd},
-> +	{0x3660, 0x04},
-> +	{0x3662, 0x10},
-> +	{0x3663, 0xf1},
-> +	{0x3665, 0x00},
-> +	{0x3666, 0x20},
-> +	{0x3667, 0x00},
-> +	{0x366a, 0x80},
-> +	{0x3680, 0xe0},
-> +	{0x3681, 0x00},
-> +	{0x3700, 0x42},
-> +	{0x3701, 0x14},
-> +	{0x3702, 0xa0},
-> +	{0x3703, 0xd8},
-> +	{0x3704, 0x78},
-> +	{0x3705, 0x02},
-> +	{0x370a, 0x00},
-> +	{0x370b, 0x20},
-> +	{0x370c, 0x0c},
-> +	{0x370d, 0x11},
-> +	{0x370e, 0x00},
-> +	{0x370f, 0x40},
-> +	{0x3710, 0x00},
-> +	{0x371a, 0x1c},
-> +	{0x371b, 0x05},
-> +	{0x371c, 0x01},
-> +	{0x371e, 0xa1},
-> +	{0x371f, 0x0c},
-> +	{0x3721, 0x00},
-> +	{0x3724, 0x10},
-> +	{0x3726, 0x00},
-> +	{0x372a, 0x01},
-> +	{0x3730, 0x10},
-> +	{0x3738, 0x22},
-> +	{0x3739, 0xe5},
-> +	{0x373a, 0x50},
-> +	{0x373b, 0x02},
-> +	{0x373c, 0x41},
-> +	{0x373f, 0x02},
-> +	{0x3740, 0x42},
-> +	{0x3741, 0x02},
-> +	{0x3742, 0x18},
-> +	{0x3743, 0x01},
-> +	{0x3744, 0x02},
-> +	{0x3747, 0x10},
-> +	{0x374c, 0x04},
-> +	{0x3751, 0xf0},
-> +	{0x3752, 0x00},
-> +	{0x3753, 0x00},
-> +	{0x3754, 0xc0},
-> +	{0x3755, 0x00},
-> +	{0x3756, 0x1a},
-> +	{0x3758, 0x00},
-> +	{0x3759, 0x0f},
-> +	{0x376b, 0x44},
-> +	{0x375c, 0x04},
-> +	{0x3774, 0x10},
-> +	{0x3776, 0x00},
-> +	{0x377f, 0x08},
-> +	{0x3780, 0x22},
-> +	{0x3781, 0x0c},
-> +	{0x3784, 0x2c},
-> +	{0x3785, 0x1e},
-> +	{0x378f, 0xf5},
-> +	{0x3791, 0xb0},
-> +	{0x3795, 0x00},
-> +	{0x3796, 0x64},
-> +	{0x3797, 0x11},
-> +	{0x3798, 0x30},
-> +	{0x3799, 0x41},
-> +	{0x379a, 0x07},
-> +	{0x379b, 0xb0},
-> +	{0x379c, 0x0c},
-> +	{0x3a04, 0x06},
-> +	{0x3a05, 0x14},
-> +	{0x3e07, 0x20},
-> +	{0x4000, 0x08},
-> +	{0x4001, 0x04},
-> +	{0x4004, 0x08},
-> +	{0x4006, 0x20},
-> +	{0x4008, 0x24},
-> +	{0x4009, 0x10},
-> +	{0x4058, 0x00},
-> +	{0x4101, 0xb2},
-> +	{0x4307, 0x31},
-> +	{0x4511, 0x05},
-> +	{0x4512, 0x01},
-> +	{0x481f, 0x30},
-> +	{0x4826, 0x2c},
-> +	{0x4d02, 0xfd},
-> +	{0x4d03, 0xf5},
-> +	{0x4d04, 0x0c},
-> +	{0x4d05, 0xcc},
-> +	{0x4837, 0x0a},
-> +	{0x5003, 0x20},
-> +	{0x5013, 0x00},
-> +	{0x5842, 0x01},
-> +	{0x5843, 0x2b},
-> +	{0x5844, 0x01},
-> +	{0x5845, 0x92},
-> +	{0x5846, 0x01},
-> +	{0x5847, 0x8f},
-> +	{0x5848, 0x01},
-> +	{0x5849, 0x0c},
-> +	{0x5e10, 0x0c},
-> +	{0x3820, 0x00},
-> +	{0x3821, 0x1e},
-> +	{0x5041, 0x14}
-> +};
-> +
-> +static const struct ov5693_reg_list ov5693_global_setting = {
-> +	.num_regs = ARRAY_SIZE(ov5693_global_regs),
-> +	.regs = ov5693_global_regs,
-> +};
-> +
-> +static const struct v4l2_rect ov5693_default_crop = {
-> +	.left = OV5693_ACTIVE_START_LEFT,
-> +	.top = OV5693_ACTIVE_START_TOP,
-> +	.width = OV5693_ACTIVE_WIDTH,
-> +	.height = OV5693_ACTIVE_HEIGHT,
-> +};
-> +
-> +static const struct v4l2_mbus_framefmt ov5693_default_fmt = {
-> +	.width = OV5693_ACTIVE_WIDTH,
-> +	.height = OV5693_ACTIVE_HEIGHT,
-> +	.code = MEDIA_BUS_FMT_SBGGR10_1X10,
-> +};
-> +
-> +static const s64 link_freq_menu_items[] = {
-> +	OV5693_LINK_FREQ_419_2MHZ
-> +};
-> +
-> +static const char * const ov5693_supply_names[] = {
-> +	"avdd",
-> +	"dovdd",
-> +};
-> +
-> +static const char * const ov5693_test_pattern_menu[] = {
-> +	"Disabled",
-> +	"Random Data",
-> +	"Colour Bars",
-> +	"Colour Bars with Rolling Bar"
-> +};
-> +
-> +static const u8 ov5693_test_pattern_bits[] = {
-> +	0,
-> +	OV5693_TEST_PATTERN_ENABLE | OV5693_TEST_PATTERN_RANDOM,
-> +	OV5693_TEST_PATTERN_ENABLE | OV5693_TEST_PATTERN_BARS,
-> +	OV5693_TEST_PATTERN_ENABLE | OV5693_TEST_PATTERN_BARS |
-> +	OV5693_TEST_PATTERN_ROLLING,
-> +};
-> +
-> +/* I2C I/O Operations */
-> +
-> +static int ov5693_read_reg(struct ov5693_device *ov5693, u16 addr, u8 *value)
-> +{
-> +	struct i2c_client *client = ov5693->client;
-> +	struct i2c_msg msgs[2];
-> +	u8 addr_buf[2];
-> +	u8 data_buf;
-> +	int ret;
-> +
-> +	put_unaligned_be16(addr, addr_buf);
-> +
-> +	/* Write register address */
-> +	msgs[0].addr = client->addr;
-> +	msgs[0].flags = 0;
-> +	msgs[0].len = ARRAY_SIZE(addr_buf);
-> +	msgs[0].buf = addr_buf;
-> +
-> +	/* Read register value */
-> +	msgs[1].addr = client->addr;
-> +	msgs[1].flags = I2C_M_RD;
-> +	msgs[1].len = 1;
-> +	msgs[1].buf = &data_buf;
-> +
-> +	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-> +	if (ret != ARRAY_SIZE(msgs))
-> +		return -EIO;
-> +
-> +	*value = data_buf;
-> +
-> +	return 0;
-> +}
-> +
-> +static void ov5693_write_reg(struct ov5693_device *ov5693, u16 addr, u8 value,
-> +			     int *error)
-> +{
-> +	unsigned char data[3] = { addr >> 8, addr & 0xff, value };
-> +	int ret;
-> +
-> +	if (*error < 0)
-> +		return;
-> +
-> +	ret = i2c_master_send(ov5693->client, data, sizeof(data));
-> +	if (ret < 0) {
-> +		dev_dbg(ov5693->dev, "i2c send error at address 0x%04x: %d\n",
-> +			addr, ret);
-> +		*error = ret;
-> +	}
-> +}
-> +
-> +static int ov5693_write_reg_array(struct ov5693_device *ov5693,
-> +				  const struct ov5693_reg_list *reglist)
-> +{
-> +	unsigned int i;
-> +	int ret = 0;
-> +
-> +	for (i = 0; i < reglist->num_regs; i++)
-> +		ov5693_write_reg(ov5693, reglist->regs[i].reg,
-> +				 reglist->regs[i].val, &ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov5693_update_bits(struct ov5693_device *ov5693, u16 address,
-> +			      u16 mask, u16 bits)
-> +{
-> +	u8 value = 0;
-> +	int ret;
-> +
-> +	ret = ov5693_read_reg(ov5693, address, &value);
-> +	if (ret)
-> +		return ret;
-> +
-> +	value &= ~mask;
-> +	value |= bits;
-> +
-> +	ov5693_write_reg(ov5693, address, value, &ret);
-> +
-> +	return ret;
-> +}
-> +
-> +/* V4L2 Controls Functions */
-> +
-> +static int ov5693_flip_vert_configure(struct ov5693_device *ov5693, bool enable)
-> +{
-> +	u8 bits = OV5693_FORMAT1_FLIP_VERT_ISP_EN |
-> +		  OV5693_FORMAT1_FLIP_VERT_SENSOR_EN;
-> +	int ret;
-> +
-> +	ret = ov5693_update_bits(ov5693, OV5693_FORMAT1_REG, bits,
-> +				 enable ? bits : 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov5693_flip_horz_configure(struct ov5693_device *ov5693, bool enable)
-> +{
-> +	u8 bits = OV5693_FORMAT2_FLIP_HORZ_ISP_EN |
-> +		  OV5693_FORMAT2_FLIP_HORZ_SENSOR_EN;
-> +	int ret;
-> +
-> +	ret = ov5693_update_bits(ov5693, OV5693_FORMAT2_REG, bits,
-> +				 enable ? bits : 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov5693_get_exposure(struct ov5693_device *ov5693, s32 *value)
-> +{
-> +	u8 exposure_hh = 0, exposure_h = 0, exposure_l = 0;
-> +	int ret;
-> +
-> +	ret = ov5693_read_reg(ov5693, OV5693_EXPOSURE_L_CTRL_HH_REG, &exposure_hh);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ov5693_read_reg(ov5693, OV5693_EXPOSURE_L_CTRL_H_REG, &exposure_h);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ov5693_read_reg(ov5693, OV5693_EXPOSURE_L_CTRL_L_REG, &exposure_l);
-> +	if (ret)
-> +		return ret;
+****************************
+Updating the building system
+****************************
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2021-09-21 09:19:07--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2021-09-21 09:19:07--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
 
-Does the sensor not allow reading this register as a single operation?
+     0K                                                       100%  172M=0s
 
-Just a question. Some sensors from the vendor do not. Same for the writes.
+2021-09-21 09:19:08 (172 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
-> +
-> +	/* The lowest 4 bits are unsupported fractional bits */
-> +	*value = ((exposure_hh << 16) | (exposure_h << 8) | exposure_l) >> 4;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov5693_exposure_configure(struct ov5693_device *ov5693, u32 exposure)
-> +{
-> +	int ret = 0;
-> +
-> +	ov5693_write_reg(ov5693, OV5693_EXPOSURE_L_CTRL_HH_REG,
-> +			 OV5693_EXPOSURE_CTRL_HH(exposure), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_EXPOSURE_L_CTRL_H_REG,
-> +			 OV5693_EXPOSURE_CTRL_H(exposure), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_EXPOSURE_L_CTRL_L_REG,
-> +			 OV5693_EXPOSURE_CTRL_L(exposure), &ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov5693_get_gain(struct ov5693_device *ov5693, u32 *gain)
-> +{
-> +	u8 gain_l = 0, gain_h = 0;
-> +	int ret;
-> +
-> +	ret = ov5693_read_reg(ov5693, OV5693_GAIN_CTRL_H_REG, &gain_h);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ov5693_read_reg(ov5693, OV5693_GAIN_CTRL_L_REG, &gain_l);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* As with exposure, the lowest 4 bits are fractional bits. */
-> +	*gain = ((gain_h << 8) | gain_l) >> 4;
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov5693_digital_gain_configure(struct ov5693_device *ov5693, u32 gain)
-> +{
-> +	int ret = 0;
-> +
-> +	ov5693_write_reg(ov5693, OV5693_MWB_RED_GAIN_H_REG,
-> +			 OV5693_MWB_GAIN_H_CTRL(gain), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_MWB_RED_GAIN_L_REG,
-> +			 OV5693_MWB_GAIN_L_CTRL(gain), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_MWB_GREEN_GAIN_H_REG,
-> +			 OV5693_MWB_GAIN_H_CTRL(gain), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_MWB_GREEN_GAIN_L_REG,
-> +			 OV5693_MWB_GAIN_L_CTRL(gain), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_MWB_BLUE_GAIN_H_REG,
-> +			 OV5693_MWB_GAIN_H_CTRL(gain), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_MWB_BLUE_GAIN_L_REG,
-> +			 OV5693_MWB_GAIN_L_CTRL(gain), &ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov5693_analog_gain_configure(struct ov5693_device *ov5693, u32 gain)
-> +{
-> +	int ret = 0;
-> +
-> +	ov5693_write_reg(ov5693, OV5693_GAIN_CTRL_L_REG,
-> +			 OV5693_GAIN_CTRL_L(gain), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_GAIN_CTRL_H_REG,
-> +			 OV5693_GAIN_CTRL_H(gain), &ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov5693_vts_configure(struct ov5693_device *ov5693, u32 vblank)
-> +{
-> +	u16 vts = ov5693->mode.format.height + vblank;
-> +	int ret = 0;
-> +
-> +	ov5693_write_reg(ov5693, OV5693_TIMING_VTS_H_REG,
-> +			 OV5693_TIMING_VTS_H(vts), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_TIMING_VTS_L_REG,
-> +			 OV5693_TIMING_VTS_L(vts), &ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov5693_test_pattern_configure(struct ov5693_device *ov5693, u32 idx)
-> +{
-> +	int ret = 0;
-> +
-> +	ov5693_write_reg(ov5693, OV5693_TEST_PATTERN_REG,
-> +			 ov5693_test_pattern_bits[idx], &ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov5693_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct ov5693_device *ov5693 =
-> +	    container_of(ctrl->handler, struct ov5693_device, ctrls.handler);
-> +	int ret = 0;
-> +
-> +	/* If VBLANK is altered we need to update exposure to compensate */
-> +	if (ctrl->id == V4L2_CID_VBLANK) {
-> +		int exposure_max;
-> +
-> +		exposure_max = ov5693->mode.format.height + ctrl->val -
-> +			       OV5693_INTEGRATION_TIME_MARGIN;
-> +		__v4l2_ctrl_modify_range(ov5693->ctrls.exposure,
-> +					 ov5693->ctrls.exposure->minimum,
-> +					 exposure_max,
-> +					 ov5693->ctrls.exposure->step,
-> +					 min(ov5693->ctrls.exposure->val, exposure_max));
-> +	}
-> +
-> +	/* Only apply changes to the controls if the device is powered up */
-> +	if (!pm_runtime_get_if_in_use(ov5693->dev))
-> +		return 0;
-> +
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_EXPOSURE:
-> +		ret = ov5693_exposure_configure(ov5693, ctrl->val);
-> +		break;
-> +	case V4L2_CID_ANALOGUE_GAIN:
-> +		ret = ov5693_analog_gain_configure(ov5693, ctrl->val);
-> +		break;
-> +	case V4L2_CID_DIGITAL_GAIN:
-> +		ret = ov5693_digital_gain_configure(ov5693, ctrl->val);
-> +		break;
-> +	case V4L2_CID_HFLIP:
-> +		ret = ov5693_flip_horz_configure(ov5693, !!ctrl->val);
-> +		break;
-> +	case V4L2_CID_VFLIP:
-> +		ret = ov5693_flip_vert_configure(ov5693, !!ctrl->val);
-> +		break;
-> +	case V4L2_CID_VBLANK:
-> +		ret = ov5693_vts_configure(ov5693, ctrl->val);
-> +		break;
-> +	case V4L2_CID_TEST_PATTERN:
-> +		ret = ov5693_test_pattern_configure(ov5693, ctrl->val);
-> +		break;
-> +	default:
-> +		ret = -EINVAL;
-> +	}
-> +
-> +	pm_runtime_put(ov5693->dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov5693_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct ov5693_device *ov5693 =
-> +	    container_of(ctrl->handler, struct ov5693_device, ctrls.handler);
-
-Tab for indentation, please. And wrap if needed to stay under 80.
-
-> +
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_EXPOSURE_ABSOLUTE:
-> +		return ov5693_get_exposure(ov5693, &ctrl->val);
-> +	case V4L2_CID_AUTOGAIN:
-> +		return ov5693_get_gain(ov5693, &ctrl->val);
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static const struct v4l2_ctrl_ops ov5693_ctrl_ops = {
-> +	.s_ctrl = ov5693_s_ctrl,
-> +	.g_volatile_ctrl = ov5693_g_volatile_ctrl
-> +};
-> +
-> +/* System Control Functions */
-> +
-> +static int ov5693_mode_configure(struct ov5693_device *ov5693)
-> +{
-> +	const struct ov5693_mode *mode = &ov5693->mode;
-> +	int ret = 0;
-> +
-> +	/* Crop Start X */
-> +	ov5693_write_reg(ov5693, OV5693_CROP_START_X_H_REG,
-> +			 OV5693_CROP_START_X_H(mode->crop.left), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_CROP_START_X_L_REG,
-> +			 OV5693_CROP_START_X_L(mode->crop.left), &ret);
-> +
-> +	/* Offset X */
-> +	ov5693_write_reg(ov5693, OV5693_OFFSET_START_X_H_REG,
-> +			 OV5693_OFFSET_START_X_H(0), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_OFFSET_START_X_L_REG,
-> +			 OV5693_OFFSET_START_X_L(0), &ret);
-> +
-> +	/* Output Size X */
-> +	ov5693_write_reg(ov5693, OV5693_OUTPUT_SIZE_X_H_REG,
-> +			 OV5693_OUTPUT_SIZE_X_H(mode->format.width), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_OUTPUT_SIZE_X_L_REG,
-> +			 OV5693_OUTPUT_SIZE_X_L(mode->format.width), &ret);
-> +
-> +	/* Crop End X */
-> +	ov5693_write_reg(ov5693, OV5693_CROP_END_X_H_REG,
-> +			 OV5693_CROP_END_X_H(mode->crop.left + mode->crop.width),
-> +			 &ret);
-> +	ov5693_write_reg(ov5693, OV5693_CROP_END_X_L_REG,
-> +			 OV5693_CROP_END_X_L(mode->crop.left + mode->crop.width),
-> +			 &ret);
-> +
-> +	/* Horizontal Total Size */
-> +	ov5693_write_reg(ov5693, OV5693_TIMING_HTS_H_REG,
-> +			 OV5693_TIMING_HTS_H(OV5693_FIXED_PPL), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_TIMING_HTS_L_REG,
-> +			 OV5693_TIMING_HTS_L(OV5693_FIXED_PPL), &ret);
-> +
-> +	/* Crop Start Y */
-> +	ov5693_write_reg(ov5693, OV5693_CROP_START_Y_H_REG,
-> +			 OV5693_CROP_START_Y_H(mode->crop.top), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_CROP_START_Y_L_REG,
-> +			 OV5693_CROP_START_Y_L(mode->crop.top), &ret);
-> +
-> +	/* Offset Y */
-> +	ov5693_write_reg(ov5693, OV5693_OFFSET_START_Y_H_REG,
-> +			 OV5693_OFFSET_START_Y_H(0), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_OFFSET_START_Y_L_REG,
-> +			 OV5693_OFFSET_START_Y_L(0), &ret);
-> +
-> +	/* Output Size Y */
-> +	ov5693_write_reg(ov5693, OV5693_OUTPUT_SIZE_Y_H_REG,
-> +			 OV5693_OUTPUT_SIZE_Y_H(mode->format.height), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_OUTPUT_SIZE_Y_L_REG,
-> +			 OV5693_OUTPUT_SIZE_Y_L(mode->format.height), &ret);
-> +
-> +	/* Crop End Y */
-> +	ov5693_write_reg(ov5693, OV5693_CROP_END_Y_H_REG,
-> +			 OV5693_CROP_END_Y_H(mode->crop.top + mode->crop.height),
-> +			 &ret);
-> +	ov5693_write_reg(ov5693, OV5693_CROP_END_Y_L_REG,
-> +			 OV5693_CROP_END_Y_L(mode->crop.top + mode->crop.height),
-> +			 &ret);
-> +
-> +	/* Vertical Total Size */
-> +	ov5693_write_reg(ov5693, OV5693_TIMING_VTS_H_REG,
-> +			 OV5693_TIMING_VTS_H(mode->vts), &ret);
-> +	ov5693_write_reg(ov5693, OV5693_TIMING_VTS_L_REG,
-> +			 OV5693_TIMING_VTS_L(mode->vts), &ret);
-
-ov5693_vts_configure() does write the same registers. Why is it being done
-here, too?
-
-That said, it's very nice the driver does more than just rely on plain
-register lists.
-
-> +
-> +	/* Subsample X increase */
-> +	ov5693_write_reg(ov5693, OV5693_SUB_INC_X_REG,
-> +			 ((mode->inc_x_odd << 4) & 0xf0) | 0x01, &ret);
-> +	/* Subsample Y increase */
-> +	ov5693_write_reg(ov5693, OV5693_SUB_INC_Y_REG,
-> +			 ((mode->inc_y_odd << 4) & 0xf0) | 0x01, &ret);
-> +
-> +	/* Binning */
-> +	ret = ov5693_update_bits(ov5693, OV5693_FORMAT1_REG,
-> +				 OV5693_FORMAT1_VBIN_EN,
-> +				 mode->binning_y ? OV5693_FORMAT1_VBIN_EN : 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ov5693_update_bits(ov5693, OV5693_FORMAT2_REG,
-> +				 OV5693_FORMAT2_HBIN_EN,
-> +				 mode->binning_x ? OV5693_FORMAT2_HBIN_EN : 0);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov5693_sw_standby(struct ov5693_device *ov5693, bool standby)
-> +{
-> +	int ret = 0;
-> +
-> +	ov5693_write_reg(ov5693, OV5693_SW_STREAM_REG,
-> +			 standby ? OV5693_STOP_STREAMING : OV5693_START_STREAMING,
-> +			 &ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov5693_sw_reset(struct ov5693_device *ov5693)
-> +{
-> +	int ret = 0;
-> +
-> +	ov5693_write_reg(ov5693, OV5693_SW_RESET_REG, OV5693_SW_RESET, &ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov5693_sensor_init(struct ov5693_device *ov5693)
-> +{
-> +	int ret = 0;
-> +
-> +	ret = ov5693_sw_reset(ov5693);
-> +	if (ret) {
-> +		dev_err(ov5693->dev, "%s software reset error\n", __func__);
-> +		return ret;
-> +	}
-> +
-> +	ret = ov5693_write_reg_array(ov5693, &ov5693_global_setting);
-> +	if (ret) {
-> +		dev_err(ov5693->dev, "%s global settings error\n", __func__);
-> +		return ret;
-> +	}
-> +
-> +	ret = ov5693_mode_configure(ov5693);
-> +	if (ret) {
-> +		dev_err(ov5693->dev, "%s mode configure error\n", __func__);
-> +		return ret;
-> +	}
-> +
-> +	ret = ov5693_sw_standby(ov5693, true);
-> +	if (ret)
-> +		dev_err(ov5693->dev, "%s software standby error\n", __func__);
-> +
-> +	return ret;
-> +}
-> +
-> +static void ov5693_sensor_powerdown(struct ov5693_device *ov5693)
-> +{
-> +	gpiod_set_value_cansleep(ov5693->reset, 1);
-> +	gpiod_set_value_cansleep(ov5693->powerdown, 1);
-> +
-> +	regulator_bulk_disable(OV5693_NUM_SUPPLIES, ov5693->supplies);
-> +
-> +	clk_disable_unprepare(ov5693->clk);
-> +}
-> +
-> +static int ov5693_sensor_powerup(struct ov5693_device *ov5693)
-> +{
-> +	int ret;
-> +
-> +	gpiod_set_value_cansleep(ov5693->reset, 1);
-> +	gpiod_set_value_cansleep(ov5693->powerdown, 1);
-> +
-> +	ret = clk_prepare_enable(ov5693->clk);
-> +	if (ret) {
-> +		dev_err(ov5693->dev, "Failed to enable clk\n");
-> +		goto fail_power;
-> +	}
-> +
-> +	ret = regulator_bulk_enable(OV5693_NUM_SUPPLIES, ov5693->supplies);
-> +	if (ret) {
-> +		dev_err(ov5693->dev, "Failed to enable regulators\n");
-> +		goto fail_power;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(ov5693->powerdown, 0);
-> +	gpiod_set_value_cansleep(ov5693->reset, 0);
-> +
-> +	usleep_range(5000, 7500);
-> +
-> +	return 0;
-> +
-> +fail_power:
-> +	ov5693_sensor_powerdown(ov5693);
-> +	return ret;
-> +}
-> +
-> +static int __maybe_unused ov5693_sensor_suspend(struct device *dev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ov5693_device *ov5693 = to_ov5693_sensor(sd);
-> +
-> +	ov5693_sensor_powerdown(ov5693);
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused ov5693_sensor_resume(struct device *dev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ov5693_device *ov5693 = to_ov5693_sensor(sd);
-> +	int ret;
-> +
-> +	mutex_lock(&ov5693->lock);
-> +
-> +	ret = ov5693_sensor_powerup(ov5693);
-> +	if (ret)
-> +		goto out_unlock;
-> +
-> +	ret = ov5693_sensor_init(ov5693);
-> +	if (ret) {
-> +		dev_err(dev, "ov5693 sensor init failure\n");
-> +		goto err_power;
-> +	}
-> +
-> +	goto out_unlock;
-> +
-> +err_power:
-> +	ov5693_sensor_powerdown(ov5693);
-> +out_unlock:
-> +	mutex_unlock(&ov5693->lock);
-> +	return ret;
-> +}
-> +
-> +static int ov5693_detect(struct ov5693_device *ov5693)
-> +{
-> +	u8 id_l = 0, id_h = 0;
-> +	u16 id = 0;
-> +	int ret;
-> +
-> +	ret = ov5693_read_reg(ov5693, OV5693_REG_CHIP_ID_H, &id_h);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ov5693_read_reg(ov5693, OV5693_REG_CHIP_ID_L, &id_l);
-> +	if (ret)
-> +		return ret;
-> +
-> +	id = (id_h << 8) | id_l;
-> +
-> +	if (id != OV5693_CHIP_ID) {
-> +		dev_err(ov5693->dev, "sensor ID mismatch. Found 0x%04x\n", id);
-> +		return -ENODEV;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/* V4L2 Framework callbacks */
-> +
-> +static unsigned int __ov5693_calc_vts(u32 height)
-> +{
-> +	/*
-> +	 * We need to set a sensible default VTS for whatever format height we
-> +	 * happen to be given from set_fmt(). This function just targets
-> +	 * an even multiple of 30fps.
-> +	 */
-> +
-> +	unsigned int tgt_fps;
-> +
-> +	tgt_fps = rounddown(OV5693_PIXEL_RATE / OV5693_FIXED_PPL / height, 30);
-> +
-> +	return ALIGN_DOWN(OV5693_PIXEL_RATE / OV5693_FIXED_PPL / tgt_fps, 2);
-> +}
-> +
-> +static struct v4l2_mbus_framefmt *
-> +__ov5693_get_pad_format(struct ov5693_device *ov5693,
-> +			struct v4l2_subdev_state *state,
-> +			unsigned int pad, enum v4l2_subdev_format_whence which)
-> +{
-> +	switch (which) {
-> +	case V4L2_SUBDEV_FORMAT_TRY:
-> +		return v4l2_subdev_get_try_format(&ov5693->sd, state, pad);
-> +	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> +		return &ov5693->mode.format;
-> +	default:
-> +		return NULL;
-> +	}
-> +}
-> +
-> +static struct v4l2_rect *
-> +__ov5693_get_pad_crop(struct ov5693_device *ov5693,
-> +		      struct v4l2_subdev_state *state,
-> +		      unsigned int pad, enum v4l2_subdev_format_whence which)
-> +{
-> +	switch (which) {
-> +	case V4L2_SUBDEV_FORMAT_TRY:
-> +		return v4l2_subdev_get_try_crop(&ov5693->sd, state, pad);
-> +	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> +		return &ov5693->mode.crop;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static int ov5693_get_fmt(struct v4l2_subdev *sd,
-> +			  struct v4l2_subdev_state *state,
-> +			  struct v4l2_subdev_format *format)
-> +{
-> +	struct ov5693_device *ov5693 = to_ov5693_sensor(sd);
-> +
-> +	format->format = ov5693->mode.format;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov5693_set_fmt(struct v4l2_subdev *sd,
-> +			  struct v4l2_subdev_state *state,
-> +			  struct v4l2_subdev_format *format)
-> +{
-> +	struct ov5693_device *ov5693 = to_ov5693_sensor(sd);
-> +	const struct v4l2_rect *crop;
-> +	struct v4l2_mbus_framefmt *fmt;
-> +	unsigned int hratio, vratio;
-> +	unsigned int width, height;
-> +	unsigned int hblank;
-> +	int exposure_max;
-> +	int ret = 0;
-> +
-> +	crop = __ov5693_get_pad_crop(ov5693, state, format->pad, format->which);
-> +
-> +	/*
-> +	 * Align to two to simplify the binning calculations below, and clamp
-> +	 * the requested format at the crop rectangle
-> +	 */
-> +	width = clamp_t(unsigned int, ALIGN(format->format.width, 2),
-> +			OV5693_MIN_CROP_WIDTH, crop->width);
-> +	height = clamp_t(unsigned int, ALIGN(format->format.height, 2),
-> +			 OV5693_MIN_CROP_HEIGHT, crop->height);
-> +
-> +	/*
-> +	 * We can only support setting either the dimensions of the crop rect
-> +	 * or those dimensions binned (separately) by a factor of two.
-> +	 */
-> +	hratio = clamp_t(unsigned int, DIV_ROUND_CLOSEST(crop->width, width), 1, 2);
-> +	vratio = clamp_t(unsigned int, DIV_ROUND_CLOSEST(crop->height, height), 1, 2);
-> +
-> +	fmt = __ov5693_get_pad_format(ov5693, state, format->pad, format->which);
-> +
-> +	fmt->width = crop->width / hratio;
-> +	fmt->height = crop->height / vratio;
-> +	fmt->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-> +
-> +	format->format = *fmt;
-> +
-> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
-> +		return ret;
-> +
-> +	mutex_lock(&ov5693->lock);
-> +
-> +	ov5693->mode.binning_x = hratio > 1 ? true : false;
-> +	ov5693->mode.inc_x_odd = hratio > 1 ? 3 : 1;
-> +	ov5693->mode.binning_y = vratio > 1 ? true : false;
-> +	ov5693->mode.inc_y_odd = vratio > 1 ? 3 : 1;
-> +
-> +	ov5693->mode.vts = __ov5693_calc_vts(fmt->height);
-> +
-> +	__v4l2_ctrl_modify_range(ov5693->ctrls.vblank,
-> +				 OV5693_TIMING_MIN_VTS,
-> +				 OV5693_TIMING_MAX_VTS - fmt->height,
-> +				 1, ov5693->mode.vts - fmt->height);
-> +	__v4l2_ctrl_s_ctrl(ov5693->ctrls.vblank,
-> +			   ov5693->mode.vts - fmt->height);
-> +
-> +	hblank = OV5693_FIXED_PPL - fmt->width;
-> +	__v4l2_ctrl_modify_range(ov5693->ctrls.hblank, hblank, hblank, 1,
-> +				 hblank);
-> +
-> +	exposure_max = ov5693->mode.vts - OV5693_INTEGRATION_TIME_MARGIN;
-> +	__v4l2_ctrl_modify_range(ov5693->ctrls.exposure,
-> +				 ov5693->ctrls.exposure->minimum, exposure_max,
-> +				 ov5693->ctrls.exposure->step,
-> +				 min(ov5693->ctrls.exposure->val, exposure_max));
-> +
-> +	mutex_unlock(&ov5693->lock);
-> +	return ret;
-> +}
-> +
-> +static int ov5693_get_selection(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *state,
-> +				struct v4l2_subdev_selection *sel)
-> +{
-> +	struct ov5693_device *ov5693 = to_ov5693_sensor(sd);
-> +
-> +	switch (sel->target) {
-> +	case V4L2_SEL_TGT_CROP:
-> +		mutex_lock(&ov5693->lock);
-> +		sel->r = *__ov5693_get_pad_crop(ov5693, state, sel->pad,
-> +						sel->which);
-> +		mutex_unlock(&ov5693->lock);
-> +		break;
-> +	case V4L2_SEL_TGT_NATIVE_SIZE:
-> +		sel->r.top = 0;
-> +		sel->r.left = 0;
-> +		sel->r.width = OV5693_NATIVE_WIDTH;
-> +		sel->r.height = OV5693_NATIVE_HEIGHT;
-> +		break;
-> +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> +		sel->r.top = OV5693_ACTIVE_START_TOP;
-> +		sel->r.left = OV5693_ACTIVE_START_LEFT;
-> +		sel->r.width = OV5693_ACTIVE_WIDTH;
-> +		sel->r.height = OV5693_ACTIVE_HEIGHT;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov5693_set_selection(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *state,
-> +				struct v4l2_subdev_selection *sel)
-> +{
-> +	struct ov5693_device *ov5693 = to_ov5693_sensor(sd);
-> +	struct v4l2_mbus_framefmt *format;
-> +	struct v4l2_rect *__crop;
-> +	struct v4l2_rect rect;
-> +
-> +	if (sel->target != V4L2_SEL_TGT_CROP)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * Clamp the boundaries of the crop rectangle to the size of the sensor
-> +	 * pixel array. Align to multiples of 2 to ensure Bayer pattern isn't
-> +	 * disrupted.
-> +	 */
-> +	rect.left = clamp(ALIGN(sel->r.left, 2), OV5693_NATIVE_START_LEFT,
-> +			  OV5693_NATIVE_WIDTH);
-> +	rect.top = clamp(ALIGN(sel->r.top, 2), OV5693_NATIVE_START_TOP,
-> +			 OV5693_NATIVE_HEIGHT);
-> +	rect.width = clamp_t(unsigned int, ALIGN(sel->r.width, 2),
-> +			     OV5693_MIN_CROP_WIDTH, OV5693_NATIVE_WIDTH);
-> +	rect.height = clamp_t(unsigned int, ALIGN(sel->r.height, 2),
-> +			      OV5693_MIN_CROP_HEIGHT, OV5693_NATIVE_HEIGHT);
-> +
-> +	/* Make sure the crop rectangle isn't outside the bounds of the array */
-> +	rect.width = min_t(unsigned int, rect.width,
-> +			   OV5693_NATIVE_WIDTH - rect.left);
-> +	rect.height = min_t(unsigned int, rect.height,
-> +			    OV5693_NATIVE_HEIGHT - rect.top);
-> +
-> +	__crop = __ov5693_get_pad_crop(ov5693, state, sel->pad, sel->which);
-> +
-> +	if (rect.width != __crop->width || rect.height != __crop->height) {
-> +		/*
-> +		 * Reset the output image size if the crop rectangle size has
-> +		 * been modified.
-> +		 */
-> +		format = __ov5693_get_pad_format(ov5693, state, sel->pad, sel->which);
-> +		format->width = rect.width;
-> +		format->height = rect.height;
-> +	}
-> +
-> +	*__crop = rect;
-> +	sel->r = rect;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov5693_s_stream(struct v4l2_subdev *sd, int enable)
-> +{
-> +	struct ov5693_device *ov5693 = to_ov5693_sensor(sd);
-> +	int ret;
-> +
-> +	if (enable) {
-> +		ret = pm_runtime_get_sync(ov5693->dev);
-> +		if (ret < 0)
-> +			goto err_power_down;
-> +
-> +		ret = __v4l2_ctrl_handler_setup(&ov5693->ctrls.handler);
-> +		if (ret)
-> +			goto err_power_down;
-> +	}
-> +
-> +	mutex_lock(&ov5693->lock);
-> +	ret = ov5693_sw_standby(ov5693, !enable);
-> +	mutex_unlock(&ov5693->lock);
-> +
-> +	if (ret)
-> +		goto err_power_down;
-> +	ov5693->streaming = !!enable;
-> +
-> +	if (!enable)
-> +		pm_runtime_put(ov5693->dev);
-> +
-> +	return 0;
-> +err_power_down:
-> +	pm_runtime_put_noidle(ov5693->dev);
-> +	return ret;
-> +}
-> +
-> +static int ov5693_g_frame_interval(struct v4l2_subdev *sd,
-> +				   struct v4l2_subdev_frame_interval *interval)
-> +{
-> +	struct ov5693_device *ov5693 = to_ov5693_sensor(sd);
-> +	unsigned int framesize = OV5693_FIXED_PPL * (ov5693->mode.format.height +
-> +				 ov5693->ctrls.vblank->val);
-> +	unsigned int fps = DIV_ROUND_CLOSEST(OV5693_PIXEL_RATE, framesize);
-> +
-> +	interval->interval.numerator = 1;
-> +	interval->interval.denominator = fps;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov5693_enum_mbus_code(struct v4l2_subdev *sd,
-> +				 struct v4l2_subdev_state *state,
-> +				 struct v4l2_subdev_mbus_code_enum *code)
-> +{
-> +	/* Only a single mbus format is supported */
-> +	if (code->index > 0)
-> +		return -EINVAL;
-> +
-> +	code->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-> +	return 0;
-> +}
-> +
-> +static int ov5693_enum_frame_size(struct v4l2_subdev *sd,
-> +				  struct v4l2_subdev_state *state,
-> +				  struct v4l2_subdev_frame_size_enum *fse)
-> +{
-> +	struct ov5693_device *ov5693 = to_ov5693_sensor(sd);
-> +	struct v4l2_rect *__crop;
-> +
-> +	if (fse->index > 1 || fse->code != MEDIA_BUS_FMT_SBGGR10_1X10)
-> +		return -EINVAL;
-> +
-> +	__crop = __ov5693_get_pad_crop(ov5693, state, fse->pad, fse->which);
-> +	if (!__crop)
-> +		return -EINVAL;
-> +
-> +	fse->min_width = __crop->width / (fse->index + 1);
-> +	fse->min_height = __crop->height / (fse->index + 1);
-> +	fse->max_width = fse->min_width;
-> +	fse->max_height = fse->min_height;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_subdev_video_ops ov5693_video_ops = {
-> +	.s_stream = ov5693_s_stream,
-> +	.g_frame_interval = ov5693_g_frame_interval,
-> +};
-> +
-> +static const struct v4l2_subdev_pad_ops ov5693_pad_ops = {
-> +	.enum_mbus_code = ov5693_enum_mbus_code,
-> +	.enum_frame_size = ov5693_enum_frame_size,
-> +	.get_fmt = ov5693_get_fmt,
-> +	.set_fmt = ov5693_set_fmt,
-> +	.get_selection = ov5693_get_selection,
-> +	.set_selection = ov5693_set_selection,
-> +};
-> +
-> +static const struct v4l2_subdev_ops ov5693_ops = {
-> +	.video = &ov5693_video_ops,
-> +	.pad = &ov5693_pad_ops,
-> +};
-> +
-> +/* Sensor and Driver Configuration Functions */
-> +
-> +static int ov5693_init_controls(struct ov5693_device *ov5693)
-> +{
-> +	const struct v4l2_ctrl_ops *ops = &ov5693_ctrl_ops;
-> +	struct v4l2_fwnode_device_properties props;
-> +	int vblank_max, vblank_def;
-> +	int exposure_max;
-> +	int hblank;
-> +	int ret;
-> +
-> +	ret = v4l2_ctrl_handler_init(&ov5693->ctrls.handler, 12);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* link freq */
-> +	ov5693->ctrls.link_freq = v4l2_ctrl_new_int_menu(&ov5693->ctrls.handler,
-> +							 NULL, V4L2_CID_LINK_FREQ,
-> +							 0, 0, link_freq_menu_items);
-> +	if (ov5693->ctrls.link_freq)
-> +		ov5693->ctrls.link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +
-> +	/* pixel rate */
-> +	ov5693->ctrls.pixel_rate = v4l2_ctrl_new_std(&ov5693->ctrls.handler, NULL,
-> +						     V4L2_CID_PIXEL_RATE, 0,
-> +						     OV5693_PIXEL_RATE, 1,
-> +						     OV5693_PIXEL_RATE);
-> +
-> +	/* Exposure */
-> +	exposure_max = ov5693->mode.vts - OV5693_INTEGRATION_TIME_MARGIN;
-> +	ov5693->ctrls.exposure = v4l2_ctrl_new_std(&ov5693->ctrls.handler, ops,
-> +						   V4L2_CID_EXPOSURE,
-> +						   OV5693_EXPOSURE_MIN,
-> +						   exposure_max,
-> +						   OV5693_EXPOSURE_STEP,
-> +						   exposure_max);
-> +
-> +	/* Gain */
-> +	ov5693->ctrls.analogue_gain = v4l2_ctrl_new_std(&ov5693->ctrls.handler,
-> +							ops, V4L2_CID_ANALOGUE_GAIN,
-> +							OV5693_GAIN_MIN,
-> +							OV5693_GAIN_MAX,
-> +							OV5693_GAIN_STEP,
-> +							OV5693_GAIN_DEF);
-> +
-> +	ov5693->ctrls.digital_gain = v4l2_ctrl_new_std(&ov5693->ctrls.handler, ops,
-> +						       V4L2_CID_DIGITAL_GAIN,
-> +						       OV5693_DIGITAL_GAIN_MIN,
-> +						       OV5693_DIGITAL_GAIN_MAX,
-> +						       OV5693_DIGITAL_GAIN_STEP,
-> +						       OV5693_DIGITAL_GAIN_DEF);
-> +
-> +	/* Flip */
-> +	ov5693->ctrls.hflip = v4l2_ctrl_new_std(&ov5693->ctrls.handler, ops,
-> +						V4L2_CID_HFLIP, 0, 1, 1, 0);
-> +
-> +	ov5693->ctrls.vflip = v4l2_ctrl_new_std(&ov5693->ctrls.handler, ops,
-> +						V4L2_CID_VFLIP, 0, 1, 1, 0);
-> +
-> +	hblank = OV5693_FIXED_PPL - ov5693->mode.format.width;
-> +	ov5693->ctrls.hblank = v4l2_ctrl_new_std(&ov5693->ctrls.handler, ops,
-> +						 V4L2_CID_HBLANK, hblank,
-> +						 hblank, 1, hblank);
-> +
-> +	if (ov5693->ctrls.hblank)
-> +		ov5693->ctrls.hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +
-> +	vblank_max = OV5693_TIMING_MAX_VTS - ov5693->mode.format.height;
-> +	vblank_def = ov5693->mode.vts - ov5693->mode.format.height;
-> +	ov5693->ctrls.vblank = v4l2_ctrl_new_std(&ov5693->ctrls.handler, ops,
-> +						 V4L2_CID_VBLANK,
-> +						 OV5693_TIMING_MIN_VTS,
-> +						 vblank_max, 1, vblank_def);
-> +
-> +	ov5693->ctrls.test_pattern = v4l2_ctrl_new_std_menu_items(
-> +					&ov5693->ctrls.handler, ops,
-> +					V4L2_CID_TEST_PATTERN,
-> +					ARRAY_SIZE(ov5693_test_pattern_menu) - 1,
-> +					0, 0, ov5693_test_pattern_menu);
-> +
-> +	if (ov5693->ctrls.handler.error) {
-> +		dev_err(ov5693->dev, "Error initialising v4l2 ctrls\n");
-> +		ret = ov5693->ctrls.handler.error;
-> +		goto err_free_handler;
-> +	}
-> +
-> +	/* set properties from fwnode (e.g. rotation, orientation) */
-> +	ret = v4l2_fwnode_device_parse(ov5693->dev, &props);
-> +	if (ret)
-> +		goto err_free_handler;
-> +
-> +	ret = v4l2_ctrl_new_fwnode_properties(&ov5693->ctrls.handler, ops,
-> +					      &props);
-> +	if (ret)
-> +		goto err_free_handler;
-> +
-> +	/* Use same lock for controls as for everything else. */
-> +	ov5693->ctrls.handler.lock = &ov5693->lock;
-> +	ov5693->sd.ctrl_handler = &ov5693->ctrls.handler;
-> +
-> +	return 0;
-> +
-> +err_free_handler:
-> +	v4l2_ctrl_handler_free(&ov5693->ctrls.handler);
-> +	return ret;
-> +}
-> +
-> +static int ov5693_configure_gpios(struct ov5693_device *ov5693)
-> +{
-> +	ov5693->reset = devm_gpiod_get_optional(ov5693->dev, "reset",
-> +						GPIOD_OUT_HIGH);
-> +	if (IS_ERR(ov5693->reset)) {
-> +		dev_err(ov5693->dev, "Error fetching reset GPIO\n");
-> +		return PTR_ERR(ov5693->reset);
-> +	}
-> +
-> +	ov5693->powerdown = devm_gpiod_get_optional(ov5693->dev, "powerdown",
-> +						    GPIOD_OUT_HIGH);
-> +	if (IS_ERR(ov5693->powerdown)) {
-> +		dev_err(ov5693->dev, "Error fetching powerdown GPIO\n");
-> +		return PTR_ERR(ov5693->powerdown);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov5693_get_regulators(struct ov5693_device *ov5693)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < OV5693_NUM_SUPPLIES; i++)
-> +		ov5693->supplies[i].supply = ov5693_supply_names[i];
-> +
-> +	return devm_regulator_bulk_get(ov5693->dev, OV5693_NUM_SUPPLIES,
-> +				       ov5693->supplies);
-> +}
-> +
-> +static int ov5693_probe(struct i2c_client *client)
-> +{
-> +	struct fwnode_handle *fwnode = dev_fwnode(&client->dev);
-> +	struct fwnode_handle *endpoint;
-> +	struct ov5693_device *ov5693;
-> +	u32 clk_rate;
-> +	int ret = 0;
-> +
-> +	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
-> +	if (!endpoint && !IS_ERR_OR_NULL(fwnode->secondary))
-> +		endpoint = fwnode_graph_get_next_endpoint(fwnode->secondary, NULL);
-
-I think this should be done by fwnode_graph_get_next_endpoint() instead.
-
-There seem to be a large number of lines over 80 chars per line, for no
-apparent reason. Please wrap when it's feasible to do so.
-
-> +	if (!endpoint)
-> +		return -EPROBE_DEFER;
-
-Where is the endpoint put?
-
-I know this is does nothing on ACPI but fwnode-API-wise it does matter.
-
-Where do you get the bus parameters, including link frequencies (that do
-not seem to be validated in any way at the moment)?
-
-> +
-> +	ov5693 = devm_kzalloc(&client->dev, sizeof(*ov5693), GFP_KERNEL);
-> +	if (!ov5693)
-> +		return -ENOMEM;
-> +
-> +	ov5693->client = client;
-> +	ov5693->dev = &client->dev;
-> +
-> +	mutex_init(&ov5693->lock);
-> +
-> +	v4l2_i2c_subdev_init(&ov5693->sd, client, &ov5693_ops);
-> +
-> +	ov5693->clk = devm_clk_get(&client->dev, "xvclk");
-> +	if (IS_ERR(ov5693->clk)) {
-> +		dev_err(&client->dev, "Error getting clock\n");
-> +		return PTR_ERR(ov5693->clk);
-> +	}
-> +
-> +	clk_rate = clk_get_rate(ov5693->clk);
-> +	if (clk_rate != OV5693_XVCLK_FREQ) {
-> +		dev_err(&client->dev, "Unsupported clk freq %u, expected %u\n",
-> +			clk_rate, OV5693_XVCLK_FREQ);
-> +		return -EINVAL;
-
-There's been discussion on this and I think the current best practice is
-seen to be to warn, but still proceed. Sometimes there are slight
-differences from the intended frequency but it's hard to say how much
-tolerance there really is.
-
-> +	}
-> +
-> +	ret = ov5693_configure_gpios(ov5693);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ov5693_get_regulators(ov5693);
-> +	if (ret) {
-> +		dev_err(&client->dev, "Error fetching regulators\n");
-> +		return ret;
-> +	}
-> +
-> +	ov5693->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	ov5693->pad.flags = MEDIA_PAD_FL_SOURCE;
-> +	ov5693->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> +
-> +	ov5693->mode.crop = ov5693_default_crop;
-> +	ov5693->mode.format = ov5693_default_fmt;
-> +	ov5693->mode.vts = __ov5693_calc_vts(ov5693->mode.format.height);
-> +
-> +	ret = ov5693_init_controls(ov5693);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = media_entity_pads_init(&ov5693->sd.entity, 1, &ov5693->pad);
-> +	if (ret)
-> +		goto err_ctrl_handler_free;
-> +
-> +	/*
-> +	 * We need the driver to work in the event that pm runtime is disable in
-> +	 * the kernel, so power up and verify the chip now. In the event that
-> +	 * runtime pm is disabled this will leave the chip on, so that streaming
-> +	 * will work.
-> +	 */
-> +
-> +	ret = ov5693_sensor_powerup(ov5693);
-> +	if (ret)
-> +		goto err_media_entity_cleanup;
-> +
-> +	ret = ov5693_detect(ov5693);
-> +	if (ret)
-> +		goto err_powerdown;
-> +
-> +	pm_runtime_set_active(&client->dev);
-> +	pm_runtime_get_noresume(&client->dev);
-> +	pm_runtime_enable(&client->dev);
-> +
-> +	ret = v4l2_async_register_subdev_sensor(&ov5693->sd);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to register V4L2 subdev: %d",
-> +			ret);
-> +		goto err_pm_runtime;
-> +	}
-> +
-> +	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
-> +	pm_runtime_use_autosuspend(&client->dev);
-> +	pm_runtime_put_autosuspend(&client->dev);
-> +
-> +	return ret;
-> +
-> +err_pm_runtime:
-> +	pm_runtime_disable(&client->dev);
-> +	pm_runtime_put_noidle(&client->dev);
-> +err_powerdown:
-> +	ov5693_sensor_powerdown(ov5693);
-> +err_media_entity_cleanup:
-> +	media_entity_cleanup(&ov5693->sd.entity);
-> +err_ctrl_handler_free:
-> +	v4l2_ctrl_handler_free(&ov5693->ctrls.handler);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov5693_remove(struct i2c_client *client)
-> +{
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct ov5693_device *ov5693 = to_ov5693_sensor(sd);
-> +
-> +	v4l2_async_unregister_subdev(sd);
-> +	media_entity_cleanup(&ov5693->sd.entity);
-> +	v4l2_ctrl_handler_free(&ov5693->ctrls.handler);
-> +	mutex_destroy(&ov5693->lock);
-> +
-> +	/*
-> +	 * Disable runtime PM. In case runtime PM is disabled in the kernel,
-> +	 * make sure to turn power off manually.
-> +	 */
-> +	pm_runtime_disable(&client->dev);
-> +	if (!pm_runtime_status_suspended(&client->dev))
-> +		ov5693_sensor_powerdown(ov5693);
-> +	pm_runtime_set_suspended(&client->dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dev_pm_ops ov5693_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(ov5693_sensor_suspend, ov5693_sensor_resume, NULL)
-> +};
-> +
-> +static const struct acpi_device_id ov5693_acpi_match[] = {
-> +	{"INT33BE"},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(acpi, ov5693_acpi_match);
-> +
-> +static struct i2c_driver ov5693_driver = {
-> +	.driver = {
-> +		.name = "ov5693",
-> +		.acpi_match_table = ov5693_acpi_match,
-> +		.pm = &ov5693_pm_ops,
-> +	},
-> +	.probe_new = ov5693_probe,
-> +	.remove = ov5693_remove,
-> +};
-> +module_i2c_driver(ov5693_driver);
-> +
-> +MODULE_DESCRIPTION("A low-level driver for OmniVision 5693 sensors");
-> +MODULE_LICENSE("GPL");
-
-MODULE_AUTHOR(), maybe?
-
--- 
-Kind regards,
-
-Sakari Ailus
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-8-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-8-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/ccs.patch
+patch -s -f -N -p1 -i ../backports/rc-cec.patch
+patch -s -f -N -p1 -i ../backports/v5.14_bus_void_return.patch
+patch -s -f -N -p1 -i ../backports/v5.12_uvc.patch
+patch -s -f -N -p1 -i ../backports/v5.11_isa.patch
+patch -s -f -N -p1 -i ../backports/v5.10_vb2_dma_buf_map.patch
+2 out of 5 hunks FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
