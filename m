@@ -2,98 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30D4D41308E
-	for <lists+linux-media@lfdr.de>; Tue, 21 Sep 2021 11:06:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58497413097
+	for <lists+linux-media@lfdr.de>; Tue, 21 Sep 2021 11:11:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231268AbhIUJH5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Sep 2021 05:07:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46990 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbhIUJH4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Sep 2021 05:07:56 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0752CC061574
-        for <linux-media@vger.kernel.org>; Tue, 21 Sep 2021 02:06:27 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id q26so36964426wrc.7
-        for <linux-media@vger.kernel.org>; Tue, 21 Sep 2021 02:06:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=EegQsqwkDAbSKGKaBE2dKT8jViZBEheN2RsRgut41gs=;
-        b=e4Pm2BFnynlEVB9xZxYIDalPlPnKGWxcW0eJ9S+1zIRul93FRnQDOqc0PCSjUqhqxz
-         HwSdNNk6wUlfjGpOFPOG7SG+NkMVJOc2/SAz+6jdSf2gKKMVdzJbUo5gh+ClWQe8fugO
-         YSQ2MIQycNZc7l3YWoVCxKYKCG13FlTIrwoX+63lID+CsFh5toPAkrjUzL+Vzwjv9oSu
-         yssnFPuPUUuv03o8XUjRmvZHOMMDlJfyYRyHee4SNq4cEGytFICdQaub4X9jN0zc2B3c
-         ihNDHjVq74lpGFI+frAW1yA3SujIFl/84Yw8Bfhy7hpa7TYbIOjVQHDGwRamFdpGgI7A
-         YwOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=EegQsqwkDAbSKGKaBE2dKT8jViZBEheN2RsRgut41gs=;
-        b=Sr4gV90fDoi02Bl16EYGU4FSnPn3etItO3xcrQvW45vxep8oE7yEMKTRBkpugZqYZh
-         KxMY/EdCs9fY5UC2j9AzOgg1l/KxiFP64zmTc9gY/rN25PPaiNECBr+vaqEFynlhOiIf
-         vcJIUPqkaj21CeJrLEqrhNG93n/8cFX9N2zb29/tJFhlhWCzNA4M+0c9L6T6O5VvcDPF
-         SnCDfhJhsxRZqsIADLVwXVePxTNjghYqNgDgnUWggUmyAxhpmB9ynfK9mOz4xjlfpgBl
-         lYCArHUx3rttDMyHcQs5B3liyduavIuRM7bwfJQQx/kUSfTPccW2S0E2NJggL0BCadj4
-         hE4Q==
-X-Gm-Message-State: AOAM530kjRhFTaiAOhJGZ9WaH3WT0S4Y3EtvcPqqdlNso5u55ZhSOZi4
-        k3se9FXeWxFAB+Lowfrd7eE=
-X-Google-Smtp-Source: ABdhPJyc0qy0yodDR18eGN9LbHNfOO1PuA9wEd6m+s4iww3Wme/nqU5FrSZpEibiqtf8ICdfucJwpw==
-X-Received: by 2002:a5d:5684:: with SMTP id f4mr33813058wrv.148.1632215186205;
-        Tue, 21 Sep 2021 02:06:26 -0700 (PDT)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id b16sm18744739wrp.82.2021.09.21.02.06.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Sep 2021 02:06:25 -0700 (PDT)
-Subject: Re: [PATCH v3 2/2] media: i2c: Add support for ov5693 sensor
-From:   Daniel Scally <djrscally@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        sakari.ailus@linux.intel.com, kieran.bingham@ideasonboard.com,
+        id S231268AbhIUJM5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Sep 2021 05:12:57 -0400
+Received: from mga18.intel.com ([134.134.136.126]:6300 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229533AbhIUJMy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Sep 2021 05:12:54 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="210395177"
+X-IronPort-AV: E=Sophos;i="5.85,310,1624345200"; 
+   d="scan'208";a="210395177"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 02:11:26 -0700
+X-IronPort-AV: E=Sophos;i="5.85,310,1624345200"; 
+   d="scan'208";a="435814947"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 02:11:23 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id B963C201C5; Tue, 21 Sep 2021 12:11:21 +0300 (EEST)
+Date:   Tue, 21 Sep 2021 12:11:21 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        yong.zhi@intel.com, bingbu.cao@intel.com, tian.shu.qiu@intel.com,
+        kieran.bingham@ideasonboard.com,
         jeanmichel.hautbois@ideasonboard.com
+Subject: Re: [PATCH v3 2/2] media: i2c: Add support for ov5693 sensor
+Message-ID: <YUmhuYiFoSL21bj4@paasikivi.fi.intel.com>
 References: <20210920225422.42618-1-djrscally@gmail.com>
  <20210920225422.42618-3-djrscally@gmail.com>
-Message-ID: <df4f5d94-dbbe-f5a8-0e8f-773d393ea332@gmail.com>
-Date:   Tue, 21 Sep 2021 10:06:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20210920225422.42618-3-djrscally@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Oops; missed changelog:
+Hi Daniel,
 
+Thanks for the patch.
 
-Changes since v2:
-
-
-    - Link frequency value  changed from 400MHz to 419.2MHz in line with
-that set when the camera is running on Windows on my test device (a
-Surface Go 2). The PLL registers were also slightly changed to achieve
-that new frequency
-
-
-On 20/09/2021 23:54, Daniel Scally wrote:
+On Mon, Sep 20, 2021 at 11:54:22PM +0100, Daniel Scally wrote:
 > The OV5693 is a 5 Mpx CMOS image sensor, connected via MIPI CSI-2. The
 > chip is capable of a single lane configuration, but currently only two
 > lanes are supported.
->
+> 
 > Most of the sensor's features are supported, with the main exception
 > being the lens correction algorithm.
->
+> 
 > The driver provides all mandatory, optional and recommended V4L2 controls
 > for maximum compatibility with libcamera.
->
+> 
 > Signed-off-by: Daniel Scally <djrscally@gmail.com>
 > ---
 >  MAINTAINERS                |    7 +
@@ -102,7 +64,7 @@ On 20/09/2021 23:54, Daniel Scally wrote:
 >  drivers/media/i2c/ov5693.c | 1558 ++++++++++++++++++++++++++++++++++++
 >  4 files changed, 1577 insertions(+)
 >  create mode 100644 drivers/media/i2c/ov5693.c
->
+> 
 > diff --git a/MAINTAINERS b/MAINTAINERS
 > index ca6d6fde85cf..83b4523ef899 100644
 > --- a/MAINTAINERS
@@ -164,6 +126,10 @@ On 20/09/2021 23:54, Daniel Scally wrote:
 > +// SPDX-License-Identifier: GPL-2.0
 > +/*
 > + * Copyright (c) 2013 Intel Corporation. All Rights Reserved.
+
+Are there any other copyrights? I'm just noting this, not necessarily
+requesting them.
+
 > + *
 > + * Adapted from the atomisp-ov5693 driver, with contributions from:
 > + *
@@ -173,6 +139,9 @@ On 20/09/2021 23:54, Daniel Scally wrote:
 > + * Tsuchiya Yuto
 > + * Jordan Hand
 > + * Jake Day
+
+Well done!
+
 > + */
 > +
 > +#include <asm/unaligned.h>
@@ -704,6 +673,11 @@ On 20/09/2021 23:54, Daniel Scally wrote:
 > +	ret = ov5693_read_reg(ov5693, OV5693_EXPOSURE_L_CTRL_L_REG, &exposure_l);
 > +	if (ret)
 > +		return ret;
+
+Does the sensor not allow reading this register as a single operation?
+
+Just a question. Some sensors from the vendor do not. Same for the writes.
+
 > +
 > +	/* The lowest 4 bits are unsupported fractional bits */
 > +	*value = ((exposure_hh << 16) | (exposure_h << 8) | exposure_l) >> 4;
@@ -857,6 +831,9 @@ On 20/09/2021 23:54, Daniel Scally wrote:
 > +{
 > +	struct ov5693_device *ov5693 =
 > +	    container_of(ctrl->handler, struct ov5693_device, ctrls.handler);
+
+Tab for indentation, please. And wrap if needed to stay under 80.
+
 > +
 > +	switch (ctrl->id) {
 > +	case V4L2_CID_EXPOSURE_ABSOLUTE:
@@ -943,6 +920,13 @@ On 20/09/2021 23:54, Daniel Scally wrote:
 > +			 OV5693_TIMING_VTS_H(mode->vts), &ret);
 > +	ov5693_write_reg(ov5693, OV5693_TIMING_VTS_L_REG,
 > +			 OV5693_TIMING_VTS_L(mode->vts), &ret);
+
+ov5693_vts_configure() does write the same registers. Why is it being done
+here, too?
+
+That said, it's very nice the driver does more than just rely on plain
+register lists.
+
 > +
 > +	/* Subsample X increase */
 > +	ov5693_write_reg(ov5693, OV5693_SUB_INC_X_REG,
@@ -1576,8 +1560,22 @@ On 20/09/2021 23:54, Daniel Scally wrote:
 > +	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
 > +	if (!endpoint && !IS_ERR_OR_NULL(fwnode->secondary))
 > +		endpoint = fwnode_graph_get_next_endpoint(fwnode->secondary, NULL);
+
+I think this should be done by fwnode_graph_get_next_endpoint() instead.
+
+There seem to be a large number of lines over 80 chars per line, for no
+apparent reason. Please wrap when it's feasible to do so.
+
 > +	if (!endpoint)
 > +		return -EPROBE_DEFER;
+
+Where is the endpoint put?
+
+I know this is does nothing on ACPI but fwnode-API-wise it does matter.
+
+Where do you get the bus parameters, including link frequencies (that do
+not seem to be validated in any way at the moment)?
+
 > +
 > +	ov5693 = devm_kzalloc(&client->dev, sizeof(*ov5693), GFP_KERNEL);
 > +	if (!ov5693)
@@ -1601,6 +1599,12 @@ On 20/09/2021 23:54, Daniel Scally wrote:
 > +		dev_err(&client->dev, "Unsupported clk freq %u, expected %u\n",
 > +			clk_rate, OV5693_XVCLK_FREQ);
 > +		return -EINVAL;
+
+There's been discussion on this and I think the current best practice is
+seen to be to warn, but still proceed. Sometimes there are slight
+differences from the intended frequency but it's hard to say how much
+tolerance there really is.
+
 > +	}
 > +
 > +	ret = ov5693_configure_gpios(ov5693);
@@ -1719,3 +1723,10 @@ On 20/09/2021 23:54, Daniel Scally wrote:
 > +
 > +MODULE_DESCRIPTION("A low-level driver for OmniVision 5693 sensors");
 > +MODULE_LICENSE("GPL");
+
+MODULE_AUTHOR(), maybe?
+
+-- 
+Kind regards,
+
+Sakari Ailus
