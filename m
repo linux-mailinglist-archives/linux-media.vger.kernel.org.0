@@ -2,113 +2,251 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33B4B4148C4
-	for <lists+linux-media@lfdr.de>; Wed, 22 Sep 2021 14:26:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0447D4149D7
+	for <lists+linux-media@lfdr.de>; Wed, 22 Sep 2021 14:55:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235545AbhIVM1j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Sep 2021 08:27:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55576 "EHLO
+        id S236140AbhIVM5B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Sep 2021 08:57:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235227AbhIVM1j (ORCPT
+        with ESMTP id S236035AbhIVM46 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Sep 2021 08:27:39 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 666CAC061574
-        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 05:26:09 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id t8so6282992wrq.4
-        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 05:26:09 -0700 (PDT)
+        Wed, 22 Sep 2021 08:56:58 -0400
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 765CFC061756
+        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 05:55:28 -0700 (PDT)
+Received: by mail-qk1-x72c.google.com with SMTP id q81so5543951qke.5
+        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 05:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=HZNFhw6PY3/T4DQN7yWkHN4fI7K+TJpH9IIfWzXMQrE=;
-        b=fDr6KrDkAUiVURLnotDyIkrkvBBEa4HGtPQCw08G3AJL66q+GODDpJN+MR16rGZB+/
-         YNy0NclqwvcWDGT914/2agJEa44V/q7dtqzn7XZWzllCMmywNfYMEuIKCK4WWv8+kVr3
-         TRRoOosg5tPB1vqXPKNLWA0UCjGkAELWUC4nDTL5q0SwM/cmoelGuT35T+nf1/OKR/zn
-         V7/Cc3VIhbNIFjjTP4Dl+hocrNmqEcLD55EDtWm72iA6gsc6cQnSmHNocmj2BpxAM0QK
-         jVk56JzDgS2EA6JKthOJRl69ABX8yQJhJpalJ+0FyCAcida8N9/kcwTDLzjX25rT+Nru
-         JMuA==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Xl1LKKaIiXIR37FrSULq1gxTEDagbmid3RKiTF/dDZo=;
+        b=ucMCz1XsSXa4jVLaWDpBuCtPqr2LWu/82E7qUfIQGQLQeCEQIcLYCkmcvbIo8Vd12J
+         dXjOvKLpQWgJbZUowNSVw+g/l+EYxoiFv4BxA2HLgvKNh0cb2d/pZR7XVFuP0GvPKQWb
+         2bu4ISk5Nmcmm3pEAFHiHWXuBvrDrXoHf3Nt5t3uuMwYvTJ72kiYqe2YVOvf8mERrWLh
+         OGBnpgZ8P/K0+XcGVw0T66qA7G24cJW1MevbPf0KzDvcuo/ly5Rz7GHulb8+sz8Tzw9N
+         9hAeuF1/JBR6uokvd617IVMSUT8tGGjMAT8nRk8bEU44pAjHN70WhBc6b0gwPKAg6fVm
+         WJcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=HZNFhw6PY3/T4DQN7yWkHN4fI7K+TJpH9IIfWzXMQrE=;
-        b=A5jV48sEJhGGGokAbtd7Vw0RViA8dvxWrAzlBjwbVqY6TIGE2ossGBN+3pgCHlCMhR
-         fXaiBJ0Dn32VL1/qO/iCZIkN1iVwWTNZlvbxEH+/xDCeELqrBvf6kb1qQIcquQh7XhE4
-         zr9kpxYCrK9CZPY1XkN7eugNvPUifKsQMPYPuZ+I5akGhBpU0QND9FFnHMyVV5aIrfOc
-         ZXzH7mfIR7MxTcSqyHZAkpMIqItdRH8Ebilp7mjnJFPtaRfZP/OZ7aCMSyDBjgwoLlUd
-         fyP4sUdgxIHR2sO3jGYD177vWRGOBj7cgc33Ahv1fD+YHWcG+4PcKFKUVKXPU52c4/Fs
-         8HdQ==
-X-Gm-Message-State: AOAM53045SsvOawQX/LYqmt9efEr1BpJAsUsO3KpCtCLi9kcNgMFet+N
-        f8+Ns3vCYcWFPE92ldF/AVfvn6z9kGw=
-X-Google-Smtp-Source: ABdhPJzbQrWSxMms5UYwL37R92pkHMOLWsZFARMndAqch6tkNpr/HKosfjbI9vmjBobhwPKUhte18Q==
-X-Received: by 2002:a5d:4e90:: with SMTP id e16mr40954105wru.243.1632313568060;
-        Wed, 22 Sep 2021 05:26:08 -0700 (PDT)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id v18sm1878484wml.44.2021.09.22.05.26.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Sep 2021 05:26:07 -0700 (PDT)
-Subject: Re: [PATCH v3 2/2] media: i2c: Add support for ov5693 sensor
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        yong.zhi@intel.com, bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        kieran.bingham@ideasonboard.com,
-        jeanmichel.hautbois@ideasonboard.com
-References: <20210920225422.42618-1-djrscally@gmail.com>
- <20210920225422.42618-3-djrscally@gmail.com>
- <YUmhuYiFoSL21bj4@paasikivi.fi.intel.com>
- <6fda38af-2556-4796-b3c5-a80a864466f4@gmail.com>
- <YUnUtdXpYdoIyb4s@paasikivi.fi.intel.com>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <f19d6824-07e7-1647-db81-5c98d25308d1@gmail.com>
-Date:   Wed, 22 Sep 2021 13:26:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Xl1LKKaIiXIR37FrSULq1gxTEDagbmid3RKiTF/dDZo=;
+        b=pzpfYn3zMotlldguneZL2p3sNzU5Uetfkk/seKYy5q/8obS/4yVq3ExWa8Wo/1JPEM
+         m7iXOlMGc1v7tr+n7DijZtmYVqwvlykRaBgF+EFpmkAq0rsIK34acME7I2aqwVqZDYtm
+         KuY4Yk8VsSePZe92nFb50F6B5nFhcJ4YNO9Hd7eAO1wZm2MfDL7gzMI3CR2q2ISZUmOh
+         NKdPIDmhhF8TX+tyve2BNCZwFuTJG17COz9UvS8Q6eWSu+2vxac7Vdf09SvgFYVvT1gr
+         tbgg+GNp+7NID2h4P2iiqi9ZVr2Nq57+sjK6Sv4yKiGYThygwOlUEnYcdDyfGwBcgD49
+         P2vA==
+X-Gm-Message-State: AOAM533+FKiPFtrXost8uvvDClkBkLqf7RNqLvM28QmmOyKDlVmjNf8J
+        707J7JmGHVycy4MTJKN9cxG3xw==
+X-Google-Smtp-Source: ABdhPJwgt0W5YMkkw7w3IhC4ynEqGmVa7i1e+ILuzKPG99+rs1dt2aElAFlEbCssUzyHtm/Ulr/qbw==
+X-Received: by 2002:a05:620a:c53:: with SMTP id u19mr34147027qki.144.1632315327587;
+        Wed, 22 Sep 2021 05:55:27 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id h5sm1725958qke.1.2021.09.22.05.55.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Sep 2021 05:55:27 -0700 (PDT)
+Message-ID: <1a454107661fced1adfd8a76a20a819d75b882d4.camel@ndufresne.ca>
+Subject: Re: [PATCH v9 11/13] ARM64: dts: freescale: imx8q: add imx vpu
+ codec entries
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de
+Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Date:   Wed, 22 Sep 2021 08:55:25 -0400
+In-Reply-To: <620081ca2f6441de6307792dbb7797da148cf04c.1631521295.git.ming.qian@nxp.com>
+References: <cover.1631521295.git.ming.qian@nxp.com>
+         <620081ca2f6441de6307792dbb7797da148cf04c.1631521295.git.ming.qian@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-In-Reply-To: <YUnUtdXpYdoIyb4s@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari
+Hi Ming,
 
-On 21/09/2021 13:48, Sakari Ailus wrote:
-> Hi Daniel,
->
-> On Tue, Sep 21, 2021 at 12:47:56PM +0100, Daniel Scally wrote:
->>> +
->>> +static int ov5693_get_exposure(struct ov5693_device *ov5693, s32 *value)
->>> +{
->>> +	u8 exposure_hh = 0, exposure_h = 0, exposure_l = 0;
->>> +	int ret;
->>> +
->>> +	ret = ov5693_read_reg(ov5693, OV5693_EXPOSURE_L_CTRL_HH_REG, &exposure_hh);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ret = ov5693_read_reg(ov5693, OV5693_EXPOSURE_L_CTRL_H_REG, &exposure_h);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ret = ov5693_read_reg(ov5693, OV5693_EXPOSURE_L_CTRL_L_REG, &exposure_l);
->>> +	if (ret)
->>> +		return ret;
->>> Does the sensor not allow reading this register as a single operation?
->>>
->>> Just a question. Some sensors from the vendor do not. Same for the writes.
->>
->> It does; if I'm honest I just preferred the individual read/writes. I
->> find it's easier to see exactly what's going on. Happy to change it if
->> you prefer though - it's less important now that the work is mostly done.
-> It's certainly not wrong to do that but it takes a longer time. So you're
-> much, much more likely to miss the frame you intended the settings to take
-> effect. Also note the device could have a specific order in which to write
-> them for the update to be atomic. Missing this could cause wildly
-> misexposed frames. I don't know if this one does.
->
-The datasheet doesn't mention a specific ordering, but I take your point
-about the timings. I'll look at switching it to a single write operation.
+Le lundi 13 septembre 2021 à 17:11 +0800, Ming Qian a écrit :
+> Add the Video Processing Unit node for IMX8Q SoC.
+
+Just to let you know that this patch no longer apply on 5.15-rc2. Please let us
+know which was your base.
+
+> 
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
+> Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
+> ---
+>  .../arm64/boot/dts/freescale/imx8-ss-vpu.dtsi | 72 +++++++++++++++++++
+>  arch/arm64/boot/dts/freescale/imx8qxp-mek.dts | 17 +++++
+>  arch/arm64/boot/dts/freescale/imx8qxp.dtsi    | 24 +++++++
+>  3 files changed, 113 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
+> 
+> diff --git a/arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi b/arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
+> new file mode 100644
+> index 000000000000..f2dde6d14ca3
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
+> @@ -0,0 +1,72 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright 2021 NXP
+> + *	Dong Aisheng <aisheng.dong@nxp.com>
+> + */
+> +
+> +vpu: vpu@2c000000 {
+> +	#address-cells = <1>;
+> +	#size-cells = <1>;
+> +	ranges = <0x2c000000 0x0 0x2c000000 0x2000000>;
+> +	reg = <0 0x2c000000 0 0x1000000>;
+> +	power-domains = <&pd IMX_SC_R_VPU>;
+> +	status = "disabled";
+> +
+> +	mu_m0: mailbox@2d000000 {
+> +		compatible = "fsl,imx6sx-mu";
+> +		reg = <0x2d000000 0x20000>;
+> +		interrupts = <GIC_SPI 469 IRQ_TYPE_LEVEL_HIGH>;
+> +		#mbox-cells = <2>;
+> +		power-domains = <&pd IMX_SC_R_VPU_MU_0>;
+> +		status = "okay";
+> +	};
+> +
+> +	mu1_m0: mailbox@2d020000 {
+> +		compatible = "fsl,imx6sx-mu";
+> +		reg = <0x2d020000 0x20000>;
+> +		interrupts = <GIC_SPI 470 IRQ_TYPE_LEVEL_HIGH>;
+> +		#mbox-cells = <2>;
+> +		power-domains = <&pd IMX_SC_R_VPU_MU_1>;
+> +		status = "okay";
+> +	};
+> +
+> +	mu2_m0: mailbox@2d040000 {
+> +		compatible = "fsl,imx6sx-mu";
+> +		reg = <0x2d040000 0x20000>;
+> +		interrupts = <GIC_SPI 474 IRQ_TYPE_LEVEL_HIGH>;
+> +		#mbox-cells = <2>;
+> +		power-domains = <&pd IMX_SC_R_VPU_MU_2>;
+> +		status = "disabled";
+> +	};
+> +
+> +	vpu_core0: vpu_core@2d080000 {
+> +		reg = <0x2d080000 0x10000>;
+> +		compatible = "nxp,imx8q-vpu-decoder";
+> +		power-domains = <&pd IMX_SC_R_VPU_DEC_0>;
+> +		mbox-names = "tx0", "tx1", "rx";
+> +		mboxes = <&mu_m0 0 0>,
+> +			<&mu_m0 0 1>,
+> +			<&mu_m0 1 0>;
+> +		status = "disabled";
+> +	};
+> +	vpu_core1: vpu_core@2d090000 {
+> +		reg = <0x2d090000 0x10000>;
+> +		compatible = "nxp,imx8q-vpu-encoder";
+> +		power-domains = <&pd IMX_SC_R_VPU_ENC_0>;
+> +		mbox-names = "tx0", "tx1", "rx";
+> +		mboxes = <&mu1_m0 0 0>,
+> +			<&mu1_m0 0 1>,
+> +			<&mu1_m0 1 0>;
+> +		status = "disabled";
+> +	};
+> +	vpu_core2: vpu_core@2d0a0000 {
+> +		reg = <0x2d0a0000 0x10000>;
+> +		compatible = "nxp,imx8q-vpu-encoder";
+> +		power-domains = <&pd IMX_SC_R_VPU_ENC_1>;
+> +		mbox-names = "tx0", "tx1", "rx";
+> +		mboxes = <&mu2_m0 0 0>,
+> +			<&mu2_m0 0 1>,
+> +			<&mu2_m0 1 0>;
+> +		status = "disabled";
+> +	};
+> +};
+> diff --git a/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts b/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
+> index 863232a47004..05495b60beb8 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
+> +++ b/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
+> @@ -196,6 +196,23 @@ &usdhc2 {
+>  	status = "okay";
+>  };
+>  
+> +&vpu {
+> +	compatible = "nxp,imx8qxp-vpu";
+> +	status = "okay";
+> +};
+> +
+> +&vpu_core0 {
+> +	reg = <0x2d040000 0x10000>;
+> +	memory-region = <&decoder_boot>, <&decoder_rpc>;
+> +	status = "okay";
+> +};
+> +
+> +&vpu_core1 {
+> +	reg = <0x2d050000 0x10000>;
+> +	memory-region = <&encoder_boot>, <&encoder_rpc>;
+> +	status = "okay";
+> +};
+> +
+>  &iomuxc {
+>  	pinctrl_fec1: fec1grp {
+>  		fsl,pins = <
+> diff --git a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
+> index 1e6b4995091e..6b421cfa5534 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
+> @@ -46,6 +46,9 @@ aliases {
+>  		serial1 = &lpuart1;
+>  		serial2 = &lpuart2;
+>  		serial3 = &lpuart3;
+> +		vpu_core0 = &vpu_core0;
+> +		vpu_core1 = &vpu_core1;
+> +		vpu_core2 = &vpu_core2;
+>  	};
+>  
+>  	cpus {
+> @@ -134,10 +137,30 @@ reserved-memory {
+>  		#size-cells = <2>;
+>  		ranges;
+>  
+> +		decoder_boot: decoder-boot@84000000 {
+> +			reg = <0 0x84000000 0 0x2000000>;
+> +			no-map;
+> +		};
+> +
+> +		encoder_boot: encoder-boot@86000000 {
+> +			reg = <0 0x86000000 0 0x200000>;
+> +			no-map;
+> +		};
+> +
+> +		decoder_rpc: decoder-rpc@0x92000000 {
+> +			reg = <0 0x92000000 0 0x100000>;
+> +			no-map;
+> +		};
+> +
+>  		dsp_reserved: dsp@92400000 {
+>  			reg = <0 0x92400000 0 0x2000000>;
+>  			no-map;
+>  		};
+> +
+> +		encoder_rpc: encoder-rpc@0x94400000 {
+> +			reg = <0 0x94400000 0 0x700000>;
+> +			no-map;
+> +		};
+>  	};
+>  
+>  	pmu {
+> @@ -258,6 +281,7 @@ map0 {
+>  	};
+>  
+>  	/* sorted in register address */
+> +	#include "imx8-ss-vpu.dtsi"
+>  	#include "imx8-ss-adma.dtsi"
+>  	#include "imx8-ss-conn.dtsi"
+>  	#include "imx8-ss-ddr.dtsi"
+
+
