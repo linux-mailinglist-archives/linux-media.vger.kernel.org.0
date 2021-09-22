@@ -2,212 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B09094148B5
-	for <lists+linux-media@lfdr.de>; Wed, 22 Sep 2021 14:22:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33B4B4148C4
+	for <lists+linux-media@lfdr.de>; Wed, 22 Sep 2021 14:26:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235545AbhIVMX4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Sep 2021 08:23:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54730 "EHLO
+        id S235545AbhIVM1j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Sep 2021 08:27:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230171AbhIVMXx (ORCPT
+        with ESMTP id S235227AbhIVM1j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Sep 2021 08:23:53 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCD2CC061574
-        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 05:22:23 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id q11so6140741wrr.9
-        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 05:22:23 -0700 (PDT)
+        Wed, 22 Sep 2021 08:27:39 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 666CAC061574
+        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 05:26:09 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id t8so6282992wrq.4
+        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 05:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=tSWNs0kGk+q1W6LT/3/0miI8jhwfdPFbV97Eh9vLDtQ=;
-        b=J9LsT9+8y4ExWJHzDm+gWvpo+L3XRzkV7sOeoq1T1A8D/YpSJ+N8gcyijgX7AusvLY
-         K6FsChREpMewAJ+fBEkNTBHnHVapNzpbQFKq9oF/4pqiy6R6B0PKOOBplyZ9CxBQ3xgT
-         Jvqkp8rjan12DBW1WBxv54RTl/t/x/5CNY0T6PJcc/GtVn7cvEv7plY41bKgQlYiEQqS
-         mdem95RYC5De+2TQ35pZWtWR8rehjX8fzo3j6OLDUufxjvu7WB5wYVz7lsUPRxiwfDMc
-         AH3r0ZOoiRwyYqw7EDOO7+cUtkmFEIuWczEVL/NluQll5KO7rShD3+1GeJtcNubURZAW
-         Ivcg==
+        bh=HZNFhw6PY3/T4DQN7yWkHN4fI7K+TJpH9IIfWzXMQrE=;
+        b=fDr6KrDkAUiVURLnotDyIkrkvBBEa4HGtPQCw08G3AJL66q+GODDpJN+MR16rGZB+/
+         YNy0NclqwvcWDGT914/2agJEa44V/q7dtqzn7XZWzllCMmywNfYMEuIKCK4WWv8+kVr3
+         TRRoOosg5tPB1vqXPKNLWA0UCjGkAELWUC4nDTL5q0SwM/cmoelGuT35T+nf1/OKR/zn
+         V7/Cc3VIhbNIFjjTP4Dl+hocrNmqEcLD55EDtWm72iA6gsc6cQnSmHNocmj2BpxAM0QK
+         jVk56JzDgS2EA6JKthOJRl69ABX8yQJhJpalJ+0FyCAcida8N9/kcwTDLzjX25rT+Nru
+         JMuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=tSWNs0kGk+q1W6LT/3/0miI8jhwfdPFbV97Eh9vLDtQ=;
-        b=b45Y0EjsAzJQecutWjZdvP5i9UdRD/FaqDXk6WRvQisIYyEt7QheiuSO6AHev6shoJ
-         Ug9LGs11fFfIXZfwoLP7Nt6KJXYL+ocol+gFG6ObU+iKXrComkQh5w0QeSyXMRdzTl0B
-         fm5fX+ErKo8MVvNcEvWOHAgnULufd+Rp29L0RPs4WNwFjZJUJ+/CGpPoxLbnMLJWHoc+
-         E1m5XLmFizqV5l3vPWPoYO9L94nex0irB6eHC0MPApYB1BmkHcNlVmNL6wpGp/qVNJQy
-         oVPrTHjwbdOQhp/RZHca87j8T+k5HSKg53whQx/vbALBraQ62212sjYV3v9IhQ72LqZP
-         EK6g==
-X-Gm-Message-State: AOAM531djSZxJT/5O4ZuKmAg3tYR6hEn271lD6mquhIuULnSlUJaqfQ5
-        s6Bg7/1u/RITcK6MmlGgHxvql82Q2/0=
-X-Google-Smtp-Source: ABdhPJx6gbuuQAUhFbxl0ifV15VDHIHbwi/lV3H5yS5QKqeV8MD66+nObdjL7UN+ymWT5LVzZfaKPw==
-X-Received: by 2002:adf:ec4b:: with SMTP id w11mr41369389wrn.389.1632313342446;
-        Wed, 22 Sep 2021 05:22:22 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id u13sm1738575wmq.33.2021.09.22.05.22.21
+        bh=HZNFhw6PY3/T4DQN7yWkHN4fI7K+TJpH9IIfWzXMQrE=;
+        b=A5jV48sEJhGGGokAbtd7Vw0RViA8dvxWrAzlBjwbVqY6TIGE2ossGBN+3pgCHlCMhR
+         fXaiBJ0Dn32VL1/qO/iCZIkN1iVwWTNZlvbxEH+/xDCeELqrBvf6kb1qQIcquQh7XhE4
+         zr9kpxYCrK9CZPY1XkN7eugNvPUifKsQMPYPuZ+I5akGhBpU0QND9FFnHMyVV5aIrfOc
+         ZXzH7mfIR7MxTcSqyHZAkpMIqItdRH8Ebilp7mjnJFPtaRfZP/OZ7aCMSyDBjgwoLlUd
+         fyP4sUdgxIHR2sO3jGYD177vWRGOBj7cgc33Ahv1fD+YHWcG+4PcKFKUVKXPU52c4/Fs
+         8HdQ==
+X-Gm-Message-State: AOAM53045SsvOawQX/LYqmt9efEr1BpJAsUsO3KpCtCLi9kcNgMFet+N
+        f8+Ns3vCYcWFPE92ldF/AVfvn6z9kGw=
+X-Google-Smtp-Source: ABdhPJzbQrWSxMms5UYwL37R92pkHMOLWsZFARMndAqch6tkNpr/HKosfjbI9vmjBobhwPKUhte18Q==
+X-Received: by 2002:a5d:4e90:: with SMTP id e16mr40954105wru.243.1632313568060;
+        Wed, 22 Sep 2021 05:26:08 -0700 (PDT)
+Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id v18sm1878484wml.44.2021.09.22.05.26.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Sep 2021 05:22:21 -0700 (PDT)
-Subject: Re: [PATCH 13/26] drm/i915: use the new iterator in
- i915_gem_busy_ioctl
-To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc:     daniel@ffwll.ch
-References: <20210922091044.2612-1-christian.koenig@amd.com>
- <20210922091044.2612-14-christian.koenig@amd.com>
- <6b22cb75-6c41-db55-83f2-3eae87b585aa@linux.intel.com>
- <4c357136-3279-ff57-1c4f-62276534c887@linux.intel.com>
- <acc297ce-287e-295c-8b54-223610fb2093@gmail.com>
- <6f8140bd-9cff-e0d8-e014-b3fb8d2d8ab0@linux.intel.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <7e03d687-4381-5263-4f03-a34f16ce8f1c@gmail.com>
-Date:   Wed, 22 Sep 2021 14:22:20 +0200
+        Wed, 22 Sep 2021 05:26:07 -0700 (PDT)
+Subject: Re: [PATCH v3 2/2] media: i2c: Add support for ov5693 sensor
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        yong.zhi@intel.com, bingbu.cao@intel.com, tian.shu.qiu@intel.com,
+        kieran.bingham@ideasonboard.com,
+        jeanmichel.hautbois@ideasonboard.com
+References: <20210920225422.42618-1-djrscally@gmail.com>
+ <20210920225422.42618-3-djrscally@gmail.com>
+ <YUmhuYiFoSL21bj4@paasikivi.fi.intel.com>
+ <6fda38af-2556-4796-b3c5-a80a864466f4@gmail.com>
+ <YUnUtdXpYdoIyb4s@paasikivi.fi.intel.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <f19d6824-07e7-1647-db81-5c98d25308d1@gmail.com>
+Date:   Wed, 22 Sep 2021 13:26:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <6f8140bd-9cff-e0d8-e014-b3fb8d2d8ab0@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YUnUtdXpYdoIyb4s@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 22.09.21 um 14:20 schrieb Tvrtko Ursulin:
+Hi Sakari
+
+On 21/09/2021 13:48, Sakari Ailus wrote:
+> Hi Daniel,
 >
-> On 22/09/2021 13:15, Christian König wrote:
->> Am 22.09.21 um 13:46 schrieb Tvrtko Ursulin:
+> On Tue, Sep 21, 2021 at 12:47:56PM +0100, Daniel Scally wrote:
+>>> +
+>>> +static int ov5693_get_exposure(struct ov5693_device *ov5693, s32 *value)
+>>> +{
+>>> +	u8 exposure_hh = 0, exposure_h = 0, exposure_l = 0;
+>>> +	int ret;
+>>> +
+>>> +	ret = ov5693_read_reg(ov5693, OV5693_EXPOSURE_L_CTRL_HH_REG, &exposure_hh);
+>>> +	if (ret)
+>>> +		return ret;
+>>> +
+>>> +	ret = ov5693_read_reg(ov5693, OV5693_EXPOSURE_L_CTRL_H_REG, &exposure_h);
+>>> +	if (ret)
+>>> +		return ret;
+>>> +
+>>> +	ret = ov5693_read_reg(ov5693, OV5693_EXPOSURE_L_CTRL_L_REG, &exposure_l);
+>>> +	if (ret)
+>>> +		return ret;
+>>> Does the sensor not allow reading this register as a single operation?
 >>>
->>> On 22/09/2021 11:21, Tvrtko Ursulin wrote:
->>>>
->>>> On 22/09/2021 10:10, Christian König wrote:
->>>>> This makes the function much simpler since the complex
->>>>> retry logic is now handled else where.
->>>>>
->>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>>> ---
->>>>>   drivers/gpu/drm/i915/gem/i915_gem_busy.c | 35 
->>>>> ++++++++++--------------
->>>>>   1 file changed, 14 insertions(+), 21 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c 
->>>>> b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
->>>>> index 6234e17259c1..313afb4a11c7 100644
->>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
->>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
->>>>> @@ -82,8 +82,8 @@ i915_gem_busy_ioctl(struct drm_device *dev, void 
->>>>> *data,
->>>>>   {
->>>>>       struct drm_i915_gem_busy *args = data;
->>>>>       struct drm_i915_gem_object *obj;
->>>>> -    struct dma_resv_list *list;
->>>>> -    unsigned int seq;
->>>>> +    struct dma_resv_iter cursor;
->>>>> +    struct dma_fence *fence;
->>>>>       int err;
->>>>>       err = -ENOENT;
->>>>> @@ -109,27 +109,20 @@ i915_gem_busy_ioctl(struct drm_device *dev, 
->>>>> void *data,
->>>>>        * to report the overall busyness. This is what the 
->>>>> wait-ioctl does.
->>>>>        *
->>>>>        */
->>>>> -retry:
->>>>> -    seq = raw_read_seqcount(&obj->base.resv->seq);
->>>>> -
->>>>> -    /* Translate the exclusive fence to the READ *and* WRITE 
->>>>> engine */
->>>>> -    args->busy = 
->>>>> busy_check_writer(dma_resv_excl_fence(obj->base.resv));
->>>>> -
->>>>> -    /* Translate shared fences to READ set of engines */
->>>>> -    list = dma_resv_shared_list(obj->base.resv);
->>>>> -    if (list) {
->>>>> -        unsigned int shared_count = list->shared_count, i;
->>>>> -
->>>>> -        for (i = 0; i < shared_count; ++i) {
->>>>> -            struct dma_fence *fence =
->>>>> -                rcu_dereference(list->shared[i]);
->>>>> -
->>>>> +    args->busy = false;
->>>>
->>>> You can drop this line, especially since it is not a boolean. With 
->>>> that:
->>>>
->>>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>
->>> Having said this, one thing to add in the commit message is some 
->>> commentary that although simpler in code, the new implementation has 
->>> a lot more atomic instructions due all the extra fence get/put.
->>>
->>> Saying this because I remembered busy ioctl is quite an over-popular 
->>> one. Thinking about traces from some real userspaces I looked at in 
->>> the past.
->>>
->>> So I think ack from maintainers will be required here. Because I 
->>> just don't know if any performance impact will be visible or not. So 
->>> view my r-b as "code looks fine" but I am on the fence if it should 
->>> actually be merged. Probably leaning towards no actually - given how 
->>> the code is localised here and I dislike burdening old platforms 
->>> with more CPU time it could be cheaply left as is.
+>>> Just a question. Some sensors from the vendor do not. Same for the writes.
 >>
->> Well previously we would have allocated memory, which as far as I 
->> know has more overhead than a few extra atomic operations.
+>> It does; if I'm honest I just preferred the individual read/writes. I
+>> find it's easier to see exactly what's going on. Happy to change it if
+>> you prefer though - it's less important now that the work is mostly done.
+> It's certainly not wrong to do that but it takes a longer time. So you're
+> much, much more likely to miss the frame you intended the settings to take
+> effect. Also note the device could have a specific order in which to write
+> them for the update to be atomic. Missing this could cause wildly
+> misexposed frames. I don't know if this one does.
 >
-> It doesn't, it only uses dma_resv_excl_fence and dma_resv_shared_list.
-
-Yeah, ok then that's not really an option any more.
-
-I think Daniel and I are totally on the same page that we won't allow 
-this RCU dance in the drivers any more.
-
-Regards,
-Christian.
-
->
-> Regards,
->
-> Tvrtko
->
->> On the other hand I could as well stick with dma_resv_get_fences() here.
->>
->> Regards,
->> Christian.
->>
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>
->>>>
->>>> Regards,
->>>>
->>>> Tvrtko
->>>>
->>>>> + dma_resv_iter_begin(&cursor, obj->base.resv, true);
->>>>> +    dma_resv_for_each_fence_unlocked(&cursor, fence) {
->>>>> +        if (dma_resv_iter_is_restarted(&cursor))
->>>>> +            args->busy = 0;
->>>>> +
->>>>> +        if (dma_resv_iter_is_exclusive(&cursor))
->>>>> +            /* Translate the exclusive fence to the READ *and* 
->>>>> WRITE engine */
->>>>> +            args->busy |= busy_check_writer(fence);
->>>>> +        else
->>>>> +            /* Translate shared fences to READ set of engines */
->>>>>               args->busy |= busy_check_reader(fence);
->>>>> -        }
->>>>>       }
->>>>> -
->>>>> -    if (args->busy && read_seqcount_retry(&obj->base.resv->seq, 
->>>>> seq))
->>>>> -        goto retry;
->>>>> +    dma_resv_iter_end(&cursor);
->>>>>       err = 0;
->>>>>   out:
->>>>>
->>
-
+The datasheet doesn't mention a specific ordering, but I take your point
+about the timings. I'll look at switching it to a single write operation.
