@@ -2,134 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19384414CB9
-	for <lists+linux-media@lfdr.de>; Wed, 22 Sep 2021 17:09:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B0684151EA
+	for <lists+linux-media@lfdr.de>; Wed, 22 Sep 2021 22:55:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236363AbhIVPK6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Sep 2021 11:10:58 -0400
-Received: from mga02.intel.com ([134.134.136.20]:7977 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232274AbhIVPK6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Sep 2021 11:10:58 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="210852638"
-X-IronPort-AV: E=Sophos;i="5.85,314,1624345200"; 
-   d="scan'208";a="210852638"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2021 08:09:26 -0700
-X-IronPort-AV: E=Sophos;i="5.85,314,1624345200"; 
-   d="scan'208";a="704054443"
-Received: from bbrowne-mobl.ger.corp.intel.com (HELO [10.213.200.151]) ([10.213.200.151])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2021 08:09:23 -0700
-Subject: Re: [PATCH 01/26] dma-buf: add dma_resv_for_each_fence_unlocked v4
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc:     daniel@ffwll.ch
-References: <20210922091044.2612-1-christian.koenig@amd.com>
- <20210922091044.2612-2-christian.koenig@amd.com>
- <093432d2-de8e-9684-03aa-7cb4842ea755@linux.intel.com>
- <347e66cf-fd85-da15-6a00-cecab25c2d49@gmail.com>
-From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <3ea25ac4-19f9-530e-8961-cb5b1822a11b@linux.intel.com>
-Date:   Wed, 22 Sep 2021 16:09:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S237874AbhIVU4q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Sep 2021 16:56:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34026 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237881AbhIVU4l (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 22 Sep 2021 16:56:41 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A961C0613E0
+        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 13:55:07 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id u18so16608879lfd.12
+        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 13:55:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=ijKrByR1/KtEp2Ut8Wj0vMi00kBZm/A/r1gPwOEYZIg=;
+        b=fr8lNb1tzuroNDnbJJtYWeXOCGZbssrkZvaRy8HVdYCeSSxS96vSwd3R2+r1vg3M6/
+         ex66FoD7Oi9BZ+eroN2ctcLno3UxJhL89X1t6yEsFayGc2q4Pz0zZQBaUGqcHr3s/S1+
+         lgIwwHuJ4O8SDnA5oR3zC/CFwa9fWO84703n6I2aQyNKP1VzeqgyNRTdZaVTG81gy6Vx
+         t6u58+esbUQxWBZY5IFD1w784RDrV2U7d72/V+RQAoF8LyHU+KHsqwJTuZK+RI9xoYHQ
+         hU/k+XKo5P60J+yjbN5r0LQMnBzU5qvJitpMdoh7dt6f9DChJ/lZbweVN/xESakomSrI
+         Tc/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=ijKrByR1/KtEp2Ut8Wj0vMi00kBZm/A/r1gPwOEYZIg=;
+        b=g7hwlbfPTNeIoVjfShVI69EAUuuxU+hcmwaiJlD+TQ1jcTJMD1kZ724yzq4G3mQbHe
+         FMXmEHulKA4cuah61V9l31ZXwCOnSBVqcT8U/56m0bLwtJ972UXi9fEadcj8twrJCqHR
+         5kDzi1WondI+7AawzUjO8W+1dmX9TslNsLY0xYvPF98yuUdnbIuHNZ0e7voftSZ/xjAj
+         f1IsitdRFQNkWJVlBmFbND2MT64oEoz5Y0wJSsJEe/3He1IB/dzp9xYfoVIFe29on883
+         Vl0RegLESuzwNIm6yHeIx7xKbhagMnv4OUS0fX5EmC0RrQQKFCAmzyIrMX5l7YplbUeR
+         JlmA==
+X-Gm-Message-State: AOAM5315LUJSs8wE8Sj3+yfjg4CAG2of16VY1CQgzKnbBG6iiMmBXoZE
+        kHtx2m33iOY47TQlB/27EqM1Xyii+ZFLmEcs6lPdtCRU6E4=
+X-Google-Smtp-Source: ABdhPJwYYn7ZwazUxB30/XTxKCOf4dlZaC6TfP1ljKsU4ZNb40cpLRsdAvw7sAb51nYQkeG7S6W5vU7Cgq+lC3FYxgE=
+X-Received: by 2002:a05:651c:1546:: with SMTP id y6mr1383813ljp.53.1632344095088;
+ Wed, 22 Sep 2021 13:54:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <347e66cf-fd85-da15-6a00-cecab25c2d49@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Sender: ratcliffijames58@gmail.com
+Received: by 2002:a05:6504:5067:0:0:0:0 with HTTP; Wed, 22 Sep 2021 13:54:54
+ -0700 (PDT)
+From:   Aisha Al-Qaddafi <aisha.gdaffi24@gmail.com>
+Date:   Wed, 22 Sep 2021 21:54:54 +0100
+X-Google-Sender-Auth: B3PIuwFz7UcaHNCffYC8akvbLEk
+Message-ID: <CAKVTYWSPSMf085dB7FkhkLr9XtoZHkjbvunoMard5qsSPn4ZOg@mail.gmail.com>
+Subject: My Dear Friend
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On 22/09/2021 15:50, Christian König wrote:
-> Am 22.09.21 um 16:36 schrieb Tvrtko Ursulin:
->>> +
->>> +/**
->>> + * dma_resv_iter_first_unlocked - first fence in an unlocked 
->>> dma_resv obj.
->>> + * @cursor: the cursor with the current position
->>> + *
->>> + * Returns the first fence from an unlocked dma_resv obj.
->>> + */
->>> +struct dma_fence *dma_resv_iter_first_unlocked(struct dma_resv_iter 
->>> *cursor)
->>> +{
->>> +    rcu_read_lock();
->>> +    do {
->>> +        dma_resv_iter_restart_unlocked(cursor);
->>> +        dma_resv_iter_walk_unlocked(cursor);
->>> +    } while (read_seqcount_retry(&cursor->obj->seq, cursor->seq));
->>> +    rcu_read_unlock();
->>> +
->>> +    return cursor->fence;
->>> +}
->>> +EXPORT_SYMBOL(dma_resv_iter_first_unlocked);
->>
->> Why is this one split from dma_resv_iter_begin and even exported?
-> 
-> I've split it to be able to use dma_resv_iter_begin in both the unlocked 
-> and locked iterator.
-
-Ok.
-
-> 
->> I couldn't find any users in the series.
-> 
-> This is used in the dma_resv_for_each_fence_unlocked() macro to return 
-> the first fence.
-
-Doh!
-
->>> +
->>> +/**
->>> + * dma_resv_iter_next_unlocked - next fence in an unlocked dma_resv 
->>> obj.
->>> + * @cursor: the cursor with the current position
->>> + *
->>> + * Returns the next fence from an unlocked dma_resv obj.
->>> + */
->>> +struct dma_fence *dma_resv_iter_next_unlocked(struct dma_resv_iter 
->>> *cursor)
->>> +{
->>> +    bool restart;
->>> +
->>> +    rcu_read_lock();
->>> +    cursor->is_restarted = false;
->>> +    restart = read_seqcount_retry(&cursor->obj->seq, cursor->seq);
->>> +    do {
->>> +        if (restart)
->>> +            dma_resv_iter_restart_unlocked(cursor);
->>> +        dma_resv_iter_walk_unlocked(cursor);
->>> +        restart = true;
->>> +    } while (read_seqcount_retry(&cursor->obj->seq, cursor->seq));
->>> +    rcu_read_unlock();
->>> +
->>> +    return cursor->fence;
->>> +}
->>> +EXPORT_SYMBOL(dma_resv_iter_next_unlocked);
->>
->> Couldn't dma_resv_iter_first_unlocked and dma_resv_iter_next_unlocked 
->> share the same implementation? Especially if you are able to replace 
->> cursor->is_restarted with cursor->index == -1.
-> 
-> That's what I had initially, but Daniel disliked it for some reason. You 
-> then need a centralized walk function instead of first/next.
-
-I had some ideas to only consolidate "first" and "next" helpers but never mind, yours is fine as well.
-
-Regards,
-
-Tvrtko
-
-> 
-> Thanks,
-> Christian.
-> 
->> Regards,
->>
->> Tvrtko
-> 
+Assalamu alaikum,
+I came across your e-mail contact prior to a private search while in
+need of your assistance. I am Aisha Al-Qaddafi, the only biological,
+Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
+single Mother and a Widow with three Children. I have investment funds
+worth Twenty Seven Million Five Hundred Thousand United State Dollar
+($27.500.000.00 ) and i need a trusted  investment Manager/Partner
+because of my current refugee status, however, I am interested in you
+for investment project assistance in your country. If you are willing
+to handle this project on my behalf kindly reply urgently to enable me
+to provide you more information about the investment
+funds.
+Best Regards
