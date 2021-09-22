@@ -2,72 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B0684151EA
-	for <lists+linux-media@lfdr.de>; Wed, 22 Sep 2021 22:55:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A896415394
+	for <lists+linux-media@lfdr.de>; Thu, 23 Sep 2021 00:47:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237874AbhIVU4q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Sep 2021 16:56:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34026 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237881AbhIVU4l (ORCPT
+        id S238330AbhIVWtO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Sep 2021 18:49:14 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60108 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229506AbhIVWtN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Sep 2021 16:56:41 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A961C0613E0
-        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 13:55:07 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id u18so16608879lfd.12
-        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 13:55:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=ijKrByR1/KtEp2Ut8Wj0vMi00kBZm/A/r1gPwOEYZIg=;
-        b=fr8lNb1tzuroNDnbJJtYWeXOCGZbssrkZvaRy8HVdYCeSSxS96vSwd3R2+r1vg3M6/
-         ex66FoD7Oi9BZ+eroN2ctcLno3UxJhL89X1t6yEsFayGc2q4Pz0zZQBaUGqcHr3s/S1+
-         lgIwwHuJ4O8SDnA5oR3zC/CFwa9fWO84703n6I2aQyNKP1VzeqgyNRTdZaVTG81gy6Vx
-         t6u58+esbUQxWBZY5IFD1w784RDrV2U7d72/V+RQAoF8LyHU+KHsqwJTuZK+RI9xoYHQ
-         hU/k+XKo5P60J+yjbN5r0LQMnBzU5qvJitpMdoh7dt6f9DChJ/lZbweVN/xESakomSrI
-         Tc/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=ijKrByR1/KtEp2Ut8Wj0vMi00kBZm/A/r1gPwOEYZIg=;
-        b=g7hwlbfPTNeIoVjfShVI69EAUuuxU+hcmwaiJlD+TQ1jcTJMD1kZ724yzq4G3mQbHe
-         FMXmEHulKA4cuah61V9l31ZXwCOnSBVqcT8U/56m0bLwtJ972UXi9fEadcj8twrJCqHR
-         5kDzi1WondI+7AawzUjO8W+1dmX9TslNsLY0xYvPF98yuUdnbIuHNZ0e7voftSZ/xjAj
-         f1IsitdRFQNkWJVlBmFbND2MT64oEoz5Y0wJSsJEe/3He1IB/dzp9xYfoVIFe29on883
-         Vl0RegLESuzwNIm6yHeIx7xKbhagMnv4OUS0fX5EmC0RrQQKFCAmzyIrMX5l7YplbUeR
-         JlmA==
-X-Gm-Message-State: AOAM5315LUJSs8wE8Sj3+yfjg4CAG2of16VY1CQgzKnbBG6iiMmBXoZE
-        kHtx2m33iOY47TQlB/27EqM1Xyii+ZFLmEcs6lPdtCRU6E4=
-X-Google-Smtp-Source: ABdhPJwYYn7ZwazUxB30/XTxKCOf4dlZaC6TfP1ljKsU4ZNb40cpLRsdAvw7sAb51nYQkeG7S6W5vU7Cgq+lC3FYxgE=
-X-Received: by 2002:a05:651c:1546:: with SMTP id y6mr1383813ljp.53.1632344095088;
- Wed, 22 Sep 2021 13:54:55 -0700 (PDT)
+        Wed, 22 Sep 2021 18:49:13 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85775E52;
+        Thu, 23 Sep 2021 00:47:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1632350861;
+        bh=/JIfGkpHJEOWf70+fx28BF1bpVMNHC1Qx+yk5ONMQZY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FoC+oxH6+XHWFhejlBZDMmfCUhMwh6uHdZ5u0HN4duv3Xd7LY4u7hGMjgn3SHuyCT
+         jmGKay7MRcR1GDPc9FdVlryW3o9sS14wh0mFyHdfmxEOS6Xig4dpqXNyDEyU0yNTF6
+         Rgaf1J3LhEuoe3NIKGyoOnkJBrY/q/k0co4cNWC8=
+Date:   Thu, 23 Sep 2021 01:47:40 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Cai Huoqing <caihuoqing@baidu.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: vsp1: Make use of the helper function
+ devm_platform_ioremap_resource()
+Message-ID: <YUuyjEibbug/Taal@pendragon.ideasonboard.com>
+References: <20210901055709.8079-1-caihuoqing@baidu.com>
 MIME-Version: 1.0
-Sender: ratcliffijames58@gmail.com
-Received: by 2002:a05:6504:5067:0:0:0:0 with HTTP; Wed, 22 Sep 2021 13:54:54
- -0700 (PDT)
-From:   Aisha Al-Qaddafi <aisha.gdaffi24@gmail.com>
-Date:   Wed, 22 Sep 2021 21:54:54 +0100
-X-Google-Sender-Auth: B3PIuwFz7UcaHNCffYC8akvbLEk
-Message-ID: <CAKVTYWSPSMf085dB7FkhkLr9XtoZHkjbvunoMard5qsSPn4ZOg@mail.gmail.com>
-Subject: My Dear Friend
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210901055709.8079-1-caihuoqing@baidu.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Assalamu alaikum,
-I came across your e-mail contact prior to a private search while in
-need of your assistance. I am Aisha Al-Qaddafi, the only biological,
-Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
-single Mother and a Widow with three Children. I have investment funds
-worth Twenty Seven Million Five Hundred Thousand United State Dollar
-($27.500.000.00 ) and i need a trusted  investment Manager/Partner
-because of my current refugee status, however, I am interested in you
-for investment project assistance in your country. If you are willing
-to handle this project on my behalf kindly reply urgently to enable me
-to provide you more information about the investment
-funds.
-Best Regards
+Hi Cai,
+
+Thank you for the patch.
+
+On Wed, Sep 01, 2021 at 01:57:08PM +0800, Cai Huoqing wrote:
+> Use the devm_platform_ioremap_resource() helper instead of
+> calling platform_get_resource() and devm_ioremap_resource()
+> separately
+> 
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/platform/vsp1/vsp1_drv.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
+> index de442d6c9926..8acd6d45d8d0 100644
+> --- a/drivers/media/platform/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
+> @@ -785,7 +785,6 @@ static int vsp1_probe(struct platform_device *pdev)
+>  	struct vsp1_device *vsp1;
+>  	struct device_node *fcp_node;
+>  	struct resource *irq;
+> -	struct resource *io;
+>  	unsigned int i;
+>  	int ret;
+>  
+> @@ -800,8 +799,7 @@ static int vsp1_probe(struct platform_device *pdev)
+>  	platform_set_drvdata(pdev, vsp1);
+>  
+>  	/* I/O and IRQ resources (clock managed by the clock PM domain). */
+> -	io = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	vsp1->mmio = devm_ioremap_resource(&pdev->dev, io);
+> +	vsp1->mmio = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(vsp1->mmio))
+>  		return PTR_ERR(vsp1->mmio);
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
