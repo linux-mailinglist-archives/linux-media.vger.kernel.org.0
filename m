@@ -2,22 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ADAE4145D1
-	for <lists+linux-media@lfdr.de>; Wed, 22 Sep 2021 12:12:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E387A4145D5
+	for <lists+linux-media@lfdr.de>; Wed, 22 Sep 2021 12:12:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234717AbhIVKN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Sep 2021 06:13:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52408 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234709AbhIVKN2 (ORCPT
+        id S234761AbhIVKNf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Sep 2021 06:13:35 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:58038 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234706AbhIVKNb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Sep 2021 06:13:28 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACA82C061756;
-        Wed, 22 Sep 2021 03:11:58 -0700 (PDT)
+        Wed, 22 Sep 2021 06:13:31 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: andrzej.p)
-        with ESMTPSA id BA9231F437DF
+        with ESMTPSA id 840F81F437E2
 From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
@@ -39,9 +36,9 @@ Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
         Sascha Hauer <s.hauer@pengutronix.de>,
         Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v5 01/10] hantro: postproc: Fix motion vector space size
-Date:   Wed, 22 Sep 2021 12:11:37 +0200
-Message-Id: <20210922101146.13762-2-andrzej.p@collabora.com>
+Subject: [PATCH v5 02/10] hantro: postproc: Introduce struct hantro_postproc_ops
+Date:   Wed, 22 Sep 2021 12:11:38 +0200
+Message-Id: <20210922101146.13762-3-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210922101146.13762-1-andrzej.p@collabora.com>
 References: <20210922101146.13762-1-andrzej.p@collabora.com>
@@ -51,42 +48,227 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Ezequiel Garcia <ezequiel@collabora.com>
 
-When the post-processor hardware block is enabled, the driver
-allocates an internal queue of buffers for the decoder enginer,
-and uses the vb2 queue for the post-processor engine.
-
-For instance, on a G1 core, the decoder engine produces NV12 buffers
-and the post-processor engine can produce YUY2 buffers. The decoder
-engine expects motion vectors to be appended to the NV12 buffers,
-but this is only required for CODECs that need motion vectors,
-such as H.264.
-
-Fix the post-processor logic accordingly.
+Turns out the post-processor block on the G2 core is substantially
+different from the one on the G1 core. Introduce hantro_postproc_ops
+with .enable and .disable methods, which will allow to support
+the G2 post-processor cleanly.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- drivers/staging/media/hantro/hantro_postproc.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/staging/media/hantro/hantro.h         |  5 +--
+ drivers/staging/media/hantro/hantro_hw.h      | 13 +++++++-
+ .../staging/media/hantro/hantro_postproc.c    | 33 ++++++++++++++-----
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   |  2 +-
+ .../staging/media/hantro/rockchip_vpu_hw.c    |  6 ++--
+ .../staging/media/hantro/sama5d4_vdec_hw.c    |  2 +-
+ 6 files changed, 44 insertions(+), 17 deletions(-)
 
+diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+index c2e2dca38628..c2e01959dc00 100644
+--- a/drivers/staging/media/hantro/hantro.h
++++ b/drivers/staging/media/hantro/hantro.h
+@@ -28,6 +28,7 @@
+ 
+ struct hantro_ctx;
+ struct hantro_codec_ops;
++struct hantro_postproc_ops;
+ 
+ #define HANTRO_JPEG_ENCODER	BIT(0)
+ #define HANTRO_ENCODERS		0x0000ffff
+@@ -59,6 +60,7 @@ struct hantro_irq {
+  * @num_dec_fmts:		Number of decoder formats.
+  * @postproc_fmts:		Post-processor formats.
+  * @num_postproc_fmts:		Number of post-processor formats.
++ * @postproc_ops:		Post-processor ops.
+  * @codec:			Supported codecs
+  * @codec_ops:			Codec ops.
+  * @init:			Initialize hardware, optional.
+@@ -69,7 +71,6 @@ struct hantro_irq {
+  * @num_clocks:			number of clocks in the array
+  * @reg_names:			array of register range names
+  * @num_regs:			number of register range names in the array
+- * @postproc_regs:		&struct hantro_postproc_regs pointer
+  */
+ struct hantro_variant {
+ 	unsigned int enc_offset;
+@@ -80,6 +81,7 @@ struct hantro_variant {
+ 	unsigned int num_dec_fmts;
+ 	const struct hantro_fmt *postproc_fmts;
+ 	unsigned int num_postproc_fmts;
++	const struct hantro_postproc_ops *postproc_ops;
+ 	unsigned int codec;
+ 	const struct hantro_codec_ops *codec_ops;
+ 	int (*init)(struct hantro_dev *vpu);
+@@ -90,7 +92,6 @@ struct hantro_variant {
+ 	int num_clocks;
+ 	const char * const *reg_names;
+ 	int num_regs;
+-	const struct hantro_postproc_regs *postproc_regs;
+ };
+ 
+ /**
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index df7b5e3a57b9..4323e63dfbfc 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -170,6 +170,17 @@ struct hantro_postproc_ctx {
+ 	struct hantro_aux_buf dec_q[VB2_MAX_FRAME];
+ };
+ 
++/**
++ * struct hantro_postproc_ops - post-processor operations
++ *
++ * @enable:	Enable the post-processor block. Optional.
++ * @disable:	Disable the post-processor block. Optional.
++ */
++struct hantro_postproc_ops {
++	void (*enable)(struct hantro_ctx *ctx);
++	void (*disable)(struct hantro_ctx *ctx);
++};
++
+ /**
+  * struct hantro_codec_ops - codec mode specific operations
+  *
+@@ -217,7 +228,7 @@ extern const struct hantro_variant rk3328_vpu_variant;
+ extern const struct hantro_variant rk3399_vpu_variant;
+ extern const struct hantro_variant sama5d4_vdec_variant;
+ 
+-extern const struct hantro_postproc_regs hantro_g1_postproc_regs;
++extern const struct hantro_postproc_ops hantro_g1_postproc_ops;
+ 
+ extern const u32 hantro_vp8_dec_mc_filter[8][6];
+ 
 diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
-index ed8916c950a4..07842152003f 100644
+index 07842152003f..882fb8bc5ddd 100644
 --- a/drivers/staging/media/hantro/hantro_postproc.c
 +++ b/drivers/staging/media/hantro/hantro_postproc.c
-@@ -132,9 +132,10 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
- 	unsigned int num_buffers = cap_queue->num_buffers;
- 	unsigned int i, buf_size;
+@@ -15,14 +15,14 @@
+ #define HANTRO_PP_REG_WRITE(vpu, reg_name, val) \
+ { \
+ 	hantro_reg_write(vpu, \
+-			 &(vpu)->variant->postproc_regs->reg_name, \
++			 &hantro_g1_postproc_regs.reg_name, \
+ 			 val); \
+ }
  
--	buf_size = ctx->dst_fmt.plane_fmt[0].sizeimage +
--		   hantro_h264_mv_size(ctx->dst_fmt.width,
--				       ctx->dst_fmt.height);
-+	buf_size = ctx->dst_fmt.plane_fmt[0].sizeimage;
-+	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE)
-+		buf_size += hantro_h264_mv_size(ctx->dst_fmt.width,
-+						ctx->dst_fmt.height);
+ #define HANTRO_PP_REG_WRITE_S(vpu, reg_name, val) \
+ { \
+ 	hantro_reg_write_s(vpu, \
+-			   &(vpu)->variant->postproc_regs->reg_name, \
++			   &hantro_g1_postproc_regs.reg_name, \
+ 			   val); \
+ }
  
- 	for (i = 0; i < num_buffers; ++i) {
- 		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
+@@ -64,16 +64,13 @@ bool hantro_needs_postproc(const struct hantro_ctx *ctx,
+ 	return fmt->fourcc != V4L2_PIX_FMT_NV12;
+ }
+ 
+-void hantro_postproc_enable(struct hantro_ctx *ctx)
++static void hantro_postproc_g1_enable(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct vb2_v4l2_buffer *dst_buf;
+ 	u32 src_pp_fmt, dst_pp_fmt;
+ 	dma_addr_t dst_dma;
+ 
+-	if (!vpu->variant->postproc_regs)
+-		return;
+-
+ 	/* Turn on pipeline mode. Must be done first. */
+ 	HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x1);
+ 
+@@ -154,12 +151,30 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+ 	return 0;
+ }
+ 
++static void hantro_postproc_g1_disable(struct hantro_ctx *ctx)
++{
++	struct hantro_dev *vpu = ctx->dev;
++
++	HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x0);
++}
++
+ void hantro_postproc_disable(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+ 
+-	if (!vpu->variant->postproc_regs)
+-		return;
++	if (vpu->variant->postproc_ops && vpu->variant->postproc_ops->disable)
++		vpu->variant->postproc_ops->disable(ctx);
++}
+ 
+-	HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x0);
++void hantro_postproc_enable(struct hantro_ctx *ctx)
++{
++	struct hantro_dev *vpu = ctx->dev;
++
++	if (vpu->variant->postproc_ops && vpu->variant->postproc_ops->enable)
++		vpu->variant->postproc_ops->enable(ctx);
+ }
++
++const struct hantro_postproc_ops hantro_g1_postproc_ops = {
++	.enable = hantro_postproc_g1_enable,
++	.disable = hantro_postproc_g1_disable,
++};
+diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+index ea919bfb9891..22fa7d2f3b64 100644
+--- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
++++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+@@ -262,7 +262,7 @@ const struct hantro_variant imx8mq_vpu_variant = {
+ 	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_dec_fmts),
+ 	.postproc_fmts = imx8m_vpu_postproc_fmts,
+ 	.num_postproc_fmts = ARRAY_SIZE(imx8m_vpu_postproc_fmts),
+-	.postproc_regs = &hantro_g1_postproc_regs,
++	.postproc_ops = &hantro_g1_postproc_ops,
+ 	.codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER |
+ 		 HANTRO_H264_DECODER,
+ 	.codec_ops = imx8mq_vpu_codec_ops,
+diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+index d4f52957cc53..6c1ad5534ce5 100644
+--- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
++++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+@@ -460,7 +460,7 @@ const struct hantro_variant rk3036_vpu_variant = {
+ 	.num_dec_fmts = ARRAY_SIZE(rk3066_vpu_dec_fmts),
+ 	.postproc_fmts = rockchip_vpu1_postproc_fmts,
+ 	.num_postproc_fmts = ARRAY_SIZE(rockchip_vpu1_postproc_fmts),
+-	.postproc_regs = &hantro_g1_postproc_regs,
++	.postproc_ops = &hantro_g1_postproc_ops,
+ 	.codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER |
+ 		 HANTRO_H264_DECODER,
+ 	.codec_ops = rk3036_vpu_codec_ops,
+@@ -485,7 +485,7 @@ const struct hantro_variant rk3066_vpu_variant = {
+ 	.num_dec_fmts = ARRAY_SIZE(rk3066_vpu_dec_fmts),
+ 	.postproc_fmts = rockchip_vpu1_postproc_fmts,
+ 	.num_postproc_fmts = ARRAY_SIZE(rockchip_vpu1_postproc_fmts),
+-	.postproc_regs = &hantro_g1_postproc_regs,
++	.postproc_ops = &hantro_g1_postproc_ops,
+ 	.codec = HANTRO_JPEG_ENCODER | HANTRO_MPEG2_DECODER |
+ 		 HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
+ 	.codec_ops = rk3066_vpu_codec_ops,
+@@ -505,7 +505,7 @@ const struct hantro_variant rk3288_vpu_variant = {
+ 	.num_dec_fmts = ARRAY_SIZE(rk3288_vpu_dec_fmts),
+ 	.postproc_fmts = rockchip_vpu1_postproc_fmts,
+ 	.num_postproc_fmts = ARRAY_SIZE(rockchip_vpu1_postproc_fmts),
+-	.postproc_regs = &hantro_g1_postproc_regs,
++	.postproc_ops = &hantro_g1_postproc_ops,
+ 	.codec = HANTRO_JPEG_ENCODER | HANTRO_MPEG2_DECODER |
+ 		 HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
+ 	.codec_ops = rk3288_vpu_codec_ops,
+diff --git a/drivers/staging/media/hantro/sama5d4_vdec_hw.c b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
+index 9c3b8cd0b239..f3fecc7248c4 100644
+--- a/drivers/staging/media/hantro/sama5d4_vdec_hw.c
++++ b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
+@@ -100,7 +100,7 @@ const struct hantro_variant sama5d4_vdec_variant = {
+ 	.num_dec_fmts = ARRAY_SIZE(sama5d4_vdec_fmts),
+ 	.postproc_fmts = sama5d4_vdec_postproc_fmts,
+ 	.num_postproc_fmts = ARRAY_SIZE(sama5d4_vdec_postproc_fmts),
+-	.postproc_regs = &hantro_g1_postproc_regs,
++	.postproc_ops = &hantro_g1_postproc_ops,
+ 	.codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER |
+ 		 HANTRO_H264_DECODER,
+ 	.codec_ops = sama5d4_vdec_codec_ops,
 -- 
 2.17.1
 
