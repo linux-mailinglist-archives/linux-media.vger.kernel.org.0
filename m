@@ -2,81 +2,289 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4277C413D5C
-	for <lists+linux-media@lfdr.de>; Wed, 22 Sep 2021 00:10:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AD57413F52
+	for <lists+linux-media@lfdr.de>; Wed, 22 Sep 2021 04:18:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233239AbhIUWML (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Sep 2021 18:12:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59224 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232126AbhIUWMK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Sep 2021 18:12:10 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27B05C061574;
-        Tue, 21 Sep 2021 15:10:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=v9xs1pYnvq2mMhHNuk00kIzDTAiGnzqh/c77kIT9Xwo=; b=IuB0pESrmsLN+qF56rKwzt+fTj
-        MjAkC6L5Plz6ts38t5SkUqZmZyy/0099PNFEi9rmrroQmmPVvtB454rmu7pQls1eRb5UESbtRIihW
-        FlJQYa8z8fr0RbDSk/suhcIO5i7oPPHGJLGr8U4XO/KVMNw2e1vb7YTtOyMan1HJnvwQpRNhTFaKt
-        RiIJ4CnXVxyEJhsKXJTJDDDpZUBD8DPAGGcRZGgF2B+0Jn/cIYGQZeXsfE3Kb4XXbjMTdfwlUAAj8
-        uNd4luTQFzKAGOCy1melNP7t7HN07hGqRN6H5rhtJMbWJCOHMuLFf3cwl0GmSDER8LSrNsNDh22vM
-        wtcnHOrQ==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mSnyL-00695J-67; Tue, 21 Sep 2021 22:10:41 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>, Sean Young <sean@mess.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: [PATCH v2] media: CEC: keep related menu entries together
-Date:   Tue, 21 Sep 2021 15:10:40 -0700
-Message-Id: <20210921221040.14515-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+        id S229638AbhIVCTk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Sep 2021 22:19:40 -0400
+Received: from mail-dm6nam10on2078.outbound.protection.outlook.com ([40.107.93.78]:37770
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229505AbhIVCTj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Sep 2021 22:19:39 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PwXwiOdeM9JI8f/jnWyQRo4R1PZsPyw8GBw7xlpJFLvrtmEsmlbpZhKeOhn0zd2fRbucUTALElyq7BEjCBOCm4SuAHqPRLr2mu3fnGWdvi+R0/3uPyYZRHqucOP3nhgQ9M96XTPCU2p0EDX5C6B5Td7u7pEBgOZaag3ymDtTtFWUZKW+FAr6rvR0N40bC52P8AEV2PYgzsP9Lk8902hML550MLf1gzd2vwm/jpmOL+ZYqyi5co7a/qvUeuqDEFxgnsoXlUN4+OZG/NP0OFrJMPjf+1LmfBXGXGNYvQ0TCjx+Iiq9SXoB72pD6cv2KtZDUhGZVspiSaEEgTkvTpGiZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=+Tg64OnQEuYlDiGXri9RFPqr9taNWeFKX6YPS9O1IrU=;
+ b=PaaUqkb1XUgIt6jBhMxgJPEOzUDvwG9PAllnjW7ZCHdyzNi+jgs1EP7OXLJmjm8Ba1rkmoXQzhUDvEB7B44kgDzxXNpvulshb2S6EXc1UtI46c4NewYc3kk7kzZc2qBFBqm6ce/XhjmLxrkOtyec9QVnZKJ1CX4Lb5grJneqtus6BfrbGEFEypzHtD6ZkG7msuAumEIX2H5onY/J+RCeb0iZ8RnzC/TU2FF5nLJPnU7xz+/mEYLQCzWvpm74laRMcP2q3pGbqi0jVzQBqbJYk7Cxg9StuSlkrI7SPwULkHiqYfHs+6SDW7wVi3aGwRcgphUky+gloGtulQ1qppPiZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+Tg64OnQEuYlDiGXri9RFPqr9taNWeFKX6YPS9O1IrU=;
+ b=laRPFjBEIBirAbC63XKXJRQsveEiukU7jIsZhj85S87tkid3j2x+4Iz+kVN2BpviSnh9JXuP3Uzw40JSamFdT2j0o6XVtRCDrQ0HkMju33smLNwtoVHOU+5l5WjdEzcThlY7XVRzu9TZItfs9Orpzzq75uPQc6HZENxCstXm7NU=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com (2603:10b6:3:111::23)
+ by DM5PR12MB1932.namprd12.prod.outlook.com (2603:10b6:3:10e::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14; Wed, 22 Sep
+ 2021 02:18:05 +0000
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::3153:3d7b:e216:74c0]) by DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::3153:3d7b:e216:74c0%11]) with mapi id 15.20.4523.018; Wed, 22 Sep
+ 2021 02:18:04 +0000
+Subject: Re: [PATCH v3 4/9] drm/scheduler: Add fence deadline support
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Rob Clark <robdclark@chromium.org>,
+        David Airlie <airlied@linux.ie>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Steven Price <steven.price@arm.com>,
+        Melissa Wen <mwen@igalia.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Jack Zhang <Jack.Zhang1@amd.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+References: <20210903184806.1680887-1-robdclark@gmail.com>
+ <20210903184806.1680887-5-robdclark@gmail.com>
+ <101628ea-23c9-4bc0-5abc-a5b71b0fccc1@amd.com>
+ <CAF6AEGt+jiJLaTDVnnVrZm-766OhPfj9wESJxP-FrX3S_c67gQ@mail.gmail.com>
+From:   Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Message-ID: <d8f43401-c673-b9ce-d5ca-090fec2cb4c3@amd.com>
+Date:   Tue, 21 Sep 2021 22:18:01 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <CAF6AEGt+jiJLaTDVnnVrZm-766OhPfj9wESJxP-FrX3S_c67gQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: YTOPR0101CA0001.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:15::14) To DM5PR12MB1947.namprd12.prod.outlook.com
+ (2603:10b6:3:111::23)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from [IPv6:2607:fea8:3edf:49b0:591f:ecc8:119a:23e7] (2607:fea8:3edf:49b0:591f:ecc8:119a:23e7) by YTOPR0101CA0001.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13 via Frontend Transport; Wed, 22 Sep 2021 02:18:03 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fb56e280-f74a-487c-7da4-08d97d6f359b
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1932:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR12MB193215135376FB144AF3967EEAA29@DM5PR12MB1932.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mdn7e8PVLlaiTllXfVqijkP0AxyQf6nYbDaOPsg3vexaE0hPSqLAvsF04XQ5Mu9BZduS79ixjSjkYPBytIDQE+lWCQwfiAL9exS4Yz9DM7gID1fN3BnWVb9/xV1WtWN6+SqKSp3o8arhm6WPxMfhwO4fnJ5zNLAhKw/E6JylxCb9YMFbbzp1X3+qd0F1pzyHrkIU9mnnIYxYYvAAyXwkehYxgxYpDZ+qHhVI0Tkl06GyLhz3mxV06Q8ijOVwLuQknUhgXChiIlshvd83vUkEMwaRIHIMO56UGJGVlXM9tIgX4yRc26vkmvriR/qvc2pINlu+pcO61mIQb6C3HaZfbPCo4vUHFQ35ogLD+nOzxUQAtabcWrT3RTQxFPdK9OiYPSd13l+jTZwGqnGzgLtP8p7Y4KUm+9FzabI5yjxUlNMon6s2gkW4nfXocft1sSej9w8Z4yqajwnGK4mjmkrbGuAq3fIiLmUeSGUF3VQ2BEsxhA/9P4xXcjyyrI2Ne2fJnpPv/MedI7Go12KyQ9Brfz1+DdLN/QiZQpncM4VGlVo8Or3eu9JxwgI0agwopamSv7TrVQKC72db0PcU+c7LPZUm4UEg5CAJzztEOsKLah/oUr2mAB/XJ2mHCjdxa05oN/thtej0AWFoxBSB0rFNv0WC25x6UC6fkLQ6It7CodxT2AmB5rDpXN6C1S0U/drNQlqDNAkb3v+aaCCMBIvNxasGctANijU4IwBuO1g42wQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR12MB1947.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6916009)(4326008)(38100700002)(53546011)(86362001)(44832011)(2616005)(7416002)(8676002)(66946007)(31686004)(83380400001)(31696002)(2906002)(36756003)(508600001)(66476007)(66556008)(316002)(54906003)(8936002)(186003)(5660300002)(6486002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R0o2bTNMRWtmU1M1RDY3MkNwTEpaU3dUSHhvTkJEUmlMYUsvV1RNd01lQ3lL?=
+ =?utf-8?B?d3YvZWdscHZVdTJML0RvdkRQZHZSc05jWlYzTHY1Tk0zVWQyQ0xqZkxVcGI4?=
+ =?utf-8?B?SlBQTkkraCtoTGNoeSs2VytZN0RQa1hVa0Z2eWViVjl0VjlUc1lJWGRaU0VZ?=
+ =?utf-8?B?eHBKazRlNGhtMG54UHcvYVA1cDhxUlFBR2xiVmRvSlZ6WDZCeldJOWxIWDJs?=
+ =?utf-8?B?aVMyWlpKeVhLVmQrdld2S21vRCtNTEFZMnZsQmFzc0Q5RkI5YVg2ZVMwYTVZ?=
+ =?utf-8?B?Q0NDeEJGcERTRDR4SHFrd3RxOEVZQmVEWGJkUnBwVkcxZlBVYUMzYW1qOXpJ?=
+ =?utf-8?B?L2djaGZpUmZwdEVXeTJ3R2UvYXFTck8wSVYzejhKVHQ1SURVMG1Ma25BL0x6?=
+ =?utf-8?B?RXh2bW5FZkRoZjdLSEl1L1lhcVdDSXF1WG1pK2pMeXdYcFd4YmNUNXhnWjNZ?=
+ =?utf-8?B?aXh6UmUveXhZRGFIdTg2eVNLYzl5aVVIaVJLRVRrcTRHcVh5cXkwTUlkNFpz?=
+ =?utf-8?B?MmN2SEVvZlltbVcrbEFQS2VWUzR5WWszemtuUndHbkgzUWttSytnV1QreVBK?=
+ =?utf-8?B?Nk9jbEpTempJTzBMemYrMHRzN2xWL0JER2lMS1gwWjV0bDF0MHRqN2xBTHpp?=
+ =?utf-8?B?T2taOGoxRUJIUWp0Nzc5czFmc2NjUURXVDNmMEVPZzJrVmFrSGI2MXlFN2tt?=
+ =?utf-8?B?RUxkWTd6bW5VcXBzUVU5aDJnMkYwUWd5N2ppUGNMUndmc3AvU1FzSXBTU09J?=
+ =?utf-8?B?eUZoeTVXd0x3OVNXeUgrT082dXUxVVorWkNDSklLUHB6V0VLaE1ZZlJOTnhk?=
+ =?utf-8?B?TDR4dXZMYnVyRGdtQjJYZ1E1VFhMMFdKUVVWcDJkcmhlc2hEQWZ2a1o5Y2Vh?=
+ =?utf-8?B?ZWtML0ViWFFEZVdFK0F0WVdXenEvM3RwRFN5WGxpdS93TUVIZHBJNkFpTnJL?=
+ =?utf-8?B?Ry9sYi9YZnhtdU1FcXZjOWwwcEZjMVdDSUhIUDFtNHZsYTNJNWYzWHFFL0xT?=
+ =?utf-8?B?MGxtL2hCd25aWGZsMXcvT2tkNmZOK0RGUExaRU1uKzdndUNqa2VEK1JCSzRh?=
+ =?utf-8?B?aHpaNXFUdzhGejJGSVF2c2lKRndmVGZVTWkzMlBrdjJqTE5YaFZXM2d3ODRk?=
+ =?utf-8?B?bERpYjZ0QVo3Vi9XSG1yR2llc0J1T3lsTjlrNnovUUtPMjliQlNBVEszMHVq?=
+ =?utf-8?B?NW9McGFFVDIvcUN2SUl2MTNVQmJoYXg4R21yYmVEanQxQ3pQbExrQ3FUQ1pL?=
+ =?utf-8?B?Rzh2QkI4MHI2WjdZalJuanhDK1JjU1orMzIrT3RTanpOZnNlOWEvUDRvQlhk?=
+ =?utf-8?B?SHhlZTNOV0ZqZEJVVytPMmdyRktaRFE0ZWZoNVJtZVY4K0lmekUzQ1BzWUts?=
+ =?utf-8?B?SUpJa0xRZ3Zka2lneWxNWjRrVmIrQTZlN20vb1ZFc002M1RKbGVYU1ZjVFBD?=
+ =?utf-8?B?cjhtQ2QrQWthdmpFR2pHc2NYVjBEaTBaang1Sy8zaWNlMjM2R2pWbDFUamxa?=
+ =?utf-8?B?VXdBbWRGZUNRYzVlWSswWEp4WGxuSU1KdTBwUUhONXBCdFNpa1EzL1BWZ3M0?=
+ =?utf-8?B?U2RNTnNZOUtHNFVaNGZ2UkdPQkcyWUVlM2U5Q2pOV3lIQnYyK3FNNXZLRGpR?=
+ =?utf-8?B?MmNzZ2o0eG1hNkRzdktkcjdTcnkyWXpJUzFFQjhzTVRmM0d4aTFNNjFiRDV5?=
+ =?utf-8?B?RGI2dDR4bmVFWTNBWk82ek9aNDhuUk5jQUFRK0hnMzdMcjVmTVIvV05Bc01N?=
+ =?utf-8?B?a0JDZzljM2xEYkVmMjdoN1Q4MXRZckJVWGtuMXJWZ2FOSUJLbjF4UWhaaXE4?=
+ =?utf-8?B?dnl0TEhXdGRVUWFvMktpYVZLL3hPWEtKRDdqNWpCbkNHK25EUzh6RG1EZzYz?=
+ =?utf-8?Q?+S+ipLoCHuCBh?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb56e280-f74a-487c-7da4-08d97d6f359b
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1947.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2021 02:18:04.6769
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WweeSDzyCPUtKXzPwcOlyIpq9mi8yUfk9Fl8/gVHWAid5f04po9+TwpKFBrBchUEXMKtqLxrcXOeKlt4sbHWJw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1932
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Keep all of the CEC menu items grouped together.
-By grouping all of these menu entries inside a menu/endmenu block,
-they are forced to be kept together and they are displayed/presented
-in a group for users.
 
-Tested with xconfig, gconfig, menuconfig, and nconfig.
+On 2021-09-21 4:47 p.m., Rob Clark wrote:
+> On Tue, Sep 21, 2021 at 1:09 PM Andrey Grodzovsky
+> <andrey.grodzovsky@amd.com> wrote:
+>> On 2021-09-03 2:47 p.m., Rob Clark wrote:
+>>
+>>> From: Rob Clark <robdclark@chromium.org>
+>>>
+>>> As the finished fence is the one that is exposed to userspace, and
+>>> therefore the one that other operations, like atomic update, would
+>>> block on, we need to propagate the deadline from from the finished
+>>> fence to the actual hw fence.
+>>>
+>>> v2: Split into drm_sched_fence_set_parent() (ckoenig)
+>>>
+>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>> ---
+>>>    drivers/gpu/drm/scheduler/sched_fence.c | 34 +++++++++++++++++++++++++
+>>>    drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
+>>>    include/drm/gpu_scheduler.h             |  8 ++++++
+>>>    3 files changed, 43 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+>>> index bcea035cf4c6..4fc41a71d1c7 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+>>> @@ -128,6 +128,30 @@ static void drm_sched_fence_release_finished(struct dma_fence *f)
+>>>        dma_fence_put(&fence->scheduled);
+>>>    }
+>>>
+>>> +static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
+>>> +                                               ktime_t deadline)
+>>> +{
+>>> +     struct drm_sched_fence *fence = to_drm_sched_fence(f);
+>>> +     unsigned long flags;
+>>> +
+>>> +     spin_lock_irqsave(&fence->lock, flags);
+>>> +
+>>> +     /* If we already have an earlier deadline, keep it: */
+>>> +     if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
+>>> +         ktime_before(fence->deadline, deadline)) {
+>>> +             spin_unlock_irqrestore(&fence->lock, flags);
+>>> +             return;
+>>> +     }
+>>> +
+>>> +     fence->deadline = deadline;
+>>> +     set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
+>>> +
+>>> +     spin_unlock_irqrestore(&fence->lock, flags);
+>>> +
+>>> +     if (fence->parent)
+>>> +             dma_fence_set_deadline(fence->parent, deadline);
+>>> +}
+>>> +
+>>>    static const struct dma_fence_ops drm_sched_fence_ops_scheduled = {
+>>>        .get_driver_name = drm_sched_fence_get_driver_name,
+>>>        .get_timeline_name = drm_sched_fence_get_timeline_name,
+>>> @@ -138,6 +162,7 @@ static const struct dma_fence_ops drm_sched_fence_ops_finished = {
+>>>        .get_driver_name = drm_sched_fence_get_driver_name,
+>>>        .get_timeline_name = drm_sched_fence_get_timeline_name,
+>>>        .release = drm_sched_fence_release_finished,
+>>> +     .set_deadline = drm_sched_fence_set_deadline_finished,
+>>>    };
+>>>
+>>>    struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
+>>> @@ -152,6 +177,15 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
+>>>    }
+>>>    EXPORT_SYMBOL(to_drm_sched_fence);
+>>>
+>>> +void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
+>>> +                             struct dma_fence *fence)
+>>> +{
+>>> +     s_fence->parent = dma_fence_get(fence);
+>>> +     if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
+>>> +                  &s_fence->finished.flags))
+>>> +             dma_fence_set_deadline(fence, s_fence->deadline);
+>>
+>> I believe above you should pass be s_fence->finished to
+>> dma_fence_set_deadline
+>> instead it fence which is the HW fence itself.
+> Hmm, unless this has changed recently with some patches I don't have,
+> s_fence->parent is the one signalled by hw, so it is the one we want
+> to set the deadline on
+>
+> BR,
+> -R
 
-Fixes: 46d2a3b964dd ("media: place CEC menu before MEDIA_SUPPORT")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Sean Young <sean@mess.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
-v2: use CEC support menu as suggested by Hans Verkuil
 
- drivers/media/cec/Kconfig |    4 ++++
- 1 file changed, 4 insertions(+)
+No it didn't change. But then when exactly will 
+drm_sched_fence_set_deadline_finished
+execute such that fence->parent != NULL ? In other words, I am not clear 
+how propagation
+happens otherwise - if dma_fence_set_deadline is called with the HW 
+fence then the assumption
+here is that driver provided driver specific 
+dma_fence_ops.dma_fence_set_deadline callback executes
+but I was under impression that drm_sched_fence_set_deadline_finished is 
+the one that propagates
+the deadline to the HW fence's callback and for it to execute 
+dma_fence_set_deadline needs to be called
+with s_fence->finished.
 
---- linux-next-20210921.orig/drivers/media/cec/Kconfig
-+++ linux-next-20210921/drivers/media/cec/Kconfig
-@@ -8,6 +8,8 @@ config CEC_NOTIFIER
- config CEC_PIN
- 	bool
- 
-+menu "CEC support"
-+
- config MEDIA_CEC_RC
- 	bool "HDMI CEC RC integration"
- 	depends on CEC_CORE && RC_CORE
-@@ -37,3 +39,5 @@ source "drivers/media/cec/i2c/Kconfig"
- source "drivers/media/cec/platform/Kconfig"
- source "drivers/media/cec/usb/Kconfig"
- endif
-+
-+endmenu
+Andrey
+
+
+
+>
+>> Andrey
+>>
+>>
+>>> +}
+>>> +
+>>>    struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
+>>>                                              void *owner)
+>>>    {
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index 595e47ff7d06..27bf0ac0625f 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -978,7 +978,7 @@ static int drm_sched_main(void *param)
+>>>                drm_sched_fence_scheduled(s_fence);
+>>>
+>>>                if (!IS_ERR_OR_NULL(fence)) {
+>>> -                     s_fence->parent = dma_fence_get(fence);
+>>> +                     drm_sched_fence_set_parent(s_fence, fence);
+>>>                        r = dma_fence_add_callback(fence, &sched_job->cb,
+>>>                                                   drm_sched_job_done_cb);
+>>>                        if (r == -ENOENT)
+>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>>> index 7f77a455722c..158ddd662469 100644
+>>> --- a/include/drm/gpu_scheduler.h
+>>> +++ b/include/drm/gpu_scheduler.h
+>>> @@ -238,6 +238,12 @@ struct drm_sched_fence {
+>>>             */
+>>>        struct dma_fence                finished;
+>>>
+>>> +     /**
+>>> +      * @deadline: deadline set on &drm_sched_fence.finished which
+>>> +      * potentially needs to be propagated to &drm_sched_fence.parent
+>>> +      */
+>>> +     ktime_t                         deadline;
+>>> +
+>>>            /**
+>>>             * @parent: the fence returned by &drm_sched_backend_ops.run_job
+>>>             * when scheduling the job on hardware. We signal the
+>>> @@ -505,6 +511,8 @@ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
+>>>                                   enum drm_sched_priority priority);
+>>>    bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
+>>>
+>>> +void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
+>>> +                             struct dma_fence *fence);
+>>>    struct drm_sched_fence *drm_sched_fence_alloc(
+>>>        struct drm_sched_entity *s_entity, void *owner);
+>>>    void drm_sched_fence_init(struct drm_sched_fence *fence,
