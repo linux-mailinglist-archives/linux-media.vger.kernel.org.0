@@ -2,112 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD901415761
-	for <lists+linux-media@lfdr.de>; Thu, 23 Sep 2021 06:22:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17E36415817
+	for <lists+linux-media@lfdr.de>; Thu, 23 Sep 2021 08:08:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238259AbhIWEXd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Sep 2021 00:23:33 -0400
-Received: from mail-wr1-f44.google.com ([209.85.221.44]:36509 "EHLO
-        mail-wr1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbhIWEXa (ORCPT
+        id S239271AbhIWGKY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Sep 2021 02:10:24 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:47850 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239226AbhIWGKY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Sep 2021 00:23:30 -0400
-Received: by mail-wr1-f44.google.com with SMTP id g16so13238364wrb.3;
-        Wed, 22 Sep 2021 21:21:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lz+dbdxsH1ZK2pJhZeOXoDpDI3RmHY4duyLP2ZtdPes=;
-        b=niROZRJZblJAKdI37jP2F2K37/sABAL9P2ptilWWr2Eb9o/B/0PyRJUswriK4MnMWu
-         ecK9Q/+naf4fjAeNvJkGQ8gw+8UeRS8HSSBRQ8mBCBSMW9IVNF0Fvys9wkM2hXBC27fm
-         VNVKn6rEr5qWM0FPXRDDeCMiUU336Y7hgHpdtZb3PIZSDWTzRKvzY/9vpU23XatoAizm
-         R1SYrEIk2vp7boHs81qjN63AsDSVYRsCUNyPpq3u1f1R4IBnbw8a6/Dx8iWKwj3J72ZL
-         X9i1wSGsNcnNEZ/iNFOLU663qjjx0sqoTSChEjluDqwW8x6cKaLFKtmiK7n7SYC++lKN
-         JhjA==
-X-Gm-Message-State: AOAM530Nn/yUuoOyu9CL6qSfHnnN1e5w1qOAFkP9vVZCpnsW4EzLgXiQ
-        COtqjacZzLx6G2PneGVB/yrR+sAlrU1zew==
-X-Google-Smtp-Source: ABdhPJz2YNKJT1U4yPmQDRoWT5cGQdrgZF6UEz/a9GlZwZUP4EthrMuQMXmFEee07caR0m4083vX1w==
-X-Received: by 2002:adf:f789:: with SMTP id q9mr2497783wrp.367.1632370918780;
-        Wed, 22 Sep 2021 21:21:58 -0700 (PDT)
-Received: from rocinante ([95.155.85.46])
-        by smtp.gmail.com with ESMTPSA id f19sm3765545wmf.11.2021.09.22.21.21.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 21:21:58 -0700 (PDT)
-Date:   Thu, 23 Sep 2021 06:21:57 +0200
-From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To:     Dongdong Liu <liudongdong3@huawei.com>
-Cc:     helgaas@kernel.org, hch@infradead.org, logang@deltatee.com,
-        leon@kernel.org, linux-pci@vger.kernel.org, rajur@chelsio.com,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH V9 4/8] PCI/sysfs: Add a 10-Bit Tag sysfs file PCIe
- Endpoint devices
-Message-ID: <YUwA5eC7wiDoHy0F@rocinante>
-References: <20210922133655.51811-1-liudongdong3@huawei.com>
- <20210922133655.51811-5-liudongdong3@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210922133655.51811-5-liudongdong3@huawei.com>
+        Thu, 23 Sep 2021 02:10:24 -0400
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 22 Sep 2021 23:08:52 -0700
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 22 Sep 2021 23:08:50 -0700
+X-QCInternal: smtphost
+Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 23 Sep 2021 11:38:33 +0530
+Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
+        id B5B9321D9B; Thu, 23 Sep 2021 11:38:32 +0530 (IST)
+From:   Dikshita Agarwal <dikshita@codeaurora.org>
+To:     agross@kernel.org, bjorn.andersson@linaro.org, robh+dt@kernel.org,
+        mchehab@kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        vgarodia@codeaurora.org, stanimir.varbanov@linaro.org,
+        Dikshita Agarwal <dikshita@codeaurora.org>
+Subject: [RESEND PATCH v3] dt-bindings: media: venus: Add sc7280 dt schema
+Date:   Thu, 23 Sep 2021 11:38:29 +0530
+Message-Id: <1632377309-25148-1-git-send-email-dikshita@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Add a schema description for the venus video encoder/decoder on the sc7280.
 
-Thank you for sending the patch over!  A few small comments below.
+Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+ .../bindings/media/qcom,sc7280-venus.yaml          | 159 +++++++++++++++++++++
+ 1 file changed, 159 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
 
-[...]
-> +static ssize_t pci_10bit_tag_store(struct device *dev,
-> +				   struct device_attribute *attr,
-> +				   const char *buf, size_t count)
-> +{
-> +	struct pci_dev *pdev = to_pci_dev(dev);
-> +	bool enable;
+diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+new file mode 100644
+index 0000000..b8574db
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+@@ -0,0 +1,159 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/media/qcom,sc7280-venus.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Qualcomm Venus video encode and decode accelerators
++
++maintainers:
++  - Stanimir Varbanov <stanimir.varbanov@linaro.org>
++
++description: |
++  The Venus Iris2 IP is a video encode and decode accelerator present
++  on Qualcomm platforms
++
++properties:
++  compatible:
++    const: qcom,sc7280-venus
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    minItems: 2
++    maxItems: 3
++
++  power-domain-names:
++    minItems: 2
++    maxItems: 3
++    items:
++      - const: venus
++      - const: vcodec0
++      - const: cx
++
++  clocks:
++    maxItems: 5
++
++  clock-names:
++    items:
++      - const: core
++      - const: bus
++      - const: iface
++      - const: vcodec_core
++      - const: vcodec_bus
++
++  iommus:
++    maxItems: 2
++
++  memory-region:
++    maxItems: 1
++
++  interconnects:
++    maxItems: 2
++
++  interconnect-names:
++    items:
++      - const: cpu-cfg
++      - const: video-mem
++
++  video-decoder:
++    type: object
++
++    properties:
++      compatible:
++        const: venus-decoder
++
++    required:
++      - compatible
++
++    additionalProperties: false
++
++  video-encoder:
++    type: object
++
++    properties:
++      compatible:
++        const: venus-encoder
++
++    required:
++      - compatible
++
++    additionalProperties: false
++
++  video-firmware:
++    type: object
++
++    description: |
++      Firmware subnode is needed when the platform does not
++      have TrustZone.
++
++    properties:
++      iommus:
++        maxItems: 1
++
++    required:
++      - iommus
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - power-domains
++  - power-domain-names
++  - clocks
++  - clock-names
++  - iommus
++  - memory-region
++  - video-decoder
++  - video-encoder
++
++additionalProperties: false
++
++examples:
++  - |
++        #include <dt-bindings/clock/qcom,videocc-sc7280.h>
++
++        venus: video-codec@aa00000 {
++                compatible = "qcom,sc7280-venus";
++                reg = <0x0aa00000 0xd0600>;
++                interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
++
++                clocks = <&videocc VIDEO_CC_MVSC_CORE_CLK>,
++                         <&videocc VIDEO_CC_MVSC_CTL_AXI_CLK>,
++                         <&videocc VIDEO_CC_VENUS_AHB_CLK>,
++                         <&videocc VIDEO_CC_MVS0_CORE_CLK>,
++                         <&videocc VIDEO_CC_MVS0_AXI_CLK>;
++                clock-names = "core", "bus", "iface",
++                              "vcodec_core", "vcodec_bus";
++
++                power-domains = <&videocc MVSC_GDSC>,
++                                <&videocc MVS0_GDSC>;
++                                <&rpmhpd SC7280_CX>;
++                power-domain-names = "venus", "vcodec0", "cx";
++
++                interconnects = <&gem_noc MASTER_APPSS_PROC 0 &cnoc2 SLAVE_VENUS_CFG 0>
++                                <&mmss_noc MASTER_VIDEO_P0 0 &mc_virt SLAVE_EBI1 0>;
++                interconnect-names = "cpu-cfg", "video-mem";
++
++                iommus = <&apps_smmu 0x2180 0x20>,
++                         <&apps_smmu 0x2184 0x20>;
++
++                memory-region = <&video_mem>;
++
++                video-decoder {
++                        compatible = "venus-decoder";
++                };
++
++                video-encoder {
++                        compatible = "venus-encoder";
++                };
++
++                video-firmware {
++                        iommus = <&apps_smmu 0x21a2 0x0>;
++                };
++        };
+-- 
+2.7.4
 
-Would you mind adding the following capabilities check here?
-
-	if (!capable(CAP_SYS_ADMIN))
-		return -EPERM;
-
-This is so we make sure that whatever user is going to use this sysfs
-attribute actually has enough permissions to update this value safely.
-
-> +	if (kstrtobool(buf, &enable) < 0)
-> +		return -EINVAL;
-> +
-> +	if (pdev->driver)
-> +		return -EBUSY;
-> +
-> +	if (enable) {
-> +		if (!pcie_rp_10bit_tag_cmp_supported(pdev))
-> +			return -EPERM;
-
-Would it make sense to also verify 10-Bit Tag Completer support on the
-"disable" path too?   We won't be able to set a value if there is no
-support, but nothing will stop us from clearing it regardless - unless
-this would be safe to do?  What do you think?
-
-> +		pcie_capability_set_word(pdev, PCI_EXP_DEVCTL2,
-> +				PCI_EXP_DEVCTL2_10BIT_TAG_REQ_EN);
-> +	} else {
-> +		pcie_capability_clear_word(pdev, PCI_EXP_DEVCTL2,
-> +				   PCI_EXP_DEVCTL2_10BIT_TAG_REQ_EN);
-> +	}
-> +
-> +	return count;
-> +}
-
-[...]
-> +> +static umode_t pcie_dev_10bit_tag_attrs_are_visible(struct kobject *kobj,
-> +					  struct attribute *a, int n)
-
-The preferred function name for the .is_visible() callback in a case when
-there is only a single sysfs attribute being added would be:
-
-  pcie_dev_10bit_tag_attr_is_visible()
-
-Albeit, I appreciate that you followed the existing naming pattern.
-
-	Krzysztof
