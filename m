@@ -2,101 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8759416381
-	for <lists+linux-media@lfdr.de>; Thu, 23 Sep 2021 18:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B34DD416576
+	for <lists+linux-media@lfdr.de>; Thu, 23 Sep 2021 20:55:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233256AbhIWQpN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Sep 2021 12:45:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51464 "EHLO
+        id S242767AbhIWS51 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Sep 2021 14:57:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230139AbhIWQpN (ORCPT
+        with ESMTP id S242714AbhIWS50 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Sep 2021 12:45:13 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 975BDC061574
-        for <linux-media@vger.kernel.org>; Thu, 23 Sep 2021 09:43:41 -0700 (PDT)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1mTRox-0007X7-VN; Thu, 23 Sep 2021 18:43:39 +0200
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH] media: tc358743: implement pre_streamon to put all lanes into LP-11 state
-Date:   Thu, 23 Sep 2021 18:43:32 +0200
-Message-Id: <20210923164332.18227-1-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+        Thu, 23 Sep 2021 14:57:26 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 135BEC061574
+        for <linux-media@vger.kernel.org>; Thu, 23 Sep 2021 11:55:55 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id on12-20020a17090b1d0c00b001997c60aa29so6211599pjb.1
+        for <linux-media@vger.kernel.org>; Thu, 23 Sep 2021 11:55:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=x7Vr/aRDyGeVK9MaMQ+9Co/rIvQuWSRbimrl9mSx9Uk=;
+        b=HeS2pHRN6buN4CaNA8kt5APOtlE5mdBkHZw24SYPRZJAvS5TDbSC+NnH3Q2Lgn5EQV
+         x4rV5QCmB4ZNmTetnRiDhAkk/XvzGaa7TX0D6cPDM5+4D7Ad23nMsMro+ASqihBioaPm
+         cAAMPXyddjwvE4vewiGL8fPl+PzgZEVc8HN+sKvmS5INoQwS5G6Gbl4adklYx5z998Xn
+         OIzRUc/X2L0Rtj+p5w6TFt0/qs+bgKZeqS6PVso/SgoRBjWHNBV3UTonQMEiuDa5+XPX
+         13zPvlWtIB35NUjxkGue/Dpel3D+9j+ShFrpKZbcjee5vMr9E5bpQgt/gM4AQpAQs4gT
+         l5yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=x7Vr/aRDyGeVK9MaMQ+9Co/rIvQuWSRbimrl9mSx9Uk=;
+        b=X2yvHhczoYVr4ZggaTpDJTyPyhCQoViaJz3p/dzj639PPLSC4xOzoJCJZajrDPHTC+
+         7EDXAd0i4EVJLFoSi1xbnvgjQa45Bann8C/CxEbqDQS6U7vSiqDtPgnK+c0tWuo6gCPo
+         aGgeXw2jIkfh+pi2KObmQXDJNlEWUv1iMq+Qv1EEAq3o1Ug+AJeeyeCKGpgQfBViS/Il
+         HfR2az/D8DyNy+R/h9nuOwG+exNJE+186DUEDAw5KxXjGciG6wlyGuF3meDIbobG9Gld
+         DfusmXLc4Vhf/YqBNIEwoE2mAVQfknCkSr/cHzJ/T3KwxYEBzVzlRfFmembVR/umgDX8
+         wN0A==
+X-Gm-Message-State: AOAM530wIV2TJ/bASAoZXTb9KDgoVHLEMe9gWxThHQ78Qq0W1OjhlTCR
+        9uzk9tf4d7fmj88XpiQ2kE7xwER2QhgsIuGTTEk=
+X-Google-Smtp-Source: ABdhPJzB9Apu4bip7V8sdhH9qgsaxqnmELpG/bC3qdhckf823QI7EXfs/1zBcqkQiXTxjY2AMXM7441bZvK5qq+zKOg=
+X-Received: by 2002:a17:903:1247:b0:139:f1af:c044 with SMTP id
+ u7-20020a170903124700b00139f1afc044mr5516850plh.23.1632423354558; Thu, 23 Sep
+ 2021 11:55:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Received: by 2002:a05:6a10:2d56:0:0:0:0 with HTTP; Thu, 23 Sep 2021 11:55:54
+ -0700 (PDT)
+Reply-To: sotowkane@yahoo.com
+From:   Abu Dhabi <penerodidier@gmail.com>
+Date:   Thu, 23 Sep 2021 19:55:54 +0100
+Message-ID: <CAGHUYFe7Z0x40To=1g_CdTXGA3-Zb0dgoQp-duifXZ4XyKPciw@mail.gmail.com>
+Subject: information
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the connected MIPI CSI-2 RX driver uses the new pre_streamon subdev
-call, we don't have to reinitialize the CSI-2 TX after streamoff.
-Just put all lanes into LP-11 state during pre_streamon if requested.
-
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
- drivers/media/i2c/tc358743.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index 3205cd8298dd..40eec67604e0 100644
---- a/drivers/media/i2c/tc358743.c
-+++ b/drivers/media/i2c/tc358743.c
-@@ -93,6 +93,7 @@ struct tc358743_state {
- 	struct v4l2_dv_timings timings;
- 	u32 mbus_fmt_code;
- 	u8 csi_lanes_in_use;
-+	bool pre_streamon_used;
- 
- 	struct gpio_desc *reset_gpio;
- 
-@@ -1637,8 +1638,10 @@ static int tc358743_get_mbus_config(struct v4l2_subdev *sd,
- 
- static int tc358743_s_stream(struct v4l2_subdev *sd, int enable)
- {
-+	struct tc358743_state *state = to_state(sd);
-+
- 	enable_stream(sd, enable);
--	if (!enable) {
-+	if (!enable && !state->pre_streamon_used) {
- 		/* Put all lanes in LP-11 state (STOPSTATE) */
- 		tc358743_set_csi(sd);
- 	}
-@@ -1646,6 +1649,19 @@ static int tc358743_s_stream(struct v4l2_subdev *sd, int enable)
- 	return 0;
- }
- 
-+static int tc358743_pre_streamon(struct v4l2_subdev *sd, u32 flags)
-+{
-+	struct tc358743_state *state = to_state(sd);
-+
-+	/* Put all lanes in LP-11 state (STOPSTATE) if requested */
-+	if (flags & V4L2_SUBDEV_PRE_STREAMON_FL_MANUAL_LP)
-+		tc358743_set_csi(sd);
-+
-+	state->pre_streamon_used = true;
-+
-+	return 0;
-+}
-+
- /* --------------- PAD OPS --------------- */
- 
- static int tc358743_enum_mbus_code(struct v4l2_subdev *sd,
-@@ -1840,6 +1856,7 @@ static const struct v4l2_subdev_video_ops tc358743_video_ops = {
- 	.g_dv_timings = tc358743_g_dv_timings,
- 	.query_dv_timings = tc358743_query_dv_timings,
- 	.s_stream = tc358743_s_stream,
-+	.pre_streamon = tc358743_pre_streamon,
- };
- 
- static const struct v4l2_subdev_pad_ops tc358743_pad_ops = {
 -- 
-2.30.2
+Salam-Alaikum:
 
+Dear sir/madam,
+We want to inform you that Abu Dhabi Investment Authority can finance
+your future projects with loans up to US$500 million in the 1st , 2nd
+and third year of contracts.
+
+Contact us by official e-mail: sotowkane@yahoo.com for discussion if
+you are interested.
+
+With regards,
+
+Ali A. Ahmed
+Manager of Creative Operations & Foreign investments Representative.
+Abu Dhabi Investment Authority
