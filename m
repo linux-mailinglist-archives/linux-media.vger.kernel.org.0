@@ -2,98 +2,350 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BD41415528
-	for <lists+linux-media@lfdr.de>; Thu, 23 Sep 2021 03:39:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A2BB41560F
+	for <lists+linux-media@lfdr.de>; Thu, 23 Sep 2021 05:31:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238798AbhIWBlD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Sep 2021 21:41:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42036 "EHLO
+        id S239071AbhIWDcl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Sep 2021 23:32:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238177AbhIWBlD (ORCPT
+        with ESMTP id S239062AbhIWDck (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Sep 2021 21:41:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6632EC061574;
-        Wed, 22 Sep 2021 18:39:32 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC1A645E;
-        Thu, 23 Sep 2021 03:39:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1632361169;
-        bh=j/20tgKuqA5iRVTB505xTu0+Zvhb1fI2O36a/g1D6dk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pcuEEaJOVkqMl32dTGmgQsh1qcNZ+4zlA3z1Sq1qVUH3EedIBwy+eqMX2mUNYAern
-         3L7RXzRzgjLJ6q3MG0xZcT+vN8Dq1Yt4lqw6xnFoBKYy0/gV9i08vOc9nrhVPmgWYt
-         s4U35eu9DMd59AOlmwHNLAJnSLBl2DJEM5MltYy0=
-Date:   Thu, 23 Sep 2021 04:39:27 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
-        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Thomas NIZAN <tnizan@witekio.com>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 5/5] media: rcar-vin: Support multiplexed CSI-2 receiver
-Message-ID: <YUvaz/dOKfQ4wP6v@pendragon.ideasonboard.com>
-References: <20210918150507.987294-1-jacopo+renesas@jmondi.org>
- <20210918150507.987294-6-jacopo+renesas@jmondi.org>
+        Wed, 22 Sep 2021 23:32:40 -0400
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15DD5C061574
+        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 20:31:10 -0700 (PDT)
+Received: by mail-oi1-x22f.google.com with SMTP id w206so7771561oiw.4
+        for <linux-media@vger.kernel.org>; Wed, 22 Sep 2021 20:31:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=WZnkbDqe35agx+YRdoGtlkEIS1vsNJiYQTbIpjWyLqg=;
+        b=P3kClDnLsxyd8P5md1GK2izJhbgXFpqpxbnKHA/qDWSDqZ1P9e4S93LBbgYC62Yq8T
+         R9UaBvr71Hsdw9Qj0ogvmHgPrs9nA1wIHDSmQSuCmI5BXq1lFS+SXlcuuJMu87sN//ts
+         uoAPab1EJfLPjXzcHCtyOod6MCr36/JsjZGHXkrS08VftM1XbrMnc3oaxktFgmfo0vMJ
+         t3zsbSBGmyNFg8GpXBD4sDxGxAGUUstl+bhic/DrGsf1M8oshxwuxGJQR4jQBkF6tgbQ
+         9K8Mc5CYg7yqg3huKD7lL3thxynHYPVd6unTn3tlAVKYNZOFsjTVusdqhsqsmGe5Tnii
+         M9Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=WZnkbDqe35agx+YRdoGtlkEIS1vsNJiYQTbIpjWyLqg=;
+        b=ScgGrJESt91nAvqYrXrAci5poARGHOY55qJ+86QBzTODPI8gCWW7XYrD+gskQpvaaE
+         f/jJM096s6t6pPNHDmm21x3PgtRX+TsGLu7uYrxjtN1OEBtQiCNsV8Xbpa90kRhKCgsm
+         L2jFhTvzbliFkpu9Bu7YE8LDFbhBO95t5/znzQ2KScg+kW8YA1tfSu3xp75pspZkHDU1
+         eKofovoD7+x1bRGbW1C9Pn+LFjvVLSROwhcNqVI4M4+21sUoqtBaXMA+6fDVhiJZSwnD
+         IsUw8xm2+BvFMfPf/+gI1/5rz3LromkGkjXhUmFiCzsmaSxUZXAPShlHPMJJmFbKYb0C
+         DVaQ==
+X-Gm-Message-State: AOAM531s0FXasYUW0X5nJfGAD2BA2AXtX4+u53CyELd73XICTBSG4ikS
+        WsiLnLY7r7QKHEx2FIaGPF+eUA==
+X-Google-Smtp-Source: ABdhPJyEqCFgpzYG5stN1XffFzyyUS7C0XaZxoEnwmEkDrixdgCQQ6CDVf7BYB8h73LGP9V2OIFLXA==
+X-Received: by 2002:a05:6808:618:: with SMTP id y24mr1978169oih.179.1632367868718;
+        Wed, 22 Sep 2021 20:31:08 -0700 (PDT)
+Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id bf6sm1051367oib.0.2021.09.22.20.31.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Sep 2021 20:31:08 -0700 (PDT)
+Date:   Wed, 22 Sep 2021 22:31:06 -0500
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Alexandre Bailon <abailon@baylibre.com>
+Cc:     airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+        matthias.bgg@gmail.com, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de, ohad@wizery.com,
+        mathieu.poirier@linaro.org, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, khilman@baylibre.com,
+        gpain@baylibre.com
+Subject: Re: [RFC PATCH 3/4] rpmsg: Add support of AI Processor Unit (APU)
+Message-ID: <YUv0+jQ/91QdydkR@yoga>
+References: <20210917125945.620097-1-abailon@baylibre.com>
+ <20210917125945.620097-4-abailon@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210918150507.987294-6-jacopo+renesas@jmondi.org>
+In-Reply-To: <20210917125945.620097-4-abailon@baylibre.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+On Fri 17 Sep 07:59 CDT 2021, Alexandre Bailon wrote:
 
-Thank you for the patch.
-
-On Sat, Sep 18, 2021 at 05:05:07PM +0200, Jacopo Mondi wrote:
-> The R-Car CSI-2 receiver supports multiplexed streams.
+> Some Mediatek SoC provides hardware accelerator for AI / ML.
+> This driver use the DRM driver to manage the shared memory,
+> and use rpmsg to execute jobs on the APU.
 > 
-> The VIN driver inspects the CSI-2 subdevice format with the intent of
-> validating formats at stream start time.
-> 
-> Each VIN instance is connected to a CSI-2 receiver which exposes a
-> single stream and since it has acquired support for multiplexed streams
-> maintains the format information in its v4l2_subdev_state per-stream.
-> 
-> Instrument the VIN driver to fetch the CSI-2 receiver format from the
-> streams configuration by setting the stream identifier to 0 and pass to
-> the subdevice its own state where to retrieve format information from.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
 > ---
->  drivers/media/platform/rcar-vin/rcar-dma.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/rpmsg/Kconfig     |  10 +++
+>  drivers/rpmsg/Makefile    |   1 +
+>  drivers/rpmsg/apu_rpmsg.c | 184 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 195 insertions(+)
+>  create mode 100644 drivers/rpmsg/apu_rpmsg.c
 > 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index 83b2f923cf98..a6f3701f3f3f 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -1119,7 +1119,8 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
->  	};
+> diff --git a/drivers/rpmsg/Kconfig b/drivers/rpmsg/Kconfig
+> index 0b4407abdf138..fc1668f795004 100644
+> --- a/drivers/rpmsg/Kconfig
+> +++ b/drivers/rpmsg/Kconfig
+> @@ -73,4 +73,14 @@ config RPMSG_VIRTIO
+>  	select RPMSG_NS
+>  	select VIRTIO
 >  
->  	fmt.pad = pad->index;
-> -	if (v4l2_subdev_call(sd, pad, get_fmt, NULL, &fmt))
-> +	fmt.stream = 0;
-> +	if (v4l2_subdev_call(sd, pad, get_fmt, sd->state, &fmt))
+> +config RPMSG_APU
+> +	tristate "APU RPMSG driver"
+> +	select REMOTEPROC
+> +	select RPMSG_VIRTIO
+> +	select DRM_APU
+> +	help
+> +	  This provides a RPMSG driver that provides some facilities to
+> +	  communicate with an accelerated processing unit (APU).
+> +	  This Uses the APU DRM driver to manage memory and job scheduling.
 
-Should we have a helper function for this ?
+Similar to how a driver for e.g. an I2C device doesn't live in
+drivers/i2c, this doesn't belong in drivers/rpmsg. Probably rather
+directly in the DRM driver.
 
-int v4l2_subdev_get_pad_fmt(struct v4l2_subdev *sd,
-			    struct v4l2_subdev_format *format);
+> +
+>  endmenu
+> diff --git a/drivers/rpmsg/Makefile b/drivers/rpmsg/Makefile
+> index 8d452656f0ee3..8b336b9a817c1 100644
+> --- a/drivers/rpmsg/Makefile
+> +++ b/drivers/rpmsg/Makefile
+> @@ -9,3 +9,4 @@ obj-$(CONFIG_RPMSG_QCOM_GLINK_RPM) += qcom_glink_rpm.o
+>  obj-$(CONFIG_RPMSG_QCOM_GLINK_SMEM) += qcom_glink_smem.o
+>  obj-$(CONFIG_RPMSG_QCOM_SMD)	+= qcom_smd.o
+>  obj-$(CONFIG_RPMSG_VIRTIO)	+= virtio_rpmsg_bus.o
+> +obj-$(CONFIG_RPMSG_APU)		+= apu_rpmsg.o
+> diff --git a/drivers/rpmsg/apu_rpmsg.c b/drivers/rpmsg/apu_rpmsg.c
+> new file mode 100644
+> index 0000000000000..7e504bd176a4d
+> --- /dev/null
+> +++ b/drivers/rpmsg/apu_rpmsg.c
+> @@ -0,0 +1,184 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// Copyright 2020 BayLibre SAS
+> +
+> +#include <asm/cacheflush.h>
+> +
+> +#include <linux/cdev.h>
+> +#include <linux/dma-buf.h>
+> +#include <linux/dma-map-ops.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/iommu.h>
+> +#include <linux/iova.h>
+> +#include <linux/mm.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/remoteproc.h>
+> +#include <linux/rpmsg.h>
+> +#include <linux/slab.h>
+> +#include <linux/types.h>
+> +
+> +#include <drm/apu_drm.h>
+> +
+> +#include "rpmsg_internal.h"
+> +
+> +#define APU_RPMSG_SERVICE_MT8183 "rpmsg-mt8183-apu0"
+> +
+> +struct rpmsg_apu {
+> +	struct apu_core *core;
+> +	struct rpmsg_device *rpdev;
+> +};
+> +
+> +static int apu_rpmsg_callback(struct rpmsg_device *rpdev, void *data, int count,
+> +			      void *priv, u32 addr)
+> +{
+> +	struct rpmsg_apu *apu = dev_get_drvdata(&rpdev->dev);
+> +	struct apu_core *apu_core = apu->core;
+> +
+> +	return apu_drm_callback(apu_core, data, count);
+> +}
+> +
+> +static int apu_rpmsg_send(struct apu_core *apu_core, void *data, int len)
+> +{
+> +	struct rpmsg_apu *apu = apu_drm_priv(apu_core);
+> +	struct rpmsg_device *rpdev = apu->rpdev;
+> +
+> +	return rpmsg_send(rpdev->ept, data, len);
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+The rpmsg API is exposed outside drivers/rpmsg, so as I said above, just
+implement this directly in your driver, no need to lug around a dummy
+wrapper for things like this.
 
->  		return -EPIPE;
->  
->  	switch (fmt.format.code) {
+> +}
+> +
+> +static struct apu_drm_ops apu_rpmsg_ops = {
+> +	.send = apu_rpmsg_send,
+> +};
+> +
+> +static int apu_init_iovad(struct rproc *rproc, struct rpmsg_apu *apu)
+> +{
+> +	struct resource_table *table;
+> +	struct fw_rsc_carveout *rsc;
+> +	int i;
+> +
+> +	if (!rproc->table_ptr) {
+> +		dev_err(&apu->rpdev->dev,
+> +			"No resource_table: has the firmware been loaded ?\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	table = rproc->table_ptr;
+> +	for (i = 0; i < table->num; i++) {
+> +		int offset = table->offset[i];
+> +		struct fw_rsc_hdr *hdr = (void *)table + offset;
+> +
+> +		if (hdr->type != RSC_CARVEOUT)
+> +			continue;
+> +
+> +		rsc = (void *)hdr + sizeof(*hdr);
+> +		if (apu_drm_reserve_iova(apu->core, rsc->da, rsc->len)) {
+> +			dev_err(&apu->rpdev->dev,
+> +				"failed to reserve iova\n");
+> +			return -ENOMEM;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static struct rproc *apu_get_rproc(struct rpmsg_device *rpdev)
+> +{
+> +	/*
+> +	 * To work, the APU RPMsg driver need to get the rproc device.
+> +	 * Currently, we only use virtio so we could use that to find the
+> +	 * remoteproc parent.
+> +	 */
+> +	if (!rpdev->dev.parent && rpdev->dev.parent->bus) {
+> +		dev_err(&rpdev->dev, "invalid rpmsg device\n");
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	if (strcmp(rpdev->dev.parent->bus->name, "virtio")) {
+> +		dev_err(&rpdev->dev, "unsupported bus\n");
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	return vdev_to_rproc(dev_to_virtio(rpdev->dev.parent));
+> +}
+> +
+> +static int apu_rpmsg_probe(struct rpmsg_device *rpdev)
+> +{
+> +	struct rpmsg_apu *apu;
+> +	struct rproc *rproc;
+> +	int ret;
+> +
+> +	apu = devm_kzalloc(&rpdev->dev, sizeof(*apu), GFP_KERNEL);
+> +	if (!apu)
+> +		return -ENOMEM;
+> +	apu->rpdev = rpdev;
+> +
+> +	rproc = apu_get_rproc(rpdev);
 
--- 
+I believe that you can replace apu_get_rproc() with:
+
+	rproc = rproc_get_by_child(&rpdev->dev);
+
+> +	if (IS_ERR_OR_NULL(rproc))
+> +		return PTR_ERR(rproc);
+> +
+> +	/* Make device dma capable by inheriting from parent's capabilities */
+> +	set_dma_ops(&rpdev->dev, get_dma_ops(rproc->dev.parent));
+> +
+> +	ret = dma_coerce_mask_and_coherent(&rpdev->dev,
+> +					   dma_get_mask(rproc->dev.parent));
+> +	if (ret)
+> +		goto err_put_device;
+> +
+> +	rpdev->dev.iommu_group = rproc->dev.parent->iommu_group;
+
+Would it be better or you if we have a device_node, so that you could
+specify the iommus property for this compute device?
+
+I'm asking because I've seen cases where multi-purpose remoteproc
+firmware operate using multiple different iommu streams...
+
+> +
+> +	apu->core = apu_drm_register_core(rproc, &apu_rpmsg_ops, apu);
+> +	if (!apu->core) {
+> +		ret = -ENODEV;
+> +		goto err_put_device;
+> +	}
+> +
+> +	ret = apu_init_iovad(rproc, apu);
+> +
+> +	dev_set_drvdata(&rpdev->dev, apu);
+> +
+> +	return ret;
+> +
+> +err_put_device:
+
+This label looks misplaced, and sure enough, if apu_init_iovad() fails
+you're not apu_drm_unregister_core().
+
+But on that note, don't you want to apu_init_iovad() before you
+apu_drm_register_core()?
+
+> +	devm_kfree(&rpdev->dev, apu);
+
+The reason for using devm_kzalloc() is that once you return
+unsuccessfully from probe, or from remove the memory is freed.
+
+So devm_kfree() should go in both cases.
+
+> +
+> +	return ret;
+> +}
+> +
+> +static void apu_rpmsg_remove(struct rpmsg_device *rpdev)
+> +{
+> +	struct rpmsg_apu *apu = dev_get_drvdata(&rpdev->dev);
+> +
+> +	apu_drm_unregister_core(apu);
+> +	devm_kfree(&rpdev->dev, apu);
+
+No need to explicitly free devm resources.
+
 Regards,
+Bjorn
 
-Laurent Pinchart
+> +}
+> +
+> +static const struct rpmsg_device_id apu_rpmsg_match[] = {
+> +	{ APU_RPMSG_SERVICE_MT8183 },
+> +	{}
+> +};
+> +
+> +static struct rpmsg_driver apu_rpmsg_driver = {
+> +	.probe = apu_rpmsg_probe,
+> +	.remove = apu_rpmsg_remove,
+> +	.callback = apu_rpmsg_callback,
+> +	.id_table = apu_rpmsg_match,
+> +	.drv  = {
+> +		.name  = "apu_rpmsg",
+> +	},
+> +};
+> +
+> +static int __init apu_rpmsg_init(void)
+> +{
+> +	return register_rpmsg_driver(&apu_rpmsg_driver);
+> +}
+> +arch_initcall(apu_rpmsg_init);
+> +
+> +static void __exit apu_rpmsg_exit(void)
+> +{
+> +	unregister_rpmsg_driver(&apu_rpmsg_driver);
+> +}
+> +module_exit(apu_rpmsg_exit);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("APU RPMSG driver");
+> -- 
+> 2.31.1
+> 
