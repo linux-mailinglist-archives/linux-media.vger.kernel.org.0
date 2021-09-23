@@ -2,169 +2,281 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 597C9415AD5
-	for <lists+linux-media@lfdr.de>; Thu, 23 Sep 2021 11:23:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A165415B42
+	for <lists+linux-media@lfdr.de>; Thu, 23 Sep 2021 11:46:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240139AbhIWJY7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Sep 2021 05:24:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46458 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240135AbhIWJY5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Sep 2021 05:24:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C932E61263;
-        Thu, 23 Sep 2021 09:23:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632389005;
-        bh=569bnNYpES6eJYp9Sh/W/cLEjYEtuiHWkMl00AUFATo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=fQJtSnrfM/uDFOLC4+sEDSw5EB7H7cxc8dK5vTSSeTl710WpHddWJx0Hr66Ca9HQM
-         8qC0g9I7MlLwDPXitIG8z2/ArzDVSn1E1QwlbZ67XIdhF+Ja4z1a6VQP87+2Ew13hY
-         NMDaSLdjxwRTfdaUrmXM+q1Z0KXVVlHsMfIIjeIptrczoGFBVc6gIrL3pSlu/nV6/X
-         zmkouwRPfo7eUKGjRTAktnMg3Si1PEqJmp10feLI1nNENxLKxtpJi5nB0okentxAF1
-         Ed6Cca1Uj7LqyVrGwE5L9TMO1BiJEWLbFTcYdIGeq5kTK+xWBJ8vsJNwzR3Owxklu0
-         P//3pQMqoV6tw==
-Received: by mail-oi1-f177.google.com with SMTP id 24so8898905oix.0;
-        Thu, 23 Sep 2021 02:23:25 -0700 (PDT)
-X-Gm-Message-State: AOAM531/4s/3WrnYfbH7uC9ye6czQ/3cCbU7+xhvC41ibaPvdXugowHS
-        Sn1A5jlpiIKjEhXtvlrfomFhMNowUct1SWK5eds=
-X-Google-Smtp-Source: ABdhPJwKBW01i95TFVqcwwbcPPgUwOWxzKr7jYu4H/HoqIheB/NC+qNNGiwFvXSSXyXpLyrB2yaAMvBWhJmz0vqOyW4=
-X-Received: by 2002:aca:230f:: with SMTP id e15mr11840674oie.154.1632389005065;
- Thu, 23 Sep 2021 02:23:25 -0700 (PDT)
+        id S240224AbhIWJrh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Sep 2021 05:47:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37590 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240212AbhIWJrg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 Sep 2021 05:47:36 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66CDEC061574
+        for <linux-media@vger.kernel.org>; Thu, 23 Sep 2021 02:46:05 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1EC645E;
+        Thu, 23 Sep 2021 11:46:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1632390362;
+        bh=/CJWm00iSn8RcfqSPfHUx3InHMkqMdytgc3rmPmss7E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UNpVyLGxj505otHDvILaXcl3uDYrMSmyHneNoH7xoEc1SCd81TCBC9KCsTr1/F/S5
+         CpscwCcjiD6o5YR/ikJleSC05KmBHkEgMyxIe4F4QjepXT3kP4m6eHO+WLw0Cfw/pX
+         FVeCbQWl+9g1P6ah/hpQSa6UGU4j1Wteq+OTIfkE=
+Date:   Thu, 23 Sep 2021 12:45:59 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     "Cao, Bingbu" <bingbu.cao@intel.com>
+Cc:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "tfiga@google.com" <tfiga@google.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+Subject: Re: [PATCH] media: staging: ipu3-imgu: Initialise height_per_slice
+ in the stripes
+Message-ID: <YUxM18uOp0eamBPH@pendragon.ideasonboard.com>
+References: <20210916172504.677919-1-jeanmichel.hautbois@ideasonboard.com>
+ <YUm82RNBbu9VbQj9@paasikivi.fi.intel.com>
+ <19a2a09a-dcdd-fc32-0410-7f752cceffb5@ideasonboard.com>
+ <YUntTJQwZJ7U3m/E@pendragon.ideasonboard.com>
+ <DM8PR11MB5653D63F3F76CA1D9E80E01199A29@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <a8a0ee6f-e83c-7f99-6967-f017c549ff05@ideasonboard.com>
+ <DM8PR11MB5653CFD59F01C2AB66508F8A99A39@DM8PR11MB5653.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-References: <20210912165309.98695-1-ogabbay@kernel.org> <YUCvNzpyC091KeaJ@phenom.ffwll.local>
- <20210914161218.GF3544071@ziepe.ca> <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
- <YUM5JoMMK7gceuKZ@phenom.ffwll.local> <20210916131014.GK3544071@ziepe.ca>
- <YUSKSHBC9uI49wZZ@phenom.ffwll.local> <CAFCwf12o-+wtbk8J8k8hP4_k0a8Lco4m9f4s1vBobkQwNtn39w@mail.gmail.com>
-In-Reply-To: <CAFCwf12o-+wtbk8J8k8hP4_k0a8Lco4m9f4s1vBobkQwNtn39w@mail.gmail.com>
-From:   Oded Gabbay <ogabbay@kernel.org>
-Date:   Thu, 23 Sep 2021 12:22:57 +0300
-X-Gmail-Original-Message-ID: <CAFCwf11UFVh-88Z=d=EH07_nx=3tf9kQkHhJ4pF6hfgO=80u0g@mail.gmail.com>
-Message-ID: <CAFCwf11UFVh-88Z=d=EH07_nx=3tf9kQkHhJ4pF6hfgO=80u0g@mail.gmail.com>
-Subject: Re: [PATCH v6 0/2] Add p2p via dmabuf to habanalabs
-To:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>,
-        Yossi Leybovich <sleybo@amazon.com>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Dave Airlie <airlied@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <DM8PR11MB5653CFD59F01C2AB66508F8A99A39@DM8PR11MB5653.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Sep 18, 2021 at 11:38 AM Oded Gabbay <ogabbay@kernel.org> wrote:
->
-> On Fri, Sep 17, 2021 at 3:30 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Thu, Sep 16, 2021 at 10:10:14AM -0300, Jason Gunthorpe wrote:
-> > > On Thu, Sep 16, 2021 at 02:31:34PM +0200, Daniel Vetter wrote:
-> > > > On Wed, Sep 15, 2021 at 10:45:36AM +0300, Oded Gabbay wrote:
-> > > > > On Tue, Sep 14, 2021 at 7:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > > > > >
-> > > > > > On Tue, Sep 14, 2021 at 04:18:31PM +0200, Daniel Vetter wrote:
-> > > > > > > On Sun, Sep 12, 2021 at 07:53:07PM +0300, Oded Gabbay wrote:
-> > > > > > > > Hi,
-> > > > > > > > Re-sending this patch-set following the release of our user-space TPC
-> > > > > > > > compiler and runtime library.
-> > > > > > > >
-> > > > > > > > I would appreciate a review on this.
-> > > > > > >
-> > > > > > > I think the big open we have is the entire revoke discussions. Having the
-> > > > > > > option to let dma-buf hang around which map to random local memory ranges,
-> > > > > > > without clear ownership link and a way to kill it sounds bad to me.
-> > > > > > >
-> > > > > > > I think there's a few options:
-> > > > > > > - We require revoke support. But I've heard rdma really doesn't like that,
-> > > > > > >   I guess because taking out an MR while holding the dma_resv_lock would
-> > > > > > >   be an inversion, so can't be done. Jason, can you recap what exactly the
-> > > > > > >   hold-up was again that makes this a no-go?
-> > > > > >
-> > > > > > RDMA HW can't do revoke.
-> > > >
-> > > > Like why? I'm assuming when the final open handle or whatever for that MR
-> > > > is closed, you do clean up everything? Or does that MR still stick around
-> > > > forever too?
-> > >
-> > > It is a combination of uAPI and HW specification.
-> > >
-> > > revoke here means you take a MR object and tell it to stop doing DMA
-> > > without causing the MR object to be destructed.
-> > >
-> > > All the drivers can of course destruct the MR, but doing such a
-> > > destruction without explicit synchronization with user space opens
-> > > things up to a serious use-after potential that could be a security
-> > > issue.
-> > >
-> > > When the open handle closes the userspace is synchronized with the
-> > > kernel and we can destruct the HW objects safely.
-> > >
-> > > So, the special HW feature required is 'stop doing DMA but keep the
-> > > object in an error state' which isn't really implemented, and doesn't
-> > > extend very well to other object types beyond simple MRs.
-> >
-> > Yeah revoke without destroying the MR doesn't work, and it sounds like
-> > revoke by destroying the MR just moves the can of worms around to another
-> > place.
-> >
-> > > > 1. User A opens gaudi device, sets up dma-buf export
-> > > >
-> > > > 2. User A registers that with RDMA, or anything else that doesn't support
-> > > > revoke.
-> > > >
-> > > > 3. User A closes gaudi device
-> > > >
-> > > > 4. User B opens gaudi device, assumes that it has full control over the
-> > > > device and uploads some secrets, which happen to end up in the dma-buf
-> > > > region user A set up
-> > >
-> > > I would expect this is blocked so long as the DMABUF exists - eg the
-> > > DMABUF will hold a fget on the FD of #1 until the DMABUF is closed, so
-> > > that #3 can't actually happen.
-> > >
-> > > > It's not mlocked memory, it's mlocked memory and I can exfiltrate
-> > > > it.
-> > >
-> > > That's just bug, don't make buggy drivers :)
-> >
-> > Well yeah, but given that habanalabs hand rolled this I can't just check
-> > for the usual things we have to enforce this in drm. And generally you can
-> > just open chardevs arbitrarily, and multiple users fighting over each
-> > another. The troubles only start when you have private state or memory
-> > allocations of some kind attached to the struct file (instead of the
-> > underlying device), or something else that requires device exclusivity.
-> > There's no standard way to do that.
-> >
-> > Plus in many cases you really want revoke on top (can't get that here
-> > unfortunately it seems), and the attempts to get towards a generic
-> > revoke() just never went anywhere. So again it's all hand-rolled
-> > per-subsystem. *insert lament about us not having done this through a
-> > proper subsystem*
-> >
-> > Anyway it sounds like the code takes care of that.
-> > -Daniel
->
-> Daniel, Jason,
-> Thanks for reviewing this code.
->
-> Can I get an R-B / A-B from you for this patch-set ?
->
-> Thanks,
-> Oded
+Hi Bingbu,
 
-A kind reminder.
+On Thu, Sep 23, 2021 at 09:06:32AM +0000, Cao, Bingbu wrote:
+> Jean-Michel,
+> 
+> Firstly, the .height_per_slice could be 0 if your .grid.width larger than 32.
 
-Thanks,
-Oded
+Which .height_per_slice are you talking about ? A field of that name
+exists in both ipu3_uapi_acc_param.awb.config.grid and 
+struct ipu3_uapi_grid_config and imgu_abi_awb_config.stripes.grid.
+
+They are both computed by the driver, in imgu_css_cfg_acc(). The former
+is set to
+
+	acc->awb.config.grid.height_per_slice =
+		IMGU_ABI_AWB_MAX_CELLS_PER_SET / acc->awb.config.grid.width,
+
+IMGU_ABI_AWB_MAX_CELLS_PER_SET is equal to 160, so it can only be 0 if
+grid.width > 160, which is invalid.
+
+> From your configuration, looks like something wrong in the stripe configuration
+> cause not entering the 2 stripes branch.
+
+Why is that ? Isn't it valid for a grid configuration to use a single
+stripe, if the image is small enough, or if the grid only covers the
+left part of the image ?
+
+> On Wednesday, September 22, 2021 1:54 PM, Jean-Michel Hautbois wrote:
+> > On 22/09/2021 06:33, Cao, Bingbu wrote:
+> > > Jean-Michel,
+> > >
+> > > Thanks for you patch.
+> > > What is the value of .config.grid_cfg.width for your low resolutions?
+> > 
+> > I don't know if a 1920x1280 output is a low resolution, but the grid is
+> > configured as:
+> > - grid_cfg.width = 79
+> > - grid_cfg.height = 24
+> > - grid_cfg.block_width_log2 = 4
+> > - grid_cfg.block_height_log2 = 6
+> > 
+> > Here is a full debug output of the AWB part in imgu_css_cfg_acc():
+> > 
+> > acc->stripe.down_scaled_stripes[0].width: 1280
+> > acc->stripe.down_scaled_stripes[0].height: 1536
+> > acc->stripe.down_scaled_stripes[0].offset: 0
+> > acc->stripe.bds_out_stripes[0].width: 1280
+> > acc->stripe.bds_out_stripes[0].height: 1536
+> > acc->stripe.bds_out_stripes[0].offset: 0
+> > acc->acc->awb.stripes[0].grid.width: 79
+> > acc->awb.stripes[0].grid.block_width_log2: 4
+> > acc->acc->awb.stripes[0].grid.height: 24
+> > acc->awb.stripes[0].grid.block_height_log2: 6
+> > acc->awb.stripes[0].grid.x_start: 0
+> > acc->awb.stripes[0].grid.x_end: 1263
+> > acc->awb.stripes[0].grid.y_start: 0
+> > acc->awb.stripes[0].grid.y_end: 1535
+> > acc->stripe.down_scaled_stripes[1].width: 1280
+> > acc->stripe.down_scaled_stripes[1].height: 1536
+> > acc->stripe.down_scaled_stripes[1].offset: 1024
+> > acc->stripe.bds_out_stripes[1].width: 1280
+> > acc->stripe.bds_out_stripes[1].height: 1536
+> > acc->stripe.bds_out_stripes[1].offset: 1024
+> > acc->acc->awb.stripes[1].grid.width: 79
+> > acc->awb.stripes[1].grid.block_width_log2: 4
+> > acc->acc->awb.stripes[1].grid.height: 24
+> > acc->awb.stripes[1].grid.block_height_log2: 6
+> > acc->awb.stripes[1].grid.x_start: 0
+> > acc->awb.stripes[1].grid.x_end: 1263
+> > acc->awb.stripes[1].grid.y_start: 0
+> > acc->awb.stripes[1].grid.y_end: 1535
+> > 
+> > This has been outputted with: https://paste.debian.net/1212791/
+> > 
+> > The examples I gave before were 1280x720 output and not 1920x1080, here
+> > are they:
+> > - without the patch: https://pasteboard.co/hHo4QkVUSk8e.png
+> > - with the patch: https://pasteboard.co/YUGUvS5tD0bo.png
+> > 
+> > As you can see we have the same behaviour.
+> > 
+> > > On Tuesday, September 21, 2021 10:34 PM, Laurent Pinchart wrote:
+> > >> On Tue, Sep 21, 2021 at 03:04:37PM +0200, Jean-Michel Hautbois wrote:
+> > >>> Hi Sakari, and Tomasz as I have a remark/question for you :-)
+> > >>>
+> > >>> On 21/09/2021 13:07, Sakari Ailus wrote:
+> > >>>> Hi Jean-Michel --- and Bingbu and Tianshu,
+> > >>>>
+> > >>>> On Thu, Sep 16, 2021 at 07:25:04PM +0200, Jean-Michel Hautbois wrote:
+> > >>>>> While playing with low resolutions for the grid, it appeared that
+> > >>>>> height_per_slice is not initialised if we are not using both
+> > >>>>> stripes for the calculations. This pattern occurs three times:
+> > >>>>> - for the awb_fr processing block
+> > >>>>> - for the af processing block
+> > >>>>> - for the awb processing block
+> > >>>>>
+> > >>>>> The idea of this small portion of code is to reduce complexity in
+> > >>>>> loading the statistics, it could be done also when only one stripe
+> > >>>>> is used. Fix it by getting this initialisation code outside of the
+> > >>>>> else() test case.
+> > >>>>>
+> > >>>>> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> > >>>>> ---
+> > >>>>>  drivers/staging/media/ipu3/ipu3-css-params.c | 44 ++++++++++----------
+> > >>>>>  1 file changed, 22 insertions(+), 22 deletions(-)
+> > >>>>>
+> > >>>>> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
+> > >>>>> index e9d6bd9e9332..05da7dbdca78 100644
+> > >>>>> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
+> > >>>>> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
+> > >>>>> @@ -2428,16 +2428,16 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
+> > >>>>>  					acc->awb_fr.stripes[1].grid_cfg.width,
+> > >>>>>  					b_w_log2);
+> > >>>>>  		acc->awb_fr.stripes[1].grid_cfg.x_end = end;
+> > >>>>> -
+> > >>>>> -		/*
+> > >>>>> -		 * To reduce complexity of debubbling and loading
+> > >>>>> -		 * statistics fix grid_height_per_slice to 1 for both
+> > >>>>> -		 * stripes.
+> > >>>>> -		 */
+> > >>>>> -		for (i = 0; i < stripes; i++)
+> > >>>>> -			acc->awb_fr.stripes[i].grid_cfg.height_per_slice = 1;
+> > >>>>>  	}
+> > >>>>>
+> > >>>>> +	/*
+> > >>>>> +	 * To reduce complexity of debubbling and loading
+> > >>>>> +	 * statistics fix grid_height_per_slice to 1 for both
+> > >>>>> +	 * stripes.
+> > >>>>> +	 */
+> > >>>>> +	for (i = 0; i < stripes; i++)
+> > >>>>> +		acc->awb_fr.stripes[i].grid_cfg.height_per_slice = 1;
+> > >>>>> +
+> > >>>>>  	if (imgu_css_awb_fr_ops_calc(css, pipe, &acc->awb_fr))
+> > >>>>>  		return -EINVAL;
+> > >>>>>
+> > >>>>> @@ -2591,15 +2591,15 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
+> > >>>>>  			imgu_css_grid_end(acc->af.stripes[1].grid_cfg.x_start,
+> > >>>>>  					  acc->af.stripes[1].grid_cfg.width,
+> > >>>>>  					  b_w_log2);
+> > >>>>> -
+> > >>>>> -		/*
+> > >>>>> -		 * To reduce complexity of debubbling and loading statistics
+> > >>>>> -		 * fix grid_height_per_slice to 1 for both stripes
+> > >>>>> -		 */
+> > >>>>> -		for (i = 0; i < stripes; i++)
+> > >>>>> -			acc->af.stripes[i].grid_cfg.height_per_slice = 1;
+> > >>>>>  	}
+> > >>>>>
+> > >>>>> +	/*
+> > >>>>> +	 * To reduce complexity of debubbling and loading statistics
+> > >>>>> +	 * fix grid_height_per_slice to 1 for both stripes
+> > >>>>> +	 */
+> > >>>>> +	for (i = 0; i < stripes; i++)
+> > >>>>> +		acc->af.stripes[i].grid_cfg.height_per_slice = 1;
+> > >>>>> +
+> > >>>>>  	if (imgu_css_af_ops_calc(css, pipe, &acc->af))
+> > >>>>>  		return -EINVAL;
+> > >>>>>
+> > >>>>> @@ -2660,15 +2660,15 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
+> > >>>>>  			imgu_css_grid_end(acc->awb.stripes[1].grid.x_start,
+> > >>>>>  					  acc->awb.stripes[1].grid.width,
+> > >>>>>  					  b_w_log2);
+> > >>>>> -
+> > >>>>> -		/*
+> > >>>>> -		 * To reduce complexity of debubbling and loading statistics
+> > >>>>> -		 * fix grid_height_per_slice to 1 for both stripes
+> > >>>>> -		 */
+> > >>>>> -		for (i = 0; i < stripes; i++)
+> > >>>>> -			acc->awb.stripes[i].grid.height_per_slice = 1;
+> > >>>>>  	}
+> > >>>>>
+> > >>>>> +	/*
+> > >>>>> +	 * To reduce complexity of debubbling and loading statistics
+> > >>>>> +	 * fix grid_height_per_slice to 1 for both stripes
+> > >>>>> +	 */
+> > >>>>> +	for (i = 0; i < stripes; i++)
+> > >>>>> +		acc->awb.stripes[i].grid.height_per_slice = 1;
+> > >>>>> +
+> > >>>>>  	if (imgu_css_awb_ops_calc(css, pipe, &acc->awb))
+> > >>>>>  		return -EINVAL;
+> > >>>>>
+> > >>>>
+> > >>>> While it seems like a sensible idea to initialise arguments to
+> > >>>> firmware, does this have an effect on the statistics format? If so,
+> > >>>> can the existing user space cope with that?
+> > >>>
+> > >>> To try and figure that out, we have tested several grid
+> > >>> configurations and inspected the captured statistics. We have
+> > >>> converted the statistics in an image, rendering each cell as a pixel
+> > >>> whose red, green and blue components are the cell's red, green and blue averages.
+> > >>> This turned out to be a very effectice tool to quickly visualize AWB
+> > >> statistics.
+> > >>> We have made a lot of tests with different output resolutions, from
+> > >>> a small one up to the full-scale one.
+> > >>>
+> > >>> Here is one example of a statistics output with a ViewFinder
+> > >>> configured as 1920x1280, with a BDS output configuration set to
+> > >>> 2304x1536 (sensor is 2592x1944).
+> > >>>
+> > >>> Without the patch, configuring a 79x45 grid of 16x16 cells we obtain
+> > >>> the
+> > >>> image: https://pasteboard.co/g4nC4fHjbVER.png.
+> > >>> We can notice a weird padding every two lines and it seems to be
+> > >>> missing half of the frame.
+> > >>>
+> > >>> With the patch applied, the same configuration gives us the image:
+> > >>> https://pasteboard.co/rzap6axIvVdu.png
+> > >>>
+> > >>> We can clearly see the one padding pixel on the right, and the frame
+> > >>> is all there, as expected.
+> > >>>
+> > >>> Tomasz: We're concerned that this patch may have an impact on the
+> > >>> ChromeOS Intel Camera HAL with the IPU3. Is it possible for someone
+> > >>> to review and test this please?
+> > >>
+> > >> As shown by the images above, this is a real fix. It only affects
+> > >> grid configurations that use a single stripe (left or right), so
+> > >> either "small" resolutions (less than 1280 pixels at the BDS output
+> > >> if I recall correctly), or grid configurations that span the left
+> > >> part of the image with higher resolutions. The latter is probably
+> > >> unlikely. For the former, it may affect the binary library,
+> > >> especially if it includes a workaround for the bug.
+> > >>
+> > >> Still, this change is good I believe, so it should be upstreamed.
+
+-- 
+Regards,
+
+Laurent Pinchart
