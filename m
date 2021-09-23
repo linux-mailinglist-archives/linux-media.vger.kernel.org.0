@@ -2,40 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A165415B42
-	for <lists+linux-media@lfdr.de>; Thu, 23 Sep 2021 11:46:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6654C415BF1
+	for <lists+linux-media@lfdr.de>; Thu, 23 Sep 2021 12:29:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240224AbhIWJrh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Sep 2021 05:47:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37590 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240212AbhIWJrg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Sep 2021 05:47:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66CDEC061574
-        for <linux-media@vger.kernel.org>; Thu, 23 Sep 2021 02:46:05 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1EC645E;
-        Thu, 23 Sep 2021 11:46:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1632390362;
-        bh=/CJWm00iSn8RcfqSPfHUx3InHMkqMdytgc3rmPmss7E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UNpVyLGxj505otHDvILaXcl3uDYrMSmyHneNoH7xoEc1SCd81TCBC9KCsTr1/F/S5
-         CpscwCcjiD6o5YR/ikJleSC05KmBHkEgMyxIe4F4QjepXT3kP4m6eHO+WLw0Cfw/pX
-         FVeCbQWl+9g1P6ah/hpQSa6UGU4j1Wteq+OTIfkE=
-Date:   Thu, 23 Sep 2021 12:45:59 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Cao, Bingbu" <bingbu.cao@intel.com>
-Cc:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        id S240366AbhIWKbI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Sep 2021 06:31:08 -0400
+Received: from mga02.intel.com ([134.134.136.20]:11184 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231392AbhIWKbH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 Sep 2021 06:31:07 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="211054298"
+X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; 
+   d="scan'208";a="211054298"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2021 03:29:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; 
+   d="scan'208";a="484948563"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga008.jf.intel.com with ESMTP; 23 Sep 2021 03:29:35 -0700
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 23 Sep 2021 03:29:35 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 23 Sep 2021 03:29:34 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Thu, 23 Sep 2021 03:29:34 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.172)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Thu, 23 Sep 2021 03:29:34 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SKQIRJOUgk4rT225GShLdci7Y367htIK3B1kOi+EyQmvpvB7luulMuCERXxh0JYODpDnEk42ccoDTAYbvnrLw5Nf5HJ4i9eMTnffNBIorFBPVpujfnCtLyOkd+F1mJ22SJ2+pLtayJ+/jJ1TkExlO8Vlr1IYwAKd+hZlrFyknOQejSoXRuUiV/LbgLHdLdnAvBmnKhzZYv9MhVpkWTt+6hidCyNnloWPpCmF7LQBL7fKAPYNLR+b097yIo5lw+xo3Uax7nPP4Ayzjr0AOn9vGaYMe/PzG9L+yiOUF3XoQ7F1f9qfH4Rz8NcLv3w+tAbBhJ9D2H6WG+tslVYiz6gihw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=Nv4Lz1IDM5TSdsrmNgKy9z0A1qtm6ahexT5LEikowE4=;
+ b=GPjzMk/Z4mb5HKymaVP7hi8UHi9Cc4mHEQwyerOiUpC7SxQnhNRSZLrioYg2jHdsORX99bLyhj+Hn3U/lMUVzrDu3auQO/REAy+gs1s7zbP8q85j+9N4E6Qoz3J0EvSWeKUQzydolyhWqwu49FRKptmBQZyXS5cW+Qxig/0eOeP2ss6jOpvPq7scsNtA4MyagcTuAWGwugor/ruaWNIdnI2Cz7Yl7h6UBfCcb9oOOr/hcQRs5jHuePIt6Wyw0B1RtNNfhChFTlP8U1C6qrDGSJ1U9FEj0oz4MoSD1KvIVEDfRUCq1+Ey0n0CA+Sd9KzjEybtN9gEn+t0npRqgzm4gg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nv4Lz1IDM5TSdsrmNgKy9z0A1qtm6ahexT5LEikowE4=;
+ b=QFKp7RZb9C2P2yRNg25ix5vq6NhQM8wyA11Hw/SYZCSZe/QtA0LYIcC5Jpz2NdemVYbsBduLysHJgTR8GqbwKmH02H+7wMzKHeJ73xkd55RNgpbRsd54W76FarWzDgcOWjqGE3J+fqcEjaRqc+TmhEnic5PQAsGzvjRkmCWWINM=
+Received: from SJ0PR11MB5664.namprd11.prod.outlook.com (2603:10b6:a03:37f::18)
+ by SJ0PR11MB5664.namprd11.prod.outlook.com (2603:10b6:a03:37f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Thu, 23 Sep
+ 2021 10:29:33 +0000
+Received: from SJ0PR11MB5664.namprd11.prod.outlook.com
+ ([fe80::c135:1b14:123e:df46]) by SJ0PR11MB5664.namprd11.prod.outlook.com
+ ([fe80::c135:1b14:123e:df46%6]) with mapi id 15.20.4544.015; Thu, 23 Sep 2021
+ 10:29:33 +0000
+From:   "Cao, Bingbu" <bingbu.cao@intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         "tfiga@google.com" <tfiga@google.com>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-Subject: Re: [PATCH] media: staging: ipu3-imgu: Initialise height_per_slice
+Subject: RE: [PATCH] media: staging: ipu3-imgu: Initialise height_per_slice in
+ the stripes
+Thread-Topic: [PATCH] media: staging: ipu3-imgu: Initialise height_per_slice
  in the stripes
-Message-ID: <YUxM18uOp0eamBPH@pendragon.ideasonboard.com>
+Thread-Index: AQHXqx/Y72VMy1pUFEiS45AyrkgVKauuW1+AgAAg14CAABjrAIAA3LCQgAAkcoCAAccnAIAAC/aAgAAChAA=
+Date:   Thu, 23 Sep 2021 10:29:33 +0000
+Message-ID: <SJ0PR11MB5664666D6D4C573D2D4A406D99A39@SJ0PR11MB5664.namprd11.prod.outlook.com>
 References: <20210916172504.677919-1-jeanmichel.hautbois@ideasonboard.com>
  <YUm82RNBbu9VbQj9@paasikivi.fi.intel.com>
  <19a2a09a-dcdd-fc32-0410-7f752cceffb5@ideasonboard.com>
@@ -43,240 +81,273 @@ References: <20210916172504.677919-1-jeanmichel.hautbois@ideasonboard.com>
  <DM8PR11MB5653D63F3F76CA1D9E80E01199A29@DM8PR11MB5653.namprd11.prod.outlook.com>
  <a8a0ee6f-e83c-7f99-6967-f017c549ff05@ideasonboard.com>
  <DM8PR11MB5653CFD59F01C2AB66508F8A99A39@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <YUxM18uOp0eamBPH@pendragon.ideasonboard.com>
+In-Reply-To: <YUxM18uOp0eamBPH@pendragon.ideasonboard.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.200.16
+authentication-results: ideasonboard.com; dkim=none (message not signed)
+ header.d=none;ideasonboard.com; dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 71bc475b-5678-418f-8ff3-08d97e7d08bb
+x-ms-traffictypediagnostic: SJ0PR11MB5664:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SJ0PR11MB56646824812EED3A04F1FBE199A39@SJ0PR11MB5664.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Z1uW7u8I5evYXQiQQVvsF19IpY7Ctj9I+W47YH+ESVabWU7a+hVTq0iKXvovY7hpLz9OIYdiO05G7qLIb5wMxShKfYmXOa+ybqf2zOPaqlXsXzrTZKy/C0UF9byHfIjuCBdZgvuuaRr1AbBt6Vg4l5HdbXgaJ1uFEyBzUmxFLQIfeYs3tIbqt5H93HH3stcl0GLa6T1Vaj7tRabSqbQLGgoZ8hx9brulddoKczRkCzqNh+99aLtLMKTEnQOYNhnj2Rv82lbAVHViYAFHLPz14POOCoSeSvgDlS+ZkBrxjjpdAXfUxMVQZ+c2FYlB4fihNqvV8rCj7zMykOHupd3UMaABw5vinPq5L8IW5fhoOmEPk2/mGc7QASYDNWuLmLaCLI434Vq2qafWoo79vxaxW7YMU+YiVNSzbQqya+cJ4bfefvZY7nxGsLx104atCO8+Yvp6aX/iDgnYLJFv3b1eVyAD2wBuesTcfJ8DXKI9MB9L68g7hGIfryxXuQdE398LpxH+CKIRroqvoGkJh6swclQN+cxw/0mjM9Iuac4Y6j+otw6+pyEKbueXj+s3dr/rdjOhWFBezznUSg543l3r0ov08JjPVxh8DGxCf4dYP8ZqIHBQhVpffJqu/Le71K/i4sC3zV14okbA0fGwCjqlZvw6GtJ8n+XXf8znZGVbAhko45x1XmRPlaRc5tqLJDP0H8vnSiuc+ijgYP0RI30APENBDB8SPinp7S7uW8uliSdpRXg+f5nZ6JSH5CzXWPkYgeD741/h6PAv8YAvtQ+rpoz65P5Pd4G3pSLQknzxaAc=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5664.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66946007)(66446008)(7696005)(6506007)(71200400001)(122000001)(66476007)(64756008)(66556008)(6916009)(53546011)(54906003)(33656002)(76116006)(8676002)(8936002)(316002)(52536014)(38070700005)(4326008)(966005)(508600001)(9686003)(86362001)(30864003)(55016002)(26005)(5660300002)(83380400001)(186003)(2906002)(38100700002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UHZRRlZhTVVFTUF4cDAzVStqWTJ6Q2srT2xEWCtpSDdyb3NucjhBQUNYdlpE?=
+ =?utf-8?B?NWY4U3BxTE5yUithQVYvVkFLbkNGT2g4YlhBN0Z1b1Q4c09OYjlGT0hUMzI4?=
+ =?utf-8?B?ZU4rNFRsSkQveEE1Smp5bEdaUE90R2lXMTM0WG1kNURjSXNFRU04WlozcjA3?=
+ =?utf-8?B?K2lxMXZyYm8rMGZ4a2xONzkvUzNmQ210L1hzSDUzc09lZ3R0SDlJMCs5L2g0?=
+ =?utf-8?B?NmJUb2NkNGYzYWI1UWhBZ213VzhNWmZhK3MvZWY0WVBOVDNrWE56bEZ5am9y?=
+ =?utf-8?B?N0RvcWx6WS9FeUNEZGxzYk5qcUJDYyt4RTg2M3ZRckk5bjRMbnA5WWRnRFc5?=
+ =?utf-8?B?eGRldmRJWnJpSVpIZFRnNHJVUjlUNHhIeDVKUVAzVTZ5UWhYT0hZNVFRYnRT?=
+ =?utf-8?B?WkdJbFdITmpPUDJYMmJWSzc5cUhOMjAvTG02cnVDdGVQak9OMGpPaURyeUVh?=
+ =?utf-8?B?N2hjeVF4QlhycUdhK00wVkY3b3FyVG9MUFZGcW9kZkhSTHZDNkozczlUQU1D?=
+ =?utf-8?B?bjZEYjluT0NVYkJweXR1L2FtVzFUenZoZjFxQ1VSWXFzcnJMb3N6LzJKd3c5?=
+ =?utf-8?B?MmFkTnRzbnBQYXZsNGdiVEoyQXQrSUgva01mUmk1bngyT1FDZDVnTGtSMHdz?=
+ =?utf-8?B?Q0JtOUY5ekhJSVhKRVdyVEJrMFR5UzVXclo0akJvU29aT0N6SUMzdmVvYXlC?=
+ =?utf-8?B?THhtSmRiZWNiTTJldFA2aXdBaXp4N0UvTG91ekVDbWN3RjdrdGZuYlRnTEhI?=
+ =?utf-8?B?VWVlbi9kMXJOT0FDV1pLMWgxbzN6aFFoUWNBc0l5bC9JcDJpbnBNck8vRHR1?=
+ =?utf-8?B?VzVsUUVkYzJEYnJndm9rYWwza0JVM3R2cDdJMVoxUWlFMEtXNHNZNTdhR3lK?=
+ =?utf-8?B?ZFJQa1U5ZnBhK3BMTFVpRzZTbXhhVkNhelpwUTVTeVJBVyszMU9nZWg3S2dK?=
+ =?utf-8?B?cTdVNG9HSE8zTklzV0hzQVNkdHQwRVgxNUF6eGFtTjNrcm8zSmtBUlA0ZHhq?=
+ =?utf-8?B?dmU3bk1ZaERucHpmZUkyOEQwa0s3a3orZVpxdUsvUThxYjB2ajE1VUxlSUtD?=
+ =?utf-8?B?S2dVSDhFRnJVeXJOTytwR1ZOUUcycmg5VjRuV3A4MGgvTUNrZlc3OTVhL2tR?=
+ =?utf-8?B?K1pwVXlWS0RzS2NoV3pCcVQ4ckRaV2k0ZTh1a0lWSUZ4T2FRTDNRNTRoK1Jr?=
+ =?utf-8?B?cWlnZVZSbGJzNFloNDlNdWx1Wnp0RFlFenlYczRIMzRWZkg0N0JWck9mUXZN?=
+ =?utf-8?B?NEtJdStPNS8rYW15U29vK0ZqUHU5Qm5OR2FwVzRJL1F2SFRTZG15WUtJUjkx?=
+ =?utf-8?B?L0tNVFc5OG14MERWdytxdkd0Umk3WW1ZZlliZHoyb2crb2NYK0lUdHpzaUNi?=
+ =?utf-8?B?V3pIQVdzTjVKLzd5VEVFWEsrNWxpeXFjdi9SVHhJSGlOOGFMRW1nTGVta01k?=
+ =?utf-8?B?dmZYK3MyQnVzNU5qOHQ2d3ZnZGF3NDd4NE9TYmIxN013d1BMcDgrR01vWGJE?=
+ =?utf-8?B?L01yM0xuTG5nOWNvSy9nTE4wcTdiVGt2UFk4WjBENmlzb2J6MndscHBWSDk0?=
+ =?utf-8?B?MVg1WVovQmxuTzl1K0c2NGt1UDhjRFRDQ21OMm1tWVNRRzVTWjNHckx4eW1l?=
+ =?utf-8?B?Zk9KTlhUZWNEU0dIdUVONWdLdU9rSnNabDh4bklZemMzWWtORGt4OVRUR0pi?=
+ =?utf-8?B?WFQrYzY3cEZBK3JTdzdPL0FaUzJUY2d0QVlrU1FUTlpCNjQzM0o5SWgwaUo1?=
+ =?utf-8?Q?M5N+1MtqeBIOu1KsM83qq5TFV91zmdv+ha5oOgZ?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <DM8PR11MB5653CFD59F01C2AB66508F8A99A39@DM8PR11MB5653.namprd11.prod.outlook.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5664.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71bc475b-5678-418f-8ff3-08d97e7d08bb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2021 10:29:33.1082
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5p5CzBIdq0e1afFD7sRQpiCuLVUjFgng5NSiCdI194QCHhUnRtjKA/aByc6gMWOU2VsRFkxPATaTHCieBc6uSA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5664
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
-
-On Thu, Sep 23, 2021 at 09:06:32AM +0000, Cao, Bingbu wrote:
-> Jean-Michel,
-> 
-> Firstly, the .height_per_slice could be 0 if your .grid.width larger than 32.
-
-Which .height_per_slice are you talking about ? A field of that name
-exists in both ipu3_uapi_acc_param.awb.config.grid and 
-struct ipu3_uapi_grid_config and imgu_abi_awb_config.stripes.grid.
-
-They are both computed by the driver, in imgu_css_cfg_acc(). The former
-is set to
-
-	acc->awb.config.grid.height_per_slice =
-		IMGU_ABI_AWB_MAX_CELLS_PER_SET / acc->awb.config.grid.width,
-
-IMGU_ABI_AWB_MAX_CELLS_PER_SET is equal to 160, so it can only be 0 if
-grid.width > 160, which is invalid.
-
-> From your configuration, looks like something wrong in the stripe configuration
-> cause not entering the 2 stripes branch.
-
-Why is that ? Isn't it valid for a grid configuration to use a single
-stripe, if the image is small enough, or if the grid only covers the
-left part of the image ?
-
-> On Wednesday, September 22, 2021 1:54 PM, Jean-Michel Hautbois wrote:
-> > On 22/09/2021 06:33, Cao, Bingbu wrote:
-> > > Jean-Michel,
-> > >
-> > > Thanks for you patch.
-> > > What is the value of .config.grid_cfg.width for your low resolutions?
-> > 
-> > I don't know if a 1920x1280 output is a low resolution, but the grid is
-> > configured as:
-> > - grid_cfg.width = 79
-> > - grid_cfg.height = 24
-> > - grid_cfg.block_width_log2 = 4
-> > - grid_cfg.block_height_log2 = 6
-> > 
-> > Here is a full debug output of the AWB part in imgu_css_cfg_acc():
-> > 
-> > acc->stripe.down_scaled_stripes[0].width: 1280
-> > acc->stripe.down_scaled_stripes[0].height: 1536
-> > acc->stripe.down_scaled_stripes[0].offset: 0
-> > acc->stripe.bds_out_stripes[0].width: 1280
-> > acc->stripe.bds_out_stripes[0].height: 1536
-> > acc->stripe.bds_out_stripes[0].offset: 0
-> > acc->acc->awb.stripes[0].grid.width: 79
-> > acc->awb.stripes[0].grid.block_width_log2: 4
-> > acc->acc->awb.stripes[0].grid.height: 24
-> > acc->awb.stripes[0].grid.block_height_log2: 6
-> > acc->awb.stripes[0].grid.x_start: 0
-> > acc->awb.stripes[0].grid.x_end: 1263
-> > acc->awb.stripes[0].grid.y_start: 0
-> > acc->awb.stripes[0].grid.y_end: 1535
-> > acc->stripe.down_scaled_stripes[1].width: 1280
-> > acc->stripe.down_scaled_stripes[1].height: 1536
-> > acc->stripe.down_scaled_stripes[1].offset: 1024
-> > acc->stripe.bds_out_stripes[1].width: 1280
-> > acc->stripe.bds_out_stripes[1].height: 1536
-> > acc->stripe.bds_out_stripes[1].offset: 1024
-> > acc->acc->awb.stripes[1].grid.width: 79
-> > acc->awb.stripes[1].grid.block_width_log2: 4
-> > acc->acc->awb.stripes[1].grid.height: 24
-> > acc->awb.stripes[1].grid.block_height_log2: 6
-> > acc->awb.stripes[1].grid.x_start: 0
-> > acc->awb.stripes[1].grid.x_end: 1263
-> > acc->awb.stripes[1].grid.y_start: 0
-> > acc->awb.stripes[1].grid.y_end: 1535
-> > 
-> > This has been outputted with: https://paste.debian.net/1212791/
-> > 
-> > The examples I gave before were 1280x720 output and not 1920x1080, here
-> > are they:
-> > - without the patch: https://pasteboard.co/hHo4QkVUSk8e.png
-> > - with the patch: https://pasteboard.co/YUGUvS5tD0bo.png
-> > 
-> > As you can see we have the same behaviour.
-> > 
-> > > On Tuesday, September 21, 2021 10:34 PM, Laurent Pinchart wrote:
-> > >> On Tue, Sep 21, 2021 at 03:04:37PM +0200, Jean-Michel Hautbois wrote:
-> > >>> Hi Sakari, and Tomasz as I have a remark/question for you :-)
-> > >>>
-> > >>> On 21/09/2021 13:07, Sakari Ailus wrote:
-> > >>>> Hi Jean-Michel --- and Bingbu and Tianshu,
-> > >>>>
-> > >>>> On Thu, Sep 16, 2021 at 07:25:04PM +0200, Jean-Michel Hautbois wrote:
-> > >>>>> While playing with low resolutions for the grid, it appeared that
-> > >>>>> height_per_slice is not initialised if we are not using both
-> > >>>>> stripes for the calculations. This pattern occurs three times:
-> > >>>>> - for the awb_fr processing block
-> > >>>>> - for the af processing block
-> > >>>>> - for the awb processing block
-> > >>>>>
-> > >>>>> The idea of this small portion of code is to reduce complexity in
-> > >>>>> loading the statistics, it could be done also when only one stripe
-> > >>>>> is used. Fix it by getting this initialisation code outside of the
-> > >>>>> else() test case.
-> > >>>>>
-> > >>>>> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> > >>>>> ---
-> > >>>>>  drivers/staging/media/ipu3/ipu3-css-params.c | 44 ++++++++++----------
-> > >>>>>  1 file changed, 22 insertions(+), 22 deletions(-)
-> > >>>>>
-> > >>>>> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-> > >>>>> index e9d6bd9e9332..05da7dbdca78 100644
-> > >>>>> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
-> > >>>>> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-> > >>>>> @@ -2428,16 +2428,16 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
-> > >>>>>  					acc->awb_fr.stripes[1].grid_cfg.width,
-> > >>>>>  					b_w_log2);
-> > >>>>>  		acc->awb_fr.stripes[1].grid_cfg.x_end = end;
-> > >>>>> -
-> > >>>>> -		/*
-> > >>>>> -		 * To reduce complexity of debubbling and loading
-> > >>>>> -		 * statistics fix grid_height_per_slice to 1 for both
-> > >>>>> -		 * stripes.
-> > >>>>> -		 */
-> > >>>>> -		for (i = 0; i < stripes; i++)
-> > >>>>> -			acc->awb_fr.stripes[i].grid_cfg.height_per_slice = 1;
-> > >>>>>  	}
-> > >>>>>
-> > >>>>> +	/*
-> > >>>>> +	 * To reduce complexity of debubbling and loading
-> > >>>>> +	 * statistics fix grid_height_per_slice to 1 for both
-> > >>>>> +	 * stripes.
-> > >>>>> +	 */
-> > >>>>> +	for (i = 0; i < stripes; i++)
-> > >>>>> +		acc->awb_fr.stripes[i].grid_cfg.height_per_slice = 1;
-> > >>>>> +
-> > >>>>>  	if (imgu_css_awb_fr_ops_calc(css, pipe, &acc->awb_fr))
-> > >>>>>  		return -EINVAL;
-> > >>>>>
-> > >>>>> @@ -2591,15 +2591,15 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
-> > >>>>>  			imgu_css_grid_end(acc->af.stripes[1].grid_cfg.x_start,
-> > >>>>>  					  acc->af.stripes[1].grid_cfg.width,
-> > >>>>>  					  b_w_log2);
-> > >>>>> -
-> > >>>>> -		/*
-> > >>>>> -		 * To reduce complexity of debubbling and loading statistics
-> > >>>>> -		 * fix grid_height_per_slice to 1 for both stripes
-> > >>>>> -		 */
-> > >>>>> -		for (i = 0; i < stripes; i++)
-> > >>>>> -			acc->af.stripes[i].grid_cfg.height_per_slice = 1;
-> > >>>>>  	}
-> > >>>>>
-> > >>>>> +	/*
-> > >>>>> +	 * To reduce complexity of debubbling and loading statistics
-> > >>>>> +	 * fix grid_height_per_slice to 1 for both stripes
-> > >>>>> +	 */
-> > >>>>> +	for (i = 0; i < stripes; i++)
-> > >>>>> +		acc->af.stripes[i].grid_cfg.height_per_slice = 1;
-> > >>>>> +
-> > >>>>>  	if (imgu_css_af_ops_calc(css, pipe, &acc->af))
-> > >>>>>  		return -EINVAL;
-> > >>>>>
-> > >>>>> @@ -2660,15 +2660,15 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
-> > >>>>>  			imgu_css_grid_end(acc->awb.stripes[1].grid.x_start,
-> > >>>>>  					  acc->awb.stripes[1].grid.width,
-> > >>>>>  					  b_w_log2);
-> > >>>>> -
-> > >>>>> -		/*
-> > >>>>> -		 * To reduce complexity of debubbling and loading statistics
-> > >>>>> -		 * fix grid_height_per_slice to 1 for both stripes
-> > >>>>> -		 */
-> > >>>>> -		for (i = 0; i < stripes; i++)
-> > >>>>> -			acc->awb.stripes[i].grid.height_per_slice = 1;
-> > >>>>>  	}
-> > >>>>>
-> > >>>>> +	/*
-> > >>>>> +	 * To reduce complexity of debubbling and loading statistics
-> > >>>>> +	 * fix grid_height_per_slice to 1 for both stripes
-> > >>>>> +	 */
-> > >>>>> +	for (i = 0; i < stripes; i++)
-> > >>>>> +		acc->awb.stripes[i].grid.height_per_slice = 1;
-> > >>>>> +
-> > >>>>>  	if (imgu_css_awb_ops_calc(css, pipe, &acc->awb))
-> > >>>>>  		return -EINVAL;
-> > >>>>>
-> > >>>>
-> > >>>> While it seems like a sensible idea to initialise arguments to
-> > >>>> firmware, does this have an effect on the statistics format? If so,
-> > >>>> can the existing user space cope with that?
-> > >>>
-> > >>> To try and figure that out, we have tested several grid
-> > >>> configurations and inspected the captured statistics. We have
-> > >>> converted the statistics in an image, rendering each cell as a pixel
-> > >>> whose red, green and blue components are the cell's red, green and blue averages.
-> > >>> This turned out to be a very effectice tool to quickly visualize AWB
-> > >> statistics.
-> > >>> We have made a lot of tests with different output resolutions, from
-> > >>> a small one up to the full-scale one.
-> > >>>
-> > >>> Here is one example of a statistics output with a ViewFinder
-> > >>> configured as 1920x1280, with a BDS output configuration set to
-> > >>> 2304x1536 (sensor is 2592x1944).
-> > >>>
-> > >>> Without the patch, configuring a 79x45 grid of 16x16 cells we obtain
-> > >>> the
-> > >>> image: https://pasteboard.co/g4nC4fHjbVER.png.
-> > >>> We can notice a weird padding every two lines and it seems to be
-> > >>> missing half of the frame.
-> > >>>
-> > >>> With the patch applied, the same configuration gives us the image:
-> > >>> https://pasteboard.co/rzap6axIvVdu.png
-> > >>>
-> > >>> We can clearly see the one padding pixel on the right, and the frame
-> > >>> is all there, as expected.
-> > >>>
-> > >>> Tomasz: We're concerned that this patch may have an impact on the
-> > >>> ChromeOS Intel Camera HAL with the IPU3. Is it possible for someone
-> > >>> to review and test this please?
-> > >>
-> > >> As shown by the images above, this is a real fix. It only affects
-> > >> grid configurations that use a single stripe (left or right), so
-> > >> either "small" resolutions (less than 1280 pixels at the BDS output
-> > >> if I recall correctly), or grid configurations that span the left
-> > >> part of the image with higher resolutions. The latter is probably
-> > >> unlikely. For the former, it may affect the binary library,
-> > >> especially if it includes a workaround for the bug.
-> > >>
-> > >> Still, this change is good I believe, so it should be upstreamed.
-
--- 
-Regards,
-
-Laurent Pinchart
+SGkgTGF1cmVudCwNCg0KX19fX19fX19fX19fX19fX19fX19fX19fDQpCUnMsICANCkJpbmdidSBD
+YW8gDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTGF1cmVudCBQaW5j
+aGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPg0KPiBTZW50OiBUaHVyc2Rh
+eSwgU2VwdGVtYmVyIDIzLCAyMDIxIDU6NDYgUE0NCj4gVG86IENhbywgQmluZ2J1IDxiaW5nYnUu
+Y2FvQGludGVsLmNvbT4NCj4gQ2M6IEplYW4tTWljaGVsIEhhdXRib2lzIDxqZWFubWljaGVsLmhh
+dXRib2lzQGlkZWFzb25ib2FyZC5jb20+OyBTYWthcmkNCj4gQWlsdXMgPHNha2FyaS5haWx1c0Bs
+aW51eC5pbnRlbC5jb20+OyB0ZmlnYUBnb29nbGUuY29tOyBsaW51eC0NCj4gbWVkaWFAdmdlci5r
+ZXJuZWwub3JnOyBRaXUsIFRpYW4gU2h1IDx0aWFuLnNodS5xaXVAaW50ZWwuY29tPg0KPiBTdWJq
+ZWN0OiBSZTogW1BBVENIXSBtZWRpYTogc3RhZ2luZzogaXB1My1pbWd1OiBJbml0aWFsaXNlDQo+
+IGhlaWdodF9wZXJfc2xpY2UgaW4gdGhlIHN0cmlwZXMNCj4gDQo+IEhpIEJpbmdidSwNCj4gDQo+
+IE9uIFRodSwgU2VwIDIzLCAyMDIxIGF0IDA5OjA2OjMyQU0gKzAwMDAsIENhbywgQmluZ2J1IHdy
+b3RlOg0KPiA+IEplYW4tTWljaGVsLA0KPiA+DQo+ID4gRmlyc3RseSwgdGhlIC5oZWlnaHRfcGVy
+X3NsaWNlIGNvdWxkIGJlIDAgaWYgeW91ciAuZ3JpZC53aWR0aCBsYXJnZXINCj4gdGhhbiAzMi4N
+Cj4gDQo+IFdoaWNoIC5oZWlnaHRfcGVyX3NsaWNlIGFyZSB5b3UgdGFsa2luZyBhYm91dCA/IEEg
+ZmllbGQgb2YgdGhhdCBuYW1lDQo+IGV4aXN0cyBpbiBib3RoIGlwdTNfdWFwaV9hY2NfcGFyYW0u
+YXdiLmNvbmZpZy5ncmlkIGFuZCBzdHJ1Y3QNCj4gaXB1M191YXBpX2dyaWRfY29uZmlnIGFuZCBp
+bWd1X2FiaV9hd2JfY29uZmlnLnN0cmlwZXMuZ3JpZC4NCj4gDQo+IFRoZXkgYXJlIGJvdGggY29t
+cHV0ZWQgYnkgdGhlIGRyaXZlciwgaW4gaW1ndV9jc3NfY2ZnX2FjYygpLiBUaGUgZm9ybWVyDQo+
+IGlzIHNldCB0bw0KPiANCj4gCWFjYy0+YXdiLmNvbmZpZy5ncmlkLmhlaWdodF9wZXJfc2xpY2Ug
+PQ0KPiAJCUlNR1VfQUJJX0FXQl9NQVhfQ0VMTFNfUEVSX1NFVCAvIGFjYy0+YXdiLmNvbmZpZy5n
+cmlkLndpZHRoLA0KPiANCj4gSU1HVV9BQklfQVdCX01BWF9DRUxMU19QRVJfU0VUIGlzIGVxdWFs
+IHRvIDE2MCwgc28gaXQgY2FuIG9ubHkgYmUgMCBpZg0KPiBncmlkLndpZHRoID4gMTYwLCB3aGlj
+aCBpcyBpbnZhbGlkLg0KDQpGb3IgYXdiX2ZyIGFuZCBhZiwgaXQgY291bGQgYmUgMCBpZiB0aGUg
+LmNvbmZpZy5ncmlkX2NmZy53aWR0aCA+IDMyLg0KDQo+IA0KPiA+IEZyb20geW91ciBjb25maWd1
+cmF0aW9uLCBsb29rcyBsaWtlIHNvbWV0aGluZyB3cm9uZyBpbiB0aGUgc3RyaXBlDQo+ID4gY29u
+ZmlndXJhdGlvbiBjYXVzZSBub3QgZW50ZXJpbmcgdGhlIDIgc3RyaXBlcyBicmFuY2guDQo+IA0K
+PiBXaHkgaXMgdGhhdCA/IElzbid0IGl0IHZhbGlkIGZvciBhIGdyaWQgY29uZmlndXJhdGlvbiB0
+byB1c2UgYSBzaW5nbGUNCj4gc3RyaXBlLCBpZiB0aGUgaW1hZ2UgaXMgc21hbGwgZW5vdWdoLCBv
+ciBpZiB0aGUgZ3JpZCBvbmx5IGNvdmVycyB0aGUgbGVmdA0KPiBwYXJ0IG9mIHRoZSBpbWFnZSA/
+DQo+IA0KPiA+IE9uIFdlZG5lc2RheSwgU2VwdGVtYmVyIDIyLCAyMDIxIDE6NTQgUE0sIEplYW4t
+TWljaGVsIEhhdXRib2lzIHdyb3RlOg0KPiA+ID4gT24gMjIvMDkvMjAyMSAwNjozMywgQ2FvLCBC
+aW5nYnUgd3JvdGU6DQo+ID4gPiA+IEplYW4tTWljaGVsLA0KPiA+ID4gPg0KPiA+ID4gPiBUaGFu
+a3MgZm9yIHlvdSBwYXRjaC4NCj4gPiA+ID4gV2hhdCBpcyB0aGUgdmFsdWUgb2YgLmNvbmZpZy5n
+cmlkX2NmZy53aWR0aCBmb3IgeW91ciBsb3cNCj4gcmVzb2x1dGlvbnM/DQo+ID4gPg0KPiA+ID4g
+SSBkb24ndCBrbm93IGlmIGEgMTkyMHgxMjgwIG91dHB1dCBpcyBhIGxvdyByZXNvbHV0aW9uLCBi
+dXQgdGhlIGdyaWQNCj4gPiA+IGlzIGNvbmZpZ3VyZWQgYXM6DQo+ID4gPiAtIGdyaWRfY2ZnLndp
+ZHRoID0gNzkNCj4gPiA+IC0gZ3JpZF9jZmcuaGVpZ2h0ID0gMjQNCj4gPiA+IC0gZ3JpZF9jZmcu
+YmxvY2tfd2lkdGhfbG9nMiA9IDQNCj4gPiA+IC0gZ3JpZF9jZmcuYmxvY2tfaGVpZ2h0X2xvZzIg
+PSA2DQo+ID4gPg0KPiA+ID4gSGVyZSBpcyBhIGZ1bGwgZGVidWcgb3V0cHV0IG9mIHRoZSBBV0Ig
+cGFydCBpbiBpbWd1X2Nzc19jZmdfYWNjKCk6DQo+ID4gPg0KPiA+ID4gYWNjLT5zdHJpcGUuZG93
+bl9zY2FsZWRfc3RyaXBlc1swXS53aWR0aDogMTI4MA0KPiA+ID4gYWNjLT5zdHJpcGUuZG93bl9z
+Y2FsZWRfc3RyaXBlc1swXS5oZWlnaHQ6IDE1MzYNCj4gPiA+IGFjYy0+c3RyaXBlLmRvd25fc2Nh
+bGVkX3N0cmlwZXNbMF0ub2Zmc2V0OiAwDQo+ID4gPiBhY2MtPnN0cmlwZS5iZHNfb3V0X3N0cmlw
+ZXNbMF0ud2lkdGg6IDEyODANCj4gPiA+IGFjYy0+c3RyaXBlLmJkc19vdXRfc3RyaXBlc1swXS5o
+ZWlnaHQ6IDE1MzYNCj4gPiA+IGFjYy0+c3RyaXBlLmJkc19vdXRfc3RyaXBlc1swXS5vZmZzZXQ6
+IDANCj4gPiA+IGFjYy0+YWNjLT5hd2Iuc3RyaXBlc1swXS5ncmlkLndpZHRoOiA3OQ0KPiA+ID4g
+YWNjLT5hd2Iuc3RyaXBlc1swXS5ncmlkLmJsb2NrX3dpZHRoX2xvZzI6IDQNCj4gPiA+IGFjYy0+
+YWNjLT5hd2Iuc3RyaXBlc1swXS5ncmlkLmhlaWdodDogMjQNCj4gPiA+IGFjYy0+YXdiLnN0cmlw
+ZXNbMF0uZ3JpZC5ibG9ja19oZWlnaHRfbG9nMjogNg0KPiA+ID4gYWNjLT5hd2Iuc3RyaXBlc1sw
+XS5ncmlkLnhfc3RhcnQ6IDANCj4gPiA+IGFjYy0+YXdiLnN0cmlwZXNbMF0uZ3JpZC54X2VuZDog
+MTI2Mw0KPiA+ID4gYWNjLT5hd2Iuc3RyaXBlc1swXS5ncmlkLnlfc3RhcnQ6IDANCj4gPiA+IGFj
+Yy0+YXdiLnN0cmlwZXNbMF0uZ3JpZC55X2VuZDogMTUzNQ0KPiA+ID4gYWNjLT5zdHJpcGUuZG93
+bl9zY2FsZWRfc3RyaXBlc1sxXS53aWR0aDogMTI4MA0KPiA+ID4gYWNjLT5zdHJpcGUuZG93bl9z
+Y2FsZWRfc3RyaXBlc1sxXS5oZWlnaHQ6IDE1MzYNCj4gPiA+IGFjYy0+c3RyaXBlLmRvd25fc2Nh
+bGVkX3N0cmlwZXNbMV0ub2Zmc2V0OiAxMDI0DQo+ID4gPiBhY2MtPnN0cmlwZS5iZHNfb3V0X3N0
+cmlwZXNbMV0ud2lkdGg6IDEyODANCj4gPiA+IGFjYy0+c3RyaXBlLmJkc19vdXRfc3RyaXBlc1sx
+XS5oZWlnaHQ6IDE1MzYNCj4gPiA+IGFjYy0+c3RyaXBlLmJkc19vdXRfc3RyaXBlc1sxXS5vZmZz
+ZXQ6IDEwMjQNCj4gPiA+IGFjYy0+YWNjLT5hd2Iuc3RyaXBlc1sxXS5ncmlkLndpZHRoOiA3OQ0K
+PiA+ID4gYWNjLT5hd2Iuc3RyaXBlc1sxXS5ncmlkLmJsb2NrX3dpZHRoX2xvZzI6IDQNCj4gPiA+
+IGFjYy0+YWNjLT5hd2Iuc3RyaXBlc1sxXS5ncmlkLmhlaWdodDogMjQNCj4gPiA+IGFjYy0+YXdi
+LnN0cmlwZXNbMV0uZ3JpZC5ibG9ja19oZWlnaHRfbG9nMjogNg0KPiA+ID4gYWNjLT5hd2Iuc3Ry
+aXBlc1sxXS5ncmlkLnhfc3RhcnQ6IDANCj4gPiA+IGFjYy0+YXdiLnN0cmlwZXNbMV0uZ3JpZC54
+X2VuZDogMTI2Mw0KPiA+ID4gYWNjLT5hd2Iuc3RyaXBlc1sxXS5ncmlkLnlfc3RhcnQ6IDANCj4g
+PiA+IGFjYy0+YXdiLnN0cmlwZXNbMV0uZ3JpZC55X2VuZDogMTUzNQ0KDQpBcmUgdGhlc2UgZHVt
+cHMgZnJvbSAxOTIweDEyODAgb3V0cHV0Pw0KDQo+ID4gPg0KPiA+ID4gVGhpcyBoYXMgYmVlbiBv
+dXRwdXR0ZWQgd2l0aDogaHR0cHM6Ly9wYXN0ZS5kZWJpYW4ubmV0LzEyMTI3OTEvDQo+ID4gPg0K
+PiA+ID4gVGhlIGV4YW1wbGVzIEkgZ2F2ZSBiZWZvcmUgd2VyZSAxMjgweDcyMCBvdXRwdXQgYW5k
+IG5vdCAxOTIweDEwODAsDQo+ID4gPiBoZXJlIGFyZSB0aGV5Og0KPiA+ID4gLSB3aXRob3V0IHRo
+ZSBwYXRjaDogaHR0cHM6Ly9wYXN0ZWJvYXJkLmNvL2hIbzRRa1ZVU2s4ZS5wbmcNCj4gPiA+IC0g
+d2l0aCB0aGUgcGF0Y2g6IGh0dHBzOi8vcGFzdGVib2FyZC5jby9ZVUdVdlM1dEQwYm8ucG5nDQo+
+ID4gPg0KPiA+ID4gQXMgeW91IGNhbiBzZWUgd2UgaGF2ZSB0aGUgc2FtZSBiZWhhdmlvdXIuDQo+
+ID4gPg0KPiA+ID4gPiBPbiBUdWVzZGF5LCBTZXB0ZW1iZXIgMjEsIDIwMjEgMTA6MzQgUE0sIExh
+dXJlbnQgUGluY2hhcnQgd3JvdGU6DQo+ID4gPiA+PiBPbiBUdWUsIFNlcCAyMSwgMjAyMSBhdCAw
+MzowNDozN1BNICswMjAwLCBKZWFuLU1pY2hlbCBIYXV0Ym9pcw0KPiB3cm90ZToNCj4gPiA+ID4+
+PiBIaSBTYWthcmksIGFuZCBUb21hc3ogYXMgSSBoYXZlIGEgcmVtYXJrL3F1ZXN0aW9uIGZvciB5
+b3UgOi0pDQo+ID4gPiA+Pj4NCj4gPiA+ID4+PiBPbiAyMS8wOS8yMDIxIDEzOjA3LCBTYWthcmkg
+QWlsdXMgd3JvdGU6DQo+ID4gPiA+Pj4+IEhpIEplYW4tTWljaGVsIC0tLSBhbmQgQmluZ2J1IGFu
+ZCBUaWFuc2h1LA0KPiA+ID4gPj4+Pg0KPiA+ID4gPj4+PiBPbiBUaHUsIFNlcCAxNiwgMjAyMSBh
+dCAwNzoyNTowNFBNICswMjAwLCBKZWFuLU1pY2hlbCBIYXV0Ym9pcw0KPiB3cm90ZToNCj4gPiA+
+ID4+Pj4+IFdoaWxlIHBsYXlpbmcgd2l0aCBsb3cgcmVzb2x1dGlvbnMgZm9yIHRoZSBncmlkLCBp
+dCBhcHBlYXJlZA0KPiA+ID4gPj4+Pj4gdGhhdCBoZWlnaHRfcGVyX3NsaWNlIGlzIG5vdCBpbml0
+aWFsaXNlZCBpZiB3ZSBhcmUgbm90IHVzaW5nDQo+ID4gPiA+Pj4+PiBib3RoIHN0cmlwZXMgZm9y
+IHRoZSBjYWxjdWxhdGlvbnMuIFRoaXMgcGF0dGVybiBvY2N1cnMgdGhyZWUNCj4gdGltZXM6DQo+
+ID4gPiA+Pj4+PiAtIGZvciB0aGUgYXdiX2ZyIHByb2Nlc3NpbmcgYmxvY2sNCj4gPiA+ID4+Pj4+
+IC0gZm9yIHRoZSBhZiBwcm9jZXNzaW5nIGJsb2NrDQo+ID4gPiA+Pj4+PiAtIGZvciB0aGUgYXdi
+IHByb2Nlc3NpbmcgYmxvY2sNCj4gPiA+ID4+Pj4+DQo+ID4gPiA+Pj4+PiBUaGUgaWRlYSBvZiB0
+aGlzIHNtYWxsIHBvcnRpb24gb2YgY29kZSBpcyB0byByZWR1Y2UgY29tcGxleGl0eQ0KPiA+ID4g
+Pj4+Pj4gaW4gbG9hZGluZyB0aGUgc3RhdGlzdGljcywgaXQgY291bGQgYmUgZG9uZSBhbHNvIHdo
+ZW4gb25seSBvbmUNCj4gPiA+ID4+Pj4+IHN0cmlwZSBpcyB1c2VkLiBGaXggaXQgYnkgZ2V0dGlu
+ZyB0aGlzIGluaXRpYWxpc2F0aW9uIGNvZGUNCj4gPiA+ID4+Pj4+IG91dHNpZGUgb2YgdGhlDQo+
+ID4gPiA+Pj4+PiBlbHNlKCkgdGVzdCBjYXNlLg0KPiA+ID4gPj4+Pj4NCj4gPiA+ID4+Pj4+IFNp
+Z25lZC1vZmYtYnk6IEplYW4tTWljaGVsIEhhdXRib2lzDQo+ID4gPiA+Pj4+PiA8amVhbm1pY2hl
+bC5oYXV0Ym9pc0BpZGVhc29uYm9hcmQuY29tPg0KPiA+ID4gPj4+Pj4gLS0tDQo+ID4gPiA+Pj4+
+PiAgZHJpdmVycy9zdGFnaW5nL21lZGlhL2lwdTMvaXB1My1jc3MtcGFyYW1zLmMgfCA0NA0KPiA+
+ID4gPj4+Pj4gKysrKysrKysrKy0tLS0tLS0tLS0NCj4gPiA+ID4+Pj4+ICAxIGZpbGUgY2hhbmdl
+ZCwgMjIgaW5zZXJ0aW9ucygrKSwgMjIgZGVsZXRpb25zKC0pDQo+ID4gPiA+Pj4+Pg0KPiA+ID4g
+Pj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9pcHUzL2lwdTMtY3NzLXBh
+cmFtcy5jDQo+ID4gPiA+Pj4+PiBiL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9pcHUzL2lwdTMtY3Nz
+LXBhcmFtcy5jDQo+ID4gPiA+Pj4+PiBpbmRleCBlOWQ2YmQ5ZTkzMzIuLjA1ZGE3ZGJkY2E3OCAx
+MDA2NDQNCj4gPiA+ID4+Pj4+IC0tLSBhL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9pcHUzL2lwdTMt
+Y3NzLXBhcmFtcy5jDQo+ID4gPiA+Pj4+PiArKysgYi9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvaXB1
+My9pcHUzLWNzcy1wYXJhbXMuYw0KPiA+ID4gPj4+Pj4gQEAgLTI0MjgsMTYgKzI0MjgsMTYgQEAg
+aW50IGltZ3VfY3NzX2NmZ19hY2Moc3RydWN0IGltZ3VfY3NzDQo+ICpjc3MsIHVuc2lnbmVkIGlu
+dCBwaXBlLA0KPiA+ID4gPj4+Pj4gIAkJCQkJYWNjLQ0KPiA+YXdiX2ZyLnN0cmlwZXNbMV0uZ3Jp
+ZF9jZmcud2lkdGgsDQo+ID4gPiA+Pj4+PiAgCQkJCQliX3dfbG9nMik7DQo+ID4gPiA+Pj4+PiAg
+CQlhY2MtPmF3Yl9mci5zdHJpcGVzWzFdLmdyaWRfY2ZnLnhfZW5kID0gZW5kOw0KPiA+ID4gPj4+
+Pj4gLQ0KPiA+ID4gPj4+Pj4gLQkJLyoNCj4gPiA+ID4+Pj4+IC0JCSAqIFRvIHJlZHVjZSBjb21w
+bGV4aXR5IG9mIGRlYnViYmxpbmcgYW5kIGxvYWRpbmcNCj4gPiA+ID4+Pj4+IC0JCSAqIHN0YXRp
+c3RpY3MgZml4IGdyaWRfaGVpZ2h0X3Blcl9zbGljZSB0byAxIGZvciBib3RoDQo+ID4gPiA+Pj4+
+PiAtCQkgKiBzdHJpcGVzLg0KPiA+ID4gPj4+Pj4gLQkJICovDQo+ID4gPiA+Pj4+PiAtCQlmb3Ig
+KGkgPSAwOyBpIDwgc3RyaXBlczsgaSsrKQ0KPiA+ID4gPj4+Pj4gLQkJCWFjYy0NCj4gPmF3Yl9m
+ci5zdHJpcGVzW2ldLmdyaWRfY2ZnLmhlaWdodF9wZXJfc2xpY2UgPSAxOw0KPiA+ID4gPj4+Pj4g
+IAl9DQo+ID4gPiA+Pj4+Pg0KPiA+ID4gPj4+Pj4gKwkvKg0KPiA+ID4gPj4+Pj4gKwkgKiBUbyBy
+ZWR1Y2UgY29tcGxleGl0eSBvZiBkZWJ1YmJsaW5nIGFuZCBsb2FkaW5nDQo+ID4gPiA+Pj4+PiAr
+CSAqIHN0YXRpc3RpY3MgZml4IGdyaWRfaGVpZ2h0X3Blcl9zbGljZSB0byAxIGZvciBib3RoDQo+
+ID4gPiA+Pj4+PiArCSAqIHN0cmlwZXMuDQo+ID4gPiA+Pj4+PiArCSAqLw0KPiA+ID4gPj4+Pj4g
+Kwlmb3IgKGkgPSAwOyBpIDwgc3RyaXBlczsgaSsrKQ0KPiA+ID4gPj4+Pj4gKwkJYWNjLT5hd2Jf
+ZnIuc3RyaXBlc1tpXS5ncmlkX2NmZy5oZWlnaHRfcGVyX3NsaWNlID0gMTsNCj4gPiA+ID4+Pj4+
+ICsNCj4gPiA+ID4+Pj4+ICAJaWYgKGltZ3VfY3NzX2F3Yl9mcl9vcHNfY2FsYyhjc3MsIHBpcGUs
+ICZhY2MtPmF3Yl9mcikpDQo+ID4gPiA+Pj4+PiAgCQlyZXR1cm4gLUVJTlZBTDsNCj4gPiA+ID4+
+Pj4+DQo+ID4gPiA+Pj4+PiBAQCAtMjU5MSwxNSArMjU5MSwxNSBAQCBpbnQgaW1ndV9jc3NfY2Zn
+X2FjYyhzdHJ1Y3QgaW1ndV9jc3MNCj4gKmNzcywgdW5zaWduZWQgaW50IHBpcGUsDQo+ID4gPiA+
+Pj4+PiAgCQkJaW1ndV9jc3NfZ3JpZF9lbmQoYWNjLQ0KPiA+YWYuc3RyaXBlc1sxXS5ncmlkX2Nm
+Zy54X3N0YXJ0LA0KPiA+ID4gPj4+Pj4gIAkJCQkJICBhY2MtDQo+ID5hZi5zdHJpcGVzWzFdLmdy
+aWRfY2ZnLndpZHRoLA0KPiA+ID4gPj4+Pj4gIAkJCQkJICBiX3dfbG9nMik7DQo+ID4gPiA+Pj4+
+PiAtDQo+ID4gPiA+Pj4+PiAtCQkvKg0KPiA+ID4gPj4+Pj4gLQkJICogVG8gcmVkdWNlIGNvbXBs
+ZXhpdHkgb2YgZGVidWJibGluZyBhbmQgbG9hZGluZw0KPiBzdGF0aXN0aWNzDQo+ID4gPiA+Pj4+
+PiAtCQkgKiBmaXggZ3JpZF9oZWlnaHRfcGVyX3NsaWNlIHRvIDEgZm9yIGJvdGggc3RyaXBlcw0K
+PiA+ID4gPj4+Pj4gLQkJICovDQo+ID4gPiA+Pj4+PiAtCQlmb3IgKGkgPSAwOyBpIDwgc3RyaXBl
+czsgaSsrKQ0KPiA+ID4gPj4+Pj4gLQkJCWFjYy0+YWYuc3RyaXBlc1tpXS5ncmlkX2NmZy5oZWln
+aHRfcGVyX3NsaWNlID0NCj4gMTsNCj4gPiA+ID4+Pj4+ICAJfQ0KPiA+ID4gPj4+Pj4NCj4gPiA+
+ID4+Pj4+ICsJLyoNCj4gPiA+ID4+Pj4+ICsJICogVG8gcmVkdWNlIGNvbXBsZXhpdHkgb2YgZGVi
+dWJibGluZyBhbmQgbG9hZGluZyBzdGF0aXN0aWNzDQo+ID4gPiA+Pj4+PiArCSAqIGZpeCBncmlk
+X2hlaWdodF9wZXJfc2xpY2UgdG8gMSBmb3IgYm90aCBzdHJpcGVzDQo+ID4gPiA+Pj4+PiArCSAq
+Lw0KPiA+ID4gPj4+Pj4gKwlmb3IgKGkgPSAwOyBpIDwgc3RyaXBlczsgaSsrKQ0KPiA+ID4gPj4+
+Pj4gKwkJYWNjLT5hZi5zdHJpcGVzW2ldLmdyaWRfY2ZnLmhlaWdodF9wZXJfc2xpY2UgPSAxOw0K
+PiA+ID4gPj4+Pj4gKw0KPiA+ID4gPj4+Pj4gIAlpZiAoaW1ndV9jc3NfYWZfb3BzX2NhbGMoY3Nz
+LCBwaXBlLCAmYWNjLT5hZikpDQo+ID4gPiA+Pj4+PiAgCQlyZXR1cm4gLUVJTlZBTDsNCj4gPiA+
+ID4+Pj4+DQo+ID4gPiA+Pj4+PiBAQCAtMjY2MCwxNSArMjY2MCwxNSBAQCBpbnQgaW1ndV9jc3Nf
+Y2ZnX2FjYyhzdHJ1Y3QgaW1ndV9jc3MNCj4gKmNzcywgdW5zaWduZWQgaW50IHBpcGUsDQo+ID4g
+PiA+Pj4+PiAgCQkJaW1ndV9jc3NfZ3JpZF9lbmQoYWNjLQ0KPiA+YXdiLnN0cmlwZXNbMV0uZ3Jp
+ZC54X3N0YXJ0LA0KPiA+ID4gPj4+Pj4gIAkJCQkJICBhY2MtPmF3Yi5zdHJpcGVzWzFdLmdyaWQu
+d2lkdGgsDQo+ID4gPiA+Pj4+PiAgCQkJCQkgIGJfd19sb2cyKTsNCj4gPiA+ID4+Pj4+IC0NCj4g
+PiA+ID4+Pj4+IC0JCS8qDQo+ID4gPiA+Pj4+PiAtCQkgKiBUbyByZWR1Y2UgY29tcGxleGl0eSBv
+ZiBkZWJ1YmJsaW5nIGFuZCBsb2FkaW5nDQo+IHN0YXRpc3RpY3MNCj4gPiA+ID4+Pj4+IC0JCSAq
+IGZpeCBncmlkX2hlaWdodF9wZXJfc2xpY2UgdG8gMSBmb3IgYm90aCBzdHJpcGVzDQo+ID4gPiA+
+Pj4+PiAtCQkgKi8NCj4gPiA+ID4+Pj4+IC0JCWZvciAoaSA9IDA7IGkgPCBzdHJpcGVzOyBpKysp
+DQo+ID4gPiA+Pj4+PiAtCQkJYWNjLT5hd2Iuc3RyaXBlc1tpXS5ncmlkLmhlaWdodF9wZXJfc2xp
+Y2UgPSAxOw0KPiA+ID4gPj4+Pj4gIAl9DQo+ID4gPiA+Pj4+Pg0KPiA+ID4gPj4+Pj4gKwkvKg0K
+PiA+ID4gPj4+Pj4gKwkgKiBUbyByZWR1Y2UgY29tcGxleGl0eSBvZiBkZWJ1YmJsaW5nIGFuZCBs
+b2FkaW5nIHN0YXRpc3RpY3MNCj4gPiA+ID4+Pj4+ICsJICogZml4IGdyaWRfaGVpZ2h0X3Blcl9z
+bGljZSB0byAxIGZvciBib3RoIHN0cmlwZXMNCj4gPiA+ID4+Pj4+ICsJICovDQo+ID4gPiA+Pj4+
+PiArCWZvciAoaSA9IDA7IGkgPCBzdHJpcGVzOyBpKyspDQo+ID4gPiA+Pj4+PiArCQlhY2MtPmF3
+Yi5zdHJpcGVzW2ldLmdyaWQuaGVpZ2h0X3Blcl9zbGljZSA9IDE7DQo+ID4gPiA+Pj4+PiArDQo+
+ID4gPiA+Pj4+PiAgCWlmIChpbWd1X2Nzc19hd2Jfb3BzX2NhbGMoY3NzLCBwaXBlLCAmYWNjLT5h
+d2IpKQ0KPiA+ID4gPj4+Pj4gIAkJcmV0dXJuIC1FSU5WQUw7DQo+ID4gPiA+Pj4+Pg0KPiA+ID4g
+Pj4+Pg0KPiA+ID4gPj4+PiBXaGlsZSBpdCBzZWVtcyBsaWtlIGEgc2Vuc2libGUgaWRlYSB0byBp
+bml0aWFsaXNlIGFyZ3VtZW50cyB0bw0KPiA+ID4gPj4+PiBmaXJtd2FyZSwgZG9lcyB0aGlzIGhh
+dmUgYW4gZWZmZWN0IG9uIHRoZSBzdGF0aXN0aWNzIGZvcm1hdD8gSWYNCj4gPiA+ID4+Pj4gc28s
+IGNhbiB0aGUgZXhpc3RpbmcgdXNlciBzcGFjZSBjb3BlIHdpdGggdGhhdD8NCj4gPiA+ID4+Pg0K
+PiA+ID4gPj4+IFRvIHRyeSBhbmQgZmlndXJlIHRoYXQgb3V0LCB3ZSBoYXZlIHRlc3RlZCBzZXZl
+cmFsIGdyaWQNCj4gPiA+ID4+PiBjb25maWd1cmF0aW9ucyBhbmQgaW5zcGVjdGVkIHRoZSBjYXB0
+dXJlZCBzdGF0aXN0aWNzLiBXZSBoYXZlDQo+ID4gPiA+Pj4gY29udmVydGVkIHRoZSBzdGF0aXN0
+aWNzIGluIGFuIGltYWdlLCByZW5kZXJpbmcgZWFjaCBjZWxsIGFzIGENCj4gPiA+ID4+PiBwaXhl
+bCB3aG9zZSByZWQsIGdyZWVuIGFuZCBibHVlIGNvbXBvbmVudHMgYXJlIHRoZSBjZWxsJ3MgcmVk
+LA0KPiBncmVlbiBhbmQgYmx1ZSBhdmVyYWdlcy4NCj4gPiA+ID4+PiBUaGlzIHR1cm5lZCBvdXQg
+dG8gYmUgYSB2ZXJ5IGVmZmVjdGljZSB0b29sIHRvIHF1aWNrbHkgdmlzdWFsaXplDQo+ID4gPiA+
+Pj4gQVdCDQo+ID4gPiA+PiBzdGF0aXN0aWNzLg0KPiA+ID4gPj4+IFdlIGhhdmUgbWFkZSBhIGxv
+dCBvZiB0ZXN0cyB3aXRoIGRpZmZlcmVudCBvdXRwdXQgcmVzb2x1dGlvbnMsDQo+ID4gPiA+Pj4g
+ZnJvbSBhIHNtYWxsIG9uZSB1cCB0byB0aGUgZnVsbC1zY2FsZSBvbmUuDQo+ID4gPiA+Pj4NCj4g
+PiA+ID4+PiBIZXJlIGlzIG9uZSBleGFtcGxlIG9mIGEgc3RhdGlzdGljcyBvdXRwdXQgd2l0aCBh
+IFZpZXdGaW5kZXINCj4gPiA+ID4+PiBjb25maWd1cmVkIGFzIDE5MjB4MTI4MCwgd2l0aCBhIEJE
+UyBvdXRwdXQgY29uZmlndXJhdGlvbiBzZXQgdG8NCj4gPiA+ID4+PiAyMzA0eDE1MzYgKHNlbnNv
+ciBpcyAyNTkyeDE5NDQpLg0KPiA+ID4gPj4+DQo+ID4gPiA+Pj4gV2l0aG91dCB0aGUgcGF0Y2gs
+IGNvbmZpZ3VyaW5nIGEgNzl4NDUgZ3JpZCBvZiAxNngxNiBjZWxscyB3ZQ0KPiA+ID4gPj4+IG9i
+dGFpbiB0aGUNCj4gPiA+ID4+PiBpbWFnZTogaHR0cHM6Ly9wYXN0ZWJvYXJkLmNvL2c0bkM0Zkhq
+YlZFUi5wbmcuDQo+ID4gPiA+Pj4gV2UgY2FuIG5vdGljZSBhIHdlaXJkIHBhZGRpbmcgZXZlcnkg
+dHdvIGxpbmVzIGFuZCBpdCBzZWVtcyB0byBiZQ0KPiA+ID4gPj4+IG1pc3NpbmcgaGFsZiBvZiB0
+aGUgZnJhbWUuDQo+ID4gPiA+Pj4NCj4gPiA+ID4+PiBXaXRoIHRoZSBwYXRjaCBhcHBsaWVkLCB0
+aGUgc2FtZSBjb25maWd1cmF0aW9uIGdpdmVzIHVzIHRoZSBpbWFnZToNCj4gPiA+ID4+PiBodHRw
+czovL3Bhc3RlYm9hcmQuY28vcnphcDZheEl2VmR1LnBuZw0KPiA+ID4gPj4+DQo+ID4gPiA+Pj4g
+V2UgY2FuIGNsZWFybHkgc2VlIHRoZSBvbmUgcGFkZGluZyBwaXhlbCBvbiB0aGUgcmlnaHQsIGFu
+ZCB0aGUNCj4gPiA+ID4+PiBmcmFtZSBpcyBhbGwgdGhlcmUsIGFzIGV4cGVjdGVkLg0KPiA+ID4g
+Pj4+DQo+ID4gPiA+Pj4gVG9tYXN6OiBXZSdyZSBjb25jZXJuZWQgdGhhdCB0aGlzIHBhdGNoIG1h
+eSBoYXZlIGFuIGltcGFjdCBvbg0KPiA+ID4gPj4+IHRoZSBDaHJvbWVPUyBJbnRlbCBDYW1lcmEg
+SEFMIHdpdGggdGhlIElQVTMuIElzIGl0IHBvc3NpYmxlIGZvcg0KPiA+ID4gPj4+IHNvbWVvbmUg
+dG8gcmV2aWV3IGFuZCB0ZXN0IHRoaXMgcGxlYXNlPw0KPiA+ID4gPj4NCj4gPiA+ID4+IEFzIHNo
+b3duIGJ5IHRoZSBpbWFnZXMgYWJvdmUsIHRoaXMgaXMgYSByZWFsIGZpeC4gSXQgb25seSBhZmZl
+Y3RzDQo+ID4gPiA+PiBncmlkIGNvbmZpZ3VyYXRpb25zIHRoYXQgdXNlIGEgc2luZ2xlIHN0cmlw
+ZSAobGVmdCBvciByaWdodCksIHNvDQo+ID4gPiA+PiBlaXRoZXIgInNtYWxsIiByZXNvbHV0aW9u
+cyAobGVzcyB0aGFuIDEyODAgcGl4ZWxzIGF0IHRoZSBCRFMNCj4gPiA+ID4+IG91dHB1dCBpZiBJ
+IHJlY2FsbCBjb3JyZWN0bHkpLCBvciBncmlkIGNvbmZpZ3VyYXRpb25zIHRoYXQgc3Bhbg0KPiA+
+ID4gPj4gdGhlIGxlZnQgcGFydCBvZiB0aGUgaW1hZ2Ugd2l0aCBoaWdoZXIgcmVzb2x1dGlvbnMu
+IFRoZSBsYXR0ZXIgaXMNCj4gPiA+ID4+IHByb2JhYmx5IHVubGlrZWx5LiBGb3IgdGhlIGZvcm1l
+ciwgaXQgbWF5IGFmZmVjdCB0aGUgYmluYXJ5DQo+ID4gPiA+PiBsaWJyYXJ5LCBlc3BlY2lhbGx5
+IGlmIGl0IGluY2x1ZGVzIGEgd29ya2Fyb3VuZCBmb3IgdGhlIGJ1Zy4NCj4gPiA+ID4+DQo+ID4g
+PiA+PiBTdGlsbCwgdGhpcyBjaGFuZ2UgaXMgZ29vZCBJIGJlbGlldmUsIHNvIGl0IHNob3VsZCBi
+ZSB1cHN0cmVhbWVkLg0KPiANCj4gLS0NCj4gUmVnYXJkcywNCj4gDQo+IExhdXJlbnQgUGluY2hh
+cnQNCg==
