@@ -2,101 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 288B141616F
-	for <lists+linux-media@lfdr.de>; Thu, 23 Sep 2021 16:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8759416381
+	for <lists+linux-media@lfdr.de>; Thu, 23 Sep 2021 18:43:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241681AbhIWOwP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Sep 2021 10:52:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53132 "EHLO
+        id S233256AbhIWQpN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Sep 2021 12:45:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241501AbhIWOwO (ORCPT
+        with ESMTP id S230139AbhIWQpN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Sep 2021 10:52:14 -0400
+        Thu, 23 Sep 2021 12:45:13 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECEB2C061574
-        for <linux-media@vger.kernel.org>; Thu, 23 Sep 2021 07:50:41 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1mTQ3c-0003Uh-1S; Thu, 23 Sep 2021 16:50:40 +0200
-Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1mTQ3b-0002Ru-Kk; Thu, 23 Sep 2021 16:50:39 +0200
-Date:   Thu, 23 Sep 2021 16:50:39 +0200
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Marek Vasut <marex@denx.de>, Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v4 1/3] media: imx6-mipi-csi2: use pre_streamon callback
- to set sensor into LP11
-Message-ID: <20210923145039.GD30905@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, Marek Vasut <marex@denx.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>, kernel@pengutronix.de
-References: <20210923105618.365513-1-m.tretter@pengutronix.de>
- <20210923105618.365513-2-m.tretter@pengutronix.de>
- <b26ba662abc999394a7381d4d412fc28fdf6aa39.camel@pengutronix.de>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 975BDC061574
+        for <linux-media@vger.kernel.org>; Thu, 23 Sep 2021 09:43:41 -0700 (PDT)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1mTRox-0007X7-VN; Thu, 23 Sep 2021 18:43:39 +0200
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>
+Subject: [PATCH] media: tc358743: implement pre_streamon to put all lanes into LP-11 state
+Date:   Thu, 23 Sep 2021 18:43:32 +0200
+Message-Id: <20210923164332.18227-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b26ba662abc999394a7381d4d412fc28fdf6aa39.camel@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 16:46:04 up 217 days, 18:09, 114 users,  load average: 0.26, 0.24,
- 0.20
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mtr@pengutronix.de
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 23 Sep 2021 16:37:31 +0200, Philipp Zabel wrote:
-> On Thu, 2021-09-23 at 12:56 +0200, Michael Tretter wrote:
-> > Step 5 expects that the sensor is in LP11 mode. Use the new
-> > pre_streamon callback to signal the sensor that it should switch into
-> > LP11.
-> > 
-> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > ---
-> > Changelog:
-> > 
-> > v4:
-> > 
-> > - new patch
-> > ---
-> >  drivers/staging/media/imx/imx6-mipi-csi2.c | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> > index 9de0ebd439dc..4f19e2bce4bb 100644
-> > --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-> > +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> > @@ -382,13 +382,17 @@ static int csi2_start(struct csi2_dev *csi2)
-> >  	csi2_enable(csi2, true);
-> >  
-> >  	/* Step 5 */
-> > +	ret = v4l2_subdev_call(csi2->src_sd, video, pre_streamon,
-> > +			       V4L2_SUBDEV_PRE_STREAMON_FL_MANUAL_LP);
-> > +	if (ret)
-> > +		goto err_assert_reset;
-> 
-> I think this should check for (ret && ret != -ENOIOCTLCMD) to avoid
-> breaking drivers that are still missing pre_streamon implementation.
+If the connected MIPI CSI-2 RX driver uses the new pre_streamon subdev
+call, we don't have to reinitialize the CSI-2 TX after streamoff.
+Just put all lanes into LP-11 state during pre_streamon if requested.
 
-Thanks. You are correct. I will wait for further comments on the other patches
-of the series and fix it in the next version.
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ drivers/media/i2c/tc358743.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-Michael
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index 3205cd8298dd..40eec67604e0 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -93,6 +93,7 @@ struct tc358743_state {
+ 	struct v4l2_dv_timings timings;
+ 	u32 mbus_fmt_code;
+ 	u8 csi_lanes_in_use;
++	bool pre_streamon_used;
+ 
+ 	struct gpio_desc *reset_gpio;
+ 
+@@ -1637,8 +1638,10 @@ static int tc358743_get_mbus_config(struct v4l2_subdev *sd,
+ 
+ static int tc358743_s_stream(struct v4l2_subdev *sd, int enable)
+ {
++	struct tc358743_state *state = to_state(sd);
++
+ 	enable_stream(sd, enable);
+-	if (!enable) {
++	if (!enable && !state->pre_streamon_used) {
+ 		/* Put all lanes in LP-11 state (STOPSTATE) */
+ 		tc358743_set_csi(sd);
+ 	}
+@@ -1646,6 +1649,19 @@ static int tc358743_s_stream(struct v4l2_subdev *sd, int enable)
+ 	return 0;
+ }
+ 
++static int tc358743_pre_streamon(struct v4l2_subdev *sd, u32 flags)
++{
++	struct tc358743_state *state = to_state(sd);
++
++	/* Put all lanes in LP-11 state (STOPSTATE) if requested */
++	if (flags & V4L2_SUBDEV_PRE_STREAMON_FL_MANUAL_LP)
++		tc358743_set_csi(sd);
++
++	state->pre_streamon_used = true;
++
++	return 0;
++}
++
+ /* --------------- PAD OPS --------------- */
+ 
+ static int tc358743_enum_mbus_code(struct v4l2_subdev *sd,
+@@ -1840,6 +1856,7 @@ static const struct v4l2_subdev_video_ops tc358743_video_ops = {
+ 	.g_dv_timings = tc358743_g_dv_timings,
+ 	.query_dv_timings = tc358743_query_dv_timings,
+ 	.s_stream = tc358743_s_stream,
++	.pre_streamon = tc358743_pre_streamon,
+ };
+ 
+ static const struct v4l2_subdev_pad_ops tc358743_pad_ops = {
+-- 
+2.30.2
+
