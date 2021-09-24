@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 53A70417E40
+	by mail.lfdr.de (Postfix) with ESMTP id 9C68E417E41
 	for <lists+linux-media@lfdr.de>; Sat, 25 Sep 2021 01:32:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344909AbhIXXdc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Sep 2021 19:33:32 -0400
-Received: from omta001.cacentral1.a.cloudfilter.net ([3.97.99.32]:59094 "EHLO
+        id S1344932AbhIXXdd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Sep 2021 19:33:33 -0400
+Received: from omta001.cacentral1.a.cloudfilter.net ([3.97.99.32]:56763 "EHLO
         omta001.cacentral1.a.cloudfilter.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235822AbhIXXda (ORCPT
+        by vger.kernel.org with ESMTP id S1344739AbhIXXda (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 24 Sep 2021 19:33:30 -0400
 Received: from shw-obgw-4001a.ext.cloudfilter.net ([10.228.9.142])
         by cmsmtp with ESMTP
-        id ToZ0mdih9czbLTufcmRrVz; Fri, 24 Sep 2021 23:31:56 +0000
+        id TmS9mdUgaczbLTufcmRrW7; Fri, 24 Sep 2021 23:31:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
-        t=1632526316; bh=zHJDbv+mDHrDWTEwNQK/6L7qOIgCFbuDZwKtfkHs4jQ=;
+        t=1632526316; bh=j76fWglIaXkfahquGvSRBH9ZojoB9Q+Ieie2r7+JesY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=X75iW65STjLq3GiyLaoxrM6IvPCBRU6Sz5skbTa5gpL1Yik3AtibUO236Zerupeai
-         2Zuqa4d6ZAj+Q+OVdyCtUb+OCygpQ+fHFJeZ36iEeYliLX15opKQ23ks6PA17Pbe6x
-         NHU/HJTECxIamUze5jxVxWEKIJzMoPbV2DXwtDWwiJ1436BIlEvBl5bx0xRqhud7FX
-         co04LO4bT08wyRIVHPRuKv8KwmzeW38XJxtoVOmlggOqMiWLl7QlCe/aZpoIJEDKB5
-         +hyHXSlok6h4Xd6qBeZvHeAfEpMzmStKFY7EyYOXmaY+NhgKLsalA5AdmMv6gkSemO
-         VOurOOhI/t5ig==
+        b=cHJL2LWssfEv9dBwGS2AF9aLaVrXtCahIPWHfm5XQC72jZ3CotJdPVhqVsW35Dw7l
+         VYMck4Y8kEM7BWpnOMmepVfMQ09Va8fL0714PKhbTfePXxmL739WfAd/80902HKMGg
+         H3Gt5V4D69IbKNLAK9xgwQ/lxn1wdlJH+It61nWVxErO2iI9AXuYMZvvq627FLRTWH
+         lyjm+OvkDz1uocVE1jnuDDy3RQ4XOE8NH/QGOxFLHok5f3YgRPMhfrSVYekH9s8YZA
+         pwZmC6YeTWq5+mYQOh1rK/W5xG3qiLC8cnS1bbsoyjFPPrSw36fnLy3Y410Y0lT/kN
+         LRu7IE+bcVqwg==
 Received: from shaw.ca ([70.71.78.228])
         by cmsmtp with ESMTPA
-        id TufVmyJPGU9pxTufbmYw7e; Fri, 24 Sep 2021 23:31:56 +0000
+        id TufVmyJPGU9pxTufcmYw7y; Fri, 24 Sep 2021 23:31:56 +0000
 Authentication-Results: ; auth=pass (LOGIN) smtp.auth=joevt@shaw.ca
 X-Authority-Analysis: v=2.4 cv=Bbi7bph2 c=1 sm=1 tr=0 ts=614e5fec
  a=qDatE6m/3wxSEG8Wq7h0zQ==:117 a=qDatE6m/3wxSEG8Wq7h0zQ==:17 a=_Dj-zB-qAAAA:8
- a=LIcKB4O_YFRxREVKF7IA:9 a=c-cOe7UV8MviEfHuAVEQ:22
+ a=_zDHQJX43gnR_71ToFUA:9 a=c-cOe7UV8MviEfHuAVEQ:22
 From:   joevt <joevt@shaw.ca>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     linux-media@vger.kernel.org
-Subject: [PATCH 08/28] edid-decode: Output block type before fail
-Date:   Fri, 24 Sep 2021 16:31:29 -0700
-Message-Id: <20210924233149.10028-9-joevt@shaw.ca>
+Subject: [PATCH 09/28] edid-decode: update Microsoft expected length
+Date:   Fri, 24 Sep 2021 16:31:30 -0700
+Message-Id: <20210924233149.10028-10-joevt@shaw.ca>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20210924233149.10028-1-joevt@shaw.ca>
 References: <20210924233149.10028-1-joevt@shaw.ca>
@@ -48,59 +48,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For extended tags, block type should be output before fail messages (duplicate failure, or missing audio failure).
-For normal tags 0x04 and 0x05, fail message should appear after block type instead of block data to be consistent (and also to indicate that the failure is because of the block type and not the contents of the block).
+Since we excluded the size of the OUI from the length in a previous commit, we need to decrease the expected length accordingly.
+See example DELA07B/5F1B08ADB0A0, LENB800/61B4B713B745
+
+Really, length checks should probably be done in the parse function. If length is greater than expected then parse up to the expected length and output the rest as hex with a warning. If length is less than expected then parse up to the length and warn that some expected bytes are missing.
 
 Signed-off-by: Joe van Tunen <joevt@shaw.ca>
 ---
- parse-cta-block.cpp | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ parse-cta-block.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/parse-cta-block.cpp b/parse-cta-block.cpp
-index 130fe9e..d6c797d 100644
+index d6c797d..ea55c99 100644
 --- a/parse-cta-block.cpp
 +++ b/parse-cta-block.cpp
-@@ -2042,6 +2042,9 @@ void edid_state::cta_ext_block(unsigned tag, const unsigned char *x, unsigned le
- 		return;
- 	}
- 
-+	if (data_block.length())
-+		printf("  %s:\n", data_block.c_str());
-+
- 	switch (tag) {
- 	case 0x700:
- 	case 0x702:
-@@ -2061,9 +2064,6 @@ void edid_state::cta_ext_block(unsigned tag, const unsigned char *x, unsigned le
- 	if (audio_block && !(cta.byte3 & 0x40))
- 		fail("Audio information is present, but bit 6 of Byte 3 of the CTA-861 Extension header indicates no Basic Audio support.\n");
- 
--	if (data_block.length())
--		printf("  %s:\n", data_block.c_str());
--
- 	switch (tag) {
- 	case 0x700: cta_vcdb(x, length); break;
- 	case 0x701:
-@@ -2258,17 +2258,17 @@ void edid_state::cta_block(const unsigned char *x, bool duplicate)
- 	case 0x04:
- 		data_block = "Speaker Allocation Data Block";
- 		printf("  %s:\n", data_block.c_str());
--		cta_sadb(x, length);
--		audio_block = true;
- 		if (duplicate)
- 			fail("Only one instance of this Data Block is allowed.\n");
-+		cta_sadb(x, length);
-+		audio_block = true;
- 		break;
- 	case 0x05:
- 		data_block = "VESA Display Transfer Characteristics Data Block";
- 		printf("  %s:\n", data_block.c_str());
--		cta_vesa_dtcdb(x, length);
- 		if (duplicate)
- 			fail("Only one instance of this Data Block is allowed.\n");
-+		cta_vesa_dtcdb(x, length);
- 		break;
- 	case 0x07:
- 		data_block = "Unknown CTA-861 Data Block (extended tag truncated)";
+@@ -2249,7 +2249,7 @@ void edid_state::cta_block(const unsigned char *x, bool duplicate)
+ 			cta_amd(x, length);
+ 			break;
+ 		}
+-		if (oui == 0xca125c && length == 0x15) {
++		if (oui == 0xca125c && length == 0x12) {
+ 			cta_microsoft(x, length);
+ 			break;
+ 		}
 -- 
 2.24.3 (Apple Git-128)
 
