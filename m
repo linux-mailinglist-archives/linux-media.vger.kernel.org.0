@@ -2,75 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F6C24169C1
-	for <lists+linux-media@lfdr.de>; Fri, 24 Sep 2021 04:02:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74AD4416B0A
+	for <lists+linux-media@lfdr.de>; Fri, 24 Sep 2021 06:44:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243810AbhIXCEC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Sep 2021 22:04:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37598 "EHLO
+        id S237144AbhIXEpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Sep 2021 00:45:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243767AbhIXCEC (ORCPT
+        with ESMTP id S229678AbhIXEpp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Sep 2021 22:04:02 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C739C061574
-        for <linux-media@vger.kernel.org>; Thu, 23 Sep 2021 19:02:30 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id x7so15595324edd.6
-        for <linux-media@vger.kernel.org>; Thu, 23 Sep 2021 19:02:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=dgpwPCQznEmVXGZRT9a+ot3RVGNTTHbl31G3nps7wKQ=;
-        b=mgPpbP9aF381f5/bN4qtkHP939PGhcj90yUZsl1VfUXihpaTI2OEitivScQAZI84IR
-         8I6An1StEtMYrFFZZj9hGvt0mijwOLvGBxCDk8CVgSbvq9Z7C5S/Z7OTWFDs5th9bJgS
-         aHy55nmFGrq22bmL6i3zH36/BtRtA07Fs4T+88nM6graF2FGed7Q8AXzSFUF5U9Fh7sE
-         qJTzzVch65WkR0jNkKiYaosEWl/LDRqcsVE/SMtX+wQIqEh68E51O1btylXJyaVmuCv6
-         YNqiyKysp6Xb+H0aHJ+jJ4cgRd7HkEfgXBTkvjKlMTxjZTJNWrxKTHRKCTa/pTHantWi
-         lr+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=dgpwPCQznEmVXGZRT9a+ot3RVGNTTHbl31G3nps7wKQ=;
-        b=vFOoQhTKzcyzu9JBNk3Wdt8tUa/COzqHf26KQH3s29ESXH8WxeNsy89t8etfu0pdAm
-         92l43BSA5pzJj6+PrZUydzEhp2Q4r0mM+a0INY+DtnTZW63gyXF0iArH34rFnSnCqrHr
-         IXt6SP8Kn4XDkQ/4JVubJZ+64k/fA3CDfMdM1KWFWAd66DvJXtbOmx1v2pnriqZMFlNM
-         CU95BJfkyu1bqmV2Kk8Y90ZHns8hMNdDQweTeKG5s0IOvIj3lKhTQNtBAusXPo/ancYI
-         GJZFXz1QfQ+c1EU88tJSuSubKCAFPeYnP9T1mvFWoNrUk7ftFpxg/h0YnqUGqzXYgW3G
-         V5sQ==
-X-Gm-Message-State: AOAM531JlzKX+X/JTCE9tWk3r5hl8DdCUAhnMZFRmM7/pyUNgfZYNDcF
-        /NhS/K5U3VoCBbzfNt9fwyLRxDB4My5Y5pUPz8w=
-X-Google-Smtp-Source: ABdhPJxET9d3co3mX5K9wVkBpKztPPpaWkhRImGEH2n1V49NpPJAnXVUybIPSdyEcXM5G4RflQP1FBiUQeCXdfTyg4w=
-X-Received: by 2002:a17:906:9aca:: with SMTP id ah10mr8403321ejc.471.1632448948390;
- Thu, 23 Sep 2021 19:02:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a17:906:5615:0:0:0:0 with HTTP; Thu, 23 Sep 2021 19:02:24
- -0700 (PDT)
-Reply-To: michaelrachid7@gmail.com
-From:   Michael Rachid <sammyhamidou93@gmail.com>
-Date:   Fri, 24 Sep 2021 03:02:24 +0100
-Message-ID: <CAOO_Zf_CW=RAO3urxYOASd-XNaLvWwba=jA4LuJyUAtNom+AFw@mail.gmail.com>
-Subject: =?UTF-8?B?7KCc7JWIIGplYW4vUHJvcG9zYWw=?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        Fri, 24 Sep 2021 00:45:45 -0400
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C914AC061574
+        for <linux-media@vger.kernel.org>; Thu, 23 Sep 2021 21:44:12 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id Td4Bm7a3bISvdTd4DmvdDd; Fri, 24 Sep 2021 06:44:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1632458650; bh=3GapXoQaECQpHQszJL2A5ppVn9OylyS5f2W9a6SaK/g=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=Og6svKm9QaH3wFVF+M5mRBUpuoyI+pJ9zxBGL/Qe7hEJRrSLRwXUyHKtXl9yLLhXg
+         UXqzcRTFAoNlHPpzNsj4/h5LszdXrIFgSSqW4tVN2XGntcPxAfpHhjQkLTvu1FfUdR
+         fYWqeFB/J211GAdcDwiT4H8GOCoT1jjD837WNdNK1rUPwqHjL+SyLG51AmTVhUmxx1
+         YHBw40TNeeHjm8IxdNzYnMdAkXvG5BznsodVbN/eoQwOBCcUHPo/X+FoIHIwABkqpI
+         yifDGXY7kNamOvOktZCarFrLupfVKik0faZ6/8o96hwcYkofdO3kx+EoG1XwF56HkI
+         OeSaYoS9XYerw==
+Message-ID: <99e8e2ec5d492e964b15567eb9f3b2eb@smtp-cloud7.xs4all.net>
+Date:   Fri, 24 Sep 2021 06:44:07 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfMCXX6MgiyCpdbWvOBuJ3hxSh5Zk4hjcVxwlhk8x84Y2mhK40OfftWSQgvr5b3VC/lK/NhqAt2Ty/yowMGF5DqwvFAZ1CsxvhLoJsWZjkqwHNsL129VS
+ /qRwev1efhAihu/Sq2FE85xeLYtha/6AzxSOyLpiY4FVJ7/oQ5Db+pmpcd+MQt3bWbCstan1F6//z0RT37UeXpqtXv05DbEqDIUkcMV7PA1cM5pXZcIgl3Rl
+ Njmuj1dBdGMRIPw2at779w==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-7Lmc6rWs7JeQ6rKMLA0KDQrrgpjripQg64u57Iug6rO8IO2VqOq7mCDsspjrpqztlZjqs6Ag7Iu2
-7J2AIOyCrOyXhSDsoJzslYjsl5Ag64yA7ZW0IOyVjOumrOq4sCDsnITtlbQg6riA7J2EIOyUgeuL
-iOuLpC4NCjXsspzrp4wg64us65+s6rCAIO2IrOyeheuQqeuLiOuLpC4g66qo65OgIOqyg+ydtCDt
-lanrspXsoIHsnbTqs6Ag7JyE7ZeY7ZWY7KeAIOyViuycvOuLiCDslYjsi6ztlZjsi63si5zsmKQu
-DQrqtIDsi6zsnYQg7ZGc7Iuc7ZW0IOyjvOyLreyLnOyYpC4NCg0K66eI7J207YG0IOudvOyLnOuT
-nC4NCg0KY2hpbmd1ZWdlLA0KDQpuYW5ldW4gZGFuZ3Npbmd3YSBoYW1ra2UgY2hlb2xpaGFnbyBz
-aXAtZXVuIHNhLWVvYiBqZWFuLWUgZGFlaGFlDQphbGxpZ2kgd2loYWUgZ2V1bC1ldWwgc3NldWJu
-aWRhLg0KNWNoZW9ubWFuIGRhbGxlb2dhIHR1LWliZG9lYm5pZGEuIG1vZGV1biBnZW9zLWkgaGFi
-YmVvYmplb2ctaWdvDQp3aWhlb21oYWppIGFuaC1ldW5pIGFuc2ltaGFzaWJzaW8uDQpnd2Fuc2lt
-LWV1bCBweW9zaWhhZSBqdXNpYnNpby4NCg0KbWFpa2V1bCBsYXNpZGV1Lg0KDQoNCkRlYXIgZnJp
-ZW5kLA0KDQpJIHdyaXRlIHRvIGluZm9ybSB5b3UgYWJvdXQgYSBidXNpbmVzcyBwcm9wb3NhbCBJ
-IGhhdmUgd2hpY2ggSSB3b3VsZA0KbGlrZSB0byBoYW5kbGUgd2l0aCB5b3UuDQpGaWZ0eSBtaWxs
-aW9uIGRvbGxhcnMgaXMgaW52b2x2ZWQuIEJlIHJlc3QgYXNzdXJlZCB0aGF0IGV2ZXJ5dGhpbmcg
-aXMNCmxlZ2FsIGFuZCByaXNrIGZyZWUuDQpLaW5kbHkgaW5kaWNhdGUgeW91ciBpbnRlcmVzdC4N
-Cg0KTWljaGFlbCBSYWNoaWQuDQo=
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
+
+Results of the daily build of media_tree:
+
+date:			Fri Sep 24 05:00:10 CEST 2021
+media-tree git hash:	952aab37b1217fbd9146dbb841ab38fe2477c753
+media_build git hash:	61bc2cc71b936c10997da04d61ea655e706e78d6
+v4l-utils git hash:	80a766cdcb1b8c395bdf03f67a18f0b9300cdff3
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b271230dab7e119453a068d347aef2c79d6b74b2
+host hardware:		x86_64
+host os:		5.13.11-marune
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15-rc1-i686: OK
+linux-5.15-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
