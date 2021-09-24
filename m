@@ -2,111 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B78CF417D2B
-	for <lists+linux-media@lfdr.de>; Fri, 24 Sep 2021 23:45:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D524E417E38
+	for <lists+linux-media@lfdr.de>; Sat, 25 Sep 2021 01:31:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347547AbhIXVrG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Sep 2021 17:47:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54196 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348656AbhIXVqx (ORCPT
+        id S1344487AbhIXXd1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Sep 2021 19:33:27 -0400
+Received: from omta002.cacentral1.a.cloudfilter.net ([3.97.99.33]:32974 "EHLO
+        omta002.cacentral1.a.cloudfilter.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232572AbhIXXd0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Sep 2021 17:46:53 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECCFBC0613E7;
-        Fri, 24 Sep 2021 14:45:17 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id lp9-20020a17090b4a8900b0019ea2b54b61so1195704pjb.1;
-        Fri, 24 Sep 2021 14:45:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=vmXM0x+L2fy2oUFZKpqZIVda6KQ5BuS4MqABxpV0RLE=;
-        b=Fd02+5DZCGdPajbQblz6RtZEdBpaT0RdsW23u2GXu0J+qSxYcUQpvLClMFfMU3Mejr
-         liAyY4fcaNt9zqXY0Ten5whNspHlgozFxh+M28hvPsEtjWgzU4y17cqW6fDw5qKeENwe
-         RVEcII3WbcKWV5WpIPEMY+PqrhRi2sNm4y1y76/t3Ob5qQXwjhmnXhKN5ohS0UIHyZto
-         h4Y0LbskPUXgiZeddW5UwgivBqx0o88Gu4mrbilNmyr426+0zLndSYpI10m9xZcioFk/
-         rMJRQAii8MpyZdNhn/5oEumlUE2Rugl1jnuZOM50l2NH3G2omWbxHVckVW9hbCRj/wNb
-         sZYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=vmXM0x+L2fy2oUFZKpqZIVda6KQ5BuS4MqABxpV0RLE=;
-        b=6iQP6F6QUDI4ZEngEGy6QcKdaPhKItyScaL96dC6Q/Yx+u7ATs+PtYYChVcxzHQO0l
-         +pIc6I1HSZa126109uUKWVk7EXoEr2a6PaxCbV1MQuYH56f8etc7yyYVEs8Y5YwmglBm
-         uFmf2Tis4lcSC673e0+J1JCFaVir15tSgxWsQXaOfCOw0pbOtq+JWJmQcfNQdaEFgJT8
-         IVlgX6XGOAEW/reNHMD5DxxChX85IzxLE7IAXYtjPb83H4+EaSesfLv0yEA/28S4NeNB
-         0F9uf9ZH3eqbJMkleX1Qm5Si+5LBO/cWQaTf2/oZ21V/CtS+fDc0stRQqfMvZd9EEpkd
-         pkbw==
-X-Gm-Message-State: AOAM533j/jstXEIYqFlGkI6u6o0p0tMGhwXbXAzL4hoZuAHBGxVKmZG3
-        i37oq1tn5FGylQhLbNw//WOuTgrDt+dvPw==
-X-Google-Smtp-Source: ABdhPJybXofQcKpz9+5yupOdPkX9X/mvHj3Fe0KKcW1PyI8x5z4ZraFHO7B4bQLBBOHzDvEhuHAA3w==
-X-Received: by 2002:a17:902:c084:b0:13d:c6ef:7cf0 with SMTP id j4-20020a170902c08400b0013dc6ef7cf0mr10957762pld.4.1632519917109;
-        Fri, 24 Sep 2021 14:45:17 -0700 (PDT)
-Received: from stbirv-lnx-2.igp.broadcom.net ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id n66sm9842029pfn.142.2021.09.24.14.45.15
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 24 Sep 2021 14:45:16 -0700 (PDT)
-From:   Justin Chen <justinpopo6@gmail.com>
-To:     netdev@vger.kernel.org
-Cc:     bcm-kernel-feedback-list@broadcom.com,
-        Justin Chen <justinpopo6@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Doug Berger <opendmb@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Michael Chan <michael.chan@broadcom.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE BINDINGS), linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        dri-devel@lists.freedesktop.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK)
-Subject: [PATCH net-next 5/5] MAINTAINERS: ASP 2.0 Ethernet driver maintainers
-Date:   Fri, 24 Sep 2021 14:44:51 -0700
-Message-Id: <1632519891-26510-6-git-send-email-justinpopo6@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1632519891-26510-1-git-send-email-justinpopo6@gmail.com>
-References: <1632519891-26510-1-git-send-email-justinpopo6@gmail.com>
+        Fri, 24 Sep 2021 19:33:26 -0400
+Received: from shw-obgw-4001a.ext.cloudfilter.net ([10.228.9.142])
+        by cmsmtp with ESMTP
+        id ToOTmFeAMps7PTufXmwEGd; Fri, 24 Sep 2021 23:31:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
+        t=1632526311; bh=pj+RHrhICqKJoRuBhb7ZmfdXw8gdksDk1APSkKlQohg=;
+        h=From:To:Cc:Subject:Date;
+        b=C4DiPqZKJzk0aoU7AluYZFKu91HjxkMhIV3bT+PQLsqR1IszAFsAa7qU5DRYOnxBq
+         0ksS7q0Gx+V8AIOlg0CRVBIUy28z3ozFze4HVfgozTS19v2pGUNLnnDcxm0UY1vaGd
+         DZYtpqmhFb1OU72G2aoH5aIqGOrQ2qQlJWemSQUPqChbQQa2AMVdXB8byM7DDQxKn/
+         W2exi1qcZsrdWy0beLToITTWzJV/qYR/RP2h76oHjBmWkS2JT9vxIKs+WLcoxx6k6J
+         JNSCUD16CufGNPY9jdR2l5lFrpZNqizzjCC3WYKm75KfeYMGVDeJV8G4Bh9QToBBIb
+         dAcBV1DJre4Fw==
+Received: from shaw.ca ([70.71.78.228])
+        by cmsmtp with ESMTPA
+        id TufVmyJPGU9pxTufXmYw6Y; Fri, 24 Sep 2021 23:31:51 +0000
+Authentication-Results: ; auth=pass (LOGIN) smtp.auth=joevt@shaw.ca
+X-Authority-Analysis: v=2.4 cv=Bbi7bph2 c=1 sm=1 tr=0 ts=614e5fe7
+ a=qDatE6m/3wxSEG8Wq7h0zQ==:117 a=qDatE6m/3wxSEG8Wq7h0zQ==:17
+ a=GthV8c92ZZJlE00sHJIA:9
+From:   joevt <joevt@shaw.ca>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: [PATCH 00/28] bug fixes, additions, changes
+Date:   Fri, 24 Sep 2021 16:31:21 -0700
+Message-Id: <20210924233149.10028-1-joevt@shaw.ca>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfAyM3s+ovMFQRQpc/cLhegYJhJaS7WXisWfQB1L3na/VZqh5EoI3HBtsqVMzHCYzMFRON95FUwMrkdgVW3Vq/ONyfWd2GbM6jr5TJ5VhrzUDBqG8AgqM
+ GVlpXJSm0SYMViWdafa9HqCOfvG2u3cRMmkkGYoJB59OsOMyIiqX1/IfrYbb/jeDadhRS+APoaq4qbHszrxY65WsrriYj4bdQ58=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Signed-off-by: Justin Chen <justinpopo6@gmail.com>
-Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+- Patch 02/28 replaces my previous patch 05/11.
+It adds a new warning message.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7f46153..3ba3ca8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3762,6 +3762,15 @@ F:	drivers/net/mdio/mdio-bcm-unimac.c
- F:	include/linux/platform_data/bcmgenet.h
- F:	include/linux/platform_data/mdio-bcm-unimac.h
- 
-+BROADCOM ASP 2.0 ETHERNET DRIVER
-+M:	Justin Chen <justinpopo6@gmail.com>
-+M:	Florian Fainelli <f.fainelli@gmail.com>
-+L:	bcm-kernel-feedback-list@broadcom.com
-+L:	netdev@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-+F:	drivers/net/ethernet/broadcom/asp2/
-+
- BROADCOM IPROC ARM ARCHITECTURE
- M:	Ray Jui <rjui@broadcom.com>
- M:	Scott Branden <sbranden@broadcom.com>
+- The problem with my previous patch 07/11 is addressed in patch 01/28 and 04/28 (and maybe elsewhere).
+
+- Patches 06/28 to 26/28 replace my previous patch 11/11 (broken down into smaller steps this time).
+They contain some corrections.
+
+- Includes some other changes.
+
+
+joevt (28):
+  edid-decode: remove unnecessary length check
+  edid-decode: fix standard timing vertical pixels
+  edid-decode: exclude oui from _block functions
+  edid-decode: check cta_hdr10plus length
+  edid-decode: Capitalize fail sentence
+  edid-decode: Replace return with break in switch
+  edid-decode: extended tag length check
+  edid-decode: Output block type before fail
+  edid-decode: update Microsoft expected length
+  edid-decode: Capitalize fail sentence
+  edid-decode: make all OUI handlers the same
+  edid-decode: move OUI parsing to separate function
+  edid-decode: move unknown block warning
+  edid-decode: remove cta_ext_block
+  edid-decode: change unknown CTA block names
+  edid-decode: move audio fail/warn messages
+  edid-decode: replace first_block with block_number
+  edid-decode: move parse_displayid_block inner loop
+  edid-decode: remove offset from displayid_block
+  edid-decode: displayid_block len fixes
+  edid-decode: ignore DisplayID version for OUI check.
+  edid-decode: DisplayID non-0 filler fixes
+  edid-decode: DisplayID length checks
+  edid-decode: make OUI enum
+  edid-decode: more OUI changes
+  edid-decode: remove extra vendor field
+  edid-decode: re-add one EDID
+  edid-decode: add interesting EDID
+
+ data/apple-imac-retina-4k-21.5-inch-late-2015 | Bin 0 -> 256 bytes
+ data/vizio-m60c3-hdmi-onkyo-txnr555           | Bin 0 -> 256 bytes
+ edid-decode.cpp                               | 106 +++-
+ edid-decode.h                                 |  32 +-
+ oui.h                                         |  20 +
+ parse-base-block.cpp                          |   5 +-
+ parse-cta-block.cpp                           | 482 +++++++----------
+ parse-displayid-block.cpp                     | 498 +++++++++---------
+ 8 files changed, 553 insertions(+), 590 deletions(-)
+ create mode 100644 data/apple-imac-retina-4k-21.5-inch-late-2015
+ create mode 100644 oui.h
+
 -- 
-2.7.4
+2.24.3 (Apple Git-128)
 
