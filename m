@@ -2,176 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E2D0416FCD
-	for <lists+linux-media@lfdr.de>; Fri, 24 Sep 2021 12:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B567E416FF3
+	for <lists+linux-media@lfdr.de>; Fri, 24 Sep 2021 12:07:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245453AbhIXKCI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Sep 2021 06:02:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32864 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245436AbhIXKBz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Sep 2021 06:01:55 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF87BC061574
-        for <linux-media@vger.kernel.org>; Fri, 24 Sep 2021 03:00:22 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id p29so37695576lfa.11
-        for <linux-media@vger.kernel.org>; Fri, 24 Sep 2021 03:00:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=9spe2BT8WYhxoMB5PWx9SyNtZ6j20UIUeNEeZtSy4lI=;
-        b=agnRw4hPbQTzGV9rKZRfn9MBqDfI7I2IPjL9dwDGzo7i0qYi2HQD/SXCFBtHzg3EJw
-         jDJiurFSHVWTZ9hsJ57HjtfSKRksZYbXx7vtRuGCLsSAGGaGwcHvy17XC54cKSc7XO4M
-         TR9r3a+guTq8SfiTwFX7vbIXRg8gn7LSYOo1xwNVme4ZJjZBlDJ1idrl0xCNrLCZCEvP
-         cHwf/wTcdEz+mAWjcFEPvWefU2FwYO1HFyC1y+GwFsisopnn34E336cNqSCAATaths9b
-         8nBhLTYaDEQOHXa528iGxP7BpP8eg/kpcJdo9YVbX5n+x2nw1pNINCBl08m3xBzd1u3/
-         hPMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=9spe2BT8WYhxoMB5PWx9SyNtZ6j20UIUeNEeZtSy4lI=;
-        b=DoMJPjE6yCK5zaD0rbHw+7IGRESfpZsULrWFTmYlk8KfoX7nLPF3ioBStypIIaHVJW
-         2rPiZCkYypqppa9eSk5EFa2PichNmVRyVirTgMm6ZgIgQ9Xux3iwNUYPh8DIBZj17qLx
-         iGfpeTeY4uFyfwItEq2NJl0LlaGjsJ6A2L8X1jHl0Z+8lSwyX1Xh3a83UQG8AGCuU4lQ
-         Kw9KN4cI6XKPQY3hcvBQQ4PupWPta6+5ZkBmghGdAdh1xP7z2DcjkObLZ9R/dDmMSkIP
-         KWjLDNTNA/tsRiOD67tjQIBkSrAfMeSVT76ReSdEkg665pcSTbGpKXUdcWByVq/ehe35
-         HXWg==
-X-Gm-Message-State: AOAM531MW6FX8JsyRguUbxiRDf5kkf93Sj/dh3v/wMLIoP/cIoXbZUDL
-        VMFKF0OfoEs6vqa2puuOBBlmjWqpk2hEcQ==
-X-Google-Smtp-Source: ABdhPJydHkaU9EFSFsIwIQelHVAe3kif1c9lzLcXuKl1YmahZZmr6lOaVUHMmY73S3Ip6hxeGSHtzA==
-X-Received: by 2002:a2e:a4ba:: with SMTP id g26mr10314516ljm.254.1632477621131;
-        Fri, 24 Sep 2021 03:00:21 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id l11sm700284lfg.39.2021.09.24.03.00.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Sep 2021 03:00:20 -0700 (PDT)
-Date:   Fri, 24 Sep 2021 12:00:20 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vladimir Barinov <vladimir.barinov@cogentembedded.com>
-Subject: Re: [PATCH] media: rcar-vin: add support for GREY format
-Message-ID: <YU2htCDCbedXi4ai@oden.dyn.berto.se>
-References: <20210924081938.30230-1-nikita.yoush@cogentembedded.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210924081938.30230-1-nikita.yoush@cogentembedded.com>
+        id S245423AbhIXKIn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Sep 2021 06:08:43 -0400
+Received: from comms.puri.sm ([159.203.221.185]:34686 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S245565AbhIXKIm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 24 Sep 2021 06:08:42 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id A7B1DDF4E2;
+        Fri, 24 Sep 2021 03:06:38 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id K32DZ-SiYatL; Fri, 24 Sep 2021 03:06:38 -0700 (PDT)
+Date:   Fri, 24 Sep 2021 12:06:31 +0200
+From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     kernel@puri.sm, phone-devel@vger.kernel.org
+Subject: [PATCH] media: imx: Fix rounding
+Message-ID: <20210924120631.7060da0f.dorota.czaplejewicz@puri.sm>
+Organization: Purism
+Content-Type: multipart/signed; boundary="Sig_/UUZqa0L2d=8613N2HL_AjKP";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nikita and Vladimir,
+--Sig_/UUZqa0L2d=8613N2HL_AjKP
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your work.
+Change rounding to the minimal burst size from 2^n to n.
 
-On 2021-09-24 11:19:39 +0300, Nikita Yushchenko wrote:
-> From: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
-> 
-> This adds support for MEDIA_BUS_FMT_Y8_1X8 input and V4L2_PIX_FMT_GREY
-> output format.
+This fixes images with sizes that are a multiple of 8 pixels.
 
-Thanks for this, I'm happy to see this code!
+See section 13.7.6.13 CSI Image Parameter Register of the
+i.MX 8M Quad Applications Processors Reference Manual.
 
-I been wrestling a while with this as I have no sensor where I could 
-test it with I always put it off. May I ask what sensor and platform was 
-used to test this?
+Fixes: 451a7b7815d0b ("media: imx: lift CSI and PRP ENC/VF width
+alignment restriction")
+Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+---
+Hi,
 
-The code looks good and I truest that it's tested and produce a good 
-image, one small nit below.
+I tested this patch on the Librem 5 with the main camera.
 
-> 
-> Signed-off-by: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
-> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-> ---
->  drivers/media/platform/rcar-vin/rcar-dma.c  | 14 ++++++++++++++
->  drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
->  2 files changed, 18 insertions(+)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index f5f722ab1d4e..d2bfd3e575fa 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -114,6 +114,7 @@
->  /* Video n Data Mode Register bits */
->  #define VNDMR_A8BIT(n)		(((n) & 0xff) << 24)
->  #define VNDMR_A8BIT_MASK	(0xff << 24)
-> +#define VNDMR_YMODE_Y8		(1 << 12)
->  #define VNDMR_EXRGB		(1 << 8)
->  #define VNDMR_BPSM		(1 << 4)
->  #define VNDMR_ABIT		(1 << 2)
-> @@ -603,6 +604,7 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
->  	case V4L2_PIX_FMT_SGBRG8:
->  	case V4L2_PIX_FMT_SGRBG8:
->  	case V4L2_PIX_FMT_SRGGB8:
-> +	case V4L2_PIX_FMT_GREY:
->  		stride /= 2;
->  		break;
->  	default:
-> @@ -695,6 +697,7 @@ static int rvin_setup(struct rvin_dev *vin)
->  	case MEDIA_BUS_FMT_SGBRG8_1X8:
->  	case MEDIA_BUS_FMT_SGRBG8_1X8:
->  	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> +	case MEDIA_BUS_FMT_Y8_1X8:
->  		vnmc |= VNMC_INF_RAW8;
->  		break;
->  	default:
-> @@ -774,6 +777,13 @@ static int rvin_setup(struct rvin_dev *vin)
->  	case V4L2_PIX_FMT_SRGGB8:
->  		dmr = 0;
->  		break;
-> +	case V4L2_PIX_FMT_GREY:
-> +		if (input_is_yuv) {
-> +			dmr = VNDMR_DTMD_YCSEP | VNDMR_YMODE_Y8;
-> +			output_is_yuv = true;
-> +		} else
-> +			dmr = 0;
+--Dorota
+ drivers/staging/media/imx/imx-media-utils.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Please encapsulate the else clause in { } if the corresponding if clause 
-body uses { }.
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/=
+media/imx/imx-media-utils.c
+index 5128915a5d6f..a2d8fab32a39 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -545,13 +545,13 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_for=
+mat *pix,
+ 	}
+=20
+ 	/* Round up width for minimum burst size */
+-	width =3D round_up(mbus->width, 8);
++	width =3D round_up(mbus->width, 3);
+=20
+ 	/* Round up stride for IDMAC line start address alignment */
+ 	if (cc->planar)
+-		stride =3D round_up(width, 16);
++		stride =3D round_up(width, 4);
+ 	else
+-		stride =3D round_up((width * cc->bpp) >> 3, 8);
++		stride =3D round_up((width * cc->bpp) >> 3, 3);
+=20
+ 	pix->width =3D width;
+ 	pix->height =3D mbus->height;
+--=20
+2.31.1
 
-> +		break;
->  	default:
->  		vin_err(vin, "Invalid pixelformat (0x%x)\n",
->  			vin->format.pixelformat);
-> @@ -1145,6 +1155,10 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
->  		if (vin->format.pixelformat != V4L2_PIX_FMT_SRGGB8)
->  			return -EPIPE;
->  		break;
-> +	case MEDIA_BUS_FMT_Y8_1X8:
-> +		if (vin->format.pixelformat != V4L2_PIX_FMT_GREY)
-> +			return -EPIPE;
-> +		break;
->  	default:
->  		return -EPIPE;
->  	}
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 0d141155f0e3..bdeff51bf768 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -82,6 +82,10 @@ static const struct rvin_video_format rvin_formats[] = {
->  		.fourcc			= V4L2_PIX_FMT_SRGGB8,
->  		.bpp			= 1,
->  	},
-> +	{
-> +		.fourcc			= V4L2_PIX_FMT_GREY,
-> +		.bpp			= 1,
-> +	},
->  };
->  
->  const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
-> -- 
-> 2.30.2
-> 
 
--- 
-Regards,
-Niklas Söderlund
+--Sig_/UUZqa0L2d=8613N2HL_AjKP
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmFNoycACgkQADBpX4S8
+ZnfWxQ/7Bsgm4pW+bgC74d2aR9/Qr3fJvkaOaUvTwkTzUCFpgmYKVXSCMSDHAJfY
+akNsFylqSMo5s0KfaKZnhvqSuH/7USaOdETm2K79AitzY1dyTWNZ/SD3ef8hrCe0
+LEkCdX0LIU6z0o3bTFnVo1Sq5uN0LZ2rrZ66CPaapqe8W6Fhn2FRy0CoB2m+vwII
+MiwsE/kZnaXSyhN+QpkMD+f1RuvVBtg8iYN3vNxLVdo3s1KBqKYy2M8Q0xy7hOWx
+JQ2WNVZtv8V4m193HwEUKmhQt9Pa4G4Ds4bwvX1qr4dv7kJCVjK6xYAo83Qptnjy
+otkyky3FcKN2hs6lkuw1Z5nQWM3iEVykqX43APqiiUrZEOHkLuO11PZfFoK173g7
+953xofK7fxCyWWYghzoOBFNJZApUFRd30yCye7HGLtAeLCOmw0DgVd47kp24E58E
+9DCiP/zNtEqxWzYwlt5ZoJZvvXmlZmhEHeQps4CBV/QVz9oIfEvrUzr/1pCBp+1e
+aXG6gaLwm1xRyZbWmxVJC3/+rQ8SjCETLbg6+Bykm4tfQi9xq0qwuMcqsCkX8O9N
+UkA0wkx9krr36h7cWXfEIuOZVb91yrL3K4c12IeJOw9DKeqDom+XS4vtZNCztuIa
+3AFQNbZ/BpC3GYbhbSNxMESJERl0gKB0DJ0InhWpdc4NdXrkhto=
+=FBdR
+-----END PGP SIGNATURE-----
+
+--Sig_/UUZqa0L2d=8613N2HL_AjKP--
