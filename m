@@ -2,108 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 948FF4175D6
-	for <lists+linux-media@lfdr.de>; Fri, 24 Sep 2021 15:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8500D417626
+	for <lists+linux-media@lfdr.de>; Fri, 24 Sep 2021 15:48:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346324AbhIXNdu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Sep 2021 09:33:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52218 "EHLO
+        id S1346027AbhIXNuG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Sep 2021 09:50:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345090AbhIXNdp (ORCPT
+        with ESMTP id S231174AbhIXNuF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Sep 2021 09:33:45 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 115D8C035477;
-        Fri, 24 Sep 2021 06:25:05 -0700 (PDT)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:4cb:a870:60fa:cb2f:7fe1:65a3])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 88A751F44B7C;
-        Fri, 24 Sep 2021 14:25:02 +0100 (BST)
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     p.zabel@pengutronix.de, mchehab@kernel.org,
-        gregkh@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Subject: [PATCH v2] media: hantro: Auto generate the AXI ID to avoid conflicts
-Date:   Fri, 24 Sep 2021 15:24:47 +0200
-Message-Id: <20210924132447.2288167-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.30.2
+        Fri, 24 Sep 2021 09:50:05 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 474ACC061613
+        for <linux-media@vger.kernel.org>; Fri, 24 Sep 2021 06:48:32 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id b20so40852869lfv.3
+        for <linux-media@vger.kernel.org>; Fri, 24 Sep 2021 06:48:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=NRFXtODeBa3SkSCafztgkw2bK8xqC1z8hM0PTHXmUWs=;
+        b=Xyr8Cq0ulXVujwfhCVr4s71c0ETd4kCS2Bvmae0GAAdaUYj7QoTj1cOTuxwqA6TmdD
+         4P38xm1B/MRzQsHjxACFVtbmb7jJg2fxiTRX3QdZ3I1dQaiYhVjy4nMowLTVX7autNuK
+         MGaJ+4QLoVGdHpEg5uzcxkj2VBi4OZ2fKk9yYWvzHZ9Yr9oygqDzt93/x8vSQTLiTwlX
+         +Qe6fyDFDvcseNL3XM+U0adQDEnPeCmYrPxJlhCOhoAG9hWIlztDOcu5TkFVKfd61+Zr
+         LG6Zuh51xL6Y1LZkGhSyilt8HFgyltmZOajeZ6jecF+E/IbQsruoqpKP3jAykoPB71D8
+         xDiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=NRFXtODeBa3SkSCafztgkw2bK8xqC1z8hM0PTHXmUWs=;
+        b=r4GKGQO2EMDoaFbvVNxY0ijoE4PgaQRtSGCu9cyQ3S5rfy7Xd3RUrMG15uPd2DIGvB
+         IVoj1iuhefFPurulCnvYdNRlrujkQWPSZMN5t0ep+GFLHzS5757a7ZfwUEMe27YNbbw1
+         t1bDBqmfxyvr9MMHWsfFvd6RoRzsLLzF2DxQ1CVDf9TS0YUSRaxWraXuHEPVW8PRxVBF
+         ztl8n7w7Mmuxsd3D/pPUo5MAd5iL+l6Bc+RwX5ykg39iIhU52AgCL6E0Q6jkx8FkFHUH
+         f7ozlYGma0PbZV7YBqJwxILaEOWMzkOsDoAmfmyEmUBiReoYb4Yjx1SNQxcWwI61nk12
+         xu1g==
+X-Gm-Message-State: AOAM533OL4ZX5SHgdEzjDFoBc8SEjyxYemYL62XcQ0NObSJJH2NYuqBD
+        Umt84DgIz/0zXEJ/2UbyH7+Dtg==
+X-Google-Smtp-Source: ABdhPJwdCnswAKXZYhPqPEnGLLiwGYtezdP3+QV+/tgwrzDMmQpSw3SOKDIKHvz0CEMmtP4UvFxHbg==
+X-Received: by 2002:a05:651c:206:: with SMTP id y6mr11209139ljn.98.1632491310631;
+        Fri, 24 Sep 2021 06:48:30 -0700 (PDT)
+Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id r7sm761470lfc.106.2021.09.24.06.48.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Sep 2021 06:48:30 -0700 (PDT)
+Subject: Re: [PATCH] media: rcar-vin: add G/S_PARM ioctls
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vladimir Barinov <vladimir.barinov@cogentembedded.com>
+References: <20210924084115.2340-1-nikita.yoush@cogentembedded.com>
+ <YU2gSJKfsqP+gUci@oden.dyn.berto.se>
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Message-ID: <c90a960f-4c4d-7e9c-5f85-2931d1530550@cogentembedded.com>
+Date:   Fri, 24 Sep 2021 16:48:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YU2gSJKfsqP+gUci@oden.dyn.berto.se>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The AXI ID is an AXI bus configuration for improve bus performance. 
-If read and write operations use different ID the operations can be paralleled,
-whereas when they have the same ID the operations will be serialized. 
-Right now, the write ID is fixed to 0 but we can set it to 0xff to get auto
-generated ID to avoid possible conflicts.
+> I would like to ask your use-case for this. I'm trying to make up the
+> courage to move Gen2 inline with Gen3, that is move Gen2 to use the
+> media graph interface to allow it more complex use-cases, including
+> controlling parameters on the subdevice level.
+> 
+> So I'm curious if this solve a particular problem for you or if it's
+> done "just" for completeness. If it solves a real problem then I think
+> we should move a head with a v2 (with the small comment below fixed) if
+> not I would like to try and reduce the non media graph usage of the API
+> as much as possible.
 
-This change has no functional changes, but seems reasonable to let the
-hardware to autogenerate the ID instead of hardcoding in software.
+I believe parallel camera - such as ov5642 - connected to Kingfisher's parallel interface still has to 
+be controlled over v4l operations on vin device. And, to control frame rate of such cameras [which is 
+the usecase we have here at Cogent], the operations that this patch adds are requied.
 
-Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
-changes in version 2:
-- Add a macro with comment about the value.
-- Make VP8 and H264 codecs use the macro.
-- fluster tests on the both codecs show no regressions.
-  ./fluster.py run -ts VP8-TEST-VECTORS -d GStreamer-VP8-V4L2SL-Gst1.0
-  ./fluster.py run -ts JVT-AVC_V1 -d GStreamer-H.264-V4L2SL-Gst1.0
-- The both codec write other bits in the same configuration register
-  so the simplest solution is to use the macro in the both cases.
+> Please use &vin->vdev instead of video_devdata(file).
 
- drivers/staging/media/hantro/hantro_g1_h264_dec.c | 2 +-
- drivers/staging/media/hantro/hantro_g1_regs.h     | 2 ++
- drivers/staging/media/hantro/hantro_g1_vp8_dec.c  | 3 ++-
- 3 files changed, 5 insertions(+), 2 deletions(-)
+Preparing v2 now.
 
-diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-index 236ce24ca00c..f49dbfb8a843 100644
---- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-@@ -29,7 +29,7 @@ static void set_params(struct hantro_ctx *ctx, struct vb2_v4l2_buffer *src_buf)
- 	u32 reg;
- 
- 	/* Decoder control register 0. */
--	reg = G1_REG_DEC_CTRL0_DEC_AXI_WR_ID(0x0);
-+	reg = G1_REG_DEC_CTRL0_DEC_AXI_AUTO;
- 	if (sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)
- 		reg |= G1_REG_DEC_CTRL0_SEQ_MBAFF_E;
- 	if (sps->profile_idc > 66) {
-diff --git a/drivers/staging/media/hantro/hantro_g1_regs.h b/drivers/staging/media/hantro/hantro_g1_regs.h
-index c1756e3d5391..c623b3b0be18 100644
---- a/drivers/staging/media/hantro/hantro_g1_regs.h
-+++ b/drivers/staging/media/hantro/hantro_g1_regs.h
-@@ -68,6 +68,8 @@
- #define     G1_REG_DEC_CTRL0_PICORD_COUNT_E		BIT(9)
- #define     G1_REG_DEC_CTRL0_DEC_AHB_HLOCK_E		BIT(8)
- #define     G1_REG_DEC_CTRL0_DEC_AXI_WR_ID(x)		(((x) & 0xff) << 0)
-+/* Setting AXI ID to 0xff to get auto generated ID to avoid possible conflicts */
-+#define     G1_REG_DEC_CTRL0_DEC_AXI_AUTO		G1_REG_DEC_CTRL0_DEC_AXI_WR_ID(0xff)
- #define G1_REG_DEC_CTRL1				0x010
- #define     G1_REG_DEC_CTRL1_PIC_MB_WIDTH(x)		(((x) & 0x1ff) << 23)
- #define     G1_REG_DEC_CTRL1_MB_WIDTH_OFF(x)		(((x) & 0xf) << 19)
-diff --git a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
-index 6180b23e7d94..851eb67f19f5 100644
---- a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
-@@ -463,7 +463,8 @@ int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
- 	      G1_REG_CONFIG_DEC_MAX_BURST(16);
- 	vdpu_write_relaxed(vpu, reg, G1_REG_CONFIG);
- 
--	reg = G1_REG_DEC_CTRL0_DEC_MODE(10);
-+	reg = G1_REG_DEC_CTRL0_DEC_MODE(10) |
-+	      G1_REG_DEC_CTRL0_DEC_AXI_AUTO;
- 	if (!V4L2_VP8_FRAME_IS_KEY_FRAME(hdr))
- 		reg |= G1_REG_DEC_CTRL0_PIC_INTER_E;
- 	if (!(hdr->flags & V4L2_VP8_FRAME_FLAG_MB_NO_SKIP_COEFF))
--- 
-2.30.2
-
+Nikita
