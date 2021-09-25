@@ -2,103 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31D7D417F03
-	for <lists+linux-media@lfdr.de>; Sat, 25 Sep 2021 03:05:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F4794180B6
+	for <lists+linux-media@lfdr.de>; Sat, 25 Sep 2021 11:06:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344312AbhIYBHX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Sep 2021 21:07:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42622 "EHLO
+        id S237010AbhIYJHg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Sep 2021 05:07:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235204AbhIYBHX (ORCPT
+        with ESMTP id S234779AbhIYJHf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Sep 2021 21:07:23 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47351C061571;
-        Fri, 24 Sep 2021 18:05:49 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id bx4so42823530edb.4;
-        Fri, 24 Sep 2021 18:05:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bHrNUxSVHPFay18ykXVu5QYZYlU999IyVEIEXaMIIuk=;
-        b=iTkDYHU1Pdjpw/CJx2+QNmwdCbhonPJpUXIUqnXR9yIkvOjnnex0e5mlt0mtDcju8j
-         oQP4Ji6Gw1OwxXk2i9wlN7vaZ8T0NWTk2rZUTm5wKp1put7D8ZXHQwdOifFffsRFQ56j
-         8VJYvaIhp3XTyzRUBemWf4JSftl1t4MCRYE8wHfpOyJkR3YifdXXmYM4F6mNeJ126DWI
-         CnVhjFAKlE4w66VjnKBwDdczmy+KS3pUku7T0l3t+wTa2ebQQX34YSk/VvTtEMC7OWAU
-         8nPGPI53thP01tGuUwYZGghvfpWvY5NPiytf0akiS/3hUr8EeZpaTCUZIzI+3YC/vi/L
-         TMZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bHrNUxSVHPFay18ykXVu5QYZYlU999IyVEIEXaMIIuk=;
-        b=0/NVQ0oQ0ubfD7F9SsbBibtxDxB4DNFfvwlg9oPXNud8drWMeZDeQZ7TuFmH62bc2N
-         r//V0HOitjnco3O7ZQ9gxVVyFGfX/6TiMoyCKmnQNk/caSYFCNk6qWZR+Q4ESpup0iNz
-         56idqRyTsoYNmFwKM071Mn5XmMTtrcmqc21nwo/HBWGJKHThOcnjFTG3yJ0z2YJ93fML
-         +nQF1WgaK2KqOc/bo15GYDR/BQKCEwcKFvLCdXgBIjRDgFitJvQ2qfuNm2oJmCEAIIdg
-         2WJ5Mu9rNdyGCvlCcIsl43XfF225L4bfvmFAieJXcWPfMpKANZ8h3MkKNx5jDnoBnkF6
-         Pa+Q==
-X-Gm-Message-State: AOAM5312xY0opHMFUGLPkkOMcZqoNzDW1zOCL0BW1eoomJftXb5bJG2b
-        g1NbOsPrsTCJJ4miE+gBcuiEF9zEafA7d994NBA=
-X-Google-Smtp-Source: ABdhPJxLSJQPETEhpVEg1BU+2BRSL97NdO0tOSj6i2gjP9uqxWyT7cdSbLHXanc2dvA0Ird037wFcY/UjHbhbbLpx7Y=
-X-Received: by 2002:aa7:db17:: with SMTP id t23mr8756289eds.387.1632531947552;
- Fri, 24 Sep 2021 18:05:47 -0700 (PDT)
+        Sat, 25 Sep 2021 05:07:35 -0400
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 360E3C061570
+        for <linux-media@vger.kernel.org>; Sat, 25 Sep 2021 02:06:00 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id U3d3m6AOgdDnlU3d8m71Ic; Sat, 25 Sep 2021 11:05:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1632560758; bh=UIr7D/AJFDtuphk/CUBRB/FwfnKzB6DRTb09ngFAAwI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=pWifB/xXFymnyqhGuC/5h97hFdzE4k979HRYhFxP8WA7x3QIzb538FjLcGLe2XOA8
+         5Kk48DuNEPCUYE2r6ikHTgXF3QWZhMRYBY+KaEt78AUuFCLPqDVfTFUqxxVs3OS/Lx
+         fjJVkZBoRBDZU8dZ5crH3wKUp8eVrA2xarZ2lf6D4lOC9lsThCT6JI91DsVUA6qKjI
+         hz9jMSJMwtUfpxqiugQVbiYN1E1tlbAnyaCXWIX1WEstj0Jc63PCstk4IULGXtB+cf
+         BS4tzOs55Tn38DE3GQ/2jPcio0TXDotF+O76H1Gpc6eEQJ+ykvAhfpdxJJI3fyEX9E
+         d0dWmKIVdcAGQ==
+Subject: Re: [PATCH 00/28] bug fixes, additions, changes
+To:     joevt <joevt@shaw.ca>
+Cc:     linux-media@vger.kernel.org
+References: <20210924233149.10028-1-joevt@shaw.ca>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <9a50dfa4-1767-7b99-94c6-b6abfa528a44@xs4all.nl>
+Date:   Sat, 25 Sep 2021 11:05:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <1632519891-26510-1-git-send-email-justinpopo6@gmail.com>
- <1632519891-26510-4-git-send-email-justinpopo6@gmail.com> <20210924170505.6e62e32f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20210924170505.6e62e32f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From:   Justin Chen <justinpopo6@gmail.com>
-Date:   Fri, 24 Sep 2021 18:05:36 -0700
-Message-ID: <CAJx26kUsAU+Ux3BFfHJFnZqTwCjvp0T698XcDTQQO9gVZZ5C_A@mail.gmail.com>
-Subject: Re: [PATCH net-next 3/5] net: bcmasp: Add support for ASP2.0 Ethernet controller
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Doug Berger <opendmb@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Michael Chan <michael.chan@broadcom.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210924233149.10028-1-joevt@shaw.ca>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfP1Hl1i91Y+NdiSuYCJNdPg8CrvU9gLJxEoWfdy443eFfOGW7c8jdI4WuBwFBvT6HRGSXCSd7qtyy2ituT5IJsR47T/TQc4Twh95P4ZVzDx5xlwQzSTx
+ zB11bZiRlxRNER6A3s3K/b+mjnUjW+TH2uaH8Ra8RKvt1jviFH/oSIqtAoiAXHZGtoI0KKUXcdde5upjv/r0sRhzPe2DSZ7B1ah7lBA0Q9KI9+uuIYPJiATR
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 24, 2021 at 5:05 PM Jakub Kicinski <kuba@kernel.org> wrote:
->
-> On Fri, 24 Sep 2021 14:44:49 -0700 Justin Chen wrote:
-> > Add support for the Broadcom ASP 2.0 Ethernet controller which is first
-> > introduced with 72165. This controller features two distinct Ethernet
-> > ports that can be independently operated.
-> >
-> > This patch supports:
-> >
-> > - Wake-on-LAN using magic packets
-> > - basic ethtool operations (link, counters, message level)
-> > - MAC destination address filtering (promiscuous, ALL_MULTI, etc.)
-> >
-> > Signed-off-by: Justin Chen <justinpopo6@gmail.com>
-> > Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
->
-> Please clean up checkpatch --strict and make W=1 C=1 build
-> of the new driver.
+Hi Joe,
 
-Apologies, Will fix checkpatch errors in v2
+This series is missing patches 20-28 (at least, I never received them, and neither
+did they appear on the linux-media mailinglist).
+
+It also needs to be rebased to the latest edid-decode git repo master branch since
+it no longer applies.
+
+Regards,
+
+	Hans
+
+On 25/09/2021 01:31, joevt wrote:
+> - Patch 02/28 replaces my previous patch 05/11.
+> It adds a new warning message.
+> 
+> - The problem with my previous patch 07/11 is addressed in patch 01/28 and 04/28 (and maybe elsewhere).
+> 
+> - Patches 06/28 to 26/28 replace my previous patch 11/11 (broken down into smaller steps this time).
+> They contain some corrections.
+> 
+> - Includes some other changes.
+> 
+> 
+> joevt (28):
+>   edid-decode: remove unnecessary length check
+>   edid-decode: fix standard timing vertical pixels
+>   edid-decode: exclude oui from _block functions
+>   edid-decode: check cta_hdr10plus length
+>   edid-decode: Capitalize fail sentence
+>   edid-decode: Replace return with break in switch
+>   edid-decode: extended tag length check
+>   edid-decode: Output block type before fail
+>   edid-decode: update Microsoft expected length
+>   edid-decode: Capitalize fail sentence
+>   edid-decode: make all OUI handlers the same
+>   edid-decode: move OUI parsing to separate function
+>   edid-decode: move unknown block warning
+>   edid-decode: remove cta_ext_block
+>   edid-decode: change unknown CTA block names
+>   edid-decode: move audio fail/warn messages
+>   edid-decode: replace first_block with block_number
+>   edid-decode: move parse_displayid_block inner loop
+>   edid-decode: remove offset from displayid_block
+>   edid-decode: displayid_block len fixes
+>   edid-decode: ignore DisplayID version for OUI check.
+>   edid-decode: DisplayID non-0 filler fixes
+>   edid-decode: DisplayID length checks
+>   edid-decode: make OUI enum
+>   edid-decode: more OUI changes
+>   edid-decode: remove extra vendor field
+>   edid-decode: re-add one EDID
+>   edid-decode: add interesting EDID
+> 
+>  data/apple-imac-retina-4k-21.5-inch-late-2015 | Bin 0 -> 256 bytes
+>  data/vizio-m60c3-hdmi-onkyo-txnr555           | Bin 0 -> 256 bytes
+>  edid-decode.cpp                               | 106 +++-
+>  edid-decode.h                                 |  32 +-
+>  oui.h                                         |  20 +
+>  parse-base-block.cpp                          |   5 +-
+>  parse-cta-block.cpp                           | 482 +++++++----------
+>  parse-displayid-block.cpp                     | 498 +++++++++---------
+>  8 files changed, 553 insertions(+), 590 deletions(-)
+>  create mode 100644 data/apple-imac-retina-4k-21.5-inch-late-2015
+>  create mode 100644 oui.h
+> 
+
