@@ -2,120 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1133418932
-	for <lists+linux-media@lfdr.de>; Sun, 26 Sep 2021 15:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C186841898F
+	for <lists+linux-media@lfdr.de>; Sun, 26 Sep 2021 16:51:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231802AbhIZOAc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Sep 2021 10:00:32 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:60840 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231777AbhIZOAa (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Sep 2021 10:00:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=HjivBkUchm6JkPW5fbVo3EwXigbe6lkdP6wwmdWVHlI=; b=RwGCs+IqoHQ39s/L8ivaNLfIMT
-        szIKmvdRaeuZmcGYEVS/T7r3RAVDntYMkasIMgVELoebCQc01I7zlSvI7e+6JGibBAevDlt1h6lw8
-        vCS3GkxRFw04ADKyfK0xGeJ6xtZ/Yra4aG/GusMl7QEXan93UFq0qWmcricQr0NDH5oA=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1mUUfZ-008Jwy-P3; Sun, 26 Sep 2021 15:58:17 +0200
-Date:   Sun, 26 Sep 2021 15:58:17 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Justin Chen <justinpopo6@gmail.com>, netdev@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Doug Berger <opendmb@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Michael Chan <michael.chan@broadcom.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH net-next 3/5] net: bcmasp: Add support for ASP2.0
- Ethernet controller
-Message-ID: <YVB8ef3aMpJTEvgF@lunn.ch>
-References: <1632519891-26510-1-git-send-email-justinpopo6@gmail.com>
- <1632519891-26510-4-git-send-email-justinpopo6@gmail.com>
- <YU9SHpn4ZJrjqNuF@lunn.ch>
- <c66c8bd1-940a-bf9d-ce33-5a39635e9f5b@gmail.com>
+        id S231869AbhIZOx1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Sep 2021 10:53:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53708 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231849AbhIZOx1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 26 Sep 2021 10:53:27 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D84B0C061570
+        for <linux-media@vger.kernel.org>; Sun, 26 Sep 2021 07:51:50 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id bx4so57895498edb.4
+        for <linux-media@vger.kernel.org>; Sun, 26 Sep 2021 07:51:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sLce4anF/Ldxr9zJgqQp47ftX0X/kbCvqATSWd0SLuI=;
+        b=S+hw9FjUgdENuVuqSrXHDlFjl4Zr9rPqWNEez8sEdpicMAbHwC2QIRkpRloWZzwpuA
+         vcuMX59mB52afIhYL1N6sSE1uki387Gw42gR6DqohyNOmFG9GUak+ALFy6SY2nxvuJCV
+         A2csKPZIvtE9OjBsqYJgK5KYHU3GQ5PWrOErJC+AkLR9AMU45iRWE2QcCuMPv9v8DKoy
+         qoe95ToLD0LZgt1tjsejG8rlWCzpSokJCGwoxOPRyCCUn7/eZLQrd2YksqMy8/yvhgA/
+         Uri7Z7xPRnCKqsMT7fOrkvP9dYwRU1KQ/eI0xQFhBswN1xq+Tq3yra/1IUJWxnPH9inB
+         lZ5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sLce4anF/Ldxr9zJgqQp47ftX0X/kbCvqATSWd0SLuI=;
+        b=DOH3z9vmyKYeo8QSPw6LeReu372ITw7ioSEnFcXGfTP82gi7+cUkkW3j4hQtjQINZz
+         xMhkqsurpgXIdFUVSbe94XtrFsyqOhnTutaf1JbKox3jDIlRB2FYqTuxeWuZOZb2+ZfE
+         zktenEO3nza5ctXjTooXT1EaLyRz3XDYZEdp8ePakXfyv5eX1qyKOWr3DN6clHQxTk2o
+         sDMm4VdxbN97kPET3WHEQy4JF2H+AKUBlfy5Fp5NK9pJTcauVqeQ/FEhDyGzaA5tOKHA
+         jNixxBFn2rwsdNFZeLOXT4b07XLQd9//pBmQlxsY8cyFArGxZYPaUoemsxYVF4qp/VuP
+         mtnQ==
+X-Gm-Message-State: AOAM5327fJsOmUI48fIUxVmJ71hxwW+uePbIVqAH01oqLp28n/lr8zOd
+        ybkC5wkexTY81q5DGJ0Xdr40AGeaQ4lxm7PoOG5iHA==
+X-Google-Smtp-Source: ABdhPJwEI9Otw5j+Kubnt1ZjqadmE4duy9lhN+7xJz+VYfyRhHhxfTsqb0Bln6cUv2IXEVGS0gPu4vV4A28m+/m9Cgc=
+X-Received: by 2002:a17:906:e20e:: with SMTP id gf14mr22462818ejb.244.1632667909119;
+ Sun, 26 Sep 2021 07:51:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c66c8bd1-940a-bf9d-ce33-5a39635e9f5b@gmail.com>
+References: <20210901083215.25984-1-yunfei.dong@mediatek.com>
+ <CAAEAJfDOt_GyDPojcj5P6Wou9HC2GC8YzRt2wYyqdrCOjfeOog@mail.gmail.com>
+ <3b9463e88d88ce85205da08f8263252da7726ade.camel@mediatek.com>
+ <aba7fb4ffe6e45ac90869b5017468386bce64d28.camel@mediatek.com> <b7ed8b71578a98704e9b8ca29cac63c67cc14b3f.camel@mediatek.com>
+In-Reply-To: <b7ed8b71578a98704e9b8ca29cac63c67cc14b3f.camel@mediatek.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Sun, 26 Sep 2021 11:51:37 -0300
+Message-ID: <CAAEAJfCHEBFc8B7C0bu7UxtJdffvDarqgA-rset1wPjLOiV01A@mail.gmail.com>
+Subject: Re: [PATCH v6, 00/15] Using component framework to support multi
+ hardware decode
+To:     "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Project_Global_Chrome_Upstream_Group 
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> > > +static int bcmasp_set_priv_flags(struct net_device *dev, u32 flags)
-> > > +{
-> > > +	struct bcmasp_intf *intf = netdev_priv(dev);
-> > > +
-> > > +	intf->wol_keep_rx_en = flags & BCMASP_WOL_KEEP_RX_EN ? 1 : 0;
-> > > +
-> > > +	return 0;
-> > 
-> > Please could you explain this some more. How can you disable RX and
-> > still have WoL working?
-> 
-> Wake-on-LAN using Magic Packets and network filters requires keeping the
-> UniMAC's receiver turned on, and then the packets feed into the Magic Packet
-> Detector (MPD) block or the network filter block. In that mode DRAM is in
-> self refresh and there is local matching of frames into a tiny FIFO however
-> in the case of magic packets the packets leading to a wake-up are dropped as
-> there is nowhere to store them. In the case of a network filter match (e.g.:
-> matching a multicast IP address plus protocol, plus source/destination
-> ports) the packets are also discarded because the receive DMA was shut down.
-> 
-> When the wol_keep_rx_en flag is set, the above happens but we also allow the
-> packets that did match a network filter to reach the small FIFO (Justin
-> would know how many entries are there) that is used to push the packets to
-> DRAM. The packet contents are held in there until the system wakes up which
-> is usually just a few hundreds of micro seconds after we received a packet
-> that triggered a wake-up. Once we overflow the receive DMA FIFO capacity
-> subsequent packets get dropped which is fine since we are usually talking
-> about very low bit rates, and we only try to push to DRAM the packets of
-> interest, that is those for which we have a network filter.
-> 
-> This is convenient in scenarios where you want to wake-up from multicast DNS
-> (e.g.: wake on Googlecast, Bonjour etc.) because then the packet that
-> resulted in the system wake-up is not discarded but is then delivered to the
-> network stack.
+On Sun, 26 Sept 2021 at 05:27, yunfei.dong@mediatek.com
+<yunfei.dong@mediatek.com> wrote:
+>
+> Hi Ezequiel,
+>
+> Could you please help to give some feedback when you are free for iommu
+> limitation?
+>
 
-Thanks for the explanation. It would be easier for the user if you
-automate this. Enable is by default for WoL types which have user
-content?
+How about you work on the architecture I originally suggested?
 
-> > > +	/* Per ch */
-> > > +	intf->tx_spb_dma = priv->base + TX_SPB_DMA_OFFSET(intf);
-> > > +	intf->res.tx_spb_ctrl = priv->base + TX_SPB_CTRL_OFFSET(intf);
-> > > +	/*
-> > > +	 * Stop gap solution. This should be removed when 72165a0 is
-> > > +	 * deprecated
-> > > +	 */
-> > 
-> > Is that an internal commit?
-> 
-> Yes this is a revision of the silicon that is not meant to see the light of
-> day.
+As the saying goes, talk is cheap, show us the code.
+So let's see the code and let's discuss the limitations
+with the code.
 
-So this can all be removed?
+> According to google's suggestion, it's better not to use v4l2 async
+> also.
 
-   Andrew
+Hum? I haven't seen such objection on the mailing list.
+
+Thanks,
+Ezequiel
