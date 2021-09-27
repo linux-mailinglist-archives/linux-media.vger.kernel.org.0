@@ -2,271 +2,322 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F00144191AE
-	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 11:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 430E64191C9
+	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 11:49:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233700AbhI0JlD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Sep 2021 05:41:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46616 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233685AbhI0JlC (ORCPT
+        id S233694AbhI0JvS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Sep 2021 05:51:18 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37442 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233680AbhI0JvR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Sep 2021 05:41:02 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41AD7C061575
-        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 02:39:25 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A783BB91;
-        Mon, 27 Sep 2021 11:39:23 +0200 (CEST)
+        Mon, 27 Sep 2021 05:51:17 -0400
+Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 549FBB91;
+        Mon, 27 Sep 2021 11:49:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1632735563;
-        bh=IuOqba0jpNco9Zr12LqgXu+7CfWTlHzBm8UWndypjqs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=M0/NJjeFNokYSTFfUbhit2ATswv6DkVN+MQ1aTK3wqTgOxdJ4/fD2T5ASTtNiNhA4
-         t1bvbvXPS3t5CMlATvP6xB+I2u80MXP1ag8Dx0uTszPejSOQh6niaSWPlUM4Qa9I/e
-         gXX7P/ipmSzTgE3+DxzSFdyCJiMRdjiiGC0NxVVM=
-Date:   Mon, 27 Sep 2021 12:39:17 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com,
+        s=mail; t=1632736178;
+        bh=ahOBqCyrqXsqd/hy8TGvE9fzFo3LqSjGYVUjpBjRlNY=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=JYXEJzcoaa9ZbgAzk4BngaiKzkghz7TscGdCwY+KMxc+HVn9ppwziuDTnzFKN/SY+
+         BWsRqkSomIbPphpVGCGJZneILPE8RXAUM1dxG3EMRk3C22g49byzWHvzysyBP399dY
+         1AnOwqvnv76g/OI4TmO3xX3Ty/fm1GZLwUXfummQ=
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>
-Subject: Re: [PATCH v8 02/36] media: subdev: add active state to struct
- v4l2_subdev
-Message-ID: <YVGRRfea+YaijluM@pendragon.ideasonboard.com>
 References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
- <20210830110116.488338-3-tomi.valkeinen@ideasonboard.com>
- <20210915094403.cazj7bjampnes4ba@uno.localdomain>
- <8e322af6-c010-f906-f733-6d3f770a48fc@ideasonboard.com>
- <f0f4bc4b-7594-28ab-8e8a-2819ce82df47@ideasonboard.com>
- <20210916080802.rznseum57gniplqp@uno.localdomain>
- <627ede43-090f-7440-57ed-fde9bc55fa5d@ideasonboard.com>
- <YVEJJWLv9fyG1Tw7@pendragon.ideasonboard.com>
- <8b8d3bc4-80a0-e901-e417-20e0c8b7a4c6@ideasonboard.com>
+ <20210830110116.488338-6-tomi.valkeinen@ideasonboard.com>
+ <YVEf+VRWFcbdUOXm@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v8 05/36] media: subdev: add subdev state locking
+Message-ID: <264618fd-30b3-5fcc-1136-f5f2a0cd002f@ideasonboard.com>
+Date:   Mon, 27 Sep 2021 12:49:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <YVEf+VRWFcbdUOXm@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8b8d3bc4-80a0-e901-e417-20e0c8b7a4c6@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+On 27/09/2021 04:35, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Aug 30, 2021 at 02:00:45PM +0300, Tomi Valkeinen wrote:
+>> The V4L2 subdevs have managed without centralized locking for the state
+>> (previously pad_config), as the TRY state is supposedly safe (although I
+>> believe two TRY ioctls for the same fd would race), and the ACTIVE
+>> state, and its locking, is managed by the drivers internally.
+>>
+>> We now have ACTIVE state in a centralized position, and need locking.
+>> Strictly speaking the locking is only needed for new drivers that use
+>> the new state, as the current drivers continue behaving as they used to.
+>>
+>> Add a mutex to the struct v4l2_subdev_state, along with a few helper
+>> functions for locking/unlocking.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-subdev.c | 43 +++++++++++++++++----
+>>   include/media/v4l2-subdev.h           | 55 +++++++++++++++++++++++++--
+>>   2 files changed, 88 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>> index b3637cddca58..b1e65488210d 100644
+>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>> @@ -26,9 +26,11 @@
+>>   #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+>>   static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
+>>   {
+>> +	static struct lock_class_key __key;
+>>   	struct v4l2_subdev_state *state;
+>>   
+>> -	state = v4l2_alloc_subdev_state(sd, V4L2_SUBDEV_FORMAT_TRY);
+>> +	state = __v4l2_alloc_subdev_state(sd, V4L2_SUBDEV_FORMAT_TRY,
+>> +					  "v4l2_subdev_fh->state", &__key);
+> 
+> What's the reason for not using the v4l2_alloc_subdev_state() macro here
+> ?
 
-On Mon, Sep 27, 2021 at 10:05:12AM +0300, Tomi Valkeinen wrote:
-> On 27/09/2021 02:58, Laurent Pinchart wrote:
-> > On Thu, Sep 16, 2021 at 12:36:33PM +0300, Tomi Valkeinen wrote:
-> >> On 16/09/2021 11:08, Jacopo Mondi wrote:
-> >>> On Thu, Sep 16, 2021 at 09:52:42AM +0300, Tomi Valkeinen wrote:
-> >>>> On 16/09/2021 09:17, Tomi Valkeinen wrote:
-> >>>>> On 15/09/2021 12:44, Jacopo Mondi wrote:
-> >>>>>> On Mon, Aug 30, 2021 at 02:00:42PM +0300, Tomi Valkeinen wrote:
-> >>>>>>> Add a new 'state' field to struct v4l2_subdev to which we can store the
-> >>>>>>> active state of a subdev. This will place the subdev configuration into
-> >>>>>>> a known place, allowing us to use the state directly from the v4l2
-> >>>>>>> framework, thus simplifying the drivers.
-> >>>>>>>
-> >>>>>>> We also add v4l2_subdev_alloc_state() and v4l2_subdev_free_state(),
-> >>>>>>> which need to be used by the drivers that support subdev state in struct
-> >>>>>>> v4l2_subdev.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >>>>>>> ---
-> >>>>>>>     drivers/media/v4l2-core/v4l2-subdev.c | 21 ++++++++++++++++
-> >>>>>>>     include/media/v4l2-subdev.h           | 36 +++++++++++++++++++++++++++
-> >>>>>>>     2 files changed, 57 insertions(+)
-> >>>>>>>
-> >>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c
-> >>>>>>> b/drivers/media/v4l2-core/v4l2-subdev.c
-> >>>>>>> index 26a34a8e3d37..e1a794f69815 100644
-> >>>>>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> >>>>>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> >>>>>>> @@ -943,3 +943,24 @@ void v4l2_subdev_notify_event(struct
-> >>>>>>> v4l2_subdev *sd,
-> >>>>>>>         v4l2_subdev_notify(sd, V4L2_DEVICE_NOTIFY_EVENT, (void *)ev);
-> >>>>>>>     }
-> >>>>>>>     EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
-> >>>>>>> +
-> >>>>>>> +int v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
-> >>>>>>> +{
-> >>>>>>> +    struct v4l2_subdev_state *state;
-> >>>>>>> +
-> >>>>>>> +    state = v4l2_alloc_subdev_state(sd);
-> >>>>
-> >>>> Replying to this again, as the second email didn't actually cover all the
-> >>>> topics...
-> >>>>
-> >>>>>> So, I think this is one source of confusion about init_cfg.
-> >>>>>>
-> >>>>>> v4l2_alloc_subdev_state() calls init_cfg() and 'state-aware' driver
-> >>>>>> are now supposed to allocate their state by calling
-> >>>>>> v4l2_subdev_alloc_state(), in the same way as the core does for the
-> >>>>>> file-handle ones.
-> >>>>>>
-> >>>>>> This will lead to init_cfg to be called for the 'active' (ie owned by
-> >>>>>> the subdev) state, and then you need to add context to the state (by
-> >>>>>> adding a 'which' field) to know what state you're dealing with.
-> >>>>>>
-> >>>>>> According to the init_cfg() documentation
-> >>>>>>
-> >>>>>>     * @init_cfg: initialize the pad config to default values
-> >>>>>>
-> >>>>>> the op has to be called in order to initialize the per-file-handle
-> >>>>>> context, not the active one.
-> >>>>>
-> >>>>> I have missed updating the documentation there =).
-> >>>>
-> >>>> The documentation above doesn't imply per-file-handle context or TRY case,
-> >>>> afaics. It just says "initialize state to default". Unless "pad config"
-> >>>> always means TRY, which I think it doesn't as the drivers have internally
-> >>>> been using pad configs.
-> >>>
-> >>> If they do, they would have the 'active' pad_configs  allocated or
-> >>> embedded somewhere in their driver structures, they would not receive
-> >>> it as parameter. Or have I missed where the core is capable of fishing
-> >>> the 'right' pad_configs ? I think the same should happen for state.
-> >>
-> >> Yes, that is correct. I was just saying that the documentation doesn't
-> >> say that init_cfg is only used for the TRY case, even if that has been
-> >> the case in practice.
-> >>
-> >>>> But it's true that so far init_cfg has only been called for TRY case, and
-> >>>> perhaps that's enough of a reason to keep it so.
-> >>>>
-> >>>>>> I would rather just embed 'struct v4l2_subdev_state' in 'struct
-> >>>>>> v4l2_subdev', have the core going through the
-> >>>>>
-> >>>>> Why would embedding the state change anything?
-> >>>>>
-> >>>>>> 'v4l2_subdev_alloc_state()' to initialize the per-fh state, but have
-> >>>>>> drivers initialize their own state at probe time. If they need for
-> >>>>>> some reason to access their 'active' state at init_cfg() time, they
-> >>>>>> caan fish it from their subdev.
-> >>>>>>
-> >>>>>> If I'm not mistaken this will remove the need to have a which filed in
-> >>>>>> the state, as I think the 'context' should be inferred from the
-> >>>>>> 'which' argument embedded in the ops-specific structures, and not held
-> >>>>>> in the state itself.
-> >>>>
-> >>>> It's true that the state's which field is mainly (probably only) needed for
-> >>>> handling the init_cfg. It could be solved in other ways too:
-> >>>>
-> >>>> - New subdev op to initialize active state
-> >>>> - New subdev op which gets 'which' as a parameter, to initialize both states
-> >>>> (state-aware drivers wouldn't need to implement the old init_cfg)
-> >>>> - Coccinelle to change init_cfg to get the which as a parameter
-> >>>>
-> >>>> Without doing any deep thinking, the middle one sounds best to me.
-> >>>
-> >>> Isn't it simpler if you just don't call init_cfg for the 'active'
-> >>> state ? Driver will initialize them at probe time and that's it, then
-> >>> you can remove 'which' from the state (and from routing tables too if I'm
-> >>> not mistaken).
-> >>
-> >> Routing needs the 'which' similarly to other config structs, like
-> >> v4l2_subdev_format.
-> >>
-> >> I did a quick implementation for the second case, which allows me to
-> >> remove 'which' from the state.
-> >>
-> >> As for "simpler"... Both ways have pros and cons. I'm my mind this new
-> >> way is simpler.
-> >>
-> >> Afaics, in the end (i.e. after doing the v4l2_subdev_call change), the
-> >> only bigger difference is how the state-aware drivers implement their
-> >> ops. With my approach, they get the correct state and that's it. With
-> >> your approach, they need to use a helper function (or do it manually) to
-> >> get the state based on 'which'.
-> > 
-> > I'd like to propose a third approach (or at least I believe it's a third
-> > one). I agree with Jacopo that the state structure should not have a
-> > which field, that's a layering violation. The state is a state,
-> > regardless of whether it holds TRY or ACTIVE data. What are the current
-> > blockers that would prevent that ?
-> 
-> Oh, I agree with that too. I didn't add the 'which' field to state 
-> because I thought it's good =). It is supposed to be temporary solution. 
-> init_cfg() is the issue here.
-> 
-> It think I had these options:
-> 
-> - Change init_cfg() to take 'which' as a parameter
-> - Change init_cfg() implementations to not use 'which'
-> - Add new version for new drivers, init_cfg_state() or such, which 
-> either gets the which as a parameter or doesn't use which.
-> - Add 'which' to state.
-> 
-> I chose the fourth one as it's a very small change, and can be removed 
-> easily in the future when the underlying problem is solved.
-> 
-> > However, I think .init_cfg() should be used to initialize *all* states,
-> > both TRY and ACTIVE. That will simplify driver implementation (but
-> > centralizing the initialization in a single place) and ensure that the
-> > default value for the ACTIVE state always matches the default value for
-> > the TRY state, which I think is important.
-> 
-> I agree.
+It has a different name for the lock. I'm not sure if that's really 
+needed or not, as v4l2_alloc_subdev_state anyway adds a filename and 
+line-number.
 
-That's the second option from you list above, right ?
+I guess one reason is that at some point v4l2_alloc_subdev_state() was 
+supposed to be only for allocating active configuration. Which is 
+actually what the lock name there refers to "sd->state->lock".
 
-As ACTIVE state support is opt-in, it seems to me that we won't need to
-mass-fix drivers as part of this series if we go for this option. Am I
-missing something ?
-
-> > When it comes to calling v4l2_subdev_alloc_state() in drivers, I also
-> > agree with Jacopo, I'm not extremely fond of it. This should be
-> > automatic, drivers shouldn't have to care about allocating the ACTIVE
-> > state. However, I also agree with Tomi that there's no real place to do
-> > this today. I think we need to restructure subdev initialization, which
-> > currently has very few rules. This could take the form, for instance, of
+>>   	if (IS_ERR(state))
+>>   		return PTR_ERR(state);
+>>   
+>> @@ -924,8 +926,10 @@ int v4l2_subdev_link_validate(struct media_link *link)
+>>   EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
+>>   
+>>   struct v4l2_subdev_state *
+>> -v4l2_alloc_subdev_state(struct v4l2_subdev *sd,
+>> -			enum v4l2_subdev_format_whence which)
+>> +__v4l2_alloc_subdev_state(struct v4l2_subdev *sd,
+>> +			  enum v4l2_subdev_format_whence which,
+>> +			  const char *lock_name,
+>> +			  struct lock_class_key *lock_key)
+>>   {
+>>   	struct v4l2_subdev_state *state;
+>>   	int ret;
+>> @@ -934,6 +938,8 @@ v4l2_alloc_subdev_state(struct v4l2_subdev *sd,
+>>   	if (!state)
+>>   		return ERR_PTR(-ENOMEM);
+>>   
+>> +	__mutex_init(&state->lock, lock_name, lock_key);
+>> +
+>>   	state->which = which;
+>>   
+>>   	if (sd->entity.num_pads) {
+>> @@ -960,13 +966,15 @@ v4l2_alloc_subdev_state(struct v4l2_subdev *sd,
+>>   
+>>   	return ERR_PTR(ret);
+>>   }
+>> -EXPORT_SYMBOL_GPL(v4l2_alloc_subdev_state);
+>> +EXPORT_SYMBOL_GPL(__v4l2_alloc_subdev_state);
+>>   
+>>   void v4l2_free_subdev_state(struct v4l2_subdev_state *state)
+>>   {
+>>   	if (!state)
+>>   		return;
+>>   
+>> +	mutex_destroy(&state->lock);
+>> +
+>>   	kvfree(state->pads);
+>>   	kfree(state);
+>>   }
+>> @@ -1001,11 +1009,12 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+>>   }
+>>   EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
+>>   
+>> -int v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
+>> +int __v4l2_subdev_alloc_state(struct v4l2_subdev *sd, const char *name,
+>> +			      struct lock_class_key *key)
+>>   {
+>>   	struct v4l2_subdev_state *state;
+>>   
+>> -	state = v4l2_alloc_subdev_state(sd, V4L2_SUBDEV_FORMAT_ACTIVE);
+>> +	state = __v4l2_alloc_subdev_state(sd, V4L2_SUBDEV_FORMAT_ACTIVE, name, key);
 > 
-> I agree with your agreeings above too.
-> 
-> > 1. calling v4l2_subdev_init() as an early subdev init function
-> > 2. setting fields of v4l2_subdev manually
-> > 3. initializing the media_entity embedded in the subdev
-> > 4. calling a new "initialization finalization" function that will
-> >     initialize the state embedded in v4l2_subdev (as opposed to
-> >     allocating it dynamically as done today)
-> 
-> Why is the allocated/embedded relevant? The drivers won't know which one 
-> is used.
+> I already know that Sakari will ask for a line wrap at 80 columns, and
+> that would be my preference as well :-) I won't repeat the comment in
+> the rest of the series. Going over 80 columns is fine when it improves
+> readability, but in many places keeping lines short enough would be
+> nicer.
 
-Embedding will lower the number of allocations. On the other hand, as
-replied to another patch in this series, allocating the state
-dynamically may be better short term, so I'm OK with that.
+Hmm... I think I went over all the 80+ lines at some point, but this 
+change probably came afterwards. I'll go through them again.
 
-> > That's the simplest option as it really ressembles what we do today, and
-> > would more or less only require embedded the state in v4l2_subdev and
-> > renaming v4l2_subdev_alloc_state() to v4l2_subdev_init_done() (or
-> > similar, that's likely not a great name).
+A bit of a side topic, but an annoying think about complying to 80 
+columns is that my editor indents with tabs and aligns with spaces. And 
+you (and I guess Sakar) want both be done with tabs, and with only a 
+minimal amount of spaces. I personally like my editor's behavior better, 
+though, as it works fine when changing tab widths too.
+
+I can use clang-format to do the indentation instead, but it has the 
+super annoying feature that it likes to do this:
+
+v4l2_subdev_function_name(
+	sd, bar, long_argument_here);
+
+>>   	if (IS_ERR(state))
+>>   		return PTR_ERR(state);
+>>   
+>> @@ -1013,7 +1022,7 @@ int v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
+>>   
+>>   	return 0;
+>>   }
+>> -EXPORT_SYMBOL_GPL(v4l2_subdev_alloc_state);
+>> +EXPORT_SYMBOL_GPL(__v4l2_subdev_alloc_state);
+>>   
+>>   void v4l2_subdev_free_state(struct v4l2_subdev *sd)
+>>   {
+>> @@ -1021,3 +1030,23 @@ void v4l2_subdev_free_state(struct v4l2_subdev *sd)
+>>   	sd->state = NULL;
+>>   }
+>>   EXPORT_SYMBOL_GPL(v4l2_subdev_free_state);
+>> +
+>> +struct v4l2_subdev_state *v4l2_subdev_lock_active_state(struct v4l2_subdev *sd)
+>> +{
+>> +	mutex_lock(&sd->state->lock);
+>> +
+>> +	return sd->state;
+>> +}
+>> +EXPORT_SYMBOL_GPL(v4l2_subdev_lock_active_state);
+>> +
+>> +void v4l2_subdev_lock_state(struct v4l2_subdev_state *state)
+>> +{
+>> +	mutex_lock(&state->lock);
+>> +}
+>> +EXPORT_SYMBOL_GPL(v4l2_subdev_lock_state);
+>> +
+>> +void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
+>> +{
+>> +	mutex_unlock(&state->lock);
+>> +}
+>> +EXPORT_SYMBOL_GPL(v4l2_subdev_unlock_state);
+>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>> index 5ec78ffda4f5..52a725281b23 100644
+>> --- a/include/media/v4l2-subdev.h
+>> +++ b/include/media/v4l2-subdev.h
+>> @@ -655,6 +655,7 @@ struct v4l2_subdev_pad_config {
+>>   /**
+>>    * struct v4l2_subdev_state - Used for storing subdev state information.
+>>    *
+>> + * @lock: mutex for the state
+>>    * @which: state type (from enum v4l2_subdev_format_whence)
+>>    * @pads: &struct v4l2_subdev_pad_config array
+>>    *
+>> @@ -663,6 +664,7 @@ struct v4l2_subdev_pad_config {
+>>    * %V4L2_SUBDEV_FORMAT_ACTIVE it is safe to pass %NULL.
+>>    */
+>>   struct v4l2_subdev_state {
+>> +	struct mutex lock;
+>>   	u32 which;
+>>   	struct v4l2_subdev_pad_config *pads;
+>>   };
+>> @@ -1147,9 +1149,18 @@ int v4l2_subdev_link_validate(struct media_link *link);
+>>    *
+>>    * Must call v4l2_free_subdev_state() when state is no longer needed.
+>>    */
+>> +#define v4l2_alloc_subdev_state(sd, which)                                     \
+>> +	({                                                                     \
+>> +		static struct lock_class_key __key;                            \
+>> +		const char *name = KBUILD_BASENAME                             \
+>> +			":" __stringify(__LINE__) ":sd->state->lock";          \
+>> +		__v4l2_alloc_subdev_state(sd, which, name, &__key);            \
+>> +	})
+>> +
+>>   struct v4l2_subdev_state *
+>> -v4l2_alloc_subdev_state(struct v4l2_subdev *sd,
+>> -			enum v4l2_subdev_format_whence which);
+>> +__v4l2_alloc_subdev_state(struct v4l2_subdev *sd,
+>> +			  enum v4l2_subdev_format_whence which,
+>> +			  const char *lock_name, struct lock_class_key *key);
+>>   
+>>   /**
+>>    * v4l2_free_subdev_state - free a v4l2_subdev_state
+>> @@ -1234,7 +1245,16 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+>>    *
+>>    * Must call v4l2_subdev_free_state() when the state is no longer needed.
+>>    */
+>> -int v4l2_subdev_alloc_state(struct v4l2_subdev *sd);
+>> +#define v4l2_subdev_alloc_state(sd)                                            \
+>> +	({                                                                     \
+>> +		static struct lock_class_key __key;                            \
+>> +		const char *name = KBUILD_BASENAME                             \
+>> +			":" __stringify(__LINE__) ":sd->state->lock";          \
+>> +		__v4l2_subdev_alloc_state(sd, name, &__key);                   \
+>> +	})
+>> +
+>> +int __v4l2_subdev_alloc_state(struct v4l2_subdev *sd, const char *name,
+>> +			      struct lock_class_key *key);
+>>   
+>>   /**
+>>    * v4l2_subdev_free_state() - Free the active subdev state for subdevice
+>> @@ -1258,4 +1278,33 @@ v4l2_subdev_get_active_state(struct v4l2_subdev *sd)
+>>   	return sd->state;
+>>   }
+>>   
+>> +/**
+>> + * v4l2_subdev_lock_active_state() - Lock and return the active subdev state for subdevice
+>> + * @sd: The subdevice
+>> + *
+>> + * Return the locked active state for the subdevice, or NULL if the subdev
+>> + * does not support active state.
+>> + *
+>> + * Must be unlocked with v4l2_subdev_unlock_state() after use.
+>> + */
+>> +struct v4l2_subdev_state *v4l2_subdev_lock_active_state(struct v4l2_subdev *sd);
+>> +
+>> +/**
+>> + * v4l2_subdev_lock_state() - Lock the subdev state
+>> + * @state: The subdevice state
+>> + *
+>> + * Lock the given subdev state.
+>> + *
+>> + * Must be unlocked with v4l2_subdev_unlock_state() after use.
+>> + */
+>> +void v4l2_subdev_lock_state(struct v4l2_subdev_state *state);
 > 
-> Yes. But I don't see embedding relevant. So we could just rename 
-> v4l2_subdev_alloc_state() and we should be there.
-> 
-> > A more intrusive change would restructure the subdev initialization
-> > further, by handling the media_entity initialization transparently
-> > (which would require passing more arguments to v4l2_subdev_init(),
-> > probably creating a new version of that function). That's more complex
-> > and I think it's out of scope for this series, but it may still be
-> > useful to keep the long term goal in mind to try and align with the
-> > direction.
-> 
-> Yes, there are many things that can be improved further. But in the 
-> context of this series, I'd like to keep the improvements such that they 
-> require no changes to the existing drivers.
+> This seems to be used only to lock the state passed to the subdev
+> operation by the caller. Could the caller lock the state instead ? This
+> could possibly be done by wrapping the v4l2_subdev_call() calls in
+> dedicated helper functions.
 
-I'd propose minmizing the need of such changes, but not ruling them out
-completely in case the gain is worth the pain. Of course it largely
-depends who gets the gain and who's inflicted the pain ;-)
+Maybe, but it's easy to get into problems that way. One of the problems 
+is that subdev drivers already have locks for other things (say, 
+xyz-lock), and the locking order between state-lock and xyz-lock has to 
+be kept the same. And as we have subdev ops that don't get a state 
+(mainly s_stream), those have to do the locking themselves, and also 
+keep the order the same.
 
--- 
-Regards,
+I was hitting lockdep issues constantly when the v4l2-core was taking 
+the lock before calling the ops. I did sort some of those out, but 
+sorting some of those out cleanly wasn't trivial, and it felt like 
+swimming against the current. So I instead decided to go this way.
 
-Laurent Pinchart
+It might also introduce deadlocks in drivers. I don't have a real 
+example, but I'm not sure if it's too far fetched to imagine a case with 
+two subdev drivers, part of a single driver module, where, say, subdev A 
+gets a set_fmt call, it then calls set_fmt in subdev B, and B calls 
+get_fmt in subdev A. Yes, it's a contrived example, but are you sure 
+things like that are not done? =)
+
+I'm sure this can be sorted out, but I have a gut feeling it won't be easy.
+
+  Tomi
