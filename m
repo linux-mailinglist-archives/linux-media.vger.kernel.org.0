@@ -2,153 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA5B9419281
-	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 12:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D50034192FC
+	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 13:20:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233890AbhI0KvE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Sep 2021 06:51:04 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38494 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233895AbhI0KvC (ORCPT
+        id S234040AbhI0LVw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Sep 2021 07:21:52 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:51904 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234033AbhI0LVv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Sep 2021 06:51:02 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E29CB91;
-        Mon, 27 Sep 2021 12:49:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1632739763;
-        bh=whbc43g3sJlMalY+vbgUfYGRhTWhydTGPHqhqJaEank=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PcX3fRM9B0uJ3PVcy/rpajHlU4gSI6eHyFuwGlhGePmsqz0kM/x8gBouVvR3LEkrR
-         ekfdPdIacNtKbmE4fnc7tDTNblartFVq6oreqTPUrNd5SfRgXywbdNirbsTjzuTSg2
-         xqf/kTdpe5RTrVapJOB9Wv0is7WJXNRKlUCRJDzA=
-Date:   Mon, 27 Sep 2021 13:49:17 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mon, 27 Sep 2021 07:21:51 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id C678E1F42393
+Subject: Re: [PATCH v5 05/10] media: uapi: Add VP9 stateless decoder controls
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: Re: [PATCH v8 03/36] media: subdev: add 'which' to subdev state
-Message-ID: <YVGhrScuW6MwMXgb@pendragon.ideasonboard.com>
-References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
- <20210830110116.488338-4-tomi.valkeinen@ideasonboard.com>
- <20210913114154.ovffxjoghgdud4js@uno.localdomain>
- <0733ae28-bcd9-6dc8-fb6a-0fa43beb1191@ideasonboard.com>
- <20210913133841.nck65h2ft4hfnbg5@uno.localdomain>
- <656577a3-b783-0272-4809-20169b84e891@ideasonboard.com>
- <20210916130752.bsdhq3xpsatdfl4a@uno.localdomain>
- <a1e81cb9-ea1b-c81c-64d6-e0dd7cf87590@ideasonboard.com>
- <YVEUxunGwevzoy5f@pendragon.ideasonboard.com>
- <9d80e73b-acd0-9439-8447-6c2a66686ec3@ideasonboard.com>
+        Heiko Stuebner <heiko@sntech.de>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Adrian Ratiu <adrian.ratiu@collabora.com>,
+        Daniel Almeida <daniel.almeida@collabora.com>
+References: <20210922101146.13762-1-andrzej.p@collabora.com>
+ <20210922101146.13762-6-andrzej.p@collabora.com> <YU37e90gldL7zHke@fedora>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <e7f228bc-d8d5-5857-a892-df1deee4be3e@collabora.com>
+Date:   Mon, 27 Sep 2021 13:20:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <9d80e73b-acd0-9439-8447-6c2a66686ec3@ideasonboard.com>
+In-Reply-To: <YU37e90gldL7zHke@fedora>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+Hi Ezequiel,
 
-On Mon, Sep 27, 2021 at 11:55:38AM +0300, Tomi Valkeinen wrote:
-> On 27/09/2021 03:48, Laurent Pinchart wrote:
-> > On Thu, Sep 16, 2021 at 04:24:19PM +0300, Tomi Valkeinen wrote:
-> >> On 16/09/2021 16:07, Jacopo Mondi wrote:
-> >>
-> >>> Also note that operations like s_stream do not take a state as
-> >>> parameter. The driver has to fetch it from the subdev anyway
-> >>> (this in reply to the idea of having the active state as parameter vs
-> >>> retrieving it from the subdev if ACTIVE)
-> >>>
-> >>> While porting the R-Car drivers on top of this series I found myself
-> >>> in the need to (in the s_stream call chain)
-> >>>
-> >>> static int rcsi2_start_receiver(struct rcar_csi2 *priv)
-> >>> {
-> >>> 	const struct v4l2_subdev_state *state = priv->subdev.state;
-> >>> 	const struct v4l2_subdev_stream_configs *configs = &state->stream_configs;
-> >>>
-> >>>           ...
-> >>>
-> >>> 	/*
-> >>> 	 * Configure field handling inspecting the formats of the
-> >>> 	 * single sink pad streams.
-> >>> 	 */
-> >>> 	for (i = 0; i < configs->num_configs; ++i) {
-> >>> 		const struct v4l2_subdev_stream_config *config = configs->configs;
-> >>> 		if (config->pad != RCAR_CSI2_SINK)
-> >>> 			continue;
-> >>>
-> >>> 		if (config->fmt.field != V4L2_FIELD_ALTERNATE)
-> >>> 			continue;
-> >>>
-> >>> 		fld |= FLD_DET_SEL(1);
-> >>> 		fld |= FLD_FLD_EN(config->stream);
-> >>>
-> >>> 		/* PAL vs NTSC. */
-> >>> 		if (config->fmt.height == 240)
-> >>> 			fld |= FLD_FLD_NUM(0);
-> >>> 		else
-> >>> 			fld |= FLD_FLD_NUM(1);
-> >>> 	}
-> >>>
-> >>>           ...
-> >>>
-> >>> }
-> >>>
-> >>> Am I doing it wrong, or is this a case for the subdev to have to
-> >>> directly access sd->state ?
-> >>
-> >> In s_stream path you should:
-> >>
-> >> 	state = v4l2_subdev_lock_active_state(sd);
-> >>
-> >> 	<do the work with the state>
-> >>
-> >> 	v4l2_subdev_unlock_state(state);
-> >>
-> >> If you already have the state, e.g. in set_fmt:
-> >>
-> >> 	state = v4l2_subdev_validate_and_lock_state(sd, state);
-> >>
-> >> 	<do the work with the state>
-> >>
-> >> 	v4l2_subdev_unlock_state(state);
-> >>
-> >> Accessing the stream_configs directly is fine but not that nice. I did
-> >> think about some helpers, perhaps for_each_stream_config(), but I didn't
-> >> add that as I didn't have the need.
-> >>
-> >> There's v4l2_state_get_stream_format() which can be used in many cases,
-> >> but we probably need something else if you need to iterate over all the
-> >> configs.
-> > 
-> > I really like forcing drivers to call functions that will lock the
-> > state, at least until we can move the locks to the core (if ever). We
-> > should move the fields of v4l2_subdev that drivers are not supposed to
-> > access directly under a big PRIVATE comment.
+Thank you for looking into the patch.
+
+W dniu 24.09.2021 o 18:23, Ezequiel Garcia pisze:
+> Hi Andrzej,
 > 
-> Can you clarify what you mean here? Did you mean you like functions that 
-> will _check_ the lock? Or did you just mean that you like 
-> v4l2_subdev_lock_state() better than mutex_lock(state->lock)?
+> On Wed, Sep 22, 2021 at 12:11:41PM +0200, Andrzej Pietrasiewicz wrote:
+>> Add the VP9 stateless decoder controls plus the documentation that goes
+>> with it.
+>>
+>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> Co-developed-by: Ezequiel Garcia <ezequiel@collabora.com>
+>> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+>> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+>> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+>> Co-developed-by: Daniel Almeida <daniel.almeida@collabora.com>
+>> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+>> ---
+> [snip]
+>> +
+>> +#define V4L2_VP9_FRAME_FLAG_KEY_FRAME			0x001
+>> +#define V4L2_VP9_FRAME_FLAG_SHOW_FRAME			0x002
+>> +#define V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT		0x004
+>> +#define V4L2_VP9_FRAME_FLAG_INTRA_ONLY			0x008
+>> +#define V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV		0x010
+>> +#define V4L2_VP9_FRAME_FLAG_REFRESH_FRAME_CTX		0x020
+>> +#define V4L2_VP9_FRAME_FLAG_PARALLEL_DEC_MODE		0x040
+>> +#define V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING		0x080
+>> +#define V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING		0x100
+>> +#define V4L2_VP9_FRAME_FLAG_COLOR_RANGE_FULL_SWING	0x200
+>> +
+>> +#define V4L2_VP9_SIGN_BIAS_LAST				0x1
+>> +#define V4L2_VP9_SIGN_BIAS_GOLDEN			0x2
+>> +#define V4L2_VP9_SIGN_BIAS_ALT				0x4
+>> +
+>> +#define V4L2_VP9_RESET_FRAME_CTX_NONE			0
+>> +#define V4L2_VP9_RESET_FRAME_CTX_SPEC			1
+>> +#define V4L2_VP9_RESET_FRAME_CTX_ALL			2
+>> +
+>> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP			0
+>> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP_SMOOTH		1
+>> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP_SHARP		2
+>> +#define V4L2_VP9_INTERP_FILTER_BILINEAR			3
+>> +#define V4L2_VP9_INTERP_FILTER_SWITCHABLE		4
+>> +
+>> +#define V4L2_VP9_REFERENCE_MODE_SINGLE_REFERENCE	0
+>> +#define V4L2_VP9_REFERENCE_MODE_COMPOUND_REFERENCE	1
+>> +#define V4L2_VP9_REFERENCE_MODE_SELECT			2
+>> +
+>> +#define V4L2_VP9_PROFILE_MAX				3
+>> +
+>> +#define V4L2_CID_STATELESS_VP9_FRAME	(V4L2_CID_CODEC_STATELESS_BASE + 300)
+>> +/**
+>> + * struct v4l2_ctrl_vp9_frame - VP9 frame decoding control
+>> + *
+>> + * @lf: loop filter parameters. See &v4l2_vp9_loop_filter for more details
+> 
+> Seems these documentation is missing an ending period for many fields.
 
-I like v4l2_subdev_lock_state().
+Thanks for catching punctuation mistakes :)
 
-> Well, in any case, I think my series does both =). I can add the private 
-> comment to subdev. In fact, at one time I did not have sd->state, but 
-> sd->_state, just to make sure no one accesses it.
+> 
+>> + * @quant: quantization parameters. See &v4l2_vp9_quantization for more details
+>> + * @seg: segmentation parameters. See &v4l2_vp9_segmentation for more details
+>> + * @flags: combination of V4L2_VP9_FRAME_FLAG_* flags
+>> + * @compressed_header_size: compressed header size in bytes
+>> + * @uncompressed_header_size: uncompressed header size in bytes
+>> + * @frame_width_minus_1: add 1 to it and you'll get the frame width expressed in pixels
+>> + * @frame_height_minus_1: add 1 to it and you'll get the frame height expressed in pixels
+>> + * @render_width_minus_1: add 1 to it and you'll get the expected render width expressed in
+>> + *	pixels. This is not used during the decoding process but might be used by HW scalers
+>> + *	to prepare a frame that's ready for scanout
+>> + * @render_height_minus_1: add 1 to it and you'll get the expected render height expressed in
+>> + *	pixels. This is not used during the decoding process but might be used by HW scalers
+>> + *	to prepare a frame that's ready for scanout
+>> + * @last_frame_ts: "last" reference buffer timestamp.
+>> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
+>> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
+>> + * @golden_frame_ts: "golden" reference buffer timestamp.
+>> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
+>> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
+>> + * @alt_frame_ts: "alt" reference buffer timestamp.
+>> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
+>> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
+>> + * @ref_frame_sign_bias: a bitfield specifying whether the sign bias is set for a given
+>> + *	reference frame. Either of V4L2_VP9_SIGN_BIAS_*.
+>> + * @reset_frame_context: specifies whether the frame context should be reset to default values.
+>> + *	Either of V4L2_VP9_RESET_FRAME_CTX_*.
+>> + * @frame_context_idx: frame context that should be used/updated
+>> + * @profile: VP9 profile. Can be 0, 1, 2 or 3
+>> + * @bit_depth: bits per components. Can be 8, 10 or 12. Note that not all profiles support
+>> + *	10 and/or 12 bits depths
+>> + * @interpolation_filter: specifies the filter selection used for performing inter prediction.
+>> + *	Either of V4L2_VP9_INTERP_FILTER_*
+>> + * @tile_cols_log2: specifies the base 2 logarithm of the width of each tile (where the width
+>> + *	is measured in units of 8x8 blocks). Shall be less than or equal to 6
+>> + * @tile_rows_log2: specifies the base 2 logarithm of the height of each tile (where the height
+>> + *	is measured in units of 8x8 blocks)
+>> + * @reference_mode: specifies the type of inter prediction to be used. See
+> 
+> See what? :-)
+> 
+>> + *	Either of V4L2_VP9_REFERENCE_MODE_*
+> 
+> Other controls use V4L2_VP9_REFERENCE_MODE_{}, {} instead of *.
+> The same applies to all the documentation.
 
-I half recall there was a gcc attribute to mark private fields in a
-structure, which then generates a warning if those fields are accessed
-by a function that doesn't have another special attribute. Or maybe I
-was dreaming :-)
+Will update in v6.
 
--- 
-Regards,
+> 
+>> + * @reserved: padding field. Should be zeroed by applications.
+>> + */
+>> +struct v4l2_ctrl_vp9_frame {
+>> +	struct v4l2_vp9_loop_filter lf;
+>> +	struct v4l2_vp9_quantization quant;
+>> +	struct v4l2_vp9_segmentation seg;
+>> +	__u32 flags;
+>> +	__u16 compressed_header_size;
+>> +	__u16 uncompressed_header_size;
+>> +	__u16 frame_width_minus_1;
+>> +	__u16 frame_height_minus_1;
+>> +	__u16 render_width_minus_1;
+>> +	__u16 render_height_minus_1;
+>> +	__u64 last_frame_ts;
+>> +	__u64 golden_frame_ts;
+>> +	__u64 alt_frame_ts;
+>> +	__u8 ref_frame_sign_bias;
+>> +	__u8 reset_frame_context;
+>> +	__u8 frame_context_idx;
+>> +	__u8 profile;
+>> +	__u8 bit_depth;
+>> +	__u8 interpolation_filter;
+>> +	__u8 tile_cols_log2;
+>> +	__u8 tile_rows_log2;
+>> +	__u8 reference_mode;
+>> +	__u8 reserved[7];
+>> +};
+>> +
+> 
+> Also, have you checked html and pdf docs and make sure
+> it looks as you expect?
+> 
 
-Laurent Pinchart
+Yes I did and it looks as I expected.
+
+> Thanks,
+> Ezequiel
+> 
+
