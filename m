@@ -2,60 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16A3E4199E2
-	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 19:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DD78419D44
+	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 19:46:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235672AbhI0RE1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Sep 2021 13:04:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37532 "EHLO
+        id S237718AbhI0Rrz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Sep 2021 13:47:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235694AbhI0RE0 (ORCPT
+        with ESMTP id S237245AbhI0Rro (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Sep 2021 13:04:26 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 929C4C061740
-        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 10:02:47 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id q81so33870742qke.5
-        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 10:02:47 -0700 (PDT)
+        Mon, 27 Sep 2021 13:47:44 -0400
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20CE8C043967
+        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 10:31:55 -0700 (PDT)
+Received: by mail-qt1-x835.google.com with SMTP id z7so3729575qto.7
+        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 10:31:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=tNPetvOupXqRGUiN551DEoj5v4Vq3J9M2I/AbCZn9/s=;
-        b=DaJH5fJcZaPTWSS82pjbCuzrmgUbbbI8rDumgBGUwFhl/oYhvIG/pZqFDRqj3etyng
-         gynjZU/qESEM03OCs4i9F0KxLfb9njtq1177Zhh6o5nIU4Ak6ZFaHDvNbgLrAZMWuX+7
-         /vo8yFf6ik5YAvsKvs/gkABlt5Fb5DP5jWTCc=
+        bh=Q25abHd9wgNegk3LUcOidVwBOafJNu1U9ST62KJXKh8=;
+        b=Ny6AIsS9MNvI6ERmgppnjGwYp+CeoJRk0IArqfNnE6eticiIdzNtufGZQts0fxRfaa
+         2La6isn8ClLdLGvpKcRN7Ws+5DbB2alushQpd5Mgdc9x0R4XjR8obr6bX67RKTuetBaA
+         VnxeAY+0ch/n5c2/oqU2Ri+Wkk5YXe/CnUMzo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tNPetvOupXqRGUiN551DEoj5v4Vq3J9M2I/AbCZn9/s=;
-        b=qy95F5fLFu66WzolE+eTMv128JvIX/o4DuJtbaCztEATNquj5GwJamnmvgMZFwDL1M
-         eB6antR4f5TjzoRy4zdy0J5G5T6M9IMzNfjBisHotuMXBuJ3/nu3WDfOWbtsrI0VZfwL
-         nHIElcH1ONcuCFE0GPHNAaHQPBxxPA7WBLmE/aBkIqcNgblYgNoVyOEgNxzow8tuRlLv
-         jCK2VtKAhyfkeUXhBZwTCHzTwaIfNNc/xiOItgoLmzVThNqWO+gnYgyBp1N47Gm/7Lpk
-         z4/7StNUP6o8KD1vro9hPN8tBIzYALnpnBv7ry3BDBODepZfpl+maMiSrO/+w1Q6KtGm
-         g/dA==
-X-Gm-Message-State: AOAM533Wx6XBXJK/wr+TYKO1teQbQ50HK+e2PGQ5ZyuX98jcDuE5DLD2
-        gyv1fnC5SbZwEuJ0Yet4tr+iZZ2n/4QYk9Gk+P+vnQ==
-X-Google-Smtp-Source: ABdhPJwBRvTBeyV1410Jpc8AMLHK25Pf6f0uExAdgdt+d7oQNAG2MpwCW4ToDnxi98Sln0HasYsHB8qhK0klEJITwTM=
-X-Received: by 2002:a37:a087:: with SMTP id j129mr979840qke.253.1632762166561;
- Mon, 27 Sep 2021 10:02:46 -0700 (PDT)
+        bh=Q25abHd9wgNegk3LUcOidVwBOafJNu1U9ST62KJXKh8=;
+        b=rvUEN+rlhxmRC/R8B4DX7yUERkjirtMDcDbR6k3AyO0/eeV0ykfSSq47BjM7ukSXU4
+         0egs91RHuOKdQ1Oa0uRiIIGT30JIL2oV4V6+ubvHNnqkD3CfGbwP66tZr3ivNwtcbjve
+         T2UaA0Ckc0xiZrPbc9D3p7o2MRPrBnPMTSlMbOWCYU0hD6Ww4Z5Zs63/GcQ2wJqc15Ij
+         My7/rrjDOLOOrQmNoC11oLTDQWB2aQjWAtGcvlOxG9eKZ81GmzJkrXKXEEfS8TbpOljJ
+         KwI7R8ZGhFrIVfMqhOKbjf8ntaJqkaNWeokjPFO0E/9fGzSpL89VZitne6LdQnjVw+P3
+         Gk7Q==
+X-Gm-Message-State: AOAM531KsqlY9PLAC68mhfwpvJpyQ+QwcDcUlOjNWpyPFo42SMyxYzvW
+        0C4v51iBXRzZ+wDaFTKkKVaAKzST0hPcK5rTeUa0vA==
+X-Google-Smtp-Source: ABdhPJx1KC2Sf4WzHgUQwWyPdWRuSlZoOLnjiZdGnYaexNZXkvQiCqTpJJd5W5gO70e5CRvJBsLepizgX3kZwngK+r4=
+X-Received: by 2002:ac8:4089:: with SMTP id p9mr1016844qtl.363.1632763914260;
+ Mon, 27 Sep 2021 10:31:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210901083215.25984-1-yunfei.dong@mediatek.com>
- <CAAEAJfDOt_GyDPojcj5P6Wou9HC2GC8YzRt2wYyqdrCOjfeOog@mail.gmail.com>
- <3b9463e88d88ce85205da08f8263252da7726ade.camel@mediatek.com>
- <aba7fb4ffe6e45ac90869b5017468386bce64d28.camel@mediatek.com>
- <b7ed8b71578a98704e9b8ca29cac63c67cc14b3f.camel@mediatek.com> <CAAEAJfCHEBFc8B7C0bu7UxtJdffvDarqgA-rset1wPjLOiV01A@mail.gmail.com>
-In-Reply-To: <CAAEAJfCHEBFc8B7C0bu7UxtJdffvDarqgA-rset1wPjLOiV01A@mail.gmail.com>
+References: <20210901083215.25984-1-yunfei.dong@mediatek.com> <CAC-pXoNT8AFA2j1DiD9M_uGb92fVcukTGDKVURaGjwpPstcwqQ@mail.gmail.com>
+In-Reply-To: <CAC-pXoNT8AFA2j1DiD9M_uGb92fVcukTGDKVURaGjwpPstcwqQ@mail.gmail.com>
 From:   Steve Cho <stevecho@chromium.org>
-Date:   Mon, 27 Sep 2021 10:02:36 -0700
-Message-ID: <CAC-pXoMR=mOwnKqP5SFAfF3Ka5UrG0F8Mj=sJuEziU=uOKftoA@mail.gmail.com>
+Date:   Mon, 27 Sep 2021 10:31:43 -0700
+Message-ID: <CAC-pXoPrOO8W2Le_-WdgX3_=D-Qde8ut_TAzC++EyGCkdoOoPQ@mail.gmail.com>
 Subject: Re: [PATCH v6, 00/15] Using component framework to support multi
  hardware decode
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Tzung-Bi Shih <tzungbi@chromium.org>,
         Tiffany Lin <tiffany.lin@mediatek.com>,
@@ -84,17 +79,15 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+> > [1]https://patchwork.linuxtv.org/project/linux-media/list/?series=5826
+> This link seems to be no longer available.
 
-Thank you for reviewing these series from Yunfei!
-This series is one of the main obstacles for us at the moment for MTK
-so please continue to help & support reviewing this series.
+It is probably because the default state is "Action Required", and
+this series was accepted recently afterwards.
 
-> > According to google's suggestion, it's better not to use v4l2 async
-> > also.
->
-> Hum? I haven't seen such objection on the mailing list.
-Maybe coming from Tzung-Bi?
-Yunfei, please let us know.
+I can see the series with the below link.
+https://patchwork.linuxtv.org/project/linux-media/list/?series=5826&state=*
+
+Sorry for the confusion.
 
 Steve
