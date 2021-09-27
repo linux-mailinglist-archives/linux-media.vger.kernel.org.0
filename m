@@ -2,141 +2,304 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8083418D8D
-	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 03:45:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF976418EA1
+	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 07:25:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232343AbhI0BrL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Sep 2021 21:47:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54856 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230174AbhI0BrI (ORCPT
+        id S232926AbhI0F0i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Sep 2021 01:26:38 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:42903 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232594AbhI0F0h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Sep 2021 21:47:08 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6018C061570
-        for <linux-media@vger.kernel.org>; Sun, 26 Sep 2021 18:45:30 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14F9649A;
-        Mon, 27 Sep 2021 03:45:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1632707129;
-        bh=mhdLDSXJ+vY7VuZ+AX7OqP0Qubwrsg5u/S47g4lvi8U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jQrqOdUCYnidVsMilj1Fd1g1XdqG1YBh7mq1V6dux6ZYj0lsnPv3nyM8LplFuQthA
-         BFaYAgb0HXqUPxMV3U90cWrA8Ftgogn+vz/G9hpxcXMy+E1cvinE6CO/Fl5LSpv/JK
-         Ir/UPbKEcjso50xB4U5XdZeWILM8aNmHQjuRHTlE=
-Date:   Mon, 27 Sep 2021 04:45:23 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: Re: [PATCH v8 06/36] media: subdev: Add
- v4l2_subdev_validate(_and_lock)_state()
-Message-ID: <YVEiM5MHXvWK9dr/@pendragon.ideasonboard.com>
-References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
- <20210830110116.488338-7-tomi.valkeinen@ideasonboard.com>
+        Mon, 27 Sep 2021 01:26:37 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1632720300; h=Message-ID: References: In-Reply-To: Subject:
+ To: From: Date: Content-Transfer-Encoding: Content-Type: MIME-Version:
+ Sender; bh=tdIC6J5oq2rz3aeFEM/CkAoed670O42766gLqKYdVTs=; b=ZfEkYbRZyzx6K3TsD6P56e9kOezR9w/iGhMXXbeMbjMqpyrDF1DL7UdxKjOJzLPAkoh1T5of
+ wOnhVm4hslRHeqNdtBcCEKbl8P4vmFMOzXBWygfdTJ9Db4RTPNwRpdNpAWWNlcS+Mc+J8C57
+ JEyYHFerDdHnm6bYhDU/AUQ/Ty4=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 615155ab47d64efb6d983603 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 27 Sep 2021 05:24:59
+ GMT
+Sender: mansur=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 3DD3DC4360D; Mon, 27 Sep 2021 05:24:59 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: mansur)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 15DB2C4338F;
+        Mon, 27 Sep 2021 05:24:58 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210830110116.488338-7-tomi.valkeinen@ideasonboard.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Mon, 27 Sep 2021 10:54:57 +0530
+From:   mansur@codeaurora.org
+To:     undisclosed-recipients:;
+Subject: Re: [V3] venus: vdec: decoded picture buffer handling during reconfig
+ sequence
+In-Reply-To: <78dec463-5e75-18d7-b74e-154f00b8a7b2@linaro.org>
+References: <20210825110841.12815-1-mansur@codeaurora.org>
+ <78dec463-5e75-18d7-b74e-154f00b8a7b2@linaro.org>
+Message-ID: <9f09bc40e52021f89b29cfaef8e314d8@codeaurora.org>
+X-Sender: mansur@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
-
-Thank you for the patch.
-
-On Mon, Aug 30, 2021 at 02:00:46PM +0300, Tomi Valkeinen wrote:
-> All suitable subdev ops are now passed either the TRY or the ACTIVE
-> state by the v4l2 core. However, other subdrivers can still call the ops
-> passing NULL as the state, implying the active case.
+> On 2021-09-21 19:17, Stanimir Varbanov wrote:
+>> Hi Mansur,
+>> 
+>> On 8/25/21 2:08 PM, Mansur Alisha Shaik wrote:
+>>> In existing implementation, driver is freeing and un-mapping all the
+>>> decoded picture buffers(DPB) as part of dynamic resolution 
+>>> change(DRC)
+>>> handling. As a result, when firmware try to access the DPB buffer, 
+>>> from
+>>> previous sequence, SMMU context fault is seen due to the buffer being
+>>> already unmapped.
+>>> 
+>>> With this change, driver defines ownership of each DPB buffer. If a 
+>>> buffer
+>>> is owned by firmware, driver would skip from un-mapping the same.
+>>> 
+>>> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+>>> 
+>>> Changes in V3:
+>>> - Migrated id allocation using kernel API ida_alloc_min()
+>>> 
+>>> ---
+>>>  drivers/media/platform/qcom/venus/helpers.c | 50 
+>>> ++++++++++++++++++++-
+>>>  drivers/media/platform/qcom/venus/helpers.h |  2 +
+>>>  drivers/media/platform/qcom/venus/vdec.c    |  7 ++-
+>>>  3 files changed, 57 insertions(+), 2 deletions(-)
+>>> 
+>>> diff --git a/drivers/media/platform/qcom/venus/helpers.c 
+>>> b/drivers/media/platform/qcom/venus/helpers.c
+>>> index 8012f5c7bf34..f36361d346b2 100644
+>>> --- a/drivers/media/platform/qcom/venus/helpers.c
+>>> +++ b/drivers/media/platform/qcom/venus/helpers.c
+>>> @@ -3,6 +3,7 @@
+>>>   * Copyright (c) 2012-2016, The Linux Foundation. All rights 
+>>> reserved.
+>>>   * Copyright (C) 2017 Linaro Ltd.
+>>>   */
+>>> +#include <linux/idr.h>
+>>>  #include <linux/list.h>
+>>>  #include <linux/mutex.h>
+>>>  #include <linux/slab.h>
+>>> @@ -21,6 +22,13 @@
+>>>  #define NUM_MBS_720P	(((1280 + 15) >> 4) * ((720 + 15) >> 4))
+>>>  #define NUM_MBS_4K	(((4096 + 15) >> 4) * ((2304 + 15) >> 4))
+>>> 
+>>> +static DEFINE_IDA(dpb_out_tag_ida);
+>> 
+>> No global static variables please. Make it part of venus_inst 
+>> structure.
+> 	As per my understanding it is not just static global variable.
+> 	We are defining the ida structure and assign to name when pass as 
+> param as follows
+> 	struct ida {
+> 	struct idr		idr;
+> 	struct ida_bitmap	*free_bitmap;
+> 	};
+> 	#define IDA_INIT(name)		{ .idr = IDR_INIT((name).idr), .free_bitmap = 
+> NULL, }
+> 	#define DEFINE_IDA(name)	struct ida name = IDA_INIT(name)
 > 
-> Thus all subdev drivers supporting active state need to handle the NULL
-> state case.
-
-Do they ? Can't we mandate that the callers pass the correct state ? Do
-you think that would make the transition too difficult ?
-
-The way I understand the issue, this would only be needed to facilitate
-the transition. Is there a reason why the drivers you've ported (CAL &
-co.) use v4l2_subdev_validate_and_lock_state() after completing the
-transition, or is the correct state always passed by the caller ?
-
-> Additionally, the subdev drivers usually need to lock the
-> state.
+> 	Any ida related API's expect pointer to this structure.
+> 	If we move the variable then it might be bit difficult use ida_xxx() 
+> API'same
+>>> +
+>>> +enum dpb_buf_owner {
+>>> +	DRIVER,
+>>> +	FIRMWARE,
+>>> +};
+>>> +
+>>>  struct intbuf {
+>>>  	struct list_head list;
+>>>  	u32 type;
+>>> @@ -28,6 +36,8 @@ struct intbuf {
+>>>  	void *va;
+>>>  	dma_addr_t da;
+>>>  	unsigned long attrs;
+>>> +	enum dpb_buf_owner owned_by;
+>>> +	u32 dpb_out_tag;
+>>>  };
+>>> 
+>>>  bool venus_helper_check_codec(struct venus_inst *inst, u32 
+>>> v4l2_pixfmt)
+>>> @@ -95,9 +105,16 @@ int venus_helper_queue_dpb_bufs(struct venus_inst 
+>>> *inst)
+>>>  		fdata.device_addr = buf->da;
+>>>  		fdata.buffer_type = buf->type;
+>>> 
+>>> +		if (buf->owned_by == FIRMWARE)
+>>> +			continue;
+>>> +
+>>> +		fdata.clnt_data = buf->dpb_out_tag;
+>>> +
+>>>  		ret = hfi_session_process_buf(inst, &fdata);
+>>>  		if (ret)
+>>>  			goto fail;
+>>> +
+>>> +		buf->owned_by = FIRMWARE;
+>>>  	}
+>>> 
+>>>  fail:
+>>> @@ -110,13 +127,19 @@ int venus_helper_free_dpb_bufs(struct 
+>>> venus_inst *inst)
+>>>  	struct intbuf *buf, *n;
+>>> 
+>>>  	list_for_each_entry_safe(buf, n, &inst->dpbbufs, list) {
+>>> +		if (buf->owned_by == FIRMWARE)
+>>> +			continue;
+>>> +
+>>> +		ida_free(&dpb_out_tag_ida, buf->dpb_out_tag);
+>>> +
+>>>  		list_del_init(&buf->list);
+>>>  		dma_free_attrs(inst->core->dev, buf->size, buf->va, buf->da,
+>>>  			       buf->attrs);
+>>>  		kfree(buf);
+>>>  	}
+>>> 
+>>> -	INIT_LIST_HEAD(&inst->dpbbufs);
+>>> +	if (list_empty(&inst->dpbbufs))
+>>> +		INIT_LIST_HEAD(&inst->dpbbufs);
+>>> 
+>>>  	return 0;
+>>>  }
+>>> @@ -134,6 +157,7 @@ int venus_helper_alloc_dpb_bufs(struct venus_inst 
+>>> *inst)
+>>>  	unsigned int i;
+>>>  	u32 count;
+>>>  	int ret;
+>>> +	int id;
+>>> 
+>>>  	/* no need to allocate dpb buffers */
+>>>  	if (!inst->dpb_fmt)
+>>> @@ -171,6 +195,15 @@ int venus_helper_alloc_dpb_bufs(struct 
+>>> venus_inst *inst)
+>>>  			ret = -ENOMEM;
+>>>  			goto fail;
+>>>  		}
+>>> +		buf->owned_by = DRIVER;
+>>> +
+>>> +		id = ida_alloc_min(&dpb_out_tag_ida, VB2_MAX_FRAME, GFP_KERNEL);
+>>> +		if (id < 0) {
+>>> +			ret = id;
+>>> +			goto fail;
+>>> +		}
+>>> +
+>>> +		buf->dpb_out_tag = id;
+>>> 
+>>>  		list_add_tail(&buf->list, &inst->dpbbufs);
+>>>  	}
+>>> @@ -1365,6 +1398,21 @@ venus_helper_find_buf(struct venus_inst *inst, 
+>>> unsigned int type, u32 idx)
+>>>  }
+>>>  EXPORT_SYMBOL_GPL(venus_helper_find_buf);
+>>> 
+>>> +void venus_helper_find_dpb_buf(struct venus_inst *inst, struct 
+>>> vb2_v4l2_buffer *vbuf,
+>>> +			       unsigned int type, unsigned int buf_type, u32 tag)
+>> 
+>> If this helper will return void then it should be renamed to something
+>> like venus_helper_dpb_buf_change_owner().
+>  Ok.
+>>> +{
+>>> +	struct intbuf *dpb_buf;
+>>> +
+>>> +	if (type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
+>>> +	    buf_type == HFI_BUFFER_OUTPUT)
+>>> +		list_for_each_entry(dpb_buf, &inst->dpbbufs, list)
+>>> +			if (dpb_buf->dpb_out_tag == tag) {
+>>> +				dpb_buf->owned_by = DRIVER;
+>>> +				break;
+>>> +			}
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(venus_helper_find_dpb_buf);
+>>> +
+>>>  int venus_helper_vb2_buf_init(struct vb2_buffer *vb)
+>>>  {
+>>>  	struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
+>>> diff --git a/drivers/media/platform/qcom/venus/helpers.h 
+>>> b/drivers/media/platform/qcom/venus/helpers.h
+>>> index e6269b4be3af..17c5aadaec82 100644
+>>> --- a/drivers/media/platform/qcom/venus/helpers.h
+>>> +++ b/drivers/media/platform/qcom/venus/helpers.h
+>>> @@ -14,6 +14,8 @@ struct venus_core;
+>>>  bool venus_helper_check_codec(struct venus_inst *inst, u32 
+>>> v4l2_pixfmt);
+>>>  struct vb2_v4l2_buffer *venus_helper_find_buf(struct venus_inst 
+>>> *inst,
+>>>  					      unsigned int type, u32 idx);
+>>> +void venus_helper_find_dpb_buf(struct venus_inst *inst, struct 
+>>> vb2_v4l2_buffer *vbuf,
+>>> +			       unsigned int type, unsigned int buf_type, u32 idx);
+>>>  void venus_helper_buffers_done(struct venus_inst *inst, unsigned int 
+>>> type,
+>>>  			       enum vb2_buffer_state state);
+>>>  int venus_helper_vb2_buf_init(struct vb2_buffer *vb);
+>>> diff --git a/drivers/media/platform/qcom/venus/vdec.c 
+>>> b/drivers/media/platform/qcom/venus/vdec.c
+>>> index 198e47eb63f4..cafdc3d8e473 100644
+>>> --- a/drivers/media/platform/qcom/venus/vdec.c
+>>> +++ b/drivers/media/platform/qcom/venus/vdec.c
+>>> @@ -1297,6 +1297,7 @@ static void vdec_buf_done(struct venus_inst 
+>>> *inst, unsigned int buf_type,
+>>>  	struct vb2_v4l2_buffer *vbuf;
+>>>  	struct vb2_buffer *vb;
+>>>  	unsigned int type;
+>>> +	struct intbuf *dpb_buf;
+>>> 
+>>>  	vdec_pm_touch(inst);
+>>> 
+>>> @@ -1306,8 +1307,10 @@ static void vdec_buf_done(struct venus_inst 
+>>> *inst, unsigned int buf_type,
+>>>  		type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+>>> 
+>>>  	vbuf = venus_helper_find_buf(inst, type, tag);
+>>> -	if (!vbuf)
+>>> +	if (!vbuf) {
+>>> +		venus_helper_find_dpb_buf(inst, vbuf, type, buf_type, tag);
+>>>  		return;
+>>> +	}
+>>> 
+>>>  	vbuf->flags = flags;
+>>>  	vbuf->field = V4L2_FIELD_NONE;
+>>> @@ -1622,6 +1625,8 @@ static int vdec_close(struct file *file)
+>>> 
+>>>  	vdec_pm_get(inst);
+>>> 
+>>> +	venus_helper_free_dpb_bufs(inst);
+>>> +	INIT_LIST_HEAD(&inst->dpbbufs);
+>> 
+>> This belongs to venus_helper_free_dpb_bufs not here.
+>  Ok, I will remove it from here, since in free_dpb() api 
+> INIT_LIST_HEAD() when list is free.
+>>>  	v4l2_m2m_ctx_release(inst->m2m_ctx);
+>>>  	v4l2_m2m_release(inst->m2m_dev);
+>>>  	vdec_ctrl_deinit(inst);
+>>> 
+>> 
+>> --
+>> regards,
+>> Stan
 > 
-> Add two helper functions to easen the transition to centrally managed
-> ACTIVE state. v4l2_subdev_validate_state() ensures that the state is not
-> NULL, and v4l2_subdev_validate_and_lock_state() does the same and
-> additionally locks the state.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  include/media/v4l2-subdev.h | 41 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 41 insertions(+)
-> 
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 52a725281b23..2290b5025fc0 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1307,4 +1307,45 @@ void v4l2_subdev_lock_state(struct v4l2_subdev_state *state);
->   */
->  void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state);
->  
-> +/**
-> + * v4l2_subdev_validate_state() - Gets the TRY or ACTIVE subdev state
-> + * @sd: subdevice
-> + * @state: subdevice state as passed to the subdev op
-> + *
-> + * Subdev ops used to be sometimes called with NULL as the state for ACTIVE
-> + * case. Even if the v4l2 core now passes proper state for both TRY and
-> + * ACTIVE cases, a subdev driver may call an op in another subdev driver,
-> + * passing NULL.
-> + *
-> + * This function can be used as a helper to get the state also for the ACTIVE
-> + * case. The subdev driver that supports ACTIVE state can use this function
-> + * as the first thing in its ops, ensuring that the state variable contains
-> + * either the TRY or ACTIVE state.
-> + */
-> +static inline struct v4l2_subdev_state *
-> +v4l2_subdev_validate_state(struct v4l2_subdev *sd,
-> +			   struct v4l2_subdev_state *state)
-> +{
-> +	return state ? state : sd->state;
-> +}
-
-This doesn't seem to be used by the drivers you've ported, or by the
-R-Car and GMSL patches from Jacopo. Do we need this function ?
-
-> +
-> +/**
-> + * v4l2_subdev_validate_and_lock_state() - Gets locked TRY or ACTIVE subdev state
-> + * @sd: subdevice
-> + * @state: subdevice state as passed to the subdev op
-> + *
-> + * This is a helper function which does the same as v4l2_subdev_validate_state
-> + * () except that it also locks the state.
-> + */
-> +static inline struct v4l2_subdev_state *
-> +v4l2_subdev_validate_and_lock_state(struct v4l2_subdev *sd,
-> +				    struct v4l2_subdev_state *state)
-> +{
-> +	state = state ? state : sd->state;
-> +
-> +	v4l2_subdev_lock_state(state);
-> +
-> +	return state;
-> +}
-> +
->  #endif
-
--- 
-Regards,
-
-Laurent Pinchart
+> --
+> Thanks,
+> Mansur
