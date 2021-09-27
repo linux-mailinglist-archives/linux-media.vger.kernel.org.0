@@ -2,174 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA452419542
-	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 15:41:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEECD41958D
+	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 15:56:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234601AbhI0NnC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Sep 2021 09:43:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38350 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234359AbhI0NnB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Sep 2021 09:43:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E397F61002;
-        Mon, 27 Sep 2021 13:41:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632750083;
-        bh=JjI0u1L1jKYQtGmh8Dc3QRrE0SY4VzH+q8NSvJlPrCE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=UClzlqs++rOnLjpjymIt0cVidcglKG6CcGx2na/S9y1vd1qQj5be+HCu+2KldW5vl
-         FRnQO8OhzNoQBRIR4a42rEDwf3XKpwj3iFtMswxtqaGMC9bnOUM8VM45N5O5JvnsSE
-         vYwEOySWzGBif+A8G02uPbk3pq0QgHTA90XpGkbfIdfkR72e5xFegw/ok+hOR+WPci
-         eQq+QizAVHf8SdCBeTGQx2QejfRioOF2niXDgiCaO/3KDSpNhusnVzuiSdR9/KvoFW
-         H8otAHETZs9mlx7Z7HZBKxI4U8rBfAOoWCyemnwJkodHazMlIBWH3Rdj4Q+xBSDDUl
-         d5Sb6F+ktRhEw==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Tomi Valkeinen <tomba@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        linux-omap@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: omap_vout: use dma_addr_t consistently
-Date:   Mon, 27 Sep 2021 15:41:06 +0200
-Message-Id: <20210927134116.1592896-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+        id S234680AbhI0N6b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Sep 2021 09:58:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49776 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234674AbhI0N6a (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 27 Sep 2021 09:58:30 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 900FDC061575
+        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 06:56:52 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id l18-20020a05600c4f1200b002f8cf606262so659598wmq.1
+        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 06:56:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ddKsygl4rYD1iSMOY5R8LGpDXW7t/c1SBtpuguzfrBQ=;
+        b=DurDLsfYVm/V9WqmXJOQmzjgt4POwiDmi89wZ1PH1s9svbujCRvZ04LyBz+Kowj1CZ
+         AuFJRba0gu8VZBRrTyO/QEBIEoEVmaeGjOM0Z6Yu4rgDKfMNianoy24bCxhZgCB+O9Bm
+         VPZsa85BpwqLB62OiBxcmpyYRGJXXsgnpfBsCFyrtyxFkTCxTLJKdvKgiBzpR7dXJn6S
+         /rGr9sqCh6djcC9KTQPgRqnfaj2wp2n3g3kZJgg7X2T/IUUaPqm8QcmMpduvNJU7yPYU
+         gDCfMiEACm0k1sInPhr3kDpS/adDar3qLzM8r1mn0HRWGEGm5w6XWm/qFB65rP5B4R2+
+         OW+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ddKsygl4rYD1iSMOY5R8LGpDXW7t/c1SBtpuguzfrBQ=;
+        b=Jg5otn2lqSUa+bM1FuxaKQcCWKwfdgSX9XL36pMch+jnIj0Yd/+WcHjSV3W180ki8U
+         TlTwcRMxs3n0HlvR6fGdO5hQ3nQdK6uCSh2XKJxXA+QBzMlAATTcXZpUU5om23A9WzV4
+         JFcm/nrKtjd/wcWC8tutPebmXAiktmzwLBtMgS7YesxBXZES5MAwYM9Warvhjh4gmWac
+         wqJcg2cP9D1Rl6EgMi8LHFrhWS7PxnyfG2ThURBHgVqtKOs+5vhuPUWdKYVuyAShY0Sy
+         pih0/LUfFv7Dp6jmjJLN3c4uisPcm/cOppLG7pf/+kaIkRpMGZdn6689eoC82lFf+3gl
+         pPsA==
+X-Gm-Message-State: AOAM5337qlzRJ2Ut0d/fippWYj9c8SyN5uB2AJj96RkpZtH/k6Z5oUht
+        X/mu7d0oQVSQuXatfqCQ5M0SYF2x2hVRFmYNzwUTGg==
+X-Google-Smtp-Source: ABdhPJyCWyIpKeMUQc7jQ+ZOqHBIFt6+K80YoGkM6Ipc4i/7kY8wRNbc07rHYD9ih7XKNRtSTFQEnXo5IhQk/lJ3Isg=
+X-Received: by 2002:a1c:9a07:: with SMTP id c7mr6545432wme.106.1632751011112;
+ Mon, 27 Sep 2021 06:56:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <01d4c7efb1ef900c499fda6af2c5a19ce923dc15.camel@tq-group.com>
+ <CAPY8ntB-7g5FigO9rNV4YGWCeHUWkO4v1kp96mW-icGwT-rk9w@mail.gmail.com>
+ <a5e73b514299e17008f9e4a233553283ec7a88c9.camel@tq-group.com>
+ <CAPY8ntBBxsUgGeFQJO_N1pAgg20bRxJW=t=_ZOhfWp0=MA9uBQ@mail.gmail.com> <4748e83d608727a240b817375fec459649ec02cb.camel@tq-group.com>
+In-Reply-To: <4748e83d608727a240b817375fec459649ec02cb.camel@tq-group.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Mon, 27 Sep 2021 14:56:36 +0100
+Message-ID: <CAPY8ntBHPq8skJ9Dgz2ENsP8vv58nQuOgWooguYi5qZYHcwnYw@mail.gmail.com>
+Subject: Re: (EXT) Re: (EXT) Re: Sony IMX290 link frequency
+To:     "Stein, Alexander" <Alexander.Stein@tq-group.com>
+Cc:     "mani@kernel.org" <mani@kernel.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Thu, 23 Sept 2021 at 14:44, Stein, Alexander
+<Alexander.Stein@tq-group.com> wrote:
+>
+> Hello Dave,
+>
+> On Tue, 21 Sept 2021 at 11:41 +0100, Dave Stevenson:
+> > Whilst the spec is restricted, there are a few introductions that
+> > give
+> > a basic understanding, eg [1]
+>
+> Thanks, this helped a bit.
+>
+> > Clock lanes and data lanes may do slightly different things. It is
+> > not
+> > uncommon for the clock lane to remain in HS mode at all times, but
+> > the
+> > data lanes will almost always drop to LP-11. Device tree has a
+> > clock-noncontinuous property to denote that the clock lane drops to
+> > LP, which maps to the V4L2 flag V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK.
+> > There is no mention in the datasheet as to whether IMX290/327
+> > produces
+> > a continuous clock signal or not, and I can't say that I've checked.
+> > Some receivers can get confused if the clock is continuous and they
+> > miss the initial state change from LP to HS.
+>
+> Who drives the clock lane? The sensor or the host processor? If it is
+> the sensor how do you support several sensors on the same bus?
 
-gcc notices that the driver mixes 'dma_addr_t' 'u8 *' and 'u32'
-to store DMA addresses:
+The sensor.
+With MIPI D-PHY a source (CSI2 or DSI) will always have one clock lane
+and one or more data lanes.
+Some SoC's allow you to reconfigure how lanes are used, but I've never
+known a way to combine multiple sensors into a single CSI-2 receiver.
 
-drivers/media/platform/omap/omap_vout.c: In function 'omap_vout_vb2_prepare':
-drivers/media/platform/omap/omap_vout.c:979:37: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
-  vout->queued_buf_addr[vb->index] = (u8 *)buf_phy_addr;
-                                     ^
-drivers/media/platform/omap/omap_vout.c: In function 'omap_vout_create_video_devices':
-drivers/media/platform/omap/omap_vout.c:1479:21: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
-   vout->fbuf.base = (void *)info.paddr;
+> > > > > > > I assume now that my current problem regarding settle time is
+> > > somewhere
+> else. I can currently only assume the escape clock is not correct,
+> > > but
+> there is pretty much no documentation at all on that topic.
+> >
+> > What platform are you working with?
+>
+> I'm working on an i.MX8QM based board. A public RM is available since
+> several days [1]. The MIPI-CSI subsystem chapters are a bit lacking.
+> Also I am aware that the ISI does some strange things with CSI input,
+> see also [1], but that is a different issue.
+>
+> As far as I understand different documents, the escape clock is used
+> during LP-11 and shall be from 10 to 20 MHz.
+> The device tree configures some clock to 72MHz [2], but I do not know
+> what's happening internally.
+>
+> I used the same approach for calculating the settle time as [3]. But I
+> have to use a value slightly below the maximum rather than the average
 
-Use dma_addr_t everywhere here to avoid the type conversions and document
-what the address is used for. Assigning to vout->fbuf.base still requires
-a cast, since that is part of the driver independent data structure.
+I don't know the details of iMX8.
+For BCM283x we supply an LP clock of 100MHz, and indeed that clocks
+the block state machine for handling LP state transitions. LP mode is
+relatively low speed in comparison to that - typically 10-20MHz if
+memory serves correctly.
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/media/platform/omap/omap_vout.c      | 18 ++++++++++--------
- drivers/media/platform/omap/omap_vout_vrfb.c |  2 +-
- drivers/media/platform/omap/omap_voutdef.h   |  2 +-
- 3 files changed, 12 insertions(+), 10 deletions(-)
+I vaguely remember one of the SoCs being very fussy about when the
+sensor is left at LP-11. Looking at history, that appears to be
+Renesas, but may apply to iMX8.
+The IMX290 datasheet implies that the sensor will exit ULPS (LP-00)
+state 20usecs after XCLR goes high, and remain in LP-11 standby mode
+is cancelled (the clock lane then enters HS mode).
 
-diff --git a/drivers/media/platform/omap/omap_vout.c b/drivers/media/platform/omap/omap_vout.c
-index 21193f0b7f61..3e0d9af7ffec 100644
---- a/drivers/media/platform/omap/omap_vout.c
-+++ b/drivers/media/platform/omap/omap_vout.c
-@@ -277,7 +277,7 @@ static int video_mode_to_dss_mode(struct omap_vout_device *vout)
-  */
- static int omapvid_setup_overlay(struct omap_vout_device *vout,
- 		struct omap_overlay *ovl, int posx, int posy, int outw,
--		int outh, u32 addr)
-+		int outh, dma_addr_t addr)
- {
- 	int ret = 0;
- 	struct omap_overlay_info info;
-@@ -352,7 +352,7 @@ static int omapvid_setup_overlay(struct omap_vout_device *vout,
- /*
-  * Initialize the overlay structure
-  */
--static int omapvid_init(struct omap_vout_device *vout, u32 addr)
-+static int omapvid_init(struct omap_vout_device *vout, dma_addr_t addr)
- {
- 	int ret = 0, i;
- 	struct v4l2_window *win;
-@@ -479,7 +479,8 @@ static int omapvid_handle_interlace_display(struct omap_vout_device *vout,
- static void omap_vout_isr(void *arg, unsigned int irqstatus)
- {
- 	int ret, fid, mgr_id;
--	u32 addr, irq;
-+	dma_addr_t addr;
-+	u32 irq;
- 	struct omap_overlay *ovl;
- 	u64 ts;
- 	struct omapvideo_info *ovid;
-@@ -543,7 +544,7 @@ static void omap_vout_isr(void *arg, unsigned int irqstatus)
- 			struct omap_vout_buffer, queue);
- 	list_del(&vout->next_frm->queue);
- 
--	addr = (unsigned long)vout->queued_buf_addr[vout->next_frm->vbuf.vb2_buf.index]
-+	addr = vout->queued_buf_addr[vout->next_frm->vbuf.vb2_buf.index]
- 		+ vout->cropped_offset;
- 
- 	/* First save the configuration in ovelray structure */
-@@ -976,7 +977,7 @@ static int omap_vout_vb2_prepare(struct vb2_buffer *vb)
- 	vb2_set_plane_payload(vb, 0, vout->pix.sizeimage);
- 	voutbuf->vbuf.field = V4L2_FIELD_NONE;
- 
--	vout->queued_buf_addr[vb->index] = (u8 *)buf_phy_addr;
-+	vout->queued_buf_addr[vb->index] = buf_phy_addr;
- 	if (ovid->rotation_type == VOUT_ROT_VRFB)
- 		return omap_vout_prepare_vrfb(vout, vb);
- 	return 0;
-@@ -995,7 +996,8 @@ static int omap_vout_vb2_start_streaming(struct vb2_queue *vq, unsigned int coun
- 	struct omap_vout_device *vout = vb2_get_drv_priv(vq);
- 	struct omapvideo_info *ovid = &vout->vid_info;
- 	struct omap_vout_buffer *buf, *tmp;
--	u32 addr = 0, mask = 0;
-+	dma_addr_t addr = 0;
-+	u32 mask = 0;
- 	int ret, j;
- 
- 	/* Get the next frame from the buffer queue */
-@@ -1018,7 +1020,7 @@ static int omap_vout_vb2_start_streaming(struct vb2_queue *vq, unsigned int coun
- 			goto out;
- 		}
- 
--	addr = (unsigned long)vout->queued_buf_addr[vout->cur_frm->vbuf.vb2_buf.index]
-+	addr = vout->queued_buf_addr[vout->cur_frm->vbuf.vb2_buf.index]
- 		+ vout->cropped_offset;
- 
- 	mask = DISPC_IRQ_VSYNC | DISPC_IRQ_EVSYNC_EVEN | DISPC_IRQ_EVSYNC_ODD
-@@ -1476,7 +1478,7 @@ static int __init omap_vout_create_video_devices(struct platform_device *pdev)
- 		 * To be precise: fbuf.base should match smem_start of
- 		 * struct fb_fix_screeninfo.
- 		 */
--		vout->fbuf.base = (void *)info.paddr;
-+		vout->fbuf.base = (void *)(uintptr_t)info.paddr;
- 
- 		/* Set VRFB as rotation_type for omap2 and omap3 */
- 		if (omap_vout_dss_omap24xx() || omap_vout_dss_omap34xx())
-diff --git a/drivers/media/platform/omap/omap_vout_vrfb.c b/drivers/media/platform/omap/omap_vout_vrfb.c
-index 6bd672cbdb62..0cfa0169875f 100644
---- a/drivers/media/platform/omap/omap_vout_vrfb.c
-+++ b/drivers/media/platform/omap/omap_vout_vrfb.c
-@@ -305,7 +305,7 @@ int omap_vout_prepare_vrfb(struct omap_vout_device *vout,
- 	/* Store buffers physical address into an array. Addresses
- 	 * from this array will be used to configure DSS */
- 	rotation = calc_rotation(vout);
--	vout->queued_buf_addr[vb->index] = (u8 *)
-+	vout->queued_buf_addr[vb->index] =
- 		vout->vrfb_context[vb->index].paddr[rotation];
- 	return 0;
- }
-diff --git a/drivers/media/platform/omap/omap_voutdef.h b/drivers/media/platform/omap/omap_voutdef.h
-index 1cff6dea1879..b586193341d2 100644
---- a/drivers/media/platform/omap/omap_voutdef.h
-+++ b/drivers/media/platform/omap/omap_voutdef.h
-@@ -170,7 +170,7 @@ struct omap_vout_device {
- 	struct omap_vout_buffer *cur_frm, *next_frm;
- 	spinlock_t vbq_lock;            /* spinlock for dma_queue */
- 	struct list_head dma_queue;
--	u8 *queued_buf_addr[VIDEO_MAX_FRAME];
-+	dma_addr_t queued_buf_addr[VIDEO_MAX_FRAME];
- 	u32 cropped_offset;
- 	s32 tv_field1_offset;
- 	void *isr_handle;
--- 
-2.29.2
+  Dave
 
+> > There are registers in the IMX290/327 which configure the MIPI
+> > timings
+> > - 0x3445-0x3455. The values do differ based on the link frequency,
+> > but
+> > checking our driver to the datasheet they appear to be all correct.
+>
+> Agreed.
+>
+> [1] https://www.nxp.com/docs/en/reference-manual/IMX8QMRM.pdf
+> [2]
+> https://yhbt.net/lore/all/20200226151431.GY5379@paasikivi.fi.intel.com/T/
+>
+> [3]
+> https://source.codeaurora.org/external/imx/linux-imx/tree/arch/arm64/boot=
+/dts/freescale/imx8-ss-img.dtsi?h=3Dlf-5.10.y#n516
+>
+> [4]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
+rivers/staging/media/imx/imx8mq-mipi-csi2.c#n343
+>
+> --
+> Mit freundlichen Gr=C3=BC=C3=9Fen
+>
+> i.A. Alexander Stein
+> Entwicklung Standort
+> Chemnitz
+> Tel. +49 371 433151-0, Fax +49 371 433151-22
+> Zwickauer Stra=C3=9Fe
+> 173, 09116 Chemnitz
+> mailto: Alexander.Stein@tq-group.com
+>
+> TQ-Systems GmbH
+> M=C3=BChlstra=C3=9Fe 2, Gut Delling, 82229 Seefeld
+> Amtsgericht M=C3=BCnchen, HRB 105018
+> Sitz der Gesellschaft: Seefeld
+> Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan S=
+chneider
+> www.tq-group.com
