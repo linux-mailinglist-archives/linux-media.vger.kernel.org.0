@@ -2,204 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D50034192FC
-	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 13:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFC7D419390
+	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 13:47:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234040AbhI0LVw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Sep 2021 07:21:52 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:51904 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234033AbhI0LVv (ORCPT
+        id S234144AbhI0Lsk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Sep 2021 07:48:40 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:36562 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234037AbhI0Lsj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Sep 2021 07:21:51 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id C678E1F42393
-Subject: Re: [PATCH v5 05/10] media: uapi: Add VP9 stateless decoder controls
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>
-References: <20210922101146.13762-1-andrzej.p@collabora.com>
- <20210922101146.13762-6-andrzej.p@collabora.com> <YU37e90gldL7zHke@fedora>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <e7f228bc-d8d5-5857-a892-df1deee4be3e@collabora.com>
-Date:   Mon, 27 Sep 2021 13:20:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <YU37e90gldL7zHke@fedora>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Mon, 27 Sep 2021 07:48:39 -0400
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 27 Sep 2021 04:47:02 -0700
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 27 Sep 2021 04:47:00 -0700
+X-QCInternal: smtphost
+Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
+  by ironmsg02-blr.qualcomm.com with ESMTP; 27 Sep 2021 17:16:44 +0530
+Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
+        id C658121BAE; Mon, 27 Sep 2021 17:16:42 +0530 (IST)
+From:   Dikshita Agarwal <dikshita@codeaurora.org>
+To:     agross@kernel.org, bjorn.andersson@linaro.org, robh+dt@kernel.org,
+        mchehab@kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        vgarodia@codeaurora.org, stanimir.varbanov@linaro.org,
+        Dikshita Agarwal <dikshita@codeaurora.org>
+Subject: [PATCH v4] dt-bindings: media: venus: Add sc7280 dt schema
+Date:   Mon, 27 Sep 2021 17:16:37 +0530
+Message-Id: <1632743197-32291-1-git-send-email-dikshita@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+Add a schema description for the venus video encoder/decoder on the sc7280.
 
-Thank you for looking into the patch.
+Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+change since v3:
+    Added missing dependency.
 
-W dniu 24.09.2021 o 18:23, Ezequiel Garcia pisze:
-> Hi Andrzej,
-> 
-> On Wed, Sep 22, 2021 at 12:11:41PM +0200, Andrzej Pietrasiewicz wrote:
->> Add the VP9 stateless decoder controls plus the documentation that goes
->> with it.
->>
->> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->> Co-developed-by: Ezequiel Garcia <ezequiel@collabora.com>
->> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
->> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
->> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
->> Co-developed-by: Daniel Almeida <daniel.almeida@collabora.com>
->> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
->> ---
-> [snip]
->> +
->> +#define V4L2_VP9_FRAME_FLAG_KEY_FRAME			0x001
->> +#define V4L2_VP9_FRAME_FLAG_SHOW_FRAME			0x002
->> +#define V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT		0x004
->> +#define V4L2_VP9_FRAME_FLAG_INTRA_ONLY			0x008
->> +#define V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV		0x010
->> +#define V4L2_VP9_FRAME_FLAG_REFRESH_FRAME_CTX		0x020
->> +#define V4L2_VP9_FRAME_FLAG_PARALLEL_DEC_MODE		0x040
->> +#define V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING		0x080
->> +#define V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING		0x100
->> +#define V4L2_VP9_FRAME_FLAG_COLOR_RANGE_FULL_SWING	0x200
->> +
->> +#define V4L2_VP9_SIGN_BIAS_LAST				0x1
->> +#define V4L2_VP9_SIGN_BIAS_GOLDEN			0x2
->> +#define V4L2_VP9_SIGN_BIAS_ALT				0x4
->> +
->> +#define V4L2_VP9_RESET_FRAME_CTX_NONE			0
->> +#define V4L2_VP9_RESET_FRAME_CTX_SPEC			1
->> +#define V4L2_VP9_RESET_FRAME_CTX_ALL			2
->> +
->> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP			0
->> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP_SMOOTH		1
->> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP_SHARP		2
->> +#define V4L2_VP9_INTERP_FILTER_BILINEAR			3
->> +#define V4L2_VP9_INTERP_FILTER_SWITCHABLE		4
->> +
->> +#define V4L2_VP9_REFERENCE_MODE_SINGLE_REFERENCE	0
->> +#define V4L2_VP9_REFERENCE_MODE_COMPOUND_REFERENCE	1
->> +#define V4L2_VP9_REFERENCE_MODE_SELECT			2
->> +
->> +#define V4L2_VP9_PROFILE_MAX				3
->> +
->> +#define V4L2_CID_STATELESS_VP9_FRAME	(V4L2_CID_CODEC_STATELESS_BASE + 300)
->> +/**
->> + * struct v4l2_ctrl_vp9_frame - VP9 frame decoding control
->> + *
->> + * @lf: loop filter parameters. See &v4l2_vp9_loop_filter for more details
-> 
-> Seems these documentation is missing an ending period for many fields.
+ .../bindings/media/qcom,sc7280-venus.yaml          | 160 +++++++++++++++++++++
+ 1 file changed, 160 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
 
-Thanks for catching punctuation mistakes :)
-
-> 
->> + * @quant: quantization parameters. See &v4l2_vp9_quantization for more details
->> + * @seg: segmentation parameters. See &v4l2_vp9_segmentation for more details
->> + * @flags: combination of V4L2_VP9_FRAME_FLAG_* flags
->> + * @compressed_header_size: compressed header size in bytes
->> + * @uncompressed_header_size: uncompressed header size in bytes
->> + * @frame_width_minus_1: add 1 to it and you'll get the frame width expressed in pixels
->> + * @frame_height_minus_1: add 1 to it and you'll get the frame height expressed in pixels
->> + * @render_width_minus_1: add 1 to it and you'll get the expected render width expressed in
->> + *	pixels. This is not used during the decoding process but might be used by HW scalers
->> + *	to prepare a frame that's ready for scanout
->> + * @render_height_minus_1: add 1 to it and you'll get the expected render height expressed in
->> + *	pixels. This is not used during the decoding process but might be used by HW scalers
->> + *	to prepare a frame that's ready for scanout
->> + * @last_frame_ts: "last" reference buffer timestamp.
->> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
->> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
->> + * @golden_frame_ts: "golden" reference buffer timestamp.
->> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
->> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
->> + * @alt_frame_ts: "alt" reference buffer timestamp.
->> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
->> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
->> + * @ref_frame_sign_bias: a bitfield specifying whether the sign bias is set for a given
->> + *	reference frame. Either of V4L2_VP9_SIGN_BIAS_*.
->> + * @reset_frame_context: specifies whether the frame context should be reset to default values.
->> + *	Either of V4L2_VP9_RESET_FRAME_CTX_*.
->> + * @frame_context_idx: frame context that should be used/updated
->> + * @profile: VP9 profile. Can be 0, 1, 2 or 3
->> + * @bit_depth: bits per components. Can be 8, 10 or 12. Note that not all profiles support
->> + *	10 and/or 12 bits depths
->> + * @interpolation_filter: specifies the filter selection used for performing inter prediction.
->> + *	Either of V4L2_VP9_INTERP_FILTER_*
->> + * @tile_cols_log2: specifies the base 2 logarithm of the width of each tile (where the width
->> + *	is measured in units of 8x8 blocks). Shall be less than or equal to 6
->> + * @tile_rows_log2: specifies the base 2 logarithm of the height of each tile (where the height
->> + *	is measured in units of 8x8 blocks)
->> + * @reference_mode: specifies the type of inter prediction to be used. See
-> 
-> See what? :-)
-> 
->> + *	Either of V4L2_VP9_REFERENCE_MODE_*
-> 
-> Other controls use V4L2_VP9_REFERENCE_MODE_{}, {} instead of *.
-> The same applies to all the documentation.
-
-Will update in v6.
-
-> 
->> + * @reserved: padding field. Should be zeroed by applications.
->> + */
->> +struct v4l2_ctrl_vp9_frame {
->> +	struct v4l2_vp9_loop_filter lf;
->> +	struct v4l2_vp9_quantization quant;
->> +	struct v4l2_vp9_segmentation seg;
->> +	__u32 flags;
->> +	__u16 compressed_header_size;
->> +	__u16 uncompressed_header_size;
->> +	__u16 frame_width_minus_1;
->> +	__u16 frame_height_minus_1;
->> +	__u16 render_width_minus_1;
->> +	__u16 render_height_minus_1;
->> +	__u64 last_frame_ts;
->> +	__u64 golden_frame_ts;
->> +	__u64 alt_frame_ts;
->> +	__u8 ref_frame_sign_bias;
->> +	__u8 reset_frame_context;
->> +	__u8 frame_context_idx;
->> +	__u8 profile;
->> +	__u8 bit_depth;
->> +	__u8 interpolation_filter;
->> +	__u8 tile_cols_log2;
->> +	__u8 tile_rows_log2;
->> +	__u8 reference_mode;
->> +	__u8 reserved[7];
->> +};
->> +
-> 
-> Also, have you checked html and pdf docs and make sure
-> it looks as you expect?
-> 
-
-Yes I did and it looks as I expected.
-
-> Thanks,
-> Ezequiel
-> 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+new file mode 100644
+index 0000000..12a42a0
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+@@ -0,0 +1,160 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/media/qcom,sc7280-venus.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Qualcomm Venus video encode and decode accelerators
++
++maintainers:
++  - Stanimir Varbanov <stanimir.varbanov@linaro.org>
++
++description: |
++  The Venus Iris2 IP is a video encode and decode accelerator present
++  on Qualcomm platforms
++
++properties:
++  compatible:
++    const: qcom,sc7280-venus
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    minItems: 2
++    maxItems: 3
++
++  power-domain-names:
++    minItems: 2
++    maxItems: 3
++    items:
++      - const: venus
++      - const: vcodec0
++      - const: cx
++
++  clocks:
++    maxItems: 5
++
++  clock-names:
++    items:
++      - const: core
++      - const: bus
++      - const: iface
++      - const: vcodec_core
++      - const: vcodec_bus
++
++  iommus:
++    maxItems: 2
++
++  memory-region:
++    maxItems: 1
++
++  interconnects:
++    maxItems: 2
++
++  interconnect-names:
++    items:
++      - const: cpu-cfg
++      - const: video-mem
++
++  video-decoder:
++    type: object
++
++    properties:
++      compatible:
++        const: venus-decoder
++
++    required:
++      - compatible
++
++    additionalProperties: false
++
++  video-encoder:
++    type: object
++
++    properties:
++      compatible:
++        const: venus-encoder
++
++    required:
++      - compatible
++
++    additionalProperties: false
++
++  video-firmware:
++    type: object
++
++    description: |
++      Firmware subnode is needed when the platform does not
++      have TrustZone.
++
++    properties:
++      iommus:
++        maxItems: 1
++
++    required:
++      - iommus
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - power-domains
++  - power-domain-names
++  - clocks
++  - clock-names
++  - iommus
++  - memory-region
++  - video-decoder
++  - video-encoder
++
++additionalProperties: false
++
++examples:
++  - |
++        #include <dt-bindings/interrupt-controller/arm-gic.h>
++        #include <dt-bindings/clock/qcom,videocc-sc7280.h>
++
++        venus: video-codec@aa00000 {
++                compatible = "qcom,sc7280-venus";
++                reg = <0x0aa00000 0xd0600>;
++                interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
++
++                clocks = <&videocc VIDEO_CC_MVSC_CORE_CLK>,
++                         <&videocc VIDEO_CC_MVSC_CTL_AXI_CLK>,
++                         <&videocc VIDEO_CC_VENUS_AHB_CLK>,
++                         <&videocc VIDEO_CC_MVS0_CORE_CLK>,
++                         <&videocc VIDEO_CC_MVS0_AXI_CLK>;
++                clock-names = "core", "bus", "iface",
++                              "vcodec_core", "vcodec_bus";
++
++                power-domains = <&videocc MVSC_GDSC>,
++                                <&videocc MVS0_GDSC>;
++                                <&rpmhpd SC7280_CX>;
++                power-domain-names = "venus", "vcodec0", "cx";
++
++                interconnects = <&gem_noc MASTER_APPSS_PROC 0 &cnoc2 SLAVE_VENUS_CFG 0>
++                                <&mmss_noc MASTER_VIDEO_P0 0 &mc_virt SLAVE_EBI1 0>;
++                interconnect-names = "cpu-cfg", "video-mem";
++
++                iommus = <&apps_smmu 0x2180 0x20>,
++                         <&apps_smmu 0x2184 0x20>;
++
++                memory-region = <&video_mem>;
++
++                video-decoder {
++                        compatible = "venus-decoder";
++                };
++
++                video-encoder {
++                        compatible = "venus-encoder";
++                };
++
++                video-firmware {
++                        iommus = <&apps_smmu 0x21a2 0x0>;
++                };
++        };
+-- 
+2.7.4
 
