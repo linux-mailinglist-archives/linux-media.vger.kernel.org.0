@@ -2,103 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D81B41A08A
-	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 22:48:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 412E141A0DB
+	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 22:57:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237052AbhI0Uts (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Sep 2021 16:49:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56270 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237074AbhI0Utp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Sep 2021 16:49:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2064961052;
-        Mon, 27 Sep 2021 20:48:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632775685;
-        bh=GHCCCNNGDh7j8AzsSAwR+7WjFwTTkZQkWzBp4yf5Anw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=EtTYXuV99xHvDuCezChTC1fYR0ncVq3Rk1GokwMu8SQwpY+EmUiFM+RJIajTO8jW3
-         VrmnSOnx8ztK/horbiFLR4Q1ZWDBNyvy7tKy9OeuG4ddMCv7tR6NZWpZqi+5myOFRZ
-         fUlC6Cg5AZEODAOrfOLYA3DADysDTM/85vB/lrkAnFddU4ZJYrY9Qs93uwL2IgXWp2
-         ShOzsV013bF2pbhJUOsUOYV7NBfbitxpmzxjeFzmgMdmeTIB3GqmWBkk202+UoozT6
-         QbwxnW2Yp/G+PD6grSc1VyWUP3kS05HQi/kIejRv/Gb69g5//VZRJWFOBSMsttdGMH
-         imsrWEit+NvGQ==
-Received: by mail-wr1-f50.google.com with SMTP id d21so54009008wra.12;
-        Mon, 27 Sep 2021 13:48:05 -0700 (PDT)
-X-Gm-Message-State: AOAM533l3ZQ2aOR4nf+eHv+wcamOBD9uWCtuL9xvzHIEhSY9RQ7k7+wl
-        4CL80gkLd/vQ076NDcyLOY99CBrz3q7TOJLckB4=
-X-Google-Smtp-Source: ABdhPJyr//9nG+qcYuFmIIHo02EBLzzoRAIp7o7Kc5vnLIs/c/42qbXfOQSeIjG8WR8ZxK+L1GxrgnNIqE5zvhpeDJ8=
-X-Received: by 2002:a5d:6a08:: with SMTP id m8mr2207127wru.336.1632775683762;
- Mon, 27 Sep 2021 13:48:03 -0700 (PDT)
+        id S236871AbhI0U6w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Sep 2021 16:58:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36188 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236800AbhI0U6v (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 27 Sep 2021 16:58:51 -0400
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B20EC061765
+        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 13:57:13 -0700 (PDT)
+Received: by mail-ot1-x332.google.com with SMTP id 67-20020a9d0449000000b00546e5a8062aso26184285otc.9
+        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 13:57:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=PlyMlGa7MDqDwyrJ+9Nu78wzBfZgUOD4Mgr0q1/+DtM=;
+        b=moPLRYA1b47/e+Ag8chwN5277xtgkL54F4pJjVzJQ8CJvxpDYXlG4JU36cXnciVIJg
+         w7LAFtvv3vssN/tsad0nhW1QFW7gKGfSSGJBWoz1eg/Q/IAqVM3+TcIxKWn/73XjSnb7
+         mNSOT3Gij3AvCdxttNYIyO7r+uBx7T/hwSQYY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=PlyMlGa7MDqDwyrJ+9Nu78wzBfZgUOD4Mgr0q1/+DtM=;
+        b=cDv3xMfuFQXV0cgR7fyHR3aY3uwloAs/FnWT/i57boJNWG1ecATdhX7jloTb/0ovUp
+         N9ZhICH/R+ieHo+N4z5zsgLlWuNASN5aQO6eiznarirdMVgihd/jhdU6uE+8cWkmvQpj
+         +4nFsE2uDZpHJhXBdT2CmYh2fBNhZ50lhx9uj1Mhl8dZm/w5+s8D4fwzM9lN8eLQ1fSL
+         8jBxCWQiB/4VT3hFZSHoKhGsmywz+XFL6pZzW5Btnq1Xv/89MLynuq2uD85jzVuqvKRr
+         wuFr9lzf1Tcn8ctnjf9aS9+sInKiRyQEs/Z8l+M8iCMxdSRd1bdqG0RDMk/BFTwkvIBm
+         MJ1w==
+X-Gm-Message-State: AOAM532GU1IXpDPzvX74xl1Q6G2diXYtfVvC9IrHHjH/SX/9nhc0scJ4
+        ALA7GLBsmoH4HthENMcPoLKE1ph/ULQqZX8qmFaPBA==
+X-Google-Smtp-Source: ABdhPJzetWLzdTY1Zy3XhA67zGHzvF4rx1QkEDk19MmphpfXgqeCf77aOCeShKwuSbYtfHyG4OSseqvUAa7Ch8aqhU8=
+X-Received: by 2002:a05:6830:358:: with SMTP id h24mr1721655ote.159.1632776232722;
+ Mon, 27 Sep 2021 13:57:12 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 27 Sep 2021 13:57:12 -0700
 MIME-Version: 1.0
-References: <20210927152412.2900928-1-arnd@kernel.org> <YVIg9CxJGaJr1vpp@ripper>
- <CAK8P3a1fEuFsQVY9b1oGdTOHzr8pu9wvrSBCMn2iOvgWqtHNnA@mail.gmail.com> <YVIsrgKiOG/gFVdT@ripper>
-In-Reply-To: <YVIsrgKiOG/gFVdT@ripper>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Mon, 27 Sep 2021 22:47:47 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1WRBA4mP691fO82ZhYdPhHLGjLH=VhcUxGNeGRMX8knw@mail.gmail.com>
-Message-ID: <CAK8P3a1WRBA4mP691fO82ZhYdPhHLGjLH=VhcUxGNeGRMX8knw@mail.gmail.com>
-Subject: Re: [PATCH] [RFC] qcom_scm: hide Kconfig symbol
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Rob Clark <robdclark@gmail.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Alex Elder <elder@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Andy Gross <agross@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, ath10k@lists.infradead.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sunxi@lists.linux.dev
+In-Reply-To: <1632743197-32291-1-git-send-email-dikshita@codeaurora.org>
+References: <1632743197-32291-1-git-send-email-dikshita@codeaurora.org>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date:   Mon, 27 Sep 2021 13:57:12 -0700
+Message-ID: <CAE-0n508_+MkVz6t0sWF_q7ofXXWHADQSWZCGxk3rtS=td9=fA@mail.gmail.com>
+Subject: Re: [PATCH v4] dt-bindings: media: venus: Add sc7280 dt schema
+To:     Dikshita Agarwal <dikshita@codeaurora.org>, agross@kernel.org,
+        bjorn.andersson@linaro.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, mchehab@kernel.org,
+        robh+dt@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        vgarodia@codeaurora.org, stanimir.varbanov@linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 27, 2021 at 10:42 PM Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
-> On Mon 27 Sep 13:15 PDT 2021, Arnd Bergmann wrote:
-> > On Mon, Sep 27, 2021 at 9:52 PM Bjorn Andersson <bjorn.andersson@linaro.org> wrote:
-> >
-> > An easier option might be to find a way to build QCOM_SCM without
-> > RESET_CONTROLLER for compile testing purposes. I don't know
-> > what would break from that.
-> >
+Quoting Dikshita Agarwal (2021-09-27 04:46:37)
+> Add a schema description for the venus video encoder/decoder on the sc7280.
 >
-> Afaict the reset API is properly stubbed and RESET_CONTROLLER is a bool,
-> so I think we can simply drop the "select" and the kernel will still
-> compile fine in all combinations.
->
-> When it comes to runtime, we currently select RESET_CONTROLLER from the
-> Qualcomm common clocks. If that is dropped (why would it...) it seems
-> possible to build a custom kernel for msm8916 that we can boot and miss
-> the stubbed out "mss restart" reset line from the SCM.
->
->
-> So, let's just drop the select RESET_CONTROLLER from SCM for now.
+> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
 
-Ok, I've made that change locally, giving it more time on the randconfig
-build box now.
-
-       Arnd
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
