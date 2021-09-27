@@ -2,184 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF71F419670
-	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 16:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6002C4197A1
+	for <lists+linux-media@lfdr.de>; Mon, 27 Sep 2021 17:20:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234936AbhI0OdR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Sep 2021 10:33:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57940 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234782AbhI0OdM (ORCPT
+        id S235126AbhI0PVq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Sep 2021 11:21:46 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:54050 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235121AbhI0PVn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Sep 2021 10:33:12 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55187C061575;
-        Mon, 27 Sep 2021 07:31:34 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id t16-20020a1c7710000000b003049690d882so762544wmi.5;
-        Mon, 27 Sep 2021 07:31:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2mx71Ffj1LjI9dbNVEsMItvt4/c01TG+6Jn8XnjJkBA=;
-        b=BnaCahteDxcsbqrbdc5Zu34nF/xoU1HeKj99e5MrhXbRLBb3eohTmHduzQ7Bvv7PlJ
-         iHImPDIK81GUnxugHpzukmeRIYtnjuF2BfEtv4pVQhEVhr7Ow4OOhUq/+F6vItMlWsvV
-         zbr7YpC6iVLD1oCoe+jdqBM4W7Y7IJr4Fc4deyeupJskOQkQprR4XLaTljPNIEIB0J/+
-         jFD9iHjiKIpvH4ZRA741zvzAIMY1yB8HRvKOJGRbxRpxx44OKJ5O4j7e52tiGSRp88Ta
-         a69wmF3jlTlNkSveRuD+7ERqrjt1l5BCsW6ZWTb4LXuoqgkviyhmSx3ZNNIiViQPxbb2
-         cHXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2mx71Ffj1LjI9dbNVEsMItvt4/c01TG+6Jn8XnjJkBA=;
-        b=FW1SeFGStxIZCEDDKmBHqblXeO94DGzj5z+dgQ9QCld/fI2btGbM6RsfU4vmaVTAx6
-         De5Mk7esFW07Gkldha5YbQTcP5XkP8VaK5pIUsAft71YrbDyKPQFSSYnLSv6fjv4Ya0H
-         MODFTFbuClmMxVDDBmz3jVBPBhW6yBrwLWmGd4v+w3YEoT/zu+tmGF7D0nBzEXGDFS+H
-         BoIAqeJhUKEXgU883FEHBdN76dDyluFfk2LixNkkO1pbn6gzqloliSc2Sk93GLxK4y/U
-         PUuJ49/wpt9a+0dg7B2KEzCHpD34SgJTnDDQ72b86+ijaxc5qFjN99YaUowj4eo924R8
-         h/uw==
-X-Gm-Message-State: AOAM531jZNL2yUQhFkIbMwShcpZGBo9oC8E0pqv9EjF17Ak3x76/KEFk
-        iOmwt/y+Z7XNaNg+Nofr3OWypimTcVxv7sxNj4U=
-X-Google-Smtp-Source: ABdhPJxaMT5Ib0z3brv9yjSkdXxNC2Ep4DW2qUvpXe/nYwrumdJt3grX8mjdTKUoXXZV+xNfgBGfnHDh99X4mtG/+Wc=
-X-Received: by 2002:a1c:f201:: with SMTP id s1mr4139651wmc.101.1632753092855;
- Mon, 27 Sep 2021 07:31:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210903184806.1680887-1-robdclark@gmail.com> <20210903184806.1680887-9-robdclark@gmail.com>
- <20210927114201.1f8fdc17@eldfell>
-In-Reply-To: <20210927114201.1f8fdc17@eldfell>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Mon, 27 Sep 2021 07:36:05 -0700
-Message-ID: <CAF6AEGudjfgN+x_KxyED+1XBod7yNqLN43or7vs8h7UKQmzK7Q@mail.gmail.com>
-Subject: Re: [PATCH v3 8/9] dma-buf/sync_file: Add SET_DEADLINE ioctl
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
-        Rob Clark <robdclark@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Mon, 27 Sep 2021 11:21:43 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id B95D11F42DB7
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev
+Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Fabio Estevam <festevam@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com
+Subject: [PATCH v6 00/10] VP9 codec V4L2 control interface
+Date:   Mon, 27 Sep 2021 17:19:48 +0200
+Message-Id: <20210927151958.24426-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 27, 2021 at 1:42 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->
-> On Fri,  3 Sep 2021 11:47:59 -0700
-> Rob Clark <robdclark@gmail.com> wrote:
->
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > The initial purpose is for igt tests, but this would also be useful for
-> > compositors that wait until close to vblank deadline to make decisions
-> > about which frame to show.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >  drivers/dma-buf/sync_file.c    | 19 +++++++++++++++++++
-> >  include/uapi/linux/sync_file.h | 20 ++++++++++++++++++++
-> >  2 files changed, 39 insertions(+)
-> >
-> > diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> > index 394e6e1e9686..f295772d5169 100644
-> > --- a/drivers/dma-buf/sync_file.c
-> > +++ b/drivers/dma-buf/sync_file.c
-> > @@ -459,6 +459,22 @@ static long sync_file_ioctl_fence_info(struct sync_file *sync_file,
-> >       return ret;
-> >  }
-> >
-> > +static int sync_file_ioctl_set_deadline(struct sync_file *sync_file,
-> > +                                     unsigned long arg)
-> > +{
-> > +     struct sync_set_deadline ts;
-> > +
-> > +     if (copy_from_user(&ts, (void __user *)arg, sizeof(ts)))
-> > +             return -EFAULT;
-> > +
-> > +     if (ts.pad)
-> > +             return -EINVAL;
-> > +
-> > +     dma_fence_set_deadline(sync_file->fence, ktime_set(ts.tv_sec, ts.tv_nsec));
-> > +
-> > +     return 0;
-> > +}
-> > +
-> >  static long sync_file_ioctl(struct file *file, unsigned int cmd,
-> >                           unsigned long arg)
-> >  {
-> > @@ -471,6 +487,9 @@ static long sync_file_ioctl(struct file *file, unsigned int cmd,
-> >       case SYNC_IOC_FILE_INFO:
-> >               return sync_file_ioctl_fence_info(sync_file, arg);
-> >
-> > +     case SYNC_IOC_SET_DEADLINE:
-> > +             return sync_file_ioctl_set_deadline(sync_file, arg);
-> > +
-> >       default:
-> >               return -ENOTTY;
-> >       }
-> > diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-> > index ee2dcfb3d660..f67d4ffe7566 100644
-> > --- a/include/uapi/linux/sync_file.h
-> > +++ b/include/uapi/linux/sync_file.h
-> > @@ -67,6 +67,18 @@ struct sync_file_info {
-> >       __u64   sync_fence_info;
-> >  };
-> >
-> > +/**
-> > + * struct sync_set_deadline - set a deadline on a fence
-> > + * @tv_sec:  seconds elapsed since epoch
-> > + * @tv_nsec: nanoseconds elapsed since the time given by the tv_sec
-> > + * @pad:     must be zero
->
-> Hi Rob,
->
-> I think you need to specify which clock this timestamp must be in.
->
-> Which epoch? Sounds a bit like CLOCK_REALTIME to me which would not
-> make sense.
+Dear all,
 
-It should be monotonic.. same clock as is used for vblank timestamps,
-which I assume that would be the most straightforward thing for
-compositors to use
+This patch series adds VP9 codec V4L2 control interface and two drivers
+using the new controls. It is a follow-up of previous v5 series [1]
+and it introduces only changes to the documentation and adds 3
+Reviewed-by tags.
 
-BR,
--R
+In this iteration, we've implemented VP9 hardware decoding on two devices:
+Rockchip VDEC and Hantro G2, and tested on RK3399, i.MX8MQ and i.MX8MP.
+The i.MX8M driver needs proper power domains support, though, which is a
+subject of a different effort, but in all 3 cases we were able to run the
+drivers.
 
-> Also I cannot guess how a compositor should be using this, so
-> explaining the expected usage would be really good, with reasons for
-> why should userspace bother.
->
->
-> Thanks,
-> pq
->
-> > + */
-> > +struct sync_set_deadline {
-> > +     __s64   tv_sec;
-> > +     __s32   tv_nsec;
-> > +     __u32   pad;
-> > +};
-> > +
-> >  #define SYNC_IOC_MAGIC               '>'
-> >
-> >  /**
-> > @@ -95,4 +107,12 @@ struct sync_file_info {
-> >   */
-> >  #define SYNC_IOC_FILE_INFO   _IOWR(SYNC_IOC_MAGIC, 4, struct sync_file_info)
-> >
-> > +
-> > +/**
-> > + * DOC: SYNC_IOC_SET_DEADLINE - set a deadline on a fence
-> > + *
-> > + * Allows userspace to set a deadline on a fence, see dma_fence_set_deadline()
-> > + */
-> > +#define SYNC_IOC_SET_DEADLINE        _IOW(SYNC_IOC_MAGIC, 5, struct sync_set_deadline)
-> > +
-> >  #endif /* _UAPI_LINUX_SYNC_H */
->
+GStreamer support is also available, the needed changes have been submitted
+by Daniel Almeida [2]. This MR is ready to be merged, and just needs the
+VP9 V4L2 controls to be merged and released.
+
+Both rkvdec and hantro drivers are passing a significant number of VP9 tests
+using Fluster[3]. There are still a few tests that are not passing, due to
+dynamic frame resize (not yet supported by V4L2) and small size videos
+(due to IP block limitations).
+
+The series adds the VP9 codec V4L2 control API as uAPI, so it aims at being
+merged without passing through staging, as agreed[4]. The ABI has been checked
+for padding and verified to contain no holes.
+
+[1] https://www.spinics.net/lists/arm-kernel/msg922040.html
+[2] https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/merge_requests/2144
+[3] https://github.com/fluendo/fluster
+[4] https://lore.kernel.org/linux-media/b8f83c93-67fd-09f5-9314-15746cbfdc61@xs4all.nl/
+
+Changes related to v5:
+- improved the doc comments as per Ezequiel's review (thanks, Ezequiel)
+- improved pdf output of documentation
+- added Benjamin's Reviewed-by (thanks, Benjamin)
+
+Changes related to v4:
+- removed unused enum v4l2_vp9_intra_prediction_mode
+- converted remaining enums to defines to follow the convention
+- improved the documentation, in particular better documented how to use segmentation 
+features
+
+Changes related to v3:
+
+Apply suggestions from Jernej's review (thanks, Jernej):
+- renamed a control and two structs:
+	V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR_PROBS =>
+		V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR
+	v4l2_ctrl_vp9_compressed_hdr_probs =>
+		v4l2_ctrl_vp9_compressed_hdr
+	v4l2_vp9_mv_compressed_hdr_probs => v4l2_vp9_mv_probs
+- moved tx_mode to v4l2_ctrl_vp9_compressed_hdr
+- fixed enum v4l2_vp9_ref_frame_sign_bias values (which are used to test a bitfield)
+- explicitly assigned values to all other vp9 enums
+
+Apply suggestion from Nicolas's review (thanks, Nicolas):
+- explicitly stated that the v4l2_ctrl_vp9_compressed_hdr control is optional
+and implemented only by drivers which need it
+
+Changes related to the RFC v2:
+
+- added another driver including a postprocessor to de-tile
+        codec-specific tiling
+- reworked uAPI structs layout to follow VP8 style
+- changed validation of loop filter params
+- changed validation of segmentation params
+- changed validation of VP9 frame params
+- removed level lookup array from loop filter struct
+        (can be computed by drivers)
+- renamed some enum values to match the spec more closely
+- V4L2 VP9 library changed the 'eob' member of
+        'struct v4l2_vp9_frame_symbol_counts' so that it is an array
+        of pointers instead of an array of pointers to arrays
+        (IPs such as g2 creatively pass parts of the 'eob' counts in
+        the 'coeff' counts)
+- factored out several repeated portions of code
+- minor nitpicks and cleanups
+
+The series depends on the YUV tiled format support prepared by Ezequiel:
+https://www.spinics.net/lists/linux-media/msg197047.html
+
+Rebased onto latest media_tree.
+
+Andrzej Pietrasiewicz (4):
+  media: uapi: Add VP9 stateless decoder controls
+  media: Add VP9 v4l2 library
+  media: hantro: Prepare for other G2 codecs
+  media: hantro: Support VP9 on the G2 core
+
+Boris Brezillon (1):
+  media: rkvdec: Add the VP9 backend
+
+Ezequiel Garcia (5):
+  hantro: postproc: Fix motion vector space size
+  hantro: postproc: Introduce struct hantro_postproc_ops
+  hantro: Simplify postprocessor
+  hantro: Add quirk for NV12/NV12_4L4 capture format
+  media: hantro: Support NV12 on the G2 core
+
+ .../userspace-api/media/v4l/biblio.rst        |   10 +
+ .../media/v4l/ext-ctrls-codec-stateless.rst   |  573 +++++
+ .../media/v4l/pixfmt-compressed.rst           |   15 +
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |    8 +
+ .../media/v4l/vidioc-queryctrl.rst            |   12 +
+ .../media/videodev2.h.rst.exceptions          |    2 +
+ drivers/media/v4l2-core/Kconfig               |    4 +
+ drivers/media/v4l2-core/Makefile              |    1 +
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     |  180 ++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |    8 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+ drivers/media/v4l2-core/v4l2-vp9.c            | 1850 +++++++++++++++++
+ drivers/staging/media/hantro/Kconfig          |    1 +
+ drivers/staging/media/hantro/Makefile         |    7 +-
+ drivers/staging/media/hantro/hantro.h         |   40 +-
+ drivers/staging/media/hantro/hantro_drv.c     |   18 +-
+ drivers/staging/media/hantro/hantro_g2.c      |   27 +
+ .../staging/media/hantro/hantro_g2_hevc_dec.c |   31 -
+ drivers/staging/media/hantro/hantro_g2_regs.h |  104 +
+ .../staging/media/hantro/hantro_g2_vp9_dec.c  |  978 +++++++++
+ drivers/staging/media/hantro/hantro_hw.h      |   83 +-
+ .../staging/media/hantro/hantro_postproc.c    |   79 +-
+ drivers/staging/media/hantro/hantro_v4l2.c    |   20 +
+ drivers/staging/media/hantro/hantro_vp9.c     |  240 +++
+ drivers/staging/media/hantro/hantro_vp9.h     |  103 +
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   |   38 +-
+ .../staging/media/hantro/rockchip_vpu_hw.c    |    7 +-
+ .../staging/media/hantro/sama5d4_vdec_hw.c    |    3 +-
+ drivers/staging/media/rkvdec/Kconfig          |    1 +
+ drivers/staging/media/rkvdec/Makefile         |    2 +-
+ drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1078 ++++++++++
+ drivers/staging/media/rkvdec/rkvdec.c         |   52 +-
+ drivers/staging/media/rkvdec/rkvdec.h         |   12 +-
+ include/media/v4l2-ctrls.h                    |    4 +
+ include/media/v4l2-vp9.h                      |  182 ++
+ include/uapi/linux/v4l2-controls.h            |  284 +++
+ include/uapi/linux/videodev2.h                |    6 +
+ 37 files changed, 5993 insertions(+), 71 deletions(-)
+ create mode 100644 drivers/media/v4l2-core/v4l2-vp9.c
+ create mode 100644 drivers/staging/media/hantro/hantro_g2.c
+ create mode 100644 drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+ create mode 100644 drivers/staging/media/hantro/hantro_vp9.c
+ create mode 100644 drivers/staging/media/hantro/hantro_vp9.h
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
+ create mode 100644 include/media/v4l2-vp9.h
+
+
+base-commit: e4e737bb5c170df6135a127739a9e6148ee3da82
+-- 
+2.17.1
+
