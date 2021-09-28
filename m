@@ -2,102 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6558C41B742
-	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 21:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B650B41B8FE
+	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 23:10:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242383AbhI1TOx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Sep 2021 15:14:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38916 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229678AbhI1TOw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Sep 2021 15:14:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2203D6135D;
-        Tue, 28 Sep 2021 19:13:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632856393;
-        bh=7B069zu3fIEzc7J70Px6o5DhIK24ITV1Z/pXFm5SPE0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=l6f3rhKcvzS0cbgcm8Mrrz4ooPJZlG/4m1v9BWnHnLbjLhFxTHio3iJqUb30rWppT
-         bkrU3N/7CrsynPS44VKf0F2VQiuAKkNUFlNPTayOIUECmpi5i8qpKmMSC/lBmgtS7j
-         X4kQkoxKPRo4YEiG5j2cprdm3SqnXAJO0aQYTGHuo1F1PYDZMuTo0r+HG+4p53LGkx
-         6g2hElAnx6lHAbgmMZ4OmahFoV7S1PCe5RpOroGQpbz3A8K5WRGTW29H9j5IXkbBGD
-         3mQlgTa3+GnIvq5ZXBvfbIyXjy3El0UVXSA16dxV71BieYlJXPFw3G4y+ns8x5uyUQ
-         yBbjLwWqCZu2w==
-Received: by mail-yb1-f177.google.com with SMTP id b82so10852ybg.1;
-        Tue, 28 Sep 2021 12:13:13 -0700 (PDT)
-X-Gm-Message-State: AOAM533yGAKgXXVhFyLR4KCWpEiXc68xctSPw1mwofXvq2AJCebThXU+
-        eucum2gS5POVXfUbELpSsADXhFQW6GVUdPulV9w=
-X-Google-Smtp-Source: ABdhPJzG+BFlkram6wvHYJeDdwoU4EG8PEfLiuo+UnYK/GvSnKWgTPJ0sB5vh6yCxEX5jumwKy2fpW82HRuvpNo3wUE=
-X-Received: by 2002:a25:3614:: with SMTP id d20mr8888513yba.537.1632856392408;
- Tue, 28 Sep 2021 12:13:12 -0700 (PDT)
+        id S242838AbhI1VMR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Sep 2021 17:12:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33022 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242797AbhI1VMQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 Sep 2021 17:12:16 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3484DC06161C
+        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 14:10:36 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id d21so579514wra.12
+        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 14:10:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=F/527VUTmqAtENSVUrdjYi+zZpuZQaH+ikhSUSsw/8Q=;
+        b=MzPIro6oqNDdndENu3R4jscUAO/SKKNMg4D1rGBPEu8LXDZUdysA3mBVYXq+dYOR/8
+         IS5wSgRkNhV2TXto/USKdCqVT1yiorCh+gX/McGVqmuM3aWUmowyJUcDuoyG2aKluIoZ
+         euFL4oudON9uquaNTcV39xFyYiowHl8wR65OA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=F/527VUTmqAtENSVUrdjYi+zZpuZQaH+ikhSUSsw/8Q=;
+        b=2B6c0YQiU6/EdGhs45fPCWmr0IaExBHB8IP4jJO2CAVlKsRIedAKS/CVoc+KDd2cKi
+         3PEM648XF5U4lctFmEHmD1EgV6Zqh1VcEp5LG//e7L8MXbB0kCoWMWnCsK9zDvQP/vwt
+         tsWX/rS1BwPftE4bJSZQwI6OOjUMINODp7ncHPGkDpJc9rkVWusMSvBJIAsDUff5+rB5
+         inB6nQK0n2GmDWYlIuq8j0DaTRXq/JJ4dwRmXgXgXucyW0Nc21xNTuN15ZOjg0MYgTZX
+         K8ktmN5xQs1X43JFaWG1p/Efv2GrJkupWBlTtYino3+pQCod+U4ymJReOl990WWamskE
+         ptMQ==
+X-Gm-Message-State: AOAM530jqZvlKaxMJlaLhsFs1YOXEu4WJNA0e/cZvumD3605Ylt8qmYe
+        I2V0q+q/u9QWZjMV9Jz9pmq75Q==
+X-Google-Smtp-Source: ABdhPJygIeEq0XQcTZszD/f8Pw8GadQI9iAu+pSbE76cR1fnWH7aX8MMtOjlkXMCzIf9H/9udEKMAA==
+X-Received: by 2002:adf:e485:: with SMTP id i5mr2662750wrm.22.1632863434832;
+        Tue, 28 Sep 2021 14:10:34 -0700 (PDT)
+Received: from beni.c.googlers.com.com (216.131.76.34.bc.googleusercontent.com. [34.76.131.216])
+        by smtp.gmail.com with ESMTPSA id n68sm3885773wmn.13.2021.09.28.14.10.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Sep 2021 14:10:34 -0700 (PDT)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH 0/7] media: ipu3 i2c: Fix v4l2-compliance issues
+Date:   Tue, 28 Sep 2021 21:10:26 +0000
+Message-Id: <20210928211033.2415162-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.33.0.685.g46640cef36-goog
 MIME-Version: 1.0
-References: <20210912165309.98695-1-ogabbay@kernel.org> <20210912165309.98695-2-ogabbay@kernel.org>
- <20210928171329.GF3544071@ziepe.ca>
-In-Reply-To: <20210928171329.GF3544071@ziepe.ca>
-From:   Oded Gabbay <ogabbay@kernel.org>
-Date:   Tue, 28 Sep 2021 22:12:45 +0300
-X-Gmail-Original-Message-ID: <CAFCwf11_2TTVnqr8HqrsCW6cxUHu9txKuX-3U6mgMVPq8WqKdg@mail.gmail.com>
-Message-ID: <CAFCwf11_2TTVnqr8HqrsCW6cxUHu9txKuX-3U6mgMVPq8WqKdg@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] habanalabs: define uAPI to export FD for DMA-BUF
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Gal Pressman <galpress@amazon.com>,
-        Yossi Leybovich <sleybo@amazon.com>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Dave Airlie <airlied@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 28, 2021 at 8:13 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Sun, Sep 12, 2021 at 07:53:08PM +0300, Oded Gabbay wrote:
-> >       /* HL_MEM_OP_* */
-> >       __u32 op;
-> > -     /* HL_MEM_* flags */
-> > +     /* HL_MEM_* flags.
-> > +      * For the HL_MEM_OP_EXPORT_DMABUF_FD opcode, this field holds the
-> > +      * DMA-BUF file/FD flags.
-> > +      */
-> >       __u32 flags;
-> >       /* Context ID - Currently not in use */
-> >       __u32 ctx_id;
-> > @@ -1072,6 +1091,13 @@ struct hl_mem_out {
-> >
-> >                       __u32 pad;
-> >               };
-> > +
-> > +             /* Returned in HL_MEM_OP_EXPORT_DMABUF_FD. Represents the
-> > +              * DMA-BUF object that was created to describe a memory
-> > +              * allocation on the device's memory space. The FD should be
-> > +              * passed to the importer driver
-> > +              */
-> > +             __u64 fd;
->
-> fd's should be a s32 type in a fixed width uapi.
-Yep, will correct this.
+Fix some issues found with v4l2-compliance. Tested in Soraka which also
+has some subdevices that had some issues with v4l2-compliance.
 
->
-> I usually expect to see the uapi changes inside the commit that
-> consumes them, splitting the patch like this seems strange but
-> harmless.
-I'll remember that when I send the RDMA patches down the road :)
+Ricardo Ribalda (7):
+  media: ipu3-cio2: Check num_planes and sizes in queue_setup
+  media: ipu3-cio2: Set valid initial format
+  media: ipu3-cio2: imgu_fmt: Handle properly try
+  media: ipu3-cio2: VIDIOC_QUERYCAP: Fix bus_info
+  media: dw9714: Add implementation for events
+  media: ov13858: Add implementation for events
+  media: ov5670: Add implementation for events
 
-Thanks,
-Oded
->
-> Jason
+ drivers/media/i2c/dw9714.c                    | 14 ++++++++++++--
+ drivers/media/i2c/ov13858.c                   | 11 ++++++++++-
+ drivers/media/i2c/ov5670.c                    | 11 ++++++++++-
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  8 ++++++--
+ drivers/staging/media/ipu3/ipu3-v4l2.c        |  9 +++++----
+ 5 files changed, 43 insertions(+), 10 deletions(-)
+
+-- 
+2.33.0.685.g46640cef36-goog
+
