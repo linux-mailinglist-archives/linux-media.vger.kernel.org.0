@@ -2,84 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0F3E41AA1D
-	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 09:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CA3B41AA34
+	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 09:58:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239464AbhI1HzH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Sep 2021 03:55:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43312 "EHLO
+        id S239427AbhI1H7k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Sep 2021 03:59:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239287AbhI1HzG (ORCPT
+        with ESMTP id S239287AbhI1H7k (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Sep 2021 03:55:06 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11CC9C061575
-        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 00:53:27 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id g41so88720445lfv.1
-        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 00:53:26 -0700 (PDT)
+        Tue, 28 Sep 2021 03:59:40 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F1EC061575;
+        Tue, 28 Sep 2021 00:58:00 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id i25so89464613lfg.6;
+        Tue, 28 Sep 2021 00:58:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ii9qLWgitq2lwVS5qa82b5LU5SvJwtKKJcHVt8hkGzs=;
-        b=DBqRHD9HQvd6fYoRv8zX0pl+lhqTmHdIrYxcgnAPAjRiaVMPA8zlN4WOk6NvRNf/BD
-         AfgU7bcRpq/NwpK7GtLR66NyuhdDaGNDlZHmD2RGePs+Y3NRFxCnWxO4Zm9otgifKvAo
-         FKhxqJQfBrEPUJFvCPWPOKJbF8tXqSMGqA7eA=
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=gy9mKM0azORkp6POsmIPhCDhcWyTMEDjZX/tq4OmNvo=;
+        b=oJNaIZ0VUnSUOPva53QBlwdUmanMINGepTO3sTZ8UEZm+MKsG8GsFosjIS7+steVY1
+         HaO2jSVEvi9g6HPbdEPqNUJ8Zj3ZIjHlqD5YargEFMpR9jPXSff5Oc11Hx48TC9LPKt9
+         6i9tuElrvZIp04sadutYo27zNJPiRzS+jO6XzMS9Mg5u2gksUSQln6zVHFfM+rbP1i/K
+         /zh0/nMmti0vDhHLB7JfqfWs0pJBur77y2VB1p8uaXfw7+ycK8lkQ4yqdDhmOMPmXrPU
+         0QXagudEuEyDg7xEqODKWaH1q6ycHnkUAv94/gX9cDrN0AVnTlBkwxHy0t7uTNfh2/G7
+         PwyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ii9qLWgitq2lwVS5qa82b5LU5SvJwtKKJcHVt8hkGzs=;
-        b=UKQ72/wu4wP8W3vZ2JkngUG0JHZaWf/LIKtT5Ms3X6YsbUjKd/dhzfHCXPsaF64O23
-         55n9Gf5dE2Y+irI8xCZ0O2tUf+Dnk73VA9fri5VGG8mpjGxiArY62cugUfJdEfWQ3ezc
-         ulGlMqv8ib1YvRSAWygzxugobmBnX0xZPHMwjzHOvgapZzOI9yTvOqEWhVIH0gR8wC8S
-         2e4tmAFkCkM5TrgL7ke65IR9pLH4x1xBsz40cBnRC9q+cU+rgLG/monpAqMk8YZi8dk2
-         h+D6Jnu7utLnUOdgflAzqoFYe5RzvKv80KJRGfTrOGGMYts6uM3if4Cp3j/kPdc961/J
-         a3lg==
-X-Gm-Message-State: AOAM5320vgPXbmTF3rt0PF7ehcnTVgdx2x384sh2shS6mvP7RuIG/1bq
-        xpP/+/LFY92596UR4VBJWv+IQq/sdwR/Z9z6ooFZrQ==
-X-Google-Smtp-Source: ABdhPJzWnm2L7IxEjLI8zb38BjNviOGp+t6lkt2c66XagFyi2eN7OLh5PhhiMSLvNV5kaS0Y/u7rYQP8nh7yUQ1Wj6A=
-X-Received: by 2002:a05:651c:1790:: with SMTP id bn16mr4344323ljb.457.1632815605494;
- Tue, 28 Sep 2021 00:53:25 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=gy9mKM0azORkp6POsmIPhCDhcWyTMEDjZX/tq4OmNvo=;
+        b=KHl0fHlwFXHKriha45XUnuh5MUEfjWyOseSOxT0yKpDqd7bYOe+KqeOtlz2cnexPJg
+         DpMdGKMmcjqiS4AxepY80hh/r4mRHSi6t8q+XHC5jEvXJ6hrMrU+4JfHSvNX6ZYMtCP0
+         /ZgYe/Ncr0Ds58FGJPoL1E1bjiFxQnJVCHJ8qSwNfH/f6mpGrdG7gZ3Yz4Ajt+XpSv2M
+         yAvCDviKw1G02RspCuID3Nww5R18pmGIPZYaSpl97h7Ho8R9MACGDC8LLCFQ5OoMkT2T
+         73MRE1RZNRYVMfJ3NrEqr9VvsrEY0G91PXGUybIU/Tyt39NbLRM+j6TagEIoa0AQT1IU
+         fLhg==
+X-Gm-Message-State: AOAM5335Nmgt0REJbAgnrgfZghOF9uogOrKQyaLeJgvMDmzDkYsMTJZE
+        7B15Gr9iaVpQ7OEXkcexPN8=
+X-Google-Smtp-Source: ABdhPJxqc5qNYsVfhAn51diQTeao2B87L5JxiH41IVC2FeIsraw1CGuExY85dzQkC12kPdvsC0CaTg==
+X-Received: by 2002:ac2:5583:: with SMTP id v3mr4301341lfg.142.1632815879316;
+        Tue, 28 Sep 2021 00:57:59 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id t26sm1839672lfp.173.2021.09.28.00.57.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Sep 2021 00:57:59 -0700 (PDT)
+Date:   Tue, 28 Sep 2021 10:57:46 +0300
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
+        Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+        Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
+        Rob Clark <robdclark@chromium.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 8/9] dma-buf/sync_file: Add SET_DEADLINE ioctl
+Message-ID: <20210928105746.02304ece@eldfell>
+In-Reply-To: <CAF6AEGudjfgN+x_KxyED+1XBod7yNqLN43or7vs8h7UKQmzK7Q@mail.gmail.com>
+References: <20210903184806.1680887-1-robdclark@gmail.com>
+        <20210903184806.1680887-9-robdclark@gmail.com>
+        <20210927114201.1f8fdc17@eldfell>
+        <CAF6AEGudjfgN+x_KxyED+1XBod7yNqLN43or7vs8h7UKQmzK7Q@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20210928034634.333785-1-senozhatsky@chromium.org> <CAGXv+5HaZcf-RwGGb7phfKcoTnaeiN2H6b_BvR+qdcRYys=nzA@mail.gmail.com>
-In-Reply-To: <CAGXv+5HaZcf-RwGGb7phfKcoTnaeiN2H6b_BvR+qdcRYys=nzA@mail.gmail.com>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Tue, 28 Sep 2021 15:53:14 +0800
-Message-ID: <CAGXv+5G16fZWyyFDHTeaqJG02cYhVm20u47ZXJb+HdHmFc8HSw@mail.gmail.com>
-Subject: Re: [PATCH] media: videobuf2: always set buffer vb2 pointer
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/Rs768WPBICg6UtwLCHHF1rS";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 28, 2021 at 2:24 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
->
-> On Tue, Sep 28, 2021 at 2:16 PM Sergey Senozhatsky
-> <senozhatsky@chromium.org> wrote:
+--Sig_/Rs768WPBICg6UtwLCHHF1rS
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 27 Sep 2021 07:36:05 -0700
+Rob Clark <robdclark@gmail.com> wrote:
+
+> On Mon, Sep 27, 2021 at 1:42 AM Pekka Paalanen <ppaalanen@gmail.com> wrot=
+e:
 > >
-> > We need to always link allocated vb2_dc_buf back to vb2_buffer because
-> > we dereference vb2 in prepare() and finish() callbacks.
+> > On Fri,  3 Sep 2021 11:47:59 -0700
+> > Rob Clark <robdclark@gmail.com> wrote:
+> > =20
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > The initial purpose is for igt tests, but this would also be useful f=
+or
+> > > compositors that wait until close to vblank deadline to make decisions
+> > > about which frame to show.
+> > >
+> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > ---
+> > >  drivers/dma-buf/sync_file.c    | 19 +++++++++++++++++++
+> > >  include/uapi/linux/sync_file.h | 20 ++++++++++++++++++++
+> > >  2 files changed, 39 insertions(+)
+
+...
+
+> > > diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync=
+_file.h
+> > > index ee2dcfb3d660..f67d4ffe7566 100644
+> > > --- a/include/uapi/linux/sync_file.h
+> > > +++ b/include/uapi/linux/sync_file.h
+> > > @@ -67,6 +67,18 @@ struct sync_file_info {
+> > >       __u64   sync_fence_info;
+> > >  };
+> > >
+> > > +/**
+> > > + * struct sync_set_deadline - set a deadline on a fence
+> > > + * @tv_sec:  seconds elapsed since epoch
+> > > + * @tv_nsec: nanoseconds elapsed since the time given by the tv_sec
+> > > + * @pad:     must be zero =20
 > >
-> > Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
->
-> This fixes the breakage from the "videobuf2: support new noncontiguous DMA
-> API" series on the RK3399 Scarlet if the ChromeOS patch that changes
-> min_buffers_needed to 0 [1] is not applied.
->
-> Since there are other in-tree drivers that have min_buffers_needed=0,
-> I would recommend getting some more testing.
+> > Hi Rob,
+> >
+> > I think you need to specify which clock this timestamp must be in.
+> >
+> > Which epoch? Sounds a bit like CLOCK_REALTIME to me which would not
+> > make sense. =20
+>=20
+> It should be monotonic.. same clock as is used for vblank timestamps,
+> which I assume that would be the most straightforward thing for
+> compositors to use
 
-Seems I had a stale kernel when testing the min_buffers_needed=0 case.
+Yes, it would. Just need to document that. :-)
 
-Everythings works now.
 
-Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+Thanks,
+pq
+
+--Sig_/Rs768WPBICg6UtwLCHHF1rS
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmFSyvoACgkQI1/ltBGq
+qqeyDg//TgGFseKo6XsdPl96lErZgm+vJZuY8rYpdTY7P6E0EsQ9Vtq3/++8mAIT
+7t6mRK8jHVBS/bGQdEtBVnhMW2A63qSZTCPTjNmaAyhFfc0L866fU+QV7MJViv3U
+h6G9sbm3dDiMo76ZdWjSTTLSmNcEiH1gk9mUSbRUZjDBC+uRcnyKy3scGAgrfV1H
+9vllcGoKzjIiDnN1sAh9iNOj43bVOkMa4tyIUm26AQn72PJ3OH8EZDJrPmUdkt6P
+gJl4Xp5p48igf7J4uJG1zUEKGfP9zEw7q8RBJluKTRKqh/dW9k+GXaeJbpmfwzS9
+1mVm0NXvvXGSM8jrhZudaBzxY2QBrdQGk96OCzqO3sl92HD2H6FnYfNZekKrsY0t
+ILXLeDGHTTEwzgtMHUTjdQS9lgSJvR6M0fC8oPytuxcObdBZFAxjXLoFNslyd6SH
+WhP10nfpzFc3Rt4LOocO9XBJxGGuH6ZktfCKyrSkjN99dcAvHNnCTaNcPSjYcVqp
+ViWPGJnsY5ggoItTL3aQBuTDA7AVtz/q7CJDMS5/cOzjg2Ro7JJSjs/q8ViUlIQ+
+XUDYGHsJXrhrXQCp0EiySoAtWgcZuNO+K4wC6cPz9Umm/Lq6WD/C75XNYohrgE2c
+pAT2Sit3CbAfa5Y4P3p1OObimLtUJo29BVLbT/D2CZ+gpKjZw5Q=
+=g9NP
+-----END PGP SIGNATURE-----
+
+--Sig_/Rs768WPBICg6UtwLCHHF1rS--
