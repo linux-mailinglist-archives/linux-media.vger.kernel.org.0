@@ -2,108 +2,375 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 213EC41A6F1
-	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 07:14:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C600F41A738
+	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 07:41:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233360AbhI1FP5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Sep 2021 01:15:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35278 "EHLO
+        id S234632AbhI1Fmp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Sep 2021 01:42:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233279AbhI1FP5 (ORCPT
+        with ESMTP id S234243AbhI1Fmo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Sep 2021 01:15:57 -0400
+        Tue, 28 Sep 2021 01:42:44 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22DA7C061575
-        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 22:14:18 -0700 (PDT)
-Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 008C33F1;
-        Tue, 28 Sep 2021 07:14:13 +0200 (CEST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E05DC061575
+        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 22:41:05 -0700 (PDT)
+Received: from tatooine.ideasonboard.com (unknown [IPv6:2a01:e0a:169:7140:637f:15af:cc1f:5237])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B83153F1;
+        Tue, 28 Sep 2021 07:41:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1632806054;
-        bh=NqeOjKS2JmsEF0mFGd99JFWz/1Gd5W6J4d3/FiA1G4M=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=FX+mSXdAu8/zlOjHrXpdbNBPvOMUe/kr0jHXX9RngEbmXf21r12f6y7obvmAyxsVW
-         HiUyUVQ0U3EBk7WRSS9vM1iAW9YKyiq3yYaDVwz37a/aHeLQAWuXFutonbrbdzdS/R
-         Uqt4b+C0sTcUF6WyGP4Rcl2dt9jVeGbsNNLrfHuk=
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
- <20210830110116.488338-3-tomi.valkeinen@ideasonboard.com>
- <20210915094403.cazj7bjampnes4ba@uno.localdomain>
- <8e322af6-c010-f906-f733-6d3f770a48fc@ideasonboard.com>
- <f0f4bc4b-7594-28ab-8e8a-2819ce82df47@ideasonboard.com>
- <20210916080802.rznseum57gniplqp@uno.localdomain>
- <627ede43-090f-7440-57ed-fde9bc55fa5d@ideasonboard.com>
- <YVEJJWLv9fyG1Tw7@pendragon.ideasonboard.com>
- <8b8d3bc4-80a0-e901-e417-20e0c8b7a4c6@ideasonboard.com>
- <YVGRRfea+YaijluM@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v8 02/36] media: subdev: add active state to struct
- v4l2_subdev
-Message-ID: <0118cbf0-6024-aea3-95b3-4129d3330931@ideasonboard.com>
-Date:   Tue, 28 Sep 2021 08:14:11 +0300
+        s=mail; t=1632807663;
+        bh=v72P16YxncQ/NGhZetpTmmLbPyoaGkzXniGQPLNvrE4=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=sadUMLpQ3+wXRndUdNK9HyM3NVmOSL6VlXDEaFxtSI3XXX395xSRU+zCSFReMTEId
+         mgnOSwgDzG6a0FEgq7TzPvOaFBBhADftqkYYx562ti9QGfda/FqjdtQvDtS75h6UZq
+         53Y+8e0LNY7MsMKHU4vdb5Y9/+o8rN4obAIFwa/Y=
+Subject: Re: [PATCH] media: staging: ipu3-imgu: Initialise height_per_slice in
+ the stripes
+To:     "Cao, Bingbu" <bingbu.cao@intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "tfiga@google.com" <tfiga@google.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+References: <20210916172504.677919-1-jeanmichel.hautbois@ideasonboard.com>
+ <YUm82RNBbu9VbQj9@paasikivi.fi.intel.com>
+ <19a2a09a-dcdd-fc32-0410-7f752cceffb5@ideasonboard.com>
+ <YUntTJQwZJ7U3m/E@pendragon.ideasonboard.com>
+ <DM8PR11MB5653D63F3F76CA1D9E80E01199A29@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <a8a0ee6f-e83c-7f99-6967-f017c549ff05@ideasonboard.com>
+ <DM8PR11MB5653CFD59F01C2AB66508F8A99A39@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <YUxM18uOp0eamBPH@pendragon.ideasonboard.com>
+ <SJ0PR11MB5664666D6D4C573D2D4A406D99A39@SJ0PR11MB5664.namprd11.prod.outlook.com>
+ <YUxbrFDvdI68Te8q@pendragon.ideasonboard.com>
+ <2a5c6c53-4cbd-de8c-994a-2e963f4e41e5@ideasonboard.com>
+ <DM8PR11MB56535F8879FEF48071466D5A99A89@DM8PR11MB5653.namprd11.prod.outlook.com>
+From:   Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Message-ID: <9e3881b5-e35b-a54c-662e-1eb4f6eb30d9@ideasonboard.com>
+Date:   Tue, 28 Sep 2021 07:41:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YVGRRfea+YaijluM@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <DM8PR11MB56535F8879FEF48071466D5A99A89@DM8PR11MB5653.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/09/2021 12:39, Laurent Pinchart wrote:
+Hi Bingbu,
 
->>> I'd like to propose a third approach (or at least I believe it's a third
->>> one). I agree with Jacopo that the state structure should not have a
->>> which field, that's a layering violation. The state is a state,
->>> regardless of whether it holds TRY or ACTIVE data. What are the current
->>> blockers that would prevent that ?
->>
->> Oh, I agree with that too. I didn't add the 'which' field to state
->> because I thought it's good =). It is supposed to be temporary solution.
->> init_cfg() is the issue here.
->>
->> It think I had these options:
->>
->> - Change init_cfg() to take 'which' as a parameter
->> - Change init_cfg() implementations to not use 'which'
->> - Add new version for new drivers, init_cfg_state() or such, which
->> either gets the which as a parameter or doesn't use which.
->> - Add 'which' to state.
->>
->> I chose the fourth one as it's a very small change, and can be removed
->> easily in the future when the underlying problem is solved.
->>
->>> However, I think .init_cfg() should be used to initialize *all* states,
->>> both TRY and ACTIVE. That will simplify driver implementation (but
->>> centralizing the initialization in a single place) and ensure that the
->>> default value for the ACTIVE state always matches the default value for
->>> the TRY state, which I think is important.
->>
->> I agree.
+On 28/09/2021 03:21, Cao, Bingbu wrote:
 > 
-> That's the second option from you list above, right ?
+> 
+> ________________________
+> BRs,  
+> Bingbu Cao 
+> 
+>> -----Original Message-----
+>> From: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+>> Sent: Thursday, September 23, 2021 7:57 PM
+>> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>; Cao, Bingbu
+>> <bingbu.cao@intel.com>
+>> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>; tfiga@google.com; linux-
+>> media@vger.kernel.org; Qiu, Tian Shu <tian.shu.qiu@intel.com>
+>> Subject: Re: [PATCH] media: staging: ipu3-imgu: Initialise
+>> height_per_slice in the stripes
+>>
+>> Hi Bingbu, Laurent,
+>>
+>> On 23/09/2021 12:49, Laurent Pinchart wrote:
+>>> Hi Bingbu,
+>>>
+>>> On Thu, Sep 23, 2021 at 10:29:33AM +0000, Cao, Bingbu wrote:
+>>>> On Thursday, September 23, 2021 5:46 PM, Laurent Pinchart wrote:
+>>>>> On Thu, Sep 23, 2021 at 09:06:32AM +0000, Cao, Bingbu wrote:
+>>>>>> Jean-Michel,
+>>>>>>
+>>>>>> Firstly, the .height_per_slice could be 0 if your .grid.width
+>>>>>> larger than 32.
+>>>>>
+>>>>> Which .height_per_slice are you talking about ? A field of that name
+>>>>> exists in both ipu3_uapi_acc_param.awb.config.grid and struct
+>>>>> ipu3_uapi_grid_config and imgu_abi_awb_config.stripes.grid.
+>>>>>
+>>>>> They are both computed by the driver, in imgu_css_cfg_acc(). The
+>>>>> former is set to
+>>>>>
+>>>>> 	acc->awb.config.grid.height_per_slice =
+>>>>> 		IMGU_ABI_AWB_MAX_CELLS_PER_SET / acc->awb.config.grid.width,
+>>>>>
+>>>>> IMGU_ABI_AWB_MAX_CELLS_PER_SET is equal to 160, so it can only be 0
+>>>>> if grid.width > 160, which is invalid.
+>>>>
+>>>> For awb_fr and af, it could be 0 if the .config.grid_cfg.width > 32.
+>>>
+>>> Indeed, my bad. I was focussing on the AWB statistics.
+>>>
+>>> What are the implications of a height_per_slice value of 0 ?
+>>>
+>>> While we are on this topic, what is a "slice" ? Does it matter for the
+>>> user, as in does it have an impact on the statistics values, or on how
+>>> they're arranged in memory, or is it an implementation detail of the
+>>> firmware that has no consequence on what can be seen by the user ?
+>>> (The "user" here is the code that reads the statistics in userspace).
+>>>
+>>>>>> From your configuration, looks like something wrong in the stripe
+>>>>>> configuration cause not entering the 2 stripes branch.
+>>>>>
+>>>>> Why is that ? Isn't it valid for a grid configuration to use a
+>>>>> single stripe, if the image is small enough, or if the grid only
+>>>>> covers the left part of the image ?
+>>>>>
+>>>>>> On Wednesday, September 22, 2021 1:54 PM, Jean-Michel Hautbois wrote:
+>>>>>>> On 22/09/2021 06:33, Cao, Bingbu wrote:
+>>>>>>>> Jean-Michel,
+>>>>>>>>
+>>>>>>>> Thanks for you patch.
+>>>>>>>> What is the value of .config.grid_cfg.width for your low
+>> resolutions?
+>>>>>>>
+>>>>>>> I don't know if a 1920x1280 output is a low resolution, but the
+>>>>>>> grid is configured as:
+>>>>>>> - grid_cfg.width = 79
+>>>>>>> - grid_cfg.height = 24
+>>>>>>> - grid_cfg.block_width_log2 = 4
+>>>>>>> - grid_cfg.block_height_log2 = 6
+>>>>>>>
+>>>>>>> Here is a full debug output of the AWB part in imgu_css_cfg_acc():
+>>>>>>>
+>>>>>>> acc->stripe.down_scaled_stripes[0].width: 1280
+>>>>>>> acc->stripe.down_scaled_stripes[0].height: 1536
+>>>>>>> acc->stripe.down_scaled_stripes[0].offset: 0
+>>>>>>> acc->stripe.bds_out_stripes[0].width: 1280
+>>>>>>> acc->stripe.bds_out_stripes[0].height: 1536
+>>>>>>> acc->stripe.bds_out_stripes[0].offset: 0
+>>>>>>> acc->acc->awb.stripes[0].grid.width: 79
+>>>>>>> acc->awb.stripes[0].grid.block_width_log2: 4
+>>>>>>> acc->acc->awb.stripes[0].grid.height: 24
+>>>>>>> acc->awb.stripes[0].grid.block_height_log2: 6
+>>>>>>> acc->awb.stripes[0].grid.x_start: 0
+>>>>>>> acc->awb.stripes[0].grid.x_end: 1263
+>>>>>>> acc->awb.stripes[0].grid.y_start: 0
+>>>>>>> acc->awb.stripes[0].grid.y_end: 1535
+>>>>>>> acc->stripe.down_scaled_stripes[1].width: 1280
+>>>>>>> acc->stripe.down_scaled_stripes[1].height: 1536
+>>>>>>> acc->stripe.down_scaled_stripes[1].offset: 1024
+>>>>>>> acc->stripe.bds_out_stripes[1].width: 1280
+>>>>>>> acc->stripe.bds_out_stripes[1].height: 1536
+>>>>>>> acc->stripe.bds_out_stripes[1].offset: 1024
+>>>>>>> acc->acc->awb.stripes[1].grid.width: 79
+>>>>>>> acc->awb.stripes[1].grid.block_width_log2: 4
+>>>>>>> acc->acc->awb.stripes[1].grid.height: 24
+>>>>>>> acc->awb.stripes[1].grid.block_height_log2: 6
+>>>>>>> acc->awb.stripes[1].grid.x_start: 0
+>>>>>>> acc->awb.stripes[1].grid.x_end: 1263
+>>>>>>> acc->awb.stripes[1].grid.y_start: 0
+>>>>>>> acc->awb.stripes[1].grid.y_end: 1535
+>>>>
+>>>> Are these dumps from 1920x1280 output?
+>>>
+>>> Jean-Michel, could you comment on this ?
+>>>
+>>> Note that the grid is configured with 79 cells of 16 pixels, covering
+>>> 1264 pixels horizontally. That's not the full image for a 1920 pixels
+>>> output, and will probably not be done in practice, but there's nothing
+>>> preventing the grid from covering part of the image only.
+>>>
+>>
+>> It is a dump for a 1920x1280 output.
+>> If it can help, the configuration set in ImgU is:
+>>   IF: 2592x1728
+>>   BDS: 2304x1536
+>>   GDC: 1920x1280
+> 
+> Jean-Michel,
+> 
+> It looks you are trying to use 2 stripes and the grid size is 2528x1536, and
+> the awb.config.grid.x_end should be larger than the 
+> bds_out_stripes[0].width - 10, it would not hit any 1 stripe condition.
+> 
+> could you also share your awb.config.grid?
 
-Yes. I'm not 100% sure yet if it's possible to get rid of which from 
-init_cfg, but I'll try it out.
+I already shared it:
+- grid_cfg.width = 79
+- grid_cfg.height = 24
+- grid_cfg.block_width_log2 = 4
+- grid_cfg.block_height_log2 = 6
+start_x and start_y are set to 0.
 
-> As ACTIVE state support is opt-in, it seems to me that we won't need to
-> mass-fix drivers as part of this series if we go for this option. Am I
 
-Yes, I think so. I'll be wiser after I've worked on this a bit =). I 
-think the routing needs the biggest change, as the routing table 
-contains 'which'. But routing won't affect the current drivers.
-
-However, 'which' is quite ingrained to v4l2, I won't be too surprised if 
-I keep finding new 'whiches' while removing it from the init_cfg call paths.
-
-  Tomi
+> 
+>>
+>>
+>>>>>>> This has been outputted with: https://paste.debian.net/1212791/
+>>>>>>>
+>>>>>>> The examples I gave before were 1280x720 output and not 1920x1080,
+>>>>>>> here are they:
+>>>>>>> - without the patch: https://pasteboard.co/hHo4QkVUSk8e.png
+>>>>>>> - with the patch: https://pasteboard.co/YUGUvS5tD0bo.png
+>>>>>>>
+>>>>>>> As you can see we have the same behaviour.
+>>>>>>>
+>>>>>>>> On Tuesday, September 21, 2021 10:34 PM, Laurent Pinchart wrote:
+>>>>>>>>> On Tue, Sep 21, 2021 at 03:04:37PM +0200, Jean-Michel Hautbois
+>> wrote:
+>>>>>>>>>> On 21/09/2021 13:07, Sakari Ailus wrote:
+>>>>>>>>>>> On Thu, Sep 16, 2021 at 07:25:04PM +0200, Jean-Michel Hautbois
+>> wrote:
+>>>>>>>>>>>> While playing with low resolutions for the grid, it appeared
+>>>>>>>>>>>> that height_per_slice is not initialised if we are not using
+>>>>>>>>>>>> both stripes for the calculations. This pattern occurs three
+>> times:
+>>>>>>>>>>>> - for the awb_fr processing block
+>>>>>>>>>>>> - for the af processing block
+>>>>>>>>>>>> - for the awb processing block
+>>>>>>>>>>>>
+>>>>>>>>>>>> The idea of this small portion of code is to reduce
+>>>>>>>>>>>> complexity in loading the statistics, it could be done also
+>>>>>>>>>>>> when only one stripe is used. Fix it by getting this
+>>>>>>>>>>>> initialisation code outside of the
+>>>>>>>>>>>> else() test case.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Signed-off-by: Jean-Michel Hautbois
+>>>>>>>>>>>> <jeanmichel.hautbois@ideasonboard.com>
+>>>>>>>>>>>> ---
+>>>>>>>>>>>>  drivers/staging/media/ipu3/ipu3-css-params.c | 44 >>>>>
+>>>>>>>>>>>> ++++++++++----------
+>>>>>>>>>>>>  1 file changed, 22 insertions(+), 22 deletions(-)
+>>>>>>>>>>>>
+>>>>>>>>>>>> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c
+>>>>>>>>>>>> b/drivers/staging/media/ipu3/ipu3-css-params.c
+>>>>>>>>>>>> index e9d6bd9e9332..05da7dbdca78 100644
+>>>>>>>>>>>> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
+>>>>>>>>>>>> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
+>>>>>>>>>>>> @@ -2428,16 +2428,16 @@ int imgu_css_cfg_acc(struct imgu_css
+>> *css, unsigned int pipe,
+>>>>>>>>>>>>  					acc-
+>>> awb_fr.stripes[1].grid_cfg.width,
+>>>>>>>>>>>>  					b_w_log2);
+>>>>>>>>>>>>  		acc->awb_fr.stripes[1].grid_cfg.x_end = end;
+>>>>>>>>>>>> -
+>>>>>>>>>>>> -		/*
+>>>>>>>>>>>> -		 * To reduce complexity of debubbling and loading
+>>>>>>>>>>>> -		 * statistics fix grid_height_per_slice to 1 for both
+>>>>>>>>>>>> -		 * stripes.
+>>>>>>>>>>>> -		 */
+>>>>>>>>>>>> -		for (i = 0; i < stripes; i++)
+>>>>>>>>>>>> -			acc-
+>>> awb_fr.stripes[i].grid_cfg.height_per_slice = 1;
+>>>>>>>>>>>>  	}
+>>>>>>>>>>>>
+>>>>>>>>>>>> +	/*
+>>>>>>>>>>>> +	 * To reduce complexity of debubbling and loading
+>>>>>>>>>>>> +	 * statistics fix grid_height_per_slice to 1 for both
+>>>>>>>>>>>> +	 * stripes.
+>>>>>>>>>>>> +	 */
+>>>>>>>>>>>> +	for (i = 0; i < stripes; i++)
+>>>>>>>>>>>> +		acc->awb_fr.stripes[i].grid_cfg.height_per_slice = 1;
+>>>>>>>>>>>> +
+>>>>>>>>>>>>  	if (imgu_css_awb_fr_ops_calc(css, pipe, &acc->awb_fr))
+>>>>>>>>>>>>  		return -EINVAL;
+>>>>>>>>>>>>
+>>>>>>>>>>>> @@ -2591,15 +2591,15 @@ int imgu_css_cfg_acc(struct imgu_css
+>> *css, unsigned int pipe,
+>>>>>>>>>>>>  			imgu_css_grid_end(acc-
+>>> af.stripes[1].grid_cfg.x_start,
+>>>>>>>>>>>>  					  acc-
+>>> af.stripes[1].grid_cfg.width,
+>>>>>>>>>>>>  					  b_w_log2);
+>>>>>>>>>>>> -
+>>>>>>>>>>>> -		/*
+>>>>>>>>>>>> -		 * To reduce complexity of debubbling and loading
+>> statistics
+>>>>>>>>>>>> -		 * fix grid_height_per_slice to 1 for both stripes
+>>>>>>>>>>>> -		 */
+>>>>>>>>>>>> -		for (i = 0; i < stripes; i++)
+>>>>>>>>>>>> -			acc->af.stripes[i].grid_cfg.height_per_slice =
+>> 1;
+>>>>>>>>>>>>  	}
+>>>>>>>>>>>>
+>>>>>>>>>>>> +	/*
+>>>>>>>>>>>> +	 * To reduce complexity of debubbling and loading statistics
+>>>>>>>>>>>> +	 * fix grid_height_per_slice to 1 for both stripes
+>>>>>>>>>>>> +	 */
+>>>>>>>>>>>> +	for (i = 0; i < stripes; i++)
+>>>>>>>>>>>> +		acc->af.stripes[i].grid_cfg.height_per_slice = 1;
+>>>>>>>>>>>> +
+>>>>>>>>>>>>  	if (imgu_css_af_ops_calc(css, pipe, &acc->af))
+>>>>>>>>>>>>  		return -EINVAL;
+>>>>>>>>>>>>
+>>>>>>>>>>>> @@ -2660,15 +2660,15 @@ int imgu_css_cfg_acc(struct imgu_css
+>> *css, unsigned int pipe,
+>>>>>>>>>>>>  			imgu_css_grid_end(acc-
+>>> awb.stripes[1].grid.x_start,
+>>>>>>>>>>>>  					  acc->awb.stripes[1].grid.width,
+>>>>>>>>>>>>  					  b_w_log2);
+>>>>>>>>>>>> -
+>>>>>>>>>>>> -		/*
+>>>>>>>>>>>> -		 * To reduce complexity of debubbling and loading
+>> statistics
+>>>>>>>>>>>> -		 * fix grid_height_per_slice to 1 for both stripes
+>>>>>>>>>>>> -		 */
+>>>>>>>>>>>> -		for (i = 0; i < stripes; i++)
+>>>>>>>>>>>> -			acc->awb.stripes[i].grid.height_per_slice = 1;
+>>>>>>>>>>>>  	}
+>>>>>>>>>>>>
+>>>>>>>>>>>> +	/*
+>>>>>>>>>>>> +	 * To reduce complexity of debubbling and loading statistics
+>>>>>>>>>>>> +	 * fix grid_height_per_slice to 1 for both stripes
+>>>>>>>>>>>> +	 */
+>>>>>>>>>>>> +	for (i = 0; i < stripes; i++)
+>>>>>>>>>>>> +		acc->awb.stripes[i].grid.height_per_slice = 1;
+>>>>>>>>>>>> +
+>>>>>>>>>>>>  	if (imgu_css_awb_ops_calc(css, pipe, &acc->awb))
+>>>>>>>>>>>>  		return -EINVAL;
+>>>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>> While it seems like a sensible idea to initialise arguments to
+>>>>>>>>>>> firmware, does this have an effect on the statistics format?
+>>>>>>>>>>> If so, can the existing user space cope with that?
+>>>>>>>>>>
+>>>>>>>>>> To try and figure that out, we have tested several grid
+>>>>>>>>>> configurations and inspected the captured statistics. We have
+>>>>>>>>>> converted the statistics in an image, rendering each cell as a
+>>>>>>>>>> pixel whose red, green and blue components are the cell's red,
+>> green and blue averages.
+>>>>>>>>>> This turned out to be a very effectice tool to quickly
+>>>>>>>>>> visualize AWB statistics.
+>>>>>>>>>> We have made a lot of tests with different output resolutions,
+>>>>>>>>>> from a small one up to the full-scale one.
+>>>>>>>>>>
+>>>>>>>>>> Here is one example of a statistics output with a ViewFinder
+>>>>>>>>>> configured as 1920x1280, with a BDS output configuration set to
+>>>>>>>>>> 2304x1536 (sensor is 2592x1944).
+>>>>>>>>>>
+>>>>>>>>>> Without the patch, configuring a 79x45 grid of 16x16 cells we
+>>>>>>>>>> obtain the
+>>>>>>>>>> image: https://pasteboard.co/g4nC4fHjbVER.png.
+>>>>>>>>>> We can notice a weird padding every two lines and it seems to
+>>>>>>>>>> be missing half of the frame.
+>>>>>>>>>>
+>>>>>>>>>> With the patch applied, the same configuration gives us the
+>> image:
+>>>>>>>>>> https://pasteboard.co/rzap6axIvVdu.png
+>>>>>>>>>>
+>>>>>>>>>> We can clearly see the one padding pixel on the right, and the
+>>>>>>>>>> frame is all there, as expected.
+>>>>>>>>>>
+>>>>>>>>>> Tomasz: We're concerned that this patch may have an impact on
+>>>>>>>>>> the ChromeOS Intel Camera HAL with the IPU3. Is it possible for
+>>>>>>>>>> someone to review and test this please?
+>>>>>>>>>
+>>>>>>>>> As shown by the images above, this is a real fix. It only
+>>>>>>>>> affects grid configurations that use a single stripe (left or
+>>>>>>>>> right), so either "small" resolutions (less than 1280 pixels at
+>>>>>>>>> the BDS output if I recall correctly), or grid configurations
+>>>>>>>>> that span the left part of the image with higher resolutions.
+>>>>>>>>> The latter is probably unlikely. For the former, it may affect
+>>>>>>>>> the binary library, especially if it includes a workaround for
+>> the bug.
+>>>>>>>>>
+>>>>>>>>> Still, this change is good I believe, so it should be upstreamed.
+>>>
