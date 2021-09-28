@@ -2,186 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA0FD41A497
-	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 03:25:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8529D41A50B
+	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 04:01:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238423AbhI1B1C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Sep 2021 21:27:02 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48586 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234467AbhI1B1B (ORCPT
+        id S238539AbhI1CD3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Sep 2021 22:03:29 -0400
+Received: from mail-oo1-f42.google.com ([209.85.161.42]:43610 "EHLO
+        mail-oo1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238494AbhI1CD3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Sep 2021 21:27:01 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4DAA53F1;
-        Tue, 28 Sep 2021 03:25:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1632792321;
-        bh=pqTeu6vnZyFR3aGrKIvwOEDq4k4M45BTZSFzdISQf5o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lfeQsrVHuMFkWnoYGgsh4xiWPQRHG7Laa7rQONOOo9n69kjTbpu0Iio0BNYRisdjI
-         49dVO2+uc867D9IC355ajIZ2aBVUpr+WgW6p9NRZggTfS8BPXRSfDioaDhE659Itk+
-         1Px29Dk9nfxic/ToS/u5AfXjtOvBPNVU3qfpDWTA=
-Date:   Tue, 28 Sep 2021 04:25:14 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        linux-omap@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: omap_vout: use dma_addr_t consistently
-Message-ID: <YVJu+uFM4LgdJjUQ@pendragon.ideasonboard.com>
-References: <20210927134116.1592896-1-arnd@kernel.org>
+        Mon, 27 Sep 2021 22:03:29 -0400
+Received: by mail-oo1-f42.google.com with SMTP id n4-20020a4aa7c4000000b002adb4997965so5018933oom.10;
+        Mon, 27 Sep 2021 19:01:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HBjpaa7sxaSk6yNv0m4ThUeRnu+WwigFczsXL34g8Z4=;
+        b=dmj8kM3rk0C3ULo0KJIq/65ReQIjpLM9G558OUnLi7NmnwiECeZhlDTnoE91KKc5Uu
+         yB6FK9PUBYiK910vMLMmtV3mb9QcNkFOPUZZeGypGwERQzxXqMgw4cu/QLul+mbtHTNP
+         v0ost2MZiZbr3Gf3DPw2lEGKBVqRsLD5H51UtaosZtpzZ7IYDPBAp6fvs0ntX/D/Bubs
+         pMxTscz21I/h9i5fNgp2zu8Y+mh94gZBv+jRdVxf5GObkEOlY5Vm6fm09Y9bntc12X9V
+         45n7vr68OMSIewBQ/El/L2iXvogHqNiGQinEZZd0Bu6gPrWS7LtSXCqsOseBDVcoaF8e
+         sQpg==
+X-Gm-Message-State: AOAM530ujZ5fa75XrsYtBcsGk5arSJpcTGek+1M85grDyxkrhJ6F3jtj
+        9H7BeBqcl/04/tBHYqKXxQ==
+X-Google-Smtp-Source: ABdhPJyiFGpnEaZEJQKQQpvbx8njRVXh5MqJbBRik+vr588di/y93ljmuPTKon6CFW2WQmK11to7cA==
+X-Received: by 2002:a4a:c292:: with SMTP id b18mr2723202ooq.64.1632794509836;
+        Mon, 27 Sep 2021 19:01:49 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id l28sm4454679oof.30.2021.09.27.19.01.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Sep 2021 19:01:49 -0700 (PDT)
+Received: (nullmailer pid 84114 invoked by uid 1000);
+        Tue, 28 Sep 2021 02:01:48 -0000
+Date:   Mon, 27 Sep 2021 21:01:48 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Dikshita Agarwal <dikshita@codeaurora.org>
+Cc:     robh+dt@kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org,
+        bjorn.andersson@linaro.org, linux-kernel@vger.kernel.org,
+        vgarodia@codeaurora.org, mchehab@kernel.org, agross@kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v4] dt-bindings: media: venus: Add sc7280 dt schema
+Message-ID: <YVJ3jFKGP6KfSUfM@robh.at.kernel.org>
+References: <1632743197-32291-1-git-send-email-dikshita@codeaurora.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210927134116.1592896-1-arnd@kernel.org>
+In-Reply-To: <1632743197-32291-1-git-send-email-dikshita@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Arnd,
-
-Thank you for the patch.
-
-On Mon, Sep 27, 2021 at 03:41:06PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Mon, 27 Sep 2021 17:16:37 +0530, Dikshita Agarwal wrote:
+> Add a schema description for the venus video encoder/decoder on the sc7280.
 > 
-> gcc notices that the driver mixes 'dma_addr_t' 'u8 *' and 'u32'
-> to store DMA addresses:
-> 
-> drivers/media/platform/omap/omap_vout.c: In function 'omap_vout_vb2_prepare':
-> drivers/media/platform/omap/omap_vout.c:979:37: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
->   vout->queued_buf_addr[vb->index] = (u8 *)buf_phy_addr;
->                                      ^
-> drivers/media/platform/omap/omap_vout.c: In function 'omap_vout_create_video_devices':
-> drivers/media/platform/omap/omap_vout.c:1479:21: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
->    vout->fbuf.base = (void *)info.paddr;
-> 
-> Use dma_addr_t everywhere here to avoid the type conversions and document
-> what the address is used for. Assigning to vout->fbuf.base still requires
-> a cast, since that is part of the driver independent data structure.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-Looks much better :-)
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
->  drivers/media/platform/omap/omap_vout.c      | 18 ++++++++++--------
->  drivers/media/platform/omap/omap_vout_vrfb.c |  2 +-
->  drivers/media/platform/omap/omap_voutdef.h   |  2 +-
->  3 files changed, 12 insertions(+), 10 deletions(-)
+> change since v3:
+>     Added missing dependency.
 > 
-> diff --git a/drivers/media/platform/omap/omap_vout.c b/drivers/media/platform/omap/omap_vout.c
-> index 21193f0b7f61..3e0d9af7ffec 100644
-> --- a/drivers/media/platform/omap/omap_vout.c
-> +++ b/drivers/media/platform/omap/omap_vout.c
-> @@ -277,7 +277,7 @@ static int video_mode_to_dss_mode(struct omap_vout_device *vout)
->   */
->  static int omapvid_setup_overlay(struct omap_vout_device *vout,
->  		struct omap_overlay *ovl, int posx, int posy, int outw,
-> -		int outh, u32 addr)
-> +		int outh, dma_addr_t addr)
->  {
->  	int ret = 0;
->  	struct omap_overlay_info info;
-> @@ -352,7 +352,7 @@ static int omapvid_setup_overlay(struct omap_vout_device *vout,
->  /*
->   * Initialize the overlay structure
->   */
-> -static int omapvid_init(struct omap_vout_device *vout, u32 addr)
-> +static int omapvid_init(struct omap_vout_device *vout, dma_addr_t addr)
->  {
->  	int ret = 0, i;
->  	struct v4l2_window *win;
-> @@ -479,7 +479,8 @@ static int omapvid_handle_interlace_display(struct omap_vout_device *vout,
->  static void omap_vout_isr(void *arg, unsigned int irqstatus)
->  {
->  	int ret, fid, mgr_id;
-> -	u32 addr, irq;
-> +	dma_addr_t addr;
-> +	u32 irq;
->  	struct omap_overlay *ovl;
->  	u64 ts;
->  	struct omapvideo_info *ovid;
-> @@ -543,7 +544,7 @@ static void omap_vout_isr(void *arg, unsigned int irqstatus)
->  			struct omap_vout_buffer, queue);
->  	list_del(&vout->next_frm->queue);
->  
-> -	addr = (unsigned long)vout->queued_buf_addr[vout->next_frm->vbuf.vb2_buf.index]
-> +	addr = vout->queued_buf_addr[vout->next_frm->vbuf.vb2_buf.index]
->  		+ vout->cropped_offset;
->  
->  	/* First save the configuration in ovelray structure */
-> @@ -976,7 +977,7 @@ static int omap_vout_vb2_prepare(struct vb2_buffer *vb)
->  	vb2_set_plane_payload(vb, 0, vout->pix.sizeimage);
->  	voutbuf->vbuf.field = V4L2_FIELD_NONE;
->  
-> -	vout->queued_buf_addr[vb->index] = (u8 *)buf_phy_addr;
-> +	vout->queued_buf_addr[vb->index] = buf_phy_addr;
->  	if (ovid->rotation_type == VOUT_ROT_VRFB)
->  		return omap_vout_prepare_vrfb(vout, vb);
->  	return 0;
-> @@ -995,7 +996,8 @@ static int omap_vout_vb2_start_streaming(struct vb2_queue *vq, unsigned int coun
->  	struct omap_vout_device *vout = vb2_get_drv_priv(vq);
->  	struct omapvideo_info *ovid = &vout->vid_info;
->  	struct omap_vout_buffer *buf, *tmp;
-> -	u32 addr = 0, mask = 0;
-> +	dma_addr_t addr = 0;
-> +	u32 mask = 0;
->  	int ret, j;
->  
->  	/* Get the next frame from the buffer queue */
-> @@ -1018,7 +1020,7 @@ static int omap_vout_vb2_start_streaming(struct vb2_queue *vq, unsigned int coun
->  			goto out;
->  		}
->  
-> -	addr = (unsigned long)vout->queued_buf_addr[vout->cur_frm->vbuf.vb2_buf.index]
-> +	addr = vout->queued_buf_addr[vout->cur_frm->vbuf.vb2_buf.index]
->  		+ vout->cropped_offset;
->  
->  	mask = DISPC_IRQ_VSYNC | DISPC_IRQ_EVSYNC_EVEN | DISPC_IRQ_EVSYNC_ODD
-> @@ -1476,7 +1478,7 @@ static int __init omap_vout_create_video_devices(struct platform_device *pdev)
->  		 * To be precise: fbuf.base should match smem_start of
->  		 * struct fb_fix_screeninfo.
->  		 */
-> -		vout->fbuf.base = (void *)info.paddr;
-> +		vout->fbuf.base = (void *)(uintptr_t)info.paddr;
->  
->  		/* Set VRFB as rotation_type for omap2 and omap3 */
->  		if (omap_vout_dss_omap24xx() || omap_vout_dss_omap34xx())
-> diff --git a/drivers/media/platform/omap/omap_vout_vrfb.c b/drivers/media/platform/omap/omap_vout_vrfb.c
-> index 6bd672cbdb62..0cfa0169875f 100644
-> --- a/drivers/media/platform/omap/omap_vout_vrfb.c
-> +++ b/drivers/media/platform/omap/omap_vout_vrfb.c
-> @@ -305,7 +305,7 @@ int omap_vout_prepare_vrfb(struct omap_vout_device *vout,
->  	/* Store buffers physical address into an array. Addresses
->  	 * from this array will be used to configure DSS */
->  	rotation = calc_rotation(vout);
-> -	vout->queued_buf_addr[vb->index] = (u8 *)
-> +	vout->queued_buf_addr[vb->index] =
->  		vout->vrfb_context[vb->index].paddr[rotation];
->  	return 0;
->  }
-> diff --git a/drivers/media/platform/omap/omap_voutdef.h b/drivers/media/platform/omap/omap_voutdef.h
-> index 1cff6dea1879..b586193341d2 100644
-> --- a/drivers/media/platform/omap/omap_voutdef.h
-> +++ b/drivers/media/platform/omap/omap_voutdef.h
-> @@ -170,7 +170,7 @@ struct omap_vout_device {
->  	struct omap_vout_buffer *cur_frm, *next_frm;
->  	spinlock_t vbq_lock;            /* spinlock for dma_queue */
->  	struct list_head dma_queue;
-> -	u8 *queued_buf_addr[VIDEO_MAX_FRAME];
-> +	dma_addr_t queued_buf_addr[VIDEO_MAX_FRAME];
->  	u32 cropped_offset;
->  	s32 tv_field1_offset;
->  	void *isr_handle;
+>  .../bindings/media/qcom,sc7280-venus.yaml          | 160 +++++++++++++++++++++
+>  1 file changed, 160 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+> 
 
--- 
-Regards,
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Laurent Pinchart
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/media/qcom,sc7280-venus.example.dts:37.33-34 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:385: Documentation/devicetree/bindings/media/qcom,sc7280-venus.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1441: dt_binding_check] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1533296
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
