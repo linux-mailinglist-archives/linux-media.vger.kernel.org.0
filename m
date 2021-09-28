@@ -2,353 +2,379 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5642441A46E
-	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 02:57:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 060B641A48A
+	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 03:21:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238390AbhI1A7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Sep 2021 20:59:25 -0400
-Received: from mailrelay1-3.pub.mailoutpod1-cph3.one.com ([46.30.212.10]:61593
-        "EHLO mailrelay1-3.pub.mailoutpod1-cph3.one.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238379AbhI1A7Z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Sep 2021 20:59:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mida.se; s=20191106;
-        h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
-         message-id:references:to:from:subject:from;
-        bh=oD4kEnr3Q8AcmDcUVD4MiI81vrftIQDRxSjaRmsL6fo=;
-        b=MKls8fcvYTWJJFRBuTJo1s8ZkKlPozQW2EojQks5mdEfm05OdXOTy1cMe31UZRKXsAkGgL4ciQ05z
-         T8NvxZyXdenrDt0Qr0h1hqaKFCseHFbEIqf71e1ou8baT9N/uZ4RH1ohKyo/Zs9GDml4g9ikol/ijP
-         Iq723Q4l8Rp/Wmmm2PHwtIsoUowfF85ChYeZicOn0zWy4ueAFSk9kcuqKMAMp9JFqUs6Z1QJZNifmw
-         6r4SWOajPAwFIE5SDm6fhw/5CRr2hR4qhvf9BEFVPd/cddNehuoHIYh/Yn+630OpPuZCz+03qnjyKJ
-         A/3a7+JP5/pWi0Cv3xbVSLGWE+ilP8A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mida.se; s=rsa1;
-        h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
-         message-id:references:to:from:subject:from;
-        bh=oD4kEnr3Q8AcmDcUVD4MiI81vrftIQDRxSjaRmsL6fo=;
-        b=zE4/T753ppVEwebnLpmw50SNBRQILVCgYZlgaIIiwCxmIG9BRoSW/xXbx5nSWPbmup7i+M5/Q3o+y
-         AJL1bi4Gz09yj/kJTpNAmSqS4ItkeaEudkJeI8ZdprtZ255ZyGUWDsJzpfu7JwO0nSO8ksfMKmrSIL
-         SnmRtkaqeSxhaMe5sUwnXaOTKf4gj545aAAoDYIlrz90FEJRSg8+WjHTv9MtLK5Zk0M0wsNKsrT7sC
-         /DFYWghYp0JvZkaJlQSJobq3vCeXqAz3Qi4/WLz696Un0bFHk0ExsAEh4hdLzLhPAcMyZLXrYgC2f8
-         +c+/I6FC6ylvM3gxrdpnRqI/e4nR0iw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-        d=mida.se; s=ed1;
-        h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
-         message-id:references:to:from:subject:from;
-        bh=oD4kEnr3Q8AcmDcUVD4MiI81vrftIQDRxSjaRmsL6fo=;
-        b=dx/XBXAymaiD87/xAbu2PM0SCFYFmz5R7odKUzUO7FGV5e8sKw8qIWU0iYjx/HRATsDtyScgBjqlG
-         rCwyV9pAQ==
-X-HalOne-Cookie: fe06fccd0fa61b0a65cd0cb8dec1b22399dff7ce
-X-HalOne-ID: 167508ce-1ff7-11ec-b7d2-d0431ea8a283
-Received: from [192.168.1.108] (2.64.99.63.mobile.tre.se [2.64.99.63])
-        by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-        id 167508ce-1ff7-11ec-b7d2-d0431ea8a283;
-        Tue, 28 Sep 2021 00:57:43 +0000 (UTC)
-Subject: Re: Error Terratec Cinergy T2 after USB disconnect or sleep
-From:   rkardell <rkardell@mida.se>
-To:     linux-media@vger.kernel.org
-References: <500b3efc-5937-8ac4-bf7b-669b9ebc029a@mida.se>
-Message-ID: <9a2465f6-befb-2c13-74b4-6eb9d05597c6@mida.se>
-Date:   Tue, 28 Sep 2021 02:57:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S238389AbhI1BXF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Sep 2021 21:23:05 -0400
+Received: from mga09.intel.com ([134.134.136.24]:13786 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234467AbhI1BXE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 27 Sep 2021 21:23:04 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10120"; a="224631831"
+X-IronPort-AV: E=Sophos;i="5.85,328,1624345200"; 
+   d="scan'208";a="224631831"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2021 18:21:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,328,1624345200"; 
+   d="scan'208";a="518794163"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga008.fm.intel.com with ESMTP; 27 Sep 2021 18:21:25 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 27 Sep 2021 18:21:25 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Mon, 27 Sep 2021 18:21:25 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Mon, 27 Sep 2021 18:21:23 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=apK4CcL7bFS6VBAXczpN43hUJ8sKKFtKn35SfMN8UvcWNGDX8/qhqtnmBrDnlLdaGxkJKIqf7rxINgXJxIAS3ebc6ojDxmoTx1Mw2e+ML8B6qIcVUP4C/+mjWaPSsp7278rQQzkrMcdJZOzmdMH7XXlmrDccsb2eExg69TSG4H0Dzvl+0ezZzt6/0HKrkBYp7pdkESfTHH/re2PJ2dbqe4aVjZLYWBH2bszjj9tyjx2Vj7cc4EpCSSNNl0XFSgvZKEAu5XRyQwTzeCxo52pBQNhqncyuT3mfhErFBRwvoO9tkJCraIK10RfShb+S5z1r8gLYF9kBN+iCchwJnaAljw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=HYNLit9STej9X3qXh84SOYJiQ9SfNek/X02BMcSsU9w=;
+ b=fZFSZ/O384NiqmvjGGbWJEnjK4U3EZ4/SoIKRsGcrgX7HcSlHMObviSn3eo0i1hn7gutyikJ46aszyu5cHtgw8moVw+IH7thpCNiqBOcPpXTJftPM2rAVBMjYsqDvzIuNxkH1w6pnS9YD7NnCB5Tz/oge6tgSbF/M/RZKGIHJWPL8eD1FqGTZDdQH6fAu7b1LTy2ZDwuum84ST9geum7vOaDzZjGM+z5BeeeTV0dFX3DiM9ASY46rDSGx5IzT5mtFfvtBpf9DVsbHHwfgy1kAi2dXaSiLG1cIZG1+3kCRZJ5WNBbzBoVtpvuKXmN2driN2LwekkAw/c693wx0xyFmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HYNLit9STej9X3qXh84SOYJiQ9SfNek/X02BMcSsU9w=;
+ b=t3hCER3uk4vy2V0nRtnmFmRwidZY1UN+U8oSIz2sZryUSrBJcARVZXbDA5TSTHi5JVvR7NBDLF8zjkq8VTWwjRjv6R+21pSZM8FQz/Dj0pPJuShWaBFETKYH5R+WjA/nvkWLHIvLs04SLs1VioGaBnaVF2dti8qFIQe5r5gjEmY=
+Received: from DM8PR11MB5653.namprd11.prod.outlook.com (2603:10b6:8:25::8) by
+ DM8PR11MB5589.namprd11.prod.outlook.com (2603:10b6:8:26::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4544.14; Tue, 28 Sep 2021 01:21:22 +0000
+Received: from DM8PR11MB5653.namprd11.prod.outlook.com
+ ([fe80::7d77:f6f4:613:b13c]) by DM8PR11MB5653.namprd11.prod.outlook.com
+ ([fe80::7d77:f6f4:613:b13c%9]) with mapi id 15.20.4544.022; Tue, 28 Sep 2021
+ 01:21:22 +0000
+From:   "Cao, Bingbu" <bingbu.cao@intel.com>
+To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>
+CC:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "tfiga@google.com" <tfiga@google.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+Subject: RE: [PATCH] media: staging: ipu3-imgu: Initialise height_per_slice in
+ the stripes
+Thread-Topic: [PATCH] media: staging: ipu3-imgu: Initialise height_per_slice
+ in the stripes
+Thread-Index: AQHXqx/Y72VMy1pUFEiS45AyrkgVKauuW1+AgAAg14CAABjrAIAA3LCQgAAkcoCAAccnAIAAC/aAgAAChACAAA8qAIAAEt8AgAcbfeA=
+Date:   Tue, 28 Sep 2021 01:21:22 +0000
+Message-ID: <DM8PR11MB56535F8879FEF48071466D5A99A89@DM8PR11MB5653.namprd11.prod.outlook.com>
+References: <20210916172504.677919-1-jeanmichel.hautbois@ideasonboard.com>
+ <YUm82RNBbu9VbQj9@paasikivi.fi.intel.com>
+ <19a2a09a-dcdd-fc32-0410-7f752cceffb5@ideasonboard.com>
+ <YUntTJQwZJ7U3m/E@pendragon.ideasonboard.com>
+ <DM8PR11MB5653D63F3F76CA1D9E80E01199A29@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <a8a0ee6f-e83c-7f99-6967-f017c549ff05@ideasonboard.com>
+ <DM8PR11MB5653CFD59F01C2AB66508F8A99A39@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <YUxM18uOp0eamBPH@pendragon.ideasonboard.com>
+ <SJ0PR11MB5664666D6D4C573D2D4A406D99A39@SJ0PR11MB5664.namprd11.prod.outlook.com>
+ <YUxbrFDvdI68Te8q@pendragon.ideasonboard.com>
+ <2a5c6c53-4cbd-de8c-994a-2e963f4e41e5@ideasonboard.com>
+In-Reply-To: <2a5c6c53-4cbd-de8c-994a-2e963f4e41e5@ideasonboard.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.200.16
+authentication-results: ideasonboard.com; dkim=none (message not signed)
+ header.d=none;ideasonboard.com; dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5ff411f6-9bc2-4e4e-fe73-08d9821e487f
+x-ms-traffictypediagnostic: DM8PR11MB5589:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM8PR11MB55891EF349D33B5A0459631399A89@DM8PR11MB5589.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: C7BGmmuftO1nHIfeVDwGF/VGoQM1EUSHku4PMj9bfeqVxQU69z/5ladVNQm1/HCn/hP97YpPDRgqouI92K2u7CYG4ggKprDS7K/wtKPxPeD9PWgF45ACZ1Engy1yQoUx9ikeLVhu90EHzN94JyXR1nCw9GrW2g5iVJa1ivutmBV/vk37FkpXeUAisq1NPZwPmNNfgFYyKzcvzzEV0nur53DxehDmHqls2AQ+ztXe4j6XeWY86EDmfOAiVSdt+2tqDFaUwzgaW6X8+4BSwfYoKLZfSmmnuxIO2E6ABTRV7sH7m0DVYYQWBK3xERf8f+J85084Lbr9mEwsM4fpYwyk8xqhosh8xRYN5GaXZ6CJZkLquATC4YnN9t53z20/z1dG7CTDMjPOjVp/L6I4n0LEs3uqjfVbWpL+JZdufhgSgaDCwmCbe07hnFXbRS368S8mCsBePct2SslpkpIG+9yGxiSZ+XptNuRGRN9i8yLU+XnfcJigkjHKPc68y5SNPfvyWltpvYjTQg9galWvzH9ABZEc83KazNH4sSX+HUTw1gJMDrvbVnpc+B9FXE/Jdh51GeGeEe1dQNUQmWFpfLVYipZ5SfOUChsbkABh2FeWeZE7fWiuLzRpCQpmc5CRAZGFo3GczwOZQPERgEVPNpv1xFlDxERuzDjzJ4HPfcG1tqC9/F++v1ekxdZ1YW/dVSppITcUaBDRMdI3lwT5D6HnuyVjnWES+nDCDcWuDjGw4gi62soYOvrb3eA0exSFywcqgG/BvdxxjCpPNqtIWoNgYGJlSdVCvsj1wJ3MGHdVrh8=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5653.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(53546011)(52536014)(2906002)(55016002)(8676002)(6506007)(86362001)(4326008)(71200400001)(966005)(7696005)(9686003)(186003)(30864003)(26005)(5660300002)(38070700005)(8936002)(508600001)(316002)(83380400001)(76116006)(66556008)(33656002)(122000001)(54906003)(66446008)(110136005)(64756008)(38100700002)(66946007)(66476007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bGlzSlpNQlZvNUovUEkyR0RZZ0UwSkRlMUxzdEtKTHN1WTFMTC9kRnRwbGZ5?=
+ =?utf-8?B?RW5pS1JibExJVko0c3RZMkdJcVVMRytCd0xBWjhObE1mL09WM01Odm1BSU5F?=
+ =?utf-8?B?VktQd29GZWdTaHNZeHFHVUcwaVNVQlZpd3NNc0NqcU1UQ2N1TVBRY3huSS9i?=
+ =?utf-8?B?NGFOM0hzK3ZReGp0ekV0ZERQN3hjMGZzSTZQRXRSaVJWUGFzZDQ0MUVQWElK?=
+ =?utf-8?B?TTRSOXVMcmVWRUZuM3NZVkRKTXd3MlFBclUyQk5XbW9DLzk1dmdCRzVqMGtl?=
+ =?utf-8?B?cXRCYmwrR2dvbXY0bVFYMC94RGsxWVM4NDB2L0pNejF1Y2NvbnVtSTE3NmJM?=
+ =?utf-8?B?YUJSTEt6QSsxTmxZUzNQY1dJaDBqTzlLcFNqakN4UUVqYWNjYUU3aHRlT0d0?=
+ =?utf-8?B?SE1YQi84WkZObEM4ZktBdmNUYUxUOXB5azZCMjdyaUVKdU9iS3pMbUE4aWpE?=
+ =?utf-8?B?aXJhcUtpTDNGeGh0ZTBoelRZVytiV1FIM28rRWpVOFJMUUFLWThjWkdPc285?=
+ =?utf-8?B?MlJmaXcvcVNPZjVyZ0dHQUVEbFdNd3JkWkVEVnR3ZGw0eEwzcUJvd2xLWTdn?=
+ =?utf-8?B?TDIvc29uSVkzZlljdUZaRWZuVFJVOVp6UVJ4SzJFZVVjV3Q1VjdTVTJNZDc1?=
+ =?utf-8?B?RE95MEFBenJNYStVTlAwNlp3Sm9DU0lRUGxxeGpIN3QzNHVEVUR4VkJsUVJP?=
+ =?utf-8?B?d1UxUENkNWJFVldJTXpWTnZPYTVLMlBmMkt2emZkL1RNK0VwVXh0KzhyKyt6?=
+ =?utf-8?B?cVpXYi9BTVZwenVCUFJqcmhGS0hsS2poOEVsYWFRUlk3RW1leGZtRUFIN1dT?=
+ =?utf-8?B?YkxNN25BMjl5MkdTN1UxaE01dThITTcxZXRneEd6QVROaUgxalB6UkhJcFpi?=
+ =?utf-8?B?RDBGZzZub0UyUXhVZ2hCbnZnb3BOd09yRXh2UHNWdnQrZk5SV2dueVZWSHJU?=
+ =?utf-8?B?dlZaWGtnK2lwdVpWZThzTGR1ZWZtbWJWMUx5elJTOVlpUktwY2RyV1lGU2tI?=
+ =?utf-8?B?QmFVcUF5cTFzSnplU1dlZHlGdCt6aTRYQ3pSNjVZQ3Zkb0JIc2NaWGE3bHd4?=
+ =?utf-8?B?Y0ZsOVh4VThTZVdGQ2FobVptdzIrY05GMjlNRHByajRCM1o4b08reUkwRm9Z?=
+ =?utf-8?B?MElLdHlxNWJIRGhFMWdRNmFHdHBVdDZHdkNBSlR0S09Mamx3Z3hhcHZFbkZT?=
+ =?utf-8?B?Ykxqa1Blbldsb3p1NVI4V3BxdE5EVkZVbGZEUnZOOHZ4bjYxbVZEQnBVZHdu?=
+ =?utf-8?B?U2kzYlpvdHVmdmJYU1RQWHNVQ2p2RHJObzY2aXlQc3B3VDNNenM0akZYbFp0?=
+ =?utf-8?B?WlZxOHRjWU80Z3QvcUlzZTA2eVBUQTQycHlOS3lYYUtKVHZCeW5ZdUM5dkVy?=
+ =?utf-8?B?bWxNdkNia09EVHVCclBka2NOTU82NVVYZXIxTEJ1VTRzb3lrY0pJZlIvWkRI?=
+ =?utf-8?B?dFFMRThJVGMyMG5SQWZtTE92L0hQRUJ5ZC8wR1hXVEoyUUdHRTB3SXpBM1c3?=
+ =?utf-8?B?MzFUUExHNTZRdS9MZjlEL3RiaHgzZHg5dnVlWVZ0ank3L1FraXlLNlB4VUxK?=
+ =?utf-8?B?dUdwY24wN0lrTm5KeTNYTGEwRDhwSFdaeDNQS3MwYlBHQWV5TFhobWJOc0lJ?=
+ =?utf-8?B?T0ZLZ1UvSWZtenFXcmNEV2dWRHNuRzhJMldTME5iOSs5SHBxc3pNMnZOL1pD?=
+ =?utf-8?B?MVI3UDJQdmh6NE9ERyt5RXd1MUFOTXZQNkJ4SExRcVlOYlQ3RStpdTZLZzFK?=
+ =?utf-8?Q?u6FJqEMG8Cwqh/SIv+pRdE5q3M3g2ErQNgT6Ka3?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <500b3efc-5937-8ac4-bf7b-669b9ebc029a@mida.se>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: sv-FI
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5653.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ff411f6-9bc2-4e4e-fe73-08d9821e487f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2021 01:21:22.5119
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: e3SZixe23fC3rFWj8sI6uEKERS3CxBB53uYeFcNEfN4SXNs7kOe8B5zIoXjYE4JI5DBpOd4T6+KSAOUH+DHP8Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5589
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The problem is that the module used count is incremented 1 time but 
-decremented 2 times by dvb_frontend. I guess there is a reason for the 
-call to dvb_prontend_put() twice, but to change that as suggested by 
-ref: https://linuxtv.org/pipermail/linux-dvb/2007-November/021577.html 
-affects other modules.
-
-The best solution is to insert a call to try_module_get(THIS_MODULE) in 
-cinergyt2_frontend_attach() to prevent the module to be unloaded. This 
-change makes CinergyT2 to behave as expected after sleep and if 
-disconnected and connected again.
-
-
-Den 2021-09-21 kl. 04:18, skrev rkardell:
-> Terratec Cinergy T2 driver leaves lsmod used cnt at -1, after sleep or 
-> usb reconnect.
-> Driver can’t be removed with rmmod and modprobe -r crashes kernel.
-> After reconnect or wake up after sleep, cinergyt2 seems to be properly 
-> initialized, but can’t be used by kaffeine. The system must be 
-> restarted to be able to use the CinergyT2 again.
-> The only way to avoid this is to manually stop the driver with rmmod 
-> before disconnect or sleep.
-> Tested on Thinkpad X131e Ubuntu Mate 21.04 5.11.0-34-generic x86_64
-> and several other.
-> The only reference to the problem that I have found is this: 
-> https://linuxtv.org/pipermail/linux-dvb/2007-November/021577.html
-> Anyone have any ideas how to solve the problem or how to proceed?
->
->
-> Dmesg after connect
->  1882.116982] usb 1-1.2: new high-speed USB device number 3 using 
-> ehci-pci
-> [ 1882.225758] usb 1-1.2: config 1 interface 0 altsetting 0 bulk 
-> endpoint 0x1 has invalid maxpacket 64
-> [ 1882.225772] usb 1-1.2: config 1 interface 0 altsetting 0 bulk 
-> endpoint 0x81 has invalid maxpacket 64
-> [ 1882.226486] usb 1-1.2: New USB device found, idVendor=0ccd, 
-> idProduct=0038, bcdDevice= 1.06
-> [ 1882.226497] usb 1-1.2: New USB device strings: Mfr=1, Product=2, 
-> SerialNumber=0
-> [ 1882.226501] usb 1-1.2: Product: Cinergy T²
-> [ 1882.226504] usb 1-1.2: Manufacturer: TerraTec GmbH
-> [ 1882.406083] dvb-usb: found a 'Mod TerraTec/qanu USB2.0 Highspeed 
-> DVB-T Receiver' in warm state.
-> [ 1882.409674] dvb-usb: will pass the complete MPEG2 transport stream 
-> to the software demuxer.
-> [ 1882.410117] dvbdev: DVB: registering new adapter (Mod TerraTec/qanu 
-> USB2.0 Highspeed DVB-T Receiver)
-> [ 1882.410127] usb 1-1.2: media controller created
-> [ 1882.410554] dvbdev: dvb_create_media_entity: media entity 
-> 'dvb-demux' registered.
-> [ 1882.411406] usb 1-1.2: DVB: registering adapter 0 frontend 0 
-> (TerraTec/qanu USB2.0 Highspeed DVB-T Receiver)...
-> [ 1882.411413] dvbdev: dvb_create_media_entity: media entity 
-> 'TerraTec/qanu USB2.0 Highspeed DVB-T Receiver' registered.
-> [ 1882.412361] input: IR-receiver inside an USB DVB receiver as 
-> /devices/pci0000:00/0000:00:1a.0/usb1/1-1/1-1.2/input/input26
-> [ 1882.412475] dvb-usb: schedule remote query interval to 50 msecs.
-> [ 1882.415543] dvb-usb: Mod TerraTec/qanu USB2.0 Highspeed DVB-T 
-> Receiver successfully initialized and connected.
-> [ 1882.415644] usbcore: registered new interface driver cinergyT2
->
-> lsmod after connect
-> Module                  Size  Used by
-> dvb_usb_cinergyT2      20480  0
-> dvb_usb                28672  1 dvb_usb_cinergyT2
-> dvb_core              139264  1 dvb_usb
->
-> lsusb -v after connect
-> Bus 001 Device 003: ID 0ccd:0038 TerraTec Electronic GmbH Cinergy T² 
-> DVB-T Receiver
-> Device Descriptor:
->   bLength                18
->   bDescriptorType         1
->   bcdUSB               2.00
->   bDeviceClass          255 Vendor Specific Class
->   bDeviceSubClass       255 Vendor Specific Subclass
->   bDeviceProtocol       255 Vendor Specific Protocol
->   bMaxPacketSize0        64
->   idVendor           0x0ccd TerraTec Electronic GmbH
->   idProduct          0x0038 Cinergy T² DVB-T Receiver
->   bcdDevice            1.06
->   iManufacturer           1 TerraTec GmbH
->   iProduct                2 Cinergy T²
->   iSerial                 0
->   bNumConfigurations      1
->   Configuration Descriptor:
->     bLength                 9
->     bDescriptorType         2
->     wTotalLength       0x0027
->     bNumInterfaces          1
->     bConfigurationValue     1
->     iConfiguration          0
->     bmAttributes         0x80
->       (Bus Powered)
->     MaxPower              476mA
->     Interface Descriptor:
->       bLength                 9
->       bDescriptorType         4
->       bInterfaceNumber        0
->       bAlternateSetting       0
->       bNumEndpoints           3
->       bInterfaceClass       255 Vendor Specific Class
->       bInterfaceSubClass    255 Vendor Specific Subclass
->       bInterfaceProtocol      0
->       iInterface              3 Highspeed Bulk Transfer
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x01  EP 1 OUT
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0040  1x 64 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x81  EP 1 IN
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0040  1x 64 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x82  EP 2 IN
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
-> Device Qualifier (for other device speed):
->   bLength                10
->   bDescriptorType         6
->   bcdUSB               2.00
->   bDeviceClass          255 Vendor Specific Class
->   bDeviceSubClass       255 Vendor Specific Subclass
->   bDeviceProtocol       255 Vendor Specific Protocol
->   bMaxPacketSize0        64
->   bNumConfigurations      1
-> can't get debug descriptor: Resource temporarily unavailable
-> cannot read device status, Resource temporarily unavailable (11)
->
-> dmesg after sleep
->  2085.595303] PM: suspend entry (deep)
-> [ 2086.182808] Filesystems sync: 0.587 seconds
-> [ 2086.317346] Freezing user space processes ... (elapsed 0.003 
-> seconds) done.
-> [ 2086.321013] OOM killer disabled.
-> [ 2086.321015] Freezing remaining freezable tasks ... (elapsed 0.023 
-> seconds) done.
-> [ 2086.344118] printk: Suspending console(s) (use no_console_suspend 
-> to debug)
-> [ 2086.349168] dvb-usb: Mod TerraTec/qanu USB2.0 Highspeed DVB- 
-> successfully deinitialized and disconnected.
->
-> Dmesg after wake up
-> [ 2089.580989] usb 1-1.2: reset high-speed USB device number 3 using 
-> ehci-pci
-> [ 2089.690369] PM: dpm_run_callback(): usb_dev_resume+0x0/0x20 returns -5
-> [ 2089.690387] PM: Device 1-1.2 failed to resume async: error -5
-> [ 2090.029351] OOM killer enabled.
-> [ 2090.029359] Restarting tasks ...
-> [ 2090.033135] usb 1-1.2: USB disconnect, device number 3
-> [ 2090.060292] done.
-> [ 2090.113373] usb 1-1.2: new high-speed USB device number 4 using 
-> ehci-pci
-> [ 2090.229368] usb 1-1.2: config 1 interface 0 altsetting 0 bulk 
-> endpoint 0x1 has invalid maxpacket 64
-> [ 2090.229378] usb 1-1.2: config 1 interface 0 altsetting 0 bulk 
-> endpoint 0x81 has invalid maxpacket 64
-> [ 2090.229865] usb 1-1.2: New USB device found, idVendor=0ccd, 
-> idProduct=0038, bcdDevice= 1.06
-> [ 2090.229870] usb 1-1.2: New USB device strings: Mfr=1, Product=2, 
-> SerialNumber=0
-> [ 2090.229872] usb 1-1.2: Product: Cinergy T²
-> [ 2090.229875] usb 1-1.2: Manufacturer: TerraTec GmbH
-> [ 2090.230563] dvb-usb: found a 'Mod TerraTec/qanu USB2.0 Highspeed 
-> DVB-T Receiver' in warm state.
-> [ 2090.234126] dvb-usb: will pass the complete MPEG2 transport stream 
-> to the software demuxer.
-> [ 2090.234250] dvbdev: DVB: registering new adapter (Mod TerraTec/qanu 
-> USB2.0 Highspeed DVB-T Receiver)
-> [ 2090.234258] usb 1-1.2: media controller created
-> [ 2090.234851] dvbdev: dvb_create_media_entity: media entity 
-> 'dvb-demux' registered.
-> [ 2090.235745] usb 1-1.2: DVB: registering adapter 0 frontend 0 
-> (TerraTec/qanu USB2.0 Highspeed DVB-T Receiver)...
-> [ 2090.235757] dvbdev: dvb_create_media_entity: media entity 
-> 'TerraTec/qanu USB2.0 Highspeed DVB-T Receiver' registered.
-> [ 2090.236844] input: IR-receiver inside an USB DVB receiver as 
-> /devices/pci0000:00/0000:00:1a.0/usb1/1-1/1-1.2/input/input30
-> [ 2090.237399] dvb-usb: schedule remote query interval to 50 msecs.
-> [ 2090.239994] dvb-usb: Mod TerraTec/qanu USB2.0 Highspeed DVB-T 
-> Receiver successfully initialized and connected.
-> [ 2090.571073] PM: suspend exit
->
-> lsmod after wake up
-> Module                  Size  Used by
-> dvb_usb_cinergyT2      20480  -1
-> dvb_usb                28672  1 dvb_usb_cinergyT2
-> dvb_core              139264  1 dvb_usb
->
-> lsusb -v after wake up
-> Bus 001 Device 004: ID 0ccd:0038 TerraTec Electronic GmbH Cinergy T² 
-> DVB-T Receiver
-> Device Descriptor:
->   bLength                18
->   bDescriptorType         1
->   bcdUSB               2.00
->   bDeviceClass          255 Vendor Specific Class
->   bDeviceSubClass       255 Vendor Specific Subclass
->   bDeviceProtocol       255 Vendor Specific Protocol
->   bMaxPacketSize0        64
->   idVendor           0x0ccd TerraTec Electronic GmbH
->   idProduct          0x0038 Cinergy T² DVB-T Receiver
->   bcdDevice            1.06
->   iManufacturer           1 TerraTec GmbH
->   iProduct                2 Cinergy T²
->   iSerial                 0
->   bNumConfigurations      1
->   Configuration Descriptor:
->     bLength                 9
->     bDescriptorType         2
->     wTotalLength       0x0027
->     bNumInterfaces          1
->     bConfigurationValue     1
->     iConfiguration          0
->     bmAttributes         0x80
->       (Bus Powered)
->     MaxPower              476mA
->     Interface Descriptor:
->       bLength                 9
->       bDescriptorType         4
->       bInterfaceNumber        0
->       bAlternateSetting       0
->       bNumEndpoints           3
->       bInterfaceClass       255 Vendor Specific Class
->       bInterfaceSubClass    255 Vendor Specific Subclass
->       bInterfaceProtocol      0
->       iInterface              3 Highspeed Bulk Transfer
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x01  EP 1 OUT
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0040  1x 64 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x81  EP 1 IN
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0040  1x 64 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x82  EP 2 IN
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
-> Device Qualifier (for other device speed):
->   bLength                10
->   bDescriptorType         6
->   bcdUSB               2.00
->   bDeviceClass          255 Vendor Specific Class
->   bDeviceSubClass       255 Vendor Specific Subclass
->   bDeviceProtocol       255 Vendor Specific Protocol
->   bMaxPacketSize0        64
->   bNumConfigurations      1
-> can't get debug descriptor: Resource temporarily unavailable
-> cannot read device status, Resource temporarily unavailable (11)
->
->
->
-
+DQoNCl9fX19fX19fX19fX19fX19fX19fX19fXw0KQlJzLCAgDQpCaW5nYnUgQ2FvIA0KDQo+IC0t
+LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEplYW4tTWljaGVsIEhhdXRib2lzIDxq
+ZWFubWljaGVsLmhhdXRib2lzQGlkZWFzb25ib2FyZC5jb20+DQo+IFNlbnQ6IFRodXJzZGF5LCBT
+ZXB0ZW1iZXIgMjMsIDIwMjEgNzo1NyBQTQ0KPiBUbzogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVu
+dC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPjsgQ2FvLCBCaW5nYnUNCj4gPGJpbmdidS5jYW9A
+aW50ZWwuY29tPg0KPiBDYzogU2FrYXJpIEFpbHVzIDxzYWthcmkuYWlsdXNAbGludXguaW50ZWwu
+Y29tPjsgdGZpZ2FAZ29vZ2xlLmNvbTsgbGludXgtDQo+IG1lZGlhQHZnZXIua2VybmVsLm9yZzsg
+UWl1LCBUaWFuIFNodSA8dGlhbi5zaHUucWl1QGludGVsLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQ
+QVRDSF0gbWVkaWE6IHN0YWdpbmc6IGlwdTMtaW1ndTogSW5pdGlhbGlzZQ0KPiBoZWlnaHRfcGVy
+X3NsaWNlIGluIHRoZSBzdHJpcGVzDQo+IA0KPiBIaSBCaW5nYnUsIExhdXJlbnQsDQo+IA0KPiBP
+biAyMy8wOS8yMDIxIDEyOjQ5LCBMYXVyZW50IFBpbmNoYXJ0IHdyb3RlOg0KPiA+IEhpIEJpbmdi
+dSwNCj4gPg0KPiA+IE9uIFRodSwgU2VwIDIzLCAyMDIxIGF0IDEwOjI5OjMzQU0gKzAwMDAsIENh
+bywgQmluZ2J1IHdyb3RlOg0KPiA+PiBPbiBUaHVyc2RheSwgU2VwdGVtYmVyIDIzLCAyMDIxIDU6
+NDYgUE0sIExhdXJlbnQgUGluY2hhcnQgd3JvdGU6DQo+ID4+PiBPbiBUaHUsIFNlcCAyMywgMjAy
+MSBhdCAwOTowNjozMkFNICswMDAwLCBDYW8sIEJpbmdidSB3cm90ZToNCj4gPj4+PiBKZWFuLU1p
+Y2hlbCwNCj4gPj4+Pg0KPiA+Pj4+IEZpcnN0bHksIHRoZSAuaGVpZ2h0X3Blcl9zbGljZSBjb3Vs
+ZCBiZSAwIGlmIHlvdXIgLmdyaWQud2lkdGgNCj4gPj4+PiBsYXJnZXIgdGhhbiAzMi4NCj4gPj4+
+DQo+ID4+PiBXaGljaCAuaGVpZ2h0X3Blcl9zbGljZSBhcmUgeW91IHRhbGtpbmcgYWJvdXQgPyBB
+IGZpZWxkIG9mIHRoYXQgbmFtZQ0KPiA+Pj4gZXhpc3RzIGluIGJvdGggaXB1M191YXBpX2FjY19w
+YXJhbS5hd2IuY29uZmlnLmdyaWQgYW5kIHN0cnVjdA0KPiA+Pj4gaXB1M191YXBpX2dyaWRfY29u
+ZmlnIGFuZCBpbWd1X2FiaV9hd2JfY29uZmlnLnN0cmlwZXMuZ3JpZC4NCj4gPj4+DQo+ID4+PiBU
+aGV5IGFyZSBib3RoIGNvbXB1dGVkIGJ5IHRoZSBkcml2ZXIsIGluIGltZ3VfY3NzX2NmZ19hY2Mo
+KS4gVGhlDQo+ID4+PiBmb3JtZXIgaXMgc2V0IHRvDQo+ID4+Pg0KPiA+Pj4gCWFjYy0+YXdiLmNv
+bmZpZy5ncmlkLmhlaWdodF9wZXJfc2xpY2UgPQ0KPiA+Pj4gCQlJTUdVX0FCSV9BV0JfTUFYX0NF
+TExTX1BFUl9TRVQgLyBhY2MtPmF3Yi5jb25maWcuZ3JpZC53aWR0aCwNCj4gPj4+DQo+ID4+PiBJ
+TUdVX0FCSV9BV0JfTUFYX0NFTExTX1BFUl9TRVQgaXMgZXF1YWwgdG8gMTYwLCBzbyBpdCBjYW4g
+b25seSBiZSAwDQo+ID4+PiBpZiBncmlkLndpZHRoID4gMTYwLCB3aGljaCBpcyBpbnZhbGlkLg0K
+PiA+Pg0KPiA+PiBGb3IgYXdiX2ZyIGFuZCBhZiwgaXQgY291bGQgYmUgMCBpZiB0aGUgLmNvbmZp
+Zy5ncmlkX2NmZy53aWR0aCA+IDMyLg0KPiA+DQo+ID4gSW5kZWVkLCBteSBiYWQuIEkgd2FzIGZv
+Y3Vzc2luZyBvbiB0aGUgQVdCIHN0YXRpc3RpY3MuDQo+ID4NCj4gPiBXaGF0IGFyZSB0aGUgaW1w
+bGljYXRpb25zIG9mIGEgaGVpZ2h0X3Blcl9zbGljZSB2YWx1ZSBvZiAwID8NCj4gPg0KPiA+IFdo
+aWxlIHdlIGFyZSBvbiB0aGlzIHRvcGljLCB3aGF0IGlzIGEgInNsaWNlIiA/IERvZXMgaXQgbWF0
+dGVyIGZvciB0aGUNCj4gPiB1c2VyLCBhcyBpbiBkb2VzIGl0IGhhdmUgYW4gaW1wYWN0IG9uIHRo
+ZSBzdGF0aXN0aWNzIHZhbHVlcywgb3Igb24gaG93DQo+ID4gdGhleSdyZSBhcnJhbmdlZCBpbiBt
+ZW1vcnksIG9yIGlzIGl0IGFuIGltcGxlbWVudGF0aW9uIGRldGFpbCBvZiB0aGUNCj4gPiBmaXJt
+d2FyZSB0aGF0IGhhcyBubyBjb25zZXF1ZW5jZSBvbiB3aGF0IGNhbiBiZSBzZWVuIGJ5IHRoZSB1
+c2VyID8NCj4gPiAoVGhlICJ1c2VyIiBoZXJlIGlzIHRoZSBjb2RlIHRoYXQgcmVhZHMgdGhlIHN0
+YXRpc3RpY3MgaW4gdXNlcnNwYWNlKS4NCj4gPg0KPiA+Pj4+IEZyb20geW91ciBjb25maWd1cmF0
+aW9uLCBsb29rcyBsaWtlIHNvbWV0aGluZyB3cm9uZyBpbiB0aGUgc3RyaXBlDQo+ID4+Pj4gY29u
+ZmlndXJhdGlvbiBjYXVzZSBub3QgZW50ZXJpbmcgdGhlIDIgc3RyaXBlcyBicmFuY2guDQo+ID4+
+Pg0KPiA+Pj4gV2h5IGlzIHRoYXQgPyBJc24ndCBpdCB2YWxpZCBmb3IgYSBncmlkIGNvbmZpZ3Vy
+YXRpb24gdG8gdXNlIGENCj4gPj4+IHNpbmdsZSBzdHJpcGUsIGlmIHRoZSBpbWFnZSBpcyBzbWFs
+bCBlbm91Z2gsIG9yIGlmIHRoZSBncmlkIG9ubHkNCj4gPj4+IGNvdmVycyB0aGUgbGVmdCBwYXJ0
+IG9mIHRoZSBpbWFnZSA/DQo+ID4+Pg0KPiA+Pj4+IE9uIFdlZG5lc2RheSwgU2VwdGVtYmVyIDIy
+LCAyMDIxIDE6NTQgUE0sIEplYW4tTWljaGVsIEhhdXRib2lzIHdyb3RlOg0KPiA+Pj4+PiBPbiAy
+Mi8wOS8yMDIxIDA2OjMzLCBDYW8sIEJpbmdidSB3cm90ZToNCj4gPj4+Pj4+IEplYW4tTWljaGVs
+LA0KPiA+Pj4+Pj4NCj4gPj4+Pj4+IFRoYW5rcyBmb3IgeW91IHBhdGNoLg0KPiA+Pj4+Pj4gV2hh
+dCBpcyB0aGUgdmFsdWUgb2YgLmNvbmZpZy5ncmlkX2NmZy53aWR0aCBmb3IgeW91ciBsb3cNCj4g
+cmVzb2x1dGlvbnM/DQo+ID4+Pj4+DQo+ID4+Pj4+IEkgZG9uJ3Qga25vdyBpZiBhIDE5MjB4MTI4
+MCBvdXRwdXQgaXMgYSBsb3cgcmVzb2x1dGlvbiwgYnV0IHRoZQ0KPiA+Pj4+PiBncmlkIGlzIGNv
+bmZpZ3VyZWQgYXM6DQo+ID4+Pj4+IC0gZ3JpZF9jZmcud2lkdGggPSA3OQ0KPiA+Pj4+PiAtIGdy
+aWRfY2ZnLmhlaWdodCA9IDI0DQo+ID4+Pj4+IC0gZ3JpZF9jZmcuYmxvY2tfd2lkdGhfbG9nMiA9
+IDQNCj4gPj4+Pj4gLSBncmlkX2NmZy5ibG9ja19oZWlnaHRfbG9nMiA9IDYNCj4gPj4+Pj4NCj4g
+Pj4+Pj4gSGVyZSBpcyBhIGZ1bGwgZGVidWcgb3V0cHV0IG9mIHRoZSBBV0IgcGFydCBpbiBpbWd1
+X2Nzc19jZmdfYWNjKCk6DQo+ID4+Pj4+DQo+ID4+Pj4+IGFjYy0+c3RyaXBlLmRvd25fc2NhbGVk
+X3N0cmlwZXNbMF0ud2lkdGg6IDEyODANCj4gPj4+Pj4gYWNjLT5zdHJpcGUuZG93bl9zY2FsZWRf
+c3RyaXBlc1swXS5oZWlnaHQ6IDE1MzYNCj4gPj4+Pj4gYWNjLT5zdHJpcGUuZG93bl9zY2FsZWRf
+c3RyaXBlc1swXS5vZmZzZXQ6IDANCj4gPj4+Pj4gYWNjLT5zdHJpcGUuYmRzX291dF9zdHJpcGVz
+WzBdLndpZHRoOiAxMjgwDQo+ID4+Pj4+IGFjYy0+c3RyaXBlLmJkc19vdXRfc3RyaXBlc1swXS5o
+ZWlnaHQ6IDE1MzYNCj4gPj4+Pj4gYWNjLT5zdHJpcGUuYmRzX291dF9zdHJpcGVzWzBdLm9mZnNl
+dDogMA0KPiA+Pj4+PiBhY2MtPmFjYy0+YXdiLnN0cmlwZXNbMF0uZ3JpZC53aWR0aDogNzkNCj4g
+Pj4+Pj4gYWNjLT5hd2Iuc3RyaXBlc1swXS5ncmlkLmJsb2NrX3dpZHRoX2xvZzI6IDQNCj4gPj4+
+Pj4gYWNjLT5hY2MtPmF3Yi5zdHJpcGVzWzBdLmdyaWQuaGVpZ2h0OiAyNA0KPiA+Pj4+PiBhY2Mt
+PmF3Yi5zdHJpcGVzWzBdLmdyaWQuYmxvY2tfaGVpZ2h0X2xvZzI6IDYNCj4gPj4+Pj4gYWNjLT5h
+d2Iuc3RyaXBlc1swXS5ncmlkLnhfc3RhcnQ6IDANCj4gPj4+Pj4gYWNjLT5hd2Iuc3RyaXBlc1sw
+XS5ncmlkLnhfZW5kOiAxMjYzDQo+ID4+Pj4+IGFjYy0+YXdiLnN0cmlwZXNbMF0uZ3JpZC55X3N0
+YXJ0OiAwDQo+ID4+Pj4+IGFjYy0+YXdiLnN0cmlwZXNbMF0uZ3JpZC55X2VuZDogMTUzNQ0KPiA+
+Pj4+PiBhY2MtPnN0cmlwZS5kb3duX3NjYWxlZF9zdHJpcGVzWzFdLndpZHRoOiAxMjgwDQo+ID4+
+Pj4+IGFjYy0+c3RyaXBlLmRvd25fc2NhbGVkX3N0cmlwZXNbMV0uaGVpZ2h0OiAxNTM2DQo+ID4+
+Pj4+IGFjYy0+c3RyaXBlLmRvd25fc2NhbGVkX3N0cmlwZXNbMV0ub2Zmc2V0OiAxMDI0DQo+ID4+
+Pj4+IGFjYy0+c3RyaXBlLmJkc19vdXRfc3RyaXBlc1sxXS53aWR0aDogMTI4MA0KPiA+Pj4+PiBh
+Y2MtPnN0cmlwZS5iZHNfb3V0X3N0cmlwZXNbMV0uaGVpZ2h0OiAxNTM2DQo+ID4+Pj4+IGFjYy0+
+c3RyaXBlLmJkc19vdXRfc3RyaXBlc1sxXS5vZmZzZXQ6IDEwMjQNCj4gPj4+Pj4gYWNjLT5hY2Mt
+PmF3Yi5zdHJpcGVzWzFdLmdyaWQud2lkdGg6IDc5DQo+ID4+Pj4+IGFjYy0+YXdiLnN0cmlwZXNb
+MV0uZ3JpZC5ibG9ja193aWR0aF9sb2cyOiA0DQo+ID4+Pj4+IGFjYy0+YWNjLT5hd2Iuc3RyaXBl
+c1sxXS5ncmlkLmhlaWdodDogMjQNCj4gPj4+Pj4gYWNjLT5hd2Iuc3RyaXBlc1sxXS5ncmlkLmJs
+b2NrX2hlaWdodF9sb2cyOiA2DQo+ID4+Pj4+IGFjYy0+YXdiLnN0cmlwZXNbMV0uZ3JpZC54X3N0
+YXJ0OiAwDQo+ID4+Pj4+IGFjYy0+YXdiLnN0cmlwZXNbMV0uZ3JpZC54X2VuZDogMTI2Mw0KPiA+
+Pj4+PiBhY2MtPmF3Yi5zdHJpcGVzWzFdLmdyaWQueV9zdGFydDogMA0KPiA+Pj4+PiBhY2MtPmF3
+Yi5zdHJpcGVzWzFdLmdyaWQueV9lbmQ6IDE1MzUNCj4gPj4NCj4gPj4gQXJlIHRoZXNlIGR1bXBz
+IGZyb20gMTkyMHgxMjgwIG91dHB1dD8NCj4gPg0KPiA+IEplYW4tTWljaGVsLCBjb3VsZCB5b3Ug
+Y29tbWVudCBvbiB0aGlzID8NCj4gPg0KPiA+IE5vdGUgdGhhdCB0aGUgZ3JpZCBpcyBjb25maWd1
+cmVkIHdpdGggNzkgY2VsbHMgb2YgMTYgcGl4ZWxzLCBjb3ZlcmluZw0KPiA+IDEyNjQgcGl4ZWxz
+IGhvcml6b250YWxseS4gVGhhdCdzIG5vdCB0aGUgZnVsbCBpbWFnZSBmb3IgYSAxOTIwIHBpeGVs
+cw0KPiA+IG91dHB1dCwgYW5kIHdpbGwgcHJvYmFibHkgbm90IGJlIGRvbmUgaW4gcHJhY3RpY2Us
+IGJ1dCB0aGVyZSdzIG5vdGhpbmcNCj4gPiBwcmV2ZW50aW5nIHRoZSBncmlkIGZyb20gY292ZXJp
+bmcgcGFydCBvZiB0aGUgaW1hZ2Ugb25seS4NCj4gPg0KPiANCj4gSXQgaXMgYSBkdW1wIGZvciBh
+IDE5MjB4MTI4MCBvdXRwdXQuDQo+IElmIGl0IGNhbiBoZWxwLCB0aGUgY29uZmlndXJhdGlvbiBz
+ZXQgaW4gSW1nVSBpczoNCj4gICBJRjogMjU5MngxNzI4DQo+ICAgQkRTOiAyMzA0eDE1MzYNCj4g
+ICBHREM6IDE5MjB4MTI4MA0KDQpKZWFuLU1pY2hlbCwNCg0KSXQgbG9va3MgeW91IGFyZSB0cnlp
+bmcgdG8gdXNlIDIgc3RyaXBlcyBhbmQgdGhlIGdyaWQgc2l6ZSBpcyAyNTI4eDE1MzYsIGFuZA0K
+dGhlIGF3Yi5jb25maWcuZ3JpZC54X2VuZCBzaG91bGQgYmUgbGFyZ2VyIHRoYW4gdGhlIA0KYmRz
+X291dF9zdHJpcGVzWzBdLndpZHRoIC0gMTAsIGl0IHdvdWxkIG5vdCBoaXQgYW55IDEgc3RyaXBl
+IGNvbmRpdGlvbi4NCg0KY291bGQgeW91IGFsc28gc2hhcmUgeW91ciBhd2IuY29uZmlnLmdyaWQ/
+DQoNCj4gDQo+IA0KPiA+Pj4+PiBUaGlzIGhhcyBiZWVuIG91dHB1dHRlZCB3aXRoOiBodHRwczov
+L3Bhc3RlLmRlYmlhbi5uZXQvMTIxMjc5MS8NCj4gPj4+Pj4NCj4gPj4+Pj4gVGhlIGV4YW1wbGVz
+IEkgZ2F2ZSBiZWZvcmUgd2VyZSAxMjgweDcyMCBvdXRwdXQgYW5kIG5vdCAxOTIweDEwODAsDQo+
+ID4+Pj4+IGhlcmUgYXJlIHRoZXk6DQo+ID4+Pj4+IC0gd2l0aG91dCB0aGUgcGF0Y2g6IGh0dHBz
+Oi8vcGFzdGVib2FyZC5jby9oSG80UWtWVVNrOGUucG5nDQo+ID4+Pj4+IC0gd2l0aCB0aGUgcGF0
+Y2g6IGh0dHBzOi8vcGFzdGVib2FyZC5jby9ZVUdVdlM1dEQwYm8ucG5nDQo+ID4+Pj4+DQo+ID4+
+Pj4+IEFzIHlvdSBjYW4gc2VlIHdlIGhhdmUgdGhlIHNhbWUgYmVoYXZpb3VyLg0KPiA+Pj4+Pg0K
+PiA+Pj4+Pj4gT24gVHVlc2RheSwgU2VwdGVtYmVyIDIxLCAyMDIxIDEwOjM0IFBNLCBMYXVyZW50
+IFBpbmNoYXJ0IHdyb3RlOg0KPiA+Pj4+Pj4+IE9uIFR1ZSwgU2VwIDIxLCAyMDIxIGF0IDAzOjA0
+OjM3UE0gKzAyMDAsIEplYW4tTWljaGVsIEhhdXRib2lzDQo+IHdyb3RlOg0KPiA+Pj4+Pj4+PiBP
+biAyMS8wOS8yMDIxIDEzOjA3LCBTYWthcmkgQWlsdXMgd3JvdGU6DQo+ID4+Pj4+Pj4+PiBPbiBU
+aHUsIFNlcCAxNiwgMjAyMSBhdCAwNzoyNTowNFBNICswMjAwLCBKZWFuLU1pY2hlbCBIYXV0Ym9p
+cw0KPiB3cm90ZToNCj4gPj4+Pj4+Pj4+PiBXaGlsZSBwbGF5aW5nIHdpdGggbG93IHJlc29sdXRp
+b25zIGZvciB0aGUgZ3JpZCwgaXQgYXBwZWFyZWQNCj4gPj4+Pj4+Pj4+PiB0aGF0IGhlaWdodF9w
+ZXJfc2xpY2UgaXMgbm90IGluaXRpYWxpc2VkIGlmIHdlIGFyZSBub3QgdXNpbmcNCj4gPj4+Pj4+
+Pj4+PiBib3RoIHN0cmlwZXMgZm9yIHRoZSBjYWxjdWxhdGlvbnMuIFRoaXMgcGF0dGVybiBvY2N1
+cnMgdGhyZWUNCj4gdGltZXM6DQo+ID4+Pj4+Pj4+Pj4gLSBmb3IgdGhlIGF3Yl9mciBwcm9jZXNz
+aW5nIGJsb2NrDQo+ID4+Pj4+Pj4+Pj4gLSBmb3IgdGhlIGFmIHByb2Nlc3NpbmcgYmxvY2sNCj4g
+Pj4+Pj4+Pj4+PiAtIGZvciB0aGUgYXdiIHByb2Nlc3NpbmcgYmxvY2sNCj4gPj4+Pj4+Pj4+Pg0K
+PiA+Pj4+Pj4+Pj4+IFRoZSBpZGVhIG9mIHRoaXMgc21hbGwgcG9ydGlvbiBvZiBjb2RlIGlzIHRv
+IHJlZHVjZQ0KPiA+Pj4+Pj4+Pj4+IGNvbXBsZXhpdHkgaW4gbG9hZGluZyB0aGUgc3RhdGlzdGlj
+cywgaXQgY291bGQgYmUgZG9uZSBhbHNvDQo+ID4+Pj4+Pj4+Pj4gd2hlbiBvbmx5IG9uZSBzdHJp
+cGUgaXMgdXNlZC4gRml4IGl0IGJ5IGdldHRpbmcgdGhpcw0KPiA+Pj4+Pj4+Pj4+IGluaXRpYWxp
+c2F0aW9uIGNvZGUgb3V0c2lkZSBvZiB0aGUNCj4gPj4+Pj4+Pj4+PiBlbHNlKCkgdGVzdCBjYXNl
+Lg0KPiA+Pj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+Pj4gU2lnbmVkLW9mZi1ieTogSmVhbi1NaWNoZWwg
+SGF1dGJvaXMNCj4gPj4+Pj4+Pj4+PiA8amVhbm1pY2hlbC5oYXV0Ym9pc0BpZGVhc29uYm9hcmQu
+Y29tPg0KPiA+Pj4+Pj4+Pj4+IC0tLQ0KPiA+Pj4+Pj4+Pj4+ICBkcml2ZXJzL3N0YWdpbmcvbWVk
+aWEvaXB1My9pcHUzLWNzcy1wYXJhbXMuYyB8IDQ0ID4+Pj4+DQo+ID4+Pj4+Pj4+Pj4gKysrKysr
+KysrKy0tLS0tLS0tLS0NCj4gPj4+Pj4+Pj4+PiAgMSBmaWxlIGNoYW5nZWQsIDIyIGluc2VydGlv
+bnMoKyksIDIyIGRlbGV0aW9ucygtKQ0KPiA+Pj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+Pj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9pcHUzL2lwdTMtY3NzLXBhcmFtcy5jDQo+ID4+
+Pj4+Pj4+Pj4gYi9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvaXB1My9pcHUzLWNzcy1wYXJhbXMuYw0K
+PiA+Pj4+Pj4+Pj4+IGluZGV4IGU5ZDZiZDllOTMzMi4uMDVkYTdkYmRjYTc4IDEwMDY0NA0KPiA+
+Pj4+Pj4+Pj4+IC0tLSBhL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9pcHUzL2lwdTMtY3NzLXBhcmFt
+cy5jDQo+ID4+Pj4+Pj4+Pj4gKysrIGIvZHJpdmVycy9zdGFnaW5nL21lZGlhL2lwdTMvaXB1My1j
+c3MtcGFyYW1zLmMNCj4gPj4+Pj4+Pj4+PiBAQCAtMjQyOCwxNiArMjQyOCwxNiBAQCBpbnQgaW1n
+dV9jc3NfY2ZnX2FjYyhzdHJ1Y3QgaW1ndV9jc3MNCj4gKmNzcywgdW5zaWduZWQgaW50IHBpcGUs
+DQo+ID4+Pj4+Pj4+Pj4gIAkJCQkJYWNjLQ0KPiA+YXdiX2ZyLnN0cmlwZXNbMV0uZ3JpZF9jZmcu
+d2lkdGgsDQo+ID4+Pj4+Pj4+Pj4gIAkJCQkJYl93X2xvZzIpOw0KPiA+Pj4+Pj4+Pj4+ICAJCWFj
+Yy0+YXdiX2ZyLnN0cmlwZXNbMV0uZ3JpZF9jZmcueF9lbmQgPSBlbmQ7DQo+ID4+Pj4+Pj4+Pj4g
+LQ0KPiA+Pj4+Pj4+Pj4+IC0JCS8qDQo+ID4+Pj4+Pj4+Pj4gLQkJICogVG8gcmVkdWNlIGNvbXBs
+ZXhpdHkgb2YgZGVidWJibGluZyBhbmQgbG9hZGluZw0KPiA+Pj4+Pj4+Pj4+IC0JCSAqIHN0YXRp
+c3RpY3MgZml4IGdyaWRfaGVpZ2h0X3Blcl9zbGljZSB0byAxIGZvciBib3RoDQo+ID4+Pj4+Pj4+
+Pj4gLQkJICogc3RyaXBlcy4NCj4gPj4+Pj4+Pj4+PiAtCQkgKi8NCj4gPj4+Pj4+Pj4+PiAtCQlm
+b3IgKGkgPSAwOyBpIDwgc3RyaXBlczsgaSsrKQ0KPiA+Pj4+Pj4+Pj4+IC0JCQlhY2MtDQo+ID5h
+d2JfZnIuc3RyaXBlc1tpXS5ncmlkX2NmZy5oZWlnaHRfcGVyX3NsaWNlID0gMTsNCj4gPj4+Pj4+
+Pj4+PiAgCX0NCj4gPj4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4+ICsJLyoNCj4gPj4+Pj4+Pj4+PiAr
+CSAqIFRvIHJlZHVjZSBjb21wbGV4aXR5IG9mIGRlYnViYmxpbmcgYW5kIGxvYWRpbmcNCj4gPj4+
+Pj4+Pj4+PiArCSAqIHN0YXRpc3RpY3MgZml4IGdyaWRfaGVpZ2h0X3Blcl9zbGljZSB0byAxIGZv
+ciBib3RoDQo+ID4+Pj4+Pj4+Pj4gKwkgKiBzdHJpcGVzLg0KPiA+Pj4+Pj4+Pj4+ICsJICovDQo+
+ID4+Pj4+Pj4+Pj4gKwlmb3IgKGkgPSAwOyBpIDwgc3RyaXBlczsgaSsrKQ0KPiA+Pj4+Pj4+Pj4+
+ICsJCWFjYy0+YXdiX2ZyLnN0cmlwZXNbaV0uZ3JpZF9jZmcuaGVpZ2h0X3Blcl9zbGljZSA9IDE7
+DQo+ID4+Pj4+Pj4+Pj4gKw0KPiA+Pj4+Pj4+Pj4+ICAJaWYgKGltZ3VfY3NzX2F3Yl9mcl9vcHNf
+Y2FsYyhjc3MsIHBpcGUsICZhY2MtPmF3Yl9mcikpDQo+ID4+Pj4+Pj4+Pj4gIAkJcmV0dXJuIC1F
+SU5WQUw7DQo+ID4+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+PiBAQCAtMjU5MSwxNSArMjU5MSwxNSBA
+QCBpbnQgaW1ndV9jc3NfY2ZnX2FjYyhzdHJ1Y3QgaW1ndV9jc3MNCj4gKmNzcywgdW5zaWduZWQg
+aW50IHBpcGUsDQo+ID4+Pj4+Pj4+Pj4gIAkJCWltZ3VfY3NzX2dyaWRfZW5kKGFjYy0NCj4gPmFm
+LnN0cmlwZXNbMV0uZ3JpZF9jZmcueF9zdGFydCwNCj4gPj4+Pj4+Pj4+PiAgCQkJCQkgIGFjYy0N
+Cj4gPmFmLnN0cmlwZXNbMV0uZ3JpZF9jZmcud2lkdGgsDQo+ID4+Pj4+Pj4+Pj4gIAkJCQkJICBi
+X3dfbG9nMik7DQo+ID4+Pj4+Pj4+Pj4gLQ0KPiA+Pj4+Pj4+Pj4+IC0JCS8qDQo+ID4+Pj4+Pj4+
+Pj4gLQkJICogVG8gcmVkdWNlIGNvbXBsZXhpdHkgb2YgZGVidWJibGluZyBhbmQgbG9hZGluZw0K
+PiBzdGF0aXN0aWNzDQo+ID4+Pj4+Pj4+Pj4gLQkJICogZml4IGdyaWRfaGVpZ2h0X3Blcl9zbGlj
+ZSB0byAxIGZvciBib3RoIHN0cmlwZXMNCj4gPj4+Pj4+Pj4+PiAtCQkgKi8NCj4gPj4+Pj4+Pj4+
+PiAtCQlmb3IgKGkgPSAwOyBpIDwgc3RyaXBlczsgaSsrKQ0KPiA+Pj4+Pj4+Pj4+IC0JCQlhY2Mt
+PmFmLnN0cmlwZXNbaV0uZ3JpZF9jZmcuaGVpZ2h0X3Blcl9zbGljZSA9DQo+IDE7DQo+ID4+Pj4+
+Pj4+Pj4gIAl9DQo+ID4+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+PiArCS8qDQo+ID4+Pj4+Pj4+Pj4g
+KwkgKiBUbyByZWR1Y2UgY29tcGxleGl0eSBvZiBkZWJ1YmJsaW5nIGFuZCBsb2FkaW5nIHN0YXRp
+c3RpY3MNCj4gPj4+Pj4+Pj4+PiArCSAqIGZpeCBncmlkX2hlaWdodF9wZXJfc2xpY2UgdG8gMSBm
+b3IgYm90aCBzdHJpcGVzDQo+ID4+Pj4+Pj4+Pj4gKwkgKi8NCj4gPj4+Pj4+Pj4+PiArCWZvciAo
+aSA9IDA7IGkgPCBzdHJpcGVzOyBpKyspDQo+ID4+Pj4+Pj4+Pj4gKwkJYWNjLT5hZi5zdHJpcGVz
+W2ldLmdyaWRfY2ZnLmhlaWdodF9wZXJfc2xpY2UgPSAxOw0KPiA+Pj4+Pj4+Pj4+ICsNCj4gPj4+
+Pj4+Pj4+PiAgCWlmIChpbWd1X2Nzc19hZl9vcHNfY2FsYyhjc3MsIHBpcGUsICZhY2MtPmFmKSkN
+Cj4gPj4+Pj4+Pj4+PiAgCQlyZXR1cm4gLUVJTlZBTDsNCj4gPj4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+
+Pj4+IEBAIC0yNjYwLDE1ICsyNjYwLDE1IEBAIGludCBpbWd1X2Nzc19jZmdfYWNjKHN0cnVjdCBp
+bWd1X2Nzcw0KPiAqY3NzLCB1bnNpZ25lZCBpbnQgcGlwZSwNCj4gPj4+Pj4+Pj4+PiAgCQkJaW1n
+dV9jc3NfZ3JpZF9lbmQoYWNjLQ0KPiA+YXdiLnN0cmlwZXNbMV0uZ3JpZC54X3N0YXJ0LA0KPiA+
+Pj4+Pj4+Pj4+ICAJCQkJCSAgYWNjLT5hd2Iuc3RyaXBlc1sxXS5ncmlkLndpZHRoLA0KPiA+Pj4+
+Pj4+Pj4+ICAJCQkJCSAgYl93X2xvZzIpOw0KPiA+Pj4+Pj4+Pj4+IC0NCj4gPj4+Pj4+Pj4+PiAt
+CQkvKg0KPiA+Pj4+Pj4+Pj4+IC0JCSAqIFRvIHJlZHVjZSBjb21wbGV4aXR5IG9mIGRlYnViYmxp
+bmcgYW5kIGxvYWRpbmcNCj4gc3RhdGlzdGljcw0KPiA+Pj4+Pj4+Pj4+IC0JCSAqIGZpeCBncmlk
+X2hlaWdodF9wZXJfc2xpY2UgdG8gMSBmb3IgYm90aCBzdHJpcGVzDQo+ID4+Pj4+Pj4+Pj4gLQkJ
+ICovDQo+ID4+Pj4+Pj4+Pj4gLQkJZm9yIChpID0gMDsgaSA8IHN0cmlwZXM7IGkrKykNCj4gPj4+
+Pj4+Pj4+PiAtCQkJYWNjLT5hd2Iuc3RyaXBlc1tpXS5ncmlkLmhlaWdodF9wZXJfc2xpY2UgPSAx
+Ow0KPiA+Pj4+Pj4+Pj4+ICAJfQ0KPiA+Pj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+Pj4gKwkvKg0KPiA+
+Pj4+Pj4+Pj4+ICsJICogVG8gcmVkdWNlIGNvbXBsZXhpdHkgb2YgZGVidWJibGluZyBhbmQgbG9h
+ZGluZyBzdGF0aXN0aWNzDQo+ID4+Pj4+Pj4+Pj4gKwkgKiBmaXggZ3JpZF9oZWlnaHRfcGVyX3Ns
+aWNlIHRvIDEgZm9yIGJvdGggc3RyaXBlcw0KPiA+Pj4+Pj4+Pj4+ICsJICovDQo+ID4+Pj4+Pj4+
+Pj4gKwlmb3IgKGkgPSAwOyBpIDwgc3RyaXBlczsgaSsrKQ0KPiA+Pj4+Pj4+Pj4+ICsJCWFjYy0+
+YXdiLnN0cmlwZXNbaV0uZ3JpZC5oZWlnaHRfcGVyX3NsaWNlID0gMTsNCj4gPj4+Pj4+Pj4+PiAr
+DQo+ID4+Pj4+Pj4+Pj4gIAlpZiAoaW1ndV9jc3NfYXdiX29wc19jYWxjKGNzcywgcGlwZSwgJmFj
+Yy0+YXdiKSkNCj4gPj4+Pj4+Pj4+PiAgCQlyZXR1cm4gLUVJTlZBTDsNCj4gPj4+Pj4+Pj4+Pg0K
+PiA+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+IFdoaWxlIGl0IHNlZW1zIGxpa2UgYSBzZW5zaWJsZSBp
+ZGVhIHRvIGluaXRpYWxpc2UgYXJndW1lbnRzIHRvDQo+ID4+Pj4+Pj4+PiBmaXJtd2FyZSwgZG9l
+cyB0aGlzIGhhdmUgYW4gZWZmZWN0IG9uIHRoZSBzdGF0aXN0aWNzIGZvcm1hdD8NCj4gPj4+Pj4+
+Pj4+IElmIHNvLCBjYW4gdGhlIGV4aXN0aW5nIHVzZXIgc3BhY2UgY29wZSB3aXRoIHRoYXQ/DQo+
+ID4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+IFRvIHRyeSBhbmQgZmlndXJlIHRoYXQgb3V0LCB3ZSBoYXZl
+IHRlc3RlZCBzZXZlcmFsIGdyaWQNCj4gPj4+Pj4+Pj4gY29uZmlndXJhdGlvbnMgYW5kIGluc3Bl
+Y3RlZCB0aGUgY2FwdHVyZWQgc3RhdGlzdGljcy4gV2UgaGF2ZQ0KPiA+Pj4+Pj4+PiBjb252ZXJ0
+ZWQgdGhlIHN0YXRpc3RpY3MgaW4gYW4gaW1hZ2UsIHJlbmRlcmluZyBlYWNoIGNlbGwgYXMgYQ0K
+PiA+Pj4+Pj4+PiBwaXhlbCB3aG9zZSByZWQsIGdyZWVuIGFuZCBibHVlIGNvbXBvbmVudHMgYXJl
+IHRoZSBjZWxsJ3MgcmVkLA0KPiBncmVlbiBhbmQgYmx1ZSBhdmVyYWdlcy4NCj4gPj4+Pj4+Pj4g
+VGhpcyB0dXJuZWQgb3V0IHRvIGJlIGEgdmVyeSBlZmZlY3RpY2UgdG9vbCB0byBxdWlja2x5DQo+
+ID4+Pj4+Pj4+IHZpc3VhbGl6ZSBBV0Igc3RhdGlzdGljcy4NCj4gPj4+Pj4+Pj4gV2UgaGF2ZSBt
+YWRlIGEgbG90IG9mIHRlc3RzIHdpdGggZGlmZmVyZW50IG91dHB1dCByZXNvbHV0aW9ucywNCj4g
+Pj4+Pj4+Pj4gZnJvbSBhIHNtYWxsIG9uZSB1cCB0byB0aGUgZnVsbC1zY2FsZSBvbmUuDQo+ID4+
+Pj4+Pj4+DQo+ID4+Pj4+Pj4+IEhlcmUgaXMgb25lIGV4YW1wbGUgb2YgYSBzdGF0aXN0aWNzIG91
+dHB1dCB3aXRoIGEgVmlld0ZpbmRlcg0KPiA+Pj4+Pj4+PiBjb25maWd1cmVkIGFzIDE5MjB4MTI4
+MCwgd2l0aCBhIEJEUyBvdXRwdXQgY29uZmlndXJhdGlvbiBzZXQgdG8NCj4gPj4+Pj4+Pj4gMjMw
+NHgxNTM2IChzZW5zb3IgaXMgMjU5MngxOTQ0KS4NCj4gPj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4gV2l0
+aG91dCB0aGUgcGF0Y2gsIGNvbmZpZ3VyaW5nIGEgNzl4NDUgZ3JpZCBvZiAxNngxNiBjZWxscyB3
+ZQ0KPiA+Pj4+Pj4+PiBvYnRhaW4gdGhlDQo+ID4+Pj4+Pj4+IGltYWdlOiBodHRwczovL3Bhc3Rl
+Ym9hcmQuY28vZzRuQzRmSGpiVkVSLnBuZy4NCj4gPj4+Pj4+Pj4gV2UgY2FuIG5vdGljZSBhIHdl
+aXJkIHBhZGRpbmcgZXZlcnkgdHdvIGxpbmVzIGFuZCBpdCBzZWVtcyB0bw0KPiA+Pj4+Pj4+PiBi
+ZSBtaXNzaW5nIGhhbGYgb2YgdGhlIGZyYW1lLg0KPiA+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+PiBXaXRo
+IHRoZSBwYXRjaCBhcHBsaWVkLCB0aGUgc2FtZSBjb25maWd1cmF0aW9uIGdpdmVzIHVzIHRoZQ0K
+PiBpbWFnZToNCj4gPj4+Pj4+Pj4gaHR0cHM6Ly9wYXN0ZWJvYXJkLmNvL3J6YXA2YXhJdlZkdS5w
+bmcNCj4gPj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4gV2UgY2FuIGNsZWFybHkgc2VlIHRoZSBvbmUgcGFk
+ZGluZyBwaXhlbCBvbiB0aGUgcmlnaHQsIGFuZCB0aGUNCj4gPj4+Pj4+Pj4gZnJhbWUgaXMgYWxs
+IHRoZXJlLCBhcyBleHBlY3RlZC4NCj4gPj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4gVG9tYXN6OiBXZSdy
+ZSBjb25jZXJuZWQgdGhhdCB0aGlzIHBhdGNoIG1heSBoYXZlIGFuIGltcGFjdCBvbg0KPiA+Pj4+
+Pj4+PiB0aGUgQ2hyb21lT1MgSW50ZWwgQ2FtZXJhIEhBTCB3aXRoIHRoZSBJUFUzLiBJcyBpdCBw
+b3NzaWJsZSBmb3INCj4gPj4+Pj4+Pj4gc29tZW9uZSB0byByZXZpZXcgYW5kIHRlc3QgdGhpcyBw
+bGVhc2U/DQo+ID4+Pj4+Pj4NCj4gPj4+Pj4+PiBBcyBzaG93biBieSB0aGUgaW1hZ2VzIGFib3Zl
+LCB0aGlzIGlzIGEgcmVhbCBmaXguIEl0IG9ubHkNCj4gPj4+Pj4+PiBhZmZlY3RzIGdyaWQgY29u
+ZmlndXJhdGlvbnMgdGhhdCB1c2UgYSBzaW5nbGUgc3RyaXBlIChsZWZ0IG9yDQo+ID4+Pj4+Pj4g
+cmlnaHQpLCBzbyBlaXRoZXIgInNtYWxsIiByZXNvbHV0aW9ucyAobGVzcyB0aGFuIDEyODAgcGl4
+ZWxzIGF0DQo+ID4+Pj4+Pj4gdGhlIEJEUyBvdXRwdXQgaWYgSSByZWNhbGwgY29ycmVjdGx5KSwg
+b3IgZ3JpZCBjb25maWd1cmF0aW9ucw0KPiA+Pj4+Pj4+IHRoYXQgc3BhbiB0aGUgbGVmdCBwYXJ0
+IG9mIHRoZSBpbWFnZSB3aXRoIGhpZ2hlciByZXNvbHV0aW9ucy4NCj4gPj4+Pj4+PiBUaGUgbGF0
+dGVyIGlzIHByb2JhYmx5IHVubGlrZWx5LiBGb3IgdGhlIGZvcm1lciwgaXQgbWF5IGFmZmVjdA0K
+PiA+Pj4+Pj4+IHRoZSBiaW5hcnkgbGlicmFyeSwgZXNwZWNpYWxseSBpZiBpdCBpbmNsdWRlcyBh
+IHdvcmthcm91bmQgZm9yDQo+IHRoZSBidWcuDQo+ID4+Pj4+Pj4NCj4gPj4+Pj4+PiBTdGlsbCwg
+dGhpcyBjaGFuZ2UgaXMgZ29vZCBJIGJlbGlldmUsIHNvIGl0IHNob3VsZCBiZSB1cHN0cmVhbWVk
+Lg0KPiA+DQo=
