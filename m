@@ -2,145 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE04E41AC41
-	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 11:50:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9D0F41AD22
+	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 12:38:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240011AbhI1JwP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Sep 2021 05:52:15 -0400
-Received: from comms.puri.sm ([159.203.221.185]:57794 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239989AbhI1JwN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Sep 2021 05:52:13 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 102D0DFD66;
-        Tue, 28 Sep 2021 02:50:34 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id L3BYOu-rMZEZ; Tue, 28 Sep 2021 02:50:33 -0700 (PDT)
-Message-ID: <802a27f49cbde7d37179a9dfddca837f096a34b4.camel@puri.sm>
-Subject: Re: [PATCH v9 0/4] Add support for the Hynix Hi-846 camera
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     pavel@ucw.cz, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org, sakari.ailus@iki.fi
-Cc:     devicetree@vger.kernel.org, kernel@puri.sm,
-        krzysztof.kozlowski@canonical.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, paul.kocialkowski@bootlin.com,
-        phone-devel@vger.kernel.org, robh@kernel.org, shawnx.tu@intel.com
-Date:   Tue, 28 Sep 2021 11:50:25 +0200
-In-Reply-To: <20210906102837.2190387-1-martin.kepplinger@puri.sm>
-References: <20210906102837.2190387-1-martin.kepplinger@puri.sm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        id S240187AbhI1KkQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Sep 2021 06:40:16 -0400
+Received: from omta001.cacentral1.a.cloudfilter.net ([3.97.99.32]:40293 "EHLO
+        omta001.cacentral1.a.cloudfilter.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240161AbhI1KkQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 Sep 2021 06:40:16 -0400
+Received: from shw-obgw-4004a.ext.cloudfilter.net ([10.228.9.227])
+        by cmsmtp with ESMTP
+        id UwjamiW1JczbLVAVQmcz27; Tue, 28 Sep 2021 10:38:36 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
+        t=1632825516; bh=Zr/GomDxppbTzzptIEh8LW+qwfa9zxDT5ZlGAZT1WhU=;
+        h=From:To:Cc:Subject:Date;
+        b=mkMXfjzYqbUSj+RHIFmxCrUmc1CBb00aHREOyoW52Z4T5/7jNqCsapGtWE6MyN0m5
+         vy0ujnwcgwJsqQLdPX1vWQqUl9Sb54iNHx1qTSsOZwvf2NdHD1zizvyI5rYLftCYrN
+         jRSfUrnE/qA8dL8lQCczFPBkBho8n4Vn29pVpyDkw0Hn8RsXJMh7TJACuxpazdY3Cg
+         eU5A3ejAmsoFivmGL6aU+yxT7vYjIyo8kREkaToa2XVmf96b+zbQjZTeuAoRH19YPl
+         yoqeIOUZzNyMX5fVRyTIH4yVmZkSyJyuql5gw3i54OHqnd7Cb2fu4feaa9sYeFDf30
+         5vzLTKFQdLM1A==
+Received: from shaw.ca ([70.71.78.228])
+        by cmsmtp with ESMTPA
+        id VAVOm7MUwdCHGVAVPmF4AK; Tue, 28 Sep 2021 10:38:36 +0000
+Authentication-Results: ; auth=pass (LOGIN) smtp.auth=joevt@shaw.ca
+X-Authority-Analysis: v=2.4 cv=SdyUytdu c=1 sm=1 tr=0 ts=6152f0ac
+ a=qDatE6m/3wxSEG8Wq7h0zQ==:117 a=qDatE6m/3wxSEG8Wq7h0zQ==:17
+ a=iYyjgUWRv5lsHnploQIA:9
+From:   joevt <joevt@shaw.ca>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: [PATCH 0/2] edid-decode: corrections
+Date:   Tue, 28 Sep 2021 03:38:32 -0700
+Message-Id: <20210928103834.2186-1-joevt@shaw.ca>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfD9hOCLDCCWdq6RcTGDNn5bX8EDrdsMnfu+PuCP3KSGth/3oGaNVy0xGsR18tooCqQPhBw0fhuHgrb3PMNBZzM8g9+NkgU4NsGgHI4qSH5oeIChdG8+I
+ /iLf8AWfXKJv7DykUnrUiFwxsprFiYLUAChCiCxt+/d/ueCjMEnyftb4UGlq7kvPzo+QZmJsR0vDXKPtioU21sJd460+UWxToHo=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Montag, dem 06.09.2021 um 12:28 +0200 schrieb Martin Kepplinger:
-> hi,
-> 
-> This series adds support for the SK Hynix Hi-846 CMOS images sensor.
-> It includes the dt-bindings and the driver.
-> 
-> best wishes,
-> 
->                               martin
+These two changes are in response to the last two commits:
+- report length for unknown data blocks
+- fix reporting PNP as a proper PNP
 
-hi all, are there any objections, doubts or other thoughts about this
-that would prevent it from being merged?
+joevt (2):
+  edid-decode: fix pnp and oui
+  edid-decode: output correct unknown block length
 
-thanks for all the good review,
+ edid-decode.cpp           |  4 +++-
+ oui.h                     |  2 +-
+ parse-displayid-block.cpp | 10 +++++-----
+ 3 files changed, 9 insertions(+), 7 deletions(-)
 
-                                martin
-
-> 
-> revision history
-> ----------------
-> v9: (thank you Pavel and Sakari)
-> * fix the probe() error paths (that I broke in v8)
-> * cheanups
-> 
-> v8: (thank you Laurent)
-> * add fwnode properties support for orientation and rotation on the
-> board
-> * remove the arm64 defconfig addition patch. deal with that later.
-> * 
-> https://lore.kernel.org/linux-media/20210831134344.1673318-1-martin.kepplinger@puri.sm/
-> 
-> v7: (thank you Sakari)
-> * move the check for supported nr_lanes for a mode to set_format()
-> * change get_selection() according to the Sakaris' review
-> * check for the mipi link frequencies from DT
-> * check for the external clock rate and add assigned-clock-rates
-> requirement
-> * 
-> https://lore.kernel.org/linux-media/20210712084137.3779628-1-martin.kepplinger@puri.sm/
-> 
-> v6:
-> * better digital gain defaults
-> * lane config fix found by smatch
-> * fix regulator usage in power_on()
-> * 
-> https://lore.kernel.org/linux-media/20210628101054.828579-1-martin.kepplinger@puri.sm/
-> 
-> v5: (thank you Laurent and Rob)
-> * minor dt-bindings fixes
-> * driver: disable lens shading correcting (no seed values yet used
-> from "otp" for that)
-> * add reviewed-tags
-> * 
-> https://lore.kernel.org/linux-media/20210611101404.2553818-1-martin.kepplinger@puri.sm/
-> 
-> v4: (thank you Laurent, Sakari and Rob) many driver changes, see v3
-> review for
-> details. they include:
-> * add get_selection(), remove open() callback
-> * use gpiod API
-> * use regulator_bulk API
-> * fix power supply timing sequence and bindings
-> * 
-> https://lore.kernel.org/linux-media/20210607105213.1211722-1-martin.kepplinger@puri.sm/
-> 
-> v3: (thank you, Laurent)
-> * use do_div() for divisions
-> * reset-gpios DT property name instead of rst-gpios
-> * improve the dt-bindings
-> * add the phone-devel list
-> * 
-> https://lore.kernel.org/linux-media/20210531120737.168496-1-martin.kepplinger@puri.sm/
-> 
-> v2:
-> sent a bit early due to stupid mistakes
-> * fix build issues
-> * fix dtschema issues
-> * add enable for arm64 defconfig
-> * 
-> https://lore.kernel.org/linux-media/20210530212337.GA15366@duo.ucw.cz/T/#t
-> 
-> v1:
-> * 
-> https://lore.kernel.org/linux-media/20210527091221.3335998-1-martin.kepplinger@puri.sm/
-> 
-> 
-> Martin Kepplinger (4):
->   dt-bindings: vendor-prefixes: Add SK Hynix Inc.
->   dt-bindings: media: document SK Hynix Hi-846 MIPI CSI-2 8M pixel
->     sensor
->   media: i2c: add driver for the SK Hynix Hi-846 8M pixel camera
->   Documentation: i2c-cardlist: add the Hynix hi846 sensor
-> 
->  .../admin-guide/media/i2c-cardlist.rst        |    1 +
->  .../bindings/media/i2c/hynix,hi846.yaml       |  120 +
->  .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
->  MAINTAINERS                                   |    6 +
->  drivers/media/i2c/Kconfig                     |   13 +
->  drivers/media/i2c/Makefile                    |    1 +
->  drivers/media/i2c/hi846.c                     | 2190
-> +++++++++++++++++
->  7 files changed, 2333 insertions(+)
->  create mode 100644
-> Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
->  create mode 100644 drivers/media/i2c/hi846.c
-> 
-
+-- 
+2.24.3 (Apple Git-128)
 
