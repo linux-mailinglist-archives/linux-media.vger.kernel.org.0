@@ -2,75 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D459E41AD24
-	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 12:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9994941AF1A
+	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 14:33:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240190AbhI1KkR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Sep 2021 06:40:17 -0400
-Received: from omta001.cacentral1.a.cloudfilter.net ([3.97.99.32]:47033 "EHLO
-        omta001.cacentral1.a.cloudfilter.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240177AbhI1KkR (ORCPT
+        id S240553AbhI1MfD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Sep 2021 08:35:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52798 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240528AbhI1MfC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Sep 2021 06:40:17 -0400
-Received: from shw-obgw-4004a.ext.cloudfilter.net ([10.228.9.227])
-        by cmsmtp with ESMTP
-        id UwjamiW1TczbLVAVRmcz2E; Tue, 28 Sep 2021 10:38:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
-        t=1632825517; bh=THiIQYzt387+2gPJ0WXJlEE91FlNkaKVJZxVSF9I7vI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=r+OkGnuv+LIQ8G5XXLs/34ao9AlRtyPnj4zTxLQ7IkCARvhFfekGn2/vv3o5cK1La
-         Nsrs9cu9qwIZcpRMrvm/DSgUCnQ+9CHmjTyNygltLWm6ClRrav34LSMTFkPr7Lh6Du
-         cWmUuytllsldBRkck91GrOJkFbcasQMpHNyN+olLiZ/+AxtblkUfUGFGtVPkifMYux
-         2YP0zmLRBkWWX06AIuiKH1U4d2gzlQNdnmmYBIxtSB04pKLDRjPvtcyakoP2vd8FC9
-         jgm9CtUSxbpv6sO+tMRNo35DOFA7cl8DBhBf8WbAOtue3Ug3/5JhW86nDH5/3fZwLE
-         8feFw5SNeHklg==
-Received: from shaw.ca ([70.71.78.228])
-        by cmsmtp with ESMTPA
-        id VAVOm7MUwdCHGVAVRmF4AZ; Tue, 28 Sep 2021 10:38:37 +0000
-Authentication-Results: ; auth=pass (LOGIN) smtp.auth=joevt@shaw.ca
-X-Authority-Analysis: v=2.4 cv=SdyUytdu c=1 sm=1 tr=0 ts=6152f0ad
- a=qDatE6m/3wxSEG8Wq7h0zQ==:117 a=qDatE6m/3wxSEG8Wq7h0zQ==:17 a=_Dj-zB-qAAAA:8
- a=V-7VWGlF9ycRYLkGX24A:9 a=c-cOe7UV8MviEfHuAVEQ:22
-From:   joevt <joevt@shaw.ca>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Subject: [PATCH 2/2] edid-decode: output correct unknown block length
-Date:   Tue, 28 Sep 2021 03:38:34 -0700
-Message-Id: <20210928103834.2186-3-joevt@shaw.ca>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20210928103834.2186-1-joevt@shaw.ca>
-References: <20210928103834.2186-1-joevt@shaw.ca>
+        Tue, 28 Sep 2021 08:35:02 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DDF3C061575
+        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 05:33:23 -0700 (PDT)
+Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 32B633F1;
+        Tue, 28 Sep 2021 14:33:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1632832401;
+        bh=h9xsLqGI5F842oPjy1JRtrrI3blKZcNwZDVhx4c5doI=;
+        h=From:To:Cc:References:Subject:Date:In-Reply-To:From;
+        b=nHm6QkU1gKUCsdwErh5g6oU1LuVcbi5w+bbBwSFsPNOdD8T9qXCJOs0c930Z37nj6
+         JsauekhkwTYbUllWd2+Jii7aM/V2tav0PN0OXCYJIe8P2KYrU2b72HqzC6vdPhKldw
+         ay8fKGjWFoo0ON86EO7HmHEvRTULUB6yUa3S9Ll4=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
+ <20210830110116.488338-3-tomi.valkeinen@ideasonboard.com>
+ <20210915094403.cazj7bjampnes4ba@uno.localdomain>
+ <8e322af6-c010-f906-f733-6d3f770a48fc@ideasonboard.com>
+ <f0f4bc4b-7594-28ab-8e8a-2819ce82df47@ideasonboard.com>
+ <20210916080802.rznseum57gniplqp@uno.localdomain>
+ <627ede43-090f-7440-57ed-fde9bc55fa5d@ideasonboard.com>
+ <YVEJJWLv9fyG1Tw7@pendragon.ideasonboard.com>
+ <8b8d3bc4-80a0-e901-e417-20e0c8b7a4c6@ideasonboard.com>
+ <YVGRRfea+YaijluM@pendragon.ideasonboard.com>
+ <0118cbf0-6024-aea3-95b3-4129d3330931@ideasonboard.com>
+Subject: Re: [PATCH v8 02/36] media: subdev: add active state to struct
+ v4l2_subdev
+Message-ID: <8179624e-3a15-f3f3-0cc1-8f3282197b09@ideasonboard.com>
+Date:   Tue, 28 Sep 2021 15:33:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <0118cbf0-6024-aea3-95b3-4129d3330931@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfLltxFs50+X+rAAaOjL03auIJnlb5XGbI/ltCgsiYvbpHEHSQq/h9OBfXYqv5uc9slJZCy2J522OHV0zMV+3hCO30DclEoMD5i+FHlpYhcRdP8plhnch
- bzxV5aGNAT4c7z9Ub2HCBMnByoMTWp1oJnHJUjdeb7MIjs2KzCKvCXFHlepjYF9D4PVS2pRxXZjmXbXefixwIEE+E+471u0Whfk=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The correct length of a DisplayID block is len. It is the number of bytes in the payload bytes (doesn't include the tag or length or revision). It may include the OUI but we don't output the OUI in hex_block, and an unknown block can't have an OUI unless there's a new DisplayID spec with a new type of block that we don't know about.
+On 28/09/2021 08:14, Tomi Valkeinen wrote:
 
-The length parameter passed to displayid_block is the number of bytes that remain in a DisplayID extension block (maybe it needs to be renamed?). We pass it to displayid_block so it can handle length related errors. displayid_block handles all interpretation of the data block. The only byte we know that can be interpreted on entry is the tag byte because it is the first byte and length is at least one (according to the for loop in parse_displayid_block).
-The payload length byte occurs after the tag byte - it might exist beyond the limit of length. If that's the case, we can at least report the tag block type with the error, but we choose not to. Instead, we output the rest of the bytes (including the tag) as hex because it probably isn't a real block.
+> Yes. I'm not 100% sure yet if it's possible to get rid of which from 
+> init_cfg, but I'll try it out.
+> 
+>> As ACTIVE state support is opt-in, it seems to me that we won't need to
+>> mass-fix drivers as part of this series if we go for this option. Am I
+> 
+> Yes, I think so. I'll be wiser after I've worked on this a bit =). I 
+> think the routing needs the biggest change, as the routing table 
+> contains 'which'. But routing won't affect the current drivers.
+> 
+> However, 'which' is quite ingrained to v4l2, I won't be too surprised if 
+> I keep finding new 'whiches' while removing it from the init_cfg call 
+> paths.
 
-Signed-off-by: Joe van Tunen <joevt@shaw.ca>
----
- parse-displayid-block.cpp | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It was rather easy to get rid of 'which'. I now have 
+v4l2_subdev_routing, which is the struct used in the uAPI:
 
-diff --git a/parse-displayid-block.cpp b/parse-displayid-block.cpp
-index b318766..c8cea53 100644
---- a/parse-displayid-block.cpp
-+++ b/parse-displayid-block.cpp
-@@ -1711,7 +1711,7 @@ unsigned edid_state::displayid_block(const unsigned version, const unsigned char
- 	// 0x80 RESERVED
- 	case 0x81: data_block = "CTA-861 DisplayID Data Block"; break;
- 	// 0x82 .. 0xff RESERVED
--	default:   data_block = "Unknown DisplayID Data Block (" + utohex(tag) + ", length " + std::to_string(length) + ")"; break;
-+	default:   data_block = "Unknown DisplayID Data Block (" + utohex(tag) + ", length " + std::to_string(len) + ")"; break;
- 	}
- 
- 	if (length < 3) {
--- 
-2.24.3 (Apple Git-128)
+struct v4l2_subdev_routing {
+	__u32 which;
+	__u64 routes;
+	__u32 num_routes;
+	__u32 reserved[5];
+};
 
+Then I have v4l2_subdev_krouting, which is used when calling the subdev 
+set_routing op:
+
+struct v4l2_subdev_krouting {
+	u32 which;
+	struct v4l2_subdev_routing_table table;
+};
+
+And I have v4l2_subdev_routing_table, which is used in the various 
+helper functions, and stored in the state:
+
+struct v4l2_subdev_routing_table {
+	unsigned int num_routes;
+	struct v4l2_subdev_route *routes;
+};
+
+As the only use of v4l2_subdev_krouting is when calling the subdev's 
+set_routing, I think we should just drop it and pass 'which' as a 
+parameter to subdev's set_routing(). That is a different style compared 
+to the other ops, which have the 'which' inside the passed struct.
+
+Any opinions?
+
+  Tomi
