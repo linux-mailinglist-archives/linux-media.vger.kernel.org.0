@@ -2,111 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED27A41A6CC
-	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 06:50:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7782141A6E0
+	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 07:02:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230233AbhI1Ew3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Sep 2021 00:52:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58316 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbhI1Ew3 (ORCPT
+        id S233972AbhI1FEF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Sep 2021 01:04:05 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:56936 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233365AbhI1FEC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Sep 2021 00:52:29 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DE41C061575
-        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 21:50:50 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id k24so19904191pgh.8
-        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 21:50:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=M0Co+ALRufPDUwEQ8baD5b9ifUKrM4r2VVJwlHDINLo=;
-        b=EFAONHjEgGTHC3pcF2kin9AidgHkPrjmbVNpOEJ0DiL4kz4BTcef0fX09E7RL3FGHr
-         MCm+NUfVp//yBGLq6N01Hzlq6SLE0x8AjvM3MKeCKvHpz/zRPsK7CCRvq+zd7xDP0JAY
-         76WGVb99fYev5KDD01nhEG5Ww7/Os+iJpp33g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=M0Co+ALRufPDUwEQ8baD5b9ifUKrM4r2VVJwlHDINLo=;
-        b=YBBDmrYdhggGODhsTxPFie3gBKnLxiQAnMGXTn1bY3gbo2/nUVSwUzmal22M9QQ3a5
-         JUac9i0baEutnNxM4+EtjIQ6AhqrLdqcmviE1B0vQiOYOz3TF7RRsz2AGu857z2ocWE8
-         /SoumrP5U3yZMegu3TnVju/DDVI/PI4fhhCwsxS7hIYB2b0y3netgZOF4BF5bm6K/Wcv
-         Lxc1YU4ZT1ypMZTEqzsOSBAZ9mfpfksSTcHjEMPGwPlAh/xz1/7SwSxJJoL385VpCK37
-         FESUPuvo06DLACvVcTaqHzQ7HmkBXJuOInfvBgYNeSltTtFPJxSlGlfyGWba+MB8OBJk
-         AUqg==
-X-Gm-Message-State: AOAM533i7QCVzldGc/g24VBDql3VY8BbGTMhEOLb8yIeNe0Z8LJne4Jz
-        IeFYMWUkKNTGvs3PGSkjpqe3wg==
-X-Google-Smtp-Source: ABdhPJxqZF6O912rcipwO2QbikBI51gYi5RSDiHU1jOcbTf9zbqbnhqXB2QWOc1mRocq+QyetRsUeQ==
-X-Received: by 2002:a05:6a00:1a02:b0:446:d18c:8e7e with SMTP id g2-20020a056a001a0200b00446d18c8e7emr3638882pfv.46.1632804649827;
-        Mon, 27 Sep 2021 21:50:49 -0700 (PDT)
-Received: from google.com ([2409:10:2e40:5100:481c:a10e:b908:28fe])
-        by smtp.gmail.com with ESMTPSA id k190sm19613210pfd.211.2021.09.27.21.50.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Sep 2021 21:50:49 -0700 (PDT)
-Date:   Tue, 28 Sep 2021 13:50:44 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Christoph Hellwig <hch@lst.de>,
+        Tue, 28 Sep 2021 01:04:02 -0400
+Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C9F93F1;
+        Tue, 28 Sep 2021 07:02:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1632805341;
+        bh=HHi+Yt0uLGRlI96kYvIh6IZPgUwTMRdZZrKvQlYjOmM=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=NkJENOo2Aw7nporDMFrRzw1KCghN/WsPRxSKldDtoNeLFay0weSY5FeaND6z5sHin
+         ljUroBvyPw1Ff+SFsiIaVgZy/JR4xDvhG4jOO4ipvhgKnSp1YKQxifzwbRVB57ohla
+         d/GRPp/hMdOdL3TwK8sTijnkQ4CC24ErgjRAV/MM=
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCHv6 7/8] videobuf2: handle V4L2_MEMORY_FLAG_NON_COHERENT
- flag
-Message-ID: <YVKfJMpdHXrwYYRn@google.com>
-References: <20210909112430.61243-1-senozhatsky@chromium.org>
- <20210909112430.61243-8-senozhatsky@chromium.org>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
+ <20210830110116.488338-7-tomi.valkeinen@ideasonboard.com>
+ <YVEiM5MHXvWK9dr/@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v8 06/36] media: subdev: Add
+ v4l2_subdev_validate(_and_lock)_state()
+Message-ID: <fdb7faf3-337c-28aa-081d-75d317c418d5@ideasonboard.com>
+Date:   Tue, 28 Sep 2021 08:02:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210909112430.61243-8-senozhatsky@chromium.org>
+In-Reply-To: <YVEiM5MHXvWK9dr/@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (21/09/09 20:24), Sergey Senozhatsky wrote:
-[..]
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 9b7032abb2c7..f118fe7a9f58 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -959,7 +959,8 @@ struct v4l2_requestbuffers {
->  	__u32			type;		/* enum v4l2_buf_type */
->  	__u32			memory;		/* enum v4l2_memory */
->  	__u32			capabilities;
-> -	__u32			reserved[1];
-> +	__u8			flags;
-> +	__u8			reserved[3];
->  };
+On 27/09/2021 04:45, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Aug 30, 2021 at 02:00:46PM +0300, Tomi Valkeinen wrote:
+>> All suitable subdev ops are now passed either the TRY or the ACTIVE
+>> state by the v4l2 core. However, other subdrivers can still call the ops
+>> passing NULL as the state, implying the active case.
+>>
+>> Thus all subdev drivers supporting active state need to handle the NULL
+>> state case.
+> 
+> Do they ? Can't we mandate that the callers pass the correct state ? Do
+> you think that would make the transition too difficult ?
 
-[..]
+That would limit the use of the new drivers. E.g. the sensor driver I'm 
+using works fine with CAL & co. without handling the NULL, but then the 
+sensor driver couldn't be used with "old" drivers.
 
->  struct v4l2_create_buffers {
-> @@ -2515,7 +2519,8 @@ struct v4l2_create_buffers {
->  	__u32			memory;
->  	struct v4l2_format	format;
->  	__u32			capabilities;
-> -	__u32			reserved[7];
-> +	__u32			flags;
-> +	__u32			reserved[6];
->  };
+> The way I understand the issue, this would only be needed to facilitate
+> the transition. Is there a reason why the drivers you've ported (CAL &
+> co.) use v4l2_subdev_validate_and_lock_state() after completing the
+> transition, or is the correct state always passed by the caller ?
 
-These UAPI changes break strace compilation (older versions). Up until
-Feb 2021 strace had compile time asserts that check-ed sizeof() ->reserved
-fields.
+The drivers I'm using only call non-state-aware ops in the other 
+subdevs, so they should work fine without validate.
 
-  static_assert failed due to requirement
-   '(sizeof (((struct v4l2_create_buffers *)0)->reserved)) >= (sizeof (((struct_v4l2_create_buffers *)0)->reserved))'
-   "Unexpected struct v4l2_create_buffers.reserved size, please update the decoder"
+I think it's safer to just use the validate versions for now. They're 
+trivial to convert to non-validate versions later.
 
-It seems that strace has dropped those assertions
+We could just do the validate implicitly while locking the state, but it 
+would make the code a bit odd:
 
-https://github.com/strace/strace/commit/e5554291d14b852f61385ba5ba59412d133ac99d#diff-d534423e8a79b6957ef4deb7f8bbd3276bf18ede6a82553e8823ee4f840b6e06
+state = v4l2_subdev_lock_state(state);
 
+After the transition we want to do just:
 
-But we, probably, need to use unions in UAPI. Any thoughts?
+v4l2_subdev_lock_state(state);
+
+Or we could do v4l2_subdev_lock_state() with a macro, which changes the 
+state variable, but... I think I'd rather have it clear and obvious with 
+v4l2_subdev_validate_and_lock_state().
+
+>> Additionally, the subdev drivers usually need to lock the
+>> state.
+>>
+>> Add two helper functions to easen the transition to centrally managed
+>> ACTIVE state. v4l2_subdev_validate_state() ensures that the state is not
+>> NULL, and v4l2_subdev_validate_and_lock_state() does the same and
+>> additionally locks the state.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   include/media/v4l2-subdev.h | 41 +++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 41 insertions(+)
+>>
+>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>> index 52a725281b23..2290b5025fc0 100644
+>> --- a/include/media/v4l2-subdev.h
+>> +++ b/include/media/v4l2-subdev.h
+>> @@ -1307,4 +1307,45 @@ void v4l2_subdev_lock_state(struct v4l2_subdev_state *state);
+>>    */
+>>   void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state);
+>>   
+>> +/**
+>> + * v4l2_subdev_validate_state() - Gets the TRY or ACTIVE subdev state
+>> + * @sd: subdevice
+>> + * @state: subdevice state as passed to the subdev op
+>> + *
+>> + * Subdev ops used to be sometimes called with NULL as the state for ACTIVE
+>> + * case. Even if the v4l2 core now passes proper state for both TRY and
+>> + * ACTIVE cases, a subdev driver may call an op in another subdev driver,
+>> + * passing NULL.
+>> + *
+>> + * This function can be used as a helper to get the state also for the ACTIVE
+>> + * case. The subdev driver that supports ACTIVE state can use this function
+>> + * as the first thing in its ops, ensuring that the state variable contains
+>> + * either the TRY or ACTIVE state.
+>> + */
+>> +static inline struct v4l2_subdev_state *
+>> +v4l2_subdev_validate_state(struct v4l2_subdev *sd,
+>> +			   struct v4l2_subdev_state *state)
+>> +{
+>> +	return state ? state : sd->state;
+>> +}
+> 
+> This doesn't seem to be used by the drivers you've ported, or by the
+> R-Car and GMSL patches from Jacopo. Do we need this function ?
+
+Probably not. If you need to validate, you most likely will lock the 
+state right afterwards, so v4l2_subdev_validate_and_lock_state should be 
+enough.
+
+  Tomi
