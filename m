@@ -2,96 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8529D41A50B
-	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 04:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78C6E41A62F
+	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 05:46:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238539AbhI1CD3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Sep 2021 22:03:29 -0400
-Received: from mail-oo1-f42.google.com ([209.85.161.42]:43610 "EHLO
-        mail-oo1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238494AbhI1CD3 (ORCPT
+        id S238874AbhI1DsU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Sep 2021 23:48:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44162 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238852AbhI1DsT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Sep 2021 22:03:29 -0400
-Received: by mail-oo1-f42.google.com with SMTP id n4-20020a4aa7c4000000b002adb4997965so5018933oom.10;
-        Mon, 27 Sep 2021 19:01:50 -0700 (PDT)
+        Mon, 27 Sep 2021 23:48:19 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA12DC061604
+        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 20:46:40 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id s75so3262252pgs.5
+        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 20:46:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=z3bAoCya8Y7Dh6QkxEXxat/NHosu9KdF5sqakVDClzs=;
+        b=iXG2vit4ZhMA5CWRsWzZE095T5xH65GnTeu1OKkTXELLzVC3OS/Qwv0vuI546RGMOv
+         KjdQ6beOQZH881Hj17lcsBIHeVX9SrB4UgK5WANszpWjaQRnk6X0SbgHBV9FSrpVVKtQ
+         8O8msarkOX2cdb+YgQ4/rG0nA4w65Qxm4Z5Rs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=HBjpaa7sxaSk6yNv0m4ThUeRnu+WwigFczsXL34g8Z4=;
-        b=dmj8kM3rk0C3ULo0KJIq/65ReQIjpLM9G558OUnLi7NmnwiECeZhlDTnoE91KKc5Uu
-         yB6FK9PUBYiK910vMLMmtV3mb9QcNkFOPUZZeGypGwERQzxXqMgw4cu/QLul+mbtHTNP
-         v0ost2MZiZbr3Gf3DPw2lEGKBVqRsLD5H51UtaosZtpzZ7IYDPBAp6fvs0ntX/D/Bubs
-         pMxTscz21I/h9i5fNgp2zu8Y+mh94gZBv+jRdVxf5GObkEOlY5Vm6fm09Y9bntc12X9V
-         45n7vr68OMSIewBQ/El/L2iXvogHqNiGQinEZZd0Bu6gPrWS7LtSXCqsOseBDVcoaF8e
-         sQpg==
-X-Gm-Message-State: AOAM530ujZ5fa75XrsYtBcsGk5arSJpcTGek+1M85grDyxkrhJ6F3jtj
-        9H7BeBqcl/04/tBHYqKXxQ==
-X-Google-Smtp-Source: ABdhPJyiFGpnEaZEJQKQQpvbx8njRVXh5MqJbBRik+vr588di/y93ljmuPTKon6CFW2WQmK11to7cA==
-X-Received: by 2002:a4a:c292:: with SMTP id b18mr2723202ooq.64.1632794509836;
-        Mon, 27 Sep 2021 19:01:49 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id l28sm4454679oof.30.2021.09.27.19.01.48
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=z3bAoCya8Y7Dh6QkxEXxat/NHosu9KdF5sqakVDClzs=;
+        b=KmOMqBJ1Vr0Zoqdr/fOFNwES2py1wKJ4d+AIRpGyXEkLhRnvvXY2oNHMrIisioi1Ym
+         jY7VUzWaFAR+UFckWkxmNLTZpJwxFC1pQWwk1vlPbXbQ0w8OwAtChB9+/jaxC7vo/lhE
+         ogvhQnHIn2L2cRyynBWt+gZgGpBzb50QAv8hPpJLY+gAlaixeO6qWMHxkeRWQ9lpjBsR
+         xL4Pac7v8sP1PJMZ1rQAUJztfcjqMhCvs+anUmTEJUBgEOSypdE0DgdRCOk2rPWf9Oyp
+         A3lu+iihWSceP60chUBfaQbAk5X6qrVzV5maBu426TMumr+EU2F290s5Tw+UxLhzOYzr
+         QEVg==
+X-Gm-Message-State: AOAM530crAX8c7FwC4xLSpJNv/brt7r6tb8eskCSU144vSgdiYrBJcuh
+        kFXx1K8Ks25F0djKxQti5ePmYA==
+X-Google-Smtp-Source: ABdhPJzvHwlXLhgEm4VzBgzXNJBgJ2neN0GBz2lKVasoXPDHMP+l4i6Q/cz4hAonJYbux9muKZV4/w==
+X-Received: by 2002:a62:dd94:0:b0:442:bb03:9663 with SMTP id w142-20020a62dd94000000b00442bb039663mr3197190pff.0.1632800800438;
+        Mon, 27 Sep 2021 20:46:40 -0700 (PDT)
+Received: from senozhatsky.flets-east.jp ([2409:10:2e40:5100:481c:a10e:b908:28fe])
+        by smtp.gmail.com with ESMTPSA id f205sm19411980pfa.92.2021.09.27.20.46.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Sep 2021 19:01:49 -0700 (PDT)
-Received: (nullmailer pid 84114 invoked by uid 1000);
-        Tue, 28 Sep 2021 02:01:48 -0000
-Date:   Mon, 27 Sep 2021 21:01:48 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Dikshita Agarwal <dikshita@codeaurora.org>
-Cc:     robh+dt@kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org,
-        bjorn.andersson@linaro.org, linux-kernel@vger.kernel.org,
-        vgarodia@codeaurora.org, mchehab@kernel.org, agross@kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v4] dt-bindings: media: venus: Add sc7280 dt schema
-Message-ID: <YVJ3jFKGP6KfSUfM@robh.at.kernel.org>
-References: <1632743197-32291-1-git-send-email-dikshita@codeaurora.org>
+        Mon, 27 Sep 2021 20:46:40 -0700 (PDT)
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: [PATCH] media: videobuf2: always set buffer vb2 pointer
+Date:   Tue, 28 Sep 2021 12:46:34 +0900
+Message-Id: <20210928034634.333785-1-senozhatsky@chromium.org>
+X-Mailer: git-send-email 2.33.0.685.g46640cef36-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1632743197-32291-1-git-send-email-dikshita@codeaurora.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 27 Sep 2021 17:16:37 +0530, Dikshita Agarwal wrote:
-> Add a schema description for the venus video encoder/decoder on the sc7280.
-> 
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
-> change since v3:
->     Added missing dependency.
-> 
->  .../bindings/media/qcom,sc7280-venus.yaml          | 160 +++++++++++++++++++++
->  1 file changed, 160 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
-> 
+We need to always link allocated vb2_dc_buf back to vb2_buffer because
+we dereference vb2 in prepare() and finish() callbacks.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+---
+ drivers/media/common/videobuf2/videobuf2-dma-contig.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-yamllint warnings/errors:
+diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+index b052a4e36961..38767791955d 100644
+--- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
++++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+@@ -600,6 +600,7 @@ static void *vb2_dc_get_userptr(struct vb2_buffer *vb, struct device *dev,
+ 
+ 	buf->dev = dev;
+ 	buf->dma_dir = vb->vb2_queue->dma_dir;
++	buf->vb = vb;
+ 
+ 	offset = lower_32_bits(offset_in_page(vaddr));
+ 	vec = vb2_create_framevec(vaddr, size);
+@@ -788,6 +789,8 @@ static void *vb2_dc_attach_dmabuf(struct vb2_buffer *vb, struct device *dev,
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	buf->dev = dev;
++	buf->vb = vb;
++
+ 	/* create attachment for the dmabuf with the user device */
+ 	dba = dma_buf_attach(dbuf, buf->dev);
+ 	if (IS_ERR(dba)) {
+-- 
+2.33.0.685.g46640cef36-goog
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/media/qcom,sc7280-venus.example.dts:37.33-34 syntax error
-FATAL ERROR: Unable to parse input tree
-make[1]: *** [scripts/Makefile.lib:385: Documentation/devicetree/bindings/media/qcom,sc7280-venus.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1441: dt_binding_check] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1533296
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
