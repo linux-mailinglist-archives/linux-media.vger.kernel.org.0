@@ -2,171 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BEAC41B00F
-	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 15:29:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 630DB41B227
+	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 16:31:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240786AbhI1Nbe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Sep 2021 09:31:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38174 "EHLO
+        id S241219AbhI1OdD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Sep 2021 10:33:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240893AbhI1Nbb (ORCPT
+        with ESMTP id S241335AbhI1OdC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Sep 2021 09:31:31 -0400
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27508C06176D
-        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 06:29:52 -0700 (PDT)
-Received: by mail-il1-x12b.google.com with SMTP id x2so23343753ilm.2
-        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 06:29:52 -0700 (PDT)
+        Tue, 28 Sep 2021 10:33:02 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63C42C061745
+        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 07:31:23 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id y197so27543547iof.11
+        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 07:31:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KV5AEITggXzrcUqW0Pn0JDUCXvtzQQd7nfX6VcyNvh0=;
-        b=gsEil9aJ5ZOw0ASchzCW/AY/NlZwbg7FdvHHAbffANcuyVgNVj8F3r/I3y/OyqwIbk
-         QkY/gO8vfPAMQp75rG6vgEG7NkfLO4ZNSWbXrGEOjX3dKqow4MOof9p7GrAO13Ckl/VP
-         f8/C6WiPIW+rxE9R7UiZnONtD/dro2yaem2kM=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UUTefOifPzK8o8IQCRkR0DGqgC4ds4bEaHBEw4Us9gM=;
+        b=klHCR4wezPXbZVHVXJPAtwGkFI8TgDpC4VUMf1eNaT9oy5nuaAN4oSHNgzshbRb76W
+         kv24jKFOhRbPykunrHkffhboAns2DFxu1gO3mvdRVc4G0Q2aXYbyk1EeE5zIUDCEq3+x
+         gdh6EhmcI5WKpwUfjOxp7JGUMtCd+71yHBSJpxz90bwYEoKkRm4k/lEIc2KJnaqrE1MN
+         qiJNuKQudTyBgMgFJ/Ft/agEst/sQh6LRJvtidNbIdHy1DA1o35RNZ2gYSTBlVxTxzXI
+         YTgUzzlYUBkcfMEQRozLaQzQ1IyWIcfbRAoRJsdcDwXohGA7ovr/O1dT2Gd1BE2eLFVZ
+         /vPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KV5AEITggXzrcUqW0Pn0JDUCXvtzQQd7nfX6VcyNvh0=;
-        b=4h8u6togiYJNSQcoNgQ5TJFE/lPymOPgRMf3LHSOKtpuo3SfoQcsMwoLyr7r4D7/VW
-         Q8pJb29s+rUWwmuHNNQEkm3gyMSElzA4sp5ZWGdPhesWl4Ck5rn3OnI3U8RJ5p42dRWM
-         M6nEK8eWFXkrnrddvawLikda26mIwjFb8hvx6rvwA4xwKcCmDzmpinC6ZckhGt9xPOuW
-         VGStBnkYiTb6Jxn++2wn8o3E0GVYoN44e/PduzrP2DouhpTAU1tATMHcPMYaRWUTk303
-         l+wLsNDtCStJ+9cy3BioUmhgukUixHx8CN8DCyHLZ4rbJNkti1X8l4stL4cnViI+7JuU
-         mDKA==
-X-Gm-Message-State: AOAM531FWiOZOetToA8JmeQRmc+GN8IXqdpSKnyfFOoULbeKOstWgjf+
-        TOPqvYVVr5LAWfxaSq8uyq0I2w==
-X-Google-Smtp-Source: ABdhPJz3qmL3tZ3U3XkVDcDl9dtP+yn06EspPEdsou0GIPYBieCdKEZlaSYFieS9Yrw1uFrX87cOuw==
-X-Received: by 2002:a92:c744:: with SMTP id y4mr4108077ilp.288.1632835791399;
-        Tue, 28 Sep 2021 06:29:51 -0700 (PDT)
-Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id m13sm11831997ilh.45.2021.09.28.06.29.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Sep 2021 06:29:50 -0700 (PDT)
-Subject: Re: [PATCH 2/2] [v2] qcom_scm: hide Kconfig symbol
-To:     Arnd Bergmann <arnd@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Simon Trimmer <simont@opensource.cirrus.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Joerg Roedel <joro@8bytes.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Alex Elder <elder@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        freedreno@lists.freedesktop.org, iommu@lists.linux-foundation.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        netdev@vger.kernel.org, ath10k@lists.infradead.org,
-        linux-wireless@vger.kernel.org, linux-gpio@vger.kernel.org
-References: <20210928075216.4193128-1-arnd@kernel.org>
- <20210928075216.4193128-2-arnd@kernel.org>
-From:   Alex Elder <elder@ieee.org>
-Message-ID: <19bbc40d-3f13-7e9d-72c0-5d206b016bb7@ieee.org>
-Date:   Tue, 28 Sep 2021 08:29:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UUTefOifPzK8o8IQCRkR0DGqgC4ds4bEaHBEw4Us9gM=;
+        b=hpRSO2y2osBCiSn0zTEhyFbw8/SM0joXaQBvRlAnGatwKNA81HBwPFvYDLrrKZR2LM
+         MJWqt+GEAFRHiq6B8EHzcCBmn5RdPbUJXAIK9/sB4rUshBQBrR6wrfKgFyUVCBBQgQqR
+         /d1aQAhWOpqd6iO48MWS7VT3Q8pDhyBWLcB1Kct6xqGctX54CKKEiagxT9S/WsyoqLkj
+         2HPKZLfGfyBULDf6adSQE9Grmf3uAlds2pBDTt6G6GjG68epgHf1qfbQ6jiC+zrfsSfe
+         QYK7s6PD5OLQP7mh2f+lEii0VO8xnfeP6iEOeq0C/sG7n2C/o5vL1wnMgovwZOBU3aeZ
+         0JPg==
+X-Gm-Message-State: AOAM532Y8xZ+jy8dAl5pKFCYiXTNBbqT7qb86tezKbyk0vQPYhtsSGtR
+        5qDggjNlfylF0FTTt7FhU82fLV0KISDauuO2DieaMdY70Bo=
+X-Google-Smtp-Source: ABdhPJxRkCpCpjBQ4HHidyStCyTZG1vBlKD/r+m3YN0avn1VD+M9wZcZuWuIZ43OZ1v/a7TmV3nQFUTo+TBEU1b8DvE=
+X-Received: by 2002:a5d:9601:: with SMTP id w1mr4175670iol.209.1632839482836;
+ Tue, 28 Sep 2021 07:31:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210928075216.4193128-2-arnd@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CAHfbzRsFzunBDNPbQt=HUx+cBSHdBzzrJ-s4bjj+bEoB2sNvqw@mail.gmail.com>
+ <20210928095023.ezrmeivie3yr7su5@uno.localdomain>
+In-Reply-To: <20210928095023.ezrmeivie3yr7su5@uno.localdomain>
+From:   Borut Lampe <nude.bird@gmail.com>
+Date:   Tue, 28 Sep 2021 16:31:11 +0200
+Message-ID: <CAHfbzRuRnwijtdaE_HgBYFf25tBm1xd=Qp5Dya14TpvaYfOGSQ@mail.gmail.com>
+Subject: Re: OV5640 720p@60fps
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/28/21 2:50 AM, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Now that SCM can be a loadable module, we have to add another
-> dependency to avoid link failures when ipa or adreno-gpu are
-> built-in:
-> 
-> aarch64-linux-ld: drivers/net/ipa/ipa_main.o: in function `ipa_probe':
-> ipa_main.c:(.text+0xfc4): undefined reference to `qcom_scm_is_available'
-> 
-> ld.lld: error: undefined symbol: qcom_scm_is_available
->>>> referenced by adreno_gpu.c
->>>>                gpu/drm/msm/adreno/adreno_gpu.o:(adreno_zap_shader_load) in archive drivers/built-in.a
-> 
-> This can happen when CONFIG_ARCH_QCOM is disabled and we don't select
-> QCOM_MDT_LOADER, but some other module selects QCOM_SCM. Ideally we'd
-> use a similar dependency here to what we have for QCOM_RPROC_COMMON,
-> but that causes dependency loops from other things selecting QCOM_SCM.
-> 
-> This appears to be an endless problem, so try something different this
-> time:
-> 
->   - CONFIG_QCOM_SCM becomes a hidden symbol that nothing 'depends on'
->     but that is simply selected by all of its users
-> 
->   - All the stubs in include/linux/qcom_scm.h can go away
-> 
->   - arm-smccc.h needs to provide a stub for __arm_smccc_smc() to
->     allow compile-testing QCOM_SCM on all architectures.
-> 
->   - To avoid a circular dependency chain involving RESET_CONTROLLER
->     and PINCTRL_SUNXI, drop the 'select RESET_CONTROLLER' statement.
->     According to my testing this still builds fine, and the QCOM
->     platform selects this symbol already.
-> 
-> Acked-by: Kalle Valo <kvalo@codeaurora.org>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> Changes in v2:
->    - drop the 'select RESET_CONTROLLER' line, rather than adding
->      more of the same
-> ---
->   drivers/firmware/Kconfig                |  5 +-
->   drivers/gpu/drm/msm/Kconfig             |  4 +-
->   drivers/iommu/Kconfig                   |  2 +-
->   drivers/media/platform/Kconfig          |  2 +-
->   drivers/mmc/host/Kconfig                |  2 +-
->   drivers/net/ipa/Kconfig                 |  1 +
+Hi Jacopo,
 
-For drivers/net/ipa/Kconfig, looks good to me.
-Nice simplification.
+I am using MIPI CSI-2 with the Qualcomm Camera Subsystem driver on a
+custom 820 dragonboard.
 
-Acked-by: Alex Elder <elder@linaro.org>
+Kind regards,
+Borut
 
->   drivers/net/wireless/ath/ath10k/Kconfig |  2 +-
->   drivers/pinctrl/qcom/Kconfig            |  3 +-
->   include/linux/arm-smccc.h               | 10 ++++
->   include/linux/qcom_scm.h                | 71 -------------------------
->   10 files changed, 20 insertions(+), 82 deletions(-)
-> 
-
-. . .
+V V tor., 28. sep. 2021 ob 11:49 je oseba Jacopo Mondi
+<jacopo@jmondi.org> napisala:
+>
+> Hi Borut,
+>    which kind of setup are you working with, parallel or CSI-2 ?
+>
+> On Thu, Sep 23, 2021 at 12:37:01PM +0200, Borut Lampe wrote:
+> > Hi,
+> >
+> > I noticed that for now only VGA resolution supports 60fps even though
+> > the documentation says that 60fps is possible also for 1280x720.
+> > Is there a reason this hasn't been implemented yet (e.g hardware
+> > restraints)? Are there any plans to implement this? Can anyone give me
+> > some pointers on what would have to be changed in the ov5640 driver to
+> > achieve this (starting point would be linaro kernel qcomlt-4.14)?
+> >
+> > Kind regards,
+> > Borut
