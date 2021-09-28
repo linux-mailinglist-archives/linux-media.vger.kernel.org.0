@@ -2,80 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F2F941A8EB
-	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 08:25:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32DE541A942
+	for <lists+linux-media@lfdr.de>; Tue, 28 Sep 2021 09:04:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239005AbhI1G0r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Sep 2021 02:26:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51208 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239103AbhI1G0q (ORCPT
+        id S239101AbhI1HGQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Sep 2021 03:06:16 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:19094 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238962AbhI1HGP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Sep 2021 02:26:46 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAD4BC061575
-        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 23:25:06 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id e15so88206131lfr.10
-        for <linux-media@vger.kernel.org>; Mon, 27 Sep 2021 23:25:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZCQae3qtwWWvw1bArGUlcBvlQ7e1v0hnozmBJqr5+wY=;
-        b=XFcsrX2mvcmHJqhezqRZDMGZPCIkkaUydPP3SLHxN9StxlmKN5yJXcnHRj8AJAPl1i
-         Y5zNIqhkZkspqF1g9ONsNNc8sZh01VX2QCa11ftBN+9421gF887JV0TW55ceNF6dAun5
-         EFnP5PmVTGGI16/R1vuPbc9mZ6IdIWhVOpea4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZCQae3qtwWWvw1bArGUlcBvlQ7e1v0hnozmBJqr5+wY=;
-        b=br4lZbOBB8IxnNyHqCttjl8Z9Xh1xA44To6BZ9IC9RircXPbERaE/BwTW71LUPav9A
-         aWcbQF9PWX5mDgWM6Avm5ivQRZ9nNmnRgT28JZukJvi7uD65ZwFgoYfImIxzTRAx3CTd
-         AW5Vq2QyQPHkk1T+mGn1J98JRFonpgBVTKVtf/G4zMunuVeQmnfl0P7CUo7wTg9r9L2h
-         KS0fN7uZVJ3wzTjmm51Gbd3nMw/SWEZ/Dw0sfh1xMzhY+2TzT8ZQ1xCcrVviw/9eI4Gl
-         R3IM3n+8YdumCtWL3ur1Jcu3PuEC/nOkPvUvYQ9SYchzMberMD6+xynY4V1Su+Q9oCdo
-         N65w==
-X-Gm-Message-State: AOAM531KryVXsFFEoyMjzZ+nDyP4PwZNzRUJp3J0mPnxp8aWSIbdzBV6
-        gl5t1HIiMn8JSxJhbigeRk8cklPOp8nUqoC+W9qP+g==
-X-Google-Smtp-Source: ABdhPJwrT8e8JH9/bCx+L/c1ar2wKO4LHtdHouzuP6rp6HRQVrGo7bbWRh3t2y5LGqn5NFCgA24rgPc+SlhWEgvgCrA=
-X-Received: by 2002:ac2:4bc1:: with SMTP id o1mr3849019lfq.597.1632810305111;
- Mon, 27 Sep 2021 23:25:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210928034634.333785-1-senozhatsky@chromium.org>
-In-Reply-To: <20210928034634.333785-1-senozhatsky@chromium.org>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Tue, 28 Sep 2021 14:24:54 +0800
-Message-ID: <CAGXv+5HaZcf-RwGGb7phfKcoTnaeiN2H6b_BvR+qdcRYys=nzA@mail.gmail.com>
-Subject: Re: [PATCH] media: videobuf2: always set buffer vb2 pointer
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tue, 28 Sep 2021 03:06:15 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1632812676; h=Content-Type: MIME-Version: Message-ID:
+ In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
+ bh=mcC+NI9lbMYVHDFKxEvKMLG3JdbT8e+is/T3jV6QeT8=; b=xMadentVRXOrfgWoF/8roy6TCoMrmXxVaK5KsZqtyDKVP9VcwN0N7yAfdlEWschpTh8UOVVA
+ cgik8PxJmevdPl7xzNT3YHikH6jnCmvLNMnl2d5fKk3dux2F67LLnsMO07bO13FPM3uqHe0Z
+ gad9m5uuVzUs07Wt2FEmAkifwn0=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 6152be4b605ecf100b924375 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 28 Sep 2021 07:03:39
+ GMT
+Sender: kvalo=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 30C25C4360C; Tue, 28 Sep 2021 07:03:39 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL
+        autolearn=no autolearn_force=no version=3.4.0
+Received: from tykki (tynnyri.adurom.net [51.15.11.48])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: kvalo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 9DA53C4338F;
+        Tue, 28 Sep 2021 07:03:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 9DA53C4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+From:   Kalle Valo <kvalo@codeaurora.org>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>, Rob Clark <robdclark@gmail.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Alex Elder <elder@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        iommu@lists.linux-foundation.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+        ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] [RFC] qcom_scm: hide Kconfig symbol
+References: <20210927152412.2900928-1-arnd@kernel.org>
+Date:   Tue, 28 Sep 2021 10:03:25 +0300
+In-Reply-To: <20210927152412.2900928-1-arnd@kernel.org> (Arnd Bergmann's
+        message of "Mon, 27 Sep 2021 17:22:13 +0200")
+Message-ID: <87k0j1qj0i.fsf@codeaurora.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 28, 2021 at 2:16 PM Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
+Arnd Bergmann <arnd@kernel.org> writes:
+
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> We need to always link allocated vb2_dc_buf back to vb2_buffer because
-> we dereference vb2 in prepare() and finish() callbacks.
+> Now that SCM can be a loadable module, we have to add another
+> dependency to avoid link failures when ipa or adreno-gpu are
+> built-in:
 >
-> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> aarch64-linux-ld: drivers/net/ipa/ipa_main.o: in function `ipa_probe':
+> ipa_main.c:(.text+0xfc4): undefined reference to `qcom_scm_is_available'
+>
+> ld.lld: error: undefined symbol: qcom_scm_is_available
+>>>> referenced by adreno_gpu.c
+>>>>               gpu/drm/msm/adreno/adreno_gpu.o:(adreno_zap_shader_load)
+>>>> in archive drivers/built-in.a
+>
+> This can happen when CONFIG_ARCH_QCOM is disabled and we don't select
+> QCOM_MDT_LOADER, but some other module selects QCOM_SCM. Ideally we'd
+> use a similar dependency here to what we have for QCOM_RPROC_COMMON,
+> but that causes dependency loops from other things selecting QCOM_SCM.
+>
+> This appears to be an endless problem, so try something different this
+> time:
+>
+>  - CONFIG_QCOM_SCM becomes a hidden symbol that nothing 'depends on'
+>    but that is simply selected by all of its users
+>
+>  - All the stubs in include/linux/qcom_scm.h can go away
+>
+>  - arm-smccc.h needs to provide a stub for __arm_smccc_smc() to
+>    allow compile-testing QCOM_SCM on all architectures.
+>
+>  - To avoid a circular dependency chain involving RESET_CONTROLLER
+>    and PINCTRL_SUNXI, change the 'depends on RESET_CONTROLLER' in
+>    the latter one to 'select'.
+>
+> The last bit is rather annoying, as drivers should generally never
+> 'select' another subsystem, and about half the users of the reset
+> controller interface do this anyway.
+>
+> Nevertheless, this version seems to pass all my randconfig tests
+> and is more robust than any of the prior versions.
+>
+> Comments?
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-This fixes the breakage from the "videobuf2: support new noncontiguous DMA
-API" series on the RK3399 Scarlet if the ChromeOS patch that changes
-min_buffers_needed to 0 [1] is not applied.
+[...]
 
-Since there are other in-tree drivers that have min_buffers_needed=0,
-I would recommend getting some more testing.
+> diff --git a/drivers/net/wireless/ath/ath10k/Kconfig b/drivers/net/wireless/ath/ath10k/Kconfig
+> index 741289e385d5..ca007b800f75 100644
+> --- a/drivers/net/wireless/ath/ath10k/Kconfig
+> +++ b/drivers/net/wireless/ath/ath10k/Kconfig
+> @@ -44,7 +44,7 @@ config ATH10K_SNOC
+>  	tristate "Qualcomm ath10k SNOC support"
+>  	depends on ATH10K
+>  	depends on ARCH_QCOM || COMPILE_TEST
+> -	depends on QCOM_SCM || !QCOM_SCM #if QCOM_SCM=m this can't be =y
+> +	select QCOM_SCM
+>  	select QCOM_QMI_HELPERS
+>  	help
+>  	  This module adds support for integrated WCN3990 chip connected
 
-ChenYu
+I assume I can continue to build test ATH10K_SNOC with x86 as before?
+That's important for me. If yes, then:
 
-[1] https://crrev.com/c/3168489
+Acked-by: Kalle Valo <kvalo@codeaurora.org>
+
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
