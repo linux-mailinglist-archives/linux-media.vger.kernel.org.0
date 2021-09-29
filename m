@@ -2,208 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 269D841C9CE
-	for <lists+linux-media@lfdr.de>; Wed, 29 Sep 2021 18:10:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 519D641CA2D
+	for <lists+linux-media@lfdr.de>; Wed, 29 Sep 2021 18:33:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345063AbhI2QLp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Sep 2021 12:11:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39006 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345474AbhI2QLd (ORCPT
+        id S1345483AbhI2Qew (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Sep 2021 12:34:52 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:51880 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244930AbhI2Qev (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Sep 2021 12:11:33 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2316C06129F;
-        Wed, 29 Sep 2021 09:04:58 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id EB1D91F4469C
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev
-Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Fabio Estevam <festevam@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Wed, 29 Sep 2021 12:34:51 -0400
+Received: from [IPv6:2a02:810a:880:f54:fd5c:7cb1:aaa8:78b1] (unknown [IPv6:2a02:810a:880:f54:fd5c:7cb1:aaa8:78b1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3A3C31F4473B;
+        Wed, 29 Sep 2021 17:33:08 +0100 (BST)
+Subject: Re: [PATCH v8 03/12] iommu/mediatek: Add probe_defer for smi-larb
+To:     Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Evan Green <evgreen@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, youlin.pei@mediatek.com,
+        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
+        yi.kuo@mediatek.com, acourbot@chromium.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v7 11/11] media: hantro: Support NV12 on the G2 core
-Date:   Wed, 29 Sep 2021 18:04:39 +0200
-Message-Id: <20210929160439.6601-12-andrzej.p@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210929160439.6601-1-andrzej.p@collabora.com>
-References: <20210929160439.6601-1-andrzej.p@collabora.com>
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        anthony.huang@mediatek.com,
+        Frank Wunderlich <frank-w@public-files.de>
+References: <20210929013719.25120-1-yong.wu@mediatek.com>
+ <20210929013719.25120-4-yong.wu@mediatek.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <33a8b313-ad1b-d307-7e8c-2fdebdc6f1a7@collabora.com>
+Date:   Wed, 29 Sep 2021 18:33:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <20210929013719.25120-4-yong.wu@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The G2 decoder block produces NV12 4x4 tiled format (NV12_4L4).
-Enable the G2 post-processor block, in order to produce regular NV12.
 
-The logic in hantro_postproc.c is leveraged to take care of allocating
-the extra buffers and configure the post-processor, which is
-significantly simpler than the one on the G1.
 
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
----
- .../staging/media/hantro/hantro_g2_vp9_dec.c  |  6 ++--
- drivers/staging/media/hantro/hantro_hw.h      |  1 +
- .../staging/media/hantro/hantro_postproc.c    | 31 +++++++++++++++++++
- drivers/staging/media/hantro/imx8m_vpu_hw.c   | 11 +++++++
- 4 files changed, 46 insertions(+), 3 deletions(-)
+On 29.09.21 03:37, Yong Wu wrote:
+> Prepare for adding device_link.
+> 
+> The iommu consumer should use device_link to connect with the
+> smi-larb(supplier). then the smi-larb should run before the iommu
+> consumer. Here we delay the iommu driver until the smi driver is ready,
+> then all the iommu consumers always are after the smi driver.
+> 
+> When there is no this patch, if some consumer drivers run before
+> smi-larb, the supplier link_status is DL_DEV_NO_DRIVER(0) in the
+> device_link_add, then device_links_driver_bound will use WARN_ON
+> to complain that the link_status of supplier is not right.
+> 
+> device_is_bound may be more elegant here. but it is not allowed to
+> EXPORT from https://lore.kernel.org/patchwork/patch/1334670/.
+> 
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-R2/MT7623
+> ---
+>   drivers/iommu/mtk_iommu.c    | 2 +-
+>   drivers/iommu/mtk_iommu_v1.c | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> index d837adfd1da5..d5848f78a677 100644
+> --- a/drivers/iommu/mtk_iommu.c
+> +++ b/drivers/iommu/mtk_iommu.c
+> @@ -844,7 +844,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+>   			id = i;
+>   
+>   		plarbdev = of_find_device_by_node(larbnode);
+> -		if (!plarbdev) {
+> +		if (!plarbdev || !plarbdev->dev.driver) {
+>   			of_node_put(larbnode);
+>   			return -EPROBE_DEFER;
 
-diff --git a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-index 7f827b9f0133..1a26be72c878 100644
---- a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-@@ -152,7 +152,7 @@ static void config_output(struct hantro_ctx *ctx,
- 	hantro_reg_write(ctx->dev, &g2_out_dis, 0);
- 	hantro_reg_write(ctx->dev, &g2_output_format, 0);
- 
--	luma_addr = vb2_dma_contig_plane_dma_addr(&dst->base.vb.vb2_buf, 0);
-+	luma_addr = hantro_get_dec_buf_addr(ctx, &dst->base.vb.vb2_buf);
- 	hantro_write_addr(ctx->dev, G2_OUT_LUMA_ADDR, luma_addr);
- 
- 	chroma_addr = luma_addr + chroma_offset(ctx, dec_params);
-@@ -191,7 +191,7 @@ static void config_ref(struct hantro_ctx *ctx,
- 	hantro_reg_write(ctx->dev, &ref_reg->hor_scale, (refw << 14) / dst->vp9.width);
- 	hantro_reg_write(ctx->dev, &ref_reg->ver_scale, (refh << 14) / dst->vp9.height);
- 
--	luma_addr = vb2_dma_contig_plane_dma_addr(&buf->base.vb.vb2_buf, 0);
-+	luma_addr = hantro_get_dec_buf_addr(ctx, &buf->base.vb.vb2_buf);
- 	hantro_write_addr(ctx->dev, ref_reg->y_base, luma_addr);
- 
- 	chroma_addr = luma_addr + chroma_offset(ctx, dec_params);
-@@ -236,7 +236,7 @@ static void config_ref_registers(struct hantro_ctx *ctx,
- 	config_ref(ctx, dst, &ref_regs[1], dec_params, dec_params->golden_frame_ts);
- 	config_ref(ctx, dst, &ref_regs[2], dec_params, dec_params->alt_frame_ts);
- 
--	mv_addr = vb2_dma_contig_plane_dma_addr(&mv_ref->base.vb.vb2_buf, 0) +
-+	mv_addr = hantro_get_dec_buf_addr(ctx, &mv_ref->base.vb.vb2_buf) +
- 		  mv_offset(ctx, dec_params);
- 	hantro_write_addr(ctx->dev, G2_REF_MV_ADDR(0), mv_addr);
- 
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 2961d399fd60..3d4a5dc1e6d5 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -274,6 +274,7 @@ extern const struct hantro_variant rk3399_vpu_variant;
- extern const struct hantro_variant sama5d4_vdec_variant;
- 
- extern const struct hantro_postproc_ops hantro_g1_postproc_ops;
-+extern const struct hantro_postproc_ops hantro_g2_postproc_ops;
- 
- extern const u32 hantro_vp8_dec_mc_filter[8][6];
- 
-diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
-index 4549aec08feb..79a66d001738 100644
---- a/drivers/staging/media/hantro/hantro_postproc.c
-+++ b/drivers/staging/media/hantro/hantro_postproc.c
-@@ -11,6 +11,7 @@
- #include "hantro.h"
- #include "hantro_hw.h"
- #include "hantro_g1_regs.h"
-+#include "hantro_g2_regs.h"
- 
- #define HANTRO_PP_REG_WRITE(vpu, reg_name, val) \
- { \
-@@ -99,6 +100,21 @@ static void hantro_postproc_g1_enable(struct hantro_ctx *ctx)
- 	HANTRO_PP_REG_WRITE(vpu, display_width, ctx->dst_fmt.width);
- }
- 
-+static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+	struct vb2_v4l2_buffer *dst_buf;
-+	size_t chroma_offset = ctx->dst_fmt.width * ctx->dst_fmt.height;
-+	dma_addr_t dst_dma;
-+
-+	dst_buf = hantro_get_dst_buf(ctx);
-+	dst_dma = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
-+
-+	hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
-+	hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + chroma_offset);
-+	hantro_reg_write(vpu, &g2_out_rs_e, 1);
-+}
-+
- void hantro_postproc_free(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
-@@ -127,6 +143,9 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
- 	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE)
- 		buf_size += hantro_h264_mv_size(ctx->dst_fmt.width,
- 						ctx->dst_fmt.height);
-+	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME)
-+		buf_size += hantro_vp9_mv_size(ctx->dst_fmt.width,
-+					       ctx->dst_fmt.height);
- 
- 	for (i = 0; i < num_buffers; ++i) {
- 		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
-@@ -152,6 +171,13 @@ static void hantro_postproc_g1_disable(struct hantro_ctx *ctx)
- 	HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x0);
- }
- 
-+static void hantro_postproc_g2_disable(struct hantro_ctx *ctx)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+
-+	hantro_reg_write(vpu, &g2_out_rs_e, 0);
-+}
-+
- void hantro_postproc_disable(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
-@@ -172,3 +198,8 @@ const struct hantro_postproc_ops hantro_g1_postproc_ops = {
- 	.enable = hantro_postproc_g1_enable,
- 	.disable = hantro_postproc_g1_disable,
- };
-+
-+const struct hantro_postproc_ops hantro_g2_postproc_ops = {
-+	.enable = hantro_postproc_g2_enable,
-+	.disable = hantro_postproc_g2_disable,
-+};
-diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-index 455a107ffb02..1a43f6fceef9 100644
---- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-+++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-@@ -132,6 +132,14 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
- 	},
- };
- 
-+static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
-+	{
-+		.fourcc = V4L2_PIX_FMT_NV12,
-+		.codec_mode = HANTRO_MODE_NONE,
-+		.postprocessed = true,
-+	},
-+};
-+
- static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_NV12_4L4,
-@@ -301,6 +309,9 @@ const struct hantro_variant imx8mq_vpu_g2_variant = {
- 	.dec_offset = 0x0,
- 	.dec_fmts = imx8m_vpu_g2_dec_fmts,
- 	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_g2_dec_fmts),
-+	.postproc_fmts = imx8m_vpu_g2_postproc_fmts,
-+	.num_postproc_fmts = ARRAY_SIZE(imx8m_vpu_g2_postproc_fmts),
-+	.postproc_ops = &hantro_g2_postproc_ops,
- 	.codec = HANTRO_HEVC_DECODER | HANTRO_VP9_DECODER,
- 	.codec_ops = imx8mq_vpu_g2_codec_ops,
- 	.init = imx8mq_vpu_hw_init,
--- 
-2.17.1
+if plarbdev is null doesn't that mean that the device does not exist?
+so we should return -ENODEV in that case?
 
+thanks,
+Dafna
+
+>   		}
+> diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
+> index 1467ba1e4417..4d7809432239 100644
+> --- a/drivers/iommu/mtk_iommu_v1.c
+> +++ b/drivers/iommu/mtk_iommu_v1.c
+> @@ -602,7 +602,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+>   		}
+>   
+>   		plarbdev = of_find_device_by_node(larbnode);
+> -		if (!plarbdev) {
+> +		if (!plarbdev || !plarbdev->dev.driver) {
+>   			of_node_put(larbnode);
+>   			return -EPROBE_DEFER;
+>   		}
+> 
