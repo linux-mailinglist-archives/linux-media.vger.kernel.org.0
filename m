@@ -2,164 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D788141BE74
-	for <lists+linux-media@lfdr.de>; Wed, 29 Sep 2021 06:44:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E5EF41BEEE
+	for <lists+linux-media@lfdr.de>; Wed, 29 Sep 2021 08:04:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243885AbhI2EqR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Sep 2021 00:46:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51156 "EHLO
+        id S244319AbhI2GG1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Sep 2021 02:06:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234512AbhI2EqP (ORCPT
+        with ESMTP id S243377AbhI2GG0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Sep 2021 00:46:15 -0400
-Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::1b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A837C06161C
-        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 21:44:34 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id VRSGmXkQzdDnlVRSImJy0C; Wed, 29 Sep 2021 06:44:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1632890670; bh=LKiaM6EP0PIM4vbC3tDVWEqrGONr7rw53z6Z4mwJRwk=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=h+aDymhoAa0sKJ3EQqaZ/1XEJSWs3XC5v7FMp/pXWzTlJoGC+7ZK/OECar7Juj6FG
-         5sHR6AUJ3wZIzqQin1yQrS3Q8ryEDOkVZVFiWCRHD0tMyHYRWTWXwknabDoG7axd5Q
-         hJsdj+m+4zaDcA4LKRf0wq0eLJE/XRjUq1FImYRPKoaCeUqHr20ki1w+MUO6aY6Ru3
-         tKVcyY8UP0sNAnMkWE472nw/L5rf7Xe3CmQJ8/9rgaFkDah+lGhlcr2/Q86MwKak0h
-         0NMihX4SHrfaRxymy04B0KjzrAdToKS5LWmlsT2/6Kjtr2DHNomcgIs+Ys4XkVkCPK
-         /UDiUCkK4dyDQ==
-Message-ID: <830dc9e8d58e72721e943f5ad1f99f72@smtp-cloud8.xs4all.net>
-Date:   Wed, 29 Sep 2021 06:44:28 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfOtRggO5M4mMUaIJUlSCt6FUtjDHbtcCNWOSWpXpATH8vT2gbZntCheoMaGzpS4ZzeJzCv8LNKo1d0qh3qCyyyWjPRqFSfTvkb+vy4Txnzf+9XsqOn3z
- 86i11asy4v6s+6bksUsL8CT61skXWlB4QMS5ip9xE3pnyBy799jNijeYZOCeOjDDJbESDBGgszbWNd6p5ZRiu5+7f8MHWWKoaPylrzPBI6Gncm2HrjTuNwzk
- fhgeWKHLqGZxIbcZrqd/qg==
+        Wed, 29 Sep 2021 02:06:26 -0400
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5647C06161C
+        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 23:04:45 -0700 (PDT)
+Received: by mail-ot1-x329.google.com with SMTP id 16-20020a9d0590000000b0054da8bdf2aeso1500890otd.12
+        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 23:04:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=pkOE6GhYBnoMWX9bfx7qjJXbJy9nBE9vL5NjKWq1tcQ=;
+        b=E75ZUUv8PGiZ04d/4/VPrP3uKzt+vsNoBBF2U50shBN7EXOCVDgetS7KVJ0B7DfvW5
+         BjVgZqZkzK+eeSXr4eFPO1uxW/AOcJ2nagGCtjW4+sz8oMn6sCtKNPXUP6l9taR8czFy
+         awAjTFJ61NYkRLDYzOk2sOjaYf0iGJwqDJbs4v7gWImMMNWs2bay3E92TUt8gkB/1nXN
+         HuV12ViZa5mSM6V3Z1cYW8cWj+8oU3cV3OeAXYAaHRSpX+AbhXaHCc5H/n+orfMClnCp
+         xxUjAmTmolHeso+LJcbUml1Vh/3MHjVqPmNpfJ+QqDMpxb287lBx+tIYico4rTiZxBAv
+         L/TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=pkOE6GhYBnoMWX9bfx7qjJXbJy9nBE9vL5NjKWq1tcQ=;
+        b=PD4x5wgDweYOilFkh9bYA31lewxg9Wyop3r01zRSF0KbqisVVeAYzwFszHoBmcxO7g
+         uO7lvh5mP2ZMJ+qrjRxkMFy5Ckpp1eUvt0+JHgx/Bt7Fp1Fo/anIn+jUft6/ufEWa62g
+         ykQLHr5unooWAsjKy8zGDHeB7OM65TvXAuE7xUK/NabdfkrirIGhk3l6ckIveu1gi6Zx
+         X+5EsoBv+LUvf1zW71B1sOd0kserZTeXNba133WiiqI+m3VCiViLPYZiTGfJuwzZM/Bc
+         qD1hHOeW2d9S1QtYt4t42tVG9E3WZpz06DgrZKSVXRO9uKsantZCR1/HkTrK6CMfIM6U
+         Mn8w==
+X-Gm-Message-State: AOAM531aQb2ltxDebrh6Qr7FwAcRRGiJti18/j73KEnTwrtTvqn4DJJf
+        gioxZzzHp/xmj+mKl6EoWX9V6wNPncG9p6iRyOg=
+X-Google-Smtp-Source: ABdhPJzYb2JhcnmID/2TfFp0RP+huxWyrWr9IFa5ffL8GdPG0snDDAo4aUYrFWQEuB7CRI6/OlU/qoPWLilrO5VzZrk=
+X-Received: by 2002:a9d:d4a:: with SMTP id 68mr8547835oti.5.1632895483972;
+ Tue, 28 Sep 2021 23:04:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:4fc8:0:0:0:0:0 with HTTP; Tue, 28 Sep 2021 23:04:43
+ -0700 (PDT)
+From:   Green Rodriguez <misoho505@gmail.com>
+Date:   Wed, 29 Sep 2021 07:04:43 +0100
+Message-ID: <CACSD0TB2V4ps_8PjLzNUd6eFhhh4zQN6Ww4Ysv-jeZWJ2bXaBQ@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
-
-Results of the daily build of media_tree:
-
-date:			Wed Sep 29 05:00:14 CEST 2021
-media-tree git hash:	ff79e5dea29136a6e92bfabc58ec4562f6ae9526
-media_build git hash:	61bc2cc71b936c10997da04d61ea655e706e78d6
-v4l-utils git hash:	80a766cdcb1b8c395bdf03f67a18f0b9300cdff3
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-349-gb21d5e09
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7593-g7f4b93661
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b271230dab7e119453a068d347aef2c79d6b74b2
-host hardware:		x86_64
-host os:		5.13.11-marune
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: ERRORS
-linux-git-x86_64: ERRORS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15-rc1-i686: OK
-linux-5.15-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: ERRORS
-smatch: ERRORS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+Do you need a loan(finance)? Contact us now. Mr. Green Rodriguez.
