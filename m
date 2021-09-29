@@ -2,249 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0352641C138
-	for <lists+linux-media@lfdr.de>; Wed, 29 Sep 2021 11:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9FE441C208
+	for <lists+linux-media@lfdr.de>; Wed, 29 Sep 2021 11:51:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244951AbhI2JEJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Sep 2021 05:04:09 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:33535 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244764AbhI2JEJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Sep 2021 05:04:09 -0400
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 18T8f6v8036259;
-        Wed, 29 Sep 2021 16:41:06 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 29 Sep
- 2021 17:01:52 +0800
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
-        <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
-        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-CC:     <BMC-SW@aspeedtech.com>
-Subject: [PATCH v2] media: aspeed: add debugfs
-Date:   Wed, 29 Sep 2021 17:00:25 +0800
-Message-ID: <20210929090024.8499-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+        id S245165AbhI2Jw5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Sep 2021 05:52:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38798 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S245079AbhI2Jw4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Sep 2021 05:52:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B08BC613A5;
+        Wed, 29 Sep 2021 09:51:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632909075;
+        bh=TQQ+cjIN9++CtK9DgtuA6I+X1WnMjFRfMLxBOvN/9hI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RDOtNOVfqPdKvpSr/OsPhNB0fjENTcC6due2YIfIDrAMsow0opiYt1QHJew4ql2n1
+         fZH4NruBoG9wJO8wbT0XZJbvOC+xUiY29xWFOTMILMu96eFiy5sv/dZZ7M1arg9kJs
+         7GltsB1HljAlqeovMRCxLsp8lK6AS/SlkTAt5UjPTSLE3nvQDh8DTRk4hRPx/qY3Wu
+         Ljm7ukEFU/n7DLFsJw3WsBW0ZdKkSNdy4ty2WkKje0ftyfAwYt0JLv6bCNAmbKzOtE
+         71e19ToUqhiQJknv1dNPYIjXnX1N8db1jYZmFGrSBIsCKGj8DAhwjqiVCn57wl0taE
+         eBXytOfpUPuAw==
+Date:   Wed, 29 Sep 2021 10:51:07 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>, Rob Clark <robdclark@gmail.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Joerg Roedel <joro@8bytes.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Alex Elder <elder@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Andy Gross <agross@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        iommu@lists.linux-foundation.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+        ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] [RFC] qcom_scm: hide Kconfig symbol
+Message-ID: <20210929095107.GA21057@willie-the-truck>
+References: <20210927152412.2900928-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 18T8f6v8036259
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210927152412.2900928-1-arnd@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-To show video real-time information as below:
+On Mon, Sep 27, 2021 at 05:22:13PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Now that SCM can be a loadable module, we have to add another
+> dependency to avoid link failures when ipa or adreno-gpu are
+> built-in:
+> 
+> aarch64-linux-ld: drivers/net/ipa/ipa_main.o: in function `ipa_probe':
+> ipa_main.c:(.text+0xfc4): undefined reference to `qcom_scm_is_available'
+> 
+> ld.lld: error: undefined symbol: qcom_scm_is_available
+> >>> referenced by adreno_gpu.c
+> >>>               gpu/drm/msm/adreno/adreno_gpu.o:(adreno_zap_shader_load) in archive drivers/built-in.a
+> 
+> This can happen when CONFIG_ARCH_QCOM is disabled and we don't select
+> QCOM_MDT_LOADER, but some other module selects QCOM_SCM. Ideally we'd
+> use a similar dependency here to what we have for QCOM_RPROC_COMMON,
+> but that causes dependency loops from other things selecting QCOM_SCM.
+> 
+> This appears to be an endless problem, so try something different this
+> time:
+> 
+>  - CONFIG_QCOM_SCM becomes a hidden symbol that nothing 'depends on'
+>    but that is simply selected by all of its users
+> 
+>  - All the stubs in include/linux/qcom_scm.h can go away
+> 
+>  - arm-smccc.h needs to provide a stub for __arm_smccc_smc() to
+>    allow compile-testing QCOM_SCM on all architectures.
+> 
+>  - To avoid a circular dependency chain involving RESET_CONTROLLER
+>    and PINCTRL_SUNXI, change the 'depends on RESET_CONTROLLER' in
+>    the latter one to 'select'.
+> 
+> The last bit is rather annoying, as drivers should generally never
+> 'select' another subsystem, and about half the users of the reset
+> controller interface do this anyway.
+> 
+> Nevertheless, this version seems to pass all my randconfig tests
+> and is more robust than any of the prior versions.
+> 
+> Comments?
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/firmware/Kconfig                |  4 +-
+>  drivers/gpu/drm/msm/Kconfig             |  4 +-
+>  drivers/iommu/Kconfig                   |  2 +-
+>  drivers/media/platform/Kconfig          |  2 +-
+>  drivers/mmc/host/Kconfig                |  2 +-
+>  drivers/net/ipa/Kconfig                 |  1 +
+>  drivers/net/wireless/ath/ath10k/Kconfig |  2 +-
+>  drivers/pinctrl/qcom/Kconfig            |  3 +-
+>  drivers/pinctrl/sunxi/Kconfig           |  6 +--
+>  include/linux/arm-smccc.h               | 10 ++++
+>  include/linux/qcom_scm.h                | 71 -------------------------
+>  11 files changed, 23 insertions(+), 84 deletions(-)
+> 
+> diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
+> index 220a58cf0a44..f7dd82ef0b9c 100644
+> --- a/drivers/firmware/Kconfig
+> +++ b/drivers/firmware/Kconfig
+> @@ -203,9 +203,7 @@ config INTEL_STRATIX10_RSU
+>  	  Say Y here if you want Intel RSU support.
+>  
+>  config QCOM_SCM
+> -	tristate "Qcom SCM driver"
+> -	depends on ARM || ARM64
+> -	depends on HAVE_ARM_SMCCC
+> +	tristate
+>  	select RESET_CONTROLLER
+>  
+>  config QCOM_SCM_DOWNLOAD_MODE_DEFAULT
+> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+> index e9c6af78b1d7..3ddf739a6f9b 100644
+> --- a/drivers/gpu/drm/msm/Kconfig
+> +++ b/drivers/gpu/drm/msm/Kconfig
+> @@ -17,7 +17,7 @@ config DRM_MSM
+>  	select DRM_SCHED
+>  	select SHMEM
+>  	select TMPFS
+> -	select QCOM_SCM if ARCH_QCOM
+> +	select QCOM_SCM
+>  	select WANT_DEV_COREDUMP
+>  	select SND_SOC_HDMI_CODEC if SND_SOC
+>  	select SYNC_FILE
+> @@ -55,7 +55,7 @@ config DRM_MSM_GPU_SUDO
+>  
+>  config DRM_MSM_HDMI_HDCP
+>  	bool "Enable HDMI HDCP support in MSM DRM driver"
+> -	depends on DRM_MSM && QCOM_SCM
+> +	depends on DRM_MSM
+>  	default y
+>  	help
+>  	  Choose this option to enable HDCP state machine
+> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> index 124c41adeca1..989c83acbfee 100644
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -308,7 +308,7 @@ config APPLE_DART
+>  config ARM_SMMU
+>  	tristate "ARM Ltd. System MMU (SMMU) Support"
+>  	depends on ARM64 || ARM || (COMPILE_TEST && !GENERIC_ATOMIC64)
+> -	depends on QCOM_SCM || !QCOM_SCM #if QCOM_SCM=m this can't be =y
+> +	select QCOM_SCM
+>  	select IOMMU_API
+>  	select IOMMU_IO_PGTABLE_LPAE
+>  	select ARM_DMA_USE_IOMMU if ARM
 
-Caputre:
-  Signal              : Unlock
-  Width               : 1920
-  Height              : 1080
-  FRC                 : 30
+I don't want to get in the way of this patch because I'm also tired of the
+randconfig failures caused by QCOM_SCM. However, ARM_SMMU is applicable to
+a wide variety of (non-qcom) SoCs and so it seems a shame to require the
+QCOM_SCM code to be included for all of those when it's not strictly needed
+at all.
 
-Performance:
-  Frame#              : 0
-  Frame Duration      :
-    Now               : 0
-    Min               : 0
-    Max               : 0
-  FPS(ms)             : 0
-
-Change-Id: I483740c4df6db07a9261c18440472a0356512bb7
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
- drivers/media/platform/aspeed-video.c | 101 ++++++++++++++++++++++++++
- 1 file changed, 101 insertions(+)
-
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index 8b3939b8052d..c5c413844441 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -21,6 +21,8 @@
- #include <linux/videodev2.h>
- #include <linux/wait.h>
- #include <linux/workqueue.h>
-+#include <linux/debugfs.h>
-+#include <linux/ktime.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-dev.h>
- #include <media/v4l2-device.h>
-@@ -203,6 +205,14 @@ struct aspeed_video_buffer {
- 	struct list_head link;
- };
- 
-+struct aspeed_video_perf {
-+	ktime_t last_sample;
-+	u32 totaltime;
-+	u32 duration;
-+	u32 duration_min;
-+	u32 duration_max;
-+};
-+
- #define to_aspeed_video_buffer(x) \
- 	container_of((x), struct aspeed_video_buffer, vb)
- 
-@@ -241,6 +251,8 @@ struct aspeed_video {
- 	unsigned int frame_left;
- 	unsigned int frame_right;
- 	unsigned int frame_top;
-+
-+	struct aspeed_video_perf perf;
- };
- 
- #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
-@@ -444,6 +456,16 @@ static void aspeed_video_write(struct aspeed_video *video, u32 reg, u32 val)
- 		readl(video->base + reg));
- }
- 
-+static void update_perf(struct aspeed_video_perf *p)
-+{
-+	p->duration =
-+		ktime_to_ms(ktime_sub(ktime_get(),  p->last_sample));
-+	p->totaltime += p->duration;
-+
-+	p->duration_max = max(p->duration, p->duration_max);
-+	p->duration_min = min(p->duration, p->duration_min);
-+}
-+
- static int aspeed_video_start_frame(struct aspeed_video *video)
- {
- 	dma_addr_t addr;
-@@ -482,6 +504,8 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
- 	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
- 			    VE_INTERRUPT_COMP_COMPLETE);
- 
-+	video->perf.last_sample = ktime_get();
-+
- 	aspeed_video_update(video, VE_SEQ_CTRL, 0,
- 			    VE_SEQ_CTRL_TRIG_CAPTURE | VE_SEQ_CTRL_TRIG_COMP);
- 
-@@ -600,6 +624,8 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
- 		u32 frame_size = aspeed_video_read(video,
- 						   VE_JPEG_COMP_SIZE_READ_BACK);
- 
-+		update_perf(&video->perf);
-+
- 		spin_lock(&video->lock);
- 		clear_bit(VIDEO_FRAME_INPRG, &video->flags);
- 		buf = list_first_entry_or_null(&video->buffers,
-@@ -760,6 +786,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 	det->width = MIN_WIDTH;
- 	det->height = MIN_HEIGHT;
- 	video->v4l2_input_status = V4L2_IN_ST_NO_SIGNAL;
-+	memset(&video->perf, 0, sizeof(video->perf));
- 
- 	do {
- 		if (tries) {
-@@ -1450,6 +1477,8 @@ static int aspeed_video_start_streaming(struct vb2_queue *q,
- 	struct aspeed_video *video = vb2_get_drv_priv(q);
- 
- 	video->sequence = 0;
-+	video->perf.duration_max = 0;
-+	video->perf.duration_min = 0xffffffff;
- 
- 	rc = aspeed_video_start_frame(video);
- 	if (rc) {
-@@ -1517,6 +1546,72 @@ static const struct vb2_ops aspeed_video_vb2_ops = {
- 	.buf_queue =  aspeed_video_buf_queue,
- };
- 
-+#ifdef CONFIG_DEBUG_FS
-+static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
-+{
-+	struct aspeed_video *v = s->private;
-+
-+	seq_puts(s, "\n");
-+
-+	seq_printf(s, "  %-20s:\t%s\n", "Signal",
-+		   v->v4l2_input_status ? "Unlock" : "Lock");
-+	seq_printf(s, "  %-20s:\t%d\n", "Width", v->pix_fmt.width);
-+	seq_printf(s, "  %-20s:\t%d\n", "Height", v->pix_fmt.height);
-+	seq_printf(s, "  %-20s:\t%d\n", "FRC", v->frame_rate);
-+
-+	seq_puts(s, "\n");
-+
-+	seq_puts(s, "Performance:\n");
-+	seq_printf(s, "  %-20s:\t%d\n", "Frame#", v->sequence);
-+	seq_printf(s, "  %-20s:\n", "Frame Duration");
-+	seq_printf(s, "    %-18s:\t%d\n", "Now", v->perf.duration);
-+	seq_printf(s, "    %-18s:\t%d\n", "Min", v->perf.duration_min);
-+	seq_printf(s, "    %-18s:\t%d\n", "Max", v->perf.duration_max);
-+	seq_printf(s, "  %-20s:\t%d\n", "FPS(ms)", 1000/(v->perf.totaltime/v->sequence));
-+
-+
-+	return 0;
-+}
-+
-+int aspeed_video_proc_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, aspeed_video_debugfs_show, inode->i_private);
-+}
-+
-+static struct file_operations aspeed_video_debugfs_ops = {
-+	.owner   = THIS_MODULE,
-+	.open    = aspeed_video_proc_open,
-+	.read    = seq_read,
-+	.llseek  = seq_lseek,
-+	.release = single_release,
-+};
-+
-+static struct dentry *debugfs_entry;
-+
-+static void aspeed_video_debugfs_remove(struct aspeed_video *video)
-+{
-+	debugfs_remove_recursive(debugfs_entry);
-+	debugfs_entry = NULL;
-+}
-+
-+static int aspeed_video_debugfs_create(struct aspeed_video *video)
-+{
-+	debugfs_entry = debugfs_create_file(DEVICE_NAME, 0444, NULL,
-+						   video,
-+						   &aspeed_video_debugfs_ops);
-+	if (!debugfs_entry)
-+		aspeed_video_debugfs_remove(video);
-+
-+	return debugfs_entry == NULL ? -EIO : 0;
-+}
-+#else
-+static void aspeed_video_debugfs_remove(struct aspeed_video *video) { }
-+static int aspeed_video_debugfs_create(struct aspeed_video *video)
-+{
-+	return 0;
-+}
-+#endif /* CONFIG_DEBUG_FS */
-+
- static int aspeed_video_setup_video(struct aspeed_video *video)
- {
- 	const u64 mask = ~(BIT(V4L2_JPEG_CHROMA_SUBSAMPLING_444) |
-@@ -1708,6 +1803,10 @@ static int aspeed_video_probe(struct platform_device *pdev)
- 		return rc;
- 	}
- 
-+	rc = aspeed_video_debugfs_create(video);
-+	if (rc)
-+		dev_err(video->dev, "debugfs create failed\n");
-+
- 	return 0;
- }
- 
-@@ -1719,6 +1818,8 @@ static int aspeed_video_remove(struct platform_device *pdev)
- 
- 	aspeed_video_off(video);
- 
-+	aspeed_video_debugfs_remove(video);
-+
- 	clk_unprepare(video->vclk);
- 	clk_unprepare(video->eclk);
- 
--- 
-2.25.1
-
+Will
