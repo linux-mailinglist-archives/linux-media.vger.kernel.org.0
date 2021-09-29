@@ -2,125 +2,349 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3CAC41C23C
-	for <lists+linux-media@lfdr.de>; Wed, 29 Sep 2021 12:05:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD35F41C45E
+	for <lists+linux-media@lfdr.de>; Wed, 29 Sep 2021 14:13:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245272AbhI2KHC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Sep 2021 06:07:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44624 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S245248AbhI2KGz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Sep 2021 06:06:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3326B61439;
-        Wed, 29 Sep 2021 10:05:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632909914;
-        bh=Xxn9/SD1dYhlDwttos3PuGBQ5U/2yCNeeOkyqW/lvMU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ORjEaY8oVoBe/kc1cZJj2pdtkHjlj8HbwEZxZTWQ2RJxE3GmpxNBmdNmOnphEgvSX
-         ZOxvvBYGhy3vPJuqA7LfPTEfGfZd04jb5pa8GODKkdyshK6wcZoWwPGMWC+MS9U+hB
-         xbVhK4m/Jq2Iwa6W/3givlEv93HsBHlrwK8xareW519JavUdMcvSDsFayE2ZD0oN8U
-         pIltEb8rvFoy0z9I8Y2vMLwBlDucBVUKGTbifrVUXnBcQOBZxHm/pShHiIlrwCdByI
-         22paW8ns7SMXCobLPJLkLp0xaLAaB7vuo8aCGQL+Oy4kg80h0CJMOIrD0tYnYvfS9M
-         gE71ALaohzM2g==
-Received: by mail-wm1-f54.google.com with SMTP id z184-20020a1c7ec1000000b003065f0bc631so4803714wmc.0;
-        Wed, 29 Sep 2021 03:05:14 -0700 (PDT)
-X-Gm-Message-State: AOAM532yZxt2Ugc20fx35XlU9lIw+2q6Dr19g/YRF6FloXm4Uy/5/Wnj
-        SBExSeBq1sMLRQCFM4vh42Bvw3zFo4f0jCdPZvo=
-X-Google-Smtp-Source: ABdhPJxj45zzIMnN/HHyq+6nU2KpFjlg3Tr2+Q2ZpxFzEZguNBmccSscTdNWt05AmI9I9AwUnU3a/laQUUwcLa8ETFA=
-X-Received: by 2002:a05:600c:896:: with SMTP id l22mr9378065wmp.173.1632909912585;
- Wed, 29 Sep 2021 03:05:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210927152412.2900928-1-arnd@kernel.org> <20210929095107.GA21057@willie-the-truck>
-In-Reply-To: <20210929095107.GA21057@willie-the-truck>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Wed, 29 Sep 2021 12:04:55 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2QnJkYCoEWhziYYXQusb-25_wUhA5ZTGtBsyfFx3NWzQ@mail.gmail.com>
-Message-ID: <CAK8P3a2QnJkYCoEWhziYYXQusb-25_wUhA5ZTGtBsyfFx3NWzQ@mail.gmail.com>
-Subject: Re: [PATCH] [RFC] qcom_scm: hide Kconfig symbol
-To:     Will Deacon <will@kernel.org>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Rob Clark <robdclark@gmail.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        id S1343686AbhI2MOs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Sep 2021 08:14:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39882 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1343569AbhI2MOq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Sep 2021 08:14:46 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AC70C06161C;
+        Wed, 29 Sep 2021 05:13:05 -0700 (PDT)
+Received: from [IPv6:2a02:810a:880:f54:fd5c:7cb1:aaa8:78b1] (unknown [IPv6:2a02:810a:880:f54:fd5c:7cb1:aaa8:78b1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 67C511F4428D;
+        Wed, 29 Sep 2021 13:13:02 +0100 (BST)
+Subject: Re: [PATCH v8 09/12] media: mtk-vcodec: Get rid of
+ mtk_smi_larb_get/put
+To:     Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Joerg Roedel <joro@8bytes.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Alex Elder <elder@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Andy Gross <agross@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, ath10k@lists.infradead.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Evan Green <evgreen@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, youlin.pei@mediatek.com,
+        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
+        yi.kuo@mediatek.com, acourbot@chromium.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        anthony.huang@mediatek.com,
+        Frank Wunderlich <frank-w@public-files.de>,
+        Irui Wang <irui.wang@mediatek.com>
+References: <20210929013719.25120-1-yong.wu@mediatek.com>
+ <20210929013719.25120-10-yong.wu@mediatek.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <02f444d5-9633-3f9c-2d1f-97ce073d1180@collabora.com>
+Date:   Wed, 29 Sep 2021 14:13:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <20210929013719.25120-10-yong.wu@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 29, 2021 at 11:51 AM Will Deacon <will@kernel.org> wrote:
-> On Mon, Sep 27, 2021 at 05:22:13PM +0200, Arnd Bergmann wrote:
-> >
-> > diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-> > index 124c41adeca1..989c83acbfee 100644
-> > --- a/drivers/iommu/Kconfig
-> > +++ b/drivers/iommu/Kconfig
-> > @@ -308,7 +308,7 @@ config APPLE_DART
-> >  config ARM_SMMU
-> >       tristate "ARM Ltd. System MMU (SMMU) Support"
-> >       depends on ARM64 || ARM || (COMPILE_TEST && !GENERIC_ATOMIC64)
-> > -     depends on QCOM_SCM || !QCOM_SCM #if QCOM_SCM=m this can't be =y
-> > +     select QCOM_SCM
-> >       select IOMMU_API
-> >       select IOMMU_IO_PGTABLE_LPAE
-> >       select ARM_DMA_USE_IOMMU if ARM
->
-> I don't want to get in the way of this patch because I'm also tired of the
-> randconfig failures caused by QCOM_SCM. However, ARM_SMMU is applicable to
-> a wide variety of (non-qcom) SoCs and so it seems a shame to require the
-> QCOM_SCM code to be included for all of those when it's not strictly needed
-> at all.
 
-Good point, I agree that needs to be fixed. I think this additional
-change should do the trick:
 
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -308,7 +308,6 @@ config APPLE_DART
- config ARM_SMMU
-        tristate "ARM Ltd. System MMU (SMMU) Support"
-        depends on ARM64 || ARM || (COMPILE_TEST && !GENERIC_ATOMIC64)
--       select QCOM_SCM
-        select IOMMU_API
-        select IOMMU_IO_PGTABLE_LPAE
-        select ARM_DMA_USE_IOMMU if ARM
-@@ -438,7 +437,7 @@ config QCOM_IOMMU
-        # Note: iommu drivers cannot (yet?) be built as modules
-        bool "Qualcomm IOMMU Support"
-        depends on ARCH_QCOM || (COMPILE_TEST && !GENERIC_ATOMIC64)
--       depends on QCOM_SCM=y
-+       select QCOM_SCM
-        select IOMMU_API
-        select IOMMU_IO_PGTABLE_LPAE
-        select ARM_DMA_USE_IOMMU
+On 29.09.21 03:37, Yong Wu wrote:
+> MediaTek IOMMU has already added the device_link between the consumer
+> and smi-larb device. If the vcodec device call the pm_runtime_get_sync,
+> the smi-larb's pm_runtime_get_sync also be called automatically.
+> 
+> CC: Tiffany Lin <tiffany.lin@mediatek.com>
+> CC: Irui Wang <irui.wang@mediatek.com>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> Reviewed-by: Evan Green <evgreen@chromium.org>
+> Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
+> Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 37 +++-------------
+>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
+>   .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
+>   .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 44 +++----------------
+>   4 files changed, 10 insertions(+), 75 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> index 6038db96f71c..d0bf9aa3b29d 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> @@ -8,14 +8,12 @@
+>   #include <linux/of_address.h>
+>   #include <linux/of_platform.h>
+>   #include <linux/pm_runtime.h>
+> -#include <soc/mediatek/smi.h>
+>   
+>   #include "mtk_vcodec_dec_pm.h"
+>   #include "mtk_vcodec_util.h"
+>   
+>   int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+>   {
+> -	struct device_node *node;
+>   	struct platform_device *pdev;
+>   	struct mtk_vcodec_pm *pm;
+>   	struct mtk_vcodec_clk *dec_clk;
+> @@ -26,18 +24,7 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+>   	pm = &mtkdev->pm;
+>   	pm->mtkdev = mtkdev;
+>   	dec_clk = &pm->vdec_clk;
+> -	node = of_parse_phandle(pdev->dev.of_node, "mediatek,larb", 0);
+> -	if (!node) {
+> -		mtk_v4l2_err("of_parse_phandle mediatek,larb fail!");
+> -		return -1;
+> -	}
+>   
+> -	pdev = of_find_device_by_node(node);
+> -	of_node_put(node);
+> -	if (WARN_ON(!pdev)) {
+> -		return -1;
+> -	}
+> -	pm->larbvdec = &pdev->dev;
+>   	pdev = mtkdev->plat_dev;
+>   	pm->dev = &pdev->dev;
+>   
+> @@ -47,14 +34,11 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+>   		dec_clk->clk_info = devm_kcalloc(&pdev->dev,
+>   			dec_clk->clk_num, sizeof(*clk_info),
+>   			GFP_KERNEL);
+> -		if (!dec_clk->clk_info) {
+> -			ret = -ENOMEM;
+> -			goto put_device;
+> -		}
+> +		if (!dec_clk->clk_info)
+> +			return -ENOMEM;
+>   	} else {
+>   		mtk_v4l2_err("Failed to get vdec clock count");
+> -		ret = -EINVAL;
+> -		goto put_device;
+> +		return -EINVAL;
+>   	}
+>   
+>   	for (i = 0; i < dec_clk->clk_num; i++) {
+> @@ -63,29 +47,24 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+>   			"clock-names", i, &clk_info->clk_name);
+>   		if (ret) {
+>   			mtk_v4l2_err("Failed to get clock name id = %d", i);
+> -			goto put_device;
+> +			return ret;
+>   		}
+>   		clk_info->vcodec_clk = devm_clk_get(&pdev->dev,
+>   			clk_info->clk_name);
+>   		if (IS_ERR(clk_info->vcodec_clk)) {
+>   			mtk_v4l2_err("devm_clk_get (%d)%s fail", i,
+>   				clk_info->clk_name);
+> -			ret = PTR_ERR(clk_info->vcodec_clk);
+> -			goto put_device;
+> +			return PTR_ERR(clk_info->vcodec_clk);
+>   		}
+>   	}
+>   
+>   	pm_runtime_enable(&pdev->dev);
+>   	return 0;
+> -put_device:
+> -	put_device(pm->larbvdec);
+> -	return ret;
+>   }
+>   
+>   void mtk_vcodec_release_dec_pm(struct mtk_vcodec_dev *dev)
+>   {
+>   	pm_runtime_disable(dev->pm.dev);
+> -	put_device(dev->pm.larbvdec);
+>   }
 
-I'll see if that causes any problems for the randconfig builds.
+Now that functions only do  'pm_runtime_disable(dev->pm.dev);' so it will be more
+readable to remove the function mtk_vcodec_release_dec_pm
+and replace with pm_runtime_disable(dev->pm.dev);
+Same for the 'enc' equivalent.
 
-       Arnd
+Thanks,
+Dafna
+
+>   
+>   int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
+> @@ -122,11 +101,6 @@ void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
+>   		}
+>   	}
+>   
+> -	ret = mtk_smi_larb_get(pm->larbvdec);
+> -	if (ret) {
+> -		mtk_v4l2_err("mtk_smi_larb_get larbvdec fail %d", ret);
+> -		goto error;
+> -	}>   	return;
+>   
+>   error:
+> @@ -139,7 +113,6 @@ void mtk_vcodec_dec_clock_off(struct mtk_vcodec_pm *pm)
+>   	struct mtk_vcodec_clk *dec_clk = &pm->vdec_clk;
+>   	int i = 0;
+>   
+> -	mtk_smi_larb_put(pm->larbvdec);
+>   	for (i = dec_clk->clk_num - 1; i >= 0; i--)
+>   		clk_disable_unprepare(dec_clk->clk_info[i].vcodec_clk);
+>   }
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> index c6c7672fecfb..64b73dd880ce 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> @@ -189,10 +189,7 @@ struct mtk_vcodec_clk {
+>    */
+>   struct mtk_vcodec_pm {
+>   	struct mtk_vcodec_clk	vdec_clk;
+> -	struct device	*larbvdec;
+> -
+>   	struct mtk_vcodec_clk	venc_clk;
+> -	struct device	*larbvenc;
+>   	struct device	*dev;
+>   	struct mtk_vcodec_dev	*mtkdev;
+>   };
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+> index 416f356af363..9a1515cf862d 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+> @@ -8,7 +8,6 @@
+>   #include <media/v4l2-event.h>
+>   #include <media/v4l2-mem2mem.h>
+>   #include <media/videobuf2-dma-contig.h>
+> -#include <soc/mediatek/smi.h>
+>   #include <linux/pm_runtime.h>
+>   
+>   #include "mtk_vcodec_drv.h"
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
+> index 1b2e4930ed27..dffb190267ed 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
+> @@ -8,58 +8,36 @@
+>   #include <linux/of_address.h>
+>   #include <linux/of_platform.h>
+>   #include <linux/pm_runtime.h>
+> -#include <soc/mediatek/smi.h>
+>   
+>   #include "mtk_vcodec_enc_pm.h"
+>   #include "mtk_vcodec_util.h"
+>   
+>   int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
+>   {
+> -	struct device_node *node;
+>   	struct platform_device *pdev;
+>   	struct mtk_vcodec_pm *pm;
+>   	struct mtk_vcodec_clk *enc_clk;
+>   	struct mtk_vcodec_clk_info *clk_info;
+>   	int ret = 0, i = 0;
+> -	struct device *dev;
+>   
+>   	pdev = mtkdev->plat_dev;
+>   	pm = &mtkdev->pm;
+>   	memset(pm, 0, sizeof(struct mtk_vcodec_pm));
+>   	pm->mtkdev = mtkdev;
+>   	pm->dev = &pdev->dev;
+> -	dev = &pdev->dev;
+>   	enc_clk = &pm->venc_clk;
+>   
+> -	node = of_parse_phandle(dev->of_node, "mediatek,larb", 0);
+> -	if (!node) {
+> -		mtk_v4l2_err("no mediatek,larb found");
+> -		return -ENODEV;
+> -	}
+> -	pdev = of_find_device_by_node(node);
+> -	of_node_put(node);
+> -	if (!pdev) {
+> -		mtk_v4l2_err("no mediatek,larb device found");
+> -		return -ENODEV;
+> -	}
+> -	pm->larbvenc = &pdev->dev;
+> -	pdev = mtkdev->plat_dev;
+> -	pm->dev = &pdev->dev;
+> -
+>   	enc_clk->clk_num = of_property_count_strings(pdev->dev.of_node,
+>   		"clock-names");
+>   	if (enc_clk->clk_num > 0) {
+>   		enc_clk->clk_info = devm_kcalloc(&pdev->dev,
+>   			enc_clk->clk_num, sizeof(*clk_info),
+>   			GFP_KERNEL);
+> -		if (!enc_clk->clk_info) {
+> -			ret = -ENOMEM;
+> -			goto put_larbvenc;
+> -		}
+> +		if (!enc_clk->clk_info)
+> +			return -ENOMEM;
+>   	} else {
+>   		mtk_v4l2_err("Failed to get venc clock count");
+> -		ret = -EINVAL;
+> -		goto put_larbvenc;
+> +		return -EINVAL;
+>   	}
+>   
+>   	for (i = 0; i < enc_clk->clk_num; i++) {
+> @@ -68,29 +46,23 @@ int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
+>   			"clock-names", i, &clk_info->clk_name);
+>   		if (ret) {
+>   			mtk_v4l2_err("venc failed to get clk name %d", i);
+> -			goto put_larbvenc;
+> +			return ret;
+>   		}
+>   		clk_info->vcodec_clk = devm_clk_get(&pdev->dev,
+>   			clk_info->clk_name);
+>   		if (IS_ERR(clk_info->vcodec_clk)) {
+>   			mtk_v4l2_err("venc devm_clk_get (%d)%s fail", i,
+>   				clk_info->clk_name);
+> -			ret = PTR_ERR(clk_info->vcodec_clk);
+> -			goto put_larbvenc;
+> +			return PTR_ERR(clk_info->vcodec_clk);
+>   		}
+>   	}
+>   
+>   	return 0;
+> -
+> -put_larbvenc:
+> -	put_device(pm->larbvenc);
+> -	return ret;
+>   }
+>   
+>   void mtk_vcodec_release_enc_pm(struct mtk_vcodec_dev *mtkdev)
+>   {
+>   	pm_runtime_disable(mtkdev->pm.dev);
+> -	put_device(mtkdev->pm.larbvenc);
+>   }
+>   
+>   
+> @@ -108,11 +80,6 @@ void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm)
+>   		}
+>   	}
+>   
+> -	ret = mtk_smi_larb_get(pm->larbvenc);
+> -	if (ret) {
+> -		mtk_v4l2_err("mtk_smi_larb_get larb3 fail %d", ret);
+> -		goto clkerr;
+> -	}
+>   	return;
+>   
+>   clkerr:
+> @@ -125,7 +92,6 @@ void mtk_vcodec_enc_clock_off(struct mtk_vcodec_pm *pm)
+>   	struct mtk_vcodec_clk *enc_clk = &pm->venc_clk;
+>   	int i = 0;
+>   
+> -	mtk_smi_larb_put(pm->larbvenc);
+>   	for (i = enc_clk->clk_num - 1; i >= 0; i--)
+>   		clk_disable_unprepare(enc_clk->clk_info[i].vcodec_clk);
+>   }
+> 
