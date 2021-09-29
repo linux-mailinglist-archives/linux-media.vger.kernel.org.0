@@ -2,19 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA2E541C99D
-	for <lists+linux-media@lfdr.de>; Wed, 29 Sep 2021 18:06:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3690941C9C6
+	for <lists+linux-media@lfdr.de>; Wed, 29 Sep 2021 18:10:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345949AbhI2QIA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Sep 2021 12:08:00 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:51366 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346138AbhI2QGb (ORCPT
+        id S1345626AbhI2QLf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Sep 2021 12:11:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39012 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345232AbhI2QLa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Sep 2021 12:06:31 -0400
+        Wed, 29 Sep 2021 12:11:30 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D943C09B04D;
+        Wed, 29 Sep 2021 09:04:51 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: andrzej.p)
-        with ESMTPSA id 7FEBC1F44672
+        with ESMTPSA id 871131F44676
 From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
@@ -36,9 +39,9 @@ Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
         Sascha Hauer <s.hauer@pengutronix.de>,
         Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v7 03/11] hantro: Simplify postprocessor
-Date:   Wed, 29 Sep 2021 18:04:31 +0200
-Message-Id: <20210929160439.6601-4-andrzej.p@collabora.com>
+Subject: [PATCH v7 04/11] hantro: Add quirk for NV12/NV12_4L4 capture format
+Date:   Wed, 29 Sep 2021 18:04:32 +0200
+Message-Id: <20210929160439.6601-5-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210929160439.6601-1-andrzej.p@collabora.com>
 References: <20210929160439.6601-1-andrzej.p@collabora.com>
@@ -48,97 +51,65 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Ezequiel Garcia <ezequiel@collabora.com>
 
-Add a 'postprocessed' boolean property to struct hantro_fmt
-to signal that a format is produced by the post-processor.
-This will allow to introduce the G2 post-processor in a simple way.
+The G2 core decoder engine produces NV12_4L4 format,
+which is a simple NV12 4x4 tiled format. The driver currently
+hides this format by always enabling the post-processor engine,
+and therefore offering NV12 directly.
+
+This is done without using the logic in hantro_postproc.c
+and therefore makes it difficult to add VP9 cleanly.
+
+Since fixing this is not easy, add a small quirk to force
+NV12 if HEVC was configured, but otherwise declare NV12_4L4
+as the pixel format in imx8mq_vpu_g2_variant.dec_fmts.
+
+This will be used by the VP9 decoder which will be added soon.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- drivers/staging/media/hantro/hantro.h          | 2 ++
- drivers/staging/media/hantro/hantro_postproc.c | 8 +-------
- drivers/staging/media/hantro/imx8m_vpu_hw.c    | 1 +
- drivers/staging/media/hantro/rockchip_vpu_hw.c | 1 +
- drivers/staging/media/hantro/sama5d4_vdec_hw.c | 1 +
- 5 files changed, 6 insertions(+), 7 deletions(-)
+ drivers/staging/media/hantro/hantro_v4l2.c  | 14 ++++++++++++++
+ drivers/staging/media/hantro/imx8m_vpu_hw.c |  2 +-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-index c2e01959dc00..dd5e56765d4e 100644
---- a/drivers/staging/media/hantro/hantro.h
-+++ b/drivers/staging/media/hantro/hantro.h
-@@ -263,6 +263,7 @@ struct hantro_ctx {
-  * @max_depth:	Maximum depth, for bitstream formats
-  * @enc_fmt:	Format identifier for encoder registers.
-  * @frmsize:	Supported range of frame sizes (only for bitstream formats).
-+ * @postprocessed: Indicates if this format needs the post-processor.
-  */
- struct hantro_fmt {
- 	char *name;
-@@ -272,6 +273,7 @@ struct hantro_fmt {
- 	int max_depth;
- 	enum hantro_enc_fmt enc_fmt;
- 	struct v4l2_frmsize_stepwise frmsize;
-+	bool postprocessed;
- };
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index bcb0bdff4a9a..d1f060c55fed 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -150,6 +150,20 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
+ 	unsigned int num_fmts, i, j = 0;
+ 	bool skip_mode_none;
  
- struct hantro_reg {
-diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
-index 882fb8bc5ddd..4549aec08feb 100644
---- a/drivers/staging/media/hantro/hantro_postproc.c
-+++ b/drivers/staging/media/hantro/hantro_postproc.c
-@@ -53,15 +53,9 @@ const struct hantro_postproc_regs hantro_g1_postproc_regs = {
- bool hantro_needs_postproc(const struct hantro_ctx *ctx,
- 			   const struct hantro_fmt *fmt)
- {
--	struct hantro_dev *vpu = ctx->dev;
--
- 	if (ctx->is_encoder)
- 		return false;
--
--	if (!vpu->variant->postproc_fmts)
--		return false;
--
--	return fmt->fourcc != V4L2_PIX_FMT_NV12;
-+	return fmt->postprocessed;
- }
- 
- static void hantro_postproc_g1_enable(struct hantro_ctx *ctx)
++	/*
++	 * The HEVC decoder on the G2 core needs a little quirk to offer NV12
++	 * only on the capture side. Once the post-processor logic is used,
++	 * we will be able to expose NV12_4L4 and NV12 as the other cases,
++	 * and therefore remove this quirk.
++	 */
++	if (capture && ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE) {
++		if (f->index == 0) {
++			f->pixelformat = V4L2_PIX_FMT_NV12;
++			return 0;
++		}
++		return -EINVAL;
++	}
++
+ 	/*
+ 	 * When dealing with an encoder:
+ 	 *  - on the capture side we want to filter out all MODE_NONE formats.
 diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-index 22fa7d2f3b64..02e61438220a 100644
+index 02e61438220a..a40b161e5956 100644
 --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
 +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-@@ -82,6 +82,7 @@ static const struct hantro_fmt imx8m_vpu_postproc_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_YUYV,
- 		.codec_mode = HANTRO_MODE_NONE,
-+		.postprocessed = true,
- 	},
- };
+@@ -134,7 +134,7 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
  
-diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-index 6c1ad5534ce5..f372f767d4ff 100644
---- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
-+++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-@@ -62,6 +62,7 @@ static const struct hantro_fmt rockchip_vpu1_postproc_fmts[] = {
+ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
  	{
- 		.fourcc = V4L2_PIX_FMT_YUYV,
+-		.fourcc = V4L2_PIX_FMT_NV12,
++		.fourcc = V4L2_PIX_FMT_NV12_4L4,
  		.codec_mode = HANTRO_MODE_NONE,
-+		.postprocessed = true,
  	},
- };
- 
-diff --git a/drivers/staging/media/hantro/sama5d4_vdec_hw.c b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
-index f3fecc7248c4..b2fc1c5613e1 100644
---- a/drivers/staging/media/hantro/sama5d4_vdec_hw.c
-+++ b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
-@@ -15,6 +15,7 @@ static const struct hantro_fmt sama5d4_vdec_postproc_fmts[] = {
  	{
- 		.fourcc = V4L2_PIX_FMT_YUYV,
- 		.codec_mode = HANTRO_MODE_NONE,
-+		.postprocessed = true,
- 	},
- };
- 
 -- 
 2.17.1
 
