@@ -2,314 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5788741BDF0
-	for <lists+linux-media@lfdr.de>; Wed, 29 Sep 2021 06:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D788141BE74
+	for <lists+linux-media@lfdr.de>; Wed, 29 Sep 2021 06:44:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244027AbhI2EVT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Sep 2021 00:21:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45464 "EHLO
+        id S243885AbhI2EqR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Sep 2021 00:46:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243992AbhI2EVQ (ORCPT
+        with ESMTP id S234512AbhI2EqP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Sep 2021 00:21:16 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4C38C061749
-        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 21:19:33 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id 16-20020a9d0590000000b0054da8bdf2aeso1258189otd.12
-        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 21:19:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wGElA4q7plQa8+h675MjByrmxCgr2foTglcxGJwe7eQ=;
-        b=0XxtxdxuxQsaGrYghSepZmEg+mymN7mpDodcuer1ZfBwLDWdMD6Pjr69uI89F3um/4
-         7CJ6XBqNgPlmiDn+FI+rG1zutNpgRyuU7blXeuqQPEfkeRojjbHvYChgY9aR7zdN5JNM
-         gMvnoxk+mcSqrinmr1183bzXHlGGCFiCOzo1HSmuYAHq69Xd9vSlIPYnZs/66gVwAHBM
-         VZFsnfKqx0jK9QdbML9HhOzaVOHbjQiVr1RGTRMox7Ngzhv84M98P2Wl4ginPQM+QwQ5
-         4zmFID1o+X1fKzOBWmLNB4MvW0Uj31v/0pnfM2u22sqZ55PdC1+/NGxw4gHpbFgXx+UA
-         rosg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wGElA4q7plQa8+h675MjByrmxCgr2foTglcxGJwe7eQ=;
-        b=458znWTU1GRQn9vqZeSnU3w4KQ0Ignk491HPklkb8HH608/KkYWpC4JdP+w/xiPgTc
-         gUJ5sguTgxADb91EL+MsaYUx6mdpzz1JHAUFz01vRwd89zD8boFWVWUUakcAGHpqpBuL
-         akUZULnh4y5bs46305EYmUf7g7Bt7HFL5CjDZc1s4fyA3A5lkxytH6OAvygQytwAR2gj
-         yoCzEOu3NgYnq/Hr3YMWkmr9CsdQgb+TZixhxm8WxvxcKRCGY1Z6SExy8zyR2D5B9rop
-         ycFak2ai7EPFJzFhQka4f8Zt6Z+OEk/BeUR/KF5cWQwV+3z9R4TIqi8ih1jAsBc8XkFW
-         ovWQ==
-X-Gm-Message-State: AOAM5313ZUIZcHVgDHJD8XxiYB5ckh9tzO2hrPtkuuM46Y/BMiOUwQyy
-        2WhaBjJ2AzsExiVWzFh0so9YDw==
-X-Google-Smtp-Source: ABdhPJxm3jV3B4Xb0fXgD0QDodasvr5KZQLcmb7LjX5hM3pCvIFkZs4M5h+NCuPtSHe14gi5dAALAw==
-X-Received: by 2002:a9d:7116:: with SMTP id n22mr8531664otj.56.1632889173299;
-        Tue, 28 Sep 2021 21:19:33 -0700 (PDT)
-Received: from tyrell.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
-        by smtp.gmail.com with ESMTPSA id p2sm240861ooe.34.2021.09.28.21.19.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Sep 2021 21:19:32 -0700 (PDT)
-From:   Shunsuke Mie <mie@igel.co.jp>
-To:     Zhu Yanjun <zyjzyj2000@gmail.com>
-Cc:     Shunsuke Mie <mie@igel.co.jp>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jianxin Xiong <jianxin.xiong@intel.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maor Gottlieb <maorg@nvidia.com>,
-        Sean Hefty <sean.hefty@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rdma@vger.kernel.org, dhobsong@igel.co.jp, taki@igel.co.jp,
-        etom@igel.co.jp
-Subject: [RFC PATCH v2 2/2] RDMA/rxe: Add dma-buf support
-Date:   Wed, 29 Sep 2021 13:19:05 +0900
-Message-Id: <20210929041905.126454-3-mie@igel.co.jp>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210929041905.126454-1-mie@igel.co.jp>
-References: <20210929041905.126454-1-mie@igel.co.jp>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Wed, 29 Sep 2021 00:46:15 -0400
+Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::1b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A837C06161C
+        for <linux-media@vger.kernel.org>; Tue, 28 Sep 2021 21:44:34 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id VRSGmXkQzdDnlVRSImJy0C; Wed, 29 Sep 2021 06:44:30 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1632890670; bh=LKiaM6EP0PIM4vbC3tDVWEqrGONr7rw53z6Z4mwJRwk=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=h+aDymhoAa0sKJ3EQqaZ/1XEJSWs3XC5v7FMp/pXWzTlJoGC+7ZK/OECar7Juj6FG
+         5sHR6AUJ3wZIzqQin1yQrS3Q8ryEDOkVZVFiWCRHD0tMyHYRWTWXwknabDoG7axd5Q
+         hJsdj+m+4zaDcA4LKRf0wq0eLJE/XRjUq1FImYRPKoaCeUqHr20ki1w+MUO6aY6Ru3
+         tKVcyY8UP0sNAnMkWE472nw/L5rf7Xe3CmQJ8/9rgaFkDah+lGhlcr2/Q86MwKak0h
+         0NMihX4SHrfaRxymy04B0KjzrAdToKS5LWmlsT2/6Kjtr2DHNomcgIs+Ys4XkVkCPK
+         /UDiUCkK4dyDQ==
+Message-ID: <830dc9e8d58e72721e943f5ad1f99f72@smtp-cloud8.xs4all.net>
+Date:   Wed, 29 Sep 2021 06:44:28 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfOtRggO5M4mMUaIJUlSCt6FUtjDHbtcCNWOSWpXpATH8vT2gbZntCheoMaGzpS4ZzeJzCv8LNKo1d0qh3qCyyyWjPRqFSfTvkb+vy4Txnzf+9XsqOn3z
+ 86i11asy4v6s+6bksUsL8CT61skXWlB4QMS5ip9xE3pnyBy799jNijeYZOCeOjDDJbESDBGgszbWNd6p5ZRiu5+7f8MHWWKoaPylrzPBI6Gncm2HrjTuNwzk
+ fhgeWKHLqGZxIbcZrqd/qg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Implement a ib device operation ‘reg_user_mr_dmabuf’. Generate a
-rxe_map from the memory space linked the passed dma-buf.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
----
- drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
- drivers/infiniband/sw/rxe/rxe_mr.c    | 118 ++++++++++++++++++++++++++
- drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
- drivers/infiniband/sw/rxe/rxe_verbs.h |   2 +
- 4 files changed, 156 insertions(+)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/infiniband/sw/rxe/rxe_loc.h b/drivers/infiniband/sw/rxe/rxe_loc.h
-index 1ca43b859d80..8bc19ea1a376 100644
---- a/drivers/infiniband/sw/rxe/rxe_loc.h
-+++ b/drivers/infiniband/sw/rxe/rxe_loc.h
-@@ -75,6 +75,8 @@ u8 rxe_get_next_key(u32 last_key);
- void rxe_mr_init_dma(struct rxe_pd *pd, int access, struct rxe_mr *mr);
- int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64 iova,
- 		     int access, struct rxe_mr *mr);
-+int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, u64 length,
-+			    u64 iova, int access, struct rxe_mr *mr);
- int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_mr *mr);
- int rxe_mr_copy(struct rxe_mr *mr, u64 iova, void *addr, int length,
- 		enum rxe_mr_copy_dir dir);
-diff --git a/drivers/infiniband/sw/rxe/rxe_mr.c b/drivers/infiniband/sw/rxe/rxe_mr.c
-index 53271df10e47..af6ef671c3a5 100644
---- a/drivers/infiniband/sw/rxe/rxe_mr.c
-+++ b/drivers/infiniband/sw/rxe/rxe_mr.c
-@@ -4,6 +4,7 @@
-  * Copyright (c) 2015 System Fabric Works, Inc. All rights reserved.
-  */
- 
-+#include <linux/dma-buf.h>
- #include "rxe.h"
- #include "rxe_loc.h"
- 
-@@ -245,6 +246,120 @@ int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64 iova,
- 	return err;
- }
- 
-+static int rxe_map_dmabuf_mr(struct rxe_mr *mr,
-+			     struct ib_umem_dmabuf *umem_dmabuf)
-+{
-+	struct rxe_map_set *set;
-+	struct rxe_phys_buf *buf = NULL;
-+	struct rxe_map **map;
-+	void *vaddr, *vaddr_end;
-+	int num_buf = 0;
-+	int err;
-+	size_t remain;
-+
-+	mr->dmabuf_map = kzalloc(sizeof &mr->dmabuf_map, GFP_KERNEL);
-+	if (!mr->dmabuf_map) {
-+		err = -ENOMEM;
-+		goto err_out;
-+	}
-+
-+	err = dma_buf_vmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
-+	if (err)
-+		goto err_free_dmabuf_map;
-+
-+	set = mr->cur_map_set;
-+	set->page_shift = PAGE_SHIFT;
-+	set->page_mask = PAGE_SIZE - 1;
-+
-+	map = set->map;
-+	buf = map[0]->buf;
-+
-+	vaddr = mr->dmabuf_map->vaddr;
-+	vaddr_end = vaddr + umem_dmabuf->dmabuf->size;
-+	remain = umem_dmabuf->dmabuf->size;
-+
-+	for (; remain; vaddr += PAGE_SIZE) {
-+		if (num_buf >= RXE_BUF_PER_MAP) {
-+			map++;
-+			buf = map[0]->buf;
-+			num_buf = 0;
-+		}
-+
-+		buf->addr = (uintptr_t)vaddr;
-+		if (remain >= PAGE_SIZE)
-+			buf->size = PAGE_SIZE;
-+		else
-+			buf->size = remain;
-+		remain -= buf->size;
-+
-+		num_buf++;
-+		buf++;
-+	}
-+
-+	return 0;
-+
-+err_free_dmabuf_map:
-+	kfree(mr->dmabuf_map);
-+err_out:
-+	return err;
-+}
-+
-+static void rxe_unmap_dmabuf_mr(struct rxe_mr *mr)
-+{
-+	struct ib_umem_dmabuf *umem_dmabuf = to_ib_umem_dmabuf(mr->umem);
-+
-+	dma_buf_vunmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
-+	kfree(mr->dmabuf_map);
-+}
-+
-+int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, u64 length,
-+			    u64 iova, int access, struct rxe_mr *mr)
-+{
-+	struct ib_umem_dmabuf *umem_dmabuf;
-+	struct rxe_map_set *set;
-+	int err;
-+
-+	umem_dmabuf = ib_umem_dmabuf_get(pd->ibpd.device, start, length, fd,
-+					 access, NULL);
-+	if (IS_ERR(umem_dmabuf)) {
-+		err = PTR_ERR(umem_dmabuf);
-+		goto err_out;
-+	}
-+
-+	rxe_mr_init(access, mr);
-+
-+	err = rxe_mr_alloc(mr, ib_umem_num_pages(&umem_dmabuf->umem), 0);
-+	if (err) {
-+		pr_warn("%s: Unable to allocate memory for map\n", __func__);
-+		goto err_release_umem;
-+	}
-+
-+	mr->ibmr.pd = &pd->ibpd;
-+	mr->umem = &umem_dmabuf->umem;
-+	mr->access = access;
-+	mr->state = RXE_MR_STATE_VALID;
-+	mr->type = IB_MR_TYPE_USER;
-+
-+	set = mr->cur_map_set;
-+	set->length = length;
-+	set->iova = iova;
-+	set->va = start;
-+	set->offset = ib_umem_offset(mr->umem);
-+
-+	err = rxe_map_dmabuf_mr(mr, umem_dmabuf);
-+	if (err)
-+		goto err_free_map_set;
-+
-+	return 0;
-+
-+err_free_map_set:
-+	rxe_mr_free_map_set(mr->num_map, mr->cur_map_set);
-+err_release_umem:
-+	ib_umem_release(&umem_dmabuf->umem);
-+err_out:
-+	return err;
-+}
-+
- int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_mr *mr)
- {
- 	int err;
-@@ -703,6 +818,9 @@ void rxe_mr_cleanup(struct rxe_pool_entry *arg)
- {
- 	struct rxe_mr *mr = container_of(arg, typeof(*mr), pelem);
- 
-+	if (mr->umem && mr->umem->is_dmabuf)
-+		rxe_unmap_dmabuf_mr(mr);
-+
- 	ib_umem_release(mr->umem);
- 
- 	if (mr->cur_map_set)
-diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.c b/drivers/infiniband/sw/rxe/rxe_verbs.c
-index 9d0bb9aa7514..6191bb4f434d 100644
---- a/drivers/infiniband/sw/rxe/rxe_verbs.c
-+++ b/drivers/infiniband/sw/rxe/rxe_verbs.c
-@@ -916,6 +916,39 @@ static struct ib_mr *rxe_reg_user_mr(struct ib_pd *ibpd,
- 	return ERR_PTR(err);
- }
- 
-+static struct ib_mr *rxe_reg_user_mr_dmabuf(struct ib_pd *ibpd, u64 start,
-+					    u64 length, u64 iova, int fd,
-+					    int access, struct ib_udata *udata)
-+{
-+	int err;
-+	struct rxe_dev *rxe = to_rdev(ibpd->device);
-+	struct rxe_pd *pd = to_rpd(ibpd);
-+	struct rxe_mr *mr;
-+
-+	mr = rxe_alloc(&rxe->mr_pool);
-+	if (!mr) {
-+		err = -ENOMEM;
-+		goto err2;
-+	}
-+
-+	rxe_add_index(mr);
-+
-+	rxe_add_ref(pd);
-+
-+	err = rxe_mr_dmabuf_init_user(pd, fd, start, length, iova, access, mr);
-+	if (err)
-+		goto err3;
-+
-+	return &mr->ibmr;
-+
-+err3:
-+	rxe_drop_ref(pd);
-+	rxe_drop_index(mr);
-+	rxe_drop_ref(mr);
-+err2:
-+	return ERR_PTR(err);
-+}
-+
- static struct ib_mr *rxe_alloc_mr(struct ib_pd *ibpd, enum ib_mr_type mr_type,
- 				  u32 max_num_sg)
- {
-@@ -1081,6 +1114,7 @@ static const struct ib_device_ops rxe_dev_ops = {
- 	.query_qp = rxe_query_qp,
- 	.query_srq = rxe_query_srq,
- 	.reg_user_mr = rxe_reg_user_mr,
-+	.reg_user_mr_dmabuf = rxe_reg_user_mr_dmabuf,
- 	.req_notify_cq = rxe_req_notify_cq,
- 	.resize_cq = rxe_resize_cq,
- 
-diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.h b/drivers/infiniband/sw/rxe/rxe_verbs.h
-index c807639435eb..0aa95ab06b6e 100644
---- a/drivers/infiniband/sw/rxe/rxe_verbs.h
-+++ b/drivers/infiniband/sw/rxe/rxe_verbs.h
-@@ -334,6 +334,8 @@ struct rxe_mr {
- 
- 	struct rxe_map_set	*cur_map_set;
- 	struct rxe_map_set	*next_map_set;
-+
-+	struct dma_buf_map *dmabuf_map;
- };
- 
- enum rxe_mw_state {
--- 
-2.17.1
+date:			Wed Sep 29 05:00:14 CEST 2021
+media-tree git hash:	ff79e5dea29136a6e92bfabc58ec4562f6ae9526
+media_build git hash:	61bc2cc71b936c10997da04d61ea655e706e78d6
+v4l-utils git hash:	80a766cdcb1b8c395bdf03f67a18f0b9300cdff3
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b271230dab7e119453a068d347aef2c79d6b74b2
+host hardware:		x86_64
+host os:		5.13.11-marune
 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: ERRORS
+linux-git-x86_64: ERRORS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15-rc1-i686: OK
+linux-5.15-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: ERRORS
+smatch: ERRORS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
