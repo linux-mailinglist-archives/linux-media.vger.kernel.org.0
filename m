@@ -2,164 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EC5041D27C
-	for <lists+linux-media@lfdr.de>; Thu, 30 Sep 2021 06:44:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC26341D333
+	for <lists+linux-media@lfdr.de>; Thu, 30 Sep 2021 08:21:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238601AbhI3EqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Sep 2021 00:46:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41078 "EHLO
+        id S1348283AbhI3GWS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Sep 2021 02:22:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229783AbhI3EqB (ORCPT
+        with ESMTP id S1348270AbhI3GWM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Sep 2021 00:46:01 -0400
-Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DBA8C06161C
-        for <linux-media@vger.kernel.org>; Wed, 29 Sep 2021 21:44:18 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id VnvVmRGoQzaTdVnvbmInUl; Thu, 30 Sep 2021 06:44:15 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1632977055; bh=WjQOBSrEwCv5/T7v6nsGa25du4iVvlvWABFcNGnpNdk=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=W2UUa5SFQiSbOFXKSBUaZUSvifhlJsIWBvnfvgaMXz4kWSYP5qazdyY1u5zyjvi2/
-         ZUnldG4mg/y8y5Jjye/j24KxyzbZ9iVil8Z2FllJyabZtXvJDmb2KMn8OOyAnrB5mA
-         yn+zZvkNVYUKRcMp0knDFvdwb6tIxGNIcfTV2pzEshPTaINdT8zNgEyTL8Ud5QoeER
-         lP9Usmwm/TPz5vVokpmkqvifOHWN2eLJES8eSRJhqbNXsGciLJP94SOL7c4BeCRmVm
-         dJe655mjxMYn6OyS5WJsAPq21lZh9zZrWiq9FrmZmZB8HSAWdiTJi9tNmyG9hdNTqw
-         zarHwka5vYsEQ==
-Message-ID: <ca0be689fdf921064f596a73b3dca83d@smtp-cloud8.xs4all.net>
-Date:   Thu, 30 Sep 2021 06:44:09 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfHGXNPy/0quRjQQFDeNi1GBq6mjT4nvHLuwO1JAmVHP/74dP2LYWltO7HIsUDY9t2hmyq9Mk1lMeaLpDxcqB4PPG5G8qPaPQNC4n6r1vcFonUc8bQ+rh
- 2eJeaiioTzui68xRXDHW1S2N6BYSc3VdGGJWQusrLu0r/aGjdvsZq8R9q5fgzX+GynKqyB3rGSSf1ZIXD98voDQGS66Hj2AN1NXW3Ur6jDb8JMtdgetOb2Ms
- /Om1jBsRiCpUfc+YpOFqHA==
+        Thu, 30 Sep 2021 02:22:12 -0400
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F2DBC06176C
+        for <linux-media@vger.kernel.org>; Wed, 29 Sep 2021 23:20:30 -0700 (PDT)
+Received: by mail-ot1-x330.google.com with SMTP id c26-20020a056830349a00b0054d96d25c1eso5950576otu.9
+        for <linux-media@vger.kernel.org>; Wed, 29 Sep 2021 23:20:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=HiybMtL3oTOqhfbzpPHAJ82Ac6PGi35Tix6YKtj/MUY=;
+        b=WnAs56WTHuame0wISzaU1D/eX+SGWlP7Wu3CcXRT8U/GA+4+dJsAhPvIUpWlUbmiaa
+         Ka2IEb9O73r4piCt3uIbjVrzgZ3ZqBUFwTME0twyG3c/DAXz8SMaFRIBFNeMbyhHYACd
+         JgwFyW8o4Lz3jabhEMLRfcYvkJa/ZsEotAS/f/VS41cm3So6figvx1bZdZHhRbw1g3el
+         7Xcce7AmZlP8QEeOTg+QFHr4dekxE/H5fzFiXUsmBtS6YFs6HVJL0Q9FbVpkNXz0qNLu
+         ZuDK57bK2dXOtyEZyiheD+y+PlkB2BsGjuh/nJtgnuKuerKK38ZBod/Rvur1I8wc99wW
+         EAYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=HiybMtL3oTOqhfbzpPHAJ82Ac6PGi35Tix6YKtj/MUY=;
+        b=uXtXQ3u6sWw2p9LV8MKffKPNF+5fZnn/+bGGZKEmVbCK9CwG+bAIWvUAH7jo40ymF8
+         d85UyBgnOo1p/0pHv8cYXfvR+T2frzyeb3YBxBOPrm1HEEs8R/XSFtdLHhkKO2/vKAQg
+         Ish2nmu8WSNuqxgR59pEVCrmEA7RCi7dc09jaiQi/Km6jdlaGIQrBn8kf00p6BWG4iCN
+         I9NDCgBN2LF0bhGS77l7WLonLXqNKnnS2iaoJI22oPKtaMz1WdzsjxExAep0T38BlX/Q
+         gT/+GMyT77+XE8Mux225UwgYKF/26nUiUJXoGC749kNhvqY3y8mYuT8YXJR2Vb9KGjTb
+         SftA==
+X-Gm-Message-State: AOAM532sTz+yN6RAVuE3zIJSkjV6QvqhaKz91x4vXQg6T8EVxOyDCVgC
+        AOGPTskBxG0nyFg3RKmipzcK5Q==
+X-Google-Smtp-Source: ABdhPJy3Nqgd6MRL81ECqIQqY6DRWIZ+hD9vIeH8yHHvPsFEreTwXeQsyGNYWH6if9e/Wa/v1gWXLQ==
+X-Received: by 2002:a9d:1913:: with SMTP id j19mr3740651ota.166.1632982829691;
+        Wed, 29 Sep 2021 23:20:29 -0700 (PDT)
+Received: from tyrell.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
+        by smtp.gmail.com with ESMTPSA id x4sm421228otq.25.2021.09.29.23.20.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Sep 2021 23:20:28 -0700 (PDT)
+From:   Shunsuke Mie <mie@igel.co.jp>
+To:     Zhu Yanjun <zyjzyj2000@gmail.com>
+Cc:     Shunsuke Mie <mie@igel.co.jp>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jianxin Xiong <jianxin.xiong@intel.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Sean Hefty <sean.hefty@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org, dhobsong@igel.co.jp, taki@igel.co.jp,
+        etom@igel.co.jp
+Subject: [RFC PATCH v2 0/1] Providers/rxe: Add dma-buf support
+Date:   Thu, 30 Sep 2021 15:20:13 +0900
+Message-Id: <20210930062014.38200-1-mie@igel.co.jp>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+This is an user space counter-part of the kernel patch set to add
+dma-buf support to the RXE driver.
 
-Results of the daily build of media_tree:
+Pull request at GitHub: https://github.com/linux-rdma/rdma-core/pull/1055
 
-date:			Thu Sep 30 05:00:10 CEST 2021
-media-tree git hash:	ff79e5dea29136a6e92bfabc58ec4562f6ae9526
-media_build git hash:	61bc2cc71b936c10997da04d61ea655e706e78d6
-v4l-utils git hash:	6b32403a6d54ec79fbda3405ac606bcc2cbe068c
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-349-gb21d5e09
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7593-g7f4b93661
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b271230dab7e119453a068d347aef2c79d6b74b2
-host hardware:		x86_64
-host os:		5.13.11-marune
+This is the secound version of the patch. Change log:
+v2:
+* Fix code formats that were indicated by Azure CI
+v1: https://www.spinics.net/lists/linux-rdma/msg105380.html
+* Initial patch set
+* Implement a callback function for reg_dmabuf_mr
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: ERRORS
-linux-git-x86_64: ERRORS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15-rc1-i686: OK
-linux-5.15-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: ERRORS
-smatch: ERRORS
-kerneldoc: WARNINGS
+Shunsuke Mie (1):
+  Providers/rxe: Add dma-buf support
 
-Detailed results are available here:
+ providers/rxe/rxe.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+-- 
+2.17.1
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
