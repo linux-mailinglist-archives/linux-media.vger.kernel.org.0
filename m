@@ -2,306 +2,224 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B271F41D665
-	for <lists+linux-media@lfdr.de>; Thu, 30 Sep 2021 11:31:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53E8E41D83B
+	for <lists+linux-media@lfdr.de>; Thu, 30 Sep 2021 12:58:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349368AbhI3Jcy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Sep 2021 05:32:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49904 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349322AbhI3Jcx (ORCPT
+        id S1350214AbhI3K7q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Sep 2021 06:59:46 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60238 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1350204AbhI3K7p (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Sep 2021 05:32:53 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94E65C06176A
-        for <linux-media@vger.kernel.org>; Thu, 30 Sep 2021 02:31:11 -0700 (PDT)
-Received: from tatooine.ideasonboard.com (unknown [IPv6:2a01:e0a:169:7140:bab4:22c5:662d:e478])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1BD972A8;
-        Thu, 30 Sep 2021 11:31:10 +0200 (CEST)
-Subject: Re: [PATCH] media: staging: ipu3-imgu: Initialise height_per_slice in
- the stripes
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "Cao, Bingbu" <bingbu.cao@intel.com>
-Cc:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "tfiga@google.com" <tfiga@google.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-References: <20210916172504.677919-1-jeanmichel.hautbois@ideasonboard.com>
- <YUm82RNBbu9VbQj9@paasikivi.fi.intel.com>
- <19a2a09a-dcdd-fc32-0410-7f752cceffb5@ideasonboard.com>
- <YUntTJQwZJ7U3m/E@pendragon.ideasonboard.com>
- <DM8PR11MB5653D63F3F76CA1D9E80E01199A29@DM8PR11MB5653.namprd11.prod.outlook.com>
- <a8a0ee6f-e83c-7f99-6967-f017c549ff05@ideasonboard.com>
- <DM8PR11MB5653CFD59F01C2AB66508F8A99A39@DM8PR11MB5653.namprd11.prod.outlook.com>
- <YUxM18uOp0eamBPH@pendragon.ideasonboard.com>
- <SJ0PR11MB5664666D6D4C573D2D4A406D99A39@SJ0PR11MB5664.namprd11.prod.outlook.com>
- <YUxbrFDvdI68Te8q@pendragon.ideasonboard.com>
-From:   Jean-Michel Hautbois <jeanmichel.hautbois@gmail.com>
-Message-ID: <502ca584-0dd8-018b-14b1-6cf4658d9668@gmail.com>
-Date:   Thu, 30 Sep 2021 11:31:08 +0200
+        Thu, 30 Sep 2021 06:59:45 -0400
+Received: from [IPv6:2a02:810a:880:f54:fd5c:7cb1:aaa8:78b1] (unknown [IPv6:2a02:810a:880:f54:fd5c:7cb1:aaa8:78b1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id ED32C1F44A9D;
+        Thu, 30 Sep 2021 11:58:00 +0100 (BST)
+Subject: Re: [PATCH v8 09/12] media: mtk-vcodec: Get rid of
+ mtk_smi_larb_get/put
+To:     Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Evan Green <evgreen@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, youlin.pei@mediatek.com,
+        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
+        yi.kuo@mediatek.com, acourbot@chromium.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        anthony.huang@mediatek.com,
+        Frank Wunderlich <frank-w@public-files.de>,
+        Irui Wang <irui.wang@mediatek.com>
+References: <20210929013719.25120-1-yong.wu@mediatek.com>
+ <20210929013719.25120-10-yong.wu@mediatek.com>
+ <02f444d5-9633-3f9c-2d1f-97ce073d1180@collabora.com>
+ <79cbf64491273797f218f417234b8c95936bd3b1.camel@mediatek.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <f9829a5a-984c-bced-0286-53f9edc8ae3d@collabora.com>
+Date:   Thu, 30 Sep 2021 12:57:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YUxbrFDvdI68Te8q@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <79cbf64491273797f218f417234b8c95936bd3b1.camel@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
 
-On 23/09/2021 12:49, Laurent Pinchart wrote:
-> Hi Bingbu,
+
+On 30.09.21 05:28, Yong Wu wrote:
+> Hi Dafna,
 > 
-> On Thu, Sep 23, 2021 at 10:29:33AM +0000, Cao, Bingbu wrote:
->> On Thursday, September 23, 2021 5:46 PM, Laurent Pinchart wrote:
->>> On Thu, Sep 23, 2021 at 09:06:32AM +0000, Cao, Bingbu wrote:
->>>> Jean-Michel,
->>>>
->>>> Firstly, the .height_per_slice could be 0 if your .grid.width larger
->>>> than 32.
->>>
->>> Which .height_per_slice are you talking about ? A field of that name
->>> exists in both ipu3_uapi_acc_param.awb.config.grid and struct
->>> ipu3_uapi_grid_config and imgu_abi_awb_config.stripes.grid.
->>>
->>> They are both computed by the driver, in imgu_css_cfg_acc(). The former
->>> is set to
->>>
->>> 	acc->awb.config.grid.height_per_slice =
->>> 		IMGU_ABI_AWB_MAX_CELLS_PER_SET / acc->awb.config.grid.width,
->>>
->>> IMGU_ABI_AWB_MAX_CELLS_PER_SET is equal to 160, so it can only be 0 if
->>> grid.width > 160, which is invalid.
+> Thanks very much for the review.
+> 
+> On Wed, 2021-09-29 at 14:13 +0200, Dafna Hirschfeld wrote:
 >>
->> For awb_fr and af, it could be 0 if the .config.grid_cfg.width > 32.
-> 
-> Indeed, my bad. I was focussing on the AWB statistics.
-> 
-> What are the implications of a height_per_slice value of 0 ?
-> 
-> While we are on this topic, what is a "slice" ? Does it matter for the
-> user, as in does it have an impact on the statistics values, or on how
-> they're arranged in memory, or is it an implementation detail of the
-> firmware that has no consequence on what can be seen by the user ? (The
-> "user" here is the code that reads the statistics in userspace).
-> 
-
-Gentle ping on these specific questions from Laurent :-) ?
-
->>>> From your configuration, looks like something wrong in the stripe
->>>> configuration cause not entering the 2 stripes branch.
+>> On 29.09.21 03:37, Yong Wu wrote:
+>>> MediaTek IOMMU has already added the device_link between the
+>>> consumer
+>>> and smi-larb device. If the vcodec device call the
+>>> pm_runtime_get_sync,
+>>> the smi-larb's pm_runtime_get_sync also be called automatically.
 >>>
->>> Why is that ? Isn't it valid for a grid configuration to use a single
->>> stripe, if the image is small enough, or if the grid only covers the left
->>> part of the image ?
+>>> CC: Tiffany Lin <tiffany.lin@mediatek.com>
+>>> CC: Irui Wang <irui.wang@mediatek.com>
+>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>> Reviewed-by: Evan Green <evgreen@chromium.org>
+>>> Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
+>>> Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>> ---
+>>>    .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 37 +++-----------
+>>> --
+>>>    .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
+>>>    .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
+>>>    .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 44 +++-----------
+>>> -----
+>>>    4 files changed, 10 insertions(+), 75 deletions(-)
 >>>
->>>> On Wednesday, September 22, 2021 1:54 PM, Jean-Michel Hautbois wrote:
->>>>> On 22/09/2021 06:33, Cao, Bingbu wrote:
->>>>>> Jean-Michel,
->>>>>>
->>>>>> Thanks for you patch.
->>>>>> What is the value of .config.grid_cfg.width for your low resolutions?
->>>>>
->>>>> I don't know if a 1920x1280 output is a low resolution, but the grid
->>>>> is configured as:
->>>>> - grid_cfg.width = 79
->>>>> - grid_cfg.height = 24
->>>>> - grid_cfg.block_width_log2 = 4
->>>>> - grid_cfg.block_height_log2 = 6
->>>>>
->>>>> Here is a full debug output of the AWB part in imgu_css_cfg_acc():
->>>>>
->>>>> acc->stripe.down_scaled_stripes[0].width: 1280
->>>>> acc->stripe.down_scaled_stripes[0].height: 1536
->>>>> acc->stripe.down_scaled_stripes[0].offset: 0
->>>>> acc->stripe.bds_out_stripes[0].width: 1280
->>>>> acc->stripe.bds_out_stripes[0].height: 1536
->>>>> acc->stripe.bds_out_stripes[0].offset: 0
->>>>> acc->acc->awb.stripes[0].grid.width: 79
->>>>> acc->awb.stripes[0].grid.block_width_log2: 4
->>>>> acc->acc->awb.stripes[0].grid.height: 24
->>>>> acc->awb.stripes[0].grid.block_height_log2: 6
->>>>> acc->awb.stripes[0].grid.x_start: 0
->>>>> acc->awb.stripes[0].grid.x_end: 1263
->>>>> acc->awb.stripes[0].grid.y_start: 0
->>>>> acc->awb.stripes[0].grid.y_end: 1535
->>>>> acc->stripe.down_scaled_stripes[1].width: 1280
->>>>> acc->stripe.down_scaled_stripes[1].height: 1536
->>>>> acc->stripe.down_scaled_stripes[1].offset: 1024
->>>>> acc->stripe.bds_out_stripes[1].width: 1280
->>>>> acc->stripe.bds_out_stripes[1].height: 1536
->>>>> acc->stripe.bds_out_stripes[1].offset: 1024
->>>>> acc->acc->awb.stripes[1].grid.width: 79
->>>>> acc->awb.stripes[1].grid.block_width_log2: 4
->>>>> acc->acc->awb.stripes[1].grid.height: 24
->>>>> acc->awb.stripes[1].grid.block_height_log2: 6
->>>>> acc->awb.stripes[1].grid.x_start: 0
->>>>> acc->awb.stripes[1].grid.x_end: 1263
->>>>> acc->awb.stripes[1].grid.y_start: 0
->>>>> acc->awb.stripes[1].grid.y_end: 1535
+>>> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+>>> b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+>>> index 6038db96f71c..d0bf9aa3b29d 100644
+>>> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+>>> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+>>> @@ -8,14 +8,12 @@
+>>>    #include <linux/of_address.h>
+>>>    #include <linux/of_platform.h>
+>>>    #include <linux/pm_runtime.h>
+>>> -#include <soc/mediatek/smi.h>
+>>>    
+>>>    #include "mtk_vcodec_dec_pm.h"
+>>>    #include "mtk_vcodec_util.h"
+>>>    
+>>>    int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+>>>    {
+>>> -	struct device_node *node;
+>>>    	struct platform_device *pdev;
+>>>    	struct mtk_vcodec_pm *pm;
+>>>    	struct mtk_vcodec_clk *dec_clk;
+>>> @@ -26,18 +24,7 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev
+>>> *mtkdev)
+>>>    	pm = &mtkdev->pm;
+>>>    	pm->mtkdev = mtkdev;
+>>>    	dec_clk = &pm->vdec_clk;
+>>> -	node = of_parse_phandle(pdev->dev.of_node, "mediatek,larb", 0);
+>>> -	if (!node) {
+>>> -		mtk_v4l2_err("of_parse_phandle mediatek,larb fail!");
+>>> -		return -1;
+>>> -	}
+>>>    
+>>> -	pdev = of_find_device_by_node(node);
+>>> -	of_node_put(node);
+>>> -	if (WARN_ON(!pdev)) {
+>>> -		return -1;
+>>> -	}
+>>> -	pm->larbvdec = &pdev->dev;
+>>>    	pdev = mtkdev->plat_dev;
+>>>    	pm->dev = &pdev->dev;
+>>>    
+>>> @@ -47,14 +34,11 @@ int mtk_vcodec_init_dec_pm(struct
+>>> mtk_vcodec_dev *mtkdev)
+>>>    		dec_clk->clk_info = devm_kcalloc(&pdev->dev,
+>>>    			dec_clk->clk_num, sizeof(*clk_info),
+>>>    			GFP_KERNEL);
+>>> -		if (!dec_clk->clk_info) {
+>>> -			ret = -ENOMEM;
+>>> -			goto put_device;
+>>> -		}
+>>> +		if (!dec_clk->clk_info)
+>>> +			return -ENOMEM;
+>>>    	} else {
+>>>    		mtk_v4l2_err("Failed to get vdec clock count");
+>>> -		ret = -EINVAL;
+>>> -		goto put_device;
+>>> +		return -EINVAL;
+>>>    	}
+>>>    
+>>>    	for (i = 0; i < dec_clk->clk_num; i++) {
+>>> @@ -63,29 +47,24 @@ int mtk_vcodec_init_dec_pm(struct
+>>> mtk_vcodec_dev *mtkdev)
+>>>    			"clock-names", i, &clk_info->clk_name);
+>>>    		if (ret) {
+>>>    			mtk_v4l2_err("Failed to get clock name id =
+>>> %d", i);
+>>> -			goto put_device;
+>>> +			return ret;
+>>>    		}
+>>>    		clk_info->vcodec_clk = devm_clk_get(&pdev->dev,
+>>>    			clk_info->clk_name);
+>>>    		if (IS_ERR(clk_info->vcodec_clk)) {
+>>>    			mtk_v4l2_err("devm_clk_get (%d)%s fail", i,
+>>>    				clk_info->clk_name);
+>>> -			ret = PTR_ERR(clk_info->vcodec_clk);
+>>> -			goto put_device;
+>>> +			return PTR_ERR(clk_info->vcodec_clk);
+>>>    		}
+>>>    	}
+>>>    
+>>>    	pm_runtime_enable(&pdev->dev);
+>>>    	return 0;
+>>> -put_device:
+>>> -	put_device(pm->larbvdec);
+>>> -	return ret;
+>>>    }
+>>>    
+>>>    void mtk_vcodec_release_dec_pm(struct mtk_vcodec_dev *dev)
+>>>    {
+>>>    	pm_runtime_disable(dev->pm.dev);
+>>> -	put_device(dev->pm.larbvdec);
+>>>    }
 >>
->> Are these dumps from 1920x1280 output?
+>> Now that functions only do  'pm_runtime_disable(dev->pm.dev);' so it
+>> will be more
+>> readable to remove the function mtk_vcodec_release_dec_pm
+>> and replace with pm_runtime_disable(dev->pm.dev);
+>> Same for the 'enc' equivalent.
 > 
-> Jean-Michel, could you comment on this ?
+> Make sense. But It may be not proper if using pm_runtime_disable
+> as the symmetry with mtk_vcodec_init_dec_pm in the mtk_vcodec_probe.
 > 
-> Note that the grid is configured with 79 cells of 16 pixels, covering
-> 1264 pixels horizontally. That's not the full image for a 1920 pixels
-> output, and will probably not be done in practice, but there's nothing
-> preventing the grid from covering part of the image only.
-> 
->>>>> This has been outputted with: https://paste.debian.net/1212791/
->>>>>
->>>>> The examples I gave before were 1280x720 output and not 1920x1080,
->>>>> here are they:
->>>>> - without the patch: https://pasteboard.co/hHo4QkVUSk8e.png
->>>>> - with the patch: https://pasteboard.co/YUGUvS5tD0bo.png
->>>>>
->>>>> As you can see we have the same behaviour.
->>>>>
->>>>>> On Tuesday, September 21, 2021 10:34 PM, Laurent Pinchart wrote:
->>>>>>> On Tue, Sep 21, 2021 at 03:04:37PM +0200, Jean-Michel Hautbois wrote:
->>>>>>>> On 21/09/2021 13:07, Sakari Ailus wrote:
->>>>>>>>> On Thu, Sep 16, 2021 at 07:25:04PM +0200, Jean-Michel Hautbois wrote:
->>>>>>>>>> While playing with low resolutions for the grid, it appeared
->>>>>>>>>> that height_per_slice is not initialised if we are not using
->>>>>>>>>> both stripes for the calculations. This pattern occurs three times:
->>>>>>>>>> - for the awb_fr processing block
->>>>>>>>>> - for the af processing block
->>>>>>>>>> - for the awb processing block
->>>>>>>>>>
->>>>>>>>>> The idea of this small portion of code is to reduce complexity
->>>>>>>>>> in loading the statistics, it could be done also when only one
->>>>>>>>>> stripe is used. Fix it by getting this initialisation code
->>>>>>>>>> outside of the
->>>>>>>>>> else() test case.
->>>>>>>>>>
->>>>>>>>>> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
->>>>>>>>>> ---
->>>>>>>>>>  drivers/staging/media/ipu3/ipu3-css-params.c | 44 >>>>> ++++++++++----------
->>>>>>>>>>  1 file changed, 22 insertions(+), 22 deletions(-)
->>>>>>>>>>
->>>>>>>>>> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c
->>>>>>>>>> b/drivers/staging/media/ipu3/ipu3-css-params.c
->>>>>>>>>> index e9d6bd9e9332..05da7dbdca78 100644
->>>>>>>>>> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
->>>>>>>>>> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
->>>>>>>>>> @@ -2428,16 +2428,16 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
->>>>>>>>>>  					acc->awb_fr.stripes[1].grid_cfg.width,
->>>>>>>>>>  					b_w_log2);
->>>>>>>>>>  		acc->awb_fr.stripes[1].grid_cfg.x_end = end;
->>>>>>>>>> -
->>>>>>>>>> -		/*
->>>>>>>>>> -		 * To reduce complexity of debubbling and loading
->>>>>>>>>> -		 * statistics fix grid_height_per_slice to 1 for both
->>>>>>>>>> -		 * stripes.
->>>>>>>>>> -		 */
->>>>>>>>>> -		for (i = 0; i < stripes; i++)
->>>>>>>>>> -			acc->awb_fr.stripes[i].grid_cfg.height_per_slice = 1;
->>>>>>>>>>  	}
->>>>>>>>>>
->>>>>>>>>> +	/*
->>>>>>>>>> +	 * To reduce complexity of debubbling and loading
->>>>>>>>>> +	 * statistics fix grid_height_per_slice to 1 for both
->>>>>>>>>> +	 * stripes.
->>>>>>>>>> +	 */
->>>>>>>>>> +	for (i = 0; i < stripes; i++)
->>>>>>>>>> +		acc->awb_fr.stripes[i].grid_cfg.height_per_slice = 1;
->>>>>>>>>> +
->>>>>>>>>>  	if (imgu_css_awb_fr_ops_calc(css, pipe, &acc->awb_fr))
->>>>>>>>>>  		return -EINVAL;
->>>>>>>>>>
->>>>>>>>>> @@ -2591,15 +2591,15 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
->>>>>>>>>>  			imgu_css_grid_end(acc->af.stripes[1].grid_cfg.x_start,
->>>>>>>>>>  					  acc->af.stripes[1].grid_cfg.width,
->>>>>>>>>>  					  b_w_log2);
->>>>>>>>>> -
->>>>>>>>>> -		/*
->>>>>>>>>> -		 * To reduce complexity of debubbling and loading statistics
->>>>>>>>>> -		 * fix grid_height_per_slice to 1 for both stripes
->>>>>>>>>> -		 */
->>>>>>>>>> -		for (i = 0; i < stripes; i++)
->>>>>>>>>> -			acc->af.stripes[i].grid_cfg.height_per_slice = 1;
->>>>>>>>>>  	}
->>>>>>>>>>
->>>>>>>>>> +	/*
->>>>>>>>>> +	 * To reduce complexity of debubbling and loading statistics
->>>>>>>>>> +	 * fix grid_height_per_slice to 1 for both stripes
->>>>>>>>>> +	 */
->>>>>>>>>> +	for (i = 0; i < stripes; i++)
->>>>>>>>>> +		acc->af.stripes[i].grid_cfg.height_per_slice = 1;
->>>>>>>>>> +
->>>>>>>>>>  	if (imgu_css_af_ops_calc(css, pipe, &acc->af))
->>>>>>>>>>  		return -EINVAL;
->>>>>>>>>>
->>>>>>>>>> @@ -2660,15 +2660,15 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
->>>>>>>>>>  			imgu_css_grid_end(acc->awb.stripes[1].grid.x_start,
->>>>>>>>>>  					  acc->awb.stripes[1].grid.width,
->>>>>>>>>>  					  b_w_log2);
->>>>>>>>>> -
->>>>>>>>>> -		/*
->>>>>>>>>> -		 * To reduce complexity of debubbling and loading statistics
->>>>>>>>>> -		 * fix grid_height_per_slice to 1 for both stripes
->>>>>>>>>> -		 */
->>>>>>>>>> -		for (i = 0; i < stripes; i++)
->>>>>>>>>> -			acc->awb.stripes[i].grid.height_per_slice = 1;
->>>>>>>>>>  	}
->>>>>>>>>>
->>>>>>>>>> +	/*
->>>>>>>>>> +	 * To reduce complexity of debubbling and loading statistics
->>>>>>>>>> +	 * fix grid_height_per_slice to 1 for both stripes
->>>>>>>>>> +	 */
->>>>>>>>>> +	for (i = 0; i < stripes; i++)
->>>>>>>>>> +		acc->awb.stripes[i].grid.height_per_slice = 1;
->>>>>>>>>> +
->>>>>>>>>>  	if (imgu_css_awb_ops_calc(css, pipe, &acc->awb))
->>>>>>>>>>  		return -EINVAL;
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> While it seems like a sensible idea to initialise arguments to
->>>>>>>>> firmware, does this have an effect on the statistics format? If
->>>>>>>>> so, can the existing user space cope with that?
->>>>>>>>
->>>>>>>> To try and figure that out, we have tested several grid
->>>>>>>> configurations and inspected the captured statistics. We have
->>>>>>>> converted the statistics in an image, rendering each cell as a
->>>>>>>> pixel whose red, green and blue components are the cell's red, green and blue averages.
->>>>>>>> This turned out to be a very effectice tool to quickly visualize
->>>>>>>> AWB statistics.
->>>>>>>> We have made a lot of tests with different output resolutions,
->>>>>>>> from a small one up to the full-scale one.
->>>>>>>>
->>>>>>>> Here is one example of a statistics output with a ViewFinder
->>>>>>>> configured as 1920x1280, with a BDS output configuration set to
->>>>>>>> 2304x1536 (sensor is 2592x1944).
->>>>>>>>
->>>>>>>> Without the patch, configuring a 79x45 grid of 16x16 cells we
->>>>>>>> obtain the
->>>>>>>> image: https://pasteboard.co/g4nC4fHjbVER.png.
->>>>>>>> We can notice a weird padding every two lines and it seems to be
->>>>>>>> missing half of the frame.
->>>>>>>>
->>>>>>>> With the patch applied, the same configuration gives us the image:
->>>>>>>> https://pasteboard.co/rzap6axIvVdu.png
->>>>>>>>
->>>>>>>> We can clearly see the one padding pixel on the right, and the
->>>>>>>> frame is all there, as expected.
->>>>>>>>
->>>>>>>> Tomasz: We're concerned that this patch may have an impact on
->>>>>>>> the ChromeOS Intel Camera HAL with the IPU3. Is it possible for
->>>>>>>> someone to review and test this please?
->>>>>>>
->>>>>>> As shown by the images above, this is a real fix. It only affects
->>>>>>> grid configurations that use a single stripe (left or right), so
->>>>>>> either "small" resolutions (less than 1280 pixels at the BDS
->>>>>>> output if I recall correctly), or grid configurations that span
->>>>>>> the left part of the image with higher resolutions. The latter is
->>>>>>> probably unlikely. For the former, it may affect the binary
->>>>>>> library, especially if it includes a workaround for the bug.
->>>>>>>
->>>>>>> Still, this change is good I believe, so it should be upstreamed.
-> 
+> Maybe we should move pm_runtime_enable out from mtk_vcodec_init_dec_pm
+> into mtk_vcodec_probe. I could do a new patch for this. Is this ok for
+> you?
 
+yes, there is also asymettry when calling pm_runtime* in general,
+I see in the decoder it is called from mtk_vcodec_dec_pm.c
+but in the encoder it is called from mtk_vcodec_enc.c,
+
+I think all calls to pm_runtime* should be out of the *_pm.c files
+since for example 'mtk_vcodec_dec_pw_on' also do just one call to
+pm_runtime_resume_and_get so this function can also be removed.
+
+thanks,
+Dafna
+
+> 
+>>
+>> Thanks,
+>> Dafna
+> 
+> [snip]
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+> 
