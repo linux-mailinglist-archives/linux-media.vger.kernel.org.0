@@ -2,125 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A398541D448
-	for <lists+linux-media@lfdr.de>; Thu, 30 Sep 2021 09:14:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D3A641D478
+	for <lists+linux-media@lfdr.de>; Thu, 30 Sep 2021 09:23:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348527AbhI3HQb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Sep 2021 03:16:31 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:42756 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1348519AbhI3HQa (ORCPT
+        id S1348700AbhI3HZF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Sep 2021 03:25:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48708 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348699AbhI3HZE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Sep 2021 03:16:30 -0400
-X-UUID: 02bdd3d43917428486059ffb84059693-20210930
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=W+gAqULzOpfc/ivXZHGg1RcECraPP+WX8duBqllWiWg=;
-        b=q6efus+v6mX5SugaKB9oDbvpcDX3wweSD7qtPf2IR45WzvSCiPikm9UkP3QVbvTgTgLPZDSnAT7wHVIQ2xQIp7xdgzrJmimFYB9auLntLAhrici9R0V3DC6TqxrDFvuFZJtlP6xPLCacUIEC/WOzXMzfNySweY7gwtEkUXD715U=;
-X-UUID: 02bdd3d43917428486059ffb84059693-20210930
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
-        (envelope-from <yong.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1808720043; Thu, 30 Sep 2021 15:14:45 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Thu, 30 Sep 2021 15:14:44 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 30 Sep 2021 15:14:42 +0800
-Message-ID: <d3ed2bdef81ce1822b20da9570b5245cc0df6330.camel@mediatek.com>
-Subject: Re: [PATCH v8 03/12] iommu/mediatek: Add probe_defer for smi-larb
-From:   Yong Wu <yong.wu@mediatek.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        David Airlie <airlied@linux.ie>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>
-CC:     Evan Green <evgreen@chromium.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Will Deacon <will.deacon@arm.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <youlin.pei@mediatek.com>,
-        Matthias Kaehlcke <mka@chromium.org>, <anan.sun@mediatek.com>,
-        <yi.kuo@mediatek.com>, <acourbot@chromium.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        "Daniel Vetter" <daniel@ffwll.ch>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        "Philipp Zabel" <p.zabel@pengutronix.de>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Eizan Miyamoto <eizan@chromium.org>,
-        <anthony.huang@mediatek.com>,
-        Frank Wunderlich <frank-w@public-files.de>
-Date:   Thu, 30 Sep 2021 15:14:45 +0800
-In-Reply-To: <33a8b313-ad1b-d307-7e8c-2fdebdc6f1a7@collabora.com>
-References: <20210929013719.25120-1-yong.wu@mediatek.com>
-         <20210929013719.25120-4-yong.wu@mediatek.com>
-         <33a8b313-ad1b-d307-7e8c-2fdebdc6f1a7@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Thu, 30 Sep 2021 03:25:04 -0400
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF1F2C06161C;
+        Thu, 30 Sep 2021 00:23:22 -0700 (PDT)
+Received: by mail-ot1-x32d.google.com with SMTP id g62-20020a9d2dc4000000b0054752cfbc59so6169354otb.1;
+        Thu, 30 Sep 2021 00:23:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=1I1nXLI6APgtAXVlnSH2tDSE1F+gk/nTZkMd/P13QnM=;
+        b=AM00vJx8YutY2y03FGwOzMB4F65tCdTPaWerM11qRrgq55yZhS8ZGBFp0tpAVyO6Wb
+         gUwNrDppdPLFqCHICaRzrcwXawyxIM1xDLWZTR4XVuNzTgSUC02vUfp8LzCl7S/VOFS7
+         ixqY5BL4KNH9gHHnwpnTTstkk7zIt/1fY/vKdXaW07IkHOvo7iskocXGhAcSWZcDHc+9
+         pq6xubaraFJR+yZ6ZDBB2CK7GaOL0fjp52QcsGtdnG5Cq/zzyxIo/UL05C6//UP+ZNtI
+         mnGXbC+CLflXmPAY7glOl3xYRbPBxliG0LxRCw2ZtDSsfhE3jDSaWvqfAHkic75hGp5c
+         eCZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1I1nXLI6APgtAXVlnSH2tDSE1F+gk/nTZkMd/P13QnM=;
+        b=GZI7ZG7aS88+dP9KYjFMRQGWc3PodWtXgFFF+EjRFe27iUwpyPtEHrjbeL4mVRnOZD
+         E8jPU6q1KJZX8K2XWYbuT0UsEKOHMk6ONlC9hTYdSh9F/zYPYhEDNat0q1sfg0pn6DhY
+         3Gim5HFzKIQ1/E/nkyJYeIYOA2KNwqO7VgDyBWlMYtjvzD+cVllqv2Cj/zsRR5jIycrH
+         HpbOSVXT2yGWJYiY2nLTt6eVvba62s7Zg4ZiZcEUiZ2MrRXqCa8FS5ZF9Kd99vLENd3f
+         SItE65hgwwuG+GuLZO9PttxZh+fGhi2KbzJI0YAIAjyrTF/uBibVMlC57e3iM/NolT5H
+         g2qA==
+X-Gm-Message-State: AOAM532RJEs7SnEIxk82ZY86sEjNJMw0tohUC24Sa7EeCuhF3lw2Cgnm
+        RdHAtG8v4JePgFe9Yb1f1jP3gion0EgTq/9qX1o=
+X-Google-Smtp-Source: ABdhPJzkx0SiPJkTwjnw/szFDmj1KPx6Cg36LPLPfN3a1aV1RvHl2MDEPnGNEoGlyj86D+iBI4eONraBUbwXekv8q/s=
+X-Received: by 2002:a05:6830:1089:: with SMTP id y9mr3930400oto.335.1632986602241;
+ Thu, 30 Sep 2021 00:23:22 -0700 (PDT)
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+References: <20210930062014.38200-1-mie@igel.co.jp> <20210930062014.38200-2-mie@igel.co.jp>
+ <CAD=hENdzYGNp14fm9y9+A71D2BJSjV5GewHMkSJKUzNOs0hqWg@mail.gmail.com> <CANXvt5pcHbRVa9=Uqi-MN6RY1g6OY1MDecyhdedqL8Xmv0y6QQ@mail.gmail.com>
+In-Reply-To: <CANXvt5pcHbRVa9=Uqi-MN6RY1g6OY1MDecyhdedqL8Xmv0y6QQ@mail.gmail.com>
+From:   Zhu Yanjun <zyjzyj2000@gmail.com>
+Date:   Thu, 30 Sep 2021 15:23:10 +0800
+Message-ID: <CAD=hENcANb07bZiAuDYmozsWmZ4uA23Rqca=400+v23QQua_bg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/1] Providers/rxe: Add dma-buf support
+To:     Shunsuke Mie <mie@igel.co.jp>
+Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jianxin Xiong <jianxin.xiong@intel.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Sean Hefty <sean.hefty@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        RDMA mailing list <linux-rdma@vger.kernel.org>,
+        Damian Hobson-Garcia <dhobsong@igel.co.jp>,
+        Takanari Hayama <taki@igel.co.jp>,
+        Tomohito Esaki <etom@igel.co.jp>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gV2VkLCAyMDIxLTA5LTI5IGF0IDE4OjMzICswMjAwLCBEYWZuYSBIaXJzY2hmZWxkIHdyb3Rl
-Og0KPiANCj4gT24gMjkuMDkuMjEgMDM6MzcsIFlvbmcgV3Ugd3JvdGU6DQo+ID4gUHJlcGFyZSBm
-b3IgYWRkaW5nIGRldmljZV9saW5rLg0KPiA+IA0KPiA+IFRoZSBpb21tdSBjb25zdW1lciBzaG91
-bGQgdXNlIGRldmljZV9saW5rIHRvIGNvbm5lY3Qgd2l0aCB0aGUNCj4gPiBzbWktbGFyYihzdXBw
-bGllcikuIHRoZW4gdGhlIHNtaS1sYXJiIHNob3VsZCBydW4gYmVmb3JlIHRoZSBpb21tdQ0KPiA+
-IGNvbnN1bWVyLiBIZXJlIHdlIGRlbGF5IHRoZSBpb21tdSBkcml2ZXIgdW50aWwgdGhlIHNtaSBk
-cml2ZXIgaXMNCj4gPiByZWFkeSwNCj4gPiB0aGVuIGFsbCB0aGUgaW9tbXUgY29uc3VtZXJzIGFs
-d2F5cyBhcmUgYWZ0ZXIgdGhlIHNtaSBkcml2ZXIuDQo+ID4gDQo+ID4gV2hlbiB0aGVyZSBpcyBu
-byB0aGlzIHBhdGNoLCBpZiBzb21lIGNvbnN1bWVyIGRyaXZlcnMgcnVuIGJlZm9yZQ0KPiA+IHNt
-aS1sYXJiLCB0aGUgc3VwcGxpZXIgbGlua19zdGF0dXMgaXMgRExfREVWX05PX0RSSVZFUigwKSBp
-biB0aGUNCj4gPiBkZXZpY2VfbGlua19hZGQsIHRoZW4gZGV2aWNlX2xpbmtzX2RyaXZlcl9ib3Vu
-ZCB3aWxsIHVzZSBXQVJOX09ODQo+ID4gdG8gY29tcGxhaW4gdGhhdCB0aGUgbGlua19zdGF0dXMg
-b2Ygc3VwcGxpZXIgaXMgbm90IHJpZ2h0Lg0KPiA+IA0KPiA+IGRldmljZV9pc19ib3VuZCBtYXkg
-YmUgbW9yZSBlbGVnYW50IGhlcmUuIGJ1dCBpdCBpcyBub3QgYWxsb3dlZCB0bw0KPiA+IEVYUE9S
-VCBmcm9tIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3BhdGNod29yay9wYXRjaC8xMzM0NjcwLy4N
-Cj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBZb25nIFd1IDx5b25nLnd1QG1lZGlhdGVrLmNvbT4N
-Cj4gPiBUZXN0ZWQtYnk6IEZyYW5rIFd1bmRlcmxpY2ggPGZyYW5rLXdAcHVibGljLWZpbGVzLmRl
-PiAjIEJQSS0NCj4gPiBSMi9NVDc2MjMNCj4gPiAtLS0NCj4gPiAgIGRyaXZlcnMvaW9tbXUvbXRr
-X2lvbW11LmMgICAgfCAyICstDQo+ID4gICBkcml2ZXJzL2lvbW11L210a19pb21tdV92MS5jIHwg
-MiArLQ0KPiA+ICAgMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
-KC0pDQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW9tbXUvbXRrX2lvbW11LmMgYi9k
-cml2ZXJzL2lvbW11L210a19pb21tdS5jDQo+ID4gaW5kZXggZDgzN2FkZmQxZGE1Li5kNTg0OGY3
-OGE2NzcgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9pb21tdS9tdGtfaW9tbXUuYw0KPiA+ICsr
-KyBiL2RyaXZlcnMvaW9tbXUvbXRrX2lvbW11LmMNCj4gPiBAQCAtODQ0LDcgKzg0NCw3IEBAIHN0
-YXRpYyBpbnQgbXRrX2lvbW11X3Byb2JlKHN0cnVjdA0KPiA+IHBsYXRmb3JtX2RldmljZSAqcGRl
-dikNCj4gPiAgIAkJCWlkID0gaTsNCj4gPiAgIA0KPiA+ICAgCQlwbGFyYmRldiA9IG9mX2ZpbmRf
-ZGV2aWNlX2J5X25vZGUobGFyYm5vZGUpOw0KPiA+IC0JCWlmICghcGxhcmJkZXYpIHsNCj4gPiAr
-CQlpZiAoIXBsYXJiZGV2IHx8ICFwbGFyYmRldi0+ZGV2LmRyaXZlcikgew0KPiA+ICAgCQkJb2Zf
-bm9kZV9wdXQobGFyYm5vZGUpOw0KPiA+ICAgCQkJcmV0dXJuIC1FUFJPQkVfREVGRVI7DQo+IA0K
-PiBpZiBwbGFyYmRldiBpcyBudWxsIGRvZXNuJ3QgdGhhdCBtZWFuIHRoYXQgdGhlIGRldmljZSBk
-b2VzIG5vdCBleGlzdD8NCg0KVGhpcyBpcyBwcm9iZSBmdW5jdGlvbiwgSXMgaXQgcG9zc2libGUg
-dGhlIHBsYXRmb3JtIGRldmljZSBpcyBub3QgcmVhZHkNCmF0IHRoaXMgdGltZT8NCg0KSSBjaGVj
-a2VkIHRoZSBwbGF0Zm9ybSBkZXZpY2Ugc2hvdWxkIGJlIGNyZWF0ZWQgYXQ6DQoNCm9mX3BsYXRm
-b3JtX2RlZmF1bHRfcG9wdWxhdGVfaW5pdDogIGFyY2hfaW5pdGNhbGxfc3luYw0KICAtPm9mX3Bs
-YXRmb3JtX3BvcHVsYXRlDQogICAgICAtPm9mX3BsYXRmb3JtX2RldmljZV9jcmVhdGVfcGRhdGEN
-Cg0KTm90IHN1cmUgaWYgdGhpcyBtYXkgYmUgZGVsYXllZCBmb3Igc29tZSBkZXZpY2UuIElmIG5v
-dCwgaXQgc2hvdWxkIGJlDQpFTk9ERVYgaGVyZS4NCg0KPiBzbyB3ZSBzaG91bGQgcmV0dXJuIC1F
-Tk9ERVYgaW4gdGhhdCBjYXNlPw0KPiANCj4gdGhhbmtzLA0KPiBEYWZuYQ0KPiANCj4gPiAgIAkJ
-fQ0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2lvbW11L210a19pb21tdV92MS5jDQo+ID4gYi9k
-cml2ZXJzL2lvbW11L210a19pb21tdV92MS5jDQo+ID4gaW5kZXggMTQ2N2JhMWU0NDE3Li40ZDc4
-MDk0MzIyMzkgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9pb21tdS9tdGtfaW9tbXVfdjEuYw0K
-PiA+ICsrKyBiL2RyaXZlcnMvaW9tbXUvbXRrX2lvbW11X3YxLmMNCj4gPiBAQCAtNjAyLDcgKzYw
-Miw3IEBAIHN0YXRpYyBpbnQgbXRrX2lvbW11X3Byb2JlKHN0cnVjdA0KPiA+IHBsYXRmb3JtX2Rl
-dmljZSAqcGRldikNCj4gPiAgIAkJfQ0KPiA+ICAgDQo+ID4gICAJCXBsYXJiZGV2ID0gb2ZfZmlu
-ZF9kZXZpY2VfYnlfbm9kZShsYXJibm9kZSk7DQo+ID4gLQkJaWYgKCFwbGFyYmRldikgew0KPiA+
-ICsJCWlmICghcGxhcmJkZXYgfHwgIXBsYXJiZGV2LT5kZXYuZHJpdmVyKSB7DQo+ID4gICAJCQlv
-Zl9ub2RlX3B1dChsYXJibm9kZSk7DQo+ID4gICAJCQlyZXR1cm4gLUVQUk9CRV9ERUZFUjsNCj4g
-PiAgIAkJfQ0KPiA+IA0KPiANCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18NCj4gTGludXgtbWVkaWF0ZWsgbWFpbGluZyBsaXN0DQo+IExpbnV4LW1lZGlh
-dGVrQGxpc3RzLmluZnJhZGVhZC5vcmcNCj4gaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9saW51eC1tZWRpYXRlaw0K
+On Thu, Sep 30, 2021 at 2:58 PM Shunsuke Mie <mie@igel.co.jp> wrote:
+>
+> 2021=E5=B9=B49=E6=9C=8830=E6=97=A5(=E6=9C=A8) 15:37 Zhu Yanjun <zyjzyj200=
+0@gmail.com>:
+> >
+> > On Thu, Sep 30, 2021 at 2:20 PM Shunsuke Mie <mie@igel.co.jp> wrote:
+> > >
+> > > Implement a new provider method for dma-buf base memory registration.
+> > >
+> > > Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
+> > > ---
+> > >  providers/rxe/rxe.c | 21 +++++++++++++++++++++
+> > >  1 file changed, 21 insertions(+)
+> > >
+> > > diff --git a/providers/rxe/rxe.c b/providers/rxe/rxe.c
+> > > index 3c3ea8bb..84e00e60 100644
+> > > --- a/providers/rxe/rxe.c
+> > > +++ b/providers/rxe/rxe.c
+> > > @@ -239,6 +239,26 @@ static struct ibv_mr *rxe_reg_mr(struct ibv_pd *=
+pd, void *addr, size_t length,
+> > >         return &vmr->ibv_mr;
+> > >  }
+> > >
+> > > +static struct ibv_mr *rxe_reg_dmabuf_mr(struct ibv_pd *pd, uint64_t =
+offset,
+> > > +                                       size_t length, uint64_t iova,=
+ int fd,
+> > > +                                       int access)
+> > > +{
+> > > +       struct verbs_mr *vmr;
+> > > +       int ret;
+> > > +
+> > > +       vmr =3D malloc(sizeof(*vmr));
+> > > +       if (!vmr)
+> > > +               return NULL;
+> > > +
+> >
+> > Do we need to set vmr to zero like the following?
+> >
+> > memset(vmr, 0, sizeof(*vmr));
+> >
+> > Zhu Yanjun
+> Thank you for your quick response.
+>
+> I think it is better to clear the vmr. Actually the mlx5 driver allocates
+> the vmr using calloc().
+>
+> In addition, rxe_reg_mr() (not rxe_reg_dmabuf_mr()) is used the malloc
+> and not clear the vmr. I think It has to be fixed too. Should I make
+> another patch to fix this problem?
 
+Yes. Please.
+
+Zhu Yanjun
+
+>
+> Thanks a lot.
+> Shunsuke
+>
+> ~
