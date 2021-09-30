@@ -2,137 +2,354 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D173741DB85
-	for <lists+linux-media@lfdr.de>; Thu, 30 Sep 2021 15:53:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A28B41DC8B
+	for <lists+linux-media@lfdr.de>; Thu, 30 Sep 2021 16:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350969AbhI3Nyx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Sep 2021 09:54:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55596 "EHLO
+        id S1351265AbhI3OnX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Sep 2021 10:43:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349986AbhI3Nyx (ORCPT
+        with ESMTP id S1351178AbhI3OnI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Sep 2021 09:54:53 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01CF1C06176A
-        for <linux-media@vger.kernel.org>; Thu, 30 Sep 2021 06:53:09 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id s17so22155005edd.8
-        for <linux-media@vger.kernel.org>; Thu, 30 Sep 2021 06:53:09 -0700 (PDT)
+        Thu, 30 Sep 2021 10:43:08 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B2CC06176C
+        for <linux-media@vger.kernel.org>; Thu, 30 Sep 2021 07:41:26 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id z184-20020a1c7ec1000000b003065f0bc631so8692679wmc.0
+        for <linux-media@vger.kernel.org>; Thu, 30 Sep 2021 07:41:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=DpNatpzmZdPp3trvDvY8M9RRfZbScUxFDz7vEBQ/aw8=;
-        b=O1x1AOK2Pxu6HAI8HdYMPjwVhqCgxBfekSuxuNUgLHTkDqYWvhcg1B8SAdAkjQLrrw
-         HX33pKkXxh/nK52y9k0pe1IKDyGm+9ZNVkeEbaBxlI1vpf1xQf0JlapS2i/rDbp52sdM
-         zl9ciibbm1mws7DubXsQj7b1LWpZCSfIJGmqfJfb62v52/96o9Jxo7YToGehKzmp9wAw
-         NHUYXM0c4WJmb72HIX2R/U6fH/1yepWswyrBut6tywyUqibQ56ddPR8d1/+VO3zviNr8
-         ZBVnmTu900ZbhFSuOMu2weFMKLFS0qDr/ZbVtZT/sFuXqdxet6T+qFPPWgPC5/4qdv2a
-         Xk9A==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=jd6p1BG5bXsteTlsZdjG0TNxqrqUF9NS4LOIvY0vvPc=;
+        b=UoRLbYNomhTcwEqW2LjkeHxxrWw0jAKLStEDClUN2PIxu/5HgNAAy7QF5sr9ItBr6F
+         2ppRLMfbmGMfGFEWq7CqwTvPVdwcwBMssEoDcCuoGKK1+u4Viw2jX4AHfsO7OdIezvEP
+         HIxbVTnkNSbO/tKacfsfb/aXNtevHP5jjfYPM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=DpNatpzmZdPp3trvDvY8M9RRfZbScUxFDz7vEBQ/aw8=;
-        b=WqRhP6UPnEwbtnK4uaMeI2VtHL7p0TRnk91vRYvgSzGLpkc5kQONucWVT/uMu7JuD2
-         /6urlT8PIGfUu0/9KApbnb9WCVq0KpHo/wPFg1nERnh/6OJhz/EbX7xVVtO1FxRdmndf
-         NcKPpvWCwSDkEnqYAQDa1LUPlqbEmyEr/XmMPVGzMhYCA4X9+TcbY+8tYiUw8PflQqnJ
-         xz1kEv1LF/F1evQeH21RdXrx7ZyH1y1l6dK/QMZIC/H23YfUtEmrRgFmS+sO5VcOKTv/
-         jQL4MBz9FLxf4FBuTWpRsewowVgMCGj94xAtJN0OSGwSBBpArE3HfBb7ELotrSSsr70r
-         TnCA==
-X-Gm-Message-State: AOAM531OGFcXquX14TbSjzpDsTXyQPxDZ7TZKxujHghVHfdX3Xor26x1
-        C1zR08VR63JJLKWFjAU3NTegClbNdfLAHA==
-X-Google-Smtp-Source: ABdhPJxBm+DdwwLy47ASdRGA2zkdw/QVBULTdVKT2YKAtftEcZX6aq8vQKcTrzkpFlYGtSb22h6u8Q==
-X-Received: by 2002:a17:906:4892:: with SMTP id v18mr6923121ejq.145.1633009944415;
-        Thu, 30 Sep 2021 06:52:24 -0700 (PDT)
-Received: from toninux ([91.86.65.165])
-        by smtp.gmail.com with ESMTPSA id y3sm1890880eda.9.2021.09.30.06.52.23
-        for <linux-media@vger.kernel.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=jd6p1BG5bXsteTlsZdjG0TNxqrqUF9NS4LOIvY0vvPc=;
+        b=DiKhUcVUsAQaftrPl2j72NSSTqQ7OxhraAtFCi4slkq4sEr7TJDZXUZRKhZ4EFRgHo
+         ZVlBVS31agJ89ljLJ1wizvqrCfjsf9RGN2cWYVDOEkmIcwOt+w05ZNrPM0trbxHXUKDj
+         BQRuPOAC3DZpsEIi1O97hLzoxPlQJnQMUEnvPbNbS01lQV1L4ufhIKx5xw7Pz/cht1rs
+         Zw8V256yluanjM3YkU0JepbPAWeUO/lvVij89RaTWEeRzw+Ws7zs2t3Orf7Xvw+30rL+
+         jbF2plSFvw6RO7eQCJlyW3BAXnuiCz+TxjnkEMbaqlvF/dGqJxrJ/ciba85Yv50qwAgi
+         u5fA==
+X-Gm-Message-State: AOAM532+rvth/sb/0NDBUj2fLELOseNytM/MCTP99KQFIfuFvy9gZmBH
+        yco/H1ozIlFa5h9UauUvYwUYvA==
+X-Google-Smtp-Source: ABdhPJx3V8QVnWdaBVCJHD8epACgnyYdoZ5WVgHYPgE55mat6dTH1nFFSZUV547WHwjy+c7iWUZ6bg==
+X-Received: by 2002:a05:600c:24f:: with SMTP id 15mr5806244wmj.190.1633012884676;
+        Thu, 30 Sep 2021 07:41:24 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id l11sm3993979wms.45.2021.09.30.07.41.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Sep 2021 06:52:24 -0700 (PDT)
-Date:   Thu, 30 Sep 2021 15:51:22 +0200
-From:   Debucquoy Anthony <d.tonitch@gmail.com>
-To:     linux-media@vger.kernel.org
-Subject: Grabster AV 350 no audio
-Message-ID: <YVXA2vZtsdzJD5Vs@toninux>
+        Thu, 30 Sep 2021 07:41:24 -0700 (PDT)
+Date:   Thu, 30 Sep 2021 16:41:21 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Shunsuke Mie <mie@igel.co.jp>
+Cc:     Zhu Yanjun <zyjzyj2000@gmail.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jianxin Xiong <jianxin.xiong@intel.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Sean Hefty <sean.hefty@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org, dhobsong@igel.co.jp, taki@igel.co.jp,
+        etom@igel.co.jp
+Subject: Re: [RFC PATCH v2 2/2] RDMA/rxe: Add dma-buf support
+Message-ID: <YVXMkSDXybju88TU@phenom.ffwll.local>
+Mail-Followup-To: Shunsuke Mie <mie@igel.co.jp>,
+        Zhu Yanjun <zyjzyj2000@gmail.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Jianxin Xiong <jianxin.xiong@intel.com>,
+        Leon Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>,
+        Sean Hefty <sean.hefty@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org, dhobsong@igel.co.jp, taki@igel.co.jp,
+        etom@igel.co.jp
+References: <20210929041905.126454-1-mie@igel.co.jp>
+ <20210929041905.126454-3-mie@igel.co.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210929041905.126454-3-mie@igel.co.jp>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Wed, Sep 29, 2021 at 01:19:05PM +0900, Shunsuke Mie wrote:
+> Implement a ib device operation ‘reg_user_mr_dmabuf’. Generate a
+> rxe_map from the memory space linked the passed dma-buf.
+> 
+> Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
+> ---
+>  drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
+>  drivers/infiniband/sw/rxe/rxe_mr.c    | 118 ++++++++++++++++++++++++++
+>  drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
+>  drivers/infiniband/sw/rxe/rxe_verbs.h |   2 +
+>  4 files changed, 156 insertions(+)
+> 
+> diff --git a/drivers/infiniband/sw/rxe/rxe_loc.h b/drivers/infiniband/sw/rxe/rxe_loc.h
+> index 1ca43b859d80..8bc19ea1a376 100644
+> --- a/drivers/infiniband/sw/rxe/rxe_loc.h
+> +++ b/drivers/infiniband/sw/rxe/rxe_loc.h
+> @@ -75,6 +75,8 @@ u8 rxe_get_next_key(u32 last_key);
+>  void rxe_mr_init_dma(struct rxe_pd *pd, int access, struct rxe_mr *mr);
+>  int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64 iova,
+>  		     int access, struct rxe_mr *mr);
+> +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, u64 length,
+> +			    u64 iova, int access, struct rxe_mr *mr);
+>  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_mr *mr);
+>  int rxe_mr_copy(struct rxe_mr *mr, u64 iova, void *addr, int length,
+>  		enum rxe_mr_copy_dir dir);
+> diff --git a/drivers/infiniband/sw/rxe/rxe_mr.c b/drivers/infiniband/sw/rxe/rxe_mr.c
+> index 53271df10e47..af6ef671c3a5 100644
+> --- a/drivers/infiniband/sw/rxe/rxe_mr.c
+> +++ b/drivers/infiniband/sw/rxe/rxe_mr.c
+> @@ -4,6 +4,7 @@
+>   * Copyright (c) 2015 System Fabric Works, Inc. All rights reserved.
+>   */
+>  
+> +#include <linux/dma-buf.h>
+>  #include "rxe.h"
+>  #include "rxe_loc.h"
+>  
+> @@ -245,6 +246,120 @@ int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64 iova,
+>  	return err;
+>  }
+>  
+> +static int rxe_map_dmabuf_mr(struct rxe_mr *mr,
+> +			     struct ib_umem_dmabuf *umem_dmabuf)
+> +{
+> +	struct rxe_map_set *set;
+> +	struct rxe_phys_buf *buf = NULL;
+> +	struct rxe_map **map;
+> +	void *vaddr, *vaddr_end;
+> +	int num_buf = 0;
+> +	int err;
+> +	size_t remain;
+> +
+> +	mr->dmabuf_map = kzalloc(sizeof &mr->dmabuf_map, GFP_KERNEL);
 
-I have currently have a (Grabster AV 350)
-[https://www.terratec.de/details.php?artnr=10599&lang=en]
-(and 300 that work even less but I will do another thread for it I think) 
-
-I can easily get video output out of it with /dev/video0 but the problem
-is that I can't get audio by any way
-
-I looked a lot on internet and some peoples have the same problem...
-some of them has sucessfully fixed their issue by setting modprobe
-card=67 instead of the default 68. witch doesn't work for me!
-
-I do have the card that shows on alsa and pulseaudio but there is no
-sound (it's not muted, I checked) this really looks like a kernel issue
-(even tho i'm not an experienced linux dev) but I really don't know kind
-of info I can give you to help! I asked IRC tho
-
-> 14:08 < tonitch> Hello, I want to request a device to be patched in the
-> kernel... i'm not a programmer and don't know how to do it myself... on
-> the linux-media wiki they say that I can send a mail to the
-> linux-media mailing list... do you know what kind of
-> info I can get from my device to help ?
-
-> 15:06 < ndufresne> tonitch: If you do avoid "device" ,
-> it too vague, if you it is a camera, call it a camera,
-> if its acquisition, call it acquisition, explain the
-> problem and errors you are getting with the
-> details you understand, folks over
-> the ML will ask you for more details
-> when they start to understand what
-> you are dealing with
-
-At least, here is the dmesg when I plus it then unplug it
-
-```
-[ 7275.000357 ] em28xx 1-8:1.0: New device  Grabster AV 350 @ 480 Mbps
-(0ccd:0084, interface 0, class 0)
-[ 7275.000361 ] em28xx 1-8:1.0: Video interface 0 found: isoc
-[ 7275.064334 ] em28xx 1-8:1.0: chip ID is em2860
-[ 7275.284387 ] em28xx 1-8:1.0: EEPROM ID = 1a eb 67 95, EEPROM hash =
-0x618085a2
-[ 7275.284394 ] em28xx 1-8:1.0: EEPROM info:
-[ 7275.284395 ] em28xx 1-8:1.0:  AC97 audio (5 sample rates)
-[ 7275.284397 ] em28xx 1-8:1.0:  500mA max power
-[ 7275.284398 ] em28xx 1-8:1.0:  Table at offset 0x04, strings=0x226a,
-0x0000, 0x0000
-[ 7275.368159 ] em28xx 1-8:1.0: Identified as Terratec AV350 (card=68)
-[ 7275.368163 ] em28xx 1-8:1.0: analog set to isoc mode.
-[ 7275.368192 ] em28xx 1-8:1.0: Registering V4L2 extension
-[ 7275.497387 ] tvp5150 9-005c: tvp5150 (4.0) chip found @ 0xb8 (1-8:1.0)
-[ 7275.497396 ] tvp5150 9-005c: tvp5150am1 detected.
-[ 7278.429769 ] em28xx 1-8:1.0: Config register raw data: 0x50
-[ 7278.470775 ] em28xx 1-8:1.0: AC97 vendor ID = 0x83847666
-[ 7278.490776 ] em28xx 1-8:1.0: AC97 features = 0x6a90
-[ 7278.490782 ] em28xx 1-8:1.0: Sigmatel audio processor detected (stac
-9766)
-[ 7284.285398 ] em28xx 1-8:1.0: V4L2 video device registered as video0
-[ 7284.285404 ] em28xx 1-8:1.0: V4L2 VBI device registered as vbi0
-[ 7284.285410 ] em28xx 1-8:1.0: V4L2 extension successfully initialized
+dmabuf_maps are just tagged pointers (and we could shrink them to actually
+just a tagged pointer if anyone cares about the overhead of the separate
+bool), allocating them seperately is overkill.
 
 
-[ 7287.548339 ] usb 1-8: USB disconnect, device number 5
-[ 7287.548414 ] em28xx 1-8:1.0: Disconnecting em28xx
-[ 7287.548419 ] em28xx 1-8:1.0: Closing video extension
-[ 7287.555578 ] em28xx 1-8:1.0: cannot change alternate number to 0
-(error=-71)
-[ 7287.555603 ] em28xx 1-8:1.0: V4L2 device vbi0 deregistered
-[ 7287.555675 ] em28xx 1-8:1.0: V4L2 device video0 deregistered
-[ 7287.555896 ] em28xx 1-8:1.0: Freeing device
+> +	if (!mr->dmabuf_map) {
+> +		err = -ENOMEM;
+> +		goto err_out;
+> +	}
+> +
+> +	err = dma_buf_vmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
+> +	if (err)
+> +		goto err_free_dmabuf_map;
+> +
+> +	set = mr->cur_map_set;
+> +	set->page_shift = PAGE_SHIFT;
+> +	set->page_mask = PAGE_SIZE - 1;
+> +
+> +	map = set->map;
+> +	buf = map[0]->buf;
+> +
+> +	vaddr = mr->dmabuf_map->vaddr;
 
-```
+dma_buf_map can be an __iomem too, you shouldn't dig around in this, but
+use the dma-buf-map.h helpers instead. On x86 (and I think also on most
+arm) it doesn't matter, but it's kinda not very nice in a pure software
+driver.
 
-Hope for the best!
+If anything is missing in dma-buf-map.h wrappers just add more.
 
-Debucquoy Anthony (tonitch)
+Or alternatively you need to fail the import if you can't handle __iomem.
+
+Aside from these I think the dma-buf side here for cpu access looks
+reasonable now.
+-Daniel
+
+> +	vaddr_end = vaddr + umem_dmabuf->dmabuf->size;
+> +	remain = umem_dmabuf->dmabuf->size;
+> +
+> +	for (; remain; vaddr += PAGE_SIZE) {
+> +		if (num_buf >= RXE_BUF_PER_MAP) {
+> +			map++;
+> +			buf = map[0]->buf;
+> +			num_buf = 0;
+> +		}
+> +
+> +		buf->addr = (uintptr_t)vaddr;
+> +		if (remain >= PAGE_SIZE)
+> +			buf->size = PAGE_SIZE;
+> +		else
+> +			buf->size = remain;
+> +		remain -= buf->size;
+> +
+> +		num_buf++;
+> +		buf++;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_free_dmabuf_map:
+> +	kfree(mr->dmabuf_map);
+> +err_out:
+> +	return err;
+> +}
+> +
+> +static void rxe_unmap_dmabuf_mr(struct rxe_mr *mr)
+> +{
+> +	struct ib_umem_dmabuf *umem_dmabuf = to_ib_umem_dmabuf(mr->umem);
+> +
+> +	dma_buf_vunmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
+> +	kfree(mr->dmabuf_map);
+> +}
+> +
+> +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, u64 length,
+> +			    u64 iova, int access, struct rxe_mr *mr)
+> +{
+> +	struct ib_umem_dmabuf *umem_dmabuf;
+> +	struct rxe_map_set *set;
+> +	int err;
+> +
+> +	umem_dmabuf = ib_umem_dmabuf_get(pd->ibpd.device, start, length, fd,
+> +					 access, NULL);
+> +	if (IS_ERR(umem_dmabuf)) {
+> +		err = PTR_ERR(umem_dmabuf);
+> +		goto err_out;
+> +	}
+> +
+> +	rxe_mr_init(access, mr);
+> +
+> +	err = rxe_mr_alloc(mr, ib_umem_num_pages(&umem_dmabuf->umem), 0);
+> +	if (err) {
+> +		pr_warn("%s: Unable to allocate memory for map\n", __func__);
+> +		goto err_release_umem;
+> +	}
+> +
+> +	mr->ibmr.pd = &pd->ibpd;
+> +	mr->umem = &umem_dmabuf->umem;
+> +	mr->access = access;
+> +	mr->state = RXE_MR_STATE_VALID;
+> +	mr->type = IB_MR_TYPE_USER;
+> +
+> +	set = mr->cur_map_set;
+> +	set->length = length;
+> +	set->iova = iova;
+> +	set->va = start;
+> +	set->offset = ib_umem_offset(mr->umem);
+> +
+> +	err = rxe_map_dmabuf_mr(mr, umem_dmabuf);
+> +	if (err)
+> +		goto err_free_map_set;
+> +
+> +	return 0;
+> +
+> +err_free_map_set:
+> +	rxe_mr_free_map_set(mr->num_map, mr->cur_map_set);
+> +err_release_umem:
+> +	ib_umem_release(&umem_dmabuf->umem);
+> +err_out:
+> +	return err;
+> +}
+> +
+>  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_mr *mr)
+>  {
+>  	int err;
+> @@ -703,6 +818,9 @@ void rxe_mr_cleanup(struct rxe_pool_entry *arg)
+>  {
+>  	struct rxe_mr *mr = container_of(arg, typeof(*mr), pelem);
+>  
+> +	if (mr->umem && mr->umem->is_dmabuf)
+> +		rxe_unmap_dmabuf_mr(mr);
+> +
+>  	ib_umem_release(mr->umem);
+>  
+>  	if (mr->cur_map_set)
+> diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.c b/drivers/infiniband/sw/rxe/rxe_verbs.c
+> index 9d0bb9aa7514..6191bb4f434d 100644
+> --- a/drivers/infiniband/sw/rxe/rxe_verbs.c
+> +++ b/drivers/infiniband/sw/rxe/rxe_verbs.c
+> @@ -916,6 +916,39 @@ static struct ib_mr *rxe_reg_user_mr(struct ib_pd *ibpd,
+>  	return ERR_PTR(err);
+>  }
+>  
+> +static struct ib_mr *rxe_reg_user_mr_dmabuf(struct ib_pd *ibpd, u64 start,
+> +					    u64 length, u64 iova, int fd,
+> +					    int access, struct ib_udata *udata)
+> +{
+> +	int err;
+> +	struct rxe_dev *rxe = to_rdev(ibpd->device);
+> +	struct rxe_pd *pd = to_rpd(ibpd);
+> +	struct rxe_mr *mr;
+> +
+> +	mr = rxe_alloc(&rxe->mr_pool);
+> +	if (!mr) {
+> +		err = -ENOMEM;
+> +		goto err2;
+> +	}
+> +
+> +	rxe_add_index(mr);
+> +
+> +	rxe_add_ref(pd);
+> +
+> +	err = rxe_mr_dmabuf_init_user(pd, fd, start, length, iova, access, mr);
+> +	if (err)
+> +		goto err3;
+> +
+> +	return &mr->ibmr;
+> +
+> +err3:
+> +	rxe_drop_ref(pd);
+> +	rxe_drop_index(mr);
+> +	rxe_drop_ref(mr);
+> +err2:
+> +	return ERR_PTR(err);
+> +}
+> +
+>  static struct ib_mr *rxe_alloc_mr(struct ib_pd *ibpd, enum ib_mr_type mr_type,
+>  				  u32 max_num_sg)
+>  {
+> @@ -1081,6 +1114,7 @@ static const struct ib_device_ops rxe_dev_ops = {
+>  	.query_qp = rxe_query_qp,
+>  	.query_srq = rxe_query_srq,
+>  	.reg_user_mr = rxe_reg_user_mr,
+> +	.reg_user_mr_dmabuf = rxe_reg_user_mr_dmabuf,
+>  	.req_notify_cq = rxe_req_notify_cq,
+>  	.resize_cq = rxe_resize_cq,
+>  
+> diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.h b/drivers/infiniband/sw/rxe/rxe_verbs.h
+> index c807639435eb..0aa95ab06b6e 100644
+> --- a/drivers/infiniband/sw/rxe/rxe_verbs.h
+> +++ b/drivers/infiniband/sw/rxe/rxe_verbs.h
+> @@ -334,6 +334,8 @@ struct rxe_mr {
+>  
+>  	struct rxe_map_set	*cur_map_set;
+>  	struct rxe_map_set	*next_map_set;
+> +
+> +	struct dma_buf_map *dmabuf_map;
+>  };
+>  
+>  enum rxe_mw_state {
+> -- 
+> 2.17.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
