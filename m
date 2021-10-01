@@ -2,122 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD80641EBD3
-	for <lists+linux-media@lfdr.de>; Fri,  1 Oct 2021 13:25:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8315341EC3F
+	for <lists+linux-media@lfdr.de>; Fri,  1 Oct 2021 13:35:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353888AbhJAL13 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Oct 2021 07:27:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38864 "EHLO
+        id S1354033AbhJALhB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Oct 2021 07:37:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353852AbhJAL1O (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Oct 2021 07:27:14 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F00C06177D
-        for <linux-media@vger.kernel.org>; Fri,  1 Oct 2021 04:25:29 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id d207-20020a1c1dd8000000b00307e2d1ec1aso6498057wmd.5
-        for <linux-media@vger.kernel.org>; Fri, 01 Oct 2021 04:25:29 -0700 (PDT)
+        with ESMTP id S1354030AbhJALg7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Oct 2021 07:36:59 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEDB0C061775
+        for <linux-media@vger.kernel.org>; Fri,  1 Oct 2021 04:35:12 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id d6so14922205wrc.11
+        for <linux-media@vger.kernel.org>; Fri, 01 Oct 2021 04:35:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=VNaI9C5/qcGt+6XKfL8dD53jkaX+jHT8gS0DI0vOhMk=;
-        b=fZ3cK5y8CtUA2QTCkJD4v42HS0fhzRpRuUiw0yPW50W42q6IZ558y2xg/OaJfu8Sz1
-         5YXvROMkosDpzW4GE+Vrv6Sx7gb5Wr+0lpi005IfCHj0DRAJKyM6uB78ueSFgDJURdBb
-         seSsEUjULHw4S+mQC66XvlKURIisXxBQQ6Gig=
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=5L/E4eErsLvrvRSyjenHMn1XgR3BfAibYkaUBTxnmho=;
+        b=kb6MbLUy++O6PNHhKSFPx9v4fFtwpvxJeNblR4kji6+6qq2Lucl0Bos7Wr8pcLX+hO
+         tRyb9xiWVR8p706SNC+HizJNgSL5UH7etOYT4KJNUPAxZsx19kSXdlPSkzuaY1jTWaLY
+         4tzz18G2my1E8FkqDzcvEfU/fmLr7epbivZsMIbMD2QsJgHn219yKjZHacudF+1Otelk
+         Ps1x6eI3Y+KniUoXNyOSthjl8bPizc7o0PNNLM7mCUJWrsXs698IFJfmckZW2ZuwAS6o
+         Sx6QKffvmRb5RhKFnE364qOhRDY4B39bqiG8gRsgkqiSO/SRZOJpzUOpTrf/l9gFCHVc
+         XGiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=VNaI9C5/qcGt+6XKfL8dD53jkaX+jHT8gS0DI0vOhMk=;
-        b=xKRQPpOiy5G4PGcMnNArAqghdjM4a9LuQXM4HEwPawyRfwti3Ip+DIaKhZtWF9e8Fy
-         gSbg/CHvHVtYx3dyuLrvyZTBjoe3W2TEBYjJ6sem31WhJr77VNlepJDRKuBRNOIf7yoD
-         f1z4C912ABXrxuPBeMwwsxHZaQ8ZFqPwK2oFxR+5hcahP4HX4MEWWuzBxYqmL4MpAjop
-         nwLXs4T9dXnM2cq+oMxccvZxovV3Svkwn619xWzD1tveIMdWI8Tm6wIGXMdYFCDn9Scy
-         o0/kMJjcgLdUTMTtGAHlSDWRv5Rzq9gMA9IYPn80h6tybwBH81tCgoxn7cLD4slL8ph7
-         A3Gg==
-X-Gm-Message-State: AOAM533Vf8nQGqoNZqfAmHWCLfNfpUtuLcgw9OzSULzkBBVFdz+omlUH
-        wDlMkVoSsk55ExX0byz37xLWTw==
-X-Google-Smtp-Source: ABdhPJx3k528VbAOecSOVvxuMk/z+vJiK8J9dkH8vF3yiWTPPLsn7nH6xcSNRl6G3gBbbFP9HpKdZw==
-X-Received: by 2002:a05:600c:4ed3:: with SMTP id g19mr3815631wmq.195.1633087528626;
-        Fri, 01 Oct 2021 04:25:28 -0700 (PDT)
-Received: from beni.c.googlers.com.com (216.131.76.34.bc.googleusercontent.com. [34.76.131.216])
-        by smtp.gmail.com with ESMTPSA id x17sm5530958wrc.51.2021.10.01.04.25.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Oct 2021 04:25:28 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v3 8/8] media: ov5670: Add implementation for events
-Date:   Fri,  1 Oct 2021 11:25:22 +0000
-Message-Id: <20211001112522.2839602-9-ribalda@chromium.org>
-X-Mailer: git-send-email 2.33.0.800.g4c38ced690-goog
-In-Reply-To: <20211001112522.2839602-1-ribalda@chromium.org>
-References: <20211001112522.2839602-1-ribalda@chromium.org>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=5L/E4eErsLvrvRSyjenHMn1XgR3BfAibYkaUBTxnmho=;
+        b=M+APfg2PkiMwtieUxc3gr8iN/W6p5O3odidS/9LB9jUqtlbuHexhn4b8NEGKeBU36P
+         mvn4yeWawhxx7AuAEC78RTXOodGSTz/0HS1W23vIkNcZwOifAUbmw5h4s396JCHRtLXX
+         9aMoosu0G43Hd/3ICoZ59Nn3fOrAGT0UJNr4vGUiY48V43dXtg6dlAMhaaeYYJUK8Dqf
+         jk2ohxc6CCZqh6eDM+pwTmQlTZwDORaOBSsI6pvH8eWqajZ492U9q46FZnC7n582Bzls
+         o7z3I4DZ9PMEcrfXLA7y7bHC+Kt/zI2g7Fb7DvprqEXaUO/RSMzvj5FTZAnrAdVi8p1W
+         2E1g==
+X-Gm-Message-State: AOAM532uD81DHAkGKUnEJYsgr2eNs0mrvC3oFc7Emd9S+nJEB9md1eHf
+        8TldW4c8zySzu94DjjDUECLsQv4RaWAYZXNy08ZiLhraIqNL7Q==
+X-Google-Smtp-Source: ABdhPJxO5JZDMou4ZeNj31LReXKwuJbss5Bcqb0SVbR3DI9xevoj0I1eyLAyk/Sg0BjFpvAB7vI/ZitZ52WunSuQcUw=
+X-Received: by 2002:a17:906:3882:: with SMTP id q2mr5834865ejd.396.1633088100599;
+ Fri, 01 Oct 2021 04:35:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a17:906:724a:0:0:0:0 with HTTP; Fri, 1 Oct 2021 04:34:58
+ -0700 (PDT)
+Reply-To: joymat52@gmail.com
+From:   Joyce Thomas <tjoyc1234@gmail.com>
+Date:   Fri, 1 Oct 2021 04:34:58 -0700
+Message-ID: <CAF-RpUjEy3ZrsPpj7r5ZFKjGM=JQyOMzOcWwONVKJZrBckwU0Q@mail.gmail.com>
+Subject: ATTN:
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use v4l2 control API helpers to support the events.
-
-Fixes v4l2-compliance:
-
-test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
-
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/i2c/ov5670.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-index 49189926afd67..251f459ab484a 100644
---- a/drivers/media/i2c/ov5670.c
-+++ b/drivers/media/i2c/ov5670.c
-@@ -7,6 +7,7 @@
- #include <linux/pm_runtime.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
-+#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- 
- #define OV5670_REG_CHIP_ID		0x300a
-@@ -2420,6 +2421,12 @@ static int ov5670_identify_module(struct ov5670 *ov5670)
- 	return 0;
- }
- 
-+static const struct v4l2_subdev_core_ops ov5670_core_ops = {
-+	.log_status = v4l2_ctrl_subdev_log_status,
-+	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-+	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+};
-+
- static const struct v4l2_subdev_video_ops ov5670_video_ops = {
- 	.s_stream = ov5670_set_stream,
- };
-@@ -2436,6 +2443,7 @@ static const struct v4l2_subdev_sensor_ops ov5670_sensor_ops = {
- };
- 
- static const struct v4l2_subdev_ops ov5670_subdev_ops = {
-+	.core = &ov5670_core_ops,
- 	.video = &ov5670_video_ops,
- 	.pad = &ov5670_pad_ops,
- 	.sensor = &ov5670_sensor_ops,
-@@ -2489,7 +2497,8 @@ static int ov5670_probe(struct i2c_client *client)
- 	}
- 
- 	ov5670->sd.internal_ops = &ov5670_internal_ops;
--	ov5670->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	ov5670->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-+			    V4L2_SUBDEV_FL_HAS_EVENTS;
- 	ov5670->sd.entity.ops = &ov5670_subdev_entity_ops;
- 	ov5670->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 
--- 
-2.33.0.800.g4c38ced690-goog
-
+Hello Dear
+My Name is Mr. Joyce Thomas. Contact me for more information on the
+transfer of ($7.9 million dollars) left by my late client from your
+Country. I want to present you as a business partner and next of kin
+of the fund. I will give you the details of this transaction, as soon
+as I hear from you. I need the information below:
+Full Name:
+Address:
+Occupation:
+Age:
+Personal Email:
+Personal Telephone:
+Best Regards,
+Mr.Joyce  Thomas
