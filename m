@@ -2,77 +2,293 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2597F41E977
-	for <lists+linux-media@lfdr.de>; Fri,  1 Oct 2021 11:15:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 960D041E982
+	for <lists+linux-media@lfdr.de>; Fri,  1 Oct 2021 11:19:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352820AbhJAJRG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Oct 2021 05:17:06 -0400
-Received: from mga03.intel.com ([134.134.136.65]:40199 "EHLO mga03.intel.com"
+        id S1352909AbhJAJVF convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 1 Oct 2021 05:21:05 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:38936 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230000AbhJAJRD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 1 Oct 2021 05:17:03 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="225458831"
-X-IronPort-AV: E=Sophos;i="5.85,337,1624345200"; 
-   d="scan'208";a="225458831"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2021 02:15:19 -0700
-X-IronPort-AV: E=Sophos;i="5.85,337,1624345200"; 
-   d="scan'208";a="539952628"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2021 02:15:17 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id BE7342010B;
-        Fri,  1 Oct 2021 12:15:15 +0300 (EEST)
-Date:   Fri, 1 Oct 2021 12:15:15 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
-Subject: Re: [PATCH 2/7] media: ipu3-cio2: Set valid initial format
-Message-ID: <YVYrkNjkDZ9Cn/nI@paasikivi.fi.intel.com>
-References: <20210928211033.2415162-1-ribalda@chromium.org>
- <20210928211033.2415162-3-ribalda@chromium.org>
+        id S229681AbhJAJVE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 1 Oct 2021 05:21:04 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mWEhL-00GnyR-EE; Fri, 01 Oct 2021 09:19:19 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mWEhJ-0001Ge-20; Fri, 01 Oct 2021 09:19:17 +0000
+Date:   Fri, 1 Oct 2021 09:19:15 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1547027333.4.1633079955978@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3649
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210928211033.2415162-3-ribalda@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+See <https://builder.linuxtv.org/job/media-build/3649/display/redirect>
 
-On Tue, Sep 28, 2021 at 09:10:28PM +0000, Ricardo Ribalda wrote:
-> The initial format did not have a valid size.
-> 
-> Fixes v4l2-compliance:
-> 
-> fail: v4l2-test-formats.cpp(723): Video Output Multiplanar:
-> 				  TRY_FMT(G_FMT) != G_FMT
-> test VIDIOC_TRY_FMT: FAIL
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/staging/media/ipu3/ipu3-v4l2.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> index 38a2407645096..fbb9eb2ba99e4 100644
-> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> @@ -1136,7 +1136,7 @@ static int imgu_v4l2_node_setup(struct imgu_device *imgu, unsigned int pipe,
->  	def_pix_fmt.height = def_bus_fmt.height;
->  	def_pix_fmt.field = def_bus_fmt.field;
->  	def_pix_fmt.num_planes = 1;
-> -	def_pix_fmt.plane_fmt[0].bytesperline = def_pix_fmt.width * 2;
-> +	def_pix_fmt.plane_fmt[0].bytesperline = 2496;
+Changes:
 
-Please derive the value from the width, don't use a number here.
 
--- 
-Regards,
+------------------------------------------
+[...truncated 5.23 KB...]
+--2021-10-01 09:19:10--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2 [following]
+--2021-10-01 09:19:10--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7353746 (7.0M) [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2’
 
-Sakari Ailus
+     0K .......... .......... .......... .......... ..........  0%  156K 46s
+    50K .......... .......... .......... .......... ..........  1%  313K 34s
+   100K .......... .......... .......... .......... ..........  2% 16.5M 23s
+   150K .......... .......... .......... .......... ..........  2% 15.8M 17s
+   200K .......... .......... .......... .......... ..........  3%  320K 18s
+   250K .......... .......... .......... .......... ..........  4% 17.7M 15s
+   300K .......... .......... .......... .......... ..........  4% 16.4M 13s
+   350K .......... .......... .......... .......... ..........  5% 16.1M 11s
+   400K .......... .......... .......... .......... ..........  6%  332K 12s
+   450K .......... .......... .......... .......... ..........  6% 18.3M 11s
+   500K .......... .......... .......... .......... ..........  7% 18.0M 10s
+   550K .......... .......... .......... .......... ..........  8% 24.4M 9s
+   600K .......... .......... .......... .......... ..........  9% 21.2M 8s
+   650K .......... .......... .......... .......... ..........  9% 27.8M 8s
+   700K .......... .......... .......... .......... .......... 10% 22.2M 7s
+   750K .......... .......... .......... .......... .......... 11% 21.0M 7s
+   800K .......... .......... .......... .......... .......... 11% 16.1M 6s
+   850K .......... .......... .......... .......... .......... 12%  355K 7s
+   900K .......... .......... .......... .......... .......... 13% 33.8M 6s
+   950K .......... .......... .......... .......... .......... 13% 31.1M 6s
+  1000K .......... .......... .......... .......... .......... 14% 28.3M 6s
+  1050K .......... .......... .......... .......... .......... 15% 32.7M 5s
+  1100K .......... .......... .......... .......... .......... 16% 33.1M 5s
+  1150K .......... .......... .......... .......... .......... 16% 29.6M 5s
+  1200K .......... .......... .......... .......... .......... 17% 24.3M 5s
+  1250K .......... .......... .......... .......... .......... 18% 31.1M 4s
+  1300K .......... .......... .......... .......... .......... 18% 32.0M 4s
+  1350K .......... .......... .......... .......... .......... 19% 27.9M 4s
+  1400K .......... .......... .......... .......... .......... 20% 26.8M 4s
+  1450K .......... .......... .......... .......... .......... 20% 28.6M 4s
+  1500K .......... .......... .......... .......... .......... 21% 28.5M 4s
+  1550K .......... .......... .......... .......... .......... 22% 30.1M 3s
+  1600K .......... .......... .......... .......... .......... 22% 27.1M 3s
+  1650K .......... .......... .......... .......... .......... 23% 27.3M 3s
+  1700K .......... .......... .......... .......... .......... 24% 31.0M 3s
+  1750K .......... .......... .......... .......... .......... 25%  380K 3s
+  1800K .......... .......... .......... .......... .......... 25% 41.6M 3s
+  1850K .......... .......... .......... .......... .......... 26% 35.9M 3s
+  1900K .......... .......... .......... .......... .......... 27% 43.2M 3s
+  1950K .......... .......... .......... .......... .......... 27% 48.9M 3s
+  2000K .......... .......... .......... .......... .......... 28% 32.2M 3s
+  2050K .......... .......... .......... .......... .......... 29% 32.1M 3s
+  2100K .......... .......... .......... .......... .......... 29% 55.6M 3s
+  2150K .......... .......... .......... .......... .......... 30% 56.4M 3s
+  2200K .......... .......... .......... .......... .......... 31% 43.9M 2s
+  2250K .......... .......... .......... .......... .......... 32% 44.8M 2s
+  2300K .......... .......... .......... .......... .......... 32% 42.2M 2s
+  2350K .......... .......... .......... .......... .......... 33% 43.0M 2s
+  2400K .......... .......... .......... .......... .......... 34% 40.3M 2s
+  2450K .......... .......... .......... .......... .......... 34% 44.0M 2s
+  2500K .......... .......... .......... .......... .......... 35% 65.4M 2s
+  2550K .......... .......... .......... .......... .......... 36% 43.8M 2s
+  2600K .......... .......... .......... .......... .......... 36% 52.0M 2s
+  2650K .......... .......... .......... .......... .......... 37% 71.3M 2s
+  2700K .......... .......... .......... .......... .......... 38% 60.6M 2s
+  2750K .......... .......... .......... .......... .......... 38% 59.9M 2s
+  2800K .......... .......... .......... .......... .......... 39% 44.1M 2s
+  2850K .......... .......... .......... .......... .......... 40% 58.6M 2s
+  2900K .......... .......... .......... .......... .......... 41% 84.3M 2s
+  2950K .......... .......... .......... .......... .......... 41% 73.4M 2s
+  3000K .......... .......... .......... .......... .......... 42% 52.0M 2s
+  3050K .......... .......... .......... .......... .......... 43% 52.6M 2s
+  3100K .......... .......... .......... .......... .......... 43% 57.3M 1s
+  3150K .......... .......... .......... .......... .......... 44% 90.2M 1s
+  3200K .......... .......... .......... .......... .......... 45% 44.4M 1s
+  3250K .......... .......... .......... .......... .......... 45% 57.0M 1s
+  3300K .......... .......... .......... .......... .......... 46% 38.8M 1s
+  3350K .......... .......... .......... .......... .......... 47% 96.4M 1s
+  3400K .......... .......... .......... .......... .......... 48% 67.5M 1s
+  3450K .......... .......... .......... .......... .......... 48% 61.6M 1s
+  3500K .......... .......... .......... .......... .......... 49% 3.64M 1s
+  3550K .......... .......... .......... .......... .......... 50%  440K 1s
+  3600K .......... .......... .......... .......... .......... 50% 54.8M 1s
+  3650K .......... .......... .......... .......... .......... 51% 71.0M 1s
+  3700K .......... .......... .......... .......... .......... 52% 57.9M 1s
+  3750K .......... .......... .......... .......... .......... 52% 48.1M 1s
+  3800K .......... .......... .......... .......... .......... 53% 48.0M 1s
+  3850K .......... .......... .......... .......... .......... 54% 29.9M 1s
+  3900K .......... .......... .......... .......... .......... 55% 29.3M 1s
+  3950K .......... .......... .......... .......... .......... 55% 30.3M 1s
+  4000K .......... .......... .......... .......... .......... 56% 20.4M 1s
+  4050K .......... .......... .......... .......... .......... 57% 29.3M 1s
+  4100K .......... .......... .......... .......... .......... 57% 25.3M 1s
+  4150K .......... .......... .......... .......... .......... 58% 26.2M 1s
+  4200K .......... .......... .......... .......... .......... 59% 24.7M 1s
+  4250K .......... .......... .......... .......... .......... 59% 27.7M 1s
+  4300K .......... .......... .......... .......... .......... 60% 25.0M 1s
+  4350K .......... .......... .......... .......... .......... 61% 26.1M 1s
+  4400K .......... .......... .......... .......... .......... 61% 20.3M 1s
+  4450K .......... .......... .......... .......... .......... 62% 26.9M 1s
+  4500K .......... .......... .......... .......... .......... 63% 24.5M 1s
+  4550K .......... .......... .......... .......... .......... 64% 20.7M 1s
+  4600K .......... .......... .......... .......... .......... 64% 19.5M 1s
+  4650K .......... .......... .......... .......... .......... 65% 30.6M 1s
+  4700K .......... .......... .......... .......... .......... 66% 23.1M 1s
+  4750K .......... .......... .......... .......... .......... 66% 19.2M 1s
+  4800K .......... .......... .......... .......... .......... 67% 19.3M 1s
+  4850K .......... .......... .......... .......... .......... 68% 27.0M 1s
+  4900K .......... .......... .......... .......... .......... 68% 41.3M 1s
+  4950K .......... .......... .......... .......... .......... 69% 26.0M 1s
+  5000K .......... .......... .......... .......... .......... 70% 27.2M 1s
+  5050K .......... .......... .......... .......... .......... 71% 28.0M 1s
+  5100K .......... .......... .......... .......... .......... 71% 25.9M 1s
+  5150K .......... .......... .......... .......... .......... 72% 27.3M 1s
+  5200K .......... .......... .......... .......... .......... 73% 20.2M 0s
+  5250K .......... .......... .......... .......... .......... 73% 26.8M 0s
+  5300K .......... .......... .......... .......... .......... 74% 27.0M 0s
+  5350K .......... .......... .......... .......... .......... 75% 26.2M 0s
+  5400K .......... .......... .......... .......... .......... 75% 26.1M 0s
+  5450K .......... .......... .......... .......... .......... 76% 26.4M 0s
+  5500K .......... .......... .......... .......... .......... 77% 28.3M 0s
+  5550K .......... .......... .......... .......... .......... 77% 27.0M 0s
+  5600K .......... .......... .......... .......... .......... 78% 19.9M 0s
+  5650K .......... .......... .......... .......... .......... 79% 26.8M 0s
+  5700K .......... .......... .......... .......... .......... 80% 26.4M 0s
+  5750K .......... .......... .......... .......... .......... 80% 24.6M 0s
+  5800K .......... .......... .......... .......... .......... 81% 27.5M 0s
+  5850K .......... .......... .......... .......... .......... 82% 25.3M 0s
+  5900K .......... .......... .......... .......... .......... 82% 28.8M 0s
+  5950K .......... .......... .......... .......... .......... 83% 26.5M 0s
+  6000K .......... .......... .......... .......... .......... 84% 20.5M 0s
+  6050K .......... .......... .......... .......... .......... 84% 27.2M 0s
+  6100K .......... .......... .......... .......... .......... 85% 26.0M 0s
+  6150K .......... .......... .......... .......... .......... 86% 26.5M 0s
+  6200K .......... .......... .......... .......... .......... 87% 26.3M 0s
+  6250K .......... .......... .......... .......... .......... 87% 26.7M 0s
+  6300K .......... .......... .......... .......... .......... 88% 27.2M 0s
+  6350K .......... .......... .......... .......... .......... 89% 25.1M 0s
+  6400K .......... .......... .......... .......... .......... 89% 20.7M 0s
+  6450K .......... .......... .......... .......... .......... 90% 26.1M 0s
+  6500K .......... .......... .......... .......... .......... 91% 27.0M 0s
+  6550K .......... .......... .......... .......... .......... 91% 27.0M 0s
+  6600K .......... .......... .......... .......... .......... 92% 23.9M 0s
+  6650K .......... .......... .......... .......... .......... 93% 1019K 0s
+  6700K .......... .......... .......... .......... .......... 93% 46.4M 0s
+  6750K .......... .......... .......... .......... .......... 94% 61.9M 0s
+  6800K .......... .......... .......... .......... .......... 95% 43.8M 0s
+  6850K .......... .......... .......... .......... .......... 96% 65.7M 0s
+  6900K .......... .......... .......... .......... .......... 96% 32.7M 0s
+  6950K .......... .......... .......... .......... .......... 97% 29.7M 0s
+  7000K .......... .......... .......... .......... .......... 98% 26.5M 0s
+  7050K .......... .......... .......... .......... .......... 98% 40.2M 0s
+  7100K .......... .......... .......... .......... .......... 99% 23.3M 0s
+  7150K .......... .......... .......... .                    100% 24.2M=1.5s
+
+2021-10-01 09:19:13 (4.81 MB/s) - ‘linux-media.tar.bz2’ saved [7353746/7353746]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-8-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-8-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/ccs.patch
+patch -s -f -N -p1 -i ../backports/rc-cec.patch
+patch -s -f -N -p1 -i ../backports/v5.14_bus_void_return.patch
+patch -s -f -N -p1 -i ../backports/v5.12_uvc.patch
+patch -s -f -N -p1 -i ../backports/v5.11_isa.patch
+patch -s -f -N -p1 -i ../backports/v5.10_vb2_dma_buf_map.patch
+2 out of 4 hunks FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
