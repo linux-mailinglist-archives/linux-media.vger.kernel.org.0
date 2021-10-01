@@ -2,70 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C13441E940
-	for <lists+linux-media@lfdr.de>; Fri,  1 Oct 2021 10:55:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 833C941E971
+	for <lists+linux-media@lfdr.de>; Fri,  1 Oct 2021 11:14:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352861AbhJAI4w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Oct 2021 04:56:52 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:57018 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352740AbhJAI4v (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Oct 2021 04:56:51 -0400
-Received: by mail-io1-f69.google.com with SMTP id z14-20020a05660229ce00b005d616a6f35aso8181330ioq.23
-        for <linux-media@vger.kernel.org>; Fri, 01 Oct 2021 01:55:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=mYVNj7GUYQ3ONE/lwuTfVtZPuGTc99UdHlU4HzP4RMU=;
-        b=MBpx6WptgjcpnZcnZwzVWZDJTGhY6jNCpzX7hzpbt8+j0DV3NczOmA3PxTiJMt2qVN
-         ZeNllsBWT+NQxxBGgnOjGqwRVGibLKP0n/awsBF++zXEnoeYtst/q1AadvV9gjhefTGQ
-         m9aAwG9+5YY9znPBo3Y2X2y+eyBZg6kMGRACNBj4zVJBQP59ptpi8Rw86PwZu6yOo3Jv
-         urwkgRjXshjm97xmX/Re6jbMYyHk2BzaLbU//hy85dCOiy3dNwNSXr/KUw2us82nl66C
-         fkCgTFSs2BdwDJjLMRKIC2SCLzh1riHOjlGHVs8oDdZCBqTQkGalP7/tre6v9niVjsYo
-         lAPA==
-X-Gm-Message-State: AOAM530NBKT4HfJS0C9kCtOoEGCHmmPgzCpW5TkGvVVww3efSYNP4Gbm
-        ZuknHqEPZrIdH6+2CofDgNp7LEUv3HfuKFKjAAv0EtFKvUgB
-X-Google-Smtp-Source: ABdhPJwHjqhjMTIzJ+KD7re2/BvRja309HrPWUEceEN/YAnuUvrfDViaJV3ThPI7N/1fki4yZUmQcFv8x/XyxaaJ2RGEnxfueAgd
-MIME-Version: 1.0
-X-Received: by 2002:a05:6638:3713:: with SMTP id k19mr8744051jav.44.1633078507394;
- Fri, 01 Oct 2021 01:55:07 -0700 (PDT)
-Date:   Fri, 01 Oct 2021 01:55:07 -0700
-In-Reply-To: <000000000000d068cf05c716264c@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000052dbbf05cd46b81e@google.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in em28xx_close_extension
-From:   syzbot <syzbot+005037419ebdf14e1d87@syzkaller.appspotmail.com>
-To:     dan.carpenter@oracle.com, hdanton@sina.com,
-        hverkuil-cisco@xs4all.nl, igormtorrente@gmail.com,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        id S230418AbhJAJPx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Oct 2021 05:15:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36382 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229702AbhJAJPw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Oct 2021 05:15:52 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC436C061775
+        for <linux-media@vger.kernel.org>; Fri,  1 Oct 2021 02:14:08 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1mWEcJ-0006XX-6d; Fri, 01 Oct 2021 11:14:07 +0200
+Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1mWEcI-000661-Bq; Fri, 01 Oct 2021 11:14:06 +0200
+Date:   Fri, 1 Oct 2021 11:14:06 +0200
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl
+Cc:     kernel@pengutronix.de
+Subject: Re: [PATCH 0/6] media: allegro: Add support for the Encoder Buffer
+Message-ID: <20211001091406.GF28226@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
         linux-media@vger.kernel.org, mchehab@kernel.org,
-        mudongliangabcd@gmail.com, stephen.s.brennan@oracle.com,
-        syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
+        hverkuil-cisco@xs4all.nl, kernel@pengutronix.de
+References: <20210908130315.3295253-1-m.tretter@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210908130315.3295253-1-m.tretter@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 11:13:02 up 225 days, 12:36, 133 users,  load average: 0.19, 0.19,
+ 0.21
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot suspects this issue was fixed by commit:
+On Wed, 08 Sep 2021 15:03:09 +0200, Michael Tretter wrote:
+> This series adds support for the Encoder Buffer to the Allegro DVT driver.
 
-commit 0766ec82e5fb26fc5dc6d592bc61865608bdc651
-Author: Stephen Brennan <stephen.s.brennan@oracle.com>
-Date:   Wed Sep 1 17:51:41 2021 +0000
+Gentle Ping.
 
-    namei: Fix use after free in kern_path_locked
+Michael
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17bf2a03300000
-start commit:   fa54d366a6e4 Merge tag 'acpi-5.14-rc7' of git://git.kernel..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=96f0602203250753
-dashboard link: https://syzkaller.appspot.com/bug?extid=005037419ebdf14e1d87
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14c086c5300000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12950bee300000
-
-If the result looks correct, please mark the issue as fixed by replying with:
-
-#syz fix: namei: Fix use after free in kern_path_locked
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+> 
+> The Encoder Buffer (the reference manual sometime also uses the terms L2 cache
+> or Prefetch Buffer) acts as a cache for the reference frames. The Encoder
+> Buffer reduces the read accesses of the encoder on its AXI ports. The size of
+> the buffer is configurable with Vivado before the FPGA bitstream is
+> synthesized, but not during runtime. The driver is responsible for configuring
+> the firmware to the configured size of the Encoder Buffer.
+> 
+> Patch 1 adds a check to make sure that the response mailbox is initialized
+> before the interrupt handler tries to handle mails from this mailbox. This
+> should never happen, but having the check does not hurt and should make the
+> checkers happy.
+> 
+> Patch 2 fixes the removal of the module when the firmware initialization has
+> failed.
+> 
+> Patch 3 and 4 integrate the Allegro DVT driver with the Xilinx VCU driver,
+> which handles the glue code between the encoder and the FPGA.
+> 
+> Patch 5 and 6 add support for the actual Encoder Buffer and add a control to
+> explicitly disable it per encoding context, because the Encoder Buffer might
+> have a negativ impact on the encoding quality.
+> 
+> This series is independent of my other series regarding the NAL unit fixes.
+> 
+> Michael
+> 
+> Michael Tretter (6):
+>   media: allegro: ignore interrupt if mailbox is not initialized
+>   media: allegro: fix module removal if initialization failed
+>   media: allegro: lookup VCU settings
+>   media: allegro: add pm_runtime support
+>   media: allegro: add encoder buffer support
+>   media: allegro: add control to disable encoder buffer
+> 
+>  .../media/platform/allegro-dvt/allegro-core.c | 229 +++++++++++++++++-
+>  .../media/platform/allegro-dvt/allegro-mail.c |  19 +-
+>  .../media/platform/allegro-dvt/allegro-mail.h |  10 +-
+>  include/uapi/linux/v4l2-controls.h            |   5 +
+>  4 files changed, 235 insertions(+), 28 deletions(-)
+> 
+> -- 
+> 2.30.2
+> 
+> 
