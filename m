@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5691741EBCF
-	for <lists+linux-media@lfdr.de>; Fri,  1 Oct 2021 13:25:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01C6D41EBD4
+	for <lists+linux-media@lfdr.de>; Fri,  1 Oct 2021 13:25:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353871AbhJAL1Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Oct 2021 07:27:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38844 "EHLO
+        id S1353883AbhJAL12 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Oct 2021 07:27:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353790AbhJAL1M (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Oct 2021 07:27:12 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACAC6C06177C
-        for <linux-media@vger.kernel.org>; Fri,  1 Oct 2021 04:25:28 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id m22so9485650wrb.0
-        for <linux-media@vger.kernel.org>; Fri, 01 Oct 2021 04:25:28 -0700 (PDT)
+        with ESMTP id S1353832AbhJAL1N (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Oct 2021 07:27:13 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37F84C06177F
+        for <linux-media@vger.kernel.org>; Fri,  1 Oct 2021 04:25:29 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id d6so14881594wrc.11
+        for <linux-media@vger.kernel.org>; Fri, 01 Oct 2021 04:25:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7gLZK8PdbeRKM6yKe+al6KCGRIW1PaVpWWADOyHb+A8=;
-        b=c0PIqTzXBtRzvzFVdawJzOuSiftzl9N7n51LfPQzWJaaKBT5JjZq24sk8yNqXjPaXj
-         g/1SSy0VHG8sN6JM3Wa8Q+/IGSdMAiqQuyLVe59SeOqwCgXZ3sjZ5xPLvJpLtzOv8rdF
-         AOwVrGwpuZOQY86VZAqH8m9gyP4ddgl6WDRVk=
+        bh=tmEJ9vFpZDT8h8HObohmRstQUsecSrrPbxIcYXjIt14=;
+        b=mlg6xJ+z/3D7g/FEIfOjSYDGmoYGEGbs98RXwl4s5paFKGPmigUvG/2nYEGgD9thTj
+         I2tDZ1k2GTp9CLR1RqsUqrxzo/cqp8PeYQpAffEBC3gRdS6Lczgb4epuL/xwZ074SiEN
+         OT3eTRdSrHMpGtSvUhsgQtm8TJwCPtipKqBgc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7gLZK8PdbeRKM6yKe+al6KCGRIW1PaVpWWADOyHb+A8=;
-        b=OSq8exsJDlcRgnXUzDrCb+g/b1rGjbtzBCDNyoKfk87ZAMjWHiOT4/pKNWtH73goNc
-         zByzHrmnh16nfXVkuclA6SZ1PT1Hyv+GeLksJSQvQdOKYIzCkVDrqeokbrvpQhZsybj8
-         bvHAvT/nLFkvHlnFsDMrHWslniuQU48Nr+YKEYrm2noUfoWy9qLmovEpaBSs1YPZEKcl
-         /eGBrpdP6xgNPgth2tOOjqi3rY04jUoVHIx5BUcP9eEW+3RrNuMWF/4QVcyxOdtjLfUr
-         0iGetT9iV4g2CHZjHRpSKfknVZ4OAXaqHtIGBjnnR85SJ7H+cuWh1RqdX/A3yztgWBkV
-         +9Tg==
-X-Gm-Message-State: AOAM5305ae6VzxpFxxJEQEAYFRK7xydH1J9qTf2v5QeErSIR4y0kxzbf
-        8YPiWzk5MVEGDHhvSOa/KWJzuA==
-X-Google-Smtp-Source: ABdhPJy95MV3Hw38b9M9wQ2e1shQruJUA56ulLoiyN0inVxJ49B1Cj2pJDAMgj7NUny7mUv+DLHd/A==
-X-Received: by 2002:adf:fec6:: with SMTP id q6mr11481828wrs.122.1633087527336;
+        bh=tmEJ9vFpZDT8h8HObohmRstQUsecSrrPbxIcYXjIt14=;
+        b=oeOMxyzLcS+mkUGL3/hI3mTTdvkR5u36cHwDEPt+t3vRrl73zz1PsdgpBiYgcBs0fo
+         0JgBV4yyzthYasE7a8X/A6gavbXc26GOXNZP+B6Xh0ZK8e+9fLpDHbozZdvLuPpA9TmD
+         mrEJ6jH3L0jVl1BN2IHo6Kl8TVsyotgtWmkAKSTedVsPkLAW1542Nou0yb96h1Lequry
+         N38B2sTTZxg02JcrWCrCYzGHyjjVnyjhSxDMzx8nGzLMhGbDK5W8A0HFyrgsx9k2A/Qd
+         YqBZhCTxHTpyeb/l0BSkNqNGFdMsP4DxogAz7kLlHDVHPkkgmr2BpP5ksN00VP8jC/ce
+         EBSA==
+X-Gm-Message-State: AOAM532IIwTWrqtobgZFi1cVXlttmyJn6f0oepcOwEnFfC2Pln4xucHe
+        BpaQi9dt7TpXrow11TIDP24wSQ==
+X-Google-Smtp-Source: ABdhPJyVdC2NJRWi5/UJGa4RdI2Y7in5qLDFCkrNEpR3UXiq/NHEZJoZrxDysLDhtEHVdn019GeKAA==
+X-Received: by 2002:a5d:6b03:: with SMTP id v3mr11779105wrw.226.1633087527757;
         Fri, 01 Oct 2021 04:25:27 -0700 (PDT)
 Received: from beni.c.googlers.com.com (216.131.76.34.bc.googleusercontent.com. [34.76.131.216])
-        by smtp.gmail.com with ESMTPSA id x17sm5530958wrc.51.2021.10.01.04.25.26
+        by smtp.gmail.com with ESMTPSA id x17sm5530958wrc.51.2021.10.01.04.25.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 01 Oct 2021 04:25:27 -0700 (PDT)
 From:   Ricardo Ribalda <ribalda@chromium.org>
@@ -52,9 +52,9 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v3 5/8] media: ipu3-imgu: VIDIOC_QUERYCAP: Fix bus_info
-Date:   Fri,  1 Oct 2021 11:25:19 +0000
-Message-Id: <20211001112522.2839602-6-ribalda@chromium.org>
+Subject: [PATCH v3 6/8] media: dw9714: Add implementation for events
+Date:   Fri,  1 Oct 2021 11:25:20 +0000
+Message-Id: <20211001112522.2839602-7-ribalda@chromium.org>
 X-Mailer: git-send-email 2.33.0.800.g4c38ced690-goog
 In-Reply-To: <20211001112522.2839602-1-ribalda@chromium.org>
 References: <20211001112522.2839602-1-ribalda@chromium.org>
@@ -64,39 +64,56 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-bus_info field had a different value for the media entity and the video
-device.
+Use v4l2 control API helpers to support the events.
 
 Fixes v4l2-compliance:
 
-v4l2-compliance.cpp(637): media bus_info 'PCI:0000:00:05.0' differs from
-			  V4L2 bus_info 'PCI:viewfinder'
+test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
 
-Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/staging/media/ipu3/ipu3-v4l2.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/media/i2c/dw9714.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-index bf3cd1d576280..a2164b6708236 100644
---- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-+++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-@@ -592,11 +592,12 @@ static const struct imgu_fmt *find_format(struct v4l2_format *f, u32 type)
- static int imgu_vidioc_querycap(struct file *file, void *fh,
- 				struct v4l2_capability *cap)
+diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
+index c8b4292512dca..3863dfeb82934 100644
+--- a/drivers/media/i2c/dw9714.c
++++ b/drivers/media/i2c/dw9714.c
+@@ -7,6 +7,7 @@
+ #include <linux/pm_runtime.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
++#include <media/v4l2-event.h>
+ 
+ #define DW9714_NAME		"dw9714"
+ #define DW9714_MAX_FOCUS_POS	1023
+@@ -100,7 +101,15 @@ static const struct v4l2_subdev_internal_ops dw9714_int_ops = {
+ 	.close = dw9714_close,
+ };
+ 
+-static const struct v4l2_subdev_ops dw9714_ops = { };
++static const struct v4l2_subdev_core_ops dw9714_core_ops = {
++	.log_status = v4l2_ctrl_subdev_log_status,
++	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
++	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
++};
++
++static const struct v4l2_subdev_ops dw9714_ops = {
++	.core = &dw9714_core_ops,
++};
+ 
+ static void dw9714_subdev_cleanup(struct dw9714_device *dw9714_dev)
  {
--	struct imgu_video_device *node = file_to_intel_imgu_node(file);
-+	struct imgu_device *imgu = video_drvdata(file);
+@@ -137,7 +146,8 @@ static int dw9714_probe(struct i2c_client *client)
+ 		return -ENOMEM;
  
- 	strscpy(cap->driver, IMGU_NAME, sizeof(cap->driver));
- 	strscpy(cap->card, IMGU_NAME, sizeof(cap->card));
--	snprintf(cap->bus_info, sizeof(cap->bus_info), "PCI:%s", node->name);
-+	snprintf(cap->bus_info, sizeof(cap->bus_info), "PCI:%s",
-+		 pci_name(imgu->pci_dev));
+ 	v4l2_i2c_subdev_init(&dw9714_dev->sd, client, &dw9714_ops);
+-	dw9714_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	dw9714_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
++				V4L2_SUBDEV_FL_HAS_EVENTS;
+ 	dw9714_dev->sd.internal_ops = &dw9714_int_ops;
  
- 	return 0;
- }
+ 	rval = dw9714_init_controls(dw9714_dev);
 -- 
 2.33.0.800.g4c38ced690-goog
 
