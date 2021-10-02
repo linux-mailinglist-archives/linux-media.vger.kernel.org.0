@@ -2,83 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC89A41FBA9
-	for <lists+linux-media@lfdr.de>; Sat,  2 Oct 2021 14:11:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA2DB41FC75
+	for <lists+linux-media@lfdr.de>; Sat,  2 Oct 2021 16:19:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233077AbhJBMMq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Oct 2021 08:12:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34406 "EHLO
+        id S233364AbhJBOVX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Oct 2021 10:21:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233008AbhJBMMp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Oct 2021 08:12:45 -0400
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43237C0613F0
-        for <linux-media@vger.kernel.org>; Sat,  2 Oct 2021 05:11:00 -0700 (PDT)
-Received: by mail-il1-x12e.google.com with SMTP id y17so5075039ilb.9
-        for <linux-media@vger.kernel.org>; Sat, 02 Oct 2021 05:11:00 -0700 (PDT)
+        with ESMTP id S233274AbhJBOVX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Oct 2021 10:21:23 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD1AC0613EC
+        for <linux-media@vger.kernel.org>; Sat,  2 Oct 2021 07:19:37 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id i25so50538309lfg.6
+        for <linux-media@vger.kernel.org>; Sat, 02 Oct 2021 07:19:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
          :content-transfer-encoding;
-        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
-        b=CdHIJtX+I0B2UwutbjMq+FTNWTMUAaGBqX5UIhBQQYeYFwCcCBYP2ab5IbBDcvW8Bz
-         nKz5AHUguZLVq+Grru7gd7JjqTnWJFJO9Yj1HSHDj+vGCgD9eCw545OgCU1lJTI+nhaI
-         eDkt2/mW1KlyH9/6lqZfF0zDTmhgTkrDzsNZMbh2IG9s9RGZOd4i1zH4dPhBGGL6HTYR
-         wIR0b3+MPgcPSBRu3JIPBSVfaaqvqcbOsQRq84iy5+G7jBmC9a4zcJTE+2OG+zDMdEF/
-         Oys9xsAN/VevJaNVARGm4Xu+wO7na4UlD5ZeQaVUsQ+swP0IxiOmibVkoqY1XdGdHkn9
-         X5Hw==
+        bh=hV3MuwwNIVPpm9onGZaCDcrJwoNn0MyuY0+UZgN8fq0=;
+        b=atEsQXKVkQEe693EbjgF4SUekfSktPfDSyxkO+26ubmYEkFVuil24zn4LclPG0SC3y
+         jEJ45pmjzbqjQPuAqTt7Da8QXW7ebI9AA57X9YJhDYSWsataVrvLbgWq6FgJ1RJab2ve
+         cG7uR81Rveg4YyVaQNWTKf4T3BBuJ9wQU5eGbJI8TF3C6iR1QlKJwuAq0t6gkgLHFfoD
+         nt1MTg9lcFpMj+iJ6xQ8nX2kGr2HrZjUz95bf92i3A++dXtNYXxm4CD9Jnr1sYQmgJag
+         D59rOQNdfap6YnF5lORElgAZyHjBH8TUblC+WN20rOG7HQ0mkmO9RVKUv/WMHnnpHyak
+         i3ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
-        b=pGHssLAQjE76YbVtcS1T3gNRRwYKgRyWbE1EzBISVZmOK02aZKlcKRprxYr7lu1cV0
-         GpEgnob2MWS20wHtA/a31dVAiKPUNw6791xLfpmX2ypi04dgWslhFvIb0mxuMje5fl1w
-         9z4KepH1tZ+nPYuJ/chRA9M68vUrhDI35TMWfHlyeNUKIGoHHi4mG5fUyD0iv1Ak1uL7
-         6UH1GoIKXLRiitVDSngUViffLxGWHtYoO/ZklfSQuK/kqcfvbc15Y8jxWUXsIqn5Sc7L
-         BFN1OpIXAJ2eswMP7RnuWJNO81tK6jbvuOfly1jmsOgM4a9SPaFzlJruo00F6g1CWUUh
-         vVJA==
-X-Gm-Message-State: AOAM530vmhWP3BU+QMvYy2buTmiHDLKWphj0eSkg7lzq7kkpJyoiclTf
-        OueFvgxxUxNjjgNrrzKmMlY5u0cZLi8paUCUlzs=
-X-Google-Smtp-Source: ABdhPJyLdzkNqLJBHVChbJglH5dCZa5kr4WOENjXeTc7IlnmKsvGYJthbNokAQMX7PWDgyZLwEBkai/E96KkOOnGjXQ=
-X-Received: by 2002:a92:ca06:: with SMTP id j6mr2351363ils.42.1633176659786;
- Sat, 02 Oct 2021 05:10:59 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=hV3MuwwNIVPpm9onGZaCDcrJwoNn0MyuY0+UZgN8fq0=;
+        b=kTn2FOoulnw9pyrNNKSx0w6fdwbDGHw3n4oKlQNKkUJ0xoPZSiJ21UYrmYPa9chkTX
+         7Xn3WJwZToKmBpubd7Y3UNNsM6VAZiCxRYsF8rvxuJN9Av55BjalKpjyuKiNAo3nx7ly
+         JrykFOpQvATyZunBtsNJ3ZZJAc8qj0KnhgqYIzhnYLvtqS9IopOQb76LHHbNxUhkpbug
+         9+McaER4ypCn5eMA5Vi6MmzHYSbiB0qLxQkXEqQsYxIhfd3ud7LEM2a1nYTSI4F7YPUD
+         8sFReg5o1YAsbmS6JiSeY52V/wejiUnf8/Xw7NyrqNvGFtSMBgxAObMaNsKW2CBbXcaW
+         pXdg==
+X-Gm-Message-State: AOAM532mXWjyz5I1URdyJ/hOQa+IAlkAd/GbkvShbuP0wkAW9BIlkt4v
+        5xQ0gxfhTgKEKoqFeDt89Tjj6lYHo8TETumpoaA=
+X-Google-Smtp-Source: ABdhPJxoxRVCJlseuinXFllcmNPtBUQaoB5QfbbPYSiB0RV5swYLVX8f/eHbi7gmDuNrVIe39nXsM7VhjBma4dtgXiw=
+X-Received: by 2002:a05:6512:118a:: with SMTP id g10mr3896858lfr.580.1633184375494;
+ Sat, 02 Oct 2021 07:19:35 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4f:f90d:0:0:0:0:0 with HTTP; Sat, 2 Oct 2021 05:10:59 -0700 (PDT)
-Reply-To: unitednnation0@gmail.com
-From:   "U.n" <wadebaye33@gmail.com>
-Date:   Sat, 2 Oct 2021 00:10:59 -1200
-Message-ID: <CACE0T5X5jh+nctH3sR+RM=u8RevxgdAvKR-iiyC8G4z=9qROeA@mail.gmail.com>
-Subject: Attention
-To:     unitednnation0@gmail.com
+Reply-To: oliviaingra343@gmail.com
+Sender: psiepaulmartinien@gmail.com
+Received: by 2002:a05:651c:1602:0:0:0:0 with HTTP; Sat, 2 Oct 2021 07:19:34
+ -0700 (PDT)
+From:   Ingram Olivia <oliviaingra@gmail.com>
+Date:   Sat, 2 Oct 2021 08:19:34 -0600
+X-Google-Sender-Auth: 6pJkM-Yrc27ZBEB17-sJSj9HZQc
+Message-ID: <CAGU6fqH3zTyW2ZYkU+7T+co2LNAkKH=-6uwYKcuXc4G-Obj66Q@mail.gmail.com>
+Subject: If you are touched to carry my good intentions please reply
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=20
+Dear,
 
+I am Mrs. Ingram Olivia, I have decided to donate what I have to
+Motherless babies/ Less privileged/ Widows' because I am dying and
+diagnosed for cancer for about 10 years ago. I have been touched by
+God Almighty to donate from what I have inherited from my late husband
+to you for good work of God Almighty. I have asked Almighty God to
+forgive me and believe he has, because he is a Merciful God, I'm
+presently suffering from Leukemia.
 
-Attention Sir/Madam
-This is the United Nation (UN). We the United Nations (UN) Globally
-has approved (US$2.500,000)( two Million Five hundred thousand
-dollars) compensation as part of our responsibilities for humanitarian
-Aid for fighting against CoronaVirus and you are among the lucky ones.
+My health condition has gotten worse and just two weeks ago my doctor
+informed me that my condition has reach a critical stage, that I have
+just 5 months left. This confirmation from my doctor was and still is
+devastating news; it is hard to know that you have just a little time
+left to live here.
 
+After the doctor=E2=80=99s medical pronunciation that I have just few month=
+s
+to live, I decided to divide my wealth to contribute to your country.
+I want to assist you with the funds to do great charity works in your
+country, this is my last wish. I selected you after searching few
+websites; I prayed and was led to you. I am willing to donate the sum
+of ($8.1million ) to the less privileged through you.
 
-This compensation is for the most affected countries, communities and
-families across the global. Your funds were deposited with Bank in USA
-to transfer your funds to you via Internet Banking. You have to send
-your full details as state below:with this email Address
-  ( unitednnation0@gmail.com )
-Your full names:
-Address:
-Telephone:
-Occupation:
+Please I want to transfer this money to you, If you can handle this
+fund and very sure to do charity works on my behalf then I will
+include your name in my WILL  and from there I will travel to meet a
+specialist as I want to be buried alongside my late husband when I
+passed on.
 
+Note that this fund is in the financial institution and upon my
+instruction; I will file in an application for the transfer of the
+money into your account for the said purpose.
 
+Lastly, I honestly pray that this money when transferred will be used
+for the said purpose even though I might be late then. I have come to
+find out that wealth is vanity and I made a promise to God that my
+wealth will be used to support the poor and the assist the sick. Do
+let me know
 
-Yours Sincerely
-Mr. Ant=C3=B3nio Guterres
-United Nations (UN).
+if you will be able to handle this fund and use it for the said
+purpose so that I will inform my bank on my decision, If you are
+interested in carrying out this task, get back to me for more details
+on this noble project of mine.
+
+God bless you
+Mrs.Ingram Olivia
