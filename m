@@ -2,108 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA2DB41FC75
-	for <lists+linux-media@lfdr.de>; Sat,  2 Oct 2021 16:19:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ED0141FEA1
+	for <lists+linux-media@lfdr.de>; Sun,  3 Oct 2021 01:18:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233364AbhJBOVX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Oct 2021 10:21:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34730 "EHLO
+        id S234205AbhJBXUJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Oct 2021 19:20:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233274AbhJBOVX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Oct 2021 10:21:23 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD1AC0613EC
-        for <linux-media@vger.kernel.org>; Sat,  2 Oct 2021 07:19:37 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id i25so50538309lfg.6
-        for <linux-media@vger.kernel.org>; Sat, 02 Oct 2021 07:19:37 -0700 (PDT)
+        with ESMTP id S234202AbhJBXUJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Oct 2021 19:20:09 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7986FC0613EC
+        for <linux-media@vger.kernel.org>; Sat,  2 Oct 2021 16:18:22 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id a73so10001285pge.0
+        for <linux-media@vger.kernel.org>; Sat, 02 Oct 2021 16:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+        d=amikom.ac.id; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hV3MuwwNIVPpm9onGZaCDcrJwoNn0MyuY0+UZgN8fq0=;
-        b=atEsQXKVkQEe693EbjgF4SUekfSktPfDSyxkO+26ubmYEkFVuil24zn4LclPG0SC3y
-         jEJ45pmjzbqjQPuAqTt7Da8QXW7ebI9AA57X9YJhDYSWsataVrvLbgWq6FgJ1RJab2ve
-         cG7uR81Rveg4YyVaQNWTKf4T3BBuJ9wQU5eGbJI8TF3C6iR1QlKJwuAq0t6gkgLHFfoD
-         nt1MTg9lcFpMj+iJ6xQ8nX2kGr2HrZjUz95bf92i3A++dXtNYXxm4CD9Jnr1sYQmgJag
-         D59rOQNdfap6YnF5lORElgAZyHjBH8TUblC+WN20rOG7HQ0mkmO9RVKUv/WMHnnpHyak
-         i3ow==
+        bh=+wqFw2hPWBzL/6wM3Yf8mXadq/oh65HiCzw31MXRMl8=;
+        b=OfAOnhIwRrNibniln0v2IJlgQDSmjKkJSNE9x8mt3I93ywrs5vpLKcof0GwnZN7NQ2
+         MumgkJSj8/MPnuCF2xzGVpnhb8LEvyrZ1kUg97YKK9nGyblOamZy5JnnhXjJPHUzD7P1
+         TXSASkuramWlAl4at48FmI5RyhARXm8qMlnifYqMGUFwxrQ06Iwuyl7WPfbtfqIruSSI
+         nznkN1r3hm6siDl3Us4TX4aGhCOaEeWuL5Ea1vyj0DcrJQSZuy7NJdJ/OccaDawELS55
+         yljQkHuhkYEn/2a5nbsOBvjdo5Asuq1TQUsquwoqTef6t1y4vrssbRdyKMrEyFOKN+yz
+         cGYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=hV3MuwwNIVPpm9onGZaCDcrJwoNn0MyuY0+UZgN8fq0=;
-        b=kTn2FOoulnw9pyrNNKSx0w6fdwbDGHw3n4oKlQNKkUJ0xoPZSiJ21UYrmYPa9chkTX
-         7Xn3WJwZToKmBpubd7Y3UNNsM6VAZiCxRYsF8rvxuJN9Av55BjalKpjyuKiNAo3nx7ly
-         JrykFOpQvATyZunBtsNJ3ZZJAc8qj0KnhgqYIzhnYLvtqS9IopOQb76LHHbNxUhkpbug
-         9+McaER4ypCn5eMA5Vi6MmzHYSbiB0qLxQkXEqQsYxIhfd3ud7LEM2a1nYTSI4F7YPUD
-         8sFReg5o1YAsbmS6JiSeY52V/wejiUnf8/Xw7NyrqNvGFtSMBgxAObMaNsKW2CBbXcaW
-         pXdg==
-X-Gm-Message-State: AOAM532mXWjyz5I1URdyJ/hOQa+IAlkAd/GbkvShbuP0wkAW9BIlkt4v
-        5xQ0gxfhTgKEKoqFeDt89Tjj6lYHo8TETumpoaA=
-X-Google-Smtp-Source: ABdhPJxoxRVCJlseuinXFllcmNPtBUQaoB5QfbbPYSiB0RV5swYLVX8f/eHbi7gmDuNrVIe39nXsM7VhjBma4dtgXiw=
-X-Received: by 2002:a05:6512:118a:: with SMTP id g10mr3896858lfr.580.1633184375494;
- Sat, 02 Oct 2021 07:19:35 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+wqFw2hPWBzL/6wM3Yf8mXadq/oh65HiCzw31MXRMl8=;
+        b=aM/Z1yvLwHeIJr6uMwY0ZY8EOe4sfo+RJYq/ASTmdDytvvxkunaZ60nw2K2s3VQn0t
+         14pHylnH0v+/ND04wUdOML26ALQD4k6MrFfNGD7LEzjnvG5SHnS7c4s8R7iFRu+LwG+1
+         vNHmw75VUnseVRhQFnKPUjjtw8r8wKo57AuXF7T18lEW32RsAVThnvMOKggGdeo+r1U/
+         4u23cytDOdd78QjXPTu5O48BzGI8itQMoTpEZayCtVuNsLbAyugjGOGF8pCZwtrduz0n
+         PutHlMkQZFEr/bQ8PM66oDhJn/xQ4NsXwfLgUtFHL18Mw2BXQNpDBfz+uJLvaSh/gvZl
+         hBAQ==
+X-Gm-Message-State: AOAM5311u6ir5clMKfTqpd1uewLaA/BheU7/syWIeUJekVX4EyMKXFat
+        m/+CaKVl6KRn3ilxG2EY9vW24M8pJRBMS4JV
+X-Google-Smtp-Source: ABdhPJyfQC43Mwjmccd3TpJmj5a3tTym10SC7M5P7R8+ogHeLCSWZ45GTq0SHoyTXDhRrO44jZKARA==
+X-Received: by 2002:a05:6a00:98b:b0:44b:df34:c17b with SMTP id u11-20020a056a00098b00b0044bdf34c17bmr17470228pfg.34.1633216702038;
+        Sat, 02 Oct 2021 16:18:22 -0700 (PDT)
+Received: from integral.. ([182.2.37.211])
+        by smtp.gmail.com with ESMTPSA id k17sm5928989pfk.16.2021.10.02.16.18.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Oct 2021 16:18:21 -0700 (PDT)
+From:   Ammar Faizi <ammar.faizi@students.amikom.ac.id>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Ammar Faizi <ammar.faizi@students.amikom.ac.id>,
+        Pavel Skripkin <paskripkin@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Bedirhan KURT <windowz414@gnuweeb.org>
+Subject: [PATCH] media: atomisp: fix `-Werror=return-type`
+Date:   Sun,  3 Oct 2021 06:17:23 +0700
+Message-Id: <20211002231723.29019-1-ammar.faizi@students.amikom.ac.id>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Reply-To: oliviaingra343@gmail.com
-Sender: psiepaulmartinien@gmail.com
-Received: by 2002:a05:651c:1602:0:0:0:0 with HTTP; Sat, 2 Oct 2021 07:19:34
- -0700 (PDT)
-From:   Ingram Olivia <oliviaingra@gmail.com>
-Date:   Sat, 2 Oct 2021 08:19:34 -0600
-X-Google-Sender-Auth: 6pJkM-Yrc27ZBEB17-sJSj9HZQc
-Message-ID: <CAGU6fqH3zTyW2ZYkU+7T+co2LNAkKH=-6uwYKcuXc4G-Obj66Q@mail.gmail.com>
-Subject: If you are touched to carry my good intentions please reply
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear,
+Bedirhan reported build error:
+```
+  drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function ‘input_system_configure_channel_sensor’:
+  drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
+   1649 | }
+        | ^
+  cc1: some warnings being treated as errors
+  make[4]: *** [scripts/Makefile.build:277: drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.o] Error 1
+  make[3]: *** [scripts/Makefile.build:540: drivers/staging/media/atomisp] Error 2
+  make[2]: *** [scripts/Makefile.build:540: drivers/staging/media] Error 2
+  make[1]: *** [scripts/Makefile.build:540: drivers/staging] Error 2
+  make: *** [Makefile:1868: drivers] Error 2
+```
 
-I am Mrs. Ingram Olivia, I have decided to donate what I have to
-Motherless babies/ Less privileged/ Widows' because I am dying and
-diagnosed for cancer for about 10 years ago. I have been touched by
-God Almighty to donate from what I have inherited from my late husband
-to you for good work of God Almighty. I have asked Almighty God to
-forgive me and believe he has, because he is a Merciful God, I'm
-presently suffering from Leukemia.
+Commit 264f590899146baa19e0ab5689e55fadbc292333 ("media: atomisp:
+remove useless returns") incorrectly removed a required return results
+in the above build error. Reinstate it.
 
-My health condition has gotten worse and just two weeks ago my doctor
-informed me that my condition has reach a critical stage, that I have
-just 5 months left. This confirmation from my doctor was and still is
-devastating news; it is hard to know that you have just a little time
-left to live here.
+Cc: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org
+Reported-by: Bedirhan KURT <windowz414@gnuweeb.org>
+Fixes: 264f590899146baa19e0ab5689e55fadbc292333 ("media: atomisp: remove useless returns")
+Signed-off-by: Ammar Faizi <ammar.faizi@students.amikom.ac.id>
+---
+ .../media/atomisp/pci/hive_isp_css_common/host/input_system.c    | 1 +
+ 1 file changed, 1 insertion(+)
 
-After the doctor=E2=80=99s medical pronunciation that I have just few month=
-s
-to live, I decided to divide my wealth to contribute to your country.
-I want to assist you with the funds to do great charity works in your
-country, this is my last wish. I selected you after searching few
-websites; I prayed and was led to you. I am willing to donate the sum
-of ($8.1million ) to the less privileged through you.
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+index 8e085dda0c18..1bd917e81743 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+@@ -1646,6 +1646,7 @@ static input_system_err_t input_system_configure_channel_sensor(
+ 	default:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+ 	}
++	return INPUT_SYSTEM_ERR_NO_ERROR;
+ }
+ 
+ // Test flags and set structure.
+-- 
+2.30.2
 
-Please I want to transfer this money to you, If you can handle this
-fund and very sure to do charity works on my behalf then I will
-include your name in my WILL  and from there I will travel to meet a
-specialist as I want to be buried alongside my late husband when I
-passed on.
-
-Note that this fund is in the financial institution and upon my
-instruction; I will file in an application for the transfer of the
-money into your account for the said purpose.
-
-Lastly, I honestly pray that this money when transferred will be used
-for the said purpose even though I might be late then. I have come to
-find out that wealth is vanity and I made a promise to God that my
-wealth will be used to support the poor and the assist the sick. Do
-let me know
-
-if you will be able to handle this fund and use it for the said
-purpose so that I will inform my bank on my decision, If you are
-interested in carrying out this task, get back to me for more details
-on this noble project of mine.
-
-God bless you
-Mrs.Ingram Olivia
