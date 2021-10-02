@@ -2,136 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1038941F6F2
-	for <lists+linux-media@lfdr.de>; Fri,  1 Oct 2021 23:31:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3577541F9E2
+	for <lists+linux-media@lfdr.de>; Sat,  2 Oct 2021 06:49:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355413AbhJAVc5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Oct 2021 17:32:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39230 "EHLO
+        id S229946AbhJBEu5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Oct 2021 00:50:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230196AbhJAVc5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Oct 2021 17:32:57 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3558AC061775
-        for <linux-media@vger.kernel.org>; Fri,  1 Oct 2021 14:31:12 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id r7so1957129wrc.10
-        for <linux-media@vger.kernel.org>; Fri, 01 Oct 2021 14:31:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=gbMaNhtOH4nXLp4HUS2ZPT1VowmcEtHTXpHcBFPpVz4=;
-        b=GepQiSuw0T0mJ1Cm1ZrL8yaNRxwFtjYqccsjcsM+yFgmRwMWX2QtZTUgab7+hyDtfV
-         r3qnReN67T/1jtXEkurkt7QPwLn3gzSIhvvpi0/DweLrDJ4q62exrQFKdxTg1znpJwVO
-         2mLTd4Mld7lyUU9pRGybmMJq4TWpM70wiwMIez9+bcVXsJPAxDVo4p7fSS1jtS7d0iWs
-         2oKVY/Qv9KDrvGuO0+/bhW0VhrtazQcCDhK1FgyIYEm7P6oAgpU+hV/qFuwRB6JBhB57
-         zNDApFqcoYy2GAKX3fH6Av8P2Qp1hhWNfApIeJV+NjCruyyCpYApexzH+vK2MDsUwwIE
-         +aVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=gbMaNhtOH4nXLp4HUS2ZPT1VowmcEtHTXpHcBFPpVz4=;
-        b=Y5prP4W0DIE8aOp0ibwRT3fPj9m96d3Urimu4lBBi/ULGMr9qVeoTutij2o74Izbge
-         WXNAfqoKxrzr9ArqaRVAJFJuz0tet21SLw1PPh5ru/af7hqO7NSJUZ9zR74T4UKnxWCd
-         2QWkBlLXeljO4DTCIHGNcip1RYTUW0qx1a9isCWLjU1EsDVzJCgwIronjYw93fw9sXJb
-         PzLWnHUhrfuIx4W5K+eGDWb8JDK3hep3qbfsvmTM/OkkePjZnDZtfpWohKNKoTokQ0yf
-         f899m3N1zVDHf/97YUH9HXsm2lka8KedUJ9RbboUWPaYVdI2Rv2zGwGtCil0ynaP6EET
-         M8Ag==
-X-Gm-Message-State: AOAM5313cvSXu41icInnESlTCvFxrEEfe/IbJc9V43AaRTbAdQWnKygy
-        r09SmWJsZt4UBGSVmAM0vXVehw==
-X-Google-Smtp-Source: ABdhPJw66kQ9/jT7l/6SvbcqiM7kpnCVCSg5UgghtKDOc3IWGsjuYaHH4/ti9PBB8a9opfK2qnJwsw==
-X-Received: by 2002:adf:a154:: with SMTP id r20mr203761wrr.326.1633123870708;
-        Fri, 01 Oct 2021 14:31:10 -0700 (PDT)
-Received: from [192.168.1.12] (hst-221-15.medicom.bg. [84.238.221.15])
-        by smtp.googlemail.com with ESMTPSA id d3sm7839997wrb.36.2021.10.01.14.31.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Oct 2021 14:31:10 -0700 (PDT)
-Subject: Re: [PATCH v4 6/7] media: venus: helpers: update NUM_MBS macro
- calculation
-To:     Dikshita Agarwal <dikshita@codeaurora.org>,
-        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org
-References: <1628588875-23790-1-git-send-email-dikshita@codeaurora.org>
- <1628588875-23790-7-git-send-email-dikshita@codeaurora.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <283e23db-5383-57d7-48ca-0efa03420335@linaro.org>
-Date:   Sat, 2 Oct 2021 00:31:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <1628588875-23790-7-git-send-email-dikshita@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229661AbhJBEu5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Oct 2021 00:50:57 -0400
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBFBFC061775
+        for <linux-media@vger.kernel.org>; Fri,  1 Oct 2021 21:49:11 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id WWxOmUqYBk4mTWWxQm5VqS; Sat, 02 Oct 2021 06:49:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1633150148; bh=JeKo1mHXjHreD1rxJUGRNPQUmbC9/BF+MTc6TioeKaI=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=OjKCsIRIqw68otl3g3JMArihMPZUc9pSFWjco55+qE9T3WojB20GNY1nFPoyKqtyU
+         bit8bYCf8lEi+cjn3eZ+INBlXjxkI2DNsD9B1ejVFbPaId3uj0PpmEB+h/NFYCMBcJ
+         ewTBg7wJme50YSC3OYGUQJEZNblBmnuz/tjLVdHTq6/GYtSUfWDFaVOj3sxPTx2bBb
+         ugPN9Zq+vzjeCJb6DU7MvZ+CawN3Nh0RU+DC2qtM3kn+2rPBEd8ogAgk6XMvDy/u9+
+         e/RM6bE7Vcjy4ICDY8tOgDj7wcQfISpFqoo261WyfKT6MQ/kf0suugLhqNwZG+MJ6H
+         8WbJh8oXBt5cw==
+Message-ID: <1255c4045d4a16baa1b54056830a04b0@smtp-cloud9.xs4all.net>
+Date:   Sat, 02 Oct 2021 06:49:06 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfNFmL3JmhefAr3IohWuzqFSgKX4PHlwyxh2Gyl+YvrzwEqkkv5OTSAZdDtLhvyGFeUGRYAItT5xevfw0QzrpXx1ZVZk0lbfpLxnlbsjYTlG3sGL6HZM/
+ mtuqh/zuZ5uRajSqDYJ8G0R2sXdBSoRWCgHfl06ccU7u0rR6BP1J+t8Uu5yHoAnoB+LcCScTKk4zgRW8/blBVZapMZor8+y11GKhy71NsNha6LR327oPQm9h
+ p4cTS2LD39i3wlOVBcnG0A==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On 8/10/21 12:47 PM, Dikshita Agarwal wrote:
-> Consider alignment while calculating NUM_MBS.
-> 
-> Co-developed-by: Mansur Alisha Shaik <mansur@codeaurora.org>
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> ---
->  drivers/media/platform/qcom/venus/helpers.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> index 60a2775..2db33ba 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -18,8 +18,8 @@
->  #include "hfi_platform.h"
->  #include "hfi_parser.h"
->  
-> -#define NUM_MBS_720P	(((1280 + 15) >> 4) * ((720 + 15) >> 4))
-> -#define NUM_MBS_4K	(((4096 + 15) >> 4) * ((2304 + 15) >> 4))
-> +#define NUM_MBS_720P	(((ALIGN(1280, 16)) >> 4) * ((ALIGN(736, 16)) >> 4))
-> +#define NUM_MBS_4K	(((ALIGN(4096, 16)) >> 4) * ((ALIGN(2304, 16)) >> 4))
->  
->  struct intbuf {
->  	struct list_head list;
-> @@ -1098,16 +1098,17 @@ static u32 venus_helper_get_work_mode(struct venus_inst *inst)
->  	u32 num_mbs;
->  
->  	mode = VIDC_WORK_MODE_2;
-> +
->  	if (inst->session_type == VIDC_SESSION_TYPE_DEC) {
-> -		num_mbs = (ALIGN(inst->height, 16) * ALIGN(inst->width, 16)) / 256;
-> +		num_mbs = ((ALIGN(inst->height, 16))/16 * (ALIGN(inst->width, 16)))/16;
+Results of the daily build of media_tree:
 
-Could you help me understand what is the difference between both
-calculations? IMO this patch should only change NUM_MBS_720P and
-NUM_MBS_4K macros.
+date:			Sat Oct  2 05:00:10 CEST 2021
+media-tree git hash:	4114978dcd24e72415276bba60ff4ff355970bbc
+media_build git hash:	e602a6acc36ed3f6a8ebeb27fae6f32712f1293f
+v4l-utils git hash:	6b32403a6d54ec79fbda3405ac606bcc2cbe068c
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b271230dab7e119453a068d347aef2c79d6b74b2
+host hardware:		x86_64
+host os:		5.13.11-marune
 
->  		if (inst->hfi_codec == HFI_VIDEO_CODEC_MPEG2 ||
-> -		    inst->pic_struct != HFI_INTERLACE_FRAME_PROGRESSIVE ||
-> -		    num_mbs <= NUM_MBS_720P)
-> +			inst->pic_struct != HFI_INTERLACE_FRAME_PROGRESSIVE ||
-> +			num_mbs <= NUM_MBS_720P)
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15-rc1-i686: OK
+linux-5.15-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-This change just makes indentation wrong and also it is not related to
-the patch subject.
+Detailed results are available here:
 
->  			mode = VIDC_WORK_MODE_1;
->  	} else {
->  		num_mbs = (ALIGN(inst->out_height, 16) * ALIGN(inst->out_width, 16)) / 256;
->  		if (inst->hfi_codec == HFI_VIDEO_CODEC_VP8 &&
-> -		    num_mbs <= NUM_MBS_4K)
-> +			num_mbs <= NUM_MBS_4K)
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
-ditto
+Detailed regression test results are available here:
 
->  			mode = VIDC_WORK_MODE_1;
->  	}
->  
-> 
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
 
--- 
-regards,
-Stan
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
