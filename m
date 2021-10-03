@@ -2,163 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 016B641FFD3
-	for <lists+linux-media@lfdr.de>; Sun,  3 Oct 2021 06:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 793414200A2
+	for <lists+linux-media@lfdr.de>; Sun,  3 Oct 2021 10:02:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229563AbhJCEp5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 Oct 2021 00:45:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53376 "EHLO
+        id S229786AbhJCIDK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 Oct 2021 04:03:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbhJCEp5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Oct 2021 00:45:57 -0400
-Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D0DC0613EC
-        for <linux-media@vger.kernel.org>; Sat,  2 Oct 2021 21:44:10 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id WtM3mbk0tMjraWtM5mTWpq; Sun, 03 Oct 2021 06:44:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1633236246; bh=o2p3VYIlk1ArH9W88qYZNh827R8Qk8UkaedQJhGkK4w=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=YcpgrTcqYPX029g+CXyAAm9SbMMfayRNEEi73C2pkjTDFGgqHeBeWDiwG8WDKfWvW
-         iXevOTo7ZEFK2Boc+MM/r32yMAFRQgLNi2xbjn9VY6gGQCiw926t29Th0Lfkccqozh
-         os94nsm5kLB6US5mZuG85Cl5W9ZfV1+peitFws6keE44B8PNjFpcZQDfWiavw62adS
-         Y9ekHop+sAYt+9S23O7J729d7QgAGbj/tHjIBkqCgula33Hm2RgHUlKW01DbTujOqO
-         uPNglTvUWQYxe9M4CJKrQN6gFc/HD/ZepyzkQgcjbh0MwLMk/xpT+fA0vP9gg/x+jQ
-         bR72oHNsqIxmA==
-Message-ID: <67304ef7481c315cb766d4b2181b9132@smtp-cloud8.xs4all.net>
-Date:   Sun, 03 Oct 2021 06:44:03 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfIj4saMRCNfDGuGUyc6vJ8opb+O5XYGcTQgOZT9JtzzQ99rT5H0sA+KKmFbzPl2QPCdxXqdRJJ27zNaHhSGSqkZH71rxO8R1BQD0psPYepvYWt1fDczl
- AVJzXY55Vca3lcwbhAYKgr08Vxi6TYkBitiAx2rh9ihmQKJDkrTSkAL2Ah4F/yo6fTu1QZ7I7DiScEwiotE1p18Ym4ZJBuY/LMCuKhc5pRbqsbkgjjv+Xydl
- +VJACzuQWsUilcXGWlJMmg==
+        with ESMTP id S229567AbhJCIDJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Oct 2021 04:03:09 -0400
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73885C0613EC
+        for <linux-media@vger.kernel.org>; Sun,  3 Oct 2021 01:01:22 -0700 (PDT)
+Received: by mail-vs1-xe2d.google.com with SMTP id 188so16202457vsv.0
+        for <linux-media@vger.kernel.org>; Sun, 03 Oct 2021 01:01:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=emIavFyjiUbJQ6gRnLDQ6ksldpH5oGRWKyDPMInKn98=;
+        b=eeoYWrJX0kXztrp/8Z+w4sHwv5dMLAobIGZCu8XsKTNfpvI9aSgFVh5N+04jxvFhpp
+         NvsB1ucuJV1DdQN/BJHqSbZ79r9jq4Kncb5GD7tdTUAK+uwGRppoNr4QPgEdyYXksblc
+         0/hv5dJhnGzeH36wO9d8BSbwJRPs2VaB+iYhjFn5tjNLEYKt6SRQtO1mhOMDmpL1qEog
+         /a488pNXxQmMGUBlgKfp67sU7a2gLatX2Ys2GgOtvmsTNvQwuAE2c3F4dyZDivewQ2ff
+         P0toya8pu9CKmxyIzutK8X3WDjV6eHyGjLAs4PUrFqz1p5qV3vY8yueiiCUnPww8Nxtx
+         s88g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=emIavFyjiUbJQ6gRnLDQ6ksldpH5oGRWKyDPMInKn98=;
+        b=dpArDHFsQGCSgu1zhWPdeom2xSowoLHyAUUjsq05w0MIVt9qbMu+JjqnjAXApH4sKj
+         KVsFiw6yuvWI1a+636DNS/L5hXU5Iho+KwW2JAppLlGzlvPrcZmobbxigKrTXZEIWfBs
+         kZqfKoUrhTy/ORdyJlnOUANQnN/E1nsE8fU435ufokNS3D5YibJMIVpYbBvvp+PuT/1C
+         C3NjYzYJmUU0RXifb2q6bQefLSUgQq6GTQXej/zXrQ9K4f5lRoCLGkam+bWUL7QwF9uL
+         5+rT3ctd0FUNb7gdtfr8gEVcOp74jd257Tpy/5loPO5M+CzisNX+v+BAFtZT3nc6Un5h
+         Nifw==
+X-Gm-Message-State: AOAM532IUA0TuxJTluHaWyocVyhNcphrWLAMe8PN6xeTXfVnvVNrHnY8
+        20B87UpGXMXVHGdCM7rKYfL9WQQbVYGbGMbzXiA=
+X-Google-Smtp-Source: ABdhPJw0rkXJtnP7T1tX30U/NFTucbqRYAZ3/PW9Oevqsfd7QCOuwQ4JbVgQP4XBz0I2XF+ATLHXNo2xoM2YFsMHwOU=
+X-Received: by 2002:a67:fe48:: with SMTP id m8mr9254309vsr.46.1633248081267;
+ Sun, 03 Oct 2021 01:01:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:6f0d:0:0:0:0:0 with HTTP; Sun, 3 Oct 2021 01:01:20 -0700 (PDT)
+Reply-To: zinaahemd702@gmail.com
+From:   Mrs Zina Ahemd <mohamadimustafa267@gmail.com>
+Date:   Sun, 3 Oct 2021 01:01:20 -0700
+Message-ID: <CAOybtirJWTowMVJbRxOFW81UL4xTG_WvnZHwr-gq9_GDfQPRHw@mail.gmail.com>
+Subject: Good Day
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+My name is Mrs Zina Ahemd Cooks  from USA I know that this message
+might come to you as surprise because we don't know each other nor
+have we ever met before but accept it with an open and positive mind.
+I have a Very important request that made me to contact you;
 
-Results of the daily build of media_tree:
+I was diagnosed with ovarian cancer disease which doctors have
+confirmed and announced to me that i have just few days to leave, Now
+that I=E2=80=99m ending the race like this, without any family members and =
+no
+child, I just came across your email contact from my personal search.
 
-date:			Sun Oct  3 05:00:10 CEST 2021
-media-tree git hash:	4114978dcd24e72415276bba60ff4ff355970bbc
-media_build git hash:	e602a6acc36ed3f6a8ebeb27fae6f32712f1293f
-v4l-utils git hash:	700f5ded9c6de2c6dfe5d1b453d85566f95b4f0c
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-349-gb21d5e09
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7593-g7f4b93661
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b271230dab7e119453a068d347aef2c79d6b74b2
-host hardware:		x86_64
-host os:		5.13.11-marune
+I=E2=80=99m a business woman from USA dealing with gold exportation here in
+Republic of Burkina Faso. I have decided to hand over the sum of ($3.5
+Million Dollar) in my account to you for the help of orphanage
+homes/the needy once in your location to fulfill my wish on earth. But
+before handing over my data=E2=80=99s to you, kindly
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15-rc1-i686: OK
-linux-5.15-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+assure me that you will take only 50% of the money and share the rest
+to orphanage homes/the needy once in your country, Return to enable me
+forward to you the bank contact details now that I have access to
+Internet in the hospital to enable you contact the bank, always check
+your e-mail always remember me for doing good.
+Please don't forget to reply me in my Private E-mail:() Your early
+response will be appreciated.
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Yours Faithfully,
+Mrs Zina Ahemd
