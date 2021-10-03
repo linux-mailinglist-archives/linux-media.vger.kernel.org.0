@@ -2,131 +2,392 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 632774202A1
-	for <lists+linux-media@lfdr.de>; Sun,  3 Oct 2021 18:19:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2770A4203CE
+	for <lists+linux-media@lfdr.de>; Sun,  3 Oct 2021 21:53:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231165AbhJCQVL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 Oct 2021 12:21:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35100 "EHLO
+        id S231583AbhJCTy6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 Oct 2021 15:54:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230426AbhJCQVK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Oct 2021 12:21:10 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32127C0613EC;
-        Sun,  3 Oct 2021 09:19:23 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id y23so26138230lfj.7;
-        Sun, 03 Oct 2021 09:19:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=llNEIxhbTSZcUz/lPANGAqOblDCi/UrFP7kaAKP4keU=;
-        b=iMBm8AwapfDJTBhIZYAwPszSAxnzFsOVLZ+j8Uyli8khiCJhULvx8qM7JmI/KKUK2f
-         EzP8bV6h8QYSevFDyf0DMcJOT+o48h1b8uJsvRfP1Z76mM9ZXQfZAuNgqMDUNrbXWvm4
-         2aUVqbWVeCNfJKNRLLulqkem+/oNsS6RcRXJ10rZr+ZovkXH5Ko3wAPAtts1B6EBRhbK
-         I/R3Q+P1toK8ptlGvXGYcXm5aomTnTTJ8sbmWJ2BSdQEtc1+WOqyg2FhYeMwB1/+qqbp
-         j2zsgZzWgCzzIUhbScMj6xZjXYKQOFMjK74hnGq7+SxILDl4IguVnHw2+qdw/sfp5YY2
-         VVWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=llNEIxhbTSZcUz/lPANGAqOblDCi/UrFP7kaAKP4keU=;
-        b=IT7PvSA+x6ylNcycoyW13sBRVLhOICRvoP3/muxeN7WqfSnqTSO7mgnvLNy+eDZq+5
-         /yCTYt9EMPQ5dicekdKFvd/4l3QUFvBInSWsG8NBMuHRgn3AbPQ/TjsCzocCX7mP37Gl
-         NhexLXY0JUYYlLi4cuuWhz3PKvxKJk+FWK9jPMmdOdtkmwgMDcE+beKikwcpKgJ9Ypp/
-         Dp6/YaCE5CUmY9DLa/lvc1bROg6Ye0yRgDbju6C/oeG+kZxo9LgnHej6eUIGztex9Pkq
-         vFwX6vPyf+H1wuDrHz0Q9BOdIcsK0SJhymC7KXTQ9neEeAmkNZv8eZ+oNBmUIFADErKa
-         EY6w==
-X-Gm-Message-State: AOAM532nLonHwvGy/UAz1XD3/bpeHYcB/OKo7dMYjwdwcsSzVRLaOqMY
-        ov72SgX0v8VGTrme48kutBw5ArpLLF4=
-X-Google-Smtp-Source: ABdhPJz9BjYRvkt6eRG7+7adWwZUvWuFcpNGUlKEL2xMti3oEMnwTfmWXA6Kv8Fq/UwxgF1mHJRSRg==
-X-Received: by 2002:a05:6512:344f:: with SMTP id j15mr4527384lfr.521.1633277961257;
-        Sun, 03 Oct 2021 09:19:21 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.235.120])
-        by smtp.gmail.com with ESMTPSA id u21sm1292162lju.26.2021.10.03.09.19.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Oct 2021 09:19:20 -0700 (PDT)
-Message-ID: <1bad16dc-e11e-4096-2014-a0eae92686e8@gmail.com>
-Date:   Sun, 3 Oct 2021 19:19:19 +0300
+        with ESMTP id S231573AbhJCTy6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Oct 2021 15:54:58 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39B2DC0613EC
+        for <linux-media@vger.kernel.org>; Sun,  3 Oct 2021 12:53:10 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 4D4751F4264C
+Subject: Re: [PATCH v8 28/36] media: subdev: Add [GS]_ROUTING subdev ioctls
+ and operations
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>
+References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
+ <20210830110116.488338-29-tomi.valkeinen@ideasonboard.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <c79b503e-cb83-61cb-f1d0-982e49a6f0cc@collabora.com>
+Date:   Sun, 3 Oct 2021 21:52:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.1
-Subject: Re: [PATCH] media: atomisp: fix `-Werror=return-type`
+In-Reply-To: <20210830110116.488338-29-tomi.valkeinen@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To:     Ammar Faizi <ammar.faizi@students.amikom.ac.id>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Bedirhan KURT <windowz414@gnuweeb.org>
-References: <20211002231723.29019-1-ammar.faizi@students.amikom.ac.id>
-From:   Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20211002231723.29019-1-ammar.faizi@students.amikom.ac.id>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/3/21 02:17, Ammar Faizi wrote:
-> Bedirhan reported build error:
-> ```
->    drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function ‘input_system_configure_channel_sensor’:
->    drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
->     1649 | }
->          | ^
->    cc1: some warnings being treated as errors
->    make[4]: *** [scripts/Makefile.build:277: drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.o] Error 1
->    make[3]: *** [scripts/Makefile.build:540: drivers/staging/media/atomisp] Error 2
->    make[2]: *** [scripts/Makefile.build:540: drivers/staging/media] Error 2
->    make[1]: *** [scripts/Makefile.build:540: drivers/staging] Error 2
->    make: *** [Makefile:1868: drivers] Error 2
-> ```
+Hi,
+
+On 30.08.21 13:01, Tomi Valkeinen wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> Commit 264f590899146baa19e0ab5689e55fadbc292333 ("media: atomisp:
-> remove useless returns") incorrectly removed a required return results
-> in the above build error. Reinstate it.
+> Add support for subdev internal routing. A route is defined as a single
+> stream from a sink pad to a source pad.
 > 
-> Cc: Pavel Skripkin <paskripkin@gmail.com>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-staging@lists.linux.dev
-> Cc: linux-kernel@vger.kernel.org
-> Reported-by: Bedirhan KURT <windowz414@gnuweeb.org>
-> Fixes: 264f590899146baa19e0ab5689e55fadbc292333 ("media: atomisp: remove useless returns")
-> Signed-off-by: Ammar Faizi <ammar.faizi@students.amikom.ac.id>
+> The userspace can configure the routing via two new ioctls,
+> VIDIOC_SUBDEV_G_ROUTING and VIDIOC_SUBDEV_S_ROUTING, and subdevs can
+> implement the functionality with v4l2_subdev_pad_ops.set_routing().
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Michal Simek <michal.simek@xilinx.com>
+> 
+> - Add sink and source streams for multiplexed links
+> - Copy the argument back in case of an error. This is needed to let the
+>    caller know the number of routes.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
+> - Expand and refine documentation.
+> - Make the 'routes' pointer a __u64 __user pointer so that a compat32
+>    version of the ioctl is not required.
+> - Add struct v4l2_subdev_krouting to be used for subdevice operations.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> 
+> - Fix typecasing warnings
+> - Check sink & source pad types
+> - Add 'which' field
+> - Add V4L2_SUBDEV_ROUTE_FL_SOURCE
+> - Routing to subdev state
+> - Dropped get_routing subdev op
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->   .../media/atomisp/pci/hive_isp_css_common/host/input_system.c    | 1 +
->   1 file changed, 1 insertion(+)
+>   drivers/media/v4l2-core/v4l2-ioctl.c  | 25 ++++++++-
+>   drivers/media/v4l2-core/v4l2-subdev.c | 75 +++++++++++++++++++++++++++
+>   include/media/v4l2-subdev.h           | 24 +++++++++
+>   include/uapi/linux/v4l2-subdev.h      | 57 ++++++++++++++++++++
+>   4 files changed, 180 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-> index 8e085dda0c18..1bd917e81743 100644
-> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-> @@ -1646,6 +1646,7 @@ static input_system_err_t input_system_configure_channel_sensor(
->   	default:
->   		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
->   	}
-> +	return INPUT_SYSTEM_ERR_NO_ERROR;
->   }
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 05d5db3d85e5..8e9315ffcb99 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -16,6 +16,7 @@
+>   #include <linux/kernel.h>
+>   #include <linux/version.h>
 >   
->   // Test flags and set structure.
+> +#include <linux/v4l2-subdev.h>
+>   #include <linux/videodev2.h>
+>   
+>   #include <media/v4l2-common.h>
+> @@ -3065,6 +3066,21 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
+>   		ret = 1;
+>   		break;
+>   	}
+> +
+> +	case VIDIOC_SUBDEV_G_ROUTING:
+> +	case VIDIOC_SUBDEV_S_ROUTING: {
+> +		struct v4l2_subdev_routing *routing = parg;
+> +
+> +		if (routing->num_routes > 256)
+> +			return -EINVAL;
+> +
+> +		*user_ptr = u64_to_user_ptr(routing->routes);
+> +		*kernel_ptr = (void **)&routing->routes;
+> +		*array_size = sizeof(struct v4l2_subdev_route)
+> +			    * routing->num_routes;
+> +		ret = 1;
+> +		break;
+> +	}
+>   	}
+>   
+>   	return ret;
+> @@ -3328,8 +3344,15 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
+>   	/*
+>   	 * Some ioctls can return an error, but still have valid
+>   	 * results that must be returned.
+> +	 *
+> +	 * FIXME: subdev IOCTLS are partially handled here and partially in
+> +	 * v4l2-subdev.c and the 'always_copy' flag can only be set for IOCTLS
+> +	 * defined here as part of the 'v4l2_ioctls' array. As
+> +	 * VIDIOC_SUBDEV_G_ROUTING needs to return results to applications even
+> +	 * in case of failure, but it is not defined here as part of the
+> +	 * 'v4l2_ioctls' array, insert an ad-hoc check to address that.
+>   	 */
+> -	if (err < 0 && !always_copy)
+> +	if (err < 0 && !always_copy && cmd != VIDIOC_SUBDEV_G_ROUTING)
+>   		goto out;
+>   
+>   out_array_args:
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index b1e65488210d..0e1f325b3159 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -395,6 +395,12 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
+>   		which = ((struct v4l2_subdev_selection *)arg)->which;
+>   		break;
+>   	}
+> +
+> +	case VIDIOC_SUBDEV_G_ROUTING:
+> +	case VIDIOC_SUBDEV_S_ROUTING: {
+> +		which = ((struct v4l2_subdev_routing *)arg)->which;
+> +		break;
+> +	}
+>   	}
+>   
+>   	return which == V4L2_SUBDEV_FORMAT_TRY ?
+> @@ -711,6 +717,74 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>   	case VIDIOC_SUBDEV_QUERYSTD:
+>   		return v4l2_subdev_call(sd, video, querystd, arg);
+>   
+> +	case VIDIOC_SUBDEV_G_ROUTING: {
+> +		struct v4l2_subdev_routing *routing = arg;
+> +		struct v4l2_subdev_krouting *krouting;
+> +
+> +		if (!(sd->flags & V4L2_SUBDEV_FL_MULTIPLEXED))
+> +			return -ENOIOCTLCMD;
+> +
+> +		memset(routing->reserved, 0, sizeof(routing->reserved));
+> +
+> +		krouting = &state->routing;
+> +
+> +		if (routing->num_routes < krouting->num_routes) {
+> +			routing->num_routes = krouting->num_routes;
+> +			return -ENOSPC;
+> +		}
+> +
+> +		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+> +		       krouting->routes,
+> +		       krouting->num_routes * sizeof(*krouting->routes));
+> +		routing->num_routes = krouting->num_routes;
+> +
+> +		return 0;
+> +	}
+> +
+> +	case VIDIOC_SUBDEV_S_ROUTING: {
+> +		struct v4l2_subdev_routing *routing = arg;
+> +		struct v4l2_subdev_route *routes =
+> +			(struct v4l2_subdev_route *)(uintptr_t)routing->routes;
+> +		struct v4l2_subdev_krouting krouting = {};
+> +		unsigned int i;
+> +
+> +		if (!(sd->flags & V4L2_SUBDEV_FL_MULTIPLEXED))
+> +			return -ENOIOCTLCMD;
+> +
+> +		if (routing->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+> +			return -EPERM;
+> +
+> +		memset(routing->reserved, 0, sizeof(routing->reserved));
+> +
+> +		for (i = 0; i < routing->num_routes; ++i) {
+> +			const struct v4l2_subdev_route *route = &routes[i];
+> +			const struct media_pad *pads = sd->entity.pads;
+> +
+> +			/* Do not check sink pad for source routes */
+> +			if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_SOURCE)) {
+> +				if (route->sink_pad >= sd->entity.num_pads)
+> +					return -EINVAL;
+> +
+> +				if (!(pads[route->sink_pad].flags &
+> +				      MEDIA_PAD_FL_SINK))
+> +					return -EINVAL;
+> +			}
+> +
+> +			if (route->source_pad >= sd->entity.num_pads)
+> +				return -EINVAL;
+> +
+> +			if (!(pads[route->source_pad].flags &
+> +			      MEDIA_PAD_FL_SOURCE))
+> +				return -EINVAL;
+> +		}
+> +
+> +		krouting.which = routing->which;
+> +		krouting.num_routes = routing->num_routes;
+> +		krouting.routes = routes;
+> +
+> +		return v4l2_subdev_call(sd, pad, set_routing, state, &krouting);
+> +	}
+> +
+>   	default:
+>   		return v4l2_subdev_call(sd, core, ioctl, cmd, arg);
+>   	}
+> @@ -975,6 +1049,7 @@ void v4l2_free_subdev_state(struct v4l2_subdev_state *state)
+>   
+>   	mutex_destroy(&state->lock);
+>   
+> +	kvfree(state->routing.routes);
+>   	kvfree(state->pads);
+>   	kfree(state);
+>   }
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 356901d8a948..cd6aad21ae0c 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -694,12 +694,29 @@ struct v4l2_subdev_pad_config {
+>   	struct v4l2_rect try_compose;
+>   };
+>   
+> +/**
+> + * struct v4l2_subdev_krouting - subdev routing table
+> + *
+> + * @which: format type (from enum v4l2_subdev_format_whence)
+> + * @routes: &struct v4l2_subdev_route
+> + * @num_routes: number of routes
+> + *
+> + * This structure is used to translate arguments received from
+> + * VIDIOC_SUBDEV_G/S_ROUTING() ioctl to subdev device drivers operations.
+> + */
+> +struct v4l2_subdev_krouting {
+> +	u32 which;
+> +	struct v4l2_subdev_route *routes;
+> +	unsigned int num_routes;
+> +};
+> +
+>   /**
+>    * struct v4l2_subdev_state - Used for storing subdev state information.
+>    *
+>    * @lock: mutex for the state
+>    * @which: state type (from enum v4l2_subdev_format_whence)
+>    * @pads: &struct v4l2_subdev_pad_config array
+> + * @routing: routing table for the subdev
+>    *
+>    * This structure only needs to be passed to the pad op if the 'which' field
+>    * of the main argument is set to %V4L2_SUBDEV_FORMAT_TRY. For
+> @@ -709,6 +726,7 @@ struct v4l2_subdev_state {
+>   	struct mutex lock;
+>   	u32 which;
+>   	struct v4l2_subdev_pad_config *pads;
+> +	struct v4l2_subdev_krouting routing;
+>   };
+>   
+>   /**
+> @@ -772,6 +790,9 @@ struct v4l2_subdev_state {
+>    *		     applied to the hardware. The operation shall fail if the
+>    *		     pad index it has been called on is not valid or in case of
+>    *		     unrecoverable failures.
+> + *
+> + * @set_routing: enable or disable data connection routes described in the
+> + *		 subdevice routing table.
+>    */
+>   struct v4l2_subdev_pad_ops {
+>   	int (*init_cfg)(struct v4l2_subdev *sd,
+> @@ -816,6 +837,9 @@ struct v4l2_subdev_pad_ops {
+>   			       struct v4l2_mbus_config *config);
+>   	int (*set_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+>   			       struct v4l2_mbus_config *config);
+> +	int (*set_routing)(struct v4l2_subdev *sd,
+> +			   struct v4l2_subdev_state *state,
+> +			   struct v4l2_subdev_krouting *route);
+>   };
+>   
+>   /**
+> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+> index 658106f5b5dc..3aa623e0e5f9 100644
+> --- a/include/uapi/linux/v4l2-subdev.h
+> +++ b/include/uapi/linux/v4l2-subdev.h
+> @@ -188,6 +188,61 @@ struct v4l2_subdev_capability {
+>   /* The v4l2 sub-device video device node is registered in read-only mode. */
+>   #define V4L2_SUBDEV_CAP_RO_SUBDEV		0x00000001
+>   
+> +/*
+> + * Is the route active? An active route will start when streaming is enabled
+> + * on a video node.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_ACTIVE		BIT(0)
+> +
+> +/*
+> + * Is the route immutable, i.e. can it be activated and inactivated?
+> + * Set by the driver.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_IMMUTABLE		BIT(1)
+> +
+> +/*
+> + * Is the route a source endpoint? A source endpoint route refers to a stream
+> + * generated internally by the subdevice (usually a sensor), and thus there
+> + * is no sink-side endpoint for the route. The sink_pad and sink_stream
+> + * fields are unused.
+> + * Set by the driver.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_SOURCE		BIT(2)
+> +
+> +/**
+> + * struct v4l2_subdev_route - A route inside a subdev
+> + *
+> + * @sink_pad: the sink pad index
+> + * @sink_stream: the sink stream identifier
+> + * @source_pad: the source pad index
+> + * @source_stream: the source stream identifier
+> + * @flags: route flags V4L2_SUBDEV_ROUTE_FL_*
+> + * @reserved: drivers and applications must zero this array
+> + */
+> +struct v4l2_subdev_route {
+> +	__u32 sink_pad;
+> +	__u32 sink_stream;
+> +	__u32 source_pad;
+> +	__u32 source_stream;
+> +	__u32 flags;
+> +	__u32 reserved[5];
+> +};
+> +
+
+I don't understand that struct, what is the meaning of the two sink_stream, source_stream fields?
+What is the relation between sink_pad and source_pad? A 'route' between two pads means that 'streams' can flow through them?
+
+If I have for example:
+
+sink_pad = sink_stream = 0
+source_pad = source_stream = 1
+
+what does that mean?
+
+Thanks,
+Dafna
+
+> +/**
+> + * struct v4l2_subdev_routing - Subdev routing information
+> + *
+> + * @which: configuration type (from enum v4l2_subdev_format_whence)
+> + * @routes: pointer to the routes array
+> + * @num_routes: the total number of routes in the routes array
+> + * @reserved: drivers and applications must zero this array
+> + */
+> +struct v4l2_subdev_routing {
+> +	__u32 which;
+> +	__u64 routes;
+> +	__u32 num_routes;
+> +	__u32 reserved[5];
+> +};
+> +
+>   /* Backwards compatibility define --- to be removed */
+>   #define v4l2_subdev_edid v4l2_edid
+>   
+> @@ -203,6 +258,8 @@ struct v4l2_subdev_capability {
+>   #define VIDIOC_SUBDEV_S_CROP			_IOWR('V', 60, struct v4l2_subdev_crop)
+>   #define VIDIOC_SUBDEV_G_SELECTION		_IOWR('V', 61, struct v4l2_subdev_selection)
+>   #define VIDIOC_SUBDEV_S_SELECTION		_IOWR('V', 62, struct v4l2_subdev_selection)
+> +#define VIDIOC_SUBDEV_G_ROUTING			_IOWR('V', 38, struct v4l2_subdev_routing)
+> +#define VIDIOC_SUBDEV_S_ROUTING			_IOWR('V', 39, struct v4l2_subdev_routing)
+>   /* The following ioctls are identical to the ioctls in videodev2.h */
+>   #define VIDIOC_SUBDEV_G_STD			_IOR('V', 23, v4l2_std_id)
+>   #define VIDIOC_SUBDEV_S_STD			_IOW('V', 24, v4l2_std_id)
 > 
-
-Hi, Ammar!
-
-
-Thank you for fixing this, but it's already fixed in linux-next tree. 
-See commit 05344a1d2ea7 ("media: atomisp: restore missing 'return' 
-statement").
-
-Again, I am sorry for introducing this bug :(
-
-
-
-
-With regards,
-Pavel Skripkin
