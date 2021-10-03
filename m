@@ -2,47 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA06C41FEE4
-	for <lists+linux-media@lfdr.de>; Sun,  3 Oct 2021 02:18:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E316B41FF3A
+	for <lists+linux-media@lfdr.de>; Sun,  3 Oct 2021 04:36:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234310AbhJCAUR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Oct 2021 20:20:17 -0400
-Received: from wrqvnhvw.outbound-mail.sendgrid.net ([149.72.32.137]:54061 "EHLO
+        id S229588AbhJCCim (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Oct 2021 22:38:42 -0400
+Received: from wrqvnhvw.outbound-mail.sendgrid.net ([149.72.32.137]:8308 "EHLO
         wrqvnhvw.outbound-mail.sendgrid.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233697AbhJCAUR (ORCPT
+        by vger.kernel.org with ESMTP id S229534AbhJCCil (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 2 Oct 2021 20:20:17 -0400
+        Sat, 2 Oct 2021 22:38:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cottsay.net;
         h=from:subject:mime-version:to:cc:content-transfer-encoding:
         content-type;
-        s=s1; bh=Wc4ZDbRx9dSwzMCmPJqGpzuatH6YLgvjYbr25sQyxlk=;
-        b=LME/FN2Qe/WpWXJITRxqoRcd2CvXSZkXOtv6DJH7KbaUGuM52Td6cezWRtUIoQiVfmuJ
-        5VvOv2Gr5L+NAfcyp/ZKDUZ4mKcUSP9491/If6kuSjXoMQzQzHQYtyo8OsRJV9Pv2IHtW8
-        wnnDNcgb9zJZbBXC8CRF5hNxmRfA2YDi7sh/yW/NMHDFQUErX3nuFygrckS2OUj5yo+CKv
-        7SP/9ZOfKwZDU5qkvFH94gLxNVlNGowwGE/2IDHqE7AErpgz3CZYP4kZTLtIcWvTQ1lbT0
-        K26Prkgul7cnub3P81kRw0v8cbL548HHcfrjLjZplvgt5fLg3B+rxLNxtPGWXv3w==
-Received: by filterdrecv-64fcb979b9-7lnp4 with SMTP id filterdrecv-64fcb979b9-7lnp4-1-6158F6D6-2
-        2021-10-03 00:18:30.05293069 +0000 UTC m=+1642856.983491058
+        s=s1; bh=It6jebDl3nuns7IOICpyjNP6KBken6kJglWUNWJd05c=;
+        b=Fjen4CAFgDAzU0TeZGdLzoV3XSdhunLat8sDYUmUqcaO9HkhUR7pGyUbaVTmh0cBM/BB
+        w/2F9dGCGYMpI/HNNx3Je+bUfDHVZHuw8opG/j/Z5cqOzm1T9oPTeWVENi1pVYWY6fgzJh
+        HV4Pknj2tqQFWOusOdlGEYwo6mt9Hg13/9kRSut0apxvlqV1/lCYWFgDJimd/mSmhh/bpB
+        Wry5CAQFl/52VAQBNElBrCrUUgHqR7SS1DmoagDGX6dOhDl806jRcSkejaBylbg6+WjVFW
+        vDnTxKS5v0MfP/MNzwLTI075Vr4oItnkOabwrfdiO4qwnr+x02nl6zJQ1XC+g5TA==
+Received: by filterdrecv-7bc86b958d-gt6pz with SMTP id filterdrecv-7bc86b958d-gt6pz-1-61591746-15
+        2021-10-03 02:36:54.713588009 +0000 UTC m=+2693817.404992980
 Received: from cottsay-server.delphi.cottsay.net (unknown)
-        by geopod-ismtpd-5-0 (SG) with ESMTP
-        id HUHykGVCQJaa9hgCyknESA
-        Sun, 03 Oct 2021 00:18:29.914 +0000 (UTC)
+        by geopod-ismtpd-2-0 (SG) with ESMTP
+        id dP__pBiOTCa1nC87CW5o3Q
+        Sun, 03 Oct 2021 02:36:54.518 +0000 (UTC)
 Received: from cottsay-lenovo.delphi.cottsay.net (cottsay-lenovo.delphi.cottsay.net [172.16.8.31])
-        by cottsay-server.delphi.cottsay.net (Postfix) with ESMTPSA id 6BB1F3C0462;
-        Sat,  2 Oct 2021 17:18:29 -0700 (PDT)
+        by cottsay-server.delphi.cottsay.net (Postfix) with ESMTPSA id ED2B53C0436;
+        Sat,  2 Oct 2021 19:36:53 -0700 (PDT)
 From:   Scott K Logan <logans@cottsay.net>
-Subject: [PATCH] media: s5h1411.c: Fix a typo in the VSB SNR table
-Date:   Sun, 03 Oct 2021 00:18:30 +0000 (UTC)
-Message-Id: <20211003001805.735092-1-logans@cottsay.net>
+Subject: [PATCH 0/1] media: uvcvideo: Add quirk for exponential exposure
+Date:   Sun, 03 Oct 2021 02:36:54 +0000 (UTC)
+Message-Id: <20211003023554.885815-1-logans@cottsay.net>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 X-SG-EID: =?us-ascii?Q?v4Qh49l2kwszIc8ZaCpP76AQaq=2F9O0v3P=2FmBhAlry1T=2FzVhHBJ8w+hDrqxBvdA?=
- =?us-ascii?Q?KU3ehgFPlGwC1hR8j2nf+OmEIklhuR0Cmb7oLUB?=
- =?us-ascii?Q?U1VgxYkp14eNwID6tyIGTijSKS7EhXnETf7OFaG?=
- =?us-ascii?Q?dVQc1O2Hj98Dtc2Vi90wqjdieyFRiT=2FJVb45TMJ?=
- =?us-ascii?Q?TVIfffWthuVAhAvVOE4+GNJcjx6TEsm+7dX0EDo?=
- =?us-ascii?Q?9ENTdO+EG14TXxDwBZQPwOqyt9lpm5CZqR0=2Fax?=
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+ =?us-ascii?Q?KU3ehgFPlGwC1hR8j2nf+OmGtuprMcj=2FTu7H5rE?=
+ =?us-ascii?Q?yJ7p4WUeAcPe9mMZdpr8ZVq11J8Ws8QnGKDoQSg?=
+ =?us-ascii?Q?j66lfmXaXkZK7g6E5AlF8LYP3u4Xaacawm+ltaP?=
+ =?us-ascii?Q?NhBRzkhu1m93oL6VMMm0T4Yz6j=2FngMVY3A2eTb0?=
+ =?us-ascii?Q?gt=2F1oge7IjzkBB6nJYbeHp=2F3UiwnDsOZtNw9jn?=
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        subscribers-only <linux-uvc-devel@lists.sourceforge.net>,
         linux-media@vger.kernel.org
 Cc:     Scott K Logan <logans@cottsay.net>
 X-Entity-ID: 4JzoG0JXdcXknftrbeCa4w==
@@ -52,28 +53,24 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This looks like a typo. By manipulating the antenna on a device while
-monitoring the reported SNR, I was able to see the unexpected jump.
-After applying this patch, the spike was no longer present.
+Ever since I started using them, I've noticed that the absolute exposure
+control for the LifeCam webcam hasn't functioned properly. After some
+poking around, I managed to charactarize the behavior. To summarize,
+only values which follow an exponential pattern appear to result in the
+intended change to the webcam's image.
 
-Signed-off-by: Scott K Logan <logans@cottsay.net>
----
- drivers/media/dvb-frontends/s5h1411.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ideally this quirky behavior could be handled with an extension unit,
+but I'm not sure this behavior can be implemented there. I tested this
+patch with the two LifeCam webcams I have on hand.
 
-diff --git a/drivers/media/dvb-frontends/s5h1411.c b/drivers/media/dvb-frontends/s5h1411.c
-index c1334d7eb442..2563a72e98b7 100644
---- a/drivers/media/dvb-frontends/s5h1411.c
-+++ b/drivers/media/dvb-frontends/s5h1411.c
-@@ -150,7 +150,7 @@ static struct vsb_snr_tab {
- 	{  0x35b, 235, },
- 	{  0x353, 230, },
- 	{  0x349, 225, },
--	{  0x340, 320, },
-+	{  0x340, 220, },
- 	{  0x337, 215, },
- 	{  0x327, 210, },
- 	{  0x31b, 205, },
+Scott K Logan (1):
+  media: uvcvideo: Add quirk for exponential exposure
+
+ drivers/media/usb/uvc/uvc_ctrl.c   | 41 ++++++++++++++++++++++++++++++
+ drivers/media/usb/uvc/uvc_driver.c | 18 +++++++++++++
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 60 insertions(+)
+
 -- 
 2.31.1
 
