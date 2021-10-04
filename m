@@ -2,140 +2,344 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 675654206B4
-	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 09:37:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BB3642070A
+	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 10:11:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230178AbhJDHjg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Oct 2021 03:39:36 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:14993 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230099AbhJDHjf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Oct 2021 03:39:35 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1633333067; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=qkd4MVWGUsJu+oxqYRU+yhpR+llgKwiBa2xcweEug+I=;
- b=SDN6ShlhApJbrvm5DMMjEwVSIV3hU9HxaASnjB5rvRljVlKTTAuLxy3Y2BeoGcBDyGYflK27
- +aLOx8kzsNavah6QJX3YLCbmrAsRDr5sM5o9pWh/+po5zCd8iIalQNIGnc5b8/RYLlydvePZ
- YXioR44tHYD1fwscHjYhms10FU4=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 615aaf34a3e8d3c640281636 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 04 Oct 2021 07:37:24
- GMT
-Sender: dikshita=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id EB1E5C43460; Mon,  4 Oct 2021 07:37:23 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: dikshita)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 503E8C4338F;
-        Mon,  4 Oct 2021 07:37:22 +0000 (UTC)
+        id S229487AbhJDINF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Oct 2021 04:13:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46156 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229875AbhJDINA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Oct 2021 04:13:00 -0400
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB481C061745;
+        Mon,  4 Oct 2021 01:11:03 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id XJ3nmn8Ch3tiGXJ3qmgbxb; Mon, 04 Oct 2021 10:11:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1633335060; bh=bKjOBDJpshLMetjuil3udBnbogUC1cEVU3iYd0ovcNU=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=U5mhqHA8NmLhpHMkM+KVrVRk3WJH3be49kQ4xZ+WMalOwBnxJmNG1Kie29gJHUtz9
+         uIuB2VOnHW+ccaV/HhLKM/eorrFAZ/W3POxfTZxLMtF+ZcUNeysQdsHUmedZEGqudu
+         grbbwztBfw+Gjsy1pg1Vwxp84qlanXOL/bMirQDKYu7HJ0HJgtXLAhLkmbQP4AIOSv
+         63XRuOFm824B9jM147+pQ5aRb87oQTT1z2JCxzlACD3a8i7L84ySg9EvrcDcvoW1tf
+         zyrjZ+ms0aQ+w6TX/5RfwUL16oSp8MGdkWQ75f72qNbIW8DMQo2Bwua+2iMZV6KcLK
+         q2ww92ooaasxA==
+Subject: Re: [PATCH] media: cedrus: Don't kernel map most buffers
+To:     Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com
+Cc:     wens@csie.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+References: <20210912060812.222996-1-jernej.skrabec@gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <0cb81145-16d9-fd28-832e-4010646e9512@xs4all.nl>
+Date:   Mon, 4 Oct 2021 10:10:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+In-Reply-To: <20210912060812.222996-1-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Date:   Mon, 04 Oct 2021 13:07:22 +0530
-From:   dikshita@codeaurora.org
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, vgarodia@codeaurora.org
-Subject: Re: [PATCH v4 6/7] media: venus: helpers: update NUM_MBS macro
- calculation
-In-Reply-To: <283e23db-5383-57d7-48ca-0efa03420335@linaro.org>
-References: <1628588875-23790-1-git-send-email-dikshita@codeaurora.org>
- <1628588875-23790-7-git-send-email-dikshita@codeaurora.org>
- <283e23db-5383-57d7-48ca-0efa03420335@linaro.org>
-Message-ID: <5acab57bd6c1088dd1beff1df0ba71d1@codeaurora.org>
-X-Sender: dikshita@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+X-CMAE-Envelope: MS4xfBMt3TknJanoRj5XaDGvKAbA5J/Kc0TpqWWzZwsBzxIw5qT5LVovXcL9S+TdvZWxi2Y23IlM9kaJvh8A/fHRh+FsMiprApVRDZS16anWExhy56qgjEzA
+ xbZ0pUA46ok7+HdpN77jXyuRRWx1qZBPQUQBjMzWv7nM918pIOnjVWxY/R4j+1ywUtYbEQct8C1k6pRQzbvrXNsgKlaGp3XkDmvzCdVQai+xnMl+ZAFVgHqN
+ 2ACyYq+6B4j68M6fEji2wXq0i4UyH4o5owpAjlXYJ262obS6srW9+G7f0BKOaulozzuLn17gfbUnCu37a49SHVdxNW/4DD7wjqRDq07XcFw6rgEhHBu5aH+Z
+ MRehKXl+qpP9Q76R82LNaqmO+CozjOOrjnca8gal26j2omSljJT0W4wxFCXrsEpH7M4Grqd0Q2JMrZkAfpkTV5lJcdSQgziXdNkalvXNPPFQeMukFPSAkIzO
+ 1Ul0UrxCLmFc8YcVuIUF2YQjQ0Xo9NHkGDkyAC26A+rIpZdW5sbUhiQ6oao16DjZ84Axk0E730nnOPKrSwebXvQfJSB/ChWvT6VhnApcF0brW3JeZUefqhzE
+ Oik=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stan,
+Hi Jernej,
 
-On 2021-10-02 03:01, Stanimir Varbanov wrote:
-> Hi,
-> 
-> On 8/10/21 12:47 PM, Dikshita Agarwal wrote:
->> Consider alignment while calculating NUM_MBS.
->> 
->> Co-developed-by: Mansur Alisha Shaik <mansur@codeaurora.org>
->> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
->> ---
->>  drivers/media/platform/qcom/venus/helpers.c | 13 +++++++------
->>  1 file changed, 7 insertions(+), 6 deletions(-)
->> 
->> diff --git a/drivers/media/platform/qcom/venus/helpers.c 
->> b/drivers/media/platform/qcom/venus/helpers.c
->> index 60a2775..2db33ba 100644
->> --- a/drivers/media/platform/qcom/venus/helpers.c
->> +++ b/drivers/media/platform/qcom/venus/helpers.c
->> @@ -18,8 +18,8 @@
->>  #include "hfi_platform.h"
->>  #include "hfi_parser.h"
->> 
->> -#define NUM_MBS_720P	(((1280 + 15) >> 4) * ((720 + 15) >> 4))
->> -#define NUM_MBS_4K	(((4096 + 15) >> 4) * ((2304 + 15) >> 4))
->> +#define NUM_MBS_720P	(((ALIGN(1280, 16)) >> 4) * ((ALIGN(736, 16)) >> 
->> 4))
->> +#define NUM_MBS_4K	(((ALIGN(4096, 16)) >> 4) * ((ALIGN(2304, 16)) >> 
->> 4))
->> 
->>  struct intbuf {
->>  	struct list_head list;
->> @@ -1098,16 +1098,17 @@ static u32 venus_helper_get_work_mode(struct 
->> venus_inst *inst)
->>  	u32 num_mbs;
->> 
->>  	mode = VIDC_WORK_MODE_2;
->> +
->>  	if (inst->session_type == VIDC_SESSION_TYPE_DEC) {
->> -		num_mbs = (ALIGN(inst->height, 16) * ALIGN(inst->width, 16)) / 256;
->> +		num_mbs = ((ALIGN(inst->height, 16))/16 * (ALIGN(inst->width, 
->> 16)))/16;
-> 
-> Could you help me understand what is the difference between both
-> calculations? IMO this patch should only change NUM_MBS_720P and
-> NUM_MBS_4K macros.
-> 
-We are updating the calculation here to match with the calculation used 
-in Macro.
-AFAIK, we were seeing a size mismatch for a resolution with the old 
-calculation.
+Some comments below:
 
->>  		if (inst->hfi_codec == HFI_VIDEO_CODEC_MPEG2 ||
->> -		    inst->pic_struct != HFI_INTERLACE_FRAME_PROGRESSIVE ||
->> -		    num_mbs <= NUM_MBS_720P)
->> +			inst->pic_struct != HFI_INTERLACE_FRAME_PROGRESSIVE ||
->> +			num_mbs <= NUM_MBS_720P)
+On 12/09/2021 08:08, Jernej Skrabec wrote:
+> Except VP8 probability coefficients buffer, all other buffers are never
+
+Except -> Except for
+
+> accessed by CPU. That allows us to mark them with DMA_ATTR_NO_KERNEL_MAPPING
+> flag. This helps with decoding big (like 4k) videos on 32-bit ARM
+> platforms where default vmalloc size is relatively small - 240 MiB.
+> Since auxiliary buffer are not yet efficiently allocated, this can be
+> easily exceeded. Even if allocation is optimized, 4k videos will still
+> often exceed this limit.
 > 
-> This change just makes indentation wrong and also it is not related to
-> the patch subject.
-I think it can be dropped.
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 102 ++++++++++--------
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  28 ++---
+>  .../staging/media/sunxi/cedrus/cedrus_video.c |   2 +
+>  3 files changed, 73 insertions(+), 59 deletions(-)
 > 
->>  			mode = VIDC_WORK_MODE_1;
->>  	} else {
->>  		num_mbs = (ALIGN(inst->out_height, 16) * ALIGN(inst->out_width, 
->> 16)) / 256;
->>  		if (inst->hfi_codec == HFI_VIDEO_CODEC_VP8 &&
->> -		    num_mbs <= NUM_MBS_4K)
->> +			num_mbs <= NUM_MBS_4K)
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> index de7442d4834d..6e38b37d9fe1 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> @@ -538,23 +538,23 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+>  
+>  	ctx->codec.h264.pic_info_buf_size = pic_info_size;
+>  	ctx->codec.h264.pic_info_buf =
+> -		dma_alloc_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> -				   &ctx->codec.h264.pic_info_buf_dma,
+> -				   GFP_KERNEL);
+> +		dma_alloc_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> +				&ctx->codec.h264.pic_info_buf_dma,
+> +				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+>  	if (!ctx->codec.h264.pic_info_buf)
+>  		return -ENOMEM;
+>  
+>  	/*
+>  	 * That buffer is supposed to be 16kiB in size, and be aligned
+> -	 * on 16kiB as well. However, dma_alloc_coherent provides the
+> +	 * on 16kiB as well. However, dma_alloc_attrs provides the
+>  	 * guarantee that we'll have a CPU and DMA address aligned on
+
+Does the 'CPU' part of this sentence still make sense since the CPU
+won't access the buffer?
+
+>  	 * the smallest page order that is greater to the requested
+>  	 * size, so we don't have to overallocate.
+>  	 */
+>  	ctx->codec.h264.neighbor_info_buf =
+> -		dma_alloc_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> -				   &ctx->codec.h264.neighbor_info_buf_dma,
+> -				   GFP_KERNEL);
+> +		dma_alloc_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> +				&ctx->codec.h264.neighbor_info_buf_dma,
+> +				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+
+I think it would be good to have a comment for all these dma_alloc_attrs
+calls where you note that these buffers are used by the HW only, and
+never by the CPU, hence the use of DMA_ATTR_NO_KERNEL_MAPPING.
+
+>  	if (!ctx->codec.h264.neighbor_info_buf) {
+>  		ret = -ENOMEM;
+>  		goto err_pic_buf;
+> @@ -582,10 +582,11 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+>  
+>  	mv_col_size = field_size * 2 * CEDRUS_H264_FRAME_NUM;
+>  	ctx->codec.h264.mv_col_buf_size = mv_col_size;
+> -	ctx->codec.h264.mv_col_buf = dma_alloc_coherent(dev->dev,
+> -							ctx->codec.h264.mv_col_buf_size,
+> -							&ctx->codec.h264.mv_col_buf_dma,
+> -							GFP_KERNEL);
+> +	ctx->codec.h264.mv_col_buf =
+> +		dma_alloc_attrs(dev->dev,
+> +				ctx->codec.h264.mv_col_buf_size,
+> +				&ctx->codec.h264.mv_col_buf_dma,
+> +				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+>  	if (!ctx->codec.h264.mv_col_buf) {
+>  		ret = -ENOMEM;
+>  		goto err_neighbor_buf;
+> @@ -600,10 +601,10 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+>  		ctx->codec.h264.deblk_buf_size =
+>  			ALIGN(ctx->src_fmt.width, 32) * 12;
+>  		ctx->codec.h264.deblk_buf =
+> -			dma_alloc_coherent(dev->dev,
+> -					   ctx->codec.h264.deblk_buf_size,
+> -					   &ctx->codec.h264.deblk_buf_dma,
+> -					   GFP_KERNEL);
+> +			dma_alloc_attrs(dev->dev,
+> +					ctx->codec.h264.deblk_buf_size,
+> +					&ctx->codec.h264.deblk_buf_dma,
+> +					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+>  		if (!ctx->codec.h264.deblk_buf) {
+>  			ret = -ENOMEM;
+>  			goto err_mv_col_buf;
+> @@ -616,10 +617,10 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+>  		ctx->codec.h264.intra_pred_buf_size =
+>  			ALIGN(ctx->src_fmt.width, 64) * 5 * 2;
+>  		ctx->codec.h264.intra_pred_buf =
+> -			dma_alloc_coherent(dev->dev,
+> -					   ctx->codec.h264.intra_pred_buf_size,
+> -					   &ctx->codec.h264.intra_pred_buf_dma,
+> -					   GFP_KERNEL);
+> +			dma_alloc_attrs(dev->dev,
+> +					ctx->codec.h264.intra_pred_buf_size,
+> +					&ctx->codec.h264.intra_pred_buf_dma,
+> +					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+>  		if (!ctx->codec.h264.intra_pred_buf) {
+>  			ret = -ENOMEM;
+>  			goto err_deblk_buf;
+> @@ -629,24 +630,28 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+>  	return 0;
+>  
+>  err_deblk_buf:
+> -	dma_free_coherent(dev->dev, ctx->codec.h264.deblk_buf_size,
+> -			  ctx->codec.h264.deblk_buf,
+> -			  ctx->codec.h264.deblk_buf_dma);
+> +	dma_free_attrs(dev->dev, ctx->codec.h264.deblk_buf_size,
+> +		       ctx->codec.h264.deblk_buf,
+> +		       ctx->codec.h264.deblk_buf_dma,
+> +		       DMA_ATTR_NO_KERNEL_MAPPING);
+>  
+>  err_mv_col_buf:
+> -	dma_free_coherent(dev->dev, ctx->codec.h264.mv_col_buf_size,
+> -			  ctx->codec.h264.mv_col_buf,
+> -			  ctx->codec.h264.mv_col_buf_dma);
+> +	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
+> +		       ctx->codec.h264.mv_col_buf,
+> +		       ctx->codec.h264.mv_col_buf_dma,
+> +		       DMA_ATTR_NO_KERNEL_MAPPING);
+>  
+>  err_neighbor_buf:
+> -	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> -			  ctx->codec.h264.neighbor_info_buf,
+> -			  ctx->codec.h264.neighbor_info_buf_dma);
+> +	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> +		       ctx->codec.h264.neighbor_info_buf,
+> +		       ctx->codec.h264.neighbor_info_buf_dma,
+> +		       DMA_ATTR_NO_KERNEL_MAPPING);
+>  
+>  err_pic_buf:
+> -	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> -			  ctx->codec.h264.pic_info_buf,
+> -			  ctx->codec.h264.pic_info_buf_dma);
+> +	dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> +		       ctx->codec.h264.pic_info_buf,
+> +		       ctx->codec.h264.pic_info_buf_dma,
+> +		       DMA_ATTR_NO_KERNEL_MAPPING);
+>  	return ret;
+>  }
+>  
+> @@ -654,23 +659,28 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
+>  {
+>  	struct cedrus_dev *dev = ctx->dev;
+>  
+> -	dma_free_coherent(dev->dev, ctx->codec.h264.mv_col_buf_size,
+> -			  ctx->codec.h264.mv_col_buf,
+> -			  ctx->codec.h264.mv_col_buf_dma);
+> -	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> -			  ctx->codec.h264.neighbor_info_buf,
+> -			  ctx->codec.h264.neighbor_info_buf_dma);
+> -	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> -			  ctx->codec.h264.pic_info_buf,
+> -			  ctx->codec.h264.pic_info_buf_dma);
+> +	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
+> +		       ctx->codec.h264.mv_col_buf,
+> +		       ctx->codec.h264.mv_col_buf_dma,
+> +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> +	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> +		       ctx->codec.h264.neighbor_info_buf,
+> +		       ctx->codec.h264.neighbor_info_buf_dma,
+> +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> +	dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> +		       ctx->codec.h264.pic_info_buf,
+> +		       ctx->codec.h264.pic_info_buf_dma,
+> +		       DMA_ATTR_NO_KERNEL_MAPPING);
+>  	if (ctx->codec.h264.deblk_buf_size)
+> -		dma_free_coherent(dev->dev, ctx->codec.h264.deblk_buf_size,
+> -				  ctx->codec.h264.deblk_buf,
+> -				  ctx->codec.h264.deblk_buf_dma);
+> +		dma_free_attrs(dev->dev, ctx->codec.h264.deblk_buf_size,
+> +			       ctx->codec.h264.deblk_buf,
+> +			       ctx->codec.h264.deblk_buf_dma,
+> +			       DMA_ATTR_NO_KERNEL_MAPPING);
+>  	if (ctx->codec.h264.intra_pred_buf_size)
+> -		dma_free_coherent(dev->dev, ctx->codec.h264.intra_pred_buf_size,
+> -				  ctx->codec.h264.intra_pred_buf,
+> -				  ctx->codec.h264.intra_pred_buf_dma);
+> +		dma_free_attrs(dev->dev, ctx->codec.h264.intra_pred_buf_size,
+> +			       ctx->codec.h264.intra_pred_buf,
+> +			       ctx->codec.h264.intra_pred_buf_dma,
+> +			       DMA_ATTR_NO_KERNEL_MAPPING);
+>  }
+>  
+>  static void cedrus_h264_trigger(struct cedrus_ctx *ctx)
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> index 3d9561d4aadb..bb7eb56106c5 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -351,10 +351,10 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+>  			ctx->codec.h265.mv_col_buf_unit_size;
+>  
+>  		ctx->codec.h265.mv_col_buf =
+> -			dma_alloc_coherent(dev->dev,
+> -					   ctx->codec.h265.mv_col_buf_size,
+> -					   &ctx->codec.h265.mv_col_buf_addr,
+> -					   GFP_KERNEL);
+> +			dma_alloc_attrs(dev->dev,
+> +					ctx->codec.h265.mv_col_buf_size,
+> +					&ctx->codec.h265.mv_col_buf_addr,
+> +					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+>  		if (!ctx->codec.h265.mv_col_buf) {
+>  			ctx->codec.h265.mv_col_buf_size = 0;
+>  			// TODO: Abort the process here.
+> @@ -668,9 +668,9 @@ static int cedrus_h265_start(struct cedrus_ctx *ctx)
+>  	ctx->codec.h265.mv_col_buf_size = 0;
+>  
+>  	ctx->codec.h265.neighbor_info_buf =
+> -		dma_alloc_coherent(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+> -				   &ctx->codec.h265.neighbor_info_buf_addr,
+> -				   GFP_KERNEL);
+> +		dma_alloc_attrs(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+> +				&ctx->codec.h265.neighbor_info_buf_addr,
+> +				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+>  	if (!ctx->codec.h265.neighbor_info_buf)
+>  		return -ENOMEM;
+>  
+> @@ -682,16 +682,18 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
+>  	struct cedrus_dev *dev = ctx->dev;
+>  
+>  	if (ctx->codec.h265.mv_col_buf_size > 0) {
+> -		dma_free_coherent(dev->dev, ctx->codec.h265.mv_col_buf_size,
+> -				  ctx->codec.h265.mv_col_buf,
+> -				  ctx->codec.h265.mv_col_buf_addr);
+> +		dma_free_attrs(dev->dev, ctx->codec.h265.mv_col_buf_size,
+> +			       ctx->codec.h265.mv_col_buf,
+> +			       ctx->codec.h265.mv_col_buf_addr,
+> +			       DMA_ATTR_NO_KERNEL_MAPPING);
+>  
+>  		ctx->codec.h265.mv_col_buf_size = 0;
+>  	}
+>  
+> -	dma_free_coherent(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+> -			  ctx->codec.h265.neighbor_info_buf,
+> -			  ctx->codec.h265.neighbor_info_buf_addr);
+> +	dma_free_attrs(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+> +		       ctx->codec.h265.neighbor_info_buf,
+> +		       ctx->codec.h265.neighbor_info_buf_addr,
+> +		       DMA_ATTR_NO_KERNEL_MAPPING);
+>  }
+>  
+>  static void cedrus_h265_trigger(struct cedrus_ctx *ctx)
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> index 66714609b577..800ffa5382de 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> @@ -568,6 +568,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
+>  
+>  	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+>  	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+> +	src_vq->dma_attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+>  	src_vq->drv_priv = ctx;
+>  	src_vq->buf_struct_size = sizeof(struct cedrus_buffer);
+>  	src_vq->ops = &cedrus_qops;
+> @@ -584,6 +585,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
+>  
+>  	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+>  	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+> +	src_vq->dma_attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+
+This should be dst_vq!
+
+I'm also not quite sure that it is right to use this for the destination
+buffer. Could this cause problems if this buffer is exported to a dmabuf
+and another driver will be using it and requiring a kernel mapping.
+
+Regards,
+
+	Hans
+
+>  	dst_vq->drv_priv = ctx;
+>  	dst_vq->buf_struct_size = sizeof(struct cedrus_buffer);
+>  	dst_vq->ops = &cedrus_qops;
 > 
-> ditto
-Same here.
-> 
->>  			mode = VIDC_WORK_MODE_1;
->>  	}
->> 
->> 
+
