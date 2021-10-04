@@ -2,144 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B471421987
-	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 23:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FB4C421AE1
+	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 01:54:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233487AbhJDWAw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Oct 2021 18:00:52 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54378 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233319AbhJDWAv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Oct 2021 18:00:51 -0400
+        id S232788AbhJDXzt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Oct 2021 19:55:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40682 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229486AbhJDXzr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Oct 2021 19:55:47 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10FB8C061745;
+        Mon,  4 Oct 2021 16:53:57 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F9955A1;
-        Mon,  4 Oct 2021 23:59:01 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8785125B;
+        Tue,  5 Oct 2021 01:53:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1633384741;
-        bh=jEYa4ieG9XUiVKz082BinXgkZ1IxYFrGQisCTV/1Z5g=;
+        s=mail; t=1633391635;
+        bh=8bYjdV2YZpFll6rhoYC6RtgvvGcTbNSzWfFKX1bB/i0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=v1MN3v/lqjbgqrfOxWNTr3LUPONVncV3Po67SBg/7PO85zithk/VPMa2gQLFPv4eC
-         t8TQ0QHJFKeRuucCR2vXHTsF3bAaCqqch5GS7ZoExIbbhe6TFVlp0SiCaalk38J5dK
-         0FolipUDIRatKK10ZURnE4KAwYxVBl0T+xx4SyLQ=
-Date:   Tue, 5 Oct 2021 00:58:54 +0300
+        b=i3x89jkGzjFkKe6UKDUgmFTYdfAK0lffGiWLmcAWIQ3bST1kEd4qNJTjCIjYQ5YUF
+         Qzv44Z8hBp2DsVpXVkWz3DKsfvxRJbJ/cjCFV50j/9HpJsA8HuHVqLxvaWa8Fc/6bI
+         pSZfxt9UId8zwl2tmap53cJO2ac2dy+M6/vKOLpM=
+Date:   Tue, 5 Oct 2021 02:53:48 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        bingbu.cao@intel.com, tfiga@google.com, tian.shu.qiu@intel.com
-Subject: Re: [PATCH] media: staging: ipu3-imgu: add the AWB memory layout
-Message-ID: <YVt5HhjiP9i85ZMZ@pendragon.ideasonboard.com>
-References: <20210930092021.65741-1-jeanmichel.hautbois@ideasonboard.com>
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, balbi@kernel.org, hverkuil@xs4all.nl,
+        gregkh@linuxfoundation.org, m.tretter@pengutronix.de,
+        linux-media@vger.kernel.org
+Subject: Re: [RESEND PATCH v4] usb: gadget: uvc: fix multiple opens
+Message-ID: <YVuUDOf+BDTxe/IR@pendragon.ideasonboard.com>
+References: <87pn261h4c.fsf@kernel.org>
+ <20211003201355.24081-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210930092021.65741-1-jeanmichel.hautbois@ideasonboard.com>
+In-Reply-To: <20211003201355.24081-1-m.grzeschik@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jean-Michel,
+Hi Michael,
 
-Thank you for the patch.
+Thank you for resending this.
 
-On Thu, Sep 30, 2021 at 11:20:21AM +0200, Jean-Michel Hautbois wrote:
-> While parsing the RAW AWB metadata, the AWB layout was missing to fully
-> understand which byte corresponds to which feature. Make the field names
-> and usage explicit, as it is used by the userspace applications.
-
-I would have mentioned how the hardware (or maybe firmware) generates
-the statistics instead of how applications consume them, as it's the
-IPU3 dictating the format, but it doesn't matter too much.
-
-> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> ---
->  .../media/ipu3/include/uapi/intel-ipu3.h      | 30 +++++++++++++++++--
->  1 file changed, 27 insertions(+), 3 deletions(-)
+On Sun, Oct 03, 2021 at 10:13:55PM +0200, Michael Grzeschik wrote:
+> From: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
 > 
-> diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> index 585f55981c86..fdda9d0a30af 100644
-> --- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> +++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> @@ -61,6 +61,29 @@ struct ipu3_uapi_grid_config {
->  	__u16 y_end;
->  } __packed;
+> Currently, the UVC function is activated when open on the corresponding
+> v4l2 device is called.
+> On another open the activation of the function fails since the
+> deactivation counter in `usb_function_activate` equals 0. However the
+> error is not returned to userspace since the open of the v4l2 device is
+> successful.
+> 
+> On a close the function is deactivated (since deactivation counter still
+> equals 0) and the video is disabled in `uvc_v4l2_release`, although the
+> UVC application potentially is streaming.
+> 
+> Move activation of UVC function to subscription on UVC_EVENT_SETUP
+> because there we can guarantee for a userspace application utilizing
+> UVC.
+> Block subscription on UVC_EVENT_SETUP while another application already
+> is subscribed to it, indicated by `bool func_connected` in
+> `struct uvc_device`.
+> Extend the `struct uvc_file_handle` with member `bool is_uvc_app_handle`
+> to tag it as the handle used by the userspace UVC application.
+
+Reflowing the paragraph would be nice (this could be done when applying
+the patch, or not at all).
+
+> With this a process is able to check capabilities of the v4l2 device
+> without deactivating the function for the actual UVC application.
+> 
+> Reviewed-By: Michael Tretter <m.tretter@pengutronix.de>
+> Signed-off-by: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Felipe, please let me know if you want me to take this in my tree and
+issue a pull request, otherwise I'll assume you'll pick it up.
+
+> ---
+> v4:
+>   - remove unnecessary inner parentheses
+>   - keep and use the local video variable in `uvc_v4l2_release()`
+> 
+> v3:
+>   - replace `unsigned int connections` with `bool func_connected`
+>   - rename `bool connected` to `bool is_uvc_app_handle`
+> 
+> v2:
+>   - fix deadlock in `uvc_v4l2_unsubscribe_event()` (mutex is already
+>   locked in v4l2-core) introduced in v1
+> - lock mutex in `uvc_v4l2_release()` to suppress ioctls and protect
+>   connected
+> ---
+>  drivers/usb/gadget/function/uvc.h      |  2 ++
+>  drivers/usb/gadget/function/uvc_v4l2.c | 49 ++++++++++++++++++++++----
+>  2 files changed, 44 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+> index 255a61bd6a6a8..9d5f17b551bbd 100644
+> --- a/drivers/usb/gadget/function/uvc.h
+> +++ b/drivers/usb/gadget/function/uvc.h
+> @@ -126,6 +126,7 @@ struct uvc_device {
+>  	enum uvc_state state;
+>  	struct usb_function func;
+>  	struct uvc_video video;
+> +	bool func_connected;
 >  
-> +/**
-> + * struct ipu3_uapi_awb_set_item - Memory layout for each cell in AWB
-> + *
-> + * @Gr_avg:	Green average for red lines in the cell.
-> + * @R_avg:	Red average in the cell.
-> + * @B_avg:	Blue average in the cell.
-> + * @Gb_avg:	Green average for blue lines in the cell.
-> + * @sat_ratio:  Saturation ratio in the cell.
-
-Do we have more information about this field ? We can add it later if we
-don't.
-
-> + * @padding0:   Unused byte for padding.
-> + * @padding1:   Unused byte for padding.
-> + * @padding2:   Unused byte for padding.
-> + */
-> +struct ipu3_uapi_awb_set_item {
-> +	__u8 Gr_avg;
-> +	__u8 R_avg;
-> +	__u8 B_avg;
-> +	__u8 Gb_avg;
-> +	__u8 sat_ratio;
-> +	__u8 padding0;
-> +	__u8 padding1;
-> +	__u8 padding2;
-> +} __attribute__((packed));
+>  	/* Descriptors */
+>  	struct {
+> @@ -156,6 +157,7 @@ static inline struct uvc_device *to_uvc(struct usb_function *f)
+>  struct uvc_file_handle {
+>  	struct v4l2_fh vfh;
+>  	struct uvc_video *device;
+> +	bool is_uvc_app_handle;
+>  };
+>  
+>  #define to_uvc_file_handle(handle) \
+> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+> index 4ca89eab61590..197c26f7aec63 100644
+> --- a/drivers/usb/gadget/function/uvc_v4l2.c
+> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
+> @@ -227,17 +227,55 @@ static int
+>  uvc_v4l2_subscribe_event(struct v4l2_fh *fh,
+>  			 const struct v4l2_event_subscription *sub)
+>  {
+> +	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
+> +	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
+> +	int ret;
 > +
->  /*
->   * The grid based data is divided into "slices" called set, each slice of setX
->   * refers to ipu3_uapi_grid_config width * height_per_slice.
-> @@ -73,8 +96,9 @@ struct ipu3_uapi_grid_config {
->  	(IPU3_UAPI_MAX_BUBBLE_SIZE * IPU3_UAPI_MAX_STRIPES * \
->  	 IPU3_UAPI_AWB_MD_ITEM_SIZE)
->  #define IPU3_UAPI_AWB_MAX_BUFFER_SIZE \
-> -	(IPU3_UAPI_AWB_MAX_SETS * \
-> -	 (IPU3_UAPI_AWB_SET_SIZE + IPU3_UAPI_AWB_SPARE_FOR_BUBBLES))
-> +	((IPU3_UAPI_AWB_MAX_SETS * \
-> +	 (IPU3_UAPI_AWB_SET_SIZE + IPU3_UAPI_AWB_SPARE_FOR_BUBBLES)) / \
-> +	 sizeof(struct ipu3_uapi_awb_set_item))
-
-We'll really have to figure out what the bubbles are... Not in this
-patch though.
-
-Given that IPU3_UAPI_AWB_MD_ITEM_SIZE is equal to the size of one item,
-how about this ?
-
-diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-index ee0e6d0e4b2c..a18e9228ed07 100644
---- a/include/linux/intel-ipu3.h
-+++ b/include/linux/intel-ipu3.h
-@@ -65,11 +65,9 @@ struct ipu3_uapi_grid_config {
-  */
- #define IPU3_UAPI_AWB_MAX_SETS				60
- /* Based on grid size 80 * 60 and cell size 16 x 16 */
--#define IPU3_UAPI_AWB_SET_SIZE				1280
--#define IPU3_UAPI_AWB_MD_ITEM_SIZE			8
-+#define IPU3_UAPI_AWB_SET_SIZE				160
- #define IPU3_UAPI_AWB_SPARE_FOR_BUBBLES \
--	(IPU3_UAPI_MAX_BUBBLE_SIZE * IPU3_UAPI_MAX_STRIPES * \
--	 IPU3_UAPI_AWB_MD_ITEM_SIZE)
-+	(IPU3_UAPI_MAX_BUBBLE_SIZE * IPU3_UAPI_MAX_STRIPES)
- #define IPU3_UAPI_AWB_MAX_BUFFER_SIZE \
- 	(IPU3_UAPI_AWB_MAX_SETS * \
- 	 (IPU3_UAPI_AWB_SET_SIZE + IPU3_UAPI_AWB_SPARE_FOR_BUBBLES))
-
+>  	if (sub->type < UVC_EVENT_FIRST || sub->type > UVC_EVENT_LAST)
+>  		return -EINVAL;
 >  
->  /**
->   * struct ipu3_uapi_awb_raw_buffer - AWB raw buffer
-> @@ -83,7 +107,7 @@ struct ipu3_uapi_grid_config {
->   *		the average values for each color channel.
->   */
->  struct ipu3_uapi_awb_raw_buffer {
-> -	__u8 meta_data[IPU3_UAPI_AWB_MAX_BUFFER_SIZE]
-> +	struct ipu3_uapi_awb_set_item meta_data[IPU3_UAPI_AWB_MAX_BUFFER_SIZE]
->  		__attribute__((aligned(32)));
->  } __packed;
+> -	return v4l2_event_subscribe(fh, sub, 2, NULL);
+> +	if (sub->type == UVC_EVENT_SETUP && uvc->func_connected)
+> +		return -EBUSY;
+> +
+> +	ret = v4l2_event_subscribe(fh, sub, 2, NULL);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (sub->type == UVC_EVENT_SETUP) {
+> +		uvc->func_connected = true;
+> +		handle->is_uvc_app_handle = true;
+> +		uvc_function_connect(uvc);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void uvc_v4l2_disable(struct uvc_device *uvc)
+> +{
+> +	uvc->func_connected = false;
+> +	uvc_function_disconnect(uvc);
+> +	uvcg_video_enable(&uvc->video, 0);
+> +	uvcg_free_buffers(&uvc->video.queue);
+>  }
 >  
+>  static int
+>  uvc_v4l2_unsubscribe_event(struct v4l2_fh *fh,
+>  			   const struct v4l2_event_subscription *sub)
+>  {
+> -	return v4l2_event_unsubscribe(fh, sub);
+> +	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
+> +	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
+> +	int ret;
+> +
+> +	ret = v4l2_event_unsubscribe(fh, sub);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (sub->type == UVC_EVENT_SETUP && handle->is_uvc_app_handle) {
+> +		uvc_v4l2_disable(uvc);
+> +		handle->is_uvc_app_handle = false;
+> +	}
+> +
+> +	return 0;
+>  }
+>  
+>  static long
+> @@ -292,7 +330,6 @@ uvc_v4l2_open(struct file *file)
+>  	handle->device = &uvc->video;
+>  	file->private_data = &handle->vfh;
+>  
+> -	uvc_function_connect(uvc);
+>  	return 0;
+>  }
+>  
+> @@ -304,11 +341,9 @@ uvc_v4l2_release(struct file *file)
+>  	struct uvc_file_handle *handle = to_uvc_file_handle(file->private_data);
+>  	struct uvc_video *video = handle->device;
+>  
+> -	uvc_function_disconnect(uvc);
+> -
+>  	mutex_lock(&video->mutex);
+> -	uvcg_video_enable(video, 0);
+> -	uvcg_free_buffers(&video->queue);
+> +	if (handle->is_uvc_app_handle)
+> +		uvc_v4l2_disable(uvc);
+>  	mutex_unlock(&video->mutex);
+>  
+>  	file->private_data = NULL;
 
 -- 
 Regards,
