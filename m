@@ -2,82 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C32DB42157F
-	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 19:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B471421987
+	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 23:59:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238400AbhJDRwW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Oct 2021 13:52:22 -0400
-Received: from mail-oi1-f170.google.com ([209.85.167.170]:34643 "EHLO
-        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238431AbhJDRwO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Oct 2021 13:52:14 -0400
-Received: by mail-oi1-f170.google.com with SMTP id z11so22696836oih.1;
-        Mon, 04 Oct 2021 10:50:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nExK0Sv28mbDB3Mt1OQhUPXvDIcix9XdHS0KQ339UaA=;
-        b=4TFQhVHjAILbW1VQaNH8sz//SC52ciZYHJjcFmPFaaRZtxUkeKCfVHRnzR9ZGro1BU
-         DnD0ivwAX8USCdI45Gy9+9fkOkAou4Jb2OSYukCusj9qQ8DQCxxpWWOiiQvNksD35O5D
-         KhFEAoE74uijcnKcsYlQAxNa3AdbwbTNJC4ER4gnYadEWwotcqkc4pAkuUx88vOZ0fN5
-         283muosu5aejTRLPfYUlYtLHS/ppq+iu9QLBpUqtQBfTFp/e7zZHtFX82ZCKa/GSqjSP
-         GjtuO8EmzUu8rc7UeyGgCaKtllA5zB8beJnVkDvnF+tihIy7vgCu3SQkyt3f4u67cp47
-         WG6Q==
-X-Gm-Message-State: AOAM5323Kyar6ztz+OGc+zlHTs6o2qQnnJZVjkkq/E2U2W9EKTbuFNlB
-        VU7Egfcpwey2QQ/vEuIefQ==
-X-Google-Smtp-Source: ABdhPJxMQm9vu5rBQQ5RoKlPfiDHh/XfWflRLqQTnEdgqzQ6yZh5clCu6/D1ptFLE2757iK4ibZG7g==
-X-Received: by 2002:aca:604:: with SMTP id 4mr14070540oig.8.1633369824777;
-        Mon, 04 Oct 2021 10:50:24 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id p18sm3105444otk.7.2021.10.04.10.50.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Oct 2021 10:50:23 -0700 (PDT)
-Received: (nullmailer pid 1551421 invoked by uid 1000);
-        Mon, 04 Oct 2021 17:50:22 -0000
-Date:   Mon, 4 Oct 2021 12:50:22 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Justin Chen <justinpopo6@gmail.com>
-Cc:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        linux-kernel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        bcm-kernel-feedback-list@broadcom.com,
-        dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
-        Doug Berger <opendmb@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        linaro-mm-sig@lists.linaro.org,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        devicetree@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        Michael Chan <michael.chan@broadcom.com>
-Subject: Re: [PATCH net-next 2/5] dt-bindings: net: brcm,unimac-mdio: Add
- asp-v2.0
-Message-ID: <YVs+3mfImSGq9ww9@robh.at.kernel.org>
-References: <1632519891-26510-1-git-send-email-justinpopo6@gmail.com>
- <1632519891-26510-3-git-send-email-justinpopo6@gmail.com>
+        id S233487AbhJDWAw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Oct 2021 18:00:52 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54378 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233319AbhJDWAv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Oct 2021 18:00:51 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F9955A1;
+        Mon,  4 Oct 2021 23:59:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1633384741;
+        bh=jEYa4ieG9XUiVKz082BinXgkZ1IxYFrGQisCTV/1Z5g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=v1MN3v/lqjbgqrfOxWNTr3LUPONVncV3Po67SBg/7PO85zithk/VPMa2gQLFPv4eC
+         t8TQ0QHJFKeRuucCR2vXHTsF3bAaCqqch5GS7ZoExIbbhe6TFVlp0SiCaalk38J5dK
+         0FolipUDIRatKK10ZURnE4KAwYxVBl0T+xx4SyLQ=
+Date:   Tue, 5 Oct 2021 00:58:54 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        bingbu.cao@intel.com, tfiga@google.com, tian.shu.qiu@intel.com
+Subject: Re: [PATCH] media: staging: ipu3-imgu: add the AWB memory layout
+Message-ID: <YVt5HhjiP9i85ZMZ@pendragon.ideasonboard.com>
+References: <20210930092021.65741-1-jeanmichel.hautbois@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1632519891-26510-3-git-send-email-justinpopo6@gmail.com>
+In-Reply-To: <20210930092021.65741-1-jeanmichel.hautbois@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 24 Sep 2021 14:44:48 -0700, Justin Chen wrote:
-> The ASP 2.0 Ethernet controller uses a brcm unimac.
-> 
-> Signed-off-by: Justin Chen <justinpopo6@gmail.com>
-> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-> ---
->  Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+Hi Jean-Michel,
 
-Acked-by: Rob Herring <robh@kernel.org>
+Thank you for the patch.
+
+On Thu, Sep 30, 2021 at 11:20:21AM +0200, Jean-Michel Hautbois wrote:
+> While parsing the RAW AWB metadata, the AWB layout was missing to fully
+> understand which byte corresponds to which feature. Make the field names
+> and usage explicit, as it is used by the userspace applications.
+
+I would have mentioned how the hardware (or maybe firmware) generates
+the statistics instead of how applications consume them, as it's the
+IPU3 dictating the format, but it doesn't matter too much.
+
+> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> ---
+>  .../media/ipu3/include/uapi/intel-ipu3.h      | 30 +++++++++++++++++--
+>  1 file changed, 27 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+> index 585f55981c86..fdda9d0a30af 100644
+> --- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+> +++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+> @@ -61,6 +61,29 @@ struct ipu3_uapi_grid_config {
+>  	__u16 y_end;
+>  } __packed;
+>  
+> +/**
+> + * struct ipu3_uapi_awb_set_item - Memory layout for each cell in AWB
+> + *
+> + * @Gr_avg:	Green average for red lines in the cell.
+> + * @R_avg:	Red average in the cell.
+> + * @B_avg:	Blue average in the cell.
+> + * @Gb_avg:	Green average for blue lines in the cell.
+> + * @sat_ratio:  Saturation ratio in the cell.
+
+Do we have more information about this field ? We can add it later if we
+don't.
+
+> + * @padding0:   Unused byte for padding.
+> + * @padding1:   Unused byte for padding.
+> + * @padding2:   Unused byte for padding.
+> + */
+> +struct ipu3_uapi_awb_set_item {
+> +	__u8 Gr_avg;
+> +	__u8 R_avg;
+> +	__u8 B_avg;
+> +	__u8 Gb_avg;
+> +	__u8 sat_ratio;
+> +	__u8 padding0;
+> +	__u8 padding1;
+> +	__u8 padding2;
+> +} __attribute__((packed));
+> +
+>  /*
+>   * The grid based data is divided into "slices" called set, each slice of setX
+>   * refers to ipu3_uapi_grid_config width * height_per_slice.
+> @@ -73,8 +96,9 @@ struct ipu3_uapi_grid_config {
+>  	(IPU3_UAPI_MAX_BUBBLE_SIZE * IPU3_UAPI_MAX_STRIPES * \
+>  	 IPU3_UAPI_AWB_MD_ITEM_SIZE)
+>  #define IPU3_UAPI_AWB_MAX_BUFFER_SIZE \
+> -	(IPU3_UAPI_AWB_MAX_SETS * \
+> -	 (IPU3_UAPI_AWB_SET_SIZE + IPU3_UAPI_AWB_SPARE_FOR_BUBBLES))
+> +	((IPU3_UAPI_AWB_MAX_SETS * \
+> +	 (IPU3_UAPI_AWB_SET_SIZE + IPU3_UAPI_AWB_SPARE_FOR_BUBBLES)) / \
+> +	 sizeof(struct ipu3_uapi_awb_set_item))
+
+We'll really have to figure out what the bubbles are... Not in this
+patch though.
+
+Given that IPU3_UAPI_AWB_MD_ITEM_SIZE is equal to the size of one item,
+how about this ?
+
+diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+index ee0e6d0e4b2c..a18e9228ed07 100644
+--- a/include/linux/intel-ipu3.h
++++ b/include/linux/intel-ipu3.h
+@@ -65,11 +65,9 @@ struct ipu3_uapi_grid_config {
+  */
+ #define IPU3_UAPI_AWB_MAX_SETS				60
+ /* Based on grid size 80 * 60 and cell size 16 x 16 */
+-#define IPU3_UAPI_AWB_SET_SIZE				1280
+-#define IPU3_UAPI_AWB_MD_ITEM_SIZE			8
++#define IPU3_UAPI_AWB_SET_SIZE				160
+ #define IPU3_UAPI_AWB_SPARE_FOR_BUBBLES \
+-	(IPU3_UAPI_MAX_BUBBLE_SIZE * IPU3_UAPI_MAX_STRIPES * \
+-	 IPU3_UAPI_AWB_MD_ITEM_SIZE)
++	(IPU3_UAPI_MAX_BUBBLE_SIZE * IPU3_UAPI_MAX_STRIPES)
+ #define IPU3_UAPI_AWB_MAX_BUFFER_SIZE \
+ 	(IPU3_UAPI_AWB_MAX_SETS * \
+ 	 (IPU3_UAPI_AWB_SET_SIZE + IPU3_UAPI_AWB_SPARE_FOR_BUBBLES))
+
+>  
+>  /**
+>   * struct ipu3_uapi_awb_raw_buffer - AWB raw buffer
+> @@ -83,7 +107,7 @@ struct ipu3_uapi_grid_config {
+>   *		the average values for each color channel.
+>   */
+>  struct ipu3_uapi_awb_raw_buffer {
+> -	__u8 meta_data[IPU3_UAPI_AWB_MAX_BUFFER_SIZE]
+> +	struct ipu3_uapi_awb_set_item meta_data[IPU3_UAPI_AWB_MAX_BUFFER_SIZE]
+>  		__attribute__((aligned(32)));
+>  } __packed;
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
