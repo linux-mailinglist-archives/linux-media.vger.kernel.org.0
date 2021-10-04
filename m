@@ -2,63 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C781421484
-	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 18:56:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C32DB42157F
+	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 19:51:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237741AbhJDQ5r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Oct 2021 12:57:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58340 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237718AbhJDQ5p (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 4 Oct 2021 12:57:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 83BD7613D5;
-        Mon,  4 Oct 2021 16:55:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633366556;
-        bh=t2FGgy/ZmUcae32+QHqHrM+MJ8eOfljtdVyackkRL6k=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=aMNgWq6sVIckArpn1lQ9YOcXn5gAChBF8I+s2HY81nvV+JOM/SKBSygOCJXzNJ8kI
-         bpVHfU/q0L0ohcwnrjKxdCYJIA/UMiD9CQDRfe4TD4mGESO/XIqeCAHoB+WJPKgjjn
-         uZ0br3mulMKIlMXOYDKxpB/lNWtCNC6rrz7EJ2aWm3Mx+kAc1gLXjr1/CudeoWBAi3
-         cNL/E8tMrJTbM3zVkWQbya6YeVckYa2cB1oWfsrPHOmV6Yfs46DFqzvb2Hn2bprgmu
-         rxJnCW2GG2qX8nOfkOtgvCMj3o1r5w8Vmi7jasiwKS20jOXlS8KnwTjjizPeduBWad
-         KuieimdtEKVlA==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 7BD8C60971;
-        Mon,  4 Oct 2021 16:55:56 +0000 (UTC)
-Subject: Re: [GIT PULL for v5.15-rc5] media fixes
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20211004175922.39809118@coco.lan>
-References: <20211004175922.39809118@coco.lan>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20211004175922.39809118@coco.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.15-3
-X-PR-Tracked-Commit-Id: 206704a1fe0bcaaa036d3e90358bb168fac8bea1
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 84b3e42564accd94c2680e3ba42717c32c8b5fc4
-Message-Id: <163336655650.28831.1943845365861034110.pr-tracker-bot@kernel.org>
-Date:   Mon, 04 Oct 2021 16:55:56 +0000
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>
+        id S238400AbhJDRwW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Oct 2021 13:52:22 -0400
+Received: from mail-oi1-f170.google.com ([209.85.167.170]:34643 "EHLO
+        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238431AbhJDRwO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Oct 2021 13:52:14 -0400
+Received: by mail-oi1-f170.google.com with SMTP id z11so22696836oih.1;
+        Mon, 04 Oct 2021 10:50:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=nExK0Sv28mbDB3Mt1OQhUPXvDIcix9XdHS0KQ339UaA=;
+        b=4TFQhVHjAILbW1VQaNH8sz//SC52ciZYHJjcFmPFaaRZtxUkeKCfVHRnzR9ZGro1BU
+         DnD0ivwAX8USCdI45Gy9+9fkOkAou4Jb2OSYukCusj9qQ8DQCxxpWWOiiQvNksD35O5D
+         KhFEAoE74uijcnKcsYlQAxNa3AdbwbTNJC4ER4gnYadEWwotcqkc4pAkuUx88vOZ0fN5
+         283muosu5aejTRLPfYUlYtLHS/ppq+iu9QLBpUqtQBfTFp/e7zZHtFX82ZCKa/GSqjSP
+         GjtuO8EmzUu8rc7UeyGgCaKtllA5zB8beJnVkDvnF+tihIy7vgCu3SQkyt3f4u67cp47
+         WG6Q==
+X-Gm-Message-State: AOAM5323Kyar6ztz+OGc+zlHTs6o2qQnnJZVjkkq/E2U2W9EKTbuFNlB
+        VU7Egfcpwey2QQ/vEuIefQ==
+X-Google-Smtp-Source: ABdhPJxMQm9vu5rBQQ5RoKlPfiDHh/XfWflRLqQTnEdgqzQ6yZh5clCu6/D1ptFLE2757iK4ibZG7g==
+X-Received: by 2002:aca:604:: with SMTP id 4mr14070540oig.8.1633369824777;
+        Mon, 04 Oct 2021 10:50:24 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id p18sm3105444otk.7.2021.10.04.10.50.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Oct 2021 10:50:23 -0700 (PDT)
+Received: (nullmailer pid 1551421 invoked by uid 1000);
+        Mon, 04 Oct 2021 17:50:22 -0000
+Date:   Mon, 4 Oct 2021 12:50:22 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Justin Chen <justinpopo6@gmail.com>
+Cc:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        bcm-kernel-feedback-list@broadcom.com,
+        dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+        Doug Berger <opendmb@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        linaro-mm-sig@lists.linaro.org,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        Michael Chan <michael.chan@broadcom.com>
+Subject: Re: [PATCH net-next 2/5] dt-bindings: net: brcm,unimac-mdio: Add
+ asp-v2.0
+Message-ID: <YVs+3mfImSGq9ww9@robh.at.kernel.org>
+References: <1632519891-26510-1-git-send-email-justinpopo6@gmail.com>
+ <1632519891-26510-3-git-send-email-justinpopo6@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1632519891-26510-3-git-send-email-justinpopo6@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pull request you sent on Mon, 4 Oct 2021 17:59:22 +0200:
+On Fri, 24 Sep 2021 14:44:48 -0700, Justin Chen wrote:
+> The ASP 2.0 Ethernet controller uses a brcm unimac.
+> 
+> Signed-off-by: Justin Chen <justinpopo6@gmail.com>
+> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.15-3
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/84b3e42564accd94c2680e3ba42717c32c8b5fc4
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Acked-by: Rob Herring <robh@kernel.org>
