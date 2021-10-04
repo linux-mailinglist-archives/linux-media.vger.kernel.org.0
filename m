@@ -2,84 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0F494213FC
-	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 18:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C781421484
+	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 18:56:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236889AbhJDQZ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Oct 2021 12:25:27 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:54102 "EHLO www.linuxtv.org"
+        id S237741AbhJDQ5r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Oct 2021 12:57:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58340 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236674AbhJDQZ0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 4 Oct 2021 12:25:26 -0400
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mXQka-004rdo-JM; Mon, 04 Oct 2021 16:23:36 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mXQkY-007qXt-HJ; Mon, 04 Oct 2021 16:23:34 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for v5.15-rc5] media fixes (#77421)
-Date:   Mon,  4 Oct 2021 16:23:34 +0000
-Message-Id: <20211004162334.1870235-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
+        id S237718AbhJDQ5p (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 4 Oct 2021 12:57:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 83BD7613D5;
+        Mon,  4 Oct 2021 16:55:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1633366556;
+        bh=t2FGgy/ZmUcae32+QHqHrM+MJ8eOfljtdVyackkRL6k=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=aMNgWq6sVIckArpn1lQ9YOcXn5gAChBF8I+s2HY81nvV+JOM/SKBSygOCJXzNJ8kI
+         bpVHfU/q0L0ohcwnrjKxdCYJIA/UMiD9CQDRfe4TD4mGESO/XIqeCAHoB+WJPKgjjn
+         uZ0br3mulMKIlMXOYDKxpB/lNWtCNC6rrz7EJ2aWm3Mx+kAc1gLXjr1/CudeoWBAi3
+         cNL/E8tMrJTbM3zVkWQbya6YeVckYa2cB1oWfsrPHOmV6Yfs46DFqzvb2Hn2bprgmu
+         rxJnCW2GG2qX8nOfkOtgvCMj3o1r5w8Vmi7jasiwKS20jOXlS8KnwTjjizPeduBWad
+         KuieimdtEKVlA==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 7BD8C60971;
+        Mon,  4 Oct 2021 16:55:56 +0000 (UTC)
+Subject: Re: [GIT PULL for v5.15-rc5] media fixes
+From:   pr-tracker-bot@kernel.org
 In-Reply-To: <20211004175922.39809118@coco.lan>
-References: 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211004175922.39809118@coco.lan>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20211004175922.39809118@coco.lan>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.15-3
+X-PR-Tracked-Commit-Id: 206704a1fe0bcaaa036d3e90358bb168fac8bea1
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 84b3e42564accd94c2680e3ba42717c32c8b5fc4
+Message-Id: <163336655650.28831.1943845365861034110.pr-tracker-bot@kernel.org>
+Date:   Mon, 04 Oct 2021 16:55:56 +0000
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+The pull request you sent on Mon, 4 Oct 2021 17:59:22 +0200:
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20211004175922.39809118@coco.lan/
-Build log: https://builder.linuxtv.org/job/patchwork/145095/
-Build time: 00:20:48
-Link: https://lore.kernel.org/linux-media/20211004175922.39809118@coco.lan
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.15-3
 
-gpg: Signature made Mon 04 Oct 2021 03:55:09 PM UTC
-gpg:                using RSA key F909AE68FC11DF09C1755C00085F3EBD8EE4E115
-gpg: Good signature from "Mauro Carvalho Chehab <mchehab+huawei@kernel.org>" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@kernel.org>" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <m.chehab@samsung.com>" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@osg.samsung.com>" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@s-opensource.com>" [unknown]
-gpg:                 aka "[jpeg image of size 3594]" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab+samsung@kernel.org>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: F909 AE68 FC11 DF09 C175  5C00 085F 3EBD 8EE4 E115
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/84b3e42564accd94c2680e3ba42717c32c8b5fc4
 
-Summary: got 1/1 patches with issues, being 1 at build time
+Thank you!
 
-Error/warnings:
-
-patches/0001-media-atomisp-restore-missing-return-statement.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20: warning: incorrect type in assignment (different base types)
-	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20:    expected restricted __be16 [usertype]
-	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20:    got int
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2401 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2579 dvb_register() error: we previously assumed 'fe1->dvb.frontend' could be null (see line 1743)
-	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2786 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
