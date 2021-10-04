@@ -2,96 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58771421217
-	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 16:55:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 482CB42133E
+	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 17:59:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235350AbhJDO4v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Oct 2021 10:56:51 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:43720 "EHLO www.linuxtv.org"
+        id S236129AbhJDQBT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Oct 2021 12:01:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36526 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234270AbhJDO4u (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 4 Oct 2021 10:56:50 -0400
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mXPMr-004lyh-16; Mon, 04 Oct 2021 14:55:01 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mXPMo-006xnJ-2Q; Mon, 04 Oct 2021 14:54:58 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.16] Various fixes (#77419)
-Date:   Mon,  4 Oct 2021 14:54:57 +0000
-Message-Id: <20211004145457.1659771-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <2b37b3f6-0dd4-3977-fd97-1c5281985b8a@xs4all.nl>
-References: 
+        id S236108AbhJDQBP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 4 Oct 2021 12:01:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F3C16139F;
+        Mon,  4 Oct 2021 15:59:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1633363166;
+        bh=ruLqSZwcgsLzJUDP9aLVM7caarwMV4tsqPQF1fYxMTg=;
+        h=Date:From:To:Cc:Subject:From;
+        b=TiM7wY+xoMC75h/isvuOuCwbokDqzNaN19HWjXJ8CNYY7dTv7qft/ipb5ed45Kcyt
+         OzJNFqcfmBImKoGHQsWf2XVDs0RH5HGIDRie96dznWnX+jio038j7C1bjy2IvjIUdh
+         DA0kD6uDCYAwLu2k6IMTdgV4mGwOIkY46hJMQorQ4MLa9NX7wKhizeFYizOjXFUvmp
+         H6hcCOWbAJrlirxh27V1iVU2aaE+nZ8MlGyady0bB/IxOoxx9pDLjJgXn1xUDcHN5F
+         yPQm2OAIqrI+CX6KWky1mkPswsjGtwD4pJyBxgdkQXriY1v6hRB7eZquzLEbKrq2RQ
+         jpVEn07LXhNnw==
+Date:   Mon, 4 Oct 2021 17:59:22 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [GIT PULL for v5.15-rc5] media fixes
+Message-ID: <20211004175922.39809118@coco.lan>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Linus,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/2b37b3f6-0dd4-3977-fd97-1c5281985b8a@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/145080/
-Build time: 00:45:12
-Link: https://lore.kernel.org/linux-media/2b37b3f6-0dd4-3977-fd97-1c5281985b8a@xs4all.nl
+Could you please pull from:
+  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.15-3
 
-gpg: Signature made Mon 04 Oct 2021 01:51:11 PM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+There's just one patch here, fixing a -Werror issue at staging/atomisp.
 
-Summary: got 3/19 patches with issues, being 2 at build time, plus one error when buinding PDF document
+Such patch is already at linux-next for quite a while, aiming 5.16, but
+almost every week we're receiving a new variant of it.
 
-Error/warnings:
+So, the better is to merge this one early.
 
-patches/0001-media-rcar-csi2-Add-checking-to-rcsi2_start_receiver.patch:
+Regards,
+Mauro
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+The following changes since commit f0c15b360fb65ee39849afe987c16eb3d0175d0d:
 
-    allyesconfig: return code #0:
-	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20: warning: incorrect type in assignment (different base types)
-	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20:    expected restricted __be16 [usertype]
-	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20:    got int
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+  media: ir_toy: prevent device from hanging during transmit (2021-09-19 11:19:37 +0200)
 
-patches/0007-media-v4l2-dev.h-move-open-brace-after-struct-video_.patch:
+are available in the Git repository at:
 
-    allyesconfig: return code #0:
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.15-3
 
-patches/0013-media-rcar-vin-add-GREY-format.patch:
+for you to fetch changes up to 206704a1fe0bcaaa036d3e90358bb168fac8bea1:
 
-   checkpatch.pl:
-	$ cat patches/0013-media-rcar-vin-add-GREY-format.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:29: CHECK: Prefer using the BIT macro
+  media: atomisp: restore missing 'return' statement (2021-10-04 17:54:48 +0200)
 
+----------------------------------------------------------------
+media fixes for v5.15-rc5
 
-Error #512 when building PDF docs
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      media: atomisp: restore missing 'return' statement
+
+ .../staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c   | 2 ++
+ 1 file changed, 2 insertions(+)
 
