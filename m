@@ -2,131 +2,358 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A9A74210CF
-	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 15:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56FF8421103
+	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 16:09:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237350AbhJDN60 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Oct 2021 09:58:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40340 "EHLO
+        id S232999AbhJDOL2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Oct 2021 10:11:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235525AbhJDN6J (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Oct 2021 09:58:09 -0400
-Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0515AC06135F
-        for <linux-media@vger.kernel.org>; Mon,  4 Oct 2021 06:52:34 -0700 (PDT)
+        with ESMTP id S231765AbhJDOL2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Oct 2021 10:11:28 -0400
+Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::1b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F829C061745
+        for <linux-media@vger.kernel.org>; Mon,  4 Oct 2021 07:09:38 -0700 (PDT)
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id XOOKmlVNIMjraXOONmWRic; Mon, 04 Oct 2021 15:52:31 +0200
+        id XOermlbLvMjraXOeumWUFM; Mon, 04 Oct 2021 16:09:37 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1633355551; bh=BOJDPJ3rsL1cV6oVSK9+lha07XjW98Iod/Ia52r7yMI=;
+        t=1633356577; bh=tynXQrk3OyPV91xd5Y2TM553gcvXfQxyl9Qg4DfzSfk=;
         h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=cfc/R4JpUOjQyIsAY8crntsdV5mZAoElw82wVxmzQTy0Nb5A/srWMmxsBFtYL/Ill
-         2RWbJXO7THtiizdZRQBK4hlXe3yU9E2jCCUhf8VnRsICYIFfVBt3jlK8tLHK0RiJKv
-         tXq8FarbC/UlQJgIryswITnVAYitxDbDvEMMywb/vKqTi3WIwVwCZjOnp0JQdqhqwj
-         xrToglDNN+kDGB/idfTxa9R298rJyeFfGnrUfrqmmZ433n57JlTZkROPtR+G6xcjnn
-         jcJpC0nDVpqvHe3+Arx/Ts9/wCr9X6XIHM1lyqD0bbGIGpLEF/+4U7IwKE9X6MkW+U
-         Use+m2YDIFStw==
+        b=e7Zc6xJHFgY4QisXo7TNc16q+iQctLa3O7MzNCUqi505q7k4L0sXEIZ/ZRj4VAlDr
+         UpNduMt4GKOChR7GfPv8gUCR6KJYDQK+Ie+ZkJcPj403LV3W6SRWQLZCI8nE9yvP+m
+         bd43y1JC63LhFjLpFzrirEElJ575MRreW/FaxNulXoxF9eMXbYuJsVD+i/0W1gKPZR
+         dxkNdXCuK8gdndAKPmDs7svabC7m61zfJFGPwkr1KhGin9LNEkfnS7lqCBLQMR1D2x
+         50UuoLGC4ODbbqVE88mdqGO4etQ/eFC7Ki9X7iILbETgvIPQoZhC3pDj9xySauA2Je
+         3g58YOJpunFuw==
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.16] Various fixes
-Message-ID: <2b37b3f6-0dd4-3977-fd97-1c5281985b8a@xs4all.nl>
-Date:   Mon, 4 Oct 2021 15:52:28 +0200
+Subject: [PATCH] gspca/gl860-mi1320/ov9655: avoid -Wstring-concatenation
+ warning
+Message-ID: <a2a1d09b-8bd1-f622-3734-0d64943db6bd@xs4all.nl>
+Date:   Mon, 4 Oct 2021 16:09:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfFlxtnNbo64Z2WUUPGivDs3F+RlNyOYQd6cuNOefEb/yc+V4t1ZLzVLTF9f83uWOC5NUZWdkeYctc32wPp8Aka1iMmkUn2i6n5PQgIe5gtzCKk8I6C+U
- 1chgrfWqgQTdZmivTOrBR49iJoY0jk+6ADckpLaPmrQM7luFWVfOgwdSd5ysHxHZqjf5kMOLv54CXOffxH/Mp7LhiDeA/pu7IFM=
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfHzI05RhY4gUewtYFDNjTSNegi6eZAq1UDmKHtOdPxFRZHHBPr0ixs2Jb0shPcqoADpNti21zkMfAV80jLZyj0vPLt7tXUYstdJ/fEucCRCXyWbws72o
+ qVqF2GF4mXRs8VS0uLmkcUTT8ztKY7L6cdAVuc5wlBWSvlae2Qoko3k6NUjcIHI0HeZatTdo5Whg/7DuJKzFBncEotHHyhuxippkKqsDL1fqUOF5ZUcKAFdB
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit c52e7b855b33ff2a3af57b1b1d114720cd39ec7e:
+Newer clang versions are suspicious of definitions that mix concatenated
+strings with comma-separated arrays of strings, this has found real bugs
+elsewhere, but this seems to be a false positive:
 
-  Merge tag 'v5.15-rc4' into media_tree (2021-10-04 07:52:13 +0200)
+drivers/media/usb/gspca/gl860/gl860-mi1320.c:62:37: error: suspicious concatenation of string literals in an array initialization; did you
+mean to separate the elements with a comma? [-Werror,-Wstring-concatenation]
+        "\xd3\x02\xd4\x28\xd5\x01\xd0\x02" "\xd1\x18\xd2\xc1"
+                                           ^
+                                          ,
+drivers/media/usb/gspca/gl860/gl860-mi1320.c:62:2: note: place parentheses around the string literal to silence warning
+        "\xd3\x02\xd4\x28\xd5\x01\xd0\x02" "\xd1\x18\xd2\xc1"
 
-are available in the Git repository at:
+Replace the string literals by compound initializers, using normal hex numbers.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.16g
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reported-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/media/usb/gspca/gl860/gl860-mi1320.c |  87 ++++++----
+ drivers/media/usb/gspca/gl860/gl860-ov9655.c | 169 ++++++++++++-------
+ 2 files changed, 166 insertions(+), 90 deletions(-)
 
-for you to fetch changes up to 8a99f5847660a1b0a305c22bf6d5ab280fba5469:
+diff --git a/drivers/media/usb/gspca/gl860/gl860-mi1320.c b/drivers/media/usb/gspca/gl860/gl860-mi1320.c
+index 0749fe13160f..d6a540ed378c 100644
+--- a/drivers/media/usb/gspca/gl860/gl860-mi1320.c
++++ b/drivers/media/usb/gspca/gl860/gl860-mi1320.c
+@@ -50,42 +50,69 @@ static struct validx tbl_post_unset_alt[] = {
+ };
 
-  media: imx-jpeg: Remove soft reset between frames encoding (2021-10-04 12:38:55 +0200)
+ static u8 *tbl_1280[] = {
+-	"\x0d\x80\xf1\x08\x03\x04\xf1\x00" "\x04\x05\xf1\x02\x05\x00\xf1\xf1"
+-	"\x06\x00\xf1\x0d\x20\x01\xf1\x00" "\x21\x84\xf1\x00\x0d\x00\xf1\x08"
+-	"\xf0\x00\xf1\x01\x34\x00\xf1\x00" "\x9b\x43\xf1\x00\xa6\x05\xf1\x00"
+-	"\xa9\x04\xf1\x00\xa1\x05\xf1\x00" "\xa4\x04\xf1\x00\xae\x0a\xf1\x08"
+-	,
+-	"\xf0\x00\xf1\x02\x3a\x05\xf1\xf1" "\x3c\x05\xf1\xf1\x59\x01\xf1\x47"
+-	"\x5a\x01\xf1\x88\x5c\x0a\xf1\x06" "\x5d\x0e\xf1\x0a\x64\x5e\xf1\x1c"
+-	"\xd2\x00\xf1\xcf\xcb\x00\xf1\x01"
+-	,
+-	"\xd3\x02\xd4\x28\xd5\x01\xd0\x02" "\xd1\x18\xd2\xc1"
++	(u8[]){
++		0x0d, 0x80, 0xf1, 0x08, 0x03, 0x04, 0xf1, 0x00,
++		0x04, 0x05, 0xf1, 0x02, 0x05, 0x00, 0xf1, 0xf1,
++		0x06, 0x00, 0xf1, 0x0d, 0x20, 0x01, 0xf1, 0x00,
++		0x21, 0x84, 0xf1, 0x00, 0x0d, 0x00, 0xf1, 0x08,
++		0xf0, 0x00, 0xf1, 0x01, 0x34, 0x00, 0xf1, 0x00,
++		0x9b, 0x43, 0xf1, 0x00, 0xa6, 0x05, 0xf1, 0x00,
++		0xa9, 0x04, 0xf1, 0x00, 0xa1, 0x05, 0xf1, 0x00,
++		0xa4, 0x04, 0xf1, 0x00, 0xae, 0x0a, 0xf1, 0x08
++	}, (u8[]){
++		0xf0, 0x00, 0xf1, 0x02, 0x3a, 0x05, 0xf1, 0xf1,
++		0x3c, 0x05, 0xf1, 0xf1, 0x59, 0x01, 0xf1, 0x47,
++		0x5a, 0x01, 0xf1, 0x88, 0x5c, 0x0a, 0xf1, 0x06,
++		0x5d, 0x0e, 0xf1, 0x0a, 0x64, 0x5e, 0xf1, 0x1c,
++		0xd2, 0x00, 0xf1, 0xcf, 0xcb, 0x00, 0xf1, 0x01
++	}, (u8[]){
++		0xd3, 0x02, 0xd4, 0x28, 0xd5, 0x01, 0xd0, 0x02,
++		0xd1, 0x18, 0xd2, 0xc1
++	}
+ };
 
-----------------------------------------------------------------
-Tag branch
+ static u8 *tbl_800[] = {
+-	"\x0d\x80\xf1\x08\x03\x03\xf1\xc0" "\x04\x05\xf1\x02\x05\x00\xf1\xf1"
+-	"\x06\x00\xf1\x0d\x20\x01\xf1\x00" "\x21\x84\xf1\x00\x0d\x00\xf1\x08"
+-	"\xf0\x00\xf1\x01\x34\x00\xf1\x00" "\x9b\x43\xf1\x00\xa6\x05\xf1\x00"
+-	"\xa9\x03\xf1\xc0\xa1\x03\xf1\x20" "\xa4\x02\xf1\x5a\xae\x0a\xf1\x08"
+-	,
+-	"\xf0\x00\xf1\x02\x3a\x05\xf1\xf1" "\x3c\x05\xf1\xf1\x59\x01\xf1\x47"
+-	"\x5a\x01\xf1\x88\x5c\x0a\xf1\x06" "\x5d\x0e\xf1\x0a\x64\x5e\xf1\x1c"
+-	"\xd2\x00\xf1\xcf\xcb\x00\xf1\x01"
+-	,
+-	"\xd3\x02\xd4\x18\xd5\x21\xd0\x02" "\xd1\x10\xd2\x59"
++	(u8[]){
++		0x0d, 0x80, 0xf1, 0x08, 0x03, 0x03, 0xf1, 0xc0,
++		0x04, 0x05, 0xf1, 0x02, 0x05, 0x00, 0xf1, 0xf1,
++		0x06, 0x00, 0xf1, 0x0d, 0x20, 0x01, 0xf1, 0x00,
++		0x21, 0x84, 0xf1, 0x00, 0x0d, 0x00, 0xf1, 0x08,
++		0xf0, 0x00, 0xf1, 0x01, 0x34, 0x00, 0xf1, 0x00,
++		0x9b, 0x43, 0xf1, 0x00, 0xa6, 0x05, 0xf1, 0x00,
++		0xa9, 0x03, 0xf1, 0xc0, 0xa1, 0x03, 0xf1, 0x20,
++		0xa4, 0x02, 0xf1, 0x5a, 0xae, 0x0a, 0xf1, 0x08
++	}, (u8[]){
++		0xf0, 0x00, 0xf1, 0x02, 0x3a, 0x05, 0xf1, 0xf1,
++		0x3c, 0x05, 0xf1, 0xf1, 0x59, 0x01, 0xf1, 0x47,
++		0x5a, 0x01, 0xf1, 0x88, 0x5c, 0x0a, 0xf1, 0x06,
++		0x5d, 0x0e, 0xf1, 0x0a, 0x64, 0x5e, 0xf1, 0x1c,
++		0xd2, 0x00, 0xf1, 0xcf, 0xcb, 0x00, 0xf1, 0x01
++	}, (u8[]){
++		0xd3, 0x02, 0xd4, 0x18, 0xd5, 0x21, 0xd0, 0x02,
++		0xd1, 0x10, 0xd2, 0x59
++	}
+ };
 
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      media: omap_vout: use dma_addr_t consistently
+ static u8 *tbl_640[] = {
+-	"\x0d\x80\xf1\x08\x03\x04\xf1\x04" "\x04\x05\xf1\x02\x07\x01\xf1\x7c"
+-	"\x08\x00\xf1\x0e\x21\x80\xf1\x00" "\x0d\x00\xf1\x08\xf0\x00\xf1\x01"
+-	"\x34\x10\xf1\x10\x3a\x43\xf1\x00" "\xa6\x05\xf1\x02\xa9\x04\xf1\x04"
+-	"\xa7\x02\xf1\x81\xaa\x01\xf1\xe2" "\xae\x0c\xf1\x09"
+-	,
+-	"\xf0\x00\xf1\x02\x39\x03\xf1\xfc" "\x3b\x04\xf1\x04\x57\x01\xf1\xb6"
+-	"\x58\x02\xf1\x0d\x5c\x1f\xf1\x19" "\x5d\x24\xf1\x1e\x64\x5e\xf1\x1c"
+-	"\xd2\x00\xf1\x00\xcb\x00\xf1\x01"
+-	,
+-	"\xd3\x02\xd4\x10\xd5\x81\xd0\x02" "\xd1\x08\xd2\xe1"
++	(u8[]){
++		0x0d, 0x80, 0xf1, 0x08, 0x03, 0x04, 0xf1, 0x04,
++		0x04, 0x05, 0xf1, 0x02, 0x07, 0x01, 0xf1, 0x7c,
++		0x08, 0x00, 0xf1, 0x0e, 0x21, 0x80, 0xf1, 0x00,
++		0x0d, 0x00, 0xf1, 0x08, 0xf0, 0x00, 0xf1, 0x01,
++		0x34, 0x10, 0xf1, 0x10, 0x3a, 0x43, 0xf1, 0x00,
++		0xa6, 0x05, 0xf1, 0x02, 0xa9, 0x04, 0xf1, 0x04,
++		0xa7, 0x02, 0xf1, 0x81, 0xaa, 0x01, 0xf1, 0xe2,
++		0xae, 0x0c, 0xf1, 0x09
++	}, (u8[]){
++		0xf0, 0x00, 0xf1, 0x02, 0x39, 0x03, 0xf1, 0xfc,
++		0x3b, 0x04, 0xf1, 0x04, 0x57, 0x01, 0xf1, 0xb6,
++		0x58, 0x02, 0xf1, 0x0d, 0x5c, 0x1f, 0xf1, 0x19,
++		0x5d, 0x24, 0xf1, 0x1e, 0x64, 0x5e, 0xf1, 0x1c,
++		0xd2, 0x00, 0xf1, 0x00, 0xcb, 0x00, 0xf1, 0x01
++	}, (u8[]){
++		0xd3, 0x02, 0xd4, 0x10, 0xd5, 0x81, 0xd0, 0x02,
++		0xd1, 0x08, 0xd2, 0xe1
++	}
+ };
 
-Benjamin Gaignard (1):
-      media: hantro: Auto generate the AXI ID to avoid conflicts
+ static s32 tbl_sat[] = {0x25, 0x1d, 0x15, 0x0d, 0x05, 0x4d, 0x55, 0x5d, 0x2d};
+diff --git a/drivers/media/usb/gspca/gl860/gl860-ov9655.c b/drivers/media/usb/gspca/gl860/gl860-ov9655.c
+index 59b87d066187..766677ebcb34 100644
+--- a/drivers/media/usb/gspca/gl860/gl860-ov9655.c
++++ b/drivers/media/usb/gspca/gl860/gl860-ov9655.c
+@@ -25,69 +25,118 @@ static struct validx tbl_commmon[] = {
+ static s32 tbl_length[] = {12, 56, 52, 54, 56, 42, 32, 12};
 
-Colin Ian King (1):
-      media: em28xx: Don't use ops->suspend if it is NULL
+ static u8 *tbl_640[] = {
+-	"\x00\x40\x07\x6a\x06\xf3\x0d\x6a" "\x10\x10\xc1\x01"
+-	,
+-	"\x12\x80\x00\x00\x01\x98\x02\x80" "\x03\x12\x04\x03\x0b\x57\x0e\x61"
+-	"\x0f\x42\x11\x01\x12\x60\x13\x00" "\x14\x3a\x16\x24\x17\x14\x18\x00"
+-	"\x19\x01\x1a\x3d\x1e\x04\x24\x3c" "\x25\x36\x26\x72\x27\x08\x28\x08"
+-	"\x29\x15\x2a\x00\x2b\x00\x2c\x08"
+-	,
+-	"\x32\xff\x33\x00\x34\x3d\x35\x00" "\x36\xfa\x38\x72\x39\x57\x3a\x00"
+-	"\x3b\x0c\x3d\x99\x3e\x0c\x3f\xc1" "\x40\xc0\x41\x00\x42\xc0\x43\x0a"
+-	"\x44\xf0\x45\x46\x46\x62\x47\x2a" "\x48\x3c\x4a\xee\x4b\xe7\x4c\xe7"
+-	"\x4d\xe7\x4e\xe7"
+-	,
+-	"\x4f\x98\x50\x98\x51\x00\x52\x28" "\x53\x70\x54\x98\x58\x1a\x59\x85"
+-	"\x5a\xa9\x5b\x64\x5c\x84\x5d\x53" "\x5e\x0e\x5f\xf0\x60\xf0\x61\xf0"
+-	"\x62\x00\x63\x00\x64\x02\x65\x20" "\x66\x00\x69\x0a\x6b\x5a\x6c\x04"
+-	"\x6d\x55\x6e\x00\x6f\x9d"
+-	,
+-	"\x70\x15\x71\x78\x72\x00\x73\x00" "\x74\x3a\x75\x35\x76\x01\x77\x02"
+-	"\x7a\x24\x7b\x04\x7c\x07\x7d\x10" "\x7e\x28\x7f\x36\x80\x44\x81\x52"
+-	"\x82\x60\x83\x6c\x84\x78\x85\x8c" "\x86\x9e\x87\xbb\x88\xd2\x89\xe5"
+-	"\x8a\x23\x8c\x8d\x90\x7c\x91\x7b"
+-	,
+-	"\x9d\x02\x9e\x02\x9f\x74\xa0\x73" "\xa1\x40\xa4\x50\xa5\x68\xa6\x70"
+-	"\xa8\xc1\xa9\xef\xaa\x92\xab\x04" "\xac\x80\xad\x80\xae\x80\xaf\x80"
+-	"\xb2\xf2\xb3\x20\xb4\x20\xb5\x00" "\xb6\xaf"
+-	,
+-	"\xbb\xae\xbc\x4f\xbd\x4e\xbe\x6a" "\xbf\x68\xc0\xaa\xc1\xc0\xc2\x01"
+-	"\xc3\x4e\xc6\x85\xc7\x81\xc9\xe0" "\xca\xe8\xcb\xf0\xcc\xd8\xcd\x93"
+-	,
+-	"\xd0\x01\xd1\x08\xd2\xe0\xd3\x01" "\xd4\x10\xd5\x80"
++	(u8[]){
++		0x00, 0x40, 0x07, 0x6a, 0x06, 0xf3, 0x0d, 0x6a,
++		0x10, 0x10, 0xc1, 0x01
++	}, (u8[]){
++		0x12, 0x80, 0x00, 0x00, 0x01, 0x98, 0x02, 0x80,
++		0x03, 0x12, 0x04, 0x03, 0x0b, 0x57, 0x0e, 0x61,
++		0x0f, 0x42, 0x11, 0x01, 0x12, 0x60, 0x13, 0x00,
++		0x14, 0x3a, 0x16, 0x24, 0x17, 0x14, 0x18, 0x00,
++		0x19, 0x01, 0x1a, 0x3d, 0x1e, 0x04, 0x24, 0x3c,
++		0x25, 0x36, 0x26, 0x72, 0x27, 0x08, 0x28, 0x08,
++		0x29, 0x15, 0x2a, 0x00, 0x2b, 0x00, 0x2c, 0x08
++	}, (u8[]){
++		0x32, 0xff, 0x33, 0x00, 0x34, 0x3d, 0x35, 0x00,
++		0x36, 0xfa, 0x38, 0x72, 0x39, 0x57, 0x3a, 0x00,
++		0x3b, 0x0c, 0x3d, 0x99, 0x3e, 0x0c, 0x3f, 0xc1,
++		0x40, 0xc0, 0x41, 0x00, 0x42, 0xc0, 0x43, 0x0a,
++		0x44, 0xf0, 0x45, 0x46, 0x46, 0x62, 0x47, 0x2a,
++		0x48, 0x3c, 0x4a, 0xee, 0x4b, 0xe7, 0x4c, 0xe7,
++		0x4d, 0xe7, 0x4e, 0xe7
++	}, (u8[]){
++		0x4f, 0x98, 0x50, 0x98, 0x51, 0x00, 0x52, 0x28,
++		0x53, 0x70, 0x54, 0x98, 0x58, 0x1a, 0x59, 0x85,
++		0x5a, 0xa9, 0x5b, 0x64, 0x5c, 0x84, 0x5d, 0x53,
++		0x5e, 0x0e, 0x5f, 0xf0, 0x60, 0xf0, 0x61, 0xf0,
++		0x62, 0x00, 0x63, 0x00, 0x64, 0x02, 0x65, 0x20,
++		0x66, 0x00, 0x69, 0x0a, 0x6b, 0x5a, 0x6c, 0x04,
++		0x6d, 0x55, 0x6e, 0x00, 0x6f, 0x9d
++	}, (u8[]){
++		0x70, 0x15, 0x71, 0x78, 0x72, 0x00, 0x73, 0x00,
++		0x74, 0x3a, 0x75, 0x35, 0x76, 0x01, 0x77, 0x02,
++		0x7a, 0x24, 0x7b, 0x04, 0x7c, 0x07, 0x7d, 0x10,
++		0x7e, 0x28, 0x7f, 0x36, 0x80, 0x44, 0x81, 0x52,
++		0x82, 0x60, 0x83, 0x6c, 0x84, 0x78, 0x85, 0x8c,
++		0x86, 0x9e, 0x87, 0xbb, 0x88, 0xd2, 0x89, 0xe5,
++		0x8a, 0x23, 0x8c, 0x8d, 0x90, 0x7c, 0x91, 0x7b
++	}, (u8[]){
++		0x9d, 0x02, 0x9e, 0x02, 0x9f, 0x74, 0xa0, 0x73,
++		0xa1, 0x40, 0xa4, 0x50, 0xa5, 0x68, 0xa6, 0x70,
++		0xa8, 0xc1, 0xa9, 0xef, 0xaa, 0x92, 0xab, 0x04,
++		0xac, 0x80, 0xad, 0x80, 0xae, 0x80, 0xaf, 0x80,
++		0xb2, 0xf2, 0xb3, 0x20, 0xb4, 0x20, 0xb5, 0x00,
++		0xb6, 0xaf
++	}, (u8[]){
++		0xbb, 0xae, 0xbc, 0x4f, 0xbd, 0x4e, 0xbe, 0x6a,
++		0xbf, 0x68, 0xc0, 0xaa, 0xc1, 0xc0, 0xc2, 0x01,
++		0xc3, 0x4e, 0xc6, 0x85, 0xc7, 0x81, 0xc9, 0xe0,
++		0xca, 0xe8, 0xcb, 0xf0, 0xcc, 0xd8, 0xcd, 0x93
++	}, (u8[]){
++		0xd0, 0x01, 0xd1, 0x08, 0xd2, 0xe0, 0xd3, 0x01,
++		0xd4, 0x10, 0xd5, 0x80
++	}
+ };
 
-Dan Carpenter (1):
-      media: vivid: fix an error code in vivid_create_instance()
+ static u8 *tbl_1280[] = {
+-	"\x00\x40\x07\x6a\x06\xf3\x0d\x6a" "\x10\x10\xc1\x01"
+-	,
+-	"\x12\x80\x00\x00\x01\x98\x02\x80" "\x03\x12\x04\x01\x0b\x57\x0e\x61"
+-	"\x0f\x42\x11\x00\x12\x00\x13\x00" "\x14\x3a\x16\x24\x17\x1b\x18\xbb"
+-	"\x19\x01\x1a\x81\x1e\x04\x24\x3c" "\x25\x36\x26\x72\x27\x08\x28\x08"
+-	"\x29\x15\x2a\x00\x2b\x00\x2c\x08"
+-	,
+-	"\x32\xa4\x33\x00\x34\x3d\x35\x00" "\x36\xf8\x38\x72\x39\x57\x3a\x00"
+-	"\x3b\x0c\x3d\x99\x3e\x0c\x3f\xc2" "\x40\xc0\x41\x00\x42\xc0\x43\x0a"
+-	"\x44\xf0\x45\x46\x46\x62\x47\x2a" "\x48\x3c\x4a\xec\x4b\xe8\x4c\xe8"
+-	"\x4d\xe8\x4e\xe8"
+-	,
+-	"\x4f\x98\x50\x98\x51\x00\x52\x28" "\x53\x70\x54\x98\x58\x1a\x59\x85"
+-	"\x5a\xa9\x5b\x64\x5c\x84\x5d\x53" "\x5e\x0e\x5f\xf0\x60\xf0\x61\xf0"
+-	"\x62\x00\x63\x00\x64\x02\x65\x20" "\x66\x00\x69\x02\x6b\x5a\x6c\x04"
+-	"\x6d\x55\x6e\x00\x6f\x9d"
+-	,
+-	"\x70\x08\x71\x78\x72\x00\x73\x01" "\x74\x3a\x75\x35\x76\x01\x77\x02"
+-	"\x7a\x24\x7b\x04\x7c\x07\x7d\x10" "\x7e\x28\x7f\x36\x80\x44\x81\x52"
+-	"\x82\x60\x83\x6c\x84\x78\x85\x8c" "\x86\x9e\x87\xbb\x88\xd2\x89\xe5"
+-	"\x8a\x23\x8c\x0d\x90\x90\x91\x90"
+-	,
+-	"\x9d\x02\x9e\x02\x9f\x94\xa0\x94" "\xa1\x01\xa4\x50\xa5\x68\xa6\x70"
+-	"\xa8\xc1\xa9\xef\xaa\x92\xab\x04" "\xac\x80\xad\x80\xae\x80\xaf\x80"
+-	"\xb2\xf2\xb3\x20\xb4\x20\xb5\x00" "\xb6\xaf"
+-	,
+-	"\xbb\xae\xbc\x38\xbd\x39\xbe\x01" "\xbf\x01\xc0\xe2\xc1\xc0\xc2\x01"
+-	"\xc3\x4e\xc6\x85\xc7\x81\xc9\xe0" "\xca\xe8\xcb\xf0\xcc\xd8\xcd\x93"
+-	,
+-	"\xd0\x21\xd1\x18\xd2\xe0\xd3\x01" "\xd4\x28\xd5\x00"
++	(u8[]){
++		0x00, 0x40, 0x07, 0x6a, 0x06, 0xf3, 0x0d, 0x6a,
++		0x10, 0x10, 0xc1, 0x01
++	},
++	(u8[]){
++		0x12, 0x80, 0x00, 0x00, 0x01, 0x98, 0x02, 0x80,
++		0x03, 0x12, 0x04, 0x01, 0x0b, 0x57, 0x0e, 0x61,
++		0x0f, 0x42, 0x11, 0x00, 0x12, 0x00, 0x13, 0x00,
++		0x14, 0x3a, 0x16, 0x24, 0x17, 0x1b, 0x18, 0xbb,
++		0x19, 0x01, 0x1a, 0x81, 0x1e, 0x04, 0x24, 0x3c,
++		0x25, 0x36, 0x26, 0x72, 0x27, 0x08, 0x28, 0x08,
++		0x29, 0x15, 0x2a, 0x00, 0x2b, 0x00, 0x2c, 0x08
++	},
++	(u8[]){
++		0x32, 0xa4, 0x33, 0x00, 0x34, 0x3d, 0x35, 0x00,
++		0x36, 0xf8, 0x38, 0x72, 0x39, 0x57, 0x3a, 0x00,
++		0x3b, 0x0c, 0x3d, 0x99, 0x3e, 0x0c, 0x3f, 0xc2,
++		0x40, 0xc0, 0x41, 0x00, 0x42, 0xc0, 0x43, 0x0a,
++		0x44, 0xf0, 0x45, 0x46, 0x46, 0x62, 0x47, 0x2a,
++		0x48, 0x3c, 0x4a, 0xec, 0x4b, 0xe8, 0x4c, 0xe8,
++		0x4d, 0xe8, 0x4e, 0xe8
++	},
++	(u8[]){
++		0x4f, 0x98, 0x50, 0x98, 0x51, 0x00, 0x52, 0x28,
++		0x53, 0x70, 0x54, 0x98, 0x58, 0x1a, 0x59, 0x85,
++		0x5a, 0xa9, 0x5b, 0x64, 0x5c, 0x84, 0x5d, 0x53,
++		0x5e, 0x0e, 0x5f, 0xf0, 0x60, 0xf0, 0x61, 0xf0,
++		0x62, 0x00, 0x63, 0x00, 0x64, 0x02, 0x65, 0x20,
++		0x66, 0x00, 0x69, 0x02, 0x6b, 0x5a, 0x6c, 0x04,
++		0x6d, 0x55, 0x6e, 0x00, 0x6f, 0x9d
++	},
++	(u8[]){
++		0x70, 0x08, 0x71, 0x78, 0x72, 0x00, 0x73, 0x01,
++		0x74, 0x3a, 0x75, 0x35, 0x76, 0x01, 0x77, 0x02,
++		0x7a, 0x24, 0x7b, 0x04, 0x7c, 0x07, 0x7d, 0x10,
++		0x7e, 0x28, 0x7f, 0x36, 0x80, 0x44, 0x81, 0x52,
++		0x82, 0x60, 0x83, 0x6c, 0x84, 0x78, 0x85, 0x8c,
++		0x86, 0x9e, 0x87, 0xbb, 0x88, 0xd2, 0x89, 0xe5,
++		0x8a, 0x23, 0x8c, 0x0d, 0x90, 0x90, 0x91, 0x90
++	},
++	(u8[]){
++		0x9d, 0x02, 0x9e, 0x02, 0x9f, 0x94, 0xa0, 0x94,
++		0xa1, 0x01, 0xa4, 0x50, 0xa5, 0x68, 0xa6, 0x70,
++		0xa8, 0xc1, 0xa9, 0xef, 0xaa, 0x92, 0xab, 0x04,
++		0xac, 0x80, 0xad, 0x80, 0xae, 0x80, 0xaf, 0x80,
++		0xb2, 0xf2, 0xb3, 0x20, 0xb4, 0x20, 0xb5, 0x00,
++		0xb6, 0xaf
++	},
++	(u8[]){
++		0xbb, 0xae, 0xbc, 0x38, 0xbd, 0x39, 0xbe, 0x01,
++		0xbf, 0x01, 0xc0, 0xe2, 0xc1, 0xc0, 0xc2, 0x01,
++		0xc3, 0x4e, 0xc6, 0x85, 0xc7, 0x81, 0xc9, 0xe0,
++		0xca, 0xe8, 0xcb, 0xf0, 0xcc, 0xd8, 0xcd, 0x93
++	},
++	(u8[]){
++		0xd0, 0x21, 0xd1, 0x18, 0xd2, 0xe0, 0xd3, 0x01,
++		0xd4, 0x28, 0xd5, 0x00
++	}
+ };
 
-Irui Wang (1):
-      media: mtk-vcodec: MT8173 h264/vp8 encoder min/max bitrate settings
+ static u8 c04[] = {0x04};
+-- 
+2.33.0
 
-Jammy Huang (1):
-      media: aspeed: refine to avoid full jpeg update
-
-Jernej Skrabec (2):
-      media: cedrus: Add H265 10-bit capability flag
-      media: cedrus: add check for H264 and H265 limitations
-
-Krzysztof Kozlowski (1):
-      media: imx: drop unneeded MODULE_ALIAS
-
-Mirela Rabulea (3):
-      media: imx-jpeg: Fix possible null pointer dereference
-      media: imx-jpeg: Fix occasional decoder fail on jpegs without DHT
-      media: imx-jpeg: Remove soft reset between frames encoding
-
-Nadezda Lutovinova (1):
-      media: rcar-csi2: Add checking to rcsi2_start_receiver()
-
-Niklas Söderlund (2):
-      media: rcar-csi2: Cleanup mutex on remove and fail
-      media: rcar-csi2: Serialize access to set_fmt and get_fmt
-
-Randy Dunlap (1):
-      media: CEC: keep related menu entries together
-
-Rikard Falkeborn (1):
-      media: hantro: Constify static struct v4l2_m2m_ops
-
-Vladimir Barinov (1):
-      media: rcar-vin: add GREY format
-
-Yajun Deng (1):
-      media: v4l2-dev.h: move open brace after struct video_device
-
- drivers/media/cec/Kconfig                              |  4 ++++
- drivers/media/platform/aspeed-video.c                  | 17 ++++++++++++++++-
- drivers/media/platform/imx-jpeg/mxc-jpeg.c             | 30 +++++++++++++++++++++++++-----
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c |  6 +++---
- drivers/media/platform/omap/omap_vout.c                | 18 ++++++++++--------
- drivers/media/platform/omap/omap_vout_vrfb.c           |  2 +-
- drivers/media/platform/omap/omap_voutdef.h             |  2 +-
- drivers/media/platform/rcar-vin/rcar-csi2.c            | 27 ++++++++++++++++++++-------
- drivers/media/platform/rcar-vin/rcar-dma.c             | 15 +++++++++++++++
- drivers/media/platform/rcar-vin/rcar-v4l2.c            |  4 ++++
- drivers/media/test-drivers/vivid/vivid-core.c          |  2 +-
- drivers/media/usb/em28xx/em28xx-core.c                 |  5 +++--
- drivers/staging/media/hantro/hantro_drv.c              |  2 +-
- drivers/staging/media/hantro/hantro_g1_h264_dec.c      |  2 +-
- drivers/staging/media/hantro/hantro_g1_regs.h          |  2 ++
- drivers/staging/media/hantro/hantro_g1_vp8_dec.c       |  3 ++-
- drivers/staging/media/imx/imx-media-csi.c              |  1 -
- drivers/staging/media/sunxi/cedrus/cedrus.c            | 47 +++++++++++++++++++++++++++++++++++++++++++++++
- drivers/staging/media/sunxi/cedrus/cedrus.h            |  1 +
- include/media/v4l2-dev.h                               |  3 +--
- 20 files changed, 158 insertions(+), 35 deletions(-)
