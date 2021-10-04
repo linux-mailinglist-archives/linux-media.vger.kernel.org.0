@@ -2,412 +2,688 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 597524208C8
-	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 11:53:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 938AC420945
+	for <lists+linux-media@lfdr.de>; Mon,  4 Oct 2021 12:21:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232531AbhJDJzO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Oct 2021 05:55:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41620 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232161AbhJDJzO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Oct 2021 05:55:14 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05ABDC061745
-        for <linux-media@vger.kernel.org>; Mon,  4 Oct 2021 02:53:25 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id k7so29597287wrd.13
-        for <linux-media@vger.kernel.org>; Mon, 04 Oct 2021 02:53:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=/kVWuuyrXrC1HbOEIDyHsQVaIH9K037UnSfeiNI+fT4=;
-        b=KxWZxkqjsDWk3knCFrrqwS5MCL32l2g7x/IL6IqqrSu8gOK5oSJah0pOYMzDcx6D/w
-         nWWJQ0ymIvKfQNQH1L2AA4AflRiQevU3M9Q3ZFqRZi4PT9lIoywLv0t2ytE+wS/7r98W
-         f2AnGazt21HrENONVi/LYGNOfg3m7sfhHWPq9XSbiE5snoQ/MI1BRHnBvhvj6dhSFfzQ
-         Whols0GEyldbxEbZP6nNuezh+qnEoNN5XqSO9HsbSKAmV1fPvlGBIvZ0230rpzI2Bl8l
-         o02MLp+JA3W0QJu/HvjcnFeOW3AaXx7eetRQzhRqg7xYz5U4wTXz8PEoI1LeWbIlpDhJ
-         0KYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=/kVWuuyrXrC1HbOEIDyHsQVaIH9K037UnSfeiNI+fT4=;
-        b=lbmXOhXfIEEc4n9nTOzNWtnP/rrP9yVc44sCHPZebMb7hj9Ex/D6hjOIe9vmBK78rf
-         VzNCbNf/xEuAjxyzkWOkQrE/uyYJ+AdWQMhPh60RejoQyfHOfNAQDlLCxrq6K+9p/0gT
-         98DVLlJLnHOSa3uWPBQBsJRoGhSrL6+KWeI/iVqNw9RYcclDD1yu7BU6QT//Iv5NR+mo
-         biYNiimbkJvKAuJc0A1RHK3Ym9k4hwezhYroEFi82Jkf8MPc/hdqwUoT3gusH3xV8hWM
-         1GLim1KgoNemEyUs5/MkCqptIC7BGpPKxGbVDfjNDgw/Er9nY6PzJH8kukwsgwxRV8VG
-         Jkrg==
-X-Gm-Message-State: AOAM533vfmF11JSUaZh9CRARQir/1PQVNqAETkanGUicqNRFfBCduzpl
-        k6pgajsB8Pwr9u1m8gZNbks=
-X-Google-Smtp-Source: ABdhPJwWRn4/BAtZIyLCvIg5N7LijzHog3rlpZhfeYclsQsacDttlQkyJe6RbJzZbnWiIcjsAHM+dQ==
-X-Received: by 2002:a5d:58ec:: with SMTP id f12mr12932732wrd.24.1633341203129;
-        Mon, 04 Oct 2021 02:53:23 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id d7sm13960745wrh.13.2021.10.04.02.53.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Oct 2021 02:53:22 -0700 (PDT)
-Subject: Re: [PATCH 01/28] dma-buf: add dma_resv_for_each_fence_unlocked v7
-To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc:     daniel@ffwll.ch
-References: <20211001100610.2899-1-christian.koenig@amd.com>
- <20211001100610.2899-2-christian.koenig@amd.com>
- <fa3a1755-21b2-ea0c-1553-df0297523e48@linux.intel.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <b6da5c2f-8e2c-18d4-9b89-aac3171d841d@gmail.com>
-Date:   Mon, 4 Oct 2021 11:53:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S230405AbhJDKXG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Oct 2021 06:23:06 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:60957 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229478AbhJDKXF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Oct 2021 06:23:05 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 453021BF209;
+        Mon,  4 Oct 2021 10:21:12 +0000 (UTC)
+Date:   Mon, 4 Oct 2021 12:21:59 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5] media: rcar-isp: Add Renesas R-Car Image Signal
+ Processor driver
+Message-ID: <20211004102159.y7bgaejz4ez47p3p@uno.localdomain>
+References: <20210914140057.2801405-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-In-Reply-To: <fa3a1755-21b2-ea0c-1553-df0297523e48@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20210914140057.2801405-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 04.10.21 um 11:29 schrieb Tvrtko Ursulin:
->
-> On 01/10/2021 11:05, Christian König wrote:
->> Abstract the complexity of iterating over all the fences
->> in a dma_resv object.
->>
->> The new loop handles the whole RCU and retry dance and
->> returns only fences where we can be sure we grabbed the
->> right one.
->>
->> v2: fix accessing the shared fences while they might be freed,
->>      improve kerneldoc, rename _cursor to _iter, add
->>      dma_resv_iter_is_exclusive, add dma_resv_iter_begin/end
->>
->> v3: restructor the code, move rcu_read_lock()/unlock() into the
->>      iterator, add dma_resv_iter_is_restarted()
->>
->> v4: fix NULL deref when no explicit fence exists, drop superflous
->>      rcu_read_lock()/unlock() calls.
->>
->> v5: fix typos in the documentation
->>
->> v6: fix coding error when excl fence is NULL
->>
->> v7: one more logic fix
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->>   drivers/dma-buf/dma-resv.c | 100 +++++++++++++++++++++++++++++++++++++
->>   include/linux/dma-resv.h   |  95 +++++++++++++++++++++++++++++++++++
->>   2 files changed, 195 insertions(+)
->>
->> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
->> index 84fbe60629e3..3cbcf66a137e 100644
->> --- a/drivers/dma-buf/dma-resv.c
->> +++ b/drivers/dma-buf/dma-resv.c
->> @@ -323,6 +323,106 @@ void dma_resv_add_excl_fence(struct dma_resv 
->> *obj, struct dma_fence *fence)
->>   }
->>   EXPORT_SYMBOL(dma_resv_add_excl_fence);
->>   +/**
->> + * dma_resv_iter_restart_unlocked - restart the unlocked iterator
->> + * @cursor: The dma_resv_iter object to restart
->> + *
->> + * Restart the unlocked iteration by initializing the cursor object.
->> + */
->> +static void dma_resv_iter_restart_unlocked(struct dma_resv_iter 
->> *cursor)
->> +{
->> +    cursor->seq = read_seqcount_begin(&cursor->obj->seq);
->> +    cursor->index = -1;
->> +    if (cursor->all_fences)
->> +        cursor->fences = dma_resv_shared_list(cursor->obj);
->> +    else
->> +        cursor->fences = NULL;
->> +    cursor->is_restarted = true;
->> +}
->> +
->> +/**
->> + * dma_resv_iter_walk_unlocked - walk over fences in a dma_resv obj
->> + * @cursor: cursor to record the current position
->> + *
->> + * Return all the fences in the dma_resv object which are not yet 
->> signaled.
->> + * The returned fence has an extra local reference so will stay alive.
->> + * If a concurrent modify is detected the whole iteration is started 
->> over again.
->> + */
->> +static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
->> +{
->> +    struct dma_resv *obj = cursor->obj;
->> +
->> +    do {
->> +        /* Drop the reference from the previous round */
->> +        dma_fence_put(cursor->fence);
->> +
->> +        if (cursor->index == -1) {
->> +            cursor->fence = dma_resv_excl_fence(obj);
->> +            cursor->index++;
->> +            if (!cursor->fence)
->> +                continue;
->> +
->> +        } else if (!cursor->fences ||
->> +               cursor->index >= cursor->fences->shared_count) {
->> +            cursor->fence = NULL;
->> +            break;
->> +
->> +        } else {
->> +            struct dma_resv_list *fences = cursor->fences;
->> +            unsigned int idx = cursor->index++;
->> +
->> +            cursor->fence = rcu_dereference(fences->shared[idx]);
->> +        }
->> +        cursor->fence = dma_fence_get_rcu(cursor->fence);
->
-> Worth having an assert dma_fence_get_rcu does not fail here? Not sure 
-> that I have seen debug build only asserts though on the DRM core side.
+Hi Niklas,
 
-That won't work. It's perfectly valid for dma_fence_get_rcu() to return 
-NULL when we are racing here. Keep in mind that we don't hold any locks.
+On Tue, Sep 14, 2021 at 04:00:57PM +0200, Niklas Söderlund wrote:
+> Add a V4L2 driver for Renesas R-Car Image Signal Processor. The driver
+> supports the R-Car V3U SoC where the ISP IP sits between the R-Car CSI-2
+> receiver and VIN and filters the CSI-2 data based on VC/DT and directs
+> the video stream to different VIN IPs.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> * Changes since v4
+> - Update to the new async function names.
+> - Do not depend on external s_power, instead control the device power at stream start/stop.
+> - Do not look at remote upstream subdevice format when starting (or at all).
+> - Serialise access for format variables in get_fmt and set_fmt.
+> - Make use of v4l2_subdev_link_validate_default()
+> - Add mutex_destroy() on error paths and in remove function.
+> - Propperly disable runtime PM if subdev registration fails.
+>
+> * Changes since v3
+> - Fix spelling in header information.
+> - Add parentheses around macro expansions.
+> - Add explicit blocks to for-loop body.
+> - Add documentation for mutex.
+>
+> * Changes since v2
+> - Add description of IPS capabilities and that only channel selection is
+>   currently supported.
+> - Update signature of v4l2_subdev_pad_ops set_fmt.
+> - Switch to pm_runtime_resume_and_get().
+> - Make better use of devm_kzalloc().
+> ---
+>  MAINTAINERS                       |   1 +
+>  drivers/media/platform/Kconfig    |  16 +
+>  drivers/media/platform/Makefile   |   1 +
+>  drivers/media/platform/rcar-isp.c | 517 ++++++++++++++++++++++++++++++
+>  4 files changed, 535 insertions(+)
+>  create mode 100644 drivers/media/platform/rcar-isp.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 08c9612e769af24a..8164d1bd0a4df351 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11575,6 +11575,7 @@ T:	git git://linuxtv.org/media_tree.git
+>  F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
+>  F:	Documentation/devicetree/bindings/media/renesas,isp.yaml
+>  F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
+> +F:	drivers/media/platform/rcar-isp.c
+>  F:	drivers/media/platform/rcar-vin/
+>
+>  MEDIA DRIVERS FOR RENESAS - VSP1
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index aa277a19e2759617..b95e9368110c7848 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -200,6 +200,22 @@ config VIDEO_TI_CAL_MC
+>
+>  endif # VIDEO_TI_CAL
+>
+> +config VIDEO_RCAR_ISP
+> +	tristate "R-Car Image Signal Processor (ISP)"
+> +	depends on VIDEO_V4L2 && OF
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	select MEDIA_CONTROLLER
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select RESET_CONTROLLER
+> +	select V4L2_FWNODE
+> +	help
+> +	  Support for Renesas R-Car Image Signal Processor (ISP).
+> +	  Enable this to support the Renesas R-Car Image Signal
+> +	  Processor (ISP).
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called rcar-isp.
+> +
+>  endif # V4L_PLATFORM_DRIVERS
+>
+>  menuconfig V4L_MEM2MEM_DRIVERS
+> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+> index 73ce083c2fc6b51b..a148553babfc0944 100644
+> --- a/drivers/media/platform/Makefile
+> +++ b/drivers/media/platform/Makefile
+> @@ -63,6 +63,7 @@ obj-$(CONFIG_VIDEO_AM437X_VPFE)		+= am437x/
+>
+>  obj-$(CONFIG_VIDEO_XILINX)		+= xilinx/
+>
+> +obj-$(CONFIG_VIDEO_RCAR_ISP)		+= rcar-isp.o
+>  obj-$(CONFIG_VIDEO_RCAR_VIN)		+= rcar-vin/
+>
+>  obj-$(CONFIG_VIDEO_ATMEL_ISC)		+= atmel/
+> diff --git a/drivers/media/platform/rcar-isp.c b/drivers/media/platform/rcar-isp.c
+> new file mode 100644
+> index 0000000000000000..1055ca87975c8676
+> --- /dev/null
+> +++ b/drivers/media/platform/rcar-isp.c
+> @@ -0,0 +1,517 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2021 Renesas Electronics Corp.
+> + *
+> + * Driver for Renesas R-Car ISP Channel Selector
+> + *
+> + * The ISP hardware is capable of more than just channel selection, features
+> + * such as demosaicing, white balance control and color space conversion are
+> + * also possible. These more advanced features are not supported by the driver
+> + * due to lack of documentation.
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/reset.h>
+> +
+> +#include <media/v4l2-subdev.h>
+> +
+> +#define ISPINPUTSEL0_REG				0x0008
+> +#define ISPINPUTSEL0_SEL_CSI0				BIT(31)
+> +
+> +#define ISPSTART_REG					0x0014
+> +#define ISPSTART_START					0xffff
+> +#define ISPSTART_STOP					0x0000
+> +
+> +#define ISPPROCMODE_DT_REG(n)				(0x1100 + (0x4 * (n)))
+> +#define ISPPROCMODE_DT_PROC_MODE_VC3(pm)		(((pm) & 0x3f) << 24)
+> +#define ISPPROCMODE_DT_PROC_MODE_VC2(pm)		(((pm) & 0x3f) << 16)
+> +#define ISPPROCMODE_DT_PROC_MODE_VC1(pm)		(((pm) & 0x3f) << 8)
+> +#define ISPPROCMODE_DT_PROC_MODE_VC0(pm)		((pm) & 0x3f)
+> +
+> +#define ISPCS_FILTER_ID_CH_REG(n)			(0x3000 + (0x0100 * (n)))
+> +
+> +#define ISPCS_DT_CODE03_CH_REG(n)			(0x3008 + (0x100 * (n)))
+> +#define ISPCS_DT_CODE03_EN3				BIT(31)
+> +#define ISPCS_DT_CODE03_DT3(dt)				(((dt) & 0x3f) << 24)
+> +#define ISPCS_DT_CODE03_EN2				BIT(23)
+> +#define ISPCS_DT_CODE03_DT2(dt)				(((dt) & 0x3f) << 16)
+> +#define ISPCS_DT_CODE03_EN1				BIT(15)
+> +#define ISPCS_DT_CODE03_DT1(dt)				(((dt) & 0x3f) << 8)
+> +#define ISPCS_DT_CODE03_EN0				BIT(7)
+> +#define ISPCS_DT_CODE03_DT0(dt)				((dt) & 0x3f)
+> +
+> +struct rcar_isp_format {
+> +	u32 code;
+> +	unsigned int datatype;
+> +	unsigned int procmode;
+> +};
+> +
+> +static const struct rcar_isp_format rcar_isp_formats[] = {
+> +	{ .code = MEDIA_BUS_FMT_RGB888_1X24,	.datatype = 0x24, .procmode = 0x15 },
+> +	{ .code = MEDIA_BUS_FMT_Y10_1X10,	.datatype = 0x2b, .procmode = 0x10 },
+> +	{ .code = MEDIA_BUS_FMT_UYVY8_1X16,	.datatype = 0x1e, .procmode = 0x0c },
+> +	{ .code = MEDIA_BUS_FMT_YUYV8_1X16,	.datatype = 0x1e, .procmode = 0x0c },
+> +	{ .code = MEDIA_BUS_FMT_UYVY8_2X8,	.datatype = 0x1e, .procmode = 0x0c },
+> +	{ .code = MEDIA_BUS_FMT_YUYV10_2X10,	.datatype = 0x1e, .procmode = 0x0c },
+                                            ^ tab                ^ space
 
-What we could do is to return NULL and repeat with a new sequence 
-immediately though.
+> +};
+> +
+> +static const struct rcar_isp_format *risp_code_to_fmt(unsigned int code)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(rcar_isp_formats); i++) {
+> +		if (rcar_isp_formats[i].code == code)
+> +			return &rcar_isp_formats[i];
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +enum rcar_isp_input {
+> +	RISP_CSI_INPUT0,
+> +	RISP_CSI_INPUT1,
+> +};
+> +
+> +enum rcar_isp_pads {
+> +	RCAR_ISP_SINK,
+> +	RCAR_ISP_PORT0,
+> +	RCAR_ISP_PORT1,
+> +	RCAR_ISP_PORT2,
+> +	RCAR_ISP_PORT3,
+> +	RCAR_ISP_PORT4,
+> +	RCAR_ISP_PORT5,
+> +	RCAR_ISP_PORT6,
+> +	RCAR_ISP_PORT7,
+> +	RCAR_ISP_MAX_PAD,
+> +};
+> +
+> +struct rcar_isp {
+> +	struct device *dev;
+> +	void __iomem *base;
+> +	struct reset_control *rstc;
+> +
+> +	enum rcar_isp_input csi_input;
+> +
+> +	struct v4l2_subdev subdev;
+> +	struct media_pad pads[RCAR_ISP_MAX_PAD];
+> +
+> +	struct v4l2_async_notifier notifier;
+> +	struct v4l2_subdev *remote;
+> +	unsigned int remote_pad;
+> +
+> +	struct mutex lock; /* Protects mf and stream_count. */
+> +	struct v4l2_mbus_framefmt mf;
+> +	int stream_count;
+> +};
+> +
+> +static inline struct rcar_isp *sd_to_isp(struct v4l2_subdev *sd)
+> +{
+> +	return container_of(sd, struct rcar_isp, subdev);
+> +}
+> +
+> +static inline struct rcar_isp *notifier_to_isp(struct v4l2_async_notifier *n)
+> +{
+> +	return container_of(n, struct rcar_isp, notifier);
+> +}
+> +
+> +static void risp_write(struct rcar_isp *isp, u32 offset, u32 value)
+> +{
+> +	iowrite32(value, isp->base + offset);
+> +}
+> +
+> +static u32 risp_read(struct rcar_isp *isp, u32 offset)
+> +{
+> +	return ioread32(isp->base + offset);
+> +}
+> +
+> +static int risp_power_on(struct rcar_isp *isp)
+> +{
+> +	int ret;
+> +
+> +	ret = pm_runtime_resume_and_get(isp->dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = reset_control_deassert(isp->rstc);
+> +	if (ret < 0) {
+> +		pm_runtime_put(isp->dev);
+> +		return ret;
+> +	}
 
->
-> On the bike shedding front, would it be clearer if the continue 
-> condition on signaled fences was standalone, using the continue 
-> statement? I'd also possibly re-arrange the three if-else blocks so 
-> that the end of iteration is not sandwiched between blocks handling 
-> exclusive and shared, and flow tweaked a bit, like:
->
->   struct dma_fence *fence = cursor->fence;
->   int index = cursor->index;
->
->   dma_fence_put(fence);
->   fence = NULL;
->
-> next:
->   if (index == -1) {
->     /* Try picking the exclusive fence. */
->     index++;
->     fence = dma_resv_excl_fence(obj);
->     if (!fence)
->         goto next;
->   } else if (cursor->fences && index < cursor->fences->shared_count) {
->       /* Try picking next shared fence. */
->     struct dma_resv_list *fences = cursor->fences;
->
->     fence = rcu_dereference(fences->shared[index++]);
->   }
->
->   if (fence) {
->       if (dma_fence_is_signaled(fence))
->         goto next; /* Skip signaled. */
->
->     fence = dma_fence_get_rcu(fence);
->     WARN_ON(!fence);
-> }
->
->   cursor->fence = fence;
->   cursor->index = index;
->
-> (I started with a loop here but ended with goto based flow since it 
-> ended up more succinct.)
->
-> At least if I don't have a handling flaw in there it looks like easier 
-> to follow flow to me. Plus picking a not signaled fence works without 
-> a reference FWIW.
+I still think you should define a .resume and .suspend callbacks
+through something like SIMPLE_DEV_PM_OPS which assert/deassert the
+reset controller and just call pm_runtime_resume_and_get() and
+pm_runtime_put() at risp_start() and risp_stop() times.
 
-I strongly don't think that this will work correctly. You need to grab a 
-reference first when you want to call dma_fence_is_signaled(), that's 
-why I used the testbit approach initially.
+Otherwise am I wrong thinking that pm_runtime is only here for refcounting ?
 
-> How does it look to you?
+> +
+> +	return 0;
+> +}
+> +
+> +static void risp_power_off(struct rcar_isp *isp)
+> +{
+> +	reset_control_assert(isp->rstc);
+> +	pm_runtime_put(isp->dev);
+> +}
+> +
+> +static int risp_start(struct rcar_isp *isp)
+> +{
+> +	const struct rcar_isp_format *format;
+> +	unsigned int vc;
+> +	u32 sel_csi = 0;
+> +	int ret;
+> +
+> +	format = risp_code_to_fmt(isp->mf.code);
+> +	if (!format) {
+> +		dev_err(isp->dev, "Unsupported bus format\n");
+> +		return -EINVAL;
+> +	}
 
-Mhm, let me try to reorder the loop once more.
+I don't think this can now happen as isp->mf.code is set through
+set_fmt and it's adjusted
 
-Thanks,
-Christian.
+> +
+> +	ret = risp_power_on(isp);
+> +	if (ret) {
+> +		dev_err(isp->dev, "Failed to power on ISP\n");
+> +		return ret;
+> +	}
+> +
+> +	/* Select CSI-2 input source. */
+> +	if (isp->csi_input == RISP_CSI_INPUT1)
+> +		sel_csi = ISPINPUTSEL0_SEL_CSI0;
+> +
+> +	risp_write(isp, ISPINPUTSEL0_REG,
+> +		   risp_read(isp, ISPINPUTSEL0_REG) | sel_csi);
+> +
+> +	/* Configure Channel Selector. */
 
+If I'm not mistaken we have a fixed routing from channel 4-7 to
+VIN[0-3] as routing is controlled by VC/DT matching. If that's the
+case, should this be recorded ?
+
+> +	for (vc = 0; vc < 4; vc++) {
+> +		u8 ch = vc + 4;
+> +		u8 dt = format->datatype;
+> +
+> +		risp_write(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
+> +		risp_write(isp, ISPCS_DT_CODE03_CH_REG(ch),
+> +			   ISPCS_DT_CODE03_EN3 | ISPCS_DT_CODE03_DT3(dt) |
+> +			   ISPCS_DT_CODE03_EN2 | ISPCS_DT_CODE03_DT2(dt) |
+> +			   ISPCS_DT_CODE03_EN1 | ISPCS_DT_CODE03_DT1(dt) |
+> +			   ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
+> +	}
+> +
+> +	/* Setup processing method. */
+> +	risp_write(isp, ISPPROCMODE_DT_REG(format->datatype),
+> +		   ISPPROCMODE_DT_PROC_MODE_VC3(format->procmode) |
+> +		   ISPPROCMODE_DT_PROC_MODE_VC2(format->procmode) |
+> +		   ISPPROCMODE_DT_PROC_MODE_VC1(format->procmode) |
+> +		   ISPPROCMODE_DT_PROC_MODE_VC0(format->procmode));
+> +
+> +	/* Start ISP. */
+> +	risp_write(isp, ISPSTART_REG, ISPSTART_START);
+> +
+> +	ret = v4l2_subdev_call(isp->remote, video, s_stream, 1);
+> +	if (ret)
+> +		risp_power_off(isp);
+> +
+> +	return ret;
+> +}
+> +
+> +static void risp_stop(struct rcar_isp *isp)
+> +{
+> +	v4l2_subdev_call(isp->remote, video, s_stream, 0);
+> +
+> +	/* Stop ISP. */
+> +	risp_write(isp, ISPSTART_REG, ISPSTART_STOP);
+> +
+> +	risp_power_off(isp);
+> +}
+> +
+> +static int risp_s_stream(struct v4l2_subdev *sd, int enable)
+> +{
+> +	struct rcar_isp *isp = sd_to_isp(sd);
+> +	int ret = 0;
+> +
+> +	mutex_lock(&isp->lock);
+> +
+> +	if (!isp->remote) {
+> +		ret = -ENODEV;
+> +		goto out;
+> +	}
+> +
+> +	if (enable && isp->stream_count == 0) {
+> +		ret = risp_start(isp);
+> +		if (ret)
+> +			goto out;
+> +	} else if (!enable && isp->stream_count == 1) {
+> +		risp_stop(isp);
+> +	}
+> +
+> +	isp->stream_count += enable ? 1 : -1;
+> +out:
+> +	mutex_unlock(&isp->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct v4l2_subdev_video_ops risp_video_ops = {
+> +	.s_stream = risp_s_stream,
+> +};
+> +
+> +static int risp_set_pad_format(struct v4l2_subdev *sd,
+> +			       struct v4l2_subdev_state *sd_state,
+> +			       struct v4l2_subdev_format *format)
+> +{
+> +	struct rcar_isp *isp = sd_to_isp(sd);
+> +	struct v4l2_mbus_framefmt *framefmt;
+> +
+> +	mutex_lock(&isp->lock);
+> +
+> +	if (!risp_code_to_fmt(format->format.code))
+> +		format->format.code = rcar_isp_formats[0].code;
+> +
+> +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> +		isp->mf = format->format;
+> +	} else {
+> +		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> +		*framefmt = format->format;
+> +	}
+> +
+> +	mutex_unlock(&isp->lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static int risp_get_pad_format(struct v4l2_subdev *sd,
+> +			       struct v4l2_subdev_state *sd_state,
+> +			       struct v4l2_subdev_format *format)
+> +{
+> +	struct rcar_isp *isp = sd_to_isp(sd);
+> +
+> +	mutex_lock(&isp->lock);
+> +
+> +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> +		format->format = isp->mf;
+> +	else
+> +		format->format = *v4l2_subdev_get_try_format(sd, sd_state, 0);
+> +
+> +	mutex_unlock(&isp->lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_pad_ops risp_pad_ops = {
+> +	.set_fmt = risp_set_pad_format,
+> +	.get_fmt = risp_get_pad_format,
+> +	.link_validate = v4l2_subdev_link_validate_default,
+> +};
+> +
+> +static const struct v4l2_subdev_ops rcar_isp_subdev_ops = {
+> +	.video	= &risp_video_ops,
+> +	.pad	= &risp_pad_ops,
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Async handling and registration of subdevices and links
+> + */
+> +
+> +static int risp_notify_bound(struct v4l2_async_notifier *notifier,
+> +			     struct v4l2_subdev *subdev,
+> +			     struct v4l2_async_subdev *asd)
+> +{
+> +	struct rcar_isp *isp = notifier_to_isp(notifier);
+> +	int pad;
+> +
+> +	pad = media_entity_get_fwnode_pad(&subdev->entity, asd->match.fwnode,
+> +					  MEDIA_PAD_FL_SOURCE);
+> +	if (pad < 0) {
+> +		dev_err(isp->dev, "Failed to find pad for %s\n", subdev->name);
+> +		return pad;
+> +	}
+> +
+> +	isp->remote = subdev;
+> +	isp->remote_pad = pad;
+
+remote_pad is not used anywhere now that the format comes from the
+local pad.
+
+> +
+> +	dev_dbg(isp->dev, "Bound %s pad: %d\n", subdev->name, pad);
+> +
+> +	return media_create_pad_link(&subdev->entity, pad,
+> +				     &isp->subdev.entity, 0,
+> +				     MEDIA_LNK_FL_ENABLED |
+> +				     MEDIA_LNK_FL_IMMUTABLE);
+> +}
+> +
+> +static void risp_notify_unbind(struct v4l2_async_notifier *notifier,
+> +			       struct v4l2_subdev *subdev,
+> +			       struct v4l2_async_subdev *asd)
+> +{
+> +	struct rcar_isp *isp = notifier_to_isp(notifier);
+> +
+> +	isp->remote = NULL;
+> +
+> +	dev_dbg(isp->dev, "Unbind %s\n", subdev->name);
+> +}
+> +
+> +static const struct v4l2_async_notifier_operations risp_notify_ops = {
+> +	.bound = risp_notify_bound,
+> +	.unbind = risp_notify_unbind,
+> +};
+> +
+> +static int risp_parse_dt(struct rcar_isp *isp)
+> +{
+> +	struct v4l2_async_subdev *asd;
+> +	struct fwnode_handle *fwnode;
+> +	struct fwnode_handle *ep;
+> +	unsigned int id;
+> +	int ret;
+> +
+> +	for (id = 0; id < 2; id++) {
+> +		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(isp->dev),
+> +						     0, id, 0);
+> +		if (ep)
+> +			break;
+> +	}
+> +
+> +	if (!ep) {
+> +		dev_err(isp->dev, "Not connected to subdevice\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (id == 1)
+> +		isp->csi_input = RISP_CSI_INPUT1;
+> +
+> +	fwnode = fwnode_graph_get_remote_endpoint(ep);
+> +	fwnode_handle_put(ep);
+> +
+> +	dev_dbg(isp->dev, "Found '%pOF'\n", to_of_node(fwnode));
+> +
+> +	v4l2_async_nf_init(&isp->notifier);
+> +	isp->notifier.ops = &risp_notify_ops;
+> +
+> +	asd = v4l2_async_nf_add_fwnode(&isp->notifier, fwnode,
+> +				       struct v4l2_async_subdev);
+> +	fwnode_handle_put(fwnode);
+> +	if (IS_ERR(asd))
+> +		return PTR_ERR(asd);
+> +
+> +	ret = v4l2_async_subdev_nf_register(&isp->subdev, &isp->notifier);
+> +	if (ret)
+> +		v4l2_async_nf_cleanup(&isp->notifier);
+> +
+> +	return ret;
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Platform Device Driver
+> + */
+> +
+> +static const struct media_entity_operations risp_entity_ops = {
+> +	.link_validate = v4l2_subdev_link_validate,
+> +};
+> +
+> +static int risp_probe_resources(struct rcar_isp *isp,
+> +				struct platform_device *pdev)
+> +{
+> +	struct resource *res;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	isp->base = devm_ioremap_resource(&pdev->dev, res);
+> +	if (IS_ERR(isp->base))
+> +		return PTR_ERR(isp->base);
+> +
+> +	isp->rstc = devm_reset_control_get(&pdev->dev, NULL);
+> +
+> +	return PTR_ERR_OR_ZERO(isp->rstc);
+> +}
+> +
+> +static const struct of_device_id risp_of_id_table[] = {
+> +	{ .compatible = "renesas,r8a779a0-isp" },
+> +	{ /* sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(of, risp_of_id_table);
+> +
+> +static int risp_probe(struct platform_device *pdev)
+> +{
+> +	struct rcar_isp *isp;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	isp = devm_kzalloc(&pdev->dev, sizeof(*isp), GFP_KERNEL);
+> +	if (!isp)
+> +		return -ENOMEM;
+> +
+> +	isp->dev = &pdev->dev;
+> +
+> +	mutex_init(&isp->lock);
+> +
+> +	ret = risp_probe_resources(isp, pdev);
+> +	if (ret) {
+> +		dev_err(isp->dev, "Failed to get resources\n");
+> +		goto error_mutex;
+> +	}
+> +
+> +	platform_set_drvdata(pdev, isp);
+> +
+> +	pm_runtime_enable(&pdev->dev);
+> +
+> +	ret = risp_parse_dt(isp);
+> +	if (ret)
+> +		goto error_pm;
+> +
+> +	isp->subdev.owner = THIS_MODULE;
+> +	isp->subdev.dev = &pdev->dev;
+> +	v4l2_subdev_init(&isp->subdev, &rcar_isp_subdev_ops);
+> +	v4l2_set_subdevdata(&isp->subdev, &pdev->dev);
+> +	snprintf(isp->subdev.name, V4L2_SUBDEV_NAME_SIZE, "%s %s",
+> +		 KBUILD_MODNAME, dev_name(&pdev->dev));
+> +	isp->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +
+> +	isp->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
+> +	isp->subdev.entity.ops = &risp_entity_ops;
+> +
+> +	isp->pads[RCAR_ISP_SINK].flags = MEDIA_PAD_FL_SINK;
+> +	for (i = RCAR_ISP_PORT0; i < RCAR_ISP_MAX_PAD; i++)
+> +		isp->pads[i].flags = MEDIA_PAD_FL_SOURCE;
+> +
+> +	ret = media_entity_pads_init(&isp->subdev.entity, RCAR_ISP_MAX_PAD,
+> +				     isp->pads);
+> +	if (ret)
+> +		goto error_notifier;
+> +
+> +	ret = v4l2_async_register_subdev(&isp->subdev);
+> +	if (ret < 0)
+> +		goto error_notifier;
+> +
+> +	dev_info(isp->dev, "Using CSI-2 input: %u\n", isp->csi_input);
+> +
+> +	return 0;
+
+Maybe an empy line to highlight the error path
+
+Anyway, all minors, you'll have a new version anyway and pm_runtime
+usage has been under the eyes of Sakari and Hans for 5 versions and
+they have not complained so I guess it's fine.
+
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+   j
+
+> +error_notifier:
+> +	v4l2_async_nf_unregister(&isp->notifier);
+> +	v4l2_async_nf_cleanup(&isp->notifier);
+> +error_pm:
+> +	pm_runtime_disable(&pdev->dev);
+> +error_mutex:
+> +	mutex_destroy(&isp->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int risp_remove(struct platform_device *pdev)
+> +{
+> +	struct rcar_isp *isp = platform_get_drvdata(pdev);
+> +
+> +	v4l2_async_nf_unregister(&isp->notifier);
+> +	v4l2_async_nf_cleanup(&isp->notifier);
+> +
+> +	v4l2_async_unregister_subdev(&isp->subdev);
+> +
+> +	pm_runtime_disable(&pdev->dev);
+> +
+> +	mutex_destroy(&isp->lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver rcar_isp_driver = {
+> +	.driver = {
+> +		.name = "rcar-isp",
+> +		.of_match_table = risp_of_id_table,
+> +	},
+> +	.probe = risp_probe,
+> +	.remove = risp_remove,
+> +};
+> +
+> +module_platform_driver(rcar_isp_driver);
+> +
+> +MODULE_AUTHOR("Niklas Söderlund <niklas.soderlund@ragnatech.se>");
+> +MODULE_DESCRIPTION("Renesas R-Car ISP Channel Selector driver");
+> +MODULE_LICENSE("GPL");
+
+
+> --
+> 2.33.0
 >
-> Regards,
->
-> Tvrtko
->
->> +        if (!cursor->fence || !dma_fence_is_signaled(cursor->fence))
->> +            break;
->> +    } while (true);
->> +}
->> +
->> +/**
->> + * dma_resv_iter_first_unlocked - first fence in an unlocked 
->> dma_resv obj.
->> + * @cursor: the cursor with the current position
->> + *
->> + * Returns the first fence from an unlocked dma_resv obj.
->> + */
->> +struct dma_fence *dma_resv_iter_first_unlocked(struct dma_resv_iter 
->> *cursor)
->> +{
->> +    rcu_read_lock();
->> +    do {
->> +        dma_resv_iter_restart_unlocked(cursor);
->> +        dma_resv_iter_walk_unlocked(cursor);
->> +    } while (read_seqcount_retry(&cursor->obj->seq, cursor->seq));
->> +    rcu_read_unlock();
->> +
->> +    return cursor->fence;
->> +}
->> +EXPORT_SYMBOL(dma_resv_iter_first_unlocked);
->> +
->> +/**
->> + * dma_resv_iter_next_unlocked - next fence in an unlocked dma_resv 
->> obj.
->> + * @cursor: the cursor with the current position
->> + *
->> + * Returns the next fence from an unlocked dma_resv obj.
->> + */
->> +struct dma_fence *dma_resv_iter_next_unlocked(struct dma_resv_iter 
->> *cursor)
->> +{
->> +    bool restart;
->> +
->> +    rcu_read_lock();
->> +    cursor->is_restarted = false;
->> +    restart = read_seqcount_retry(&cursor->obj->seq, cursor->seq);
->> +    do {
->> +        if (restart)
->> +            dma_resv_iter_restart_unlocked(cursor);
->> +        dma_resv_iter_walk_unlocked(cursor);
->> +        restart = true;
->> +    } while (read_seqcount_retry(&cursor->obj->seq, cursor->seq));
->> +    rcu_read_unlock();
->> +
->> +    return cursor->fence;
->> +}
->> +EXPORT_SYMBOL(dma_resv_iter_next_unlocked);
->> +
->>   /**
->>    * dma_resv_copy_fences - Copy all fences from src to dst.
->>    * @dst: the destination reservation object
->> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
->> index 9100dd3dc21f..5d7d28cb9008 100644
->> --- a/include/linux/dma-resv.h
->> +++ b/include/linux/dma-resv.h
->> @@ -149,6 +149,101 @@ struct dma_resv {
->>       struct dma_resv_list __rcu *fence;
->>   };
->>   +/**
->> + * struct dma_resv_iter - current position into the dma_resv fences
->> + *
->> + * Don't touch this directly in the driver, use the accessor 
->> function instead.
->> + */
->> +struct dma_resv_iter {
->> +    /** @obj: The dma_resv object we iterate over */
->> +    struct dma_resv *obj;
->> +
->> +    /** @all_fences: If all fences should be returned */
->> +    bool all_fences;
->> +
->> +    /** @fence: the currently handled fence */
->> +    struct dma_fence *fence;
->> +
->> +    /** @seq: sequence number to check for modifications */
->> +    unsigned int seq;
->> +
->> +    /** @index: index into the shared fences */
->> +    unsigned int index;
->> +
->> +    /** @fences: the shared fences */
->> +    struct dma_resv_list *fences;
->> +
->> +    /** @is_restarted: true if this is the first returned fence */
->> +    bool is_restarted;
->> +};
->> +
->> +struct dma_fence *dma_resv_iter_first_unlocked(struct dma_resv_iter 
->> *cursor);
->> +struct dma_fence *dma_resv_iter_next_unlocked(struct dma_resv_iter 
->> *cursor);
->> +
->> +/**
->> + * dma_resv_iter_begin - initialize a dma_resv_iter object
->> + * @cursor: The dma_resv_iter object to initialize
->> + * @obj: The dma_resv object which we want to iterate over
->> + * @all_fences: If all fences should be returned or just the 
->> exclusive one
->> + */
->> +static inline void dma_resv_iter_begin(struct dma_resv_iter *cursor,
->> +                       struct dma_resv *obj,
->> +                       bool all_fences)
->> +{
->> +    cursor->obj = obj;
->> +    cursor->all_fences = all_fences;
->> +    cursor->fence = NULL;
->> +}
->> +
->> +/**
->> + * dma_resv_iter_end - cleanup a dma_resv_iter object
->> + * @cursor: the dma_resv_iter object which should be cleaned up
->> + *
->> + * Make sure that the reference to the fence in the cursor is properly
->> + * dropped.
->> + */
->> +static inline void dma_resv_iter_end(struct dma_resv_iter *cursor)
->> +{
->> +    dma_fence_put(cursor->fence);
->> +}
->> +
->> +/**
->> + * dma_resv_iter_is_exclusive - test if the current fence is the 
->> exclusive one
->> + * @cursor: the cursor of the current position
->> + *
->> + * Returns true if the currently returned fence is the exclusive one.
->> + */
->> +static inline bool dma_resv_iter_is_exclusive(struct dma_resv_iter 
->> *cursor)
->> +{
->> +    return cursor->index == -1;
->> +}
->> +
->> +/**
->> + * dma_resv_iter_is_restarted - test if this is the first fence 
->> after a restart
->> + * @cursor: the cursor with the current position
->> + *
->> + * Return true if this is the first fence in an iteration after a 
->> restart.
->> + */
->> +static inline bool dma_resv_iter_is_restarted(struct dma_resv_iter 
->> *cursor)
->> +{
->> +    return cursor->is_restarted;
->> +}
->> +
->> +/**
->> + * dma_resv_for_each_fence_unlocked - unlocked fence iterator
->> + * @cursor: a struct dma_resv_iter pointer
->> + * @fence: the current fence
->> + *
->> + * Iterate over the fences in a struct dma_resv object without 
->> holding the
->> + * &dma_resv.lock and using RCU instead. The cursor needs to be 
->> initialized
->> + * with dma_resv_iter_begin() and cleaned up with 
->> dma_resv_iter_end(). Inside
->> + * the iterator a reference to the dma_fence is held and the RCU 
->> lock dropped.
->> + * When the dma_resv is modified the iteration starts over again.
->> + */
->> +#define dma_resv_for_each_fence_unlocked(cursor, fence)            \
->> +    for (fence = dma_resv_iter_first_unlocked(cursor);        \
->> +         fence; fence = dma_resv_iter_next_unlocked(cursor))
->> +
->>   #define dma_resv_held(obj) lockdep_is_held(&(obj)->lock.base)
->>   #define dma_resv_assert_held(obj) 
->> lockdep_assert_held(&(obj)->lock.base)
->>
-
