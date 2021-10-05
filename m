@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42F1642217C
+	by mail.lfdr.de (Postfix) with ESMTP id BC42542217D
 	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 10:58:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233615AbhJEJAa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Oct 2021 05:00:30 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60730 "EHLO
+        id S233632AbhJEJAc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Oct 2021 05:00:32 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60822 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233597AbhJEJA0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 05:00:26 -0400
+        with ESMTP id S233554AbhJEJA1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 05:00:27 -0400
 Received: from deskari.lan (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DF221850;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EFEB4A2A;
         Tue,  5 Oct 2021 10:58:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1633424315;
-        bh=HZ+yp2eajXEluAaBS6DkxhMcMykj6xJc6IOUPjUYbH0=;
+        s=mail; t=1633424316;
+        bh=6AjEaetWUhOFBvdHO2e21OZ7XmnvrixW6TFofwJTRHs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=q9rYr9id0UzXUIuctG+2FYEPM/vvWOUvmp1eIBQlgXezceCKjYcXd/+uoJ/DWNp79
-         uDvnaW0fW5cwkVHm1t4FCntXFQbYYQfX/ex3+o2PnBIy9Gq3NqG0cpmh03XPf3vsxk
-         IJB9TET1QjXK+dXqjhcl2zukPQkt1sgNEUgSsDKU=
+        b=iu9L4xqjxzwJzWhJozRy/QH4qd55rOFVvOVuGASXPhz8+2N7QMV3uS61RO1Kkmwet
+         VJVDevsoOrPkLKOMlqsgGzzYBneWnHsJTtYLFTrTBZVCgtRkqQTdqoJTk6pv8WZOUe
+         pyePR2jdffNA8WxBVr/J2H0cO487M3CXL8WmZvYA=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -30,9 +30,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Pratyush Yadav <p.yadav@ti.com>
-Subject: [PATCH v9 24/36] media: subdev: increase V4L2_FRAME_DESC_ENTRY_MAX to 8
-Date:   Tue,  5 Oct 2021 11:57:38 +0300
-Message-Id: <20211005085750.138151-25-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v9 25/36] media: add V4L2_SUBDEV_FL_MULTIPLEXED
+Date:   Tue,  5 Oct 2021 11:57:39 +0300
+Message-Id: <20211005085750.138151-26-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
 References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
@@ -42,36 +42,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-V4L2_FRAME_DESC_ENTRY_MAX is currently set to 4. In theory it's possible
-to have an arbitrary amount of streams in a single pad, so preferably
-there should be no hardcoded maximum number.
-
-However, I believe a reasonable max is 8, which would cover a CSI-2 pad
-with 4 streams of pixel data and 4 streams of metadata.
+Add subdev flag V4L2_SUBDEV_FL_MULTIPLEXED. It is used to indicate that
+the subdev supports the new API with multiplexed streams (routing,
+stream configs).
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- include/media/v4l2-subdev.h | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ include/media/v4l2-subdev.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index f8443475651d..b3a72c98a2d3 100644
+index b3a72c98a2d3..7f9c83fac020 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -360,7 +360,11 @@ struct v4l2_mbus_frame_desc_entry {
- 	} bus;
- };
+@@ -888,6 +888,17 @@ struct v4l2_subdev_internal_ops {
+  * should set this flag.
+  */
+ #define V4L2_SUBDEV_FL_HAS_EVENTS		(1U << 3)
++/*
++ * Set this flag if this subdev supports multiplexed streams. This means
++ * that the driver supports routing and handles the stream parameter in its
++ * v4l2_subdev_pad_ops handlers. More specifically, this means:
++ *
++ * - Centrally managed active state is enabled
++ * - Legacy pad config is _not_ supported (state->pads)
++ * - Routing ioctls are available
++ * - Multiple streams per pad are supported
++ */
++#define V4L2_SUBDEV_FL_MULTIPLEXED		(1U << 4)
  
--#define V4L2_FRAME_DESC_ENTRY_MAX	4
-+ /*
-+  * FIXME: If this number is too small, it should be dropped altogether and the
-+  * API switched to a dynamic number of frame descriptor entries.
-+  */
-+#define V4L2_FRAME_DESC_ENTRY_MAX	8
+ struct regulator_bulk_data;
  
- /**
-  * enum v4l2_mbus_frame_desc_type - media bus frame description type
 -- 
 2.25.1
 
