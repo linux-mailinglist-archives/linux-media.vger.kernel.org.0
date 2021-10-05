@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5001B42252A
-	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 13:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3775742252B
+	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 13:38:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234454AbhJELjv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Oct 2021 07:39:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60794 "EHLO
+        id S234455AbhJELjw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Oct 2021 07:39:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234445AbhJELju (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 07:39:50 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 141BBC06174E
+        with ESMTP id S232658AbhJELjv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 07:39:51 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA24AC061749
         for <linux-media@vger.kernel.org>; Tue,  5 Oct 2021 04:38:00 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id j10-20020a1c230a000000b0030d523b6693so2752189wmj.2
-        for <linux-media@vger.kernel.org>; Tue, 05 Oct 2021 04:37:59 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id z2so16087336wmc.3
+        for <linux-media@vger.kernel.org>; Tue, 05 Oct 2021 04:38:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=IkVWp2cRgm41mlWFdiuPcdEqOEMHJpLCxm3yFN2dD0Q=;
-        b=pTVG+71nd7hFTAn7vT8ADHpYkOAwXoN7alL2V8B/B8XRtr68wMKD760W8IsjROzTjf
-         daOoQI+w3mQp4okffCYLdwFeEdI4Kww51diGSgF5KK/AlV5F1NEanftJ3tHe2UEwxnd2
-         yrM/cfyq7SKNYs8aa47E+kV6ewR+K2i6tGHTMWKOh3XZGPoqa+f9i0AU9U8OrLUqkPZe
-         wXrmPWPNEwQIBk+e/b160ZhPHO6eRZAqBtv3RZPsBLwaqdglP9vd5yPzYGy+GwuKlKoU
-         Wf4d5XDskZSjB5eNkjweClkhhPJQWMfYzudDKHjZRdEK+YLwun95vH6RR3L/i9OsU7FP
-         MQfw==
+        bh=d730QTcA12WB0FxkhM0n+vEOwpHIgTa3YH56dqVvnac=;
+        b=AGHPzHyTbObVNAaOwMKpwE8lBcAqbw3FoKyW5qe6/Tdlq22O7vBLpHqZdE3XQnyP17
+         IzBEoj/NDsiwk8ePd5Tcnfgr+g3X6c6TCM2mk7A5Jqu1DOqv08jBY1anu4IolTU/eu9g
+         IpXMhmocTqgL+/ljGYyUsKz7dUvQF1lYIH5ZVgmgZjVHchR3w/ZEJdKNywIL+iodO5DJ
+         8fdC0+a0daS/uDDGSpUnOv9OLwV7Ia+XfDk46AzESIhh03jl7PZmkdKs9zCFuknZGfhN
+         QonswpRKkK8eH2R3c5BtVDVWXXdPXuICFyfz10ZSKeQOnBiM2ZfUNJ10YK0GGS80GX6a
+         +tPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IkVWp2cRgm41mlWFdiuPcdEqOEMHJpLCxm3yFN2dD0Q=;
-        b=XqLHS9AVGVkrwZ/M1Q4TceMYhHC/QpEt9/YnmLvMEd+a59B2cifPXNEl3W01yFIHV2
-         y0VHJAn3vTIbcvd/TWDFOfYSOPRXfgCq/Nvq37WvmGr6Jz3mPDw+XJYWhwWGol9Bp8ba
-         EYvumdXH7ghKjx50XcZGzmIlFHYbTB/J3dEv434WIgvzFoCAEGiB82OaXqwTMRttSP3m
-         cctaYzzvMLfywHSdNSOK7hI9uXOD9A6bJ6LmON2tpMn0ZAhtWhNiKNJl5WboCF0moO0V
-         sC1rFwZ+0DR9xRxCZJkZDDyBUY0k3H69c7d2SDYMmgrr/t2ZkgkSFcK5Tuf+vw4umkns
-         rWgQ==
-X-Gm-Message-State: AOAM531XY8+vO8OPPtKlV1jz3nn2Hh6i3ImPFSa1kfBwSO4IIf5Pbw9w
-        yVh3szeVG/+9y2e6P1tHA00=
-X-Google-Smtp-Source: ABdhPJxtMhb11FqUzAvg+4vPZuCSefKCT26RL7LZnDsiEtcSoWAVGR4pB8VkqMa0acsjIkWXJKnJ/w==
-X-Received: by 2002:a7b:ce8c:: with SMTP id q12mr2854002wmj.14.1633433878659;
-        Tue, 05 Oct 2021 04:37:58 -0700 (PDT)
+        bh=d730QTcA12WB0FxkhM0n+vEOwpHIgTa3YH56dqVvnac=;
+        b=pToPm9ChTt1z3OTmeABCbHGrroIbhKxl+kURJe2pOdJNmAJiI0H95k89SuuHAmT44q
+         3CeKei3lXB1fUK8FRhVKsBRIXeBnAFPALplxcPeDrfcGEMqvsZGuYa3312w+wB1eQJsj
+         v+2qUGIxrBAIAPWglF5sqNLo4d3LOilksoG6KAXJa6UkdHHJzhFPAx3RYXQmI80lRlSw
+         8Yii/FE72TXjETWsE0uRftiefYgHXhUAKwAbrA/1Ubyt2aspHUKg5Gv8doTVoNEfMJ9D
+         lsZYFr8TuS1Q+V197bGgq2Vj6sCYYUw30/F2RIAh5nYK/a3xfV9x2D/1fUDGpHM26qVb
+         KPZg==
+X-Gm-Message-State: AOAM531G+7zUm8rEpfKv4VN0JCCppWMwiPJEOJKVZ4MoWPl5mgQg97zz
+        aSWJotDGAlRPD5P1ujmv6Po=
+X-Google-Smtp-Source: ABdhPJxecRyNg3S437RhSJiozzZhKzwjhUlyj4Z6lAlk+StsOMG/YjUPqJMYy7r2Gpdz3R/hLke3lw==
+X-Received: by 2002:a1c:f405:: with SMTP id z5mr2873140wma.72.1633433879512;
+        Tue, 05 Oct 2021 04:37:59 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id c5sm1739912wml.9.2021.10.05.04.37.57
+        by smtp.gmail.com with ESMTPSA id c5sm1739912wml.9.2021.10.05.04.37.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Oct 2021 04:37:58 -0700 (PDT)
+        Tue, 05 Oct 2021 04:37:59 -0700 (PDT)
 From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
         <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 To:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc:     daniel@ffwll.ch, tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 15/28] drm/radeon: use new iterator in radeon_sync_resv
-Date:   Tue,  5 Oct 2021 13:37:29 +0200
-Message-Id: <20211005113742.1101-16-christian.koenig@amd.com>
+Subject: [PATCH 16/28] drm/scheduler: use new iterator in drm_sched_job_add_implicit_dependencies v2
+Date:   Tue,  5 Oct 2021 13:37:30 +0200
+Message-Id: <20211005113742.1101-17-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211005113742.1101-1-christian.koenig@amd.com>
 References: <20211005113742.1101-1-christian.koenig@amd.com>
@@ -68,52 +68,55 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Simplifying the code a bit.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/radeon/radeon_sync.c | 22 +++-------------------
- 1 file changed, 3 insertions(+), 19 deletions(-)
+v2: use dma_resv_for_each_fence
 
-diff --git a/drivers/gpu/drm/radeon/radeon_sync.c b/drivers/gpu/drm/radeon/radeon_sync.c
-index 9257b60144c4..b991ba1bcd51 100644
---- a/drivers/gpu/drm/radeon/radeon_sync.c
-+++ b/drivers/gpu/drm/radeon/radeon_sync.c
-@@ -91,33 +91,17 @@ int radeon_sync_resv(struct radeon_device *rdev,
- 		     struct dma_resv *resv,
- 		     bool shared)
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 26 ++++++--------------------
+ 1 file changed, 6 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 042c16b5d54a..5bc5f775abe1 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -699,30 +699,16 @@ int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
+ 					    struct drm_gem_object *obj,
+ 					    bool write)
  {
--	struct dma_resv_list *flist;
--	struct dma_fence *f;
 +	struct dma_resv_iter cursor;
- 	struct radeon_fence *fence;
--	unsigned i;
-+	struct dma_fence *f;
- 	int r = 0;
++	struct dma_fence *fence;
+ 	int ret;
+-	struct dma_fence **fences;
+-	unsigned int i, fence_count;
+-
+-	if (!write) {
+-		struct dma_fence *fence = dma_resv_get_excl_unlocked(obj->resv);
+-
+-		return drm_sched_job_add_dependency(job, fence);
+-	}
+-
+-	ret = dma_resv_get_fences(obj->resv, NULL, &fence_count, &fences);
+-	if (ret || !fence_count)
+-		return ret;
  
--	/* always sync to the exclusive fence */
--	f = dma_resv_excl_fence(resv);
--	fence = f ? to_radeon_fence(f) : NULL;
--	if (fence && fence->rdev == rdev)
--		radeon_sync_fence(sync, fence);
--	else if (f)
--		r = dma_fence_wait(f, true);
--
--	flist = dma_resv_shared_list(resv);
--	if (shared || !flist || r)
--		return r;
--
--	for (i = 0; i < flist->shared_count; ++i) {
--		f = rcu_dereference_protected(flist->shared[i],
--					      dma_resv_held(resv));
-+	dma_resv_for_each_fence(&cursor, resv, shared, f) {
- 		fence = to_radeon_fence(f);
- 		if (fence && fence->rdev == rdev)
- 			radeon_sync_fence(sync, fence);
- 		else
- 			r = dma_fence_wait(f, true);
--
- 		if (r)
- 			break;
+-	for (i = 0; i < fence_count; i++) {
+-		ret = drm_sched_job_add_dependency(job, fences[i]);
++	dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
++		ret = drm_sched_job_add_dependency(job, fence);
+ 		if (ret)
+-			break;
++			return ret;
  	}
+-
+-	for (; i < fence_count; i++)
+-		dma_fence_put(fences[i]);
+-	kfree(fences);
+-	return ret;
++	return 0;
+ }
+ EXPORT_SYMBOL(drm_sched_job_add_implicit_dependencies);
+ 
 -- 
 2.25.1
 
