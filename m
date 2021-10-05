@@ -2,114 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC818421EC2
-	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 08:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D99BE421F7B
+	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 09:35:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232478AbhJEGPf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Oct 2021 02:15:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232460AbhJEGPf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 02:15:35 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2637FC061745
-        for <linux-media@vger.kernel.org>; Mon,  4 Oct 2021 23:13:45 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id r4-20020a7bc084000000b0030d6fc48bd2so1180307wmh.1
-        for <linux-media@vger.kernel.org>; Mon, 04 Oct 2021 23:13:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=j0gdpa7QFj6JEtxCL0CAkQhhWBN7lylbx+e4M1Vsb7o=;
-        b=VSMlRsoRvLnUs/myw52hG6menRckaTpfD/sc8jEUT0jyW5v3NKcZHtBWqWykMD5xpQ
-         mFu4QMfCZ9RQ9gHcJ9QFLXWCDQioaZGzCLDj2r3q5cK6Bu/YSHR3txAyRLJylC+4AKLR
-         g55PRWGvVR45Df7AB215vAr2ryBVF9UVBNPf2zz3lLIf+C6rBUlNftwFmbW96vlrWdTq
-         hCwjH6VQ0tr1DWzEEMjTxsoihIPbk377R7bOZfQPdhVWl10LaMlIoj6UaOF+EZtODQyV
-         LwPycfL7e8vNKveuzSRdCDYLP9xDWVdJMnpBwUvvLfFs+gIqIOclKdHk3GCXIwYTLdoB
-         y/FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=j0gdpa7QFj6JEtxCL0CAkQhhWBN7lylbx+e4M1Vsb7o=;
-        b=sh+b+QN6nP+gA+L1CXV+fM8HEr2agOKYfwjdq8tOq2Fo0+J/AC2XBfeOwyMDUxvEpP
-         EARQxhnzJ72lXKbYh9X9CBDGIpXbeNhhEoX+aOpdss61vniQkW7Y0r31VKIfT7qxflPi
-         xmvg5Ad1kDkyerZ3nquQ9/IQeEzPzGctvFcb9XcB/tsqfYkLe7jssYsy3kUxbXju94Vl
-         H6EAyx2dX8pEw0bLbpTuYCCnvUZAZ6zGE16TM1MDI4e8qEiIhufBI2/iLDvbAHUQgKh7
-         dfbHy5Wmnou4fE/nDO4tyfpgoluWj44vMzW2Nw4hE+Npf3xO1KU2ngY7HK144pcfnoPE
-         nCqQ==
-X-Gm-Message-State: AOAM530r8kj82tB6rQ8wUxP1wT6qE7rJTYHDtUyOma4ku/MDZCv/eg8x
-        QS6/p672JepynGuEA2uIslQ4lm4daOEDnXLCliE98Q==
-X-Google-Smtp-Source: ABdhPJwvzH04gXiNcjIVGCd6bQFa+g35hTdKUKGTFBM4UFTMR14Ybiy5zm5HBrSroG102mfVLu4iLioSc6A1uZAaB2I=
-X-Received: by 2002:a05:600c:1c9a:: with SMTP id k26mr1406845wms.169.1633414423545;
- Mon, 04 Oct 2021 23:13:43 -0700 (PDT)
+        id S232478AbhJEHhp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Oct 2021 03:37:45 -0400
+Received: from mga07.intel.com ([134.134.136.100]:43127 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230526AbhJEHhp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 Oct 2021 03:37:45 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="289185668"
+X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; 
+   d="scan'208";a="289185668"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2021 00:35:55 -0700
+X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; 
+   d="scan'208";a="487917277"
+Received: from tbarret1-mobl.ger.corp.intel.com (HELO [10.213.238.194]) ([10.213.238.194])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2021 00:35:53 -0700
+Subject: Re: [PATCH 08/28] dma-buf: use the new iterator in dma_buf_debug_show
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Cc:     daniel@ffwll.ch
+References: <20211001100610.2899-1-christian.koenig@amd.com>
+ <20211001100610.2899-9-christian.koenig@amd.com>
+From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <23ae5edb-4582-1fec-f0a5-db224265df77@linux.intel.com>
+Date:   Tue, 5 Oct 2021 08:35:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210901083215.25984-1-yunfei.dong@mediatek.com>
- <CAAEAJfDOt_GyDPojcj5P6Wou9HC2GC8YzRt2wYyqdrCOjfeOog@mail.gmail.com>
- <3b9463e88d88ce85205da08f8263252da7726ade.camel@mediatek.com>
- <aba7fb4ffe6e45ac90869b5017468386bce64d28.camel@mediatek.com>
- <b7ed8b71578a98704e9b8ca29cac63c67cc14b3f.camel@mediatek.com>
- <CAAEAJfCHEBFc8B7C0bu7UxtJdffvDarqgA-rset1wPjLOiV01A@mail.gmail.com> <CAC-pXoMR=mOwnKqP5SFAfF3Ka5UrG0F8Mj=sJuEziU=uOKftoA@mail.gmail.com>
-In-Reply-To: <CAC-pXoMR=mOwnKqP5SFAfF3Ka5UrG0F8Mj=sJuEziU=uOKftoA@mail.gmail.com>
-From:   Tomasz Figa <tfiga@google.com>
-Date:   Tue, 5 Oct 2021 15:13:32 +0900
-Message-ID: <CAAFQd5DzLMFarc2fFkrcE4t+T3mk5XJtCoWa8WpHNuOS5++SbA@mail.gmail.com>
-Subject: Re: [PATCH v6, 00/15] Using component framework to support multi
- hardware decode
-To:     Steve Cho <stevecho@chromium.org>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        "yunfei.dong@mediatek.com" <Yunfei.Dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <Andrew-CT.Chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Project_Global_Chrome_Upstream_Group 
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211001100610.2899-9-christian.koenig@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 28, 2021 at 2:02 AM Steve Cho <stevecho@chromium.org> wrote:
->
-> Hi Ezequiel,
->
-> Thank you for reviewing these series from Yunfei!
-> This series is one of the main obstacles for us at the moment for MTK
-> so please continue to help & support reviewing this series.
->
-> > > According to google's suggestion, it's better not to use v4l2 async
-> > > also.
-> >
-> > Hum? I haven't seen such objection on the mailing list.
-> Maybe coming from Tzung-Bi?
-> Yunfei, please let us know.
 
-I do object to using V4L2 async. It's designed for independent
-components of media pipelines, handled by multiple different drivers
-and also modelled as V4L2 subdevices. We don't have anything like that
-here.
+On 01/10/2021 11:05, Christian König wrote:
+> Simplifying the code a bit.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/dma-buf/dma-buf.c | 24 ++++++------------------
+>   1 file changed, 6 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 61e20ae7b08b..8242b5d9baeb 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -1356,10 +1356,9 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>   {
+>   	struct dma_buf *buf_obj;
+>   	struct dma_buf_attachment *attach_obj;
+> -	struct dma_resv *robj;
+> -	struct dma_resv_list *fobj;
+> +	struct dma_resv_iter cursor;
+>   	struct dma_fence *fence;
+> -	int count = 0, attach_count, shared_count, i;
+> +	int count = 0, attach_count;
+>   	size_t size = 0;
+>   	int ret;
+>   
+> @@ -1386,21 +1385,10 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>   				file_inode(buf_obj->file)->i_ino,
+>   				buf_obj->name ?: "");
+>   
+> -		robj = buf_obj->resv;
+> -		fence = dma_resv_excl_fence(robj);
+> -		if (fence)
+> -			seq_printf(s, "\tExclusive fence: %s %s %ssignalled\n",
+> -				   fence->ops->get_driver_name(fence),
+> -				   fence->ops->get_timeline_name(fence),
+> -				   dma_fence_is_signaled(fence) ? "" : "un");
+> -
+> -		fobj = rcu_dereference_protected(robj->fence,
+> -						 dma_resv_held(robj));
+> -		shared_count = fobj ? fobj->shared_count : 0;
+> -		for (i = 0; i < shared_count; i++) {
+> -			fence = rcu_dereference_protected(fobj->shared[i],
+> -							  dma_resv_held(robj));
+> -			seq_printf(s, "\tShared fence: %s %s %ssignalled\n",
+> +		dma_resv_for_each_fence(&cursor, buf_obj->resv, true, fence) {
+> +			seq_printf(s, "\t%s fence: %s %s %ssignalled\n",
+> +				   dma_resv_iter_is_exclusive(&cursor) ?
+> +					"Exclusive" : "Shared",
+>   				   fence->ops->get_driver_name(fence),
+>   				   fence->ops->get_timeline_name(fence),
+>   				   dma_fence_is_signaled(fence) ? "" : "un");
+> 
 
-How about just open coding something trivial that only fits the needs
-of this specific driver? I think it would be as simple as a linked
-list and registering the V4L2 devices only after all the nodes probe.
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Best regards,
-Tomasz
+Regards,
+
+Tvrtko
