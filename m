@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFADA42203F
-	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 10:11:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 771C4422033
+	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 10:11:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233583AbhJEINP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Oct 2021 04:13:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39840 "EHLO
+        id S233382AbhJEINC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Oct 2021 04:13:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233449AbhJEINF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 04:13:05 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5426CC061753
-        for <linux-media@vger.kernel.org>; Tue,  5 Oct 2021 01:11:10 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id x7so72933049edd.6
-        for <linux-media@vger.kernel.org>; Tue, 05 Oct 2021 01:11:10 -0700 (PDT)
+        with ESMTP id S233321AbhJEINA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 04:13:00 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4371C061749
+        for <linux-media@vger.kernel.org>; Tue,  5 Oct 2021 01:11:09 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id b8so40628588edk.2
+        for <linux-media@vger.kernel.org>; Tue, 05 Oct 2021 01:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=reI8ABKa2KHEbOGggLGunLye63rXdf1D0uQhMOxGYnY=;
-        b=pGU9xu0PqdSMZwD3kdcpIhPxDzI/x4iZSEkBZc04MY/NVKHQMyu/q2A6QXug9Vsyy9
-         hUZUbHRUtnyQVAlcjx/lilVe5C2vkBbJZKyi0F2joKJjrOUkNz1tuythCuj0X3M+JYDE
-         o9dlKU0oet0xwKEb42nfm+5vwYKpwlFWlXTVeSMWfXy/l4xM+oAt/18Y4O8k4B27QwKt
-         JyMBJDxU6Rc+L+N3R7xv4JtYuxDq0BQ+UgLUP873X0yf3yVkTczN3dLYdC/fgETAtiFt
-         c0Sm+MECHNf8SKImScVpHl4IZema/iGVuxtuz8z3fff2hWLVQje9dnDlnJBLvWQwMuri
-         uV2w==
+        bh=yiKrIzBiKlW3d0EztEYlz/TsXaJItbUI5JDPiVLlN/g=;
+        b=YmIChPJXJMaKsNpip6EixH2hiIiMBjlqpIVxWPX4NrD1wNja+xWPabsHk8wLRgNtjc
+         yjbqkxRmJCOcI0yOjaxlJ2Y+yrNSr5WqpSNCLeIaKsqrl91e+PzDxJ1/Q4Pzz91XaWa3
+         jzO4KM0zkTIKH28RAtZ+tDkkam1rWSM1TCJ86zpwMf2cGHo8Z7IVv4mgYuD6Sh+dG6a+
+         VrE2cFJM4aF7BXW7eSfWaQM2c26pwvqbWTYrvdeM8t6d6+V7uTfgjHn5sJaQfZrsQde8
+         vF2LURw1AzgGzdIMm4h3nsX3+8caNM25fgYOiNMPCB5S9B79IT4AZHoGnPx1657jMHEp
+         k4eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=reI8ABKa2KHEbOGggLGunLye63rXdf1D0uQhMOxGYnY=;
-        b=NOsQs73rEGnEZNLjEDo2lmXCQ5yYjme/3xxXOAHJscerguVgehmcx6eTb20OURJ3aL
-         AZT1ouzHBs/KEf2T0McG7ctN4YlS2CZ/8w/mtwckG69q4Xfy1arGceLnNQktdwQIxDTE
-         C2OBG83Onr8v/WgmmrOQ5mglZ2K0LU73fvwwIsZE+1yqHDBYw7ynFFdT13Yx4MmSF/hD
-         k6UoNWAHNSpq5Qj1jxRrCBrfUEZRUrYES6StYfk6PRAZE2Zi4KkY1/9L2zUl08zZcMvS
-         Y7Myl9Bo5yG3Q6e2f8isrxGq2wSuZquandwD7i/NAy3ejTnE7D8RoUdIkj3jMSrcddqA
-         VFCQ==
-X-Gm-Message-State: AOAM533KN4VTG1g4qDSc0ZQYMniiq/DhcWeAS0hIlAfUIuXz4MtzfqX9
-        M/seQmuMHjJJOsMyicP4sqTU6P1vxEABmA==
-X-Google-Smtp-Source: ABdhPJwEcX5Ebgfd6f2zznhuqDPUF/IzTPbNME5jqOmROJTWaH2/zbtZIFMFPICGjBUaMacPEKuPKA==
-X-Received: by 2002:a50:9dcd:: with SMTP id l13mr23920971edk.90.1633421467352;
-        Tue, 05 Oct 2021 01:11:07 -0700 (PDT)
+        bh=yiKrIzBiKlW3d0EztEYlz/TsXaJItbUI5JDPiVLlN/g=;
+        b=jDkz4qb2ZpufuEekQUxRMmqUDkQBtkQJyF/vvWJ2zA1L+6/W/atYuiuJ8E6eRMWhy7
+         7V/JuMzofvvAmp4uTI/95i74YYcXhzc1fFjGSVAuNUNcS5Jaez3CgX5oHXd9+t5C5ohi
+         iVXxXRv/l5DwjHD/2QlV3ojAJ35s039fGElaaWE4zLPi9ubHPAKC6xmEHSaWkv1wSwzk
+         6n5453SeNMa5ZUaIyUc+7E8tUwxQXhohm2hV0MxRVb499pK8CgAlr/O0K7Wggi8Y5qqv
+         wc8HkHvf7NfJ1wtj4YUKKeuyi4cDp8KfX9MoAlZgeD3FZAawbuMtbEDvmXbjSNkgKc5I
+         GkRw==
+X-Gm-Message-State: AOAM5321+hm8OHKmNcgIbKEDTVO5RH2vBDbJAj20dTVlc6wVaJKS4b4D
+        okkirxlKraLBTwvWhpSBNYINpMI1lubf5g==
+X-Google-Smtp-Source: ABdhPJwJhu3jjo/3YXeQJcXgRFl6tItMWzZAqXsrRZo1PPfuyGlAD0IoFfE1hMBVYWR+E7TfseDzSQ==
+X-Received: by 2002:a17:906:c18d:: with SMTP id g13mr22603666ejz.518.1633421468198;
+        Tue, 05 Oct 2021 01:11:08 -0700 (PDT)
 Received: from localhost.localdomain ([84.238.208.199])
-        by smtp.gmail.com with ESMTPSA id f1sm3096258edz.47.2021.10.05.01.11.06
+        by smtp.gmail.com with ESMTPSA id f1sm3096258edz.47.2021.10.05.01.11.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 05 Oct 2021 01:11:07 -0700 (PDT)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
@@ -52,11 +52,10 @@ To:     linux-media@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         vgarodia@codeaurora.org,
         Dikshita Agarwal <dikshita@codeaurora.org>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v5 2/7] media: venus: core: Add sc7280 DT compatible and resource data
-Date:   Tue,  5 Oct 2021 11:10:43 +0300
-Message-Id: <20211005081048.3095252-3-stanimir.varbanov@linaro.org>
+Subject: [PATCH v5 3/7] media: venus: Add num_vpp_pipes to resource structure
+Date:   Tue,  5 Oct 2021 11:10:44 +0300
+Message-Id: <20211005081048.3095252-4-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211005081048.3095252-1-stanimir.varbanov@linaro.org>
 References: <20211005081048.3095252-1-stanimir.varbanov@linaro.org>
@@ -68,88 +67,126 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dikshita Agarwal <dikshita@codeaurora.org>
 
-Adds a sm7280 compatible binding to the venus core.
+V6 HW can have vpp pipes as 1 or 4, add num_vpp_pipes
+to resource struture to differentiate.
 
-Co-developed-by: Mansur Alisha Shaik <mansur@codeaurora.org>
-Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
 Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 ---
-
-Added Mansur's Signed-off-by
-Sort alphabetically the new compatible string
-
- drivers/media/platform/qcom/venus/core.c | 52 ++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ drivers/media/platform/qcom/venus/core.c            |  2 ++
+ drivers/media/platform/qcom/venus/core.h            |  1 +
+ drivers/media/platform/qcom/venus/helpers.c         |  2 +-
+ drivers/media/platform/qcom/venus/hfi_platform.c    | 13 -------------
+ drivers/media/platform/qcom/venus/hfi_platform.h    |  2 --
+ drivers/media/platform/qcom/venus/hfi_platform_v6.c |  6 ------
+ 6 files changed, 4 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 7e54c5d571dc..e5af4d74e504 100644
+index e5af4d74e504..de7b32caa8b8 100644
 --- a/drivers/media/platform/qcom/venus/core.c
 +++ b/drivers/media/platform/qcom/venus/core.c
-@@ -734,12 +734,64 @@ static const struct venus_resources sm8250_res = {
- 	.fwname = "qcom/vpu-1.0/venus.mdt",
- };
+@@ -727,6 +727,7 @@ static const struct venus_resources sm8250_res = {
+ 	.vcodec_num = 1,
+ 	.max_load = 7833600,
+ 	.hfi_version = HFI_VERSION_6XX,
++	.num_vpp_pipes = 4,
+ 	.vmem_id = VIDC_RESOURCE_NONE,
+ 	.vmem_size = 0,
+ 	.vmem_addr = 0,
+@@ -778,6 +779,7 @@ static const struct venus_resources sc7280_res = {
+ 	.opp_pmdomain = (const char *[]) { "cx", NULL },
+ 	.vcodec_num = 1,
+ 	.hfi_version = HFI_VERSION_6XX,
++	.num_vpp_pipes = 1,
+ 	.vmem_id = VIDC_RESOURCE_NONE,
+ 	.vmem_size = 0,
+ 	.vmem_addr = 0,
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 5ec851115eca..62228cc6b032 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -68,6 +68,7 @@ struct venus_resources {
+ 	const char * const resets[VIDC_RESETS_NUM_MAX];
+ 	unsigned int resets_num;
+ 	enum hfi_version hfi_version;
++	u8 num_vpp_pipes;
+ 	u32 max_load;
+ 	unsigned int vmem_id;
+ 	u32 vmem_size;
+diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+index 8012f5c7bf34..1f46a6f4456a 100644
+--- a/drivers/media/platform/qcom/venus/helpers.c
++++ b/drivers/media/platform/qcom/venus/helpers.c
+@@ -583,7 +583,7 @@ static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
+ 		return -EINVAL;
  
-+static const struct freq_tbl sc7280_freq_table[] = {
-+	{ 0, 460000000 },
-+	{ 0, 424000000 },
-+	{ 0, 335000000 },
-+	{ 0, 240000000 },
-+	{ 0, 133333333 },
-+};
-+
-+static const struct bw_tbl sc7280_bw_table_enc[] = {
-+	{ 1944000, 1896000, 0, 3657000, 0 },	/* 3840x2160@60 */
-+	{  972000,  968000, 0, 1848000, 0 },	/* 3840x2160@30 */
-+	{  489600,  618000, 0,  941000, 0 },	/* 1920x1080@60 */
-+	{  244800,  318000, 0,	480000, 0 },	/* 1920x1080@30 */
-+};
-+
-+static const struct bw_tbl sc7280_bw_table_dec[] = {
-+	{ 2073600, 2128000, 0, 3831000, 0 },	/* 4096x2160@60 */
-+	{ 1036800, 1085000, 0, 1937000, 0 },	/* 4096x2160@30 */
-+	{  489600,  779000, 0,  998000, 0 },	/* 1920x1080@60 */
-+	{  244800,  400000, 0,  509000, 0 },	/* 1920x1080@30 */
-+};
-+
-+static const struct reg_val sm7280_reg_preset[] = {
-+	{ 0xb0088, 0 },
-+};
-+
-+static const struct venus_resources sc7280_res = {
-+	.freq_tbl = sc7280_freq_table,
-+	.freq_tbl_size = ARRAY_SIZE(sc7280_freq_table),
-+	.reg_tbl = sm7280_reg_preset,
-+	.reg_tbl_size = ARRAY_SIZE(sm7280_reg_preset),
-+	.bw_tbl_enc = sc7280_bw_table_enc,
-+	.bw_tbl_enc_size = ARRAY_SIZE(sc7280_bw_table_enc),
-+	.bw_tbl_dec = sc7280_bw_table_dec,
-+	.bw_tbl_dec_size = ARRAY_SIZE(sc7280_bw_table_dec),
-+	.clks = {"core", "bus", "iface"},
-+	.clks_num = 3,
-+	.vcodec0_clks = {"vcodec_core", "vcodec_bus"},
-+	.vcodec_clks_num = 2,
-+	.vcodec_pmdomains = { "venus", "vcodec0" },
-+	.vcodec_pmdomains_num = 2,
-+	.opp_pmdomain = (const char *[]) { "cx", NULL },
-+	.vcodec_num = 1,
-+	.hfi_version = HFI_VERSION_6XX,
-+	.vmem_id = VIDC_RESOURCE_NONE,
-+	.vmem_size = 0,
-+	.vmem_addr = 0,
-+	.dma_mask = 0xe0000000 - 1,
-+	.fwname = "qcom/vpu-2.0/venus.mbn",
-+};
-+
- static const struct of_device_id venus_dt_match[] = {
- 	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
- 	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
- 	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
- 	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
- 	{ .compatible = "qcom,sc7180-venus", .data = &sc7180_res, },
-+	{ .compatible = "qcom,sc7280-venus", .data = &sc7280_res, },
- 	{ .compatible = "qcom,sm8250-venus", .data = &sm8250_res, },
- 	{ }
+ 	params.version = version;
+-	params.num_vpp_pipes = hfi_platform_num_vpp_pipes(version);
++	params.num_vpp_pipes = inst->core->res->num_vpp_pipes;
+ 
+ 	if (is_dec) {
+ 		params.width = inst->width;
+diff --git a/drivers/media/platform/qcom/venus/hfi_platform.c b/drivers/media/platform/qcom/venus/hfi_platform.c
+index f5b4e1f4764f..f16f8962273c 100644
+--- a/drivers/media/platform/qcom/venus/hfi_platform.c
++++ b/drivers/media/platform/qcom/venus/hfi_platform.c
+@@ -66,16 +66,3 @@ hfi_platform_get_codec_lp_freq(enum hfi_version version, u32 codec, u32 session_
+ 	return freq;
+ }
+ 
+-u8 hfi_platform_num_vpp_pipes(enum hfi_version version)
+-{
+-	const struct hfi_platform *plat;
+-
+-	plat = hfi_platform_get(version);
+-	if (!plat)
+-		return 0;
+-
+-	if (plat->num_vpp_pipes)
+-		return plat->num_vpp_pipes();
+-
+-	return 0;
+-}
+diff --git a/drivers/media/platform/qcom/venus/hfi_platform.h b/drivers/media/platform/qcom/venus/hfi_platform.h
+index 2dbe608c53af..1dcf4085928c 100644
+--- a/drivers/media/platform/qcom/venus/hfi_platform.h
++++ b/drivers/media/platform/qcom/venus/hfi_platform.h
+@@ -52,7 +52,6 @@ struct hfi_platform {
+ 	unsigned long (*codec_lp_freq)(u32 session_type, u32 codec);
+ 	void (*codecs)(u32 *enc_codecs, u32 *dec_codecs, u32 *count);
+ 	const struct hfi_plat_caps *(*capabilities)(unsigned int *entries);
+-	u8 (*num_vpp_pipes)(void);
+ 	int (*bufreq)(struct hfi_plat_buffers_params *params, u32 session_type,
+ 		      u32 buftype, struct hfi_buffer_requirements *bufreq);
+ };
+@@ -67,5 +66,4 @@ unsigned long hfi_platform_get_codec_vsp_freq(enum hfi_version version, u32 code
+ 					      u32 session_type);
+ unsigned long hfi_platform_get_codec_lp_freq(enum hfi_version version, u32 codec,
+ 					     u32 session_type);
+-u8 hfi_platform_num_vpp_pipes(enum hfi_version version);
+ #endif
+diff --git a/drivers/media/platform/qcom/venus/hfi_platform_v6.c b/drivers/media/platform/qcom/venus/hfi_platform_v6.c
+index d8243b22568a..c10618e44f5d 100644
+--- a/drivers/media/platform/qcom/venus/hfi_platform_v6.c
++++ b/drivers/media/platform/qcom/venus/hfi_platform_v6.c
+@@ -322,17 +322,11 @@ static unsigned long codec_lp_freq(u32 session_type, u32 codec)
+ 	return 0;
+ }
+ 
+-static u8 num_vpp_pipes(void)
+-{
+-	return 4;
+-}
+-
+ const struct hfi_platform hfi_plat_v6 = {
+ 	.codec_vpp_freq = codec_vpp_freq,
+ 	.codec_vsp_freq = codec_vsp_freq,
+ 	.codec_lp_freq = codec_lp_freq,
+ 	.codecs = get_codecs,
+ 	.capabilities = get_capabilities,
+-	.num_vpp_pipes = num_vpp_pipes,
+ 	.bufreq = hfi_plat_bufreq_v6,
  };
 -- 
 2.25.1
