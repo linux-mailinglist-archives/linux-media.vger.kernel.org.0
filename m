@@ -2,90 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6188942253C
-	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 13:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4026042251A
+	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 13:37:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234504AbhJELkC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Oct 2021 07:40:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60862 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234502AbhJELkC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 07:40:02 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC12C061749
-        for <linux-media@vger.kernel.org>; Tue,  5 Oct 2021 04:38:11 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id r7so21266993wrc.10
-        for <linux-media@vger.kernel.org>; Tue, 05 Oct 2021 04:38:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=vDNZbZcYoW7IFr6lQi88QIbXjkbY+ZD5EoDTFjlvddA=;
-        b=L6QXQyheD0iBmll/6+c9+sMjS2UXeP6CZLR1N0Tr1p1DMvcTPcvrj/vKNkefQk6hSC
-         XAX6j4T7WLIwelmGb3Vw7DLUWhezBvGs6oJ3tp31RGY4A+X0HaDNuHljSm35cqPZ0o7t
-         QjEw8cbfgbfbfrG0xG80Z13SY25aLjgSqr4p04o5hntg/aaV0vvG/1PixW0ayo+SGnXJ
-         bFD3lm4R1p4jMBoFZy9chDD/RdYUm8y5O3ncSTfdOnwBmi/Mxiqh1f9NXgEiYFTN6zb7
-         0302neM0bN2wUiHC1/wncpvnSPz1YwKSZAGSg2az4zIvqkTWIv8EO2A860B80CR3DbjE
-         l88Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=vDNZbZcYoW7IFr6lQi88QIbXjkbY+ZD5EoDTFjlvddA=;
-        b=wz97umo9JC3Wcmxs/OywJXSsrNK8D1NUzKziZWeWvBloSBrp5rf6XoFwSAHyphp8N1
-         /4gz/vvsoqbOQgaOs2+sTrrksqlFXTB63d8SPd7galOBD/tmqQMpLzm4s1ndWzyJcRAf
-         14vr3i15HtKdIJm/Nc019wFTXCUPv5jqI6Fyi/cTbpi0EEcXOMPok1rPeJL6J+1tat8K
-         dFhsdBTBvmKJn+a+NJ2XjEyiuOUkEszGI41LBEbG0t3TXfkF/n3bMNvFLI3tsofA3oM4
-         l2vombtElyaROWPDW2eSzxPggSrs7epXRioHIOaHZVvpaUfrqbpch14CYLW8Me8dkt46
-         V8tw==
-X-Gm-Message-State: AOAM532CUsRb8ODiNgcz7OtJyWcLqFOV25l70CPoPfETSo2niC7/Is8N
-        aKmcgFY1dXxmxYvcc3MfaVI=
-X-Google-Smtp-Source: ABdhPJxGZxWVpSVFBiaJumxIFqfRiFL+GVcyqCPa5EfSRy4T9vy6Ac7sHOtq3cmmvYrRJTQvJN0d4w==
-X-Received: by 2002:a5d:4cca:: with SMTP id c10mr17829743wrt.188.1633433890218;
-        Tue, 05 Oct 2021 04:38:10 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id c5sm1739912wml.9.2021.10.05.04.38.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Oct 2021 04:38:09 -0700 (PDT)
-From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
-        <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc:     daniel@ffwll.ch, tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 28/28] drm/etnaviv: replace dma_resv_get_excl_unlocked
-Date:   Tue,  5 Oct 2021 13:37:42 +0200
-Message-Id: <20211005113742.1101-29-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211005113742.1101-1-christian.koenig@amd.com>
-References: <20211005113742.1101-1-christian.koenig@amd.com>
+        id S234388AbhJELjk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Oct 2021 07:39:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54304 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234070AbhJELji (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 Oct 2021 07:39:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3DF7461371;
+        Tue,  5 Oct 2021 11:37:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1633433868;
+        bh=t9DvBZnt4NNB7a0hcVaRvNBVvNKcckqWJY4ipVgovO0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lHE1QeNmznD6bnVbAVT3PwtWG3F6j6eAQyCCOUhGsVyLQyT/6RQWjOkdXYES9IjiY
+         hAVEW3AYeZStlx+Oz/2XuJ2Q3y7LKExTe+5+mafaKUWIlWkkgfGtHCKytRNFBpkF4S
+         DLAPqKDgZoDe3QeKwAJFPsiTe2UBjroyH0FS/CLo=
+Date:   Tue, 5 Oct 2021 13:37:46 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        linux-usb@vger.kernel.org, hverkuil@xs4all.nl,
+        m.tretter@pengutronix.de, linux-media@vger.kernel.org
+Subject: Re: [RESEND PATCH v4] usb: gadget: uvc: fix multiple opens
+Message-ID: <YVw5CvvOAxa+6aat@kroah.com>
+References: <87pn261h4c.fsf@kernel.org>
+ <20211003201355.24081-1-m.grzeschik@pengutronix.de>
+ <YVuUDOf+BDTxe/IR@pendragon.ideasonboard.com>
+ <YVwwECkXk+nKn7kE@kroah.com>
+ <87a6jnzq64.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87a6jnzq64.fsf@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We certainly hold the reservation lock here, no need for the RCU dance.
+On Tue, Oct 05, 2021 at 02:06:22PM +0300, Felipe Balbi wrote:
+> 
+> Greg KH <gregkh@linuxfoundation.org> writes:
+> 
+> > On Tue, Oct 05, 2021 at 02:53:48AM +0300, Laurent Pinchart wrote:
+> >> Hi Michael,
+> >> 
+> >> Thank you for resending this.
+> >> 
+> >> On Sun, Oct 03, 2021 at 10:13:55PM +0200, Michael Grzeschik wrote:
+> >> > From: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+> >> > 
+> >> > Currently, the UVC function is activated when open on the corresponding
+> >> > v4l2 device is called.
+> >> > On another open the activation of the function fails since the
+> >> > deactivation counter in `usb_function_activate` equals 0. However the
+> >> > error is not returned to userspace since the open of the v4l2 device is
+> >> > successful.
+> >> > 
+> >> > On a close the function is deactivated (since deactivation counter still
+> >> > equals 0) and the video is disabled in `uvc_v4l2_release`, although the
+> >> > UVC application potentially is streaming.
+> >> > 
+> >> > Move activation of UVC function to subscription on UVC_EVENT_SETUP
+> >> > because there we can guarantee for a userspace application utilizing
+> >> > UVC.
+> >> > Block subscription on UVC_EVENT_SETUP while another application already
+> >> > is subscribed to it, indicated by `bool func_connected` in
+> >> > `struct uvc_device`.
+> >> > Extend the `struct uvc_file_handle` with member `bool is_uvc_app_handle`
+> >> > to tag it as the handle used by the userspace UVC application.
+> >> 
+> >> Reflowing the paragraph would be nice (this could be done when applying
+> >> the patch, or not at all).
+> >> 
+> >> > With this a process is able to check capabilities of the v4l2 device
+> >> > without deactivating the function for the actual UVC application.
+> >> > 
+> >> > Reviewed-By: Michael Tretter <m.tretter@pengutronix.de>
+> >> > Signed-off-by: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+> >> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> >> > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> >> 
+> >> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >> 
+> >> Felipe, please let me know if you want me to take this in my tree and
+> >> issue a pull request, otherwise I'll assume you'll pick it up.
+> >
+> > I'll pick it up now, thanks.
+> 
+> I guess it's too late for an Ack. FWIW:
+> 
+> Acked-by: Felipe Balbi <balbi@kernel.org>
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Nope, not too late, just added, thanks!
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index 4dd7d9d541c0..7e17bc2b5df1 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -195,7 +195,7 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
- 			if (ret)
- 				return ret;
- 		} else {
--			bo->excl = dma_resv_get_excl_unlocked(robj);
-+			bo->excl = dma_fence_get(dma_resv_excl_fence(robj));
- 		}
- 
- 	}
--- 
-2.25.1
-
+greg k-h
