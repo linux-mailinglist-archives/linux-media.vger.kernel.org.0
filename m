@@ -2,110 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39D524222E9
-	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 11:57:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5970422335
+	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 12:19:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233926AbhJEJ7b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Oct 2021 05:59:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37332 "EHLO
+        id S233077AbhJEKVH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Oct 2021 06:21:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233979AbhJEJ72 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 05:59:28 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FAA6C061765
-        for <linux-media@vger.kernel.org>; Tue,  5 Oct 2021 02:57:36 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id dj4so76790648edb.5
-        for <linux-media@vger.kernel.org>; Tue, 05 Oct 2021 02:57:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mcUx6mFpPjRWb+s/DSiH7CSR1lxitUSgQfuJXwjrEzM=;
-        b=XxjVUrlzLpLKzpxmT+9cuXU4t7FWXSQ+5JK+kHlkVE+zALIUo6EP0uLi69A7WEhfcs
-         Hd630y3z8QG+bgU5PGoV0r4iklRHOhbpy7us9MKQUczYD1lH0yUmu3c7Sw1PX/iwJzLi
-         Lf2iDxuAAMZHS9Utm25mtNWFCxVXjd1+hIa7Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mcUx6mFpPjRWb+s/DSiH7CSR1lxitUSgQfuJXwjrEzM=;
-        b=T7mBRwdGj9wMBU+LODUUT8YFcTfnU7Z+kUycpIPyAcXsZnXDpwKlu8Rcst/FUcmOI9
-         EDMUFTd6986pc1ddRghB6EY5SMcrX6tRtuH2703EQEenV02aCDSxYWg/TCyyjL/9wxWT
-         bRdupBl5DLkRRNlTh7b0gseVEyBmHEHVUr3HneRxHLBc65WGM9YX/+BUvJAj1wluwuVQ
-         uIwkVAH0HPa7I9BWHR1EKDxJYmb24P0W6BE2f/ddqG0F5UZOOhFn6d43TuHeq0PnFbWj
-         Ktq9w3sr6zbUBi6SG2wFjJRlgzBy9AAnVZogYC0/4GeZGNLq+NMcB82aMZwgCeT0jvqA
-         SlYg==
-X-Gm-Message-State: AOAM532E1U3zfXMCwLyc1l1uQmHLV8LRGQmpaXKubFTyCFNsmOIg8jLQ
-        YgAOQVUSYxlAa3EoEWFseiICbb65718+lg==
-X-Google-Smtp-Source: ABdhPJzdo3p5fTDZ0x9Ouwr2lxKiCpGSzTRNcfjIzXMUaofTIml9EpaXK8tA3dE7nsh4XTCpTNOC4g==
-X-Received: by 2002:a17:906:5950:: with SMTP id g16mr24377062ejr.149.1633427852800;
-        Tue, 05 Oct 2021 02:57:32 -0700 (PDT)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
-        by smtp.gmail.com with ESMTPSA id s3sm7539293eja.87.2021.10.05.02.57.32
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Oct 2021 02:57:32 -0700 (PDT)
-Received: by mail-wr1-f51.google.com with SMTP id t8so36406525wri.1
-        for <linux-media@vger.kernel.org>; Tue, 05 Oct 2021 02:57:32 -0700 (PDT)
-X-Received: by 2002:adf:a184:: with SMTP id u4mr20543894wru.69.1633427851714;
- Tue, 05 Oct 2021 02:57:31 -0700 (PDT)
+        with ESMTP id S232658AbhJEKVG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 06:21:06 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A675C06161C
+        for <linux-media@vger.kernel.org>; Tue,  5 Oct 2021 03:19:16 -0700 (PDT)
+Received: from [IPv6:2a02:810a:880:f54:513a:8ecc:d1c4:6cb5] (unknown [IPv6:2a02:810a:880:f54:513a:8ecc:d1c4:6cb5])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 272291F438B7;
+        Tue,  5 Oct 2021 11:19:14 +0100 (BST)
+Subject: Re: [PATCH v8 28/36] media: subdev: Add [GS]_ROUTING subdev ioctls
+ and operations
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>
+References: <20210830110116.488338-1-tomi.valkeinen@ideasonboard.com>
+ <20210830110116.488338-29-tomi.valkeinen@ideasonboard.com>
+ <c79b503e-cb83-61cb-f1d0-982e49a6f0cc@collabora.com>
+ <30a468fe-e813-2b30-49e8-86192379c238@ideasonboard.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <a0fdefe3-092d-221a-8030-e984617e0677@collabora.com>
+Date:   Tue, 5 Oct 2021 12:19:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210928034634.333785-1-senozhatsky@chromium.org>
-In-Reply-To: <20210928034634.333785-1-senozhatsky@chromium.org>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 5 Oct 2021 18:57:20 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DLiW23a0U_JjnpvoYmpcbiKbStq7=w=7KvbDP7zLvBaA@mail.gmail.com>
-Message-ID: <CAAFQd5DLiW23a0U_JjnpvoYmpcbiKbStq7=w=7KvbDP7zLvBaA@mail.gmail.com>
-Subject: Re: [PATCH] media: videobuf2: always set buffer vb2 pointer
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <30a468fe-e813-2b30-49e8-86192379c238@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 28, 2021 at 12:46 PM Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
->
-> We need to always link allocated vb2_dc_buf back to vb2_buffer because
-> we dereference vb2 in prepare() and finish() callbacks.
->
-> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> ---
->  drivers/media/common/videobuf2/videobuf2-dma-contig.c | 3 +++
->  1 file changed, 3 insertions(+)
->
 
-Acked-by: Tomasz Figa <tfiga@chromium.org>
 
-Best regards,
-Tomasz
+On 04.10.21 07:15, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 03/10/2021 22:52, Dafna Hirschfeld wrote:
+> 
+>>> +/**
+>>> + * struct v4l2_subdev_route - A route inside a subdev
+>>> + *
+>>> + * @sink_pad: the sink pad index
+>>> + * @sink_stream: the sink stream identifier
+>>> + * @source_pad: the source pad index
+>>> + * @source_stream: the source stream identifier
+>>> + * @flags: route flags V4L2_SUBDEV_ROUTE_FL_*
+>>> + * @reserved: drivers and applications must zero this array
+>>> + */
+>>> +struct v4l2_subdev_route {
+>>> +    __u32 sink_pad;
+>>> +    __u32 sink_stream;
+>>> +    __u32 source_pad;
+>>> +    __u32 source_stream;
+>>> +    __u32 flags;
+>>> +    __u32 reserved[5];
+>>> +};
+>>> +
+>>
+>> I don't understand that struct, what is the meaning of the two sink_stream, source_stream fields?
+>> What is the relation between sink_pad and source_pad? A 'route' between two pads means that 'streams' can flow through them?
+>>
+>> If I have for example:
+>>
+>> sink_pad = sink_stream = 0
+>> source_pad = source_stream = 1
+>>
+>> what does that mean?
+> 
+> It means that a stream with stream ID 0 that comes to the subdev's sink pad 0 will be routed to the subdev's source pad 1 with stream ID 1.
+> 
+> So the sink_pad and source_pad tell via which pads the streams flows.
+> 
+> Stream IDs are numbers used to uniquely identify the stream for the specific pad. In other words, for the subdev's pad 0, each stream ID must be unique. That pad 0 is linked (media link) to another subdev's pad, and on that pad there must be streams with the matching IDs.
 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> index b052a4e36961..38767791955d 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> @@ -600,6 +600,7 @@ static void *vb2_dc_get_userptr(struct vb2_buffer *vb, struct device *dev,
->
->         buf->dev = dev;
->         buf->dma_dir = vb->vb2_queue->dma_dir;
-> +       buf->vb = vb;
->
->         offset = lower_32_bits(offset_in_page(vaddr));
->         vec = vb2_create_framevec(vaddr, size);
-> @@ -788,6 +789,8 @@ static void *vb2_dc_attach_dmabuf(struct vb2_buffer *vb, struct device *dev,
->                 return ERR_PTR(-ENOMEM);
->
->         buf->dev = dev;
-> +       buf->vb = vb;
-> +
->         /* create attachment for the dmabuf with the user device */
->         dba = dma_buf_attach(dbuf, buf->dev);
->         if (IS_ERR(dba)) {
-> --
-> 2.33.0.685.g46640cef36-goog
->
+Ok, so the stream ID for the same stream changes from link to link.
+
+So different streams can have the same ID on different pads?
+
+Won't it be more simple if the stream ID is forced to stay the same along all the links and pads?
+
+> 
+>   Tomi
