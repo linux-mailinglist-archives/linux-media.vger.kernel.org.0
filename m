@@ -2,39 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29CF3421F97
-	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 09:44:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55653421FA3
+	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 09:48:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232631AbhJEHq0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Oct 2021 03:46:26 -0400
-Received: from mga04.intel.com ([192.55.52.120]:33466 "EHLO mga04.intel.com"
+        id S232723AbhJEHuM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Oct 2021 03:50:12 -0400
+Received: from mga09.intel.com ([134.134.136.24]:25944 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230526AbhJEHqZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 Oct 2021 03:46:25 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="224452069"
+        id S230526AbhJEHuL (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 Oct 2021 03:50:11 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="225578185"
 X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; 
-   d="scan'208";a="224452069"
+   d="scan'208";a="225578185"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2021 00:44:34 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2021 00:48:21 -0700
 X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; 
-   d="scan'208";a="487920385"
+   d="scan'208";a="487921719"
 Received: from tbarret1-mobl.ger.corp.intel.com (HELO [10.213.238.194]) ([10.213.238.194])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2021 00:44:32 -0700
-Subject: Re: [PATCH 09/28] dma-buf: use the new iterator in dma_resv_poll
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2021 00:48:19 -0700
+Subject: Re: [PATCH 23/28] drm: use new iterator in
+ drm_gem_fence_array_add_implicit v3
 To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
         linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc:     daniel@ffwll.ch
 References: <20211001100610.2899-1-christian.koenig@amd.com>
- <20211001100610.2899-10-christian.koenig@amd.com>
+ <20211001100610.2899-24-christian.koenig@amd.com>
 From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-Message-ID: <ef650439-a418-979b-56fb-4cf10f91747e@linux.intel.com>
-Date:   Tue, 5 Oct 2021 08:44:31 +0100
+Message-ID: <2caa3933-2e29-1b86-a20e-82225d266710@linux.intel.com>
+Date:   Tue, 5 Oct 2021 08:48:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211001100610.2899-10-christian.koenig@amd.com>
+In-Reply-To: <20211001100610.2899-24-christian.koenig@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -43,93 +44,62 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On 01/10/2021 11:05, Christian König wrote:
-> Simplify the code a bit.
+On 01/10/2021 11:06, Christian König wrote:
+> Simplifying the code a bit.
+> 
+> v2: add missing rcu_read_lock()/unlock()
+> v3: switch to locked version
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
 > ---
->   drivers/dma-buf/dma-buf.c | 36 ++++++------------------------------
->   1 file changed, 6 insertions(+), 30 deletions(-)
+>   drivers/gpu/drm/drm_gem.c | 26 +++++---------------------
+>   1 file changed, 5 insertions(+), 21 deletions(-)
 > 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 8242b5d9baeb..beb504a92d60 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -209,19 +209,14 @@ static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
->   	dma_fence_put(fence);
->   }
->   
-> -static bool dma_buf_poll_shared(struct dma_resv *resv,
-> +static bool dma_buf_poll_add_cb(struct dma_resv *resv, bool write,
->   				struct dma_buf_poll_cb_t *dcb)
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 09c820045859..4dcdec6487bb 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -1340,31 +1340,15 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
+>   				     struct drm_gem_object *obj,
+>   				     bool write)
 >   {
-> -	struct dma_resv_list *fobj = dma_resv_shared_list(resv);
-> +	struct dma_resv_iter cursor;
->   	struct dma_fence *fence;
-> -	int i, r;
+> -	int ret;
+> -	struct dma_fence **fences;
+> -	unsigned int i, fence_count;
 > -
-> -	if (!fobj)
-> -		return false;
-> +	int r;
+> -	if (!write) {
+> -		struct dma_fence *fence =
+> -			dma_resv_get_excl_unlocked(obj->resv);
+> -
+> -		return drm_gem_fence_array_add(fence_array, fence);
+> -	}
+> +	struct dma_resv_iter cursor;
+> +	struct dma_fence *fence;
+> +	int ret = 0;
 >   
-> -	for (i = 0; i < fobj->shared_count; ++i) {
-> -		fence = rcu_dereference_protected(fobj->shared[i],
-> -						  dma_resv_held(resv));
-> +	dma_resv_for_each_fence(&cursor, resv, write, fence) {
->   		dma_fence_get(fence);
->   		r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
->   		if (!r)
+> -	ret = dma_resv_get_fences(obj->resv, NULL,
+> -						&fence_count, &fences);
+> -	if (ret || !fence_count)
+> -		return ret;
+> -
+> -	for (i = 0; i < fence_count; i++) {
+> -		ret = drm_gem_fence_array_add(fence_array, fences[i]);
+> +	dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
+> +		ret = drm_gem_fence_array_add(fence_array, fence);
+>   		if (ret)
+>   			break;
+>   	}
+> -
+> -	for (; i < fence_count; i++)
+> -		dma_fence_put(fences[i]);
+> -	kfree(fences);
+>   	return ret;
+>   }
+>   EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
+> 
 
-It is unchanged with this patch, but are the semantics supposed to be 
-like this? Signal poll event if _any_ of the shared fences has been 
-signaled?
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
 Regards,
 
 Tvrtko
-
-> @@ -232,24 +227,6 @@ static bool dma_buf_poll_shared(struct dma_resv *resv,
->   	return false;
->   }
->   
-> -static bool dma_buf_poll_excl(struct dma_resv *resv,
-> -			      struct dma_buf_poll_cb_t *dcb)
-> -{
-> -	struct dma_fence *fence = dma_resv_excl_fence(resv);
-> -	int r;
-> -
-> -	if (!fence)
-> -		return false;
-> -
-> -	dma_fence_get(fence);
-> -	r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
-> -	if (!r)
-> -		return true;
-> -	dma_fence_put(fence);
-> -
-> -	return false;
-> -}
-> -
->   static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
->   {
->   	struct dma_buf *dmabuf;
-> @@ -282,8 +259,7 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
->   		spin_unlock_irq(&dmabuf->poll.lock);
->   
->   		if (events & EPOLLOUT) {
-> -			if (!dma_buf_poll_shared(resv, dcb) &&
-> -			    !dma_buf_poll_excl(resv, dcb))
-> +			if (!dma_buf_poll_add_cb(resv, true, dcb))
->   				/* No callback queued, wake up any other waiters */
->   				dma_buf_poll_cb(NULL, &dcb->cb);
->   			else
-> @@ -303,7 +279,7 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
->   		spin_unlock_irq(&dmabuf->poll.lock);
->   
->   		if (events & EPOLLIN) {
-> -			if (!dma_buf_poll_excl(resv, dcb))
-> +			if (!dma_buf_poll_add_cb(resv, false, dcb))
->   				/* No callback queued, wake up any other waiters */
->   				dma_buf_poll_cb(NULL, &dcb->cb);
->   			else
-> 
