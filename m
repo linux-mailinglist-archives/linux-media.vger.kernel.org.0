@@ -2,220 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5513422070
-	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 10:16:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 591E84220B2
+	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 10:29:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232985AbhJEISH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Oct 2021 04:18:07 -0400
-Received: from mail-dm3nam07on2062.outbound.protection.outlook.com ([40.107.95.62]:34216
-        "EHLO NAM02-DM3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232929AbhJEISF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 Oct 2021 04:18:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c/uvPlQUywEUVjTtuGeBvCb74/5u8LU7j5R3NoHdqWlbRkJJ+B9nQv7h3gy2aQJOpAmT0ULpAFim+ra7WSh/OW+enmJ+ZX8esShVoShQg+cQIEJpL8dxWXKNaDaPDGzY4tQulVCSRd4hvoMcbmnhMn3gnxnSmRfQz75yl8zDTlxlIdugTo2PY92WDuSCV+NEr3AZk/UAafiCWCPoe/n/Cz0bvuhNtuEVnTFtCtA78wIm5+DEAFmzYc7wtQ6zgS/GKYVNETXZPtPzPEJN15W6sX+MVP/bHexTW1s/lhrRp5j50b/NSiPfJrleUufJ1rRxgCm+a0dQlsWHbGvoeKF5KA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M+bFFU3GtDMEbKY8X8UNu8Fg+BfmjBVGO09QNkacM0o=;
- b=ajpTVH2wxDDcx0DCbPkLf2l0WgCChTo8qszTkNqnJ83IirunaNygKmqzstJbCAgmHxBIUwK2hmcRy5mkJRJN5HDtNtykWQbk5AXbXGnJ4nrgTDCG7qVIo4ulSznozKGpaJpmgjc9FCN0HgIaL3iuOtM9oZSLTpoKZPy22NCaBksa4TMQd6HuHXqYqnRnhoTeexm8Gxf1l324D2MLHE+8oy0Mf4WYsdlYmC8cqGQFmzFORS4yQFXOc3Y+NOHI8mgqO4s8+60VEm7G9tiNgDFlA56lbSIekkziP/3yFwdIsMGQ2eugvX7yme6QRIyGjBid4Wm1v0shr7iF0vkGuWjPKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M+bFFU3GtDMEbKY8X8UNu8Fg+BfmjBVGO09QNkacM0o=;
- b=wlSxxjMGhmPWlcNwIVpmOqM6Fq34XhSZNFEKvpyhuXWEunM9PWnSX0SKfrZ0BTYgN3xyV5kLu2zdwSEVRNznijBPVejPS0Zk81NMqJT1TVw2VemdJu7sC1vhD2n8Xfvjz2gTX8THHB2s0o43aQfWg+8SSk3Q74lTs96WTeCpyA8=
-Authentication-Results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14) by MWHPR1201MB0111.namprd12.prod.outlook.com
- (2603:10b6:301:55::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.19; Tue, 5 Oct
- 2021 08:16:11 +0000
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::55c7:6fc9:b2b1:1e6a]) by MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::55c7:6fc9:b2b1:1e6a%10]) with mapi id 15.20.4566.022; Tue, 5 Oct 2021
- 08:16:11 +0000
-Subject: Re: [PATCH 09/28] dma-buf: use the new iterator in dma_resv_poll
-To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc:     daniel@ffwll.ch
-References: <20211001100610.2899-1-christian.koenig@amd.com>
- <20211001100610.2899-10-christian.koenig@amd.com>
- <ef650439-a418-979b-56fb-4cf10f91747e@linux.intel.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <e43bc3f9-60be-0f7f-b1a7-3cd2fe1a6289@amd.com>
-Date:   Tue, 5 Oct 2021 10:16:00 +0200
+        id S232167AbhJEIbs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Oct 2021 04:31:48 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:59868 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230286AbhJEIbq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 04:31:46 -0400
+Received: from tatooine.ideasonboard.com (unknown [IPv6:2a01:e0a:169:7140:87c1:5a4a:3543:636a])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6AC6A25B;
+        Tue,  5 Oct 2021 10:29:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1633422591;
+        bh=29A9PMsxQy1KVaHO5HYLfazQe8Z7R8OK8KapdUZS+R4=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=joifYqVn+NM8A4p/7Yu+tLTJqMhBzXQFamx2HX4WVb2n0tNxuA9lnB2BkREQMDRDN
+         xiDzG/B4SRx4txhXZU1LC3VO3n2f6FHyWjA7Aw2XgMeMF0o2cOivZPuql4N8n8Vjxr
+         YTcNckFarfHJ7gCW4cutS0f0v1RAjCI/FKw65smI=
+Subject: Re: [PATCH] media: staging: ipu3-imgu: add the AWB memory layout
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        bingbu.cao@intel.com, tfiga@google.com, tian.shu.qiu@intel.com
+References: <20210930092021.65741-1-jeanmichel.hautbois@ideasonboard.com>
+ <YVt5HhjiP9i85ZMZ@pendragon.ideasonboard.com>
+From:   Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Message-ID: <66ec9379-ec86-24aa-ec20-96ecc3a155ca@ideasonboard.com>
+Date:   Tue, 5 Oct 2021 10:29:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
-In-Reply-To: <ef650439-a418-979b-56fb-4cf10f91747e@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR05CA0081.eurprd05.prod.outlook.com
- (2603:10a6:208:136::21) To MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14)
 MIME-Version: 1.0
-Received: from [172.31.55.180] (165.204.72.6) by AM0PR05CA0081.eurprd05.prod.outlook.com (2603:10a6:208:136::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend Transport; Tue, 5 Oct 2021 08:16:08 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 13e73777-6a31-4317-6a76-08d987d863c4
-X-MS-TrafficTypeDiagnostic: MWHPR1201MB0111:
-X-Microsoft-Antispam-PRVS: <MWHPR1201MB01114E95B2899FB36ADAB0F883AF9@MWHPR1201MB0111.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: M8A5+o8o/fKxRMaMSn+nQ1xwVMSXXsZV0MUhDJY9tA3SoenQ4ls//HYaoJXbOvYvNbY9L+Hz3i+I0lXuxRz1Y2bFXnvO37rbHMUU8O6ZyR8Qy1N66ybbuYHNkx638KmKp9uICI7p2o9PeDXJXNlYaC54SGONEFV8bK3RKoORLCdBgLQEZWVerZh05Ah150YJWqUy7AWqAU1MGlvd4TN19NqX2J2bEixIwAhfBes7MA9zCaC5ypmJmKA3KKOIa2/dWGwrRP9tjK6Z/lDzuG2WGoqJYhy5kDt95w2vKlz+O+FvZIFt5tujzWJxQRo0yQVv0qu6KdbSEVpn7zq3dPClYBAbGG1Ls7OpKnEi4cZ8R2BWxc8eYyR2MEOWAh31qcqkGK+PNGAlH9Sm83ifd3pnFggFuYmuHBQsD3QKWrtAvqN0HK/TgMon/2dGW+X3bkkAdQOFEznQh13KlO5YPVoWKttQj/pKCdEFEH3krAm4aS89GUxfoZa0tAKDR5/FsIUADZE1GPM0a4eJ9SbmWfIb2qeWPK4YUEBVL1tSXqnqVQkowbPney4b/kwVbUzKHN5L021o/8JowCkK8glkdt3R6zrDA0DlYoTnmBAtr6utco4NEj8Iibru7Y4vqXoXUAY8US0XISQWpc+7rg42fM6aMGiaI0FDyp0AMVlR5SUonWkmNfGl6xf3CwfUEZQRmxXFYhWgye4pQvzc0vX/kgkxPt5zTKwit3ZpbA/d5XSHLiY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1201MB0192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(5660300002)(6666004)(86362001)(31686004)(956004)(508600001)(36756003)(66556008)(316002)(38100700002)(8676002)(66946007)(66476007)(8936002)(26005)(83380400001)(53546011)(66574015)(6486002)(186003)(16576012)(2906002)(2616005)(4326008)(31696002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SmJBaDBHdU44VHNWdDZOMjJGUFBKbTZqdGRTVEZuMXJUWmdkS25LakVBRkJS?=
- =?utf-8?B?RWg0UUgvRFU1LzdjUXB1Y3c5eVBsSlE1YWxqblZCT3V3dmJQclZkelJ3U0Q0?=
- =?utf-8?B?UmJRRmVMYks5aUNKQU5PNlArakgwKy9SQTdIK1ZLYkNFekwwWmEyVjNScjly?=
- =?utf-8?B?d1pJUFNVNFZjTEh4MmpaRjU2R29RN1lnZzhQcTFnbXovOTlLdm11RGNGckVI?=
- =?utf-8?B?U2ppdmxHZHRwMXpPem4yZEVPSEJQbXF4NkxCc0RvQklzdmhBRDFPQkg5ZlVy?=
- =?utf-8?B?elducGdBR1FtSmFIaG12Zzh4c2p0MmI3U2ZMeWpDb2JkZlJrOGJBRDNlOCtq?=
- =?utf-8?B?TGdkQmFkeklyR3FzQmlpYTFLQ3pOUnd1ZStCeWNOWEFySlNOQlRFQXRRTzY4?=
- =?utf-8?B?MVNySy9YanRpRHBUa3dVNFQ2Sk9nd0lzQlRoUllYSTFmeGJreXJGNGk1SDlC?=
- =?utf-8?B?YUVERkszSFBmWHU5Rm5uRW1NV3VaRVlsSW0wd016TElPM3dQTjlub2RkaXlM?=
- =?utf-8?B?VVRBVWFFdWRuaEFhbGJieWllUWtwSmd3TnRjNkMyd0hGVnBUMmRITUczeTVH?=
- =?utf-8?B?UWU5U2FqRTRHa1k4eTBCOEoxVFl4ZTNOY212dDBQTzBwcExLdTBsaHcvaHJX?=
- =?utf-8?B?bWhjRnVzdk1RdDFJWkQ4U1A2U01vNDFIQjEvSWRkVDJsc1U5UEpFaFZCUFYy?=
- =?utf-8?B?eHNNYlB2cVYwandVM3ZpYzU4b28zdGQvN2RTRVJFU1cwMVpoMElrTitjNENE?=
- =?utf-8?B?b042NTQ2UWtKNXBxZVlkcHhXU2FBandnQTlXZ2NJWjllbFR5TFVwOHpZQ3lv?=
- =?utf-8?B?STl2R0tESVAyZzBjTnNzd0pXcVpFWlJYRmdvY3hRVy9ySVBVMUhka1VEY3FQ?=
- =?utf-8?B?YmU3ZFVsMzJtMzRFZEpyVnVBSXM4cGVsMFl5ODFCR1o0QklaeEtIdnJITjM0?=
- =?utf-8?B?NUJ6WjF3QnMwRU1GT1poRGsxS3FETkpBUDJwMURtRXpzelZhbEY5MnR4UjhN?=
- =?utf-8?B?d2FhYkh6dU1jVEVGSFk5ZmhpVTh2UlhjUnY0K0M2RVVtc0ZEZVBtbWZKb0h1?=
- =?utf-8?B?VjFCalNDeDN2YUtLWWZvRGp0YkgvTXhLT01SdytlSGJTOVo2U0lHS2VwSTFx?=
- =?utf-8?B?ZERsRGNrbmUzU214WFBCWlZxZ05GY2JRNmZOdk1zWlQ3NmRqVC9CWEtEUVg0?=
- =?utf-8?B?b0lWampXME5kb0QyVzJzdmJnMUVOdGJkeFA4eExCak5HN3B0eUVOZU1VcGE2?=
- =?utf-8?B?M09DTGkvby9SdUV6eXJhMVhlV1VXUGlBdmhZWDNkSm5RY1p0ZjdhdzUxdzdz?=
- =?utf-8?B?ejR5UkdoK2R5N1ltczRLOVhaT1NEL2RaZ3R3MFlTMFBmaExSOW13RGZCZlhH?=
- =?utf-8?B?VjVpTFBtc1NSbitCdmp6M29mSmZ5aUw5Mkc5Nk50ajEvb0JiQzR0RVdxWDlV?=
- =?utf-8?B?TlpwVWRBcll6eEtXVU9yMWp1OTQ2b3lrNk9HKy9tNTVVOEZIM0d1T3d4M2xl?=
- =?utf-8?B?TGV2bElnbjVUdWtjL2VXWU5yenBramRUaXlsMi9mSTRpTzFaa3hPVVZuT3d1?=
- =?utf-8?B?WmZwSHdtRCtFY0EzT1UyV3JZVDlSeDdrc3ZhVnhiSHBEem05a1QrcmRVZURz?=
- =?utf-8?B?TDZLZkdud0pKY1NGdDIzWkNjcFdaZzJPUEU2QTdmbGpYY0JsRkJKVGw2NTVK?=
- =?utf-8?B?c2p3QTlMUjVGL3k2ZC83Z3FFVTJQeU1ETm5XZHg5UExnQjRsTndlZVpvQ2M3?=
- =?utf-8?Q?5/5IMgbsZBfh9h2R06tc569x3UvKntfiHteAPLv?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13e73777-6a31-4317-6a76-08d987d863c4
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2021 08:16:11.1905
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r5J4H+op5BTApAn/9aQ/jya5bD2+pPo2x2snz5w6NbCngizFTT5TkHKWLLPuwDnX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0111
+In-Reply-To: <YVt5HhjiP9i85ZMZ@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 05.10.21 um 09:44 schrieb Tvrtko Ursulin:
->
-> On 01/10/2021 11:05, Christian König wrote:
->> Simplify the code a bit.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
+Hi Laurent,
+
+On 04/10/2021 23:58, Laurent Pinchart wrote:
+> Hi Jean-Michel,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Sep 30, 2021 at 11:20:21AM +0200, Jean-Michel Hautbois wrote:
+>> While parsing the RAW AWB metadata, the AWB layout was missing to fully
+>> understand which byte corresponds to which feature. Make the field names
+>> and usage explicit, as it is used by the userspace applications.
+> 
+> I would have mentioned how the hardware (or maybe firmware) generates
+> the statistics instead of how applications consume them, as it's the
+> IPU3 dictating the format, but it doesn't matter too much.
+> 
+>> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
 >> ---
->>   drivers/dma-buf/dma-buf.c | 36 ++++++------------------------------
->>   1 file changed, 6 insertions(+), 30 deletions(-)
+>>  .../media/ipu3/include/uapi/intel-ipu3.h      | 30 +++++++++++++++++--
+>>  1 file changed, 27 insertions(+), 3 deletions(-)
 >>
->> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->> index 8242b5d9baeb..beb504a92d60 100644
->> --- a/drivers/dma-buf/dma-buf.c
->> +++ b/drivers/dma-buf/dma-buf.c
->> @@ -209,19 +209,14 @@ static void dma_buf_poll_cb(struct dma_fence 
->> *fence, struct dma_fence_cb *cb)
->>       dma_fence_put(fence);
->>   }
->>   -static bool dma_buf_poll_shared(struct dma_resv *resv,
->> +static bool dma_buf_poll_add_cb(struct dma_resv *resv, bool write,
->>                   struct dma_buf_poll_cb_t *dcb)
->>   {
->> -    struct dma_resv_list *fobj = dma_resv_shared_list(resv);
->> +    struct dma_resv_iter cursor;
->>       struct dma_fence *fence;
->> -    int i, r;
->> -
->> -    if (!fobj)
->> -        return false;
->> +    int r;
->>   -    for (i = 0; i < fobj->shared_count; ++i) {
->> -        fence = rcu_dereference_protected(fobj->shared[i],
->> -                          dma_resv_held(resv));
->> +    dma_resv_for_each_fence(&cursor, resv, write, fence) {
->>           dma_fence_get(fence);
->>           r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
->>           if (!r)
->
-> It is unchanged with this patch, but are the semantics supposed to be 
-> like this? Signal poll event if _any_ of the shared fences has been 
-> signaled?
+>> diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+>> index 585f55981c86..fdda9d0a30af 100644
+>> --- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+>> +++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+>> @@ -61,6 +61,29 @@ struct ipu3_uapi_grid_config {
+>>  	__u16 y_end;
+>>  } __packed;
+>>  
+>> +/**
+>> + * struct ipu3_uapi_awb_set_item - Memory layout for each cell in AWB
+>> + *
+>> + * @Gr_avg:	Green average for red lines in the cell.
+>> + * @R_avg:	Red average in the cell.
+>> + * @B_avg:	Blue average in the cell.
+>> + * @Gb_avg:	Green average for blue lines in the cell.
+>> + * @sat_ratio:  Saturation ratio in the cell.
+> 
+> Do we have more information about this field ? We can add it later if we
+> don't.
 
-That had Daniel and me confused for a moment as well.
+Indeed, I have made tests on my side, and I am now even able to make
+this field "visible" :-).
+The sat_ratio is a 0-100% ratio coded as 0-255 values. It is controlled
+by the rgbs_thr_* fields in the ipu3_uapi_awb_config_s structure.
 
-We don't signal the poll when any of the shared fences has signaled, but 
-rather install a callback on the first not-signaled fence.
+> 
+>> + * @padding0:   Unused byte for padding.
+>> + * @padding1:   Unused byte for padding.
+>> + * @padding2:   Unused byte for padding.
+>> + */
+>> +struct ipu3_uapi_awb_set_item {
+>> +	__u8 Gr_avg;
+>> +	__u8 R_avg;
+>> +	__u8 B_avg;
+>> +	__u8 Gb_avg;
+>> +	__u8 sat_ratio;
+>> +	__u8 padding0;
+>> +	__u8 padding1;
+>> +	__u8 padding2;
+>> +} __attribute__((packed));
+>> +
+>>  /*
+>>   * The grid based data is divided into "slices" called set, each slice of setX
+>>   * refers to ipu3_uapi_grid_config width * height_per_slice.
+>> @@ -73,8 +96,9 @@ struct ipu3_uapi_grid_config {
+>>  	(IPU3_UAPI_MAX_BUBBLE_SIZE * IPU3_UAPI_MAX_STRIPES * \
+>>  	 IPU3_UAPI_AWB_MD_ITEM_SIZE)
+>>  #define IPU3_UAPI_AWB_MAX_BUFFER_SIZE \
+>> -	(IPU3_UAPI_AWB_MAX_SETS * \
+>> -	 (IPU3_UAPI_AWB_SET_SIZE + IPU3_UAPI_AWB_SPARE_FOR_BUBBLES))
+>> +	((IPU3_UAPI_AWB_MAX_SETS * \
+>> +	 (IPU3_UAPI_AWB_SET_SIZE + IPU3_UAPI_AWB_SPARE_FOR_BUBBLES)) / \
+>> +	 sizeof(struct ipu3_uapi_awb_set_item))
+> 
+> We'll really have to figure out what the bubbles are... Not in this
+> patch though.
+> 
+> Given that IPU3_UAPI_AWB_MD_ITEM_SIZE is equal to the size of one item,
+> how about this ?
+> 
+> diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+> index ee0e6d0e4b2c..a18e9228ed07 100644
+> --- a/include/linux/intel-ipu3.h
+> +++ b/include/linux/intel-ipu3.h
+> @@ -65,11 +65,9 @@ struct ipu3_uapi_grid_config {
+>   */
+>  #define IPU3_UAPI_AWB_MAX_SETS				60
+>  /* Based on grid size 80 * 60 and cell size 16 x 16 */
+> -#define IPU3_UAPI_AWB_SET_SIZE				1280
+> -#define IPU3_UAPI_AWB_MD_ITEM_SIZE			8
+> +#define IPU3_UAPI_AWB_SET_SIZE				160
+>  #define IPU3_UAPI_AWB_SPARE_FOR_BUBBLES \
+> -	(IPU3_UAPI_MAX_BUBBLE_SIZE * IPU3_UAPI_MAX_STRIPES * \
+> -	 IPU3_UAPI_AWB_MD_ITEM_SIZE)
+> +	(IPU3_UAPI_MAX_BUBBLE_SIZE * IPU3_UAPI_MAX_STRIPES)
+>  #define IPU3_UAPI_AWB_MAX_BUFFER_SIZE \
+>  	(IPU3_UAPI_AWB_MAX_SETS * \
+>  	 (IPU3_UAPI_AWB_SET_SIZE + IPU3_UAPI_AWB_SPARE_FOR_BUBBLES))
+> 
 
-This callback then issues a re-test of the poll and only if we can't 
-find any more fence the poll is considered signaled (at least that's the 
-idea, the coding could as well be broken).
+Yes, it is better :-), thanks :-).
 
-Christian.
-
->
-> Regards,
->
-> Tvrtko
->
->> @@ -232,24 +227,6 @@ static bool dma_buf_poll_shared(struct dma_resv 
->> *resv,
->>       return false;
->>   }
->>   -static bool dma_buf_poll_excl(struct dma_resv *resv,
->> -                  struct dma_buf_poll_cb_t *dcb)
->> -{
->> -    struct dma_fence *fence = dma_resv_excl_fence(resv);
->> -    int r;
->> -
->> -    if (!fence)
->> -        return false;
->> -
->> -    dma_fence_get(fence);
->> -    r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
->> -    if (!r)
->> -        return true;
->> -    dma_fence_put(fence);
->> -
->> -    return false;
->> -}
->> -
->>   static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
->>   {
->>       struct dma_buf *dmabuf;
->> @@ -282,8 +259,7 @@ static __poll_t dma_buf_poll(struct file *file, 
->> poll_table *poll)
->>           spin_unlock_irq(&dmabuf->poll.lock);
->>             if (events & EPOLLOUT) {
->> -            if (!dma_buf_poll_shared(resv, dcb) &&
->> -                !dma_buf_poll_excl(resv, dcb))
->> +            if (!dma_buf_poll_add_cb(resv, true, dcb))
->>                   /* No callback queued, wake up any other waiters */
->>                   dma_buf_poll_cb(NULL, &dcb->cb);
->>               else
->> @@ -303,7 +279,7 @@ static __poll_t dma_buf_poll(struct file *file, 
->> poll_table *poll)
->>           spin_unlock_irq(&dmabuf->poll.lock);
->>             if (events & EPOLLIN) {
->> -            if (!dma_buf_poll_excl(resv, dcb))
->> +            if (!dma_buf_poll_add_cb(resv, false, dcb))
->>                   /* No callback queued, wake up any other waiters */
->>                   dma_buf_poll_cb(NULL, &dcb->cb);
->>               else
->>
-
+>>  
+>>  /**
+>>   * struct ipu3_uapi_awb_raw_buffer - AWB raw buffer
+>> @@ -83,7 +107,7 @@ struct ipu3_uapi_grid_config {
+>>   *		the average values for each color channel.
+>>   */
+>>  struct ipu3_uapi_awb_raw_buffer {
+>> -	__u8 meta_data[IPU3_UAPI_AWB_MAX_BUFFER_SIZE]
+>> +	struct ipu3_uapi_awb_set_item meta_data[IPU3_UAPI_AWB_MAX_BUFFER_SIZE]
+>>  		__attribute__((aligned(32)));
+>>  } __packed;
+>>  
+> 
