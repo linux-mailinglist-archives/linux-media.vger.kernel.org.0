@@ -2,28 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13474422162
-	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 10:58:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEA3E422164
+	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 10:58:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232920AbhJEJAH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Oct 2021 05:00:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51138 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232658AbhJEJAH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 05:00:07 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 001CDC061745
-        for <linux-media@vger.kernel.org>; Tue,  5 Oct 2021 01:58:16 -0700 (PDT)
+        id S233071AbhJEJAJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Oct 2021 05:00:09 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60730 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232985AbhJEJAI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 05:00:08 -0400
 Received: from deskari.lan (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A8026A2A;
-        Tue,  5 Oct 2021 10:58:14 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 872EFB91;
+        Tue,  5 Oct 2021 10:58:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1633424295;
-        bh=6hP/WudbRezNIhC/nrgVElzZEbEKDYv2wzChI+gcUhc=;
+        s=mail; t=1633424296;
+        bh=ytf3wt7FU0kzb62GmoTfHFfUI8ijCEz3n9IlUWELszA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZGB1Cr5fbAWQrL35h9YkoNETqSVIg/tdCvZT4Tr80SVX7lQYHFbQGrQfQ44GAZ+hg
-         ZYovjAp69znAJ5GqMfwMxjZvFIdp6sZr6EpxH/3hEVyHbUwpHbziAKzcrtERDkaBbf
-         xDlsfyqt9q1KaeQOjUX0fWBmMgMhn0siBFgzPcyc=
+        b=b44QEl21oyeYOGeEsKt4Q2SdMYfMJ4SPMbqW03EYgnmZgO7FZ2K8BTLQJSyp3eLyZ
+         lxdV9Ya0mZdOyaxWj+vY86CMSVPpWl+p3NE0MP6TEU0QV6DEM6uHpCvJDfLVXsezsi
+         CFkKcB3nXyYa6hiBBSQX8+UKkRUWCFwVopmZNnus=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -33,9 +30,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Pratyush Yadav <p.yadav@ti.com>
-Subject: [PATCH v9 01/36] media: subdev: rename subdev-state alloc & free
-Date:   Tue,  5 Oct 2021 11:57:15 +0300
-Message-Id: <20211005085750.138151-2-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v9 02/36] media: subdev: add active state to struct v4l2_subdev
+Date:   Tue,  5 Oct 2021 11:57:16 +0300
+Message-Id: <20211005085750.138151-3-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
 References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
@@ -45,174 +42,125 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-v4l2_subdev_alloc_state() and v4l2_subdev_free_state() are not supposed
-to be used by the drivers. However, we do have a few drivers that use
-those at the moment, so we need to expose these functions for the time
-being.
+Add a new 'state' field to struct v4l2_subdev to which we can store the
+active state of a subdev. This will place the subdev configuration into
+a known place, allowing us to use the state directly from the v4l2
+framework, thus simplifying the drivers.
 
-Prefix the functions with __ to mark the functions as internal.
-
-At the same time, rename them to v4l2_subdev_state_alloc and
-v4l2_subdev_state_free to match the style used for other functions like
-video_device_alloc() and media_request_alloc().
+Also add functions v4l2_subdev_init_finalize() and
+v4l2_subdev_cleanup(), which will allocate and free the active state.
+The functions are named in a generic way so that they can be also used
+for other subdev initialization work.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++--
- drivers/media/platform/vsp1/vsp1_entity.c   |  4 ++--
- drivers/media/v4l2-core/v4l2-subdev.c       | 12 ++++++------
- drivers/staging/media/tegra-video/vi.c      |  4 ++--
- include/media/v4l2-subdev.h                 | 10 +++++-----
- 5 files changed, 17 insertions(+), 17 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 21 +++++++++++
+ include/media/v4l2-subdev.h           | 51 +++++++++++++++++++++++++++
+ 2 files changed, 72 insertions(+)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 0d141155f0e3..ba1d16ab1651 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -252,7 +252,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
- 	u32 width, height;
- 	int ret;
- 
--	sd_state = v4l2_subdev_alloc_state(sd);
-+	sd_state = __v4l2_subdev_state_alloc(sd);
- 	if (IS_ERR(sd_state))
- 		return PTR_ERR(sd_state);
- 
-@@ -288,7 +288,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
- 
- 	rvin_format_align(vin, pix);
- done:
--	v4l2_subdev_free_state(sd_state);
-+	__v4l2_subdev_state_free(sd_state);
- 
- 	return ret;
- }
-diff --git a/drivers/media/platform/vsp1/vsp1_entity.c b/drivers/media/platform/vsp1/vsp1_entity.c
-index 823c15facd1b..869cadc1468d 100644
---- a/drivers/media/platform/vsp1/vsp1_entity.c
-+++ b/drivers/media/platform/vsp1/vsp1_entity.c
-@@ -675,7 +675,7 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
- 	 * Allocate the pad configuration to store formats and selection
- 	 * rectangles.
- 	 */
--	entity->config = v4l2_subdev_alloc_state(&entity->subdev);
-+	entity->config = __v4l2_subdev_state_alloc(&entity->subdev);
- 	if (IS_ERR(entity->config)) {
- 		media_entity_cleanup(&entity->subdev.entity);
- 		return PTR_ERR(entity->config);
-@@ -690,6 +690,6 @@ void vsp1_entity_destroy(struct vsp1_entity *entity)
- 		entity->ops->destroy(entity);
- 	if (entity->subdev.ctrl_handler)
- 		v4l2_ctrl_handler_free(entity->subdev.ctrl_handler);
--	v4l2_subdev_free_state(entity->config);
-+	__v4l2_subdev_state_free(entity->config);
- 	media_entity_cleanup(&entity->subdev.entity);
- }
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 5d27a27cc2f2..fe49c86a9b02 100644
+index fe49c86a9b02..bcaf66a1e3d9 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -28,7 +28,7 @@ static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
- {
- 	struct v4l2_subdev_state *state;
- 
--	state = v4l2_subdev_alloc_state(sd);
+@@ -943,3 +943,24 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+ 	v4l2_subdev_notify(sd, V4L2_DEVICE_NOTIFY_EVENT, (void *)ev);
+ }
+ EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
++
++int v4l2_subdev_init_finalize(struct v4l2_subdev *sd)
++{
++	struct v4l2_subdev_state *state;
++
 +	state = __v4l2_subdev_state_alloc(sd);
- 	if (IS_ERR(state))
- 		return PTR_ERR(state);
- 
-@@ -39,7 +39,7 @@ static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
- 
- static void subdev_fh_free(struct v4l2_subdev_fh *fh)
- {
--	v4l2_subdev_free_state(fh->state);
-+	__v4l2_subdev_state_free(fh->state);
- 	fh->state = NULL;
- }
- 
-@@ -870,7 +870,7 @@ int v4l2_subdev_link_validate(struct media_link *link)
- }
- EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
- 
--struct v4l2_subdev_state *v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
-+struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd)
- {
- 	struct v4l2_subdev_state *state;
- 	int ret;
-@@ -903,9 +903,9 @@ struct v4l2_subdev_state *v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
- 
- 	return ERR_PTR(ret);
- }
--EXPORT_SYMBOL_GPL(v4l2_subdev_alloc_state);
-+EXPORT_SYMBOL_GPL(__v4l2_subdev_state_alloc);
- 
--void v4l2_subdev_free_state(struct v4l2_subdev_state *state)
-+void __v4l2_subdev_state_free(struct v4l2_subdev_state *state)
- {
- 	if (!state)
- 		return;
-@@ -913,7 +913,7 @@ void v4l2_subdev_free_state(struct v4l2_subdev_state *state)
- 	kvfree(state->pads);
- 	kfree(state);
- }
--EXPORT_SYMBOL_GPL(v4l2_subdev_free_state);
-+EXPORT_SYMBOL_GPL(__v4l2_subdev_state_free);
- 
- #endif /* CONFIG_MEDIA_CONTROLLER */
- 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index d321790b07d9..66b9ce160472 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -507,7 +507,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 	if (!subdev)
- 		return -ENODEV;
- 
--	sd_state = v4l2_subdev_alloc_state(subdev);
-+	sd_state = __v4l2_subdev_state_alloc(subdev);
- 	if (IS_ERR(sd_state))
- 		return PTR_ERR(sd_state);
- 	/*
-@@ -558,7 +558,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 	v4l2_fill_pix_format(pix, &fmt.format);
- 	tegra_channel_fmt_align(chan, pix, fmtinfo->bpp);
- 
--	v4l2_subdev_free_state(sd_state);
-+	__v4l2_subdev_state_free(sd_state);
- 
- 	return 0;
- }
++	if (IS_ERR(state))
++		return PTR_ERR(state);
++
++	sd->state = state;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(v4l2_subdev_init_finalize);
++
++void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
++{
++	__v4l2_subdev_state_free(sd->state);
++	sd->state = NULL;
++}
++EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 95ec18c2f49c..e52bf508c75b 100644
+index e52bf508c75b..3aaa7146e5ff 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -1135,20 +1135,20 @@ int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
- int v4l2_subdev_link_validate(struct media_link *link);
- 
- /**
-- * v4l2_subdev_alloc_state - allocate v4l2_subdev_state
-+ * __v4l2_subdev_state_alloc - allocate v4l2_subdev_state
+@@ -898,6 +898,8 @@ struct v4l2_subdev_platform_data {
+  * @subdev_notifier: A sub-device notifier implicitly registered for the sub-
+  *		     device using v4l2_async_register_subdev_sensor().
+  * @pdata: common part of subdevice platform data
++ * @state: active state for the subdev (NULL for subdevs tracking the state
++ *	   internally)
   *
-  * @sd: pointer to &struct v4l2_subdev for which the state is being allocated.
-  *
-- * Must call v4l2_subdev_free_state() when state is no longer needed.
-+ * Must call __v4l2_subdev_state_free() when state is no longer needed.
-  */
--struct v4l2_subdev_state *v4l2_subdev_alloc_state(struct v4l2_subdev *sd);
-+struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd);
+  * Each instance of a subdev driver should create this struct, either
+  * stand-alone or embedded in a larger struct.
+@@ -929,6 +931,19 @@ struct v4l2_subdev {
+ 	struct v4l2_async_notifier *notifier;
+ 	struct v4l2_async_notifier *subdev_notifier;
+ 	struct v4l2_subdev_platform_data *pdata;
++
++	/*
++	 * The fields below are private, and should only be accessed via
++	 * appropriate functions.
++	 */
++
++	/*
++	 * TODO: state should most likely be changed from a pointer to an
++	 * embedded field. For the time being it's kept as a pointer to more
++	 * easily catch uses of state in the cases where the driver doesn't
++	 * support it.
++	 */
++	struct v4l2_subdev_state *state;
+ };
  
- /**
-- * v4l2_subdev_free_state - free a v4l2_subdev_state
-+ * __v4l2_subdev_state_free - free a v4l2_subdev_state
-  *
-  * @state: v4l2_subdev_state to be freed.
-  */
--void v4l2_subdev_free_state(struct v4l2_subdev_state *state);
-+void __v4l2_subdev_state_free(struct v4l2_subdev_state *state);
  
- #endif /* CONFIG_MEDIA_CONTROLLER */
+@@ -1217,4 +1232,40 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
+ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+ 			      const struct v4l2_event *ev);
  
++/**
++ * v4l2_subdev_init_finalize() - Finalize the initialization of the subdevice
++ * @sd: The subdev
++ *
++ * This finalizes the initialization of the subdev, including allocation of
++ * the active state for the subdev.
++ *
++ * This must be called by the subdev drivers that use the centralized active
++ * state, after the subdev struct has been initialized and
++ * media_entity_pads_init() has been called.
++ *
++ * Must call v4l2_subdev_cleanup() when the subdev is being removed.
++ */
++int v4l2_subdev_init_finalize(struct v4l2_subdev *sd);
++
++/**
++ * v4l2_subdev_cleanup() - Release the resources needed by the subdevice
++ * @sd: The subdevice
++ *
++ * This will release the resources allocated in v4l2_subdev_init_finalize.
++ */
++void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
++
++/**
++ * v4l2_subdev_get_active_state() - Return the active subdev state for subdevice
++ * @sd: The subdevice
++ *
++ * Return the active state for the subdevice, or NULL if the subdev does not
++ * support active state.
++ */
++static inline struct v4l2_subdev_state *
++v4l2_subdev_get_active_state(struct v4l2_subdev *sd)
++{
++	return sd->state;
++}
++
+ #endif
 -- 
 2.25.1
 
