@@ -2,60 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25BD0422044
-	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 10:11:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFADA42203F
+	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 10:11:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233372AbhJEINW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Oct 2021 04:13:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39830 "EHLO
+        id S233583AbhJEINP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Oct 2021 04:13:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233320AbhJEINA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 04:13:00 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2E8CC061745
-        for <linux-media@vger.kernel.org>; Tue,  5 Oct 2021 01:11:09 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id z20so23700993edc.13
-        for <linux-media@vger.kernel.org>; Tue, 05 Oct 2021 01:11:09 -0700 (PDT)
+        with ESMTP id S233449AbhJEINF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 04:13:05 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5426CC061753
+        for <linux-media@vger.kernel.org>; Tue,  5 Oct 2021 01:11:10 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id x7so72933049edd.6
+        for <linux-media@vger.kernel.org>; Tue, 05 Oct 2021 01:11:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5aa4vZiuIFSCPHF4dxekm5eLMC5HcT+Pb9Hlo0UAubI=;
-        b=JYzfxac7W+813vz3g6oISyCSz1sLUD4TZXUQfbe+Ap5PzbUCz8pDjLyYvazAS9erlY
-         z3K037RE8QB+HZ06Sx1KP5VYA3uMLdY0lVEwCZ6ldhl56L4hZ83AuoJe1MF/JL6P0fWD
-         Z0jgWVbjUB/K9WrR7rDiJ7+W+p12mI6/Z4WfeQLMeQUw7JoaR1C5WmOitJJLH39zviF4
-         rb6k5R+5hRqp7cDpsRqIgyRwmb1eSxOjrD1F2ofrkbv4IPj9lI90PPbTORFgOzRvZNeG
-         ADejhdeUFvn6QQWdkOy52Yva9v9+FJgvUiXUmHRD9UCKGxJTlL2ClW4TWOar75Mia6Jj
-         XHWQ==
+        bh=reI8ABKa2KHEbOGggLGunLye63rXdf1D0uQhMOxGYnY=;
+        b=pGU9xu0PqdSMZwD3kdcpIhPxDzI/x4iZSEkBZc04MY/NVKHQMyu/q2A6QXug9Vsyy9
+         hUZUbHRUtnyQVAlcjx/lilVe5C2vkBbJZKyi0F2joKJjrOUkNz1tuythCuj0X3M+JYDE
+         o9dlKU0oet0xwKEb42nfm+5vwYKpwlFWlXTVeSMWfXy/l4xM+oAt/18Y4O8k4B27QwKt
+         JyMBJDxU6Rc+L+N3R7xv4JtYuxDq0BQ+UgLUP873X0yf3yVkTczN3dLYdC/fgETAtiFt
+         c0Sm+MECHNf8SKImScVpHl4IZema/iGVuxtuz8z3fff2hWLVQje9dnDlnJBLvWQwMuri
+         uV2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5aa4vZiuIFSCPHF4dxekm5eLMC5HcT+Pb9Hlo0UAubI=;
-        b=gPrvU4E7ymlkqXMq6/olhyHlOao46U/wexwIduAsIlBpiD9+PamTH79blUusyEkFHq
-         hLEgFHtRgGj6g8XjW+hf0Z8b57ocVCzY3Jwz4epadGe7PBDMvz5CTIlyuOmxh66++flM
-         JTNE8X+ILCsBkeByFHCGjsWJZFjx0dZvlsT18WM0USsstbabVvO5QzBw5ypZqbpPclqv
-         wZs+DziMoDxGyCcfXKpRyU7y8Pm0qpoHpes/PYxvImXgZbM63ouH5IfrfIz9ehC51/cO
-         e7PZrZRlkkSh4xOanY/KQBGHb9qscJrWov7iXuuC832ISvjlG0DvQ4jjDCWNsTjHObKv
-         0ZWQ==
-X-Gm-Message-State: AOAM532G3HRgbjISAQxLK9jGj+CIxEb6s6LAPkYdF+mvu8HiMdb+gvE5
-        mp0GVvP3fgVGs8NXD4VU+d3q8sa1LVdt1A==
-X-Google-Smtp-Source: ABdhPJyNuhS5/OGQl3GyNzyK2Qf/kZaKWCLVmzcZORm7DqQ8n6orub/P2fkp4YteNMOvh/Ssi7bouQ==
-X-Received: by 2002:a17:906:aed1:: with SMTP id me17mr23060476ejb.474.1633421466458;
-        Tue, 05 Oct 2021 01:11:06 -0700 (PDT)
+        bh=reI8ABKa2KHEbOGggLGunLye63rXdf1D0uQhMOxGYnY=;
+        b=NOsQs73rEGnEZNLjEDo2lmXCQ5yYjme/3xxXOAHJscerguVgehmcx6eTb20OURJ3aL
+         AZT1ouzHBs/KEf2T0McG7ctN4YlS2CZ/8w/mtwckG69q4Xfy1arGceLnNQktdwQIxDTE
+         C2OBG83Onr8v/WgmmrOQ5mglZ2K0LU73fvwwIsZE+1yqHDBYw7ynFFdT13Yx4MmSF/hD
+         k6UoNWAHNSpq5Qj1jxRrCBrfUEZRUrYES6StYfk6PRAZE2Zi4KkY1/9L2zUl08zZcMvS
+         Y7Myl9Bo5yG3Q6e2f8isrxGq2wSuZquandwD7i/NAy3ejTnE7D8RoUdIkj3jMSrcddqA
+         VFCQ==
+X-Gm-Message-State: AOAM533KN4VTG1g4qDSc0ZQYMniiq/DhcWeAS0hIlAfUIuXz4MtzfqX9
+        M/seQmuMHjJJOsMyicP4sqTU6P1vxEABmA==
+X-Google-Smtp-Source: ABdhPJwEcX5Ebgfd6f2zznhuqDPUF/IzTPbNME5jqOmROJTWaH2/zbtZIFMFPICGjBUaMacPEKuPKA==
+X-Received: by 2002:a50:9dcd:: with SMTP id l13mr23920971edk.90.1633421467352;
+        Tue, 05 Oct 2021 01:11:07 -0700 (PDT)
 Received: from localhost.localdomain ([84.238.208.199])
-        by smtp.gmail.com with ESMTPSA id f1sm3096258edz.47.2021.10.05.01.11.05
+        by smtp.gmail.com with ESMTPSA id f1sm3096258edz.47.2021.10.05.01.11.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Oct 2021 01:11:06 -0700 (PDT)
+        Tue, 05 Oct 2021 01:11:07 -0700 (PDT)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-media@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         vgarodia@codeaurora.org,
         Dikshita Agarwal <dikshita@codeaurora.org>,
+        Mansur Alisha Shaik <mansur@codeaurora.org>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v5 1/7] venus: firmware: enable no tz fw loading for sc7280
-Date:   Tue,  5 Oct 2021 11:10:42 +0300
-Message-Id: <20211005081048.3095252-2-stanimir.varbanov@linaro.org>
+Subject: [PATCH v5 2/7] media: venus: core: Add sc7280 DT compatible and resource data
+Date:   Tue,  5 Oct 2021 11:10:43 +0300
+Message-Id: <20211005081048.3095252-3-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211005081048.3095252-1-stanimir.varbanov@linaro.org>
 References: <20211005081048.3095252-1-stanimir.varbanov@linaro.org>
@@ -67,104 +68,89 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dikshita Agarwal <dikshita@codeaurora.org>
 
-Enable no tz FW loading and add routine to reset XTSS.
+Adds a sm7280 compatible binding to the venus core.
 
+Co-developed-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
 Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
 Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 ---
- drivers/media/platform/qcom/venus/firmware.c  | 42 ++++++++++++++-----
- .../media/platform/qcom/venus/hfi_venus_io.h  |  2 +
- 2 files changed, 33 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
-index 227bd3b3f84c..14b6f1d05991 100644
---- a/drivers/media/platform/qcom/venus/firmware.c
-+++ b/drivers/media/platform/qcom/venus/firmware.c
-@@ -27,7 +27,12 @@
- static void venus_reset_cpu(struct venus_core *core)
- {
- 	u32 fw_size = core->fw.mapped_mem_size;
--	void __iomem *wrapper_base = core->wrapper_base;
-+	void __iomem *wrapper_base;
+Added Mansur's Signed-off-by
+Sort alphabetically the new compatible string
+
+ drivers/media/platform/qcom/venus/core.c | 52 ++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
+
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 7e54c5d571dc..e5af4d74e504 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -734,12 +734,64 @@ static const struct venus_resources sm8250_res = {
+ 	.fwname = "qcom/vpu-1.0/venus.mdt",
+ };
+ 
++static const struct freq_tbl sc7280_freq_table[] = {
++	{ 0, 460000000 },
++	{ 0, 424000000 },
++	{ 0, 335000000 },
++	{ 0, 240000000 },
++	{ 0, 133333333 },
++};
 +
-+	if (IS_V6(core))
-+		wrapper_base = core->wrapper_tz_base;
-+	else
-+		wrapper_base = core->wrapper_base;
- 
- 	writel(0, wrapper_base + WRAPPER_FW_START_ADDR);
- 	writel(fw_size, wrapper_base + WRAPPER_FW_END_ADDR);
-@@ -35,11 +40,17 @@ static void venus_reset_cpu(struct venus_core *core)
- 	writel(fw_size, wrapper_base + WRAPPER_CPA_END_ADDR);
- 	writel(fw_size, wrapper_base + WRAPPER_NONPIX_START_ADDR);
- 	writel(fw_size, wrapper_base + WRAPPER_NONPIX_END_ADDR);
--	writel(0x0, wrapper_base + WRAPPER_CPU_CGC_DIS);
--	writel(0x0, wrapper_base + WRAPPER_CPU_CLOCK_CONFIG);
- 
--	/* Bring ARM9 out of reset */
--	writel(0, wrapper_base + WRAPPER_A9SS_SW_RESET);
-+	if (IS_V6(core)) {
-+		/* Bring XTSS out of reset */
-+		writel(0, wrapper_base + WRAPPER_TZ_XTSS_SW_RESET);
-+	} else {
-+		writel(0x0, wrapper_base + WRAPPER_CPU_CGC_DIS);
-+		writel(0x0, wrapper_base + WRAPPER_CPU_CLOCK_CONFIG);
++static const struct bw_tbl sc7280_bw_table_enc[] = {
++	{ 1944000, 1896000, 0, 3657000, 0 },	/* 3840x2160@60 */
++	{  972000,  968000, 0, 1848000, 0 },	/* 3840x2160@30 */
++	{  489600,  618000, 0,  941000, 0 },	/* 1920x1080@60 */
++	{  244800,  318000, 0,	480000, 0 },	/* 1920x1080@30 */
++};
 +
-+		/* Bring ARM9 out of reset */
-+		writel(0, wrapper_base + WRAPPER_A9SS_SW_RESET);
-+	}
- }
- 
- int venus_set_hw_state(struct venus_core *core, bool resume)
-@@ -56,7 +67,9 @@ int venus_set_hw_state(struct venus_core *core, bool resume)
- 	if (resume) {
- 		venus_reset_cpu(core);
- 	} else {
--		if (!IS_V6(core))
-+		if (IS_V6(core))
-+			writel(1, core->wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
-+		else
- 			writel(1, core->wrapper_base + WRAPPER_A9SS_SW_RESET);
- 	}
- 
-@@ -162,12 +175,19 @@ static int venus_shutdown_no_tz(struct venus_core *core)
- 	u32 reg;
- 	struct device *dev = core->fw.dev;
- 	void __iomem *wrapper_base = core->wrapper_base;
-+	void __iomem *wrapper_tz_base = core->wrapper_tz_base;
- 
--	/* Assert the reset to ARM9 */
--	reg = readl_relaxed(wrapper_base + WRAPPER_A9SS_SW_RESET);
--	reg |= WRAPPER_A9SS_SW_RESET_BIT;
--	writel_relaxed(reg, wrapper_base + WRAPPER_A9SS_SW_RESET);
--
-+	if (IS_V6(core)) {
-+		/* Assert the reset to XTSS */
-+		reg = readl_relaxed(wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
-+		reg |= WRAPPER_XTSS_SW_RESET_BIT;
-+		writel_relaxed(reg, wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
-+	} else {
-+		/* Assert the reset to ARM9 */
-+		reg = readl_relaxed(wrapper_base + WRAPPER_A9SS_SW_RESET);
-+		reg |= WRAPPER_A9SS_SW_RESET_BIT;
-+		writel_relaxed(reg, wrapper_base + WRAPPER_A9SS_SW_RESET);
-+	}
- 	/* Make sure reset is asserted before the mapping is removed */
- 	mb();
- 
-diff --git a/drivers/media/platform/qcom/venus/hfi_venus_io.h b/drivers/media/platform/qcom/venus/hfi_venus_io.h
-index 300c6e47e72f..9735a246ce36 100644
---- a/drivers/media/platform/qcom/venus/hfi_venus_io.h
-+++ b/drivers/media/platform/qcom/venus/hfi_venus_io.h
-@@ -149,6 +149,8 @@
- /* Wrapper TZ 6xx */
- #define WRAPPER_TZ_BASE_V6			0x000c0000
- #define WRAPPER_TZ_CPU_STATUS_V6		0x10
-+#define WRAPPER_TZ_XTSS_SW_RESET		0x1000
-+#define WRAPPER_XTSS_SW_RESET_BIT		BIT(0)
- 
- /* Venus AON */
- #define AON_BASE_V6				0x000e0000
++static const struct bw_tbl sc7280_bw_table_dec[] = {
++	{ 2073600, 2128000, 0, 3831000, 0 },	/* 4096x2160@60 */
++	{ 1036800, 1085000, 0, 1937000, 0 },	/* 4096x2160@30 */
++	{  489600,  779000, 0,  998000, 0 },	/* 1920x1080@60 */
++	{  244800,  400000, 0,  509000, 0 },	/* 1920x1080@30 */
++};
++
++static const struct reg_val sm7280_reg_preset[] = {
++	{ 0xb0088, 0 },
++};
++
++static const struct venus_resources sc7280_res = {
++	.freq_tbl = sc7280_freq_table,
++	.freq_tbl_size = ARRAY_SIZE(sc7280_freq_table),
++	.reg_tbl = sm7280_reg_preset,
++	.reg_tbl_size = ARRAY_SIZE(sm7280_reg_preset),
++	.bw_tbl_enc = sc7280_bw_table_enc,
++	.bw_tbl_enc_size = ARRAY_SIZE(sc7280_bw_table_enc),
++	.bw_tbl_dec = sc7280_bw_table_dec,
++	.bw_tbl_dec_size = ARRAY_SIZE(sc7280_bw_table_dec),
++	.clks = {"core", "bus", "iface"},
++	.clks_num = 3,
++	.vcodec0_clks = {"vcodec_core", "vcodec_bus"},
++	.vcodec_clks_num = 2,
++	.vcodec_pmdomains = { "venus", "vcodec0" },
++	.vcodec_pmdomains_num = 2,
++	.opp_pmdomain = (const char *[]) { "cx", NULL },
++	.vcodec_num = 1,
++	.hfi_version = HFI_VERSION_6XX,
++	.vmem_id = VIDC_RESOURCE_NONE,
++	.vmem_size = 0,
++	.vmem_addr = 0,
++	.dma_mask = 0xe0000000 - 1,
++	.fwname = "qcom/vpu-2.0/venus.mbn",
++};
++
+ static const struct of_device_id venus_dt_match[] = {
+ 	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+ 	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+ 	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
+ 	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
+ 	{ .compatible = "qcom,sc7180-venus", .data = &sc7180_res, },
++	{ .compatible = "qcom,sc7280-venus", .data = &sc7280_res, },
+ 	{ .compatible = "qcom,sm8250-venus", .data = &sm8250_res, },
+ 	{ }
+ };
 -- 
 2.25.1
 
