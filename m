@@ -2,83 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 780104224FB
-	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 13:27:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4F0E422515
+	for <lists+linux-media@lfdr.de>; Tue,  5 Oct 2021 13:37:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233842AbhJEL3o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Oct 2021 07:29:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58470 "EHLO
+        id S233812AbhJELjh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Oct 2021 07:39:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232658AbhJEL3n (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 07:29:43 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B5E3C061749
-        for <linux-media@vger.kernel.org>; Tue,  5 Oct 2021 04:27:53 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id y26so85268888lfa.11
-        for <linux-media@vger.kernel.org>; Tue, 05 Oct 2021 04:27:53 -0700 (PDT)
+        with ESMTP id S230500AbhJELjh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 07:39:37 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81374C061749
+        for <linux-media@vger.kernel.org>; Tue,  5 Oct 2021 04:37:46 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id m22so31346084wrb.0
+        for <linux-media@vger.kernel.org>; Tue, 05 Oct 2021 04:37:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=nrfs9o7i0LYm9sR6611pkoOObdcvNwRhPvrSmqY7lo8=;
-        b=jqRchumgwOEtLSm/5SOFCln07N9Okdc4NGlT6NWQxLPj9ExAExO9AvSVsU2xgUUWgP
-         44ym8aux3Sx+xbHDC4MFo6SM1QnjyYznQqQeekOB/twZ3zNKgK8pQFZZ7WkAunIOVump
-         ruesWiaW7TniliHsljmw6qj64wENVBDZIpxdHU0Baq20Wkc4QfMyHZXHSrrR2zmFSyO2
-         3r7ZeABDuAcXksBF2iLfcrFdi6i9bysn4aS5yEn5kAPW3TWwfvJwihxRtVhkfif/+r2t
-         wnQu9Pkggeheu6Dr4V9BJ4mTE6OwFMjhdGd3ul9hVfGuzDxHYbM1FSA5WinDJ/2fzoup
-         yOcw==
+        bh=164W6w6LWLW8NebvBaOQLdQNgGQ7HT0mCWe77mt2uTA=;
+        b=CVGpci/DUifH+cgn4zVZt0u6zvgxk8H2IkT1tiTjfOKlQiOCIbrDrSklxXM2z4uGwE
+         NPqUwPXZFpzcRctflKI6m1aRUvSYBlcbC/PZgTtELEiGcpxWAg+4kU8w1ldMrIoNsJW0
+         8KdAGK497O4rOkHHwC17PZ7l/kbI6ISm505CNzIYLDUMp9HoZWkfWeytfAAip6GovSxK
+         9GWyebTKN9uN+9tyUeGC+ao/jx3lI8SHVHpt6fkEGLdf2F/+kJCXfZyhufV7wSHh49Gb
+         aPmivEB/q1wGlJFItDX50C6gvlE0q82iL7o0UA2dmh+3rXFsZKNlEpzvfag1L/CxqCDp
+         jMQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=nrfs9o7i0LYm9sR6611pkoOObdcvNwRhPvrSmqY7lo8=;
-        b=8Kz1AHWKap1qnFIJB+231scFqkb9RTNJSXud9eXStWekymG81nf1D724SZgzO9nEtG
-         Z6oAjJLTA59C7hN4UaO1ly+5EXwU6RBZXHRECnlMa4aFL8yCZuTHbXWHqSVM2nhGln3Z
-         uJx/ZwWnYQBJEm4FuTqIsITonLzqQww1xNuD5pMvg7Ghf/9Jh4xTvZyyvBV+ZPlfC+EP
-         CV5clgs5kyIFTzT5RvJgkgy26Yw5nS9Zu0yJ96rR6I1aL+j6uxyA0uoH9qwGnu7eo13g
-         ZvhRuP/8BgLClECg0NTaZqmGc3V9taJznr1HAddsQ24h/Os9cpnIvuMFIIXZRoIo09qM
-         eg/g==
-X-Gm-Message-State: AOAM5333ccUTmq8qg2Q8yt84X/pC74arvCMc17fleOgqFCXhsbEHthg7
-        6P8HNwtpPD3EFwRzEmONe/s9pP6Sixyv3HAgTI0=
-X-Google-Smtp-Source: ABdhPJw70/yIFkmhnE3u37i74XWbgJxo7mDgnJv+NG9wJ5+h7CiBgxu10XBeAVD5dG9kE0JpqalSgujAeKy/rdPygI0=
-X-Received: by 2002:a05:6512:358f:: with SMTP id m15mr2885876lfr.158.1633433271618;
- Tue, 05 Oct 2021 04:27:51 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=164W6w6LWLW8NebvBaOQLdQNgGQ7HT0mCWe77mt2uTA=;
+        b=LKb8rSQWHO0EQtrNRikyTj5s6Bqw6ltnzQK3pLmhj7z0JjgWYWPqwWpLRO/I3JVgsQ
+         UY2em8fYRbera8GuzmOZgVuv0no1QZaNj570NIMT685t8vTIFPDmA1bOKdUs8PZ8t+uy
+         q6J+eShcWLqWHlGz4PXPsE1Fkd1nvLP9Zulp/CBs885dJx26pY/2bGTVQ1ma5wUCaDzq
+         RFNg0aiSp9/Pb0wO9Xx15aNH3CVYxNZ0HlLqXQnht7vfwNoZ0D748oIXsE6Jb4Qetyua
+         Eb8hGNOOA8NHPN+N6e5LRcW9ZjS2SWUHLcXP/D696DvLUygwzkdowL99IrHoxPr5rM3p
+         6jkw==
+X-Gm-Message-State: AOAM5325cmuc9erjr3bH6tIif94GvtYzQ/jOcDA3Jy7H2UlhBv62NyMU
+        Xi+2Boia3YVq7HgLe1LHee8=
+X-Google-Smtp-Source: ABdhPJyhqXRR6L5iPjlJy84F/JJ9ouoYwQ3pgClwPtPCzqX3Ce9742XSqFnuYdjXcMF2edgJm2bXlA==
+X-Received: by 2002:adf:a2c4:: with SMTP id t4mr21433926wra.296.1633433865218;
+        Tue, 05 Oct 2021 04:37:45 -0700 (PDT)
+Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
+        by smtp.gmail.com with ESMTPSA id c5sm1739912wml.9.2021.10.05.04.37.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Oct 2021 04:37:44 -0700 (PDT)
+From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
+        <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Cc:     daniel@ffwll.ch, tvrtko.ursulin@linux.intel.com
+Subject: Deploying new iterator interface for dma-buf
+Date:   Tue,  5 Oct 2021 13:37:14 +0200
+Message-Id: <20211005113742.1101-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a19:4f06:0:0:0:0:0 with HTTP; Tue, 5 Oct 2021 04:27:51 -0700 (PDT)
-Reply-To: mohamedkasim794@yahoo.com
-From:   "Mr.Kasim Mohamed" <samiramohamed5061@gmail.com>
-Date:   Tue, 5 Oct 2021 04:27:51 -0700
-Message-ID: <CADFTzLjHZTwO=ZpWTF5ctBtOo2dAFEUNu+56G3SThrfLh_Om_Q@mail.gmail.com>
-Subject: GOOD DAY
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=20
-Dear Friend,
+Hi guys,
 
-Greetings.
+a few more bug fixes, looks like the more selftests I add the more odies I find.
 
-How are you doing today i hope fine?
+Assuming the CI tests now pass I will start pushing patches I've already got an rb for to drm-misc-next.
 
-I came across your e-mail contact prior a private search while in need
-of your assistance. My name Mr.Kasim Mohamed =E2=80=99 I work with the
-department of Audit and accounting manager here in UBA Bank of Africa,
-There is this fund that was keep in my custody years ago and I need
-your assistance for the transferring of this fund to your bank account
-for both of us benefit for life time investment and the amount is (US
-$27,500. Million Dollars).
+Please review and/or comment,
+Christian.
 
-I have every inquiry details to make the bank believe you and release
-the fund to your bank account in within 7 banking working days with
-your full co-operation with me after success Note 50% for you while
-50% for me after success of the transfer of the funds to your bank
-account okay.
 
-WAITING TO HEAR FROM YOU.
-THANKS.
-
- Mr.Kasim Mohamed
