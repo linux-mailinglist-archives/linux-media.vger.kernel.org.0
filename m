@@ -2,389 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2998D423E3D
-	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 14:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC554423E5F
+	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 15:03:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238519AbhJFM4U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Oct 2021 08:56:20 -0400
-Received: from mga03.intel.com ([134.134.136.65]:53192 "EHLO mga03.intel.com"
+        id S238558AbhJFNFK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Oct 2021 09:05:10 -0400
+Received: from meesny.iki.fi ([195.140.195.201]:58998 "EHLO meesny.iki.fi"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231259AbhJFM4U (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Oct 2021 08:56:20 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="225931840"
-X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; 
-   d="scan'208";a="225931840"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2021 05:54:27 -0700
-X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; 
-   d="scan'208";a="589742927"
-Received: from ccronin-mobl.ger.corp.intel.com (HELO [10.213.247.242]) ([10.213.247.242])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2021 05:54:26 -0700
-Subject: Re: [PATCH 2/2] dma-buf: add dma_resv selftest v3
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        daniel@ffwll.ch
-References: <20211006123609.2026-1-christian.koenig@amd.com>
- <20211006123609.2026-2-christian.koenig@amd.com>
-From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <79a184a2-051c-580d-c444-13cbd894c7d9@linux.intel.com>
-Date:   Wed, 6 Oct 2021 13:54:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S230304AbhJFNFJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 Oct 2021 09:05:09 -0400
+Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 22E8A2022B;
+        Wed,  6 Oct 2021 16:03:13 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1633525393;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ceJuR3J1WGrekVYd4ebGmMBql3ZO6EZNXzBCGWHZgmw=;
+        b=BZqPiIC2chFZobx8eWhg7sn+NbQEwbHbAnhxa9OKG2823VTwRU8FICKdC5T+g6UUOIJkg7
+        fpF/uLmOkft8vMHFvz1Kwd8OBrlReBuXW3r132VkS714dcJUqgavDnECQZfViUsiDEjI09
+        X20h+MqSHgR2bh/fQ/S5D6ZZkTy2NyQ=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 93A55634C90;
+        Wed,  6 Oct 2021 16:03:12 +0300 (EEST)
+Date:   Wed, 6 Oct 2021 16:03:12 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     David Plowman <david.plowman@raspberrypi.com>,
+        linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v6 0/2] New V4L2 control V4L2_CID_NOTIFY_GAINS
+Message-ID: <YV2ekHnPq3+sFe32@valkosipuli.retiisi.eu>
+References: <20210816113909.234872-1-david.plowman@raspberrypi.com>
+ <YTdp9Ux0p38F+hfz@pendragon.ideasonboard.com>
+ <CAHW6GYJ8cSDJ+DMejrm3EjwGRWoebVsM1OuUfwH-YBP5gO6qTQ@mail.gmail.com>
+ <YVz3griwfTn4xvG/@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20211006123609.2026-2-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YVz3griwfTn4xvG/@pendragon.ideasonboard.com>
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1633525393; a=rsa-sha256; cv=none;
+        b=uJNGHlbVL+c+s3ridxJZYhlsQEWtvSLkneJKfOJ2JCM3hqgdsU/wNAEmLr/vGoyPYZr7SG
+        KGi5Dm4GdDB1DLwTn/t7/GlEyf0KEjTe3NaB8PzmXXjv/T/sSpH195JmWiS/3kGNYYdJ92
+        o2BoS50zvTurex6pvRLTtVXt17U2B88=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1633525393;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ceJuR3J1WGrekVYd4ebGmMBql3ZO6EZNXzBCGWHZgmw=;
+        b=JBtVh+S09Mjn2dWoy1NaLC7MnP3hADJefJEDLiyXoKaNr/WzefrJw8oCiU0ivPoRngAPoP
+        mA4tki95idathdETL5gOLGfyvUgXNCCNGsLn8VO60jV8lVI0ccyYVp45e8nJ36Gpv5LQhT
+        aXuNZ4CXmm0voZ1VxlzbtfivKPDapnE=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi David, Laurent,
 
-On 06/10/2021 13:36, Christian König wrote:
-> Just exercising a very minor subset of the functionality, but already
-> proven useful.
+On Wed, Oct 06, 2021 at 04:10:26AM +0300, Laurent Pinchart wrote:
+> Hi David,
 > 
-> v2: add missing locking
-> v3: some more cleanup and consolidation, add unlocked test as well
+> On Tue, Oct 05, 2021 at 10:37:54AM +0100, David Plowman wrote:
+> > Hi Laurent, Sakari, everyone
+> > 
+> > I was wondering whether I might give this another little nudge just so
+> > that it doesn't get lost.
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/dma-buf/Makefile      |   3 +-
->   drivers/dma-buf/selftests.h   |   1 +
->   drivers/dma-buf/st-dma-resv.c | 282 ++++++++++++++++++++++++++++++++++
->   3 files changed, 285 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/dma-buf/st-dma-resv.c
+> I've already reviewed it, I can only join you to nicely ask Sakari if he
+> could have a look :-) I know he has lots of patches on his plate at the
+> moment though.
 > 
-> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-> index 1ef021273a06..511805dbeb75 100644
-> --- a/drivers/dma-buf/Makefile
-> +++ b/drivers/dma-buf/Makefile
-> @@ -11,6 +11,7 @@ obj-$(CONFIG_DMABUF_SYSFS_STATS) += dma-buf-sysfs-stats.o
->   dmabuf_selftests-y := \
->   	selftest.o \
->   	st-dma-fence.o \
-> -	st-dma-fence-chain.o
-> +	st-dma-fence-chain.o \
-> +	st-dma-resv.o
->   
->   obj-$(CONFIG_DMABUF_SELFTESTS)	+= dmabuf_selftests.o
-> diff --git a/drivers/dma-buf/selftests.h b/drivers/dma-buf/selftests.h
-> index bc8cea67bf1e..97d73aaa31da 100644
-> --- a/drivers/dma-buf/selftests.h
-> +++ b/drivers/dma-buf/selftests.h
-> @@ -12,3 +12,4 @@
->   selftest(sanitycheck, __sanitycheck__) /* keep first (igt selfcheck) */
->   selftest(dma_fence, dma_fence)
->   selftest(dma_fence_chain, dma_fence_chain)
-> +selftest(dma_resv, dma_resv)
-> diff --git a/drivers/dma-buf/st-dma-resv.c b/drivers/dma-buf/st-dma-resv.c
-> new file mode 100644
-> index 000000000000..50d3791ccb8c
-> --- /dev/null
-> +++ b/drivers/dma-buf/st-dma-resv.c
-> @@ -0,0 +1,282 @@
-> +/* SPDX-License-Identifier: MIT */
-> +
-> +/*
-> +* Copyright © 2019 Intel Corporation
-> +* Copyright © 2021 Advanced Micro Devices, Inc.
-> +*/
-> +
-> +#include <linux/slab.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/dma-resv.h>
-> +
-> +#include "selftest.h"
-> +
-> +static struct spinlock fence_lock;
-> +
-> +static const char *fence_name(struct dma_fence *f)
-> +{
-> +	return "selftest";
-> +}
-> +
-> +static const struct dma_fence_ops fence_ops = {
-> +	.get_driver_name = fence_name,
-> +	.get_timeline_name = fence_name,
-> +};
-> +
-> +static struct dma_fence *alloc_fence(void)
-> +{
-> +	struct dma_fence *f;
-> +
-> +	f = kmalloc(sizeof(*f), GFP_KERNEL);
-> +	if (!f)
-> +		return NULL;
-> +
-> +	dma_fence_init(f, &fence_ops, &fence_lock, 0, 0);
-> +	return f;
-> +}
-> +
-> +static int sanitycheck(void *arg)
-> +{
-> +	struct dma_resv resv;
-> +	struct dma_fence *f;
-> +	int r;
-> +
-> +	f = alloc_fence();
-> +	if (!f)
-> +		return -ENOMEM;
-> +
-> +	dma_fence_signal(f);
-> +	dma_fence_put(f);
-> +
-> +	dma_resv_init(&resv);
-> +	r = dma_resv_lock(&resv, NULL);
-> +	if (r)
-> +		pr_err("Resv locking failed\n");
-> +	else
-> +		dma_resv_unlock(&resv);
-> +	dma_resv_fini(&resv);
-> +	return r;
-> +}
-> +
-> +static int test_signaling(void *arg, bool shared)
-> +{
-> +	struct dma_resv resv;
-> +	struct dma_fence *f;
-> +	int r;
-> +
-> +	f = alloc_fence();
-> +	if (!f)
-> +		return -ENOMEM;
-> +
-> +	dma_resv_init(&resv);
-> +	r = dma_resv_lock(&resv, NULL);
-> +	if (r) {
-> +		pr_err("Resv locking failed\n");
-> +		goto err_free;
-> +	}
-> +
-> +	if (shared) {
-> +		r = dma_resv_reserve_shared(&resv, 1);
-> +		if (r) {
-> +			pr_err("Resv shared slot allocation failed\n");
-> +			goto err_unlock;
-> +		}
-> +
-> +		dma_resv_add_shared_fence(&resv, f);
-> +	} else {
-> +		dma_resv_add_excl_fence(&resv, f);
-> +	}
-> +
-> +	if (dma_resv_test_signaled(&resv, shared)) {
-> +		pr_err("Resv unexpectedly signaled\n");
-> +		r = -EINVAL;
-> +		goto err_unlock;
-> +	}
-> +	dma_fence_signal(f);
-> +	if (!dma_resv_test_signaled(&resv, shared)) {
-> +		pr_err("Resv not reporting signaled\n");
-> +		r = -EINVAL;
-> +		goto err_unlock;
-> +	}
-> +err_unlock:
-> +	dma_resv_unlock(&resv);
-> +err_free:
-> +	dma_resv_fini(&resv);
-> +	dma_fence_put(f);
-> +	return r;
-> +}
-> +
-> +static int test_excl_signaling(void *arg)
-> +{
-> +	return test_signaling(arg, false);
-> +}
-> +
-> +static int test_shared_signaling(void *arg)
-> +{
-> +	return test_signaling(arg, true);
-> +}
-> +
-> +static int test_for_each(void *arg, bool shared)
-> +{
-> +	struct dma_resv_iter cursor;
-> +	struct dma_fence *f, *fence;
-> +	struct dma_resv resv;
-> +	int r;
-> +
-> +	f = alloc_fence();
-> +	if (!f)
-> +		return -ENOMEM;
-> +
-> +	dma_resv_init(&resv);
-> +	r = dma_resv_lock(&resv, NULL);
-> +	if (r) {
-> +		pr_err("Resv locking failed\n");
-> +		goto err_free;
-> +	}
-> +
-> +	if (shared) {
-> +		r = dma_resv_reserve_shared(&resv, 1);
-> +		if (r) {
-> +			pr_err("Resv shared slot allocation failed\n");
-> +			goto err_unlock;
-> +		}
-> +
-> +		dma_resv_add_shared_fence(&resv, f);
-> +	} else {
-> +		dma_resv_add_excl_fence(&resv, f);
-> +	}
+> Hans, would you like to share your opinion on this series ?
 
-This block repeates three times so could be consolidated but it doesn't 
-matter hugely.
+The patches have been merged some time ago to the media tree master branch:
 
-> +
-> +	r = -ENOENT;
-> +	dma_resv_for_each_fence(&cursor, &resv, shared, fence) {
-> +		if (!r) {
-> +			pr_err("More than one fence found\n");
-> +			r = -EINVAL;
-> +			goto err_unlock;
-> +		}
-> +		if (f != fence) {
-> +			pr_err("Unexpected fence\n");
-> +			r = -EINVAL;
-> +			goto err_unlock;
-> +		}
-> +		if (dma_resv_iter_is_exclusive(&cursor) != !shared) {
-> +			pr_err("Unexpected fence usage\n");
-> +			r = -EINVAL;
-> +			goto err_unlock;
-> +		}
-> +		r = 0;
-> +	}
-> +	if (r) {
-> +		pr_err("No fence found\n");
-> +		goto err_unlock;
-> +	}
-> +	dma_fence_signal(f);
+commit 311a839a1ad255ebcb7291fb4e0d2ec2f32312a7
+Author: David Plowman <david.plowman@raspberrypi.com>
+Date:   Mon Aug 16 13:39:09 2021 +0200
 
-This would warn if the loop jumps to err_unlock but I guess there are 
-bigger problems in that case.
+    media: v4l2-ctrls: Document V4L2_CID_NOTIFY_GAINS control
+    
+    Add documentation for the V4L2_CID_NOTIFY_GAINS control.
+    
+    This control is required by sensors that need to know what colour
+    gains will be applied to pixels by downstream processing (such as by
+    an ISP), though the sensor does not apply these gains itself.
+    
+    Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
+    Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+    Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+    Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-> +err_unlock:
-> +	dma_resv_unlock(&resv);
-> +err_free:
-> +	dma_resv_fini(&resv);
-> +	dma_fence_put(f);
-> +	return r;
-> +}
-> +
-> +static int test_excl_for_each(void *arg)
-> +{
-> +	return test_for_each(arg, false);
-> +}
-> +
-> +static int test_shared_for_each(void *arg)
-> +{
-> +	return test_for_each(arg, false);
+commit a9c80593ff80ddb7c6496624e5384e1ea3460a72
+Author: David Plowman <david.plowman@raspberrypi.com>
+Date:   Mon Aug 16 13:39:08 2021 +0200
 
-true
+    media: v4l2-ctrls: Add V4L2_CID_NOTIFY_GAINS control
+    
+    We add a new control V4L2_CID_NOTIFY_GAINS which allows the sensor to
+    be notified what gains will be applied to the different colour
+    channels by subsequent processing (such as by an ISP), even though the
+    sensor will not apply any of these gains itself.
+    
+    For Bayer sensors this will be an array control taking 4 values which
+    are the 4 gains arranged in the fixed order B, Gb, Gr and R,
+    irrespective of the exact Bayer order of the sensor itself. The use of
+    an array makes it straightforward to extend this control to non-Bayer
+    sensors (for example, sensors with an RGBW pattern) in future.
+    
+    The units are in all cases linear with the default value indicating a
+    gain of exactly 1.0. For example, if the default value were reported as
+    128 then the value 192 would represent a gain of exactly 1.5.
+    
+    Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
+    Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+    Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+    Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-With that:
+-- 
+Kind regards,
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-
-Regards,
-
-Tvrtko
-
-> +}
-> +
-> +static int test_for_each_unlocked(void *arg, bool shared)
-> +{
-> +	struct dma_resv_iter cursor;
-> +	struct dma_fence *f, *fence;
-> +	struct dma_resv resv;
-> +	int r;
-> +
-> +	f = alloc_fence();
-> +	if (!f)
-> +		return -ENOMEM;
-> +
-> +	dma_resv_init(&resv);
-> +	r = dma_resv_lock(&resv, NULL);
-> +	if (r) {
-> +		pr_err("Resv locking failed\n");
-> +		goto err_free;
-> +	}
-> +
-> +	if (shared) {
-> +		r = dma_resv_reserve_shared(&resv, 1);
-> +		if (r) {
-> +			pr_err("Resv shared slot allocation failed\n");
-> +			dma_resv_unlock(&resv);
-> +			goto err_free;
-> +		}
-> +
-> +		dma_resv_add_shared_fence(&resv, f);
-> +	} else {
-> +		dma_resv_add_excl_fence(&resv, f);
-> +	}
-> +	dma_resv_unlock(&resv);
-> +
-> +	r = -ENOENT;
-> +	dma_resv_iter_begin(&cursor, &resv, shared);
-> +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
-> +		if (!r) {
-> +			dma_resv_iter_end(&cursor);
-> +			pr_err("More than one fence found\n");
-> +			r = -EINVAL;
-> +			goto err_free;
-> +		}
-> +		if (f != fence) {
-> +			dma_resv_iter_end(&cursor);
-> +			pr_err("Unexpected fence\n");
-> +			r = -EINVAL;
-> +			goto err_free;
-> +		}
-> +		if (dma_resv_iter_is_exclusive(&cursor) != !shared) {
-> +			dma_resv_iter_end(&cursor);
-> +			pr_err("Unexpected fence usage\n");
-> +			r = -EINVAL;
-> +			goto err_free;
-> +		}
-> +		r = 0;
-> +	}
-> +	dma_resv_iter_end(&cursor);
-> +	if (r) {
-> +		pr_err("No fence found\n");
-> +		goto err_free;
-> +	}
-> +	dma_fence_signal(f);
-> +err_free:
-> +	dma_resv_fini(&resv);
-> +	dma_fence_put(f);
-> +	return r;
-> +}
-> +
-> +static int test_excl_for_each_unlocked(void *arg)
-> +{
-> +	return test_for_each_unlocked(arg, false);
-> +}
-> +
-> +static int test_shared_for_each_unlocked(void *arg)
-> +{
-> +	return test_for_each_unlocked(arg, true);
-> +}
-> +
-> +int dma_resv(void)
-> +{
-> +	static const struct subtest tests[] = {
-> +		SUBTEST(sanitycheck),
-> +		SUBTEST(test_excl_signaling),
-> +		SUBTEST(test_shared_signaling),
-> +		SUBTEST(test_excl_for_each),
-> +		SUBTEST(test_shared_for_each),
-> +		SUBTEST(test_excl_for_each_unlocked),
-> +		SUBTEST(test_shared_for_each_unlocked),
-> +	};
-> +
-> +	spin_lock_init(&fence_lock);
-> +	return subtests(tests, NULL);
-> +}
-> 
+Sakari Ailus
