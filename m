@@ -2,80 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E06794245D2
-	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 20:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E4184247D5
+	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 22:19:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231804AbhJFSQx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Oct 2021 14:16:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34946 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229664AbhJFSQx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Oct 2021 14:16:53 -0400
-Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A65FFC061746
-        for <linux-media@vger.kernel.org>; Wed,  6 Oct 2021 11:15:00 -0700 (PDT)
-Received: by mail-qv1-xf4a.google.com with SMTP id t12-20020a05621421ac00b00382ea49a7cbso3428750qvc.0
-        for <linux-media@vger.kernel.org>; Wed, 06 Oct 2021 11:15:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=OFpCO9Ekpof7Mo+wqo35t5p6n3tMeT3VNY3MNzTCYMw=;
-        b=dXfZn6vNleXzVjWG0T+gLvfQ3d9LCgjRO+fhGL6hw9Mf39oskExQjUSnyZP5Y6jaMR
-         QwcAmdrdsYKloiaXS1+sq16anjTS+rFM1c0hyPpIOCk+CQtUoYbw3QXb+aF2FA72msEN
-         voIJpEDnYtsL7+PfXqNJgWRM+s7LWA32nm1YNP4aJHtaRLKYpJC4n9bnUZjFBrc3F/s3
-         Iou2fZk2gDapnLBZ0TPba5o2q7ncftQ3mQI3nIEjWE2/540i3daXt1ZN4NhXffosiDsq
-         +Gh2YUiZK/tOrxNzJXXPWCSIIQb+sXgogV9cl2yLrWHNbQc5WZ1zmqx+8iugjG9Mv2Wp
-         aIFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=OFpCO9Ekpof7Mo+wqo35t5p6n3tMeT3VNY3MNzTCYMw=;
-        b=ZQvz/z90xb+LqUg5rpGle71gsLIOSiCwSw8mpz5u2eV+lo10CxptMZO2X6CIapP5NL
-         n2wZD9y/xcyRWJqGbhtAU2ypt2/2jYzTuH3U4F/CahIpJitZEs1bgiM8/HmnDgejXv+L
-         M22KGeTNDpj55S9zIX2soooHS/qq5uRjVYzVmITcqfFaDmlQAsCqEx/NEiR8ykJXvBK8
-         WAex2X+6MI5pLzKBz+9kXlI++Skvzl6AbscM2bh8FbmxK2xC+BRRVf1Nu4oysaUiIRBv
-         wSiax6b1xNMMZjTD4sKPSScBZun1DOFaTFTghs0cRe/RgKZrGseYvyU7E76+dCQIx8lm
-         1/Mg==
-X-Gm-Message-State: AOAM533YKB1KZUic+yJ2dogWDRNCOzM7sMPpe+QK5/pEblLg3vEnfkS0
-        6CvT8Uag5RWskKqmXthO5ZnLtr//mfJyaUeuzIGZ77LHoFxIxLZJGjpALcWbJT++55hqtfOjjs3
-        XarbT6O5oP6TqTRhTQT0bLLyql4jc26xQzh73Hrbs7W7TQ7HHRNH74mUFKfw45LsIrd1jHow=
-X-Google-Smtp-Source: ABdhPJzNrMG8D8yDmJTD5gN3FQj3Nad2D5wOt+jRQMbOk/iMf76dt59S4ER0A/MxMUGpuHXw44c+wGsHxanJ
-X-Received: from jnchase1.nyc.corp.google.com ([2620:0:1003:510:6cce:46f0:5d24:169])
- (user=jnchase job=sendgmr) by 2002:ac8:615c:: with SMTP id
- d28mr197721qtm.103.1633544099764; Wed, 06 Oct 2021 11:14:59 -0700 (PDT)
-Date:   Wed,  6 Oct 2021 14:14:57 -0400
-Message-Id: <20211006181457.2867037-1-jnchase@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.33.0.800.g4c38ced690-goog
-Subject: [PATCH] MAINTAINERS: update maintainer for ch7322 driver
-From:   Jeff Chase <jnchase@google.com>
-To:     linux-media@vger.kernel.org
-Cc:     jrt@google.com, Jeff Chase <jnchase@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S239279AbhJFUVE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Oct 2021 16:21:04 -0400
+Received: from mga06.intel.com ([134.134.136.31]:58418 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232273AbhJFUVD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 Oct 2021 16:21:03 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10129"; a="286976576"
+X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; 
+   d="scan'208";a="286976576"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2021 13:19:10 -0700
+X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; 
+   d="scan'208";a="589885832"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2021 13:19:06 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 86A25201C4;
+        Wed,  6 Oct 2021 23:19:04 +0300 (EEST)
+Date:   Wed, 6 Oct 2021 23:19:04 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Pratyush Yadav <p.yadav@ti.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Nikhil Devshatwar <nikhil.nd@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v4 02/11] media: cadence: csi2rx: Add external DPHY
+ support
+Message-ID: <YV4EuD2KSIXIYzY4@paasikivi.fi.intel.com>
+References: <20210915120240.21572-1-p.yadav@ti.com>
+ <20210915120240.21572-3-p.yadav@ti.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210915120240.21572-3-p.yadav@ti.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Jeff is leaving Google so Joe will take over.
+Hi Pratyush,
 
-Signed-off-by: Jeff Chase <jnchase@google.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Sep 15, 2021 at 05:32:31PM +0530, Pratyush Yadav wrote:
+> +	ret = phy_pm_runtime_get_sync(csi2rx->dphy);
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ee91c5472bc1..3269c6831b81 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4431,7 +4431,7 @@ N:	cros_ec
- N:	cros-ec
- 
- CHRONTEL CH7322 CEC DRIVER
--M:	Jeff Chase <jnchase@google.com>
-+M:	Joe Tessler <jrt@google.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
+Note that this will return 1 if the device was already resumed. That is not
+an error.
+
+> +	if (ret == -ENOTSUPP)
+> +		got_pm = false;
+> +	else if (ret)
+> +		return ret;
+
 -- 
-2.33.0.800.g4c38ced690-goog
-
+Sakari Ailus
