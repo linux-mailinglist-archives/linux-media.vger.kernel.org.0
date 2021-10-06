@@ -2,85 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ED63423750
-	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 07:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDA07423755
+	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 07:03:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230444AbhJFFCw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Oct 2021 01:02:52 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:32987 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229793AbhJFFCw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Oct 2021 01:02:52 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1633496460; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=asupr90LKsNaEFoWBmYQd4HeemIExSGhJTwTT6Jn+b0=;
- b=QKUqXOEQJpp5IvNsVzrK966TrEsSkVXW6RlL+KOJaUlllIn5zRNzkDVuzVMwyX7IcfgudagS
- Q6RIMiyZpZlEIPGzVEsiTBp6JDAuerzy9PpBiXQxxcxveRJGHel+4Xb8ylZaioV0I8kMiBYn
- ffrGUeFVfZGo1tcl2rIMb74Qj5k=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 615d2d77ff0285fb0a057399 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 06 Oct 2021 05:00:39
- GMT
-Sender: vgarodia=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 8817CC4360C; Wed,  6 Oct 2021 05:00:38 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: vgarodia)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id E84C8C4338F;
-        Wed,  6 Oct 2021 05:00:37 +0000 (UTC)
+        id S230374AbhJFFFJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Oct 2021 01:05:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48064 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229554AbhJFFFI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Oct 2021 01:05:08 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83843C061749
+        for <linux-media@vger.kernel.org>; Tue,  5 Oct 2021 22:03:16 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id p13so5204728edw.0
+        for <linux-media@vger.kernel.org>; Tue, 05 Oct 2021 22:03:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PYQL+B0/DYsLvNt0xCQjQJEykItzuiGh1O6OLlseyO0=;
+        b=ku9DnKgp8MZNrb/yJ3rPK9xe8lx0+dH24yvvl9w6fraMFTRxLQDkQXtRr2lcjTmDvb
+         55NxsJPyM2cveYPz3GEDDp4TZfaPeHQZoRYNwtbVlffo1dX3dhvKROAJB1MClvBTo+iF
+         A4k5pob3Y7neTXC3jbHcpMBtdvGGWnhETujsg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PYQL+B0/DYsLvNt0xCQjQJEykItzuiGh1O6OLlseyO0=;
+        b=nBpgd2wit7Yb6CfAtU3qmtFbWewcrH3fD3x/ckI8j+dAiuEA3ZP/tp3kpgxd+CnCDq
+         1j3H+y+z5XSokEwrJ/50ZW+rIVB4G54uBMNQUAYMPYGGG7D9nXSJQLS3nX41+T4EGmGu
+         L4L/DPMFid7n/mtzhuF17RNGeE+XHQw/A0BwPAlaErlpKNNImiO3oL0zyR9lOQ8cbmTV
+         BHZE7jOh8VTU032LxBQ7rf/jcfbnzf1GHtIseMtNDGFTN5HsXSI+uhLTihKfteMzJu5V
+         Meqa7quUFHpWseqKHDcDTkxqxxvp6PtYSesekL8kMYX0BAT21rbgVsuGhKtFjRrempNx
+         oczA==
+X-Gm-Message-State: AOAM5300Me/NdNuTTbuCqc/nEvGiOov8qXUkh6w3ORnLoSkFL5S0FMGC
+        Sx6ODtlMCa0pyVPAD6osEoLx9TsO7QQSUQ==
+X-Google-Smtp-Source: ABdhPJw0Tw3vx3a+YeegpSW0FZixeLU8nk5cxUIuifUl0jDZHNxjcFwq6HELjfjFtsrwaGEyCmKXRQ==
+X-Received: by 2002:aa7:dd90:: with SMTP id g16mr29096334edv.199.1633496594571;
+        Tue, 05 Oct 2021 22:03:14 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com. [209.85.221.53])
+        by smtp.gmail.com with ESMTPSA id z5sm9766514edm.82.2021.10.05.22.03.13
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Oct 2021 22:03:14 -0700 (PDT)
+Received: by mail-wr1-f53.google.com with SMTP id o20so4806723wro.3
+        for <linux-media@vger.kernel.org>; Tue, 05 Oct 2021 22:03:13 -0700 (PDT)
+X-Received: by 2002:adf:9bd2:: with SMTP id e18mr20824560wrc.235.1633496593435;
+ Tue, 05 Oct 2021 22:03:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 06 Oct 2021 10:30:37 +0530
-From:   vgarodia@codeaurora.org
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mansur Alisha Shaik <mansur@codeaurora.org>
-Subject: Re: [PATCH v2 0/5] Venus fatal error handling
-In-Reply-To: <20210608114156.87018-1-stanimir.varbanov@linaro.org>
-References: <20210608114156.87018-1-stanimir.varbanov@linaro.org>
-Message-ID: <df1faba0582c8e60730e7d86900a38d6@codeaurora.org>
-X-Sender: vgarodia@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <1632370218-5508-1-git-send-email-bingbu.cao@intel.com>
+In-Reply-To: <1632370218-5508-1-git-send-email-bingbu.cao@intel.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 6 Oct 2021 14:03:02 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BdXTYZDAQcyLVurqdjuT6fHdGpzQQ0c1NJ5y=81v7hcg@mail.gmail.com>
+Message-ID: <CAAFQd5BdXTYZDAQcyLVurqdjuT6fHdGpzQQ0c1NJ5y=81v7hcg@mail.gmail.com>
+Subject: Re: [PATCH] media: ipu3-cio2: Update high watermark to support higher
+ data rate camera sensors
+To:     Bingbu Cao <bingbu.cao@intel.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        tian.shu.qiu@intel.com, laurent.pinchart@ideasonboard.com,
+        bingbu.cao@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2021-06-08 17:11, Stanimir Varbanov wrote:
-> Changes since v1:
->   * replace pm_runtime_get_sync with pm_runtime_resume_and_get in 1/5.
-> 
-> regards,
-> Stan
-> 
-> Stanimir Varbanov (5):
->   venus: venc: Use pmruntime autosuspend
->   venus: Make sys_error flag an atomic bitops
->   venus: hfi: Check for sys error on session hfi functions
->   venus: helpers: Add helper to mark fatal vb2 error
->   venus: Handle fatal errors during encoding and decoding
-> 
->  drivers/media/platform/qcom/venus/core.c    |  13 ++-
->  drivers/media/platform/qcom/venus/core.h    |   6 +-
->  drivers/media/platform/qcom/venus/helpers.c |  16 ++-
->  drivers/media/platform/qcom/venus/helpers.h |   1 +
->  drivers/media/platform/qcom/venus/hfi.c     |  48 +++++++-
->  drivers/media/platform/qcom/venus/vdec.c    |  18 ++-
->  drivers/media/platform/qcom/venus/venc.c    | 116 ++++++++++++++++++--
->  7 files changed, 201 insertions(+), 17 deletions(-)
+Hi Bingbu,
 
-Tested-by: Vikash Garodia <vgarodia@codeaurora.org>
+On Thu, Sep 23, 2021 at 1:11 PM Bingbu Cao <bingbu.cao@intel.com> wrote:
+>
+> CIO2 worked well with most camera sensors so far, but CIO2 will meet SRAM
+> overflow when working with higher data rate camera sensors such as 13M@30fps.
+> We must set lower high watermark value to trigger the DRAM write to support
+> such camera sensors.
+>
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> ---
+>  drivers/media/pci/intel/ipu3/ipu3-cio2.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+
+Thanks for the patch. Would this have any implications for other
+(lower) operating modes, such as increased power consumption, or it's
+harmless? If so, what's the reason we didn't use the value from the
+very beginning?
+
+Best regards,
+Tomasz
+
+> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.h b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
+> index 3806d7f04d69..fde80d48533b 100644
+> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.h
+> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
+> @@ -181,7 +181,7 @@ struct pci_dev;
+>  #define CIO2_PBM_WMCTRL1_MID1_2CK      (16 << CIO2_PBM_WMCTRL1_MID1_2CK_SHIFT)
+>  #define CIO2_PBM_WMCTRL1_MID2_2CK      (21 << CIO2_PBM_WMCTRL1_MID2_2CK_SHIFT)
+>  #define CIO2_REG_PBM_WMCTRL2                           0x1468
+> -#define CIO2_PBM_WMCTRL2_HWM_2CK                       40U
+> +#define CIO2_PBM_WMCTRL2_HWM_2CK                       30U
+>  #define CIO2_PBM_WMCTRL2_HWM_2CK_SHIFT                 0U
+>  #define CIO2_PBM_WMCTRL2_LWM_2CK                       22U
+>  #define CIO2_PBM_WMCTRL2_LWM_2CK_SHIFT                 8U
+> --
+> 2.7.4
+>
