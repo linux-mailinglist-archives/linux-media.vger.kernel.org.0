@@ -2,103 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07B6B423649
-	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 05:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DB3B42372A
+	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 06:44:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237204AbhJFD2b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Oct 2021 23:28:31 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:34962 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S230317AbhJFD2b (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 23:28:31 -0400
-X-UUID: 9906b7e1572a4a99a00507de66084554-20211006
-X-UUID: 9906b7e1572a4a99a00507de66084554-20211006
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-        (envelope-from <lecopzer.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 548676801; Wed, 06 Oct 2021 11:26:36 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 6 Oct 2021 11:26:35 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 6 Oct 2021 11:26:35 +0800
-From:   Lecopzer Chen <lecopzer.chen@mediatek.com>
-To:     <mchehab@kernel.org>
-CC:     <lecopzer.chen@mediatek.com>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <yj.chiang@mediatek.com>
-Subject: Re: [PATCH] media: Kconfig: Make DVB_CORE=m possible when MEDIA_SUPPORT=y
-Date:   Wed, 6 Oct 2021 11:26:35 +0800
-Message-ID: <20211006032635.20694-1-lecopzer.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20211005183125.30f7df0a@coco.lan>
-References: <20211005183125.30f7df0a@coco.lan>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+        id S230518AbhJFEqA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Oct 2021 00:46:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43886 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229793AbhJFEqA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Oct 2021 00:46:00 -0400
+Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::1b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AFE1C061749
+        for <linux-media@vger.kernel.org>; Tue,  5 Oct 2021 21:44:08 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id Xymhm8J1ux7rIXymjm3ali; Wed, 06 Oct 2021 06:44:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1633495445; bh=o9q6YsTzKgnufg5EGVttZItmaMzyk1HsdNArIV1NpzI=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=r66jUhq3JtrrtK/zrAFY3JPMUP2WgY73HCsGWxy38F9Zdh9BlXLlEfUrS0V1amIEe
+         3vU3St4TM4DKAhaCzu79IAOXBcdgXBs2V9k8p+eb/w4ri1YDr7Y29inVbYh1Kyh46e
+         vYNNTLHxx4fg12iZJGjR7iZPWPKB6RVxF8Y6hmZy4jcyO30FtxudqThLZNZQWcb57b
+         TodAygDRuAAQY5aAShuuqHPGQMVZ3IM6YIEMz2SfbEMkQdN0Fxr/1cSDSrrg8tBiEz
+         C6bX+BkILi7ky15CM1Slr2O0p44rq2bNIsMyy1nocHYwW+AP+iVB7UJo42gosqv4eH
+         Ob/TmErolNAOA==
+Message-ID: <cd1d10d85d6febb1a1c0e73543130b0b@smtp-cloud8.xs4all.net>
+Date:   Wed, 06 Oct 2021 06:44:03 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfAVi+njPwr7hZHAgBxizqVm9gX8I9ZhsW8v39yQ9cDw0vwt/w26n84tMIekVaSdUAekZj9Pn6hwcwQlHjZRjDG1W/ruTDuexQk4Ald83baEaMMBfzUs+
+ rzT87qf+UU8gkL40zozHArMexHqYQ5RNVL879K2GbuMgvDPKdIJxrGQwR9lucEs26GxDI+uyvHV3oaS5buaPh7M8KsKO04ss4s/H5u5z0wXXZrY6xsXJTBIM
+ pwIHzFgzfdWMLlhUTNCckQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> > A case that we need VIDEO_DEV=y but DVB_CORE=m, and this doesn't
-> > work since DVB_CORE is default MEDIA_DIGITAL_TV_SUPPORT and then
-> > follows MEDIA_SUPPORT.
-> > 
-> > Change to tristate to make DVB_CORE=m possible when MEDIA_SUPPORT=y
-> > 
-> > Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
-> > ---
-> >  drivers/media/Kconfig | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-> > index b07812657cee..c3baf92b4d02 100644
-> > --- a/drivers/media/Kconfig
-> > +++ b/drivers/media/Kconfig
-> > @@ -88,7 +88,7 @@ config MEDIA_ANALOG_TV_SUPPORT
-> >  		will disable support for them.
-> >  
-> >  config MEDIA_DIGITAL_TV_SUPPORT
-> > -	bool
-> > +	tristate
-> >  	prompt "Digital TV" if MEDIA_SUPPORT_FILTER
-> >  	default y if !MEDIA_SUPPORT_FILTER
-> >  	help
-> 
-> While this change looks simple enough, not sure if this would work
-> for all possibilities. If I'm not mistaken, someone proposed
-> something similar to it, but it caused troubles with different
-> configurations. I don't recall any patch addressing it, but I
-> may be wrong.
-> 
-> Tf I remember correctly, the problem rises when either V4L or DVB
-> core is compiled as module and the other one is compiled builtin.
-> On such scenario, all drivers that depend on both should be
-> compiled as a module, or the build will fail.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I've had a quick test:
+Results of the daily build of media_tree:
 
-CONFIG_MEDIA_SUPPORT=y
-CONFIG_MEDIA_SUPPORT_FILTER=y
-CONFIG_MEDIA_SUBDRV_AUTOSELECT=y
-CONFIG_MEDIA_DIGITAL_TV_SUPPORT=m
-CONFIG_DVB_CORE=m
-In this set, all the module depends on DVB_CORE
-will be =m even if I manually change .config.
+date:			Wed Oct  6 05:00:09 CEST 2021
+media-tree git hash:	ff93780378831cd12010f796ccd688ba4b9dd6e4
+media_build git hash:	e602a6acc36ed3f6a8ebeb27fae6f32712f1293f
+v4l-utils git hash:	700f5ded9c6de2c6dfe5d1b453d85566f95b4f0c
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b271230dab7e119453a068d347aef2c79d6b74b2
+host hardware:		x86_64
+host os:		5.13.11-marune
 
-I'm not sure which config or module would build failed if DVB is module,
-but IMO, any module has explicitly depends on DVB_CORE would follow the
-configuation of DVB_CORE, and
-the only possible case which build failed should be those
-modules need to depend on DVB_CORE but didn't explicitly write
-in Kconfig.
-Also, I have no idea why someone needs DVB_CORE=m but other modules
-depend on it need =y.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15-rc1-i686: OK
+linux-5.15-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-If anything I can test please tell me, thanks.
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
-Thanks,
-Lecopzer
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
 
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
