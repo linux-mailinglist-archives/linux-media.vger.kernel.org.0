@@ -2,70 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B52F5424944
-	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 23:56:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1FD34249EB
+	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 00:38:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239743AbhJFV6g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Oct 2021 17:58:36 -0400
-Received: from mga12.intel.com ([192.55.52.136]:58570 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230213AbhJFV6f (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Oct 2021 17:58:35 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10129"; a="206228684"
-X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; 
-   d="scan'208";a="206228684"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2021 14:56:42 -0700
-X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; 
-   d="scan'208";a="624033044"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2021 14:56:40 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id A0E4020375;
-        Thu,  7 Oct 2021 00:56:37 +0300 (EEST)
-Date:   Thu, 7 Oct 2021 00:56:37 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
-Subject: Re: [PATCH v3 1/8] media: ipu3-cio2 Check num_planes and sizes in
- queue_setup
-Message-ID: <YV4blXBkmYhCXxKG@paasikivi.fi.intel.com>
-References: <20211001112522.2839602-1-ribalda@chromium.org>
- <20211001112522.2839602-2-ribalda@chromium.org>
+        id S239847AbhJFWkL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Oct 2021 18:40:11 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:48012 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239912AbhJFWj4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Oct 2021 18:39:56 -0400
+X-Greylist: delayed 5755 seconds by postgrey-1.27 at vger.kernel.org; Wed, 06 Oct 2021 18:39:54 EDT
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 196L1xSo095749;
+        Wed, 6 Oct 2021 16:01:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1633554119;
+        bh=5GQkMzCzRXHqDDBT/bRBMLgEAfL2pt0t8U1wYbm8oDE=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=NET/pdSy1xXpoizghZ6rEKPBbwja1s7RS1GQQNJNAnaFv66wnOrt9noLRvfUo17Rq
+         MIEMlNTSmEDuaPxkyq7Osj2nBdxBtqLmi1seiHsPZlVxgpGl+6zaYYSlqjBfWDEDdV
+         3igehkjpy0JiqQu3NEmamFdGeDMtEdtKDKvDjFW0=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 196L1xdG044307
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 6 Oct 2021 16:01:59 -0500
+Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Wed, 6
+ Oct 2021 16:01:59 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Wed, 6 Oct 2021 16:01:59 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 196L1wxu070269;
+        Wed, 6 Oct 2021 16:01:58 -0500
+Date:   Thu, 7 Oct 2021 02:31:57 +0530
+From:   Pratyush Yadav <p.yadav@ti.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Nikhil Devshatwar <nikhil.nd@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v4 02/11] media: cadence: csi2rx: Add external DPHY
+ support
+Message-ID: <20211006210155.ukfmh24kdipqprcn@ti.com>
+References: <20210915120240.21572-1-p.yadav@ti.com>
+ <20210915120240.21572-3-p.yadav@ti.com>
+ <YV4EuD2KSIXIYzY4@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20211001112522.2839602-2-ribalda@chromium.org>
+In-Reply-To: <YV4EuD2KSIXIYzY4@paasikivi.fi.intel.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
-
-On Fri, Oct 01, 2021 at 11:25:15AM +0000, Ricardo Ribalda wrote:
-> If num_planes is different than zero num_planes and sizes must be
-> checked to support the format.
+On 06/10/21 11:19PM, Sakari Ailus wrote:
+> Hi Pratyush,
 > 
-> Fix the following v4l2-compliance error:
+> On Wed, Sep 15, 2021 at 05:32:31PM +0530, Pratyush Yadav wrote:
+> > +	ret = phy_pm_runtime_get_sync(csi2rx->dphy);
 > 
-> Buffer ioctls (Input 0):
->     fail: v4l2-test-buffers.cpp(717): q.create_bufs(node, 1, &fmt) != EINVAL
->   test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
+> Note that this will return 1 if the device was already resumed. That is not
+> an error.
+
+Thanks. Will fix.
+
 > 
-> Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-
-I attempted to apply the set to my tree but it doesn't seem to.
-
-Do you happen to have extra patches in your tree?
-
-I just pushed mine to the master branch here:
-
-	https://git.linuxtv.org/sailus/media_tree.git/
+> > +	if (ret == -ENOTSUPP)
+> > +		got_pm = false;
+> > +	else if (ret)
+> > +		return ret;
+> 
+> -- 
+> Sakari Ailus
 
 -- 
-Sakari Ailus
+Regards,
+Pratyush Yadav
+Texas Instruments Inc.
