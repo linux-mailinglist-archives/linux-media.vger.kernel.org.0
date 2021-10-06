@@ -2,114 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7E3F4249AD
-	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 00:28:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06689424A88
+	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 01:31:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233813AbhJFW36 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Oct 2021 18:29:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36422 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229809AbhJFW35 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Oct 2021 18:29:57 -0400
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 314B6C061746
-        for <linux-media@vger.kernel.org>; Wed,  6 Oct 2021 15:28:05 -0700 (PDT)
-Received: by mail-il1-x136.google.com with SMTP id y17so4387081ilb.9
-        for <linux-media@vger.kernel.org>; Wed, 06 Oct 2021 15:28:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VI72+rQQH950OkSQA66NIQXwWicvtVqAwf2xJMPB6lM=;
-        b=fxHYOaNVrsUChcGOTJdXMhCykDCTOyS1Aq6lNkx/fLSTsg29afZshjsuobE/hRb1me
-         aOfGx4wiRWv/YGtwGYvorqk9t4vLAu9oNu5Zd6R2V+JkKsPAN/3etLL/wayLjrLo70Hk
-         vM8A1NyzRE3JtFvJe4HMsaN7cZGdtYRONB/mk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VI72+rQQH950OkSQA66NIQXwWicvtVqAwf2xJMPB6lM=;
-        b=kD+ntAzLRmUEYWOy4Ign7JXA3gGBwpgcAHyJYWzqyL4GQfHRCYbeXWYD9FQHjy7tmo
-         z20k/FkeQhh8pr+49hoFu2zP5VyfvL1ZM2lqCLooJXMSt3iUMHLWAGquwq8JyLHEkk2h
-         XUhaSo7GFiqRkbwo8ejthR6oAN/OSlCuxenZiTu54F79ofsDw/b79apv660WxcfbKdqy
-         D1ekKQ5GGAJsUGub4khAqAYN9fNaL+leB55GqucET2gLexDYWXJxCclCBysmOrG0GlBp
-         WtfZYYx688Ws5vqJtuays93H36a7JaBXkTQ5O+0EQ+FdrzbyzP1CBL9V0wjHIJCia19i
-         JBzA==
-X-Gm-Message-State: AOAM532V/gXQgtHAoXlSEg18xUcfL5YfmexIl9M4wKDoVlgt3h9MOFxm
-        jrUmw64n1PPY08jakWkeZFnUYyiBlIkzFw==
-X-Google-Smtp-Source: ABdhPJzwtSoIC6+sn5axPTXwATv+vv9v+H3glHQ/7qU6cGeONMV2kBqcWh7AAJejL6mDdwYmGnglZQ==
-X-Received: by 2002:a05:6e02:20ee:: with SMTP id q14mr513083ilv.176.1633559284397;
-        Wed, 06 Oct 2021 15:28:04 -0700 (PDT)
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com. [209.85.166.42])
-        by smtp.gmail.com with ESMTPSA id o7sm943581ilm.4.2021.10.06.15.28.03
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Oct 2021 15:28:04 -0700 (PDT)
-Received: by mail-io1-f42.google.com with SMTP id h189so1711509iof.1
-        for <linux-media@vger.kernel.org>; Wed, 06 Oct 2021 15:28:03 -0700 (PDT)
-X-Received: by 2002:a5e:d618:: with SMTP id w24mr685194iom.178.1633559283343;
- Wed, 06 Oct 2021 15:28:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211001112522.2839602-1-ribalda@chromium.org>
- <20211001112522.2839602-2-ribalda@chromium.org> <YV4blXBkmYhCXxKG@paasikivi.fi.intel.com>
-In-Reply-To: <YV4blXBkmYhCXxKG@paasikivi.fi.intel.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 7 Oct 2021 00:27:52 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtHKOAmC3=vmyz0Ky2ZJ5Xg4rfwoetSc+=XXt2msE2KPg@mail.gmail.com>
-Message-ID: <CANiDSCtHKOAmC3=vmyz0Ky2ZJ5Xg4rfwoetSc+=XXt2msE2KPg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/8] media: ipu3-cio2 Check num_planes and sizes in queue_setup
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+        id S231341AbhJFXdS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Oct 2021 19:33:18 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53306 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231361AbhJFXdS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Oct 2021 19:33:18 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 702139DC;
+        Thu,  7 Oct 2021 01:31:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1633563083;
+        bh=HUFmwxiZ46w1+hW64n0QX0dQp8cWb6tqfnPkGfaXtdQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QE98plgCTTwn6JjHVrOJXMzk1y0YlcggNinsisbb/AEGnDvWntCR2sp/VN3lVJJJ2
+         sZhvivoeagZusw16RwlTru8hnuITFi+TcyXOVrTcB6VYrAkBdcdqD0FjSACFIFe0te
+         +m9jZW7Gg4lzbtkLMZutQpq/nM5K+q7tNThzT86U=
+Date:   Thu, 7 Oct 2021 02:31:14 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Pratyush Yadav <p.yadav@ti.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        Nikhil Devshatwar <nikhil.nd@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v4 01/11] media: cadence: csi2rx: Unregister v4l2 async
+ notifier
+Message-ID: <YV4xwiUVGUi3biAT@pendragon.ideasonboard.com>
+References: <20210915120240.21572-1-p.yadav@ti.com>
+ <20210915120240.21572-2-p.yadav@ti.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210915120240.21572-2-p.yadav@ti.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari
+Hi Pratyush,
 
-Thanks for your review :)
+Thank you for the patch.
 
-On Wed, 6 Oct 2021 at 23:56, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
->
-> Hi Ricardo,
->
-> On Fri, Oct 01, 2021 at 11:25:15AM +0000, Ricardo Ribalda wrote:
-> > If num_planes is different than zero num_planes and sizes must be
-> > checked to support the format.
-> >
-> > Fix the following v4l2-compliance error:
-> >
-> > Buffer ioctls (Input 0):
-> >     fail: v4l2-test-buffers.cpp(717): q.create_bufs(node, 1, &fmt) != EINVAL
-> >   test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
-> >
-> > Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> I attempted to apply the set to my tree but it doesn't seem to.
->
-> Do you happen to have extra patches in your tree?
+On Wed, Sep 15, 2021 at 05:32:30PM +0530, Pratyush Yadav wrote:
+> The notifier is added to the global notifier list when registered. When
+> the module is removed, the struct csi2rx_priv in which the notifier is
+> embedded, is destroyed. As a result the notifier list has a reference to
+> a notifier that no longer exists. This causes invalid memory accesses
+> when the list is iterated over. Similar for when the probe fails.
+> 
+> Unregister and clean up the notifier to avoid this.
+> 
+> Fixes: 1fc3b37f34f6 ("media: v4l: cadence: Add Cadence MIPI-CSI2 RX driver")
+> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-I think that I was on top of Linus.
-I just rebased it on top of yours and resend it as v4
+Note that there are other issues in the driver in cleanup paths, in
+particular a missing v4l2_async_notifier_cleanup() call in
+csi2rx_parse_dt() when v4l2_async_notifier_add_fwnode_remote_subdev()
+fails (moving the one from the other error path to an err label would be
+best), and missing media_entity_cleanup() calls in both the probe error
+path and the remove handler. Would you like to submit fixes for those ?
 
-Thanks!
+> ---
+> 
+> (no changes since v3)
+> 
+> Changes in v3:
+> - New in v3.
+> 
+>  drivers/media/platform/cadence/cdns-csi2rx.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+> index 7b44ab2b8c9a..d60975f905d6 100644
+> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
+> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+> @@ -469,6 +469,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+>  	return 0;
+>  
+>  err_cleanup:
+> +	v4l2_async_nf_unregister(&csi2rx->notifier);
+>  	v4l2_async_nf_cleanup(&csi2rx->notifier);
+>  err_free_priv:
+>  	kfree(csi2rx);
+> @@ -479,6 +480,8 @@ static int csi2rx_remove(struct platform_device *pdev)
+>  {
+>  	struct csi2rx_priv *csi2rx = platform_get_drvdata(pdev);
+>  
+> +	v4l2_async_nf_unregister(&csi2rx->notifier);
+> +	v4l2_async_nf_cleanup(&csi2rx->notifier);
+>  	v4l2_async_unregister_subdev(&csi2rx->subdev);
+>  	kfree(csi2rx);
+>  
 
+-- 
+Regards,
 
->
-> I just pushed mine to the master branch here:
->
->         https://git.linuxtv.org/sailus/media_tree.git/
->
-> --
-> Sakari Ailus
-
-
-
---
-Ricardo Ribalda
+Laurent Pinchart
