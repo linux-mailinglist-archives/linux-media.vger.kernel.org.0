@@ -2,90 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CA1C4235C6
-	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 04:23:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07B6B423649
+	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 05:26:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237159AbhJFCZn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Oct 2021 22:25:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41276 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229908AbhJFCZm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 22:25:42 -0400
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1906C061749;
-        Tue,  5 Oct 2021 19:23:50 -0700 (PDT)
-Received: by mail-vs1-xe2a.google.com with SMTP id g10so1297833vsb.8;
-        Tue, 05 Oct 2021 19:23:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=WwmHQgUBgnVFhJP2TLRGoapFl3aOWOVk6xMbmdmYBZg=;
-        b=GOc7dwi8lOh1lC6U5VsgxVQcF6lKVrF5WsAzGmomX36eBy3tlkaRBdKq4x+l6MwlU5
-         J1Uob5g3VFdq+6OCqToVaprDxqCdabVj6JsoLv6fLedkdI/Ep+lgNeJVNwKD/lMuiH9z
-         rYSp688Q8QKNXJF1U0ab631Y7MXAqD8SkcIqseATHEIlQDuCWuIqvZcOBEKdC2MFivhd
-         OW7CIJMrVB0EHQncn+ZiFtHtUntykBIYatjFwxudD6oJCjVcVMNRtcfCjT4zyoh62X9x
-         If4NRyb9Kuf4nofVdpWr2wUWxyZ4HMevfHjPGE1+r3992VUSB4rRZfK2tzmTYHLwKnDb
-         vazg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=WwmHQgUBgnVFhJP2TLRGoapFl3aOWOVk6xMbmdmYBZg=;
-        b=TTb3Steq8Gaq5+GgwGOyOi1zPET+y2aX5CuXD3Xky/3r5pQdYGNA1mtGj5z9+YzZPP
-         w1WNium5HUu+qYITCGO7DZ0PNPaaITZx1OAl06BEw6Kh9RwNnd4bPVB89lItQmBFxpVe
-         UIacVG/TdILX3a1sUOhX7u7EzqbjFa4ipqHmabxFyUntUFifop7Rl2rjLm3eYchnACcf
-         j6lua+dnyZqLhXyd/C6Q+P7LlBfiAKWZNbmj39qOT0p8rhztPo9ZWUZ5wuwe/R3KImnh
-         E92oPBj9Nar/Ek5NDU8+pe1A66+O0Po8NZ0rpDuy7Ht2KYE1dxuKnzPVK2S9c5MZp3Yf
-         FPNw==
-X-Gm-Message-State: AOAM530yG3SgFGKUXyTaW5yD7GGfWHDWADUiFerL9/zt8fFSvtBaa0nC
-        bvRSrcrCCQt0b7qHeufHFxVva1YHTQ8HIQ3qR6U=
-X-Google-Smtp-Source: ABdhPJwcONDskG/EsRXuJWW7n2sfuq/f3H3TUfGpNb7vycf8BKF3z24Ow7AU8AqZm/bdzE/StOvMydXYy2kEZZFCVH8=
-X-Received: by 2002:a67:e0de:: with SMTP id m30mr6440548vsl.51.1633487029583;
- Tue, 05 Oct 2021 19:23:49 -0700 (PDT)
+        id S237204AbhJFD2b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Oct 2021 23:28:31 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:34962 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230317AbhJFD2b (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Oct 2021 23:28:31 -0400
+X-UUID: 9906b7e1572a4a99a00507de66084554-20211006
+X-UUID: 9906b7e1572a4a99a00507de66084554-20211006
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+        (envelope-from <lecopzer.chen@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 548676801; Wed, 06 Oct 2021 11:26:36 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 6 Oct 2021 11:26:35 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 6 Oct 2021 11:26:35 +0800
+From:   Lecopzer Chen <lecopzer.chen@mediatek.com>
+To:     <mchehab@kernel.org>
+CC:     <lecopzer.chen@mediatek.com>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <yj.chiang@mediatek.com>
+Subject: Re: [PATCH] media: Kconfig: Make DVB_CORE=m possible when MEDIA_SUPPORT=y
+Date:   Wed, 6 Oct 2021 11:26:35 +0800
+Message-ID: <20211006032635.20694-1-lecopzer.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20211005183125.30f7df0a@coco.lan>
+References: <20211005183125.30f7df0a@coco.lan>
 MIME-Version: 1.0
-References: <m3lf39nfsq.fsf@t19.piap.pl> <CAGETcx_N7XYkzFPSuQdvWKk1o+Pzzg4HnzChE_4c_Bg_oOK3eA@mail.gmail.com>
-In-Reply-To: <CAGETcx_N7XYkzFPSuQdvWKk1o+Pzzg4HnzChE_4c_Bg_oOK3eA@mail.gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Tue, 5 Oct 2021 23:23:38 -0300
-Message-ID: <CAOMZO5DwcXUe5j97n4Q_RF9WRo2DYoToe7FLNbpDJhn_BxuH0w@mail.gmail.com>
-Subject: Re: v5.15-rcX regression: video devices on i.MX6 are not created
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
+> > A case that we need VIDEO_DEV=y but DVB_CORE=m, and this doesn't
+> > work since DVB_CORE is default MEDIA_DIGITAL_TV_SUPPORT and then
+> > follows MEDIA_SUPPORT.
+> > 
+> > Change to tristate to make DVB_CORE=m possible when MEDIA_SUPPORT=y
+> > 
+> > Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
+> > ---
+> >  drivers/media/Kconfig | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
+> > index b07812657cee..c3baf92b4d02 100644
+> > --- a/drivers/media/Kconfig
+> > +++ b/drivers/media/Kconfig
+> > @@ -88,7 +88,7 @@ config MEDIA_ANALOG_TV_SUPPORT
+> >  		will disable support for them.
+> >  
+> >  config MEDIA_DIGITAL_TV_SUPPORT
+> > -	bool
+> > +	tristate
+> >  	prompt "Digital TV" if MEDIA_SUPPORT_FILTER
+> >  	default y if !MEDIA_SUPPORT_FILTER
+> >  	help
+> 
+> While this change looks simple enough, not sure if this would work
+> for all possibilities. If I'm not mistaken, someone proposed
+> something similar to it, but it caused troubles with different
+> configurations. I don't recall any patch addressing it, but I
+> may be wrong.
+> 
+> Tf I remember correctly, the problem rises when either V4L or DVB
+> core is compiled as module and the other one is compiled builtin.
+> On such scenario, all drivers that depend on both should be
+> compiled as a module, or the build will fail.
 
-On Tue, Oct 5, 2021 at 9:10 PM Saravana Kannan <saravanak@google.com> wrote=
-:
->
-> On Mon, Oct 4, 2021 at 5:19 AM Krzysztof Ha=C5=82asa <khalasa@piap.pl> wr=
-ote:
-> >
-> > Hi Saravana et al.,
-> >
-> > FYI the patch: 6b2117ad65f1bca9ece6d4b1ee784b42701a2d86
-> >
-> > of: property: fw_devlink: Add support for "resets" and "pwms"
-> >
-> > Allows better tracking of dependencies between devices.
-> >
-> >  drivers/of/property.c | 4 ++++
-> >
-> > breaks v4l2 video devices on an i.MX6 CPU. The /dev/video* nodes are no=
-t
-> > created, and the drivers (async subdevicess) are "waiting":
+I've had a quick test:
 
-Phillip has sent a fix for this issue:
-http://lists.infradead.org/pipermail/linux-arm-kernel/2021-October/687868.h=
-tml
+CONFIG_MEDIA_SUPPORT=y
+CONFIG_MEDIA_SUPPORT_FILTER=y
+CONFIG_MEDIA_SUBDRV_AUTOSELECT=y
+CONFIG_MEDIA_DIGITAL_TV_SUPPORT=m
+CONFIG_DVB_CORE=m
+In this set, all the module depends on DVB_CORE
+will be =m even if I manually change .config.
+
+I'm not sure which config or module would build failed if DVB is module,
+but IMO, any module has explicitly depends on DVB_CORE would follow the
+configuation of DVB_CORE, and
+the only possible case which build failed should be those
+modules need to depend on DVB_CORE but didn't explicitly write
+in Kconfig.
+Also, I have no idea why someone needs DVB_CORE=m but other modules
+depend on it need =y.
+
+If anything I can test please tell me, thanks.
+
+
+Thanks,
+Lecopzer
+
+
