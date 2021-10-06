@@ -2,170 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90C4C4247EA
-	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 22:28:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9A2A424818
+	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 22:39:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230159AbhJFUaZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Oct 2021 16:30:25 -0400
-Received: from mga12.intel.com ([192.55.52.136]:52505 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229737AbhJFUaZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Oct 2021 16:30:25 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10129"; a="206215798"
-X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; 
-   d="scan'208";a="206215798"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2021 13:28:32 -0700
-X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; 
-   d="scan'208";a="524384796"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2021 13:28:29 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id EF46D201C4;
-        Wed,  6 Oct 2021 23:28:26 +0300 (EEST)
-Date:   Wed, 6 Oct 2021 23:28:26 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Pratyush Yadav <p.yadav@ti.com>
+        id S239377AbhJFUl0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Oct 2021 16:41:26 -0400
+Received: from mailrelay3-3.pub.mailoutpod1-cph3.one.com ([46.30.212.12]:52570
+        "EHLO mailrelay3-3.pub.mailoutpod1-cph3.one.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231593AbhJFUlZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 Oct 2021 16:41:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mida.se; s=20191106;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id:cc:to:
+         subject:from:from;
+        bh=rjy7QMx+HG4fzwEuu/i7VAyuESPI+MiqfkC+7VugfOc=;
+        b=HVebTVJ6FuNdZvEenHlyDKonCoYrZ55xjmjSq0cIwypTfnFD0X8sOB7BJSd2BcA7pRuwqBnJf8nIx
+         4ShgKTJ0qrpthhH9XJM+d2KoyDgeD6hx+Hskox1O4KYh7imolNH7K3yoyyt1X+dsMYyfBi4+DgdLd3
+         aWfVyzi8xSHzNeLA+55uTzZ0JuLKrasfaoaAyoadDR7MQvQYh8W+Q4xXo8IScDLl2znT+XAh7e6ZGo
+         xXIvw2mKehd24iGSxnI+8nsniEk9fmOQz/kb2mdTbsqwOldWHuL6W/jBzXb7ToGh9UnN0CLOtbziO6
+         MnEN2Hu9TggKxcp6NDegO+IhWSFSQ/Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mida.se; s=rsa1;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id:cc:to:
+         subject:from:from;
+        bh=rjy7QMx+HG4fzwEuu/i7VAyuESPI+MiqfkC+7VugfOc=;
+        b=f47ZhspZravyLhK6W3sbPMqzLDAoziAXs74IoRNBj1h9Wk/Ouqy+3wYoL2JvS1ldGy3TZ7qxIyew6
+         Wd9FwPsaJFttM940wN8+dAqt1Nfeu92KWOiXqARfw6cGVzDGLOwQhhowyVhbtIpG4Q1nChD8yZfdU0
+         LnpEic0UfpHKRIARcTHMPHOWvqwh74Bmc84BBHrKtWyVFJYYK1b1UdT3zh4Mp+Ak/b0BAJIVCLbGz3
+         JJYafYRX5XgixG30Fy5lq1iyDddp5b3XImwoTUw777Y52RLEIDjU3k54j3VoMROZKCONfBLDBtPEgc
+         zGOV2Asw+KbdZXvW2WbMnbCfqG1ng7Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+        d=mida.se; s=ed1;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id:cc:to:
+         subject:from:from;
+        bh=rjy7QMx+HG4fzwEuu/i7VAyuESPI+MiqfkC+7VugfOc=;
+        b=jwsHlhoXnhQ6d876Rc8LqyV9J8JTO5SyPbiUgZokoSfcBHp9pTZWVDi8PWrH2dw9Ldr/h7TtY4a0s
+         vI9wh4tAw==
+X-HalOne-Cookie: b74c31112d7684c3e3bff4b64e722478836f3d7b
+X-HalOne-ID: 815d8d1c-26e5-11ec-87a1-d0431ea8bb03
+Received: from [192.168.1.108] (2.67.139.77.mobile.tre.se [2.67.139.77])
+        by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+        id 815d8d1c-26e5-11ec-87a1-d0431ea8bb03;
+        Wed, 06 Oct 2021 20:39:30 +0000 (UTC)
+From:   rkardell <rkardell@mida.se>
+Subject: [PATCH] media: dvb: Solve problem with Terratec cinergyT2 when
+ removed and reconnected, or after sleep.
+To:     linux-media@vger.kernel.org
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nikhil Devshatwar <nikhil.nd@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 08/11] media: ti: Add CSI2RX support for J721E
-Message-ID: <YV4G6kjCLREpbam2@paasikivi.fi.intel.com>
-References: <20210915120240.21572-1-p.yadav@ti.com>
- <20210915120240.21572-9-p.yadav@ti.com>
+        linux-kernel@vger.kernel.org
+Message-ID: <ad0a926e-8c5f-eed7-5c3a-96453915ea09@mida.se>
+Date:   Wed, 6 Oct 2021 22:39:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210915120240.21572-9-p.yadav@ti.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: sv-FI
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Pratyush,
+Module used count is incremented 1 time but decremented 2 times by 
+dvb_frontend.
+This patch inhibit module used count to go to -1.
 
-On Wed, Sep 15, 2021 at 05:32:37PM +0530, Pratyush Yadav wrote:
-...
-> +/*
-> + * Find the input format. This is done by finding the first device in the
-> + * pipeline which can tell us the current format. This could be the sensor, or
-> + * this could be another device in the middle which is capable of format
-> + * conversions.
-> + */
-> +static int ti_csi2rx_validate_pipeline(struct ti_csi2rx_dev *csi)
-> +{
-> +	struct media_pipeline *pipe = &csi->pipe;
-> +	struct media_entity *entity;
-> +	struct v4l2_subdev *sd;
-> +	struct v4l2_subdev_format fmt;
-> +	struct v4l2_pix_format *pix = &csi->v_fmt.fmt.pix;
-> +	struct media_device *mdev = &csi->mdev;
-> +	const struct ti_csi2rx_fmt *ti_fmt;
-> +	int ret;
-> +
-> +	mutex_lock(&mdev->graph_mutex);
-> +	ret = media_graph_walk_init(&pipe->graph, mdev);
-> +	if (ret) {
-> +		mutex_unlock(&mdev->graph_mutex);
-> +		return ret;
-> +	}
-> +
-> +	media_graph_walk_start(&pipe->graph, &csi->vdev.entity);
-> +
-> +	while ((entity = media_graph_walk_next(&pipe->graph))) {
-> +		if (!is_media_entity_v4l2_subdev(entity))
-> +			continue;
 
-You shouldn't rely on media_graph_walk_next() to return entities in a
-particular order.
+Signed-off-by: rkl099 <rkardell@mida.se>
+---
+  drivers/media/usb/dvb-usb/cinergyT2-core.c | 1 +
+  1 file changed, 1 insertion(+)
 
-I'd suggest approach taken in isp_video_check_external_subdevs() (in
-drivers/media/platform/omap3isp/ispvideo.c).
+diff --git a/drivers/media/usb/dvb-usb/cinergyT2-core.c 
+b/drivers/media/usb/dvb-usb/cinergyT2-core.c
+index 23f1093d2..56f58b3f9 100644
+--- a/drivers/media/usb/dvb-usb/cinergyT2-core.c
++++ b/drivers/media/usb/dvb-usb/cinergyT2-core.c
+@@ -69,6 +69,7 @@ static int cinergyt2_frontend_attach(struct 
+dvb_usb_adapter *adap)
+      struct cinergyt2_state *st = d->priv;
+      int ret;
 
-> +
-> +		sd = media_entity_to_v4l2_subdev(entity);
-> +
-> +		fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> +		fmt.pad = media_get_pad_index(entity, 0, PAD_SIGNAL_DEFAULT);
-> +
-> +		ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &fmt);
-> +		if (ret && ret != -ENOIOCTLCMD) {
-> +			media_graph_walk_cleanup(&pipe->graph);
-> +			mutex_unlock(&mdev->graph_mutex);
-> +			return ret;
-> +		}
-> +
-> +		if (!ret)
-> +			break;
-> +	}
-> +
-> +	media_graph_walk_cleanup(&pipe->graph);
-> +	mutex_unlock(&mdev->graph_mutex);
-> +
-> +	/* Could not find input format. */
-> +	if (!entity)
-> +		return -EPIPE;
-> +
-> +	if (fmt.format.width != pix->width)
-> +		return -EPIPE;
-> +	if (fmt.format.height != pix->height)
-> +		return -EPIPE;
++    try_module_get(THIS_MODULE);
+      adap->fe_adap[0].fe = cinergyt2_fe_attach(adap->dev);
 
-Pipeline validation should take place during media_pipeline_start(). Why
-are you doing it here?
-
-> +
-> +	ti_fmt = find_format_by_pix(pix->pixelformat);
-> +	if (WARN_ON(!ti_fmt))
-> +		return -EINVAL;
-> +
-> +	if (fmt.format.code == MEDIA_BUS_FMT_YUYV8_2X8 ||
-> +	    fmt.format.code == MEDIA_BUS_FMT_VYUY8_2X8 ||
-> +	    fmt.format.code == MEDIA_BUS_FMT_YVYU8_2X8) {
-> +		dev_err(csi->dev,
-> +			"Only UYVY input allowed for YUV422 8-bit. Output format can be configured.\n");
-> +		return -EPIPE;
-> +	}
-> +
-> +	if (fmt.format.code == MEDIA_BUS_FMT_UYVY8_2X8) {
-> +		/* Format conversion between YUV422 formats can be done. */
-> +		if (ti_fmt->code != MEDIA_BUS_FMT_UYVY8_2X8 &&
-> +		    ti_fmt->code != MEDIA_BUS_FMT_YUYV8_2X8 &&
-> +		    ti_fmt->code != MEDIA_BUS_FMT_VYUY8_2X8 &&
-> +		    ti_fmt->code != MEDIA_BUS_FMT_YVYU8_2X8)
-> +			return -EPIPE;
-> +	} else if (fmt.format.code != ti_fmt->code) {
-> +		return -EPIPE;
-> +	}
-> +
-> +	if (fmt.format.field != V4L2_FIELD_NONE &&
-> +	    fmt.format.field != V4L2_FIELD_ANY)
-> +		return -EPIPE;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
-> +{
-> +	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(vq);
-> +	struct ti_csi2rx_dma *dma = &csi->dma;
-> +	struct ti_csi2rx_buffer *buf, *tmp;
-> +	unsigned long flags = 0;
-
-No need to assign flags here.
-
-> +	int ret = 0;
-> +
-
+      mutex_lock(&d->data_mutex);
 -- 
-Kind regards,
+2.30.2
 
-Sakari Ailus
+
