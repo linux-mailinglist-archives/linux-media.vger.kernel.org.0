@@ -2,22 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D1B442379D
-	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 07:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E5614237DC
+	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 08:13:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234547AbhJFFvl convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 6 Oct 2021 01:51:41 -0400
-Received: from ni.piap.pl ([195.187.100.5]:44250 "EHLO ni.piap.pl"
+        id S235442AbhJFGPl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 6 Oct 2021 02:15:41 -0400
+Received: from ni.piap.pl ([195.187.100.5]:50362 "EHLO ni.piap.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235061AbhJFFvl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Oct 2021 01:51:41 -0400
+        id S229797AbhJFGPl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 Oct 2021 02:15:41 -0400
 From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] Add ADV7610 support for adv7604 driver.
-Date:   Wed, 06 Oct 2021 07:49:48 +0200
-Message-ID: <m3wnmqn1mr.fsf@t19.piap.pl>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] i.MX6: Support 16-bit BT.1120 video input
+Date:   Wed, 06 Oct 2021 08:13:48 +0200
+Message-ID: <m3o882n0ir.fsf@t19.piap.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8BIT
@@ -25,74 +33,94 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-ADV7610 is another HDMI receiver chip, very similar to
-the ADV7611.
-
-Also: print chip names in upper case.
-Fix an error message claiming that no ADV761x has been found,
-while in reality a chip different than requested (though still
-supported) may have been found.
-Tested on TinyRex BaseBoard Lite.
+Confirmed to work with ADV7610 HDMI receiver.
 
 Signed-off-by: Krzysztof Hałasa <khalasa@piap.pl>
 
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 122e1fdccd96..4d7a19e6b8f1 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -41,7 +41,7 @@ static int debug;
- module_param(debug, int, 0644);
- MODULE_PARM_DESC(debug, "debug level (0-2)");
+diff --git a/drivers/gpu/ipu-v3/ipu-csi.c b/drivers/gpu/ipu-v3/ipu-csi.c
+index 658c173bebdf..2893b68f1f7a 100644
+--- a/drivers/gpu/ipu-v3/ipu-csi.c
++++ b/drivers/gpu/ipu-v3/ipu-csi.c
+@@ -261,10 +261,24 @@ static int mbus_code_to_bus_cfg(struct ipu_csi_bus_config *cfg, u32 mbus_code,
+ 		cfg->data_width = IPU_CSI_DATA_WIDTH_8;
+ 		break;
+ 	case MEDIA_BUS_FMT_UYVY8_1X16:
++		if (mbus_type == V4L2_MBUS_BT656) {
++			cfg->data_fmt = CSI_SENS_CONF_DATA_FMT_YUV422_UYVY;
++			cfg->data_width = IPU_CSI_DATA_WIDTH_8;
++		} else {
++			cfg->data_fmt = CSI_SENS_CONF_DATA_FMT_BAYER;
++			cfg->data_width = IPU_CSI_DATA_WIDTH_16;
++		}
++		cfg->mipi_dt = MIPI_DT_YUV422;
++		break;
+ 	case MEDIA_BUS_FMT_YUYV8_1X16:
+-		cfg->data_fmt = CSI_SENS_CONF_DATA_FMT_BAYER;
++		if (mbus_type == V4L2_MBUS_BT656) {
++			cfg->data_fmt = CSI_SENS_CONF_DATA_FMT_YUV422_YUYV;
++			cfg->data_width = IPU_CSI_DATA_WIDTH_8;
++		} else {
++			cfg->data_fmt = CSI_SENS_CONF_DATA_FMT_BAYER;
++			cfg->data_width = IPU_CSI_DATA_WIDTH_16;
++		}
+ 		cfg->mipi_dt = MIPI_DT_YUV422;
+-		cfg->data_width = IPU_CSI_DATA_WIDTH_16;
+ 		break;
+ 	case MEDIA_BUS_FMT_SBGGR8_1X8:
+ 	case MEDIA_BUS_FMT_SGBRG8_1X8:
+@@ -352,7 +366,7 @@ static int fill_csi_bus_cfg(struct ipu_csi_bus_config *csicfg,
+ 			    const struct v4l2_mbus_config *mbus_cfg,
+ 			    const struct v4l2_mbus_framefmt *mbus_fmt)
+ {
+-	int ret;
++	int ret, is_bt1120;
  
--MODULE_DESCRIPTION("Analog Devices ADV7604 video decoder driver");
-+MODULE_DESCRIPTION("Analog Devices ADV7604/10/11/12 video decoder driver");
- MODULE_AUTHOR("Hans Verkuil <hans.verkuil@cisco.com>");
- MODULE_AUTHOR("Mats Randgaard <mats.randgaard@cisco.com>");
- MODULE_LICENSE("GPL");
-@@ -77,7 +77,7 @@ MODULE_LICENSE("GPL");
+ 	memset(csicfg, 0, sizeof(*csicfg));
  
- enum adv76xx_type {
- 	ADV7604,
--	ADV7611,
-+	ADV7611, // including ADV7610
- 	ADV7612,
- };
- 
-@@ -3176,6 +3176,7 @@ static const struct adv76xx_chip_info adv76xx_chip_info[] = {
- 
- static const struct i2c_device_id adv76xx_i2c_id[] = {
- 	{ "adv7604", (kernel_ulong_t)&adv76xx_chip_info[ADV7604] },
-+	{ "adv7610", (kernel_ulong_t)&adv76xx_chip_info[ADV7611] },
- 	{ "adv7611", (kernel_ulong_t)&adv76xx_chip_info[ADV7611] },
- 	{ "adv7612", (kernel_ulong_t)&adv76xx_chip_info[ADV7612] },
- 	{ }
-@@ -3183,6 +3184,7 @@ static const struct i2c_device_id adv76xx_i2c_id[] = {
- MODULE_DEVICE_TABLE(i2c, adv76xx_i2c_id);
- 
- static const struct of_device_id adv76xx_of_id[] __maybe_unused = {
-+	{ .compatible = "adi,adv7610", .data = &adv76xx_chip_info[ADV7611] },
- 	{ .compatible = "adi,adv7611", .data = &adv76xx_chip_info[ADV7611] },
- 	{ .compatible = "adi,adv7612", .data = &adv76xx_chip_info[ADV7612] },
- 	{ }
-@@ -3500,7 +3502,7 @@ static int adv76xx_probe(struct i2c_client *client,
- 			return -ENODEV;
- 		}
- 		if (val != 0x68) {
--			v4l2_err(sd, "not an adv7604 on address 0x%x\n",
-+			v4l2_err(sd, "not an ADV7604 on address 0x%x\n",
- 					client->addr << 1);
- 			return -ENODEV;
- 		}
-@@ -3525,7 +3527,8 @@ static int adv76xx_probe(struct i2c_client *client,
- 		val |= val2;
- 		if ((state->info->type == ADV7611 && val != 0x2051) ||
- 			(state->info->type == ADV7612 && val != 0x2041)) {
--			v4l2_err(sd, "not an adv761x on address 0x%x\n",
-+			v4l2_err(sd, "not an %s on address 0x%x\n",
-+				 state->info->type == ADV7611 ? "ADV7610/11" : "ADV7612",
- 					client->addr << 1);
- 			return -ENODEV;
- 		}
+@@ -373,11 +387,18 @@ static int fill_csi_bus_cfg(struct ipu_csi_bus_config *csicfg,
+ 		break;
+ 	case V4L2_MBUS_BT656:
+ 		csicfg->ext_vsync = 0;
++		/* UYVY10_1X20 etc. should be supported as well */
++		is_bt1120 = mbus_fmt->code == MEDIA_BUS_FMT_UYVY8_1X16 ||
++			mbus_fmt->code == MEDIA_BUS_FMT_YUYV8_1X16;
+ 		if (V4L2_FIELD_HAS_BOTH(mbus_fmt->field) ||
+ 		    mbus_fmt->field == V4L2_FIELD_ALTERNATE)
+-			csicfg->clk_mode = IPU_CSI_CLK_MODE_CCIR656_INTERLACED;
++			csicfg->clk_mode = is_bt1120 ?
++				IPU_CSI_CLK_MODE_CCIR1120_INTERLACED_SDR :
++				IPU_CSI_CLK_MODE_CCIR656_INTERLACED;
+ 		else
+-			csicfg->clk_mode = IPU_CSI_CLK_MODE_CCIR656_PROGRESSIVE;
++			csicfg->clk_mode = is_bt1120 ?
++				IPU_CSI_CLK_MODE_CCIR1120_PROGRESSIVE_SDR :
++				IPU_CSI_CLK_MODE_CCIR656_PROGRESSIVE;
+ 		break;
+ 	case V4L2_MBUS_CSI2_DPHY:
+ 		/*
+diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+index 45f9d797b9da..ba93512f8c71 100644
+--- a/drivers/staging/media/imx/imx-media-csi.c
++++ b/drivers/staging/media/imx/imx-media-csi.c
+@@ -139,6 +139,8 @@ static inline bool is_parallel_16bit_bus(struct v4l2_fwnode_endpoint *ep)
+  * Check for conditions that require the IPU to handle the
+  * data internally as generic data, aka passthrough mode:
+  * - raw bayer media bus formats, or
++ * - BT.656 and BT.1120 (8/10-bit YUV422) data can always be processed
++ *   on-the-fly (converted to YUV420)
+  * - the CSI is receiving from a 16-bit parallel bus, or
+  * - the CSI is receiving from an 8-bit parallel bus and the incoming
+  *   media bus format is other than UYVY8_2X8/YUYV8_2X8.
+@@ -147,6 +149,9 @@ static inline bool requires_passthrough(struct v4l2_fwnode_endpoint *ep,
+ 					struct v4l2_mbus_framefmt *infmt,
+ 					const struct imx_media_pixfmt *incc)
+ {
++	if (ep->bus_type == V4L2_MBUS_BT656) // including BT.1120
++		return 0;
++
+ 	return incc->bayer || is_parallel_16bit_bus(ep) ||
+ 		(is_parallel_bus(ep) &&
+ 		 infmt->code != MEDIA_BUS_FMT_UYVY8_2X8 &&
 
 -- 
 Krzysztof "Chris" Hałasa
