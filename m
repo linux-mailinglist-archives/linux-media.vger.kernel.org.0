@@ -2,18 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26F46423BCB
-	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 12:53:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A38D423BF2
+	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 13:06:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238185AbhJFKy6 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 6 Oct 2021 06:54:58 -0400
-Received: from ni.piap.pl ([195.187.100.5]:39038 "EHLO ni.piap.pl"
+        id S238188AbhJFLIW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Oct 2021 07:08:22 -0400
+Received: from comms.puri.sm ([159.203.221.185]:50232 "EHLO comms.puri.sm"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238154AbhJFKyw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Oct 2021 06:54:52 -0400
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        id S237931AbhJFLIV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 Oct 2021 07:08:21 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 6C431E1339;
+        Wed,  6 Oct 2021 04:05:59 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id TEq-cT8BT5Xw; Wed,  6 Oct 2021 04:05:58 -0700 (PDT)
+Date:   Wed, 6 Oct 2021 13:05:44 +0200
+From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Shawn Guo <shawnguo@kernel.org>,
@@ -21,65 +28,91 @@ Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] i.MX6: Support 16-bit BT.1120 video input
-References: <m3o882n0ir.fsf@t19.piap.pl>
-        <568f79774cc148c58b9045da7b94b4e9e500810b.camel@pengutronix.de>
-Date:   Wed, 06 Oct 2021 12:52:57 +0200
-In-Reply-To: <568f79774cc148c58b9045da7b94b4e9e500810b.camel@pengutronix.de>
-        (Philipp Zabel's message of "Wed, 06 Oct 2021 11:36:47 +0200")
-Message-ID: <m37deqmnli.fsf@t19.piap.pl>
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     kernel@puri.sm, phone-devel@vger.kernel.org
+Subject: [PATCH] media: imx: Round line size to 4 bytes
+Message-ID: <20211006110207.256325-1-dorota.czaplejewicz@puri.sm>
+Organization: Purism
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: multipart/signed; boundary="Sig_/c0QfgXQ3Vn.SH0LtEafw=gY";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp,
+--Sig_/c0QfgXQ3Vn.SH0LtEafw=gY
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Philipp Zabel <p.zabel@pengutronix.de> writes:
+Section 13.7.6.13 "CSI Image Parameter Register" of the
+i.MX 8M Quad Applications Processors Reference Manual
+states that the line size should be divisible by 8 bytes.
+However, the hardware also accepts sizes divisible by 4 bytes.
 
->> + * - BT.656 and BT.1120 (8/10-bit YUV422) data can always be processed
->> + *   on-the-fly (converted to YUV420)
->
-> This comment seems misleading. The CSI converts to YUV 4:4:4 internally.
+This patch accepts line sizes divisible 4-bytes in non-planar mode.
 
-Well... this is surprising. You mean "on the internal bus", don't you?
+Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+---
 
-Please correct me if the following is wrong:
+Hello,
 
-I always though that the "on-the-fly processing", in case of YUV422,
-means in practice I can get YUV420 out of the IPU, without a need to do
-e.g. NEON conversion. I know I can get the original YUV422 as well,
-using the "generic data" mode, but it's incompatible with the CODA H.264
-encoder.
+my previous patch identified something that was not a problem,
+so I'm sending a different one.
 
-Ok, the DQRM (37.4.3.2.1) states that for parallel YUV the output from
-CSI is always YUV444.
+This has been tested on the Librem 5.
+
+Cheers,
+Dorota
+
+ drivers/staging/media/imx/imx-media-utils.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/=
+media/imx/imx-media-utils.c
+index 5128915a5d6f..a303003929e3 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -545,13 +545,13 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_for=
+mat *pix,
+ 	}
+=20
+ 	/* Round up width for minimum burst size */
+-	width =3D round_up(mbus->width, 8);
++	width =3D round_up(mbus->width, 4);
+=20
+ 	/* Round up stride for IDMAC line start address alignment */
+ 	if (cc->planar)
+ 		stride =3D round_up(width, 16);
+ 	else
+-		stride =3D round_up((width * cc->bpp) >> 3, 8);
++		stride =3D round_up((width * cc->bpp) >> 3, 4);
+=20
+ 	pix->width =3D width;
+ 	pix->height =3D mbus->height;
+--=20
+2.31.1
 
 
+--Sig_/c0QfgXQ3Vn.SH0LtEafw=gY
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Then 37.4.3.9 says that the only YUV422 way is to use 16-bit "generic
-data". This doesn't seem to be very true, however I'm not exactly sure
-about the "on-the-fly" thing.
-The fact is the patch works.
-Also, the CSIx_SENS_DATA_FORMAT field in IPUx_CSIx_SENS_CONF register
-shows YUV422 YUYV and UYVY input data formats, clearly separate from
-"Bayer of Generic data".
+-----BEGIN PGP SIGNATURE-----
 
-DQIEC, 4.12.10.1, isn't very clear either:
-8) YCbCr 20-bit (10-bit Y + 10-bit U/V) is supported with BT.1120 only
-7) YCbCr 16-bit is supported under the same conditions as 8)
-6) YCbCr 16-bit (= YUV422) is also supported as "generic-data"
-   (no on-the-fly processing). This seems to imply 8) and 7) are
-   supported WITH o-t-f-p (and obviously I have tested it, 16-bit only).
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmFdgwgACgkQADBpX4S8
+ZneTgA/8CbO6LOy5XYlOp9HtcO+gJkFF9YLeRQpRapSy3H9017+x7DeCvPIm/xsl
+wn8T+ONTMCZZ7gRy5BnQUzUAANauc6Wn+lRgEaPrXYV/B+jx8IxWbMX/w15ajTDP
+D5p7J0+D1RrEmJ5aemm9KoaT4e2RHGG7EwdmRaHrpnFX/yGr2y3H5wZSceS/5EU6
+nl55XEq5GpsJ5m/7ZpdVDjesEFSOmFfCfH0NLXdFlXmKUwT/WAntFni/LPNSnNWl
+Ul1GWU/EQXJ/YOwY0wexfuNqTS+9s8zJHawQOYwdViOsPRIG6J2jdtVyab+kjl6n
+u8+RZqdKPiQAb6+NZezpMvf1KPU/gZVeRj4+Gr7puczHp3rgb86VKTpDoQ48yVY2
+Z8ayOkioHt/WGXnJvK7iyQT5dgr7ND/7VPD/j2E0k+ev0ViB+i052+HBdfErWNxv
+QSmpPGaEYB6qEFEcCiZhqExLo5W1hW81d06NuXPO3WUI6B/3mZGClJUdKFnV3D+M
+pjrSURr8ejy0wah3VH+jiYoo33rrDbX0+254m3mNeFO+ExPxvw4Sgg/6A2UrkQSX
+4auLKo2xxORsXQwkT8dZ/92eap5C1zsvgRHMqV5FDzzbvGp2Af9F3Pis/T9+9L1C
+h3ef3CaUHr5xgQvr8MtwCdPHIV/6eiFdQTLkgEUDT6vShMfSCwY=
+=XGed
+-----END PGP SIGNATURE-----
 
-I think I will just remove the comment :-)
--- 
-Krzysztof "Chris" Hałasa
-
-Sieć Badawcza Łukasiewicz
-Przemysłowy Instytut Automatyki i Pomiarów PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+--Sig_/c0QfgXQ3Vn.SH0LtEafw=gY--
