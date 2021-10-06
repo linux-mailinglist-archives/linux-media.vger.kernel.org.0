@@ -2,129 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E5614237DC
-	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 08:13:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61BDC423850
+	for <lists+linux-media@lfdr.de>; Wed,  6 Oct 2021 08:47:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235442AbhJFGPl convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 6 Oct 2021 02:15:41 -0400
-Received: from ni.piap.pl ([195.187.100.5]:50362 "EHLO ni.piap.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229797AbhJFGPl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Oct 2021 02:15:41 -0400
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>
+        id S231281AbhJFGtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Oct 2021 02:49:15 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57068 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229956AbhJFGtO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Oct 2021 02:49:14 -0400
+Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 210C4581;
+        Wed,  6 Oct 2021 08:47:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1633502841;
+        bh=fx3Vw0p+YnUK2vG34/jnsvKyq/5irjKbwuwWfVBuk+c=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=BbzxCAAq3x7brDrkvYULx5Hh/VTQo9mqnPmXkZYVaO1/3wXZCgicUCk5DAqgqS9SG
+         kYrFaHeyFIT69rNUzsG6Gd6zeUF9zRMrr6TEKs9Whdpqpf1PwPmDzqq2hkW2iQ7o2e
+         bf/W88CYOeSRBUNQuGR0Gf/Ic20hqEpfKhabpvXg=
+Subject: Re: [PATCH v9 27/36] media: subdev: Add [GS]_ROUTING subdev ioctls
+ and operations
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] i.MX6: Support 16-bit BT.1120 video input
-Date:   Wed, 06 Oct 2021 08:13:48 +0200
-Message-ID: <m3o882n0ir.fsf@t19.piap.pl>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>
+References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
+ <20211005085750.138151-28-tomi.valkeinen@ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Message-ID: <e9771096-00bd-5c46-00bd-49c806686937@ideasonboard.com>
+Date:   Wed, 6 Oct 2021 09:47:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20211005085750.138151-28-tomi.valkeinen@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Confirmed to work with ADV7610 HDMI receiver.
+Hi,
 
-Signed-off-by: Krzysztof Hałasa <khalasa@piap.pl>
+On 05/10/2021 11:57, Tomi Valkeinen wrote:
 
-diff --git a/drivers/gpu/ipu-v3/ipu-csi.c b/drivers/gpu/ipu-v3/ipu-csi.c
-index 658c173bebdf..2893b68f1f7a 100644
---- a/drivers/gpu/ipu-v3/ipu-csi.c
-+++ b/drivers/gpu/ipu-v3/ipu-csi.c
-@@ -261,10 +261,24 @@ static int mbus_code_to_bus_cfg(struct ipu_csi_bus_config *cfg, u32 mbus_code,
- 		cfg->data_width = IPU_CSI_DATA_WIDTH_8;
- 		break;
- 	case MEDIA_BUS_FMT_UYVY8_1X16:
-+		if (mbus_type == V4L2_MBUS_BT656) {
-+			cfg->data_fmt = CSI_SENS_CONF_DATA_FMT_YUV422_UYVY;
-+			cfg->data_width = IPU_CSI_DATA_WIDTH_8;
-+		} else {
-+			cfg->data_fmt = CSI_SENS_CONF_DATA_FMT_BAYER;
-+			cfg->data_width = IPU_CSI_DATA_WIDTH_16;
-+		}
-+		cfg->mipi_dt = MIPI_DT_YUV422;
-+		break;
- 	case MEDIA_BUS_FMT_YUYV8_1X16:
--		cfg->data_fmt = CSI_SENS_CONF_DATA_FMT_BAYER;
-+		if (mbus_type == V4L2_MBUS_BT656) {
-+			cfg->data_fmt = CSI_SENS_CONF_DATA_FMT_YUV422_YUYV;
-+			cfg->data_width = IPU_CSI_DATA_WIDTH_8;
-+		} else {
-+			cfg->data_fmt = CSI_SENS_CONF_DATA_FMT_BAYER;
-+			cfg->data_width = IPU_CSI_DATA_WIDTH_16;
-+		}
- 		cfg->mipi_dt = MIPI_DT_YUV422;
--		cfg->data_width = IPU_CSI_DATA_WIDTH_16;
- 		break;
- 	case MEDIA_BUS_FMT_SBGGR8_1X8:
- 	case MEDIA_BUS_FMT_SGBRG8_1X8:
-@@ -352,7 +366,7 @@ static int fill_csi_bus_cfg(struct ipu_csi_bus_config *csicfg,
- 			    const struct v4l2_mbus_config *mbus_cfg,
- 			    const struct v4l2_mbus_framefmt *mbus_fmt)
- {
--	int ret;
-+	int ret, is_bt1120;
- 
- 	memset(csicfg, 0, sizeof(*csicfg));
- 
-@@ -373,11 +387,18 @@ static int fill_csi_bus_cfg(struct ipu_csi_bus_config *csicfg,
- 		break;
- 	case V4L2_MBUS_BT656:
- 		csicfg->ext_vsync = 0;
-+		/* UYVY10_1X20 etc. should be supported as well */
-+		is_bt1120 = mbus_fmt->code == MEDIA_BUS_FMT_UYVY8_1X16 ||
-+			mbus_fmt->code == MEDIA_BUS_FMT_YUYV8_1X16;
- 		if (V4L2_FIELD_HAS_BOTH(mbus_fmt->field) ||
- 		    mbus_fmt->field == V4L2_FIELD_ALTERNATE)
--			csicfg->clk_mode = IPU_CSI_CLK_MODE_CCIR656_INTERLACED;
-+			csicfg->clk_mode = is_bt1120 ?
-+				IPU_CSI_CLK_MODE_CCIR1120_INTERLACED_SDR :
-+				IPU_CSI_CLK_MODE_CCIR656_INTERLACED;
- 		else
--			csicfg->clk_mode = IPU_CSI_CLK_MODE_CCIR656_PROGRESSIVE;
-+			csicfg->clk_mode = is_bt1120 ?
-+				IPU_CSI_CLK_MODE_CCIR1120_PROGRESSIVE_SDR :
-+				IPU_CSI_CLK_MODE_CCIR656_PROGRESSIVE;
- 		break;
- 	case V4L2_MBUS_CSI2_DPHY:
- 		/*
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index 45f9d797b9da..ba93512f8c71 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -139,6 +139,8 @@ static inline bool is_parallel_16bit_bus(struct v4l2_fwnode_endpoint *ep)
-  * Check for conditions that require the IPU to handle the
-  * data internally as generic data, aka passthrough mode:
-  * - raw bayer media bus formats, or
-+ * - BT.656 and BT.1120 (8/10-bit YUV422) data can always be processed
-+ *   on-the-fly (converted to YUV420)
-  * - the CSI is receiving from a 16-bit parallel bus, or
-  * - the CSI is receiving from an 8-bit parallel bus and the incoming
-  *   media bus format is other than UYVY8_2X8/YUYV8_2X8.
-@@ -147,6 +149,9 @@ static inline bool requires_passthrough(struct v4l2_fwnode_endpoint *ep,
- 					struct v4l2_mbus_framefmt *infmt,
- 					const struct imx_media_pixfmt *incc)
- {
-+	if (ep->bus_type == V4L2_MBUS_BT656) // including BT.1120
-+		return 0;
-+
- 	return incc->bayer || is_parallel_16bit_bus(ep) ||
- 		(is_parallel_bus(ep) &&
- 		 infmt->code != MEDIA_BUS_FMT_UYVY8_2X8 &&
+> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+> index 658106f5b5dc..5ba409db47ff 100644
+> --- a/include/uapi/linux/v4l2-subdev.h
+> +++ b/include/uapi/linux/v4l2-subdev.h
+> @@ -188,6 +188,61 @@ struct v4l2_subdev_capability {
+>   /* The v4l2 sub-device video device node is registered in read-only mode. */
+>   #define V4L2_SUBDEV_CAP_RO_SUBDEV		0x00000001
+>   
+> +/*
+> + * Is the route active? An active route will start when streaming is enabled
+> + * on a video node.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_ACTIVE		(1 << 0)
+> +
+> +/*
+> + * Is the route immutable, i.e. can it be activated and inactivated?
+> + * Set by the driver.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_IMMUTABLE		(1 << 1)
+> +
+> +/*
+> + * Is the route a source endpoint? A source endpoint route refers to a stream
+> + * generated internally by the subdevice (usually a sensor), and thus there
+> + * is no sink-side endpoint for the route. The sink_pad and sink_stream
+> + * fields are unused.
+> + * Set by the driver.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_SOURCE		(1 << 2)
 
--- 
-Krzysztof "Chris" Hałasa
+These are still not correct. They should be unsigned. But I realized we 
+have _BITUL() for this purpose, so I'll change the uapi headers to use 
+that macro.
 
-Sieć Badawcza Łukasiewicz
-Przemysłowy Instytut Automatyki i Pomiarów PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+  Tomi
