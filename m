@@ -2,93 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1FD34249EB
-	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 00:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8056424983
+	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 00:15:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239847AbhJFWkL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Oct 2021 18:40:11 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:48012 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239912AbhJFWj4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Oct 2021 18:39:56 -0400
-X-Greylist: delayed 5755 seconds by postgrey-1.27 at vger.kernel.org; Wed, 06 Oct 2021 18:39:54 EDT
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 196L1xSo095749;
-        Wed, 6 Oct 2021 16:01:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1633554119;
-        bh=5GQkMzCzRXHqDDBT/bRBMLgEAfL2pt0t8U1wYbm8oDE=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=NET/pdSy1xXpoizghZ6rEKPBbwja1s7RS1GQQNJNAnaFv66wnOrt9noLRvfUo17Rq
-         MIEMlNTSmEDuaPxkyq7Osj2nBdxBtqLmi1seiHsPZlVxgpGl+6zaYYSlqjBfWDEDdV
-         3igehkjpy0JiqQu3NEmamFdGeDMtEdtKDKvDjFW0=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 196L1xdG044307
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 6 Oct 2021 16:01:59 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Wed, 6
- Oct 2021 16:01:59 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Wed, 6 Oct 2021 16:01:59 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 196L1wxu070269;
-        Wed, 6 Oct 2021 16:01:58 -0500
-Date:   Thu, 7 Oct 2021 02:31:57 +0530
-From:   Pratyush Yadav <p.yadav@ti.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nikhil Devshatwar <nikhil.nd@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v4 02/11] media: cadence: csi2rx: Add external DPHY
- support
-Message-ID: <20211006210155.ukfmh24kdipqprcn@ti.com>
-References: <20210915120240.21572-1-p.yadav@ti.com>
- <20210915120240.21572-3-p.yadav@ti.com>
- <YV4EuD2KSIXIYzY4@paasikivi.fi.intel.com>
+        id S239454AbhJFWRb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Oct 2021 18:17:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33586 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230047AbhJFWR2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Oct 2021 18:17:28 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE9A8C061753
+        for <linux-media@vger.kernel.org>; Wed,  6 Oct 2021 15:15:35 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id r1so8796123ybo.10
+        for <linux-media@vger.kernel.org>; Wed, 06 Oct 2021 15:15:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=bLkXPKgwDs6RrD6sIhWAu6J/jje6v2DWvJSDi3dyacU=;
+        b=omp5WUi2srkkJtu6Y11KpKx5rkaN7WkK46/dR0H6c1VEUCNDbqbXAKQJVdOs/iL5Fu
+         FYaHTvcZ44x69udRZvVB9D5td2Qzu2Hp5Q8wPjoGTGYJWobyFvt/uBcRtCXkD8sl29Hb
+         T06DOOgOCzjlVfLDgZkcOjbIggQgnGVi2ARfsVLp36Hvq15lkeRTAzHhe2YcSGufFk1Y
+         QkFE6WbhnCGfH0pGWUrg2KfICYhLMlcHnkzMyZ1q59/+LAWTr/SCPYJPOrMxsCfd/ieY
+         3iejfymWIfZyPmkG8m2kWLyMUpacRGDn4RocpW3T0w9uvFPhq61jI65GS01BvkeE7u/H
+         Gd2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=bLkXPKgwDs6RrD6sIhWAu6J/jje6v2DWvJSDi3dyacU=;
+        b=Gux9vh5L0Rge8D0SbwCS/kgGQaFzsH26VcQ9u4dMOb2jWB2fWTh6xhUoNjU/ci+7kL
+         2WPR3yNoQ6JEOQPlQ1y8yWRW8bsnsJKHvNiLQqYAt8TaFx4/a5sWVky/rBP4pJKFUMCb
+         DbI7anILRMXg4TtdiPnkGXHfNB0QxpK7K8vyfI1SiNmXdRc9Oit986bLlKyuc04CfSlx
+         qlSn8VyH4/eMJFAPwRw7/AsMmLr+fpFqCMjVHxc0DADKqN0e+v9I+M8A+qOVQfrwyx1b
+         R6hsF6WcYenryWrC4fs364FhMsTJGjAUxZjU18R5nxBUGoPXy47l80qhV6zilipm0auV
+         088g==
+X-Gm-Message-State: AOAM530snw+Aq7Sq4uOrHFoi7s5ubgXjsuQrT5St/dShhOwaviq2tEgG
+        66khkvxu0aiaVMkybkqjr+cwfW4m/uEj2hWp+/uQCg==
+X-Google-Smtp-Source: ABdhPJysw5eB0GRIFouNT/cd+prCfUToi3eegnqBYBd3kLXJmVy7fuTCNUtkIx8MrmqGYV0EXHtXjqXKPCZasHrBj8A=
+X-Received: by 2002:a25:2b07:: with SMTP id r7mr700635ybr.296.1633558534897;
+ Wed, 06 Oct 2021 15:15:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <YV4EuD2KSIXIYzY4@paasikivi.fi.intel.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <m3lf39nfsq.fsf@t19.piap.pl> <CAGETcx_N7XYkzFPSuQdvWKk1o+Pzzg4HnzChE_4c_Bg_oOK3eA@mail.gmail.com>
+ <CAOMZO5DwcXUe5j97n4Q_RF9WRo2DYoToe7FLNbpDJhn_BxuH0w@mail.gmail.com> <m38rz6oinj.fsf@t19.piap.pl>
+In-Reply-To: <m38rz6oinj.fsf@t19.piap.pl>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Wed, 6 Oct 2021 15:14:59 -0700
+Message-ID: <CAGETcx8qsJQNkEHYgqihqHuFu8sgC5DDsnG9yQ=_e_hiC43z-w@mail.gmail.com>
+Subject: Re: v5.15-rcX regression: video devices on i.MX6 are not created
+To:     =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+Cc:     Fabio Estevam <festevam@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/10/21 11:19PM, Sakari Ailus wrote:
-> Hi Pratyush,
-> 
-> On Wed, Sep 15, 2021 at 05:32:31PM +0530, Pratyush Yadav wrote:
-> > +	ret = phy_pm_runtime_get_sync(csi2rx->dphy);
-> 
-> Note that this will return 1 if the device was already resumed. That is not
-> an error.
+On Tue, Oct 5, 2021 at 9:56 PM Krzysztof Ha=C5=82asa <khalasa@piap.pl> wrot=
+e:
+>
+> Hi Fabio, Saravana,
+>
+> Fabio Estevam <festevam@gmail.com> writes:
+>
+> >> > FYI the patch: 6b2117ad65f1bca9ece6d4b1ee784b42701a2d86
+> >> >
+> >> > of: property: fw_devlink: Add support for "resets" and "pwms"
+> >> >
+> >> > Allows better tracking of dependencies between devices.
+> >> >
+> >> >  drivers/of/property.c | 4 ++++
+> >> >
+> >> > breaks v4l2 video devices on an i.MX6 CPU. The /dev/video* nodes are=
+ not
+> >> > created, and the drivers (async subdevicess) are "waiting":
+> >
+> > Phillip has sent a fix for this issue:
+> > http://lists.infradead.org/pipermail/linux-arm-kernel/2021-October/6878=
+68.html
+>
+> This patch makes the /dev/video* devices to show up on my i.MX6-based
+> system again, so I consider the problem fixed. Thanks.
 
-Thanks. Will fix.
+Ah, I helped Phillip come up with that fix. I didn't realize this was
+the same issue. Glad that I have one less issue to debug :)
 
-> 
-> > +	if (ret == -ENOTSUPP)
-> > +		got_pm = false;
-> > +	else if (ret)
-> > +		return ret;
-> 
-> -- 
-> Sakari Ailus
-
--- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
+-Saravana
