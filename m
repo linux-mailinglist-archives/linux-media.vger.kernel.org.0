@@ -2,96 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8056424983
-	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 00:15:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BAFF424998
+	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 00:26:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239454AbhJFWRb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Oct 2021 18:17:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33586 "EHLO
+        id S239769AbhJFW2W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Oct 2021 18:28:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230047AbhJFWR2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Oct 2021 18:17:28 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE9A8C061753
-        for <linux-media@vger.kernel.org>; Wed,  6 Oct 2021 15:15:35 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id r1so8796123ybo.10
-        for <linux-media@vger.kernel.org>; Wed, 06 Oct 2021 15:15:35 -0700 (PDT)
+        with ESMTP id S229590AbhJFW2V (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Oct 2021 18:28:21 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2913C061753
+        for <linux-media@vger.kernel.org>; Wed,  6 Oct 2021 15:26:28 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id x7so14725920edd.6
+        for <linux-media@vger.kernel.org>; Wed, 06 Oct 2021 15:26:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=bLkXPKgwDs6RrD6sIhWAu6J/jje6v2DWvJSDi3dyacU=;
-        b=omp5WUi2srkkJtu6Y11KpKx5rkaN7WkK46/dR0H6c1VEUCNDbqbXAKQJVdOs/iL5Fu
-         FYaHTvcZ44x69udRZvVB9D5td2Qzu2Hp5Q8wPjoGTGYJWobyFvt/uBcRtCXkD8sl29Hb
-         T06DOOgOCzjlVfLDgZkcOjbIggQgnGVi2ARfsVLp36Hvq15lkeRTAzHhe2YcSGufFk1Y
-         QkFE6WbhnCGfH0pGWUrg2KfICYhLMlcHnkzMyZ1q59/+LAWTr/SCPYJPOrMxsCfd/ieY
-         3iejfymWIfZyPmkG8m2kWLyMUpacRGDn4RocpW3T0w9uvFPhq61jI65GS01BvkeE7u/H
-         Gd2A==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VD3lIaPhwxpiFPvSjShOBn9yYub+GzlLOsSfdgfH8kY=;
+        b=FO8Wgx3bjUhN1ufnB4gjIBjG9DMc46H0yRjb0uzZa5kYPh1snwafQOFSmo2/I4w+3J
+         BHh8w/7Dba1gzA+3en8E3Bwvwkvpp05qYJU7tYqY9i0Ub/DtviLxk13jAnk53v5iJvcU
+         L9X+KvJKFjZHbihc9IfR7r7EJSqxOdwULYx8k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=bLkXPKgwDs6RrD6sIhWAu6J/jje6v2DWvJSDi3dyacU=;
-        b=Gux9vh5L0Rge8D0SbwCS/kgGQaFzsH26VcQ9u4dMOb2jWB2fWTh6xhUoNjU/ci+7kL
-         2WPR3yNoQ6JEOQPlQ1y8yWRW8bsnsJKHvNiLQqYAt8TaFx4/a5sWVky/rBP4pJKFUMCb
-         DbI7anILRMXg4TtdiPnkGXHfNB0QxpK7K8vyfI1SiNmXdRc9Oit986bLlKyuc04CfSlx
-         qlSn8VyH4/eMJFAPwRw7/AsMmLr+fpFqCMjVHxc0DADKqN0e+v9I+M8A+qOVQfrwyx1b
-         R6hsF6WcYenryWrC4fs364FhMsTJGjAUxZjU18R5nxBUGoPXy47l80qhV6zilipm0auV
-         088g==
-X-Gm-Message-State: AOAM530snw+Aq7Sq4uOrHFoi7s5ubgXjsuQrT5St/dShhOwaviq2tEgG
-        66khkvxu0aiaVMkybkqjr+cwfW4m/uEj2hWp+/uQCg==
-X-Google-Smtp-Source: ABdhPJysw5eB0GRIFouNT/cd+prCfUToi3eegnqBYBd3kLXJmVy7fuTCNUtkIx8MrmqGYV0EXHtXjqXKPCZasHrBj8A=
-X-Received: by 2002:a25:2b07:: with SMTP id r7mr700635ybr.296.1633558534897;
- Wed, 06 Oct 2021 15:15:34 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VD3lIaPhwxpiFPvSjShOBn9yYub+GzlLOsSfdgfH8kY=;
+        b=PRbG1+r5wmadKJr7UwMJnkinySMCHHrKOor8C+a9+8fWDrSyEw3JjL6PLl9g7R6zN8
+         drShPaITrdWehCACiPxOgiT6FBCf3TfTroUyafMLNdNHDXhqBZ1eANrcEwO3hYOpz4Oe
+         Xd8UJ+1blpf/SOlUeMABB3M4jYbbDMCndlrFJ5v92zKvfYKnyDGT6R+AxuOsdE+TFeiI
+         jMOWpqO0FzjxjXfOQFyzdPLRQaMHlwtRZ5RHrLL0hCre3EQBtKuYbCHNtCd0rwWF/2Xb
+         y/J5L1/XSEGf432s9JX4RWQuXXQlrE5DC0hRB0qgvjS0pTpCmVaM9I5tMXKra2IpUg+T
+         nmoA==
+X-Gm-Message-State: AOAM5310I6h0zWeiB9lTp4TV27dgmegMaTq5KOKDBffouXCOzXglnRtl
+        81aFwgTxTK7Xk+f37o1/Ptb+TQ==
+X-Google-Smtp-Source: ABdhPJyCqpg4sG67zyv4UxQTzYgYY0dySDh7HFkarbDtzTbfvWP8Uml9YEN1YbtdpbkklAp7V5yIXA==
+X-Received: by 2002:a17:906:1856:: with SMTP id w22mr1031739eje.393.1633559187318;
+        Wed, 06 Oct 2021 15:26:27 -0700 (PDT)
+Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id h7sm10557906edt.37.2021.10.06.15.26.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Oct 2021 15:26:26 -0700 (PDT)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v4 0/8] media: ipu3 + i2c: Fix v4l2-compliance issues
+Date:   Thu,  7 Oct 2021 00:26:17 +0200
+Message-Id: <20211006222625.401122-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.33.0.800.g4c38ced690-goog
 MIME-Version: 1.0
-References: <m3lf39nfsq.fsf@t19.piap.pl> <CAGETcx_N7XYkzFPSuQdvWKk1o+Pzzg4HnzChE_4c_Bg_oOK3eA@mail.gmail.com>
- <CAOMZO5DwcXUe5j97n4Q_RF9WRo2DYoToe7FLNbpDJhn_BxuH0w@mail.gmail.com> <m38rz6oinj.fsf@t19.piap.pl>
-In-Reply-To: <m38rz6oinj.fsf@t19.piap.pl>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Wed, 6 Oct 2021 15:14:59 -0700
-Message-ID: <CAGETcx8qsJQNkEHYgqihqHuFu8sgC5DDsnG9yQ=_e_hiC43z-w@mail.gmail.com>
-Subject: Re: v5.15-rcX regression: video devices on i.MX6 are not created
-To:     =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 5, 2021 at 9:56 PM Krzysztof Ha=C5=82asa <khalasa@piap.pl> wrot=
-e:
->
-> Hi Fabio, Saravana,
->
-> Fabio Estevam <festevam@gmail.com> writes:
->
-> >> > FYI the patch: 6b2117ad65f1bca9ece6d4b1ee784b42701a2d86
-> >> >
-> >> > of: property: fw_devlink: Add support for "resets" and "pwms"
-> >> >
-> >> > Allows better tracking of dependencies between devices.
-> >> >
-> >> >  drivers/of/property.c | 4 ++++
-> >> >
-> >> > breaks v4l2 video devices on an i.MX6 CPU. The /dev/video* nodes are=
- not
-> >> > created, and the drivers (async subdevicess) are "waiting":
-> >
-> > Phillip has sent a fix for this issue:
-> > http://lists.infradead.org/pipermail/linux-arm-kernel/2021-October/6878=
-68.html
->
-> This patch makes the /dev/video* devices to show up on my i.MX6-based
-> system again, so I consider the problem fixed. Thanks.
+Fix some issues found with v4l2-compliance. Tested in Soraka which also
+has some subdevices that had some issues with v4l2-compliance.
 
-Ah, I helped Phillip come up with that fix. I didn't realize this was
-the same issue. Glad that I have one less issue to debug :)
+Changelog:
+v3->v4
+- Rebase on top of Sakari's tree
 
--Saravana
+v1->v3
+- Rename cio2 to imgu
+- Refactor bytesperline calculation
+
+Ricardo Ribalda (8):
+  media: ipu3-cio2 Check num_planes and sizes in queue_setup
+  media: ipu3-imgu: Refactor bytesperpixel calculation
+  media: ipu3-imgu: Set valid initial format
+  media: ipu3-imgu: imgu_fmt: Handle properly try
+  media: ipu3-imgu: VIDIOC_QUERYCAP: Fix bus_info
+  media: dw9714: Add implementation for events
+  media: ov13858: Add implementation for events
+  media: ov5670: Add implementation for events
+
+ drivers/media/i2c/dw9714.c                    | 14 ++++++++++++--
+ drivers/media/i2c/ov13858.c                   | 11 ++++++++++-
+ drivers/media/i2c/ov5670.c                    | 11 ++++++++++-
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  8 ++++++--
+ drivers/staging/media/ipu3/ipu3-css.c         | 19 +++----------------
+ drivers/staging/media/ipu3/ipu3-css.h         |  1 -
+ drivers/staging/media/ipu3/ipu3-v4l2.c        | 11 +++++++----
+ drivers/staging/media/ipu3/ipu3.h             | 12 ++++++++++++
+ 8 files changed, 60 insertions(+), 27 deletions(-)
+
+-- 
+2.33.0.800.g4c38ced690-goog
+
