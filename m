@@ -2,93 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78B554259BB
-	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 19:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CB60426059
+	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 01:26:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242940AbhJGRtA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Oct 2021 13:49:00 -0400
-Received: from smtprelay0057.hostedemail.com ([216.40.44.57]:50724 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S241071AbhJGRs7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Oct 2021 13:48:59 -0400
-Received: from omf13.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay05.hostedemail.com (Postfix) with ESMTP id AF308181D5AA8;
-        Thu,  7 Oct 2021 17:47:04 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf13.hostedemail.com (Postfix) with ESMTPA id 3E9C91124F8;
-        Thu,  7 Oct 2021 17:47:00 +0000 (UTC)
-Message-ID: <50e81a87af1f832ae8e135b15aa41a87c08400e0.camel@perches.com>
-Subject: Re: [PATCH v4 6/7] plist: Replace kernel.h with the necessary
- inclusions
-From:   Joe Perches <joe@perches.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-media@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Waiman Long <longman@redhat.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        jic23@kernel.org, linux@rasmusvillemoes.dk,
-        Thorsten Leemhuis <regressions@leemhuis.info>
-Date:   Thu, 07 Oct 2021 10:46:59 -0700
-In-Reply-To: <YV8vHZg0Xcs0DbPV@smile.fi.intel.com>
-References: <20211007154407.29746-1-andriy.shevchenko@linux.intel.com>
-         <20211007154407.29746-7-andriy.shevchenko@linux.intel.com>
-         <1ec405c5a8fd24de9066277ce855d7e39f93e691.camel@perches.com>
-         <YV8sPjLn1jqLOm2H@smile.fi.intel.com>
-         <04ebb29ccb707bc37df2d3ddd684781114a1a62e.camel@perches.com>
-         <YV8vHZg0Xcs0DbPV@smile.fi.intel.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.0-1 
+        id S232942AbhJGX23 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Oct 2021 19:28:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40630 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232772AbhJGX23 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Oct 2021 19:28:29 -0400
+Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com [IPv6:2607:f8b0:4864:20::92a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91D51C061755
+        for <linux-media@vger.kernel.org>; Thu,  7 Oct 2021 16:26:34 -0700 (PDT)
+Received: by mail-ua1-x92a.google.com with SMTP id i15so1247585uap.0
+        for <linux-media@vger.kernel.org>; Thu, 07 Oct 2021 16:26:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=38jXb/auw6ftk0USmaV+RFOFIT1FCKxJKkiAqOI2WoI=;
+        b=RqFC/KTnCM2psOLmn4FWMiiSZr0czmCcIEoP5HqdEqpXlfTHWpSiI/sXuPUFWJMljq
+         jZbE2i3qcNFU+JUCWE1l1R9//412gac+6RMzq40tkqbg0aKMgNTfP+sHSPbCHR7W7UYG
+         u9uc/xnr0uMYOKjdvtFqYjkb68Xwiq2GnLCJLkKx2oyChvvDbHUGdRYbtGhJjVg5Jlh6
+         GGvPV52LnPWTfxcMyPriYcNkG6B5Z8bNFY3/60dAM1eVZXMFdmOKudYZ5U9GPd3o8l7g
+         65mE/I2av/avnnjxcAo7GP2C2utTkqtXE+9caXV1SajKhhC22CtL9b0RwI7lEsGwP8ha
+         gnIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:content-transfer-encoding;
+        bh=38jXb/auw6ftk0USmaV+RFOFIT1FCKxJKkiAqOI2WoI=;
+        b=3LKctD2Y6OACGqAKU9ycN6jLcbLGhCIhxFiCTBC361014cDMkwZgikYUWlj9DgSg/E
+         R/xAAzKxVttq+vXXKdOTRJVhNL1RLEKPlsOuXjpL6aagI4qK3VLwU2ObhxJxWBdTa81k
+         s19BztNAGKddFUCGgzVr010I4qAatln49CwGDVlWo8MWvD2Td9zX+B62Ro0V5DK4CUtD
+         4xGwoGb9zf2bUleOU5Ruiv2IR+7pI8oKrGi6aJKDduYqjeca4HPFd5xSDdTILC8MFBqH
+         kRn+yOWxmqdM4DNPzvzdnGkt88Tm0QyiuFaZ/DyWYozjVpQALWr1WNXFopyZbpYAy1Ee
+         4k2g==
+X-Gm-Message-State: AOAM531r9KkYWcK+8X55LMSb18d2mnGvKbNjQaDofHHM/nAC0JnIYqk/
+        Vw1+VlrCrIIt76wiImF2XeIFC8EfpOKX/ImG10U=
+X-Google-Smtp-Source: ABdhPJwNs4ZMmbwOcFiYqCZYD6IEb/IphWqNuo2EIYov46DH569Rmo0QETXJOaL+UGw1dcoTlItJr8aPMidMA9t6SXM=
+X-Received: by 2002:ab0:4a5e:: with SMTP id r30mr8162674uae.106.1633649193525;
+ Thu, 07 Oct 2021 16:26:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 3E9C91124F8
-X-Spam-Status: No, score=-1.40
-X-Stat-Signature: js9xg1nie7rcba17bhx9wntqbj17r6mz
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19aRUm/4rtwwqaN+mIxySG7FIoWsloqmj0=
-X-HE-Tag: 1633628820-910685
+Sender: mcdonnalouise@gmail.com
+Received: by 2002:a59:2345:0:b0:235:f317:d78b with HTTP; Thu, 7 Oct 2021
+ 16:26:33 -0700 (PDT)
+From:   Jackie Fowler <jackiefowler597@gmail.com>
+Date:   Thu, 7 Oct 2021 23:26:33 +0000
+X-Google-Sender-Auth: Yn1bPQB9fMg0EyckV1zShfKeSZ0
+Message-ID: <CAPVGnmX4rvZALgw8eGiqDf37VnKEWBHjGNc9zTeaYGhUcMbVYw@mail.gmail.com>
+Subject: Good Day My beloved,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2021-10-07 at 20:32 +0300, Andy Shevchenko wrote:
-> On Thu, Oct 07, 2021 at 10:26:05AM -0700, Joe Perches wrote:
-> > On Thu, 2021-10-07 at 20:19 +0300, Andy Shevchenko wrote:
-> > > On Thu, Oct 07, 2021 at 10:12:56AM -0700, Joe Perches wrote:
-> > > > On Thu, 2021-10-07 at 18:44 +0300, Andy Shevchenko wrote:
-> > > > > When kernel.h is used in the headers it adds a lot into dependency hell,
-> > > > > especially when there are circular dependencies are involved.
-> > > > > 
-> > > > > Replace kernel.h inclusion with the list of what is really being used.
-> > > > []
-> > > > > diff --git a/include/linux/plist.h b/include/linux/plist.h
-> > > > []
-> > > > > @@ -73,8 +73,11 @@
-> > > > []
-> > > > > +#include <asm/bug.h>
-> > > > 
-> > > > why asm/bug.h and not linux/bug.h ?
-> > > 
-> > > The direct inclusion is from that one. Why linux/bug?
-> > 
-> > A general guideline is to avoid asm includes.
-> 
-> It's fine when it has any useful background. Doing cargo cult is not always
-> a good idea. I plead for common sense.
+Gooday,
 
-Common sense isn't particularly common.
-Someone is going to run checkpatch on it and submit a patch one day.
-Maybe add a comment for the less common.
-
-cheers, Joe
-
-
+  I sent this mail praying it will get to you in a good condition of
+health, since I myself are in a very critical health condition in
+which I sleep every night without knowing if I may be alive to see the
+next day. I bring peace and love to you. It is by the grace of God, I
+had no choice than to do what is lawful and right in the sight of God
+for eternal life and in the sight of man, for witness of God=E2=80=99s merc=
+y
+and glory upon my life. I am Mrs.Jackie Fowler,a widow and citizen of
+Canada.I am suffering from a long time brain tumor, It has defiled all
+forms of medical treatment, and right now I have about a few months to
+leave, according to medical experts. The situation has gotten
+complicated recently with my inability to hear proper, am
+communicating with you with the help of the chief nurse herein the
+hospital, from all indication my conditions is really deteriorating
+and it is quite obvious that, according to my doctors they have
+advised me that I may not live too long, Because this illness has
+gotten to a very bad stage. I plead that you will not expose or betray
+this trust and confidence that I am about to repose on you for the
+mutual benefit of the orphans and the less privilege. I have some
+funds I inherited from my late husband, the sum of ($ 12,500,000.00
+Dollars).Having known my condition, I decided to donate this fund to
+you believing that you will utilize it the way i am going to instruct
+herein.
+ I need you to assist me and reclaim this money and use it for Charity
+works, for orphanages and gives justice and help to the poor, needy
+and widows says The Lord." Jeremiah 22:15-16.=E2=80=9C and also build schoo=
+ls
+for less privilege that will be named after my late husband if
+possible and to promote the word of God and the effort that the house
+of God is maintained. I do not want a situation where this money will
+be used in an ungodly manner. That's why I'm taking this decision. I'm
+not afraid of death, so I know where I'm going. I accept this decision
+because I do not have any child who will inherit this money after I
+die. Please I want your sincerely and urgent answer to know if you
+will be able to execute this project for the glory of God, and I will
+give you more information on how the fund will be transferred to your
+bank account. May the grace, peace, love and the truth in the Word of
+God be with you and all those that you love and care for.
+I'm waiting for your immediate reply.
+Respectfully.
+Mrs.Jackie Fowler.
+Writting From the hospital.
+May God Bless you,
