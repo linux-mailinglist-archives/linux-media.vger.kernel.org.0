@@ -2,79 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57BFD425626
-	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 17:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 363A3425632
+	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 17:10:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242362AbhJGPLG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Oct 2021 11:11:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58910 "EHLO mail.kernel.org"
+        id S242335AbhJGPMS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Oct 2021 11:12:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59652 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242271AbhJGPLF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Oct 2021 11:11:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F8A861139;
-        Thu,  7 Oct 2021 15:09:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1633619351;
-        bh=u8X3FagrdJhU7I1VIDV1L7v9LQDZx07lRfeM+3Fv7Ag=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=zfIUU3NHUqm/lFCfrqnSsG7ZoqbIELwCdSBULRqAYNU6uoZaaMYxeqXuhdGD4egg7
-         vtcM9dhf6XkTW4eFHiNn7+1MJuksq4+W4OtQOwlENmJJYge9ETpxq+C/MzxQFpfNGJ
-         nWN1vfVA49D9+7HSX3Jp1FuI32wzJAcerPerCbsI=
-Date:   Thu, 7 Oct 2021 17:09:09 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-media@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Waiman Long <longman@redhat.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Subject: Re: [PATCH v3 2/7] kernel.h: Split out container_of() and
- typeof_member() macros
-Message-ID: <YV8NlXMJpVRcH42I@kroah.com>
-References: <20211007150339.28910-1-andriy.shevchenko@linux.intel.com>
- <20211007150339.28910-3-andriy.shevchenko@linux.intel.com>
+        id S242275AbhJGPMR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 Oct 2021 11:12:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B0B26113E;
+        Thu,  7 Oct 2021 15:10:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1633619423;
+        bh=6XparVng5W/AReJHiKchmXlIe9lsC3Z91YzkLUlPNCg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=uGBU3w5ZPcovOtfzM/FIsHTD7h3JxuPJygqvsc/Akx8WIgRCpgs3UgXZBZTV82I1O
+         pW+TIPVurN88xf3WvDzFDkgp4KUNa7HpHH0yruRMhNm5135jx5bqq+/CKSzQGvE9Do
+         ViwsXF7lFqxOsI6bHhr9Jy2jv4XcchqTsLVaQi+z5d/b1rYbgoS7hR41kw3y30v3an
+         GfXh2Vp3SSFv+/Ic2Yauk4D9evUCiGVqN10/ZzGkA3ER8QQimEVtKd0+OTGa/g7KUM
+         0ggiEgI2DrGim19ev5P6YtxGkOvCy0ZLC7gw6ICyGtfCMR5AINWv1keeKoUptUyCZ3
+         OdUDZ2/BTlnCQ==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        iommu@lists.linux-foundation.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+        ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Will Deacon <will@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Simon Trimmer <simont@opensource.cirrus.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Subject: [PATCH v2 1/2] firmware: include drivers/firmware/Kconfig unconditionally
+Date:   Thu,  7 Oct 2021 17:10:09 +0200
+Message-Id: <20211007151010.333516-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211007150339.28910-3-andriy.shevchenko@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 07, 2021 at 06:03:34PM +0300, Andy Shevchenko wrote:
-> kernel.h is being used as a dump for all kinds of stuff for a long time.
-> Here is the attempt cleaning it up by splitting out container_of() and
-> typeof_member() macros.
-> 
-> For time being include new header back to kernel.h to avoid twisted
-> indirected includes for existing users.
-> 
-> Note, there are _a lot_ of headers and modules that include kernel.h solely
-> for one of these macros and this allows to unburden compiler for the twisted
-> inclusion paths and to make new code cleaner in the future.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  include/linux/container_of.h | 37 ++++++++++++++++++++++++++++++++++++
->  include/linux/kernel.h       | 31 +-----------------------------
->  include/linux/kobject.h      |  1 +
+From: Arnd Bergmann <arnd@arndb.de>
 
-Why did you touch kobject.h here?
+Compile-testing drivers that require access to a firmware layer
+fails when that firmware symbol is unavailable. This happened
+twice this week:
 
-It shouldn't have been needed to change for this commit.
+ - My proposed to change to rework the QCOM_SCM firmware symbol
+   broke on ppc64 and others.
 
-Anyway, I really don't think this is all worth any more work at all, as
-I'm not going to be the one taking it...
+ - The cs_dsp firmware patch added device specific firmware loader
+   into drivers/firmware, which broke on the same set of
+   architectures.
 
-thanks,
+We should probably do the same thing for other subsystems as well,
+but fix this one first as this is a dependency for other patches
+getting merged.
 
-greg k-h
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Acked-by: Will Deacon <will@kernel.org>
+Acked-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Simon Trimmer <simont@opensource.cirrus.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Reviewed-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+No changes in v2, but it's now queued in my asm-generic
+tree for v5.15
+
+ arch/arm/Kconfig    | 2 --
+ arch/arm64/Kconfig  | 2 --
+ arch/ia64/Kconfig   | 2 --
+ arch/mips/Kconfig   | 2 --
+ arch/parisc/Kconfig | 2 --
+ arch/riscv/Kconfig  | 2 --
+ arch/x86/Kconfig    | 2 --
+ drivers/Kconfig     | 2 ++
+ 8 files changed, 2 insertions(+), 14 deletions(-)
+
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index fc196421b2ce..59baf6c132a7 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -1989,8 +1989,6 @@ config ARCH_HIBERNATION_POSSIBLE
+ 
+ endmenu
+ 
+-source "drivers/firmware/Kconfig"
+-
+ if CRYPTO
+ source "arch/arm/crypto/Kconfig"
+ endif
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 077f2ec4eeb2..407b4addea36 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1931,8 +1931,6 @@ source "drivers/cpufreq/Kconfig"
+ 
+ endmenu
+ 
+-source "drivers/firmware/Kconfig"
+-
+ source "drivers/acpi/Kconfig"
+ 
+ source "arch/arm64/kvm/Kconfig"
+diff --git a/arch/ia64/Kconfig b/arch/ia64/Kconfig
+index 045792cde481..1e33666fa679 100644
+--- a/arch/ia64/Kconfig
++++ b/arch/ia64/Kconfig
+@@ -388,8 +388,6 @@ config CRASH_DUMP
+ 	  help
+ 	    Generate crash dump after being started by kexec.
+ 
+-source "drivers/firmware/Kconfig"
+-
+ endmenu
+ 
+ menu "Power management and ACPI options"
+diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
+index 771ca53af06d..6b8f591c5054 100644
+--- a/arch/mips/Kconfig
++++ b/arch/mips/Kconfig
+@@ -3316,8 +3316,6 @@ source "drivers/cpuidle/Kconfig"
+ 
+ endmenu
+ 
+-source "drivers/firmware/Kconfig"
+-
+ source "arch/mips/kvm/Kconfig"
+ 
+ source "arch/mips/vdso/Kconfig"
+diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
+index 4742b6f169b7..27a8b49af11f 100644
+--- a/arch/parisc/Kconfig
++++ b/arch/parisc/Kconfig
+@@ -384,6 +384,4 @@ config KEXEC_FILE
+ 
+ endmenu
+ 
+-source "drivers/firmware/Kconfig"
+-
+ source "drivers/parisc/Kconfig"
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index c3f3fd583e04..8bc71ab143e3 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -561,5 +561,3 @@ menu "Power management options"
+ source "kernel/power/Kconfig"
+ 
+ endmenu
+-
+-source "drivers/firmware/Kconfig"
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 4e001bbbb425..4dca39744ee9 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2828,8 +2828,6 @@ config HAVE_ATOMIC_IOMAP
+ 	def_bool y
+ 	depends on X86_32
+ 
+-source "drivers/firmware/Kconfig"
+-
+ source "arch/x86/kvm/Kconfig"
+ 
+ source "arch/x86/Kconfig.assembler"
+diff --git a/drivers/Kconfig b/drivers/Kconfig
+index 30d2db37cc87..0d399ddaa185 100644
+--- a/drivers/Kconfig
++++ b/drivers/Kconfig
+@@ -17,6 +17,8 @@ source "drivers/bus/Kconfig"
+ 
+ source "drivers/connector/Kconfig"
+ 
++source "drivers/firmware/Kconfig"
++
+ source "drivers/gnss/Kconfig"
+ 
+ source "drivers/mtd/Kconfig"
+-- 
+2.29.2
+
