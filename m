@@ -2,96 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54908425061
-	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 11:51:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99592425095
+	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 12:00:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240761AbhJGJxb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Oct 2021 05:53:31 -0400
-Received: from mga07.intel.com ([134.134.136.100]:13166 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240540AbhJGJx3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Oct 2021 05:53:29 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10129"; a="289712384"
-X-IronPort-AV: E=Sophos;i="5.85,354,1624345200"; 
-   d="scan'208";a="289712384"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2021 02:51:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,354,1624345200"; 
-   d="scan'208";a="657327911"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga005.jf.intel.com with ESMTP; 07 Oct 2021 02:51:29 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 294313DB; Thu,  7 Oct 2021 12:51:36 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Waiman Long <longman@redhat.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Graf <tgraf@suug.ch>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 4/4] kunit: Replace kernel.h with the necessary inclusions
-Date:   Thu,  7 Oct 2021 12:51:29 +0300
-Message-Id: <20211007095129.22037-5-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211007095129.22037-1-andriy.shevchenko@linux.intel.com>
-References: <20211007095129.22037-1-andriy.shevchenko@linux.intel.com>
+        id S232573AbhJGKCF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Oct 2021 06:02:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49664 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232482AbhJGKCE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Oct 2021 06:02:04 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B123C061755
+        for <linux-media@vger.kernel.org>; Thu,  7 Oct 2021 03:00:10 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id z11so14454280lfj.4
+        for <linux-media@vger.kernel.org>; Thu, 07 Oct 2021 03:00:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=2vkP/kA6kiLr73Y55x//tja21zt1DDkWWiAuXv2My8U=;
+        b=pg4Vm7OCtEOrxOiMcoEkus8q1UxjNUDzzRpxOWQ15efFKAWCBV49FuLer+GmbCZRNP
+         YYTZE+IUCh4HoTt2pBO3eEpj4nz/dUv/jBY6/PKGnLEqCrzqqiAcV27oB7+TICjulTIS
+         26KbVgBH4OWAmLUwEIhfpSeHMH5NaCv+oOVsUuLTYaRAZugM2dT1NoGbrHzaE6FxJy1H
+         s1UX4iPkZzMgkmGCBKz8skQ00HS8LI3dKCyYC1a2083T50yV9RghZWx+RIzqPKXD0Z9o
+         5DQVVKIkE3P+Ya5PHsxHletvBKN8adg/JLJhMuzFfoqoEEhFk4s7dMxaaOfJBcZ+reX+
+         ooaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=2vkP/kA6kiLr73Y55x//tja21zt1DDkWWiAuXv2My8U=;
+        b=PxPT/vUB5b9wwSvHbVFGIlvUXNWBW/02/srLOjU+xJlB0JDJ3O+8uGmi/eajXIP9ZT
+         06b5yQHoFu2DiorCKq6PVZJeP5mjxLbSl1FbBCKiyK6cOkbrjVHtqbLnhFlh5rJCK43P
+         G0N4kvEcUHGh05H8FcCmK0Q9NJmPsWugMj3oFTYDnYW8gAwg4G6yfjuh4XiY9K/Ajqjl
+         2IJvpQD4GqxnHWfRnHNHqJfvUeJSBkwHtgoMSAmZiBm/jlXtiZe+Kr2G2g4DEqO6hw+B
+         wg4GZUoMBqnJJc9brlTm49PXCJxzbkHyxKEQ1vklfsQQbJuCpwuhPNTchIGY+VG7UfPx
+         AWBw==
+X-Gm-Message-State: AOAM5306KKLkEfMoC7OflyQ7LODMmj3YzWlQY+yVmqVONaHSkf/qkz8d
+        DME6yHsZYgty3GdB/9T50yPYihHk0qJxO014kJs=
+X-Google-Smtp-Source: ABdhPJzzHi9Iufe5qkn3gWmqWKI3RX8wrFyE5vGpP32qEdaioIhXxio7MOM0gEKABDxHBBU9kysq0f4ppW4zThMZrVA=
+X-Received: by 2002:a05:6512:3b99:: with SMTP id g25mr3309287lfv.216.1633600808860;
+ Thu, 07 Oct 2021 03:00:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a9a:7e9c:0:b0:147:c9ea:6fd9 with HTTP; Thu, 7 Oct 2021
+ 03:00:08 -0700 (PDT)
+Reply-To: mrsaishagaddafi3@gmail.com
+From:   Mrs Aisha Gaddafi <w1e1ndy@gmail.com>
+Date:   Thu, 7 Oct 2021 03:00:08 -0700
+Message-ID: <CADc39_wmSwvUFd=-tLXi+MBS5jQTxOWWFXGZ7kTKWY-JJoR1NQ@mail.gmail.com>
+Subject: Greetings from Aisha Gaddafi,dear friend i need your urgent help
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When kernel.h is used in the headers it adds a lot into dependency hell,
-especially when there are circular dependencies are involved.
+I am sending my greetings to you from the Sultanate of Oman,
+In the capital city of Muscat.
 
-Replace kernel.h inclusion with the list of what is really being used.
+May i  use this medium to open a mutual communication with you, and
+seeking your acceptance towards investing in your country under your
+management as my partner, My name is Aisha Gaddafi and presently
+living in Oman, i am a Widow and single Mother with three Children,
+the only biological Daughter of late Libyan President (Late Colonel
+Muammar Gaddafi) and presently i am under political asylum protection
+by the Omani Government.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- include/kunit/test.h | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+I have funds worth "Twenty Seven Million Five Hundred Thousand United
+State Dollars" -$27.500.000.00 US Dollars which i want to entrust on
+you for investment project in your country.If you are willing to
+handle this project on my behalf, kindly reply urgent to enable me
+provide you more details to start the transfer process.
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index 4d498f496790..d88d9f7ead0a 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -12,12 +12,20 @@
- #include <kunit/assert.h>
- #include <kunit/try-catch.h>
- 
-+#include <linux/compiler_attributes.h>
- #include <linux/container_of.h>
--#include <linux/kernel.h>
-+#include <linux/err.h>
-+#include <linux/init.h>
-+#include <linux/kconfig.h>
-+#include <linux/kref.h>
-+#include <linux/list.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-+#include <linux/spinlock.h>
-+#include <linux/string.h>
- #include <linux/types.h>
--#include <linux/kref.h>
-+
-+#include <asm/rwonce.h>
- 
- struct kunit_resource;
- 
--- 
-2.33.0
+I shall appreciate your urgent response.
 
+Thanks
+Yours Truly Aisha
