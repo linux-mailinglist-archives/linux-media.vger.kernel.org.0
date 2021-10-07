@@ -2,138 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6249A4252E1
-	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 14:19:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB7AB425307
+	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 14:29:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233112AbhJGMVs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Oct 2021 08:21:48 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:41898 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233053AbhJGMVr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Oct 2021 08:21:47 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 197CJnBb037285;
-        Thu, 7 Oct 2021 07:19:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1633609189;
-        bh=9JwMLFdbNsLpLAiDqASjPrmPKp/VSOt/Bj/doasoH0U=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=OToP+/Mhx39NY0qtCVZ05rRs3mX4P8s1MLtO6z1vtQw3jz9sF9xxZVDk0RWx7oZ0N
-         PbsM69E6kNXmbD5YfCbahZn0KGLxo25uT6KwGsrJjN5kYZpoArFC/9dTmI6NiMjiS3
-         BAFUSCtzryaAaNSxc1Sw0JOWd7/Lz1YLT8U7DMKY=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 197CJn2r027336
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 7 Oct 2021 07:19:49 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Thu, 7
- Oct 2021 07:19:49 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Thu, 7 Oct 2021 07:19:49 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 197CJmjA111379;
-        Thu, 7 Oct 2021 07:19:49 -0500
-Date:   Thu, 7 Oct 2021 17:49:48 +0530
-From:   Pratyush Yadav <p.yadav@ti.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nikhil Devshatwar <nikhil.nd@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v4 01/11] media: cadence: csi2rx: Unregister v4l2 async
- notifier
-Message-ID: <20211007121946.tqkpgvej7xkb7xp3@ti.com>
-References: <20210915120240.21572-1-p.yadav@ti.com>
- <20210915120240.21572-2-p.yadav@ti.com>
- <YV4xwiUVGUi3biAT@pendragon.ideasonboard.com>
+        id S241380AbhJGMa5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Oct 2021 08:30:57 -0400
+Received: from mailrelay2-3.pub.mailoutpod1-cph3.one.com ([46.30.212.11]:52873
+        "EHLO mailrelay2-3.pub.mailoutpod1-cph3.one.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S241376AbhJGMa4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 Oct 2021 08:30:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mida.se; s=20191106;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id:cc:to:
+         subject:from:from;
+        bh=XFUZIvYUUSzvXFg3UTtTaUX58u2hmAWVTWHRchR63XM=;
+        b=Wq9ycX1o2L1kxKolvttKlXMfccIHzb+8QG96A7B6C1BpiQUivoDrbplBYEce7GRRqW3Z/ezF4yI6V
+         q+xWtGKt98nrPi70KWFWNO6i8kgz7FxIAO6npTcslm0DRXH0wd1INl3ZXaH3dLEJGh0RfuCw2In2y8
+         1jLGfgd6ot/btSAUw7H+IiJxlA8pl5K+H65VGev7flzmj15V7REB4EP8kU53ABaKN1B3pLsmQDUXc2
+         /QOAGlg3ju3YKLnwrkkaXwPvbMZW8gF4aeMdj2S+tg2kru4S7ZzsTSd+21PUANbFzaTBCtOwz74MaJ
+         Gq0svZahDVg275WNpPK7ealai+YxU/A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mida.se; s=rsa1;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id:cc:to:
+         subject:from:from;
+        bh=XFUZIvYUUSzvXFg3UTtTaUX58u2hmAWVTWHRchR63XM=;
+        b=PFdaGnuZ9nB+A3DVbgseRL7xf2KnlS2waAvrrEhfmHsIuO6XUCAYmYrL6+1Xj6mFXwMkbNheDUrgg
+         LmjS/ilhSTF/wQaPF06c9RXF+XwJXABDRwrARTeUjjaMmrycGZhhu66vpEoNcYeOkfROi+09hNsmpz
+         0+B79nKMPKFe+80y4IORchKefsszRkEpak/myaT3Z8FYYkE1dY/yUqK5qHGhrqvYJW+deAzBHFBRcf
+         77xMPosMNZ+y/6SmgTmzYpmpzLjFbHShTbfUGpGOkm0o4HWsZCeauppcEKlC2ZZEQEL1Lp/Lf23imP
+         lb2+IxRdBya8TRG9iX9cgmgqVRNV59w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+        d=mida.se; s=ed1;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id:cc:to:
+         subject:from:from;
+        bh=XFUZIvYUUSzvXFg3UTtTaUX58u2hmAWVTWHRchR63XM=;
+        b=rQ3I1S8+M3z6sUPSIRi1zQ2f+hAAWLvFqBm4OUeenRUNj6M9ydGhHtnq1xQ5S02Xs0t68tK7hd95m
+         EGHcLRaAw==
+X-HalOne-Cookie: 337e692878d51df8326ce4c9460df03be9965480
+X-HalOne-ID: 269d6e5d-276a-11ec-bd57-d0431ea8a290
+Received: from [192.168.1.108] (2.67.139.77.mobile.tre.se [2.67.139.77])
+        by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+        id 269d6e5d-276a-11ec-bd57-d0431ea8a290;
+        Thu, 07 Oct 2021 12:29:01 +0000 (UTC)
+From:   rkardell <rkardell@mida.se>
+Subject: [PATCH] media: dvb: qt1010, change i2c read buffer from stack, to
+ kernel space
+To:     linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org
+Message-ID: <ccc99e48-de4f-045e-0fe4-61e3118e3f74@mida.se>
+Date:   Thu, 7 Oct 2021 14:29:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <YV4xwiUVGUi3biAT@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: sv-FI
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/10/21 02:31AM, Laurent Pinchart wrote:
-> Hi Pratyush,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Sep 15, 2021 at 05:32:30PM +0530, Pratyush Yadav wrote:
-> > The notifier is added to the global notifier list when registered. When
-> > the module is removed, the struct csi2rx_priv in which the notifier is
-> > embedded, is destroyed. As a result the notifier list has a reference to
-> > a notifier that no longer exists. This causes invalid memory accesses
-> > when the list is iterated over. Similar for when the probe fails.
-> > 
-> > Unregister and clean up the notifier to avoid this.
-> > 
-> > Fixes: 1fc3b37f34f6 ("media: v4l: cadence: Add Cadence MIPI-CSI2 RX driver")
-> > Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Note that there are other issues in the driver in cleanup paths, in
-> particular a missing v4l2_async_notifier_cleanup() call in
-> csi2rx_parse_dt() when v4l2_async_notifier_add_fwnode_remote_subdev()
-> fails (moving the one from the other error path to an err label would be
-> best), and missing media_entity_cleanup() calls in both the probe error
-> path and the remove handler. Would you like to submit fixes for those ?
+Solve problem with initialization of Mega Sky 580 USB DVB (and other 
+using mt352), error when reading i2c id.
 
-Sure, will do.
 
-> 
-> > ---
-> > 
-> > (no changes since v3)
-> > 
-> > Changes in v3:
-> > - New in v3.
-> > 
-> >  drivers/media/platform/cadence/cdns-csi2rx.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-> > index 7b44ab2b8c9a..d60975f905d6 100644
-> > --- a/drivers/media/platform/cadence/cdns-csi2rx.c
-> > +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-> > @@ -469,6 +469,7 @@ static int csi2rx_probe(struct platform_device *pdev)
-> >  	return 0;
-> >  
-> >  err_cleanup:
-> > +	v4l2_async_nf_unregister(&csi2rx->notifier);
-> >  	v4l2_async_nf_cleanup(&csi2rx->notifier);
-> >  err_free_priv:
-> >  	kfree(csi2rx);
-> > @@ -479,6 +480,8 @@ static int csi2rx_remove(struct platform_device *pdev)
-> >  {
-> >  	struct csi2rx_priv *csi2rx = platform_get_drvdata(pdev);
-> >  
-> > +	v4l2_async_nf_unregister(&csi2rx->notifier);
-> > +	v4l2_async_nf_cleanup(&csi2rx->notifier);
-> >  	v4l2_async_unregister_subdev(&csi2rx->subdev);
-> >  	kfree(csi2rx);
-> >  
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+Signed-off-by: rkl099 <rkardell@mida.se>
+---
+  drivers/media/tuners/qt1010.c | 6 +++++-
+  1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/tuners/qt1010.c b/drivers/media/tuners/qt1010.c
+index 3853a3d43..1bc0756f7 100644
+--- a/drivers/media/tuners/qt1010.c
++++ b/drivers/media/tuners/qt1010.c
+@@ -11,18 +11,22 @@
+  /* read single register */
+  static int qt1010_readreg(struct qt1010_priv *priv, u8 reg, u8 *val)
+  {
++    u8 *b1=kmalloc(1,GFP_KERNEL);
+         struct i2c_msg msg[2] = {
+                 { .addr = priv->cfg->i2c_address,
+                   .flags = 0, .buf = &reg, .len = 1 },
+                 { .addr = priv->cfg->i2c_address,
+-                 .flags = I2C_M_RD, .buf = val, .len = 1 },
++                 .flags = I2C_M_RD, .buf = b1, .len = 1 },
+         };
+
+         if (i2c_transfer(priv->i2c, msg, 2) != 2) {
+                 dev_warn(&priv->i2c->dev, "%s: i2c rd failed reg=%02x\n",
+                                 KBUILD_MODNAME, reg);
++           kfree(b1);
+                 return -EREMOTEIO;
+         }
++       *val=b1[0];
++       kfree(b1);
+         return 0;
+  }
 
 -- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
+2.30.2
+
+
