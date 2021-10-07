@@ -2,58 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CEBA4251B1
-	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 13:05:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CC444251E4
+	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 13:22:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240809AbhJGLHE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Oct 2021 07:07:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36562 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240748AbhJGLHC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Oct 2021 07:07:02 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3D1CC061762
-        for <linux-media@vger.kernel.org>; Thu,  7 Oct 2021 04:05:08 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id q189so12538704ybq.1
-        for <linux-media@vger.kernel.org>; Thu, 07 Oct 2021 04:05:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=yl79lOcWxFMFA8BCGecYiE6dwIHNzfeqenv4Qbz9ZyM=;
-        b=myikagGian9Kr8yyBq6Ddk6tSc8LlkDep7tq782nM5SKblHR9GAAzB8v6pa2wB8O4G
-         6KYORaSetAm7HjQvUwPEyyEvbZSwZzqNmzw9whro/GvgGCBkhXHF6+BhR4q7YSGLVrPO
-         V/o2mV2nBdzHOHyUWZjQLjTq270JpYQGVebGz7D7TnyKhzySpft2Xxt0bQpwuH6Cs9wU
-         pen1RykpUlNiGQqPc1dZUmV8FCfe0EvAPhpWJFSyp47M7EeSh1nVYFH3/2dfdZ0KDCF/
-         xbR/KbqFOj4444xLXDxRScn1UBDGoBJiTpPOupuNcqTqXk8SWl9pAP3xXG5j2OUxf7hn
-         W5ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=yl79lOcWxFMFA8BCGecYiE6dwIHNzfeqenv4Qbz9ZyM=;
-        b=KDm/aSp4K/N9vYsAGzVkxKLZD9zS899gllb9HZn3LULrV1h7ka279zfcxT8q2ofUON
-         yM5POjMc+/qHx1hdgfc1h1L0HmXXDxJLH1RK+SQ+2ome0ZwWotmNeLI6t9Xfp2hUk+mH
-         a/7vSv6nCaysy5fuqyqsNXNFtJ9XS7LpTHAAhrpWoMHQ/D0RgBEU4ojc2iNIjZYdgyNQ
-         s8EHDWinW6m/Vp8vmkFoTIuzi+MikpiOTrsrA1faYgSil7dN5XqvfMHVV3ymqQEzDbJm
-         xl2+sIY83cS5KNSKaZT4rqnDa5BFLFF2NeL23mcHjqB4nodldV4D+GVEJha+O0Eb2F5F
-         hNJw==
-X-Gm-Message-State: AOAM532xHxaMxhzyFU3PJ1AfqDZVKpJGNNAqlxR4ormJV2o7FSaEvSsL
-        YlzHBgQe2IDkjWI+H5/HXLnzlx9Rs2wZZrItrGE=
-X-Google-Smtp-Source: ABdhPJzyBy24UuU+8rqO9tJ1iSyJfdys2h4jCVMsdCPuL194y4MAamXMdM/LXyWpWUrcZvHtnutkKGs7Z9ERvwqx2HE=
-X-Received: by 2002:a25:cc1:: with SMTP id 184mr3830965ybm.363.1633604707934;
- Thu, 07 Oct 2021 04:05:07 -0700 (PDT)
+        id S240778AbhJGLXy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Oct 2021 07:23:54 -0400
+Received: from phobos.denx.de ([85.214.62.61]:52668 "EHLO phobos.denx.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240743AbhJGLXy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 Oct 2021 07:23:54 -0400
+Received: from localhost.localdomain (unknown [IPv6:2804:14c:485:504a:4341:77b:7540:97e3])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: festevam@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 9F9808187B;
+        Thu,  7 Oct 2021 13:21:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1633605719;
+        bh=9iKogHFsUZz5G4280ZfBZm6PImKPAmju6DXyAyPSeUw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=mu9ATSazFFJVFERYgR7km0laqmOQZ07gynLRNEj/zuBfoLRdQeNhgqYQk1Rcu9EDO
+         P5ZIKv2T+9hTRHwcuo6Xlzw/fItsOfbTLlzL7mk7R1BptcqeFweqDzOgN2WZsZ4iiY
+         MnZBQ8F8q2ayaWI5yrg2LJZWN95KZ1wlEkoYTDGwBE5Lp2JYGf9TobfWxwAxj9dty8
+         4EhcOZAgwXmz8iOp05UbKXwC/XCWVdBFOtHK2sxDH75zH/tzYugM8A/VjA+c6jT1wq
+         UytKe5Asr/j43oZ9PcnLv8+Ncw2LFEXPVc7nVRpJMxRetUF9dv8t320o5UeDMD6MlQ
+         DFe1UTQfAzDQw==
+From:   Fabio Estevam <festevam@denx.de>
+To:     p.zabel@pengutronix.de
+Cc:     hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] media: imx-pxp: Add rotation support
+Date:   Thu,  7 Oct 2021 08:21:47 -0300
+Message-Id: <20211007112147.2037585-1-festevam@denx.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a81:30ca:0:0:0:0:0 with HTTP; Thu, 7 Oct 2021 04:05:07 -0700 (PDT)
-Reply-To: mrsvaldezannem@gmail.com
-From:   valdez anne <koukourasisi@gmail.com>
-Date:   Thu, 7 Oct 2021 11:05:07 +0000
-Message-ID: <CALg=kHHSDSm42271uYnTrE7Kmna0v3oSoE1876Nr+SAv4KgwVA@mail.gmail.com>
-Subject: hi
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-_Can you reply to my previous email, do I need your reply? I am
-Waiting for reading from you.
+From: Fabio Estevam <festevam@gmail.com>
+
+PXP allows clockwise rotation in 0°, 90°, 180° and 270° degrees.
+
+Add support for it.
+
+Tested on a imx6ull-evk.
+
+For example, to rotate 90° the following Gstreamer pipeline can
+be used:
+
+gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480 ! \
+v4l2convert extra-controls=cid,rotate=90  ! \
+video/x-raw,width=120,height=160 ! fbdevsink
+
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ drivers/media/platform/imx-pxp.c | 38 ++++++++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/imx-pxp.c b/drivers/media/platform/imx-pxp.c
+index 723b096fedd1..2789c0b2d926 100644
+--- a/drivers/media/platform/imx-pxp.c
++++ b/drivers/media/platform/imx-pxp.c
+@@ -168,6 +168,13 @@ enum {
+ 	V4L2_M2M_DST = 1,
+ };
+ 
++enum pxp_rotation_modes {
++	PXP_ROTATE_0,
++	PXP_ROTATE_90,
++	PXP_ROTATE_180,
++	PXP_ROTATE_270,
++};
++
+ static struct pxp_fmt *find_format(struct v4l2_format *f)
+ {
+ 	struct pxp_fmt *fmt;
+@@ -211,6 +218,7 @@ struct pxp_ctx {
+ 	/* Processing mode */
+ 	int			mode;
+ 	u8			alpha_component;
++	u8			rotation;
+ 
+ 	enum v4l2_colorspace	colorspace;
+ 	enum v4l2_xfer_func	xfer_func;
+@@ -767,9 +775,10 @@ static int pxp_start(struct pxp_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
+ 		 V4L2_BUF_FLAG_BFRAME |
+ 		 V4L2_BUF_FLAG_TSTAMP_SRC_MASK);
+ 
+-	/* Rotation disabled, 8x8 block size */
++	/* 8x8 block size */
+ 	ctrl = BF_PXP_CTRL_VFLIP0(!!(ctx->mode & MEM2MEM_VFLIP)) |
+-	       BF_PXP_CTRL_HFLIP0(!!(ctx->mode & MEM2MEM_HFLIP));
++	       BF_PXP_CTRL_HFLIP0(!!(ctx->mode & MEM2MEM_HFLIP)) |
++	       BF_PXP_CTRL_ROTATE0(ctx->rotation);
+ 	/* Always write alpha value as V4L2_CID_ALPHA_COMPONENT */
+ 	out_ctrl = BF_PXP_OUT_CTRL_ALPHA(ctx->alpha_component) |
+ 		   BF_PXP_OUT_CTRL_ALPHA_OUTPUT(1) |
+@@ -787,6 +796,10 @@ static int pxp_start(struct pxp_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
+ 	}
+ 
+ 	out_pitch = BF_PXP_OUT_PITCH_PITCH(dst_stride);
++
++	if (ctx->rotation == PXP_ROTATE_90 || ctx->rotation == PXP_ROTATE_270)
++		swap(dst_width, dst_height);
++
+ 	out_lrc = BF_PXP_OUT_LRC_X(dst_width - 1) |
+ 		  BF_PXP_OUT_LRC_Y(dst_height - 1);
+ 	/* PS covers whole output */
+@@ -1297,6 +1310,22 @@ static int pxp_s_fmt_vid_out(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
++static u8 pxp_degrees_to_rot_mode(u32 degrees)
++{
++	switch (degrees) {
++	case 0:
++		return PXP_ROTATE_0;
++	case 90:
++		return PXP_ROTATE_90;
++	case 180:
++		return PXP_ROTATE_180;
++	case 270:
++		return PXP_ROTATE_270;
++	default:
++		return 0;
++	}
++}
++
+ static int pxp_s_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct pxp_ctx *ctx =
+@@ -1317,6 +1346,10 @@ static int pxp_s_ctrl(struct v4l2_ctrl *ctrl)
+ 			ctx->mode &= ~MEM2MEM_VFLIP;
+ 		break;
+ 
++	case V4L2_CID_ROTATE:
++		ctx->rotation = pxp_degrees_to_rot_mode(ctrl->val);
++		break;
++
+ 	case V4L2_CID_ALPHA_COMPONENT:
+ 		ctx->alpha_component = ctrl->val;
+ 		break;
+@@ -1524,6 +1557,7 @@ static int pxp_open(struct file *file)
+ 	v4l2_ctrl_handler_init(hdl, 4);
+ 	v4l2_ctrl_new_std(hdl, &pxp_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
+ 	v4l2_ctrl_new_std(hdl, &pxp_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
++	v4l2_ctrl_new_std(hdl, &pxp_ctrl_ops, V4L2_CID_ROTATE, 0, 270, 90, 0);
+ 	v4l2_ctrl_new_std(hdl, &pxp_ctrl_ops, V4L2_CID_ALPHA_COMPONENT,
+ 			  0, 255, 1, 255);
+ 	if (hdl->error) {
+-- 
+2.25.1
+
