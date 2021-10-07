@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B76844255FD
-	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 17:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4109425609
+	for <lists+linux-media@lfdr.de>; Thu,  7 Oct 2021 17:05:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242236AbhJGPGd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Oct 2021 11:06:33 -0400
-Received: from mga18.intel.com ([134.134.136.126]:1647 "EHLO mga18.intel.com"
+        id S242302AbhJGPHQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Oct 2021 11:07:16 -0400
+Received: from mga11.intel.com ([192.55.52.93]:55497 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233341AbhJGPGd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Oct 2021 11:06:33 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="213220633"
+        id S242290AbhJGPHQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 Oct 2021 11:07:16 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="223671745"
 X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; 
-   d="scan'208";a="213220633"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2021 08:03:40 -0700
+   d="scan'208";a="223671745"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2021 08:03:41 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; 
-   d="scan'208";a="560593617"
+   d="scan'208";a="522625855"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by FMSMGA003.fm.intel.com with ESMTP; 07 Oct 2021 08:03:36 -0700
+  by orsmga001.jf.intel.com with ESMTP; 07 Oct 2021 08:03:36 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 1982A3A3; Thu,  7 Oct 2021 18:03:43 +0300 (EEST)
+        id 26EA23DB; Thu,  7 Oct 2021 18:03:43 +0300 (EEST)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Brendan Higgins <brendanhiggins@google.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -40,9 +40,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Subject: [PATCH v3 3/7] kunit: Replace kernel.h with the necessary inclusions
-Date:   Thu,  7 Oct 2021 18:03:35 +0300
-Message-Id: <20211007150339.28910-4-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 4/7] list.h: Replace kernel.h with the necessary inclusions
+Date:   Thu,  7 Oct 2021 18:03:36 +0300
+Message-Id: <20211007150339.28910-5-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211007150339.28910-1-andriy.shevchenko@linux.intel.com>
 References: <20211007150339.28910-1-andriy.shevchenko@linux.intel.com>
@@ -59,37 +59,29 @@ Replace kernel.h inclusion with the list of what is really being used.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- include/kunit/test.h | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ include/linux/list.h | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index 24b40e5c160b..d88d9f7ead0a 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -11,11 +11,21 @@
+diff --git a/include/linux/list.h b/include/linux/list.h
+index f2af4b4aa4e9..5dc679b373da 100644
+--- a/include/linux/list.h
++++ b/include/linux/list.h
+@@ -2,11 +2,13 @@
+ #ifndef _LINUX_LIST_H
+ #define _LINUX_LIST_H
  
- #include <kunit/assert.h>
- #include <kunit/try-catch.h>
++#include <linux/container_of.h>
++#include <linux/const.h>
+ #include <linux/types.h>
+ #include <linux/stddef.h>
+ #include <linux/poison.h>
+-#include <linux/const.h>
 -#include <linux/kernel.h>
 +
-+#include <linux/compiler_attributes.h>
-+#include <linux/container_of.h>
-+#include <linux/err.h>
-+#include <linux/init.h>
-+#include <linux/kconfig.h>
-+#include <linux/kref.h>
-+#include <linux/list.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-+#include <linux/spinlock.h>
-+#include <linux/string.h>
- #include <linux/types.h>
--#include <linux/kref.h>
-+
-+#include <asm/rwonce.h>
++#include <asm/barrier.h>
  
- struct kunit_resource;
- 
+ /*
+  * Circular doubly linked list implementation.
 -- 
 2.33.0
 
