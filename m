@@ -2,244 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84B804266FE
-	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 11:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ACB4426728
+	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 11:50:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237288AbhJHJkA convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 8 Oct 2021 05:40:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36608 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229863AbhJHJkA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 05:40:00 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E1D4C061570;
-        Fri,  8 Oct 2021 02:38:05 -0700 (PDT)
-Received: from ip4d14bdef.dynamic.kabel-deutschland.de ([77.20.189.239] helo=t14s); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1mYmKF-0005yC-HL; Fri, 08 Oct 2021 11:37:59 +0200
-Date:   Fri, 8 Oct 2021 11:37:58 +0200
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Waiman Long <longman@redhat.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Graf <tgraf@suug.ch>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2 0/4] kernel.h further split
-Message-ID: <20211008113758.6cbee642@t14s>
-In-Reply-To: <CAHp75VfoQ-rFEEFu2FnaPuPDwyiTHpA_dCwqfA1SYSkFPM2uMA@mail.gmail.com>
-References: <20211007095129.22037-1-andriy.shevchenko@linux.intel.com>
-        <YV7NEze2IvUgHusJ@kroah.com>
-        <CAHp75VfoQ-rFEEFu2FnaPuPDwyiTHpA_dCwqfA1SYSkFPM2uMA@mail.gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S236118AbhJHJwP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Oct 2021 05:52:15 -0400
+Received: from mga01.intel.com ([192.55.52.88]:33869 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229869AbhJHJwO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 Oct 2021 05:52:14 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="249834350"
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; 
+   d="scan'208";a="249834350"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 02:50:18 -0700
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; 
+   d="scan'208";a="478920486"
+Received: from tocallag-mobl2.ger.corp.intel.com (HELO tursulin-mobl2.home) ([10.213.250.80])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 02:50:16 -0700
+From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To:     Intel-gfx@lists.freedesktop.org
+Cc:     dri-devel@lists.freedesktop.org,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] dma-resv: Fix dma_resv_get_fences and dma_resv_copy_fences after conversion
+Date:   Fri,  8 Oct 2021 10:50:07 +0100
+Message-Id: <20211008095007.972693-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1633685885;3cd5ec8d;
-X-HE-SMSGID: 1mYmKF-0005yC-HL
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-(sorry, sending it a second time with a different mail client, as vger
-rejected my earlier mail with the "Content-Policy reject msg: Wrong
-MIME labeling on 8-bit character texts." – and as of now I'm unable to
-figure out what's wrong :-/ )
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-On Thu, 7 Oct 2021 14:51:15 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+Cache the count of shared fences in the iterator to avoid dereferencing
+the dma_resv_object outside the RCU protection. Otherwise iterator and its
+users can observe an incosistent state which makes it impossible to use
+safely. Such as:
 
-> On Thu, Oct 7, 2021 at 1:34 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > On Thu, Oct 07, 2021 at 12:51:25PM +0300, Andy Shevchenko wrote:  
-> > > The kernel.h is a set of something which is not related to each
-> > > other and often used in non-crossed compilation units, especially
-> > > when drivers need only one or two macro definitions from it.
-> > >
-> > > Here is the split of container_of(). The goals are the following:
-> > > - untwist the dependency hell a bit
-> > > - drop kernel.h inclusion where it's only used for container_of()
-> > > - speed up C preprocessing.
-> > >
-> > > People, like Greg KH and Miguel Ojeda, were asking about the
-> > > latter. Read below the methodology and test setup with outcome
-> > > numbers.
-> > >
-> > > The methodology
-> > > ===============
-> > > The question here is how to measure in the more or less clean way
-> > > the C preprocessing time when building a project like Linux
-> > > kernel. To answer it, let's look around and see what tools do we
-> > > have that may help. Aha, here is ccache tool that seems quite
-> > > plausible to be used. Its core idea is to preprocess C file,
-> > > count hash (MD4) and compare to ones that are in the cache. If
-> > > found, return the object file, avoiding compilation stage.
-> > >
-> > > Taking into account the property of the ccache, configure and use
-> > > it in the below steps:
-> > >
-> > > 1. Configure kernel with allyesconfig
-> > >
-> > > 2. Make it with `make` to be sure that the cache is filled with
-> > >    the latest data. I.o.w. warm up the cache.
-> > >
-> > > 3. Run `make -s` (silent mode to reduce the influence of
-> > >    the unrelated things, like console output) 10 times and
-> > >    measure 'real' time spent.
-> > >
-> > > 4. Repeat 1-3 for each patch or patch set to get data sets before
-> > >    and after.
-> > >
-> > > When we get the raw data, calculating median will show us the
-> > > number. Comparing them before and after we will see the
-> > > difference.
-> > >
-> > > The setup
-> > > =========
-> > > I have used the Intel x86_64 server platform (see partial output
-> > > of `lscpu` below):
-> > >
-> > > $ lscpu
-> > > Architecture:            x86_64
-> > >   CPU op-mode(s):        32-bit, 64-bit
-> > >   Address sizes:         46 bits physical, 48 bits virtual
-> > >   Byte Order:            Little Endian
-> > > CPU(s):                  88
-> > >   On-line CPU(s) list:   0-87
-> > > Vendor ID:               GenuineIntel
-> > >   Model name:            Intel(R) Xeon(R) CPU E5-2699 v4 @ 2.20GHz
-> > >     CPU family:          6
-> > >     Model:               79
-> > >     Thread(s) per core:  2
-> > >     Core(s) per socket:  22
-> > >     Socket(s):           2
-> > >     Stepping:            1
-> > >     CPU max MHz:         3600.0000
-> > >     CPU min MHz:         1200.0000
-> > > ...
-> > > Caches (sum of all):
-> > >   L1d:                   1.4 MiB (44 instances)
-> > >   L1i:                   1.4 MiB (44 instances)
-> > >   L2:                    11 MiB (44 instances)
-> > >   L3:                    110 MiB (2 instances)
-> > > NUMA:
-> > >   NUMA node(s):          2
-> > >   NUMA node0 CPU(s):     0-21,44-65
-> > >   NUMA node1 CPU(s):     22-43,66-87
-> > > Vulnerabilities:
-> > >   Itlb multihit:         KVM: Mitigation: Split huge pages
-> > >   L1tf:                  Mitigation; PTE Inversion; VMX
-> > > conditional cache flushes, SMT vulnerable Mds:
-> > > Mitigation; Clear CPU buffers; SMT vulnerable Meltdown:
-> > >    Mitigation; PTI Spec store bypass:     Mitigation; Speculative
-> > > Store Bypass disabled via prctl and seccomp Spectre v1:
-> > >  Mitigation; usercopy/swapgs barriers and __user pointer
-> > > sanitization Spectre v2:            Mitigation; Full generic
-> > > retpoline, IBPB conditional, IBRS_FW, STIBP conditional, RSB
-> > > filling Tsx async abort:       Mitigation; Clear CPU buffers; SMT
-> > > vulnerable
-> > >
-> > > With the following GCC:
-> > >
-> > > $ gcc --version
-> > > gcc (Debian 10.3.0-11) 10.3.0
-> > >
-> > > The commands I have run during the measurement were:
-> > >
-> > >       rm -rf $O
-> > >       make O=$O allyesconfig
-> > >       time make O=$O -s -j64  # this step has been measured
+<6> [187.517041] [IGT] gem_sync: executing
+<7> [187.536343] i915 0000:00:02.0: [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
+<7> [187.536793] i915 0000:00:02.0: [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
+<6> [187.551235] [IGT] gem_sync: starting subtest basic-many-each
+<1> [188.935462] BUG: kernel NULL pointer dereference, address: 0000000000000010
+<1> [188.935485] #PF: supervisor write access in kernel mode
+<1> [188.935495] #PF: error_code(0x0002) - not-present page
+<6> [188.935504] PGD 0 P4D 0
+<4> [188.935512] Oops: 0002 [#1] PREEMPT SMP NOPTI
+<4> [188.935521] CPU: 2 PID: 1467 Comm: gem_sync Not tainted 5.15.0-rc4-CI-Patchwork_21264+ #1
+<4> [188.935535] Hardware name:  /NUC6CAYB, BIOS AYAPLCEL.86A.0049.2018.0508.1356 05/08/2018
+<4> [188.935546] RIP: 0010:dma_resv_get_fences+0x116/0x2d0
+<4> [188.935560] Code: 10 85 c0 7f c9 be 03 00 00 00 e8 15 8b df ff eb bd e8 8e c6 ff ff eb b6 41 8b 04 24 49 8b 55 00 48 89 e7 8d 48 01 41 89 0c 24 <4c> 89 34 c2 e8 41 f2 ff ff 49 89 c6 48 85 c0 75 8c 48 8b 44 24 10
+<4> [188.935583] RSP: 0018:ffffc900011dbcc8 EFLAGS: 00010202
+<4> [188.935593] RAX: 0000000000000000 RBX: 00000000ffffffff RCX: 0000000000000001
+<4> [188.935603] RDX: 0000000000000010 RSI: ffffffff822e343c RDI: ffffc900011dbcc8
+<4> [188.935613] RBP: ffffc900011dbd48 R08: ffff88812d255bb8 R09: 00000000fffffffe
+<4> [188.935623] R10: 0000000000000001 R11: 0000000000000000 R12: ffffc900011dbd44
+<4> [188.935633] R13: ffffc900011dbd50 R14: ffff888113d29cc0 R15: 0000000000000000
+<4> [188.935643] FS:  00007f68d17e9700(0000) GS:ffff888277900000(0000) knlGS:0000000000000000
+<4> [188.935655] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+<4> [188.935665] CR2: 0000000000000010 CR3: 000000012d0a4000 CR4: 00000000003506e0
+<4> [188.935676] Call Trace:
+<4> [188.935685]  i915_gem_object_wait+0x1ff/0x410 [i915]
+<4> [188.935988]  i915_gem_wait_ioctl+0xf2/0x2a0 [i915]
+<4> [188.936272]  ? i915_gem_object_wait+0x410/0x410 [i915]
+<4> [188.936533]  drm_ioctl_kernel+0xae/0x140
+<4> [188.936546]  drm_ioctl+0x201/0x3d0
+<4> [188.936555]  ? i915_gem_object_wait+0x410/0x410 [i915]
+<4> [188.936820]  ? __fget_files+0xc2/0x1c0
+<4> [188.936830]  ? __fget_files+0xda/0x1c0
+<4> [188.936839]  __x64_sys_ioctl+0x6d/0xa0
+<4> [188.936848]  do_syscall_64+0x3a/0xb0
+<4> [188.936859]  entry_SYSCALL_64_after_hwframe+0x44/0xae
 
-BTW, what kcbench does in the end is not that different, but it only
-builds the config once and that uses it for all further testing. 
+If the shared object has changed during the RCU unlocked period
+callers will correctly handle the restart on the next iteration.
 
-> > > The raw data and median
-> > > =======================
-> > > Before patch 2 (yes, I have measured the only patch 2 effect) in
-> > > the series (the data is sorted by time):
-> > >
-> > > real    2m8.794s
-> > > real    2m11.183s
-> > > real    2m11.235s
-> > > real    2m11.639s
-> > > real    2m11.960s
-> > > real    2m12.014s
-> > > real    2m12.609s
-> > > real    2m13.177s
-> > > real    2m13.462s
-> > > real    2m19.132s
-> > >
-> > > After patch 2 has been applied:
-> > >
-> > > real    2m8.536s
-> > > real    2m8.776s
-> > > real    2m9.071s
-> > > real    2m9.459s
-> > > real    2m9.531s
-> > > real    2m9.610s
-> > > real    2m10.356s
-> > > real    2m10.430s
-> > > real    2m11.117s
-> > > real    2m11.885s
-> > >
-> > > Median values are:
-> > >       131.987s before
-> > >       129.571s after
-> > >
-> > > We see the steady speedup as of 1.83%.  
-> >
-> > You do know about kcbench:
-> >         https://gitlab.com/knurd42/kcbench.git
-> >
-> > Try running that to make it such that we know how it was tested :)  
-> 
-> I'll try it.
-> 
-> Meanwhile, Thorsten, can you have a look at my approach and tell if it
-> makes sense?
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Fixes: 96601e8a4755 ("dma-buf: use new iterator in dma_resv_copy_fences")
+Fixes: d3c80698c9f5 ("dma-buf: use new iterator in dma_resv_get_fences v3")
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/4274
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+---
+ drivers/dma-buf/dma-resv.c | 18 ++++++++++--------
+ include/linux/dma-resv.h   |  5 ++++-
+ 2 files changed, 14 insertions(+), 9 deletions(-)
 
-I'm not the right person to ask here, I don't know enough about the
-inner working of ccache and C preprocessing. Reminder: I'm not a real
-kernel/C developer, but more kind of a parasite that lives on the
-fringes of kernel development. ;-) Kcbench in fact originated as a
-benchmark magazine for the computer magazine I used to work for – where
-I also did quite a few benchmarks. But that knowledge might be helpful
-here:
-
-The measurements before and after patch 2 was applied get slower over
-time. That is a hint that something is interfering. Is the disk filling
-up and making the fs do more work? Or is the machine getting to hot? It
-IMHO would be worth investigating and ruling out, as the differences
-you are looking out are likely quite small
-
-Also: the last run of the first measurement cycle is off by quite a
-bit, so I wouldn't even include the result, as there like was something
-that disturbed the benchmark.
-
-And I might be missing something, but why were you using "-j 64" on a
-machine with 44 cores/88 threads? I wonder if that might lead do
-interesting effects due to SMT (some core will run two threads, other
-only one). Using either "-j 44" or "-j 88" might be better. But I
-suggest you run kcbench once without specifying "-j", as that will
-check which setting is the fastest on this system – and then use that
-for all further tests.
-
-HTH, Ciao, Thorsten 
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index a480af9581bd..7b6d881c8904 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -333,10 +333,14 @@ static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
+ {
+ 	cursor->seq = read_seqcount_begin(&cursor->obj->seq);
+ 	cursor->index = -1;
+-	if (cursor->all_fences)
++	cursor->shared_count = 0;
++	if (cursor->all_fences) {
+ 		cursor->fences = dma_resv_shared_list(cursor->obj);
+-	else
++		if (cursor->fences)
++			cursor->shared_count = cursor->fences->shared_count;
++	} else {
+ 		cursor->fences = NULL;
++	}
+ 	cursor->is_restarted = true;
+ }
+ 
+@@ -363,7 +367,7 @@ static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
+ 				continue;
+ 
+ 		} else if (!cursor->fences ||
+-			   cursor->index >= cursor->fences->shared_count) {
++			   cursor->index >= cursor->shared_count) {
+ 			cursor->fence = NULL;
+ 			break;
+ 
+@@ -448,10 +452,8 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
+ 			dma_resv_list_free(list);
+ 			dma_fence_put(excl);
+ 
+-			if (cursor.fences) {
+-				unsigned int cnt = cursor.fences->shared_count;
+-
+-				list = dma_resv_list_alloc(cnt);
++			if (cursor.shared_count) {
++				list = dma_resv_list_alloc(cursor.shared_count);
+ 				if (!list) {
+ 					dma_resv_iter_end(&cursor);
+ 					return -ENOMEM;
+@@ -522,7 +524,7 @@ int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **fence_excl,
+ 			if (fence_excl)
+ 				dma_fence_put(*fence_excl);
+ 
+-			count = cursor.fences ? cursor.fences->shared_count : 0;
++			count = cursor.shared_count;
+ 			count += fence_excl ? 0 : 1;
+ 
+ 			/* Eventually re-allocate the array */
+diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+index 8b6c20636a79..3e1bff147428 100644
+--- a/include/linux/dma-resv.h
++++ b/include/linux/dma-resv.h
+@@ -170,9 +170,12 @@ struct dma_resv_iter {
+ 	/** @index: index into the shared fences */
+ 	unsigned int index;
+ 
+-	/** @fences: the shared fences */
++	/** @fences: the shared fences; private, *MUST* not dereference  */
+ 	struct dma_resv_list *fences;
+ 
++	/** @shared_count: number of shared fences */
++	unsigned int shared_count;
++
+ 	/** @is_restarted: true if this is the first returned fence */
+ 	bool is_restarted;
+ };
+-- 
+2.30.2
 
