@@ -2,95 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8BDD426E0F
-	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 17:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 250BA426E26
+	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 17:54:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243083AbhJHPug (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Oct 2021 11:50:36 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:53441 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230365AbhJHPue (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 11:50:34 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id B1D75100008;
-        Fri,  8 Oct 2021 15:48:37 +0000 (UTC)
-Date:   Fri, 8 Oct 2021 17:49:24 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [bug report] media: i2c: Copy mt9t112 soc_camera sensor driver
-Message-ID: <20211008154924.nwxf5t2qikcj7ecc@uno.localdomain>
-References: <20211005092521.GA19607@kili>
+        id S243145AbhJHP4Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Oct 2021 11:56:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38662 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230365AbhJHP4O (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 11:56:14 -0400
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AFE4C061570
+        for <linux-media@vger.kernel.org>; Fri,  8 Oct 2021 08:54:19 -0700 (PDT)
+Received: by mail-qv1-xf32.google.com with SMTP id d20so6634885qvm.8
+        for <linux-media@vger.kernel.org>; Fri, 08 Oct 2021 08:54:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=JHQQ/ZPuMNBwfivK9zPtMYjZexbN/EgHfRTfb4X4FQM=;
+        b=WilbUexRA01zQ0bMJZW4pqq0QhYgb4cjNMoYFpt/WN/kAwF2xzUpyfU1vmmjKkQnvx
+         uOROisI1Hd25EaL/aZ4K1rDMkV4aT4ZtcAM3mAqwnnE1WvfK99MCJ6feMHFjtHQT7SjE
+         VV5YT5M4Qo+Uu8Zd5HJaQM4LtKuMVcqpMf0JX9jpDrbdtZmOJ6dnujH4Db/u7CovMjCq
+         DeFsPhEgFBltMLYOMkvGKaUwP0faoEj5P91nNZRBOTdRlQi3FSJBsTKOWNk8jci6DPXN
+         KlDu1ZdeqcrMoQRYjtv8GcVZ1Ky8gx91c3Y4UgfFucJr5iRXsPSkEbZsLiWaNvZKPlf1
+         vRMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=JHQQ/ZPuMNBwfivK9zPtMYjZexbN/EgHfRTfb4X4FQM=;
+        b=Gn9WTB8/3y0Yvrc+yLeLC9kIOABT+6pbR1Sjdp0+uH49NIi3ESPUxN3sZYgF8dn5a8
+         bao/LLeEncYghm42BymJkzarZ5YYfjLN6Bu2CjeAHj6A0YQz02COPeguPiRx1UUvmPph
+         d9KBWUu+Ob5e00k1zD9/VrlNb6dkWryUjVzs4b7fDRUoRT4E6lLKStaW8M9YdjTFDTep
+         6AuTATC5gJ+3rzJrPeXNPdwb/omLrYJVyXjO3GPchbxh3z78ad+Ji1/uZHW8woiieHkU
+         uQI1nZvQoejuzwU6P+1CihUUB7uemhVZQdfR7jtpwX+H7PGAZLokJp/zraINA4D3u/on
+         wToA==
+X-Gm-Message-State: AOAM531nVdTFdkd+C+FpbFmcorRDmr1NEPhV/Vwr2sceRrtCxyKuvb0Y
+        h8p0OazKSKb2Fr+Px2aefYDtXQ==
+X-Google-Smtp-Source: ABdhPJzVAQ4pK19I9ktgZs5SQ2HXyEEnpkAMWqKmsXbgQremDteXueDeFV7UIfAnw16lGzesZAT+CA==
+X-Received: by 2002:a05:6214:1267:: with SMTP id r7mr10933942qvv.16.1633708458308;
+        Fri, 08 Oct 2021 08:54:18 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id 207sm2261102qkd.56.2021.10.08.08.54.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Oct 2021 08:54:18 -0700 (PDT)
+Message-ID: <a2759c8f5ec47bf6a96f69e103994dc20198c39b.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/2] media: rkvdec: Support dynamic resolution changes
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Chen-Yu Tsai <wenst@chromium.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        stable@vger.kernel.org
+Date:   Fri, 08 Oct 2021 11:54:16 -0400
+In-Reply-To: <20211008100423.739462-3-wenst@chromium.org>
+References: <20211008100423.739462-1-wenst@chromium.org>
+         <20211008100423.739462-3-wenst@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211005092521.GA19607@kili>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+Le vendredi 08 octobre 2021 à 18:04 +0800, Chen-Yu Tsai a écrit :
+> The mem-to-mem stateless decoder API specifies support for dynamic
+> resolution changes. In particular, the decoder should accept format
+> changes on the OUTPUT queue even when buffers have been allocated,
+> as long as it is not streaming.
 
-On Tue, Oct 05, 2021 at 12:25:21PM +0300, Dan Carpenter wrote:
-> Hello Media devs,
->
-> The patch 7641b0442195: "media: i2c: Copy mt9t112 soc_camera sensor
-> driver" from Mar 12, 2018, leads to the following Smatch static
-> checker warning:
+As commented in the code, it also requires the CAPTURE side not to be busy, not
+sure if its worth clarifying, I don't really mind.
 
-That commit is from me, but I just copied the code as (ugly) as it
-was I didn't even have the hw to test it so I preferred not to touch
-it
+> 
+> Relax restrictions for S_FMT as described in the previous paragraph,
+> and as long as the codec format remains the same. This aligns it with
+> the Hantro and Cedrus decoders. This change was mostly based on commit
+> ae02d49493b5 ("media: hantro: Fix s_fmt for dynamic resolution changes").
+> 
+> Since rkvdec_s_fmt() is now just a wrapper around the output/capture
+> variants without any additional shared functionality, drop the wrapper
+> and call the respective functions directly.
+> 
+> Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 
->
-> 	drivers/media/i2c/mt9t112.c:176 __mt9t112_reg_read()
-> 	warn: not copying enough bytes for '&ret' (4 vs 2 bytes)
->
-> drivers/media/i2c/mt9t112.c
->     150 static int __mt9t112_reg_read(const struct i2c_client *client, u16 command)
->     151 {
->     152         struct i2c_msg msg[2];
->     153         u8 buf[2];
->     154         int ret;
->     155
->     156         command = swab16(command);
->                           ^^^^^^^^^^^^^^^
-> This driver won't work on big endian systems
->
->     157
->     158         msg[0].addr  = client->addr;
->     159         msg[0].flags = 0;
->     160         msg[0].len   = 2;
->     161         msg[0].buf   = (u8 *)&command;
->     162
->     163         msg[1].addr  = client->addr;
->     164         msg[1].flags = I2C_M_RD;
->     165         msg[1].len   = 2;
->     166         msg[1].buf   = buf;
->     167
->     168         /*
->     169          * If return value of this function is < 0, it means error, else,
->     170          * below 16bit is valid data.
->     171          */
->     172         ret = i2c_transfer(client->adapter, msg, 2);
->     173         if (ret < 0)
->     174                 return ret;
->     175
-> --> 176         memcpy(&ret, buf, 2);
->                        ^^^^
-> And this is ugly as all heck.  I would have fixed it but there were
-> so many other endian bugs and I can't test it.
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Is this an endianess issue or just a complaint about the difference in
-size between the number of copied bytes and the destination ?
+> ---
+>  drivers/staging/media/rkvdec/rkvdec.c | 40 +++++++++++++--------------
+>  1 file changed, 20 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index 7131156c1f2c..3f3f96488d74 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -280,31 +280,20 @@ static int rkvdec_try_output_fmt(struct file *file, void *priv,
+>  	return 0;
+>  }
+>  
+> -static int rkvdec_s_fmt(struct file *file, void *priv,
+> -			struct v4l2_format *f,
+> -			int (*try_fmt)(struct file *, void *,
+> -				       struct v4l2_format *))
+> +static int rkvdec_s_capture_fmt(struct file *file, void *priv,
+> +				struct v4l2_format *f)
+>  {
+>  	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
+>  	struct vb2_queue *vq;
+> +	int ret;
+>  
+> -	if (!try_fmt)
+> -		return -EINVAL;
+> -
+> -	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+> +	/* Change not allowed if queue is busy */
+> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+> +			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+>  	if (vb2_is_busy(vq))
+>  		return -EBUSY;
+>  
+> -	return try_fmt(file, priv, f);
+> -}
+> -
+> -static int rkvdec_s_capture_fmt(struct file *file, void *priv,
+> -				struct v4l2_format *f)
+> -{
+> -	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
+> -	int ret;
+> -
+> -	ret = rkvdec_s_fmt(file, priv, f, rkvdec_try_capture_fmt);
+> +	ret = rkvdec_try_capture_fmt(file, priv, f);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -319,9 +308,20 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
+>  	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
+>  	const struct rkvdec_coded_fmt_desc *desc;
+>  	struct v4l2_format *cap_fmt;
+> -	struct vb2_queue *peer_vq;
+> +	struct vb2_queue *peer_vq, *vq;
+>  	int ret;
+>  
+> +	/*
+> +	 * In order to support dynamic resolution change, the decoder admits
+> +	 * a resolution change, as long as the pixelformat remains. Can't be
+> +	 * done if streaming.
+> +	 */
+> +	vq = v4l2_m2m_get_vq(m2m_ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+> +	if (vb2_is_streaming(vq) ||
+> +	    (vb2_is_busy(vq) &&
+> +	     f->fmt.pix_mp.pixelformat != ctx->coded_fmt.fmt.pix_mp.pixelformat))
+> +		return -EBUSY;
+> +
+>  	/*
+>  	 * Since format change on the OUTPUT queue will reset the CAPTURE
+>  	 * queue, we can't allow doing so when the CAPTURE queue has buffers
+> @@ -331,7 +331,7 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
+>  	if (vb2_is_busy(peer_vq))
+>  		return -EBUSY;
+>  
+> -	ret = rkvdec_s_fmt(file, priv, f, rkvdec_try_output_fmt);
+> +	ret = rkvdec_try_output_fmt(file, priv, f);
+>  	if (ret)
+>  		return ret;
+>  
 
-Thanks
-   j
 
->
->     177
->     178         return swab16(ret);
->     179 }
->
-> regards,
-> dan carpenter
