@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4275D4267CF
+	by mail.lfdr.de (Postfix) with ESMTP id D963C4267D2
 	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 12:30:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239816AbhJHKc2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Oct 2021 06:32:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48718 "EHLO
+        id S239851AbhJHKc3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Oct 2021 06:32:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239652AbhJHKc0 (ORCPT
+        with ESMTP id S239830AbhJHKc0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 06:32:26 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 060ACC061765;
-        Fri,  8 Oct 2021 03:30:25 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id m21so2664419pgu.13;
-        Fri, 08 Oct 2021 03:30:25 -0700 (PDT)
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00F9BC061766;
+        Fri,  8 Oct 2021 03:30:30 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id oa12-20020a17090b1bcc00b0019f715462a8so7446017pjb.3;
+        Fri, 08 Oct 2021 03:30:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=W+wytSR0PH1/4yPeQFTyssJnKJVMVbzdE/AdZsuZR3M=;
-        b=KKziDLqrhKOFfLQbFvNcL9pI7NP89A/Rg3PKEisfhdx77MZkiANWMElHnq4xeUDhAO
-         60w5IYFSHB3z1WnhUspXC6SLC6k/hmEQ3DBoKDZSh6hU+at8m94cItQqiSLOjniZ3z+X
-         3MUL1zdBxEXoe0aD0oSZRyEEAWo91SxFCkA1WPXrjS/tZr2GCgBRalYmvTRd3yFCEBin
-         5N7Ur+p8Am3NBP03tfBhBODIgRZfFpWBjUARYOLL2CjRAWqmdWYUdSGwrwWUVOlgiuTO
-         NupTrhvQWiz+MipodDoQBeBd/ngNhCVTS27YKOW6ZQPciuCm9mVX5usRerLjJgYZp+Ct
-         aj+Q==
+        bh=GhxWSzDygkgduGqmCbgslgGLjHcbkJEg/Lae/V6IHY0=;
+        b=I9p+K6g+mlNqanzGfNB6REjSggHuAEVzLCWQ+CgbD9Sr0X/iV1cHMNOMvMSMWKrUhj
+         V6GumUIeD08eSJQ9a83xkWRUPvoony04PzAn7DwVpU1Rl27hbglstsH+hAZZxlKZBScE
+         ISNyHA6m2C6zDDQ535m7Jx74kxHKdU0x/Wg56svK4zFF8ds7VImndqlSaEt2IaQJUDVn
+         oAxL3uGBUDmjscLE0Kh1+RSgoF2TEhh6SrqsRStw5eSJbguSP+kHcWUtdGjDo0PlJPlw
+         +BL06J5l2QbBHzo1aHD4VIJhRwqyZQYDE3GLx8FebD/Tuz1yM4UVl6k5SsrKhqyVLv2K
+         7Rhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=W+wytSR0PH1/4yPeQFTyssJnKJVMVbzdE/AdZsuZR3M=;
-        b=cNm/TmV5/V0QEEaYaazZzqq1hB7eoX/ZCJisnGKVg7pHzQUdmBDVJ/MSFK3QkJfhcH
-         mBmGOW5rWpRlJTHAIXtpe5VCTeMEntOm/uPxNwzyhUoW2rp8YlhucVxTRZZkaOYCULpX
-         BLWBDjh6q382fbC35To457c3AJmSWFGFRXcTMxMhWaubC9bVuVfzos0WmMeGhVGht3kD
-         31nEY6hhkts5fnc6iWDdWreTGFf8PQMuKmX3l4xAEQHXOaXazejdvCEvDbjft50fxfM2
-         LsX1+Jgx0FmdoXad6Y9pzfLBXhyUdK0XBnUV7qy32H5fHWh0vQDkqLnTibTVoTwQV61F
-         x6xQ==
-X-Gm-Message-State: AOAM530YzjcQTUWxnR8xu9guQ+5cuXZ4gZjByd+p1CwG/FSlyeloen9L
-        wQ7UpVOl0py/BIe+U2dYL+w=
-X-Google-Smtp-Source: ABdhPJwVQg2QQsEuWmOcgcJ6zhRhQqkDeqWGYlPofw6AkJEjdDvpsDCJ1+xkzFMAlfA+LFOArVDw8Q==
-X-Received: by 2002:aa7:9203:0:b0:44c:aa4f:5496 with SMTP id 3-20020aa79203000000b0044caa4f5496mr9535011pfo.60.1633689024589;
-        Fri, 08 Oct 2021 03:30:24 -0700 (PDT)
+        bh=GhxWSzDygkgduGqmCbgslgGLjHcbkJEg/Lae/V6IHY0=;
+        b=u/dqB0Kv1ZMHYeSg2SNwoEU6h2K0LBReImHVoSkTbT3a9+emcvKE+LDAc9Nrd8VsP1
+         We6oJXv4tAlHioRpf8dtHKY5IFVoBuK/9cmGUMGDKI2x/hab5k9+P6farFoinzEpHnkE
+         DCBV41kVbbHFa07ODS6Yq2Lgp3w8BEvCs2DOqrv7MfJPzUpryCSt4A5Up42qur02I2c1
+         IWT0eyxSAFYVuUrUoIHIlHwcpbyfYXj3h6vk7bv3Bu1v9m45IiLWklavHAUd40MTGA/W
+         7m1OdGNJLNVdHDPXrEwgjeiNxiQy8kj21JfSBXVG8V2DL/b7CWQFlYF5xUJi31/4MaKo
+         934g==
+X-Gm-Message-State: AOAM530mPcawlyJ4OAWBFFj7DZbAq3XW08aEdXXzubZYx3/n9H8IhdLz
+        0iAzPvyxenekahxKJqTvTY8=
+X-Google-Smtp-Source: ABdhPJy5EUkBZ49hhDMXp55zoJPA1/G/fqsaqt+M6SYCeEQghuoEV95w3mBPQsc3l0QVsTcvrW5AYA==
+X-Received: by 2002:a17:90a:ab94:: with SMTP id n20mr11887618pjq.146.1633689029565;
+        Fri, 08 Oct 2021 03:30:29 -0700 (PDT)
 Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
-        by smtp.gmail.com with ESMTPSA id y15sm2620151pfa.64.2021.10.08.03.30.19
+        by smtp.gmail.com with ESMTPSA id y15sm2620151pfa.64.2021.10.08.03.30.24
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 08 Oct 2021 03:30:24 -0700 (PDT)
+        Fri, 08 Oct 2021 03:30:29 -0700 (PDT)
 From:   dillon.minfei@gmail.com
 To:     mchehab@kernel.org, mchehab+huawei@kernel.org,
         hverkuil-cisco@xs4all.nl, ezequiel@collabora.com, gnurou@gmail.com,
@@ -58,9 +58,9 @@ Cc:     patrice.chotard@foss.st.com, hugues.fruchet@foss.st.com,
         linux-stm32@st-md-mailman.stormreply.com,
         linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org, Dillon Min <dillon.minfei@gmail.com>
-Subject: [PATCH v3 1/8] media: admin-guide: add stm32-dma2d description
-Date:   Fri,  8 Oct 2021 18:30:05 +0800
-Message-Id: <1633689012-14492-2-git-send-email-dillon.minfei@gmail.com>
+Subject: [PATCH v3 2/8] media: dt-bindings: media: add document for STM32 DMA2d bindings
+Date:   Fri,  8 Oct 2021 18:30:06 +0800
+Message-Id: <1633689012-14492-3-git-send-email-dillon.minfei@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1633689012-14492-1-git-send-email-dillon.minfei@gmail.com>
 References: <1633689012-14492-1-git-send-email-dillon.minfei@gmail.com>
@@ -70,27 +70,94 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dillon Min <dillon.minfei@gmail.com>
 
-add stm32-dma2d description for dma2d driver
+This adds documentation of device tree bindings for the STM32 DMA2D
 
 Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 v3: no change
 
- Documentation/admin-guide/media/platform-cardlist.rst | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/media/st,stm32-dma2d.yaml  | 71 ++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/st,stm32-dma2d.yaml
 
-diff --git a/Documentation/admin-guide/media/platform-cardlist.rst b/Documentation/admin-guide/media/platform-cardlist.rst
-index 261e7772eb3e..ac73c4166d1e 100644
---- a/Documentation/admin-guide/media/platform-cardlist.rst
-+++ b/Documentation/admin-guide/media/platform-cardlist.rst
-@@ -60,6 +60,7 @@ s5p-mfc            Samsung S5P MFC Video Codec
- sh_veu             SuperH VEU mem2mem video processing
- sh_vou             SuperH VOU video output
- stm32-dcmi         STM32 Digital Camera Memory Interface (DCMI)
-+stm32-dma2d        STM32 Chrom-Art Accelerator Unit
- sun4i-csi          Allwinner A10 CMOS Sensor Interface Support
- sun6i-csi          Allwinner V3s Camera Sensor Interface
- sun8i-di           Allwinner Deinterlace
+diff --git a/Documentation/devicetree/bindings/media/st,stm32-dma2d.yaml b/Documentation/devicetree/bindings/media/st,stm32-dma2d.yaml
+new file mode 100644
+index 000000000000..f97b4a246605
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/st,stm32-dma2d.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/st,stm32-dma2d.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: STMicroelectronics STM32 Chrom-Art Accelerator DMA2D binding
++
++description:
++  Chrom-ART Accelerator(DMA2D), graphical hardware accelerator
++  enabling enhanced graphical user interface with minimum CPU load
++
++  It can perform the following operations.
++
++  - Filling a part or the whole of a destination image with a specific color.
++  - Copying a part or the whole of a source image into a part or the whole of
++    a destination image.
++  - Copying a part or the whole of a source image into a part or the whole of
++    a destination image with a pixel format conversion.
++  - Blending a part and/or two complete source images with different pixel
++    format and copy the result into a part or the whole of a destination image
++    with a different color format. (TODO)
++
++
++maintainers:
++  - Dillon Min <dillon.minfei@gmail.com>
++
++properties:
++  compatible:
++    const: st,stm32-dma2d
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    items:
++      - const: dma2d
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/stm32fx-clock.h>
++    #include <dt-bindings/mfd/stm32f4-rcc.h>
++    dma2d: dma2d@4002b000 {
++        compatible = "st,stm32-dma2d";
++        reg = <0x4002b000 0xc00>;
++        interrupts = <90>;
++        resets = <&rcc STM32F4_AHB1_RESET(DMA2D)>;
++        clocks = <&rcc 0 STM32F4_AHB1_CLOCK(DMA2D)>;
++        clock-names = "dma2d";
++    };
++
++...
 -- 
 2.7.4
 
