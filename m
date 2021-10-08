@@ -2,64 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3D02426CA4
-	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 16:17:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E516426D2B
+	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 17:01:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231276AbhJHOTp convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 8 Oct 2021 10:19:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44442 "EHLO
+        id S242780AbhJHPDh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Oct 2021 11:03:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236679AbhJHOTo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 10:19:44 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D5A4C061570
-        for <linux-media@vger.kernel.org>; Fri,  8 Oct 2021 07:17:48 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1mYqh0-0002BR-9A; Fri, 08 Oct 2021 16:17:46 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1mYqgz-0004y6-M0; Fri, 08 Oct 2021 16:17:45 +0200
-Message-ID: <0f777e71e47bc64b193f7840ff86ddf9799f3b11.camel@pengutronix.de>
-Subject: Re: [PATCH v4 2/2] media: imx-pxp: Add rotation support
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Fabio Estevam <festevam@denx.de>
-Cc:     hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org
-Date:   Fri, 08 Oct 2021 16:17:45 +0200
-In-Reply-To: <20211008131015.3303915-2-festevam@denx.de>
-References: <20211008131015.3303915-1-festevam@denx.de>
-         <20211008131015.3303915-2-festevam@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        with ESMTP id S237929AbhJHPDg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 11:03:36 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C89C061570;
+        Fri,  8 Oct 2021 08:01:41 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id A4F701F45ABA
+Subject: Re: [PATCH 0/2] media: rkvdec: Align decoder behavior with Hantro and
+ Cedrus
+To:     Chen-Yu Tsai <wenst@chromium.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20211008100423.739462-1-wenst@chromium.org>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <c5393cf3-e2d1-4000-3bd1-00a09bb0ee8f@collabora.com>
+Date:   Fri, 8 Oct 2021 17:01:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20211008100423.739462-1-wenst@chromium.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2021-10-08 at 10:10 -0300, Fabio Estevam wrote:
-> PXP allows clockwise rotation of 0°, 90°, 180° and 270°.
-> 
-> Add support for it.
-> 
-> Tested on a imx6ull-evk.
-> 
-> For example, to rotate 90° the following Gstreamer pipeline can
-> be used:
-> 
-> gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480 ! \
-> v4l2convert extra-controls=cid,rotate=90  ! \
-> video/x-raw,width=120,height=160 ! fbdevsink
-> 
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
+Hi Chen-Yu Tsai,
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+W dniu 08.10.2021 o 12:04, Chen-Yu Tsai pisze:
+> Hi everyone,
+> 
+> While working on the rkvdec H.264 decoder for ChromeOS, I noticed some
+> behavioral differences compared to Hantro and Cedrus:
+> 
+> 1. The driver always overrides the sizeimage setting given by userspace
+>     for the output format. This results in insufficient buffer space when
+>     running the ChromeOS video_decode_accelerator_tests test program,
+>     likely due to a small initial resolution followed by dynamic
+>     resolution change.
+> 
+> 2. Doesn't support dynamic resolution change.
+> 
+> This small series fixes both and aligns the behavior with the other two
+> stateless decoder drivers. This was tested on the downstream ChromeOS
+> 5.10 kernel with ChromeOS. Also compiled tested on mainline but I don't
+> have any other RK3399 devices set up to test video stuff, so testing
+> would be very much appreciated.
+> 
+> Also, I'm not sure if user applications are required to check the value
+> of sizeimage upon S_FMT return. If the value is different or too small,
+> what can the application do besides fail? AFAICT it can't split the
+> data of one frame (or slice) between different buffers.
+> 
+> Andrzej, I believe the second patch would conflict with your VP9 series.
+> 
 
-regards
-Philipp
+The conflict is rather trivial to solve. Adopting your version does not
+change in any way (neither for better nor for worse) the fluster score
+I get for vp9 with rkvdec on a rockpi4 using my vp9 series.
+
+Regards,
+
+Andrzej
+
+> 
+> Regards
+> ChenYu
+> 
+> Chen-Yu Tsai (2):
+>    media: rkvdec: Do not override sizeimage for output format
+>    media: rkvdec: Support dynamic resolution changes
+> 
+>   drivers/staging/media/rkvdec/rkvdec-h264.c |  5 +--
+>   drivers/staging/media/rkvdec/rkvdec.c      | 40 +++++++++++-----------
+>   2 files changed, 23 insertions(+), 22 deletions(-)
+> 
+
