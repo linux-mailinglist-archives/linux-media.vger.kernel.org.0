@@ -2,176 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 250BA426E26
-	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 17:54:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47FCE426E8F
+	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 18:22:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243145AbhJHP4Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Oct 2021 11:56:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38662 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230365AbhJHP4O (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 11:56:14 -0400
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AFE4C061570
-        for <linux-media@vger.kernel.org>; Fri,  8 Oct 2021 08:54:19 -0700 (PDT)
-Received: by mail-qv1-xf32.google.com with SMTP id d20so6634885qvm.8
-        for <linux-media@vger.kernel.org>; Fri, 08 Oct 2021 08:54:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=JHQQ/ZPuMNBwfivK9zPtMYjZexbN/EgHfRTfb4X4FQM=;
-        b=WilbUexRA01zQ0bMJZW4pqq0QhYgb4cjNMoYFpt/WN/kAwF2xzUpyfU1vmmjKkQnvx
-         uOROisI1Hd25EaL/aZ4K1rDMkV4aT4ZtcAM3mAqwnnE1WvfK99MCJ6feMHFjtHQT7SjE
-         VV5YT5M4Qo+Uu8Zd5HJaQM4LtKuMVcqpMf0JX9jpDrbdtZmOJ6dnujH4Db/u7CovMjCq
-         DeFsPhEgFBltMLYOMkvGKaUwP0faoEj5P91nNZRBOTdRlQi3FSJBsTKOWNk8jci6DPXN
-         KlDu1ZdeqcrMoQRYjtv8GcVZ1Ky8gx91c3Y4UgfFucJr5iRXsPSkEbZsLiWaNvZKPlf1
-         vRMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=JHQQ/ZPuMNBwfivK9zPtMYjZexbN/EgHfRTfb4X4FQM=;
-        b=Gn9WTB8/3y0Yvrc+yLeLC9kIOABT+6pbR1Sjdp0+uH49NIi3ESPUxN3sZYgF8dn5a8
-         bao/LLeEncYghm42BymJkzarZ5YYfjLN6Bu2CjeAHj6A0YQz02COPeguPiRx1UUvmPph
-         d9KBWUu+Ob5e00k1zD9/VrlNb6dkWryUjVzs4b7fDRUoRT4E6lLKStaW8M9YdjTFDTep
-         6AuTATC5gJ+3rzJrPeXNPdwb/omLrYJVyXjO3GPchbxh3z78ad+Ji1/uZHW8woiieHkU
-         uQI1nZvQoejuzwU6P+1CihUUB7uemhVZQdfR7jtpwX+H7PGAZLokJp/zraINA4D3u/on
-         wToA==
-X-Gm-Message-State: AOAM531nVdTFdkd+C+FpbFmcorRDmr1NEPhV/Vwr2sceRrtCxyKuvb0Y
-        h8p0OazKSKb2Fr+Px2aefYDtXQ==
-X-Google-Smtp-Source: ABdhPJzVAQ4pK19I9ktgZs5SQ2HXyEEnpkAMWqKmsXbgQremDteXueDeFV7UIfAnw16lGzesZAT+CA==
-X-Received: by 2002:a05:6214:1267:: with SMTP id r7mr10933942qvv.16.1633708458308;
-        Fri, 08 Oct 2021 08:54:18 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id 207sm2261102qkd.56.2021.10.08.08.54.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Oct 2021 08:54:18 -0700 (PDT)
-Message-ID: <a2759c8f5ec47bf6a96f69e103994dc20198c39b.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/2] media: rkvdec: Support dynamic resolution changes
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Chen-Yu Tsai <wenst@chromium.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        stable@vger.kernel.org
-Date:   Fri, 08 Oct 2021 11:54:16 -0400
-In-Reply-To: <20211008100423.739462-3-wenst@chromium.org>
-References: <20211008100423.739462-1-wenst@chromium.org>
-         <20211008100423.739462-3-wenst@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        id S229606AbhJHQYX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Oct 2021 12:24:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58534 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229525AbhJHQYW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 Oct 2021 12:24:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633710147;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=LcIF1ATa5pMxZWD7XVYsx964hvOu7/ZW7mOWWqM4Eac=;
+        b=B/N0dmeNVcLiDF0m7Xwfnb0gLAJYT0Jva/1SXSLJV+5JOtzM+OpIRkjN7NOuNFOubFMuEE
+        dPeJWItILfQmiLywnk5r0RpB29MSmR7TuVToqFeH6LGYprowuutNUlxwLIacvN78qsLChQ
+        hkNWADGSdS8x1EMo7pbSTbGoZOegmh8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-Js1_vogPMRiS5BUD58g9-w-1; Fri, 08 Oct 2021 12:22:25 -0400
+X-MC-Unique: Js1_vogPMRiS5BUD58g9-w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A2E9117D670;
+        Fri,  8 Oct 2021 16:21:59 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.192.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3985061140;
+        Fri,  8 Oct 2021 16:21:23 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: [PATCH 00/12] Add support for X86/ACPI camera sensor/PMIC setup with clk and regulator platform data
+Date:   Fri,  8 Oct 2021 18:21:09 +0200
+Message-Id: <20211008162121.6628-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 08 octobre 2021 à 18:04 +0800, Chen-Yu Tsai a écrit :
-> The mem-to-mem stateless decoder API specifies support for dynamic
-> resolution changes. In particular, the decoder should accept format
-> changes on the OUTPUT queue even when buffers have been allocated,
-> as long as it is not streaming.
+Hi All,
 
-As commented in the code, it also requires the CAPTURE side not to be busy, not
-sure if its worth clarifying, I don't really mind.
+This patch series is a rework/rewrite of Daniel Scally's earlier
+attempts at adding support for camera sensor connected to a
+TPS68470 PMIC on x86/ACPI devices.
 
-> 
-> Relax restrictions for S_FMT as described in the previous paragraph,
-> and as long as the codec format remains the same. This aligns it with
-> the Hantro and Cedrus decoders. This change was mostly based on commit
-> ae02d49493b5 ("media: hantro: Fix s_fmt for dynamic resolution changes").
-> 
-> Since rkvdec_s_fmt() is now just a wrapper around the output/capture
-> variants without any additional shared functionality, drop the wrapper
-> and call the respective functions directly.
-> 
-> Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+The clk and regulator frameworks expect clk/regulator consumer-devices
+to have info about the consumed clks/regulators described in the device's
+fw_node, but on ACPI this info is missing.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+This series worksaround this by providing platform_data with the info to
+the TPS68470 clk/regulator MFD cells.
 
-> ---
->  drivers/staging/media/rkvdec/rkvdec.c | 40 +++++++++++++--------------
->  1 file changed, 20 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index 7131156c1f2c..3f3f96488d74 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -280,31 +280,20 @@ static int rkvdec_try_output_fmt(struct file *file, void *priv,
->  	return 0;
->  }
->  
-> -static int rkvdec_s_fmt(struct file *file, void *priv,
-> -			struct v4l2_format *f,
-> -			int (*try_fmt)(struct file *, void *,
-> -				       struct v4l2_format *))
-> +static int rkvdec_s_capture_fmt(struct file *file, void *priv,
-> +				struct v4l2_format *f)
->  {
->  	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
->  	struct vb2_queue *vq;
-> +	int ret;
->  
-> -	if (!try_fmt)
-> -		return -EINVAL;
-> -
-> -	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
-> +	/* Change not allowed if queue is busy */
-> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-> +			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->  	if (vb2_is_busy(vq))
->  		return -EBUSY;
->  
-> -	return try_fmt(file, priv, f);
-> -}
-> -
-> -static int rkvdec_s_capture_fmt(struct file *file, void *priv,
-> -				struct v4l2_format *f)
-> -{
-> -	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
-> -	int ret;
-> -
-> -	ret = rkvdec_s_fmt(file, priv, f, rkvdec_try_capture_fmt);
-> +	ret = rkvdec_try_capture_fmt(file, priv, f);
->  	if (ret)
->  		return ret;
->  
-> @@ -319,9 +308,20 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
->  	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
->  	const struct rkvdec_coded_fmt_desc *desc;
->  	struct v4l2_format *cap_fmt;
-> -	struct vb2_queue *peer_vq;
-> +	struct vb2_queue *peer_vq, *vq;
->  	int ret;
->  
-> +	/*
-> +	 * In order to support dynamic resolution change, the decoder admits
-> +	 * a resolution change, as long as the pixelformat remains. Can't be
-> +	 * done if streaming.
-> +	 */
-> +	vq = v4l2_m2m_get_vq(m2m_ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-> +	if (vb2_is_streaming(vq) ||
-> +	    (vb2_is_busy(vq) &&
-> +	     f->fmt.pix_mp.pixelformat != ctx->coded_fmt.fmt.pix_mp.pixelformat))
-> +		return -EBUSY;
-> +
->  	/*
->  	 * Since format change on the OUTPUT queue will reset the CAPTURE
->  	 * queue, we can't allow doing so when the CAPTURE queue has buffers
-> @@ -331,7 +331,7 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
->  	if (vb2_is_busy(peer_vq))
->  		return -EBUSY;
->  
-> -	ret = rkvdec_s_fmt(file, priv, f, rkvdec_try_output_fmt);
-> +	ret = rkvdec_try_output_fmt(file, priv, f);
->  	if (ret)
->  		return ret;
->  
+Patches 1 - 3 deal with a probe-ordering problem this introduces, since the
+lookups are only registered when the provider-driver binds, trying to get
+these clks/regulators before then results in a -ENOENT error for clks and
+a dummy regulator for regulators. See the patches for more details.
 
+Patch 4 adds a header file which adds tps68470_clk_platform_data and
+tps68470_regulator_platform_data structs. The futher patches depend on
+this new header file.
+
+Patch 5 + 6 add the TPS68470 clk and regulator drivers
+
+Patches 7 - 12 Modify the INT3472 driver which instantiates the MFD cells to
+provide the necessary platform-data.
+
+Assuming this series is acceptable to everyone, we need to talk about how
+to merge this.
+
+Rafael, can you provide an immutable branch with
+"[PATCH 01/12] ACPI: Add has_unmet_acpi_deps() helper function"
+on there? Then the media subsys-maintaines can merge that and then
+merge patch 2 + 3 on top.
+
+For "[PATCH 04/12] platform_data: Add linux/platform_data/tps68470.h file",
+which all further patches depend on I plan to provide an immutable branch
+myself (once it has been reviewed), which the clk / regulator maintainers
+can then merge before merging the clk / regulator driver which depends on
+this.
+
+Regards,
+
+Hans
+
+
+Daniel Scally (1):
+  platform/x86: int3472: Enable I2c daisy chain
+
+Hans de Goede (11):
+  ACPI: Add has_unmet_acpi_deps() helper function
+  media: i2c: ov8865: Add an has_unmet_acpi_deps() check
+  media: i2c: ov5693: Add an has_unmet_acpi_deps() check
+  platform_data: Add linux/platform_data/tps68470.h file
+  regulator: Introduce tps68470-regulator driver
+  clk: Introduce clk-tps68470 driver
+  platform/x86: int3472: Split into 2 drivers
+  platform/x86: int3472: Add get_sensor_adev_and_name() helper
+  platform/x86: int3472: Pass tps68470_clk_platform_data to the
+    tps68470-regulator MFD-cell
+  platform/x86: int3472: Pass tps68470_regulator_platform_data to the
+    tps68470-regulator MFD-cell
+  platform/x86: int3472: Call acpi_dev_clear_dependencies() on
+    successful probe
+
+ drivers/clk/Kconfig                           |   6 +
+ drivers/clk/Makefile                          |   1 +
+ drivers/clk/clk-tps68470.c                    | 257 ++++++++++++++++++
+ drivers/media/i2c/ov5693.c                    |   3 +
+ drivers/media/i2c/ov8865.c                    |   3 +
+ drivers/platform/x86/intel/int3472/Makefile   |   9 +-
+ ...lk_and_regulator.c => clk_and_regulator.c} |   2 +-
+ drivers/platform/x86/intel/int3472/common.c   |  82 ++++++
+ .../{intel_skl_int3472_common.h => common.h}  |   6 +-
+ ...ntel_skl_int3472_discrete.c => discrete.c} |  51 ++--
+ .../intel/int3472/intel_skl_int3472_common.c  | 106 --------
+ ...ntel_skl_int3472_tps68470.c => tps68470.c} |  88 +++++-
+ drivers/platform/x86/intel/int3472/tps68470.h |  25 ++
+ .../x86/intel/int3472/tps68470_board_data.c   | 118 ++++++++
+ drivers/regulator/Kconfig                     |   9 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/tps68470-regulator.c        | 194 +++++++++++++
+ include/linux/acpi.h                          |  12 +
+ include/linux/mfd/tps68470.h                  |  11 +
+ include/linux/platform_data/tps68470.h        |  35 +++
+ 20 files changed, 873 insertions(+), 146 deletions(-)
+ create mode 100644 drivers/clk/clk-tps68470.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_clk_and_regulator.c => clk_and_regulator.c} (99%)
+ create mode 100644 drivers/platform/x86/intel/int3472/common.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_common.h => common.h} (94%)
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_discrete.c => discrete.c} (91%)
+ delete mode 100644 drivers/platform/x86/intel/int3472/intel_skl_int3472_common.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_tps68470.c => tps68470.c} (58%)
+ create mode 100644 drivers/platform/x86/intel/int3472/tps68470.h
+ create mode 100644 drivers/platform/x86/intel/int3472/tps68470_board_data.c
+ create mode 100644 drivers/regulator/tps68470-regulator.c
+ create mode 100644 include/linux/platform_data/tps68470.h
+
+-- 
+2.31.1
 
