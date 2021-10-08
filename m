@@ -2,164 +2,244 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54B22426761
-	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 12:06:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D5D44267A1
+	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 12:21:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239636AbhJHKII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Oct 2021 06:08:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43130 "EHLO
+        id S239812AbhJHKXV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Oct 2021 06:23:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239613AbhJHKIG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 06:08:06 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1EE4C061762
-        for <linux-media@vger.kernel.org>; Fri,  8 Oct 2021 03:06:11 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id e7so2652061pgk.2
-        for <linux-media@vger.kernel.org>; Fri, 08 Oct 2021 03:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0tE+OjKJHdX0YaSq/SP0LPgcFSSGhc57aktXdnN08Jk=;
-        b=gOYHix4WHmVCBUetpODWqRHCtKw2zkRnlOzILi/AukbRmbFzIF1A3ycyJH5Uic3j49
-         /kAhOSbW2sTpnedQcMvZ5FWgr/YAuVFNZuMd12Z5tSVWB+vGT1a5SazFy1uhjMuCZP4h
-         d37OVXxIsaoh1xvhKMJvG9b2iq4QG4qjX47Ec=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0tE+OjKJHdX0YaSq/SP0LPgcFSSGhc57aktXdnN08Jk=;
-        b=GAOcfWnQy7kNkPHmFRPukTWqGJ2h89piHRqAuMChrFscZaCkRGKreTwveY7mrYNOBX
-         HFiz2RBwjSGNbWq33iMBdQ7kQQ52vJNOlxmVyL9/aD4kNrB2SmWfEliR+OgpGrJnWGjY
-         AYovvBTSot0joayRtRLbDaSZ1kSWmshoQgL9pT0bhBKem9oHQenCAiWh+SSpKL7lPwfb
-         XptPM+Y3fxzwgxTJnCf/RaneSiyce30YKN4Q8Quj8cUID9i97/iXYrxvn/LXYdEcyw1N
-         7GacUeK2BwwkH6OywX/fYqVxF0vBEPEIuur5sACgYywqPiMMVpi2lKNOeY8VmUcQCl+L
-         gY+Q==
-X-Gm-Message-State: AOAM530VX8WtgCHFlGqg2iv9zePh+c2AiVRH+KIJJ3kqxF+/JGHej400
-        0R9pbVI35cLfL61kpFeBITilFA==
-X-Google-Smtp-Source: ABdhPJzc7HT14HLpHSLUpV1/gyAWAvzuj5fhMf9NUQpi8wdgeaB/B5vf3GAOwmoRaa36zy9hWqZPcA==
-X-Received: by 2002:a63:d34f:: with SMTP id u15mr3879802pgi.200.1633687571528;
-        Fri, 08 Oct 2021 03:06:11 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:ad8d:f936:2048:d735])
-        by smtp.gmail.com with ESMTPSA id a7sm2082255pfn.150.2021.10.08.03.06.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Oct 2021 03:06:11 -0700 (PDT)
-From:   Chen-Yu Tsai <wenst@chromium.org>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        stable@vger.kernel.org
-Subject: [PATCH 2/2] media: rkvdec: Support dynamic resolution changes
-Date:   Fri,  8 Oct 2021 18:04:23 +0800
-Message-Id: <20211008100423.739462-3-wenst@chromium.org>
-X-Mailer: git-send-email 2.33.0.882.g93a45727a2-goog
-In-Reply-To: <20211008100423.739462-1-wenst@chromium.org>
-References: <20211008100423.739462-1-wenst@chromium.org>
+        with ESMTP id S239811AbhJHKXU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 06:23:20 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C02EEC061570;
+        Fri,  8 Oct 2021 03:21:24 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 264021F4575D
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+To:     bjorn.andersson@linaro.org
+Cc:     agross@kernel.org, stanimir.varbanov@linaro.org,
+        mchehab@kernel.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        konrad.dybcio@somainline.org, marijn.suijten@somainline.org,
+        martin.botka@somainline.org, ~postmarketos/upstreaming@lists.sr.ht,
+        phone-devel@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 1/3] dt-bindings: media: venus: Add sdm660 dt schema
+Date:   Fri,  8 Oct 2021 12:21:17 +0200
+Message-Id: <20211008102119.268869-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The mem-to-mem stateless decoder API specifies support for dynamic
-resolution changes. In particular, the decoder should accept format
-changes on the OUTPUT queue even when buffers have been allocated,
-as long as it is not streaming.
+Add a schema description for the Venus video decoder/encoder IP
+in SDM660.
 
-Relax restrictions for S_FMT as described in the previous paragraph,
-and as long as the codec format remains the same. This aligns it with
-the Hantro and Cedrus decoders. This change was mostly based on commit
-ae02d49493b5 ("media: hantro: Fix s_fmt for dynamic resolution changes").
-
-Since rkvdec_s_fmt() is now just a wrapper around the output/capture
-variants without any additional shared functionality, drop the wrapper
-and call the respective functions directly.
-
-Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/staging/media/rkvdec/rkvdec.c | 40 +++++++++++++--------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+ .../bindings/media/qcom,sdm660-venus.yaml     | 186 ++++++++++++++++++
+ 1 file changed, 186 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm660-venus.yaml
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index 7131156c1f2c..3f3f96488d74 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -280,31 +280,20 @@ static int rkvdec_try_output_fmt(struct file *file, void *priv,
- 	return 0;
- }
- 
--static int rkvdec_s_fmt(struct file *file, void *priv,
--			struct v4l2_format *f,
--			int (*try_fmt)(struct file *, void *,
--				       struct v4l2_format *))
-+static int rkvdec_s_capture_fmt(struct file *file, void *priv,
-+				struct v4l2_format *f)
- {
- 	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
- 	struct vb2_queue *vq;
-+	int ret;
- 
--	if (!try_fmt)
--		return -EINVAL;
--
--	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
-+	/* Change not allowed if queue is busy */
-+	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-+			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
- 	if (vb2_is_busy(vq))
- 		return -EBUSY;
- 
--	return try_fmt(file, priv, f);
--}
--
--static int rkvdec_s_capture_fmt(struct file *file, void *priv,
--				struct v4l2_format *f)
--{
--	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
--	int ret;
--
--	ret = rkvdec_s_fmt(file, priv, f, rkvdec_try_capture_fmt);
-+	ret = rkvdec_try_capture_fmt(file, priv, f);
- 	if (ret)
- 		return ret;
- 
-@@ -319,9 +308,20 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
- 	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
- 	const struct rkvdec_coded_fmt_desc *desc;
- 	struct v4l2_format *cap_fmt;
--	struct vb2_queue *peer_vq;
-+	struct vb2_queue *peer_vq, *vq;
- 	int ret;
- 
-+	/*
-+	 * In order to support dynamic resolution change, the decoder admits
-+	 * a resolution change, as long as the pixelformat remains. Can't be
-+	 * done if streaming.
-+	 */
-+	vq = v4l2_m2m_get_vq(m2m_ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-+	if (vb2_is_streaming(vq) ||
-+	    (vb2_is_busy(vq) &&
-+	     f->fmt.pix_mp.pixelformat != ctx->coded_fmt.fmt.pix_mp.pixelformat))
-+		return -EBUSY;
+diff --git a/Documentation/devicetree/bindings/media/qcom,sdm660-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sdm660-venus.yaml
+new file mode 100644
+index 000000000000..33da7d3cfd38
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/qcom,sdm660-venus.yaml
+@@ -0,0 +1,186 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 +
- 	/*
- 	 * Since format change on the OUTPUT queue will reset the CAPTURE
- 	 * queue, we can't allow doing so when the CAPTURE queue has buffers
-@@ -331,7 +331,7 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
- 	if (vb2_is_busy(peer_vq))
- 		return -EBUSY;
- 
--	ret = rkvdec_s_fmt(file, priv, f, rkvdec_try_output_fmt);
-+	ret = rkvdec_try_output_fmt(file, priv, f);
- 	if (ret)
- 		return ret;
- 
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/media/qcom,sdm660-venus.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Qualcomm Venus video encode and decode accelerators
++
++maintainers:
++  - Stanimir Varbanov <stanimir.varbanov@linaro.org>
++  - AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
++
++description: |
++  The Venus IP is a video encode and decode accelerator present
++  on Qualcomm platforms
++
++properties:
++  compatible:
++    const: qcom,sdm660-venus
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 4
++
++  clock-names:
++    items:
++      - const: core
++      - const: iface
++      - const: bus
++      - const: bus_throttle
++
++  interconnects:
++    maxItems: 2
++
++  interconnect-names:
++    items:
++      - const: cpu-cfg
++      - const: video-mem
++
++  interrupts:
++    maxItems: 1
++
++  iommus:
++    maxItems: 20
++
++  memory-region:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  video-decoder:
++    type: object
++
++    properties:
++      compatible:
++        const: venus-decoder
++
++      clocks:
++        maxItems: 1
++
++      clock-names:
++        items:
++          - const: vcodec0_core
++
++      power-domains:
++        maxItems: 1
++
++    required:
++      - compatible
++      - clocks
++      - clock-names
++      - power-domains
++
++    additionalProperties: false
++
++  video-encoder:
++    type: object
++
++    properties:
++      compatible:
++        const: venus-encoder
++
++      clocks:
++        maxItems: 1
++
++      clock-names:
++        items:
++          - const: vcodec0_core
++
++      power-domains:
++        maxItems: 1
++
++    required:
++      - compatible
++      - clocks
++      - clock-names
++      - power-domains
++
++    additionalProperties: false
++
++  video-firmware:
++    type: object
++
++    description: |
++      Firmware subnode is needed when the platform does not
++      have TrustZone.
++
++    properties:
++      iommus:
++        maxItems: 1
++
++    required:
++      - iommus
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - iommus
++  - memory-region
++  - power-domains
++  - video-decoder
++  - video-encoder
++
++additionalProperties: false
++
++examples:
++  - |
++        #include <dt-bindings/clock/qcom,mmcc-sdm660.h>
++        #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++        video-codec@cc00000 {
++                compatible = "qcom,sdm660-venus";
++                reg = <0x0cc00000 0xff000>;
++                clocks = <&mmcc VIDEO_CORE_CLK>,
++                         <&mmcc VIDEO_AHB_CLK>,
++                         <&mmcc VIDEO_AXI_CLK>,
++                         <&mmcc THROTTLE_VIDEO_AXI_CLK>;
++                clock-names = "core", "iface", "bus", "bus_throttle";
++                interconnects = <&gnoc 0 &mnoc 13>,
++                                <&mnoc 4 &bimc 5>;
++                interconnect-names = "cpu-cfg", "video-mem";
++                interrupts = <GIC_SPI 287 IRQ_TYPE_LEVEL_HIGH>;
++                iommus = <&mmss_smmu 0x400>,
++                         <&mmss_smmu 0x401>,
++                         <&mmss_smmu 0x40a>,
++                         <&mmss_smmu 0x407>,
++                         <&mmss_smmu 0x40e>,
++                         <&mmss_smmu 0x40f>,
++                         <&mmss_smmu 0x408>,
++                         <&mmss_smmu 0x409>,
++                         <&mmss_smmu 0x40b>,
++                         <&mmss_smmu 0x40c>,
++                         <&mmss_smmu 0x40d>,
++                         <&mmss_smmu 0x410>,
++                         <&mmss_smmu 0x421>,
++                         <&mmss_smmu 0x428>,
++                         <&mmss_smmu 0x429>,
++                         <&mmss_smmu 0x42b>,
++                         <&mmss_smmu 0x42c>,
++                         <&mmss_smmu 0x42d>,
++                         <&mmss_smmu 0x411>,
++                         <&mmss_smmu 0x431>;
++                memory-region = <&venus_region>;
++                power-domains = <&mmcc VENUS_GDSC>;
++
++                video-decoder {
++                        compatible = "venus-decoder";
++                        clocks = <&mmcc VIDEO_SUBCORE0_CLK>;
++                        clock-names = "vcodec0_core";
++                        power-domains = <&mmcc VENUS_CORE0_GDSC>;
++                };
++
++                video-encoder {
++                        compatible = "venus-encoder";
++                        clocks = <&mmcc VIDEO_SUBCORE0_CLK>;
++                        clock-names = "vcodec0_core";
++                        power-domains = <&mmcc VENUS_CORE0_GDSC>;
++                };
++        };
 -- 
-2.33.0.882.g93a45727a2-goog
+2.33.0
 
