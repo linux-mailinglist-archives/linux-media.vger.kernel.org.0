@@ -2,148 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66A65426B7D
-	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 15:11:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCD06426C2E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 15:57:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241603AbhJHNMz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Oct 2021 09:12:55 -0400
-Received: from phobos.denx.de ([85.214.62.61]:39628 "EHLO phobos.denx.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230243AbhJHNMy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Oct 2021 09:12:54 -0400
-Received: from localhost.localdomain (unknown [IPv6:2804:14c:485:504a:c805:3148:c0be:5fdf])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: festevam@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id A3CBF83572;
-        Fri,  8 Oct 2021 15:10:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1633698658;
-        bh=Ose9C+If+jeKapsyJAtnoR9PIwQsKytKGJI3b8IscwE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hfTNS+14/8i/c+f89aiD3XXDD77jKgkRTmrHBS5hhUmw2/yctrQkhWrqMHSFLChGF
-         FbUaRtaDNYfUxATlrXF4iaGHthudkpxOGpBrFmDShzIMR15JoiqYnrHnSmRZGboWwh
-         4+uFUhwug46Qzg5xaoXk6oyxOulRGiL+slQyZGMwitOO8pKEAhFdl0czNesQ/boLfG
-         XaK8ybbKmxJ3KvJ47Yk8PQvLeUYsvFTcrQCLd/1ztV2mp4FFPesaperYVzfBQspMzF
-         X/YnpU5P8TfWp4QFPFozQg32QjbSdrZgsdMBsTLEglxkBJ8GV9bXmKIB2w7r8bl1XP
-         ZAK2JbSB07hyQ==
-From:   Fabio Estevam <festevam@denx.de>
-To:     p.zabel@pengutronix.de
-Cc:     hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        Fabio Estevam <festevam@denx.de>
-Subject: [PATCH v4 2/2] media: imx-pxp: Add rotation support
-Date:   Fri,  8 Oct 2021 10:10:15 -0300
-Message-Id: <20211008131015.3303915-2-festevam@denx.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211008131015.3303915-1-festevam@denx.de>
-References: <20211008131015.3303915-1-festevam@denx.de>
+        id S234018AbhJHN7p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Oct 2021 09:59:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39636 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229529AbhJHN7o (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 09:59:44 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 790B5C061570;
+        Fri,  8 Oct 2021 06:57:49 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E506581;
+        Fri,  8 Oct 2021 15:57:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1633701467;
+        bh=rrj5/OHbxLCwvJLUfefaA4aV2n9ZiuZogKvLc2ZlskU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lDr+P/H+qzXpb621M3VAoo5Ufz7gBVIHJxiUUxZr7zYwHIwPidevXqUpoYSUbnKCF
+         9qNgcyBZK1/O9ogvSqsotvpMD6YL+B5URZcgCkQsx9ppQJ+Dni7y4A9fvR+WK+o6Oh
+         u4zh2GhdaV2Hx977r1j5ApCytqOR7y0OCkmbRRJs=
+Date:   Fri, 8 Oct 2021 16:57:36 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Colin King <colin.king@canonical.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] media: uvcvideo: Fix memory leak of object map on
+ error exit path
+Message-ID: <YWBOUP98s0K3yVbc@pendragon.ideasonboard.com>
+References: <20210917114930.47261-1-colin.king@canonical.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210917114930.47261-1-colin.king@canonical.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-PXP allows clockwise rotation of 0°, 90°, 180° and 270°.
+Hi Colin,
 
-Add support for it.
+Thank you for the patch.
 
-Tested on a imx6ull-evk.
+On Fri, Sep 17, 2021 at 12:49:30PM +0100, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
+> 
+> Currently when the allocation of map->name fails the error exit path
+> does not kfree the previously allocated object map. Fix this by
+> setting ret to -ENOMEM and taking the free_map exit error path to
+> ensure map is kfree'd.
+> 
+> Addresses-Coverity: ("Resource leak")
+> Fixes: 07adedb5c606 ("media: uvcvideo: Use control names from framework")
 
-For example, to rotate 90° the following Gstreamer pipeline can
-be used:
+That's not the right commit ID, it should be 70fa906d6fce.
 
-gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480 ! \
-v4l2convert extra-controls=cid,rotate=90  ! \
-video/x-raw,width=120,height=160 ! fbdevsink
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
-Changes since v3:
-- Use existing definitions for the rotation modes (Philipp)
-- Combine the 0 and default cases (Philipp)
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
- drivers/media/platform/imx-pxp.c | 31 +++++++++++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
+Mauro, could you add this in your tree for v5.16 ?
 
-diff --git a/drivers/media/platform/imx-pxp.c b/drivers/media/platform/imx-pxp.c
-index b7174778db53..689ae5e6ac62 100644
---- a/drivers/media/platform/imx-pxp.c
-+++ b/drivers/media/platform/imx-pxp.c
-@@ -211,6 +211,7 @@ struct pxp_ctx {
- 	/* Processing mode */
- 	int			mode;
- 	u8			alpha_component;
-+	u8			rotation;
- 
- 	enum v4l2_colorspace	colorspace;
- 	enum v4l2_xfer_func	xfer_func;
-@@ -767,14 +768,20 @@ static int pxp_start(struct pxp_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
- 		 V4L2_BUF_FLAG_BFRAME |
- 		 V4L2_BUF_FLAG_TSTAMP_SRC_MASK);
- 
--	/* Rotation disabled, 8x8 block size */
-+	/* 8x8 block size */
- 	ctrl = BF_PXP_CTRL_VFLIP0(!!(ctx->mode & MEM2MEM_VFLIP)) |
--	       BF_PXP_CTRL_HFLIP0(!!(ctx->mode & MEM2MEM_HFLIP));
-+	       BF_PXP_CTRL_HFLIP0(!!(ctx->mode & MEM2MEM_HFLIP)) |
-+	       BF_PXP_CTRL_ROTATE0(ctx->rotation);
- 	/* Always write alpha value as V4L2_CID_ALPHA_COMPONENT */
- 	out_ctrl = BF_PXP_OUT_CTRL_ALPHA(ctx->alpha_component) |
- 		   BF_PXP_OUT_CTRL_ALPHA_OUTPUT(1) |
- 		   pxp_v4l2_pix_fmt_to_out_format(dst_fourcc);
- 	out_buf = p_out;
-+
-+	if (ctx->rotation == BV_PXP_CTRL_ROTATE0__ROT_90 ||
-+	    ctx->rotation == BV_PXP_CTRL_ROTATE0__ROT_270)
-+		swap(dst_width, dst_height);
-+
- 	switch (dst_fourcc) {
- 	case V4L2_PIX_FMT_NV12:
- 	case V4L2_PIX_FMT_NV21:
-@@ -1297,6 +1304,21 @@ static int pxp_s_fmt_vid_out(struct file *file, void *priv,
- 	return 0;
- }
- 
-+static u8 pxp_degrees_to_rot_mode(u32 degrees)
-+{
-+	switch (degrees) {
-+	case 90:
-+		return BV_PXP_CTRL_ROTATE0__ROT_90;
-+	case 180:
-+		return BV_PXP_CTRL_ROTATE0__ROT_180;
-+	case 270:
-+		return BV_PXP_CTRL_ROTATE0__ROT_270;
-+	case 0:
-+	default:
-+		return BV_PXP_CTRL_ROTATE0__ROT_0;
-+	}
-+}
-+
- static int pxp_s_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct pxp_ctx *ctx =
-@@ -1317,6 +1339,10 @@ static int pxp_s_ctrl(struct v4l2_ctrl *ctrl)
- 			ctx->mode &= ~MEM2MEM_VFLIP;
- 		break;
- 
-+	case V4L2_CID_ROTATE:
-+		ctx->rotation = pxp_degrees_to_rot_mode(ctrl->val);
-+		break;
-+
- 	case V4L2_CID_ALPHA_COMPONENT:
- 		ctx->alpha_component = ctrl->val;
- 		break;
-@@ -1524,6 +1550,7 @@ static int pxp_open(struct file *file)
- 	v4l2_ctrl_handler_init(hdl, 4);
- 	v4l2_ctrl_new_std(hdl, &pxp_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
- 	v4l2_ctrl_new_std(hdl, &pxp_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
-+	v4l2_ctrl_new_std(hdl, &pxp_ctrl_ops, V4L2_CID_ROTATE, 0, 270, 90, 0);
- 	v4l2_ctrl_new_std(hdl, &pxp_ctrl_ops, V4L2_CID_ALPHA_COMPONENT,
- 			  0, 255, 1, 255);
- 	if (hdl->error) {
+> ---
+>  drivers/media/usb/uvc/uvc_v4l2.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index f4e4aff8ddf7..711556d13d03 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -44,8 +44,10 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
+>  	if (v4l2_ctrl_get_name(map->id) == NULL) {
+>  		map->name = kmemdup(xmap->name, sizeof(xmap->name),
+>  				    GFP_KERNEL);
+> -		if (!map->name)
+> -			return -ENOMEM;
+> +		if (!map->name) {
+> +			ret = -ENOMEM;
+> +			goto free_map;
+> +		}
+>  	}
+>  	memcpy(map->entity, xmap->entity, sizeof(map->entity));
+>  	map->selector = xmap->selector;
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
