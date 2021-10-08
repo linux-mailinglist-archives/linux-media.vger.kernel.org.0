@@ -2,158 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9EBD42711A
-	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 20:58:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D60C34273FF
+	for <lists+linux-media@lfdr.de>; Sat,  9 Oct 2021 01:05:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240575AbhJHTAT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Oct 2021 15:00:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52956 "EHLO
+        id S243722AbhJHXHU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Oct 2021 19:07:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231312AbhJHTAS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 15:00:18 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E948C061570;
-        Fri,  8 Oct 2021 11:58:22 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D9296146F;
-        Fri,  8 Oct 2021 20:58:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1633719498;
-        bh=MHBiXZNJbPeFPmG29rwaw6VIy+Lb+40kRf3KLozS164=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ve3QkZ0wRysKeFMaDqFGb7JwEWPU6UDRYkfd9QJlUR3hVcOODY0lniKciKC/SfJwP
-         TxFtjnKge5JGGkfFnZsYFg5BuHVHCB9uPDurNaNq//dm/2yAasRcvXOHPSDVgxxDJs
-         z6rvYPs6sxCeKyCqmJz9lhhn0AE6ZTAAKlFlINGY=
-Date:   Fri, 8 Oct 2021 21:58:07 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH 02/12] media: i2c: ov8865: Add an has_unmet_acpi_deps()
- check
-Message-ID: <YWCUv+gEnfWnpRS6@pendragon.ideasonboard.com>
-References: <20211008162121.6628-1-hdegoede@redhat.com>
- <20211008162121.6628-3-hdegoede@redhat.com>
- <YWCQ6/AMzP5Nfcyk@pendragon.ideasonboard.com>
- <39a85265-017e-f86d-619b-c1aa6a771a26@redhat.com>
+        with ESMTP id S231876AbhJHXHU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 19:07:20 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39268C061570
+        for <linux-media@vger.kernel.org>; Fri,  8 Oct 2021 16:05:24 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id m22so34182074wrb.0
+        for <linux-media@vger.kernel.org>; Fri, 08 Oct 2021 16:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CMcvnYaJsbEtFQxn60DrbdQiZqQMu32jlZ3MJoK8nCY=;
+        b=N2f6YT0NgOCaxBpqxU+V2c1zhFAjEubyH3JM5IBIsmv8yeAjsq9FzBaEoPSYKcUlBO
+         vW8cSJjxfMcEA4DHMlIHyBPvR7daDAl27o9nBz4yQ/SdtL5a7+tQ2mzs4iJyFTfweKnE
+         xhtm/5+xcbvORMpamLsoaMeJBMv1sW/67UzjYvHeflrJTLt4J/Ny3wZHGNNHEv48pdi6
+         oxee9DSSH53XzD4jDwweJX3cdeLOs8aL4dxOhzl4kGU2PKF6xpXJZQV20OPcn6nZKl8x
+         hpTfLw44vqZsDrfw+ZctKOD+ehyI81d8H0skEzwE3TYVCVIycaJpQW95hBPVDlq0C6bc
+         d/NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CMcvnYaJsbEtFQxn60DrbdQiZqQMu32jlZ3MJoK8nCY=;
+        b=5mTWMGPnAYKxcvCdL6FGzn96cmfwwx/6frRExJ6suYhqQ2auoE2CwtQuksfIKRy8ks
+         X6wyyThHFBGhxmR024l7mjMa8uLEAWwHhbK6RfyNvVzOQHLrE5zsEyBhNhVyhRCGI9Bp
+         JB5eBR5/zgdfo4Grv4V1WHF19BafJ0wy5LD80inJ2lFhjun+t5/AzhdMRn/yMJCGUkrs
+         C478YTUwgeLZsJ5hnVE4z6QyLge6o7Ib/6pHuqDezapw0lm5yKgynWLu1qnuclrGVNGU
+         FPEKf0I3p55d0li7vL2ZG1vCN+7KeRufJetIY76c9gCE7i/OpqTAj9/irhvsn89qaMVB
+         mpoQ==
+X-Gm-Message-State: AOAM530hL7gfECndcRv1Jxmp1xkKrw1FC/im6YWZYCj8ZY8v3M/I8NyK
+        jE2kjkCqebD3kKreZayRgzbqUKV7LSM=
+X-Google-Smtp-Source: ABdhPJwCahW5NNNVOsGjLIX8mQzrfCnQeEdLiZ49mItbSkMTg88ZyvG85iL0GEVUBlAQpa7LUcM41g==
+X-Received: by 2002:a5d:47ad:: with SMTP id 13mr7777686wrb.77.1633734322862;
+        Fri, 08 Oct 2021 16:05:22 -0700 (PDT)
+Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id y11sm679267wrg.18.2021.10.08.16.05.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Oct 2021 16:05:22 -0700 (PDT)
+From:   Daniel Scally <djrscally@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        jeanmichel.hautbois@ideasonboard.com,
+        kieran.bingham@ideasonboard.com
+Subject: [PATCH v4 0/3] Add support for OV5693 Sensor
+Date:   Sat,  9 Oct 2021 00:05:12 +0100
+Message-Id: <20211008230515.417451-1-djrscally@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <39a85265-017e-f86d-619b-c1aa6a771a26@redhat.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hello all
 
-On Fri, Oct 08, 2021 at 08:48:18PM +0200, Hans de Goede wrote:
-> On 10/8/21 8:41 PM, Laurent Pinchart wrote:
-> > On Fri, Oct 08, 2021 at 06:21:11PM +0200, Hans de Goede wrote:
-> >> The clk and regulator frameworks expect clk/regulator consumer-devices
-> >> to have info about the consumed clks/regulators described in the device's
-> >> fw_node.
-> >>
-> >> To work around cases where this info is not present in the firmware tables,
-> >> which is often the case on x86/ACPI devices, both frameworks allow the
-> >> provider-driver to attach info about consumers to the clks/regulators
-> >> when registering these.
-> >>
-> >> This causes problems with the probe ordering of the ov8865 driver vs the
-> >> drivers for these clks/regulators. Since the lookups are only registered
-> >> when the provider-driver binds, trying to get these clks/regulators before
-> >> then results in a -ENOENT error for clks and a dummy regulator for regs.
-> >>
-> >> On ACPI/x86 where this is a problem, the ov8865 ACPI fw-nodes have a _DEP
-> >> dependency on the INT3472 ACPI fw-node which describes the hardware which
-> >> provides the clks/regulators.
-> >>
-> >> The drivers/platform/x86/intel/int3472/ code dealing with these ACPI
-> >> fw-nodes will call acpi_dev_clear_dependencies() to indicate that this
-> >> _DEP has been "met" when all the clks/regulators have been setup.
-> >>
-> >> Call the has_unmet_acpi_deps() helper to check for unmet _DEPs
-> >> and return -EPROBE_DEFER if this returns true, so that we wait for
-> >> the clk/regulator setup to be done before continuing with probing.
-> >>
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >> ---
-> >>  drivers/media/i2c/ov8865.c | 3 +++
-> >>  1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-> >> index ce4e0ae2c4d3..fd18d1256f78 100644
-> >> --- a/drivers/media/i2c/ov8865.c
-> >> +++ b/drivers/media/i2c/ov8865.c
-> >> @@ -2978,6 +2978,9 @@ static int ov8865_probe(struct i2c_client *client)
-> >>  	unsigned int i;
-> >>  	int ret;
-> >>  
-> >> +	if (has_unmet_acpi_deps(dev))
-> >> +		return -EPROBE_DEFER;
-> >> +
-> > 
-> > We've worked hard to avoid adding ACPI-specific code such as this in
-> > sensor drivers, as it would then spread like crazy, and also open the
-> > door to more ACPI-specific support. I don't want to open this pandora's
-> > box, I'd like to see this handled in another layer (the I2C core could
-> > be a condidate for instance, but bonus points if it can be handled in
-> > the ACPI subsystem itself).
-> 
-> The problem is that we do NOT want this check for all i2c devices,
+This series adds support for the OV5693 sensor found as the front camera in
+many Microsoft Surface devices, along with a number of similar style laptops.
+It is a heavily adapted derivative of the atomisp-ov5693 driver in staging,
+which retains most of the global register settings and some of the other
+functions from that driver, but otherwise uses the "normal" v4l2
+infrastructure.
 
-Any of these sensors can be used on non-ACPI-based platforms, or on
-ACPI-based platforms where integration has been done right. If it causes
-an issue to call this function on those platforms, then this driver
-won't work. If it causes no issue, why can't we call it in the I2C core
-(or somewhere else) ?
+As we're targeting libcamera, all mandatory, recommended and optional controls
+for that library (at least, at time of writing) are supported.
 
-> so doing
-> it in any place other then the drivers means having some list of APCI-ids
-> to which to apply this someplace else. And then for every sensor driver
-> which needs this we need to update this list.
-> 
-> This is wht I've chosen to just put this check directly in the sensor
-> drivers. It is only 2 lines, it is a no-op on kernels where ACPI
-> is not enabled (without need a #ifdef) and it is a no-op if the
-> sensor i2c-client is not instantiated through APCI even when ACPI
-> support is enabled in the kernel.
-> 
-> I understand that you don't want a lot of ACPI specific code inside
-> the drivers, which is why I've come up with this fix which consists
-> of only 2 lines.  My previous attempts (which I never posted)
-> where much worse then this.
+Series changes: a new patch adding the link frequency for this driver to the
+cio2-bridge supported-sensors table so it'll be added as a property against
+the sensor's firmware.
 
-So we only need to take one more step to remove just two lines :-)
+Daniel Scally (3):
+  media: ipu3-cio2: Toggle sensor streaming in pm runtime ops
+  media: ipu3-cio2: Add link freq for INT33BE entry
+  media: i2c: Add support for ov5693 sensor
 
-This is all caused by Intel messing up their ACPI design badly. It's too
-late to point and shame, it won't fix the problem, but I don't want this
-to spread through drivers, neither for just those two lines (there are
-dozens of sensors that would need the same treatment), nor for what the
-next steps would be when someone else will want to add ACPI-specific
-code and use this as a precedent. That's why we tried hard with Dan
-Scally to isolate all the necessary quirks in a single place instead of
-spreading them through drivers, which would have been easier to
-implement.
-
-I'd like to hear what Sakari thinks about this.
-
-> >>  	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
-> >>  	if (!sensor)
-> >>  		return -ENOMEM;
+ MAINTAINERS                                   |    7 +
+ drivers/media/i2c/Kconfig                     |   11 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/ov5693.c                    | 1532 +++++++++++++++++
+ drivers/media/pci/intel/ipu3/cio2-bridge.c    |    2 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |   15 +-
+ 6 files changed, 1566 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/media/i2c/ov5693.c
 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
