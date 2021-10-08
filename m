@@ -2,70 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B3F0426265
-	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 04:18:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72D414263E1
+	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 06:43:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235560AbhJHCUf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Oct 2021 22:20:35 -0400
-Received: from helcar.hmeau.com ([216.24.177.18]:55904 "EHLO deadmen.hmeau.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233656AbhJHCUe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Oct 2021 22:20:34 -0400
-Received: from gondobar.mordor.me.apana.org.au ([192.168.128.4] helo=gondobar)
-        by deadmen.hmeau.com with esmtp (Exim 4.92 #5 (Debian))
-        id 1mYfT0-0002Vk-4Y; Fri, 08 Oct 2021 10:18:34 +0800
-Received: from herbert by gondobar with local (Exim 4.92)
-        (envelope-from <herbert@gondor.apana.org.au>)
-        id 1mYfSr-0006Zi-Mn; Fri, 08 Oct 2021 10:18:25 +0800
-Date:   Fri, 8 Oct 2021 10:18:25 +0800
-From:   Herbert Xu <herbert@gondor.apana.org.au>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Waiman Long <longman@redhat.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Graf <tgraf@suug.ch>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2 3/4] lib/rhashtable: Replace kernel.h with the
- necessary inclusions
-Message-ID: <20211008021825.GA25242@gondor.apana.org.au>
-References: <20211007095129.22037-1-andriy.shevchenko@linux.intel.com>
- <20211007095129.22037-4-andriy.shevchenko@linux.intel.com>
- <20211007112328.GA19281@gondor.apana.org.au>
- <YV7dqcCbxaeBcELY@smile.fi.intel.com>
+        id S230080AbhJHEpd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Oct 2021 00:45:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55022 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229501AbhJHEpc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 00:45:32 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CBDAC061570;
+        Thu,  7 Oct 2021 21:43:37 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id t63so3561334qkf.1;
+        Thu, 07 Oct 2021 21:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Gw7wgCaTvKYfMbMV5PxHZoE3kvEBXYtxmjTRmjNu3yU=;
+        b=Z/L+yZ5MrjWEkKwsTluewvUnMYn1psbS+3h1jYz5KDe5q+emwrnH5WqoC6/flz4U57
+         raR168czq8D1ADzDZ5FjPapHJcO4OPq3Pk9WYTpA4jsP8sLqtpzxOIo4N71qkW61LtLc
+         H54bnTcrokGgQpOqfPhM6cj2PmiWdv5mGJ/8k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Gw7wgCaTvKYfMbMV5PxHZoE3kvEBXYtxmjTRmjNu3yU=;
+        b=NDX7/uNJ/y3MAskpTubON+cx43bt8OoN3MBy08ap/Vj1YhqMCWSLBZryBUGT6utiaV
+         HOZDFiDdItu3QqdHQAm75JOZY1qQExxDqCgzjMXgJoahT4L8/mkbqEbDZl1emdF0pV8n
+         I8hcXnUOJOovGyC9Yo0zMzIkVexWbb0ETtAAZeVWPdX5q0Ry3KBcJGwE8vg+oJ0MacVH
+         wLf44l4XZlUCQ2FirFfSSUi8isTJuX4t9IQOmB92QZAv2WBNettM29GIPELURoF/JSIS
+         AOwPH/QEzrWhDI66520uEtE1Vq/6a+mTSnxyehHapt62Q0BcWDcEp4xgypjLnpQEf9CJ
+         HGqA==
+X-Gm-Message-State: AOAM531Ie990H4ZfH4HVK/F+cUYOG+ZgbU+WvxXguCk+znC/UXEELOE7
+        RnIzt3wLVMwaUZxnYepZsvlOMmRF9ZZFS+xWGJM=
+X-Google-Smtp-Source: ABdhPJyMiuGznZhJ+Kw46FLW26WDpsOFcbXLbn863aS0Ef7/II4nBu4wAPfJG+qTVxqTQSL0dCOJxsMUJyRRkyrdGy8=
+X-Received: by 2002:a05:620a:5fd:: with SMTP id z29mr1130132qkg.36.1633668216260;
+ Thu, 07 Oct 2021 21:43:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YV7dqcCbxaeBcELY@smile.fi.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210617220229.7352-1-zev@bewilderbeest.net> <46edf81d60a38747f7d2511f840253a1c6867652.camel@linux.ibm.com>
+ <HK0PR06MB338081E134AA6F43ECBCBA4DF2D29@HK0PR06MB3380.apcprd06.prod.outlook.com>
+ <CACPK8XfE6zB9BWYq7e8WbXkPFp2Cicwv2x2dc8h6jNaR2qZV0g@mail.gmail.com> <YVNlfwLUDNxtp0fs@hatter.bewilderbeest.net>
+In-Reply-To: <YVNlfwLUDNxtp0fs@hatter.bewilderbeest.net>
+From:   Joel Stanley <joel@jms.id.au>
+Date:   Fri, 8 Oct 2021 04:43:24 +0000
+Message-ID: <CACPK8Xfowe6k8KOucveUd-O3vMC4n7qyF8uoowcpWj-Sugqhbw@mail.gmail.com>
+Subject: Re: [PATCH v3] media: aspeed-video: ignore interrupts that aren't enabled
+To:     Zev Weiss <zev@bewilderbeest.net>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Eddie James <eajames@linux.ibm.com>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Ryan Chen <ryan_chen@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 07, 2021 at 02:44:41PM +0300, Andy Shevchenko wrote:
+Hi Greg,
+
+On Tue, 28 Sept 2021 at 18:57, Zev Weiss <zev@bewilderbeest.net> wrote:
 >
-> Crap is in the kernel.h. Could you elaborate how making a proper list
-> of the inclusions is a crap?
+> On Mon, Sep 06, 2021 at 04:47:14AM PDT, Joel Stanley wrote:
+> >Hi Mauro,
+> >
+> >On Mon, 6 Sept 2021 at 10:10, Ryan Chen <ryan_chen@aspeedtech.com> wrote:
+> >> > Subject: Re: [PATCH v3] media: aspeed-video: ignore interrupts that aren't
+> >> > enabled
+> >> >
+> >> > On Thu, 2021-06-17 at 17:02 -0500, Zev Weiss wrote:
+> >> > > As partially addressed in commit 65d270acb2d6 ("media: aspeed: clear
+> >> > > garbage interrupts"), the ASpeed video engine sometimes asserts
+> >> > > interrupts that the driver hasn't enabled.  In addition to the
+> >> > > CAPTURE_COMPLETE and FRAME_COMPLETE interrupts dealt with in that
+> >> > > patch, COMP_READY has also been observed.  Instead of playing
+> >> > > whack-a-mole with each one individually, we can instead just blanket
+> >> > > ignore everything we haven't explicitly enabled.
+> >> >
+> >> > Suspect this will fix an intermittent problem on AST2500 with screensaver.
+> >> > Change looks good, thanks!
+> >> >
+> >> > Reviewed-by: Eddie James <eajames@linux.ibm.com>
+> >> >
+> >> Reviewed-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> >> > >
+> >> > > Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+> >
+> >I notice this wasn't merged in the pull request you sent for v5.15.
+> >Would you be able to ensure it makes it in the next pull request you
+> >send?
+> >
+> >It can have some fixes tags too:
+> >
+> >Fixes: 65d270acb2d6 ("media: aspeed: clear garbage interrupts")
+> >Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
+> >Acked-by: Joel Stanley <joel@jms.id.au>
+> >
+> >Cheers,
+> >
+> >Joel
+> >
+>
+> Also not in the recent merge of the media/v5.15-2 tag it looks like -- ping?
 
-Unless you're planning on not including all those header files from
-kernel.h, then adding them all to an end node like rhashtable.c is
-just a waste of time.
+We're struggling to get a hold of the media maintainers to merge this
+fix. Have you heard from them recently?
 
-You should be targetting other header files and not c files.
+Cheers,
 
-Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Joel
