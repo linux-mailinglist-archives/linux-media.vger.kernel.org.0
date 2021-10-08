@@ -2,94 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DCD06426C2E
-	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 15:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3D02426CA4
+	for <lists+linux-media@lfdr.de>; Fri,  8 Oct 2021 16:17:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234018AbhJHN7p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Oct 2021 09:59:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39636 "EHLO
+        id S231276AbhJHOTp convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 8 Oct 2021 10:19:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbhJHN7o (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 09:59:44 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 790B5C061570;
-        Fri,  8 Oct 2021 06:57:49 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E506581;
-        Fri,  8 Oct 2021 15:57:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1633701467;
-        bh=rrj5/OHbxLCwvJLUfefaA4aV2n9ZiuZogKvLc2ZlskU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lDr+P/H+qzXpb621M3VAoo5Ufz7gBVIHJxiUUxZr7zYwHIwPidevXqUpoYSUbnKCF
-         9qNgcyBZK1/O9ogvSqsotvpMD6YL+B5URZcgCkQsx9ppQJ+Dni7y4A9fvR+WK+o6Oh
-         u4zh2GhdaV2Hx977r1j5ApCytqOR7y0OCkmbRRJs=
-Date:   Fri, 8 Oct 2021 16:57:36 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Colin King <colin.king@canonical.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] media: uvcvideo: Fix memory leak of object map on
- error exit path
-Message-ID: <YWBOUP98s0K3yVbc@pendragon.ideasonboard.com>
-References: <20210917114930.47261-1-colin.king@canonical.com>
+        with ESMTP id S236679AbhJHOTo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 10:19:44 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D5A4C061570
+        for <linux-media@vger.kernel.org>; Fri,  8 Oct 2021 07:17:48 -0700 (PDT)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1mYqh0-0002BR-9A; Fri, 08 Oct 2021 16:17:46 +0200
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1mYqgz-0004y6-M0; Fri, 08 Oct 2021 16:17:45 +0200
+Message-ID: <0f777e71e47bc64b193f7840ff86ddf9799f3b11.camel@pengutronix.de>
+Subject: Re: [PATCH v4 2/2] media: imx-pxp: Add rotation support
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Fabio Estevam <festevam@denx.de>
+Cc:     hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org
+Date:   Fri, 08 Oct 2021 16:17:45 +0200
+In-Reply-To: <20211008131015.3303915-2-festevam@denx.de>
+References: <20211008131015.3303915-1-festevam@denx.de>
+         <20211008131015.3303915-2-festevam@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210917114930.47261-1-colin.king@canonical.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Colin,
-
-Thank you for the patch.
-
-On Fri, Sep 17, 2021 at 12:49:30PM +0100, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
+On Fri, 2021-10-08 at 10:10 -0300, Fabio Estevam wrote:
+> PXP allows clockwise rotation of 0°, 90°, 180° and 270°.
 > 
-> Currently when the allocation of map->name fails the error exit path
-> does not kfree the previously allocated object map. Fix this by
-> setting ret to -ENOMEM and taking the free_map exit error path to
-> ensure map is kfree'd.
+> Add support for it.
 > 
-> Addresses-Coverity: ("Resource leak")
-> Fixes: 07adedb5c606 ("media: uvcvideo: Use control names from framework")
-
-That's not the right commit ID, it should be 70fa906d6fce.
-
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Mauro, could you add this in your tree for v5.16 ?
-
-> ---
->  drivers/media/usb/uvc/uvc_v4l2.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> Tested on a imx6ull-evk.
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index f4e4aff8ddf7..711556d13d03 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -44,8 +44,10 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
->  	if (v4l2_ctrl_get_name(map->id) == NULL) {
->  		map->name = kmemdup(xmap->name, sizeof(xmap->name),
->  				    GFP_KERNEL);
-> -		if (!map->name)
-> -			return -ENOMEM;
-> +		if (!map->name) {
-> +			ret = -ENOMEM;
-> +			goto free_map;
-> +		}
->  	}
->  	memcpy(map->entity, xmap->entity, sizeof(map->entity));
->  	map->selector = xmap->selector;
+> For example, to rotate 90° the following Gstreamer pipeline can
+> be used:
+> 
+> gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480 ! \
+> v4l2convert extra-controls=cid,rotate=90  ! \
+> video/x-raw,width=120,height=160 ! fbdevsink
+> 
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
 
--- 
-Regards,
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-Laurent Pinchart
+regards
+Philipp
