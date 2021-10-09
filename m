@@ -2,231 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE98142770E
-	for <lists+linux-media@lfdr.de>; Sat,  9 Oct 2021 06:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EF63427763
+	for <lists+linux-media@lfdr.de>; Sat,  9 Oct 2021 06:41:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229528AbhJIEEg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Oct 2021 00:04:36 -0400
-Received: from mga06.intel.com ([134.134.136.31]:53430 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229441AbhJIEEf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 9 Oct 2021 00:04:35 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="287513283"
-X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; 
-   d="scan'208";a="287513283"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 21:02:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; 
-   d="scan'208";a="590748556"
-Received: from lkp-server02.sh.intel.com (HELO 1950922c5479) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 08 Oct 2021 21:02:38 -0700
-Received: from kbuild by 1950922c5479 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mZ3ZF-00016b-Rv; Sat, 09 Oct 2021 04:02:37 +0000
-Date:   Sat, 09 Oct 2021 12:02:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-next] BUILD SUCCESS
- b93a34cf0f89dd7009b1e3b11454906468057b68
-Message-ID: <61611445.wyEJrKE4o8OnblZn%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S231773AbhJIEnE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Oct 2021 00:43:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42788 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229596AbhJIEnC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Oct 2021 00:43:02 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D055C061570;
+        Fri,  8 Oct 2021 21:41:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=dWH4qjA33whTZ4Wx/aYp4ATOSdmZkILXTl4W7Gnaxqs=; b=ODVrCEaLmds1oXMb8Y0/8CUvJB
+        DP1ABypOnb7u12aFdm96y7XFc9PVP1ZLhOr69VgJSgrX6DdNI7YyZlsIDz+9kg1w8dkGeGoYPZvB6
+        fBq72ccby3bMY0gjr7jYzszuoZyQfMMtQbhbmVZ6Gd/jcfl6C+HQOfQEBgSg0/DL3dAHThzNjaZd0
+        l5KgXLL8jmu3WZzHWjqUIFvRhdySKOgzBvcwfb+dcYnElOYLJPvMDn2gNuUvve3TkGe3N7ggw8tHX
+        t/oqyrZbtYmZuJ0JkLmn026RJaovZa7zkPGbUcO9nI15SzLyibKrVOYucTO1qFf9fWOTZNSgnPh+z
+        E/sc/cEw==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mZ4AT-0058DR-3k; Sat, 09 Oct 2021 04:41:05 +0000
+Subject: Re: [PATCH] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
+To:     guangming.cao@mediatek.com, Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+Cc:     wsd_upstream@mediatek.com
+References: <20211009024733.65676-1-guangming.cao@mediatek.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <c23181a5-b75b-c04b-7cc4-020f2b2b44c1@infradead.org>
+Date:   Fri, 8 Oct 2021 21:41:04 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20211009024733.65676-1-guangming.cao@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-next
-branch HEAD: b93a34cf0f89dd7009b1e3b11454906468057b68  media: venus: Set buffer to FW based on FW min count requirement.
+On 10/8/21 7:47 PM, guangming.cao@mediatek.com wrote:
+> From: Guangming Cao <Guangming.Cao@mediatek.com>
+> 
+> If dma-buf don't want userspace users to touch the dmabuf buffer,
+> it seems we should add this restriction into dma_buf_ops.mmap,
+> not in this IOCTL:DMA_BUF_SET_NAME.
+> 
+> With this restriction, we can only know the kernel users of the dmabuf
+> by attachments.
+> However, for many userspace users, such as userpsace users of dma_heap,
+> they also need to mark the usage of dma-buf, and they don't care about
+> who attached to this dmabuf, and seems it's no meaning to waitting for
 
-elapsed time: 1122m
+                                                          to be waiting for
 
-configs tested: 171
-configs skipped: 4
+> IOCTL:DMA_BUF_SET_NAME rather than mmap.
+> 
+> Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+> ---
+>   drivers/dma-buf/dma-buf.c | 14 ++------------
+>   1 file changed, 2 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 511fe0d217a0..afbd0a226639 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+>   
+>   /**
+>    * dma_buf_set_name - Set a name to a specific dma_buf to track the usage.
+> - * The name of the dma-buf buffer can only be set when the dma-buf is not
+> - * attached to any devices. It could theoritically support changing the
+> - * name of the dma-buf if the same piece of memory is used for multiple
+> - * purpose between different devices.
+> + * It could theoritically support changing the name of the dma-buf if the same
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+                theoretically
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20211008
-s390                          debug_defconfig
-parisc                generic-32bit_defconfig
-m68k                       bvme6000_defconfig
-arm                            hisi_defconfig
-sh                            hp6xx_defconfig
-arc                         haps_hs_defconfig
-mips                    maltaup_xpa_defconfig
-mips                          rb532_defconfig
-riscv             nommu_k210_sdcard_defconfig
-xtensa                          iss_defconfig
-powerpc                 mpc85xx_cds_defconfig
-m68k                        mvme16x_defconfig
-mips                         tb0226_defconfig
-arm                          pxa168_defconfig
-powerpc                     akebono_defconfig
-mips                  cavium_octeon_defconfig
-sh                          rsk7269_defconfig
-sh                               alldefconfig
-arm                        oxnas_v6_defconfig
-arm                         orion5x_defconfig
-m68k                         amcore_defconfig
-arm                      pxa255-idp_defconfig
-mips                            gpr_defconfig
-mips                         rt305x_defconfig
-arm                            zeus_defconfig
-arm                         socfpga_defconfig
-arm                           corgi_defconfig
-arm                         bcm2835_defconfig
-sh                          rsk7264_defconfig
-xtensa                    xip_kc705_defconfig
-nds32                             allnoconfig
-powerpc                 mpc8560_ads_defconfig
-mips                       lemote2f_defconfig
-m68k                        stmark2_defconfig
-sh                          sdk7786_defconfig
-powerpc                       holly_defconfig
-arm                     am200epdkit_defconfig
-sh                            migor_defconfig
-powerpc                      pasemi_defconfig
-mips                       rbtx49xx_defconfig
-powerpc                   currituck_defconfig
-ia64                             alldefconfig
-powerpc                 mpc832x_mds_defconfig
-arm                            xcep_defconfig
-mips                           rs90_defconfig
-mips                        bcm63xx_defconfig
-mips                malta_qemu_32r6_defconfig
-powerpc                          g5_defconfig
-arm                        keystone_defconfig
-riscv                               defconfig
-mips                         tb0219_defconfig
-arc                            hsdk_defconfig
-sh                        apsh4ad0a_defconfig
-mips                  decstation_64_defconfig
-sh                        sh7785lcr_defconfig
-m68k                         apollo_defconfig
-openrisc                            defconfig
-powerpc                      arches_defconfig
-sh                   secureedge5410_defconfig
-m68k                            mac_defconfig
-xtensa                       common_defconfig
-powerpc                   lite5200b_defconfig
-powerpc                      cm5200_defconfig
-arm                       multi_v4t_defconfig
-arm                        multi_v7_defconfig
-powerpc                 mpc836x_rdk_defconfig
-xtensa                generic_kc705_defconfig
-mips                         db1xxx_defconfig
-arm                          ep93xx_defconfig
-powerpc                   microwatt_defconfig
-riscv                            alldefconfig
-arc                        nsim_700_defconfig
-arm                        vexpress_defconfig
-sh                     sh7710voipgw_defconfig
-arm                           u8500_defconfig
-h8300                    h8300h-sim_defconfig
-arm                           viper_defconfig
-mips                 decstation_r4k_defconfig
-powerpc                 mpc837x_rdb_defconfig
-arm                         s3c6400_defconfig
-arm                        realview_defconfig
-powerpc                     tqm8560_defconfig
-x86_64               randconfig-c001-20211008
-arm                  randconfig-c002-20211008
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                               defconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-parisc                           allyesconfig
-s390                                defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                             allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a015-20211008
-x86_64               randconfig-a012-20211008
-x86_64               randconfig-a016-20211008
-x86_64               randconfig-a013-20211008
-x86_64               randconfig-a011-20211008
-x86_64               randconfig-a014-20211008
-i386                 randconfig-a013-20211008
-i386                 randconfig-a016-20211008
-i386                 randconfig-a014-20211008
-i386                 randconfig-a011-20211008
-i386                 randconfig-a012-20211008
-i386                 randconfig-a015-20211008
-arc                  randconfig-r043-20211008
-s390                 randconfig-r044-20211008
-riscv                randconfig-r042-20211008
-arc                  randconfig-r043-20211004
-s390                 randconfig-r044-20211004
-riscv                randconfig-r042-20211004
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
+(yes, it was incorrect before this change.)
 
-clang tested configs:
-x86_64               randconfig-c007-20211008
-i386                 randconfig-c001-20211008
-arm                  randconfig-c002-20211008
-s390                 randconfig-c005-20211008
-powerpc              randconfig-c003-20211008
-riscv                randconfig-c006-20211008
-mips                 randconfig-c004-20211008
-x86_64               randconfig-a003-20211008
-x86_64               randconfig-a005-20211008
-x86_64               randconfig-a001-20211008
-x86_64               randconfig-a002-20211008
-x86_64               randconfig-a004-20211008
-x86_64               randconfig-a006-20211008
-i386                 randconfig-a001-20211008
-i386                 randconfig-a003-20211008
-i386                 randconfig-a005-20211008
-i386                 randconfig-a004-20211008
-i386                 randconfig-a002-20211008
-i386                 randconfig-a006-20211008
-hexagon              randconfig-r045-20211004
-hexagon              randconfig-r041-20211004
+> + * piece of memory is used for multiple purpose between different devices.
+>    *
+>    * @dmabuf: [in]     dmabuf buffer that will be renamed.
+>    * @buf:    [in]     A piece of userspace memory that contains the name of
+> @@ -346,19 +344,11 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+>   	if (IS_ERR(name))
+>   		return PTR_ERR(name);
+>   
+> -	dma_resv_lock(dmabuf->resv, NULL);
+> -	if (!list_empty(&dmabuf->attachments)) {
+> -		ret = -EBUSY;
+> -		kfree(name);
+> -		goto out_unlock;
+> -	}
+>   	spin_lock(&dmabuf->name_lock);
+>   	kfree(dmabuf->name);
+>   	dmabuf->name = name;
+>   	spin_unlock(&dmabuf->name_lock);
+>   
+> -out_unlock:
+> -	dma_resv_unlock(dmabuf->resv);
+>   	return ret;
+>   }
+>   
+> 
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+-- 
+~Randy
