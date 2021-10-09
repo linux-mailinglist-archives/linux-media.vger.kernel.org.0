@@ -2,128 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EF63427763
-	for <lists+linux-media@lfdr.de>; Sat,  9 Oct 2021 06:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63D7F42776F
+	for <lists+linux-media@lfdr.de>; Sat,  9 Oct 2021 06:50:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231773AbhJIEnE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Oct 2021 00:43:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42788 "EHLO
+        id S231773AbhJIEwF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Oct 2021 00:52:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbhJIEnC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Oct 2021 00:43:02 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D055C061570;
-        Fri,  8 Oct 2021 21:41:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=dWH4qjA33whTZ4Wx/aYp4ATOSdmZkILXTl4W7Gnaxqs=; b=ODVrCEaLmds1oXMb8Y0/8CUvJB
-        DP1ABypOnb7u12aFdm96y7XFc9PVP1ZLhOr69VgJSgrX6DdNI7YyZlsIDz+9kg1w8dkGeGoYPZvB6
-        fBq72ccby3bMY0gjr7jYzszuoZyQfMMtQbhbmVZ6Gd/jcfl6C+HQOfQEBgSg0/DL3dAHThzNjaZd0
-        l5KgXLL8jmu3WZzHWjqUIFvRhdySKOgzBvcwfb+dcYnElOYLJPvMDn2gNuUvve3TkGe3N7ggw8tHX
-        t/oqyrZbtYmZuJ0JkLmn026RJaovZa7zkPGbUcO9nI15SzLyibKrVOYucTO1qFf9fWOTZNSgnPh+z
-        E/sc/cEw==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mZ4AT-0058DR-3k; Sat, 09 Oct 2021 04:41:05 +0000
-Subject: Re: [PATCH] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
-To:     guangming.cao@mediatek.com, Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-Cc:     wsd_upstream@mediatek.com
-References: <20211009024733.65676-1-guangming.cao@mediatek.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <c23181a5-b75b-c04b-7cc4-020f2b2b44c1@infradead.org>
-Date:   Fri, 8 Oct 2021 21:41:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <20211009024733.65676-1-guangming.cao@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229596AbhJIEwE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Oct 2021 00:52:04 -0400
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B60CC061570
+        for <linux-media@vger.kernel.org>; Fri,  8 Oct 2021 21:50:07 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id Z4J8mVhptx7rIZ4JAmD2Fx; Sat, 09 Oct 2021 06:50:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1633755004; bh=P4dwT5c/DYS7gsw0AKV9pBJ6nxHP/kggZwRt2k/HQr4=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=b+Mv+07Q8lLRTmQ0MH1mklyMxKx9V4gpPJQkOZ+lpZTyA+VkwYrAJgZ6yZasN62LK
+         l8BiahhH2ym0hcGCZrRuJarKrnYylYCOw5qNZy8lqgxaYb81vXF/1KX02FeoX6cHeJ
+         i9ZmgceQTXy9BwWre/P6uTgPweVk8SYc7vwtK2Yk4F+7c+fWEOGbv2+49+wJ7aaLdb
+         2h6mF3cz0xAvnQnoebcEJHkrdOXUREQeFYkz4TOBoqnlMLqWfN9KDTadef+nbUF0e6
+         WwyCrHxUDKLbhjz1NFeT1vu4dn+E183ulhOF0YSqApc/L+0GtYhgMBrfwGSFROnLrH
+         H38L7SOceMtdg==
+Message-ID: <e51f040aa14961493d45c069f8eafe09@smtp-cloud8.xs4all.net>
+Date:   Sat, 09 Oct 2021 06:50:02 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfHtA2lEFGW9mmf6Y3TAyqX4zRgJI+t4cbgh49YyjAEae47NfxwB/wQh5mlpPK12wbUy3zkt2EQ/VcOHO1qPC8pkRO2Xrh1g2gI8N4GzceA60N4Vw7HbD
+ YbJUSdDfzG5oUNkKECWC6CEb1vok8isB+MG8zNdNsFSYFbQ1DaBAZ8G5MSA5L6v0iN4aH9HtpbFSdRqO/Vdd6LdGtnAMx7JOtIwYf0wah7MrumE1WTajDAmD
+ wLn9ycucJ5XdZXjiB84Neg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/8/21 7:47 PM, guangming.cao@mediatek.com wrote:
-> From: Guangming Cao <Guangming.Cao@mediatek.com>
-> 
-> If dma-buf don't want userspace users to touch the dmabuf buffer,
-> it seems we should add this restriction into dma_buf_ops.mmap,
-> not in this IOCTL:DMA_BUF_SET_NAME.
-> 
-> With this restriction, we can only know the kernel users of the dmabuf
-> by attachments.
-> However, for many userspace users, such as userpsace users of dma_heap,
-> they also need to mark the usage of dma-buf, and they don't care about
-> who attached to this dmabuf, and seems it's no meaning to waitting for
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-                                                          to be waiting for
+Results of the daily build of media_tree:
 
-> IOCTL:DMA_BUF_SET_NAME rather than mmap.
-> 
-> Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
-> ---
->   drivers/dma-buf/dma-buf.c | 14 ++------------
->   1 file changed, 2 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 511fe0d217a0..afbd0a226639 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
->   
->   /**
->    * dma_buf_set_name - Set a name to a specific dma_buf to track the usage.
-> - * The name of the dma-buf buffer can only be set when the dma-buf is not
-> - * attached to any devices. It could theoritically support changing the
-> - * name of the dma-buf if the same piece of memory is used for multiple
-> - * purpose between different devices.
-> + * It could theoritically support changing the name of the dma-buf if the same
+date:			Sat Oct  9 05:00:11 CEST 2021
+media-tree git hash:	fd2eda71a47b095e81b9170c3f8b7ae82b04e785
+media_build git hash:	e602a6acc36ed3f6a8ebeb27fae6f32712f1293f
+v4l-utils git hash:	493af03f3c576fad69c050d33215d1f4fc0d532d
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b271230dab7e119453a068d347aef2c79d6b74b2
+host hardware:		x86_64
+host os:		5.13.11-marune
 
-                theoretically
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15-rc1-i686: OK
+linux-5.15-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-(yes, it was incorrect before this change.)
+Detailed results are available here:
 
-> + * piece of memory is used for multiple purpose between different devices.
->    *
->    * @dmabuf: [in]     dmabuf buffer that will be renamed.
->    * @buf:    [in]     A piece of userspace memory that contains the name of
-> @@ -346,19 +344,11 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
->   	if (IS_ERR(name))
->   		return PTR_ERR(name);
->   
-> -	dma_resv_lock(dmabuf->resv, NULL);
-> -	if (!list_empty(&dmabuf->attachments)) {
-> -		ret = -EBUSY;
-> -		kfree(name);
-> -		goto out_unlock;
-> -	}
->   	spin_lock(&dmabuf->name_lock);
->   	kfree(dmabuf->name);
->   	dmabuf->name = name;
->   	spin_unlock(&dmabuf->name_lock);
->   
-> -out_unlock:
-> -	dma_resv_unlock(dmabuf->resv);
->   	return ret;
->   }
->   
-> 
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
+Detailed regression test results are available here:
 
--- 
-~Randy
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
