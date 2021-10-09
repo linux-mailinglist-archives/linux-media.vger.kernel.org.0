@@ -2,102 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 380D0427561
-	for <lists+linux-media@lfdr.de>; Sat,  9 Oct 2021 03:21:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B4094276BA
+	for <lists+linux-media@lfdr.de>; Sat,  9 Oct 2021 04:45:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232144AbhJIBXf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Oct 2021 21:23:35 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34020 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232001AbhJIBXf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 21:23:35 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0DB8B8C4;
-        Sat,  9 Oct 2021 03:21:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1633742497;
-        bh=Kj1tkNvZVt6lDT4dzXil0klr2TSUKdwaLvIsSAQg7JU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=V2+lXNcUqHiXF86Aj1ZZtrhNmvqxrzV/gzXjfDaAMmipiCOyBNe32Wk83kM1yk/EX
-         RiTy0EloHWX/ybYFygn8alYc6Min6s8Wn2amGcSyR9z1hwU0jEfzuUqSHah3/D+UFr
-         KmKxFcy1jG+60ry6oouYjh8ZCxYdWlS5bG2kZt5w=
-Date:   Sat, 9 Oct 2021 04:21:26 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Joe Perches <joe@perches.com>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-media@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Waiman Long <longman@redhat.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        linux@rasmusvillemoes.dk,
-        Thorsten Leemhuis <regressions@leemhuis.info>
-Subject: Re: [PATCH v4 4/7] list.h: Replace kernel.h with the necessary
- inclusions
-Message-ID: <YWDuln7HkzioQ7Zh@pendragon.ideasonboard.com>
-References: <20211007154407.29746-1-andriy.shevchenko@linux.intel.com>
- <20211007154407.29746-5-andriy.shevchenko@linux.intel.com>
- <20211007171635.2f161739@jic23-huawei>
- <YV8ucQJD1ccucQTy@pendragon.ideasonboard.com>
- <5b6dc5760b42af6c07c8ffc789466be7d7da358e.camel@perches.com>
+        id S244025AbhJICrt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Oct 2021 22:47:49 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:43202 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S232267AbhJICrt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Oct 2021 22:47:49 -0400
+X-UUID: 3c2e614b433e45a4bfdc23e2206201e8-20211009
+X-UUID: 3c2e614b433e45a4bfdc23e2206201e8-20211009
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+        (envelope-from <guangming.cao@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1214547654; Sat, 09 Oct 2021 10:45:49 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Sat, 9 Oct 2021 10:45:47 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas10.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Sat, 9 Oct 2021 10:45:47 +0800
+From:   <guangming.cao@mediatek.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+CC:     <wsd_upstream@mediatek.com>,
+        Guangming Cao <Guangming.Cao@mediatek.com>
+Subject: [PATCH] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
+Date:   Sat, 9 Oct 2021 10:47:33 +0800
+Message-ID: <20211009024733.65676-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5b6dc5760b42af6c07c8ffc789466be7d7da358e.camel@perches.com>
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 08, 2021 at 05:59:18PM -0700, Joe Perches wrote:
-> On Thu, 2021-10-07 at 20:29 +0300, Laurent Pinchart wrote:
-> > On Thu, Oct 07, 2021 at 05:16:35PM +0100, Jonathan Cameron wrote:
-> > > On Thu,  7 Oct 2021 18:44:04 +0300 Andy Shevchenko wrote:
-> > > > When kernel.h is used in the headers it adds a lot into dependency hell,
-> > > > especially when there are circular dependencies are involved.
-> > > > 
-> > > > Replace kernel.h inclusion with the list of what is really being used.
-> []
-> > > > diff --git a/include/linux/list.h b/include/linux/list.h
-> []
-> > > > @@ -2,11 +2,13 @@
-> > > >  #ifndef _LINUX_LIST_H
-> > > >  #define _LINUX_LIST_H
-> > > > 
-> > > > +#include <linux/container_of.h>
-> > > > +#include <linux/const.h>
-> > > >  #include <linux/types.h>
-> > > >  #include <linux/stddef.h>
-> > > >  #include <linux/poison.h>
-> > > 
-> > > Is there a reason you didn't quite sort this into alphabetical order?
-> > 
-> > On a side note, if someone with perle knowledge could add a checkpatch
-> > warning for this, I think it would be very nice. I'm a bit tired of
-> > asking for alphabetical order in reviews :-)
-> 
-> As are people that want reverse christmas tree.
-> Neither of which I will do as I think both are poor form at best.
+From: Guangming Cao <Guangming.Cao@mediatek.com>
 
-Reverse xmas tree order is just a matter of style, while alphabetical
-ordering of headers helps catching duplicate, including when merging
-branches that both add the same header in different locations. I thus
-think there's a technical value to it.
+If dma-buf don't want userspace users to touch the dmabuf buffer,
+it seems we should add this restriction into dma_buf_ops.mmap,
+not in this IOCTL:DMA_BUF_SET_NAME.
 
-> If you want, this was a checkpatch reverse christmas tree attempt,
-> as that was more common to some.
-> 
-> https://lore.kernel.org/lkml/1478242438.1924.31.camel@perches.com/
+With this restriction, we can only know the kernel users of the dmabuf
+by attachments.
+However, for many userspace users, such as userpsace users of dma_heap,
+they also need to mark the usage of dma-buf, and they don't care about
+who attached to this dmabuf, and seems it's no meaning to waitting for
+IOCTL:DMA_BUF_SET_NAME rather than mmap.
 
+Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+---
+ drivers/dma-buf/dma-buf.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 511fe0d217a0..afbd0a226639 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+ 
+ /**
+  * dma_buf_set_name - Set a name to a specific dma_buf to track the usage.
+- * The name of the dma-buf buffer can only be set when the dma-buf is not
+- * attached to any devices. It could theoritically support changing the
+- * name of the dma-buf if the same piece of memory is used for multiple
+- * purpose between different devices.
++ * It could theoritically support changing the name of the dma-buf if the same
++ * piece of memory is used for multiple purpose between different devices.
+  *
+  * @dmabuf: [in]     dmabuf buffer that will be renamed.
+  * @buf:    [in]     A piece of userspace memory that contains the name of
+@@ -346,19 +344,11 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+ 	if (IS_ERR(name))
+ 		return PTR_ERR(name);
+ 
+-	dma_resv_lock(dmabuf->resv, NULL);
+-	if (!list_empty(&dmabuf->attachments)) {
+-		ret = -EBUSY;
+-		kfree(name);
+-		goto out_unlock;
+-	}
+ 	spin_lock(&dmabuf->name_lock);
+ 	kfree(dmabuf->name);
+ 	dmabuf->name = name;
+ 	spin_unlock(&dmabuf->name_lock);
+ 
+-out_unlock:
+-	dma_resv_unlock(dmabuf->resv);
+ 	return ret;
+ }
+ 
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
