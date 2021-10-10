@@ -2,113 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F4A942834E
-	for <lists+linux-media@lfdr.de>; Sun, 10 Oct 2021 21:22:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAC0042836B
+	for <lists+linux-media@lfdr.de>; Sun, 10 Oct 2021 21:38:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232469AbhJJTYY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Oct 2021 15:24:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41812 "EHLO
+        id S230525AbhJJTkj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Oct 2021 15:40:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232115AbhJJTYV (ORCPT
+        with ESMTP id S229679AbhJJTki (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Oct 2021 15:24:21 -0400
+        Sun, 10 Oct 2021 15:40:38 -0400
 Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0D69C06161C;
-        Sun, 10 Oct 2021 12:22:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3420C061570;
+        Sun, 10 Oct 2021 12:38:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=x6CwcmPbUPfmUYETToBP1qbHRKqr4+7yeB4/xu8is44=; b=oK5et9c79wUYggmWFTX056Ergx
-        9AJIY5Hb7El3eJdjbvXslvNYFCzGHh0Q9L/HnX4uxYlBktIIwPw3YiqGzLwhHN3anVwOZj+Cn+ivu
-        s22g9inW86aJDzRpwPVh16+hmnHhKxVOyv1dAV/8RsADKl4GYSI+seH1C5uYShF+nk3WmqGVNXPxP
-        tlNvD3i0NLGh6VK0nYfpfy+/QbuTMkC7G4XpJS6paHcPUsHCbglatgUjU6IA0uLfNWWOZKbP9U5Ni
-        lfdLE7GMcKnWKBPoZieOYLahhmTjlgBmmoHuFsErAPeR2QOoPnJa8eR2/j+YwVlNBlqDsvfa/wAsG
-        WbSJ9h8Q==;
-Received: from [2601:1c0:6280:3f0::aa0b]
+        Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=D36anXYT66Tw0vGET6GPozDF3jPQy6fMETODmwssbmY=; b=Zqkwie5kC+sD6J+m8V4GOx3jVJ
+        /rUqhnK1X3WUXMqNGNjFUP5SLZKv1mW+vc6OdFKA4VB6Z8q8HmvlCCykfYPawWUzPYKxgaenqFg33
+        OCfTKRf1qjxe6cvrXmrWZyiGOcWzkZyY/UxsuJeq7Ay3HViBJor4cMdqW7uJiZWfTXEIlm280BjMz
+        mXpJiXv9sJK+sWm4X+hodeXj8MzT0b/OsqvGVfgO2Zfww+1F/Qjb+SEaZkYfYWby3cUyMUJ9JHJwq
+        zDpVexOAoxOs/l5RzDuucEdwg+eqrxSzmtWIap3Rvgg/qHXdigIUGFg1O3rCaR1ew9DChVok4iF2N
+        2oRgFBEw==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mZeOs-007IpE-Bu; Sun, 10 Oct 2021 19:22:22 +0000
-Subject: Re: [PATCH v3 05/11] clk: Introduce clk-tps68470 driver
-To:     Hans de Goede <hdegoede@redhat.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20211010185707.195883-1-hdegoede@redhat.com>
- <20211010185707.195883-6-hdegoede@redhat.com>
+        id 1mZeeb-007JXi-6r; Sun, 10 Oct 2021 19:38:37 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <2c4a0997-1f32-0ed1-ad2e-bfce1afd85f1@infradead.org>
-Date:   Sun, 10 Oct 2021 12:22:21 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Andy Walls <awalls@md.metrocast.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-um@lists.infradead.org,
+        Richard Weinberger <richard@nod.at>
+Subject: [PATCH] media: ivtv: fix build for UML
+Date:   Sun, 10 Oct 2021 12:38:36 -0700
+Message-Id: <20211010193836.32300-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20211010185707.195883-6-hdegoede@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/10/21 11:57 AM, Hans de Goede wrote:
-> The TPS68470 PMIC provides Clocks, GPIOs and Regulators. At present in
-> the kernel the Regulators and Clocks are controlled by an OpRegion
-> driver designed to work with power control methods defined in ACPI, but
-> some platforms lack those methods, meaning drivers need to be able to
-> consume the resources of these chips through the usual frameworks.
-> 
-> This commit adds a driver for the clocks provided by the tps68470,
-> and is designed to bind to the platform_device registered by the
-> intel_skl_int3472 module.
-> 
-> This is based on this out of tree driver written by Intel:
-> https://github.com/intel/linux-intel-lts/blob/4.14/base/drivers/clk/clk-tps68470.c
-> with various cleanups added.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
-> Changes in v2:
-> - Update the comment on why a subsys_initcall is used to register the drv
-> - Fix trailing whitespice on line 100
-> ---
->   drivers/clk/Kconfig          |   6 +
->   drivers/clk/Makefile         |   1 +
->   drivers/clk/clk-tps68470.c   | 256 +++++++++++++++++++++++++++++++++++
->   include/linux/mfd/tps68470.h |  11 ++
->   4 files changed, 274 insertions(+)
->   create mode 100644 drivers/clk/clk-tps68470.c
-> 
-> diff --git a/drivers/clk/Kconfig b/drivers/clk/Kconfig
-> index c5b3dc97396a..7dffecac83d1 100644
-> --- a/drivers/clk/Kconfig
-> +++ b/drivers/clk/Kconfig
-> @@ -169,6 +169,12 @@ config COMMON_CLK_CDCE706
->   	help
->   	  This driver supports TI CDCE706 programmable 3-PLL clock synthesizer.
->   
-> +config COMMON_CLK_TPS68470
-> +	tristate "Clock Driver for TI TPS68470 PMIC"
-> +	depends on I2C && REGMAP_I2C && INTEL_SKL_INT3472
-> +	help
-> +	 This driver supports the clocks provided by TPS68470
+Prevent the use of page table macros and types from 2 conflicting
+places. This fixes multiple build errors and warnings, e.g.:
 
-End that sentence with a period (full stop): '.'.
+../arch/x86/include/asm/pgtable_64_types.h:21:34: error: conflicting types for ‘pte_t’
+ typedef struct { pteval_t pte; } pte_t;
+                                  ^~~~~
+In file included from ../include/linux/mm_types_task.h:16:0,
+                 from ../include/linux/mm_types.h:5,
+                 from ../include/linux/buildid.h:5,
+                 from ../include/linux/module.h:14,
+                 from ../drivers/media/pci/ivtv/ivtv-driver.h:40,
+                 from ../drivers/media/pci/ivtv/ivtvfb.c:29:
+../arch/um/include/asm/page.h:57:39: note: previous declaration of ‘pte_t’ was here
+ typedef struct { unsigned long pte; } pte_t;
 
-Also it should be indented with one tab + 2 spaces.
+../arch/x86/include/asm/pgtable_types.h:284:43: error: expected ‘)’ before ‘prot’
+ static inline pgprot_t pgprot_nx(pgprot_t prot)
+                                           ^
+../include/linux/pgtable.h:914:26: note: in definition of macro ‘pgprot_nx’
+ #define pgprot_nx(prot) (prot)
+                          ^~~~
+In file included from ../arch/x86/include/asm/memtype.h:6:0,
+                 from ../drivers/media/pci/ivtv/ivtvfb.c:40:
+../arch/x86/include/asm/pgtable_types.h:288:0: warning: "pgprot_nx" redefined
+ #define pgprot_nx pgprot_nx
 
--- 
-~Randy
+../arch/x86/include/asm/page_types.h:11:0: warning: "PAGE_SIZE" redefined
+ #define PAGE_SIZE  (_AC(1,UL) << PAGE_SHIFT)
+ 
+In file included from ../include/linux/mm_types_task.h:16:0,
+                 from ../include/linux/mm_types.h:5,
+                 from ../include/linux/buildid.h:5,
+                 from ../include/linux/module.h:14,
+                 from ../drivers/media/pci/ivtv/ivtv-driver.h:40,
+                 from ../drivers/media/pci/ivtv/ivtvfb.c:29:
+../arch/um/include/asm/page.h:14:0: note: this is the location of the previous definition
+ #define PAGE_SIZE (_AC(1, UL) << PAGE_SHIFT)
+
+Fixes: 68f5d3f3b654 ("um: add PCI over virtio emulation driver")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Johannes Berg <johannes@sipsolutions.net>
+Cc: Andy Walls <awalls@md.metrocast.net>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-um@lists.infradead.org
+Cc: Richard Weinberger <richard@nod.at>
+---
+ drivers/media/pci/ivtv/ivtvfb.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+--- linux-next-20211007.orig/drivers/media/pci/ivtv/ivtvfb.c
++++ linux-next-20211007/drivers/media/pci/ivtv/ivtvfb.c
+@@ -36,7 +36,7 @@
+ #include <linux/fb.h>
+ #include <linux/ivtvfb.h>
+ 
+-#ifdef CONFIG_X86_64
++#if defined(CONFIG_X86_64) && !defined(CONFIG_UML)
+ #include <asm/memtype.h>
+ #endif
+ 
+@@ -1157,7 +1157,7 @@ static int ivtvfb_init_card(struct ivtv
+ {
+ 	int rc;
+ 
+-#ifdef CONFIG_X86_64
++#if defined(CONFIG_X86_64) && !defined(CONFIG_UML)
+ 	if (pat_enabled()) {
+ 		if (ivtvfb_force_pat) {
+ 			pr_info("PAT is enabled. Write-combined framebuffer caching will be disabled.\n");
