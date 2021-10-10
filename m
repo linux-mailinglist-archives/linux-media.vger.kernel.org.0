@@ -2,182 +2,395 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADFB14281B4
-	for <lists+linux-media@lfdr.de>; Sun, 10 Oct 2021 16:18:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D62E142821C
+	for <lists+linux-media@lfdr.de>; Sun, 10 Oct 2021 17:02:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232515AbhJJOUT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Oct 2021 10:20:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60134 "EHLO
+        id S232405AbhJJPED (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Oct 2021 11:04:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231846AbhJJOUT (ORCPT
+        with ESMTP id S231842AbhJJPEC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Oct 2021 10:20:19 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA1B4C061570
-        for <linux-media@vger.kernel.org>; Sun, 10 Oct 2021 07:18:20 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D918E2FD;
-        Sun, 10 Oct 2021 16:18:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1633875497;
-        bh=W5lhbyopgTYJ/olAG4AkOHtXyPDgPMApwobBYtLyx38=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HU/mUQ/q3ePKyZBTRsuRdyiXiLTEdjutcLPOKtMo1I/t0QfPHAae84YKB5iMB16IX
-         X2irCQC4AzsXcYaP+HS+SBWGrGyLJJ73hQQdUwPYc6KUbCq79BKJboTOmTkpbg50xu
-         pL3gNCQGrg1k/GtUh6YeLjE+Lz5oYiVpqQ1kvjO8=
-Date:   Sun, 10 Oct 2021 17:18:04 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v9 33/36] media: subdev: add "opposite" stream helper
- funcs
-Message-ID: <YWL2HPejiIjJ5Dib@pendragon.ideasonboard.com>
-References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
- <20211005085750.138151-34-tomi.valkeinen@ideasonboard.com>
- <YWL1cTmobr+RI/01@pendragon.ideasonboard.com>
+        Sun, 10 Oct 2021 11:04:02 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEA2BC061570;
+        Sun, 10 Oct 2021 08:02:03 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id j21so44368204lfe.0;
+        Sun, 10 Oct 2021 08:02:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ZB+cVCAwS+ktrbkzyia0RQKNBK7/AOAZxJFAJNUaHcM=;
+        b=gx08TuE3Tb4+eM6AdSERF65Ipv7F1DmOp87cFU4pdr7qasXK5YM/PANcJsflzD+QGL
+         Y4IXZDsnwyJQKyeZ7+Givuv9N59pFJ7McbW4bS/mnX0TGEFUTuzlOqKlJgmCHIWRTshx
+         tep3Lf8qrSNtk4AhsyvtYg+oNsrOj2azV1zzYgx+bCiM/9089ZAw09gnbX2eWXHnYrss
+         TVizHiO40jEV5LBQcBIYUO8Bksdj+NXxw5t/5/VQgo8e7bHGJGdJbrAVy3QYrP/itclc
+         rGRc/d8iuwOgqS2q7h4hScCowBwpELFZDsKUjO7nQxuTMPIZxIuZWDE8YkeOn/653ly1
+         DZHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ZB+cVCAwS+ktrbkzyia0RQKNBK7/AOAZxJFAJNUaHcM=;
+        b=lw20/5522pyeaHWB7CnIYSqtvWC7M02Fm3wEx7WpQ9yMTixhT4Ov2AbK471MaQYesi
+         IikeLkisiuDyC5QjFlJVPZ0yrx8PQnmtRfgUlaVuxr7p9jhV3fEEW+G0zZA2CDPn1LvI
+         1bTdqdf/7083WriBm13UdZ0K+JVDJ0Bd+olk2HP24DfXp014G4dgYBtCNT+BkWco/XUN
+         IB+bAzeD6tMKhSAjdnFv70Dva1AR/gVIbuoFSqZZemgeemZN+htmiJrPDNXiQodgBvu1
+         J9Q81np02GgHo4S+qSmmg7ocXkAQZvv9Do6UC/HfBLmTrjh1ZCazyu3ohUpWfPZOXpCV
+         AX7g==
+X-Gm-Message-State: AOAM532I4khAN7RwY2dgbdRLj1AFK40q8RiCNcYDrOHzU9iIUlirktek
+        uyMRzLyD3GfHPnb7uM74lp3BfMzXacvcci4bMcg=
+X-Google-Smtp-Source: ABdhPJx1WiVqhvW9kuzsMZbe57Eo3wmj+epLDA1q5iPHcIONo2FRXbXxgaO3Q99ATeU43WPJyMEf4KiNRW7/6kTLkSw=
+X-Received: by 2002:a05:651c:230e:: with SMTP id bi14mr15606782ljb.467.1633878121862;
+ Sun, 10 Oct 2021 08:02:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YWL1cTmobr+RI/01@pendragon.ideasonboard.com>
+References: <20210929041905.126454-1-mie@igel.co.jp> <20210929041905.126454-3-mie@igel.co.jp>
+ <YVXMkSDXybju88TU@phenom.ffwll.local> <CANXvt5rD82Lvvag_k9k+XE-Sj1S6Qwp5uf+-feUTvez1-t4xUA@mail.gmail.com>
+ <CANXvt5rWEDQ1gRQOht3-O5KreEch6tPBuRtBkH8xLbEUXC2+MA@mail.gmail.com>
+In-Reply-To: <CANXvt5rWEDQ1gRQOht3-O5KreEch6tPBuRtBkH8xLbEUXC2+MA@mail.gmail.com>
+From:   Zhu Yanjun <zyjzyj2000@gmail.com>
+Date:   Sun, 10 Oct 2021 23:01:50 +0800
+Message-ID: <CAD=hENdObLSg8qFJ8VftHNjv+riswU=qfU2ZBPr2eMiu210emg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/2] RDMA/rxe: Add dma-buf support
+To:     Shunsuke Mie <mie@igel.co.jp>
+Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jianxin Xiong <jianxin.xiong@intel.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Sean Hefty <sean.hefty@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Damian Hobson-Garcia <dhobsong@igel.co.jp>,
+        Takanari Hayama <taki@igel.co.jp>,
+        Tomohito Esaki <etom@igel.co.jp>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Oct 10, 2021 at 05:15:15PM +0300, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Oct 05, 2021 at 11:57:47AM +0300, Tomi Valkeinen wrote:
-> > Add two helper functions to make dealing with streams easier:
-> > 
-> > v4l2_state_find_opposite_end - given a routing table and a pad + stream,
-> > return the pad + stream on the opposite side of the subdev.
-> > 
-> > v4l2_state_get_opposite_stream_format - return a pointer to the format
-> > on the pad + stream on the opposite side from the given pad + stream.
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-subdev.c | 42 +++++++++++++++++++++++++++
-> >  include/media/v4l2-subdev.h           | 32 ++++++++++++++++++++
-> >  2 files changed, 74 insertions(+)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > index 37e2e1f907fc..9eeadad997c8 100644
-> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > @@ -1484,3 +1484,45 @@ v4l2_state_get_stream_format(struct v4l2_subdev_state *state, unsigned int pad,
-> >  	return NULL;
-> >  }
-> >  EXPORT_SYMBOL_GPL(v4l2_state_get_stream_format);
-> > +
-> > +int v4l2_state_find_opposite_end(struct v4l2_subdev_krouting *routing, u32 pad,
-> > +				 u32 stream, u32 *other_pad, u32 *other_stream)
-> 
-> This function should take a state pointer given its name. I would also
-> rename it to v4l2_subdev_state_find_opposite_end(). Same for
-> v4l2_state_get_opposite_stream_format() which should be
-> v4l2_subdev_state_get_opposite_stream_format().
+On Tue, Oct 5, 2021 at 6:20 PM Shunsuke Mie <mie@igel.co.jp> wrote:
+>
+> ping
 
-Also, the state pointer passed to this function should be const.
+Sorry. I will check it soon.
+Zhu Yanjun
 
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < routing->num_routes; ++i) {
-> > +		struct v4l2_subdev_route *route = &routing->routes[i];
-> > +
-> > +		if (route->source_pad == pad &&
-> > +		    route->source_stream == stream) {
-> > +			*other_pad = route->sink_pad;
-> > +			*other_stream = route->sink_stream;
-> 
-> Can we support other_stream being NULL ? When the subdev implements the
-> routing API without multiplexed streams, the other_stream number will
-> always be 0 and it would be nice if the caller didn't have to declare a
-> placeholder variable.
-> 
-> There are less use cases for other_pad being NULL, but maybe we could
-> also allow that for consistency reasons ? Up to you.
-> 
-> > +			return 0;
-> > +		}
-> > +
-> > +		if (route->sink_pad == pad && route->sink_stream == stream) {
-> > +			*other_pad = route->source_pad;
-> > +			*other_stream = route->source_stream;
-> > +			return 0;
-> > +		}
-> > +	}
-> > +
-> > +	return -EINVAL;
-> > +}
-> > +EXPORT_SYMBOL_GPL(v4l2_state_find_opposite_end);
-> > +
-> > +struct v4l2_mbus_framefmt *
-> > +v4l2_state_get_opposite_stream_format(struct v4l2_subdev_state *state, u32 pad,
-> > +				      u32 stream)
-> > +{
-> > +	u32 other_pad, other_stream;
-> > +	int ret;
-> > +
-> > +	ret = v4l2_state_find_opposite_end(&state->routing, pad, stream,
-> > +					   &other_pad, &other_stream);
-> > +	if (ret)
-> > +		return NULL;
-> > +
-> > +	return v4l2_state_get_stream_format(state, other_pad, other_stream);
-> > +}
-> > +EXPORT_SYMBOL_GPL(v4l2_state_get_opposite_stream_format);
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index 1dc824416c1b..4b9520410783 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -1501,4 +1501,36 @@ struct v4l2_mbus_framefmt *
-> >  v4l2_state_get_stream_format(struct v4l2_subdev_state *state, unsigned int pad,
-> >  			     u32 stream);
-> >  
-> > +/**
-> > + * v4l2_state_find_opposite_end() - Find the opposite stream
-> > + * @routing: routing used to find the opposite side
-> > + * @pad: pad id
-> > + * @stream: stream id
-> > + * @other_pad: pointer used to return the opposite pad
-> > + * @other_stream: pointer used to return the opposite stream
-> > + *
-> > + * This function uses the routing table to find the pad + stream which is
-> > + * opposite the given pad + stream.
-> > + *
-> > + * Returns 0 on success, or -EINVAL if no matching route is found.
-> > + */
-> > +int v4l2_state_find_opposite_end(struct v4l2_subdev_krouting *routing, u32 pad,
-> > +				 u32 stream, u32 *other_pad, u32 *other_stream);
-> > +
-> > +/**
-> > + * v4l2_state_get_opposite_stream_format() - Get pointer to opposite stream
-> > + *					     format
-> > + * @state: subdevice state
-> > + * @pad: pad id
-> > + * @stream: stream id
-> > + *
-> > + * This returns a pointer to &struct v4l2_mbus_framefmt for the pad + stream
-> > + * that is opposite the given pad + stream in the subdev state.
-> > + *
-> > + * If the state does not contain the given pad + stream, NULL is returned.
-> > + */
-> > +struct v4l2_mbus_framefmt *
-> > +v4l2_state_get_opposite_stream_format(struct v4l2_subdev_state *state, u32 pad,
-> > +				      u32 stream);
-> > +
-> >  #endif
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+> 2021=E5=B9=B410=E6=9C=881=E6=97=A5(=E9=87=91) 12:56 Shunsuke Mie <mie@ige=
+l.co.jp>:
+> >
+> > 2021=E5=B9=B49=E6=9C=8830=E6=97=A5(=E6=9C=A8) 23:41 Daniel Vetter <dani=
+el@ffwll.ch>:
+> > >
+> > > On Wed, Sep 29, 2021 at 01:19:05PM +0900, Shunsuke Mie wrote:
+> > > > Implement a ib device operation =E2=80=98reg_user_mr_dmabuf=E2=80=
+=99. Generate a
+> > > > rxe_map from the memory space linked the passed dma-buf.
+> > > >
+> > > > Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
+> > > > ---
+> > > >  drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
+> > > >  drivers/infiniband/sw/rxe/rxe_mr.c    | 118 ++++++++++++++++++++++=
+++++
+> > > >  drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
+> > > >  drivers/infiniband/sw/rxe/rxe_verbs.h |   2 +
+> > > >  4 files changed, 156 insertions(+)
+> > > >
+> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_loc.h b/drivers/infiniba=
+nd/sw/rxe/rxe_loc.h
+> > > > index 1ca43b859d80..8bc19ea1a376 100644
+> > > > --- a/drivers/infiniband/sw/rxe/rxe_loc.h
+> > > > +++ b/drivers/infiniband/sw/rxe/rxe_loc.h
+> > > > @@ -75,6 +75,8 @@ u8 rxe_get_next_key(u32 last_key);
+> > > >  void rxe_mr_init_dma(struct rxe_pd *pd, int access, struct rxe_mr =
+*mr);
+> > > >  int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64=
+ iova,
+> > > >                    int access, struct rxe_mr *mr);
+> > > > +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, =
+u64 length,
+> > > > +                         u64 iova, int access, struct rxe_mr *mr);
+> > > >  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_=
+mr *mr);
+> > > >  int rxe_mr_copy(struct rxe_mr *mr, u64 iova, void *addr, int lengt=
+h,
+> > > >               enum rxe_mr_copy_dir dir);
+> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_mr.c b/drivers/infiniban=
+d/sw/rxe/rxe_mr.c
+> > > > index 53271df10e47..af6ef671c3a5 100644
+> > > > --- a/drivers/infiniband/sw/rxe/rxe_mr.c
+> > > > +++ b/drivers/infiniband/sw/rxe/rxe_mr.c
+> > > > @@ -4,6 +4,7 @@
+> > > >   * Copyright (c) 2015 System Fabric Works, Inc. All rights reserve=
+d.
+> > > >   */
+> > > >
+> > > > +#include <linux/dma-buf.h>
+> > > >  #include "rxe.h"
+> > > >  #include "rxe_loc.h"
+> > > >
+> > > > @@ -245,6 +246,120 @@ int rxe_mr_init_user(struct rxe_pd *pd, u64 s=
+tart, u64 length, u64 iova,
+> > > >       return err;
+> > > >  }
+> > > >
+> > > > +static int rxe_map_dmabuf_mr(struct rxe_mr *mr,
+> > > > +                          struct ib_umem_dmabuf *umem_dmabuf)
+> > > > +{
+> > > > +     struct rxe_map_set *set;
+> > > > +     struct rxe_phys_buf *buf =3D NULL;
+> > > > +     struct rxe_map **map;
+> > > > +     void *vaddr, *vaddr_end;
+> > > > +     int num_buf =3D 0;
+> > > > +     int err;
+> > > > +     size_t remain;
+> > > > +
+> > > > +     mr->dmabuf_map =3D kzalloc(sizeof &mr->dmabuf_map, GFP_KERNEL=
+);
+> > >
+> > > dmabuf_maps are just tagged pointers (and we could shrink them to act=
+ually
+> > > just a tagged pointer if anyone cares about the overhead of the separ=
+ate
+> > > bool), allocating them seperately is overkill.
+> >
+> > I agree with you. However, I think it is needed to unmap by
+> > dma_buf_vunmap(). If there is another simple way to unmap it. It is not
+> > needed I think. What do you think about it?
+> >
+> > > > +     if (!mr->dmabuf_map) {
+> > > > +             err =3D -ENOMEM;
+> > > > +             goto err_out;
+> > > > +     }
+> > > > +
+> > > > +     err =3D dma_buf_vmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
+> > > > +     if (err)
+> > > > +             goto err_free_dmabuf_map;
+> > > > +
+> > > > +     set =3D mr->cur_map_set;
+> > > > +     set->page_shift =3D PAGE_SHIFT;
+> > > > +     set->page_mask =3D PAGE_SIZE - 1;
+> > > > +
+> > > > +     map =3D set->map;
+> > > > +     buf =3D map[0]->buf;
+> > > > +
+> > > > +     vaddr =3D mr->dmabuf_map->vaddr;
+> > >
+> > > dma_buf_map can be an __iomem too, you shouldn't dig around in this, =
+but
+> > > use the dma-buf-map.h helpers instead. On x86 (and I think also on mo=
+st
+> > > arm) it doesn't matter, but it's kinda not very nice in a pure softwa=
+re
+> > > driver.
+> > >
+> > > If anything is missing in dma-buf-map.h wrappers just add more.
+> > >
+> > > Or alternatively you need to fail the import if you can't handle __io=
+mem.
+> > >
+> > > Aside from these I think the dma-buf side here for cpu access looks
+> > > reasonable now.
+> > > -Daniel
+> > I'll see the dma-buf-map.h and consider the error handling that you sug=
+gested.
+> > I appreciate your support.
+> >
+> > Thanks a lot,
+> > Shunsuke.
+> >
+> > > > +     vaddr_end =3D vaddr + umem_dmabuf->dmabuf->size;
+> > > > +     remain =3D umem_dmabuf->dmabuf->size;
+> > > > +
+> > > > +     for (; remain; vaddr +=3D PAGE_SIZE) {
+> > > > +             if (num_buf >=3D RXE_BUF_PER_MAP) {
+> > > > +                     map++;
+> > > > +                     buf =3D map[0]->buf;
+> > > > +                     num_buf =3D 0;
+> > > > +             }
+> > > > +
+> > > > +             buf->addr =3D (uintptr_t)vaddr;
+> > > > +             if (remain >=3D PAGE_SIZE)
+> > > > +                     buf->size =3D PAGE_SIZE;
+> > > > +             else
+> > > > +                     buf->size =3D remain;
+> > > > +             remain -=3D buf->size;
+> > > > +
+> > > > +             num_buf++;
+> > > > +             buf++;
+> > > > +     }
+> > > > +
+> > > > +     return 0;
+> > > > +
+> > > > +err_free_dmabuf_map:
+> > > > +     kfree(mr->dmabuf_map);
+> > > > +err_out:
+> > > > +     return err;
+> > > > +}
+> > > > +
+> > > > +static void rxe_unmap_dmabuf_mr(struct rxe_mr *mr)
+> > > > +{
+> > > > +     struct ib_umem_dmabuf *umem_dmabuf =3D to_ib_umem_dmabuf(mr->=
+umem);
+> > > > +
+> > > > +     dma_buf_vunmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
+> > > > +     kfree(mr->dmabuf_map);
+> > > > +}
+> > > > +
+> > > > +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, =
+u64 length,
+> > > > +                         u64 iova, int access, struct rxe_mr *mr)
+> > > > +{
+> > > > +     struct ib_umem_dmabuf *umem_dmabuf;
+> > > > +     struct rxe_map_set *set;
+> > > > +     int err;
+> > > > +
+> > > > +     umem_dmabuf =3D ib_umem_dmabuf_get(pd->ibpd.device, start, le=
+ngth, fd,
+> > > > +                                      access, NULL);
+> > > > +     if (IS_ERR(umem_dmabuf)) {
+> > > > +             err =3D PTR_ERR(umem_dmabuf);
+> > > > +             goto err_out;
+> > > > +     }
+> > > > +
+> > > > +     rxe_mr_init(access, mr);
+> > > > +
+> > > > +     err =3D rxe_mr_alloc(mr, ib_umem_num_pages(&umem_dmabuf->umem=
+), 0);
+> > > > +     if (err) {
+> > > > +             pr_warn("%s: Unable to allocate memory for map\n", __=
+func__);
+> > > > +             goto err_release_umem;
+> > > > +     }
+> > > > +
+> > > > +     mr->ibmr.pd =3D &pd->ibpd;
+> > > > +     mr->umem =3D &umem_dmabuf->umem;
+> > > > +     mr->access =3D access;
+> > > > +     mr->state =3D RXE_MR_STATE_VALID;
+> > > > +     mr->type =3D IB_MR_TYPE_USER;
+> > > > +
+> > > > +     set =3D mr->cur_map_set;
+> > > > +     set->length =3D length;
+> > > > +     set->iova =3D iova;
+> > > > +     set->va =3D start;
+> > > > +     set->offset =3D ib_umem_offset(mr->umem);
+> > > > +
+> > > > +     err =3D rxe_map_dmabuf_mr(mr, umem_dmabuf);
+> > > > +     if (err)
+> > > > +             goto err_free_map_set;
+> > > > +
+> > > > +     return 0;
+> > > > +
+> > > > +err_free_map_set:
+> > > > +     rxe_mr_free_map_set(mr->num_map, mr->cur_map_set);
+> > > > +err_release_umem:
+> > > > +     ib_umem_release(&umem_dmabuf->umem);
+> > > > +err_out:
+> > > > +     return err;
+> > > > +}
+> > > > +
+> > > >  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_=
+mr *mr)
+> > > >  {
+> > > >       int err;
+> > > > @@ -703,6 +818,9 @@ void rxe_mr_cleanup(struct rxe_pool_entry *arg)
+> > > >  {
+> > > >       struct rxe_mr *mr =3D container_of(arg, typeof(*mr), pelem);
+> > > >
+> > > > +     if (mr->umem && mr->umem->is_dmabuf)
+> > > > +             rxe_unmap_dmabuf_mr(mr);
+> > > > +
+> > > >       ib_umem_release(mr->umem);
+> > > >
+> > > >       if (mr->cur_map_set)
+> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.c b/drivers/infini=
+band/sw/rxe/rxe_verbs.c
+> > > > index 9d0bb9aa7514..6191bb4f434d 100644
+> > > > --- a/drivers/infiniband/sw/rxe/rxe_verbs.c
+> > > > +++ b/drivers/infiniband/sw/rxe/rxe_verbs.c
+> > > > @@ -916,6 +916,39 @@ static struct ib_mr *rxe_reg_user_mr(struct ib=
+_pd *ibpd,
+> > > >       return ERR_PTR(err);
+> > > >  }
+> > > >
+> > > > +static struct ib_mr *rxe_reg_user_mr_dmabuf(struct ib_pd *ibpd, u6=
+4 start,
+> > > > +                                         u64 length, u64 iova, int=
+ fd,
+> > > > +                                         int access, struct ib_uda=
+ta *udata)
+> > > > +{
+> > > > +     int err;
+> > > > +     struct rxe_dev *rxe =3D to_rdev(ibpd->device);
+> > > > +     struct rxe_pd *pd =3D to_rpd(ibpd);
+> > > > +     struct rxe_mr *mr;
+> > > > +
+> > > > +     mr =3D rxe_alloc(&rxe->mr_pool);
+> > > > +     if (!mr) {
+> > > > +             err =3D -ENOMEM;
+> > > > +             goto err2;
+> > > > +     }
+> > > > +
+> > > > +     rxe_add_index(mr);
+> > > > +
+> > > > +     rxe_add_ref(pd);
+> > > > +
+> > > > +     err =3D rxe_mr_dmabuf_init_user(pd, fd, start, length, iova, =
+access, mr);
+> > > > +     if (err)
+> > > > +             goto err3;
+> > > > +
+> > > > +     return &mr->ibmr;
+> > > > +
+> > > > +err3:
+> > > > +     rxe_drop_ref(pd);
+> > > > +     rxe_drop_index(mr);
+> > > > +     rxe_drop_ref(mr);
+> > > > +err2:
+> > > > +     return ERR_PTR(err);
+> > > > +}
+> > > > +
+> > > >  static struct ib_mr *rxe_alloc_mr(struct ib_pd *ibpd, enum ib_mr_t=
+ype mr_type,
+> > > >                                 u32 max_num_sg)
+> > > >  {
+> > > > @@ -1081,6 +1114,7 @@ static const struct ib_device_ops rxe_dev_ops=
+ =3D {
+> > > >       .query_qp =3D rxe_query_qp,
+> > > >       .query_srq =3D rxe_query_srq,
+> > > >       .reg_user_mr =3D rxe_reg_user_mr,
+> > > > +     .reg_user_mr_dmabuf =3D rxe_reg_user_mr_dmabuf,
+> > > >       .req_notify_cq =3D rxe_req_notify_cq,
+> > > >       .resize_cq =3D rxe_resize_cq,
+> > > >
+> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.h b/drivers/infini=
+band/sw/rxe/rxe_verbs.h
+> > > > index c807639435eb..0aa95ab06b6e 100644
+> > > > --- a/drivers/infiniband/sw/rxe/rxe_verbs.h
+> > > > +++ b/drivers/infiniband/sw/rxe/rxe_verbs.h
+> > > > @@ -334,6 +334,8 @@ struct rxe_mr {
+> > > >
+> > > >       struct rxe_map_set      *cur_map_set;
+> > > >       struct rxe_map_set      *next_map_set;
+> > > > +
+> > > > +     struct dma_buf_map *dmabuf_map;
+> > > >  };
+> > > >
+> > > >  enum rxe_mw_state {
+> > > > --
+> > > > 2.17.1
+> > > >
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
