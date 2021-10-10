@@ -2,98 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADC624282D5
-	for <lists+linux-media@lfdr.de>; Sun, 10 Oct 2021 19:55:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 686D0428335
+	for <lists+linux-media@lfdr.de>; Sun, 10 Oct 2021 20:59:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231134AbhJJR5G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Oct 2021 13:57:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51176 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230271AbhJJR5F (ORCPT
+        id S232925AbhJJTBH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Oct 2021 15:01:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21680 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232920AbhJJS7b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Oct 2021 13:57:05 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB2A4C061570;
-        Sun, 10 Oct 2021 10:55:06 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id m3so63650234lfu.2;
-        Sun, 10 Oct 2021 10:55:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3ydAC66omwb1n8JzeihR606o2VoQwnojRyDJQl+M5oM=;
-        b=UJ93bh4pdIRSVY7Hax/KViCfkdhDkcsNNlpzVwYW9CQIPNLd/UawcgYsU72qsqkFtY
-         zgT34v77cDenF/Hmb2JFJ2EyKv9qk/4+14jIJgy8Mng2cXrUSX0J4AxaIOcV6LKdgn0b
-         qsgOJrI14CMQyRVJ+5XXR0uWCRwxjtOW3L+7d/Q1BafBCV7ZzWuzz2NxPIXCoJEW5NZN
-         xz7C5ya3cA09rLbCtq9dJpHSMBMjVvYy6DNIj8g5hEBpLkcbs0G9OLLChh1vjOA5BwAI
-         RLlChiP4duKlszzdEKnQw3CphjhKia952+Jrn8YjbshQTk5zvTZ6e8imgAkjXhBf6AnC
-         exHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3ydAC66omwb1n8JzeihR606o2VoQwnojRyDJQl+M5oM=;
-        b=AOWz8LH/nrRNj6XQajdP7kyrVxZ/lQpSvhVC33usEsVKMHbmU+GZWQODt8zBa5xKFf
-         Z8iPQGa2Kdf8NlgyVN5+AH4stGOxUsNEhMZ5VRvwasfV2XF5hvIBv15PzLhbnN9RBl9W
-         D6FvKqcbfu5PO/sOlGtAAMTWKxHp6P2A7FZFQyC64Yw/C9iRxMk2TRHLIcxhwSYdKp7R
-         CaSiSV28uH62qoNdTqtCheSUiX/K6gIBuWVZfNDL/SoSj//FpZAMz0Bc2wgIBIO1MiyC
-         trC0ujn5zRY40bTKX5GyyLHnszcpUdqEcMjWKtEF0RvXJs2f8ymToCKSmyGQNb1FMfio
-         uDSg==
-X-Gm-Message-State: AOAM532IopSxFjCq8CxqTVO14KHBQYDhfmdjAgOTfZ+zTdnxsFvwOBNz
-        1I1vedxbKUSU6hCCWBjU2iB6EnbuqVV9Eg==
-X-Google-Smtp-Source: ABdhPJytIFiRW7vug7rXrjFy2fWR+VAQPQZHZxnJgAxhmQ4pktSZp3NIk3wzeKCdSWr7zhP9mqKMJw==
-X-Received: by 2002:a05:6512:33c9:: with SMTP id d9mr22726278lfg.18.1633888504907;
-        Sun, 10 Oct 2021 10:55:04 -0700 (PDT)
-Received: from localhost (37-145-209-168.broadband.corbina.ru. [37.145.209.168])
-        by smtp.gmail.com with ESMTPSA id u3sm550824lfr.130.2021.10.10.10.55.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Oct 2021 10:55:04 -0700 (PDT)
-From:   Mikhail Rudenko <mike.rudenko@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Sun, 10 Oct 2021 14:59:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633892252;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=9fP16BY7AsTDNFJGLr1NMnUHLpxbega7qb7JKUQTqx8=;
+        b=Iu2Lj6G2eOitFmGL7uMANdCzAk16VWNfbt7Rn2k//PVNowFHnZNqIe3QpaG0o7qMseYUbd
+        QMqqDOh0W6QEMpLrW1U6AIU2IIoQtyqTAzaIEMbgK7rFD1P8ihAt8ZIa7NO/hIpxX9dITa
+        JjMXLMhsFS7ATanNFLvJcVSZNfh6Shc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-1YFKpSw2PDKGspw1HsPLAA-1; Sun, 10 Oct 2021 14:57:16 -0400
+X-MC-Unique: 1YFKpSw2PDKGspw1HsPLAA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E5231808304;
+        Sun, 10 Oct 2021 18:57:13 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.192.6])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7438E5F4E1;
+        Sun, 10 Oct 2021 18:57:08 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: rockchip: rkisp1: use device name for debugfs subdir name
-Date:   Sun, 10 Oct 2021 20:54:57 +0300
-Message-Id: <20211010175457.438627-1-mike.rudenko@gmail.com>
-X-Mailer: git-send-email 2.33.0
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: [PATCH v3 00/11] Add support for X86/ACPI camera sensor/PMIC setup with clk and regulator platform data
+Date:   Sun, 10 Oct 2021 20:56:56 +0200
+Message-Id: <20211010185707.195883-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-While testing Rockchip RK3399 with both ISPs enabled, a dmesg error
-was observed:
-```
-[   15.559141] debugfs: Directory 'rkisp1' with parent '/' already present!
-```
+Hi All,
 
-Fix it by using the device name for the debugfs subdirectory name
-instead of the driver name, thus preventing name collision.
+Here is v2 of my patch-set adding support for camera sensor connected to a
+TPS68470 PMIC on x86/ACPI devices.
 
-Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
----
- drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v3 of this patch-set further reworks how to defer the binding of the
+camera-sensor drivers till all clk/regulator/gpio consumer/lookup info has
+been registered. See the new patch 1 + 2 (replacing v1 patch 1-3 /
+v2 patch 1-2).
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-index 7474150b94ed..560f928c3752 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-@@ -426,7 +426,7 @@ static void rkisp1_debug_init(struct rkisp1_device *rkisp1)
- {
- 	struct rkisp1_debug *debug = &rkisp1->debug;
- 
--	debug->debugfs_dir = debugfs_create_dir(RKISP1_DRIVER_NAME, NULL);
-+	debug->debugfs_dir = debugfs_create_dir(dev_name(rkisp1->dev), NULL);
- 	debugfs_create_ulong("data_loss", 0444, debug->debugfs_dir,
- 			     &debug->data_loss);
- 	debugfs_create_ulong("outform_size_err", 0444,  debug->debugfs_dir,
+I'm quite happy with how this works now, so from my pov this is the final
+version of the device-instantiation deferral code / approach.
+
+###
+
+The clk and regulator frameworks expect clk/regulator consumer-devices
+to have info about the consumed clks/regulators described in the device's
+fw_node, but on ACPI this info is missing.
+
+This series worksaround this by providing platform_data with the info to
+the TPS68470 clk/regulator MFD cells.
+
+Patches 1 - 2 deal with a probe-ordering problem this introduces,
+since the lookups are only registered when the provider-driver binds,
+trying to get these clks/regulators before then results in a -ENOENT
+error for clks and a dummy regulator for regulators. See the patches
+for more details.
+
+Patch 3 adds a header file which adds tps68470_clk_platform_data and
+tps68470_regulator_platform_data structs. The futher patches depend on
+this new header file.
+
+Patch 4 + 5 add the TPS68470 clk and regulator drivers
+
+Patches 6 - 11 Modify the INT3472 driver which instantiates the MFD cells to
+provide the necessary platform-data.
+
+Assuming this series is acceptable to everyone, we need to talk about how
+to merge this.
+
+Assuming the i2c-core-acpi.c are ok with it patches 1 + 2 can both be
+merged into linux-pm by Rafael, independent of the rest of the series
+(there are some runtime deps on other changes for everything to work,
+but the camera-sensors impacted by this are not fully supported yet in
+the mainline kernel anyways).
+
+For "[PATCH 03/13] platform_data: Add linux/platform_data/tps68470.h file",
+which all further patches depend on I plan to provide an immutable branch
+myself (once it has been reviewed), which the clk / regulator maintainers
+can then merge before merging the clk / regulator driver which depends on
+this.
+
+And I will merge that IM-branch + patches 6-11 into the pdx86 tree myself.
+
+Regards,
+
+Hans
+
+
+Daniel Scally (1):
+  platform/x86: int3472: Enable I2c daisy chain
+
+Hans de Goede (10):
+  ACPI: delay enumeration of devices with a _DEP pointing to an INT3472
+    device
+  i2c: acpi: Use acpi_dev_ready_for_enumeration() helper
+  platform_data: Add linux/platform_data/tps68470.h file
+  regulator: Introduce tps68470-regulator driver
+  clk: Introduce clk-tps68470 driver
+  platform/x86: int3472: Split into 2 drivers
+  platform/x86: int3472: Add get_sensor_adev_and_name() helper
+  platform/x86: int3472: Pass tps68470_clk_platform_data to the
+    tps68470-regulator MFD-cell
+  platform/x86: int3472: Pass tps68470_regulator_platform_data to the
+    tps68470-regulator MFD-cell
+  platform/x86: int3472: Deal with probe ordering issues
+
+ drivers/acpi/scan.c                           |  36 ++-
+ drivers/clk/Kconfig                           |   6 +
+ drivers/clk/Makefile                          |   1 +
+ drivers/clk/clk-tps68470.c                    | 256 ++++++++++++++++++
+ drivers/i2c/i2c-core-acpi.c                   |   5 +-
+ drivers/platform/x86/intel/int3472/Makefile   |   9 +-
+ ...lk_and_regulator.c => clk_and_regulator.c} |   2 +-
+ drivers/platform/x86/intel/int3472/common.c   |  82 ++++++
+ .../{intel_skl_int3472_common.h => common.h}  |   6 +-
+ ...ntel_skl_int3472_discrete.c => discrete.c} |  51 ++--
+ .../intel/int3472/intel_skl_int3472_common.c  | 106 --------
+ ...ntel_skl_int3472_tps68470.c => tps68470.c} |  97 ++++++-
+ drivers/platform/x86/intel/int3472/tps68470.h |  25 ++
+ .../x86/intel/int3472/tps68470_board_data.c   | 118 ++++++++
+ drivers/regulator/Kconfig                     |   9 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/tps68470-regulator.c        | 193 +++++++++++++
+ include/acpi/acpi_bus.h                       |   5 +-
+ include/linux/mfd/tps68470.h                  |  11 +
+ include/linux/platform_data/tps68470.h        |  35 +++
+ 20 files changed, 904 insertions(+), 150 deletions(-)
+ create mode 100644 drivers/clk/clk-tps68470.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_clk_and_regulator.c => clk_and_regulator.c} (99%)
+ create mode 100644 drivers/platform/x86/intel/int3472/common.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_common.h => common.h} (94%)
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_discrete.c => discrete.c} (91%)
+ delete mode 100644 drivers/platform/x86/intel/int3472/intel_skl_int3472_common.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_tps68470.c => tps68470.c} (55%)
+ create mode 100644 drivers/platform/x86/intel/int3472/tps68470.h
+ create mode 100644 drivers/platform/x86/intel/int3472/tps68470_board_data.c
+ create mode 100644 drivers/regulator/tps68470-regulator.c
+ create mode 100644 include/linux/platform_data/tps68470.h
+
 -- 
-2.33.0
+2.31.1
 
