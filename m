@@ -2,105 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF3FC4280E7
-	for <lists+linux-media@lfdr.de>; Sun, 10 Oct 2021 13:41:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F349A4281B0
+	for <lists+linux-media@lfdr.de>; Sun, 10 Oct 2021 16:15:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231918AbhJJLnq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Oct 2021 07:43:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231561AbhJJLnp (ORCPT
+        id S232507AbhJJOR0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Oct 2021 10:17:26 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33702 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231846AbhJJORZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Oct 2021 07:43:45 -0400
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89371C061570
-        for <linux-media@vger.kernel.org>; Sun, 10 Oct 2021 04:41:47 -0700 (PDT)
-Received: by mail-vs1-xe43.google.com with SMTP id v4so15644629vsg.12
-        for <linux-media@vger.kernel.org>; Sun, 10 Oct 2021 04:41:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=WqLYFRDMIkNzEjiXoS7z7e55jmSNA2aNfee2QRNnlr8=;
-        b=MJajmVX6UBzQUg3LNLPf7qJWl2lhTkHP2RdDBXQ7x3zmNLzlWYrfQe8enpM0bskMDV
-         sTUVWFxkuxhxZPxGe8xtp5d20X2H8PkJsEJXF2ez0NMY4Vcz5YJePIQxCKvXZ2koIESm
-         Sr4D6k1djtSLVsFD7JN9HRpFjR0F6/tun/ydsq4O2mVyXPFH5iFPj3CAquTN+Mat4v4R
-         OAXoTAC+HwOxBZmpknRxmUsnlCMTV3ixoxBo7XCx39q5fZGzyQfplzO7ZxnPy1Hqd3qu
-         gXasaF29lcfGdIWgfL0i5DjULJEObnw4TXSBz3U7e38KfyOTQucyvZIjnZXm8ZrpWNLM
-         vA0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=WqLYFRDMIkNzEjiXoS7z7e55jmSNA2aNfee2QRNnlr8=;
-        b=d8qdYxgrn4MxyzbYs0Poc2yrbo+w4ml4ZLvqLn9eRyDo8ieigaqZ9grWuxMhftSIXK
-         gAVWrnNIVByvwOD7yI/Mm6YA8wfL/WtXeJltSM3Opdldy0wcuzQUcF/6XULzynlxZu7z
-         0OIoNzCeyJQT/LHNMyRFS+FEK+GJWHMdgZEGr9I6y+cTpaFN5IJk2e5gtnCkoW2t3n7k
-         2EvyJFnSkxekJGYhbzyJn/ECXCTc0/FQgJKasZGLhl7AVF7ly6xx/A/RrfdJHiYVvIE7
-         pc0UKZtUkWDFZ31AixOF2YNMijfCuKilNFGrF+caFvfMopQTG+37bcdcNJ2gvJi6UeUA
-         cw0Q==
-X-Gm-Message-State: AOAM531ajKms4wvcA1loOra9MEJZpUXlBFcc97Spq+MOZL1W6DQx9zqB
-        hs10Nn9M9T3DglB59/mldFdIbl8HqbMA1lxacjc=
-X-Google-Smtp-Source: ABdhPJzjZ22Uk4FLmxHodqneEah6nsyiw85xfulZ3U8TPrvmIrkNHQwq7Kx+xuIVfzKSpiL/H36/juCVxPLMKBPQDpw=
-X-Received: by 2002:a67:fa88:: with SMTP id f8mr18729061vsq.32.1633866106717;
- Sun, 10 Oct 2021 04:41:46 -0700 (PDT)
+        Sun, 10 Oct 2021 10:17:25 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C71872FD;
+        Sun, 10 Oct 2021 16:15:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1633875326;
+        bh=giusG1QrkmZ2pSDifDY07AYUH+SKTeUF2nn0odDyez0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=T0sHx5pXCNFnF9P1W7bLmKky660g5szsFOs6u+D1frWFds6g1SjEBRtzs0/qax2Hw
+         IMcLK/CNpdNmN2TSlRm19tnLWQLRN1Nu+3uElL26RrilBrkri3X5WVP3DRTeuuvstb
+         OW+4gMr8qJ7fhf5MI/eb8CPj2QwFfdN1OiSTUKY4=
+Date:   Sun, 10 Oct 2021 17:15:13 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v9 33/36] media: subdev: add "opposite" stream helper
+ funcs
+Message-ID: <YWL1cTmobr+RI/01@pendragon.ideasonboard.com>
+References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
+ <20211005085750.138151-34-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Received: by 2002:a59:2318:0:b0:235:ea58:8ee5 with HTTP; Sun, 10 Oct 2021
- 04:41:46 -0700 (PDT)
-Reply-To: fritzbogerelsa@yahoo.com
-From:   "REF: 05ML-03NRI/EUAID/OPEC/TGF" <be6003012@gmail.com>
-Date:   Sun, 10 Oct 2021 12:41:46 +0100
-Message-ID: <CAFhkhfzSPacJL19d5PYfC9SwvNpcf9F-hOE3=UGxa1vBLiX5Vg@mail.gmail.com>
-Subject: Re: EU Aid Volunteers
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211005085750.138151-34-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Tomi,
+
+Thank you for the patch.
+
+On Tue, Oct 05, 2021 at 11:57:47AM +0300, Tomi Valkeinen wrote:
+> Add two helper functions to make dealing with streams easier:
+> 
+> v4l2_state_find_opposite_end - given a routing table and a pad + stream,
+> return the pad + stream on the opposite side of the subdev.
+> 
+> v4l2_state_get_opposite_stream_format - return a pointer to the format
+> on the pad + stream on the opposite side from the given pad + stream.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 42 +++++++++++++++++++++++++++
+>  include/media/v4l2-subdev.h           | 32 ++++++++++++++++++++
+>  2 files changed, 74 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 37e2e1f907fc..9eeadad997c8 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1484,3 +1484,45 @@ v4l2_state_get_stream_format(struct v4l2_subdev_state *state, unsigned int pad,
+>  	return NULL;
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_state_get_stream_format);
+> +
+> +int v4l2_state_find_opposite_end(struct v4l2_subdev_krouting *routing, u32 pad,
+> +				 u32 stream, u32 *other_pad, u32 *other_stream)
+
+This function should take a state pointer given its name. I would also
+rename it to v4l2_subdev_state_find_opposite_end(). Same for
+v4l2_state_get_opposite_stream_format() which should be
+v4l2_subdev_state_get_opposite_stream_format().
+
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < routing->num_routes; ++i) {
+> +		struct v4l2_subdev_route *route = &routing->routes[i];
+> +
+> +		if (route->source_pad == pad &&
+> +		    route->source_stream == stream) {
+> +			*other_pad = route->sink_pad;
+> +			*other_stream = route->sink_stream;
+
+Can we support other_stream being NULL ? When the subdev implements the
+routing API without multiplexed streams, the other_stream number will
+always be 0 and it would be nice if the caller didn't have to declare a
+placeholder variable.
+
+There are less use cases for other_pad being NULL, but maybe we could
+also allow that for consistency reasons ? Up to you.
+
+> +			return 0;
+> +		}
+> +
+> +		if (route->sink_pad == pad && route->sink_stream == stream) {
+> +			*other_pad = route->source_pad;
+> +			*other_stream = route->source_stream;
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_state_find_opposite_end);
+> +
+> +struct v4l2_mbus_framefmt *
+> +v4l2_state_get_opposite_stream_format(struct v4l2_subdev_state *state, u32 pad,
+> +				      u32 stream)
+> +{
+> +	u32 other_pad, other_stream;
+> +	int ret;
+> +
+> +	ret = v4l2_state_find_opposite_end(&state->routing, pad, stream,
+> +					   &other_pad, &other_stream);
+> +	if (ret)
+> +		return NULL;
+> +
+> +	return v4l2_state_get_stream_format(state, other_pad, other_stream);
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_state_get_opposite_stream_format);
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 1dc824416c1b..4b9520410783 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -1501,4 +1501,36 @@ struct v4l2_mbus_framefmt *
+>  v4l2_state_get_stream_format(struct v4l2_subdev_state *state, unsigned int pad,
+>  			     u32 stream);
+>  
+> +/**
+> + * v4l2_state_find_opposite_end() - Find the opposite stream
+> + * @routing: routing used to find the opposite side
+> + * @pad: pad id
+> + * @stream: stream id
+> + * @other_pad: pointer used to return the opposite pad
+> + * @other_stream: pointer used to return the opposite stream
+> + *
+> + * This function uses the routing table to find the pad + stream which is
+> + * opposite the given pad + stream.
+> + *
+> + * Returns 0 on success, or -EINVAL if no matching route is found.
+> + */
+> +int v4l2_state_find_opposite_end(struct v4l2_subdev_krouting *routing, u32 pad,
+> +				 u32 stream, u32 *other_pad, u32 *other_stream);
+> +
+> +/**
+> + * v4l2_state_get_opposite_stream_format() - Get pointer to opposite stream
+> + *					     format
+> + * @state: subdevice state
+> + * @pad: pad id
+> + * @stream: stream id
+> + *
+> + * This returns a pointer to &struct v4l2_mbus_framefmt for the pad + stream
+> + * that is opposite the given pad + stream in the subdev state.
+> + *
+> + * If the state does not contain the given pad + stream, NULL is returned.
+> + */
+> +struct v4l2_mbus_framefmt *
+> +v4l2_state_get_opposite_stream_format(struct v4l2_subdev_state *state, u32 pad,
+> +				      u32 stream);
+> +
+>  #endif
+
 -- 
-REF: 05ML-03NRI/EUAID/OPEC/TGF
+Regards,
 
-Congratulations, you are hereby being approved for a lump sum of
-USD$449,500.00 (Four Hundred and Forty-Nine Thousand Five Hundred
-United States Dollars) in your favor through an international bank
-draft cheque cash-able anywhere in the world. As decided by the
-Management Committee of EU Aid Volunteers in-conjunction with OPEC
-Fund and The Global Fund you have been automatically shortlisted among
-the beneficiaries of Proposals for EU Aid Volunteers in-conjunction
-with OPEC in 2021.
-
-EU Aid Volunteers brings volunteers and organizations together from
-different countries, providing practical support to humanitarian aid
-projects and contributing to strengthening local capacity and
-resilience of disaster-affected communities.
-
-The OPEC Fund provides emergency aid assistance and supports selected
-regional and global initiatives, especially those addressing priority
-issues on the sustainable development agenda.
-
-The Global Fund has a vital role to play in supporting individuals
-from countries that implement Global Fund-financed programs with their
-response to the COVID-19 pandemic, while maintaining its focus in
-continuing the fight against HIV, TB and malaria.
-
-Contact: Elsa Fritzboger here: fritzbogerelsa@yahoo.com with the below
-information as soon as possible for the delivery of your international
-bank draft cheque. We've authorized him to release the Bank Draft
-cheque to you whenever you contact him regarding it.
-
-Name in full:
-Nationality:
-Age:
-Occupation:
-Phone/Fax:
-Postal Address:
-
-Thanks for your Cooperation
-Elodie A. Larsson
-EU Aid Volunteers.
-For more information visit: https://www.aidvolunteers.org/
-
-****************************** ******************************
-NOTE: If you received this message in your SPAM/BULK folder , that is
-because of the restrictions implemented by your server
-****************************** ******************************
+Laurent Pinchart
