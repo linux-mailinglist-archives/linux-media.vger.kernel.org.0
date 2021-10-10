@@ -2,395 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D62E142821C
-	for <lists+linux-media@lfdr.de>; Sun, 10 Oct 2021 17:02:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E77C428232
+	for <lists+linux-media@lfdr.de>; Sun, 10 Oct 2021 17:10:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232405AbhJJPED (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Oct 2021 11:04:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41678 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231842AbhJJPEC (ORCPT
+        id S232819AbhJJPMv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Oct 2021 11:12:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60294 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232646AbhJJPMu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Oct 2021 11:04:02 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEA2BC061570;
-        Sun, 10 Oct 2021 08:02:03 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id j21so44368204lfe.0;
-        Sun, 10 Oct 2021 08:02:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ZB+cVCAwS+ktrbkzyia0RQKNBK7/AOAZxJFAJNUaHcM=;
-        b=gx08TuE3Tb4+eM6AdSERF65Ipv7F1DmOp87cFU4pdr7qasXK5YM/PANcJsflzD+QGL
-         Y4IXZDsnwyJQKyeZ7+Givuv9N59pFJ7McbW4bS/mnX0TGEFUTuzlOqKlJgmCHIWRTshx
-         tep3Lf8qrSNtk4AhsyvtYg+oNsrOj2azV1zzYgx+bCiM/9089ZAw09gnbX2eWXHnYrss
-         TVizHiO40jEV5LBQcBIYUO8Bksdj+NXxw5t/5/VQgo8e7bHGJGdJbrAVy3QYrP/itclc
-         rGRc/d8iuwOgqS2q7h4hScCowBwpELFZDsKUjO7nQxuTMPIZxIuZWDE8YkeOn/653ly1
-         DZHw==
+        Sun, 10 Oct 2021 11:12:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633878651;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ymYBEBSUvf6CaVJZTg55f7eZ0XT38KYWfIPvyX/VujI=;
+        b=D/ogrlM/OxA6lV3KzvWHGmNlKTkEyB5yjC9uj/NtJbYc3ATIByvivJ5wg2bQ8Fu3z+V+mJ
+        +KwUz2NaMkntB/DcwHtPWvipV3L6truq1f0qqfAbQ8QI54z5UMDMl97dy9BxvpTBBnCg2V
+        lghuKB5YzZIRtk4jsdeD+EtCjmGYqG0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-BtuxSpruP-motPjb3Mb1jw-1; Sun, 10 Oct 2021 11:10:49 -0400
+X-MC-Unique: BtuxSpruP-motPjb3Mb1jw-1
+Received: by mail-ed1-f72.google.com with SMTP id cy14-20020a0564021c8e00b003db8c9a6e30so1121828edb.1
+        for <linux-media@vger.kernel.org>; Sun, 10 Oct 2021 08:10:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ZB+cVCAwS+ktrbkzyia0RQKNBK7/AOAZxJFAJNUaHcM=;
-        b=lw20/5522pyeaHWB7CnIYSqtvWC7M02Fm3wEx7WpQ9yMTixhT4Ov2AbK471MaQYesi
-         IikeLkisiuDyC5QjFlJVPZ0yrx8PQnmtRfgUlaVuxr7p9jhV3fEEW+G0zZA2CDPn1LvI
-         1bTdqdf/7083WriBm13UdZ0K+JVDJ0Bd+olk2HP24DfXp014G4dgYBtCNT+BkWco/XUN
-         IB+bAzeD6tMKhSAjdnFv70Dva1AR/gVIbuoFSqZZemgeemZN+htmiJrPDNXiQodgBvu1
-         J9Q81np02GgHo4S+qSmmg7ocXkAQZvv9Do6UC/HfBLmTrjh1ZCazyu3ohUpWfPZOXpCV
-         AX7g==
-X-Gm-Message-State: AOAM532I4khAN7RwY2dgbdRLj1AFK40q8RiCNcYDrOHzU9iIUlirktek
-        uyMRzLyD3GfHPnb7uM74lp3BfMzXacvcci4bMcg=
-X-Google-Smtp-Source: ABdhPJx1WiVqhvW9kuzsMZbe57Eo3wmj+epLDA1q5iPHcIONo2FRXbXxgaO3Q99ATeU43WPJyMEf4KiNRW7/6kTLkSw=
-X-Received: by 2002:a05:651c:230e:: with SMTP id bi14mr15606782ljb.467.1633878121862;
- Sun, 10 Oct 2021 08:02:01 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ymYBEBSUvf6CaVJZTg55f7eZ0XT38KYWfIPvyX/VujI=;
+        b=JXvxU+d2uM4I1dykBswTwgRCLQ6kWYm2XDozjp/iGIase1IyaCpaBNZ/NC8KP5JiMS
+         z+PEwW0rDwQXy4xPWOsyZPIwRKzgAXUv1U4cfUPlu2rdWuArM0qvbIo2847HHxojKW8u
+         hCMVQYuVx0R0+0mTSjVeo/HAifaFVQAiJwJmLZucnLrgXvIvfyNCHJW4dFiJKzlLFdy0
+         JZZz1kSNLtWBvf47Mhne2YDQQKbyTn3UPFqnYxlND+sRkiaREOsjC7LFa82t+FZhaSoy
+         BHVLwx7jw20lwpYNB8TSaFYQcQYC0nWTXvD0sR0gBAM76Up7gTPn1ckmCF9AkKImr1F6
+         kkhA==
+X-Gm-Message-State: AOAM533schzzX4Xlj5+QeDZkJotAYxL4TPQzm0DmaN+CBFI0ChjVVQNL
+        iVeLf4HCAYF3iw0/ui/9aCT7GxH0XDRKF1r3uX0MNyer+err7E/vyqbWSslJRxXzgbWnkIYrFXk
+        +nPlk/20TsBERv2A+29GFpPk=
+X-Received: by 2002:a05:6402:268c:: with SMTP id w12mr32262448edd.376.1633878648644;
+        Sun, 10 Oct 2021 08:10:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLPx4rw5dSOqmTSWeFvO+pX78uTWdkgxG68sKgpA1md+rOQ4QAYdlxxEJVEnKXjnU/oTQ3mQ==
+X-Received: by 2002:a05:6402:268c:: with SMTP id w12mr32262422edd.376.1633878648447;
+        Sun, 10 Oct 2021 08:10:48 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id h11sm2171214eji.96.2021.10.10.08.10.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 10 Oct 2021 08:10:48 -0700 (PDT)
+Subject: Re: [PATCH v2 02/13] ACPI: honor dependencies for devices with a _DEP
+ pointing to an INT3472 device
+To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org
+References: <20211009160548.306550-1-hdegoede@redhat.com>
+ <20211009160548.306550-3-hdegoede@redhat.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <d90f8514-a779-06ad-5e8d-5c42a5771b15@redhat.com>
+Date:   Sun, 10 Oct 2021 17:10:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210929041905.126454-1-mie@igel.co.jp> <20210929041905.126454-3-mie@igel.co.jp>
- <YVXMkSDXybju88TU@phenom.ffwll.local> <CANXvt5rD82Lvvag_k9k+XE-Sj1S6Qwp5uf+-feUTvez1-t4xUA@mail.gmail.com>
- <CANXvt5rWEDQ1gRQOht3-O5KreEch6tPBuRtBkH8xLbEUXC2+MA@mail.gmail.com>
-In-Reply-To: <CANXvt5rWEDQ1gRQOht3-O5KreEch6tPBuRtBkH8xLbEUXC2+MA@mail.gmail.com>
-From:   Zhu Yanjun <zyjzyj2000@gmail.com>
-Date:   Sun, 10 Oct 2021 23:01:50 +0800
-Message-ID: <CAD=hENdObLSg8qFJ8VftHNjv+riswU=qfU2ZBPr2eMiu210emg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/2] RDMA/rxe: Add dma-buf support
-To:     Shunsuke Mie <mie@igel.co.jp>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jianxin Xiong <jianxin.xiong@intel.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maor Gottlieb <maorg@nvidia.com>,
-        Sean Hefty <sean.hefty@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Damian Hobson-Garcia <dhobsong@igel.co.jp>,
-        Takanari Hayama <taki@igel.co.jp>,
-        Tomohito Esaki <etom@igel.co.jp>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211009160548.306550-3-hdegoede@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 5, 2021 at 6:20 PM Shunsuke Mie <mie@igel.co.jp> wrote:
->
-> ping
+Hi,
 
-Sorry. I will check it soon.
-Zhu Yanjun
+On 10/9/21 6:05 PM, Hans de Goede wrote:
+> The clk and regulator frameworks expect clk/regulator consumer-devices
+> to have info about the consumed clks/regulators described in the device's
+> fw_node.
+> 
+> To work around cases where this info is not present in the firmware tables,
+> which is often the case on x86/ACPI devices, both frameworks allow the
+> provider-driver to attach info about consumers to the clks/regulators
+> when registering these.
+> 
+> This causes problems with the probe ordering wrt drivers for consumers
+> of these clks/regulators. Since the lookups are only registered when the
+> provider-driver binds, trying to get these clks/regulators before then
+> results in a -ENOENT error for clks and a dummy regulator for regulators.
+> 
+> One case where we hit this issue is camera sensors such as e.g. the OV8865
+> sensor found on the Microsoft Surface Go. The sensor uses clks, regulators
+> and GPIOs provided by a TPS68470 PMIC which is described in an INT3472
+> ACPI device. There is special platform code handling this and setting
+> platform_data with the necessary consumer info on the MFD cells
+> instantiated for the PMIC under: drivers/platform/x86/intel/int3472.
+> 
+> For this to work properly the ov8865 driver must not bind to the i2c-client
+> for the OV8865 sensor until after the TPS68470 PMIC gpio, regulator and
+> clk MFD cells have all been fully setup.
+> 
+> The OV8865 on the Microsoft Surface Go is just one example, all X86
+> devices using the Intel IPU3 camera block found on recent Intel SoCs
+> have similar issues where there is an INT3472 HID ACPI-device which
+> describes the clks and regulators and the driver for this INT3472 device
+> must be fully initialized before the sensor driver (any sensor driver)
+> binds for things to work properly.
+> 
+> On these devices the ACPI nodes describing the sensors all have a _DEP
+> dependency on the matching INT3472 ACPI device (there is one per sensor).
+> 
+> This allows solving the probe-ordering problem by making ACPI-devices
+> honor the _DEP dependencies (like we already do for batteries) when they
+> have a dependency on an INT3472 device.
+> 
+> Note the matching is done on there being a _DEP on an INT3472 device,
+> rather then matching on the HID of the sensor device itself to avoid
+> having to maintain an ever growing list of HIDs of sensors which need
+> the honor_dep behavior.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
->
-> 2021=E5=B9=B410=E6=9C=881=E6=97=A5(=E9=87=91) 12:56 Shunsuke Mie <mie@ige=
-l.co.jp>:
-> >
-> > 2021=E5=B9=B49=E6=9C=8830=E6=97=A5(=E6=9C=A8) 23:41 Daniel Vetter <dani=
-el@ffwll.ch>:
-> > >
-> > > On Wed, Sep 29, 2021 at 01:19:05PM +0900, Shunsuke Mie wrote:
-> > > > Implement a ib device operation =E2=80=98reg_user_mr_dmabuf=E2=80=
-=99. Generate a
-> > > > rxe_map from the memory space linked the passed dma-buf.
-> > > >
-> > > > Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
-> > > > ---
-> > > >  drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
-> > > >  drivers/infiniband/sw/rxe/rxe_mr.c    | 118 ++++++++++++++++++++++=
-++++
-> > > >  drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
-> > > >  drivers/infiniband/sw/rxe/rxe_verbs.h |   2 +
-> > > >  4 files changed, 156 insertions(+)
-> > > >
-> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_loc.h b/drivers/infiniba=
-nd/sw/rxe/rxe_loc.h
-> > > > index 1ca43b859d80..8bc19ea1a376 100644
-> > > > --- a/drivers/infiniband/sw/rxe/rxe_loc.h
-> > > > +++ b/drivers/infiniband/sw/rxe/rxe_loc.h
-> > > > @@ -75,6 +75,8 @@ u8 rxe_get_next_key(u32 last_key);
-> > > >  void rxe_mr_init_dma(struct rxe_pd *pd, int access, struct rxe_mr =
-*mr);
-> > > >  int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64=
- iova,
-> > > >                    int access, struct rxe_mr *mr);
-> > > > +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, =
-u64 length,
-> > > > +                         u64 iova, int access, struct rxe_mr *mr);
-> > > >  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_=
-mr *mr);
-> > > >  int rxe_mr_copy(struct rxe_mr *mr, u64 iova, void *addr, int lengt=
-h,
-> > > >               enum rxe_mr_copy_dir dir);
-> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_mr.c b/drivers/infiniban=
-d/sw/rxe/rxe_mr.c
-> > > > index 53271df10e47..af6ef671c3a5 100644
-> > > > --- a/drivers/infiniband/sw/rxe/rxe_mr.c
-> > > > +++ b/drivers/infiniband/sw/rxe/rxe_mr.c
-> > > > @@ -4,6 +4,7 @@
-> > > >   * Copyright (c) 2015 System Fabric Works, Inc. All rights reserve=
-d.
-> > > >   */
-> > > >
-> > > > +#include <linux/dma-buf.h>
-> > > >  #include "rxe.h"
-> > > >  #include "rxe_loc.h"
-> > > >
-> > > > @@ -245,6 +246,120 @@ int rxe_mr_init_user(struct rxe_pd *pd, u64 s=
-tart, u64 length, u64 iova,
-> > > >       return err;
-> > > >  }
-> > > >
-> > > > +static int rxe_map_dmabuf_mr(struct rxe_mr *mr,
-> > > > +                          struct ib_umem_dmabuf *umem_dmabuf)
-> > > > +{
-> > > > +     struct rxe_map_set *set;
-> > > > +     struct rxe_phys_buf *buf =3D NULL;
-> > > > +     struct rxe_map **map;
-> > > > +     void *vaddr, *vaddr_end;
-> > > > +     int num_buf =3D 0;
-> > > > +     int err;
-> > > > +     size_t remain;
-> > > > +
-> > > > +     mr->dmabuf_map =3D kzalloc(sizeof &mr->dmabuf_map, GFP_KERNEL=
-);
-> > >
-> > > dmabuf_maps are just tagged pointers (and we could shrink them to act=
-ually
-> > > just a tagged pointer if anyone cares about the overhead of the separ=
-ate
-> > > bool), allocating them seperately is overkill.
-> >
-> > I agree with you. However, I think it is needed to unmap by
-> > dma_buf_vunmap(). If there is another simple way to unmap it. It is not
-> > needed I think. What do you think about it?
-> >
-> > > > +     if (!mr->dmabuf_map) {
-> > > > +             err =3D -ENOMEM;
-> > > > +             goto err_out;
-> > > > +     }
-> > > > +
-> > > > +     err =3D dma_buf_vmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
-> > > > +     if (err)
-> > > > +             goto err_free_dmabuf_map;
-> > > > +
-> > > > +     set =3D mr->cur_map_set;
-> > > > +     set->page_shift =3D PAGE_SHIFT;
-> > > > +     set->page_mask =3D PAGE_SIZE - 1;
-> > > > +
-> > > > +     map =3D set->map;
-> > > > +     buf =3D map[0]->buf;
-> > > > +
-> > > > +     vaddr =3D mr->dmabuf_map->vaddr;
-> > >
-> > > dma_buf_map can be an __iomem too, you shouldn't dig around in this, =
-but
-> > > use the dma-buf-map.h helpers instead. On x86 (and I think also on mo=
-st
-> > > arm) it doesn't matter, but it's kinda not very nice in a pure softwa=
-re
-> > > driver.
-> > >
-> > > If anything is missing in dma-buf-map.h wrappers just add more.
-> > >
-> > > Or alternatively you need to fail the import if you can't handle __io=
-mem.
-> > >
-> > > Aside from these I think the dma-buf side here for cpu access looks
-> > > reasonable now.
-> > > -Daniel
-> > I'll see the dma-buf-map.h and consider the error handling that you sug=
-gested.
-> > I appreciate your support.
-> >
-> > Thanks a lot,
-> > Shunsuke.
-> >
-> > > > +     vaddr_end =3D vaddr + umem_dmabuf->dmabuf->size;
-> > > > +     remain =3D umem_dmabuf->dmabuf->size;
-> > > > +
-> > > > +     for (; remain; vaddr +=3D PAGE_SIZE) {
-> > > > +             if (num_buf >=3D RXE_BUF_PER_MAP) {
-> > > > +                     map++;
-> > > > +                     buf =3D map[0]->buf;
-> > > > +                     num_buf =3D 0;
-> > > > +             }
-> > > > +
-> > > > +             buf->addr =3D (uintptr_t)vaddr;
-> > > > +             if (remain >=3D PAGE_SIZE)
-> > > > +                     buf->size =3D PAGE_SIZE;
-> > > > +             else
-> > > > +                     buf->size =3D remain;
-> > > > +             remain -=3D buf->size;
-> > > > +
-> > > > +             num_buf++;
-> > > > +             buf++;
-> > > > +     }
-> > > > +
-> > > > +     return 0;
-> > > > +
-> > > > +err_free_dmabuf_map:
-> > > > +     kfree(mr->dmabuf_map);
-> > > > +err_out:
-> > > > +     return err;
-> > > > +}
-> > > > +
-> > > > +static void rxe_unmap_dmabuf_mr(struct rxe_mr *mr)
-> > > > +{
-> > > > +     struct ib_umem_dmabuf *umem_dmabuf =3D to_ib_umem_dmabuf(mr->=
-umem);
-> > > > +
-> > > > +     dma_buf_vunmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
-> > > > +     kfree(mr->dmabuf_map);
-> > > > +}
-> > > > +
-> > > > +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, =
-u64 length,
-> > > > +                         u64 iova, int access, struct rxe_mr *mr)
-> > > > +{
-> > > > +     struct ib_umem_dmabuf *umem_dmabuf;
-> > > > +     struct rxe_map_set *set;
-> > > > +     int err;
-> > > > +
-> > > > +     umem_dmabuf =3D ib_umem_dmabuf_get(pd->ibpd.device, start, le=
-ngth, fd,
-> > > > +                                      access, NULL);
-> > > > +     if (IS_ERR(umem_dmabuf)) {
-> > > > +             err =3D PTR_ERR(umem_dmabuf);
-> > > > +             goto err_out;
-> > > > +     }
-> > > > +
-> > > > +     rxe_mr_init(access, mr);
-> > > > +
-> > > > +     err =3D rxe_mr_alloc(mr, ib_umem_num_pages(&umem_dmabuf->umem=
-), 0);
-> > > > +     if (err) {
-> > > > +             pr_warn("%s: Unable to allocate memory for map\n", __=
-func__);
-> > > > +             goto err_release_umem;
-> > > > +     }
-> > > > +
-> > > > +     mr->ibmr.pd =3D &pd->ibpd;
-> > > > +     mr->umem =3D &umem_dmabuf->umem;
-> > > > +     mr->access =3D access;
-> > > > +     mr->state =3D RXE_MR_STATE_VALID;
-> > > > +     mr->type =3D IB_MR_TYPE_USER;
-> > > > +
-> > > > +     set =3D mr->cur_map_set;
-> > > > +     set->length =3D length;
-> > > > +     set->iova =3D iova;
-> > > > +     set->va =3D start;
-> > > > +     set->offset =3D ib_umem_offset(mr->umem);
-> > > > +
-> > > > +     err =3D rxe_map_dmabuf_mr(mr, umem_dmabuf);
-> > > > +     if (err)
-> > > > +             goto err_free_map_set;
-> > > > +
-> > > > +     return 0;
-> > > > +
-> > > > +err_free_map_set:
-> > > > +     rxe_mr_free_map_set(mr->num_map, mr->cur_map_set);
-> > > > +err_release_umem:
-> > > > +     ib_umem_release(&umem_dmabuf->umem);
-> > > > +err_out:
-> > > > +     return err;
-> > > > +}
-> > > > +
-> > > >  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_=
-mr *mr)
-> > > >  {
-> > > >       int err;
-> > > > @@ -703,6 +818,9 @@ void rxe_mr_cleanup(struct rxe_pool_entry *arg)
-> > > >  {
-> > > >       struct rxe_mr *mr =3D container_of(arg, typeof(*mr), pelem);
-> > > >
-> > > > +     if (mr->umem && mr->umem->is_dmabuf)
-> > > > +             rxe_unmap_dmabuf_mr(mr);
-> > > > +
-> > > >       ib_umem_release(mr->umem);
-> > > >
-> > > >       if (mr->cur_map_set)
-> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.c b/drivers/infini=
-band/sw/rxe/rxe_verbs.c
-> > > > index 9d0bb9aa7514..6191bb4f434d 100644
-> > > > --- a/drivers/infiniband/sw/rxe/rxe_verbs.c
-> > > > +++ b/drivers/infiniband/sw/rxe/rxe_verbs.c
-> > > > @@ -916,6 +916,39 @@ static struct ib_mr *rxe_reg_user_mr(struct ib=
-_pd *ibpd,
-> > > >       return ERR_PTR(err);
-> > > >  }
-> > > >
-> > > > +static struct ib_mr *rxe_reg_user_mr_dmabuf(struct ib_pd *ibpd, u6=
-4 start,
-> > > > +                                         u64 length, u64 iova, int=
- fd,
-> > > > +                                         int access, struct ib_uda=
-ta *udata)
-> > > > +{
-> > > > +     int err;
-> > > > +     struct rxe_dev *rxe =3D to_rdev(ibpd->device);
-> > > > +     struct rxe_pd *pd =3D to_rpd(ibpd);
-> > > > +     struct rxe_mr *mr;
-> > > > +
-> > > > +     mr =3D rxe_alloc(&rxe->mr_pool);
-> > > > +     if (!mr) {
-> > > > +             err =3D -ENOMEM;
-> > > > +             goto err2;
-> > > > +     }
-> > > > +
-> > > > +     rxe_add_index(mr);
-> > > > +
-> > > > +     rxe_add_ref(pd);
-> > > > +
-> > > > +     err =3D rxe_mr_dmabuf_init_user(pd, fd, start, length, iova, =
-access, mr);
-> > > > +     if (err)
-> > > > +             goto err3;
-> > > > +
-> > > > +     return &mr->ibmr;
-> > > > +
-> > > > +err3:
-> > > > +     rxe_drop_ref(pd);
-> > > > +     rxe_drop_index(mr);
-> > > > +     rxe_drop_ref(mr);
-> > > > +err2:
-> > > > +     return ERR_PTR(err);
-> > > > +}
-> > > > +
-> > > >  static struct ib_mr *rxe_alloc_mr(struct ib_pd *ibpd, enum ib_mr_t=
-ype mr_type,
-> > > >                                 u32 max_num_sg)
-> > > >  {
-> > > > @@ -1081,6 +1114,7 @@ static const struct ib_device_ops rxe_dev_ops=
- =3D {
-> > > >       .query_qp =3D rxe_query_qp,
-> > > >       .query_srq =3D rxe_query_srq,
-> > > >       .reg_user_mr =3D rxe_reg_user_mr,
-> > > > +     .reg_user_mr_dmabuf =3D rxe_reg_user_mr_dmabuf,
-> > > >       .req_notify_cq =3D rxe_req_notify_cq,
-> > > >       .resize_cq =3D rxe_resize_cq,
-> > > >
-> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.h b/drivers/infini=
-band/sw/rxe/rxe_verbs.h
-> > > > index c807639435eb..0aa95ab06b6e 100644
-> > > > --- a/drivers/infiniband/sw/rxe/rxe_verbs.h
-> > > > +++ b/drivers/infiniband/sw/rxe/rxe_verbs.h
-> > > > @@ -334,6 +334,8 @@ struct rxe_mr {
-> > > >
-> > > >       struct rxe_map_set      *cur_map_set;
-> > > >       struct rxe_map_set      *next_map_set;
-> > > > +
-> > > > +     struct dma_buf_map *dmabuf_map;
-> > > >  };
-> > > >
-> > > >  enum rxe_mw_state {
-> > > > --
-> > > > 2.17.1
-> > > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
+In the end I was not entirely happy with the approach in patch 1 + 2
+(this patch) myself, reporting 0 for the status of some devices until
+the _DEP-s are met has some troublesome implications for code which
+behavior depends on acpi_dev_is_present() calls (or equivalent code).
+
+Which led to the: "[PATCH v2 13/13] media: ipu3-cio2: Add module
+soft-deps for the INT3472 drivers" adding unnecessary soft
+module-dependencies to the ipu3-cio2 code to make sure that the
+status was not reported as 0 because of unmet deps when that code
+runs.
+
+Besides these soft-deps being non-sense / undesirable. This also
+is a bit racy since the status only gets updated to reflect the
+unmet_deps==0 once the acpi_scan_clear_dep() workqueue work
+has run and there is no guarantee the work has fully run
+once the modprobe-s of the INT3472 are done (it should run
+soon afterwards, but there is a race there).
+
+So I'm working on a rewrite of patch 1 + 2 now which replaces
+the approach where we "lie" about the status with deferring the
+enumeration step (1) until all the _DEP-s are met (for select
+devices).
+
+Expect a v3 with this new approach soon...
+
+Regards,
+
+Hans
+
+
+
+1) The step where a platform_device or e.g. i2c-client is
+instantiated as physical_device_node for the ACPI-device
+
+
+
+
+> ---
+>  drivers/acpi/scan.c     | 16 ++++++++++++++--
+>  include/acpi/acpi_bus.h |  1 +
+>  2 files changed, 15 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+> index 4e0a946b35ed..976724540197 100644
+> --- a/drivers/acpi/scan.c
+> +++ b/drivers/acpi/scan.c
+> @@ -796,6 +796,12 @@ static const char * const acpi_ignore_dep_ids[] = {
+>  	NULL
+>  };
+>  
+> +/* List of HIDs for which we honor deps of matching ACPI devs, when checking _DEP lists. */
+> +static const char * const acpi_honor_dep_ids[] = {
+> +	"INT3472", /* Camera sensor PMIC / clk and regulator info */
+> +	NULL
+> +};
+> +
+>  static struct acpi_device *acpi_bus_get_parent(acpi_handle handle)
+>  {
+>  	struct acpi_device *device = NULL;
+> @@ -1761,8 +1767,12 @@ static void acpi_scan_dep_init(struct acpi_device *adev)
+>  		adev->honor_deps = true;
+>  
+>  	list_for_each_entry(dep, &acpi_dep_list, node) {
+> -		if (dep->consumer == adev->handle)
+> +		if (dep->consumer == adev->handle) {
+> +			if (dep->honor_dep)
+> +				adev->honor_deps = true;
+> +
+>  			adev->dep_unmet++;
+> +		}
+>  	}
+>  }
+>  
+> @@ -1966,7 +1976,7 @@ static u32 acpi_scan_check_dep(acpi_handle handle, bool check_dep)
+>  	for (count = 0, i = 0; i < dep_devices.count; i++) {
+>  		struct acpi_device_info *info;
+>  		struct acpi_dep_data *dep;
+> -		bool skip;
+> +		bool skip, honor_dep;
+>  
+>  		status = acpi_get_object_info(dep_devices.handles[i], &info);
+>  		if (ACPI_FAILURE(status)) {
+> @@ -1975,6 +1985,7 @@ static u32 acpi_scan_check_dep(acpi_handle handle, bool check_dep)
+>  		}
+>  
+>  		skip = acpi_info_matches_ids(info, acpi_ignore_dep_ids);
+> +		honor_dep = acpi_info_matches_ids(info, acpi_honor_dep_ids);
+>  		kfree(info);
+>  
+>  		if (skip)
+> @@ -1988,6 +1999,7 @@ static u32 acpi_scan_check_dep(acpi_handle handle, bool check_dep)
+>  
+>  		dep->supplier = dep_devices.handles[i];
+>  		dep->consumer = handle;
+> +		dep->honor_dep = honor_dep;
+>  
+>  		mutex_lock(&acpi_dep_list_lock);
+>  		list_add_tail(&dep->node , &acpi_dep_list);
+> diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
+> index 0ba344a5f4f8..b6fb050e77bb 100644
+> --- a/include/acpi/acpi_bus.h
+> +++ b/include/acpi/acpi_bus.h
+> @@ -284,6 +284,7 @@ struct acpi_dep_data {
+>  	struct list_head node;
+>  	acpi_handle supplier;
+>  	acpi_handle consumer;
+> +	bool honor_dep;
+>  };
+>  
+>  /* Performance Management */
+> 
+
