@@ -2,221 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03F14428D25
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 14:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EE99428DF1
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 15:28:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236617AbhJKMiU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 08:38:20 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:48088 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234738AbhJKMiT (ORCPT
+        id S236943AbhJKNag (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 09:30:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58052 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236951AbhJKNac (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 08:38:19 -0400
-Received: from [IPv6:2a02:810a:880:f54:b116:1535:401e:a6ca] (unknown [IPv6:2a02:810a:880:f54:b116:1535:401e:a6ca])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D42FE1F42D3F;
-        Mon, 11 Oct 2021 13:36:16 +0100 (BST)
-Subject: Re: [PATCH v8 04/12] iommu/mediatek: Add device_link between the
- consumer and the larb devices
-To:     Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        David Airlie <airlied@linux.ie>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Evan Green <evgreen@chromium.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Will Deacon <will.deacon@arm.com>,
-        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux-foundation.org, youlin.pei@mediatek.com,
-        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
-        yi.kuo@mediatek.com, acourbot@chromium.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Eizan Miyamoto <eizan@chromium.org>,
-        anthony.huang@mediatek.com,
-        Frank Wunderlich <frank-w@public-files.de>
-References: <20210929013719.25120-1-yong.wu@mediatek.com>
- <20210929013719.25120-5-yong.wu@mediatek.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <e00b92db-0562-27ca-2f96-1f03ff824988@collabora.com>
-Date:   Mon, 11 Oct 2021 14:36:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Mon, 11 Oct 2021 09:30:32 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61536C061570
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 06:28:32 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mZvLZ-0006fi-Rm; Mon, 11 Oct 2021 15:28:05 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mZvLV-0003nd-8g; Mon, 11 Oct 2021 15:28:01 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mZvLV-0000Re-6O; Mon, 11 Oct 2021 15:28:01 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
+Cc:     Mark Brown <broonie@kernel.org>, Wolfram Sang <wsa@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Jason Gunthorpe linux-integrity @ vger . kernel . org" 
+        <jgg@ziepe.ca>, Sam Ravnborg <sam@ravnborg.org>,
+        dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-stm32@st-md-mailman.stormreply.com
+Subject: [PATCH 00/13] Make some spi device drivers return zero in .remove()
+Date:   Mon, 11 Oct 2021 15:27:41 +0200
+Message-Id: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210929013719.25120-5-yong.wu@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
+
+this series is part of my new quest to make spi remove callbacks return
+void. Today they return an int, but the only result of returning a
+non-zero value is a warning message. So it's a bad idea to return an
+error code in the expectation that not freeing some resources is ok
+then. The same holds true for i2c and platform devices which benefit en
+passant for a few drivers.
+
+The patches in this series address some of the spi drivers that might
+return non-zero and adapt them accordingly to return zero instead. For
+most drivers it's just about not hiding the fact that they already
+return zero.
+
+Given that there are quite some more patches of this type to create
+before I can change the spi remove callback, I suggest the respecive
+subsystem maintainers pick up these patches. There are no
+interdependencies in this series.
+
+Uwe Kleine-König (13):
+  drm/panel: s6e63m0: Make s6e63m0_remove() return void
+  hwmon: adt7x10: Make adt7x10_remove() return void
+  hwmon: max31722: Warn about failure to put device in stand-by in
+    .remove()
+  input: adxl34xx: Make adxl34x_remove() return void
+  input: touchscreen: tsc200x: Make tsc200x_remove() return void
+  media: cxd2880: Eliminate dead code
+  mfd: mc13xxx: Make mc13xxx_common_exit() return void
+  mfd: stmpe: Make stmpe_remove() return void
+  mfd: tps65912: Make tps65912_device_exit() return void
+  serial: max310x: Make max310x_remove() return void
+  serial: sc16is7xx: Make sc16is7xx_remove() return void
+  staging: fbtft: Make fbtft_remove_common() return void
+  tpm: st33zp24: Make st33zp24_remove() return void
+
+ drivers/char/tpm/st33zp24/i2c.c                   |  5 +----
+ drivers/char/tpm/st33zp24/spi.c                   |  5 +----
+ drivers/char/tpm/st33zp24/st33zp24.c              |  3 +--
+ drivers/char/tpm/st33zp24/st33zp24.h              |  2 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c |  3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c |  3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c     |  4 +---
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.h     |  2 +-
+ drivers/hwmon/adt7310.c                           |  3 ++-
+ drivers/hwmon/adt7410.c                           |  3 ++-
+ drivers/hwmon/adt7x10.c                           |  3 +--
+ drivers/hwmon/adt7x10.h                           |  2 +-
+ drivers/hwmon/max31722.c                          |  8 +++++++-
+ drivers/input/misc/adxl34x-i2c.c                  |  4 +++-
+ drivers/input/misc/adxl34x-spi.c                  |  4 +++-
+ drivers/input/misc/adxl34x.c                      |  4 +---
+ drivers/input/misc/adxl34x.h                      |  2 +-
+ drivers/input/touchscreen/tsc2004.c               |  4 +++-
+ drivers/input/touchscreen/tsc2005.c               |  4 +++-
+ drivers/input/touchscreen/tsc200x-core.c          |  4 +---
+ drivers/input/touchscreen/tsc200x-core.h          |  2 +-
+ drivers/media/spi/cxd2880-spi.c                   | 13 +------------
+ drivers/mfd/mc13xxx-core.c                        |  4 +---
+ drivers/mfd/mc13xxx-i2c.c                         |  3 ++-
+ drivers/mfd/mc13xxx-spi.c                         |  3 ++-
+ drivers/mfd/mc13xxx.h                             |  2 +-
+ drivers/mfd/stmpe-i2c.c                           |  4 +++-
+ drivers/mfd/stmpe-spi.c                           |  4 +++-
+ drivers/mfd/stmpe.c                               |  4 +---
+ drivers/mfd/stmpe.h                               |  2 +-
+ drivers/mfd/tps65912-core.c                       |  4 +---
+ drivers/mfd/tps65912-i2c.c                        |  4 +++-
+ drivers/mfd/tps65912-spi.c                        |  4 +++-
+ drivers/staging/fbtft/fbtft-core.c                |  8 +-------
+ drivers/staging/fbtft/fbtft.h                     |  6 ++++--
+ drivers/tty/serial/max310x.c                      |  7 +++----
+ drivers/tty/serial/sc16is7xx.c                    | 10 +++++++---
+ include/linux/mfd/tps65912.h                      |  2 +-
+ 38 files changed, 77 insertions(+), 81 deletions(-)
 
 
-On 29.09.21 03:37, Yong Wu wrote:
-> MediaTek IOMMU-SMI diagram is like below. all the consumer connect with
-> smi-larb, then connect with smi-common.
-> 
->          M4U
->           |
->      smi-common
->           |
->    -------------
->    |         |    ...
->    |         |
-> larb1     larb2
->    |         |
-> vdec       venc
-> 
-> When the consumer works, it should enable the smi-larb's power which
-> also need enable the smi-common's power firstly.
-> 
-> Thus, First of all, use the device link connect the consumer and the
-> smi-larbs. then add device link between the smi-larb and smi-common.
-> 
-> This patch adds device_link between the consumer and the larbs.
-> 
-> When device_link_add, I add the flag DL_FLAG_STATELESS to avoid calling
-> pm_runtime_xx to keep the original status of clocks. It can avoid two
-> issues:
-> 1) Display HW show fastlogo abnormally reported in [1]. At the beggining,
-> all the clocks are enabled before entering kernel, but the clocks for
-> display HW(always in larb0) will be gated after clk_enable and clk_disable
-> called from device_link_add(->pm_runtime_resume) and rpm_idle. The clock
-> operation happened before display driver probe. At that time, the display
-> HW will be abnormal.
-> 
-> 2) A deadlock issue reported in [2]. Use DL_FLAG_STATELESS to skip
-> pm_runtime_xx to avoid the deadlock.
-> 
-> Corresponding, DL_FLAG_AUTOREMOVE_CONSUMER can't be added, then
-> device_link_removed should be added explicitly.
-> 
-> [1] https://lore.kernel.org/linux-mediatek/1564213888.22908.4.camel@mhfsdcap03/
-> [2] https://lore.kernel.org/patchwork/patch/1086569/
-> 
-> Suggested-by: Tomasz Figa <tfiga@chromium.org>
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-R2/MT7623
-> ---
->   drivers/iommu/mtk_iommu.c    | 22 ++++++++++++++++++++++
->   drivers/iommu/mtk_iommu_v1.c | 20 +++++++++++++++++++-
->   2 files changed, 41 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-> index d5848f78a677..a2fa55899434 100644
-> --- a/drivers/iommu/mtk_iommu.c
-> +++ b/drivers/iommu/mtk_iommu.c
-> @@ -560,22 +560,44 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
->   {
->   	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
->   	struct mtk_iommu_data *data;
-> +	struct device_link *link;
-> +	struct device *larbdev;
-> +	unsigned int larbid;
->   
->   	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
->   		return ERR_PTR(-ENODEV); /* Not a iommu client device */
->   
->   	data = dev_iommu_priv_get(dev);
->   
-> +	/*
-> +	 * Link the consumer device with the smi-larb device(supplier)
-> +	 * The device in each a larb is a independent HW. thus only link
-> +	 * one larb here.
-> +	 */
-> +	larbid = MTK_M4U_TO_LARB(fwspec->ids[0]);
+base-commit: 9e1ff307c779ce1f0f810c7ecce3d95bbae40896
+-- 
+2.30.2
 
-so larbid is always the same for all the ids of a device? If so
-maybe it worth testing it and return error if this is not the case.
-
-Thanks,
-Dafna
-
-> +	larbdev = data->larb_imu[larbid].dev;
-> +	link = device_link_add(dev, larbdev,
-> +			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
-> +	if (!link)
-> +		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
->   	return &data->iommu;
->   }
->   
->   static void mtk_iommu_release_device(struct device *dev)
->   {
->   	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-> +	struct mtk_iommu_data *data;
-> +	struct device *larbdev;
-> +	unsigned int larbid;
->   
->   	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
->   		return;
->   
-> +	data = dev_iommu_priv_get(dev);
-> +	larbid = MTK_M4U_TO_LARB(fwspec->ids[0]);
-> +	larbdev = data->larb_imu[larbid].dev;
-> +	device_link_remove(dev, larbdev);
-> +
->   	iommu_fwspec_free(dev);
->   }
->   
-> diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-> index 4d7809432239..e6f13459470e 100644
-> --- a/drivers/iommu/mtk_iommu_v1.c
-> +++ b/drivers/iommu/mtk_iommu_v1.c
-> @@ -423,7 +423,9 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
->   	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
->   	struct of_phandle_args iommu_spec;
->   	struct mtk_iommu_data *data;
-> -	int err, idx = 0;
-> +	int err, idx = 0, larbid;
-> +	struct device_link *link;
-> +	struct device *larbdev;
->   
->   	/*
->   	 * In the deferred case, free the existed fwspec.
-> @@ -453,6 +455,14 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
->   
->   	data = dev_iommu_priv_get(dev);
->   
-> +	/* Link the consumer device with the smi-larb device(supplier) */
-> +	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
-> +	larbdev = data->larb_imu[larbid].dev;
-> +	link = device_link_add(dev, larbdev,
-> +			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
-> +	if (!link)
-> +		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
-> +
->   	return &data->iommu;
->   }
->   
-> @@ -473,10 +483,18 @@ static void mtk_iommu_probe_finalize(struct device *dev)
->   static void mtk_iommu_release_device(struct device *dev)
->   {
->   	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-> +	struct mtk_iommu_data *data;
-> +	struct device *larbdev;
-> +	unsigned int larbid;
->   
->   	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
->   		return;
->   
-> +	data = dev_iommu_priv_get(dev);
-> +	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
-> +	larbdev = data->larb_imu[larbid].dev;
-> +	device_link_remove(dev, larbdev);
-> +
->   	iommu_fwspec_free(dev);
->   }
->   
-> 
