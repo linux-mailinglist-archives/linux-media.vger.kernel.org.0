@@ -2,208 +2,649 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9E6D4291D4
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 16:31:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51DDA4291ED
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 16:33:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237522AbhJKOc7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 10:32:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43764 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237438AbhJKOc4 (ORCPT
+        id S238344AbhJKOff (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 10:35:35 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:33425 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238509AbhJKOfe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 10:32:56 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1A17C04CD1C
-        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 07:15:30 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id u18so56875603wrg.5
-        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 07:15:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=dLxsJUpDhzPmoSrF1qZa4Zl9U4s5BEcVvitiq3ldBzs=;
-        b=Mn/WEBLhoPojIdasKOYB5LhCocKhVbLlACzAwBczfwTyYpXmjoT3McGcuu+JDd141P
-         3AnFKTI1Sz5UOr/2c3ywRwQsUyxW767ajHj3fHlmgGHDWkqnoqBSIybMPlZRkg5VswOi
-         SLsotX2bQGEMW3vODiry31+QiZ5fLEg+WhTAqnqZWkG5uX6zj8PEeLITv4miVDPE/nzo
-         bonvBUEtb02b2B8DSW1B2/9P1vpJVaO5oKooPXMSU8HDTZTD3gf8d7nanzdQH5qN95SZ
-         XyneiU+T2ZRXbzjl5U50wDHxfs0bT8cERLFA1mPcs+Dy6WMsXaTJMHVvWYCEKBLgLkIO
-         dYvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=dLxsJUpDhzPmoSrF1qZa4Zl9U4s5BEcVvitiq3ldBzs=;
-        b=guVoJrO8AbxIj8KuGRwvYpPWvfbP+3duwtMURSATt6woVbANpadDoO+Y4+kfp7RJEr
-         jItmso6eat9RqvEndDGdbXAZ+yxHoUUIy6x7lwi8QWcHG6xOrQaZO23thvOied3FqSbI
-         AtEu+kbnB6YCQzRrYFHnEoaTfXuNonGr4NLvZjhw3utfcNc/0nQKNJ7AorUqc9rOtpID
-         IlkqwAYNT8q6drsWeWxEozps50GxTbgbEf6p05STEjiCTdx23KPk7CHs8D8V/vNhWYdW
-         wRRxEKUb5Epu0dxyiv0LSKhahEytrHBACc81QPzNUEy2xBqDso/e1VVlFs9LBk00BWyn
-         rgvQ==
-X-Gm-Message-State: AOAM530AexNIz73yxLQd/2azehmj4BxTa5FqiZ6JpDs3H6cnRoQTsoyG
-        Tcgs6XIsnz1RDC2sCaglbMllYnwPpGg=
-X-Google-Smtp-Source: ABdhPJy/+QpPnkBOuHDSZzntKKe7Q8Ee96pGXUq+k16RcQqTRYLhJiw/aHSwZ/axPkNutqppOhNWhQ==
-X-Received: by 2002:adf:a114:: with SMTP id o20mr24380239wro.95.1633961729555;
-        Mon, 11 Oct 2021 07:15:29 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:fefa:f968:b0f6:6172? ([2a02:908:1252:fb60:fefa:f968:b0f6:6172])
-        by smtp.gmail.com with ESMTPSA id z8sm8053645wrq.16.2021.10.11.07.15.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Oct 2021 07:15:28 -0700 (PDT)
-Subject: Re: [Linaro-mm-sig] [PATCH] dma-resv: Fix dma_resv_get_fences and
- dma_resv_copy_fences after conversion
-To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Intel-gfx@lists.freedesktop.org
-Cc:     Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org
-References: <20211008095007.972693-1-tvrtko.ursulin@linux.intel.com>
- <9eca89ab-f954-8b2a-7af5-b4a63b90eed0@amd.com>
- <67f413c4-b654-c7ea-bc4f-6b42418c7486@linux.intel.com>
- <85489b72-6001-98d8-d66a-395e05cd3d01@amd.com>
- <8f93439a-739d-835d-95e9-59ffb7380a27@linux.intel.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <a9f2661f-6f67-1cd7-e75d-c61aaaa381b4@gmail.com>
-Date:   Mon, 11 Oct 2021 16:15:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Mon, 11 Oct 2021 10:35:34 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 1FB27240010;
+        Mon, 11 Oct 2021 14:33:31 +0000 (UTC)
+Date:   Mon, 11 Oct 2021 16:34:20 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Matteo Lisi <matteo.lisi@engicam.com>
+Subject: Re: [PATCH v5] Driver for ON Semi AR0521 camera sensor
+Message-ID: <20211011143420.vm6ncl5gdv44nsn3@uno.localdomain>
+References: <m3fstfoexa.fsf@t19.piap.pl>
+ <20211009102446.jrvrdr7whtd2rv4z@uno.localdomain>
+ <m3mtnflpna.fsf@t19.piap.pl>
 MIME-Version: 1.0
-In-Reply-To: <8f93439a-739d-835d-95e9-59ffb7380a27@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <m3mtnflpna.fsf@t19.piap.pl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 11.10.21 um 14:32 schrieb Tvrtko Ursulin:
->
-> On 08/10/2021 13:19, Christian König wrote:
->> Am 08.10.21 um 12:49 schrieb Tvrtko Ursulin:
->>>
->>> On 08/10/2021 11:21, Christian König wrote:
->>>> Am 08.10.21 um 11:50 schrieb Tvrtko Ursulin:
->>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>
->>>>> Cache the count of shared fences in the iterator to avoid 
->>>>> dereferencing
->>>>> the dma_resv_object outside the RCU protection. Otherwise iterator 
->>>>> and its
->>>>> users can observe an incosistent state which makes it impossible 
->>>>> to use
->>>>> safely.
->>>>
->>>> Ah, of course! I've been staring at the code the whole morning and 
->>>> couldn't see it.
->>>>
->>>> Going to write a testcase to cover that.
->>>>
->>>>> Such as:
->>>>>
->>>>> <6> [187.517041] [IGT] gem_sync: executing
->>>>> <7> [187.536343] i915 0000:00:02.0: 
->>>>> [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
->>>>> <7> [187.536793] i915 0000:00:02.0: 
->>>>> [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
->>>>> <6> [187.551235] [IGT] gem_sync: starting subtest basic-many-each
->>>>> <1> [188.935462] BUG: kernel NULL pointer dereference, address: 
->>>>> 0000000000000010
->>>>> <1> [188.935485] #PF: supervisor write access in kernel mode
->>>>> <1> [188.935495] #PF: error_code(0x0002) - not-present page
->>>>> <6> [188.935504] PGD 0 P4D 0
->>>>> <4> [188.935512] Oops: 0002 [#1] PREEMPT SMP NOPTI
->>>>> <4> [188.935521] CPU: 2 PID: 1467 Comm: gem_sync Not tainted 
->>>>> 5.15.0-rc4-CI-Patchwork_21264+ #1
->>>>> <4> [188.935535] Hardware name:  /NUC6CAYB, BIOS 
->>>>> AYAPLCEL.86A.0049.2018.0508.1356 05/08/2018
->>>>> <4> [188.935546] RIP: 0010:dma_resv_get_fences+0x116/0x2d0
->>>>> <4> [188.935560] Code: 10 85 c0 7f c9 be 03 00 00 00 e8 15 8b df 
->>>>> ff eb bd e8 8e c6 ff ff eb b6 41 8b 04 24 49 8b 55 00 48 89 e7 8d 
->>>>> 48 01 41 89 0c 24 <4c> 89 34 c2 e8 41 f2 ff ff 49 89 c6 48 85 c0 
->>>>> 75 8c 48 8b 44 24 10
->>>>> <4> [188.935583] RSP: 0018:ffffc900011dbcc8 EFLAGS: 00010202
->>>>> <4> [188.935593] RAX: 0000000000000000 RBX: 00000000ffffffff RCX: 
->>>>> 0000000000000001
->>>>> <4> [188.935603] RDX: 0000000000000010 RSI: ffffffff822e343c RDI: 
->>>>> ffffc900011dbcc8
->>>>> <4> [188.935613] RBP: ffffc900011dbd48 R08: ffff88812d255bb8 R09: 
->>>>> 00000000fffffffe
->>>>> <4> [188.935623] R10: 0000000000000001 R11: 0000000000000000 R12: 
->>>>> ffffc900011dbd44
->>>>> <4> [188.935633] R13: ffffc900011dbd50 R14: ffff888113d29cc0 R15: 
->>>>> 0000000000000000
->>>>> <4> [188.935643] FS:  00007f68d17e9700(0000) 
->>>>> GS:ffff888277900000(0000) knlGS:0000000000000000
->>>>> <4> [188.935655] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>>>> <4> [188.935665] CR2: 0000000000000010 CR3: 000000012d0a4000 CR4: 
->>>>> 00000000003506e0
->>>>> <4> [188.935676] Call Trace:
->>>>> <4> [188.935685]  i915_gem_object_wait+0x1ff/0x410 [i915]
->>>>> <4> [188.935988]  i915_gem_wait_ioctl+0xf2/0x2a0 [i915]
->>>>> <4> [188.936272]  ? i915_gem_object_wait+0x410/0x410 [i915]
->>>>> <4> [188.936533]  drm_ioctl_kernel+0xae/0x140
->>>>> <4> [188.936546]  drm_ioctl+0x201/0x3d0
->>>>> <4> [188.936555]  ? i915_gem_object_wait+0x410/0x410 [i915]
->>>>> <4> [188.936820]  ? __fget_files+0xc2/0x1c0
->>>>> <4> [188.936830]  ? __fget_files+0xda/0x1c0
->>>>> <4> [188.936839]  __x64_sys_ioctl+0x6d/0xa0
->>>>> <4> [188.936848]  do_syscall_64+0x3a/0xb0
->>>>> <4> [188.936859] entry_SYSCALL_64_after_hwframe+0x44/0xae
->>>>>
->>>>> If the shared object has changed during the RCU unlocked period
->>>>> callers will correctly handle the restart on the next iteration.
->>>>>
->>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>> Fixes: 96601e8a4755 ("dma-buf: use new iterator in 
->>>>> dma_resv_copy_fences")
->>>>> Fixes: d3c80698c9f5 ("dma-buf: use new iterator in 
->>>>> dma_resv_get_fences v3")
->>>>> Closes: 
->>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fdrm%2Fintel%2F-%2Fissues%2F4274&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Cc22feea06a3f4285cdac08d98a495984%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637692870805160909%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=6oPR30sWnJe04I4GlhhvJWX3QvwKFIOMW1uOIyWZFOE%3D&amp;reserved=0 
->>>>>
->>>>> Cc: Christian König <christian.koenig@amd.com>
->>>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
->>>>> Cc: linux-media@vger.kernel.org
->>>>> Cc: dri-devel@lists.freedesktop.org
->>>>> Cc: linaro-mm-sig@lists.linaro.org
->>>>
->>>> Maybe we should remove cursor->fences altogether, but either way 
->>>> the patch is Reviewed-by: Christian König <christian.koenig@amd.com>
->>>>
->>>> Please push to drm-misc-next ASAP.
->>>
->>> Not sure I can or if my push permissions are limited to Intel 
->>> branches. I can try once CI gives a green light.
->>
->> If it doesn't work just ping me and I will push it.
->
-> It finally passed CI but it looks like you'll need to push it:
+Hi Krzysztof,
 
-Done.
+On Mon, Oct 11, 2021 at 02:19:53PM +0200, Krzysztof Hałasa wrote:
+> Jacopo Mondi <jacopo@jmondi.org> writes:
+>
+> >> The driver has been extensively tested in an i.MX6-based system.
+> >
+> > That's a give for code submitted for inclusions, right ? right ??? :)
+>
+> Of course not :-)
+>
+> Untested code is submitted - and merged - all the time.
+> For example, you can't test the code if you don't have access to the
+> respective hardware.
+>
+> IMO this is right. The change should be applied if it's an overall
+> improvement (statistically), otherwise the development would stall.
+>
+> It means someone has to fix possible fallout, sure. I've done such fixes
+> many times (as I have some quite unique hw), and I still think it's
+> right.
+>
 
-Christian.
+I'll pretend I haven't read this not to be dragged in tangential
+discussions. My whole point was such a commit message is useless as I
+assume if you submit a driver for inclusion you have tested it.
+
+> > Which frame sizes have you tested it with ? I know from the code the
+> > driver supports a single mode, but if you want to add these
+> > information to the commit message I would report it.
+>
+> The driver is quite flexible, I was using mostly modes like 2560x1440
+> and 2560x1920, but not only these. p25 rather than p30, though.
+>
+
+That's more useful to know
+
+> >> +#define AR0521_EXTCLK_RATE	  (27 * 1000 * 1000)
+> >
+> > You try to set the external clock to this frequency, but your PLL code
+> > does not rely on this value being actually set, am I wrong ? So why
+> > would you try to change it in first place ?
+>
+> Change from what?
+> This is used to clk_set_rate(sensor->extclk, AR0521_EXTCLK_RATE);
+> Do you want me to skip this step? What clock (if any) would I get then?
+>
+
+I think the clock rate should be assigned in DTS and you should verify
+it falls in the supported clock ranges.
+
+> > Be consistent with comments starting with capital or lowercase
+> > letters. It's usually "start with capital letter, end with full stop."
+>
+> I try to make them as good as I can, instead of blindly following
+> anything, but I will review the comments of course.
+>
+> >> +#define AR0521_TOTAL_WIDTH_MIN	     2968u
+> >
+> > Isn't this TOTAL_WIDTH_MAX ?
+>
+> No:
+> total_width = max(sensor->fmt.width + AR0521_WIDTH_BLANKING_MIN, AR0521_TOTAL_WIDTH_MIN);
+> But this needs verifying.
+
+There's usually a minimum amount of blankings to be respected, not a
+total, even less if the sensor capable of producing smaller modes
+through subsampling. Is this sensor different ? I haven't found any
+mention in the datasheet.
 
 >
-> tursulin@tursulin-mobl2:~/wc/dim/src$ dim push-branch drm-misc-next
-> Enumerating objects: 15, done.
-> Counting objects: 100% (15/15), done.
-> Delta compression using up to 8 threads
-> Compressing objects: 100% (8/8), done.
-> Writing objects: 100% (8/8), 2.32 KiB | 593.00 KiB/s, done.
-> Total 8 (delta 7), reused 0 (delta 0), pack-reused 0
-> error: remote unpack failed: unable to create temporary object directory
-> To ssh://git.freedesktop.org/git/drm/drm-misc
->  ! [remote rejected]           drm-misc-next -> drm-misc-next 
-> (unpacker error)
-> error: failed to push some refs to 
-> 'ssh://git.freedesktop.org/git/drm/drm-misc'
+> > You won't like this as it will require quite some changes, but we use
+> > lowercase letters for hexadecimal values.
 >
-> Regards,
->
-> Tvrtko
-> _______________________________________________
-> Linaro-mm-sig mailing list
-> Linaro-mm-sig@lists.linaro.org
-> https://lists.linaro.org/mailman/listinfo/linaro-mm-sig
+> Define "we" :-)
+> For me, uppercase hex digits are more visible. Perhaps because they are
+> full height? Sight problems maybe.
 
+Everyone has preferences. I do have mine, and they DON'T MATTER when I
+submit code for inclusion.
+
+"We" is me reporting what I've been told in these years from people
+that spent their time reviewing my code and making sure the result is
+consistent among the whole subsystem. The style of this driver is
+totally alien to any convention in place here, and if you can ignore
+my comments as I'm just a random idiot on the internet, you have been
+told the same by the other people that cared enough to look into your
+code.
+
+It all really sounds like "it's better my way, please don't annoy me".
+I don't find this a productive way to operate in a cooperative space :)
+
+>
+> >> +#define   AR0521_REG_RESET_DEFAULTS		  0x0238
+> >
+> > By default BIT(5) is 0. Should this be 0x0218 ?
+>
+> reset_lpf_enable
+> To prevent reset from POR glitch, enable digital low pass filter.
+>
+> Why do think it should be 0?
+>
+
+Because it's 0 by default ?
+Although seems like a desirable feature.
+
+I would have defined BIT(5) separately and enabled it explicitly to
+make it visible, but I understand it's not required.
+
+> >> +	struct v4l2_mbus_framefmt fmt;
+> >> +	struct v4l2_fract frame_interval, current_frame_interval;
+> >
+> > As a general rule one variable per line. Even more so in structures
+> > declaration.
+>
+> Why?
+>
+
+/(=.=)\
+
+> >> +static int ar0521_write_regs(struct ar0521_dev *sensor, const __be16 *data, unsigned int count)
+> >> +{
+> >> +	struct i2c_client *client = sensor->i2c_client;
+> >> +	struct i2c_msg msg;
+> >> +	int ret;
+> >> +
+> >> +	if (!pm_runtime_get_if_in_use(&client->dev))
+> >> +		return 0;
+> >
+> > Oh, in my previous email I commented looking at v4 probably, not v5.
+> >
+> > Anyway, I feel this check should really be in the caller.
+>
+> There are multiple callers - the code would get more complicated which
+> is bad.
+>
+
+I think the contrary, but ok.
+
+> > Also, does this cause a power up/down sequence for every transaction ?
+>
+> No. Why would it?
+> If I get this right (and the tests support it), this fragment would
+> return if not in use (= not powered up).
+
+You're right I missed the 'if_in_use()' part
+
+>
+> > You could write them one register at the time so that you could
+> []
+> > at the expense of one transaction per register write (like you do when
+> > you write initial_reg[]). Sounds like a little price to pay for a
+> > nicer driver but I might be underestimating it (or being to concerned
+> > about the use of be() everywhere :)
+>
+> Even on otherwise idle I2C bus this would add unnecessary latency.
+> I prefer to have a much faster code, even if using that be() macro
+> (which isn't ugly IMHO).
+
+'be()' is bad as it is only used in this driver, modifying the
+register tables requires to handle the be() macro. I had tested this
+by moving register tables to and from a different driver and I had to
+manually insert the be() thing and remove it on the other way around.
+
+For one that writes code there are tens that reads, use and modify it.
+And you should be mostly concerned about them.
+
+> For example, at 100 kb/s, the most common rate, transferring the
+> pixel_timing_recommended[] only should normally take about 50 ms
+> (depends on the controller and if it adds any/long inter-byte delays).
+> With single transfers, instead of 16-bit per registers, you have to send
+> start, devsel, 16-bit address, 16-bit value and stop. This could easily
+> mean 150 ms total (much more with slow controller). Do we want to add
+> 100 ms of latency only to get rid of the "ugly" macro? I don't think so.
+>
+> On a busy bus (or e.g. "realtime"), the short writes would be
+> a disaster (and even with the long ones it isn't obvious).
+
+The long table writes should be done once at power-up time, not in any
+hot path. The number or registers that should written at s_stream()
+time (the only hot path here) is minimal, so I personally would not
+care.
+
+That said, if the efficiency argument holds for others, feel free to
+keep it the way it is.
+
+>
+> > I had to add
+> >
+> > 	__be16 timings[] = {
+> > 		be(0x3002),	be(y),
+> > 		/* 0x3004 */	be(x),
+> > 		/* 0x3006 */	be(y + sensor->fmt.height - 1),
+> > 		/* 0x3008 */	be(x + sensor->fmt.width - 1),
+> > 		/* 0x300a */	be(sensor->total_height),
+> > 		/* Documented as 'twice the number of pixel clocks in one row' */
+> > 		/* 0x300c */	be(2 * sensor->total_width),
+> > 	};
+> > 	ar0521_write_regs(sensor, timings, ARRAY_SIZE(timings));
+> >
+> > To this function to be able to get images out from the sensor.
+>
+> Interesting. I don't write them via 0x3002 but use 0x340 (the primary
+> ones) instead, in set_geometry(). But then, the total_width, perhaps
+> I calculate it incorrectly (the 2x factor) and thus it doesn't work in
+> certain modes. I don't remember why it's done the ways it is, will have
+> to look at it.
+> I understand what you use is 1920x1080p30, right?
+
+I tested with that yes, I can try remove the already programmed totals
+and see if it's only 0x300c that makes a difference
+
+>
+> > Also, be careful about register 0x300c which you don't seem to program
+> > at the moment.
+>
+> I do, it's register 0x342.
+
+Do you know why registers are mirrored ? I haven't find any reference
+to register shadowing in the manual.
+
+>
+> > And it seems the integration time depends on this register value
+> >
+> >         - CIT = 0x3012
+> >         - LLPCK = 1/2 × reg_300C
+> >         - Integration Time = (CIT × LLPCK) / pix_clk
+> >
+> > Are you able to control exposure properly with your version ?
+>
+> Definitely.
+>
+> >> +static int ar0521_set_gains(struct ar0521_dev *sensor)
+> >> +{
+> >> +	int green = sensor->ctrls.gain->val;
+> >> +	int red = max(green + sensor->ctrls.red_balance->val, 0);
+> >> +	int blue = max(green + sensor->ctrls.blue_balance->val, 0);
+> >
+> > unsigned ?
+>
+> The ctrls.* (R and B) can be negative. I'm not sure mixing types here
+> would be the right thing (I'd have to check with the C standard, and
+> anyone reading this later would probably need it as well).
+> With signed ints it's simply correct.
+
+Ah, I missed the v4l2 ctrls definition.
+
+>
+> >> +	unsigned int gain = min(red, min(green, blue));
+> >> +	unsigned int analog = min(gain, 64u); // range is 0 - 127
+> >
+> > Nit: when possible declare variables in reverse xmas-tree order
+>
+> Not very possible here, right? Unless you want to split into
+> declarations and calculations. Readability IMHO suffers.
+
+Not here, but in general it is.
+
+>
+> >> +static int ar0521_write_mode(struct ar0521_dev *sensor)
+> >> +{
+> >> +	__be16 pll_regs[] = {
+> >> +		be(AR0521_REG_VT_PIX_CLK_DIV),
+> >> +		/* 0x300 */ be(4), // vt_pix_clk_div = number of bits / 2
+> >> +		/* 0x302 */ be(1), // vt_sys_clk_div
+> >> +		/* 0x304 */ be((sensor->pll_pre2 << 8) | sensor->pll_pre),
+> >> +		/* 0x306 */ be((sensor->pll_mult2 << 8) | sensor->pll_mult),
+> >> +		/* 0x308 */ be(8), // op_pix_clk_div = 2 * vt_pix_clk_div
+> >> +		/* 0x30A */ be(1)  // op_sys_clk_div
+> >> +	};
+> >> +	u32 num = sensor->current_frame_interval.numerator;
+> >> +	u32 denom = sensor->current_frame_interval.denominator;
+> >> +	int ret;
+> >> +
+> >> +	dev_dbg(&sensor->i2c_client->dev, "%s()\n", __func__);
+> >
+> > tracepoints debug are not that useful if they do not report what has
+> > been written, aren't they ?
+>
+> This is only to see what the upper layer is doing. I have already
+> removed (moved to private commit) the I2C write debug routine. Out of
+> sight, out of mind :-(
+>
+> > I comment here but that's mostly about the exposure control
+> > definition. You initialize it with a value of 1, which means 1 line of
+> > exposure which result in very dark images. I know userspace should be
+> > in control of this, but a more sensible default value should probably
+> > be used. Do you have a 'default' mode ? Could you set the default
+> > exposure to something a bit larger (I know it's hard to define what a
+> > sensible value could be, but 1 line is certainly very small)
+>
+> What do you propose?
+
+Being this a raw sensor, it's probably fine to assume exposure will be
+manually adjusted later. I'll defer this to maintainers.
+
+> I'm using automatic exposure, the application reads the whole image and
+> decides.
+>
+> >> +	ret = ar0521_write_reg(sensor, AR0521_REG_RESET, AR0521_REG_RESET_DEFAULTS | AR0521_REG_RESET_STREAM);
+>
+> > This part I don't get. As far as I can see and can read, setting the
+> > AR0521_REG_RESET_STREAM bit in AR0521_REG_RESET_DEFAULTS as the effect
+> > of:
+> >
+> > Setting this bit places the sensor in streaming mode.
+> > Clearing this bit places the sensor in a low power mode. The result of clearing
+> > this bit depends upon the operating mode of the sensor. Entry and exit from
+> > streaming mode can also be controlled from the signal interface
+> >
+> > I would have expected to see this bit set/cleared at s_stream() time
+> > (I've done so and things work better, otherwise I get crippled
+> > images).
+>
+> This is needed for operation with i.MX6 CSI. Apparently the i.MX6
+> doesn't like the low power state of the sensor, it needs the LP-11 (low
+> power with both LVDS lines high) on all data and clock lanes before
+> the stream is started.
+>
+> When you disable streaming, the clock lanes are apparently in LP-11
+> state, however data lanes are LP-00.
+>
+
+I see. Reading this and your below reply I get you need to enable test
+mode, force the lines in LP-11 state and then disable the test mode
+and start streaming. Feels like an ack, but maybe that's how the
+sensor is intended to be operated.
+
+I anyway think doing this here is not the best idea. "We" have a
+pre_streamon() operation but it's also usually done at s_stream(0)
+which you can call at device node open time to coax the lines in
+LP-11. You already do most of these things, so I would move the test
+mode handling to s_stream(0) and start/stop stream by just toggling
+the RESET_STREAM bit as suggested in the s_stream() code snippet I've
+shared in my previous reply.
+
+> >> +	ret = ar0521_write_reg(sensor, AR0521_REG_TEST_PATTERN_MODE, sensor->ctrls.test_pattern->val);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	dev_dbg(&sensor->i2c_client->dev,
+> >> +		"AR0521: %ux%u, total %ux%u, pixel clock %u MHz, %u (%u/%u) FPS\n",
+> >> +		sensor->fmt.width, sensor->fmt.height, sensor->total_width, sensor->total_height,
+> >> +		sensor->pix_clk, (num + denom / 2) / denom, num, denom);
+> >
+> > Empty line before return statements
+>
+> Why?
+>
+> >> +		// normal output on clock and data lanes
+> >> +		ret = ar0521_write_reg(sensor, AR0521_REG_HISPI_CONTROL_STATUS, 0);
+> >
+> > This register controls the HiSPI interface while my understanding is
+> > that everything is MIPI CSI-2 in the rest of the driver. Why is it
+> > here ? does it play any role in your setup ?
+>
+> Yes, it also controls MIPI mode.
+>
+
+Maybe by accident, as a consequence enabling/disabling the test modes on
+the CSI-2 lanes ?
+
+> >> +	// start streaming (possibly with LP-11 on all lines)
+> >
+> > So you fall down here even in the case s_stream(0) ?
+> >
+> >> +	return ar0521_write_reg(sensor, AR0521_REG_RESET,
+> >> +				AR0521_REG_RESET_DEFAULTS |
+> >> +				AR0521_REG_RESET_RESTART |
+> >> +				AR0521_REG_RESET_STREAM);
+> >> +}
+>
+> That's correct. It's the only way I have found.
+>
+
+I think it's wrong. RESTART as per its definition interrupts the frame
+and re starts the stream. START enables/disable streaming. You set
+them both, even at s_stream(0) time, and things might work by
+accident because you enable/disable the test mode at s_stream() time.
+
+As suggested I would rather coax the data lanes in LP-11 state at
+s_stream(0) time by enabling test mode after having disabled streaming
+by clearing the RESET_STREAM bit in AR0521_REG_RESET. Similarly at
+s_stream(1) time I would disable the test mode (I bet it could be done
+by clearing bits [9:6] in 0x3066 without touching the HiSpi control
+register) and the start streaming by setting RESET_STREAM.
+
+
+> > Before introducing 0x300c I got 30 FPS but the frame content was
+> > mangled (or completely black)
+>
+> This could be due to the line_length_pck/line_length_pck_ (0x342/0x300C)
+> register. I will look at it.
+> TBH I've written this driver in 2017 (didn't have time for the whole
+> submission process back then, not that the situation changed much).
+> This means I will have to check the details.
+
+Thanks, I will run more experiments as well.
+
+>
+> >> +static int ar0521_set_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *sd_state,
+> >> +			  struct v4l2_subdev_format *format)
+> >> +{
+> >> +	struct ar0521_dev *sensor = to_ar0521_dev(sd);
+> >> +	int ret = 0;
+> >> +
+> >> +	dev_dbg(&sensor->i2c_client->dev, "%s(%u)\n", __func__, format->which);
+> >> +
+> >> +	ar0521_adj_fmt(&format->format);
+> >> +
+> >> +	mutex_lock(&sensor->lock);
+> >> +
+> >> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+> >> +		struct v4l2_mbus_framefmt *fmt;
+> >> +
+> >> +		fmt = v4l2_subdev_get_try_format(sd, sd_state, 0 /* pad */);
+> >> +		*fmt = format->format;
+> >> +	} else {
+> >> +		sensor->fmt = format->format;
+> >> +		ar0521_calc_mode(sensor);
+> >> +		ret = ar0521_write_mode(sensor);
+> >
+> > Do you need to do so ? the mode is programmed at s_stream() time,
+> > isn't it enough ? Same for the other call to write_mode() above or
+> > set_geometry() below.
+>
+> I wonder if you can call set_fmt() etc. when the sensor is streaming.
+> Why not?
+
+Because
+https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-subdev-g-fmt.html?highlight=subdev_s_fmt#c.V4L.VIDIOC_SUBDEV_S_FMT
+
+EBUSY
+The format can’t be changed because the pad is currently busy. This
+can be caused, for instance, by an active video stream on the pad. The
+ioctl must not be retried without performing another action to fix the
+problem first. Only returned by VIDIOC_SUBDEV_S_FMT
+
+>
+> >> +	// manual gain
+> >> +	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN, 0, 511, 1, 0);
+> >> +	ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_RED_BALANCE, -512, 511, 1, 0);
+> >> +	ctrls->blue_balance = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_BLUE_BALANCE, -512, 511, 1, 0);
+> >
+> > Seems like you handle these together, should these be clusters ? Same
+> > for the blankings
+>
+> An example maybe? A file, existing driver maybe?
+
+$ git grep v4l2_ctrl_cluster drivers/media/i2c/ | wc -l
+17
+
+>
+> >> +	// alternate for frame interval
+> >> +	ctrls->hblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HBLANK, AR0521_WIDTH_BLANKING_MIN, 4094, 1, AR0521_WIDTH_BLANKING_MIN);
+> >> +	ctrls->vblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VBLANK, AR0521_HEIGHT_BLANKING_MIN, 4094, 2, AR0521_HEIGHT_BLANKING_MIN);
+> >
+> > How nicer would this be in 80-cols ? :)
+>
+> Depends on one's display window :-)
+> I can change these ones I guess.
+>
+> >> +static __be16 pixel_timing_recommended[] = {
+> >
+> > Have you got any idea what these do ? I have these registers not
+> > documented.
+>
+> Unfortunately I know nothing about these.
+>
+> >> +	// set MIPI test mode - disabled for now
+> >> +	ret = ar0521_write_reg(sensor, AR0521_REG_HISPI_TEST_MODE,
+> >> +			       ((0x40 << sensor->lane_count) - 0x40) | AR0521_REG_HISPI_TEST_MODE_LP11);
+> >
+> > As far as I can tell this write has no effect.
+>
+> That's right :-)
+> It will have its effect later, when the AR0521_REG_HISPI_CONTROL_STATUS
+> is written.
+>
+> > Define test mode to be applied to mipi/ccp interface if test_en is asserted
+> >
+> > and asfaict you never assert test_en
+>
+> I do, it's called
+> AR0521_REG_HISPI_CONTROL_STATUS_FRAMER_TEST_MODE_ENABLE and it simply
+> won't work on i.MX6 without this.
+>
+> >> +	if (ret)
+> >> +		goto off;
+> >> +
+> >> +	ret = ar0521_write_reg(sensor, AR0521_REG_ROW_SPEED, 0x110 | 4 / sensor->lane_count);
+> >
+> > I wasn't able to interpret this register right
+> >
+> > pc_speed
+> > Slows down the internal pixel clock frequency relative to the system
+> > clock frequency.  A programmed value of N gives a pixel clock period
+> > of N system clocks.  Only values 1, 2 and 4 are supported.
+> >
+> > Shouldn't this be part of the PLL calculation ?
+>
+> Well, this doesn't seem to be part of the PLL, and it's constant (as
+> long as MIPI lane# is constant). Why do you think it belongs there?
+
+Because seems like a clock downscaler intended to be used to adapt the CSI-2
+clock frequency (lane dependent) to the pixel clock and could be
+programmed once.
+
+Also note that the number of data lanes in use can actually be modified at
+run time but it's not something that has to be considered here.
+
+>
+> You know, I try not to throw unnecessary traffic at I2C bus, too.
+
+So this could moved to the register tables ? :)
+
+>
+> >> +static const struct v4l2_subdev_core_ops ar0521_core_ops = {
+> >> +	.log_status = v4l2_ctrl_subdev_log_status,
+> >> +	.s_power = ar0521_s_power,
+> >> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> >> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> >
+> > I easily get lost when it's about event, but they do not seem to be
+> > supported by the driver
+>
+> TBH, I don't know. It's what other driver(s) do.
+>
+
+i think you can remove any reference to events
+
+> >> +static int __maybe_unused ar0521_suspend(struct device *dev)
+> >> +{
+> >> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> >> +	struct ar0521_dev *sensor = to_ar0521_dev(sd);
+> >> +
+> >> +	if (sensor->streaming)
+> >> +		ar0521_set_stream(sensor, 0);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static int __maybe_unused ar0521_resume(struct device *dev)
+> >> +{
+> >> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> >> +	struct ar0521_dev *sensor = to_ar0521_dev(sd);
+> >> +
+> >> +	if (sensor->streaming)
+> >> +		return ar0521_set_stream(sensor, 1);
+> >> +
+> >> +	return 0;
+> >> +}
+> >
+> > Shouldn't suspend/resume do what your s_power does instead of just
+> > stopping/starting the streaming ?
+>
+> That's what imx219 driver does. TBH I don't know how is it all supposed
+> to work. The system I'm using this with has no real suspend/resume
+> capability. Sakari has suggested that I look at imx219 and so I did.
+>
+
+I would move the content of s_power() here, let's see what Sakari
+thinks
+
+> >> +	sensor->i2c_client = client;
+> >> +	sensor->fmt.code = MEDIA_BUS_FMT_SGRBG8_1X8;
+> >> +	sensor->fmt.width = AR0521_WIDTH_MAX;
+> >> +	sensor->fmt.height = AR0521_HEIGHT_MAX;
+> >> +	sensor->fmt.field = V4L2_FIELD_NONE;
+> >> +	sensor->frame_interval.numerator = 30;
+> >> +	sensor->frame_interval.denominator = 1;
+> >
+> > isn't this what adj_fmt() does ?
+>
+> Partially, it is.
+>
+
+So please reuse it instead of open-coding this.
+You should probably also support init_cfg as you expose a subdev video
+device and you can have an init_format() or similar to be called there
+for the try format and called here for the active format.
+
+> >> +static int ar0521_remove(struct i2c_client *client)
+> >> +{
+> >> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> >> +	struct ar0521_dev *sensor = to_ar0521_dev(sd);
+> >> +
+> >> +	v4l2_async_unregister_subdev(&sensor->sd);
+> >> +	media_entity_cleanup(&sensor->sd.entity);
+> >> +	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+> >> +	pm_runtime_disable(&client->dev);
+> >> +	pm_runtime_set_suspended(&client->dev);
+> >
+> > set_suspended() then disable maybe ?
+>
+> Other drivers seem to do it the above way but I don't know the
+> difference.
+
+Maybe I'm wrong but calling set_suspend() after pm_runtime() had been
+disabled seems pointless. A minor anyway as it's in the driver's
+remove function.
+
+Thanks
+   j
+
+> --
+> Krzysztof "Chris" Hałasa
+>
+> Sieć Badawcza Łukasiewicz
+> Przemysłowy Instytut Automatyki i Pomiarów PIAP
+> Al. Jerozolimskie 202, 02-486 Warszawa
