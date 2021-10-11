@@ -2,165 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B051428D0E
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 14:32:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03F14428D25
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 14:36:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236625AbhJKMeP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 08:34:15 -0400
-Received: from mga02.intel.com ([134.134.136.20]:38425 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234689AbhJKMeP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 08:34:15 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10133"; a="214009961"
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; 
-   d="scan'208";a="214009961"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2021 05:32:11 -0700
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; 
-   d="scan'208";a="485882647"
-Received: from aquine-mobl.ger.corp.intel.com (HELO [10.213.251.140]) ([10.213.251.140])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2021 05:32:08 -0700
-Subject: Re: [PATCH] dma-resv: Fix dma_resv_get_fences and
- dma_resv_copy_fences after conversion
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Intel-gfx@lists.freedesktop.org
-Cc:     dri-devel@lists.freedesktop.org,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20211008095007.972693-1-tvrtko.ursulin@linux.intel.com>
- <9eca89ab-f954-8b2a-7af5-b4a63b90eed0@amd.com>
- <67f413c4-b654-c7ea-bc4f-6b42418c7486@linux.intel.com>
- <85489b72-6001-98d8-d66a-395e05cd3d01@amd.com>
-From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <8f93439a-739d-835d-95e9-59ffb7380a27@linux.intel.com>
-Date:   Mon, 11 Oct 2021 13:32:06 +0100
+        id S236617AbhJKMiU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 08:38:20 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:48088 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234738AbhJKMiT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 11 Oct 2021 08:38:19 -0400
+Received: from [IPv6:2a02:810a:880:f54:b116:1535:401e:a6ca] (unknown [IPv6:2a02:810a:880:f54:b116:1535:401e:a6ca])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D42FE1F42D3F;
+        Mon, 11 Oct 2021 13:36:16 +0100 (BST)
+Subject: Re: [PATCH v8 04/12] iommu/mediatek: Add device_link between the
+ consumer and the larb devices
+To:     Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Evan Green <evgreen@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, youlin.pei@mediatek.com,
+        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
+        yi.kuo@mediatek.com, acourbot@chromium.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        anthony.huang@mediatek.com,
+        Frank Wunderlich <frank-w@public-files.de>
+References: <20210929013719.25120-1-yong.wu@mediatek.com>
+ <20210929013719.25120-5-yong.wu@mediatek.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <e00b92db-0562-27ca-2f96-1f03ff824988@collabora.com>
+Date:   Mon, 11 Oct 2021 14:36:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <85489b72-6001-98d8-d66a-395e05cd3d01@amd.com>
+In-Reply-To: <20210929013719.25120-5-yong.wu@mediatek.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On 08/10/2021 13:19, Christian König wrote:
-> Am 08.10.21 um 12:49 schrieb Tvrtko Ursulin:
->>
->> On 08/10/2021 11:21, Christian König wrote:
->>> Am 08.10.21 um 11:50 schrieb Tvrtko Ursulin:
->>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>
->>>> Cache the count of shared fences in the iterator to avoid dereferencing
->>>> the dma_resv_object outside the RCU protection. Otherwise iterator 
->>>> and its
->>>> users can observe an incosistent state which makes it impossible to use
->>>> safely.
->>>
->>> Ah, of course! I've been staring at the code the whole morning and 
->>> couldn't see it.
->>>
->>> Going to write a testcase to cover that.
->>>
->>>> Such as:
->>>>
->>>> <6> [187.517041] [IGT] gem_sync: executing
->>>> <7> [187.536343] i915 0000:00:02.0: 
->>>> [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
->>>> <7> [187.536793] i915 0000:00:02.0: 
->>>> [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
->>>> <6> [187.551235] [IGT] gem_sync: starting subtest basic-many-each
->>>> <1> [188.935462] BUG: kernel NULL pointer dereference, address: 
->>>> 0000000000000010
->>>> <1> [188.935485] #PF: supervisor write access in kernel mode
->>>> <1> [188.935495] #PF: error_code(0x0002) - not-present page
->>>> <6> [188.935504] PGD 0 P4D 0
->>>> <4> [188.935512] Oops: 0002 [#1] PREEMPT SMP NOPTI
->>>> <4> [188.935521] CPU: 2 PID: 1467 Comm: gem_sync Not tainted 
->>>> 5.15.0-rc4-CI-Patchwork_21264+ #1
->>>> <4> [188.935535] Hardware name:  /NUC6CAYB, BIOS 
->>>> AYAPLCEL.86A.0049.2018.0508.1356 05/08/2018
->>>> <4> [188.935546] RIP: 0010:dma_resv_get_fences+0x116/0x2d0
->>>> <4> [188.935560] Code: 10 85 c0 7f c9 be 03 00 00 00 e8 15 8b df ff 
->>>> eb bd e8 8e c6 ff ff eb b6 41 8b 04 24 49 8b 55 00 48 89 e7 8d 48 01 
->>>> 41 89 0c 24 <4c> 89 34 c2 e8 41 f2 ff ff 49 89 c6 48 85 c0 75 8c 48 
->>>> 8b 44 24 10
->>>> <4> [188.935583] RSP: 0018:ffffc900011dbcc8 EFLAGS: 00010202
->>>> <4> [188.935593] RAX: 0000000000000000 RBX: 00000000ffffffff RCX: 
->>>> 0000000000000001
->>>> <4> [188.935603] RDX: 0000000000000010 RSI: ffffffff822e343c RDI: 
->>>> ffffc900011dbcc8
->>>> <4> [188.935613] RBP: ffffc900011dbd48 R08: ffff88812d255bb8 R09: 
->>>> 00000000fffffffe
->>>> <4> [188.935623] R10: 0000000000000001 R11: 0000000000000000 R12: 
->>>> ffffc900011dbd44
->>>> <4> [188.935633] R13: ffffc900011dbd50 R14: ffff888113d29cc0 R15: 
->>>> 0000000000000000
->>>> <4> [188.935643] FS:  00007f68d17e9700(0000) 
->>>> GS:ffff888277900000(0000) knlGS:0000000000000000
->>>> <4> [188.935655] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>>> <4> [188.935665] CR2: 0000000000000010 CR3: 000000012d0a4000 CR4: 
->>>> 00000000003506e0
->>>> <4> [188.935676] Call Trace:
->>>> <4> [188.935685]  i915_gem_object_wait+0x1ff/0x410 [i915]
->>>> <4> [188.935988]  i915_gem_wait_ioctl+0xf2/0x2a0 [i915]
->>>> <4> [188.936272]  ? i915_gem_object_wait+0x410/0x410 [i915]
->>>> <4> [188.936533]  drm_ioctl_kernel+0xae/0x140
->>>> <4> [188.936546]  drm_ioctl+0x201/0x3d0
->>>> <4> [188.936555]  ? i915_gem_object_wait+0x410/0x410 [i915]
->>>> <4> [188.936820]  ? __fget_files+0xc2/0x1c0
->>>> <4> [188.936830]  ? __fget_files+0xda/0x1c0
->>>> <4> [188.936839]  __x64_sys_ioctl+0x6d/0xa0
->>>> <4> [188.936848]  do_syscall_64+0x3a/0xb0
->>>> <4> [188.936859] entry_SYSCALL_64_after_hwframe+0x44/0xae
->>>>
->>>> If the shared object has changed during the RCU unlocked period
->>>> callers will correctly handle the restart on the next iteration.
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>> Fixes: 96601e8a4755 ("dma-buf: use new iterator in 
->>>> dma_resv_copy_fences")
->>>> Fixes: d3c80698c9f5 ("dma-buf: use new iterator in 
->>>> dma_resv_get_fences v3")
->>>> Closes: 
->>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fdrm%2Fintel%2F-%2Fissues%2F4274&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Cc22feea06a3f4285cdac08d98a495984%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637692870805160909%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=6oPR30sWnJe04I4GlhhvJWX3QvwKFIOMW1uOIyWZFOE%3D&amp;reserved=0 
->>>>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
->>>> Cc: linux-media@vger.kernel.org
->>>> Cc: dri-devel@lists.freedesktop.org
->>>> Cc: linaro-mm-sig@lists.linaro.org
->>>
->>> Maybe we should remove cursor->fences altogether, but either way the 
->>> patch is Reviewed-by: Christian König <christian.koenig@amd.com>
->>>
->>> Please push to drm-misc-next ASAP.
->>
->> Not sure I can or if my push permissions are limited to Intel 
->> branches. I can try once CI gives a green light.
+
+On 29.09.21 03:37, Yong Wu wrote:
+> MediaTek IOMMU-SMI diagram is like below. all the consumer connect with
+> smi-larb, then connect with smi-common.
 > 
-> If it doesn't work just ping me and I will push it.
+>          M4U
+>           |
+>      smi-common
+>           |
+>    -------------
+>    |         |    ...
+>    |         |
+> larb1     larb2
+>    |         |
+> vdec       venc
+> 
+> When the consumer works, it should enable the smi-larb's power which
+> also need enable the smi-common's power firstly.
+> 
+> Thus, First of all, use the device link connect the consumer and the
+> smi-larbs. then add device link between the smi-larb and smi-common.
+> 
+> This patch adds device_link between the consumer and the larbs.
+> 
+> When device_link_add, I add the flag DL_FLAG_STATELESS to avoid calling
+> pm_runtime_xx to keep the original status of clocks. It can avoid two
+> issues:
+> 1) Display HW show fastlogo abnormally reported in [1]. At the beggining,
+> all the clocks are enabled before entering kernel, but the clocks for
+> display HW(always in larb0) will be gated after clk_enable and clk_disable
+> called from device_link_add(->pm_runtime_resume) and rpm_idle. The clock
+> operation happened before display driver probe. At that time, the display
+> HW will be abnormal.
+> 
+> 2) A deadlock issue reported in [2]. Use DL_FLAG_STATELESS to skip
+> pm_runtime_xx to avoid the deadlock.
+> 
+> Corresponding, DL_FLAG_AUTOREMOVE_CONSUMER can't be added, then
+> device_link_removed should be added explicitly.
+> 
+> [1] https://lore.kernel.org/linux-mediatek/1564213888.22908.4.camel@mhfsdcap03/
+> [2] https://lore.kernel.org/patchwork/patch/1086569/
+> 
+> Suggested-by: Tomasz Figa <tfiga@chromium.org>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-R2/MT7623
+> ---
+>   drivers/iommu/mtk_iommu.c    | 22 ++++++++++++++++++++++
+>   drivers/iommu/mtk_iommu_v1.c | 20 +++++++++++++++++++-
+>   2 files changed, 41 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> index d5848f78a677..a2fa55899434 100644
+> --- a/drivers/iommu/mtk_iommu.c
+> +++ b/drivers/iommu/mtk_iommu.c
+> @@ -560,22 +560,44 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+>   {
+>   	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+>   	struct mtk_iommu_data *data;
+> +	struct device_link *link;
+> +	struct device *larbdev;
+> +	unsigned int larbid;
+>   
+>   	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+>   		return ERR_PTR(-ENODEV); /* Not a iommu client device */
+>   
+>   	data = dev_iommu_priv_get(dev);
+>   
+> +	/*
+> +	 * Link the consumer device with the smi-larb device(supplier)
+> +	 * The device in each a larb is a independent HW. thus only link
+> +	 * one larb here.
+> +	 */
+> +	larbid = MTK_M4U_TO_LARB(fwspec->ids[0]);
 
-It finally passed CI but it looks like you'll need to push it:
+so larbid is always the same for all the ids of a device? If so
+maybe it worth testing it and return error if this is not the case.
 
-tursulin@tursulin-mobl2:~/wc/dim/src$ dim push-branch drm-misc-next
-Enumerating objects: 15, done.
-Counting objects: 100% (15/15), done.
-Delta compression using up to 8 threads
-Compressing objects: 100% (8/8), done.
-Writing objects: 100% (8/8), 2.32 KiB | 593.00 KiB/s, done.
-Total 8 (delta 7), reused 0 (delta 0), pack-reused 0
-error: remote unpack failed: unable to create temporary object directory
-To ssh://git.freedesktop.org/git/drm/drm-misc
-  ! [remote rejected]           drm-misc-next -> drm-misc-next (unpacker error)
-error: failed to push some refs to 'ssh://git.freedesktop.org/git/drm/drm-misc'
+Thanks,
+Dafna
 
-Regards,
-
-Tvrtko
+> +	larbdev = data->larb_imu[larbid].dev;
+> +	link = device_link_add(dev, larbdev,
+> +			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
+> +	if (!link)
+> +		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
+>   	return &data->iommu;
+>   }
+>   
+>   static void mtk_iommu_release_device(struct device *dev)
+>   {
+>   	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+> +	struct mtk_iommu_data *data;
+> +	struct device *larbdev;
+> +	unsigned int larbid;
+>   
+>   	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+>   		return;
+>   
+> +	data = dev_iommu_priv_get(dev);
+> +	larbid = MTK_M4U_TO_LARB(fwspec->ids[0]);
+> +	larbdev = data->larb_imu[larbid].dev;
+> +	device_link_remove(dev, larbdev);
+> +
+>   	iommu_fwspec_free(dev);
+>   }
+>   
+> diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
+> index 4d7809432239..e6f13459470e 100644
+> --- a/drivers/iommu/mtk_iommu_v1.c
+> +++ b/drivers/iommu/mtk_iommu_v1.c
+> @@ -423,7 +423,9 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+>   	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+>   	struct of_phandle_args iommu_spec;
+>   	struct mtk_iommu_data *data;
+> -	int err, idx = 0;
+> +	int err, idx = 0, larbid;
+> +	struct device_link *link;
+> +	struct device *larbdev;
+>   
+>   	/*
+>   	 * In the deferred case, free the existed fwspec.
+> @@ -453,6 +455,14 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+>   
+>   	data = dev_iommu_priv_get(dev);
+>   
+> +	/* Link the consumer device with the smi-larb device(supplier) */
+> +	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
+> +	larbdev = data->larb_imu[larbid].dev;
+> +	link = device_link_add(dev, larbdev,
+> +			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
+> +	if (!link)
+> +		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
+> +
+>   	return &data->iommu;
+>   }
+>   
+> @@ -473,10 +483,18 @@ static void mtk_iommu_probe_finalize(struct device *dev)
+>   static void mtk_iommu_release_device(struct device *dev)
+>   {
+>   	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+> +	struct mtk_iommu_data *data;
+> +	struct device *larbdev;
+> +	unsigned int larbid;
+>   
+>   	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+>   		return;
+>   
+> +	data = dev_iommu_priv_get(dev);
+> +	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
+> +	larbdev = data->larb_imu[larbid].dev;
+> +	device_link_remove(dev, larbdev);
+> +
+>   	iommu_fwspec_free(dev);
+>   }
+>   
+> 
