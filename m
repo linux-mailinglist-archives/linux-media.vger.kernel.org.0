@@ -2,122 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C575428E18
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 15:36:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9E6D4291D4
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 16:31:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236926AbhJKNiV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 09:38:21 -0400
-Received: from mail-oi1-f180.google.com ([209.85.167.180]:33782 "EHLO
-        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235759AbhJKNiU (ORCPT
+        id S237522AbhJKOc7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 10:32:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43764 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237438AbhJKOc4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 09:38:20 -0400
-Received: by mail-oi1-f180.google.com with SMTP id q129so3938646oib.0;
-        Mon, 11 Oct 2021 06:36:20 -0700 (PDT)
+        Mon, 11 Oct 2021 10:32:56 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1A17C04CD1C
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 07:15:30 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id u18so56875603wrg.5
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 07:15:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=dLxsJUpDhzPmoSrF1qZa4Zl9U4s5BEcVvitiq3ldBzs=;
+        b=Mn/WEBLhoPojIdasKOYB5LhCocKhVbLlACzAwBczfwTyYpXmjoT3McGcuu+JDd141P
+         3AnFKTI1Sz5UOr/2c3ywRwQsUyxW767ajHj3fHlmgGHDWkqnoqBSIybMPlZRkg5VswOi
+         SLsotX2bQGEMW3vODiry31+QiZ5fLEg+WhTAqnqZWkG5uX6zj8PEeLITv4miVDPE/nzo
+         bonvBUEtb02b2B8DSW1B2/9P1vpJVaO5oKooPXMSU8HDTZTD3gf8d7nanzdQH5qN95SZ
+         XyneiU+T2ZRXbzjl5U50wDHxfs0bT8cERLFA1mPcs+Dy6WMsXaTJMHVvWYCEKBLgLkIO
+         dYvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=FwobwD3dd/WQMo67DlN9a1cS0XJZiy4pf9ac1aljPJ4=;
-        b=F7liqH4PNPhADiDhSHJvMDhrP5cF3OV/4l0ZKvZKtIr0lcmYKk5G5sUFVIg8JPbBqu
-         cKurPa2Kv5AzQWQRlgw4liaF7PfQAFFQik3SAfn/QqmMV6qNA0aipF7vYkwMtQv8IcoW
-         LiVgruoYmAbeAEO3IyVp6uJ3X6n5c2iwT2RAFtWKO7R3oShpPerkUrKdfidXBeSIoO2m
-         3jflmOyZSh4k7eaZU+NRzi3FXgB8Ip+pUA0nAf2fJ5nMa+vrpumGFlJnVPAhLbHHu1Fu
-         PUmuzgTW3GRYDqaoWrh+8xAoBOWvq/HdyWCmfsJHWGZJMf4eMJg0kuTutCSmZ5SVQ9XN
-         xjaQ==
-X-Gm-Message-State: AOAM5339WXFGfafcgXr7FIWzLIE3J31xb005gVvDgQtE8j0AP5Wtdlq5
-        lhBoI9hY5HkISxXs7goJOg==
-X-Google-Smtp-Source: ABdhPJzbpAfYUHviS4dvb3JlLbjzjzDQqr3WVI5FNzzIZbfL+xLeRodimbzcCB6iXPFvMV4JXGQIkg==
-X-Received: by 2002:aca:d741:: with SMTP id o62mr6830038oig.62.1633959380237;
-        Mon, 11 Oct 2021 06:36:20 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id y5sm661869otg.52.2021.10.11.06.36.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 06:36:19 -0700 (PDT)
-Received: (nullmailer pid 504939 invoked by uid 1000);
-        Mon, 11 Oct 2021 13:36:18 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomasz Figa <tfiga@google.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Irui Wang <irui.wang@mediatek.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
-        srv_heupstream@mediatek.com,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-In-Reply-To: <20211011070247.792-14-yunfei.dong@mediatek.com>
-References: <20211011070247.792-1-yunfei.dong@mediatek.com> <20211011070247.792-14-yunfei.dong@mediatek.com>
-Subject: Re: [PATCH v7, 13/15] dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8192
-Date:   Mon, 11 Oct 2021 08:36:18 -0500
-Message-Id: <1633959378.213918.504938.nullmailer@robh.at.kernel.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=dLxsJUpDhzPmoSrF1qZa4Zl9U4s5BEcVvitiq3ldBzs=;
+        b=guVoJrO8AbxIj8KuGRwvYpPWvfbP+3duwtMURSATt6woVbANpadDoO+Y4+kfp7RJEr
+         jItmso6eat9RqvEndDGdbXAZ+yxHoUUIy6x7lwi8QWcHG6xOrQaZO23thvOied3FqSbI
+         AtEu+kbnB6YCQzRrYFHnEoaTfXuNonGr4NLvZjhw3utfcNc/0nQKNJ7AorUqc9rOtpID
+         IlkqwAYNT8q6drsWeWxEozps50GxTbgbEf6p05STEjiCTdx23KPk7CHs8D8V/vNhWYdW
+         wRRxEKUb5Epu0dxyiv0LSKhahEytrHBACc81QPzNUEy2xBqDso/e1VVlFs9LBk00BWyn
+         rgvQ==
+X-Gm-Message-State: AOAM530AexNIz73yxLQd/2azehmj4BxTa5FqiZ6JpDs3H6cnRoQTsoyG
+        Tcgs6XIsnz1RDC2sCaglbMllYnwPpGg=
+X-Google-Smtp-Source: ABdhPJy/+QpPnkBOuHDSZzntKKe7Q8Ee96pGXUq+k16RcQqTRYLhJiw/aHSwZ/axPkNutqppOhNWhQ==
+X-Received: by 2002:adf:a114:: with SMTP id o20mr24380239wro.95.1633961729555;
+        Mon, 11 Oct 2021 07:15:29 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:fefa:f968:b0f6:6172? ([2a02:908:1252:fb60:fefa:f968:b0f6:6172])
+        by smtp.gmail.com with ESMTPSA id z8sm8053645wrq.16.2021.10.11.07.15.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Oct 2021 07:15:28 -0700 (PDT)
+Subject: Re: [Linaro-mm-sig] [PATCH] dma-resv: Fix dma_resv_get_fences and
+ dma_resv_copy_fences after conversion
+To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Intel-gfx@lists.freedesktop.org
+Cc:     Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org
+References: <20211008095007.972693-1-tvrtko.ursulin@linux.intel.com>
+ <9eca89ab-f954-8b2a-7af5-b4a63b90eed0@amd.com>
+ <67f413c4-b654-c7ea-bc4f-6b42418c7486@linux.intel.com>
+ <85489b72-6001-98d8-d66a-395e05cd3d01@amd.com>
+ <8f93439a-739d-835d-95e9-59ffb7380a27@linux.intel.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <a9f2661f-6f67-1cd7-e75d-c61aaaa381b4@gmail.com>
+Date:   Mon, 11 Oct 2021 16:15:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <8f93439a-739d-835d-95e9-59ffb7380a27@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 11 Oct 2021 15:02:45 +0800, Yunfei Dong wrote:
-> Adds decoder dt-bindings for mt8192.
-> 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
-> v7: Re-write dtsi for hardware architecture changed
-> ---
->  .../media/mediatek,vcodec-comp-decoder.yaml   | 193 ++++++++++++++++++
->  1 file changed, 193 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
-> 
+Am 11.10.21 um 14:32 schrieb Tvrtko Ursulin:
+>
+> On 08/10/2021 13:19, Christian König wrote:
+>> Am 08.10.21 um 12:49 schrieb Tvrtko Ursulin:
+>>>
+>>> On 08/10/2021 11:21, Christian König wrote:
+>>>> Am 08.10.21 um 11:50 schrieb Tvrtko Ursulin:
+>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>>
+>>>>> Cache the count of shared fences in the iterator to avoid 
+>>>>> dereferencing
+>>>>> the dma_resv_object outside the RCU protection. Otherwise iterator 
+>>>>> and its
+>>>>> users can observe an incosistent state which makes it impossible 
+>>>>> to use
+>>>>> safely.
+>>>>
+>>>> Ah, of course! I've been staring at the code the whole morning and 
+>>>> couldn't see it.
+>>>>
+>>>> Going to write a testcase to cover that.
+>>>>
+>>>>> Such as:
+>>>>>
+>>>>> <6> [187.517041] [IGT] gem_sync: executing
+>>>>> <7> [187.536343] i915 0000:00:02.0: 
+>>>>> [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
+>>>>> <7> [187.536793] i915 0000:00:02.0: 
+>>>>> [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
+>>>>> <6> [187.551235] [IGT] gem_sync: starting subtest basic-many-each
+>>>>> <1> [188.935462] BUG: kernel NULL pointer dereference, address: 
+>>>>> 0000000000000010
+>>>>> <1> [188.935485] #PF: supervisor write access in kernel mode
+>>>>> <1> [188.935495] #PF: error_code(0x0002) - not-present page
+>>>>> <6> [188.935504] PGD 0 P4D 0
+>>>>> <4> [188.935512] Oops: 0002 [#1] PREEMPT SMP NOPTI
+>>>>> <4> [188.935521] CPU: 2 PID: 1467 Comm: gem_sync Not tainted 
+>>>>> 5.15.0-rc4-CI-Patchwork_21264+ #1
+>>>>> <4> [188.935535] Hardware name:  /NUC6CAYB, BIOS 
+>>>>> AYAPLCEL.86A.0049.2018.0508.1356 05/08/2018
+>>>>> <4> [188.935546] RIP: 0010:dma_resv_get_fences+0x116/0x2d0
+>>>>> <4> [188.935560] Code: 10 85 c0 7f c9 be 03 00 00 00 e8 15 8b df 
+>>>>> ff eb bd e8 8e c6 ff ff eb b6 41 8b 04 24 49 8b 55 00 48 89 e7 8d 
+>>>>> 48 01 41 89 0c 24 <4c> 89 34 c2 e8 41 f2 ff ff 49 89 c6 48 85 c0 
+>>>>> 75 8c 48 8b 44 24 10
+>>>>> <4> [188.935583] RSP: 0018:ffffc900011dbcc8 EFLAGS: 00010202
+>>>>> <4> [188.935593] RAX: 0000000000000000 RBX: 00000000ffffffff RCX: 
+>>>>> 0000000000000001
+>>>>> <4> [188.935603] RDX: 0000000000000010 RSI: ffffffff822e343c RDI: 
+>>>>> ffffc900011dbcc8
+>>>>> <4> [188.935613] RBP: ffffc900011dbd48 R08: ffff88812d255bb8 R09: 
+>>>>> 00000000fffffffe
+>>>>> <4> [188.935623] R10: 0000000000000001 R11: 0000000000000000 R12: 
+>>>>> ffffc900011dbd44
+>>>>> <4> [188.935633] R13: ffffc900011dbd50 R14: ffff888113d29cc0 R15: 
+>>>>> 0000000000000000
+>>>>> <4> [188.935643] FS:  00007f68d17e9700(0000) 
+>>>>> GS:ffff888277900000(0000) knlGS:0000000000000000
+>>>>> <4> [188.935655] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>>>> <4> [188.935665] CR2: 0000000000000010 CR3: 000000012d0a4000 CR4: 
+>>>>> 00000000003506e0
+>>>>> <4> [188.935676] Call Trace:
+>>>>> <4> [188.935685]  i915_gem_object_wait+0x1ff/0x410 [i915]
+>>>>> <4> [188.935988]  i915_gem_wait_ioctl+0xf2/0x2a0 [i915]
+>>>>> <4> [188.936272]  ? i915_gem_object_wait+0x410/0x410 [i915]
+>>>>> <4> [188.936533]  drm_ioctl_kernel+0xae/0x140
+>>>>> <4> [188.936546]  drm_ioctl+0x201/0x3d0
+>>>>> <4> [188.936555]  ? i915_gem_object_wait+0x410/0x410 [i915]
+>>>>> <4> [188.936820]  ? __fget_files+0xc2/0x1c0
+>>>>> <4> [188.936830]  ? __fget_files+0xda/0x1c0
+>>>>> <4> [188.936839]  __x64_sys_ioctl+0x6d/0xa0
+>>>>> <4> [188.936848]  do_syscall_64+0x3a/0xb0
+>>>>> <4> [188.936859] entry_SYSCALL_64_after_hwframe+0x44/0xae
+>>>>>
+>>>>> If the shared object has changed during the RCU unlocked period
+>>>>> callers will correctly handle the restart on the next iteration.
+>>>>>
+>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>> Fixes: 96601e8a4755 ("dma-buf: use new iterator in 
+>>>>> dma_resv_copy_fences")
+>>>>> Fixes: d3c80698c9f5 ("dma-buf: use new iterator in 
+>>>>> dma_resv_get_fences v3")
+>>>>> Closes: 
+>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fdrm%2Fintel%2F-%2Fissues%2F4274&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Cc22feea06a3f4285cdac08d98a495984%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637692870805160909%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=6oPR30sWnJe04I4GlhhvJWX3QvwKFIOMW1uOIyWZFOE%3D&amp;reserved=0 
+>>>>>
+>>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>>>>> Cc: linux-media@vger.kernel.org
+>>>>> Cc: dri-devel@lists.freedesktop.org
+>>>>> Cc: linaro-mm-sig@lists.linaro.org
+>>>>
+>>>> Maybe we should remove cursor->fences altogether, but either way 
+>>>> the patch is Reviewed-by: Christian König <christian.koenig@amd.com>
+>>>>
+>>>> Please push to drm-misc-next ASAP.
+>>>
+>>> Not sure I can or if my push permissions are limited to Intel 
+>>> branches. I can try once CI gives a green light.
+>>
+>> If it doesn't work just ping me and I will push it.
+>
+> It finally passed CI but it looks like you'll need to push it:
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Done.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml:44:7: [warning] wrong indentation: expected 4 but found 6 (indentation)
-./Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml:88:7: [warning] wrong indentation: expected 2 but found 6 (indentation)
-./Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml:193:7: [error] no new line character at the end of file (new-line-at-end-of-file)
+Christian.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml: properties:compatible: [{'enum': ['mediatek,mt8192-vcodec-dec', 'mediatek,mtk-vcodec-lat', 'mediatek,mtk-vcodec-core']}] is not of type 'object', 'boolean'
-	from schema $id: http://json-schema.org/draft-07/schema#
-./Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml: $id: relative path/filename doesn't match actual path or filename
-	expected: http://devicetree.org/schemas/media/mediatek,vcodec-comp-decoder.yaml#
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml: ignoring, error in schema: properties: compatible
-warning: no schema found in file: ./Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
-Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.example.dts:29.13-20: Warning (ranges_format): /example-0/vcodec_dec@16000000:ranges: empty "ranges" property but its #address-cells (2) differs from /example-0 (1)
-Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.example.dts:29.13-20: Warning (ranges_format): /example-0/vcodec_dec@16000000:ranges: empty "ranges" property but its #size-cells (2) differs from /example-0 (1)
-Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.example.dts:33.13-66: Warning (dma_ranges_format): /example-0/vcodec_dec@16000000:dma-ranges: "dma-ranges" property has invalid length (24 bytes) (parent #address-cells == 1, child #address-cells == 2, #size-cells == 2)
-Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.example.dts:34.24-57.15: Warning (unit_address_vs_reg): /example-0/vcodec_dec@16000000/vcodec_lat: node has a reg or ranges property, but no unit name
-Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.example.dts:59.25-85.15: Warning (unit_address_vs_reg): /example-0/vcodec_dec@16000000/vcodec_core: node has a reg or ranges property, but no unit name
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.example.dt.yaml: example-0: vcodec_dec@16000000:reg:0: [0, 369098752, 0, 4096] is too long
-	From schema: /usr/local/lib/python3.8/dist-packages/dtschema/schemas/reg.yaml
-Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.example.dt.yaml:0:0: /example-0/vcodec_dec@16000000: failed to match any schema with compatible: ['mediatek,mt8192-vcodec-dec']
-Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.example.dt.yaml:0:0: /example-0/vcodec_dec@16000000/vcodec_lat: failed to match any schema with compatible: ['mediatek,mtk-vcodec-lat']
-Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.example.dt.yaml:0:0: /example-0/vcodec_dec@16000000/vcodec_core: failed to match any schema with compatible: ['mediatek,mtk-vcodec-core']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1539139
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+>
+> tursulin@tursulin-mobl2:~/wc/dim/src$ dim push-branch drm-misc-next
+> Enumerating objects: 15, done.
+> Counting objects: 100% (15/15), done.
+> Delta compression using up to 8 threads
+> Compressing objects: 100% (8/8), done.
+> Writing objects: 100% (8/8), 2.32 KiB | 593.00 KiB/s, done.
+> Total 8 (delta 7), reused 0 (delta 0), pack-reused 0
+> error: remote unpack failed: unable to create temporary object directory
+> To ssh://git.freedesktop.org/git/drm/drm-misc
+>  ! [remote rejected]           drm-misc-next -> drm-misc-next 
+> (unpacker error)
+> error: failed to push some refs to 
+> 'ssh://git.freedesktop.org/git/drm/drm-misc'
+>
+> Regards,
+>
+> Tvrtko
+> _______________________________________________
+> Linaro-mm-sig mailing list
+> Linaro-mm-sig@lists.linaro.org
+> https://lists.linaro.org/mailman/listinfo/linaro-mm-sig
 
